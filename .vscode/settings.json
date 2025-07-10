@@ -51,5 +51,5 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "eslint.runtime": "/Users/san/.nvm/versions/node/v22.9.0/bin/node",
-  "json.trace.server": "verbose",
+  "json.trace.server": "verbose"
 }
