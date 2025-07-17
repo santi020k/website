@@ -1,17 +1,19 @@
 ---
-import { WEBMENTION_PINGBACK, WEBMENTION_URL } from "astro:env/client";
-import { siteConfig } from "@/site.config";
-import type { SiteMeta } from "@/types";
-import "@/styles/global.css";
+import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
-type Props = SiteMeta;
+import '@/styles/global.css'
 
-const { articleDate, description, ogImage, title } = Astro.props;
+import { siteConfig } from '@/site.config'
+import type { SiteMeta } from '@/types'
 
-const titleSeparator = "•";
-const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
+type Props = SiteMeta
+
+const { articleDate, description, ogImage, title } = Astro.props
+
+const titleSeparator = '•'
+const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const socialImageURL = new URL(ogImage || '/social-card.png', Astro.url).href;
 ---
 
 <meta charset="utf-8" />
@@ -21,15 +23,15 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 {/* Icons */}
 <link href="/icon.svg" rel="icon" type="image/svg+xml" />
 {
-	import.meta.env.PROD && (
-		<>
-			{/* Favicon & Apple Icon */}
-			<link rel="icon" href="/favicon-32x32.png" type="image/png" />
-			<link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
-			{/* Manifest */}
-			<link href="/manifest.webmanifest" rel="manifest" />
-		</>
-	)
+  import.meta.env.PROD && (
+    <>
+      {/* Favicon & Apple Icon */}
+      <link rel="icon" href="/favicon-32x32.png" type="image/png" />
+      <link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
+      {/* Manifest */}
+      <link href="/manifest.webmanifest" rel="manifest" />
+    </>
+  )
 }
 
 {/* Canonical URL */}
@@ -44,7 +46,7 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <meta content="" name="theme-color" />
 
 {/* Open Graph / Facebook */}
-<meta content={articleDate ? "article" : "website"} property="og:type" />
+<meta content={articleDate ? 'article' : 'website'} property="og:type" />
 <meta content={title} property="og:title" />
 <meta content={description} property="og:description" />
 <meta content={canonicalURL} property="og:url" />
@@ -54,12 +56,12 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <meta content="1200" property="og:image:width" />
 <meta content="630" property="og:image:height" />
 {
-	articleDate && (
-		<>
-			<meta content={siteConfig.author} property="article:author" />
-			<meta content={articleDate} property="article:published_time" />
-		</>
-	)
+  articleDate && (
+    <>
+      <meta content={siteConfig.author} property="article:author" />
+      <meta content={articleDate} property="article:published_time" />
+    </>
+  )
 }
 
 {/* Twitter */}
@@ -77,12 +79,12 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 
 {/* Webmentions */}
 {
-	WEBMENTION_URL && (
-		<>
-			<link href={WEBMENTION_URL} rel="webmention" />
-			{WEBMENTION_PINGBACK && <link href={WEBMENTION_PINGBACK} rel="pingback" />}
-		</>
-	)
+  WEBMENTION_URL && (
+    <>
+      <link href={WEBMENTION_URL} rel="webmention" />
+      {WEBMENTION_PINGBACK && <link href={WEBMENTION_PINGBACK} rel="pingback" />}
+    </>
+  )
 }
 
 <meta content={Astro.generator} name="generator" />
