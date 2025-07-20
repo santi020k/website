@@ -267,24 +267,24 @@
 :root {
   /* Стиль для блоков кода rehype-pretty-code */
   figure[data-rehype-pretty-code-figure] {
-    @apply relative m-0 rounded-lg overflow-auto;
+    /* @apply relative m-0 rounded-lg overflow-auto; */
 
     figcaption {
-      @apply m-0;
+      /* @apply m-0; */
     }
 
     /* Стиль для заголовков в блоках кода */
     [data-rehype-pretty-code-title] {
-      @apply break-words bg-[var(--code-title-bg)] border-b border-bgColor text-textColor px-4 flex items-center text-sm h-10;
+      /* @apply break-words bg-[var(--code-title-bg)] border-b border-bgColor text-textColor px-4 flex items-center text-sm h-10; */
 
       & + pre {
-        @apply m-0 rounded-t-none; /* Убираем верхний отступ, если есть заголовок */
+        /* @apply m-0 rounded-t-none; */
         }
     }
 
     /* Стиль для блоков кода */
     pre {
-      @apply m-0 static px-0 py-2 max-h-[612px] text-sm;
+      /* @apply m-0 static px-0 py-2 max-h-[612px] text-sm; */
 
       /* Стиль для содержимого кода */
       > code {
@@ -339,7 +339,7 @@
 
   /* Основной стиль для блока pre */
   pre {
-    @apply bg-[var(--code-bg)] text-[var(--theme-text)] rounded-lg leading-loose m-0;
+    /* @apply bg-[var(--code-bg)] text-[var(--theme-text)] rounded-lg leading-loose m-0; */
     /* @apply bg-[var(--code-bg)] text-[var(--theme-accent)] rounded-lg leading-loose m-0; */
   }
 
