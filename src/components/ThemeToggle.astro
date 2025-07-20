@@ -29,6 +29,7 @@ import { rootInDarkMode } from '@/utils/domElement'
 
 class ThemeToggle extends HTMLElement {
   connectedCallback() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const button = this.querySelector<HTMLButtonElement>('button')!
 
     // Set aria role value

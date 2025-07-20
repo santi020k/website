@@ -11,7 +11,7 @@ interface TocOpts {
 }
 
 /** Inject a ToC entry as deep in the tree as its `depth` property requires. */
-function injectChild(items: TocItem[], item: TocItem): void {
+const injectChild = (items: TocItem[], item: TocItem): void => {
   const lastItem = items.at(-1)
 
   if (!lastItem || lastItem.depth >= item.depth) {
@@ -21,10 +21,10 @@ function injectChild(items: TocItem[], item: TocItem): void {
   }
 }
 
-export function generateToc(
+export const generateToc = (
   headings: readonly MarkdownHeading[],
   { maxHeadingLevel = 6, minHeadingLevel = 1 }: TocOpts = {}
-) {
+) => {
   // by default this ignores/filters out h1 and h5 heading(s)
   const bodyHeadings = headings.filter(
     ({ depth }) => depth >= minHeadingLevel && depth <= maxHeadingLevel

@@ -13,28 +13,25 @@ import type { AdmonitionType } from '@/types'
 const Admonitions = new Set<AdmonitionType>(['tip', 'note', 'important', 'caution', 'warning'])
 
 /** Checks if a string is a supported admonition type. */
-function isAdmonition(s: string): s is AdmonitionType {
-  return Admonitions.has(s as AdmonitionType)
-}
+// eslint-disable-next-line @stylistic/padding-line-between-statements
+const isAdmonition = (s: string): s is AdmonitionType => Admonitions.has(s as AdmonitionType)
 
 /** Checks if a node is a directive. */
-function isNodeDirective(node: Node): node is Directives {
-  return (
-    node.type === 'containerDirective' ||
-    node.type === 'leafDirective' ||
-    node.type === 'textDirective'
-  )
-}
+const isNodeDirective = (node: Node): node is Directives => (
+  node.type === 'containerDirective' ||
+  node.type === 'leafDirective' ||
+  node.type === 'textDirective'
+)
 
 /**
  * From Astro Starlight:
  * Transforms directives not supported back to original form as it can break user content and result in 'broken' output.
  */
-function transformUnhandledDirective(
+const transformUnhandledDirective = (
   node: LeafDirective | TextDirective,
   index: number,
   parent: Parent
-) {
+) => {
   const textNode = {
     type: 'text',
     value: toMarkdown(node, { extensions: [directiveToMarkdown()] })
@@ -50,7 +47,9 @@ function transformUnhandledDirective(
   }
 }
 
-function h(el: string, attrs: Properties = {}, children: any[] = []): P {
+// TODO: Temporal fix
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const h = (el: string, attrs: Properties = {}, children: any[] = []): P => {
   const { properties, tagName } = _h(el, attrs)
 
   return {

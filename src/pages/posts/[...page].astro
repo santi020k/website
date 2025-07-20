@@ -20,7 +20,7 @@ export const getStaticPaths = (async ({ paginate }) => {
   return paginate(allPosts.sort(collectionDateSort), {
     pageSize: MAX_POSTS_PER_PAGE,
     props: { uniqueTags }
-	});
+  })
 }) satisfies GetStaticPaths
 
 interface Props {
@@ -32,7 +32,7 @@ const { page, uniqueTags } = Astro.props
 
 const meta = {
   description: 'Read my collection of posts and the things that interest me',
-  title: 'Posts',
+  title: 'Posts'
 }
 
 const paginationProps = {
@@ -40,15 +40,15 @@ const paginationProps = {
     prevUrl: {
       text: '← Previous Page',
       url: page.url.prev
-		},
+    }
   }),
   ...(page.url.next && {
     nextUrl: {
       text: 'Next Page →',
       url: page.url.next
-		},
+    }
   })
-};
+}
 
 const groupedByYear = groupPostsByYear(page.data)
 const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
@@ -85,8 +85,8 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
           <h4 class="title mb-4 flex gap-2">
             Tags
             {/*
-						<Icon aria-hidden="true" class="mb-1 h-6 w-6" focusable="false" name="hugeicons:tags" />
-						*/}
+            <Icon aria-hidden="true" class="mb-1 h-6 w-6" focusable="false" name="hugeicons:tags" />
+            */}
           </h4>
           <ul class="flex flex-wrap gap-2">
             {uniqueTags.map(tag => (
@@ -108,16 +108,16 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
             </span>
           </ul>
           {/*
-					<span class="mt-4 block sm:text-end">
-						<a
-							aria-label="View all blog categories"
-							class="font-medium text-accent sm:hover:text-accent-two"
-							href="/tags/"
-						>
-							View all →
-						</a>
-					</span>
-					*/}
+          <span class="mt-4 block sm:text-end">
+            <a
+              aria-label="View all blog categories"
+              class="font-medium text-accent sm:hover:text-accent-two"
+              href="/tags/"
+            >
+              View all →
+            </a>
+          </span>
+          */}
         </aside>
       )
     }

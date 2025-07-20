@@ -103,7 +103,7 @@ export default {
       transitionProperty: {
         height: 'height'
       },
-      // @ts-expect-error
+      // @ts-expect-error temporal tailwindcss exposes theme type error
       // Remove above once tailwindcss exposes theme type
       typography: theme => ({
         DEFAULT: {
