@@ -252,9 +252,9 @@
     @apply text-base md:pt-[0.425rem] !important;
   } */
 
-  h1, h2, h3, h4, h5, h6 {
+  /* h1, h2, h3, h4, h5, h6 {
     @apply min-h-8 h-auto !important;
-  }
+  } */
 
   /* Нужно для кнопки копирования кода при отключенном rehype-pretty-code */
   /*
