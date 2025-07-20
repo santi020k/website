@@ -301,7 +301,7 @@
 
         /* Для каждой строки в блоке кода */
         > [data-line] {
-          @apply px-4 h-6 bg-transparent flex items-center;
+          /* @apply px-4 h-6 bg-transparent flex items-center; */
         }
 
         /* Для выделенных строк */
@@ -319,7 +319,7 @@
 
         /* Для выделенных символов */
         [data-highlighted-chars] > span {
-          @apply py-[4px];
+          /* @apply py-[4px]; */
         }
 
         /* Для различий в строках (реализовано выше) */
@@ -345,7 +345,7 @@
 
   /* Стиль для инлайнового кода (rehype pretty code переопределяет стили в tailwind.config.css) */
   :not(pre) > code {
-    @apply bg-[var(--code-inline-bg)] px-2 py-1 text-sm rounded-lg;
+    /* @apply bg-[var(--code-inline-bg)] px-2 py-1 text-sm rounded-lg; */
   }
 
   /* Стиль для кнопки копирования кода rehype-pretty-copy (кнопка реализована отдельно) */
@@ -361,6 +361,6 @@
 @layer components {
   /* Переопределение стилей для <mark> в статье */
   article mark {
-    @apply bg-transparent;
+    /* @apply bg-transparent; */
   }
 }
