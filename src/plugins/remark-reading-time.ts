@@ -1,12 +1,11 @@
 import { toString as mdastToString } from 'mdast-util-to-string'
 import getReadingTime from 'reading-time'
 
-export function remarkReadingTime() {
-  // @ts-expect-error:next-line
-  return (tree, { data }) => {
-    const textOnPage = mdastToString(tree)
-    const readingTime = getReadingTime(textOnPage)
+// TODO: Temporal fix
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const remarkReadingTime = () => (tree: any, { data }: any) => {
+  const textOnPage = mdastToString(tree)
+  const readingTime = getReadingTime(textOnPage)
 
-    data.astro.frontmatter.readingTime = readingTime.text
-  }
+  data.astro.frontmatter.readingTime = readingTime.text
 }

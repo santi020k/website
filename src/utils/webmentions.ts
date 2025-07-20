@@ -1,3 +1,4 @@
+/* eslint-disable func-style */
 import { WEBMENTION_API_KEY } from 'astro:env/server'
 import * as fs from 'node:fs'
 
@@ -23,7 +24,9 @@ async function fetchWebmentions(timeFrom: string | null, perPage = 1000) {
     return null
   }
 
-  let url = `https://webmention.io/api/mentions.jf2?domain=${hostName}&token=${WEBMENTION_API_KEY}&sort-dir=up&per-page=${perPage}`
+  let url = `
+  https://webmention.io/api/mentions.jf2?domain=${hostName}&token=${WEBMENTION_API_KEY}&sort-dir=up&per-page=${perPage}
+  `
 
   if (timeFrom) url += `&since${timeFrom}`
 

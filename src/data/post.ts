@@ -1,3 +1,4 @@
+/* eslint-disable func-style */
 import { type CollectionEntry, getCollection } from 'astro:content'
 
 /** filter out draft posts based on the environment */
