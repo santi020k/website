@@ -28,14 +28,14 @@ const { headings } = await render(post);
         - Too many absolutely positioned elements can affect performance.
       -->
     <div class="pointer-events-none absolute left-1/2 top-0 ml-[50vw] min-h-screen w-screen blur-2xl">
-      <div class="absolute right-1/4 top-[-90%] h-full w-3/4 rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-40 dark:opacity-5"></div>
-      <div class="absolute left-1/4 top-[-90%] h-full w-3/4 rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-40 dark:opacity-5"></div>
-      <div class="absolute right-1/4 top-[-85%] h-full w-[55%] rounded-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent opacity-40 dark:opacity-5"></div>
-      <div class="absolute left-1/4 top-[-85%] h-full w-[55%] rounded-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent opacity-40 dark:opacity-5"></div>
-      <div class="absolute -left-1/4 -top-3/4 h-full w-[65%] rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-30 dark:opacity-5"></div>
-      <div class="absolute -right-1/4 -top-3/4 h-full w-[65%] rounded-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent opacity-30 dark:opacity-5"></div>
-      <div class="absolute left-[-30%] top-[-85%] h-full w-[85%] rounded-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent opacity-60 dark:opacity-5"></div>
-      <div class="absolute right-[-30%] top-[-85%] h-full w-[85%] rounded-full bg-gradient-to-b from-orange-300 via-indigo-300 to-transparent opacity-60 dark:opacity-5"></div>
+      <div class="absolute right-1/4 top-[-90%] h-full w-3/4 rounded-full bg-linear-to-b from-blue-300 via-pink-300 to-transparent opacity-40 dark:opacity-5"></div>
+      <div class="absolute left-1/4 top-[-90%] h-full w-3/4 rounded-full bg-linear-to-b from-blue-300 via-pink-300 to-transparent opacity-40 dark:opacity-5"></div>
+      <div class="absolute right-1/4 top-[-85%] h-full w-[55%] rounded-full bg-linear-to-b from-purple-300 via-blue-300 to-transparent opacity-40 dark:opacity-5"></div>
+      <div class="absolute left-1/4 top-[-85%] h-full w-[55%] rounded-full bg-linear-to-b from-indigo-300 via-orange-300 to-transparent opacity-40 dark:opacity-5"></div>
+      <div class="absolute -left-1/4 -top-3/4 h-full w-[65%] rounded-full bg-linear-to-b from-blue-300 via-pink-300 to-transparent opacity-30 dark:opacity-5"></div>
+      <div class="absolute -right-1/4 -top-3/4 h-full w-[65%] rounded-full bg-linear-to-b from-purple-300 via-blue-300 to-transparent opacity-30 dark:opacity-5"></div>
+      <div class="absolute left-[-30%] top-[-85%] h-full w-[85%] rounded-full bg-linear-to-b from-indigo-300 via-orange-300 to-transparent opacity-60 dark:opacity-5"></div>
+      <div class="absolute right-[-30%] top-[-85%] h-full w-[85%] rounded-full bg-linear-to-b from-orange-300 via-indigo-300 to-transparent opacity-60 dark:opacity-5"></div>
     </div>
   </div>
 
@@ -43,11 +43,11 @@ const { headings } = await render(post);
   <!-- Menu button instead of the main menu -->
   <!--
   <div class="left-0 right-0 top-0 z-30 ml-auto h-0 w-fit px-2 md:absolute">
-    <div class="fixed top-0 -ml-[4rem] flex space-x-2 bg-bgColor pt-8">
+    <div class="fixed top-0 -ml-16 flex space-x-2 bg-bgColor pt-8">
   -->
       <!-- Button background -->
       <!--
-      <div class="fixed top-0 h-20 right-[0%] w-[50%] bg-gradient-to-l from-orange-300 via-pink-300 to-transparent  opacity-40 dark:opacity-10">
+      <div class="fixed top-0 h-20 right-[0%] w-[50%] bg-linear-to-l from-orange-300 via-pink-300 to-transparent  opacity-40 dark:opacity-10">
       </div>
       -->
 
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       buttonText.innerText = 'Copy' // Initial text
 
-      buttonText.className = 'flex items-center block w-full h-full px-2 bg-[var(--code-title-bg)]' // Set the span to take up full width with background color
+      buttonText.className = 'flex items-center block w-full h-full px-2 bg-(--code-title-bg)' // Set the span to take up full width with background color
 
       copyButton.appendChild(buttonText) // Append span to the button
 
