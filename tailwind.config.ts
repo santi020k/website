@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss'
-import { fontFamily } from 'tailwindcss/defaultTheme'
 import plugin from 'tailwindcss/plugin'
 
 export default {
@@ -94,11 +93,6 @@ export default {
         'special-lightest': 'var(--theme-special-lightest)',
         'special-lighter': 'var(--theme-special-lighter)',
         'special-light': 'var(--theme-special-light)'
-      },
-      fontFamily: {
-        // Add any custom fonts here
-        sans: ['SFProRounded', ...fontFamily.sans],
-        serif: ['CascadiaCode', ...fontFamily.serif]
       },
       transitionProperty: {
         height: 'height'
