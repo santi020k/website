@@ -27,15 +27,15 @@ if (seriesId) {
   id="series-panel"
   class="fixed z-40 grid min-h-screen bg-bgColor transition-all duration-300 ease-in-out lg:relative lg:block"
 >
-  <div class="fixed top-0 -z-10 h-screen w-screen bg-gradient-to-b from-orange-300 via-pink-300 to-purple-300 opacity-30 dark:opacity-0 md:w-72 md:min-w-72 md:max-w-72">
+  <div class="fixed top-0 -z-10 h-screen w-screen bg-linear-to-b from-orange-300 via-pink-300 to-purple-300 opacity-30 dark:opacity-0 md:w-72 md:min-w-72 md:max-w-72">
   </div>
 
   <div class="flex h-full w-screen flex-col border-r border-special-light bg-accent-base/5 px-8 pt-4 md:w-72 md:min-w-72 md:max-w-72 md:pt-8">
     <div class="flex gap-x-1">
       <!--
-      <Icon aria-hidden="true" class="flex-shrink-0 h-8 w-6 py-1" focusable="false" name="solar:notes-line-duotone" />
+      <Icon aria-hidden="true" class="shrink-0 h-8 w-6 py-1" focusable="false" name="solar:notes-line-duotone" />
       -->
-      <h4 class="title mb-[4.5rem] flex items-center">
+      <h4 class="title mb-18 flex items-center">
         Docs Series panel
       </h4>
     </div>
@@ -58,7 +58,7 @@ if (seriesId) {
           {postsSeries.data.title}
         </a>
 
-        <ul class="mt-[1.0625rem] text-sm font-medium text-light">
+        <ul class="mt-4.25 text-sm font-medium text-light">
           {seriesPosts.map((p) => {
             const isActive = currentPath === `/posts/${p.id}/`
             return (

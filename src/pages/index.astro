@@ -27,14 +27,14 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
   <!-- Hero section -->
   <!-- Background blur -->
   <div class="pointer-events-none absolute left-1/2 top-0 ml-[50vw] min-h-screen w-screen overflow-x-hidden opacity-50 blur-3xl md:top-[-15%]">
-    <div class="absolute right-[-40%] top-[10%] h-full w-[65%] rounded-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent opacity-30 dark:opacity-10"></div>
-    <div class="absolute left-[-40%] top-[10%] h-full w-[65%] rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-30 dark:opacity-10"></div>
-    <div class="absolute -left-1/2 top-[-20%] h-full w-[85%] rounded-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent opacity-60 dark:opacity-10"></div>
-    <div class="absolute -right-1/2 top-[-20%] h-full w-[85%] rounded-full bg-gradient-to-b from-orange-300 via-indigo-300 to-transparent opacity-60 dark:opacity-10"></div>
+    <div class="absolute right-[-40%] top-[10%] h-full w-[65%] rounded-full bg-linear-to-b from-purple-300 via-blue-300 to-transparent opacity-30 dark:opacity-10"></div>
+    <div class="absolute left-[-40%] top-[10%] h-full w-[65%] rounded-full bg-linear-to-b from-blue-300 via-pink-300 to-transparent opacity-30 dark:opacity-10"></div>
+    <div class="absolute -left-1/2 top-[-20%] h-full w-[85%] rounded-full bg-linear-to-b from-indigo-300 via-orange-300 to-transparent opacity-60 dark:opacity-10"></div>
+    <div class="absolute -right-1/2 top-[-20%] h-full w-[85%] rounded-full bg-linear-to-b from-orange-300 via-indigo-300 to-transparent opacity-60 dark:opacity-10"></div>
   </div>
   <section class="relative mx-auto -mt-24 flex h-screen max-w-xl items-center justify-center">
     <div class="w-full text-center">
-      <span class="title bg-gradient-to-r from-accent-two/85 via-accent-one/85 to-accent-two/85 bg-clip-text text-3xl text-transparent dark:from-accent-two dark:via-accent-one dark:to-accent-two">
+      <span class="title bg-linear-to-r from-accent-two/85 via-accent-one/85 to-accent-two/85 bg-clip-text text-3xl text-transparent dark:from-accent-two dark:via-accent-one dark:to-accent-two">
         Introducing Astro Citrus!
       </span>
       <p class="my-4 text-lg font-medium">
@@ -44,14 +44,14 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
         <SocialList />
       </div>
       <div class="mt-4 flex justify-center space-x-4">
-        <a href="/posts/" class="relative flex h-8 items-center justify-center rounded-lg bg-gradient-to-r from-accent-one to-accent-two px-4 shadow-lg transition-all hover:brightness-110">
+        <a href="/posts/" class="relative flex h-8 items-center justify-center rounded-lg bg-linear-to-r from-accent-one to-accent-two px-4 shadow-lg transition-all hover:brightness-110">
           <span class="font-semibold text-bgColor">
             Read Blog
           </span>
         </a>
 
         <a href="/notes/wake-up/" class="relative flex h-8 items-center justify-center rounded-lg bg-special-lighter px-4 shadow-lg hover:bg-special-lightest hover:brightness-110">
-          <span class="bg-gradient-to-r from-accent-one to-accent-two bg-clip-text font-semibold text-transparent">
+          <span class="bg-linear-to-r from-accent-one to-accent-two bg-clip-text font-semibold text-transparent">
             Wake up
           </span>
         </a>
