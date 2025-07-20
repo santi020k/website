@@ -1,3 +1,5 @@
+/* eslint-disable func-style */
+/* eslint-disable @stylistic/max-len */
 import { getFormattedDate } from '@/utils/date'
 
 import type { APIContext, InferGetStaticPropsType } from 'astro'
@@ -45,7 +47,8 @@ const ogOptions: SatoriOptions = {
   width: 1200
 }
 
-const markup = (title: string, pubDate: string) => html` <div tw="flex flex-col w-full h-full bg-[#f2f2f2] text-[#6b6b6b]">
+const markup = (title: string, pubDate: string) => html`
+  <div tw="flex flex-col w-full h-full bg-[#f2f2f2] text-[#6b6b6b]">
     <div tw="flex flex-col flex-1 w-full p-10 justify-center">
       <p tw="text-3xl mb-6 text-[#8e8e8e] font-medium">${pubDate}</p>
       <h1 tw="text-6xl font-semibold leading-snug text-[#224d67]">${title}</h1>

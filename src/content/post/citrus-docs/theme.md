@@ -30,109 +30,109 @@ This approach to defining colors can be described as a **flexible theming system
 
 ```css title="globas.css"
 @layer base {
-	:root,
-	:root[data-theme="light"] {
-		color-scheme: light;
+  :root,
+  :root[data-theme="light"] {
+    color-scheme: light;
 
-		/*** MAIN COLORS (Base, Background, Accents, Text) ***/
-		/* Base theme hue color */
-		--hue: 200deg; /* Base hue color (Background, secondary accent, text) */
-		--saturation: 10%; /* Saturation of background and text, 0% - no tint */
+    /*** MAIN COLORS (Base, Background, Accents, Text) ***/
+    /* Base theme hue color */
+    --hue: 200deg; /* Base hue color (Background, secondary accent, text) */
+    --saturation: 10%; /* Saturation of background and text, 0% - no tint */
 
-		/* Background */
-		--bg-brightness: 95%; /* Background brightness, 100% - pure white */
-		--theme-bg: var(--hue) var(--saturation) var(--bg-brightness); /* Background color */
+    /* Background */
+    --bg-brightness: 95%; /* Background brightness, 100% - pure white */
+    --theme-bg: var(--hue) var(--saturation) var(--bg-brightness); /* Background color */
 
-		/* Accents */
-		--theme-accent-two: 351deg 66% 48%; /* Primary accent color */
-		--theme-accent-base: var(--hue) 50% 27%; /* Secondary accent color */
+    /* Accents */
+    --theme-accent-two: 351deg 66% 48%; /* Primary accent color */
+    --theme-accent-base: var(--hue) 50% 27%; /* Secondary accent color */
 
-		/* Text (foreground calculated below based on --theme-fg) */
-		--fg-brightness: 9%; /* Text brightness, 0% - pure black */
-		--theme-fg: var(--hue) var(--saturation) var(--fg-brightness); /* Base color for text */
-		--theme-text: var(--theme-color-550); /* Text color */
+    /* Text (foreground calculated below based on --theme-fg) */
+    --fg-brightness: 9%; /* Text brightness, 0% - pure black */
+    --theme-fg: var(--hue) var(--saturation) var(--fg-brightness); /* Base color for text */
+    --theme-text: var(--theme-color-550); /* Text color */
 
-		/*** SECONDARY COLORS (External links, neutral accent, quotes) ***/
-		--theme-link: var(--hue) 97% 31%; /* External link color */
-		--theme-accent: var(--theme-color-650); /* Neutral accent, calculated below based on --theme-fg */
-		--theme-quote: var(--theme-text); /* Quote color */
-		
-		/*** ADDITIONAL COLORS ***/
-		--theme-lightest: var(--theme-color-350);
-		--theme-lighter: var(--theme-color-400);
-		--theme-light: var(--theme-color-450);
-		
-		/*** SPECIAL THEME COLORS (Distinct settings for each theme) ***/
-		--theme-special-lightest: hsl(var(--hue), var(--saturation), 100%);
-		--theme-special-lighter: hsl(var(--hue), var(--saturation), 98%);
-		--theme-special-light: hsl(var(--theme-bg));
-		--theme-special: var(--theme-color-75);
-	}
+    /*** SECONDARY COLORS (External links, neutral accent, quotes) ***/
+    --theme-link: var(--hue) 97% 31%; /* External link color */
+    --theme-accent: var(--theme-color-650); /* Neutral accent, calculated below based on --theme-fg */
+    --theme-quote: var(--theme-text); /* Quote color */
 
-	:root[data-theme="dark"] {
-		color-scheme: dark;
+    /*** ADDITIONAL COLORS ***/
+    --theme-lightest: var(--theme-color-350);
+    --theme-lighter: var(--theme-color-400);
+    --theme-light: var(--theme-color-450);
 
-		/*** MAIN COLORS (Base, Background, Accents, Text) ***/
-		/* Base theme hue color */
-		--hue: 200deg; /* Base hue color (Background, secondary accent, text) */
-		--saturation: 53%;
+    /*** SPECIAL THEME COLORS (Distinct settings for each theme) ***/
+    --theme-special-lightest: hsl(var(--hue), var(--saturation), 100%);
+    --theme-special-lighter: hsl(var(--hue), var(--saturation), 98%);
+    --theme-special-light: hsl(var(--theme-bg));
+    --theme-special: var(--theme-color-75);
+  }
 
-		/* Background */
-		--bg-brightness: 17%; /* Background brightness, 0% - black */
-		--theme-bg: var(--hue) var(--saturation) var(--bg-brightness); /* Background color */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
 
-		/* Accents */
-		--theme-accent-two: 50deg 72% 63%; /* Primary accent color for elements (was 45deg 80% 50%) */
-		--theme-accent-base: var(--hue) 0% 85%; /* Secondary accent color for elements */
+    /*** MAIN COLORS (Base, Background, Accents, Text) ***/
+    /* Base theme hue color */
+    --hue: 200deg; /* Base hue color (Background, secondary accent, text) */
+    --saturation: 53%;
 
-		/* Text (foreground calculated below based on --theme-fg) */
-		--fg-brightness: 98%; /* Text brightness, 100% - pure white */
-		--theme-text: var(--theme-color-600); /* Text color */
+    /* Background */
+    --bg-brightness: 17%; /* Background brightness, 0% - black */
+    --theme-bg: var(--hue) var(--saturation) var(--bg-brightness); /* Background color */
 
-		/*** SECONDARY COLORS (External links, neutral accent, quotes) ***/
-		--theme-link: var(--hue) 66% 66%; /* External link color */
-		--theme-accent: var(--theme-color-700); /* Neutral accent */
-		--theme-quote: var(--theme-text); /* Quote color */
+    /* Accents */
+    --theme-accent-two: 50deg 72% 63%; /* Primary accent color for elements (was 45deg 80% 50%) */
+    --theme-accent-base: var(--hue) 0% 85%; /* Secondary accent color for elements */
 
-		/*** ADDITIONAL COLORS ***/
-		--theme-lightest: var(--theme-color-400);
-		--theme-lighter: var(--theme-color-450);
-		--theme-light: var(--theme-color-500);
+    /* Text (foreground calculated below based on --theme-fg) */
+    --fg-brightness: 98%; /* Text brightness, 100% - pure white */
+    --theme-text: var(--theme-color-600); /* Text color */
 
-		/*** SPECIAL THEME COLORS (Distinct settings for each theme) ***/
-		--theme-special-lightest: var(--theme-color-250);
-		--theme-special-lighter: var(--theme-color-200);
-		--theme-special-light: var(--theme-color-150);
-		--theme-special: hsl(var(--hue) 0% 0% / 0.1275);
-	}
+    /*** SECONDARY COLORS (External links, neutral accent, quotes) ***/
+    --theme-link: var(--hue) 66% 66%; /* External link color */
+    --theme-accent: var(--theme-color-700); /* Neutral accent */
+    --theme-quote: var(--theme-text); /* Quote color */
 
-	/* Global variables */
-	:root {
-		/* Base color for color gradation calculation */
-		--theme-fg: var(--hue) var(--saturation) var(--fg-brightness);
+    /*** ADDITIONAL COLORS ***/
+    --theme-lightest: var(--theme-color-400);
+    --theme-lighter: var(--theme-color-450);
+    --theme-light: var(--theme-color-500);
 
-		/* Gradations of the base color for text and elements */
-		--theme-color-950: hsl(var(--theme-fg) / 0.9495);
-		--theme-color-900: hsl(var(--theme-fg) / 0.9095);
-		--theme-color-850: hsl(var(--theme-fg) / 0.8795);
-		--theme-color-800: hsl(var(--theme-fg) / 0.8495);
-		--theme-color-750: hsl(var(--theme-fg) / 0.7995);
-		--theme-color-700: hsl(var(--theme-fg) / 0.7495);
-		--theme-color-650: hsl(var(--theme-fg) / 0.7145);
-		--theme-color-600: hsl(var(--theme-fg) / 0.6795);
-		--theme-color-550: hsl(var(--theme-fg) / 0.6145);
-		--theme-color-500: hsl(var(--theme-fg) / 0.5495);
-		--theme-color-450: hsl(var(--theme-fg) / 0.4545);
-		--theme-color-400: hsl(var(--theme-fg) / 0.3595);
-		--theme-color-350: hsl(var(--theme-fg) / 0.2635);
-		--theme-color-300: hsl(var(--theme-fg) / 0.1675);
-		--theme-color-250: hsl(var(--theme-fg) / 0.1355);
-		--theme-color-200: hsl(var(--theme-fg) / 0.1025);
-		--theme-color-150: hsl(var(--theme-fg) / 0.0710);
-		--theme-color-100: hsl(var(--theme-fg) / 0.0395);
-		--theme-color-75: hsl(var(--theme-fg) / 0.0295);
-		--theme-color-50: hsl(var(--theme-fg) / 0.0195);
-	}
+    /*** SPECIAL THEME COLORS (Distinct settings for each theme) ***/
+    --theme-special-lightest: var(--theme-color-250);
+    --theme-special-lighter: var(--theme-color-200);
+    --theme-special-light: var(--theme-color-150);
+    --theme-special: hsl(var(--hue) 0% 0% / 0.1275);
+  }
+
+  /* Global variables */
+  :root {
+    /* Base color for color gradation calculation */
+    --theme-fg: var(--hue) var(--saturation) var(--fg-brightness);
+
+    /* Gradations of the base color for text and elements */
+    --theme-color-950: hsl(var(--theme-fg) / 0.9495);
+    --theme-color-900: hsl(var(--theme-fg) / 0.9095);
+    --theme-color-850: hsl(var(--theme-fg) / 0.8795);
+    --theme-color-800: hsl(var(--theme-fg) / 0.8495);
+    --theme-color-750: hsl(var(--theme-fg) / 0.7995);
+    --theme-color-700: hsl(var(--theme-fg) / 0.7495);
+    --theme-color-650: hsl(var(--theme-fg) / 0.7145);
+    --theme-color-600: hsl(var(--theme-fg) / 0.6795);
+    --theme-color-550: hsl(var(--theme-fg) / 0.6145);
+    --theme-color-500: hsl(var(--theme-fg) / 0.5495);
+    --theme-color-450: hsl(var(--theme-fg) / 0.4545);
+    --theme-color-400: hsl(var(--theme-fg) / 0.3595);
+    --theme-color-350: hsl(var(--theme-fg) / 0.2635);
+    --theme-color-300: hsl(var(--theme-fg) / 0.1675);
+    --theme-color-250: hsl(var(--theme-fg) / 0.1355);
+    --theme-color-200: hsl(var(--theme-fg) / 0.1025);
+    --theme-color-150: hsl(var(--theme-fg) / 0.0710);
+    --theme-color-100: hsl(var(--theme-fg) / 0.0395);
+    --theme-color-75: hsl(var(--theme-fg) / 0.0295);
+    --theme-color-50: hsl(var(--theme-fg) / 0.0195);
+  }
 }
 ```
 

@@ -1,6 +1,6 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
-import { type CollectionEntry, getCollection, render } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 
 import SeriesLayout from '@/layouts/Series.astro'
 
@@ -10,7 +10,7 @@ export const getStaticPaths = (async () => {
   return allSeries.map(series => ({
     params: { slug: series.id },
     props: { series }
-	}))
+  }))
 }) satisfies GetStaticPaths
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>

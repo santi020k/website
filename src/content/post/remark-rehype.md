@@ -65,10 +65,6 @@ npm install remark-rehype
 
 In Deno with [`esm.sh`][esmsh]:
 
-```js
-import remarkRehype from 'https://esm.sh/remark-rehype@11'
-```
-
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
@@ -97,9 +93,9 @@ import rehypeFormat from 'rehype-format'
 import rehypeStringify from 'rehype-stringify'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
-import {read} from 'to-vfile'
-import {unified} from 'unified'
-import {reporter} from 'vfile-reporter'
+import { read } from 'to-vfile'
+import { unified } from 'unified'
+import { reporter } from 'vfile-reporter'
 
 const file = await unified()
   .use(remarkParse)
@@ -110,6 +106,7 @@ const file = await unified()
   .process(await read('example.md'))
 
 console.error(reporter(file))
+
 console.log(String(file))
 ```
 
@@ -315,12 +312,12 @@ to write HTML inside markdown, you can pass `allowDangerousHtml` to
 import rehypeStringify from 'rehype-stringify'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
-import {unified} from 'unified'
+import { unified } from 'unified'
 
 const file = await unified()
   .use(remarkParse)
-  .use(remarkRehype, {allowDangerousHtml: true})
-  .use(rehypeStringify, {allowDangerousHtml: true})
+  .use(remarkRehype, { allowDangerousHtml: true })
+  .use(rehypeStringify, { allowDangerousHtml: true })
   .process('<a href="/wiki/Dysnomia_(moon)" onclick="alert(1)">Dysnomia</a>')
 
 console.log(String(file))
@@ -347,16 +344,16 @@ finally sanitizes the HTML by only allowing safe things with
 `rehype-sanitize`:
 
 ```js
+import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 import rehypeStringify from 'rehype-stringify'
-import rehypeRaw from 'rehype-raw'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
-import {unified} from 'unified'
+import { unified } from 'unified'
 
 const file = await unified()
   .use(remarkParse)
-  .use(remarkRehype, {allowDangerousHtml: true})
+  .use(remarkRehype, { allowDangerousHtml: true })
   .use(rehypeRaw)
   .use(rehypeSanitize)
   .use(rehypeStringify)
@@ -385,11 +382,11 @@ with them.
 Let’s first set the stage:
 
 ```js
-import {unified} from 'unified'
-import remarkParse from 'remark-parse'
-import remarkGfm from 'remark-gfm'
-import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
+import remarkGfm from 'remark-gfm'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import { unified } from 'unified'
 
 const doc = `
 Ceres ist nach der römischen Göttin des Ackerbaus benannt;
@@ -416,12 +413,12 @@ Yields:
 
 ```html
 <p>
-  Ceres ist nach der römischen Göttin des Ackerbaus benannt; 
+  Ceres ist nach der römischen Göttin des Ackerbaus benannt;
   ihr astronomisches Symbol ist daher eine stilisierte Sichel: ⚳.
   <sup>
-    <a 
-      href="#user-content-fn-nasa-2015" 
-      id="user-content-fnref-nasa-2015" 
+    <a
+      href="#user-content-fn-nasa-2015"
+      id="user-content-fnref-nasa-2015"
       data-footnote-ref aria-describedby="footnote-label"
     >
       1
@@ -440,10 +437,10 @@ Yields:
         In: Jet Propulsion Laboratory.
         22. April 2015,
         abgerufen am 19. Januar 2022 (englisch).
-        <a 
-          href="#user-content-fnref-nasa-2015" 
-          data-footnote-backref="" 
-          aria-label="Back to reference 1" 
+        <a
+          href="#user-content-fnref-nasa-2015"
+          data-footnote-backref=""
+          aria-label="Back to reference 1"
           class="data-footnote-backref"
         >
           ↩
@@ -582,15 +579,16 @@ with `@types/mdast` and `Raw` nodes with `@types/hast`.
  * @import {} from 'mdast-util-to-hast'
  */
 
-import {visit} from 'unist-util-visit'
+import { visit } from 'unist-util-visit'
 
 const mdastNode = /** @type {MdastRoot} */ ({/* … */})
+
 console.log(mdastNode.data?.hName) // Typed as `string | undefined`.
 
 const hastNode = /** @type {HastRoot} */ ({/* … */})
 
-visit(hastNode, function (node) {
-  // `node` can now be `raw`.
+visit(hastNode, _node => {
+  // `_node` can now be `raw`.
 })
 ```
 

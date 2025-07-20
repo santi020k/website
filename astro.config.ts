@@ -22,6 +22,21 @@ import {
   transformerNotationDiff
 } from '@shikijs/transformers'
 
+const rawFonts = (ext: string[]) => ({
+  name: 'vite-plugin-raw-fonts',
+  // @ts-expect-error:next-line
+  transform(_, id) {
+    if (ext.some(e => id.endsWith(e))) {
+      const buffer = fs.readFileSync(id)
+
+      return {
+        code: `export default ${JSON.stringify(buffer)}`,
+        map: null
+      }
+    }
+  }
+})
+
 // https://astro.build/config
 export default defineConfig({
   image: {
@@ -148,20 +163,3 @@ export default defineConfig({
     host: true
   }
 })
-
-function rawFonts(ext: string[]) {
-  return {
-    name: 'vite-plugin-raw-fonts',
-    // @ts-expect-error:next-line
-    transform(_, id) {
-      if (ext.some(e => id.endsWith(e))) {
-        const buffer = fs.readFileSync(id)
-
-        return {
-          code: `export default ${JSON.stringify(buffer)}`,
-          map: null
-        }
-      }
-    }
-  }
-}

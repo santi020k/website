@@ -104,11 +104,11 @@ Sample text here...
 Syntax highlighting
 
 ```js
-var foo = function (bar) {
-	return bar++;
-};
+const foo = function (bar) {
+    return bar++
+}
 
-console.log(foo(5));
+console.log(foo(5))
 ```
 
 ### Rehype Pretty Code
@@ -116,7 +116,7 @@ console.log(foo(5));
 Adding a title
 
 ```js title="file.js"
-console.log("Title example");
+console.log('Title example')
 ```
 
 A bash terminal
@@ -128,13 +128,15 @@ echo "A base terminal example"
 Highlighting code lines
 
 ```js title="line-markers.js" {7} {4-5}#add {3}#remove
-function demo() {
-    console.log("this line is normal");
-    console.log("this line is marked as deleted");
-    // This line and the next one are marked as inserted
-    console.log("this is the second inserted line");
+const _demo = () => {
+    console.log('this line is normal')
 
-    return "this line uses the neutral default marker type";
+    console.log('this line is marked as deleted')
+
+    // This line and the next one are marked as inserted
+    console.log('this is the second inserted line')
+
+    return 'this line uses the neutral default marker type'
 }
 ```
 

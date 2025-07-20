@@ -25,19 +25,19 @@ if (seriesId) {
 
 <aside
   id="series-panel"
-  class="`shadow-[5px_0px_10px_rgba(0,0,0,0.05)]` fixed z-40 grid hidden min-h-screen bg-bgColor transition-all duration-300 ease-in-out lg:relative lg:block"
+  class="fixed z-40 grid min-h-screen bg-bgColor transition-all duration-300 ease-in-out lg:relative lg:block"
 >
   <div class="fixed top-0 -z-10 h-screen w-screen bg-gradient-to-b from-orange-300 via-pink-300 to-purple-300 opacity-30 dark:opacity-0 md:w-72 md:min-w-72 md:max-w-72">
   </div>
 
   <div class="flex h-full w-screen flex-col border-r border-special-light bg-accent-base/5 px-8 pt-4 md:w-72 md:min-w-72 md:max-w-72 md:pt-8">
     <div class="flex gap-x-1">
-			<!--
-			<Icon aria-hidden="true" class="flex-shrink-0 h-8 w-6 py-1" focusable="false" name="solar:notes-line-duotone" />
-			-->
-			<h4 class="title mb-[4.5rem] flex items-center">
-  Docs Series panel
-			</h4>
+      <!--
+      <Icon aria-hidden="true" class="flex-shrink-0 h-8 w-6 py-1" focusable="false" name="solar:notes-line-duotone" />
+      -->
+      <h4 class="title mb-[4.5rem] flex items-center">
+        Docs Series panel
+      </h4>
     </div>
     <button
       id="close-panel"
@@ -49,30 +49,30 @@ if (seriesId) {
     <div class="sticky top-8">
       {postsSeries.id
         ? (
-				<a
-				  href={`/series/${postsSeries.id}`}
-				  aria-label={`About ${postsSeries.data.title} series`}
-				  class="sticky top-4 flex h-8 w-full items-center justify-center gap-x-1 rounded-lg bg-accent-base font-medium text-bgColor shadow-lg transition-all duration-300 hover:brightness-110"
-				>
-				  <Icon class="inline-block size-6 text-bgColor" name="solar:notes-bold" />
-				  {postsSeries.data.title}
-				</a>
+        <a
+          href={`/series/${postsSeries.id}`}
+          aria-label={`About ${postsSeries.data.title} series`}
+          class="sticky top-4 flex h-8 w-full items-center justify-center gap-x-1 rounded-lg bg-accent-base font-medium text-bgColor shadow-lg transition-all duration-300 hover:brightness-110"
+        >
+          <Icon class="inline-block size-6 text-bgColor" name="solar:notes-bold" />
+          {postsSeries.data.title}
+        </a>
 
-				<ul class="mt-[1.0625rem] text-sm font-medium text-light">
-				  {seriesPosts.map((p) => {
-				    const isActive = currentPath === `/posts/${p.id}/`
-				    return (
-				      <li class={`line-clamp-2 flex items-center px-4 py-1 ${isActive ? 'rounded-lg bg-color-100' : ''}`}>
-				        <a
-				          href={`/posts/${p.id}/`}
-				          class={`hover:text-accent-two ${isActive ? 'pointer-events-none cursor-default text-accent' : ''}`}
-				        >
-				          {p.data.title}
-				        </a>
-				      </li>
-				    )
-				  })}
-				</ul>
+        <ul class="mt-[1.0625rem] text-sm font-medium text-light">
+          {seriesPosts.map((p) => {
+            const isActive = currentPath === `/posts/${p.id}/`
+            return (
+              <li class={`line-clamp-2 flex items-center px-4 py-1 ${isActive ? 'rounded-lg bg-color-100' : ''}`}>
+                <a
+                  href={`/posts/${p.id}/`}
+                  class={`hover:text-accent-two ${isActive ? 'pointer-events-none cursor-default text-accent' : ''}`}
+                >
+                  {p.data.title}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
           )
         : null}
     </div>

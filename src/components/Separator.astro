@@ -12,9 +12,9 @@ const separatorClasses = {
   types: {
     horizontal: 'h-[1px] w-full', // Горизонтальный разделитель
     vertical: 'h-full w-[1px]', // Вертикальный разделитель
-    dot: 'w-1.5 h-1.5 rounded-full', // Кружок для dot
+    dot: 'w-1.5 h-1.5 rounded-full' // Кружок для dot
   } as const // Указываем, что типы здесь конкретные строки
-};
+}
 
 // Убедитесь, что type - это один из допустимых типов
 const typeClass = separatorClasses.types[type as keyof typeof separatorClasses.types];

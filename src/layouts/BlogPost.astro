@@ -23,124 +23,124 @@ const { headings } = await render(post);
 
 <BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
   <div class="fixed left-0 top-0 z-10 flex h-16 w-full overflow-hidden bg-bgColor md:h-20">
-		<!-- Background
-			TODO: This approach is not optimal and requires improvements.
-  			- Too many absolutely positioned elements can affect performance.
-  		-->
-		<div class="pointer-events-none absolute left-1/2 top-0 -ml-[50vw] min-h-screen w-screen blur-2xl">
-		  <div class="absolute right-1/4 top-[-90%] h-full w-[75%] rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-40 dark:opacity-5"></div>
-		  <div class="absolute left-1/4 top-[-90%] h-full w-[75%] rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-40 dark:opacity-5"></div>
-		  <div class="absolute right-1/4 top-[-85%] h-full w-[55%] rounded-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent opacity-40 dark:opacity-5"></div>
-		  <div class="absolute left-1/4 top-[-85%] h-full w-[55%] rounded-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent opacity-40 dark:opacity-5"></div>
-		  <div class="absolute -left-1/4 -top-3/4 h-full w-[65%] rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-30 dark:opacity-5"></div>
-		  <div class="absolute -right-1/4 -top-3/4 h-full w-[65%] rounded-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent opacity-30 dark:opacity-5"></div>
-		  <div class="absolute left-[-30%] top-[-85%] h-full w-[85%] rounded-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent opacity-60 dark:opacity-5"></div>
-		  <div class="absolute right-[-30%] top-[-85%] h-full w-[85%] rounded-full bg-gradient-to-b from-orange-300 via-indigo-300 to-transparent opacity-60 dark:opacity-5"></div>
-		</div>
+    <!-- Background
+      TODO: This approach is not optimal and requires improvements.
+        - Too many absolutely positioned elements can affect performance.
+      -->
+    <div class="pointer-events-none absolute left-1/2 top-0 ml-[50vw] min-h-screen w-screen blur-2xl">
+      <div class="absolute right-1/4 top-[-90%] h-full w-3/4 rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-40 dark:opacity-5"></div>
+      <div class="absolute left-1/4 top-[-90%] h-full w-3/4 rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-40 dark:opacity-5"></div>
+      <div class="absolute right-1/4 top-[-85%] h-full w-[55%] rounded-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent opacity-40 dark:opacity-5"></div>
+      <div class="absolute left-1/4 top-[-85%] h-full w-[55%] rounded-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent opacity-40 dark:opacity-5"></div>
+      <div class="absolute -left-1/4 -top-3/4 h-full w-[65%] rounded-full bg-gradient-to-b from-blue-300 via-pink-300 to-transparent opacity-30 dark:opacity-5"></div>
+      <div class="absolute -right-1/4 -top-3/4 h-full w-[65%] rounded-full bg-gradient-to-b from-purple-300 via-blue-300 to-transparent opacity-30 dark:opacity-5"></div>
+      <div class="absolute left-[-30%] top-[-85%] h-full w-[85%] rounded-full bg-gradient-to-b from-indigo-300 via-orange-300 to-transparent opacity-60 dark:opacity-5"></div>
+      <div class="absolute right-[-30%] top-[-85%] h-full w-[85%] rounded-full bg-gradient-to-b from-orange-300 via-indigo-300 to-transparent opacity-60 dark:opacity-5"></div>
+    </div>
   </div>
 
-	<!-- NEEDS IMPROVEMENT!!! -->
-	<!-- Menu button instead of the main menu -->
-	<!--
-	<div class="left-0 right-0 top-0 z-30 ml-auto h-0 w-fit px-2 md:absolute">
-		<div class="fixed top-0 -ml-[4rem] flex space-x-2 bg-bgColor pt-8">
-	-->
-			<!-- Button background -->
-			<!--
-			<div class="fixed top-0 h-20 right-[0%] w-[50%] bg-gradient-to-l from-orange-300 via-pink-300 to-transparent  opacity-40 dark:opacity-10">
-			</div>
-			-->
+  <!-- NEEDS IMPROVEMENT!!! -->
+  <!-- Menu button instead of the main menu -->
+  <!--
+  <div class="left-0 right-0 top-0 z-30 ml-auto h-0 w-fit px-2 md:absolute">
+    <div class="fixed top-0 -ml-[4rem] flex space-x-2 bg-bgColor pt-8">
+  -->
+      <!-- Button background -->
+      <!--
+      <div class="fixed top-0 h-20 right-[0%] w-[50%] bg-gradient-to-l from-orange-300 via-pink-300 to-transparent  opacity-40 dark:opacity-10">
+      </div>
+      -->
 
-			<!--
-			 <button
-				aria-expanded="false"
-				aria-haspopup="menu"
-				aria-label="Open main menu"
-				class="hidden md:flex group text-sm relative h-8 w-16 font-medium items-center justify-center px-4 rounded-lg bg-accent-base/5 text-accent-base hover:bg-accent-base/10"
-				id="toggle-navigation-menu"
-				type="button"
-			>
-				Menu
-			</button>
-			-->
-	<!--
-		</div>
-	</div>
-	-->
+      <!--
+        <button
+        aria-expanded="false"
+        aria-haspopup="menu"
+        aria-label="Open main menu"
+        class="hidden md:flex group text-sm relative h-8 w-16 font-medium items-center justify-center px-4 rounded-lg bg-accent-base/5 text-accent-base hover:bg-accent-base/10"
+        id="toggle-navigation-menu"
+        type="button"
+      >
+        Menu
+      </button>
+      -->
+  <!--
+    </div>
+  </div>
+  -->
 
-	<!-- SeriesPanel is inserted into the named slot "sidebar" -->
-	{seriesId && (<SeriesPanel slot="sidebar" seriesId={seriesId} />)}
+  <!-- SeriesPanel is inserted into the named slot "sidebar" -->
+  {seriesId && (<SeriesPanel slot="sidebar" seriesId={seriesId} />)}
 
-	<Masthead content={post} />
+  <Masthead content={post} />
 
-	<div class="mt-6 flex gap-x-8 sm:grid-cols-[auto_1fr] md:items-start">
-	  <article class="grid grow grid-cols-1 break-words pt-4" data-pagefind-body>
-	    <div class="prose prose-citrus max-w-none grow prose-headings:font-semibold prose-headings:text-accent-base prose-headings:before:text-accent-two sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none">
-	      <slot />
-	    </div>
-	    <WebMentions />
-	  </article>
-	  {!!headings.length && (
-	    <aside
-	      id="toc-panel"
-	      class="z-10 hidden md:sticky md:top-20 md:block md:w-56 md:min-w-56 md:rounded-lg"
-	    >
-	      <TOC headings={headings} />
-	    </aside>
-	  )}
-	</div>
+  <div class="mt-6 flex gap-x-8 sm:grid-cols-[auto_1fr] md:items-start">
+    <article class="grid grow grid-cols-1 break-words pt-4" data-pagefind-body>
+      <div class="prose prose-citrus max-w-none grow prose-headings:font-semibold prose-headings:text-accent-base prose-headings:before:text-accent-two sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none">
+        <slot />
+      </div>
+      <WebMentions />
+    </article>
+    {!!headings.length && (
+      <aside
+        id="toc-panel"
+        class="z-10 hidden md:sticky md:top-20 md:block md:w-56 md:min-w-56 md:rounded-lg"
+      >
+        <TOC headings={headings} />
+      </aside>
+    )}
+  </div>
 
-	<div class="left-0 right-12 z-50 ml-auto w-fit md:absolute">
-	  <button
-	    id="to-top-button"
-	    class="fixed bottom-14 flex size-12 translate-y-28 items-center justify-center rounded-full bg-bgColor text-3xl text-light drop-shadow-xl transition-all duration-300 hover:text-accent-two data-[show=true]:translate-y-0 data-[show=true]:opacity-100"
-	    aria-label="Back to Top"
-	    data-show="false"
-	  >
-	    <span class="absolute inset-0 flex items-center justify-center rounded-full bg-special-lighter" aria-hidden="true">
-	      <svg
-	        class="size-6"
-	        fill="none"
-	        focusable="false"
-	        stroke="currentColor"
-	        stroke-width="2"
-	        viewBox="0 0 24 24"
-	        xmlns="http://www.w3.org/2000/svg"
-	      >
-	        <path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	      </svg>
-	    </span>
-	  </button>
-	</div>
+  <div class="left-0 right-12 z-50 ml-auto w-fit md:absolute">
+    <button
+      id="to-top-button"
+      class="fixed bottom-14 flex size-12 translate-y-28 items-center justify-center rounded-full bg-bgColor text-3xl text-light drop-shadow-xl transition-all duration-300 hover:text-accent-two data-[show=true]:translate-y-0 data-[show=true]:opacity-100"
+      aria-label="Back to Top"
+      data-show="false"
+    >
+      <span class="absolute inset-0 flex items-center justify-center rounded-full bg-special-lighter" aria-hidden="true">
+        <svg
+          class="size-6"
+          fill="none"
+          focusable="false"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M4.5 15.75l7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </span>
+    </button>
+  </div>
 
-	<!-- Series button for mobile screens -->
-	{seriesId && (
-	  <mobile-button
-	    id="toggle-panel-mobile"
-	    class="hover:text-bg-accent-base/90 fixed bottom-4 right-4 z-50 block flex size-12 items-center justify-center rounded-lg border border-special-lighter bg-bgColor text-accent-base shadow-[0px_10px_25px_rgba(0,0,0,0.15)] sm:hidden"
-	    aria-label="Toggle Series Panel"
-	  >
-	    <span class="absolute inset-0 flex items-center justify-center rounded-lg bg-special-light hover:text-accent-base/90">
-	      <Icon class="size-8" name="solar:notes-bold"/>
-	    </span>
-	  </mobile-button>
-	)}
+  <!-- Series button for mobile screens -->
+  {seriesId && (
+    <mobile-button
+      id="toggle-panel-mobile"
+      class="fixed bottom-4 right-4 z-50 flex size-12 items-center justify-center rounded-lg border border-special-lighter bg-bgColor text-accent-base shadow-[0px_10px_25px_rgba(0,0,0,0.15)] sm:hidden"
+      aria-label="Toggle Series Panel"
+    >
+      <span class="absolute inset-0 flex items-center justify-center rounded-lg bg-special-light hover:text-accent-base/90">
+        <Icon class="size-8" name="solar:notes-bold"/>
+      </span>
+    </mobile-button>
+  )}
 
-	<!-- NEEDS IMPROVEMENT!!! -->
-	<!-- Table of Contents button for mobile screens -->
-	<!--
-	{!!headings.length && (
-		<mobile-button
-			id="toggle-toc-mobile"
-			class="size-12 flex items-center justify-center block sm:hidden fixed bottom-20 shadow-[0px_10px_25px_rgba(0,0,0,0.15)] border border-special-lighter right-4 z-50 rounded-lg bg-bgColor text-accent-base hover:text-accent-base/90"
-			aria-label="Toggle TOC Panel"
-		>
-			<span class="absolute inset-0 rounded-lg flex items-center justify-center bg-special-light hover:text-accent-base/90">
-				<Icon class="size-8" name="solar:clipboard-list-bold"/>
-			</span>
-		</mobile-button>
-	)}
-	-->
+  <!-- NEEDS IMPROVEMENT!!! -->
+  <!-- Table of Contents button for mobile screens -->
+  <!--
+  {!!headings.length && (
+    <mobile-button
+      id="toggle-toc-mobile"
+      class="size-12 flex items-center justify-center block sm:hidden fixed bottom-20 shadow-[0px_10px_25px_rgba(0,0,0,0.15)] border border-special-lighter right-4 z-50 rounded-lg bg-bgColor text-accent-base hover:text-accent-base/90"
+      aria-label="Toggle TOC Panel"
+    >
+      <span class="absolute inset-0 rounded-lg flex items-center justify-center bg-special-light hover:text-accent-base/90">
+        <Icon class="size-8" name="solar:clipboard-list-bold"/>
+      </span>
+    </mobile-button>
+  )}
+  -->
 </BaseLayout>
 
 <!-- Copy code button -->
@@ -154,8 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Create the button
       const copyButton = document.createElement('button')
 
-      copyButton.className =
-				'absolute flex items-center justify-center bg-bgColor h-6 font-medium overflow-hidden rounded-md text-light hover:text-accent-two font-sans text-sm font-medium top-2 right-2'
+      copyButton.className = 'absolute flex items-center justify-center bg-bgColor h-6 font-medium overflow-hidden rounded-md text-light hover:text-accent-two font-sans text-sm font-medium top-2 right-2'
 
       // Create the span element that will hold the button text
       const buttonText = document.createElement('span')
@@ -335,18 +334,18 @@ if (closeTocBtn) {
 </script>
 
 <script>
-	// Wait for the content to fully load
-	document.addEventListener('DOMContentLoaded', () => {
-	  const buttonsPanel = document.getElementById('buttons-panel')
+  // Wait for the content to fully load
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttonsPanel = document.getElementById('buttons-panel')
 
-   if (buttonsPanel) {
-	    buttonsPanel.classList.add('fixed')
+    if (buttonsPanel) {
+      buttonsPanel.classList.add('fixed')
 
-     console.log('Class \'fixed\' added to the buttons-panel element.')
-   } else {
-	    console.error('Element with ID \'buttons-panel\' not found.')
-   }
-	})
+      console.log('Class \'fixed\' added to the buttons-panel element.')
+    } else {
+      console.error('Element with ID \'buttons-panel\' not found.')
+    }
+  })
 </script>
 
 <!-- Scroll to top button -->
@@ -354,7 +353,7 @@ if (closeTocBtn) {
 const scrollBtn = document.getElementById('to-top-button') as HTMLButtonElement
 const targetHeader = document.querySelector('header') as HTMLElement
 
-function callback(entries: IntersectionObserverEntry[]) {
+const callback = (entries: IntersectionObserverEntry[]) => {
   entries.forEach(entry => {
     // Show the scroll to top button when the <header> is out of view
     scrollBtn.dataset.show = (!entry.isIntersecting).toString()
@@ -374,29 +373,29 @@ observer.observe(targetHeader)
 <!-- Menu button instead of the main menu -->
 <!--
 <script>
-	document.addEventListener("DOMContentLoaded", () => {
-		const menuButton = document.getElementById("toggle-navigation-menu");
-		const navigationMenu = document.getElementById("menu");
+  document.addEventListener("DOMContentLoaded", () => {
+    const menuButton = document.getElementById("toggle-navigation-menu");
+    const navigationMenu = document.getElementById("menu");
 
-		if (!menuButton || !navigationMenu) {
-			console.error("Menu button or navigation menu is missing in the DOM.");
-			return;
-		}
+    if (!menuButton || !navigationMenu) {
+      console.error("Menu button or navigation menu is missing in the DOM.");
+      return;
+    }
 
-		menuButton.addEventListener("click", () => {
-			const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+    menuButton.addEventListener("click", () => {
+      const isOpen = menuButton.getAttribute("aria-expanded") === "true";
 
-			if (isOpen) {
-				// Close the menu
-				navigationMenu.classList.add("hidden");
-			} else {
-				// Open the menu
-				navigationMenu.classList.remove("hidden");
-			}
+      if (isOpen) {
+        // Close the menu
+        navigationMenu.classList.add("hidden");
+      } else {
+        // Open the menu
+        navigationMenu.classList.remove("hidden");
+      }
 
-			// Update the button state
-			menuButton.setAttribute("aria-expanded", (!isOpen).toString());
-		});
-	});
+      // Update the button state
+      menuButton.setAttribute("aria-expanded", (!isOpen).toString());
+    });
+  });
 </script>
 -->
