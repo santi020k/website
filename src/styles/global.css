@@ -1,84 +1,21 @@
 @import 'tailwindcss';
-/* @config "./../../tailwind.config.ts"; */
 
 @layer utilities {
   @font-face {
-    font-family: 'SFProRounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Regular.latin.base.ttf')
-      format('truetype');
-    font-weight: 400;
+    font-family: "Montserrat";
+    src:
+      url("/fonts/Montserrat-VariableFont_wght.ttf") format("truetype-variations");
     font-style: normal;
-    /* font-display: swap; */
+    font-weight: 100 900;
+    font-display: swap;
   }
 
   @font-face {
-    font-family: 'SFProRounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Medium.latin.base.ttf')
-      format('truetype');
-    font-weight: 500;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'SFProRounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Semibold.latin.base.ttf')
-      format('truetype');
-    font-weight: 600;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'SFProRounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Bold.latin.base.ttf')
-      format('truetype');
-    font-weight: 700;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'SFProRounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Regular.latin.extend.ttf')
-      format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'SFProRounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Medium.latin.extend.ttf')
-      format('truetype');
-    font-weight: 500;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'SFProRounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Semibold.latin.extend.ttf')
-      format('truetype');
-    font-weight: 600;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'SFProRounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Bold.latin.extend.ttf')
-      format('truetype');
-    font-weight: 700;
-    font-style: normal;
-    /* font-display: swap; */
-  }
-
-  @font-face {
-    font-family: 'CascadiaCode';
-    src: url('../assets/fonts/CascadiaCode.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
+    font-family: "Montserrat";
+    src:
+      url("/fonts/Montserrat-Italic-VariableFont_wght.ttf") format("truetype-variations");
+    font-style: italic;
+    font-weight: 100 900;
     font-display: swap;
   }
 }
@@ -88,49 +25,35 @@
   :root[data-theme="light"] {
     color-scheme: light;
 
-    /* Для того чтобы текст имел оттенок фона --fg-hue: var(--hue) и --bg-hue: var(--hue) */
-    /* Для того чтобы текст имел оттенок фона --fg-saturation: var(--saturation) и --bg-saturation: var(--saturation) */
+    --hue: 200deg;
+    --saturation: 10%;
 
-    /*** ОСНОВНЫЕ ЦВЕТА (Базовый, фон, акценты, текст) ***/
-    /* Базовый цвет-оттенок темы */
-    --hue: 200deg; /* Общий базовый цвет-оттенок элементов темы */
-    --saturation: 10%; /* Общая базовая насыщенность элементов темы, 0% - нет оттенка цвета */
+    --bg-hue: var(--hue);
+    --bg-saturation: var(--saturation);
+    --bg-brightness: 96%;
 
-    /* Фон (background) */
-    --bg-hue: var(--hue); /* Цвет-оттенок фона */
-    --bg-saturation: var(--saturation); /* Насыщенность оттенка фона и некоторых др. элементов, 0% - нет оттенка */
-    --bg-brightness: 96%; /* Ярксть фона, 100% - абсолюнто белый */
+    --theme-accent-base: var(--bg-hue) 53% 27%;
+    --theme-accent-one: var(--bg-hue) 53% 27%;
+    --theme-accent-two: 351deg 66% 48%;
 
-    /* Акценты */
-    --theme-accent-base: var(--bg-hue) 53% 27%; /* Основной акцентный цвет */
-    --theme-accent-one: var(--bg-hue) 53% 27%; /* Первый дополнительный акцентный цвет */
-    --theme-accent-two: 351deg 66% 48%; /* Второй дополнительный акцентный цвет */
+    --fg-hue: var(--hue);
+    --fg-saturation: var(--saturation);
+    --fg-brightness: 9%;
+    --theme-text: var(--theme-color-500);
 
-    /* Вариант */ /* --theme-accent-two: 344deg 63% 45%; */
+    --theme-link: var(--hue) 97% 31%;
+    --theme-accent: var(--theme-color-600);
+    --theme-quote: var(--theme-text);
 
-    /* Текст (foreground, цвет-яркость текста рассчитывается ниже на базе --theme-fg) */
-    --fg-hue: var(--hue); /* Общий цвет-оттенок для рассчета градаций цвета */
-    --fg-saturation: var(--saturation); /* Общая насыщенность для рассчета градаций цвета с оттенком, 0% - нет оттенка */
-    --fg-brightness: 9%; /* Яркость для рассчета градаций цвета с оттенком, 0% - начиная от абсолютно черного */
-    --theme-text: var(--theme-color-500); /* Цвет-яркость текста уже с адаптацией под цвет фона */
-
-    /*** ВТОРОСТЕПЕННЫЕ ЦВЕТА (Внешние ссылки, нейтральный акцент, цитаты) ***/
-    --theme-link: var(--hue) 97% 31%; /* Цвет внешних ссылок */
-    --theme-accent: var(--theme-color-600); /* Нейтральный акцент, рассчитывается ниже на базе --theme-fg */
-    --theme-quote: var(--theme-text); /* Цвет цитат */
-
-    /*** ДОПОЛНИТЕЛЬНЫЕ ЦВЕТА ***/
     --theme-lightest: var(--theme-color-350);
     --theme-lighter: var(--theme-color-400);
     --theme-light: var(--theme-color-450);
 
-    /*** СПЕЦИАЛЬНЫЕ ДЛЯ КАЖДОЙ ТЕМЫ ЦВЕТА ***/
     --theme-special-lightest: hsl(var(--hue), var(--saturation), 100%);
     --theme-special-lighter: hsl(var(--hue), var(--saturation), 98%);
     --theme-special-light: hsl(var(--theme-bg));
     --theme-special: var(--theme-color-75);
 
-    /* Подсветка синтаксиса rehype-pretty-code */
     pre code span {
       color: var(--shiki-light) !important;
       font-style: var(--shiki-light-font-style) !important;
@@ -142,57 +65,39 @@
   :root[data-theme="dark"] {
     color-scheme: dark;
 
-    /* Для того чтобы текст имел оттенок фона --fg-hue: var(--hue) и --bg-hue: var(--hue) */
-    /* Для того чтобы текст имел оттенок фона --fg-saturation: var(--saturation) и --bg-saturation: var(--saturation) */
+    --theme-bg: 200deg 93% 10%;
+    --theme-accent-one: 355deg 61% 88%;
+    --theme-accent-two: 200deg 61% 71%;
 
-    /* --theme-bg: 200deg 93% 10%; /* DeepBlue */
-    /* --theme-bg: 190deg 86% 8%; /* DeepGreen */
-    /* --theme-bg: 237deg 22% 20%; */
-    /* --theme-accent-one: 355deg 61% 88%; /* LightRose */
-    /* --theme-accent-two: 200deg 61% 71%; /* LightBlue */
+    --hue: 200deg;
+    --saturation: 53%;
 
-    /*** ОСНОВНЫЕ ЦВЕТА (Базовый, фон, акценты, текст) ***/
-    /* Базовый цвет-оттенок темы */
-    --hue: 200deg; /* Общий базовый цвет-оттенок элементов темы */
-    --saturation: 53%; /* Общая базовая насыщенность элементов темы, 0% - нет оттенка цвета */
+    --bg-hue: var(--hue);
+    --bg-saturation: var(--saturation);
+    --bg-brightness: 15%;
 
-    /* Фон (background) */
-    --bg-hue: var(--hue); /* Цвет-оттенок фона */
-    --bg-saturation: var(--saturation); /* Насыщенность оттенка фона и некоторых др. элементов, 0% - нет оттенка */
-    --bg-brightness: 15%; /* Ярксть фона, 0% - черный */
-    /* Вариант 204deg 51% 14% */
-    /* Вариант 210deg 25% 15% */
-
-    /* Акценты */
     --theme-accent-base: var(--hue) 10% 85%;
-    --theme-accent-one: 50deg 49% 80%; /* Первый дополнительный акцентный цвет */
-    --theme-accent-two: 50deg 72% 63%; /* 50deg 72% 63% */ /* Второй дополнительный акцентный цвет (был 45deg 80% 50%) */
-    /* --theme-accent-two: 0deg 75% 89%; */
-    /* --theme-accent-base: var(--hue) 97% 71%; */
+    --theme-accent-one: 50deg 49% 80%;
+    --theme-accent-two: 50deg 72% 63%;
 
-    /* Текст (foreground, цвет-яркость текста рассчитывается ниже на базе --theme-fg) */
-    --fg-hue: var(--hue); /* Общий цвет-оттенок для рассчета градаций цвета */
-    --fg-saturation: var(--saturation); /* Общая насыщенность для рассчета градаций цвета с оттенком, 0% - нет оттенка */
-    --fg-brightness: 98%; /* Яркость для рассчета градаций цвета с оттенком, 100% - начиная от абсолютно белого */
-    --theme-text: var(--theme-color-500); /* Цвет-яркость текста адаптированного под цвет фона */
+    --fg-hue: var(--hue);
+    --fg-saturation: var(--saturation);
+    --fg-brightness: 98%;
+    --theme-text: var(--theme-color-500);
 
-    /*** ВТОРОСТЕПЕННЫЕ ЦВЕТА (Внкшние ссылки, нейтральный акцент, цитаты) ***/
-    --theme-link: var(--hue) 61% 71%; /* Цвет внешних ссылок */
-    --theme-accent: var(--theme-color-600); /* Нейтральный акцент относительно текста */
-    --theme-quote: var(--theme-text); /* Цвет цитат */
+    --theme-link: var(--hue) 61% 71%;
+    --theme-accent: var(--theme-color-600);
+    --theme-quote: var(--theme-text);
 
-    /*** ДОПОЛНИТЕЛЬНЫЕ ЦВЕТА ***/
     --theme-lightest: var(--theme-color-350);
     --theme-lighter: var(--theme-color-400);
     --theme-light: var(--theme-color-450);
 
-    /*** СПЕЦИАЛЬНЫЕ ДЛЯ КАЖДОЙ ТЕМЫ ЦВЕТА (!отличающиеся настройки для разных тем) ***/
     --theme-special-lightest: var(--theme-color-250);
     --theme-special-lighter: var(--theme-color-200);
     --theme-special-light: var(--theme-color-150);
     --theme-special: hsl(var(--hue) var(--saturation) 0% / 0.150);
 
-    /* Подсветка синтаксиса */
     pre code span {
       color: var(--shiki-dark) !important;
       font-style: var(--shiki-dark-font-style) !important;
@@ -201,12 +106,10 @@
     }
   }
 
-  /* Общие переменные */
   :root {
-    --theme-bg: var(--bg-hue) var(--bg-saturation) var(--bg-brightness); /* Цвет фона */
-    --theme-fg: var(--fg-hue) var(--fg-saturation) var(--fg-brightness); /* Базовый цвет для рассчета градации цветов */
+    --theme-bg: var(--bg-hue) var(--bg-saturation) var(--bg-brightness);
+    --theme-fg: var(--fg-hue) var(--fg-saturation) var(--fg-brightness);
 
-    /* Градации базового цвета для текста и элементов */
     --theme-color-900: hsl(var(--theme-fg) / 1.0000);
     --theme-color-850: hsl(var(--theme-fg) / 0.9675);
     --theme-color-800: hsl(var(--theme-fg) / 0.935);
@@ -227,7 +130,6 @@
     --theme-color-75: hsl(var(--theme-fg) / 0.03375);
     --theme-color-50: hsl(var(--theme-fg) / 0.0225);
 
-    /* Переменные подсветки блоков кода rehype-pretty-code */
     --code-inline-bg: var(--theme-color-150);
     --code-bg: var(--theme-special);
     --code-title-bg: var(--theme-color-200);
@@ -239,216 +141,15 @@
   html {
     letter-spacing: 0.025em;
   }
-
-  /* TODO: remove, temporal fix */
-  /* h1 {
-    @apply text-2xl md:pt-[0.0rem] !important;
-  }
-  h2 {
-    @apply text-xl md:pt-[0.215rem] !important;
-  }
-  h3 {
-    @apply text-lg md:pt-[0.250rem] !important;
-  }
-  h4 {
-    @apply text-base md:pt-[0.425rem] !important;
-  }
-  h5 {
-    @apply text-base md:pt-[0.425rem] !important;
-  }
-  h6 {
-    @apply text-base md:pt-[0.425rem] !important;
-  } */
-
-  /* h1, h2, h3, h4, h5, h6 {
-    @apply min-h-8 h-auto !important;
-  } */
-
-  /* Нужно для кнопки копирования кода при отключенном rehype-pretty-code */
-  /*
-  pre {
-    @apply relative;
-  }
-  */
-}
-
-@layer utilities {
-  :root {
-    /* Стиль для блоков кода rehype-pretty-code */
-    figure[data-rehype-pretty-code-figure] {
-      /* @apply relative m-0 rounded-lg overflow-auto; */
-
-      figcaption {
-        /* @apply m-0; */
-      }
-
-      /* Стиль для заголовков в блоках кода */
-      [data-rehype-pretty-code-title] {
-        /* @apply break-words bg-[var(--code-title-bg)] border-b border-bgColor text-textColor px-4 flex items-center text-sm h-10; */
-
-        & + pre {
-          /* @apply m-0 rounded-t-none; */
-        }
-      }
-
-      /* Стиль для блоков кода */
-      pre {
-        /* @apply m-0 static px-0 py-2 max-h-[612px] text-sm; */
-
-        /* Стиль для содержимого кода */
-        > code {
-          counter-reset: line;
-
-          /* Для блоков с номерами строк */
-          &[data-line-numbers] {
-            > [data-line]::before {
-              counter-increment: line;
-              content: counter(line);
-              /* @apply mr-4 inline-block w-4 text-right text-lightest; */
-            }
-          }
-
-          /* Для каждой строки в блоке кода */
-          > [data-line] {
-            /* @apply px-4 h-6 bg-transparent flex items-center; */
-          }
-
-          /* Для выделенных строк */
-          [data-highlighted-line] {
-            background-color: var(--code-line-highlight);
-          }
-
-          [data-highlighted-line-id='add'] {
-            background-color: var(--code-line-diff-add);
-          }
-
-          [data-highlighted-line-id='remove'] {
-            background-color: var(--code-line-diff-remove);
-          }
-
-          /* Для выделенных символов */
-          [data-highlighted-chars] > span {
-            /* @apply py-[4px]; */
-          }
-
-          /* Для различий в строках (реализовано выше) */
-          /*
-        .diff {
-          &.add {
-            background-color: var(--code-line-diff-add);
-          }
-          &.remove {
-            background-color: var(--code-line-diff-remove);
-          }
-        }
-        */
-        }
-      }
-    }
-
-    /* Основной стиль для блока pre */
-    pre {
-      /* @apply bg-[var(--code-bg)] text-[var(--theme-text)] rounded-lg leading-loose m-0; */
-      /* @apply bg-[var(--code-bg)] text-[var(--theme-accent)] rounded-lg leading-loose m-0; */
-    }
-
-    /* Стиль для инлайнового кода (rehype pretty code переопределяет стили в tailwind.config.css) */
-    :not(pre) > code {
-      /* @apply bg-[var(--code-inline-bg)] px-2 py-1 text-sm rounded-lg; */
-    }
-
-    /* Стиль для кнопки копирования кода rehype-pretty-copy (кнопка реализована отдельно) */
-    /*
-  button.rehype-pretty-copy {
-    @apply absolute top-1 right-1 bg-transparent m-auto size-8 rounded-md p-1 backdrop-blur-none;
-    filter: brightness(var(--brightness)) saturate(0%);
-  }
-  */
-  }
-
-  /* ПЕРЕПРОВЕРИТЬ !!! */
-}
-@layer components {
-  /* Переопределение стилей для <mark> в статье */
-  article mark {
-    /* @apply bg-transparent; */
-  }
-}
-
-/* 1. Load the framework */
-@import "tailwindcss";
-
-/* ------------------------------------------------------------------ */
-/* 2. DESIGN-TOKEN LAYER (everything that used to live in `theme`)    */
-/*    🗒  Theme variables always live inside an @theme block.          */
-/* ------------------------------------------------------------------ */
-@theme {
-  /* ——— Breakpoints ——— */
-  --breakpoint-xs: 20rem;                /* 320 px  ⇒  xs:* variant  */
-
-  /* ——— Container / max-width scale ——— */
-  --container-lg: 32rem;   /* max-w-lg  */
-  --container-xl: 36rem;   /* max-w-xl  */
-  --container-2xl: 42rem;  /* max-w-2xl */
-  --container-3xl: 48rem;  /* max-w-3xl */
-  --container-4xl: 54rem;  /* max-w-4xl */
-  --container-5xl: 64rem;  /* max-w-5xl */
-  --container-6xl: 76rem;  /* max-w-6xl */
-
-  /* ——— Colour palette ———                                          */
-  /* Each entry becomes bg-*, text-*, border-* utilities automatically */
-
-  /* “color-*” scale from your theme */
-  --color-color-950: var(--theme-color-950);
-  --color-color-900: var(--theme-color-900);
-  --color-color-850: var(--theme-color-850);
-  --color-color-800: var(--theme-color-800);
-  --color-color-750: var(--theme-color-750);
-  --color-color-700: var(--theme-color-700);
-  --color-color-650: var(--theme-color-650);
-  --color-color-600: var(--theme-color-600);
-  --color-color-550: var(--theme-color-550);
-  --color-color-500: var(--theme-color-500);
-  --color-color-450: var(--theme-color-450);
-  --color-color-400: var(--theme-color-400);
-  --color-color-350: var(--theme-color-350);
-  --color-color-300: var(--theme-color-300);
-  --color-color-250: var(--theme-color-250);
-  --color-color-200: var(--theme-color-200);
-  --color-color-150: var(--theme-color-150);
-  --color-color-100: var(--theme-color-100);
-  --color-color-75 : var(--theme-color-75 );
-  --color-color-50 : var(--theme-color-50 );
-
-  /* single-token semantic colours */
-  --color-bg-color      : hsl(var(--theme-bg) / <alpha-value>);
-  --color-text-color    : var(--theme-text);
-  --color-accent-base   : hsl(var(--theme-accent-base) / <alpha-value>);
-  --color-accent-one    : hsl(var(--theme-accent-one)  / <alpha-value>);
-  --color-accent-two    : hsl(var(--theme-accent-two)  / <alpha-value>);
-  --color-link          : hsl(var(--theme-link)        / <alpha-value>);
-  --color-accent        : var(--theme-accent);
-  --color-quote         : hsl(var(--theme-quote) / <alpha-value>);
-  --color-lightest      : var(--theme-lightest);
-  --color-lighter       : var(--theme-lighter);
-  --color-light         : var(--theme-light);
-  --color-special-lightest: var(--theme-special-lightest);
-  --color-special-lighter: var(--theme-special-lighter);
-  --color-special-light   : var(--theme-special-light);
-
-  /* ——— Misc custom tokens ——— */
-  --transition-height: height;           /* gives you transition-[height] */
 }
 
 /* ------------------------------------------------------------------ */
-/* 3. FIRST-PARTY & LEGACY PLUGINS                                    */
+/* PLUGINS                                                            */
 /* ------------------------------------------------------------------ */
 @plugin "@tailwindcss/typography";        /* replaces plugins:[typography] */
 
 /* ------------------------------------------------------------------ */
-/* 4. CUSTOM UTILITIES (replaces the inline plugin in your old config)*/
-/*    Use @utility to register real Tailwind utilities that support   */
-/*    hover:, lg:, dark:, etc.                                        */
+/* CUSTOM UTILITIES                                                   */
 /* ------------------------------------------------------------------ */
 
 /* .citrus-link ------------------------------------------------------*/
@@ -462,13 +163,12 @@
 
 /* .title ------------------------------------------------------------*/
 @utility title {
-  @apply font-semibold text-accent-base;
+  @apply font-semibold;
 }
 
 /* .data-footnote-backref -------------------------------------------*/
 @utility data-footnote-backref {
-  @apply inline-flex h-4 w-4 items-center justify-center
-         rounded-sm bg-accent-two text-bg-color text-xs;
+  @apply inline-flex h-4 w-4 items-center justify-center rounded-sm text-xs;
 
   &:hover {
     @apply no-underline brightness-110;
@@ -476,49 +176,32 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* 5. TYPOGRAPHY TUNING (what used to be theme.extend.typography)     */
-/*    The typography plugin still works — override its generated      */
-/*    classes in @layer components or utilities.                      */
+/* 5. TYPOGRAPHY TUNING                                               */
 /* ------------------------------------------------------------------ */
 @layer components {
   /* Default prose customisations */
   .prose a           { @apply citrus-link; }
   .prose blockquote  {
-    @apply font-normal text-quote border-l-0 px-4;
+    @apply font-normal border-l-0 px-4;
   }
   .prose blockquote p::before {
-    @apply font-serif font-medium text-2xl text-lightest
+    @apply font-serif font-medium text-2xl
            relative -ms-4 me-0.5 content-['“'];
     top: .31125rem;
   }
   .prose blockquote p::after  {
-    @apply font-serif font-medium text-2xl text-lightest
+    @apply font-serif font-medium text-2xl
            relative ms-0 content-['”'];
     top: .31125rem;
   }
-  /* …keep adding any other overrides you need from the old config…   */
 }
 
 /* ------------------------------------------------------------------ */
 /* 6.  DARK-MODE STRATEGY                                             */
-/*    Tailwind 4 ships with media-query dark mode out of the box.     */
-/*    If you want the old “class or [data-theme='dark']” behaviour,   */
-/*    re-introduce it as a *custom* variant:                          */
 /* ------------------------------------------------------------------ */
-@custom-variant dark (&:where(.dark,[data-theme='dark'] *)); /* enables dark:* */
+@custom-variant dark (&:where(.dark,[data-theme='dark'] *));
 
 /* ------------------------------------------------------------------ */
 /* 7.  EXTRA SOURCE PATHS / SAFELIST                                  */
-/*    corePlugins & safelist were removed in v4.  If you still need   */
-/*    to force-include classes at build time, list the files here.    */
-/*    (Your old binary-file exclusion is automatic now.)              */
 /* ------------------------------------------------------------------ */
-/* Example: keep dynamic colour classes you build in JS strings       */
 @source inline("bg-color-950 bg-color-900 bg-color-850 bg-color-800 bg-color-750 bg-color-700 bg-color-650 bg-color-600 bg-color-550 bg-color-500 bg-color-450 bg-color-400 bg-color-350 bg-color-300 bg-color-250 bg-color-200 bg-color-150 bg-color-100 bg-color-75 bg-color-50 text-color-950 text-color-900 text-color-850 text-color-800 text-color-750 text-color-700 text-color-650 text-color-600 text-color-550 text-color-500 text-color-450 text-color-400 text-color-350 text-color-300 text-color-250 text-color-200 text-color-150 text-color-100 text-color-75 text-color-50");
-
-/* ------------------------------------------------------------------ */
-/* 8.  THAT’S IT!                                                     */
-/*    – No `content` array (auto-detected)                            */
-/*    – No `corePlugins` (not supported in v4)                        */
-/*    – No JS/TS config file                                          */
-/* ------------------------------------------------------------------ */
