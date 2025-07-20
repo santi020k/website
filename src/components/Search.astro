@@ -157,20 +157,22 @@ customElements.define('site-search', SiteSearch)
 </script>
 
 <style is:global>
+  @reference "tailwindcss";
+
   :root {
     --pagefind-ui-border-radius: 0.5rem; /* 8px */
   }
 
-  #citrus__search {
+  /* #citrus__search {
     --pagefind-ui-primary: theme("colors.accent-two");
     --pagefind-ui-text: theme("colors.textColor");
     --pagefind-ui-background: theme("colors.bgColor");
     --pagefind-ui-border: theme("colors.color.400");
     @apply h-full;
-  }
+  } */
 
   #citrus__search .pagefind-ui {
-    @apply w-full h-full text-textColor font-sans;
+    @apply w-full h-full font-sans;
   }
 
   #citrus__search .pagefind-ui__hidden {
@@ -197,7 +199,7 @@ customElements.define('site-search', SiteSearch)
   }
 
   #citrus__search .pagefind-ui__search-input {
-    @apply bg-color-100 rounded-lg border-none text-base text-textColor font-normal w-full flex h-10 py-0 px-10 outline-none;
+    @apply rounded-lg border-none text-base font-normal w-full flex h-10 py-0 px-10 outline-none;
   }
 
   #citrus__search .pagefind-ui__search-input::placeholder {
@@ -205,7 +207,7 @@ customElements.define('site-search', SiteSearch)
   }
 
   #citrus__search .pagefind-ui__search-clear::before {
-    @apply bg-accent-two block w-full h-full;
+    @apply block w-full h-full;
     content: "";
     -webkit-mask:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'%3E%3C/path%3E%3C/svg%3E")
@@ -216,7 +218,7 @@ customElements.define('site-search', SiteSearch)
   }
 
   #citrus__search .pagefind-ui__search-clear {
-    @apply overflow-hidden absolute top-0 right-0 size-10 py-0 px-0 text-textColor font-medium cursor-pointer bg-transparent rounded-lg;
+    @apply overflow-hidden absolute top-0 right-0 size-10 py-0 px-0 font-medium cursor-pointer bg-transparent rounded-lg;
   }
 
   #citrus__search .pagefind-ui__search-clear:focus {
@@ -228,11 +230,11 @@ customElements.define('site-search', SiteSearch)
   }
 
   #citrus__search .pagefind-ui__message {
-    @apply text-base font-normal text-lighter h-10 py-0 flex items-center border-none;
+    @apply text-base font-normal h-10 py-0 flex items-center border-none;
   }
 
   #citrus__search .pagefind-ui__button {
-    @apply absolute bottom-0 m-0 shadow-md border-none text-bgColor flex items-center justify-center rounded-lg h-10 py-0 px-2 text-base text-center font-medium cursor-pointer bg-accent-base;
+    @apply absolute bottom-0 m-0 shadow-md border-none flex items-center justify-center rounded-lg h-10 py-0 px-2 text-base text-center font-medium cursor-pointer;
   }
 
   #citrus__search .pagefind-ui__button:hover {
@@ -248,7 +250,7 @@ customElements.define('site-search', SiteSearch)
   }
 
   #citrus__search .pagefind-ui__result-link {
-    @apply title text-base bg-transparent text-accent-base font-medium;
+    @apply text-base bg-transparent font-medium;
   }
 
   #citrus__search .pagefind-ui__result-link:hover {
@@ -263,7 +265,7 @@ customElements.define('site-search', SiteSearch)
   }
 
   #citrus__search .pagefind-ui__result-excerpt {
-    @apply inline-block font-normal text-base text-textColor mt-0 mb-0 md:line-clamp-1 mr-2;
+    @apply inline-block font-normal text-base mt-0 mb-0 md:line-clamp-1 mr-2;
   }
 
   #citrus__search .pagefind-ui__result-inner {
@@ -271,7 +273,7 @@ customElements.define('site-search', SiteSearch)
   }
 
   #citrus__search .pagefind-ui__results {
-    @apply p-0 text-textColor text-base max-h-[calc(100vh-13.5rem)] md:max-h-[calc(100vh-13rem)] overflow-y-auto;
+    @apply p-0 text-base max-h-[calc(100vh-13.5rem)] md:max-h-[calc(100vh-13rem)] overflow-y-auto;
   }
 
   #citrus__search .pagefind-ui__results-area {
@@ -280,6 +282,6 @@ customElements.define('site-search', SiteSearch)
   }
 
   #citrus__search mark {
-    @apply text-accent-two bg-transparent;
+    @apply bg-transparent;
   }
 </style>
