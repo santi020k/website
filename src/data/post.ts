@@ -11,7 +11,7 @@ export async function getAllPosts(): Promise<CollectionEntry<'post'>[]> {
  */
 export function groupPostsByYear(posts: CollectionEntry<'post'>[]) {
   return posts.reduce<Record<string, CollectionEntry<'post'>[]>>((acc, post) => {
-    const year = post.data.publishDate.getFullYear()
+    const year = post?.data?.publishDate?.getFullYear?.() ?? new Date().getFullYear()
 
     if (!acc[year]) {
       acc[year] = []
