@@ -13,10 +13,10 @@ import remarkDirective from 'remark-directive' /* handle ::: directives as nodes
 import { remarkAdmonitions } from './src/plugins/remark-admonitions' /* add admonitions */
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { siteConfig } from './src/site.config'
+import tailwindcss from "@tailwindcss/vite";
 
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
-import tailwind from '@astrojs/tailwind'
 import {
   transformerMetaHighlight,
   transformerNotationDiff
@@ -44,10 +44,6 @@ export default defineConfig({
   },
   integrations: [
     icon(),
-    tailwind({
-      applyBaseStyles: false,
-      nesting: true
-    }),
     sitemap(),
     mdx(),
     robotsTxt(),
@@ -137,7 +133,7 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ['@resvg/resvg-js']
     },
-    plugins: [rawFonts(['.ttf', '.woff'])]
+    plugins: [rawFonts(['.ttf', '.woff']), tailwindcss()]
   },
   env: {
     schema: {
