@@ -8,10 +8,10 @@ const { type = 'horizontal', className = '' } = Astro.props
 
 // Классы для разделителей в зависимости от типа
 const separatorClasses = {
-  base: 'flex-shrink-0 bg-lighter mx-2', // Общие стили
+  base: 'shrink-0 bg-lighter mx-2', // Общие стили
   types: {
-    horizontal: 'h-[1px] w-full', // Горизонтальный разделитель
-    vertical: 'h-full w-[1px]', // Вертикальный разделитель
+    horizontal: 'h-px w-full', // Горизонтальный разделитель
+    vertical: 'h-full w-px', // Вертикальный разделитель
     dot: 'w-1.5 h-1.5 rounded-full' // Кружок для dot
   } as const // Указываем, что типы здесь конкретные строки
 }
