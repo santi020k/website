@@ -295,7 +295,7 @@
           > [data-line]::before {
             counter-increment: line;
             content: counter(line);
-            @apply mr-4 inline-block w-4 text-right text-lightest;
+            /* @apply mr-4 inline-block w-4 text-right text-lightest; */
           }
         }
 
