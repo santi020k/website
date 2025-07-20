@@ -28,15 +28,15 @@ const comments = mentions.filter(
       <p class="mb-0 text-accent-base">
         <strong>{comments.length}</strong> Mention{comments.length > 1 ? 's' : ''}
       </p>
-      <ul class="divide-textColor/20 mt-0 divide-y ps-0" role="list">
+      <ul class="divide-textColor/20 mt-0 divide-y ps-0">
         {comments.map(mention => (
-          <li class="p-comment h-cite my-0 flex items-start gap-x-5 py-5">
+          <li class="my-0 flex items-start gap-x-5 py-5">
             {mention.author?.photo && mention.author.photo !== ''
               ? (
                   mention.author.url && mention.author.url !== ''
                     ? (
                         <a
-                          class="u-author not-prose shrink-0 overflow-hidden rounded-full outline-none ring-2 ring-textColor hover:ring-4 hover:ring-link focus-visible:ring-4 focus-visible:ring-link"
+                          class="not-prose shrink-0 overflow-hidden rounded-full outline-none ring-2 ring-textColor hover:ring-4 hover:ring-link focus-visible:ring-4 focus-visible:ring-link"
                           href={mention.author.url}
                           rel="noreferrer"
                           target="_blank"
@@ -44,7 +44,7 @@ const comments = mentions.filter(
                         >
                           <Image
                             alt={mention.author?.name}
-                            class="u-photo my-0 size-12"
+                            class="my-0 size-12"
                             height={48}
                             src={mention.author?.photo}
                             width={48}
@@ -54,7 +54,7 @@ const comments = mentions.filter(
                     : (
                         <Image
                           alt={mention.author?.name}
-                          class="u-photo my-0 size-12 rounded-full"
+                          class="my-0 size-12 rounded-full"
                           height={48}
                           src={mention.author?.photo}
                           width={48}
@@ -63,13 +63,13 @@ const comments = mentions.filter(
                 )
               : null}
             <div class="flex-auto">
-              <div class="p-author h-card flex items-center justify-between gap-x-2">
-                <p class="p-name my-0 line-clamp-1 font-semibold text-accent-base">
+              <div class="flex items-center justify-between gap-x-2">
+                <p class="my-0 line-clamp-1 font-semibold text-accent-base">
                   {mention.author?.name}
                 </p>
                 <a
                   aria-labelledby="cmt-source"
-                  class="u-url not-prose hover:text-link"
+                  class="not-prose hover:text-link"
                   href={mention.url}
                   rel="noreferrer"
                   target="_blank"
@@ -85,7 +85,7 @@ const comments = mentions.filter(
                   />
                 </a>
               </div>
-              <p class="comment-content mb-0 mt-1 break-words [word-break:break-word]">
+              <p class="mb-0 mt-1 break-words [word-break:break-word]">
                 {mention.content?.text}
               </p>
             </div>

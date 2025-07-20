@@ -13,7 +13,7 @@ const { as: Tag = 'div', post, withDesc = false } = Astro.props;
 ---
 
 <div class={withDesc ? 'flex flex-col' : 'flex grow flex-col sm:flex-row sm:items-center sm:justify-between'}>
-  {!withDesc ? (
+  {!withDesc && (
     <>
       <FormattedDate
         class="shrink-0 text-sm text-lighter sm:order-2 sm:text-right"
@@ -23,17 +23,18 @@ const { as: Tag = 'div', post, withDesc = false } = Astro.props;
           // minute: "2-digit",
           year: 'numeric',
           month: 'long',
-          day: '2-digit',
+          day: '2-digit'
         }}
       />
-      <Tag class="sm:flex-gro citrus-link font-medium text-accent-base sm:order-1 md:line-clamp-1">
+      <Tag class="citrus-link font-medium text-accent-base sm:order-1 md:line-clamp-1">
         <a data-astro-prefetch href={`/posts/${post.id}/`}>
           {post.data.draft && <span class="text-red-500">(Draft) </span>}
           {post.data.title}
         </a>
       </Tag>
     </>
-  ) : (
+  )}
+  {withDesc && (
     <>
       <FormattedDate
         class="shrink-0 text-sm text-lighter"
@@ -43,7 +44,7 @@ const { as: Tag = 'div', post, withDesc = false } = Astro.props;
           // minute: "2-digit",
           year: 'numeric',
           month: 'long',
-          day: '2-digit',
+          day: '2-digit'
         }}
       />
       <Tag class="citrus-link mt-2.5 font-medium text-accent-base">

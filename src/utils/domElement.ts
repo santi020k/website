@@ -1,11 +1,7 @@
-export function toggleClass(element: HTMLElement, className: string) {
+export const toggleClass = (element: HTMLElement, className: string) => {
   element.classList.toggle(className)
 }
 
-export function elementHasClass(element: HTMLElement, className: string) {
-  return element.classList.contains(className)
-}
+export const elementHasClass = (element: HTMLElement, className: string) => element.classList.contains(className)
 
-export function rootInDarkMode() {
-  return document.documentElement.getAttribute('data-theme') === 'dark'
-}
+export const rootInDarkMode = () => document.documentElement.getAttribute('data-theme') === 'dark'

@@ -2,10 +2,10 @@ import type { CollectionEntry } from 'astro:content'
 
 import { siteConfig } from '@/site.config'
 
-export function getFormattedDate(
+export const getFormattedDate = (
   date: Date | undefined,
   options?: Intl.DateTimeFormatOptions
-): string {
+): string => {
   if (date === undefined) {
     return 'Invalid Date'
   }
@@ -16,9 +16,7 @@ export function getFormattedDate(
   }).format(date)
 }
 
-export function collectionDateSort(
+export const collectionDateSort = (
   a: CollectionEntry<'post' | 'note'>,
   b: CollectionEntry<'post' | 'note'>
-) {
-  return b.data.publishDate.getTime() - a.data.publishDate.getTime()
-}
+) => b.data.publishDate.getTime() - a.data.publishDate.getTime()

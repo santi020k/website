@@ -41,7 +41,7 @@ const { Content } = await render(note);
         minute: '2-digit',
         year: 'numeric',
         month: 'long',
-        day: '2-digit',
+        day: '2-digit'
       }}
       date={note.data.publishDate}
     />
@@ -52,9 +52,9 @@ const { Content } = await render(note);
       'line-clamp-4': isPreview,
       '[&>blockquote]:line-clamp-4 [&>blockquote]:mb-0': isPreview,
       '[&>blockquote:not(:first-of-type)]:hidden': isPreview
-			// "[&>p]:line-clamp-4": isPreview,
-			// "[&>p:not(:first-of-type)]:hidden": isPreview,
-		}}
+      // "[&>p]:line-clamp-4": isPreview,
+      // "[&>p:not(:first-of-type)]:hidden": isPreview,
+    }}
   >
     <Content />
   </div>

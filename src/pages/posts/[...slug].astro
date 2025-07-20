@@ -11,7 +11,7 @@ export const getStaticPaths = (async () => {
   return blogEntries.map(post => ({
     params: { slug: post.id },
     props: { post }
-	}))
+  }))
 }) satisfies GetStaticPaths
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
