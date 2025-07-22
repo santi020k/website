@@ -57,10 +57,10 @@ export default defineConfig({
       /**
        * optional
        **/
-      // short_name: "Astro_Citrus",
+      short_name: "Santi020k",
       description: siteConfig.description,
       lang: siteConfig.lang,
-      icon: 'public/icon.svg', // the source for generating favicon & icons
+      icon: 'public/logo.svg', // the source for generating favicon & icons
       icons: [
         {
           src: 'icons/apple-touch-icon.png', // used in src/components/BaseHead.astro L:26
@@ -80,7 +80,7 @@ export default defineConfig({
       ],
       start_url: '/',
       background_color: '#1d1f21',
-      theme_color: '#2bbc8a',
+      theme_color: '#000000',
       display: 'standalone',
       config: {
         insertFaviconLinks: false,
