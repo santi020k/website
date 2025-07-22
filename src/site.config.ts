@@ -1,30 +1,51 @@
-Copyright (c) 2026 Santiago Molina (santi020k). All rights reserved.
+import type { SiteConfig } from '@/types'
 
-SOURCE-AVAILABLE LICENSE
+export const siteConfig: SiteConfig = {
+  // Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
+  author: 'Santi020k',
+  // Date.prototype.toLocaleDateString() parameters, found in src/utils/date.ts.
+  date: {
+    locale: 'en-US',
+    options: {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    }
+  },
+  // Used as the default description meta property and webmanifest description
+  description: 'The personal web site of Santiago Molina Orozco',
+  // HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
+  lang: 'en-US',
+  // Meta property, found in src/components/BaseHead.astro L:42
+  ogLocale: 'en_US',
+  // Used to construct the meta title property found in src/components/BaseHead.astro L:11, and webmanifest name found in astro.config.ts L:42
+  title: 'Santi020k'
+}
 
-This repository is made publicly visible for reference, learning, and
-portfolio purposes only.
-
-Permission is granted to view and read the source code in this repository.
-
-NO OTHER RIGHTS ARE GRANTED. Without the prior written permission of the
-copyright holder, you may NOT:
-
-  1. Use the code, in whole or in part, in any other project or product;
-  2. Copy, reproduce, or redistribute the code in any form;
-  3. Modify the code or create derivative works based on it;
-  4. Use the code for any commercial or non-commercial purpose;
-  5. Republish any content of this website (text, blog posts, images,
-     brand assets, or design) in any medium.
-
-Contributions (issues, suggestions, pull requests) are welcome; by
-submitting a contribution you agree that it becomes part of this work
-under the terms of this license.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING
-FROM THE USE OF OR INABILITY TO USE THE SOFTWARE.
-
-For permission requests, contact: https://santi020k.com
+// Used to generate links in both the Header & Footer.
+export const menuLinks: { path: string, title: string }[] = [
+  {
+    path: '/',
+    title: 'Home'
+  },
+  // {
+  //   path: '/about/',
+  //   title: 'About'
+  // },
+  {
+    path: '/portfolio/',
+    title: 'Portfolio'
+  },
+  {
+    path: '/posts/',
+    title: 'Blog'
+  },
+  {
+    path: '/notes/',
+    title: 'Notes'
+  },
+  {
+    path: '/contact/',
+    title: 'Contact'
+  }
+]
