@@ -8,7 +8,10 @@
 // import { collectionDateSort } from '@/utils/date'
 
 // import { getAllPosts } from '@/data/post'
+import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/Base.astro'
+
+import AboutMeImage from '@/assets/photos/about-me.jpeg'
 
 // Posts
 // const MAX_POSTS = 10
@@ -51,7 +54,7 @@ import PageLayout from '@/layouts/Base.astro'
         </div>
 
         <div>
-          <img class="relative rounded-2xl shadow-xl w-full xl:max-w-lg xl:mx-auto 2xl:origin-bottom 2xl:scale-110" src="/images/photos/about-me.jpeg" alt="About me" />
+          <Image class="relative rounded-2xl shadow-xl w-full xl:max-w-lg xl:mx-auto 2xl:origin-bottom 2xl:scale-110" src={AboutMeImage} alt="About me" />
         </div>
       </div>
     </div>
