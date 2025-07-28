@@ -10,7 +10,7 @@ import { menuLinks, siteConfig } from '@/site.config';
 
 <header
   id="main-header"
-  class="fixed left-0 top-0 z-20 flex h-16 w-full items-center overflow-hidden bg-bgColor px-4 md:relative md:bg-transparent md:px-0"
+  class="fixed backdrop-blur-xl md:backdrop-blur-none left-0 top-0 z-20 flex h-16 w-full items-center overflow-hidden px-4 md:relative md:px-0"
 >
   <div class="w-full justify-between sm:flex-col">
     <div class="flex items-center gap-x-2">
@@ -21,7 +21,7 @@ import { menuLinks, siteConfig } from '@/site.config';
         href="/"
       >
         <div title={siteConfig.title} class="p-2">
-          <svg class="inline-block size-8 fill-current text-accent-base drop-shadow-[0px_2.5px_2.5px_rgba(0,0,0,0.35)] dark:text-accent-two">
+          <svg class="inline-block size-14 fill-current text-accent-base dark:text-accent-two">
             <use href="/logo.svg"></use>
           </svg>
         </div>
@@ -46,7 +46,7 @@ import { menuLinks, siteConfig } from '@/site.config';
       </nav>
 
       <div class="ml-auto md:ml-0 w-fit">
-        <div id="buttons-panel" class="top-4 ml-18 md:ml-0 flex space-x-2 md:top-8">
+        <div id="buttons-panel" class="top-4 ml-auto md:ml-0 flex space-x-2 md:top-8">
           <!-- TODO: Not Implemented yet -->
           <!-- <Search /> -->
           <ThemeToggle />
@@ -57,7 +57,7 @@ import { menuLinks, siteConfig } from '@/site.config';
         aria-expanded="false"
         aria-haspopup="menu"
         aria-label="Open main menu"
-        class="group relative size-8 rounded-lg bg-color-100 text-accent-base hover:bg-accent-base/10 md:invisible md:hidden"
+        class="group cursor-pointer relative size-8 rounded-lg bg-color-100 text-accent-base hover:bg-accent-base/10 md:invisible md:hidden"
         id="toggle-nav-menu-mobile"
         type="button"
       >
@@ -80,7 +80,7 @@ import { menuLinks, siteConfig } from '@/site.config';
   </div>
 </header>
 
-<div id="drawer" class="fixed inset-0 z-10 hidden bg-white dark:bg-black" aria-hidden="true">
+<div id="drawer" class="fixed inset-0 z-10 hidden backdrop-blur-xl" aria-hidden="true">
   <div
     id="drawer-body"
     class="absolute inset-0 -translate-y-full bg-bgColor transition-all duration-300 ease-in-out"
