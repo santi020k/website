@@ -25,14 +25,46 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 
 <PageLayout meta={{ title: 'Home' }}>
   <!-- Hero section -->
+  <section class="pt-10 md:pt-0 sm:pt-16 2xl:pt-16">
+    <div class="mx-auto max-w-7xl">
+      <div class="grid items-center grid-cols-1 sm:grid-cols-2 gap-8">
+        <div>
+          <h2 class="text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl lg:text-5xl">Hey 👋 I
+            am
+            <br class="block sm:hidden" />Santiago Molina
+          </h2>
+          <p class="max-w-lg mt-3 text-xl leading-relaxed text-gray-600 dark:text-gray-300 md:mt-8">
+            Seasoned Full Stack Developer and Tech Lead with over a decade of experience in React, React Native, Node and TypeScript. Specializing in front-end architecture and UI/UX
+          </p>
+
+          <p class="mt-4 text-xl text-gray-600 dark:text-gray-300 md:mt-8">
+            <span class="relative inline-block">
+              <span class="absolute inline-block w-full bottom-0.5 h-2 bg-[#C1D4DA] dark:bg-[#007980]"></span>
+            <span class="relative"> Have a question? </span>
+            </span>
+            <br class="block sm:hidden" />
+            Ask me on
+            <a href="https://linkedin.com/in/santi020k" referrerpolicy="no-referrer" target="_blank" title="Linkedin link" class="transition-all duration-200 text-sky-500 dark:text-sky-400 hover:text-sky-600 dark:hover:text-sky-500 hover:underline">
+              Linkedin
+            </a>
+          </p>
+        </div>
+
+        <div>
+          <img class="relative rounded-2xl shadow-xl w-full xl:max-w-lg xl:mx-auto 2xl:origin-bottom 2xl:scale-110" src="/images/photos/about-me.jpeg" alt="About me" />
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Background blur -->
-  <div class="pointer-events-none absolute left-1/2 top-0 ml-[50vw] min-h-screen w-screen overflow-x-hidden opacity-50 blur-3xl md:top-[-15%]">
+  <!-- <div class="pointer-events-none absolute left-1/2 top-0 ml-[50vw] min-h-screen w-screen overflow-x-hidden opacity-50 blur-3xl md:top-[-15%]">
     <div class="absolute right-[-40%] top-[10%] h-full w-[65%] rounded-full bg-linear-to-b from-purple-300 via-blue-300 to-transparent opacity-30 dark:opacity-10"></div>
     <div class="absolute left-[-40%] top-[10%] h-full w-[65%] rounded-full bg-linear-to-b from-blue-300 via-pink-300 to-transparent opacity-30 dark:opacity-10"></div>
     <div class="absolute -left-1/2 top-[-20%] h-full w-[85%] rounded-full bg-linear-to-b from-indigo-300 via-orange-300 to-transparent opacity-60 dark:opacity-10"></div>
     <div class="absolute -right-1/2 top-[-20%] h-full w-[85%] rounded-full bg-linear-to-b from-orange-300 via-indigo-300 to-transparent opacity-60 dark:opacity-10"></div>
-  </div>
-  <section class="relative mx-auto -mt-24 flex h-screen max-w-xl items-center justify-center">
+  </div> -->
+  <!-- <section class="relative mx-auto -mt-24 flex h-screen max-w-xl items-center justify-center">
     <div class="w-full text-center">
       <h1 class="title bg-linear-to-r from-accent-two/85 via-accent-one/85 to-accent-two/85 bg-clip-text text-3xl text-transparent dark:from-accent-two dark:via-accent-one dark:to-accent-two">
         Santiago Molina Orozco
@@ -57,11 +89,10 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
         </a>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- Posts Section -->
-  <section aria-label="Blog post list">
-    <!-- class="'mt-[-100vh] pt-[100vh]'" -->
+  <!-- <section aria-label="Blog post list">
     <h2 class="title mb-6 text-xl text-accent-two">
       <a href="/posts/">Posts</a>
     </h2>
@@ -74,10 +105,10 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
         ))
       }
     </ul>
-  </section>
+  </section> -->
 
   <!-- Notes Section -->
-  {
+  <!-- {
     latestNotes.length > 0 && (
       <section class="mt-12">
         <h2 class="title mb-6 text-accent-two">
@@ -94,7 +125,7 @@ const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
         </div>
       </section>
     )
-  }
+  } -->
 
   <!-- Debug -->
   <!--
