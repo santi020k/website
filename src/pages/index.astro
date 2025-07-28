@@ -1,26 +1,26 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content'
+// import { type CollectionEntry, getCollection } from 'astro:content'
 
-import PostPreview from '@/components/blog/PostPreview.astro'
-import Note from '@/components/note/Note.astro'
-import SocialList from '@/components/SocialList.astro'
+// import PostPreview from '@/components/blog/PostPreview.astro'
+// import Note from '@/components/note/Note.astro'
+// import SocialList from '@/components/SocialList.astro'
 
-import { collectionDateSort } from '@/utils/date'
+// import { collectionDateSort } from '@/utils/date'
 
-import { getAllPosts } from '@/data/post'
+// import { getAllPosts } from '@/data/post'
 import PageLayout from '@/layouts/Base.astro'
 
 // Posts
-const MAX_POSTS = 10
-const allPosts = await getAllPosts()
-const allPostsByDate = allPosts
-  .sort(collectionDateSort)
-  .slice(0, MAX_POSTS) as CollectionEntry<'post'>[]
+// const MAX_POSTS = 10
+// const allPosts = await getAllPosts()
+// const allPostsByDate = allPosts
+//   .sort(collectionDateSort)
+//   .slice(0, MAX_POSTS) as CollectionEntry<'post'>[]
 
 // Notes
-const MAX_NOTES = 2
-const allNotes = await getCollection('note')
-const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
+// const MAX_NOTES = 2
+// const allNotes = await getCollection('note')
+// const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
 ---
 
 <PageLayout meta={{ title: 'Home' }}>
