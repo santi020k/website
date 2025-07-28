@@ -54,6 +54,8 @@
     --theme-special-light: hsl(var(--theme-bg));
     --theme-special: var(--theme-color-75);
 
+    --theme-bg-color: var(--color-white);
+
     pre code span {
       color: var(--shiki-light) !important;
       font-style: var(--shiki-light-font-style) !important;
@@ -97,6 +99,8 @@
     --theme-special-lighter: var(--theme-color-200);
     --theme-special-light: var(--theme-color-150);
     --theme-special: hsl(var(--hue) var(--saturation) 0% / 0.150);
+
+    --theme-bg-color: var(--color-gray-800);
 
     pre code span {
       color: var(--shiki-dark) !important;
@@ -182,7 +186,7 @@
   --color-color-50 : var(--theme-color-50 );
 
   /* single-token semantic colours */
-  --color-bg-color      : hsl(var(--theme-bg) / <alpha-value>);
+  --color-bg-color      : var(--theme-bg-color);
   --color-text-color    : var(--theme-text);
   --color-accent-base   : hsl(var(--theme-accent-base) / <alpha-value>);
   --color-accent-one    : hsl(var(--theme-accent-one)  / <alpha-value>);
