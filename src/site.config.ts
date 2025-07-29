@@ -36,14 +36,14 @@ export const menuLinks: { path: string, title: string }[] = [
     path: '/portfolio/',
     title: 'Portfolio'
   },
-  {
-    path: '/posts/',
-    title: 'Blog'
-  },
-  {
-    path: '/notes/',
-    title: 'Notes'
-  },
+  // {
+  //   path: '/posts/',
+  //   title: 'Blog'
+  // },
+  // {
+  //   path: '/notes/',
+  //   title: 'Notes'
+  // },
   {
     path: '/contact/',
     title: 'Contact'
