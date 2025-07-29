@@ -29,8 +29,41 @@ const post = defineCollection({
       .optional()
       .transform(str => (str ? new Date(str) : undefined)),
     // Series
-    seriesId: z.string().optional(), // Поле для связи с серией
-    orderInSeries: z.number().optional() // Опционально: для сортировки в серии
+    seriesId: z.string().optional(),
+    orderInSeries: z.number().optional()
+    // End
+  })
+})
+
+const project = defineCollection({
+  loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
+  schema: ({ image }) => baseSchema.extend({
+    description: z.string(),
+    rol: z.enum(['Technical Lead', 'Full Stack', 'Front End Lead', 'CTO', 'Creator', 'Co-Organizer']).optional(),
+    coverImage: z
+      .object({
+        alt: z.string(),
+        src: image(),
+        ogImage: z.string().optional()
+      })
+      .optional(),
+    draft: z.boolean().default(false),
+    tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+    startingDate: z
+      .string()
+      .or(z.date())
+      .transform(val => new Date(val)),
+    endingDate: z
+      .string()
+      .optional()
+      .transform(str => (str ? new Date(str) : undefined)),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    githubUrl: z.string().url().optional(),
+    liveDemoUrl: z.string().url().optional(),
+    // type
+    typeId: z.enum(['client', 'personal', 'experimental']).optional(),
+    orderInType: z.number().optional()
     // End
   })
 })
@@ -54,10 +87,22 @@ const series = defineCollection({
     id: z.string(),
     title: z.string(),
     description: z.string(),
-    featured: z.boolean().default(false) // Пометка для популярных серий
+    featured: z.boolean().default(false)
   })
 })
 // End
 
 // Series
-export const collections = { post, note, series }
+const types = defineCollection({
+  loader: glob({ base: './src/content/types', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    id: z.string(),
+    title: z.string(),
+    description: z.string(),
+    featured: z.boolean().default(false)
+  })
+})
+// End
+
+// Series
+export const collections = { post, note, series, project, types }
