@@ -208,7 +208,10 @@
 /* ------------------------------------------------------------------ */
 /* PLUGINS                                                            */
 /* ------------------------------------------------------------------ */
-@plugin "@tailwindcss/typography";        /* replaces plugins:[typography] */
+/* Typography */
+@plugin "@tailwindcss/typography";
+/* Icons */
+@plugin "@iconify/tailwind4";
 
 /* ------------------------------------------------------------------ */
 /* CUSTOM UTILITIES                                                   */
