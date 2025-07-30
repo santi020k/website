@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon/components';
 
 <theme-toggle class="sticky top-0">
   <button
-    class="sticky top-0 flex size-8 items-center justify-center rounded-lg drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)] hover:text-accent-two"
+    class="hover:text-accent-two sticky top-0 flex size-8 items-center justify-center rounded-lg drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)]"
     type="button"
   >
     <span class="sr-only">Dark Theme</span>
@@ -25,7 +25,7 @@ import { Icon } from 'astro-icon/components';
 
 <script>
 // Note that if you fire the theme-change event outside of this component, it will not be reflected in the button's aria-checked attribute. You will need to add an event listener if you want that.
-import { rootInDarkMode } from '@/utils/domElement'
+import { rootInDarkMode } from '@/utils/dom-element'
 
 class ThemeToggle extends HTMLElement {
   connectedCallback() {
