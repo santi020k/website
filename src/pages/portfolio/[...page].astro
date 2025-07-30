@@ -9,27 +9,27 @@ import ProjectPreview from '@/components/projects/ProjectPreview.astro'
 import { capitalizeFirstLetter } from '@/utils/capitalize-first-letter'
 import { collectionDateSortProjects } from '@/utils/date'
 
-import { getAllProjects, getUniqueTags, groupProjectsByTypesId } from '@/data/project'
+import { getAllProjects, getUniqueTechnologies, groupProjectsByTypesId } from '@/data/project'
 import PageLayout from '@/layouts/Base.astro'
 
 export const getStaticPaths = (async ({ paginate }) => {
   const MAX_POSTS_PER_PAGE = 5
   const MAX_TAGS = 20
   const allProjects = await getAllProjects()
-  const uniqueTags = getUniqueTags(allProjects).slice(0, MAX_TAGS)
+  const uniqueTechnologies = getUniqueTechnologies(allProjects).slice(0, MAX_TAGS)
   return paginate(allProjects.sort(collectionDateSortProjects), {
     pageSize: MAX_POSTS_PER_PAGE,
-    props: { uniqueTags }
+    props: { uniqueTechnologies }
   })
 }) satisfies GetStaticPaths
 
 interface Props {
   page: Page<CollectionEntry<'project'>>
   allTypes: CollectionEntry<'types'>[]
-  uniqueTags: string[]
+  uniqueTechnologies: string[]
 }
 
-const { page, uniqueTags } = Astro.props
+const { page, uniqueTechnologies } = Astro.props
 
 const meta = {
   title: 'Projects',
@@ -93,19 +93,19 @@ const groupedByTypeId = groupProjectsByTypesId(page.data)
       }
     </section>
     {
-      !!uniqueTags.length && (
+      !!uniqueTechnologies.length && (
         <aside class="md:min-w-56 md:max-w-56 md:basis-56">
           <h4 class="mb-4 flex gap-2">
-            Tags
+            Technologies
             {/*
-            <Icon aria-hidden="true" class="mb-1 h-6 w-6" focusable="false" name="hugeicons:tags" />
+            <Icon aria-hidden="true" class="mb-1 h-6 w-6" focusable="false" name="hugeicons:technologies" />
             */}
           </h4>
           <ul class="flex flex-wrap gap-2">
-            {uniqueTags.map(tag => (
+            {uniqueTechnologies.map(technology => (
               <li>
-                <a aria-label={`View all posts with the tag: ${tag}`} href={`/tags/${tag}`}>
-                  <Badge variant="muted" title={tag} />
+                <a aria-label={`View all posts with the technology: ${technology}`} href={`/technologies/${technology}`}>
+                  <Badge variant="muted" title={technology} />
                 </a>
               </li>
             ))}
@@ -114,7 +114,7 @@ const groupedByTypeId = groupProjectsByTypesId(page.data)
               <a
                 aria-label="View all projects categories"
                 class="font-medium"
-                href="/tags/"
+                href="/technologies/"
               >
                 View all →
               </a>

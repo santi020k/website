@@ -50,27 +50,23 @@ const { project } = Astro.props;
 
     <div class="flex flex-wrap items-center gap-2">
       {
-        project.data.tags.slice(0, 5).map((tag, index) => (
+        project.data.technologies.slice(0, 5).map(technology => (
           <div class="flex items-center gap-x-2">
             <a
-              aria-label={`View all posts with the tag: ${tag}`}
-              href={`/tags/${tag}`}
+              aria-label={`View all posts with the technology: ${technology}`}
+              href={`/technologies/${technology}`}
             >
-              <Badge variant="muted" showHash={false} title={tag}>
-                {/* <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
-                  {tag}
-                </span> */}
-              </Badge>
+              <Badge variant="muted" showHash={false} title={technology} />
             </a>
           </div>
         ))
       }
 
-      {project.data.tags.length > 5 && (
+      {project.data.technologies.length > 5 && (
         <div class="flex items-center gap-x-2">
-          <Badge variant="outline" showHash={false} title={`+${project.data.tags.length - 5} more`}>
+          <Badge variant="outline" showHash={false} title={`+${project.data.technologies.length - 5} more`}>
             {/* <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              +{project.data.tags.length - 5} more
+              +{project.data.technologies.length - 5} more
             </span> */}
           </Badge>
         </div>

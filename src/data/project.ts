@@ -23,26 +23,26 @@ export function groupProjectsByTypesId(projects: CollectionEntry<'project'>[]) {
   }, {})
 }
 
-/** returns all tags created from projects (inc duplicate tags)
+/** returns all technologies created from projects (inc duplicate technologies)
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
-export function getAllTags(projects: CollectionEntry<'project'>[]) {
-  return projects.flatMap(project => [...(project?.data?.tags ?? [])])
+export function getAllTechnologies(projects: CollectionEntry<'project'>[]) {
+  return projects.flatMap(project => [...(project?.data?.technologies ?? [])])
 }
 
-/** returns all unique tags created from projects
+/** returns all unique technologies created from projects
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
-export function getUniqueTags(projects: CollectionEntry<'project'>[]) {
-  return [...new Set(getAllTags(projects))]
+export function getUniqueTechnologies(projects: CollectionEntry<'project'>[]) {
+  return [...new Set(getAllTechnologies(projects))]
 }
 
-/** returns a count of each unique tag - [[tagName, count], ...]
+/** returns a count of each unique Technology - [[TechnologyName, count], ...]
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
-export function getUniqueTagsWithCount(projects: CollectionEntry<'project'>[]): [string, number][] {
+export function getUniqueTechnologiesWithCount(projects: CollectionEntry<'project'>[]): [string, number][] {
   return [
-    ...getAllTags(projects).reduce(
+    ...getAllTechnologies(projects).reduce(
       (acc, t) => acc.set(t, (acc.get(t) ?? 0) + 1), new Map<string, number>()
     )
   ].sort((a, b) => b[1] - a[1])
