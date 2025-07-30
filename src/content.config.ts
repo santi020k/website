@@ -1,6 +1,7 @@
 import { glob } from 'astro/loaders'
 import { defineCollection, z } from 'astro:content'
 
+const removeDuplicates = (array: string[]) => [...new Set(array)]
 const removeDupsAndLowerCase = (array: string[]) => [...new Set(array.map(str => str.toLowerCase()))]
 
 const baseSchema = z.object({
@@ -48,7 +49,7 @@ const project = defineCollection({
       })
       .optional(),
     draft: z.boolean().default(false),
-    tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+    technologies: z.array(z.string()).default([]).transform(removeDuplicates),
     startingDate: z
       .string()
       .or(z.date())
