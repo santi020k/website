@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
+import Badge from '@/components/Badge.astro'
 import FormattedDate from '@/components/FormattedDate.astro'
 
 interface Props {
@@ -46,5 +47,35 @@ const { project } = Astro.props;
     <p class="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
       {project.data.description}
     </p>
+
+    <div class="flex flex-wrap items-center gap-2">
+      {
+        project.data.tags.slice(0, 5).map((tag, index) => (
+          <div class="flex items-center gap-x-2">
+            <a
+              aria-label={`View all posts with the tag: ${tag}`}
+              href={`/tags/${tag}`}
+            >
+              <Badge variant="muted" showHash={false} title={tag}>
+                {/* <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
+                  {tag}
+                </span> */}
+              </Badge>
+            </a>
+          </div>
+        ))
+      }
+
+      {project.data.tags.length > 5 && (
+        <div class="flex items-center gap-x-2">
+          <Badge variant="outline" showHash={false} title={`+${project.data.tags.length - 5} more`}>
+            {/* <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+              +{project.data.tags.length - 5} more
+            </span> */}
+          </Badge>
+        </div>
+      )}
+    </div>
+
   </div>
 </a>

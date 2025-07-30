@@ -81,9 +81,9 @@ const groupedByTypeId = groupProjectsByTypesId(page.data)
         Object.entries(groupedByTypeId).map(([key, projects]) => (
           <article id={key}>
             <h1 class="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">{capitalizeFirstLetter(key)} Projects</h1>
-            <ul class="mb-8 mt-4 space-y-8 text-start">
+            <ul class="space-y-8 text-start">
               {projects?.map(project => (
-                <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+                <li class="flex flex-col gap-2">
                   <ProjectPreview project={project} />
                 </li>
               ))}
