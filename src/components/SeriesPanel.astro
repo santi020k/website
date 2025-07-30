@@ -8,7 +8,6 @@ const currentPath = Astro.url.pathname
 const posts = await getCollection('post')
 const series = await getCollection('series')
 
-// Находим серию по переданному `seriesId` указанному в посте
 const postsSeries = series.find(s => s.id === seriesId)
 if (!postsSeries) {
   throw new Error(`Post(s) with Series ID '${seriesId}' not found.`)
@@ -25,12 +24,12 @@ if (seriesId) {
 
 <aside
   id="series-panel"
-  class="fixed z-40 grid min-h-screen bg-bgColor transition-all duration-300 ease-in-out lg:relative lg:block"
+  class="bg-bgColor fixed z-40 grid min-h-screen transition-all duration-300 ease-in-out lg:relative lg:block"
 >
-  <div class="fixed top-0 -z-10 h-screen w-screen bg-linear-to-b from-orange-300 via-pink-300 to-purple-300 opacity-30 dark:opacity-0 md:w-72 md:min-w-72 md:max-w-72">
+  <div class="bg-linear-to-b fixed top-0 -z-10 h-screen w-screen from-orange-300 via-pink-300 to-purple-300 opacity-30 md:w-72 md:min-w-72 md:max-w-72 dark:opacity-0">
   </div>
 
-  <div class="flex h-full w-screen flex-col border-r border-special-light bg-accent-base/5 px-8 pt-4 md:w-72 md:min-w-72 md:max-w-72 md:pt-8">
+  <div class="border-special-light bg-accent-base/5 flex h-full w-screen flex-col border-r px-8 pt-4 md:w-72 md:min-w-72 md:max-w-72 md:pt-8">
     <div class="flex gap-x-1">
       <!--
       <Icon aria-hidden="true" class="shrink-0 h-8 w-6 py-1" focusable="false" name="solar:notes-line-duotone" />
@@ -41,7 +40,7 @@ if (seriesId) {
     </div>
     <button
       id="close-panel"
-      class="absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg bg-accent-base/5 text-accent-base hover:bg-accent-base/10 md:right-8 md:top-8"
+      class="bg-accent-base/5 text-accent-base hover:bg-accent-base/10 absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg md:right-8 md:top-8"
       aria-label="Close Series Panel"
     >
       <Icon class="size-6" name="hugeicons:cancel-01" />
@@ -52,20 +51,20 @@ if (seriesId) {
         <a
           href={`/series/${postsSeries.id}`}
           aria-label={`About ${postsSeries.data.title} series`}
-          class="sticky top-4 flex h-8 w-full items-center justify-center gap-x-1 rounded-lg bg-accent-base font-medium text-bgColor shadow-lg transition-all duration-300 hover:brightness-110"
+          class="bg-accent-base text-bgColor sticky top-4 flex h-8 w-full items-center justify-center gap-x-1 rounded-lg font-medium shadow-lg transition-all duration-300 hover:brightness-110"
         >
-          <Icon class="inline-block size-6 text-bgColor" name="solar:notes-bold" />
+          <Icon class="text-bgColor inline-block size-6" name="solar:notes-bold" />
           {postsSeries.data.title}
         </a>
 
-        <ul class="mt-4.25 text-sm font-medium text-light">
+        <ul class="mt-4.25 text-light text-sm font-medium">
           {seriesPosts.map((p) => {
             const isActive = currentPath === `/posts/${p.id}/`
             return (
-              <li class={`line-clamp-2 flex items-center px-4 py-1 ${isActive ? 'rounded-lg bg-color-100' : ''}`}>
+              <li class={`line-clamp-2 flex items-center px-4 py-1 ${isActive ? 'bg-color-100 rounded-lg' : ''}`}>
                 <a
                   href={`/posts/${p.id}/`}
-                  class={`hover:text-accent-two ${isActive ? 'pointer-events-none cursor-default text-accent' : ''}`}
+                  class={`hover:text-accent-two ${isActive ? 'text-accent pointer-events-none cursor-default' : ''}`}
                 >
                   {p.data.title}
                 </a>
