@@ -9,19 +9,19 @@ export async function getAllProjects(): Promise<CollectionEntry<'project'>[]> {
 /** groups projects by year (based on option siteConfig.sortProjectsByUpdatedDate), using the year as the key
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  */
-// export function groupProjectsByStartingYear(projects: CollectionEntry<'project'>[]) {
-//   return projects.reduce<Record<string, CollectionEntry<'project'>[]>>((acc, project) => {
-//     const year = project?.data?.publishDate?.getFullYear?.() ?? new Date().getFullYear()
+export function groupProjectsByTypeId(projects: CollectionEntry<'project'>[]) {
+  return projects.reduce<Record<string, CollectionEntry<'project'>[]>>((acc, project) => {
+    const typeId = project?.data?.typeId ?? 'unknown'
 
-//     if (!acc[year]) {
-//       acc[year] = []
-//     }
+    if (!acc[typeId]) {
+      acc[typeId] = []
+    }
 
-//     acc[year]?.push(project)
+    acc[typeId].push(project)
 
-//     return acc
-//   }, {})
-// }
+    return acc
+  }, {})
+}
 
 /** returns all tags created from projects (inc duplicate tags)
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
