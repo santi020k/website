@@ -62,8 +62,8 @@ const project = defineCollection({
     githubUrl: z.string().url().optional(),
     liveDemoUrl: z.string().url().optional(),
     // type
-    typeId: z.enum(['client', 'personal', 'experimental']).optional(),
-    orderInType: z.number().optional()
+    typesId: z.enum(['client', 'personal', 'experimental']).optional(),
+    orderInTypes: z.number().optional()
     // End
   })
 })

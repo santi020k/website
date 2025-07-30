@@ -5,7 +5,7 @@ rol: "Technical Lead"
 startingDate: "1 Feb 2023"
 endingDate: "1 May 2025"
 liveDemoUrl: "https://void.gg"
-typeId: "client"
+typesId: "client"
 tags: [
     "React.js", "Next.js", "TypeScript", "Nest.js", "React Native", "Architecture",
     "Redux.js", "RTK", "Socket.io", "Docker", "AWS", "Leadership", "Project Management",

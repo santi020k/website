@@ -12,7 +12,7 @@ interface Props {
 const { project } = Astro.props;
 ---
 
-<a href={`/projects/${project.id}/`} class="group relative overflow-hidden transition-all duration-300">
+<a href={`/portfolio/${project.id}/`} class="group relative overflow-hidden transition-all duration-300">
   {project.data.coverImage?.src && (
     <div class="block overflow-hidden rounded-xl">
       <Image
