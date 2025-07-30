@@ -9,6 +9,10 @@ interface Props {
   withDesc?: boolean
 }
 
+const dateTimeOptions: Intl.DateTimeFormatOptions = {
+  day: undefined
+}
+
 const { project } = Astro.props;
 ---
 
@@ -31,10 +35,12 @@ const { project } = Astro.props;
 
     <p class="text-sm text-zinc-500 dark:text-zinc-400">
       {project.data.rol ? `${project.data.rol} • ` : ''}
-      <FormattedDate date={project.data.startingDate} />
-      {project.data.endingDate && (
-        <> – <FormattedDate date={project.data.endingDate} /></>
-      )}
+      <FormattedDate dateTimeOptions={dateTimeOptions} date={project.data.startingDate} />
+      {project.data.endingDate
+        ? (
+            <> – <FormattedDate dateTimeOptions={dateTimeOptions} date={project.data.endingDate} /></>
+          )
+        : '- Present'}
     </p>
 
     <p class="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">

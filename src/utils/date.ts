@@ -6,18 +6,14 @@ export const getFormattedDate = (
   input: Date | string | number | undefined,
   options: Intl.DateTimeFormatOptions = {}
 ): string => {
-  // 1 → Valida que haya dato
   if (input === undefined) return 'Invalid Date'
 
-  // 2 → Garantiza un Date
   const date = input instanceof Date ? input : new Date(input)
 
-  // 3 → Comprueba que el Date sea válido
   if (Number.isNaN(date.getTime())) return 'Invalid Date'
 
-  // 4 → Formatea
   return new Intl.DateTimeFormat(
-    siteConfig.date.locale, { ...(siteConfig.date.options as Intl.DateTimeFormatOptions), ...options }
+    siteConfig.date.locale, { ...(siteConfig.date.options), ...options }
   ).format(date)
 }
 
