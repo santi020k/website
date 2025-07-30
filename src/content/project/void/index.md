@@ -6,7 +6,7 @@ startingDate: "1 Feb 2023"
 endingDate: "1 May 2025"
 liveDemoUrl: "https://void.gg"
 typesId: "client"
-tags: [
+technologies: [
     "React.js", "Next.js", "TypeScript", "Nest.js", "React Native", "Architecture",
     "Redux.js", "RTK", "Socket.io", "Docker", "AWS", "Leadership", "Project Management",
     "Microservices", "Microfrontend", "Express.js", "MongoDB", "PostgreSQL", "Mantine",

@@ -6,7 +6,7 @@ startingDate: "1 Mar 2024"
 githubUrl: "https://github.com/santi020k/eslint-config-santi020k"
 liveDemoUrl: "https://www.npmjs.com/package/@santi020k/eslint-config-santi020k"
 typesId: "personal"
-tags: [
+technologies: [
   "ESLint", "JavaScript", "TypeScript", "React", "Next.js", "Astro", "Expo",
   "Developer Experience", "Code Quality", "Monorepo", "CI/CD", "VSCode", "Automation",
   "npm", "Open Source", "Vitest", "TailwindCSS", "i18next", "Testing", "Documentation",
