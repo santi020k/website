@@ -9,7 +9,7 @@ import FormattedDate from '@/components/FormattedDate.astro'
 import Separator from '../Separator.astro'
 
 interface Props {
-  content: CollectionEntry<'post'>
+  content: CollectionEntry<'project'>
 }
 
 const {
@@ -25,26 +25,23 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
   month: 'long'
 }
 
-const postSeries = !!content.data.seriesId && await getCollection('series')
-  .then(series => series.find(s => s.id === content.data.seriesId))
+const projectTypes = !!content.data.typesId && await getCollection('types')
+  .then(types => types.find(s => s.id === content.data.typesId))
   .catch((err) => {
-    console.error('Failed to find series:', err)
+    console.error('Failed to find types:', err)
     return null
   })
 ---
 
 <div class="flex items-end md:sticky md:top-8 md:z-10">
   {
-    !!postSeries && (
+    !!projectTypes && (
       <button
         id="toggle-panel"
-        class="mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg bg-accent-base/10 text-accent-base hover:brightness-110 md:flex"
+        class="mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg hover:brightness-110 md:flex"
         aria-label="Toggle Series Panel"
         aria-controls="series-panel"
       >
-        {/*
-        <Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="hugeicons:sidebar-left" />
-        */}
         <Icon aria-hidden="true" class="size-6 shrink-0" focusable="false" name="solar:notes-bold" />
       </button>
     )
@@ -54,7 +51,7 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
     !!(content.rendered?.metadata?.headings as unknown[] | undefined)?.length && (
       <button
         id="toggle-toc"
-        class="hidden size-8 shrink-0 items-center justify-center rounded-lg bg-accent-base/10 text-accent-base hover:brightness-110 md:flex"
+        class="hidden size-8 shrink-0 items-center justify-center rounded-lg hover:brightness-110 md:flex"
         aria-label="Table of Contents"
       >
         <Icon aria-hidden="true" class="size-6" focusable="false" name="solar:clipboard-list-bold" />
@@ -63,7 +60,7 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
   }
 
   <h1
-    class="title ml-2 line-clamp-none md:sticky md:top-4 md:z-20 md:line-clamp-1 md:max-w-[calc(100%-10rem)]"
+    class="ml-2 line-clamp-none md:sticky md:top-4 md:z-20 md:line-clamp-1 md:max-w-[calc(100%-10rem)]"
     title={content.data.title}
     data-pagefind-body
   >
@@ -71,10 +68,10 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
   </h1>
 </div>
 
-<div class="mx-2 mb-2 mt-4.25 flex flex-wrap items-center text-sm text-lighter">
+<div class="mx-2 mb-2 flex flex-wrap items-center text-sm">
   <span class="flex h-7 items-center">
     <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" />
-    <FormattedDate date={content.data.publishDate} dateTimeOptions={dateTimeOptions} class="flex shrink-0" />
+    <FormattedDate date={content.data.startingDate} dateTimeOptions={dateTimeOptions} class="flex shrink-0" />
   </span>
   <Separator type="dot" />
   <span class="flex h-7 items-center">
@@ -83,10 +80,10 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
     {content.rendered?.metadata?.frontmatter?.readingTime ? `${content.rendered.metadata.frontmatter.readingTime}` : 'Less than one minute read'}
   </span>
   {
-    content.data.updatedDate && (
+    content.data.endingDate && (
       <Separator type="dot" />
-      <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg bg-accent-two/5 px-2 py-1 text-sm text-accent-two">
-        Updated:<FormattedDate class="flex shrink-0" date={content.data.updatedDate} dateTimeOptions={dateTimeOptions} />
+      <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg px-2 py-1 text-sm">
+        Updated:<FormattedDate class="flex shrink-0" date={content.data.endingDate} dateTimeOptions={dateTimeOptions} />
       </span>
     )
   }
@@ -109,7 +106,7 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
 }
 
 <p
-  class="prose mx-2 max-w-none text-textColor"
+  class="mx-2 max-w-none"
   data-pagefind-body
 >
   {content.data.description}
@@ -120,40 +117,40 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
   {
     content.data.tags?.length
       ? (
-      <Icon aria-hidden="true" class="inline-block size-6 shrink-0 text-accent-base" focusable="false" name="solar:tag-line-duotone" />
+      <Icon aria-hidden="true" class="inline-block size-6 shrink-0" focusable="false" name="solar:tag-line-duotone" />
       <>
         {content.data.tags.map(tag => (
-          <a aria-label={`View all posts with the tag: ${tag}`} href={`/tags/${tag}`}>
+          <a aria-label={`View all projects with the tag: ${tag}`} href={`/tags/${tag}`}>
             <Badge variant="accent-two" title={tag} />
           </a>
         ))}
       </>
         )
       : (
-      <Icon aria-hidden="true" class="inline-block size-6 shrink-0 text-lightest" focusable="false" name="solar:tag-line-duotone" />
-      <span class="text-sm text-lightest">No tags</span>
+      <Icon aria-hidden="true" class="inline-block size-6 shrink-0" focusable="false" name="solar:tag-line-duotone" />
+      <span class="text-sm">No tags</span>
         )
   }
 
   {/* Series */}
   {
-    postSeries
+    projectTypes
       ? (
           <div class="flex items-center gap-2">
-            <Icon aria-hidden="true" class="inline-block size-6 shrink-0 text-accent-base" focusable="false" name="solar:notes-line-duotone" />
+            <Icon aria-hidden="true" class="inline-block size-6 shrink-0" focusable="false" name="solar:notes-line-duotone" />
             <a
-              aria-label={`About ${postSeries.data.title} series`}
-              href={`/series/${postSeries.id}`}
+              aria-label={`About ${projectTypes.data.title} types`}
+              href={`/types/${projectTypes.id}`}
               class="flex flex-wrap items-center gap-2"
             >
-              <Badge variant="accent-base" showHash={false} title={postSeries.data.title} />
+              <Badge variant="accent-base" showHash={false} title={projectTypes.data.title} />
             </a>
           </div>
         )
       : (
           <div class="flex items-center gap-2">
-            <Icon aria-hidden="true" class="inline-block size-6 shrink-0 text-lightest" focusable="false" name="solar:notes-line-duotone" />
-            <span class="text-sm text-lightest">Not in series</span>
+            <Icon aria-hidden="true" class="inline-block size-6 shrink-0" focusable="false" name="solar:notes-line-duotone" />
+            <span class="text-sm">Not in types</span>
           </div>
         )
   }
