@@ -47,7 +47,7 @@ const groupedByTypeId = groupProjectsByTypesId(data)
       <div aria-label="Projects project list" class="flex flex-col gap-y-16">
         {
           Object.entries(groupedByTypeId).map(([key, projects]) => (
-            <article id={key} class="flex flex-col gap-y-8">
+            <article id={key} class="flex flex-col gap-y-4">
               <h2 class="font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">{capitalizeFirstLetter(key)} Projects</h2>
               <ul class="flex flex-col gap-y-8 text-start">
                 {projects?.map(project => (
@@ -62,8 +62,8 @@ const groupedByTypeId = groupProjectsByTypesId(data)
       </div>
       {
         !!uniqueTechnologies.length && (
-          <aside class="flex flex-col gap-y-8 md:min-w-56 md:max-w-56 md:basis-56">
-            <h4 class="flex gap-2">
+          <aside class="flex flex-col gap-y-4 md:min-w-56 md:max-w-56 md:basis-56">
+            <h4 class="flex">
               Technologies
             </h4>
             <div class="flex flex-col gap-y-4">
