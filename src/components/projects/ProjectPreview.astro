@@ -17,7 +17,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 const { project } = Astro.props;
 ---
 
-<a href={`/portfolio/${project.id}/`} class="group relative flex flex-col gap-y-4 transition-all duration-300">
+<a href={`/portfolio/${project.id}/`} class="group relative flex flex-col gap-y-4 rounded-xl p-6 transition-all duration-300 hover:bg-stone-100 hover:shadow-xl">
   {project.data.coverImage?.src && (
     <div class="relative block overflow-hidden rounded-xl shadow-xl">
       <Image
