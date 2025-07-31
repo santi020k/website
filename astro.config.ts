@@ -8,12 +8,13 @@ import rehypeExternalLinks from 'rehype-external-links'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeUnwrapImages from 'rehype-unwrap-images'
 // Remark plugins
-import remarkDirective from 'remark-directive' /* handle ::: directives as nodes */
+import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
-import { remarkAdmonitions } from './src/plugins/remark-admonitions' /* add admonitions */
+import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { siteConfig } from './src/site.config'
 
+import alpinejs from '@astrojs/alpinejs'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import {
@@ -47,16 +48,17 @@ export default defineConfig({
     sitemap(),
     mdx(),
     robotsTxt(),
+    alpinejs(),
     webmanifest({
-      // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
-      /**
-       * required
-       **/
+    // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
+    /**
+     * required
+     **/
       name: siteConfig.title,
 
       /**
-       * optional
-       **/
+     * optional
+     **/
       short_name: 'Santi020k',
       description: siteConfig.description,
       lang: siteConfig.lang,
