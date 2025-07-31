@@ -13,7 +13,6 @@ import remarkDirective from 'remark-directive' /* handle ::: directives as nodes
 import { remarkAdmonitions } from './src/plugins/remark-admonitions' /* add admonitions */
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { siteConfig } from './src/site.config'
-import tailwindcss from "@tailwindcss/vite";
 
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
@@ -21,6 +20,7 @@ import {
   transformerMetaHighlight,
   transformerNotationDiff
 } from '@shikijs/transformers'
+import tailwindcss from '@tailwindcss/vite'
 
 const rawFonts = (ext: string[]) => ({
   name: 'vite-plugin-raw-fonts',
@@ -57,7 +57,7 @@ export default defineConfig({
       /**
        * optional
        **/
-      short_name: "Santi020k",
+      short_name: 'Santi020k',
       description: siteConfig.description,
       lang: siteConfig.lang,
       icon: 'public/logo.svg', // the source for generating favicon & icons
