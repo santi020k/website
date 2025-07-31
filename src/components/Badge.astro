@@ -1,26 +1,31 @@
 ---
-const { variant = 'default', showHash = true, title } = Astro.props
+const { variant = 'default', showHash = true, className = '', title } = Astro.props
 
-// CSS-классы для вариантов стилей
 const badgeClasses = {
-  base: 'flex items-baseline pt-[0.075rem] drop-shadow-lg active:drop-shadow-none rounded-lg h-6 px-2 text-sm font-medium transition-colors',
+  base:
+    'inline-flex items-center gap-1 px-2 h-6 rounded-md text-sm font-medium transition-colors whitespace-nowrap',
   variants: {
-    default: 'bg-textColor text-bgColor hover:brightness-105',
-    accent: 'bg-accent text-bgColor hover:brightness-105',
-    'accent-base': 'bg-accent-base text-bgColor hover:brightness-105',
-    'accent-one': 'bg-accent-one text-bgColor hover:brightness-105',
-    'accent-two': 'bg-accent-two text-bgColor hover:brightness-105',
-    muted: 'bg-color-100 text-textColor hover:bg-accent-two hover:text-bgColor drop-shadow-none hover:drop-shadow-lg',
-    outline: 'border border-lightest text-textColor drop-shadow-none',
-    inactive: 'text-lighter bg-color-100 drop-shadow-none'
+    default: 'bg-textColor text-bgColor hover:brightness-90',
+    accent: 'bg-accent text-bgColor hover:brightness-90',
+    'accent-base': 'bg-accent-base text-bgColor hover:brightness-90',
+    'accent-one': 'bg-accent-one text-bgColor hover:brightness-90',
+    'accent-two': 'bg-accent-two text-bgColor hover:brightness-90',
+    muted:
+      'bg-color-100 text-textColor hover:bg-accent-two hover:text-bgColor shadow-sm',
+    outline:
+      'border border-lightest text-textColor bg-transparent hover:border-accent-one',
+    inactive: 'bg-color-100 text-lighter cursor-default',
+    subtle: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300',
+    ghost: 'bg-transparent text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/70 dark:hover:bg-zinc-700/40',
+    warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+    danger: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
   }
 }
 
-const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasses.variants]; // Приведение типов
+const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasses.variants]
 ---
-
-<div class={`${badgeClasses.base} ${variantClasses}`}>
-  {showHash && <span class="h-full">#</span>}
-  {title}
+<div class={`${badgeClasses.base} ${variantClasses} ${className}`}>
+  {showHash && <span class="text-xs font-normal opacity-60">#</span>}
+  <span>{title}</span>
   <slot />
 </div>
