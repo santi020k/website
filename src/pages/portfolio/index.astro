@@ -1,0 +1,95 @@
+---
+import Badge from '@/components/Badge.astro'
+import ProjectPreview from '@/components/projects/ProjectPreview.astro'
+
+import { capitalizeFirstLetter } from '@/utils/capitalize-first-letter'
+import { collectionDateSortProjects } from '@/utils/date'
+
+import { getAllProjects, getUniqueTechnologies, groupProjectsByTypesId } from '@/data/project'
+import PageLayout from '@/layouts/Base.astro'
+
+const MAX_TAGS = 20
+const allProjects = await getAllProjects()
+const data = allProjects.sort(collectionDateSortProjects)
+const uniqueTechnologies = getUniqueTechnologies(allProjects).slice(0, MAX_TAGS)
+
+const meta = {
+  title: 'Projects',
+  description: 'Explore a collection of client and personal projects, showcasing my experience in web development, architecture, and design.'
+}
+
+const groupedByTypeId = groupProjectsByTypesId(data)
+---
+
+<PageLayout meta={meta}>
+  <div class="flex flex-col gap-y-32">
+    <section class="flex flex-col gap-y-4">
+      <h1 class="font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+        Portfolio
+      </h1>
+      <p class="text-lg text-zinc-600 dark:text-zinc-400">
+        Showcases projects I’ve worked on, from client work and open-source libraries to experiments.
+        Each reflects a blend of technical depth, user-centric design, and a passion for solving real-world problems.
+      </p>
+      <p class="text-base text-zinc-500 dark:text-zinc-400">
+        Looking for more? Check out my{' '}
+        <a
+          href="/pdf/cv.pdf"
+          target="_blank"
+          class="text-sky-500 transition-all duration-200 hover:text-sky-600 hover:underline dark:text-sky-400 dark:hover:text-sky-500"
+        >
+          CV/Resume
+        </a>
+      </p>
+    </section>
+
+    <section class="grid gap-8 sm:grid-cols-[1fr_auto]">
+      <div aria-label="Projects project list" class="flex flex-col gap-y-16">
+        {
+          Object.entries(groupedByTypeId).map(([key, projects]) => (
+            <article id={key} class="flex flex-col gap-y-8">
+              <h2 class="font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">{capitalizeFirstLetter(key)} Projects</h2>
+              <ul class="flex flex-col gap-y-8 text-start">
+                {projects?.map(project => (
+                  <li class="m-0 flex flex-col gap-4">
+                    <ProjectPreview project={project} />
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+      {
+        !!uniqueTechnologies.length && (
+          <aside class="flex flex-col gap-y-8 md:min-w-56 md:max-w-56 md:basis-56">
+            <h4 class="flex gap-2">
+              Technologies
+            </h4>
+            <div class="flex flex-col gap-y-4">
+              <ul class="flex flex-wrap gap-2">
+                {uniqueTechnologies.map(technology => (
+                  <li>
+                    <a aria-label={`View all posts with the technology: ${technology}`} href={`/technologies/${technology}`}>
+                      <Badge variant="muted" title={technology} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              <div class="ms-auto flex h-6 items-center sm:text-end md:block">
+                <a
+                  aria-label="View all projects categories"
+                  class="text-sm font-medium"
+                  href="/technologies/"
+                >
+                  View all →
+                </a>
+              </div>
+            </div>
+          </aside>
+        )
+      }
+    </section>
+  </div>
+</PageLayout>
