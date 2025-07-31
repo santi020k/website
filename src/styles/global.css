@@ -56,12 +56,12 @@
 
     --theme-bg-color: var(--color-white);
 
-    pre code span {
+    /* pre code span {
       color: var(--shiki-light) !important;
       font-style: var(--shiki-light-font-style) !important;
       font-weight: var(--shiki-light-font-weight) !important;
       text-decoration: var(--shiki-light-text-decoration) !important;
-    }
+    } */
   }
 
   :root[data-theme="dark"] {
@@ -102,12 +102,12 @@
 
     --theme-bg-color: var(--color-gray-800);
 
-    pre code span {
+    /* pre code span {
       color: var(--shiki-dark) !important;
       font-style: var(--shiki-dark-font-style) !important;
       font-weight: var(--shiki-dark-font-weight) !important;
       text-decoration: var(--shiki-dark-text-decoration) !important;
-    }
+    } */
   }
 
   :root {
@@ -144,6 +144,25 @@
 
   html {
     letter-spacing: 0.025em;
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+  }
+  h2 {
+    font-size: var(--text-xl);
+  }
+  h3 {
+    font-size: var(--text-lg);
+  }
+  h4 {
+    font-size: var(--text-base);
+  }
+  h5 {
+    font-size: var(--text-sm);
+  }
+  h6 {
+    font-size: var(--text-xs);
   }
 }
 
