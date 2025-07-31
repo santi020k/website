@@ -321,34 +321,3 @@ const observer = new IntersectionObserver(callback)
 
 observer.observe(targetHeader)
 </script>
-
-<!-- REQUIRES IMPROVEMENT!!! -->
-<!-- Menu button instead of the main menu -->
-<!--
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const menuButton = document.getElementById("toggle-navigation-menu");
-    const navigationMenu = document.getElementById("menu");
-
-    if (!menuButton || !navigationMenu) {
-      console.error("Menu button or navigation menu is missing in the DOM.");
-      return;
-    }
-
-    menuButton.addEventListener("click", () => {
-      const isOpen = menuButton.getAttribute("aria-expanded") === "true";
-
-      if (isOpen) {
-        // Close the menu
-        navigationMenu.classList.add("hidden");
-      } else {
-        // Open the menu
-        navigationMenu.classList.remove("hidden");
-      }
-
-      // Update the button state
-      menuButton.setAttribute("aria-expanded", (!isOpen).toString());
-    });
-  });
-</script>
--->
