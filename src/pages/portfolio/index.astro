@@ -2,14 +2,16 @@
 import Badge from '@/components/Badge.astro'
 import ProjectPreview from '@/components/projects/ProjectPreview.astro'
 
-import { capitalizeFirstLetter } from '@/utils/capitalize-first-letter'
 import { collectionDateSortProjects } from '@/utils/date'
 
 import { getAllProjects, getUniqueTechnologies, groupProjectsByTypesId } from '@/data/project'
+import { getAllTypes } from '@/data/types'
 import PageLayout from '@/layouts/Base.astro'
 
 const MAX_TAGS = 20
 const allProjects = await getAllProjects()
+const allTypes = await getAllTypes()
+const allTypesReversed = [...allTypes].reverse()
 const data = allProjects.sort(collectionDateSortProjects)
 const uniqueTechnologies = getUniqueTechnologies(allProjects).slice(0, MAX_TAGS)
 
@@ -45,20 +47,37 @@ const groupedByTypeId = groupProjectsByTypesId(data)
 
     <section class="grid gap-8 sm:grid-cols-[1fr_auto]">
       <div aria-label="Projects project list" class="flex flex-col gap-y-16">
-        {
-          Object.entries(groupedByTypeId).map(([key, projects]) => (
-            <article id={key} class="flex flex-col gap-y-4">
-              <h2 class="font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">{capitalizeFirstLetter(key)} Projects</h2>
-              <ul class="flex flex-col gap-y-8 text-start">
-                {projects?.map(project => (
-                  <li class="m-0 flex flex-col gap-4">
-                    <ProjectPreview project={project} />
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))
-        }
+        <div x-data="{ activeTab: 0 }">
+          <nav class="mb-4 inline-flex items-center space-x-1 overflow-x-auto rounded-xl bg-gray-500/5 p-1 text-sm text-gray-600 rtl:space-x-reverse dark:bg-gray-500/20">
+            <ul role="tablist" class="-mb-px flex items-stretch gap-2 text-slate-500">
+              {allTypesReversed.map((type, index) => (
+                <li>
+                  <button @click={`activeTab = ${index}`} :aria-selected={`activeTab === ${index}`} :class={`{ 'text-sky-600 shadow bg-white dark:text-white dark:bg-sky-600': activeTab === ${index} }`} class="flex h-8 cursor-pointer items-center whitespace-nowrap rounded-lg px-5 font-medium outline-none transition-all duration-300 hover:text-gray-800 focus:text-sky-600 focus:ring-2 focus:ring-inset focus:ring-sky-600 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-gray-400" role="tab" aria-selected="true">
+                    <span>{type.data.title}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div role="tabpanel">
+            {allTypesReversed.map((type, index) => (
+              <div x-show={`activeTab === ${index}`} role="tabpanel">
+                <article id={type.data.id} class="flex flex-col gap-y-4">
+                  <p class="text-zinc-600 dark:text-zinc-400">
+                    {type.data.description}
+                  </p>
+                  <ul class="flex flex-col gap-y-8 text-start">
+                    {groupedByTypeId[type.data.id]?.map(project => (
+                      <li class="m-0 flex flex-col gap-4">
+                        <ProjectPreview project={project} />
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       {
         !!uniqueTechnologies.length && (
