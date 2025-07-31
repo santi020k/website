@@ -17,9 +17,9 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 const { project } = Astro.props;
 ---
 
-<a href={`/portfolio/${project.id}/`} class="group relative overflow-hidden transition-all duration-300">
+<a href={`/portfolio/${project.id}/`} class="group relative flex flex-col gap-y-4 overflow-hidden transition-all duration-300">
   {project.data.coverImage?.src && (
-    <div class="block overflow-hidden rounded-xl">
+    <div class="block rounded-xl shadow-xl">
       <Image
         src={project.data.coverImage.src}
         alt={project.data.coverImage.alt || project.data.title}
@@ -29,48 +29,42 @@ const { project } = Astro.props;
     </div>
   )}
 
-  <div class="mt-4 space-y-1">
-    <h3 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-      {project.data.title}
-    </h3>
+  <div class="flex flex-col gap-y-3">
+    <div>
+      <h3 class="font-semibold text-zinc-900 dark:text-zinc-100">
+        {project.data.title}
+      </h3>
+      <p class="text-sm text-zinc-500 dark:text-zinc-400">
+        {project.data.rol ? `${project.data.rol} • ` : ''}
+        <FormattedDate dateTimeOptions={dateTimeOptions} date={project.data.startingDate} />
+        {project.data.endingDate
+          ? (
+              <> – <FormattedDate dateTimeOptions={dateTimeOptions} date={project.data.endingDate} /></>
+            )
+          : '- Present'}
+      </p>
+    </div>
 
-    <p class="text-sm text-zinc-500 dark:text-zinc-400">
-      {project.data.rol ? `${project.data.rol} • ` : ''}
-      <FormattedDate dateTimeOptions={dateTimeOptions} date={project.data.startingDate} />
-      {project.data.endingDate
-        ? (
-            <> – <FormattedDate dateTimeOptions={dateTimeOptions} date={project.data.endingDate} /></>
-          )
-        : '- Present'}
-    </p>
+    <div class="flex flex-col gap-y-2">
+      <p class="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
+        {project.data.description}
+      </p>
 
-    <p class="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
-      {project.data.description}
-    </p>
+      <div class="flex flex-wrap items-center gap-2">
+        {
+          project.data.technologies.slice(0, 5).map(technology => (
+            <div class="flex items-center gap-x-2">
+              <Badge variant="outline" className="hover:border-lightest" showHash={false} title={technology} />
+            </div>
+          ))
+        }
 
-    <div class="flex flex-wrap items-center gap-2">
-      {
-        project.data.technologies.slice(0, 5).map(technology => (
+        {project.data.technologies.length > 5 && (
           <div class="flex items-center gap-x-2">
-            <a
-              aria-label={`View all posts with the technology: ${technology}`}
-              href={`/technologies/${technology}`}
-            >
-              <Badge variant="muted" showHash={false} title={technology} />
-            </a>
+            <Badge variant="outline" className="hover:border-lightest" showHash={false} title={`+${project.data.technologies.length - 5} more`} />
           </div>
-        ))
-      }
-
-      {project.data.technologies.length > 5 && (
-        <div class="flex items-center gap-x-2">
-          <Badge variant="outline" showHash={false} title={`+${project.data.technologies.length - 5} more`}>
-            {/* <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
-              +{project.data.technologies.length - 5} more
-            </span> */}
-          </Badge>
-        </div>
-      )}
+        )}
+      </div>
     </div>
 
   </div>
