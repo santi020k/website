@@ -12,14 +12,7 @@ interface Props {
   content: CollectionEntry<'project'>
 }
 
-const {
-  content
-
-} = Astro.props
-
-// console.log("data:", data); // Debug
-// console.log("headings:", content.rendered?.metadata?.headings); // Debug
-// console.log("Post frontmatter:", content.rendered?.metadata?.frontmatter); // Debug
+const { content } = Astro.props
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
   month: 'long'
@@ -115,13 +108,13 @@ const projectTypes = !!content.data.typesId && await getCollection('types')
 <div class="mx-1 mt-4 flex flex-wrap items-center gap-2">
   {/* Tags */}
   {
-    content.data.tags?.length
+    content.data.technologies?.length
       ? (
       <Icon aria-hidden="true" class="inline-block size-6 shrink-0" focusable="false" name="solar:tag-line-duotone" />
       <>
-        {content.data.tags.map(tag => (
-          <a aria-label={`View all projects with the tag: ${tag}`} href={`/tags/${tag}`}>
-            <Badge variant="accent-two" title={tag} />
+        {content.data.technologies.map(technology => (
+          <a aria-label={`View all projects with the technology: ${technology}`} href={`/technologies/${technology}`}>
+            <Badge variant="accent-two" title={technology} />
           </a>
         ))}
       </>
@@ -132,7 +125,6 @@ const projectTypes = !!content.data.typesId && await getCollection('types')
         )
   }
 
-  {/* Series */}
   {
     projectTypes
       ? (
