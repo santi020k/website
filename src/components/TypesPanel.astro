@@ -7,7 +7,6 @@ const currentPath = Astro.url.pathname
 
 const projects = await getCollection('project')
 const types = await getCollection('types')
-console.log('🚀 ~ types:', types, typesId)
 
 const projectsTypes = types.find(type => type.id === typesId)
 if (!projectsTypes) {
@@ -63,7 +62,7 @@ if (typesId) {
             return (
               <li class={`flex items-center px-4 py-1 ${isActive ? 'rounded-lg' : ''}`}>
                 <a
-                  href={`/projects/${p.id}/`}
+                  href={`/portfolio/${p.id}/`}
                   class={`${isActive ? 'pointer-events-none cursor-default' : ''}`}
                 >
                   {p.data.title}
