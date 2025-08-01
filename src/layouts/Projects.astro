@@ -5,8 +5,8 @@ import { Icon } from 'astro-icon/components'
 import Masthead from '@/components/projects/Masthead.astro'
 import TOC from '@/components/projects/TOC.astro'
 import WebMentions from '@/components/projects/webmentions/index.astro'
-import TypesPanel from '@/components/TypesPanel.astro'
 
+// import TypesPanel from '@/components/TypesPanel.astro'
 import BaseLayout from './Base.astro'
 
 interface Props {
@@ -22,7 +22,7 @@ const { headings } = await render(project);
 ---
 
 <BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
-  {typesId && (<TypesPanel slot="sidebar" typesId={typesId} />)}
+  <!-- {typesId && (<TypesPanel slot="sidebar" typesId={typesId} />)} -->
 
   <Masthead content={project} />
 
