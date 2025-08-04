@@ -42,7 +42,7 @@ Void pushed technical boundaries by leveraging a modern stack:
 - **Infrastructure**: Deployed to **AWS** and **Vercel**, monitored with **Sentry**, automated via **GitHub Actions**.
 - **Data**: Combined **MongoDB** for flexibility and **PostgreSQL** for relational integrity in key domains.
 
-![Body](./body.webp)
+<!-- ![Body](./body.webp) -->
 
 ### 🚀 Deployment, Stability & Developer Experience
 
