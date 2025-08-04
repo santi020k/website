@@ -1,6 +1,5 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
 import Masthead from '@/components/projects/Masthead.astro'
 import TOC from '@/components/projects/TOC.astro'
@@ -33,6 +32,7 @@ const { headings } = await render(project);
       </div>
       <WebMentions />
     </article>
+
     {!!headings.length && (
       <aside
         id="toc-panel"
@@ -43,7 +43,7 @@ const { headings } = await render(project);
     )}
   </div>
 
-  <div class="left-0 right-12 z-50 ml-auto w-fit md:absolute">
+  <!-- <div class="left-0 right-12 z-50 ml-auto w-fit md:absolute">
     <button
       id="to-top-button"
       class="fixed bottom-14 flex size-12 translate-y-28 items-center justify-center rounded-full text-3xl drop-shadow-xl transition-all duration-300 data-[show=true]:translate-y-0 data-[show=true]:opacity-100"
@@ -64,10 +64,10 @@ const { headings } = await render(project);
         </svg>
       </span>
     </button>
-  </div>
+  </div> -->
 
   <!-- Types button for mobile screens -->
-  {typesId && (
+  <!-- {typesId && (
     <mobile-button
       id="toggle-panel-mobile"
       class="fixed bottom-4 right-4 z-50 flex size-12 items-center justify-center rounded-lg border shadow-[0px_10px_25px_rgba(0,0,0,0.15)] sm:hidden"
@@ -77,8 +77,9 @@ const { headings } = await render(project);
         <Icon class="size-8" name="solar:notes-bold"/>
       </span>
     </mobile-button>
-  )}
+  )} -->
 
+  <!-- TODO: Remove later -->
   <!-- NEEDS IMPROVEMENT!!! -->
   <!-- Table of Contents button for mobile screens -->
   <!--
@@ -141,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 </script>
 
-<script>
+<!-- TODO: Remove later -->
+<!-- <script>
 const ANIMATION_DURATION = 300
 // Get the button and panel elements
 const togglePanelBtn = document.getElementById('toggle-panel')
@@ -215,9 +217,9 @@ if (closePanelBtn) {
 } else {
   console.error('Element close-panel not found')
 }
-</script>
+</script> -->
 
-<script>
+<!-- <script>
 // Get the button and panel elements
 const toggleTocBtn = document.getElementById('toggle-toc')
 const closeTocBtn = document.getElementById('close-toc')
@@ -284,25 +286,29 @@ if (closeTocBtn) {
 } else {
   console.error('Element close-toc not found')
 }
-</script>
+</script> -->
 
-<script>
-  // Wait for the content to fully load
-  document.addEventListener('DOMContentLoaded', () => {
-    const buttonsPanel = document.getElementById('buttons-panel')
+<!-- <script>
+// Wait for the content to fully load
+document.addEventListener('DOMContentLoaded', () => {
+  const isScreenMd = window.matchMedia('(min-width: 768px)').matches
 
-    if (buttonsPanel) {
-      buttonsPanel.classList.add('fixed')
+  if (!isScreenMd) return
 
-      console.log('Class \'fixed\' added to the buttons-panel element.')
-    } else {
-      console.error('Element with ID \'buttons-panel\' not found.')
-    }
-  })
-</script>
+  const buttonsPanel = document.getElementById('buttons-panel')
+
+  if (buttonsPanel) {
+    buttonsPanel.classList.add('fixed')
+
+    console.log('Class \'fixed\' added to the buttons-panel element.')
+  } else {
+    console.error('Element with ID \'buttons-panel\' not found.')
+  }
+})
+</script> -->
 
 <!-- Scroll to top button -->
-<script>
+<!-- <script>
 const scrollBtn = document.getElementById('to-top-button') as HTMLButtonElement
 const targetHeader = document.querySelector('header') as HTMLElement
 
@@ -320,4 +326,4 @@ scrollBtn.addEventListener('click', () => {
 const observer = new IntersectionObserver(callback)
 
 observer.observe(targetHeader)
-</script>
+</script> -->
