@@ -36,7 +36,7 @@ const { headings } = await render(project);
     {!!headings.length && (
       <aside
         id="toc-panel"
-        class="z-10 hidden md:sticky md:top-20 md:block md:w-56 md:min-w-56 md:rounded-lg"
+        class="z-10 hidden flex-col px-2 py-4 backdrop-blur-xl md:sticky md:top-20 md:z-10 md:block md:w-56 md:min-w-56 md:rounded-lg"
       >
         <TOC headings={headings} />
       </aside>
