@@ -3,7 +3,6 @@ import { type CollectionEntry, render } from 'astro:content'
 
 import Masthead from '@/components/projects/Masthead.astro'
 import TOC from '@/components/projects/TOC.astro'
-import WebMentions from '@/components/projects/webmentions/index.astro'
 
 import BaseLayout from './Base.astro'
 
@@ -27,7 +26,6 @@ const { headings } = await render(project);
       <div class="prose sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none max-w-none grow">
         <slot />
       </div>
-      <WebMentions />
     </article>
 
     {!!headings.length && (
