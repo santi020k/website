@@ -1,33 +1,44 @@
 ---
+export enum SeparatorType {
+  Horizontal = 'horizontal',
+  Vertical = 'vertical',
+  Dot = 'dot'
+}
+
 export interface SeparatorProps {
-  type?: 'horizontal' | 'vertical' | 'dot'
+  type?: SeparatorType
   className?: string
 }
 
-const { type = 'horizontal', className = '' } = Astro.props
+const {
+  type = SeparatorType.Horizontal,
+  className = ''
+} = Astro.props as SeparatorProps
 
 const separatorClasses = {
   base: 'shrink-0 bg-lighter mx-2',
   types: {
-    horizontal: 'h-px w-full',
-    vertical: 'h-full w-px',
-    dot: 'w-1.5 h-1.5 rounded-full'
-  } as const
-}
+    [SeparatorType.Horizontal]: 'h-px w-full',
+    [SeparatorType.Vertical]: 'h-full w-px',
+    [SeparatorType.Dot]: 'w-1.5 h-1.5 rounded-full'
+  }
+} as const
 
-const typeClass = separatorClasses.types[type as keyof typeof separatorClasses.types];
+const isDot = type === SeparatorType.Dot
+
+const ariaOrientation = type === SeparatorType.Horizontal ? 'horizontal' : 'vertical'
+
+const typeClass = separatorClasses.types[type]
 ---
 
-{
-  type === 'dot'
-    ? (
-        <span class={`${separatorClasses.base} ${typeClass} ${className}`} />
-      )
-    : (
-        <span
-          role="separator"
-          aria-orientation={type === 'horizontal' ? 'horizontal' : 'vertical'}
-          class={`${separatorClasses.base} ${typeClass} ${className}`}
-        />
-      )
-}
+{isDot
+  ? (
+      <span class={`${separatorClasses.base} ${typeClass} ${className}`} />
+    )
+  : (
+      <span
+        role="separator"
+        aria-orientation={ariaOrientation}
+        class={`${separatorClasses.base} ${typeClass} ${className}`}
+      />
+    )}
