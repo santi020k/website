@@ -10,15 +10,15 @@ const {
 } = Astro.props;
 ---
 
-<li class="">
+<li class="flex flex-col gap-2">
   <a
     aria-label={`Scroll to section: ${text}`}
-    class="mt-1 line-clamp-2 break-words pl-[1ch] indent-[-1ch] before:content-['#']"
+    class="line-clamp-2 break-words pl-[1ch] indent-[-1ch] before:content-['#']"
     href={`#${slug}`}
   >{text}
   </a>
   {!!children.length && (
-    <ul class="ms-2">
+    <ul class="ml-4 flex flex-col gap-2">
       {children.map(subheading => (
         <Astro.self heading={subheading} />
       ))}
