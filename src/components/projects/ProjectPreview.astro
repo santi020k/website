@@ -60,14 +60,14 @@ const { project } = Astro.props;
         {
           project.data.technologies.slice(0, 5).map(technology => (
             <div class="flex items-center gap-x-2">
-              <Badge variant="outline" className="hover:border-lightest" showHash={false} title={technology} />
+              <Badge variant="outline" class="hover:border-lightest" showHash={false} title={technology} />
             </div>
           ))
         }
 
         {project.data.technologies.length > 5 && (
           <div class="flex items-center gap-x-2">
-            <Badge variant="outline" className="hover:border-lightest" showHash={false} title={`+${project.data.technologies.length - 5} more`} />
+            <Badge variant="outline" class="hover:border-lightest" showHash={false} title={`+${project.data.technologies.length - 5} more`} />
           </div>
         )}
       </div>
