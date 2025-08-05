@@ -37,7 +37,8 @@ export default [
       'react/react-in-jsx-scope': 'off',
       '@stylistic/comma-dangle': ['warn', 'never'],
       'react/no-unescaped-entities': 'off',
-      '@stylistic/quote-props': ['warn', 'as-needed']
+      '@stylistic/quote-props': ['warn', 'as-needed'],
+      'no-unused-vars': 'off'
     }
   },
 
