@@ -6,15 +6,13 @@ import { Icon } from 'astro-icon/components'
 import Badge from '@/components/Badge.astro'
 import FormattedDate from '@/components/FormattedDate.astro'
 
+import { dateWithoutDay } from '@/utils/date-format-presets'
+
 interface Props {
   content: CollectionEntry<'project'>
 }
 
 const { content } = Astro.props
-
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
-  month: 'long'
-}
 
 const projectTypes = !!content.data.typesId && await getCollection('types')
   .then(types => types.find(s => s.id === content.data.typesId))
@@ -38,13 +36,13 @@ const projectTypes = !!content.data.typesId && await getCollection('types')
   <div class="flex flex-wrap items-center text-sm">
     <span class="flex h-7 items-center">
       <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" />
-      <FormattedDate date={content.data.startingDate} dateTimeOptions={dateTimeOptions} class="flex shrink-0" />
+      <FormattedDate date={content.data.startingDate} dateTimeOptions={dateWithoutDay} class="flex shrink-0" />
       <span class="px-2">–</span>
       {
         content.data.endingDate
           ? (
               <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg text-sm">
-                <FormattedDate class="flex shrink-0" date={content.data.endingDate} dateTimeOptions={dateTimeOptions} />
+                <FormattedDate class="flex shrink-0" date={content.data.endingDate} dateTimeOptions={dateWithoutDay} />
               </span>
             )
           : (
