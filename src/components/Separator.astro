@@ -1,22 +1,20 @@
 ---
 export interface SeparatorProps {
-  type?: 'horizontal' | 'vertical' | 'dot' // Тип разделителя
-  className?: string // Дополнительные классы
+  type?: 'horizontal' | 'vertical' | 'dot'
+  className?: string
 }
 
 const { type = 'horizontal', className = '' } = Astro.props
 
-// Классы для разделителей в зависимости от типа
 const separatorClasses = {
-  base: 'shrink-0 bg-lighter mx-2', // Общие стили
+  base: 'shrink-0 bg-lighter mx-2',
   types: {
-    horizontal: 'h-px w-full', // Горизонтальный разделитель
-    vertical: 'h-full w-px', // Вертикальный разделитель
-    dot: 'w-1.5 h-1.5 rounded-full' // Кружок для dot
-  } as const // Указываем, что типы здесь конкретные строки
+    horizontal: 'h-px w-full',
+    vertical: 'h-full w-px',
+    dot: 'w-1.5 h-1.5 rounded-full'
+  } as const
 }
 
-// Убедитесь, что type - это один из допустимых типов
 const typeClass = separatorClasses.types[type as keyof typeof separatorClasses.types];
 ---
 
