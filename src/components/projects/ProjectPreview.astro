@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import Badge from '@/components/Badge.astro'
 import FormattedDate from '@/components/FormattedDate.astro'
+import Separator, { SeparatorType } from '@/components/Separator.astro'
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -35,7 +36,12 @@ const { project } = Astro.props;
         {project.data.title}
       </h3>
       <p class="text-sm text-zinc-500 dark:text-zinc-400">
-        {project.data.rol ? `${project.data.rol} • ` : ''}
+        {project.data.rol && (
+          <>
+            {project.data.rol}
+            <Separator type={SeparatorType.Dot} />
+          </>
+        )}
         <FormattedDate dateTimeOptions={dateTimeOptions} date={project.data.startingDate} />
         {project.data.endingDate
           ? (
