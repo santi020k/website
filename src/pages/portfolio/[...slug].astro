@@ -2,6 +2,8 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
 import { render } from 'astro:content'
 
+import Prose from '@/components/Prose.astro'
+
 import { getAllProjects } from '@/data/project'
 import ProjectLayout from '@/layouts/Projects.astro'
 
@@ -21,5 +23,7 @@ const { Content } = await render(project);
 ---
 
 <ProjectLayout project={project}>
-  <Content />
+  <Prose>
+    <Content />
+  </Prose>
 </ProjectLayout>
