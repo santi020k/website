@@ -7,9 +7,7 @@ endingDate: "1 Dec 2018"
 liveDemoUrl: "https://justbit.site"
 typesId: "professional"
 technologies: [
-  "React.js", "TypeScript", "Node.js", "WordPress", "PHP", "WooCommerce", "JavaScript",
-  "PostgreSQL", "MySQL", "Semantic HTML & CSS", "SASS", "Git", "Linux", "Scrum", "Google Ads",
-  "Facebook Ads", "SEO", "Team Leadership"
+  "React.js", "TypeScript", "Node.js", "WordPress", "PHP", "WooCommerce", "JavaScript", "PostgreSQL", "MySQL", "Semantic HTML & CSS", "SASS", "Git", "Linux", "Scrum", "Google Ads", "Facebook Ads", "SEO", "Team Leadership", "Formik", "Jest", "Gitlab"
 ]
 coverImage:
   src: "./cover.webp"
