@@ -7,7 +7,7 @@ endingDate: "1 Feb 2023"
 liveDemoUrl: "https://www.codepwr.com/"
 typesId: "professional"
 technologies: [
-  "React.js", "Next.js", "TypeScript", "Node.js", "Redux", "Redux Sagas", "MongoDB", "GraphQL", "PostgreSQL", "GCP", "AWS", "Team Leadership", "Scrum", "Styled Components", "Socket.io", "Elixir", "Phoenix", "Docker", "HTML", "Angular", "Express.js", "SASS", "JavaScript", "Git", "Youtube API", "Twitch API", "OAuth", "Jest", "Testing", "Vitest", "TailwindCSS", "CI/CD", "Developer Experience (DX)", "Code Quality", "Monorepo", "NPM", "Open Source", "C#", "Unity", "iOS", "Android", "React Native", "Sockets.io", "Performance Optimization", "Lighthouse", "Web Vitals", "TanStack Query"
+  "React.js", "Next.js", "TypeScript", "Node.js", "Redux", "Redux Toolkit", "Redux Sagas", "MongoDB", "GraphQL", "PostgreSQL", "GCP", "AWS", "Team Leadership", "Scrum", "Styled Components", "Socket.io", "Elixir", "Phoenix", "Docker", "Semantic HTML & CSS", "Angular", "Express.js", "JavaScript", "Git", "Youtube API", "Twitch API", "OAuth", "Jest", "Testing", "Vitest", "TailwindCSS", "CI/CD", "Developer Experience (DX)", "Code Quality", "Monorepo", "NPM", "Open Source", "C#", "Unity", "iOS", "Android", "React Native", "Performance Optimization", "Lighthouse", "Web Vitals", "TanStack Query", "3rd Party APIs", "Yup", "Zod", "ESLint", "Storybook", "Figma"
 ]
 coverImage:
   src: "./cover.webp"
