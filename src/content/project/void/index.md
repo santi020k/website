@@ -7,7 +7,7 @@ endingDate: "1 May 2025"
 liveDemoUrl: "https://void.gg"
 typesId: "professional"
 technologies: [
-  "React.js", "Next.js", "TypeScript", "React Native", "Nest.js", "Node", "Express.js", "Architecture", "Redux.js", "RTK", "RTK Query", "Socket.io", "Docker", "AWS", "Leadership", "Project Management", "Microservices", "Microfrontend", "Express.js", "MongoDB", "PostgreSQL", "CSS", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress", "CI/CD", "Testing", "Docker Compose", "Vercel", "Sentry", "ESLint", "Twitch API", "Documentation", "ESLint", "ZOD", "NX", "Microservices", "Micro Frontend", "Mantine UI", "DX", "Automation", "Github Actions", "Android", "iOS", "Sockets.io", "OAuth", "Performance", "SEO", "Expo"
+  "React.js", "Next.js", "TypeScript", "React Native", "Nest.js", "Node", "Express.js", "Software Architecture", "System Design", "Redux", "Redux Toolkit", "Socket.io", "Docker", "AWS", "Team Leadership", "Microservices", "MongoDB", "PostgreSQL", "CSS Modules", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress", "CI/CD", "Testing", "Docker Compose", "Vercel", "Sentry", "ESLint", "Twitch API", "Developer Documentation", "ZOD", "NX", "Micro Frontend", "Mantine UI", "Developer Experience (DX)", "DevOps Automation", "Android", "iOS", "OAuth", "Performance Optimization", "Lighthouse", "Web Vitals", "SEO", "Expo", "PWA"
 ]
 coverImage:
   src: "./cover.webp"

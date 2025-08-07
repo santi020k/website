@@ -7,7 +7,7 @@ githubUrl: "https://github.com/santi020k/eslint-config-santi020k"
 liveDemoUrl: "https://www.npmjs.com/package/@santi020k/eslint-config-santi020k"
 typesId: "personal"
 technologies: [
-  "React.js", "Next.js", "TypeScript", "Node", "Astro", "Expo", "ESLint", "JavaScript", "Code Quality", "Monorepo", "CI/CD", "Automation", "NPM", "Open Source", "Vitest", "TailwindCSS", "i18next", "Testing", "Documentation", "DX"
+  "React.js", "Next.js", "TypeScript", "Node", "Astro", "Expo", "ESLint", "JavaScript", "Code Quality", "Monorepo", "CI/CD", "DevOps Automation", "NPM", "Open Source", "Vitest", "TailwindCSS", "i18next", "Testing", "Developer Documentation", "Developer Experience (DX)"
 ]
 coverImage:
   src: "./cover.webp"
