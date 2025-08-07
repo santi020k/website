@@ -7,7 +7,7 @@ endingDate: "1 May 2025"
 liveDemoUrl: "https://void.gg"
 typesId: "professional"
 technologies: [
-  "React.js", "Next.js", "TypeScript", "React Native", "Nest.js", "Node", "Express.js", "Software Architecture", "System Design", "Redux", "Redux Toolkit", "Socket.io", "Docker", "AWS", "Team Leadership", "Microservices", "MongoDB", "PostgreSQL", "CSS Modules", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress", "CI/CD", "Testing", "Docker Compose", "Vercel", "Sentry", "ESLint", "Twitch API", "Developer Documentation", "Zod", "Yup", "NX", "Micro Frontend", "Mantine UI", "Developer Experience (DX)", "DevOps Automation", "Android", "iOS", "OAuth", "Performance Optimization", "Lighthouse", "Web Vitals", "SEO", "Expo", "PWA", "3rd Party APIs", "Semantic HTML & CSS", "React Hook Form", "Scrum", "XP", "Code Quality", "Accessibility"
+  "React.js", "Next.js", "TypeScript", "React Native", "Nest.js", "Node", "Express.js", "Software Architecture", "System Design", "Redux", "Javascript", "Redux Toolkit", "Socket.io", "Docker", "AWS", "Team Leadership", "Microservices", "MongoDB", "PostgreSQL", "CSS Modules", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress", "CI/CD", "Testing", "Docker Compose", "Vercel", "Sentry", "ESLint", "Twitch API", "Developer Documentation", "Zod", "Yup", "NX", "Micro Frontend", "Mantine UI", "Developer Experience (DX)", "DevOps Automation", "Android", "iOS", "OAuth", "Performance Optimization", "Lighthouse", "Web Vitals", "SEO", "Expo", "PWA", "3rd Party APIs", "Semantic HTML & CSS", "React Hook Form", "Scrum", "Code Quality", "Accessibility"
 ]
 coverImage:
   src: "./cover.webp"
