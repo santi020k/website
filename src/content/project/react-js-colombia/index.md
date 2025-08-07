@@ -1,73 +1,62 @@
 ---
-title: "Meetup ReactJS Colombia"
-description: "Created and maintain a robust, opinionated ESLint configuration package to enforce consistency, code quality, and best practices across JavaScript, TypeScript, and React projects. Designed for scalability, DX, and flexibility across monorepos and modern frontend ecosystems."
+title: "ReactJS Colombia"
+description: "Co-organizer of one of the most active and inclusive React communities in Latin America. Host monthly free meetups, workshops, and talks to empower developers of all levels within the React and JavaScript ecosystem."
 rol: "Co-Organizer"
-startingDate: "1 Mar 2024"
-githubUrl: "https://github.com/santi020k/eslint-config-santi020k"
-liveDemoUrl: "https://www.npmjs.com/package/@santi020k/eslint-config-santi020k"
+startingDate: "1 Jan 2017"
+liveDemoUrl: "https://www.meetup.com/es/react-js-medellin/"
 typesId: "personal"
 technologies: [
-  "ESLint", "JavaScript", "TypeScript", "React", "Next.js", "Astro", "Expo",
-  "Developer Experience", "Code Quality", "Monorepo", "CI/CD", "VSCode", "Automation",
-  "npm", "Open Source", "Vitest", "TailwindCSS", "i18next", "Testing", "Documentation",
+  "React.js", "JavaScript", "TypeScript", "React Native", "Community Building",
+  "Public Speaking", "Workshops", "Frontend", "Meetups", "Mentorship", "Event Organization",
+  "Open Source", "Leadership", "Accessibility", "DX"
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Screenshot of npm package"
-  ogImage: "./cover-eslint-config.webp"
+  alt: "ReactJS Colombia Meetup"
+  ogImage: "./cover.webp"
 ---
 
-## Elevating Code Quality with `@santi020k/eslint-config`
+## Building Colombia’s Most Active React Community
 
-Starting in **March 2024**, I began building `@santi020k/eslint-config`, an open-source ESLint configuration package designed to simplify and standardize code quality across all my JavaScript and TypeScript projects.
+Since **January 2017**, I’ve proudly served as a **co-organizer of ReactJS Colombia**, a vibrant and inclusive community of developers passionate about **React** and the broader **JavaScript ecosystem**. Based in Medellín, our group has become a cornerstone of the local tech scene—offering free, high-quality events that foster collaboration, growth, and innovation.
 
-It originated from a need for **consistency**, **performance**, and **reduced setup overhead** when spinning up new frontend and full-stack applications — particularly across monorepos and modern ecosystems like **Next.js**, **Expo**, and **Astro**.
+We meet **monthly** to host **talks**, **workshops**, and **hands-on sessions** that are open to everyone—regardless of age, background, or experience level. Oh, and we always include **free food**.
 
-### 🎯 Goals & Philosophy
+### 🎯 Mission & Vision
 
-My core objectives were:
-- ✅ **One-command setup** for new projects
-- 🧠 **Strict, but flexible rules** based on years of real-world development experience
-- 📦 **Modular presets** for different environments (Node, React, Expo, Astro, TailwindCSS)
-- 🤝 **Team-friendly** DX to reduce code review overhead and ensure maintainability
-- 🔧 Support for **testing libraries** like Vitest and **i18n tools** like i18next
+The goal from day one has been to **democratize access** to React knowledge and create a safe space where developers can connect, share ideas, and learn together.
 
-### 🛠️ Architecture & Features
+* 🤝 Promote **inclusivity** and diversity in tech
+* 📚 Offer **free learning opportunities** through in-person events
+* 🚀 Foster growth for **junior, mid, and senior developers** alike
+* 🌎 Support the local ecosystem by encouraging **open source**, **networking**, and **collaboration**
 
-The configuration is built with modularity and reusability in mind:
+### 🛠️ Community Activities & Impact
 
-- **Base Rules**: Core TypeScript/JavaScript rules with strict linting and error-prevention.
-- **React Preset**: Opinionated rules for React, JSX, Hooks, and accessibility.
-- **Tailwind Preset**: Integrates with TailwindCSS plugin for better class sorting and linting.
-- **Vitest Preset**: Provides testing-specific lint rules and globals.
-- **Astro & Expo (Beta)**: Experimental support for framework-specific quirks and patterns.
-- **Customizable Options**: All presets are opt-in, allowing fine-grained control over linting strategies.
+As part of the organizing team, my role has included:
 
-The config also includes:
-- Type-safe definitions using `zod` schemas
-- Automated versioned publishing via GitHub Actions
-- A growing [npm package](https://www.npmjs.com/package/@santi020k/eslint-config-santi020k) with documentation and usage examples
+* 🧑‍🏫 **Curating content** for talks and workshops covering topics like React, TypeScript, testing, performance, and accessibility
+* 📆 **Planning and running monthly events**, managing logistics, communication, and partnerships with local venues and sponsors
+* 🎙️ Occasionally **speaking or mentoring** during events, and encouraging new speakers from underrepresented groups
+* 🍕 Making sure we always have food to build community around not just code, but connection
 
-### 🚀 Developer Experience & Automation
+We’ve hosted dozens of events with **hundreds of attendees**, creating a welcoming and safe environment for developers to:
 
-A huge focus was placed on **DX** and **automation**:
-- **Zero-config formatting** via ESLint (no Prettier needed)
-- **Consistent rules across mono-repositories** with shared base configs
-- Works seamlessly with `eslint-config-next` and supports ESLint 9+ out of the box
-- Documentation includes recipes for integrating into CI/CD pipelines, VSCode setup, and edge cases
+* Share real-world experiences and best practices
+* Explore topics like **React Native**, **Next.js**, **testing**, **design systems**, and more
+* Connect with hiring managers, senior engineers, and industry leaders
 
-### 🌍 Community Impact & Adoption
+### 🌍 Why It Matters
 
-Since launch, the config has:
-- Been used across multiple real-world projects including client-facing apps, internal tooling, and open-source contributions
-- Saved countless hours of boilerplate setup
-- Reduced code review noise by enforcing consistent formatting and catching errors early
-- Helped junior developers ramp up quickly on projects by codifying best practices
+ReactJS Colombia isn’t just a meetup. It’s:
+
+* A **launchpad for junior developers** entering the field
+* A **networking hub** for professionals and teams looking to grow
+* A **space to learn public speaking**, showcase open source, and build confidence
+* A **community of support** in a fast-paced, ever-changing industry
 
 ---
 
-Working on this config has been a powerful reminder that **code quality isn’t just about the code — it’s about communication, shared expectations, and enabling teams to move faster with confidence**.
+Being part of ReactJS Colombia has been one of the most fulfilling aspects of my journey as a developer. It’s a reminder that **tech is not just about code—it’s about people, mentorship, and creating access to opportunity**.
 
-The project remains active and continues to evolve. Contributions and feedback are always welcome on [GitHub](https://github.com/santi020k/eslint-config-santi020k). If you're looking to improve your project’s code quality and developer experience, feel free to try it out or reach out.
-
----
+If you're interested in speaking, attending, or sponsoring an event—or just want to chat about community-building in LATAM—[reach out or connect on LinkedIn](https://www.linkedin.com/in/santi020k). You’re always welcome.
