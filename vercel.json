@@ -1,0 +1,14 @@
+{
+  "headers": [
+    {
+      // Cache static vercel script "speed-insights".
+      "source": "/_vercel/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    }
+  ]
+}
