@@ -1,4 +1,6 @@
 ---
+import { version } from '../../../package.json'
+
 import { siteConfig } from '@/site.config'
 
 const year = new Date().getFullYear();
@@ -9,7 +11,7 @@ const year = new Date().getFullYear();
 >
   <div class="me-0 font-semibold sm:me-4">
     &copy; {siteConfig.author}
-    {year}.<span class="inline-block">&nbsp;🚀&nbsp;</span>
+    {year}.<span class="inline-block">&nbsp;🚀&nbsp;</span> v{version}
   </div>
   <nav
     aria-label="More on this site"
