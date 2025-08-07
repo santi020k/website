@@ -8,7 +8,7 @@ liveDemoUrl: "https://nebular.co"
 typesId: "professional"
 technologies: [
   "Ruby", "RoR", "AngularJS", "Java", "Cordova", "PHP", "WordPress",
-  "WooCommerce", "JavaScript", "HTML", "SASS", "Git", "PostgreSQL", "MySQL",
+  "WooCommerce", "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "PostgreSQL", "MySQL",
   "Linux", "Scrum", "Heroku", "TypeScript", "jQuery"
 ]
 coverImage:
