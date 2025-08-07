@@ -7,9 +7,7 @@ endingDate: "1 Jan 2020"
 liveDemoUrl: "https://www.datagran.io"
 typesId: "professional"
 technologies: [
-  "React.js", "TypeScript", "Redux", "Redux Sagas", "D3.js", "Styled Components",
-  "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "Scrum", "Team Leadership",
-  "GCP", "jQuery", "React Router"
+  "React.js", "TypeScript", "Redux", "Redux Sagas", "D3.js", "Styled Components", "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "Github", "Scrum", "Team Leadership", "GCP", "jQuery", "React Router", "Jest", "Storybook", "Cypress", "CI/CD", "Testing", "Developer Experience (DX)", "Code Quality", "Performance Optimization", "Yup", "ESLint", "Sentry", "Highcharts", "Formik"
 ]
 coverImage:
   src: "./cover.webp"

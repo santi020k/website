@@ -7,9 +7,7 @@ endingDate: "1 Apr 2017"
 liveDemoUrl: "https://nebular.co"
 typesId: "professional"
 technologies: [
-  "Ruby", "RoR", "AngularJS", "Java", "Cordova", "PHP", "WordPress",
-  "WooCommerce", "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "PostgreSQL", "MySQL",
-  "Linux", "Scrum", "Heroku", "TypeScript", "jQuery"
+  "Ruby", "Ruby on Rails", "RSpec", "AngularJS", "Java", "Cordova", "PHP", "WordPress", "WooCommerce", "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "PostgreSQL", "MySQL", "Linux", "Scrum", "Heroku", "TypeScript", "jQuery", "Bitbucket", "Android"
 ]
 coverImage:
   src: "./cover.webp"
