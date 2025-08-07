@@ -40,7 +40,7 @@ const project = defineCollection({
   loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
-    rol: z.enum(['Technical Lead', 'Full Stack', 'Front End Lead', 'CTO', 'Creator', 'Co-Organizer']).optional(),
+    rol: z.enum(['Technical Lead', 'Full Stack', 'Front-End Lead', 'CTO', 'Creator', 'Co-Organizer']).optional(),
     coverImage: z
       .object({
         alt: z.string(),
