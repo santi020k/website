@@ -7,12 +7,7 @@ endingDate: "1 May 2025"
 liveDemoUrl: "https://void.gg"
 typesId: "professional"
 technologies: [
-  "React.js", "Next.js", "TypeScript", "Nest.js", "Node", "Express.js", "React Native", "Architecture",
-  "Redux.js", "RTK", "Socket.io", "Docker", "AWS", "Leadership", "Project Management",
-  "Microservices", "Microfrontend", "Express.js", "MongoDB", "PostgreSQL", "Mantine",
-  "CSS", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress", "CI/CD",
-  "Docker Compose", "Vercel", "Sentry", "ESLint", "twitch API", "Testing", "Documentation", "ESLint",
-  "Testing", "Documentation", "ZOD"
+  "React.js", "Next.js", "TypeScript", "React Native", "Nest.js", "Node", "Express.js", "Architecture", "Redux.js", "RTK", "RTK Query", "Socket.io", "Docker", "AWS", "Leadership", "Project Management", "Microservices", "Microfrontend", "Express.js", "MongoDB", "PostgreSQL", "CSS", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress", "CI/CD", "Testing", "Docker Compose", "Vercel", "Sentry", "ESLint", "Twitch API", "Documentation", "ESLint", "ZOD", "NX", "Microservices", "Micro Frontend", "Mantine UI", "DX", "Automation", "Github Actions", "Android", "iOS", "Sockets.io", "OAuth", "Performance", "SEO", "Expo"
 ]
 coverImage:
   src: "./cover.webp"

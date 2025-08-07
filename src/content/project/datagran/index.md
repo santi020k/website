@@ -8,7 +8,7 @@ liveDemoUrl: "https://www.datagran.io"
 typesId: "professional"
 technologies: [
   "React.js", "TypeScript", "Redux.js", "Redux Sagas", "D3.js", "Styled Components",
-  "JavaScript", "HTML", "CSS", "SASS", "Git", "Scrum", "Team Leadership",
+  "JavaScript", "HTML", "CSS", "SASS", "Git", "Scrum", "Leadership",
   "GCP", "Project Management", "jQuery"
 ]
 coverImage:

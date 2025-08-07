@@ -7,13 +7,11 @@ githubUrl: "https://github.com/santi020k/eslint-config-santi020k"
 liveDemoUrl: "https://www.npmjs.com/package/@santi020k/eslint-config-santi020k"
 typesId: "personal"
 technologies: [
-  "React", "Next.js", "TypeScript", "Node", "Astro", "Expo", "ESLint", "JavaScript",
-  "Code Quality", "Monorepo", "CI/CD", "VSCode", "Automation",
-  "npm", "Open Source", "Vitest", "TailwindCSS", "i18next", "Testing", "Documentation", "DX"
+  "React.js", "Next.js", "TypeScript", "Node", "Astro", "Expo", "ESLint", "JavaScript", "Code Quality", "Monorepo", "CI/CD", "Automation", "NPM", "Open Source", "Vitest", "TailwindCSS", "i18next", "Testing", "Documentation", "DX"
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Screenshot of npm package"
+  alt: "Eslint library logo"
   ogImage: "./cover-eslint-config.webp"
 ---
 
@@ -47,7 +45,7 @@ The configuration is built with modularity and reusability in mind:
 The config also includes:
 
 <!-- TODO: Not implemented yet -->
-<!-- * Type-safe definitions using `zod` schemas -->
+<!-- * **Type-safe definitions using** `zod` schemas -->
 * Automated versioned publishing via GitHub Actions
 * A growing [npm package](https://www.npmjs.com/package/@santi020k/eslint-config-santi020k) with documentation and usage examples
 
