@@ -5,6 +5,7 @@ import '@/styles/global.css'
 
 import { siteConfig } from '@/site.config'
 import type { SiteMeta } from '@/types'
+import SpeedInsights from '@vercel/speed-insights/astro'
 
 type Props = SiteMeta
 
@@ -88,3 +89,6 @@ const socialImageURL = new URL(ogImage || '/social-card.png', Astro.url).href;
 }
 
 <meta content={Astro.generator} name="generator" />
+
+<!-- Vercel Speed Insights -->
+<SpeedInsights />
