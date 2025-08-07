@@ -7,12 +7,13 @@ endingDate: "1 May 2025"
 liveDemoUrl: "https://void.gg"
 typesId: "professional"
 technologies: [
-    "React.js", "Next.js", "TypeScript", "Nest.js", "React Native", "Architecture",
-    "Redux.js", "RTK", "Socket.io", "Docker", "AWS", "Leadership", "Project Management",
-    "Microservices", "Microfrontend", "Express.js", "MongoDB", "PostgreSQL", "Mantine",
-    "CSS", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress",
-    "Docker Compose", "Vercel", "Sentry", "ESLint", "twitch API"
-    ]
+  "React.js", "Next.js", "TypeScript", "Nest.js", "Node", "Express.js", "React Native", "Architecture",
+  "Redux.js", "RTK", "Socket.io", "Docker", "AWS", "Leadership", "Project Management",
+  "Microservices", "Microfrontend", "Express.js", "MongoDB", "PostgreSQL", "Mantine",
+  "CSS", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress", "CI/CD",
+  "Docker Compose", "Vercel", "Sentry", "ESLint", "twitch API", "Testing", "Documentation", "ESLint",
+  "Testing", "Documentation", "ZOD"
+]
 coverImage:
   src: "./cover.webp"
   alt: "Void Landing Page"
