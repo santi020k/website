@@ -1,63 +1,44 @@
 ---
 title: "PADS"
-description: "Spearheaded the development of innovative gaming and esports platforms, focusing on delivering scalable, high-performance solutions. Directed cross-functional teams, ensuring efficient collaboration and alignment with business objectives. Introduced best practices in development and deployment, enhancing system stability and user engagement. Played a key role in strategic planning and implementing cutting-edge features to meet the dynamic needs of the gaming community."
+description: "Led the technical direction and execution of a digital-first real estate platform, enhancing property search and broker tools with scalable, maintainable solutions. Oversaw frontend and mobile development across multiple systems, aligning engineering decisions with product goals in the Colombian luxury real estate market."
 rol: "Technical Lead"
-startingDate: "1 Feb 2023"
-endingDate: "1 May 2025"
-liveDemoUrl: "https://void.gg"
+startingDate: "1 Jan 2020"
+endingDate: "1 Jul 2021"
+liveDemoUrl: "https://pads.com.co"
 typesId: "professional"
 technologies: [
-    "React.js", "Next.js", "TypeScript", "Nest.js", "React Native", "Architecture",
-    "Redux.js", "RTK", "Socket.io", "Docker", "AWS", "Leadership", "Project Management",
-    "Microservices", "Microfrontend", "Express.js", "MongoDB", "PostgreSQL", "Mantine",
-    "CSS", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress",
-    "Docker Compose", "Vercel", "Sentry", "ESLint"
-    ]
+  "React.js", "Next.js", "TypeScript", "React Native", "Redux.js", "sagas",
+  "styled-components", "Socket.io", "Docker", "AWS", "Leadership", "Project Management",
+  "Scrum", "Google Maps API", "OAuth", "i18n", "HTML", "CSS", "SASS", "JavaScript", "Git"
+]
 coverImage:
   src: "./cover.webp"
-  alt: "Void Landing Page"
-  ogImage: './cover.webp'
+  alt: "Pads Landing Page"
+  ogImage: "./cover.webp"
 ---
 
----
+## Leading Real Estate Innovation with PADS
 
-## Leading Innovation in Gaming and Esports with Void
+Between **January 2020 and July 2021**, I served as **Technical Lead** at [PADS](https://pads.com.co), a luxury-focused Colombian real estate agency and digital platform. I oversaw the development of tools and interfaces designed to enhance property management and streamline broker workflows, all while aligning with the company’s strategic vision in a competitive market.
 
-Between **February 2023 and May 2025**, I had the opportunity to lead the architecture and development of **Void**, a cutting-edge platform for gaming and esports communities. Our mission was to deliver seamless, scalable, and performance-critical applications tailored to the fast-evolving needs of competitive gaming users and content creators.
+### 🎯 Key Results Included:
 
-### 🧠 Strategic Leadership & Technical Direction
-
-As the tech lead, I coordinated cross-functional teams across backend, frontend, mobile, and design. I was deeply involved in **strategic planning**, ensuring that our roadmap aligned closely with business KPIs and user engagement goals.
-
-We adopted a **modular architecture** combining **microservices** (NestJS, Express) with **microfrontends** using **Next.js** and **React Native**. This enabled the team to iterate rapidly, onboard contributors efficiently, and isolate platform concerns with minimal coupling.
+* 🏡 **Architected and delivered a modern real estate platform** that supported a **50% growth in monthly active users** through improved performance and UX.
+* 🧑‍💼 **Led a cross-functional team** of engineers and designers to ship major features like multilingual support and advanced search filtering, improving lead quality and time on site.
+* 🌍 **Implemented internationalization (i18n)**, Google Maps integrations, and **OAuth-based authentication**, expanding access and personalization for global users and enterprise clients.
+* 📱 Built and maintained an internal mobile app in **React Native** for brokers, giving them real-time access to listings and client data from anywhere.
 
 ### 🛠️ Stack and Technical Highlights
 
-Void pushed technical boundaries by leveraging a modern stack:
+PADS comprised a suite of systems, a marketing site, an internal broker dashboard, and a mobile companion app, each using technologies tailored to its domain:
 
-- **Frontend**: React.js with Next.js, Mantine UI, RTK for state management, Storybook for component-driven development.
-- **Backend**: NestJS and Express.js in a microservice setup, orchestrated with Docker and Docker Compose.
-- **Mobile**: Cross-platform experiences using React Native and custom native bridges for performance-critical features.
-- **Real-time Systems**: Integrated **Socket.io** for live scoreboards, match updates, and chat.
-- **Infrastructure**: Deployed to **AWS** and **Vercel**, monitored with **Sentry**, automated via **GitHub Actions**.
-- **Data**: Combined **MongoDB** for flexibility and **PostgreSQL** for relational integrity in key domains.
-
-<!-- ![Body](./body.webp) -->
-
-### 🚀 Deployment, Stability & Developer Experience
-
-One of the key contributions was building a **CI/CD pipeline** from scratch using GitHub Actions, improving release confidence and reducing deployment times by 70%. We enforced code quality through Jest and Cypress tests, and structured our repos to support long-term scalability and team growth.
-
-I also championed **best practices in DX** (Developer Experience), implementing linting, formatting standards, documentation with Storybook, and design handoff flows via Figma.
-
-### 🎮 Real-World Impact
-
-Void wasn't just a tech success — it impacted real users. We saw substantial improvements in **system uptime**, **page load times**, and most importantly, **user engagement metrics** across all regions. The architecture we designed supported high-concurrency events like live tournaments without service degradation.
-
-Our feature velocity also enabled us to respond rapidly to community feedback, and we launched several game integrations, event systems, and user profile features based on direct user insights.
+* **Frontend**: Created dynamic UIs with **React.js** and **Next.js**, applying **Redux** and **sagas** for robust state and side-effect handling. Styled with **styled-components**, **CSS**, and **SASS**.
+<!-- * **Backend**: Developed secure and maintainable services in Node.js, integrating **OAuth** for authentication and working closely with the **Google Maps API** for geolocation and property search. -->
+* **Mobile**: Built a **React Native app** for brokers, featuring listing access, property details, and offline support, significantly improving productivity in the field.
+* **Infrastructure**: Deployed using **Docker** and managed cloud environments on **AWS**. Applied **Git** and agile methodologies (Scrum) for efficient collaboration and release cycles.
 
 ---
 
-Working on Void has been one of the most rewarding experiences of my career — both technically and from a leadership perspective. It combined everything I enjoy: challenging problems, meaningful user impact, a fast-paced environment, and a talented, passionate team.
+Leading the tech team at PADS was an exciting opportunity to modernize real estate workflows and empower both end users and internal stakeholders. The mix of challenges across web, mobile, and backend made it a deeply rewarding leadership experience.
 
-If you want to know more about Void or explore some of the design and architectural decisions behind it, feel free to [connect with me on LinkedIn](https://www.linkedin.com/in/santi020k).
+If you're curious about the architecture behind PADS or want to learn more about real estate tech, [connect with me on LinkedIn](https://www.linkedin.com/in/santi020k).
