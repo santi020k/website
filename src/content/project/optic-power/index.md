@@ -7,10 +7,7 @@ endingDate: "1 Feb 2023"
 liveDemoUrl: "https://www.codepwr.com/"
 typesId: "professional"
 technologies: [
-  "React.js", "Next.js", "TypeScript", "Node.js", "Redux.js",
-  "Redux Sagas", "MongoDB", "GraphQL", "PostgreSQL", "GCP", "AWS", "Leadership", "Project Management",
-  "Scrum", "Styled Components", "Socket.io", "Elixir", "Phoenix", "Docker", "HTML", "Angular",
-  "Express.js", "SASS", "JavaScript", "CSS", "Git", "Youtube API", "twitch API", "OAuth", "Jest"
+  "React.js", "Next.js", "TypeScript", "Node.js", "Redux.js", "Redux Sagas", "MongoDB", "GraphQL", "PostgreSQL", "GCP", "AWS", "Leadership", "Project Management", "Scrum", "Styled Components", "Socket.io", "Elixir", "Phoenix", "Docker", "HTML", "Angular", "Express.js", "SASS", "JavaScript", "CSS", "Git", "Youtube API", "Twitch API", "OAuth", "Jest", "Testing", "Vitest", "TailwindCSS", "CI/CD", "DX", "Code Quality", "Monorepo", "NPM", "Open Source", "C#", "Unity", "iOS", "Android", "React Native", "Sockets.io", "Performance"
 ]
 coverImage:
   src: "./cover.webp"
@@ -39,7 +36,7 @@ Optic Power’s projects spanned multiple domains, each requiring tailored solut
 
 * **Frontend**: Built dynamic UIs using **React.js** and **Next.js**, applying **Redux with sagas** for advanced state management. Used **Styled Components** and **SASS** for scalable styling, and maintained legacy support with **Angular** where required.
 * **Backend**: Developed scalable APIs using **Node.js** with **Express**, and contributed to event-driven microservices written in **Elixir**. Delivered both **GraphQL** and **RESTful APIs**, depending on platform needs.
-<!-- * **Mobile**: Enhanced cross-platform mobile apps with **React Native**, integrating features like **deep linking**, **push notifications**, and **custom native modules** for hardware-level interactions. -->
+* **Mobile**: Enhanced cross-platform mobile apps with **React Native**, integrating features like **deep linking**, **push notifications**, and **custom native modules** for hardware-level interactions.
 * **Data Layer**: Combined **MongoDB** for flexible data modeling with **PostgreSQL** for strict transactional integrity and reporting capabilities.
 * **Infrastructure**: Deployed using **Docker**, managed cloud environments on **AWS**, and configured **CI/CD pipelines** with **GitHub Actions**. Maintained Linux-based environments with best practices in DevOps and version control using **Git**.
 

@@ -6,9 +6,7 @@ startingDate: "1 Jan 2017"
 liveDemoUrl: "https://www.meetup.com/es/react-js-medellin/"
 typesId: "personal"
 technologies: [
-  "React.js", "JavaScript", "TypeScript", "React Native", "Community Building",
-  "Public Speaking", "Workshops", "Frontend", "Meetups", "Mentorship", "Event Organization",
-  "Open Source", "Leadership", "Accessibility", "DX"
+  "React.js", "JavaScript", "TypeScript", "React Native", "Community Building", "Public Speaking", "Workshops", "Mentorship", "Event Organization", "Open Source", "Leadership", "Accessibility", "DX", "Leadership"
 ]
 coverImage:
   src: "./cover.webp"
