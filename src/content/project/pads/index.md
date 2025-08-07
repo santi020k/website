@@ -1,6 +1,6 @@
 ---
 title: "PADS"
-description: "Led the technical direction and execution of a digital-first real estate platform, enhancing property search and broker tools with scalable, maintainable solutions. Oversaw frontend and mobile development across multiple systems, aligning engineering decisions with product goals in the Colombian luxury real estate market."
+description: "Led the technical vision and execution for a real estate platform, focusing on delivering scalable, user-friendly solutions for brokers and end users. Managed cross-functional teams to implement modern property search, real-time features, and mobile capabilities. Ensured system scalability, maintainability, and integration with third-party services to meet the evolving needs of Colombia's high-end real estate market."
 rol: "Technical Lead"
 startingDate: "1 Jan 2020"
 endingDate: "1 Jul 2021"
@@ -8,37 +8,43 @@ liveDemoUrl: "https://pads.com.co"
 typesId: "professional"
 technologies: [
   "React.js", "Next.js", "TypeScript", "React Native", "Redux.js", "sagas",
-  "styled-components", "Socket.io", "Docker", "AWS", "Leadership", "Project Management",
-  "Scrum", "Google Maps API", "OAuth", "i18n", "HTML", "CSS", "SASS", "JavaScript", "Git"
+  "styled-components", "Socket.io", "Docker", "AWS", "Google Maps API",
+  "Leadership", "Project Management", "Scrum", "OAuth", "Linux", "HTML",
+  "JavaScript", "SASS", "CSS", "Git", "i18n"
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Pads Landing Page"
+  alt: "PADS Real Estate Platform"
   ogImage: "./cover.webp"
 ---
 
 ## Leading Real Estate Innovation with PADS
 
-Between **January 2020 and July 2021**, I served as **Technical Lead** at [PADS](https://pads.com.co), a luxury-focused Colombian real estate agency and digital platform. I oversaw the development of tools and interfaces designed to enhance property management and streamline broker workflows, all while aligning with the company’s strategic vision in a competitive market.
+Between **January 2020 and July 2021**, I served as **Technical Lead** at [PADS](https://pads.com.co), a digital-first real estate agency specialized in luxury property listings in Colombia. My mission was to shape and scale a platform that empowered brokers, streamlined operations, and provided exceptional digital experiences to buyers and renters.
 
-### 🎯 Key Results Included:
+### 🏗️ Technical Leadership & Scalable Architecture
 
-* 🏡 **Architected and delivered a modern real estate platform** that supported a **50% growth in monthly active users** through improved performance and UX.
-* 🧑‍💼 **Led a cross-functional team** of engineers and designers to ship major features like multilingual support and advanced search filtering, improving lead quality and time on site.
-* 🌍 **Implemented internationalization (i18n)**, Google Maps integrations, and **OAuth-based authentication**, expanding access and personalization for global users and enterprise clients.
-* 📱 Built and maintained an internal mobile app in **React Native** for brokers, giving them real-time access to listings and client data from anywhere.
+I directed the architecture and development of a modular system composed of a landing website, a back-office platform, and a mobile application for brokers. Each component was tailored to the unique workflows of our real estate operation, from advanced property filtering to geolocation and offline access.
+
+#### 📈 Key Results Included
+
+* 📊 **Drove 50% growth in monthly active users** through the launch of a performant and user-centric search experience.
+* 🧠 **Directed a multidisciplinary team**, delivering features like advanced search, property management dashboards, and i18n support with high velocity.
+* 🔐 **Implemented OAuth-based secure authentication** and **internationalization**, enabling multilingual support and improved user trust.
+* 🛰️ **Integrated Google Maps API** across mobile and web, powering location-aware features such as property heatmaps and broker navigation tools.
 
 ### 🛠️ Stack and Technical Highlights
 
-PADS comprised a suite of systems, a marketing site, an internal broker dashboard, and a mobile companion app, each using technologies tailored to its domain:
+We built a robust and modular ecosystem across multiple platforms:
 
-* **Frontend**: Created dynamic UIs with **React.js** and **Next.js**, applying **Redux** and **sagas** for robust state and side-effect handling. Styled with **styled-components**, **CSS**, and **SASS**.
-<!-- * **Backend**: Developed secure and maintainable services in Node.js, integrating **OAuth** for authentication and working closely with the **Google Maps API** for geolocation and property search. -->
-* **Mobile**: Built a **React Native app** for brokers, featuring listing access, property details, and offline support, significantly improving productivity in the field.
-* **Infrastructure**: Deployed using **Docker** and managed cloud environments on **AWS**. Applied **Git** and agile methodologies (Scrum) for efficient collaboration and release cycles.
+* **Frontend**: Used **React.js** with **Next.js**, **Redux**, **styled-components**, and **SASS** to deliver a performant public-facing website with SEO-friendly routing and internationalization.
+<!-- * **Backend**: Focused on integrating RESTful APIs and service layers with secure authentication and support for Google services (e.g., Maps, Places). -->
+* **Mobile**: Built a cross-platform **React Native** app to empower brokers with access to their portfolio, even on the go. Integrated features included **push notifications**, **live updates**, and **offline caching**.
+<!-- * **Real-time Systems**: Used **Socket.io** for broker messaging, appointment updates, and real-time listings synchronization. -->
+* **Infrastructure**: Deployed via **Docker** and hosted on **AWS**, with CI/CD powered by **GitHub Actions**. Ensuring high availability and deployment automation.
 
 ---
 
-Leading the tech team at PADS was an exciting opportunity to modernize real estate workflows and empower both end users and internal stakeholders. The mix of challenges across web, mobile, and backend made it a deeply rewarding leadership experience.
+Working at PADS allowed me to apply deep product thinking to the real estate sector, combining thoughtful UX with robust technical execution. From enabling location-aware mobile tools for field brokers to building elegant and scalable search for high-end customers, this project was a blend of performance, usability, and domain-specific complexity.
 
-If you're curious about the architecture behind PADS or want to learn more about real estate tech, [connect with me on LinkedIn](https://www.linkedin.com/in/santi020k).
+Want to know more about the tech behind the platform or how we scaled across teams? [Connect with me on LinkedIn](https://www.linkedin.com/in/santi020k).
