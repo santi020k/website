@@ -7,10 +7,10 @@ endingDate: "1 Jul 2021"
 liveDemoUrl: "https://pads.com.co"
 typesId: "professional"
 technologies: [
-  "React.js", "Next.js", "TypeScript", "React Native", "Redux.js", "Redux Sagas",
+  "React.js", "Next.js", "TypeScript", "React Native", "Redux", "Redux Sagas",
   "Styled Components", "Socket.io", "Docker", "AWS", "Google Maps API",
-  "Leadership", "Project Management", "Scrum", "OAuth", "Linux", "HTML",
-  "JavaScript", "SASS", "CSS", "Git", "i18n"
+  "Team Leadership", "Scrum", "OAuth", "Linux", "HTML",
+  "JavaScript", "SASS", "Git", "i18n"
 ]
 coverImage:
   src: "./cover.webp"

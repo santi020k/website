@@ -8,8 +8,8 @@ liveDemoUrl: "https://justbit.site"
 typesId: "professional"
 technologies: [
   "React.js", "TypeScript", "Node.js", "WordPress", "PHP", "WooCommerce", "JavaScript",
-  "PostgreSQL", "MySQL", "HTML", "CSS", "SASS", "Git", "Linux", "Scrum", "Google Ads",
-  "Facebook Ads", "SEO", "Leadership", "Project Management"
+  "PostgreSQL", "MySQL", "HTML", "SASS", "Git", "Linux", "Scrum", "Google Ads",
+  "Facebook Ads", "SEO", "Team Leadership"
 ]
 coverImage:
   src: "./cover.webp"
