@@ -1,63 +1,53 @@
 ---
-title: "Justbit"
-description: "Spearheaded the development of innovative gaming and esports platforms, focusing on delivering scalable, high-performance solutions. Directed cross-functional teams, ensuring efficient collaboration and alignment with business objectives. Introduced best practices in development and deployment, enhancing system stability and user engagement. Played a key role in strategic planning and implementing cutting-edge features to meet the dynamic needs of the gaming community."
-rol: "Technical Lead"
-startingDate: "1 Feb 2023"
-endingDate: "1 May 2025"
-liveDemoUrl: "https://void.gg"
+title: "Justbit.site"
+description: "Co-founded and led the technical development of a boutique software studio, delivering SEO-optimized digital products and managing multi-disciplinary teams. Oversaw project delivery from client acquisition to deployment, with a focus on scalable front-end and back-end architectures."
+rol: "CTO"
+startingDate: "1 Apr 2017"
+endingDate: "1 Dec 2018"
+liveDemoUrl: "https://justbit.site"
 typesId: "professional"
 technologies: [
-    "React.js", "Next.js", "TypeScript", "Nest.js", "React Native", "Architecture",
-    "Redux.js", "RTK", "Socket.io", "Docker", "AWS", "Leadership", "Project Management",
-    "Microservices", "Microfrontend", "Express.js", "MongoDB", "PostgreSQL", "Mantine",
-    "CSS", "Git", "GitHub", "GitHub Actions", "Figma", "Storybook", "Jest", "Cypress",
-    "Docker Compose", "Vercel", "Sentry", "ESLint"
-    ]
+  "React.js", "TypeScript", "Node.js", "WordPress", "PHP", "WooCommerce", "JavaScript",
+  "PostgreSQL", "MySQL", "HTML", "CSS", "SASS", "Git", "Linux", "Scrum", "Google Ads",
+  "Facebook Ads", "SEO", "Leadership", "Project Management"
+]
 coverImage:
   src: "./cover.webp"
-  alt: "Void Landing Page"
-  ogImage: './cover.webp'
+  alt: "Justbit web solutions"
+  ogImage: "./cover.webp"
 ---
 
----
+## Building Tailored Web Solutions from the Ground Up
 
-## Leading Innovation in Gaming and Esports with Void
+Between **April 2017 and December 2018**, I co-founded [Justbit.site](https://justbit.site), a boutique tech studio offering custom-built software solutions to startups and small businesses. As **CTO & Co-Founder**, I led the company’s technical vision, managed the engineering team, and worked directly with clients to deliver SEO-optimized, scalable web applications.
 
-Between **February 2023 and May 2025**, I had the opportunity to lead the architecture and development of **Void**, a cutting-edge platform for gaming and esports communities. Our mission was to deliver seamless, scalable, and performance-critical applications tailored to the fast-evolving needs of competitive gaming users and content creators.
+### 🛠 Full-Cycle Product Development
 
-### 🧠 Strategic Leadership & Technical Direction
+I was responsible for defining the company’s **technical roadmap**, leading project execution from initial scoping to deployment. Our work spanned from fast, SEO-friendly WordPress sites to dynamic React applications and integrated e-commerce platforms.
 
-As the tech lead, I coordinated cross-functional teams across backend, frontend, mobile, and design. I was deeply involved in **strategic planning**, ensuring that our roadmap aligned closely with business KPIs and user engagement goals.
+#### 🚀 Key Results Included
 
-We adopted a **modular architecture** combining **microservices** (NestJS, Express) with **microfrontends** using **Next.js** and **React Native**. This enabled the team to iterate rapidly, onboard contributors efficiently, and isolate platform concerns with minimal coupling.
+* 🧭 **Launched 10+ client projects** in our first year, building full-stack platforms that ranged from corporate websites to custom dashboards and e-commerce stores.
+* 👨‍💻 **Developed scalable front-end experiences** using **React.js**, optimizing for responsiveness, SEO, and performance in multi-device environments.
+* 🛒 Built **WooCommerce**-based e-commerce stores with advanced Google Ads and Analytics integrations, helping clients boost organic and paid conversions.
+* 👥 Led and mentored a cross-functional development team, instilling agile practices (Scrum) and promoting collaboration between designers, engineers, and clients.
 
-### 🛠️ Stack and Technical Highlights
+### 💼 Business & Platform Context
 
-Void pushed technical boundaries by leveraging a modern stack:
+Justbit operated at the intersection of client services and product innovation. As a founding partner, I wore multiple hats—technical lead, project manager, and client-facing partner. The business model focused on:
 
-- **Frontend**: React.js with Next.js, Mantine UI, RTK for state management, Storybook for component-driven development.
-- **Backend**: NestJS and Express.js in a microservice setup, orchestrated with Docker and Docker Compose.
-- **Mobile**: Cross-platform experiences using React Native and custom native bridges for performance-critical features.
-- **Real-time Systems**: Integrated **Socket.io** for live scoreboards, match updates, and chat.
-- **Infrastructure**: Deployed to **AWS** and **Vercel**, monitored with **Sentry**, automated via **GitHub Actions**.
-- **Data**: Combined **MongoDB** for flexibility and **PostgreSQL** for relational integrity in key domains.
+* **Client-First Development**: We built everything to spec—no templates. From custom themes in WordPress to bespoke React frontends, our focus was speed, usability, and adaptability.
+* **Full-Stack Ownership**: With expertise in **Node.js**, **PHP**, and modern databases, we were able to build entire products in-house, ensuring better quality control and faster iteration.
+* **Search & Conversion Optimization**: Each site followed strict SEO guidelines and integrated analytics to track performance from day one.
 
-<!-- ![Body](./body.webp) -->
+### 🔦 Project Spotlight
 
-### 🚀 Deployment, Stability & Developer Experience
-
-One of the key contributions was building a **CI/CD pipeline** from scratch using GitHub Actions, improving release confidence and reducing deployment times by 70%. We enforced code quality through Jest and Cypress tests, and structured our repos to support long-term scalability and team growth.
-
-I also championed **best practices in DX** (Developer Experience), implementing linting, formatting standards, documentation with Storybook, and design handoff flows via Figma.
-
-### 🎮 Real-World Impact
-
-Void wasn't just a tech success — it impacted real users. We saw substantial improvements in **system uptime**, **page load times**, and most importantly, **user engagement metrics** across all regions. The architecture we designed supported high-concurrency events like live tournaments without service degradation.
-
-Our feature velocity also enabled us to respond rapidly to community feedback, and we launched several game integrations, event systems, and user profile features based on direct user insights.
+* **Multilingual Real Estate Platform**: Delivered a React + Node.js solution for a Latin American real estate client with dynamic content, CRM integration, and SEO-optimized listings.
+* **E-commerce Migration**: Migrated several legacy websites to **WooCommerce**, improving loading speed and mobile UX while enabling product-based Google Ads campaigns.
+* **Content Management at Scale**: Built a WordPress multisite platform for a media company, enabling editors to manage and localize dozens of blogs under a unified dashboard.
 
 ---
 
-Working on Void has been one of the most rewarding experiences of my career — both technically and from a leadership perspective. It combined everything I enjoy: challenging problems, meaningful user impact, a fast-paced environment, and a talented, passionate team.
+Justbit was my hands-on bootcamp in entrepreneurship, team leadership, and full-cycle product delivery. It taught me how to build for users and businesses alike—balancing code quality, user experience, and commercial needs.
 
-If you want to know more about Void or explore some of the design and architectural decisions behind it, feel free to [connect with me on LinkedIn](https://www.linkedin.com/in/santi020k).
+If you're interested in how small teams can ship high-impact solutions—or if you’re building a product yourself—let’s [connect on LinkedIn](https://www.linkedin.com/in/santi020k).
