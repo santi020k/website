@@ -1,48 +1,54 @@
 ---
 title: "Datagran"
-description: "Led the front-end transformation of a no-code machine learning platform, modernizing a legacy jQuery system into a scalable, React-based architecture. Collaborated across product, design, and data science teams to deliver responsive, accessible interfaces that enabled enterprise clients to integrate ML outputs into business workflows with no code."
+description: "Led the front-end modernization of a fast-growing MarTech platform, transforming a legacy system into a scalable, component-based architecture using React and TypeScript. Contributed to the evolution of an AI-powered platform for marketing automation, data unification, and campaign optimization."
 rol: "Front-End Lead"
 startingDate: "1 Dec 2018"
 endingDate: "1 Jan 2020"
-liveDemoUrl: "https://www.datagran.io/"
+liveDemoUrl: "https://www.datagran.io"
 typesId: "professional"
 technologies: [
-  "React.js", "TypeScript", "Redux.js", "sagas", "D3.js", "styled-components", "HTML", "SASS",
-  "CSS", "JavaScript", "Git", "Leadership", "Project Management", "Scrum", "Google Cloud Platform", "Google API"
+  "React.js", "TypeScript", "Redux.js", "sagas", "D3.js", "styled-components",
+  "JavaScript", "HTML", "CSS", "SASS", "Git", "Scrum", "Team Leadership",
+  "GCP", "Project Management", "jQuery"
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Datagran UI and Platform"
+  alt: "Datagran platform"
   ogImage: "./cover.webp"
 ---
 
-## Modernizing No-Code Machine Learning with Datagran
+## Modernizing Front-End Architecture for a Disruptive AI MarTech Platform
 
-Between **December 2018 and January 2020**, I worked as **Front-End Lead** at [Datagran](https://www.datagran.io/), a no-code platform that enabled organizations to integrate machine learning models into business applications without writing code. My role focused on leading the migration of the legacy platform to a modern front-end architecture, while building robust, data-driven experiences for users.
+Between **December 2018 and January 2020**, I worked as **Front End Lead** at [Datagran](https://www.datagran.io), a fast-scaling MarTech startup backed by top-tier investors and serving global clients such as Rappi, Subway, and Telefonica. My role centered on leading the migration of a jQuery-based platform to a modern, maintainable React ecosystem, while collaborating with cross-functional teams to accelerate product delivery and enhance UI/UX standards.
 
-### 🔄 Progressive Migration & Front-End Overhaul
+### 🚀 End-to-End Front-End Revamp
 
-I oversaw the **progressive migration** of a large-scale jQuery-based codebase to **React** and **TypeScript**, ensuring uninterrupted product delivery during the transition. This involved developing shared components, enabling new feature development in React while maintaining legacy support.
+I oversaw the **progressive migration** of a complex front-end codebase from **jQuery** to a fully componentized architecture built in **React** and **TypeScript**, managing legacy coexistence while ensuring seamless rollout of new features. This initiative significantly improved performance, stability, and developer productivity.
 
 #### 📈 Key Results Included
 
-* 🔁 **Reduced bug incidence by over 40%** by implementing a scalable React + TypeScript architecture and eliminating jQuery-based code patterns.
-* 🧩 Introduced a **modular design system using Atomic Design**, improving component reuse, visual consistency, and onboarding time for new developers.
-* 📊 **Led the integration of real-time dashboards** and visualizations using **D3.js**, empowering enterprise users to explore ML model outputs in a meaningful way.
-* 🤝 Collaborated closely with **data scientists and backend engineers** to build end-to-end pipelines that connected ML results directly to CRMs, marketing platforms, and automation tools.
+* 🔄 **Reduced bug incidence by 30%** through the implementation of typed components and modular code organization in React + TypeScript.
+* 🔧 **Led a team of front-end developers**, establishing reusable component libraries and introducing scalable design systems based on **Atomic Design**.
+* 📊 Implemented advanced data visualizations using **D3.js**, enabling real-time insights from ML-driven models for enterprise clients.
+* 🧩 Collaborated with back-end and data science teams to deliver seamless interfaces and interactive dashboards powered by real-time analytics.
 
-### 🛠️ Stack and Technical Highlights
+### 🧠 Business & Platform Context
 
-Datagran was a rich, interactive platform at the intersection of ML and no-code automation. Here's how I contributed technically:
+At the time, Datagran was positioning itself as an **AI-powered, all-in-one marketing solution**. The platform combined machine learning, campaign automation, creative production, and data unification into a single ecosystem:
 
-* **Frontend Modernization**: Migrated from jQuery to a modern stack of **React.js**, **Redux**, and **TypeScript**, with **sagas** for managing side effects and async workflows.
-* **UI/UX Design**: Developed reusable UI components with **styled-components**, implemented accessible layouts, and managed global state with Redux.
-* **Data Visualization**: Created interactive dashboards and charting modules using **D3.js**, supporting custom visual data pipelines and business logic.
-* **Platform Integrations**: Built frontend workflows that allowed users to trigger actions in apps like **Salesforce**, **Mailchimp**, and **Shopify** through drag-and-drop connections.
-* **Tooling & DevOps**: Maintained version control with **Git**, and collaborated with the infra team to align GCP-based deployments and CI/CD workflows.
+* **Data Unification**: Aggregated customer data from platforms like Google Analytics, Facebook Ads, and CRMs into a centralized intelligence layer.
+* **AI-Driven Optimization**: Used proprietary ML models to optimize ad spend, predict churn, and automate decision-making across marketing operations.
+* **Creative Integration**: Merged insights with a low-cost creative production arm to deliver personalized assets aligned with campaign performance.
+* **Self-Service Ad Management**: Enabled marketers to manage campaigns through tools like **adOptimizer** without relying on external agencies.
+
+### 💡 Project Spotlight
+
+* **Platform Migration**: Led the architectural redesign and hands-on development of the new platform UI, implementing best practices in accessibility, performance, and testability.
+* **Ad Optimization Dashboard**: Built modular and highly interactive dashboards for campaign tracking, powered by real-time ML insights and user segmentation tools.
+* **Cross-Team Enablement**: Established shared libraries and design tokens that accelerated feature delivery across teams while maintaining visual and functional consistency.
 
 ---
 
-Leading front-end at Datagran was a deeply technical and rewarding experience. It blended the challenges of legacy system migration with the innovation of no-code ML deployment — and taught me how to deliver value in fast-paced, data-intensive environments.
+My experience at Datagran gave me the opportunity to lead a critical transformation within a high-stakes, fast-moving startup environment. It also sharpened my ability to drive large-scale migrations, work alongside data science teams, and bring structure to front-end systems serving AI-enabled products.
 
-Want to discuss front-end migrations or ML-integrated UI design? [Connect with me on LinkedIn](https://www.linkedin.com/in/santi020k).
+If you’re curious about front-end modernization in data-heavy environments or the architecture behind AI-driven SaaS platforms, feel free to [connect with me on LinkedIn](https://www.linkedin.com/in/santi020k).
