@@ -8,8 +8,8 @@ liveDemoUrl: "https://www.codepwr.com/"
 typesId: "professional"
 technologies: [
   "React.js", "Next.js", "TypeScript", "Node.js", "Redux.js",
-  "sagas", "MongoDB", "GraphQL", "PostgreSQL", "GCP", "AWS", "Leadership", "Project Management",
-  "Scrum", "styled-components", "Socket.io", "Elixir", "Phoenix", "Docker", "HTML", "Angular",
+  "Redux Sagas", "MongoDB", "GraphQL", "PostgreSQL", "GCP", "AWS", "Leadership", "Project Management",
+  "Scrum", "Styled Components", "Socket.io", "Elixir", "Phoenix", "Docker", "HTML", "Angular",
   "Express.js", "SASS", "JavaScript", "CSS", "Git", "Youtube API", "twitch API", "OAuth", "Jest"
 ]
 coverImage:
@@ -37,7 +37,7 @@ I was responsible for the full lifecycle of software development — from archit
 
 Optic Power’s projects spanned multiple domains, each requiring tailored solutions. Here's how I leveraged the stack across teams:
 
-* **Frontend**: Built dynamic UIs using **React.js** and **Next.js**, applying **Redux with sagas** for advanced state management. Used **styled-components** and **SASS** for scalable styling, and maintained legacy support with **Angular** where required.
+* **Frontend**: Built dynamic UIs using **React.js** and **Next.js**, applying **Redux with sagas** for advanced state management. Used **Styled Components** and **SASS** for scalable styling, and maintained legacy support with **Angular** where required.
 * **Backend**: Developed scalable APIs using **Node.js** with **Express**, and contributed to event-driven microservices written in **Elixir**. Delivered both **GraphQL** and **RESTful APIs**, depending on platform needs.
 <!-- * **Mobile**: Enhanced cross-platform mobile apps with **React Native**, integrating features like **deep linking**, **push notifications**, and **custom native modules** for hardware-level interactions. -->
 * **Data Layer**: Combined **MongoDB** for flexible data modeling with **PostgreSQL** for strict transactional integrity and reporting capabilities.
