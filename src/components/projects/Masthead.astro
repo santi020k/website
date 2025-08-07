@@ -72,6 +72,7 @@ const { content } = Astro.props
         class="object-cover"
         fetchpriority="high"
         src={content.data.coverImage.src}
+        transition:name="cover-image"
       />
     </div>
   )
