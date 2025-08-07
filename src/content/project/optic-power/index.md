@@ -10,7 +10,7 @@ technologies: [
   "React.js", "Next.js", "TypeScript", "Node.js", "Redux.js",
   "sagas", "MongoDB", "GraphQL", "PostgreSQL", "GCP", "AWS", "Leadership", "Project Management",
   "Scrum", "styled-components", "Socket.io", "Elixir", "Phoenix", "Docker", "HTML", "Angular",
-  "Express.js", "SASS", "JavaScript", "CSS", "Git", "Youtube API", "twitch API", "OAuth"
+  "Express.js", "SASS", "JavaScript", "CSS", "Git", "Youtube API", "twitch API", "OAuth", "Jest"
 ]
 coverImage:
   src: "./cover.webp"
