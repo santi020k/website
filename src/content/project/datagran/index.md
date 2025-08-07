@@ -7,7 +7,7 @@ endingDate: "1 Jan 2020"
 liveDemoUrl: "https://www.datagran.io"
 typesId: "professional"
 technologies: [
-  "React.js", "TypeScript", "Redux.js", "sagas", "D3.js", "styled-components",
+  "React.js", "TypeScript", "Redux.js", "Redux Sagas", "D3.js", "Styled Components",
   "JavaScript", "HTML", "CSS", "SASS", "Git", "Scrum", "Team Leadership",
   "GCP", "Project Management", "jQuery"
 ]

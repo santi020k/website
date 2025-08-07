@@ -7,8 +7,8 @@ endingDate: "1 Jul 2021"
 liveDemoUrl: "https://pads.com.co"
 typesId: "professional"
 technologies: [
-  "React.js", "Next.js", "TypeScript", "React Native", "Redux.js", "sagas",
-  "styled-components", "Socket.io", "Docker", "AWS", "Google Maps API",
+  "React.js", "Next.js", "TypeScript", "React Native", "Redux.js", "Redux Sagas",
+  "Styled Components", "Socket.io", "Docker", "AWS", "Google Maps API",
   "Leadership", "Project Management", "Scrum", "OAuth", "Linux", "HTML",
   "JavaScript", "SASS", "CSS", "Git", "i18n"
 ]
@@ -37,7 +37,7 @@ I directed the architecture and development of a modular system composed of a la
 
 We built a robust and modular ecosystem across multiple platforms:
 
-* **Frontend**: Used **React.js** with **Next.js**, **Redux**, **styled-components**, and **SASS** to deliver a performant public-facing website with SEO-friendly routing and internationalization.
+* **Frontend**: Used **React.js** with **Next.js**, **Redux**, **Styled Components**, and **SASS** to deliver a performant public-facing website with SEO-friendly routing and internationalization.
 <!-- * **Backend**: Focused on integrating RESTful APIs and service layers with secure authentication and support for Google services (e.g., Maps, Places). -->
 * **Mobile**: Built a cross-platform **React Native** app to empower brokers with access to their portfolio, even on the go. Integrated features included **push notifications**, **live updates**, and **offline caching**.
 <!-- * **Real-time Systems**: Used **Socket.io** for broker messaging, appointment updates, and real-time listings synchronization. -->

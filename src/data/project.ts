@@ -37,6 +37,22 @@ export function getUniqueTechnologies(projects: CollectionEntry<'project'>[]) {
   return [...new Set(getAllTechnologies(projects))]
 }
 
+/** Returns an array of strings, ordered by the number of times each technology is used in all the projects
+ * Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
+ *  */
+
+export function getTechnologiesByUsage(projects: CollectionEntry<'project'>[]) {
+  const techCount = new Map<string, number>()
+
+  for (const tech of getAllTechnologies(projects)) {
+    techCount.set(tech, (techCount.get(tech) || 0) + 1)
+  }
+
+  return [...techCount.entries()]
+    .sort((a, b) => b[1] - a[1]) // sort by usage count, descending
+    .map(([tech]) => tech) // return only the technology names
+}
+
 /** returns a count of each unique Technology - [[TechnologyName, count], ...]
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */

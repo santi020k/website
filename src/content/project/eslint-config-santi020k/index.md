@@ -8,7 +8,7 @@ liveDemoUrl: "https://www.npmjs.com/package/@santi020k/eslint-config-santi020k"
 typesId: "personal"
 technologies: [
   "React", "Next.js", "TypeScript", "Node", "Astro", "Expo", "ESLint", "JavaScript",
-  "Developer Experience", "Code Quality", "Monorepo", "CI/CD", "VSCode", "Automation",
+  "Code Quality", "Monorepo", "CI/CD", "VSCode", "Automation",
   "npm", "Open Source", "Vitest", "TailwindCSS", "i18next", "Testing", "Documentation", "DX"
 ]
 coverImage:
