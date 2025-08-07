@@ -1,7 +1,6 @@
 {
   "headers": [
     {
-      // Cache static vercel script "speed-insights".
       "source": "/_vercel/(.*)",
       "headers": [
         {
