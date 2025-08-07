@@ -1,5 +1,6 @@
 ---
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
+import { ClientRouter } from 'astro:transitions'
 
 import '@/styles/global.css'
 
@@ -92,3 +93,6 @@ const socialImageURL = new URL(ogImage || '/social-card.png', Astro.url).href;
 
 <!-- Vercel Speed Insights -->
 <SpeedInsights />
+
+<!-- Astro Transitions -->
+<ClientRouter />
