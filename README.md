@@ -42,26 +42,6 @@ I'm a seasoned Full Stack Developer with a strong focus on front-end development
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-black.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Zod Badge](https://img.shields.io/badge/Zod-black?style=for-the-badge&logo=zod&logoColor=white)
 
----
-
-## 📊 Stats
-
-[![GitHub Streak](https://streak-stats.demolab.com?user=santi020k)](https://git.io/streak-stats)
-
----
-
-## 🏆 Top Langs
-
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=santi020k&hide=TeX&layout=compact)
-
----
-
-## 🏆 GitHub Trophies
-
-![Trophies](https://github-profile-trophy.vercel.app/?username=santi020k&theme=discord&no-frame=true&no-bg=false&margin-w=4)
-
----
-
 ## ✍🏼 Medium
 
 [![Santi020k Medium](https://github-readme-medium.vercel.app/?username=santi020k)](https://medium.com/@santi020k)
@@ -71,3 +51,23 @@ I'm a seasoned Full Stack Developer with a strong focus on front-end development
 Feel free to reach out to me for collaboration, mentorship, or any interesting project you'd like to discuss!
 
 ---
+
+This is my personal website repository. It's built with [Astro](https://astro.build) and [Sanity.io](https://www.sanity.io).
+
+## 🚀 Getting Started
+
+### 📦 Install Dependencies
+
+```bash
+npm install
+```
+
+### 🚀 Start Development Server
+
+```bash
+npm run dev
+```
+
+### 📝 Edit Content
+
+All content is stored in the `src/content` folder. You can edit the content directly in the Sanity Studio, or edit the files directly in the `src/content` folder.
