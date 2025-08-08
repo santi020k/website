@@ -6,6 +6,7 @@ import '@/styles/global.css'
 
 import { siteConfig } from '@/site.config'
 import type { SiteMeta } from '@/types'
+import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
 
 type Props = SiteMeta
@@ -99,3 +100,6 @@ const socialImageURL = new URL(ogImage || '/photo-me.webp', Astro.url).href;
 
 <!-- Astro Transitions -->
 <ClientRouter />
+
+<!-- Analytics -->
+<Analytics />
