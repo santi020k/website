@@ -49,6 +49,8 @@ The config also includes:
 * Automated versioned publishing via GitHub Actions
 * A growing [npm package](https://www.npmjs.com/package/@santi020k/eslint-config-santi020k) with documentation and usage examples
 
+![NPM Package](npm.webp)
+
 ### 🚀 Developer Experience & Automation
 
 A huge focus was placed on **DX** and **automation**:
