@@ -29,11 +29,11 @@ const groupedByTypeId = groupProjectsByTypesId(data)
       <h1 class="font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
         Portfolio
       </h1>
-      <p class="text-lg text-zinc-600 dark:text-zinc-400">
+      <p class="text-lg text-zinc-600 dark:text-zinc-200">
         Showcases projects I’ve worked on, from client work and open-source libraries to experiments.
         Each reflects a blend of technical depth, user-centric design, and a passion for solving real-world problems.
       </p>
-      <p class="text-base text-zinc-500 dark:text-zinc-400">
+      <p class="text-base text-zinc-700 dark:text-zinc-200">
         Looking for more? Check out my{' '}
         <a
           href="/pdf/cv.pdf"
@@ -48,22 +48,20 @@ const groupedByTypeId = groupProjectsByTypesId(data)
     <section class="grid gap-8 sm:grid-cols-[1fr_auto]">
       <div aria-label="Projects project list" class="flex flex-col gap-y-16">
         <div x-data="{ activeTab: 0 }">
-          <nav class="mb-4 inline-flex items-center space-x-1 overflow-x-auto rounded-xl bg-gray-500/5 p-1 text-sm text-gray-600 rtl:space-x-reverse dark:bg-gray-500/20">
-            <ul role="tablist" class="-mb-px flex items-stretch gap-2 text-slate-500">
+          <nav class="mb-4 inline-flex items-center space-x-1 overflow-x-auto rounded-xl bg-gray-500/5 p-1 text-sm text-gray-700 rtl:space-x-reverse dark:bg-gray-500/20 dark:text-gray-200">
+            <div role="tablist" class="-mb-px flex items-stretch gap-2 text-slate-500">
               {allTypesReversed.map((type, index) => (
-                <li>
-                  <button @click={`activeTab = ${index}`} :aria-selected={`activeTab === ${index}`} :class={`{ 'text-sky-600 shadow bg-white dark:text-white dark:bg-sky-600': activeTab === ${index} }`} class="flex h-8 cursor-pointer items-center whitespace-nowrap rounded-lg px-5 font-medium outline-none transition-all duration-300 hover:text-gray-800 focus:text-sky-600 focus:ring-2 focus:ring-inset focus:ring-white dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-white dark:focus:ring-sky-600" role="tab" aria-selected="true">
-                    <span>{type.data.title}</span>
-                  </button>
-                </li>
+                <button :id={`tab-${index}`} role="tab" :aria-controls={`panel-${index}`} @click={`activeTab = ${index}`} :aria-selected={`activeTab === ${index}`} :class={`{ 'text-sky-700 shadow bg-white dark:text-white dark:bg-[#034463]': activeTab === ${index} }`} class="flex h-8 cursor-pointer items-center whitespace-nowrap rounded-lg px-5 font-medium text-gray-700 outline-none transition-all duration-300 hover:text-gray-900 focus:text-sky-700 focus:ring-2 focus:ring-inset focus:ring-white dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-white dark:focus:ring-sky-600" aria-selected="true">
+                  <span>{type.data.title}</span>
+                </button>
               ))}
-            </ul>
+            </div>
           </nav>
-          <div role="tabpanel">
+          <div>
             {allTypesReversed.map((type, index) => (
-              <div x-show={`activeTab === ${index}`} role="tabpanel">
+              <div x-show={`activeTab === ${index}`} id={`panel-${index}`} role="tabpanel" :aria-labelledby={`tab-${index}`} x-cloak>
                 <article id={type.data.id} class="flex flex-col gap-y-4">
-                  <p class="text-zinc-600 dark:text-zinc-400">
+                  <p class="text-zinc-600 dark:text-zinc-200">
                     {type.data.description}
                   </p>
                   <ul class="flex flex-col gap-y-8 text-start">
@@ -82,9 +80,9 @@ const groupedByTypeId = groupProjectsByTypesId(data)
       {
         !!uniqueTechnologies.length && (
           <aside class="flex flex-col gap-y-4 md:min-w-56 md:max-w-56 md:basis-56">
-            <h4 class="flex">
+            <h1 class="flex text-base">
               Technologies
-            </h4>
+            </h1>
             <div class="flex flex-col gap-y-4">
               <ul class="flex flex-wrap gap-2">
                 {uniqueTechnologies.map(technology => (
