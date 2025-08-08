@@ -138,7 +138,7 @@ import { menuLinks, siteConfig } from '@/site.config';
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('astro:page-load', () => {
   const toggleNavMenuMobileButton = document.getElementById('toggle-nav-menu-mobile')
   const openMenuIcon = document.getElementById('open-nav-menu-icon')
   const closeMenuIcon = document.getElementById('close-nav-menu-icon')
