@@ -1,10 +1,12 @@
 ---
+import { Image } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
 // TODO: Not Implemented yet
 // import Search from '@/components/Search.astro'
 import ThemeToggle from '@/components/ThemeToggle.astro'
 
+import LogoSVG from '@/assets/svg/logo.svg'
 import { menuLinks, siteConfig } from '@/site.config';
 ---
 
@@ -21,9 +23,7 @@ import { menuLinks, siteConfig } from '@/site.config';
         href="/"
       >
         <div title={siteConfig.title} class="p-2">
-          <svg class="inline-block size-14 fill-current">
-            <use href="/logo.svg"></use>
-          </svg>
+          <Image src={LogoSVG} alt="Santi020k Logo" width="140" height="40" fetchpriority="high" class="inline-block size-14 fill-current" />
         </div>
       </a>
       <nav
