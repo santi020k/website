@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { project } = Astro.props
-const { coverImage, title, description, startingDate, endingDate, typesId } = project.data
+const { coverImage, title, description, startingDate, endingDate } = project.data
 
 const socialImage = coverImage?.ogImage ?? `/og-image/${project.id}.png`
 const articleDate = startingDate?.toISOString?.() ?? endingDate?.toISOString?.() ?? new Date().toISOString()
