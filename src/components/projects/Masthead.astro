@@ -29,31 +29,35 @@ const { content } = Astro.props
         class="line-clamp-none md:sticky md:top-4 md:z-20 md:line-clamp-1"
         title={content.data.title}
         data-pagefind-body
+        transition:name={`project-title-${content.id}`}
       >
         {content.data.title}
       </h1>
-      <p>
-        {content.data.rol}
-      </p>
-      <div class="flex flex-wrap items-center text-sm">
-        <span class="flex h-7 items-center">
-          <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" />
-          <FormattedDate date={content.data.startingDate} dateTimeOptions={dateWithoutDay} class="flex shrink-0" />
-          <span class="px-2">–</span>
-          {
-            content.data.endingDate
-              ? (
-                  <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg text-sm">
-                    <FormattedDate class="flex shrink-0" date={content.data.endingDate} dateTimeOptions={dateWithoutDay} />
-                  </span>
-                )
-              : (
-                  <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg px-2 py-1 text-sm">
-                    Present
-                  </span>
-                )
-          }
-        </span>
+
+      <div transition:name={`project-subtitle-${content.id}`}>
+        <p>
+          {content.data.rol}
+        </p>
+        <div class="flex flex-wrap items-center text-sm">
+          <span class="flex h-7 items-center">
+            <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" />
+            <FormattedDate date={content.data.startingDate} dateTimeOptions={dateWithoutDay} class="flex shrink-0" />
+            <span class="px-2">–</span>
+            {
+              content.data.endingDate
+                ? (
+                    <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg text-sm">
+                      <FormattedDate class="flex shrink-0" date={content.data.endingDate} dateTimeOptions={dateWithoutDay} />
+                    </span>
+                  )
+                : (
+                    <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg px-2 py-1 text-sm">
+                      Present
+                    </span>
+                  )
+            }
+          </span>
+        </div>
       </div>
     </div>
     {content.data.draft && (
@@ -72,7 +76,7 @@ const { content } = Astro.props
         class="object-cover"
         fetchpriority="high"
         src={content.data.coverImage.src}
-        transition:name="cover-image"
+        transition:name={`cover-image-${content.id}`}
       />
     </div>
   )
@@ -81,11 +85,12 @@ const { content } = Astro.props
 <p
   class="mx-2 max-w-none"
   data-pagefind-body
+  transition:name={`project-description-${content.id}`}
 >
   {content.data.description}
 </p>
 
-<div class="mx-1 mt-4 flex flex-wrap items-center gap-2">
+<div class="mx-1 mt-4 flex flex-wrap items-center gap-2" transition:name={`project-badges-${content.id}`}>
   {/* Tags */}
   {
     content.data.technologies?.length
