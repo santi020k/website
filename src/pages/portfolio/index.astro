@@ -50,30 +50,53 @@ const groupedByTypeId = groupProjectsByTypesId(data)
         <div x-data="{ activeTab: 0 }">
           <nav class="mb-4 inline-flex items-center space-x-1 overflow-x-auto rounded-xl bg-gray-500/5 p-1 text-sm text-gray-700 rtl:space-x-reverse dark:bg-gray-500/20 dark:text-gray-200">
             <div role="tablist" class="-mb-px flex flex-col items-stretch gap-2 text-slate-500 sm:flex-row">
-              {allTypesReversed.map((type, index) => (
-                <button :id={`tab-${index}`} role="tab" :aria-controls={`panel-${index}`} @click={`activeTab = ${index}`} :aria-selected={`activeTab === ${index}`} :class={`{ 'text-sky-700 shadow bg-white dark:text-white dark:bg-[#034463]': activeTab === ${index} }`} class="flex h-8 cursor-pointer items-center whitespace-nowrap rounded-lg px-5 font-medium text-gray-700 outline-none transition-all duration-300 hover:text-gray-900 focus:text-sky-700 focus:ring-2 focus:ring-inset focus:ring-white dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-white dark:focus:ring-sky-600" aria-selected="true">
-                  <span>{type.data.title}</span>
-                </button>
-              ))}
+              {allTypesReversed.map((type, index) => {
+                const tabId = `tab-${index}`
+                const panelId = `panel-${index}`
+                return (
+                  <button
+                    id={tabId}
+                    role="tab"
+                    aria-controls={panelId}
+                    class="flex h-8 cursor-pointer items-center whitespace-nowrap rounded-lg px-5 font-medium text-gray-700 outline-none transition-all duration-300 hover:text-gray-900 focus:text-sky-700 focus:ring-2 focus:ring-inset focus:ring-white dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-white dark:focus:ring-sky-600"
+                    @click={`activeTab = ${index}`}
+                    :aria-selected={`activeTab === ${index}`}
+                    :class={`{ 'text-sky-700 shadow bg-white dark:text-white dark:bg-[#034463]': activeTab === ${index} }`}
+                  >
+                    <span>{type.data.title}</span>
+                  </button>
+                )
+              })}
             </div>
           </nav>
+
           <div>
-            {allTypesReversed.map((type, index) => (
-              <div x-show={`activeTab === ${index}`} id={`panel-${index}`} role="tabpanel" :aria-labelledby={`tab-${index}`} x-cloak>
-                <article id={type.data.id} class="flex flex-col gap-y-4">
-                  <p class="text-zinc-600 dark:text-zinc-200">
-                    {type.data.description}
-                  </p>
-                  <ul class="flex flex-col gap-y-8 text-start">
-                    {groupedByTypeId[type.data.id]?.map(project => (
-                      <li class="m-0 flex flex-col gap-4">
-                        <ProjectPreview project={project} />
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              </div>
-            ))}
+            {allTypesReversed.map((type, index) => {
+              const panelId = `panel-${index}`
+              const tabId = `tab-${index}`
+              return (
+                <div
+                  x-show={`activeTab === ${index}`}
+                  id={panelId}
+                  role="tabpanel"
+                  aria-labelledby={tabId}
+                  x-cloak
+                >
+                  <article id={type.data.id} class="flex flex-col gap-y-4">
+                    <p class="text-zinc-600 dark:text-zinc-200">
+                      {type.data.description}
+                    </p>
+                    <ul class="flex flex-col gap-y-8 text-start">
+                      {groupedByTypeId[type.data.id]?.map(project => (
+                        <li class="m-0 flex flex-col gap-4">
+                          <ProjectPreview project={project} />
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
