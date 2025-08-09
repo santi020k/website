@@ -27,21 +27,21 @@ const { project } = Astro.props;
         decoding="async"
         class="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
         loading="lazy"
-        transition:name="cover-image"
+        transition:name={`cover-image-${project.id}`}
       />
     </div>
   )}
 
   <div class="flex flex-col gap-y-3">
     <div>
-      <h1 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+      <h1 transition:name={`project-title-${project.id}`} class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
         {project.data.title}
       </h1>
-      <p class="text-sm text-zinc-500 dark:text-zinc-200">
+      <div transition:name={`project-subtitle-${project.id}`} class="flex items-center text-sm text-zinc-500 dark:text-zinc-200">
         {project.data.rol && (
           <>
-            {project.data.rol}
-            <Separator type={SeparatorType.Dot} />
+            <p class="inline-flex">{project.data.rol}</p>
+            <Separator className="inline-flex" type={SeparatorType.Dot} />
           </>
         )}
         <FormattedDate dateTimeOptions={dateWithoutDay} date={project.data.startingDate} />
@@ -50,15 +50,15 @@ const { project } = Astro.props;
               <> – <FormattedDate dateTimeOptions={dateWithoutDay} date={project.data.endingDate} /></>
             )
           : '- Present'}
-      </p>
+      </div>
     </div>
 
     <div class="flex flex-col gap-y-2">
-      <p class="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-200">
+      <p transition:name={`project-description-${project.id}`} class="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-200">
         {project.data.description}
       </p>
 
-      <div class="flex flex-wrap items-center gap-2">
+      <div transition:name={`project-badges-${project.id}`} class="flex flex-wrap items-center gap-2">
         {
           project.data.technologies.slice(0, 5).map(technology => (
             <div class="flex items-center gap-x-2">
