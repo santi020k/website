@@ -222,6 +222,12 @@
 
   /* ——— Misc custom tokens ——— */
   --transition-height: height;           /* gives you transition-[height] */
+
+  /* ——— Typography ——— */
+  --font-sans: "Montserrat", sans-serif;
+  --font-serif: "Montserrat", serif;
+  --font-mono: "Montserrat", monospace;
+  --font-display: "Montserrat", sans-serif;
 }
 
 /* ------------------------------------------------------------------ */
