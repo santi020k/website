@@ -1,4 +1,4 @@
-# Santiago Molina Orozco
+# Santiago Molina
 
 <img src="./public/images/banner-logo.jpg" alt="Santi020k Banner" />
 
