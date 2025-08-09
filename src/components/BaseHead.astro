@@ -95,11 +95,15 @@ const socialImageURL = new URL(ogImage || '/photo-me.webp', Astro.url).href;
 <!-- Viewport -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Vercel Speed Insights -->
-<SpeedInsights />
+{import.meta.env.PROD && (
+  <>
+    <!-- Vercel Speed Insights -->
+    <SpeedInsights />
+
+    <!-- Analytics -->
+    <Analytics />
+  </>
+)}
 
 <!-- Astro Transitions -->
 <ClientRouter />
-
-<!-- Analytics -->
-<Analytics />
