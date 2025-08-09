@@ -1,8 +1,8 @@
 ---
 import { Image } from 'astro:assets'
 import { type CollectionEntry } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
+// import { Icon } from 'astro-icon/components'
 import Badge from '@/components/Badge.astro'
 import FormattedDate from '@/components/FormattedDate.astro'
 
@@ -34,13 +34,14 @@ const { content } = Astro.props
         {content.data.title}
       </h1>
 
-      <div transition:name={`project-subtitle-${content.id}`}>
+      <div transition:name={`project-subtitle-${content.id}`} class="flex items-center gap-2">
         <p>
           {content.data.rol}
         </p>
         <div class="flex flex-wrap items-center text-sm">
+          (
           <span class="flex h-7 items-center">
-            <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" />
+            <!-- <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" /> -->
             <FormattedDate date={content.data.startingDate} dateTimeOptions={dateWithoutDay} class="flex shrink-0" />
             <span class="px-2">–</span>
             {
@@ -57,6 +58,7 @@ const { content } = Astro.props
                   )
             }
           </span>
+          )
         </div>
       </div>
     </div>
