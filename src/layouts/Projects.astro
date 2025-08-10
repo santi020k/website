@@ -11,14 +11,15 @@ interface Props {
 }
 
 const { project } = Astro.props
-const { coverImage, title, description, startingDate, endingDate } = project.data
+const { coverImage, title, description, rol, typesId } = project.data
+
+const metaTitle = `${title} • ${rol} • ${typesId} | Portfolio`
 
 const socialImage = coverImage?.ogImage ?? `/og-image/${project.id}.png`
-// const articleDate = startingDate?.toISOString?.() ?? endingDate?.toISOString?.() ?? new Date().toISOString()
 const { headings } = await render(project);
 ---
 
-<BaseLayout meta={{ description, ogImage: socialImage, title }}>
+<BaseLayout meta={{ description, ogImage: socialImage, title: metaTitle }}>
   <Masthead content={project} />
 
   <div class="mt-6 flex gap-x-8 sm:grid-cols-[auto_1fr] md:items-start">
