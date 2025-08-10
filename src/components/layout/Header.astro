@@ -12,6 +12,8 @@ import { menuLinks, siteConfig } from '@/site.config';
 
 <header
   id="main-header"
+  transition:name="header"
+  transition:persist
   class="fixed left-0 top-0 z-20 flex h-16 w-full items-center bg-white/20 px-4 backdrop-blur-xl md:relative md:px-0 md:backdrop-blur-none dark:bg-black/20"
 >
   <div class="w-full justify-between sm:flex-col">
@@ -22,6 +24,7 @@ import { menuLinks, siteConfig } from '@/site.config';
         data-astro-prefetch
         class="group flex h-8 items-center hover:filter-none sm:relative"
         href="/"
+        transition:name="logo-link"
       >
         <div title={siteConfig.title} class="p-2">
           <Image src={LogoSVG} alt="Santi020k Logo" width="140" height="100" fetchpriority="high" class="inline-block size-24 fill-current" />
