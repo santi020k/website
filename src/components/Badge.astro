@@ -3,7 +3,7 @@ const { variant = 'default', showHash = true, className = '', title } = Astro.pr
 
 const badgeClasses = {
   base:
-    'inline-flex items-center gap-1 px-2 h-6 rounded-2xl text-sm font-medium transition-colors whitespace-nowrap',
+    'inline-flex items-center gap-1 px-2 h-6 rounded-2xl text-sm font-medium transition-colors truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px] sm:max-w-full',
   variants: {
     default: 'bg-textColor text-bgColor hover:brightness-90',
     accent: 'bg-accent text-bgColor hover:brightness-90',
@@ -26,6 +26,6 @@ const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasse
 ---
 <div class={`${badgeClasses.base} ${variantClasses} ${className}`}>
   {showHash && <span class="text-xs font-normal opacity-60">#</span>}
-  <span>{title}</span>
+  <span class="truncate">{title}</span>
   <slot />
 </div>

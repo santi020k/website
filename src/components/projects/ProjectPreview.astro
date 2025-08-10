@@ -37,24 +37,29 @@ const { project } = Astro.props;
       <h1 transition:name={`project-title-${project.id}`} class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
         {project.data.title}
       </h1>
-      <div transition:name={`project-subtitle-${project.id}`} class="flex items-center text-sm text-zinc-500 dark:text-zinc-200">
+      <div transition:name={`project-subtitle-${project.id}`} class="flex flex-col items-start text-sm text-zinc-500 sm:flex-row sm:items-center dark:text-zinc-200">
         {project.data.rol && (
           <>
             <p class="inline-flex">{project.data.rol}</p>
-            <Separator className="inline-flex" type={SeparatorType.Dot} />
+            <Separator className="hidden sm:inline-flex" type={SeparatorType.Dot} />
           </>
         )}
-        <FormattedDate dateTimeOptions={dateWithoutDay} date={project.data.startingDate} />
-        {project.data.endingDate
-          ? (
-              <> – <FormattedDate dateTimeOptions={dateWithoutDay} date={project.data.endingDate} /></>
-            )
-          : '- Present'}
+        <div>
+          <FormattedDate dateTimeOptions={dateWithoutDay} date={project.data.startingDate} />
+          <span>
+            &nbsp;-&nbsp;
+          </span>
+          {project.data.endingDate
+            ? (
+                <FormattedDate dateTimeOptions={dateWithoutDay} date={project.data.endingDate} />
+              )
+            : 'Present'}
+        </div>
       </div>
     </div>
 
     <div class="flex flex-col gap-y-2">
-      <p transition:name={`project-description-${project.id}`} class="line-clamp-2 text-sm text-zinc-600 dark:text-zinc-200">
+      <p transition:name={`project-description-${project.id}`} class="line-clamp-6 text-sm text-zinc-600 sm:line-clamp-2 dark:text-zinc-200">
         {project.data.description}
       </p>
 
