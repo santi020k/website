@@ -110,7 +110,7 @@ const groupedByTypeId = groupProjectsByTypesId(data)
               <ul class="flex flex-wrap gap-2">
                 {uniqueTechnologies.map(technology => (
                   <li>
-                    <a aria-label={`View all posts with the technology: ${technology}`} href={`/technologies/${technology}`}>
+                    <a aria-label={`View all posts with the technology: ${technology}`} href={`/technologies/${technology}`} class="truncate">
                       <Badge variant="muted" title={technology} />
                     </a>
                   </li>
