@@ -35,6 +35,9 @@ const socialImageURL = new URL(ogImage || '/default.webp', Astro.url).href;
 {/* Canonical */}
 <link rel="canonical" href={canonicalURL} />
 
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
 {/* Primary Meta */}
 <meta name="title" content={siteTitle} />
 <meta name="description" content={description} />
