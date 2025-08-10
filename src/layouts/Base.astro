@@ -24,14 +24,12 @@ const {
 <html
   class="grid scroll-pt-20 overflow-x-hidden scroll-smooth font-sans text-xl antialiased md:text-base"
   lang={siteConfig.lang}
-  transition:name="root"
-  transition:animate="none"
 >
   <head>
-    <BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
-
     <!-- Astro Transitions -->
     <ClientRouter />
+
+    <BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
   </head>
   <body class="relative m-auto min-h-screen w-full max-w-6xl grow dark:bg-black">
     <ThemeProvider />
