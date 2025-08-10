@@ -159,5 +159,8 @@ export default defineConfig({
   server: {
     // port: 1234,
     host: true
+  },
+  build: {
+    inlineStylesheets: 'always' // Ensures one global CSS bundle
   }
 })
