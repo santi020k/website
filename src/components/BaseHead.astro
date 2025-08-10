@@ -13,91 +13,83 @@ const { articleDate, description, ogImage, title } = Astro.props
 const titleSeparator = '•'
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-const socialImageURL = new URL(ogImage || '/photo-me.webp', Astro.url).href;
+const socialImageURL = new URL(ogImage || '/default.webp', Astro.url).href;
 ---
 
 <meta charset="utf-8" />
-<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{siteTitle}</title>
 
 {/* Icons */}
-<link href="/logo.svg" rel="icon" type="image/svg+xml" />
+<link rel="icon" href="/logo.svg" type="image/svg+xml" />
 {
   import.meta.env.PROD && (
     <>
-      {/* Favicon & Apple Icon */}
       <link rel="icon" href="/favicon-32x32.png" type="image/png" />
-      <link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
-      {/* Manifest */}
-      <link href="/manifest.webmanifest" rel="manifest" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      <link rel="manifest" href="/manifest.webmanifest" />
     </>
   )
 }
 
-{/* Canonical URL */}
-<link href={canonicalURL} rel="canonical" />
+{/* Canonical */}
+<link rel="canonical" href={canonicalURL} />
 
-{/* Primary Meta Tags */}
-<meta content={siteTitle} name="title" />
-<meta content={description} name="description" />
-<meta content={siteConfig.author} name="author" />
+{/* Primary Meta */}
+<meta name="title" content={siteTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={siteConfig.author} />
+<meta name="theme-color" content="#000000" />
 
-{/* Theme Color */}
-<meta content="" name="theme-color" />
+{/* SEO Improvements */}
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+<meta name="language" content="en" />
+<meta name="revisit-after" content="7 days" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-{/* Open Graph / Facebook */}
-<meta content={articleDate ? 'article' : 'website'} property="og:type" />
-<meta content={title} property="og:title" />
-<meta content={description} property="og:description" />
-<meta content={canonicalURL} property="og:url" />
-<meta content={siteConfig.title} property="og:site_name" />
-<meta content={siteConfig.ogLocale} property="og:locale" />
-<meta content={socialImageURL} property="og:image" />
-<meta content="1200" property="og:image:width" />
-<meta content="630" property="og:image:height" />
-{
-  articleDate && (
-    <>
-      <meta content={siteConfig.author} property="article:author" />
-      <meta content={articleDate} property="article:published_time" />
-    </>
-  )
-}
+{/* Open Graph */}
+<meta property="og:type" content={articleDate ? 'article' : 'website'} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content={siteConfig.title} />
+<meta property="og:locale" content={siteConfig.ogLocale} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+{articleDate && (
+  <>
+    <meta property="article:author" content={siteConfig.author} />
+    <meta property="article:published_time" content={articleDate} />
+  </>
+)}
 
 {/* Twitter */}
-<meta content="summary_large_image" property="twitter:card" />
-<meta content={canonicalURL} property="twitter:url" />
-<meta content={title} property="twitter:title" />
-<meta content={description} property="twitter:description" />
-<meta content={socialImageURL} property="twitter:image" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImageURL} />
+<meta name="twitter:site" content="@santi020k" />
+<meta name="twitter:creator" content="@santi020k" />
 
-{/* Sitemap */}
-<link href="/sitemap-index.xml" rel="sitemap" />
-
-{/* RSS auto-discovery */}
-<link href="/rss.xml" rel="alternate" title={siteConfig.title} type="application/rss+xml" />
+{/* Additional Social */}
+<meta property="og:image:alt" content={`Preview image for ${title}`} />
+<meta name="twitter:image:alt" content={`Preview image for ${title}`} />
 
 {/* Webmentions */}
-{
-  WEBMENTION_URL && (
-    <>
-      <link href={WEBMENTION_URL} rel="webmention" />
-      {WEBMENTION_PINGBACK && <link href={WEBMENTION_PINGBACK} rel="pingback" />}
-    </>
-  )
-}
+{WEBMENTION_URL && (
+  <>
+    <link rel="webmention" href={WEBMENTION_URL} />
+    {WEBMENTION_PINGBACK && <link rel="pingback" href={WEBMENTION_PINGBACK} />}
+  </>
+)}
 
-<meta content={Astro.generator} name="generator" />
-
-<!-- Viewport -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content={Astro.generator} />
 
 {import.meta.env.PROD && (
   <>
-    <!-- Vercel Speed Insights -->
     <SpeedInsights />
-
-    <!-- Analytics -->
     <Analytics />
   </>
 )}
