@@ -15,6 +15,7 @@ This directory contains the rules and conventions for the Santi020k private webs
 - **[Content Collections Architecture](./skills/content-collections/SKILL.md)**: Guide to schemas and data querying.
 - **[Creating Components](./skills/creating-components/SKILL.md)**: Rules for reusable components, props, and Tailwind styling.
 - **[Project Maintenance](./skills/maintenance/SKILL.md)**: Standard maintenance tasks.
+- **[Testing Infrastructure](./skills/testing/SKILL.md)**: Guidelines for unit and E2E tests.
 
 ## General Principles
 
