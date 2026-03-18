@@ -1,5 +1,4 @@
 // @ts-check
-import eslintPluginAstro from 'eslint-plugin-astro'
 
 import { ConfigOption, eslintConfig, OptionalOption, SettingOption } from '@santi020k/eslint-config-basic'
 
@@ -16,13 +15,17 @@ export default [
     settings: [SettingOption.Gitignore] // honor your .gitignore
   }),
 
-  // --- Astro plugin recommended (parser + rules for .astro) ---
-  // Use recommended base rules that prevent common errors in Astro components.
-  ...eslintPluginAstro.configs['flat/recommended'],
-
-  // --- Astro accessibility rules (optional but encouraged) ---
-  // Choose one: 'flat/jsx-a11y-recommended' or stricter 'flat/jsx-a11y-strict'.
-  ...eslintPluginAstro.configs['flat/jsx-a11y-recommended'],
+  // --- Global Settings ---
+  {
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: 'src/styles/global.css'
+      }
+    },
+    rules: {
+      '@stylistic/max-len': 'off'
+    }
+  },
 
   // --- Local project overrides ---
   {

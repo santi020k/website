@@ -27,18 +27,28 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 const postSeries = !!content.data.seriesId && await getCollection('series')
   .then(series => series.find(s => s.id === content.data.seriesId))
-  .catch((err) => {
+  .catch(err => {
     console.error('Failed to find series:', err)
+
     return null
   })
 ---
 
-<div class="flex items-end md:sticky md:top-8 md:z-10">
+<div class="
+  flex items-end
+  md:sticky md:top-8 md:z-10
+"
+>
   {
     !!postSeries && (
       <button
         id="toggle-panel"
-        class="mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg bg-accent-base/10 text-accent-base hover:brightness-110 md:flex"
+        class="
+          bg-accent-base/10 text-accent-base mr-2 hidden size-8 shrink-0
+          items-center justify-center rounded-lg
+          hover:brightness-110
+          md:flex
+        "
         aria-label="Toggle Series Panel"
         aria-controls="series-panel"
       >
@@ -54,7 +64,12 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
     !!(content.rendered?.metadata?.headings as unknown[] | undefined)?.length && (
       <button
         id="toggle-toc"
-        class="hidden size-8 shrink-0 items-center justify-center rounded-lg bg-accent-base/10 text-accent-base hover:brightness-110 md:flex"
+        class="
+          bg-accent-base/10 text-accent-base hidden size-8 shrink-0 items-center
+          justify-center rounded-lg
+          hover:brightness-110
+          md:flex
+        "
         aria-label="Table of Contents"
       >
         <Icon aria-hidden="true" class="size-6" focusable="false" name="solar:clipboard-list-bold" />
@@ -63,7 +78,10 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
   }
 
   <h1
-    class="title ml-2 line-clamp-none md:sticky md:top-4 md:z-20 md:line-clamp-1 md:max-w-[calc(100%-10rem)]"
+    class="
+      title ml-2 line-clamp-none
+      md:sticky md:top-4 md:z-20 md:line-clamp-1 md:max-w-[calc(100%-10rem)]
+    "
     title={content.data.title}
     data-pagefind-body
   >
@@ -71,10 +89,14 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
   </h1>
 </div>
 
-<div class="mx-2 mb-2 mt-4.25 flex flex-wrap items-center text-sm text-lighter">
+<div class="text-lighter mx-2 mt-4.25 mb-2 flex flex-wrap items-center text-sm">
   <span class="flex h-7 items-center">
     <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" />
-    <FormattedDate date={content.data.publishDate} dateTimeOptions={dateTimeOptions} class="flex shrink-0" />
+    <FormattedDate
+      date={content.data.publishDate}
+      dateTimeOptions={dateTimeOptions}
+      class="flex shrink-0"
+    />
   </span>
   <Separator type="dot" />
   <span class="flex h-7 items-center">
@@ -85,7 +107,11 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
   {
     content.data.updatedDate && (
       <Separator type="dot" />
-      <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg bg-accent-two/5 px-2 py-1 text-sm text-accent-two">
+      <span class="
+        bg-accent-two/5 text-accent-two flex h-7 shrink-0 items-center gap-x-1
+        rounded-lg px-2 py-1 text-sm
+      "
+      >
         Updated:<FormattedDate class="flex shrink-0" date={content.data.updatedDate} dateTimeOptions={dateTimeOptions} />
       </span>
     )
@@ -96,7 +122,7 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
 
 {
   content.data.coverImage && (
-    <div class="mb-4 mt-2 overflow-auto rounded-lg">
+    <div class="mt-2 mb-4 overflow-auto rounded-lg">
       <Image
         alt={content.data.coverImage.alt}
         class="object-cover"
@@ -109,7 +135,7 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
 }
 
 <p
-  class="prose mx-2 max-w-none text-textColor"
+  class="prose text-textColor mx-2 max-w-none"
   data-pagefind-body
 >
   {content.data.description}
@@ -118,9 +144,14 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
 <div class="mx-1 mt-4 flex flex-wrap items-center gap-2">
   {/* Tags */}
   {
-    content.data.tags?.length
-      ? (
-      <Icon aria-hidden="true" class="inline-block size-6 shrink-0 text-accent-base" focusable="false" name="solar:tag-line-duotone" />
+    content.data.tags?.length ?
+      (
+      <Icon
+        aria-hidden="true"
+        class="text-accent-base inline-block size-6 shrink-0"
+        focusable="false"
+        name="solar:tag-line-duotone"
+      />
       <>
         {content.data.tags.map(tag => (
           <a aria-label={`View all posts with the tag: ${tag}`} href={`/tags/${tag}`}>
@@ -128,33 +159,48 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
           </a>
         ))}
       </>
-        )
-      : (
-      <Icon aria-hidden="true" class="inline-block size-6 shrink-0 text-lightest" focusable="false" name="solar:tag-line-duotone" />
-      <span class="text-sm text-lightest">No tags</span>
-        )
+      ) :
+      (
+      <Icon
+        aria-hidden="true"
+        class="text-lightest inline-block size-6 shrink-0"
+        focusable="false"
+        name="solar:tag-line-duotone"
+      />
+      <span class="text-lightest text-sm">No tags</span>
+      )
   }
 
   {/* Series */}
   {
-    postSeries
-      ? (
-          <div class="flex items-center gap-2">
-            <Icon aria-hidden="true" class="inline-block size-6 shrink-0 text-accent-base" focusable="false" name="solar:notes-line-duotone" />
-            <a
-              aria-label={`About ${postSeries.data.title} series`}
-              href={`/series/${postSeries.id}`}
-              class="flex flex-wrap items-center gap-2"
-            >
-              <Badge variant="accent-base" showHash={false} title={postSeries.data.title} />
-            </a>
-          </div>
-        )
-      : (
-          <div class="flex items-center gap-2">
-            <Icon aria-hidden="true" class="inline-block size-6 shrink-0 text-lightest" focusable="false" name="solar:notes-line-duotone" />
-            <span class="text-sm text-lightest">Not in series</span>
-          </div>
-        )
+    postSeries ?
+      (
+        <div class="flex items-center gap-2">
+          <Icon
+            aria-hidden="true"
+            class="text-accent-base inline-block size-6 shrink-0"
+            focusable="false"
+            name="solar:notes-line-duotone"
+          />
+          <a
+            aria-label={`About ${postSeries.data.title} series`}
+            href={`/series/${postSeries.id}`}
+            class="flex flex-wrap items-center gap-2"
+          >
+            <Badge variant="accent-base" showHash={false} title={postSeries.data.title} />
+          </a>
+        </div>
+      ) :
+      (
+        <div class="flex items-center gap-2">
+          <Icon
+            aria-hidden="true"
+            class="text-lightest inline-block size-6 shrink-0"
+            focusable="false"
+            name="solar:notes-line-duotone"
+          />
+          <span class="text-lightest text-sm">Not in series</span>
+        </div>
+      )
   }
 </div>

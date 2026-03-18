@@ -17,6 +17,7 @@ export const getStaticPaths = (async ({ paginate }) => {
   const MAX_TAGS = 20
   const allPosts = await getAllPosts()
   const uniqueTags = getUniqueTags(allPosts).slice(0, MAX_TAGS)
+
   return paginate(allPosts.sort(collectionDateSort), {
     pageSize: MAX_POSTS_PER_PAGE,
     props: { uniqueTags }
@@ -62,15 +63,24 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
       <Icon aria-hidden="true" class="size-6" focusable="false" name="mdi:rss" />
     </a>
   </h1>
-  <div class="grid gap-y-8 sm:grid-cols-[1fr_auto] sm:gap-x-8">
+  <div class="
+    grid gap-y-8
+    sm:grid-cols-[1fr_auto] sm:gap-x-8
+  "
+  >
     <section aria-label="Blog post list" class="grow">
       {
         descYearKeys.map(yearKey => (
           <>
             <h4 class="title">{yearKey}</h4>
-            <ul class="mb-8 mt-4 space-y-8 text-start">
+            <ul class="mt-4 mb-8 space-y-8 text-start">
               {groupedByYear[yearKey]?.map(p => (
-                <li class="grid gap-2 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
+                <li class="
+                  grid gap-2
+                  sm:grid-cols-[auto_1fr]
+                  sm:[&_q]:col-start-2
+                "
+                >
                   <PostPreview post={p} withDesc={true} />
                 </li>
               ))}
@@ -81,7 +91,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
     </section>
     {
       !!uniqueTags.length && (
-        <aside class="md:min-w-56 md:max-w-56 md:basis-56">
+        <aside class="md:max-w-56 md:min-w-56 md:basis-56">
           <h4 class="title mb-4 flex gap-2">
             Tags
             {/*
@@ -97,10 +107,18 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
               </li>
             ))}
 
-            <span class="ms-auto inline-flex h-6 items-center text-base sm:text-end">
+            <span class="
+              ms-auto inline-flex h-6 items-center text-base
+              sm:text-end
+            "
+            >
               <a
                 aria-label="View all blog categories"
-                class="font-medium text-accent sm:hover:text-accent-two"
+                class="
+                  text-accent
+                  sm:hover:text-accent-two
+                  font-medium
+                "
                 href="/tags/"
               >
                 View all →

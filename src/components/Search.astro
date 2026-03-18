@@ -8,7 +8,11 @@ import '@pagefind/default-ui/css/ui.css';
 
 <site-search class="ms-auto" id="search">
   <button
-    class="flex size-8 items-center justify-center rounded-lg drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)] hover:text-accent-two"
+    class="
+      hover:text-accent-two
+      flex size-8 items-center justify-center rounded-lg
+      drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)]
+    "
     data-open-modal
     disabled
   >
@@ -17,14 +21,30 @@ import '@pagefind/default-ui/css/ui.css';
 
   <dialog
     aria-label="search"
-    class="size-full max-h-full max-w-full overflow-y-hidden bg-bgColor backdrop:backdrop-blur-xl md:my-8 md:h-fit md:min-h-26 md:w-5/6 md:max-w-176 md:rounded-lg"
+    class="
+      bg-bgColor size-full max-h-full max-w-full overflow-y-hidden
+      backdrop:backdrop-blur-xl
+      md:my-8 md:h-fit md:min-h-26 md:w-5/6 md:max-w-176 md:rounded-lg
+    "
   >
-    <div class="flex h-full flex-col gap-4 p-4 md:p-8">
+    <div class="
+      flex h-full flex-col gap-4 p-4
+      md:p-8
+    "
+    >
       <!-- Заголовок и кнопка закрытия -->
-      <div class="sticky top-0 z-20 flex items-center justify-between bg-bgColor md:hidden">
+      <div class="
+        bg-bgColor sticky top-0 z-20 flex items-center justify-between
+        md:hidden
+      "
+      >
         <h4 class="title flex items-end font-semibold">Search</h4>
         <button
-          class="flex size-8 cursor-pointer items-center justify-center rounded-lg bg-color-100 text-textColor hover:bg-accent-base/5 hover:text-accent-base"
+          class="
+            bg-color-100 text-textColor
+            hover:bg-accent-base/5 hover:text-accent-base
+            flex size-8 cursor-pointer items-center justify-center rounded-lg
+          "
           data-close-modal
         >
           <Icon aria-hidden="true" class="size-6" focusable="false" name="hugeicons:cancel-01" />
@@ -33,20 +53,20 @@ import '@pagefind/default-ui/css/ui.css';
 
       <!-- Содержимое -->
       {
-        import.meta.env.DEV
-          ? (
-              <div class="mx-auto text-center text-textColor">
-                <p>
-                  Search is only available in production builds. <br />
-                  Try building and previewing the site to test it out locally.
-                </p>
-              </div>
-            )
-          : (
-              <div class="h-full">
-                <div id="citrus__search" />
-              </div>
-            )
+        import.meta.env.DEV ?
+          (
+            <div class="text-textColor mx-auto text-center">
+              <p>
+                Search is only available in production builds. <br />
+                Try building and previewing the site to test it out locally.
+              </p>
+            </div>
+          ) :
+          (
+            <div class="h-full">
+              <div id="citrus__search" />
+            </div>
+          )
       }
     </div>
   </dialog>

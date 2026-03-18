@@ -25,20 +25,27 @@ const separatorClasses = {
 } as const
 
 const isDot = type === SeparatorType.Dot
-
 const ariaOrientation = type === SeparatorType.Horizontal ? 'horizontal' : 'vertical'
-
 const typeClass = separatorClasses.types[type]
 ---
 
-{isDot
-  ? (
-      <span class={`${separatorClasses.base} ${typeClass} ${className}`} />
-    )
-  : (
-      <span
-        role="separator"
-        aria-orientation={ariaOrientation}
-        class={`${separatorClasses.base} ${typeClass} ${className}`}
-      />
-    )}
+{isDot ?
+  (
+    <span class={`
+      ${separatorClasses.base}
+      ${typeClass}
+      ${className}
+    `}
+    />
+  ) :
+  (
+    <span
+      role="separator"
+      aria-orientation={ariaOrientation}
+      class={`
+        ${separatorClasses.base}
+        ${typeClass}
+        ${className}
+      `}
+    />
+  )}

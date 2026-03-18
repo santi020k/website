@@ -22,11 +22,19 @@ const { content } = Astro.props
 //   })
 ---
 
-<div class="bg-white/95 px-2 py-4 backdrop-blur-xl md:sticky md:top-0 md:z-10 dark:bg-black/80">
+<div class="
+  bg-white/95 px-2 py-4 backdrop-blur-xl
+  md:sticky md:top-0 md:z-10
+  dark:bg-black/80
+"
+>
   <div class="flex justify-between">
     <div class="flex flex-col">
       <h1
-        class="line-clamp-none md:sticky md:top-4 md:z-20 md:line-clamp-1"
+        class="
+          line-clamp-none
+          md:sticky md:top-4 md:z-20 md:line-clamp-1
+        "
         title={content.data.title}
         data-pagefind-body
         transition:name={`project-title-${content.id}`}
@@ -34,7 +42,13 @@ const { content } = Astro.props
         {content.data.title}
       </h1>
 
-      <div transition:name={`project-subtitle-${content.id}`} class="flex flex-col items-start gap-0 sm:flex-row sm:items-center sm:gap-2">
+      <div
+        transition:name={`project-subtitle-${content.id}`}
+        class="
+          flex flex-col items-start gap-0
+          sm:flex-row sm:items-center sm:gap-2
+        "
+      >
         <p>
           {content.data.rol}
         </p>
@@ -42,20 +56,31 @@ const { content } = Astro.props
           (
           <span class="flex h-7 items-center">
             <!-- <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" /> -->
-            <FormattedDate date={content.data.startingDate} dateTimeOptions={dateWithoutDay} class="flex shrink-0" />
+            <FormattedDate
+              date={content.data.startingDate}
+              dateTimeOptions={dateWithoutDay}
+              class="flex shrink-0"
+            />
             <span class="px-2">–</span>
             {
-              content.data.endingDate
-                ? (
-                    <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg text-sm">
-                      <FormattedDate class="flex shrink-0" date={content.data.endingDate} dateTimeOptions={dateWithoutDay} />
-                    </span>
-                  )
-                : (
-                    <span class="flex h-7 shrink-0 items-center gap-x-1 rounded-lg px-2 py-1 text-sm">
-                      Present
-                    </span>
-                  )
+              content.data.endingDate ?
+                (
+                  <span class="
+                    flex h-7 shrink-0 items-center gap-x-1 rounded-lg text-sm
+                  "
+                  >
+                    <FormattedDate class="flex shrink-0" date={content.data.endingDate} dateTimeOptions={dateWithoutDay} />
+                  </span>
+                ) :
+                (
+                  <span class="
+                    flex h-7 shrink-0 items-center gap-x-1 rounded-lg px-2 py-1
+                    text-sm
+                  "
+                  >
+                    Present
+                  </span>
+                )
             }
           </span>
           )
@@ -72,7 +97,11 @@ const { content } = Astro.props
 
 {
   content.data.coverImage && (
-    <div class="mb-4 mt-2 overflow-auto rounded-lg shadow-xl dark:shadow-gray-900">
+    <div class="
+      mt-2 mb-4 overflow-auto rounded-lg shadow-xl
+      dark:shadow-gray-900
+    "
+    >
       <Image
         alt={content.data.coverImage.alt}
         class="object-cover"
@@ -98,19 +127,19 @@ const { content } = Astro.props
 <div class="mx-1 mt-4 flex flex-wrap items-center gap-2" transition:name={`project-badges-${content.id}`}>
   {/* Tags */}
   {
-    content.data.technologies?.length
-      ? (
-          <>
-            {content.data.technologies.map(technology => (
-              <a aria-label={`View all projects with the technology: ${technology}`} href={`/technologies/${technology}`}>
-                <Badge variant="accent-two" title={technology} />
-              </a>
-            ))}
-          </>
-        )
-      : (
-          <span class="text-sm">No tags</span>
-        )
+    content.data.technologies?.length ?
+      (
+        <>
+          {content.data.technologies.map(technology => (
+            <a aria-label={`View all projects with the technology: ${technology}`} href={`/technologies/${technology}`}>
+              <Badge variant="accent-two" title={technology} />
+            </a>
+          ))}
+        </>
+      ) :
+      (
+        <span class="text-sm">No tags</span>
+      )
   }
 
   <!-- TODO: I want to have this information in another place -->

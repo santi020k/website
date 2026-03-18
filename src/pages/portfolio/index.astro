@@ -26,39 +26,83 @@ const groupedByTypeId = groupProjectsByTypesId(data)
 <PageLayout meta={meta}>
   <div class="flex flex-col gap-y-16">
     <section class="flex flex-col gap-y-4">
-      <h1 class="font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+      <h1 class="
+        font-bold tracking-tight text-zinc-900
+        dark:text-zinc-100
+      "
+      >
         Portfolio
       </h1>
-      <p class="text-lg text-zinc-600 dark:text-zinc-200">
+      <p class="
+        text-lg text-zinc-600
+        dark:text-zinc-200
+      "
+      >
         Showcases projects I’ve worked on, from client work and open-source libraries to experiments.
         Each reflects a blend of technical depth, user-centric design, and a passion for solving real-world problems.
       </p>
-      <p class="text-base text-zinc-700 dark:text-zinc-200">
+      <p class="
+        text-base text-zinc-700
+        dark:text-zinc-200
+      "
+      >
         Looking for more? Check out my{' '}
         <a
           href="/pdf/cv.pdf"
           target="_blank"
-          class="text-sky-700 transition-all duration-200 hover:text-sky-600 hover:underline dark:text-sky-400 dark:hover:text-sky-500"
+          class="
+            text-sky-700 transition-all duration-200
+            hover:text-sky-600 hover:underline
+            dark:text-sky-400
+            dark:hover:text-sky-500
+          "
         >
           CV/Resume
         </a>
       </p>
     </section>
 
-    <section class="flex flex-col gap-8 md:flex-row">
+    <section class="
+      flex flex-col gap-8
+      md:flex-row
+    "
+    >
       <div aria-label="Projects project list" class="flex flex-col gap-y-16">
         <div x-data="{ activeTab: 0 }">
-          <nav class="mb-4 inline-flex items-center space-x-1 overflow-x-auto rounded-xl bg-gray-500/5 p-1 text-sm text-gray-700 rtl:space-x-reverse dark:bg-gray-500/20 dark:text-gray-200">
-            <div role="tablist" class="-mb-px flex flex-col items-stretch gap-2 text-slate-500 sm:flex-row">
+          <nav class="
+            mb-4 inline-flex items-center space-x-1 overflow-x-auto rounded-xl
+            bg-gray-500/5 p-1 text-sm text-gray-700
+            rtl:space-x-reverse
+            dark:bg-gray-500/20 dark:text-gray-200
+          "
+          >
+            <div
+              role="tablist"
+              class="
+                -mb-px flex flex-col items-stretch gap-2 text-slate-500
+                sm:flex-row
+              "
+            >
               {allTypesReversed.map((type, index) => {
                 const tabId = `tab-${index}`
                 const panelId = `panel-${index}`
+
                 return (
                   <button
                     id={tabId}
                     role="tab"
                     aria-controls={panelId}
-                    class="flex h-8 cursor-pointer items-center whitespace-nowrap rounded-lg px-5 font-medium text-gray-700 outline-none transition-all duration-300 hover:text-gray-900 focus:text-sky-700 focus:ring-2 focus:ring-inset focus:ring-white dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-white dark:focus:ring-sky-600"
+                    class="
+                      flex h-8 cursor-pointer items-center rounded-lg px-5
+                      font-medium whitespace-nowrap text-gray-700 transition-all
+                      duration-300 outline-none
+                      hover:text-gray-900
+                      focus:text-sky-700 focus:ring-2 focus:ring-white
+                      focus:ring-inset
+                      dark:text-gray-400
+                      dark:hover:text-gray-300
+                      dark:focus:text-white dark:focus:ring-sky-600
+                    "
                     @click={`activeTab = ${index}`}
                     :aria-selected={`activeTab === ${index}`}
                     :class={`{ 'text-sky-700 shadow bg-white dark:text-white dark:bg-[#034463]': activeTab === ${index} }`}
@@ -74,6 +118,7 @@ const groupedByTypeId = groupProjectsByTypesId(data)
             {allTypesReversed.map((type, index) => {
               const panelId = `panel-${index}`
               const tabId = `tab-${index}`
+
               return (
                 <div
                   x-show={`activeTab === ${index}`}
@@ -83,7 +128,11 @@ const groupedByTypeId = groupProjectsByTypesId(data)
                   x-cloak
                 >
                   <article id={type.data.id} class="flex flex-col gap-y-4">
-                    <p class="text-zinc-600 dark:text-zinc-200">
+                    <p class="
+                      text-zinc-600
+                      dark:text-zinc-200
+                    "
+                    >
                       {type.data.description}
                     </p>
                     <ul class="flex flex-col gap-y-8 text-start">
@@ -102,7 +151,11 @@ const groupedByTypeId = groupProjectsByTypesId(data)
       </div>
       {
         !!uniqueTechnologies.length && (
-          <aside class="flex flex-col gap-y-4 md:min-w-56 md:max-w-56 md:basis-56">
+          <aside class="
+            flex flex-col gap-y-4
+            md:max-w-56 md:min-w-56 md:basis-56
+          "
+          >
             <h1 class="flex text-base">
               Technologies
             </h1>
@@ -110,14 +163,23 @@ const groupedByTypeId = groupProjectsByTypesId(data)
               <ul class="flex flex-wrap gap-2">
                 {uniqueTechnologies.map(technology => (
                   <li>
-                    <a aria-label={`View all posts with the technology: ${technology}`} href={`/technologies/${technology}`} class="truncate">
+                    <a
+                      aria-label={`View all posts with the technology: ${technology}`}
+                      href={`/technologies/${technology}`}
+                      class="truncate"
+                    >
                       <Badge variant="muted" title={technology} />
                     </a>
                   </li>
                 ))}
               </ul>
 
-              <div class="ms-auto flex h-6 items-center sm:text-end md:block">
+              <div class="
+                ms-auto flex h-6 items-center
+                sm:text-end
+                md:block
+              "
+              >
                 <a
                   aria-label="View all projects categories"
                   class="text-sm font-medium"
