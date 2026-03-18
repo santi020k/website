@@ -23,7 +23,16 @@ export default [
       }
     },
     rules: {
-      '@stylistic/max-len': 'off'
+      '@stylistic/max-len': 'off',
+      'better-tailwindcss/no-unknown-classes': ['error', {
+        ignore: [
+          'not-prose',
+          'prose-citrus',
+          'title',
+          '^.*textColor.*$',
+          '^.*bgColor.*$'
+        ]
+      }]
     }
   },
 
