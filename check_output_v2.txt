@@ -1,0 +1,225 @@
+
+> website@1.1.5 check
+> astro check
+
+13:15:31 [vite] Re-optimizing dependencies because vite config has changed
+13:15:33 [content] Syncing content
+13:15:34 [content] Synced content
+13:15:34 [types] Generated 2.10s
+13:15:34 [check] Getting diagnostics for Astro files in /Users/smith/Projects/santi020k/private-website...
+[96mplaywright.config.ts[0m:[93m3[0m:[93m29[0m - [91merror[0m[90m ts(2769): [0mNo overload matches this call.
+  The last overload gave the following error.
+    Argument of type '{ testDir: string; fullyParallel: true; forbidOnly: boolean; retries: number; workers: number | undefined; reporter: "html"; use: { baseURL: string; trace: "on-first-retry"; }; projects: { name: string; use: { ...; }; }[]; webServer: { ...; }; }' is not assignable to parameter of type 'PlaywrightTestConfig<unknown, unknown>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'workers' are incompatible.
+        Type 'number | undefined' is not assignable to type 'string | number'.
+          Type 'undefined' is not assignable to type 'string | number'.
+
+[7m  3[0m export default defineConfig({
+[7m   [0m [91m                            ~[0m
+[7m  4[0m   testDir: './tests',
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m 32[0m   }
+[7m   [0m [91m~~~[0m
+[7m 33[0m })
+[7m   [0m [91m~[0m
+
+[96msrc/content.config.ts[0m:[93m103[0m:[93m15[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m103[0m     featured: z.boolean().default(false)
+[7m   [0m [93m              ~[0m
+[96msrc/content.config.ts[0m:[93m102[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m102[0m     description: z.string(),
+[7m   [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m101[0m:[93m12[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m101[0m     title: z.string(),
+[7m   [0m [93m           ~[0m
+[96msrc/content.config.ts[0m:[93m100[0m:[93m9[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m100[0m     id: z.string(),
+[7m   [0m [93m        ~[0m
+[96msrc/content.config.ts[0m:[93m99[0m:[93m11[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m99[0m   schema: z.object({
+[7m  [0m [93m          ~[0m
+[96msrc/content.config.ts[0m:[93m91[0m:[93m15[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m91[0m     featured: z.boolean().default(false)
+[7m  [0m [93m              ~[0m
+[96msrc/content.config.ts[0m:[93m90[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m90[0m     description: z.string(),
+[7m  [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m89[0m:[93m12[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m89[0m     title: z.string(),
+[7m  [0m [93m           ~[0m
+[96msrc/content.config.ts[0m:[93m88[0m:[93m9[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m88[0m     id: z.string(),
+[7m  [0m [93m        ~[0m
+[96msrc/content.config.ts[0m:[93m87[0m:[93m11[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m87[0m   schema: z.object({
+[7m  [0m [93m          ~[0m
+[96msrc/content.config.ts[0m:[93m79[0m:[93m8[0m - [93mwarning[0m[90m ts(6385): [0m'(params?: string | { abort?: boolean | undefined; precision?: number | null; offset?: boolean; local?: boolean; error?: string | $ZodErrorMap<$ZodIssueInvalidStringFormat> | undefined; message?: string | undefined; } | undefined): ZodString' is deprecated.
+
+[7m79[0m       .datetime({ offset: true })
+[7m  [0m [93m       ~~~~~~~~[0m
+[96msrc/content.config.ts[0m:[93m76[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m76[0m     publishDate: z
+[7m  [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m75[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m75[0m     description: z.string().optional(),
+[7m  [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m67[0m:[93m19[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m67[0m     orderInTypes: z.number().optional()
+[7m  [0m [93m                  ~[0m
+[96msrc/content.config.ts[0m:[93m66[0m:[93m14[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m66[0m     typesId: z.enum(['professional', 'personal', 'experimental']).optional(),
+[7m  [0m [93m             ~[0m
+[96msrc/content.config.ts[0m:[93m64[0m:[93m29[0m - [93mwarning[0m[90m ts(6385): [0m'(params?: string | { normalize?: boolean | undefined; abort?: boolean | undefined; pattern?: RegExp | undefined; hostname?: RegExp | undefined; protocol?: RegExp | undefined; error?: string | ... 1 more ... | undefined; message?: string | undefined; } | undefined): ZodString' is deprecated.
+
+[7m64[0m     liveDemoUrl: z.string().url().optional(),
+[7m  [0m [93m                            ~~~[0m
+[96msrc/content.config.ts[0m:[93m64[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m64[0m     liveDemoUrl: z.string().url().optional(),
+[7m  [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m63[0m:[93m27[0m - [93mwarning[0m[90m ts(6385): [0m'(params?: string | { normalize?: boolean | undefined; abort?: boolean | undefined; pattern?: RegExp | undefined; hostname?: RegExp | undefined; protocol?: RegExp | undefined; error?: string | ... 1 more ... | undefined; message?: string | undefined; } | undefined): ZodString' is deprecated.
+
+[7m63[0m     githubUrl: z.string().url().optional(),
+[7m  [0m [93m                          ~~~[0m
+[96msrc/content.config.ts[0m:[93m63[0m:[93m16[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m63[0m     githubUrl: z.string().url().optional(),
+[7m  [0m [93m               ~[0m
+[96msrc/content.config.ts[0m:[93m62[0m:[93m21[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m62[0m     seoDescription: z.string().optional(),
+[7m  [0m [93m                    ~[0m
+[96msrc/content.config.ts[0m:[93m61[0m:[93m15[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m61[0m     seoTitle: z.string().optional(),
+[7m  [0m [93m              ~[0m
+[96msrc/content.config.ts[0m:[93m57[0m:[93m17[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m57[0m     endingDate: z
+[7m  [0m [93m                ~[0m
+[96msrc/content.config.ts[0m:[93m55[0m:[93m11[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m55[0m       .or(z.date())
+[7m  [0m [93m          ~[0m
+[96msrc/content.config.ts[0m:[93m53[0m:[93m19[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m53[0m     startingDate: z
+[7m  [0m [93m                  ~[0m
+[96msrc/content.config.ts[0m:[93m52[0m:[93m27[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m52[0m     technologies: z.array(z.string()).default([]).transform(removeDuplicates),
+[7m  [0m [93m                          ~[0m
+[96msrc/content.config.ts[0m:[93m52[0m:[93m19[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m52[0m     technologies: z.array(z.string()).default([]).transform(removeDuplicates),
+[7m  [0m [93m                  ~[0m
+[96msrc/content.config.ts[0m:[93m51[0m:[93m12[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m51[0m     draft: z.boolean().default(false),
+[7m  [0m [93m           ~[0m
+[96msrc/content.config.ts[0m:[93m48[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m48[0m         ogImage: z.string().optional()
+[7m  [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m46[0m:[93m14[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m46[0m         alt: z.string(),
+[7m  [0m [93m             ~[0m
+[96msrc/content.config.ts[0m:[93m44[0m:[93m17[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m44[0m     coverImage: z
+[7m  [0m [93m                ~[0m
+[96msrc/content.config.ts[0m:[93m43[0m:[93m10[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m43[0m     rol: z.enum(['Technical Lead', 'Full Stack', 'Front-End Lead', 'CTO', 'Creator', 'Co-Organizer']).optional(),
+[7m  [0m [93m         ~[0m
+[96msrc/content.config.ts[0m:[93m42[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m42[0m     description: z.string(),
+[7m  [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m34[0m:[93m20[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m34[0m     orderInSeries: z.number().optional()
+[7m  [0m [93m                   ~[0m
+[96msrc/content.config.ts[0m:[93m33[0m:[93m15[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m33[0m     seriesId: z.string().optional(),
+[7m  [0m [93m              ~[0m
+[96msrc/content.config.ts[0m:[93m28[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m28[0m     updatedDate: z
+[7m  [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m26[0m:[93m11[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m26[0m       .or(z.date())
+[7m  [0m [93m          ~[0m
+[96msrc/content.config.ts[0m:[93m24[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m24[0m     publishDate: z
+[7m  [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m23[0m:[93m19[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m23[0m     tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+[7m  [0m [93m                  ~[0m
+[96msrc/content.config.ts[0m:[93m23[0m:[93m11[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m23[0m     tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+[7m  [0m [93m          ~[0m
+[96msrc/content.config.ts[0m:[93m22[0m:[93m14[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m22[0m     ogImage: z.string().optional(),
+[7m  [0m [93m             ~[0m
+[96msrc/content.config.ts[0m:[93m21[0m:[93m12[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m21[0m     draft: z.boolean().default(false),
+[7m  [0m [93m           ~[0m
+[96msrc/content.config.ts[0m:[93m17[0m:[93m14[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m17[0m         alt: z.string(),
+[7m  [0m [93m             ~[0m
+[96msrc/content.config.ts[0m:[93m15[0m:[93m17[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m15[0m     coverImage: z
+[7m  [0m [93m                ~[0m
+[96msrc/content.config.ts[0m:[93m14[0m:[93m18[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m14[0m     description: z.string(),
+[7m  [0m [93m                 ~[0m
+[96msrc/content.config.ts[0m:[93m8[0m:[93m10[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m8[0m   title: z.string().max(60)
+[7m [0m [93m         ~[0m
+[96msrc/content.config.ts[0m:[93m7[0m:[93m20[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m7[0m const baseSchema = z.object({
+[7m [0m [93m                   ~[0m
+[96msrc/content.config.ts[0m:[93m2[0m:[93m28[0m - [93mwarning[0m[90m ts(6385): [0m'z' is deprecated.
+
+[7m2[0m import { defineCollection, z } from 'astro:content'
+[7m [0m [93m                           ~[0m
+
+[96msrc/components/Search.astro[0m:[93m161[0m:[93m13[0m - [93mwarning[0m[90m ts(6133): [0m'_pagefind' is declared but its value is never read.
+
+[7m161[0m       const _pagefind = new PagefindUI({
+[7m   [0m [93m            ~~~~~~~~~[0m
+
+Result (76 files): 
+- 1 error
+- 0 warnings
+- 48 hints
+
