@@ -105,7 +105,7 @@ Syntax highlighting
 
 ```js
 const foo = function (bar) {
-    return bar++
+    return bar + 1
 }
 
 console.log(foo(5))

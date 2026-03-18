@@ -15,14 +15,14 @@ const { Content } = await render(note);
 
 <article
   class:list={[isPreview && `
-    bg-color-75 inline-grid w-full rounded-lg px-4 py-2
+    inline-grid w-full rounded-lg bg-color-75 px-4 py-2
     md:px-8 md:py-4
   `]}
   data-pagefind-body={!isPreview}
 >
   <Tag
     class="
-      title flex items-end
+      flex items-end title
       md:sticky md:top-8 md:z-10
     "
     class:list={{ 'text-base': isPreview }}
@@ -40,7 +40,7 @@ const { Content } = await render(note);
     }
   </Tag>
   <div
-    class="text-lighter flex h-6 items-end text-sm"
+    class="flex h-6 items-end text-sm text-lighter"
     class:list={{ 'mt-4': !isPreview }}
   >
 

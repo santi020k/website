@@ -28,10 +28,9 @@ const { headings } = await render(project);
   >
     <article class="grid grow grid-cols-1 pt-4 wrap-break-word" data-pagefind-body>
       <div class="
-        prose
+        prose max-w-none grow
         sm:prose-headings:before:content-['#']
         sm:prose-th:before:content-none
-        max-w-none grow
       "
       >
         <slot />

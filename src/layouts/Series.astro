@@ -27,9 +27,9 @@ const { headings } = await render(series);
     <button
       id="toggle-panel"
       class="
+        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         bg-accent-base/10 text-accent-base
         hover:text-accent-base/90
-        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         md:flex
       "
       aria-label="Toggle Series Panel"
@@ -43,9 +43,9 @@ const { headings } = await render(series);
     <button
       id="toggle-toc"
       class="
+        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         bg-accent-base/10 text-accent-base
         hover:text-accent-base/90
-        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         md:flex
       "
       aria-label="Table of Contents"
@@ -54,7 +54,7 @@ const { headings } = await render(series);
     </button>
 
     <h1 class="
-      title line-clamp-none
+      line-clamp-none title
       md:sticky md:top-4 md:z-20 md:line-clamp-1 md:max-w-lg
       lg:max-w-xl
     "
@@ -74,12 +74,11 @@ const { headings } = await render(series);
   >
     <article class="grid grow grid-cols-1 pt-4 wrap-break-word" data-pagefind-body>
       <div class="
-        prose prose-citrus
+        prose prose-citrus max-w-none grow
         prose-headings:font-semibold prose-headings:text-accent-base
         prose-headings:before:text-accent-two
         sm:prose-headings:before:content-['#']
         sm:prose-th:before:content-none
-        max-w-none grow
       "
       >
         <slot />
@@ -108,11 +107,10 @@ const { headings } = await render(series);
     <button
       id="to-top-button"
       class="
-        border-special-lighter bg-bgColor text-light
+        bg-bgColor fixed bottom-14 flex size-12 translate-y-28 items-center
+        justify-center rounded-full border-2 border-special-lighter text-3xl
+        text-light drop-shadow-xl transition-all duration-300
         hover:text-accent-two
-        fixed bottom-14 flex size-12 translate-y-28 items-center justify-center
-        rounded-full border-2 text-3xl drop-shadow-xl transition-all
-        duration-300
         data-[show=true]:translate-y-0 data-[show=true]:opacity-100
       "
       aria-label="Back to Top"
@@ -120,8 +118,8 @@ const { headings } = await render(series);
     >
       <span
         class="
-          bg-special-light absolute inset-0 flex items-center justify-center
-          rounded-full
+          absolute inset-0 flex items-center justify-center rounded-full
+          bg-special-light
         "
         aria-hidden="true"
       >
@@ -144,17 +142,17 @@ const { headings } = await render(series);
   <mobile-button
     id="toggle-panel-mobile"
     class="
-      border-special-lighter bg-bgColor text-accent-base fixed right-4 bottom-4
-      z-50 flex size-12 items-center justify-center rounded-lg border
+      bg-bgColor fixed right-4 bottom-4 z-50 flex size-12 items-center
+      justify-center rounded-lg border border-special-lighter text-accent-base
       shadow-[0px_10px_25px_rgba(0,0,0,0.15)]
       sm:hidden
     "
     aria-label="Toggle Series Panel"
   >
     <span class="
+      absolute inset-0 flex items-center justify-center rounded-lg
       bg-special-light
       hover:text-accent-base/90
-      absolute inset-0 flex items-center justify-center rounded-lg
     "
     >
       <Icon class="size-8" name="solar:notes-bold"/>
