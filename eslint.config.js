@@ -1,7 +1,7 @@
 // @ts-check
 import eslintPluginAstro from 'eslint-plugin-astro'
 
-import { ConfigOption, eslintConfig, OptionalOption, SettingOption } from '@santi020k/eslint-config-santi020k'
+import { ConfigOption, eslintConfig, OptionalOption, SettingOption } from '@santi020k/eslint-config-basic'
 
 export default [
   // --- Base presets from your package ---
