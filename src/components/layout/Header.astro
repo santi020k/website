@@ -13,32 +13,62 @@ import { menuLinks, siteConfig } from '@/site.config';
 <header
   id="main-header"
   transition:name="header"
-  class="fixed left-0 top-0 z-20 flex h-16 w-full items-center bg-white/20 px-4 backdrop-blur-xl md:relative md:px-0 md:backdrop-blur-none dark:bg-black/20"
+  class="
+    fixed top-0 left-0 z-20 flex h-16 w-full items-center bg-white/20 px-4
+    backdrop-blur-xl
+    md:relative md:px-0 md:backdrop-blur-none
+    dark:bg-black/20
+  "
 >
-  <div class="w-full justify-between sm:flex-col">
+  <div class="
+    w-full justify-between
+    sm:flex-col
+  "
+  >
     <div class="flex items-center gap-x-2">
       <a
         aria-label={siteConfig.title}
         aria-current={Astro.url.pathname === '/' ? 'page' : false}
         data-astro-prefetch
-        class="group flex h-8 items-center hover:filter-none sm:relative"
+        class="
+          group flex h-8 items-center
+          hover:filter-none
+          sm:relative
+        "
         href="/"
         transition:name="logo-link"
       >
         <div title={siteConfig.title} class="p-2">
-          <Image src={LogoSVG} alt="Santi020k Logo" width="140" height="100" fetchpriority="high" class="inline-block size-24 fill-current" />
+          <Image
+            src={LogoSVG}
+            alt="Santi020k Logo"
+            width="140"
+            height="100"
+            fetchpriority="high"
+            class="inline-block size-24 fill-current"
+          />
         </div>
       </a>
       <nav
         aria-label="Main menu"
-        class="top-20 mx-auto mr-4 hidden flex-col items-end justify-center gap-x-4 rounded-md text-base font-medium shadow backdrop-blur group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:flex-row sm:items-center sm:rounded-none sm:bg-transparent sm:shadow-none sm:backdrop-blur-none md:flex"
+        class="
+          top-20 mx-auto mr-4 hidden flex-col items-end justify-center gap-x-4
+          rounded-md text-base font-medium shadow-sm backdrop-blur-sm
+          group-[.menu-open]:z-50 group-[.menu-open]:flex
+          sm:static sm:z-auto sm:flex-row sm:items-center sm:rounded-none
+          sm:bg-transparent sm:shadow-none sm:backdrop-blur-none
+          md:flex
+        "
         id="main-navigation-menu"
       >
         {
           menuLinks.map(link => (
             <a
               aria-current={Astro.url.pathname === link.path ? 'page' : false}
-              class="underline-offset-2 hover:underline"
+              class="
+                underline-offset-2
+                hover:underline
+              "
               data-astro-prefetch
               href={link.path}
             >
@@ -50,7 +80,10 @@ import { menuLinks, siteConfig } from '@/site.config';
         <a
           target="_blank"
           rel="noopener noreferrer"
-          class="underline-offset-2 hover:underline"
+          class="
+            underline-offset-2
+            hover:underline
+          "
           data-astro-prefetch
           href="https://medium.com/@santi020k"
         >
@@ -60,7 +93,10 @@ import { menuLinks, siteConfig } from '@/site.config';
         <a
           target="_blank"
           rel="noopener noreferrer"
-          class="underline-offset-2 hover:underline"
+          class="
+            underline-offset-2
+            hover:underline
+          "
           data-astro-prefetch
           href="https://api.whatsapp.com/send?phone=37257899454&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch"
         >
@@ -68,8 +104,18 @@ import { menuLinks, siteConfig } from '@/site.config';
         </a>
       </nav>
 
-      <div class="ml-auto w-fit md:ml-0">
-        <div id="buttons-panel" class="top-4 ml-auto flex space-x-2 md:top-8 md:ml-0">
+      <div class="
+        ml-auto w-fit
+        md:ml-0
+      "
+      >
+        <div
+          id="buttons-panel"
+          class="
+            top-4 ml-auto flex space-x-2
+            md:top-8 md:ml-0
+          "
+        >
           <!-- TODO: Not Implemented yet -->
           <!-- <Search /> -->
           <ThemeToggle />
@@ -80,7 +126,10 @@ import { menuLinks, siteConfig } from '@/site.config';
         aria-expanded="false"
         aria-haspopup="menu"
         aria-label="Open main menu"
-        class="group relative size-8 cursor-pointer rounded-lg md:invisible md:hidden"
+        class="
+          group relative size-8 cursor-pointer rounded-lg
+          md:invisible md:hidden
+        "
         id="toggle-nav-menu-mobile"
         type="button"
         role="button"
@@ -88,14 +137,20 @@ import { menuLinks, siteConfig } from '@/site.config';
         <Icon
           id="open-nav-menu-icon"
           aria-hidden="true"
-          class="absolute start-1/2 top-1/2 size-6 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all"
+          class="
+            absolute inset-s-1/2 top-1/2 size-6 -translate-1/2 scale-100
+            opacity-100 transition-all
+          "
           focusable="false"
           name="hugeicons:menu-01"
         />
         <Icon
           id="close-nav-menu-icon"
           aria-hidden="true"
-          class="absolute start-1/2 top-1/2 size-6 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all"
+          class="
+            absolute inset-s-1/2 top-1/2 size-6 -translate-1/2 scale-0 opacity-0
+            transition-all
+          "
           focusable="false"
           name="hugeicons:cancel-01"
         />
@@ -107,18 +162,26 @@ import { menuLinks, siteConfig } from '@/site.config';
 <div id="drawer" class="fixed inset-0 z-10 hidden backdrop-blur-xl" aria-hidden="true">
   <div
     id="drawer-body"
-    class="absolute inset-0 -translate-y-full transition-all duration-300 ease-in-out"
+    class="
+      absolute inset-0 -translate-y-full transition-all duration-300 ease-in-out
+    "
   >
     <nav
       aria-label="Mobile navigation menu"
-      class="absolute inset-0 flex flex-col items-center justify-center gap-y-4 text-center text-lg font-medium"
+      class="
+        absolute inset-0 flex flex-col items-center justify-center gap-y-4
+        text-center text-lg font-medium
+      "
       id="nav-menu-mobile"
     >
       {
         menuLinks.map(link => (
           <a
             aria-current={Astro.url.pathname === link.path ? 'page' : false}
-            class="underline-offset-2 hover:underline"
+            class="
+              underline-offset-2
+              hover:underline
+            "
             data-astro-prefetch
             href={link.path}
           >
@@ -130,7 +193,10 @@ import { menuLinks, siteConfig } from '@/site.config';
       <a
         target="_blank"
         rel="noopener noreferrer"
-        class="underline-offset-2 hover:underline"
+        class="
+          underline-offset-2
+          hover:underline
+        "
         data-astro-prefetch
         href="https://medium.com/@santi020k"
       >

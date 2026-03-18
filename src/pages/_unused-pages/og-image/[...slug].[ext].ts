@@ -1,5 +1,5 @@
 /* eslint-disable func-style */
-/* eslint-disable @stylistic/max-len */
+
 import { getFormattedDate } from '@/utils/date'
 
 import type { APIContext, InferGetStaticPropsType } from 'astro'

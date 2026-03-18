@@ -24,7 +24,12 @@ const badgeClasses = {
 
 const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasses.variants]
 ---
-<div class={`${badgeClasses.base} ${variantClasses} ${className}`}>
+<div class={`
+  ${badgeClasses.base}
+  ${variantClasses}
+  ${className}
+`}
+>
   {showHash && <span class="text-xs font-normal opacity-60">#</span>}
   <span class="truncate">{title}</span>
   <slot />

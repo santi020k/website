@@ -10,7 +10,6 @@ interface Props {
 }
 
 const { headings } = Astro.props
-
 const toc = generateToc(headings);
 ---
 
@@ -22,7 +21,10 @@ const toc = generateToc(headings);
   </div>
   <div class="rounded-b-lg">
     <div class="rounded-b-lg pb-6">
-      <div class="h-auto max-h-[calc(100vh-11rem)] overflow-hidden overflow-y-auto">
+      <div class="
+        h-auto max-h-[calc(100vh-11rem)] overflow-hidden overflow-y-auto
+      "
+      >
         <ul class="text-sm font-medium">
           {toc.map(heading => <TOCHeading heading={heading} />)}
         </ul>

@@ -10,6 +10,7 @@ import ProjectLayout from '@/layouts/Projects.astro'
 // If you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
 export const getStaticPaths = (async () => {
   const projectsEntries = await getAllProjects()
+
   return projectsEntries.map(project => ({
     params: { slug: project.id },
     props: { project }

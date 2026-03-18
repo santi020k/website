@@ -13,6 +13,7 @@ import PageLayout from '@/layouts/Base.astro'
 export const getStaticPaths = (async ({ paginate }) => {
   const MAX_NOTES_PER_PAGE = 5
   const allNotes = await getCollection('note')
+
   return paginate(allNotes.sort(collectionDateSort), { pageSize: MAX_NOTES_PER_PAGE })
 }) satisfies GetStaticPaths
 
@@ -53,7 +54,11 @@ const paginationProps = {
         <Icon aria-hidden="true" class="size-6" focusable="false" name="mdi:rss" />
       </a>
     </h1>
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+    <div class="
+      grid grid-cols-1 gap-8
+      md:grid-cols-2
+    "
+    >
       {
         page.data.map(note => (
           <div>

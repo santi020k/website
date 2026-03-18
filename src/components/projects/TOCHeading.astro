@@ -13,7 +13,10 @@ const {
 <li class="flex flex-col gap-2">
   <a
     aria-label={`Scroll to section: ${text}`}
-    class="line-clamp-2 break-words pl-[1ch] indent-[-1ch] before:content-['#']"
+    class="
+      line-clamp-2 pl-[1ch] indent-[-1ch] wrap-break-word
+      before:content-['#']
+    "
     href={`#${slug}`}
   >{text}
   </a>

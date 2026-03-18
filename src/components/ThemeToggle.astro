@@ -4,19 +4,30 @@ import { Icon } from 'astro-icon/components';
 
 <theme-toggle class="sticky top-0">
   <button
-    class="sticky top-0 flex size-8 cursor-pointer items-center justify-center rounded-lg drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)]"
+    class="
+      sticky top-0 flex size-8 cursor-pointer items-center justify-center
+      rounded-lg drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)]
+    "
     type="button"
   >
     <span class="sr-only">Dark Theme</span>
     <Icon
       aria-hidden="true"
-      class="absolute start-1/2 top-1/2 size-6 -translate-x-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all dark:scale-0 dark:opacity-0"
+      class="
+        absolute inset-s-1/2 top-1/2 size-6 -translate-1/2 scale-100 opacity-100
+        transition-all
+        dark:scale-0 dark:opacity-0
+      "
       focusable="false"
       name="tabler:sun"
     />
     <Icon
       aria-hidden="true"
-      class="absolute start-1/2 top-1/2 size-6 -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all dark:scale-100 dark:opacity-100"
+      class="
+        absolute inset-s-1/2 top-1/2 size-6 -translate-1/2 scale-0 opacity-0
+        transition-all
+        dark:scale-100 dark:opacity-100
+      "
       focusable="false"
       name="tabler:moon-filled"
     />
