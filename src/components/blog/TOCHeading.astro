@@ -14,11 +14,9 @@ const {
   <a
     aria-label={`Scroll to section: ${text}`}
     class="
-      text-light
-      before:text-accent-two
+      mt-1 line-clamp-2 pl-[1ch] indent-[-1ch] wrap-break-word text-light
+      before:text-accent-two before:content-['#']
       hover:text-accent-two
-      mt-1 line-clamp-2 pl-[1ch] indent-[-1ch] wrap-break-word
-      before:content-['#']
     "
     href={`#${slug}`}
   >{text}

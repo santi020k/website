@@ -40,7 +40,7 @@ if (seriesId) {
   </div>
 
   <div class="
-    border-special-light bg-accent-base/5 flex h-full w-screen flex-col border-r
+    flex h-full w-screen flex-col border-r border-special-light bg-accent-base/5
     px-8 pt-4
     md:w-72 md:max-w-72 md:min-w-72 md:pt-8
   "
@@ -49,17 +49,16 @@ if (seriesId) {
       <!--
       <Icon aria-hidden="true" class="shrink-0 h-8 w-6 py-1" focusable="false" name="solar:notes-line-duotone" />
       -->
-      <h4 class="title mb-18 flex items-center">
+      <h4 class="mb-18 flex items-center title">
         Docs Series panel
       </h4>
     </div>
     <button
       id="close-panel"
       class="
-        bg-accent-base/5 text-accent-base
-        hover:bg-accent-base/10
         absolute top-4 right-4 flex size-8 items-center justify-center
-        rounded-lg
+        rounded-lg bg-accent-base/5 text-accent-base
+        hover:bg-accent-base/10
         md:top-8 md:right-8
       "
       aria-label="Close Series Panel"
@@ -73,9 +72,9 @@ if (seriesId) {
           href={`/series/${postsSeries.id}`}
           aria-label={`About ${postsSeries.data.title} series`}
           class="
-            bg-accent-base text-bgColor sticky top-4 flex h-8 w-full
-            items-center justify-center gap-x-1 rounded-lg font-medium shadow-lg
-            transition-all duration-300
+            text-bgColor sticky top-4 flex h-8 w-full items-center
+            justify-center gap-x-1 rounded-lg bg-accent-base font-medium
+            shadow-lg transition-all duration-300
             hover:brightness-110
           "
         >
@@ -83,7 +82,7 @@ if (seriesId) {
           {postsSeries.data.title}
         </a>
 
-        <ul class="text-light mt-4.25 text-sm font-medium">
+        <ul class="mt-4.25 text-sm font-medium text-light">
           {seriesPosts.map(p => {
             const isActive = currentPath === `/posts/${p.id}/`
 
@@ -91,7 +90,7 @@ if (seriesId) {
               <li class={`
                 line-clamp-2 flex items-center px-4 py-1
                 ${isActive ?
-                'bg-color-100 rounded-lg' :
+                'rounded-lg bg-color-100' :
                 ''}
               `}
               >
@@ -100,7 +99,7 @@ if (seriesId) {
                   class={`
                     hover:text-accent-two
                     ${isActive ?
-                    'text-accent pointer-events-none cursor-default' :
+                    'pointer-events-none cursor-default text-accent' :
                     ''}
                   `}
                 >
