@@ -11,6 +11,9 @@ This directory contains the rules and conventions for the Santi020k private webs
 ## Available Skills
 
 - **[Add New Content](./skills/add-content/SKILL.md)**: Workflow for adding new blog posts or projects.
+- **[Adding Pages](./skills/adding-pages/SKILL.md)**: Steps for creating new top-level routes and navigation.
+- **[Content Collections Architecture](./skills/content-collections/SKILL.md)**: Guide to schemas and data querying.
+- **[Creating Components](./skills/creating-components/SKILL.md)**: Rules for reusable components, props, and Tailwind styling.
 - **[Project Maintenance](./skills/maintenance/SKILL.md)**: Standard maintenance tasks.
 
 ## General Principles
