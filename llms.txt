@@ -25,6 +25,10 @@ Modern personal portfolio and blog built with Astro, React, and Tailwind CSS. Op
 - `eslint.config.js`: Custom Flat Config extending `@santi020k/eslint-config-basic`
 - `package.json`: Dependency and script manifest
 - `llms.txt`: This file (for AI agents)
+- `/docs/theming.md`: Technical guide to the HSL-based dynamic theming system
+
+## Theming & Design System
+The project uses a custom HSL-based theming system for dynamic light/dark modes. All colors are derived from a base `--hue` and `--saturation` using CSS variables (`var(--theme-*)`). Avoid hardcoding colors; use these tokens instead. Detailed docs can be found in `/docs/theming.md`.
 
 ## Guidelines
 - Follow Conventional Commits.
