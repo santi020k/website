@@ -27,7 +27,7 @@ export default [
       'better-tailwindcss/no-unknown-classes': ['error', {
         ignore: [
           'not-prose',
-          'prose-citrus',
+          'prose-santi',
           'title',
           '^.*textColor.*$',
           '^.*bgColor.*$'
