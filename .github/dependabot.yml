@@ -1,0 +1,51 @@
+version: 2
+
+updates:
+  # npm dependencies
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    groups:
+      astro:
+        patterns:
+          - 'astro'
+          - 'astro-*'
+          - '@astrojs/*'
+      testing:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+          - '@testing-library/*'
+          - '@playwright/*'
+          - 'jsdom'
+      styling:
+        patterns:
+          - 'tailwindcss'
+          - '@tailwindcss/*'
+          - 'autoprefixer'
+          - 'cssnano'
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+          - '@santi020k/*'
+      icons:
+        patterns:
+          - '@iconify-json/*'
+          - '@iconify/*'
+          - 'astro-icon'
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns:
+          - '*'

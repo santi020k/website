@@ -1,0 +1,51 @@
+content:
+  - changed-files:
+      - any-glob-to-any-file: 'src/content/**'
+
+components:
+  - changed-files:
+      - any-glob-to-any-file: 'src/components/**'
+
+layouts:
+  - changed-files:
+      - any-glob-to-any-file: 'src/layouts/**'
+
+pages:
+  - changed-files:
+      - any-glob-to-any-file: 'src/pages/**'
+
+styles:
+  - changed-files:
+      - any-glob-to-any-file: 'src/styles/**'
+
+config:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.config.*'
+          - 'tsconfig.json'
+          - '.editorconfig'
+          - '.nvmrc'
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'
+
+docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.md'
+          - 'src/content/post/**'
+          - 'src/content/note/**'
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**/__tests__/**'
+          - 'src/**/*.test.*'
+          - 'e2e/**'
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'package.json'
+          - 'package-lock.json'
