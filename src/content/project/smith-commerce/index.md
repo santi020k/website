@@ -6,7 +6,7 @@ startingDate: "1 May 2025"
 liveDemoUrl: "https://www.marcone.com/"
 typesId: "professional"
 technologies: [
-  "Next.js", "React", "TypeScript", "Turborepo", "Tailwind CSS", "Radix UI", "Lucide React", "Storybook", "tailwindcss-animate", "TanStack Query", "Zustand", "Apollo Client", "OpenAPI", "React Hook Form", "Zod", "ESLint", "Prettier", "Husky", "Auth0", "i18next", "Docker", "Netlify", "AWS", "Builder.io", "Jest", "Playwright", "Performance Optimization", "Lighthouse", "Accessibility", "Developer Experience (DX)", "Code Quality", "CI/CD", "Headless Commerce", "Monorepo"
+  "Next.js", "React", "TypeScript", "Turborepo", "Tailwind CSS", "Radix UI", "Lucide React", "Storybook", "tailwindcss-animate", "TanStack Query", "Zustand", "Apollo Client", "OpenAPI", "React Hook Form", "Zod", "ESLint", "Prettier", "Husky", "Auth0", "i18next", "Docker", "AWS", "Builder.io", "Jest", "Playwright", "Performance Optimization", "Lighthouse", "Accessibility", "Developer Experience (DX)", "Code Quality", "CI/CD", "Headless Commerce", "Monorepo"
 ]
 coverImage:
   src: "./cover.webp"
@@ -43,26 +43,17 @@ The result? A seamless, high-fidelity storefront delivered on time, with zero bl
 
 The transformation speaks for itself. Here's a side-by-side look at the legacy platform versus the new headless storefront:
 
-<div class="not-prose grid grid-cols-1 gap-6 sm:grid-cols-2 my-8">
-  <figure class="flex flex-col items-center gap-2">
-    <div class="rounded-xl border border-zinc-200 dark:border-zinc-700 overflow-hidden shadow-md w-full aspect-video bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-      <img src="./before.webp" alt="Marcone legacy platform — outdated UI with poor performance" class="w-full h-full object-cover" />
-    </div>
-    <figcaption class="text-sm text-zinc-500 dark:text-zinc-400 font-medium">Before — Legacy Monolith</figcaption>
-  </figure>
-  <figure class="flex flex-col items-center gap-2">
-    <div class="rounded-xl border border-zinc-200 dark:border-zinc-700 overflow-hidden shadow-md w-full aspect-video bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-      <img src="./after.webp" alt="Marcone new headless storefront — modern, fast, and accessible" class="w-full h-full object-cover" />
-    </div>
-    <figcaption class="text-sm text-zinc-500 dark:text-zinc-400 font-medium">After — Headless Storefront</figcaption>
-  </figure>
+![Before — Legacy Monolith](before.webp)
+<div class="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+  Before — Legacy Monolith
 </div>
 
-> **💡 Tip:** Drop your `before.webp` and `after.webp` screenshots into this directory and uncomment the `<img>` tags above to activate the visual comparison.
+![After — Headless Storefront](after.webp)
+<div class="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+  After — Headless Storefront
+</div>
 
 ### 🛠️ Tech Stack
-
-<div class="not-prose my-6 flex flex-col gap-4">
 
 **Core**
 `Next.js 15 (App Router)` · `React 19` · `TypeScript` · `Turborepo`
@@ -74,12 +65,10 @@ The transformation speaks for itself. Here's a side-by-side look at the legacy p
 `TanStack Query` · `Zustand` · `Apollo Client` · `OpenAPI` · `React Hook Form` · `Zod`
 
 **DX & Infrastructure**
-`ESLint (Flat Config)` · `Prettier` · `Husky` · `Auth0` · `i18next` · `Docker` · `Netlify` · `AWS CodeArtifact`
+`ESLint (Flat Config)` · `Prettier` · `Husky` · `Auth0` · `i18next` · `Docker` · `AWS CodeArtifact`
 
 **Other**
 `Builder.io` · `Jest` · `Playwright`
-
-</div>
 
 ---
 
