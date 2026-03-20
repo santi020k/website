@@ -242,8 +242,8 @@
 /* CUSTOM UTILITIES                                                   */
 /* ------------------------------------------------------------------ */
 
-/* .citrus-link ------------------------------------------------------*/
-@utility citrus-link {
+/* .santi-link ------------------------------------------------------*/
+@utility santi-link {
   @apply no-underline;
 
   &:hover {
@@ -270,7 +270,7 @@
 /* ------------------------------------------------------------------ */
 @layer components {
   /* Default prose customisations */
-  .prose a           { @apply citrus-link; }
+  .prose a           { @apply santi-link; }
   .prose blockquote  {
     @apply font-normal border-l-0 px-4;
   }
