@@ -10,6 +10,8 @@ dist/
 coverage/
 *.log
 *.log.*
+playwright-report/
+test-results/
 
 # Editor files
 .idea/

@@ -183,7 +183,7 @@ def greet(name):
 
 Image in the same folder: `src/content/post/markdown-elements/logo.png`
 
-![Astro theme citrus logo](./logo.png)
+![Astro theme Santi020k logo](./logo.png)
 
 ## Links
 

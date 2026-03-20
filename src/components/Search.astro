@@ -183,7 +183,7 @@ customElements.define('site-search', SiteSearch)
     --pagefind-ui-border-radius: 0.5rem; /* 8px */
   }
 
-  /* #citrus__search {
+  /* #santi__search {
     --pagefind-ui-primary: theme("colors.accent-two");
     --pagefind-ui-text: theme("colors.textColor");
     --pagefind-ui-background: theme("colors.bgColor");
@@ -191,23 +191,23 @@ customElements.define('site-search', SiteSearch)
     @apply h-full;
   } */
 
-  #citrus__search .pagefind-ui {
+  #santi__search .pagefind-ui {
     @apply w-full h-full font-sans;
   }
 
-  #citrus__search .pagefind-ui__hidden {
+  #santi__search .pagefind-ui__hidden {
     @apply hidden;
   }
 
-  #citrus__search .pagefind-ui__suppressed {
+  #santi__search .pagefind-ui__suppressed {
     @apply opacity-0 pointer-events-none;
   }
 
-  #citrus__search .pagefind-ui__form {
+  #santi__search .pagefind-ui__form {
     @apply relative h-full;
   }
 
-  #citrus__search .pagefind-ui__form::before {
+  #santi__search .pagefind-ui__form::before {
     @apply absolute pointer-events-none block opacity-70 z-10 size-4 top-3 left-3;
     content: "";
     -webkit-mask-image:
@@ -218,15 +218,15 @@ customElements.define('site-search', SiteSearch)
     mask-size: 100%;
   }
 
-  #citrus__search .pagefind-ui__search-input {
+  #santi__search .pagefind-ui__search-input {
     @apply rounded-lg border-none text-base font-normal w-full flex h-10 py-0 px-10 outline-none;
   }
 
-  #citrus__search .pagefind-ui__search-input::placeholder {
+  #santi__search .pagefind-ui__search-input::placeholder {
     @apply opacity-20;
   }
 
-  #citrus__search .pagefind-ui__search-clear::before {
+  #santi__search .pagefind-ui__search-clear::before {
     @apply block w-full h-full;
     content: "";
     -webkit-mask:
@@ -237,71 +237,71 @@ customElements.define('site-search', SiteSearch)
       center / 60% no-repeat;
   }
 
-  #citrus__search .pagefind-ui__search-clear {
+  #santi__search .pagefind-ui__search-clear {
     @apply overflow-hidden absolute top-0 right-0 size-10 py-0 px-0 font-medium cursor-pointer bg-transparent rounded-lg;
   }
 
-  #citrus__search .pagefind-ui__search-clear:focus {
+  #santi__search .pagefind-ui__search-clear:focus {
     /* Доработать */
   }
 
-  #citrus__search .pagefind-ui__drawer {
+  #santi__search .pagefind-ui__drawer {
     @apply flex flex-wrap md:h-[calc(100vh-10.5rem)] h-full pb-0 m-auto;
   }
 
-  #citrus__search .pagefind-ui__message {
+  #santi__search .pagefind-ui__message {
     @apply text-base font-normal h-10 py-0 flex items-center border-none;
   }
 
-  #citrus__search .pagefind-ui__button {
+  #santi__search .pagefind-ui__button {
     @apply absolute bottom-0 m-0 shadow-md border-none flex items-center justify-center rounded-lg h-10 py-0 px-2 text-base text-center font-medium cursor-pointer;
   }
 
-  #citrus__search .pagefind-ui__button:hover {
+  #santi__search .pagefind-ui__button:hover {
     @apply brightness-110;
   }
 
-  #citrus__search .pagefind-ui__result {
+  #santi__search .pagefind-ui__result {
     @apply border-none p-0 mb-8;
   }
 
-  #citrus__search .pagefind-ui__result:last-of-type {
+  #santi__search .pagefind-ui__result:last-of-type {
     @apply mb-0;
   }
 
-  #citrus__search .pagefind-ui__result-link {
+  #santi__search .pagefind-ui__result-link {
     @apply text-base bg-transparent font-medium;
   }
 
-  #citrus__search .pagefind-ui__result-link:hover {
+  #santi__search .pagefind-ui__result-link:hover {
     /* Добаботать */
   }
 
-  #citrus__search .pagefind-ui__result-nested {
+  #santi__search .pagefind-ui__result-nested {
     @apply ps-4;
   }
-  #citrus__search .pagefind-ui__result-nested:first-of-type {
+  #santi__search .pagefind-ui__result-nested:first-of-type {
     @apply pt-0;
   }
 
-  #citrus__search .pagefind-ui__result-excerpt {
+  #santi__search .pagefind-ui__result-excerpt {
     @apply inline-block font-normal text-base mt-0 mb-0 md:line-clamp-1 mr-2;
   }
 
-  #citrus__search .pagefind-ui__result-inner {
+  #santi__search .pagefind-ui__result-inner {
     @apply flex-1 flex flex-col items-start mt-0;
   }
 
-  #citrus__search .pagefind-ui__results {
+  #santi__search .pagefind-ui__results {
     @apply p-0 text-base max-h-[calc(100vh-13.5rem)] md:max-h-[calc(100vh-13rem)] overflow-y-auto;
   }
 
-  #citrus__search .pagefind-ui__results-area {
+  #santi__search .pagefind-ui__results-area {
     @apply flex-1 mt-0 mb-0;
     /* min-width: min(25rem, 100%); */ /* 400px */
   }
 
-  #citrus__search mark {
+  #santi__search mark {
     @apply bg-transparent;
   }
 </style>
