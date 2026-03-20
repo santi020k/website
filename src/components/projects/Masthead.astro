@@ -69,7 +69,7 @@ const { content } = Astro.props
                     flex h-7 shrink-0 items-center gap-x-1 rounded-lg text-sm
                   "
                   >
-                    <FormattedDate class="flex shrink-0" date={content.data.endingDate} dateTimeOptions={dateWithoutDay} />
+                    <FormattedDate class="flex shrink-0" date={content.data.endingDate} dateTimeOptions={dateWithoutDay} />)
                   </span>
                 ) :
                 (
@@ -78,12 +78,11 @@ const { content } = Astro.props
                     text-sm
                   "
                   >
-                    Present
+                    Present)
                   </span>
                 )
             }
           </span>
-          )
         </div>
       </div>
     </div>
