@@ -1,5 +1,5 @@
 ---
-title: "Adding Webmentions to Astro Citrus"
+title: "Adding Webmentions to Astro Santi020k"
 description: "This post describes the detailed process of adding webmentions to your own site, including setup, configuration, and integration with webmention services."
 publishDate: "11 Oct 2023"
 tags: ["webmentions", "astro", "social"]

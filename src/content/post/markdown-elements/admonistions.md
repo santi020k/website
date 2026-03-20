@@ -1,6 +1,6 @@
 ---
 title: "Markdown Admonitions"
-description: "This post provides a detailed demonstration of how to use the Markdown admonition feature in Astro Citrus, showcasing its ability to highlight important information, tips, warnings, and other key content types in a visually distinct and customizable format"
+description: "This post provides a detailed demonstration of how to use the Markdown admonition feature in Santi020k, showcasing its ability to highlight important information, tips, warnings, and other key content types in a visually distinct and customizable format"
 publishDate: "25 Aug 2024"
 seriesId: "markdown-elements"
 orderInSeries: 2
@@ -13,7 +13,7 @@ Admonitions (also known as “asides”) are useful for providing supportive and
 
 ## How to use them
 
-To use admonitions in Astro Citrus, wrap your Markdown content in a pair of triple colons `:::`. The first pair should also include the type of admonition you want to use.
+To use admonitions in Santi020k, wrap your Markdown content in a pair of triple colons `:::`. The first pair should also include the type of admonition you want to use.
 
 For example, with the following Markdown:
 
