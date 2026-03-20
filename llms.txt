@@ -1,0 +1,33 @@
+# santi020k/private-website
+
+Modern personal portfolio and blog built with Astro, React, and Tailwind CSS. Optimized for performance (98+ Lighthouse) and developer experience.
+
+## Tech Stack
+- **Framework**: [Astro 6.0+](https://astro.build)
+- **Styling**: [Tailwind CSS 4.0+](https://tailwindcss.com)
+- **Components**: [React](https://reactjs.org), [Alpine.js](https://alpinejs.dev)
+- **Content**: MDX, [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
+- **Testing**: [Vitest](https://vitest.dev), [Playwright](https://playwright.dev)
+- **CI/CD**: GitHub Actions
+- **Formatting/Linting**: ESLint (Flat Config), Husky, lint-staged
+
+## Project Structure
+- `/src/content/`: All content collections (posts, projects, notes, types)
+- `/src/pages/`: Dynamic and static routes
+- `/src/components/`: Reusable UI components
+- `/src/layouts/`: Base layouts for pages and articles
+- `/src/utils/`: Business logic and helpers
+- `/.github/workflows/`: CI/CD pipelines
+- `/.husky/`: Git hooks for local quality checks
+
+## Key Configs
+- `astro.config.mjs`: Main framework configuration
+- `eslint.config.js`: Custom Flat Config extending `@santi020k/eslint-config-basic`
+- `package.json`: Dependency and script manifest
+- `llms.txt`: This file (for AI agents)
+
+## Guidelines
+- Follow Conventional Commits.
+- Ensure 100% accessibility (A11y) for all content.
+- Maintain high Lighthouse scores.
+- Use `npm run dev` for local development.
