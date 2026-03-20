@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Astro Documentation
+    url: https://docs.astro.build
+    about: Official Astro documentation
+  - name: GitHub Discussions
+    url: https://github.com/santi020k/private-website/discussions
+    about: Ask questions and discuss ideas
