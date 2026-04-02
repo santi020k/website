@@ -15,7 +15,7 @@ const projectLink = getProjectPath(project.id)
 ---
 
 <article class="group relative overflow-hidden rounded-[1.75rem] panel-surface">
-  <a class="block" href={projectLink}>
+  <a aria-label={project.data.title} class="block" href={projectLink}>
     <div class="relative aspect-16/10 overflow-hidden bg-surface-muted">
       {project.data.coverImage?.src ?
         (

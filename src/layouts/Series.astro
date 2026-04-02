@@ -2,10 +2,10 @@
 import { type CollectionEntry, render } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
+import BaseLayout from './Base.astro'
+
 import TOC from '../components/blog/TOC.astro'
 import SeriesPanel from '../components/SeriesPanel.astro'
-
-import BaseLayout from './Base.astro'
 
 interface Props {
   series: CollectionEntry<'series'>
@@ -27,9 +27,9 @@ const { headings } = await render(series);
     <button
       id="toggle-panel"
       class="
+        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         bg-accent/10 text-accent
         hover:text-accent/90
-        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         md:flex
       "
       aria-label="Toggle Series Panel"
@@ -43,9 +43,9 @@ const { headings } = await render(series);
     <button
       id="toggle-toc"
       class="
+        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         bg-accent/10 text-accent
         hover:text-accent/90
-        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         md:flex
       "
       aria-label="Table of Contents"
@@ -107,11 +107,10 @@ const { headings } = await render(series);
     <button
       id="to-top-button"
       class="
-        border-line bg-canvas text-ink
-        hover:text-brand
         fixed bottom-14 flex size-12 translate-y-28 items-center justify-center
-        rounded-full border-2 text-3xl drop-shadow-xl transition-all
-        duration-300
+        rounded-full border-2 border-line bg-canvas text-3xl text-ink
+        drop-shadow-xl transition-all duration-300
+        hover:text-brand
         data-[show=true]:translate-y-0 data-[show=true]:opacity-100
       "
       aria-label="Back to Top"
@@ -119,8 +118,8 @@ const { headings } = await render(series);
     >
       <span
         class="
-          bg-surface-muted absolute inset-0 flex items-center justify-center
-          rounded-full
+          absolute inset-0 flex items-center justify-center rounded-full
+          bg-surface-muted
         "
         aria-hidden="true"
       >
@@ -143,17 +142,17 @@ const { headings } = await render(series);
   <mobile-button
     id="toggle-panel-mobile"
     class="
-      border-line bg-canvas text-accent fixed right-4 bottom-4
-      z-50 flex size-12 items-center justify-center rounded-lg border
+      fixed right-4 bottom-4 z-50 flex size-12 items-center justify-center
+      rounded-lg border border-line bg-canvas text-accent
       shadow-[0px_10px_25px_rgba(0,0,0,0.15)]
       sm:hidden
     "
     aria-label="Toggle Series Panel"
   >
     <span class="
+      absolute inset-0 flex items-center justify-center rounded-lg
       bg-surface-muted
       hover:text-accent/90
-      absolute inset-0 flex items-center justify-center rounded-lg
     "
     >
       <Icon class="size-8" name="solar:notes-bold"/>
@@ -175,162 +174,97 @@ const { headings } = await render(series);
 </BaseLayout>
 
 <script>
-const ANIMATION_DURATION = 300
-// Get button and panel elements
-const togglePanelBtn = document.getElementById('toggle-panel')
-const closePanelBtn = document.getElementById('close-panel')
+// series-panel is optional — only present when a series is assigned
 const seriesPanel = document.getElementById('series-panel')
-const togglePanelMobileBtn = document.getElementById('toggle-panel-mobile')
 
-// Ensure seriesPanel exists
-if (!seriesPanel) {
-  console.error('Element series-panel not found')
+if (seriesPanel) {
+  const ANIMATION_DURATION = 300
+  const togglePanelBtn = document.getElementById('toggle-panel')
+  const closePanelBtn = document.getElementById('close-panel')
+  const togglePanelMobileBtn = document.getElementById('toggle-panel-mobile')
 
-  throw new Error('series-panel is required')
-}
-
-// Function to check if the panel is visible
-const isPanelVisible = () => {
-  const isScreenLg = window.matchMedia('(min-width: 1024px)').matches // Large screens
-
-  return (
-    (isScreenLg && seriesPanel.classList.contains('lg:block')) ||
-    (!isScreenLg && !seriesPanel.classList.contains('hidden'))
-  )
-}
-
-// Function to hide the panel
-const hidePanel = () => {
-  seriesPanel.classList.add('opacity-0', '-translate-x-full')
-
-  setTimeout(() => {
-    seriesPanel.classList.remove('block', 'lg:block')
-
-    seriesPanel.classList.add('hidden')
-  }, ANIMATION_DURATION)
-}
-
-// Function to show the panel
-const showPanel = () => {
-  seriesPanel.classList.remove('hidden')
-
-  seriesPanel.classList.add('block', 'lg:block')
-
-  setTimeout(() => {
-    seriesPanel.classList.remove('opacity-0', '-translate-x-full')
-  }, 10)
-}
-
-// Common event handler for both buttons
-const togglePanel = () => {
-  if (isPanelVisible()) {
-    hidePanel() // If visible, hide it
-  } else {
-    showPanel() // If hidden, show it
+  const isPanelVisible = () => {
+    const isScreenLg = window.matchMedia('(min-width: 1024px)').matches
+    return (
+      (isScreenLg && seriesPanel.classList.contains('lg:block')) ||
+      (!isScreenLg && !seriesPanel.classList.contains('hidden'))
+    )
   }
-}
 
-// Event handlers for both buttons
-if (togglePanelBtn) {
-  togglePanelBtn.addEventListener('click', togglePanel)
-} else {
-  console.error('Element toggle-panel not found')
-}
+  const hidePanel = () => {
+    seriesPanel.classList.add('opacity-0', '-translate-x-full')
+    setTimeout(() => {
+      seriesPanel.classList.remove('block', 'lg:block')
+      seriesPanel.classList.add('hidden')
+    }, ANIMATION_DURATION)
+  }
 
-if (togglePanelMobileBtn) {
-  togglePanelMobileBtn.addEventListener('click', togglePanel)
-} else {
-  console.error('Элемент toggle-panel-mobile не найден')
-}
+  const showPanel = () => {
+    seriesPanel.classList.remove('hidden')
+    seriesPanel.classList.add('block', 'lg:block')
+    setTimeout(() => {
+      seriesPanel.classList.remove('opacity-0', '-translate-x-full')
+    }, 10)
+  }
 
-if (closePanelBtn) {
-  closePanelBtn.addEventListener('click', hidePanel)
-} else {
-  console.error('Element close-panel not found')
+  const togglePanel = () => {
+    if (isPanelVisible()) {
+      hidePanel()
+    } else {
+      showPanel()
+    }
+  }
+
+  togglePanelBtn?.addEventListener('click', togglePanel)
+  togglePanelMobileBtn?.addEventListener('click', togglePanel)
+  closePanelBtn?.addEventListener('click', hidePanel)
 }
 </script>
 
 <script>
-// Get button and panel elements
-const toggleTocBtn = document.getElementById('toggle-toc')
-const closeTocBtn = document.getElementById('close-toc')
+// toc-panel is optional — only present when a series has headings
 const tocPanel = document.getElementById('toc-panel')
-const toggleTocMobileBtn = document.getElementById('toggle-toc-mobile')
 
-// Check for the panel's presence (required for functioning)
-if (!tocPanel) {
-  console.error('Element toc-panel not found')
+if (tocPanel) {
+  const toggleTocBtn = document.getElementById('toggle-toc')
+  const closeTocBtn = document.getElementById('close-toc')
+  const toggleTocMobileBtn = document.getElementById('toggle-toc-mobile')
 
-  throw new Error('toc-panel is required')
-}
-
-// Function to check if the table of contents is visible
-const isTocVisible = () => {
-  const isScreenMd = window.matchMedia('(min-width: 768px)').matches
-
-  return (
-    (isScreenMd && tocPanel.classList.contains('md:block')) ||
-    (!isScreenMd && !tocPanel.classList.contains('hidden'))
-  )
-}
-
-// Function to hide the panel
-const hideToc = () => {
-  tocPanel.classList.add('hidden')
-
-  tocPanel.classList.remove('md:block')
-}
-
-// Function to show the panel
-const showToc = () => {
-  tocPanel.classList.remove('hidden')
-
-  tocPanel.classList.add('md:block')
-}
-
-// Common event handler for both buttons
-const toggleToc = () => {
-  if (isTocVisible()) {
-    hideToc() // If visible, hide it
-  } else {
-    showToc() // If hidden, show it
+  const isTocVisible = () => {
+    const isScreenMd = window.matchMedia('(min-width: 768px)').matches
+    return (
+      (isScreenMd && tocPanel.classList.contains('md:block')) ||
+      (!isScreenMd && !tocPanel.classList.contains('hidden'))
+    )
   }
-}
 
-// Add an event handler for the toggle button
-if (toggleTocBtn) {
-  toggleTocBtn.addEventListener('click', toggleToc)
-} else {
-  console.error('Element toggle-toc not found')
-}
+  const hideToc = () => {
+    tocPanel.classList.add('hidden')
+    tocPanel.classList.remove('md:block')
+  }
 
-// Add an event handler for the toggle button (mobile)
-if (toggleTocMobileBtn) {
-  toggleTocMobileBtn.addEventListener('click', toggleToc)
-} else {
-  console.error('Element toggle-toc-mobile not found')
-}
+  const showToc = () => {
+    tocPanel.classList.remove('hidden')
+    tocPanel.classList.add('md:block')
+  }
 
-// Add an event handler for the close button
-if (closeTocBtn) {
-  closeTocBtn.addEventListener('click', hideToc)
-} else {
-  console.error('Element close-toc not found')
+  const toggleToc = () => {
+    if (isTocVisible()) {
+      hideToc()
+    } else {
+      showToc()
+    }
+  }
+
+  toggleTocBtn?.addEventListener('click', toggleToc)
+  toggleTocMobileBtn?.addEventListener('click', toggleToc)
+  closeTocBtn?.addEventListener('click', hideToc)
 }
 </script>
 
 <script>
- // Wait for the content to fully load
  document.addEventListener('DOMContentLoaded', () => {
-   const buttonsPanel = document.getElementById('buttons-panel')
-
-   if (buttonsPanel) {
-     buttonsPanel.classList.add('fixed')
-
-     console.log('Class \'fixed\' added to the buttons-panel element.')
-   } else {
-     console.error('Element with ID \'buttons-panel\' not found.')
-   }
+   document.getElementById('buttons-panel')?.classList.add('fixed')
  })
 </script>
 

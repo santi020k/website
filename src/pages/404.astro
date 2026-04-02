@@ -1,7 +1,7 @@
 ---
-import ButtonLink from '../components/atoms/ButtonLink.astro'
-import SectionHeading from '../components/molecules/SectionHeading.astro'
-import PageLayout from '../layouts/Base.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+
+import PageLayout from '@/layouts/Base.astro'
 
 const meta = {
   description: 'The page you are looking for could not be found.',
@@ -10,25 +10,110 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section class="
-    mx-auto max-w-3xl rounded-4xl p-8 text-center panel-surface
-    sm:p-12
-  "
+  <section
+    aria-labelledby="error-heading"
+    class="
+      relative mx-auto max-w-3xl overflow-hidden rounded-4xl p-8 text-center
+      panel-surface
+      sm:p-14
+    "
+    role="alert"
   >
-    <SectionHeading
-      align="center"
-      description="The route may have changed, or the page may never have existed in this version of the site."
-      eyebrow="404"
-      level="h1"
-      title="This page drifted out of orbit."
-    />
-    <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <ButtonLink href="/" showArrow>
-        Back home
-      </ButtonLink>
-      <ButtonLink href="/portfolio/" showArrow variant="secondary">
-        Open portfolio
-      </ButtonLink>
+    <!-- Grid fade background decoration -->
+    <div aria-hidden="true" class="absolute inset-0 grid-fade opacity-60" />
+
+    <!-- Orbital SVG decoration -->
+    <div
+      aria-hidden="true"
+      class="
+        pointer-events-none absolute inset-0 flex items-center justify-center
+        opacity-[0.07]
+      "
+    >
+      <svg
+        class="
+          h-[480px] w-[480px]
+          motion-reduce:hidden
+        "
+        fill="none"
+        viewBox="0 0 480 480"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle class="animate-[spin_18s_linear_infinite]" cx="240" cy="240" r="190" stroke="currentColor" stroke-dasharray="16 12" stroke-width="1.5" style="transform-origin:center" />
+        <circle class="animate-[spin_28s_linear_infinite_reverse]" cx="240" cy="240" r="130" stroke="currentColor" stroke-dasharray="8 20" stroke-width="1" style="transform-origin:center" />
+        <circle cx="240" cy="240" r="56" stroke="currentColor" stroke-opacity="0.6" stroke-width="1" />
+      </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="relative flex flex-col items-center gap-6">
+      <!-- 404 hero numeral -->
+      <div class="
+        animate-slide-up
+        motion-reduce:animate-none
+      "
+      >
+        <span
+          aria-hidden="true"
+          class="
+            block bg-linear-to-b from-brand via-accent to-glow bg-clip-text
+            font-display text-[7.5rem] leading-none font-black tracking-tighter
+            text-transparent select-none
+            sm:text-[10rem]
+          "
+        >
+          404
+        </span>
+      </div>
+
+      <!-- Label + heading + description -->
+      <div class="
+        flex animate-slide-up flex-col items-center gap-3 [animation-delay:80ms]
+        motion-reduce:animate-none
+      "
+      >
+        <span class="
+          inline-flex items-center rounded-full border border-brand/30
+          bg-brand-soft/80 px-3 py-1 text-[0.72rem] font-semibold
+          tracking-[0.24em] text-brand uppercase
+        "
+        >
+          Page not found
+        </span>
+        <h1
+          class="
+            max-w-md text-2xl
+            sm:text-3xl
+          "
+          id="error-heading"
+        >
+          This page drifted out of orbit.
+        </h1>
+        <p class="max-w-sm text-base/7 text-ink-soft">
+          The route may have changed, or the page may never have existed in this version of the site.
+        </p>
+      </div>
+
+      <!-- CTAs -->
+      <div class="
+        flex animate-slide-up flex-wrap justify-center gap-3
+        [animation-delay:160ms]
+        motion-reduce:animate-none
+      "
+      >
+        <ButtonLink href="/" showArrow>
+          Back home
+        </ButtonLink>
+        <ButtonLink href="/portfolio/" showArrow variant="secondary">
+          Open portfolio
+        </ButtonLink>
+        <ButtonLink href="/posts/" showArrow variant="ghost">
+          Read blog
+        </ButtonLink>
+        <ButtonLink href="/technologies/" showArrow variant="ghost">
+          View stack
+        </ButtonLink>
+      </div>
     </div>
   </section>
 </PageLayout>

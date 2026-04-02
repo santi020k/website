@@ -18,7 +18,7 @@ const { post } = Astro.props
   group flex h-full flex-col overflow-hidden rounded-[1.75rem] panel-surface
 "
 >
-  <a class="block" href={getPostPath(post.slug)}>
+  <a aria-label={post.title} class="block" href={getPostPath(post.slug)}>
     <div class="relative aspect-16/10 overflow-hidden">
       {post.imageUrl ?
         (

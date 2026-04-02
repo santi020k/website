@@ -60,15 +60,11 @@ describe('remarkAdmonitions', () => {
 
     // Check properties - handles both 'class' and 'className' conventions
     const props = aside.data.hProperties
-    const className = props.class || props.className
+    const className = props.class ?? props.className
+    const classNameString = Array.isArray(className) ? className.join(' ') : (className ?? '')
 
-    if (Array.isArray(className)) {
-      expect(className.join(' ')).toContain('aside-note')
-    } else if (typeof className === 'string') {
-      expect(className).toContain('aside-note')
-    }
-    const label = props['aria-label'] || props.ariaLabel
-    expect(label).toBe('note')
+    expect(classNameString).toContain('aside-note')
+    expect(props['aria-label'] ?? props.ariaLabel).toBe('note')
   })
 
   it('should handle custom titles via directive labels', async () => {
@@ -84,8 +80,7 @@ describe('remarkAdmonitions', () => {
 
     const aside = tree.children[0] as AdmonitionNode
     const props = aside.data.hProperties
-    const label = props['aria-label'] || props.ariaLabel
-    expect(label).toBe('Custom Title')
+    expect(props['aria-label'] ?? props.ariaLabel).toBe('Custom Title')
   })
 
   it('should transform unhandled directives to normal text', async () => {
