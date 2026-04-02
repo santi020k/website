@@ -9,9 +9,9 @@ import '@pagefind/default-ui/css/ui.css';
 <site-search class="ms-auto" id="search">
   <button
     class="
+      hover:text-accent-two
       flex size-8 items-center justify-center rounded-lg
       drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)]
-      hover:text-accent-two
     "
     data-open-modal
     disabled
@@ -38,12 +38,12 @@ import '@pagefind/default-ui/css/ui.css';
         md:hidden
       "
       >
-        <h4 class="flex items-end title">Search</h4>
+        <h4 class="title flex items-end">Search</h4>
         <button
           class="
-            text-textColor flex size-8 cursor-pointer items-center
-            justify-center rounded-lg bg-color-100
+            text-textColor bg-color-100
             hover:bg-accent-base/5 hover:text-accent-base
+            flex size-8 cursor-pointer items-center justify-center rounded-lg
           "
           data-close-modal
         >
@@ -73,6 +73,8 @@ import '@pagefind/default-ui/css/ui.css';
 </site-search>
 
 <script>
+import { PagefindUI } from '@pagefind/default-ui'
+
 class SiteSearch extends HTMLElement {
   private closeBtn: HTMLButtonElement
   private dialog: HTMLDialogElement
@@ -156,9 +158,8 @@ class SiteSearch extends HTMLElement {
     const onIdle = window.requestIdleCallback || (cb => setTimeout(cb, 1))
 
     onIdle(async () => {
-      const { PagefindUI } = await import('@pagefind/default-ui')
-
-      const _pagefind = new PagefindUI({
+      // eslint-disable-next-line no-new
+      new PagefindUI({
         baseUrl: import.meta.env.BASE_URL,
         bundlePath: import.meta.env.BASE_URL.replace(/\/$/, '') + '/pagefind/',
         element: '#santi__search',
