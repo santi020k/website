@@ -200,162 +200,97 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
-const ANIMATION_DURATION = 300
-// Get the button and panel elements
-const togglePanelBtn = document.getElementById('toggle-panel')
-const closePanelBtn = document.getElementById('close-panel')
+// series-panel is optional — only present when a post belongs to a series
 const seriesPanel = document.getElementById('series-panel')
-const togglePanelMobileBtn = document.getElementById('toggle-panel-mobile')
 
-// Ensure the seriesPanel exists
-if (!seriesPanel) {
-  console.error('Element series-panel not found')
+if (seriesPanel) {
+  const ANIMATION_DURATION = 300
+  const togglePanelBtn = document.getElementById('toggle-panel')
+  const closePanelBtn = document.getElementById('close-panel')
+  const togglePanelMobileBtn = document.getElementById('toggle-panel-mobile')
 
-  throw new Error('series-panel is required')
-}
-
-// Function to check if the panel is visible
-const isPanelVisible = () => {
-  const isScreenLg = window.matchMedia('(min-width: 1024px)').matches // Large screens
-
-  return (
-    (isScreenLg && seriesPanel.classList.contains('lg:block')) ||
-    (!isScreenLg && !seriesPanel.classList.contains('hidden'))
-  )
-}
-
-// Function to hide the panel
-const hidePanel = () => {
-  seriesPanel.classList.add('opacity-0', '-translate-x-full')
-
-  setTimeout(() => {
-    seriesPanel.classList.remove('block', 'lg:block')
-
-    seriesPanel.classList.add('hidden')
-  }, ANIMATION_DURATION)
-}
-
-// Function to show the panel
-const showPanel = () => {
-  seriesPanel.classList.remove('hidden')
-
-  seriesPanel.classList.add('block', 'lg:block')
-
-  setTimeout(() => {
-    seriesPanel.classList.remove('opacity-0', '-translate-x-full')
-  }, 10)
-}
-
-// Common event handler for both buttons
-const togglePanel = () => {
-  if (isPanelVisible()) {
-    hidePanel() // If visible, hide it
-  } else {
-    showPanel() // If hidden, show it
+  const isPanelVisible = () => {
+    const isScreenLg = window.matchMedia('(min-width: 1024px)').matches
+    return (
+      (isScreenLg && seriesPanel.classList.contains('lg:block')) ||
+      (!isScreenLg && !seriesPanel.classList.contains('hidden'))
+    )
   }
-}
 
-// Event handlers for both buttons
-if (togglePanelBtn) {
-  togglePanelBtn.addEventListener('click', togglePanel)
-} else {
-  console.error('Element toggle-panel not found')
-}
-
-if (togglePanelMobileBtn) {
-  togglePanelMobileBtn.addEventListener('click', togglePanel)
-} else {
-  console.error('Element toggle-panel-mobile not found')
-}
-
-if (closePanelBtn) {
-  closePanelBtn.addEventListener('click', hidePanel)
-} else {
-  console.error('Element close-panel not found')
-}
-</script>
-
-<script>
-// Get the button and panel elements
-const toggleTocBtn = document.getElementById('toggle-toc')
-const closeTocBtn = document.getElementById('close-toc')
-const tocPanel = document.getElementById('toc-panel')
-const toggleTocMobileBtn = document.getElementById('toggle-toc-mobile')
-
-// Check for the panel's presence (required for functionality)
-if (!tocPanel) {
-  console.error('Element toc-panel not found')
-
-  throw new Error('toc-panel is required')
-}
-
-// Function to check if the table of contents is visible
-const isTocVisible = () => {
-  const isScreenMd = window.matchMedia('(min-width: 768px)').matches
-
-  return (
-    (isScreenMd && tocPanel.classList.contains('md:block')) ||
-    (!isScreenMd && !tocPanel.classList.contains('hidden'))
-  )
-}
-
-// Function to hide the panel
-const hideToc = () => {
-  tocPanel.classList.add('hidden')
-
-  tocPanel.classList.remove('md:block')
-}
-
-// Function to show the panel
-const showToc = () => {
-  tocPanel.classList.remove('hidden')
-
-  tocPanel.classList.add('md:block')
-}
-
-// Common event handler for both buttons
-const toggleToc = () => {
-  if (isTocVisible()) {
-    hideToc() // If visible, hide it
-  } else {
-    showToc() // If hidden, show it
+  const hidePanel = () => {
+    seriesPanel.classList.add('opacity-0', '-translate-x-full')
+    setTimeout(() => {
+      seriesPanel.classList.remove('block', 'lg:block')
+      seriesPanel.classList.add('hidden')
+    }, ANIMATION_DURATION)
   }
-}
 
-// Add event handler for the toggle button
-if (toggleTocBtn) {
-  toggleTocBtn.addEventListener('click', toggleToc)
-} else {
-  console.error('Element toggle-toc not found')
-}
+  const showPanel = () => {
+    seriesPanel.classList.remove('hidden')
+    seriesPanel.classList.add('block', 'lg:block')
+    setTimeout(() => {
+      seriesPanel.classList.remove('opacity-0', '-translate-x-full')
+    }, 10)
+  }
 
-// Add event handler for the toggle button (mobile)
-if (toggleTocMobileBtn) {
-  toggleTocMobileBtn.addEventListener('click', toggleToc)
-} else {
-  console.error('Element toggle-toc-mobile not found')
-}
-
-// Add event handler for the close button
-if (closeTocBtn) {
-  closeTocBtn.addEventListener('click', hideToc)
-} else {
-  console.error('Element close-toc not found')
-}
-</script>
-
-<script>
-  // Wait for the content to fully load
-  document.addEventListener('DOMContentLoaded', () => {
-    const buttonsPanel = document.getElementById('buttons-panel')
-
-    if (buttonsPanel) {
-      buttonsPanel.classList.add('fixed')
-
-      console.log('Class \'fixed\' added to the buttons-panel element.')
+  const togglePanel = () => {
+    if (isPanelVisible()) {
+      hidePanel()
     } else {
-      console.error('Element with ID \'buttons-panel\' not found.')
+      showPanel()
     }
+  }
+
+  togglePanelBtn?.addEventListener('click', togglePanel)
+  togglePanelMobileBtn?.addEventListener('click', togglePanel)
+  closePanelBtn?.addEventListener('click', hidePanel)
+}
+</script>
+
+<script>
+// toc-panel is optional — only present when a post has headings
+const tocPanel = document.getElementById('toc-panel')
+
+if (tocPanel) {
+  const toggleTocBtn = document.getElementById('toggle-toc')
+  const closeTocBtn = document.getElementById('close-toc')
+  const toggleTocMobileBtn = document.getElementById('toggle-toc-mobile')
+
+  const isTocVisible = () => {
+    const isScreenMd = window.matchMedia('(min-width: 768px)').matches
+    return (
+      (isScreenMd && tocPanel.classList.contains('md:block')) ||
+      (!isScreenMd && !tocPanel.classList.contains('hidden'))
+    )
+  }
+
+  const hideToc = () => {
+    tocPanel.classList.add('hidden')
+    tocPanel.classList.remove('md:block')
+  }
+
+  const showToc = () => {
+    tocPanel.classList.remove('hidden')
+    tocPanel.classList.add('md:block')
+  }
+
+  const toggleToc = () => {
+    if (isTocVisible()) {
+      hideToc()
+    } else {
+      showToc()
+    }
+  }
+
+  toggleTocBtn?.addEventListener('click', toggleToc)
+  toggleTocMobileBtn?.addEventListener('click', toggleToc)
+  closeTocBtn?.addEventListener('click', hideToc)
+}
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('buttons-panel')?.classList.add('fixed')
   })
 </script>
 

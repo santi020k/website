@@ -213,7 +213,7 @@ document.addEventListener('astro:page-load', () => {
   const drawer = document.getElementById('drawer')
 
   if (!toggleNavMenuMobileButton || !openMenuIcon || !closeMenuIcon || !drawer) {
-    console.error('One or more required elements are missing in the DOM.')
+    console.warn('One or more required elements are missing in the DOM.')
 
     return
   }
@@ -221,7 +221,7 @@ document.addEventListener('astro:page-load', () => {
   const drawerBody = document.getElementById('drawer-body')
 
   if (!drawerBody) {
-    console.error('Drawer body element is missing in the DOM.')
+    console.warn('Drawer body element is missing in the DOM.')
 
     return
   }
