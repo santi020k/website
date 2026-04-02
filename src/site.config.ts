@@ -1,15 +1,15 @@
 import type { SiteConfig, SiteLink } from '@/types'
 
 export const siteConfig: SiteConfig = {
-  availability: 'Available for senior frontend, full stack, and tech lead roles',
-  author: 'Santi020k',
+  availability: 'Open to senior frontend, full stack, and tech lead roles',
+  author: 'Santiago Molina Orozco',
   contact: {
-    email: 'santi020k@gmail.com',
+    email: 'santiago@santi020k.me',
     github: 'https://github.com/santi020k',
     linkedin: 'https://linkedin.com/in/santi020k',
     medium: 'https://medium.com/@santi020k',
     resume: '/pdf/cv.pdf',
-    whatsapp: 'https://api.whatsapp.com/send?phone=37257899454&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch'
+    whatsapp: 'https://api.whatsapp.com/send?phone=573507990136&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch'
   },
   date: {
     locale: 'en-US',
@@ -19,10 +19,10 @@ export const siteConfig: SiteConfig = {
       year: 'numeric'
     }
   },
-  description: 'Portfolio, case studies, and writing from Santiago Molina about frontend architecture, product engineering, and modern web systems.',
-  headline: 'Building fast, elegant products with strong systems behind them.',
+  description: 'Portfolio, case studies, and writing from Santiago Molina on frontend architecture, product systems, performance, and developer experience.',
+  headline: 'I build fast, accessible products and stronger frontend systems.',
   lang: 'en-US',
-  location: 'Colombia · Remote-friendly',
+  location: 'Medellin, Colombia · Remote worldwide',
   ogLocale: 'en_US',
   socialLinks: [
     {
@@ -41,12 +41,12 @@ export const siteConfig: SiteConfig = {
       label: 'Medium'
     },
     {
-      href: 'https://api.whatsapp.com/send?phone=37257899454&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch',
+      href: 'https://api.whatsapp.com/send?phone=573507990136&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch',
       icon: 'tabler:brand-whatsapp',
       label: 'WhatsApp'
     }
   ],
-  title: 'Santi020k'
+  title: 'Santiago Molina'
 }
 
 export const menuLinks: SiteLink[] = [

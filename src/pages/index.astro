@@ -9,13 +9,14 @@ import ProjectCard from '@/components/molecules/ProjectCard.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 
+import { collectionDateSortProjects } from '@/utils/date'
+import { getTechnologyPath } from '@/utils/links'
+
 import AboutMeImage from '@/assets/photos/about-me.webp'
 import { getMediumPosts } from '@/data/medium'
 import { getAllProjects, getTechnologiesByUsage } from '@/data/project'
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
-import { collectionDateSortProjects } from '@/utils/date'
-import { getTechnologyPath } from '@/utils/links'
 
 const allProjects = await getAllProjects()
 const allPosts = await getMediumPosts()
@@ -30,34 +31,47 @@ const latestPosts = [...allPosts]
   .slice(0, 3)
 
 const topTechnologies = getTechnologiesByUsage(allProjects).slice(0, 10)
-
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
+
 const meta = {
-  description: 'Portfolio, writing, and selected work from Santiago Molina, a frontend-focused full stack developer and tech lead.',
-  title: 'Santiago Molina · Full Stack Developer and Tech Lead'
+  description: 'Explore Santiago Molina’s portfolio, case studies, and writing on frontend architecture, product systems, performance, and developer experience.',
+  title: 'Frontend Engineer and Tech Lead'
 }
 ---
 
 <PageLayout meta={meta}>
-  <section class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+  <section class="
+    grid gap-8
+    lg:grid-cols-[1.15fr_0.85fr] lg:items-center
+  "
+  >
     <div class="space-y-8">
-      <Eyebrow label="Portfolio · Writing · Product Systems" tone="brand" />
+      <Eyebrow label="Frontend Architecture · DX · Product Delivery" tone="brand" />
 
       <div class="space-y-5">
-        <h1 class="max-w-4xl text-5xl sm:text-6xl lg:text-7xl">
-          Santiago Molina designs, builds, and scales product experiences.
+        <h1 class="
+          max-w-4xl text-5xl
+          sm:text-6xl
+          lg:text-7xl
+        "
+        >
+          Senior frontend engineer, tech lead, and community builder.
         </h1>
-        <p class="max-w-3xl text-lg leading-8 text-ink-soft sm:text-xl">
-          {siteConfig.headline} I combine frontend architecture, delivery leadership, and strong UI instincts to help teams ship with clarity.
+        <p class="
+          max-w-3xl text-lg/8 text-ink-soft
+          sm:text-xl
+        "
+        >
+          {siteConfig.headline} Over the last {yearsOfExperience} years, I have worked across commerce, gaming, SaaS, real estate, and open source with React, Next.js, TypeScript, and hands-on technical leadership.
         </p>
       </div>
 
       <div class="flex flex-wrap gap-3">
         <ButtonLink href="/portfolio/" showArrow>
-          Explore portfolio
+          See selected work
         </ButtonLink>
         <ButtonLink href="/posts/" showArrow variant="secondary">
-          Browse writing
+          Read the writing
         </ButtonLink>
         <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="ghost">
           Open resume
@@ -70,43 +84,60 @@ const meta = {
       </div>
     </div>
 
-    <div class="panel-surface relative overflow-hidden rounded-[2rem] p-4">
-      <div class="grid-fade pointer-events-none absolute inset-0 opacity-80" />
+    <div class="relative overflow-hidden rounded-4xl p-4 panel-surface">
+      <div class="pointer-events-none absolute inset-0 grid-fade opacity-80" />
       <div class="relative z-10 grid gap-5">
-        <div class="overflow-hidden rounded-[1.5rem]">
+        <div class="overflow-hidden rounded-3xl">
           <Image
             alt="Portrait of Santiago Molina"
-            class="aspect-[4/5] w-full object-cover"
+            class="aspect-4/5 w-full object-cover"
             priority
             src={AboutMeImage}
           />
         </div>
-        <div class="grid gap-3 sm:grid-cols-2">
-          <div class="rounded-[1.25rem] bg-surface px-4 py-4">
-            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Primary focus</p>
+        <div class="
+          grid gap-3
+          sm:grid-cols-2
+        "
+        >
+          <div class="rounded-[1.25rem] bg-surface p-4">
+            <p class="
+              text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase
+            "
+            >Primary focus
+            </p>
             <p class="mt-2 text-lg font-semibold text-ink">Frontend architecture</p>
           </div>
-          <div class="rounded-[1.25rem] bg-surface px-4 py-4">
-            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Working style</p>
-            <p class="mt-2 text-lg font-semibold text-ink">Hands-on leadership</p>
+          <div class="rounded-[1.25rem] bg-surface p-4">
+            <p class="
+              text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase
+            "
+            >Working style
+            </p>
+            <p class="mt-2 text-lg font-semibold text-ink">Hands-on tech leadership</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-    <StatCard description="Years building web and mobile products with modern frontend stacks." label="Experience" value={yearsOfExperience} />
-    <StatCard description="A mix of client work, platform teams, open source, and personal products." label="Projects" value={String(allProjects.length)} />
-    <StatCard description="Medium articles focused on engineering workflows, React systems, and code quality." label="Articles" value={String(allPosts.length)} />
-    <StatCard description="Most-used tools across delivery work, prototypes, and team-facing systems." label="Core stack" value={`${topTechnologies.length}+`} />
+  <section class="
+    grid gap-4
+    md:grid-cols-2
+    xl:grid-cols-4
+  "
+  >
+    <StatCard description="Years building web and mobile products with frontend-heavy teams." label="Experience" value={yearsOfExperience} />
+    <StatCard description="Largest cross-functional team I have led across product, design, frontend, and backend." label="Team led" value="14" />
+    <StatCard description="Performance swing from the Marcone storefront rebuild at Smith Commerce." label="Lighthouse" value="35->98" />
+    <StatCard description="Typical attendance for ReactJS Colombia meetups, workshops, and talks." label="Community" value="100+" />
   </section>
 
   <section class="space-y-8">
     <SectionHeading
-      description="The technologies I return to most often when I need a stack that scales well and keeps product teams moving."
+      description="React and TypeScript sit at the center, but the stack expands to whatever the product needs: mobile, backend, testing, DX, and delivery tooling."
       eyebrow="Stack"
-      title="A frontend-first toolkit with room for full stack depth."
+      title="A frontend-first toolkit with full-stack range."
     />
     <div class="flex flex-wrap gap-3">
       {topTechnologies.map(technology => (
@@ -117,50 +148,62 @@ const meta = {
 
   <section class="space-y-8">
     <SectionHeading
-      description="A few projects that reflect how I approach product quality, maintainable systems, and delivery under real constraints."
+      description="From headless commerce and esports to real estate and open source, these projects show how I approach performance, architecture, and delivery."
       eyebrow="Selected work"
       linkHref="/portfolio/"
       linkLabel="View the full portfolio"
-      title="Recent case studies and product systems."
+      title="Work shaped by real teams, products, and constraints."
     />
-    <div class="grid gap-6 lg:grid-cols-3">
+    <div class="
+      grid gap-6
+      lg:grid-cols-3
+    "
+    >
       {featuredProjects.map(project => (
         <ProjectCard project={project} />
       ))}
     </div>
   </section>
 
-  <section class="grid gap-6 lg:grid-cols-3">
-    <div class="panel-surface rounded-[1.75rem] p-6">
-      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">What I bring</p>
-      <h2 class="mt-4 text-3xl">Systems thinking without losing sight of the interface.</h2>
-      <p class="mt-4 text-base leading-7 text-ink-soft">
-        I like work that sits between engineering quality and user experience: design systems, architecture decisions, performance fixes, and the operational details that make shipping calmer for everyone.
+  <section class="
+    grid gap-6
+    lg:grid-cols-3
+  "
+  >
+    <div class="rounded-[1.75rem] p-6 panel-surface">
+      <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">What I do now</p>
+      <h2 class="mt-4 text-3xl">Architecture that still respects the interface.</h2>
+      <p class="mt-4 text-base/7 text-ink-soft">
+        Most of my work lives between frontend architecture, product delivery, and developer experience. I like untangling messy systems and turning them into calmer, faster teams.
       </p>
     </div>
-    <div class="panel-surface rounded-[1.75rem] p-6">
-      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Leadership</p>
-      <p class="mt-4 text-base leading-7 text-ink-soft">
-        I help teams make better technical decisions, create sustainable frontend patterns, and reduce rework by aligning architecture with product needs early.
+    <div class="rounded-[1.75rem] p-6 panel-surface">
+      <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">How I lead</p>
+      <p class="mt-4 text-base/7 text-ink-soft">
+        I stay close to the code. I help teams set standards, reduce rework, and make better decisions earlier, especially when performance, accessibility, or architecture are on the line.
       </p>
     </div>
-    <div class="panel-surface rounded-[1.75rem] p-6">
-      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Execution</p>
-      <p class="mt-4 text-base leading-7 text-ink-soft">
-        From React and TypeScript platforms to Astro sites and DX tooling, I care about code that is clean, accessible, and still pleasant for teams to evolve after launch.
+    <div class="rounded-[1.75rem] p-6 panel-surface">
+      <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">Outside the sprint</p>
+      <p class="mt-4 text-base/7 text-ink-soft">
+        I co-organize ReactJS Colombia, write about DX and frontend workflows, and keep learning while working remotely from Medellin and on the road.
       </p>
     </div>
   </section>
 
   <section class="space-y-8">
     <SectionHeading
-      description="The blog now mirrors Medium: each article here has a concise summary and a direct path to the full post on its original publication."
+      description="I mostly write about developer experience, React, TypeScript, testing, and the workflows that help teams ship cleanly. Some posts are published in Towards Dev, others on Medium."
       eyebrow="Writing"
       linkHref="/posts/"
       linkLabel="See all articles"
-      title="Recent posts from Medium, woven into the site."
+      title="Practical writing for developers building real products."
     />
-    <div class="grid gap-6 lg:grid-cols-3">
+    <div class="
+      grid gap-6
+      lg:grid-cols-3
+    "
+    >
       {latestPosts.map(post => (
         <PostCard post={post} />
       ))}

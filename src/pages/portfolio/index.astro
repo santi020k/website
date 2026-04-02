@@ -5,42 +5,46 @@ import ProjectCard from '@/components/molecules/ProjectCard.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 
+import { collectionDateSortProjects } from '@/utils/date'
+import { getTechnologyPath } from '@/utils/links'
+
 import { getAllProjects, getUniqueTechnologiesWithCount, groupProjectsByTypesId } from '@/data/project'
 import { getAllTypes } from '@/data/types'
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
-import { collectionDateSortProjects } from '@/utils/date'
-import { getTechnologyPath } from '@/utils/links'
 
 const allProjects = (await getAllProjects()).sort(collectionDateSortProjects)
 const groupedProjects = groupProjectsByTypesId(allProjects)
 const allTypes = (await getAllTypes()).sort((a, b) => (a.id === 'professional' ? -1 : b.id === 'professional' ? 1 : 0))
 const technologies = getUniqueTechnologiesWithCount(allProjects).slice(0, 18)
-
 const professionalCount = groupedProjects.professional?.length ?? 0
 const personalCount = groupedProjects.personal?.length ?? 0
 
 const meta = {
-  description: 'Selected projects across client work, leadership roles, experiments, and developer tooling from Santiago Molina.',
+  description: 'Case studies from Santiago Molina across headless commerce, gaming, SaaS, real estate, community, and open-source work.',
   title: 'Portfolio'
 }
 ---
 
 <PageLayout meta={meta}>
-  <section class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+  <section class="
+    grid gap-6
+    lg:grid-cols-[1.1fr_0.9fr]
+  "
+  >
     <div class="space-y-6">
-    <SectionHeading
-      description="A curated view of the products, platforms, and developer tools I have built or led. The goal is not volume. It is to show range, technical judgment, and the kind of work I enjoy doing best."
-      eyebrow="Portfolio"
-      level="h1"
-      title="Case studies with product context, not just screenshots."
-    />
+      <SectionHeading
+        description="A curated look at the work behind my resume: frontend architecture, product systems, and hands-on technical leadership across US and LATAM teams."
+        eyebrow="Portfolio"
+        level="h1"
+        title="Case studies from real teams, products, and constraints."
+      />
       <div class="flex flex-wrap gap-3">
         <ButtonLink href={siteConfig.contact.resume} newTab showArrow>
           Open resume
         </ButtonLink>
         <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          Contact on LinkedIn
+          Message on LinkedIn
         </ButtonLink>
       </div>
       <div class="flex flex-wrap gap-2">
@@ -50,10 +54,15 @@ const meta = {
       </div>
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-      <StatCard description="Projects delivered with companies, product teams, and clients." label="Professional" value={String(professionalCount)} />
-      <StatCard description="Open-source, community, and self-directed projects." label="Personal" value={String(personalCount)} />
-      <StatCard description="Technologies used across the portfolio." label="Technologies" value={String(technologies.length)} />
+    <div class="
+      grid gap-4
+      sm:grid-cols-3
+      lg:grid-cols-1
+    "
+    >
+      <StatCard description="Roles across commerce, gaming, real estate, martech, agencies, and SaaS." label="Professional" value={String(professionalCount)} />
+      <StatCard description="Open-source and community work that sharpens how I build and lead." label="Personal" value={String(personalCount)} />
+      <StatCard description="Recurring tools and platforms that show up across production systems." label="Technologies" value={String(technologies.length)} />
     </div>
   </section>
 
@@ -65,7 +74,11 @@ const meta = {
           eyebrow={type.id === 'professional' ? 'Client and product work' : 'Personal builds'}
           title={type.data.title}
         />
-        <div class="grid gap-6 lg:grid-cols-2">
+        <div class="
+          grid gap-6
+          lg:grid-cols-2
+        "
+        >
           {(groupedProjects[type.id] ?? []).map(project => (
             <ProjectCard project={project} />
           ))}
@@ -76,11 +89,11 @@ const meta = {
 
   <section class="space-y-8">
     <SectionHeading
-      description="A quick look at the technologies that show up most often across the project work."
+      description="React and TypeScript sit at the center, but the stack widens to fit the product: testing, mobile, backend, DX, and delivery tooling."
       eyebrow="Technology map"
       linkHref="/technologies/"
       linkLabel="Browse the full stack index"
-      title="Recurring tools, frameworks, and platforms."
+      title="The tools behind the work."
     />
     <div class="flex flex-wrap gap-3">
       {technologies.map(([technology, count]) => (

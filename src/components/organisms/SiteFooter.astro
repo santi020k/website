@@ -9,22 +9,36 @@ import { siteConfig } from '@/site.config'
 const year = new Date().getFullYear()
 ---
 
-<footer class="px-4 pb-10 sm:px-6 lg:px-8">
+<footer class="
+  px-4 pb-10
+  sm:px-6
+  lg:px-8
+"
+>
   <div
     class="
-      panel-surface mx-auto grid max-w-6xl gap-8 rounded-[2rem] px-6 py-8
+      mx-auto grid max-w-6xl gap-8 rounded-4xl px-6 py-8 panel-surface
       lg:grid-cols-[1.5fr_1fr]
     "
   >
     <div class="space-y-4">
-      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-ink-muted">Let’s build something useful</p>
-      <h2 class="max-w-xl text-3xl sm:text-4xl">{siteConfig.headline}</h2>
-      <p class="max-w-2xl text-base leading-7 text-ink-soft">
-        I work across frontend architecture, design systems, React platforms, and the product decisions that help teams ship well under pressure.
+      <p class="
+        text-sm font-semibold tracking-[0.24em] text-ink-muted uppercase
+      "
+      >Let’s build something useful
+      </p>
+      <h2 class="
+        max-w-xl text-3xl
+        sm:text-4xl
+      "
+      >{siteConfig.headline}
+      </h2>
+      <p class="max-w-2xl text-base/7 text-ink-soft">
+        I help product teams improve performance, clarify architecture, and ship with less friction across React, Next.js, TypeScript, and design systems.
       </p>
       <div class="flex flex-wrap gap-3">
         <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow>
-          Book a conversation
+          Start a conversation
         </ButtonLink>
         <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
           Open resume

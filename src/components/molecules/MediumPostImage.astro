@@ -1,0 +1,59 @@
+---
+interface Props {
+  alt: string
+  fallbackLabel?: string
+  fetchpriority?: 'auto' | 'high' | 'low'
+  height?: number
+  imageClass?: string
+  loading?: 'eager' | 'lazy'
+  src: string
+  wrapperClass?: string
+  width?: number
+}
+
+const {
+  alt,
+  fallbackLabel,
+  fetchpriority = 'auto',
+  height,
+  imageClass,
+  loading = 'lazy',
+  src,
+  wrapperClass,
+  width
+} = Astro.props
+---
+
+<div class:list={['relative overflow-hidden bg-surface-muted', wrapperClass]}>
+  <div aria-hidden="true" class="absolute inset-0 grid-fade" />
+  <div
+    aria-hidden="true"
+    class="
+      absolute inset-0 bg-linear-to-br from-brand/12 via-transparent
+      to-accent/10
+    "
+  />
+
+  {fallbackLabel && (
+    <p class="
+      absolute inset-x-4 bottom-4 z-0 max-w-xs text-sm font-medium
+      text-ink-muted
+    "
+    >
+      {fallbackLabel}
+    </p>
+  )}
+
+  <img
+    alt={alt}
+    class:list={['relative z-10 size-full object-cover', imageClass]}
+    decoding="async"
+    fetchpriority={fetchpriority}
+    height={height}
+    loading={loading}
+    onerror="this.style.display='none'"
+    referrerpolicy="no-referrer"
+    src={src}
+    width={width}
+  />
+</div>

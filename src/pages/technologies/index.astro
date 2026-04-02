@@ -3,33 +3,38 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 
+import { getTechnologyPath } from '@/utils/links'
+
 import { getAllProjects, getUniqueTechnologiesWithCount } from '@/data/project'
 import PageLayout from '@/layouts/Base.astro'
-import { getTechnologyPath } from '@/utils/links'
 
 const allProjects = await getAllProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)
 
 const meta = {
-  description: 'A stack index showing the technologies used across the portfolio projects.',
-  title: 'Technologies'
+  description: 'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
+  title: 'Technology Index'
 }
 ---
 
 <PageLayout meta={meta}>
   <section class="space-y-6">
     <SectionHeading
-      description="A simple index of the frameworks, languages, tools, and platforms that show up across the project work."
+      description="This is the recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, DX, and the tools around them."
       eyebrow="Stack index"
       level="h1"
-      title="Technology is only useful when it serves the product."
+      title="A frontend-first stack with full-stack range."
     />
     <ButtonLink href="/portfolio/" showArrow variant="secondary">
       Back to portfolio
     </ButtonLink>
   </section>
 
-  <section class="panel-surface rounded-[2rem] p-6 sm:p-8">
+  <section class="
+    rounded-4xl p-6 panel-surface
+    sm:p-8
+  "
+  >
     <div class="flex flex-wrap gap-3">
       {technologies.map(([technology, count]) => (
         <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
