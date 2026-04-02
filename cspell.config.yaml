@@ -163,6 +163,7 @@ words:
   - Zurück
   - Оbserve
 ignorePaths:
+  - .agents/**
   - node_modules/**
   - dist/**
   - .git/**
