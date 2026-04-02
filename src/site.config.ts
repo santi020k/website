@@ -1,7 +1,7 @@
 import type { SiteConfig, SiteLink } from './types.ts'
 
 export const siteConfig: SiteConfig = {
-  availability: 'Open to senior frontend, full stack, and tech lead roles',
+  availability: 'Open to tech lead, full-stack, and engineering leadership roles',
   author: 'Santiago Molina Orozco',
   contact: {
     email: 'santiago@santi020k.me',
@@ -19,8 +19,8 @@ export const siteConfig: SiteConfig = {
       year: 'numeric'
     }
   },
-  description: 'Portfolio, case studies, and writing from Santiago Molina on frontend architecture, product systems, performance, and developer experience.',
-  headline: 'I build fast, accessible products and stronger frontend systems.',
+  description: 'Portfolio, case studies, and writing from Santiago Molina on full-stack engineering, developer experience, automation, and technical leadership.',
+  headline: 'I lead engineering teams, automate the hard parts, and build systems that scale.',
   lang: 'en-US',
   location: 'Medellin, Colombia · Remote worldwide',
   ogLocale: 'en_US',

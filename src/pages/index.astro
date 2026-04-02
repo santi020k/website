@@ -32,8 +32,8 @@ const topTechnologies = getTechnologiesByUsage(allProjects).slice(0, 10)
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 
 const meta = {
-  description: 'Explore Santiago Molina’s portfolio, case studies, and writing on frontend architecture, product systems, performance, and developer experience.',
-  title: 'Frontend Engineer and Tech Lead'
+  description: 'Explore Santiago Molina\'s portfolio, case studies, and writing on full-stack engineering, automation, developer experience, and technical leadership.',
+  title: 'Full-Stack Engineer & Tech Lead'
 }
 ---
 
@@ -46,7 +46,7 @@ const meta = {
     data-animate
   >
     <div class="space-y-8">
-      <Eyebrow label="Architecture · DX · Product Delivery" tone="brand" />
+      <Eyebrow label="Leadership · Automation · DX" tone="brand" />
 
       <div class="space-y-5">
         <h1 class="
@@ -55,15 +55,16 @@ const meta = {
           lg:text-7xl
         "
         >
-          Senior frontend engineer, tech lead, and community builder.
+          Full-stack engineer, tech lead, and builder of developer-first systems.
         </h1>
         <p class="
           max-w-3xl text-lg/8 text-ink-soft
           sm:text-xl
         "
         >
-          {siteConfig.headline} Over the last {yearsOfExperience} years, I have worked across commerce, gaming,
-          SaaS, real estate, and open source with React, Next.js, TypeScript, and hands-on technical leadership.
+          {siteConfig.headline} Over the last {yearsOfExperience} years I have shipped across commerce, SaaS, gaming,
+          and real estate — leading cross-functional teams, building automation that eliminates toil, and raising the
+          bar on developer experience at every layer of the stack.
         </p>
       </div>
 
@@ -110,7 +111,7 @@ const meta = {
             "
             >Primary focus
             </p>
-            <p class="mt-2 text-lg font-semibold text-ink">Frontend architecture</p>
+            <p class="mt-2 text-lg font-semibold text-ink">Full-stack · Automation · DX</p>
           </div>
           <div class="rounded-[1.25rem] bg-surface p-4">
             <p class="
@@ -133,7 +134,7 @@ const meta = {
     "
     data-animate
   >
-    <StatCard description="Years building web and mobile products with frontend-heavy teams." label="Experience" value={yearsOfExperience} />
+    <StatCard description="Years shipping web and mobile products across full-stack, leadership, and automation roles." label="Experience" value={yearsOfExperience} />
     <StatCard description="Largest cross-functional team I have led across product, design, frontend, and backend." label="Team led" value="14" />
     <StatCard description="Performance swing from the Marcone storefront rebuild at Smith Commerce." label="Lighthouse" value="35->98" />
     <StatCard description="Typical attendance for ReactJS Colombia meetups, workshops, and talks." label="Community" value="100+" />
@@ -141,9 +142,9 @@ const meta = {
 
   <section class="space-y-8" data-animate>
     <SectionHeading
-      description="React and TypeScript sit at the center, but the stack expands to whatever the product needs: mobile, backend, testing, DX, and delivery tooling."
+      description="React and TypeScript sit at the center, but the work extends across the full stack: backend services, automation pipelines, testing infrastructure, and delivery tooling."
       eyebrow="Stack"
-      title="A frontend-first toolkit with full-stack range."
+      title="A full-stack toolkit built around automation and DX."
     />
     <div class="flex flex-wrap gap-3">
       {topTechnologies.map(technology => (
@@ -154,11 +155,11 @@ const meta = {
 
   <section class="space-y-8" data-animate>
     <SectionHeading
-      description="From headless commerce and esports to real estate and open source, these projects show how I approach performance, architecture, and delivery."
+      description="From headless commerce and esports to real estate and open source, these projects show how I approach architecture, automation, and delivery under real constraints."
       eyebrow="Selected work"
       linkHref="/portfolio/"
       linkLabel="View the full portfolio"
-      title="Work shaped by real teams, products, and constraints."
+      title="Work shaped by real teams, real constraints, and measurable outcomes."
     />
     <div class="
       grid gap-6
@@ -180,23 +181,23 @@ const meta = {
   >
     <div class="rounded-[1.75rem] p-6 panel-surface">
       <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">What I do now</p>
-      <h2 class="mt-4 text-3xl">Architecture that still respects the interface.</h2>
+      <h2 class="mt-4 text-3xl">Engineering that ships and systems that last.</h2>
       <p class="mt-4 text-base/7 text-ink-soft">
-        Most of my work lives between frontend architecture, product delivery, and developer experience.
-        I like untangling messy systems and turning them into calmer, faster teams.
+        My work spans full-stack delivery, developer tooling, and automation — finding the slowest parts of a
+        team's workflow and making them disappear.
       </p>
     </div>
     <div class="rounded-[1.75rem] p-6 panel-surface">
       <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">How I lead</p>
       <p class="mt-4 text-base/7 text-ink-soft">
-        I stay close to the code. I help teams set standards, reduce rework, and make better decisions earlier,
-        especially when performance, accessibility, or architecture are on the line.
+        I stay close to the code. I help teams set standards, cut rework, and make better decisions earlier —
+        especially on architecture, automation, and developer experience.
       </p>
     </div>
     <div class="rounded-[1.75rem] p-6 panel-surface">
       <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">Outside the sprint</p>
       <p class="mt-4 text-base/7 text-ink-soft">
-        I co-organize ReactJS Colombia, write about DX and frontend workflows, and keep learning while working
+        I co-organize ReactJS Colombia, write about DX and engineering workflows, and keep building while working
         remotely from Medellin and on the road.
       </p>
     </div>
@@ -204,11 +205,11 @@ const meta = {
 
   <section class="space-y-8" data-animate>
     <SectionHeading
-      description="I mostly write about developer experience, React, TypeScript, testing, and the workflows that help teams ship cleanly. Some posts are published in Towards Dev, others on Medium."
+      description="I write about developer experience, automation, TypeScript, and the engineering decisions that help teams ship with confidence. Published in Towards Dev and on Medium."
       eyebrow="Writing"
       linkHref="/posts/"
       linkLabel="See all articles"
-      title="Practical writing for developers building real products."
+      title="Practical writing for engineers who build and lead."
     />
     <div class="
       grid gap-6
