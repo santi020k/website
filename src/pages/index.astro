@@ -38,10 +38,12 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section class="
-    grid gap-8
-    lg:grid-cols-[1.15fr_0.85fr] lg:items-center
-  "
+  <section
+    class="
+      grid gap-8
+      lg:grid-cols-[1.15fr_0.85fr] lg:items-center
+    "
+    data-animate
   >
     <div class="space-y-8">
       <Eyebrow label="Frontend Architecture · DX · Product Delivery" tone="brand" />
@@ -120,11 +122,13 @@ const meta = {
     </div>
   </section>
 
-  <section class="
-    grid gap-4
-    md:grid-cols-2
-    xl:grid-cols-4
-  "
+  <section
+    class="
+      grid gap-4
+      md:grid-cols-2
+      xl:grid-cols-4
+    "
+    data-animate
   >
     <StatCard description="Years building web and mobile products with frontend-heavy teams." label="Experience" value={yearsOfExperience} />
     <StatCard description="Largest cross-functional team I have led across product, design, frontend, and backend." label="Team led" value="14" />
@@ -132,7 +136,7 @@ const meta = {
     <StatCard description="Typical attendance for ReactJS Colombia meetups, workshops, and talks." label="Community" value="100+" />
   </section>
 
-  <section class="space-y-8">
+  <section class="space-y-8" data-animate>
     <SectionHeading
       description="React and TypeScript sit at the center, but the stack expands to whatever the product needs: mobile, backend, testing, DX, and delivery tooling."
       eyebrow="Stack"
@@ -145,7 +149,7 @@ const meta = {
     </div>
   </section>
 
-  <section class="space-y-8">
+  <section class="space-y-8" data-animate>
     <SectionHeading
       description="From headless commerce and esports to real estate and open source, these projects show how I approach performance, architecture, and delivery."
       eyebrow="Selected work"
@@ -164,10 +168,12 @@ const meta = {
     </div>
   </section>
 
-  <section class="
-    grid gap-6
-    lg:grid-cols-3
-  "
+  <section
+    class="
+      grid gap-6
+      lg:grid-cols-3
+    "
+    data-animate
   >
     <div class="rounded-[1.75rem] p-6 panel-surface">
       <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">What I do now</p>
@@ -193,7 +199,7 @@ const meta = {
     </div>
   </section>
 
-  <section class="space-y-8">
+  <section class="space-y-8" data-animate>
     <SectionHeading
       description="I mostly write about developer experience, React, TypeScript, testing, and the workflows that help teams ship cleanly. Some posts are published in Towards Dev, others on Medium."
       eyebrow="Writing"
@@ -212,3 +218,23 @@ const meta = {
     </div>
   </section>
 </PageLayout>
+
+<script>
+document.addEventListener('astro:page-load', () => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+  )
+
+  document.querySelectorAll('[data-animate]').forEach((el) => {
+    observer.observe(el)
+  })
+})
+</script>

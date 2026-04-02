@@ -26,22 +26,28 @@ const {
       motion-reduce:transform-none motion-reduce:transition-none
     `,
     variant === 'primary' && `
-      bg-ink px-5 py-3 text-sm text-white
-      hover:-translate-y-0.5 hover:bg-brand
+      bg-brand px-5 py-3 text-sm text-white shadow-sm
+      hover:-translate-y-0.5 hover:bg-brand/90
+      active:scale-95
       motion-reduce:hover:translate-y-0
+      motion-reduce:active:scale-100
     `,
     variant === 'secondary' && `
       px-5 py-3 text-sm text-ink panel-surface
       hover:-translate-y-0.5 hover:border-brand/40 hover:text-brand
+      active:scale-95
       motion-reduce:hover:translate-y-0
+      motion-reduce:active:scale-100
     `,
     variant === 'ghost' && `
       px-4 py-2.5 text-sm text-ink-soft
       hover:bg-surface-muted hover:text-ink
+      active:scale-95
+      motion-reduce:active:scale-100
     `,
     variant === 'inline' && `
-      rounded-none p-0 text-sm text-brand
-      hover:text-accent
+      rounded-none p-0 text-sm text-brand underline-offset-2
+      hover:text-accent hover:underline
     `,
     className
   ]}
