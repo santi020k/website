@@ -28,9 +28,9 @@
     --ink: 262 10% 20%;
     --ink-soft: 262 8% 36%;
     --ink-muted: 262 6% 52%;
-    --brand: 262 87% 65%;
+    --brand: 262 87% 42%;
     --brand-soft: 262 87% 93%;
-    --accent: 262 87% 58%;
+    --accent: 262 87% 52%;
     --glow: 262 100% 70%;
   }
 
@@ -120,18 +120,18 @@
   --font-serif: 'Montserrat', 'Avenir Next', sans-serif;
   --font-mono: 'Montserrat', 'SFMono-Regular', 'SF Mono', monospace;
 
-  --color-canvas: hsl(var(--theme-bg) / <alpha-value>);
-  --color-surface: hsl(var(--surface) / <alpha-value>);
-  --color-surface-muted: hsl(var(--surface-muted) / <alpha-value>);
-  --color-surface-strong: hsl(var(--surface-strong) / <alpha-value>);
-  --color-line: hsl(var(--line) / <alpha-value>);
-  --color-ink: hsl(var(--ink) / <alpha-value>);
-  --color-ink-soft: hsl(var(--ink-soft) / <alpha-value>);
-  --color-ink-muted: hsl(var(--ink-muted) / <alpha-value>);
-  --color-brand: hsl(var(--brand) / <alpha-value>);
-  --color-brand-soft: hsl(var(--brand-soft) / <alpha-value>);
-  --color-accent: hsl(var(--accent) / <alpha-value>);
-  --color-glow: hsl(var(--glow) / <alpha-value>);
+  --color-canvas: hsl(var(--theme-bg));
+  --color-surface: hsl(var(--surface));
+  --color-surface-muted: hsl(var(--surface-muted));
+  --color-surface-strong: hsl(var(--surface-strong));
+  --color-line: hsl(var(--line));
+  --color-ink: hsl(var(--ink));
+  --color-ink-soft: hsl(var(--ink-soft));
+  --color-ink-muted: hsl(var(--ink-muted));
+  --color-brand: hsl(var(--brand));
+  --color-brand-soft: hsl(var(--brand-soft));
+  --color-accent: hsl(var(--accent));
+  --color-glow: hsl(var(--glow));
 }
 
 @plugin "@tailwindcss/typography";
