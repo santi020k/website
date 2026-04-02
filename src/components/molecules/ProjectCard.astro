@@ -28,8 +28,10 @@ const projectLink = getProjectPath(project.id)
             "
             height={720}
             loading="lazy"
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
             src={project.data.coverImage.src}
             width={1280}
+            widths={[400, 800, 1200]}
           />
         ) :
         (

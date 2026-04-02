@@ -91,10 +91,13 @@ const { project } = Astro.props
       <Image
         alt={project.data.coverImage.alt}
         class="size-full object-cover"
+        fetchpriority="high"
         height={900}
-        priority
+        loading="eager"
+        sizes="(min-width: 1024px) 1200px, 100vw"
         src={project.data.coverImage.src}
         width={1600}
+        widths={[400, 800, 1200, 1600]}
       />
     </div>
   )}

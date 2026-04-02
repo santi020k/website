@@ -25,6 +25,7 @@ import ThemeToggle from '../ThemeToggle.astro'
     @keydown.escape.window="open = false"
   >
     <a
+      aria-label="Home"
       class="
         group inline-flex items-center gap-4 transition duration-200
         motion-reduce:transition-none
@@ -40,6 +41,7 @@ import ThemeToggle from '../ThemeToggle.astro'
         "
         fetchpriority="high"
         height={36}
+        loading="eager"
         src={LogoMark}
         width={99}
       />

@@ -24,10 +24,14 @@ const setTheme = newTheme => {
 
   root.setAttribute('data-theme', newTheme)
 
-  const colorThemeMetaTag = document.querySelector('meta[name=\'theme-color\']')
-  const bgColor = getComputedStyle(document.body).getPropertyValue('--theme-bg')
+  const colorThemeMetaTag = document.querySelector('meta[name="theme-color"]')
+  const documentBody = document.body
 
-  colorThemeMetaTag.setAttribute('content', `hsl(${bgColor})`)
+  if (colorThemeMetaTag && documentBody) {
+    const bgColor = getComputedStyle(documentBody).getPropertyValue('--theme-bg')
+
+    colorThemeMetaTag.setAttribute('content', `hsl(${bgColor})`)
+  }
 
   if (typeof localStorage !== 'undefined') {
     localStorage.setItem('theme', newTheme)
