@@ -55,8 +55,9 @@ describe('generateToc', () => {
     ]
     const toc = generateToc(headings)
     expect(toc).toHaveLength(2)
-    expect(toc[0]?.children).toHaveLength(1)
-    expect(toc[0]?.children?.[0]?.text).toBe('H3-1')
+    const first = toc[0]
+    expect(first?.children).toHaveLength(1)
+    expect(first?.children[0]?.text).toBe('H3-1')
   })
 
   it('should filter headings based on min/max level', () => {

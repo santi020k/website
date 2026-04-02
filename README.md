@@ -1,73 +1,86 @@
-# Santiago Molina
+# [Santiago Molina](https://santi020k.me/)
 
-<img src="./public/images/banner-logo.jpg" alt="Santi020k Banner" />
+![Santi020k Logo](./public/logo.webp)
 
-## Hi there 👋
+## I build fast, accessible products and stronger frontend systems.
 
-I'm a seasoned Full Stack Developer with a strong focus on front-end development and a passion for leading tech teams to success. With over a decade of professional experience, I've mastered complex technologies and led teams to deliver high-quality solutions that align with business objectives. As a Tech Lead, I excel in crafting technology around the core business model, ensuring project success and exceeding expectations. Find out more about me & feel free to connect with me here:
-
-[![Linkedin Badge](https://img.shields.io/badge/-Santiago_Molina-black?style=for-the-badge&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/santi020k/)](https://www.linkedin.com/in/santi020k/)
-[![Gmail Badge](https://img.shields.io/badge/-info@santi020k.me-black?style=for-the-badge&logo=Gmail&logoColor=white&link=mailto:info@santi020k.me)](mailto:info@santi020k.me)
-[![Website Badge](https://img.shields.io/badge/-santi020k.me-black?style=for-the-badge&logo=Google-Chrome&logoColor=white&link=https://santi020k.me/)](https://santi020k.me/)
+Santiago is a seasoned **Full Stack Developer** and **Tech Lead** with over a decade of experience. He specializes in frontend architecture, product systems, and leading high-performance teams to deliver scalable solutions.
 
 ---
 
-## 😄 A bit about me
+### 🚀 Key Features
 
-- 🔭 Currently exploring new opportunities
-- 🌱 Learning Elixir and Phoenix framework
-- 👯 Open to collaborating on interesting projects
-- 🤔 Seeking guidance on what to learn next; any recommendations?
-- 💬 Feel free to ask me about anything related to programming!
-
----
-
-## ⚡ Technologies
-
-![JavaScript](https://img.shields.io/badge/-JavaScript-black?style=for-the-badge&logo=javascript)
-![React](https://img.shields.io/badge/-React-black?style=for-the-badge&logo=react)
-![Redux](https://img.shields.io/badge/-Redux-black?style=for-the-badge&logo=redux)
-![Next.js](https://img.shields.io/badge/-Next.js-black?style=for-the-badge&logo=next.js)
-![TypeScript](https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logo=typescript&logoColor=white)
-![GraphQL](https://img.shields.io/badge/-GraphQL-black?style=for-the-badge&logo=graphql)
-![Apollo GraphQL](https://img.shields.io/badge/-Apollo%20GraphQL-black?style=for-the-badge&logo=apollo-graphql)
-![Nodejs](https://img.shields.io/badge/-Nodejs-black?style=for-the-badge&logo=Node.js)
-![Express](https://img.shields.io/badge/-Express-black?style=for-the-badge&logo=express)
-![MongoDB](https://img.shields.io/badge/-MongoDB-black?style=for-the-badge&logo=mongodb)
-![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-black?style=for-the-badge&logo=postgresql&logoColor=white)
-![Astro](https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE)
-![Supabase](https://img.shields.io/badge/Supabase-black?style=for-the-badge&logo=supabase&logoColor=white)
-![Zustand](https://img.shields.io/badge/zustand-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-black.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Zod Badge](https://img.shields.io/badge/Zod-black?style=for-the-badge&logo=zod&logoColor=white)
-
-## ✍🏼 Medium
-
-[![Santi020k Medium](https://github-readme-medium.vercel.app/?username=santi020k)](https://medium.com/@santi020k)
+- **Astro 6 Power**: Built with the latest Astro framework for optimized performance.
+- **Tailwind CSS v4**: Modern, future-proof styling with zero-runtime CSS.
+- **Alpine.js Interactivity**: Lightweight, reactive features without the overhead.
+- **Search Everywhere**: Blazing-fast client-side search powered by **Pagefind**.
+- **Content Collections**: Type-safe Markdown and MDX for blog posts and projects.
+- **Accessibility First**: WCAG 2.2 AA compliant, ensuring an inclusive experience for all.
+- **View Transitions**: Seamless, app-like navigation between pages.
 
 ---
 
-Feel free to reach out to me for collaboration, mentorship, or any interesting project you'd like to discuss!
+### ⚡ Tech Stack
+
+[![Astro](https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE)](https://astro.build/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Alpine.js](https://img.shields.io/badge/Alpine.js-8BC34A?style=for-the-badge&logo=alpine.js&logoColor=white)](https://alpinejs.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 
 ---
 
-This is my personal website repository. It's built with [Astro](https://astro.build) and [Sanity.io](https://www.sanity.io).
+### 📂 Project Structure
 
-## 🚀 Getting Started
+| Path | Purpose |
+| --- | --- |
+| `src/site.config.ts` | Site-wide metadata, navigation, and social links. |
+| `src/content.config.ts` | Content collection schemas (Zod). |
+| `src/content/` | Content collections (blog posts, portfolio projects). |
+| `src/layouts/` | Core page layouts using Astro. |
+| `src/components/` | Reusable UI components (Atoms, Molecules, Organisms). |
+| `src/styles/global.css` | Tailwind v4 theme tokens and global styles. |
+| `tests/` | Unit (Vitest) and E2E (Playwright) test suites. |
 
-### 📦 Install Dependencies
+---
 
+### 🛠️ Getting Started
+
+#### 1. Install Dependencies
 ```bash
 npm install
 ```
 
-### 🚀 Start Development Server
-
+#### 2. Start Development Server
 ```bash
 npm run dev
 ```
+Accessible at `http://localhost:4321`.
 
-### 📝 Edit Content
+#### 3. Build for Production
+```bash
+npm run build
+```
 
-All content is stored in the `src/content` folder. You can edit the content directly in the Sanity Studio, or edit the files directly in the `src/content` folder.
+#### 4. Run Quality Checks
+```bash
+npm run lint      # Linting with ESLint
+npm run check     # Astro type-checking
+npm run test      # Unit testing
+npm run test:e2e  # E2E testing
+```
+
+---
+
+### 📫 Connect with Santiago
+
+[![LinkedIn Badge](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/santi020k)
+[![GitHub Badge](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/santi020k)
+[![Medium Badge](https://img.shields.io/badge/Medium-000000?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@santi020k)
+[![WhatsApp Badge](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://api.whatsapp.com/send?phone=573507990136)
+
+---
+
+&copy; 2026 Santiago Molina Orozco. All rights reserved.

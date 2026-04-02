@@ -1,26 +1,45 @@
-import { describe, expect, it } from 'vitest'
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
+import type { Paragraph, Text } from 'mdast'
 import remarkDirective from 'remark-directive'
+import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
+import { unified } from 'unified'
 import type { VFile } from 'vfile'
+import { describe, expect, it } from 'vitest'
 
 import { remarkAdmonitions } from '../remark-admonitions'
 import { remarkReadingTime } from '../remark-reading-time'
 
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
+interface AstroVFile extends VFile {
+  data: {
+    astro?: {
+      frontmatter: {
+        readingTime?: string
+        [key: string]: unknown
+      }
+    }
+  }
+}
+
+interface AdmonitionData {
+  hName: string
+  hProperties: Record<string, string | string[] | undefined>
+}
+
+interface AdmonitionNode extends Paragraph {
+  data: AdmonitionData
+}
 
 describe('remarkReadingTime', () => {
   it('should calculate reading time and add it to frontmatter', () => {
     const processor = unified().use(remarkParse).use(remarkReadingTime).use(remarkStringify)
-    const file = { data: { astro: { frontmatter: {} } } } as unknown as VFile
+    const file = { data: { astro: { frontmatter: {} } } } as unknown as AstroVFile
     const content = 'Hello world, this is a test page to check reading time calculation. It should have some min read.'
 
     const tree = processor.parse(content)
-    remarkReadingTime()(tree as any, file)
+    remarkReadingTime()(tree, file)
 
-    expect((file.data as any).astro.frontmatter.readingTime).toBeDefined()
-    expect((file.data as any).astro.frontmatter.readingTime).toMatch(/min read/)
+    expect(file.data.astro?.frontmatter.readingTime).toBeDefined()
+    expect(file.data.astro?.frontmatter.readingTime).toMatch(/min read/)
   })
 })
 
@@ -36,20 +55,20 @@ describe('remarkAdmonitions', () => {
     const tree = processor.parse(content)
     await processor.run(tree)
 
-    const aside = tree.children[0] as any
+    const aside = tree.children[0] as AdmonitionNode
     expect(aside.data.hName).toBe('aside')
-    
-    // Check properties - some hastscript versions use ariaLabel/className
+
+    // Check properties - handles both 'class' and 'className' conventions
     const props = aside.data.hProperties
-    const label = props['aria-label'] || props.ariaLabel
     const className = props.class || props.className
-    
-    expect(label).toBe('note')
+
     if (Array.isArray(className)) {
       expect(className.join(' ')).toContain('aside-note')
-    } else {
+    } else if (typeof className === 'string') {
       expect(className).toContain('aside-note')
     }
+    const label = props['aria-label'] || props.ariaLabel
+    expect(label).toBe('note')
   })
 
   it('should handle custom titles via directive labels', async () => {
@@ -63,7 +82,7 @@ describe('remarkAdmonitions', () => {
     const tree = processor.parse(content)
     await processor.run(tree)
 
-    const aside = tree.children[0] as any
+    const aside = tree.children[0] as AdmonitionNode
     const props = aside.data.hProperties
     const label = props['aria-label'] || props.ariaLabel
     expect(label).toBe('Custom Title')
@@ -80,8 +99,8 @@ describe('remarkAdmonitions', () => {
     const tree = processor.parse(content)
     await processor.run(tree)
 
-    const result = tree.children[0] as any
+    const result = tree.children[0] as Paragraph
     expect(result.type).toBe('paragraph')
-    expect(result.children[0].type).toBe('text')
+    expect((result.children[0] as Text).type).toBe('text')
   })
 })
