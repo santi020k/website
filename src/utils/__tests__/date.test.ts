@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { getFormattedDate } from '../date'
+import { collectionDateSort, collectionDateSortProjects, getFormattedDate } from '../date'
+
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
 
 describe('getFormattedDate', () => {
   it('should format a Date object correctly', () => {
@@ -26,5 +28,24 @@ describe('getFormattedDate', () => {
     const date = new Date('2024-01-01T12:00:00')
     const formatted = getFormattedDate(date, { month: 'long' })
     expect(formatted).toContain('January')
+  })
+})
+
+describe('collectionDateSort', () => {
+  it('should sort entries by publishDate descending', () => {
+    const a = { data: { publishDate: new Date('2024-01-01') } } as any
+    const b = { data: { publishDate: new Date('2024-02-01') } } as any
+    // b - a = positive
+    expect(collectionDateSort(a, b)).toBeGreaterThan(0)
+    expect(collectionDateSort(b, a)).toBeLessThan(0)
+  })
+})
+
+describe('collectionDateSortProjects', () => {
+  it('should sort projects by startingDate descending', () => {
+    const a = { data: { startingDate: new Date('2024-01-01') } } as any
+    const b = { data: { startingDate: new Date('2024-02-01') } } as any
+    expect(collectionDateSortProjects(a, b)).toBeGreaterThan(0)
+    expect(collectionDateSortProjects(b, a)).toBeLessThan(0)
   })
 })

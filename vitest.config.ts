@@ -29,6 +29,17 @@ export default defineConfig({
     exclude: ['**/node_modules/**', '**/tests/**', '**/dist/**'],
     alias: {
       '@': path.resolve(__dirname, './src')
+    },
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      include: ['src/utils/**', 'src/plugins/**', 'src/site.config.ts'],
+      exclude: [
+        'src/utils/__tests__/**',
+        'src/plugins/__tests__/**',
+        'src/types.ts',
+        'src/env.d.ts'
+      ]
     }
   }
 })
