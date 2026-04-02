@@ -43,7 +43,12 @@ const rawFonts = (ext: string[]) => ({
 // https://astro.build/config
 export default defineConfig({
   image: {
-    domains: ['webmention.io', 'cdn-images-1.medium.com', 'cdn-images-2.medium.com', 'miro.medium.com']
+    remotePatterns: [
+      { protocol: 'https', hostname: 'webmention.io' },
+      { protocol: 'https', hostname: 'cdn-images-1.medium.com' },
+      { protocol: 'https', hostname: 'cdn-images-2.medium.com' },
+      { protocol: 'https', hostname: 'miro.medium.com' }
+    ]
   },
   integrations: [
     icon(),
@@ -134,7 +139,19 @@ export default defineConfig({
   site: 'https://santi020k.me/',
   vite: {
     build: {
-      sourcemap: true // Source maps generation
+      sourcemap: true, // Source maps generation
+      rollupOptions: {
+        onwarn(warning, warn) {
+          if (
+            warning.code === 'UNUSED_EXTERNAL_IMPORT' &&
+            warning.message.includes('@astrojs/internal-helpers/remote')
+          ) {
+            return
+          }
+
+          warn(warning)
+        }
+      }
     },
     optimizeDeps: {
       exclude: ['@resvg/resvg-js']
