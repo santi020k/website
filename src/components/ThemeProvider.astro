@@ -30,10 +30,12 @@ const setTheme = newTheme => {
   if (colorThemeMetaTag && documentBody) {
     const bgColor = getComputedStyle(documentBody).getPropertyValue('--theme-bg')
 
-    colorThemeMetaTag.setAttribute('content', `hsl(${bgColor})`)
+    if (bgColor) {
+      colorThemeMetaTag.setAttribute('content', `hsl(${bgColor})`)
+    }
   }
 
-  if (typeof localStorage !== 'undefined') {
+  if (typeof localStorage !== 'undefined' && newTheme) {
     localStorage.setItem('theme', newTheme)
   }
 }
