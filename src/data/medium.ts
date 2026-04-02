@@ -56,7 +56,27 @@ function extractExcerpt(html: string) {
 
   const candidate = paragraphs.find(paragraph => paragraph.length > 70 && !ignoredPrefixes.some(prefix => paragraph.startsWith(prefix))) ?? paragraphs.find(paragraph => paragraph.length > 40) ?? ''
 
-  return candidate.slice(0, 240).trim()
+  return clampExcerpt(candidate)
+}
+
+function clampExcerpt(value: string, maxLength = 220) {
+  if (value.length <= maxLength) {
+    return value
+  }
+
+  const shortened = value.slice(0, maxLength).trim()
+
+  const sentenceBreaks = ['. ', '! ', '? ']
+    .map(separator => shortened.lastIndexOf(separator))
+    .filter(index => index >= 0)
+
+  const lastSentenceBreak = Math.max(...sentenceBreaks, -1)
+
+  if (lastSentenceBreak >= maxLength * 0.55) {
+    return shortened.slice(0, lastSentenceBreak + 1).trim()
+  }
+
+  return `${shortened.replace(/[,:;-\s]+$/g, '').trim()}…`
 }
 
 function getSlugFromLink(link: string, fallback: string, index: number) {

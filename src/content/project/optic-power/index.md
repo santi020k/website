@@ -1,7 +1,7 @@
 ---
 title: "Optic Power"
-description: "Led the development and optimization of web applications across diverse industries, contributing as a Senior Full Stack Engineer in a fully remote and agile environment. Collaborated with cross-functional teams to deliver user-centric, high-performance solutions using modern web technologies. Focused on improving performance, scalability, and development workflows across multiple projects."
-rol: "Full Stack"
+description: "Built products across fintech, gaming, and SaaS, including Team Liquid, NurtureBoss, and Stardust.gg, with a focus on performance and scale."
+rol: "Senior Full Stack Engineer"
 startingDate: "1 Jul 2021"
 endingDate: "1 Feb 2023"
 liveDemoUrl: "https://www.codepwr.com/"
@@ -13,45 +13,25 @@ coverImage:
   src: "./cover.webp"
   alt: "Optic Power Projects Showcase"
   ogImage: "./cover.webp"
-
 ---
 
-## Driving Scalable Web Solutions with Optic Power
+## Shipping across fintech, gaming, and SaaS
 
-Between **July 2021 and February 2023**, I worked as a **Senior Full Stack Engineer** at [Optic Power](https://www.codepwr.com/), contributing to a range of projects across fintech, gaming, marketing automation, and SaaS platforms. My focus was on building performant, scalable, and maintainable applications using a modern tech stack.
+At [Optic Power](https://www.codepwr.com/), I worked as a senior full stack engineer across several products at once. The common thread was clear: build fast, dependable software for teams that needed both product momentum and technical depth.
 
-### 🚀 End-to-End Product Engineering
+## What I worked on
 
-I was responsible for the full lifecycle of software development — from architecture and implementation to testing, deployment, and monitoring. Working closely with product managers and designers, I ensured that business requirements translated into seamless and engaging user experiences.
+- Team Liquid: contributed to fan rewards and engagement systems tied to streams, events, and social activity.
+- NurtureBoss: worked on automated communication flows, third-party integrations, and the infrastructure behind email and SMS delivery.
+- Stardust.gg: helped build an OAuth component library for onboarding into gaming and Web3 products.
+- Shared product engineering work across React, Node.js, GraphQL, PostgreSQL, React Native, and cloud tooling.
 
-#### 📈 Key Results Included
+## Results
 
-* 🔧 **Optimized API performance by 40%**, refactoring bottlenecks and improving DB query efficiency.
-* 🧪 Reduced front-end load times by applying **lazy loading**, **modularization**, and **state normalization** with Redux and sagas.
-* 🤝 Delivered multiple production-ready platforms using **React.js**, **Node.js**, **PostgreSQL**, and **GraphQL**, collaborating with globally distributed teams in agile sprints.
+- Improved API performance by 40% by addressing bottlenecks and query inefficiencies.
+- Helped ship multiple products in parallel without losing sight of reliability, testing, or developer experience.
+- Strengthened my ability to move between product contexts quickly while still making thoughtful architecture decisions.
 
-### 🛠️ Modern Web Stack in Action
+## Why it mattered
 
-Optic Power’s projects spanned multiple domains, each requiring tailored solutions. Here's how I leveraged the stack across teams:
-
-* **Frontend**: Built dynamic UIs using **React.js** and **Next.js**, applying **Redux with sagas** for advanced state management. Used **Styled Components** and **SASS** for scalable styling, and maintained legacy support with **Angular** where required.
-* **Backend**: Developed scalable APIs using **Node.js** with **Express**, and contributed to event-driven microservices written in **Elixir**. Delivered both **GraphQL** and **RESTful APIs**, depending on platform needs.
-* **Mobile**: Enhanced cross-platform mobile apps with **React Native**, integrating features like **deep linking**, **push notifications**, and **custom native modules** for hardware-level interactions.
-* **Data Layer**: Combined **MongoDB** for flexible data modeling with **PostgreSQL** for strict transactional integrity and reporting capabilities.
-* **Infrastructure**: Deployed using **Docker**, managed cloud environments on **AWS**, and configured **CI/CD pipelines** with **GitHub Actions**. Maintained Linux-based environments with best practices in DevOps and version control using **Git**.
-
-### 💡 Project Spotlight
-
-* **Team Liquid**: Helped build and maintain **Team Liquid’s fan engagement platform**, enabling fans to earn rewards through actions like watching streams, joining events, and interacting on social media. My work included **integrating YouTube Live events** into the point system, enhancing real-time reward tracking.
-* **NurtureBoss**: Enhanced their automated communication engine by working on **email/sms pipelines**, personalized triggers, and **third-party API integrations**, improving message delivery speed and customer retention.
-* **Stardust.gg**: Developed an **OAuth React component library** using **AWS Cognito** and **Lambdas**, enabling seamless onboarding for users of their Web3 gaming infrastructure.
-
-### 🧠 Soft Skills and Collaboration
-
-Beyond coding, I contributed by mentoring junior developers, participating in architectural discussions, and implementing agile ceremonies that enhanced team velocity and ownership.
-
----
-
-Working at Optic Power allowed me to work on a variety of impactful products across industries. It sharpened both my technical execution and my ability to navigate client needs in fast-moving environments.
-
-If you’d like to learn more about the projects I contributed to at Optic Power or discuss team scaling and system architecture, feel free to [connect with me on LinkedIn](https://www.linkedin.com/in/santi020k).
+Optic Power sharpened my full-stack range. It pushed me to move comfortably between frontend polish, backend performance, integrations, and architecture while staying grounded in what each product actually needed.

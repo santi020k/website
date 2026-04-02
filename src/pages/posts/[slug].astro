@@ -1,9 +1,9 @@
 ---
-import { Image } from 'astro:assets'
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
+import MediumPostImage from '@/components/molecules/MediumPostImage.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 
@@ -21,8 +21,9 @@ export const getStaticPaths = (async () => {
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
-const { post } = Astro.props as Props
+const { post } = Astro.props
 const allPosts = await getMediumPosts()
+
 const relatedPosts = allPosts
   .filter(entry => entry.slug !== post.slug)
   .slice(0, 3)
@@ -36,7 +37,11 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+  <section class="
+    grid gap-8
+    lg:grid-cols-[1.1fr_0.9fr] lg:items-start
+  "
+  >
     <div class="space-y-6">
       <SectionHeading
         description={post.excerpt}
@@ -66,40 +71,53 @@ const meta = {
       </div>
     </div>
 
-    <div class="panel-surface overflow-hidden rounded-[2rem]">
-      {post.imageUrl ? (
-        <Image
-          alt={`Cover art for ${post.title}`}
-          class="aspect-[16/11] w-full object-cover"
-          height={720}
-          priority
-          src={post.imageUrl}
-          width={1280}
-        />
-      ) : (
-        <div class="grid-fade aspect-[16/11] w-full" />
-      )}
+    <div class="overflow-hidden rounded-4xl panel-surface">
+      {post.imageUrl ?
+        (
+          <MediumPostImage
+            alt={`Cover art for ${post.title}`}
+            fallbackLabel="Cover preview unavailable right now."
+            fetchpriority="high"
+            height={720}
+            imageClass="aspect-16/11"
+            loading="eager"
+            src={post.imageUrl}
+            wrapperClass="aspect-16/11 w-full"
+            width={1280}
+          />
+        ) :
+        (
+          <div class="aspect-16/11 w-full grid-fade" />
+        )}
     </div>
   </section>
 
-  <section class="panel-surface rounded-[2rem] p-8 sm:p-10">
+  <section class="
+    rounded-4xl p-8 panel-surface
+    sm:p-10
+  "
+  >
     <div class="max-w-3xl space-y-5">
-      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Summary</p>
-      <p class="text-lg leading-8 text-ink-soft">
-        This page keeps a concise summary on-site while the full article stays on {post.publication}. Use the button above to open the original post in a new tab and continue reading there.
+      <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">Summary</p>
+      <p class="text-lg/8 text-ink-soft">
+        This preview keeps the key takeaway on-site. The full article on {post.publication} includes the walkthrough, examples, and complete context.
       </p>
-      <p class="text-base leading-8 text-ink-soft">{post.excerpt}</p>
+      <p class="text-base/8 text-ink-soft">{post.excerpt}</p>
     </div>
   </section>
 
   {!!relatedPosts.length && (
     <section class="space-y-8">
       <SectionHeading
-        description="A few more articles pulled from the same Medium feed."
+        description="More writing on React, DX, frontend architecture, and the workflows behind reliable teams."
         eyebrow="More writing"
         title="Continue with another post."
       />
-      <div class="grid gap-6 lg:grid-cols-3">
+      <div class="
+        grid gap-6
+        lg:grid-cols-3
+      "
+      >
         {relatedPosts.map(relatedPost => (
           <PostCard post={relatedPost} />
         ))}

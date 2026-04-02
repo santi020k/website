@@ -34,5 +34,5 @@ test('navigation to blog works', async ({ page }) => {
   await blogLink.click()
 
   await expect(page).toHaveURL(/\/posts\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Writing about systems/i })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /Writing about frontend craft/i })).toBeVisible()
 })
