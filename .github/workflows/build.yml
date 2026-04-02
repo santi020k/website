@@ -22,11 +22,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
-      - run: npm run spellcheck
-      - run: npm run build
-      - run: npm run lint
-      - run: npm run test:coverage
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npm run test:e2e
+      - run: npm run ci:verify
