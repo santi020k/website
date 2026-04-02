@@ -1,4 +1,4 @@
-version: '0.2'
+version: "0.2"
 language: en,es
 words:
   - abgerufen
@@ -30,26 +30,27 @@ words:
   - Bildschirm
   - Blockquotes
   - bootcamp
-  - Brid
   - brid
+  - Brid
   - Browserverlauf
   - charmap
   - componentized
-  - Consectetur
   - consectetur
+  - Consectetur
   - Contentful
   - Cosmovisión
+  - Cowork
   - customise
   - Customising
   - daher
   - Datagran
   - Dateien
   - Datenschutz
-  - defaultdict
   - deepseek
   - Deepseek
-  - durchsuchen
+  - defaultdict
   - Dups
+  - durchsuchen
   - Dysnomia
   - eine
   - Einstellungen
@@ -64,7 +65,6 @@ words:
   - Fehler
   - Fertig
   - fintech
-  - Hochspringen
   - fnref
   - frontends
   - frontmatter
@@ -74,6 +74,8 @@ words:
   - gucharmap
   - Highcharts
   - Hochladen
+  - Hochspringen
+  - hugeicons
   - inclusivity
   - Januar
   - Justbit
@@ -95,7 +97,8 @@ words:
   - naïvely
   - nisl
   - Nulla
-  - Оbserve
+  - pagefind
+  - PagefindUI
   - Passwort
   - pingback
   - PINGBACK
@@ -137,16 +140,14 @@ words:
   - volutpat
   - Vorschau
   - Warten
-  - WCAG
   - wcag
+  - WCAG
   - webmention
   - Webmention
   - webmentions
-  - PagefindUI
-  - pagefind
-  - hugeicons
   - Zeepod
   - Zurück
+  - Оbserve
 ignorePaths:
   - node_modules/**
   - dist/**

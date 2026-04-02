@@ -1,6 +1,9 @@
 {
   "name": "website",
   "version": "1.1.5",
+  "engines": {
+    "node": ">=18.14.0"
+  },
   "private": true,
   "scripts": {
     "dev": "astro dev",

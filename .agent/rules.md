@@ -11,6 +11,7 @@ This directory contains the rules and conventions for the Santi020k private webs
 ## Available Skills
 
 ### Agent Skills (Claude Code — `.agent/skills/`)
+
 - **[Add New Content](./skills/add-content/SKILL.md)**: Workflow for adding new blog posts or projects.
 - **[Adding Pages](./skills/adding-pages/SKILL.md)**: Steps for creating new top-level routes and navigation.
 - **[Content Collections Architecture](./skills/content-collections/SKILL.md)**: Guide to schemas and data querying.
@@ -19,6 +20,7 @@ This directory contains the rules and conventions for the Santi020k private webs
 - **[Testing Infrastructure](./skills/testing/SKILL.md)**: Guidelines for unit and E2E tests.
 
 ### Claude Skills (Cowork — `.claude/skills/`)
+
 - **[SEO](../.claude/skills/seo/SKILL.md)**: Meta tags, structured data, sitemap, Core Web Vitals, image optimization, content SEO.
 - **[Marketing](../.claude/skills/marketing/SKILL.md)**: Brand voice, copy frameworks, CTAs, blog headlines, social media, content strategy.
 - **[Accessibility](../.claude/skills/accessibility/SKILL.md)**: WCAG 2.2 AA, ARIA, keyboard nav, Alpine.js accessible patterns, reduced motion.

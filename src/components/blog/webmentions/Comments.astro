@@ -27,7 +27,7 @@ const comments = mentions.filter(
       <p class="mb-0 text-accent-base">
         <strong>{comments.length}</strong> Mention{comments.length > 1 ? 's' : ''}
       </p>
-      <ul class="divide-textColor/20 mt-0 divide-y ps-0">
+      <ul class="mt-0 divide-y divide-textColor/20 ps-0">
         {comments.map(mention => (
           <li class="my-0 flex items-start gap-x-5 py-5">
             {mention.author?.photo && mention.author.photo !== '' && (
@@ -35,8 +35,8 @@ const comments = mentions.filter(
                 (
                   <a
                     class="
-                      not-prose ring-textColor shrink-0 overflow-hidden
-                      rounded-full ring-2 outline-none
+                      not-prose shrink-0 overflow-hidden rounded-full ring-2
+                      ring-textColor outline-none
                       hover:ring-4 hover:ring-link
                       focus-visible:ring-4 focus-visible:ring-link
                     "
