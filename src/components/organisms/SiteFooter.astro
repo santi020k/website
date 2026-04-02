@@ -15,7 +15,7 @@ const year = new Date().getFullYear()
 >
   <div
     class="
-      mx-auto grid max-w-6xl gap-8 rounded-4xl px-6 py-8 panel-surface
+      mx-auto grid w-full max-w-6xl gap-8 rounded-4xl px-6 py-8 panel-surface
       lg:grid-cols-[1.5fr_1fr]
     "
   >
@@ -35,7 +35,12 @@ const year = new Date().getFullYear()
         I help product teams improve performance, clarify architecture, and ship with less friction across React,
         Next.js, TypeScript, and design systems.
       </p>
-      <div class="flex flex-wrap gap-3">
+      <div class="
+        flex flex-wrap items-center justify-center gap-3
+        sm:gap-4
+        md:justify-start
+      "
+      >
         <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow>
           Start a conversation
         </ButtonLink>
@@ -46,7 +51,12 @@ const year = new Date().getFullYear()
     </div>
 
     <div class="space-y-6">
-      <div class="flex flex-wrap gap-3">
+      <div
+        class="
+          flex flex-wrap gap-2
+          sm:gap-3
+        "
+      >
         {siteConfig.socialLinks.map(link => <SocialIconLink href={link.href} icon={link.icon} label={link.label} />)}
       </div>
       <div class="space-y-2 text-sm text-ink-muted">
