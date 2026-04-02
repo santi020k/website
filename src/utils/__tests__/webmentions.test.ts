@@ -13,7 +13,7 @@ describe('filterWebmentions', () => {
 
     const result = filterWebmentions(input)
     expect(result).toHaveLength(1)
-    expect(result[0]!['wm-property']).toBe('like-of')
+    expect(result[0]?.['wm-property']).toBe('like-of')
   })
 
   it('should filter out mention-of without content', () => {
@@ -24,7 +24,7 @@ describe('filterWebmentions', () => {
 
     const result = filterWebmentions(input)
     expect(result).toHaveLength(1)
-    expect(result[0]!.content?.text).toBe('Hello')
+    expect(result[0]?.content?.text).toBe('Hello')
   })
 
   it('should filter out in-reply-to without content', () => {
@@ -35,7 +35,7 @@ describe('filterWebmentions', () => {
 
     const result = filterWebmentions(input)
     expect(result).toHaveLength(1)
-    expect(result[0]!.content?.text).toBe('Replying')
+    expect(result[0]?.content?.text).toBe('Replying')
   })
 
   it('should keep valid likes even without content', () => {

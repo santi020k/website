@@ -1,5 +1,6 @@
 import { glob } from 'astro/loaders'
-import { defineCollection, z } from 'astro:content'
+import { defineCollection } from 'astro:content'
+import { z } from 'astro/zod'
 
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 const removeDupsAndLowerCase = (array: string[]) => [...new Set(array.map(str => str.toLowerCase()))]
@@ -60,8 +61,8 @@ const project = defineCollection({
       .transform(str => (str ? new Date(str) : undefined)),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
-    githubUrl: z.string().url().optional(),
-    liveDemoUrl: z.string().url().optional(),
+    githubUrl: z.url().optional(),
+    liveDemoUrl: z.url().optional(),
     // type
     typesId: z.enum(['professional', 'personal', 'experimental']).optional(),
     orderInTypes: z.number().optional()
@@ -76,7 +77,7 @@ const note = defineCollection({
     publishDate: z
       .string()
       // Ensures ISO 8601 format with offsets allowed (e.g. "2024-01-01T00:00:00Z" and "2024-01-01T00:00:00+02:00")
-      .datetime({ offset: true })
+      .iso.datetime({ offset: true })
       .transform(val => new Date(val))
   })
 })

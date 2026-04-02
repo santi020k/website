@@ -9,13 +9,13 @@ export default defineConfig({
         if (id === 'astro:env/server') {
           return '\0astro:env/server'
         }
-        return undefined
+        return null
       },
       load(id) {
         if (id === '\0astro:env/server') {
           return 'export const WEBMENTION_API_KEY = "mock-key";'
         }
-        return undefined
+        return null
       }
     }
   ],
