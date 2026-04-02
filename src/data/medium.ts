@@ -101,14 +101,14 @@ function normalisePost(item: Record<string, any>, index: number): MediumPost {
   return {
     author: stripHtml(item['dc:creator'] ?? siteConfig.author),
     excerpt: extractExcerpt(content),
-    guid: typeof item.guid === 'string' ? item.guid : String(item.guid?.['#text'] ?? item.guid?.text ?? ''),
+    guid: typeof item.guid === 'string' ? item.guid : item.guid?.['#text'] ?? item.guid?.text ?? '',
     imageUrl: extractImageUrl(content),
     link,
     publication: formatPublicationName(hostname),
     publishedAt: String(item.pubDate ?? ''),
     slug: getSlugFromLink(link, title, index),
     tags: Array.isArray(item.category) ?
-      item.category.map((category: string) => stripHtml(String(category))) :
+      item.category.map((category: string) => stripHtml(category)) :
       item.category ?
         [stripHtml(String(item.category))] :
         [],
