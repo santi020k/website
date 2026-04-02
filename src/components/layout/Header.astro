@@ -2,11 +2,10 @@
 import { Image } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
+import LogoMark from '../../assets/s2k-mark.png'
 // TODO: Not Implemented yet
 // import Search from '../../components/Search.astro'
 import ThemeToggle from '../../components/ThemeToggle.astro'
-
-import LogoSVG from '../../assets/svg/logo.svg'
 import { menuLinks, siteConfig } from '../../site.config';
 ---
 
@@ -40,12 +39,12 @@ import { menuLinks, siteConfig } from '../../site.config';
       >
         <div title={siteConfig.title} class="p-2">
           <Image
-            src={LogoSVG}
+            src={LogoMark}
             alt="Santi020k Logo"
-            width="140"
+            width="280"
             height="100"
             fetchpriority="high"
-            class="inline-block size-24 fill-current"
+            class="inline-block h-auto w-36 object-contain"
           />
         </div>
       </a>
