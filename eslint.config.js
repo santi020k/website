@@ -13,6 +13,16 @@ export default [
     testing: [Testing.Vitest]
   }),
   {
+    name: 'website/astro-parser-fix',
+    files: ['**/*.astro'],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        projectService: false
+      }
+    }
+  },
+  {
     rules: {
       '@typescript-eslint/no-unsafe-return': 'off'
     },
