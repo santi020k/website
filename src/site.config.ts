@@ -55,15 +55,15 @@ export const menuLinks: SiteLink[] = [
     title: 'Home'
   },
   {
+    path: '/about/',
+    title: 'About'
+  },
+  {
     path: '/portfolio/',
     title: 'Portfolio'
   },
   {
     path: '/posts/',
     title: 'Blog'
-  },
-  {
-    path: '/technologies/',
-    title: 'Stack'
   }
 ]

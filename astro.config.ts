@@ -52,7 +52,12 @@ export default defineConfig({
   },
   integrations: [
     icon(),
-    sitemap(),
+    sitemap({
+      filter: page => !page.includes('/draft-'),
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date()
+    }),
     mdx(),
     robotsTxt(),
     alpinejs(),
