@@ -19,12 +19,12 @@ This directory contains the rules and conventions for the Santi020k private webs
 - **[Project Maintenance](./skills/maintenance/SKILL.md)**: Standard maintenance tasks.
 - **[Testing Infrastructure](./skills/testing/SKILL.md)**: Guidelines for unit and E2E tests.
 
-### Claude Skills (Cowork — `.claude/skills/`)
+### Claude Skills (Cowork — `.agent/skills/`)
 
-- **[SEO](../.claude/skills/seo/SKILL.md)**: Meta tags, structured data, sitemap, Core Web Vitals, image optimization, content SEO.
-- **[Marketing](../.claude/skills/marketing/SKILL.md)**: Brand voice, copy frameworks, CTAs, blog headlines, social media, content strategy.
-- **[Accessibility](../.claude/skills/accessibility/SKILL.md)**: WCAG 2.2 AA, ARIA, keyboard nav, Alpine.js accessible patterns, reduced motion.
-- **[Web Design](../.claude/skills/web-design/SKILL.md)**: Design system, Tailwind tokens, CSS/Alpine animations, scroll effects, dark mode, responsive patterns.
+- **[SEO](../.agent/skills/seo/SKILL.md)**: Meta tags, sitemap, Core Web Vitals, image optimization.
+- **[Marketing](../.agent/skills/marketing/SKILL.md)**: Brand voice, CTAs, blog strategy, social media.
+- **[Accessibility](../.agent/skills/accessibility/SKILL.md)**: WCAG 2.2 AA, ARIA, keyboard nav, Alpine.js accessible patterns, reduced motion.
+- **[Web Design](../.agent/skills/web-design/SKILL.md)**: Design system, Tailwind tokens, CSS/Alpine animations, scroll effects, dark mode, responsive patterns.
 
 ## General Principles
 

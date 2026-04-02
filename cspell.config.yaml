@@ -166,9 +166,30 @@ words:
   - wordmark
   - Zeepod
   - Zurück
+  - noscroll
+  - alpinejs
+  - coolors
+  - changefreq
+  - lastmod
+  - glassmorphism
+  - claymorphism
+  - bento
+  - skeuomorphism
+  - winget
+  - swiftui
+  - jetpack
+  - ecommerce
+  - dịch
+  - chăm
+  - chuyên
+  - nghiệp
+  - hoverable
+  - navbars
+  - tweakable
+  - unobserve
   - Оbserve
 ignorePaths:
-  - .agents/**
+  - .agent/**
   - node_modules/**
   - dist/**
   - .git/**
