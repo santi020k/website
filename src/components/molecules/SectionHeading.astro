@@ -1,6 +1,6 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import ButtonLink from '../../components/atoms/ButtonLink.astro'
+import Eyebrow from '../../components/atoms/Eyebrow.astro'
 
 interface Props {
   align?: 'center' | 'left'
@@ -25,11 +25,26 @@ const {
 const HeadingTag = level
 ---
 
-<div class:list={['flex flex-col gap-4', align === 'center' && 'items-center text-center']}>
+<div class:list={['flex flex-col gap-4', align === 'center' && `
+  items-center text-center
+`]}
+>
   {eyebrow && <Eyebrow label={eyebrow} tone="brand" />}
   <div class="flex flex-col gap-3">
-    <HeadingTag class="max-w-3xl text-3xl sm:text-4xl">{title}</HeadingTag>
-    {description && <p class="max-w-2xl text-base leading-7 text-ink-soft sm:text-lg">{description}</p>}
+    <HeadingTag class="
+      max-w-3xl text-3xl
+      sm:text-4xl
+    "
+    >{title}
+    </HeadingTag>
+    {description && (
+      <p class="
+        max-w-2xl text-base/7 text-ink-soft
+        sm:text-lg
+      "
+      >{description}
+      </p>
+    )}
   </div>
   {linkHref && linkLabel && (
     <ButtonLink href={linkHref} showArrow variant="inline">

@@ -1,12 +1,11 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Pill from '@/components/atoms/Pill.astro'
-import FormattedDate from '@/components/FormattedDate.astro'
-import MediumPostImage from '@/components/molecules/MediumPostImage.astro'
+import MediumPostImage from './MediumPostImage.astro'
 
-import { getPostPath } from '@/utils/links'
-
-import type { MediumPost } from '@/types'
+import type { MediumPost } from '../../types'
+import { getPostPath } from '../../utils/links'
+import ButtonLink from '../atoms/ButtonLink.astro'
+import Pill from '../atoms/Pill.astro'
+import FormattedDate from '../FormattedDate.astro'
 
 interface Props {
   post: MediumPost

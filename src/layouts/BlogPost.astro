@@ -2,10 +2,10 @@
 import { type CollectionEntry, render } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
-import Masthead from '@/components/blog/Masthead.astro'
-import TOC from '@/components/blog/TOC.astro'
-import WebMentions from '@/components/blog/webmentions/index.astro'
-import SeriesPanel from '@/components/SeriesPanel.astro'
+import Masthead from '../components/blog/Masthead.astro'
+import TOC from '../components/blog/TOC.astro'
+import WebMentions from '../components/blog/webmentions/index.astro'
+import SeriesPanel from '../components/SeriesPanel.astro'
 
 import BaseLayout from './Base.astro'
 
@@ -63,9 +63,11 @@ const { headings } = await render(post);
   >
     <article class="grid grow grid-cols-1 pt-4 wrap-break-word" data-pagefind-body>
       <div class="
-        prose prose-santi max-w-none grow
-        prose-headings:font-semibold prose-headings:text-accent-base
+        prose-santi
+        prose-headings:text-accent-base
         prose-headings:before:text-accent-two
+        prose max-w-none grow
+        prose-headings:font-semibold
         sm:prose-headings:before:content-['#']
         sm:prose-th:before:content-none
       "
@@ -95,10 +97,10 @@ const { headings } = await render(post);
     <button
       id="to-top-button"
       class="
-        fixed bottom-14 flex size-12 translate-y-28 items-center justify-center
-        rounded-full bg-bgColor text-3xl text-light drop-shadow-xl
-        transition-all duration-300
+        bg-bgColor text-light
         hover:text-accent-two
+        fixed bottom-14 flex size-12 translate-y-28 items-center justify-center
+        rounded-full text-3xl drop-shadow-xl transition-all duration-300
         data-[show=true]:translate-y-0 data-[show=true]:opacity-100
       "
       aria-label="Back to Top"
@@ -106,8 +108,8 @@ const { headings } = await render(post);
     >
       <span
         class="
-          absolute inset-0 flex items-center justify-center rounded-full
-          bg-special-lighter
+          bg-special-lighter absolute inset-0 flex items-center justify-center
+          rounded-full
         "
         aria-hidden="true"
       >
@@ -131,17 +133,17 @@ const { headings } = await render(post);
     <mobile-button
       id="toggle-panel-mobile"
       class="
-        fixed right-4 bottom-4 z-50 flex size-12 items-center justify-center
-        rounded-lg border border-special-lighter bg-bgColor text-accent-base
+        border-special-lighter bg-bgColor text-accent-base fixed right-4
+        bottom-4 z-50 flex size-12 items-center justify-center rounded-lg border
         shadow-[0px_10px_25px_rgba(0,0,0,0.15)]
         sm:hidden
       "
       aria-label="Toggle Series Panel"
     >
       <span class="
-        absolute inset-0 flex items-center justify-center rounded-lg
         bg-special-light
         hover:text-accent-base/90
+        absolute inset-0 flex items-center justify-center rounded-lg
       "
       >
         <Icon class="size-8" name="solar:notes-bold"/>

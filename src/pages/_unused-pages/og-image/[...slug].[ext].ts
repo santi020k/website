@@ -1,17 +1,17 @@
 /* eslint-disable func-style, @stylistic/max-len */
 
-import { getFormattedDate } from '@/utils/date'
+import { getFormattedDate } from '../../../utils/date'
 
 import type { APIContext, InferGetStaticPropsType } from 'astro'
 import satori, { type SatoriOptions } from 'satori'
 import { html } from 'satori-html'
 
-import SFProRoundedBold from '@/assets/fonts/SF-Pro-Rounded-Bold.latin.base.ttf'
-import SFProRoundedMedium from '@/assets/fonts/SF-Pro-Rounded-Medium.latin.base.ttf'
-import SFProRoundedRegular from '@/assets/fonts/SF-Pro-Rounded-Regular.latin.base.ttf'
-import SFProRoundedSemibold from '@/assets/fonts/SF-Pro-Rounded-Semibold.latin.base.ttf'
-import { getAllPosts } from '@/data/post'
-import { siteConfig } from '@/site.config'
+import SFProRoundedBold from '../../../assets/fonts/SF-Pro-Rounded-Bold.latin.base.ttf'
+import SFProRoundedMedium from '../../../assets/fonts/SF-Pro-Rounded-Medium.latin.base.ttf'
+import SFProRoundedRegular from '../../../assets/fonts/SF-Pro-Rounded-Regular.latin.base.ttf'
+import SFProRoundedSemibold from '../../../assets/fonts/SF-Pro-Rounded-Semibold.latin.base.ttf'
+import { getAllPosts } from '../../../data/post'
+import { siteConfig } from '../../../site.config'
 import { Resvg } from '@resvg/resvg-js'
 
 const ogOptions: SatoriOptions = {

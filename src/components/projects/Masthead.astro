@@ -3,10 +3,10 @@ import { Image } from 'astro:assets'
 import { type CollectionEntry } from 'astro:content'
 
 // import { Icon } from 'astro-icon/components'
-import Badge from '@/components/Badge.astro'
-import FormattedDate from '@/components/FormattedDate.astro'
+import Badge from '../../components/Badge.astro'
+import FormattedDate from '../../components/FormattedDate.astro'
 
-import { dateWithoutDay } from '@/utils/date-format-presets'
+import { dateWithoutDay } from '../../utils/date-format-presets'
 
 interface Props {
   content: CollectionEntry<'project'>

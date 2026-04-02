@@ -1,9 +1,9 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
 
-import ProjectCard from '@/components/molecules/ProjectCard.astro'
-import TocCard from '@/components/molecules/TocCard.astro'
-import ProjectHero from '@/components/organisms/ProjectHero.astro'
+import ProjectCard from '../components/molecules/ProjectCard.astro'
+import TocCard from '../components/molecules/TocCard.astro'
+import ProjectHero from '../components/organisms/ProjectHero.astro'
 
 import BaseLayout from './Base.astro'
 
@@ -22,12 +22,24 @@ const { headings } = await render(project)
 <BaseLayout meta={{ description: metaDescription, ogImage: socialImage, title: metaTitle }}>
   <ProjectHero project={project} />
 
-  <section class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
-    <article class="panel-surface rounded-[2rem] p-6 sm:p-8">
+  <section class="
+    grid gap-8
+    lg:grid-cols-[minmax(0,1fr)_18rem]
+  "
+  >
+    <article class="
+      rounded-4xl p-6 panel-surface
+      sm:p-8
+    "
+    >
       <slot />
     </article>
 
-    <div class="space-y-6 lg:sticky lg:top-32 lg:h-fit">
+    <div class="
+      space-y-6
+      lg:sticky lg:top-32 lg:h-fit
+    "
+    >
       {!!headings.length && <TocCard headings={headings} />}
     </div>
   </section>
@@ -35,10 +47,18 @@ const { headings } = await render(project)
   {!!relatedProjects.length && (
     <section class="space-y-8">
       <div class="space-y-3">
-        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Related work</p>
+        <p class="
+          text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase
+        "
+        >Related work
+        </p>
         <h2 class="text-3xl">More projects in a similar lane.</h2>
       </div>
-      <div class="grid gap-6 lg:grid-cols-2">
+      <div class="
+        grid gap-6
+        lg:grid-cols-2
+      "
+      >
         {relatedProjects.map(relatedProject => (
           <ProjectCard project={relatedProject} />
         ))}

@@ -2,11 +2,12 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
 import { render } from 'astro:content'
 
-import Prose from '@/components/Prose.astro'
+import Prose from '../../components/Prose.astro'
 
-import { getAllProjects } from '@/data/project'
-import ProjectLayout from '@/layouts/Projects.astro'
-import { collectionDateSortProjects } from '@/utils/date'
+import { collectionDateSortProjects } from '../../utils/date'
+
+import { getAllProjects } from '../../data/project'
+import ProjectLayout from '../../layouts/Projects.astro'
 
 // If you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
 export const getStaticPaths = (async () => {
@@ -21,7 +22,8 @@ export const getStaticPaths = (async () => {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
 const { project } = Astro.props
-const { Content } = await render(project);
+const { Content } = await render(project)
+
 const relatedProjects = (await getAllProjects())
   .filter(entry => entry.id !== project.id && entry.data.typesId === project.data.typesId)
   .sort(collectionDateSortProjects)

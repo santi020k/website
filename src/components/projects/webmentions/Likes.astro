@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 
-import type { WebmentionsChildren } from '@/types'
+import type { WebmentionsChildren } from '../../../types'
 
 interface Props {
   mentions: WebmentionsChildren[]
@@ -19,7 +19,7 @@ const likesToShow = likes
 {
   !!likes.length && (
     <div>
-      <p class="mb-0 text-accent-base">
+      <p class="text-accent-base mb-0">
         <strong>{likes.length}</strong>
         {likes.length > 1 ? ' People' : ' Person'} liked this
       </p>
@@ -29,11 +29,13 @@ const likesToShow = likes
             <li class="-ms-2">
               <a
                 class="
-                  not-prose relative inline-block overflow-hidden rounded-full
-                  ring-2 ring-textColor outline-none
-                  hover:z-10 hover:ring-4 hover:ring-link
-                  focus-visible:z-10 focus-visible:ring-4
+                  not-prose ring-textColor
+                  hover:ring-link
                   focus-visible:ring-link
+                  relative inline-block overflow-hidden rounded-full ring-2
+                  outline-none
+                  hover:z-10 hover:ring-4
+                  focus-visible:z-10 focus-visible:ring-4
                 "
                 href={like.author?.url}
                 rel="noreferrer"

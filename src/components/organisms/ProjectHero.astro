@@ -2,12 +2,11 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
-import Pill from '@/components/atoms/Pill.astro'
-import FormattedDate from '@/components/FormattedDate.astro'
-
-import { getTechnologyPath } from '@/utils/links'
+import { getTechnologyPath } from '../../utils/links'
+import ButtonLink from '../atoms/ButtonLink.astro'
+import Eyebrow from '../atoms/Eyebrow.astro'
+import Pill from '../atoms/Pill.astro'
+import FormattedDate from '../FormattedDate.astro'
 
 interface Props {
   project: CollectionEntry<'project'>

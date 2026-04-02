@@ -12,12 +12,18 @@ interface Props {
 const { headings } = Astro.props
 ---
 
-<aside class="panel-surface rounded-[1.5rem] p-5">
-  <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">On this page</p>
+<aside class="rounded-3xl p-5 panel-surface">
+  <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">On this page</p>
   <ul class="mt-4 space-y-3">
     {headings.map(heading => (
-      <li class:list={['text-sm leading-6', heading.depth > 2 && 'pl-4']}>
-        <a class="text-ink-soft transition hover:text-brand" href={`#${heading.slug}`}>
+      <li class:list={['text-sm/6', heading.depth > 2 && 'pl-4']}>
+        <a
+          class="
+            text-ink-soft transition-colors duration-200
+            hover:text-brand
+          "
+          href={`#${heading.slug}`}
+        >
           {heading.text}
         </a>
       </li>

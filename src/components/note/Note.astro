@@ -2,7 +2,7 @@
 import type { HTMLTag, Polymorphic } from 'astro/types'
 import { type CollectionEntry, render } from 'astro:content'
 
-import FormattedDate from '@/components/FormattedDate.astro'
+import FormattedDate from '../../components/FormattedDate.astro'
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
   note: CollectionEntry<'note'>
@@ -15,14 +15,14 @@ const { Content } = await render(note);
 
 <article
   class:list={[isPreview && `
-    inline-grid w-full rounded-lg bg-color-75 px-4 py-2
+    bg-color-75 inline-grid w-full rounded-lg px-4 py-2
     md:px-8 md:py-4
   `]}
   data-pagefind-body={!isPreview}
 >
   <Tag
     class="
-      flex items-end title
+      title flex items-end
       md:sticky md:top-8 md:z-10
     "
     class:list={{ 'text-base': isPreview }}
@@ -40,7 +40,7 @@ const { Content } = await render(note);
     }
   </Tag>
   <div
-    class="flex h-6 items-end text-sm text-lighter"
+    class="text-lighter flex h-6 items-end text-sm"
     class:list={{ 'mt-4': !isPreview }}
   >
 
@@ -57,7 +57,7 @@ const { Content } = await render(note);
   </div>
   <div
     class="
-      prose prose-santi mt-4 max-w-none
+      prose-santi prose mt-4 max-w-none
       [&>p:last-of-type]:mb-0
     "
     class:list={{

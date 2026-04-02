@@ -2,8 +2,8 @@
 import { type CollectionEntry, render } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
-import TOC from '@/components/blog/TOC.astro'
-import SeriesPanel from '@/components/SeriesPanel.astro'
+import TOC from '../components/blog/TOC.astro'
+import SeriesPanel from '../components/SeriesPanel.astro'
 
 import BaseLayout from './Base.astro'
 
@@ -27,9 +27,9 @@ const { headings } = await render(series);
     <button
       id="toggle-panel"
       class="
-        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         bg-accent-base/10 text-accent-base
         hover:text-accent-base/90
+        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         md:flex
       "
       aria-label="Toggle Series Panel"
@@ -43,9 +43,9 @@ const { headings } = await render(series);
     <button
       id="toggle-toc"
       class="
-        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         bg-accent-base/10 text-accent-base
         hover:text-accent-base/90
+        z-30 mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
         md:flex
       "
       aria-label="Table of Contents"
@@ -54,7 +54,7 @@ const { headings } = await render(series);
     </button>
 
     <h1 class="
-      line-clamp-none title
+      title line-clamp-none
       md:sticky md:top-4 md:z-20 md:line-clamp-1 md:max-w-lg
       lg:max-w-xl
     "
@@ -62,7 +62,7 @@ const { headings } = await render(series);
       {title}
     </h1>
   </div>
-  <p class="prose prose-santi mt-4.5 max-w-none">
+  <p class="prose-santi prose mt-4.5 max-w-none">
     {description}
   </p>
 
@@ -74,9 +74,11 @@ const { headings } = await render(series);
   >
     <article class="grid grow grid-cols-1 pt-4 wrap-break-word" data-pagefind-body>
       <div class="
-        prose prose-santi max-w-none grow
-        prose-headings:font-semibold prose-headings:text-accent-base
+        prose-santi
+        prose-headings:text-accent-base
         prose-headings:before:text-accent-two
+        prose max-w-none grow
+        prose-headings:font-semibold
         sm:prose-headings:before:content-['#']
         sm:prose-th:before:content-none
       "
@@ -107,10 +109,11 @@ const { headings } = await render(series);
     <button
       id="to-top-button"
       class="
-        fixed bottom-14 flex size-12 translate-y-28 items-center justify-center
-        rounded-full border-2 border-special-lighter bg-bgColor text-3xl
-        text-light drop-shadow-xl transition-all duration-300
+        border-special-lighter bg-bgColor text-light
         hover:text-accent-two
+        fixed bottom-14 flex size-12 translate-y-28 items-center justify-center
+        rounded-full border-2 text-3xl drop-shadow-xl transition-all
+        duration-300
         data-[show=true]:translate-y-0 data-[show=true]:opacity-100
       "
       aria-label="Back to Top"
@@ -118,8 +121,8 @@ const { headings } = await render(series);
     >
       <span
         class="
-          absolute inset-0 flex items-center justify-center rounded-full
-          bg-special-light
+          bg-special-light absolute inset-0 flex items-center justify-center
+          rounded-full
         "
         aria-hidden="true"
       >
@@ -142,17 +145,17 @@ const { headings } = await render(series);
   <mobile-button
     id="toggle-panel-mobile"
     class="
-      fixed right-4 bottom-4 z-50 flex size-12 items-center justify-center
-      rounded-lg border border-special-lighter bg-bgColor text-accent-base
+      border-special-lighter bg-bgColor text-accent-base fixed right-4 bottom-4
+      z-50 flex size-12 items-center justify-center rounded-lg border
       shadow-[0px_10px_25px_rgba(0,0,0,0.15)]
       sm:hidden
     "
     aria-label="Toggle Series Panel"
   >
     <span class="
-      absolute inset-0 flex items-center justify-center rounded-lg
       bg-special-light
       hover:text-accent-base/90
+      absolute inset-0 flex items-center justify-center rounded-lg
     "
     >
       <Icon class="size-8" name="solar:notes-bold"/>
