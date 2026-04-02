@@ -2,20 +2,22 @@
 import { Icon } from 'astro-icon/components';
 ---
 
-<theme-toggle class="sticky top-0">
+<theme-toggle class="contents">
   <button
     class="
-      sticky top-0 flex size-8 cursor-pointer items-center justify-center
-      rounded-lg drop-shadow-[0px_1.5px_1.5px_rgba(0,0,0,0.175)]
+      panel-surface relative flex h-11 w-11 cursor-pointer items-center
+      justify-center rounded-full text-ink transition duration-200
+      hover:-translate-y-0.5 hover:text-brand motion-reduce:hover:translate-y-0
+      motion-reduce:transition-none
     "
     type="button"
   >
-    <span class="sr-only">Dark Theme</span>
+    <span class="sr-only">Toggle color theme</span>
     <Icon
       aria-hidden="true"
       class="
-        absolute inset-s-1/2 top-1/2 size-6 -translate-1/2 scale-100 opacity-100
-        transition-all
+        absolute inset-1/2 size-5 -translate-x-1/2 -translate-y-1/2 scale-100
+        opacity-100 transition-all motion-reduce:transition-none
         dark:scale-0 dark:opacity-0
       "
       focusable="false"
@@ -24,8 +26,8 @@ import { Icon } from 'astro-icon/components';
     <Icon
       aria-hidden="true"
       class="
-        absolute inset-s-1/2 top-1/2 size-6 -translate-1/2 scale-0 opacity-0
-        transition-all
+        absolute inset-1/2 size-5 -translate-x-1/2 -translate-y-1/2 scale-0
+        opacity-0 transition-all motion-reduce:transition-none
         dark:scale-100 dark:opacity-100
       "
       focusable="false"
@@ -43,24 +45,16 @@ class ThemeToggle extends HTMLElement {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const button = this.querySelector<HTMLButtonElement>('button')!
 
-    // Set aria role value
     button.setAttribute('role', 'switch')
-
     button.setAttribute('aria-checked', String(rootInDarkMode()))
-
-    // Button event
     button.addEventListener('click', () => {
-      // Invert theme
       const themeChangeEvent = new CustomEvent('theme-change', {
         detail: {
           theme: rootInDarkMode() ? 'light' : 'dark'
         }
       })
 
-      // Dispatch event -> ThemeProvider.astro
       document.dispatchEvent(themeChangeEvent)
-
-      // Set the aria-checked attribute
       button.setAttribute('aria-checked', String(rootInDarkMode()))
     })
   }

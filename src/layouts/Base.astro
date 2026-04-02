@@ -2,8 +2,8 @@
 import { ClientRouter } from 'astro:transitions'
 
 import BaseHead from '@/components/BaseHead.astro'
-import Footer from '@/components/layout/Footer.astro'
-import Header from '@/components/layout/Header.astro'
+import SiteFooter from '@/components/organisms/SiteFooter.astro'
+import SiteHeader from '@/components/organisms/SiteHeader.astro'
 import SkipLink from '@/components/SkipLink.astro'
 import ThemeProvider from '@/components/ThemeProvider.astro'
 
@@ -18,55 +18,34 @@ interface Props {
 
 const {
   meta: { articleDate, description = siteConfig.description, ogImage, title }
-} = Astro.props;
+} = Astro.props
 ---
 
-<html
-  class="
-    grid scroll-pt-20 overflow-x-hidden scroll-smooth font-sans text-xl
-    antialiased
-    md:text-base
-  "
-  lang={siteConfig.lang}
->
+<html class="scroll-smooth" lang={siteConfig.lang}>
   <head>
     <BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
-
-    <!-- Astro Transitions -->
     <ClientRouter />
   </head>
-  <body class="
-    relative m-auto min-h-screen w-full max-w-6xl grow
-    dark:bg-black
-  "
-  >
+  <body class="min-h-screen">
     <ThemeProvider />
     <SkipLink />
 
-    <div class="relative flex min-h-screen w-full">
-      <!-- Sidebar -->
-      <slot name="sidebar" />
-      <!-- Main container for the page content -->
-      <div id="container" class="relative m-auto max-w-4xl grow">
-        <div class="
-          m-auto grid min-h-screen px-4
-          md:grid-rows-[auto_auto_auto] md:px-8 md:pt-4
+    <div class="relative min-h-screen">
+      <div class="pointer-events-none absolute inset-0 -z-10 grid-fade opacity-60" />
+      <SiteHeader />
+
+      <main
+        id="main"
+        class="
+          mx-auto flex min-h-[calc(100vh-8rem)] w-full max-w-6xl flex-col gap-20
+          px-4 pb-20 pt-10 sm:px-6 lg:px-8
         "
-        >
-          <Header />
-          <main
-            transition:animate="fade"
-            id="main"
-            class="
-              relative my-16 mt-32 flex grow flex-col justify-center
-              md:mt-16
-            "
-          >
-            <slot />
-          </main>
-          <Footer />
-        </div>
-      </div>
+        transition:animate="fade"
+      >
+        <slot />
+      </main>
+
+      <SiteFooter />
     </div>
   </body>
 </html>

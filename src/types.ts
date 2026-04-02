@@ -1,13 +1,36 @@
 export interface SiteConfig {
   author: string
+  availability: string
+  contact: {
+    email: string
+    github: string
+    linkedin: string
+    medium: string
+    resume: string
+    whatsapp: string
+  }
   date: {
     locale: string | string[] | undefined
     options: Intl.DateTimeFormatOptions
   }
   description: string
+  headline: string
   lang: string
+  location: string
   ogLocale: string
+  socialLinks: SiteSocialLink[]
   title: string
+}
+
+export interface SiteLink {
+  path: string
+  title: string
+}
+
+export interface SiteSocialLink {
+  href: string
+  icon: string
+  label: string
 }
 
 export interface PaginationLink {
@@ -92,4 +115,18 @@ export interface Badge {
     'outline'
   showHash?: boolean
   title: string
+}
+
+export interface MediumPost {
+  author: string
+  excerpt: string
+  guid: string
+  imageUrl: null | string
+  link: string
+  publication: string
+  publishedAt: string
+  slug: string
+  tags: string[]
+  title: string
+  updatedAt: string
 }

@@ -1,0 +1,24 @@
+---
+interface Props {
+  className?: string
+  label: string
+  tone?: 'brand' | 'neutral'
+}
+
+const { className = '', label, tone = 'neutral' } = Astro.props
+---
+
+<span
+  class:list={[
+    `
+      inline-flex items-center rounded-full border px-3 py-1 text-[0.72rem]
+      font-semibold tracking-[0.24em] uppercase
+    `,
+    tone === 'brand' ?
+      'border-brand/30 bg-brand-soft/80 text-brand' :
+      'border-line/70 bg-surface-muted/75 text-ink-muted',
+    className
+  ]}
+>
+  {label}
+</span>

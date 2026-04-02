@@ -1,0 +1,141 @@
+---
+import { Image } from 'astro:assets'
+import { Icon } from 'astro-icon/components'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import ThemeToggle from '@/components/ThemeToggle.astro'
+
+import LogoSVG from '@/assets/svg/logo.svg'
+import { menuLinks, siteConfig } from '@/site.config'
+---
+
+<header class="
+  sticky top-0 z-50 p-4
+  sm:px-6
+  lg:px-8
+"
+>
+  <div
+    class="
+      relative mx-auto flex max-w-6xl items-center justify-between gap-4
+      rounded-[1.75rem] px-4 py-3 panel-surface
+    "
+    x-data="{ open: false }"
+    @keydown.escape.window="open = false"
+  >
+    <a class="inline-flex items-center gap-3" href="/">
+      <span class="
+        flex size-11 items-center justify-center rounded-full bg-surface
+        panel-surface
+      "
+      >
+        <Image alt="" class="size-6" height={32} src={LogoSVG} width={32} />
+      </span>
+      <span class="flex flex-col">
+        <span class="
+          text-sm font-semibold tracking-[0.22em] text-ink-muted uppercase
+        "
+        >Santiago Molina
+        </span>
+        <span class="text-sm text-ink-soft">Frontend systems and product engineering</span>
+      </span>
+    </a>
+
+    <nav
+      aria-label="Main menu"
+      class="
+        hidden items-center gap-2
+        md:flex
+      "
+    >
+      {menuLinks.map(link => (
+        <a
+          aria-current={Astro.url.pathname === link.path ? 'page' : undefined}
+          class:list={[
+            'rounded-full px-4 py-2 text-sm font-medium transition duration-200',
+            Astro.url.pathname === link.path ?
+              'bg-brand-soft text-brand' :
+              `
+                text-ink-soft
+                hover:bg-surface-muted hover:text-ink
+              `
+          ]}
+          href={link.path}
+        >
+          {link.title}
+        </a>
+      ))}
+    </nav>
+
+    <div class="
+      hidden items-center gap-3
+      md:flex
+    "
+    >
+      <ThemeToggle />
+      <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+        Contact
+      </ButtonLink>
+    </div>
+
+    <div class="
+      flex items-center gap-3
+      md:hidden
+    "
+    >
+      <ThemeToggle />
+      <button
+        :aria-expanded="open.toString()"
+        aria-controls="mobile-nav"
+        aria-label="Toggle navigation"
+        class="
+            inline-flex h-11 w-11 cursor-pointer items-center justify-center
+            rounded-full text-ink panel-surface
+          "
+        type="button"
+        click="open = !open"
+      >
+        <Icon aria-hidden="true" class="size-5" name="tabler:menu-2" x-show="!open" />
+        <Icon aria-hidden="true" class="size-5" name="tabler:x" x-show="open" x-cloak />
+      </button>
+    </div>
+
+    <div
+      id="mobile-nav"
+      class="
+        absolute top-[calc(100%+1rem)] left-0 w-full px-4
+        md:hidden
+      "
+      x-cloak
+      x-show="open"
+      x-transition.opacity.duration.200ms
+    >
+      <div class="flex flex-col gap-2 rounded-3xl p-4 panel-surface">
+        {menuLinks.map(link => (
+          <a
+            aria-current={Astro.url.pathname === link.path ? 'page' : undefined}
+            class:list={[
+              `
+                rounded-2xl px-4 py-3 text-sm font-medium transition
+                duration-200
+              `,
+              Astro.url.pathname === link.path ?
+                'bg-brand-soft text-brand' :
+                `
+                  text-ink-soft
+                  hover:bg-surface-muted hover:text-ink
+                `
+            ]}
+            href={link.path}
+            @click="open = false"
+          >
+            {link.title}
+          </a>
+        ))}
+        <ButtonLink className="justify-center" href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Contact
+        </ButtonLink>
+      </div>
+    </div>
+  </div>
+</header>

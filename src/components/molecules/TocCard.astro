@@ -1,0 +1,26 @@
+---
+interface HeadingLink {
+  depth: number
+  slug: string
+  text: string
+}
+
+interface Props {
+  headings: HeadingLink[]
+}
+
+const { headings } = Astro.props
+---
+
+<aside class="panel-surface rounded-[1.5rem] p-5">
+  <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">On this page</p>
+  <ul class="mt-4 space-y-3">
+    {headings.map(heading => (
+      <li class:list={['text-sm leading-6', heading.depth > 2 && 'pl-4']}>
+        <a class="text-ink-soft transition hover:text-brand" href={`#${heading.slug}`}>
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</aside>

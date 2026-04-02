@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import FormattedDate from '@/components/FormattedDate.astro'
+import { getTechnologyPath } from '@/utils/links'
+
+interface Props {
+  project: CollectionEntry<'project'>
+}
+
+const { project } = Astro.props
+---
+
+<section class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+  <div class="space-y-6">
+    <Eyebrow label={project.data.typesId === 'personal' ? 'Personal project' : 'Professional work'} tone="brand" />
+    <div class="space-y-4">
+      <h1 class="max-w-4xl text-4xl sm:text-5xl lg:text-6xl">{project.data.title}</h1>
+      <p class="max-w-3xl text-lg leading-8 text-ink-soft">{project.data.description}</p>
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      {project.data.liveDemoUrl && (
+        <ButtonLink href={project.data.liveDemoUrl} newTab showArrow>
+          View live project
+        </ButtonLink>
+      )}
+      {project.data.githubUrl && (
+        <ButtonLink href={project.data.githubUrl} newTab showArrow variant="secondary">
+          Open repository
+        </ButtonLink>
+      )}
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+      {project.data.technologies.map(technology => (
+        <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
+      ))}
+    </div>
+  </div>
+
+  <aside class="panel-surface flex h-fit flex-col gap-5 rounded-[1.75rem] p-6 lg:sticky lg:top-32">
+    <div class="space-y-1">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Role</p>
+      <p class="text-lg font-semibold text-ink">{project.data.rol}</p>
+    </div>
+    <div class="space-y-1">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Timeline</p>
+      <p class="text-lg font-semibold text-ink">
+        <FormattedDate date={project.data.startingDate} />
+        <span class="px-2 text-ink-muted">-</span>
+        {project.data.endingDate ? <FormattedDate date={project.data.endingDate} /> : 'Present'}
+      </p>
+    </div>
+    <div class="space-y-1">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Focus</p>
+      <p class="text-base leading-7 text-ink-soft">
+        Architecture, delivery quality, and UI systems grounded in product outcomes.
+      </p>
+    </div>
+  </aside>
+
+  {project.data.coverImage && (
+    <div class="panel-surface overflow-hidden rounded-[2rem] lg:col-span-2">
+      <Image
+        alt={project.data.coverImage.alt}
+        class="h-full w-full object-cover"
+        height={900}
+        priority
+        src={project.data.coverImage.src}
+        width={1600}
+      />
+    </div>
+  )}
+</section>

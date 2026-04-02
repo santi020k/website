@@ -1,298 +1,164 @@
 @import 'tailwindcss';
 
-@layer utilities {
+@layer base {
   @font-face {
-    font-family: "Montserrat";
-    src:
-      url("/fonts/montserrat-variable-font-wght.ttf") format("truetype-variations");
+    font-family: 'Montserrat';
+    src: url('/fonts/montserrat-variable-font-wght.ttf') format('truetype-variations');
     font-style: normal;
     font-weight: 100 900;
     font-display: swap;
   }
 
   @font-face {
-    font-family: "Montserrat";
-    src:
-      url("/fonts/montserrat-italic-variable-font-wght.ttf") format("truetype-variations");
+    font-family: 'Montserrat';
+    src: url('/fonts/montserrat-italic-variable-font-wght.ttf') format('truetype-variations');
     font-style: italic;
     font-weight: 100 900;
     font-display: swap;
   }
-}
 
-@layer base {
   :root,
-  :root[data-theme="light"] {
+  :root[data-theme='light'] {
     color-scheme: light;
-
-    --hue: 200deg;
-    --saturation: 10%;
-
-    --bg-hue: var(--hue);
-    --bg-saturation: var(--saturation);
-    --bg-brightness: 96%;
-
-    --theme-accent-base: var(--bg-hue) 53% 27%;
-    --theme-accent-one: var(--bg-hue) 53% 27%;
-    --theme-accent-two: 351deg 66% 48%;
-
-    --fg-hue: var(--hue);
-    --fg-saturation: var(--saturation);
-    --fg-brightness: 9%;
-    --theme-text: var(--theme-color-500);
-
-    --theme-link: var(--hue) 97% 31%;
-    --theme-accent: var(--theme-color-600);
-    --theme-quote: var(--theme-text);
-
-    --theme-lightest: var(--theme-color-350);
-    --theme-lighter: var(--theme-color-400);
-    --theme-light: var(--theme-color-450);
-
-    --theme-special-lightest: hsl(var(--hue), var(--saturation), 100%);
-    --theme-special-lighter: hsl(var(--hue), var(--saturation), 98%);
-    --theme-special-light: hsl(var(--theme-bg));
-    --theme-special: var(--theme-color-75);
-
-    --theme-bg-color: var(--color-white);
-
-    /* pre code span {
-      color: var(--shiki-light) !important;
-      font-style: var(--shiki-light-font-style) !important;
-      font-weight: var(--shiki-light-font-weight) !important;
-      text-decoration: var(--shiki-light-text-decoration) !important;
-    } */
+    --theme-bg: 220 33% 98%;
+    --surface: 0 0% 100%;
+    --surface-muted: 220 38% 96%;
+    --surface-strong: 220 27% 91%;
+    --line: 219 24% 84%;
+    --ink: 228 25% 12%;
+    --ink-soft: 222 18% 28%;
+    --ink-muted: 220 13% 46%;
+    --brand: 216 92% 54%;
+    --brand-soft: 213 100% 95%;
+    --accent: 190 78% 42%;
+    --glow: 212 100% 66%;
   }
 
-  :root[data-theme="dark"] {
+  :root[data-theme='dark'] {
     color-scheme: dark;
-
-    --theme-bg: 200deg 93% 10%;
-    --theme-accent-one: 355deg 61% 88%;
-    --theme-accent-two: 200deg 61% 71%;
-
-    --hue: 200deg;
-    --saturation: 53%;
-
-    --bg-hue: var(--hue);
-    --bg-saturation: var(--saturation);
-    --bg-brightness: 15%;
-
-    --theme-accent-base: var(--hue) 10% 85%;
-    --theme-accent-one: 50deg 49% 80%;
-    --theme-accent-two: 50deg 72% 63%;
-
-    --fg-hue: var(--hue);
-    --fg-saturation: var(--saturation);
-    --fg-brightness: 98%;
-    --theme-text: var(--theme-color-500);
-
-    --theme-link: var(--hue) 61% 71%;
-    --theme-accent: var(--theme-color-600);
-    --theme-quote: var(--theme-text);
-
-    --theme-lightest: var(--theme-color-350);
-    --theme-lighter: var(--theme-color-400);
-    --theme-light: var(--theme-color-450);
-
-    --theme-special-lightest: var(--theme-color-250);
-    --theme-special-lighter: var(--theme-color-200);
-    --theme-special-light: var(--theme-color-150);
-    --theme-special: hsl(var(--hue) var(--saturation) 0% / 0.150);
-
-    --theme-bg-color: var(--color-gray-800);
-
-    /* pre code span {
-      color: var(--shiki-dark) !important;
-      font-style: var(--shiki-dark-font-style) !important;
-      font-weight: var(--shiki-dark-font-weight) !important;
-      text-decoration: var(--shiki-dark-text-decoration) !important;
-    } */
-  }
-
-  :root {
-    --theme-bg: var(--bg-hue) var(--bg-saturation) var(--bg-brightness);
-    --theme-fg: var(--fg-hue) var(--fg-saturation) var(--fg-brightness);
-
-    --theme-color-900: hsl(var(--theme-fg) / 1.0000);
-    --theme-color-850: hsl(var(--theme-fg) / 0.9675);
-    --theme-color-800: hsl(var(--theme-fg) / 0.935);
-    --theme-color-750: hsl(var(--theme-fg) / 0.880);
-    --theme-color-700: hsl(var(--theme-fg) / 0.825);
-    --theme-color-650: hsl(var(--theme-fg) / 0.785);
-    --theme-color-600: hsl(var(--theme-fg) / 0.745);
-    --theme-color-550: hsl(var(--theme-fg) / 0.675);
-    --theme-color-500: hsl(var(--theme-fg) / 0.605);
-    --theme-color-450: hsl(var(--theme-fg) / 0.500);
-    --theme-color-400: hsl(var(--theme-fg) / 0.395);
-    --theme-color-350: hsl(var(--theme-fg) / 0.290);
-    --theme-color-300: hsl(var(--theme-fg) / 0.185);
-    --theme-color-250: hsl(var(--theme-fg) / 0.150);
-    --theme-color-200: hsl(var(--theme-fg) / 0.115);
-    --theme-color-150: hsl(var(--theme-fg) / 0.080);
-    --theme-color-100: hsl(var(--theme-fg) / 0.045);
-    --theme-color-75: hsl(var(--theme-fg) / 0.03375);
-    --theme-color-50: hsl(var(--theme-fg) / 0.0225);
-
-    --code-inline-bg: var(--theme-color-150);
-    --code-bg: var(--theme-special);
-    --code-title-bg: var(--theme-color-200);
-    --code-line-highlight: var(--theme-color-150);
-    --code-line-diff-add: rgba(72, 191, 145, 0.15);
-    --code-line-diff-remove: rgba(248, 85, 82, 0.15);
+    --theme-bg: 228 29% 9%;
+    --surface: 229 22% 13%;
+    --surface-muted: 228 20% 16%;
+    --surface-strong: 225 18% 22%;
+    --line: 224 15% 30%;
+    --ink: 214 41% 96%;
+    --ink-soft: 214 31% 82%;
+    --ink-muted: 218 17% 67%;
+    --brand: 214 100% 70%;
+    --brand-soft: 217 66% 18%;
+    --accent: 186 78% 56%;
+    --glow: 215 100% 75%;
   }
 
   html {
-    letter-spacing: 0.025em;
+    background-color: hsl(var(--theme-bg));
+    color: hsl(var(--ink));
+    font-family: var(--font-sans);
+    letter-spacing: -0.015em;
+    text-rendering: optimizeLegibility;
   }
 
-  h1 {
-    font-size: var(--text-2xl);
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top left, hsl(var(--glow) / 0.18), transparent 26rem),
+      radial-gradient(circle at top right, hsl(var(--accent) / 0.12), transparent 24rem),
+      linear-gradient(180deg, hsl(var(--surface-muted) / 0.75), transparent 28rem),
+      hsl(var(--theme-bg));
+    color: hsl(var(--ink));
   }
-  h2 {
-    font-size: var(--text-xl);
+
+  main {
+    isolation: isolate;
   }
-  h3 {
-    font-size: var(--text-lg);
-  }
-  h4 {
-    font-size: var(--text-base);
-  }
-  h5 {
-    font-size: var(--text-sm);
-  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
   h6 {
-    font-size: var(--text-xs);
+    color: hsl(var(--ink));
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    color: hsl(var(--ink-soft));
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  img {
+    display: block;
+  }
+
+  ::selection {
+    background-color: hsl(var(--brand) / 0.2);
+    color: hsl(var(--ink));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--brand));
+    outline-offset: 4px;
+  }
+
+  [x-cloak] {
+    display: none !important;
   }
 }
 
-/* ------------------------------------------------------------------ */
-/* DESIGN-TOKEN LAYER                                                 */
-/* ------------------------------------------------------------------ */
 @theme {
-  /* ——— Breakpoints ——— */
-  --breakpoint-xs: 20rem;                /* 320 px  ⇒  xs:* variant  */
+  --font-sans: 'Montserrat', 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-display: 'Montserrat', 'Avenir Next', sans-serif;
+  --font-serif: 'Iowan Old Style', 'Palatino Linotype', serif;
+  --font-mono: 'SFMono-Regular', 'SF Mono', 'Monaco', monospace;
 
-  /* ——— Container / max-width scale ——— */
-  --container-lg: 32rem;   /* max-w-lg  */
-  --container-xl: 36rem;   /* max-w-xl  */
-  --container-2xl: 42rem;  /* max-w-2xl */
-  --container-3xl: 48rem;  /* max-w-3xl */
-  --container-4xl: 54rem;  /* max-w-4xl */
-  --container-5xl: 64rem;  /* max-w-5xl */
-  --container-6xl: 76rem;  /* max-w-6xl */
-
-  /* ——— Colour palette ———                                          */
-  --color-color-950: var(--theme-color-950);
-  --color-color-900: var(--theme-color-900);
-  --color-color-850: var(--theme-color-850);
-  --color-color-800: var(--theme-color-800);
-  --color-color-750: var(--theme-color-750);
-  --color-color-700: var(--theme-color-700);
-  --color-color-650: var(--theme-color-650);
-  --color-color-600: var(--theme-color-600);
-  --color-color-550: var(--theme-color-550);
-  --color-color-500: var(--theme-color-500);
-  --color-color-450: var(--theme-color-450);
-  --color-color-400: var(--theme-color-400);
-  --color-color-350: var(--theme-color-350);
-  --color-color-300: var(--theme-color-300);
-  --color-color-250: var(--theme-color-250);
-  --color-color-200: var(--theme-color-200);
-  --color-color-150: var(--theme-color-150);
-  --color-color-100: var(--theme-color-100);
-  --color-color-75 : var(--theme-color-75 );
-  --color-color-50 : var(--theme-color-50 );
-
-  /* single-token semantic colours */
-  --color-bgColor       : var(--theme-bg-color);
-  --color-textColor     : var(--theme-text);
-  --color-accent-base   : hsl(var(--theme-accent-base) / <alpha-value>);
-  --color-accent-one    : hsl(var(--theme-accent-one)  / <alpha-value>);
-  --color-accent-two    : hsl(var(--theme-accent-two)  / <alpha-value>);
-  --color-link          : hsl(var(--theme-link)        / <alpha-value>);
-  --color-accent        : var(--theme-accent);
-  --color-quote         : hsl(var(--theme-quote) / <alpha-value>);
-  --color-lightest      : var(--theme-lightest);
-  --color-lighter       : var(--theme-lighter);
-  --color-light         : var(--theme-light);
-  --color-special-lightest: var(--theme-special-lightest);
-  --color-special-lighter: var(--theme-special-lighter);
-  --color-special-light   : var(--theme-special-light);
-
-  /* ——— Misc custom tokens ——— */
-  --transition-height: height;           /* gives you transition-[height] */
-
-  /* ——— Typography ——— */
-  --font-sans: "Montserrat", sans-serif;
-  --font-serif: "Montserrat", serif;
-  --font-mono: "Montserrat", monospace;
-  --font-display: "Montserrat", sans-serif;
+  --color-canvas: hsl(var(--theme-bg) / <alpha-value>);
+  --color-surface: hsl(var(--surface) / <alpha-value>);
+  --color-surface-muted: hsl(var(--surface-muted) / <alpha-value>);
+  --color-surface-strong: hsl(var(--surface-strong) / <alpha-value>);
+  --color-line: hsl(var(--line) / <alpha-value>);
+  --color-ink: hsl(var(--ink) / <alpha-value>);
+  --color-ink-soft: hsl(var(--ink-soft) / <alpha-value>);
+  --color-ink-muted: hsl(var(--ink-muted) / <alpha-value>);
+  --color-brand: hsl(var(--brand) / <alpha-value>);
+  --color-brand-soft: hsl(var(--brand-soft) / <alpha-value>);
+  --color-accent: hsl(var(--accent) / <alpha-value>);
+  --color-glow: hsl(var(--glow) / <alpha-value>);
 }
 
-/* ------------------------------------------------------------------ */
-/* PLUGINS                                                            */
-/* ------------------------------------------------------------------ */
-/* Typography */
 @plugin "@tailwindcss/typography";
-/* Icons */
 @plugin "@iconify/tailwind4";
 
-/* ------------------------------------------------------------------ */
-/* CUSTOM UTILITIES                                                   */
-/* ------------------------------------------------------------------ */
-
-/* .santi-link ------------------------------------------------------*/
-@utility santi-link {
-  @apply no-underline;
-
-  &:hover {
-    @apply underline underline-offset-2;
-  }
+@utility panel-surface {
+  background: linear-gradient(180deg, hsl(var(--surface) / 0.92), hsl(var(--surface-muted) / 0.82));
+  border: 1px solid hsl(var(--line) / 0.6);
+  box-shadow:
+    0 24px 70px hsl(230 30% 8% / 0.08),
+    inset 0 1px 0 hsl(0 0% 100% / 0.08);
+  backdrop-filter: blur(20px);
 }
 
-/* .title ------------------------------------------------------------*/
-@utility title {
-  @apply font-semibold;
+@utility grid-fade {
+  background-image:
+    linear-gradient(hsl(var(--line) / 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--line) / 0.12) 1px, transparent 1px);
+  background-position: center;
+  background-size: 2rem 2rem;
+  mask-image: linear-gradient(180deg, transparent, black 18%, black 82%, transparent);
 }
 
-/* .data-footnote-backref -------------------------------------------*/
-@utility data-footnote-backref {
-  @apply inline-flex h-4 w-4 items-center justify-center rounded-sm text-xs;
-
-  &:hover {
-    @apply no-underline brightness-110;
-  }
+@utility prose-shell {
+  @apply prose prose-lg max-w-none prose-headings:text-ink prose-headings:font-display prose-p:text-ink-soft prose-strong:text-ink prose-code:text-brand prose-pre:border prose-pre:border-line prose-pre:bg-surface-muted prose-a:text-brand prose-a:no-underline hover:prose-a:text-accent dark:prose-invert;
 }
 
-/* ------------------------------------------------------------------ */
-/* 5. TYPOGRAPHY TUNING                                               */
-/* ------------------------------------------------------------------ */
-@layer components {
-  /* Default prose customisations */
-  .prose, .prose-santi { @apply max-w-none; }
-  .prose a, .prose-santi a           { @apply santi-link; }
-  .prose blockquote, .prose-santi blockquote  {
-    @apply font-normal border-l-0 px-4;
-  }
-  .prose blockquote p::before {
-    @apply font-serif font-medium text-2xl
-           relative -ms-4 me-0.5 content-['“'];
-    top: .31125rem;
-  }
-  .prose blockquote p::after  {
-    @apply font-serif font-medium text-2xl
-           relative ms-0 content-['”'];
-    top: .31125rem;
-  }
+@utility subtle-outline {
+  box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.5);
 }
-
-/* ------------------------------------------------------------------ */
-/* 6.  DARK-MODE STRATEGY                                             */
-/* ------------------------------------------------------------------ */
-@custom-variant dark (&:where(.dark,[data-theme='dark'] *));
-
-/* ------------------------------------------------------------------ */
-/* 7.  EXTRA SOURCE PATHS / SAFELIST                                  */
-/* ------------------------------------------------------------------ */
-@source inline("bg-color-950 bg-color-900 bg-color-850 bg-color-800 bg-color-750 bg-color-700 bg-color-650 bg-color-600 bg-color-550 bg-color-500 bg-color-450 bg-color-400 bg-color-350 bg-color-300 bg-color-250 bg-color-200 bg-color-150 bg-color-100 bg-color-75 bg-color-50 text-color-950 text-color-900 text-color-850 text-color-800 text-color-750 text-color-700 text-color-650 text-color-600 text-color-550 text-color-500 text-color-450 text-color-400 text-color-350 text-color-300 text-color-250 text-color-200 text-color-150 text-color-100 text-color-75 text-color-50");
