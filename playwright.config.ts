@@ -1,11 +1,16 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const isGithubCi = Boolean(process.env.CI)
+
+const isCiLikeRun =
+  isGithubCi || process.env.npm_lifecycle_event === 'test:e2e:ci'
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  ...(process.env.CI ? { workers: 1 } : {}),
+  forbidOnly: isCiLikeRun,
+  retries: isCiLikeRun ? 2 : 0,
+  ...(isCiLikeRun ? { workers: 1 } : {}),
   reporter: 'html',
   use: {
     baseURL: 'http://localhost:4321',
@@ -26,8 +31,8 @@ export default defineConfig({
     }
   ],
   webServer: {
-    command: process.env.CI ? 'npm run preview' : 'npm run dev',
+    command: isCiLikeRun ? 'npm run preview' : 'npm run dev',
     url: 'http://localhost:4321',
-    reuseExistingServer: !process.env.CI
+    reuseExistingServer: !isGithubCi
   }
 })
