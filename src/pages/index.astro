@@ -46,11 +46,18 @@ const meta = {
     data-animate
   >
     <div class="space-y-8">
-      <Eyebrow label="Leadership · Automation · DX" tone="brand" />
+      <Eyebrow
+        label="Leadership · Automation · DX"
+        tone="brand"
+        className="
+          text-center whitespace-normal
+          sm:text-left
+        "
+      />
 
       <div class="space-y-5">
         <h1 class="
-          max-w-4xl text-5xl
+          max-w-4xl text-3xl wrap-break-word
           sm:text-6xl
           lg:text-7xl
         "
@@ -58,8 +65,8 @@ const meta = {
           Full-stack engineer, tech lead, and builder of developer-first systems.
         </h1>
         <p class="
-          max-w-3xl text-lg/8 text-ink-soft
-          sm:text-xl
+          max-w-3xl text-base/7 text-ink-soft
+          sm:text-xl/8
         "
         >
           {siteConfig.headline} Over the last {yearsOfExperience} years I have shipped across commerce, SaaS, gaming,
@@ -68,7 +75,11 @@ const meta = {
         </p>
       </div>
 
-      <div class="flex flex-wrap gap-3">
+      <div class="
+        flex flex-col gap-3
+        sm:flex-row sm:flex-wrap
+      "
+      >
         <ButtonLink href="/portfolio/" showArrow>
           See selected work
         </ButtonLink>
@@ -86,7 +97,11 @@ const meta = {
       </div>
     </div>
 
-    <div class="relative overflow-hidden rounded-4xl p-4 panel-surface">
+    <div class="
+      relative w-full overflow-hidden rounded-4xl p-4 panel-surface
+      sm:p-5
+    "
+    >
       <div class="pointer-events-none absolute inset-0 grid-fade opacity-80" />
       <div class="relative z-10 grid gap-5">
         <div class="overflow-hidden rounded-3xl">
@@ -128,7 +143,8 @@ const meta = {
 
   <section
     class="
-      grid gap-4
+      grid gap-3
+      sm:gap-4
       md:grid-cols-2
       xl:grid-cols-4
     "

@@ -46,7 +46,11 @@ const projectLink = getProjectPath(project.id)
   </a>
 
   <div class="flex flex-col gap-5 p-6">
-    <div class="flex flex-wrap items-center gap-3 text-sm text-ink-muted">
+    <div class="
+      flex flex-wrap items-center gap-2 text-sm text-ink-muted
+      sm:gap-3
+    "
+    >
       {project.data.rol && <span>{project.data.rol}</span>}
       {project.data.rol && (
         <span
