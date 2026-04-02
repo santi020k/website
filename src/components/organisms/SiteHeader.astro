@@ -3,7 +3,7 @@
 import { Image } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
-import LogoMark from '../../assets/s2k-mark.png'
+import LogoMark from '../../assets/logo.webp'
 import { menuLinks, siteConfig } from '../../site.config'
 import type { SiteLink } from '../../types.ts'
 import ButtonLink from '../atoms/ButtonLink.astro'
@@ -34,7 +34,7 @@ import ThemeToggle from '../ThemeToggle.astro'
       <Image
         alt="Santi020k"
         class="
-          h-9 w-auto object-contain transition duration-200
+          aspect-11/4 h-9 w-auto object-contain transition duration-200
           group-hover:brightness-125
           motion-reduce:transition-none
         "

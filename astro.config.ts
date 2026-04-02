@@ -65,7 +65,7 @@ export default defineConfig({
       short_name: 'Santi020k',
       description: siteConfig.description,
       lang: siteConfig.lang,
-      icon: 'public/logo.svg', // the source for generating favicon & icons
+      icon: 'public/logo-square.webp', // the source for generating favicon & icons
       icons: [
         {
           src: 'icons/apple-touch-icon.png', // used in src/components/BaseHead.astro L:26
