@@ -1,0 +1,148 @@
+---
+import { Image } from 'astro:assets'
+
+import AboutMeImage from '../assets/photos/about-me.webp'
+import ButtonLink from '../components/atoms/ButtonLink.astro'
+import Eyebrow from '../components/atoms/Eyebrow.astro'
+import SectionHeading from '../components/molecules/SectionHeading.astro'
+import SocialList from '../components/SocialList.astro'
+import PageLayout from '../layouts/Base.astro'
+import { siteConfig } from '../site.config'
+
+const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
+
+const meta = {
+  description: `${yearsOfExperience} years building frontend systems. Senior engineer and tech lead based in Medellín, Colombia — focused on architecture, performance, and developer experience.`,
+  title: 'About'
+}
+---
+
+<PageLayout meta={meta}>
+  <section
+    class="
+      grid gap-12
+      lg:grid-cols-[1fr_auto] lg:items-start
+    "
+  >
+    <div class="max-w-2xl space-y-8">
+      <div class="space-y-4">
+        <Eyebrow label="About" tone="brand" />
+        <h1
+          class="
+            text-4xl font-extrabold tracking-tight text-ink
+            sm:text-5xl
+          "
+        >
+          {siteConfig.headline}
+        </h1>
+      </div>
+
+      <div class="space-y-6 text-lg/8 text-ink-soft">
+        <p>
+          I'm Santiago Molina, a senior frontend engineer and tech lead based in Medellín, Colombia.
+          I've spent the last {yearsOfExperience} years working across the full frontend stack — from design systems and
+          component libraries to CI/CD pipelines and architecture reviews.
+        </p>
+
+        <p>
+          My current focus is on teams and systems: how to structure frontend projects so they stay
+          fast to ship, easy to reason about, and accessible by default. I care a lot about developer
+          experience — not as a buzzword, but as the practical difference between a team that ships
+          with confidence and one that ships with anxiety.
+        </p>
+
+        <p>
+          I believe good frontend engineering is mostly about decisions: what to build, what to skip,
+          what to standardize, and what to leave flexible. Most of my writing is about exactly that —
+          the reasoning behind the tradeoffs, not just the outcomes.
+        </p>
+
+        <p>
+          Outside work I'm interested in education, community building (I co-organize local dev meetups),
+          and finding the intersection between good software and good products. When I'm not at a keyboard
+          I'm probably reading, hiking, or watching something with a good score on Letterboxd.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <ButtonLink href="/portfolio/" showArrow>
+          See selected work
+        </ButtonLink>
+        <ButtonLink href="/posts/" showArrow variant="secondary">
+          Read the blog
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
+          Open résumé
+        </ButtonLink>
+      </div>
+
+      <SocialList />
+    </div>
+
+    <div
+      class="
+        hidden overflow-hidden rounded-4xl
+        lg:block lg:w-72 lg:shrink-0
+      "
+    >
+      <Image
+        alt="Santiago Molina"
+        class="aspect-3/4 w-full object-cover"
+        fetchpriority="high"
+        format="avif"
+        height={480}
+        loading="eager"
+        src={AboutMeImage}
+        width={360}
+      />
+    </div>
+  </section>
+
+  <section class="space-y-8">
+    <SectionHeading
+      description="A few things that shape how I work and what I focus on."
+      eyebrow="Principles"
+      title="What I believe about frontend."
+    />
+
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+        lg:grid-cols-3
+      "
+    >
+      {[
+        {
+          title: 'Accessibility is a baseline, not a feature',
+          body: 'WCAG 2.2 AA is the floor. Accessible UIs are more robust, more testable, and serve more users — including users of your own future self when you\'re tired or distracted.'
+        },
+        {
+          title: 'Performance is a product decision',
+          body: 'Speed isn\'t a tech concern, it\'s a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections.'
+        },
+        {
+          title: 'DX is UX for your team',
+          body: 'The developer experience of a codebase shapes how fast and confidently the team can move. Bad DX compounds. Good DX compounds too — invest early.'
+        },
+        {
+          title: 'Boring tech is often the right call',
+          body: 'The goal is to solve the problem, not to use the newest tool. Stable, well-understood solutions let the team focus on the actual product.'
+        },
+        {
+          title: 'Write for the reader, not the writer',
+          body: 'Code is read far more than it\'s written. Names, structure, and comments should serve whoever picks this up next — including you in six months.'
+        },
+        {
+          title: 'Consistency beats perfection',
+          body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
+        }
+      ].map(({ title, body }) => (
+        <div class="space-y-3 rounded-2xl p-6 panel-surface">
+          <h3 class="font-semibold text-ink">{title}</h3>
+          <p class="text-sm/7 text-ink-soft">{body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</PageLayout>

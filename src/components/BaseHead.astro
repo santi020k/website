@@ -38,6 +38,9 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
 
+{/* RSS Feed */}
+<link rel="alternate" type="application/rss+xml" title={`${siteConfig.title} — Blog`} href="/feed.xml" />
+
 {/* Primary Meta */}
 <meta name="title" content={siteTitle} />
 <meta name="description" content={description} />
@@ -89,6 +92,53 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
 )}
 
 <meta name="generator" content={Astro.generator} />
+
+{/* Structured Data — JSON-LD */}
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteConfig.title,
+    url: Astro.site?.href,
+    description: siteConfig.description,
+    author: {
+      '@type': 'Person',
+      name: siteConfig.author,
+      url: Astro.site?.href,
+      sameAs: [
+        siteConfig.contact.github,
+        siteConfig.contact.linkedin,
+        siteConfig.contact.medium
+      ].filter(Boolean)
+    }
+  })}
+/>
+
+{articleDate && (
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: title,
+      description: description,
+      datePublished: articleDate,
+      image: socialImageURL,
+      url: canonicalURL.href,
+      author: {
+        '@type': 'Person',
+        name: siteConfig.author,
+        url: Astro.site?.href
+      },
+      publisher: {
+        '@type': 'Person',
+        name: siteConfig.author,
+        url: Astro.site?.href
+      }
+    })}
+  />
+)}
 
 {import.meta.env.PROD && (
   <>
