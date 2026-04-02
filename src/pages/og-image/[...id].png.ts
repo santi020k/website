@@ -9,8 +9,8 @@ import { siteConfig } from '../../site.config'
 
 import { Resvg } from '@resvg/resvg-js'
 
-const fontRegularPath = path.resolve('./public/fonts/montserrat-variable-font-wght.ttf')
-const fontBoldPath = path.resolve('./public/fonts/montserrat-variable-font-wght.ttf')
+const fontRegularPath = path.join(process.cwd(), 'public/fonts/Montserrat-Regular.ttf')
+const fontBoldPath = path.join(process.cwd(), 'public/fonts/Montserrat-ExtraBold.ttf')
 const fontRegular = fs.readFileSync(fontRegularPath)
 const fontBold = fs.readFileSync(fontBoldPath)
 
