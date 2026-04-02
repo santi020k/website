@@ -11,7 +11,7 @@
 These `.claude/skills/` documents expand on specific areas of this guide:
 
 | Skill | Scope |
-|---|---|
+| :---- | :---- |
 | [`web-design`](../.claude/skills/web-design/SKILL.md) | Design tokens, component patterns, animations, dark mode |
 | [`seo`](../.claude/skills/seo/SKILL.md) | Meta tags, structured data, sitemap, Core Web Vitals |
 | [`accessibility`](../.claude/skills/accessibility/SKILL.md) | WCAG 2.2 AA, ARIA, keyboard navigation, Alpine.js patterns |
@@ -45,25 +45,25 @@ These `.claude/skills/` documents expand on specific areas of this guide:
 
 ### Overview
 
-| Property          | Value |
-|-------------------|-------|
-| **Name**          | Santi020k |
-| **Full name**     | Santiago Molina |
-| **Handle**        | @santi020k |
-| **Role**          | Seasoned Full Stack Developer and Tech Lead |
-| **Experience**    | 10+ years — React, React Native, Node.js, TypeScript |
-| **Specialisation**| Front-end architecture and UI/UX experiences |
-| **Type**          | Personal portfolio and blog |
-| **Language**      | English (en-US) |
+| Property | Value |
+| :------- | :---- |
+| **Name** | Santi020k |
+| **Full name** | Santiago Molina |
+| **Handle** | @santi020k |
+| **Role** | Seasoned Full Stack Developer and Tech Lead |
+| **Experience** | 10+ years — React, React Native, Node.js, TypeScript |
+| **Specialisation** | Front-end architecture and UI/UX experiences |
+| **Location** | Medellín, Colombia · Remote worldwide |
+| **Contact** | [santiago@santi020k.me](mailto:santiago@santi020k.me) |
+| **Profiles** | [LinkedIn](https://linkedin.com/in/santi020k) · [GitHub](https://github.com/santi020k) · [Medium](https://medium.com/@santi020k) |
+| **Availability** | Open to senior frontend, full stack, and tech lead roles |
 
 ### Personality
 
 The brand sits at the intersection of technical depth and human approachability — a senior developer who shares what they know without ego.
 
 | Attribute | Description |
-|---|---|
-| **Technical** | Developer-focused, code-aware. Assumes technical literacy. Don't over-explain basics; do give context for non-obvious decisions. |
-| **Clean** | Minimal visual noise, well-structured content. Every element earns its place. |
+| :-------- | :---------- |
 | **Approachable** | Personal and first-person in tone. "Senior developer sharing what they know" — not corporate marketing speak. |
 | **Modern** | Current with web standards. The stack choices (Astro, Alpine.js, Tailwind v4) reflect this deliberately. |
 
@@ -83,21 +83,21 @@ The logo is a custom SVG wordmark — a stylised "S2K" letterform representing t
 
 ### Specifications
 
-| Property          | Value |
-|-------------------|-------|
-| **Source file**   | `src/assets/svg/logo.svg` |
-| **Primary format**| SVG |
-| **Fallback format**| PNG (export only when SVG is unsupported) |
-| **Fill color**    | `#00D3DE` — Brand Cyan |
-| **Viewbox**       | `0 0 800 309.1` |
+| Property | Value |
+| :---------------- | :---- |
+| **Source file** | `src/assets/svg/logo.svg` |
+| **Primary format** | SVG |
+| **Fallback format** | PNG (export only when SVG is unsupported) |
+| **Fill color** | `#00D3DE` — Brand Cyan |
+| **Viewbox** | `0 0 800 309.1` |
 | **Rendered size** | `width="140" height="100"` (header) |
 | **Minimum width** | 120px |
-| **Clear space**   | Equal to the cap-height of the mark on all sides |
+| **Clear space** | Equal to the cap-height of the mark on all sides |
 
 ### Usage Rules
 
 | ✅ Do | ❌ Don't |
-|---|---|
+| :---- | :------- |
 | Use the `.svg` source file for all web contexts | Export to PNG unless SVG is unsupported |
 | Place on white, light, or dark backgrounds | Place on mid-tone backgrounds that reduce contrast |
 | Scale proportionally with `width` and `height` attributes | Stretch, rotate, or distort |
@@ -115,14 +115,17 @@ The palette is fully adaptive between **Light** and **Dark** modes, toggled via 
 
 ### Brand Primary
 
-| Name | Hex | HSL | Usage |
-|---|---|---|---|
-| **Brand Cyan** | `#00D3DE` | `hsl(183, 100%, 43%)` | Logo — the single anchor of brand identity |
+| Tone | Token | Value | Hex | Usage |
+| :------- | :----------- | :------ | :-------- | :----------- |
+| **Cyan** | `brand-cyan` | `primary: 200` | `#00D3DE` | Logo, CTAs, Highlights |
+| **Blue** | `brand-blue` | `primary: 600` | `#0045FF` | Borders, Dark accents |
+| **Black** | `black` | `base: black` | `#000000` | Full background |
+| **White** | `white` | `base: white` | `#FFFFFF` | Clear text |
 
 ### Semantic Tokens — Light Mode
 
 | Token name | CSS custom property | Hex (approx.) | HSL | Usage |
-|---|---|---|---|---|
+| :---------- | :------------------ | :------------ | :--- | :---- |
 | Background | `--color-bgColor` | `#F3F5F5` | `hsl(200, 10%, 96%)` | Page background |
 | Body text | `--color-textColor` | — | `hsl(200, 10%, 9%) / 60%` | Paragraphs, UI labels |
 | Accent Base | `--color-accent-base` | `#205169` | `hsl(200, 53%, 27%)` | Buttons, active states |
@@ -134,7 +137,7 @@ The palette is fully adaptive between **Light** and **Dark** modes, toggled via 
 ### Semantic Tokens — Dark Mode
 
 | Token name | CSS custom property | Hex (approx.) | HSL | Usage |
-|---|---|---|---|---|
+| :---------- | :------------------ | :------------ | :--- | :---- |
 | Background | `--color-bgColor` | `#01161C` | `hsl(200, 93%, 10%)` | Page background |
 | Body text | `--color-textColor` | — | `hsl(200, 53%, 98%) / 60%` | Paragraphs, UI labels |
 | Accent One | `--color-accent-one` | `#E5DDB3` | `hsl(50, 49%, 80%)` | Primary interactive elements |
@@ -147,7 +150,7 @@ The palette is fully adaptive between **Light** and **Dark** modes, toggled via 
 The full scale (`--theme-color-50` → `--theme-color-900`) derives from the foreground hue at stepped opacity levels. Reference via Tailwind utilities (`bg-color-150`, `text-color-500`, etc.).
 
 | Token | Opacity | Typical use |
-|---|---|---|
+| :---- | :------ | :---------- |
 | `--color-color-900` | 100% | Headings, strong UI elements |
 | `--color-color-600` | ~74% | Accent color default (`--color-accent`) |
 | `--color-color-500` | ~60% | Body text (`--color-textColor`) |
@@ -158,7 +161,7 @@ The full scale (`--theme-color-50` → `--theme-color-900`) derives from the for
 ### Contrast Requirements (WCAG 2.2 AA)
 
 | Text size | Minimum contrast ratio |
-|---|---|
+| :-------- | :--------------------- |
 | Body text (< 18px regular, or < 14px bold) | 4.5 : 1 |
 | Large text (≥ 18px regular, or ≥ 14px bold) | 3 : 1 |
 | UI components and focus indicators | 3 : 1 |
@@ -171,10 +174,21 @@ Verify all new color pairings with a contrast checker before shipping.
 
 A single variable font is used across the entire brand for consistency and performance.
 
+| Level | Font Family | Size (Desktop) | Weight | Line Height |
+| :------- | :------------ | :------------- | :----- | :---------- |
+| **Display** | Cabinet Grotesk | 64px / 4rem | 800 | 1.1 |
+| **H1** | Cabinet Grotesk | 48px / 3rem | 700 | 1.2 |
+| **H2** | Cabinet Grotesk | 32px / 2rem | 600 | 1.2 |
+| **H3** | Cabinet Grotesk | 24px / 1.5rem | 600 | 1.3 |
+| **Body (L)** | Inter | 18px / 1.125rem | 400 | 1.6 |
+| **Body (M)** | Inter | 16px / 1rem | 400 | 1.6 |
+| **Caption** | Inter | 14px / 0.875rem | 400 | 1.5 |
+| **Code** | Input Mono | 14px / 0.875rem | 400 | 1.5 |
+
 ### Typeface: Montserrat
 
 | Property | Value |
-|---|---|
+| :------- | :---- |
 | **Family** | Montserrat (variable) |
 | **Source** | Self-hosted — `public/fonts/` |
 | **Weight range** | 100–900 (continuous variable axis) |
@@ -187,25 +201,25 @@ Montserrat is mapped to all four Tailwind font roles to ensure visual consistenc
 
 ### Type Scale
 
-| Role | HTML element | Tailwind class | Usage |
-|---|---|---|---|
-| Display / H1 | `<h1>` | `text-2xl` (base) → `text-3xl sm:text-4xl lg:text-5xl` | Page titles |
-| H2 | `<h2>` | `text-xl` | Section headings |
-| H3 | `<h3>` | `text-lg` | Sub-section headings |
-| H4 | `<h4>` | `text-base font-semibold` | Minor headings |
-| Body | `<p>` | `text-base` | Paragraph text |
-| Small / Caption | — | `text-sm` | Metadata, dates, UI labels |
-| Micro | — | `text-xs` | Tags, footnotes, badge text |
+|Role|HTML element|Tailwind class|Usage|
+|:-|:-|:-|:-|
+|Display / H1|`<h1>`|`text-2xl` (base) → `text-3xl sm:text-4xl lg:text-5xl`|Page titles|
+|H2|`<h2>`|`text-xl`|Section headings|
+|H3|`<h3>`|`text-lg`|Sub-section headings|
+|H4|`<h4>`|`text-base font-semibold`|Minor headings|
+|Body|`<p>`|`text-base`|Paragraph text|
+|Small / Caption|—|`text-sm`|Metadata, dates, UI labels|
+|Micro|—|`text-xs`|Tags, footnotes, badge text|
 
 ### Custom Typography Utilities
 
 Defined as `@utility` blocks in `src/styles/global.css`:
 
-| Utility | Applies | Use for |
-|---|---|---|
-| `.title` | `font-semibold` | Any heading-like element needing weight emphasis |
-| `.santi-link` | No underline by default; `underline underline-offset-2` on hover | All inline text links |
-| `.prose` / `.prose-santi` | `max-w-none` + custom blockquote styles | Long-form markdown content |
+|Utility|Applies|Use for|
+|:-|:-|:-|
+|`.title`|`font-semibold`|Any heading-like element needing weight emphasis|
+|`.santi-link`|No underline by default; `underline underline-offset-2` on hover|All inline text links|
+|`.prose` / `.prose-santi`|`max-w-none` + custom blockquote styles|Long-form markdown content|
 
 ### Typographic Rules
 
@@ -224,7 +238,7 @@ All spacing follows the Tailwind default scale (4px base unit). Do not introduce
 ### Recommended Spacing
 
 | Context | Classes |
-|---|---|
+| :------- | :------ |
 | Component internal padding | `p-4` to `p-6` |
 | Section vertical gaps | `gap-8` to `gap-16` |
 | Page horizontal margins | `px-4 md:px-6 lg:px-8` |
@@ -235,7 +249,7 @@ All spacing follows the Tailwind default scale (4px base unit). Do not introduce
 Design mobile-first. Add breakpoint prefixes as layouts widen.
 
 | Breakpoint | Value | Target |
-|---|---|---|
+| :--------- | :---- | :----- |
 | *(base)* | — | Mobile phones |
 | `xs` | 320px | Small phones (custom token `--breakpoint-xs`) |
 | `sm` | 640px | Large phones / small tablets |
@@ -250,7 +264,7 @@ Test every layout at **375px** (iPhone SE) and **1440px** (standard desktop) bef
 Custom `--container-*` values in `@theme` override Tailwind defaults for tighter reading widths:
 
 | Utility | Max width | Best for |
-|---|---|---|
+| :--------- | :------- | :------ |
 | `max-w-lg` | 32rem | Narrow prose, forms |
 | `max-w-2xl` | 42rem | Blog post body |
 | `max-w-4xl` | 54rem | Content page sections |
@@ -270,7 +284,7 @@ Custom `--container-*` values in `@theme` override Tailwind defaults for tighter
 ### Core Image Assets
 
 | Asset | Source path | Usage |
-|---|---|---|
+| :----------- | :---------- | :---- |
 | Logo | `src/assets/svg/logo.svg` | Site identity (imported via Astro `<Image>`) |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and author attribution |
 | Default OG image | `public/default.webp` | Social share fallback |
@@ -282,7 +296,7 @@ Custom `--container-*` values in `@theme` override Tailwind defaults for tighter
 Generated server-side via Satori at `src/pages/og/`. Every page must have one.
 
 | Property | Requirement |
-|---|---|
+| :------- | :---------- |
 | Size | 1200 × 630 px |
 | Format | PNG (Satori output) |
 | Content | Page title + site branding |
@@ -318,7 +332,7 @@ import heroImg from '@/assets/photos/about-me.webp'
 Three Iconify packs are used across the site. Always match the correct pack to its context.
 
 | Pack | Prefix | Used in | Example |
-|---|---|---|---|
+| :----------------------- | :-------- | :------- | :------- |
 | **Material Design Icons** | `mdi:` | `<Icon>` component (astro-icon) | `mdi:github` |
 | **Tabler Icons** | `tabler--` | Tailwind CSS utility class | `icon-[tabler--brand-linkedin]` |
 | **Huge Icons** | `hugeicons:` | `<Icon>` component | `hugeicons:menu-01` |
@@ -350,11 +364,11 @@ Always add `aria-hidden="true"` on decorative icons. For standalone icon buttons
 `Badge.astro` is the standard tag/label component. Use the named variant — never recreate badge styles inline.
 
 | Variant | Use case |
-|---|---|
+| :------------ | :------- |
 | `default` | General tags, neutral state |
 | `accent` | Highlighted tag using the current accent |
 | `accent-base` | Uses the lower-contrast base accent tone |
-| `accent-one` | Primary brand accent (theme-adaptive) |
+| `accent-one` | Primary brand accent |
 | `accent-two` | Secondary brand accent (theme-adaptive) |
 | `muted` | Low-emphasis, subtle background |
 | `outline` | Bordered, no fill — secondary or filter contexts |
@@ -422,7 +436,7 @@ All animations **must** include a `motion-reduce:` variant or a `prefers-reduced
 ### Timing Reference
 
 | Interaction type | Duration | Easing |
-|---|---|---|
+| :------------------------------- | :-------- | :----------- |
 | Hover micro-interactions | 150–200ms | `ease-out` |
 | Content reveals (fade, slide) | 300–400ms | `ease-out` |
 | Large layout changes | 400–500ms | `ease-in-out` |
@@ -481,7 +495,7 @@ Before shipping any interactive element, verify:
 ### Brand Voice
 
 | Attribute | What it means in practice |
-|---|---|
+| :---------- | :----------------------- |
 | **Direct** | Say what you mean. Cut openers like "In today's fast-paced world…" or "Are you tired of…". |
 | **Concise** | Cut adverbs. Cut adjectives that don't earn their place. A short, punchy sentence beats a long winding one. |
 | **Technical** | Comfortable with code, architecture, and web tooling. Assume the reader is a developer. Don't over-explain basics — do give context for non-obvious choices. |
@@ -491,7 +505,7 @@ Before shipping any interactive element, verify:
 ### Tone by Context
 
 | Context | Tone |
-|---|---|
+| :------------------ | :--- |
 | Homepage hero | Confident, identity-first, one clear CTA |
 | Blog posts | Conversational, educational, second person ("you") |
 | Portfolio / projects | Confident, factual, outcome-focused |
@@ -539,7 +553,7 @@ Target: **WCAG 2.2 Level AA** throughout. Accessibility is not an audit checkbox
 Before adding ARIA, ask: *is there a native element for this?*
 
 | Use this | Not this |
-|---|---|
+| :------------------------- | :-------- |
 | `<button type="button">` | `<div onclick>` or `<a>` with no `href` |
 | `<nav aria-label="…">` | `<div class="nav">` |
 | `<main>` | `<div id="main">` |
@@ -582,7 +596,7 @@ Answer three questions in under 5 seconds: who, what, why keep reading.
 Strong headlines are specific, useful, or surprising:
 
 | Pattern | Example |
-|---|---|
+| :------------------------------- | :------ |
 | How I [result] with [method] | "How I reduced my Astro build time by 40%" |
 | Why I switched from X to Y | "Why I switched from CRA to Vite" |
 | [N] things I learned from [project] | "5 things I learned building a Tailwind v4 site" |
@@ -595,7 +609,7 @@ Avoid vague headlines like "Thoughts on React" or "Some useful CSS tips."
 One primary CTA per page. Verb-first and specific.
 
 | ❌ Weak | ✅ Better |
-|---|---|
+| :------------ | :------- |
 | Learn more | Read the full post |
 | Click here | See the source code |
 | Contact me | Send me a message |
@@ -617,7 +631,7 @@ Publishing cadence: one quality post per month is better than four rushed ones. 
 ### Code Conventions
 
 | Convention | Rule |
-|---|---|
+| :------------------ | :--- |
 | Import alias | `@/` for all imports from `src/` |
 | Internal links | Always use trailing slashes (`/portfolio/`) |
 | Component props | TypeScript `interface Props`, destructured from `Astro.props` |
@@ -646,7 +660,7 @@ npm run check   # Astro type-check — zero errors
 ### Performance Targets
 
 | Metric | Target / Technique |
-|---|---|
+| :--------------- | :----------------- |
 | Lighthouse score | ≥ 90 on mobile |
 | LCP | `loading="eager"` + `fetchpriority="high"` on above-fold images |
 | CLS | Explicit `width` and `height` on all images |
@@ -655,7 +669,7 @@ npm run check   # Astro type-check — zero errors
 ### Stack Overview
 
 | Layer | Technology |
-|---|---|
+| :----------- | :--------- |
 | Framework | Astro 6 — file-based routing, content collections, View Transitions |
 | Interactivity | Alpine.js v3 — `x-data`, `x-show`, `x-transition` |
 | Styling | Tailwind CSS v4 — tokens via `@theme` in `global.css`, no `tailwind.config.js` |
@@ -673,7 +687,7 @@ npm run check   # Astro type-check — zero errors
 ### Social Channels
 
 | Platform | Link | Status |
-|---|---|---|
+| :--------- | :--- | :----- |
 | GitHub | [github.com/santi020k](https://github.com/santi020k) | Active |
 | LinkedIn | [linkedin.com/in/santi020k](https://linkedin.com/in/santi020k) | Active |
 | Medium | [medium.com/@santi020k](https://medium.com/@santi020k) | Active (blog, temporary) |
@@ -687,7 +701,7 @@ External links must always use `target="_blank" rel="noopener noreferrer"`.
 All internal links use trailing slashes.
 
 | Route | Page | Notes |
-|---|---|---|
+| :----------- | :------ | :---- |
 | `/` | Home | Hero + about intro |
 | `/portfolio/` | Portfolio | Project showcase |
 | Blog | External Medium link | Pending native implementation |
@@ -700,7 +714,7 @@ All internal links use trailing slashes.
 ### Visual Identity
 
 | ✅ Do | ❌ Don't |
-|---|---|
+| :------- | :------- |
 | Use the logo SVG from `src/assets/svg/logo.svg` | Rasterise the logo unless absolutely required |
 | Reference colors via semantic CSS custom properties | Hardcode hex or HSL values in components |
 | Define new tokens in `src/styles/global.css` `@theme` | Add one-off inline color values |
@@ -709,7 +723,7 @@ All internal links use trailing slashes.
 ### Typography
 
 | ✅ Do | ❌ Don't |
-|---|---|
+| :------- | :------- |
 | Use the `.title` utility for heading emphasis | Apply `font-bold` ad hoc outside established patterns |
 | Use sentence case for headings | Use Title Case Every Word |
 | Follow the heading hierarchy (`h1` → `h2` → `h3`) | Skip heading levels for visual sizing |
@@ -717,7 +731,7 @@ All internal links use trailing slashes.
 ### Code & Implementation
 
 | ✅ Do | ❌ Don't |
-|---|---|
+| :------- | :------- |
 | Use `@/` import alias for all `src/` paths | Use relative `../../` paths from components |
 | Use `class:list` for conditional Tailwind classes | Concatenate class strings with template literals |
 | Use `<Image>` from `astro:assets` for all images | Use raw `<img>` tags |
@@ -728,7 +742,7 @@ All internal links use trailing slashes.
 ### Content & Voice
 
 | ✅ Do | ❌ Don't |
-|---|---|
+| :------- | :------- |
 | Write in first person for personal pages | Use corporate third-person ("Santiago Molina is a developer who…") |
 | Use active voice | Default to passive constructions |
 | Make CTAs verb-first and specific | Use vague CTAs ("Learn more", "Click here") |
@@ -740,7 +754,7 @@ All internal links use trailing slashes.
 ### Brand Assets
 
 | Asset | Path | Notes |
-|---|---|---|
+| :--------------- | :-------------------------------- | :------------------------------ |
 | Logo (SVG) | `src/assets/svg/logo.svg` | Imported with `<Image>` — not in `public/` |
 | Author photo | `src/assets/photos/about-me.webp` | Used in hero and about sections |
 | Default OG image | `public/default.webp` | Served statically |
@@ -750,7 +764,7 @@ All internal links use trailing slashes.
 ### Key Source Files
 
 | File | Purpose |
-|---|---|
+| :----------------------------------- | :---------- |
 | `src/styles/global.css` | Design tokens (`@theme`), custom utilities, base styles, dark mode variant |
 | `src/site.config.ts` | Site-wide metadata — title, description, author, nav links |
 | `src/content.config.ts` | Content collection schemas (Zod) |
@@ -769,7 +783,7 @@ All internal links use trailing slashes.
 ## 16. Version History
 
 | Version | Date | Changes |
-|---|---|---|
+| :------ | :--------- | :------ |
 | 2.1 | April 2026 | Fixed logo path (`src/assets/svg/logo.svg`). Added all social channels (LinkedIn, Medium, WhatsApp). Added Tabler and Huge Icons packs. Added actual homepage copy as voice example. Added mobile drawer motion pattern. Added content width token table. Consolidated Do's & Don'ts. Added Version History and Related Skills sections. |
 | 2.0 | April 2026 | Major rewrite using Brand Guidelines Generator skill. Added component patterns, motion guidelines, accessibility section, marketing strategy, technical standards. |
 | 1.0 | April 2026 | Initial generation from codebase audit. |

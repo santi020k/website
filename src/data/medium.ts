@@ -1,10 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { XMLParser } from 'fast-xml-parser'
 
-import { mediumPostsCache } from '@/data/medium-cache'
-import { siteConfig } from '@/site.config'
-import type { MediumPost } from '@/types'
+import { mediumPostsCache } from './medium-cache'
 
-const MEDIUM_FEED_URL = `${siteConfig.contact.medium.replace(/\/$/, '')}/feed`
+import { siteConfig } from '../site.config'
+import type { MediumPost } from '../types'
+
+const MEDIUM_SITE_URL = siteConfig.contact.medium.replace(/\/$/, '')
+const MEDIUM_FEED_URL = `${MEDIUM_SITE_URL}/feed`
 
 const parser = new XMLParser({
   ignoreAttributes: false,
@@ -12,54 +18,47 @@ const parser = new XMLParser({
   trimValues: true
 })
 
+interface RawMediumItem {
+  title?: string
+  link?: string
+  'content:encoded'?: string
+  'dc:creator'?: string
+  pubDate?: string
+  guid?: string | { '#text'?: string, text?: string }
+  category?: string | string[]
+  'atom:updated'?: string
+}
+
 let mediumPostsPromise: Promise<MediumPost[]> | undefined
 
-function decodeHtmlEntities(value: string) {
-  return value
-    .replaceAll('&nbsp;', ' ')
-    .replaceAll('&amp;', '&')
-    .replaceAll('&quot;', '"')
-    .replaceAll('&#39;', '\'')
+const decodeHtmlEntities = (value: string) => value
+  .replaceAll('&nbsp;', ' ')
+  .replaceAll('&amp;', '&')
+  .replaceAll('&_quot;', '"')
+  .replaceAll('&#39;', '\'')
+
+const stripHtml = (value: string) => decodeHtmlEntities(
+  value
+    .replaceAll(/<figcaption[\s\S]*?<\/figcaption>/gi, ' ')
+    .replaceAll(/<pre[\s\S]*?<\/pre>/gi, ' ')
+    .replaceAll(/<code[\s\S]*?<\/code>/gi, ' ')
+    .replaceAll(/<[^>]+>/g, ' ')
+)
+  .replaceAll(/\s+/g, ' ')
+  .trim()
+
+const extractImageUrl = (html: string) => {
+  const doubleQuoteMatch = (/<img[^>]+src="([^"]+)"/i.exec(html))?.[1]
+  const singleQuoteMatch = (/<img[^>]+src='([^']+)'/i.exec(html))?.[1]
+
+  return doubleQuoteMatch ?? singleQuoteMatch ?? null
 }
 
-function stripHtml(value: string) {
-  return decodeHtmlEntities(
-    value
-      .replaceAll(/<figcaption[\s\S]*?<\/figcaption>/gi, ' ')
-      .replaceAll(/<pre[\s\S]*?<\/pre>/gi, ' ')
-      .replaceAll(/<code[\s\S]*?<\/code>/gi, ' ')
-      .replaceAll(/<[^>]+>/g, ' ')
-  )
-    .replaceAll(/\s+/g, ' ')
-    .trim()
-}
+const getParagraphCandidates = (html: string) => [...html.matchAll(/<p>([\s\S]*?)<\/p>/gi)]
+  .map(([, paragraph = '']) => stripHtml(paragraph))
+  .filter(Boolean)
 
-function extractImageUrl(html: string) {
-  return (/<img[^>]+src="([^"]+)"/i.exec(html))?.[1] ?? (/<img[^>]+src='([^']+)'/i.exec(html))?.[1] ?? null
-}
-
-function getParagraphCandidates(html: string) {
-  return [...html.matchAll(/<p>([\s\S]*?)<\/p>/gi)]
-    .map(([, paragraph = '']) => stripHtml(paragraph))
-    .filter(Boolean)
-}
-
-function extractExcerpt(html: string) {
-  const paragraphs = getParagraphCandidates(html)
-
-  const ignoredPrefixes = [
-    'Previous post:',
-    'Read the Previous Post:',
-    'Next Post:',
-    'This article is part of'
-  ]
-
-  const candidate = paragraphs.find(paragraph => paragraph.length > 70 && !ignoredPrefixes.some(prefix => paragraph.startsWith(prefix))) ?? paragraphs.find(paragraph => paragraph.length > 40) ?? ''
-
-  return clampExcerpt(candidate)
-}
-
-function clampExcerpt(value: string, maxLength = 220) {
+const clampExcerpt = (value: string, maxLength = 220) => {
   if (value.length <= maxLength) {
     return value
   }
@@ -79,7 +78,24 @@ function clampExcerpt(value: string, maxLength = 220) {
   return `${shortened.replace(/[,:;-\s]+$/g, '').trim()}…`
 }
 
-function getSlugFromLink(link: string, fallback: string, index: number) {
+const extractExcerpt = (html: string) => {
+  const paragraphs = getParagraphCandidates(html)
+
+  const ignoredPrefixes = [
+    'Previous post:',
+    'Read the Previous Post:',
+    'Next Post:',
+    'This article is part of'
+  ]
+
+  const candidate = paragraphs.find(paragraph => (
+    paragraph.length > 70 && !ignoredPrefixes.some(prefix => paragraph.startsWith(prefix))
+  )) ?? paragraphs.find(paragraph => paragraph.length > 40) ?? ''
+
+  return clampExcerpt(candidate)
+}
+
+const getSlugFromLink = (link: string, fallback: string, index: number) => {
   try {
     const url = new URL(link)
     const segment = url.pathname.split('/').filter(Boolean).at(-1)
@@ -96,19 +112,17 @@ function getSlugFromLink(link: string, fallback: string, index: number) {
   return slug || `post-${index}`
 }
 
-function formatPublicationName(hostname: string) {
-  return hostname
-    .replace(/^www\./, '')
-    .replace(/\.com$/i, '')
-    .split(/[.-]/)
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ')
-}
+const formatPublicationName = (hostname: string) => hostname
+  .replace(/^www\./, '')
+  .replace(/\.com$/i, '')
+  .split(/[.-]/)
+  .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+  .join(' ')
 
-function normalisePost(item: Record<string, any>, index: number): MediumPost {
+const normalisePost = (item: RawMediumItem, index: number): MediumPost => {
   const title = stripHtml(item.title ?? '')
-  const link = String(item.link ?? '').trim()
-  const content = String(item['content:encoded'] ?? '')
+  const link = (item.link ?? '').trim()
+  const content = item['content:encoded'] ?? ''
 
   const hostname = (() => {
     try {
@@ -118,34 +132,64 @@ function normalisePost(item: Record<string, any>, index: number): MediumPost {
     }
   })()
 
+  const guidValue = (() => {
+    if (typeof item.guid === 'string') return item.guid
+
+    return item.guid?.['#text'] ?? item.guid?.text ?? ''
+  })()
+
+  const tagsValue = (() => {
+    if (Array.isArray(item.category)) {
+      return item.category.map(category => stripHtml(category))
+    }
+
+    if (item.category) {
+      return [stripHtml(item.category)]
+    }
+
+    return []
+  })()
+
   return {
     author: stripHtml(item['dc:creator'] ?? siteConfig.author),
     excerpt: extractExcerpt(content),
-    guid: typeof item.guid === 'string' ? item.guid : item.guid?.['#text'] ?? item.guid?.text ?? '',
+    guid: guidValue,
     imageUrl: extractImageUrl(content),
     link,
     publication: formatPublicationName(hostname),
-    publishedAt: String(item.pubDate ?? ''),
+    publishedAt: item.pubDate ?? '',
     slug: getSlugFromLink(link, title, index),
-    tags: Array.isArray(item.category) ?
-      item.category.map((category: string) => stripHtml(category)) :
-      item.category ?
-        [stripHtml(String(item.category))] :
-        [],
+    tags: tagsValue,
     title,
-    updatedAt: String(item['atom:updated'] ?? item.pubDate ?? '')
+    updatedAt: item['atom:updated'] ?? item.pubDate ?? ''
   }
 }
 
-function parseFeed(xml: string) {
-  const parsed = parser.parse(xml)
-  const rawItems = parsed?.rss?.channel?.item
-  const items = Array.isArray(rawItems) ? rawItems : rawItems ? [rawItems] : []
+const parseFeed = (xml: string): MediumPost[] => {
+  const parsed = parser.parse(xml) as {
+    rss?: {
+      channel?: {
+        item?: RawMediumItem | RawMediumItem[]
+      }
+    }
+  }
 
-  return items.map(normalisePost).filter(post => post.title && post.link)
+  const rawItems = parsed.rss?.channel?.item
+
+  const items: RawMediumItem[] = (() => {
+    if (Array.isArray(rawItems)) return rawItems
+
+    if (rawItems) return [rawItems]
+
+    return []
+  })()
+
+  const results: MediumPost[] = items.map((item, index) => normalisePost(item, index))
+
+  return results.filter(post => post.title && post.link)
 }
 
-async function loadMediumPosts() {
+const loadMediumPosts = async (): Promise<MediumPost[]> => {
   try {
     const response = await fetch(MEDIUM_FEED_URL, {
       headers: {
@@ -172,13 +216,13 @@ async function loadMediumPosts() {
   }
 }
 
-export async function getMediumPosts() {
+export const getMediumPosts = async (): Promise<MediumPost[]> => {
   mediumPostsPromise ??= loadMediumPosts()
 
-  return mediumPostsPromise
+  return (await mediumPostsPromise)
 }
 
-export async function getMediumPostBySlug(slug: string) {
+export const getMediumPostBySlug = async (slug: string): Promise<MediumPost | undefined> => {
   const posts = await getMediumPosts()
 
   return posts.find(post => post.slug === slug)

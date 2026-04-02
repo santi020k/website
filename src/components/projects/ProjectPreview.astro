@@ -2,11 +2,11 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
-import Badge from '@/components/Badge.astro'
-import FormattedDate from '@/components/FormattedDate.astro'
-import Separator, { SeparatorType } from '@/components/Separator.astro'
+import Badge from '../../components/Badge.astro'
+import FormattedDate from '../../components/FormattedDate.astro'
+import Separator, { SeparatorType } from '../../components/Separator.astro'
 
-import { dateWithoutDay } from '@/utils/date-format-presets'
+import { dateWithoutDay } from '../../utils/date-format-presets'
 
 interface Props {
   project: CollectionEntry<'project'>

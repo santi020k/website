@@ -3,14 +3,14 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
-import Badge from '@/components/Badge.astro'
-import PostPreview from '@/components/blog/PostPreview.astro'
-import Pagination from '@/components/Paginator.astro'
+import Badge from '../../../components/Badge.astro'
+import PostPreview from '../../../components/blog/PostPreview.astro'
+import Pagination from '../../../components/Paginator.astro'
 
-import { collectionDateSort } from '@/utils/date'
+import { collectionDateSort } from '../../../utils/date'
 
-import { getAllPosts, getUniqueTags, groupPostsByYear } from '@/data/post'
-import PageLayout from '@/layouts/Base.astro'
+import { getAllPosts, getUniqueTags, groupPostsByYear } from '../../../data/post'
+import PageLayout from '../../../layouts/Base.astro'
 
 export const getStaticPaths = (async ({ paginate }) => {
   const MAX_POSTS_PER_PAGE = 5
@@ -56,7 +56,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 ---
 
 <PageLayout meta={meta}>
-  <h1 class="mb-6 flex items-center gap-2 title">
+  <h1 class="title mb-6 flex items-center gap-2">
     Posts
     <a class="text-accent-two" href="/rss.xml" target="_blank">
       <span class="sr-only">RSS feed</span>
@@ -92,7 +92,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
     {
       !!uniqueTags.length && (
         <aside class="md:max-w-56 md:min-w-56 md:basis-56">
-          <h4 class="mb-4 flex gap-2 title">
+          <h4 class="title mb-4 flex gap-2">
             Tags
             {/*
             <Icon aria-hidden="true" class="mb-1 h-6 w-6" focusable="false" name="hugeicons:tags" />
@@ -115,8 +115,8 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
               <a
                 aria-label="View all blog categories"
                 class="
-                  font-medium text-accent
                   sm:hover:text-accent-two
+                  font-medium text-accent
                 "
                 href="/tags/"
               >

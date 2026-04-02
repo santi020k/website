@@ -2,14 +2,12 @@
 import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import ProjectCard from '@/components/molecules/ProjectCard.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
-
-import { collectionDateSortProjects } from '@/utils/date'
-
-import { getAllProjects, getUniqueTechnologies } from '@/data/project'
-import PageLayout from '@/layouts/Base.astro'
+import ButtonLink from '../../../components/atoms/ButtonLink.astro'
+import ProjectCard from '../../../components/molecules/ProjectCard.astro'
+import SectionHeading from '../../../components/molecules/SectionHeading.astro'
+import { getAllProjects, getUniqueTechnologies } from '../../../data/project'
+import PageLayout from '../../../layouts/Base.astro'
+import { collectionDateSortProjects } from '../../../utils/date'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const allProjects = await getAllProjects()
@@ -34,15 +32,22 @@ const { page } = Astro.props
 const { technology = '' } = Astro.params
 
 const meta = {
-  description: `Projects and case studies where ${technology} shaped the architecture, delivery workflow, or product experience.`,
+  description: `Projects and case studies where ${technology} shaped the architecture, ` +
+    'delivery workflow, or product experience.',
   title: `${technology} · Technology`
 }
+
+const projectCards = page.data.map((project) => (
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  <ProjectCard project={project} />
+))
 ---
 
 <PageLayout meta={meta}>
   <section class="space-y-6">
     <SectionHeading
-      description={`Projects where ${technology} played a meaningful role in the architecture, delivery workflow, or product experience.`}
+      description={`Projects where ${technology} played a meaningful role in the architecture, ` +
+        'delivery workflow, or product experience.'}
       eyebrow="Technology filter"
       level="h1"
       title={technology}
@@ -62,8 +67,6 @@ const meta = {
     lg:grid-cols-2
   "
   >
-    {page.data.map(project => (
-      <ProjectCard project={project} />
-    ))}
+    {projectCards}
   </section>
 </PageLayout>

@@ -1,21 +1,23 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Pill from '@/components/atoms/Pill.astro'
-import ProjectCard from '@/components/molecules/ProjectCard.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
-
-import { collectionDateSortProjects } from '@/utils/date'
-import { getTechnologyPath } from '@/utils/links'
-
-import { getAllProjects, getUniqueTechnologiesWithCount, groupProjectsByTypesId } from '@/data/project'
-import { getAllTypes } from '@/data/types'
-import PageLayout from '@/layouts/Base.astro'
-import { siteConfig } from '@/site.config'
+import ButtonLink from '../../components/atoms/ButtonLink.astro'
+import Pill from '../../components/atoms/Pill.astro'
+import ProjectCard from '../../components/molecules/ProjectCard.astro'
+import SectionHeading from '../../components/molecules/SectionHeading.astro'
+import StatCard from '../../components/molecules/StatCard.astro'
+import { getAllProjects, getUniqueTechnologiesWithCount, groupProjectsByTypesId } from '../../data/project'
+import { getAllTypes } from '../../data/types'
+import PageLayout from '../../layouts/Base.astro'
+import { siteConfig } from '../../site.config'
+import { collectionDateSortProjects } from '../../utils/date'
+import { getTechnologyPath } from '../../utils/links'
 
 const allProjects = (await getAllProjects()).sort(collectionDateSortProjects)
 const groupedProjects = groupProjectsByTypesId(allProjects)
-const allTypes = (await getAllTypes()).sort((a, b) => (a.id === 'professional' ? -1 : b.id === 'professional' ? 1 : 0))
+const allTypes = (await getAllTypes()).sort((a, b) => {
+  if (a.id === 'professional') return -1
+  if (b.id === 'professional') return 1
+  return 0
+})
 const technologies = getUniqueTechnologiesWithCount(allProjects).slice(0, 18)
 const professionalCount = groupedProjects.professional?.length ?? 0
 const personalCount = groupedProjects.personal?.length ?? 0
@@ -24,6 +26,11 @@ const meta = {
   description: 'Case studies from Santiago Molina across headless commerce, gaming, SaaS, real estate, community, and open-source work.',
   title: 'Portfolio'
 }
+
+const typePills = allTypes.map(type => (
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  <Pill href={`#${type.id}`} label={type.data.title} tone="outline" />
+))
 ---
 
 <PageLayout meta={meta}>
@@ -48,9 +55,7 @@ const meta = {
         </ButtonLink>
       </div>
       <div class="flex flex-wrap gap-2">
-        {allTypes.map(type => (
-          <Pill href={`#${type.id}`} label={type.data.title} tone="outline" />
-        ))}
+        {typePills}
       </div>
     </div>
 
@@ -67,7 +72,8 @@ const meta = {
   </section>
 
   <section class="space-y-14">
-    {allTypes.map(type => (
+    {allTypes.map((type) => (
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       <section class="space-y-8" id={type.id}>
         <SectionHeading
           description={type.data.description}
@@ -80,6 +86,7 @@ const meta = {
         "
         >
           {(groupedProjects[type.id] ?? []).map(project => (
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             <ProjectCard project={project} />
           ))}
         </div>
@@ -97,6 +104,7 @@ const meta = {
     />
     <div class="flex flex-wrap gap-3">
       {technologies.map(([technology, count]) => (
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
           <span class="text-xs text-ink-muted">{count}</span>
         </Pill>

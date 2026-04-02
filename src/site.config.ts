@@ -1,4 +1,4 @@
-import type { SiteConfig, SiteLink } from '@/types'
+import type { SiteConfig, SiteLink } from './types.ts'
 
 export const siteConfig: SiteConfig = {
   availability: 'Open to senior frontend, full stack, and tech lead roles',

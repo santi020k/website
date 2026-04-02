@@ -1,22 +1,20 @@
 ---
 import { Image } from 'astro:assets'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
-import Pill from '@/components/atoms/Pill.astro'
-import PostCard from '@/components/molecules/PostCard.astro'
-import ProjectCard from '@/components/molecules/ProjectCard.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
-
-import { collectionDateSortProjects } from '@/utils/date'
-import { getTechnologyPath } from '@/utils/links'
-
-import AboutMeImage from '@/assets/photos/about-me.webp'
-import { getMediumPosts } from '@/data/medium'
-import { getAllProjects, getTechnologiesByUsage } from '@/data/project'
-import PageLayout from '@/layouts/Base.astro'
-import { siteConfig } from '@/site.config'
+import AboutMeImage from '../assets/photos/about-me.webp'
+import ButtonLink from '../components/atoms/ButtonLink.astro'
+import Eyebrow from '../components/atoms/Eyebrow.astro'
+import Pill from '../components/atoms/Pill.astro'
+import PostCard from '../components/molecules/PostCard.astro'
+import ProjectCard from '../components/molecules/ProjectCard.astro'
+import SectionHeading from '../components/molecules/SectionHeading.astro'
+import StatCard from '../components/molecules/StatCard.astro'
+import { getMediumPosts } from '../data/medium'
+import { getAllProjects, getTechnologiesByUsage } from '../data/project'
+import PageLayout from '../layouts/Base.astro'
+import { siteConfig } from '../site.config'
+import { collectionDateSortProjects } from '../utils/date'
+import { getTechnologyPath } from '../utils/links'
 
 const allProjects = await getAllProjects()
 const allPosts = await getMediumPosts()
@@ -62,7 +60,8 @@ const meta = {
           sm:text-xl
         "
         >
-          {siteConfig.headline} Over the last {yearsOfExperience} years, I have worked across commerce, gaming, SaaS, real estate, and open source with React, Next.js, TypeScript, and hands-on technical leadership.
+          {siteConfig.headline} Over the last {yearsOfExperience} years, I have worked across commerce, gaming,
+          SaaS, real estate, and open source with React, Next.js, TypeScript, and hands-on technical leadership.
         </p>
       </div>
 
@@ -174,19 +173,22 @@ const meta = {
       <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">What I do now</p>
       <h2 class="mt-4 text-3xl">Architecture that still respects the interface.</h2>
       <p class="mt-4 text-base/7 text-ink-soft">
-        Most of my work lives between frontend architecture, product delivery, and developer experience. I like untangling messy systems and turning them into calmer, faster teams.
+        Most of my work lives between frontend architecture, product delivery, and developer experience.
+        I like untangling messy systems and turning them into calmer, faster teams.
       </p>
     </div>
     <div class="rounded-[1.75rem] p-6 panel-surface">
       <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">How I lead</p>
       <p class="mt-4 text-base/7 text-ink-soft">
-        I stay close to the code. I help teams set standards, reduce rework, and make better decisions earlier, especially when performance, accessibility, or architecture are on the line.
+        I stay close to the code. I help teams set standards, reduce rework, and make better decisions earlier,
+        especially when performance, accessibility, or architecture are on the line.
       </p>
     </div>
     <div class="rounded-[1.75rem] p-6 panel-surface">
       <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">Outside the sprint</p>
       <p class="mt-4 text-base/7 text-ink-soft">
-        I co-organize ReactJS Colombia, write about DX and frontend workflows, and keep learning while working remotely from Medellin and on the road.
+        I co-organize ReactJS Colombia, write about DX and frontend workflows, and keep learning while working
+        remotely from Medellin and on the road.
       </p>
     </div>
   </section>

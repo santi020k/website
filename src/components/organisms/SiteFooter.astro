@@ -1,10 +1,10 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import SocialIconLink from '@/components/atoms/SocialIconLink.astro'
+import ButtonLink from '../../components/atoms/ButtonLink.astro'
+import SocialIconLink from '../../components/atoms/SocialIconLink.astro'
 
 import { version } from '../../../package.json'
 
-import { siteConfig } from '@/site.config'
+import { siteConfig } from '../../site.config'
 
 const year = new Date().getFullYear()
 ---
@@ -34,7 +34,8 @@ const year = new Date().getFullYear()
       >{siteConfig.headline}
       </h2>
       <p class="max-w-2xl text-base/7 text-ink-soft">
-        I help product teams improve performance, clarify architecture, and ship with less friction across React, Next.js, TypeScript, and design systems.
+        I help product teams improve performance, clarify architecture, and ship with less friction across React,
+        Next.js, TypeScript, and design systems.
       </p>
       <div class="flex flex-wrap gap-3">
         <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow>
@@ -48,9 +49,7 @@ const year = new Date().getFullYear()
 
     <div class="space-y-6">
       <div class="flex flex-wrap gap-3">
-        {siteConfig.socialLinks.map(link => (
-          <SocialIconLink href={link.href} icon={link.icon} label={link.label} />
-        ))}
+        {siteConfig.socialLinks.map(link => <SocialIconLink href={link.href} icon={link.icon} label={link.label} />)}
       </div>
       <div class="space-y-2 text-sm text-ink-muted">
         <p>{siteConfig.location}</p>

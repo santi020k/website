@@ -1,12 +1,10 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Pill from '@/components/atoms/Pill.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
-
-import { getTechnologyPath } from '@/utils/links'
-
-import { getAllProjects, getUniqueTechnologiesWithCount } from '@/data/project'
-import PageLayout from '@/layouts/Base.astro'
+import ButtonLink from '../../components/atoms/ButtonLink.astro'
+import Pill from '../../components/atoms/Pill.astro'
+import SectionHeading from '../../components/molecules/SectionHeading.astro'
+import { getAllProjects, getUniqueTechnologiesWithCount } from '../../data/project'
+import PageLayout from '../../layouts/Base.astro'
+import { getTechnologyPath } from '../../utils/links'
 
 const allProjects = await getAllProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)
@@ -15,6 +13,13 @@ const meta = {
   description: 'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
   title: 'Technology Index'
 }
+
+const technologyPills = technologies.map(([technology, count]) => (
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
+    <span class="text-xs text-ink-muted">{count}</span>
+  </Pill>
+))
 ---
 
 <PageLayout meta={meta}>
@@ -36,11 +41,7 @@ const meta = {
   "
   >
     <div class="flex flex-wrap gap-3">
-      {technologies.map(([technology, count]) => (
-        <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-          <span class="text-xs text-ink-muted">{count}</span>
-        </Pill>
-      ))}
+      {technologyPills}
     </div>
   </section>
 </PageLayout>

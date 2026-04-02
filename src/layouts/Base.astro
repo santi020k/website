@@ -1,16 +1,16 @@
 ---
 import { ClientRouter } from 'astro:transitions'
 
-import BaseHead from '@/components/BaseHead.astro'
-import SiteFooter from '@/components/organisms/SiteFooter.astro'
-import SiteHeader from '@/components/organisms/SiteHeader.astro'
-import SkipLink from '@/components/SkipLink.astro'
-import ThemeProvider from '@/components/ThemeProvider.astro'
+import BaseHead from '../components/BaseHead.astro'
+import SiteFooter from '../components/organisms/SiteFooter.astro'
+import SiteHeader from '../components/organisms/SiteHeader.astro'
+import SkipLink from '../components/SkipLink.astro'
+import ThemeProvider from '../components/ThemeProvider.astro'
 
-import '@/styles/global.css'
+import '../styles/global.css'
 
-import { siteConfig } from '@/site.config'
-import type { SiteMeta } from '@/types'
+import { siteConfig } from '../site.config'
+import type { SiteMeta } from '../types'
 
 interface Props {
   meta: SiteMeta
@@ -31,14 +31,19 @@ const {
     <SkipLink />
 
     <div class="relative min-h-screen">
-      <div class="pointer-events-none absolute inset-0 -z-10 grid-fade opacity-60" />
+      <div class="
+        pointer-events-none absolute inset-0 -z-10 grid-fade opacity-60
+      "
+      />
       <SiteHeader />
 
       <main
         id="main"
         class="
           mx-auto flex min-h-[calc(100vh-8rem)] w-full max-w-6xl flex-col gap-20
-          px-4 pb-20 pt-10 sm:px-6 lg:px-8
+          px-4 pt-10 pb-20
+          sm:px-6
+          lg:px-8
         "
         transition:animate="fade"
       >

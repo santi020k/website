@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
+import type { WebmentionsChildren } from '../../types'
 import { filterWebmentions } from '../webmentions'
-
-import type { WebmentionsChildren } from '@/types'
 
 describe('filterWebmentions', () => {
   it('should filter out unsupported types', () => {

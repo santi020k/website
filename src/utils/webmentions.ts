@@ -2,7 +2,7 @@
 import { WEBMENTION_API_KEY } from 'astro:env/server'
 import * as fs from 'node:fs'
 
-import type { WebmentionsCache, WebmentionsChildren, WebmentionsFeed } from '@/types'
+import type { WebmentionsCache, WebmentionsChildren, WebmentionsFeed } from '../types'
 
 const DOMAIN = import.meta.env.SITE
 const CACHE_DIR = '.data'
