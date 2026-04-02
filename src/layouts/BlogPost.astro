@@ -2,12 +2,12 @@
 import { type CollectionEntry, render } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
+import BaseLayout from './Base.astro'
+
 import Masthead from '../components/blog/Masthead.astro'
 import TOC from '../components/blog/TOC.astro'
 import WebMentions from '../components/blog/webmentions/index.astro'
 import SeriesPanel from '../components/SeriesPanel.astro'
-
-import BaseLayout from './Base.astro'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -16,40 +16,11 @@ interface Props {
 const { post } = Astro.props
 const { ogImage, title, description, updatedDate, publishDate, seriesId } = post.data
 const socialImage = ogImage ?? `/og-image/${post.id}.png`
-const articleDate = updatedDate?.toISOString?.() ?? publishDate?.toISOString?.() ?? new Date().toISOString()
+const articleDate = (updatedDate ?? publishDate).toISOString()
 const { headings } = await render(post);
 ---
 
 <BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
-  <!-- NEEDS IMPROVEMENT!!! -->
-  <!-- Menu button instead of the main menu -->
-  <!--
-  <div class="left-0 right-0 top-0 z-30 ml-auto h-0 w-fit px-2 md:absolute">
-    <div class="fixed top-0 -ml-16 flex space-x-2 bg-bgColor pt-8">
-  -->
-      <!-- Button background -->
-      <!--
-      <div class="fixed top-0 h-20 right-[0%] w-[50%] bg-linear-to-l from-orange-300 via-pink-300 to-transparent  opacity-40 dark:opacity-10">
-      </div>
-      -->
-
-      <!--
-        <button
-        aria-expanded="false"
-        aria-haspopup="menu"
-        aria-label="Open main menu"
-        class="hidden md:flex group text-sm relative h-8 w-16 font-medium items-center justify-center px-4 rounded-lg bg-accent-base/5 text-accent-base hover:bg-accent-base/10"
-        id="toggle-navigation-menu"
-        type="button"
-      >
-        Menu
-      </button>
-      -->
-  <!--
-    </div>
-  </div>
-  -->
-
   <!-- SeriesPanel is inserted into the named slot "sidebar" -->
   {seriesId && (<SeriesPanel slot="sidebar" seriesId={seriesId} />)}
 
@@ -63,11 +34,9 @@ const { headings } = await render(post);
   >
     <article class="grid grow grid-cols-1 pt-4 wrap-break-word" data-pagefind-body>
       <div class="
-        prose-santi
-        prose-headings:text-accent-base
-        prose-headings:before:text-accent-two
-        prose max-w-none grow
-        prose-headings:font-semibold
+        prose-shell max-w-none grow
+        prose-headings:font-semibold prose-headings:text-accent
+        prose-headings:before:text-brand
         sm:prose-headings:before:content-['#']
         sm:prose-th:before:content-none
       "
@@ -97,10 +66,10 @@ const { headings } = await render(post);
     <button
       id="to-top-button"
       class="
-        bg-bgColor text-light
-        hover:text-accent-two
         fixed bottom-14 flex size-12 translate-y-28 items-center justify-center
-        rounded-full text-3xl drop-shadow-xl transition-all duration-300
+        rounded-full bg-canvas text-3xl text-ink drop-shadow-xl transition-all
+        duration-300
+        hover:text-brand
         data-[show=true]:translate-y-0 data-[show=true]:opacity-100
       "
       aria-label="Back to Top"
@@ -108,8 +77,8 @@ const { headings } = await render(post);
     >
       <span
         class="
-          bg-special-lighter absolute inset-0 flex items-center justify-center
-          rounded-full
+          absolute inset-0 flex items-center justify-center rounded-full
+          bg-surface-strong
         "
         aria-hidden="true"
       >
@@ -133,17 +102,17 @@ const { headings } = await render(post);
     <mobile-button
       id="toggle-panel-mobile"
       class="
-        border-special-lighter bg-bgColor text-accent-base fixed right-4
-        bottom-4 z-50 flex size-12 items-center justify-center rounded-lg border
+        fixed right-4 bottom-4 z-50 flex size-12 items-center justify-center
+        rounded-lg border border-line bg-canvas text-accent
         shadow-[0px_10px_25px_rgba(0,0,0,0.15)]
         sm:hidden
       "
       aria-label="Toggle Series Panel"
     >
       <span class="
-        bg-special-light
-        hover:text-accent-base/90
         absolute inset-0 flex items-center justify-center rounded-lg
+        bg-surface-muted
+        hover:text-accent/90
       "
       >
         <Icon class="size-8" name="solar:notes-bold"/>
@@ -151,16 +120,25 @@ const { headings } = await render(post);
     </mobile-button>
   )}
 
-  <!-- NEEDS IMPROVEMENT!!! -->
   <!-- Table of Contents button for mobile screens -->
   <!--
   {!!headings.length && (
     <mobile-button
       id="toggle-toc-mobile"
-      class="size-12 flex items-center justify-center block sm:hidden fixed bottom-20 shadow-[0px_10px_25px_rgba(0,0,0,0.15)] border border-special-lighter right-4 z-50 rounded-lg bg-bgColor text-accent-base hover:text-accent-base/90"
+      class={`
+        fixed bottom-20 right-4 z-50 flex size-12 items-center justify-center
+        rounded-lg border border-line bg-canvas text-accent shadow-xl
+        sm:hidden
+        hover:text-accent/90
+      `}
       aria-label="Toggle TOC Panel"
     >
-      <span class="absolute inset-0 rounded-lg flex items-center justify-center bg-special-light hover:text-accent-base/90">
+      <span class="
+        absolute inset-0 flex items-center justify-center rounded-lg
+        bg-surface-muted
+        hover:text-accent/90
+      "
+      >
         <Icon class="size-8" name="solar:clipboard-list-bold"/>
       </span>
     </mobile-button>
@@ -179,14 +157,22 @@ document.addEventListener('DOMContentLoaded', () => {
       // Create the button
       const copyButton = document.createElement('button')
 
-      copyButton.className = 'absolute flex items-center justify-center bg-bgColor h-6 font-medium overflow-hidden rounded-md text-light hover:text-accent-two font-sans text-sm font-medium top-2 right-2'
+      copyButton.className = `
+        absolute top-2 right-2 flex h-6 items-center justify-center
+        overflow-hidden rounded-md bg-canvas px-2 font-sans text-sm
+        font-medium text-ink
+        hover:text-brand
+      `
 
       // Create the span element that will hold the button text
       const buttonText = document.createElement('span')
 
       buttonText.innerText = 'Copy' // Initial text
 
-      buttonText.className = 'flex items-center block w-full h-full px-2 bg-(--code-title-bg)' // Set the span to take up full width with background color
+      buttonText.className = `
+        flex items-center block w-full h-full px-2
+        bg-(--code-title-bg)
+      ` // Set the span to take up full width with background color
 
       copyButton.appendChild(buttonText) // Append span to the button
 

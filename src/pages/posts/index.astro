@@ -11,19 +11,14 @@ const posts = [...await getMediumPosts()]
   .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
 
 const latestPublicationCount = new Set(posts.map(post => post.publication)).size
-
-const meta = {
-  description: 'Writing by Santiago Molina on frontend architecture, DX, React, TypeScript, testing, and the workflows behind reliable product teams.',
-  title: 'Blog'
-}
-
-const postsList = posts.map(post => (
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  <PostCard post={post} />
-))
 ---
 
-<PageLayout meta={meta}>
+<PageLayout
+  meta={{
+    description: 'Writing by Santiago Molina on frontend architecture, DX, React, TypeScript, testing, and the workflows behind reliable product teams.',
+    title: 'Blog'
+  }}
+>
   <section class="
     grid gap-6
     lg:grid-cols-[1.15fr_0.85fr]
@@ -62,6 +57,9 @@ const postsList = posts.map(post => (
     xl:grid-cols-3
   "
   >
-    {postsList}
+    {posts.map(post => (
+
+      <PostCard post={post} />
+    ))}
   </section>
 </PageLayout>

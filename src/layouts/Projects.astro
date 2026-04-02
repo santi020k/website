@@ -1,11 +1,11 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
 
+import BaseLayout from './Base.astro'
+
 import ProjectCard from '../components/molecules/ProjectCard.astro'
 import TocCard from '../components/molecules/TocCard.astro'
 import ProjectHero from '../components/organisms/ProjectHero.astro'
-
-import BaseLayout from './Base.astro'
 
 interface Props {
   project: CollectionEntry<'project'>

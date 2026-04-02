@@ -13,6 +13,9 @@ export default [
     testing: [Testing.Vitest]
   }),
   {
+    rules: {
+      '@typescript-eslint/no-unsafe-return': 'off'
+    },
     settings: {
       'better-tailwindcss': {
         entryPoint: 'src/styles/global.css',
