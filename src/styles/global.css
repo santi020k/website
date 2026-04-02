@@ -20,41 +20,41 @@
   :root,
   :root[data-theme='light'] {
     color-scheme: light;
-    --theme-bg: 220 33% 98%;
-    --surface: 0 0% 100%;
-    --surface-muted: 220 38% 96%;
-    --surface-strong: 220 27% 91%;
-    --line: 219 24% 84%;
-    --ink: 228 25% 12%;
-    --ink-soft: 222 18% 28%;
-    --ink-muted: 220 13% 46%;
-    --brand: 216 92% 54%;
-    --brand-soft: 213 100% 95%;
-    --accent: 190 78% 42%;
-    --glow: 212 100% 66%;
+    --theme-bg: 262 20% 98%;
+    --surface: 262 20% 100%;
+    --surface-muted: 262 20% 96%;
+    --surface-strong: 262 15% 90%;
+    --line: 262 15% 84%;
+    --ink: 262 10% 20%;
+    --ink-soft: 262 8% 36%;
+    --ink-muted: 262 6% 52%;
+    --brand: 262 87% 65%;
+    --brand-soft: 262 87% 93%;
+    --accent: 262 87% 58%;
+    --glow: 262 100% 70%;
   }
 
   :root[data-theme='dark'] {
     color-scheme: dark;
-    --theme-bg: 228 29% 9%;
-    --surface: 229 22% 13%;
-    --surface-muted: 228 20% 16%;
-    --surface-strong: 225 18% 22%;
-    --line: 224 15% 30%;
-    --ink: 214 41% 96%;
-    --ink-soft: 214 31% 82%;
-    --ink-muted: 218 17% 67%;
-    --brand: 214 100% 70%;
-    --brand-soft: 217 66% 18%;
-    --accent: 186 78% 56%;
-    --glow: 215 100% 75%;
+    --theme-bg: 262 20% 10%;
+    --surface: 262 20% 14%;
+    --surface-muted: 262 18% 17%;
+    --surface-strong: 262 15% 23%;
+    --line: 262 12% 32%;
+    --ink: 262 10% 88%;
+    --ink-soft: 262 8% 72%;
+    --ink-muted: 262 6% 56%;
+    --brand: 262 87% 65%;
+    --brand-soft: 262 50% 18%;
+    --accent: 262 87% 75%;
+    --glow: 262 100% 68%;
   }
 
   html {
     background-color: hsl(var(--theme-bg));
     color: hsl(var(--ink));
     font-family: var(--font-sans);
-    letter-spacing: -0.015em;
+    letter-spacing: 0.025em;
     text-rendering: optimizeLegibility;
   }
 
@@ -117,8 +117,8 @@
 @theme {
   --font-sans: 'Montserrat', 'Avenir Next', 'Segoe UI', sans-serif;
   --font-display: 'Montserrat', 'Avenir Next', sans-serif;
-  --font-serif: 'Iowan Old Style', 'Palatino Linotype', serif;
-  --font-mono: 'SFMono-Regular', 'SF Mono', 'Monaco', monospace;
+  --font-serif: 'Montserrat', 'Avenir Next', sans-serif;
+  --font-mono: 'Montserrat', 'SFMono-Regular', 'SF Mono', monospace;
 
   --color-canvas: hsl(var(--theme-bg) / <alpha-value>);
   --color-surface: hsl(var(--surface) / <alpha-value>);
