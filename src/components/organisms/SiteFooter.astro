@@ -1,0 +1,48 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import SocialIconLink from '@/components/atoms/SocialIconLink.astro'
+
+import { version } from '../../../package.json'
+
+import { siteConfig } from '@/site.config'
+
+const year = new Date().getFullYear()
+---
+
+<footer class="px-4 pb-10 sm:px-6 lg:px-8">
+  <div
+    class="
+      panel-surface mx-auto grid max-w-6xl gap-8 rounded-[2rem] px-6 py-8
+      lg:grid-cols-[1.5fr_1fr]
+    "
+  >
+    <div class="space-y-4">
+      <p class="text-sm font-semibold uppercase tracking-[0.24em] text-ink-muted">Let’s build something useful</p>
+      <h2 class="max-w-xl text-3xl sm:text-4xl">{siteConfig.headline}</h2>
+      <p class="max-w-2xl text-base leading-7 text-ink-soft">
+        I work across frontend architecture, design systems, React platforms, and the product decisions that help teams ship well under pressure.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow>
+          Book a conversation
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
+          Open resume
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div class="space-y-6">
+      <div class="flex flex-wrap gap-3">
+        {siteConfig.socialLinks.map(link => (
+          <SocialIconLink href={link.href} icon={link.icon} label={link.label} />
+        ))}
+      </div>
+      <div class="space-y-2 text-sm text-ink-muted">
+        <p>{siteConfig.location}</p>
+        <p>{siteConfig.availability}</p>
+        <p>&copy; {year} {siteConfig.author}. Version {version}.</p>
+      </div>
+    </div>
+  </div>
+</footer>

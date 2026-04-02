@@ -43,7 +43,7 @@ const rawFonts = (ext: string[]) => ({
 // https://astro.build/config
 export default defineConfig({
   image: {
-    domains: ['webmention.io']
+    domains: ['webmention.io', 'cdn-images-1.medium.com', 'cdn-images-2.medium.com', 'miro.medium.com']
   },
   integrations: [
     icon(),

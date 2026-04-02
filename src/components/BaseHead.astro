@@ -12,7 +12,7 @@ const { articleDate, description, ogImage, title } = Astro.props
 const titleSeparator = '•'
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-const socialImageURL = new URL(ogImage || '/default.webp', Astro.url).href;
+const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
 ---
 
 <meta charset="utf-8" />
@@ -41,7 +41,7 @@ const socialImageURL = new URL(ogImage || '/default.webp', Astro.url).href;
 <meta name="title" content={siteTitle} />
 <meta name="description" content={description} />
 <meta name="author" content={siteConfig.author} />
-<meta name="theme-color" content="#000000" />
+<meta name="theme-color" content="#f8fafc" />
 
 {/* SEO Improvements */}
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />

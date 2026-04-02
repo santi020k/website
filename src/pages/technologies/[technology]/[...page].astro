@@ -2,8 +2,9 @@
 import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
-import Pagination from '@/components/Paginator.astro'
-import ProjectPreview from '@/components/projects/ProjectPreview.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import ProjectCard from '@/components/molecules/ProjectCard.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
 
 import { collectionDateSortProjects } from '@/utils/date'
 
@@ -16,10 +17,9 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const uniqueTechnologies = getUniqueTechnologies(sortedProjects)
 
   return uniqueTechnologies.flatMap(technology => {
-    const filterProjects = sortedProjects.filter(project => project.data.technologies.includes(technology))
+    const filteredProjects = sortedProjects.filter(project => project.data.technologies.includes(technology))
 
-    return paginate(filterProjects, {
-      // TODO: Remove pagination
+    return paginate(filteredProjects, {
       pageSize: 50,
       params: { technology }
     })
@@ -31,45 +31,35 @@ interface Props {
 }
 
 const { page } = Astro.props
-const { technology } = Astro.params
+const { technology = '' } = Astro.params
 
 const meta = {
-  description: `View all projects with the technology - ${technology}`,
-  title: `Technology: ${technology}`
+  description: `Projects and case studies that include ${technology}.`,
+  title: `${technology} · Technology`
 }
-
-const paginationProps = {
-  ...(page.url.prev && {
-    prevUrl: {
-      text: '← Previous Technologies',
-      url: page.url.prev
-    }
-  }),
-  ...(page.url.next && {
-    nextUrl: {
-      text: 'Next Technologies →',
-      url: page.url.next
-    }
-  })
-};
 ---
 
 <PageLayout meta={meta}>
-  <h1 class="mb-6 flex items-center">
-    <a class="sm:hover:underline" href="/technologies/">Technologies</a>
-    <span class="ms-2 me-3">→</span>
-    <span class="text-2xl">#{technology}</span>
-  </h1>
-  <section aria-label="Blog project list">
-    <ul class="space-y-4">
-      {
-        page.data.map(p => (
-          <li class="grid-cols-[auto_1fr]">
-            <ProjectPreview project={p} />
-          </li>
-        ))
-      }
-    </ul>
-    <Pagination {...paginationProps} />
+  <section class="space-y-6">
+    <SectionHeading
+      description={`A filtered view of the portfolio entries where ${technology} played a meaningful role.`}
+      eyebrow="Technology filter"
+      level="h1"
+      title={technology}
+    />
+    <div class="flex flex-wrap gap-3">
+      <ButtonLink href="/technologies/" showArrow variant="secondary">
+        All technologies
+      </ButtonLink>
+      <ButtonLink href="/portfolio/" showArrow variant="ghost">
+        Portfolio
+      </ButtonLink>
+    </div>
+  </section>
+
+  <section class="grid gap-6 lg:grid-cols-2">
+    {page.data.map(project => (
+      <ProjectCard project={project} />
+    ))}
   </section>
 </PageLayout>

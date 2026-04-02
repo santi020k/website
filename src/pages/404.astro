@@ -1,13 +1,31 @@
 ---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+
 import PageLayout from '@/layouts/Base.astro'
 
 const meta = {
-  description: 'Oops! It looks like this page is lost in space!',
-  title: 'Oops! You found a missing page!'
-};
+  description: 'The page you are looking for could not be found.',
+  title: 'Page not found'
+}
 ---
 
 <PageLayout meta={meta}>
-  <h1 class="mb-6 title">404 | Oops something went wrong</h1>
-  <p class="mb-8">Please use the navigation to find your way back</p>
+  <section class="panel-surface mx-auto max-w-3xl rounded-[2rem] p-8 text-center sm:p-12">
+    <SectionHeading
+      align="center"
+      description="The route may have changed, or the page may never have existed in this version of the site."
+      eyebrow="404"
+      level="h1"
+      title="This page drifted out of orbit."
+    />
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <ButtonLink href="/" showArrow>
+        Back home
+      </ButtonLink>
+      <ButtonLink href="/portfolio/" showArrow variant="secondary">
+        Open portfolio
+      </ButtonLink>
+    </div>
+  </section>
 </PageLayout>

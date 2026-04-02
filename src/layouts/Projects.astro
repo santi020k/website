@@ -1,98 +1,48 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
 
-import Masthead from '@/components/projects/Masthead.astro'
-import TOC from '@/components/projects/TOC.astro'
+import ProjectCard from '@/components/molecules/ProjectCard.astro'
+import TocCard from '@/components/molecules/TocCard.astro'
+import ProjectHero from '@/components/organisms/ProjectHero.astro'
 
 import BaseLayout from './Base.astro'
 
 interface Props {
   project: CollectionEntry<'project'>
+  relatedProjects?: CollectionEntry<'project'>[]
 }
 
-const { project } = Astro.props
-const { coverImage, title, description, rol, typesId } = project.data
-const metaTitle = `${title} • ${rol} • ${typesId} | Portfolio`
-const socialImage = coverImage?.ogImage ?? `/og-image/${project.id}.png`
-const { headings } = await render(project);
+const { project, relatedProjects = [] } = Astro.props
+const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.rol ?? 'Project'}`
+const metaDescription = project.data.seoDescription ?? project.data.description
+const socialImage = project.data.coverImage?.ogImage ?? '/default.webp'
+const { headings } = await render(project)
 ---
 
-<BaseLayout meta={{ description, ogImage: socialImage, title: metaTitle }}>
-  <Masthead content={project} />
+<BaseLayout meta={{ description: metaDescription, ogImage: socialImage, title: metaTitle }}>
+  <ProjectHero project={project} />
 
-  <div class="
-    mt-6 flex gap-x-8
-    sm:grid-cols-[auto_1fr]
-    md:items-start
-  "
-  >
-    <article class="grid grow grid-cols-1 pt-4 wrap-break-word" data-pagefind-body>
-      <div class="
-        prose max-w-none grow
-        sm:prose-headings:before:content-['#']
-        sm:prose-th:before:content-none
-      "
-      >
-        <slot />
-      </div>
+  <section class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <article class="panel-surface rounded-[2rem] p-6 sm:p-8">
+      <slot />
     </article>
 
-    {!!headings.length && (
-      <aside
-        id="toc-panel"
-        class="
-          z-10 hidden flex-col px-2 py-4 backdrop-blur-xl
-          md:sticky md:top-20 md:z-10 md:block md:w-56 md:min-w-56 md:rounded-lg
-        "
-      >
-        <TOC headings={headings} />
-      </aside>
-    )}
-  </div>
+    <div class="space-y-6 lg:sticky lg:top-32 lg:h-fit">
+      {!!headings.length && <TocCard headings={headings} />}
+    </div>
+  </section>
 
+  {!!relatedProjects.length && (
+    <section class="space-y-8">
+      <div class="space-y-3">
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Related work</p>
+        <h2 class="text-3xl">More projects in a similar lane.</h2>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-2">
+        {relatedProjects.map(relatedProject => (
+          <ProjectCard project={relatedProject} />
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>
-
-<!-- Copy code button -->
-<script>
-// Wait for the content to fully load
-document.addEventListener('DOMContentLoaded', () => {
-  // Find all pre blocks
-  document.querySelectorAll('pre').forEach(pre => {
-    // Check if the button already exists
-    if (!pre.querySelector('.copy-code')) {
-      // Create the button
-      const copyButton = document.createElement('button')
-
-      copyButton.className = 'absolute flex items-center justify-center bg-bgColor h-6 font-medium overflow-hidden rounded-md text-light hover:text-accent-two font-sans text-sm font-medium top-2 right-2'
-
-      // Create the span element that will hold the button text
-      const buttonText = document.createElement('span')
-
-      buttonText.innerText = 'Copy' // Initial text
-
-      buttonText.className = 'flex items-center block w-full h-full px-2 bg-(--code-title-bg)' // Set the span to take up full width with background color
-
-      copyButton.appendChild(buttonText) // Append span to the button
-
-      // Add the button inside pre
-      pre.appendChild(copyButton)
-
-      // Event handler for copying text
-      copyButton.addEventListener('click', async () => {
-        const code = pre.querySelector('code')?.textContent
-
-        if (code) {
-          await navigator.clipboard.writeText(code)
-
-          buttonText.innerText = 'Copied!' // Change text to "Copied!"
-
-          // After 1.5 seconds, change the text back to "Copy"
-          setTimeout(() => {
-            buttonText.innerText = 'Copy'
-          }, 1500)
-        }
-      })
-    }
-  })
-})
-</script>

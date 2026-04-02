@@ -1,9 +1,16 @@
-import type { SiteConfig } from '@/types'
+import type { SiteConfig, SiteLink } from '@/types'
 
 export const siteConfig: SiteConfig = {
-  // Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
+  availability: 'Available for senior frontend, full stack, and tech lead roles',
   author: 'Santi020k',
-  // Date.prototype.toLocaleDateString() parameters, found in src/utils/date.ts.
+  contact: {
+    email: 'santi020k@gmail.com',
+    github: 'https://github.com/santi020k',
+    linkedin: 'https://linkedin.com/in/santi020k',
+    medium: 'https://medium.com/@santi020k',
+    resume: '/pdf/cv.pdf',
+    whatsapp: 'https://api.whatsapp.com/send?phone=37257899454&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch'
+  },
   date: {
     locale: 'en-US',
     options: {
@@ -12,40 +19,51 @@ export const siteConfig: SiteConfig = {
       year: 'numeric'
     }
   },
-  // Used as the default description meta property and webmanifest description
-  description: 'The personal web site of Santiago Molina',
-  // HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
+  description: 'Portfolio, case studies, and writing from Santiago Molina about frontend architecture, product engineering, and modern web systems.',
+  headline: 'Building fast, elegant products with strong systems behind them.',
   lang: 'en-US',
-  // Meta property, found in src/components/BaseHead.astro L:42
+  location: 'Colombia · Remote-friendly',
   ogLocale: 'en_US',
-  // Used to construct the meta title property found in src/components/BaseHead.astro L:11, and webmanifest name found in astro.config.ts L:42
+  socialLinks: [
+    {
+      href: 'https://linkedin.com/in/santi020k',
+      icon: 'tabler:brand-linkedin',
+      label: 'LinkedIn'
+    },
+    {
+      href: 'https://github.com/santi020k',
+      icon: 'tabler:brand-github',
+      label: 'GitHub'
+    },
+    {
+      href: 'https://medium.com/@santi020k',
+      icon: 'tabler:brand-medium',
+      label: 'Medium'
+    },
+    {
+      href: 'https://api.whatsapp.com/send?phone=37257899454&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch',
+      icon: 'tabler:brand-whatsapp',
+      label: 'WhatsApp'
+    }
+  ],
   title: 'Santi020k'
 }
 
-// Used to generate links in both the Header & Footer.
-export const menuLinks: { path: string, title: string }[] = [
+export const menuLinks: SiteLink[] = [
   {
     path: '/',
     title: 'Home'
   },
-  // {
-  //   path: '/about/',
-  //   title: 'About'
-  // },
   {
     path: '/portfolio/',
     title: 'Portfolio'
+  },
+  {
+    path: '/posts/',
+    title: 'Blog'
+  },
+  {
+    path: '/technologies/',
+    title: 'Stack'
   }
-  // {
-  //   path: '/posts/',
-  //   title: 'Blog'
-  // },
-  // {
-  //   path: '/notes/',
-  //   title: 'Notes'
-  // },
-  // {
-  //   path: '/contact/',
-  //   title: 'Contact'
-  // }
 ]

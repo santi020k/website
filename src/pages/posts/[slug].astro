@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets'
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import PostCard from '@/components/molecules/PostCard.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+
+import { getMediumPosts } from '@/data/medium'
+import PageLayout from '@/layouts/Base.astro'
+
+export const getStaticPaths = (async () => {
+  const posts = await getMediumPosts()
+
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post }
+  }))
+}) satisfies GetStaticPaths
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+
+const { post } = Astro.props as Props
+const allPosts = await getMediumPosts()
+const relatedPosts = allPosts
+  .filter(entry => entry.slug !== post.slug)
+  .slice(0, 3)
+
+const meta = {
+  articleDate: new Date(post.publishedAt).toISOString(),
+  description: post.excerpt,
+  ogImage: post.imageUrl ?? '/default.webp',
+  title: post.title
+}
+---
+
+<PageLayout meta={meta}>
+  <section class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+    <div class="space-y-6">
+      <SectionHeading
+        description={post.excerpt}
+        eyebrow={post.publication}
+        level="h1"
+        title={post.title}
+      />
+
+      <div class="flex flex-wrap items-center gap-3 text-sm text-ink-muted">
+        <Pill label={post.author} tone="outline" />
+        <span>{new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(post.publishedAt))}</span>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        {post.tags.map(tag => (
+          <Pill label={tag} showHash tone="outline" />
+        ))}
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <ButtonLink href={post.link} newTab showArrow>
+          Read full article
+        </ButtonLink>
+        <ButtonLink href="/posts/" showArrow variant="secondary">
+          More writing
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div class="panel-surface overflow-hidden rounded-[2rem]">
+      {post.imageUrl ? (
+        <Image
+          alt={`Cover art for ${post.title}`}
+          class="aspect-[16/11] w-full object-cover"
+          height={720}
+          priority
+          src={post.imageUrl}
+          width={1280}
+        />
+      ) : (
+        <div class="grid-fade aspect-[16/11] w-full" />
+      )}
+    </div>
+  </section>
+
+  <section class="panel-surface rounded-[2rem] p-8 sm:p-10">
+    <div class="max-w-3xl space-y-5">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-ink-muted">Summary</p>
+      <p class="text-lg leading-8 text-ink-soft">
+        This page keeps a concise summary on-site while the full article stays on {post.publication}. Use the button above to open the original post in a new tab and continue reading there.
+      </p>
+      <p class="text-base leading-8 text-ink-soft">{post.excerpt}</p>
+    </div>
+  </section>
+
+  {!!relatedPosts.length && (
+    <section class="space-y-8">
+      <SectionHeading
+        description="A few more articles pulled from the same Medium feed."
+        eyebrow="More writing"
+        title="Continue with another post."
+      />
+      <div class="grid gap-6 lg:grid-cols-3">
+        {relatedPosts.map(relatedPost => (
+          <PostCard post={relatedPost} />
+        ))}
+      </div>
+    </section>
+  )}
+</PageLayout>
