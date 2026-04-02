@@ -61,14 +61,37 @@ Always ensure `npm run lint` and `npm run check` pass with zero errors before co
 
 ## Available Skills
 
-Specialized guidance for this project is in `.claude/skills/`:
+Specialized guidance for this project is consolidated in `/.agent/skills/`:
 
-- **[seo](.claude/skills/seo/SKILL.md)** — Meta tags, structured data, sitemap, Core Web Vitals, image optimization
-- **[marketing](.claude/skills/marketing/SKILL.md)** — Copy, brand voice, CTAs, blog strategy, social media
-- **[accessibility](.claude/skills/accessibility/SKILL.md)** — WCAG 2.2 AA, ARIA, keyboard nav, Alpine.js a11y patterns
-- **[web-design](.claude/skills/web-design/SKILL.md)** — Design system, Tailwind tokens, animations, Alpine transitions, dark mode
+### 🛠️ Core Development
 
-Claude Code agent skills are in `.agent/skills/` (adding content, creating components, testing, etc.).
+- **[creating-components](/.agent/skills/creating-components/SKILL.md)** — Standards for Astro components, props, and Tailwind styling.
+- **[content-collections](/.agent/skills/content-collections/SKILL.md)** — Zod schemas and data querying for content.
+- **[adding-pages](/.agent/skills/adding-pages/SKILL.md)** — Creating new routes and updating navigation.
+
+### ⚙️ Maintenance & Quality
+
+- **[maintenance](/.agent/skills/maintenance/SKILL.md)** — Dependency updates, security audits, and linting workflows.
+- **[testing](/.agent/skills/testing/SKILL.md)** — Unit testing with Vitest and E2E testing with Playwright.
+- **[accessibility](/.agent/skills/accessibility/SKILL.md)** — WCAG 2.2 AA compliance and Alpine.js a11y patterns.
+
+### ✍️ Content & Marketing
+
+- **[add-content](/.agent/skills/add-content/SKILL.md)** — Guidelines for blog posts and project entries.
+- **[adding-projects](/.agent/skills/adding-projects/SKILL.md)** — Detailed guide for adding new portfolio items.
+- **[marketing](/.agent/skills/marketing/SKILL.md)** — Brand voice, CTAs, and content strategy.
+- **[seo](/.agent/skills/seo/SKILL.md)** — Meta tags, sitemaps, and search engine optimization.
+
+### 🎨 Design & Visuals
+
+- **[web-design](/.agent/skills/web-design/SKILL.md)** — Design system tokens, animations, and transitions.
+- **[brand-guidelines](/.agent/skills/brand-guidelines/SKILL.md)** — Visual identity and brand asset management.
+
+### 🚀 Advanced Tools
+
+- **[ui-ux-pro-max](/.agent/skills/ui-ux-pro-max/SKILL.md)** — Comprehensive UI research, palettes, and design reasoning.
+
+See the **[Skills Index](/.agent/overview.md)** for a full overview of available agentic capabilities.
 
 ## General Principles
 
