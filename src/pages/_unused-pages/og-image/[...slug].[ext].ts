@@ -1,4 +1,4 @@
-/* eslint-disable func-style */
+/* eslint-disable func-style, @stylistic/max-len */
 
 import { getFormattedDate } from '@/utils/date'
 
