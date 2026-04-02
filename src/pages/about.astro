@@ -12,8 +12,8 @@ import { siteConfig } from '../site.config'
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 
 const description =
-  `${yearsOfExperience} years building frontend systems. ` +
-  'Senior engineer and tech lead based in Medellín — focused on architecture, performance, and DX.'
+  `${yearsOfExperience} years shipping full-stack products. ` +
+  'Senior engineer and tech lead based in Medellín — focused on automation, developer experience, and cross-functional leadership.'
 
 const meta = {
   description,
@@ -43,28 +43,29 @@ const meta = {
 
       <div class="space-y-6 text-lg/8 text-ink-soft">
         <p>
-          I'm Santiago Molina, a senior frontend engineer and tech lead based in Medellín, Colombia.
-          I've spent the last {yearsOfExperience} years working across the full frontend stack — from design systems and
-          component libraries to CI/CD pipelines and architecture reviews.
+          I'm Santiago Molina, a full-stack engineer and tech lead based in Medellín, Colombia.
+          Over the last {yearsOfExperience} years I've shipped products across commerce, SaaS, gaming, and real estate —
+          working across the entire stack from architecture and backend services to CI/CD pipelines and developer tooling.
         </p>
 
         <p>
-          My current focus is on teams and systems: how to structure frontend projects so they stay
-          fast to ship, easy to reason about, and accessible by default. I care a lot about developer
-          experience — not as a buzzword, but as the practical difference between a team that ships
-          with confidence and one that ships with anxiety.
+          Right now my focus is on teams and systems: how to structure engineering organizations so they stay
+          fast to ship, easy to maintain, and hard to break. I care deeply about developer experience — not as
+          a buzzword, but as the measurable gap between a team that ships with confidence and one that ships
+          with anxiety. Automation is usually how you close that gap.
         </p>
 
         <p>
-          I believe good frontend engineering is mostly about decisions: what to build, what to skip,
-          what to standardize, and what to leave flexible. Most of my writing is about exactly that —
-          the reasoning behind the tradeoffs, not just the outcomes.
+          I've led cross-functional teams of up to 14 people spanning product, design, frontend, and backend.
+          I believe the most valuable thing a tech lead does is reduce the number of decisions engineers
+          have to make under pressure — through clear standards, good tooling, and systems that fail loudly
+          instead of silently.
         </p>
 
         <p>
-          Outside work I'm interested in education, community building (I co-organize local dev meetups),
-          and finding the intersection between good software and good products. When I'm not at a keyboard
-          I'm probably reading, hiking, or watching something with a good score on Letterboxd.
+          Outside work I co-organize ReactJS Colombia, write about engineering workflows and DX, and find the
+          intersection between good software and good products. When I'm not at a keyboard I'm probably reading,
+          hiking, or watching something with a good score on Letterboxd.
         </p>
       </div>
 
@@ -104,9 +105,9 @@ const meta = {
 
   <section class="space-y-8">
     <SectionHeading
-      description="A few things that shape how I work and what I focus on."
+      description="A few things that shape how I work, how I lead, and what I focus on."
       eyebrow="Principles"
-      title="What I believe about frontend."
+      title="What I believe about engineering."
     />
 
     <div
@@ -118,24 +119,24 @@ const meta = {
     >
       {[
         {
-          title: 'Accessibility is a baseline, not a feature',
-          body: 'WCAG 2.2 AA is the floor. Accessible UIs are more robust, more testable, and serve more users — including users of your own future self when you\'re tired or distracted.'
+          title: 'Automate the friction, not the thinking',
+          body: 'The best automation removes toil — repetitive, low-judgment work that slows teams down. It should never replace the thinking that makes products worth building.'
+        },
+        {
+          title: 'DX is UX for your team',
+          body: 'The developer experience of a codebase shapes how fast and confidently the team can move. Bad DX compounds. Good DX compounds too — invest early and measure it.'
+        },
+        {
+          title: 'Leadership means fewer decisions under pressure',
+          body: 'A good tech lead reduces ambiguity before it becomes risk. Clear standards, good tooling, and systems that fail loudly are how you protect a team\'s velocity at scale.'
         },
         {
           title: 'Performance is a product decision',
           body: 'Speed isn\'t a tech concern, it\'s a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections.'
         },
         {
-          title: 'DX is UX for your team',
-          body: 'The developer experience of a codebase shapes how fast and confidently the team can move. Bad DX compounds. Good DX compounds too — invest early.'
-        },
-        {
           title: 'Boring tech is often the right call',
           body: 'The goal is to solve the problem, not to use the newest tool. Stable, well-understood solutions let the team focus on the actual product.'
-        },
-        {
-          title: 'Write for the reader, not the writer',
-          body: 'Code is read far more than it\'s written. Names, structure, and comments should serve whoever picks this up next — including you in six months.'
         },
         {
           title: 'Consistency beats perfection',
