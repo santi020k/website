@@ -6,20 +6,16 @@ import Pill from '../../components/atoms/Pill.astro'
 import MediumPostImage from '../../components/molecules/MediumPostImage.astro'
 import PostCard from '../../components/molecules/PostCard.astro'
 import SectionHeading from '../../components/molecules/SectionHeading.astro'
-
 import { getMediumPosts } from '../../data/medium'
 import PageLayout from '../../layouts/Base.astro'
 
 export const getStaticPaths = (async () => {
   const posts = await getMediumPosts()
 
-  return posts.map(post => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return ({
-      params: { slug: post.slug },
-      props: { post }
-    })
-  })
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post }
+  }))
 }) satisfies GetStaticPaths
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
@@ -59,8 +55,8 @@ const meta = {
       </div>
 
       <div class="flex flex-wrap gap-2">
-        {post.tags.map((tag) => (
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        {post.tags.map(tag => (
+
           <Pill label={tag} showHash tone="outline" />
         ))}
       </div>
@@ -104,7 +100,8 @@ const meta = {
     <div class="max-w-3xl space-y-5">
       <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">Summary</p>
       <p class="text-lg/8 text-ink-soft">
-        This preview keeps the key takeaway on-site. The full article on {post.publication} includes the walkthrough, examples, and complete context.
+        This preview keeps the key takeaway on-site. The full article on {post.publication} includes the
+        walkthrough, examples, and complete context.
       </p>
       <p class="text-base/8 text-ink-soft">{post.excerpt}</p>
     </div>
@@ -122,8 +119,8 @@ const meta = {
         lg:grid-cols-3
       "
       >
-        {relatedPosts.map((relatedPost) => (
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        {relatedPosts.map(relatedPost => (
+
           <PostCard post={relatedPost} />
         ))}
       </div>

@@ -37,10 +37,6 @@ const meta = {
   title: `${technology} · Technology`
 }
 
-const projectCards = page.data.map((project) => (
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  <ProjectCard project={project} />
-))
 ---
 
 <PageLayout meta={meta}>
@@ -67,6 +63,10 @@ const projectCards = page.data.map((project) => (
     lg:grid-cols-2
   "
   >
-    {projectCards}
+    {
+      page.data.map(project => (
+        <ProjectCard project={project} />
+      ))
+    }
   </section>
 </PageLayout>

@@ -18,16 +18,16 @@ let seriesPosts: CollectionEntry<'post'>[] = []
 if (seriesId) {
   seriesPosts = posts
     .filter(p => p.data.seriesId === seriesId)
-    .sort((a, b) => (a.data.orderInSeries || 0) - (b.data.orderInSeries || 0))
+    .sort((a, b) => (a.data.orderInSeries ?? 0) - (b.data.orderInSeries ?? 0))
 }
 ---
 
 <aside
   id="series-panel"
   class="
-    bg-bgColor fixed z-40 grid min-h-screen transition-all duration-300
-    ease-in-out
-    lg:relative lg:block
+    fixed top-0 left-0 z-50 h-full w-64 transform overflow-y-auto border-line
+    bg-canvas px-4 py-8 shadow-2xl transition-all duration-300
+    lg:static lg:z-0 lg:block lg:transform-none lg:shadow-none
   "
 >
   <div class="
@@ -40,8 +40,7 @@ if (seriesId) {
   </div>
 
   <div class="
-    border-special-light bg-accent-base/5 flex h-full w-screen flex-col border-r
-    px-8 pt-4
+    flex h-full w-screen flex-col border-r border-line bg-accent/5 px-8 pt-4
     md:w-72 md:max-w-72 md:min-w-72 md:pt-8
   "
   >
@@ -49,18 +48,15 @@ if (seriesId) {
       <!--
       <Icon aria-hidden="true" class="shrink-0 h-8 w-6 py-1" focusable="false" name="solar:notes-line-duotone" />
       -->
-      <h4 class="title mb-18 flex items-center">
+      <h4 class="mb-18 flex items-center font-semibold">
         Docs Series panel
       </h4>
     </div>
     <button
       id="close-panel"
       class="
-        bg-accent-base/5 text-accent-base
-        hover:bg-accent-base/10
-        absolute top-4 right-4 flex size-8 items-center justify-center
-        rounded-lg
-        md:top-8 md:right-8
+        relative flex h-8 w-16 items-center justify-center rounded-lg
+        bg-accent/5 text-accent hover:bg-accent/10 hover:text-brand
       "
       aria-label="Close Series Panel"
     >
@@ -73,32 +69,33 @@ if (seriesId) {
           href={`/series/${postsSeries.id}`}
           aria-label={`About ${postsSeries.data.title} series`}
           class="
-            bg-accent-base text-bgColor sticky top-4 flex h-8 w-full
-            items-center justify-center gap-x-1 rounded-lg font-medium shadow-lg
+            sticky top-4 flex h-8 w-full items-center justify-center gap-x-1
+            rounded-lg bg-accent font-medium text-canvas shadow-lg
             transition-all duration-300
             hover:brightness-110
           "
         >
-          <Icon class="text-bgColor inline-block size-6" name="solar:notes-bold" />
+          <Icon class="inline-block size-6 text-canvas" name="solar:notes-bold" />
           {postsSeries.data.title}
         </a>
 
-        <ul class="text-light mt-4.25 text-sm font-medium">
+        <ul class="mt-4.25 text-sm font-medium text-ink-soft">
           {seriesPosts.map(p => {
             const isActive = currentPath === `/posts/${p.id}/`
 
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return (
               <li class={`
                 line-clamp-2 flex items-center px-4 py-1
                 ${isActive ?
-                'bg-color-100 rounded-lg' :
+                'rounded-lg bg-surface-muted' :
                 ''}
               `}
               >
                 <a
                   href={`/posts/${p.id}/`}
                   class={`
-                    hover:text-accent-two
+                    hover:text-brand
                     ${isActive ?
                     'pointer-events-none cursor-default text-accent' :
                     ''}

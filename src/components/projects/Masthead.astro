@@ -5,7 +5,6 @@ import { type CollectionEntry } from 'astro:content'
 // import { Icon } from 'astro-icon/components'
 import Badge from '../../components/Badge.astro'
 import FormattedDate from '../../components/FormattedDate.astro'
-
 import { dateWithoutDay } from '../../utils/date-format-presets'
 
 interface Props {
@@ -23,9 +22,8 @@ const { content } = Astro.props
 ---
 
 <div class="
-  bg-white/95 px-2 py-4 backdrop-blur-xl
+  bg-canvas/95 px-2 py-4 backdrop-blur-xl
   md:sticky md:top-0 md:z-10
-  dark:bg-black/80
 "
 >
   <div class="flex justify-between">
@@ -131,7 +129,7 @@ const { content } = Astro.props
         <>
           {content.data.technologies.map(technology => (
             <a aria-label={`View all projects with the technology: ${technology}`} href={`/technologies/${technology}`}>
-              <Badge variant="accent-two" title={technology} />
+              <Badge variant="brand-accent" title={technology} />
             </a>
           ))}
         </>
@@ -152,7 +150,7 @@ const { content } = Astro.props
               href={`/types/${projectTypes.id}`}
               class="flex flex-wrap items-center gap-2"
             >
-              <Badge variant="accent-base" showHash={false} title={projectTypes.data.title} />
+              <Badge variant="accent" showHash={false} title={projectTypes.data.title} />
             </a>
           </div>
         )

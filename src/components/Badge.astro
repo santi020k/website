@@ -5,18 +5,16 @@ const badgeClasses = {
   base:
     'inline-flex items-center gap-1 px-2 h-6 rounded-2xl text-sm font-medium transition-colors truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px] sm:max-w-full',
   variants: {
-    default: 'bg-textColor text-bgColor hover:brightness-90',
-    accent: 'bg-accent text-bgColor hover:brightness-90',
-    'accent-base': 'bg-accent-base text-bgColor hover:brightness-90',
-    'accent-one': 'bg-accent-one text-bgColor hover:brightness-90',
-    'accent-two': 'bg-accent-two text-bgColor hover:brightness-90',
+    default: 'bg-ink text-canvas hover:brightness-90',
+    accent: 'bg-accent text-canvas hover:brightness-90',
+    'brand-accent': 'bg-brand text-canvas hover:brightness-90',
     muted:
-      'bg-color-100 hover:bg-color-200 dark:bg-gray-900 dark:hover:bg-gray-600 text-textColor hover:shadow-sm dark:shadow-gray-900 transition-all duration-300',
+      'bg-surface-muted hover:bg-line text-ink transition-all duration-300',
     outline:
-      'border border-zinc-400 text-textColor bg-transparent hover:border-accent-one',
-    inactive: 'bg-color-100 text-lighter cursor-default',
-    subtle: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300',
-    ghost: 'bg-transparent text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/70 dark:hover:bg-zinc-700/40',
+      'border border-line text-ink bg-transparent hover:border-accent',
+    inactive: 'bg-surface-muted text-ink/40 cursor-default',
+    subtle: 'bg-surface-muted text-ink/60',
+    ghost: 'bg-transparent text-ink/60 hover:bg-surface-muted',
     warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
     danger: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
   }

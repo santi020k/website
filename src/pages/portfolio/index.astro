@@ -13,27 +13,25 @@ import { getTechnologyPath } from '../../utils/links'
 
 const allProjects = (await getAllProjects()).sort(collectionDateSortProjects)
 const groupedProjects = groupProjectsByTypesId(allProjects)
+
 const allTypes = (await getAllTypes()).sort((a, b) => {
   if (a.id === 'professional') return -1
+
   if (b.id === 'professional') return 1
+
   return 0
 })
+
 const technologies = getUniqueTechnologiesWithCount(allProjects).slice(0, 18)
 const professionalCount = groupedProjects.professional?.length ?? 0
 const personalCount = groupedProjects.personal?.length ?? 0
-
-const meta = {
-  description: 'Case studies from Santiago Molina across headless commerce, gaming, SaaS, real estate, community, and open-source work.',
-  title: 'Portfolio'
-}
-
-const typePills = allTypes.map(type => (
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  <Pill href={`#${type.id}`} label={type.data.title} tone="outline" />
-))
 ---
 
-<PageLayout meta={meta}>
+<PageLayout meta={{
+  description: 'Case studies from Santiago Molina across headless commerce, gaming, SaaS, real estate, community, and open-source work.',
+  title: 'Portfolio'
+}}
+>
   <section class="
     grid gap-6
     lg:grid-cols-[1.1fr_0.9fr]
@@ -55,7 +53,10 @@ const typePills = allTypes.map(type => (
         </ButtonLink>
       </div>
       <div class="flex flex-wrap gap-2">
-        {typePills}
+        {allTypes.map(type => (
+
+          <Pill href={`#${type.id}`} label={type.data.title} tone="outline" />
+        ))}
       </div>
     </div>
 
@@ -72,8 +73,8 @@ const typePills = allTypes.map(type => (
   </section>
 
   <section class="space-y-14">
-    {allTypes.map((type) => (
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    {allTypes.map(type => (
+
       <section class="space-y-8" id={type.id}>
         <SectionHeading
           description={type.data.description}
@@ -86,7 +87,7 @@ const typePills = allTypes.map(type => (
         "
         >
           {(groupedProjects[type.id] ?? []).map(project => (
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
             <ProjectCard project={project} />
           ))}
         </div>
@@ -104,7 +105,7 @@ const typePills = allTypes.map(type => (
     />
     <div class="flex flex-wrap gap-3">
       {technologies.map(([technology, count]) => (
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
         <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
           <span class="text-xs text-ink-muted">{count}</span>
         </Pill>
