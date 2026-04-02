@@ -83,26 +83,23 @@ The logo is a custom SVG wordmark — a stylised "S2K" letterform representing t
 
 ### Specifications
 
-| Property | Value |
-| :---------------- | :---- |
-| **Source file** | `src/assets/svg/logo.svg` |
-| **Primary format** | SVG |
-| **Fallback format** | PNG (export only when SVG is unsupported) |
-| **Fill color** | `#00D3DE` — Brand Cyan |
-| **Viewbox** | `0 0 800 309.1` |
-| **Rendered size** | `width="140" height="100"` (header) |
-| **Minimum width** | 120px |
-| **Clear space** | Equal to the cap-height of the mark on all sides |
+| Property | Wordmark (Primary) | Icon (Square) |
+| :---------------- | :------------------ | :-------------- |
+| **Source file** | `src/assets/logo.webp` | `src/assets/logo-square.webp` |
+| **Primary format** | WebP | WebP |
+| **Aspect Ratio** | 11:4 | 1:1 |
+| **Rendered size** | `width="140" height="51"` | `width="32" height="32"` |
+| **Primary Use** | Headers, Mastheads | Favicons, Manifest, App Icons |
 
 ### Usage Rules
 
 | ✅ Do | ❌ Don't |
 | :---- | :------- |
-| Use the `.svg` source file for all web contexts | Export to PNG unless SVG is unsupported |
+| Use the `.webp` source file for all web contexts | Use old SVG or PNG formats |
 | Place on white, light, or dark backgrounds | Place on mid-tone backgrounds that reduce contrast |
 | Scale proportionally with `width` and `height` attributes | Stretch, rotate, or distort |
 | Maintain clear space on all sides | Crop or crowd the mark |
-| Keep the `#00D3DE` fill | Recolor to any other value |
+| Keep the `#8b5cf6` (Purple) fill | Recolor to any other value |
 | Wrap in an `<a>` with `aria-label` when used as a home link | Add drop shadows, borders, or glows |
 
 ---
@@ -117,10 +114,9 @@ The palette is fully adaptive between **Light** and **Dark** modes, toggled via 
 
 | Tone | Token | Value | Hex | Usage |
 | :------- | :----------- | :------ | :-------- | :----------- |
-| **Cyan** | `brand-cyan` | `primary: 200` | `#00D3DE` | Logo, CTAs, Highlights |
-| **Blue** | `brand-blue` | `primary: 600` | `#0045FF` | Borders, Dark accents |
-| **Black** | `black` | `base: black` | `#000000` | Full background |
-| **White** | `white` | `base: white` | `#FFFFFF` | Clear text |
+| **Purple** | `brand` | `primary: 262` | `#8b5cf6` | Logo, CTAs, Highlights |
+| **Accent** | `accent` | `accent: 262` | `#a78bfa` | Hovers, Active states |
+| **Glow** | `glow` | `glow: 262` | `#c084fc` | Background gradients |
 
 ### Semantic Tokens — Light Mode
 
@@ -285,10 +281,10 @@ Custom `--container-*` values in `@theme` override Tailwind defaults for tighter
 
 | Asset | Source path | Usage |
 | :----------- | :---------- | :---- |
-| Logo | `src/assets/svg/logo.svg` | Site identity (imported via Astro `<Image>`) |
+| Logo | `src/assets/logo.webp` | Site identity |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and author attribution |
 | Default OG image | `public/default.webp` | Social share fallback |
-| Social icon | `public/social-icon.svg` | Favicon, PWA manifest |
+| Favicon | `public/favicon.svg` | Browser icon (square wrapper for logo.webp) |
 | Fonts | `public/fonts/` | Self-hosted Montserrat variable fonts |
 
 ### Open Graph Images
@@ -715,7 +711,7 @@ All internal links use trailing slashes.
 
 | ✅ Do | ❌ Don't |
 | :------- | :------- |
-| Use the logo SVG from `src/assets/svg/logo.svg` | Rasterise the logo unless absolutely required |
+| Use the logo WebP from `src/assets/logo.webp` | Use the old SVG files |
 | Reference colors via semantic CSS custom properties | Hardcode hex or HSL values in components |
 | Define new tokens in `src/styles/global.css` `@theme` | Add one-off inline color values |
 | Verify contrast ratios before shipping any new color pair | Assume a color combination is accessible |
@@ -755,10 +751,10 @@ All internal links use trailing slashes.
 
 | Asset | Path | Notes |
 | :--------------- | :-------------------------------- | :------------------------------ |
-| Logo (SVG) | `src/assets/svg/logo.svg` | Imported with `<Image>` — not in `public/` |
-| Author photo | `src/assets/photos/about-me.webp` | Used in hero and about sections |
+| Logo (WebP) | `src/assets/logo.webp` | 11:4 aspect ratio |
+| Author photo | `src/assets/photos/about-me.webp` | Hero and about sections |
 | Default OG image | `public/default.webp` | Served statically |
-| Social icon | `public/social-icon.svg` | PWA / favicon use |
+| Favicon | `public/favicon.svg` | Square wrapper for branding |
 | Fonts | `public/fonts/` | Montserrat variable font files |
 
 ### Key Source Files
