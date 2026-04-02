@@ -45,7 +45,7 @@ async function fetchWebmentions(timeFrom: string | null, perPage = 1000) {
 function mergeWebmentions(a: WebmentionsCache, b: WebmentionsFeed): WebmentionsChildren[] {
   return Array.from(
     [...a.children, ...b.children]
-      .reduce((map, obj) => map.set(obj['wm-id'], obj), new Map())
+      .reduce((map, obj) => map.set(obj['wm-id'], obj), new Map<number, WebmentionsChildren>())
       .values()
   )
 }
@@ -86,7 +86,7 @@ function getFromCache(): WebmentionsCache {
   if (fs.existsSync(filePath)) {
     const data = fs.readFileSync(filePath, 'utf-8')
 
-    return JSON.parse(data)
+    return JSON.parse(data) as WebmentionsCache
   }
 
   // no cache found
@@ -117,10 +117,10 @@ async function getAndCacheWebmentions() {
   return cache
 }
 
-let webMentions: WebmentionsCache
+let webmentionsCache: WebmentionsCache | undefined
 
 export async function getWebmentionsForUrl(url: string) {
-  if (!webMentions) webMentions = await getAndCacheWebmentions()
+  webmentionsCache ??= await getAndCacheWebmentions()
 
-  return webMentions.children.filter(entry => entry['wm-target'] === url)
+  return webmentionsCache.children.filter(entry => entry['wm-target'] === url)
 }

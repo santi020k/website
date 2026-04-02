@@ -25,9 +25,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 const rawFonts = (ext: string[]) => ({
   name: 'vite-plugin-raw-fonts',
-  // @ts-expect-error:next-line
-  transform(_, id) {
+  transform(_: string, id: string) {
     if (ext.some(e => id.endsWith(e))) {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
       const buffer = fs.readFileSync(id)
 
       return {
@@ -35,6 +35,8 @@ const rawFonts = (ext: string[]) => ({
         map: null
       }
     }
+
+    return null
   }
 })
 
@@ -59,6 +61,7 @@ export default defineConfig({
       /**
      * optional
      **/
+      /* eslint-disable camelcase */
       short_name: 'Santi020k',
       description: siteConfig.description,
       lang: siteConfig.lang,
@@ -83,6 +86,7 @@ export default defineConfig({
       start_url: '/',
       background_color: '#1d1f21',
       theme_color: '#000000',
+      /* eslint-enable camelcase */
       display: 'standalone',
       config: {
         insertFaviconLinks: false,

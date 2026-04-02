@@ -1,5 +1,13 @@
 declare module '@pagefind/default-ui' {
-  declare class PagefindUI {
-    constructor(arg: unknown)
+  export default class PagefindUI {
+    constructor(arg: {
+      baseUrl?: string
+      bundlePath?: string
+      element: string
+      showImages?: boolean
+      showSubResults?: boolean
+    })
+
+    init(): void
   }
 }

@@ -11,9 +11,6 @@ import type { AdmonitionType } from '@/types'
 
 // Supported admonition types
 const Admonitions = new Set<AdmonitionType>(['tip', 'note', 'important', 'caution', 'warning'])
-
-/** Checks if a string is a supported admonition type. */
-// eslint-disable-next-line @stylistic/padding-line-between-statements
 const isAdmonition = (s: string): s is AdmonitionType => Admonitions.has(s as AdmonitionType)
 
 /** Checks if a node is a directive. */
@@ -37,6 +34,7 @@ const transformUnhandledDirective = (
     value: toMarkdown(node, { extensions: [directiveToMarkdown()] })
   } as const
 
+  /* eslint-disable security/detect-object-injection */
   if (node.type === 'textDirective') {
     parent.children[index] = textNode
   } else {
@@ -45,15 +43,14 @@ const transformUnhandledDirective = (
       type: 'paragraph'
     }
   }
+  /* eslint-enable security/detect-object-injection */
 }
 
-// TODO: Temporal fix
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const h = (el: string, attrs: Properties = {}, children: any[] = []): P => {
+const h = (el: string, attrs: Properties = {}, children: Node[] = []): P => {
   const { properties, tagName } = _h(el, attrs)
 
   return {
-    children,
+    children: children as PhrasingContent[],
     data: { hName: tagName, hProperties: properties },
     type: 'paragraph'
   }
@@ -98,6 +95,8 @@ export const remarkAdmonitions: Plugin<[], Root> = () => tree => {
       h('div', { class: 'aside-content' }, node.children)
     ])
 
+    /* eslint-disable security/detect-object-injection */
     parent.children[index] = aside
+    /* eslint-enable security/detect-object-injection */
   })
 }

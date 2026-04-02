@@ -1,4 +1,6 @@
 ---
+import { type CollectionEntry } from 'astro:content'
+
 import Badge from '@/components/Badge.astro'
 import ProjectPreview from '@/components/projects/ProjectPreview.astro'
 
@@ -136,7 +138,7 @@ const groupedByTypeId = groupProjectsByTypesId(data)
                       {type.data.description}
                     </p>
                     <ul class="flex flex-col gap-y-8 text-start">
-                      {groupedByTypeId[type.data.id]?.map(project => (
+                      {groupedByTypeId[type.data.id]?.map((project: CollectionEntry<'project'>) => (
                         <li class="m-0 flex flex-col gap-4">
                           <ProjectPreview project={project} />
                         </li>

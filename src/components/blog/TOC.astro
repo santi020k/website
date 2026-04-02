@@ -15,7 +15,7 @@ const toc = generateToc(headings);
 ---
 
 <div class="sticky top-20 rounded-t-lg">
-  <div class="bg-bgColor sticky top-20 rounded-t-lg">
+  <div class="sticky top-20 rounded-t-lg bg-bgColor">
     <div class="
       sticky top-20 flex items-end gap-x-1 rounded-t-lg border-x border-t
       border-special-light bg-color-75 ps-8 pe-4 pt-4 pb-2 title
@@ -39,7 +39,7 @@ const toc = generateToc(headings);
 
     </div>
   </div>
-  <div class="bg-bgColor rounded-b-lg">
+  <div class="rounded-b-lg bg-bgColor">
     <div class="
       rounded-b-lg border-x border-b border-special-light bg-color-75 pb-6
     "
@@ -48,7 +48,7 @@ const toc = generateToc(headings);
         h-auto max-h-[calc(100vh-11rem)] overflow-hidden overflow-y-auto px-8
       "
       >
-        <ul class="text-textColor text-sm font-medium">
+        <ul class="text-sm font-medium text-textColor">
           {toc.map(heading => <TOCHeading heading={heading} />)}
         </ul>
       </div>

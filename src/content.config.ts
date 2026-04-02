@@ -1,6 +1,6 @@
 import { glob } from 'astro/loaders'
-import { defineCollection } from 'astro:content'
 import { z } from 'astro/zod'
+import { defineCollection } from 'astro:content'
 
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 const removeDupsAndLowerCase = (array: string[]) => [...new Set(array.map(str => str.toLowerCase()))]
@@ -74,10 +74,8 @@ const note = defineCollection({
   loader: glob({ base: './src/content/note', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
     description: z.string().optional(),
-    publishDate: z
-      .string()
-      // Ensures ISO 8601 format with offsets allowed (e.g. "2024-01-01T00:00:00Z" and "2024-01-01T00:00:00+02:00")
-      .iso.datetime({ offset: true })
+    publishDate: z.iso
+      .datetime()
       .transform(val => new Date(val))
   })
 })

@@ -205,8 +205,8 @@
   --color-color-50 : var(--theme-color-50 );
 
   /* single-token semantic colours */
-  --color-bg-color      : var(--theme-bg-color);
-  --color-text-color    : var(--theme-text);
+  --color-bgColor       : var(--theme-bg-color);
+  --color-textColor     : var(--theme-text);
   --color-accent-base   : hsl(var(--theme-accent-base) / <alpha-value>);
   --color-accent-one    : hsl(var(--theme-accent-one)  / <alpha-value>);
   --color-accent-two    : hsl(var(--theme-accent-two)  / <alpha-value>);
@@ -270,8 +270,9 @@
 /* ------------------------------------------------------------------ */
 @layer components {
   /* Default prose customisations */
-  .prose a           { @apply santi-link; }
-  .prose blockquote  {
+  .prose, .prose-santi { @apply max-w-none; }
+  .prose a, .prose-santi a           { @apply santi-link; }
+  .prose blockquote, .prose-santi blockquote  {
     @apply font-normal border-l-0 px-4;
   }
   .prose blockquote p::before {

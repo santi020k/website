@@ -10,14 +10,14 @@ export async function getAllPosts(): Promise<CollectionEntry<'post'>[]> {
  *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
  */
 export function groupPostsByYear(posts: CollectionEntry<'post'>[]) {
-  return posts.reduce<Record<string, CollectionEntry<'post'>[]>>((acc, post) => {
-    const year = post?.data?.publishDate?.getFullYear?.() ?? new Date().getFullYear()
+  return posts.reduce<Record<string, CollectionEntry<'post'>[] | undefined>>((acc, post) => {
+    const year = post.data.publishDate.getFullYear()
 
-    if (!acc[year]) {
-      acc[year] = []
-    }
+    /* eslint-disable security/detect-object-injection */
+    acc[year] ??= []
 
-    acc[year]?.push(post)
+    acc[year].push(post)
+    /* eslint-enable security/detect-object-injection */
 
     return acc
   }, {})
@@ -27,7 +27,7 @@ export function groupPostsByYear(posts: CollectionEntry<'post'>[]) {
  *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
  *  */
 export function getAllTags(posts: CollectionEntry<'post'>[]) {
-  return posts.flatMap(post => [...(post?.data?.tags ?? [])])
+  return posts.flatMap(post => [...post.data.tags])
 }
 
 /** returns all unique tags created from posts

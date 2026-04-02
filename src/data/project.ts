@@ -9,25 +9,46 @@ export async function getAllProjects(): Promise<CollectionEntry<'project'>[]> {
 /** groups projects by year (based on option siteConfig.sortProjectsByUpdatedDate), using the year as the key
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  */
+export function groupProjectsByYear(projects: CollectionEntry<'project'>[]) {
+  return projects.reduce<Record<string, CollectionEntry<'project'>[] | undefined>>(
+    (acc, project) => {
+      const year = project.data.startingDate.getFullYear().toString()
+
+      /* eslint-disable security/detect-object-injection */
+      acc[year] ??= []
+
+      acc[year].push(project)
+      /* eslint-enable security/detect-object-injection */
+
+      return acc
+    }, {}
+  )
+}
+
+/** groups projects by typesId, using the typesId as the key
+ *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
+ */
 export function groupProjectsByTypesId(projects: CollectionEntry<'project'>[]) {
-  return projects.reduce<Record<string, CollectionEntry<'project'>[]>>((acc, project) => {
-    const typesId = project?.data?.typesId ?? 'unknown'
+  return projects.reduce<Record<string, CollectionEntry<'project'>[] | undefined>>(
+    (acc, project) => {
+      const typeId = project.data.typesId ?? 'personal'
 
-    if (!acc[typesId]) {
-      acc[typesId] = []
-    }
+      /* eslint-disable security/detect-object-injection */
+      acc[typeId] ??= []
 
-    acc[typesId].push(project)
+      acc[typeId].push(project)
+      /* eslint-enable security/detect-object-injection */
 
-    return acc
-  }, {})
+      return acc
+    }, {}
+  )
 }
 
 /** returns all technologies created from projects (inc duplicate technologies)
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
 export function getAllTechnologies(projects: CollectionEntry<'project'>[]) {
-  return projects.flatMap(project => [...(project?.data?.technologies ?? [])])
+  return projects.flatMap(project => [...project.data.technologies])
 }
 
 /** returns all unique technologies created from projects
@@ -45,7 +66,7 @@ export function getTechnologiesByUsage(projects: CollectionEntry<'project'>[]) {
   const techCount = new Map<string, number>()
 
   for (const tech of getAllTechnologies(projects)) {
-    techCount.set(tech, (techCount.get(tech) || 0) + 1)
+    techCount.set(tech, (techCount.get(tech) ?? 0) + 1)
   }
 
   return [...techCount.entries()]
