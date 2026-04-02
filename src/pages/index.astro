@@ -92,8 +92,11 @@ const meta = {
           <Image
             alt="Portrait of Santiago Molina"
             class="aspect-4/5 w-full object-cover"
-            priority
+            fetchpriority="high"
+            loading="eager"
+            sizes="(min-width: 1024px) 400px, 100vw"
             src={AboutMeImage}
+            widths={[400, 600, 800]}
           />
         </div>
         <div class="
