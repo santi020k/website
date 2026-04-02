@@ -1,77 +1,34 @@
 ---
 title: "@santi020k/eslint-config-santi020k"
-description: "Created and maintain a robust, opinionated ESLint configuration package to enforce consistency, code quality, and best practices across JavaScript, TypeScript, and React projects. Designed for scalability, DX, and flexibility across monorepos and modern frontend ecosystems."
+description: "My original opinionated ESLint configuration library for JavaScript, TypeScript, and React projects — superseded by @santi020k/eslint-config-basic."
 rol: "Creator"
-startingDate: "1 Mar 2024"
+startingDate: "1 Jan 2023"
+endingDate: "1 Mar 2024"
 githubUrl: "https://github.com/santi020k/eslint-config-santi020k"
-liveDemoUrl: "https://www.npmjs.com/package/@santi020k/eslint-config-santi020k"
 typesId: "personal"
 technologies: [
-  "React.js", "Next.js", "TypeScript", "Node", "Astro", "Expo", "ESLint", "JavaScript", "Code Quality", "Monorepo", "CI/CD", "DevOps Automation", "NPM", "Open Source", "Vitest", "TailwindCSS", "i18next", "Testing", "Developer Documentation", "Developer Experience (DX)"
+  "React.js", "Next.js", "TypeScript", "Expo", "Astro", "ESLint", "JavaScript", "Code Quality", "NPM", "Open Source", "TailwindCSS", "Vitest", "i18next"
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Eslint library logo"
-  ogImage: "./cover-eslint-config.webp"
+  alt: "eslint-config-santi020k library"
 ---
 
-## Elevating Code Quality with `@santi020k/eslint-config`
+> **This library has been superseded.** `@santi020k/eslint-config-santi020k` has been replaced by [`@santi020k/eslint-config-basic`](/projects/eslint-config-basic/), which is more composable, better documented, and actively maintained. New projects should use that instead.
 
-Starting in **March 2024**, I began building `@santi020k/eslint-config`, an open-source ESLint configuration package designed to simplify and standardize code quality across all my JavaScript and TypeScript projects.
+## My original ESLint configuration
 
-It originated from a need for **consistency**, **performance**, and **reduced setup overhead** when spinning up new frontend and full-stack applications, particularly across monorepos and modern ecosystems like **Next.js**, **Expo**, and **Astro**.
+`@santi020k/eslint-config-santi020k` was my first published ESLint package — an opinionated set of rules for JavaScript and TypeScript projects designed to enforce consistent code quality and catch common mistakes early. It was the linting foundation I reached for across my own projects and recommended to teams I worked with.
 
-### 🎯 Goals & Philosophy
+## What it covered
 
-My core objectives were:
+- TypeScript support with strict, opinionated defaults.
+- React and Next.js configurations out of the box.
+- Expo (beta) and Astro with React (beta) support.
+- Optional add-ons for Tailwind CSS, Vitest, i18next, MDX, and Markdown.
 
-* ✅ **One-command setup** for new projects
-* 🧠 **Strict, but flexible rules** based on years of real-world development experience
-* 📦 **Modular presets** for different environments (Node, React, Expo, Astro, TailwindCSS)
-* 🤝 **Team-friendly** DX to reduce code review overhead and ensure maintainability
-* 🔧 Support for **testing libraries** like Vitest and **i18n tools** like i18next
+## Why it was replaced
 
-### 🛠️ Architecture & Features
-
-The configuration is built with modularity and reusability in mind:
-
-* **Base Rules**: Core TypeScript/JavaScript rules with strict linting and error-prevention.
-* **React Preset**: Opinionated rules for React, JSX, Hooks, and accessibility.
-* **Tailwind Preset**: Integrates with TailwindCSS plugin for better class sorting and linting.
-* **Vitest Preset**: Provides testing-specific lint rules and globals.
-* **Astro & Expo (Beta)**: Experimental support for framework-specific quirks and patterns.
-* **Customizable Options**: All presets are opt-in, allowing fine-grained control over linting strategies.
-
-The config also includes:
-
-<!-- TODO: Not implemented yet -->
-<!-- * **Type-safe definitions using** `zod` schemas -->
-* Automated versioned publishing via GitHub Actions
-* A growing [npm package](https://www.npmjs.com/package/@santi020k/eslint-config-santi020k) with documentation and usage examples
+As my projects grew and ESLint's flat config format became the standard, the original package's architecture became harder to extend and maintain. Rather than continuing to patch it, I rebuilt it from scratch as `@santi020k/eslint-config-basic` — a composable, auto-detecting toolkit that covers far more frameworks with significantly less setup friction and a full documentation site.
 
 ![NPM Package](npm.webp)
-
-### 🚀 Developer Experience & Automation
-
-A huge focus was placed on **DX** and **automation**:
-
-* **Zero-config formatting** via ESLint (no Prettier needed)
-* **Consistent rules across mono-repositories** with shared base configs
-* Works seamlessly with `eslint-config-next` and supports ESLint 9+ out of the box
-<!-- TODO: Not implemented yet -->
-<!-- * Documentation includes recipes for integrating into CI/CD pipelines, VSCode setup, and edge cases -->
-
-### 🌍 Community Impact & Adoption
-
-Since launch, the config has:
-
-* Been used across multiple real-world projects including client-facing apps, internal tooling, and open-source contributions
-* Saved countless hours of boilerplate setup
-* Reduced code review noise by enforcing consistent formatting and catching errors early
-* Helped junior developers ramp up quickly on projects by codifying best practices
-
----
-
-Working on this config has been a powerful reminder that **code quality isn’t just about the code, it’s about communication, shared expectations, and enabling teams to move faster with confidence**.
-
-The project remains active and continues to evolve. Contributions and feedback are always welcome on [GitHub](https://github.com/santi020k/eslint-config-santi020k). If you're looking to improve your project’s code quality and developer experience, feel free to try it out or reach out, [connect with me on LinkedIn](https://www.linkedin.com/in/santi020k).
