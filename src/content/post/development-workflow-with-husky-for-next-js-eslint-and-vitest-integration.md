@@ -11,11 +11,9 @@ tags:
   - husky
   - react
   - nextjs
-canonicalUrl: >-
-  https://medium.com/@santi020k/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092
 coverImage:
   alt: Development workflow diagram showing Husky pre-commit and pre-push hooks
-  src: ./development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092-fig-1.png
+  src: ./development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-fig-1.png
 ---
 
 [Read the Previous Post: Building the Best Next.js TypeScript ESLint Configuration](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7)
