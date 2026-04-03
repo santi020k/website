@@ -20,7 +20,10 @@ jobs:
           node-version: '22'
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run build
+      - name: Build Site
+        run: pnpm run build
+        env:
+          PUBLIC_IS_CI: true
       - name: Audit Performance with Lighthouse
         uses: treosh/lighthouse-ci-action@v12
         with:

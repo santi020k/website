@@ -33,11 +33,11 @@ describe('truncateTitle', () => {
 
 describe('links', () => {
   it('should return correct post path', () => {
-    expect(getPostPath('my-post')).toBe('/posts/my-post/')
+    expect(getPostPath('my-post')).toBe('/blog/my-post/')
   })
 
   it('should return correct project path', () => {
-    expect(getProjectPath('my-project')).toBe('/portfolio/my-project/')
+    expect(getProjectPath('my-project')).toBe('/projects/my-project/')
   })
 
   it('should return correct technology path', () => {
