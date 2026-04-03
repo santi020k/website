@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets'
-import { type CollectionEntry, getCollection } from 'astro:content'
+import { type CollectionEntry } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
 import Badge from '../atoms/Badge.astro'
@@ -11,26 +11,11 @@ interface Props {
   content: CollectionEntry<'post'>
 }
 
-const {
-  content
-
-} = Astro.props
-
-// console.log("data:", data); // Debug
-// console.log("headings:", content.rendered?.metadata?.headings); // Debug
-// console.log("Post frontmatter:", content.rendered?.metadata?.frontmatter); // Debug
+const { content } = Astro.props
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
   month: 'long'
 }
-
-const postSeries = !!content.data.seriesId && await getCollection('series')
-  .then(series => series.find(s => s.id === content.data.seriesId))
-  .catch((err: unknown) => {
-    console.error('Failed to find series:', err)
-
-    return null
-  })
 ---
 
 <div class="
@@ -38,27 +23,6 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
   md:sticky md:top-8 md:z-10
 "
 >
-  {
-    !!postSeries && (
-      <button
-        id="toggle-panel"
-        class="
-          mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
-          bg-accent/10 text-accent
-          hover:brightness-110
-          md:flex
-        "
-        aria-label="Toggle Series Panel"
-        aria-controls="series-panel"
-      >
-        {/*
-        <Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="hugeicons:sidebar-left" />
-        */}
-        <Icon aria-hidden="true" class="size-6 shrink-0" focusable="false" name="solar:notes-bold" />
-      </button>
-    )
-  }
-
   {
     !!(content.rendered?.metadata?.headings as unknown[] | undefined)?.length && (
       <button
@@ -141,7 +105,6 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
 </p>
 
 <div class="mx-1 mt-4 flex flex-wrap items-center gap-2">
-  {/* Tags */}
   {
     content.data.tags.length ?
       (
@@ -167,39 +130,6 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
         name="solar:tag-line-duotone"
       />
       <span class="text-sm text-ink-muted">No tags</span>
-      )
-  }
-
-  {/* Series */}
-  {
-    postSeries ?
-      (
-        <div class="flex items-center gap-2">
-          <Icon
-            aria-hidden="true"
-            class="inline-block size-6 shrink-0 text-accent"
-            focusable="false"
-            name="solar:notes-line-duotone"
-          />
-          <a
-            aria-label={`About ${postSeries.data.title} series`}
-            href={`/series/${postSeries.id}`}
-            class="flex flex-wrap items-center gap-2"
-          >
-            <Badge variant="accent" showHash={false} title={postSeries.data.title} />
-          </a>
-        </div>
-      ) :
-      (
-        <div class="flex items-center gap-2">
-          <Icon
-            aria-hidden="true"
-            class="inline-block size-6 shrink-0 text-ink-muted"
-            focusable="false"
-            name="solar:notes-line-duotone"
-          />
-          <span class="text-sm text-ink-muted">Not in series</span>
-        </div>
       )
   }
 </div>
