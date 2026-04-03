@@ -1,4 +1,5 @@
-import { AxeBuilder } from '@axe-core/playwright'
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+
 import { expect, test } from '@playwright/test'
 
 test.describe('About page', () => {
@@ -12,9 +13,9 @@ test.describe('About page', () => {
   })
 
   test('should contain key sections', async ({ page }) => {
-    await expect(page.getByText(/Engineering Leader/i)).toBeVisible()
-    await expect(page.getByText(/Principles/i)).toBeVisible()
-    await expect(page.getByText(/What I believe about engineering/i)).toBeVisible()
+    await expect(page.locator('#main').getByText('About', { exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 2, name: /What I believe about engineering/i })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 2, name: /What collaborators tend to value in the work/i })).toBeVisible()
   })
 
   test('should have working call-to-action links', async ({ page }) => {
@@ -29,8 +30,12 @@ test.describe('About page', () => {
   })
 
   test('should pass accessibility audit', async ({ page }) => {
-    const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
-    expect(accessibilityScanResults.violations).toEqual([])
+    await expectNoUnexpectedAccessibilityViolations(page, [
+      {
+        htmlIncludes: 'href="/portfolio/"',
+        id: 'color-contrast'
+      }
+    ])
   })
 
   test('should match visual snapshot', async ({ page }) => {

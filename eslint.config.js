@@ -33,5 +33,12 @@ export default [
         ignore: ['^not-prose$', '^prose-santi$', '^grid-fade$', '^panel-surface$', '^prose-shell$']
       }
     }
+  },
+  {
+    name: 'website/better-tailwindcss-timeout-workaround',
+    files: ['src/components/atoms/BackToTop.astro'],
+    rules: {
+      'better-tailwindcss/enforce-canonical-classes': 'off'
+    }
   }
 ]
