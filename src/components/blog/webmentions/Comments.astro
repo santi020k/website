@@ -24,10 +24,10 @@ const comments = mentions.filter(
 {
   !!comments.length && (
     <div>
-      <p class="text-accent-base mb-0">
+      <p class="mb-0 text-accent">
         <strong>{comments.length}</strong> Mention{comments.length > 1 ? 's' : ''}
       </p>
-      <ul class="divide-textColor/20 mt-0 divide-y ps-0">
+      <ul class="mt-0 divide-y divide-ink/20 ps-0">
         {comments.map(mention => (
           <li class="my-0 flex items-start gap-x-5 py-5">
             {mention.author?.photo && mention.author.photo !== '' && (
@@ -35,12 +35,10 @@ const comments = mentions.filter(
                 (
                   <a
                     class="
-                      not-prose ring-textColor
-                      hover:ring-link
-                      focus-visible:ring-link
-                      shrink-0 overflow-hidden rounded-full ring-2 outline-none
-                      hover:ring-4
-                      focus-visible:ring-4
+                      not-prose shrink-0 overflow-hidden rounded-full ring-2
+                      ring-ink outline-none
+                      hover:ring-4 hover:ring-accent
+                      focus-visible:ring-4 focus-visible:ring-accent
                     "
                     href={mention.author.url}
                     rel="noreferrer"
@@ -48,34 +46,34 @@ const comments = mentions.filter(
                     title={mention.author.name}
                   >
                     <Image
-                      alt={mention.author?.name}
+                      alt={mention.author.name}
                       class="my-0 size-12"
                       height={48}
-                      src={mention.author?.photo}
+                      src={mention.author.photo}
                       width={48}
                     />
                   </a>
                 ) :
                 (
                   <Image
-                    alt={mention.author?.name}
+                    alt={mention.author.name}
                     class="my-0 size-12 rounded-full"
                     height={48}
-                    src={mention.author?.photo}
+                    src={mention.author.photo}
                     width={48}
                   />
                 )
             )}
             <div class="flex-auto">
               <div class="flex items-center justify-between gap-x-2">
-                <p class="text-accent-base my-0 line-clamp-1 font-semibold">
+                <p class="my-0 line-clamp-1 font-semibold text-accent">
                   {mention.author?.name}
                 </p>
                 <a
                   aria-labelledby="cmt-source"
                   class="
                     not-prose
-                    hover:text-link
+                    hover:text-accent
                   "
                   href={mention.url}
                   rel="noreferrer"

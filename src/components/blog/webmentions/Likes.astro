@@ -19,7 +19,7 @@ const likesToShow = likes
 {
   !!likes.length && (
     <div>
-      <p class="text-accent-base mb-0">
+      <p class="mb-0 text-accent">
         <strong>{likes.length}</strong>
         {likes.length > 1 ? ' People' : ' Person'} liked this
       </p>
@@ -29,13 +29,11 @@ const likesToShow = likes
             <li class="-ms-2">
               <a
                 class="
-                  not-prose ring-textColor
-                  hover:ring-link
-                  focus-visible:ring-link
-                  relative inline-block overflow-hidden rounded-full ring-2
-                  outline-none
-                  hover:z-10 hover:ring-4
+                  not-prose relative inline-block overflow-hidden rounded-full
+                  ring-2 ring-ink outline-none
+                  hover:z-10 hover:ring-4 hover:ring-accent
                   focus-visible:z-10 focus-visible:ring-4
+                  focus-visible:ring-accent
                 "
                 href={like.author?.url}
                 rel="noreferrer"
@@ -44,10 +42,10 @@ const likesToShow = likes
               >
                 <span>
                   <Image
-                    alt={like.author!.name}
+                    alt={like.author?.name}
                     class="my-0 inline-block size-12"
                     height={48}
-                    src={like.author!.photo}
+                    src={like.author?.photo ?? ''}
                     width={48}
                   />
                 </span>

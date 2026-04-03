@@ -3,10 +3,9 @@ import { Image } from 'astro:assets'
 import { type CollectionEntry, getCollection } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
-import Badge from '../../components/Badge.astro'
-import FormattedDate from '../../components/FormattedDate.astro'
-
-import Separator from '../Separator.astro'
+import Badge from '../atoms/Badge.astro'
+import FormattedDate from '../atoms/FormattedDate.astro'
+import Separator from '../atoms/Separator.astro'
 
 interface Props {
   content: CollectionEntry<'post'>
@@ -27,7 +26,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 const postSeries = !!content.data.seriesId && await getCollection('series')
   .then(series => series.find(s => s.id === content.data.seriesId))
-  .catch(err => {
+  .catch((err: unknown) => {
     console.error('Failed to find series:', err)
 
     return null
@@ -44,8 +43,8 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
       <button
         id="toggle-panel"
         class="
-          bg-accent/10 text-accent mr-2 hidden size-8 shrink-0
-          items-center justify-center rounded-lg
+          mr-2 hidden size-8 shrink-0 items-center justify-center rounded-lg
+          bg-accent/10 text-accent
           hover:brightness-110
           md:flex
         "
@@ -65,8 +64,8 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
       <button
         id="toggle-toc"
         class="
-          bg-accent/10 text-accent hidden size-8 shrink-0 items-center
-          justify-center rounded-lg
+          hidden size-8 shrink-0 items-center justify-center rounded-lg
+          bg-accent/10 text-accent
           hover:brightness-110
           md:flex
         "
@@ -89,7 +88,7 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
   </h1>
 </div>
 
-<div class="text-ink-soft mx-2 mt-4.25 mb-2 flex flex-wrap items-center text-sm">
+<div class="mx-2 mt-4.25 mb-2 flex flex-wrap items-center text-sm text-ink-soft">
   <span class="flex h-7 items-center">
     <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" />
     <FormattedDate
@@ -101,15 +100,15 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
   <Separator type="dot" />
   <span class="flex h-7 items-center">
     <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:book-open-01" />
-    {/* @ts-ignore:next-line. TODO: add reading time to collection schema? */}
+    {/* @ts-expect-error:next-line. TODO: add reading time to collection schema? */}
     {content.rendered?.metadata?.frontmatter?.readingTime ? `${content.rendered.metadata.frontmatter.readingTime}` : 'Less than one minute read'}
   </span>
   {
     content.data.updatedDate && (
       <Separator type="dot" />
       <span class="
-        bg-brand/5 text-brand flex h-7 shrink-0 items-center gap-x-1
-        rounded-lg px-2 py-1 text-sm
+        flex h-7 shrink-0 items-center gap-x-1 rounded-lg bg-brand/5 px-2 py-1
+        text-sm text-brand
       "
       >
         Updated:<FormattedDate class="flex shrink-0" date={content.data.updatedDate} dateTimeOptions={dateTimeOptions} />
@@ -144,11 +143,11 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
 <div class="mx-1 mt-4 flex flex-wrap items-center gap-2">
   {/* Tags */}
   {
-    content.data.tags?.length ?
+    content.data.tags.length ?
       (
       <Icon
         aria-hidden="true"
-        class="text-accent inline-block size-6 shrink-0"
+        class="inline-block size-6 shrink-0 text-accent"
         focusable="false"
         name="solar:tag-line-duotone"
       />
@@ -163,11 +162,11 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
       (
       <Icon
         aria-hidden="true"
-        class="text-ink-muted inline-block size-6 shrink-0"
+        class="inline-block size-6 shrink-0 text-ink-muted"
         focusable="false"
         name="solar:tag-line-duotone"
       />
-      <span class="text-ink-muted text-sm">No tags</span>
+      <span class="text-sm text-ink-muted">No tags</span>
       )
   }
 
@@ -178,7 +177,7 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
         <div class="flex items-center gap-2">
           <Icon
             aria-hidden="true"
-            class="text-accent inline-block size-6 shrink-0"
+            class="inline-block size-6 shrink-0 text-accent"
             focusable="false"
             name="solar:notes-line-duotone"
           />
@@ -195,11 +194,11 @@ const postSeries = !!content.data.seriesId && await getCollection('series')
         <div class="flex items-center gap-2">
           <Icon
             aria-hidden="true"
-            class="text-ink-muted inline-block size-6 shrink-0"
+            class="inline-block size-6 shrink-0 text-ink-muted"
             focusable="false"
             name="solar:notes-line-duotone"
           />
-          <span class="text-ink-muted text-sm">Not in series</span>
+          <span class="text-sm text-ink-muted">Not in series</span>
         </div>
       )
   }

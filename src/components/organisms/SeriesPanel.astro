@@ -56,7 +56,8 @@ if (seriesId) {
       id="close-panel"
       class="
         relative flex h-8 w-16 items-center justify-center rounded-lg
-        bg-accent/5 text-accent hover:bg-accent/10 hover:text-brand
+        bg-accent/5 text-accent
+        hover:bg-accent/10 hover:text-brand
       "
       aria-label="Close Series Panel"
     >
@@ -83,7 +84,6 @@ if (seriesId) {
           {seriesPosts.map(p => {
             const isActive = currentPath === `/posts/${p.id}/`
 
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return (
               <li class={`
                 line-clamp-2 flex items-center px-4 py-1

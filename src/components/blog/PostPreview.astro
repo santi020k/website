@@ -1,15 +1,21 @@
 ---
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import type { HTMLTag, Polymorphic } from 'astro/types'
 import type { CollectionEntry } from 'astro:content'
 
-import FormattedDate from '../../components/FormattedDate.astro'
+import FormattedDate from '../atoms/FormattedDate.astro'
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
   post: CollectionEntry<'post'>
   withDesc?: boolean
 }
 
-const { as: Tag = 'div', post, withDesc = false } = Astro.props;
+const {
+  as: Tag = 'div',
+  post,
+  withDesc = false
+} = Astro.props;
 ---
 
 <div class={withDesc ?
@@ -26,7 +32,7 @@ const { as: Tag = 'div', post, withDesc = false } = Astro.props;
           shrink-0 text-sm
           sm:order-2 sm:text-right
         "
-        date={post.data.publishDate}
+        date={post?.data?.publishDate}
         dateTimeOptions={{
           // hour: "2-digit",
           // minute: "2-digit",

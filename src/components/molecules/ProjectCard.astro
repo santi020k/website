@@ -3,8 +3,8 @@ import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import { getProjectPath, getTechnologyPath } from '../../utils/links'
+import FormattedDate from '../atoms/FormattedDate.astro'
 import Pill from '../atoms/Pill.astro'
-import FormattedDate from '../FormattedDate.astro'
 
 interface Props {
   project: CollectionEntry<'project'>
