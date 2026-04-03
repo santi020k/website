@@ -10,8 +10,8 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 type Props = SiteMeta
 
 const { articleDate, articleUpdated, description, ogImage, title } = Astro.props
-const titleSeparator = '•'
-const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
+const titleSeparator = '—'
+const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
 ---
@@ -90,25 +90,27 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
 
 <meta name="generator" content={Astro.generator} />
 
-{/* Structured Data — JSON-LD */}
 <script
   type="application/ld+json"
   set:html={JSON.stringify({
     '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: siteConfig.title,
+    '@type': 'Person',
+    name: siteConfig.author,
     url: Astro.site?.href,
+    jobTitle: 'Engineering Leader & Full-Stack Architect',
     description: siteConfig.description,
-    author: {
-      '@type': 'Person',
-      name: siteConfig.author,
-      url: Astro.site?.href,
-      sameAs: [
-        siteConfig.contact.github,
-        siteConfig.contact.linkedin,
-        siteConfig.contact.medium
-      ].filter(Boolean)
-    }
+    sameAs: [
+      siteConfig.contact.github,
+      siteConfig.contact.linkedin,
+      siteConfig.contact.medium
+    ].filter(Boolean),
+    knowsAbout: [
+      'Full-Stack Engineering',
+      'Software Architecture',
+      'Technical Leadership',
+      'Developer Experience',
+      'Automation Systems'
+    ]
   })}
 />
 

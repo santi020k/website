@@ -19,8 +19,8 @@ export const siteConfig: SiteConfig = {
       year: 'numeric'
     }
   },
-  description: 'Portfolio, case studies, and writing from Santiago Molina on full-stack engineering, developer experience, automation, and technical leadership.',
-  headline: 'I lead engineering teams, automate the hard parts, and build systems that scale.',
+  description: 'Engineering leader and full-stack architect specializing in resilient systems, technical leadership, and developer experience. Exploring the intersection of human teams and high-scale software.',
+  headline: 'I lead engineering teams, architect resilient systems, and build tools that empower developers.',
   lang: 'en-US',
   location: 'Medellin, Colombia · Remote worldwide',
   ogLocale: 'en_US',
