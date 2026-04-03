@@ -9,7 +9,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
 type Props = SiteMeta
 
-const { articleDate, description, ogImage, title } = Astro.props
+const { articleDate, articleUpdated, description, ogImage, title } = Astro.props
 const titleSeparator = '•'
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
@@ -117,10 +117,11 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
     type="application/ld+json"
     set:html={JSON.stringify({
       '@context': 'https://schema.org',
-      '@type': 'Article',
+      '@type': 'BlogPosting',
       headline: title,
       description: description,
       datePublished: articleDate,
+      dateModified: articleUpdated ?? articleDate,
       image: socialImageURL,
       url: canonicalURL.href,
       author: {
@@ -132,6 +133,10 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
         '@type': 'Person',
         name: siteConfig.author,
         url: Astro.site?.href
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': canonicalURL.href
       }
     })}
   />

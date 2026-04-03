@@ -1,36 +1,37 @@
 ---
-import MediumPostImage from './MediumPostImage.astro'
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
 
-import type { MediumPost } from '../../types'
 import { getPostPath } from '../../utils/links'
 import ButtonLink from '../atoms/ButtonLink.astro'
 import FormattedDate from '../atoms/FormattedDate.astro'
 import Pill from '../atoms/Pill.astro'
 
 interface Props {
-  post: MediumPost
+  post: CollectionEntry<'post'>
 }
 
 const { post } = Astro.props
+const { data } = post
 ---
 
 <article class="
   group flex h-full flex-col overflow-hidden rounded-[1.75rem] panel-surface
 "
 >
-  <a aria-label={post.title} class="block" href={getPostPath(post.slug)}>
+  <a aria-label={data.title} class="block" href={getPostPath(post.id)}>
     <div class="relative aspect-16/10 overflow-hidden">
-      {post.imageUrl ?
+      {data.coverImage ?
         (
-          <MediumPostImage
-            alt=""
+          <Image
+            alt={data.coverImage.alt}
             height={720}
-            imageClass="
-            transition duration-500 group-hover:scale-[1.03]
-            motion-reduce:transform-none motion-reduce:transition-none
-          "
-            src={post.imageUrl}
-            wrapperClass="h-full w-full"
+            class="
+              size-full object-cover transition duration-500
+              group-hover:scale-[1.03]
+              motion-reduce:transform-none motion-reduce:transition-none
+            "
+            src={data.coverImage.src}
             width={1280}
           />
         ) :
@@ -47,8 +48,8 @@ const { post } = Astro.props
 
   <div class="flex grow flex-col gap-5 p-6">
     <div class="flex flex-wrap items-center gap-3 text-sm text-ink-muted">
-      <Pill label={post.publication} tone="brand" />
-      <FormattedDate date={new Date(post.publishedAt)} />
+      <Pill label="Inside the Craft" tone="brand" />
+      <FormattedDate date={data.publishDate} />
     </div>
 
     <div class="space-y-3">
@@ -63,22 +64,22 @@ const { post } = Astro.props
             hover:text-brand
             motion-reduce:transition-none
           "
-          href={getPostPath(post.slug)}
+          href={getPostPath(post.id)}
         >
-          {post.title}
+          {data.title}
         </a>
       </h3>
-      <p class="line-clamp-4 text-sm/7 text-ink-soft">{post.excerpt}</p>
+      <p class="line-clamp-4 text-sm/7 text-ink-soft">{data.description}</p>
     </div>
 
     <div class="mt-auto flex flex-wrap items-center justify-between gap-4">
       <div class="flex flex-wrap gap-2">
-        {post.tags.slice(0, 3).map(tag => (
+        {data.tags.slice(0, 3).map(tag => (
           <Pill label={tag} showHash tone="outline" />
         ))}
       </div>
-      <ButtonLink href={getPostPath(post.slug)} showArrow variant="inline">
-        Read preview
+      <ButtonLink href={getPostPath(post.id)} showArrow variant="inline">
+        Read more
       </ButtonLink>
     </div>
   </div>
