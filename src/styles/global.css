@@ -186,8 +186,49 @@
   @apply prose-strong:text-ink prose-strong:font-bold;
   @apply prose-a:text-brand prose-a:no-underline prose-a:border-b prose-a:border-brand/30 hover:prose-a:border-brand transition-colors duration-200;
   @apply prose-blockquote:border-l-4 prose-blockquote:border-brand/40 prose-blockquote:bg-surface-muted/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:italic prose-blockquote:text-ink-soft;
-  @apply prose-code:text-brand prose-code:bg-brand/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none;
-  @apply prose-pre:border prose-pre:border-line prose-pre:bg-surface-muted prose-pre:rounded-2xl prose-pre:shadow-sm prose-pre:my-8;
+  @apply prose-code:before:content-none prose-code:after:content-none;
+  & :not(pre) > code {
+    @apply text-brand bg-brand/10 px-1.5 py-0.5 rounded-md font-medium;
+  }
+  @apply prose-pre:bg-surface-muted/30 prose-pre:rounded-2xl prose-pre:my-8 prose-pre:p-0 prose-pre:border prose-pre:border-line;
+
+  /* --- Rehype Pretty Code / Shiki Styles --- */
+  & [data-rehype-pretty-code-figure] {
+    @apply my-10 relative overflow-hidden rounded-2xl border border-line bg-surface-muted/20 shadow-xl;
+    backdrop-filter: blur(12px);
+  }
+
+  & [data-rehype-pretty-code-figure] pre {
+    @apply m-0 p-5 bg-transparent! overflow-x-auto selection:bg-brand/20;
+  }
+
+  & [data-rehype-pretty-code-figure] code {
+    @apply bg-transparent! p-0 text-[15px] leading-relaxed block min-w-full font-mono;
+    font-variant-ligatures: none;
+  }
+
+  & [data-rehype-pretty-code-figure] [data-line] {
+    @apply border-l-2 border-transparent transition-colors duration-200;
+  }
+
+  & [data-rehype-pretty-code-figure] [data-highlighted-line] {
+    @apply bg-brand/10 border-brand/50;
+  }
+
+  & [data-rehype-pretty-code-title] {
+    @apply px-5 py-3 text-sm font-semibold text-ink border-b border-line bg-surface-muted/40;
+    letter-spacing: 0.05em;
+  }
+
+  & [data-rehype-pretty-code-figure] [data-line-numbers] {
+    counter-reset: line;
+  }
+
+  & [data-rehype-pretty-code-figure] [data-line-numbers] > [data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+    @apply inline-block w-4 mr-6 text-right text-ink-muted/40 select-none font-mono text-xs;
+  }
   @apply prose-img:rounded-2xl prose-img:shadow-xl prose-img:mx-auto prose-img:my-12 prose-img:border prose-img:border-line;
   @apply prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-brand prose-li:my-2;
   @apply prose-hr:border-line prose-hr:my-16;

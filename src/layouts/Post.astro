@@ -20,7 +20,7 @@ const ogImage = post.data.coverImage ?
   new URL(post.data.coverImage.src.src, Astro.url).href :
   undefined
 
-const stats = readingTime(post.body || '')
+const stats = readingTime(post.body ?? '')
 const readingTimeText = stats.text
 ---
 
