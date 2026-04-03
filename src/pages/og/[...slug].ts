@@ -45,21 +45,20 @@ export const GET: APIRoute<OGProps> = async ({ props }) => {
   const fontBold = fs.readFileSync(path.resolve('./public/fonts/Montserrat-ExtraBold.ttf'))
 
   // template matching the site's dark theme
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const markup = satoriHtml.html(`
+  const markupHtml = `
     <div style="height: 630px; width: 1200px; display: flex; flex-direction: column; 
     align-items: flex-start; justify-content: center; background-color: #17121d; 
     color: #e9e5f1; font-family: 'Montserrat', sans-serif; position: relative;">
       <!-- Subtle Brand Gradients -->
-      <div style="position: absolute; top: -100px; left: -100px; width: 500px; height: 500px; 
+      <div style="display: flex; position: absolute; top: -100px; left: -100px; width: 500px; height: 500px; 
       background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, transparent 70%); border-radius: 100%;"></div>
-      <div style="position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px; 
+      <div style="display: flex; position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px; 
       background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%); border-radius: 100%;"></div>
 
       <div style="padding: 0 80px; display: flex; flex-direction: column; width: 100%;">
         <!-- Content Type Badge -->
         <div style="display: flex; align-items: center; margin-bottom: 32px;">
-          <div style="height: 28px; width: 4px; background-color: #a855f7; margin-right: 16px; 
+          <div style="display: flex; height: 28px; width: 4px; background-color: #a855f7; margin-right: 16px; 
           border-radius: 2px;"></div>
           <span style="font-size: 22px; font-weight: 800; text-transform: uppercase; 
           letter-spacing: 0.15em; color: #a855f7;">
@@ -93,10 +92,13 @@ export const GET: APIRoute<OGProps> = async ({ props }) => {
       </div>
 
       <!-- Brand Bottom Bar -->
-      <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 8px; 
+      <div style="display: flex; position: absolute; bottom: 0; left: 0; width: 100%; height: 8px; 
       background: linear-gradient(90deg, #a855f7, #6366f1);"></div>
     </div>
-  `) as unknown as Parameters<typeof satori>[0]
+  `.trim()
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const markup = satoriHtml.html(markupHtml) as unknown as Parameters<typeof satori>[0]
 
   const svg = await satori(markup, {
     width: 1200,
