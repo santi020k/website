@@ -38,10 +38,12 @@ const breadcrumbs = [
   title: 'Engineering Portfolio — Santiago Molina'
 }}
 >
-  <section class="
-    grid gap-6
-    lg:grid-cols-[1.1fr_0.9fr]
-  "
+  <section
+    class="
+      section-shell grid gap-8
+      lg:grid-cols-[1.1fr_0.9fr]
+    "
+    data-animate
   >
     <div class="space-y-6">
       <SectionHeading
@@ -50,7 +52,7 @@ const breadcrumbs = [
         level="h1"
         title="Case studies from real teams, products, and constraints."
       />
-      <div class="flex flex-wrap gap-3">
+      <div class="section-actions">
         <ButtonLink href={siteConfig.contact.resume} newTab showArrow>
           Open resume
         </ButtonLink>
@@ -69,7 +71,7 @@ const breadcrumbs = [
     <div class="
       grid gap-4
       sm:grid-cols-3
-      lg:sticky lg:top-32 lg:h-fit lg:grid-cols-1
+      lg:grid-cols-1
     "
     >
       <StatCard description="Roles across commerce, gaming, real estate, martech, agencies, and SaaS." label="Professional" value={String(professionalCount)} />
@@ -78,10 +80,9 @@ const breadcrumbs = [
     </div>
   </section>
 
-  <section class="space-y-14">
+  <section class="space-y-12">
     {allTypes.map(type => (
-
-      <section class="space-y-8" id={type.id}>
+      <section class="section-shell-subtle space-y-8" data-animate id={type.id}>
         <SectionHeading
           description={type.data.description}
           eyebrow={type.id === 'professional' ? 'Client and product work' : 'Personal builds'}
@@ -101,7 +102,7 @@ const breadcrumbs = [
     ))}
   </section>
 
-  <section class="space-y-8">
+  <section class="section-shell-subtle space-y-8" data-animate>
     <SectionHeading
       description="React and TypeScript sit at the center, but the stack widens to fit the product: testing, mobile, backend, DX, and delivery tooling."
       eyebrow="Technology map"

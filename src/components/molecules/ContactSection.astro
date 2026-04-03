@@ -1,24 +1,42 @@
 ---
-/* eslint-disable @stylistic/indent */
 import { Icon } from 'astro-icon/components'
+
+import SectionHeading from './SectionHeading.astro'
 
 import { siteConfig } from '../../site.config'
 
+const submitButtonClass = `
+  group flex min-h-12 w-full cursor-pointer items-center justify-center gap-3
+  rounded-full border border-brand bg-brand px-5 py-3 text-sm font-semibold
+  tracking-[0.01em] text-white transition-all duration-200
+  hover:-translate-y-0.5 hover:bg-brand/90
+  disabled:cursor-not-allowed disabled:opacity-60
+  motion-reduce:transition-none motion-reduce:hover:translate-y-0
+`
+
+const submitIconClass = `
+  size-5 transition-transform duration-200
+  motion-safe:group-hover:translate-x-0.5
+  motion-safe:group-hover:-translate-y-0.5
+  motion-reduce:transition-none
+`
+
+const spinnerIconClass = 'size-5 animate-spin motion-reduce:animate-none'
 ---
 
 <section
   id="contact"
   class="
-    grid gap-12
-    lg:grid-cols-2 lg:items-start
+    section-shell grid gap-10
+    lg:grid-cols-[0.95fr_1.05fr] lg:items-start
   "
+  data-animate
   x-data="{
-    status: 'idle', // idle, sending, success, error
+    status: 'idle',
     formData: { name: '', email: '', message: '' },
     async submit() {
       this.status = 'sending';
       try {
-        // Mocking a successful submission
         await new Promise(resolve => setTimeout(resolve, 1500));
         this.status = 'success';
         this.formData = { name: '', email: '', message: '' };
@@ -28,77 +46,82 @@ import { siteConfig } from '../../site.config'
     }
   }"
 >
-  <div class="space-y-6">
-    <div class="space-y-4">
-      <p class="text-sm font-semibold tracking-[0.2em] text-brand uppercase">Contact</p>
-      <h2 class="
-        text-4xl font-bold
-        sm:text-5xl
-      "
-      >Let’s build something useful together.
-      </h2>
-      <p class="text-lg text-ink-soft">
-        Whether you have a specific project in mind or just want to chat about engineering leadership
-        , I’m always open to a conversation.
-      </p>
-    </div>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 grid-fade opacity-35"
+  />
 
-    <div class="space-y-4">
-      <div class="
-        flex items-center gap-4 rounded-2xl bg-surface-muted p-4 subtle-outline
-      "
-      >
+  <div class="relative z-10 space-y-6">
+    <SectionHeading
+      description="Whether you have a project in flight or just want to compare notes on engineering leadership, architecture, and developer experience, I'm always open to a thoughtful conversation."
+      eyebrow="Contact"
+      title="Let’s build something useful together."
+    />
+
+    <div class="grid gap-4">
+      <div class="panel-card flex items-start gap-4 p-5">
         <div class="
-          flex size-12 items-center justify-center rounded-xl bg-brand/10
-          text-brand
+          flex size-12 shrink-0 items-center justify-center rounded-2xl
+          bg-brand-soft text-brand
         "
         >
-          <Icon name="tabler:mail" class="size-6" />
+          <Icon aria-hidden="true" class="size-6" name="tabler:mail" />
         </div>
-        <div>
-          <p class="text-xs font-semibold text-ink-muted uppercase">Email</p>
+        <div class="space-y-1">
+          <p class="section-label">Email</p>
           <a
-            href={`mailto:${siteConfig.contact.email}`}
             class="
-              text-lg font-medium text-ink transition-colors
+              text-lg font-semibold text-ink transition-colors
               hover:text-brand
             "
+            href={`mailto:${siteConfig.contact.email}`}
           >
             {siteConfig.contact.email}
           </a>
+          <p class="text-sm/6 text-ink-soft">Best for project inquiries, consulting, and leadership roles.</p>
         </div>
       </div>
 
-      <div class="
-        flex items-center gap-4 rounded-2xl bg-surface-muted p-4 subtle-outline
-      "
-      >
+      <div class="panel-card flex items-start gap-4 p-5">
         <div class="
-          flex size-12 items-center justify-center rounded-xl bg-brand/10
-          text-brand
+          flex size-12 shrink-0 items-center justify-center rounded-2xl
+          bg-brand-soft text-brand
         "
         >
-          <Icon name="tabler:brand-linkedin" class="size-6" />
+          <Icon aria-hidden="true" class="size-6" name="tabler:brand-linkedin" />
         </div>
-        <div>
-          <p class="text-xs font-semibold text-ink-muted uppercase">LinkedIn</p>
+        <div class="space-y-1">
+          <p class="section-label">LinkedIn</p>
           <a
-            href={siteConfig.contact.linkedin}
-            target="_blank"
-            rel="noopener"
             class="
-              text-lg font-medium text-ink transition-colors
+              text-lg font-semibold text-ink transition-colors
               hover:text-brand
             "
+            href={siteConfig.contact.linkedin}
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            santi020k
+            /in/santi020k
           </a>
+          <p class="text-sm/6 text-ink-soft">A good option if you prefer a faster async conversation.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="rounded-4xl p-8 panel-surface">
+  <div class="
+    panel-card relative z-10 p-6
+    sm:p-8
+  "
+  >
+    <p
+      aria-atomic="true"
+      aria-live="polite"
+      class="sr-only"
+      x-text="status === 'sending' ? 'Sending message' : status === 'success' ? 'Message sent successfully' : status === 'error' ? 'There was an error sending your message' : ''"
+    >
+    </p>
+
     <form
       x-show="status !== 'success'"
       @submit.prevent="submit()"
@@ -111,130 +134,115 @@ import { siteConfig } from '../../site.config'
       >
         <div class="space-y-2">
           <label
-            for="name"
             class="text-sm font-semibold tracking-wide text-ink/80"
-          >Full Name
+            for="name"
+          >
+            Full Name
           </label>
           <input
-            type="text"
             id="name"
-            x-model="formData.name"
+            class="field-surface"
             placeholder="Santiago Molina"
             required
-            class="
-              w-full rounded-xl border border-line/50 bg-surface-muted/50 px-4
-              py-3.5 text-ink transition-all outline-none
-              placeholder:text-ink-muted/50
-              focus:border-brand focus:ring-2 focus:ring-brand/10
-            "
+            type="text"
+            x-model="formData.name"
           />
         </div>
+
         <div class="space-y-2">
           <label
-            for="email"
             class="text-sm font-semibold tracking-wide text-ink/80"
-          >Email address
+            for="email"
+          >
+            Email address
           </label>
           <input
-            type="email"
             id="email"
-            x-model="formData.email"
+            class="field-surface"
             placeholder="you@example.com"
             required
-            class="
-              w-full rounded-xl border border-line/50 bg-surface-muted/50 px-4
-              py-3.5 text-ink transition-all outline-none
-              placeholder:text-ink-muted/50
-              focus:border-brand focus:ring-2 focus:ring-brand/10
-            "
+            type="email"
+            x-model="formData.email"
           />
         </div>
       </div>
+
       <div class="space-y-2">
         <label
-          for="message"
           class="text-sm font-semibold tracking-wide text-ink/80"
-        >How can I help?
+          for="message"
+        >
+          How can I help?
         </label>
         <textarea
           id="message"
-          x-model="formData.message"
-          placeholder="Tell me about your project or goal..."
+          class="min-h-40 field-surface resize-none"
+          placeholder="Tell me about your project, team, or the kind of systems you need help shipping."
           required
           rows="5"
-          class="
-            w-full resize-none rounded-xl border border-line/50
-            bg-surface-muted/50 px-4 py-3.5 text-ink transition-all outline-none
-            placeholder:text-ink-muted/50
-            focus:border-brand focus:ring-2 focus:ring-brand/10
-          "
+          x-model="formData.message"
         >
         </textarea>
       </div>
 
-      <button
-        type="submit"
-        :disabled="status === 'sending'"
-          class="
-            group flex w-full cursor-pointer items-center justify-center gap-3
-            rounded-xl bg-brand py-4 font-bold text-white transition-all
-            hover:translate-y-[-2px] hover:shadow-lg hover:shadow-brand/20
-            active:translate-y-0
-            disabled:cursor-not-allowed disabled:opacity-50
-          "
-      >
-        <span x-text="status === 'sending' ? 'Sending...' : 'Send Message'"></span>
+      <button :disabled="status === 'sending'" class={submitButtonClass} type="submit">
+        <span x-text="status === 'sending' ? 'Sending...' : 'Send message'"></span>
         <Icon
+          aria-hidden="true"
+          class={submitIconClass}
           name="tabler:send-2"
-          class="
-            size-5 transition-transform
-            group-hover:translate-x-1 group-hover:-translate-y-1
-          "
           x-show="status !== 'sending'"
         />
-        <Icon name="tabler:loader-2" class="size-5 animate-spin" x-show="status === 'sending'" x-cloak />
+        <Icon
+          aria-hidden="true"
+          class={spinnerIconClass}
+          name="tabler:loader-2"
+          x-cloak
+          x-show="status === 'sending'"
+        />
       </button>
     </form>
 
     <div
       x-show="status === 'success'"
-      class="flex flex-col items-center gap-8 py-12 text-center"
-      x-transition:enter="transition ease-out duration-500"
-      x-transition:enter-start="opacity-0 scale-90"
-      x-transition:enter-end="opacity-100 scale-100"
+      class="flex flex-col items-center gap-6 py-10 text-center"
       x-cloak
+      x-transition:enter="transition ease-out duration-500"
+      x-transition:enter-start="opacity-0 scale-95"
+      x-transition:enter-end="opacity-100 scale-100"
     >
       <div class="
-        relative flex size-24 items-center justify-center rounded-full
-        bg-brand/10 text-brand
+        relative flex size-20 items-center justify-center rounded-full
+        bg-brand-soft text-brand
       "
       >
         <div class="
-          absolute inset-0 animate-ping rounded-full bg-brand/20 opacity-40
+          absolute inset-0 animate-ping rounded-full bg-brand/15
+          motion-reduce:animate-none
         "
         >
         </div>
-        <Icon name="tabler:circle-check-filled" class="relative z-10 size-16" />
+        <Icon aria-hidden="true" class="relative z-10 size-12" name="tabler:circle-check-filled" />
       </div>
-      <div class="space-y-3">
-        <h3 class="text-3xl font-bold text-ink">Message Received!</h3>
-        <p class="mx-auto max-w-sm text-lg text-ink-soft">
-          Thanks for reaching out. I'll get back to you personally within 24-48 hours.
+
+      <div class="space-y-2">
+        <p class="section-label text-brand">Message received</p>
+        <h3 class="text-3xl font-bold text-ink">I’ll be in touch shortly.</h3>
+        <p class="mx-auto max-w-sm text-base/7 text-ink-soft">
+          Thanks for reaching out. I usually reply within one to two business days.
         </p>
       </div>
+
       <button
-        @click="status = 'idle'"
         class="
           cursor-pointer text-sm font-semibold text-brand transition-colors
-          hover:text-brand-soft
+          hover:text-accent
         "
+        type="button"
+        @click="status = 'idle'"
       >
         Send another message
       </button>
     </div>
   </div>
 </section>
-
-<style>
-  [x-cloak] { display: none !important; }
-</style>

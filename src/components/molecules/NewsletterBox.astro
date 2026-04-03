@@ -1,128 +1,131 @@
 ---
 import { Icon } from 'astro-icon/components'
 
+import Eyebrow from '../atoms/Eyebrow.astro'
 ---
 
 <section
   class="
-    relative overflow-hidden rounded-4xl p-8 panel-surface
-    sm:p-12
+    section-shell grid gap-8
+    lg:grid-cols-[1fr_0.95fr] lg:items-center
   "
+  data-animate
   x-data="{
     subscribed: false,
     email: '',
     subscribe() {
       if (!this.email) return;
-      console.log('Subscribing:', this.email);
       this.subscribed = true;
       this.email = '';
     }
   }"
 >
-  <div class="pointer-events-none absolute inset-0 grid-fade opacity-5" />
-
   <div
-    class="
-      relative z-10 grid gap-8
-      lg:grid-cols-2 lg:items-center
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 grid-fade opacity-25"
+  />
+
+  <div class="relative z-10 space-y-4">
+    <Eyebrow label="Newsletter" tone="brand" />
+    <h2 class="
+      max-w-3xl text-3xl
+      sm:text-4xl
+      lg:text-5xl
     "
+    >
+      Engineering that ships and systems that last.
+    </h2>
+    <p class="max-w-2xl section-copy">
+      Get my latest thoughts on software architecture, full-stack systems, automation, and technical leadership
+      delivered with the same practical lens I use on product teams.
+    </p>
+  </div>
+
+  <div class="
+    panel-card relative z-10 p-6
+    sm:p-7
+  "
   >
-    <div class="space-y-4">
-      <div
+    <p
+      aria-atomic="true"
+      aria-live="polite"
+      class="sr-only"
+      x-text="subscribed ? 'Subscription successful' : ''"
+    >
+    </p>
+
+    <div x-show="!subscribed" class="space-y-4" x-transition>
+      <form
+        @submit.prevent="subscribe()"
         class="
-          inline-flex items-center gap-2 rounded-full border border-brand/20
-          bg-brand/5 px-4 py-1.5 text-xs font-semibold tracking-widest
-          text-brand uppercase
+          flex flex-col gap-3
+          sm:flex-row
         "
       >
-        <Icon name="tabler:mailbox" class="size-4" />
-        <span>Newsletter</span>
-      </div>
-      <h2 class="
-        text-3xl font-bold text-ink
-        sm:text-4xl
-      "
-      >Engineering that ships and systems that last.
-      </h2>
-      <p class="text-lg text-ink-soft">
-        Get my latest thoughts on software architecture, full-stack systems, automation, and tech leadership directly in
-        your inbox.
+        <input
+          class="
+            field-surface
+            sm:flex-1
+          "
+          placeholder="Enter your email"
+          required
+          type="email"
+          x-model="email"
+        />
+        <button
+          class="
+            flex min-h-12 cursor-pointer items-center justify-center
+            rounded-full border border-brand bg-brand px-6 py-3 text-sm
+            font-semibold tracking-[0.01em] text-white transition-all
+            duration-200
+            hover:-translate-y-0.5 hover:bg-brand/90
+            motion-reduce:transition-none
+            motion-reduce:hover:translate-y-0
+          "
+          type="submit"
+        >
+          Subscribe
+        </button>
+      </form>
+      <p class="text-sm/6 text-ink-soft">
+        No spam, ever. Just high-signal notes on systems, delivery, and engineering craft.
       </p>
     </div>
 
-    <div class="flex flex-col gap-4">
-      <div x-show="!subscribed" class="space-y-4" x-transition>
-        <form
-          @submit.prevent="subscribe()"
-          class="
-            relative flex flex-col gap-3
-            sm:flex-row
-          "
-        >
-          <input
-            type="email"
-            x-model="email"
-            placeholder="enter your email"
-            required
-            class="
-              w-full rounded-2xl border border-line/50 bg-surface-muted/50 px-6
-              py-4 text-ink
-              placeholder:text-ink-muted/50
-              focus:ring-2 focus:ring-brand/20
-              sm:flex-1
-            "
-          />
-          <button
-            type="submit"
-            class="
-              cursor-pointer rounded-2xl bg-brand px-8 py-4 font-bold text-white
-              transition-all
-              hover:translate-y-[-2px] hover:shadow-lg hover:shadow-brand/20
-              active:translate-y-0
-              sm:w-auto
-            "
-          >
-            Subscribe
-          </button>
-        </form>
-        <p class="text-xs text-ink-muted">
-          No spam, ever. Just high-signal engineering content. Unsubscribe anytime.
+    <div
+      x-show="subscribed"
+      class="
+        flex flex-col items-center gap-4 text-center
+        sm:items-start sm:text-left
+      "
+      x-cloak
+      x-transition
+    >
+      <div class="
+        flex size-16 items-center justify-center rounded-full bg-brand-soft
+        text-brand
+      "
+      >
+        <Icon aria-hidden="true" class="size-8" name="tabler:check" />
+      </div>
+      <div class="space-y-2">
+        <p class="section-label text-brand">Subscribed</p>
+        <h3 class="text-2xl font-bold text-ink">You’re in.</h3>
+        <p class="text-sm/6 text-ink-soft">
+          Thanks for subscribing. Check your inbox to confirm your email.
         </p>
       </div>
-
-      <div
-        x-show="subscribed"
+      <button
         class="
-          flex flex-col items-center gap-4 text-center
-          sm:items-start sm:text-left
+          cursor-pointer text-sm font-medium text-ink-muted underline
+          underline-offset-4
+          hover:text-ink
         "
-        x-transition
-        x-cloak
+        type="button"
+        @click="subscribed = false"
       >
-        <div class="
-          flex size-16 items-center justify-center rounded-full bg-brand/10
-        "
-        >
-          <Icon name="tabler:check" class="size-8 text-brand" />
-        </div>
-        <div class="space-y-2">
-          <h3 class="text-2xl font-bold text-ink">You're in!</h3>
-          <p class="text-ink-soft">Thanks for subscribing. Check your inbox to confirm your email.</p>
-        </div>
-        <button
-          @click="subscribed = false"
-          class="
-            cursor-pointer text-sm font-medium text-ink-muted underline
-            hover:text-ink
-          "
-        >
-          Subscribe another email
-        </button>
-      </div>
+        Subscribe another email
+      </button>
     </div>
   </div>
 </section>
-
-<style>
-  [x-cloak] { display: none !important; }
-</style>

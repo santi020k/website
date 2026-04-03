@@ -58,10 +58,7 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
         sm:flex
       "
       >
-        <span class="
-          text-xs font-semibold tracking-[0.22em] text-ink-muted uppercase
-        "
-        >Santiago Molina
+        <span class="section-label">Santiago Molina
         </span>
         <span class="text-xs text-ink-soft">Architecture · DX · Product</span>
       </span>
@@ -80,14 +77,14 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
             aria-current={Astro.url.pathname === link.path ? 'page' : undefined}
             class:list={[
               `
-                rounded-full px-4 py-2 text-sm font-medium transition-all
+                rounded-full border px-4 py-2 text-sm font-medium transition-all
                 duration-200
               `,
               Astro.url.pathname === link.path ?
-                'bg-brand-soft font-semibold text-brand ring-1 ring-brand/25' :
+                'border-brand/20 bg-brand-soft/80 font-semibold text-brand' :
                 `
-                  text-ink-soft
-                  hover:bg-surface-muted hover:text-ink
+                  border-transparent text-ink-soft
+                  hover:border-line/70 hover:bg-surface-muted/80 hover:text-ink
                 `
             ]}
             href={link.path}
@@ -121,7 +118,7 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
         aria-label="Toggle navigation"
         class="
           inline-flex size-11 cursor-pointer items-center justify-center
-          rounded-full text-ink panel-surface
+          rounded-full border border-line/70 bg-surface/80 text-ink
         "
         type="button"
         x-on:click="open = !open"
@@ -146,24 +143,22 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
       x-transition:leave-start="opacity-100 translate-y-0 scale-100"
       x-transition:leave-end="opacity-0 -translate-y-2 scale-[0.98]"
     >
-      <div class="flex flex-col gap-2 rounded-3xl p-4 panel-surface">
+      <div class="panel-card flex flex-col gap-2 p-4">
         {
           menuLinks.map((link: SiteLink) => (
             <a
               aria-current={Astro.url.pathname === link.path ? 'page' : undefined}
               class:list={[
                 `
-                  rounded-2xl px-4 py-3 text-sm font-medium transition
+                  rounded-2xl border px-4 py-3 text-sm font-medium transition
                   duration-200
                 `,
                 Astro.url.pathname === link.path ?
+                  'border-brand/20 bg-brand-soft/80 font-semibold text-brand' :
                   `
-                    border-l-2 border-brand bg-brand-soft font-semibold
-                    text-brand
-                  ` :
-                  `
-                    text-ink-soft
-                    hover:bg-surface-muted hover:text-ink
+                    border-transparent text-ink-soft
+                    hover:border-line/70 hover:bg-surface-muted/80
+                    hover:text-ink
                   `
               ]}
               href={link.path}

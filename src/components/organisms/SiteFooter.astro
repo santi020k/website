@@ -13,18 +13,19 @@ const year = new Date().getFullYear()
   lg:px-8
 "
 >
-  <div class="mx-auto w-full max-w-6xl space-y-20">
+  <div class="mx-auto w-full max-w-6xl space-y-16">
     <ContactSection />
 
     <NewsletterBox />
 
     <div class="
-      grid gap-8 border-t border-line pt-10
+      section-shell-subtle grid gap-8
       md:grid-cols-[2fr_1fr]
     "
     >
       <div class="space-y-4">
-        <h3 class="text-xl font-bold">{siteConfig.author}</h3>
+        <p class="section-label">Santiago Molina</p>
+        <h3 class="text-2xl font-bold">{siteConfig.author}</h3>
         <p class="max-w-md text-sm/6 text-ink-soft">
           Engineering leader and full-stack architect specializing in resilient systems,
           technical leadership, and developer experience.

@@ -14,9 +14,20 @@ const { project } = Astro.props
 const projectLink = getPortfolioPath(project.id)
 ---
 
-<article class="group relative overflow-hidden rounded-[1.75rem] panel-surface">
+<article class="
+  group panel-card relative flex h-full flex-col overflow-hidden transition
+  duration-300
+  hover:-translate-y-0.5 hover:border-brand/25
+  motion-reduce:transition-none
+  motion-reduce:hover:translate-y-0
+"
+>
   <a aria-label={project.data.title} class="block" href={projectLink}>
-    <div class="relative aspect-16/10 overflow-hidden bg-surface-muted">
+    <div class="
+      relative aspect-16/10 overflow-hidden border-b border-line/45
+      bg-surface-muted
+    "
+    >
       {project.data.coverImage?.src ?
         (
           <Image
@@ -38,14 +49,18 @@ const projectLink = getPortfolioPath(project.id)
           <div class="size-full grid-fade" />
         )}
       <div class="
-        absolute inset-0 bg-linear-to-t from-canvas/40 via-transparent
+        absolute inset-0 bg-linear-to-t from-canvas/55 via-canvas/10
         to-transparent
       "
       />
     </div>
   </a>
 
-  <div class="flex flex-col gap-5 p-6">
+  <div class="
+    flex grow flex-col gap-6 p-6
+    sm:p-7
+  "
+  >
     <div class="
       flex flex-wrap items-center gap-2 text-sm text-ink-muted
       sm:gap-3
@@ -65,8 +80,9 @@ const projectLink = getPortfolioPath(project.id)
 
     <div class="space-y-3">
       <h3 class="
-        text-2xl
+        text-[1.7rem] leading-tight transition-colors duration-200
         group-hover:text-brand
+        motion-reduce:transition-none
       "
       >
         <a
@@ -83,7 +99,7 @@ const projectLink = getPortfolioPath(project.id)
       <p class="line-clamp-4 text-sm/7 text-ink-soft">{project.data.description}</p>
     </div>
 
-    <div class="flex flex-wrap gap-2">
+    <div class="mt-auto flex flex-wrap gap-2">
       {project.data.technologies.slice(0, 4).map(technology => (
         <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
       ))}

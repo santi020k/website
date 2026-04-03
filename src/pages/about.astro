@@ -24,24 +24,28 @@ const meta = {
 <PageLayout meta={meta}>
   <section
     class="
-      grid gap-12
-      lg:grid-cols-[1fr_auto] lg:items-start
+      section-shell grid gap-10
+      lg:grid-cols-[1fr_0.72fr] lg:items-start
     "
+    data-animate
   >
-    <div class="max-w-2xl space-y-8">
-      <div class="space-y-4">
+    <div class="pointer-events-none absolute inset-0 grid-fade opacity-35" />
+
+    <div class="relative z-10 max-w-3xl space-y-8">
+      <div class="space-y-5">
         <Eyebrow label="About" tone="brand" />
         <h1
           class="
-            text-4xl font-extrabold tracking-tight text-ink
+            max-w-4xl text-4xl font-extrabold tracking-tight text-ink
             sm:text-5xl
+            lg:text-6xl
           "
         >
           {siteConfig.headline}
         </h1>
       </div>
 
-      <div class="space-y-6 text-lg/8 text-ink-soft">
+      <div class="space-y-6 section-copy">
         <p>
           I'm Santiago Molina, a full-stack engineer and tech lead based in Medellín, Colombia.
           Over the last {yearsOfExperience} years I've shipped products across commerce, SaaS, gaming,
@@ -70,7 +74,7 @@ const meta = {
         </p>
       </div>
 
-      <div class="flex flex-wrap gap-3">
+      <div class="section-actions">
         <ButtonLink href="/portfolio/" showArrow>
           See selected work
         </ButtonLink>
@@ -87,8 +91,8 @@ const meta = {
 
     <div
       class="
-        hidden overflow-hidden rounded-4xl
-        lg:block lg:w-72 lg:shrink-0
+        panel-card relative z-10 hidden overflow-hidden
+        lg:block lg:w-full lg:max-w-sm lg:shrink-0
       "
     >
       <Image
@@ -104,7 +108,7 @@ const meta = {
     </div>
   </section>
 
-  <section class="space-y-8">
+  <section class="section-shell-subtle space-y-8" data-animate>
     <SectionHeading
       description="A few things that shape how I work, how I lead, and what I focus on."
       eyebrow="Principles"
@@ -144,7 +148,11 @@ const meta = {
           body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
         }
       ].map(({ title, body }) => (
-        <div class="space-y-3 rounded-2xl p-6 panel-surface">
+        <div class="
+          panel-card h-full space-y-3 p-6
+          sm:p-7
+        "
+        >
           <h3 class="font-semibold text-ink">{title}</h3>
           <p class="text-sm/7 text-ink-soft">{body}</p>
         </div>

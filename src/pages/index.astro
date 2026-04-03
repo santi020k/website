@@ -41,12 +41,14 @@ const meta = {
 <PageLayout meta={meta}>
   <section
     class="
-      grid gap-8
+      section-shell grid gap-10
       lg:grid-cols-[1.15fr_0.85fr] lg:items-center
     "
     data-animate
   >
-    <div class="space-y-8">
+    <div class="pointer-events-none absolute inset-0 grid-fade opacity-35" />
+
+    <div class="relative z-10 space-y-10">
       <Eyebrow
         label="Leadership · Automation · DX"
         tone="brand"
@@ -76,11 +78,7 @@ const meta = {
         </p>
       </div>
 
-      <div class="
-        flex flex-col gap-3
-        sm:flex-row sm:flex-wrap
-      "
-      >
+      <div class="section-actions">
         <ButtonLink href="/portfolio/" showArrow>
           See selected work
         </ButtonLink>
@@ -99,7 +97,7 @@ const meta = {
     </div>
 
     <div class="
-      relative w-full overflow-hidden rounded-4xl p-4 panel-surface
+      panel-card relative z-10 w-full p-4
       sm:p-5
     "
     >
@@ -121,20 +119,12 @@ const meta = {
           sm:grid-cols-2
         "
         >
-          <div class="rounded-[1.25rem] bg-surface p-4">
-            <p class="
-              text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase
-            "
-            >Primary focus
-            </p>
+          <div class="panel-card p-4">
+            <p class="section-label">Primary focus</p>
             <p class="mt-2 text-lg font-semibold text-ink">Full-stack · Automation · DX</p>
           </div>
-          <div class="rounded-[1.25rem] bg-surface p-4">
-            <p class="
-              text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase
-            "
-            >Working style
-            </p>
+          <div class="panel-card p-4">
+            <p class="section-label">Working style</p>
             <p class="mt-2 text-lg font-semibold text-ink">Hands-on tech leadership</p>
           </div>
         </div>
@@ -157,7 +147,7 @@ const meta = {
     <StatCard description="Typical attendance for ReactJS Colombia meetups, workshops, and talks." label="Community" value="100+" />
   </section>
 
-  <section class="space-y-8" data-animate>
+  <section class="section-shell-subtle space-y-8" data-animate>
     <SectionHeading
       description="React and TypeScript sit at the center, but the work extends across the full stack: backend services, automation pipelines, testing infrastructure, and delivery tooling."
       eyebrow="Stack"
@@ -196,23 +186,35 @@ const meta = {
     "
     data-animate
   >
-    <div class="rounded-[1.75rem] p-6 panel-surface">
-      <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">What I do now</p>
+    <div class="
+      panel-card h-full p-6
+      sm:p-7
+    "
+    >
+      <p class="section-label">What I do now</p>
       <h2 class="mt-4 text-3xl">Engineering that ships and systems that last.</h2>
       <p class="mt-4 text-base/7 text-ink-soft">
         My work spans full-stack delivery, developer tooling, and automation — finding the slowest parts of a
         team's workflow and making them disappear.
       </p>
     </div>
-    <div class="rounded-[1.75rem] p-6 panel-surface">
-      <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">How I lead</p>
+    <div class="
+      panel-card h-full p-6
+      sm:p-7
+    "
+    >
+      <p class="section-label">How I lead</p>
       <p class="mt-4 text-base/7 text-ink-soft">
         I stay close to the code. I help teams set standards, cut rework, and make better decisions earlier —
         especially on architecture, automation, and developer experience.
       </p>
     </div>
-    <div class="rounded-[1.75rem] p-6 panel-surface">
-      <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">Outside the sprint</p>
+    <div class="
+      panel-card h-full p-6
+      sm:p-7
+    "
+    >
+      <p class="section-label">Outside the sprint</p>
       <p class="mt-4 text-base/7 text-ink-soft">
         I co-organize ReactJS Colombia, write about DX and engineering workflows, and keep building while working
         remotely from Medellin and on the road.

@@ -8,6 +8,7 @@ import readingTime from 'reading-time'
 import BaseLayout from './Base.astro'
 
 import FormattedDate from '../components/atoms/FormattedDate.astro'
+import Pill from '../components/atoms/Pill.astro'
 import RelatedPosts from '../components/molecules/RelatedPosts.astro'
 import ShareButtons from '../components/molecules/ShareButtons.astro'
 
@@ -92,7 +93,11 @@ const breadcrumbs = [
   </div>
 
   <article class="mx-auto flex w-full max-w-6xl flex-col gap-10">
-    <header class="flex animate-slide-up flex-col gap-6">
+    <header class="
+      section-shell flex animate-slide-up flex-col gap-8
+      motion-reduce:animate-none
+    "
+    >
       <div class="flex items-center gap-2 text-sm font-medium text-ink-muted">
         <a
           href="/blog/"
@@ -102,7 +107,7 @@ const breadcrumbs = [
           "
         >Blog
         </a>
-        <Icon name="tabler:chevron-right" class="size-4" />
+        <Icon aria-hidden="true" name="tabler:chevron-right" class="size-4" />
         <span class="text-ink-soft">Post</span>
       </div>
 
@@ -120,17 +125,18 @@ const breadcrumbs = [
           flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ink-soft
         "
         >
+          <Pill label="Article" tone="brand" />
           <div class="flex items-center gap-2">
-            <Icon name="tabler:calendar" class="size-4" />
+            <Icon aria-hidden="true" name="tabler:calendar" class="size-4" />
             <FormattedDate date={publishDate} />
           </div>
           <div class="flex items-center gap-2">
-            <Icon name="tabler:clock" class="size-4" />
+            <Icon aria-hidden="true" name="tabler:clock" class="size-4" />
             <span>{readingTimeText}</span>
           </div>
           {updatedDate && (
             <div class="flex items-center gap-2">
-              <Icon name="tabler:refresh" class="size-4" />
+              <Icon aria-hidden="true" name="tabler:refresh" class="size-4" />
               <span>Updated: <FormattedDate date={updatedDate} /></span>
             </div>
           )}
@@ -144,7 +150,11 @@ const breadcrumbs = [
                 hover:text-brand
               "
             >
-              <Icon name="tabler:external-link" class="size-4" />
+              <Icon
+                aria-hidden="true"
+                name="tabler:external-link"
+                class="size-4"
+              />
               <span>Original on Medium</span>
             </a>
           )}
@@ -152,10 +162,7 @@ const breadcrumbs = [
       </div>
 
       {post.data.coverImage && (
-        <div class="
-          relative aspect-video overflow-hidden rounded-2xl subtle-outline
-        "
-        >
+        <div class="panel-card relative aspect-video overflow-hidden">
           <Image
             src={post.data.coverImage.src}
             alt={post.data.coverImage.alt}
@@ -166,10 +173,9 @@ const breadcrumbs = [
       )}
     </header>
 
-    <div class="
-      prose-santi mx-auto w-full max-w-3xl animate-fade-in
-      [animation-delay:200ms]
-    "
+    <div
+      class="prose-santi mx-auto w-full max-w-3xl animate-fade-in"
+      style="animation-delay: 200ms"
     >
       <slot />
       <div class="mt-16">
@@ -177,20 +183,15 @@ const breadcrumbs = [
       </div>
     </div>
 
-    <footer class="
-      mt-20 flex animate-fade-in flex-col gap-10 border-t border-line pt-10
-      [animation-delay:400ms]
-    "
+    <footer
+      class="
+        mt-20 flex animate-fade-in flex-col gap-10 border-t border-line pt-10
+      "
+      style="animation-delay: 400ms"
     >
       <div class="flex flex-wrap gap-2">
         {post.data.tags.map(tag => (
-          <span class="
-            rounded-full bg-surface-muted px-4 py-1.5 text-sm font-medium
-            text-ink-soft subtle-outline
-          "
-          >
-            #{tag}
-          </span>
+          <Pill label={tag} showHash tone="outline" />
         ))}
       </div>
 
@@ -203,6 +204,7 @@ const breadcrumbs = [
           "
         >
           <Icon
+            aria-hidden="true"
             name="tabler:arrow-left"
             class="
               size-5 transition-transform
