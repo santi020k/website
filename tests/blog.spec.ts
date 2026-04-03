@@ -15,9 +15,6 @@ test.describe('Blog page', () => {
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/blog/')
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
-    if (accessibilityScanResults.violations.length > 0) {
-      console.log('Blog Index A11y Violations:', JSON.stringify(accessibilityScanResults.violations, null, 2))
-    }
     expect(accessibilityScanResults.violations).toEqual([])
   })
 
@@ -36,9 +33,6 @@ test.describe('Blog page', () => {
 
     // Post content accessibility audit
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
-    if (accessibilityScanResults.violations.length > 0) {
-      console.log('Blog Post A11y Violations:', JSON.stringify(accessibilityScanResults.violations, null, 2))
-    }
     expect(accessibilityScanResults.violations).toEqual([])
 
     // Post visual snapshot

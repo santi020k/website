@@ -15,11 +15,48 @@ interface Props {
 const { project, relatedProjects = [] } = Astro.props
 const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.rol ?? 'Project'}`
 const metaDescription = project.data.seoDescription ?? project.data.description
-const socialImage = project.data.coverImage?.ogImage ?? '/default.webp'
+// Use Dynamic OG Image generator (/og/portfolio/[id].png)
+const socialImage = new URL(`/og/portfolio/${project.id}.png`, Astro.site).href
 const { headings } = await render(project)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)
+const hasLiveDemo = Boolean(project.data.liveDemoUrl)
+
+const projectSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': hasLiveDemo ? ['CreativeWork', 'SoftwareApplication'] : 'CreativeWork',
+  name: project.data.title,
+  description: metaDescription,
+  dateCreated: project.data.startingDate.toISOString(),
+  ...(project.data.endingDate ? { dateModified: project.data.endingDate.toISOString() } : {}),
+  keywords: project.data.technologies,
+  url: canonicalURL.href,
+  ...(project.data.coverImage?.ogImage ? { image: new URL(project.data.coverImage.ogImage, Astro.site).href } : {}),
+  ...(sameAs.length > 0 ? { sameAs } : {}),
+  author: {
+    '@type': 'Person',
+    name: 'Santiago Molina Orozco',
+    url: Astro.site?.href
+  }
+}
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Portfolio', url: '/portfolio/' },
+  { name: project.data.title, url: Astro.url.pathname }
+]
+
 ---
 
-<BaseLayout meta={{ description: metaDescription, ogImage: socialImage, title: metaTitle }}>
+<BaseLayout
+  meta={{
+    breadcrumbs,
+    description: metaDescription,
+    ogImage: socialImage,
+    structuredData: projectSchema,
+    title: metaTitle
+  }}
+>
   <ProjectHero project={project} />
 
   <section class="
