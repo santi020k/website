@@ -18,8 +18,8 @@ export const getFormattedDate = (
 }
 
 export const collectionDateSort = (
-  a: CollectionEntry<'post' | 'note'>,
-  b: CollectionEntry<'post' | 'note'>
+  a: CollectionEntry<'post'>,
+  b: CollectionEntry<'post'>
 ) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
 
 export const collectionDateSortProjects = (

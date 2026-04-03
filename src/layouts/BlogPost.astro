@@ -1,29 +1,24 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
 import BaseLayout from './Base.astro'
 
 import Masthead from '../components/blog/Masthead.astro'
 import TOC from '../components/blog/TOC.astro'
 import WebMentions from '../components/blog/webmentions/index.astro'
-import SeriesPanel from '../components/organisms/SeriesPanel.astro'
 
 interface Props {
   post: CollectionEntry<'post'>
 }
 
 const { post } = Astro.props
-const { ogImage, title, description, updatedDate, publishDate, seriesId } = post.data
+const { ogImage, title, description, updatedDate, publishDate } = post.data
 const socialImage = ogImage ?? `/og-image/${post.id}.png`
 const articleDate = (updatedDate ?? publishDate).toISOString()
 const { headings } = await render(post);
 ---
 
 <BaseLayout meta={{ articleDate, description, ogImage: socialImage, title }}>
-  <!-- SeriesPanel is inserted into the named slot "sidebar" -->
-  {seriesId && (<SeriesPanel slot="sidebar" seriesId={seriesId} />)}
-
   <Masthead content={post} />
 
   <div class="
@@ -96,65 +91,13 @@ const { headings } = await render(post);
       </span>
     </button>
   </div>
-
-  <!-- Series button for mobile screens -->
-  {seriesId && (
-    <mobile-button
-      id="toggle-panel-mobile"
-      class="
-        fixed right-4 bottom-4 z-50 flex size-12 items-center justify-center
-        rounded-lg border border-line bg-canvas text-accent
-        shadow-[0px_10px_25px_rgba(0,0,0,0.15)]
-        sm:hidden
-      "
-      aria-label="Toggle Series Panel"
-    >
-      <span class="
-        absolute inset-0 flex items-center justify-center rounded-lg
-        bg-surface-muted
-        hover:text-accent/90
-      "
-      >
-        <Icon class="size-8" name="solar:notes-bold"/>
-      </span>
-    </mobile-button>
-  )}
-
-  <!-- Table of Contents button for mobile screens -->
-  <!--
-  {!!headings.length && (
-    <mobile-button
-      id="toggle-toc-mobile"
-      class={`
-        fixed bottom-20 right-4 z-50 flex size-12 items-center justify-center
-        rounded-lg border border-line bg-canvas text-accent shadow-xl
-        sm:hidden
-        hover:text-accent/90
-      `}
-      aria-label="Toggle TOC Panel"
-    >
-      <span class="
-        absolute inset-0 flex items-center justify-center rounded-lg
-        bg-surface-muted
-        hover:text-accent/90
-      "
-      >
-        <Icon class="size-8" name="solar:clipboard-list-bold"/>
-      </span>
-    </mobile-button>
-  )}
-  -->
 </BaseLayout>
 
 <!-- Copy code button -->
 <script>
-// Wait for the content to fully load
 document.addEventListener('DOMContentLoaded', () => {
-  // Find all pre blocks
   document.querySelectorAll('pre').forEach(pre => {
-    // Check if the button already exists
     if (!pre.querySelector('.copy-code')) {
-      // Create the button
       const copyButton = document.createElement('button')
 
       copyButton.className = `
@@ -164,31 +107,26 @@ document.addEventListener('DOMContentLoaded', () => {
         hover:text-brand
       `
 
-      // Create the span element that will hold the button text
       const buttonText = document.createElement('span')
 
-      buttonText.innerText = 'Copy' // Initial text
+      buttonText.innerText = 'Copy'
 
       buttonText.className = `
         flex items-center block w-full h-full px-2
         bg-(--code-title-bg)
-      ` // Set the span to take up full width with background color
+      `
 
-      copyButton.appendChild(buttonText) // Append span to the button
-
-      // Add the button inside pre
+      copyButton.appendChild(buttonText)
       pre.appendChild(copyButton)
 
-      // Event handler for copying text
       copyButton.addEventListener('click', async () => {
         const code = pre.querySelector('code')?.textContent
 
         if (code) {
           await navigator.clipboard.writeText(code)
 
-          buttonText.innerText = 'Copied!' // Change text to "Copied!"
+          buttonText.innerText = 'Copied!'
 
-          // After 1.5 seconds, change the text back to "Copy"
           setTimeout(() => {
             buttonText.innerText = 'Copy'
           }, 1500)
@@ -200,61 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
-// series-panel is optional — only present when a post belongs to a series
-const seriesPanel = document.getElementById('series-panel')
-
-if (seriesPanel) {
-  const ANIMATION_DURATION = 300
-  const togglePanelBtn = document.getElementById('toggle-panel')
-  const closePanelBtn = document.getElementById('close-panel')
-  const togglePanelMobileBtn = document.getElementById('toggle-panel-mobile')
-
-  const isPanelVisible = () => {
-    const isScreenLg = window.matchMedia('(min-width: 1024px)').matches
-    return (
-      (isScreenLg && seriesPanel.classList.contains('lg:block')) ||
-      (!isScreenLg && !seriesPanel.classList.contains('hidden'))
-    )
-  }
-
-  const hidePanel = () => {
-    seriesPanel.classList.add('opacity-0', '-translate-x-full')
-    setTimeout(() => {
-      seriesPanel.classList.remove('block', 'lg:block')
-      seriesPanel.classList.add('hidden')
-    }, ANIMATION_DURATION)
-  }
-
-  const showPanel = () => {
-    seriesPanel.classList.remove('hidden')
-    seriesPanel.classList.add('block', 'lg:block')
-    setTimeout(() => {
-      seriesPanel.classList.remove('opacity-0', '-translate-x-full')
-    }, 10)
-  }
-
-  const togglePanel = () => {
-    if (isPanelVisible()) {
-      hidePanel()
-    } else {
-      showPanel()
-    }
-  }
-
-  togglePanelBtn?.addEventListener('click', togglePanel)
-  togglePanelMobileBtn?.addEventListener('click', togglePanel)
-  closePanelBtn?.addEventListener('click', hidePanel)
-}
-</script>
-
-<script>
 // toc-panel is optional — only present when a post has headings
 const tocPanel = document.getElementById('toc-panel')
 
 if (tocPanel) {
   const toggleTocBtn = document.getElementById('toggle-toc')
   const closeTocBtn = document.getElementById('close-toc')
-  const toggleTocMobileBtn = document.getElementById('toggle-toc-mobile')
 
   const isTocVisible = () => {
     const isScreenMd = window.matchMedia('(min-width: 768px)').matches
@@ -283,15 +172,8 @@ if (tocPanel) {
   }
 
   toggleTocBtn?.addEventListener('click', toggleToc)
-  toggleTocMobileBtn?.addEventListener('click', toggleToc)
   closeTocBtn?.addEventListener('click', hideToc)
 }
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('buttons-panel')?.classList.add('fixed')
-  })
 </script>
 
 <!-- Scroll to top button -->
@@ -301,7 +183,6 @@ const targetHeader = document.querySelector('header') as HTMLElement
 
 const callback = (entries: IntersectionObserverEntry[]) => {
   entries.forEach(entry => {
-    // Show the scroll to top button when the <header> is out of view
     scrollBtn.dataset.show = (!entry.isIntersecting).toString()
   })
 }
@@ -314,34 +195,3 @@ const observer = new IntersectionObserver(callback)
 
 observer.observe(targetHeader)
 </script>
-
-<!-- REQUIRES IMPROVEMENT!!! -->
-<!-- Menu button instead of the main menu -->
-<!--
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const menuButton = document.getElementById("toggle-navigation-menu");
-    const navigationMenu = document.getElementById("menu");
-
-    if (!menuButton || !navigationMenu) {
-      console.error("Menu button or navigation menu is missing in the DOM.");
-      return;
-    }
-
-    menuButton.addEventListener("click", () => {
-      const isOpen = menuButton.getAttribute("aria-expanded") === "true";
-
-      if (isOpen) {
-        // Close the menu
-        navigationMenu.classList.add("hidden");
-      } else {
-        // Open the menu
-        navigationMenu.classList.remove("hidden");
-      }
-
-      // Update the button state
-      menuButton.setAttribute("aria-expanded", (!isOpen).toString());
-    });
-  });
-</script>
--->

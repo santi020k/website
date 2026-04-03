@@ -29,11 +29,7 @@ const post = defineCollection({
     updatedDate: z
       .string()
       .optional()
-      .transform(str => (str ? new Date(str) : undefined)),
-    // Series
-    seriesId: z.string().optional(),
-    orderInSeries: z.number().optional()
-    // End
+      .transform(str => (str ? new Date(str) : undefined))
   })
 })
 
@@ -80,29 +76,6 @@ const project = defineCollection({
   })
 })
 
-const note = defineCollection({
-  loader: glob({ base: './src/content/note', pattern: '**/*.{md,mdx}' }),
-  schema: baseSchema.extend({
-    description: z.string().optional(),
-    publishDate: z.iso
-      .datetime()
-      .transform(val => new Date(val))
-  })
-})
-
-// Series
-const series = defineCollection({
-  loader: glob({ base: './src/content/series', pattern: '**/*.{md,mdx}' }),
-  schema: z.object({
-    id: z.string(),
-    title: z.string(),
-    description: z.string(),
-    featured: z.boolean().default(false)
-  })
-})
-// End
-
-// Series
 const types = defineCollection({
   loader: glob({ base: './src/content/types', pattern: '**/*.{md,mdx}' }),
   schema: z.object({
@@ -114,5 +87,4 @@ const types = defineCollection({
 })
 // End
 
-// Series
-export const collections = { post, note, series, project, types }
+export const collections = { post, project, types }
