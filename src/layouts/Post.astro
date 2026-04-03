@@ -1,0 +1,169 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+import { Icon } from 'astro-icon/components'
+
+import readingTime from 'reading-time'
+
+import BaseLayout from './Base.astro'
+
+import FormattedDate from '../components/atoms/FormattedDate.astro'
+
+interface Props {
+  post: CollectionEntry<'post'>
+}
+
+const { post } = Astro.props
+const { canonicalUrl, description, publishDate, title, updatedDate } = post.data
+
+const ogImage = post.data.coverImage ?
+  new URL(post.data.coverImage.src.src, Astro.url).href :
+  undefined
+
+const stats = readingTime(post.body || '')
+const readingTimeText = stats.text
+---
+
+<BaseLayout
+  meta={{
+    articleDate: publishDate.toISOString(),
+    description,
+    ogImage,
+    title
+  }}
+>
+  <div
+    class="
+      fixed top-0 left-0 z-50 h-1 bg-brand transition-all duration-150 ease-out
+    "
+    style="width: 0%"
+    x-data="{
+      percent: 0,
+      updateProgress() {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        this.percent = (winScroll / height) * 100;
+      }
+    }"
+    x-init="window.addEventListener('scroll', () => updateProgress())"
+    :style="`width: ${percent}%`"
+  >
+  </div>
+
+  <article class="mx-auto flex w-full max-w-3xl flex-col gap-10">
+    <header class="flex animate-slide-up flex-col gap-6">
+      <div class="flex items-center gap-2 text-sm font-medium text-ink-muted">
+        <a
+          href="/posts/"
+          class="
+            transition-colors
+            hover:text-brand
+          "
+        >Blog
+        </a>
+        <Icon name="tabler:chevron-right" class="size-4" />
+        <span class="text-ink-soft">Post</span>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <h1 class="
+          text-4xl/tight font-bold
+          sm:text-5xl
+          lg:text-6xl
+        "
+        >
+          {title}
+        </h1>
+
+        <div class="
+          flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ink-soft
+        "
+        >
+          <div class="flex items-center gap-2">
+            <Icon name="tabler:calendar" class="size-4" />
+            <FormattedDate date={publishDate} />
+          </div>
+          <div class="flex items-center gap-2">
+            <Icon name="tabler:clock" class="size-4" />
+            <span>{readingTimeText}</span>
+          </div>
+          {updatedDate && (
+            <div class="flex items-center gap-2">
+              <Icon name="tabler:refresh" class="size-4" />
+              <span>Updated: <FormattedDate date={updatedDate} /></span>
+            </div>
+          )}
+          {canonicalUrl && (
+            <a
+              href={canonicalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="
+                flex items-center gap-2 transition-colors
+                hover:text-brand
+              "
+            >
+              <Icon name="tabler:external-link" class="size-4" />
+              <span>Original on Medium</span>
+            </a>
+          )}
+        </div>
+      </div>
+
+      {post.data.coverImage && (
+        <div class="
+          relative aspect-video overflow-hidden rounded-2xl subtle-outline
+        "
+        >
+          <Image
+            src={post.data.coverImage.src}
+            alt={post.data.coverImage.alt}
+            class="size-full object-cover"
+            inferSize
+          />
+        </div>
+      )}
+    </header>
+
+    <div class="prose-santi animate-fade-in [animation-delay:200ms]">
+      <slot />
+    </div>
+
+    <footer class="
+      mt-20 flex animate-fade-in flex-col gap-10 border-t border-line pt-10
+      [animation-delay:400ms]
+    "
+    >
+      <div class="flex flex-wrap gap-2">
+        {post.data.tags.map(tag => (
+          <span class="
+            rounded-full bg-surface-muted px-4 py-1.5 text-sm font-medium
+            text-ink-soft subtle-outline
+          "
+          >
+            #{tag}
+          </span>
+        ))}
+      </div>
+
+      <div class="flex items-center justify-between">
+        <a
+          href="/posts/"
+          class="
+            group flex items-center gap-2 font-medium text-ink transition-colors
+            hover:text-brand
+          "
+        >
+          <Icon
+            name="tabler:arrow-left"
+            class="
+              size-5 transition-transform
+              group-hover:-translate-x-1
+            "
+          />
+          Back to blog
+        </a>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>

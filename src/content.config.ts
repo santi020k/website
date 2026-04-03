@@ -5,7 +5,7 @@ import { defineCollection } from 'astro:content'
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 
 const baseSchema = z.object({
-  title: z.string().max(60)
+  title: z.string().max(100)
 })
 
 const project = defineCollection({
@@ -60,6 +60,29 @@ const types = defineCollection({
     featured: z.boolean().default(false)
   })
 })
-// End
 
-export const collections = { project, types }
+const post = defineCollection({
+  loader: glob({ base: './src/content/post', pattern: '**/*.{md,mdx}' }),
+  schema: ({ image }) => baseSchema.extend({
+    description: z.string(),
+    publishDate: z
+      .string()
+      .or(z.date())
+      .transform(val => new Date(val)),
+    updatedDate: z
+      .string()
+      .optional()
+      .transform(str => (str ? new Date(str) : undefined)),
+    coverImage: z
+      .object({
+        alt: z.string(),
+        src: image()
+      })
+      .optional(),
+    tags: z.array(z.string()).default([]).transform(removeDuplicates),
+    draft: z.boolean().default(false),
+    canonicalUrl: z.url().optional()
+  })
+})
+
+export const collections = { post, project, types }

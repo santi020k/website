@@ -1,129 +1,21 @@
 ---
-import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
+import { getCollection, render } from 'astro:content'
 
-import ButtonLink from '../../components/atoms/ButtonLink.astro'
-import Pill from '../../components/atoms/Pill.astro'
-import MediumPostImage from '../../components/molecules/MediumPostImage.astro'
-import PostCard from '../../components/molecules/PostCard.astro'
-import SectionHeading from '../../components/molecules/SectionHeading.astro'
-import { getMediumPosts } from '../../data/medium'
-import PageLayout from '../../layouts/Base.astro'
+import PostLayout from '../../layouts/Post.astro'
 
-export const getStaticPaths = (async () => {
-  const posts = await getMediumPosts()
+export const getStaticPaths = async () => {
+  const posts = await getCollection('post')
 
   return posts.map(post => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post }
   }))
-}) satisfies GetStaticPaths
-
-type Props = InferGetStaticPropsType<typeof getStaticPaths>
+}
 
 const { post } = Astro.props
-const allPosts = await getMediumPosts()
-
-const relatedPosts = allPosts
-  .filter(entry => entry.slug !== post.slug)
-  .slice(0, 3)
-
-const meta = {
-  articleDate: new Date(post.publishedAt).toISOString(),
-  description: post.excerpt,
-  ogImage: post.imageUrl ?? '/default.webp',
-  title: post.title
-}
+const { Content } = await render(post)
 ---
 
-<PageLayout meta={meta}>
-  <section class="
-    grid gap-8
-    lg:grid-cols-[1.1fr_0.9fr] lg:items-start
-  "
-  >
-    <div class="space-y-6">
-      <SectionHeading
-        description={post.excerpt}
-        eyebrow={post.publication}
-        level="h1"
-        title={post.title}
-      />
-
-      <div class="flex flex-wrap items-center gap-3 text-sm text-ink-muted">
-        <Pill label={post.author} tone="outline" />
-        <span>{new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(post.publishedAt))}</span>
-      </div>
-
-      <div class="flex flex-wrap gap-2">
-        {post.tags.map(tag => (
-
-          <Pill label={tag} showHash tone="outline" />
-        ))}
-      </div>
-
-      <div class="flex flex-wrap gap-3">
-        <ButtonLink href={post.link} newTab showArrow>
-          Read full article
-        </ButtonLink>
-        <ButtonLink href="/posts/" showArrow variant="secondary">
-          More writing
-        </ButtonLink>
-      </div>
-    </div>
-
-    <div class="overflow-hidden rounded-4xl panel-surface">
-      {post.imageUrl ?
-        (
-          <MediumPostImage
-            alt={`Cover art for ${post.title}`}
-            fallbackLabel="Cover preview unavailable right now."
-            fetchpriority="high"
-            height={720}
-            imageClass="aspect-16/11"
-            loading="eager"
-            src={post.imageUrl}
-            wrapperClass="aspect-16/11 w-full"
-            width={1280}
-          />
-        ) :
-        (
-          <div class="aspect-16/11 w-full grid-fade" />
-        )}
-    </div>
-  </section>
-
-  <section class="
-    rounded-4xl p-8 panel-surface
-    sm:p-10
-  "
-  >
-    <div class="max-w-3xl space-y-5">
-      <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">Summary</p>
-      <p class="text-lg/8 text-ink-soft">
-        This preview keeps the key takeaway on-site. The full article on {post.publication} includes the
-        walkthrough, examples, and complete context.
-      </p>
-      <p class="text-base/8 text-ink-soft">{post.excerpt}</p>
-    </div>
-  </section>
-
-  {!!relatedPosts.length && (
-    <section class="space-y-8">
-      <SectionHeading
-        description="More writing on React, DX, frontend architecture, and the workflows behind reliable teams."
-        eyebrow="More writing"
-        title="Continue with another post."
-      />
-      <div class="
-        grid gap-6
-        lg:grid-cols-3
-      "
-      >
-        {relatedPosts.map(relatedPost => (
-
-          <PostCard post={relatedPost} />
-        ))}
-      </div>
-    </section>
-  )}
-</PageLayout>
+<PostLayout post={post}>
+  <Content />
+</PostLayout>
