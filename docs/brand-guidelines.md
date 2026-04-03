@@ -649,8 +649,8 @@ Publishing cadence: one quality post per month is better than four rushed ones. 
 All code must pass before being considered complete:
 
 ```bash
-npm run lint    # ESLint — zero errors
-npm run check   # Astro type-check — zero errors
+pnpm run lint    # ESLint — zero errors
+pnpm run check   # Astro type-check — zero errors
 ```
 
 ### Performance Targets
@@ -733,7 +733,7 @@ All internal links use trailing slashes.
 | Use `<Image>` from `astro:assets` for all images | Use raw `<img>` tags |
 | Pair all animations with `motion-reduce:` variants | Ship animated transitions without reduced-motion fallback |
 | Use `data-theme="dark"` for dark mode | Use `class="dark"` — the `@custom-variant` won't match |
-| Pass `npm run lint` and `npm run check` before finishing | Submit work with lint or type errors |
+| Pass `pnpm run lint` and `pnpm run check` before finishing | Submit work with lint or type errors |
 
 ### Content & Voice
 

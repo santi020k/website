@@ -1,7 +1,7 @@
 import type { CollectionEntry } from 'astro:content'
 import { describe, expect, it } from 'vitest'
 
-import { collectionDateSort, collectionDateSortProjects, getFormattedDate } from '../date'
+import { collectionDateSortProjects, getFormattedDate } from '../date'
 
 describe('getFormattedDate', () => {
   it('should format a Date object correctly', () => {
@@ -25,15 +25,6 @@ describe('getFormattedDate', () => {
     const date = new Date('2024-01-01T12:00:00')
     const formatted = getFormattedDate(date, { month: 'long' })
     expect(formatted).toContain('January')
-  })
-})
-
-describe('collectionDateSort', () => {
-  it('should sort entries by publishDate descending', () => {
-    const a = { data: { publishDate: new Date('2024-01-01') } } as unknown as CollectionEntry<'post'>
-    const b = { data: { publishDate: new Date('2024-02-01') } } as unknown as CollectionEntry<'post'>
-    expect(collectionDateSort(a, b)).toBeGreaterThan(0)
-    expect(collectionDateSort(b, a)).toBeLessThan(0)
   })
 })
 

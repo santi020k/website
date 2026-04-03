@@ -17,16 +17,16 @@ Use this skill when adding new features or fixing bugs to ensure regression test
   - Virtual modules like `astro:env/server` are mocked in `vitest.config.ts`.
   - Use `vi.mock()` in `src/test-setup.ts` or individual test files for other dependencies.
 - **Commands**:
-  - `npm run test`: Run all unit tests once.
-  - `npm run test:watch`: Run tests in watch mode.
+  - `pnpm run test`: Run all unit tests once.
+  - `pnpm run test:watch`: Run tests in watch mode.
 
 ### 2. E2E Tests (Playwright)
 
 - **Location**: `tests/*.spec.ts`
 - **Purpose**: Test user flows, navigation, and cross-browser compatibility.
 - **Commands**:
-  - `npm run test:e2e`: Run Playwright tests.
-  - `npm run test:e2e:ui`: Open Playwright UI for interactive debugging.
+  - `pnpm run test:e2e`: Run Playwright tests.
+  - `pnpm run test:e2e:ui`: Open Playwright UI for interactive debugging.
 
 ## Best Practices
 
