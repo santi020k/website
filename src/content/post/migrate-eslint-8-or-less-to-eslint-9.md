@@ -4,7 +4,7 @@ description: "A practical guide to moving from ESLint 8 to flat config in ESLint
 publishDate: "2024-05-19T15:41:30.167Z"
 tags: ["eslint", "typescript", "react", "nextjs", "migration"]
 coverImage:
-  alt: "Illustration showing a migration from eslintrc to eslint.config.mjs"
+  alt: "Neon illustration of a legacy ESLint configuration migrating into a modern flat config panel"
   src: "./migrate-eslint-8-or-less-to-eslint-9-cover.png"
 ---
 

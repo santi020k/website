@@ -4,7 +4,7 @@ description: "A practical setup for testing React components with Vitest and Rea
 publishDate: "2024-04-11T15:46:53.731Z"
 tags: ["vitest", "testing-library", "react", "typescript", "nextjs"]
 coverImage:
-  alt: "Abstract illustration of a laptop with component cards and glowing testing checkpoints"
+  alt: "Neon illustration of a component test panel connected to interaction, assertion, and targeting checkpoints"
   src: "./testing-react-components-with-vitest-and-react-testing-library-cover.png"
 ---
 
