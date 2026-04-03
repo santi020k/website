@@ -28,7 +28,7 @@ This approach improves code quality while reducing CI/CD expenses.
 
 Start by installing the required dependencies:
 
-```bash
+```bash title="terminal"
 npm install --save-dev husky lint-staged
 # or
 yarn add husky lint-staged --dev
@@ -36,7 +36,7 @@ yarn add husky lint-staged --dev
 
 To organize Husky within a `config` folder, modify your `package.json`:
 
-```json
+```json title="package.json"
 {
   "scripts": {
     "dev": "next dev",
@@ -62,19 +62,19 @@ This establishes commands for pre-commit and pre-push operations. Customize acco
 
 The `pre-commit` script executes linting with fixes and runs tests before allowing commits:
 
-```json
+```json title="package.json"
 "pre-commit": "lint-staged && vitest run"
 ```
 
 The `pre-push` script enforces strict linting standards and triggers the build process:
 
-```json
+```json title="package.json"
 "pre-push": "eslint . --fix --max-warnings=0 && npm run build"
 ```
 
 Execute the prepare command to generate the hook files:
 
-```bash
+```bash title="terminal"
 npm run prepare
 # or
 yarn run prepare
@@ -84,7 +84,7 @@ This generates the necessary files in the `config/.husky` directory. These files
 
 If you ever need to bypass Husky's verification — for example during a work in progress — you can use `--no-verify`:
 
-```bash
+```bash title="terminal"
 git commit . -m 'quick fix' --no-verify
 ```
 

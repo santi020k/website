@@ -144,9 +144,11 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
   />
 )}
 
-{import.meta.env.PROD && (
-  <>
-    <SpeedInsights />
-    <Analytics />
-  </>
-)}
+{
+  import.meta.env.PROD && !import.meta.env.PUBLIC_IS_CI && (
+    <>
+      <SpeedInsights />
+      <Analytics />
+    </>
+  )
+}
