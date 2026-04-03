@@ -43,106 +43,175 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section
-    class="
-      grid gap-10
-      lg:grid-cols-[1.08fr_0.92fr] lg:items-end
+  <section class="relative overflow-hidden pb-4">
+    <div class="
+      pointer-events-none absolute inset-x-0 top-0 h-48 bg-linear-to-b
+      from-brand/8 to-transparent
     "
-    data-animate
-  >
-    <div class="space-y-10">
-      <Eyebrow
-        label="Leadership · Automation · DX"
-        tone="brand"
-        className="
-          text-center whitespace-normal
-          sm:text-left
-        "
-      />
+    />
+    <div class="
+      pointer-events-none absolute -top-8 right-[6%] size-36 rounded-full
+      bg-brand/10 blur-3xl
+      sm:size-48
+    "
+    />
 
-      <div class="space-y-5">
-        <h1 class="
-          max-w-4xl text-3xl wrap-break-word
-          sm:text-6xl
-          lg:text-7xl
-        "
+    <div class="
+      relative grid gap-10
+      lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center
+    "
+    >
+      <div class="space-y-8">
+        <Eyebrow
+          label="Leadership · Automation · DX"
+          tone="brand"
+          className="
+            animate-slide-up whitespace-normal
+            motion-reduce:animate-none
+          "
+        />
+
+        <div
+          class="
+            animate-slide-up space-y-4
+            motion-reduce:animate-none
+          "
+          style="animation-delay: 90ms"
         >
-          Full-stack engineer, tech lead, and builder of developer-first systems.
-        </h1>
-        <p class="
-          max-w-3xl text-base/7 text-ink-soft
-          sm:text-xl/8
-        "
+          <h1 class="
+            max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+            sm:text-6xl/[0.95]
+            lg:text-[5.2rem]/[0.92]
+          "
+          >
+            Calm systems.
+            <span class="block text-brand">Faster teams.</span>
+          </h1>
+          <p class="
+            max-w-2xl text-base/7 text-ink-soft
+            sm:text-lg/8
+          "
+          >
+            Full-stack engineer and tech lead building architecture, automation, and developer experience that help
+            teams ship with confidence.
+          </p>
+        </div>
+
+        <div
+          class="
+            animate-slide-up space-y-5
+            motion-reduce:animate-none
+          "
+          style="animation-delay: 180ms"
         >
-          {siteConfig.headline} Over the last {yearsOfExperience} years I have shipped across commerce, SaaS, gaming,
-          and real estate — leading cross-functional teams, building automation that eliminates toil, and raising the
-          bar on developer experience at every layer of the stack.
-        </p>
+          <div class="flex flex-wrap gap-2">
+            <Pill label="Architecture" tone="outline" />
+            <Pill label="Automation" tone="outline" />
+            <Pill label="Developer Experience" tone="outline" />
+          </div>
+
+          <div class="section-actions">
+            <ButtonLink href="/portfolio/" showArrow>
+              See selected work
+            </ButtonLink>
+            <ButtonLink href="/blog/" showArrow variant="secondary">
+              Read the writing
+            </ButtonLink>
+            <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="ghost">
+              Open resume
+            </ButtonLink>
+          </div>
+        </div>
+
+        <div
+          class="
+            grid animate-slide-up gap-5 border-t border-line/70 pt-6
+            motion-reduce:animate-none
+            sm:grid-cols-3
+          "
+          style="animation-delay: 270ms"
+        >
+          <div>
+            <p class="section-label">Based in</p>
+            <p class="mt-3 max-w-[24ch] text-base/7 text-ink">{siteConfig.location}</p>
+          </div>
+          <div>
+            <p class="section-label">Open to</p>
+            <p class="mt-3 max-w-[28ch] text-base/7 text-ink">{siteConfig.availability}</p>
+          </div>
+          <div>
+            <p class="section-label">Community</p>
+            <p class="mt-3 max-w-[24ch] text-base/7 text-ink">
+              ReactJS Colombia, writing, and talks around calmer engineering systems.
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div class="section-actions">
-        <ButtonLink href="/portfolio/" showArrow>
-          See selected work
-        </ButtonLink>
-        <ButtonLink href="/blog/" showArrow variant="secondary">
-          Read the writing
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="ghost">
-          Open resume
-        </ButtonLink>
-      </div>
-
-      <div class="
-        grid gap-3
-        sm:max-w-2xl sm:grid-cols-2
-      "
+      <div
+        class="
+          relative mx-auto w-full max-w-88 animate-spring-up
+          motion-reduce:animate-none
+        "
+        style="animation-delay: 140ms"
       >
-        <div class="mini-note">
-          <p class="section-label">Based in</p>
-          <p class="mt-2 text-base/7 text-ink">{siteConfig.location}</p>
-        </div>
-        <div class="mini-note">
-          <p class="section-label">Open to</p>
-          <p class="mt-2 text-base/7 text-ink">{siteConfig.availability}</p>
-        </div>
-      </div>
-    </div>
+        <div
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute inset-[-10%] rounded-full border
+            border-brand/12
+            motion-safe:animate-[spin_24s_linear_infinite]
+            motion-reduce:animate-none
+          "
+        />
+        <div
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute inset-[10%] rounded-full border
+            border-brand/10
+            motion-safe:animate-[spin_18s_linear_infinite_reverse]
+            motion-reduce:animate-none
+          "
+        />
 
-    <div class="relative w-full">
-      <div class="
-        pointer-events-none absolute inset-x-8 top-8 h-24 rounded-full
-        bg-brand/12 blur-3xl
-      "
-      />
-      <div class="relative z-10 grid gap-4">
         <div class="
-          panel-card overflow-hidden rounded-4xl p-4
-          sm:p-5
+          panel-card overflow-hidden rounded-[2.25rem] p-3
+          sm:p-4
         "
         >
           <Image
             alt="Portrait of Santiago Molina"
-            class="aspect-4/5 w-full rounded-[1.6rem] object-cover"
+            class="aspect-4/5 w-full rounded-[1.7rem] object-cover"
             fetchpriority="high"
             loading="eager"
-            sizes="(min-width: 1024px) 400px, 100vw"
+            sizes="(min-width: 1024px) 352px, 75vw"
             src={AboutMeImage}
             widths={[400, 600, 800]}
           />
         </div>
+
         <div class="
-          grid gap-3
-          sm:grid-cols-2
+          absolute bottom-8 -left-4 hidden min-w-40 mini-note
+          motion-safe:animate-float-y
+          motion-reduce:animate-none
+          sm:-left-8 sm:block
         "
         >
-          <div class="mini-note">
-            <p class="section-label">Primary focus</p>
-            <p class="mt-2 text-lg font-semibold text-ink">Full-stack · Automation · DX</p>
-          </div>
-          <div class="mini-note">
-            <p class="section-label">Working style</p>
-            <p class="mt-2 text-lg font-semibold text-ink">Hands-on tech leadership</p>
-          </div>
+          <p class="section-label">Base</p>
+          <p class="mt-2 text-sm/6 text-ink">Medellin · Remote worldwide</p>
+        </div>
+
+        <div
+          class="
+            absolute top-8 -right-4 hidden min-w-32 mini-note
+            motion-safe:animate-float-y
+            motion-reduce:animate-none
+            sm:-right-8 sm:block
+          "
+          style="animation-delay: 900ms"
+        >
+          <p class="section-label">Experience</p>
+          <p class="mt-2 text-lg font-semibold text-ink">{yearsOfExperience}</p>
         </div>
       </div>
     </div>

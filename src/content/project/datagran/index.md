@@ -1,6 +1,6 @@
 ---
 title: "Datagran"
-description: "Led a jQuery-to-React migration for an AI martech platform used by brands like Rappi, Subway, and Telefonica, improving quality and delivery speed."
+description: "Led the front-end modernization of an AI martech platform, migrating a legacy jQuery codebase into a scalable React and TypeScript architecture."
 rol: "Front-End Lead"
 startingDate: "1 Dec 2018"
 endingDate: "1 Jan 2020"
@@ -15,23 +15,33 @@ coverImage:
   ogImage: "./cover.webp"
 ---
 
-## Migrating Datagran from jQuery to React
+## Modernizing Datagran's front-end architecture
 
-At [Datagran](https://www.datagran.io), I led the frontend modernization of an AI-powered martech product used by companies such as Rappi, Subway, and Telefonica. The biggest challenge was evolving a jQuery-heavy codebase into something teams could scale without slowing delivery.
+At [Datagran](https://www.datagran.io), I led the front-end modernization of an AI-powered martech platform used by brands such as Rappi, Subway, and Telefonica. The core challenge was evolving a jQuery-heavy product into a React and TypeScript system that the team could extend without slowing delivery.
 
-## What I led
+### 🎯 What I led
 
-- Planned and executed a gradual migration from jQuery to React and TypeScript without stopping product delivery.
-- Introduced reusable components, clearer frontend patterns, and a more maintainable structure for future work.
-- Built data-heavy dashboards and visualizations with D3.js for marketing and campaign analysis workflows.
-- Worked closely with backend and data teams so the UI matched the complexity of the platform underneath it.
+- **A gradual migration from jQuery to React and TypeScript,** keeping product work moving while replacing fragile legacy patterns with a more maintainable component architecture.
+- **Reusable UI foundations,** including shared components, cleaner front-end conventions, and styling patterns that made future features easier to ship.
+- **Data-heavy dashboards and visualizations** built with `D3.js` and `Highcharts` for campaign analysis, reporting, and ML-driven marketing workflows.
+- **Cross-functional collaboration** with backend and data teams so the interface could keep pace with the complexity of the platform underneath it.
 
-## Results
+### 📈 Key outcomes
 
-- Reduced bug incidence by 30% through typed components and a more modular architecture.
-- Made the product easier to extend by establishing shared UI patterns and better frontend structure.
-- Improved the experience for data-heavy features by building more interactive and reliable dashboards.
+- **30% fewer bugs** after introducing typed components, modular front-end boundaries, and better UI consistency.
+- **A more scalable product surface** through reusable component patterns and shared front-end structure.
+- **More useful analytics experiences** by building dashboards that turned complex campaign and customer data into clearer day-to-day workflows.
 
-## Why it mattered
+### 🧠 Product context
 
-Datagran was one of the first places where I had to think beyond feature work and focus on system health. It sharpened how I approach migrations, dashboard-heavy interfaces, and frontend leadership inside a fast-moving product team.
+Datagran sat at the intersection of marketing automation, data unification, and machine-learning-driven optimization. That meant the front-end work was not just about polish. It had to translate complicated business logic, campaign performance data, and automation flows into interfaces that real teams could trust and move through quickly.
+
+### 🛠️ Tech stack
+
+- **Frontend:** `React.js`, `TypeScript`, `Redux`, `Redux Sagas`, `Styled Components`, `React Router`
+- **Visualization and forms:** `D3.js`, `Highcharts`, `Formik`, `Yup`
+- **Quality and delivery:** `Jest`, `Cypress`, `ESLint`, `Storybook`, `Sentry`, `CI/CD`
+
+### 🤝 Why it mattered
+
+Datagran was one of the first places where I had to think beyond feature work and focus on system health. It sharpened how I approach migrations, dashboard-heavy interfaces, and front-end leadership inside a fast-moving product team.

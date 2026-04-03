@@ -1,6 +1,6 @@
 ---
 title: "Justbit.site"
-description: "Co-founded a boutique software studio and shipped SEO-focused websites, e-commerce builds, and custom products for clients across Colombia."
+description: "Co-founded a boutique software studio and led delivery across custom websites, e-commerce builds, and full-stack products for clients across Colombia."
 rol: "CTO & Co-Founder"
 startingDate: "1 Apr 2017"
 endingDate: "1 Dec 2018"
@@ -15,36 +15,35 @@ coverImage:
   ogImage: "./cover.webp"
 ---
 
-## Co-founding a boutique product studio
+## Building tailored web solutions from the ground up
 
 At [Justbit.site](https://justbit.site), I learned what it means to own both the product and the business side of delivery. As CTO and co-founder, I worked directly with clients, scoped projects, led implementation, and helped turn ideas into launched products.
 
-### What we were building
+### 🎯 What I led
 
-- **Client websites and platforms** for startups and small businesses that needed something more thoughtful than a generic brochure site.
-- **SEO-aware WordPress and WooCommerce builds** where growth and discoverability mattered as much as implementation speed.
-- **Custom React and Node.js products** for teams whose needs went beyond templates or off-the-shelf plugins.
-- **Lean delivery workflows** that kept clients close to the process without making every decision feel expensive.
+- **The studio's technical direction,** choosing stacks, shaping architecture, and keeping projects maintainable even when budgets and timelines were tight.
+- **Full-cycle delivery** from sales conversations and scoping through implementation, launch, and post-release iteration.
+- **Growth-aware product work** where technical decisions had to support SEO, analytics, and conversion goals, not just visual polish.
+- **A cross-functional delivery process** that balanced engineering, design, and client communication without hiding behind process theater.
 
-### What I owned
-
-- **Technical direction:** choosing stacks, shaping architecture, and keeping each project maintainable even when budgets and timelines were tight.
-- **Product scoping:** helping clients translate ideas into a realistic roadmap, clearer priorities, and a build plan that matched their actual constraints.
-- **Execution leadership:** moving between frontend, backend, project planning, and the kind of direct communication that keeps a small studio healthy.
-- **Growth-minded delivery:** making sure technical decisions supported SEO, performance, and conversion goals instead of only visual polish.
-
-### Results
+### 📈 Key outcomes
 
 - **10+ client launches in the first year,** spanning marketing sites, e-commerce builds, and custom digital products.
 - **Up to 70% organic traffic growth** for some clients after improving technical SEO, site structure, and performance foundations.
-- **Stronger end-to-end ownership,** from sales conversations and estimation to launch, support, and iteration after release.
+- **Stronger in-house delivery capacity** by building custom React and Node.js products alongside WordPress and WooCommerce work.
 
-### Tech stack
+### 💡 Project highlights
+
+- **Custom real estate and business platforms** with dynamic content, CRM integrations, and SEO-friendly information architecture.
+- **WooCommerce builds with analytics and ad integrations** that supported both organic growth and paid-acquisition workflows.
+- **Publishing and multisite setups** for teams that needed operational flexibility without losing maintainability.
+
+### 🛠️ Tech stack
 
 - **Product delivery:** `React.js`, `TypeScript`, `Node.js`, `JavaScript`, `PostgreSQL`, `MySQL`
 - **CMS and commerce:** `WordPress`, `WooCommerce`, `PHP`
 - **Growth and operations:** `SEO`, `Google Ads`, `Facebook Ads`, `Jest`, `Gitlab`, `Linux`
 
-### Why it mattered
+### 🤝 Why it mattered
 
 Justbit was a crash course in entrepreneurship, communication, and technical ownership. It taught me how to connect user needs, business goals, and engineering decisions without hiding behind process, and it is still one of the clearest reasons I value practicality over theater.

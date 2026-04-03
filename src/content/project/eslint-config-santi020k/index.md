@@ -1,6 +1,6 @@
 ---
 title: "@santi020k/eslint-config-santi020k"
-description: "My original opinionated ESLint configuration library for JavaScript, TypeScript, and React projects — superseded by @santi020k/eslint-config-basic."
+description: "Built my original opinionated ESLint toolkit for TypeScript and React teams, later evolved into @santi020k/eslint-config-basic."
 rol: "Creator"
 startingDate: "1 Jan 2023"
 endingDate: "1 Mar 2024"
@@ -16,19 +16,29 @@ coverImage:
 
 > **This library has been superseded.** `@santi020k/eslint-config-santi020k` has been replaced by [`@santi020k/eslint-config-basic`](/portfolio/eslint-config-basic/), which is more composable, better documented, and actively maintained. New projects should use that instead.
 
-## My original ESLint configuration
+## Building my original ESLint toolkit
 
-`@santi020k/eslint-config-santi020k` was my first published ESLint package — an opinionated set of rules for JavaScript and TypeScript projects designed to enforce consistent code quality and catch common mistakes early. It was the linting foundation I reached for across my own projects and recommended to teams I worked with.
+`@santi020k/eslint-config-santi020k` was my first published ESLint package, an opinionated set of rules for JavaScript and TypeScript projects designed to enforce consistency, catch common mistakes early, and reduce setup work across the kinds of apps I was building most often.
 
-## What it covered
+### 🎯 Goals
 
-- TypeScript support with strict, opinionated defaults.
-- React and Next.js configurations out of the box.
-- Expo (beta) and Astro with React (beta) support.
-- Optional add-ons for Tailwind CSS, Vitest, i18next, MDX, and Markdown.
+- **Standardize code quality** across my own projects and the teams I worked with.
+- **Reduce setup friction** when spinning up React, Next.js, and TypeScript applications.
+- **Make good defaults portable** so linting could be part of the workflow instead of an afterthought.
 
-## Why it was replaced
+### 🛠️ What it included
 
-As my projects grew and ESLint's flat config format became the standard, the original package's architecture became harder to extend and maintain. Rather than continuing to patch it, I rebuilt it from scratch as `@santi020k/eslint-config-basic` — a composable, auto-detecting toolkit that covers far more frameworks with significantly less setup friction and a full documentation site.
+- **Strict TypeScript and JavaScript defaults** aimed at preventing common errors and review churn.
+- **Built-in support for React and Next.js** with optional presets for `Expo`, `Astro`, `TailwindCSS`, `Vitest`, and `i18next`.
+- **Modular add-ons** so projects could opt into framework-specific needs without copying configuration by hand.
+- **Automated publishing and examples** that made the package practical to maintain and easier to adopt.
+
+### 🧠 Why it was replaced
+
+As my projects grew and ESLint's flat config format became the standard, the original package architecture became harder to extend and maintain. Rather than continuing to patch it, I rebuilt the idea from scratch as [`@santi020k/eslint-config-basic`](/portfolio/eslint-config-basic/), a more composable toolkit with a wider framework footprint and better documentation.
+
+### 🤝 Why it mattered
+
+This project was the first time I turned internal engineering preferences into a reusable public tool. It helped clarify how I think about developer tooling in general: remove repetitive setup, codify what matters, and make quality easier to keep.
 
 ![NPM Package](npm.webp)

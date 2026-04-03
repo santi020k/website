@@ -1,6 +1,6 @@
 ---
 title: "Void.GG"
-description: "Led frontend and platform architecture for an esports product, improving performance, reducing tech debt, and helping a 14-person team ship with confidence."
+description: "Led architecture and delivery for a fast-moving esports platform across web, mobile, and backend systems, improving performance, release speed, and team velocity."
 rol: "Technical Lead"
 startingDate: "1 Feb 2023"
 endingDate: "1 May 2025"
@@ -15,40 +15,37 @@ coverImage:
   ogImage: './cover.webp'
 ---
 
-## Leading platform engineering at Void
+## Leading innovation in gaming and esports with Void
 
 At [Void](https://www.void.gg/), I led technical work across a fast-moving gaming and esports platform with web, mobile, backend, and real-time requirements. The job was not only to make the product work. It was to help the team move faster without letting the architecture collapse under that speed.
 
-### What the role actually required
+### 🎯 What I led
 
-- **Architecture direction:** decisions across microservices, microfrontends, mobile apps, real-time features, and the shared patterns needed to keep those systems coherent.
-- **Team leadership:** a cross-functional team of 14+ engineers and designers shipping across product, platform, and delivery tracks at the same time.
-- **Delivery systems:** CI/CD, coding standards, documentation, and the operational guardrails that kept release work predictable instead of fragile.
-- **Performance ownership:** API behavior, caching strategy, frontend rendering, and live product surfaces powered by Socket.io.
+- **Architecture direction** across microservices, microfrontends, mobile apps, and real-time features, defining the boundaries that kept the platform coherent as it grew.
+- **Cross-functional delivery** for a 14+ person team spanning engineering, design, and product work across multiple tracks at once.
+- **Release systems and engineering standards,** including CI/CD, documentation, code quality, and the operational guardrails that made shipping more predictable.
+- **Performance ownership** across API behavior, caching strategy, front-end rendering, and live product surfaces powered by `Socket.io`.
 
-### Key contributions
+### 📈 Key outcomes
 
-- **Established clearer technical boundaries** so product teams could move independently without duplicating too much logic or introducing accidental coupling.
-- **Improved developer experience** with stronger standards, better feedback loops, and workflows that reduced the amount of coordination required to ship safely.
-- **Stayed close to both code and product strategy,** helping shape implementation details while still making decisions that protected the broader platform.
-- **Supported web and mobile delivery** across a stack that included Next.js, React Native, Node.js services, and real-time infrastructure.
-
-![Void home experience](home.webp)
-
-### Results
-
-- **35% better system performance** by addressing bottlenecks across the product and platform layers.
-- **95%+ sprint velocity** while helping a 14-person team keep shipping pace under a demanding roadmap.
+- **35% better system performance** after improving APIs, caching, and real-time services under high-concurrency conditions.
+- **95%+ sprint velocity** while helping a 14-person team keep shipping at pace under a demanding roadmap.
+- **Around 60% faster deployments** after improving CI/CD and the systems behind release work.
 - **40% less tech debt** by tightening standards, modular boundaries, and architectural expectations.
-- **Around 60% faster deployments** after improving CI/CD and the operational systems behind releases.
 
-![Void product interface](body.webp)
-
-### Tech stack
+### 🛠️ Technical highlights
 
 - **Frontend and mobile:** `React.js`, `Next.js`, `TypeScript`, `React Native`, `Redux Toolkit`, `Mantine UI`, `CSS Modules`
 - **Platform and backend:** `Node`, `Nest.js`, `Express.js`, `Socket.io`, `MongoDB`, `PostgreSQL`, `AWS`, `Docker`
-- **Quality and delivery:** `GitHub Actions`, `Jest`, `Cypress`, `Storybook`, `Sentry`, `ESLint`, `NX`
+- **Quality and DX:** `GitHub Actions`, `Jest`, `Cypress`, `Storybook`, `Sentry`, `ESLint`, `NX`, `Developer Documentation`
+
+![Void home experience](home.webp)
+
+### 🎮 Real-world impact
+
+Void had to support live tournaments, community features, and fast product iteration without service degradation. The architecture decisions mattered because they affected real user engagement, real release cadence, and the team's ability to respond quickly to new opportunities in the platform.
+
+![Void product interface](body.webp)
 
 ### Why it mattered
 

@@ -1,6 +1,6 @@
 ---
 title: "ReactJS Colombia"
-description: "Co-organize ReactJS Colombia, helping run free meetups and workshops that connect and grow the React community in Medellin."
+description: "Co-organize one of Medellin's most active React communities, running free meetups and workshops that connect developers across experience levels."
 rol: "Co-Organizer"
 startingDate: "1 Jan 2017"
 liveDemoUrl: "https://www.meetup.com/es/react-js-medellin/"
@@ -14,22 +14,28 @@ coverImage:
   ogImage: "./cover.webp"
 ---
 
-## Growing a React community in Medellin
+## Building one of Colombia's most active React communities
 
 Since 2017, I have helped co-organize ReactJS Colombia, a developer community built around free events, practical learning, and making the local React ecosystem feel more connected.
 
-## What I do
+### 🎯 What we do
 
-- Help shape talks, workshops, and hands-on sessions around React, TypeScript, testing, performance, accessibility, and tooling.
-- Support event planning, speakers, logistics, and the kind of small details that make a community feel welcoming.
-- Mentor and encourage newer developers, especially people speaking or sharing for the first time.
+- **Recurring meetups, workshops, and networking sessions** around React, TypeScript, testing, performance, accessibility, and tooling.
+- **An inclusive learning space** designed to be useful for both experienced engineers and people breaking into the ecosystem.
+- **A stronger local network** that connects developers, hiring teams, speakers, and companies through shared technical interests.
 
-## Impact
+### 🤝 What I contribute
 
-- Monthly meetups and workshops with 100+ participants per session at peak attendance.
-- A stronger local network for React developers, hiring teams, and people trying to break into the ecosystem.
-- A community that treats knowledge-sharing as something open and accessible, not gatekept.
+- **Talk and workshop curation** around practical engineering topics teams can actually use.
+- **Event planning and logistics,** including venues, communication, speaker coordination, and the small details that make a community feel welcoming.
+- **Mentorship for newer developers and first-time speakers,** especially people who need a little more support before sharing publicly.
 
-## Why it matters
+### 📈 Impact
+
+- **Dozens of events since 2017** with strong local attendance and recurring community participation.
+- **100+ participants at peak sessions** across meetups and workshops.
+- **A healthier local React ecosystem** where knowledge-sharing feels open, accessible, and collaborative instead of gatekept.
+
+### 🌍 Why it matters
 
 ReactJS Colombia matters to me because it keeps the work human. It is a reminder that engineering is not only about shipping products. It is also about making space for people to learn, connect, and grow together.

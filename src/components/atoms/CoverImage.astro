@@ -1,0 +1,123 @@
+---
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
+
+interface Props {
+  alt: string
+  className?: string
+  featured?: boolean
+  featuredMinHeightClass?: string
+  fetchpriority?: 'auto' | 'high' | 'low'
+  image: ImageMetadata
+  loading?: 'eager' | 'lazy'
+  mode?: 'card' | 'detail'
+  sizes: string
+}
+
+const {
+  alt,
+  className = '',
+  featured = false,
+  featuredMinHeightClass = 'lg:min-h-88',
+  fetchpriority = 'auto',
+  image,
+  loading = 'lazy',
+  mode = 'card',
+  sizes
+} = Astro.props
+
+const aspectRatio = image.width / image.height
+let orientation: 'landscape' | 'portrait' | 'square' = 'landscape'
+
+if (aspectRatio < 0.92) {
+  orientation = 'portrait'
+} else if (aspectRatio <= 1.08) {
+  orientation = 'square'
+}
+
+const useContainedFrame = orientation !== 'landscape'
+let cardAspectClass = 'aspect-16/10'
+
+if (orientation === 'portrait') {
+  cardAspectClass = 'aspect-4/5'
+} else if (orientation === 'square') {
+  cardAspectClass = 'aspect-square'
+}
+
+let cardWrapperClass = `${cardAspectClass} border-b border-line/45`
+
+if (featured && orientation === 'landscape') {
+  cardWrapperClass = `
+    aspect-16/10 border-b border-line/45
+    lg:aspect-auto lg:h-full lg:border-r lg:border-b-0
+  `
+}
+
+let detailWrapperClass = 'aspect-video'
+
+if (useContainedFrame) {
+  detailWrapperClass = `
+    flex items-center justify-center bg-linear-to-br from-surface-muted
+    via-surface to-brand-soft/35 p-4
+    sm:p-6
+  `
+}
+
+const wrapperClasses =
+  mode === 'card' ?
+    [
+      'relative overflow-hidden bg-surface-muted',
+      cardWrapperClass,
+      featured && orientation === 'landscape' && featuredMinHeightClass
+    ] :
+    [
+      'relative overflow-hidden bg-surface-muted',
+      detailWrapperClass
+    ]
+
+const imageClasses = ['relative z-10 transition duration-500 motion-reduce:transition-none']
+
+if (mode === 'detail') {
+  imageClasses.push(
+    useContainedFrame ?
+      'mx-auto h-auto max-h-[42rem] w-full max-w-3xl object-contain' :
+      'size-full object-cover'
+  )
+} else {
+  imageClasses.push(`
+    size-full object-cover
+    motion-safe:group-hover:scale-[1.03]
+  `)
+}
+---
+
+<div class:list={[...wrapperClasses, className]}>
+  {mode === 'detail' && useContainedFrame && (
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 grid-fade opacity-45"
+    />
+  )}
+
+  <Image
+    alt={alt}
+    class:list={imageClasses}
+    fetchpriority={fetchpriority}
+    height={mode === 'detail' ? 1200 : 960}
+    loading={loading}
+    sizes={sizes}
+    src={image}
+    width={mode === 'detail' ? 1600 : 1280}
+    widths={mode === 'detail' ? [400, 800, 1200, 1600] : [400, 800, 1200]}
+  />
+
+  {!useContainedFrame && (
+    <div
+      aria-hidden="true"
+      class="
+        absolute inset-0 bg-linear-to-t from-canvas/55 via-canvas/10
+        to-transparent
+      "
+    />
+  )}
+</div>
