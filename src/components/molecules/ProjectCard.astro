@@ -7,26 +7,44 @@ import FormattedDate from '../atoms/FormattedDate.astro'
 import Pill from '../atoms/Pill.astro'
 
 interface Props {
+  className?: string
+  featured?: boolean
   project: CollectionEntry<'project'>
 }
 
-const { project } = Astro.props
+const { className = '', featured = false, project } = Astro.props
 const projectLink = getPortfolioPath(project.id)
+const imageSizes = featured ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
 ---
 
-<article class="
-  group panel-card relative flex h-full flex-col overflow-hidden transition
-  duration-300
-  hover:-translate-y-0.5 hover:border-brand/25
-  motion-reduce:transition-none
-  motion-reduce:hover:translate-y-0
-"
+<article
+  class:list={[
+    `
+      group panel-card relative overflow-hidden transition duration-300
+      hover:-translate-y-0.5 hover:border-brand/25
+      motion-reduce:transition-none
+      motion-reduce:hover:translate-y-0
+    `,
+    featured ?
+      `
+        grid
+        lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:items-stretch
+      ` :
+      'flex h-full flex-col',
+    className
+  ]}
 >
   <a aria-label={project.data.title} class="block" href={projectLink}>
-    <div class="
-      relative aspect-16/10 overflow-hidden border-b border-line/45
-      bg-surface-muted
-    "
+    <div
+      class:list={[
+        'relative overflow-hidden bg-surface-muted',
+        featured ?
+          `
+            aspect-16/10 border-b border-line/45
+            lg:aspect-auto lg:h-full lg:min-h-92 lg:border-r lg:border-b-0
+          ` :
+          'aspect-16/10 border-b border-line/45'
+      ]}
     >
       {project.data.coverImage?.src ?
         (
@@ -39,7 +57,7 @@ const projectLink = getPortfolioPath(project.id)
             "
             height={720}
             loading="lazy"
-            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+            sizes={imageSizes}
             src={project.data.coverImage.src}
             width={1280}
             widths={[400, 800, 1200]}
@@ -56,16 +74,20 @@ const projectLink = getPortfolioPath(project.id)
     </div>
   </a>
 
-  <div class="
+  <div class:list={[`
     flex grow flex-col gap-6 p-6
     sm:p-7
-  "
+  `, featured && `
+    justify-between
+    lg:p-8
+  `]}
   >
     <div class="
       flex flex-wrap items-center gap-2 text-sm text-ink-muted
       sm:gap-3
     "
     >
+      {featured && <Pill label="Featured case study" tone="brand" />}
       {project.data.rol && <span>{project.data.rol}</span>}
       {project.data.rol && (
         <span
@@ -79,11 +101,20 @@ const projectLink = getPortfolioPath(project.id)
     </div>
 
     <div class="space-y-3">
-      <h3 class="
-        text-[1.7rem] leading-tight transition-colors duration-200
-        group-hover:text-brand
-        motion-reduce:transition-none
-      "
+      <h3
+        class:list={[
+          `
+            leading-tight transition-colors duration-200
+            group-hover:text-brand
+            motion-reduce:transition-none
+          `,
+          featured ?
+            `
+              text-[1.95rem]
+              sm:text-[2.3rem]
+            ` :
+            'text-[1.7rem]'
+        ]}
       >
         <a
           class="
@@ -96,15 +127,20 @@ const projectLink = getPortfolioPath(project.id)
           {project.data.title}
         </a>
       </h3>
-      <p class="line-clamp-4 text-sm/7 text-ink-soft">{project.data.description}</p>
+      <p class:list={[featured ?
+        'max-w-2xl text-base/7' :
+        'line-clamp-4 text-sm/7', 'text-ink-soft']}
+      >
+        {project.data.description}
+      </p>
     </div>
 
     <div class="mt-auto flex flex-wrap gap-2">
-      {project.data.technologies.slice(0, 4).map(technology => (
+      {project.data.technologies.slice(0, featured ? 5 : 4).map(technology => (
         <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
       ))}
-      {project.data.technologies.length > 4 && (
-        <Pill label={`+${project.data.technologies.length - 4} more`} tone="neutral" />
+      {project.data.technologies.length > (featured ? 5 : 4) && (
+        <Pill label={`+${project.data.technologies.length - (featured ? 5 : 4)} more`} tone="neutral" />
       )}
     </div>
   </div>

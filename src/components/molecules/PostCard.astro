@@ -8,22 +8,45 @@ import FormattedDate from '../atoms/FormattedDate.astro'
 import Pill from '../atoms/Pill.astro'
 
 interface Props {
+  className?: string
+  featured?: boolean
   post: CollectionEntry<'post'>
 }
 
-const { post } = Astro.props
+const { className = '', featured = false, post } = Astro.props
 const { data } = post
+const imageSizes = featured ? '(min-width: 1024px) 56vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
 ---
 
-<article class="
-  group panel-card flex h-full flex-col overflow-hidden transition duration-300
-  hover:-translate-y-0.5 hover:border-brand/25
-  motion-reduce:transition-none
-  motion-reduce:hover:translate-y-0
-"
+<article
+  class:list={[
+    `
+      group panel-card overflow-hidden transition duration-300
+      hover:-translate-y-0.5 hover:border-brand/25
+      motion-reduce:transition-none
+      motion-reduce:hover:translate-y-0
+    `,
+    featured ?
+      `
+        grid
+        lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-stretch
+      ` :
+      'flex h-full flex-col',
+    className
+  ]}
 >
   <a aria-hidden="true" class="block" href={getPostPath(post.id)} tabindex="-1">
-    <div class="relative aspect-16/10 overflow-hidden border-b border-line/45">
+    <div
+      class:list={[
+        'relative overflow-hidden',
+        featured ?
+          `
+            aspect-16/10 border-b border-line/45
+            lg:aspect-auto lg:h-full lg:min-h-88 lg:border-r lg:border-b-0
+          ` :
+          'aspect-16/10 border-b border-line/45'
+      ]}
+    >
       {data.coverImage ?
         (
           <Image
@@ -34,8 +57,10 @@ const { data } = post
               group-hover:scale-[1.03]
               motion-reduce:transform-none motion-reduce:transition-none
             "
+            sizes={imageSizes}
             src={data.coverImage.src}
             width={1280}
+            widths={[400, 800, 1200]}
           />
         ) :
         (
@@ -49,22 +74,34 @@ const { data } = post
     </div>
   </a>
 
-  <div class="
+  <div class:list={[`
     flex grow flex-col gap-6 p-6
     sm:p-7
-  "
+  `, featured && `
+    justify-between
+    lg:p-8
+  `]}
   >
     <div class="flex flex-wrap items-center gap-3 text-sm text-ink-muted">
-      <Pill label="Writing" tone="brand" />
+      <Pill label={featured ? 'Featured article' : 'Writing'} tone="brand" />
       <FormattedDate date={data.publishDate} />
     </div>
 
     <div class="space-y-3">
-      <h2 class="
-        text-[1.65rem] leading-tight transition-colors duration-200
-        group-hover:text-brand
-        motion-reduce:transition-none
-      "
+      <h2
+        class:list={[
+          `
+            leading-tight transition-colors duration-200
+            group-hover:text-brand
+            motion-reduce:transition-none
+          `,
+          featured ?
+            `
+              text-[1.95rem]
+              sm:text-[2.25rem]
+            ` :
+            'text-[1.65rem]'
+        ]}
       >
         <a
           class="
@@ -77,12 +114,17 @@ const { data } = post
           {data.title}
         </a>
       </h2>
-      <p class="line-clamp-4 text-sm/7 text-ink-soft">{data.description}</p>
+      <p class:list={[featured ?
+        'max-w-2xl text-base/7' :
+        'line-clamp-4 text-sm/7', 'text-ink-soft']}
+      >
+        {data.description}
+      </p>
     </div>
 
     <div class="mt-auto flex flex-wrap items-center justify-between gap-4">
       <div class="flex flex-wrap gap-2">
-        {data.tags.slice(0, 3).map(tag => (
+        {data.tags.slice(0, featured ? 4 : 3).map(tag => (
           <Pill label={tag} showHash tone="outline" />
         ))}
       </div>

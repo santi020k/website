@@ -40,8 +40,8 @@ const breadcrumbs = [
 >
   <section
     class="
-      section-shell grid gap-8
-      lg:grid-cols-[1.1fr_0.9fr]
+      grid gap-10
+      lg:grid-cols-[1.05fr_0.95fr]
     "
     data-animate
   >
@@ -62,7 +62,6 @@ const breadcrumbs = [
       </div>
       <div class="flex flex-wrap gap-2">
         {allTypes.map(type => (
-
           <Pill href={`#${type.id}`} label={type.data.title} tone="outline" />
         ))}
       </div>
@@ -81,28 +80,37 @@ const breadcrumbs = [
   </section>
 
   <section class="space-y-12">
-    {allTypes.map(type => (
-      <section class="section-shell-subtle space-y-8" data-animate id={type.id}>
-        <SectionHeading
-          description={type.data.description}
-          eyebrow={type.id === 'professional' ? 'Client and product work' : 'Personal builds'}
-          title={type.data.title}
-        />
-        <div class="
-          grid gap-6
-          lg:grid-cols-2
-        "
-        >
-          {(groupedProjects[type.id] ?? []).map(project => (
+    {allTypes.map(type => {
+      const typeProjects = groupedProjects[type.id] ?? []
+      const [featuredProject, ...otherProjects] = typeProjects
 
-            <ProjectCard project={project} />
-          ))}
-        </div>
-      </section>
-    ))}
+      return (
+        <section class="editorial-section" data-animate id={type.id}>
+          <SectionHeading
+            description={type.data.description}
+            eyebrow={type.id === 'professional' ? 'Client and product work' : 'Personal builds'}
+            title={type.data.title}
+          />
+          <div class="space-y-6">
+            {featuredProject && <ProjectCard featured project={featuredProject} />}
+            {!!otherProjects.length && (
+              <div class="
+                grid gap-6
+                lg:grid-cols-2
+              "
+              >
+                {otherProjects.map(project => (
+                  <ProjectCard project={project} />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )
+    })}
   </section>
 
-  <section class="section-shell-subtle space-y-8" data-animate>
+  <section class="editorial-section" data-animate>
     <SectionHeading
       description="React and TypeScript sit at the center, but the stack widens to fit the product: testing, mobile, backend, DX, and delivery tooling."
       eyebrow="Technology map"
@@ -110,13 +118,17 @@ const breadcrumbs = [
       linkLabel="Browse the full stack index"
       title="The tools behind the work."
     />
-    <div class="flex flex-wrap gap-3">
-      {technologies.map(([technology, count]) => (
-
-        <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-          <span class="text-xs text-ink-muted">{count}</span>
-        </Pill>
-      ))}
+    <div class="space-y-5">
+      <p class="max-w-3xl text-sm/6 text-ink-muted">
+        Repeated technologies across the portfolio, weighted by how often they show up in production work.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        {technologies.map(([technology, count]) => (
+          <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
+            <span class="text-xs text-ink-muted">{count}</span>
+          </Pill>
+        ))}
+      </div>
     </div>
   </section>
 </PageLayout>

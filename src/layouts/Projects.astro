@@ -60,15 +60,11 @@ const breadcrumbs = [
   <ProjectHero project={project} />
 
   <section class="
-    grid gap-8
+    grid gap-10 border-t border-line/70 pt-10
     lg:grid-cols-[minmax(0,1fr)_18rem]
   "
   >
-    <article class="
-      rounded-4xl p-6 panel-surface
-      sm:p-8
-    "
-    >
+    <article class="min-w-0">
       <slot />
     </article>
 
@@ -82,13 +78,9 @@ const breadcrumbs = [
   </section>
 
   {!!relatedProjects.length && (
-    <section class="space-y-8">
+    <section class="editorial-section">
       <div class="space-y-3">
-        <p class="
-          text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase
-        "
-        >Related work
-        </p>
+        <p class="section-label">Related work</p>
         <h2 class="text-3xl">More projects in a similar lane.</h2>
       </div>
       <div class="
@@ -96,8 +88,8 @@ const breadcrumbs = [
         lg:grid-cols-2
       "
       >
-        {relatedProjects.map(relatedProject => (
-          <ProjectCard project={relatedProject} />
+        {relatedProjects.map((relatedProject, index) => (
+          <ProjectCard featured={index === 0} project={relatedProject} />
         ))}
       </div>
     </section>

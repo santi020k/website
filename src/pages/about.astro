@@ -24,14 +24,12 @@ const meta = {
 <PageLayout meta={meta}>
   <section
     class="
-      section-shell grid gap-10
-      lg:grid-cols-[1fr_0.72fr] lg:items-start
+      grid gap-10
+      lg:grid-cols-[1fr_0.78fr] lg:items-start
     "
     data-animate
   >
-    <div class="pointer-events-none absolute inset-0 grid-fade opacity-35" />
-
-    <div class="relative z-10 max-w-3xl space-y-8">
+    <div class="max-w-3xl space-y-8">
       <div class="space-y-5">
         <Eyebrow label="About" tone="brand" />
         <h1
@@ -89,26 +87,46 @@ const meta = {
       <SocialList />
     </div>
 
-    <div
-      class="
-        panel-card relative z-10 hidden overflow-hidden
-        lg:block lg:w-full lg:max-w-sm lg:shrink-0
+    <div class="grid gap-4 editorial-rail">
+      <div class="
+        panel-card hidden overflow-hidden
+        lg:block
       "
-    >
-      <Image
-        alt="Santiago Molina"
-        class="aspect-3/4 w-full object-cover"
-        fetchpriority="high"
-        format="avif"
-        height={480}
-        loading="eager"
-        src={AboutMeImage}
-        width={360}
-      />
+      >
+        <Image
+          alt="Santiago Molina"
+          class="aspect-3/4 w-full object-cover"
+          fetchpriority="high"
+          format="avif"
+          height={480}
+          loading="eager"
+          src={AboutMeImage}
+          width={360}
+        />
+      </div>
+      <div class="
+        grid gap-3
+        sm:grid-cols-3
+        lg:grid-cols-1
+      "
+      >
+        <div class="mini-note">
+          <p class="section-label">Experience</p>
+          <p class="mt-2 text-lg font-semibold text-ink">{yearsOfExperience} years</p>
+        </div>
+        <div class="mini-note">
+          <p class="section-label">Leadership</p>
+          <p class="mt-2 text-sm/7 text-ink-soft">Led teams of up to 14 across product, design, frontend, and backend.</p>
+        </div>
+        <div class="mini-note">
+          <p class="section-label">Focus today</p>
+          <p class="mt-2 text-sm/7 text-ink-soft">Automation, delivery clarity, and developer experience that compounds.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="section-shell-subtle space-y-8" data-animate>
+  <section class="editorial-section" data-animate>
     <SectionHeading
       description="A few things that shape how I work, how I lead, and what I focus on."
       eyebrow="Principles"
@@ -119,7 +137,6 @@ const meta = {
       class="
         grid gap-6
         sm:grid-cols-2
-        lg:grid-cols-3
       "
     >
       {[
@@ -147,13 +164,18 @@ const meta = {
           title: 'Consistency beats perfection',
           body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
         }
-      ].map(({ title, body }) => (
-        <div class="
-          panel-card h-full space-y-3 p-6
-          sm:p-7
-        "
+      ].map(({ title, body }, index) => (
+        <div
+          class:list={[
+            `
+              panel-card h-full space-y-3 p-6
+              sm:p-7
+            `,
+            index === 0 && 'sm:col-span-2'
+          ]}
         >
-          <h3 class="font-semibold text-ink">{title}</h3>
+          <p class="section-label">{String(index + 1).padStart(2, '0')}</p>
+          <h3 class="text-xl font-semibold text-ink">{title}</h3>
           <p class="text-sm/7 text-ink-soft">{body}</p>
         </div>
       ))}
