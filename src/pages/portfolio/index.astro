@@ -25,9 +25,15 @@ const allTypes = (await getAllTypes()).sort((a, b) => {
 const technologies = getUniqueTechnologiesWithCount(allProjects).slice(0, 18)
 const professionalCount = groupedProjects.professional?.length ?? 0
 const personalCount = groupedProjects.personal?.length ?? 0
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Portfolio', url: '/portfolio/' }
+]
 ---
 
 <PageLayout meta={{
+  breadcrumbs,
   description: 'A curated showcase of professional engineering projects, open-source contributions, and technical experiments across headless commerce, gaming, and SaaS.',
   title: 'Engineering Portfolio — Santiago Molina'
 }}

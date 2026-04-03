@@ -130,37 +130,6 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   })}
 />
 
-{articleDate && (
-  <script
-    type="application/ld+json"
-    is:inline
-    set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: title,
-      description: description,
-      datePublished: articleDate,
-      dateModified: articleUpdated ?? articleDate,
-      image: socialImageURL,
-      url: canonicalURL.href,
-      author: {
-        '@type': 'Person',
-        name: siteConfig.author,
-        url: Astro.site?.href
-      },
-      publisher: {
-        '@type': 'Person',
-        name: siteConfig.author,
-        url: Astro.site?.href
-      },
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': canonicalURL.href
-      }
-    })}
-  />
-)}
-
 {structuredDataJsonLd && (
   <script type="application/ld+json" is:inline set:html={structuredDataJsonLd} />
 )}

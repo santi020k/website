@@ -14,10 +14,16 @@ const posts = (await getCollection('post', ({ data }) => (
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
 
 const uniqueTags = new Set(posts.flatMap(post => post.data.tags)).size
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' }
+]
 ---
 
 <PageLayout
   meta={{
+    breadcrumbs,
     description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
     title: 'Software Engineering Blog — Santiago Molina'
   }}
