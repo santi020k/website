@@ -17,23 +17,28 @@ coverImage:
 
 ## Building a DX-first ESLint toolkit
 
-I built `@santi020k/eslint-config-basic` to remove lint setup friction from the kind of projects I work on most: React, Next.js, Astro, TypeScript, and monorepos with real teams behind them. It's the successor to my original [`@santi020k/eslint-config-santi020k`](/portfolio/eslint-config-santi020k/) package, rebuilt from scratch around ESLint's flat config format with a much wider framework footprint and better DX throughout.
+I built `@santi020k/eslint-config-basic` to remove lint setup friction from the kind of projects I work on most: React, Next.js, Astro, TypeScript, and monorepos with real teams behind them. It is the successor to my original [`@santi020k/eslint-config-santi020k`](/portfolio/eslint-config-santi020k/) package, rebuilt from scratch around ESLint's flat config format with a much wider framework footprint and better DX throughout.
 
-## What I built
+### 🎯 Goals
 
-- A composable ESLint core for JavaScript and TypeScript projects, with auto-detection for the frameworks and tools already in your project.
-- Optional packages for React, Next.js, Astro, Vue, Svelte, Solid, Angular, NestJS, Expo, Qwik, and Remix.
-- A strict mode that converts warnings to errors for CI/CD pipelines.
-- Built-in Prettier integration, Tailwind CSS, Vitest, and Testing Library support — no extra config needed.
-- Documentation and examples that make adoption easier for teams, not just for me.
+- **Reduce setup friction** for new projects so teams can get to useful standards faster.
+- **Encode strong defaults** based on real project work across front-end apps, tooling, Astro sites, and monorepos.
+- **Stay composable** so different stacks can opt into the pieces they actually need instead of inheriting a giant monolith.
 
-## Results
+### 🛠️ What I built
 
-- Adopted by 30+ developers across personal, client, and shared codebases.
-- Reduced repeated lint setup work across new projects and experiments.
-- Captured the engineering standards I care about most in a form other teams can actually reuse.
+- **A composable ESLint core** for JavaScript and TypeScript projects, with auto-detection for the frameworks and tools already in your repo.
+- **Optional packages** for `React`, `Next.js`, `Astro`, `Vue`, `Svelte`, `Solid`, `Angular`, `NestJS`, `Expo`, `Qwik`, and `Remix`.
+- **A strict mode** that promotes warnings to errors for CI/CD pipelines and stricter team workflows.
+- **First-class support for Tailwind CSS, Vitest, and Testing Library,** plus documentation and examples that make adoption easier for teams, not just for me.
 
-## Why it matters
+### 📈 Results
+
+- **Used by 30+ developers** across personal, client, and shared codebases.
+- **Less repeated setup work** whenever a new project or experiment starts.
+- **A reusable expression of my engineering standards** in a form other teams can actually adopt and extend.
+
+### 🧠 Why it matters
 
 Linting is rarely the star of the show, but it changes how teams work. This project reflects how I think about developer tooling in general: remove friction, encode good defaults, and make quality easier to maintain at scale.
 

@@ -1,11 +1,19 @@
 ---
-import { Image } from 'astro:assets'
+import { Icon } from 'astro-icon/components'
 import type { CollectionEntry } from 'astro:content'
 
 import { getTechnologyPath } from '../../utils/links'
+import {
+  getProjectDateRangeLabel,
+  getProjectDurationLabel,
+  getProjectFocusLabel,
+  getProjectScopeHighlights,
+  getProjectTimelineLabel,
+  getProjectTypeLabel
+} from '../../utils/project-meta'
 import ButtonLink from '../atoms/ButtonLink.astro'
+import CoverImage from '../atoms/CoverImage.astro'
 import Eyebrow from '../atoms/Eyebrow.astro'
-import FormattedDate from '../atoms/FormattedDate.astro'
 import Pill from '../atoms/Pill.astro'
 
 interface Props {
@@ -13,90 +21,240 @@ interface Props {
 }
 
 const { project } = Astro.props
+const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const focusLabel = getProjectFocusLabel(project.data.typesId)
+const scopeHighlights = getProjectScopeHighlights(project.data.typesId)
+const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
+const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
+const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
+const technologyPreview = project.data.technologies.slice(0, 8)
+const remainingTechnologyCount = Math.max(project.data.technologies.length - technologyPreview.length, 0)
+const projectStats = [
+  {
+    icon: 'tabler:user-star',
+    label: 'Role',
+    value: project.data.rol ?? 'Hands-on builder'
+  },
+  {
+    icon: 'tabler:calendar-time',
+    label: 'Timeline',
+    value: timelineLabel
+  },
+  {
+    icon: 'tabler:hourglass',
+    label: 'Duration',
+    value: durationLabel
+  },
+  {
+    icon: 'tabler:stack-2',
+    label: 'Stack',
+    value: `${project.data.technologies.length}+ technologies`
+  }
+]
 ---
 
 <section
   class="
-    grid gap-10
-    lg:grid-cols-[1.08fr_0.92fr]
+    section-shell relative space-y-10
   "
   data-animate
 >
-  <div class="space-y-6">
-    <Eyebrow label={project.data.typesId === 'personal' ? 'Personal project' : 'Professional work'} tone="brand" />
-    <div class="space-y-4">
-      <h1 class="
-        max-w-4xl text-4xl
-        sm:text-5xl
-        lg:text-6xl
-      "
-      >{project.data.title}
-      </h1>
-      <p class="max-w-3xl text-lg/8 text-ink-soft">{project.data.description}</p>
-    </div>
-
-    <div class="flex flex-wrap gap-3">
-      {project.data.liveDemoUrl && (
-        <ButtonLink href={project.data.liveDemoUrl} newTab showArrow>
-          View live project
-        </ButtonLink>
-      )}
-      {project.data.githubUrl && (
-        <ButtonLink href={project.data.githubUrl} newTab showArrow variant="secondary">
-          Open repository
-        </ButtonLink>
-      )}
-    </div>
-
-    <div class="flex flex-wrap gap-2">
-      {project.data.technologies.map(technology => (
-        <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
-      ))}
-    </div>
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute inset-x-8 top-0 h-40 rounded-full
+      bg-[radial-gradient(circle_at_center,hsl(var(--brand)/0.16),transparent_72%)]
+      blur-3xl
+    "
+  >
   </div>
 
-  <div class="grid gap-3 editorial-rail">
-    <div class="mini-note">
-      <p class="section-label">Role</p>
-      <p class="mt-2 text-lg font-semibold text-ink">{project.data.rol}</p>
+  <div class="
+    relative grid gap-10
+    xl:grid-cols-[minmax(0,1.04fr)_18rem]
+  "
+  >
+    <div class="space-y-8">
+      <div class="flex items-center gap-2 text-sm font-medium text-ink-muted">
+        <a
+          href="/portfolio/"
+          class="
+            transition-colors
+            hover:text-brand
+          "
+        >Portfolio
+        </a>
+        <Icon aria-hidden="true" class="size-4" name="tabler:chevron-right" />
+        <span class="text-ink-soft">Case study</span>
+      </div>
+
+      <div class="space-y-5">
+        <div class="
+          flex flex-wrap items-center gap-3
+          sm:gap-4
+        "
+        >
+          <Eyebrow label={projectTypeLabel} tone="brand" />
+          <span class="
+            text-xs font-semibold tracking-[0.18em] text-ink-muted
+            uppercase
+          "
+          >{dateRangeLabel}
+          </span>
+        </div>
+
+        <div class="space-y-4">
+          <h1 class="
+            max-w-4xl text-4xl/tight
+            sm:text-5xl/tight
+            lg:text-6xl/tight
+          "
+          >{project.data.title}
+          </h1>
+          <p class="
+            max-w-3xl text-lg/8 text-ink-soft
+            sm:text-xl/8
+          "
+          >{project.data.description}
+          </p>
+        </div>
+      </div>
+
+      <div class="
+        grid gap-3
+        sm:grid-cols-2
+        2xl:grid-cols-4
+      "
+      >
+        {projectStats.map(stat => (
+          <div class="
+            mini-note flex h-full gap-3
+            sm:min-h-32
+          "
+          >
+            <div class="
+              mt-0.5 flex size-10 shrink-0 items-center justify-center
+              rounded-full bg-brand-soft text-brand
+            "
+            >
+              <Icon aria-hidden="true" class="size-5" name={stat.icon} />
+            </div>
+            <div class="min-w-0">
+              <p class="section-label">{stat.label}</p>
+              <p class="
+                mt-2 text-sm/6 font-semibold text-ink
+                sm:text-base/7
+              "
+              >{stat.value}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="section-actions">
+        {project.data.liveDemoUrl && (
+          <ButtonLink href={project.data.liveDemoUrl} newTab showArrow>
+            View live project
+          </ButtonLink>
+        )}
+        {project.data.githubUrl && (
+          <ButtonLink href={project.data.githubUrl} newTab showArrow variant="secondary">
+            Open repository
+          </ButtonLink>
+        )}
+        <ButtonLink href="/portfolio/" showArrow variant="ghost">
+          Browse all case studies
+        </ButtonLink>
+      </div>
+
+      <div class="space-y-4">
+        <div class="
+          flex items-center gap-3 text-sm font-medium text-ink-muted
+        "
+        >
+          <span class="section-label">Core stack</span>
+          <span
+            aria-hidden="true"
+            class="h-px flex-1 bg-linear-to-r from-line via-line/60 to-transparent"
+          />
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {technologyPreview.map(technology => (
+            <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
+          ))}
+          {remainingTechnologyCount > 0 && (
+            <Pill label={`+${remainingTechnologyCount} more`} tone="neutral" />
+          )}
+        </div>
+      </div>
     </div>
-    <div class="mini-note">
-      <p class="section-label">Timeline</p>
-      <p class="mt-2 text-lg font-semibold text-ink">
-        <FormattedDate date={project.data.startingDate} />
-        <span class="px-2 text-ink-muted">-</span>
-        {project.data.endingDate ? <FormattedDate date={project.data.endingDate} /> : 'Present'}
-      </p>
-    </div>
-    <div class="mini-note">
-      <p class="section-label">Focus</p>
-      <p class="mt-2 text-base/7 text-ink-soft">
-        {
-          project.data.typesId === 'personal' ?
-            'Open source, community building, and practical developer experience.' :
-            'Frontend architecture, delivery leadership, and product quality.'
-        }
-      </p>
-    </div>
+
+    <aside class="space-y-4">
+      <div class="mini-note">
+        <p class="section-label">Project frame</p>
+        <p class="mt-3 text-sm/6 text-ink-soft">{focusLabel}</p>
+      </div>
+
+      <div class="mini-note">
+        <p class="section-label">What shaped the work</p>
+        <ul class="mt-4 space-y-3">
+          {scopeHighlights.map(item => (
+            <li class="flex gap-3 text-sm/6 text-ink-soft">
+              <span class="
+                mt-2 size-1.5 shrink-0 rounded-full bg-brand
+              "
+              />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
   </div>
 
   {project.data.coverImage && (
     <div class="
-      panel-card overflow-hidden
-      lg:col-span-2
+      panel-card relative overflow-hidden
     "
     >
-      <Image
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40
+          bg-linear-to-t from-canvas/80 via-canvas/15 to-transparent
+        "
+      >
+      </div>
+      <CoverImage
         alt={project.data.coverImage.alt}
-        class="size-full object-cover"
         fetchpriority="high"
-        height={900}
+        image={project.data.coverImage.src}
         loading="eager"
         sizes="(min-width: 1024px) 1200px, 100vw"
-        src={project.data.coverImage.src}
-        width={1600}
-        widths={[400, 800, 1200, 1600]}
+        mode="detail"
       />
+      <div class="
+        pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-wrap
+        items-end justify-between gap-4 p-5
+        sm:p-6
+      "
+      >
+        <div>
+          <p class="section-label text-white/70">Project snapshot</p>
+          <p class="
+            mt-2 text-lg font-semibold tracking-[-0.03em] text-white
+            sm:text-xl
+          "
+          >{project.data.title} · {project.data.rol ?? projectTypeLabel}
+          </p>
+        </div>
+        <p class="
+          max-w-md text-sm/6 text-white/78
+        "
+        >{focusLabel}
+        </p>
+      </div>
     </div>
   )}
 </section>

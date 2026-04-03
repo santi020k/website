@@ -1,11 +1,20 @@
 ---
+import { Icon } from 'astro-icon/components'
 import { type CollectionEntry, render } from 'astro:content'
 
 import BaseLayout from './Base.astro'
 
+import ButtonLink from '../components/atoms/ButtonLink.astro'
+import Pill from '../components/atoms/Pill.astro'
 import ProjectCard from '../components/molecules/ProjectCard.astro'
 import TocCard from '../components/molecules/TocCard.astro'
 import ProjectHero from '../components/organisms/ProjectHero.astro'
+import {
+  getProjectDurationLabel,
+  getProjectFocusLabel,
+  getProjectTimelineLabel,
+  getProjectTypeLabel
+} from '../utils/project-meta'
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -21,6 +30,12 @@ const { headings } = await render(project)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)
 const hasLiveDemo = Boolean(project.data.liveDemoUrl)
+const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const focusLabel = getProjectFocusLabel(project.data.typesId)
+const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
+const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
+const stackPreview = project.data.technologies.slice(0, 6)
+const projectStageLabel = project.data.endingDate ? 'Completed case study' : 'Active project'
 
 const projectSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -57,33 +72,159 @@ const breadcrumbs = [
     title: metaTitle
   }}
 >
-  <ProjectHero project={project} />
-
-  <section
+  <div
     class="
-      grid gap-10 border-t border-line/70 pt-10
-      lg:grid-cols-[minmax(0,1fr)_18rem]
+      fixed top-0 left-0 z-50 h-1.5 bg-linear-to-r from-brand to-brand-soft
+      shadow-[0_0_10px_hsl(var(--brand)/0.22)] transition-all duration-150
+      ease-out
     "
-    data-animate
+    style="width: 0%"
+    x-data="{
+      percent: 0,
+      updateProgress() {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        this.percent = (winScroll / height) * 100;
+      }
+    }"
+    x-init="window.addEventListener('scroll', () => updateProgress())"
+    :style="`width: ${percent}%`"
   >
-    <article class="min-w-0">
-      <slot />
-    </article>
+  </div>
 
-    <div class="
-      space-y-6
-      lg:sticky lg:top-32 lg:h-fit
-    "
+  <article class="mx-auto flex w-full max-w-6xl flex-col gap-12">
+    <ProjectHero project={project} />
+
+    <section
+      class="
+        grid gap-10 border-t border-line/70 pt-10
+        lg:grid-cols-[minmax(0,1fr)_18rem]
+      "
+      data-animate
     >
-      {!!headings.length && <TocCard headings={headings} />}
-    </div>
-  </section>
+      <div class="min-w-0 space-y-8">
+        <div class="
+          section-shell-subtle space-y-6
+        "
+        >
+          <div class="
+            flex flex-wrap items-start justify-between gap-4 border-b
+            border-line/60 pb-6
+          "
+          >
+            <div class="space-y-2">
+              <p class="section-label">Case study notes</p>
+              <p class="max-w-2xl text-sm/6 text-ink-soft">
+                A closer look at the delivery decisions, technical tradeoffs, and product constraints behind this work.
+              </p>
+            </div>
+            <Pill label={projectStageLabel} tone="brand" />
+          </div>
+
+          <div class="prose-santi prose-project max-w-none">
+            <slot />
+          </div>
+        </div>
+
+        <footer
+          class="
+            flex flex-col gap-6 border-t border-line pt-8
+            sm:flex-row sm:items-center sm:justify-between
+          "
+        >
+          <a
+            href="/portfolio/"
+            class="
+              group inline-flex items-center gap-2 font-medium text-ink
+              transition-colors
+              hover:text-brand
+            "
+          >
+            <Icon
+              aria-hidden="true"
+              class="
+                size-5 transition-transform
+                group-hover:-translate-x-1
+              "
+              name="tabler:arrow-left"
+            />
+            Back to portfolio
+          </a>
+
+          <div class="section-actions">
+            {project.data.liveDemoUrl && (
+              <ButtonLink href={project.data.liveDemoUrl} newTab showArrow variant="secondary">
+                View live project
+              </ButtonLink>
+            )}
+            {project.data.githubUrl && (
+              <ButtonLink href={project.data.githubUrl} newTab showArrow variant="ghost">
+                Open repository
+              </ButtonLink>
+            )}
+          </div>
+        </footer>
+      </div>
+
+      <aside class="editorial-rail">
+        <div class="mini-note">
+          <p class="section-label">At a glance</p>
+          <dl class="mt-4 space-y-4 text-sm/6 text-ink-soft">
+            <div class="flex gap-3">
+              <Icon aria-hidden="true" class="mt-0.5 size-4 shrink-0 text-brand" name="tabler:briefcase-2" />
+              <div>
+                <dt class="section-label">Type</dt>
+                <dd class="mt-1 text-sm font-medium text-ink">{projectTypeLabel}</dd>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <Icon aria-hidden="true" class="mt-0.5 size-4 shrink-0 text-brand" name="tabler:user-star" />
+              <div>
+                <dt class="section-label">Role</dt>
+                <dd class="mt-1 text-sm font-medium text-ink">{project.data.rol ?? 'Hands-on builder'}</dd>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <Icon aria-hidden="true" class="mt-0.5 size-4 shrink-0 text-brand" name="tabler:calendar-time" />
+              <div>
+                <dt class="section-label">Timeline</dt>
+                <dd class="mt-1 text-sm font-medium text-ink">{timelineLabel}</dd>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <Icon aria-hidden="true" class="mt-0.5 size-4 shrink-0 text-brand" name="tabler:hourglass" />
+              <div>
+                <dt class="section-label">Duration</dt>
+                <dd class="mt-1 text-sm font-medium text-ink">{durationLabel}</dd>
+              </div>
+            </div>
+          </dl>
+        </div>
+
+        <div class="mini-note">
+          <p class="section-label">Focus</p>
+          <p class="mt-3 text-sm/6 text-ink-soft">{focusLabel}</p>
+        </div>
+
+        <div class="mini-note">
+          <p class="section-label">Core stack</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            {stackPreview.map(technology => (
+              <Pill label={technology} tone="outline" />
+            ))}
+          </div>
+        </div>
+
+        {!!headings.length && <TocCard headings={headings} />}
+      </aside>
+    </section>
+  </article>
 
   {!!relatedProjects.length && (
     <section class="editorial-section" data-animate>
       <div class="space-y-3">
         <p class="section-label">Related work</p>
-        <h2 class="text-3xl">More projects in a similar lane.</h2>
+        <h2 class="text-3xl">More case studies in a similar lane.</h2>
       </div>
       <div class="
         grid gap-6

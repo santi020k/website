@@ -1,6 +1,6 @@
 ---
 title: "PADS"
-description: "Led the web, back-office, and mobile experience for a luxury real estate platform, helping brokers move faster and growing monthly active users by 50%."
+description: "Led the web, back-office, and mobile experience for a luxury real estate platform, growing monthly active users by 50% and improving broker workflows."
 rol: "Technical Lead"
 startingDate: "1 Jan 2020"
 endingDate: "1 Jul 2021"
@@ -15,23 +15,30 @@ coverImage:
   ogImage: "./cover.webp"
 ---
 
-## Building the digital platform behind PADS
+## Leading real estate innovation with PADS
 
 At [PADS](https://pads.com.co), I led the technical work behind the public website, broker tools, and mobile app for a luxury real estate business. The challenge was not just building listings pages. It was designing a connected system that helped brokers work better and made property search feel fast, useful, and trustworthy.
 
-## What I led
+### 🎯 What I led
 
-- A modular product made up of the public website, internal back-office, and mobile tools for brokers.
-- Search, maps, and geolocation features that helped users explore listings more effectively.
-- Authentication, internationalization, and the operational workflows required by the business.
-- A cross-functional team shipping across web and mobile at the same time.
+- **A modular platform** spanning the public website, internal back-office, and mobile tools used by brokers in the field.
+- **Search, maps, and geolocation workflows** that helped users explore listings more effectively and helped brokers operate with better location context.
+- **Authentication and internationalization,** supporting secure access and multilingual product flows for a broader set of users.
+- **Cross-functional delivery across web and mobile,** keeping architecture and product decisions aligned as the platform evolved.
 
-## Results
+### 📈 Key outcomes
 
-- Helped drive 50% growth in monthly active users through better product experience and search performance.
-- Delivered a platform that supported both customer-facing discovery and broker-facing execution.
-- Proved how much thoughtful UX and domain-specific tooling matter in a real estate product.
+- **50% growth in monthly active users** through a faster and more useful property-search experience.
+- **Stronger broker workflows** by combining customer-facing discovery with operational tooling in one connected system.
+- **More trustworthy product delivery** through better technical foundations, scalable architecture, and clearer team execution.
 
-## Why it mattered
+### 🛠️ Technical highlights
+
+- **Frontend:** `React.js`, `Next.js`, `TypeScript`, `Redux`, `Styled Components`, `SASS`
+- **Mobile:** `React Native`, `Expo`, `React Navigation`
+- **Platform services:** `Socket.io`, `OAuth`, `Google Maps API`, `Mapbox`
+- **Delivery:** `Docker`, `AWS`, `CI/CD`, `Jest`, `Storybook`, `Sentry`
+
+### 🤝 Why it mattered
 
 PADS was a strong example of product thinking meeting technical leadership. It combined search, maps, mobile workflows, and internal tooling in one system, and it made me better at building software around how people actually work.

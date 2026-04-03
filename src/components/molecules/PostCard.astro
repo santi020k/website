@@ -1,9 +1,9 @@
 ---
-import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import { getPostPath } from '../../utils/links'
 import ButtonLink from '../atoms/ButtonLink.astro'
+import CoverImage from '../atoms/CoverImage.astro'
 import FormattedDate from '../atoms/FormattedDate.astro'
 import Pill from '../atoms/Pill.astro'
 
@@ -16,6 +16,16 @@ interface Props {
 const { className = '', featured = false, post } = Astro.props
 const { data } = post
 const imageSizes = featured ? '(min-width: 1024px) 56vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
+const coverAspectRatio = data.coverImage ? data.coverImage.src.width / data.coverImage.src.height : 16 / 10
+let coverOrientation: 'landscape' | 'portrait' | 'square' = 'landscape'
+
+if (coverAspectRatio < 0.92) {
+  coverOrientation = 'portrait'
+} else if (coverAspectRatio <= 1.08) {
+  coverOrientation = 'square'
+}
+
+const usesSplitLayout = featured && coverOrientation === 'landscape'
 ---
 
 <article
@@ -26,7 +36,7 @@ const imageSizes = featured ? '(min-width: 1024px) 56vw, 100vw' : '(min-width: 1
       motion-reduce:transition-none
       motion-reduce:hover:translate-y-0
     `,
-    featured ?
+    usesSplitLayout ?
       `
         grid
         lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-stretch
@@ -36,42 +46,23 @@ const imageSizes = featured ? '(min-width: 1024px) 56vw, 100vw' : '(min-width: 1
   ]}
 >
   <a aria-hidden="true" class="block" href={getPostPath(post.id)} tabindex="-1">
-    <div
-      class:list={[
-        'relative overflow-hidden',
-        featured ?
-          `
-            aspect-16/10 border-b border-line/45
-            lg:aspect-auto lg:h-full lg:min-h-88 lg:border-r lg:border-b-0
-          ` :
-          'aspect-16/10 border-b border-line/45'
-      ]}
-    >
-      {data.coverImage ?
-        (
-          <Image
-            alt={data.coverImage.alt}
-            height={720}
-            class="
-              size-full object-cover transition duration-500
-              group-hover:scale-[1.03]
-              motion-reduce:transform-none motion-reduce:transition-none
-            "
-            sizes={imageSizes}
-            src={data.coverImage.src}
-            width={1280}
-            widths={[400, 800, 1200]}
-          />
-        ) :
-        (
-          <div class="size-full grid-fade" />
-        )}
-      <div class="
-        absolute inset-0 bg-linear-to-t from-canvas/55 via-canvas/10
-        to-transparent
-      "
-      />
-    </div>
+    {data.coverImage ?
+      (
+        <CoverImage
+          alt={data.coverImage.alt}
+          featured={featured}
+          image={data.coverImage.src}
+          loading={featured ? 'eager' : 'lazy'}
+          mode="card"
+          sizes={imageSizes}
+        />
+      ) :
+      (
+        <div class="
+          aspect-16/10 border-b border-line/45 bg-surface-muted grid-fade
+        "
+        />
+      )}
   </a>
 
   <div class:list={[`

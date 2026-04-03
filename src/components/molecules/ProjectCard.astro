@@ -1,8 +1,8 @@
 ---
-import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import { getPortfolioPath, getTechnologyPath } from '../../utils/links'
+import CoverImage from '../atoms/CoverImage.astro'
 import FormattedDate from '../atoms/FormattedDate.astro'
 import Pill from '../atoms/Pill.astro'
 
@@ -15,6 +15,19 @@ interface Props {
 const { className = '', featured = false, project } = Astro.props
 const projectLink = getPortfolioPath(project.id)
 const imageSizes = featured ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
+const coverAspectRatio =
+  project.data.coverImage?.src ?
+    project.data.coverImage.src.width / project.data.coverImage.src.height :
+    16 / 10
+let coverOrientation: 'landscape' | 'portrait' | 'square' = 'landscape'
+
+if (coverAspectRatio < 0.92) {
+  coverOrientation = 'portrait'
+} else if (coverAspectRatio <= 1.08) {
+  coverOrientation = 'square'
+}
+
+const usesSplitLayout = featured && coverOrientation === 'landscape'
 ---
 
 <article
@@ -25,7 +38,7 @@ const imageSizes = featured ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 1
       motion-reduce:transition-none
       motion-reduce:hover:translate-y-0
     `,
-    featured ?
+    usesSplitLayout ?
       `
         grid
         lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:items-stretch
@@ -35,43 +48,23 @@ const imageSizes = featured ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 1
   ]}
 >
   <a aria-label={project.data.title} class="block" href={projectLink}>
-    <div
-      class:list={[
-        'relative overflow-hidden bg-surface-muted',
-        featured ?
-          `
-            aspect-16/10 border-b border-line/45
-            lg:aspect-auto lg:h-full lg:min-h-92 lg:border-r lg:border-b-0
-          ` :
-          'aspect-16/10 border-b border-line/45'
-      ]}
-    >
-      {project.data.coverImage?.src ?
-        (
-          <Image
-            alt={project.data.coverImage.alt || project.data.title}
-            class="
-              size-full object-cover transition duration-500
-              group-hover:scale-[1.03]
-              motion-reduce:transform-none motion-reduce:transition-none
-            "
-            height={720}
-            loading="lazy"
-            sizes={imageSizes}
-            src={project.data.coverImage.src}
-            width={1280}
-            widths={[400, 800, 1200]}
-          />
-        ) :
-        (
-          <div class="size-full grid-fade" />
-        )}
-      <div class="
-        absolute inset-0 bg-linear-to-t from-canvas/55 via-canvas/10
-        to-transparent
-      "
-      />
-    </div>
+    {project.data.coverImage?.src ?
+      (
+        <CoverImage
+          alt={project.data.coverImage.alt || project.data.title}
+          featured={featured}
+          featuredMinHeightClass="lg:min-h-92"
+          image={project.data.coverImage.src}
+          mode="card"
+          sizes={imageSizes}
+        />
+      ) :
+      (
+        <div class="
+          aspect-16/10 border-b border-line/45 bg-surface-muted grid-fade
+        "
+        />
+      )}
   </a>
 
   <div class:list={[`

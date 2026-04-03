@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
@@ -7,6 +6,7 @@ import readingTime from 'reading-time'
 
 import BaseLayout from './Base.astro'
 
+import CoverImage from '../components/atoms/CoverImage.astro'
 import FormattedDate from '../components/atoms/FormattedDate.astro'
 import Pill from '../components/atoms/Pill.astro'
 import RelatedPosts from '../components/molecules/RelatedPosts.astro'
@@ -133,12 +133,14 @@ const breadcrumbs = [
         </div>
 
         {post.data.coverImage && (
-          <div class="panel-card relative aspect-video overflow-hidden">
-            <Image
-              src={post.data.coverImage.src}
+          <div class="panel-card overflow-hidden">
+            <CoverImage
               alt={post.data.coverImage.alt}
-              class="size-full object-cover"
-              inferSize
+              fetchpriority="high"
+              image={post.data.coverImage.src}
+              loading="eager"
+              mode="detail"
+              sizes="(min-width: 1024px) 960px, 100vw"
             />
           </div>
         )}

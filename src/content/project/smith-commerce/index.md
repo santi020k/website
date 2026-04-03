@@ -1,6 +1,6 @@
 ---
 title: "Smith Commerce"
-description: "Led the frontend rebuild of Marcone's headless commerce experience, turning a slow legacy storefront into a faster, more accessible, scalable platform."
+description: "Helped rebuild Marcone's storefront as a headless commerce platform, improving performance, accessibility, and front-end delivery speed."
 rol: "Front End Developer"
 startingDate: "1 May 2025"
 liveDemoUrl: "https://www.marcone.com/"
@@ -10,7 +10,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Void Landing Page"
+  alt: "Marcone headless storefront preview"
   ogImage: './cover.webp'
 ---
 
@@ -18,20 +18,26 @@ coverImage:
 
 At [Smith Commerce](https://smithcommerce.com), I worked on the frontend rebuild of [Marcone](https://www.marcone.com/), a large commerce experience being moved away from a legacy monolith. The old storefront was slow, inaccessible, and hard to evolve. The goal was to replace it with a modern headless frontend that could move faster without waiting on backend readiness.
 
-## What I owned
+### 🎯 What I owned
 
-- Helped drive the frontend architecture from monorepo setup through production launch.
-- Built against mocked OpenAPI contracts so frontend and backend work could move in parallel.
-- Worked on the UI system, forms, and state patterns with Next.js 15, React 19, TypeScript, Radix UI, TanStack Query, and Zod.
-- Improved developer experience with stronger linting, automation, and team standards that kept delivery moving.
+- **Front-end architecture from monorepo setup through launch,** helping shape the headless storefront foundations as the project moved into production.
+- **Parallel delivery against mocked OpenAPI contracts,** so front-end and backend work could move independently without blocking each other.
+- **UI systems, forms, and state patterns** using `Next.js 15`, `React 19`, `TypeScript`, `Radix UI`, `TanStack Query`, and `Zod`.
+- **Developer experience improvements** through stronger linting, automation, and team standards that made delivery faster and less noisy.
 
-## Results
+### 📈 Key outcomes
 
-- Lighthouse score improved from 35 to 98.
-- Time to Interactive dropped by 75 percent and First Contentful Paint improved by 60 percent.
-- The rebuilt storefront achieved a 100 percent accessibility score.
+- **Lighthouse score improved from 35 to 98.**
+- **Time to Interactive dropped by 75%** and **First Contentful Paint improved by 60%**.
+- **A 100% accessibility score** on the rebuilt storefront.
 
-## Before and after
+### 🛠️ Technical highlights
+
+- **Frontend:** `Next.js`, `React`, `TypeScript`, `Tailwind CSS`, `Radix UI`, `Lucide React`
+- **State and data:** `TanStack Query`, `Zustand`, `Apollo Client`, `OpenAPI`, `React Hook Form`, `Zod`
+- **Delivery and quality:** `Turborepo`, `Storybook`, `ESLint`, `Prettier`, `Husky`, `Jest`, `Playwright`, `CI/CD`
+
+### 🔍 Before and after
 
 The difference was visible in both performance and experience:
 
