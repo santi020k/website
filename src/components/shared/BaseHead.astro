@@ -9,11 +9,25 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
 type Props = SiteMeta
 
-const { articleDate, articleUpdated, description, ogImage, title } = Astro.props
+const { articleDate, articleUpdated, breadcrumbs, description, ogImage, structuredData, title } = Astro.props
 const titleSeparator = '—'
 const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
-const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.me/')
+const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href
+const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
+
+const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
+  JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: new URL(crumb.url, Astro.site ?? 'https://santi020k.me/').href
+    }))
+  }) :
+  null
 ---
 
 <meta charset="utf-8" />
@@ -64,6 +78,7 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
   <>
     <meta property="article:author" content={siteConfig.author} />
     <meta property="article:published_time" content={articleDate} />
+    {articleUpdated && <meta property="article:modified_time" content={articleUpdated} />}
   </>
 )}
 
@@ -92,6 +107,7 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
 
 <script
   type="application/ld+json"
+  is:inline
   set:html={JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -117,6 +133,7 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
 {articleDate && (
   <script
     type="application/ld+json"
+    is:inline
     set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'BlogPosting',
@@ -142,6 +159,14 @@ const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href;
       }
     })}
   />
+)}
+
+{structuredDataJsonLd && (
+  <script type="application/ld+json" is:inline set:html={structuredDataJsonLd} />
+)}
+
+{breadcrumbsJsonLd && (
+  <script type="application/ld+json" is:inline set:html={breadcrumbsJsonLd} />
 )}
 
 {

@@ -15,20 +15,57 @@ interface Props {
 
 const { post } = Astro.props
 const { canonicalUrl, description, publishDate, title, updatedDate } = post.data
-
-const ogImage = post.data.coverImage ?
-  new URL(post.data.coverImage.src.src, Astro.url).href :
-  undefined
-
+// Use Dynamic OG Image generator (/og/blog/[id].png)
+const ogImage = new URL(`/og/blog/${post.id}.png`, Astro.site).href
 const stats = readingTime(post.body ?? '')
 const readingTimeText = stats.text
+const wordCount = Math.round(stats.words)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+
+const blogPostingSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: publishDate.toISOString(),
+  dateModified: (updatedDate ?? publishDate).toISOString(),
+  inLanguage: 'en-US',
+  wordCount,
+  keywords: post.data.tags,
+  image: ogImage,
+  url: canonicalURL.href,
+  author: {
+    '@type': 'Person',
+    name: 'Santiago Molina Orozco',
+    url: Astro.site?.href
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Santiago Molina Orozco',
+    url: Astro.site?.href
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalURL.href
+  }
+}
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: title, url: Astro.url.pathname }
+]
+
 ---
 
 <BaseLayout
   meta={{
     articleDate: publishDate.toISOString(),
+    articleUpdated: updatedDate?.toISOString(),
+    breadcrumbs,
     description,
     ogImage,
+    structuredData: blogPostingSchema,
     title
   }}
 >

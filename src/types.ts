@@ -42,6 +42,12 @@ export interface PaginationLink {
 export interface SiteMeta {
   articleDate?: string | undefined
   articleUpdated?: string | undefined
+
+  /** Extra JSON-LD object (any schema.org type) injected as a second ld+json block */
+  structuredData?: Record<string, unknown>
+
+  /** Breadcrumb trail rendered as a BreadcrumbList ld+json block */
+  breadcrumbs?: { name: string, url: string }[]
   description?: string
   ogImage?: string | undefined
   title: string
