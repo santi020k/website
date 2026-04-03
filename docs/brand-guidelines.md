@@ -51,7 +51,7 @@ These `.claude/skills/` documents expand on specific areas of this guide:
 | **Full name** | Santiago Molina |
 | **Handle** | @santi020k |
 | **Role** | Seasoned Full Stack Developer and Tech Lead |
-| **Experience** | 10+ years — React, React Native, Node.js, TypeScript |
+| **Experience** | 12+ years — React, React Native, Node.js, TypeScript |
 | **Specialisation** | Front-end architecture and UI/UX experiences |
 | **Location** | Medellín, Colombia · Remote worldwide |
 | **Contact** | [santiago@santi020k.me](mailto:santiago@santi020k.me) |
@@ -514,7 +514,7 @@ Before shipping any interactive element, verify:
 
 > **Hey 👋 I am Santiago Molina**
 >
-> Seasoned Full Stack Developer and Tech Lead with 10+ years of experience in React, React Native, Node.js, and TypeScript. I specialize in front-end architecture and crafting exceptional UI/UX experiences.
+> Seasoned Full Stack Developer and Tech Lead with 12+ years of experience in React, React Native, Node.js, and TypeScript. I specialize in front-end architecture and crafting exceptional UI/UX experiences.
 
 This is the reference for the right level of directness, expertise, and human warmth.
 

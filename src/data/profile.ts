@@ -53,7 +53,7 @@ export const speakingHighlights: ProfileHighlight[] = [
   {
     description: 'A decade-plus of shipping across product engineering, architecture, and leadership roles.',
     label: 'Experience',
-    value: '10+ years'
+    value: '12+ years'
   },
   {
     description: 'Helping co-organize meetups, workshops, and speaker-friendly community events.',

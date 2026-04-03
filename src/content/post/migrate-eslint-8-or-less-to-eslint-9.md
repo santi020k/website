@@ -8,6 +8,8 @@ coverImage:
   src: "./migrate-eslint-8-or-less-to-eslint-9-cover.png"
 ---
 
+[Read the Previous Post: Authentication and Authorization in Next.js Applications with Supabase](https://santi020k.me/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)
+
 In [Building the Best Next.js TypeScript Standard Vitest ESLint Configuration](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7), I shared the ESLint base that I liked to use in frontend projects. That setup worked well for ESLint 8, but ESLint 9 changed something important: flat config stopped being "the new way" and became the default way.
 
 If you are still on `.eslintrc`, this migration is a good opportunity to simplify your setup instead of dragging legacy configuration forward. I do not like leaving important quality decisions hidden in editor defaults, weak conventions, or half-maintained plugin presets. The larger the team, the more expensive those invisible defaults become.
