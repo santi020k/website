@@ -17,22 +17,8 @@ const { className = '', featured = false, post } = Astro.props
 const { data } = post
 
 const imageSizes = featured ?
-  '(min-width: 1024px) 56vw, 100vw' :
+  '(min-width: 1024px) 72vw, 100vw' :
   '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
-
-const coverAspectRatio = data.coverImage ?
-  data.coverImage.src.width / data.coverImage.src.height :
-  16 / 10
-
-let coverOrientation: 'landscape' | 'portrait' | 'square' = 'landscape'
-
-if (coverAspectRatio < 0.92) {
-  coverOrientation = 'portrait'
-} else if (coverAspectRatio <= 1.08) {
-  coverOrientation = 'square'
-}
-
-const usesSplitLayout = featured && coverOrientation === 'landscape'
 ---
 
 <article
@@ -43,12 +29,7 @@ const usesSplitLayout = featured && coverOrientation === 'landscape'
       motion-reduce:transition-none
       motion-reduce:hover:translate-y-0
     `,
-    usesSplitLayout ?
-      `
-        grid
-        lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-stretch
-      ` :
-      'flex h-full flex-col',
+    'flex flex-col',
     className
   ]}
 >

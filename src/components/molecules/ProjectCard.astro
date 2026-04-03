@@ -23,27 +23,12 @@ const hiddenTechnologyCount = Math.max(0, sortedTechnologies.length - technology
 const hiddenTechnologyLabel = `+${hiddenTechnologyCount} ${hiddenTechnologyCount === 1 ? 'technology' : 'technologies'}`
 
 const imageSizes = featured ?
-  '(min-width: 1024px) 60vw, 100vw' :
+  '(min-width: 1024px) 72vw, 100vw' :
   '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
 
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const projectYearsLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
-
-const coverAspectRatio =
-  project.data.coverImage?.src ?
-    project.data.coverImage.src.width / project.data.coverImage.src.height :
-    16 / 10
-
-let coverOrientation: 'landscape' | 'portrait' | 'square' = 'landscape'
-
-if (coverAspectRatio < 0.92) {
-  coverOrientation = 'portrait'
-} else if (coverAspectRatio <= 1.08) {
-  coverOrientation = 'square'
-}
-
-const usesSplitLayout = featured && coverOrientation === 'landscape'
-const useImageOverlay = coverOrientation === 'landscape'
+const useImageOverlay = Boolean(project.data.coverImage?.src)
 ---
 
 <article
@@ -54,12 +39,7 @@ const useImageOverlay = coverOrientation === 'landscape'
       motion-reduce:transition-none
       motion-reduce:hover:translate-y-0
     `,
-    usesSplitLayout ?
-      `
-        grid
-        lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:items-stretch
-      ` :
-      'flex h-full flex-col',
+    'flex flex-col',
     className
   ]}
 >
@@ -70,7 +50,6 @@ const useImageOverlay = coverOrientation === 'landscape'
           <CoverImage
             alt={project.data.coverImage.alt || project.data.title}
             featured={featured}
-            featuredMinHeightClass="lg:min-h-92"
             image={project.data.coverImage.src}
             mode="card"
             sizes={imageSizes}
