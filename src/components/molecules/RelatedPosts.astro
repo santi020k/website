@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content'
+
+import PostCard from './PostCard.astro'
+
+interface Props {
+  currentPostId: string
+  tags: string[]
+}
+
+const { currentPostId, tags } = Astro.props
+const allPosts = await getCollection('post')
+
+// Filter out current post and score others based on shared tags
+const relatedPosts = allPosts
+  .filter(post => post.id !== currentPostId)
+  .map(post => {
+    const sharedTags = post.data.tags.filter(tag => tags.includes(tag)).length
+
+    return { post, sharedTags }
+  })
+  .filter(item => item.sharedTags > 0)
+  .sort((a, b) => b.sharedTags - a.sharedTags || b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
+  .slice(0, 3)
+  .map(item => item.post)
+
+---
+
+{relatedPosts.length > 0 && (
+  <section class="mt-20 space-y-8 border-t border-line pt-20">
+    <div class="space-y-4" data-animate>
+      <p class="text-sm font-semibold tracking-widest text-brand uppercase">Keep Reading</p>
+      <h2 class="text-3xl font-bold">You might also like</h2>
+    </div>
+
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+        lg:grid-cols-3
+      "
+      data-animate
+    >
+      {relatedPosts.map(post => (
+        <PostCard post={post} />
+      ))}
+    </div>
+  </section>
+)}
