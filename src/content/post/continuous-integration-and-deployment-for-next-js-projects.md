@@ -205,4 +205,4 @@ When those rules are encoded clearly in automation, the project becomes easier t
 - The build step is especially valuable in Next.js because it catches issues that unit tests may miss.
 - Pipelines should reflect real standards, not vague intentions.
 
-[Next Post: Migrate ESLint 8 or Less to ESLint 9](https://santi020k.me/blog/migrate-eslint-8-or-less-to-eslint-9/)
+[Next Post: Authentication and Authorization in Next.js Applications with Supabase](https://santi020k.me/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)
