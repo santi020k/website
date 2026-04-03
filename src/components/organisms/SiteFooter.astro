@@ -1,68 +1,46 @@
 ---
 import { version } from '../../../package.json'
-import ButtonLink from '../../components/atoms/ButtonLink.astro'
-import SocialIconLink from '../../components/atoms/SocialIconLink.astro'
+import ContactSection from '../../components/molecules/ContactSection.astro'
+import NewsletterBox from '../../components/molecules/NewsletterBox.astro'
 import { siteConfig } from '../../site.config'
 
 const year = new Date().getFullYear()
 ---
 
 <footer class="
-  px-4 pb-10
+  px-4 pt-20 pb-10
   sm:px-6
   lg:px-8
 "
 >
-  <div
-    class="
-      mx-auto grid w-full max-w-6xl gap-8 rounded-4xl px-6 py-8 panel-surface
-      lg:grid-cols-[1.5fr_1fr]
-    "
-  >
-    <div class="space-y-4">
-      <p class="
-        text-sm font-semibold tracking-[0.24em] text-ink-muted uppercase
-      "
-      >Let’s build something useful
-      </p>
-      <h2 class="
-        max-w-xl text-3xl
-        sm:text-4xl
-      "
-      >{siteConfig.headline}
-      </h2>
-      <p class="max-w-2xl text-base/7 text-ink-soft">
-        I help product teams improve performance, clarify architecture, and ship with less friction across React,
-        Next.js, TypeScript, and design systems.
-      </p>
-      <div class="
-        flex flex-wrap items-center justify-center gap-3
-        sm:gap-4
-        md:justify-start
-      "
-      >
-        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow>
-          Start a conversation
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
-          Open resume
-        </ButtonLink>
-      </div>
-    </div>
+  <div class="mx-auto w-full max-w-6xl space-y-20">
+    <ContactSection />
 
-    <div class="space-y-6">
-      <div
-        class="
-          flex flex-wrap gap-2
-          sm:gap-3
-        "
-      >
-        {siteConfig.socialLinks.map(link => <SocialIconLink href={link.href} icon={link.icon} label={link.label} />)}
+    <NewsletterBox />
+
+    <div class="
+      grid gap-8 border-t border-line pt-10
+      md:grid-cols-[2fr_1fr]
+    "
+    >
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold">{siteConfig.author}</h3>
+        <p class="max-w-md text-sm/6 text-ink-soft">
+          Engineering leader and full-stack architect specializing in resilient systems,
+          technical leadership, and developer experience.
+        </p>
       </div>
-      <div class="space-y-2 text-sm text-ink-muted">
-        <p>{siteConfig.location}</p>
-        <p>{siteConfig.availability}</p>
-        <p>&copy; {year} {siteConfig.author}. Version v{version}.</p>
+
+      <div class="
+        space-y-6
+        md:text-right
+      "
+      >
+        <div class="space-y-2 text-sm text-ink-muted">
+          <p>{siteConfig.location}</p>
+          <p>{siteConfig.availability}</p>
+          <p>&copy; {year} {siteConfig.author}. Version v{version}.</p>
+        </div>
       </div>
     </div>
   </div>

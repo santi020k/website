@@ -1,0 +1,128 @@
+---
+import { Icon } from 'astro-icon/components'
+
+---
+
+<section
+  class="
+    relative overflow-hidden rounded-4xl p-8 panel-surface
+    sm:p-12
+  "
+  x-data="{
+    subscribed: false,
+    email: '',
+    subscribe() {
+      if (!this.email) return;
+      console.log('Subscribing:', this.email);
+      this.subscribed = true;
+      this.email = '';
+    }
+  }"
+>
+  <div class="pointer-events-none absolute inset-0 grid-fade opacity-5" />
+
+  <div
+    class="
+      relative z-10 grid gap-8
+      lg:grid-cols-2 lg:items-center
+    "
+  >
+    <div class="space-y-4">
+      <div
+        class="
+          inline-flex items-center gap-2 rounded-full border border-brand/20
+          bg-brand/5 px-4 py-1.5 text-xs font-semibold tracking-widest
+          text-brand uppercase
+        "
+      >
+        <Icon name="tabler:mailbox" class="size-4" />
+        <span>Newsletter</span>
+      </div>
+      <h2 class="
+        text-3xl font-bold text-ink
+        sm:text-4xl
+      "
+      >Engineering that ships and systems that last.
+      </h2>
+      <p class="text-lg text-ink-soft">
+        Get my latest thoughts on software architecture, full-stack systems, automation, and tech leadership directly in
+        your inbox.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <div x-show="!subscribed" class="space-y-4" x-transition>
+        <form
+          @submit.prevent="subscribe()"
+          class="
+            relative flex flex-col gap-3
+            sm:flex-row
+          "
+        >
+          <input
+            type="email"
+            x-model="email"
+            placeholder="enter your email"
+            required
+            class="
+              w-full rounded-2xl border border-line/50 bg-surface-muted/50 px-6
+              py-4 text-ink
+              placeholder:text-ink-muted/50
+              focus:ring-2 focus:ring-brand/20
+              sm:flex-1
+            "
+          />
+          <button
+            type="submit"
+            class="
+              cursor-pointer rounded-2xl bg-brand px-8 py-4 font-bold text-white
+              transition-all
+              hover:translate-y-[-2px] hover:shadow-lg hover:shadow-brand/20
+              active:translate-y-0
+              sm:w-auto
+            "
+          >
+            Subscribe
+          </button>
+        </form>
+        <p class="text-xs text-ink-muted">
+          No spam, ever. Just high-signal engineering content. Unsubscribe anytime.
+        </p>
+      </div>
+
+      <div
+        x-show="subscribed"
+        class="
+          flex flex-col items-center gap-4 text-center
+          sm:items-start sm:text-left
+        "
+        x-transition
+        x-cloak
+      >
+        <div class="
+          flex size-16 items-center justify-center rounded-full bg-brand/10
+        "
+        >
+          <Icon name="tabler:check" class="size-8 text-brand" />
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-2xl font-bold text-ink">You're in!</h3>
+          <p class="text-ink-soft">Thanks for subscribing. Check your inbox to confirm your email.</p>
+        </div>
+        <button
+          @click="subscribed = false"
+          class="
+            cursor-pointer text-sm font-medium text-ink-muted underline
+            hover:text-ink
+          "
+        >
+          Subscribe another email
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  [x-cloak] { display: none !important; }
+</style>

@@ -8,6 +8,8 @@ import readingTime from 'reading-time'
 import BaseLayout from './Base.astro'
 
 import FormattedDate from '../components/atoms/FormattedDate.astro'
+import RelatedPosts from '../components/molecules/RelatedPosts.astro'
+import ShareButtons from '../components/molecules/ShareButtons.astro'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -71,7 +73,9 @@ const breadcrumbs = [
 >
   <div
     class="
-      fixed top-0 left-0 z-50 h-1 bg-brand transition-all duration-150 ease-out
+      fixed top-0 left-0 z-50 h-1.5 bg-linear-to-r from-brand to-brand-soft
+      shadow-[0_0_10px_rgba(var(--color-brand),0.5)] transition-all duration-150
+      ease-out
     "
     style="width: 0%"
     x-data="{
@@ -87,7 +91,7 @@ const breadcrumbs = [
   >
   </div>
 
-  <article class="mx-auto flex w-full max-w-3xl flex-col gap-10">
+  <article class="mx-auto flex w-full max-w-6xl flex-col gap-10">
     <header class="flex animate-slide-up flex-col gap-6">
       <div class="flex items-center gap-2 text-sm font-medium text-ink-muted">
         <a
@@ -164,6 +168,9 @@ const breadcrumbs = [
 
     <div class="prose-santi animate-fade-in [animation-delay:200ms]">
       <slot />
+      <div class="mt-16">
+        <ShareButtons title={title} url={canonicalURL.href} />
+      </div>
     </div>
 
     <footer class="
@@ -203,6 +210,10 @@ const breadcrumbs = [
       </div>
     </footer>
   </article>
+
+  <div class="mx-auto mt-20 w-full max-w-6xl space-y-20">
+    <RelatedPosts currentPostId={post.id} tags={post.data.tags} />
+  </div>
 
   <script>
     const COPY_ICON = `

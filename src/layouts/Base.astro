@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from 'astro:transitions'
 
+import BackToTop from '../components/atoms/BackToTop.astro'
 import SkipLink from '../components/atoms/SkipLink.astro'
 import SiteFooter from '../components/organisms/SiteFooter.astro'
 import SiteHeader from '../components/organisms/SiteHeader.astro'
@@ -51,5 +52,7 @@ const {
 
       <SiteFooter />
     </div>
+
+    <BackToTop />
   </body>
 </html>
