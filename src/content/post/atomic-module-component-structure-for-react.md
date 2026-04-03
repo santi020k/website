@@ -6,6 +6,7 @@ tags: ["development", "react", "nextjs", "typescript"]
 coverImage:
   alt: "atomic module component structure for react 34464b05832c"
   src: "./atomic-module-component-structure-for-react-cover.png"
+canonicalUrl: "https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c"
 ---
 
 In this post, I share insights into establishing a robust structure for React projects using an Atomic Module Component approach. From initial scaffolding to naming conventions, discover best practices for maintaining scalability and organization in your codebase.

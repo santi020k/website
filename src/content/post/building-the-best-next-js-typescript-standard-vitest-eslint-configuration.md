@@ -6,6 +6,7 @@ tags: ["eslint", "vitest", "typescript", "standards", "react"]
 coverImage:
   alt: "building the best next js typescript standard vitest eslint configuration f6d91d6346e7"
   src: "./building-the-best-next-js-typescript-standard-vitest-eslint-configuration-cover.jpeg"
+canonicalUrl: "https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7"
 ---
 
 Continuing from our previous discussion on establishing a robust structure for React projects using an Atomic Module Component approach, we delve deeper into enhancing our development workflow with the integration of Next.js, TypeScript, and Vitest. In this post, we’ll focus on configuring ESLint to ensure code consistency, quality, and adherence to best practices.

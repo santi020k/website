@@ -19,7 +19,6 @@ const relatedPosts = allPosts
 
     return { post, sharedTags }
   })
-  .filter(item => item.sharedTags > 0)
   .sort((a, b) => b.sharedTags - a.sharedTags || b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
   .slice(0, 3)
   .map(item => item.post)
