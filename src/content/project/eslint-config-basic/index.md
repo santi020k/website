@@ -17,7 +17,7 @@ coverImage:
 
 ## Building a DX-first ESLint toolkit
 
-I built `@santi020k/eslint-config-basic` to remove lint setup friction from the kind of projects I work on most: React, Next.js, Astro, TypeScript, and monorepos with real teams behind them. It's the successor to my original [`@santi020k/eslint-config-santi020k`](/projects/eslint-config-santi020k/) package, rebuilt from scratch around ESLint's flat config format with a much wider framework footprint and better DX throughout.
+I built `@santi020k/eslint-config-basic` to remove lint setup friction from the kind of projects I work on most: React, Next.js, Astro, TypeScript, and monorepos with real teams behind them. It's the successor to my original [`@santi020k/eslint-config-santi020k`](/portfolio/eslint-config-santi020k/) package, rebuilt from scratch around ESLint's flat config format with a much wider framework footprint and better DX throughout.
 
 ## What I built
 

@@ -22,7 +22,7 @@ test('navigation to portfolio works', async ({ page }) => {
   await portfolioLink.click()
 
   await expect(page).toHaveURL(/\/portfolio\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Case studies/i })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /Work shaped by real teams/i })).toBeVisible()
 })
 
 test('navigation to blog works', async ({ page }) => {
@@ -33,6 +33,6 @@ test('navigation to blog works', async ({ page }) => {
 
   await blogLink.click()
 
-  await expect(page).toHaveURL(/\/posts\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Writing about frontend craft/i })).toBeVisible()
+  await expect(page).toHaveURL(/\/blog\/$/)
+  await expect(page.getByRole('heading', { level: 1, name: /Writing about software architecture/i })).toBeVisible()
 })

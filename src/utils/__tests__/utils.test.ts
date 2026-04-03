@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { capitalizeFirstLetter } from '../capitalize-first-letter'
 import { elementHasClass, toggleClass } from '../dom-element'
 import { generateToc } from '../generate-toc'
-import { getPostPath, getProjectPath, getTechnologyPath } from '../links'
+import { getPortfolioPath, getPostPath, getTechnologyPath } from '../links'
 import { truncateTitle } from '../truncate-title'
 
 describe('capitalizeFirstLetter', () => {
@@ -36,8 +36,8 @@ describe('links', () => {
     expect(getPostPath('my-post')).toBe('/blog/my-post/')
   })
 
-  it('should return correct project path', () => {
-    expect(getProjectPath('my-project')).toBe('/projects/my-project/')
+  it('should return correct portfolio path', () => {
+    expect(getPortfolioPath('my-project')).toBe('/portfolio/my-project/')
   })
 
   it('should return correct technology path', () => {

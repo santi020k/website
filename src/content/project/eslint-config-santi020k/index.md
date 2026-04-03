@@ -14,7 +14,7 @@ coverImage:
   alt: "eslint-config-santi020k library"
 ---
 
-> **This library has been superseded.** `@santi020k/eslint-config-santi020k` has been replaced by [`@santi020k/eslint-config-basic`](/projects/eslint-config-basic/), which is more composable, better documented, and actively maintained. New projects should use that instead.
+> **This library has been superseded.** `@santi020k/eslint-config-santi020k` has been replaced by [`@santi020k/eslint-config-basic`](/portfolio/eslint-config-basic/), which is more composable, better documented, and actively maintained. New projects should use that instead.
 
 ## My original ESLint configuration
 

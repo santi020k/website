@@ -59,8 +59,8 @@ export const menuLinks: SiteLink[] = [
     title: 'About'
   },
   {
-    path: '/projects/',
-    title: 'Projects'
+    path: '/portfolio/',
+    title: 'Portfolio'
   },
   {
     path: '/blog/',
