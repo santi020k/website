@@ -5,13 +5,14 @@ import SectionHeading from '../../components/molecules/SectionHeading.astro'
 import { getAllProjects, getUniqueTechnologiesWithCount } from '../../data/project'
 import PageLayout from '../../layouts/Base.astro'
 import { getTechnologyPath } from '../../utils/links'
+import { sortTechnologyCountsByInterest } from '../../utils/technologies'
 
 const allProjects = await getAllProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)
 const topTechnology = technologies[0]?.[0]
-const coreTechnologies = technologies.filter(([, count]) => count >= 4)
-const regularTechnologies = technologies.filter(([, count]) => count >= 2 && count < 4)
-const selectiveTechnologies = technologies.filter(([, count]) => count === 1)
+const coreTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count >= 4))
+const regularTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count >= 2 && count < 4))
+const selectiveTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count === 1))
 
 const technologyGroups = [
   {

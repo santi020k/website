@@ -1,6 +1,6 @@
 ---
-import { Icon } from 'astro-icon/components'
 import type { CollectionEntry } from 'astro:content'
+import { Icon } from 'astro-icon/components'
 
 import { getTechnologyPath } from '../../utils/links'
 import {
@@ -11,6 +11,7 @@ import {
   getProjectTimelineLabel,
   getProjectTypeLabel
 } from '../../utils/project-meta'
+import { sortTechnologiesByInterest } from '../../utils/technologies'
 import ButtonLink from '../atoms/ButtonLink.astro'
 import CoverImage from '../atoms/CoverImage.astro'
 import Eyebrow from '../atoms/Eyebrow.astro'
@@ -27,8 +28,12 @@ const scopeHighlights = getProjectScopeHighlights(project.data.typesId)
 const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
 const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
-const technologyPreview = project.data.technologies.slice(0, 8)
-const remainingTechnologyCount = Math.max(project.data.technologies.length - technologyPreview.length, 0)
+const technologies = sortTechnologiesByInterest(project.data.technologies)
+const coverAspectRatio = project.data.coverImage?.src ?
+  project.data.coverImage.src.width / project.data.coverImage.src.height :
+  16 / 10
+const useWideCoverFrame = coverAspectRatio > 1.08
+
 const projectStats = [
   {
     icon: 'tabler:user-star',
@@ -48,15 +53,13 @@ const projectStats = [
   {
     icon: 'tabler:stack-2',
     label: 'Stack',
-    value: `${project.data.technologies.length}+ technologies`
+    value: `${technologies.length} technologies`
   }
 ]
 ---
 
 <section
-  class="
-    section-shell relative space-y-10
-  "
+  class="section-shell relative space-y-10"
   data-animate
 >
   <div
@@ -96,8 +99,7 @@ const projectStats = [
         >
           <Eyebrow label={projectTypeLabel} tone="brand" />
           <span class="
-            text-xs font-semibold tracking-[0.18em] text-ink-muted
-            uppercase
+            text-xs font-semibold tracking-[0.18em] text-ink-muted uppercase
           "
           >{dateRangeLabel}
           </span>
@@ -128,7 +130,7 @@ const projectStats = [
       >
         {projectStats.map(stat => (
           <div class="
-            mini-note flex h-full gap-3
+            flex h-full gap-3 mini-note
             sm:min-h-32
           "
           >
@@ -169,23 +171,19 @@ const projectStats = [
       </div>
 
       <div class="space-y-4">
-        <div class="
-          flex items-center gap-3 text-sm font-medium text-ink-muted
-        "
-        >
-          <span class="section-label">Core stack</span>
+        <div class="flex items-center gap-3 text-sm font-medium text-ink-muted">
+          <span class="section-label">Technologies</span>
           <span
             aria-hidden="true"
-            class="h-px flex-1 bg-linear-to-r from-line via-line/60 to-transparent"
+            class="
+              h-px flex-1 bg-linear-to-r from-line via-line/60 to-transparent
+            "
           />
         </div>
-        <div class="flex flex-wrap gap-2">
-          {technologyPreview.map(technology => (
+        <div class="flex flex-wrap gap-2" id="technologies">
+          {technologies.map(technology => (
             <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
           ))}
-          {remainingTechnologyCount > 0 && (
-            <Pill label={`+${remainingTechnologyCount} more`} tone="neutral" />
-          )}
         </div>
       </div>
     </div>
@@ -201,10 +199,7 @@ const projectStats = [
         <ul class="mt-4 space-y-3">
           {scopeHighlights.map(item => (
             <li class="flex gap-3 text-sm/6 text-ink-soft">
-              <span class="
-                mt-2 size-1.5 shrink-0 rounded-full bg-brand
-              "
-              />
+              <span class="mt-2 size-1.5 shrink-0 rounded-full bg-brand"/>
               <span>{item}</span>
             </li>
           ))}
@@ -214,47 +209,69 @@ const projectStats = [
   </div>
 
   {project.data.coverImage && (
-    <div class="
-      panel-card relative overflow-hidden
-    "
-    >
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40
-          bg-linear-to-t from-canvas/80 via-canvas/15 to-transparent
-        "
+    <div class="space-y-4">
+      <div class:list={[
+        'panel-card relative overflow-hidden',
+        !useWideCoverFrame && 'mx-auto w-full max-w-4xl'
+      ]}
       >
-      </div>
-      <CoverImage
-        alt={project.data.coverImage.alt}
-        fetchpriority="high"
-        image={project.data.coverImage.src}
-        loading="eager"
-        sizes="(min-width: 1024px) 1200px, 100vw"
-        mode="detail"
-      />
-      <div class="
-        pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-wrap
-        items-end justify-between gap-4 p-5
-        sm:p-6
-      "
-      >
-        <div>
-          <p class="section-label text-white/70">Project snapshot</p>
-          <p class="
-            mt-2 text-lg font-semibold tracking-[-0.03em] text-white
-            sm:text-xl
+        {useWideCoverFrame && (
+          <div
+            aria-hidden="true"
+            class="
+              pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40
+              bg-linear-to-t from-canvas/80 via-canvas/15 to-transparent
+            "
+          >
+          </div>
+        )}
+        <CoverImage
+          alt={project.data.coverImage.alt}
+          fetchpriority="high"
+          image={project.data.coverImage.src}
+          loading="eager"
+          sizes="(min-width: 1024px) 1200px, 100vw"
+          mode="detail"
+        />
+        {useWideCoverFrame && (
+          <div class="
+            pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-wrap
+            items-end justify-between gap-4 p-5
+            sm:p-6
           "
-          >{project.data.title} · {project.data.rol ?? projectTypeLabel}
-          </p>
-        </div>
-        <p class="
-          max-w-md text-sm/6 text-white/78
-        "
-        >{focusLabel}
-        </p>
+          >
+            <div>
+              <p class="section-label text-white/70">Project snapshot</p>
+              <p class="
+                mt-2 text-lg font-semibold tracking-[-0.03em] text-white
+                sm:text-xl
+              "
+              >{project.data.title} · {project.data.rol ?? projectTypeLabel}
+              </p>
+            </div>
+            <p class="max-w-md text-sm/6 text-white/78">{focusLabel}</p>
+          </div>
+        )}
       </div>
+
+      {!useWideCoverFrame && (
+        <div class="
+          grid gap-4
+          lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]
+        "
+        >
+          <div class="mini-note">
+            <p class="section-label">Project snapshot</p>
+            <p class="mt-3 text-lg font-semibold tracking-[-0.03em] text-ink">
+              {project.data.title} · {project.data.rol ?? projectTypeLabel}
+            </p>
+          </div>
+          <div class="mini-note">
+            <p class="section-label">Why this shape</p>
+            <p class="mt-3 text-sm/6 text-ink-soft">{focusLabel}</p>
+          </div>
+        </div>
+      )}
     </div>
   )}
 </section>

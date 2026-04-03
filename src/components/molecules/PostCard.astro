@@ -15,8 +15,15 @@ interface Props {
 
 const { className = '', featured = false, post } = Astro.props
 const { data } = post
-const imageSizes = featured ? '(min-width: 1024px) 56vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
-const coverAspectRatio = data.coverImage ? data.coverImage.src.width / data.coverImage.src.height : 16 / 10
+
+const imageSizes = featured ?
+  '(min-width: 1024px) 56vw, 100vw' :
+  '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
+
+const coverAspectRatio = data.coverImage ?
+  data.coverImage.src.width / data.coverImage.src.height :
+  16 / 10
+
 let coverOrientation: 'landscape' | 'portrait' | 'square' = 'landscape'
 
 if (coverAspectRatio < 0.92) {
@@ -105,9 +112,11 @@ const usesSplitLayout = featured && coverOrientation === 'landscape'
           {data.title}
         </a>
       </h2>
-      <p class:list={[featured ?
-        'max-w-2xl text-base/7' :
-        'line-clamp-4 text-sm/7', 'text-ink-soft']}
+      <p
+        class:list={[
+          featured ? 'max-w-2xl text-base/7' : 'line-clamp-4 text-sm/7',
+          'text-ink-soft'
+        ]}
       >
         {data.description}
       </p>

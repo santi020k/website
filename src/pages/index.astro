@@ -5,17 +5,17 @@ import { getCollection } from 'astro:content'
 import AboutMeImage from '../assets/photos/about-me.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import Eyebrow from '../components/atoms/Eyebrow.astro'
-import Pill from '../components/atoms/Pill.astro'
 import PostCard from '../components/molecules/PostCard.astro'
 import ProjectCard from '../components/molecules/ProjectCard.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
 import StatCard from '../components/molecules/StatCard.astro'
 import { speakingTopics, usesHighlights } from '../data/profile'
-import { getAllProjects, getTechnologiesByUsage } from '../data/project'
+import { getAllProjects, getUniqueTechnologiesWithCount } from '../data/project'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
 import { collectionDateSortProjects } from '../utils/date'
 import { getTechnologyPath } from '../utils/links'
+import { sortTechnologyCountsByInterest } from '../utils/technologies'
 
 const allProjects = await getAllProjects()
 const allPosts = await getCollection('post')
@@ -29,7 +29,9 @@ const latestPosts = allPosts
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 3)
 
-const topTechnologies = getTechnologiesByUsage(allProjects).slice(0, 10)
+const allTechnologies = getUniqueTechnologiesWithCount(allProjects)
+const topTechnologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 10)
+const hiddenTechnologyCount = Math.max(0, allTechnologies.length - topTechnologies.length)
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 const [featuredProject, ...supportingProjects] = featuredProjects
 const [featuredPost, ...supportingPosts] = latestPosts
@@ -63,7 +65,7 @@ const meta = {
     >
       <div class="space-y-8">
         <Eyebrow
-          label="Leadership · Automation · DX"
+          label="Santiago Molina"
           tone="brand"
           className="
             animate-slide-up whitespace-normal
@@ -85,15 +87,14 @@ const meta = {
           "
           >
             Calm systems.
-            <span class="block text-brand">Faster teams.</span>
+            <span class="block text-brand">Clear delivery.</span>
           </h1>
           <p class="
-            max-w-2xl text-base/7 text-ink-soft
-            sm:text-lg/8
+            max-w-xl text-base/7 text-ink-soft
+            sm:text-lg/7
           "
           >
-            Full-stack engineer and tech lead building architecture, automation, and developer experience that help
-            teams ship with confidence.
+            Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
           </p>
         </div>
 
@@ -104,10 +105,33 @@ const meta = {
           "
           style="animation-delay: 180ms"
         >
-          <div class="flex flex-wrap gap-2">
-            <Pill label="Architecture" tone="outline" />
-            <Pill label="Automation" tone="outline" />
-            <Pill label="Developer Experience" tone="outline" />
+          <div class="
+            inline-flex min-h-14 flex-wrap items-center gap-3 rounded-full
+            border border-line/70 bg-surface/78 px-4 py-3
+            shadow-[0_10px_26px_hsl(var(--ink)/0.04)]
+          "
+          >
+            <span class="section-label">Focus</span>
+            <span
+              aria-hidden="true"
+              class="hidden h-px w-8 bg-linear-to-r from-line to-transparent sm:block"
+            />
+            <div class="hidden h-6 overflow-hidden motion-reduce:hidden sm:block">
+              <div class="
+                grid auto-rows-[1.5rem]
+                motion-safe:animate-hero-phrase-cycle
+              "
+              >
+                <span class="text-sm font-semibold text-ink">Architecture systems</span>
+                <span class="text-sm font-semibold text-ink">Automation flows</span>
+                <span class="text-sm font-semibold text-ink">Developer experience</span>
+                <span class="text-sm font-semibold text-ink">Architecture systems</span>
+              </div>
+            </div>
+            <span class="text-sm font-semibold text-ink sm:hidden">Architecture systems</span>
+            <span class="hidden text-sm font-semibold text-ink motion-reduce:inline sm:motion-reduce:inline">
+              Architecture systems
+            </span>
           </div>
 
           <div class="section-actions">
@@ -121,29 +145,26 @@ const meta = {
               Open resume
             </ButtonLink>
           </div>
-        </div>
 
-        <div
-          class="
-            grid animate-slide-up gap-5 border-t border-line/70 pt-6
-            motion-reduce:animate-none
-            sm:grid-cols-3
-          "
-          style="animation-delay: 270ms"
-        >
-          <div>
-            <p class="section-label">Based in</p>
-            <p class="mt-3 max-w-[24ch] text-base/7 text-ink">{siteConfig.location}</p>
-          </div>
-          <div>
-            <p class="section-label">Open to</p>
-            <p class="mt-3 max-w-[28ch] text-base/7 text-ink">{siteConfig.availability}</p>
-          </div>
-          <div>
-            <p class="section-label">Community</p>
-            <p class="mt-3 max-w-[24ch] text-base/7 text-ink">
-              ReactJS Colombia, writing, and talks around calmer engineering systems.
-            </p>
+          <div class="flex flex-wrap gap-3 text-sm text-ink-muted">
+            <span class="
+              inline-flex items-center rounded-full border border-line/60
+              bg-surface/72 px-3 py-2
+            "
+            >{siteConfig.location}
+            </span>
+            <span class="
+              inline-flex items-center rounded-full border border-line/60
+              bg-surface/72 px-3 py-2
+            "
+            >{yearsOfExperience} years building teams and systems
+            </span>
+            <span class="
+              inline-flex items-center rounded-full border border-line/60
+              bg-surface/72 px-3 py-2
+            "
+            >ReactJS Colombia
+            </span>
           </div>
         </div>
       </div>
@@ -155,6 +176,14 @@ const meta = {
         "
         style="animation-delay: 140ms"
       >
+        <div
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute inset-[12%] rounded-[2rem]
+            bg-linear-to-br from-brand/10 via-transparent to-accent/10
+            blur-2xl
+          "
+        />
         <div
           aria-hidden="true"
           class="
@@ -175,13 +204,17 @@ const meta = {
         />
 
         <div class="
-          panel-card overflow-hidden rounded-[2.25rem] p-3
+          panel-card relative overflow-hidden rounded-[2.25rem] p-3
           sm:p-4
         "
         >
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute inset-0 grid-fade opacity-25"
+          />
           <Image
             alt="Portrait of Santiago Molina"
-            class="aspect-4/5 w-full rounded-[1.7rem] object-cover"
+            class="relative z-10 aspect-4/5 w-full rounded-[1.7rem] object-cover"
             fetchpriority="high"
             loading="eager"
             sizes="(min-width: 1024px) 352px, 75vw"
@@ -239,12 +272,16 @@ const meta = {
     />
     <div class="space-y-5">
       <p class="max-w-3xl text-sm/6 text-ink-muted">
-        Most-used tools across shipped products, delivery pipelines, and day-to-day engineering workflows.
+        A curated snapshot of the stack, ordered from the tools that shape products most directly to the supporting
+        systems around them.
       </p>
       <div class="flex flex-wrap gap-3">
-        {topTechnologies.map(technology => (
+        {topTechnologies.map(([technology]) => (
           <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
         ))}
+        {hiddenTechnologyCount > 0 && (
+          <Pill href="/technologies/" label={`+${hiddenTechnologyCount} technologies`} tone="neutral" />
+        )}
       </div>
     </div>
   </section>

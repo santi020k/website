@@ -25,6 +25,12 @@ const readingTimeText = stats.text
 const wordCount = Math.round(stats.words)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
+const coverAspectRatio = post.data.coverImage ?
+  post.data.coverImage.src.width / post.data.coverImage.src.height :
+  16 / 10
+
+const useWideCoverFrame = coverAspectRatio > 1.08
+
 const blogPostingSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -133,7 +139,11 @@ const breadcrumbs = [
         </div>
 
         {post.data.coverImage && (
-          <div class="panel-card overflow-hidden">
+          <div class:list={[
+            'panel-card overflow-hidden',
+            !useWideCoverFrame && 'mx-auto w-full max-w-4xl'
+          ]}
+          >
             <CoverImage
               alt={post.data.coverImage.alt}
               fetchpriority="high"

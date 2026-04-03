@@ -421,6 +421,78 @@
   @apply prose-hr:border-line prose-hr:my-16;
 }
 
+@utility prose-project {
+  & h2 {
+    @apply border-l-0 pl-0 text-[2.15rem] leading-tight;
+  }
+
+  & h2::after {
+    content: "";
+    display: block;
+    width: 5rem;
+    height: 1px;
+    margin-top: 1rem;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--brand)),
+      hsl(var(--brand) / 0.16)
+    );
+  }
+
+  & h3 {
+    @apply mt-10 text-[1.45rem] leading-snug;
+  }
+
+  & p:first-of-type {
+    @apply max-w-3xl text-lg/8 text-ink;
+  }
+
+  & ul,
+  & ol {
+    @apply my-6 grid gap-3 pl-0;
+    list-style: none;
+  }
+
+  @media (min-width: 768px) {
+    & ul,
+    & ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  & li {
+    @apply relative rounded-[1.35rem] border border-line/55 bg-surface/78 px-5 py-4 text-base/7 text-ink-soft;
+    box-shadow: 0 10px 24px hsl(230 30% 8% / 0.03);
+    list-style: none;
+    padding-left: 2.5rem;
+  }
+
+  & li::before {
+    content: "";
+    position: absolute;
+    top: 1.3rem;
+    left: 1.2rem;
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 9999px;
+    background: hsl(var(--brand));
+    box-shadow: 0 0 0 6px hsl(var(--brand) / 0.12);
+  }
+
+  & p + ul,
+  & p + ol {
+    @apply mt-5;
+  }
+
+  & hr {
+    @apply border-line/75;
+  }
+
+  & img {
+    @apply rounded-[1.8rem] border border-line/50 shadow-[0_18px_42px_hsl(230_30%_8%_/0.06)];
+  }
+}
+
 @utility subtle-outline {
   box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.5);
 }

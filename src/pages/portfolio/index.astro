@@ -10,6 +10,7 @@ import PageLayout from '../../layouts/Base.astro'
 import { siteConfig } from '../../site.config'
 import { collectionDateSortProjects } from '../../utils/date'
 import { getTechnologyPath } from '../../utils/links'
+import { sortTechnologyCountsByInterest } from '../../utils/technologies'
 
 const allProjects = (await getAllProjects()).sort(collectionDateSortProjects)
 const groupedProjects = groupProjectsByTypesId(allProjects)
@@ -22,7 +23,9 @@ const allTypes = (await getAllTypes()).sort((a, b) => {
   return 0
 })
 
-const technologies = getUniqueTechnologiesWithCount(allProjects).slice(0, 18)
+const allTechnologies = getUniqueTechnologiesWithCount(allProjects)
+const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
+const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
 const professionalCount = groupedProjects.professional?.length ?? 0
 const personalCount = groupedProjects.personal?.length ?? 0
 
@@ -75,7 +78,7 @@ const breadcrumbs = [
     >
       <StatCard description="Roles across commerce, gaming, real estate, martech, agencies, and SaaS." label="Professional" value={String(professionalCount)} />
       <StatCard description="Open-source and community work that sharpens how I build and lead." label="Personal" value={String(personalCount)} />
-      <StatCard description="Recurring tools and platforms that show up across production systems." label="Technologies" value={String(technologies.length)} />
+      <StatCard description="Recurring tools and platforms that show up across production systems." label="Technologies" value={String(allTechnologies.length)} />
     </div>
   </section>
 
@@ -120,7 +123,8 @@ const breadcrumbs = [
     />
     <div class="space-y-5">
       <p class="max-w-3xl text-sm/6 text-ink-muted">
-        Repeated technologies across the portfolio, weighted by how often they show up in production work.
+        Recurring technologies across the portfolio, ordered from the most interesting product-shaping tools to the
+        more supporting ones.
       </p>
       <div class="flex flex-wrap gap-3">
         {technologies.map(([technology, count]) => (
@@ -128,6 +132,9 @@ const breadcrumbs = [
             <span class="text-xs text-ink-muted">{count}</span>
           </Pill>
         ))}
+        {hiddenTechnologyCount > 0 && (
+          <Pill href="/technologies/" label={`+${hiddenTechnologyCount} technologies`} tone="neutral" />
+        )}
       </div>
     </div>
   </section>
