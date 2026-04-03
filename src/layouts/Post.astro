@@ -94,7 +94,7 @@ const breadcrumbs = [
 
   <article class="mx-auto flex w-full max-w-6xl flex-col gap-10">
     <header class="
-      section-shell flex animate-slide-up flex-col gap-8
+      flex animate-slide-up flex-col gap-8 border-b border-line/70 pb-10
       motion-reduce:animate-none
     "
     >
@@ -113,13 +113,20 @@ const breadcrumbs = [
 
       <div class="flex flex-col gap-4">
         <h1 class="
-          text-4xl/tight font-bold
+          max-w-4xl text-4xl/tight font-bold
           sm:text-5xl
           lg:text-6xl
         "
         >
           {title}
         </h1>
+
+        <p class="
+          max-w-3xl text-lg/8 text-ink-soft
+          sm:text-xl/8
+        "
+        >{description}
+        </p>
 
         <div class="
           flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ink-soft

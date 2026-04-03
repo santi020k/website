@@ -30,6 +30,8 @@ const latestPosts = allPosts
 
 const topTechnologies = getTechnologiesByUsage(allProjects).slice(0, 10)
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
+const [featuredProject, ...supportingProjects] = featuredProjects
+const [featuredPost, ...supportingPosts] = latestPosts
 
 const meta = {
   description:
@@ -41,14 +43,12 @@ const meta = {
 <PageLayout meta={meta}>
   <section
     class="
-      section-shell grid gap-10
-      lg:grid-cols-[1.15fr_0.85fr] lg:items-center
+      grid gap-10
+      lg:grid-cols-[1.08fr_0.92fr] lg:items-end
     "
     data-animate
   >
-    <div class="pointer-events-none absolute inset-0 grid-fade opacity-35" />
-
-    <div class="relative z-10 space-y-10">
+    <div class="space-y-10">
       <Eyebrow
         label="Leadership · Automation · DX"
         tone="brand"
@@ -90,23 +90,37 @@ const meta = {
         </ButtonLink>
       </div>
 
-      <div class="flex flex-wrap gap-2">
-        <Pill label={siteConfig.location} tone="outline" />
-        <Pill label={siteConfig.availability} tone="outline" />
+      <div class="
+        grid gap-3
+        sm:max-w-2xl sm:grid-cols-2
+      "
+      >
+        <div class="mini-note">
+          <p class="section-label">Based in</p>
+          <p class="mt-2 text-base/7 text-ink">{siteConfig.location}</p>
+        </div>
+        <div class="mini-note">
+          <p class="section-label">Open to</p>
+          <p class="mt-2 text-base/7 text-ink">{siteConfig.availability}</p>
+        </div>
       </div>
     </div>
 
-    <div class="
-      panel-card relative z-10 w-full p-4
-      sm:p-5
-    "
-    >
-      <div class="pointer-events-none absolute inset-0 grid-fade opacity-80" />
-      <div class="relative z-10 grid gap-5">
-        <div class="overflow-hidden rounded-3xl">
+    <div class="relative w-full">
+      <div class="
+        pointer-events-none absolute inset-x-8 top-8 h-24 rounded-full
+        bg-brand/12 blur-3xl
+      "
+      />
+      <div class="relative z-10 grid gap-4">
+        <div class="
+          panel-card overflow-hidden rounded-4xl p-4
+          sm:p-5
+        "
+        >
           <Image
             alt="Portrait of Santiago Molina"
-            class="aspect-4/5 w-full object-cover"
+            class="aspect-4/5 w-full rounded-[1.6rem] object-cover"
             fetchpriority="high"
             loading="eager"
             sizes="(min-width: 1024px) 400px, 100vw"
@@ -119,11 +133,11 @@ const meta = {
           sm:grid-cols-2
         "
         >
-          <div class="panel-card p-4">
+          <div class="mini-note">
             <p class="section-label">Primary focus</p>
             <p class="mt-2 text-lg font-semibold text-ink">Full-stack · Automation · DX</p>
           </div>
-          <div class="panel-card p-4">
+          <div class="mini-note">
             <p class="section-label">Working style</p>
             <p class="mt-2 text-lg font-semibold text-ink">Hands-on tech leadership</p>
           </div>
@@ -134,8 +148,7 @@ const meta = {
 
   <section
     class="
-      grid gap-3
-      sm:gap-4
+      grid gap-6 border-t border-line/70 pt-10
       md:grid-cols-2
       xl:grid-cols-4
     "
@@ -147,20 +160,25 @@ const meta = {
     <StatCard description="Typical attendance for ReactJS Colombia meetups, workshops, and talks." label="Community" value="100+" />
   </section>
 
-  <section class="section-shell-subtle space-y-8" data-animate>
+  <section class="editorial-section" data-animate>
     <SectionHeading
       description="React and TypeScript sit at the center, but the work extends across the full stack: backend services, automation pipelines, testing infrastructure, and delivery tooling."
       eyebrow="Stack"
       title="A full-stack toolkit built around automation and DX."
     />
-    <div class="flex flex-wrap gap-3">
-      {topTechnologies.map(technology => (
-        <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
-      ))}
+    <div class="space-y-5">
+      <p class="max-w-3xl text-sm/6 text-ink-muted">
+        Most-used tools across shipped products, delivery pipelines, and day-to-day engineering workflows.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        {topTechnologies.map(technology => (
+          <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="space-y-8" data-animate>
+  <section class="editorial-section" data-animate>
     <SectionHeading
       description="From headless commerce and esports to real estate and open source, these projects show how I approach architecture, automation, and delivery under real constraints."
       eyebrow="Selected work"
@@ -168,61 +186,62 @@ const meta = {
       linkLabel="View all projects"
       title="Work shaped by real teams, real constraints, and measurable outcomes."
     />
+    <div class="space-y-6">
+      {featuredProject && <ProjectCard featured project={featuredProject} />}
+      <div class="
+        grid gap-6
+        md:grid-cols-2
+      "
+      >
+        {supportingProjects.map(project => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="The throughline in my work is making engineering calmer: clearer priorities, fewer avoidable decisions under pressure, and better systems for the people shipping them."
+      eyebrow="Approach"
+      title="The work is technical, but the goal is always team clarity."
+    />
     <div class="
       grid gap-6
       lg:grid-cols-3
     "
     >
-      {featuredProjects.map(project => (
-        <ProjectCard project={project} />
-      ))}
+      <div class="
+        panel-card h-full p-6
+        sm:p-7
+        lg:col-span-2
+      "
+      >
+        <p class="section-label">What I do now</p>
+        <h2 class="mt-4 text-3xl">Engineering that ships and systems that last.</h2>
+        <p class="mt-4 max-w-2xl text-base/7 text-ink-soft">
+          My work spans full-stack delivery, developer tooling, and automation: finding the slowest parts of a
+          team’s workflow and replacing them with repeatable systems that make shipping feel calmer and more predictable.
+        </p>
+      </div>
+      <div class="space-y-6">
+        <div class="h-full mini-note">
+          <p class="section-label">How I lead</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">
+            I stay close to the code, set useful standards, and help teams make better technical decisions earlier.
+          </p>
+        </div>
+        <div class="h-full mini-note">
+          <p class="section-label">Outside the sprint</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">
+            I co-organize ReactJS Colombia, write about DX and workflows, and keep building while working remotely from Medellin.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section
-    class="
-      grid gap-6
-      lg:grid-cols-3
-    "
-    data-animate
-  >
-    <div class="
-      panel-card h-full p-6
-      sm:p-7
-    "
-    >
-      <p class="section-label">What I do now</p>
-      <h2 class="mt-4 text-3xl">Engineering that ships and systems that last.</h2>
-      <p class="mt-4 text-base/7 text-ink-soft">
-        My work spans full-stack delivery, developer tooling, and automation — finding the slowest parts of a
-        team's workflow and making them disappear.
-      </p>
-    </div>
-    <div class="
-      panel-card h-full p-6
-      sm:p-7
-    "
-    >
-      <p class="section-label">How I lead</p>
-      <p class="mt-4 text-base/7 text-ink-soft">
-        I stay close to the code. I help teams set standards, cut rework, and make better decisions earlier —
-        especially on architecture, automation, and developer experience.
-      </p>
-    </div>
-    <div class="
-      panel-card h-full p-6
-      sm:p-7
-    "
-    >
-      <p class="section-label">Outside the sprint</p>
-      <p class="mt-4 text-base/7 text-ink-soft">
-        I co-organize ReactJS Colombia, write about DX and engineering workflows, and keep building while working
-        remotely from Medellin and on the road.
-      </p>
-    </div>
-  </section>
-
-  <section class="space-y-8" data-animate>
+  <section class="editorial-section" data-animate>
     <SectionHeading
       description="I write about software architecture, full-stack systems, automation, and the engineering decisions that help teams ship with confidence. Published in Towards Dev and on Medium."
       eyebrow="Writing"
@@ -230,14 +249,17 @@ const meta = {
       linkLabel="See all articles"
       title="Practical writing for engineers who build and lead."
     />
-    <div class="
-      grid gap-6
-      lg:grid-cols-3
-    "
-    >
-      {latestPosts.map(post => (
-        <PostCard post={post} />
-      ))}
+    <div class="space-y-6">
+      {featuredPost && <PostCard featured post={featuredPost} />}
+      <div class="
+        grid gap-6
+        md:grid-cols-2
+      "
+      >
+        {supportingPosts.map(post => (
+          <PostCard post={post} />
+        ))}
+      </div>
     </div>
   </section>
 </PageLayout>

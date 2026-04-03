@@ -8,6 +8,28 @@ import { getTechnologyPath } from '../../utils/links'
 
 const allProjects = await getAllProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)
+const topTechnology = technologies[0]?.[0]
+const coreTechnologies = technologies.filter(([, count]) => count >= 4)
+const regularTechnologies = technologies.filter(([, count]) => count >= 2 && count < 4)
+const selectiveTechnologies = technologies.filter(([, count]) => count === 1)
+
+const technologyGroups = [
+  {
+    description: 'The core stack that shows up repeatedly across shipped projects.',
+    items: coreTechnologies,
+    title: 'Core'
+  },
+  {
+    description: 'Technologies that support product delivery on a regular basis.',
+    items: regularTechnologies,
+    title: 'Regular'
+  },
+  {
+    description: 'Specialized tools that appear in narrower product or platform contexts.',
+    items: selectiveTechnologies,
+    title: 'Selective'
+  }
+].filter(group => group.items.length > 0)
 
 const meta = {
   description: 'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
@@ -17,27 +39,66 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section class="section-shell space-y-6" data-animate>
-    <SectionHeading
-      description="This is the recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, DX, and the tools around them."
-      eyebrow="Stack index"
-      level="h1"
-      title="A frontend-first stack with full-stack range."
-    />
-    <ButtonLink href="/portfolio/" showArrow variant="secondary">
-      Back to portfolio
-    </ButtonLink>
+  <section
+    class="
+      grid gap-10
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+    data-animate
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description="This is the recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, DX, and the tools around them."
+        eyebrow="Stack index"
+        level="h1"
+        title="A frontend-first stack with full-stack range."
+      />
+      <ButtonLink href="/portfolio/" showArrow variant="secondary">
+        Back to portfolio
+      </ButtonLink>
+    </div>
+
+    <div class="
+      grid gap-3
+      sm:grid-cols-3
+    "
+    >
+      <div class="mini-note">
+        <p class="section-label">Technologies</p>
+        <p class="mt-2 text-lg font-semibold text-ink">{technologies.length}</p>
+      </div>
+      <div class="mini-note">
+        <p class="section-label">Most used</p>
+        <p class="mt-2 text-lg font-semibold text-ink">{topTechnology}</p>
+      </div>
+      <div class="mini-note">
+        <p class="section-label">Scope</p>
+        <p class="mt-2 text-sm/7 text-ink-soft">Frontend, backend, testing, delivery, and developer tooling.</p>
+      </div>
+    </div>
   </section>
 
-  <section class="section-shell-subtle" data-animate>
-    <div class="flex flex-wrap gap-3">
-      {
-        technologies.map(([technology, count]) => (
-          <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-            <span class="text-xs text-ink-muted">{count}</span>
-          </Pill>
-        ))
-      }
-    </div>
+  <section
+    class="
+      grid gap-8 border-t border-line/70 pt-10
+      lg:grid-cols-3
+    "
+    data-animate
+  >
+    {technologyGroups.map(group => (
+      <div class="space-y-4">
+        <div class="space-y-2">
+          <p class="section-label">{group.title}</p>
+          <p class="text-sm/6 text-ink-soft">{group.description}</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          {group.items.map(([technology, count]) => (
+            <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
+              <span class="text-xs text-ink-muted">{count}</span>
+            </Pill>
+          ))}
+        </div>
+      </div>
+    ))}
   </section>
 </PageLayout>

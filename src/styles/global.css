@@ -68,9 +68,9 @@
   body {
     min-height: 100vh;
     background:
-      radial-gradient(circle at top left, hsl(var(--glow) / 0.18), transparent 26rem),
-      radial-gradient(circle at top right, hsl(var(--accent) / 0.12), transparent 24rem),
-      linear-gradient(180deg, hsl(var(--surface-muted) / 0.75), transparent 28rem),
+      radial-gradient(circle at top left, hsl(var(--glow) / 0.1), transparent 22rem),
+      radial-gradient(circle at 88% 0%, hsl(var(--accent) / 0.08), transparent 20rem),
+      linear-gradient(180deg, hsl(var(--surface-muted) / 0.58), transparent 20rem),
       hsl(var(--theme-bg));
     color: hsl(var(--ink));
   }
@@ -159,35 +159,34 @@
 @plugin "@iconify/tailwind4";
 
 @utility panel-surface {
-  background: linear-gradient(180deg, hsl(var(--surface) / 0.92), hsl(var(--surface-muted) / 0.82));
-  border: 1px solid hsl(var(--line) / 0.6);
+  background: linear-gradient(180deg, hsl(var(--surface) / 0.94), hsl(var(--surface-muted) / 0.76));
+  border: 1px solid hsl(var(--line) / 0.55);
   box-shadow:
-    0 20px 52px hsl(230 30% 8% / 0.07),
-    inset 0 1px 0 hsl(0 0% 100% / 0.07);
-  backdrop-filter: blur(16px);
-}
-
-@utility section-shell {
-  @apply relative overflow-hidden rounded-[2rem] px-6 py-8 sm:px-8 sm:py-10;
-  background: linear-gradient(180deg, hsl(var(--surface) / 0.92), hsl(var(--surface-muted) / 0.8));
-  border: 1px solid hsl(var(--line) / 0.62);
-  box-shadow:
-    0 20px 48px hsl(230 30% 8% / 0.06),
+    0 18px 48px hsl(230 30% 8% / 0.05),
     inset 0 1px 0 hsl(0 0% 100% / 0.06);
   backdrop-filter: blur(14px);
 }
 
+@utility section-shell {
+  @apply relative overflow-hidden rounded-[2.25rem] px-6 py-8 sm:px-8 sm:py-10;
+  background: linear-gradient(180deg, hsl(var(--surface) / 0.88), hsl(var(--surface-muted) / 0.62));
+  border: 1px solid hsl(var(--line) / 0.52);
+  box-shadow:
+    0 16px 42px hsl(230 30% 8% / 0.045),
+    inset 0 1px 0 hsl(0 0% 100% / 0.05);
+  backdrop-filter: blur(12px);
+}
+
 @utility section-shell-subtle {
   @apply relative overflow-hidden rounded-[2rem] px-6 py-8 sm:px-8 sm:py-10;
-  background: linear-gradient(180deg, hsl(var(--surface-muted) / 0.82), hsl(var(--surface) / 0.74));
-  border: 1px solid hsl(var(--line) / 0.5);
-  box-shadow: 0 16px 36px hsl(230 30% 8% / 0.04);
+  background: linear-gradient(180deg, hsl(var(--surface) / 0.58), hsl(var(--surface-muted) / 0.42));
+  border: 1px solid hsl(var(--line) / 0.36);
 }
 
 @utility panel-card {
-  @apply relative overflow-hidden rounded-[1.75rem] border border-line/60 bg-surface/88;
+  @apply relative overflow-hidden rounded-[1.75rem] border border-line/55 bg-surface/76;
   box-shadow:
-    0 16px 40px hsl(230 30% 8% / 0.05),
+    0 12px 32px hsl(230 30% 8% / 0.04),
     inset 0 1px 0 hsl(0 0% 100% / 0.04);
 }
 
@@ -201,6 +200,18 @@
 
 @utility section-label {
   @apply text-xs font-semibold tracking-[0.22em] text-ink-muted uppercase;
+}
+
+@utility editorial-section {
+  @apply grid gap-8 border-t border-line/70 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10;
+}
+
+@utility editorial-rail {
+  @apply space-y-5 lg:sticky lg:top-28 lg:h-fit;
+}
+
+@utility mini-note {
+  @apply rounded-[1.35rem] border border-line/55 bg-surface/68 p-4;
 }
 
 @utility field-surface {
@@ -406,10 +417,10 @@
 
 [data-animate] {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(14px);
   transition:
-    opacity 0.55s ease-out,
-    transform 0.55s ease-out;
+    opacity 0.45s ease-out,
+    transform 0.45s ease-out;
 }
 
 [data-animate].is-visible {
