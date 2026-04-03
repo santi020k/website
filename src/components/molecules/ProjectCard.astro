@@ -43,6 +43,7 @@ if (coverAspectRatio < 0.92) {
 }
 
 const usesSplitLayout = featured && coverOrientation === 'landscape'
+const useImageOverlay = coverOrientation === 'landscape'
 ---
 
 <article
@@ -74,29 +75,33 @@ const usesSplitLayout = featured && coverOrientation === 'landscape'
             mode="card"
             sizes={imageSizes}
           />
-          <div
-            aria-hidden="true"
-            class="
-              pointer-events-none absolute inset-x-0 bottom-0 h-32
-              bg-linear-to-t from-canvas/88 via-canvas/16 to-transparent
-            "
-          >
-          </div>
-          <div class="
-            pointer-events-none absolute inset-x-0 top-0 flex items-start
-            justify-between gap-3 p-4
-            sm:p-5
-          "
-          >
-            <Pill label={featured ? 'Featured case study' : projectTypeLabel} tone="brand" />
-            <span class="
-              rounded-full border border-white/12 bg-canvas/60 px-3 py-1.5
-              text-xs font-semibold tracking-[0.16em] text-white/80 uppercase
-              backdrop-blur-sm
-            "
-            >{projectYearsLabel}
-            </span>
-          </div>
+          {useImageOverlay && (
+            <>
+              <div
+                aria-hidden="true"
+                class="
+                  pointer-events-none absolute inset-x-0 bottom-0 h-32
+                  bg-linear-to-t from-canvas/88 via-canvas/16 to-transparent
+                "
+              >
+              </div>
+              <div class="
+                pointer-events-none absolute inset-x-0 top-0 flex items-start
+                justify-between gap-3 p-4
+                sm:p-5
+              "
+              >
+                <Pill label={featured ? 'Featured case study' : projectTypeLabel} tone="brand" />
+                <span class="
+                  rounded-full border border-white/12 bg-canvas/60 px-3 py-1.5
+                  text-xs font-semibold tracking-[0.16em] text-white/80
+                  uppercase backdrop-blur-sm
+                "
+                >{projectYearsLabel}
+                </span>
+              </div>
+            </>
+          )}
         </>
       ) :
       (
@@ -120,6 +125,7 @@ const usesSplitLayout = featured && coverOrientation === 'landscape'
       sm:gap-3
     "
     >
+      {featured && !useImageOverlay && <Pill label="Featured case study" tone="brand" />}
       {!featured && <Pill label={projectTypeLabel} tone="outline" />}
       {project.data.rol && <span>{project.data.rol}</span>}
       {project.data.rol && (

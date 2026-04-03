@@ -29,9 +29,11 @@ const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
 const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
 const technologies = sortTechnologiesByInterest(project.data.technologies)
+
 const coverAspectRatio = project.data.coverImage?.src ?
   project.data.coverImage.src.width / project.data.coverImage.src.height :
   16 / 10
+
 const useWideCoverFrame = coverAspectRatio > 1.08
 
 const projectStats = [

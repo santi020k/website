@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content'
 import AboutMeImage from '../assets/photos/about-me.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import Eyebrow from '../components/atoms/Eyebrow.astro'
+import Pill from '../components/atoms/Pill.astro'
 import PostCard from '../components/molecules/PostCard.astro'
 import ProjectCard from '../components/molecules/ProjectCard.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
@@ -114,11 +115,19 @@ const meta = {
             <span class="section-label">Focus</span>
             <span
               aria-hidden="true"
-              class="hidden h-px w-8 bg-linear-to-r from-line to-transparent sm:block"
+              class="
+                hidden h-px w-8 bg-linear-to-r from-line to-transparent
+                sm:block
+              "
             />
-            <div class="hidden h-6 overflow-hidden motion-reduce:hidden sm:block">
+            <div class="
+              hidden h-6 overflow-hidden
+              motion-reduce:hidden
+              sm:block
+            "
+            >
               <div class="
-                grid auto-rows-[1.5rem]
+                grid auto-rows-[1.5rem] will-change-transform
                 motion-safe:animate-hero-phrase-cycle
               "
               >
@@ -128,8 +137,18 @@ const meta = {
                 <span class="text-sm font-semibold text-ink">Architecture systems</span>
               </div>
             </div>
-            <span class="text-sm font-semibold text-ink sm:hidden">Architecture systems</span>
-            <span class="hidden text-sm font-semibold text-ink motion-reduce:inline sm:motion-reduce:inline">
+            <span class="
+              text-sm font-semibold text-ink
+              motion-reduce:hidden
+              sm:hidden
+            "
+            >Architecture systems
+            </span>
+            <span class="
+              hidden text-sm font-semibold text-ink
+              motion-reduce:inline
+            "
+            >
               Architecture systems
             </span>
           </div>
@@ -179,9 +198,8 @@ const meta = {
         <div
           aria-hidden="true"
           class="
-            pointer-events-none absolute inset-[12%] rounded-[2rem]
-            bg-linear-to-br from-brand/10 via-transparent to-accent/10
-            blur-2xl
+            pointer-events-none absolute inset-[12%] rounded-4xl bg-linear-to-br
+            from-brand/10 via-transparent to-accent/10 blur-2xl
           "
         />
         <div
@@ -214,7 +232,9 @@ const meta = {
           />
           <Image
             alt="Portrait of Santiago Molina"
-            class="relative z-10 aspect-4/5 w-full rounded-[1.7rem] object-cover"
+            class="
+              relative z-10 aspect-4/5 w-full rounded-[1.7rem] object-cover
+            "
             fetchpriority="high"
             loading="eager"
             sizes="(min-width: 1024px) 352px, 75vw"
