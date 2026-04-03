@@ -18,8 +18,6 @@ coverImage:
   src: ./development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092-fig-1.png
 ---
 
-![Development Workflow with Husky](./development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092-fig-1.png)
-
 In this guide, I share my preferred development workflow for Next.js projects, integrating Husky for pre-commit hooks, ESLint for code quality, and Vitest for testing.
 
 Maintaining a clean and consistent codebase is crucial for any project, especially when working in a team. By automating code quality checks and tests before every commit, we ensure that only high-standard code reaches our repository.

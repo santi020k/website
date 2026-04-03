@@ -194,14 +194,18 @@
 
   /* --- Rehype Pretty Code / Shiki Styles --- */
   & [data-rehype-pretty-code-figure] {
-    @apply my-10 relative overflow-hidden rounded-2xl border border-line bg-surface-muted/20 shadow-xl;
-    backdrop-filter: blur(12px);
+    @apply my-10 relative overflow-hidden rounded-2xl border border-line shadow-xl;
+    background-color: var(--shiki-dark-bg);
+  }
+
+  :root[data-theme='light'] & [data-rehype-pretty-code-figure] {
+    background-color: var(--shiki-light-bg);
   }
 
   /* Language Label */
   & [data-rehype-pretty-code-figure]::before {
     content: attr(data-language);
-    @apply absolute top-0 right-0 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-ink-muted/50 bg-line/20 rounded-bl-lg border-l border-b border-line z-10;
+    @apply absolute top-0 right-0 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-ink-muted/50 bg-line/10 rounded-bl-lg border-l border-b border-line z-10;
   }
 
   & [data-rehype-pretty-code-figure] pre {
@@ -210,7 +214,27 @@
 
   & [data-rehype-pretty-code-figure] code {
     @apply bg-transparent! p-0 text-[14.5px] leading-relaxed block min-w-full font-mono;
+    color: var(--shiki-dark);
     font-variant-ligatures: none;
+  }
+
+  :root[data-theme='light'] & [data-rehype-pretty-code-figure] code {
+    color: var(--shiki-light);
+  }
+
+  /* Ensure Shiki tokens use the correct theme color */
+  & [data-rehype-pretty-code-figure] span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style);
+    font-weight: var(--shiki-dark-font-weight);
+    text-decoration: var(--shiki-dark-text-decoration);
+  }
+
+  :root[data-theme='light'] & [data-rehype-pretty-code-figure] span {
+    color: var(--shiki-light);
+    font-style: var(--shiki-light-font-style);
+    font-weight: var(--shiki-light-font-weight);
+    text-decoration: var(--shiki-light-text-decoration);
   }
 
   & [data-rehype-pretty-code-figure] [data-line] {
@@ -218,17 +242,18 @@
   }
 
   & [data-rehype-pretty-code-figure] [data-highlighted-line] {
-    @apply bg-brand/15 border-brand/50;
+    @apply bg-brand/10 border-brand/50;
   }
 
   & [data-rehype-pretty-code-title] {
-    @apply px-6 py-3 text-sm font-semibold text-ink border-b border-line bg-surface-muted/40 flex items-center gap-2;
+    @apply px-6 py-3 text-sm font-semibold text-ink border-b border-line bg-surface-muted/40 items-center gap-2;
+    display: flex;
     letter-spacing: 0.025em;
   }
 
   & [data-rehype-pretty-code-title]::before {
     content: '';
-    @apply w-2 h-2 rounded-full bg-brand/40;
+    @apply w-2.5 h-2.5 rounded-full bg-brand/40 shadow-sm;
   }
 
   & [data-rehype-pretty-code-figure] [data-line-numbers] {
@@ -243,7 +268,8 @@
 
   /* Copy Button Styles */
   .copy-button {
-    @apply absolute top-2 right-2 p-2 rounded-lg bg-surface/50 border border-line text-ink-muted opacity-0 transition-all duration-200 hover:bg-surface hover:text-brand hover:scale-105 active:scale-95 z-20;
+    @apply absolute top-2 right-2 p-2 rounded-lg bg-surface/30 border border-line text-ink-muted opacity-0 transition-all duration-200 hover:bg-surface hover:text-brand hover:scale-105 active:scale-95 z-20;
+    backdrop-filter: blur(4px);
   }
 
   [data-rehype-pretty-code-figure]:hover .copy-button {

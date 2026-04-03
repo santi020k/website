@@ -9,8 +9,6 @@ coverImage:
   src: "./atomic-module-component-structure-for-react-34464b05832c-cover.png"
 ---
 
-![Atomic Module Component Structure for React](./atomic-module-component-structure-for-react-34464b05832c-cover.png)
-
 In this post, I share insights into establishing a robust structure for React projects using an Atomic Module Component approach. From initial scaffolding to naming conventions, discover best practices for maintaining scalability and organization in your codebase.
 
 ## Introduction

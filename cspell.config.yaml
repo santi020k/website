@@ -16,6 +16,7 @@ words:
   - astronomisches
   - Ausführen
   - ausgewählt
+  - autodocs
   - autolinks
   - automatisch
   - backref
@@ -62,6 +63,7 @@ words:
   - Dups
   - durchsuchen
   - Dysnomia
+  - ecma
   - ecommerce
   - eine
   - Einstellungen
@@ -82,6 +84,7 @@ words:
   - Fußnoten
   - gatekept
   - geolocation
+  - github
   - Gitlab
   - glassmorphism
   - Göttin
@@ -102,6 +105,8 @@ words:
   - Kuiper
   - lastmod
   - letterform
+  - lighthouserc
+  - linkedin
   - Mapbox
   - Marcone
   - Marcone's
@@ -119,6 +124,9 @@ words:
   - navbars
   - nghiệp
   - nisl
+  - hombrew
+  - mongosh
+  - dbaeumer
   - noscroll
   - Nulla
   - OKLCH
@@ -134,16 +142,21 @@ words:
   - Qwik
   - Rappi
   - Rasterise
+  - rehype
+  - rels
   - remarkjs
   - repost
   - reposts
   - rereference
+  - resvg
   - römischen
   - ryanmulligan
   - santi
   - Santi
   - santi020k
   - Schließen
+  - shiki
+  - shikijs
   - Sichel
   - sindresorhus
   - skeuomorphism
@@ -152,6 +165,8 @@ words:
   - Sprache
   - starten
   - stilisierte
+  - storysource
+  - Storysource
   - Strikethrough
   - stylised
   - subsetting
@@ -165,12 +180,15 @@ words:
   - theming
   - transfonter
   - Transfonter
+  - treosh
   - tristique
   - tweakable
   - Überprüfen
   - unobserve
+  - unrs
   - velit
   - verbinden
+  - vercel
   - Verfügbarkeit
   - Verlauf
   - Veröffentlichen
@@ -184,6 +202,8 @@ words:
   - webmention
   - Webmention
   - webmentions
+  - wght
+  - whatsapp
   - winget
   - wordmark
   - Zeepod
