@@ -4,7 +4,7 @@ description: "A practical approach to authentication and authorization in Next.j
 publishDate: "2024-04-25T18:20:00.000Z"
 tags: ["supabase", "authentication", "authorization", "nextjs", "typescript"]
 coverImage:
-  alt: "Abstract illustration of a laptop connected to secure auth nodes and access checkpoints"
+  alt: "Neon illustration of a secure auth panel connected to protected access badges and role checkpoints"
   src: "./authentication-and-authorization-in-next-js-applications-with-supabase-cover.png"
 ---
 

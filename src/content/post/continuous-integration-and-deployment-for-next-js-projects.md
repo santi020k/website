@@ -4,7 +4,7 @@ description: "A practical CI/CD setup for Next.js projects using GitHub Actions 
 publishDate: "2024-04-18T17:12:00.000Z"
 tags: ["ci/cd", "github-actions", "nextjs", "react", "deployment"]
 coverImage:
-  alt: "Abstract illustration of a laptop connected to glowing pipeline nodes and deployment checkpoints"
+  alt: "Neon illustration of a CI/CD pipeline flowing through commit, test, build, and deployment stages"
   src: "./continuous-integration-and-deployment-for-next-js-projects-cover.png"
 ---
 
