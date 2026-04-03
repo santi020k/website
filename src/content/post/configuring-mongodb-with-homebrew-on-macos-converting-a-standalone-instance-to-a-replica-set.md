@@ -6,6 +6,7 @@ tags: ["mongo", "configuration", "hombrew", "mac"]
 coverImage:
   alt: "configuring mongodb with homebrew on macos converting a standalone instance to a replica set 482623476dcf"
   src: "./configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set-cover.png"
+canonicalUrl: "https://towardsdev.com/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set-482623476dcf"
 ---
 
 Setting up a MongoDB replica set in your local environment can be essential for testing and development purposes, especially when you need to mimic a production-like setup. In this guide, we’ll walk through the steps to configure a MongoDB replica set on your local machine.

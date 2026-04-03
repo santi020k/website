@@ -6,6 +6,7 @@ tags: ["react-native", "react", "eslint", "typescript", "eslint-config"]
 coverImage:
   alt: "boosting code quality and efficiency with my eslint configuration library 3a4cbc1993a7"
   src: "./boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-cover.png"
+canonicalUrl: "https://towardsdev.com/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-3a4cbc1993a7"
 ---
 
 In a previous post, [“Building the Best Next.js TypeScript Standard Vitest ESLint Configuration”](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7), we discussed a powerful ESLint setup designed to maintain code quality, consistency, and adherence to best practices for Next.js and TypeScript projects. Since then, I’ve taken that configuration and elevated it into a reusable, flexible ESLint library: [@santi020k/eslint-config-santi020k](https://www.npmjs.com/package/@santi020k/eslint-config-santi020k).
@@ -14,19 +15,21 @@ This package simplifies configuring ESLint environments, especially when transit
 
 ## Why This Library? Common Challenges and Solutions
 
-## 1. Streamlined Configuration
+Santiago Molina created this configuration to address common challenges in frontend development, particularly when managing complex setups with TypeScript, React, and Next.js. It simplifies the migration between ESLint versions and ensures a consistent, high-quality codebase across multiple projects.
+
+### 1. Streamlined Configuration
 
 Upgrading my own projects from ESLint 8 to 9 highlighted the challenge of managing dependencies, plugins, and rules for each project. I created @santi020k/eslint-config-santi020k to streamline this process. Now, setting up a consistent ESLint environment across projects is as simple as an npm install command.
 
 With this library, projects of different types (JavaScript, TypeScript, React, Next.js, Expo, Astro, etc.) can share a common configuration base while allowing for customization where needed.
 
-## 2. Improved Code Quality
+### 2. Improved Code Quality
 
 As a tech lead responsible for auditing software, I often encounter projects with poor code quality due to inconsistent or missing linting rules. My ESLint library automatically enforces coding standards, catches errors early, and promotes best practices, making it a valuable addition to any existing project.
 
 Integrating @santi020k/eslint-config-santi020k into a codebase can quickly improve quality and reduce cognitive load during code reviews.
 
-## 3. Built for Flexibility
+### 3. Built for Flexibility
 
 Although opinionated, the library is designed with flexibility in mind. You can fork it to add additional rules or plugins for specific needs. I also made it easy to include optional parameters, allowing users to incorporate technologies like TailwindCSS, Vitest, i18next, and more.
 

@@ -166,7 +166,11 @@ const breadcrumbs = [
       )}
     </header>
 
-    <div class="prose-santi animate-fade-in [animation-delay:200ms]">
+    <div class="
+      prose-santi mx-auto w-full max-w-3xl animate-fade-in
+      [animation-delay:200ms]
+    "
+    >
       <slot />
       <div class="mt-16">
         <ShareButtons title={title} url={canonicalURL.href} />
@@ -211,7 +215,7 @@ const breadcrumbs = [
     </footer>
   </article>
 
-  <div class="mx-auto mt-20 w-full max-w-6xl space-y-20">
+  <div class="mx-auto w-full max-w-6xl space-y-20">
     <RelatedPosts currentPostId={post.id} tags={post.data.tags} />
   </div>
 
