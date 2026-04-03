@@ -6,6 +6,7 @@ import ButtonLink from '../components/atoms/ButtonLink.astro'
 import Eyebrow from '../components/atoms/Eyebrow.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
 import SocialList from '../components/molecules/SocialList.astro'
+import { collaborationThemes } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
 
@@ -178,6 +179,33 @@ const meta = {
           <h3 class="text-xl font-semibold text-ink">{title}</h3>
           <p class="text-sm/7 text-ink-soft">{body}</p>
         </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Not resume bullets, and not polished marketing language either. These are the themes collaborators, clients, and teams tend to pull out of the work."
+      eyebrow="Recommendations"
+      title="What collaborators tend to value in the work."
+    />
+
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+    >
+      {collaborationThemes.map(theme => (
+        <article class="
+          panel-card h-full space-y-4 p-6
+          sm:p-7
+        "
+        >
+          <h2 class="text-2xl font-semibold text-ink">{theme.title}</h2>
+          <p class="text-sm/7 text-ink-soft">{theme.body}</p>
+          <p class="text-sm/6 text-ink-muted">{theme.evidence}</p>
+        </article>
       ))}
     </div>
   </section>

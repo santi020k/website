@@ -75,7 +75,7 @@ const breadcrumbs = [
   <div
     class="
       fixed top-0 left-0 z-50 h-1.5 bg-linear-to-r from-brand to-brand-soft
-      shadow-[0_0_10px_rgba(var(--color-brand),0.5)] transition-all duration-150
+      shadow-[0_0_10px_hsl(var(--brand)/0.22)] transition-all duration-150
       ease-out
     "
     style="width: 0%"
@@ -92,68 +92,113 @@ const breadcrumbs = [
   >
   </div>
 
-  <article class="mx-auto flex w-full max-w-6xl flex-col gap-10">
-    <header class="
-      flex animate-slide-up flex-col gap-8 border-b border-line/70 pb-10
-      motion-reduce:animate-none
-    "
+  <article class="mx-auto flex w-full max-w-6xl flex-col gap-12">
+    <header
+      class="
+        grid gap-10 border-b border-line/70 pb-10
+        lg:grid-cols-[minmax(0,1fr)_17rem]
+      "
+      data-animate
     >
-      <div class="flex items-center gap-2 text-sm font-medium text-ink-muted">
-        <a
-          href="/blog/"
-          class="
-            transition-colors
-            hover:text-brand
+      <div class="space-y-8">
+        <div class="flex items-center gap-2 text-sm font-medium text-ink-muted">
+          <a
+            href="/blog/"
+            class="
+              transition-colors
+              hover:text-brand
+            "
+          >Blog
+          </a>
+          <Icon aria-hidden="true" name="tabler:chevron-right" class="size-4" />
+          <span class="text-ink-soft">Post</span>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <h1 class="
+            max-w-4xl text-4xl/tight font-bold
+            sm:text-5xl
+            lg:text-6xl
           "
-        >Blog
-        </a>
-        <Icon aria-hidden="true" name="tabler:chevron-right" class="size-4" />
-        <span class="text-ink-soft">Post</span>
+          >
+            {title}
+          </h1>
+
+          <p class="
+            max-w-3xl text-lg/8 text-ink-soft
+            sm:text-xl/8
+          "
+          >{description}
+          </p>
+        </div>
+
+        {post.data.coverImage && (
+          <div class="panel-card relative aspect-video overflow-hidden">
+            <Image
+              src={post.data.coverImage.src}
+              alt={post.data.coverImage.alt}
+              class="size-full object-cover"
+              inferSize
+            />
+          </div>
+        )}
       </div>
 
-      <div class="flex flex-col gap-4">
-        <h1 class="
-          max-w-4xl text-4xl/tight font-bold
-          sm:text-5xl
-          lg:text-6xl
-        "
-        >
-          {title}
-        </h1>
-
-        <p class="
-          max-w-3xl text-lg/8 text-ink-soft
-          sm:text-xl/8
-        "
-        >{description}
-        </p>
-
-        <div class="
-          flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ink-soft
-        "
-        >
-          <Pill label="Article" tone="brand" />
-          <div class="flex items-center gap-2">
-            <Icon aria-hidden="true" name="tabler:calendar" class="size-4" />
-            <FormattedDate date={publishDate} />
-          </div>
-          <div class="flex items-center gap-2">
-            <Icon aria-hidden="true" name="tabler:clock" class="size-4" />
-            <span>{readingTimeText}</span>
-          </div>
-          {updatedDate && (
+      <aside class="editorial-rail">
+        <div class="mini-note">
+          <p class="section-label">Reading guide</p>
+          <dl class="mt-4 space-y-4 text-sm/6 text-ink-soft">
             <div class="flex items-center gap-2">
-              <Icon aria-hidden="true" name="tabler:refresh" class="size-4" />
-              <span>Updated: <FormattedDate date={updatedDate} /></span>
+              <Icon aria-hidden="true" name="tabler:calendar" class="size-4" />
+              <div>
+                <dt class="
+                  text-xs font-semibold tracking-[0.18em] text-ink-muted
+                  uppercase
+                "
+                >Published
+                </dt>
+                <dd class="mt-1 text-sm font-medium text-ink"><FormattedDate date={publishDate} /></dd>
+              </div>
             </div>
-          )}
-          {canonicalUrl && (
+            <div class="flex items-center gap-2">
+              <Icon aria-hidden="true" name="tabler:clock" class="size-4" />
+              <div>
+                <dt class="
+                  text-xs font-semibold tracking-[0.18em] text-ink-muted
+                  uppercase
+                "
+                >Read time
+                </dt>
+                <dd class="mt-1 text-sm font-medium text-ink">{readingTimeText}</dd>
+              </div>
+            </div>
+            {updatedDate && (
+              <div class="flex items-center gap-2">
+                <Icon aria-hidden="true" name="tabler:refresh" class="size-4" />
+                <div>
+                  <dt class="
+                    text-xs font-semibold tracking-[0.18em] text-ink-muted
+                    uppercase
+                  "
+                  >Updated
+                  </dt>
+                  <dd class="mt-1 text-sm font-medium text-ink"><FormattedDate date={updatedDate} /></dd>
+                </div>
+              </div>
+            )}
+          </dl>
+        </div>
+
+        {canonicalUrl && (
+          <div class="mini-note">
+            <p class="section-label">Originally published</p>
             <a
               href={canonicalUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="
-                flex items-center gap-2 transition-colors
+                mt-3 inline-flex items-center gap-2 text-sm font-medium text-ink
+                transition-colors
                 hover:text-brand
               "
             >
@@ -162,27 +207,16 @@ const breadcrumbs = [
                 name="tabler:external-link"
                 class="size-4"
               />
-              <span>Original on Medium</span>
+              <span>Read on Medium</span>
             </a>
-          )}
-        </div>
-      </div>
-
-      {post.data.coverImage && (
-        <div class="panel-card relative aspect-video overflow-hidden">
-          <Image
-            src={post.data.coverImage.src}
-            alt={post.data.coverImage.alt}
-            class="size-full object-cover"
-            inferSize
-          />
-        </div>
-      )}
+          </div>
+        )}
+      </aside>
     </header>
 
     <div
       class="prose-santi mx-auto w-full max-w-3xl animate-fade-in"
-      style="animation-delay: 200ms"
+      style="animation-delay: 120ms"
     >
       <slot />
       <div class="mt-16">
@@ -192,9 +226,9 @@ const breadcrumbs = [
 
     <footer
       class="
-        mt-20 flex animate-fade-in flex-col gap-10 border-t border-line pt-10
+        mt-16 flex animate-fade-in flex-col gap-10 border-t border-line pt-10
       "
-      style="animation-delay: 400ms"
+      style="animation-delay: 220ms"
     >
       <div class="flex flex-wrap gap-2">
         {post.data.tags.map(tag => (

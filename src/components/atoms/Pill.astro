@@ -21,15 +21,16 @@ const Tag = href ? 'a' : 'span'
 <Tag
   class:list={[
     `
-      inline-flex min-h-9 items-center gap-1.5 rounded-full border px-3 py-1.5
-      text-sm font-medium transition-all duration-200
+      inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm
+      font-medium transition-all duration-200
       motion-reduce:transition-none
     `,
     href && `
-      cursor-pointer
+      min-h-11 cursor-pointer
       hover:-translate-y-0.5
       motion-reduce:hover:translate-y-0
     `,
+    !href && 'min-h-9',
     tone === 'neutral' && `
       border-transparent bg-surface-muted/80 text-ink-soft
       hover:bg-surface-strong/80 hover:text-ink
@@ -39,7 +40,7 @@ const Tag = href ? 'a' : 'span'
       hover:border-brand/35 hover:bg-brand hover:text-white
     `,
     tone === 'outline' && `
-      border-line/75 bg-surface/55 text-ink-soft
+      border-line/70 bg-surface/72 text-ink-soft
       hover:border-brand/40 hover:bg-brand-soft/35 hover:text-brand
     `,
     className

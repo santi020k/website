@@ -19,8 +19,8 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
   <div
     class="
       relative mx-auto flex w-full max-w-[calc(100vw-2rem)] items-center
-      justify-between gap-2 rounded-[1.75rem] px-4 py-3 panel-surface
-      sm:max-w-6xl sm:gap-4
+      justify-between gap-3 rounded-3xl px-4 py-3 panel-surface
+      sm:max-w-6xl sm:px-5
     "
     x-data="{ open: false }"
     @keydown.escape.window="open = false"
@@ -46,13 +46,6 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
         src={LogoMark}
         width={99}
       />
-      <span
-        class="
-          hidden h-7 w-px bg-line
-          sm:block
-        "
-        aria-hidden="true"
-      />
       <span class="
         hidden flex-col
         sm:flex
@@ -60,15 +53,15 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
       >
         <span class="section-label">Santiago Molina
         </span>
-        <span class="text-xs text-ink-soft">Architecture · DX · Product</span>
+        <span class="text-xs text-ink-soft">Engineering leadership · automation · DX</span>
       </span>
     </a>
 
     <nav
       aria-label="Main menu"
       class="
-        hidden items-center gap-2
-        md:flex
+        hidden items-center gap-5
+        lg:flex
       "
     >
       {
@@ -77,14 +70,19 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
             aria-current={Astro.url.pathname === link.path ? 'page' : undefined}
             class:list={[
               `
-                rounded-full border px-4 py-2 text-sm font-medium transition-all
-                duration-200
+                relative inline-flex min-h-11 items-center px-1 py-2 text-sm
+                font-medium transition-colors duration-200
+                motion-reduce:transition-none
               `,
               Astro.url.pathname === link.path ?
-                'border-brand/20 bg-brand-soft/80 font-semibold text-brand' :
                 `
-                  border-transparent text-ink-soft
-                  hover:border-line/70 hover:bg-surface-muted/80 hover:text-ink
+                  font-semibold text-ink
+                  after:absolute after:inset-x-1 after:bottom-1 after:h-px
+                  after:bg-brand after:content-['']
+                ` :
+                `
+                  text-ink-soft
+                  hover:text-ink
                 `
             ]}
             href={link.path}
@@ -97,7 +95,7 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
 
     <div class="
       hidden items-center gap-3
-      md:flex
+      lg:flex
     "
     >
       <ThemeToggle />
@@ -108,7 +106,7 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
 
     <div class="
       flex items-center gap-3
-      md:hidden
+      lg:hidden
     "
     >
       <ThemeToggle />
@@ -118,7 +116,7 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
         aria-label="Toggle navigation"
         class="
           inline-flex size-11 cursor-pointer items-center justify-center
-          rounded-full border border-line/70 bg-surface/80 text-ink
+          rounded-full border border-line/70 bg-surface/76 text-ink
         "
         type="button"
         x-on:click="open = !open"
@@ -132,7 +130,7 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
       id="mobile-nav"
       class="
         absolute top-[calc(100%+1rem)] left-0 w-full px-4
-        md:hidden
+        lg:hidden
       "
       x-cloak
       x-show="open"
@@ -157,7 +155,7 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
                   'border-brand/20 bg-brand-soft/80 font-semibold text-brand' :
                   `
                     border-transparent text-ink-soft
-                    hover:border-line/70 hover:bg-surface-muted/80
+                    hover:border-line/70 hover:bg-surface-muted/70
                     hover:text-ink
                   `
               ]}

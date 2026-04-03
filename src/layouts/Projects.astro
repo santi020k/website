@@ -59,10 +59,12 @@ const breadcrumbs = [
 >
   <ProjectHero project={project} />
 
-  <section class="
-    grid gap-10 border-t border-line/70 pt-10
-    lg:grid-cols-[minmax(0,1fr)_18rem]
-  "
+  <section
+    class="
+      grid gap-10 border-t border-line/70 pt-10
+      lg:grid-cols-[minmax(0,1fr)_18rem]
+    "
+    data-animate
   >
     <article class="min-w-0">
       <slot />
@@ -78,7 +80,7 @@ const breadcrumbs = [
   </section>
 
   {!!relatedProjects.length && (
-    <section class="editorial-section">
+    <section class="editorial-section" data-animate>
       <div class="space-y-3">
         <p class="section-label">Related work</p>
         <h2 class="text-3xl">More projects in a similar lane.</h2>

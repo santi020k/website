@@ -10,6 +10,7 @@ import PostCard from '../components/molecules/PostCard.astro'
 import ProjectCard from '../components/molecules/ProjectCard.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
 import StatCard from '../components/molecules/StatCard.astro'
+import { speakingTopics, usesHighlights } from '../data/profile'
 import { getAllProjects, getTechnologiesByUsage } from '../data/project'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
@@ -32,6 +33,7 @@ const topTechnologies = getTechnologiesByUsage(allProjects).slice(0, 10)
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 const [featuredProject, ...supportingProjects] = featuredProjects
 const [featuredPost, ...supportingPosts] = latestPosts
+const featuredSpeakingTopics = speakingTopics.slice(0, 3)
 
 const meta = {
   description:
@@ -221,7 +223,8 @@ const meta = {
         <h2 class="mt-4 text-3xl">Engineering that ships and systems that last.</h2>
         <p class="mt-4 max-w-2xl text-base/7 text-ink-soft">
           My work spans full-stack delivery, developer tooling, and automation: finding the slowest parts of a
-          team’s workflow and replacing them with repeatable systems that make shipping feel calmer and more predictable.
+          team's workflow and replacing them with repeatable systems that make shipping feel calmer and more
+          predictable.
         </p>
       </div>
       <div class="space-y-6">
@@ -234,10 +237,74 @@ const meta = {
         <div class="h-full mini-note">
           <p class="section-label">Outside the sprint</p>
           <p class="mt-3 text-sm/7 text-ink-soft">
-            I co-organize ReactJS Colombia, write about DX and workflows, and keep building while working remotely from Medellin.
+            I co-organize ReactJS Colombia, write about DX and workflows, and keep building while working
+            remotely from Medellin.
           </p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Projects only show one part of the picture. The other part is how I share what I learn, contribute to engineering communities, and keep my own workflow sharp."
+      eyebrow="Beyond delivery"
+      title="Speaking, community work, and the setup behind the work."
+    />
+    <div class="space-y-6">
+      <article class="
+        panel-card space-y-6 p-6
+        sm:p-7
+      "
+      >
+        <div class="space-y-3">
+          <p class="section-label">Speaking and community</p>
+          <h2 class="text-3xl">Practical sessions for engineers, teams, and local communities.</h2>
+          <p class="max-w-2xl text-base/7 text-ink-soft">
+            I am most useful in rooms where the goal is practical clarity: developer experience, technical leadership,
+            architecture, testing, automation, and the delivery systems that make teams feel more confident.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {featuredSpeakingTopics.map(topic => (
+            <Pill label={topic.title} tone="outline" />
+          ))}
+        </div>
+        <ButtonLink href="/speaking/" showArrow variant="secondary">
+          Explore speaking
+        </ButtonLink>
+      </article>
+
+      <article class="
+        panel-card space-y-6 p-6
+        sm:p-7
+      "
+      >
+        <div class="space-y-3">
+          <p class="section-label">Uses and workflow</p>
+          <h2 class="text-3xl">A practical setup built around clarity and fast feedback.</h2>
+          <p class="max-w-2xl text-base/7 text-ink-soft">
+            The exact tools shift over time, but the priorities stay the same: boring reliability, fewer context
+            switches, and a workflow that supports both deep implementation work and hands-on leadership.
+          </p>
+        </div>
+        <div
+          class="
+            grid gap-4
+            sm:grid-cols-3
+          "
+        >
+          {usesHighlights.map(highlight => (
+            <div class="mini-note">
+              <p class="section-label">{highlight.label}</p>
+              <p class="mt-3 text-sm/7 text-ink-soft">{highlight.value}</p>
+            </div>
+          ))}
+        </div>
+        <ButtonLink href="/uses/" showArrow variant="secondary">
+          See the uses page
+        </ButtonLink>
+      </article>
     </div>
   </section>
 

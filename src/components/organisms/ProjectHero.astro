@@ -15,10 +15,12 @@ interface Props {
 const { project } = Astro.props
 ---
 
-<section class="
-  grid gap-10
-  lg:grid-cols-[1.08fr_0.92fr]
-"
+<section
+  class="
+    grid gap-10
+    lg:grid-cols-[1.08fr_0.92fr]
+  "
+  data-animate
 >
   <div class="space-y-6">
     <Eyebrow label={project.data.typesId === 'personal' ? 'Personal project' : 'Professional work'} tone="brand" />
