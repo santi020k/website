@@ -198,12 +198,18 @@
     backdrop-filter: blur(12px);
   }
 
+  /* Language Label */
+  & [data-rehype-pretty-code-figure]::before {
+    content: attr(data-language);
+    @apply absolute top-0 right-0 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-ink-muted/50 bg-line/20 rounded-bl-lg border-l border-b border-line z-10;
+  }
+
   & [data-rehype-pretty-code-figure] pre {
-    @apply m-0 p-5 bg-transparent! overflow-x-auto selection:bg-brand/20;
+    @apply m-0 p-6 bg-transparent! overflow-x-auto selection:bg-brand/20;
   }
 
   & [data-rehype-pretty-code-figure] code {
-    @apply bg-transparent! p-0 text-[15px] leading-relaxed block min-w-full font-mono;
+    @apply bg-transparent! p-0 text-[14.5px] leading-relaxed block min-w-full font-mono;
     font-variant-ligatures: none;
   }
 
@@ -212,12 +218,17 @@
   }
 
   & [data-rehype-pretty-code-figure] [data-highlighted-line] {
-    @apply bg-brand/10 border-brand/50;
+    @apply bg-brand/15 border-brand/50;
   }
 
   & [data-rehype-pretty-code-title] {
-    @apply px-5 py-3 text-sm font-semibold text-ink border-b border-line bg-surface-muted/40;
-    letter-spacing: 0.05em;
+    @apply px-6 py-3 text-sm font-semibold text-ink border-b border-line bg-surface-muted/40 flex items-center gap-2;
+    letter-spacing: 0.025em;
+  }
+
+  & [data-rehype-pretty-code-title]::before {
+    content: '';
+    @apply w-2 h-2 rounded-full bg-brand/40;
   }
 
   & [data-rehype-pretty-code-figure] [data-line-numbers] {
@@ -227,7 +238,20 @@
   & [data-rehype-pretty-code-figure] [data-line-numbers] > [data-line]::before {
     counter-increment: line;
     content: counter(line);
-    @apply inline-block w-4 mr-6 text-right text-ink-muted/40 select-none font-mono text-xs;
+    @apply inline-block w-4 mr-6 text-right text-ink-muted/30 select-none font-mono text-xs;
+  }
+
+  /* Copy Button Styles */
+  .copy-button {
+    @apply absolute top-2 right-2 p-2 rounded-lg bg-surface/50 border border-line text-ink-muted opacity-0 transition-all duration-200 hover:bg-surface hover:text-brand hover:scale-105 active:scale-95 z-20;
+  }
+
+  [data-rehype-pretty-code-figure]:hover .copy-button {
+    @apply opacity-100;
+  }
+
+  .copy-button.copied {
+    @apply text-green-500 border-green-500/50 bg-green-500/5;
   }
   @apply prose-img:rounded-2xl prose-img:shadow-xl prose-img:mx-auto prose-img:my-12 prose-img:border prose-img:border-line;
   @apply prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-brand prose-li:my-2;
