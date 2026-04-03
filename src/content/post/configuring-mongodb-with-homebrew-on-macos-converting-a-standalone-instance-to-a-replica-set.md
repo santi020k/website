@@ -22,14 +22,14 @@ Open the **mongod.conf** file and add the **replication** key to enable replicat
 
 Add replication:
 
-```yaml
+```yaml title="mongod.conf"
 replication:
   replSetName: rs
 ```
 
 Original Configuration:
 
-```yaml
+```yaml title="mongod.conf (Original)"
 systemLog:
   destination: file
   path: /usr/local/var/log/mongodb/mongo.log
@@ -42,7 +42,7 @@ net:
 
 Modified Configuration:
 
-```yaml
+```yaml title="mongod.conf (Modified)"
 systemLog:
   destination: file
   path: /usr/local/var/log/mongodb/mongo.log
@@ -59,7 +59,7 @@ replication:
 
 In the console, restart the MongoDB instance using:
 
-```bash
+```bash title="terminal"
 brew services restart mongodb-community
 ```
 
@@ -67,7 +67,7 @@ brew services restart mongodb-community
 
 In the console, connect to the MongoDB shell using the command:
 
-```bash
+```bash title="terminal"
 mongosh
 ```
 
@@ -75,7 +75,7 @@ mongosh
 
 Start the replica set with:
 
-```bash
+```bash title="terminal"
 rs.initiate({_id: "rs", members: [{_id: 0, host: "127.0.0.1:27017"}] })
 ```
 

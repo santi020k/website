@@ -26,7 +26,7 @@ Continuing from our previous post on optimizing development workflows, today we�
 
 To integrate Storybook into your Next.js project, simply execute the following command:
 
-```bash
+```bash title="terminal"
 npx sb init
 ```
 
@@ -34,7 +34,7 @@ This command initiates the installation of necessary dependencies, configuration
 
 Once installed, start Storybook to visualize and interact with your components in an isolated environment:
 
-```bash
+```bash title="terminal"
 npm run storybook
 # or
 yarn storybook
@@ -44,7 +44,7 @@ I recommend removing demo components and configuring your existing components wi
 
 `.storybook/main.ts`
 
-```typescript
+```typescript title=".storybook/main.ts"
 import type { StorybookConfig } from "@storybook/nextjs";
 import path from 'path'
 
@@ -93,7 +93,7 @@ Enabling Tailwind support is straightforward. Simply include the following line 
 
 `.storybook/preview.ts`
 
-```typescript
+```typescript title=".storybook/preview.ts"
 import "../src/app/globals.css";
 ```
 
@@ -101,7 +101,7 @@ Here’s an example:
 
 `.storybook/preview.ts`
 
-```typescript
+```typescript title=".storybook/preview.ts"
 import type { Preview } from "@storybook/react";
 
 import "../src/app/globals.css";
@@ -129,7 +129,7 @@ To achieve this, make the following modifications:
 
 Move **main** and **preview** from the root project to:
 
-```text
+```text title="Project Structure"
 ├── /config
 | ├── /.storybook
 | | ├── /main.ts
@@ -140,7 +140,7 @@ Adjust the Storybook scripts in package.json:
 
 `package.json`
 
-```json
+```json title="package.json"
 {
   "scripts": {
     "storybook": "storybook dev -p 6006 -c config/.storybook",
@@ -153,7 +153,7 @@ And update the Storybook main config:
 
 `config/.storybook/main.ts`
 
-```typescript
+```typescript title="config/.storybook/main.ts"
 import type { StorybookConfig } from "@storybook/nextjs";
 import path from 'path'
 
@@ -196,7 +196,7 @@ export default config;
 
 `config/.storybook/preview.ts`
 
-```typescript
+```typescript title="config/.storybook/preview.ts"
 import type { Preview, ReactRenderer } from "@storybook/react";
 import { withThemeByClassName } from '@storybook/addon-themes';
 import '@storybook/addon-console';
@@ -212,7 +212,7 @@ Now, creating component stories is straightforward. Let’s use our button compo
 
 `src/components/atoms/button/button.stories.ts`
 
-```typescript
+```typescript title="src/components/atoms/button/button.stories.ts"
 import Button, { type ButtonProps, ButtonSizes, ButtonVariations } from './button'
 
 import type { Meta, StoryObj } from '@storybook/react'
@@ -321,7 +321,7 @@ The end result will resemble this:
 
 To install these integrations, run the following command using npm or yarn:
 
-```bash
+```bash title="terminal"
 npm install --save-dev \
   @storybook/addon-themes \
   @storybook/addon-storysource \
@@ -333,7 +333,7 @@ npm install --save-dev \
 
 or
 
-```bash
+```bash title="terminal"
 yarn add -D @storybook/addon-themes @storybook/addon-storysource @storybook/addon-console @storybook/addon-actions @whitespace/storybook-addon-html storybook-addon-pseudo-states
 ```
 
@@ -345,7 +345,7 @@ Once installed, update your Storybook configuration files as follows:
 
 `config/.storybook/main.ts`
 
-```typescript
+```typescript title="config/.storybook/main.ts"
 import type { StorybookConfig } from "@storybook/nextjs";
 import path from 'path'
 
@@ -391,7 +391,7 @@ export default config;
 
 `config/.storybook/preview.ts`
 
-```typescript
+```typescript title="config/.storybook/preview.ts"
 import type { Preview, ReactRenderer } from "@storybook/react";
 import { withThemeByClassName } from '@storybook/addon-themes';
 import '@storybook/addon-console';
@@ -408,14 +408,14 @@ const preview: Preview = {
     },
   },
   decorators: [
-   withThemeByClassName<ReactRenderer>({
-    themes: {
-      light: 'light',
-      dark: 'dark',
-    },
-    defaultTheme: 'light',
-  }),
- ]
+    withThemeByClassName<ReactRenderer>({
+      themes: {
+        light: 'light',
+        dark: 'dark',
+      },
+      defaultTheme: 'light',
+    }),
+  ]
 };
 
 export default preview;
