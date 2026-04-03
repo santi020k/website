@@ -53,10 +53,11 @@ const { project } = Astro.props
     </div>
   </div>
 
-  <aside class="
-    flex h-fit flex-col gap-5 rounded-[1.75rem] p-6 panel-surface
-    lg:sticky lg:top-32
-  "
+  <div
+    class="
+      flex h-fit flex-col gap-5 rounded-[1.75rem] p-6 panel-surface
+      lg:sticky lg:top-32
+    "
   >
     <div class="space-y-1">
       <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">Role</p>
@@ -80,7 +81,7 @@ const { project } = Astro.props
         }
       </p>
     </div>
-  </aside>
+  </div>
 
   {project.data.coverImage && (
     <div class="
