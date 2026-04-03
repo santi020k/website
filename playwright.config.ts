@@ -31,7 +31,7 @@ export default defineConfig({
     }
   ],
   webServer: {
-    command: isCiLikeRun ? 'npm run preview' : 'npm run dev',
+    command: isCiLikeRun ? 'pnpm run preview' : 'pnpm run dev',
     url: 'http://localhost:4321',
     reuseExistingServer: !isGithubCi
   }

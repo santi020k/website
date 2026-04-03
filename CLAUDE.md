@@ -48,16 +48,16 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 ## Running the Project
 
 ```bash
-npm run dev          # Start dev server (localhost:4321)
-npm run build        # Production build
-npm run preview      # Preview production build
-npm run lint         # ESLint
-npm run check        # Astro type-check
-npm run test         # Vitest unit tests
-npm run test:e2e     # Playwright E2E tests
+pnpm run dev          # Start dev server (localhost:4321)
+pnpm run build        # Production build
+pnpm run preview      # Preview production build
+pnpm run lint         # ESLint
+pnpm run check        # Astro type-check
+pnpm run test         # Vitest unit tests
+pnpm run test:e2e     # Playwright E2E tests
 ```
 
-Always ensure `npm run lint` and `npm run check` pass with zero errors before considering work complete.
+Always ensure `pnpm run lint` and `pnpm run check` pass with zero errors before considering work complete.
 
 ## Available Skills
 
@@ -95,7 +95,7 @@ See the **[Skills Index](/.agent/overview.md)** for a full overview of available
 
 ## General Principles
 
-- **Clean build**: `npm run lint` and `npm run check` must pass with zero errors
+- **Clean build**: `pnpm run lint` and `pnpm run check` must pass with zero errors
 - **Accessibility**: WCAG 2.2 AA is the target — use the accessibility skill for all interactive components
 - **Performance**: Aim for Lighthouse ≥ 90 on mobile. Use Astro's `<Image>` for all images
 - **SEO**: Every page needs a unique title, meta description, and canonical URL

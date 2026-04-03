@@ -50,26 +50,28 @@ Santiago is a seasoned **Full Stack Developer** and **Tech Lead** with over a de
 
 #### 1. Install Dependencies
 ```bash
-npm install
+pnpm install
 ```
 
-#### 2. Start Development Server
+### 2. Start the Development Server
+
 ```bash
-npm run dev
+pnpm run dev
 ```
 Accessible at `http://localhost:4321`.
 
 #### 3. Build for Production
 ```bash
-npm run build
+pnpm run build
 ```
 
-#### 4. Run Quality Checks
+### 4. Other Commands
+
 ```bash
-npm run lint      # Linting with ESLint
-npm run check     # Astro type-checking
-npm run test      # Unit testing
-npm run test:e2e  # E2E testing
+pnpm run lint      # Linting with ESLint
+pnpm run check     # Astro type-checking
+pnpm run test      # Unit testing
+pnpm run test:e2e  # E2E testing
 ```
 
 ---

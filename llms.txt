@@ -43,4 +43,4 @@ The project uses a custom HSL-based theming system for dynamic light/dark modes.
 - Follow Conventional Commits.
 - Ensure 100% accessibility (A11y) for all content.
 - Maintain high Lighthouse scores.
-- Use `npm run dev` for local development.
+- Use `pnpm run dev` for local development.
