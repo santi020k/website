@@ -1,131 +1,68 @@
 ---
-import { Icon } from 'astro-icon/components'
+import SectionHeading from './SectionHeading.astro'
 
-import Eyebrow from '../atoms/Eyebrow.astro'
+import { siteConfig } from '../../site.config'
+import ButtonLink from '../atoms/ButtonLink.astro'
+
+const writingChannels = [
+  {
+    description: 'New essays usually land here first, especially the timely ones about systems and delivery.',
+    title: 'Medium'
+  },
+  {
+    description: 'The strongest pieces stay on-site, organized as a cleaner long-term archive.',
+    title: 'Blog archive'
+  }
+]
 ---
 
 <section
-  class="
-    section-shell grid gap-8
-    lg:grid-cols-[1fr_0.95fr] lg:items-center
-  "
+  class="editorial-section"
   data-animate
-  x-data="{
-    subscribed: false,
-    email: '',
-    subscribe() {
-      if (!this.email) return;
-      this.subscribed = true;
-      this.email = '';
-    }
-  }"
 >
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0 grid-fade opacity-25"
-  />
-
-  <div class="relative z-10 space-y-4">
-    <Eyebrow label="Newsletter" tone="brand" />
-    <h2 class="
-      max-w-3xl text-3xl
-      sm:text-4xl
-      lg:text-5xl
-    "
-    >
-      Engineering that ships and systems that last.
-    </h2>
-    <p class="max-w-2xl section-copy">
-      Get my latest thoughts on software architecture, full-stack systems, automation, and technical leadership
-      delivered with the same practical lens I use on product teams.
-    </p>
+  <div>
+    <SectionHeading
+      description="I publish practical notes on software architecture, delivery systems, and technical leadership. The goal is signal, not volume."
+      eyebrow="Writing updates"
+      title="Keep up with the ideas without adding noise to your inbox."
+    />
   </div>
 
   <div class="
-    panel-card relative z-10 p-6
+    panel-card p-6
     sm:p-7
   "
   >
-    <p
-      aria-atomic="true"
-      aria-live="polite"
-      class="sr-only"
-      x-text="subscribed ? 'Subscription successful' : ''"
-    >
-    </p>
-
-    <div x-show="!subscribed" class="space-y-4" x-transition>
-      <form
-        @submit.prevent="subscribe()"
-        class="
-          flex flex-col gap-3
-          sm:flex-row
-        "
-      >
-        <input
-          class="
-            field-surface
-            sm:flex-1
-          "
-          placeholder="Enter your email"
-          required
-          type="email"
-          x-model="email"
-        />
-        <button
-          class="
-            flex min-h-12 cursor-pointer items-center justify-center
-            rounded-full border border-brand bg-brand px-6 py-3 text-sm
-            font-semibold tracking-[0.01em] text-white transition-all
-            duration-200
-            hover:-translate-y-0.5 hover:bg-brand/90
-            motion-reduce:transition-none
-            motion-reduce:hover:translate-y-0
-          "
-          type="submit"
-        >
-          Subscribe
-        </button>
-      </form>
-      <p class="text-sm/6 text-ink-soft">
-        No spam, ever. Just high-signal notes on systems, delivery, and engineering craft.
-      </p>
-    </div>
-
-    <div
-      x-show="subscribed"
-      class="
-        flex flex-col items-center gap-4 text-center
-        sm:items-start sm:text-left
-      "
-      x-cloak
-      x-transition
-    >
+    <div class="space-y-6">
       <div class="
-        flex size-16 items-center justify-center rounded-full bg-brand-soft
-        text-brand
+        grid gap-3
+        sm:grid-cols-2
       "
       >
-        <Icon aria-hidden="true" class="size-8" name="tabler:check" />
+        {writingChannels.map(({ description, title }) => (
+          <div class="mini-note">
+            <p class="section-label">{title}</p>
+            <p class="mt-2 text-sm/7 text-ink-soft">{description}</p>
+          </div>
+        ))}
       </div>
-      <div class="space-y-2">
-        <p class="section-label text-brand">Subscribed</p>
-        <h3 class="text-2xl font-bold text-ink">You’re in.</h3>
-        <p class="text-sm/6 text-ink-soft">
-          Thanks for subscribing. Check your inbox to confirm your email.
+
+      <div class="section-actions">
+        <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
+          Follow on Medium
+        </ButtonLink>
+        <ButtonLink href="/blog/" showArrow variant="secondary">
+          Browse the archive
+        </ButtonLink>
+      </div>
+
+      <div class="mini-note">
+        <p class="section-label">Inbox policy</p>
+        <p class="mt-2 text-sm/7 text-ink-soft">
+          If a proper newsletter comes back, it will stay high-signal: architecture, automation, and delivery
+          notes only.
         </p>
       </div>
-      <button
-        class="
-          cursor-pointer text-sm font-medium text-ink-muted underline
-          underline-offset-4
-          hover:text-ink
-        "
-        type="button"
-        @click="subscribed = false"
-      >
-        Subscribe another email
-      </button>
     </div>
   </div>
 </section>

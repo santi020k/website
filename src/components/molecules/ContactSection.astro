@@ -4,245 +4,127 @@ import { Icon } from 'astro-icon/components'
 import SectionHeading from './SectionHeading.astro'
 
 import { siteConfig } from '../../site.config'
+import ButtonLink from '../atoms/ButtonLink.astro'
 
-const submitButtonClass = `
-  group flex min-h-12 w-full cursor-pointer items-center justify-center gap-3
-  rounded-full border border-brand bg-brand px-5 py-3 text-sm font-semibold
-  tracking-[0.01em] text-white transition-all duration-200
-  hover:-translate-y-0.5 hover:bg-brand/90
-  disabled:cursor-not-allowed disabled:opacity-60
-  motion-reduce:transition-none motion-reduce:hover:translate-y-0
-`
-
-const submitIconClass = `
-  size-5 transition-transform duration-200
-  motion-safe:group-hover:translate-x-0.5
-  motion-safe:group-hover:-translate-y-0.5
-  motion-reduce:transition-none
-`
-
-const spinnerIconClass = 'size-5 animate-spin motion-reduce:animate-none'
+const contactChannels = [
+  {
+    action: 'Start an email',
+    description: 'Best for project scopes, consulting, and engineering leadership conversations.',
+    href: `mailto:${siteConfig.contact.email}`,
+    icon: 'tabler:mail',
+    label: 'Email',
+    value: siteConfig.contact.email
+  },
+  {
+    action: 'Message on LinkedIn',
+    description: 'A good fit for faster async conversations, referrals, and role discussions.',
+    href: siteConfig.contact.linkedin,
+    icon: 'tabler:brand-linkedin',
+    label: 'LinkedIn',
+    newTab: true,
+    value: '/in/santi020k'
+  },
+  {
+    action: 'Open WhatsApp',
+    description: 'Useful when you want to move quickly and keep the conversation lightweight.',
+    href: siteConfig.contact.whatsapp,
+    icon: 'tabler:brand-whatsapp',
+    label: 'WhatsApp',
+    newTab: true,
+    value: '+57 350 799 0136'
+  }
+]
 ---
 
 <section
   id="contact"
-  class="
-    section-shell grid gap-10
-    lg:grid-cols-[0.95fr_1.05fr] lg:items-start
-  "
+  class="editorial-section"
   data-animate
-  x-data="{
-    status: 'idle',
-    formData: { name: '', email: '', message: '' },
-    async submit() {
-      this.status = 'sending';
-      try {
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        this.status = 'success';
-        this.formData = { name: '', email: '', message: '' };
-      } catch (e) {
-        this.status = 'error';
-      }
-    }
-  }"
 >
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0 grid-fade opacity-35"
-  />
-
-  <div class="relative z-10 space-y-6">
+  <div class="space-y-6">
     <SectionHeading
       description="Whether you have a project in flight or just want to compare notes on engineering leadership, architecture, and developer experience, I'm always open to a thoughtful conversation."
       eyebrow="Contact"
-      title="Let’s build something useful together."
+      title="Let's build something useful together."
     />
 
-    <div class="grid gap-4">
-      <div class="panel-card flex items-start gap-4 p-5">
-        <div class="
-          flex size-12 shrink-0 items-center justify-center rounded-2xl
-          bg-brand-soft text-brand
-        "
-        >
-          <Icon aria-hidden="true" class="size-6" name="tabler:mail" />
-        </div>
-        <div class="space-y-1">
-          <p class="section-label">Email</p>
-          <a
-            class="
-              text-lg font-semibold text-ink transition-colors
-              hover:text-brand
-            "
-            href={`mailto:${siteConfig.contact.email}`}
-          >
-            {siteConfig.contact.email}
-          </a>
-          <p class="text-sm/6 text-ink-soft">Best for project inquiries, consulting, and leadership roles.</p>
-        </div>
+    <div class="
+      grid gap-3
+      sm:grid-cols-2
+      lg:grid-cols-1
+    "
+    >
+      <div class="mini-note">
+        <p class="section-label">Availability</p>
+        <p class="mt-2 text-sm/7 text-ink-soft">{siteConfig.availability}</p>
       </div>
-
-      <div class="panel-card flex items-start gap-4 p-5">
-        <div class="
-          flex size-12 shrink-0 items-center justify-center rounded-2xl
-          bg-brand-soft text-brand
-        "
-        >
-          <Icon aria-hidden="true" class="size-6" name="tabler:brand-linkedin" />
-        </div>
-        <div class="space-y-1">
-          <p class="section-label">LinkedIn</p>
-          <a
-            class="
-              text-lg font-semibold text-ink transition-colors
-              hover:text-brand
-            "
-            href={siteConfig.contact.linkedin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            /in/santi020k
-          </a>
-          <p class="text-sm/6 text-ink-soft">A good option if you prefer a faster async conversation.</p>
-        </div>
+      <div class="mini-note">
+        <p class="section-label">Response window</p>
+        <p class="mt-2 text-sm/7 text-ink-soft">
+          Most messages get a reply within one to two business days, usually faster for short intros.
+        </p>
       </div>
     </div>
   </div>
 
   <div class="
-    panel-card relative z-10 p-6
+    panel-card p-6
     sm:p-8
   "
   >
-    <p
-      aria-atomic="true"
-      aria-live="polite"
-      class="sr-only"
-      x-text="status === 'sending' ? 'Sending message' : status === 'success' ? 'Message sent successfully' : status === 'error' ? 'There was an error sending your message' : ''"
-    >
-    </p>
-
-    <form
-      x-show="status !== 'success'"
-      @submit.prevent="submit()"
-      class="space-y-6"
-    >
-      <div class="
-        grid gap-6
-        sm:grid-cols-2
-      "
-      >
-        <div class="space-y-2">
-          <label
-            class="text-sm font-semibold tracking-wide text-ink/80"
-            for="name"
-          >
-            Full Name
-          </label>
-          <input
-            id="name"
-            class="field-surface"
-            placeholder="Santiago Molina"
-            required
-            type="text"
-            x-model="formData.name"
-          />
-        </div>
-
-        <div class="space-y-2">
-          <label
-            class="text-sm font-semibold tracking-wide text-ink/80"
-            for="email"
-          >
-            Email address
-          </label>
-          <input
-            id="email"
-            class="field-surface"
-            placeholder="you@example.com"
-            required
-            type="email"
-            x-model="formData.email"
-          />
-        </div>
-      </div>
-
+    <div class="space-y-6">
       <div class="space-y-2">
-        <label
-          class="text-sm font-semibold tracking-wide text-ink/80"
-          for="message"
-        >
-          How can I help?
-        </label>
-        <textarea
-          id="message"
-          class="min-h-40 field-surface resize-none"
-          placeholder="Tell me about your project, team, or the kind of systems you need help shipping."
-          required
-          rows="5"
-          x-model="formData.message"
-        >
-        </textarea>
-      </div>
-
-      <button :disabled="status === 'sending'" class={submitButtonClass} type="submit">
-        <span x-text="status === 'sending' ? 'Sending...' : 'Send message'"></span>
-        <Icon
-          aria-hidden="true"
-          class={submitIconClass}
-          name="tabler:send-2"
-          x-show="status !== 'sending'"
-        />
-        <Icon
-          aria-hidden="true"
-          class={spinnerIconClass}
-          name="tabler:loader-2"
-          x-cloak
-          x-show="status === 'sending'"
-        />
-      </button>
-    </form>
-
-    <div
-      x-show="status === 'success'"
-      class="flex flex-col items-center gap-6 py-10 text-center"
-      x-cloak
-      x-transition:enter="transition ease-out duration-500"
-      x-transition:enter-start="opacity-0 scale-95"
-      x-transition:enter-end="opacity-100 scale-100"
-    >
-      <div class="
-        relative flex size-20 items-center justify-center rounded-full
-        bg-brand-soft text-brand
-      "
-      >
-        <div class="
-          absolute inset-0 animate-ping rounded-full bg-brand/15
-          motion-reduce:animate-none
+        <p class="section-label">Direct contact</p>
+        <h3 class="
+          text-2xl
+          sm:text-3xl
         "
-        >
-        </div>
-        <Icon aria-hidden="true" class="relative z-10 size-12" name="tabler:circle-check-filled" />
+        >Pick the channel that matches the conversation.
+        </h3>
       </div>
 
-      <div class="space-y-2">
-        <p class="section-label text-brand">Message received</p>
-        <h3 class="text-3xl font-bold text-ink">I’ll be in touch shortly.</h3>
-        <p class="mx-auto max-w-sm text-base/7 text-ink-soft">
-          Thanks for reaching out. I usually reply within one to two business days.
-        </p>
-      </div>
+      <div class="space-y-5">
+        {contactChannels.map(({ action, description, href, icon, label, newTab = false, value }, index) => (
+          <div
+            class:list={[
+              `
+                flex flex-col gap-4
+                sm:flex-row sm:items-start sm:justify-between
+              `,
+              index > 0 && 'border-t border-line/60 pt-5'
+            ]}
+          >
+            <div class="flex gap-4">
+              <div class="
+                flex size-12 shrink-0 items-center justify-center rounded-2xl
+                bg-brand-soft text-brand
+              "
+              >
+                <Icon aria-hidden="true" class="size-6" name={icon} />
+              </div>
+              <div class="space-y-2">
+                <p class="section-label">{label}</p>
+                <a
+                  class="
+                    block text-lg font-semibold text-ink transition-colors
+                    hover:text-brand
+                  "
+                  href={href}
+                  rel={newTab ? 'noopener noreferrer' : undefined}
+                  target={newTab ? '_blank' : undefined}
+                >
+                  {value}
+                </a>
+                <p class="max-w-md text-sm/6 text-ink-soft">{description}</p>
+              </div>
+            </div>
 
-      <button
-        class="
-          cursor-pointer text-sm font-semibold text-brand transition-colors
-          hover:text-accent
-        "
-        type="button"
-        @click="status = 'idle'"
-      >
-        Send another message
-      </button>
+            <ButtonLink className="shrink-0" href={href} newTab={newTab} showArrow variant="secondary">
+              {action}
+            </ButtonLink>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 </section>

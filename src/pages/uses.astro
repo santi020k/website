@@ -1,0 +1,168 @@
+---
+import ButtonLink from '../components/atoms/ButtonLink.astro'
+import SectionHeading from '../components/molecules/SectionHeading.astro'
+import { usesHighlights, usesSections } from '../data/profile'
+import PageLayout from '../layouts/Base.astro'
+import { siteConfig } from '../site.config'
+
+const description =
+  'A practical look at the tools, workflow defaults, and setup principles Santiago Molina uses for engineering leadership, architecture, writing, and delivery.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Uses', url: '/uses/' }
+]
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  description,
+  mainEntity: {
+    '@type': 'Person',
+    knowsAbout: [
+      'TypeScript',
+      'React',
+      'Astro',
+      'Node.js',
+      'Developer Experience',
+      'Engineering Leadership'
+    ],
+    name: siteConfig.author
+  },
+  name: 'Uses'
+}
+---
+
+<PageLayout meta={{
+  breadcrumbs,
+  description,
+  structuredData,
+  title: 'Uses & Workflow'
+}}
+>
+  <section
+    class="
+      grid gap-10
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+    data-animate
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description="This is less a gear shrine and more a map of the setup I keep returning to: the tools, workflow defaults, and working principles that help me ship consistently."
+        eyebrow="Uses"
+        level="h1"
+        title="The stack and workflow behind the day-to-day work."
+      />
+      <p class="
+        max-w-3xl text-base/7 text-ink-soft
+        sm:text-lg/8
+      "
+      >
+        I care more about reliable systems than maximalist setups. The goal is simple: reduce friction, keep
+        feedback loops short, and make it easier to move between architecture, implementation, writing, and
+        leadership work without losing focus.
+      </p>
+      <div class="section-actions">
+        <ButtonLink href="/portfolio/" showArrow>
+          See the portfolio
+        </ButtonLink>
+        <ButtonLink href="/speaking/" showArrow variant="secondary">
+          Explore speaking
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div
+      class="
+        grid gap-3
+        sm:grid-cols-3
+        lg:grid-cols-1
+      "
+    >
+      {usesHighlights.map(highlight => (
+        <div class="mini-note">
+          <p class="section-label">{highlight.label}</p>
+          <p class="mt-2 text-sm/7 text-ink-soft">{highlight.value}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="The exact setup changes over time, but these are the patterns and tools that show up most often in how I build, lead, and keep work moving."
+      eyebrow="Current setup"
+      title="What I reach for most often."
+    />
+    <div class="space-y-6">
+      {usesSections.map(section => (
+        <article class="
+          panel-card space-y-6 p-6
+          sm:p-7
+        "
+        >
+          <div class="space-y-3">
+            <p class="section-label">{section.title}</p>
+            <p class="text-base/7 text-ink-soft">{section.description}</p>
+          </div>
+          <div
+            class="
+              grid gap-4
+              lg:grid-cols-3
+            "
+          >
+            {section.items.map(item => (
+              <div class="mini-note">
+                <p class="section-label">{item.label}</p>
+                <p class="mt-3 text-sm/7 text-ink-soft">{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="The tools matter because they support the work. The work itself is still about helping teams build better software with less avoidable friction."
+      eyebrow="Operating principle"
+      title="A useful setup should disappear into the background."
+    />
+    <div class="space-y-6">
+      <article class="
+        panel-card space-y-4 p-6
+        sm:p-7
+      "
+      >
+        <p class="text-base/7 text-ink-soft">
+          If a tool improves clarity, feedback speed, quality, or collaboration, I keep it. If it turns into
+          performative complexity, I lose interest quickly. That bias shows up in the technologies I choose,
+          the standards I introduce, and the kind of delivery systems I build around a team.
+        </p>
+      </article>
+      <div
+        class="
+          grid gap-4
+          sm:grid-cols-2
+        "
+      >
+        <div class="mini-note">
+          <p class="section-label">Worth optimizing</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">
+            Fast local feedback, clear documentation, dependable testing, and automation that makes release work
+            feel calmer.
+          </p>
+        </div>
+        <div class="mini-note">
+          <p class="section-label">Usually not worth it</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">
+            Chasing novelty for its own sake, rebuilding stable systems without a product reason, or adding
+            process that only looks rigorous from a distance.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

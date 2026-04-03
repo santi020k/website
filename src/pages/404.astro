@@ -13,97 +13,48 @@ const meta = {
   <section
     aria-labelledby="error-heading"
     class="
-      relative mx-auto max-w-3xl overflow-hidden rounded-4xl p-8 text-center
-      panel-surface
-      sm:p-14
+      grid gap-10
+      lg:grid-cols-[1fr_0.72fr] lg:items-start
     "
     role="alert"
+    data-animate
   >
-    <!-- Grid fade background decoration -->
-    <div aria-hidden="true" class="absolute inset-0 grid-fade opacity-60" />
-
-    <!-- Orbital SVG decoration -->
-    <div
-      aria-hidden="true"
-      class="
-        pointer-events-none absolute inset-0 flex items-center justify-center
-        opacity-[0.07]
-      "
-    >
-      <svg
-        class="
-          size-[480px]
-          motion-reduce:hidden
-        "
-        fill="none"
-        viewBox="0 0 480 480"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle class="animate-[spin_18s_linear_infinite]" cx="240" cy="240" r="190" stroke="currentColor" stroke-dasharray="16 12" stroke-width="1.5" style="transform-origin:center" />
-        <circle class="animate-[spin_28s_linear_infinite_reverse]" cx="240" cy="240" r="130" stroke="currentColor" stroke-dasharray="8 20" stroke-width="1" style="transform-origin:center" />
-        <circle cx="240" cy="240" r="56" stroke="currentColor" stroke-opacity="0.6" stroke-width="1" />
-      </svg>
-    </div>
-
-    <!-- Content -->
-    <div class="relative flex flex-col items-center gap-6">
-      <!-- 404 hero numeral -->
-      <div class="
-        animate-slide-up
-        motion-reduce:animate-none
+    <div class="space-y-6">
+      <span class="
+        inline-flex items-center rounded-full border border-brand/25
+        bg-brand-soft/78 px-3 py-1 text-[0.72rem] font-semibold
+        tracking-[0.24em] text-brand uppercase
       "
       >
+        404 · Page not found
+      </span>
+
+      <div class="space-y-4">
         <span
           aria-hidden="true"
           class="
-            block bg-linear-to-b from-brand via-accent to-glow bg-clip-text
-            font-display text-[7.5rem] leading-none font-black tracking-tighter
-            text-transparent select-none
-            sm:text-[10rem]
+            block text-[6.25rem] leading-none font-black tracking-[-0.08em]
+            text-brand/85 select-none
+            sm:text-[8rem]
           "
         >
           404
         </span>
-      </div>
-
-      <!-- Label + heading + description -->
-      <div
-        class="
-          flex animate-slide-up flex-col items-center gap-3
-          motion-reduce:animate-none
-        "
-        style="animation-delay: 80ms"
-      >
-        <span class="
-          inline-flex items-center rounded-full border border-brand/30
-          bg-brand-soft/80 px-3 py-1 text-[0.72rem] font-semibold
-          tracking-[0.24em] text-brand uppercase
-        "
-        >
-          Page not found
-        </span>
         <h1
           class="
-            max-w-md text-2xl
-            sm:text-3xl
+            max-w-xl text-3xl
+            sm:text-4xl
           "
           id="error-heading"
         >
           This page drifted out of orbit.
         </h1>
-        <p class="max-w-sm text-base/7 text-ink-soft">
+        <p class="max-w-md text-base/7 text-ink-soft">
           The route may have changed, or the page may never have existed in this version of the site.
         </p>
       </div>
 
-      <!-- CTAs -->
-      <div
-        class="
-          flex animate-slide-up flex-wrap justify-center gap-3
-          motion-reduce:animate-none
-        "
-        style="animation-delay: 160ms"
-      >
+      <div class="section-actions">
         <ButtonLink href="/" showArrow>
           Back home
         </ButtonLink>
@@ -113,10 +64,57 @@ const meta = {
         <ButtonLink href="/blog/" showArrow variant="ghost">
           Read blog
         </ButtonLink>
-        <!-- TODO: I'm not sure about showing this -->
-        <!-- <ButtonLink href="/technologies/" showArrow variant="ghost">
-          View stack
-        </ButtonLink> -->
+      </div>
+    </div>
+
+    <div class="editorial-rail">
+      <div class="mini-note">
+        <p class="section-label">Try these instead</p>
+        <div class="mt-4 space-y-3 text-sm/7 text-ink-soft">
+          <p>
+            <a
+              class="
+                font-medium text-ink transition-colors
+                hover:text-brand
+              "
+              href="/portfolio/"
+            >
+              Portfolio
+            </a>
+            {' '}
+            for recent case studies, shipped systems, and product work.
+          </p>
+          <p>
+            <a
+              class="
+                font-medium text-ink transition-colors
+                hover:text-brand
+              "
+              href="/blog/"
+            >
+              Blog
+            </a>
+            {' '}
+            for architecture, automation, and developer experience writing.
+          </p>
+          <p>
+            <a
+              class="
+                font-medium text-ink transition-colors
+                hover:text-brand
+              "
+              href="/about/"
+            >
+              About
+            </a>
+            {' '}
+            for a quick overview of experience, leadership style, and community work.
+          </p>
+        </div>
+      </div>
+
+      <div class="panel-card overflow-hidden">
+        <div aria-hidden="true" class="aspect-4/3 grid-fade opacity-75" />
       </div>
     </div>
   </section>

@@ -2,9 +2,17 @@
 import { version } from '../../../package.json'
 import ContactSection from '../../components/molecules/ContactSection.astro'
 import NewsletterBox from '../../components/molecules/NewsletterBox.astro'
-import { siteConfig } from '../../site.config'
+import { menuLinks, siteConfig } from '../../site.config'
 
 const year = new Date().getFullYear()
+
+const footerLinks = [
+  ...menuLinks,
+  {
+    path: '/uses/',
+    title: 'Uses'
+  }
+]
 ---
 
 <footer class="
@@ -19,25 +27,75 @@ const year = new Date().getFullYear()
     <NewsletterBox />
 
     <div class="
-      section-shell-subtle grid gap-8
-      md:grid-cols-[2fr_1fr]
+      grid gap-10 border-t border-line/70 pt-10
+      lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.75fr)_minmax(0,0.9fr)]
     "
     >
       <div class="space-y-4">
         <p class="section-label">Santiago Molina</p>
-        <h3 class="text-2xl font-bold">{siteConfig.author}</h3>
+        <h3 class="max-w-md text-2xl font-bold">Engineering leadership with a builder's mindset.</h3>
         <p class="max-w-md text-sm/6 text-ink-soft">
           Engineering leader and full-stack architect specializing in resilient systems,
           technical leadership, and developer experience.
         </p>
       </div>
 
-      <div class="
-        space-y-6
-        md:text-right
-      "
+      <nav
+        aria-label="Footer navigation"
+        class="space-y-4"
       >
-        <div class="space-y-2 text-sm text-ink-muted">
+        <p class="section-label">Navigate</p>
+        <ul class="space-y-3 text-sm/6 text-ink-soft">
+          {footerLinks.map(link => (
+            <li>
+              <a
+                class="
+                  transition-colors
+                  hover:text-brand
+                "
+                href={link.path}
+              >
+                {link.title}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a
+              class="
+                transition-colors
+                hover:text-brand
+              "
+              href={siteConfig.contact.resume}
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              Resume
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="space-y-4">
+        <p class="section-label">Elsewhere</p>
+        <ul class="space-y-3 text-sm/6 text-ink-soft">
+          {siteConfig.socialLinks.map(({ href, label }) => (
+            <li>
+              <a
+                class="
+                  transition-colors
+                  hover:text-brand
+                "
+                href={href}
+                rel="noreferrer noopener"
+                target="_blank"
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div class="pt-2 text-sm/6 text-ink-muted">
           <p>{siteConfig.location}</p>
           <p>{siteConfig.availability}</p>
           <p>&copy; {year} {siteConfig.author}. Version v{version}.</p>

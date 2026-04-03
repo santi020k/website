@@ -1,0 +1,180 @@
+---
+import ButtonLink from '../components/atoms/ButtonLink.astro'
+import SectionHeading from '../components/molecules/SectionHeading.astro'
+import { speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
+import PageLayout from '../layouts/Base.astro'
+import { siteConfig } from '../site.config'
+
+const description =
+  'Talks, workshops, and engineering conversations about developer experience, technical leadership, frontend architecture, and calmer delivery systems.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Speaking', url: '/speaking/' }
+]
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  description,
+  mainEntity: {
+    '@type': 'Person',
+    jobTitle: 'Engineering Leader & Full-Stack Architect',
+    knowsAbout: speakingTopics.map(topic => topic.title),
+    name: siteConfig.author,
+    sameAs: [siteConfig.contact.github, siteConfig.contact.linkedin, siteConfig.contact.medium]
+  },
+  name: 'Speaking'
+}
+---
+
+<PageLayout meta={{
+  breadcrumbs,
+  description,
+  structuredData,
+  title: 'Speaking & Workshops'
+}}
+>
+  <section
+    class="
+      grid gap-10
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+    data-animate
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description="I enjoy sessions that are practical, opinionated, and grounded in shipped work. The best talks usually sit at the intersection of leadership, architecture, workflow design, and the small technical choices that make teams faster or slower."
+        eyebrow="Speaking"
+        level="h1"
+        title="Talks, workshops, and engineering conversations."
+      />
+      <p class="
+        max-w-3xl text-base/7 text-ink-soft
+        sm:text-lg/8
+      "
+      >
+        Through ReactJS Colombia, published writing, and day-to-day leadership work, I keep coming back to the
+        same themes: better developer experience, clearer technical standards, and systems that help teams ship
+        with more confidence.
+      </p>
+      <div class="section-actions">
+        <ButtonLink href={`mailto:${siteConfig.contact.email}`} showArrow>
+          Invite me to speak
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Connect on LinkedIn
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div
+      class="
+        grid gap-3
+        sm:grid-cols-3
+        lg:grid-cols-1
+      "
+    >
+      {speakingHighlights.map(highlight => (
+        <div class="mini-note">
+          <p class="section-label">{highlight.label}</p>
+          <p class="mt-2 text-lg font-semibold text-ink">{highlight.value}</p>
+          <p class="mt-2 text-sm/7 text-ink-soft">{highlight.description}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="The strongest sessions for me are the ones that translate hard-won engineering lessons into something teams can use the next day."
+      eyebrow="Topics"
+      title="What I like to speak about."
+    />
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+    >
+      {speakingTopics.map(topic => (
+        <article class="
+          panel-card h-full space-y-4 p-6
+          sm:p-7
+        "
+        >
+          <h2 class="text-2xl font-semibold text-ink">{topic.title}</h2>
+          <p class="text-sm/7 text-ink-soft">{topic.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Good speaking opportunities do not all look the same. I am comfortable in community rooms, workshops, and internal engineering sessions where the goal is alignment as much as inspiration."
+      eyebrow="Formats"
+      title="Formats that fit teams, communities, and leadership conversations."
+    />
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+    >
+      {speakingFormats.map(format => (
+        <article class="
+          panel-card h-full space-y-4 p-6
+          sm:p-7
+        "
+        >
+          <p class="section-label">{format.title}</p>
+          <p class="text-base/7 text-ink-soft">{format.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Speaking is one of the clearest ways I know to turn private engineering lessons into something useful for more people."
+      eyebrow="Why it matters"
+      title="Community work keeps the engineering practice honest."
+    />
+    <div class="space-y-6">
+      <article class="
+        panel-card space-y-4 p-6
+        sm:p-7
+      "
+      >
+        <p class="section-label">What that looks like in practice</p>
+        <p class="text-base/7 text-ink-soft">
+          Co-organizing ReactJS Colombia has shaped how I think about mentoring, accessibility, and explaining
+          technical tradeoffs without turning them into ego contests. It also keeps me close to the kinds of
+          questions engineers are actually asking in the wild.
+        </p>
+      </article>
+      <div
+        class="
+          grid gap-4
+          sm:grid-cols-2
+        "
+      >
+        <div class="mini-note">
+          <p class="section-label">Community sessions</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">
+            Best for React, TypeScript, DX, testing, architecture, and practical workflows teams can adopt
+            quickly.
+          </p>
+        </div>
+        <div class="mini-note">
+          <p class="section-label">Team sessions</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">
+            Strong fit for internal enablement, onboarding, technical standards, release process improvements,
+            and leadership roundtables.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

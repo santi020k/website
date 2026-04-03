@@ -29,18 +29,20 @@ const {
       motion-reduce:active:scale-100
     `,
     variant === 'primary' && `
-      border-brand bg-brand px-5 py-3 text-white shadow-sm
-      hover:-translate-y-0.5 hover:bg-brand/90
+      border-brand bg-brand px-5 py-3 text-white
+      shadow-[0_10px_24px_hsl(var(--brand)/0.14)]
+      hover:-translate-y-0.5 hover:bg-brand/92
       active:scale-[0.98]
     `,
     variant === 'secondary' && `
-      border-line/75 bg-surface/80 px-5 py-3 text-ink
-      hover:-translate-y-0.5 hover:border-brand/40 hover:text-brand
+      border-line/70 bg-surface/72 px-5 py-3 text-ink
+      hover:-translate-y-0.5 hover:border-brand/30 hover:bg-surface
+      hover:text-brand
       active:scale-[0.98]
     `,
     variant === 'ghost' && `
       border-transparent px-4 py-2.5 text-ink-soft
-      hover:bg-surface-muted/80 hover:text-ink
+      hover:bg-surface-muted/72 hover:text-ink
       active:scale-[0.98]
     `,
     variant === 'inline' && `
