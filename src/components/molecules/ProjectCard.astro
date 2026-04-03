@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
-import { getProjectPath, getTechnologyPath } from '../../utils/links'
+import { getPortfolioPath, getTechnologyPath } from '../../utils/links'
 import FormattedDate from '../atoms/FormattedDate.astro'
 import Pill from '../atoms/Pill.astro'
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { project } = Astro.props
-const projectLink = getProjectPath(project.id)
+const projectLink = getPortfolioPath(project.id)
 ---
 
 <article class="group relative overflow-hidden rounded-[1.75rem] panel-surface">
