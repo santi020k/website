@@ -3,10 +3,9 @@ title: "Atomic Module Component Structure for React"
 description: "In this post, I share insights into establishing a robust structure for React projects using an Atomic Module Component approach. From initial scaffolding to na..."
 publishDate: "2024-03-07T22:05:53.000Z"
 tags: ["development", "react", "nextjs", "typescript"]
-canonicalUrl: "https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c?source=rss-493338f85a63"
 coverImage:
   alt: "atomic module component structure for react 34464b05832c"
-  src: "./atomic-module-component-structure-for-react-34464b05832c-cover.png"
+  src: "./atomic-module-component-structure-for-react-cover.png"
 ---
 
 In this post, I share insights into establishing a robust structure for React projects using an Atomic Module Component approach. From initial scaffolding to naming conventions, discover best practices for maintaining scalability and organization in your codebase.
@@ -75,7 +74,7 @@ I find atomic design to be an ideal structure because it’s the same structure 
 
 Here’s an example of a button component:
 
-![Button component folder](./atomic-module-component-structure-for-react-34464b05832c-fig-2.png)
+![Button component folder](./atomic-module-component-structure-for-react-fig-2.png)
 
 Another common mistake in frontend development is separating a component’s code into multiple folders: one for tests, one for interfaces/types, one for components, etc. This greatly complicates code navigation. Personally, I prefer to have everything related to a component in one place, like the previous example.
 
