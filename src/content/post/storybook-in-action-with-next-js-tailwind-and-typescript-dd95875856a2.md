@@ -18,8 +18,6 @@ coverImage:
   src: ./storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2-fig-1.png
 ---
 
-![Storybook in Action with Next.js, Tailwind and TypeScript](./storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2-fig-1.png)
-
 Continuing from our previous post on optimizing development workflows, today we’ll explore the power of Visual Development Experience (VDE) with Storybook in Action, alongside Next.js. While our last discussion emphasized the importance of pre-commit systems in ensuring code quality and stability, this post dives into enhancing UI development through Storybook’s isolated component environment. Let’s unlock the potential of these tools to streamline development, foster collaboration, and maintain UI consistency across projects.
 
 [Read the Previous Post: Implementing Husky for Next.js](https://medium.com/@santi020k/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092)
