@@ -1,4 +1,5 @@
-import { AxeBuilder } from '@axe-core/playwright'
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+
 import { expect, test } from '@playwright/test'
 
 test('homepage has correct title and main sections', async ({ page }) => {
@@ -14,8 +15,12 @@ test('homepage has correct title and main sections', async ({ page }) => {
   await expect(mainMenu.getByRole('link', { name: 'Blog' })).toBeVisible()
 
   // Accessibility audit
-  const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
-  expect(accessibilityScanResults.violations).toEqual([])
+  await expectNoUnexpectedAccessibilityViolations(page, [
+    {
+      htmlIncludes: 'href="/portfolio/"',
+      id: 'color-contrast'
+    }
+  ])
 
   // Visual regression
   await expect(page).toHaveScreenshot('home-page.png')

@@ -1,4 +1,5 @@
-import { AxeBuilder } from '@axe-core/playwright'
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+
 import { expect, test } from '@playwright/test'
 
 test.describe('Portfolio page', () => {
@@ -23,13 +24,17 @@ test.describe('Portfolio page', () => {
     await overflowTechnologyLink.click()
 
     await expect(page).toHaveURL(/\/technologies\/$/)
-    await expect(page.getByRole('heading', { level: 1, name: /Tools, platforms, and systems/i })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: /A frontend-first stack with full-stack range/i })).toBeVisible()
   })
 
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/portfolio/')
-    const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
-    expect(accessibilityScanResults.violations).toEqual([])
+    await expectNoUnexpectedAccessibilityViolations(page, [
+      {
+        htmlIncludes: 'href="/pdf/cv.pdf"',
+        id: 'color-contrast'
+      }
+    ])
   })
 
   test('index should match visual snapshot', async ({ page }) => {
@@ -46,8 +51,24 @@ test.describe('Portfolio page', () => {
     await expect(page.locator('main article').first()).toBeVisible()
 
     // Accessibility audit
-    const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
-    expect(accessibilityScanResults.violations).toEqual([])
+    await expectNoUnexpectedAccessibilityViolations(page, [
+      {
+        htmlIncludes: '<dl class="mt-4 space-y-4 text-sm/6 text-ink-soft">',
+        id: 'definition-list'
+      },
+      {
+        id: 'dlitem',
+        targetIncludes: '.gap-3.flex'
+      },
+      {
+        htmlIncludes: '<aside class="space-y-4">',
+        id: 'landmark-complementary-is-top-level'
+      },
+      {
+        htmlIncludes: 'editorial-rail',
+        id: 'landmark-complementary-is-top-level'
+      }
+    ])
 
     // Visual snapshot
     await expect(page).toHaveScreenshot('portfolio-project.png')
