@@ -2,6 +2,9 @@
 import type { CollectionEntry } from 'astro:content'
 
 import { getPortfolioPath, getTechnologyPath } from '../../utils/links'
+import { getProjectDateRangeLabel, getProjectTypeLabel } from '../../utils/project-meta'
+import { sortTechnologiesByInterest } from '../../utils/technologies'
+import ButtonLink from '../atoms/ButtonLink.astro'
 import CoverImage from '../atoms/CoverImage.astro'
 import FormattedDate from '../atoms/FormattedDate.astro'
 import Pill from '../atoms/Pill.astro'
@@ -14,11 +17,23 @@ interface Props {
 
 const { className = '', featured = false, project } = Astro.props
 const projectLink = getPortfolioPath(project.id)
-const imageSizes = featured ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
+const technologyLimit = featured ? 5 : 4
+const sortedTechnologies = sortTechnologiesByInterest(project.data.technologies)
+const hiddenTechnologyCount = Math.max(0, sortedTechnologies.length - technologyLimit)
+const hiddenTechnologyLabel = `+${hiddenTechnologyCount} ${hiddenTechnologyCount === 1 ? 'technology' : 'technologies'}`
+
+const imageSizes = featured ?
+  '(min-width: 1024px) 60vw, 100vw' :
+  '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
+
+const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const projectYearsLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
+
 const coverAspectRatio =
   project.data.coverImage?.src ?
     project.data.coverImage.src.width / project.data.coverImage.src.height :
     16 / 10
+
 let coverOrientation: 'landscape' | 'portrait' | 'square' = 'landscape'
 
 if (coverAspectRatio < 0.92) {
@@ -47,17 +62,42 @@ const usesSplitLayout = featured && coverOrientation === 'landscape'
     className
   ]}
 >
-  <a aria-label={project.data.title} class="block" href={projectLink}>
+  <a aria-label={project.data.title} class="relative block overflow-hidden" href={projectLink}>
     {project.data.coverImage?.src ?
       (
-        <CoverImage
-          alt={project.data.coverImage.alt || project.data.title}
-          featured={featured}
-          featuredMinHeightClass="lg:min-h-92"
-          image={project.data.coverImage.src}
-          mode="card"
-          sizes={imageSizes}
-        />
+        <>
+          <CoverImage
+            alt={project.data.coverImage.alt || project.data.title}
+            featured={featured}
+            featuredMinHeightClass="lg:min-h-92"
+            image={project.data.coverImage.src}
+            mode="card"
+            sizes={imageSizes}
+          />
+          <div
+            aria-hidden="true"
+            class="
+              pointer-events-none absolute inset-x-0 bottom-0 h-32
+              bg-linear-to-t from-canvas/88 via-canvas/16 to-transparent
+            "
+          >
+          </div>
+          <div class="
+            pointer-events-none absolute inset-x-0 top-0 flex items-start
+            justify-between gap-3 p-4
+            sm:p-5
+          "
+          >
+            <Pill label={featured ? 'Featured case study' : projectTypeLabel} tone="brand" />
+            <span class="
+              rounded-full border border-white/12 bg-canvas/60 px-3 py-1.5
+              text-xs font-semibold tracking-[0.16em] text-white/80 uppercase
+              backdrop-blur-sm
+            "
+            >{projectYearsLabel}
+            </span>
+          </div>
+        </>
       ) :
       (
         <div class="
@@ -80,7 +120,7 @@ const usesSplitLayout = featured && coverOrientation === 'landscape'
       sm:gap-3
     "
     >
-      {featured && <Pill label="Featured case study" tone="brand" />}
+      {!featured && <Pill label={projectTypeLabel} tone="outline" />}
       {project.data.rol && <span>{project.data.rol}</span>}
       {project.data.rol && (
         <span
@@ -120,21 +160,29 @@ const usesSplitLayout = featured && coverOrientation === 'landscape'
           {project.data.title}
         </a>
       </h3>
-      <p class:list={[featured ?
-        'max-w-2xl text-base/7' :
-        'line-clamp-4 text-sm/7', 'text-ink-soft']}
+      <p
+        class:list={[
+          featured ? 'max-w-2xl text-base/7' : 'line-clamp-4 text-sm/7',
+          'text-ink-soft'
+        ]}
       >
         {project.data.description}
       </p>
     </div>
 
-    <div class="mt-auto flex flex-wrap gap-2">
-      {project.data.technologies.slice(0, featured ? 5 : 4).map(technology => (
-        <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
-      ))}
-      {project.data.technologies.length > (featured ? 5 : 4) && (
-        <Pill label={`+${project.data.technologies.length - (featured ? 5 : 4)} more`} tone="neutral" />
-      )}
+    <div class="mt-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex flex-wrap gap-2">
+        {sortedTechnologies.slice(0, technologyLimit).map(technology => (
+          <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
+        ))}
+        {hiddenTechnologyCount > 0 && (
+          <Pill href={`${projectLink}#technologies`} label={hiddenTechnologyLabel} tone="neutral" />
+        )}
+      </div>
+
+      <ButtonLink href={projectLink} showArrow variant="inline">
+        Read case study
+      </ButtonLink>
     </div>
   </div>
 </article>

@@ -1,6 +1,6 @@
 ---
-import { Icon } from 'astro-icon/components'
 import { type CollectionEntry, render } from 'astro:content'
+import { Icon } from 'astro-icon/components'
 
 import BaseLayout from './Base.astro'
 
@@ -103,10 +103,7 @@ const breadcrumbs = [
       data-animate
     >
       <div class="min-w-0 space-y-8">
-        <div class="
-          section-shell-subtle space-y-6
-        "
-        >
+        <div class="section-shell-subtle space-y-6">
           <div class="
             flex flex-wrap items-start justify-between gap-4 border-b
             border-line/60 pb-6
@@ -121,7 +118,7 @@ const breadcrumbs = [
             <Pill label={projectStageLabel} tone="brand" />
           </div>
 
-          <div class="prose-santi prose-project max-w-none">
+          <div class="prose-project prose-santi max-w-none">
             <slot />
           </div>
         </div>
@@ -166,7 +163,11 @@ const breadcrumbs = [
         </footer>
       </div>
 
-      <aside class="editorial-rail">
+      <aside class="
+        editorial-rail
+        lg:self-start
+      "
+      >
         <div class="mini-note">
           <p class="section-label">At a glance</p>
           <dl class="mt-4 space-y-4 text-sm/6 text-ink-soft">
