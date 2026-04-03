@@ -19,7 +19,8 @@ import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import {
   transformerMetaHighlight,
-  transformerNotationDiff
+  transformerNotationDiff,
+  transformerNotationFocus
 } from '@shikijs/transformers'
 import tailwindcss from '@tailwindcss/vite'
 
@@ -129,11 +130,15 @@ export default defineConfig({
         rehypePrettyCode,
         {
           theme: {
-            light: 'rose-pine-dawn', // after changing the theme, the server needs to be restarted
-            dark: 'rose-pine' // after changing the theme, the server needs to be restarted
+            light: 'catppuccin-latte',
+            dark: 'catppuccin-mocha'
           },
 
-          transformers: [transformerNotationDiff(), transformerMetaHighlight()]
+          transformers: [
+            transformerNotationDiff(),
+            transformerMetaHighlight(),
+            transformerNotationFocus()
+          ]
         }
       ],
       rehypeUnwrapImages
