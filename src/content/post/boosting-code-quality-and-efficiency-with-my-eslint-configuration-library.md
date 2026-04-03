@@ -36,13 +36,13 @@ Although opinionated, the library is designed with flexibility in mind. You can 
 
 Start by ensuring you have ESLint installed in your project:
 
-```bash
+```bash title="terminal"
 npm install eslint --save-dev
 ```
 
 Then install my configuration package:
 
-```bash
+```bash title="terminal"
 npm install @santi020k/eslint-config-santi020k --save-dev
 ```
 
@@ -50,7 +50,7 @@ npm install @santi020k/eslint-config-santi020k --save-dev
 
 For a TypeScript and React project, your `.eslintrc.js` might look like this:
 
-```javascript
+```javascript title="eslint.config.js"
 import { eslintConfig, ConfigOption } from '@santi020k/eslint-config-santi020k'
 
 export default [
@@ -61,7 +61,7 @@ export default [
 
 To include optional support for TailwindCSS and Vitest:
 
-```javascript
+```javascript title="eslint.config.js"
 import { eslintConfig, ConfigOption, OptionalOption } from '@santi020k/eslint-config-santi020k'
 
 export default [
@@ -82,7 +82,7 @@ Integrating this ESLint configuration library into existing projects is simple:
 
 **2. Extend your ESLint configuration** to use @santi020k/eslint-config-santi020k.
 
-```javascript
+```javascript title="eslint.config.js"
 import { eslintConfig, ConfigOption } from '@santi020k/eslint-config-santi020k'
 
 export default [
@@ -93,7 +93,7 @@ export default [
 
 **3. Add lint commands** to package.json
 
-```json
+```json title="package.json"
 {
   "scripts": {
     "lint": "eslint .",
@@ -104,7 +104,7 @@ export default [
 
 **4. Run ESLint** to identify and resolve issues in your codebase. Use:
 
-```bash
+```bash title="terminal"
 npm run lint
 npm run lint:fix
 ```

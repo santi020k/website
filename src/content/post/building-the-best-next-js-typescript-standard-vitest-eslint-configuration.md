@@ -24,7 +24,7 @@ A good ESLint configuration file will save us time during code reviews with arbi
 
 To begin, make sure you have ESLint installed in your project. You can do this by running:
 
-```bash
+```bash title="terminal"
 npm install eslint --save-dev
 # or
 yarn add eslint --dev
@@ -34,7 +34,7 @@ Next, let’s configure ESLint to work perfectly with Next.js, TypeScript, and V
 
 Starting with installing the dependencies of this ESLint configuration.
 
-```bash
+```bash title="terminal"
 npm install --save-dev \
  eslint \
  eslint-config-standard \
@@ -58,13 +58,13 @@ npm install --save-dev \
 
 Or
 
-```bash
+```bash title="terminal"
 yarn add --dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports
 ```
 
 Create the `.eslintrc.cjs` file with the following configuration.
 
-```javascript
+```javascript title=".eslintrc.cjs"
 // .eslintrc.cjs
 module.exports = {
   env: {
@@ -230,7 +230,7 @@ In the JavaScript ecosystem, Prettier is another popular tool for code formattin
 
 `.vscode/settings.json`
 
-```json
+```json title=".vscode/settings.json"
 // .vscode/settings.json
 {
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
