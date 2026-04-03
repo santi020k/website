@@ -1,36 +1,103 @@
 ---
 title: Development Workflow with Husky for Next.js, ESLint, and Vitest Integration
 description: >-
-  In this guide, I share my preferred development workflow for Next.js projects,
-  integrating Husky for pre-commit hooks, ESLint for code quality, and Vitest
-  for testing.
-publishDate: '2024-03-22T00:00:00.000Z'
+  A practical Husky setup for Next.js projects so linting, testing, and
+  pre-push checks become part of the team workflow instead of a last-minute
+  cleanup step.
+publishDate: '2024-03-21T17:47:55.000Z'
 tags:
-- pre-commit
-- vitest
-- husky
-- react
-- nextjs
+  - pre-commit
+  - vitest
+  - husky
+  - react
+  - nextjs
 canonicalUrl: >-
   https://medium.com/@santi020k/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092
 coverImage:
-  alt: development workflow with husky for next js eslint and vitest integration d75548e48092
+  alt: Development workflow diagram showing Husky pre-commit and pre-push hooks
   src: ./development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092-fig-1.png
 ---
 
-In this guide, I share my preferred development workflow for Next.js projects, integrating Husky for pre-commit hooks, ESLint for code quality, and Vitest for testing.
+[Read the Previous Post: Building the Best Next.js TypeScript ESLint Configuration](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7)
 
-Maintaining a clean and consistent codebase is crucial for any project, especially when working in a team. By automating code quality checks and tests before every commit, we ensure that only high-standard code reaches our repository.
+[GitHub Repository](https://github.com/santi020k/posts/tree/post-3)
 
-## Why Husky?
+Implementing a robust pre-commit system can significantly reduce pull request review time. By enforcing ESLint rules, ensuring passing tests, and maintaining a stable build, developers can avoid pushing broken builds and the subsequent need for corrective commits.
 
-Husky makes it easy to handle Git hooks. In this setup, we use it to trigger ESLint and Vitest before a commit is finalized. If any check fails, the commit is blocked, allowing the developer to fix the issue locally.
+This approach improves code quality while reducing CI/CD expenses.
 
-## Integration Steps
+## Setting Up Pre-commit and Pre-push
 
-1. **Install Husky**: Initialize it in your project to start managing hooks.
-2. **Configure ESLint**: Ensure your rules are strictly defined to catch potential errors early.
-3. **Setup Vitest**: A fast, modern testing framework that integrates seamlessly with Vite-based projects like Next.js (using the App Router).
+Start by installing the required dependencies:
 
-By following this workflow, you'll significantly reduce bugs and improve the overall maintainability of your Next.js applications.
+```bash
+npm install --save-dev husky lint-staged
+# or
+yarn add husky lint-staged --dev
+```
 
+To organize Husky within a `config` folder, modify your `package.json`:
+
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest",
+    "pre-commit": "lint-staged && vitest run",
+    "pre-push": "eslint . --fix --max-warnings=0 && npm run build",
+    "prepare": "husky install config/.husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
+  }
+}
+```
+
+This establishes commands for pre-commit and pre-push operations. Customize according to your project requirements.
+
+### Description of Actions
+
+The `pre-commit` script executes linting with fixes and runs tests before allowing commits:
+
+```json
+"pre-commit": "lint-staged && vitest run"
+```
+
+The `pre-push` script enforces strict linting standards and triggers the build process:
+
+```json
+"pre-push": "eslint . --fix --max-warnings=0 && npm run build"
+```
+
+Execute the prepare command to generate the hook files:
+
+```bash
+npm run prepare
+# or
+yarn run prepare
+```
+
+This generates the necessary files in the `config/.husky` directory. These files allow Husky to execute the specified commands whenever a commit or push is made.
+
+If you ever need to bypass Husky's verification — for example during a work in progress — you can use `--no-verify`:
+
+```bash
+git commit . -m 'quick fix' --no-verify
+```
+
+Bypassing verification risks overlooking console errors and is not recommended as a regular practice.
+
+## Conclusions
+
+- Husky pre-commit and pre-push hooks improve code stability through enforced linting and testing protocols.
+- Organizing configurations within a dedicated `config` folder maintains project cleanliness and simplifies maintenance.
+- Early error detection reduces corrective commits and workflow disruptions.
+- While bypass options exist, circumventing verification processes compromises code reliability.
+- Integrating Husky fosters quality-focused development practices and a culture of continuous improvement.
+
+[Next Post: Storybook in Action with Next.js, Tailwind and TypeScript](https://medium.com/@santi020k/storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2)
