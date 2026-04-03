@@ -12,7 +12,7 @@ interface Props {
 const { headings } = Astro.props
 ---
 
-<aside class="rounded-3xl p-5 panel-surface">
+<nav aria-label="Table of contents" class="rounded-3xl p-5 panel-surface">
   <p class="text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase">On this page</p>
   <ul class="mt-4 space-y-3">
     {headings.map(heading => (
@@ -29,4 +29,4 @@ const { headings } = Astro.props
       </li>
     ))}
   </ul>
-</aside>
+</nav>

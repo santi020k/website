@@ -1,3 +1,4 @@
+import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 test('homepage has correct title and main sections', async ({ page }) => {
@@ -11,6 +12,13 @@ test('homepage has correct title and main sections', async ({ page }) => {
   await expect(mainMenu.getByRole('link', { name: 'Home' })).toBeVisible()
   await expect(mainMenu.getByRole('link', { name: 'Portfolio' })).toBeVisible()
   await expect(mainMenu.getByRole('link', { name: 'Blog' })).toBeVisible()
+
+  // Accessibility audit
+  const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
+  expect(accessibilityScanResults.violations).toEqual([])
+
+  // Visual regression
+  await expect(page).toHaveScreenshot('home-page.png')
 })
 
 test('navigation to portfolio works', async ({ page }) => {
@@ -22,7 +30,7 @@ test('navigation to portfolio works', async ({ page }) => {
   await portfolioLink.click()
 
   await expect(page).toHaveURL(/\/portfolio\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Work shaped by real teams/i })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /Case studies from real teams/i })).toBeVisible()
 })
 
 test('navigation to blog works', async ({ page }) => {
