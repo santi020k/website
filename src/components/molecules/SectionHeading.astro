@@ -23,32 +23,41 @@ const {
 } = Astro.props
 
 const HeadingTag = level
+
+const titleClasses = {
+  h1: 'max-w-4xl text-4xl sm:text-5xl lg:text-6xl',
+  h2: 'max-w-4xl text-3xl sm:text-4xl lg:text-[2.8rem]',
+  h3: 'max-w-3xl text-2xl sm:text-3xl'
+}[level]
 ---
 
-<div class:list={['flex flex-col gap-4', align === 'center' && `
-  items-center text-center
-`]}
+<div
+  class:list={[
+    'flex flex-col gap-5',
+    align === 'center' && 'items-center text-center'
+  ]}
 >
-  {eyebrow && <Eyebrow label={eyebrow} tone="brand" />}
-  <div class="flex flex-col gap-3">
-    <HeadingTag class="
-      max-w-3xl text-xl
-      sm:text-2xl
-      md:text-4xl
-    "
-    >{title}
-    </HeadingTag>
+  {eyebrow && <Eyebrow className={align === 'center' ? 'justify-center' : ''} label={eyebrow} tone="brand" />}
+  <div class="space-y-4">
+    <HeadingTag class={titleClasses}>{title}</HeadingTag>
     {description && (
-      <p class="
-        max-w-2xl text-base/7 text-ink-soft
-        sm:text-lg
-      "
-      >{description}
+      <p
+        class:list={[
+          'max-w-2xl section-copy',
+          align === 'center' && 'mx-auto'
+        ]}
+      >
+        {description}
       </p>
     )}
   </div>
   {linkHref && linkLabel && (
-    <ButtonLink href={linkHref} showArrow variant="inline">
+    <ButtonLink
+      className={align === 'center' ? 'self-center' : 'self-start'}
+      href={linkHref}
+      showArrow
+      variant="inline"
+    >
       {linkLabel}
     </ButtonLink>
   )}

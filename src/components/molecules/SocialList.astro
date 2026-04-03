@@ -1,50 +1,34 @@
 ---
-/* eslint-disable better-tailwindcss/no-unknown-classes */
 import { Icon } from 'astro-icon/components'
 
-/**
-  Uses https://www.astroicon.dev/getting-started/
-  Find icons via guide: https://www.astroicon.dev/guides/customization/#open-source-icon-sets
-  Only installed pack is: @iconify-json/mdi
-*/
-const socialLinks: {
-  friendlyName: string
-  isWebmention?: boolean
-  link: string
-  name: string
-}[] = [
-  {
-    friendlyName: 'Github',
-    link: 'https://github.com/santi020k/private-website',
-    name: 'mdi:github'
-  }
-];
+import { siteConfig } from '../../site.config'
 ---
 
-<div class="flex flex-wrap items-end gap-x-2">
-  <p>Find me on</p>
-  <ul class="
-    flex flex-1 items-center gap-x-2
-    sm:flex-initial
-  "
-  >
-    {
-      socialLinks.map(({ friendlyName, isWebmention, link, name }) => (
-        <li class="flex">
-          <a
-            class="
-              hover:text-link
-              inline-block drop-shadow-[0px_2.5px_2.5px_rgba(0,0,0,0.175)]
-            "
-            href={link}
-            rel={`noreferrer ${isWebmention ? 'me authn' : ''}`}
-            target="_blank"
-          >
-            <Icon aria-hidden="true" class="size-8" focusable="false" name={name} />
-            <span class="sr-only">{friendlyName}</span>
-          </a>
-        </li>
-      ))
-    }
+<div class="
+  flex flex-col gap-3
+  sm:flex-row sm:items-center sm:justify-between
+"
+>
+  <p class="section-label">Elsewhere</p>
+  <ul class="flex flex-wrap gap-3">
+    {siteConfig.socialLinks.map(({ href, icon, label }) => (
+      <li class="flex">
+        <a
+          class="
+            inline-flex size-11 items-center justify-center rounded-full border
+            border-line/70 bg-surface/80 text-ink-soft transition duration-200
+            hover:-translate-y-0.5 hover:border-brand/35 hover:text-brand
+            motion-reduce:transition-none
+            motion-reduce:hover:translate-y-0
+          "
+          href={href}
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          <Icon aria-hidden="true" class="size-5" focusable="false" name={icon} />
+          <span class="sr-only">{label}</span>
+        </a>
+      </li>
+    ))}
   </ul>
 </div>

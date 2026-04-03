@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content'
 
 import PostCard from './PostCard.astro'
+import SectionHeading from './SectionHeading.astro'
 
 interface Props {
   currentPostId: string
@@ -27,9 +28,12 @@ const relatedPosts = allPosts
 
 {relatedPosts.length > 0 && (
   <section class="mt-20 space-y-8 border-t border-line pt-20">
-    <div class="space-y-4" data-animate>
-      <p class="text-sm font-semibold tracking-widest text-brand uppercase">Keep Reading</p>
-      <h2 class="text-3xl font-bold">You might also like</h2>
+    <div data-animate>
+      <SectionHeading
+        description="A few more posts that overlap in topic, tooling, or the engineering tradeoffs behind this article."
+        eyebrow="Keep reading"
+        title="More writing in the same thread."
+      />
     </div>
 
     <div

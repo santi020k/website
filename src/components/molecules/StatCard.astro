@@ -9,23 +9,19 @@ const { description, label, value } = Astro.props
 ---
 
 <article class="
-  rounded-3xl p-5 panel-surface transition duration-300
-  hover:-translate-y-0.5
+  panel-card h-full p-6 transition duration-300
+  hover:-translate-y-0.5 hover:border-brand/25
   motion-reduce:transition-none
   motion-reduce:hover:translate-y-0
-  sm:p-6
+  sm:p-7
 "
 >
+  <p class="section-label">{label}</p>
   <p class="
-    text-3xl font-bold tracking-[-0.05em] text-brand
-    sm:text-4xl
+    mt-4 text-4xl font-bold tracking-[-0.06em] text-ink
+    sm:text-5xl
   "
-  >{value}
+  ><span class="text-brand">{value}</span>
   </p>
-  <p class="
-    mt-3 text-sm font-semibold tracking-[0.2em] text-ink-muted uppercase
-  "
-  >{label}
-  </p>
-  <p class="mt-3 text-sm/6 text-ink-soft">{description}</p>
+  <p class="mt-4 max-w-xs text-sm/6 text-ink-soft">{description}</p>
 </article>

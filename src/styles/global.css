@@ -162,9 +162,51 @@
   background: linear-gradient(180deg, hsl(var(--surface) / 0.92), hsl(var(--surface-muted) / 0.82));
   border: 1px solid hsl(var(--line) / 0.6);
   box-shadow:
-    0 24px 70px hsl(230 30% 8% / 0.08),
-    inset 0 1px 0 hsl(0 0% 100% / 0.08);
-  backdrop-filter: blur(20px);
+    0 20px 52px hsl(230 30% 8% / 0.07),
+    inset 0 1px 0 hsl(0 0% 100% / 0.07);
+  backdrop-filter: blur(16px);
+}
+
+@utility section-shell {
+  @apply relative overflow-hidden rounded-[2rem] px-6 py-8 sm:px-8 sm:py-10;
+  background: linear-gradient(180deg, hsl(var(--surface) / 0.92), hsl(var(--surface-muted) / 0.8));
+  border: 1px solid hsl(var(--line) / 0.62);
+  box-shadow:
+    0 20px 48px hsl(230 30% 8% / 0.06),
+    inset 0 1px 0 hsl(0 0% 100% / 0.06);
+  backdrop-filter: blur(14px);
+}
+
+@utility section-shell-subtle {
+  @apply relative overflow-hidden rounded-[2rem] px-6 py-8 sm:px-8 sm:py-10;
+  background: linear-gradient(180deg, hsl(var(--surface-muted) / 0.82), hsl(var(--surface) / 0.74));
+  border: 1px solid hsl(var(--line) / 0.5);
+  box-shadow: 0 16px 36px hsl(230 30% 8% / 0.04);
+}
+
+@utility panel-card {
+  @apply relative overflow-hidden rounded-[1.75rem] border border-line/60 bg-surface/88;
+  box-shadow:
+    0 16px 40px hsl(230 30% 8% / 0.05),
+    inset 0 1px 0 hsl(0 0% 100% / 0.04);
+}
+
+@utility section-copy {
+  @apply text-base/7 text-ink-soft sm:text-lg/8;
+}
+
+@utility section-actions {
+  @apply flex flex-col gap-3 sm:flex-row sm:flex-wrap;
+}
+
+@utility section-label {
+  @apply text-xs font-semibold tracking-[0.22em] text-ink-muted uppercase;
+}
+
+@utility field-surface {
+  @apply w-full rounded-[1.1rem] border border-line/55 bg-surface/72 px-4 py-3.5 text-ink outline-none transition duration-200;
+  @apply placeholder:text-ink-muted/55 focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/10;
+  @apply motion-reduce:transition-none;
 }
 
 @utility glass-pro {
