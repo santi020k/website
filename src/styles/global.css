@@ -242,7 +242,7 @@
 }
 
 @utility mini-note {
-  @apply rounded-[1.25rem] border border-line/50 bg-surface/78 p-4 transition-colors duration-200;
+  @apply rounded-[1.25rem] border border-line/50 bg-surface/78 p-4 transition-colors duration-200 h-max;
   @apply motion-reduce:transition-none;
 }
 

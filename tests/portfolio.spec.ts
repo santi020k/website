@@ -12,6 +12,20 @@ test.describe('Portfolio page', () => {
     await expect(projectCards.first()).toBeVisible()
   })
 
+  test('technology overflow pill should open the technologies index', async ({ page }) => {
+    await page.goto('/portfolio/')
+
+    const overflowTechnologyLink = page.getByRole('link', {
+      name: /\+\d+\s+technologies/i
+    }).last()
+
+    await expect(overflowTechnologyLink).toBeVisible()
+    await overflowTechnologyLink.click()
+
+    await expect(page).toHaveURL(/\/technologies\/$/)
+    await expect(page.getByRole('heading', { level: 1, name: /Tools, platforms, and systems/i })).toBeVisible()
+  })
+
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/portfolio/')
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze()

@@ -74,6 +74,7 @@ const technologyInterestWeights = new Map<string, number>([
 
 const technologyInterestPatterns = [
   {
+    // eslint-disable-next-line security/detect-non-literal-regexp
     pattern: new RegExp([
       'react',
       'next\\.js',
@@ -113,6 +114,7 @@ const technologyInterestPatterns = [
     score: 48
   },
   {
+    // eslint-disable-next-line security/detect-non-literal-regexp
     pattern: new RegExp([
       'playwright',
       'vitest',
@@ -147,6 +149,7 @@ const technologyInterestPatterns = [
     score: 28
   },
   {
+    // eslint-disable-next-line security/detect-non-literal-regexp
     pattern: new RegExp([
       'testing',
       'quality',
@@ -188,7 +191,9 @@ export const getTechnologyInterestScore = (technology: string): number => {
   return 18
 }
 
-export const sortTechnologiesByInterest = (technologies: string[]): string[] => [...technologies].sort((leftTechnology, rightTechnology) => {
+export const sortTechnologiesByInterest = (
+  technologies: string[]
+): string[] => [...technologies].sort((leftTechnology, rightTechnology) => {
   const scoreDifference =
     getTechnologyInterestScore(rightTechnology) - getTechnologyInterestScore(leftTechnology)
 
