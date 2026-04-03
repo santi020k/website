@@ -11,7 +11,7 @@
     "build": "astro build",
     "postbuild": "pagefind --site dist",
     "preview": "astro preview",
-    "lint": "eslint src/components/atoms src/components/molecules src/components/organisms src/components/BaseHead.astro src/components/FormattedDate.astro src/components/Prose.astro src/components/SkipLink.astro src/components/ThemeProvider.astro src/components/ThemeToggle.astro src/data src/layouts/Base.astro src/layouts/Projects.astro src/pages/index.astro src/pages/404.astro src/pages/portfolio src/pages/posts src/pages/technologies src/site.config.ts src/types.ts src/utils tests/home.spec.ts",
+    "lint": "eslint . --fix",
     "format": "eslint --fix .",
     "check": "astro check",
     "test": "vitest run",
