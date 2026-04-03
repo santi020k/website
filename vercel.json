@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/posts/:slug*",
+      "destination": "/blog/:slug*",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio/:slug*",
+      "destination": "/projects/:slug*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/_vercel/(.*)",
