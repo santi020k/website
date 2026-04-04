@@ -1,4 +1,8 @@
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import {
+  shouldRunVisualSnapshots,
+  visualSnapshotSkipReason
+} from './helpers/visual-regression'
 
 import { expect, test } from '@playwright/test'
 
@@ -38,6 +42,7 @@ test.describe('Portfolio page', () => {
   })
 
   test('index should match visual snapshot', async ({ page }) => {
+    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
     await page.goto('/portfolio/')
     await expect(page).toHaveScreenshot('portfolio-index.png')
   })
@@ -69,8 +74,13 @@ test.describe('Portfolio page', () => {
         id: 'landmark-complementary-is-top-level'
       }
     ])
+  })
 
-    // Visual snapshot
+  test('single project page should match visual snapshot', async ({ page }) => {
+    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
+
+    const slug = 'eslint-config-santi020k'
+    await page.goto(`/portfolio/${slug}/`)
     await expect(page).toHaveScreenshot('portfolio-project.png')
   })
 })

@@ -1,4 +1,8 @@
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import {
+  shouldRunVisualSnapshots,
+  visualSnapshotSkipReason
+} from './helpers/visual-regression'
 
 import { expect, test } from '@playwright/test'
 
@@ -21,8 +25,12 @@ test('homepage has correct title and main sections', async ({ page }) => {
       id: 'color-contrast'
     }
   ])
+})
 
-  // Visual regression
+test('homepage should match visual snapshot', async ({ page }) => {
+  test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
+
+  await page.goto('/')
   await expect(page).toHaveScreenshot('home-page.png')
 })
 

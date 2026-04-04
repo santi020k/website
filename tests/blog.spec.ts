@@ -1,4 +1,8 @@
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import {
+  shouldRunVisualSnapshots,
+  visualSnapshotSkipReason
+} from './helpers/visual-regression'
 
 import { expect, test } from '@playwright/test'
 
@@ -24,6 +28,7 @@ test.describe('Blog page', () => {
   })
 
   test('index should match visual snapshot', async ({ page }) => {
+    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
     await page.goto('/blog/')
     await expect(page).toHaveScreenshot('blog-index.png')
   })
@@ -51,8 +56,13 @@ test.describe('Blog page', () => {
         id: 'landmark-complementary-is-top-level'
       }
     ])
+  })
 
-    // Post visual snapshot
+  test('single post page should match visual snapshot', async ({ page }) => {
+    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
+
+    const slug = 'atomic-module-component-structure-for-react'
+    await page.goto(`/blog/${slug}/`)
     await expect(page).toHaveScreenshot('blog-post.png')
   })
 })
