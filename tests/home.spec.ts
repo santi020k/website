@@ -27,6 +27,24 @@ test('homepage has correct title and main sections', async ({ page }) => {
   ])
 })
 
+test('homepage exposes shared accessibility affordances', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.getByRole('link', { name: 'Skip to content' })).toHaveAttribute('href', '#main')
+  await expect(page.getByRole('switch', { name: 'Toggle color theme' })).toBeVisible()
+})
+
+test('mobile navigation button keeps aria state in sync', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+
+  const menuToggle = page.getByRole('button', { name: 'Open navigation' })
+
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'false')
+  await menuToggle.click()
+  await expect(page.getByRole('button', { name: 'Close navigation' })).toHaveAttribute('aria-expanded', 'true')
+})
+
 test('homepage should match visual snapshot', async ({ page }) => {
   test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
 

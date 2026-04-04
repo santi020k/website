@@ -75,6 +75,7 @@ const shareLinks = [
 
     <button
       @click="copyToClipboard()"
+      type="button"
       class="
         group flex cursor-pointer items-center gap-2.5 rounded-full border
         border-line/40 bg-surface-muted/50 px-5 py-2.5 text-sm font-semibold
@@ -92,7 +93,7 @@ const shareLinks = [
         x-show="!copied"
       />
       <Icon name="tabler:check" class="size-5 animate-spring-up" x-show="copied" x-cloak />
-      <span x-text="copied ? 'Link copied!' : 'Copy link'"></span>
+      <span aria-live="polite" x-text="copied ? 'Link copied!' : 'Copy link'"></span>
     </button>
   </div>
 </div>

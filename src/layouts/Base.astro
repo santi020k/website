@@ -6,6 +6,7 @@ import SkipLink from '../components/atoms/SkipLink.astro'
 import SiteFooter from '../components/organisms/SiteFooter.astro'
 import SiteHeader from '../components/organisms/SiteHeader.astro'
 import BaseHead from '../components/shared/BaseHead.astro'
+import ServiceWorkerRegistration from '../components/shared/ServiceWorkerRegistration.astro'
 import ThemeProvider from '../components/shared/ThemeProvider.astro'
 import { siteConfig } from '../site.config'
 import type { SiteMeta } from '../types'
@@ -17,13 +18,33 @@ interface Props {
 }
 
 const {
-  meta: { articleDate, description = siteConfig.description, ogImage, title }
+  meta: {
+    articleDate,
+    articleUpdated,
+    breadcrumbs,
+    description = siteConfig.description,
+    ogImage,
+    preloadImage,
+    structuredData,
+    title
+  }
 } = Astro.props
+
+const headMeta = {
+  title,
+  description,
+  ...(articleDate !== undefined ? { articleDate } : {}),
+  ...(articleUpdated !== undefined ? { articleUpdated } : {}),
+  ...(breadcrumbs !== undefined ? { breadcrumbs } : {}),
+  ...(ogImage !== undefined ? { ogImage } : {}),
+  ...(preloadImage !== undefined ? { preloadImage } : {}),
+  ...(structuredData !== undefined ? { structuredData } : {})
+}
 ---
 
 <html class="scroll-smooth" lang={siteConfig.lang}>
   <head>
-    <BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+    <BaseHead {...headMeta} />
     <ClientRouter />
   </head>
   <body class="min-h-screen">
@@ -54,6 +75,7 @@ const {
     </div>
 
     <BackToTop />
+    {import.meta.env.PROD && <ServiceWorkerRegistration />}
     <script>
       document.addEventListener('astro:page-load', () => {
         const observer = new IntersectionObserver(

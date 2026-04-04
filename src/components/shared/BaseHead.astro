@@ -1,6 +1,8 @@
 ---
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
+import ErrorMonitoring from './ErrorMonitoring.astro'
+
 import { siteConfig } from '../../site.config'
 import type { SiteMeta } from '../../types'
 
@@ -9,7 +11,17 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
 type Props = SiteMeta
 
-const { articleDate, articleUpdated, breadcrumbs, description, ogImage, structuredData, title } = Astro.props
+const {
+  articleDate,
+  articleUpdated,
+  breadcrumbs,
+  description,
+  ogImage,
+  preloadImage,
+  structuredData,
+  title
+} = Astro.props
+
 const titleSeparator = '—'
 const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.me/')
@@ -38,11 +50,24 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <link rel="icon" href="/favicon.png" type="image/png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/manifest.webmanifest" />
+<link rel="preload" href="/fonts/montserrat-variable-font-wght.ttf" as="font" type="font/ttf" crossorigin />
 {
   import.meta.env.PROD && (
     <>
       <link rel="icon" href="/favicon-32x32.png" type="image/png" />
     </>
+  )
+}
+{
+  preloadImage && (
+    <link
+      rel="preload"
+      as="image"
+      href={preloadImage.href}
+      imagesizes={preloadImage.imagesizes}
+      imagesrcset={preloadImage.imagesrcset}
+      type={preloadImage.type}
+    />
   )
 }
 
@@ -56,6 +81,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <meta name="title" content={siteTitle} />
 <meta name="description" content={description} />
 <meta name="author" content={siteConfig.author} />
+<meta name="color-scheme" content="light dark" />
 <meta name="theme-color" content="#FAF9FB" />
 
 {/* SEO Improvements */}
@@ -141,6 +167,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 {
   import.meta.env.PROD && !import.meta.env.PUBLIC_IS_CI && (
     <>
+      <ErrorMonitoring />
       <SpeedInsights />
       <Analytics />
     </>

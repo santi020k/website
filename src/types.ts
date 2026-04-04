@@ -39,6 +39,13 @@ export interface PaginationLink {
   url: string
 }
 
+export interface PreloadAsset {
+  href: string
+  imagesizes?: string
+  imagesrcset?: string
+  type?: string
+}
+
 export interface SiteMeta {
   articleDate?: string | undefined
   articleUpdated?: string | undefined
@@ -50,6 +57,7 @@ export interface SiteMeta {
   breadcrumbs?: { name: string, url: string }[]
   description?: string
   ogImage?: string | undefined
+  preloadImage?: PreloadAsset
   title: string
 }
 

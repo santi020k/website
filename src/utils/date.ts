@@ -2,6 +2,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import { siteConfig } from '../site.config'
 
+/** Format dates with the site's default locale and presentation options. */
 export const getFormattedDate = (
   input: Date | string | number | undefined,
   options: Intl.DateTimeFormatOptions = {}
@@ -17,6 +18,7 @@ export const getFormattedDate = (
   ).format(date)
 }
 
+/** Sort projects from newest to oldest using their starting date. */
 export const collectionDateSortProjects = (
   a: CollectionEntry<'project'>,
   b: CollectionEntry<'project'>

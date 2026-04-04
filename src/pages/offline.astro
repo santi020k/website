@@ -1,0 +1,42 @@
+---
+import ButtonLink from '../components/atoms/ButtonLink.astro'
+import PageLayout from '../layouts/Base.astro'
+
+const meta = {
+  description: 'Offline fallback page for the santi020k portfolio and blog.',
+  title: 'Offline'
+}
+---
+
+<PageLayout meta={meta}>
+  <section class="
+    section-shell mx-auto max-w-3xl space-y-6 text-center
+    sm:px-10 sm:py-12
+  "
+  >
+    <p class="section-label">Offline</p>
+    <h1 class="
+      text-4xl/tight
+      sm:text-5xl
+    "
+    >
+      You are offline, but the site is still within reach.
+    </h1>
+    <p class="
+      mx-auto max-w-2xl text-base/7 text-ink-soft
+      sm:text-lg/8
+    "
+    >
+      Previously visited pages can still load from the local cache. Once your connection is back, refresh to get the
+      latest portfolio entries and writing.
+    </p>
+    <div class="section-actions justify-center">
+      <ButtonLink href="/">
+        Go home
+      </ButtonLink>
+      <ButtonLink href="/portfolio/" variant="secondary">
+        Browse projects
+      </ButtonLink>
+    </div>
+  </section>
+</PageLayout>

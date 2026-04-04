@@ -152,6 +152,34 @@
   [x-cloak] {
     display: none !important;
   }
+
+  @media (prefers-contrast: more) {
+    :root,
+    :root[data-theme="light"] {
+      --surface-muted: 262 18% 94%;
+      --surface-strong: 262 14% 88%;
+      --line: 262 18% 66%;
+      --ink-soft: 262 12% 24%;
+      --ink-muted: 262 10% 18%;
+      --brand: 262 90% 30%;
+      --brand-soft: 262 88% 88%;
+    }
+
+    :root[data-theme="dark"] {
+      --surface-muted: 262 18% 15%;
+      --surface-strong: 262 16% 20%;
+      --line: 262 14% 48%;
+      --ink-soft: 262 10% 84%;
+      --ink-muted: 262 8% 76%;
+      --brand: 262 92% 72%;
+      --brand-soft: 262 44% 26%;
+    }
+
+    :focus-visible {
+      outline-width: 3px;
+      outline-offset: 5px;
+    }
+  }
 }
 
 @theme {
