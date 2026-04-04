@@ -1,6 +1,6 @@
 ---
 /* eslint-disable @stylistic/jsx-indent-props */
-import { Image } from 'astro:assets'
+import { Picture } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
 import LogoMark from '../../assets/logo.webp'
@@ -33,7 +33,7 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
       "
       href="/"
     >
-      <Image
+      <Picture
         alt="Santi020k"
         class="
           aspect-11/4 h-9 w-auto object-contain transition duration-200
@@ -41,6 +41,7 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
           motion-reduce:transition-none
         "
         fetchpriority="high"
+        formats={['avif', 'webp']}
         height={36}
         loading="eager"
         src={LogoMark}
@@ -112,8 +113,8 @@ import ThemeToggle from '../atoms/ThemeToggle.astro'
       <ThemeToggle />
       <button
         :aria-expanded="open.toString()"
+        :aria-label="open ? 'Close navigation' : 'Open navigation'"
         aria-controls="mobile-nav"
-        aria-label="Toggle navigation"
         class="
           inline-flex size-11 cursor-pointer items-center justify-center
           rounded-full border border-line/70 bg-surface/76 text-ink

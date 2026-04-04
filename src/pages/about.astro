@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets'
+import { getImage, Picture } from 'astro:assets'
 
 import AboutMeImage from '../assets/photos/about-me.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
@@ -12,12 +12,23 @@ import { siteConfig } from '../site.config'
 
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 
+const aboutPortraitImage = await getImage({
+  format: 'avif',
+  height: 480,
+  src: AboutMeImage,
+  width: 360
+})
+
 const description =
   `${yearsOfExperience} years shipping full-stack products. ` +
   'Senior engineer and tech lead based in Medellín — focused on automation, developer experience, and cross-functional leadership.'
 
 const meta = {
   description,
+  preloadImage: {
+    href: aboutPortraitImage.src,
+    type: 'image/avif'
+  },
   title: 'About Santiago Molina — Engineering Leader'
 }
 ---
@@ -94,11 +105,11 @@ const meta = {
         lg:block
       "
       >
-        <Image
+        <Picture
           alt="Santiago Molina"
           class="aspect-3/4 w-full object-cover"
           fetchpriority="high"
-          format="avif"
+          formats={['avif', 'webp']}
           height={480}
           loading="eager"
           src={AboutMeImage}

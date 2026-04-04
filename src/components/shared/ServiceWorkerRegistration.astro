@@ -1,0 +1,15 @@
+<script is:inline>
+if ('serviceWorker' in navigator) {
+  const registerServiceWorker = () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      // Service worker registration should fail silently in unsupported contexts.
+    })
+  }
+
+  if (document.readyState === 'complete') {
+    registerServiceWorker()
+  } else {
+    window.addEventListener('load', registerServiceWorker, { once: true })
+  }
+}
+</script>
