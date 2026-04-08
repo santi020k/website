@@ -3,11 +3,12 @@
 import { Picture } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
-import LogoMark from '../../assets/logo.webp'
-import { menuLinks, siteConfig } from '../../site.config'
-import type { SiteLink } from '../../types.ts'
-import ButtonLink from '../atoms/ButtonLink.astro'
-import ThemeToggle from '../atoms/ThemeToggle.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
+
+import LogoMark from '@/assets/logo.webp'
+import { menuLinks, siteConfig } from '@/site.config'
+import type { SiteLink } from '@/types'
 ---
 
 <header class="

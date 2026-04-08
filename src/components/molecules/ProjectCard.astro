@@ -1,13 +1,14 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
-import { getPortfolioPath, getTechnologyPath } from '../../utils/links'
-import { getProjectDateRangeLabel, getProjectTypeLabel } from '../../utils/project-meta'
-import { sortTechnologiesByInterest } from '../../utils/technologies'
-import ButtonLink from '../atoms/ButtonLink.astro'
-import CoverImage from '../atoms/CoverImage.astro'
-import FormattedDate from '../atoms/FormattedDate.astro'
-import Pill from '../atoms/Pill.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import CoverImage from '@/components/atoms/CoverImage.astro'
+import FormattedDate from '@/components/atoms/FormattedDate.astro'
+import Pill from '@/components/atoms/Pill.astro'
+
+import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
+import { getProjectDateRangeLabel, getProjectTypeLabel } from '@/utils/project-meta'
+import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 interface Props {
   className?: string
