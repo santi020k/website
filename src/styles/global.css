@@ -625,17 +625,32 @@
 
 /* ─── Scroll-Triggered Reveal ───────────────────────────────────────────────── */
 
+/* Base variant: slide up + fade (default when data-animate has no value or
+   any unrecognised value). */
 [data-animate] {
   opacity: 0;
   transform: translateY(16px);
   transition:
-    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Fade-only variant — use data-animate="fade" */
+[data-animate="fade"] {
+  transform: none;
+}
+
+/* Scale-in variant — use data-animate="scale" */
+[data-animate="scale"] {
+  transform: scale(0.96) translateY(8px);
+}
+
+/* Visible state: reset all transforms and restore full opacity.
+   transition-delay is reset here so stagger delays applied inline
+   don't persist between page navigations. */
 [data-animate].is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
