@@ -33,10 +33,11 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      include: ['src/utils/**', 'src/plugins/**', 'src/site.config.ts'],
+      include: ['src/utils/**', 'src/plugins/**', 'src/data/**', 'src/site.config.ts'],
       exclude: [
         'src/utils/__tests__/**',
         'src/plugins/__tests__/**',
+        'src/data/__tests__/**',
         'src/types.ts',
         'src/env.d.ts'
       ]

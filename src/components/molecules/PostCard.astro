@@ -1,11 +1,12 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
-import { getPostPath } from '../../utils/links'
-import ButtonLink from '../atoms/ButtonLink.astro'
-import CoverImage from '../atoms/CoverImage.astro'
-import FormattedDate from '../atoms/FormattedDate.astro'
-import Pill from '../atoms/Pill.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import CoverImage from '@/components/atoms/CoverImage.astro'
+import FormattedDate from '@/components/atoms/FormattedDate.astro'
+import Pill from '@/components/atoms/Pill.astro'
+
+import { getPostPath } from '@/utils/links'
 
 interface Props {
   className?: string
@@ -63,6 +64,7 @@ const imageSizes = featured ?
   >
     <div class="flex flex-wrap items-center gap-3 text-sm text-ink-muted">
       <Pill label={featured ? 'Featured article' : 'Writing'} tone="brand" />
+      {data.postType && <Pill label={data.postType} tone="neutral" />}
       <FormattedDate date={data.publishDate} />
     </div>
 
