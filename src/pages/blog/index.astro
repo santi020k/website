@@ -37,6 +37,10 @@ const breadcrumbs = [
     title: 'Software Engineering Blog — Santiago Molina'
   }}
 >
+  <section class="relative" data-animate>
+    <div id="blog-search" class="pagefind-ui-wrap"></div>
+  </section>
+
   <section
     class="
       grid gap-10
@@ -102,4 +106,38 @@ const breadcrumbs = [
       </div>
     </div>
   </section>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" slot="head" />
+
+  <script>
+    // Initialise Pagefind UI after the DOM is ready (works with view transitions too)
+    function initSearch() {
+      const container = document.getElementById('blog-search')
+      if (!container || container.dataset.pfinit) return
+      container.dataset.pfinit = '1'
+
+      // @ts-ignore — Pagefind is injected at build time
+      const PagefindUI = (window as Window & { PagefindUI?: new (opts: Record<string, unknown>) => void }).PagefindUI
+      if (PagefindUI) {
+        new PagefindUI({
+          element: '#blog-search',
+          showSubResults: false,
+          showImages: false,
+          resetStyles: false
+        })
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSearch)
+    } else {
+      initSearch()
+    }
+
+    document.addEventListener('astro:after-swap', () => {
+      // Re-initialise on view transition
+      const container = document.getElementById('blog-search')
+      if (container) delete container.dataset.pfinit
+      initSearch()
+    })
+  </script>
 </PageLayout>

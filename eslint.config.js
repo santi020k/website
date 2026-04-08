@@ -30,7 +30,14 @@ export default [
       'better-tailwindcss': {
         entryPoint: 'src/styles/global.css',
         detectComponentClasses: true,
-        ignore: ['^not-prose$', '^prose-santi$', '^grid-fade$', '^panel-surface$', '^prose-shell$']
+        ignore: [
+          '^not-prose$',
+          '^prose-santi$',
+          '^grid-fade$',
+          '^panel-surface$',
+          '^prose-shell$',
+          '^pagefind-ui-wrap$'
+        ]
       }
     }
   },

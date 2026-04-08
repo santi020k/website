@@ -6,11 +6,12 @@ import AboutMeImage from '../assets/photos/about-me.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import Eyebrow from '../components/atoms/Eyebrow.astro'
 import Pill from '../components/atoms/Pill.astro'
+import NewsletterBox from '../components/molecules/NewsletterBox.astro'
 import PostCard from '../components/molecules/PostCard.astro'
 import ProjectCard from '../components/molecules/ProjectCard.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
 import StatCard from '../components/molecules/StatCard.astro'
-import { speakingTopics, usesHighlights } from '../data/profile'
+import { selectedOrganizations, speakingTopics, usesHighlights } from '../data/profile'
 import { getAllProjects, getUniqueTechnologiesWithCount } from '../data/project'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
@@ -37,6 +38,7 @@ const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 const [featuredProject, ...supportingProjects] = featuredProjects
 const [featuredPost, ...supportingPosts] = latestPosts
 const featuredSpeakingTopics = speakingTopics.slice(0, 3)
+const contactEmailHref = `mailto:${siteConfig.contact.email}?subject=Start%20a%20conversation`
 
 const heroPortraitImage = await getImage({
   format: 'avif',
@@ -107,6 +109,26 @@ const meta = {
           style="animation-delay: 180ms"
         >
           <div class="
+            panel-card max-w-2xl p-5
+            sm:p-6
+          "
+          >
+            <div class="
+              flex flex-col gap-4
+              sm:flex-row sm:items-center sm:justify-between
+            "
+            >
+              <div class="space-y-2">
+                <p class="section-label text-brand">Open now</p>
+                <p class="text-sm/6 text-ink">{siteConfig.availability}</p>
+              </div>
+              <ButtonLink className="shrink-0" href={contactEmailHref} showArrow variant="secondary">
+                Start a conversation
+              </ButtonLink>
+            </div>
+          </div>
+
+          <div class="
             inline-flex min-h-14 flex-wrap items-center gap-3 rounded-full
             border border-line/70 bg-surface/78 px-4 py-3
             shadow-[0_10px_26px_hsl(var(--ink)/0.04)]
@@ -120,37 +142,37 @@ const meta = {
                 sm:block
               "
             />
-            <div class="
-              hidden h-6 overflow-hidden
-              motion-reduce:hidden
-              sm:block
-            "
-            >
-              <div class="
-                grid auto-rows-[1.5rem] will-change-transform
-                motion-safe:animate-hero-phrase-cycle
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-0.5">
+              <span class="text-sm font-semibold text-ink">Architecture systems</span>
+              <span
+                aria-hidden="true"
+                class="
+                  hidden text-ink-muted/40
+                  sm:inline
+                "
+              >·
+              </span>
+              <span class="
+                hidden text-sm font-semibold text-ink-soft
+                sm:inline
               "
-              >
-                <span class="text-sm font-semibold text-ink">Architecture systems</span>
-                <span class="text-sm font-semibold text-ink">Automation flows</span>
-                <span class="text-sm font-semibold text-ink">Developer experience</span>
-                <span class="text-sm font-semibold text-ink">Architecture systems</span>
-              </div>
+              >Automation flows
+              </span>
+              <span
+                aria-hidden="true"
+                class="
+                  hidden text-ink-muted/40
+                  sm:inline
+                "
+              >·
+              </span>
+              <span class="
+                hidden text-sm font-semibold text-ink-soft
+                sm:inline
+              "
+              >Developer experience
+              </span>
             </div>
-            <span class="
-              text-sm font-semibold text-ink
-              motion-reduce:hidden
-              sm:hidden
-            "
-            >Architecture systems
-            </span>
-            <span class="
-              hidden text-sm font-semibold text-ink
-              motion-reduce:inline
-            "
-            >
-              Architecture systems
-            </span>
           </div>
 
           <div class="section-actions">
@@ -293,6 +315,38 @@ const meta = {
     <StatCard description="Largest cross-functional team I have led across product, design, frontend, and backend." label="Team led" value="14" />
     <StatCard description="Reduced release lead times by optimizing CI/CD pipelines and automating quality gates." label="Cycle Time" value="-75%" />
     <StatCard description="Typical attendance for ReactJS Colombia meetups, workshops, and talks." label="Community" value="100+" />
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="A few of the products, companies, and communities behind the case studies. Not logos for the sake of logos, just a quick sense of the environments where the work has shipped."
+      eyebrow="Social proof"
+      title="Teams and products behind the work."
+    />
+    <div class="space-y-6">
+      <div class="
+        grid gap-4
+        sm:grid-cols-2
+        lg:grid-cols-3
+      "
+      >
+        {selectedOrganizations.map(({ context, label }) => (
+          <article class="mini-note h-full">
+            <p class="section-label">{label}</p>
+            <p class="mt-3 text-sm/7 text-ink-soft">{context}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href="/portfolio/" showArrow>
+          View case studies
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Open LinkedIn
+        </ButtonLink>
+      </div>
+    </div>
   </section>
 
   <section class="editorial-section" data-animate>
@@ -464,6 +518,7 @@ const meta = {
           <PostCard post={post} />
         ))}
       </div>
+      <NewsletterBox />
     </div>
   </section>
 </PageLayout>

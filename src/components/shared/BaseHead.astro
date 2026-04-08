@@ -76,6 +76,12 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 
 {/* Canonical */}
 <link rel="canonical" href={canonicalURL} />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${siteConfig.title} RSS feed`}
+  href="/feed.xml"
+/>
 
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />

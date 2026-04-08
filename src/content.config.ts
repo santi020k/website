@@ -44,6 +44,7 @@ const project = defineCollection({
     seoDescription: z.string().optional(),
     githubUrl: z.url().optional(),
     liveDemoUrl: z.url().optional(),
+    impactMetrics: z.array(z.string()).default([]),
     // type
     typesId: z.enum(['professional', 'personal', 'experimental']).optional(),
     orderInTypes: z.number().optional()
@@ -81,7 +82,8 @@ const post = defineCollection({
       .optional(),
     tags: z.array(z.string()).default([]).transform(removeDuplicates),
     draft: z.boolean().default(false),
-    canonicalUrl: z.url().optional()
+    canonicalUrl: z.url().optional(),
+    postType: z.enum(['Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).optional()
   })
 })
 

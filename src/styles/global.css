@@ -435,14 +435,28 @@
     @apply inline-block w-4 mr-6 text-right text-ink-muted/30 select-none font-mono text-xs;
   }
 
-  /* Copy Button Styles - Now moved to header */
+  /* Copy Button — absolute positioned at bottom-right of code content */
   .copy-button {
-    @apply relative p-2 rounded-lg bg-surface/30 border border-line text-ink-muted transition-all duration-200 hover:bg-surface hover:text-brand hover:scale-105 active:scale-95 z-20;
+    @apply absolute bottom-3 right-3 p-2 rounded-lg bg-surface/30 border border-line text-ink-muted z-20;
+    @apply opacity-0 transition-all duration-200;
     backdrop-filter: blur(4px);
   }
 
+  & [data-rehype-pretty-code-figure]:hover .copy-button,
+  & [data-rehype-pretty-code-figure]:focus-within .copy-button {
+    @apply opacity-100;
+  }
+
+  .copy-button:hover {
+    @apply bg-surface text-brand scale-105;
+  }
+
+  .copy-button:active {
+    @apply scale-95;
+  }
+
   .copy-button.copied {
-    @apply text-green-500 border-green-500/50 bg-green-500/10;
+    @apply opacity-100 text-green-500 border-green-500/50 bg-green-500/10;
   }
   @apply prose-img:rounded-2xl prose-img:shadow-xl prose-img:mx-auto prose-img:my-12 prose-img:border prose-img:border-line;
   @apply prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-brand prose-li:my-2;
@@ -659,4 +673,73 @@
     transform: none;
     transition: none;
   }
+}
+
+/* ─── Pagefind Search UI Theming ─────────────────────────────────────────── */
+
+.pagefind-ui-wrap {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-primary: hsl(var(--brand));
+  --pagefind-ui-text: hsl(var(--ink-soft));
+  --pagefind-ui-background: hsl(var(--surface));
+  --pagefind-ui-border: hsl(var(--line) / 0.55);
+  --pagefind-ui-tag: hsl(var(--surface-muted));
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 1rem;
+  --pagefind-ui-image-border-radius: 0.75rem;
+  --pagefind-ui-font: var(--font-sans);
+}
+
+.pagefind-ui-wrap .pagefind-ui__search-input {
+  background: hsl(var(--surface) / 0.8);
+  border: 1px solid hsl(var(--line) / 0.55);
+  border-radius: 999px;
+  color: hsl(var(--ink));
+  padding-inline: 1.25rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pagefind-ui-wrap .pagefind-ui__search-input:focus {
+  border-color: hsl(var(--brand));
+  box-shadow: 0 0 0 3px hsl(var(--brand) / 0.12);
+  outline: none;
+}
+
+.pagefind-ui-wrap .pagefind-ui__search-clear {
+  color: hsl(var(--ink-muted));
+}
+
+.pagefind-ui-wrap .pagefind-ui__result {
+  border-bottom: 1px solid hsl(var(--line) / 0.4);
+  padding-block: 1.25rem;
+}
+
+.pagefind-ui-wrap .pagefind-ui__result-title {
+  color: hsl(var(--ink));
+  font-weight: 600;
+}
+
+.pagefind-ui-wrap .pagefind-ui__result-link {
+  color: hsl(var(--brand));
+}
+
+.pagefind-ui-wrap .pagefind-ui__result-excerpt {
+  color: hsl(var(--ink-soft));
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.pagefind-ui-wrap .pagefind-ui__button {
+  background: hsl(var(--surface-muted));
+  border: 1px solid hsl(var(--line) / 0.5);
+  border-radius: 999px;
+  color: hsl(var(--ink-soft));
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.pagefind-ui-wrap .pagefind-ui__button:hover {
+  background: hsl(var(--brand-soft));
+  border-color: hsl(var(--brand) / 0.4);
+  color: hsl(var(--brand));
 }

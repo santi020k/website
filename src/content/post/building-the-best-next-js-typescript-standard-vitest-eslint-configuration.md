@@ -6,6 +6,7 @@ tags: ["eslint", "vitest", "typescript", "standards", "react"]
 coverImage:
   alt: "building the best next js typescript standard vitest eslint configuration f6d91d6346e7"
   src: "./building-the-best-next-js-typescript-standard-vitest-eslint-configuration-cover.jpeg"
+postType: "Guide"
 canonicalUrl: "https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7"
 ---
 

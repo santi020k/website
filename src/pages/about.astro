@@ -6,7 +6,7 @@ import ButtonLink from '../components/atoms/ButtonLink.astro'
 import Eyebrow from '../components/atoms/Eyebrow.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
 import SocialList from '../components/molecules/SocialList.astro'
-import { collaborationThemes } from '../data/profile'
+import { collaborationThemes, selectedOrganizations } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
 
@@ -140,6 +140,39 @@ const meta = {
 
   <section class="editorial-section" data-animate>
     <SectionHeading
+      description="A few of the products, companies, and communities behind the portfolio. The value is in the work itself, but context helps people read the case studies with the right level of trust."
+      eyebrow="Social proof"
+      title="Some of the teams and communities behind the work."
+    />
+
+    <div class="space-y-6">
+      <div class="
+        grid gap-4
+        sm:grid-cols-2
+        lg:grid-cols-3
+      "
+      >
+        {selectedOrganizations.map(({ context, label }) => (
+          <article class="mini-note h-full">
+            <p class="section-label">{label}</p>
+            <p class="mt-3 text-sm/7 text-ink-soft">{context}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href="/portfolio/" showArrow>
+          Read the case studies
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Open LinkedIn
+        </ButtonLink>
+      </div>
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
       description="A few things that shape how I work, how I lead, and what I focus on."
       eyebrow="Principles"
       title="What I believe about engineering."
@@ -196,28 +229,36 @@ const meta = {
 
   <section class="editorial-section" data-animate>
     <SectionHeading
-      description="Not resume bullets, and not polished marketing language either. These are the themes collaborators, clients, and teams tend to pull out of the work."
+      description="LinkedIn recommendations are the public place for named references. On the site, these are the recurring patterns the work itself keeps surfacing across teams, clients, and community projects."
       eyebrow="Recommendations"
       title="What collaborators tend to value in the work."
     />
 
-    <div
-      class="
-        grid gap-6
-        sm:grid-cols-2
-      "
-    >
-      {collaborationThemes.map(theme => (
-        <article class="
-          panel-card h-full space-y-4 p-6
-          sm:p-7
+    <div class="space-y-6">
+      <div
+        class="
+          grid gap-6
+          sm:grid-cols-2
         "
-        >
-          <h2 class="text-2xl font-semibold text-ink">{theme.title}</h2>
-          <p class="text-sm/7 text-ink-soft">{theme.body}</p>
-          <p class="text-sm/6 text-ink-muted">{theme.evidence}</p>
-        </article>
-      ))}
+      >
+        {collaborationThemes.map(theme => (
+          <article class="
+            panel-card h-full space-y-4 p-6
+            sm:p-7
+          "
+          >
+            <h2 class="text-2xl font-semibold text-ink">{theme.title}</h2>
+            <p class="text-sm/7 text-ink-soft">{theme.body}</p>
+            <p class="text-sm/6 text-ink-muted">{theme.evidence}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          See LinkedIn recommendations
+        </ButtonLink>
+      </div>
     </div>
   </section>
 </PageLayout>

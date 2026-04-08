@@ -9,6 +9,7 @@ import BaseLayout from './Base.astro'
 import CoverImage from '../components/atoms/CoverImage.astro'
 import FormattedDate from '../components/atoms/FormattedDate.astro'
 import Pill from '../components/atoms/Pill.astro'
+import NewsletterBox from '../components/molecules/NewsletterBox.astro'
 import RelatedPosts from '../components/molecules/RelatedPosts.astro'
 import ShareButtons from '../components/molecules/ShareButtons.astro'
 
@@ -249,6 +250,9 @@ const breadcrumbs = [
       <div class="mt-16">
         <ShareButtons title={title} url={canonicalURL.href} />
       </div>
+      <div class="not-prose mt-16">
+        <NewsletterBox />
+      </div>
     </div>
 
     <footer
@@ -280,6 +284,25 @@ const breadcrumbs = [
             "
           />
           Back to blog
+        </a>
+
+        <a
+          href="#main"
+          class="
+            group flex items-center gap-2 font-medium text-ink-muted
+            transition-colors
+            hover:text-brand
+          "
+        >
+          Back to top
+          <Icon
+            aria-hidden="true"
+            name="tabler:arrow-up"
+            class="
+              size-5 transition-transform
+              group-hover:-translate-y-1
+            "
+          />
         </a>
       </div>
     </footer>
@@ -345,7 +368,10 @@ const breadcrumbs = [
         }
         header.appendChild(centerContainer);
 
-        // Copy Button
+        // Prepend header (window controls + title only) to figure
+        figure.insertBefore(header, pre);
+
+        // Copy Button — positioned at top-right of the code content area
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
         copyButton.setAttribute('aria-label', 'Copy code');
@@ -366,10 +392,8 @@ const breadcrumbs = [
           }, 2000);
         });
 
-        header.appendChild(copyButton);
-
-        // Prepend header to figure
-        figure.insertBefore(header, pre);
+        // Append copy button directly to figure (absolute-positioned via CSS)
+        figure.appendChild(copyButton);
       }
     }
 

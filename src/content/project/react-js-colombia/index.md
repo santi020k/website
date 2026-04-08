@@ -5,6 +5,11 @@ rol: "Co-Organizer"
 startingDate: "1 Jan 2017"
 liveDemoUrl: "https://www.meetup.com/es/react-js-medellin/"
 typesId: "personal"
+impactMetrics: [
+  "Dozens of events since 2017",
+  "100+ participants at peak sessions",
+  "Community talks, workshops, and mentorship across experience levels"
+]
 technologies: [
   "React.js", "JavaScript", "TypeScript", "React Native", "Community Building", "Public Speaking", "Workshops", "Mentorship", "Event Organization", "Open Source", "Team Leadership", "Accessibility", "Developer Experience (DX)"
 ]

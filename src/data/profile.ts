@@ -4,6 +4,11 @@ export interface CollaborationTheme {
   title: string
 }
 
+export interface SocialProofItem {
+  context: string
+  label: string
+}
+
 export interface ProfileHighlight {
   description: string
   label: string
@@ -46,6 +51,33 @@ export const collaborationThemes: CollaborationTheme[] = [
     body: 'My best work usually sits at the intersection of engineering, product, and communication. I like helping teams align earlier so execution gets simpler.',
     evidence: 'The portfolio spans commerce, SaaS, gaming, real estate, and community work, but the throughline is the same: practical systems with clear business value.',
     title: 'Clear communication across functions'
+  }
+]
+
+export const selectedOrganizations: SocialProofItem[] = [
+  {
+    context: 'Technical leadership across esports web, mobile, backend, and real-time delivery at Void.',
+    label: 'Void'
+  },
+  {
+    context: 'Product engineering and fan-engagement systems shipped through Optic Power client work.',
+    label: 'Team Liquid'
+  },
+  {
+    context: 'AI martech dashboards and campaign workflows built during the Datagran modernization work.',
+    label: 'Rappi'
+  },
+  {
+    context: 'Analytics and customer-data product work supported through Datagran.',
+    label: 'Subway'
+  },
+  {
+    context: 'Enterprise-facing marketing automation interfaces and reporting systems built at Datagran.',
+    label: 'Telefonica'
+  },
+  {
+    context: 'Community talks, workshops, and mentorship through one of Medellin’s most active React groups.',
+    label: 'ReactJS Colombia'
   }
 ]
 
