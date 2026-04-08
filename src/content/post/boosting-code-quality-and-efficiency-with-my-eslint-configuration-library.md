@@ -1,6 +1,6 @@
 ---
 title: "Boosting Code Quality and Efficiency with My ESLint Configuration Library"
-description: "In a previous post, “Building the Best Next.js TypeScript Standard Vitest ESLint Configuration” , we discussed a powerful ESLint setup designed to maintain code..."
+description: “Reusable ESLint library for React, Next.js, and TypeScript projects. Enforces code quality with flat config support and simplifies the move from ESLint 8 to 9.”
 publishDate: "2024-11-23T19:27:02.000Z"
 tags: ["react-native", "react", "eslint", "typescript", "eslint-config"]
 coverImage:
