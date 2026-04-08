@@ -6,6 +6,7 @@ import SkipLink from '../components/atoms/SkipLink.astro'
 import SiteFooter from '../components/organisms/SiteFooter.astro'
 import SiteHeader from '../components/organisms/SiteHeader.astro'
 import BaseHead from '../components/shared/BaseHead.astro'
+import ScrollReveal from '../components/shared/ScrollReveal.astro'
 import ServiceWorkerRegistration from '../components/shared/ServiceWorkerRegistration.astro'
 import ThemeProvider from '../components/shared/ThemeProvider.astro'
 import { siteConfig } from '../site.config'
@@ -75,25 +76,7 @@ const headMeta = {
     </div>
 
     <BackToTop />
+    <ScrollReveal />
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
-    <script>
-      document.addEventListener('astro:page-load', () => {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible')
-                observer.unobserve(entry.target)
-              }
-            })
-          },
-          { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
-        )
-
-        document.querySelectorAll('[data-animate]').forEach((el) => {
-          observer.observe(el)
-        })
-      })
-    </script>
   </body>
 </html>

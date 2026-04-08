@@ -1,0 +1,77 @@
+---
+
+/**
+ * ScrollReveal — centralized scroll-triggered animation controller.
+ *
+ * Mark any element with `data-animate` to opt in.
+ * Optionally set `data-animate-delay="150ms"` for stagger effects.
+ * Optionally set `data-animate="fade"` or `data-animate="scale"` for
+ * alternate entry variants (see global.css).
+ *
+ * The script properly tears down and re-creates the IntersectionObserver
+ * on every Astro page transition so stale observers never accumulate.
+ */
+---
+
+<script>
+  let observer: IntersectionObserver | null = null
+
+  function initScrollReveal(): void {
+    // Always start clean — disconnect any observer left over from the
+    // previous page so orphaned entries can't interfere.
+    if (observer) {
+      observer.disconnect()
+      observer = null
+    }
+
+    observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+
+          const el = entry.target as HTMLElement
+
+          // Apply optional per-element stagger delay
+          const delay = el.dataset.animateDelay
+          if (delay) {
+            el.style.transitionDelay = delay
+          }
+
+          el.classList.add('is-visible')
+          // Each element animates once, then stops being watched.
+          observer?.unobserve(el)
+        })
+      },
+      {
+        // Lower threshold so even large sections trigger as soon as a
+        // small strip is visible — the previous 0.15 caused tall sections
+        // near the viewport bottom to stay invisible.
+        threshold: 0.05,
+        // Shrink the bottom edge slightly so off-screen elements don't
+        // fire until they're genuinely entering the visible area.
+        rootMargin: '0px 0px -40px 0px',
+      }
+    )
+
+    // requestAnimationFrame ensures the browser has finished layout before
+    // we run the first intersection check.  Without this, elements that are
+    // already in the viewport on page-load can miss their initial callback.
+    requestAnimationFrame(() => {
+      document.querySelectorAll<HTMLElement>('[data-animate]').forEach((el) => {
+        observer?.observe(el)
+      })
+    })
+  }
+
+  // Tear down before Astro swaps the DOM so we never hold references to
+  // elements from the outgoing page.
+  document.addEventListener('astro:before-swap', () => {
+    if (observer) {
+      observer.disconnect()
+      observer = null
+    }
+  })
+
+  // Fires on every page (including the very first load with ClientRouter).
+  document.addEventListener('astro:page-load', initScrollReveal)
+</script>
