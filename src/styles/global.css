@@ -447,6 +447,12 @@
     @apply opacity-100;
   }
 
+  /* Ensure the button is always visible when it receives keyboard focus,
+     even without the parent figure being hovered first. */
+  .copy-button:focus-visible {
+    @apply opacity-100;
+  }
+
   .copy-button:hover {
     @apply bg-surface text-brand scale-105;
   }
@@ -699,10 +705,12 @@
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.pagefind-ui-wrap .pagefind-ui__search-input:focus {
+/* Use :focus-visible so keyboard users still see the brand outline
+   (the global :focus-visible rule) while pointer users get the
+   border + box-shadow treatment without a redundant ring. */
+.pagefind-ui-wrap .pagefind-ui__search-input:focus-visible {
   border-color: hsl(var(--brand));
   box-shadow: 0 0 0 3px hsl(var(--brand) / 0.12);
-  outline: none;
 }
 
 .pagefind-ui-wrap .pagefind-ui__search-clear {

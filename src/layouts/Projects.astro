@@ -2,19 +2,20 @@
 import { type CollectionEntry, render } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
-import BaseLayout from './Base.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import ProjectCard from '@/components/molecules/ProjectCard.astro'
+import TocCard from '@/components/molecules/TocCard.astro'
+import ProjectHero from '@/components/organisms/ProjectHero.astro'
 
-import ButtonLink from '../components/atoms/ButtonLink.astro'
-import Pill from '../components/atoms/Pill.astro'
-import ProjectCard from '../components/molecules/ProjectCard.astro'
-import TocCard from '../components/molecules/TocCard.astro'
-import ProjectHero from '../components/organisms/ProjectHero.astro'
 import {
   getProjectDurationLabel,
   getProjectFocusLabel,
   getProjectTimelineLabel,
   getProjectTypeLabel
-} from '../utils/project-meta'
+} from '@/utils/project-meta'
+
+import BaseLayout from '@/layouts/Base.astro'
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -74,6 +75,8 @@ const breadcrumbs = [
   }}
 >
   <div
+    aria-hidden="true"
+    role="presentation"
     class="
       fixed top-0 left-0 z-50 h-1.5 bg-linear-to-r from-brand to-brand-soft
       shadow-[0_0_10px_hsl(var(--brand)/0.22)] transition-all duration-150

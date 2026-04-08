@@ -1,16 +1,18 @@
 ---
-import ButtonLink from '../../components/atoms/ButtonLink.astro'
-import Pill from '../../components/atoms/Pill.astro'
-import ProjectCard from '../../components/molecules/ProjectCard.astro'
-import SectionHeading from '../../components/molecules/SectionHeading.astro'
-import StatCard from '../../components/molecules/StatCard.astro'
-import { getAllProjects, getUniqueTechnologiesWithCount, groupProjectsByTypesId } from '../../data/project'
-import { getAllTypes } from '../../data/types'
-import PageLayout from '../../layouts/Base.astro'
-import { siteConfig } from '../../site.config'
-import { collectionDateSortProjects } from '../../utils/date'
-import { getTechnologyPath } from '../../utils/links'
-import { sortTechnologyCountsByInterest } from '../../utils/technologies'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import ProjectCard from '@/components/molecules/ProjectCard.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+
+import { collectionDateSortProjects } from '@/utils/date'
+import { getTechnologyPath } from '@/utils/links'
+import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { getAllProjects, getUniqueTechnologiesWithCount, groupProjectsByTypesId } from '@/data/project'
+import { getAllTypes } from '@/data/types'
+import PageLayout from '@/layouts/Base.astro'
+import { siteConfig } from '@/site.config'
 
 const allProjects = (await getAllProjects()).sort(collectionDateSortProjects)
 const groupedProjects = groupProjectsByTypesId(allProjects)

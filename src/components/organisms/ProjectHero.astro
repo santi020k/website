@@ -2,7 +2,8 @@
 import type { CollectionEntry } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
-import { getTechnologyPath } from '../../utils/links'
+import { getTechnologyPath } from '@/utils/links'
+
 import {
   getProjectDateRangeLabel,
   getProjectDurationLabel,
@@ -235,11 +236,13 @@ const projectStats = [
           mode="detail"
         />
         {useWideCoverFrame && (
-          <div class="
-            pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-wrap
-            items-end justify-between gap-4 p-5
-            sm:p-6
-          "
+          <div
+            aria-hidden="true"
+            class="
+              pointer-events-none absolute inset-x-0 bottom-0 z-20 flex
+              flex-wrap items-end justify-between gap-4 p-5
+              sm:p-6
+            "
           >
             <div>
               <p class="section-label text-white/70">Project snapshot</p>
