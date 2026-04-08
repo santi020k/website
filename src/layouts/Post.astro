@@ -74,6 +74,9 @@ const breadcrumbs = [
     breadcrumbs,
     description,
     ogImage,
+    ogImageAlt: post.data.coverImage?.alt ?
+      `${post.data.coverImage.alt} — article on ${title}` :
+      `Social preview card for the article "${title}"`,
     structuredData: blogPostingSchema,
     title
   }}

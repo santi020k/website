@@ -1,9 +1,6 @@
 ---
 title: Storybook in Action with Next.js, Tailwind and TypeScript
-description: >-
-  Continuing from our previous post on optimizing development workflows, today
-  we’ll explore the power of Visual Development Experience (VDE) with Storybook
-  in Action, alongside Next.js.
+description: "Set up Storybook in a Next.js project with Tailwind and TypeScript. Build isolated UI components, write stories, and improve design system collaboration."
 publishDate: '2024-03-29T00:11:10.000Z'
 tags:
 - typescript

@@ -57,6 +57,9 @@ export interface SiteMeta {
   breadcrumbs?: { name: string, url: string }[]
   description?: string
   ogImage?: string | undefined
+
+  /** Describes the actual visual content of the og:image for accessibility and social previews */
+  ogImageAlt?: string
   preloadImage?: PreloadAsset
   title: string
 }

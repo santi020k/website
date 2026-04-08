@@ -1,6 +1,6 @@
 ---
 title: "Atomic Module Component Structure for React"
-description: "In this post, I share insights into establishing a robust structure for React projects using an Atomic Module Component approach. From initial scaffolding to na..."
+description: "Structure React projects using Atomic Module Components — covering file layout, naming conventions, and scalability patterns for growing TypeScript codebases."
 publishDate: "2024-03-07T22:05:53.000Z"
 tags: ["development", "react", "nextjs", "typescript"]
 coverImage:
