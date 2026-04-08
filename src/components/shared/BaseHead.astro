@@ -5,6 +5,7 @@ import ErrorMonitoring from './ErrorMonitoring.astro'
 
 import { siteConfig } from '../../site.config'
 import type { SiteMeta } from '../../types'
+import { getSocialImageURL } from '../../utils/social-image'
 
 import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
@@ -25,7 +26,7 @@ const {
 const titleSeparator = '—'
 const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.me/')
-const socialImageURL = new URL(ogImage ?? '/default.webp', Astro.url).href
+const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
 
 const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
