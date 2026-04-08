@@ -165,7 +165,12 @@ const useImageOverlay = Boolean(project.data.coverImage?.src)
         )}
       </div>
 
-      <ButtonLink href={projectLink} showArrow variant="inline">
+      <ButtonLink
+        ariaLabel={`Read case study about ${project.data.title}`}
+        href={projectLink}
+        showArrow
+        variant="inline"
+      >
         Read case study
       </ButtonLink>
     </div>

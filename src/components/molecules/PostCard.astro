@@ -109,7 +109,12 @@ const imageSizes = featured ?
           <Pill label={tag} showHash tone="outline" />
         ))}
       </div>
-      <ButtonLink href={getPostPath(post.id)} showArrow variant="inline">
+      <ButtonLink
+        ariaLabel={`Read more about ${data.title}`}
+        href={getPostPath(post.id)}
+        showArrow
+        variant="inline"
+      >
         Read more
       </ButtonLink>
     </div>

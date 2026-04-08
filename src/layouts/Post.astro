@@ -160,42 +160,54 @@ const breadcrumbs = [
         <div class="mini-note">
           <p class="section-label">Reading guide</p>
           <dl class="mt-4 space-y-4 text-sm/6 text-ink-soft">
-            <div class="flex items-center gap-2">
-              <Icon aria-hidden="true" name="tabler:calendar" class="size-4" />
-              <div>
-                <dt class="
-                  text-xs font-semibold tracking-[0.18em] text-ink-muted
-                  uppercase
+            <div class="flex flex-col">
+              <dt
+                class="
+                  flex items-center gap-2 text-xs font-semibold
+                  tracking-[0.18em] text-ink-muted uppercase
                 "
-                >Published
-                </dt>
-                <dd class="mt-1 text-sm font-medium text-ink"><FormattedDate date={publishDate} /></dd>
-              </div>
+              >
+                <Icon aria-hidden="true" name="tabler:calendar" class="size-4" />
+                <span>Published</span>
+              </dt>
+              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+                <FormattedDate date={publishDate} />
+              </dd>
             </div>
-            <div class="flex items-center gap-2">
-              <Icon aria-hidden="true" name="tabler:clock" class="size-4" />
-              <div>
-                <dt class="
-                  text-xs font-semibold tracking-[0.18em] text-ink-muted
-                  uppercase
+
+            <div class="flex flex-col">
+              <dt
+                class="
+                  flex items-center gap-2 text-xs font-semibold
+                  tracking-[0.18em] text-ink-muted uppercase
                 "
-                >Read time
-                </dt>
-                <dd class="mt-1 text-sm font-medium text-ink">{readingTimeText}</dd>
-              </div>
+              >
+                <Icon aria-hidden="true" name="tabler:clock" class="size-4" />
+                <span>Read time</span>
+              </dt>
+              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+                {readingTimeText}
+              </dd>
             </div>
+
             {updatedDate && (
-              <div class="flex items-center gap-2">
-                <Icon aria-hidden="true" name="tabler:refresh" class="size-4" />
-                <div>
-                  <dt class="
-                    text-xs font-semibold tracking-[0.18em] text-ink-muted
-                    uppercase
+              <div class="flex flex-col">
+                <dt
+                  class="
+                    flex items-center gap-2 text-xs font-semibold
+                    tracking-[0.18em] text-ink-muted uppercase
                   "
-                  >Updated
-                  </dt>
-                  <dd class="mt-1 text-sm font-medium text-ink"><FormattedDate date={updatedDate} /></dd>
-                </div>
+                >
+                  <Icon
+                    aria-hidden="true"
+                    name="tabler:refresh"
+                    class="size-4"
+                  />
+                  <span>Updated</span>
+                </dt>
+                <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+                  <FormattedDate date={updatedDate} />
+                </dd>
               </div>
             )}
           </dl>

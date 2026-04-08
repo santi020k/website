@@ -2,6 +2,7 @@
 import { Icon } from 'astro-icon/components'
 
 interface Props {
+  ariaLabel?: string
   className?: string
   href: string
   newTab?: boolean
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const {
+  ariaLabel,
   className = '',
   href,
   newTab = false,
@@ -19,6 +21,7 @@ const {
 ---
 
 <a
+  aria-label={ariaLabel}
   class:list={[
     `
       group inline-flex min-h-11 cursor-pointer items-center justify-center

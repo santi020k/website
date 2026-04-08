@@ -171,33 +171,60 @@ const breadcrumbs = [
         <div class="mini-note">
           <p class="section-label">At a glance</p>
           <dl class="mt-4 space-y-4 text-sm/6 text-ink-soft">
-            <div class="flex gap-3">
-              <Icon aria-hidden="true" class="mt-0.5 size-4 shrink-0 text-brand" name="tabler:briefcase-2" />
-              <div>
-                <dt class="section-label">Type</dt>
-                <dd class="mt-1 text-sm font-medium text-ink">{projectTypeLabel}</dd>
-              </div>
+            <div class="flex flex-col">
+              <dt class="flex items-center gap-2 section-label">
+                <Icon
+                  aria-hidden="true"
+                  class="size-4 shrink-0 text-brand"
+                  name="tabler:briefcase-2"
+                />
+                <span>Type</span>
+              </dt>
+              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+                {projectTypeLabel}
+              </dd>
             </div>
-            <div class="flex gap-3">
-              <Icon aria-hidden="true" class="mt-0.5 size-4 shrink-0 text-brand" name="tabler:user-star" />
-              <div>
-                <dt class="section-label">Role</dt>
-                <dd class="mt-1 text-sm font-medium text-ink">{project.data.rol ?? 'Hands-on builder'}</dd>
-              </div>
+
+            <div class="flex flex-col">
+              <dt class="flex items-center gap-2 section-label">
+                <Icon
+                  aria-hidden="true"
+                  class="size-4 shrink-0 text-brand"
+                  name="tabler:user-star"
+                />
+                <span>Role</span>
+              </dt>
+              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+                {project.data.rol ?? 'Hands-on builder'}
+              </dd>
             </div>
-            <div class="flex gap-3">
-              <Icon aria-hidden="true" class="mt-0.5 size-4 shrink-0 text-brand" name="tabler:calendar-time" />
-              <div>
-                <dt class="section-label">Timeline</dt>
-                <dd class="mt-1 text-sm font-medium text-ink">{timelineLabel}</dd>
-              </div>
+
+            <div class="flex flex-col">
+              <dt class="flex items-center gap-2 section-label">
+                <Icon
+                  aria-hidden="true"
+                  class="size-4 shrink-0 text-brand"
+                  name="tabler:calendar-time"
+                />
+                <span>Timeline</span>
+              </dt>
+              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+                {timelineLabel}
+              </dd>
             </div>
-            <div class="flex gap-3">
-              <Icon aria-hidden="true" class="mt-0.5 size-4 shrink-0 text-brand" name="tabler:hourglass" />
-              <div>
-                <dt class="section-label">Duration</dt>
-                <dd class="mt-1 text-sm font-medium text-ink">{durationLabel}</dd>
-              </div>
+
+            <div class="flex flex-col">
+              <dt class="flex items-center gap-2 section-label">
+                <Icon
+                  aria-hidden="true"
+                  class="size-4 shrink-0 text-brand"
+                  name="tabler:hourglass"
+                />
+                <span>Duration</span>
+              </dt>
+              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+                {durationLabel}
+              </dd>
             </div>
           </dl>
         </div>
