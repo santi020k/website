@@ -244,6 +244,23 @@ const breadcrumbs = [
           </div>
         </div>
 
+        {!!project.data.impactMetrics.length && (
+          <div class="mini-note">
+            <p class="section-label">Outcomes</p>
+            <ul class="mt-4 list-none space-y-3 p-0">
+              {project.data.impactMetrics.map(metric => (
+                <li class="
+                  rounded-2xl border border-brand/12 bg-brand-soft/35 px-4 py-3
+                  text-sm/6 text-ink
+                "
+                >
+                  {metric}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {!!headings.length && <TocCard headings={headings} />}
       </aside>
     </section>

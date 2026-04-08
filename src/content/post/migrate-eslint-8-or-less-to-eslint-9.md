@@ -6,6 +6,7 @@ tags: ["eslint", "typescript", "react", "nextjs", "migration"]
 coverImage:
   alt: "Neon illustration of a legacy ESLint configuration migrating into a modern flat config panel"
   src: "./migrate-eslint-8-or-less-to-eslint-9-cover.png"
+postType: "Guide"
 ---
 
 [Read the Previous Post: Authentication and Authorization in Next.js Applications with Supabase](https://santi020k.me/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)

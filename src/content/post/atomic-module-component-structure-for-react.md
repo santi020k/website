@@ -6,6 +6,7 @@ tags: ["development", "react", "nextjs", "typescript"]
 coverImage:
   alt: "atomic module component structure for react 34464b05832c"
   src: "./atomic-module-component-structure-for-react-cover.png"
+postType: "Guide"
 canonicalUrl: "https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c"
 ---
 

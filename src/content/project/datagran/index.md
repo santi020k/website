@@ -6,6 +6,11 @@ startingDate: "1 Dec 2018"
 endingDate: "1 Jan 2020"
 liveDemoUrl: "https://www.datagran.io"
 typesId: "professional"
+impactMetrics: [
+  "30% fewer bugs after the front-end migration",
+  "React and TypeScript architecture replacing legacy jQuery surfaces",
+  "Product work supporting brands such as Rappi, Subway, and Telefonica"
+]
 technologies: [
   "React.js", "TypeScript", "Redux", "Redux Sagas", "D3.js", "Styled Components", "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "Github", "Scrum", "Team Leadership", "GCP", "jQuery", "React Router", "Jest", "Storybook", "Cypress", "CI/CD", "Testing", "Developer Experience (DX)", "Code Quality", "Performance Optimization", "Yup", "ESLint", "Sentry", "Highcharts", "Formik"
 ]

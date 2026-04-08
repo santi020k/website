@@ -1,7 +1,6 @@
 ---
 import { version } from '../../../package.json'
 import ContactSection from '../../components/molecules/ContactSection.astro'
-import NewsletterBox from '../../components/molecules/NewsletterBox.astro'
 import { menuLinks, siteConfig } from '../../site.config'
 
 const year = new Date().getFullYear()
@@ -23,8 +22,6 @@ const footerLinks = [
 >
   <div class="mx-auto w-full max-w-6xl space-y-16">
     <ContactSection />
-
-    <NewsletterBox />
 
     <div class="
       grid gap-10 border-t border-line/70 pt-10

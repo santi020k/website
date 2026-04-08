@@ -12,6 +12,7 @@ coverImage:
   alt: storybook in action with next js tailwind and typescript dd95875856a2
   src: ./storybook-in-action-with-next-js-tailwind-and-typescript-fig-1.png
 canonicalUrl: "https://medium.com/towardsdev/storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2"
+postType: "Tutorial"
 ---
 
 Continuing from our previous post on optimizing development workflows, today we’ll explore the power of Visual Development Experience (VDE) with Storybook in Action, alongside Next.js. While our last discussion emphasized the importance of pre-commit systems in ensuring code quality and stability, this post dives into enhancing UI development through Storybook’s isolated component environment. Let’s unlock the potential of these tools to streamline development, foster collaboration, and maintain UI consistency across projects.

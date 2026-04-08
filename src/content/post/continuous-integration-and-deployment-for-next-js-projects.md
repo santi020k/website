@@ -6,6 +6,7 @@ tags: ["ci/cd", "github-actions", "nextjs", "react", "deployment"]
 coverImage:
   alt: "Neon illustration of a CI/CD pipeline flowing through commit, test, build, and deployment stages"
   src: "./continuous-integration-and-deployment-for-next-js-projects-cover.png"
+postType: "Guide"
 ---
 
 [Read the Previous Post: Testing React Components with Vitest and React Testing Library](https://santi020k.me/blog/testing-react-components-with-vitest-and-react-testing-library/)

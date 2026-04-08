@@ -6,6 +6,7 @@ tags: ["vitest", "testing-library", "react", "typescript", "nextjs"]
 coverImage:
   alt: "Neon illustration of a component test panel connected to interaction, assertion, and targeting checkpoints"
   src: "./testing-react-components-with-vitest-and-react-testing-library-cover.png"
+postType: "Tutorial"
 ---
 
 [Read the Previous Post: Storybook in Action with Next.js, Tailwind and TypeScript](https://medium.com/towardsdev/storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2)
