@@ -1,13 +1,14 @@
 ---
 import { getCollection } from 'astro:content'
 
-import ButtonLink from '../../components/atoms/ButtonLink.astro'
-import Pill from '../../components/atoms/Pill.astro'
-import PostCard from '../../components/molecules/PostCard.astro'
-import SectionHeading from '../../components/molecules/SectionHeading.astro'
-import StatCard from '../../components/molecules/StatCard.astro'
-import PageLayout from '../../layouts/Base.astro'
-import { siteConfig } from '../../site.config'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import PostCard from '@/components/molecules/PostCard.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+
+import PageLayout from '@/layouts/Base.astro'
+import { siteConfig } from '@/site.config'
 
 const posts = (await getCollection('post', ({ data }) => (
   import.meta.env.PROD ? !data.draft : true
