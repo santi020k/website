@@ -41,6 +41,7 @@ export interface PaginationLink {
 
 export interface PreloadAsset {
   href: string
+  media?: string
   imagesizes?: string
   imagesrcset?: string
   type?: string

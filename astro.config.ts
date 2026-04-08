@@ -24,6 +24,8 @@ import {
 } from '@shikijs/transformers'
 import tailwindcss from '@tailwindcss/vite'
 
+const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
+
 const rawFonts = (ext: string[]) => ({
   name: 'vite-plugin-raw-fonts',
   transform(_: string, id: string) {
@@ -186,7 +188,7 @@ export default defineConfig({
   site: 'https://santi020k.me/',
   vite: {
     build: {
-      sourcemap: true, // Source maps generation
+      sourcemap: process.env.NODE_ENV !== 'production' || enableProductionSourceMaps,
       rollupOptions: {
         onwarn(warning, warn) {
           if (

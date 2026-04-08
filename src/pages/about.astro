@@ -14,9 +14,8 @@ const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 
 const aboutPortraitImage = await getImage({
   format: 'avif',
-  height: 480,
   src: AboutMeImage,
-  width: 360
+  widths: [240, 360, 480, 720]
 })
 
 const description =
@@ -27,6 +26,9 @@ const meta = {
   description,
   preloadImage: {
     href: aboutPortraitImage.src,
+    imagesizes: '(min-width: 1024px) 360px, 0px',
+    imagesrcset: aboutPortraitImage.srcSet.attribute,
+    media: '(min-width: 1024px)',
     type: 'image/avif'
   },
   title: 'About Santiago Molina — Engineering Leader'
@@ -112,8 +114,10 @@ const meta = {
           formats={['avif', 'webp']}
           height={480}
           loading="eager"
+          sizes="(min-width: 1024px) 360px, 0px"
           src={AboutMeImage}
           width={360}
+          widths={[240, 360, 480, 720]}
         />
       </div>
       <div class="
