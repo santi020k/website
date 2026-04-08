@@ -16,7 +16,7 @@ import { siteConfig } from './src/site.config'
 
 import alpinejs from '@astrojs/alpinejs'
 import mdx from '@astrojs/mdx'
-import sitemap from '@astrojs/sitemap'
+import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap'
 import {
   transformerMetaHighlight,
   transformerNotationDiff,
@@ -61,7 +61,7 @@ export default defineConfig({
 
         // Homepage — highest priority, changes frequently
         if (url === 'https://santi020k.me/' || url === 'https://santi020k.me') {
-          return { ...item, changefreq: 'daily' as const, priority: 1.0 }
+          return { ...item, changefreq: ChangeFreqEnum.DAILY, priority: 1.0 }
         }
 
         // Section indexes — important landing pages, checked weekly
@@ -69,31 +69,31 @@ export default defineConfig({
           url === 'https://santi020k.me/blog/' ||
           url === 'https://santi020k.me/portfolio/'
         ) {
-          return { ...item, changefreq: 'weekly' as const, priority: 0.9 }
+          return { ...item, changefreq: ChangeFreqEnum.WEEKLY, priority: 0.9 }
         }
 
         // Individual blog posts — high value, rarely change after publishing
         if (url.includes('/blog/')) {
-          return { ...item, changefreq: 'monthly' as const, priority: 0.8 }
+          return { ...item, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.8 }
         }
 
         // Individual portfolio/project pages
         if (url.includes('/portfolio/')) {
-          return { ...item, changefreq: 'monthly' as const, priority: 0.8 }
+          return { ...item, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.8 }
         }
 
         // About & Speaking — important but stable
         if (url.includes('/about') || url.includes('/speaking')) {
-          return { ...item, changefreq: 'monthly' as const, priority: 0.6 }
+          return { ...item, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.6 }
         }
 
         // Technology index and detail pages
         if (url.includes('/technologies/')) {
-          return { ...item, changefreq: 'weekly' as const, priority: 0.5 }
+          return { ...item, changefreq: ChangeFreqEnum.WEEKLY, priority: 0.5 }
         }
 
         // Uses, offline, 404 and everything else — low priority, stable
-        return { ...item, changefreq: 'monthly' as const, priority: 0.5 }
+        return { ...item, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.5 }
       }
     }),
     mdx(),
