@@ -8,6 +8,19 @@ const baseSchema = z.object({
   title: z.string().max(100)
 })
 
+const series = defineCollection({
+  loader: glob({ base: './src/content/series', pattern: '**/*.{md,mdx}' }),
+  schema: baseSchema.extend({
+    cadence: z.string(),
+    description: z.string(),
+    focusAreas: z.array(z.string()).default([]).transform(removeDuplicates),
+    order: z.number().default(0),
+    seoDescription: z.string().optional(),
+    seoTitle: z.string().optional(),
+    status: z.enum(['active', 'planned', 'archived']).default('active')
+  })
+})
+
 const project = defineCollection({
   loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
@@ -83,8 +96,10 @@ const post = defineCollection({
     tags: z.array(z.string()).default([]).transform(removeDuplicates),
     draft: z.boolean().default(false),
     canonicalUrl: z.url().optional(),
-    postType: z.enum(['Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).optional()
+    postType: z.enum(['Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).optional(),
+    seriesId: z.string().optional(),
+    seriesOrder: z.number().int().positive().optional()
   })
 })
 
-export const collections = { post, project, types }
+export const collections = { post, project, series, types }

@@ -1,0 +1,56 @@
+import { type CollectionEntry, getCollection, getEntry } from 'astro:content'
+
+import { getAdjacentSeriesPosts, sortSeriesPosts } from '@/utils/series'
+
+const includePost = (data: CollectionEntry<'post'>['data']) => import.meta.env.PROD ? !data.draft : true
+
+export async function getAllSeries(): Promise<CollectionEntry<'series'>[]> {
+  const series = await getCollection('series')
+
+  return series.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || a.data.title.localeCompare(b.data.title))
+}
+
+export async function getSeriesPosts(seriesId: string): Promise<CollectionEntry<'post'>[]> {
+  const posts = await getCollection('post', ({ data }) => includePost(data) && data.seriesId === seriesId)
+
+  return sortSeriesPosts(posts)
+}
+
+export async function getSeriesSummaries() {
+  const [seriesEntries, posts] = await Promise.all([
+    getAllSeries(),
+    getCollection('post', ({ data }) => includePost(data))
+  ])
+
+  return seriesEntries.map(series => {
+    const seriesPosts = sortSeriesPosts(posts.filter(post => post.data.seriesId === series.id))
+
+    return {
+      postCount: seriesPosts.length,
+      posts: seriesPosts,
+      series
+    }
+  })
+}
+
+export async function getSeriesContext(post: CollectionEntry<'post'>) {
+  if (!post.data.seriesId) return null
+
+  const [series, posts] = await Promise.all([
+    getEntry('series', post.data.seriesId),
+    getSeriesPosts(post.data.seriesId)
+  ])
+
+  if (!series || posts.length === 0) return null
+
+  const { currentIndex, next, previous } = getAdjacentSeriesPosts(posts, post.id)
+
+  return {
+    next,
+    position: currentIndex + 1,
+    posts,
+    previous,
+    series,
+    total: posts.length
+  }
+}
