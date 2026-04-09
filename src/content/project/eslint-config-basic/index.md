@@ -6,6 +6,11 @@ startingDate: "1 Mar 2024"
 githubUrl: "https://github.com/santi020k/eslint-config-basic"
 liveDemoUrl: "https://eslint.santi020k.me/"
 typesId: "personal"
+impactMetrics: [
+  "Used by 30+ developers across personal, client, and shared codebases",
+  "Reduced repeated setup work for new projects and experiments",
+  "Encoded strong defaults across React, Next.js, Astro, and monorepos"
+]
 technologies: [
   "React.js", "Next.js", "TypeScript", "Node", "Astro", "Expo", "ESLint", "JavaScript", "Code Quality", "Monorepo", "CI/CD", "DevOps Automation", "NPM", "Open Source", "Vitest", "TailwindCSS", "i18next", "Testing", "Developer Documentation", "Developer Experience (DX)"
 ]
