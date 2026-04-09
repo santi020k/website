@@ -30,6 +30,13 @@ export const staticSocialPages: SocialPageDefinition[] = [
     type: 'Blog'
   },
   {
+    description:
+      'A documented publishing rhythm for upcoming essays, evergreen refreshes, and writing series across Santiago Molina’s engineering blog.',
+    pathname: '/blog/content-calendar/',
+    title: 'Content Calendar',
+    type: 'Blog'
+  },
+  {
     description: 'A curated showcase of professional engineering projects, open-source contributions, and technical experiments across headless commerce, gaming, and SaaS.',
     pathname: '/portfolio/',
     title: 'Engineering Portfolio - Santiago Molina',

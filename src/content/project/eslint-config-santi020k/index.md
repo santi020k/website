@@ -1,11 +1,16 @@
 ---
 title: "@santi020k/eslint-config-santi020k"
-description: "Built my original opinionated ESLint toolkit for TypeScript and React teams, later evolved into @santi020k/eslint-config-basic."
+description: "Turned internal linting conventions into a reusable package that standardized React and TypeScript projects and paved the way for @santi020k/eslint-config-basic."
 rol: "Creator"
 startingDate: "1 Jan 2023"
 endingDate: "1 Mar 2024"
 githubUrl: "https://github.com/santi020k/eslint-config-santi020k"
 typesId: "personal"
+impactMetrics: [
+  "Shared one reusable lint baseline across multiple React and TypeScript projects",
+  "Reduced repeated setup work for new apps and experiments",
+  "Created the foundation later rebuilt into eslint-config-basic"
+]
 technologies: [
   "React.js", "Next.js", "TypeScript", "Expo", "Astro", "ESLint", "JavaScript", "Code Quality", "NPM", "Open Source", "TailwindCSS", "Vitest", "i18next"
 ]

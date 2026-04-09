@@ -1,0 +1,132 @@
+---
+import { type CollectionEntry, render } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import PostCard from '@/components/molecules/PostCard.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+
+import { getSeriesSummaries } from '@/data/series'
+import PageLayout from '@/layouts/Base.astro'
+
+export const getStaticPaths = async () => {
+  const seriesSummaries = await getSeriesSummaries()
+
+  return seriesSummaries.map(item => ({
+    params: { slug: item.series.id },
+    props: {
+      postCount: item.postCount,
+      posts: item.posts,
+      series: item.series
+    }
+  }))
+}
+
+interface Props {
+  postCount: number
+  posts: CollectionEntry<'post'>[]
+  series: CollectionEntry<'series'>
+}
+
+const { postCount, posts, series } = Astro.props
+const { Content } = await render(series)
+const metaTitle = series.data.seoTitle ?? series.data.title
+const metaDescription = series.data.seoDescription ?? series.data.description
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: series.data.title, url: Astro.url.pathname }
+]
+
+const structuredData: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  description: metaDescription,
+  hasPart: posts.map((post, index) => ({
+    '@type': 'BlogPosting',
+    name: post.data.title,
+    position: index + 1,
+    url: new URL(`/blog/${post.id}/`, Astro.site).href
+  })),
+  name: metaTitle,
+  url: new URL(Astro.url.pathname, Astro.site).href
+}
+---
+
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description: metaDescription,
+    structuredData,
+    title: metaTitle
+  }}
+>
+  <section
+    class="
+      grid gap-10
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+    data-animate
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description={series.data.description}
+        eyebrow="Blog series"
+        level="h1"
+        title={series.data.title}
+      />
+
+      <div class="flex flex-wrap gap-2">
+        <Pill label={`${postCount} ${postCount === 1 ? 'post' : 'posts'}`} tone="brand" />
+        <Pill label={series.data.cadence} tone="outline" />
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href="/blog/" showArrow variant="secondary">
+          Back to blog
+        </ButtonLink>
+        <ButtonLink href="/blog/content-calendar/" showArrow variant="ghost">
+          View content calendar
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div class="prose-santi section-shell-subtle max-w-none">
+      <Content />
+    </div>
+  </section>
+
+  {!!series.data.focusAreas.length && (
+    <section class="editorial-section" data-animate>
+      <SectionHeading
+        description="Recurring themes that shape the articles in this track."
+        eyebrow="Focus areas"
+        title="What this series keeps coming back to."
+      />
+
+      <div class="flex flex-wrap gap-3">
+        {series.data.focusAreas.map(area => (
+          <Pill label={area} tone="outline" />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Read these in order if you want the clearest progression from foundations to deeper implementation decisions."
+      eyebrow="Posts"
+      title="Articles in this series."
+    />
+
+    <div class="space-y-6">
+      {posts.map((post, index) => (
+        <div class="space-y-3">
+          <p class="section-label">Part {index + 1}</p>
+          <PostCard post={post} />
+        </div>
+      ))}
+    </div>
+  </section>
+</PageLayout>

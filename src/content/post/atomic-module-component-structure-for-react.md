@@ -7,6 +7,8 @@ coverImage:
   alt: "atomic module component structure for react 34464b05832c"
   src: "./atomic-module-component-structure-for-react-cover.png"
 postType: "Guide"
+seriesId: "building-a-production-nextjs-app"
+seriesOrder: 1
 canonicalUrl: "https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c"
 ---
 

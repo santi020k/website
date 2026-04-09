@@ -6,20 +6,22 @@ import SectionHeading from './SectionHeading.astro'
 
 interface Props {
   currentPostId: string
+  excludeSeriesId?: string | undefined
   tags: string[]
 }
 
-const { currentPostId, tags } = Astro.props
+const { currentPostId, excludeSeriesId, tags } = Astro.props
 const allPosts = await getCollection('post')
 
 // Filter out current post and score others based on shared tags
 const relatedPosts = allPosts
-  .filter(post => post.id !== currentPostId)
+  .filter(post => post.id !== currentPostId && (!excludeSeriesId || post.data.seriesId !== excludeSeriesId))
   .map(post => {
     const sharedTags = post.data.tags.filter(tag => tags.includes(tag)).length
 
     return { post, sharedTags }
   })
+  .filter(item => item.sharedTags > 0)
   .sort((a, b) => b.sharedTags - a.sharedTags || b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
   .slice(0, 3)
   .map(item => item.post)

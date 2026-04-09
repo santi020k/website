@@ -7,6 +7,8 @@ coverImage:
   alt: "building the best next js typescript standard vitest eslint configuration f6d91d6346e7"
   src: "./building-the-best-next-js-typescript-standard-vitest-eslint-configuration-cover.jpeg"
 postType: "Guide"
+seriesId: "building-a-production-nextjs-app"
+seriesOrder: 2
 canonicalUrl: "https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7"
 ---
 

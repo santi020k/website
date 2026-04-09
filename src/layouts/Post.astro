@@ -5,12 +5,13 @@ import { Icon } from 'astro-icon/components'
 import CoverImage from '@/components/atoms/CoverImage.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import NewsletterBox from '@/components/molecules/NewsletterBox.astro'
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
+import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
 
 import readingTime from 'reading-time'
 
+import { getSeriesContext } from '@/data/series'
 import BaseLayout from '@/layouts/Base.astro'
 
 interface Props {
@@ -25,6 +26,7 @@ const stats = readingTime(post.body ?? '')
 const readingTimeText = stats.text
 const wordCount = Math.round(stats.words)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const seriesContext = await getSeriesContext(post)
 
 const coverAspectRatio = post.data.coverImage ?
   post.data.coverImage.src.width / post.data.coverImage.src.height :
@@ -85,11 +87,7 @@ const breadcrumbs = [
   <div
     aria-hidden="true"
     role="presentation"
-    class="
-      fixed top-0 left-0 z-50 h-1.5 bg-linear-to-r from-brand to-brand-soft
-      shadow-[0_0_10px_hsl(var(--brand)/0.22)] transition-all duration-150
-      ease-out
-    "
+    class="reading-progress-bar"
     style="width: 0%"
     x-data="{
       percent: 0,
@@ -241,6 +239,30 @@ const breadcrumbs = [
             </a>
           </div>
         )}
+
+        {seriesContext && (
+          <div class="mini-note">
+            <p class="section-label">Series</p>
+            <a
+              href={`/blog/series/${seriesContext.series.id}/`}
+              class="
+                mt-3 inline-flex items-center gap-2 text-sm font-medium text-ink
+                transition-colors
+                hover:text-brand
+              "
+            >
+              <Icon
+                aria-hidden="true"
+                name="tabler:route"
+                class="size-4"
+              />
+              <span>{seriesContext.series.data.title}</span>
+            </a>
+            <p class="mt-3 text-sm/6 text-ink-soft">
+              Post {seriesContext.position} of {seriesContext.total}. {seriesContext.series.data.description}
+            </p>
+          </div>
+        )}
       </aside>
     </header>
 
@@ -252,9 +274,18 @@ const breadcrumbs = [
       <div class="mt-16">
         <ShareButtons title={title} url={canonicalURL.href} />
       </div>
-      <div class="not-prose mt-16">
-        <NewsletterBox />
-      </div>
+
+      {seriesContext && (
+        <SeriesNavigator
+          currentPostId={post.id}
+          next={seriesContext.next}
+          position={seriesContext.position}
+          posts={seriesContext.posts}
+          previous={seriesContext.previous}
+          series={seriesContext.series}
+          total={seriesContext.total}
+        />
+      )}
     </div>
 
     <footer
@@ -311,7 +342,7 @@ const breadcrumbs = [
   </article>
 
   <div class="mx-auto w-full max-w-6xl space-y-20">
-    <RelatedPosts currentPostId={post.id} tags={post.data.tags} />
+    <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
   </div>
 
   <script>

@@ -5,8 +5,11 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 
+import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
+import { getSeriesSummaries } from '@/data/series'
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
 
@@ -16,6 +19,12 @@ const posts = (await getCollection('post', ({ data }) => (
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
 
 const uniqueTags = new Set(posts.flatMap(post => post.data.tags)).size
+const activeSeries = (await getSeriesSummaries()).filter(item => item.postCount > 0 && item.series.data.status === 'active')
+const roadmapPreview = editorialCalendar.slice(0, 3)
+
+const cadenceDescription =
+  `${publishingRhythm.summary} ` +
+  'The current roadmap runs from April 2026 through September 2026 so the site keeps growing on a predictable rhythm instead of in bursts.'
 
 const topTags = [...posts
   .flatMap(post => post.data.tags)
@@ -83,9 +92,84 @@ const breadcrumbs = [
     "
     >
       <StatCard description="Articles currently hosted on my site and cross-posted to Medium." label="Posts" value={String(posts.length)} />
-      <StatCard description="Topics and themes covered in my writing across various publications." label="Tags" value={String(uniqueTags)} />
+      <StatCard
+        description="Topics and themes covered in my writing across various publications."
+        label="Tags"
+        value={String(uniqueTags)}
+      />
+      <StatCard
+        description="Grouped reading tracks so related posts are easier to follow in sequence."
+        label="Series"
+        value={String(activeSeries.length)}
+      />
     </div>
   </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description={cadenceDescription}
+      eyebrow="Cadence"
+      linkHref="/blog/content-calendar/"
+      linkLabel="View the full content calendar"
+      title="A documented monthly publishing rhythm."
+    />
+
+    <div class="space-y-6">
+      <div class="
+        grid gap-5
+        md:grid-cols-3
+      "
+      >
+        {roadmapPreview.map(entry => (
+          <article class="
+            flex mini-note h-full flex-col gap-4 p-5
+            sm:p-6
+          "
+          >
+            <div class="flex flex-wrap items-center gap-2">
+              <Pill label={entry.month} tone="brand" />
+              <Pill label={entry.format} tone="outline" />
+            </div>
+            <h2 class="text-xl/tight text-ink">
+              {entry.headline}
+            </h2>
+            <p class="text-sm/6 text-ink-soft">
+              Refreshing: {entry.refreshTitle}
+            </p>
+          </article>
+        ))}
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href="/blog/content-calendar/" showArrow>
+          See the roadmap
+        </ButtonLink>
+        <ButtonLink href="/feed.xml" showArrow variant="secondary">
+          Follow via RSS
+        </ButtonLink>
+      </div>
+    </div>
+  </section>
+
+  {!!activeSeries.length && (
+    <section class="editorial-section" data-animate>
+      <SectionHeading
+        description="Related posts now live in clearer tracks, so topics like Next.js delivery systems and ESLint tooling feel like connected reading instead of isolated entries."
+        eyebrow="Series"
+        title="Follow related posts in order."
+      />
+
+      <div class="
+        grid gap-6
+        lg:grid-cols-2
+      "
+      >
+        {activeSeries.map(item => (
+          <SeriesCard postCount={item.postCount} series={item.series} />
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="editorial-section" data-animate>
     <SectionHeading

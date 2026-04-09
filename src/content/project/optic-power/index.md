@@ -1,6 +1,6 @@
 ---
 title: "Optic Power"
-description: "Built and optimized products across gaming, SaaS, and martech, improving API performance while shipping for Team Liquid, NurtureBoss, and Stardust.gg."
+description: "Shipped across gaming, SaaS, and martech products in parallel, improving API performance by 40% while supporting launches for Team Liquid, NurtureBoss, and Stardust.gg."
 rol: "Senior Full Stack Engineer"
 startingDate: "1 Jul 2021"
 endingDate: "1 Feb 2023"
@@ -23,6 +23,10 @@ coverImage:
 ## Shipping across gaming, SaaS, and product engineering work
 
 At [Optic Power](https://www.codepwr.com/), I worked as a senior full stack engineer across several products at once. The throughline was consistent: build dependable software for teams that needed product momentum, technical depth, and steady delivery in a fully remote environment.
+
+### ⚠️ Core challenge
+
+The hard part was not just writing code across several stacks. It was keeping quality and momentum intact while context-switching between client products with different business models, technical constraints, and delivery expectations. The work had to stay adaptable without becoming fragmented.
 
 ### 🎯 What I owned
 

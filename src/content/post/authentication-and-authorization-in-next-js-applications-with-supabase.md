@@ -7,6 +7,8 @@ coverImage:
   alt: "Neon illustration of a secure auth panel connected to protected access badges and role checkpoints"
   src: "./authentication-and-authorization-in-next-js-applications-with-supabase-cover.png"
 postType: "Tutorial"
+seriesId: "building-a-production-nextjs-app"
+seriesOrder: 7
 ---
 
 [Read the Previous Post: Continuous Integration and Deployment for Next.js Projects](https://santi020k.me/blog/continuous-integration-and-deployment-for-next-js-projects/)

@@ -1,3 +1,4 @@
+import { getSeriesPath } from '@/utils/links'
 import { renderSocialImage } from '@/utils/render-social-image.js'
 import { getSocialImageSlug } from '@/utils/social-image'
 
@@ -10,6 +11,7 @@ import { getTechnologySocialPage, staticSocialPages } from '@/data/social-pages'
 export const getStaticPaths = async () => {
   const posts = await getCollection('post', ({ data }) => import.meta.env.PROD ? !data.draft : true)
   const projects = await getCollection('project', ({ data }) => import.meta.env.PROD ? !data.draft : true)
+  const series = await getCollection('series')
   const technologies = getUniqueTechnologies(projects)
 
   const staticPagePaths = staticSocialPages.map(page => ({
@@ -42,6 +44,16 @@ export const getStaticPaths = async () => {
     }
   }))
 
+  const seriesPaths = series.map(seriesEntry => ({
+    params: { slug: `pages/${getSocialImageSlug(getSeriesPath(seriesEntry.id))}.png` },
+    props: {
+      description: seriesEntry.data.seoDescription ?? seriesEntry.data.description,
+      pathLabel: getSeriesPath(seriesEntry.id),
+      title: seriesEntry.data.seoTitle ?? seriesEntry.data.title,
+      type: 'Blog Series'
+    }
+  }))
+
   const technologyPaths = technologies.map(technology => {
     const page = getTechnologySocialPage(technology)
 
@@ -56,7 +68,7 @@ export const getStaticPaths = async () => {
     }
   })
 
-  return [...staticPagePaths, ...postPaths, ...projectPaths, ...technologyPaths]
+  return [...staticPagePaths, ...postPaths, ...projectPaths, ...seriesPaths, ...technologyPaths]
 }
 
 interface OGProps {
