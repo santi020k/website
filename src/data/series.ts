@@ -1,6 +1,7 @@
 import { getAdjacentSeriesPosts, sortSeriesPosts } from '@/utils/series'
 
-import { type CollectionEntry, getCollection, getEntry } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import { getCollection, getEntry } from 'astro:content'
 
 const includePost = (data: CollectionEntry<'post'>['data']) => import.meta.env.PROD ? !data.draft : true
 

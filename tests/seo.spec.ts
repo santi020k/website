@@ -56,8 +56,8 @@ test.describe('SEO — meta tags', () => {
   test('blog post has an og:image URL that includes the post slug', async ({ page }) => {
     await page.goto('/blog/')
 
-    // Navigate into the first blog post
-    const firstPost = page.locator('article a').first()
+    // Navigate specifically into a blog post (avoiding series links)
+    const firstPost = page.locator('article').filter({ hasText: /Read more/i }).locator('a').first()
     const href = await firstPost.getAttribute('href')
     expect(href).toBeTruthy()
 
@@ -152,7 +152,7 @@ test.describe('SEO — JSON-LD structured data', () => {
 
   test('blog post page has its own JSON-LD schema', async ({ page }) => {
     await page.goto('/blog/')
-    const firstPostHref = await page.locator('article a').first().getAttribute('href')
+    const firstPostHref = await page.locator('article').filter({ hasText: /Read more/i }).locator('a').first().getAttribute('href')
     if (firstPostHref) {
       await page.goto(firstPostHref)
     }
