@@ -10,8 +10,10 @@ import PostCard from '../components/molecules/PostCard.astro'
 import ProjectCard from '../components/molecules/ProjectCard.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
 import StatCard from '../components/molecules/StatCard.astro'
+import { publishingRhythm } from '../data/editorial-calendar'
 import { selectedOrganizations, speakingTopics, usesHighlights } from '../data/profile'
 import { getAllProjects, getUniqueTechnologiesWithCount } from '../data/project'
+import { getSeriesSummaries } from '../data/series'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
 import { collectionDateSortProjects } from '../utils/date'
@@ -30,6 +32,7 @@ const latestPosts = allPosts
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 3)
 
+const activeSeries = (await getSeriesSummaries()).filter(item => item.postCount > 0 && item.series.data.status === 'active')
 const allTechnologies = getUniqueTechnologiesWithCount(allProjects)
 const topTechnologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 50)
 const hiddenTechnologyCount = Math.max(0, allTechnologies.length - topTechnologies.length)
@@ -502,6 +505,40 @@ const meta = {
       title="Practical writing for engineers who build and lead."
     />
     <div class="space-y-6">
+      <div class="
+        grid gap-4
+        md:grid-cols-3
+      "
+      >
+        <StatCard
+          description={publishingRhythm.summary}
+          label="Cadence"
+          value="1/mo"
+        />
+        <StatCard
+          description="Older evergreen pieces scheduled for refresh so the archive keeps compounding."
+          label="Refreshes"
+          value="1/mo"
+        />
+        <StatCard
+          description="Related reading tracks already live across the blog archive."
+          label="Series"
+          value={String(activeSeries.length)}
+        />
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href="/blog/content-calendar/" showArrow variant="secondary">
+          View content calendar
+        </ButtonLink>
+        <ButtonLink href="/blog/series/" showArrow variant="ghost">
+          Browse series
+        </ButtonLink>
+        <ButtonLink href="/feed.xml" showArrow variant="ghost">
+          Follow via RSS
+        </ButtonLink>
+      </div>
+
       {featuredPost && <PostCard featured post={featuredPost} />}
       <div class="
         grid gap-6

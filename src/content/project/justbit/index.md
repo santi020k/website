@@ -1,6 +1,6 @@
 ---
 title: "Justbit.site"
-description: "Co-founded a boutique software studio and led delivery across custom websites, e-commerce builds, and full-stack products for clients across Colombia."
+description: "Co-founded a boutique software studio that shipped 10+ client launches in its first year and helped selected clients grow organic traffic by up to 70%."
 rol: "CTO & Co-Founder"
 startingDate: "1 Apr 2017"
 endingDate: "1 Dec 2018"
@@ -23,6 +23,10 @@ coverImage:
 ## Building tailored web solutions from the ground up
 
 At [Justbit.site](https://justbit.site), I learned what it means to own both the product and the business side of delivery. As CTO and co-founder, I worked directly with clients, scoped projects, led implementation, and helped turn ideas into launched products.
+
+### ⚠️ Core challenge
+
+The hard part was not choosing frameworks. It was building a delivery system that could adapt to very different client needs without turning every project into a one-off reinvention. We needed to move fast, keep quality high, and make technical decisions that supported search visibility, conversion, and maintainability at the same time.
 
 ### 🎯 What I led
 

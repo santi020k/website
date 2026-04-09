@@ -1,0 +1,99 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SeriesCard from '@/components/molecules/SeriesCard.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+
+import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
+import { getSeriesSummaries } from '@/data/series'
+import PageLayout from '@/layouts/Base.astro'
+
+const seriesSummaries = await getSeriesSummaries()
+const activeSeries = seriesSummaries.filter(item => item.postCount > 0 && item.series.data.status === 'active')
+const postsGroupedIntoSeries = activeSeries.reduce((count, item) => count + item.postCount, 0)
+const roadmapSeriesCount = new Set(editorialCalendar.map(entry => entry.seriesId).filter(Boolean)).size
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: 'Series', url: '/blog/series/' }
+]
+---
+
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description: 'Grouped reading tracks for Santiago Molina’s writing on architecture, tooling, testing, and delivery systems.',
+    title: 'Blog Series — Santiago Molina'
+  }}
+>
+  <section
+    class="
+      grid gap-10
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+    data-animate
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description={
+          `${publishingRhythm.summary} ` +
+          'Series make that rhythm easier to follow by turning scattered posts into clearer reading paths.'
+        }
+        eyebrow="Blog series"
+        level="h1"
+        title="Reading tracks for architecture, tooling, testing, and delivery systems."
+      />
+
+      <div class="section-actions">
+        <ButtonLink href="/blog/" showArrow variant="secondary">
+          Back to blog
+        </ButtonLink>
+        <ButtonLink href="/blog/content-calendar/" showArrow variant="ghost">
+          View content calendar
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div class="
+      grid gap-4
+      sm:grid-cols-3
+      lg:grid-cols-1
+    "
+    >
+      <StatCard
+        description="Tracks readers can already follow without hunting around the archive."
+        label="Active series"
+        value={String(activeSeries.length)}
+      />
+      <StatCard
+        description="Articles already grouped into related reading paths."
+        label="Posts grouped"
+        value={String(postsGroupedIntoSeries)}
+      />
+      <StatCard
+        description="Upcoming roadmap topics that already connect to an existing series."
+        label="Roadmap tracks"
+        value={String(roadmapSeriesCount)}
+      />
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Each series is meant to reduce guesswork: where to start, what to read next, and how the topic builds from foundations into implementation details."
+      eyebrow="Series"
+      title="Current series on the site."
+    />
+
+    <div class="
+      grid gap-6
+      lg:grid-cols-2
+    "
+    >
+      {activeSeries.map(item => (
+        <SeriesCard postCount={item.postCount} series={item.series} />
+      ))}
+    </div>
+  </section>
+</PageLayout>

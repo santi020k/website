@@ -31,6 +31,13 @@ export const staticSocialPages: SocialPageDefinition[] = [
   },
   {
     description:
+      'Browse Santiago Molina’s blog series for connected reading tracks on Next.js delivery, ESLint tooling, testing, and software architecture.',
+    pathname: '/blog/series/',
+    title: 'Blog Series',
+    type: 'Blog'
+  },
+  {
+    description:
       'A documented publishing rhythm for upcoming essays, evergreen refreshes, and writing series across Santiago Molina’s engineering blog.',
     pathname: '/blog/content-calendar/',
     title: 'Content Calendar',
