@@ -1,12 +1,12 @@
 ---
-import type { CollectionEntry } from 'astro:content'
+import { type CollectionEntry, getEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import CoverImage from '@/components/atoms/CoverImage.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
-import { getPostPath } from '@/utils/links'
+import { getPostPath, getSeriesPath } from '@/utils/links'
 
 interface Props {
   className?: string
@@ -16,6 +16,7 @@ interface Props {
 
 const { className = '', featured = false, post } = Astro.props
 const { data } = post
+const series = data.seriesId ? await getEntry('series', data.seriesId) : null
 
 const imageSizes = featured ?
   '(min-width: 1024px) 72vw, 100vw' :
@@ -103,6 +104,22 @@ const imageSizes = featured ?
       >
         {data.description}
       </p>
+
+      {series && (
+        <p class="text-sm/6 text-ink-muted">
+          In series:{' '}
+          <a
+            class="
+              font-medium text-brand transition-colors
+              hover:text-accent
+            "
+            href={getSeriesPath(series.id)}
+          >
+            {series.data.title}
+          </a>
+          {data.seriesOrder && ` · Part ${data.seriesOrder}`}
+        </p>
+      )}
     </div>
 
     <div class="mt-auto flex flex-wrap items-center justify-between gap-4">

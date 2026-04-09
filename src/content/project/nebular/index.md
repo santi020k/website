@@ -1,6 +1,6 @@
 ---
 title: "Nebular Technologies"
-description: "Started my career shipping client web, Android, and commerce products across Rails, AngularJS, Java, and WordPress, building the full-stack range I still rely on today."
+description: "Shipped client web, Android, and commerce products across Rails, AngularJS, Java, and WordPress, building the release discipline and full-stack range I still rely on today."
 rol: "Junior Full Stack Developer"
 startingDate: "1 Jan 2014"
 endingDate: "1 Apr 2017"

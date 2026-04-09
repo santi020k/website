@@ -1,6 +1,6 @@
 ---
 title: "Datagran"
-description: "Led the front-end modernization of an AI martech platform, migrating a legacy jQuery codebase into a scalable React and TypeScript architecture."
+description: "Led the front-end modernization of an AI martech platform, cutting bugs by 30% while moving the product from jQuery to a scalable React and TypeScript architecture."
 rol: "Front-End Lead"
 startingDate: "1 Dec 2018"
 endingDate: "1 Jan 2020"
@@ -23,6 +23,10 @@ coverImage:
 ## Modernizing Datagran's front-end architecture
 
 At [Datagran](https://www.datagran.io), I led the front-end modernization of an AI-powered martech platform used by brands such as Rappi, Subway, and Telefonica. The core challenge was evolving a jQuery-heavy product into a React and TypeScript system that the team could extend without slowing delivery.
+
+### ⚠️ Core challenge
+
+Datagran could not pause product work just because the front-end needed a better foundation. The migration had to happen while dashboards, campaign tools, and customer-facing workflows kept moving, which meant improving architecture without introducing delivery drag.
 
 ### 🎯 What I led
 
