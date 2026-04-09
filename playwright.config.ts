@@ -45,8 +45,8 @@ export default defineConfig({
   ],
   webServer: {
     command: previewServerCommand,
-    timeout: 180_000,
+    timeout: 600_000,
     url: 'http://localhost:4321',
-    reuseExistingServer: false
+    reuseExistingServer: !process.env.CI
   }
 })

@@ -105,7 +105,7 @@ const structuredData: Record<string, unknown> = {
         title="What this series keeps coming back to."
       />
 
-      <div class="flex flex-wrap gap-3">
+      <div class="flex h-max flex-wrap gap-3">
         {series.data.focusAreas.map(area => (
           <Pill label={area} tone="outline" />
         ))}
