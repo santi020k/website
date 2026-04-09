@@ -20,6 +20,7 @@ const posts = (await getCollection('post', ({ data }) => (
 
 const uniqueTags = new Set(posts.flatMap(post => post.data.tags)).size
 const activeSeries = (await getSeriesSummaries()).filter(item => item.postCount > 0 && item.series.data.status === 'active')
+const santi020kWaySeries = activeSeries.find(item => item.series.id === 'the-santi020k-way') ?? null
 const roadmapPreview = editorialCalendar.slice(0, 3)
 
 const cadenceDescription =
@@ -153,6 +154,74 @@ const breadcrumbs = [
       </div>
     </div>
   </section>
+
+  {santi020kWaySeries && (
+    <section class="editorial-section" data-animate>
+      <SectionHeading
+        description="A new blog section collecting the principles I keep returning to around ownership, code quality, feedback, responsive thinking, and calmer releases."
+        eyebrow="The santi020k way"
+        linkHref="/blog/series/the-santi020k-way/"
+        linkLabel="Browse the full series"
+        title="A clearer home for my engineering principles."
+      />
+
+      <div class="
+        grid gap-6
+        lg:grid-cols-[1.05fr_0.95fr]
+      "
+      >
+        <article class="
+          section-shell-subtle flex flex-col gap-5
+          sm:gap-6
+        "
+        >
+          <p class="text-base/8 text-ink-soft">
+            This series turns a private set of notes into public writing. The throughline is simple:
+            stronger teams care about the whole system, not just the local task in front of them.
+          </p>
+
+          <p class="text-base/8 text-ink-soft">
+            The posts cover ownership, code smells, review language, Git habits, responsive standards,
+            team conventions, release discipline, and small readability choices that compound over time.
+          </p>
+
+          <div class="section-actions">
+            <ButtonLink href="/blog/series/the-santi020k-way/" showArrow>
+              Explore the series
+            </ButtonLink>
+            <ButtonLink href="/blog/series/" showArrow variant="secondary">
+              View all series
+            </ButtonLink>
+          </div>
+        </article>
+
+        <div class="
+          panel-card flex flex-col gap-5 p-6
+          sm:p-7
+        "
+        >
+          <div class="flex flex-wrap items-center gap-2">
+            <Pill label={`${santi020kWaySeries.postCount} posts`} tone="brand" />
+            <Pill label="Newly imported" tone="outline" />
+          </div>
+
+          <div class="space-y-3">
+            <p class="section-label">Focus areas</p>
+            <div class="flex flex-wrap gap-2">
+              {santi020kWaySeries.series.data.focusAreas.map(area => (
+                <Pill label={area} tone="outline" />
+              ))}
+            </div>
+          </div>
+
+          <p class="text-sm/7 text-ink-soft">
+            It is the right track if you want the cultural and operational rules behind how I like to
+            build software teams, not only the framework-specific implementation details.
+          </p>
+        </div>
+      </div>
+    </section>
+  )}
 
   {!!activeSeries.length && (
     <section class="editorial-section" data-animate>
