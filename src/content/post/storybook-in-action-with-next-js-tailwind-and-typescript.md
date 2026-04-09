@@ -13,6 +13,8 @@ coverImage:
   src: ./storybook-in-action-with-next-js-tailwind-and-typescript-fig-1.png
 canonicalUrl: "https://medium.com/towardsdev/storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2"
 postType: "Tutorial"
+seriesId: "building-a-production-nextjs-app"
+seriesOrder: 4
 ---
 
 Continuing from our previous post on optimizing development workflows, today we’ll explore the power of Visual Development Experience (VDE) with Storybook in Action, alongside Next.js. While our last discussion emphasized the importance of pre-commit systems in ensuring code quality and stability, this post dives into enhancing UI development through Storybook’s isolated component environment. Let’s unlock the potential of these tools to streamline development, foster collaboration, and maintain UI consistency across projects.
@@ -425,4 +427,3 @@ export default preview;
 By integrating these powerful Storybook with this addons, you can elevate your development workflow, streamline component testing, and enhance collaboration within your team. Experiment with different integrations to tailor Storybook to your project’s unique needs, fostering a more efficient and productive development environment.
 
 Before integrating Storybook, consider ongoing maintenance. It’s crucial for updated documentation and avoiding issues. Regular upkeep includes component updates, testing, and dependency compatibility checks. Evaluate benefits against maintenance effort based on project stage and resources.
-

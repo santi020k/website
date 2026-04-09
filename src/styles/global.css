@@ -218,6 +218,31 @@
   backdrop-filter: blur(12px);
 }
 
+@utility site-header-shell {
+  @apply relative mx-auto flex w-full max-w-[calc(100vw-2rem)] items-center justify-between gap-3 rounded-3xl px-4 py-3 panel-surface sm:max-w-6xl sm:px-5;
+}
+
+@utility back-to-top-button {
+  @apply fixed right-6 bottom-6 z-40 flex size-11 cursor-pointer items-center justify-center rounded-full border border-line/40 bg-surface/80 text-brand shadow-xl backdrop-blur-md transition-all duration-500 hover:scale-110 hover:bg-surface hover:shadow-brand/20 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 active:scale-95 motion-reduce:transition-none;
+}
+
+@utility brand-radial-glow {
+  @apply pointer-events-none absolute inset-x-8 top-0 h-40 rounded-full blur-3xl;
+  background: radial-gradient(
+    circle at center,
+    hsl(var(--brand) / 0.16),
+    transparent 72%
+  );
+}
+
+@utility reading-progress-bar {
+  @apply fixed top-0 left-0 z-50 h-1.5 bg-linear-to-r from-brand to-brand-soft shadow-[0_0_10px_hsl(var(--brand)/0.22)] transition-all duration-150 ease-out;
+}
+
+@utility focus-pill {
+  @apply inline-flex min-h-14 flex-wrap items-center gap-3 rounded-full border border-line/70 bg-surface/78 px-4 py-3 shadow-[0_10px_26px_hsl(var(--ink)/0.04)];
+}
+
 @utility section-shell {
   @apply relative overflow-hidden rounded-[2.25rem] px-6 py-8 sm:px-8 sm:py-10;
   background: linear-gradient(

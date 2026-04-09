@@ -23,9 +23,6 @@ export default [
     }
   },
   {
-    rules: {
-      '@typescript-eslint/no-unsafe-return': 'off'
-    },
     settings: {
       'better-tailwindcss': {
         entryPoint: 'src/styles/global.css',
@@ -42,10 +39,11 @@ export default [
     }
   },
   {
-    name: 'website/better-tailwindcss-timeout-workaround',
-    files: ['src/components/atoms/BackToTop.astro'],
+    // Astro template expressions currently trigger false positives for this rule.
+    name: 'website/astro-template-typescript-workaround',
+    files: ['**/*.astro'],
     rules: {
-      'better-tailwindcss/enforce-canonical-classes': 'off'
+      '@typescript-eslint/no-unsafe-return': 'off'
     }
   }
 ]

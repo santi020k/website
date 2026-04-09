@@ -1,10 +1,15 @@
 ---
 title: "Smith Commerce"
-description: "Helped rebuild Marcone's storefront as a headless commerce platform, improving performance, accessibility, and front-end delivery speed."
+description: "Rebuilt Marcone's storefront into a faster, more accessible headless experience, lifting Lighthouse from 35 to 98 while giving teams room to ship independently."
 rol: "Front End Developer"
 startingDate: "1 May 2025"
 liveDemoUrl: "https://www.marcone.com/"
 typesId: "professional"
+impactMetrics: [
+  "Lighthouse score improved from 35 to 98",
+  "Time to Interactive dropped by 75%",
+  "100% accessibility score on the rebuilt storefront"
+]
 technologies: [
   "Next.js", "React", "TypeScript", "Turborepo", "Tailwind CSS", "Radix UI", "Lucide React", "Storybook", "tailwindcss-animate", "TanStack Query", "Zustand", "Apollo Client", "OpenAPI", "React Hook Form", "Zod", "ESLint", "Prettier", "Husky", "Auth0", "i18next", "Docker", "AWS", "Builder.io", "Jest", "Playwright", "Performance Optimization", "Lighthouse", "Accessibility", "Developer Experience (DX)", "Code Quality", "CI/CD", "Headless Commerce", "Monorepo"
 ]
@@ -17,6 +22,10 @@ coverImage:
 ## Rebuilding Marcone for a headless future
 
 At [Smith Commerce](https://smithcommerce.com), I worked on the frontend rebuild of [Marcone](https://www.marcone.com/), a large commerce experience being moved away from a legacy monolith. The old storefront was slow, inaccessible, and hard to evolve. The goal was to replace it with a modern headless frontend that could move faster without waiting on backend readiness.
+
+### ⚠️ Core challenge
+
+This was not a greenfield marketing site. It was a storefront migration with real performance debt, accessibility issues, and delivery pressure on both the frontend and backend sides. The work only mattered if the team could improve user experience immediately while still creating space for parallel delivery and longer-term maintainability.
 
 ### 🎯 What I owned
 

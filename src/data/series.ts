@@ -1,22 +1,22 @@
-import { type CollectionEntry, getCollection, getEntry } from 'astro:content'
-
 import { getAdjacentSeriesPosts, sortSeriesPosts } from '@/utils/series'
+
+import { type CollectionEntry, getCollection, getEntry } from 'astro:content'
 
 const includePost = (data: CollectionEntry<'post'>['data']) => import.meta.env.PROD ? !data.draft : true
 
-export async function getAllSeries(): Promise<CollectionEntry<'series'>[]> {
+export const getAllSeries = async (): Promise<CollectionEntry<'series'>[]> => {
   const series = await getCollection('series')
 
-  return series.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || a.data.title.localeCompare(b.data.title))
+  return series.sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title))
 }
 
-export async function getSeriesPosts(seriesId: string): Promise<CollectionEntry<'post'>[]> {
+export const getSeriesPosts = async (seriesId: string): Promise<CollectionEntry<'post'>[]> => {
   const posts = await getCollection('post', ({ data }) => includePost(data) && data.seriesId === seriesId)
 
   return sortSeriesPosts(posts)
 }
 
-export async function getSeriesSummaries() {
+export const getSeriesSummaries = async () => {
   const [seriesEntries, posts] = await Promise.all([
     getAllSeries(),
     getCollection('post', ({ data }) => includePost(data))
@@ -33,7 +33,7 @@ export async function getSeriesSummaries() {
   })
 }
 
-export async function getSeriesContext(post: CollectionEntry<'post'>) {
+export const getSeriesContext = async (post: CollectionEntry<'post'>) => {
   if (!post.data.seriesId) return null
 
   const [series, posts] = await Promise.all([

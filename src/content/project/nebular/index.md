@@ -1,11 +1,16 @@
 ---
 title: "Nebular Technologies"
-description: "Started my career building web, Android, and hybrid products with Rails, AngularJS, Java, and WordPress across client and internal work."
+description: "Started my career shipping client web, Android, and commerce products across Rails, AngularJS, Java, and WordPress, building the full-stack range I still rely on today."
 rol: "Junior Full Stack Developer"
 startingDate: "1 Jan 2014"
 endingDate: "1 Apr 2017"
 liveDemoUrl: "https://nebular.co"
 typesId: "professional"
+impactMetrics: [
+  "Shipped across backend, frontend, mobile, and CMS work in one studio",
+  "Built the foundation for later tech lead and full-stack roles",
+  "Learned testing, reviews, and release discipline under real deadlines"
+]
 technologies: [
   "Ruby", "Ruby on Rails", "RSpec", "AngularJS", "Java", "Cordova", "PHP", "WordPress", "WooCommerce", "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "PostgreSQL", "MySQL", "Linux", "Scrum", "Heroku", "TypeScript", "jQuery", "Bitbucket", "Android"
 ]
@@ -26,7 +31,7 @@ At [Nebular Technologies](https://nebular.co), I got my first real exposure to s
 - **Native Android work in Java,** which gave me an early feel for mobile constraints, release workflows, and device-level tradeoffs.
 - **WordPress and WooCommerce builds** that rounded out my ability to ship complete client solutions across content, commerce, and custom behavior.
 
-### 📈 What I learned there
+### 📈 Outcomes from that stretch
 
 - **How to learn by shipping:** new frameworks and languages stopped feeling abstract once they had to survive a deadline and a real user need.
 - **The basics that still matter now:** code reviews, testing discipline, version control, iterative delivery, and the difference between something working once and something being maintainable.

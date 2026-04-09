@@ -15,6 +15,8 @@ coverImage:
   alt: Development workflow diagram showing Husky pre-commit and pre-push hooks
   src: ./development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.png
 postType: "Tutorial"
+seriesId: "building-a-production-nextjs-app"
+seriesOrder: 3
 canonicalUrl: "https://medium.com/@santi020k/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092"
 ---
 

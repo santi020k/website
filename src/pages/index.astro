@@ -6,7 +6,6 @@ import AboutMeImage from '../assets/photos/about-me.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import Eyebrow from '../components/atoms/Eyebrow.astro'
 import Pill from '../components/atoms/Pill.astro'
-import NewsletterBox from '../components/molecules/NewsletterBox.astro'
 import PostCard from '../components/molecules/PostCard.astro'
 import ProjectCard from '../components/molecules/ProjectCard.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
@@ -128,12 +127,7 @@ const meta = {
             </div>
           </div>
 
-          <div class="
-            inline-flex min-h-14 flex-wrap items-center gap-3 rounded-full
-            border border-line/70 bg-surface/78 px-4 py-3
-            shadow-[0_10px_26px_hsl(var(--ink)/0.04)]
-          "
-          >
+          <div class="focus-pill">
             <span class="section-label">Focus</span>
             <span
               aria-hidden="true"
@@ -518,7 +512,6 @@ const meta = {
           <PostCard post={post} />
         ))}
       </div>
-      <NewsletterBox />
     </div>
   </section>
 </PageLayout>

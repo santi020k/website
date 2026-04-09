@@ -1,0 +1,153 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SeriesCard from '@/components/molecules/SeriesCard.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+
+import { getSeriesPath } from '@/utils/links'
+
+import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
+import { getSeriesSummaries } from '@/data/series'
+import PageLayout from '@/layouts/Base.astro'
+
+const activeSeries = (await getSeriesSummaries()).filter(item => item.postCount > 0 && item.series.data.status === 'active')
+
+const contentCalendarDescription =
+  `Roadmap refreshed on ${publishingRhythm.updatedOn}. ` +
+  'The goal is simple: publish one substantial post each month, refresh one older evergreen guide, ' +
+  'and keep related topics tied together through series instead of scattered one-offs.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: 'Content Calendar', url: '/blog/content-calendar/' }
+]
+---
+
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description: 'A documented monthly publishing rhythm for Santiago Molina, including upcoming topics, evergreen refreshes, and active writing series.',
+    title: 'Content Calendar — Santiago Molina'
+  }}
+>
+  <section
+    class="
+      grid gap-10
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+    data-animate
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description={contentCalendarDescription}
+        eyebrow="Content calendar"
+        level="h1"
+        title="A publishing rhythm built for consistency, refreshes, and stronger internal linking."
+      />
+
+      <div class="section-actions">
+        <ButtonLink href="/feed.xml" showArrow variant="secondary">
+          Follow via RSS
+        </ButtonLink>
+        <ButtonLink href="/blog/" showArrow variant="ghost">
+          Back to blog
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div class="
+      grid gap-4
+      sm:grid-cols-3
+      lg:grid-cols-1
+    "
+    >
+      <StatCard description="New flagship post to publish each month." label="New posts" value="1/mo" />
+      <StatCard
+        description="Older article to refresh every month so the archive stays current."
+        label="Refreshes"
+        value="1/mo"
+      />
+      <StatCard
+        description="Active tracks grouping related writing into clear editorial threads."
+        label="Series"
+        value={String(activeSeries.length)}
+      />
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description={publishingRhythm.summary}
+      eyebrow="Roadmap"
+      title="What is scheduled from April through September 2026."
+    />
+
+    <div class="
+      grid gap-5
+      md:grid-cols-2
+    "
+    >
+      {editorialCalendar.map(entry => (
+        <article class="
+          panel-card flex h-full flex-col gap-5 p-6
+          sm:p-7
+        "
+        >
+          <div class="flex flex-wrap items-center gap-2">
+            <Pill label={entry.month} tone="brand" />
+            <Pill label={entry.format} tone="outline" />
+          </div>
+
+          <div class="space-y-3">
+            <h2 class="text-2xl/tight text-ink">
+              {entry.headline}
+            </h2>
+            <p class="text-sm/7 text-ink-soft">
+              Search intent: {entry.searchIntent}
+            </p>
+          </div>
+
+          <div class="mini-note border-line/55 bg-surface-muted/50">
+            <p class="section-label">Evergreen refresh</p>
+            <p class="mt-3 text-sm/6 font-semibold text-ink">
+              {entry.refreshTitle}
+            </p>
+          </div>
+
+          {entry.seriesId && (
+            <a
+              class="
+                inline-flex items-center gap-2 text-sm font-medium text-brand
+                transition-colors
+                hover:text-accent
+              "
+              href={getSeriesPath(entry.seriesId)}
+            >
+              Continue the related series
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="These are the active tracks already live on the site, grouped so readers can move through a topic in order instead of guessing what comes next."
+      eyebrow="Series"
+      title="Current writing series."
+    />
+
+    <div class="
+      grid gap-6
+      lg:grid-cols-2
+    "
+    >
+      {activeSeries.map(item => (
+        <SeriesCard postCount={item.postCount} series={item.series} />
+      ))}
+    </div>
+  </section>
+</PageLayout>

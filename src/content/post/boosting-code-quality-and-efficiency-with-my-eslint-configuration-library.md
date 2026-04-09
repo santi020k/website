@@ -1,6 +1,6 @@
 ---
 title: "Boosting Code Quality and Efficiency with My ESLint Configuration Library"
-description: “Reusable ESLint library for React, Next.js, and TypeScript projects. Enforces code quality with flat config support and simplifies the move from ESLint 8 to 9.”
+description: "Reusable ESLint library for React, Next.js, and TypeScript projects. Enforces code quality with flat config support and simplifies the move from ESLint 8 to 9."
 publishDate: "2024-11-23T19:27:02.000Z"
 tags: ["react-native", "react", "eslint", "typescript", "eslint-config"]
 coverImage:
@@ -8,6 +8,8 @@ coverImage:
   src: "./boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-cover.png"
 canonicalUrl: "https://towardsdev.com/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-3a4cbc1993a7"
 postType: "Case Study"
+seriesId: "eslint-in-practice"
+seriesOrder: 2
 ---
 
 In a previous post, [“Building the Best Next.js TypeScript Standard Vitest ESLint Configuration”](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7), we discussed a powerful ESLint setup designed to maintain code quality, consistency, and adherence to best practices for Next.js and TypeScript projects. Since then, I’ve taken that configuration and elevated it into a reusable, flexible ESLint library: [@santi020k/eslint-config-santi020k](https://www.npmjs.com/package/@santi020k/eslint-config-santi020k).
