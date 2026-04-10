@@ -2,12 +2,10 @@
 import type { CollectionEntry } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
-import CoverImage from '@/components/atoms/CoverImage.astro'
-import FormattedDate from '@/components/atoms/FormattedDate.astro'
-import Pill from '@/components/atoms/Pill.astro'
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
 import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
+import PostHero from '@/components/organisms/PostHero.astro'
 
 import readingTime from 'reading-time'
 
@@ -19,20 +17,13 @@ interface Props {
 }
 
 const { post } = Astro.props
-const { canonicalUrl, description, publishDate, title, updatedDate } = post.data
+const { description, publishDate, title, updatedDate } = post.data
 // Use Dynamic OG Image generator (/og/blog/[id].png)
 const ogImage = new URL(`/og/blog/${post.id}.png`, Astro.site).href
 const stats = readingTime(post.body ?? '')
-const readingTimeText = stats.text
 const wordCount = Math.round(stats.words)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const seriesContext = await getSeriesContext(post)
-
-const coverAspectRatio = post.data.coverImage ?
-  post.data.coverImage.src.width / post.data.coverImage.src.height :
-  16 / 10
-
-const useWideCoverFrame = coverAspectRatio > 1.08
 
 const blogPostingSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -107,168 +98,7 @@ const breadcrumbs = [
   </div>
 
   <article class="mx-auto flex w-full max-w-6xl flex-col gap-12">
-    <header
-      class="
-        grid gap-10 border-b border-line/70 pb-10
-        lg:grid-cols-[minmax(0,1fr)_17rem]
-      "
-      data-animate
-    >
-      <div class="space-y-8">
-        <div class="flex items-center gap-2 text-sm font-medium text-ink-muted">
-          <a
-            href="/blog/"
-            class="
-              transition-colors
-              hover:text-brand
-            "
-          >Blog
-          </a>
-          <Icon aria-hidden="true" name="tabler:chevron-right" class="size-4" />
-          <span class="text-ink-soft">Post</span>
-        </div>
-
-        <div class="flex flex-col gap-4">
-          <h1 class="
-            max-w-4xl text-4xl/tight font-bold
-            sm:text-5xl
-            lg:text-6xl
-          "
-          >
-            {title}
-          </h1>
-
-          <p class="
-            max-w-3xl text-lg/8 text-ink-soft
-            sm:text-xl/8
-          "
-          >{description}
-          </p>
-        </div>
-
-        {post.data.coverImage && (
-          <div class:list={[
-            'panel-card overflow-hidden',
-            !useWideCoverFrame && 'mx-auto w-full max-w-4xl'
-          ]}
-          >
-            <CoverImage
-              alt={post.data.coverImage.alt}
-              fetchpriority="high"
-              image={post.data.coverImage.src}
-              loading="eager"
-              mode="detail"
-              sizes="(min-width: 1024px) 960px, 100vw"
-            />
-          </div>
-        )}
-      </div>
-
-      <aside aria-label="Editorial rail" class="editorial-rail">
-        <div class="mini-note">
-          <p class="section-label">Reading guide</p>
-          <dl class="mt-4 space-y-4 text-sm/6 text-ink-soft">
-            <div class="flex flex-col">
-              <dt
-                class="
-                  flex items-center gap-2 text-xs font-semibold
-                  tracking-[0.18em] text-ink-muted uppercase
-                "
-              >
-                <Icon aria-hidden="true" name="tabler:calendar" class="size-4" />
-                <span>Published</span>
-              </dt>
-              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
-                <FormattedDate date={publishDate} />
-              </dd>
-            </div>
-
-            <div class="flex flex-col">
-              <dt
-                class="
-                  flex items-center gap-2 text-xs font-semibold
-                  tracking-[0.18em] text-ink-muted uppercase
-                "
-              >
-                <Icon aria-hidden="true" name="tabler:clock" class="size-4" />
-                <span>Read time</span>
-              </dt>
-              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
-                {readingTimeText}
-              </dd>
-            </div>
-
-            {updatedDate && (
-              <div class="flex flex-col">
-                <dt
-                  class="
-                    flex items-center gap-2 text-xs font-semibold
-                    tracking-[0.18em] text-ink-muted uppercase
-                  "
-                >
-                  <Icon
-                    aria-hidden="true"
-                    name="tabler:refresh"
-                    class="size-4"
-                  />
-                  <span>Updated</span>
-                </dt>
-                <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
-                  <FormattedDate date={updatedDate} />
-                </dd>
-              </div>
-            )}
-          </dl>
-        </div>
-
-        {canonicalUrl && (
-          <div class="mini-note">
-            <p class="section-label">Originally published</p>
-            <a
-              href={canonicalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="
-                mt-3 inline-flex items-center gap-2 text-sm font-medium text-ink
-                transition-colors
-                hover:text-brand
-              "
-            >
-              <Icon
-                aria-hidden="true"
-                name="tabler:external-link"
-                class="size-4"
-              />
-              <span>Read on Medium</span>
-            </a>
-          </div>
-        )}
-
-        {seriesContext && (
-          <div class="mini-note">
-            <p class="section-label">Series</p>
-            <a
-              href={`/blog/series/${seriesContext.series.id}/`}
-              class="
-                mt-3 inline-flex items-center gap-2 text-sm font-medium text-ink
-                transition-colors
-                hover:text-brand
-              "
-            >
-              <Icon
-                aria-hidden="true"
-                name="tabler:route"
-                class="size-4"
-              />
-              <span>{seriesContext.series.data.title}</span>
-            </a>
-            <p class="mt-3 text-sm/6 text-ink-soft">
-              Post {seriesContext.position} of {seriesContext.total}. {seriesContext.series.data.description}
-            </p>
-          </div>
-        )}
-      </aside>
-    </header>
+    <PostHero post={post} />
 
     <div
       class="prose-santi mx-auto w-full max-w-3xl animate-fade-in"
@@ -298,12 +128,6 @@ const breadcrumbs = [
       "
       style="animation-delay: 220ms"
     >
-      <div class="flex flex-wrap gap-2">
-        {post.data.tags.map(tag => (
-          <Pill label={tag} showHash tone="outline" />
-        ))}
-      </div>
-
       <div class="flex items-center justify-between">
         <a
           href="/blog/"

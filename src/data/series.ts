@@ -1,26 +1,25 @@
+import { getCachedPosts, getCachedSeries } from '@/utils/content'
 import { getAdjacentSeriesPosts, sortSeriesPosts } from '@/utils/series'
 
 import type { CollectionEntry } from 'astro:content'
-import { getCollection, getEntry } from 'astro:content'
-
-const includePost = (data: CollectionEntry<'post'>['data']) => import.meta.env.PROD ? !data.draft : true
+import { getEntry } from 'astro:content'
 
 export const getAllSeries = async (): Promise<CollectionEntry<'series'>[]> => {
-  const series = await getCollection('series')
+  const series = await getCachedSeries()
 
-  return series.sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title))
+  return [...series].sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title))
 }
 
 export const getSeriesPosts = async (seriesId: string): Promise<CollectionEntry<'post'>[]> => {
-  const posts = await getCollection('post', ({ data }) => includePost(data) && data.seriesId === seriesId)
+  const posts = await getCachedPosts()
 
-  return sortSeriesPosts(posts)
+  return sortSeriesPosts(posts.filter(p => p.data.seriesId === seriesId))
 }
 
 export const getSeriesSummaries = async () => {
   const [seriesEntries, posts] = await Promise.all([
     getAllSeries(),
-    getCollection('post', ({ data }) => includePost(data))
+    getCachedPosts()
   ])
 
   return seriesEntries.map(series => {

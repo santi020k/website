@@ -45,5 +45,14 @@ export default [
     rules: {
       '@typescript-eslint/no-unsafe-return': 'off'
     }
+  },
+  {
+    // @stylistic/jsx-indent-props conflicts with @stylistic/indent in Astro files
+    // because Astro templates are not JSX — disable the JSX-specific variant.
+    name: 'website/astro-indent-conflict-fix',
+    files: ['**/*.astro'],
+    rules: {
+      '@stylistic/jsx-indent-props': 'off'
+    }
   }
 ]

@@ -26,9 +26,7 @@ let _series: CollectionEntry<'series'>[] | null = null
 export const getCachedPosts = async (): Promise<CollectionEntry<'post'>[]> => {
   if (_posts) return _posts
 
-  const all = await getCollection('post', ({ data }) => {
-    return import.meta.env.PROD ? !data.draft : true
-  })
+  const all = await getCollection('post', ({ data }) => import.meta.env.PROD ? !data.draft : true)
 
   _posts = all.sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
@@ -44,9 +42,7 @@ export const getCachedPosts = async (): Promise<CollectionEntry<'post'>[]> => {
 export const getCachedProjects = async (): Promise<CollectionEntry<'project'>[]> => {
   if (_projects) return _projects
 
-  _projects = await getCollection('project', ({ data }) => {
-    return import.meta.env.PROD ? !data.draft : true
-  })
+  _projects = await getCollection('project', ({ data }) => import.meta.env.PROD ? !data.draft : true)
 
   return _projects
 }
@@ -85,11 +81,14 @@ export const getRelatedPosts = async ({
   return posts
     .filter(p => {
       if (p.id === currentPostId) return false
+
       if (excludeSeriesId && p.data.seriesId === excludeSeriesId) return false
+
       return p.data.tags.some(t => tagSet.has(t))
     })
     .map(p => ({ post: p, sharedTags: p.data.tags.filter(t => tagSet.has(t)).length }))
-    .sort((a, b) => b.sharedTags - a.sharedTags || b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
+    .sort((a, b) => b.sharedTags - a.sharedTags ||
+      b.post.data.publishDate.getTime() - a.post.data.publishDate.getTime())
     .slice(0, limit)
     .map(item => item.post)
 }

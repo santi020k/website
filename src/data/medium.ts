@@ -3,7 +3,7 @@ import { XMLParser } from 'fast-xml-parser'
 import { mediumPostsCache } from './medium-cache'
 
 import { siteConfig } from '../site.config'
-import type { MediumPost } from '../types'
+import type { MediumPost } from '../types/medium'
 
 const MEDIUM_SITE_URL = siteConfig.contact.medium.replace(/\/$/, '')
 const MEDIUM_FEED_URL = `${MEDIUM_SITE_URL}/feed`

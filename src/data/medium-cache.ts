@@ -1,4 +1,4 @@
-import type { MediumPost } from '../types'
+import type { MediumPost } from '../types/medium'
 
 export const mediumPostsCache: MediumPost[] = [
   {

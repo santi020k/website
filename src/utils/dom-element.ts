@@ -7,12 +7,10 @@ export const toggleClass = (element: HTMLElement, className: string): void => {
 }
 
 /** Returns `true` when the element currently has the given CSS class applied. */
-export const elementHasClass = (element: HTMLElement, className: string): boolean =>
-  element.classList.contains(className)
+export const elementHasClass = (element: HTMLElement, className: string): boolean => element.classList.contains(className) // eslint-disable-line @stylistic/max-len
 
 /**
  * Returns `true` when the site is currently displayed in dark mode.
  * Reads the `data-theme` attribute set by ThemeProvider on `<html>`.
  */
-export const rootInDarkMode = (): boolean =>
-  document.documentElement.getAttribute('data-theme') === 'dark'
+export const rootInDarkMode = (): boolean => document.documentElement.getAttribute('data-theme') === 'dark'

@@ -6,7 +6,7 @@ import { getSocialImageURL } from '@/utils/social-image'
 import ErrorMonitoring from './ErrorMonitoring.astro'
 
 import { siteConfig } from '@/site.config'
-import type { SiteMeta } from '@/types'
+import type { SiteMeta } from '@/types/site'
 import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
 
@@ -155,7 +155,9 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
     sameAs: [
       siteConfig.contact.github,
       siteConfig.contact.linkedin,
-      siteConfig.contact.medium
+      siteConfig.contact.medium,
+      'https://twitter.com/santi020k',
+      'https://x.com/santi020k'
     ].filter(Boolean),
     knowsAbout: [
       'Full-Stack Engineering',
@@ -190,8 +192,15 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
     sameAs: [
       siteConfig.contact.github,
       siteConfig.contact.linkedin,
-      siteConfig.contact.medium
-    ].filter(Boolean)
+      siteConfig.contact.medium,
+      'https://twitter.com/santi020k',
+      'https://x.com/santi020k'
+    ].filter(Boolean),
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: siteConfig.contact.email,
+      contactType: 'professional inquiries'
+    }
   })}
 />
 
