@@ -1,8 +1,8 @@
 ---
+import { getRelatedPosts } from '@/utils/content'
+
 import PostCard from './PostCard.astro'
 import SectionHeading from './SectionHeading.astro'
-
-import { getRelatedPosts } from '@/utils/content'
 
 interface Props {
   currentPostId: string
@@ -11,7 +11,6 @@ interface Props {
 }
 
 const { currentPostId, excludeSeriesId, tags } = Astro.props
-
 const relatedPosts = await getRelatedPosts({ currentPostId, excludeSeriesId, tags })
 ---
 

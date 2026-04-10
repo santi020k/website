@@ -13,8 +13,9 @@ interface AstroVFileData {
 export const remarkReadingTime = () => (tree: Root, file: VFile) => {
   const textOnPage = mdastToString(tree)
   const readingTime = getReadingTime(textOnPage)
-
   const data = file.data as AstroVFileData
+
   data.astro ??= { frontmatter: {} }
-  data.astro.frontmatter['readingTime'] = readingTime.text
+
+  data.astro.frontmatter.readingTime = readingTime.text
 }

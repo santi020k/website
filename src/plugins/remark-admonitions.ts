@@ -7,7 +7,7 @@ import { toString as mdastToString } from 'mdast-util-to-string'
 import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
 
-import type { AdmonitionType } from '../types'
+import type { AdmonitionType } from '../types/content'
 
 // Supported admonition types
 const Admonitions = new Set<AdmonitionType>(['tip', 'note', 'important', 'caution', 'warning'])

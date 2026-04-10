@@ -7,8 +7,10 @@ export interface TocItem extends MarkdownHeading {
 }
 
 interface TocOpts {
+
   /** Deepest heading level to include (inclusive). Defaults to 6. */
   maxHeadingLevel?: number | undefined
+
   /** Shallowest heading level to include (inclusive). Defaults to 1. */
   minHeadingLevel?: number | undefined
 }
