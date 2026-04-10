@@ -4,8 +4,9 @@ import { Icon } from 'astro-icon/components'
 
 <button
   id="back-to-top"
-  aria-label="Back to top"
+  aria-label="Scroll back to top"
   class="back-to-top-button"
+  type="button"
   x-data="{
     shown: false,
     init() {
@@ -28,5 +29,5 @@ import { Icon } from 'astro-icon/components'
   x-transition:leave-end="opacity-0 translate-y-10 scale-50"
   @click="scrollToTop()"
 >
-  <Icon name="tabler:arrow-up" class="size-5" />
+  <Icon aria-hidden="true" name="tabler:arrow-up" class="size-5" />
 </button>
