@@ -123,15 +123,21 @@ export interface Summary {
 
 export type AdmonitionType = 'tip' | 'note' | 'important' | 'caution' | 'warning'
 
+/** All visual variants available in Badge.astro */
+export type BadgeVariant =
+  | 'default'
+  | 'accent'
+  | 'brand-accent'
+  | 'muted'
+  | 'outline'
+  | 'inactive'
+  | 'subtle'
+  | 'ghost'
+  | 'warning'
+  | 'danger'
+
 export interface Badge {
-  variant?:
-    | 'default' |
-    'accent' |
-    'accent-base' |
-    'accent-one' |
-    'accent-two' |
-    'muted' |
-    'outline'
+  variant?: BadgeVariant
   showHash?: boolean
   title: string
 }

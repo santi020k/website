@@ -570,6 +570,21 @@
   box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.5);
 }
 
+/**
+ * Shared max-width cap for primary content columns.
+ * Use this instead of sprinkling max-w-3xl everywhere.
+ */
+@utility max-w-content {
+  max-width: 48rem; /* 768px — equivalent to max-w-3xl */
+}
+
+/**
+ * Shared max-width for wide content areas (blog article, project hero, etc.)
+ */
+@utility max-w-content-wide {
+  max-width: 72rem; /* 1152px — between max-w-5xl and max-w-6xl */
+}
+
 /* ─── Keyframe Animations ──────────────────────────────────────────────────── */
 
 @keyframes fade-in {

@@ -85,8 +85,9 @@ const breadcrumbs = [
   }}
 >
   <div
-    aria-hidden="true"
-    role="presentation"
+    role="status"
+    aria-label="Reading progress"
+    aria-live="polite"
     class="reading-progress-bar"
     style="width: 0%"
     x-data="{
@@ -99,6 +100,9 @@ const breadcrumbs = [
     }"
     x-init="window.addEventListener('scroll', () => updateProgress())"
     :style="`width: ${percent}%`"
+    :aria-valuenow="Math.round(percent)"
+    aria-valuemin="0"
+    aria-valuemax="100"
   >
   </div>
 
@@ -363,6 +367,13 @@ const breadcrumbs = [
       </svg>
     `.trim();
 
+    // Shared live region: announces copy feedback to screen readers.
+    const liveRegion = document.createElement('div');
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.setAttribute('aria-atomic', 'true');
+    liveRegion.className = 'sr-only';
+    document.body.appendChild(liveRegion);
+
     function setupEnhancedCodeBlocks() {
       const codeFigures = document.querySelectorAll('figure[data-rehype-pretty-code-figure]');
 
@@ -410,7 +421,7 @@ const breadcrumbs = [
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
         copyButton.setAttribute('type', 'button');
-        copyButton.setAttribute('aria-label', 'Copy code');
+        copyButton.setAttribute('aria-label', 'Copy code to clipboard');
         copyButton.innerHTML = COPY_ICON;
 
         copyButton.addEventListener('click', async () => {
@@ -423,10 +434,16 @@ const breadcrumbs = [
           copyButton.classList.add('copied');
           copyButton.setAttribute('aria-label', 'Code copied!');
 
+          // Announce to screen readers via shared live region
+          liveRegion.textContent = 'Code copied to clipboard';
+          setTimeout(() => {
+            liveRegion.textContent = '';
+          }, 2000);
+
           setTimeout(() => {
             copyButton.innerHTML = COPY_ICON;
             copyButton.classList.remove('copied');
-            copyButton.setAttribute('aria-label', 'Copy code');
+            copyButton.setAttribute('aria-label', 'Copy code to clipboard');
           }, 2000);
         });
 

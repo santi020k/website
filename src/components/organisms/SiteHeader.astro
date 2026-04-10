@@ -6,7 +6,7 @@ import { Icon } from 'astro-icon/components'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
 
-import LogoMark from '../../assets/logo.webp'
+import LogoMark from '@/assets/logo.webp'
 
 import { menuLinks, siteConfig } from '@/site.config'
 import type { SiteLink } from '@/types'
@@ -20,8 +20,27 @@ import type { SiteLink } from '@/types'
 >
   <div
     class="site-header-shell"
-    x-data="{ open: false }"
-    @keydown.escape.window="open = false"
+    x-data="{
+      open: false,
+      toggleMenu() {
+        this.open = !this.open;
+        if (this.open) {
+          this.$nextTick(() => {
+            const firstLink = this.$el.querySelector('#mobile-nav a');
+            if (firstLink) firstLink.focus();
+          });
+        }
+      },
+      closeMenu() {
+        if (!this.open) return;
+        this.open = false;
+        this.$nextTick(() => {
+          const toggle = this.$el.querySelector('[aria-controls=\"mobile-nav\"]');
+          if (toggle) toggle.focus();
+        });
+      }
+    }"
+    @keydown.escape.window="closeMenu()"
   >
     <a
       aria-label="Home"
@@ -118,7 +137,7 @@ import type { SiteLink } from '@/types'
           rounded-full border border-line/70 bg-surface/76 text-ink
         "
         type="button"
-        x-on:click="open = !open"
+        x-on:click="toggleMenu()"
       >
         <Icon aria-hidden="true" class="size-5" name="tabler:menu-2" x-show="!open" />
         <Icon aria-hidden="true" class="size-5" name="tabler:x" x-show="open" x-cloak />
@@ -159,7 +178,7 @@ import type { SiteLink } from '@/types'
                   `
               ]}
               href={link.path}
-              @click="open = false"
+              @click="closeMenu()"
             >
               {link.title}
             </a>
