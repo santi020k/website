@@ -2,6 +2,16 @@ import { describe, expect, it } from 'vitest'
 
 import { getAdjacentSeriesPosts, sortSeriesPosts } from '../series'
 
+const expectDefined = <T>(value: T | undefined): T => {
+  expect(value).toBeDefined()
+
+  if (value === undefined) {
+    throw new Error('Expected value to be defined')
+  }
+
+  return value
+}
+
 const buildPost = (id: string, publishDate: string, seriesOrder?: number) => ({
   data: {
     publishDate: new Date(publishDate),
@@ -38,7 +48,7 @@ describe('sortSeriesPosts', () => {
       buildPost('ordered', '2024-01-02', 1)
     ]
 
-    expect(sortSeriesPosts(posts)[0].id).toBe('ordered')
+    expect(expectDefined(sortSeriesPosts(posts)[0]).id).toBe('ordered')
   })
 
   it('does not mutate the original array', () => {

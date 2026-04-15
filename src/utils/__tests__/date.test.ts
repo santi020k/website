@@ -3,6 +3,16 @@ import { describe, expect, it } from 'vitest'
 
 import { collectionDateSortProjects, getFormattedDate } from '../date'
 
+const expectDefined = <T>(value: T | undefined): T => {
+  expect(value).toBeDefined()
+
+  if (value === undefined) {
+    throw new Error('Expected value to be defined')
+  }
+
+  return value
+}
+
 // ─── getFormattedDate ─────────────────────────────────────────────────────────
 
 describe('getFormattedDate', () => {
@@ -80,9 +90,10 @@ describe('collectionDateSortProjects', () => {
     ]
 
     const sorted = [...projects].sort(collectionDateSortProjects)
+    const [first, second, third] = sorted
 
-    expect(sorted[0].data.startingDate.getFullYear()).toBe(2023)
-    expect(sorted[1].data.startingDate.getFullYear()).toBe(2021)
-    expect(sorted[2].data.startingDate.getFullYear()).toBe(2020)
+    expect(expectDefined(first).data.startingDate.getFullYear()).toBe(2023)
+    expect(expectDefined(second).data.startingDate.getFullYear()).toBe(2021)
+    expect(expectDefined(third).data.startingDate.getFullYear()).toBe(2020)
   })
 })
