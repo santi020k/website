@@ -38,6 +38,16 @@ const getDescriptionSize = description => {
   return 28
 }
 
+const getPathLabelSize = pathLabel => {
+  if (pathLabel.length > 60) return 14
+
+  if (pathLabel.length > 45) return 16
+
+  if (pathLabel.length > 32) return 18
+
+  return 22
+}
+
 /**
  * @param {{
  *   description: string
@@ -54,6 +64,7 @@ export const renderSocialImage = async ({
 }) => {
   const titleSize = getTitleSize(title)
   const descriptionSize = getDescriptionSize(description)
+  const pathLabelSize = getPathLabelSize(pathLabel)
 
   const markupHtml = `
     <div style="
@@ -197,9 +208,10 @@ export const renderSocialImage = async ({
             margin: 0;
             font-size: ${titleSize}px;
             font-weight: 900;
-            line-height: 1.02;
-            letter-spacing: -0.05em;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
             color: #241b31;
+            max-width: 900px;
           ">
             ${escapeHTML(title)}
           </h1>
@@ -220,14 +232,17 @@ export const renderSocialImage = async ({
           display: flex;
           align-items: flex-end;
           justify-content: space-between;
-          gap: 24px;
+          gap: 16px;
           width: 100%;
           padding-top: 28px;
           border-top: 1px solid rgba(91, 31, 172, 0.12);
+          overflow: hidden;
         ">
           <div style="
             display: flex;
             flex-direction: column;
+            flex-shrink: 1;
+            min-width: 0;
             gap: 8px;
           ">
             <span style="
@@ -235,13 +250,14 @@ export const renderSocialImage = async ({
               font-size: 18px;
               font-weight: 800;
               color: #2b2138;
+              white-space: nowrap;
             ">
               Calm systems. Clear delivery.
             </span>
             <span style="
               display: flex;
-              max-width: 640px;
-              font-size: 18px;
+              max-width: 580px;
+              font-size: 16px;
               color: #6a5a7c;
             ">
               Engineering leadership, architecture, automation, and developer experience that scale with the team.
@@ -251,24 +267,32 @@ export const renderSocialImage = async ({
           <div style="
             display: flex;
             flex-direction: column;
+            flex-shrink: 0;
             align-items: flex-end;
-            gap: 8px;
+            gap: 6px;
+            max-width: 420px;
+            overflow: hidden;
           ">
             <span style="
               display: flex;
-              font-size: 17px;
+              font-size: 14px;
               font-weight: 700;
               letter-spacing: 0.16em;
               text-transform: uppercase;
               color: #867494;
+              white-space: nowrap;
             ">
               Social preview
             </span>
             <span style="
               display: flex;
-              font-size: 22px;
+              font-size: ${pathLabelSize}px;
               font-weight: 800;
               color: #5b1fac;
+              max-width: 420px;
+              overflow: hidden;
+              text-align: right;
+              word-break: break-all;
             ">
               ${escapeHTML(pathLabel)}
             </span>

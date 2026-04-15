@@ -11,7 +11,7 @@ seriesId: "building-a-production-nextjs-app"
 seriesOrder: 7
 ---
 
-[Read the Previous Post: Continuous Integration and Deployment for Next.js Projects](https://santi020k.com/blog/continuous-integration-and-deployment-for-next-js-projects/)
+[Read the Previous Post: Continuous Integration and Deployment for Next.js Projects](/blog/continuous-integration-and-deployment-for-next-js-projects/)
 
 Once a Next.js project has linting, tests, and CI in place, another critical piece usually appears very quickly: authentication. And as soon as authentication appears, authorization follows right behind it.
 
@@ -272,4 +272,4 @@ My rule is simple:
 - Row Level Security is one of the most important parts of real authorization.
 - Frontend permission checks are useful, but they should not be the final security boundary.
 
-[Next Post: Migrate ESLint 8 or Less to ESLint 9](https://santi020k.com/blog/migrate-eslint-8-or-less-to-eslint-9/)
+[Next Post: Migrate ESLint 8 or Less to ESLint 9](/blog/migrate-eslint-8-or-less-to-eslint-9/)
