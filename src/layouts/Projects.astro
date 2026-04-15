@@ -75,20 +75,11 @@ const breadcrumbs = [
   }}
 >
   <div
+    id="reading-progress"
     aria-hidden="true"
     role="presentation"
     class="reading-progress-bar"
     style="width: 0%"
-    x-data="{
-      percent: 0,
-      updateProgress() {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        this.percent = (winScroll / height) * 100;
-      }
-    }"
-    x-init="window.addEventListener('scroll', () => updateProgress())"
-    :style="`width: ${percent}%`"
   >
   </div>
 
@@ -284,4 +275,26 @@ const breadcrumbs = [
       </div>
     </section>
   )}
+
+  <script>
+    function setupReadingProgress() {
+      const bar = document.getElementById('reading-progress')
+      if (!bar) return () => {}
+
+      const onScroll = () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+        bar.style.width = height > 0 ? `${(winScroll / height) * 100}%` : '0%'
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true })
+      return () => window.removeEventListener('scroll', onScroll)
+    }
+
+    let cleanupProgress = setupReadingProgress()
+    document.addEventListener('astro:after-swap', () => {
+      cleanupProgress()
+      cleanupProgress = setupReadingProgress()
+    })
+  </script>
 </BaseLayout>
