@@ -308,5 +308,6 @@ export const renderSocialImage = async ({
 
   const pngBuffer = resvg.render().asPng()
 
-  return await sharp(pngBuffer).webp({ quality: 80 }).toBuffer()
+  // effort: 0 is ~3x faster than the default (4) with negligible quality difference.
+  return await sharp(pngBuffer).webp({ quality: 80, effort: 0 }).toBuffer()
 }
