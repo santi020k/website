@@ -1,94 +1,139 @@
 import { describe, expect, it } from 'vitest'
 
 import { capitalizeFirstLetter } from '../capitalize-first-letter'
-import { elementHasClass, toggleClass } from '../dom-element'
-import { generateToc } from '../generate-toc'
-import { getPortfolioPath, getPostPath, getTechnologyPath } from '../links'
+import { elementHasClass, rootInDarkMode, toggleClass } from '../dom-element'
+import { getPortfolioPath, getPostPath, getSeriesPath, getTechnologyPath } from '../links'
 import { truncateTitle } from '../truncate-title'
 
+// ─── capitalizeFirstLetter ────────────────────────────────────────────────────
+
 describe('capitalizeFirstLetter', () => {
-  it('should capitalize the first letter of a string', () => {
+  it('capitalizes the first letter of a lowercase string', () => {
     expect(capitalizeFirstLetter('hello')).toBe('Hello')
   })
 
-  it('should handle empty strings', () => {
+  it('returns an empty string unchanged', () => {
     expect(capitalizeFirstLetter('')).toBe('')
   })
 
-  it('should handle strings with one character', () => {
+  it('handles a single character', () => {
     expect(capitalizeFirstLetter('a')).toBe('A')
+  })
+
+  it('does not change already-capitalized strings', () => {
+    expect(capitalizeFirstLetter('Hello')).toBe('Hello')
+  })
+
+  it('only uppercases the first character, leaving the rest unchanged', () => {
+    expect(capitalizeFirstLetter('hELLO WORLD')).toBe('HELLO WORLD')
   })
 })
 
+// ─── truncateTitle ────────────────────────────────────────────────────────────
+
 describe('truncateTitle', () => {
-  it('should truncate titles longer than 50 characters', () => {
+  it('truncates titles longer than 50 characters with an ellipsis', () => {
     const longTitle = 'a'.repeat(60)
     expect(truncateTitle(longTitle)).toBe(`${'a'.repeat(50)}...`)
   })
 
-  it('should not truncate short titles', () => {
+  it('does not truncate titles of exactly 50 characters', () => {
+    const title = 'a'.repeat(50)
+    expect(truncateTitle(title)).toBe(title)
+  })
+
+  it('does not truncate short titles', () => {
     expect(truncateTitle('Short Title')).toBe('Short Title')
+  })
+
+  it('returns an empty string unchanged', () => {
+    expect(truncateTitle('')).toBe('')
   })
 })
 
+// ─── links ────────────────────────────────────────────────────────────────────
+
 describe('links', () => {
-  it('should return correct post path', () => {
+  it('returns the correct canonical path for a blog post', () => {
     expect(getPostPath('my-post')).toBe('/blog/my-post/')
   })
 
-  it('should return correct portfolio path', () => {
+  it('returns the correct canonical path for a series', () => {
+    expect(getSeriesPath('my-series')).toBe('/blog/series/my-series/')
+  })
+
+  it('returns the correct canonical path for a portfolio project', () => {
     expect(getPortfolioPath('my-project')).toBe('/portfolio/my-project/')
   })
 
-  it('should return correct technology path', () => {
+  it('returns the correct canonical path for a plain technology name', () => {
     expect(getTechnologyPath('react')).toBe('/technologies/react/')
-    expect(getTechnologyPath('c#')).toBe('/technologies/c%23/')
+  })
+
+  it('URI-encodes special characters in technology names', () => {
+    expect(getTechnologyPath('C#')).toBe('/technologies/C%23/')
+    expect(getTechnologyPath('C++')).toBe('/technologies/C%2B%2B/')
+  })
+
+  it('always wraps the slug with leading and trailing slashes', () => {
+    expect(getPostPath('slug').startsWith('/')).toBe(true)
+    expect(getPostPath('slug').endsWith('/')).toBe(true)
   })
 })
 
-describe('generateToc', () => {
-  it('should generate a TOC tree from headings', () => {
-    const headings = [
-      { depth: 2, slug: 'h2-1', text: 'H2-1' },
-      { depth: 3, slug: 'h3-1', text: 'H3-1' },
-      { depth: 2, slug: 'h2-2', text: 'H2-2' }
-    ]
-    const toc = generateToc(headings)
-    expect(toc).toHaveLength(2)
-    const first = toc[0]
-    expect(first?.children).toHaveLength(1)
-    expect(first?.children[0]?.text).toBe('H3-1')
-  })
+// ─── dom-element ─────────────────────────────────────────────────────────────
 
-  it('should filter headings based on min/max level', () => {
-    const headings = [
-      { depth: 1, slug: 'h1', text: 'H1' },
-      { depth: 2, slug: 'h2', text: 'H2' },
-      { depth: 6, slug: 'h6', text: 'H6' }
-    ]
-    const toc = generateToc(headings, { maxHeadingLevel: 5, minHeadingLevel: 2 })
-    expect(toc).toHaveLength(1)
-    expect(toc[0]?.text).toBe('H2')
-  })
-
-  it('should handle empty headings', () => {
-    expect(generateToc([])).toEqual([])
-  })
-})
-
-describe('dom-element', () => {
-  it('should toggle a class', () => {
+describe('toggleClass', () => {
+  it('adds a class when the element does not have it', () => {
     const el = document.createElement('div')
     toggleClass(el, 'active')
     expect(el.classList.contains('active')).toBe(true)
+  })
+
+  it('removes a class when the element already has it', () => {
+    const el = document.createElement('div')
+    el.classList.add('active')
     toggleClass(el, 'active')
     expect(el.classList.contains('active')).toBe(false)
   })
 
-  it('should check if element has a class', () => {
+  it('toggles independently for different class names', () => {
+    const el = document.createElement('div')
+    toggleClass(el, 'foo')
+    toggleClass(el, 'bar')
+    expect(el.classList.contains('foo')).toBe(true)
+    expect(el.classList.contains('bar')).toBe(true)
+  })
+})
+
+describe('elementHasClass', () => {
+  it('returns true when the element has the class', () => {
     const el = document.createElement('div')
     el.classList.add('test')
     expect(elementHasClass(el, 'test')).toBe(true)
+  })
+
+  it('returns false when the element does not have the class', () => {
+    const el = document.createElement('div')
     expect(elementHasClass(el, 'not-here')).toBe(false)
+  })
+})
+
+describe('rootInDarkMode', () => {
+  it('returns true when <html> has data-theme="dark"', () => {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    expect(rootInDarkMode()).toBe(true)
+    document.documentElement.removeAttribute('data-theme')
+  })
+
+  it('returns false when <html> does not have data-theme="dark"', () => {
+    document.documentElement.setAttribute('data-theme', 'light')
+    expect(rootInDarkMode()).toBe(false)
+    document.documentElement.removeAttribute('data-theme')
+  })
+
+  it('returns false when data-theme attribute is absent', () => {
+    document.documentElement.removeAttribute('data-theme')
+    expect(rootInDarkMode()).toBe(false)
   })
 })

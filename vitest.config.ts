@@ -38,6 +38,12 @@ export default defineConfig({
         'src/utils/__tests__/**',
         'src/plugins/__tests__/**',
         'src/data/__tests__/**',
+        // Astro virtual-module imports (astro:content) cannot be parsed by the
+        // v8 coverage provider. Exclude them to silence RollupError warnings.
+        'src/utils/content.ts',
+        'src/data/project.ts',
+        'src/data/series.ts',
+        'src/data/types.ts',
         'src/types.ts',
         'src/env.d.ts'
       ]
