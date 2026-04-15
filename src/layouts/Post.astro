@@ -80,12 +80,8 @@ const breadcrumbs = [
 >
   <div
     id="reading-progress"
-    role="status"
-    aria-label="Reading progress"
-    aria-live="polite"
-    aria-valuemin="0"
-    aria-valuemax="100"
-    aria-valuenow="0"
+    aria-hidden="true"
+    role="presentation"
     class="reading-progress-bar"
     style="width: 0%"
   >
@@ -299,7 +295,6 @@ const breadcrumbs = [
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
         const percent = height > 0 ? (winScroll / height) * 100 : 0
         bar.style.width = `${percent}%`
-        bar.setAttribute('aria-valuenow', String(Math.round(percent)))
       }
 
       window.addEventListener('scroll', onScroll, { passive: true })

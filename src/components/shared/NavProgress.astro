@@ -62,17 +62,32 @@
 
 <script>
   const bar = document.getElementById('nav-progress')
+  let resetFrame = 0
 
   document.addEventListener('astro:before-preparation', () => {
     if (!bar) return
-    // Reset to 0 without transition, then trigger the crawl
+
+    if (resetFrame) {
+      cancelAnimationFrame(resetFrame)
+      resetFrame = 0
+    }
+
+    // Reset to 0, then start the crawl on the next frame without forcing layout.
     bar.classList.remove('is-loading', 'is-complete')
-    bar.getBoundingClientRect() // force reflow
-    bar.classList.add('is-loading')
+    resetFrame = requestAnimationFrame(() => {
+      bar.classList.add('is-loading')
+      resetFrame = 0
+    })
   })
 
   document.addEventListener('astro:page-load', () => {
     if (!bar) return
+
+    if (resetFrame) {
+      cancelAnimationFrame(resetFrame)
+      resetFrame = 0
+    }
+
     bar.classList.remove('is-loading')
     bar.classList.add('is-complete')
   })

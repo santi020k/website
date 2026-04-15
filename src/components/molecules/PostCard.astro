@@ -35,7 +35,12 @@ const imageSizes = featured ?
     className
   ]}
 >
-  <a aria-hidden="true" class="block" href={getPostPath(post.id)} tabindex="-1">
+  <a
+    aria-label={data.title}
+    class="block"
+    href={getPostPath(post.id)}
+    tabindex="-1"
+  >
     {data.coverImage ?
       (
         <CoverImage
