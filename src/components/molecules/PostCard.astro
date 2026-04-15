@@ -41,6 +41,7 @@ const imageSizes = featured ?
     href={getPostPath(post.id)}
     tabindex="-1"
   >
+    <span class="sr-only">{data.title}</span>
     {data.coverImage ?
       (
         <CoverImage

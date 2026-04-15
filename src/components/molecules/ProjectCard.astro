@@ -46,6 +46,7 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
   ]}
 >
   <a aria-label={project.data.title} class="relative block overflow-hidden" href={projectLink}>
+    <span class="sr-only">{project.data.title}</span>
     {project.data.coverImage?.src ?
       (
         <>

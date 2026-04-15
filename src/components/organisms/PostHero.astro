@@ -32,8 +32,10 @@ const eyebrowLabel = tags[0] ?? 'Article'
 ---
 
 <section
-  class="section-shell relative space-y-10"
-  data-animate
+  class="
+    section-shell relative animate-slide-up space-y-10
+    motion-reduce:animate-none
+  "
 >
   <div
     aria-hidden="true"
@@ -286,29 +288,29 @@ const eyebrowLabel = tags[0] ?? 'Article'
 
       <div class="mini-note">
         <p class="section-label">At a glance</p>
-        <dl class="mt-4 space-y-3.5">
-          <div class="flex items-center justify-between gap-3">
-            <dt class="flex items-center gap-1.5 text-xs text-ink-muted">
+        <ul class="mt-4 space-y-3.5">
+          <li class="flex items-center justify-between gap-3">
+            <span class="flex items-center gap-1.5 text-xs text-ink-muted">
               <Icon aria-hidden="true" class="size-3.5" name="tabler:clock" />
               Reading time
-            </dt>
-            <dd class="text-sm font-semibold text-ink">{readingTimeText}</dd>
-          </div>
-          <div class="flex items-center justify-between gap-3">
-            <dt class="flex items-center gap-1.5 text-xs text-ink-muted">
+            </span>
+            <span class="text-sm font-semibold text-ink">{readingTimeText}</span>
+          </li>
+          <li class="flex items-center justify-between gap-3">
+            <span class="flex items-center gap-1.5 text-xs text-ink-muted">
               <Icon aria-hidden="true" class="size-3.5" name="tabler:file-text" />
               Word count
-            </dt>
-            <dd class="text-sm font-semibold text-ink">{wordCount.toLocaleString()}</dd>
-          </div>
-          <div class="flex items-center justify-between gap-3">
-            <dt class="flex items-center gap-1.5 text-xs text-ink-muted">
+            </span>
+            <span class="text-sm font-semibold text-ink">{wordCount.toLocaleString()}</span>
+          </li>
+          <li class="flex items-center justify-between gap-3">
+            <span class="flex items-center gap-1.5 text-xs text-ink-muted">
               <Icon aria-hidden="true" class="size-3.5" name="tabler:tag" />
               Topics
-            </dt>
-            <dd class="text-sm font-semibold text-ink">{tags.length}</dd>
-          </div>
-        </dl>
+            </span>
+            <span class="text-sm font-semibold text-ink">{tags.length}</span>
+          </li>
+        </ul>
       </div>
     </aside>
   </div>
