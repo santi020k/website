@@ -7,6 +7,9 @@ dist/
 .cache/
 .lighthouseci/
 
+# Generated OG images (created by scripts/generate-og-images.js at build time)
+public/og/
+
 # tests
 coverage/
 *.log
