@@ -10,21 +10,76 @@ interface Props {
 }
 
 const { headings } = Astro.props
+// Filter to only h2 and h3 — deeper headings clutter the TOC
+const tocHeadings = headings.filter(h => h.depth <= 3)
 ---
 
-<nav aria-label="Table of contents" class="mini-note">
+<nav
+  aria-label="Table of contents"
+  class="mini-note"
+  x-data="{
+    activeSlug: '',
+    init() {
+      const targets = [
+        ...document.querySelectorAll('.prose-santi :is(h2, h3)')
+      ];
+      if (!targets.length) return;
+
+      // Set first heading as active on load
+      this.activeSlug = targets[0]?.id ?? '';
+
+      const onScroll = () => {
+        // 108px = approximate sticky header height; heading becomes
+        // 'active' once it has scrolled within that threshold from the top
+        let current = targets[0]?.id ?? '';
+        for (const el of targets) {
+          if (el.getBoundingClientRect().top <= 108) {
+            current = el.id;
+          }
+        }
+        this.activeSlug = current;
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // Alpine v3: $cleanup runs on component destroy (view transitions safe)
+      this.$cleanup = () => window.removeEventListener('scroll', onScroll);
+    }
+  }"
+>
   <p class="section-label">On this page</p>
-  <ul class="mt-4 space-y-3">
-    {headings.map(heading => (
-      <li class:list={['text-sm/6', heading.depth > 2 && 'pl-4']}>
+
+  <ul class="mt-4 space-y-1">
+    {tocHeadings.map(heading => (
+      <li class:list={[heading.depth === 3 && 'pl-4']}>
         <a
-          class="
-            text-ink-soft transition-colors duration-200
-            hover:text-brand
-          "
           href={`#${heading.slug}`}
+          data-slug={heading.slug}
+          :class={
+            `activeSlug === $el.dataset.slug ? 'text-brand bg-brand-soft/40' :
+            'text-ink-soft' font-semibold`
+          }
+          class="
+            group flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm/5
+            transition-colors duration-200
+            hover:bg-brand-soft/50 hover:text-brand
+            motion-reduce:transition-none
+          "
         >
-          {heading.text}
+          <span
+            aria-hidden="true"
+            class="
+              size-1 shrink-0 rounded-full transition-all duration-200
+              motion-reduce:transition-none
+            "
+            :class={`activeSlug === $el.parentElement?.dataset.slug
+              ? 'bg-brand scale-125'
+              : 'bg-ink-muted/40 group-hover:bg-brand/60'
+            `}
+          >
+          </span>
+          <span class="truncate">{heading.text}</span>
         </a>
       </li>
     ))}
