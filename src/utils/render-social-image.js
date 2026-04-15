@@ -18,38 +18,30 @@ const escapeHTML = value => value
   .replaceAll('"', '&quot;')
   .replaceAll('\'', '&#39;')
 
+/**
+ * Adaptive title font size — now that description is gone the title has
+ * ~340px of vertical room so we can afford larger sizes at every tier.
+ */
 const getTitleSize = title => {
-  if (title.length > 90) return 42
+  if (title.length > 90) return 44
 
-  if (title.length > 72) return 48
+  if (title.length > 72) return 52
 
-  if (title.length > 56) return 54
+  if (title.length > 56) return 60
 
-  if (title.length > 40) return 60
+  if (title.length > 38) return 68
 
-  return 68
-}
-
-const getDescriptionSize = description => {
-  if (description.length > 165) return 22
-
-  if (description.length > 120) return 25
-
-  return 28
-}
-
-const getPathLabelSize = pathLabel => {
-  if (pathLabel.length > 60) return 14
-
-  if (pathLabel.length > 45) return 16
-
-  if (pathLabel.length > 32) return 18
-
-  return 22
+  return 78
 }
 
 /**
- * @param {{
+ * Hard-truncate description to a single line so it never causes overflow,
+ * regardless of how long the original value is.
+ */
+const truncateDescription = (text, max = 105) => text.length > max ? `${text.slice(0, max).trimEnd()}…` : text
+
+/**
+ * @param {{\
  *   description: string
  *   pathLabel?: string
  *   title: string
@@ -58,13 +50,11 @@ const getPathLabelSize = pathLabel => {
  */
 export const renderSocialImage = async ({
   description,
-  pathLabel = 'santi020k.com',
   title,
   type
 }) => {
   const titleSize = getTitleSize(title)
-  const descriptionSize = getDescriptionSize(description)
-  const pathLabelSize = getPathLabelSize(pathLabel)
+  const shortDescription = truncateDescription(description)
 
   const markupHtml = `
     <div style="
@@ -82,88 +72,91 @@ export const renderSocialImage = async ({
       color: #231b30;
       font-family: 'Montserrat', sans-serif;
     ">
+      <!-- Decorative blobs -->
       <div style="
         display: flex;
         position: absolute;
         top: -120px;
         left: -80px;
-        width: 360px;
-        height: 360px;
-        border-radius: 999px;
-        background: radial-gradient(circle, rgba(139, 92, 246, 0.24) 0%, rgba(139, 92, 246, 0) 72%);
-      "></div>
-      <div style="
-        display: flex;
-        position: absolute;
-        right: -80px;
-        bottom: -140px;
         width: 400px;
         height: 400px;
         border-radius: 999px;
-        background: radial-gradient(circle, rgba(91, 31, 172, 0.18) 0%, rgba(91, 31, 172, 0) 72%);
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, rgba(139, 92, 246, 0) 70%);
       "></div>
       <div style="
         display: flex;
         position: absolute;
-        top: 30px;
-        right: 36px;
-        width: 168px;
-        height: 168px;
+        right: -60px;
+        bottom: -120px;
+        width: 420px;
+        height: 420px;
         border-radius: 999px;
-        border: 1px solid rgba(91, 31, 172, 0.12);
+        background: radial-gradient(circle, rgba(91, 31, 172, 0.16) 0%, rgba(91, 31, 172, 0) 70%);
       "></div>
 
+      <!-- Card -->
       <div style="
         width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         border-radius: 36px;
-        padding: 46px 50px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(249, 245, 252, 0.92) 100%);
+        padding: 50px 56px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(249, 245, 252, 0.94) 100%);
         border: 1px solid rgba(91, 31, 172, 0.14);
         box-shadow:
           0 22px 50px rgba(35, 27, 48, 0.08),
           inset 0 1px 0 rgba(255, 255, 255, 0.9);
       ">
+
+        <!-- Header: logo left, type badge right -->
         <div style="
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 24px;
         ">
-          <div style="
-            display: flex;
-            align-items: center;
-            padding: 16px 22px;
-            border-radius: 24px;
-            background: rgba(255, 255, 255, 0.88);
-            border: 1px solid rgba(91, 31, 172, 0.12);
-          ">
+          <!-- Logo + domain -->
+          <div style="display: flex; flex-direction: column; gap: 10px;">
             <img
               src="${logoDataURI}"
-              style="
-                display: flex;
-                width: 248px;
-                height: 90px;
-              "
+              style="display: flex; width: 200px; height: 72px;"
             />
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="
+                display: flex;
+                width: 56px;
+                height: 4px;
+                border-radius: 999px;
+                background: linear-gradient(90deg, #5b1fac 0%, #8b5cf6 100%);
+              "></div>
+              <span style="
+                display: flex;
+                font-size: 18px;
+                font-weight: 700;
+                color: #6a5a7c;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+              ">
+                santi020k.com
+              </span>
+            </div>
           </div>
 
+          <!-- Type badge -->
           <div style="
             display: flex;
             align-items: center;
             border-radius: 999px;
-            padding: 12px 18px;
+            padding: 14px 24px;
             background: rgba(91, 31, 172, 0.08);
-            border: 1px solid rgba(91, 31, 172, 0.14);
+            border: 1px solid rgba(91, 31, 172, 0.16);
           ">
             <span style="
               display: flex;
               font-size: 20px;
               font-weight: 800;
-              letter-spacing: 0.18em;
+              letter-spacing: 0.2em;
               text-transform: uppercase;
               color: #5b1fac;
             ">
@@ -172,132 +165,58 @@ export const renderSocialImage = async ({
           </div>
         </div>
 
+        <!-- Hero title — takes all available vertical space -->
         <div style="
           display: flex;
           flex-direction: column;
-          gap: 24px;
+          gap: 0;
           width: 100%;
-          max-width: 860px;
+          max-width: 1020px;
         ">
-          <div style="
-            display: flex;
-            align-items: center;
-            gap: 14px;
-          ">
-            <div style="
-              display: flex;
-              width: 84px;
-              height: 6px;
-              border-radius: 999px;
-              background: linear-gradient(90deg, #5b1fac 0%, #8b5cf6 100%);
-            "></div>
-            <span style="
-              display: flex;
-              font-size: 22px;
-              font-weight: 600;
-              color: #6a5a7c;
-              letter-spacing: 0.08em;
-              text-transform: uppercase;
-            ">
-              santi020k.com
-            </span>
-          </div>
-
           <h1 style="
             display: flex;
             margin: 0;
             font-size: ${titleSize}px;
             font-weight: 900;
-            line-height: 1.05;
+            line-height: 1.06;
             letter-spacing: -0.04em;
-            color: #241b31;
-            max-width: 900px;
+            color: #1a1228;
           ">
             ${escapeHTML(title)}
           </h1>
-
-          <p style="
-            display: flex;
-            margin: 0;
-            max-width: 860px;
-            font-size: ${descriptionSize}px;
-            line-height: 1.4;
-            color: #5f516e;
-          ">
-            ${escapeHTML(description)}
-          </p>
         </div>
 
+        <!-- Footer: single-line description + author attribution -->
         <div style="
           display: flex;
-          align-items: flex-end;
+          align-items: center;
           justify-content: space-between;
-          gap: 16px;
+          gap: 32px;
           width: 100%;
-          padding-top: 28px;
-          border-top: 1px solid rgba(91, 31, 172, 0.12);
-          overflow: hidden;
+          padding-top: 22px;
+          border-top: 1px solid rgba(91, 31, 172, 0.10);
         ">
-          <div style="
+          <span style="
             display: flex;
-            flex-direction: column;
-            flex-shrink: 1;
-            min-width: 0;
-            gap: 8px;
+            font-size: 22px;
+            font-weight: 400;
+            color: #6a5a7c;
+            line-height: 1;
           ">
-            <span style="
-              display: flex;
-              font-size: 18px;
-              font-weight: 800;
-              color: #2b2138;
-              white-space: nowrap;
-            ">
-              Calm systems. Clear delivery.
-            </span>
-            <span style="
-              display: flex;
-              max-width: 580px;
-              font-size: 16px;
-              color: #6a5a7c;
-            ">
-              Engineering leadership, architecture, automation, and developer experience that scale with the team.
-            </span>
-          </div>
-
-          <div style="
+            ${escapeHTML(shortDescription)}
+          </span>
+          <span style="
             display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            align-items: flex-end;
-            gap: 6px;
-            max-width: 420px;
-            overflow: hidden;
+            font-size: 18px;
+            font-weight: 700;
+            color: #9b84b0;
+            white-space: nowrap;
+            letter-spacing: 0.04em;
           ">
-            <span style="
-              display: flex;
-              font-size: 14px;
-              font-weight: 700;
-              letter-spacing: 0.16em;
-              text-transform: uppercase;
-              color: #867494;
-              white-space: nowrap;
-            ">
-              Social preview
-            </span>
-            <span style="
-              display: flex;
-              font-size: ${pathLabelSize}px;
-              font-weight: 800;
-              color: #5b1fac;
-              max-width: 420px;
-              overflow: hidden;
-              text-align: right;
-              word-break: break-all;
-            ">
-              ${escapeHTML(pathLabel)}
-            </span>
-          </div>
+            Santiago Molina
+          </span>
         </div>
+
       </div>
     </div>
   `.trim()
