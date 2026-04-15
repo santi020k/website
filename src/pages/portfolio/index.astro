@@ -99,10 +99,12 @@ const breadcrumbs = [
           <div class="space-y-6">
             {featuredProject && <ProjectCard featured project={featuredProject} />}
             {!!otherProjects.length && (
-              <div class="
-                grid gap-6
-                lg:grid-cols-2
-              "
+              <div
+                class="
+                  grid gap-6
+                  lg:grid-cols-2
+                "
+                data-stagger
               >
                 {otherProjects.map(project => (
                   <ProjectCard project={project} />

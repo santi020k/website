@@ -12,6 +12,7 @@ interface Props {
   loading?: 'eager' | 'lazy'
   mode?: 'card' | 'detail'
   sizes: string
+  transitionName?: string
 }
 
 const {
@@ -23,9 +24,14 @@ const {
   image,
   loading = 'lazy',
   mode = 'card',
-  sizes
+  sizes,
+  transitionName
 } = Astro.props
 
+// When no explicit transition name is given, use a stable per-image fallback so
+// transition:name always receives a string (required by strict types) and two
+// CoverImage instances of the SAME image file still morph naturally.
+const effectiveTransitionName = transitionName ?? `cover:${image.src}`
 const aspectRatio = image.width / image.height
 let orientation: 'landscape' | 'portrait' | 'square' = 'landscape'
 
@@ -107,7 +113,7 @@ if (mode === 'detail') {
 }
 ---
 
-<div class:list={[...wrapperClasses, className]}>
+<div class:list={[...wrapperClasses, className]} transition:name={effectiveTransitionName}>
   {mode === 'detail' && useContainedFrame && (
     <div
       aria-hidden="true"

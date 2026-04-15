@@ -338,6 +338,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
           loading="eager"
           mode="detail"
           sizes="(min-width: 1024px) 1200px, 100vw"
+          transitionName={`post-cover-${post.id}`}
         />
         {useWideCoverFrame && (
           <div

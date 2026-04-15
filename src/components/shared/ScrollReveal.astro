@@ -8,6 +8,10 @@
  * Optionally set `data-animate="fade"` or `data-animate="scale"` for
  * alternate entry variants (see global.css).
  *
+ * Mark a grid/list container with `data-stagger` to animate its direct
+ * children in sequence. Optionally set `data-stagger="80"` to control
+ * the delay step in ms between children (default: 60ms).
+ *
  * The script properly tears down and re-creates the IntersectionObserver
  * on every Astro page transition so stale observers never accumulate.
  */
@@ -31,13 +35,23 @@
 
           const el = entry.target as HTMLElement
 
-          // Apply optional per-element stagger delay
-          const delay = el.dataset.animateDelay
-          if (delay) {
-            el.style.transitionDelay = delay
+          if (el.hasAttribute('data-stagger')) {
+            // Stagger the direct children in sequence
+            const step = Number(el.dataset.stagger) || 60
+            const children = Array.from(el.children) as HTMLElement[]
+            children.forEach((child, i) => {
+              child.style.transitionDelay = `${i * step}ms`
+              child.classList.add('is-visible')
+            })
+          } else {
+            // Apply optional per-element stagger delay
+            const delay = el.dataset.animateDelay
+            if (delay) {
+              el.style.transitionDelay = delay
+            }
+            el.classList.add('is-visible')
           }
 
-          el.classList.add('is-visible')
           // Each element animates once, then stops being watched.
           observer?.unobserve(el)
         })
@@ -57,7 +71,7 @@
     // we run the first intersection check.  Without this, elements that are
     // already in the viewport on page-load can miss their initial callback.
     requestAnimationFrame(() => {
-      document.querySelectorAll<HTMLElement>('[data-animate]').forEach((el) => {
+      document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
         observer?.observe(el)
       })
     })

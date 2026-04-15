@@ -6,6 +6,7 @@ import SkipLink from '../components/atoms/SkipLink.astro'
 import SiteFooter from '../components/organisms/SiteFooter.astro'
 import SiteHeader from '../components/organisms/SiteHeader.astro'
 import BaseHead from '../components/shared/BaseHead.astro'
+import NavProgress from '../components/shared/NavProgress.astro'
 import ScrollReveal from '../components/shared/ScrollReveal.astro'
 import ServiceWorkerRegistration from '../components/shared/ServiceWorkerRegistration.astro'
 import ThemeProvider from '../components/shared/ThemeProvider.astro'
@@ -76,7 +77,20 @@ const headMeta = {
     </div>
 
     <BackToTop />
+    <NavProgress />
     <ScrollReveal />
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
+
+    <script>
+      // Scroll to top on forward navigation; preserve position on back/forward
+      document.addEventListener('astro:before-preparation', (e) => {
+        const { navigationType } = e as unknown as { navigationType?: string }
+        if (navigationType !== 'traverse') {
+          document.addEventListener('astro:after-swap', () => {
+            window.scrollTo(0, 0)
+          }, { once: true })
+        }
+      })
+    </script>
   </body>
 </html>
