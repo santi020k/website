@@ -13,7 +13,6 @@ Santiago is a seasoned **Full Stack Developer** and **Tech Lead** with over a de
 - **Astro 6 Power**: Built with the latest Astro framework for optimized performance.
 - **Tailwind CSS v4**: Modern, future-proof styling with zero-runtime CSS.
 - **Alpine.js Interactivity**: Lightweight, reactive features without the overhead.
-- **Search Everywhere**: Blazing-fast client-side search powered by **Pagefind**.
 - **Content Collections**: Type-safe Markdown and MDX for blog posts and projects.
 - **Accessibility First**: WCAG 2.2 AA compliant, ensuring an inclusive experience for all.
 - **View Transitions**: Seamless, app-like navigation between pages.
