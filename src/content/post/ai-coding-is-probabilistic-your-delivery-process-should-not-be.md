@@ -8,9 +8,15 @@ seriesId: "the-santi020k-way"
 seriesOrder: 10
 ---
 
-AI can help you move faster, but speed is not the same thing as certainty.
+AI is making developers faster.
 
-That distinction matters more now than it did a year ago. When AI suggests code, rewrites a function, updates a test, or patches a bug, it is not retrieving truth from a perfect internal model. It is generating the most probable next output based on patterns. Sometimes that output is excellent. Sometimes it is subtly wrong while sounding extremely confident.
+It is not making software exact.
+
+That distinction matters more now than it did a year ago. When AI suggests code, rewrites a function, updates a test, or patches a bug, it is not retrieving truth from a perfect internal model. It is generating the most probable next output based on patterns.
+
+Sometimes that output is excellent.
+
+Sometimes it is subtly wrong while sounding extremely confident.
 
 That is why I do not think the modern response to AI-assisted development is "trust the tool more." I think the response is "tighten the system around the tool."
 
