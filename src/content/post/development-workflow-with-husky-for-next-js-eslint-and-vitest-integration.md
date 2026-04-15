@@ -13,7 +13,7 @@ tags:
   - nextjs
 coverImage:
   alt: Development workflow diagram showing Husky pre-commit and pre-push hooks
-  src: ./development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.png
+  src: ./development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp
 postType: "Tutorial"
 seriesId: "building-a-production-nextjs-app"
 seriesOrder: 3

@@ -5,7 +5,7 @@ publishDate: "2025-05-17T17:34:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
   alt: "Editorial cover for Write Better Review Feedback with Conventional Comments"
-  src: "./write-better-review-feedback-with-conventional-comments-cover.png"
+  src: "./write-better-review-feedback-with-conventional-comments-cover.webp"
 tags: ["code-review", "engineering-culture", "communication", "git"]
 postType: "Guide"
 seriesId: "the-santi020k-way"

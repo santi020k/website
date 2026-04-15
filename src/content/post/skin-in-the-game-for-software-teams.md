@@ -5,7 +5,7 @@ publishDate: "2024-12-08T16:12:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
   alt: "Editorial cover for Skin in the Game for Software Teams"
-  src: "./skin-in-the-game-for-software-teams-cover.png"
+  src: "./skin-in-the-game-for-software-teams-cover.webp"
 tags: ["engineering-culture", "leadership", "product-thinking", "software-teams"]
 postType: "Opinion"
 seriesId: "the-santi020k-way"

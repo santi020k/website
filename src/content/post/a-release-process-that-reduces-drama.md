@@ -5,7 +5,7 @@ publishDate: "2025-10-05T18:44:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
   alt: "Editorial cover for A Release Process That Reduces Drama"
-  src: "./a-release-process-that-reduces-drama-cover.png"
+  src: "./a-release-process-that-reduces-drama-cover.webp"
 tags: ["release-management", "git", "qa", "delivery"]
 postType: "Guide"
 seriesId: "the-santi020k-way"

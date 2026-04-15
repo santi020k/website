@@ -10,7 +10,7 @@ tags:
 - nextjs
 coverImage:
   alt: storybook in action with next js tailwind and typescript
-  src: ./storybook-in-action-with-next-js-tailwind-and-typescript-fig-1.png
+  src: ./storybook-in-action-with-next-js-tailwind-and-typescript-fig-1.webp
 canonicalUrl: "https://medium.com/towardsdev/storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2"
 postType: "Tutorial"
 seriesId: "building-a-production-nextjs-app"
@@ -310,7 +310,7 @@ In the repository, you’ll find two additional examples, covering both Vitest a
 
 The end result will resemble this:
 
-![Storybook](./storybook-in-action-with-next-js-tailwind-and-typescript-fig-2.png)
+![Storybook](./storybook-in-action-with-next-js-tailwind-and-typescript-fig-2.webp)
 
 ## Enhancing Your Storybook with Integrations
 

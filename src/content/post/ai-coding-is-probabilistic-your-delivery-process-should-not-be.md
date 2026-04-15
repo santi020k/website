@@ -4,7 +4,7 @@ description: "AI speeds up code changes, but ESLint, tests, snapshots, and end-t
 publishDate: "2026-04-15T15:30:00.000Z"
 coverImage:
   alt: "Editorial cover for AI Coding Is Probabilistic. Your Delivery Process Should Not Be."
-  src: "./ai-coding-is-probabilistic-your-delivery-process-should-not-be-cover.png"
+  src: "./ai-coding-is-probabilistic-your-delivery-process-should-not-be-cover.webp"
 tags: ["ai", "eslint", "testing", "e2e", "developer-experience"]
 postType: "Opinion"
 seriesId: "the-santi020k-way"

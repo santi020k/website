@@ -5,7 +5,7 @@ publishDate: "2024-04-11T15:46:53.731Z"
 tags: ["vitest", "testing-library", "react", "typescript", "nextjs"]
 coverImage:
   alt: "Neon illustration of a component test panel connected to interaction, assertion, and targeting checkpoints"
-  src: "./testing-react-components-with-vitest-and-react-testing-library-cover.png"
+  src: "./testing-react-components-with-vitest-and-react-testing-library-cover.webp"
 postType: "Tutorial"
 seriesId: "building-a-production-nextjs-app"
 seriesOrder: 5
