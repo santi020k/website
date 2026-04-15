@@ -8,6 +8,8 @@ import SectionHeading from '@/components/molecules/SectionHeading.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 
+import { getTopTags } from '@/utils/tags'
+
 import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
 import PageLayout from '@/layouts/Base.astro'
@@ -27,12 +29,7 @@ const cadenceDescription =
   `${publishingRhythm.summary} ` +
   'The current roadmap runs from April 2026 through September 2026 so the site keeps growing on a predictable rhythm instead of in bursts.'
 
-const topTags = [...posts
-  .flatMap(post => post.data.tags)
-  .reduce((acc, tag) => acc.set(tag, (acc.get(tag) ?? 0) + 1), new Map<string, number>())]
-  .sort((a, b) => b[1] - a[1])
-  .slice(0, 8)
-
+const topTags = getTopTags(posts)
 const [featuredPost, ...remainingPosts] = posts
 
 const breadcrumbs = [

@@ -1,0 +1,43 @@
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+
+import { expect, test } from '@playwright/test'
+
+test.describe('Blog series index page', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/blog/series/')
+  })
+
+  test('should have the correct title and main heading', async ({ page }) => {
+    await expect(page).toHaveTitle(/Blog Series/)
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  })
+
+  test('should display the stats panel', async ({ page }) => {
+    await expect(page.getByText('Active series')).toBeVisible()
+    await expect(page.getByText('Posts grouped')).toBeVisible()
+    await expect(page.getByText('Roadmap tracks')).toBeVisible()
+  })
+
+  test('should render at least one series card', async ({ page }) => {
+    const seriesSection = page.getByRole('heading', { name: /Current series on the site/i })
+    await expect(seriesSection).toBeVisible()
+    const cards = page.locator('section').filter({ has: seriesSection }).locator('article')
+    await expect(cards.first()).toBeVisible()
+  })
+
+  test('should link back to the blog index', async ({ page }) => {
+    const backLink = page.getByRole('link', { name: /Back to blog/i })
+    await expect(backLink).toBeVisible()
+    await expect(backLink).toHaveAttribute('href', '/blog/')
+  })
+
+  test('should link to the content calendar', async ({ page }) => {
+    const calendarLink = page.getByRole('link', { name: /View content calendar/i })
+    await expect(calendarLink).toBeVisible()
+    await expect(calendarLink).toHaveAttribute('href', '/blog/content-calendar/')
+  })
+
+  test('should pass accessibility audit', async ({ page }) => {
+    await expectNoUnexpectedAccessibilityViolations(page)
+  })
+})
