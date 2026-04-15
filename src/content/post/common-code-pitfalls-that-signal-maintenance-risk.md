@@ -91,11 +91,11 @@ That checklist is often enough to spot whether we are dealing with an isolated c
 
 The right response is rarely "rewrite everything." A calmer pattern is:
 
-1. make the current behavior visible with tests or assertions
-2. isolate the highest-friction logic
-3. rename aggressively where the model is muddy
-4. split responsibilities at the seams that already exist
-5. remove dead paths once the new shape is trusted
+1. Make the current behavior visible with tests or assertions
+2. Isolate the highest-friction logic
+3. Rename aggressively where the model is muddy
+4. Split responsibilities at the seams that already exist
+5. Remove dead paths once the new shape is trusted
 
 That sequence preserves delivery while still moving the codebase in the right direction.
 

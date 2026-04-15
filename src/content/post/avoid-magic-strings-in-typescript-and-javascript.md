@@ -22,11 +22,11 @@ I am not talking about every hard-coded sentence in a UI. I am talking about str
 
 Examples:
 
-- status names used in conditions
-- event names sent to analytics
-- role names used for permissions
-- error identifiers mapped to messages
-- cache keys and route segments repeated by hand
+- Status names used in conditions
+- Event names sent to analytics
+- Role names used for permissions
+- Error identifiers mapped to messages
+- Cache keys and route segments repeated by hand
 
 The problem is not that they are strings. The problem is that they are important strings with no shared source of truth.
 
@@ -90,9 +90,9 @@ Not every string needs abstraction.
 
 Inline strings are fine when they are:
 
-- one-off presentation copy
-- local to a test and helpful for readability
-- truly not part of a shared contract
+- One-off presentation copy
+- Local to a test and helpful for readability
+- Truly not part of a shared contract
 
 The rule I use is simple: if changing the string in one place should probably change it somewhere else too, it likely deserves a named representation.
 
@@ -100,11 +100,11 @@ The rule I use is simple: if changing the string in one place should probably ch
 
 When I find a magic string that affects behavior, I usually apply this sequence:
 
-1. name the concept
-2. centralize the allowed values
-3. give the values a type
-4. replace conditional branches to use the named source
-5. remove string comparisons that are now redundant
+1. Name the concept
+2. Centralize the allowed values
+3. Give the values a type
+4. Replace conditional branches to use the named source
+5. Remove string comparisons that are now redundant
 
 That process improves the code without turning a small cleanup into a large migration.
 

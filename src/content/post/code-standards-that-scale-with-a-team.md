@@ -22,9 +22,9 @@ The goal is not to control every personal preference. It is to make common choic
 
 A strong standard does three things:
 
-- makes the desired path obvious
-- lets tooling enforce the boring parts
-- leaves room for judgment where context genuinely matters
+- Makes the desired path obvious
+- Lets tooling enforce the boring parts
+- Leaves room for judgment where context genuinely matters
 
 ## Separate presentation from product behavior
 
@@ -32,15 +32,15 @@ I like a clear distinction between presentational components and feature or modu
 
 Presentational components should:
 
-- receive data and callbacks via props
-- focus on rendering and interaction states
-- stay reusable where that reusability is real
+- Receive data and callbacks via props
+- Focus on rendering and interaction states
+- Stay reusable where that reusability is real
 
 Feature-level modules can:
 
-- orchestrate business rules
-- coordinate API calls and state
-- adapt data for the view layer
+- Orchestrate business rules
+- Coordinate API calls and state
+- Adapt data for the view layer
 
 That boundary is never perfect, but it is still useful. It keeps UI pieces easier to test and easier to move.
 
@@ -50,10 +50,10 @@ If a team is using TypeScript, it should get the benefit of TypeScript.
 
 That usually means:
 
-- avoiding `any`
-- modeling domain concepts with named types
-- keeping interfaces and utility types readable
-- using names that describe intent instead of implementation mechanics
+- Avoiding `any`
+- Modeling domain concepts with named types
+- Keeping interfaces and utility types readable
+- Using names that describe intent instead of implementation mechanics
 
 I also like consistency in naming. If the codebase uses one pattern for DTOs, one pattern for component props, and one pattern for feature folders, that pattern should stay stable. Naming is where a lot of accidental complexity begins.
 
@@ -63,11 +63,11 @@ A predictable file structure helps more than people admit. It reduces search tim
 
 I generally want teams to agree on:
 
-- where presentational components live
-- where feature-level modules live
-- how tests are colocated
-- where styles belong
-- how route or page files map to supporting code
+- Where presentational components live
+- Where feature-level modules live
+- How tests are colocated
+- Where styles belong
+- How route or page files map to supporting code
 
 There are several good answers here. The main requirement is that the answer should be shared.
 
@@ -77,11 +77,11 @@ Standards that rely on memory are fragile. If something matters often, the toolc
 
 I want the tooling to own:
 
-- formatting
-- import order
-- obvious dead-code detection
-- baseline accessibility checks
-- the type system
+- Formatting
+- Import order
+- Obvious dead-code detection
+- Baseline accessibility checks
+- The type system
 
 That is why I still value clear linting and formatting defaults. A good setup removes arbitrary review noise and lets humans focus on the tradeoffs that actually need human judgment. If you are building a modern stack around those ideas, my post on [Building the Best Next.js TypeScript Standard Vitest ESLint Configuration](/blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration/) covers one practical example.
 
@@ -93,9 +93,9 @@ I do mind TODOs that say nothing beyond "fix this later."
 
 A useful TODO should answer:
 
-- what is incomplete
-- why it is incomplete
-- what condition should remove the TODO
+- What is incomplete
+- Why it is incomplete
+- What condition should remove the TODO
 
 If the team never returns to those notes, they are not TODOs anymore. They are decoration.
 
@@ -105,9 +105,9 @@ Not every component needs the same test depth, but every team benefits from a sh
 
 For example:
 
-- components with behavior should have interaction coverage
-- modules with branching logic should have unit coverage around the decision points
-- critical flows should have end-to-end coverage
+- Components with behavior should have interaction coverage
+- Modules with branching logic should have unit coverage around the decision points
+- Critical flows should have end-to-end coverage
 
 That is more helpful than a vague rule like "everything must be tested."
 

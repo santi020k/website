@@ -79,11 +79,11 @@ Structure helps, but tone is still part of the craft.
 
 There are a few habits I try to keep:
 
-- replace "you" with "we" when possible
-- explain why, not only what
-- be explicit when something is non-blocking
-- pair issues with suggestions whenever I can
-- leave real praise when the work deserves it
+- Replace "you" with "we" when possible
+- Explain why, not only what
+- Be explicit when something is non-blocking
+- Pair issues with suggestions whenever I can
+- Leave real praise when the work deserves it
 
 That last one is underrated. Praise is not fluff when it is sincere. It teaches the team what good looks like.
 
@@ -91,11 +91,11 @@ That last one is underrated. Praise is not fluff when it is sincere. It teaches 
 
 I would not roll it out as a rigid policy on day one. I would do something simpler:
 
-1. start using the labels in my own reviews
-2. explain the pattern in a short team note
-3. keep the label set intentionally small
-4. normalize `non-blocking` decoration for optional polish
-5. refine based on where confusion still shows up
+1. Start using the labels in my own reviews
+2. Explain the pattern in a short team note
+3. Keep the label set intentionally small
+4. Normalize `non-blocking` decoration for optional polish
+5. Refine based on where confusion still shows up
 
 It is a lightweight convention, not a ceremony.
 

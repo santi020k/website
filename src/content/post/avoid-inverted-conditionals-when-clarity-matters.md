@@ -75,9 +75,9 @@ This is not a hard ban.
 
 I do not mind inversion when:
 
-- the negative case is the primary early exit
-- the language is already clearer in the negative form
-- flipping the condition would make the branch more awkward
+- The negative case is the primary early exit
+- The language is already clearer in the negative form
+- Flipping the condition would make the branch more awkward
 
 The key is to optimize for the next reader, not for a blanket rule.
 

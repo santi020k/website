@@ -17,10 +17,10 @@ Once a Next.js project has linting, tests, and CI in place, another critical pie
 
 That is where many frontend codebases start becoming harder to maintain. The problem is usually not signing users in. The problem is letting auth logic spread everywhere:
 
-- route checks in random components
-- duplicated redirects
-- permission checks mixed with UI code
-- server and client logic doing almost the same thing in different places
+- Route checks in random components
+- Duplicated redirects
+- Permission checks mixed with UI code
+- Server and client logic doing almost the same thing in different places
 
 I prefer to avoid that from the beginning.
 
@@ -45,10 +45,10 @@ That is why I prefer a structure where:
 
 For many Next.js applications, Supabase is a practical choice because it gives you:
 
-- authentication
-- a Postgres database
+- Authentication
+- A Postgres database
 - Row Level Security
-- client and server SDKs
+- Client and server SDKs
 
 That combination is useful because authentication and authorization often need to exist close to the data layer. If the frontend is the only place where access is enforced, the architecture is already too weak.
 
@@ -122,8 +122,8 @@ export async function createClient() {
 
 What I like about this is that the boundary stays clear:
 
-- browser code uses the browser client
-- server code uses the server client
+- Browser code uses the browser client
+- Server code uses the server client
 
 That sounds obvious, but many auth bugs appear when those boundaries become blurred.
 
@@ -262,7 +262,7 @@ This is fine for presentation. What I do not want is this component being the on
 My rule is simple:
 
 - UI checks improve the experience
-- backend and database checks enforce the rule
+- Backend and database checks enforce the rule
 
 ## Conclusions
 

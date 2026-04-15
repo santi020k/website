@@ -25,10 +25,10 @@ The older package helped me validate the core idea: strong linting defaults redu
 
 That package did useful work for me and for the teams around it:
 
-- it turned a personal linting baseline into a reusable package
-- it made ESLint 9 flat config easier to adopt
-- it created one place for rules, optionals, and automation-minded defaults
-- it helped standardize the kind of review feedback I kept repeating manually
+- It turned a personal linting baseline into a reusable package
+- It made ESLint 9 flat config easier to adopt
+- It created one place for rules, optionals, and automation-minded defaults
+- It helped standardize the kind of review feedback I kept repeating manually
 
 It also gave me a clear signal that the problem was real. Teams do not just need more lint rules. They need a setup that is easier to adopt, easier to understand, and easier to evolve without accidental complexity.
 
@@ -44,11 +44,11 @@ That was the tension I wanted to fix.
 
 The old library revolved around a single package and a single main export. It could support more than one scenario, but the architecture still concentrated too much responsibility in one place:
 
-- framework-specific behavior
-- optional integrations
-- public API decisions
-- config composition
-- documentation burden
+- Framework-specific behavior
+- Optional integrations
+- Public API decisions
+- Config composition
+- Documentation burden
 
 That works for a while. Then the package starts carrying more implicit coupling than I want.
 
@@ -58,12 +58,12 @@ I wanted clearer boundaries.
 
 I wanted a base package that application teams could install quickly, but I also wanted the internal structure to match the real problem space:
 
-- core rules and runtime behavior
-- framework-specific packages
-- optional tooling
-- docs
-- playgrounds
-- tests
+- Core rules and runtime behavior
+- Framework-specific packages
+- Optional tooling
+- Docs
+- Playgrounds
+- Tests
 
 That is the point where evolving the old package felt less honest than replacing it with a better shape.
 
@@ -76,17 +76,17 @@ Instead of asking one package to pretend it is everything, the repo now separate
 - `@santi020k/eslint-config-basic` is the main public entry point
 - `core` owns the runtime-aware base config and shared internals
 - `optionals` owns the integrations for testing, formats, tools, and extensions
-- framework packages stay explicit for React, Next.js, Astro, Vue, Svelte, Solid, Angular, NestJS, Expo, Qwik, and Remix
-- the repo also includes docs, playgrounds, and tests so the examples stay close to working code
+- Framework packages stay explicit for React, Next.js, Astro, Vue, Svelte, Solid, Angular, NestJS, Expo, Qwik, and Remix
+- The repo also includes docs, playgrounds, and tests so the examples stay close to working code
 
 That structure makes the library easier to maintain, but more importantly it makes the mental model better for users.
 
 The public message becomes clearer:
 
-- start with the base package
-- add framework packages only when your project needs them
-- enable optional tooling deliberately
-- keep the final config explicit even when the library can auto-detect common signals
+- Start with the base package
+- Add framework packages only when your project needs them
+- Enable optional tooling deliberately
+- Keep the final config explicit even when the library can auto-detect common signals
 
 That is the kind of clarity I want from tooling.
 
@@ -98,11 +98,11 @@ That worked, but I wanted the new API to map more directly to how teams actually
 
 The new package favors a more composable model:
 
-- base config through `eslintConfig()`
+- Base config through `eslintConfig()`
 - `typescript: true` when TypeScript is present
-- explicit framework imports when the project needs them
-- grouped optionals for libraries, testing, formats, tools, and extensions
-- strict mode when the team wants warnings promoted to errors
+- Explicit framework imports when the project needs them
+- Grouped optionals for libraries, testing, formats, tools, and extensions
+- Strict mode when the team wants warnings promoted to errors
 
 This is the kind of before-and-after I had in mind.
 
@@ -151,11 +151,11 @@ That is why the new library ships with a dedicated docs site at [eslint.santi020
 
 I wanted the docs to answer the real adoption questions:
 
-- what should I install first?
-- when do I need a framework package?
-- how do optional integrations fit together?
-- what belongs in the base package versus `core` or `optionals`?
-- how do I migrate without turning lint setup into a side project?
+- What should I install first?
+- When do I need a framework package?
+- How do optional integrations fit together?
+- What belongs in the base package versus `core` or `optionals`?
+- How do I migrate without turning lint setup into a side project?
 
 That docs-first move is part of the library change, not a separate nice-to-have.
 
@@ -167,11 +167,11 @@ One of the ideas behind the new package is that strong linting should feel easie
 
 That is why `@santi020k/eslint-config-basic` focuses on practical DX decisions:
 
-- a composable flat-config API
-- better separation between framework packages and optional tooling
-- auto-detection for common project signals
-- a built-in CLI for scaffolding and updates
-- documentation, playgrounds, and tests tied more closely to the implementation
+- A composable flat-config API
+- Better separation between framework packages and optional tooling
+- Auto-detection for common project signals
+- A built-in CLI for scaffolding and updates
+- Documentation, playgrounds, and tests tied more closely to the implementation
 
 I also wanted the package positioning to reflect what it really is becoming: a toolkit for real JavaScript and TypeScript teams, not just a personal preset with a growing list of exceptions.
 
@@ -187,11 +187,11 @@ Deprecation here is not a rejection of the earlier work. It is a way of protecti
 
 If I believe the better path is:
 
-- clearer package boundaries
-- a stronger docs experience
-- better composition
-- more room for framework growth
-- a more maintainable public API
+- Clearer package boundaries
+- A stronger docs experience
+- Better composition
+- More room for framework growth
+- A more maintainable public API
 
 then I should say that clearly and make the migration path obvious.
 
@@ -203,11 +203,11 @@ If you are already using `@santi020k/eslint-config-santi020k`, I recommend plann
 
 You should care especially if:
 
-- you want a cleaner long-term API surface
-- your team works across more than one framework or app type
-- you want docs and examples that are easier to follow
-- you prefer explicit framework packages over a single package that keeps expanding internally
-- you are standardizing modern flat-config workflows across several repositories
+- You want a cleaner long-term API surface
+- Your team works across more than one framework or app type
+- You want docs and examples that are easier to follow
+- You prefer explicit framework packages over a single package that keeps expanding internally
+- You are standardizing modern flat-config workflows across several repositories
 
 If you are starting fresh, I would not start with the deprecated package at all. I would go directly to [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic) and use the docs at [eslint.santi020k.me](https://eslint.santi020k.me/) as the canonical guide.
 
@@ -219,12 +219,12 @@ The goal is a more trustworthy ESLint ecosystem around a clear base package.
 
 I want this library to become the kind of tooling I like to adopt myself:
 
-- explicit
-- composable
-- documented
-- scalable across real stacks
-- opinionated enough to reduce noise
-- flexible enough to stay useful outside a single project shape
+- Explicit
+- Composable
+- Documented
+- Scalable across real stacks
+- Opinionated enough to reduce noise
+- Flexible enough to stay useful outside a single project shape
 
 That is why this move happened.
 
