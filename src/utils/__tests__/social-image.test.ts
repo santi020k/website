@@ -41,16 +41,16 @@ describe('getSocialImagePath', () => {
   })
 
   it('returns an OG page path for a static page', () => {
-    expect(getSocialImagePath('/about/')).toBe('/og/pages/about.png')
+    expect(getSocialImagePath('/about/')).toBe('/og/pages/about.webp')
   })
 
   it('builds correct path for a nested pathname', () => {
-    expect(getSocialImagePath('/blog/my-post/')).toBe('/og/pages/blog--my-post.png')
+    expect(getSocialImagePath('/blog/my-post/')).toBe('/og/pages/blog--my-post.webp')
   })
 
   it('handles technology paths with special characters', () => {
     const path = getSocialImagePath('/technologies/C++/')
-    expect(path).toBe('/og/pages/technologies--C~2B~2B.png')
+    expect(path).toBe('/og/pages/technologies--C~2B~2B.webp')
   })
 })
 
@@ -58,12 +58,12 @@ describe('getSocialImageURL', () => {
   const baseURL = 'https://santi020k.me/'
 
   it('resolves a full URL from a base URL string', () => {
-    expect(getSocialImageURL('/about/', baseURL)).toBe('https://santi020k.me/og/pages/about.png')
+    expect(getSocialImageURL('/about/', baseURL)).toBe('https://santi020k.me/og/pages/about.webp')
   })
 
   it('resolves a full URL when baseURL is a URL object', () => {
     const base = new URL('https://santi020k.me/')
-    expect(getSocialImageURL('/about/', base)).toBe('https://santi020k.me/og/pages/about.png')
+    expect(getSocialImageURL('/about/', base)).toBe('https://santi020k.me/og/pages/about.webp')
   })
 
   it('uses overridePath instead of computing from pathname', () => {
@@ -73,7 +73,7 @@ describe('getSocialImageURL', () => {
 
   it('falls back to the default site URL when baseURL is undefined', () => {
     const result = getSocialImageURL('/about/', undefined)
-    expect(result).toBe('https://santi020k.me/og/pages/about.png')
+    expect(result).toBe('https://santi020k.me/og/pages/about.webp')
   })
 
   it('returns the default webp for root when no override is given', () => {

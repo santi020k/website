@@ -35,7 +35,7 @@ export const getSocialImageSlug = (pathname: string) => trimOuterSlashes(pathnam
 export const getSocialImagePath = (pathname: string) => {
   const slug = getSocialImageSlug(pathname)
 
-  return slug ? `/og/pages/${slug}.png` : '/default.webp'
+  return slug ? `/og/pages/${slug}.webp` : '/default.webp'
 }
 
 /**
