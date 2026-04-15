@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "prelint": "astro sync",
     "prebuild": "npm-run-all --serial prebuild:clean generate:icons generate:og",
     "prebuild:clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "astro build",
@@ -17,6 +18,7 @@
     "generate:og:force": "FORCE_OG=1 node scripts/generate-og-images.js",
     "preview": "astro preview",
     "lint": "eslint . --fix",
+    "preformat": "astro sync",
     "format": "eslint --fix .",
     "check": "astro check",
     "test": "vitest run",
