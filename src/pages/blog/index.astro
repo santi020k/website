@@ -48,16 +48,11 @@ const breadcrumbs = [
     title: 'Software Engineering Blog — Santiago Molina'
   }}
 >
-  <section class="relative" data-animate>
-    <div id="blog-search" class="pagefind-ui-wrap"></div>
-  </section>
-
   <section
     class="
       grid gap-10
       lg:grid-cols-[1.05fr_0.95fr]
     "
-    data-animate
   >
     <div class="space-y-6">
       <SectionHeading
@@ -108,49 +103,22 @@ const breadcrumbs = [
 
   <section class="editorial-section" data-animate>
     <SectionHeading
-      description={cadenceDescription}
-      eyebrow="Cadence"
-      linkHref="/blog/content-calendar/"
-      linkLabel="View the full content calendar"
-      title="A documented monthly publishing rhythm."
+      description="Start with the latest piece, then browse the rest by topic and depth."
+      eyebrow="Latest"
+      title="Recent writing with a practical bias."
     />
-
     <div class="space-y-6">
-      <div class="
-        grid gap-5
-        md:grid-cols-3
-      "
-      >
-        {roadmapPreview.map(entry => (
-          <article class="
-            flex mini-note h-full flex-col gap-4 p-5
-            sm:p-6
-          "
-          >
-            <div class="flex flex-wrap items-center gap-2">
-              <Pill label={entry.month} tone="brand" />
-              <Pill label={entry.format} tone="outline" />
-            </div>
-            <h2 class="text-xl/tight text-ink">
-              {entry.headline}
-            </h2>
-            <p class="text-sm/6 text-ink-soft">
-              Refreshing: {entry.refreshTitle}
-            </p>
-          </article>
-        ))}
-      </div>
+      {featuredPost && <PostCard featured post={featuredPost} />}
 
-      <div class="section-actions">
-        <ButtonLink href="/blog/content-calendar/" showArrow>
-          See the roadmap
-        </ButtonLink>
-        <ButtonLink href="/blog/series/" showArrow variant="secondary">
-          Browse series
-        </ButtonLink>
-        <ButtonLink href="/feed.xml" showArrow variant="secondary">
-          Follow via RSS
-        </ButtonLink>
+      <div
+        class="
+          grid gap-6
+          lg:grid-cols-2
+        "
+      >
+        {remainingPosts.map(post => (
+          <PostCard post={post} />
+        ))}
       </div>
     </div>
   </section>
@@ -249,58 +217,52 @@ const breadcrumbs = [
 
   <section class="editorial-section" data-animate>
     <SectionHeading
-      description="Start with the latest piece, then browse the rest by topic and depth."
-      eyebrow="Latest"
-      title="Recent writing with a practical bias."
+      description={cadenceDescription}
+      eyebrow="Cadence"
+      linkHref="/blog/content-calendar/"
+      linkLabel="View the full content calendar"
+      title="A documented monthly publishing rhythm."
     />
-    <div class="space-y-6">
-      {featuredPost && <PostCard featured post={featuredPost} />}
 
+    <div class="space-y-6">
       <div
         class="
-          grid gap-6
-          lg:grid-cols-2
+          grid gap-5
+          md:grid-cols-3
         "
         data-stagger
       >
-        {remainingPosts.map(post => (
-          <PostCard post={post} />
+        {roadmapPreview.map(entry => (
+          <article class="
+            flex mini-note h-full flex-col gap-4 p-5
+            sm:p-6
+          "
+          >
+            <div class="flex flex-wrap items-center gap-2">
+              <Pill label={entry.month} tone="brand" />
+              <Pill label={entry.format} tone="outline" />
+            </div>
+            <h2 class="text-xl/tight text-ink">
+              {entry.headline}
+            </h2>
+            <p class="text-sm/6 text-ink-soft">
+              Refreshing: {entry.refreshTitle}
+            </p>
+          </article>
         ))}
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href="/blog/content-calendar/" showArrow>
+          See the roadmap
+        </ButtonLink>
+        <ButtonLink href="/blog/series/" showArrow variant="secondary">
+          Browse series
+        </ButtonLink>
+        <ButtonLink href="/feed.xml" showArrow variant="secondary">
+          Follow via RSS
+        </ButtonLink>
       </div>
     </div>
   </section>
-  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" slot="head" />
-
-  <script>
-    // Initialise Pagefind UI after the DOM is ready (works with view transitions too)
-    function initSearch() {
-      const container = document.getElementById('blog-search')
-      if (!container || container.dataset.pfinit) return
-      container.dataset.pfinit = '1'
-
-      // @ts-ignore — Pagefind is injected at build time
-      const PagefindUI = (window as Window & { PagefindUI?: new (opts: Record<string, unknown>) => void }).PagefindUI
-      if (PagefindUI) {
-        new PagefindUI({
-          element: '#blog-search',
-          showSubResults: false,
-          showImages: false,
-          resetStyles: false
-        })
-      }
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initSearch)
-    } else {
-      initSearch()
-    }
-
-    document.addEventListener('astro:after-swap', () => {
-      // Re-initialise on view transition
-      const container = document.getElementById('blog-search')
-      if (container) delete container.dataset.pfinit
-      initSearch()
-    })
-  </script>
 </PageLayout>

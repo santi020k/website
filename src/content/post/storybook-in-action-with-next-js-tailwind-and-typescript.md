@@ -9,7 +9,7 @@ tags:
 - react
 - nextjs
 coverImage:
-  alt: storybook in action with next js tailwind and typescript dd95875856a2
+  alt: storybook in action with next js tailwind and typescript
   src: ./storybook-in-action-with-next-js-tailwind-and-typescript-fig-1.png
 canonicalUrl: "https://medium.com/towardsdev/storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2"
 postType: "Tutorial"

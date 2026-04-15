@@ -86,6 +86,12 @@
     }
   })
 
-  // Fires on every page (including the very first load with ClientRouter).
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollReveal, { once: true })
+  } else {
+    initScrollReveal()
+  }
+
+  // Fires on client-routed pages when the router is enabled.
   document.addEventListener('astro:page-load', initScrollReveal)
 </script>

@@ -4,7 +4,7 @@ description: "Reusable ESLint library for React, Next.js, and TypeScript project
 publishDate: "2024-11-23T19:27:02.000Z"
 tags: ["react-native", "react", "eslint", "typescript", "eslint-config"]
 coverImage:
-  alt: "boosting code quality and efficiency with my eslint configuration library 3a4cbc1993a7"
+  alt: "boosting code quality and efficiency with my eslint configuration library"
   src: "./boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-cover.png"
 canonicalUrl: "https://towardsdev.com/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-3a4cbc1993a7"
 postType: "Case Study"

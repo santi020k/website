@@ -4,7 +4,7 @@ description: "Configure ESLint for Next.js with TypeScript and Vitest integratio
 publishDate: "2024-03-14T18:01:55.000Z"
 tags: ["eslint", "vitest", "typescript", "standards", "react"]
 coverImage:
-  alt: "building the best next js typescript standard vitest eslint configuration f6d91d6346e7"
+  alt: "building the best next js typescript standard vitest eslint configuration"
   src: "./building-the-best-next-js-typescript-standard-vitest-eslint-configuration-cover.jpeg"
 postType: "Guide"
 seriesId: "building-a-production-nextjs-app"
