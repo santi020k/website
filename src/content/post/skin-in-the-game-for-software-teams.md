@@ -39,11 +39,11 @@ Engineers with skin in the game usually make different tradeoffs than engineers 
 
 They are more likely to:
 
-- add observability when a feature is hard to reason about
-- improve naming before logic becomes difficult to review
-- ask clarifying questions about edge cases instead of hoping QA will find them
-- automate a repetitive check rather than relying on memory
-- flag a confusing UX state even if it is technically "working"
+- Add observability when a feature is hard to reason about
+- Improve naming before logic becomes difficult to review
+- Ask clarifying questions about edge cases instead of hoping QA will find them
+- Automate a repetitive check rather than relying on memory
+- Flag a confusing UX state even if it is technically "working"
 
 In other words, they expand the definition of done just enough to protect the future team.
 
@@ -55,11 +55,11 @@ Skin in the game is easier to ask for when the environment rewards it.
 
 If we want more of it, leaders should make sure the team can actually see outcomes:
 
-- show product metrics, not only sprint burndown
-- include engineers in problem framing, not only implementation
-- share customer pain clearly and concretely
-- review incidents without blame and with follow-through
-- reward bug prevention, simplification, and operational improvements
+- Show product metrics, not only sprint burndown
+- Include engineers in problem framing, not only implementation
+- Share customer pain clearly and concretely
+- Review incidents without blame and with follow-through
+- Reward bug prevention, simplification, and operational improvements
 
 Teams become shallow when they are measured only on throughput. They become sharper when they are trusted with context.
 

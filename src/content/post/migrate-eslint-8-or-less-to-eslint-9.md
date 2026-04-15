@@ -41,9 +41,9 @@ With flat config, the setup becomes more explicit. That is exactly what I want i
 
 Before changing any rule or file name, verify the Node version used by:
 
-- your local terminal
+- Your local terminal
 - CI
-- your editor ESLint integration
+- Your editor ESLint integration
 
 ESLint 9 drops support for older runtimes, so this is the first thing I check. If your team is still tied to an old Node version in CI or inside VS Code, the CLI may work on one machine and fail on another.
 
@@ -77,10 +77,10 @@ If your old config lives in JSON or YAML, use that file instead. The useful part
 
 This is especially helpful when the project has:
 
-- multiple overrides
-- old shareable configs
-- a `.eslintignore` file
-- plugins that are not fully updated yet
+- Multiple overrides
+- Old shareable configs
+- A `.eslintignore` file
+- Plugins that are not fully updated yet
 
 The generated file is usually a bridge, not the final version. Keep that in mind from the beginning.
 
@@ -229,10 +229,10 @@ export default eslintConfig({
 
 This approach fits the way I like to work:
 
-- strong defaults
-- fewer repeated decisions
-- explicit options when the project needs them
-- less dependence on editor-specific behavior
+- Strong defaults
+- Fewer repeated decisions
+- Explicit options when the project needs them
+- Less dependence on editor-specific behavior
 
 For frontend teams, that matters a lot. I do not want quality to depend on whether one developer installed the right extension or remembered the right lint preset six months ago.
 

@@ -46,11 +46,11 @@ A good pull request does more than attach code to a branch. It gives the reviewe
 
 At minimum, I want:
 
-- a concise description of the change
-- the reason for the change
-- screenshots or recordings when UI changed
-- rollout or migration notes when needed
-- known tradeoffs or follow-ups called out explicitly
+- A concise description of the change
+- The reason for the change
+- Screenshots or recordings when UI changed
+- Rollout or migration notes when needed
+- Known tradeoffs or follow-ups called out explicitly
 
 That is one reason I like pairing strong PR descriptions with [Conventional Comments](/blog/write-better-review-feedback-with-conventional-comments/). The combination shortens the whole review loop.
 
@@ -66,11 +66,11 @@ Opening a PR is not the finish line. It is the start of a collaboration phase.
 
 That means the author should:
 
-- assign themselves or otherwise make ownership obvious in the platform the team uses
-- respond to feedback promptly
-- keep the branch updated when conflicts appear
-- verify checks and previews before asking for final approval
-- close the loop after merge if rollout steps remain
+- Assign themselves or otherwise make ownership obvious in the platform the team uses
+- Respond to feedback promptly
+- Keep the branch updated when conflicts appear
+- Verify checks and previews before asking for final approval
+- Close the loop after merge if rollout steps remain
 
 Clear ownership is a kindness. It prevents work from sitting in ambiguous states.
 
@@ -78,10 +78,10 @@ Clear ownership is a kindness. It prevents work from sitting in ambiguous states
 
 Good Git hygiene should make releases easier, not harder. That means:
 
-- meaningful tags for production releases
-- a clear link between merged code and shipped version
-- commit history that supports changelog generation when needed
-- avoiding force-push chaos on shared branches
+- Meaningful tags for production releases
+- A clear link between merged code and shipped version
+- Commit history that supports changelog generation when needed
+- Avoiding force-push chaos on shared branches
 
 When the release process is already stressful, vague Git history makes everything worse.
 
@@ -89,10 +89,10 @@ When the release process is already stressful, vague Git history makes everythin
 
 If a team only adopted a few rules, I would keep these:
 
-- one pull request should represent one primary intention
-- commit titles should be readable in isolation
+- One pull request should represent one primary intention
+- Commit titles should be readable in isolation
 - PR descriptions should explain both what changed and why
-- ownership should be explicit once review starts
-- release history should be legible enough to trust during an incident
+- Ownership should be explicit once review starts
+- Release history should be legible enough to trust during an incident
 
 The goal is not elegance for its own sake. The goal is calm collaboration. Git is at its best when it reduces ambiguity and helps the whole team move with confidence.

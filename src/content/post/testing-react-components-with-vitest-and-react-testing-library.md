@@ -155,15 +155,15 @@ What I like about this test file is that it checks behavior instead of implement
 
 I am not testing:
 
-- internal state names
+- Internal state names
 - CSS class names
-- whether a helper function was called internally
+- Whether a helper function was called internally
 
 I am testing what the user can observe:
 
-- the button is present
-- the button reacts correctly
-- the disabled state works
+- The button is present
+- The button reacts correctly
+- The disabled state works
 
 That distinction is very important. If the test suite depends too much on implementation details, refactoring becomes painful even when the user-facing behavior does not change.
 
@@ -186,17 +186,17 @@ In many React projects, developers spend too much time testing things that React
 
 For example, I do not see much value in testing trivial implementation details such as:
 
-- whether a `useState` hook exists
-- whether a component has a specific wrapper `div`
-- whether a prop is passed to an internal child that the user never interacts with
+- Whether a `useState` hook exists
+- Whether a component has a specific wrapper `div`
+- Whether a prop is passed to an internal child that the user never interacts with
 
 I prefer to test:
 
-- visible state changes
-- form validation
-- user interactions
-- rendering conditions
-- content that should or should not appear
+- Visible state changes
+- Form validation
+- User interactions
+- Rendering conditions
+- Content that should or should not appear
 
 That gives much better long-term value.
 

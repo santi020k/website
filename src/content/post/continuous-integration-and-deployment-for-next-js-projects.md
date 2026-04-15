@@ -19,11 +19,11 @@ That is why I like CI/CD from the beginning of a project, even when the product 
 
 For Next.js projects in particular, this matters a lot because frontend issues tend to show up in several places at once:
 
-- linting problems
-- type issues
-- broken builds
-- environment variable mistakes
-- deployment differences between local and production
+- Linting problems
+- Type issues
+- Broken builds
+- Environment variable mistakes
+- Deployment differences between local and production
 
 A good CI/CD pipeline catches these earlier and reduces the amount of debugging that happens after merge.
 
@@ -36,8 +36,8 @@ I prefer to separate both concepts clearly.
 
 Many teams mix both ideas into a single workflow and then wonder why the pipeline becomes hard to reason about. I prefer a simpler mental model:
 
-1. validate every pull request
-2. deploy only what has already passed validation
+1. Validate every pull request
+2. Deploy only what has already passed validation
 
 That keeps the process easier to maintain.
 
@@ -45,10 +45,10 @@ That keeps the process easier to maintain.
 
 For a Next.js project, I usually want CI to validate at least these items:
 
-- install dependencies cleanly
-- run linting
-- run unit tests
-- build the application
+- Install dependencies cleanly
+- Run linting
+- Run unit tests
+- Build the application
 
 If the project already has E2E tests, those can be added too, but I do not recommend making the first pipeline too heavy. It is better to start with the most valuable checks and grow carefully.
 
@@ -102,11 +102,11 @@ Some teams stop at linting and unit tests. I do not.
 
 For Next.js, the build step often catches problems that linting and unit tests do not:
 
-- incorrect imports
-- server/client boundary mistakes
-- invalid environment assumptions
-- route build failures
-- static generation issues
+- Incorrect imports
+- Server/client boundary mistakes
+- Invalid environment assumptions
+- Route build failures
+- Static generation issues
 
 If the application cannot build in CI, I do not want to discover that after merge or during deployment.
 
@@ -164,8 +164,8 @@ One thing I do not recommend is allowing the pipeline to pass with warnings that
 
 If a check is important enough to exist, I prefer being honest about it. Either:
 
-- it matters and should fail the pipeline
-- or it does not matter and should not be there
+- It matters and should fail the pipeline
+- Or it does not matter and should not be there
 
 That is the same reason I try to avoid weak defaults in frontend code. Ambiguous standards create ambiguous ownership.
 
@@ -193,10 +193,10 @@ This part is often underestimated.
 
 A good pipeline does more than validate code. It communicates expectations to the team:
 
-- this project must build
-- this project must pass tests
-- this project must respect lint rules
-- this project is releasable from the main branch
+- This project must build
+- This project must pass tests
+- This project must respect lint rules
+- This project is releasable from the main branch
 
 When those rules are encoded clearly in automation, the project becomes easier to scale.
 

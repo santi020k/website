@@ -22,10 +22,10 @@ A component should not invent its own worldview about breakpoints, spacing, or l
 
 Instead, the team should agree on a few fundamentals:
 
-- which breakpoints matter
-- what each breakpoint means in practice
-- how width, spacing, typography, and density evolve across them
-- when components should stack, wrap, collapse, or disappear
+- Which breakpoints matter
+- What each breakpoint means in practice
+- How width, spacing, typography, and density evolve across them
+- When components should stack, wrap, collapse, or disappear
 
 Once those rules are explicit, implementation gets much calmer.
 
@@ -93,9 +93,9 @@ Whether a team uses Tailwind, Mantine, CSS modules, or another approach, the sam
 
 That might mean:
 
-- responsive utility classes with agreed breakpoint names
-- component props that accept responsive values
-- design documentation with real examples
+- Responsive utility classes with agreed breakpoint names
+- Component props that accept responsive values
+- Design documentation with real examples
 - Storybook stories that cover layout shifts, not only static states
 
 That is part of why I still value component documentation tools such as [Storybook in Action with Next.js, Tailwind and TypeScript](/blog/storybook-in-action-with-next-js-tailwind-and-typescript/). Responsive behavior deserves to be visible and reviewable, not implied.

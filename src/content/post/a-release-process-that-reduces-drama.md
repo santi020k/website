@@ -34,11 +34,11 @@ I want the incoming changes to be organized before the release branch, environme
 
 That usually means:
 
-- pull requests merged with clear descriptions
-- version boundaries understood
-- release notes drafted before the final rush
-- environment-specific changes called out explicitly
-- incomplete work held back instead of smuggled into the train
+- Pull requests merged with clear descriptions
+- Version boundaries understood
+- Release notes drafted before the final rush
+- Environment-specific changes called out explicitly
+- Incomplete work held back instead of smuggled into the train
 
 This is also where Git discipline pays off. Clear PR history and tags make release preparation dramatically easier.
 
@@ -48,10 +48,10 @@ Moving code into QA, staging, or a release candidate environment should have a d
 
 I typically want:
 
-- automated checks green
-- smoke coverage on the critical path
-- confirmation that migrations or config changes ran correctly
-- a written note about anything intentionally deferred
+- Automated checks green
+- Smoke coverage on the critical path
+- Confirmation that migrations or config changes ran correctly
+- A written note about anything intentionally deferred
 
 The most expensive release issues are often not unknown bugs. They are known caveats that never got written down clearly enough.
 
@@ -59,11 +59,11 @@ The most expensive release issues are often not unknown bugs. They are known cav
 
 Once a build is approved, the production flow should be boring:
 
-- promote the approved artifact or commit
-- create the version tag
-- publish or update release notes
-- monitor the known health signals
-- confirm ownership for the first response window
+- Promote the approved artifact or commit
+- Create the version tag
+- Publish or update release notes
+- Monitor the known health signals
+- Confirm ownership for the first response window
 
 That sequence matters. I do not want production releases to depend on rebuilding code from a different state, guessing which commit was actually deployed, or writing the release notes after people are already firefighting.
 
@@ -73,10 +73,10 @@ I do not think of release notes as paperwork. They are part of the delivery arti
 
 Good notes help support, QA, product, and engineering answer the same questions quickly:
 
-- what changed
-- what matters
-- what to watch
-- what is intentionally excluded
+- What changed
+- What matters
+- What to watch
+- What is intentionally excluded
 
 Even brief notes are useful if they are clear. Silence creates more work than concision.
 
@@ -86,10 +86,10 @@ A release is not complete the moment production accepts the deploy.
 
 I want a short period where someone is clearly watching:
 
-- error rates
-- logs or traces for the changed areas
-- key business events or conversions
-- customer-facing support channels if the surface area is large
+- Error rates
+- Logs or traces for the changed areas
+- Key business events or conversions
+- Customer-facing support channels if the surface area is large
 
 That does not require panic-mode monitoring. It just requires intentional follow-through.
 
@@ -97,11 +97,11 @@ That does not require panic-mode monitoring. It just requires intentional follow
 
 If I had to reduce the process to a practical checklist, it would look like this:
 
-- identify the exact code included
-- verify it in a pre-production environment
-- publish concise release notes
-- tag the shipped version
-- monitor the release with a rollback path ready
+- Identify the exact code included
+- Verify it in a pre-production environment
+- Publish concise release notes
+- Tag the shipped version
+- Monitor the release with a rollback path ready
 
 That is enough to make shipping calmer. If a process adds stress without improving clarity, it should be simplified. Releases should feel disciplined, not dramatic.
 

@@ -30,10 +30,10 @@ AI changes that pacing.
 
 Now a developer can:
 
-- generate a refactor in minutes
-- touch files they did not originally plan to edit
-- accept patterns that look familiar without fully re-evaluating the edge cases
-- create a larger change set than they would normally write by hand in one pass
+- Generate a refactor in minutes
+- Touch files they did not originally plan to edit
+- Accept patterns that look familiar without fully re-evaluating the edge cases
+- Create a larger change set than they would normally write by hand in one pass
 
 That is not inherently bad. In fact, it is often useful. The problem is that the same acceleration applies to mistakes, regressions, and half-correct assumptions.
 
@@ -49,11 +49,11 @@ When AI touches a codebase, linting becomes an immediate structural filter.
 
 A strong ESLint setup can catch:
 
-- unsafe patterns the model introduces because they are statistically common, not contextually correct
-- invalid imports or unused branches left behind during large generated edits
-- accessibility mistakes in UI code
-- inconsistent naming, dead code, and maintainability drift
-- framework-specific mistakes that are easy to miss in review
+- Unsafe patterns the model introduces because they are statistically common, not contextually correct
+- Invalid imports or unused branches left behind during large generated edits
+- Accessibility mistakes in UI code
+- Inconsistent naming, dead code, and maintainability drift
+- Framework-specific mistakes that are easy to miss in review
 
 That first layer matters because it is fast. ESLint gives you feedback almost immediately, which means you can reject bad output before it reaches a pull request, a teammate, or a deployment pipeline.
 
@@ -73,10 +73,10 @@ That is why I do not want tests framed as paperwork or ceremony. I want them fra
 
 Good tests answer questions such as:
 
-- does the branching logic still behave the same way?
-- did the bug fix actually fix the bug?
-- did the refactor preserve the public contract?
-- did the edge case that mattered last month just quietly disappear?
+- Does the branching logic still behave the same way?
+- Did the bug fix actually fix the bug?
+- Did the refactor preserve the public contract?
+- Did the edge case that mattered last month just quietly disappear?
 
 This becomes even more important when AI is asked to "clean up," "simplify," or "make this more reusable." Those prompts often produce code that is cleaner on the surface while subtly changing the original behavior.
 
@@ -96,10 +96,10 @@ That is not a snapshot problem. That is a discipline problem.
 
 Used well, snapshots are a fast regression alarm for stable output surfaces such as:
 
-- serialized API responses or transformation results
-- generated configuration objects
-- component output that should remain structurally consistent
-- visual baselines in controlled UI states
+- Serialized API responses or transformation results
+- Generated configuration objects
+- Component output that should remain structurally consistent
+- Visual baselines in controlled UI states
 
 In an AI-assisted workflow, snapshots are especially helpful because models often make small structural changes that feel harmless in the moment. A renamed wrapper, a reordered output shape, or an extra field can easily slip through if nobody is looking closely enough.
 
@@ -123,11 +123,11 @@ That is why end-to-end tests matter so much right now. They verify that the syst
 
 I would not try to cover every screen with E2E tests. That becomes slow and expensive. But I absolutely want them around the critical paths:
 
-- authentication
-- checkout or conversion flows
-- content creation and editing
-- permission-sensitive actions
-- high-value bug regressions
+- Authentication
+- Checkout or conversion flows
+- Content creation and editing
+- Permission-sensitive actions
+- High-value bug regressions
 
 Those are the places where a "small" AI-generated mistake becomes a real business problem.
 
@@ -145,10 +145,10 @@ Bug fixes are exactly where confidence can become fake confidence. The change is
 
 Automation lowers that risk by giving the team quick evidence:
 
-- the code still matches baseline standards
-- the intended behavior still works
-- the output did not drift in a surprising way
-- the critical user flow still completes successfully
+- The code still matches baseline standards
+- The intended behavior still works
+- The output did not drift in a surprising way
+- The critical user flow still completes successfully
 
 That is not bureaucracy. That is leverage.
 
