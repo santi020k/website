@@ -1,10 +1,11 @@
 ---
-import type { CollectionEntry } from 'astro:content'
+import { type CollectionEntry, render } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
 import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
+import TocCard from '@/components/molecules/TocCard.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
 
 import readingTime from 'reading-time'
@@ -24,6 +25,8 @@ const stats = readingTime(post.body ?? '')
 const wordCount = Math.round(stats.words)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const seriesContext = await getSeriesContext(post)
+// Extract headings for the sticky TOC sidebar (same pattern as Projects.astro)
+const { headings } = await render(post)
 
 const blogPostingSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -100,73 +103,85 @@ const breadcrumbs = [
   <article class="mx-auto flex w-full max-w-6xl flex-col gap-12">
     <PostHero post={post} />
 
-    <div
-      class="prose-santi mx-auto w-full max-w-3xl animate-fade-in"
-      style="animation-delay: 120ms"
-    >
-      <slot />
-      <div class="mt-16">
-        <ShareButtons title={title} url={canonicalURL.href} />
-      </div>
-
-      {seriesContext && (
-        <SeriesNavigator
-          currentPostId={post.id}
-          next={seriesContext.next}
-          position={seriesContext.position}
-          posts={seriesContext.posts}
-          previous={seriesContext.previous}
-          series={seriesContext.series}
-          total={seriesContext.total}
-        />
-      )}
-    </div>
-
-    <footer
+    <!-- ── Two-column body: prose + sticky TOC sidebar ─────────── -->
+    <section
       class="
-        mt-16 flex animate-fade-in flex-col gap-10 border-t border-line pt-10
+        grid gap-10 border-t border-line/70 pt-10
+        lg:grid-cols-[minmax(0,1fr)_18rem]
       "
-      style="animation-delay: 220ms"
+      data-animate="fade"
     >
-      <div class="flex items-center justify-between">
-        <a
-          href="/blog/"
-          class="
-            group flex items-center gap-2 font-medium text-ink transition-colors
-            hover:text-brand
-          "
-        >
-          <Icon
-            aria-hidden="true"
-            name="tabler:arrow-left"
-            class="
-              size-5 transition-transform
-              group-hover:-translate-x-1
-            "
-          />
-          Back to blog
-        </a>
+      <!-- Left: article prose, series navigator, share -->
+      <div class="min-w-0 space-y-10">
+        <div class="prose-santi max-w-none">
+          <slot />
+        </div>
 
-        <a
-          href="#main"
-          class="
-            group flex items-center gap-2 font-medium text-ink-muted
-            transition-colors
-            hover:text-brand
-          "
-        >
-          Back to top
-          <Icon
-            aria-hidden="true"
-            name="tabler:arrow-up"
-            class="
-              size-5 transition-transform
-              group-hover:-translate-y-1
-            "
+        {seriesContext && (
+          <SeriesNavigator
+            currentPostId={post.id}
+            next={seriesContext.next}
+            position={seriesContext.position}
+            posts={seriesContext.posts}
+            previous={seriesContext.previous}
+            series={seriesContext.series}
+            total={seriesContext.total}
           />
-        </a>
+        )}
+
+        <ShareButtons title={title} url={canonicalURL.href} />
+
+        <footer class="
+          flex items-center justify-between border-t border-line pt-8
+        "
+        >
+          <a
+            href="/blog/"
+            class="
+              group flex items-center gap-2 font-medium text-ink
+              transition-colors
+              hover:text-brand
+            "
+          >
+            <Icon
+              aria-hidden="true"
+              name="tabler:arrow-left"
+              class="
+                size-5 transition-transform
+                group-hover:-translate-x-1
+              "
+            />
+            Back to blog
+          </a>
+
+          <a
+            href="#main"
+            class="
+              group flex items-center gap-2 font-medium text-ink-muted
+              transition-colors
+              hover:text-brand
+            "
+          >
+            Back to top
+            <Icon
+              aria-hidden="true"
+              name="tabler:arrow-up"
+              class="
+                size-5 transition-transform
+                group-hover:-translate-y-1
+              "
+            />
+          </a>
+        </footer>
       </div>
-    </footer>
+
+      <!-- Right: sticky TOC — only rendered when the post has headings -->
+      {!!headings.length && (
+        <aside aria-label="Article navigation" class="editorial-rail">
+          <TocCard headings={headings} />
+        </aside>
+      )}
+    </section>
   </article>
 
   <div class="mx-auto w-full max-w-6xl space-y-20">
