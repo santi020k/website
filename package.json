@@ -30,7 +30,7 @@
     "spellcheck": "cspell \"**/*.{md,mdx}\"",
     "ci:verify": "npm-run-all --serial ci:verify:stage1 ci:verify:stage2",
     "ci:verify:stage1": "npm-run-all --parallel spellcheck lint test:coverage build",
-    "ci:verify:stage2": "test:e2e:ci",
+    "ci:verify:stage2": "npm-run-all --parallel test:e2e:ci",
     "release": "commit-and-tag-version",
     "release:dry": "commit-and-tag-version --dry-run",
     "prepare": "husky",
