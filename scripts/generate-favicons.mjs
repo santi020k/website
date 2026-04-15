@@ -4,7 +4,7 @@ import sharp from 'sharp'
 
 const publicDir = new URL('../public/', import.meta.url)
 const publicDirPath = fileURLToPath(publicDir)
-const squareLogoPath = fileURLToPath(new URL('../public/logo-square.webp', import.meta.url))
+const wordmarkPath = fileURLToPath(new URL('../public/logo.webp', import.meta.url))
 const faviconSourcePath = fileURLToPath(new URL('favicon-source.png', publicDir))
 const faviconSvgPath = fileURLToPath(new URL('favicon.svg', publicDir))
 
@@ -31,10 +31,10 @@ const iconBackgroundSvg = Buffer.from(`
 `)
 
 const renderSourceIcon = async () => {
-  // Crop the left side of the wordmark so the favicon uses a readable monogram.
-  const monogram = await sharp(squareLogoPath)
-    .extract({ left: 30, top: 820, width: 610, height: 1120 })
-    .resize(326, 326, {
+  // Use the full S2K wordmark so the favicon feels like the brand, not a crop fragment.
+  const wordmark = await sharp(wordmarkPath)
+    .trim()
+    .resize(392, 192, {
       fit: 'contain',
       background: { r: 0, g: 0, b: 0, alpha: 0 }
     })
@@ -42,7 +42,7 @@ const renderSourceIcon = async () => {
     .toBuffer()
 
   return sharp(iconBackgroundSvg)
-    .composite([{ input: monogram, gravity: 'centre' }])
+    .composite([{ input: wordmark, gravity: 'centre' }])
     .png()
     .toBuffer()
 }
