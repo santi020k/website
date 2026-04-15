@@ -31,7 +31,7 @@
     "spellcheck": "cspell \"**/*.{md,mdx}\"",
     "ci:verify": "npm-run-all --serial ci:verify:check ci:verify:e2e",
     "ci:verify:check": "npm-run-all --parallel spellcheck lint test:coverage build",
-    "ci:verify:e2e": "test:e2e:ci",
+    "ci:verify:e2e": "pnpm run test:e2e:ci",
     "release": "commit-and-tag-version",
     "release:dry": "commit-and-tag-version --dry-run",
     "prepare": "husky",
