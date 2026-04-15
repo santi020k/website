@@ -98,7 +98,9 @@ const tocHeadings = headings.filter(h => h.depth <= 3)
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
+    // Defer the initial layout read so it doesn't force a synchronous reflow
+    // during the critical rendering path.
+    requestAnimationFrame(onScroll)
 
     return () => window.removeEventListener('scroll', onScroll)
   }
