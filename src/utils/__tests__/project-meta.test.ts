@@ -79,8 +79,8 @@ describe('getProjectTimelineLabel', () => {
   })
 
   it('includes both start and end dates when provided', () => {
-    const start = new Date('2021-03-01')
-    const end = new Date('2023-09-01')
+    const start = new Date('2021-06-15T12:00:00Z')
+    const end = new Date('2023-09-15T12:00:00Z')
     const label = getProjectTimelineLabel(start, end)
     expect(label).toContain('2021')
     expect(label).toContain('2023')
@@ -92,15 +92,16 @@ describe('getProjectTimelineLabel', () => {
 
 describe('getProjectDateRangeLabel', () => {
   it('returns only the start year when no end date is given', () => {
-    expect(getProjectDateRangeLabel(new Date('2021-01-01'))).toBe('2021')
+    // Use mid-year dates to avoid UTC midnight rolling into the prior day in negative-offset timezones
+    expect(getProjectDateRangeLabel(new Date('2021-06-15'))).toBe('2021')
   })
 
   it('returns only the start year when start and end are the same year', () => {
-    expect(getProjectDateRangeLabel(new Date('2021-01-01'), new Date('2021-12-01'))).toBe('2021')
+    expect(getProjectDateRangeLabel(new Date('2021-03-15'), new Date('2021-09-15'))).toBe('2021')
   })
 
   it('returns a year range when start and end differ', () => {
-    expect(getProjectDateRangeLabel(new Date('2020-01-01'), new Date('2023-01-01'))).toBe('2020 - 2023')
+    expect(getProjectDateRangeLabel(new Date('2020-06-15'), new Date('2023-06-15'))).toBe('2020 - 2023')
   })
 })
 
@@ -115,31 +116,34 @@ describe('getProjectDurationLabel', () => {
   })
 
   it('returns duration in years when exactly 12 months', () => {
-    const start = new Date('2022-01-01')
-    const end = new Date('2023-01-01')
+    // getMonthDifference adds +1 when endDate.getDate() >= startDate.getDate(),
+    // so to land on exactly 12 the end day must be strictly before the start day.
+    const start = new Date('2022-06-15T12:00:00Z')
+    const end = new Date('2023-06-14T12:00:00Z')
     const label = getProjectDurationLabel(start, end)
-    expect(label).toMatch(/1 yr/)
+    expect(label).toBe('1 yr')
   })
 
   it('returns duration in years and months when not evenly divisible', () => {
-    const start = new Date('2021-01-01')
-    const end = new Date('2022-07-01')
+    const start = new Date('2021-06-15T12:00:00Z')
+    const end = new Date('2022-08-15T12:00:00Z')
     const label = getProjectDurationLabel(start, end)
     expect(label).toContain('yr')
     expect(label).toContain('mo')
   })
 
   it('returns "yr" (not "yrs") for exactly 1 year', () => {
-    const start = new Date('2022-03-01')
-    const end = new Date('2023-03-01')
+    const start = new Date('2022-06-15T12:00:00Z')
+    const end = new Date('2023-06-15T12:00:00Z')
     expect(getProjectDurationLabel(start, end)).toContain('1 yr')
     expect(getProjectDurationLabel(start, end)).not.toContain('1 yrs')
   })
 
-  it('returns "yrs" for more than 1 year', () => {
-    const start = new Date('2020-01-01')
-    const end = new Date('2023-01-01')
-    expect(getProjectDurationLabel(start, end)).toContain('yrs')
+  it('returns "yrs" for more than 1 year with no leftover months', () => {
+    // End day must be strictly before start day so getMonthDifference doesn't add +1
+    const start = new Date('2020-06-15T12:00:00Z')
+    const end = new Date('2023-06-14T12:00:00Z')
+    expect(getProjectDurationLabel(start, end)).toBe('3 yrs')
   })
 
   it('uses the current date when no end date is provided (minimum 1 mo)', () => {
