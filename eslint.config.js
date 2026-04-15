@@ -13,8 +13,8 @@ export default [
     testing: [Testing.Vitest]
   }),
   {
-    name: 'website/astro-parser-fix',
-    files: ['**/*.astro'],
+    name: 'website/typescript-project-fix',
+    files: ['**/*.{ts,tsx,astro}'],
     languageOptions: {
       parserOptions: {
         project: true,
