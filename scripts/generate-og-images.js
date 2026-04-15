@@ -24,15 +24,12 @@ import { renderSocialImage } from '../src/utils/render-social-image.js'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
 const OUT_DIR = path.join(ROOT, 'public', 'og')
-
-/** Maximum number of images rendered simultaneously. */
+// Maximum number of images rendered simultaneously.
 const CONCURRENCY = 8
 const FORCE = process.env.FORCE_OG === '1'
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
 const trimOuterSlashes = value => value.replace(/^\/+|\/+$/g, '')
 
 const safeDecodeURIComponent = value => {
@@ -73,11 +70,9 @@ const collectMarkdownFiles = dir => {
 
 /** Derive a slug from a filename, stripping its extension. */
 const fileSlug = filePath => path.basename(filePath).replace(/\.mdx?$/, '')
-
 // ---------------------------------------------------------------------------
 // Collect image specs
 // ---------------------------------------------------------------------------
-
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 
 /** Static page definitions (mirrors `src/data/social-pages.ts`). */

@@ -11,7 +11,7 @@ seriesId: "eslint-in-practice"
 seriesOrder: 1
 ---
 
-[Read the Previous Post: Authentication and Authorization in Next.js Applications with Supabase](https://santi020k.com/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)
+[Read the Previous Post: Authentication and Authorization in Next.js Applications with Supabase](/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)
 
 In [Building the Best Next.js TypeScript Standard Vitest ESLint Configuration](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7), I shared the ESLint base that I liked to use in frontend projects. That setup worked well for ESLint 8, but ESLint 9 changed something important: flat config stopped being "the new way" and became the default way.
 
