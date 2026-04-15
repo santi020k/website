@@ -21,7 +21,7 @@ test.describe('SEO — meta tags', () => {
 
     const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
     expect(ogImage).toBeTruthy()
-    expect(ogImage).toMatch(/\/og\/pages\/.+\.png$/)
+    expect(ogImage).toMatch(/\/og\/pages\/.+\.webp$/)
   })
 
   test('about page has an og:image pointing to the generated pages PNG', async ({ page }) => {
@@ -29,7 +29,7 @@ test.describe('SEO — meta tags', () => {
 
     const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
     expect(ogImage).toBeTruthy()
-    expect(ogImage).toMatch(/\/og\/pages\/.+\.png$/)
+    expect(ogImage).toMatch(/\/og\/pages\/.+\.webp$/)
   })
 
   test('og:image:alt and twitter:image:alt are set on the homepage', async ({ page }) => {
@@ -68,7 +68,7 @@ test.describe('SEO — meta tags', () => {
     const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
     expect(ogImage).toBeTruthy()
     // Blog post OG images live under /og/blog/
-    expect(ogImage).toMatch(/\/og\/blog\/.+\.png$/)
+    expect(ogImage).toMatch(/\/og\/blog\/.+\.webp$/)
   })
 
   test('every page has og:title and og:description', async ({ page }) => {

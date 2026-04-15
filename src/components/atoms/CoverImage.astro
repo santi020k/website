@@ -13,6 +13,7 @@ interface Props {
   mode?: 'card' | 'detail'
   sizes: string
   transitionName?: string
+  ariaHidden?: boolean
 }
 
 const {
@@ -25,7 +26,8 @@ const {
   loading = 'lazy',
   mode = 'card',
   sizes,
-  transitionName
+  transitionName,
+  ariaHidden = false
 } = Astro.props
 
 // When no explicit transition name is given, use a stable per-image fallback so
@@ -123,6 +125,7 @@ if (mode === 'detail') {
 
   <Picture
     alt={alt}
+    aria-hidden={ariaHidden ? 'true' : undefined}
     class:list={imageClasses}
     fetchpriority={fetchpriority}
     formats={['avif', 'webp']}
