@@ -46,6 +46,7 @@ const imageSizes = featured ?
       (
         <CoverImage
           alt={data.coverImage.alt}
+          ariaHidden={true}
           featured={featured}
           image={data.coverImage.src}
           loading={featured ? 'eager' : 'lazy'}

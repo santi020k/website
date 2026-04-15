@@ -335,6 +335,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
         )}
         <CoverImage
           alt={post.data.coverImage.alt}
+          ariaHidden={true}
           fetchpriority="high"
           image={post.data.coverImage.src}
           loading="eager"
