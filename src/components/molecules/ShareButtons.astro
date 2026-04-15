@@ -32,17 +32,7 @@ const shareLinks = [
 ]
 ---
 
-<div
-  class="flex flex-col gap-6 py-10"
-  x-data="{
-    copied: false,
-    copyToClipboard() {
-      navigator.clipboard.writeText(window.location.href);
-      this.copied = true;
-      setTimeout(() => this.copied = false, 2000);
-    }
-  }"
->
+<div class="flex flex-col gap-6 py-10">
   <div class="flex items-center gap-4">
     <span class="text-xs font-bold tracking-[0.2em] text-ink-muted uppercase">Share this piece</span>
     <div class="h-px flex-1 bg-line/30"></div>
@@ -74,7 +64,7 @@ const shareLinks = [
     ))}
 
     <button
-      @click="copyToClipboard()"
+      id="copy-link-btn"
       type="button"
       class="
         group flex cursor-pointer items-center gap-2.5 rounded-full border
@@ -82,27 +72,79 @@ const shareLinks = [
         text-ink-soft transition-all duration-300
         hover:border-brand hover:bg-brand/5 hover:text-brand
       "
-      :class="copied ? 'bg-brand/10! text-brand! border-brand!' : ''"
     >
       <Icon
         name="tabler:link"
+        data-copy-icon
         class="
           size-5 transition-transform
           group-hover:rotate-45
         "
-        x-show="!copied"
       />
-      <Icon name="tabler:check" class="size-5 animate-spring-up" x-show="copied" x-cloak />
-      <span aria-live="polite" x-text="copied ? 'Link copied!' : 'Copy link'"></span>
+      <Icon
+        name="tabler:check"
+        data-check-icon
+        class="hidden size-5 animate-spring-up"
+        aria-hidden="true"
+      />
+      <span id="copy-label" aria-live="polite">Copy link</span>
     </button>
   </div>
 </div>
 
 <style>
-  [x-cloak] { display: none !important; }
+  #copy-link-btn.copied {
+    background-color: hsl(var(--brand) / 0.1) !important;
+    color: hsl(var(--brand)) !important;
+    border-color: hsl(var(--brand)) !important;
+  }
+
   @keyframes spring-up {
     0% { transform: translateY(10px); opacity: 0; }
     100% { transform: translateY(0); opacity: 1; }
   }
   .animate-spring-up { animation: spring-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 </style>
+
+<script>
+  function setup() {
+    const btn = document.getElementById('copy-link-btn')
+    if (!btn) return () => {}
+
+    const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
+    const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
+    const label = document.getElementById('copy-label')
+
+    let timer: ReturnType<typeof setTimeout> | null = null
+
+    const onClick = async () => {
+      await navigator.clipboard.writeText(window.location.href)
+
+      btn.classList.add('copied')
+      copyIcon?.classList.add('hidden')
+      checkIcon?.classList.remove('hidden')
+      if (label) label.textContent = 'Link copied!'
+
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        btn.classList.remove('copied')
+        copyIcon?.classList.remove('hidden')
+        checkIcon?.classList.add('hidden')
+        if (label) label.textContent = 'Copy link'
+        timer = null
+      }, 2000)
+    }
+
+    btn.addEventListener('click', onClick)
+    return () => {
+      btn.removeEventListener('click', onClick)
+      if (timer) clearTimeout(timer)
+    }
+  }
+
+  let cleanup = setup()
+  document.addEventListener('astro:after-swap', () => {
+    cleanup()
+    cleanup = setup()
+  })
+</script>
