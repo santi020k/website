@@ -5,7 +5,7 @@ publishDate: "2025-01-07T15:08:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
   alt: "Editorial cover for Common Code Pitfalls That Signal Maintenance Risk"
-  src: "./common-code-pitfalls-that-signal-maintenance-risk-cover.png"
+  src: "./common-code-pitfalls-that-signal-maintenance-risk-cover.webp"
 tags: ["code-quality", "maintainability", "refactoring", "software-design"]
 postType: "Guide"
 seriesId: "the-santi020k-way"

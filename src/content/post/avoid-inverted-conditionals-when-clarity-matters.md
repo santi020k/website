@@ -5,7 +5,7 @@ publishDate: "2025-10-13T12:56:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
   alt: "Editorial cover for Avoid Inverted Conditionals When Clarity Matters"
-  src: "./avoid-inverted-conditionals-when-clarity-matters-cover.png"
+  src: "./avoid-inverted-conditionals-when-clarity-matters-cover.webp"
 tags: ["readability", "javascript", "frontend", "clean-code"]
 postType: "Opinion"
 seriesId: "the-santi020k-way"

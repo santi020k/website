@@ -5,7 +5,7 @@ publishDate: "2024-04-18T17:12:00.000Z"
 tags: ["ci/cd", "github-actions", "nextjs", "react", "deployment"]
 coverImage:
   alt: "Neon illustration of a CI/CD pipeline flowing through commit, test, build, and deployment stages"
-  src: "./continuous-integration-and-deployment-for-next-js-projects-cover.png"
+  src: "./continuous-integration-and-deployment-for-next-js-projects-cover.webp"
 postType: "Guide"
 seriesId: "building-a-production-nextjs-app"
 seriesOrder: 6

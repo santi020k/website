@@ -4,7 +4,7 @@ description: "Why I deprecated @santi020k/eslint-config-santi020k in favor of a 
 publishDate: "2026-04-01T18:30:00.000Z"
 coverImage:
   alt: "Editorial cover showing a single ESLint config evolving into a modular package system with docs and framework nodes"
-  src: "./why-i-moved-my-eslint-library-to-eslint-config-basic-cover.png"
+  src: "./why-i-moved-my-eslint-library-to-eslint-config-basic-cover.webp"
 tags: ["eslint", "flat-config", "developer-experience", "open-source", "typescript"]
 postType: "Case Study"
 seriesId: "eslint-in-practice"

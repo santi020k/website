@@ -5,7 +5,7 @@ publishDate: "2025-03-29T14:22:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
   alt: "Editorial cover for Avoid Magic Strings in TypeScript and JavaScript"
-  src: "./avoid-magic-strings-in-typescript-and-javascript-cover.png"
+  src: "./avoid-magic-strings-in-typescript-and-javascript-cover.webp"
 tags: ["typescript", "javascript", "code-quality", "refactoring"]
 postType: "Guide"
 seriesId: "the-santi020k-way"

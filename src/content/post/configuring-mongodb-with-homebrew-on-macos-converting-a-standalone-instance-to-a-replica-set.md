@@ -5,7 +5,7 @@ publishDate: "2024-04-05T18:33:37.000Z"
 tags: ["mongo", "configuration", "hombrew", "mac"]
 coverImage:
   alt: "configuring mongodb with homebrew on macos converting a standalone instance to a replica set"
-  src: "./configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set-cover.png"
+  src: "./configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set-cover.webp"
 canonicalUrl: "https://towardsdev.com/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set-482623476dcf"
 postType: "Tutorial"
 ---

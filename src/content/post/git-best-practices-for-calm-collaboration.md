@@ -5,7 +5,7 @@ publishDate: "2025-07-21T13:10:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
   alt: "Editorial cover for Git Best Practices for Calm Collaboration"
-  src: "./git-best-practices-for-calm-collaboration-cover.png"
+  src: "./git-best-practices-for-calm-collaboration-cover.webp"
 tags: ["git", "pull-requests", "collaboration", "developer-experience"]
 postType: "Guide"
 seriesId: "the-santi020k-way"

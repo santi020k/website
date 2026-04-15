@@ -5,7 +5,7 @@ publishDate: "2024-04-25T18:20:00.000Z"
 tags: ["supabase", "authentication", "authorization", "nextjs", "typescript"]
 coverImage:
   alt: "Neon illustration of a secure auth panel connected to protected access badges and role checkpoints"
-  src: "./authentication-and-authorization-in-next-js-applications-with-supabase-cover.png"
+  src: "./authentication-and-authorization-in-next-js-applications-with-supabase-cover.webp"
 postType: "Tutorial"
 seriesId: "building-a-production-nextjs-app"
 seriesOrder: 7
