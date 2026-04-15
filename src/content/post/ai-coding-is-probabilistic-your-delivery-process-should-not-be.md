@@ -62,7 +62,7 @@ That first layer matters because it is fast. ESLint gives you feedback almost im
 
 I still like linting because it removes review noise, but with AI in the loop I value it even more as a trust filter. It narrows the gap between "this looks fine" and "this at least satisfies the baseline rules of this codebase."
 
-If you want a practical starting point for that layer, I built [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic) as the base package of a newer composable ESLint toolkit. The goal is to make strong linting defaults easier to adopt in real JavaScript and TypeScript projects without turning setup into its own side quest. The full docs live at [eslint.santi020k.me](https://eslint.santi020k.me/).
+If you want a practical starting point for that layer, I built [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic) as the base package of a newer composable ESLint toolkit. The goal is to make strong linting defaults easier to adopt in real JavaScript and TypeScript projects without turning setup into its own side quest. The full docs live at [eslint.santi020k.com](https://eslint.santi020k.com/).
 
 If you are already thinking about standards at the team level, my post on [Code Standards That Scale With a Team](/blog/code-standards-that-scale-with-a-team/) is the larger argument for why tooling should own the repetitive quality checks.
 

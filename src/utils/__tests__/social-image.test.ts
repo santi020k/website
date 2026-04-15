@@ -55,28 +55,28 @@ describe('getSocialImagePath', () => {
 })
 
 describe('getSocialImageURL', () => {
-  const baseURL = 'https://santi020k.me/'
+  const baseURL = 'https://santi020k.com/'
 
   it('resolves a full URL from a base URL string', () => {
-    expect(getSocialImageURL('/about/', baseURL)).toBe('https://santi020k.me/og/pages/about.webp')
+    expect(getSocialImageURL('/about/', baseURL)).toBe('https://santi020k.com/og/pages/about.webp')
   })
 
   it('resolves a full URL when baseURL is a URL object', () => {
-    const base = new URL('https://santi020k.me/')
-    expect(getSocialImageURL('/about/', base)).toBe('https://santi020k.me/og/pages/about.webp')
+    const base = new URL('https://santi020k.com/')
+    expect(getSocialImageURL('/about/', base)).toBe('https://santi020k.com/og/pages/about.webp')
   })
 
   it('uses overridePath instead of computing from pathname', () => {
     const result = getSocialImageURL('/blog/my-post/', baseURL, '/custom-image.webp')
-    expect(result).toBe('https://santi020k.me/custom-image.webp')
+    expect(result).toBe('https://santi020k.com/custom-image.webp')
   })
 
   it('falls back to the default site URL when baseURL is undefined', () => {
     const result = getSocialImageURL('/about/', undefined)
-    expect(result).toBe('https://santi020k.me/og/pages/about.webp')
+    expect(result).toBe('https://santi020k.com/og/pages/about.webp')
   })
 
   it('returns the default webp for root when no override is given', () => {
-    expect(getSocialImageURL('/', baseURL)).toBe('https://santi020k.me/default.webp')
+    expect(getSocialImageURL('/', baseURL)).toBe('https://santi020k.com/default.webp')
   })
 })

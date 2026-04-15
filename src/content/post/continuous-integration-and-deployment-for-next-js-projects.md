@@ -11,7 +11,7 @@ seriesId: "building-a-production-nextjs-app"
 seriesOrder: 6
 ---
 
-[Read the Previous Post: Testing React Components with Vitest and React Testing Library](https://santi020k.me/blog/testing-react-components-with-vitest-and-react-testing-library/)
+[Read the Previous Post: Testing React Components with Vitest and React Testing Library](https://santi020k.com/blog/testing-react-components-with-vitest-and-react-testing-library/)
 
 After adding tests to the project, the next logical step is making sure they run automatically. Otherwise, the test suite becomes optional, and optional quality checks are eventually ignored in busy teams.
 
@@ -208,4 +208,4 @@ When those rules are encoded clearly in automation, the project becomes easier t
 - The build step is especially valuable in Next.js because it catches issues that unit tests may miss.
 - Pipelines should reflect real standards, not vague intentions.
 
-[Next Post: Authentication and Authorization in Next.js Applications with Supabase](https://santi020k.me/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)
+[Next Post: Authentication and Authorization in Next.js Applications with Supabase](https://santi020k.com/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)

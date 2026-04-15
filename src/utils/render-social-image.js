@@ -48,7 +48,7 @@ const getDescriptionSize = description => {
  */
 export const renderSocialImage = async ({
   description,
-  pathLabel = 'santi020k.me',
+  pathLabel = 'santi020k.com',
   title,
   type
 }) => {
@@ -188,7 +188,7 @@ export const renderSocialImage = async ({
               letter-spacing: 0.08em;
               text-transform: uppercase;
             ">
-              santi020k.me
+              santi020k.com
             </span>
           </div>
 

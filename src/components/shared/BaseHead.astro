@@ -27,7 +27,7 @@ const {
 const resolvedOgImageAlt = ogImageAlt ?? description ?? `${title} — ${siteConfig.title}`
 const titleSeparator = '—'
 const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.me/')
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com/')
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
 
@@ -39,7 +39,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
       '@type': 'ListItem',
       position: index + 1,
       name: crumb.name,
-      item: new URL(crumb.url, Astro.site ?? 'https://santi020k.me/').href
+      item: new URL(crumb.url, Astro.site ?? 'https://santi020k.com/').href
     }))
   }) :
   null
@@ -147,7 +147,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   set:html={JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Person',
-    '@id': `${Astro.site?.href ?? 'https://santi020k.me/'}#person`,
+    '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
     name: siteConfig.author,
     url: Astro.site?.href,
     jobTitle: 'Engineering Leader & Full-Stack Architect',
@@ -175,18 +175,18 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   set:html={JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': `${Astro.site?.href ?? 'https://santi020k.me/'}#organization`,
+    '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#organization`,
     name: siteConfig.title,
     url: Astro.site?.href,
     logo: {
       '@type': 'ImageObject',
-      url: `${Astro.site?.href ?? 'https://santi020k.me/'}logo-square.webp`,
+      url: `${Astro.site?.href ?? 'https://santi020k.com/'}logo-square.webp`,
       width: 512,
       height: 512
     },
     founder: {
       '@type': 'Person',
-      '@id': `${Astro.site?.href ?? 'https://santi020k.me/'}#person`,
+      '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
       name: siteConfig.author
     },
     sameAs: [
