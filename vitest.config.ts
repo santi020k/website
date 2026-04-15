@@ -20,7 +20,7 @@ export default defineConfig({
     }
   ],
   define: {
-    'import.meta.env.SITE': JSON.stringify('https://santi020k.me')
+    'import.meta.env.SITE': JSON.stringify('https://santi020k.com')
   },
   test: {
     globals: true,

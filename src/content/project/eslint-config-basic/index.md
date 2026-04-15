@@ -4,7 +4,7 @@ description: "Built a DX-first ESLint toolkit for JavaScript and TypeScript team
 rol: "Creator"
 startingDate: "1 Mar 2024"
 githubUrl: "https://github.com/santi020k/eslint-config-basic"
-liveDemoUrl: "https://eslint.santi020k.me/"
+liveDemoUrl: "https://eslint.santi020k.com/"
 typesId: "personal"
 impactMetrics: [
   "Used by 30+ developers across personal, client, and shared codebases",

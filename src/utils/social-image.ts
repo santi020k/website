@@ -1,4 +1,4 @@
-const defaultSiteURL = 'https://santi020k.me/'
+const defaultSiteURL = 'https://santi020k.com/'
 const trimOuterSlashes = (value: string) => value.replace(/^\/+|\/+$/g, '')
 
 /** Safely decodes a URI component, returning the original string on failure. */

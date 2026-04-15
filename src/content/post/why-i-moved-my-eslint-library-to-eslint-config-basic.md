@@ -147,7 +147,7 @@ Another big reason for the change is documentation.
 
 I did not want the docs to remain something secondary that users had to infer from source files, npm README examples, or guesswork.
 
-That is why the new library ships with a dedicated docs site at [eslint.santi020k.me](https://eslint.santi020k.me/).
+That is why the new library ships with a dedicated docs site at [eslint.santi020k.com](https://eslint.santi020k.com/).
 
 I wanted the docs to answer the real adoption questions:
 
@@ -209,7 +209,7 @@ You should care especially if:
 - You prefer explicit framework packages over a single package that keeps expanding internally
 - You are standardizing modern flat-config workflows across several repositories
 
-If you are starting fresh, I would not start with the deprecated package at all. I would go directly to [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic) and use the docs at [eslint.santi020k.me](https://eslint.santi020k.me/) as the canonical guide.
+If you are starting fresh, I would not start with the deprecated package at all. I would go directly to [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic) and use the docs at [eslint.santi020k.com](https://eslint.santi020k.com/) as the canonical guide.
 
 ## What I want this library to become
 

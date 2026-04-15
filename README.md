@@ -1,4 +1,4 @@
-# [Santiago Molina](https://santi020k.me/)
+# [Santiago Molina](https://santi020k.com/)
 
 ![Santi020k Logo](./public/logo.webp)
 

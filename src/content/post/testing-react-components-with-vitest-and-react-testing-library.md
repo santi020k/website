@@ -229,4 +229,4 @@ Once this works, you can connect it later to pre-commit hooks, CI, or deployment
 - A lightweight test setup early in the project is much better than a large test migration later.
 - Good component tests reduce fear when refactoring UI code.
 
-[Next Post: Continuous Integration and Deployment (CI/CD) for Next.js Projects](https://santi020k.me/blog/continuous-integration-and-deployment-for-next-js-projects/)
+[Next Post: Continuous Integration and Deployment (CI/CD) for Next.js Projects](https://santi020k.com/blog/continuous-integration-and-deployment-for-next-js-projects/)

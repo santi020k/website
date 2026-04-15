@@ -62,14 +62,14 @@ export default defineConfig({
         const url = item.url
 
         // Homepage — highest priority, changes frequently
-        if (url === 'https://santi020k.me/' || url === 'https://santi020k.me') {
+        if (url === 'https://santi020k.com/' || url === 'https://santi020k.com') {
           return { ...item, changefreq: ChangeFreqEnum.DAILY, priority: 1.0 }
         }
 
         // Section indexes — important landing pages, checked weekly
         if (
-          url === 'https://santi020k.me/blog/' ||
-          url === 'https://santi020k.me/portfolio/'
+          url === 'https://santi020k.com/blog/' ||
+          url === 'https://santi020k.com/portfolio/'
         ) {
           return { ...item, changefreq: ChangeFreqEnum.WEEKLY, priority: 0.9 }
         }
@@ -185,7 +185,7 @@ export default defineConfig({
   },
   // https://docs.astro.build/en/guides/prefetch/
   prefetch: true,
-  site: 'https://santi020k.me/',
+  site: 'https://santi020k.com/',
   vite: {
     build: {
       sourcemap: process.env.NODE_ENV !== 'production' || enableProductionSourceMaps,

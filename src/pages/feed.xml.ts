@@ -14,7 +14,7 @@ export const GET = async (context: APIContext) => {
   return rss({
     title: `${siteConfig.title} RSS Feed`,
     description: 'Writing on software architecture, automation, developer experience, and calmer delivery systems.',
-    site: context.site ?? 'https://santi020k.me/',
+    site: context.site ?? 'https://santi020k.com/',
     items: posts.map(post => ({
       title: post.data.title,
       description: post.data.description,
