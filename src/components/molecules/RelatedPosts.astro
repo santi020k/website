@@ -11,7 +11,12 @@ interface Props {
 }
 
 const { currentPostId, excludeSeriesId, tags } = Astro.props
-const relatedPosts = await getRelatedPosts({ currentPostId, excludeSeriesId, tags })
+
+const relatedPosts = await getRelatedPosts({
+  currentPostId,
+  ...(excludeSeriesId ? { excludeSeriesId } : {}),
+  tags
+})
 ---
 
 {relatedPosts.length > 0 && (

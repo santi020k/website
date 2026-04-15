@@ -5,6 +5,15 @@ import { generateToc } from '../generate-toc'
 
 // Helper to build a minimal MarkdownHeading-compatible object
 const h = (depth: number, slug: string, text: string = slug) => ({ depth, slug, text })
+const expectDefined = <T>(value: T | undefined): T => {
+  expect(value).toBeDefined()
+
+  if (value === undefined) {
+    throw new Error('Expected value to be defined')
+  }
+
+  return value
+}
 
 describe('generateToc', () => {
   it('returns an empty array for an empty headings list', () => {
@@ -23,11 +32,13 @@ describe('generateToc', () => {
   it('nests an h3 under the preceding h2', () => {
     const headings = [h(2, 'parent'), h(3, 'child')]
     const toc = generateToc(headings)
+    const parent = expectDefined(toc[0])
+    const child = expectDefined(parent.children[0])
 
     expect(toc).toHaveLength(1)
-    expect(toc[0].slug).toBe('parent')
-    expect(toc[0].children).toHaveLength(1)
-    expect(toc[0].children[0].slug).toBe('child')
+    expect(parent.slug).toBe('parent')
+    expect(parent.children).toHaveLength(1)
+    expect(child.slug).toBe('child')
   })
 
   it('handles alternating parents and children correctly', () => {
@@ -38,29 +49,36 @@ describe('generateToc', () => {
       h(3, 'second-child')
     ]
     const toc = generateToc(headings)
+    const first = expectDefined(toc[0])
+    const second = expectDefined(toc[1])
+    const firstChild = expectDefined(first.children[0])
+    const secondChild = expectDefined(second.children[0])
 
     expect(toc).toHaveLength(2)
-    expect(toc[0].children[0].slug).toBe('first-child')
-    expect(toc[1].children[0].slug).toBe('second-child')
+    expect(firstChild.slug).toBe('first-child')
+    expect(secondChild.slug).toBe('second-child')
   })
 
   it('builds a three-level nested tree correctly', () => {
     const headings = [h(2, 'h2'), h(3, 'h3'), h(4, 'h4')]
     const toc = generateToc(headings)
+    const level2 = expectDefined(toc[0])
+    const level3 = expectDefined(level2.children[0])
+    const level4 = expectDefined(level3.children[0])
 
     expect(toc).toHaveLength(1)
-    expect(toc[0].slug).toBe('h2')
-    expect(toc[0].children).toHaveLength(1)
-    expect(toc[0].children[0].slug).toBe('h3')
-    expect(toc[0].children[0].children).toHaveLength(1)
-    expect(toc[0].children[0].children[0].slug).toBe('h4')
+    expect(level2.slug).toBe('h2')
+    expect(level2.children).toHaveLength(1)
+    expect(level3.slug).toBe('h3')
+    expect(level3.children).toHaveLength(1)
+    expect(level4.slug).toBe('h4')
   })
 
   it('preserves the text property on each TocItem', () => {
     const headings = [h(2, 'intro', 'Introduction')]
     const toc = generateToc(headings)
 
-    expect(toc[0].text).toBe('Introduction')
+    expect(expectDefined(toc[0]).text).toBe('Introduction')
   })
 })
 
@@ -93,9 +111,10 @@ describe('generateToc — maxHeadingLevel', () => {
   it('returns a single item when maxHeadingLevel matches the only heading depth', () => {
     const headings = [h(2, 'only'), h(3, 'excluded')]
     const toc = generateToc(headings, { maxHeadingLevel: 2 })
+    const only = expectDefined(toc[0])
 
     expect(toc).toHaveLength(1)
-    expect(toc[0].children).toHaveLength(0)
+    expect(only.children).toHaveLength(0)
   })
 })
 

@@ -6,6 +6,16 @@ import {
   sortTechnologyCountsByInterest
 } from '../technologies'
 
+const expectDefined = <T>(value: T | undefined): T => {
+  expect(value).toBeDefined()
+
+  if (value === undefined) {
+    throw new Error('Expected value to be defined')
+  }
+
+  return value
+}
+
 // ─── getTechnologyInterestScore ───────────────────────────────────────────────
 
 describe('getTechnologyInterestScore', () => {
@@ -98,9 +108,11 @@ describe('sortTechnologyCountsByInterest', () => {
       ['UnknownA', 2],
       ['UnknownB', 5]
     ])
+    const first = expectDefined(result[0])
+    const second = expectDefined(result[1])
     // Higher count wins the tiebreaker
-    expect(result[0][0]).toBe('UnknownB')
-    expect(result[1][0]).toBe('UnknownA')
+    expect(first[0]).toBe('UnknownB')
+    expect(second[0]).toBe('UnknownA')
   })
 
   it('uses alphabetical order as final tiebreaker when score and count are equal', () => {
@@ -108,9 +120,11 @@ describe('sortTechnologyCountsByInterest', () => {
       ['Zebra', 1],
       ['Alpha', 1]
     ])
+    const first = expectDefined(result[0])
+    const second = expectDefined(result[1])
     // Equal score and count → alphabetical ascending
-    expect(result[0][0]).toBe('Alpha')
-    expect(result[1][0]).toBe('Zebra')
+    expect(first[0]).toBe('Alpha')
+    expect(second[0]).toBe('Zebra')
   })
 
   it('does not mutate the original array', () => {
