@@ -45,6 +45,7 @@ const imageSizes = featured ?
           loading={featured ? 'eager' : 'lazy'}
           mode="card"
           sizes={imageSizes}
+          transitionName={`post-cover-${post.id}`}
         />
       ) :
       (

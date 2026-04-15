@@ -233,10 +233,12 @@ const breadcrumbs = [
         title="Follow related posts in order."
       />
 
-      <div class="
-        grid gap-6
-        lg:grid-cols-2
-      "
+      <div
+        class="
+          grid gap-6
+          lg:grid-cols-2
+        "
+        data-stagger
       >
         {activeSeries.map(item => (
           <SeriesCard postCount={item.postCount} series={item.series} />
@@ -254,10 +256,12 @@ const breadcrumbs = [
     <div class="space-y-6">
       {featuredPost && <PostCard featured post={featuredPost} />}
 
-      <div class="
-        grid gap-6
-        lg:grid-cols-2
-      "
+      <div
+        class="
+          grid gap-6
+          lg:grid-cols-2
+        "
+        data-stagger
       >
         {remainingPosts.map(post => (
           <PostCard post={post} />
