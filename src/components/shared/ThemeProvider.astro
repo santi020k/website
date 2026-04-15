@@ -24,15 +24,16 @@ const setTheme = newTheme => {
 
   root.setAttribute('data-theme', newTheme)
 
+  // Defer the getComputedStyle read to avoid a forced synchronous style
+  // recalculation immediately after the DOM write above (forced reflow).
   const colorThemeMetaTag = document.querySelector('meta[name="theme-color"]')
-  const documentBody = document.body
-
-  if (colorThemeMetaTag && documentBody) {
-    const bgColor = getComputedStyle(documentBody).getPropertyValue('--theme-bg')
-
-    if (bgColor) {
-      colorThemeMetaTag.setAttribute('content', `hsl(${bgColor})`)
-    }
+  if (colorThemeMetaTag) {
+    requestAnimationFrame(() => {
+      const bgColor = getComputedStyle(document.body).getPropertyValue('--theme-bg')
+      if (bgColor) {
+        colorThemeMetaTag.setAttribute('content', `hsl(${bgColor})`)
+      }
+    })
   }
 
   if (typeof localStorage !== 'undefined' && newTheme) {
