@@ -1,6 +1,16 @@
 const CACHE_VERSION = '2026-04-03'
 const STATIC_CACHE = `santi020k-static-${CACHE_VERSION}`
-const CORE_ROUTES = ['/', '/offline/', '/manifest.webmanifest', '/favicon.png', '/apple-touch-icon.png']
+
+const CORE_ROUTES = [
+  '/',
+  '/offline/',
+  '/manifest.webmanifest',
+  '/favicon.svg',
+  '/favicon.png',
+  '/apple-touch-icon.png',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png'
+]
 
 self.addEventListener('install', event => {
   event.waitUntil(

@@ -50,17 +50,11 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <title>{siteTitle}</title>
 
 {/* Icons */}
-<link rel="icon" href="/favicon.png" type="image/png" />
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/manifest.webmanifest" />
 <link rel="preload" href="/fonts/montserrat-variable-font-wght.ttf" as="font" type="font/ttf" crossorigin />
-{
-  import.meta.env.PROD && (
-    <>
-      <link rel="icon" href="/favicon-32x32.png" type="image/png" />
-    </>
-  )
-}
 {
   preloadImage && (
     <link
