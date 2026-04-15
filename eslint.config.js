@@ -32,8 +32,7 @@ export default [
           '^prose-santi$',
           '^grid-fade$',
           '^panel-surface$',
-          '^prose-shell$',
-          '^pagefind-ui-wrap$'
+          '^prose-shell$'
         ]
       }
     }
