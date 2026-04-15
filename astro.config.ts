@@ -102,40 +102,37 @@ export default defineConfig({
     robotsTxt(),
     alpinejs(),
     webmanifest({
-    // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
-    /**
-     * required
-     **/
+      // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
       name: siteConfig.title,
-
-      /**
-     * optional
-     **/
       /* eslint-disable camelcase */
-      short_name: 'Santi020k',
+      short_name: 'santi020k',
       description: siteConfig.description,
       lang: siteConfig.lang,
-      icon: 'public/logo-square.webp', // the source for generating favicon & icons
+      icon: 'public/favicon-source.png',
       icons: [
         {
-          src: 'icons/apple-touch-icon.png', // used in src/components/BaseHead.astro L:26
+          src: 'icons/apple-touch-icon.png',
           sizes: '180x180',
           type: 'image/png'
         },
         {
           src: 'icons/icon-192.png',
           sizes: '192x192',
-          type: 'image/png'
+          type: 'image/png',
+          purpose: 'any maskable'
         },
         {
           src: 'icons/icon-512.png',
           sizes: '512x512',
-          type: 'image/png'
+          type: 'image/png',
+          purpose: 'any maskable'
         }
       ],
+      id: '/',
+      scope: '/',
       start_url: '/',
-      background_color: '#1d1f21',
-      theme_color: '#000000',
+      background_color: '#09040f',
+      theme_color: '#09040f',
       /* eslint-enable camelcase */
       display: 'standalone',
       config: {
