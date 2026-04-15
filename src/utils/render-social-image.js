@@ -306,5 +306,7 @@ export const renderSocialImage = async ({
     }
   })
 
-  return resvg.render().asPng()
+  const pngBuffer = resvg.render().asPng()
+
+  return await sharp(pngBuffer).webp({ quality: 80 }).toBuffer()
 }

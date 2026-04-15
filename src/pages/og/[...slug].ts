@@ -15,7 +15,7 @@ export const getStaticPaths = async () => {
   const technologies = getUniqueTechnologies(projects)
 
   const staticPagePaths = staticSocialPages.map(page => ({
-    params: { slug: `pages/${getSocialImageSlug(page.pathname)}.png` },
+    params: { slug: `pages/${getSocialImageSlug(page.pathname)}.webp` },
     props: {
       description: page.description,
       pathLabel: page.pathname,
@@ -25,7 +25,7 @@ export const getStaticPaths = async () => {
   }))
 
   const postPaths = posts.map(post => ({
-    params: { slug: `blog/${post.id}.png` },
+    params: { slug: `blog/${post.id}.webp` },
     props: {
       description: post.data.description,
       pathLabel: `/blog/${post.id}/`,
@@ -35,7 +35,7 @@ export const getStaticPaths = async () => {
   }))
 
   const projectPaths = projects.map(project => ({
-    params: { slug: `portfolio/${project.id}.png` },
+    params: { slug: `portfolio/${project.id}.webp` },
     props: {
       description: project.data.seoDescription ?? project.data.description,
       pathLabel: `/portfolio/${project.id}/`,
@@ -45,7 +45,7 @@ export const getStaticPaths = async () => {
   }))
 
   const seriesPaths = series.map(seriesEntry => ({
-    params: { slug: `pages/${getSocialImageSlug(getSeriesPath(seriesEntry.id))}.png` },
+    params: { slug: `pages/${getSocialImageSlug(getSeriesPath(seriesEntry.id))}.webp` },
     props: {
       description: seriesEntry.data.seoDescription ?? seriesEntry.data.description,
       pathLabel: getSeriesPath(seriesEntry.id),
@@ -58,7 +58,7 @@ export const getStaticPaths = async () => {
     const page = getTechnologySocialPage(technology)
 
     return {
-      params: { slug: `pages/${getSocialImageSlug(page.pathname)}.png` },
+      params: { slug: `pages/${getSocialImageSlug(page.pathname)}.webp` },
       props: {
         description: page.description,
         pathLabel: `/technologies/${technology}/`,
@@ -84,7 +84,7 @@ export const GET: APIRoute<OGProps> = async ({ props }) => {
   return new Response(body, {
     headers: {
       'Cache-Control': 'public, max-age=31536000, immutable',
-      'Content-Type': 'image/png'
+      'Content-Type': 'image/webp'
     },
     status: 200
   })

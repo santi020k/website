@@ -19,8 +19,8 @@ interface Props {
 
 const { post } = Astro.props
 const { description, publishDate, title, updatedDate } = post.data
-// Use Dynamic OG Image generator (/og/blog/[id].png)
-const ogImage = new URL(`/og/blog/${post.id}.png`, Astro.site).href
+// Use Dynamic OG Image generator (/og/blog/[id].webp)
+const ogImage = new URL(`/og/blog/${post.id}.webp`, Astro.site).href
 const stats = readingTime(post.body ?? '')
 const wordCount = Math.round(stats.words)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
