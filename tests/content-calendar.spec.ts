@@ -13,9 +13,9 @@ test.describe('Content calendar page', () => {
   })
 
   test('should display the publishing stats panel', async ({ page }) => {
-    await expect(page.getByText('New posts', { exact: true })).toBeVisible()
-    await expect(page.getByText('Refreshes', { exact: true })).toBeVisible()
-    await expect(page.getByText('Series', { exact: true })).toBeVisible()
+    await expect(page.getByRole('paragraph').filter({ hasText: /^New posts$/ })).toBeVisible()
+    await expect(page.getByRole('paragraph').filter({ hasText: /^Refreshes$/ })).toBeVisible()
+    await expect(page.getByRole('paragraph').filter({ hasText: /^Series$/ })).toBeVisible()
   })
 
   test('should render roadmap entry articles', async ({ page }) => {
