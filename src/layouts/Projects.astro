@@ -11,6 +11,9 @@ import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import {
   getProjectDurationLabel,
   getProjectFocusLabel,
+  getProjectNotesLabel,
+  getProjectRelatedHeading,
+  getProjectStageLabel,
   getProjectTimelineLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
@@ -36,7 +39,9 @@ const focusLabel = getProjectFocusLabel(project.data.typesId)
 const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
 const stackPreview = project.data.technologies.slice(0, 6)
-const projectStageLabel = project.data.endingDate ? 'Completed case study' : 'Active project'
+const projectStageLabel = getProjectStageLabel(project.data.typesId, project.data.endingDate)
+const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
+const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
 
 const projectSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -69,7 +74,7 @@ const breadcrumbs = [
     breadcrumbs,
     description: metaDescription,
     ogImage: socialImage,
-    ogImageAlt: `${metaTitle} — portfolio case study by Santiago Molina`,
+    ogImageAlt: `${metaTitle} — ${projectTypeLabel.toLowerCase()} by Santiago Molina`,
     structuredData: projectSchema,
     title: metaTitle
   }}
@@ -101,7 +106,7 @@ const breadcrumbs = [
           "
           >
             <div class="space-y-2">
-              <p class="section-label">Case study notes</p>
+              <p class="section-label">{projectNotesLabel}</p>
               <p class="max-w-2xl text-sm/6 text-ink-soft">
                 A closer look at the delivery decisions, technical tradeoffs, and product constraints behind this work.
               </p>
@@ -155,7 +160,7 @@ const breadcrumbs = [
       </div>
 
       <aside
-        aria-label="Case study details"
+        aria-label="Project details"
         class="
           editorial-rail
           lg:self-start
@@ -262,7 +267,7 @@ const breadcrumbs = [
     <section class="editorial-section" data-animate>
       <div class="space-y-3">
         <p class="section-label">Related work</p>
-        <h2 class="text-3xl">More case studies in a similar lane.</h2>
+        <h2 class="text-3xl">{projectRelatedHeading}</h2>
       </div>
       <div class="
         grid gap-6

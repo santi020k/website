@@ -7,7 +7,7 @@ import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
-import { getProjectDateRangeLabel, getProjectTypeLabel } from '@/utils/project-meta'
+import { getProjectDateRangeLabel, getProjectFeaturedLabel, getProjectTypeLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 interface Props {
@@ -28,6 +28,7 @@ const imageSizes = featured ?
   '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
 
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const projectFeaturedLabel = getProjectFeaturedLabel(project.data.typesId)
 const projectYearsLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
 const useImageOverlay = Boolean(project.data.coverImage?.src)
 const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 2)
@@ -73,7 +74,7 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
                 sm:p-5
               "
               >
-                <Pill label={featured ? 'Featured case study' : projectTypeLabel} tone="brand" />
+                <Pill label={featured ? projectFeaturedLabel : projectTypeLabel} tone="brand" />
                 <span class="
                   rounded-full border border-white/12 bg-canvas/60 px-3 py-1.5
                   text-xs font-semibold tracking-[0.16em] text-white/80
@@ -107,7 +108,7 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
       sm:gap-3
     "
     >
-      {featured && !useImageOverlay && <Pill label="Featured case study" tone="brand" />}
+      {featured && !useImageOverlay && <Pill label={projectFeaturedLabel} tone="brand" />}
       {!featured && <Pill label={projectTypeLabel} tone="outline" />}
       {project.data.rol && <span>{project.data.rol}</span>}
       {project.data.rol && (
@@ -183,12 +184,12 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
       </div>
 
       <ButtonLink
-        ariaLabel={`Read case study about ${project.data.title}`}
+        ariaLabel={`View ${projectTypeLabel.toLowerCase()} — ${project.data.title}`}
         href={projectLink}
         showArrow
         variant="inline"
       >
-        Read case study
+        View project
         <span class="sr-only"> about {project.data.title}</span>
       </ButtonLink>
     </div>

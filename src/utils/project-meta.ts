@@ -18,6 +18,40 @@ export const getProjectTypeLabel = (type: ProjectType): string => {
   return 'Professional work'
 }
 
+export const getProjectStageLabel = (type: ProjectType, endingDate?: Date): string => {
+  const completed = Boolean(endingDate)
+
+  if (type === 'personal') return completed ? 'Completed project' : 'Active project'
+
+  if (type === 'experimental') return completed ? 'Completed experiment' : 'Active experiment'
+
+  return completed ? 'Completed work' : 'Active work'
+}
+
+export const getProjectFeaturedLabel = (type: ProjectType): string => {
+  if (type === 'personal') return 'Featured project'
+
+  if (type === 'experimental') return 'Featured experiment'
+
+  return 'Featured work'
+}
+
+export const getProjectNotesLabel = (type: ProjectType): string => {
+  if (type === 'personal') return 'Project notes'
+
+  if (type === 'experimental') return 'Experiment notes'
+
+  return 'Work notes'
+}
+
+export const getProjectRelatedHeading = (type: ProjectType): string => {
+  if (type === 'personal') return 'More projects in a similar lane.'
+
+  if (type === 'experimental') return 'More experiments in a similar lane.'
+
+  return 'More work in a similar lane.'
+}
+
 export const getProjectFocusLabel = (type: ProjectType): string => {
   if (type === 'personal') {
     return 'Open source, community work, and practical developer experience.'
