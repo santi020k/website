@@ -13,24 +13,38 @@ const breadcrumbs = [
   { name: 'Uses', url: '/uses/' }
 ]
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'AboutPage',
-  description,
-  mainEntity: {
-    '@type': 'Person',
-    knowsAbout: [
-      'TypeScript',
-      'React',
-      'Astro',
-      'Node.js',
-      'Developer Experience',
-      'Engineering Leadership'
-    ],
-    name: siteConfig.author
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    description,
+    mainEntity: {
+      '@type': 'Person',
+      knowsAbout: [
+        'TypeScript',
+        'React',
+        'Astro',
+        'Node.js',
+        'Developer Experience',
+        'Engineering Leadership'
+      ],
+      name: siteConfig.author
+    },
+    name: 'Uses'
   },
-  name: 'Uses'
-}
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    description: 'Tools and workflow defaults used by Santiago Molina',
+    itemListElement: usesSections.flatMap((section, sectionIndex) => section.items.map((item, itemIndex) => ({
+      '@type': 'ListItem',
+      description: item.value,
+      name: `${section.title} — ${item.label}`,
+      position: sectionIndex * 100 + itemIndex + 1
+    }))),
+    name: 'Uses & workflow setup'
+  }
+]
 ---
 
 <PageLayout meta={{

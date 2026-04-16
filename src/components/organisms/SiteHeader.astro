@@ -14,9 +14,9 @@ const fallbackMenuLink: SiteLink = {
   title: 'Home'
 }
 
-const activeMenuLink = menuLinks.find(link => Astro.url.pathname === link.path) ??
-  menuLinks.at(0) ??
-  fallbackMenuLink
+const activeMenuLinkIndex = menuLinks.findIndex(link => Astro.url.pathname === link.path)
+const currentMenuLinkIndex = activeMenuLinkIndex >= 0 ? activeMenuLinkIndex : 0
+const activeMenuLink = menuLinks.at(currentMenuLinkIndex) ?? fallbackMenuLink
 ---
 
 <header class="
@@ -26,80 +26,153 @@ const activeMenuLink = menuLinks.find(link => Astro.url.pathname === link.path) 
 "
 >
   <div class="site-header-shell">
+    <div
+      aria-hidden="true"
+      class="
+        pointer-events-none absolute inset-x-10 inset-y-0 grid-fade opacity-30
+      "
+    />
+    <div
+      aria-hidden="true"
+      class="
+        pointer-events-none absolute -top-14 -right-8 h-28 w-44 rounded-full
+        bg-brand/12 blur-3xl
+      "
+    />
+
     <a
       aria-label="Home"
       class="
-        group inline-flex items-center gap-4 transition duration-200
+        group relative z-10 inline-flex min-w-0 items-center gap-4 transition
+        duration-200
         motion-reduce:transition-none
       "
       href="/"
     >
-      <Picture
-        alt="Santi020k"
+      <span
         class="
-          aspect-11/4 h-9 w-auto object-contain transition duration-200
-          group-hover:brightness-125
-          motion-reduce:transition-none
+          relative inline-flex shrink-0 items-center justify-center
+          rounded-[1.35rem] border border-line/65 bg-surface/88 px-3 py-2
+          shadow-[0_12px_28px_hsl(var(--ink)/0.06)]
         "
-        fetchpriority="high"
-        formats={['avif', 'webp']}
-        height={36}
-        loading="eager"
-        src={LogoMark}
-        width={99}
-      />
+      >
+        <span
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute inset-0 rounded-[inherit]
+            bg-linear-to-br from-white/25 via-transparent to-brand/8
+          "
+        />
+        <Picture
+          alt="Santi020k"
+          class="
+            relative aspect-11/4 h-8 w-auto object-contain transition
+            duration-300
+            group-hover:brightness-115 group-hover:contrast-125
+            motion-reduce:transition-none
+          "
+          fetchpriority="high"
+          formats={['avif', 'webp']}
+          height={36}
+          loading="eager"
+          src={LogoMark}
+          width={99}
+        />
+      </span>
       <span class="
-        hidden flex-col
+        hidden min-w-0 flex-col
         sm:flex
       "
       >
-        <span class="section-label">Santiago Molina
+        <span class="section-label">Santiago Molina</span>
+        <span class="truncate text-sm font-semibold text-ink">
+          Leadership systems · Automation · Developer experience
         </span>
-        <span class="text-xs text-ink-soft">Leadership · Automation · DX</span>
+        <span class="truncate text-xs text-ink-soft">{siteConfig.location}</span>
       </span>
     </a>
 
-    <nav
-      aria-label="Main menu"
+    <div
       class="
-        hidden items-center gap-5
-        lg:flex
+        hidden min-w-0 flex-1
+        lg:flex lg:flex-col lg:items-center lg:gap-2
       "
     >
-      {
-        menuLinks.map((link: SiteLink) => (
-          <a
-            aria-current={Astro.url.pathname === link.path ? 'page' : undefined}
-            class:list={[
-              `
-                relative inline-flex min-h-11 items-center px-1 py-2 text-sm
-                font-medium transition-colors duration-200
-                motion-reduce:transition-none
-              `,
-              Astro.url.pathname === link.path ?
-                `
-                  font-semibold text-ink
-                  after:absolute after:inset-x-1 after:bottom-1 after:h-px
-                  after:bg-brand after:content-['']
-                ` :
-                `
-                  text-ink-soft
-                  hover:text-ink
-                `
-            ]}
-            href={link.path}
-          >
-            {link.title}
-          </a>
-        ))
-      }
-    </nav>
+      <div class="flex w-full max-w-3xl items-center justify-between gap-4 px-1">
+        <p class="section-label">Explore</p>
+        <p class="
+          text-[0.68rem] font-semibold tracking-[0.16em] text-ink-muted
+          uppercase
+        "
+        >
+          Current page · {activeMenuLink.title}
+        </p>
+      </div>
+
+      <nav aria-label="Main menu" class="w-full max-w-3xl">
+        <div
+          class="site-nav-track"
+          style={`--active-index: ${currentMenuLinkIndex}; --item-count: ${menuLinks.length}; grid-template-columns: repeat(${menuLinks.length}, minmax(0, 1fr));`}
+        >
+          <span aria-hidden="true" class="site-nav-indicator" />
+          {
+            menuLinks.map((link: SiteLink) => {
+              const isActive = Astro.url.pathname === link.path
+
+              return (
+                <a
+                  aria-current={isActive ? 'page' : undefined}
+                  class:list={[
+                    `
+                      relative z-10 inline-flex min-h-12 items-center
+                      justify-center rounded-full px-4 py-2 text-sm
+                      font-semibold transition duration-300 ease-out
+                      motion-reduce:transition-none
+                    `,
+                    isActive ?
+                      'text-brand' :
+                      `
+                        text-ink-soft
+                        hover:text-ink
+                      `
+                  ]}
+                  href={link.path}
+                >
+                  {link.title}
+                </a>
+              )
+            })
+          }
+        </div>
+      </nav>
+    </div>
 
     <div class="
-      hidden items-center gap-3
+      relative z-10 hidden items-center gap-3
       lg:flex
     "
     >
+      <span class="
+        hidden items-center gap-2 rounded-full border border-line/65
+        bg-surface-muted/72 px-3.5 py-2
+        xl:inline-flex
+      "
+      >
+        <span
+          aria-hidden="true"
+          class="
+            size-2 rounded-full bg-brand
+            shadow-[0_0_0_4px_hsl(var(--brand)/0.14)]
+          "
+        />
+        <span class="
+          text-[0.68rem] font-semibold tracking-[0.16em] text-ink-muted
+          uppercase
+        "
+        >
+          Leadership roles
+        </span>
+      </span>
       <ThemeToggle />
       <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
         Say hello
@@ -111,6 +184,15 @@ const activeMenuLink = menuLinks.find(link => Astro.url.pathname === link.path) 
       lg:hidden
     "
     >
+      <span class="
+        hidden items-center rounded-full border border-line/65
+        bg-surface-muted/78 px-3 py-2 text-[0.68rem] font-semibold
+        tracking-[0.16em] text-ink-muted uppercase
+        sm:inline-flex
+      "
+      >
+        {activeMenuLink.title}
+      </span>
       <ThemeToggle />
       <site-header-mobile-nav class="contents">
         <div class="relative" data-mobile-nav>
@@ -119,8 +201,8 @@ const activeMenuLink = menuLinks.find(link => Astro.url.pathname === link.path) 
             aria-expanded="false"
             aria-label="Open navigation"
             class="
-              relative z-50 inline-flex size-11 cursor-pointer items-center
-              justify-center rounded-full border border-line/70 bg-surface/76
+              relative z-50 inline-flex min-h-11 cursor-pointer items-center
+              gap-2 rounded-full border border-line/70 bg-surface/76 px-4
               text-ink transition duration-200
               hover:border-brand/35 hover:bg-surface hover:text-brand
               motion-reduce:transition-none
@@ -139,6 +221,12 @@ const activeMenuLink = menuLinks.find(link => Astro.url.pathname === link.path) 
               >
                 <Icon aria-hidden="true" class="size-5" name="tabler:x" />
               </span>
+            </span>
+            <span
+              class="text-[0.68rem] font-semibold tracking-[0.18em] uppercase"
+              data-mobile-nav-toggle-label
+            >
+              Menu
             </span>
           </button>
 
@@ -168,23 +256,40 @@ const activeMenuLink = menuLinks.find(link => Astro.url.pathname === link.path) 
                 shadow-[0_22px_56px_hsl(var(--ink)/0.18)]
               "
             >
-              <div class="flex items-start justify-between gap-4 px-1 pb-3">
-                <div class="space-y-1">
-                  <p class="section-label">Navigation</p>
-                  <p class="text-xs text-ink-muted">Current page · {activeMenuLink.title}</p>
-                </div>
+              <div class="
+                relative overflow-hidden rounded-[1.55rem] border border-line/60
+                bg-surface-muted/76 p-4
+              "
+              >
+                <div
+                  aria-hidden="true"
+                  class="
+                    pointer-events-none absolute inset-0 grid-fade opacity-45
+                  "
+                />
+                <div class="relative flex items-start justify-between gap-4">
+                  <div class="space-y-2">
+                    <p class="section-label">Navigation</p>
+                    <p class="text-base font-semibold text-ink">
+                      Browse the rest of Santiago's work
+                    </p>
+                    <p class="text-sm text-ink-soft">
+                      Current page · {activeMenuLink.title}
+                    </p>
+                  </div>
 
-                <span class="
-                  rounded-full border border-line/60 bg-surface-muted/72 px-3
-                  py-1 text-[0.68rem] font-semibold tracking-[0.16em]
-                  text-ink-muted uppercase
-                "
-                >
-                  Menu
-                </span>
+                  <span class="
+                    rounded-full border border-brand/12 bg-brand-soft/90 px-3
+                    py-1 text-[0.68rem] font-semibold tracking-[0.16em]
+                    text-brand uppercase
+                  "
+                  >
+                    {siteConfig.location}
+                  </span>
+                </div>
               </div>
 
-              <div class="grid gap-2">
+              <div class="mt-3 grid gap-2">
                 {
                   menuLinks.map((link: SiteLink) => {
                     const isActive = Astro.url.pathname === link.path
@@ -196,13 +301,14 @@ const activeMenuLink = menuLinks.find(link => Astro.url.pathname === link.path) 
                           `
                             flex min-h-12 items-center justify-between gap-3
                             rounded-[1.35rem] border px-4 py-3 text-sm
-                            font-medium transition duration-200
+                            font-medium transition duration-200 ease-out
                             motion-reduce:transition-none
                           `,
                           isActive ?
                             `
                               border-brand/20 bg-brand-soft/80 font-semibold
                               text-brand
+                              shadow-[0_14px_28px_hsl(var(--brand)/0.08)]
                             ` :
                             `
                               border-transparent text-ink-soft
@@ -268,7 +374,8 @@ const activeMenuLink = menuLinks.find(link => Astro.url.pathname === link.path) 
 class SiteHeaderMobileNav extends HTMLElement {
   isOpen = false
   root: HTMLElement | null = null
-  toggle: HTMLElement | null = null
+  toggle: HTMLButtonElement | null = null
+  toggleLabel: HTMLElement | null = null
   menuIcon: HTMLElement | null = null
   closeIcon: HTMLElement | null = null
   backdrop: HTMLElement | null = null
@@ -277,6 +384,7 @@ class SiteHeaderMobileNav extends HTMLElement {
   connectedCallback() {
     this.root = this.querySelector('[data-mobile-nav]')
     this.toggle = this.querySelector('[data-mobile-nav-toggle]')
+    this.toggleLabel = this.querySelector('[data-mobile-nav-toggle-label]')
     this.menuIcon = this.querySelector('[data-mobile-nav-menu-icon]')
     this.closeIcon = this.querySelector('[data-mobile-nav-close-icon]')
     this.backdrop = this.querySelector('[data-mobile-nav-backdrop]')
@@ -284,7 +392,8 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     if (
       !(this.root instanceof HTMLElement) ||
-      !(this.toggle instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
       !(this.menuIcon instanceof HTMLElement) ||
       !(this.closeIcon instanceof HTMLElement) ||
       !(this.backdrop instanceof HTMLElement) ||
@@ -346,6 +455,11 @@ class SiteHeaderMobileNav extends HTMLElement {
   handleWindowKeydown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       this.closeMenu()
+      return
+    }
+
+    if (event.key === 'Tab' && this.isOpen) {
+      this.trapFocus(event)
     }
   }
 
@@ -392,7 +506,8 @@ class SiteHeaderMobileNav extends HTMLElement {
   sync() {
     if (
       !(this.root instanceof HTMLElement) ||
-      !(this.toggle instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
       !(this.menuIcon instanceof HTMLElement) ||
       !(this.closeIcon instanceof HTMLElement) ||
       !(this.backdrop instanceof HTMLElement) ||
@@ -405,12 +520,51 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.toggle.setAttribute('aria-expanded', String(isOpen))
     this.toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation')
+    this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
     this.menuIcon.hidden = isOpen
     this.closeIcon.hidden = !isOpen
     this.backdrop.hidden = !isOpen
     this.panel.hidden = !isOpen
     this.panel.setAttribute('aria-hidden', String(!isOpen))
     this.toggleScrollLock(isOpen)
+  }
+
+  trapFocus(event: KeyboardEvent) {
+    if (!(this.panel instanceof HTMLElement)) {
+      return
+    }
+
+    const focusableElements = [
+      ...this.panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ].filter(element => !element.hasAttribute('hidden') && element.getAttribute('aria-hidden') !== 'true')
+
+    const firstElement = focusableElements.at(0)
+    const lastElement = focusableElements.at(-1)
+
+    if (!(firstElement instanceof HTMLElement) || !(lastElement instanceof HTMLElement)) {
+      return
+    }
+
+    const activeElement = document.activeElement
+
+    if (!(activeElement instanceof HTMLElement) || !this.panel.contains(activeElement)) {
+      event.preventDefault()
+      firstElement.focus()
+      return
+    }
+
+    if (event.shiftKey && activeElement === firstElement) {
+      event.preventDefault()
+      lastElement.focus()
+      return
+    }
+
+    if (!event.shiftKey && activeElement === lastElement) {
+      event.preventDefault()
+      firstElement.focus()
+    }
   }
 
   toggleScrollLock(locked: boolean) {

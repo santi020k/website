@@ -57,8 +57,8 @@ export interface SiteMeta {
   articleDate?: string | undefined
   articleUpdated?: string | undefined
 
-  /** Extra JSON-LD object (any schema.org type) injected as a second ld+json block */
-  structuredData?: Record<string, unknown>
+  /** Extra JSON-LD object or array of objects (any schema.org type) injected as a second ld+json block */
+  structuredData?: Record<string, unknown> | Record<string, unknown>[]
 
   /** Breadcrumb trail rendered as a BreadcrumbList ld+json block */
   breadcrumbs?: { name: string, url: string }[]
