@@ -1,9 +1,7 @@
 @import "tailwindcss";
 
-/* Override the Tailwind v4 dark variant to use data-theme attribute
-   instead of prefers-color-scheme media query, so dark: classes
-   respond to the manual theme toggle. */
-@variant dark ('[data-theme="dark"] &');
+/* Dark mode is configured via data-theme attribute on the root */
+@custom-variant dark ([data-theme="dark"] &);
 
 @layer base {
   @font-face {
