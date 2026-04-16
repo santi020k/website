@@ -29,7 +29,7 @@ export const getProjectStageLabel = (type: ProjectType, endingDate?: Date): stri
 }
 
 export const getProjectFeaturedLabel = (type: ProjectType): string => {
-  if (type === 'personal') return 'Featured project'
+  if (type === 'personal') return 'Personal project'
 
   if (type === 'experimental') return 'Featured experiment'
 
