@@ -71,6 +71,14 @@ class ThemeToggle extends HTMLElement {
   }
 
   #circularReveal(button: HTMLButtonElement, isDark: boolean, newTheme: string) {
+    // If mobile nav is open, skip animation to avoid z-index conflict with the panel
+    const mobileNavOpen = document.querySelector('[data-mobile-nav-panel]:not([hidden])')
+    if (mobileNavOpen) {
+      document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }))
+      button.setAttribute('aria-checked', String(rootInDarkMode()))
+      return
+    }
+
     this.#isAnimating = true
 
     const rect = button.getBoundingClientRect()

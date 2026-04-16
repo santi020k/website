@@ -4,7 +4,7 @@ description: "Built and scaled the official X Games digital platform — a high-
 rol: "Senior Full Stack Engineer"
 startingDate: "1 Jan 2025"
 endingDate: "1 Jul 2025"
-liveDemoUrl: "https://web.archive.org/web/20250302004156/https://www.xgames.com/"
+liveDemoUrl: "https://web.archive.org/web/20250827083904/https://www.xgames.com/"
 typesId: "professional"
 impactMetrics: [
   "56+ pull requests merged across two codebases",
@@ -54,9 +54,7 @@ The site had to work reliably under real broadcast pressure — time-sensitive l
 
 ### 🖼️ Platform snapshot
 
-The archived homepage below reflects the version of the platform I worked on before the later redesign, which is why the live link points to the preserved March 2, 2025 capture.
-
-![Archived X Games homepage from the 2025 platform version](body.webp)
+The cover image above shows the version of the platform I worked on — archived from August 27, 2025, before the later WordPress redesign. The live link points to that preserved capture.
 
 ### 🤝 Why it mattered
 

@@ -395,6 +395,8 @@ class SiteHeaderMobileNav extends HTMLElement {
     }
 
     this.isOpen = true
+    // Remove any stale closing state before showing
+    this.panel?.removeAttribute('data-nav-closing')
     this.sync()
 
     window.requestAnimationFrame(() => {
@@ -408,11 +410,50 @@ class SiteHeaderMobileNav extends HTMLElement {
   closeMenu({ restoreFocus = true } = {}) {
     const wasOpen = this.isOpen
     this.isOpen = false
-    this.sync()
+
+    if (wasOpen && this.panel instanceof HTMLElement && !this.panel.hidden) {
+      // Animate panel out, then hide after animation
+      this.panel.setAttribute('data-nav-closing', '')
+
+      const finishClose = () => {
+        if (this.panel instanceof HTMLElement) {
+          this.panel.removeAttribute('data-nav-closing')
+          this.panel.hidden = true
+          this.panel.setAttribute('aria-hidden', 'true')
+        }
+      }
+      this.panel.addEventListener('animationend', finishClose, { once: true })
+      setTimeout(finishClose, 250)
+
+      // Update everything else immediately
+      this.#syncControls(false)
+    } else {
+      this.sync()
+    }
 
     if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement) {
       this.toggle.focus()
     }
+  }
+
+  #syncControls(isOpen: boolean) {
+    if (
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    this.toggle.setAttribute('aria-expanded', String(isOpen))
+    this.toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation')
+    this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
+    this.menuIcon.hidden = isOpen
+    this.closeIcon.hidden = !isOpen
+    this.backdrop.hidden = !isOpen
+    this.toggleScrollLock(isOpen)
   }
 
   sync() {
