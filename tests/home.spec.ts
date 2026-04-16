@@ -34,15 +34,39 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
   await expect(page.getByRole('switch', { name: 'Toggle color theme' })).toBeVisible()
 })
 
-test('mobile navigation button keeps aria state in sync', async ({ page }) => {
+test('mobile navigation can open and close cleanly', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
 
-  const menuToggle = page.getByRole('button', { name: 'Open navigation' })
+  const menuToggle = page.locator('[data-mobile-nav-toggle]')
+  const mobileNav = page.locator('#mobile-nav')
 
   await expect(menuToggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(mobileNav).not.toBeVisible()
+
   await menuToggle.click()
-  await expect(page.getByRole('button', { name: 'Close navigation' })).toHaveAttribute('aria-expanded', 'true')
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(mobileNav).toBeVisible()
+
+  await menuToggle.click()
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(mobileNav).not.toBeVisible()
+})
+
+test('mobile navigation resets after navigating to another page', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+
+  const menuToggle = page.locator('[data-mobile-nav-toggle]')
+
+  await menuToggle.click()
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'true')
+
+  await page.locator('#mobile-nav').getByRole('link', { name: 'About' }).click()
+
+  await expect(page).toHaveURL(/\/about\/$/)
+  await expect(page.locator('[data-mobile-nav-toggle]')).toHaveAttribute('aria-expanded', 'false')
+  await expect(page.locator('#mobile-nav')).not.toBeVisible()
 })
 
 test('homepage should match visual snapshot', async ({ page }) => {
