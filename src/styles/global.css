@@ -89,6 +89,15 @@
     color: hsl(var(--ink));
   }
 
+  html.mobile-nav-open,
+  body.mobile-nav-open {
+    overflow: hidden;
+  }
+
+  html.mobile-nav-open {
+    overscroll-behavior: contain;
+  }
+
   main {
     isolation: isolate;
   }
@@ -747,5 +756,4 @@
     transition: none;
   }
 }
-
 

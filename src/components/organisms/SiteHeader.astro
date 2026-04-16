@@ -8,6 +8,15 @@ import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
 import LogoMark from '@/assets/logo.webp'
 import { menuLinks, siteConfig } from '@/site.config'
 import type { SiteLink } from '@/types'
+
+const fallbackMenuLink: SiteLink = {
+  path: '/',
+  title: 'Home'
+}
+
+const activeMenuLink = menuLinks.find(link => Astro.url.pathname === link.path) ??
+  menuLinks.at(0) ??
+  fallbackMenuLink
 ---
 
 <header class="
@@ -16,45 +25,7 @@ import type { SiteLink } from '@/types'
   lg:px-8
 "
 >
-  <div
-    class="site-header-shell"
-    x-data="{
-      open: false,
-      toggleMenu() {
-        this.open = !this.open;
-        if (this.open) {
-          this.$nextTick(() => {
-            const firstLink = this.$el.querySelector('#mobile-nav a');
-            if (firstLink) firstLink.focus();
-          });
-        }
-      },
-      closeMenu() {
-        if (!this.open) return;
-        this.open = false;
-        this.$nextTick(() => {
-          const toggle = this.$el.querySelector('[aria-controls=\'mobile-nav\']');
-          if (toggle) toggle.focus();
-        });
-      },
-      trapFocus(event) {
-        const nav = this.$el.querySelector('#mobile-nav');
-        if (!nav) return;
-        const focusable = Array.from(nav.querySelectorAll('a[href], button:not([disabled])'));
-        if (!focusable.length) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-          last.focus();
-          event.preventDefault();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          first.focus();
-          event.preventDefault();
-        }
-      }
-    }"
-    @keydown.escape.window="closeMenu()"
-  >
+  <div class="site-header-shell">
     <a
       aria-label="Home"
       class="
@@ -136,79 +107,327 @@ import type { SiteLink } from '@/types'
     </div>
 
     <div class="
-      flex items-center gap-3
+      relative z-50 flex items-center gap-3
       lg:hidden
     "
     >
       <ThemeToggle />
-      <button
-        :aria-expanded="open.toString()"
-        :aria-label="open ? 'Close navigation' : 'Open navigation'"
-        aria-controls="mobile-nav"
-        class="
-          inline-flex size-11 cursor-pointer items-center justify-center
-          rounded-full border border-line/70 bg-surface/76 text-ink
-        "
-        type="button"
-        x-on:click="toggleMenu()"
-      >
-        <Icon aria-hidden="true" class="size-5" name="tabler:menu-2" x-show="!open" />
-        <Icon aria-hidden="true" class="size-5" name="tabler:x" x-show="open" x-cloak />
-      </button>
-    </div>
+      <site-header-mobile-nav class="contents">
+        <div class="relative" data-mobile-nav>
+          <button
+            aria-controls="mobile-nav"
+            aria-expanded="false"
+            aria-label="Open navigation"
+            class="
+              relative z-50 inline-flex size-11 cursor-pointer items-center
+              justify-center rounded-full border border-line/70 bg-surface/76
+              text-ink transition duration-200
+              hover:border-brand/35 hover:bg-surface hover:text-brand
+              motion-reduce:transition-none
+            "
+            data-mobile-nav-toggle
+            type="button"
+          >
+            <span class="relative flex size-5 items-center justify-center" aria-hidden="true">
+              <span class="absolute inset-0 flex items-center justify-center" data-mobile-nav-menu-icon>
+                <Icon aria-hidden="true" class="size-5" name="tabler:menu-2" />
+              </span>
+              <span
+                class="absolute inset-0 items-center justify-center"
+                data-mobile-nav-close-icon
+                hidden
+              >
+                <Icon aria-hidden="true" class="size-5" name="tabler:x" />
+              </span>
+            </span>
+          </button>
 
-    <div
-      id="mobile-nav"
-      aria-label="Main navigation menu"
-      class="
-        absolute top-[calc(100%+1rem)] left-0 w-full px-4
-        lg:hidden
-      "
-      x-cloak
-      x-show="open"
-      @keydown.tab="trapFocus($event)"
-      x-transition:enter="transition-all duration-200 ease-out"
-      x-transition:enter-start="opacity-0 -translate-y-2 scale-[0.98]"
-      x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-      x-transition:leave="transition-all duration-150 ease-in"
-      x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-      x-transition:leave-end="opacity-0 -translate-y-2 scale-[0.98]"
-    >
-      <div class="panel-card flex flex-col gap-2 p-4">
-        {
-          menuLinks.map((link: SiteLink) => (
-            <a
-              aria-current={Astro.url.pathname === link.path ? 'page' : undefined}
-              class:list={[
-                `
-                  rounded-2xl border px-4 py-3 text-sm font-medium transition
-                  duration-200
-                `,
-                Astro.url.pathname === link.path ?
-                  'border-brand/20 bg-brand-soft/80 font-semibold text-brand' :
-                  `
-                    border-transparent text-ink-soft
-                    hover:border-line/70 hover:bg-surface-muted/70
-                    hover:text-ink
-                  `
-              ]}
-              href={link.path}
-              @click="closeMenu()"
+          <div
+            class="
+              fixed inset-0 z-40 bg-canvas/72 backdrop-blur-[2px]
+              supports-backdrop-filter:bg-canvas/58
+            "
+            data-mobile-nav-backdrop
+            hidden
+          />
+
+          <nav
+            id="mobile-nav"
+            aria-hidden="true"
+            aria-label="Main menu"
+            class="
+              absolute top-[calc(100%+1rem)] right-0 z-50
+              w-[min(22rem,calc(100vw-2rem))]
+            "
+            data-mobile-nav-panel
+            hidden
+          >
+            <div
+              class="
+                panel-card max-h-[calc(100vh-7rem)] overflow-y-auto p-4
+                shadow-[0_22px_56px_hsl(var(--ink)/0.18)]
+              "
             >
-              {link.title}
-            </a>
-          ))
-        }
-        <ButtonLink
-          className="justify-center"
-          href={siteConfig.contact.linkedin}
-          newTab
-          showArrow
-          variant="secondary"
-        >
-          Say hello
-        </ButtonLink>
-      </div>
+              <div class="flex items-start justify-between gap-4 px-1 pb-3">
+                <div class="space-y-1">
+                  <p class="section-label">Navigation</p>
+                  <p class="text-xs text-ink-muted">Current page · {activeMenuLink.title}</p>
+                </div>
+
+                <span class="
+                  rounded-full border border-line/60 bg-surface-muted/72 px-3
+                  py-1 text-[0.68rem] font-semibold tracking-[0.16em]
+                  text-ink-muted uppercase
+                "
+                >
+                  Menu
+                </span>
+              </div>
+
+              <div class="grid gap-2">
+                {
+                  menuLinks.map((link: SiteLink) => {
+                    const isActive = Astro.url.pathname === link.path
+
+                    return (
+                      <a
+                        aria-current={isActive ? 'page' : undefined}
+                        class:list={[
+                          `
+                            flex min-h-12 items-center justify-between gap-3
+                            rounded-[1.35rem] border px-4 py-3 text-sm
+                            font-medium transition duration-200
+                            motion-reduce:transition-none
+                          `,
+                          isActive ?
+                            `
+                              border-brand/20 bg-brand-soft/80 font-semibold
+                              text-brand
+                            ` :
+                            `
+                              border-transparent text-ink-soft
+                              hover:border-line/70 hover:bg-surface-muted/70
+                              hover:text-ink
+                            `
+                        ]}
+                        data-mobile-nav-link
+                        href={link.path}
+                      >
+                        <span>{link.title}</span>
+                        {
+                          isActive && (
+                            <span class="
+                              rounded-full bg-brand/10 px-2.5 py-1
+                              text-[0.68rem] font-semibold tracking-[0.14em]
+                              uppercase
+                            "
+                            >
+                              Current
+                            </span>
+                          )
+                        }
+                      </a>
+                    )
+                  })
+                }
+              </div>
+
+              <div class="
+                mt-3 grid gap-2 border-t border-line/55 pt-3
+                sm:grid-cols-2
+              "
+              >
+                <ButtonLink
+                  className="justify-center"
+                  href={siteConfig.contact.linkedin}
+                  newTab
+                  showArrow
+                  variant="secondary"
+                >
+                  Say hello
+                </ButtonLink>
+                <ButtonLink
+                  className="justify-center"
+                  href={siteConfig.contact.resume}
+                  newTab
+                  showArrow
+                  variant="ghost"
+                >
+                  Resume
+                </ButtonLink>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </site-header-mobile-nav>
     </div>
   </div>
 </header>
+
+<script>
+class SiteHeaderMobileNav extends HTMLElement {
+  isOpen = false
+  root: HTMLElement | null = null
+  toggle: HTMLElement | null = null
+  menuIcon: HTMLElement | null = null
+  closeIcon: HTMLElement | null = null
+  backdrop: HTMLElement | null = null
+  panel: HTMLElement | null = null
+
+  connectedCallback() {
+    this.root = this.querySelector('[data-mobile-nav]')
+    this.toggle = this.querySelector('[data-mobile-nav-toggle]')
+    this.menuIcon = this.querySelector('[data-mobile-nav-menu-icon]')
+    this.closeIcon = this.querySelector('[data-mobile-nav-close-icon]')
+    this.backdrop = this.querySelector('[data-mobile-nav-backdrop]')
+    this.panel = this.querySelector('[data-mobile-nav-panel]')
+
+    if (
+      !(this.root instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement) ||
+      !(this.panel instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    this.toggle.addEventListener('click', this.handleToggleClick)
+    this.backdrop.addEventListener('click', this.handleBackdropClick)
+    this.panel.addEventListener('click', this.handlePanelClick)
+    window.addEventListener('keydown', this.handleWindowKeydown)
+    window.addEventListener('resize', this.handleWindowResize, { passive: true })
+    window.addEventListener('pageshow', this.handlePageShow)
+    document.addEventListener('astro:before-preparation', this.handleAstroPreparation)
+    document.addEventListener('astro:page-load', this.handleAstroPreparation)
+
+    this.sync()
+  }
+
+  disconnectedCallback() {
+    this.toggle?.removeEventListener('click', this.handleToggleClick)
+    this.backdrop?.removeEventListener('click', this.handleBackdropClick)
+    this.panel?.removeEventListener('click', this.handlePanelClick)
+    window.removeEventListener('keydown', this.handleWindowKeydown)
+    window.removeEventListener('resize', this.handleWindowResize)
+    window.removeEventListener('pageshow', this.handlePageShow)
+    document.removeEventListener('astro:before-preparation', this.handleAstroPreparation)
+    document.removeEventListener('astro:page-load', this.handleAstroPreparation)
+
+    this.toggleScrollLock(false)
+  }
+
+  handleToggleClick = () => {
+    if (this.isOpen) {
+      this.closeMenu()
+      return
+    }
+
+    this.openMenu()
+  }
+
+  handleBackdropClick = () => {
+    this.closeMenu()
+  }
+
+  handlePanelClick = (event: MouseEvent) => {
+    const target = event.target
+
+    if (!(target instanceof Element)) {
+      return
+    }
+
+    if (target.closest('a[href]')) {
+      this.closeMenu({ restoreFocus: false })
+    }
+  }
+
+  handleWindowKeydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      this.closeMenu()
+    }
+  }
+
+  handleWindowResize = () => {
+    if (window.innerWidth >= 1024) {
+      this.closeMenu({ restoreFocus: false })
+    }
+  }
+
+  handlePageShow = () => {
+    this.closeMenu({ restoreFocus: false })
+  }
+
+  handleAstroPreparation = () => {
+    this.closeMenu({ restoreFocus: false })
+  }
+
+  openMenu() {
+    if (this.isOpen) {
+      return
+    }
+
+    this.isOpen = true
+    this.sync()
+
+    window.requestAnimationFrame(() => {
+      const firstLink = this.panel?.querySelector('a[href]')
+      if (firstLink instanceof HTMLElement) {
+        firstLink.focus()
+      }
+    })
+  }
+
+  closeMenu({ restoreFocus = true } = {}) {
+    const wasOpen = this.isOpen
+    this.isOpen = false
+    this.sync()
+
+    if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement) {
+      this.toggle.focus()
+    }
+  }
+
+  sync() {
+    if (
+      !(this.root instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement) ||
+      !(this.panel instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    const isOpen = this.isOpen
+
+    this.toggle.setAttribute('aria-expanded', String(isOpen))
+    this.toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation')
+    this.menuIcon.hidden = isOpen
+    this.closeIcon.hidden = !isOpen
+    this.backdrop.hidden = !isOpen
+    this.panel.hidden = !isOpen
+    this.panel.setAttribute('aria-hidden', String(!isOpen))
+    this.toggleScrollLock(isOpen)
+  }
+
+  toggleScrollLock(locked: boolean) {
+    document.documentElement.classList.toggle('mobile-nav-open', locked)
+    document.body.classList.toggle('mobile-nav-open', locked)
+  }
+}
+
+if (!customElements.get('site-header-mobile-nav')) {
+  customElements.define('site-header-mobile-nav', SiteHeaderMobileNav)
+}
+</script>
+
+<style is:global>
+[data-mobile-nav-toggle][aria-expanded='true'] {
+  background-color: hsl(var(--surface));
+  border-color: hsl(var(--brand) / 0.35);
+  color: hsl(var(--brand));
+}
+</style>

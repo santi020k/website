@@ -8,10 +8,13 @@ const isCiLikeRun =
 const isSnapshotUpdateRun = process.argv.includes('--update-snapshots')
 const shouldBuildPreviewServer = !isCiLikeRun || isSnapshotUpdateRun
 const shouldRunSerially = isCiLikeRun || isSnapshotUpdateRun
+const previewHost = '127.0.0.1'
+const previewPort = 4173
+const previewURL = `http://${previewHost}:${previewPort}`
 
 const previewServerCommand = shouldBuildPreviewServer ?
-  'pnpm run build && pnpm run preview' :
-  'pnpm run preview'
+  `pnpm run build && pnpm run preview --host ${previewHost} --port ${previewPort}` :
+  `pnpm run preview --host ${previewHost} --port ${previewPort}`
 
 export default defineConfig({
   testDir: './tests',
@@ -26,7 +29,7 @@ export default defineConfig({
   ...(shouldRunSerially ? { workers: 1 } : {}),
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL: previewURL,
     trace: 'on-first-retry'
   },
   projects: [
@@ -46,7 +49,7 @@ export default defineConfig({
   webServer: {
     command: previewServerCommand,
     timeout: 600_000,
-    url: 'http://localhost:4321',
-    reuseExistingServer: !process.env.CI
+    url: previewURL,
+    reuseExistingServer: false
   }
 })
