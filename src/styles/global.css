@@ -94,7 +94,7 @@
 
   html.mobile-nav-open,
   body.mobile-nav-open {
-    overflow: hidden;
+    overflow: clip;
   }
 
   html.mobile-nav-open {

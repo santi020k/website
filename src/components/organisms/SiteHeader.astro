@@ -409,7 +409,7 @@ class SiteHeaderMobileNav extends HTMLElement {
     window.requestAnimationFrame(() => {
       const firstLink = this.panel?.querySelector('a[href]')
       if (firstLink instanceof HTMLElement) {
-        firstLink.focus()
+        firstLink.focus({ preventScroll: true })
       }
     })
   }
@@ -439,7 +439,7 @@ class SiteHeaderMobileNav extends HTMLElement {
     }
 
     if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement) {
-      this.toggle.focus()
+      this.toggle.focus({ preventScroll: true })
     }
   }
 
@@ -511,19 +511,19 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     if (!(activeElement instanceof HTMLElement) || !this.panel.contains(activeElement)) {
       event.preventDefault()
-      firstElement.focus()
+      firstElement.focus({ preventScroll: true })
       return
     }
 
     if (event.shiftKey && activeElement === firstElement) {
       event.preventDefault()
-      lastElement.focus()
+      lastElement.focus({ preventScroll: true })
       return
     }
 
     if (!event.shiftKey && activeElement === lastElement) {
       event.preventDefault()
-      firstElement.focus()
+      firstElement.focus({ preventScroll: true })
     }
   }
 
