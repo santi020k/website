@@ -29,6 +29,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:coverage": "vitest run --coverage",
     "lighthouse": "lhci autorun",
+    "lighthouse:full": "LHCI_NUMBER_OF_RUNS=3 lhci autorun",
     "spellcheck": "cspell \"**/*.{md,mdx}\"",
     "ci:verify": "npm-run-all --serial ci:verify:check ci:verify:e2e",
     "ci:verify:check": "npm-run-all --parallel spellcheck lint test:coverage build",
