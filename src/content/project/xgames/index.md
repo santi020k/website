@@ -16,7 +16,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "X Games website platform"
+  alt: "X Games logo on a branded red, charcoal, and ivory cover"
   ogImage: "./cover.webp"
 ---
 
@@ -51,6 +51,12 @@ The site had to work reliably under real broadcast pressure — time-sensitive l
 - **CMS and content:** `Sanity v3`, `Sanity Studio`, `Portable Text`, `sanity-plugin-vercel-deploy`
 - **Advertising and analytics:** `Google Ad Manager`, `Google Tag Manager`, `Firebase`
 - **Infrastructure and quality:** `Vercel`, `Node.js`, `Jest`, `Storybook`, `ESLint`, `Stylelint`
+
+### 🖼️ Platform snapshot
+
+The archived homepage below reflects the version of the platform I worked on before the later redesign, which is why the live link points to the preserved March 2, 2025 capture.
+
+![Archived X Games homepage from the 2025 platform version](body.webp)
 
 ### 🤝 Why it mattered
 
