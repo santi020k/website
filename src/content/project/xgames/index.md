@@ -4,7 +4,7 @@ description: "Built and scaled the official X Games digital platform — a high-
 rol: "Senior Full Stack Engineer"
 startingDate: "1 Jan 2025"
 endingDate: "1 Jul 2025"
-liveDemoUrl: "https://www.xgames.com"
+liveDemoUrl: "https://web.archive.org/web/20250302004156/https://www.xgames.com/"
 typesId: "professional"
 impactMetrics: [
   "56+ pull requests merged across two codebases",
