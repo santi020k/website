@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Override the Tailwind v4 dark variant to use data-theme attribute
+   instead of prefers-color-scheme media query, so dark: classes
+   respond to the manual theme toggle. */
+@variant dark ('[data-theme="dark"] &');
+
 @layer base {
   @font-face {
     font-family: "Montserrat";
@@ -224,7 +229,9 @@
 }
 
 @utility site-header-shell {
-  @apply relative mx-auto flex w-full max-w-[calc(100vw-2rem)] items-center justify-between gap-3 overflow-hidden rounded-[1.85rem] px-4 py-3.5 sm:max-w-6xl sm:px-5;
+  /* overflow-hidden removed — it was clipping the absolutely-positioned
+     mobile nav dropdown panel that renders below the header shell. */
+  @apply relative mx-auto flex w-full max-w-[calc(100vw-2rem)] items-center justify-between gap-3 rounded-[1.85rem] px-4 py-3.5 sm:max-w-6xl sm:px-5;
   background:
     linear-gradient(
       180deg,
