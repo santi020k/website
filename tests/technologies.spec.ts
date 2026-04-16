@@ -13,13 +13,13 @@ test.describe('Technologies index page', () => {
   })
 
   test('should display the technologies count and most-used stat', async ({ page }) => {
-    await expect(page.getByText('Technologies')).toBeVisible()
-    await expect(page.getByText('Most used')).toBeVisible()
+    await expect(page.getByText('Technologies', { exact: true })).toBeVisible()
+    await expect(page.getByText('Most used', { exact: true })).toBeVisible()
   })
 
   test('should render technology group labels', async ({ page }) => {
     // At least the Core group should always be present given the real data
-    await expect(page.getByText('Core')).toBeVisible()
+    await expect(page.getByText('Core', { exact: true })).toBeVisible()
   })
 
   test('should render technology pill links', async ({ page }) => {
