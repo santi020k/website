@@ -20,7 +20,10 @@ const relatedPosts = await getRelatedPosts({
 ---
 
 {relatedPosts.length > 0 && (
-  <section class="mt-20 space-y-8 border-t border-line pt-20">
+  <section
+    aria-label="Related posts"
+    class="mt-20 space-y-8 border-t border-line pt-20"
+  >
     <div data-animate>
       <SectionHeading
         description="A few more posts that overlap in topic, tooling, or the engineering tradeoffs behind this article."

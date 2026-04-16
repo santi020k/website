@@ -55,8 +55,13 @@ const writePng = async (pathname, sourceBuffer, size) => {
 }
 
 const main = async () => {
+  const iconsDir = fileURLToPath(new URL('icons/', publicDir))
+
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   await mkdir(publicDirPath, { recursive: true })
+
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  await mkdir(iconsDir, { recursive: true })
 
   const sourceIcon = await renderSourceIcon()
   const sourceIconBase64 = sourceIcon.toString('base64')
@@ -67,6 +72,13 @@ const main = async () => {
   await writePng('favicon.png', sourceIcon, 32)
 
   await writePng('apple-touch-icon.png', sourceIcon, 180)
+
+  // PWA manifest icons (written to public/icons/)
+  await writePng('icons/apple-touch-icon.png', sourceIcon, 180)
+
+  await writePng('icons/icon-192.png', sourceIcon, 192)
+
+  await writePng('icons/icon-512.png', sourceIcon, 512)
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   await writeFile(
