@@ -56,7 +56,9 @@ export default defineConfig({
   integrations: [
     icon(),
     sitemap({
-      filter: page => !page.includes('/draft-'),
+      // Draft filtering happens at route level (getStaticPaths / getCachedPosts / getAllProjects)
+      // so draft pages never generate URLs and are never included in the sitemap.
+      filter: () => true,
       lastmod: new Date(),
       serialize(item) {
         const url = item.url

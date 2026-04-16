@@ -33,9 +33,24 @@ import type { SiteLink } from '@/types'
         if (!this.open) return;
         this.open = false;
         this.$nextTick(() => {
-          const toggle = this.$el.querySelector('[aria-controls=\mobile-nav\]');
+          const toggle = this.$el.querySelector('[aria-controls=\'mobile-nav\']');
           if (toggle) toggle.focus();
         });
+      },
+      trapFocus(event) {
+        const nav = this.$el.querySelector('#mobile-nav');
+        if (!nav) return;
+        const focusable = Array.from(nav.querySelectorAll('a[href], button:not([disabled])'));
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          last.focus();
+          event.preventDefault();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          first.focus();
+          event.preventDefault();
+        }
       }
     }"
     @keydown.escape.window="closeMenu()"
@@ -144,12 +159,14 @@ import type { SiteLink } from '@/types'
 
     <div
       id="mobile-nav"
+      aria-label="Main navigation menu"
       class="
         absolute top-[calc(100%+1rem)] left-0 w-full px-4
         lg:hidden
       "
       x-cloak
       x-show="open"
+      @keydown.tab="trapFocus($event)"
       x-transition:enter="transition-all duration-200 ease-out"
       x-transition:enter-start="opacity-0 -translate-y-2 scale-[0.98]"
       x-transition:enter-end="opacity-100 translate-y-0 scale-100"

@@ -13,6 +13,7 @@ const series = defineCollection({
   schema: baseSchema.extend({
     cadence: z.string(),
     description: z.string(),
+    draft: z.boolean().default(false),
     focusAreas: z.array(z.string()).default([]).transform(removeDuplicates),
     order: z.number().default(0),
     seoDescription: z.string().optional(),
