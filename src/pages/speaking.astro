@@ -39,19 +39,45 @@ const bookingNotes = [
   }
 ]
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'AboutPage',
-  description,
-  mainEntity: {
-    '@type': 'Person',
-    jobTitle: 'Engineering Leader & Full-Stack Architect',
-    knowsAbout: speakingTopics.map(topic => topic.title),
-    name: siteConfig.author,
-    sameAs: [siteConfig.contact.github, siteConfig.contact.linkedin, siteConfig.contact.medium]
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    description,
+    mainEntity: {
+      '@type': 'Person',
+      jobTitle: 'Engineering Leader & Full-Stack Architect',
+      knowsAbout: speakingTopics.map(topic => topic.title),
+      name: siteConfig.author,
+      sameAs: [siteConfig.contact.github, siteConfig.contact.linkedin, siteConfig.contact.medium]
+    },
+    name: 'Speaking'
   },
-  name: 'Speaking'
-}
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: speakingTopics.map(topic => ({
+      '@type': 'Question',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: topic.description
+      },
+      name: topic.title
+    }))
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    description: 'Formats available for speaking engagements',
+    itemListElement: speakingFormats.map((format, index) => ({
+      '@type': 'ListItem',
+      description: format.description,
+      name: format.title,
+      position: index + 1
+    })),
+    name: 'Speaking formats'
+  }
+]
 ---
 
 <PageLayout meta={{

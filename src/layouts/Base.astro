@@ -92,5 +92,42 @@ const headMeta = {
         }
       })
     </script>
+
+    <script>
+      // CTA analytics — track key outbound/download link clicks via delegation
+      type TrackFn = (event: string, props?: Record<string, string>) => void
+
+      const resolveTrack = (): Promise<TrackFn> =>
+        import('@vercel/analytics').then(m => m.track as TrackFn).catch(() => () => {})
+
+      function getCtaEvent(href: string): { event: string; props: Record<string, string> } | null {
+        if (href.includes('/pdf/cv.pdf')) return { event: 'resume_download', props: { source: document.title } }
+        if (href.includes('mailto:')) return { event: 'contact_email', props: {} }
+        if (href.includes('api.whatsapp.com')) return { event: 'contact_whatsapp', props: {} }
+        if (href.includes('linkedin.com/in/')) return { event: 'cta_linkedin', props: { source: document.title } }
+        if (href.includes('linkedin.com/sharing/')) return null // handled by ShareButtons
+        return null
+      }
+
+      async function handleCtaClick(e: MouseEvent) {
+        const anchor = (e.target as Element).closest<HTMLAnchorElement>('a[href]')
+        if (!anchor) return
+        const match = getCtaEvent(anchor.href)
+        if (!match) return
+        const track = await resolveTrack()
+        track(match.event, match.props)
+      }
+
+      function setup() {
+        document.addEventListener('click', handleCtaClick)
+        return () => document.removeEventListener('click', handleCtaClick)
+      }
+
+      let cleanup = setup()
+      document.addEventListener('astro:after-swap', () => {
+        cleanup()
+        cleanup = setup()
+      })
+    </script>
   </body>
 </html>

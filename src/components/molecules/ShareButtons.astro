@@ -45,6 +45,8 @@ const shareLinks = [
         target="_blank"
         rel="noopener noreferrer"
         aria-label={link.label}
+        data-track-event="share"
+        data-track-platform={link.platform}
         class="
           group flex cursor-pointer items-center gap-2.5 rounded-full border
           border-line/40 bg-surface-muted/50 px-5 py-2.5 text-sm font-semibold
@@ -120,6 +122,10 @@ const shareLinks = [
     const onClick = async () => {
       await navigator.clipboard.writeText(window.location.href)
 
+      import('@vercel/analytics').then(({ track }) => {
+        track('share', { platform: 'copy_link', url: window.location.href })
+      }).catch(() => {})
+
       btn.classList.add('copied')
       copyIcon?.classList.add('hidden')
       checkIcon?.classList.remove('hidden')
@@ -142,9 +148,34 @@ const shareLinks = [
     }
   }
 
+  function setupShareTracking() {
+    const links = document.querySelectorAll<HTMLAnchorElement>('[data-track-event="share"]')
+
+    const handlers: [HTMLAnchorElement, () => void][] = []
+
+    for (const link of links) {
+      const platform = link.dataset.trackPlatform ?? 'unknown'
+      const handler = () => {
+        import('@vercel/analytics').then(({ track }) => {
+          track('share', { platform, url: window.location.href })
+        }).catch(() => {})
+      }
+      link.addEventListener('click', handler)
+      handlers.push([link, handler])
+    }
+
+    return () => {
+      for (const [el, handler] of handlers) el.removeEventListener('click', handler)
+    }
+  }
+
   let cleanup = setup()
+  let cleanupTracking = setupShareTracking()
+
   document.addEventListener('astro:after-swap', () => {
     cleanup()
+    cleanupTracking()
     cleanup = setup()
+    cleanupTracking = setupShareTracking()
   })
 </script>
