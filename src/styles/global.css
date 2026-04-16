@@ -158,10 +158,6 @@
     outline-offset: 4px;
   }
 
-  [x-cloak] {
-    display: none !important;
-  }
-
   @media (prefers-contrast: more) {
     :root,
     :root[data-theme="light"] {

@@ -14,7 +14,6 @@ import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admon
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { siteConfig } from './src/site.config'
 
-import alpinejs from '@astrojs/alpinejs'
 import mdx from '@astrojs/mdx'
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap'
 import {
@@ -102,7 +101,6 @@ export default defineConfig({
     }),
     mdx(),
     robotsTxt(),
-    alpinejs(),
     webmanifest({
       // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
       name: siteConfig.title,
