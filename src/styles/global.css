@@ -249,6 +249,62 @@
   backdrop-filter: blur(24px);
 }
 
+/* Mobile nav panel open animation */
+@keyframes mobile-nav-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mobile-nav-backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile nav close animation (triggered via JS data-nav-closing attribute) */
+@keyframes mobile-nav-panel-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+}
+
+[data-mobile-nav-panel]:not([hidden]) {
+  animation: mobile-nav-panel-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+[data-mobile-nav-panel][data-nav-closing] {
+  animation: mobile-nav-panel-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+[data-mobile-nav-backdrop]:not([hidden]) {
+  animation: mobile-nav-backdrop-in 200ms ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-mobile-nav-panel]:not([hidden]),
+  [data-mobile-nav-panel][data-nav-closing],
+  [data-mobile-nav-backdrop]:not([hidden]) {
+    animation: none;
+  }
+}
+
 @utility site-nav-track {
   @apply relative grid min-h-14 items-center rounded-full border border-line/60 bg-surface-muted/72 p-1;
   box-shadow:
