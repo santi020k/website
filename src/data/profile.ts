@@ -1,9 +1,3 @@
-export interface CollaborationTheme {
-  body: string
-  evidence: string
-  title: string
-}
-
 export interface SocialProofItem {
   context: string
   label: string
@@ -31,6 +25,15 @@ export interface PastTalk {
   tags: string[]
   title: string
   year: number | string
+}
+
+export interface Testimonial {
+  avatarInitials: string
+  avatarUrl?: string
+  name: string
+  quote: string
+  relationship: string
+  role: string
 }
 
 export interface UsesSectionItem {
@@ -64,6 +67,37 @@ export const collaborationThemes: CollaborationTheme[] = [
     body: 'My best work usually sits at the intersection of engineering, product, and communication. I like helping teams align earlier so execution gets simpler.',
     evidence: 'The portfolio spans commerce, SaaS, gaming, real estate, and community work, but the throughline is the same: practical systems with clear business value.',
     title: 'Clear communication across functions'
+  }
+]
+
+export const testimonials: Testimonial[] = [
+  {
+    avatarInitials: 'RD',
+    name: 'Raphael Drummond',
+    quote: 'Santiago has excellent communication skills and is able to explain complex technical concepts in a clear and concise way. He is highly reliable, dedicated, and responsible — meeting deadlines and delivering high-quality projects.',
+    relationship: 'Managed Santiago at Optic Power',
+    role: 'AI Product & Engineering Leader'
+  },
+  {
+    avatarInitials: 'CT',
+    name: 'Carolina G. Torres',
+    quote: 'Santi stands out due to his outstanding technical skills, leadership abilities, and collaborative spirit. He cultivates a positive and inclusive work environment, promoting open communication and idea exchange.',
+    relationship: 'Colleague, same team',
+    role: 'Lead Product Designer'
+  },
+  {
+    avatarInitials: 'DD',
+    name: 'David Delgado',
+    quote: 'He excels in good practices while coding and has solid leadership skills. He is great at sharing knowledge with fellow devs and organizing priorities to make things happen in a quality-oriented way.',
+    relationship: 'Reported to Santiago',
+    role: 'Software Engineer'
+  },
+  {
+    avatarInitials: 'JM',
+    name: 'Jorge Luis Madrid',
+    quote: 'Santiago is a great engineer who is constantly learning and dedicated to his work — a good leader, responsible with his tasks. I recommend him to any company looking for a brilliant full-stack developer able to get results and inspire.',
+    relationship: 'Client',
+    role: 'Senior Cloud & DevOps Engineer'
   }
 ]
 
@@ -134,7 +168,7 @@ export const speakingHighlights: ProfileHighlight[] = [
   {
     description: 'Public articles on DX, tooling, architecture, and workflow topics that overlap with my talks.',
     label: 'Published writing',
-    value: '6 articles'
+    value: '26 posts'
   }
 ]
 
