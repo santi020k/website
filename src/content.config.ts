@@ -31,6 +31,7 @@ const project = defineCollection({
       'Full Stack',
       'Front-End Lead',
       'Front End Developer',
+      'Technology Coordinator',
       'Senior Full Stack Engineer',
       'Junior Full Stack Developer',
       'CTO & Co-Founder',
