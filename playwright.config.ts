@@ -6,7 +6,8 @@ const isCiLikeRun =
   isGithubCi || process.env.npm_lifecycle_event === 'test:e2e:ci'
 
 const isSnapshotUpdateRun = process.argv.includes('--update-snapshots')
-const shouldBuildPreviewServer = !isCiLikeRun || isSnapshotUpdateRun
+const isSkipBuildRun = Boolean(process.env.SKIP_BUILD)
+const shouldBuildPreviewServer = (!isCiLikeRun && !isSkipBuildRun) || isSnapshotUpdateRun
 const shouldRunSerially = isCiLikeRun
 const previewHost = '127.0.0.1'
 const previewPort = 4173
