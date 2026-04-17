@@ -57,9 +57,10 @@
 
   html,
   body {
-    max-width: 100vw;
+    width: 100%;
+    max-width: 100%;
     overflow-x: clip;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
   }
 
   html {
@@ -122,8 +123,7 @@
     h1 {
       font-size: clamp(2rem, 9vw, 2.5rem);
       line-height: 1.15;
-      word-break: break-word;
-      overflow-wrap: break-word;
+      overflow-wrap: anywhere;
     }
     h1,
     h2,
@@ -131,8 +131,8 @@
     h4,
     h5,
     h6 {
-      overflow-wrap: break-word;
-      word-break: break-word;
+      overflow-wrap: anywhere;
+      word-break: normal;
       hyphens: auto;
     }
   }
@@ -141,6 +141,7 @@
   li {
     color: hsl(var(--ink-soft));
     text-wrap: pretty;
+    overflow-wrap: anywhere;
   }
 
   a {
@@ -228,6 +229,9 @@
 
 @utility site-header-shell {
   @apply relative mx-auto flex w-full max-w-[calc(100vw-2rem)] items-center justify-between gap-3 overflow-hidden rounded-[1.85rem] px-4 py-3.5 sm:max-w-6xl sm:px-5;
+  & > * {
+    min-width: 0;
+  }
   background:
     linear-gradient(
       180deg,
@@ -355,7 +359,10 @@
 }
 
 @utility section-shell {
-  @apply relative overflow-hidden rounded-[2.25rem] px-6 py-8 sm:px-8 sm:py-10;
+  @apply relative overflow-hidden rounded-[2.25rem] px-4 py-8 sm:px-8 sm:py-10;
+  & > * {
+    min-width: 0;
+  }
   background: linear-gradient(
     180deg,
     hsl(var(--surface) / 0.84),
@@ -369,7 +376,7 @@
 }
 
 @utility section-shell-subtle {
-  @apply relative overflow-hidden rounded-[2rem] px-6 py-8 sm:px-8 sm:py-10;
+  @apply relative overflow-hidden rounded-[2rem] px-4 py-8 sm:px-8 sm:py-10;
   background: linear-gradient(
     180deg,
     hsl(var(--surface) / 0.5),
@@ -399,6 +406,9 @@
 
 @utility editorial-section {
   @apply grid gap-8 border-t border-line/70 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10;
+  & > * {
+    min-width: 0;
+  }
 }
 
 @utility editorial-rail {
@@ -407,6 +417,10 @@
 
 @utility mini-note {
   @apply rounded-[1.25rem] border border-line/50 bg-surface/78 p-4 transition-colors duration-200 h-max;
+  min-width: 0;
+  & > * {
+    min-width: 0;
+  }
   @apply motion-reduce:transition-none;
 }
 
@@ -465,7 +479,7 @@
 }
 
 @utility prose-santi {
-  @apply prose prose-invert overflow-visible max-w-none;
+  @apply prose prose-invert overflow-visible max-w-none break-words;
   @apply prose-headings:font-display prose-headings:tracking-tight prose-headings:text-ink;
   @apply prose-h1:text-4xl prose-h1:md:text-5xl prose-h1:mb-8;
   @apply prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:border-l-4 prose-h2:border-brand prose-h2:pl-4;
@@ -600,8 +614,9 @@
   .copy-button.copied {
     @apply opacity-100 text-green-500 border-green-500/50 bg-green-500/10;
   }
-  @apply prose-img:rounded-2xl prose-img:shadow-xl prose-img:mx-auto prose-img:my-12 prose-img:border prose-img:border-line;
+  @apply prose-img:rounded-2xl prose-img:shadow-xl prose-img:mx-auto prose-img:my-12 prose-img:border prose-img:border-line prose-img:max-w-full prose-img:h-auto;
   @apply prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-brand prose-li:my-2;
+  @apply prose-table:block prose-table:overflow-x-auto prose-table:whitespace-nowrap;
   @apply prose-hr:border-line prose-hr:my-16;
 }
 
