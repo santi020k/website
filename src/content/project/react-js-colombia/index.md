@@ -15,7 +15,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "ReactJS Colombia Meetup"
+  alt: "ReactJS Colombia logo on a midnight blue geometric cover with yellow and blue accents"
   ogImage: "./cover.webp"
 ---
 

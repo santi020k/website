@@ -16,7 +16,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "ESLint toolkit branding"
+  alt: "@santi020k/eslint-config-basic badge on an indigo and lilac geometric cover"
   ogImage: "./cover-eslint-config.webp"
 ---
 

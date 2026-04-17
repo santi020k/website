@@ -93,7 +93,7 @@ const breadcrumbs = [
     <!-- ── Two-column body: prose + sticky TOC sidebar ─────────── -->
     <section
       class="
-        grid gap-10 border-t border-line/70 pt-10
+        grid grid-cols-1 gap-10 border-t border-line/70 pt-10
         lg:grid-cols-[minmax(0,1fr)_18rem]
       "
       data-animate="fade"
@@ -164,7 +164,7 @@ const breadcrumbs = [
 
       <!-- Right: sticky TOC — only rendered when the post has headings -->
       {!!headings.length && (
-        <aside aria-label="Article navigation" class="editorial-rail">
+        <aside aria-label="Article navigation" class="editorial-rail min-w-0">
           <TocCard headings={headings} />
         </aside>
       )}

@@ -16,7 +16,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "PADS Real Estate Platform"
+  alt: "PADS wordmark on a magenta and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---
 

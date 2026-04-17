@@ -16,7 +16,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Justbit web solutions"
+  alt: "Justbit logo on a teal and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---
 

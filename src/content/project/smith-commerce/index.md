@@ -15,7 +15,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Marcone headless storefront preview"
+  alt: "Smith Commerce wordmark on an orange and charcoal geometric cover"
   ogImage: './cover.webp'
 ---
 
