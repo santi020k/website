@@ -156,7 +156,7 @@ const PROJECTS = [
     logoRect: { left: 220, top: 640, width: 3400, height: 980 },
     backgroundColor: '#ff6500',
     threshold: 20,
-    placement: { left: 240, top: 300, width: 1320, height: 600 }
+    placement: { left: 340, top: 330, width: 1220, height: 540 }
   },
   {
     slug: 'void',
