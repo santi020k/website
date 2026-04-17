@@ -47,29 +47,6 @@ export interface UsesSection {
   title: string
 }
 
-export const collaborationThemes: CollaborationTheme[] = [
-  {
-    body: 'I stay close to architecture, code quality, and delivery systems so teams get the benefits of leadership without losing technical depth.',
-    evidence: 'Led cross-functional teams of up to 14 people while continuing to shape architecture, CI/CD, and day-to-day engineering standards.',
-    title: 'Hands-on technical leadership'
-  },
-  {
-    body: 'A big part of the work is reducing avoidable decisions under pressure: better defaults, cleaner tooling, and release paths that are easier to trust.',
-    evidence: 'Project work across Void, PADS, and Optic Power centers on release confidence, performance, and calmer execution under real product deadlines.',
-    title: 'Systems that make shipping calmer'
-  },
-  {
-    body: 'I care about developer experience because it compounds. Clear conventions, strong feedback loops, and better automation create real leverage for a team.',
-    evidence: 'That shows up in the products I build, the ESLint tooling I publish, the workflows I write about, and the standards I introduce inside teams.',
-    title: 'Developer experience that scales'
-  },
-  {
-    body: 'My best work usually sits at the intersection of engineering, product, and communication. I like helping teams align earlier so execution gets simpler.',
-    evidence: 'The portfolio spans commerce, SaaS, gaming, real estate, and community work, but the throughline is the same: practical systems with clear business value.',
-    title: 'Clear communication across functions'
-  }
-]
-
 export const testimonials: Testimonial[] = [
   {
     avatarInitials: 'RD',
