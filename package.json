@@ -18,7 +18,7 @@
     "generate:og": "node scripts/generate-og-images.js",
     "generate:og:force": "FORCE_OG=1 node scripts/generate-og-images.js",
     "preview": "astro preview",
-    "lint": "eslint . --fix",
+    "lint": "eslint . --fix --quiet",
     "preformat": "astro sync",
     "format": "eslint --fix .",
     "check": "astro check",
@@ -26,19 +26,19 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:e2e": "playwright test",
-    "test:e2e:ci": "playwright test",
+    "test:e2e:ci": "playwright test --reporter=line",
     "test:e2e:ui": "playwright test --ui",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage --reporter=dot",
     "lighthouse": "lhci autorun",
     "lighthouse:full": "LHCI_NUMBER_OF_RUNS=3 lhci autorun",
-    "spellcheck": "cspell \"**/*.{md,mdx}\"",
-    "ci:verify": "npm-run-all --serial ci:verify:check ci:verify:e2e",
-    "ci:verify:check": "npm-run-all --parallel spellcheck lint test:coverage build",
+    "spellcheck": "cspell --quiet \"**/*.{md,mdx}\"",
+    "ci:verify": "npm-run-all --silent --serial ci:verify:check ci:verify:e2e",
+    "ci:verify:check": "npm-run-all --silent --parallel spellcheck lint test:coverage build",
     "ci:verify:e2e": "pnpm run test:e2e:ci",
     "release": "commit-and-tag-version",
     "release:dry": "commit-and-tag-version --dry-run",
     "prepare": "husky",
-    "pre-commit": "lint-staged",
+    "pre-commit": "lint-staged --quiet",
     "pre-push": "pnpm run ci:verify"
   },
   "type": "module",
@@ -113,10 +113,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,md,mdx,json}": [
-      "eslint --fix"
+      "eslint --fix --quiet"
     ],
     "*.{md,mdx}": [
-      "cspell"
+      "cspell --quiet"
     ]
   },
   "config": {
