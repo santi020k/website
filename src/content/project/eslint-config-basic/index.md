@@ -7,7 +7,7 @@ githubUrl: "https://github.com/santi020k/eslint-config-basic"
 liveDemoUrl: "https://eslint.santi020k.com/"
 typesId: "personal"
 impactMetrics: [
-  "Used by 30+ developers across personal, client, and shared codebases",
+  "229+ weekly npm downloads across personal, client, and shared codebases",
   "Reduced repeated setup work for new projects and experiments",
   "Encoded strong defaults across React, Next.js, Astro, and monorepos"
 ]
@@ -39,7 +39,7 @@ I built `@santi020k/eslint-config-basic` to remove lint setup friction from the 
 
 ### 📈 Results
 
-- **Used by 30+ developers** across personal, client, and shared codebases.
+- **229+ weekly npm downloads** across personal, client, and shared codebases.
 - **Less repeated setup work** whenever a new project or experiment starts.
 - **A reusable expression of my engineering standards** in a form other teams can actually adopt and extend.
 

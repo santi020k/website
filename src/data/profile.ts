@@ -14,6 +14,12 @@ export interface SpeakingTopic {
   title: string
 }
 
+export interface CollaborationLane {
+  description: string
+  fit: string
+  title: string
+}
+
 export interface PastTalk {
   audience?: string
   description: string
@@ -128,6 +134,24 @@ export const selectedSessions: PastTalk[] = [
       slides: 'https://www.figma.com/proto/sS34aM41Yzpb7yC8wGhsyJ/Untitled?node-id=1-22&t=PtbyUBw0QBWXI4sX-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A22'
     },
     tags: ['Frontend', 'Automation', 'DX']
+  }
+]
+
+export const collaborationLanes: CollaborationLane[] = [
+  {
+    description: 'Best fit when a team is shipping, but needs clearer standards, calmer releases, and stronger technical decision-making across the stack.',
+    fit: 'Useful for product teams that need leadership without losing hands-on depth.',
+    title: 'Technical leadership for teams in motion'
+  },
+  {
+    description: 'Useful when a platform needs to get faster, more accessible, and easier to evolve without freezing delivery for months.',
+    fit: 'Strong match for rebuilds, migrations, architecture cleanup, and performance-heavy work.',
+    title: 'Modernization work that still respects delivery pressure'
+  },
+  {
+    description: 'A lot of the leverage comes from better linting, testing, CI/CD, documentation, and automation that reduce review noise and release stress.',
+    fit: 'Best when the team already feels the friction every week and wants a calmer default.',
+    title: 'Developer experience and quality systems that compound'
   }
 ]
 

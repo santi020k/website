@@ -19,8 +19,57 @@
 
 <script>
   let observer: IntersectionObserver | null = null
+  let fallbackTimer: number | null = null
+
+  function revealElement(el: HTMLElement): void {
+    if (el.hasAttribute('data-stagger')) {
+      const step = Number(el.dataset.stagger) || 60
+      const children = Array.from(el.children) as HTMLElement[]
+      children.forEach((child, i) => {
+        child.style.transitionDelay = `${i * step}ms`
+        child.classList.add('is-visible')
+      })
+    } else {
+      const delay = el.dataset.animateDelay
+      if (delay) {
+        el.style.transitionDelay = delay
+      }
+      el.classList.add('is-visible')
+    }
+
+    observer?.unobserve(el)
+  }
+
+  function forceRevealPending(): void {
+    document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
+      if (el.hasAttribute('data-stagger')) {
+        const children = Array.from(el.children) as HTMLElement[]
+        if (children.some(child => !child.classList.contains('is-visible'))) {
+          revealElement(el)
+        }
+        return
+      }
+
+      if (!el.classList.contains('is-visible')) {
+        revealElement(el)
+      }
+    })
+  }
+
+  function resetFallback(): void {
+    if (fallbackTimer) {
+      window.clearTimeout(fallbackTimer)
+    }
+
+    fallbackTimer = window.setTimeout(() => {
+      forceRevealPending()
+      fallbackTimer = null
+    }, 450)
+  }
 
   function initScrollReveal(): void {
+    document.documentElement.setAttribute('data-scroll-reveal', 'ready')
+
     // Always start clean — disconnect any observer left over from the
     // previous page so orphaned entries can't interfere.
     if (observer) {
@@ -33,37 +82,17 @@
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return
 
-          const el = entry.target as HTMLElement
-
-          if (el.hasAttribute('data-stagger')) {
-            // Stagger the direct children in sequence
-            const step = Number(el.dataset.stagger) || 60
-            const children = Array.from(el.children) as HTMLElement[]
-            children.forEach((child, i) => {
-              child.style.transitionDelay = `${i * step}ms`
-              child.classList.add('is-visible')
-            })
-          } else {
-            // Apply optional per-element stagger delay
-            const delay = el.dataset.animateDelay
-            if (delay) {
-              el.style.transitionDelay = delay
-            }
-            el.classList.add('is-visible')
-          }
-
-          // Each element animates once, then stops being watched.
-          observer?.unobserve(el)
+          revealElement(entry.target as HTMLElement)
         })
       },
       {
-        // Lower threshold so even large sections trigger as soon as a
-        // small strip is visible — the previous 0.15 caused tall sections
-        // near the viewport bottom to stay invisible.
+        // Trigger large sections as soon as they are close to entering the
+        // viewport so longer pages do not leave whole regions hidden until
+        // the user is almost on top of them.
         threshold: 0.05,
-        // Shrink the bottom edge slightly so off-screen elements don't
-        // fire until they're genuinely entering the visible area.
-        rootMargin: '0px 0px -40px 0px',
+        // Expand the bottom edge so sections up to roughly a screen and a
+        // half below the fold can reveal ahead of time.
+        rootMargin: '0px 0px 150% 0px',
       }
     )
 
@@ -74,12 +103,18 @@
       document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
         observer?.observe(el)
       })
+      resetFallback()
     })
   }
 
   // Tear down before Astro swaps the DOM so we never hold references to
   // elements from the outgoing page.
   document.addEventListener('astro:before-swap', () => {
+    if (fallbackTimer) {
+      window.clearTimeout(fallbackTimer)
+      fallbackTimer = null
+    }
+
     if (observer) {
       observer.disconnect()
       observer = null
@@ -90,6 +125,14 @@
     document.addEventListener('DOMContentLoaded', initScrollReveal, { once: true })
   } else {
     initScrollReveal()
+  }
+
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(() => {
+      forceRevealPending()
+    })
+  } else {
+    window.addEventListener('load', forceRevealPending, { once: true })
   }
 
   // Fires on client-routed pages when the router is enabled.

@@ -6,7 +6,7 @@ import CoverImage from '@/components/atoms/CoverImage.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
-import { getPostPath, getSeriesPath } from '@/utils/links'
+import { getPostPath, getSeriesPath, getTagPath } from '@/utils/links'
 
 interface Props {
   className?: string
@@ -133,7 +133,7 @@ const imageSizes = featured ?
     <div class="mt-auto flex flex-wrap items-center justify-between gap-4">
       <div class="flex flex-wrap gap-2">
         {data.tags.slice(0, featured ? 4 : 3).map(tag => (
-          <Pill label={tag} showHash tone="outline" />
+          <Pill href={getTagPath(tag)} label={tag} showHash tone="outline" />
         ))}
       </div>
       <ButtonLink

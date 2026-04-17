@@ -1,10 +1,31 @@
 import { describe, expect, it } from 'vitest'
 
-import { getTopTags } from '../tags'
+import { getAllTags, getTopTags } from '../tags'
 
 const makePosts = (tagSets: string[][]) => tagSets.map(tags => ({ data: { tags } }))
 
 // ─── getTopTags ───────────────────────────────────────────────────────────────
+
+describe('getAllTags', () => {
+  it('returns every tag sorted by frequency descending', () => {
+    const posts = makePosts([['b'], ['a'], ['b'], ['c'], ['c'], ['c']])
+
+    expect(getAllTags(posts)).toEqual([
+      ['c', 3],
+      ['b', 2],
+      ['a', 1]
+    ])
+  })
+
+  it('breaks ties alphabetically for deterministic output', () => {
+    const posts = makePosts([['beta'], ['alpha']])
+
+    expect(getAllTags(posts)).toEqual([
+      ['alpha', 1],
+      ['beta', 1]
+    ])
+  })
+})
 
 describe('getTopTags', () => {
   it('counts tag occurrences across all posts', () => {

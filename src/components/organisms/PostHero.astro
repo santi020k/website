@@ -10,6 +10,7 @@ import Pill from '@/components/atoms/Pill.astro'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
+import { getTagPath } from '@/utils/links'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -226,7 +227,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
           </div>
           <div class="flex flex-wrap gap-2">
             {tags.map(tag => (
-              <Pill label={tag} showHash tone="outline" />
+              <Pill href={getTagPath(tag)} label={tag} showHash tone="outline" />
             ))}
           </div>
         </div>
