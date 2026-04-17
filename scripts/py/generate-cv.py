@@ -41,6 +41,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     HRFlowable,
+    KeepTogether,
     Paragraph,
     SimpleDocTemplate,
     Spacer,
@@ -273,7 +274,7 @@ def build() -> None:
     story += [Paragraph("Experience", s["section"]), rule()]
 
     # Smith Commerce ──────────────────────────────────────────────────────────
-    story += experience(s,
+    story.append(KeepTogether(experience(s,
         "Smith Commerce", "USA (Remote)",
         "Senior Front End Developer", "May 2025 \u2013 Present",
         [
@@ -292,11 +293,31 @@ def build() -> None:
             "Radix UI \u00b7 TanStack Query \u00b7 Zustand \u00b7 Apollo Client \u00b7 "
             "Storybook \u00b7 Jest \u00b7 Playwright \u00b7 CI/CD \u00b7 AWS"
         ),
-    )
-    story.append(Spacer(1, 5))
+    ) + [Spacer(1, 5)]))
+
+    # X Games ─────────────────────────────────────────────────────────────────
+    story.append(KeepTogether(experience(s,
+        "X Games", "USA (Remote)",
+        "Senior Full Stack Engineer", "Jan 2025 \u2013 Jul 2025",
+        [
+            "Built a full Google Ad Manager integration from scratch \u2014 a custom React hook "
+            "with retry logic, route-change cleanup, and slot teardown that held under live "
+            "broadcast traffic for millions of concurrent fans",
+            "Implemented geo-based live stream access control via Sanity CMS flags, routing "
+            "international audiences to correct streams without per-region code deployments",
+            "Shipped responsive Ad Manager banner components, newsletter form variants, Sanity "
+            "Studio schema extensions, and animated live event UX across two codebases",
+            "Merged 56+ PRs across the Next.js frontend and Sanity CMS backend during active "
+            "X Games broadcast event seasons",
+        ],
+        tech=(
+            "Next.js \u00b7 React \u00b7 JavaScript \u00b7 SCSS \u00b7 Sanity CMS \u00b7 "
+            "Firebase \u00b7 Google Ad Manager \u00b7 Google Tag Manager \u00b7 Vercel \u00b7 Jest"
+        ),
+    ) + [Spacer(1, 5)]))
 
     # Void.GG ─────────────────────────────────────────────────────────────────
-    story += experience(s,
+    story.append(KeepTogether(experience(s,
         "Void.GG", "USA (Remote)",
         "Technical Lead", "Feb 2023 \u2013 May 2025",
         [
@@ -313,11 +334,10 @@ def build() -> None:
             "React \u00b7 React Native \u00b7 Node.js \u00b7 TypeScript \u00b7 GitHub Actions \u00b7 "
             "RTQ \u00b7 AWS \u00b7 Next.js \u00b7 NestJS \u00b7 Mantine"
         ),
-    )
-    story.append(Spacer(1, 5))
+    ) + [Spacer(1, 5)]))
 
     # Optic Power ─────────────────────────────────────────────────────────────
-    story += experience(s,
+    story.append(KeepTogether(experience(s,
         "Optic Power", "USA (Remote)",
         "Senior Full Stack Engineer", "Jul 2021 \u2013 Feb 2023",
         [
@@ -332,11 +352,10 @@ def build() -> None:
             "React \u00b7 Node.js \u00b7 TypeScript \u00b7 AWS \u00b7 GCP \u00b7 MongoDB \u00b7 "
             "Socket.io \u00b7 Docker \u00b7 Angular \u00b7 Express"
         ),
-    )
-    story.append(Spacer(1, 5))
+    ) + [Spacer(1, 5)]))
 
     # PADS ────────────────────────────────────────────────────────────────────
-    story += experience(s,
+    story.append(KeepTogether(experience(s,
         "PADS", "COL (Remote)",
         "Technical Lead", "Jan 2020 \u2013 Jul 2021",
         [
@@ -352,11 +371,10 @@ def build() -> None:
             "React \u00b7 React Native \u00b7 TypeScript \u00b7 Redux Sagas \u00b7 Next.js \u00b7 "
             "Styled Components \u00b7 I18N \u00b7 OAuth"
         ),
-    )
-    story.append(Spacer(1, 5))
+    ) + [Spacer(1, 5)]))
 
     # Datagran ────────────────────────────────────────────────────────────────
-    story += experience(s,
+    story.append(KeepTogether(experience(s,
         "Datagran", "COL (Remote)",
         "Front End Lead", "Dec 2018 \u2013 Jan 2020",
         [
@@ -372,11 +390,10 @@ def build() -> None:
             "React \u00b7 TypeScript \u00b7 Redux Sagas \u00b7 Next.js \u00b7 D3.js \u00b7 "
             "SASS \u00b7 Atomic Design \u00b7 Big Data \u00b7 Unit Testing"
         ),
-    )
-    story.append(Spacer(1, 5))
+    ) + [Spacer(1, 5)]))
 
     # Justbit ─────────────────────────────────────────────────────────────────
-    story += experience(s,
+    story.append(KeepTogether(experience(s,
         "Justbit", "COL (On site)",
         "CTO \u2013 Co-founder", "Apr 2017 \u2013 Dec 2018",
         [
@@ -392,11 +409,10 @@ def build() -> None:
             "React \u00b7 React Native \u00b7 TypeScript \u00b7 PHP \u00b7 WordPress \u00b7 "
             "Cloudflare \u00b7 CI/CD \u00b7 Unit Testing \u00b7 AdWords \u00b7 SEO"
         ),
-    )
-    story.append(Spacer(1, 5))
+    ) + [Spacer(1, 5)]))
 
     # Nebular ─────────────────────────────────────────────────────────────────
-    story += experience(s,
+    story.append(KeepTogether(experience(s,
         "Nebular", "COL (Hybrid)",
         "Full Stack Developer", "Jan 2014 \u2013 Apr 2017",
         [
@@ -409,7 +425,7 @@ def build() -> None:
             "Angular \u00b7 Ruby on Rails \u00b7 PHP \u00b7 WordPress \u00b7 Java \u00b7 "
             "Android \u00b7 Cordova \u00b7 jQuery \u00b7 Heroku"
         ),
-    )
+    ) + [Spacer(1, 3)]))
 
     # ── Projects ──────────────────────────────────────────────────────────────
     story += [Paragraph("Projects", s["section"]), rule()]
