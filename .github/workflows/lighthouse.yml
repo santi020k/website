@@ -2,12 +2,12 @@ name: Lighthouse CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  build:
+  lighthouse:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -17,51 +17,16 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: '24'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - name: Build Site
         run: pnpm run build
         env:
           PUBLIC_IS_CI: true
-      - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouse-dist
-          path: dist
-          if-no-files-found: error
-
-  lighthouse:
-    name: Lighthouse (${{ matrix.page.name }})
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        page:
-          - name: Home
-            url: /
-          - name: About
-            url: /about/
-          - name: Blog
-            url: /blog/
-          - name: Portfolio
-            url: /portfolio/
-          - name: Blog Post
-            url: /blog/atomic-module-component-structure-for-react/
-    steps:
-      - uses: actions/checkout@v6
-      - name: Download dist artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: lighthouse-dist
-          path: .
       - name: Audit Performance with Lighthouse
         uses: treosh/lighthouse-ci-action@v12
-        env:
-          LHCI_AUDIT_URL: ${{ matrix.page.url }}
-          LHCI_NUMBER_OF_RUNS: ${{ github.event_name == 'push' && '2' || '1' }}
         with:
           uploadArtifacts: true
           temporaryPublicStorage: true
-          configPath: './.lighthouserc.cjs'
+          configPath: "./.lighthouserc.json"
