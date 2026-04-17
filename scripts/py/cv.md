@@ -9,7 +9,7 @@ santi020k.com · linkedin.com/in/santi020k · github.com/santi020k
 
 ## Summary
 
-I'm a Full Stack Developer and Tech Lead with over a decade of experience, specializing in **React, React Native, TypeScript and Node.js**, with a strong focus on front-end architecture and user experience. Currently working as a **Sr. Front End Developer at Smith Commerce**, I've led high-impact, scalable projects for companies like **Void.GG**, aligning technical solutions with business goals.
+I'm a Full Stack Developer and Tech Lead with over a decade of experience, specializing in **React, React Native, TypeScript and Node.js**, with a strong focus on front-end architecture and user experience. Currently working as a **Senior Front End Developer at Smith Commerce**, I've led high-impact, scalable projects for companies like **Void.GG**, aligning technical solutions with business goals.
 
 As a **co-organizer of React JS Colombia Meetup**, I actively contribute to the tech community by fostering innovation, mentorship, and continuous learning. I'm passionate about building products that not only perform but also empower teams to deliver with clarity and purpose.
 
@@ -18,7 +18,7 @@ As a **co-organizer of React JS Colombia Meetup**, I actively contribute to the 
 ## Experience
 
 ### Smith Commerce — USA (Remote)
-**Sr. Front End Developer** · May 2025 – Present
+**Senior Front End Developer** · May 2025 – Present
 
 - Drove the frontend rebuild of Marcone's headless storefront, improving Lighthouse score from 35 to 98 and reducing Time to Interactive by 75%
 - Architected scalable frontend foundations using Next.js 15, React 19, TypeScript, and Turborepo in a monorepo setup, enabling parallel front-end and back-end delivery against OpenAPI contracts
@@ -40,7 +40,7 @@ As a **co-organizer of React JS Colombia Meetup**, I actively contribute to the 
 ---
 
 ### Optic Power — USA (Remote)
-**Full Stack Developer** · Jul 2021 – Feb 2023
+**Senior Full Stack Engineer** · Jul 2021 – Feb 2023
 
 - Built and maintained robust web applications using React, Node.js, and TypeScript across multiple client projects
 - Partnered with product managers and designers to deliver intuitive, user-friendly experiences, resulting in higher user satisfaction scores and reduced bounce rates
@@ -63,7 +63,7 @@ As a **co-organizer of React JS Colombia Meetup**, I actively contribute to the 
 **Front End Lead** · Dec 2018 – Jan 2020
 
 - Directed the front-end development of enterprise-level, data-driven applications, ensuring adherence to high UI/UX standards and scalable design systems
-- Led the migration of a legacy jQuery-based platform to a modern React + TypeScript architecture, improving maintainability and reducing bug incidence by over 40%
+- Led the migration of a legacy jQuery-based platform to a modern React + TypeScript architecture, improving maintainability and reducing bug incidence by over 30%
 - Collaborated with data scientists and backend engineers to implement real-time visualizations and analytics dashboards, helping clients gain actionable insights
 - Introduced D3.js and Atomic Design principles, enhancing usability and accessibility for end users
 - **Tech Stack:** React · TypeScript · Redux Sagas · Next.js · D3.js · SASS · Atomic Design · Big Data · Unit Testing
@@ -81,7 +81,7 @@ As a **co-organizer of React JS Colombia Meetup**, I actively contribute to the 
 ---
 
 ### Nebular — COL (Hybrid)
-**Junior Full Stack Developer** · Jan 2014 – Apr 2017
+**Full Stack Developer** · Jan 2014 – Apr 2017
 
 - Gained full-stack experience with Ruby on Rails, AngularJS, and native Android (Java) under the mentorship of experienced engineers
 - Contributed to Android applications and web projects using PHP, WordPress, and Cordova, deploying to Heroku
