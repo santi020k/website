@@ -32,7 +32,7 @@ export default defineConfig({
     baseURL: previewURL,
     trace: 'on-first-retry'
   },
-  projects: isCiLikeRun ?
+  projects: (isCiLikeRun || isSnapshotUpdateRun) ?
     [
       {
         name: 'chromium',
