@@ -11,12 +11,20 @@ test('homepage has correct title and main sections', async ({ page }) => {
 
   await expect(page).toHaveTitle(/santi|Santi/)
 
-  const mainMenu = page.getByRole('navigation', { name: 'Main menu' })
+  const viewport = page.viewportSize()
+  const isMobile = viewport !== null && viewport.width < 1024
 
-  await expect(mainMenu).toBeVisible()
-  await expect(mainMenu.getByRole('link', { name: 'Home' })).toBeVisible()
-  await expect(mainMenu.getByRole('link', { name: 'Portfolio' })).toBeVisible()
-  await expect(mainMenu.getByRole('link', { name: 'Blog' })).toBeVisible()
+  if (isMobile) {
+    // On mobile the desktop nav is hidden; verify the hamburger toggle is present
+    await expect(page.locator('[data-mobile-nav-toggle]')).toBeVisible()
+  } else {
+    const mainMenu = page.getByRole('navigation', { name: 'Main menu' }).first()
+
+    await expect(mainMenu).toBeVisible()
+    await expect(mainMenu.getByRole('link', { name: 'Home' })).toBeVisible()
+    await expect(mainMenu.getByRole('link', { name: 'Portfolio' })).toBeVisible()
+    await expect(mainMenu.getByRole('link', { name: 'Blog' })).toBeVisible()
+  }
 
   // Accessibility audit
   await expectNoUnexpectedAccessibilityViolations(page, [
@@ -79,10 +87,15 @@ test('homepage should match visual snapshot', async ({ page }) => {
 test('navigation to portfolio works', async ({ page }) => {
   await page.goto('/')
 
-  const mainMenu = page.getByRole('navigation', { name: 'Main menu' })
-  const portfolioLink = mainMenu.getByRole('link', { name: 'Portfolio' })
+  const viewport = page.viewportSize()
+  const isMobile = viewport !== null && viewport.width < 1024
 
-  await portfolioLink.click()
+  if (isMobile) {
+    await page.locator('[data-mobile-nav-toggle]').click()
+    await page.locator('#mobile-nav').getByRole('link', { name: 'Portfolio' }).click()
+  } else {
+    await page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'Portfolio' }).click()
+  }
 
   await expect(page).toHaveURL(/\/portfolio\/$/)
   await expect(page.getByRole('heading', { level: 1, name: /Case studies from real teams/i })).toBeVisible()
@@ -91,10 +104,15 @@ test('navigation to portfolio works', async ({ page }) => {
 test('navigation to blog works', async ({ page }) => {
   await page.goto('/')
 
-  const mainMenu = page.getByRole('navigation', { name: 'Main menu' })
-  const blogLink = mainMenu.getByRole('link', { name: 'Blog' })
+  const viewport = page.viewportSize()
+  const isMobile = viewport !== null && viewport.width < 1024
 
-  await blogLink.click()
+  if (isMobile) {
+    await page.locator('[data-mobile-nav-toggle]').click()
+    await page.locator('#mobile-nav').getByRole('link', { name: 'Blog' }).click()
+  } else {
+    await page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'Blog' }).click()
+  }
 
   await expect(page).toHaveURL(/\/blog\/$/)
   await expect(page.getByRole('heading', { level: 1, name: /Writing about software architecture/i })).toBeVisible()
