@@ -2,13 +2,16 @@
 title: "What Changed When I Started Writing Architecture Notes Every Month"
 description: "A year of monthly architecture notes changed how I review systems, how I catch drift, and how I explain decisions to the people who inherit them."
 publishDate: "2026-09-11T15:00:00.000Z"
+coverImage:
+  alt: "Editorial cover showing monthly architecture notes, recurring review milestones, and evolving system diagrams"
+  src: "./what-changed-when-i-started-writing-architecture-notes-every-month-cover.webp"
 tags: ["architecture", "documentation", "software-design", "engineering-culture"]
 postType: "Case Study"
 seriesId: "the-santi020k-way"
 seriesOrder: 12
 ---
 
-I started writing short architecture notes about fourteen months ago. Not as formal documentation. Not as architectural decision records. Just monthly notes: what I was looking at, what felt like it was working, what felt like it was starting to drift, and what I was uncertain about.
+I started writing short architecture notes about fourteen months ago. Not formal documentation. Not full architectural decision records. Just monthly notes on what I was looking at, what felt like it was working, what felt like it was starting to drift, and what I was uncertain about.
 
 I did not expect them to be useful outside of my own thinking. They turned out to be more useful than most of the formal documentation I have written.
 
