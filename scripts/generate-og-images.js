@@ -57,19 +57,63 @@ const readFrontmatter = filePath => {
   return yaml.load(match[1]) ?? {}
 }
 
-/** Collect all .md / .mdx files inside `dir`. */
-const collectMarkdownFiles = dir => {
+const isMarkdownFile = fileName => fileName.endsWith('.md') || fileName.endsWith('.mdx')
+
+/** Collect all .md / .mdx files inside `dir`, including nested content dirs. */
+export const collectMarkdownFiles = dir => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (!fs.existsSync(dir)) return []
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  return fs.readdirSync(dir)
-    .filter(f => f.endsWith('.md') || f.endsWith('.mdx'))
-    .map(f => path.join(dir, f))
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
+    const entryPath = path.join(dir, entry.name)
+
+    if (entry.isDirectory()) return collectMarkdownFiles(entryPath)
+
+    return isMarkdownFile(entry.name) ? [entryPath] : []
+  })
 }
 
-/** Derive a slug from a filename, stripping its extension. */
-const fileSlug = filePath => path.basename(filePath).replace(/\.mdx?$/, '')
+/** Derive a content id from a markdown path, matching Astro's `index.md` behavior. */
+export const getContentSlug = (filePath, baseDir) => {
+  const relativePath = path.relative(baseDir, filePath).replaceAll(path.sep, '/')
+  const withoutExtension = relativePath.replace(/\.mdx?$/, '')
+  const slug = path.posix.basename(withoutExtension) === 'index' ?
+    path.posix.dirname(withoutExtension) :
+    withoutExtension
+
+  return slug === '.' ? '' : slug
+}
+
+/**
+ * Resolve a frontmatter image path to an absolute file path.
+ * Remote URLs are ignored because the prebuild renderer only handles local assets.
+ */
+export const resolveContentImagePath = (markdownFilePath, imagePath) => {
+  if (typeof imagePath !== 'string' || imagePath.length === 0) return undefined
+  if (/^(https?:)?\/\//.test(imagePath) || imagePath.startsWith('data:')) return undefined
+
+  const absolutePath = path.isAbsolute(imagePath) ?
+    imagePath :
+    path.resolve(path.dirname(markdownFilePath), imagePath)
+
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  return fs.existsSync(absolutePath) ? absolutePath : undefined
+}
+
+const getCoverImagePath = (markdownFilePath, frontmatter, { preferOgImage = false } = {}) => {
+  const coverImage = frontmatter.coverImage
+
+  if (!coverImage) return undefined
+
+  const candidates = preferOgImage ?
+    [coverImage.ogImage, coverImage.src] :
+    [coverImage.src]
+
+  return candidates
+    .map(candidate => resolveContentImagePath(markdownFilePath, candidate))
+    .find(Boolean)
+}
 // ---------------------------------------------------------------------------
 // Collect image specs
 // ---------------------------------------------------------------------------
@@ -145,7 +189,7 @@ const staticSocialPages = [
   }
 ]
 
-const collectSpecs = () => {
+export const collectSpecs = () => {
   /** @type {Array<{outFile: string, props: object}>} */
   const specs = []
 
@@ -170,11 +214,13 @@ const collectSpecs = () => {
 
     if (fm.draft && process.env.NODE_ENV === 'production') continue
 
-    const id = fileSlug(filePath)
+    const id = getContentSlug(filePath, postDir)
+    const coverImagePath = getCoverImagePath(filePath, fm)
 
     specs.push({
       outFile: path.join(OUT_DIR, 'blog', `${id}.webp`),
       props: {
+        ...(coverImagePath ? { coverImagePath } : {}),
         description: fm.description ?? '',
         pathLabel: `/blog/${id}/`,
         title: fm.title ?? id,
@@ -191,11 +237,13 @@ const collectSpecs = () => {
 
     if (fm.draft && process.env.NODE_ENV === 'production') continue
 
-    const id = fileSlug(filePath)
+    const id = getContentSlug(filePath, projectDir)
+    const coverImagePath = getCoverImagePath(filePath, fm, { preferOgImage: true })
 
     specs.push({
       outFile: path.join(OUT_DIR, 'portfolio', `${id}.webp`),
       props: {
+        ...(coverImagePath ? { coverImagePath } : {}),
         description: fm.seoDescription ?? fm.description ?? '',
         pathLabel: `/portfolio/${id}/`,
         title: fm.title ?? id,
@@ -209,7 +257,7 @@ const collectSpecs = () => {
 
   for (const filePath of collectMarkdownFiles(seriesDir)) {
     const fm = readFrontmatter(filePath)
-    const id = fileSlug(filePath)
+    const id = getContentSlug(filePath, seriesDir)
     const seriesPathname = `/blog/series/${id}/`
     const slug = getSocialImageSlug(seriesPathname)
 
@@ -310,15 +358,21 @@ const generate = async ({ outFile, props }) => {
 // Entry point
 // ---------------------------------------------------------------------------
 
-const start = performance.now()
-const specs = collectSpecs()
+export const generateAll = async () => {
+  const start = performance.now()
+  const specs = collectSpecs()
 
-console.log(`\n🖼  Generating ${specs.length} OG images (concurrency=${CONCURRENCY})…\n`)
+  console.log(`\n🖼  Generating ${specs.length} OG images (concurrency=${CONCURRENCY})…\n`)
 
-const tasks = specs.map(spec => () => generate(spec))
+  const tasks = specs.map(spec => () => generate(spec))
 
-await pLimit(tasks, CONCURRENCY)
+  await pLimit(tasks, CONCURRENCY)
 
-const elapsed = ((performance.now() - start) / 1000).toFixed(2)
+  const elapsed = ((performance.now() - start) / 1000).toFixed(2)
 
-console.log(`\n✅ Done in ${elapsed}s\n`)
+  console.log(`\n✅ Done in ${elapsed}s\n`)
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  await generateAll()
+}

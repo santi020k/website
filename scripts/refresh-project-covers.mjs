@@ -28,7 +28,8 @@ const PROJECTS = [
     texture: '#a6ffd5',
     logoRect: { left: 0, top: 540, width: 3840, height: 1040 },
     backgroundColor: '#3b3b3b',
-    threshold: 14
+    threshold: 14,
+    placement: { left: 180, top: 470, width: 1420, height: 340 }
   },
   {
     slug: 'eslint-config-basic',
@@ -70,7 +71,10 @@ const PROJECTS = [
     texture: '#cdf6ef',
     logoRect: { left: 700, top: 300, width: 2500, height: 1500 },
     backgroundColor: '#49bcae',
-    threshold: 22
+    threshold: 22,
+    placement: { left: 170, top: 340, width: 1230, height: 860 },
+    shadowBlur: 5.5,
+    shadowOpacity: 0.14
   },
   {
     slug: 'nebular',
@@ -84,7 +88,10 @@ const PROJECTS = [
     texture: '#eff2f5',
     logoRect: { left: 930, top: 250, width: 1800, height: 1550 },
     backgroundColor: '#7f8084',
-    threshold: 22
+    threshold: 22,
+    placement: { left: 250, top: 360, width: 1050, height: 760 },
+    shadowBlur: 5.5,
+    shadowOpacity: 0.14
   },
   {
     slug: 'optic-power',
@@ -98,7 +105,8 @@ const PROJECTS = [
     texture: '#0d6f88',
     logoRect: { left: 500, top: 600, width: 2850, height: 920 },
     backgroundColor: '#fbfbfa',
-    threshold: 14
+    threshold: 14,
+    placement: { left: 120, top: 540, width: 1490, height: 420 }
   },
   {
     slug: 'pads',
@@ -112,7 +120,8 @@ const PROJECTS = [
     texture: '#ffc5e4',
     logoRect: { left: 680, top: 690, width: 2470, height: 920 },
     backgroundColor: '#ef008c',
-    threshold: 24
+    threshold: 24,
+    placement: { left: 160, top: 520, width: 1440, height: 390 }
   },
   {
     slug: 'react-js-colombia',
@@ -139,9 +148,11 @@ const PROJECTS = [
     ink: '#120b06',
     panel: '#1b120c',
     texture: '#ffd6bd',
-    logoRect: { left: 540, top: 760, width: 2480, height: 780 },
+    logoRect: { left: 220, top: 640, width: 3400, height: 980 },
     backgroundColor: '#ff6500',
-    threshold: 20
+    threshold: 20,
+    placement: { left: 150, top: 520, width: 1450, height: 400 },
+    useCustomWordmark: true
   },
   {
     slug: 'void',
@@ -155,7 +166,8 @@ const PROJECTS = [
     texture: '#dcd8ff',
     logoRect: { left: 420, top: 460, width: 3000, height: 1180 },
     backgroundColor: '#5d5ae6',
-    threshold: 24
+    threshold: 24,
+    placement: { left: 150, top: 520, width: 1460, height: 410 }
   }
 ]
 
@@ -337,16 +349,44 @@ async function extractLogo(sourcePath, project) {
   const extracted = sharp(outputRaw, { raw: { width, height, channels: 4 } })
     .extract(bounds)
 
-  const metadata = await extracted.metadata()
-  const buffer = await extracted.png().toBuffer()
-  const alpha = await sharp(buffer).ensureAlpha().extractChannel(3).png().toBuffer()
+  return finalizeLogoBuffer(await extracted.png().toBuffer())
+}
+
+async function finalizeLogoBuffer(buffer) {
+  const prepared = sharp(buffer).ensureAlpha()
+  const metadata = await prepared.metadata()
+  const finalizedBuffer = await prepared.png().toBuffer()
+  const alpha = await sharp(finalizedBuffer).ensureAlpha().extractChannel(3).png().toBuffer()
 
   return {
-    buffer,
+    buffer: finalizedBuffer,
     alpha,
     width: metadata.width,
     height: metadata.height
   }
+}
+
+async function buildSmithCommerceWordmark() {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="2600" height="680" viewBox="0 0 2600 680">
+      <rect width="100%" height="100%" fill="transparent" />
+      <g fill="#ffffff">
+        <rect x="60" y="30" width="120" height="470" />
+        <rect x="0" y="350" width="420" height="110" />
+        <rect x="300" y="30" width="120" height="120" />
+      </g>
+      <text
+        x="520"
+        y="490"
+        fill="#ffffff"
+        font-family="Montserrat, Avenir Next, Segoe UI, Arial, sans-serif"
+        font-size="470"
+        font-weight="800"
+      >Smith</text>
+    </svg>
+  `
+
+  return finalizeLogoBuffer(await sharp(Buffer.from(svg)).png().toBuffer())
 }
 
 async function scaleAlpha(alphaBuffer, width, height, opacity) {
@@ -377,6 +417,14 @@ async function createMaskedFill({ alpha, width, height, color, opacity = 1 }) {
 function getLogoPlacement({ logoWidth, logoHeight }) {
   const ratio = logoWidth / logoHeight
 
+  if (ratio > 4.2) {
+    return { left: 160, top: 520, width: 1450, height: 390 }
+  }
+
+  if (ratio > 3) {
+    return { left: 150, top: 540, width: 1470, height: 420 }
+  }
+
   if (ratio > 1.9) {
     return { left: 160, top: 560, width: 1510, height: 560 }
   }
@@ -401,7 +449,10 @@ async function buildLogoLayers(logo, project) {
   const mainTop = placement.top + Math.round((placement.height - mainHeight) / 2)
 
   const shadowColor = project.variant === 'light' ? '#10283c' : '#000000'
-  const shadowOpacity = project.variant === 'light' ? 0.12 : 0.26
+  const shadowOpacity = project.shadowOpacity ?? (project.variant === 'light' ? 0.08 : 0.18)
+  const shadowBlur = project.shadowBlur ?? 7
+  const shadowOffsetX = project.shadowOffsetX ?? 18
+  const shadowOffsetY = project.shadowOffsetY ?? 22
 
   const shadow = await createMaskedFill({
     alpha: logo.alpha,
@@ -413,7 +464,7 @@ async function buildLogoLayers(logo, project) {
 
   const shadowBuffer = await sharp(shadow)
     .resize({ width: mainWidth, height: mainHeight })
-    .blur(10)
+    .blur(shadowBlur)
     .png()
     .toBuffer()
 
@@ -425,8 +476,8 @@ async function buildLogoLayers(logo, project) {
   return {
     shadowBuffer,
     mainBuffer,
-    shadowLeft: mainLeft + 24,
-    shadowTop: mainTop + 28,
+    shadowLeft: mainLeft + shadowOffsetX,
+    shadowTop: mainTop + shadowOffsetY,
     mainLeft,
     mainTop
   }
@@ -721,7 +772,9 @@ async function renderProjectCover(project) {
 
   await ensureBackupFile(coverPath, backupPath)
 
-  const logo = await extractLogo(backupPath, project)
+  const logo = project.useCustomWordmark ?
+    await buildSmithCommerceWordmark() :
+    await extractLogo(backupPath, project)
   const baseSvg = Buffer.from(buildBaseSvg(project))
   const { textureBuffer, textureLeft, textureTop } = await buildTextureLayer(project)
   const { shadowBuffer, mainBuffer, shadowLeft, shadowTop, mainLeft, mainTop } = await buildLogoLayers(logo, project)

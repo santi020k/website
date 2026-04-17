@@ -215,69 +215,48 @@ const projectStats = [
     <div class="space-y-4">
       <div class:list={[
         'panel-card relative overflow-hidden',
+        useWideCoverFrame && 'p-3 sm:p-4',
         !useWideCoverFrame && 'mx-auto w-full max-w-4xl'
       ]}
       >
-        {useWideCoverFrame && (
-          <div
-            aria-hidden="true"
-            class="
-              pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40
-              bg-linear-to-t from-canvas/80 via-canvas/15 to-transparent
-            "
-          >
-          </div>
-        )}
         <CoverImage
           alt={project.data.coverImage.alt}
           ariaHidden={true}
+          className={useWideCoverFrame ? 'rounded-[1.65rem] border border-line/35 shadow-[0_24px_60px_hsl(var(--ink)/0.1)]' : ''}
           fetchpriority="high"
           image={project.data.coverImage.src}
           loading="eager"
           sizes="(min-width: 1024px) 1200px, 100vw"
           mode="detail"
         />
-        {useWideCoverFrame && (
-          <div
-            aria-hidden="true"
-            class="
-              pointer-events-none absolute inset-x-0 bottom-0 z-20 flex
-              flex-wrap items-end justify-between gap-4 p-5
-              sm:p-6
-            "
+      </div>
+
+      <div class="
+        grid gap-4
+        lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]
+      "
+      >
+        <div class="mini-note">
+          <div class="
+            flex flex-wrap items-start justify-between gap-3
+          "
           >
             <div>
-              <p class="section-label text-white/70">Project snapshot</p>
+              <p class="section-label">Project snapshot</p>
               <p class="
-                mt-2 text-lg font-semibold tracking-[-0.03em] text-white
-                sm:text-xl
+                mt-3 text-lg font-semibold tracking-[-0.03em] text-ink
               "
               >{project.data.title} · {project.data.rol ?? projectTypeLabel}
               </p>
             </div>
-            <p class="max-w-md text-sm/6 text-white/78">{focusLabel}</p>
-          </div>
-        )}
-      </div>
-
-      {!useWideCoverFrame && (
-        <div class="
-          grid gap-4
-          lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]
-        "
-        >
-          <div class="mini-note">
-            <p class="section-label">Project snapshot</p>
-            <p class="mt-3 text-lg font-semibold tracking-[-0.03em] text-ink">
-              {project.data.title} · {project.data.rol ?? projectTypeLabel}
-            </p>
-          </div>
-          <div class="mini-note">
-            <p class="section-label">Why this shape</p>
-            <p class="mt-3 text-sm/6 text-ink-soft">{focusLabel}</p>
+            <Pill label={dateRangeLabel} tone="outline" />
           </div>
         </div>
-      )}
+        <div class="mini-note">
+          <p class="section-label">Why this shape</p>
+          <p class="mt-3 text-sm/6 text-ink-soft">{focusLabel}</p>
+        </div>
+      </div>
     </div>
   )}
 </section>
