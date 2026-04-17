@@ -40,6 +40,22 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
 
   await expect(page.getByRole('link', { name: 'Skip to content' })).toHaveAttribute('href', '#main')
   await expect(page.getByRole('switch', { name: 'Toggle color theme' })).toBeVisible()
+  await expect(
+    page.locator('header').getByRole('link', { name: /Santiago Molina/i }).first()
+  ).toHaveAttribute('href', '/')
+})
+
+test('mobile navigation toggle keeps its accessible name aligned with its visible label', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+
+  const menuToggle = page.locator('[data-mobile-nav-toggle]')
+
+  await expect(menuToggle).toHaveAccessibleName('Menu navigation')
+
+  await menuToggle.click()
+
+  await expect(menuToggle).toHaveAccessibleName('Close navigation')
 })
 
 test('mobile navigation can open and close cleanly', async ({ page }) => {
