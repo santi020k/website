@@ -19,7 +19,7 @@ test.describe('About page', () => {
   test('should contain key sections', async ({ page }) => {
     await expect(page.locator('#main').getByText('About', { exact: true })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What I believe about engineering/i })).toBeVisible()
-    await expect(page.getByRole('heading', { level: 2, name: /What collaborators tend to value in the work/i })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 2, name: /What collaborators say about the work/i })).toBeVisible()
   })
 
   test('should have working call-to-action links', async ({ page }) => {
