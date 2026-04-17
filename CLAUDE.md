@@ -90,6 +90,17 @@ Specialized guidance for this project is consolidated in `/.agent/skills/`:
 ### 🚀 Advanced Tools
 
 - **[ui-ux-pro-max](/.agent/skills/ui-ux-pro-max/SKILL.md)** — Comprehensive UI research, palettes, and design reasoning.
+- **[anthropic-frontend-design](/.agent/skills/anthropic-frontend-design/SKILL.md)** — Production-grade distinctive UI with bold aesthetics, avoids generic AI patterns.
+- **[bencium-ux-designer](/.agent/skills/bencium-ux-designer/SKILL.md)** — Innovative UX design with design-thinking protocol and accessible, characterful interfaces.
+- **[vercel-web-design-guidelines](/.agent/skills/vercel-web-design-guidelines/SKILL.md)** — Audit UI against 100+ Vercel Web Interface Guidelines rules.
+- **[vercel-composition-patterns](/.agent/skills/vercel-composition-patterns/SKILL.md)** — React component architecture patterns (compound components, state lifting, React 19).
+
+### ♿ Accessibility Auditing (AccessLint)
+
+- **[accesslint-contrast-checker](/.agent/skills/accesslint-contrast-checker/SKILL.md)** — WCAG color contrast analysis with fix suggestions.
+- **[accesslint-link-purpose](/.agent/skills/accesslint-link-purpose/SKILL.md)** — WCAG 2.4.4 link purpose audit — finds generic link text.
+- **[accesslint-refactor](/.agent/skills/accesslint-refactor/SKILL.md)** — Automated multi-file accessibility refactoring for WCAG 2.1.
+- **[accesslint-use-of-color](/.agent/skills/accesslint-use-of-color/SKILL.md)** — WCAG 1.4.1 audit for color-only state indicators.
 
 See the **[Skills Index](/.agent/overview.md)** for a full overview of available agentic capabilities.
 
