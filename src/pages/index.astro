@@ -21,7 +21,11 @@ import { getTechnologyPath } from '../utils/links'
 import { sortTechnologyCountsByInterest } from '../utils/technologies'
 
 const allProjects = await getAllProjects()
-const allPosts = await getCollection('post')
+const now = new Date()
+
+const allPosts = await getCollection('post', ({ data }) => (
+  import.meta.env.PROD ? !data.draft && data.publishDate <= now : true
+))
 
 const featuredProjects = allProjects
   .filter(project => project.data.typesId === 'professional')
