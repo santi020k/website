@@ -20,6 +20,7 @@ import type { SiteLink } from '@/types'
     <div class="contents" data-mobile-nav>
       <div class="site-header-shell z-50" data-header-shell>
         <a
+          aria-label="Santiago Molina"
           class="
             group relative z-10 inline-flex min-w-0 items-center gap-3
             transition duration-200
@@ -42,8 +43,8 @@ import type { SiteLink } from '@/types'
             width={99}
           />
           <span class="
-            hidden min-w-0 flex-col
-            sm:flex
+            sr-only min-w-0 flex-col
+            sm:not-sr-only sm:flex
           "
           >
             <span class="section-label">Santiago Molina</span>
@@ -367,7 +368,11 @@ class SiteHeaderMobileNav extends HTMLElement {
     }
 
     if (target.closest('a[href]')) {
-      this.closeMenu({ restoreFocus: false })
+      // Delay closing to ensure Safari processes the link interaction/navigation.
+      // Page-wide navigation is primarily handled by the astro:before-preparation listener.
+      window.requestAnimationFrame(() => {
+        this.closeMenu({ restoreFocus: false })
+      })
     }
   }
 

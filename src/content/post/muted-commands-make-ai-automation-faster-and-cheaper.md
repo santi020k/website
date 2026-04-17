@@ -169,7 +169,7 @@ I just do not want every tiny iteration to pay the full price of maximum verbosi
 
 That is one reason I still like setups such as [Development Workflow with Husky for Next.js, ESLint, and Vitest Integration](/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/) for local guardrails and [Continuous Integration and Deployment for Next.js Projects](/blog/continuous-integration-and-deployment-for-next-js-projects/) for broader pipeline coverage. The shape of the workflow matters just as much as the existence of the workflow.
 
-## The real goal is not silence. It is throughput with trust.
+## The real goal is not silence. It is throughput with trust
 
 AI makes it easier to produce more changes per hour.
 
