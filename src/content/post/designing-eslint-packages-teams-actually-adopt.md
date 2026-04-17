@@ -2,6 +2,9 @@
 title: "Designing ESLint Packages Teams Actually Adopt"
 description: "What separates ESLint configurations that spread across a codebase from ones that get removed after the first sprint."
 publishDate: "2026-07-10T15:00:00.000Z"
+coverImage:
+  alt: "Editorial cover showing layered ESLint packages, configuration modules, and a central validation shield"
+  src: "./designing-eslint-packages-teams-actually-adopt-cover.webp"
 tags: ["eslint", "code-quality", "javascript", "typescript", "developer-experience"]
 postType: "Deep Dive"
 seriesId: "eslint-in-practice"
@@ -16,9 +19,9 @@ That failure mode is not an ESLint problem. It is a package design problem.
 
 ## The design constraints that actually matter
 
-A shared ESLint package is a public API. The rules it enables are a contract with every codebase that installs it. That means the same principles that make a good library apply here: stability matters, composability matters, and the cost of adoption has to be lower than the cost of staying on whatever people are using today.
+A shared ESLint package is a public API. The rules it enables become a contract with every codebase that installs it. That means the same principles that make a good library apply here: stability matters, composability matters, and the cost of adoption has to be lower than the cost of staying on whatever people are using today.
 
-The constraints I design around:
+The constraints I keep coming back to:
 
 **Zero-violation baseline on install.** The package should not require a cleanup sprint to adopt. If a team runs the linter for the first time and sees five thousand warnings, the most likely outcome is that someone adds `// eslint-disable-next-line` until things are quiet and never touches the config again. A gradual on-ramp — starting with the rules that catch genuine errors and leaving style enforcement optional — gets real adoption faster.
 

@@ -11,7 +11,7 @@ const fontBold = fs.readFileSync(path.resolve(process.cwd(), 'public/fonts/Monts
 const logoBase64 = (await sharp(path.resolve(process.cwd(), 'public/logo.webp')).png().toBuffer()).toString('base64')
 const logoDataURI = `data:image/png;base64,${logoBase64}`
 const COVER_FRAME_WIDTH = 348
-const COVER_FRAME_HEIGHT = 260
+const COVER_FRAME_HEIGHT = 220
 
 const escapeHTML = value => value
   .replaceAll('&', '&amp;')
@@ -56,13 +56,14 @@ const truncateDescription = (text, max = 105) => text.length > max ? `${text.sli
 
 const getCoverImageDataURI = async coverImagePath => {
   if (!coverImagePath) return undefined
+
   if (!fs.existsSync(coverImagePath)) return undefined
 
   const coverBase64 = (await sharp(coverImagePath)
     .rotate()
     .resize(COVER_FRAME_WIDTH * 2, COVER_FRAME_HEIGHT * 2, {
-      fit: 'cover',
-      position: 'attention'
+      background: '#140f1e',
+      fit: 'contain'
     })
     .jpeg({
       mozjpeg: true,
@@ -92,6 +93,7 @@ export const renderSocialImage = async ({
   const hasCoverImage = Boolean(coverImageDataURI)
   const titleSize = getTitleSize(title, hasCoverImage)
   const shortDescription = truncateDescription(description, hasCoverImage ? 88 : 105)
+
   const bodyMarkup = hasCoverImage ?
     `
       <div style="
@@ -155,46 +157,10 @@ export const renderSocialImage = async ({
                 display: flex;
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
+                object-fit: contain;
                 object-position: center;
               "
             />
-            <div style="
-              display: flex;
-              position: absolute;
-              top: 0;
-              right: 0;
-              bottom: 0;
-              left: 0;
-              background: linear-gradient(180deg, rgba(26, 18, 40, 0.02) 0%, rgba(26, 18, 40, 0.26) 100%);
-            "></div>
-            <div style="
-              display: flex;
-              position: absolute;
-              right: 18px;
-              bottom: 18px;
-              left: 18px;
-              align-items: center;
-              gap: 12px;
-            ">
-              <div style="
-                display: flex;
-                width: 34px;
-                height: 4px;
-                border-radius: 999px;
-                background: rgba(255, 255, 255, 0.85);
-              "></div>
-              <span style="
-                display: flex;
-                font-size: 18px;
-                font-weight: 700;
-                letter-spacing: 0.08em;
-                text-transform: uppercase;
-                color: rgba(255, 255, 255, 0.96);
-              ">
-                Cover
-              </span>
-            </div>
           </div>
         </div>
       </div>

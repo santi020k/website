@@ -68,8 +68,9 @@ if (featured && orientation === 'landscape') {
   `
 }
 
-let detailWrapperClass = 'aspect-video'
-let detailImageClass = 'size-full object-cover'
+let detailWrapperClass = 'w-full'
+let detailImageClass = 'size-full object-contain'
+let detailWrapperStyle: string | undefined
 
 let cardImageClass = `
   size-full object-cover
@@ -94,6 +95,8 @@ if (useContainedFrame) {
     mx-auto h-full w-full object-contain
     motion-safe:group-hover:scale-[1.02]
   `
+} else {
+  detailWrapperStyle = `aspect-ratio: ${image.width} / ${image.height};`
 }
 
 const wrapperClasses =
@@ -117,7 +120,11 @@ if (mode === 'detail') {
 }
 ---
 
-<div class:list={[...wrapperClasses, className]} transition:name={effectiveTransitionName}>
+<div
+  class:list={[...wrapperClasses, className]}
+  style={mode === 'detail' ? detailWrapperStyle : undefined}
+  transition:name={effectiveTransitionName}
+>
   {mode === 'detail' && useContainedFrame && (
     <div
       aria-hidden="true"

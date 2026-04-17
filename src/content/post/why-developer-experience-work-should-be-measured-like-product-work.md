@@ -2,19 +2,22 @@
 title: "Why Developer Experience Work Should Be Measured Like Product Work"
 description: "DX improvements that cannot be measured rarely survive long enough to compound. Treating them like product work changes that."
 publishDate: "2026-06-12T15:00:00.000Z"
+coverImage:
+  alt: "Editorial cover showing engineering workflow metrics, dashboards, and delivery feedback loops connected across a development pipeline"
+  src: "./why-developer-experience-work-should-be-measured-like-product-work-cover.webp"
 tags: ["developer-experience", "engineering-culture", "metrics", "leadership"]
 postType: "Opinion"
 seriesId: "the-santi020k-way"
 seriesOrder: 11
 ---
 
-Developer experience work tends to disappear.
+Developer experience work tends to disappear from the conversation.
 
-A team improves the local setup, fixes a slow CI pipeline, or rewrites a painful script that was costing everyone ten minutes per deploy. The work happens. The friction goes away. And then, because nobody measured it, nobody can explain why it mattered when priorities shift and the same engineering time gets pulled toward something more visible.
+A team improves the local setup, fixes a slow CI pipeline, or rewrites a painful script that was costing everyone ten minutes per deploy. The work happens. The friction goes away. And then, because nobody measured it, nobody can explain why it mattered when priorities shift and engineering time gets pulled toward something more visible.
 
 That is not a measurement problem. It is a framing problem.
 
-Product work survives because it is attached to outcomes. Conversion rate. Activation time. Retention. Churn. The metrics are imperfect, but they connect the work to something people already care about. Developer experience work often never gets that connection made.
+Product work survives because it is attached to outcomes. Conversion rate. Activation time. Retention. Churn. The metrics are imperfect, but they connect the work to outcomes people already care about. Developer experience work often never gets that connection made.
 
 ## The case for treating DX like product work
 
@@ -38,7 +41,7 @@ Not everything is easy to measure, but more is measurable than most engineering 
 
 **Unplanned tooling interruptions.** How many times per sprint does engineering work stop because a tool is broken, a dependency is stale, or a process failed for a reason unrelated to the feature being built?
 
-None of these require elaborate instrumentation. Most can be tracked with a short retrospective question and a spreadsheet. The goal is not perfect data. It is directional data that makes the next improvement easier to justify.
+None of these require elaborate instrumentation. Most can be tracked with a short retro note and a spreadsheet. The goal is not perfect data. It is directional data that makes the next improvement easier to justify.
 
 ## What happens when you do not measure
 
@@ -60,7 +63,7 @@ The simplest version looks like this:
 - After shipping, compare.
 - Share the before and after when you discuss the work.
 
-That is it. Even an informal note that says "the local dev startup time went from 45 seconds to 12 seconds" is enough to create a record, build the case for future work, and make the outcome visible to people who were not in the room when the decision was made.
+That is enough. Even an informal note that says "the local dev startup time went from 45 seconds to 12 seconds" is enough to create a record, build the case for future work, and make the outcome visible to people who were not in the room when the decision was made.
 
 It also changes how the team talks about DX work. Instead of "we improved the setup," the conversation becomes "we cut setup time by two-thirds, and here is what that means for new contributors." That framing travels further and survives longer.
 

@@ -9,14 +9,14 @@ const PANEL_WIDTH = 1280
 const PANEL_HEIGHT = 1520
 const PANEL_X = 1820
 const PANEL_Y = 220
-
 const LIGHT_SURFACE = '#f4efe7'
 const LIGHT_PANEL = '#ded8cd'
 const LIGHT_GRID = 'rgba(17, 17, 17, 0.065)'
 const DARK_GRID = 'rgba(255, 255, 255, 0.06)'
-const CENTERED_WORDMARK_PLACEMENT = { left: 220, top: 360, width: 1220, height: 520 }
-const CENTERED_STACK_PLACEMENT = { left: 240, top: 270, width: 1060, height: 820 }
-const CENTERED_BADGE_PLACEMENT = { left: 300, top: 280, width: 920, height: 820 }
+const STANDARD_WORDMARK_PLACEMENT = { left: 150, top: 330, width: 1360, height: 540 }
+const STANDARD_STACK_PLACEMENT = { left: 190, top: 200, width: 1100, height: 940 }
+const STANDARD_BADGE_PLACEMENT = { left: 250, top: 220, width: 1000, height: 920 }
+const _FEATURED_WORDMARK_PLACEMENT = { left: 140, top: 330, width: 1500, height: 560 }
 
 const PROJECTS = [
   {
@@ -32,7 +32,7 @@ const PROJECTS = [
     logoRect: { left: 0, top: 540, width: 3840, height: 1040 },
     backgroundColor: '#3b3b3b',
     threshold: 14,
-    placement: { ...CENTERED_WORDMARK_PLACEMENT }
+    placement: { left: 110, top: 330, width: 1500, height: 560 }
   },
   {
     slug: 'eslint-config-basic',
@@ -47,7 +47,7 @@ const PROJECTS = [
     logoRect: { left: 1040, top: 250, width: 1760, height: 1500 },
     backgroundColor: '#24273a',
     threshold: 32,
-    placement: { ...CENTERED_BADGE_PLACEMENT }
+    placement: { ...STANDARD_BADGE_PLACEMENT }
   },
   {
     slug: 'eslint-config-santi020k',
@@ -62,7 +62,7 @@ const PROJECTS = [
     logoRect: { left: 1040, top: 250, width: 1760, height: 1500 },
     backgroundColor: '#24273a',
     threshold: 32,
-    placement: { ...CENTERED_BADGE_PLACEMENT }
+    placement: { ...STANDARD_BADGE_PLACEMENT }
   },
   {
     slug: 'justbit',
@@ -77,7 +77,7 @@ const PROJECTS = [
     logoRect: { left: 700, top: 300, width: 2500, height: 1500 },
     backgroundColor: '#49bcae',
     threshold: 22,
-    placement: { ...CENTERED_STACK_PLACEMENT },
+    placement: { left: 180, top: 210, width: 1100, height: 950 },
     shadowBlur: 5.5,
     shadowOpacity: 0.14
   },
@@ -94,7 +94,7 @@ const PROJECTS = [
     logoRect: { left: 930, top: 250, width: 1800, height: 1550 },
     backgroundColor: '#7f8084',
     threshold: 22,
-    placement: { ...CENTERED_STACK_PLACEMENT },
+    placement: { left: 160, top: 150, width: 1180, height: 1020 },
     shadowBlur: 5.5,
     shadowOpacity: 0.14
   },
@@ -111,7 +111,7 @@ const PROJECTS = [
     logoRect: { left: 500, top: 600, width: 2850, height: 920 },
     backgroundColor: '#fbfbfa',
     threshold: 14,
-    placement: { ...CENTERED_WORDMARK_PLACEMENT }
+    placement: { left: 140, top: 330, width: 1400, height: 540 }
   },
   {
     slug: 'pads',
@@ -126,7 +126,7 @@ const PROJECTS = [
     logoRect: { left: 680, top: 690, width: 2470, height: 920 },
     backgroundColor: '#ef008c',
     threshold: 24,
-    placement: { ...CENTERED_WORDMARK_PLACEMENT }
+    placement: { left: 150, top: 340, width: 1280, height: 520 }
   },
   {
     slug: 'react-js-colombia',
@@ -141,7 +141,7 @@ const PROJECTS = [
     logoRect: { left: 1160, top: 280, width: 1500, height: 1060 },
     backgroundColor: '#030507',
     threshold: 26,
-    placement: { ...CENTERED_BADGE_PLACEMENT }
+    placement: { left: 250, top: 210, width: 1000, height: 920 }
   },
   {
     slug: 'smith-commerce',
@@ -156,8 +156,7 @@ const PROJECTS = [
     logoRect: { left: 220, top: 640, width: 3400, height: 980 },
     backgroundColor: '#ff6500',
     threshold: 20,
-    placement: { ...CENTERED_WORDMARK_PLACEMENT },
-    useCustomWordmark: true
+    placement: { left: 170, top: 290, width: 1360, height: 620 }
   },
   {
     slug: 'void',
@@ -172,7 +171,7 @@ const PROJECTS = [
     logoRect: { left: 420, top: 460, width: 3000, height: 1180 },
     backgroundColor: '#5d5ae6',
     threshold: 24,
-    placement: { ...CENTERED_WORDMARK_PLACEMENT }
+    placement: { left: 150, top: 340, width: 1280, height: 520 }
   }
 ]
 
@@ -182,6 +181,7 @@ function clamp(value, min, max) {
 
 function hexToRgb(hex) {
   const normalized = hex.replace('#', '')
+
   const value = normalized.length === 3 ?
     normalized.split('').map(part => `${part}${part}`).join('') :
     normalized
@@ -201,13 +201,13 @@ function rgbToHex({ r, g, b }) {
 
 function hexToRgba(hex, opacity) {
   const { r, g, b } = hexToRgb(hex)
+
   return `rgba(${r}, ${g}, ${b}, ${opacity})`
 }
 
 function mix(hexA, hexB, ratio) {
   const a = hexToRgb(hexA)
   const b = hexToRgb(hexB)
-
   const weight = clamp(ratio, 0, 1)
 
   return rgbToHex({
@@ -239,8 +239,10 @@ async function readRawImage(inputPathOrBuffer) {
 
 function averageEdgeColor(raw, width, height) {
   const samples = []
+
   const pushSample = (x, y) => {
     const index = (y * width + x) * 4
+
     samples.push({
       r: raw[index],
       g: raw[index + 1],
@@ -250,11 +252,13 @@ function averageEdgeColor(raw, width, height) {
 
   for (let x = 0; x < width; x += Math.max(1, Math.floor(width / 18))) {
     pushSample(x, 0)
+
     pushSample(x, height - 1)
   }
 
   for (let y = 0; y < height; y += Math.max(1, Math.floor(height / 18))) {
     pushSample(0, y)
+
     pushSample(width - 1, y)
   }
 
@@ -285,9 +289,13 @@ function getBoundingBox(alphaRaw, width, height) {
       if (alpha <= 18) continue
 
       found = true
+
       left = Math.min(left, x)
+
       top = Math.min(top, y)
+
       right = Math.max(right, x)
+
       bottom = Math.max(bottom, y)
     }
   }
@@ -303,7 +311,6 @@ function getBoundingBox(alphaRaw, width, height) {
 
   const paddingX = Math.round(width * 0.035)
   const paddingY = Math.round(height * 0.035)
-
   const paddedLeft = clamp(left - paddingX, 0, width - 1)
   const paddedTop = clamp(top - paddingY, 0, height - 1)
   const paddedRight = clamp(right + paddingX, 0, width - 1)
@@ -334,6 +341,7 @@ async function extractLogo(sourcePath, project) {
     const g = raw[pixelIndex + 1]
     const b = raw[pixelIndex + 2]
     const sourceAlpha = raw[pixelIndex + 3]
+
     const diff = Math.sqrt(
       ((r - background.r) ** 2) +
       ((g - background.g) ** 2) +
@@ -344,13 +352,18 @@ async function extractLogo(sourcePath, project) {
     const alpha = Math.round(normalizedAlpha * sourceAlpha)
 
     outputRaw[pixelIndex] = r
+
     outputRaw[pixelIndex + 1] = g
+
     outputRaw[pixelIndex + 2] = b
+
     outputRaw[pixelIndex + 3] = alpha
+
     alphaRaw[index] = alpha
   }
 
   const bounds = getBoundingBox(alphaRaw, width, height)
+
   const extracted = sharp(outputRaw, { raw: { width, height, channels: 4 } })
     .extract(bounds)
 
@@ -373,16 +386,16 @@ async function finalizeLogoBuffer(buffer) {
 
 async function buildSmithCommerceWordmark() {
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="2400" height="720" viewBox="0 0 2400 720">
+    <svg xmlns="http://www.w3.org/2000/svg" width="5200" height="760" viewBox="0 0 5200 760">
       <rect width="100%" height="100%" fill="transparent" />
       <text
-        x="230"
-        y="508"
+        x="220"
+        y="520"
         fill="#ffffff"
         font-family="Montserrat, Avenir Next, Segoe UI, Arial, sans-serif"
-        font-size="448"
+        font-size="410"
         font-weight="800"
-      >Smith</text>
+      >Smith Commerce</text>
     </svg>
   `
 
@@ -418,14 +431,14 @@ function getLogoPlacement({ logoWidth, logoHeight }) {
   const ratio = logoWidth / logoHeight
 
   if (ratio > 3.2) {
-    return CENTERED_WORDMARK_PLACEMENT
+    return STANDARD_WORDMARK_PLACEMENT
   }
 
   if (ratio > 1.3) {
-    return CENTERED_STACK_PLACEMENT
+    return STANDARD_STACK_PLACEMENT
   }
 
-  return CENTERED_BADGE_PLACEMENT
+  return STANDARD_BADGE_PLACEMENT
 }
 
 async function buildLogoLayers(logo, project) {
@@ -435,15 +448,13 @@ async function buildLogoLayers(logo, project) {
   })
 
   const fitScale = Math.min(
-    placement.width / logo.width,
-    placement.height / logo.height
+    placement.width / logo.width, placement.height / logo.height
   )
 
   const mainWidth = Math.round(logo.width * fitScale)
   const mainHeight = Math.round(logo.height * fitScale)
   const mainLeft = placement.left + Math.round((placement.width - mainWidth) / 2)
   const mainTop = placement.top + Math.round((placement.height - mainHeight) / 2)
-
   const shadowColor = project.variant === 'light' ? '#10283c' : '#000000'
   const shadowOpacity = project.shadowOpacity ?? (project.variant === 'light' ? 0.08 : 0.18)
   const shadowBlur = project.shadowBlur ?? 7
@@ -541,6 +552,7 @@ function buildPanelArtworkMarkup(project, palette) {
         <circle cx="1102" cy="514" r="22" fill="${palette.accentStrong}" />
         <path d="M 1030 426 L 1090 486 L 1182 332" fill="none" stroke="${palette.stroke}" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
       `
+
     case 'eslint-config-basic':
       return `
         ${panelWindow({ x: 88, y: 176, width: 720, height: 520, palette })}
@@ -556,6 +568,7 @@ function buildPanelArtworkMarkup(project, palette) {
         <path d="M 286 1056 H 466" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
         <path d="M 110 1208 C 318 1048, 610 1096, 848 1202" fill="none" stroke="${palette.accentDeep}" stroke-width="18" stroke-linecap="round" />
       `
+
     case 'eslint-config-santi020k':
       return `
         ${panelWindow({ x: 116, y: 170, width: 620, height: 420, palette })}
@@ -572,6 +585,7 @@ function buildPanelArtworkMarkup(project, palette) {
         <circle cx="458" cy="1200" r="100" fill="none" stroke="${palette.strokeSoft}" stroke-width="12" />
         <circle cx="848" cy="1180" r="180" fill="${palette.accentDeep}" opacity="0.42" />
       `
+
     case 'justbit':
       return `
         ${panelWindow({ x: 126, y: 184, width: 820, height: 470, palette })}
@@ -584,6 +598,7 @@ function buildPanelArtworkMarkup(project, palette) {
         <path d="M 716 852 L 830 784 L 872 654 L 934 710 L 884 842 L 762 910 Z" fill="${palette.accent}" stroke="${palette.strokeSoft}" stroke-width="8" />
         <circle cx="300" cy="1090" r="150" fill="${palette.glow}" />
       `
+
     case 'nebular':
       return `
         ${panelCard({ x: 132, y: 274, width: 768, height: 520, radius: 42, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
@@ -595,6 +610,7 @@ function buildPanelArtworkMarkup(project, palette) {
         <path d="M 286 1100 L 456 994 L 626 1100 L 456 1206 Z" fill="${palette.accent}" stroke="${palette.strokeSoft}" stroke-width="8" />
         <path d="M 456 1206 V 1380 L 626 1284 V 1100" fill="none" stroke="${palette.strokeSoft}" stroke-width="8" stroke-linejoin="round" />
       `
+
     case 'optic-power':
       return `
         ${panelCard({ x: 132, y: 238, width: 288, height: 356, radius: 38, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
@@ -608,6 +624,7 @@ function buildPanelArtworkMarkup(project, palette) {
         <path d="M 214 1006 H 520" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
         <path d="M 214 1078 H 456" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
       `
+
     case 'pads':
       return `
         <path d="M 164 1200 V 632 L 426 438 V 1200" fill="${palette.fill}" stroke="${palette.strokeSoft}" stroke-width="8" />
@@ -621,6 +638,7 @@ function buildPanelArtworkMarkup(project, palette) {
         <path d="M 500 790 H 652" stroke="${palette.strokeSoft}" stroke-width="12" stroke-linecap="round" />
         <path d="M 500 878 H 652" stroke="${palette.strokeSoft}" stroke-width="12" stroke-linecap="round" />
       `
+
     case 'react-js-colombia':
       return `
         <circle cx="652" cy="382" r="188" fill="${palette.glow}" />
@@ -641,6 +659,7 @@ function buildPanelArtworkMarkup(project, palette) {
         ${panelCard({ x: 262, y: 688, width: 780, height: 178, radius: 28, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
         <path d="M 330 772 H 960" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
       `
+
     case 'smith-commerce':
       return `
         ${panelWindow({ x: 84, y: 166, width: 800, height: 492, palette })}
@@ -654,6 +673,7 @@ function buildPanelArtworkMarkup(project, palette) {
         ${panelCard({ x: 208, y: 1110, width: 164, height: 134, radius: 24, fill: palette.fillSoft, stroke: palette.strokeSoft, strokeWidth: 4 })}
         ${panelCard({ x: 408, y: 1160, width: 164, height: 134, radius: 24, fill: palette.fillSoft, stroke: palette.strokeSoft, strokeWidth: 4 })}
       `
+
     case 'void':
       return `
         <path d="M 560 324 H 744 L 826 510 C 826 760, 736 932, 652 988 C 568 932, 478 760, 478 510 Z" fill="${palette.fill}" stroke="${palette.strokeSoft}" stroke-width="10" stroke-linejoin="round" />
@@ -665,6 +685,7 @@ function buildPanelArtworkMarkup(project, palette) {
         <path d="M 174 1302 C 430 1098, 894 1098, 1132 1302" fill="none" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
         <circle cx="652" cy="742" r="168" fill="${palette.glow}" />
       `
+
     default:
       return `
         <circle cx="960" cy="330" r="220" fill="${palette.glow}" />
@@ -719,7 +740,6 @@ function buildBaseSvg(project) {
   const panelShadow = project.variant === 'light' ? 'rgba(5, 10, 16, 0.1)' : 'rgba(0, 0, 0, 0.24)'
   const ghostFill = project.variant === 'light' ? 'rgba(17,17,17,0.07)' : 'rgba(255,255,255,0.08)'
   const leftGlow = project.variant === 'light' ? `${project.accent}20` : `${project.accent}26`
-
   const accentBand = mix(project.accent, '#ffffff', project.variant === 'light' ? 0.1 : 0.02)
   const panelBorder = mix(project.panel, '#ffffff', project.variant === 'light' ? 0.14 : 0.09)
 
@@ -771,6 +791,7 @@ async function renderProjectCover(project) {
   const logo = project.useCustomWordmark ?
     await buildSmithCommerceWordmark() :
     await extractLogo(backupPath, project)
+
   const baseSvg = Buffer.from(buildBaseSvg(project))
   const { textureBuffer, textureLeft, textureTop } = await buildTextureLayer(project)
   const { shadowBuffer, mainBuffer, shadowLeft, shadowTop, mainLeft, mainTop } = await buildLogoLayers(logo, project)
@@ -799,5 +820,6 @@ for (const project of PROJECTS) {
   // Keep the current X Games cover as the style reference and refresh every
   // other project cover from its original artwork backup.
   await renderProjectCover(project)
+
   console.log(`refreshed ${project.slug}`)
 }
