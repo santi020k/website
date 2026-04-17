@@ -45,6 +45,19 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
   ).toHaveAttribute('href', '/')
 })
 
+test('homepage project ctas keep accessible names aligned with their visible labels', async ({ page }) => {
+  await page.goto('/')
+
+  const projectCtas = page.locator('a').filter({ hasText: 'View project' })
+  const projectCtaCount = await projectCtas.count()
+
+  expect(projectCtaCount).toBeGreaterThan(0)
+
+  for (let index = 0; index < projectCtaCount; index += 1) {
+    await expect(projectCtas.nth(index)).toHaveAccessibleName(/View project about /i)
+  }
+})
+
 test('mobile navigation toggle keeps its accessible name aligned with its visible label', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
