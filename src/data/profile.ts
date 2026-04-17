@@ -72,8 +72,8 @@ export const selectedOrganizations: SocialProofItem[] = [
     label: 'Subway'
   },
   {
-    context: 'Enterprise-facing marketing automation interfaces and reporting systems built at Datagran.',
-    label: 'Telefonica'
+    context: 'High-traffic sports media platform and programmatic ad infrastructure for one of the world’s most recognized extreme sports brands.',
+    label: 'X Games'
   },
   {
     context: 'Community talks, workshops, and mentorship through one of Medellin’s most active React groups.',
