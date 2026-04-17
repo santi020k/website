@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { compress } from 'wawoff2'
 
-const fontsDir = new URL('../public/fonts/', import.meta.url)
+const fontsDir = new URL('../../public/fonts/', import.meta.url)
 
 const variableFonts = [
   'montserrat-variable-font-wght.ttf',

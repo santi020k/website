@@ -2,9 +2,9 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 
-const publicDir = new URL('../public/', import.meta.url)
+const publicDir = new URL('../../public/', import.meta.url)
 const publicDirPath = fileURLToPath(publicDir)
-const wordmarkPath = fileURLToPath(new URL('../public/logo.webp', import.meta.url))
+const wordmarkPath = fileURLToPath(new URL('../../public/logo.webp', import.meta.url))
 const faviconSourcePath = fileURLToPath(new URL('favicon-source.png', publicDir))
 const faviconSvgPath = fileURLToPath(new URL('favicon.svg', publicDir))
 

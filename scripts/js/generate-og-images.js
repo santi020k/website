@@ -19,10 +19,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { renderSocialImage } from '../src/utils/render-social-image.js'
+import { renderSocialImage } from '../../src/utils/render-social-image.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const ROOT = path.resolve(__dirname, '..')
+const ROOT = path.resolve(__dirname, '..', '..')
 const OUT_DIR = path.join(ROOT, 'public', 'og')
 // Maximum number of images rendered simultaneously.
 const CONCURRENCY = 8
