@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { capitalizeFirstLetter } from '../capitalize-first-letter'
 import { elementHasClass, rootInDarkMode, toggleClass } from '../dom-element'
-import { getPortfolioPath, getPostPath, getSeriesPath, getTechnologyPath } from '../links'
+import { getPortfolioPath, getPostPath, getSeriesPath, getTagPath, getTechnologyPath } from '../links'
 import { truncateTitle } from '../truncate-title'
 
 // ─── capitalizeFirstLetter ────────────────────────────────────────────────────
@@ -60,6 +60,10 @@ describe('links', () => {
 
   it('returns the correct canonical path for a series', () => {
     expect(getSeriesPath('my-series')).toBe('/blog/series/my-series/')
+  })
+
+  it('returns the correct canonical path for a tag archive', () => {
+    expect(getTagPath('developer experience')).toBe('/blog/tags/developer%20experience/')
   })
 
   it('returns the correct canonical path for a portfolio project', () => {

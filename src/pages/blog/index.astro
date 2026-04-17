@@ -8,6 +8,7 @@ import SectionHeading from '@/components/molecules/SectionHeading.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 
+import { getTagPath } from '@/utils/links'
 import { getTopTags } from '@/utils/tags'
 
 import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
@@ -65,8 +66,11 @@ const breadcrumbs = [
         <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
           Open Medium profile
         </ButtonLink>
-        <ButtonLink href="/" showArrow variant="secondary">
-          Back home
+        <ButtonLink href="/blog/tags/" showArrow variant="secondary">
+          Browse topics
+        </ButtonLink>
+        <ButtonLink href="/blog/series/" showArrow variant="ghost">
+          Browse series
         </ButtonLink>
       </div>
 
@@ -74,7 +78,7 @@ const breadcrumbs = [
         <p class="section-label">Popular topics</p>
         <div class="flex flex-wrap gap-2">
           {topTags.map(([tag]) => (
-            <Pill label={tag} showHash tone="outline" />
+            <Pill href={getTagPath(tag)} label={tag} showHash tone="outline" />
           ))}
         </div>
       </div>

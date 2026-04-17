@@ -1,0 +1,81 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import PageLayout from '@/layouts/Base.astro'
+import { getCachedPosts } from '@/utils/content'
+import { getTagPath } from '@/utils/links'
+import { getAllTags } from '@/utils/tags'
+
+const posts = await getCachedPosts()
+const allTags = getAllTags(posts)
+const topTagCount = allTags[0]?.[1] ?? 0
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: 'Topics', url: '/blog/tags/' }
+]
+---
+
+<PageLayout meta={{
+  breadcrumbs,
+  description: 'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
+  title: 'Blog Topics'
+}}
+>
+  <section
+    class="
+      grid gap-10
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+    data-animate
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description="Browse the archive by recurring topics so related posts are easier to find without hunting through the full feed."
+        eyebrow="Topics"
+        level="h1"
+        title="A tag index for the writing archive."
+      />
+
+      <div class="section-actions">
+        <ButtonLink href="/blog/" showArrow variant="secondary">
+          Back to blog
+        </ButtonLink>
+        <ButtonLink href="/blog/series/" showArrow variant="ghost">
+          Browse series
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div
+      class="
+        grid gap-4
+        sm:grid-cols-3
+        lg:grid-cols-1
+      "
+    >
+      <StatCard description="Distinct recurring topics across the current writing archive." label="Topics" value={String(allTags.length)} />
+      <StatCard description="Published posts that can be reached through these topic pages." label="Posts" value={String(posts.length)} />
+      <StatCard description="How often the most-used topic currently appears in the archive." label="Top topic" value={`${topTagCount}x`} />
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Each topic opens a filtered archive page with the related posts."
+      eyebrow="All topics"
+      title="Recurring themes across the archive."
+    />
+
+    <div class="flex flex-wrap gap-3">
+      {allTags.map(([tag, count]) => (
+        <Pill href={getTagPath(tag)} label={tag} showHash tone="outline">
+          <span class="text-xs text-ink-muted">{count}</span>
+        </Pill>
+      ))}
+    </div>
+  </section>
+</PageLayout>
