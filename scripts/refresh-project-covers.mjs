@@ -144,6 +144,19 @@ const PROJECTS = [
     placement: { left: 250, top: 210, width: 1000, height: 920 }
   },
   {
+    slug: 'tedx-medellin',
+    alt: 'TEDx Medellin wordmark on a red and charcoal geometric cover',
+    variant: 'dark',
+    accent: '#eb0028',
+    accentDeep: '#870017',
+    surface: '#111417',
+    ink: '#07090c',
+    panel: '#0d1014',
+    texture: '#ffd2da',
+    placement: { left: 92, top: 250, width: 1620, height: 620 },
+    customLogoBuilder: 'tedx-medellin'
+  },
+  {
     slug: 'smith-commerce',
     alt: 'Smith Commerce wordmark on an orange and charcoal geometric cover',
     variant: 'dark',
@@ -400,6 +413,60 @@ async function buildSmithCommerceWordmark() {
   `
 
   return finalizeLogoBuffer(await sharp(Buffer.from(svg)).png().toBuffer())
+}
+
+async function buildTedxMedellinWordmark() {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="4600" height="980" viewBox="0 0 4600 980">
+      <rect width="100%" height="100%" fill="transparent" />
+      <text
+        x="180"
+        y="496"
+        fill="#EB0028"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="560"
+        font-weight="900"
+        letter-spacing="-0.08em"
+      >TED</text>
+      <text
+        x="1320"
+        y="360"
+        fill="#EB0028"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="320"
+        font-weight="800"
+        letter-spacing="-0.06em"
+      >x</text>
+      <path
+        d="M 1448 416 H 2580"
+        fill="none"
+        stroke="#EB0028"
+        stroke-linecap="round"
+        stroke-width="36"
+      />
+      <text
+        x="214"
+        y="794"
+        fill="#FFFFFF"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="318"
+        font-weight="700"
+        letter-spacing="-0.04em"
+      >Medellin</text>
+    </svg>
+  `
+
+  return finalizeLogoBuffer(await sharp(Buffer.from(svg)).png().toBuffer())
+}
+
+async function buildCustomLogo(builderName) {
+  switch (builderName) {
+    case 'tedx-medellin':
+      return buildTedxMedellinWordmark()
+
+    default:
+      throw new Error(`Unknown custom logo builder: ${builderName}`)
+  }
 }
 
 async function scaleAlpha(alphaBuffer, width, height, opacity) {
@@ -660,6 +727,33 @@ function buildPanelArtworkMarkup(project, palette) {
         <path d="M 330 772 H 960" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
       `
 
+    case 'tedx-medellin':
+      return `
+        ${panelWindow({ x: 112, y: 170, width: 724, height: 278, palette })}
+        <path d="M 190 270 H 580" stroke="${palette.stroke}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 190 344 H 448" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 190 418 H 676" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        ${panelCard({ x: 242, y: 566, width: 612, height: 420, radius: 38, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 548 642 C 646 716, 710 830, 710 964 V 1012 H 386 V 964 C 386 830, 450 716, 548 642 Z" fill="${palette.fillSoft}" stroke="${palette.strokeSoft}" stroke-width="8" />
+        <path d="M 386 1012 H 710" stroke="${palette.accentStrong}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 450 1120 C 510 1074, 590 1074, 648 1120" fill="none" stroke="${palette.accentStrong}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 520 1208 C 566 1246, 596 1306, 596 1380 V 1452" fill="none" stroke="${palette.stroke}" stroke-width="16" stroke-linecap="round" />
+        <circle cx="596" cy="1380" r="24" fill="${palette.accentStrong}" />
+        <path d="M 596 1438 L 562 1506 H 630 Z" fill="${palette.stroke}" />
+        ${panelCard({ x: 184, y: 1186, width: 248, height: 122, radius: 24, fill: palette.fillSoft, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 236 1248 H 364" stroke="${palette.stroke}" stroke-width="16" stroke-linecap="round" />
+        ${panelCard({ x: 820, y: 1194, width: 202, height: 146, radius: 26, fill: palette.fillSoft, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 872 1248 H 970" stroke="${palette.accentStrong}" stroke-width="16" stroke-linecap="round" />
+        <path d="M 872 1302 H 938" stroke="${palette.strokeSoft}" stroke-width="16" stroke-linecap="round" />
+        <circle cx="232" cy="1480" r="18" fill="${palette.fill}" />
+        <circle cx="326" cy="1454" r="18" fill="${palette.fill}" />
+        <circle cx="424" cy="1488" r="18" fill="${palette.fill}" />
+        <circle cx="526" cy="1458" r="18" fill="${palette.fill}" />
+        <circle cx="628" cy="1488" r="18" fill="${palette.fill}" />
+        <circle cx="730" cy="1454" r="18" fill="${palette.fill}" />
+        <circle cx="828" cy="1482" r="18" fill="${palette.fill}" />
+      `
+
     case 'smith-commerce':
       return `
         ${panelWindow({ x: 84, y: 166, width: 800, height: 492, palette })}
@@ -788,9 +882,11 @@ async function renderProjectCover(project) {
 
   await ensureBackupFile(coverPath, backupPath)
 
-  const logo = project.useCustomWordmark ?
-    await buildSmithCommerceWordmark() :
-    await extractLogo(backupPath, project)
+  const logo = project.customLogoBuilder ?
+    await buildCustomLogo(project.customLogoBuilder) :
+    project.useCustomWordmark ?
+      await buildSmithCommerceWordmark() :
+      await extractLogo(backupPath, project)
 
   const baseSvg = Buffer.from(buildBaseSvg(project))
   const { textureBuffer, textureLeft, textureTop } = await buildTextureLayer(project)
@@ -816,7 +912,18 @@ async function renderProjectCover(project) {
     .toFile(coverPath)
 }
 
-for (const project of PROJECTS) {
+const requestedSlugs = process.argv.slice(2)
+const selectedProjects = requestedSlugs.length > 0 ?
+  PROJECTS.filter(project => requestedSlugs.includes(project.slug)) :
+  PROJECTS
+
+const missingSlugs = requestedSlugs.filter(slug => !PROJECTS.some(project => project.slug === slug))
+
+if (missingSlugs.length > 0) {
+  throw new Error(`Unknown project slug(s): ${missingSlugs.join(', ')}`)
+}
+
+for (const project of selectedProjects) {
   // Keep the current X Games cover as the style reference and refresh every
   // other project cover from its original artwork backup.
   await renderProjectCover(project)
