@@ -26,30 +26,45 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: isCiLikeRun,
   retries: isCiLikeRun ? 2 : 0,
-  ...(shouldRunSerially ? { workers: 1 } : {}),
+  workers: shouldRunSerially ? 1 : '50%',
   reporter: 'html',
   use: {
     baseURL: previewURL,
     trace: 'on-first-retry'
   },
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] }
-    }
-  ],
+  projects: isCiLikeRun ?
+    [
+      {
+        name: 'chromium',
+        use: { ...devices['Desktop Chrome'] }
+      },
+      {
+        name: 'firefox',
+        use: { ...devices['Desktop Firefox'] }
+      },
+      {
+        name: 'webkit',
+        use: { ...devices['Desktop Safari'] }
+      },
+      {
+        name: 'Mobile Chrome',
+        use: { ...devices['Pixel 7'] }
+      },
+      {
+        name: 'Mobile Safari',
+        use: { ...devices['iPhone 14'] }
+      }
+    ] :
+    [
+      {
+        name: 'chromium',
+        use: { ...devices['Desktop Chrome'] }
+      }
+    ],
   webServer: {
     command: previewServerCommand,
     timeout: 600_000,
     url: previewURL,
-    reuseExistingServer: false
+    reuseExistingServer: !isCiLikeRun
   }
 })
