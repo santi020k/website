@@ -14,6 +14,9 @@ const LIGHT_SURFACE = '#f4efe7'
 const LIGHT_PANEL = '#ded8cd'
 const LIGHT_GRID = 'rgba(17, 17, 17, 0.065)'
 const DARK_GRID = 'rgba(255, 255, 255, 0.06)'
+const CENTERED_WORDMARK_PLACEMENT = { left: 220, top: 360, width: 1220, height: 520 }
+const CENTERED_STACK_PLACEMENT = { left: 240, top: 270, width: 1060, height: 820 }
+const CENTERED_BADGE_PLACEMENT = { left: 300, top: 280, width: 920, height: 820 }
 
 const PROJECTS = [
   {
@@ -29,7 +32,7 @@ const PROJECTS = [
     logoRect: { left: 0, top: 540, width: 3840, height: 1040 },
     backgroundColor: '#3b3b3b',
     threshold: 14,
-    placement: { left: 180, top: 470, width: 1420, height: 340 }
+    placement: { ...CENTERED_WORDMARK_PLACEMENT }
   },
   {
     slug: 'eslint-config-basic',
@@ -43,7 +46,8 @@ const PROJECTS = [
     texture: '#d8d1ff',
     logoRect: { left: 1040, top: 250, width: 1760, height: 1500 },
     backgroundColor: '#24273a',
-    threshold: 32
+    threshold: 32,
+    placement: { ...CENTERED_BADGE_PLACEMENT }
   },
   {
     slug: 'eslint-config-santi020k',
@@ -57,7 +61,8 @@ const PROJECTS = [
     texture: '#e4dcff',
     logoRect: { left: 1040, top: 250, width: 1760, height: 1500 },
     backgroundColor: '#24273a',
-    threshold: 32
+    threshold: 32,
+    placement: { ...CENTERED_BADGE_PLACEMENT }
   },
   {
     slug: 'justbit',
@@ -72,7 +77,7 @@ const PROJECTS = [
     logoRect: { left: 700, top: 300, width: 2500, height: 1500 },
     backgroundColor: '#49bcae',
     threshold: 22,
-    placement: { left: 170, top: 340, width: 1230, height: 860 },
+    placement: { ...CENTERED_STACK_PLACEMENT },
     shadowBlur: 5.5,
     shadowOpacity: 0.14
   },
@@ -89,7 +94,7 @@ const PROJECTS = [
     logoRect: { left: 930, top: 250, width: 1800, height: 1550 },
     backgroundColor: '#7f8084',
     threshold: 22,
-    placement: { left: 250, top: 360, width: 1050, height: 760 },
+    placement: { ...CENTERED_STACK_PLACEMENT },
     shadowBlur: 5.5,
     shadowOpacity: 0.14
   },
@@ -106,7 +111,7 @@ const PROJECTS = [
     logoRect: { left: 500, top: 600, width: 2850, height: 920 },
     backgroundColor: '#fbfbfa',
     threshold: 14,
-    placement: { left: 120, top: 540, width: 1490, height: 420 }
+    placement: { ...CENTERED_WORDMARK_PLACEMENT }
   },
   {
     slug: 'pads',
@@ -121,7 +126,7 @@ const PROJECTS = [
     logoRect: { left: 680, top: 690, width: 2470, height: 920 },
     backgroundColor: '#ef008c',
     threshold: 24,
-    placement: { left: 160, top: 520, width: 1440, height: 390 }
+    placement: { ...CENTERED_WORDMARK_PLACEMENT }
   },
   {
     slug: 'react-js-colombia',
@@ -136,7 +141,7 @@ const PROJECTS = [
     logoRect: { left: 1160, top: 280, width: 1500, height: 1060 },
     backgroundColor: '#030507',
     threshold: 26,
-    placement: { left: 250, top: 270, width: 1100, height: 860 }
+    placement: { ...CENTERED_BADGE_PLACEMENT }
   },
   {
     slug: 'smith-commerce',
@@ -151,7 +156,7 @@ const PROJECTS = [
     logoRect: { left: 220, top: 640, width: 3400, height: 980 },
     backgroundColor: '#ff6500',
     threshold: 20,
-    placement: { left: 150, top: 520, width: 1450, height: 400 },
+    placement: { ...CENTERED_WORDMARK_PLACEMENT },
     useCustomWordmark: true
   },
   {
@@ -167,7 +172,7 @@ const PROJECTS = [
     logoRect: { left: 420, top: 460, width: 3000, height: 1180 },
     backgroundColor: '#5d5ae6',
     threshold: 24,
-    placement: { left: 150, top: 520, width: 1460, height: 410 }
+    placement: { ...CENTERED_WORDMARK_PLACEMENT }
   }
 ]
 
@@ -368,19 +373,14 @@ async function finalizeLogoBuffer(buffer) {
 
 async function buildSmithCommerceWordmark() {
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="2600" height="680" viewBox="0 0 2600 680">
+    <svg xmlns="http://www.w3.org/2000/svg" width="2400" height="720" viewBox="0 0 2400 720">
       <rect width="100%" height="100%" fill="transparent" />
-      <g fill="#ffffff">
-        <rect x="60" y="30" width="120" height="470" />
-        <rect x="0" y="350" width="420" height="110" />
-        <rect x="300" y="30" width="120" height="120" />
-      </g>
       <text
-        x="520"
-        y="490"
+        x="230"
+        y="508"
         fill="#ffffff"
         font-family="Montserrat, Avenir Next, Segoe UI, Arial, sans-serif"
-        font-size="470"
+        font-size="448"
         font-weight="800"
       >Smith</text>
     </svg>
@@ -417,19 +417,15 @@ async function createMaskedFill({ alpha, width, height, color, opacity = 1 }) {
 function getLogoPlacement({ logoWidth, logoHeight }) {
   const ratio = logoWidth / logoHeight
 
-  if (ratio > 4.2) {
-    return { left: 160, top: 520, width: 1450, height: 390 }
+  if (ratio > 3.2) {
+    return CENTERED_WORDMARK_PLACEMENT
   }
 
-  if (ratio > 3) {
-    return { left: 150, top: 540, width: 1470, height: 420 }
+  if (ratio > 1.3) {
+    return CENTERED_STACK_PLACEMENT
   }
 
-  if (ratio > 1.9) {
-    return { left: 160, top: 560, width: 1510, height: 560 }
-  }
-
-  return { left: 240, top: 390, width: 1180, height: 820 }
+  return CENTERED_BADGE_PLACEMENT
 }
 
 async function buildLogoLayers(logo, project) {

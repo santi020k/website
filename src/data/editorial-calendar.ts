@@ -15,12 +15,12 @@ export const publishingRhythm = {
 
 export const editorialCalendar: EditorialCalendarEntry[] = [
   {
-    format: 'Case study',
-    headline: 'OpenAPI-first frontends for headless commerce teams',
+    format: 'Opinion',
+    headline: 'AI Coding Is Probabilistic. Your Delivery Process Should Not Be.',
     month: 'April 2026',
     refreshTitle: 'Continuous Integration and Deployment for Next.js Projects',
-    searchIntent: 'headless commerce frontend architecture',
-    seriesId: 'building-a-production-nextjs-app'
+    searchIntent: 'ai coding delivery process engineering',
+    seriesId: 'the-santi020k-way'
   },
   {
     format: 'Guide',
