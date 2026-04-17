@@ -1,9 +1,19 @@
 ---
+import { getCollection } from 'astro:content'
+
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
 import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
+
+const now = new Date()
+
+const postCount = (await getCollection('post', ({ data }) => (
+  import.meta.env.PROD ? !data.draft && data.publishDate <= now : true
+))).length
+
+const highlights = speakingHighlights.map(h => h.label === 'Published writing' ? { ...h, value: `${postCount} posts` } : h)
 
 const description =
   'Talks, workshops, and engineering conversations about developer experience, technical leadership, frontend architecture, and calmer delivery systems.'
@@ -127,7 +137,7 @@ const structuredData = [
         lg:grid-cols-1
       "
     >
-      {speakingHighlights.map(highlight => (
+      {highlights.map(highlight => (
         <div class="mini-note">
           <p class="section-label">{highlight.label}</p>
           <p class="mt-2 text-lg font-semibold text-ink">{highlight.value}</p>
