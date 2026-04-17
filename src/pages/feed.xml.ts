@@ -6,8 +6,10 @@ import { siteConfig } from '../site.config'
 import rss from '@astrojs/rss'
 
 export const GET = async (context: APIContext) => {
+  const now = new Date()
+
   const posts = (await getCollection('post', ({ data }) => (
-    import.meta.env.PROD ? !data.draft : true
+    import.meta.env.PROD ? !data.draft && data.publishDate <= now : true
   )))
     .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
 

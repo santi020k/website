@@ -26,7 +26,8 @@ let _series: CollectionEntry<'series'>[] | null = null
 export const getCachedPosts = async (): Promise<CollectionEntry<'post'>[]> => {
   if (_posts) return _posts
 
-  const all = await getCollection('post', ({ data }) => import.meta.env.PROD ? !data.draft : true)
+  const now = new Date()
+  const all = await getCollection('post', ({ data }) => import.meta.env.PROD ? !data.draft && data.publishDate <= now : true)
 
   _posts = all.sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
