@@ -7,7 +7,7 @@ const isCiLikeRun =
 
 const isSnapshotUpdateRun = process.argv.includes('--update-snapshots')
 const shouldBuildPreviewServer = !isCiLikeRun || isSnapshotUpdateRun
-const shouldRunSerially = isCiLikeRun || isSnapshotUpdateRun
+const shouldRunSerially = isCiLikeRun
 const previewHost = '127.0.0.1'
 const previewPort = 4173
 const previewURL = `http://${previewHost}:${previewPort}`
