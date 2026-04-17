@@ -15,7 +15,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const allTags = getAllTags(posts)
 
   return allTags.map(([tag]) => ({
-    params: { tag },
+    params: { tag: encodeURIComponent(tag) },
     props: {
       posts: posts.filter(post => post.data.tags.includes(tag)),
       tag,
