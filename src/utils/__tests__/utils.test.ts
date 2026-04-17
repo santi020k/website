@@ -66,6 +66,10 @@ describe('links', () => {
     expect(getTagPath('developer experience')).toBe('/blog/tags/developer%20experience/')
   })
 
+  it('URI-encodes reserved characters in tag archive paths', () => {
+    expect(getTagPath('ci/cd')).toBe('/blog/tags/ci%2Fcd/')
+  })
+
   it('returns the correct canonical path for a portfolio project', () => {
     expect(getPortfolioPath('my-project')).toBe('/portfolio/my-project/')
   })
