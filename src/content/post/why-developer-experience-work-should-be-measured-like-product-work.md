@@ -8,7 +8,7 @@ coverImage:
 tags: ["developer-experience", "engineering-culture", "metrics", "leadership"]
 postType: "Opinion"
 seriesId: "the-santi020k-way"
-seriesOrder: 11
+seriesOrder: 12
 ---
 
 Developer experience work tends to disappear from the conversation.
