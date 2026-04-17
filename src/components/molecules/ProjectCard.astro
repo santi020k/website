@@ -30,7 +30,6 @@ const imageSizes = featured ?
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const projectFeaturedLabel = getProjectFeaturedLabel(project.data.typesId)
 const projectYearsLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
-const useImageOverlay = Boolean(project.data.coverImage?.src)
 const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 2)
 ---
 
@@ -46,80 +45,84 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
     className
   ]}
 >
-  <a aria-label={project.data.title} class="relative block overflow-hidden" href={projectLink}>
+  <a
+    aria-label={project.data.title}
+    class:list={[
+      'block',
+      featured ? 'px-4 pt-4 sm:px-5 sm:pt-5' : 'px-3 pt-3 sm:px-4 sm:pt-4'
+    ]}
+    href={projectLink}
+  >
     <span class="sr-only">{project.data.title}</span>
     {project.data.coverImage?.src ?
       (
-        <>
-          <CoverImage
-            alt={project.data.coverImage.alt || project.data.title}
-            featured={featured}
-            image={project.data.coverImage.src}
-            mode="card"
-            sizes={imageSizes}
-          />
-          {useImageOverlay && (
-            <>
-              <div
-                aria-hidden="true"
-                class="
-                  pointer-events-none absolute inset-x-0 bottom-0 h-32
-                  bg-linear-to-t from-canvas/88 via-canvas/16 to-transparent
-                "
-              >
-              </div>
-              <div class="
-                pointer-events-none absolute inset-x-0 top-0 flex items-start
-                justify-between gap-3 p-4
-                sm:p-5
-              "
-              >
-                <Pill label={featured ? projectFeaturedLabel : projectTypeLabel} tone="brand" />
-                <span class="
-                  rounded-full border border-white/12 bg-canvas/60 px-3 py-1.5
-                  text-xs font-semibold tracking-[0.16em] text-white/80
-                  uppercase backdrop-blur-sm
-                "
-                >{projectYearsLabel}
-                </span>
-              </div>
-            </>
-          )}
-        </>
+        <CoverImage
+          alt={project.data.coverImage.alt || project.data.title}
+          className="
+            rounded-[1.35rem] border border-line/40
+            shadow-[0_18px_42px_hsl(var(--ink)/0.08)]
+          "
+          featured={featured}
+          image={project.data.coverImage.src}
+          loading={featured ? 'eager' : 'lazy'}
+          mode="card"
+          showCardOverlay={false}
+          sizes={imageSizes}
+        />
       ) :
       (
-        <div class="
-          aspect-16/10 border-b border-line/45 bg-surface-muted grid-fade
-        "
+        <div
+          class="
+            aspect-16/10 rounded-[1.35rem] border border-line/40
+            bg-surface-muted grid-fade
+          "
         />
       )}
   </a>
 
   <div class:list={[`
-    flex grow flex-col gap-6 p-6
-    sm:p-7
+    flex grow flex-col gap-5 p-6 pt-5
+    sm:p-7 sm:pt-6
   `, featured && `
     justify-between
-    lg:p-8
+    lg:p-8 lg:pt-7
   `]}
   >
-    <div class="
-      flex flex-wrap items-center gap-2 text-sm text-ink-muted
-      sm:gap-3
-    "
-    >
-      {featured && !useImageOverlay && <Pill label={projectFeaturedLabel} tone="brand" />}
-      {!featured && <Pill label={projectTypeLabel} tone="outline" />}
-      {project.data.rol && <span>{project.data.rol}</span>}
-      {project.data.rol && (
-        <span
-          aria-hidden="true"
-          class="size-1 rounded-full bg-line"
-        />
-      )}
-      <FormattedDate date={project.data.startingDate} />
-      <span aria-hidden="true">-</span>
-      {project.data.endingDate ? <FormattedDate date={project.data.endingDate} /> : <span>Present</span>}
+    <div class="space-y-3">
+      <div class="
+        flex flex-wrap items-start justify-between gap-3
+      "
+      >
+        <div class="
+          flex flex-wrap items-center gap-2
+          sm:gap-3
+        "
+        >
+          <Pill label={featured ? projectFeaturedLabel : projectTypeLabel} tone={featured ? 'brand' : 'outline'} />
+          {project.data.rol && (
+            <span class="text-sm font-medium text-ink-muted">
+              {project.data.rol}
+            </span>
+          )}
+        </div>
+
+        <span class="
+          rounded-full border border-line/70 bg-surface-muted/80 px-3 py-1.5
+          text-xs font-semibold tracking-[0.16em] text-ink-muted uppercase
+        "
+        >{projectYearsLabel}
+        </span>
+      </div>
+
+      <div class="
+        flex flex-wrap items-center gap-2 text-sm text-ink-muted
+        sm:gap-3
+      "
+      >
+        <FormattedDate date={project.data.startingDate} />
+        <span aria-hidden="true">-</span>
+        {project.data.endingDate ? <FormattedDate date={project.data.endingDate} /> : <span>Present</span>}
+      </div>
     </div>
 
     <div class="space-y-3">

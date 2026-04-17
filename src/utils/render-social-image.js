@@ -10,6 +10,8 @@ const fontRegular = fs.readFileSync(path.resolve(process.cwd(), 'public/fonts/Mo
 const fontBold = fs.readFileSync(path.resolve(process.cwd(), 'public/fonts/Montserrat-ExtraBold.ttf'))
 const logoBase64 = (await sharp(path.resolve(process.cwd(), 'public/logo.webp')).png().toBuffer()).toString('base64')
 const logoDataURI = `data:image/png;base64,${logoBase64}`
+const COVER_FRAME_WIDTH = 348
+const COVER_FRAME_HEIGHT = 260
 
 const escapeHTML = value => value
   .replaceAll('&', '&amp;')
@@ -22,7 +24,19 @@ const escapeHTML = value => value
  * Adaptive title font size — now that description is gone the title has
  * ~340px of vertical room so we can afford larger sizes at every tier.
  */
-const getTitleSize = title => {
+const getTitleSize = (title, hasCoverImage = false) => {
+  if (hasCoverImage) {
+    if (title.length > 90) return 34
+
+    if (title.length > 72) return 40
+
+    if (title.length > 56) return 46
+
+    if (title.length > 38) return 52
+
+    return 58
+  }
+
   if (title.length > 90) return 44
 
   if (title.length > 72) return 52
@@ -40,21 +54,172 @@ const getTitleSize = title => {
  */
 const truncateDescription = (text, max = 105) => text.length > max ? `${text.slice(0, max).trimEnd()}…` : text
 
+const getCoverImageDataURI = async coverImagePath => {
+  if (!coverImagePath) return undefined
+  if (!fs.existsSync(coverImagePath)) return undefined
+
+  const coverBase64 = (await sharp(coverImagePath)
+    .rotate()
+    .resize(COVER_FRAME_WIDTH * 2, COVER_FRAME_HEIGHT * 2, {
+      fit: 'cover',
+      position: 'attention'
+    })
+    .jpeg({
+      mozjpeg: true,
+      quality: 82
+    })
+    .toBuffer()).toString('base64')
+
+  return `data:image/jpeg;base64,${coverBase64}`
+}
+
 /**
  * @param {{\
  *   description: string
+ *   coverImagePath?: string
  *   pathLabel?: string
  *   title: string
  *   type: string
  * }} props
  */
 export const renderSocialImage = async ({
+  coverImagePath,
   description,
   title,
   type
 }) => {
-  const titleSize = getTitleSize(title)
-  const shortDescription = truncateDescription(description)
+  const coverImageDataURI = await getCoverImageDataURI(coverImagePath)
+  const hasCoverImage = Boolean(coverImageDataURI)
+  const titleSize = getTitleSize(title, hasCoverImage)
+  const shortDescription = truncateDescription(description, hasCoverImage ? 88 : 105)
+  const bodyMarkup = hasCoverImage ?
+    `
+      <div style="
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        width: 100%;
+        margin: 36px 0 30px;
+      ">
+        <div style="
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          justify-content: center;
+          gap: 22px;
+          min-width: 0;
+        ">
+          <div style="
+            display: flex;
+            width: 140px;
+            height: 10px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(91, 31, 172, 0.16) 0%, rgba(139, 92, 246, 0.02) 100%);
+          "></div>
+          <h1 style="
+            display: flex;
+            margin: 0;
+            max-width: 660px;
+            font-size: ${titleSize}px;
+            font-weight: 900;
+            line-height: 1.06;
+            letter-spacing: -0.04em;
+            color: #1a1228;
+          ">
+            ${escapeHTML(title)}
+          </h1>
+        </div>
+
+        <div style="
+          display: flex;
+          width: ${COVER_FRAME_WIDTH}px;
+          height: ${COVER_FRAME_HEIGHT}px;
+          flex-shrink: 0;
+          border-radius: 30px;
+          padding: 10px;
+          background: linear-gradient(145deg, rgba(91, 31, 172, 0.24) 0%, rgba(139, 92, 246, 0.08) 100%);
+          box-shadow: 0 24px 54px rgba(35, 27, 48, 0.16);
+        ">
+          <div style="
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 22px;
+            background: #140f1e;
+          ">
+            <img
+              src="${coverImageDataURI}"
+              style="
+                display: flex;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+              "
+            />
+            <div style="
+              display: flex;
+              position: absolute;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              background: linear-gradient(180deg, rgba(26, 18, 40, 0.02) 0%, rgba(26, 18, 40, 0.26) 100%);
+            "></div>
+            <div style="
+              display: flex;
+              position: absolute;
+              right: 18px;
+              bottom: 18px;
+              left: 18px;
+              align-items: center;
+              gap: 12px;
+            ">
+              <div style="
+                display: flex;
+                width: 34px;
+                height: 4px;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.85);
+              "></div>
+              <span style="
+                display: flex;
+                font-size: 18px;
+                font-weight: 700;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: rgba(255, 255, 255, 0.96);
+              ">
+                Cover
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    ` :
+    `
+      <div style="
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        max-width: 1020px;
+      ">
+        <h1 style="
+          display: flex;
+          margin: 0;
+          font-size: ${titleSize}px;
+          font-weight: 900;
+          line-height: 1.06;
+          letter-spacing: -0.04em;
+          color: #1a1228;
+        ">
+          ${escapeHTML(title)}
+        </h1>
+      </div>
+    `
 
   const markupHtml = `
     <div style="
@@ -165,26 +330,8 @@ export const renderSocialImage = async ({
           </div>
         </div>
 
-        <!-- Hero title — takes all available vertical space -->
-        <div style="
-          display: flex;
-          flex-direction: column;
-          gap: 0;
-          width: 100%;
-          max-width: 1020px;
-        ">
-          <h1 style="
-            display: flex;
-            margin: 0;
-            font-size: ${titleSize}px;
-            font-weight: 900;
-            line-height: 1.06;
-            letter-spacing: -0.04em;
-            color: #1a1228;
-          ">
-            ${escapeHTML(title)}
-          </h1>
-        </div>
+        <!-- Hero title / optional cover panel -->
+        ${bodyMarkup}
 
         <!-- Footer: single-line description + author attribution -->
         <div style="
@@ -198,10 +345,12 @@ export const renderSocialImage = async ({
         ">
           <span style="
             display: flex;
+            flex: 1;
             font-size: 22px;
             font-weight: 400;
             color: #6a5a7c;
             line-height: 1;
+            max-width: ${hasCoverImage ? 640 : 860}px;
           ">
             ${escapeHTML(shortDescription)}
           </span>
