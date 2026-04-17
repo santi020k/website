@@ -5,7 +5,7 @@ publishDate: "2024-03-14T18:01:55.000Z"
 tags: ["eslint", "vitest", "typescript", "standards", "react"]
 coverImage:
   alt: "building the best next js typescript standard vitest eslint configuration"
-  src: "./building-the-best-next-js-typescript-standard-vitest-eslint-configuration-cover.jpeg"
+  src: "./building-the-best-next-js-typescript-standard-vitest-eslint-configuration-cover.webp"
 postType: "Guide"
 seriesId: "building-a-production-nextjs-app"
 seriesOrder: 2
