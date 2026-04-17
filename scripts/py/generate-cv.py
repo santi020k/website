@@ -220,7 +220,7 @@ def build() -> None:
         # PDF metadata — parsed by ATS systems and search engines
         title    = "Santiago Molina Orozco — CV",
         author   = "Santiago Molina Orozco",
-        subject  = "Tech Lead | Sr. Front End Developer | React | TypeScript | Node.js",
+        subject  = "Tech Lead | Senior Front End Developer | React | TypeScript | Node.js",
         keywords = (
             "React, TypeScript, Node.js, Tech Lead, Full Stack Developer, "
             "Frontend, Next.js, React Native, NestJS, AWS, CI/CD, Agile, Scrum, "
@@ -255,7 +255,7 @@ def build() -> None:
             f"I\u2019m a Full Stack Developer and Tech Lead with over a decade of experience, "
             f"specializing in {B('React, React Native, TypeScript and Node.js')}, with a strong "
             f"focus on front-end architecture and user experience. Currently working as a "
-            f"{B('Sr. Front End Developer at Smith Commerce')}, I\u2019ve led high-impact, scalable "
+            f"{B('Senior Front End Developer at Smith Commerce')}, I\u2019ve led high-impact, scalable "
             f"projects for companies like {B('Void.GG')}, aligning technical solutions with "
             f"business goals.",
             s["body"],
@@ -275,7 +275,7 @@ def build() -> None:
     # Smith Commerce ──────────────────────────────────────────────────────────
     story += experience(s,
         "Smith Commerce", "USA (Remote)",
-        "Sr. Front End Developer", "May 2025 \u2013 Present",
+        "Senior Front End Developer", "May 2025 \u2013 Present",
         [
             "Drove the frontend rebuild of Marcone\u2019s headless storefront, improving Lighthouse "
             "score from 35 to 98 and reducing Time to Interactive by 75%",
@@ -319,7 +319,7 @@ def build() -> None:
     # Optic Power ─────────────────────────────────────────────────────────────
     story += experience(s,
         "Optic Power", "USA (Remote)",
-        "Full Stack Developer", "Jul 2021 \u2013 Feb 2023",
+        "Senior Full Stack Engineer", "Jul 2021 \u2013 Feb 2023",
         [
             "Built and maintained robust web applications using React, Node.js, and TypeScript "
             "across multiple client projects",
@@ -363,7 +363,7 @@ def build() -> None:
             "Directed the front-end development of enterprise-level, data-driven applications, "
             "ensuring adherence to high UI/UX standards and scalable design systems",
             "Led the migration of a legacy jQuery-based platform to a modern React + TypeScript "
-            "architecture, improving maintainability and reducing bug incidence by over 40%",
+            "architecture, improving maintainability and reducing bug incidence by over 30%",
             "Collaborated with data scientists and backend engineers to implement real-time "
             "visualizations and analytics dashboards, helping clients gain actionable insights",
             "Introduced D3.js and Atomic Design principles, enhancing usability and accessibility",
@@ -398,7 +398,7 @@ def build() -> None:
     # Nebular ─────────────────────────────────────────────────────────────────
     story += experience(s,
         "Nebular", "COL (Hybrid)",
-        "Junior Full Stack Developer", "Jan 2014 \u2013 Apr 2017",
+        "Full Stack Developer", "Jan 2014 \u2013 Apr 2017",
         [
             "Gained full-stack experience with Ruby on Rails, AngularJS, and native Android "
             "(Java) under the mentorship of experienced engineers",
