@@ -206,7 +206,7 @@ const loadMediumPosts = async (): Promise<MediumPost[]> => {
 
     return posts
   } catch (error) {
-    console.warn('Falling back to cached Medium posts.', error)
+    if (import.meta.env.DEV) console.warn('Falling back to cached Medium posts.', error)
 
     return mediumPostsCache
   }
