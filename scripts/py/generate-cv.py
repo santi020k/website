@@ -430,7 +430,7 @@ def build() -> None:
     # ── Projects ──────────────────────────────────────────────────────────────
     story += [Paragraph("Projects", s["section"]), rule()]
 
-    story += experience(s,
+    story.append(KeepTogether(experience(s,
         "React JS Colombia", "",
         "Co-organizer", "Jul 2017 \u2013 Present",
         [
@@ -441,10 +441,21 @@ def build() -> None:
             "Organize workshops, tech talks, and hands-on coding sessions on React and the "
             "broader JavaScript ecosystem",
         ],
-    )
-    story.append(Spacer(1, 5))
+    ) + [Spacer(1, 5)]))
 
-    story += experience(s,
+    story.append(KeepTogether(experience(s,
+        "@santi020k/eslint-config-basic", "",
+        "Author", "Mar 2024 \u2013 Present",
+        [
+            "Built a composable ESLint toolkit for JavaScript, TypeScript, React, Next.js, Astro, "
+            "and more \u2014 rebuilt from scratch around ESLint\u2019s flat config format with optional "
+            "per-framework packages and a strict mode for CI/CD pipelines",
+            "229+ weekly npm downloads; adopted across personal, client, and shared codebases as "
+            "a reusable expression of engineering standards teams can extend",
+        ],
+    ) + [Spacer(1, 5)]))
+
+    story.append(KeepTogether(experience(s,
         "@santi020k/eslint-config-santi020k", "",
         "Author", "Mar 2024 \u2013 Present",
         [
@@ -453,7 +464,7 @@ def build() -> None:
             "Adopted by 30+ developers across multiple teams, reducing technical debt and "
             "improving code readability",
         ],
-    )
+    ) + [Spacer(1, 3)]))
 
     # ── Skills & Interests ────────────────────────────────────────────────────
     story += [Paragraph("Skills & Interests", s["section"]), rule()]

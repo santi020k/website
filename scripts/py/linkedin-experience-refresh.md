@@ -6,6 +6,7 @@ Keep this file in sync with `cv.md` and `generate-cv.py` whenever experience con
 ## Standardized titles and metrics (decided)
 
 - **Smith Commerce**: Senior Front End Developer
+- **X Games**: Senior Full Stack Engineer
 - **Void.GG**: Technical Lead
 - **Optic Power**: Senior Full Stack Engineer
 - **PADS**: Technical Lead
@@ -35,6 +36,23 @@ I lead front-end work on the rebuild of Marcone's storefront as a modern headles
 - Improved developer experience with Storybook, linting automation, and stronger team standards, reducing review friction and helping the team ship more predictably.
 
 **Skills:** Next.js · React · TypeScript · Turborepo · Tailwind CSS · Radix UI · TanStack Query · Zustand · Apollo Client · OpenAPI · Storybook · Jest · Playwright · Accessibility · CI/CD · AWS · Headless Commerce
+
+---
+
+## X Games
+
+**Title:** Senior Full Stack Engineer
+**Dates:** Jan 2025 – Jul 2025
+**Location:** United States · Remote
+
+Helped maintain and evolve the official X Games digital platform during active broadcast event seasons, working on systems that served millions of concurrent fans. The platform sits at the intersection of live sports media, programmatic advertising, and geo-based content access — where a broken ad slot or a geo-routing failure affects thousands of users mid-event.
+
+- Built a full Google Ad Manager integration from scratch, including a custom React hook with retry logic, route-change cleanup, and slot teardown that held reliably under live broadcast traffic.
+- Implemented geo-based live stream access control via Sanity CMS flags, routing international audiences to correct streams without per-region code deployments.
+- Shipped responsive banner components, newsletter form variants, Sanity Studio schema extensions, and animated live event UX polish across two codebases.
+- Merged 56+ PRs across the Next.js frontend and Sanity CMS backend during active X Games event seasons.
+
+**Skills:** Next.js · React · JavaScript · SCSS · Sanity CMS · Sanity Studio · Firebase · Google Ad Manager · Google Tag Manager · Vercel · Node.js · Jest · Storybook · ESLint · Stylelint
 
 ---
 

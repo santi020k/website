@@ -28,6 +28,17 @@ As a **co-organizer of React JS Colombia Meetup**, I actively contribute to the 
 
 ---
 
+### X Games — USA (Remote)
+**Senior Full Stack Engineer** · Jan 2025 – Jul 2025
+
+- Built a full Google Ad Manager integration from scratch — a custom React hook with retry logic, route-change cleanup, and slot teardown that held under live broadcast traffic for millions of concurrent fans
+- Implemented geo-based live stream access control via Sanity CMS flags, routing international audiences to correct streams without per-region code deployments
+- Shipped responsive Ad Manager banner components, newsletter form variants, Sanity Studio schema extensions, and animated live event UX across two codebases
+- Merged 56+ PRs across the Next.js frontend and Sanity CMS backend during active X Games broadcast event seasons
+- **Tech Stack:** Next.js · React · JavaScript · SCSS · Sanity CMS · Firebase · Google Ad Manager · Google Tag Manager · Vercel · Jest
+
+---
+
 ### Void.GG — USA (Remote)
 **Technical Lead** · Feb 2023 – May 2025
 
@@ -97,6 +108,12 @@ As a **co-organizer of React JS Colombia Meetup**, I actively contribute to the 
 - Co-founded and continue to lead one of Colombia's most active React communities, supporting developers at all levels since 2017
 - Launched a free monthly workshop series consistently attracting 100+ participants per session — a dynamic hub for professional growth, collaboration, and networking
 - Organize workshops, tech talks, and hands-on coding sessions on React and the broader JavaScript ecosystem
+
+### @santi020k/eslint-config-basic
+**Author** · Mar 2024 – Present
+
+- Built a composable ESLint toolkit for JavaScript, TypeScript, React, Next.js, Astro, and more — rebuilt from scratch around ESLint's flat config format with optional per-framework packages and a strict mode for CI/CD pipelines
+- 229+ weekly npm downloads; adopted across personal, client, and shared codebases as a reusable expression of engineering standards teams can extend
 
 ### @santi020k/eslint-config-santi020k
 **Author** · Mar 2024 – Present
