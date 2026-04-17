@@ -1,7 +1,7 @@
 ---
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
-import { speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
+import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
 
@@ -133,6 +133,61 @@ const structuredData = [
           <p class="mt-2 text-lg font-semibold text-ink">{highlight.value}</p>
           <p class="mt-2 text-sm/7 text-ink-soft">{highlight.description}</p>
         </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="A sample of past sessions with slides and recordings. Dates and audience figures are approximate — ping me if you want more context on any of these."
+      eyebrow="Selected sessions"
+      title="Talks with evidence."
+    />
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+    >
+      {selectedSessions.map(talk => (
+        <article class="
+          panel-card flex h-full flex-col space-y-4 p-6
+          sm:p-7
+        "
+        >
+          <div>
+            <p class="section-label">{talk.event} · {talk.year}</p>
+            {talk.audience && (
+              <p class="mt-1 text-xs text-ink-muted">{talk.audience}</p>
+            )}
+          </div>
+          <h2 class="text-xl font-semibold text-ink">{talk.title}</h2>
+          <p class="grow text-sm/7 text-ink-soft">{talk.description}</p>
+          <div class="flex flex-wrap gap-2">
+            {talk.tags.map(tag => (
+              <span class="
+                rounded-full border border-line/50 px-3 py-0.5 text-xs
+                font-medium text-ink-muted
+              "
+              >{tag}
+              </span>
+            ))}
+          </div>
+          {(talk.links.slides ?? talk.links.video) && (
+            <div class="section-actions">
+              {talk.links.slides && (
+                <ButtonLink href={talk.links.slides} newTab showArrow variant="secondary">
+                  Slides
+                </ButtonLink>
+              )}
+              {talk.links.video && (
+                <ButtonLink href={talk.links.video} newTab showArrow variant="secondary">
+                  Watch talk
+                </ButtonLink>
+              )}
+            </div>
+          )}
+        </article>
       ))}
     </div>
   </section>
