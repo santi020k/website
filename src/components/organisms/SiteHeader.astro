@@ -20,7 +20,6 @@ import type { SiteLink } from '@/types'
     <div class="contents" data-mobile-nav>
       <div class="site-header-shell z-50" data-header-shell>
         <a
-          aria-label="Home"
           class="
             group relative z-10 inline-flex min-w-0 items-center gap-3
             transition duration-200
@@ -119,7 +118,6 @@ import type { SiteLink } from '@/types'
             <button
               aria-controls="mobile-nav"
               aria-expanded="false"
-              aria-label="Open navigation"
               class="
                 relative z-50 inline-flex min-h-11 cursor-pointer items-center
                 gap-2 rounded-full border border-line/70 bg-surface/76 px-4
@@ -151,6 +149,7 @@ import type { SiteLink } from '@/types'
               >
                 Menu
               </span>
+              <span class="sr-only">navigation</span>
             </button>
           </div>
         </div>
@@ -456,7 +455,6 @@ class SiteHeaderMobileNav extends HTMLElement {
     }
 
     this.toggle.setAttribute('aria-expanded', String(isOpen))
-    this.toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation')
     this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
     this.menuIcon.hidden = isOpen
     this.closeIcon.hidden = !isOpen
@@ -480,7 +478,6 @@ class SiteHeaderMobileNav extends HTMLElement {
     const isOpen = this.isOpen
 
     this.toggle.setAttribute('aria-expanded', String(isOpen))
-    this.toggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation')
     this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
     this.menuIcon.hidden = isOpen
     this.closeIcon.hidden = !isOpen
