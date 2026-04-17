@@ -16,7 +16,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Optic Power Projects Showcase"
+  alt: "Codepwr logo on a navy, cyan, and ivory geometric cover"
   ogImage: "./cover.webp"
 ---
 

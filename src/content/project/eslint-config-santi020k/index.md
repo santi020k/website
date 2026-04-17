@@ -16,7 +16,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "eslint-config-santi020k library"
+  alt: "@santi020k/eslint-config-santi020k badge on an indigo and violet geometric cover"
 ---
 
 > **This library has been superseded.** `@santi020k/eslint-config-santi020k` has been replaced by [`@santi020k/eslint-config-basic`](/portfolio/eslint-config-basic/), which is more composable, better documented, and actively maintained. New projects should use that instead.

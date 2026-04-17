@@ -16,7 +16,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Void Landing Page"
+  alt: "VOID logo on an indigo and cobalt geometric cover"
   ogImage: './cover.webp'
 ---
 

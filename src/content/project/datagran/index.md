@@ -16,7 +16,7 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Datagran platform"
+  alt: "Datagran logo on a charcoal and neon green geometric cover"
   ogImage: "./cover.webp"
 ---
 
