@@ -8,7 +8,7 @@ coverImage:
 tags: ["architecture", "documentation", "software-design", "engineering-culture"]
 postType: "Case Study"
 seriesId: "the-santi020k-way"
-seriesOrder: 12
+seriesOrder: 13
 ---
 
 I started writing short architecture notes about fourteen months ago. Not formal documentation. Not full architectural decision records. Just monthly notes on what I was looking at, what felt like it was working, what felt like it was starting to drift, and what I was uncertain about.
