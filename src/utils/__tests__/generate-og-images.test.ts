@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 
-import { collectSpecs } from '../../../scripts/generate-og-images.js'
+import { collectSpecs } from '../../../scripts/js/generate-og-images.js'
 
 interface SocialImageProps {
   coverImagePath?: string
