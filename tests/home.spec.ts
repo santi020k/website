@@ -4,7 +4,27 @@ import {
   visualSnapshotSkipReason
 } from './helpers/visual-regression'
 
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
+
+const navigateFromMobileMenu = async (
+  page: Page,
+  options: {
+    linkName: string
+    urlPattern: RegExp
+  }
+) => {
+  const menuToggle = page.locator('[data-mobile-nav-toggle]')
+  const menuLink = page.locator('#mobile-nav').getByRole('link', { name: options.linkName })
+
+  await menuToggle.click()
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(menuLink).toBeVisible()
+
+  await Promise.all([
+    page.waitForURL(options.urlPattern),
+    menuLink.click()
+  ])
+}
 
 test('homepage has correct title and main sections', async ({ page }) => {
   await page.goto('/')
@@ -94,12 +114,10 @@ test('mobile navigation resets after navigating to another page', async ({ page 
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
 
-  const menuToggle = page.locator('[data-mobile-nav-toggle]')
-
-  await menuToggle.click()
-  await expect(menuToggle).toHaveAttribute('aria-expanded', 'true')
-
-  await page.locator('#mobile-nav').getByRole('link', { name: 'About' }).click()
+  await navigateFromMobileMenu(page, {
+    linkName: 'About',
+    urlPattern: /\/about\/$/
+  })
 
   await expect(page).toHaveURL(/\/about\/$/)
   await expect(page.locator('[data-mobile-nav-toggle]')).toHaveAttribute('aria-expanded', 'false')
@@ -120,8 +138,10 @@ test('navigation to portfolio works', async ({ page }) => {
   const isMobile = viewport !== null && viewport.width < 1024
 
   if (isMobile) {
-    await page.locator('[data-mobile-nav-toggle]').click()
-    await page.locator('#mobile-nav').getByRole('link', { name: 'Portfolio' }).click()
+    await navigateFromMobileMenu(page, {
+      linkName: 'Portfolio',
+      urlPattern: /\/portfolio\/$/
+    })
   } else {
     await page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'Portfolio' }).click()
   }
@@ -137,8 +157,10 @@ test('navigation to blog works', async ({ page }) => {
   const isMobile = viewport !== null && viewport.width < 1024
 
   if (isMobile) {
-    await page.locator('[data-mobile-nav-toggle]').click()
-    await page.locator('#mobile-nav').getByRole('link', { name: 'Blog' }).click()
+    await navigateFromMobileMenu(page, {
+      linkName: 'Blog',
+      urlPattern: /\/blog\/$/
+    })
   } else {
     await page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'Blog' }).click()
   }

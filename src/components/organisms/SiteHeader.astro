@@ -367,13 +367,28 @@ class SiteHeaderMobileNav extends HTMLElement {
       return
     }
 
-    if (target.closest('a[href]')) {
-      // Delay closing to ensure Safari processes the link interaction/navigation.
-      // Page-wide navigation is primarily handled by the astro:before-preparation listener.
-      window.requestAnimationFrame(() => {
-        this.closeMenu({ restoreFocus: false })
-      })
+    const link = target.closest<HTMLAnchorElement>('a[href]')
+
+    if (!(link instanceof HTMLAnchorElement)) {
+      return
     }
+
+    const isInternalNavigation =
+      link.origin === window.location.origin &&
+      link.target !== '_blank' &&
+      !link.hasAttribute('download')
+
+    if (isInternalNavigation) {
+      // Let Astro/navigation lifecycle events close the panel after navigation starts.
+      // Closing during the same click can suppress navigation in WebKit under CI.
+      return
+    }
+
+    // External/new-tab actions keep the current page in place, so close the menu
+    // after the click has been handed off to the browser.
+    window.setTimeout(() => {
+      this.closeMenu({ restoreFocus: false })
+    }, 0)
   }
 
   handleWindowKeydown = (event: KeyboardEvent) => {
