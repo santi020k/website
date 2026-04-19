@@ -35,7 +35,7 @@ I actually think this is a good direction. In frontend projects, too many defaul
 
 With flat config, the setup becomes more explicit. That is exactly what I want in a serious project.
 
-![Diagram comparing a layered eslintrc setup with a more explicit flat config setup](./migrate-eslint-8-or-less-to-eslint-9-fig-1.webp)
+![Diagram comparing a layered eslintrc setup with a more explicit flat config setup](./fig-1.webp)
 
 ## 1. Confirm the runtime before touching the config
 
@@ -236,7 +236,7 @@ This approach fits the way I like to work:
 
 For frontend teams, that matters a lot. I do not want quality to depend on whether one developer installed the right extension or remembered the right lint preset six months ago.
 
-![Diagram showing a migration path from legacy eslint config to a reusable explicit flat config setup](./migrate-eslint-8-or-less-to-eslint-9-fig-2.webp)
+![Diagram showing a migration path from legacy eslint config to a reusable explicit flat config setup](./fig-2.webp)
 
 ## 7. Final migration checklist
 
