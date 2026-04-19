@@ -54,7 +54,7 @@ These `.claude/skills/` documents expand on specific areas of this guide:
 | **Experience** | 12+ years — React, React Native, Node.js, TypeScript |
 | **Specialisation** | Front-end architecture and UI/UX experiences |
 | **Location** | Medellín, Colombia · Remote worldwide |
-| **Contact** | [santiago@santi020k.com](mailto:santiago@santi020k.com) |
+| **Contact** | [hi@santi020k.com](mailto:hi@santi020k.com) |
 | **Profiles** | [LinkedIn](https://linkedin.com/in/santi020k) · [GitHub](https://github.com/santi020k) · [Medium](https://medium.com/@santi020k) |
 | **Availability** | Open to senior frontend, full stack, and tech lead roles |
 

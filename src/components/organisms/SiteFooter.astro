@@ -8,40 +8,15 @@ import { version } from '../../../package.json'
 import { menuLinks, siteConfig } from '@/site.config'
 
 const year = new Date().getFullYear()
-const buildDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 
 const footerLinks = [
   ...menuLinks,
-  {
-    icon: undefined,
-    path: '/blog/series/',
-    title: 'Series'
-  },
-  {
-    icon: undefined,
-    path: '/blog/content-calendar/',
-    title: 'Content Calendar'
-  },
-  {
-    icon: undefined,
-    path: '/blog/tags/',
-    title: 'Topics'
-  },
-  {
-    icon: undefined,
-    path: '/uses/',
-    title: 'Uses'
-  },
-  {
-    icon: 'tabler:rss',
-    path: '/feed.xml',
-    title: 'RSS Feed'
-  },
-  {
-    icon: 'tabler:sitemap',
-    path: '/sitemap-index.xml',
-    title: 'Sitemap'
-  }
+  { path: '/blog/series/', title: 'Series' },
+  { path: '/blog/content-calendar/', title: 'Content Calendar' },
+  { path: '/blog/tags/', title: 'Topics' },
+  { path: '/uses/', title: 'Uses' },
+  { icon: 'tabler:rss', path: '/feed.xml', title: 'RSS Feed' },
+  { icon: 'tabler:sitemap', path: '/sitemap-index.xml', title: 'Sitemap' }
 ]
 
 const currentPath = Astro.url.pathname
@@ -226,7 +201,7 @@ const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
       sm:flex-row sm:items-center sm:justify-between
     "
     >
-      <p>&copy; {year} {siteConfig.author}. Built {buildDate}.</p>
+      <p>&copy; {year} {siteConfig.author}.</p>
 
       <div class="flex flex-wrap items-center gap-3">
         <span class="text-ink-muted/50">·</span>
