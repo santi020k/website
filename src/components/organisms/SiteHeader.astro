@@ -55,20 +55,22 @@ import type { SiteLink } from '@/types'
         <nav
           aria-label="Main menu"
           class="
-            hidden items-center gap-1
+            hidden items-center gap-0.5
             lg:flex
           "
         >
           {
             menuLinks.map((link: SiteLink) => {
-              const isActive = Astro.url.pathname === link.path
+              const isActive = link.path === '/' ?
+                Astro.url.pathname === '/' :
+                Astro.url.pathname.startsWith(link.path)
 
               return (
                 <a
                   aria-current={isActive ? 'page' : undefined}
                   class:list={[
                     `
-                      relative inline-flex min-h-11 items-center px-3 py-2
+                      relative inline-flex min-h-11 items-center gap-1.5 px-3 py-2
                       text-sm font-medium transition-colors duration-200
                       after:absolute after:inset-x-3 after:bottom-1.5 after:h-px
                       after:origin-left after:scale-x-0 after:bg-brand
@@ -216,7 +218,9 @@ import type { SiteLink } from '@/types'
           <div class="grid gap-2">
             {
               menuLinks.map((link: SiteLink) => {
-                const isActive = Astro.url.pathname === link.path
+                const isActive = link.path === '/' ?
+                  Astro.url.pathname === '/' :
+                  Astro.url.pathname.startsWith(link.path)
 
                 return (
                   <a

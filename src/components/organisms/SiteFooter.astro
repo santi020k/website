@@ -1,153 +1,165 @@
 ---
+import { Picture } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
 import ContactSection from '@/components/molecules/ContactSection.astro'
 
+import LogoMark from '@/assets/logo.webp'
 import { version } from '../../../package.json'
 
 import { menuLinks, siteConfig } from '@/site.config'
 
 const year = new Date().getFullYear()
 
-const footerLinks = [
+const navLinks = [
   ...menuLinks,
   { path: '/blog/series/', title: 'Series' },
-  { path: '/blog/content-calendar/', title: 'Content Calendar' },
   { path: '/blog/tags/', title: 'Topics' },
-  { path: '/uses/', title: 'Uses' },
+  { path: '/uses/', title: 'Uses' }
+]
+
+const resourceLinks = [
+  { icon: 'tabler:calendar-month', path: '/blog/content-calendar/', title: 'Content Calendar' },
   { icon: 'tabler:rss', path: '/feed.xml', title: 'RSS Feed' },
   { icon: 'tabler:sitemap', path: '/sitemap-index.xml', title: 'Sitemap' }
 ]
 
 const currentPath = Astro.url.pathname
 const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
+
+function isLinkActive(linkPath: string): boolean {
+  if (linkPath === '/') return currentPath === '/'
+  const hasExactMatch = [...navLinks, ...resourceLinks].some(l => l.path === currentPath)
+  return hasExactMatch ? currentPath === linkPath : currentPath.startsWith(linkPath)
+}
 ---
 
-<footer class="
-  border-t border-line/40 bg-linear-to-b from-transparent to-surface-muted/20
-  px-4 pt-20 pb-10
-  sm:px-6
-  lg:px-8
-"
->
-  <div class="mx-auto w-full max-w-6xl space-y-16">
+<footer class="relative mt-10 overflow-hidden px-4 pb-10 pt-20 sm:px-6 lg:px-8">
+  <!-- Decorative top border gradient -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 flex justify-center">
+    <div class="h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/45 to-transparent" />
+  </div>
+
+  <!-- Subtle radial glow behind footer content -->
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute left-1/2 top-0 h-112 w-[90%] max-w-4xl
+      -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl
+    "
+    style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.07), transparent 70%);"
+  />
+
+  <!-- Subtle grid texture in background -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 grid-fade opacity-40" />
+
+  <div class="relative mx-auto w-full max-w-6xl space-y-20">
+
+    <!-- Contact section -->
     <ContactSection />
 
+    <!-- Footer body grid -->
     <div
       class="
-        grid gap-0 border-t border-line/70 pt-10
-        lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.75fr)_minmax(0,0.9fr)]
-        lg:gap-10
+        grid gap-10 border-t border-line/40 pt-14
+        sm:grid-cols-2
+        lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_minmax(0,0.75fr)]
+        lg:gap-12
       "
-      data-stagger="80"
+      data-stagger="70"
     >
-      <div class="
-        space-y-4 border-t border-line/40 py-8
-        lg:border-t-0 lg:py-0
-      "
-      >
-        <p class="section-label">Santiago Molina</p>
-        <h3 class="max-w-md text-2xl font-bold">Engineering leadership with a builder's mindset.</h3>
-        <p class="max-w-md text-sm/6 text-ink-soft">
-          Engineering leader and full-stack architect specializing in resilient systems,
-          technical leadership, and developer experience.
+
+      <!-- Brand column -->
+      <div class="space-y-6">
+        <a
+          aria-label="Santiago Molina — home"
+          class="inline-block transition duration-200 hover:opacity-80 motion-reduce:transition-none"
+          href="/"
+        >
+          <Picture
+            alt="Santi020k"
+            class="aspect-11/4 h-8 w-auto object-contain"
+            formats={['avif', 'webp']}
+            height={32}
+            src={LogoMark}
+            width={88}
+          />
+        </a>
+
+        <p class="max-w-[24ch] text-sm/6 text-ink-soft">
+          Engineering leader and full-stack architect. Building resilient systems and empowering developer teams.
         </p>
+
+        <div class="space-y-2.5 text-xs text-ink-muted">
+          <div class="flex items-center gap-2">
+            <Icon aria-hidden="true" class="size-3.5 shrink-0" name="tabler:map-pin" />
+            <span>{siteConfig.location}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            {isAvailable ? (
+              <>
+                <span class="relative flex size-1.5 shrink-0">
+                  <span class="
+                    absolute inline-flex size-full animate-ping rounded-full
+                    bg-green-400 opacity-75
+                    motion-reduce:animate-none
+                  "
+                  />
+                  <span class="relative inline-flex size-1.5 rounded-full bg-green-500" />
+                </span>
+                <span class="text-green-600">{siteConfig.availability}</span>
+              </>
+            ) : (
+              <span>{siteConfig.availability}</span>
+            )}
+          </div>
+        </div>
       </div>
 
-      <nav
-        aria-label="Footer navigation"
-        class="
-          space-y-4 border-t border-line/40 py-8
-          lg:border-t-0 lg:py-0
-        "
-      >
-        <p class="section-label">Navigate</p>
-        <ul class="space-y-3 text-sm/6 text-ink-soft">
-          {footerLinks.map(link => {
-            const isActive = currentPath === link.path || (link.path !== '/' && currentPath.startsWith(link.path))
+      <!-- Navigate column -->
+      <nav aria-label="Footer navigation">
+        <p class="section-label mb-5">Navigate</p>
+        <ul class="space-y-2.5">
+          {navLinks.map(link => {
+            const active = isLinkActive(link.path)
 
             return (
               <li>
                 <a
-                  aria-current={isActive ? 'page' : undefined}
+                  aria-current={active ? 'page' : undefined}
                   class:list={[
                     `
-                      group relative inline-flex items-center gap-1.5
-                      after:absolute after:bottom-0 after:left-0 after:h-px
-                      after:w-0 after:bg-brand after:transition-[width]
-                      after:duration-300 after:ease-out
-                      hover:text-brand
+                      group inline-flex items-center gap-2 text-sm
+                      transition-colors duration-200
                       motion-reduce:transition-none
-                      motion-reduce:after:transition-none
                     `,
-                    isActive ?
-                      `
-                        font-semibold text-brand
-                        after:w-full
-                      ` :
-                      'transition-colors'
+                    active ? 'font-semibold text-brand' : 'text-ink-soft hover:text-ink'
                   ]}
                   href={link.path}
                 >
-                  {isActive && (
-                    <span
-                      aria-hidden="true"
-                      class="size-1.5 shrink-0 rounded-full bg-brand"
-                    />
-                  )}
-                  {link.icon && !isActive && (
-                    <Icon
-                      aria-hidden="true"
-                      class="
-                        size-3.5 shrink-0 text-ink-muted
-                        group-hover:text-brand
-                      "
-                      name={link.icon}
-                    />
+                  {active && (
+                    <span aria-hidden="true" class="size-1.5 shrink-0 rounded-full bg-brand" />
                   )}
                   {link.title}
                 </a>
               </li>
             )
           })}
-          <li>
-            <a
-              class="
-                group relative inline-flex items-center transition-colors
-                after:absolute after:bottom-0 after:left-0 after:h-px after:w-0
-                after:bg-brand after:transition-[width] after:duration-300
-                after:ease-out
-                hover:text-brand
-                motion-reduce:after:transition-none
-              "
-              href={siteConfig.contact.resume}
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              Resume
-            </a>
-          </li>
         </ul>
       </nav>
 
-      <div class="
-        space-y-4 border-t border-line/40 pt-8
-        lg:border-t-0 lg:pt-0
-      "
-      >
-        <p class="section-label">Elsewhere</p>
-        <ul class="space-y-3 text-sm/6 text-ink-soft">
+      <!-- Connect column -->
+      <div>
+        <p class="section-label mb-5">Connect</p>
+        <ul class="space-y-2.5">
           {siteConfig.socialLinks.map(({ href, icon, label }) => (
             <li>
               <a
                 class="
-                  group relative inline-flex items-center gap-2
-                  transition-colors
-                  after:absolute after:bottom-0 after:left-0 after:h-px
-                  after:w-0 after:bg-brand after:transition-[width]
-                  after:duration-300 after:ease-out
-                  hover:text-brand
-                  motion-reduce:after:transition-none
+                  group inline-flex items-center gap-2 text-sm text-ink-soft
+                  transition-colors duration-200
+                  hover:text-ink
+                  motion-reduce:transition-none
                 "
                 href={href}
                 rel="noreferrer noopener"
@@ -156,8 +168,8 @@ const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
                 <Icon
                   aria-hidden="true"
                   class="
-                    size-4 shrink-0 text-ink-muted transition-[color,transform]
-                    duration-200
+                    size-4 shrink-0 text-ink-muted
+                    transition-[color,transform] duration-200
                     group-hover:-translate-y-px group-hover:text-brand
                     motion-reduce:transition-none
                     motion-reduce:group-hover:translate-y-0
@@ -168,45 +180,90 @@ const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
               </a>
             </li>
           ))}
-        </ul>
-
-        <div class="space-y-1.5 pt-2 text-sm/6 text-ink-muted">
-          <p>{siteConfig.location}</p>
-          <p class="flex items-center gap-1.5">
-            {isAvailable && (
-              <span
+          <li class="pt-1">
+            <a
+              class="
+                group inline-flex items-center gap-2 text-sm text-ink-soft
+                transition-colors duration-200
+                hover:text-ink
+                motion-reduce:transition-none
+              "
+              href={siteConfig.contact.resume}
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              <Icon
                 aria-hidden="true"
-                class="relative inline-flex size-2 shrink-0"
-              >
-                <span class="
-                  absolute inline-flex size-full animate-ping rounded-full
-                  bg-green-400 opacity-75
-                  motion-reduce:animate-none
+                class="
+                  size-4 shrink-0 text-ink-muted transition-[color,transform]
+                  duration-200
+                  group-hover:-translate-y-px group-hover:text-brand
+                  motion-reduce:transition-none
+                  motion-reduce:group-hover:translate-y-0
                 "
-                />
-                <span class="
-                  relative inline-flex size-2 rounded-full bg-green-500
-                "
-                />
-              </span>
-            )}
-            {siteConfig.availability}
-          </p>
-        </div>
+                name="tabler:file-text"
+              />
+              Resume
+            </a>
+          </li>
+        </ul>
       </div>
+
+      <!-- Resources column -->
+      <div>
+        <p class="section-label mb-5">Resources</p>
+        <ul class="space-y-2.5">
+          {resourceLinks.map(({ icon, path, title }) => {
+            const active = isLinkActive(path)
+
+            return (
+              <li>
+                <a
+                  aria-current={active ? 'page' : undefined}
+                  class:list={[
+                    `
+                      group inline-flex items-center gap-2 text-sm
+                      transition-colors duration-200
+                      motion-reduce:transition-none
+                    `,
+                    active ? 'font-semibold text-brand' : 'text-ink-soft hover:text-ink'
+                  ]}
+                  href={path}
+                >
+                  <Icon
+                    aria-hidden="true"
+                    class:list={[
+                      'size-4 shrink-0 transition-[color,transform] duration-200 group-hover:-translate-y-px motion-reduce:transition-none motion-reduce:group-hover:translate-y-0',
+                      active ? 'text-brand' : 'text-ink-muted group-hover:text-brand'
+                    ]}
+                    name={icon}
+                  />
+                  {title}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+
     </div>
 
-    <div class="
-      flex flex-col gap-3 border-t border-line/40 pt-6 text-xs text-ink-muted
-      sm:flex-row sm:items-center sm:justify-between
-    "
+    <!-- Bottom bar -->
+    <div
+      class="
+        flex flex-col gap-3 border-t border-line/30 pt-6 text-xs text-ink-muted
+        sm:flex-row sm:items-center sm:justify-between
+      "
+      data-animate
     >
       <p>&copy; {year} {siteConfig.author}.</p>
 
-      <div class="flex flex-wrap items-center gap-3">
-        <span class="text-ink-muted/50">·</span>
-        <span class="text-ink-muted/70">No tracking cookies</span>
-        <span class="text-ink-muted/50">·</span>
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <span class="inline-flex items-center gap-1.5">
+          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:cookie-off" />
+          No tracking cookies
+        </span>
+
         <a
           class="
             inline-flex items-center gap-1 rounded-full border border-line/60
@@ -219,9 +276,11 @@ const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
           rel="noreferrer noopener"
           target="_blank"
         >
+          <Icon aria-hidden="true" class="size-3" name="tabler:brand-github" />
           v{version}
         </a>
       </div>
     </div>
+
   </div>
 </footer>
