@@ -78,7 +78,7 @@ I find atomic design to be an ideal structure because it’s the same structure 
 
 Here’s an example of a button component:
 
-![Button component folder](./atomic-module-component-structure-for-react-fig-2.webp)
+![Button component folder](./fig-2.webp)
 
 Another common mistake in frontend development is separating a component’s code into multiple folders: one for tests, one for interfaces/types, one for components, etc. This greatly complicates code navigation. Personally, I prefer to have everything related to a component in one place, like the previous example.
 
