@@ -2,13 +2,14 @@
 import type { Page } from 'astro'
 
 interface Props {
+  baseUrl?: string
   page: Page<unknown>
 }
 
-const { page } = Astro.props
+const { baseUrl = '/blog/', page } = Astro.props
 const { currentPage, lastPage, url } = page
 
-const getPageUrl = (n: number) => n === 1 ? '/blog/' : `/blog/${n}/`
+const getPageUrl = (n: number) => n === 1 ? baseUrl : `${baseUrl}${n}/`
 
 const pages: (number | '...')[] = []
 for (let i = 1; i <= lastPage; i++) {
