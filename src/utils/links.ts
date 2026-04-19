@@ -1,5 +1,7 @@
+import { getPostSlug } from './posts'
+
 /** Returns the canonical URL path for a blog post, given its collection slug. */
-export const getPostPath = (slug: string) => `/blog/${slug}/`
+export const getPostPath = (id: string) => `/blog/${getPostSlug(id)}/`
 
 /** Returns the canonical URL path for a series index page. */
 export const getSeriesPath = (slug: string) => `/blog/series/${slug}/`
