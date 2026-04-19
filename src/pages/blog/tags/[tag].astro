@@ -6,6 +6,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import TagFilter from '@/components/molecules/TagFilter.astro'
 import PageLayout from '@/layouts/Base.astro'
 import { getCachedPosts } from '@/utils/content'
 import { getAllTags } from '@/utils/tags'
@@ -13,12 +14,14 @@ import { getAllTags } from '@/utils/tags'
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCachedPosts()
   const allTags = getAllTags(posts)
+  const topTags = allTags.slice(0, 8)
 
   return allTags.map(([tag]) => ({
     params: { tag: encodeURIComponent(tag) },
     props: {
       posts: posts.filter(post => post.data.tags.includes(tag)),
       tag,
+      topTags,
       totalTopics: allTags.length
     }
   }))
@@ -27,10 +30,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 interface Props {
   posts: CollectionEntry<'post'>[]
   tag: string
+  topTags: [string, number][]
   totalTopics: number
 }
 
-const { posts, tag, totalTopics } = Astro.props
+const { posts, tag, topTags, totalTopics } = Astro.props
 const postCount = posts.length
 
 const breadcrumbs = [
@@ -78,13 +82,25 @@ const breadcrumbs = [
     </div>
   </section>
 
-  <section class="
-    grid gap-6
-    lg:grid-cols-2
-  "
-  >
-    {posts.map(post => (
-      <PostCard post={post} />
-    ))}
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description={`${posts.length} ${posts.length === 1 ? 'post' : 'posts'} tagged #${tag}.`}
+      eyebrow="Filtered by topic"
+      title="Browse by topic"
+    />
+
+    <div class="space-y-6">
+      <TagFilter activeTag={tag} tags={topTags} />
+
+      <div class="
+        grid gap-6
+        lg:grid-cols-2
+      "
+      >
+        {posts.map(post => (
+          <PostCard post={post} />
+        ))}
+      </div>
+    </div>
   </section>
 </PageLayout>
