@@ -98,7 +98,7 @@ const breadcrumbs = [
 
       <div class="
         grid gap-4
-        sm:grid-cols-2
+        sm:grid-cols-3
         lg:grid-cols-1
       "
       >
@@ -140,9 +140,17 @@ const breadcrumbs = [
     )}
 
     <div class:list={['space-y-6', !isFirstPage && 'col-span-full']}>
-      <TagFilter tags={topTags} />
-
       {featuredPost && <PostCard featured post={featuredPost} />}
+
+      {featuredPost && (
+        <div class="flex items-center gap-4">
+          <div class="h-px flex-1 bg-line/50" />
+          <span class="section-label">Filter posts</span>
+          <div class="h-px flex-1 bg-line/50" />
+        </div>
+      )}
+
+      <TagFilter tags={topTags} />
 
       <div class="post-grid">
         {gridPosts.map(post => (

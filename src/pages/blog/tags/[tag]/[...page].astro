@@ -1,0 +1,140 @@
+---
+import type { GetStaticPaths, Page } from 'astro'
+import type { CollectionEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import Pagination from '@/components/molecules/Pagination.astro'
+import PostCard from '@/components/molecules/PostCard.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import TagFilter from '@/components/molecules/TagFilter.astro'
+import PageLayout from '@/layouts/Base.astro'
+import { getCachedPosts } from '@/utils/content'
+import { getTagPath } from '@/utils/links'
+import { getAllTags } from '@/utils/tags'
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const posts = await getCachedPosts()
+  const allTags = getAllTags(posts)
+
+  return allTags.flatMap(([tag]) => {
+    const tagPosts = posts.filter(p => p.data.tags.includes(tag))
+    return paginate(tagPosts, {
+      params: { tag: encodeURIComponent(tag) },
+      pageSize: 9,
+      props: { tag, totalTopics: allTags.length }
+    })
+  })
+}
+
+interface Props {
+  page: Page<CollectionEntry<'post'>>
+  tag: string
+  totalTopics: number
+}
+
+const { page, tag, totalTopics } = Astro.props
+
+const allPosts = await getCachedPosts()
+const allTags = getAllTags(allPosts)
+const topTags = allTags.slice(0, 8)
+const relatedTags = topTags.filter(([t]) => t !== tag).slice(0, 6)
+
+const postCount = page.total
+const isFirstPage = page.currentPage === 1
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: 'Topics', url: '/blog/tags/' },
+  { name: `#${tag}`, url: getTagPath(tag) },
+  ...(page.currentPage > 1 ? [{ name: `Page ${page.currentPage}`, url: Astro.url.pathname }] : [])
+]
+---
+
+<PageLayout meta={{
+  breadcrumbs,
+  description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
+  title: isFirstPage ?
+    `${tag} Posts` :
+    `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`
+}}
+>
+  <section
+    class="
+      grid gap-10
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+    data-animate
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description={`Filtered to ${postCount} ${postCount === 1 ? 'post' : 'posts'} connected by the #${tag} topic.`}
+        eyebrow="Topic archive"
+        level="h1"
+        title={`#${tag}`}
+      />
+
+      <div class="flex flex-wrap gap-2">
+        <Pill label={`${postCount} ${postCount === 1 ? 'post' : 'posts'}`} tone="brand" />
+        <Pill label={`${totalTopics} total topics`} tone="outline" />
+        {page.lastPage > 1 && <Pill label={`Page ${page.currentPage} of ${page.lastPage}`} tone="neutral" />}
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href="/blog/tags/" showArrow variant="secondary">
+          Browse all topics
+        </ButtonLink>
+        <ButtonLink href="/blog/" showArrow variant="ghost">
+          Back to blog
+        </ButtonLink>
+      </div>
+    </div>
+
+    {relatedTags.length > 0 && (
+      <div class="space-y-4">
+        <p class="section-label">Other popular topics</p>
+        <div class="flex flex-wrap gap-2">
+          {relatedTags.map(([t, count]) => (
+            <Pill href={getTagPath(t)} label={t} showHash tone="outline">
+              <span class="text-xs text-ink-muted">{count}</span>
+            </Pill>
+          ))}
+        </div>
+      </div>
+    )}
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Select a different topic from the filter to switch views, or clear to see all posts."
+      eyebrow="Filtered by topic"
+      title="Browse by topic"
+    />
+
+    <div class="space-y-6">
+      <TagFilter activeTag={tag} tags={topTags} />
+
+      {page.data.length > 0 ?
+        (
+          <div class="post-grid">
+            {page.data.map(post => (
+              <PostCard post={post} />
+            ))}
+          </div>
+        ) :
+        (
+          <div class="flex flex-col items-center gap-4 py-16 text-center">
+            <p class="text-lg text-ink-soft">
+              No posts found for <strong class="text-ink">#{tag}</strong>.
+            </p>
+            <ButtonLink href="/blog/" showArrow variant="secondary">
+              Back to all posts
+            </ButtonLink>
+          </div>
+        )}
+
+      <Pagination baseUrl={getTagPath(tag)} page={page} />
+    </div>
+  </section>
+</PageLayout>

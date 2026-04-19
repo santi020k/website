@@ -70,12 +70,49 @@ const breadcrumbs = [
       title="Recurring themes across the archive."
     />
 
-    <div class="flex flex-wrap gap-3">
-      {allTags.map(([tag, count]) => (
-        <Pill href={getTagPath(tag)} label={tag} showHash tone="outline">
-          <span class="text-xs text-ink-muted">{count}</span>
-        </Pill>
-      ))}
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <span class="section-label">Sort</span>
+        <div class="flex gap-2">
+          <button class="pagination-btn pagination-btn--active" data-sort-btn="count" type="button">By count</button>
+          <button class="pagination-btn" data-sort-btn="alpha" type="button">A → Z</button>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3" id="tags-list">
+        {allTags.map(([tag, count]) => (
+          <span data-count={String(count)} data-label={tag}>
+            <Pill href={getTagPath(tag)} label={tag} showHash tone="outline">
+              <span class="text-xs text-ink-muted">{count}</span>
+            </Pill>
+          </span>
+        ))}
+      </div>
     </div>
+
+    <script>
+      const list = document.getElementById('tags-list')!
+      const btns = document.querySelectorAll<HTMLButtonElement>('[data-sort-btn]')
+
+      function setActive(active: HTMLButtonElement) {
+        btns.forEach(b => b.classList.toggle('pagination-btn--active', b === active))
+      }
+
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const sort = btn.getAttribute('data-sort-btn')
+          const items = [...list.children] as HTMLElement[]
+
+          items.sort((a, b) =>
+            sort === 'alpha'
+              ? (a.dataset.label ?? '').localeCompare(b.dataset.label ?? '')
+              : Number(b.dataset.count) - Number(a.dataset.count)
+          )
+
+          items.forEach(el => list.appendChild(el))
+          setActive(btn)
+        })
+      })
+    </script>
   </section>
 </PageLayout>
