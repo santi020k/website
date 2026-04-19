@@ -14,14 +14,12 @@ import { getAllTags } from '@/utils/tags'
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCachedPosts()
   const allTags = getAllTags(posts)
-  const topTags = allTags.slice(0, 8)
 
   return allTags.map(([tag]) => ({
     params: { tag: encodeURIComponent(tag) },
     props: {
       posts: posts.filter(post => post.data.tags.includes(tag)),
       tag,
-      topTags,
       totalTopics: allTags.length
     }
   }))
@@ -30,11 +28,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 interface Props {
   posts: CollectionEntry<'post'>[]
   tag: string
-  topTags: [string, number][]
   totalTopics: number
 }
 
-const { posts, tag, topTags, totalTopics } = Astro.props
+const { posts, tag, totalTopics } = Astro.props
+const allPosts = await getCachedPosts()
+const topTags = getAllTags(allPosts).slice(0, 8)
 const postCount = posts.length
 
 const breadcrumbs = [
