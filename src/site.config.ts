@@ -4,7 +4,7 @@ export const siteConfig: SiteConfig = {
   availability: 'Open to tech lead, full-stack, and engineering leadership roles',
   author: 'Santiago Molina Orozco',
   contact: {
-    email: 'santiago@santi020k.com',
+    email: 'hi@santi020k.com',
     github: 'https://github.com/santi020k',
     linkedin: 'https://linkedin.com/in/santi020k',
     medium: 'https://medium.com/@santi020k',

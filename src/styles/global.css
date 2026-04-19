@@ -568,6 +568,15 @@
 
   & [data-rehype-pretty-code-figure] pre {
     @apply m-0 p-4 sm:p-6 bg-transparent! overflow-x-auto selection:bg-brand/20 rounded-none!;
+
+    &:focus-visible {
+      @apply outline-2 -outline-offset-2 outline-brand;
+    }
+
+    &.has-scroll-fade {
+      mask-image: linear-gradient(to right, black 82%, transparent 100%);
+      mask-repeat: no-repeat;
+    }
   }
 
   & [data-rehype-pretty-code-figure] code {
@@ -609,34 +618,35 @@
     @apply inline-block w-4 mr-6 text-right text-ink-muted/30 select-none font-mono text-xs;
   }
 
-  /* Copy Button — absolute positioned at bottom-right of code content */
+  /* Copy Button — lives in the header, always visible */
   .copy-button {
-    @apply absolute bottom-3 right-3 p-2 rounded-lg bg-surface/30 border border-line text-ink-muted z-20;
-    @apply opacity-0 transition-opacity duration-200;
-    backdrop-filter: blur(4px);
-  }
-
-  & [data-rehype-pretty-code-figure]:hover .copy-button,
-  & [data-rehype-pretty-code-figure]:focus-within .copy-button {
-    @apply opacity-100;
-  }
-
-  /* Ensure the button is always visible when it receives keyboard focus,
-     even without the parent figure being hovered first. */
-  .copy-button:focus-visible {
-    @apply opacity-100;
+    @apply p-1.5 rounded-md bg-surface/20 border border-line/50 text-ink-muted;
+    @apply transition-all duration-150 shrink-0;
   }
 
   .copy-button:hover {
-    @apply bg-surface text-brand scale-105;
+    @apply bg-surface text-brand border-brand/30 scale-105;
   }
 
   .copy-button:active {
     @apply scale-95;
   }
 
+  .copy-button:focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand;
+  }
+
   .copy-button.copied {
-    @apply opacity-100 text-green-500 border-green-500/50 bg-green-500/10;
+    @apply text-green-500 border-green-500/50 bg-green-500/10;
+  }
+
+  /* Highlighted lines (rehype-pretty-code [data-highlighted-line]) */
+  & [data-rehype-pretty-code-figure] [data-highlighted-line] {
+    @apply border-l-2 border-brand bg-brand/10 -mx-4 px-4 sm:-mx-6 sm:px-6;
+  }
+
+  & [data-rehype-pretty-code-figure] [data-highlighted-chars] {
+    @apply rounded px-1 bg-brand/20 border-b-2 border-brand;
   }
   @apply prose-img:rounded-2xl prose-img:shadow-xl prose-img:mx-auto prose-img:my-12 prose-img:border prose-img:border-line prose-img:max-w-full prose-img:h-auto;
   @apply prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-brand prose-li:my-2;

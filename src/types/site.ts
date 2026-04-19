@@ -25,6 +25,7 @@ export interface SiteConfig {
 
 /** A single navigation link entry (used in menuLinks). */
 export interface SiteLink {
+  icon?: string
   path: string
   title: string
 }
