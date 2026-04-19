@@ -1,4 +1,6 @@
 ---
+import { Icon } from 'astro-icon/components'
+
 import ContactSection from '@/components/molecules/ContactSection.astro'
 
 import { version } from '../../../package.json'
@@ -6,29 +8,48 @@ import { version } from '../../../package.json'
 import { menuLinks, siteConfig } from '@/site.config'
 
 const year = new Date().getFullYear()
+const buildDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 
 const footerLinks = [
   ...menuLinks,
   {
+    icon: undefined,
     path: '/blog/series/',
     title: 'Series'
   },
   {
+    icon: undefined,
     path: '/blog/content-calendar/',
     title: 'Content Calendar'
   },
   {
+    icon: undefined,
     path: '/blog/tags/',
     title: 'Topics'
   },
   {
+    icon: undefined,
     path: '/uses/',
     title: 'Uses'
+  },
+  {
+    icon: 'tabler:rss',
+    path: '/feed.xml',
+    title: 'RSS Feed'
+  },
+  {
+    icon: 'tabler:sitemap',
+    path: '/sitemap-index.xml',
+    title: 'Sitemap'
   }
 ]
+
+const currentPath = Astro.url.pathname
+const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
 ---
 
 <footer class="
+  border-t border-line/40 bg-linear-to-b from-transparent to-surface-muted/20
   px-4 pt-20 pb-10
   sm:px-6
   lg:px-8
@@ -37,12 +58,19 @@ const footerLinks = [
   <div class="mx-auto w-full max-w-6xl space-y-16">
     <ContactSection />
 
-    <div class="
-      grid gap-10 border-t border-line/70 pt-10
-      lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.75fr)_minmax(0,0.9fr)]
-    "
+    <div
+      class="
+        grid gap-0 border-t border-line/70 pt-10
+        lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.75fr)_minmax(0,0.9fr)]
+        lg:gap-10
+      "
+      data-stagger="80"
     >
-      <div class="space-y-4">
+      <div class="
+        space-y-4 border-t border-line/40 py-8
+        lg:border-t-0 lg:py-0
+      "
+      >
         <p class="section-label">Santiago Molina</p>
         <h3 class="max-w-md text-2xl font-bold">Engineering leadership with a builder's mindset.</h3>
         <p class="max-w-md text-sm/6 text-ink-soft">
@@ -53,28 +81,69 @@ const footerLinks = [
 
       <nav
         aria-label="Footer navigation"
-        class="space-y-4"
+        class="
+          space-y-4 border-t border-line/40 py-8
+          lg:border-t-0 lg:py-0
+        "
       >
         <p class="section-label">Navigate</p>
         <ul class="space-y-3 text-sm/6 text-ink-soft">
-          {footerLinks.map(link => (
-            <li>
-              <a
-                class="
-                  transition-colors
-                  hover:text-brand
-                "
-                href={link.path}
-              >
-                {link.title}
-              </a>
-            </li>
-          ))}
+          {footerLinks.map(link => {
+            const isActive = currentPath === link.path || (link.path !== '/' && currentPath.startsWith(link.path))
+
+            return (
+              <li>
+                <a
+                  aria-current={isActive ? 'page' : undefined}
+                  class:list={[
+                    `
+                      group relative inline-flex items-center gap-1.5
+                      after:absolute after:bottom-0 after:left-0 after:h-px
+                      after:w-0 after:bg-brand after:transition-[width]
+                      after:duration-300 after:ease-out
+                      hover:text-brand
+                      motion-reduce:transition-none
+                      motion-reduce:after:transition-none
+                    `,
+                    isActive ?
+                      `
+                        font-semibold text-brand
+                        after:w-full
+                      ` :
+                      'transition-colors'
+                  ]}
+                  href={link.path}
+                >
+                  {isActive && (
+                    <span
+                      aria-hidden="true"
+                      class="size-1.5 shrink-0 rounded-full bg-brand"
+                    />
+                  )}
+                  {link.icon && !isActive && (
+                    <Icon
+                      aria-hidden="true"
+                      class="
+                        size-3.5 shrink-0 text-ink-muted
+                        group-hover:text-brand
+                      "
+                      name={link.icon}
+                    />
+                  )}
+                  {link.title}
+                </a>
+              </li>
+            )
+          })}
           <li>
             <a
               class="
-                transition-colors
+                group relative inline-flex items-center transition-colors
+                after:absolute after:bottom-0 after:left-0 after:h-px after:w-0
+                after:bg-brand after:transition-[width] after:duration-300
+                after:ease-out
                 hover:text-brand
+                motion-reduce:after:transition-none
               "
               href={siteConfig.contact.resume}
               rel="noreferrer noopener"
@@ -86,31 +155,97 @@ const footerLinks = [
         </ul>
       </nav>
 
-      <div class="space-y-4">
+      <div class="
+        space-y-4 border-t border-line/40 pt-8
+        lg:border-t-0 lg:pt-0
+      "
+      >
         <p class="section-label">Elsewhere</p>
         <ul class="space-y-3 text-sm/6 text-ink-soft">
-          {siteConfig.socialLinks.map(({ href, label }) => (
+          {siteConfig.socialLinks.map(({ href, icon, label }) => (
             <li>
               <a
                 class="
+                  group relative inline-flex items-center gap-2
                   transition-colors
+                  after:absolute after:bottom-0 after:left-0 after:h-px
+                  after:w-0 after:bg-brand after:transition-[width]
+                  after:duration-300 after:ease-out
                   hover:text-brand
+                  motion-reduce:after:transition-none
                 "
                 href={href}
                 rel="noreferrer noopener"
                 target="_blank"
               >
+                <Icon
+                  aria-hidden="true"
+                  class="
+                    size-4 shrink-0 text-ink-muted transition-[color,transform]
+                    duration-200
+                    group-hover:-translate-y-px group-hover:text-brand
+                    motion-reduce:transition-none
+                    motion-reduce:group-hover:translate-y-0
+                  "
+                  name={icon}
+                />
                 {label}
               </a>
             </li>
           ))}
         </ul>
 
-        <div class="pt-2 text-sm/6 text-ink-muted">
+        <div class="space-y-1.5 pt-2 text-sm/6 text-ink-muted">
           <p>{siteConfig.location}</p>
-          <p>{siteConfig.availability}</p>
-          <p>&copy; {year} {siteConfig.author}. Version v{version}.</p>
+          <p class="flex items-center gap-1.5">
+            {isAvailable && (
+              <span
+                aria-hidden="true"
+                class="relative inline-flex size-2 shrink-0"
+              >
+                <span class="
+                  absolute inline-flex size-full animate-ping rounded-full
+                  bg-green-400 opacity-75
+                  motion-reduce:animate-none
+                "
+                />
+                <span class="
+                  relative inline-flex size-2 rounded-full bg-green-500
+                "
+                />
+              </span>
+            )}
+            {siteConfig.availability}
+          </p>
         </div>
+      </div>
+    </div>
+
+    <div class="
+      flex flex-col gap-3 border-t border-line/40 pt-6 text-xs text-ink-muted
+      sm:flex-row sm:items-center sm:justify-between
+    "
+    >
+      <p>&copy; {year} {siteConfig.author}. Built {buildDate}.</p>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="text-ink-muted/50">·</span>
+        <span class="text-ink-muted/70">No tracking cookies</span>
+        <span class="text-ink-muted/50">·</span>
+        <a
+          class="
+            inline-flex items-center gap-1 rounded-full border border-line/60
+            bg-surface-muted/60 px-2 py-0.5 font-medium text-ink-muted
+            transition-colors
+            hover:border-brand/40 hover:text-brand
+            motion-reduce:transition-none
+          "
+          href="https://github.com/santi020k/private-website"
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          v{version}
+        </a>
       </div>
     </div>
   </div>

@@ -105,17 +105,37 @@ const contactChannels = [
               </div>
               <div class="space-y-2">
                 <p class="section-label">{label}</p>
-                <a
-                  class="
-                    block text-lg font-semibold text-ink transition-colors
-                    hover:text-brand
-                  "
-                  href={href}
-                  rel={newTab ? 'noopener noreferrer' : undefined}
-                  target={newTab ? '_blank' : undefined}
-                >
-                  {value}
-                </a>
+                <div class="flex items-center gap-2">
+                  <a
+                    class="
+                      block text-lg font-semibold text-ink transition-colors
+                      hover:text-brand
+                    "
+                    href={href}
+                    rel={newTab ? 'noopener noreferrer' : undefined}
+                    target={newTab ? '_blank' : undefined}
+                  >
+                    {value}
+                  </a>
+                  {label === 'Email' && (
+                    <button
+                      aria-label="Copy email address"
+                      class="
+                        inline-flex size-7 shrink-0 items-center justify-center
+                        rounded-lg border border-line/50 bg-surface-muted/60 text-ink-muted
+                        transition-all duration-200
+                        hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand
+                        focus-visible:outline-brand
+                        motion-reduce:transition-none
+                      "
+                      data-copy-email={value}
+                      type="button"
+                    >
+                      <Icon aria-hidden="true" class="size-3.5" data-copy-icon name="tabler:copy" />
+                      <Icon aria-hidden="true" class="hidden size-3.5" data-check-icon name="tabler:check" />
+                    </button>
+                  )}
+                </div>
                 <p class="max-w-md text-sm/6 text-ink-soft">{description}</p>
               </div>
             </div>
@@ -129,3 +149,35 @@ const contactChannels = [
     </div>
   </div>
 </section>
+
+<script>
+  function setupCopyEmail() {
+    document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const email = btn.dataset.copyEmail
+        if (!email) return
+
+        try {
+          await navigator.clipboard.writeText(email)
+          const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
+          const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
+          if (copyIcon && checkIcon) {
+            copyIcon.classList.add('hidden')
+            checkIcon.classList.remove('hidden')
+            btn.setAttribute('aria-label', 'Copied!')
+            setTimeout(() => {
+              copyIcon.classList.remove('hidden')
+              checkIcon.classList.add('hidden')
+              btn.setAttribute('aria-label', 'Copy email address')
+            }, 2000)
+          }
+        } catch {
+          // clipboard API unavailable — silently ignore
+        }
+      })
+    })
+  }
+
+  setupCopyEmail()
+  document.addEventListener('astro:after-swap', setupCopyEmail)
+</script>
