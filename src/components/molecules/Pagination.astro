@@ -1,0 +1,58 @@
+---
+import type { Page } from 'astro'
+
+interface Props {
+  page: Page<unknown>
+}
+
+const { page } = Astro.props
+const { currentPage, lastPage, url } = page
+
+const getPageUrl = (n: number) => n === 1 ? '/blog/' : `/blog/${n}/`
+
+const pages: (number | '...')[] = []
+for (let i = 1; i <= lastPage; i++) {
+  if (i === 1 || i === lastPage || Math.abs(i - currentPage) <= 1) {
+    pages.push(i)
+  } else if (pages.at(-1) !== '...') {
+    pages.push('...')
+  }
+}
+---
+
+{lastPage > 1 && (
+  <nav aria-label="Blog pagination" class="flex items-center justify-center gap-1.5 pt-2">
+    {url.prev ?
+      (
+        <a aria-label="Previous page" class="pagination-btn" href={url.prev}>←</a>
+      ) :
+      (
+        <span aria-disabled="true" aria-label="No previous page" class="pagination-btn cursor-not-allowed opacity-35">←</span>
+      )}
+
+    {pages.map(p => (
+      p === '...' ?
+        (
+          <span class="flex size-10 items-center justify-center text-sm text-ink-muted">…</span>
+        ) :
+        (
+          <a
+            aria-current={p === currentPage ? 'page' : undefined}
+            aria-label={`Page ${p}`}
+            class:list={['pagination-btn', p === currentPage && 'pagination-btn--active']}
+            href={getPageUrl(p as number)}
+          >
+            {p}
+          </a>
+        )
+    ))}
+
+    {url.next ?
+      (
+        <a aria-label="Next page" class="pagination-btn" href={url.next}>→</a>
+      ) :
+      (
+        <span aria-disabled="true" aria-label="No next page" class="pagination-btn cursor-not-allowed opacity-35">→</span>
+      )}
+  </nav>
+)}

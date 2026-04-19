@@ -1,0 +1,27 @@
+---
+import Pill from '@/components/atoms/Pill.astro'
+import { getTagPath } from '@/utils/links'
+
+interface Props {
+  activeTag?: string
+  tags: [string, number][]
+}
+
+const { activeTag, tags } = Astro.props
+---
+
+<div aria-label="Filter by topic" class="flex flex-wrap items-center gap-2" role="group">
+  <Pill
+    href="/blog/"
+    label="All posts"
+    tone={!activeTag ? 'brand' : 'outline'}
+  />
+  {tags.map(([tag]) => (
+    <Pill
+      href={getTagPath(tag)}
+      label={tag}
+      showHash
+      tone={activeTag === tag ? 'brand' : 'outline'}
+    />
+  ))}
+</div>
