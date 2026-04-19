@@ -4,9 +4,9 @@ import { Icon } from 'astro-icon/components'
 
 import ContactSection from '@/components/molecules/ContactSection.astro'
 
-import LogoMark from '@/assets/logo.webp'
 import { version } from '../../../package.json'
 
+import LogoMark from '@/assets/logo.webp'
 import { menuLinks, siteConfig } from '@/site.config'
 
 const year = new Date().getFullYear()
@@ -27,31 +27,52 @@ const resourceLinks = [
 const currentPath = Astro.url.pathname
 const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
 
-function isLinkActive(linkPath: string): boolean {
+const isLinkActive = (linkPath: string): boolean => {
   if (linkPath === '/') return currentPath === '/'
-  const hasExactMatch = [...navLinks, ...resourceLinks].some(l => l.path === currentPath)
-  return hasExactMatch ? currentPath === linkPath : currentPath.startsWith(linkPath)
+
+  const allLinks = [...navLinks, ...resourceLinks]
+
+  const bestMatch = allLinks
+    .filter(l => l.path !== '/' && currentPath.startsWith(l.path))
+    .sort((a, b) => b.path.length - a.path.length)[0]
+
+  return bestMatch?.path === linkPath
 }
 ---
 
-<footer class="relative mt-10 overflow-hidden px-4 pb-10 pt-20 sm:px-6 lg:px-8">
+<footer class="
+  relative mt-10 overflow-hidden px-4 pt-20 pb-10
+  sm:px-6
+  lg:px-8
+"
+>
   <!-- Decorative top border gradient -->
-  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 flex justify-center">
-    <div class="h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/45 to-transparent" />
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-0 flex justify-center"
+  >
+    <div class="
+      h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/45
+      to-transparent
+    "
+    />
   </div>
 
   <!-- Subtle radial glow behind footer content -->
   <div
     aria-hidden="true"
     class="
-      pointer-events-none absolute left-1/2 top-0 h-112 w-[90%] max-w-4xl
-      -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl
+      pointer-events-none absolute top-0 left-1/2 h-112 w-[90%] max-w-4xl
+      -translate-1/2 rounded-full opacity-40 blur-3xl
     "
     style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.07), transparent 70%);"
   />
 
   <!-- Subtle grid texture in background -->
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 grid-fade opacity-40" />
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 grid-fade opacity-40"
+  />
 
   <div class="relative mx-auto w-full max-w-6xl space-y-20">
 
@@ -73,7 +94,11 @@ function isLinkActive(linkPath: string): boolean {
       <div class="space-y-6">
         <a
           aria-label="Santiago Molina — home"
-          class="inline-block transition duration-200 hover:opacity-80 motion-reduce:transition-none"
+          class="
+            inline-block transition duration-200
+            hover:opacity-80
+            motion-reduce:transition-none
+          "
           href="/"
         >
           <Picture
@@ -96,29 +121,34 @@ function isLinkActive(linkPath: string): boolean {
             <span>{siteConfig.location}</span>
           </div>
           <div class="flex items-center gap-2">
-            {isAvailable ? (
-              <>
-                <span class="relative flex size-1.5 shrink-0">
-                  <span class="
-                    absolute inline-flex size-full animate-ping rounded-full
-                    bg-green-400 opacity-75
-                    motion-reduce:animate-none
-                  "
-                  />
-                  <span class="relative inline-flex size-1.5 rounded-full bg-green-500" />
-                </span>
-                <span class="text-green-600">{siteConfig.availability}</span>
-              </>
-            ) : (
-              <span>{siteConfig.availability}</span>
-            )}
+            {isAvailable ?
+              (
+                <>
+                  <span class="relative flex size-1.5 shrink-0">
+                    <span class="
+                      absolute inline-flex size-full animate-ping rounded-full
+                      bg-green-400 opacity-75
+                      motion-reduce:animate-none
+                    "
+                    />
+                    <span class="
+                      relative inline-flex size-1.5 rounded-full bg-green-500
+                    "
+                    />
+                  </span>
+                  <span class="text-green-600">{siteConfig.availability}</span>
+                </>
+              ) :
+              (
+                <span>{siteConfig.availability}</span>
+              )}
           </div>
         </div>
       </div>
 
       <!-- Navigate column -->
       <nav aria-label="Footer navigation">
-        <p class="section-label mb-5">Navigate</p>
+        <p class="mb-5 section-label">Navigate</p>
         <ul class="space-y-2.5">
           {navLinks.map(link => {
             const active = isLinkActive(link.path)
@@ -133,12 +163,20 @@ function isLinkActive(linkPath: string): boolean {
                       transition-colors duration-200
                       motion-reduce:transition-none
                     `,
-                    active ? 'font-semibold text-brand' : 'text-ink-soft hover:text-ink'
+                    active ?
+                      'font-semibold text-brand' :
+                      `
+                        text-ink-soft
+                        hover:text-ink
+                      `
                   ]}
                   href={link.path}
                 >
                   {active && (
-                    <span aria-hidden="true" class="size-1.5 shrink-0 rounded-full bg-brand" />
+                    <span
+                      aria-hidden="true"
+                      class="size-1.5 shrink-0 rounded-full bg-brand"
+                    />
                   )}
                   {link.title}
                 </a>
@@ -150,7 +188,7 @@ function isLinkActive(linkPath: string): boolean {
 
       <!-- Connect column -->
       <div>
-        <p class="section-label mb-5">Connect</p>
+        <p class="mb-5 section-label">Connect</p>
         <ul class="space-y-2.5">
           {siteConfig.socialLinks.map(({ href, icon, label }) => (
             <li>
@@ -168,8 +206,8 @@ function isLinkActive(linkPath: string): boolean {
                 <Icon
                   aria-hidden="true"
                   class="
-                    size-4 shrink-0 text-ink-muted
-                    transition-[color,transform] duration-200
+                    size-4 shrink-0 text-ink-muted transition-[color,transform]
+                    duration-200
                     group-hover:-translate-y-px group-hover:text-brand
                     motion-reduce:transition-none
                     motion-reduce:group-hover:translate-y-0
@@ -211,7 +249,7 @@ function isLinkActive(linkPath: string): boolean {
 
       <!-- Resources column -->
       <div>
-        <p class="section-label mb-5">Resources</p>
+        <p class="mb-5 section-label">Resources</p>
         <ul class="space-y-2.5">
           {resourceLinks.map(({ icon, path, title }) => {
             const active = isLinkActive(path)
@@ -226,15 +264,31 @@ function isLinkActive(linkPath: string): boolean {
                       transition-colors duration-200
                       motion-reduce:transition-none
                     `,
-                    active ? 'font-semibold text-brand' : 'text-ink-soft hover:text-ink'
+                    active ?
+                      'font-semibold text-brand' :
+                      `
+                        text-ink-soft
+                        hover:text-ink
+                      `
                   ]}
                   href={path}
                 >
                   <Icon
                     aria-hidden="true"
                     class:list={[
-                      'size-4 shrink-0 transition-[color,transform] duration-200 group-hover:-translate-y-px motion-reduce:transition-none motion-reduce:group-hover:translate-y-0',
-                      active ? 'text-brand' : 'text-ink-muted group-hover:text-brand'
+                      `
+                        size-4 shrink-0 transition-[color,transform]
+                        duration-200
+                        group-hover:-translate-y-px
+                        motion-reduce:transition-none
+                        motion-reduce:group-hover:translate-y-0
+                      `,
+                      active ?
+                        'text-brand' :
+                        `
+                          text-ink-muted
+                          group-hover:text-brand
+                        `
                     ]}
                     name={icon}
                   />
