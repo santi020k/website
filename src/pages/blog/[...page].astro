@@ -11,7 +11,6 @@ import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 
-import { getTagPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
 import { getCachedPosts } from '@/utils/content'
 
@@ -95,14 +94,6 @@ const breadcrumbs = [
           </ButtonLink>
         </div>
 
-        <div class="space-y-3">
-          <p class="section-label">Popular topics</p>
-          <div class="flex flex-wrap gap-2">
-            {topTags.map(([tag]) => (
-              <Pill href={getTagPath(tag)} label={tag} showHash tone="outline" />
-            ))}
-          </div>
-        </div>
       </div>
 
       <div class="
@@ -126,27 +117,29 @@ const breadcrumbs = [
     </section>
   )}
 
-  <section class="editorial-section" data-animate>
-    {isFirstPage ?
-      (
-        <SectionHeading
-          description="Start with the latest piece, then browse the rest by topic and depth."
-          eyebrow="Latest"
-          title="Recent writing with a practical bias."
-        />
-      ) :
-      (
-        <SectionHeading
-          description={`Showing page ${page.currentPage} of ${page.lastPage} — ${page.total} posts total.`}
-          eyebrow={`Page ${page.currentPage} of ${page.lastPage}`}
-          level="h1"
-          linkHref="/blog/"
-          linkLabel="Back to start"
-          title="All posts"
-        />
-      )}
+  {!isFirstPage && (
+    <section class="space-y-4 border-t border-line/70 pt-10" data-animate>
+      <SectionHeading
+        description={`Showing posts ${page.start + 1}–${page.end + 1} of ${page.total}.`}
+        eyebrow={`Page ${page.currentPage} of ${page.lastPage}`}
+        level="h1"
+        linkHref="/blog/"
+        linkLabel="Back to page 1"
+        title="All posts"
+      />
+    </section>
+  )}
 
-    <div class="space-y-6">
+  <section class="editorial-section" data-animate>
+    {isFirstPage && (
+      <SectionHeading
+        description="Start with the latest piece, then browse the rest by topic and depth."
+        eyebrow="Latest"
+        title="Recent writing with a practical bias."
+      />
+    )}
+
+    <div class:list={['space-y-6', !isFirstPage && 'col-span-full']}>
       <TagFilter tags={topTags} />
 
       {featuredPost && <PostCard featured post={featuredPost} />}
