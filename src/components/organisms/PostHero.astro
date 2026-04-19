@@ -7,10 +7,12 @@ import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
+import { getTagPath } from '@/utils/links'
+import { getPostSlug } from '@/utils/posts'
+
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
-import { getTagPath } from '@/utils/links'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -342,7 +344,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
           loading="eager"
           mode="detail"
           sizes="(min-width: 1024px) 1200px, 100vw"
-          transitionName={`post-cover-${post.id}`}
+          transitionName={`post-cover-${getPostSlug(post.id)}`}
         />
         {useWideCoverFrame && (
           <div

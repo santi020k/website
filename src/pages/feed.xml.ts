@@ -2,6 +2,7 @@ import type { APIContext } from 'astro'
 import { getCollection } from 'astro:content'
 
 import { siteConfig } from '../site.config'
+import { getPostPath } from '../utils/links'
 
 import rss from '@astrojs/rss'
 
@@ -21,7 +22,7 @@ export const GET = async (context: APIContext) => {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.publishDate,
-      link: `/blog/${post.id}/`
+      link: getPostPath(post.id)
     }))
   })
 }
