@@ -42,8 +42,8 @@ const santi020kWaySeries = isFirstPage ? (activeSeries.find(s => s.series.id ===
 const roadmapPreview = isFirstPage ? editorialCalendar.slice(0, 3) : []
 
 const topTags = allTagsData.slice(0, 8)
-const featuredPost = isFirstPage ? (page.data[0] ?? null) : null
-const gridPosts = isFirstPage ? page.data.slice(1) : page.data
+const featuredPost = page.data[0] ?? null
+const gridPosts = page.data.slice(1)
 
 const cadenceDescription =
   `${publishingRhythm.summary} ` +
@@ -73,14 +73,10 @@ const breadcrumbs = [
   >
     <div class="space-y-6">
       <SectionHeading
-        description={isFirstPage ?
-          "I write about full-stack systems, architecture, and the automation that helps teams ship with confidence. From backend services to delivery pipelines, I share what I learn along the way." :
-          `Showing posts ${page.start + 1}–${page.end + 1} of ${page.total}. Browse the archive or filter by topic below.`}
-        eyebrow={isFirstPage ? 'Blog' : `Page ${page.currentPage} of ${page.lastPage}`}
+        description="I write about full-stack systems, architecture, and the automation that helps teams ship with confidence. From backend services to delivery pipelines, I share what I learn along the way."
+        eyebrow="Blog"
         level="h1"
-        title={isFirstPage ?
-          'Writing about software architecture, automation, and engineering craft.' :
-          'All posts'}
+        title="Writing about software architecture, automation, and engineering craft."
       />
 
       <div class="section-actions">
@@ -117,15 +113,13 @@ const breadcrumbs = [
   </section>
 
   <section class="editorial-section" data-animate>
-    {isFirstPage && (
-      <SectionHeading
-        description="Start with the latest piece, then browse the rest by topic and depth."
-        eyebrow="Latest"
-        title="Recent writing with a practical bias."
-      />
-    )}
+    <SectionHeading
+      description="Start with the latest piece, then browse the rest by topic and depth."
+      eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
+      title="Recent writing with a practical bias."
+    />
 
-    <div class:list={['space-y-6', !isFirstPage && 'col-span-full']}>
+    <div class="space-y-6">
       {featuredPost && <PostCard featured post={featuredPost} />}
 
       {featuredPost && (

@@ -16,12 +16,14 @@ const { activeTag, tags } = Astro.props
     label="All posts"
     tone={!activeTag ? 'brand' : 'outline'}
   />
-  {tags.map(([tag]) => (
+  {tags.map(([tag, count]) => (
     <Pill
       href={getTagPath(tag)}
       label={tag}
       showHash
       tone={activeTag === tag ? 'brand' : 'outline'}
-    />
+    >
+      <span class="text-xs text-ink-muted">{count}</span>
+    </Pill>
   ))}
 </div>
