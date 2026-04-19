@@ -20,6 +20,24 @@ const _FEATURED_WORDMARK_PLACEMENT = { left: 140, top: 330, width: 1500, height:
 
 const PROJECTS = [
   {
+    slug: 'xgames',
+    alt: 'X Games vertical logo on a branded red, charcoal, and ivory geometric cover',
+    variant: 'light',
+    accent: '#f31c45',
+    accentDeep: '#a90f2b',
+    surface: LIGHT_SURFACE,
+    ink: '#101216',
+    panel: '#181b20',
+    texture: '#ffd1d9',
+    logoPath: 'logo.svg',
+    logoDensity: 720,
+    placement: { left: 360, top: 232, width: 560, height: 620 },
+    shadowBlur: 4.5,
+    shadowOpacity: 0.08,
+    shadowOffsetX: 12,
+    shadowOffsetY: 16
+  },
+  {
     slug: 'datagran',
     alt: 'Datagran logo on a charcoal and neon green geometric cover',
     variant: 'dark',
@@ -397,6 +415,12 @@ async function finalizeLogoBuffer(buffer) {
   }
 }
 
+async function loadLogoAsset(sourcePath, density = 720) {
+  const rendered = await sharp(sourcePath, { density }).ensureAlpha().png().toBuffer()
+
+  return finalizeLogoBuffer(rendered)
+}
+
 async function buildSmithCommerceWordmark() {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="5200" height="760" viewBox="0 0 5200 760">
@@ -600,6 +624,44 @@ function buildPanelPalette(project) {
 
 function buildPanelArtworkMarkup(project, palette) {
   switch (project.slug) {
+    case 'xgames':
+      return `
+        <circle cx="982" cy="248" r="174" fill="${palette.glow}" />
+        ${panelWindow({ x: 116, y: 156, width: 724, height: 260, palette })}
+        <path d="M 198 248 H 484" stroke="${palette.stroke}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 198 312 H 642" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 198 376 H 562" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        ${panelCard({ x: 678, y: 224, width: 122, height: 58, radius: 22, fill: palette.accent, stroke: palette.strokeSoft, strokeWidth: 4 })}
+        <circle cx="718" cy="253" r="10" fill="${palette.fill}" />
+        <path d="M 744 253 H 776" stroke="${palette.fill}" stroke-width="12" stroke-linecap="round" />
+        ${panelCard({ x: 874, y: 184, width: 246, height: 138, radius: 32, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <circle cx="948" cy="252" r="28" fill="none" stroke="${palette.accentStrong}" stroke-width="12" />
+        <path d="M 948 224 V 252 L 974 270" fill="none" stroke="${palette.stroke}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M 1002 236 H 1064" stroke="${palette.stroke}" stroke-width="16" stroke-linecap="round" />
+        <path d="M 1002 282 H 1042" stroke="${palette.strokeSoft}" stroke-width="16" stroke-linecap="round" />
+        <path d="M 150 1194 C 214 994, 312 850, 456 756 H 820 C 958 844, 1060 992, 1130 1194" fill="${palette.fillSoft}" stroke="${palette.strokeSoft}" stroke-width="8" stroke-linejoin="round" opacity="0.84" />
+        <path d="M 170 1188 C 234 1008, 324 880, 444 802" fill="none" stroke="${palette.stroke}" stroke-width="20" stroke-linecap="round" />
+        <path d="M 832 802 C 956 882, 1048 1010, 1110 1188" fill="none" stroke="${palette.stroke}" stroke-width="20" stroke-linecap="round" />
+        <path d="M 232 766 H 448" stroke="${palette.strokeSoft}" stroke-width="14" stroke-linecap="round" />
+        <path d="M 832 766 H 1048" stroke="${palette.strokeSoft}" stroke-width="14" stroke-linecap="round" />
+        <path d="M 302 1020 H 514 L 690 860 H 938" fill="none" stroke="${palette.accentStrong}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="692" cy="566" r="24" fill="${palette.fill}" />
+        <path d="M 690 594 L 656 702 L 752 770" fill="none" stroke="${palette.accentStrong}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M 692 626 L 782 674 L 874 604" fill="none" stroke="${palette.fill}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M 654 704 L 586 806" fill="none" stroke="${palette.stroke}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 752 770 L 838 796" fill="none" stroke="${palette.accentStrong}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 528 818 C 624 788, 734 790, 844 824" fill="none" stroke="${palette.stroke}" stroke-width="18" stroke-linecap="round" />
+        <circle cx="584" cy="806" r="16" fill="${palette.accentStrong}" />
+        <circle cx="838" cy="796" r="16" fill="${palette.accentStrong}" />
+        ${panelCard({ x: 168, y: 622, width: 304, height: 164, radius: 30, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 236 686 H 410" stroke="${palette.stroke}" stroke-width="16" stroke-linecap="round" />
+        <path d="M 236 742 H 350" stroke="${palette.accentStrong}" stroke-width="16" stroke-linecap="round" />
+        <circle cx="436" cy="704" r="28" fill="${palette.accent}" />
+        <path d="M 412 700 L 428 716 L 462 682" fill="none" stroke="${palette.fill}" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M 188 1302 C 336 1208, 482 1162, 638 1178 C 792 1190, 914 1260, 1056 1368" fill="none" stroke="${palette.accentDeep}" stroke-width="18" stroke-linecap="round" />
+        <circle cx="302" cy="444" r="188" fill="${palette.glow}" />
+      `
+
     case 'datagran':
       return `
         ${panelWindow({ x: 88, y: 156, width: 760, height: 470, palette })}
@@ -879,10 +941,15 @@ async function renderProjectCover(project) {
   const directory = path.join(PROJECTS_ROOT, project.slug)
   const coverPath = path.join(directory, 'cover.webp')
   const backupPath = path.join(directory, 'cover-old.webp')
+  const logoPath = project.logoPath ? path.join(directory, project.logoPath) : null
 
-  await ensureBackupFile(coverPath, backupPath)
+  if (!logoPath && !project.customLogoBuilder && !project.useCustomWordmark) {
+    await ensureBackupFile(coverPath, backupPath)
+  }
 
-  const logo = project.customLogoBuilder ?
+  const logo = logoPath ?
+    await loadLogoAsset(logoPath, project.logoDensity) :
+    project.customLogoBuilder ?
     await buildCustomLogo(project.customLogoBuilder) :
     project.useCustomWordmark ?
       await buildSmithCommerceWordmark() :
@@ -924,8 +991,6 @@ if (missingSlugs.length > 0) {
 }
 
 for (const project of selectedProjects) {
-  // Keep the current X Games cover as the style reference and refresh every
-  // other project cover from its original artwork backup.
   await renderProjectCover(project)
 
   console.log(`refreshed ${project.slug}`)
