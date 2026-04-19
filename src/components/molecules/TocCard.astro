@@ -89,10 +89,10 @@ const tocHeadings = headings.filter(h => h.depth <= 3)
     setActive(targets[0]?.id ?? '')
 
     const onScroll = () => {
-      // 108px ≈ sticky header height
+      // 96px matches scroll-padding-top on html (6rem)
       let current = targets[0]?.id ?? ''
       for (const el of targets) {
-        if (el.getBoundingClientRect().top <= 108) current = el.id
+        if (el.getBoundingClientRect().top <= 96) current = el.id
       }
       setActive(current)
     }
