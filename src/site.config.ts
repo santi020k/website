@@ -51,22 +51,22 @@ export const siteConfig: SiteConfig = {
 
 export const menuLinks: SiteLink[] = [
   {
-    path: '/',
-    title: 'Home'
-  },
-  {
+    icon: 'tabler:user',
     path: '/about/',
     title: 'About'
   },
   {
+    icon: 'tabler:briefcase',
     path: '/portfolio/',
     title: 'Portfolio'
   },
   {
+    icon: 'tabler:microphone',
     path: '/speaking/',
     title: 'Speaking'
   },
   {
+    icon: 'tabler:pencil',
     path: '/blog/',
     title: 'Blog'
   }
