@@ -1,4 +1,8 @@
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import {
+  shouldRunVisualSnapshots,
+  visualSnapshotSkipReason
+} from './helpers/visual-regression'
 
 import { expect, test } from '@playwright/test'
 
@@ -35,5 +39,10 @@ test.describe('404 page', () => {
 
   test('should pass accessibility audit', async ({ page }) => {
     await expectNoUnexpectedAccessibilityViolations(page)
+  })
+
+  test('should match visual snapshot', async ({ page }) => {
+    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
+    await expect(page).toHaveScreenshot('not-found-page.png')
   })
 })

@@ -1,14 +1,16 @@
 ---
+import { Picture } from 'astro:assets'
+
 interface Props {
   alt: string
   fallbackLabel?: string
   fetchpriority?: 'auto' | 'high' | 'low'
-  height?: number
+  height: number
   imageClass?: string
   loading?: 'eager' | 'lazy'
   src: string
+  width: number
   wrapperClass?: string
-  width?: number
 }
 
 const {
@@ -19,8 +21,8 @@ const {
   imageClass,
   loading = 'lazy',
   src,
-  wrapperClass,
-  width
+  width,
+  wrapperClass
 } = Astro.props
 ---
 
@@ -44,14 +46,13 @@ const {
     </p>
   )}
 
-  <img
+  <Picture
     alt={alt}
     class:list={['relative z-10 size-full object-cover', imageClass]}
-    decoding="async"
     fetchpriority={fetchpriority}
+    formats={['avif', 'webp']}
     height={height}
     loading={loading}
-    onerror="this.style.display='none'"
     referrerpolicy="no-referrer"
     src={src}
     width={width}

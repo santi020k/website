@@ -45,6 +45,7 @@ const [featuredProject, ...supportingProjects] = featuredProjects
 const [featuredPost, ...supportingPosts] = latestPosts
 const featuredSpeakingTopics = speakingTopics.slice(0, 3)
 const contactEmailHref = `mailto:${siteConfig.contact.email}?subject=Start%20a%20conversation`
+
 const publicWorkProjects = ['eslint-config-basic', 'eslint-config-santi020k', 'react-js-colombia']
   .map(projectId => allProjects.find(project => project.id === projectId))
   .filter((project): project is NonNullable<(typeof allProjects)[number]> => Boolean(project))
@@ -87,10 +88,9 @@ const meta = {
 
         <div
           class="
-            animate-slide-up space-y-4
+            animate-slide-up space-y-4 [animation-delay:90ms]
             motion-reduce:animate-none
           "
-          style="animation-delay: 90ms"
         >
           <h1 class="
             max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
@@ -112,10 +112,9 @@ const meta = {
 
         <div
           class="
-            animate-slide-up space-y-5
+            animate-slide-up space-y-5 [animation-delay:180ms]
             motion-reduce:animate-none
           "
-          style="animation-delay: 180ms"
         >
           <div class="
             panel-card max-w-2xl p-5
@@ -293,11 +292,11 @@ const meta = {
         <div
           class="
             absolute top-8 -right-4 z-30 hidden mini-note min-w-32
+            [animation-delay:900ms]
             motion-safe:animate-float-y
             motion-reduce:animate-none
             sm:-right-8 sm:block
           "
-          style="animation-delay: 900ms"
         >
           <p class="section-label">Experience</p>
           <p class="mt-2 text-lg font-semibold text-ink">{yearsOfExperience}</p>
@@ -578,7 +577,7 @@ const meta = {
     >
       {publicWorkProjects.map(project => (
         <article class="
-          mini-note flex h-full flex-col gap-5 p-5
+          flex mini-note h-full flex-col gap-5 p-5
           sm:p-6
         "
         >
@@ -590,7 +589,13 @@ const meta = {
           </div>
 
           <div class="space-y-3">
-            <h2 class="text-xl font-semibold text-ink sm:text-2xl">{project.data.title}</h2>
+            <h2 class="
+              text-xl font-semibold text-ink
+              sm:text-2xl
+            "
+            >
+              {project.data.title}
+            </h2>
             <p class="text-sm/7 text-ink-soft">{project.data.description}</p>
           </div>
 
@@ -633,7 +638,13 @@ const meta = {
         "
         >
           <div class="space-y-3">
-            <h2 class="text-xl font-semibold text-ink sm:text-2xl">{lane.title}</h2>
+            <h2 class="
+              text-xl font-semibold text-ink
+              sm:text-2xl
+            "
+            >
+              {lane.title}
+            </h2>
             <p class="text-sm/7 text-ink-soft">{lane.description}</p>
           </div>
           <p class="text-sm/6 text-ink-muted">{lane.fit}</p>
