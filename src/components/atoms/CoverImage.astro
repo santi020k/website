@@ -54,15 +54,15 @@ if (orientation === 'portrait') {
   cardAspectClass = 'aspect-square'
 }
 
-let cardWrapperClass = `${cardAspectClass} border-b border-line/45`
+let cardWrapperClass = `${cardAspectClass} rounded-t-[1.75rem] border-b border-line/45`
 
 if (featured && orientation === 'landscape') {
   cardWrapperClass = `
-    aspect-16/10 border-b border-line/45
+    aspect-16/10 rounded-t-[1.75rem] border-b border-line/45
   `
 } else if (useContainedFrame) {
   cardWrapperClass = `
-    ${cardAspectClass} flex items-center justify-center border-b border-line/45
+    ${cardAspectClass} rounded-t-[1.75rem] flex items-center justify-center border-b border-line/45
     bg-linear-to-br from-surface-muted via-surface to-brand-soft/30 p-4
     sm:p-5
   `

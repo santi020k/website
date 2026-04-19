@@ -8,9 +8,11 @@
  * - "2026/my-post/index" -> "my-post"
  */
 export const getPostSlug = (id: string): string => {
-  // Remove trailing /index if it exists
-  const base = id.replace(/\/index$/, '')
-  // Get the last segment of the path
+  // 1. Remove file extension (e.g., .md, .mdx)
+  const withoutExtension = id.replace(/\.mdx?$/, '')
+  // 2. Remove trailing /index if it exists
+  const base = withoutExtension.replace(/\/index$/, '')
+  // 3. Get the last segment of the path
   const segments = base.split('/')
 
   return segments[segments.length - 1] ?? id

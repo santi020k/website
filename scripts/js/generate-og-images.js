@@ -214,7 +214,8 @@ export const collectSpecs = () => {
 
     if (fm.draft && process.env.NODE_ENV === 'production') continue
 
-    const id = getContentSlug(filePath, postDir)
+    const rawId = getContentSlug(filePath, postDir)
+    const id = rawId.includes('/') ? rawId.split('/').pop() : rawId
     const coverImagePath = getCoverImagePath(filePath, fm)
 
     specs.push({
