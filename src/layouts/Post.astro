@@ -8,6 +8,8 @@ import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
 
+import { getPostSlug } from '@/utils/posts'
+
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
@@ -20,7 +22,7 @@ interface Props {
 const { post } = Astro.props
 const { description, publishDate, title, updatedDate } = post.data
 // Use Dynamic OG Image generator (/og/blog/[id].webp)
-const ogImage = new URL(`/og/blog/${post.id}.webp`, Astro.site).href
+const ogImage = new URL(`/og/blog/${getPostSlug(post.id)}.webp`, Astro.site).href
 const stats = readingTime(post.body ?? '')
 const wordCount = Math.round(stats.words)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
@@ -164,7 +166,7 @@ const breadcrumbs = [
 
       <!-- Right: sticky TOC — only rendered when the post has headings -->
       {!!headings.length && (
-        <aside aria-label="Article navigation" class="editorial-rail min-w-0">
+        <aside aria-label="Article navigation" class="min-w-0 editorial-rail">
           <TocCard headings={headings} />
         </aside>
       )}

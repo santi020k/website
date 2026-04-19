@@ -108,7 +108,8 @@
   }
 
   // Tear down before Astro swaps the DOM so we never hold references to
-  // elements from the outgoing page.
+  // elements from the outgoing page. Also strip data-scroll-reveal so the
+  // incoming elements don't inherit opacity:0 before the observer reinits.
   document.addEventListener('astro:before-swap', () => {
     if (fallbackTimer) {
       window.clearTimeout(fallbackTimer)
@@ -119,6 +120,8 @@
       observer.disconnect()
       observer = null
     }
+
+    document.documentElement.removeAttribute('data-scroll-reveal')
   })
 
   if (document.readyState === 'loading') {

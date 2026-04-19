@@ -29,7 +29,7 @@ describe('collectSpecs', () => {
     const projectProps = projectSpec?.props as SocialImageProps | undefined
 
     expect(postProps?.coverImagePath).toBe(path.join(
-      process.cwd(), 'src', 'content', 'post', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be-cover.webp'
+      process.cwd(), 'src', 'content', 'post', '2026', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be', 'cover.webp'
     ))
     expect(projectProps?.coverImagePath).toBe(path.join(
       process.cwd(), 'src', 'content', 'project', 'eslint-config-basic', 'cover.webp'

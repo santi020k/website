@@ -13,7 +13,7 @@ describe('renderSocialImage', () => {
     })
     const coverImage = await renderSocialImage({
       coverImagePath: path.join(
-        process.cwd(), 'src', 'content', 'post', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be-cover.webp'
+        process.cwd(), 'src', 'content', 'post', '2026', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be', 'cover.webp'
       ),
       description: 'A practical write-up about resilient delivery systems and engineering standards.',
       title: 'AI Coding Is Probabilistic. Your Delivery Process Should Not Be.',
