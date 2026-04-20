@@ -1,4 +1,4 @@
-# Santiago Molina Orozco
+# Santiago Molina
 
 **Tech Lead | Full Stack Developer**
 
