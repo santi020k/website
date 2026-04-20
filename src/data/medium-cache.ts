@@ -2,7 +2,7 @@ import type { MediumPost } from '../types/medium'
 
 export const mediumPostsCache: MediumPost[] = [
   {
-    author: 'Santiago Molina Orozco',
+    author: 'Santiago Molina',
     excerpt: 'This package simplifies configuring ESLint environments, especially when transitioning from ESLint 8 to 9. Here is a look at how it can save time, improve code quality, and fit seamlessly into diverse JavaScript, TypeScript, and React projects.',
     guid: 'https://medium.com/p/3a4cbc1993a7',
     imageUrl: 'https://cdn-images-1.medium.com/max/1024/1*4GWuByvN3HVGuqtJCo1czg.png',
@@ -15,7 +15,7 @@ export const mediumPostsCache: MediumPost[] = [
     updatedAt: '2024-11-23T19:27:02.225Z'
   },
   {
-    author: 'Santiago Molina Orozco',
+    author: 'Santiago Molina',
     excerpt: 'Setting up a MongoDB replica set locally is useful when you need to test transactions, failover behavior, or development flows that depend on replication. This walkthrough covers the Homebrew-based setup from configuration to verification.',
     guid: 'https://medium.com/p/482623476dcf',
     imageUrl: 'https://cdn-images-1.medium.com/max/1024/1*_Gn06J5V6DE1lqR1Q3BkbA.png',
@@ -28,7 +28,7 @@ export const mediumPostsCache: MediumPost[] = [
     updatedAt: '2024-04-05T18:33:37.971Z'
   },
   {
-    author: 'Santiago Molina Orozco',
+    author: 'Santiago Molina',
     excerpt: 'A hands-on guide to bringing Storybook into a Next.js, Tailwind, and TypeScript workflow so teams can build faster, align on UI states, and improve component quality before shipping to production.',
     guid: 'https://medium.com/p/dd95875856a2',
     imageUrl: 'https://cdn-images-1.medium.com/max/1024/1*g3wL5hXw8uUTGK1UCYTxHg.png',
@@ -41,7 +41,7 @@ export const mediumPostsCache: MediumPost[] = [
     updatedAt: '2024-03-29T00:17:56.082Z'
   },
   {
-    author: 'Santiago Molina Orozco',
+    author: 'Santiago Molina',
     excerpt: 'This article walks through a practical Husky setup for Next.js projects so linting, testing, and pre-push checks become part of the team workflow instead of a last-minute cleanup step.',
     guid: 'https://medium.com/p/d75548e48092',
     imageUrl: 'https://cdn-images-1.medium.com/max/1024/1*oOy-Xo8rYfxA_44Ud6vTHA.png',
@@ -54,7 +54,7 @@ export const mediumPostsCache: MediumPost[] = [
     updatedAt: '2024-03-29T00:19:21.831Z'
   },
   {
-    author: 'Santiago Molina Orozco',
+    author: 'Santiago Molina',
     excerpt: 'A practical breakdown of how to assemble an opinionated ESLint, TypeScript, and Vitest baseline for Next.js projects without sacrificing flexibility for real teams and production codebases.',
     guid: 'https://medium.com/p/f6d91d6346e7',
     imageUrl: 'https://cdn-images-1.medium.com/max/1024/1*yH3zbrL0gZPh9D6bA7nVbA.jpeg',
@@ -67,7 +67,7 @@ export const mediumPostsCache: MediumPost[] = [
     updatedAt: '2024-03-21T17:53:35.715Z'
   },
   {
-    author: 'Santiago Molina Orozco',
+    author: 'Santiago Molina',
     excerpt: 'A case for using atomic design to keep React projects scalable from the beginning, with concrete guidance on naming, folder structure, and how to avoid the chaos of an unstructured components directory.',
     guid: 'https://medium.com/p/34464b05832c',
     imageUrl: 'https://cdn-images-1.medium.com/max/1024/0*f5V-edJYnXIwv3lU',

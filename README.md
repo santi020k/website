@@ -84,4 +84,4 @@ pnpm run test:e2e  # E2E testing
 
 ---
 
-&copy; 2026 Santiago Molina Orozco. All rights reserved.
+&copy; 2026 Santiago Molina. All rights reserved.

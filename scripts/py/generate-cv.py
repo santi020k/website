@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate Santiago Molina Orozco's CV as a PDF.
+Generate Santiago Molina's CV as a PDF.
 
 Usage (from project root):
     python3 scripts/py/generate-cv.py
@@ -219,8 +219,8 @@ def build() -> None:
         leftMargin=MARGIN, rightMargin=MARGIN,
         topMargin=MARGIN,  bottomMargin=MARGIN,
         # PDF metadata — parsed by ATS systems and search engines
-        title    = "Santiago Molina Orozco — CV",
-        author   = "Santiago Molina Orozco",
+        title    = "Santiago Molina — CV",
+        author   = "Santiago Molina",
         subject  = "Tech Lead | Senior Front End Developer | React | TypeScript | Node.js",
         keywords = (
             "React, TypeScript, Node.js, Tech Lead, Full Stack Developer, "
@@ -235,7 +235,7 @@ def build() -> None:
 
     # ── Header ────────────────────────────────────────────────────────────────
     story += [
-        Paragraph("Santiago Molina Orozco", s["name"]),
+        Paragraph("Santiago Molina", s["name"]),
         Paragraph("Tech Lead | Full Stack Developer", s["subtitle"]),
         Paragraph(
             "Medellin, Colombia\u2002|\u2002hi@santi020k.com\u2002|\u2002+57 350 799 01 36",

@@ -2,7 +2,7 @@ import type { SiteConfig, SiteLink } from './types/site'
 
 export const siteConfig: SiteConfig = {
   availability: 'Open to tech lead, full-stack, and engineering leadership roles',
-  author: 'Santiago Molina Orozco',
+  author: 'Santiago Molina',
   contact: {
     email: 'hi@santi020k.com',
     github: 'https://github.com/santi020k',
