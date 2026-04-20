@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
-    "@axe-core/playwright": "^4.11.1",
+    "@axe-core/playwright": "^4.11.2",
     "@iconify-json/tabler": "^1.2.33",
     "@iconify/tailwind4": "^1.2.3",
     "@lhci/cli": "^0.15.1",
