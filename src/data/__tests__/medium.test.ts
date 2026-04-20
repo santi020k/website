@@ -55,7 +55,7 @@ const ITEM_WITH_INVALID_LINK = makeRss(`
   <item>
     <title>Post With Bad Link That Needs Slug Fallback</title>
     <link>not-a-valid-url</link>
-    <content:encoded><![CDATA[<p>Paragraph long enough to serve as an excerpt for this test item.</p>]]></content:encoded>
+    <content:encoded><![CDATA[<p>Paragraph long enough to serve as an excerpt for this test.</p>]]></content:encoded>
     <dc:creator>Author</dc:creator>
     <pubDate>Thu, 04 Jan 2024 00:00:00 GMT</pubDate>
     <guid>https://medium.com/p/badlink</guid>
