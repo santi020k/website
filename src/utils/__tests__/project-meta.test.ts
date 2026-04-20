@@ -3,8 +3,12 @@ import { describe, expect, it } from 'vitest'
 import {
   getProjectDateRangeLabel,
   getProjectDurationLabel,
+  getProjectFeaturedLabel,
   getProjectFocusLabel,
+  getProjectNotesLabel,
+  getProjectRelatedHeading,
   getProjectScopeHighlights,
+  getProjectStageLabel,
   getProjectTimelineLabel,
   getProjectTypeLabel
 } from '../project-meta'
@@ -26,6 +30,98 @@ describe('getProjectTypeLabel', () => {
 
   it('returns "Professional work" for undefined type', () => {
     expect(getProjectTypeLabel(undefined)).toBe('Professional work')
+  })
+})
+
+// ─── getProjectStageLabel ─────────────────────────────────────────────────────
+
+describe('getProjectStageLabel', () => {
+  it('returns "Completed project" for personal with end date', () => {
+    expect(getProjectStageLabel('personal', new Date())).toBe('Completed project')
+  })
+
+  it('returns "Active project" for personal without end date', () => {
+    expect(getProjectStageLabel('personal')).toBe('Active project')
+  })
+
+  it('returns "Completed experiment" for experimental with end date', () => {
+    expect(getProjectStageLabel('experimental', new Date())).toBe('Completed experiment')
+  })
+
+  it('returns "Active experiment" for experimental without end date', () => {
+    expect(getProjectStageLabel('experimental')).toBe('Active experiment')
+  })
+
+  it('returns "Completed work" for professional with end date', () => {
+    expect(getProjectStageLabel('professional', new Date())).toBe('Completed work')
+  })
+
+  it('returns "Active work" for professional without end date', () => {
+    expect(getProjectStageLabel('professional')).toBe('Active work')
+  })
+
+  it('returns "Active work" for undefined without end date', () => {
+    expect(getProjectStageLabel(undefined)).toBe('Active work')
+  })
+})
+
+// ─── getProjectFeaturedLabel ──────────────────────────────────────────────────
+
+describe('getProjectFeaturedLabel', () => {
+  it('returns "Personal project" for personal', () => {
+    expect(getProjectFeaturedLabel('personal')).toBe('Personal project')
+  })
+
+  it('returns "Featured experiment" for experimental', () => {
+    expect(getProjectFeaturedLabel('experimental')).toBe('Featured experiment')
+  })
+
+  it('returns "Featured work" for professional', () => {
+    expect(getProjectFeaturedLabel('professional')).toBe('Featured work')
+  })
+
+  it('returns "Featured work" for undefined', () => {
+    expect(getProjectFeaturedLabel(undefined)).toBe('Featured work')
+  })
+})
+
+// ─── getProjectNotesLabel ─────────────────────────────────────────────────────
+
+describe('getProjectNotesLabel', () => {
+  it('returns "Project notes" for personal', () => {
+    expect(getProjectNotesLabel('personal')).toBe('Project notes')
+  })
+
+  it('returns "Experiment notes" for experimental', () => {
+    expect(getProjectNotesLabel('experimental')).toBe('Experiment notes')
+  })
+
+  it('returns "Work notes" for professional', () => {
+    expect(getProjectNotesLabel('professional')).toBe('Work notes')
+  })
+
+  it('returns "Work notes" for undefined', () => {
+    expect(getProjectNotesLabel(undefined)).toBe('Work notes')
+  })
+})
+
+// ─── getProjectRelatedHeading ─────────────────────────────────────────────────
+
+describe('getProjectRelatedHeading', () => {
+  it('returns personal heading for personal', () => {
+    expect(getProjectRelatedHeading('personal')).toBe('More projects in a similar lane.')
+  })
+
+  it('returns experiment heading for experimental', () => {
+    expect(getProjectRelatedHeading('experimental')).toBe('More experiments in a similar lane.')
+  })
+
+  it('returns work heading for professional', () => {
+    expect(getProjectRelatedHeading('professional')).toBe('More work in a similar lane.')
+  })
+
+  it('returns work heading for undefined', () => {
+    expect(getProjectRelatedHeading(undefined)).toBe('More work in a similar lane.')
   })
 })
 
