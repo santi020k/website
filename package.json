@@ -36,7 +36,7 @@
     "release": "commit-and-tag-version",
     "release:dry": "commit-and-tag-version --dry-run",
     "prepare": "husky",
-    "pre-commit": "lint-staged --quiet",
+    "pre-commit": "lint-staged --quiet && astro check",
     "pre-push": "pnpm run ci:verify"
   },
   "type": "module",

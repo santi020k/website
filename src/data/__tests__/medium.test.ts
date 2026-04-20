@@ -94,10 +94,12 @@ describe('getMediumPosts — successful fetch', () => {
     const posts = await getMediumPosts()
 
     expect(posts).toHaveLength(1)
-    expect(posts[0].title).toBe('A Practical Guide To Shipping Better React Components')
-    expect(posts[0].slug).toBe('a-practical-guide-abc123')
-    expect(posts[0].publication).toBe('Medium')
-    expect(posts[0].tags).toEqual(['react', 'typescript'])
+    expect(posts).toMatchObject([{
+      title: 'A Practical Guide To Shipping Better React Components',
+      slug: 'a-practical-guide-abc123',
+      publication: 'Medium',
+      tags: ['react', 'typescript']
+    }])
   })
 
   it('returns cached result on second call without re-fetching', async () => {
@@ -123,8 +125,7 @@ describe('getMediumPosts — successful fetch', () => {
     const { getMediumPosts } = await import('../medium')
     const posts = await getMediumPosts()
 
-    expect(posts[0].tags).toEqual(['javascript'])
-    expect(posts[0].publication).toBe('Medium')
+    expect(posts).toMatchObject([{ tags: ['javascript'], publication: 'Medium' }])
   })
 
   it('falls back to slug from title when link is not a valid URL', async () => {
@@ -136,7 +137,7 @@ describe('getMediumPosts — successful fetch', () => {
     const { getMediumPosts } = await import('../medium')
     const posts = await getMediumPosts()
 
-    expect(posts[0].slug).toBe('post-with-bad-link-that-needs-slug-fallback')
+    expect(posts).toMatchObject([{ slug: 'post-with-bad-link-that-needs-slug-fallback' }])
   })
 
   it('falls back to cache when all feed items lack a title or link', async () => {
@@ -162,7 +163,8 @@ describe('getMediumPosts — successful fetch', () => {
     const { getMediumPosts } = await import('../medium')
     const posts = await getMediumPosts()
 
-    expect(posts[0].excerpt.length).toBeLessThanOrEqual(220)
+    const [firstPost] = posts
+    expect(firstPost?.excerpt.length).toBeLessThanOrEqual(220)
   })
 })
 
