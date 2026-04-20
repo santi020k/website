@@ -41,7 +41,7 @@ test('homepage has correct title and main sections', async ({ page }) => {
     const mainMenu = page.getByRole('navigation', { name: 'Main menu' }).first()
 
     await expect(mainMenu).toBeVisible()
-    await expect(mainMenu.getByRole('link', { name: 'Home' })).toBeVisible()
+    await expect(mainMenu.getByRole('link', { name: 'About' })).toBeVisible()
     await expect(mainMenu.getByRole('link', { name: 'Portfolio' })).toBeVisible()
     await expect(mainMenu.getByRole('link', { name: 'Blog' })).toBeVisible()
   }
