@@ -21,10 +21,15 @@
     min-width: 0;
   }
 
-  /* Keep desktop nav labels from shrinking: global `overflow-wrap: anywhere` + default
-     `flex-shrink: 1` otherwise breaks words mid-token when the shell is tight. */
+  /* Keep desktop nav labels from shrinking: global `overflow-wrap: anywhere` on `html`
+     can still break short labels mid-word when the flex track is extremely tight. */
   & > nav {
     min-width: min-content;
+  }
+
+  & > nav[aria-label='Main menu'] a {
+    overflow-wrap: normal;
+    word-break: normal;
   }
   background:
     linear-gradient(

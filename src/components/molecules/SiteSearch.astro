@@ -26,74 +26,101 @@ import { Icon } from 'astro-icon/components'
   <dialog
     aria-labelledby="site-search-title"
     class="
-      fixed inset-0 z-[100] m-0 flex h-full max-h-none w-full
-      max-w-none flex-col items-center justify-center border-0 bg-transparent p-4
-      sm:p-6
+      fixed inset-0 z-[100] m-0 h-full max-h-none w-full max-w-none border-0
+      bg-transparent p-0
     "
     data-site-search-dialog
     id="site-search-dialog"
   >
+    <!--
+      `pointer-events-none` on the shell so clicks in the letterboxed margin hit the scrim
+      (otherwise the flex box captures them and outside-click never closes).
+    -->
     <div
       class="
-        panel-card flex max-h-[min(90dvh,40rem)] w-full max-w-lg flex-col gap-4
-        overflow-hidden p-5 shadow-[0_24px_80px_hsl(var(--ink)/0.2)]
-        sm:p-6
+        pointer-events-none absolute inset-0 flex min-h-[100dvh] w-full items-center
+        justify-center p-4 sm:p-6
       "
-      role="document"
     >
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <h2 class="text-lg font-semibold text-ink" id="site-search-title">
-            Search
-          </h2>
-          <p class="mt-1 text-sm text-ink-soft">
-            Match titles, tags, and descriptions. Press <kbd class="rounded bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
-          </p>
-        </div>
-        <button
-          class="
-            inline-flex min-h-10 min-w-10 items-center justify-center rounded-full
-            border border-line/60 text-ink-soft transition
-            hover:border-brand/40 hover:text-brand
-          "
-          data-site-search-close
-          type="button"
-        >
-          <Icon aria-hidden="true" class="size-5" name="tabler:x" />
-          <span class="sr-only">Close search</span>
-        </button>
+      <div
+        aria-hidden="true"
+        class="pointer-events-auto absolute inset-0 z-0 cursor-default"
+        data-site-search-scrim
+      >
       </div>
 
-      <label class="sr-only" for="site-search-input">Search posts and projects</label>
-      <input
-        autocomplete="off"
+      <div
         class="
-          w-full rounded-xl border border-line/70 bg-surface px-4 py-3 text-sm text-ink
-          outline-none ring-brand/30 transition
-          focus:ring-2
+          pointer-events-auto panel-card relative z-10 flex max-h-[min(90dvh,40rem)] w-full
+          max-w-lg flex-col gap-4 overflow-hidden p-5
+          shadow-[0_24px_80px_hsl(var(--ink)/0.2)]
+          sm:p-6
         "
-        id="site-search-input"
-        placeholder="Search by title, tag, or keyword…"
-        spellcheck="false"
-        type="search"
-      />
-
-      <p class="text-xs leading-relaxed text-ink-muted">
-        <span class="text-ink-soft">Open from the page</span> (not while typing in a field):
-        <kbd class="rounded bg-surface-muted px-1 py-0.5">/</kbd>
-        · <kbd class="rounded bg-surface-muted px-1 py-0.5">⌘</kbd><kbd class="rounded bg-surface-muted px-1 py-0.5">K</kbd>
-        or <kbd class="rounded bg-surface-muted px-1 py-0.5">Ctrl</kbd><kbd class="rounded bg-surface-muted px-1 py-0.5">K</kbd>
-      </p>
-
-      <ul
-        aria-live="polite"
-        class="
-          min-h-0 max-h-[min(50vh,24rem)] space-y-2 overflow-y-auto
-          [-webkit-overflow-scrolling:touch]
-        "
-        id="site-search-results"
+        data-site-search-panel
+        role="document"
       >
-      </ul>
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h2 class="text-lg font-semibold text-ink" id="site-search-title">
+              Search
+            </h2>
+            <p class="mt-1 text-sm text-ink-soft">
+              Match titles, tags, and descriptions. Arrow keys to move,
+              <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Enter</kbd> to open,
+              <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
+            </p>
+          </div>
+          <button
+            class="
+              inline-flex min-h-10 min-w-10 items-center justify-center
+              rounded-full border border-line/60 text-ink-soft transition
+              duration-200
+              hover:scale-105 hover:border-brand/40 hover:text-brand
+              active:scale-95
+              motion-reduce:transition-none
+              motion-reduce:hover:scale-100
+              motion-reduce:active:scale-100
+            "
+            data-site-search-close
+            type="button"
+          >
+            <Icon aria-hidden="true" class="size-5" name="tabler:x" />
+            <span class="sr-only">Close search</span>
+          </button>
+        </div>
+
+        <label class="sr-only" for="site-search-input">Search posts and projects</label>
+        <input
+          autocomplete="off"
+          class="
+            w-full rounded-xl border border-line/70 bg-surface px-4 py-3 text-sm
+            text-ink ring-brand/30 transition duration-200 outline-none
+            focus:border-brand/40 focus:ring-2
+            motion-reduce:transition-none
+          "
+          id="site-search-input"
+          placeholder="Search by title, tag, or keyword…"
+          spellcheck="false"
+          type="search"
+        />
+
+        <p class="text-xs leading-relaxed text-ink-muted">
+          <span class="text-ink-soft">Open from the page</span> (not while typing in a field):
+          <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">/</kbd>
+          · <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">⌘</kbd><kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
+          or <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</kbd><kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
+        </p>
+
+        <ul
+          aria-live="polite"
+          class="
+            max-h-[min(50vh,24rem)] min-h-0 space-y-2 overflow-y-auto
+            [-webkit-overflow-scrolling:touch]
+          "
+          id="site-search-results"
+        >
+        </ul>
+      </div>
     </div>
   </dialog>
 </div>
@@ -104,20 +131,134 @@ import { Icon } from 'astro-icon/components'
     display: none;
   }
 
+  /* Dimmed layer is animated inside the dialog (`[data-site-search-scrim]`). */
   #site-search-dialog::backdrop {
+    background-color: transparent;
+  }
+
+  #site-search-dialog [data-site-search-scrim] {
     background-color: hsl(var(--theme-bg) / 0.82);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(6px);
+  }
+
+  @keyframes site-search-scrim-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes site-search-scrim-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes site-search-panel-in {
+    from {
+      opacity: 0;
+      filter: blur(4px);
+      transform: translateY(1.1rem) scale(0.94);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes site-search-panel-out {
+    from {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      filter: blur(3px);
+      transform: translateY(0.65rem) scale(0.96);
+    }
+  }
+
+  @keyframes site-search-hint-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-scrim] {
+    animation: site-search-scrim-in 0.28s ease-out both;
+  }
+
+  #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-panel] {
+    animation: site-search-panel-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  #site-search-dialog[data-site-search-anim="closing"] [data-site-search-scrim] {
+    animation: site-search-scrim-out 0.22s ease-in both;
+  }
+
+  #site-search-dialog[data-site-search-anim="closing"] [data-site-search-panel] {
+    animation: site-search-panel-out 0.26s ease-in both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-scrim],
+    #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-panel],
+    #site-search-dialog[data-site-search-anim="closing"] [data-site-search-scrim],
+    #site-search-dialog[data-site-search-anim="closing"] [data-site-search-panel] {
+      animation: none;
+    }
+
+    #site-search-dialog[open] [data-site-search-scrim] {
+      opacity: 1;
+    }
+
+    #site-search-dialog[open] [data-site-search-panel] {
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+  }
+
+  #site-search-results a[data-site-search-active="true"] {
+    border-color: hsl(var(--brand) / 0.5);
+    background-color: hsl(var(--brand-soft) / 0.35);
+    box-shadow:
+      0 12px 36px hsl(var(--ink) / 0.07),
+      inset 0 1px 0 hsl(var(--ink) / 0.03);
+  }
+
+  #site-search-results > li.site-search-hint {
+    animation: site-search-hint-in 0.32s ease-out both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results > li.site-search-hint {
+      animation: none;
+    }
   }
 
   /*
-    Thumbnails are built from `is:inline` JS; Tailwind may not emit utilities used only there.
-    Frame + object-fit live here. Stretch the frame to the full result row height (fixed width).
+    Thumbnails from inline JS: fixed square frame; image uses object-fit contain inside
+    so aspect ratio is preserved (letterboxed), matching the pre-stretch layout.
   */
   #site-search-results [data-site-search-thumb-frame] {
     position: relative;
     flex-shrink: 0;
-    align-self: stretch;
-    width: 5rem;
+    align-self: center;
+    width: 4.75rem;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: 0.5rem;
     border: 1px solid hsl(var(--line) / 0.45);
@@ -127,7 +268,7 @@ import { Icon } from 'astro-icon/components'
 
   @media (min-width: 640px) {
     #site-search-results [data-site-search-thumb-frame] {
-      width: 5.75rem;
+      width: 5.5rem;
     }
   }
 
@@ -159,6 +300,8 @@ import { Icon } from 'astro-icon/components'
      * }>}
      */
     let entries = []
+    let selectedResultIndex = -1
+    let closeAnimTimer = 0
 
     const resolveTrack = () => import('@vercel/analytics').then(m => m.track).catch(() => () => {})
 
@@ -166,12 +309,33 @@ import { Icon } from 'astro-icon/components'
     const getInput = () => document.querySelector('#site-search-input')
     const getResults = () => document.querySelector('#site-search-results')
     const getTrigger = () => document.querySelector('[data-site-search-trigger]')
+    const getPanel = () => document.querySelector('[data-site-search-panel]')
+
+    const prefersReducedMotion = () =>
+      window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true
 
     const setTriggerExpanded = (open) => {
       const trigger = getTrigger()
       if (trigger instanceof HTMLButtonElement) {
         trigger.setAttribute('aria-expanded', String(open))
       }
+    }
+
+    const syncResultSelection = () => {
+      const results = getResults()
+      if (!results) return
+      const anchors = results.querySelectorAll('a[href]')
+      anchors.forEach((a, i) => {
+        if (i === selectedResultIndex) {
+          a.setAttribute('data-site-search-active', 'true')
+          a.scrollIntoView({
+            block: 'nearest',
+            behavior: prefersReducedMotion() ? 'auto' : 'smooth'
+          })
+        } else {
+          a.removeAttribute('data-site-search-active')
+        }
+      })
     }
 
     const render = (query) => {
@@ -181,9 +345,10 @@ import { Icon } from 'astro-icon/components'
       results.innerHTML = ''
       const trimmed = query.trim()
       if (trimmed.length < 2) {
+        selectedResultIndex = -1
         results.innerHTML = `
           <li class="
-            rounded-xl border border-dashed border-line/55 bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
+            site-search-hint rounded-xl border border-dashed border-line/55 bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
           ">
             Type at least two characters to see results.
           </li>
@@ -202,9 +367,13 @@ import { Icon } from 'astro-icon/components'
         .slice(0, 8)
 
       if (matches.length === 0) {
-        results.innerHTML = '<li class="text-sm text-ink-muted">No matching results.</li>'
+        selectedResultIndex = -1
+        results.innerHTML =
+          '<li class="site-search-hint px-1 py-2 text-sm text-ink-muted">No matching results.</li>'
         return
       }
+
+      selectedResultIndex = Math.min(Math.max(selectedResultIndex, 0), matches.length - 1)
 
       for (const match of matches) {
         const e = match.entry
@@ -213,7 +382,8 @@ import { Icon } from 'astro-icon/components'
         a.href = e.path
         a.className = `
           group flex gap-3 rounded-xl border border-line/60 bg-surface/70 p-2.5 shadow-[inset_0_1px_0_hsl(var(--ink)/0.03)]
-          transition hover:border-brand/45 hover:bg-brand-soft/25 hover:shadow-[0_12px_40px_hsl(var(--ink)/0.06)]
+          transition duration-200 hover:border-brand/45 hover:bg-brand-soft/25 hover:shadow-[0_12px_40px_hsl(var(--ink)/0.06)]
+          motion-reduce:transition-none
           sm:gap-3.5 sm:p-3
         `.trim().replace(/\s+/g, ' ')
 
@@ -256,6 +426,8 @@ import { Icon } from 'astro-icon/components'
         results.appendChild(li)
       }
 
+      syncResultSelection()
+
       resolveTrack()
         .then((track) => track('site_search_query', { query: trimmed, results: String(matches.length) }))
         .catch(() => {})
@@ -265,6 +437,9 @@ import { Icon } from 'astro-icon/components'
       const dialog = getDialog()
       const input = getInput()
       if (!(dialog instanceof HTMLDialogElement) || !(input instanceof HTMLInputElement)) return
+
+      window.clearTimeout(closeAnimTimer)
+      dialog.removeAttribute('data-site-search-anim')
 
       if (!dialog.open) {
         dialog.showModal()
@@ -277,12 +452,53 @@ import { Icon } from 'astro-icon/components'
       })
     }
 
-    const closeSearch = () => {
+    /**
+     * @param {{ focusTrigger?: boolean }} [options]
+     */
+    const closeSearch = (options = {}) => {
+      const { focusTrigger = false } = options
       const dialog = getDialog()
-      if (dialog instanceof HTMLDialogElement && dialog.open) {
-        dialog.close()
+      if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
+
+      const finish = () => {
+        window.clearTimeout(closeAnimTimer)
+        if (dialog.open) {
+          dialog.close()
+        }
+        /* Remove after `close()` so `[open]` never pairs with "not closing" (intro CSS). */
+        dialog.removeAttribute('data-site-search-anim')
+        if (focusTrigger) {
+          const t = getTrigger()
+          if (t instanceof HTMLElement) {
+            t.focus()
+          }
+        }
       }
-      setTriggerExpanded(false)
+
+      if (prefersReducedMotion()) {
+        finish()
+        return
+      }
+
+      const panel = getPanel()
+      if (!(panel instanceof HTMLElement)) {
+        finish()
+        return
+      }
+
+      dialog.setAttribute('data-site-search-anim', 'closing')
+
+      const onAnimEnd = (e) => {
+        if (e.animationName !== 'site-search-panel-out') return
+        panel.removeEventListener('animationend', onAnimEnd)
+        finish()
+      }
+
+      panel.addEventListener('animationend', onAnimEnd)
+      closeAnimTimer = window.setTimeout(() => {
+        panel.removeEventListener('animationend', onAnimEnd)
+        finish()
+      }, 420)
     }
 
     const isEditableTarget = (target) => {
@@ -314,6 +530,8 @@ import { Icon } from 'astro-icon/components'
       const results = getResults()
       const dialog = getDialog()
 
+      const scrim = dialog.querySelector('[data-site-search-scrim]')
+
       if (!(trigger instanceof HTMLButtonElement) || !(closeBtn instanceof HTMLButtonElement) ||
           !(input instanceof HTMLInputElement) || !(results instanceof HTMLElement) ||
           !(dialog instanceof HTMLDialogElement)) {
@@ -324,17 +542,21 @@ import { Icon } from 'astro-icon/components'
 
       trigger.addEventListener('click', () => {
         if (dialog.open) {
-          closeSearch()
-          trigger.focus()
+          closeSearch({ focusTrigger: true })
           return
         }
         void loadIndex().then(() => openSearch())
       })
 
       closeBtn.addEventListener('click', () => {
-        closeSearch()
-        trigger.focus()
+        closeSearch({ focusTrigger: true })
       })
+
+      if (scrim instanceof HTMLElement) {
+        scrim.addEventListener('click', () => {
+          closeSearch({ focusTrigger: true })
+        })
+      }
 
       dialog.addEventListener('close', () => {
         setTriggerExpanded(false)
@@ -347,8 +569,35 @@ import { Icon } from 'astro-icon/components'
 
       dialog.addEventListener('cancel', (e) => {
         e.preventDefault()
-        closeSearch()
-        trigger.focus()
+        closeSearch({ focusTrigger: true })
+      })
+
+      dialog.addEventListener('keydown', (e) => {
+        if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
+        const links = [...results.querySelectorAll('a[href]')]
+        if (links.length === 0) return
+        e.preventDefault()
+        if (e.key === 'ArrowDown') {
+          if (selectedResultIndex < 0) {
+            selectedResultIndex = 0
+          } else {
+            selectedResultIndex = (selectedResultIndex + 1) % links.length
+          }
+        } else if (selectedResultIndex < 0) {
+          selectedResultIndex = links.length - 1
+        } else {
+          selectedResultIndex = (selectedResultIndex - 1 + links.length) % links.length
+        }
+        syncResultSelection()
+      })
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter') return
+        const links = [...results.querySelectorAll('a[href]')]
+        if (selectedResultIndex < 0 || selectedResultIndex >= links.length) return
+        e.preventDefault()
+        links[selectedResultIndex].click()
       })
 
       input.addEventListener('input', () => {
@@ -371,6 +620,16 @@ import { Icon } from 'astro-icon/components'
           .then((track) => track('site_search_result_click', { href: anchor.getAttribute('href') ?? '' }))
           .catch(() => {})
         closeSearch()
+      })
+
+      results.addEventListener('mousemove', (event) => {
+        const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
+        if (!anchor) return
+        const links = [...results.querySelectorAll('a[href]')]
+        const next = links.indexOf(anchor)
+        if (next < 0 || next === selectedResultIndex) return
+        selectedResultIndex = next
+        syncResultSelection()
       })
 
       void loadIndex().then(() => {
