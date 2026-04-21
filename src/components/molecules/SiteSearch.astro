@@ -111,8 +111,9 @@ import { Icon } from 'astro-icon/components'
           or <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</kbd><kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
         </p>
 
+        <p aria-atomic="true" aria-live="polite" class="sr-only" id="site-search-status"></p>
+
         <ul
-          aria-live="polite"
           class="
             max-h-[min(50vh,24rem)] min-h-0 space-y-2 overflow-y-auto
             [-webkit-overflow-scrolling:touch]
@@ -278,9 +279,61 @@ import { Icon } from 'astro-icon/components'
     inset: 0;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    transition: opacity 160ms ease-out;
     /* Full row height slot, but never crop or squash the bitmap — letterbox if needed. */
     object-fit: contain;
     object-position: center;
+  }
+
+  #site-search-results [data-site-search-thumb-state="loaded"] {
+    opacity: 1;
+  }
+
+  #site-search-results [data-site-search-thumb-state="error"] {
+    display: none;
+  }
+
+  #site-search-results [data-site-search-thumb-placeholder] {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      linear-gradient(
+        110deg,
+        hsl(var(--surface-muted)) 8%,
+        hsl(var(--surface) / 0.96) 18%,
+        hsl(var(--surface-muted)) 33%
+      );
+    background-size: 220% 100%;
+    animation: site-search-thumb-shimmer 1.05s linear infinite;
+  }
+
+  #site-search-results [data-site-search-thumb-frame][data-site-search-thumb-loaded="true"]
+    [data-site-search-thumb-placeholder] {
+    opacity: 0;
+    transition: opacity 160ms ease-out;
+  }
+
+  @keyframes site-search-thumb-shimmer {
+    to {
+      background-position-x: -220%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results [data-site-search-thumb] {
+      transition: none;
+    }
+
+    #site-search-results [data-site-search-thumb-placeholder] {
+      animation: none;
+    }
+
+    #site-search-results [data-site-search-thumb-frame][data-site-search-thumb-loaded="true"]
+      [data-site-search-thumb-placeholder] {
+      transition: none;
+    }
   }
 </style>
 
@@ -302,12 +355,19 @@ import { Icon } from 'astro-icon/components'
     let entries = []
     let selectedResultIndex = -1
     let closeAnimTimer = 0
+    let queryTrackTimer = 0
+    let lastTrackedQuerySignature = ''
+    /** @type {'idle' | 'loading' | 'ready' | 'error'} */
+    let indexLoadState = 'idle'
+    /** @type {Promise<boolean> | null} */
+    let indexLoadPromise = null
 
     const resolveTrack = () => import('@vercel/analytics').then(m => m.track).catch(() => () => {})
 
     const getDialog = () => document.querySelector('#site-search-dialog')
     const getInput = () => document.querySelector('#site-search-input')
     const getResults = () => document.querySelector('#site-search-results')
+    const getStatus = () => document.querySelector('#site-search-status')
     const getTrigger = () => document.querySelector('[data-site-search-trigger]')
     const getPanel = () => document.querySelector('[data-site-search-panel]')
 
@@ -343,38 +403,179 @@ import { Icon } from 'astro-icon/components'
       })
     }
 
+    /**
+     * @param {string} message
+     */
+    const setStatusMessage = (message) => {
+      const status = getStatus()
+      if (!(status instanceof HTMLElement)) return
+      if (status.textContent === message) return
+      status.textContent = message
+    }
+
+    /**
+     * @param {string} query
+     * @param {number} resultCount
+     */
+    const trackQuery = (query, resultCount) => {
+      const normalized = query.trim().toLowerCase()
+      if (normalized.length < 2) return
+
+      const signature = `${normalized}|${resultCount}`
+      if (signature === lastTrackedQuerySignature) return
+
+      window.clearTimeout(queryTrackTimer)
+      queryTrackTimer = window.setTimeout(() => {
+        lastTrackedQuerySignature = signature
+        const terms = normalized.split(/\s+/).filter(Boolean).length
+        resolveTrack()
+          .then((track) =>
+            track('site_search_query', {
+              query_length: String(normalized.length),
+              query_terms: String(terms),
+              results: String(resultCount)
+            })
+          )
+          .catch(() => {})
+      }, 400)
+    }
+
+    /**
+     * @param {typeof entries[number]} entry
+     * @param {string} normalizedQuery
+     */
+    const rankEntry = (entry, normalizedQuery) => {
+      const normalizedTitle = entry.title.toLowerCase()
+      const normalizedDescription = entry.description.toLowerCase()
+      const normalizedTags = entry.tags.map((tag) => tag.toLowerCase())
+      const terms = normalizedQuery.split(/\s+/).filter(Boolean)
+
+      let score = 0
+
+      if (normalizedTitle === normalizedQuery) score += 120
+      if (normalizedTitle.startsWith(normalizedQuery)) score += 90
+      else if (normalizedTitle.includes(normalizedQuery)) score += 55
+
+      if (normalizedTags.some((tag) => tag === normalizedQuery)) score += 48
+      else if (normalizedTags.some((tag) => tag.startsWith(normalizedQuery))) score += 36
+
+      if (normalizedDescription.includes(normalizedQuery)) score += 16
+
+      for (const term of terms) {
+        let termMatched = false
+
+        if (normalizedTitle.startsWith(term)) {
+          score += 22
+          termMatched = true
+        } else if (normalizedTitle.includes(term)) {
+          score += 14
+          termMatched = true
+        }
+
+        if (normalizedTags.some((tag) => tag === term)) {
+          score += 16
+          termMatched = true
+        } else if (normalizedTags.some((tag) => tag.startsWith(term))) {
+          score += 11
+          termMatched = true
+        } else if (normalizedTags.some((tag) => tag.includes(term))) {
+          score += 7
+          termMatched = true
+        }
+
+        if (normalizedDescription.includes(term)) {
+          score += 6
+          termMatched = true
+        }
+
+        if (!termMatched) return 0
+      }
+
+      return score
+    }
+
     const render = (query) => {
       const results = getResults()
       if (!results) return
 
       results.innerHTML = ''
       const trimmed = query.trim()
+
+      if (indexLoadState === 'loading') {
+        selectedResultIndex = -1
+        results.innerHTML = `
+          <li class="
+            site-search-hint rounded-xl border border-dashed border-line/55
+            bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
+          ">
+            Loading search index…
+          </li>
+        `
+        setStatusMessage('Loading search index.')
+        return
+      }
+
+      if (indexLoadState === 'error') {
+        selectedResultIndex = -1
+        results.innerHTML = `
+          <li
+            class="
+              site-search-hint rounded-xl border border-dashed border-line/55
+              bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
+            "
+          >
+            <p class="mb-3">Search is temporarily unavailable.</p>
+            <button
+              class="
+                inline-flex min-h-10 items-center rounded-full border border-line/60
+                px-3 py-1.5 text-xs font-medium text-ink-soft transition
+                hover:border-brand/40 hover:text-brand
+                motion-reduce:transition-none
+              "
+              data-site-search-retry
+              type="button"
+            >
+              Retry loading index
+            </button>
+          </li>
+        `
+        setStatusMessage('Search is temporarily unavailable.')
+        return
+      }
+
       if (trimmed.length < 2) {
         selectedResultIndex = -1
         results.innerHTML = `
           <li class="
-            site-search-hint rounded-xl border border-dashed border-line/55 bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
+            site-search-hint rounded-xl border border-dashed border-line/55
+            bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
           ">
             Type at least two characters to see results.
           </li>
         `
+        setStatusMessage('Type at least two characters to search.')
         return
       }
 
       const normalized = trimmed.toLowerCase()
       const matches = entries
         .map((entry) => {
-          const haystack = `${entry.title} ${entry.description} ${entry.tags.join(' ')}`.toLowerCase()
-          const score = haystack.includes(normalized) ? 1 : 0
+          const score = rankEntry(entry, normalized)
           return { entry, score }
         })
         .filter((item) => item.score > 0)
+        .sort((a, b) => {
+          if (b.score !== a.score) return b.score - a.score
+          return a.entry.title.localeCompare(b.entry.title)
+        })
         .slice(0, 8)
 
       if (matches.length === 0) {
         selectedResultIndex = -1
         results.innerHTML =
           '<li class="site-search-hint px-1 py-2 text-sm text-ink-muted">No matching results.</li>'
+        setStatusMessage(`No matching results for ${trimmed}.`)
+        trackQuery(trimmed, 0)
         return
       }
 
@@ -386,8 +587,10 @@ import { Icon } from 'astro-icon/components'
         const a = document.createElement('a')
         a.href = e.path
         a.className = `
-          group flex gap-3 rounded-xl border border-line/60 bg-surface/70 p-2.5 shadow-[inset_0_1px_0_hsl(var(--ink)/0.03)]
-          transition duration-200 hover:border-brand/45 hover:bg-brand-soft/25 hover:shadow-[0_12px_40px_hsl(var(--ink)/0.06)]
+          group flex gap-3 rounded-xl border border-line/60 bg-surface/70 p-2.5
+          shadow-[inset_0_1px_0_hsl(var(--ink)/0.03)]
+          transition duration-200 hover:border-brand/45 hover:bg-brand-soft/25
+          hover:shadow-[0_12px_40px_hsl(var(--ink)/0.06)]
           motion-reduce:transition-none
           sm:gap-3.5 sm:p-3
         `.trim().replace(/\s+/g, ' ')
@@ -396,13 +599,30 @@ import { Icon } from 'astro-icon/components'
         thumbHost.setAttribute('data-site-search-thumb-frame', '')
 
         if (e.coverUrl) {
+          const placeholder = document.createElement('span')
+          placeholder.setAttribute('aria-hidden', 'true')
+          placeholder.setAttribute('data-site-search-thumb-placeholder', '')
+
           const img = document.createElement('img')
           img.src = e.coverUrl
           img.alt = e.coverAlt || e.title
           img.decoding = 'async'
           img.loading = 'eager'
           img.setAttribute('data-site-search-thumb', '')
-          thumbHost.appendChild(img)
+          img.setAttribute('data-site-search-thumb-state', 'loading')
+
+          img.addEventListener('load', () => {
+            img.setAttribute('data-site-search-thumb-state', 'loaded')
+            thumbHost.setAttribute('data-site-search-thumb-loaded', 'true')
+          })
+
+          img.addEventListener('error', () => {
+            img.setAttribute('data-site-search-thumb-state', 'error')
+            thumbHost.removeAttribute('data-site-search-thumb-loaded')
+            img.alt = ''
+          })
+
+          thumbHost.append(placeholder, img)
         } else {
           const ph = document.createElement('span')
           ph.className = 'block size-full grid-fade'
@@ -432,10 +652,10 @@ import { Icon } from 'astro-icon/components'
       }
 
       syncResultSelection()
-
-      resolveTrack()
-        .then((track) => track('site_search_query', { query: trimmed, results: String(matches.length) }))
-        .catch(() => {})
+      setStatusMessage(
+        `${matches.length} ${matches.length === 1 ? 'result' : 'results'} available. Use arrow keys to navigate.`
+      )
+      trackQuery(trimmed, matches.length)
     }
 
     const openSearch = () => {
@@ -468,6 +688,7 @@ import { Icon } from 'astro-icon/components'
 
       const finish = () => {
         window.clearTimeout(closeAnimTimer)
+        window.clearTimeout(queryTrackTimer)
         if (dialog.open) {
           dialog.close()
         }
@@ -516,15 +737,40 @@ import { Icon } from 'astro-icon/components'
       return false
     }
 
-    const loadIndex = async () => {
-      if (entries.length > 0) return
-      try {
-        const response = await fetch('/search-index.json')
-        const json = await response.json()
-        entries = Array.isArray(json) ? json : []
-      } catch {
-        entries = []
-      }
+    /**
+     * @param {{ force?: boolean }} [options]
+     */
+    const loadIndex = async (options = {}) => {
+      const { force = false } = options
+      if (!force && indexLoadState === 'ready' && entries.length > 0) return true
+      if (!force && indexLoadPromise) return indexLoadPromise
+
+      indexLoadState = 'loading'
+      render(getInput()?.value ?? '')
+
+      indexLoadPromise = fetch('/search-index.json')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed search index response')
+          }
+          return response.json()
+        })
+        .then((json) => {
+          entries = Array.isArray(json) ? json : []
+          indexLoadState = 'ready'
+          return true
+        })
+        .catch(() => {
+          entries = []
+          indexLoadState = 'error'
+          return false
+        })
+        .finally(() => {
+          indexLoadPromise = null
+          render(getInput()?.value ?? '')
+        })
+
+      return indexLoadPromise
     }
 
     const bindUi = () => {
@@ -552,7 +798,8 @@ import { Icon } from 'astro-icon/components'
           closeSearch({ focusTrigger: true })
           return
         }
-        void loadIndex().then(() => openSearch())
+        openSearch()
+        void loadIndex()
       })
 
       closeBtn.addEventListener('click', () => {
@@ -622,6 +869,14 @@ import { Icon } from 'astro-icon/components'
       })
 
       results.addEventListener('click', (event) => {
+        const retryButton =
+          event.target instanceof Element ? event.target.closest('[data-site-search-retry]') : null
+        if (retryButton instanceof HTMLButtonElement) {
+          event.preventDefault()
+          void loadIndex({ force: true })
+          return
+        }
+
         const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
         if (!anchor) return
         resolveTrack()
@@ -658,7 +913,10 @@ import { Icon } from 'astro-icon/components'
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         if (!isOpen && isEditableTarget(event.target)) return
         event.preventDefault()
-        void loadIndex().then(() => openSearch())
+        if (!isOpen) {
+          openSearch()
+        }
+        void loadIndex()
         return
       }
 
@@ -666,7 +924,8 @@ import { Icon } from 'astro-icon/components'
         if (isOpen) return
         if (isEditableTarget(event.target)) return
         event.preventDefault()
-        void loadIndex().then(() => openSearch())
+        openSearch()
+        void loadIndex()
       }
     }
 
