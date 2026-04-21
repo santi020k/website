@@ -1,0 +1,98 @@
+/* ─── Design Tokens ──────────────────────────────────────────────────────────
+ * CSS custom properties (raw HSL values) and their Tailwind @theme mappings.
+ * Every colour, font, and animation token lives here.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/* Dark mode is configured via data-theme attribute on the root */
+@custom-variant dark ([data-theme="dark"] &);
+
+/* ─── Color Tokens ──────────────────────────────────────────────────────────── */
+
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --theme-bg: 262 20% 98%;
+  --surface: 262 20% 100%;
+  --surface-muted: 262 20% 96%;
+  --surface-strong: 262 15% 90%;
+  --line: 262 15% 84%;
+  --ink: 262 10% 20%;
+  --ink-soft: 262 8% 36%;
+  --ink-muted: 262 6% 28%;
+  --brand: 262 87% 36%;
+  --brand-soft: 262 87% 93%;
+  --accent: 262 87% 52%;
+  --glow: 262 100% 70%;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-bg: 262 20% 10%;
+  --surface: 262 20% 14%;
+  --surface-muted: 262 18% 17%;
+  --surface-strong: 262 15% 23%;
+  --line: 262 12% 32%;
+  --ink: 262 10% 88%;
+  --ink-soft: 262 8% 72%;
+  --ink-muted: 262 6% 56%;
+  --brand: 262 87% 60%;
+  --brand-soft: 262 50% 18%;
+  --accent: 262 87% 75%;
+  --glow: 262 100% 68%;
+}
+
+@media (prefers-contrast: more) {
+  :root,
+  :root[data-theme="light"] {
+    --surface-muted: 262 18% 94%;
+    --surface-strong: 262 14% 88%;
+    --line: 262 18% 66%;
+    --ink-soft: 262 12% 24%;
+    --ink-muted: 262 10% 18%;
+    --brand: 262 90% 30%;
+    --brand-soft: 262 88% 88%;
+  }
+
+  :root[data-theme="dark"] {
+    --surface-muted: 262 18% 15%;
+    --surface-strong: 262 16% 20%;
+    --line: 262 14% 48%;
+    --ink-soft: 262 10% 84%;
+    --ink-muted: 262 8% 76%;
+    --brand: 262 92% 72%;
+    --brand-soft: 262 44% 26%;
+  }
+}
+
+/* ─── Tailwind Theme Mappings ───────────────────────────────────────────────── */
+
+@theme {
+  /* Fonts */
+  --font-sans: "Montserrat", "Avenir Next", "Segoe UI", sans-serif;
+  --font-display: "Montserrat", "Avenir Next", sans-serif;
+  --font-serif: "Montserrat", "Avenir Next", sans-serif;
+  --font-mono: "Montserrat", "SFMono-Regular", "SF Mono", monospace;
+
+  /* Colors */
+  --color-canvas: hsl(var(--theme-bg));
+  --color-surface: hsl(var(--surface));
+  --color-surface-muted: hsl(var(--surface-muted));
+  --color-surface-strong: hsl(var(--surface-strong));
+  --color-line: hsl(var(--line));
+  --color-ink: hsl(var(--ink));
+  --color-ink-soft: hsl(var(--ink-soft));
+  --color-ink-muted: hsl(var(--ink-muted));
+  --color-brand: hsl(var(--brand));
+  --color-brand-soft: hsl(var(--brand-soft));
+  --color-accent: hsl(var(--accent));
+  --color-glow: hsl(var(--glow));
+
+  /* Animation shorthands — keyframes live in animations.css */
+  --animate-fade-in: fade-in 0.4s ease-out both;
+  --animate-slide-up: slide-up 0.5s ease-out both;
+  --animate-slide-down: slide-down 0.3s ease-out both;
+  --animate-scale-in: scale-in 0.25s ease-out both;
+  --animate-spring-up: spring-up 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-float-y: float-y 6s ease-in-out infinite;
+  --animate-hero-phrase-cycle: hero-phrase-cycle 10s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
