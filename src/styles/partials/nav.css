@@ -20,6 +20,12 @@
   & > * {
     min-width: 0;
   }
+
+  /* Keep desktop nav labels from shrinking: global `overflow-wrap: anywhere` + default
+     `flex-shrink: 1` otherwise breaks words mid-token when the shell is tight. */
+  & > nav {
+    min-width: min-content;
+  }
   background:
     linear-gradient(
       180deg,
