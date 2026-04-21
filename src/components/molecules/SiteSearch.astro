@@ -47,7 +47,7 @@ import { Icon } from 'astro-icon/components'
             Search
           </h2>
           <p class="mt-1 text-sm text-ink-soft">
-            Posts and projects. Press <kbd class="rounded bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
+            Match titles, tags, and descriptions. Press <kbd class="rounded bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
           </p>
         </div>
         <button
@@ -78,13 +78,22 @@ import { Icon } from 'astro-icon/components'
         type="search"
       />
 
-      <p class="text-xs text-ink-muted">
-        Shortcuts: <kbd class="rounded bg-surface-muted px-1 py-0.5">/</kbd>
+      <p class="text-xs leading-relaxed text-ink-muted">
+        <span class="text-ink-soft">Open from the page</span> (not while typing in a field):
+        <kbd class="rounded bg-surface-muted px-1 py-0.5">/</kbd>
         · <kbd class="rounded bg-surface-muted px-1 py-0.5">⌘</kbd><kbd class="rounded bg-surface-muted px-1 py-0.5">K</kbd>
-        / <kbd class="rounded bg-surface-muted px-1 py-0.5">Ctrl</kbd><kbd class="rounded bg-surface-muted px-1 py-0.5">K</kbd>
+        or <kbd class="rounded bg-surface-muted px-1 py-0.5">Ctrl</kbd><kbd class="rounded bg-surface-muted px-1 py-0.5">K</kbd>
       </p>
 
-      <ul aria-live="polite" class="min-h-0 max-h-[min(50vh,22rem)] space-y-2 overflow-y-auto" id="site-search-results"></ul>
+      <ul
+        aria-live="polite"
+        class="
+          min-h-0 max-h-[min(50vh,24rem)] space-y-2 overflow-y-auto
+          [-webkit-overflow-scrolling:touch]
+        "
+        id="site-search-results"
+      >
+      </ul>
     </div>
   </dialog>
 </div>
@@ -103,7 +112,19 @@ import { Icon } from 'astro-icon/components'
 
 <script is:inline>
   (() => {
-    /** @type {Array<{title: string, description: string, path: string, tags: string[], type: 'post' | 'project'}>} */
+    /**
+     * @type {Array<{
+     *   title: string
+     *   description: string
+     *   path: string
+     *   tags: string[]
+     *   type: 'post' | 'project'
+     *   coverUrl?: string
+     *   coverAlt?: string
+     *   coverWidth?: number
+     *   coverHeight?: number
+     * }>}
+     */
     let entries = []
 
     const resolveTrack = () => import('@vercel/analytics').then(m => m.track).catch(() => () => {})
@@ -126,7 +147,16 @@ import { Icon } from 'astro-icon/components'
 
       results.innerHTML = ''
       const trimmed = query.trim()
-      if (trimmed.length < 2) return
+      if (trimmed.length < 2) {
+        results.innerHTML = `
+          <li class="
+            rounded-xl border border-dashed border-line/55 bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
+          ">
+            Type at least two characters to see results.
+          </li>
+        `
+        return
+      }
 
       const normalized = trimmed.toLowerCase()
       const matches = entries
@@ -144,15 +174,96 @@ import { Icon } from 'astro-icon/components'
       }
 
       for (const match of matches) {
-        const item = document.createElement('li')
-        item.innerHTML = `
-          <a href="${match.entry.path}" class="block rounded-xl border border-line/60 bg-surface/70 p-3 transition hover:border-brand/40 hover:bg-brand-soft/20 sm:p-4">
-            <p class="section-label">${match.entry.type === 'post' ? 'Post' : 'Project'}</p>
-            <p class="mt-1 text-sm font-semibold text-ink">${match.entry.title}</p>
-            <p class="mt-1 text-xs/5 text-ink-soft sm:text-sm/6">${match.entry.description}</p>
-          </a>
-        `
-        results.appendChild(item)
+        const e = match.entry
+        const li = document.createElement('li')
+        const a = document.createElement('a')
+        a.href = e.path
+        a.className = `
+          group flex gap-3 rounded-xl border border-line/60 bg-surface/70 p-2.5 shadow-[inset_0_1px_0_hsl(var(--ink)/0.03)]
+          transition hover:border-brand/45 hover:bg-brand-soft/25 hover:shadow-[0_12px_40px_hsl(var(--ink)/0.06)]
+          sm:gap-3.5 sm:p-3
+        `.trim().replace(/\s+/g, ' ')
+
+        const thumbWidthClass = 'w-[4.75rem] sm:w-[5.25rem]'
+        const thumbHost = document.createElement('span')
+        const setCoverThumbLayout = (host, img, w, h) => {
+          const base = `
+            relative shrink-0 self-start overflow-hidden rounded-lg border border-line/45
+            shadow-[inset_0_1px_0_hsl(var(--ink)/0.04)]
+            ${thumbWidthClass}
+          `.trim().replace(/\s+/g, ' ')
+
+          if (typeof w !== 'number' || typeof h !== 'number' || h <= 0) {
+            host.className = `${base} bg-surface-muted`.trim()
+            host.style.aspectRatio = '16 / 10'
+            img.className = 'size-full object-cover'
+            return
+          }
+
+          const ratio = w / h
+          // Match `CoverImage.astro` card orientation: landscape → 16:10, portrait → 4:5, square → 1:1
+          if (ratio < 0.92) {
+            host.className = `
+              ${base} flex items-center justify-center bg-linear-to-br from-surface-muted via-surface
+              to-brand-soft/30 p-1 sm:p-1.5
+            `.trim().replace(/\s+/g, ' ')
+            host.style.aspectRatio = '4 / 5'
+            img.className = 'relative z-10 mx-auto h-full w-full object-contain'
+          } else if (ratio <= 1.08) {
+            host.className = `
+              ${base} flex items-center justify-center bg-linear-to-br from-surface-muted via-surface
+              to-brand-soft/30 p-1 sm:p-1.5
+            `.trim().replace(/\s+/g, ' ')
+            host.style.aspectRatio = '1 / 1'
+            img.className = 'relative z-10 mx-auto h-full w-full object-contain'
+          } else {
+            host.className = `${base} bg-surface-muted`.trim()
+            host.style.aspectRatio = '16 / 10'
+            img.className = 'relative z-10 size-full object-cover'
+          }
+        }
+
+        if (e.coverUrl) {
+          const img = document.createElement('img')
+          img.src = e.coverUrl
+          img.alt = e.coverAlt || e.title
+          img.decoding = 'async'
+          img.loading = 'eager'
+          if (typeof e.coverWidth === 'number') img.width = e.coverWidth
+          if (typeof e.coverHeight === 'number') img.height = e.coverHeight
+          setCoverThumbLayout(thumbHost, img, e.coverWidth, e.coverHeight)
+          thumbHost.appendChild(img)
+        } else {
+          thumbHost.className = `
+            relative aspect-[16/10] shrink-0 self-start overflow-hidden rounded-lg border border-line/45
+            bg-surface-muted shadow-[inset_0_1px_0_hsl(var(--ink)/0.04)]
+            ${thumbWidthClass}
+          `.trim().replace(/\s+/g, ' ')
+          const ph = document.createElement('span')
+          ph.className = 'block size-full grid-fade'
+          ph.setAttribute('aria-hidden', 'true')
+          thumbHost.appendChild(ph)
+        }
+
+        const body = document.createElement('span')
+        body.className = 'flex min-w-0 flex-1 flex-col justify-center gap-0.5'
+
+        const typeEl = document.createElement('span')
+        typeEl.className = 'section-label'
+        typeEl.textContent = e.type === 'post' ? 'Post' : 'Project'
+
+        const titleEl = document.createElement('span')
+        titleEl.className = 'text-sm font-semibold text-ink transition group-hover:text-brand'
+        titleEl.textContent = e.title
+
+        const descEl = document.createElement('span')
+        descEl.className = 'line-clamp-2 text-xs/5 text-ink-soft sm:text-sm/6'
+        descEl.textContent = e.description
+
+        body.append(typeEl, titleEl, descEl)
+        a.append(thumbHost, body)
+        li.appendChild(a)
+        results.appendChild(li)
       }
 
       resolveTrack()
@@ -172,6 +283,7 @@ import { Icon } from 'astro-icon/components'
       window.requestAnimationFrame(() => {
         input.focus()
         input.select()
+        render(input.value)
       })
     }
 
@@ -236,6 +348,11 @@ import { Icon } from 'astro-icon/components'
 
       dialog.addEventListener('close', () => {
         setTriggerExpanded(false)
+        const url = new URL(window.location.href)
+        if (url.searchParams.has('q')) {
+          url.searchParams.delete('q')
+          window.history.replaceState({}, '', url)
+        }
       })
 
       dialog.addEventListener('cancel', (e) => {
