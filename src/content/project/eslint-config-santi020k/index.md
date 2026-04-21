@@ -12,7 +12,7 @@ impactMetrics: [
   "Created the foundation later rebuilt into eslint-config-basic"
 ]
 technologies: [
-  "React.js", "Next.js", "TypeScript", "Expo", "Astro", "ESLint", "JavaScript", "Code Quality", "NPM", "Open Source", "TailwindCSS", "Vitest", "i18next"
+  "React.js", "Next.js", "TypeScript", "Expo", "Astro", "ESLint", "JavaScript", "Code Quality", "NPM", "Open Source", "Tailwind CSS", "Vitest", "i18next"
 ]
 coverImage:
   src: "./cover.webp"

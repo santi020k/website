@@ -12,7 +12,7 @@ impactMetrics: [
   "Product work supporting brands such as Rappi, Subway, and Telefonica"
 ]
 technologies: [
-  "React.js", "TypeScript", "Redux", "Redux Sagas", "D3.js", "Styled Components", "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "Github", "Scrum", "Team Leadership", "GCP", "jQuery", "React Router", "Jest", "Storybook", "Cypress", "CI/CD", "Testing", "Developer Experience (DX)", "Code Quality", "Performance Optimization", "Yup", "ESLint", "Sentry", "Highcharts", "Formik"
+  "React.js", "TypeScript", "Redux", "Redux Sagas", "D3.js", "Styled Components", "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "GitHub", "Scrum", "Team Leadership", "GCP", "jQuery", "React Router", "Jest", "Storybook", "Cypress", "CI/CD", "Testing", "Developer Experience (DX)", "Code Quality", "Performance Optimization", "Yup", "ESLint", "Sentry", "Highcharts", "Formik"
 ]
 coverImage:
   src: "./cover.webp"
