@@ -215,7 +215,7 @@ const meta = {
 
       <div
         class="
-          relative isolate mx-auto w-full max-w-88 animate-spring-up
+          animate-spring-up-lcp relative isolate mx-auto w-full max-w-88
           motion-reduce:animate-none
         "
       >
@@ -269,6 +269,7 @@ const meta = {
               relative z-0 aspect-4/5 w-full rounded-[1.7rem] object-cover
               object-top
             "
+            decoding="sync"
             fetchpriority="high"
             formats={['avif', 'webp']}
             loading="eager"

@@ -63,6 +63,19 @@
   }
 }
 
+@keyframes spring-up-lcp {
+  0% {
+    opacity: 1; /* Keep it visible for LCP */
+    transform: translateY(30px) scale(0.9);
+  }
+  70% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
 @keyframes hero-phrase-cycle {
   0%,
   22% {

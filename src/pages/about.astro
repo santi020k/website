@@ -26,9 +26,8 @@ const meta = {
   description,
   preloadImage: {
     href: aboutPortraitImage.src,
-    imagesizes: '(min-width: 1024px) 360px, 0px',
+    imagesizes: '(min-width: 1024px) 360px, 75vw',
     imagesrcset: aboutPortraitImage.srcSet.attribute,
-    media: '(min-width: 1024px)',
     type: 'image/avif'
   },
   title: 'About Santiago Molina — Engineering Leader'
@@ -102,18 +101,15 @@ const meta = {
     </div>
 
     <div class="grid gap-4 editorial-rail">
-      <div class="
-        panel-card hidden overflow-hidden
-        lg:block
-      "
-      >
+      <div class="panel-card overflow-hidden">
         <Picture
           alt="Santiago Molina"
           class="aspect-3/4 w-full object-cover object-top"
+          decoding="sync"
           fetchpriority="high"
           formats={['avif', 'webp']}
           loading="eager"
-          sizes="(min-width: 1024px) 360px, 0px"
+          sizes="(min-width: 1024px) 360px, 75vw"
           src={AboutMeImage}
           width={360}
           widths={[240, 360, 480, 720]}
