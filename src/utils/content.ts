@@ -93,3 +93,37 @@ export const getRelatedPosts = async ({
     .slice(0, limit)
     .map(item => item.post)
 }
+
+/**
+ * Returns projects related by type and shared technologies.
+ * Falls back to same-type projects even when no technology overlaps.
+ */
+export const getRelatedProjects = async ({
+  currentProjectId,
+  limit = 3,
+  technologies,
+  typesId
+}: {
+  currentProjectId: string
+  limit?: number
+  technologies: string[]
+  typesId?: 'professional' | 'personal' | 'experimental'
+}): Promise<CollectionEntry<'project'>[]> => {
+  const projects = await getCachedProjects()
+  const technologySet = new Set(technologies)
+
+  return projects
+    .filter(project => {
+      if (project.id === currentProjectId) return false
+      if (typesId && project.data.typesId !== typesId) return false
+      return true
+    })
+    .map(project => ({
+      project,
+      sharedTechnologies: project.data.technologies.filter(technology => technologySet.has(technology)).length
+    }))
+    .sort((a, b) => b.sharedTechnologies - a.sharedTechnologies ||
+      b.project.data.startingDate.getTime() - a.project.data.startingDate.getTime())
+    .slice(0, limit)
+    .map(item => item.project)
+}

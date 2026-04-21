@@ -2,6 +2,7 @@
 
 import astroConfig from '@santi020k/eslint-config-astro'
 import { eslintConfig, Testing } from '@santi020k/eslint-config-basic'
+import playwright from 'eslint-plugin-playwright'
 
 export default [
   // --- Base presets from your package ---
@@ -14,7 +15,7 @@ export default [
   }),
   {
     name: 'website/typescript-project-fix',
-    files: ['**/*.{ts,tsx,astro}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parserOptions: {
         project: true,
@@ -53,6 +54,18 @@ export default [
     files: ['**/*.astro'],
     rules: {
       '@stylistic/jsx-indent-props': 'off'
+    }
+  },
+  {
+    name: 'website/playwright-tests',
+    files: ['tests/**/*.ts'],
+    plugins: {
+      playwright
+    },
+    rules: {
+      ...playwright.configs['flat/recommended'].rules,
+      'playwright/no-focused-test': 'error',
+      'playwright/no-skipped-test': 'warn'
     }
   }
 ]

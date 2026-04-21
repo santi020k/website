@@ -27,6 +27,18 @@ test.describe('Blog page', () => {
     ])
   })
 
+  test('index search should return matching content links', async ({ page }) => {
+    await page.goto('/blog/')
+
+    await page.getByRole('button', { name: 'Open site search' }).click()
+    const input = page.getByPlaceholder('Search by title, tag, or keyword...')
+    await input.fill('eslint')
+
+    const results = page.locator('#site-search-results li a')
+    await expect(results.first()).toBeVisible()
+    await expect(results.first()).toHaveAttribute('href', /\/blog\/|\/portfolio\//)
+  })
+
   test('index should match visual snapshot', async ({ page }) => {
     test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
     await page.goto('/blog/')

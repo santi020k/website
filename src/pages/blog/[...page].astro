@@ -11,8 +11,8 @@ import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 
-import { getAllTags } from '@/utils/tags'
 import { getCachedPosts } from '@/utils/content'
+import { getAllTags } from '@/utils/tags'
 
 import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
@@ -36,11 +36,9 @@ interface Props {
 
 const { allTagsData, page } = Astro.props
 const isFirstPage = page.currentPage === 1
-
 const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const santi020kWaySeries = isFirstPage ? (activeSeries.find(s => s.series.id === 'the-santi020k-way') ?? null) : null
 const roadmapPreview = isFirstPage ? editorialCalendar.slice(0, 3) : []
-
 const topTags = allTagsData.slice(0, 8)
 const featuredPost = page.data[0] ?? null
 const gridPosts = page.data.slice(1)

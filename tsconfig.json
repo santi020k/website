@@ -15,6 +15,11 @@
       "dom",
       "dom.iterable"
     ],
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ],
     "paths": {
       "@/*": [
         "src/*"
