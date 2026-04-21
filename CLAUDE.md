@@ -5,7 +5,7 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 ## Tech Stack
 
 - **Framework**: Astro 6 (file-based routing, content collections, View Transitions)
-- **Interactivity**: Vanilla Web Components / Custom Elements (no framework — lightweight inline scripts and native custom elements)
+- **Interactivity**: Vanilla JS (no framework runtime — lightweight inline scripts and custom events)
 - **Styling**: Tailwind CSS v4 — configured via `src/styles/global.css` `@theme` block (no `tailwind.config.js`)
 - **Language**: TypeScript (strict)
 - **Deployment**: Vercel (`vercel.json`)
