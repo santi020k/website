@@ -35,6 +35,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
 
+const shouldLoadVercelScripts =
+  import.meta.env.PROD &&
+    !import.meta.env.PUBLIC_IS_CI &&
+    (import.meta.env.VERCEL === '1' || import.meta.env.VERCEL_ENV !== undefined)
+
 const websiteJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -236,7 +241,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 )}
 
 {
-  import.meta.env.PROD && !import.meta.env.PUBLIC_IS_CI && (
+  shouldLoadVercelScripts && (
     <>
       <ErrorMonitoring />
       <SpeedInsights />
