@@ -12,7 +12,7 @@ Santiago is a seasoned **Full Stack Developer** and **Tech Lead** with over a de
 
 - **Astro 6 Power**: Built with the latest Astro framework for optimized performance.
 - **Tailwind CSS v4**: Modern, future-proof styling with zero-runtime CSS.
-- **Alpine.js Interactivity**: Lightweight, reactive features without the overhead.
+- **Native Script Interactivity**: Lightweight inline scripts and custom events without a framework runtime.
 - **Content Collections**: Type-safe Markdown and MDX for blog posts and projects.
 - **Accessibility First**: WCAG 2.2 AA compliant, ensuring an inclusive experience for all.
 - **View Transitions**: Seamless, app-like navigation between pages.
@@ -23,7 +23,7 @@ Santiago is a seasoned **Full Stack Developer** and **Tech Lead** with over a de
 
 [![Astro](https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE)](https://astro.build/)
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Alpine.js](https://img.shields.io/badge/Alpine.js-8BC34A?style=for-the-badge&logo=alpine.js&logoColor=white)](https://alpinejs.dev/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
 [![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/)
@@ -68,10 +68,13 @@ pnpm run build
 
 ```bash
 pnpm run lint      # Linting with ESLint
+pnpm run lint:fix  # Lint and autofix
 pnpm run check     # Astro type-checking
 pnpm run test      # Unit testing
 pnpm run test:e2e  # E2E testing
 ```
+
+`test:e2e` commands auto-install Playwright browsers when needed.
 
 ---
 
