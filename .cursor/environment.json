@@ -1,0 +1,11 @@
+{
+  "$schema": "https://www.cursor.com/schemas/environment.schema.json",
+  "name": "private-website",
+  "install": "corepack enable && HUSKY=0 pnpm install --frozen-lockfile",
+  "ports": [
+    {
+      "name": "Astro dev server",
+      "port": 4321
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-const CACHE_VERSION = '2026-04-03'
+const CACHE_VERSION = '2026-04-21'
 const STATIC_CACHE = `santi020k-static-${CACHE_VERSION}`
 
 const CORE_ROUTES = [
@@ -31,7 +31,10 @@ self.addEventListener('activate', event => {
 const shouldHandleRequest = (request, url) => request.method === 'GET' &&
   url.origin === self.location.origin &&
   !url.pathname.startsWith('/_vercel/') &&
-  !url.pathname.startsWith('/api/')
+  !url.pathname.startsWith('/api/') &&
+  // Astro dev image pipeline — let the browser hit the dev server directly so
+  // optimized images (e.g. search modal thumbnails) are not double-fetched via SW.
+  !url.pathname.startsWith('/_image')
 
 const networkFirst = async request => {
   const cache = await caches.open(STATIC_CACHE)
