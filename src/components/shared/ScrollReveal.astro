@@ -21,14 +21,45 @@
   let observer: IntersectionObserver | null = null
   let fallbackTimer: number | null = null
 
+  // Yield to the browser so any pending user interaction (INP) can be processed
+  // before we continue with non-urgent DOM mutations.
+  interface SchedulerWithYield {
+    yield(): Promise<void>
+  }
+
+  type GlobalWithScheduler = typeof globalThis & { scheduler?: SchedulerWithYield }
+
+  const yieldToMain = (): Promise<void> => {
+    const s = (globalThis as GlobalWithScheduler).scheduler
+    // Use scheduler.yield() when available (Chrome 115+), fall back to setTimeout.
+    // Optional chaining returns Promise<void>|undefined; ?? handles the undefined case.
+    return s?.yield() ?? new Promise<void>(resolve => setTimeout(resolve, 0))
+  }
+
   function revealElement(el: HTMLElement): void {
     if (el.hasAttribute('data-stagger')) {
       const step = Number(el.dataset.stagger) || 60
       const children = Array.from(el.children) as HTMLElement[]
-      children.forEach((child, i) => {
-        child.style.transitionDelay = `${i * step}ms`
-        child.classList.add('is-visible')
-      })
+      // Apply all stagger delays up-front so the CSS animation timing is
+      // correct, then add is-visible in a single class-list update per child.
+      // We chunk the work so a large grid (e.g. many portfolio cards) never
+      // blocks the main thread long enough to inflate INP.
+      const CHUNK = 8
+      const applyChunk = (start: number) => {
+        const end = Math.min(start + CHUNK, children.length)
+        for (let i = start; i < end; i++) {
+          const child = children[i]
+          if (child) {
+            child.style.transitionDelay = `${i * step}ms`
+            child.classList.add('is-visible')
+          }
+        }
+        if (end < children.length) {
+          // Yield, then continue with the next chunk
+          yieldToMain().then(() => applyChunk(end))
+        }
+      }
+      applyChunk(0)
     } else {
       const delay = el.dataset.animateDelay
       if (delay) {
@@ -41,19 +72,25 @@
   }
 
   function forceRevealPending(): void {
-    document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
+    const pending = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]')
+    ).filter((el) => {
       if (el.hasAttribute('data-stagger')) {
         const children = Array.from(el.children) as HTMLElement[]
-        if (children.some(child => !child.classList.contains('is-visible'))) {
-          revealElement(el)
-        }
-        return
+        return children.some(child => !child.classList.contains('is-visible'))
       }
-
-      if (!el.classList.contains('is-visible')) {
-        revealElement(el)
-      }
+      return !el.classList.contains('is-visible')
     })
+
+    // Reveal each pending element and yield between them so the main thread
+    // stays responsive to interactions even on pages with many animated sections.
+    const revealNext = (index: number) => {
+      const el = pending[index]
+      if (!el) return
+      revealElement(el)
+      yieldToMain().then(() => revealNext(index + 1))
+    }
+    revealNext(0)
   }
 
   function resetFallback(): void {

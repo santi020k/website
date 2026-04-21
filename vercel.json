@@ -1,4 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.santi020k.com" }],
+      "destination": "https://santi020k.com/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/_vercel/(.*)",
