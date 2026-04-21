@@ -1,6 +1,6 @@
 # Santi020k — Brand Guidelines
 
-**Version:** 2.1 · **Last updated:** April 2026 · **Owner:** Santiago Molina (@santi020k)
+**Version:** 2.2 · **Last updated:** April 2026 · **Owner:** Santiago Molina (@santi020k)
 
 > Single source of truth for the visual identity, voice, and implementation standards of the personal website and all related materials. Keep this document up to date whenever design tokens, components, or brand direction change.
 
@@ -99,24 +99,24 @@ The logo is a custom SVG wordmark — a stylised "S2K" letterform representing t
 | Place on white, light, or dark backgrounds | Place on mid-tone backgrounds that reduce contrast |
 | Scale proportionally with `width` and `height` attributes | Stretch, rotate, or distort |
 | Maintain clear space on all sides | Crop or crowd the mark |
-| Keep the `#8b5cf6` (Purple) fill | Recolor to any other value |
+| Keep the logo fill aligned with brand purple (`--color-brand`, approx. `#711ba7` in light / `#af55e7` in dark) | Recolor to unrelated hues (e.g. blue or orange) |
 | Wrap in an `<a>` with `aria-label` when used as a home link | Add drop shadows, borders, or glows |
 
 ---
 
 ## 3. Color System
 
-The palette is fully adaptive between **Light** and **Dark** modes, toggled via `data-theme` on `<html>`. Both modes share a base hue of `200° (cool blue-teal)`. All tokens are defined in `src/styles/global.css`.
+The palette is fully adaptive between **Light** and **Dark** modes, toggled via `data-theme` on `<html>`. Neutrals use a subtle **purple** tint (hue **277°**) so surfaces and ink feel cohesive with the brand; accent tables below still list legacy teal/coral semantics where those tokens apply to specific UI. All color tokens are defined in `src/styles/partials/tokens.css` (imported from `src/styles/global.css`).
 
 **Rule:** Always use semantic CSS custom property tokens in components — never hardcode hex or raw HSL values.
 
 ### Brand Primary
 
-| Tone | Token | Value | Hex | Usage |
+| Tone | Token | HSL (raw) | Hex (approx.) | Usage |
 | :------- | :----------- | :------ | :-------- | :----------- |
-| **Purple** | `brand` | `primary: 262` | `#8b5cf6` | Logo, CTAs, Highlights |
-| **Accent** | `accent` | `accent: 262` | `#a78bfa` | Hovers, Active states |
-| **Glow** | `glow` | `glow: 262` | `#c084fc` | Background gradients |
+| **Purple** | `--brand` | `277 72% 38%` (light) / `277 75% 62%` (dark) | `#711ba7` / `#af55e7` | Logo, CTAs, highlights — red‑biased purple, not blue‑violet |
+| **Accent** | `--accent` | `277 80% 52%` (light) / `277 82% 72%` (dark) | `#9b23e7` / `#c57df2` | Hovers, active states |
+| **Glow** | `--glow` | `280 90% 70%` (light) / `280 85% 68%` (dark) | `#c96ef7` / `#c568f3` | Background gradients, hero washes |
 
 ### Semantic Tokens — Light Mode
 
@@ -761,7 +761,8 @@ All internal links use trailing slashes.
 
 | File | Purpose |
 | :----------------------------------- | :---------- |
-| `src/styles/global.css` | Design tokens (`@theme`), custom utilities, base styles, dark mode variant |
+| `src/styles/partials/tokens.css` | HSL design tokens for light/dark and `prefers-contrast` |
+| `src/styles/global.css` | Entry stylesheet: imports partials, `@theme` mappings, utilities, base |
 | `src/site.config.ts` | Site-wide metadata — title, description, author, nav links |
 | `src/content.config.ts` | Content collection schemas (Zod) |
 | `src/types.ts` | Shared TypeScript types including `Badge` variants |
@@ -780,6 +781,7 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 2.2 | April 2026 | Shifted brand chroma from blue‑violet (hue 262°) to **purple** (277° / 280° for glow). Updated tokens, OG/social image tints, project cover palette for eslint-config-santi020k, and clarified logo fill vs semantic `--brand`. |
 | 2.1 | April 2026 | Fixed logo path (`src/assets/svg/logo.svg`). Added all social channels (LinkedIn, Medium, WhatsApp). Added Tabler and Huge Icons packs. Added actual homepage copy as voice example. Added mobile drawer motion pattern. Added content width token table. Consolidated Do's & Don'ts. Added Version History and Related Skills sections. |
 | 2.0 | April 2026 | Major rewrite using Brand Guidelines Generator skill. Added component patterns, motion guidelines, accessibility section, marketing strategy, technical standards. |
 | 1.0 | April 2026 | Initial generation from codebase audit. |
