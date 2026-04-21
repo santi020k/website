@@ -185,6 +185,10 @@ export default defineConfig({
   site: 'https://santi020k.com/',
   vite: {
     build: {
+      // Drop the Vite modulepreload polyfill — all browsers we target (Chrome 66+,
+      // Firefox 115+, Safari 17.5+) support <link rel="modulepreload"> natively.
+      // Removing it cuts one level from the critical JS chain.
+      modulePreload: { polyfill: false },
       sourcemap: process.env.NODE_ENV !== 'production' || enableProductionSourceMaps,
       rollupOptions: {
         onwarn(warning, warn) {
@@ -196,6 +200,21 @@ export default defineConfig({
           }
 
           warn(warning)
+        },
+        output: {
+          // Prevent Rollup from splitting tiny shared modules into separate chunks.
+          // Files under ~4 KiB that are only used by Astro page/layout scripts get
+          // merged back into the chunk that imports them, reducing HTTP round-trips.
+          manualChunks(id) {
+            if (
+              (id.includes('astro/dist/runtime') || id.includes('@astrojs/')) &&
+              !id.includes('client-router')
+            ) {
+              return 'astro-runtime'
+            }
+
+            return null
+          }
         }
       }
     },

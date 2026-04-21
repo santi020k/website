@@ -85,7 +85,7 @@ const breadcrumbs = [
     aria-hidden="true"
     role="presentation"
     class="reading-progress-bar"
-    style="width: 0%"
+    style="transform: scaleX(0)"
   >
   </div>
 
@@ -299,8 +299,9 @@ const breadcrumbs = [
       const onScroll = () => {
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
-        const percent = height > 0 ? (winScroll / height) * 100 : 0
-        bar.style.width = `${percent}%`
+        // scaleX(0–1) is composited on the GPU — no layout triggered on scroll
+        const scale = height > 0 ? winScroll / height : 0
+        bar.style.transform = `scaleX(${scale})`
       }
 
       window.addEventListener('scroll', onScroll, { passive: true })
