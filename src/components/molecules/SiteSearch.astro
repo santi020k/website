@@ -311,6 +311,11 @@ import { Icon } from 'astro-icon/components'
     const getTrigger = () => document.querySelector('[data-site-search-trigger]')
     const getPanel = () => document.querySelector('[data-site-search-panel]')
 
+    const setScrollLock = (locked) => {
+      document.documentElement.classList.toggle('site-search-open', locked)
+      document.body.classList.toggle('site-search-open', locked)
+    }
+
     const prefersReducedMotion = () =>
       window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true
 
@@ -444,6 +449,7 @@ import { Icon } from 'astro-icon/components'
       if (!dialog.open) {
         dialog.showModal()
       }
+      setScrollLock(true)
       setTriggerExpanded(true)
       window.requestAnimationFrame(() => {
         input.focus()
@@ -465,6 +471,7 @@ import { Icon } from 'astro-icon/components'
         if (dialog.open) {
           dialog.close()
         }
+        setScrollLock(false)
         /* Remove after `close()` so `[open]` never pairs with "not closing" (intro CSS). */
         dialog.removeAttribute('data-site-search-anim')
         if (focusTrigger) {
@@ -559,6 +566,7 @@ import { Icon } from 'astro-icon/components'
       }
 
       dialog.addEventListener('close', () => {
+        setScrollLock(false)
         setTriggerExpanded(false)
         const url = new URL(window.location.href)
         if (url.searchParams.has('q')) {

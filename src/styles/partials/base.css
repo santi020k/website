@@ -62,11 +62,14 @@
   }
 
   html.mobile-nav-open,
-  body.mobile-nav-open {
+  body.mobile-nav-open,
+  html.site-search-open,
+  body.site-search-open {
     overflow: clip;
   }
 
-  html.mobile-nav-open {
+  html.mobile-nav-open,
+  html.site-search-open {
     overscroll-behavior: contain;
   }
 
