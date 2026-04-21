@@ -59,10 +59,18 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
   await page.goto('/')
 
   await expect(page.getByRole('link', { name: 'Skip to content' })).toHaveAttribute('href', '#main')
+  await expect(page.getByRole('button', { name: 'Open site search' })).toBeVisible()
   await expect(page.getByRole('switch', { name: 'Toggle color theme' })).toBeVisible()
   await expect(
     page.locator('header').getByRole('link', { name: /Santiago Molina/i }).first()
   ).toHaveAttribute('href', '/')
+})
+
+test('keyboard / opens site search dialog', async ({ page }) => {
+  await page.goto('/')
+  await page.keyboard.press('/')
+  await expect(page.getByRole('dialog', { name: 'Search' })).toBeVisible()
+  await expect(page.getByPlaceholder('Search by title, tag, or keyword…')).toBeFocused()
 })
 
 test('homepage project ctas keep accessible names aligned with their visible labels', async ({ page }) => {

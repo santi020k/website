@@ -1,0 +1,307 @@
+---
+import { Icon } from 'astro-icon/components'
+---
+
+<div class="relative flex shrink-0 items-center" data-site-search>
+  <button
+    aria-controls="site-search-dialog"
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    aria-label="Open site search"
+    class="
+      inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border
+      border-line/70 bg-surface/76 px-3 py-2 text-sm font-medium text-ink-soft
+      transition duration-200
+      hover:border-brand/35 hover:bg-surface hover:text-brand
+      motion-reduce:transition-none
+      lg:px-4
+    "
+    data-site-search-trigger
+    type="button"
+  >
+    <Icon aria-hidden="true" class="size-5 shrink-0" name="tabler:search" />
+    <span class="hidden sm:inline">Search</span>
+  </button>
+
+  <dialog
+    aria-labelledby="site-search-title"
+    class="
+      fixed inset-0 z-[100] m-0 flex h-full max-h-none w-full
+      max-w-none flex-col items-center justify-center border-0 bg-transparent p-4
+      sm:p-6
+    "
+    data-site-search-dialog
+    id="site-search-dialog"
+  >
+    <div
+      class="
+        panel-card flex max-h-[min(90dvh,40rem)] w-full max-w-lg flex-col gap-4
+        overflow-hidden p-5 shadow-[0_24px_80px_hsl(var(--ink)/0.2)]
+        sm:p-6
+      "
+      role="document"
+    >
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-semibold text-ink" id="site-search-title">
+            Search
+          </h2>
+          <p class="mt-1 text-sm text-ink-soft">
+            Posts and projects. Press <kbd class="rounded bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
+          </p>
+        </div>
+        <button
+          class="
+            inline-flex min-h-10 min-w-10 items-center justify-center rounded-full
+            border border-line/60 text-ink-soft transition
+            hover:border-brand/40 hover:text-brand
+          "
+          data-site-search-close
+          type="button"
+        >
+          <Icon aria-hidden="true" class="size-5" name="tabler:x" />
+          <span class="sr-only">Close search</span>
+        </button>
+      </div>
+
+      <label class="sr-only" for="site-search-input">Search posts and projects</label>
+      <input
+        autocomplete="off"
+        class="
+          w-full rounded-xl border border-line/70 bg-surface px-4 py-3 text-sm text-ink
+          outline-none ring-brand/30 transition
+          focus:ring-2
+        "
+        id="site-search-input"
+        placeholder="Search by title, tag, or keyword…"
+        spellcheck="false"
+        type="search"
+      />
+
+      <p class="text-xs text-ink-muted">
+        Shortcuts: <kbd class="rounded bg-surface-muted px-1 py-0.5">/</kbd>
+        · <kbd class="rounded bg-surface-muted px-1 py-0.5">⌘</kbd><kbd class="rounded bg-surface-muted px-1 py-0.5">K</kbd>
+        / <kbd class="rounded bg-surface-muted px-1 py-0.5">Ctrl</kbd><kbd class="rounded bg-surface-muted px-1 py-0.5">K</kbd>
+      </p>
+
+      <ul aria-live="polite" class="min-h-0 max-h-[min(50vh,22rem)] space-y-2 overflow-y-auto" id="site-search-results"></ul>
+    </div>
+  </dialog>
+</div>
+
+<style is:global>
+  /* Tailwind `flex` beats UA `dialog:not([open])`; without this, the panel stays in the header row. */
+  #site-search-dialog:not([open]) {
+    display: none;
+  }
+
+  #site-search-dialog::backdrop {
+    background-color: hsl(var(--theme-bg) / 0.82);
+    backdrop-filter: blur(4px);
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    /** @type {Array<{title: string, description: string, path: string, tags: string[], type: 'post' | 'project'}>} */
+    let entries = []
+
+    const resolveTrack = () => import('@vercel/analytics').then(m => m.track).catch(() => () => {})
+
+    const getDialog = () => document.querySelector('#site-search-dialog')
+    const getInput = () => document.querySelector('#site-search-input')
+    const getResults = () => document.querySelector('#site-search-results')
+    const getTrigger = () => document.querySelector('[data-site-search-trigger]')
+
+    const setTriggerExpanded = (open) => {
+      const trigger = getTrigger()
+      if (trigger instanceof HTMLButtonElement) {
+        trigger.setAttribute('aria-expanded', String(open))
+      }
+    }
+
+    const render = (query) => {
+      const results = getResults()
+      if (!results) return
+
+      results.innerHTML = ''
+      const trimmed = query.trim()
+      if (trimmed.length < 2) return
+
+      const normalized = trimmed.toLowerCase()
+      const matches = entries
+        .map((entry) => {
+          const haystack = `${entry.title} ${entry.description} ${entry.tags.join(' ')}`.toLowerCase()
+          const score = haystack.includes(normalized) ? 1 : 0
+          return { entry, score }
+        })
+        .filter((item) => item.score > 0)
+        .slice(0, 8)
+
+      if (matches.length === 0) {
+        results.innerHTML = '<li class="text-sm text-ink-muted">No matching results.</li>'
+        return
+      }
+
+      for (const match of matches) {
+        const item = document.createElement('li')
+        item.innerHTML = `
+          <a href="${match.entry.path}" class="block rounded-xl border border-line/60 bg-surface/70 p-3 transition hover:border-brand/40 hover:bg-brand-soft/20 sm:p-4">
+            <p class="section-label">${match.entry.type === 'post' ? 'Post' : 'Project'}</p>
+            <p class="mt-1 text-sm font-semibold text-ink">${match.entry.title}</p>
+            <p class="mt-1 text-xs/5 text-ink-soft sm:text-sm/6">${match.entry.description}</p>
+          </a>
+        `
+        results.appendChild(item)
+      }
+
+      resolveTrack()
+        .then((track) => track('site_search_query', { query: trimmed, results: String(matches.length) }))
+        .catch(() => {})
+    }
+
+    const openSearch = () => {
+      const dialog = getDialog()
+      const input = getInput()
+      if (!(dialog instanceof HTMLDialogElement) || !(input instanceof HTMLInputElement)) return
+
+      if (!dialog.open) {
+        dialog.showModal()
+      }
+      setTriggerExpanded(true)
+      window.requestAnimationFrame(() => {
+        input.focus()
+        input.select()
+      })
+    }
+
+    const closeSearch = () => {
+      const dialog = getDialog()
+      if (dialog instanceof HTMLDialogElement && dialog.open) {
+        dialog.close()
+      }
+      setTriggerExpanded(false)
+    }
+
+    const isEditableTarget = (target) => {
+      if (!(target instanceof HTMLElement)) return false
+      if (target.isContentEditable) return true
+      const tag = target.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true
+      return false
+    }
+
+    const loadIndex = async () => {
+      if (entries.length > 0) return
+      try {
+        const response = await fetch('/search-index.json')
+        const json = await response.json()
+        entries = Array.isArray(json) ? json : []
+      } catch {
+        entries = []
+      }
+    }
+
+    const bindUi = () => {
+      const root = document.querySelector('[data-site-search]')
+      if (!root || root.getAttribute('data-site-search-bound') === 'true') return
+
+      const trigger = root.querySelector('[data-site-search-trigger]')
+      const closeBtn = root.querySelector('[data-site-search-close]')
+      const input = getInput()
+      const results = getResults()
+      const dialog = getDialog()
+
+      if (!(trigger instanceof HTMLButtonElement) || !(closeBtn instanceof HTMLButtonElement) ||
+          !(input instanceof HTMLInputElement) || !(results instanceof HTMLElement) ||
+          !(dialog instanceof HTMLDialogElement)) {
+        return
+      }
+
+      root.setAttribute('data-site-search-bound', 'true')
+
+      trigger.addEventListener('click', () => {
+        if (dialog.open) {
+          closeSearch()
+          trigger.focus()
+          return
+        }
+        void loadIndex().then(() => openSearch())
+      })
+
+      closeBtn.addEventListener('click', () => {
+        closeSearch()
+        trigger.focus()
+      })
+
+      dialog.addEventListener('close', () => {
+        setTriggerExpanded(false)
+      })
+
+      dialog.addEventListener('cancel', (e) => {
+        e.preventDefault()
+        closeSearch()
+        trigger.focus()
+      })
+
+      input.addEventListener('input', () => {
+        const value = input.value
+        render(value)
+        const next = new URL(window.location.href)
+        const trimmed = value.trim()
+        if (trimmed.length >= 2) {
+          next.searchParams.set('q', trimmed)
+        } else {
+          next.searchParams.delete('q')
+        }
+        window.history.replaceState({}, '', next)
+      })
+
+      results.addEventListener('click', (event) => {
+        const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
+        if (!anchor) return
+        resolveTrack()
+          .then((track) => track('site_search_result_click', { href: anchor.getAttribute('href') ?? '' }))
+          .catch(() => {})
+        closeSearch()
+      })
+
+      void loadIndex().then(() => {
+        const params = new URLSearchParams(window.location.search)
+        const queryFromURL = params.get('q')
+        if (queryFromURL && queryFromURL.trim().length >= 2) {
+          openSearch()
+          input.value = queryFromURL
+          render(queryFromURL)
+        }
+      })
+    }
+
+    const onGlobalKeydown = (event) => {
+      const dialog = getDialog()
+      const isOpen = dialog instanceof HTMLDialogElement && dialog.open
+
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        if (!isOpen && isEditableTarget(event.target)) return
+        event.preventDefault()
+        void loadIndex().then(() => openSearch())
+        return
+      }
+
+      if (event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
+        if (isOpen) return
+        if (isEditableTarget(event.target)) return
+        event.preventDefault()
+        void loadIndex().then(() => openSearch())
+      }
+    }
+
+    if (!window.__siteSearchGlobalKeys) {
+      window.__siteSearchGlobalKeys = true
+      document.addEventListener('keydown', onGlobalKeydown)
+    }
+
+    bindUi()
+    document.addEventListener('astro:after-swap', bindUi)
+  })()
+</script>

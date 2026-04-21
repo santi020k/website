@@ -7,6 +7,8 @@ const isCiLikeRun =
 
 const isSnapshotUpdateRun = process.argv.includes('--update-snapshots')
 const isSkipBuildRun = Boolean(process.env.SKIP_BUILD)
+const shouldRunChromiumOnly = process.env.PW_ONLY_CHROMIUM === 'true'
+const chromiumChannel = process.env.PW_CHROMIUM_CHANNEL
 const shouldBuildPreviewServer = (!isCiLikeRun && !isSkipBuildRun) || isSnapshotUpdateRun
 const shouldRunSerially = isCiLikeRun
 const previewHost = '127.0.0.1'
@@ -31,13 +33,30 @@ export default defineConfig({
   reporter: 'html',
   use: {
     baseURL: previewURL,
+    launchOptions: {
+      // Workaround for occasional CI sandbox/driver instability.
+      args: ['--disable-gpu', '--disable-software-rasterizer']
+    },
     trace: 'on-first-retry'
   },
-  projects: (isCiLikeRun || isSnapshotUpdateRun) ?
+  projects: shouldRunChromiumOnly ?
     [
       {
         name: 'chromium',
-        use: { ...devices['Desktop Chrome'] }
+        use: {
+          ...devices['Desktop Chrome'],
+          ...(chromiumChannel ? { channel: chromiumChannel } : {})
+        }
+      }
+    ] :
+    (isCiLikeRun || isSnapshotUpdateRun) ?
+    [
+      {
+        name: 'chromium',
+        use: {
+          ...devices['Desktop Chrome'],
+          ...(chromiumChannel ? { channel: chromiumChannel } : {})
+        }
       },
       {
         name: 'firefox',
@@ -59,7 +78,10 @@ export default defineConfig({
     [
       {
         name: 'chromium',
-        use: { ...devices['Desktop Chrome'] }
+        use: {
+          ...devices['Desktop Chrome'],
+          ...(chromiumChannel ? { channel: chromiumChannel } : {})
+        }
       }
     ],
   webServer: {

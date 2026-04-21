@@ -14,6 +14,7 @@ Santiago is a seasoned **Full Stack Developer** and **Tech Lead** with over a de
 - **Tailwind CSS v4**: Modern, future-proof styling with zero-runtime CSS.
 - **Native Script Interactivity**: Lightweight inline scripts and custom events without a framework runtime.
 - **Content Collections**: Type-safe Markdown and MDX for blog posts and projects.
+- **Site search**: Header search (modal) across posts and projects; shortcuts `/` and ⌘K / Ctrl+K.
 - **Accessibility First**: WCAG 2.2 AA compliant, ensuring an inclusive experience for all.
 - **View Transitions**: Seamless, app-like navigation between pages.
 
@@ -69,12 +70,20 @@ pnpm run build
 ```bash
 pnpm run lint      # Linting with ESLint
 pnpm run lint:fix  # Lint and autofix
+pnpm run lint:md   # Markdown quality checks
+pnpm run lint:content # Content frontmatter quality checks
 pnpm run check     # Astro type-checking
 pnpm run test      # Unit testing
 pnpm run test:e2e  # E2E testing
 ```
 
 `test:e2e` commands auto-install Playwright browsers when needed.
+
+For more stable CI/browser-constrained environments, use:
+
+```bash
+pnpm run test:e2e:ci:stable
+```
 
 ---
 

@@ -10,8 +10,9 @@ test.describe('SEO — meta tags', () => {
   test('homepage has a valid og:image pointing to the generated PNG', async ({ page }) => {
     await page.goto('/')
 
-    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
-    expect(ogImage).toBeTruthy()
+    const ogImageMeta = page.locator('meta[property="og:image"]')
+    await expect(ogImageMeta).toHaveAttribute('content', /.+/)
+    const ogImage = await ogImageMeta.getAttribute('content')
     // Root uses the default webp fallback (no OG slug for '/')
     expect(ogImage).toContain('.webp')
   })
@@ -19,35 +20,36 @@ test.describe('SEO — meta tags', () => {
   test('blog index has an og:image pointing to the generated pages PNG', async ({ page }) => {
     await page.goto('/blog/')
 
-    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
-    expect(ogImage).toBeTruthy()
+    const ogImageMeta = page.locator('meta[property="og:image"]')
+    await expect(ogImageMeta).toHaveAttribute('content', /.+/)
+    const ogImage = await ogImageMeta.getAttribute('content')
     expect(ogImage).toMatch(/\/og\/pages\/.+\.webp$/)
   })
 
   test('about page has an og:image pointing to the generated pages PNG', async ({ page }) => {
     await page.goto('/about/')
 
-    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
-    expect(ogImage).toBeTruthy()
+    const ogImageMeta = page.locator('meta[property="og:image"]')
+    await expect(ogImageMeta).toHaveAttribute('content', /.+/)
+    const ogImage = await ogImageMeta.getAttribute('content')
     expect(ogImage).toMatch(/\/og\/pages\/.+\.webp$/)
   })
 
   test('og:image:alt and twitter:image:alt are set on the homepage', async ({ page }) => {
     await page.goto('/')
 
-    const ogAlt = await page.locator('meta[property="og:image:alt"]').getAttribute('content')
-    const twitterAlt = await page.locator('meta[name="twitter:image:alt"]').getAttribute('content')
-
-    expect(ogAlt).toBeTruthy()
-    expect(twitterAlt).toBeTruthy()
+    const ogAltMeta = page.locator('meta[property="og:image:alt"]')
+    const twitterAltMeta = page.locator('meta[name="twitter:image:alt"]')
+    await expect(ogAltMeta).toHaveAttribute('content', /.+/)
+    await expect(twitterAltMeta).toHaveAttribute('content', /.+/)
   })
 
   test('og:image:alt contains meaningful text (not just generic "Preview image for")', async ({ page }) => {
     await page.goto('/about/')
 
-    const ogAlt = await page.locator('meta[property="og:image:alt"]').getAttribute('content')
-
-    expect(ogAlt).toBeTruthy()
+    const ogAltMeta = page.locator('meta[property="og:image:alt"]')
+    await expect(ogAltMeta).toHaveAttribute('content', /.+/)
+    const ogAlt = await ogAltMeta.getAttribute('content')
     // The old generic fallback was "Preview image for <title>"; the new value
     // should use the description or a custom alt — not start with "Preview image"
     expect(ogAlt).not.toMatch(/^Preview image for /i)
@@ -58,15 +60,16 @@ test.describe('SEO — meta tags', () => {
 
     // Navigate specifically into a blog post (avoiding series links)
     const firstPost = page.locator('article').filter({ hasText: /Read more/i }).locator('a').first()
+    await expect(firstPost).toHaveAttribute('href', /.+/)
     const href = await firstPost.getAttribute('href')
-    expect(href).toBeTruthy()
 
     if (href) {
       await page.goto(href)
     }
 
-    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content')
-    expect(ogImage).toBeTruthy()
+    const ogImageMeta = page.locator('meta[property="og:image"]')
+    await expect(ogImageMeta).toHaveAttribute('content', /.+/)
+    const ogImage = await ogImageMeta.getAttribute('content')
     // Blog post OG images live under /og/blog/
     expect(ogImage).toMatch(/\/og\/blog\/.+\.webp$/)
   })
@@ -75,16 +78,35 @@ test.describe('SEO — meta tags', () => {
     for (const path of ['/', '/blog/', '/about/', '/speaking/']) {
       await page.goto(path)
 
-      const ogTitle = await page.locator('meta[property="og:title"]').getAttribute('content')
-      const ogDesc = await page.locator('meta[property="og:description"]').getAttribute('content')
-
-      expect(ogTitle, `og:title missing on ${path}`).toBeTruthy()
-      expect(ogDesc, `og:description missing on ${path}`).toBeTruthy()
+      const ogTitle = page.locator('meta[property="og:title"]')
+      const ogDesc = page.locator('meta[property="og:description"]')
+      await expect(ogTitle, `og:title missing on ${path}`).toHaveAttribute('content', /.+/)
+      await expect(ogDesc, `og:description missing on ${path}`).toHaveAttribute('content', /.+/)
     }
   })
 })
 
 test.describe('SEO — JSON-LD structured data', () => {
+  test('homepage has a WebSite schema with SearchAction', async ({ page }) => {
+    await page.goto('/')
+
+    const websiteSchema = await page.evaluate((): any => {
+      const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
+      for (const script of scripts) {
+        try {
+          const content = script.textContent
+          if (!content) continue
+          const json = JSON.parse(content)
+          if (json['@type'] === 'WebSite') return json
+        } catch { /* skip */ }
+      }
+      return null
+    })
+
+    expect(websiteSchema).not.toBeNull()
+    expect(websiteSchema.potentialAction?.['@type']).toBe('SearchAction')
+  })
+
   test('homepage has a Person schema with an @id', async ({ page }) => {
     await page.goto('/')
 
@@ -163,5 +185,26 @@ test.describe('SEO — JSON-LD structured data', () => {
     })
 
     expect(hasStructuredData).toBe(true)
+  })
+
+  test('blog post page includes breadcrumb structured data', async ({ page }) => {
+    await page.goto('/blog/atomic-module-component-structure-for-react/')
+
+    const breadcrumbSchema = await page.evaluate((): any => {
+      const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
+      for (const script of scripts) {
+        try {
+          const content = script.textContent
+          if (!content) continue
+          const json = JSON.parse(content)
+          if (json['@type'] === 'BreadcrumbList') return json
+        } catch { /* skip */ }
+      }
+      return null
+    })
+
+    expect(breadcrumbSchema).not.toBeNull()
+    expect(Array.isArray(breadcrumbSchema.itemListElement)).toBe(true)
+    expect(breadcrumbSchema.itemListElement.length).toBeGreaterThanOrEqual(3)
   })
 })

@@ -1,7 +1,7 @@
 ---
+import { getImage } from 'astro:assets'
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
-import { getImage } from 'astro:assets'
 import { getSocialImageURL } from '@/utils/social-image'
 
 import ErrorMonitoring from './ErrorMonitoring.astro'
@@ -34,6 +34,21 @@ const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparato
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com/')
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
+
+const websiteJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#website`,
+  inLanguage: siteConfig.lang,
+  name: siteConfig.title,
+  potentialAction: {
+    '@type': 'SearchAction',
+    query: 'required',
+    'query-input': 'required name=query',
+    target: `${Astro.site?.href ?? 'https://santi020k.com/'}blog/?q={query}`
+  },
+  url: Astro.site?.href ?? 'https://santi020k.com/'
+})
 
 const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   JSON.stringify({
@@ -142,6 +157,12 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 )}
 
 <meta name="generator" content={Astro.generator} />
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={websiteJsonLd}
+/>
 
 <script
   type="application/ld+json"
