@@ -133,14 +133,18 @@
       }
     )
 
-    // requestAnimationFrame ensures the browser has finished layout before
-    // we run the first intersection check.  Without this, elements that are
-    // already in the viewport on page-load can miss their initial callback.
+    // Double-rAF: the first frame commits data-scroll-reveal="ready" to paint
+    // so [data-animate] elements are rendered at opacity:0. The second frame
+    // then observes them, letting IO and the CSS transition fire correctly from
+    // opacity:0 → 1.  A single rAF is not enough — IO can fire in the same
+    // frame the attribute is set, collapsing the transition to a no-op.
     requestAnimationFrame(() => {
-      document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
-        observer?.observe(el)
+      requestAnimationFrame(() => {
+        document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
+          observer?.observe(el)
+        })
+        resetFallback()
       })
-      resetFallback()
     })
   }
 
@@ -167,11 +171,7 @@
     initScrollReveal()
   }
 
-  if (document.readyState === 'complete') {
-    requestAnimationFrame(() => {
-      forceRevealPending()
-    })
-  } else {
+  if (document.readyState !== 'complete') {
     window.addEventListener('load', forceRevealPending, { once: true })
   }
 
