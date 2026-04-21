@@ -71,26 +71,23 @@
     observer?.unobserve(el)
   }
 
-  function forceRevealPending(): void {
-    const pending = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]')
-    ).filter((el) => {
+  // Fallback: only reveal elements that are actually visible in the current
+  // viewport.  Revealing ALL pending elements (old behaviour) would expose
+  // below-fold sections immediately, defeating scroll-triggered animations.
+  function revealInViewport(): void {
+    const vh = window.innerHeight
+    document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
       if (el.hasAttribute('data-stagger')) {
         const children = Array.from(el.children) as HTMLElement[]
-        return children.some(child => !child.classList.contains('is-visible'))
+        if (children.every(c => c.classList.contains('is-visible'))) return
+      } else if (el.classList.contains('is-visible')) {
+        return
       }
-      return !el.classList.contains('is-visible')
+      const { top, bottom } = el.getBoundingClientRect()
+      if (top < vh && bottom > 0) {
+        revealElement(el)
+      }
     })
-
-    // Reveal each pending element and yield between them so the main thread
-    // stays responsive to interactions even on pages with many animated sections.
-    const revealNext = (index: number) => {
-      const el = pending[index]
-      if (!el) return
-      revealElement(el)
-      yieldToMain().then(() => revealNext(index + 1))
-    }
-    revealNext(0)
   }
 
   function resetFallback(): void {
@@ -99,14 +96,12 @@
     }
 
     fallbackTimer = window.setTimeout(() => {
-      forceRevealPending()
+      revealInViewport()
       fallbackTimer = null
-    }, 450)
+    }, 800)
   }
 
-  function initScrollReveal(): void {
-    document.documentElement.setAttribute('data-scroll-reveal', 'ready')
-
+  function initScrollReveal(fromTransition = false): void {
     // Always start clean — disconnect any observer left over from the
     // previous page so orphaned entries can't interfere.
     if (observer) {
@@ -123,29 +118,40 @@
         })
       },
       {
-        // Trigger large sections as soon as they are close to entering the
-        // viewport so longer pages do not leave whole regions hidden until
-        // the user is almost on top of them.
-        threshold: 0.05,
-        // Expand the bottom edge so sections up to roughly a screen and a
-        // half below the fold can reveal ahead of time.
-        rootMargin: '0px 0px 150% 0px',
+        threshold: 0,
+        // Negative bottom margin: IO fires only when the element has scrolled
+        // at least 80 px inside the viewport, so the 0.55 s fade-up plays while
+        // the element is already visible at any normal scroll speed.
+        rootMargin: '0px 0px -80px 0px',
       }
     )
 
-    // Double-rAF: the first frame commits data-scroll-reveal="ready" to paint
-    // so [data-animate] elements are rendered at opacity:0. The second frame
-    // then observes them, letting IO and the CSS transition fire correctly from
-    // opacity:0 → 1.  A single rAF is not enough — IO can fire in the same
-    // frame the attribute is set, collapsing the transition to a no-op.
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
-          observer?.observe(el)
-        })
-        resetFallback()
+    const observeAll = () => {
+      document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
+        observer?.observe(el)
       })
-    })
+      resetFallback()
+    }
+
+    if (fromTransition) {
+      // During a View Transition the outgoing page already painted opacity:0
+      // via data-scroll-reveal="ready" on the <html> element. The incoming DOM
+      // is swapped in while that attribute is still present, so [data-animate]
+      // elements start hidden without needing an extra rAF hide phase.
+      // Skip the double-rAF to avoid a one-frame flash and just observe directly.
+      document.documentElement.setAttribute('data-scroll-reveal', 'ready')
+      requestAnimationFrame(observeAll)
+    } else {
+      // Double-rAF: the first frame commits data-scroll-reveal="ready" to paint
+      // so [data-animate] elements are rendered at opacity:0. The second frame
+      // then observes them, letting IO and the CSS transition fire correctly from
+      // opacity:0 → 1.  A single rAF is not enough — IO can fire in the same
+      // frame the attribute is set, collapsing the transition to a no-op.
+      document.documentElement.setAttribute('data-scroll-reveal', 'ready')
+      requestAnimationFrame(() => {
+        requestAnimationFrame(observeAll)
+      })
+    }
   }
 
   // Tear down before Astro swaps the DOM so we never hold references to
@@ -166,15 +172,11 @@
   })
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initScrollReveal, { once: true })
+    document.addEventListener('DOMContentLoaded', () => initScrollReveal(false), { once: true })
   } else {
-    initScrollReveal()
-  }
-
-  if (document.readyState !== 'complete') {
-    window.addEventListener('load', forceRevealPending, { once: true })
+    initScrollReveal(false)
   }
 
   // Fires on client-routed pages when the router is enabled.
-  document.addEventListener('astro:page-load', initScrollReveal)
+  document.addEventListener('astro:page-load', () => initScrollReveal(true))
 </script>
