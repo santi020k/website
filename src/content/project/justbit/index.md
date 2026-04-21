@@ -12,7 +12,7 @@ impactMetrics: [
   "Full-cycle delivery from sales conversations to launch"
 ]
 technologies: [
-  "React.js", "TypeScript", "Node.js", "WordPress", "PHP", "WooCommerce", "JavaScript", "PostgreSQL", "MySQL", "Semantic HTML & CSS", "SASS", "Git", "Linux", "Scrum", "Google Ads", "Facebook Ads", "SEO", "Team Leadership", "Formik", "Jest", "Gitlab"
+  "React.js", "TypeScript", "Node.js", "WordPress", "PHP", "WooCommerce", "JavaScript", "PostgreSQL", "MySQL", "Semantic HTML & CSS", "SASS", "Git", "Linux", "Scrum", "Google Ads", "Facebook Ads", "SEO", "Team Leadership", "Formik", "Jest", "GitLab"
 ]
 coverImage:
   src: "./cover.webp"
