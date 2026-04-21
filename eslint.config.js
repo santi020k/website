@@ -32,7 +32,8 @@ export default [
           '^prose-santi$',
           '^grid-fade$',
           '^panel-surface$',
-          '^prose-shell$'
+          '^prose-shell$',
+          '^animate-spring-up-lcp$'
         ]
       }
     }
