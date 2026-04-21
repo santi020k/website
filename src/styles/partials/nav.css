@@ -1,0 +1,135 @@
+/* ─── Navigation Styles ───────────────────────────────────────────────────────
+ * Site header shell, desktop nav track/indicator, mobile nav panel animations,
+ * and the back-to-top button. All navigation chrome lives here.
+ *
+ * Z-index scale (project-wide reference)
+ * z-0   — decorative fallback labels (MediumPostImage)
+ * z-10  — content above decorative overlays (image, PostHero gradient guard)
+ * z-20  — second gradient layer in PostHero
+ * z-30  — floating badges in hero portrait (mini-notes)
+ * z-40  — mobile nav backdrop overlay
+ * z-50  — site header shell, mobile nav dropdown, action buttons
+ * z-70  — skip-to-content link (must always clear the sticky header)
+ * 99999 — ThemeToggle circular-reveal clip (inline style, above everything)
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Site Header Shell ─────────────────────────────────────────────────────── */
+
+@utility site-header-shell {
+  @apply relative mx-auto flex w-full max-w-[calc(100vw-2rem)] items-center justify-between gap-3 overflow-hidden rounded-[1.85rem] px-4 py-3.5 sm:max-w-6xl sm:px-5;
+  & > * {
+    min-width: 0;
+  }
+  background:
+    linear-gradient(
+      180deg,
+      hsl(var(--surface) / 0.96),
+      hsl(var(--surface-muted) / 0.8)
+    );
+  border: 1px solid hsl(var(--line) / 0.54);
+  box-shadow:
+    0 18px 40px hsl(230 30% 8% / 0.055),
+    inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  backdrop-filter: blur(16px);
+  transition:
+    box-shadow 300ms ease,
+    backdrop-filter 300ms ease;
+}
+
+.site-header-shell[data-scrolled="true"] {
+  box-shadow:
+    0 8px 48px hsl(230 30% 8% / 0.13),
+    0 2px 12px hsl(var(--brand) / 0.06),
+    inset 0 1px 0 hsl(0 0% 100% / 0.18);
+  backdrop-filter: blur(24px);
+}
+
+/* ─── Mobile Nav Panel Animations ───────────────────────────────────────────── */
+
+@keyframes mobile-nav-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mobile-nav-backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile nav close animation (triggered via JS data-nav-closing attribute) */
+@keyframes mobile-nav-panel-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+}
+
+[data-mobile-nav-panel]:not([hidden]) {
+  animation: mobile-nav-panel-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+[data-mobile-nav-panel][data-nav-closing] {
+  animation: mobile-nav-panel-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+[data-mobile-nav-backdrop]:not([hidden]) {
+  animation: mobile-nav-backdrop-in 200ms ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-mobile-nav-panel]:not([hidden]),
+  [data-mobile-nav-panel][data-nav-closing],
+  [data-mobile-nav-backdrop]:not([hidden]) {
+    animation: none;
+  }
+}
+
+/* ─── Desktop Nav Track & Indicator ─────────────────────────────────────────── */
+
+@utility site-nav-track {
+  @apply relative grid min-h-14 items-center rounded-full border border-line/60 bg-surface-muted/72 p-1;
+  box-shadow:
+    inset 0 1px 0 hsl(0 0% 100% / 0.12),
+    0 12px 30px hsl(var(--ink) / 0.035);
+}
+
+@utility site-nav-indicator {
+  @apply pointer-events-none absolute top-1 bottom-1 left-1 rounded-full border border-brand/10 bg-surface text-brand;
+  width: calc((100% - 0.5rem) / var(--item-count));
+  transform: translateX(calc(var(--active-index) * 100%));
+  box-shadow:
+    0 12px 24px hsl(var(--brand) / 0.12),
+    inset 0 1px 0 hsl(0 0% 100% / 0.2);
+  transition:
+    transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 280ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav-indicator {
+    transition: none;
+  }
+}
+
+/* ─── Back to Top Button ─────────────────────────────────────────────────────── */
+
+@utility back-to-top-button {
+  @apply fixed right-6 bottom-6 z-40 flex size-11 cursor-pointer items-center justify-center rounded-full border border-line/40 bg-surface/80 text-brand shadow-xl backdrop-blur-md transition duration-500 hover:scale-110 hover:bg-surface hover:shadow-brand/20 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 active:scale-95 motion-reduce:transition-none;
+}

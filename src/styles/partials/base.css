@@ -1,0 +1,139 @@
+/* ─── Base Element Styles ─────────────────────────────────────────────────────
+ * Font-face declarations, HTML/body resets, heading/text defaults, and
+ * focus/selection styles. Everything in @layer base so Tailwind can override.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  @font-face {
+    font-family: "Montserrat";
+    src: url("/fonts/montserrat-variable-font-wght.woff2") format("woff2"),
+      url("/fonts/montserrat-variable-font-wght.ttf") format("truetype-variations");
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Montserrat";
+    src: url("/fonts/montserrat-italic-variable-font-wght.woff2") format("woff2"),
+      url("/fonts/montserrat-italic-variable-font-wght.ttf") format("truetype-variations");
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    overflow-wrap: anywhere;
+  }
+
+  html {
+    background-color: hsl(var(--theme-bg));
+    color: hsl(var(--ink));
+    font-family: var(--font-sans);
+    letter-spacing: 0.025em;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 1rem;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(
+        circle at top left,
+        hsl(var(--glow) / 0.08),
+        transparent 18rem
+      ),
+      radial-gradient(
+        circle at 86% 0%,
+        hsl(var(--accent) / 0.06),
+        transparent 18rem
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--surface-muted) / 0.46),
+        transparent 18rem
+      ),
+      hsl(var(--theme-bg));
+    color: hsl(var(--ink));
+  }
+
+  html.mobile-nav-open,
+  body.mobile-nav-open {
+    overflow: clip;
+  }
+
+  html.mobile-nav-open {
+    overscroll-behavior: contain;
+  }
+
+  main {
+    isolation: isolate;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: hsl(var(--ink));
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: clamp(2rem, 9vw, 2.5rem);
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      overflow-wrap: anywhere;
+      word-break: normal;
+      hyphens: auto;
+    }
+  }
+
+  p,
+  li {
+    color: hsl(var(--ink-soft));
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  img {
+    display: block;
+  }
+
+  ::selection {
+    background-color: hsl(var(--brand) / 0.2);
+    color: hsl(var(--ink));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--brand));
+    outline-offset: 4px;
+  }
+
+  @media (prefers-contrast: more) {
+    :focus-visible {
+      outline-width: 3px;
+      outline-offset: 5px;
+    }
+  }
+}

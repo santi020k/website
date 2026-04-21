@@ -1,0 +1,202 @@
+/* ─── Utility Classes ─────────────────────────────────────────────────────────
+ * Reusable @utility blocks for surfaces, layout, forms, and decorative effects.
+ * Navigation utilities live in nav.css. Prose utilities live in prose.css.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Surface & Card ────────────────────────────────────────────────────────── */
+
+@utility panel-surface {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--surface) / 0.92),
+    hsl(var(--surface-muted) / 0.72)
+  );
+  border: 1px solid hsl(var(--line) / 0.46);
+  box-shadow:
+    0 16px 40px hsl(230 30% 8% / 0.045),
+    inset 0 1px 0 hsl(0 0% 100% / 0.06);
+  backdrop-filter: blur(12px);
+}
+
+@utility section-shell {
+  @apply relative overflow-hidden rounded-[2.25rem] px-4 py-8 sm:px-8 sm:py-10;
+  & > * {
+    min-width: 0;
+  }
+  background: linear-gradient(
+    180deg,
+    hsl(var(--surface) / 0.84),
+    hsl(var(--surface-muted) / 0.58)
+  );
+  border: 1px solid hsl(var(--line) / 0.44);
+  box-shadow:
+    0 14px 36px hsl(230 30% 8% / 0.04),
+    inset 0 1px 0 hsl(0 0% 100% / 0.05);
+  backdrop-filter: blur(10px);
+}
+
+@utility section-shell-subtle {
+  @apply relative overflow-hidden rounded-[2rem] px-4 py-8 sm:px-8 sm:py-10;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--surface) / 0.5),
+    hsl(var(--surface-muted) / 0.34)
+  );
+  border: 1px solid hsl(var(--line) / 0.3);
+}
+
+@utility panel-card {
+  @apply relative overflow-hidden rounded-[1.75rem] border border-line/48 bg-surface/82;
+  box-shadow:
+    0 12px 30px hsl(230 30% 8% / 0.035),
+    inset 0 1px 0 hsl(0 0% 100% / 0.04);
+}
+
+@utility glass-pro {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--surface) / 0.7),
+    hsl(var(--surface-muted) / 0.4)
+  );
+  border: 1px solid hsl(var(--line) / 0.4);
+  box-shadow:
+    0 8px 32px 0 hsl(var(--ink) / 0.05),
+    inset 0 0 0 1px hsl(var(--ink) / 0.05);
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+  }
+}
+
+@utility subtle-outline {
+  box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.5);
+}
+
+/* ─── Layout ────────────────────────────────────────────────────────────────── */
+
+@utility section-copy {
+  @apply text-base/7 text-ink-soft sm:text-lg/8;
+}
+
+@utility section-actions {
+  @apply flex flex-col gap-3 sm:flex-row sm:flex-wrap;
+}
+
+@utility section-label {
+  @apply text-xs font-semibold tracking-[0.22em] text-ink-muted uppercase;
+}
+
+@utility editorial-section {
+  @apply grid gap-8 border-t border-line/70 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10;
+  & > * {
+    min-width: 0;
+  }
+}
+
+@utility editorial-rail {
+  @apply space-y-5 lg:sticky lg:top-28 lg:h-fit;
+}
+
+@utility post-grid {
+  @apply grid gap-6 lg:grid-cols-2;
+}
+
+@utility mini-note {
+  @apply rounded-[1.25rem] border border-line/50 bg-surface/78 p-4 transition-colors duration-200 h-max;
+  min-width: 0;
+  & > * {
+    min-width: 0;
+  }
+  @apply motion-reduce:transition-none;
+}
+
+/**
+ * Shared max-width cap for primary content columns.
+ * Use this instead of sprinkling max-w-3xl everywhere.
+ */
+@utility max-w-content {
+  max-width: 48rem; /* 768px — equivalent to max-w-3xl */
+}
+
+/**
+ * Shared max-width for wide content areas (blog article, project hero, etc.)
+ */
+@utility max-w-content-wide {
+  max-width: 72rem; /* 1152px — between max-w-5xl and max-w-6xl */
+}
+
+/* ─── Forms & Interactive ───────────────────────────────────────────────────── */
+
+@utility focus-pill {
+  @apply inline-flex min-h-14 flex-wrap items-center gap-3 rounded-full border border-line/70 bg-surface/78 px-4 py-3 shadow-[0_10px_26px_hsl(var(--ink)/0.04)];
+}
+
+@utility field-surface {
+  @apply w-full rounded-[1.1rem] border border-line/55 bg-surface/72 px-4 py-3.5 text-ink outline-none transition duration-200;
+  @apply placeholder:text-ink-muted/55 focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/10;
+  @apply motion-reduce:transition-none;
+}
+
+@utility pagination-btn {
+  @apply inline-flex min-h-10 min-w-10 items-center justify-center rounded-2xl border border-line/60 bg-surface/80 px-3 text-sm font-medium text-ink-soft transition-colors duration-200 hover:border-brand/40 hover:bg-brand-soft/35 hover:text-brand motion-reduce:transition-none;
+}
+
+@utility pagination-btn--active {
+  @apply border-brand/35 bg-brand-soft/50 text-brand;
+}
+
+/* ─── Decorative ────────────────────────────────────────────────────────────── */
+
+@utility brand-radial-glow {
+  @apply pointer-events-none absolute inset-x-8 top-0 h-40 rounded-full blur-3xl;
+  background: radial-gradient(
+    circle at center,
+    hsl(var(--brand) / 0.16),
+    transparent 72%
+  );
+}
+
+@utility bg-mesh-brand {
+  background-color: hsl(var(--brand));
+  background-image:
+    radial-gradient(at 0% 0%, hsl(var(--glow) / 0.4) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsl(var(--accent) / 0.4) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsl(var(--brand) / 0.6) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsl(var(--glow) / 0.4) 0px, transparent 50%);
+}
+
+@utility grid-fade {
+  background-image:
+    linear-gradient(hsl(var(--line) / 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--line) / 0.12) 1px, transparent 1px);
+  background-position: center;
+  background-size: 2rem 2rem;
+  mask-image: linear-gradient(
+    180deg,
+    transparent,
+    black 18%,
+    black 82%,
+    transparent
+  );
+}
+
+/* ─── Progress Bar ──────────────────────────────────────────────────────────── */
+
+@utility reading-progress-bar {
+  /* Use transform: scaleX() instead of width so updates are composited on the
+     GPU and never trigger a layout pass — this directly improves INP on posts. */
+  @apply fixed top-0 left-0 z-50 h-1.5 bg-linear-to-r from-brand to-brand-soft shadow-[0_0_10px_hsl(var(--brand)/0.22)];
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+  transition: transform 150ms ease-out;
+}
