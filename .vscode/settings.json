@@ -17,7 +17,11 @@
   "files.trimTrailingWhitespace": true,
 
   // typescript auto-format settings
+  // Duplicate tsdk path: Astro's language server (Volar) reads `typescript.tsdk`;
+  // recent VS Code / Cursor also honor `js/ts.tsdk.path`. Both avoids wrong/bundled
+  // TypeScript and bogus JSX errors (e.g. ts(7026)) in .astro files.
   "typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
   "javascript.preferences.importModuleSpecifier": "project-relative",
   "typescript.preferences.importModuleSpecifier": "project-relative",
   "javascript.preferences.quoteStyle": "single",

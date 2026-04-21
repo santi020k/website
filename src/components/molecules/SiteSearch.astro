@@ -108,6 +108,39 @@ import { Icon } from 'astro-icon/components'
     background-color: hsl(var(--theme-bg) / 0.82);
     backdrop-filter: blur(4px);
   }
+
+  /*
+    Thumbnails are built from `is:inline` JS; Tailwind may not emit utilities used only there.
+    Frame + object-fit live here. Stretch the frame to the full result row height (fixed width).
+  */
+  #site-search-results [data-site-search-thumb-frame] {
+    position: relative;
+    flex-shrink: 0;
+    align-self: stretch;
+    width: 5rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 1px solid hsl(var(--line) / 0.45);
+    background-color: hsl(var(--surface-muted));
+    box-shadow: inset 0 1px 0 hsl(var(--ink) / 0.04);
+  }
+
+  @media (min-width: 640px) {
+    #site-search-results [data-site-search-thumb-frame] {
+      width: 5.75rem;
+    }
+  }
+
+  #site-search-results [data-site-search-thumb] {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* Full row height slot, but never crop or squash the bitmap — letterbox if needed. */
+    object-fit: contain;
+    object-position: center;
+  }
 </style>
 
 <script is:inline>
@@ -184,44 +217,8 @@ import { Icon } from 'astro-icon/components'
           sm:gap-3.5 sm:p-3
         `.trim().replace(/\s+/g, ' ')
 
-        const thumbWidthClass = 'w-[4.75rem] sm:w-[5.25rem]'
         const thumbHost = document.createElement('span')
-        const setCoverThumbLayout = (host, img, w, h) => {
-          const base = `
-            relative shrink-0 self-start overflow-hidden rounded-lg border border-line/45
-            shadow-[inset_0_1px_0_hsl(var(--ink)/0.04)]
-            ${thumbWidthClass}
-          `.trim().replace(/\s+/g, ' ')
-
-          if (typeof w !== 'number' || typeof h !== 'number' || h <= 0) {
-            host.className = `${base} bg-surface-muted`.trim()
-            host.style.aspectRatio = '16 / 10'
-            img.className = 'size-full object-cover'
-            return
-          }
-
-          const ratio = w / h
-          // Match `CoverImage.astro` card orientation: landscape → 16:10, portrait → 4:5, square → 1:1
-          if (ratio < 0.92) {
-            host.className = `
-              ${base} flex items-center justify-center bg-linear-to-br from-surface-muted via-surface
-              to-brand-soft/30 p-1 sm:p-1.5
-            `.trim().replace(/\s+/g, ' ')
-            host.style.aspectRatio = '4 / 5'
-            img.className = 'relative z-10 mx-auto h-full w-full object-contain'
-          } else if (ratio <= 1.08) {
-            host.className = `
-              ${base} flex items-center justify-center bg-linear-to-br from-surface-muted via-surface
-              to-brand-soft/30 p-1 sm:p-1.5
-            `.trim().replace(/\s+/g, ' ')
-            host.style.aspectRatio = '1 / 1'
-            img.className = 'relative z-10 mx-auto h-full w-full object-contain'
-          } else {
-            host.className = `${base} bg-surface-muted`.trim()
-            host.style.aspectRatio = '16 / 10'
-            img.className = 'relative z-10 size-full object-cover'
-          }
-        }
+        thumbHost.setAttribute('data-site-search-thumb-frame', '')
 
         if (e.coverUrl) {
           const img = document.createElement('img')
@@ -229,16 +226,9 @@ import { Icon } from 'astro-icon/components'
           img.alt = e.coverAlt || e.title
           img.decoding = 'async'
           img.loading = 'eager'
-          if (typeof e.coverWidth === 'number') img.width = e.coverWidth
-          if (typeof e.coverHeight === 'number') img.height = e.coverHeight
-          setCoverThumbLayout(thumbHost, img, e.coverWidth, e.coverHeight)
+          img.setAttribute('data-site-search-thumb', '')
           thumbHost.appendChild(img)
         } else {
-          thumbHost.className = `
-            relative aspect-[16/10] shrink-0 self-start overflow-hidden rounded-lg border border-line/45
-            bg-surface-muted shadow-[inset_0_1px_0_hsl(var(--ink)/0.04)]
-            ${thumbWidthClass}
-          `.trim().replace(/\s+/g, ' ')
           const ph = document.createElement('span')
           ph.className = 'block size-full grid-fade'
           ph.setAttribute('aria-hidden', 'true')
