@@ -11,56 +11,56 @@
 :root,
 :root[data-theme="light"] {
   color-scheme: light;
-  --theme-bg: 262 20% 98%;
-  --surface: 262 20% 100%;
-  --surface-muted: 262 20% 96%;
-  --surface-strong: 262 15% 90%;
-  --line: 262 15% 84%;
-  --ink: 262 10% 20%;
-  --ink-soft: 262 8% 36%;
-  --ink-muted: 262 6% 28%;
-  --brand: 262 87% 36%;
-  --brand-soft: 262 87% 93%;
-  --accent: 262 87% 52%;
-  --glow: 262 100% 70%;
+  --theme-bg: 277 20% 98%;
+  --surface: 277 20% 100%;
+  --surface-muted: 277 20% 96%;
+  --surface-strong: 277 15% 90%;
+  --line: 277 15% 84%;
+  --ink: 277 10% 20%;
+  --ink-soft: 277 8% 36%;
+  --ink-muted: 277 6% 28%;
+  --brand: 277 72% 38%;
+  --brand-soft: 277 55% 94%;
+  --accent: 277 80% 52%;
+  --glow: 280 90% 70%;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --theme-bg: 262 20% 10%;
-  --surface: 262 20% 14%;
-  --surface-muted: 262 18% 17%;
-  --surface-strong: 262 15% 23%;
-  --line: 262 12% 32%;
-  --ink: 262 10% 88%;
-  --ink-soft: 262 8% 72%;
-  --ink-muted: 262 6% 56%;
-  --brand: 262 87% 60%;
-  --brand-soft: 262 50% 18%;
-  --accent: 262 87% 75%;
-  --glow: 262 100% 68%;
+  --theme-bg: 277 20% 10%;
+  --surface: 277 20% 14%;
+  --surface-muted: 277 18% 17%;
+  --surface-strong: 277 15% 23%;
+  --line: 277 12% 32%;
+  --ink: 277 10% 88%;
+  --ink-soft: 277 8% 72%;
+  --ink-muted: 277 6% 56%;
+  --brand: 277 75% 62%;
+  --brand-soft: 277 48% 18%;
+  --accent: 277 82% 72%;
+  --glow: 280 85% 68%;
 }
 
 @media (prefers-contrast: more) {
   :root,
   :root[data-theme="light"] {
-    --surface-muted: 262 18% 94%;
-    --surface-strong: 262 14% 88%;
-    --line: 262 18% 66%;
-    --ink-soft: 262 12% 24%;
-    --ink-muted: 262 10% 18%;
-    --brand: 262 90% 30%;
-    --brand-soft: 262 88% 88%;
+    --surface-muted: 277 18% 94%;
+    --surface-strong: 277 14% 88%;
+    --line: 277 18% 66%;
+    --ink-soft: 277 12% 24%;
+    --ink-muted: 277 10% 18%;
+    --brand: 277 76% 32%;
+    --brand-soft: 277 52% 90%;
   }
 
   :root[data-theme="dark"] {
-    --surface-muted: 262 18% 15%;
-    --surface-strong: 262 16% 20%;
-    --line: 262 14% 48%;
-    --ink-soft: 262 10% 84%;
-    --ink-muted: 262 8% 76%;
-    --brand: 262 92% 72%;
-    --brand-soft: 262 44% 26%;
+    --surface-muted: 277 18% 15%;
+    --surface-strong: 277 16% 20%;
+    --line: 277 14% 48%;
+    --ink-soft: 277 10% 84%;
+    --ink-muted: 277 8% 76%;
+    --brand: 277 78% 68%;
+    --brand-soft: 277 42% 24%;
   }
 }
 
