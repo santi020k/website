@@ -38,7 +38,7 @@ const latestPosts = allPosts
 
 const activeSeries = (await getSeriesSummaries()).filter(item => item.postCount > 0 && item.series.data.status === 'active')
 const allTechnologies = getUniqueTechnologiesWithCount(allProjects)
-const topTechnologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 50)
+const topTechnologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 20)
 const hiddenTechnologyCount = Math.max(0, allTechnologies.length - topTechnologies.length)
 const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 const [featuredProject, ...supportingProjects] = featuredProjects
@@ -230,7 +230,7 @@ const meta = {
           aria-hidden="true"
           class="
             pointer-events-none absolute inset-[-10%] z-20 rounded-full border
-            border-brand/12
+            border-brand/12 [animation-delay:800ms]
             motion-safe:animate-[spin_24s_linear_infinite]
             motion-reduce:animate-none
           "
@@ -239,7 +239,7 @@ const meta = {
           aria-hidden="true"
           class="
             pointer-events-none absolute inset-[10%] z-20 rounded-full border
-            border-brand/10
+            border-brand/10 [animation-delay:800ms]
             motion-safe:animate-[spin_18s_linear_infinite_reverse]
             motion-reduce:animate-none
           "
@@ -280,6 +280,7 @@ const meta = {
 
         <div class="
           absolute bottom-8 -left-4 z-30 hidden mini-note min-w-40
+          [animation-delay:600ms]
           motion-safe:animate-float-y
           motion-reduce:animate-none
           sm:-left-8 sm:block
