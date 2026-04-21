@@ -51,6 +51,11 @@ export const siteConfig: SiteConfig = {
 
 export const menuLinks: SiteLink[] = [
   {
+    icon: 'tabler:home',
+    path: '/',
+    title: 'Home'
+  },
+  {
     icon: 'tabler:user',
     path: '/about/',
     title: 'About'
