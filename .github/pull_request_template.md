@@ -43,9 +43,9 @@ Link to the issue this PR resolves, e.g. "Resolves #123"
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
 - [ ] I have made corresponding changes to the documentation
-- [ ] The build passes without errors (`npm run build`)
-- [ ] Linting passes without errors (`npm run lint`)
-- [ ] Tests pass (`npm run test`)
+- [ ] The build passes without errors (`pnpm run build`)
+- [ ] Linting passes without errors (`pnpm run lint`)
+- [ ] Tests pass (`pnpm run test`)
 
 ## Screenshots (if applicable)
 

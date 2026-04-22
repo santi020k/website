@@ -85,6 +85,12 @@ For more stable CI/browser-constrained environments, use:
 pnpm run test:e2e:ci:stable
 ```
 
+### 🤝 Maintainer Docs
+
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- [`docs/deployment.md`](./docs/deployment.md)
+- [`docs/incident-response.md`](./docs/incident-response.md)
+
 ---
 
 ### 📫 Connect with Santiago
