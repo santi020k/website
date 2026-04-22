@@ -6,7 +6,8 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
 import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
-import LogoMark from '@/assets/logo.webp'
+import LogoMarkDark from '@/assets/logo-dark.webp'
+import LogoMarkLight from '@/assets/logo-light.webp'
 import { menuLinks, siteConfig } from '@/site.config'
 import type { SiteLink } from '@/types'
 ---
@@ -35,14 +36,32 @@ import type { SiteLink } from '@/types'
               aspect-933/147 h-9 w-auto object-contain transition duration-300
               group-hover:brightness-115
               motion-reduce:transition-none
+              dark:hidden
             "
+            densities={[1, 1.5, 2, 3]}
             fetchpriority="high"
             formats={['avif', 'webp']}
             height={36}
             loading="eager"
-            src={LogoMark}
+            src={LogoMarkLight}
             width={228}
+          />
+          <Picture
+            alt="Santi020k"
+            class="
+              hidden aspect-933/147 h-9 w-auto object-contain transition
+              duration-300
+              group-hover:brightness-115
+              motion-reduce:transition-none
+              dark:block dark:brightness-[1.25] dark:saturate-90
+            "
             densities={[1, 1.5, 2, 3]}
+            fetchpriority="high"
+            formats={['avif', 'webp']}
+            height={36}
+            loading="eager"
+            src={LogoMarkDark}
+            width={228}
           />
           <!-- <span class="
             sr-only min-w-0 flex-col
