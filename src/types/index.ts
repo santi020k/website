@@ -14,6 +14,7 @@ export type {
   SiteConfig,
   SiteLink,
   SiteMeta,
+  SiteNewsletter,
   SiteSocialLink
 } from './site'
 export type { Badge, BadgeVariant } from './ui'

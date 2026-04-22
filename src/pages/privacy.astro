@@ -1,0 +1,90 @@
+---
+import PageLayout from '@/layouts/Base.astro'
+import { siteConfig } from '@/site.config'
+
+const description =
+  'How santi020k.com uses privacy-friendly analytics, what is not sold to advertisers, and how to reach out with questions.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Privacy', url: '/privacy/' }
+]
+
+const meta = {
+  breadcrumbs,
+  description,
+  title: 'Privacy & analytics'
+}
+---
+
+<PageLayout meta={meta}>
+  <article
+    class="
+      mx-auto max-w-3xl space-y-10 animate-slide-up
+      motion-reduce:animate-none
+    "
+  >
+    <header class="space-y-3">
+      <p class="section-label">Legal</p>
+      <h1 class="text-4xl font-extrabold tracking-tight text-ink">
+        Privacy &amp; analytics
+      </h1>
+      <p class="text-base/7 text-ink-soft">
+        This is a personal portfolio and blog. The goal is to be transparent about the small amount of data the
+        hosting stack can see, without turning the site into a cookie banner maze.
+      </p>
+    </header>
+
+    <div class="prose-santi max-w-none space-y-8 text-ink-soft">
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-ink">What runs on this site</h2>
+        <p>
+          Pages are mostly static files served from{' '}
+          <a href="https://vercel.com/docs/analytics/privacy-policy" rel="noopener noreferrer" target="_blank">
+            Vercel
+          </a>
+          . In production, Vercel Web Analytics and Speed Insights may record anonymized usage and performance
+          signals (for example page views and Core Web Vitals) to understand how the experience behaves in the real
+          world. That data is not used to profile visitors for advertising on this site.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-ink">Cookies and local storage</h2>
+        <p>
+          Theme preference (light or dark) is stored locally in your browser so the next visit remembers your choice.
+          There is no ad network pixel or social widget tracking you across the web from this domain.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-ink">Email and third-party services</h2>
+        <p>
+          If you use the optional newsletter form, your address is handled by whichever provider powers that form
+          (for example Buttondown or Substack) under their terms. Contact links (email, LinkedIn, WhatsApp) open your
+          usual client or app; messages are governed by those platforms.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-ink">IndieWeb / Webmentions</h2>
+        <p>
+          Blog posts may display public reactions received through{' '}
+          <a href="https://webmention.io/" rel="noopener noreferrer" target="_blank">Webmention.io</a>
+          . Only interactions that were already published elsewhere on the open web are shown.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-xl font-bold text-ink">Questions</h2>
+        <p>
+          For privacy-related questions about this site, email{' '}
+          <a class="font-medium text-brand hover:underline" href={`mailto:${siteConfig.contact.email}`}>
+            {siteConfig.contact.email}
+          </a>
+          .
+        </p>
+      </section>
+    </div>
+  </article>
+</PageLayout>

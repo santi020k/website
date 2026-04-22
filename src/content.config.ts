@@ -62,6 +62,14 @@ const project = defineCollection({
     githubUrl: z.url().optional(),
     liveDemoUrl: z.url().optional(),
     impactMetrics: z.array(z.string()).default([]),
+    caseStudy: z
+      .object({
+        approach: z.string().optional(),
+        metrics: z.string().optional(),
+        outcome: z.string().optional(),
+        problem: z.string().optional()
+      })
+      .optional(),
     // type
     typesId: z.enum(['professional', 'personal', 'experimental']).optional(),
     orderInTypes: z.number().optional()

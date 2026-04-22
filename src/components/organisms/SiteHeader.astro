@@ -10,14 +10,65 @@ import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
 import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
 import { menuLinks, siteConfig } from '@/site.config'
 import type { SiteLink } from '@/types'
+
+const isAvailableForBanner =
+  siteConfig.availability.trim().toLowerCase().startsWith('open') &&
+  siteConfig.showAvailabilityBanner !== false
 ---
 
 <header class="
-  sticky top-0 z-50 p-4
+  sticky top-0 z-50 flex flex-col gap-2.5 p-4
   sm:px-6
   lg:px-8
 "
 >
+  {isAvailableForBanner && (
+    <div
+      class="
+        mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col gap-3 rounded-2xl border
+        border-line/55 bg-surface-muted/55 px-4 py-3 shadow-sm shadow-ink/5
+        backdrop-blur-sm
+        sm:max-w-6xl sm:flex-row sm:items-center sm:justify-between sm:px-5
+      "
+      data-availability-strip
+    >
+      <p class="flex min-w-0 items-start gap-2.5 text-sm text-ink sm:items-center">
+        <span class="relative mt-1.5 inline-flex size-2 shrink-0 sm:mt-0" aria-hidden="true">
+          <span
+            class="
+              absolute inline-flex size-full animate-ping rounded-full bg-green-400/80
+              opacity-75
+              motion-reduce:animate-none
+            "
+          />
+          <span class="relative inline-flex size-2 rounded-full bg-green-500" />
+        </span>
+        <span class="min-w-0 leading-snug">
+          <span class="sr-only">Availability: </span>
+          <span class="font-medium text-ink">{siteConfig.availability}</span>
+        </span>
+      </p>
+      <div class="flex shrink-0 flex-wrap gap-2 sm:justify-end">
+        <ButtonLink
+          className="min-h-10 px-4 py-2 text-xs sm:text-sm"
+          href={siteConfig.contact.linkedin}
+          newTab
+          showArrow
+          variant="secondary"
+        >
+          Discuss a role
+        </ButtonLink>
+        <ButtonLink
+          className="min-h-10 px-4 py-2 text-xs sm:text-sm"
+          href={`mailto:${siteConfig.contact.email}?subject=Opportunity%20or%20role`}
+          showArrow
+          variant="ghost"
+        >
+          Email
+        </ButtonLink>
+      </div>
+    </div>
+  )}
   <site-header-mobile-nav class="contents">
     <div class="contents" data-mobile-nav>
       <div class="site-header-shell z-50" data-header-shell>

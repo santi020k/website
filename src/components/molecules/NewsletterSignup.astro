@@ -1,0 +1,86 @@
+---
+import { Icon } from 'astro-icon/components'
+
+interface Props {
+  formAction: string
+}
+
+const { formAction } = Astro.props
+---
+
+<section aria-labelledby="newsletter-heading" data-animate>
+  <div
+    class="
+      flex flex-col gap-6 rounded-[1.85rem] border border-line/55
+      bg-surface-muted/40 p-6
+      sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:p-8
+    "
+  >
+    <div class="max-w-xl space-y-2">
+      <p class="section-label" id="newsletter-heading">
+        Updates
+      </p>
+      <p class="text-lg font-semibold tracking-tight text-ink">
+        Get new posts in your inbox
+      </p>
+      <p class="text-sm/6 text-ink-soft">
+        Low volume — engineering notes, architecture writeups, and occasional career updates.
+        Prefer a feed?{' '}
+        <a
+          class="
+            font-medium text-brand underline-offset-2
+            hover:underline
+          "
+          href="/feed.xml"
+        >
+          Subscribe via RSS
+        </a>
+        .
+      </p>
+    </div>
+
+    <form
+      action={formAction}
+      class="
+        flex w-full min-w-0 flex-col gap-3
+        sm:max-w-xs
+      "
+      method="post"
+      target="_blank"
+    >
+      <input name="embed" type="hidden" value="1" />
+      <label class="sr-only" for="newsletter-email">Email address</label>
+      <input
+        autocomplete="email"
+        class="
+          min-h-11 w-full rounded-2xl border border-line/70 bg-surface px-4
+          py-2.5 text-sm text-ink shadow-inner shadow-ink/5 transition
+          outline-none
+          placeholder:text-ink-muted
+          focus:border-brand/45 focus:ring-2 focus:ring-brand/20
+        "
+        id="newsletter-email"
+        inputmode="email"
+        name="email"
+        placeholder="you@company.com"
+        required
+        type="email"
+      />
+      <button
+        class="
+          inline-flex min-h-11 w-full items-center justify-center gap-2
+          rounded-2xl bg-brand px-4 py-2.5 text-sm font-semibold text-white
+          shadow-md shadow-brand/25 transition
+          hover:brightness-110
+          active:scale-[0.99]
+          motion-reduce:transition-none
+          motion-reduce:active:scale-100
+        "
+        type="submit"
+      >
+        <Icon aria-hidden="true" class="size-4 shrink-0" name="tabler:send" />
+        Subscribe
+      </button>
+    </form>
+  </div>
+</section>

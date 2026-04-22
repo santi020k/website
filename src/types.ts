@@ -1,6 +1,11 @@
+export interface SiteNewsletter {
+  formAction: string
+}
+
 export interface SiteConfig {
   author: string
   availability: string
+  showAvailabilityBanner?: boolean
   contact: {
     email: string
     github: string
@@ -18,6 +23,7 @@ export interface SiteConfig {
   lang: string
   location: string
   ogLocale: string
+  newsletter?: SiteNewsletter
   socialLinks: SiteSocialLink[]
   title: string
 }
