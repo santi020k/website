@@ -22,13 +22,15 @@ Most JS scripts are integrated into the `package.json` workflow.
 | --- | --- | --- |
 | **Generate Favicons** | `pnpm run generate:icons` | `scripts/js/generate-favicons.mjs` |
 | **Generate Fonts (subset)** | `pnpm run generate:fonts` | `scripts/js/generate-fonts.mjs` |
-| **Generate OG Images** | `pnpm run generate:og` | `scripts/js/generate-og-images.js` |
+| **Generate OG Images** | `pnpm run generate:og` | `scripts/js/generate-og-images.js` (+ `og-render-worker.mjs` pool) |
 | **Force Regenerate OG** | `pnpm run generate:og:force` | `scripts/js/generate-og-images.js` |
 | **Refresh Project Covers** | `pnpm run refresh:covers` | `scripts/js/refresh-project-covers.mjs` |
 
 ### Prerequisites
 - Node.js 24+
 - `pnpm install` dependencies
+
+**OG images:** Renders use a `worker_threads` pool (Satori/Resvg/Sharp per isolate). Set `OG_WORKER_THREADS` to cap parallelism on low-memory CI (default `min(8, os.availableParallelism())`).
 
 ---
 

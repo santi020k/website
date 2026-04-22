@@ -1,32 +1,46 @@
 /**
  * Pre-build OG image generator.
  *
- * Generates all Open Graph images in parallel and writes them to `public/og/`
- * so Astro can serve them as static passthrough files (zero build-time cost).
+ * Generates all Open Graph images and writes them to `public/og/` so Astro can
+ * serve them as static passthrough files (zero build-time cost).
  *
  * Run via: `pnpm run generate:og` or automatically as part of `prebuild`.
  *
  * Strategy:
  *  - Reads content frontmatter directly with `js-yaml` (no Astro runtime needed)
  *  - Collects all image specs (pages, posts, projects, series, technologies)
- *  - Renders all images in parallel with `Promise.all()` via CONCURRENCY batches
- *  - Skips images whose output file already exists and is newer than this script
- *    (set FORCE_OG=1 to regenerate everything)
+ *  - Renders CPU-heavy cards in a `worker_threads` pool (Satori + Resvg + Sharp
+ *    run in separate isolates; async concurrency on one thread does not scale)
+ *  - Skips images whose output file already exists (set FORCE_OG=1 to regenerate)
+ *
+ * Tuning: `OG_WORKER_THREADS` caps how many worker threads are spawned (default
+ * `min(8, os.availableParallelism())`).
  */
 
 import yaml from 'js-yaml'
 import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-
-import { renderSocialImage } from '../../src/utils/render-social-image.js'
+import { Worker } from 'node:worker_threads'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..')
 const OUT_DIR = path.join(ROOT, 'public', 'og')
-// Maximum number of images rendered simultaneously.
-const CONCURRENCY = 8
+const WORKER_SCRIPT = new URL('./og-render-worker.mjs', import.meta.url)
 const FORCE = process.env.FORCE_OG === '1'
+
+/** @returns {number} Positive worker count before clamping to job count. */
+const getConfiguredWorkerThreads = () => {
+  const raw = process.env.OG_WORKER_THREADS
+  if (raw !== undefined && raw !== '') {
+    const n = Number.parseInt(raw, 10)
+
+    if (Number.isFinite(n) && n > 0) return Math.min(n, 32)
+  }
+
+  return Math.min(8, os.availableParallelism())
+}
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -308,35 +322,114 @@ export const collectSpecs = () => {
 }
 
 // ---------------------------------------------------------------------------
-// Parallel generation with concurrency limit
+// Worker pool (one Satori/Resvg pipeline per thread)
 // ---------------------------------------------------------------------------
 
-/**
- * Runs `tasks` with at most `limit` concurrent executions.
- * @template T
- * @param {Array<() => Promise<T>>} tasks
- * @param {number} limit
- * @returns {Promise<T[]>}
- */
-const pLimit = async (tasks, limit) => {
-  const results = []
-  let idx = 0
+class OgRenderPool {
+  /** @param {number} workerCount */
+  constructor(workerCount) {
+    this.workerCount = workerCount
 
-  const worker = async () => {
-    while (idx < tasks.length) {
-      const i = idx++
+    /** @type {Worker[]} */
+    this.workers = []
 
-      // eslint-disable-next-line security/detect-object-injection
-      results[i] = await tasks[i]()
+    /** @type {Worker[]} */
+    this.available = []
+
+    /** @type {Array<{ props: object, resolve: (b: Buffer) => void, reject: (e: Error) => void }>} */
+    this.waiting = []
+
+    /** @type {Map<number, { resolve: (b: Buffer) => void, reject: (e: Error) => void, worker: Worker }>} */
+    this.inFlight = new Map()
+    this.nextId = 1
+  }
+
+  async start() {
+    for (let i = 0; i < this.workerCount; i++) {
+      const w = new Worker(WORKER_SCRIPT, { type: 'module' })
+
+      w.on('message', msg => this.onMessage(w, msg))
+      w.on('error', err => this.onWorkerError(w, err))
+      this.workers.push(w)
+      this.available.push(w)
     }
   }
 
-  await Promise.all(Array.from({ length: Math.min(limit, tasks.length) }, worker))
+  /**
+   * @param {Worker} worker
+   * @param {{ id: number, ok: true, buffer: ArrayBuffer } | { id: number, ok: false, message?: string }} msg
+   */
+  onMessage(worker, msg) {
+    const entry = this.inFlight.get(msg.id)
 
-  return results
+    if (!entry) return
+
+    this.inFlight.delete(msg.id)
+    this.available.push(worker)
+
+    if (msg.ok) {
+      entry.resolve(Buffer.from(msg.buffer))
+    } else {
+      entry.reject(new Error(msg.message ?? 'OG worker render failed'))
+    }
+
+    this.pump()
+  }
+
+  /** @param {Worker} worker */
+  onWorkerError(worker, err) {
+    const idx = this.workers.indexOf(worker)
+
+    if (idx !== -1) this.workers.splice(idx, 1)
+
+    for (const [id, entry] of this.inFlight) {
+      if (entry.worker === worker) {
+        this.inFlight.delete(id)
+        entry.reject(err instanceof Error ? err : new Error(String(err)))
+        break
+      }
+    }
+
+    this.pump()
+  }
+
+  pump() {
+    while (this.waiting.length > 0 && this.available.length > 0) {
+      const job = this.waiting.shift()
+      const worker = this.available.pop()
+      const id = this.nextId++
+
+      if (!job || !worker) break
+
+      this.inFlight.set(id, {
+        resolve: job.resolve,
+        reject: job.reject,
+        worker
+      })
+      worker.postMessage({ id, props: job.props })
+    }
+  }
+
+  /** @param {object} props */
+  render(props) {
+    return new Promise((resolve, reject) => {
+      this.waiting.push({ props, resolve, reject })
+      this.pump()
+    })
+  }
+
+  async shutdown() {
+    await Promise.all(this.workers.map(w => w.terminate()))
+    this.workers = []
+    this.available = []
+  }
 }
 
-const generate = async ({ outFile, props }) => {
+/**
+ * @param {OgRenderPool | null} pool
+ * @param {{ outFile: string, props: object }} spec
+ */
+const generateOne = async (pool, { outFile, props }) => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (!FORCE && fs.existsSync(outFile)) {
     process.stdout.write(`  skip  ${path.relative(ROOT, outFile)}\n`)
@@ -344,7 +437,9 @@ const generate = async ({ outFile, props }) => {
     return
   }
 
-  const buffer = await renderSocialImage(props)
+  if (!pool) throw new Error('OG render pool is not initialized')
+
+  const buffer = await pool.render(props)
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   fs.mkdirSync(path.dirname(outFile), { recursive: true })
@@ -362,12 +457,31 @@ const generate = async ({ outFile, props }) => {
 export const generateAll = async () => {
   const start = performance.now()
   const specs = collectSpecs()
+  const configured = getConfiguredWorkerThreads()
+  const pendingCount = specs.filter(s => {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    return FORCE || !fs.existsSync(s.outFile)
+  }).length
+  const poolSize = pendingCount === 0 ? 0 : Math.min(configured, pendingCount)
 
-  console.log(`\n🖼  Generating ${specs.length} OG images (concurrency=${CONCURRENCY})…\n`)
+  /** @type {OgRenderPool | null} */
+  let pool = null
 
-  const tasks = specs.map(spec => () => generate(spec))
+  try {
+    if (poolSize > 0) {
+      pool = new OgRenderPool(poolSize)
+      await pool.start()
+    }
 
-  await pLimit(tasks, CONCURRENCY)
+    console.log(
+      `\n🖼  Generating ${specs.length} OG images (workers=${poolSize}, ` +
+      `OG_WORKER_THREADS=${process.env.OG_WORKER_THREADS ?? 'default'})…\n`
+    )
+
+    await Promise.all(specs.map(spec => generateOne(pool, spec)))
+  } finally {
+    if (pool) await pool.shutdown()
+  }
 
   const elapsed = ((performance.now() - start) / 1000).toFixed(2)
 
