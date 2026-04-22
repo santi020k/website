@@ -21,8 +21,9 @@
   --ink-soft: 268 8% 36%;
   --ink-muted: 268 6% 28%;
   /* Brand sampled from dark / high-chroma regions of light logo assets (~267°). */
-  /* Dark enough for white text on filled buttons at ~14px (WCAG AA 4.5:1). */
-  --brand: 267 77% 37%;
+  --brand: 267 77% 42%;
+  /* Saturated fills (buttons, skip link): separate from display `brand` for WCAG AA vs white. */
+  --brand-solid: 267 77% 37%;
   --brand-soft: 267 52% 94%;
   --accent: 267 82% 52%;
   --glow: 268 88% 70%;
@@ -39,6 +40,8 @@
   --ink-soft: 277 8% 72%;
   --ink-muted: 277 6% 56%;
   --brand: 277 75% 62%;
+  /* Headless Lighthouse defaults to dark scheme; 62% L fails 4.5:1 with white at button sizes. */
+  --brand-solid: 277 70% 46%;
   --brand-soft: 277 48% 18%;
   --accent: 277 82% 72%;
   --glow: 280 85% 68%;
@@ -53,6 +56,7 @@
     --ink-soft: 268 12% 24%;
     --ink-muted: 268 10% 18%;
     --brand: 267 78% 34%;
+    --brand-solid: 267 78% 32%;
     --brand-soft: 267 52% 90%;
   }
 
@@ -63,6 +67,7 @@
     --ink-soft: 277 10% 84%;
     --ink-muted: 277 8% 76%;
     --brand: 277 78% 68%;
+    --brand-solid: 277 72% 44%;
     --brand-soft: 277 42% 24%;
   }
 }
@@ -86,6 +91,7 @@
   --color-ink-soft: hsl(var(--ink-soft));
   --color-ink-muted: hsl(var(--ink-muted));
   --color-brand: hsl(var(--brand));
+  --color-brand-solid: hsl(var(--brand-solid));
   --color-brand-soft: hsl(var(--brand-soft));
   --color-accent: hsl(var(--accent));
   --color-glow: hsl(var(--glow));

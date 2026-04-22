@@ -36,8 +36,9 @@ const Tag = href ? 'a' : 'span'
       hover:bg-surface-strong/80 hover:text-ink
     `,
     tone === 'brand' && `
+      hover:border-brand-solid/35 hover:bg-brand-solid
       border-brand/20 bg-brand-soft/80 text-brand
-      hover:border-brand/35 hover:bg-brand hover:text-white
+      hover:text-white
     `,
     tone === 'outline' && `
       border-line/70 bg-surface/72 text-ink-soft
