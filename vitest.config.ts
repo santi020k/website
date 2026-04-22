@@ -47,7 +47,14 @@ export default defineConfig({
         'src/data/types.ts',
         'src/types.ts',
         'src/env.d.ts'
-      ]
+      ],
+      // Baseline ~2026-04: stmts 95.2%, branch 86.3%, lines 96.8%, funcs 100% on included files
+      thresholds: {
+        statements: 93,
+        branches: 84,
+        functions: 95,
+        lines: 95
+      }
     }
   }
 })

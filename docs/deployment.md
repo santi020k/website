@@ -38,6 +38,18 @@ If a production regression is detected:
 3. Re-run smoke checks on the same key routes.
 4. Document the cause and follow-up in the incident notes.
 
+## Vercel environment variables (Webmention)
+
+If the site should receive and display [Webmention.io](https://webmention.io/) mentions, set these in the Vercel project (Settings → Environment Variables). Values match `.env.example`.
+
+| Variable | Environments | Type | Purpose |
+| --- | --- | --- | --- |
+| `WEBMENTION_API_KEY` | Production, Preview (optional: Development) | **Secret** | Token from the Webmention.io dashboard. Build fetches `mentions.jf2` for each post. |
+| `WEBMENTION_URL` | All | Public | `rel="webmention"` target (e.g. `https://webmention.io/santi020k.com/webmention`). |
+| `WEBMENTION_PINGBACK` | All | Public | Optional. `rel="pingback"` URL if you want legacy pingback (e.g. `https://webmention.io/santi020k.com/xmlrpc`). |
+
+The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for Vercel or this build.
+
 ## Notes
 
 - Caching and security headers are defined in `vercel.json`.
