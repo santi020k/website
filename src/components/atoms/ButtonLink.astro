@@ -34,9 +34,11 @@ const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
     `,
     typographyClass,
     variant === 'primary' && `
-      border-transparent bg-brand-solid px-5 py-3 text-white
+      bg-brand-solid
+      hover:bg-brand-solid/92
+      border-transparent px-5 py-3 text-white
       shadow-[0_10px_24px_hsl(var(--brand-solid)/0.14)]
-      hover:-translate-y-0.5 hover:bg-brand-solid/92
+      hover:-translate-y-0.5
       active:scale-[0.98]
     `,
     variant === 'secondary' && `

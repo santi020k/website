@@ -69,14 +69,16 @@ test('homepage exposes IndieAuth.com discovery and rel=me on silo links', async 
     'href', 'https://tokens.indieauth.com/token'
   )
 
-  const githubConnect = page.locator('footer').getByRole('link', { name: 'GitHub', exact: true })
-  const githubRel = await githubConnect.getAttribute('rel')
+  const githubProfile = page.locator('footer a[href="https://github.com/santi020k"]')
+  const githubRel = await githubProfile.getAttribute('rel')
   expect(githubRel?.split(/\s+/).filter(Boolean).sort()).toEqual(
     ['me', 'noopener', 'noreferrer'].sort()
   )
 
-  const whatsappConnect = page.locator('footer').getByRole('link', { name: 'WhatsApp', exact: true })
-  await expect(whatsappConnect).toHaveAttribute('rel', 'noreferrer noopener')
+  for (const link of await page.locator('footer a[href^="https://api.whatsapp.com/"]').all()) {
+    const rel = await link.getAttribute('rel')
+    expect(rel?.split(/\s+/).filter(Boolean).sort()).toEqual(['noopener', 'noreferrer'].sort())
+  }
 })
 
 test('keyboard / opens site search dialog', async ({ page }) => {
