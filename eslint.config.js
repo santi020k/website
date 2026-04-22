@@ -1,8 +1,9 @@
 // @ts-check
 
+import playwright from 'eslint-plugin-playwright'
+
 import astroConfig from '@santi020k/eslint-config-astro'
 import { eslintConfig, Testing } from '@santi020k/eslint-config-basic'
-import playwright from 'eslint-plugin-playwright'
 
 export default [
   // --- Base presets from your package ---
@@ -39,7 +40,13 @@ export default [
           '^bg-brand-solid$',
           '^hover:bg-brand-solid/92$',
           '^hover:border-brand-solid/35$',
-          '^hover:bg-brand-solid$'
+          '^hover:bg-brand-solid$',
+          '^dt-published$',
+          '^p-name$',
+          '^e-content$',
+          '^p-summary$',
+          '^h-entry$',
+          '^u-url$'
         ]
       }
     }

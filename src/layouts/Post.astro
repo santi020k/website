@@ -96,7 +96,8 @@ const breadcrumbs = [
   >
   </div>
 
-  <article class="mx-auto flex w-full max-w-6xl flex-col gap-12">
+  <article class="h-entry mx-auto flex w-full max-w-6xl flex-col gap-12">
+    <a class="u-url sr-only" href={canonicalURL.href}>Permalink to this article</a>
     <PostHero post={post} />
 
     <!-- ── Two-column body: prose + sticky TOC sidebar ─────────── -->
@@ -109,7 +110,7 @@ const breadcrumbs = [
     >
       <!-- Left: article prose, series navigator, share -->
       <div class="min-w-0 space-y-10">
-        <div class="prose-santi section-shell-subtle max-w-none">
+        <div class="e-content prose-santi section-shell-subtle max-w-none">
           <slot />
         </div>
 
