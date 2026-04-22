@@ -119,7 +119,7 @@
       "eslint --fix --quiet"
     ],
     "*.{md,mdx}": [
-      "cspell --quiet"
+      "cspell --quiet --no-must-find-files"
     ]
   },
   "config": {

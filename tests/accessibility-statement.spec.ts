@@ -16,7 +16,9 @@ test.describe('Accessibility statement page', () => {
 
   test('should state WCAG goal and reporting path', async ({ page }) => {
     await expect(page.getByText(/WCAG 2\.2 Level AA/i)).toBeVisible()
-    await expect(page.getByRole('link', { name: contactEmailLink })).toBeVisible()
+    const reportLink = page.locator('main article').getByRole('link', { name: contactEmailLink })
+    await expect(reportLink).toHaveAttribute('href', /Accessibility%20issue/)
+    await expect(reportLink).toBeVisible()
   })
 
   test('should not have unexpected accessibility violations', async ({ page }) => {
