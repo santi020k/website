@@ -47,6 +47,9 @@ export interface SiteSocialLink {
   href: string
   icon: string
   label: string
+
+  /** When false, skip `rel="me"` (e.g. WhatsApp — not a RelMeAuth silo for IndieAuth.com). */
+  indieAuthRelMe?: boolean
 }
 
 /** Prev/next pagination link rendered in list pages. */
