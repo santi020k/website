@@ -3,6 +3,7 @@ import { Picture } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
 import ContactSection from '@/components/molecules/ContactSection.astro'
+import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 
 import { version } from '../../../package.json'
 
@@ -16,13 +17,16 @@ const navLinks = [
   ...menuLinks,
   { path: '/blog/series/', title: 'Series' },
   { path: '/blog/tags/', title: 'Topics' },
+  { path: '/technologies/', title: 'Technologies' },
   { path: '/uses/', title: 'Uses' }
 ]
 
 const resourceLinks = [
   { icon: 'tabler:calendar-month', path: '/blog/content-calendar/', title: 'Content Calendar' },
   { icon: 'tabler:rss', path: '/feed.xml', title: 'RSS Feed' },
-  { icon: 'tabler:sitemap', path: '/sitemap-index.xml', title: 'Sitemap' }
+  { icon: 'tabler:sitemap', path: '/sitemap-index.xml', title: 'Sitemap' },
+  { icon: 'tabler:accessible', path: '/accessibility/', title: 'Accessibility' },
+  { icon: 'tabler:shield-lock', path: '/privacy/', title: 'Privacy' }
 ]
 
 const currentPath = Astro.url.pathname
@@ -79,6 +83,10 @@ const isLinkActive = (linkPath: string): boolean => {
 
     <!-- Contact section -->
     <ContactSection />
+
+    {siteConfig.newsletter?.formAction && (
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} />
+    )}
 
     <!-- Footer body grid -->
     <div
@@ -323,17 +331,36 @@ const isLinkActive = (linkPath: string): boolean => {
     <div
       class="
         flex flex-col gap-3 border-t border-line/30 pt-6 text-xs text-ink-muted
+        opacity-100
         sm:flex-row sm:items-center sm:justify-between
       "
-      data-animate
     >
       <p>&copy; {year} {siteConfig.author}.</p>
 
       <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <span class="inline-flex items-center gap-1.5">
-          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:cookie-off" />
-          No tracking cookies
-        </span>
+        <a
+          class="
+            inline-flex items-center gap-1.5 text-ink-muted transition-colors
+            hover:text-brand
+            motion-reduce:transition-none
+          "
+          href="/accessibility/"
+        >
+          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:accessible" />
+          Accessibility
+        </a>
+
+        <a
+          class="
+            inline-flex items-center gap-1.5 text-ink-muted transition-colors
+            hover:text-brand
+            motion-reduce:transition-none
+          "
+          href="/privacy/"
+        >
+          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:shield-lock" />
+          Privacy &amp; analytics
+        </a>
 
         <a
           class="

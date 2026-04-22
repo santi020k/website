@@ -12,18 +12,20 @@ import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 interface Props {
   className?: string
+  coverFeatured?: boolean
   featured?: boolean
   project: CollectionEntry<'project'>
 }
 
-const { className = '', featured = false, project } = Astro.props
+const { className = '', coverFeatured, featured = false, project } = Astro.props
 const projectLink = getPortfolioPath(project.id)
 const technologyLimit = featured ? 5 : 4
 const sortedTechnologies = sortTechnologiesByInterest(project.data.technologies)
 const hiddenTechnologyCount = Math.max(0, sortedTechnologies.length - technologyLimit)
 const hiddenTechnologyLabel = `+${hiddenTechnologyCount} ${hiddenTechnologyCount === 1 ? 'technology' : 'technologies'}`
+const useCoverFeatured = coverFeatured ?? featured
 
-const imageSizes = featured ?
+const imageSizes = useCoverFeatured ?
   '(min-width: 1024px) 72vw, 100vw' :
   '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
 
@@ -49,7 +51,15 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
     aria-label={project.data.title}
     class:list={[
       'block',
-      featured ? 'px-4 pt-4 sm:px-5 sm:pt-5' : 'px-3 pt-3 sm:px-4 sm:pt-4'
+      featured ?
+        `
+          px-4 pt-4
+          sm:px-5 sm:pt-5
+        ` :
+        `
+          px-3 pt-3
+          sm:px-4 sm:pt-4
+        `
     ]}
     href={projectLink}
   >
@@ -62,9 +72,9 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
             rounded-[1.35rem] border border-line/40
             shadow-[0_18px_42px_hsl(var(--ink)/0.08)]
           "
-          featured={featured}
+          featured={useCoverFeatured}
           image={project.data.coverImage.src}
-          loading={featured ? 'eager' : 'lazy'}
+          loading={useCoverFeatured ? 'eager' : 'lazy'}
           mode="card"
           showCardOverlay={false}
           sizes={imageSizes}
@@ -89,10 +99,7 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
   `]}
   >
     <div class="space-y-3">
-      <div class="
-        flex flex-wrap items-start justify-between gap-3
-      "
-      >
+      <div class="flex flex-wrap items-start justify-between gap-3">
         <div class="
           flex flex-wrap items-center gap-2
           sm:gap-3

@@ -47,6 +47,17 @@ test.describe('Portfolio page', () => {
     await expect(page).toHaveScreenshot('portfolio-index.png')
   })
 
+  test('project with case study frontmatter shows the summary grid', async ({ page }) => {
+    await page.goto('/portfolio/datagran/')
+
+    const summary = page.getByRole('region', { name: 'Case study summary' })
+    await expect(summary).toBeVisible()
+    await expect(summary.getByText(/^Problem$/)).toBeVisible()
+    await expect(summary.getByText(/^Approach$/)).toBeVisible()
+    await expect(summary.getByText(/^Outcome$/)).toBeVisible()
+    await expect(summary.getByText(/^Metrics$/)).toBeVisible()
+  })
+
   test('single project page should load correctly', async ({ page }) => {
     // Navigate to a known project
     const slug = 'eslint-config-santi020k'

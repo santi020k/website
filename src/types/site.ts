@@ -1,7 +1,16 @@
+export interface SiteNewsletter {
+
+  /** `POST` action URL, e.g. `https://buttondown.email/api/emails/embed-subscribe/yourhandle` */
+  formAction: string
+}
+
 /** Site-wide configuration shape used in site.config.ts */
 export interface SiteConfig {
   author: string
   availability: string
+
+  /** When true, show the slim availability banner under the header chrome. */
+  showAvailabilityBanner?: boolean
   contact: {
     email: string
     github: string
@@ -19,6 +28,9 @@ export interface SiteConfig {
   lang: string
   location: string
   ogLocale: string
+
+  /** Leave unset to hide the footer signup form until you add a provider URL. */
+  newsletter?: SiteNewsletter
   socialLinks: SiteSocialLink[]
   title: string
 }

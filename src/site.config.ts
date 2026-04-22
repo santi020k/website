@@ -1,8 +1,8 @@
 import type { SiteConfig, SiteLink } from './types/site'
 
 export const siteConfig: SiteConfig = {
-  availability: 'Open to tech lead, full-stack, and engineering leadership roles',
   author: 'Santiago Molina',
+  availability: 'Open to tech lead, full-stack, and engineering leadership roles',
   contact: {
     email: 'hi@santi020k.com',
     github: 'https://github.com/santi020k',
@@ -24,6 +24,8 @@ export const siteConfig: SiteConfig = {
   lang: 'en-US',
   location: 'Medellin, Colombia · Remote worldwide',
   ogLocale: 'en_US',
+  newsletter: { formAction: 'https://buttondown.email/api/emails/embed-subscribe/santi020k' },
+  showAvailabilityBanner: false,
   socialLinks: [
     {
       href: 'https://linkedin.com/in/santi020k',

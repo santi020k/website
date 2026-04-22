@@ -43,6 +43,16 @@ const projectStageLabel = getProjectStageLabel(project.data.typesId, project.dat
 const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
 const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
 
+const caseStudy = project.data.caseStudy
+const caseStudyRows = caseStudy ?
+  [
+    { body: caseStudy.problem, label: 'Problem' },
+    { body: caseStudy.approach, label: 'Approach' },
+    { body: caseStudy.outcome, label: 'Outcome' },
+    { body: caseStudy.metrics, label: 'Metrics' }
+  ].filter((row): row is { body: string, label: string } => Boolean(row.body?.trim())) :
+  []
+
 const projectSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': hasLiveDemo ? ['CreativeWork', 'SoftwareApplication'] : 'CreativeWork',
@@ -113,6 +123,24 @@ const breadcrumbs = [
             </div>
             <Pill label={projectStageLabel} tone="brand" />
           </div>
+
+          {!!caseStudyRows.length && (
+            <div
+              aria-label="Case study summary"
+              class="
+                grid gap-4 rounded-2xl border border-brand/15 bg-brand-soft/25 p-5
+                sm:grid-cols-2 sm:p-6
+              "
+              role="region"
+            >
+              {caseStudyRows.map(row => (
+                <div class="min-w-0 space-y-1.5">
+                  <p class="section-label">{row.label}</p>
+                  <p class="text-sm/6 text-ink">{row.body}</p>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div class="prose-project prose-santi max-w-none">
             <slot />
@@ -275,7 +303,11 @@ const breadcrumbs = [
       "
       >
         {relatedProjects.map((relatedProject, index) => (
-          <ProjectCard featured={index === 0} project={relatedProject} />
+          <ProjectCard
+            coverFeatured={false}
+            featured={index === 0}
+            project={relatedProject}
+          />
         ))}
       </div>
     </section>
