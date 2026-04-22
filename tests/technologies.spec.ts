@@ -17,8 +17,9 @@ test.describe('Technologies index page', () => {
   })
 
   test('should display the technologies count and most-used stat', async ({ page }) => {
-    await expect(page.getByText('Technologies', { exact: true })).toBeVisible()
-    await expect(page.getByText('Most used', { exact: true })).toBeVisible()
+    const main = page.locator('#main')
+    await expect(main.getByText('Technologies', { exact: true })).toBeVisible()
+    await expect(main.getByText('Most used', { exact: true })).toBeVisible()
   })
 
   test('should render technology group labels', async ({ page }) => {
