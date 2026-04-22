@@ -165,6 +165,11 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   </>
 )}
 
+{/* IndieAuth.com — hosted authorization + token (Micropub / IndieAuth clients) */}
+<link rel="authorization_endpoint" href="https://indieauth.com/auth" />
+<link rel="token_endpoint" href="https://tokens.indieauth.com/token" />
+<link rel="me" href={`mailto:${siteConfig.contact.email}`} />
+
 <meta name="generator" content={Astro.generator} />
 
 <script

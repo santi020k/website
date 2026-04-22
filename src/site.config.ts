@@ -45,6 +45,7 @@ export const siteConfig: SiteConfig = {
     {
       href: 'https://api.whatsapp.com/send?phone=573507990136&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch',
       icon: 'tabler:brand-whatsapp',
+      indieAuthRelMe: false,
       label: 'WhatsApp'
     }
   ],

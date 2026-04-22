@@ -11,7 +11,7 @@ import { siteConfig } from '@/site.config'
 >
   <p class="section-label">Elsewhere</p>
   <ul class="flex flex-wrap gap-3">
-    {siteConfig.socialLinks.map(({ href, icon, label }) => (
+    {siteConfig.socialLinks.map(({ href, icon, indieAuthRelMe, label }) => (
       <li class="flex">
         <a
           class="
@@ -22,7 +22,7 @@ import { siteConfig } from '@/site.config'
             motion-reduce:hover:translate-y-0
           "
           href={href}
-          rel="noreferrer noopener"
+          rel={`noreferrer noopener ${indieAuthRelMe ? 'me' : ''}`}
           target="_blank"
         >
           <Icon aria-hidden="true" class="size-5" focusable="false" name={icon} />

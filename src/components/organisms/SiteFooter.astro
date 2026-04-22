@@ -215,7 +215,7 @@ const isLinkActive = (linkPath: string): boolean => {
       <div>
         <p class="mb-5 section-label">Connect</p>
         <ul class="space-y-2.5">
-          {siteConfig.socialLinks.map(({ href, icon, label }) => (
+          {siteConfig.socialLinks.map(({ href, icon, indieAuthRelMe, label }) => (
             <li>
               <a
                 class="
@@ -225,7 +225,7 @@ const isLinkActive = (linkPath: string): boolean => {
                   motion-reduce:transition-none
                 "
                 href={href}
-                rel="noreferrer noopener"
+                rel={`noreferrer noopener ${indieAuthRelMe ? 'me' : ''}`}
                 target="_blank"
               >
                 <Icon

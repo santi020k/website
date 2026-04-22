@@ -37,6 +37,7 @@ export interface SiteSocialLink {
   href: string
   icon: string
   label: string
+  indieAuthRelMe?: boolean
 }
 
 export interface PaginationLink {

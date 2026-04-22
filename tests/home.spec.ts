@@ -59,6 +59,26 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
   ).toHaveAttribute('href', '/')
 })
 
+test('homepage exposes IndieAuth.com discovery and rel=me on silo links', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.locator('link[rel="authorization_endpoint"]')).toHaveAttribute(
+    'href', 'https://indieauth.com/auth'
+  )
+  await expect(page.locator('link[rel="token_endpoint"]')).toHaveAttribute(
+    'href', 'https://tokens.indieauth.com/token'
+  )
+
+  const githubConnect = page.locator('footer').getByRole('link', { name: 'GitHub', exact: true })
+  const githubRel = await githubConnect.getAttribute('rel')
+  expect(githubRel?.split(/\s+/).filter(Boolean).sort()).toEqual(
+    ['me', 'noopener', 'noreferrer'].sort()
+  )
+
+  const whatsappConnect = page.locator('footer').getByRole('link', { name: 'WhatsApp', exact: true })
+  await expect(whatsappConnect).toHaveAttribute('rel', 'noreferrer noopener')
+})
+
 test('keyboard / opens site search dialog', async ({ page }) => {
   await page.goto('/')
   await page.keyboard.press('/')
