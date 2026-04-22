@@ -6,7 +6,8 @@ import ContactSection from '@/components/molecules/ContactSection.astro'
 
 import { version } from '../../../package.json'
 
-import LogoMark from '@/assets/logo.webp'
+import LogoMarkDark from '@/assets/logo-dark.webp'
+import LogoMarkLight from '@/assets/logo-light.webp'
 import { menuLinks, siteConfig } from '@/site.config'
 
 const year = new Date().getFullYear()
@@ -103,12 +104,27 @@ const isLinkActive = (linkPath: string): boolean => {
         >
           <Picture
             alt="Santi020k"
-            class="aspect-933/147 h-8 w-auto object-contain"
+            class="
+              aspect-933/147 h-8 w-auto object-contain
+              dark:hidden
+            "
+            densities={[1, 1.5, 2, 3]}
             formats={['avif', 'webp']}
             height={32}
-            src={LogoMark}
+            src={LogoMarkLight}
             width={203}
+          />
+          <Picture
+            alt="Santi020k"
+            class="
+              hidden aspect-933/147 h-8 w-auto object-contain
+              dark:block dark:brightness-[1.25] dark:saturate-90
+            "
             densities={[1, 1.5, 2, 3]}
+            formats={['avif', 'webp']}
+            height={32}
+            src={LogoMarkDark}
+            width={203}
           />
         </a>
 

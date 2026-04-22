@@ -6,13 +6,15 @@ import { getSocialImageURL } from '@/utils/social-image'
 
 import ErrorMonitoring from './ErrorMonitoring.astro'
 
-import LogoMark from '@/assets/logo.webp'
+import LogoMarkLight from '@/assets/logo-light.webp'
+import LogoMarkDark from '@/assets/logo-dark.webp'
 import { siteConfig } from '@/site.config'
 import type { SiteMeta } from '@/types/site'
 import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
 
-const logoAvif = await getImage({ src: LogoMark, format: 'avif', width: 99, height: 36 })
+const logoLightAvif = await getImage({ src: LogoMarkLight, format: 'avif', width: 228, height: 36 })
+const logoDarkAvif = await getImage({ src: LogoMarkDark, format: 'avif', width: 228, height: 36 })
 
 type Props = SiteMeta
 
@@ -80,7 +82,8 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <link rel="manifest" href="/manifest.webmanifest" />
 <link rel="preload" href="/fonts/montserrat-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
 {/* Preload the header logo — it's the LCP element on every page */}
-<link rel="preload" as="image" href={logoAvif.src} type="image/avif" fetchpriority="high" />
+<link rel="preload" as="image" href={logoLightAvif.src} type="image/avif" fetchpriority="high" media="(prefers-color-scheme: light)" />
+<link rel="preload" as="image" href={logoDarkAvif.src} type="image/avif" fetchpriority="high" media="(prefers-color-scheme: dark)" />
 {
   preloadImage && (
     <link
