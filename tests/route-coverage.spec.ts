@@ -1,12 +1,13 @@
+/* eslint-disable func-style */
 import { expect, test } from '@playwright/test'
 
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
 
-const assertArray = (value: unknown): asserts value is unknown[] => {
+function assertArray(value: unknown): asserts value is unknown[] {
   if (!Array.isArray(value)) throw new Error('Expected payload to be an array')
 }
 
-const assertRecord = (value: unknown): asserts value is Record<string, unknown> => {
+function assertRecord(value: unknown): asserts value is Record<string, unknown> {
   if (!isRecord(value)) throw new Error('Expected payload item to be an object')
 }
 
