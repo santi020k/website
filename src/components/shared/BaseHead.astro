@@ -6,8 +6,8 @@ import { getSocialImageURL } from '@/utils/social-image'
 
 import ErrorMonitoring from './ErrorMonitoring.astro'
 
-import LogoMarkLight from '@/assets/logo-light.webp'
-import LogoMarkDark from '@/assets/logo-dark.webp'
+import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
+import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
 import { siteConfig } from '@/site.config'
 import type { SiteMeta } from '@/types/site'
 import Analytics from '@vercel/analytics/astro'
@@ -211,7 +211,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
     url: Astro.site?.href,
     logo: {
       '@type': 'ImageObject',
-      url: `${Astro.site?.href ?? 'https://santi020k.com/'}logo-square.webp`,
+      url: `${Astro.site?.href ?? 'https://santi020k.com/'}logos/logo-square.webp`,
       width: 512,
       height: 512
     },

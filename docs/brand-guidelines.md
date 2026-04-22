@@ -85,7 +85,7 @@ The logo is a custom SVG wordmark — a stylised "S2K" letterform representing t
 
 | Property | Wordmark (Primary) | Icon (Square) |
 | :---------------- | :------------------ | :-------------- |
-| **Source file** | `src/assets/logo.webp` | `src/assets/logo-square.webp` |
+| **Source file** | `src/assets/brand/logos/logo-santi020k.webp` | `public/logos/logo-square.webp` |
 | **Primary format** | WebP | WebP |
 | **Aspect Ratio** | 6.34:1 | 1.43:1 |
 | **Rendered size** | `width="228" height="36"` | `width="32" height="32"` |
@@ -273,7 +273,7 @@ Custom `--container-*` values in `@theme` override Tailwind defaults for tighter
 
 | Asset | Source path | Usage |
 | :----------- | :---------- | :---- |
-| Logo | `src/assets/logo.webp` | Site identity |
+| Logo | `src/assets/brand/logos/logo-santi020k.webp` | Site identity |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and author attribution |
 | Default OG image | `public/default.webp` | Social share fallback |
 | Favicon | `public/favicon.svg` | Browser icon (square wrapper for logo.webp) |
@@ -705,7 +705,7 @@ All internal links use trailing slashes.
 
 | ✅ Do | ❌ Don't |
 | :------- | :------- |
-| Use the logo WebP from `src/assets/logo.webp` | Use the old SVG files |
+| Use the logo WebP from `src/assets/brand/logos/logo-santi020k.webp` | Use the old SVG files |
 | Reference colors via semantic CSS custom properties | Hardcode hex or HSL values in components |
 | Define new tokens in `src/styles/global.css` `@theme` | Add one-off inline color values |
 | Verify contrast ratios before shipping any new color pair | Assume a color combination is accessible |
@@ -745,7 +745,7 @@ All internal links use trailing slashes.
 
 | Asset | Path | Notes |
 | :--------------- | :-------------------------------- | :------------------------------ |
-| Logo (WebP) | `src/assets/logo.webp` | 6.34:1 aspect ratio |
+| Logo (WebP) | `src/assets/brand/logos/logo-santi020k.webp` | 6.34:1 aspect ratio |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and about sections |
 | Default OG image | `public/default.webp` | Served statically |
 | Favicon | `public/favicon.svg` | Square wrapper for branding |
