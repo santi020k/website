@@ -6,10 +6,11 @@ const CORE_ROUTES = [
   '/offline/',
   '/manifest.webmanifest',
   '/favicon.svg',
-  '/favicon.png',
+  '/favicon.webp',
+  '/apple-touch-icon.webp',
   '/apple-touch-icon.png',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/icons/icon-192.webp',
+  '/icons/icon-512.webp'
 ]
 
 self.addEventListener('install', event => {
