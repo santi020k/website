@@ -22,7 +22,7 @@ import { siteConfig } from '@/site.config'
             motion-reduce:hover:translate-y-0
           "
           href={href}
-          rel={`noreferrer noopener ${indieAuthRelMe ? 'me' : ''}`}
+          rel={`noreferrer noopener ${indieAuthRelMe === false ? '' : 'me'}`}
           target="_blank"
         >
           <Icon aria-hidden="true" class="size-5" focusable="false" name={icon} />
