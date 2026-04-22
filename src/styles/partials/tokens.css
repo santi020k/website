@@ -21,7 +21,8 @@
   --ink-soft: 268 8% 36%;
   --ink-muted: 268 6% 28%;
   /* Brand sampled from dark / high-chroma regions of light logo assets (~267°). */
-  --brand: 267 77% 42%;
+  /* Dark enough for white text on filled buttons at ~14px (WCAG AA 4.5:1). */
+  --brand: 267 77% 37%;
   --brand-soft: 267 52% 94%;
   --accent: 267 82% 52%;
   --glow: 268 88% 70%;
