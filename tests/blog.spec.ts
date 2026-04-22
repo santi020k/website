@@ -31,7 +31,7 @@ test.describe('Blog page', () => {
     await page.goto('/blog/')
 
     await page.getByRole('button', { name: 'Open site search' }).click()
-    const input = page.getByPlaceholder('Search by title, tag, or keyword...')
+    const input = page.getByPlaceholder('Search by title, tag, or keyword…')
     await input.fill('eslint')
 
     const results = page.locator('#site-search-results li a')
