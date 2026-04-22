@@ -34,7 +34,12 @@ export default [
           '^grid-fade$',
           '^panel-surface$',
           '^prose-shell$',
-          '^animate-spring-up-lcp$'
+          '^animate-spring-up-lcp$',
+          '^border-brand-solid$',
+          '^bg-brand-solid$',
+          '^hover:bg-brand-solid/92$',
+          '^hover:border-brand-solid/35$',
+          '^hover:bg-brand-solid$'
         ]
       }
     }
