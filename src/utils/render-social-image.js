@@ -6,15 +6,70 @@ import sharp from 'sharp'
 
 import { Resvg } from '@resvg/resvg-js'
 
+/**
+ * HSL (hue 0–360, saturation and lightness 0–100) to sRGB 0–255.
+ * Matches CSS `hsl()` rounding for values in `src/styles/partials/tokens.css`
+ * (`:root` / `[data-theme="light"]`). Keep tuples in sync when tokens change.
+ */
+const hslToRgb = (h, s, l) => {
+  s /= 100
+  l /= 100
+  const a = s * Math.min(l, 1 - l)
+  const f = n => {
+    const k = (n + h / 30) % 12
+    return Math.round(255 * (l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)))
+  }
+
+  return { r: f(0), g: f(8), b: f(4) }
+}
+
+const rgbToHex = ({ r, g, b }) =>
+  `#${[r, g, b].map(v => v.toString(16).padStart(2, '0')).join('')}`
+
+/** Light-mode design tokens (same HSL components as tokens.css). */
+const LIGHT = {
+  themeBg: [268, 20, 98],
+  surfaceMuted: [268, 20, 96],
+  ink: [268, 10, 20],
+  inkSoft: [268, 8, 36],
+  inkMuted: [268, 6, 28],
+  brand: [267, 77, 42],
+  accent: [267, 82, 52],
+  glow: [268, 88, 70],
+  brandSoft: [267, 52, 94]
+}
+
+/** Dark `--surface` — letterboxing for cover `object-fit: contain`. */
+const COVER_LETTERBOX_HSL = [277, 20, 14]
+
+const OG_BRAND = hslToRgb(...LIGHT.brand)
+const OG_ACCENT = hslToRgb(...LIGHT.accent)
+const OG_GLOW = hslToRgb(...LIGHT.glow)
+const OG_INK = hslToRgb(...LIGHT.ink)
+const OG_INK_SOFT = hslToRgb(...LIGHT.inkSoft)
+const OG_INK_MUTED = hslToRgb(...LIGHT.inkMuted)
+const OG_THEME_BG = hslToRgb(...LIGHT.themeBg)
+const OG_SURFACE_MUTED = hslToRgb(...LIGHT.surfaceMuted)
+const OG_BRAND_SOFT = hslToRgb(...LIGHT.brandSoft)
+const OG_COVER_PAD = hslToRgb(...COVER_LETTERBOX_HSL)
+
+const HEX_BRAND = rgbToHex(OG_BRAND)
+const HEX_ACCENT = rgbToHex(OG_ACCENT)
+const HEX_INK = rgbToHex(OG_INK)
+const HEX_INK_SOFT = rgbToHex(OG_INK_SOFT)
+const HEX_INK_MUTED = rgbToHex(OG_INK_MUTED)
+const HEX_THEME_BG = rgbToHex(OG_THEME_BG)
+const HEX_SURFACE_MUTED = rgbToHex(OG_SURFACE_MUTED)
+const HEX_COVER_PAD = rgbToHex(OG_COVER_PAD)
+
+const ogRgba = ({ r, g, b }, a) => `rgba(${r}, ${g}, ${b}, ${a})`
+
 const fontRegular = fs.readFileSync(path.resolve(process.cwd(), 'public/fonts/Montserrat-Regular.ttf'))
 const fontBold = fs.readFileSync(path.resolve(process.cwd(), 'public/fonts/Montserrat-ExtraBold.ttf'))
 const logoBase64 = (await sharp(path.resolve(process.cwd(), 'public/logo.webp')).png().toBuffer()).toString('base64')
 const logoDataURI = `data:image/png;base64,${logoBase64}`
 const COVER_FRAME_WIDTH = 348
 const COVER_FRAME_HEIGHT = 220
-const OG_BRAND = { r: 99, g: 25, b: 190 }
-const OG_GLOW = { r: 174, g: 111, b: 246 }
-const ogRgba = ({ r, g, b }, a) => `rgba(${r}, ${g}, ${b}, ${a})`
 
 const escapeHTML = value => value
   .replaceAll('&', '&amp;')
@@ -65,7 +120,7 @@ const getCoverImageDataURI = async coverImagePath => {
   const coverBase64 = (await sharp(coverImagePath)
     .rotate()
     .resize(COVER_FRAME_WIDTH * 2, COVER_FRAME_HEIGHT * 2, {
-      background: '#140f1e',
+      background: HEX_COVER_PAD,
       fit: 'contain'
     })
     .jpeg({
@@ -129,7 +184,7 @@ export const renderSocialImage = async ({
             font-weight: 900;
             line-height: 1.06;
             letter-spacing: -0.04em;
-            color: #1a1228;
+            color: ${HEX_INK};
           ">
             ${escapeHTML(title)}
           </h1>
@@ -143,7 +198,7 @@ export const renderSocialImage = async ({
           border-radius: 30px;
           padding: 10px;
           background: linear-gradient(145deg, ${ogRgba(OG_BRAND, 0.24)} 0%, ${ogRgba(OG_GLOW, 0.08)} 100%);
-          box-shadow: 0 24px 54px rgba(35, 27, 48, 0.16);
+          box-shadow: 0 24px 54px ${ogRgba(OG_INK, 0.16)};
         ">
           <div style="
             display: flex;
@@ -152,7 +207,7 @@ export const renderSocialImage = async ({
             height: 100%;
             overflow: hidden;
             border-radius: 22px;
-            background: #140f1e;
+            background: ${HEX_COVER_PAD};
           ">
             <img
               src="${coverImageDataURI}"
@@ -183,7 +238,7 @@ export const renderSocialImage = async ({
           font-weight: 900;
           line-height: 1.06;
           letter-spacing: -0.04em;
-          color: #1a1228;
+          color: ${HEX_INK};
         ">
           ${escapeHTML(title)}
         </h1>
@@ -201,9 +256,9 @@ export const renderSocialImage = async ({
       background:
         linear-gradient(90deg, ${ogRgba(OG_BRAND, 0.05)} 1px, transparent 1px),
         linear-gradient(${ogRgba(OG_BRAND, 0.05)} 1px, transparent 1px),
-        linear-gradient(180deg, #fbf9fd 0%, #f4effb 100%);
+        linear-gradient(180deg, ${HEX_THEME_BG} 0%, ${HEX_SURFACE_MUTED} 100%);
       background-size: 96px 96px, 96px 96px, cover;
-      color: #231b30;
+      color: ${HEX_INK};
       font-family: 'Montserrat', sans-serif;
     ">
       <!-- Decorative blobs -->
@@ -236,10 +291,10 @@ export const renderSocialImage = async ({
         justify-content: space-between;
         border-radius: 36px;
         padding: 50px 56px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(249, 245, 252, 0.94) 100%);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, ${ogRgba(OG_BRAND_SOFT, 0.94)} 100%);
         border: 1px solid ${ogRgba(OG_BRAND, 0.14)};
         box-shadow:
-          0 22px 50px rgba(35, 27, 48, 0.08),
+          0 22px 50px ${ogRgba(OG_INK, 0.08)},
           inset 0 1px 0 rgba(255, 255, 255, 0.9);
       ">
 
@@ -262,13 +317,13 @@ export const renderSocialImage = async ({
                 width: 56px;
                 height: 4px;
                 border-radius: 999px;
-                background: linear-gradient(90deg, #6319be 0%, #7b20e9 100%);
+                background: linear-gradient(90deg, ${HEX_BRAND} 0%, ${HEX_ACCENT} 100%);
               "></div>
               <span style="
                 display: flex;
                 font-size: 18px;
                 font-weight: 700;
-                color: #6b4d7a;
+                color: ${HEX_INK_SOFT};
                 letter-spacing: 0.1em;
                 text-transform: uppercase;
               ">
@@ -292,7 +347,7 @@ export const renderSocialImage = async ({
               font-weight: 800;
               letter-spacing: 0.2em;
               text-transform: uppercase;
-              color: #6319be;
+              color: ${HEX_BRAND};
             ">
               ${escapeHTML(type)}
             </span>
@@ -317,7 +372,7 @@ export const renderSocialImage = async ({
             flex: 1;
             font-size: 22px;
             font-weight: 400;
-            color: #6b4d7a;
+            color: ${HEX_INK_SOFT};
             line-height: 1;
             max-width: ${hasCoverImage ? 640 : 860}px;
           ">
@@ -327,7 +382,7 @@ export const renderSocialImage = async ({
             display: flex;
             font-size: 18px;
             font-weight: 700;
-            color: #9d7ab8;
+            color: ${HEX_INK_MUTED};
             white-space: nowrap;
             letter-spacing: 0.04em;
           ">

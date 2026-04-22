@@ -1,6 +1,6 @@
 # Santi020k — Brand Guidelines
 
-**Version:** 2.3 · **Last updated:** April 2026 · **Owner:** Santiago Molina (@santi020k)
+**Version:** 2.4 · **Last updated:** April 2026 · **Owner:** Santiago Molina (@santi020k)
 
 > Single source of truth for the visual identity, voice, and implementation standards of the personal website and all related materials. Keep this document up to date whenever design tokens, components, or brand direction change.
 
@@ -50,30 +50,30 @@ These `.claude/skills/` documents expand on specific areas of this guide:
 | **Name** | Santi020k |
 | **Full name** | Santiago Molina |
 | **Handle** | @santi020k |
-| **Role** | Seasoned Full Stack Developer and Tech Lead |
-| **Experience** | 12+ years — React, React Native, Node.js, TypeScript |
-| **Specialisation** | Front-end architecture and UI/UX experiences |
+| **Role** | Engineering Leader & Full-Stack Architect |
+| **Experience** | 12+ years — React, TypeScript, Architecture, Automation |
+| **Specialisation** | Resilient systems, technical leadership, and developer experience |
 | **Location** | Medellín, Colombia · Remote worldwide |
 | **Contact** | [hi@santi020k.com](mailto:hi@santi020k.com) |
 | **Profiles** | [LinkedIn](https://linkedin.com/in/santi020k) · [GitHub](https://github.com/santi020k) · [Medium](https://medium.com/@santi020k) |
-| **Availability** | Open to senior frontend, full stack, and tech lead roles |
+| **Availability** | Open to tech lead, full-stack, and engineering leadership roles |
 
 ### Personality
 
-The brand sits at the intersection of technical depth and human approachability — a senior developer who shares what they know without ego.
+The brand sits at the intersection of technical depth and human approachability — a senior developer and leader who shares what they know without ego, focusing on calm systems and clear delivery.
 
 | Attribute | Description |
 | :-------- | :---------- |
-| **Approachable** | Personal and first-person in tone. "Senior developer sharing what they know" — not corporate marketing speak. |
+| **Approachable** | Personal and direct in tone. "Engineering leader sharing what they know" — not corporate marketing speak. |
 | **Modern** | Current with web standards. The stack choices (Astro, Alpine.js, Tailwind v4) reflect this deliberately. |
 
 ### Target Audience
 
-Developers, potential collaborators, recruiters, and the broader web and open-source community.
+Developers, potential collaborators, recruiters, engineering teams, and the broader web and open-source community.
 
 ### Brand Promise
 
-The site itself demonstrates the engineering values it talks about: fast, accessible, and well-crafted.
+The site itself demonstrates the engineering values it talks about: fast, accessible, resilient, and well-crafted.
 
 ---
 
@@ -124,12 +124,12 @@ Raw HSL values live on `:root` / `[data-theme="light"]` in [`src/styles/partials
 
 | Role | CSS sources | HSL (raw) | Hex (approx.) | Usage |
 | :---------- | :------------------ | :------------ | :--- | :---- |
-| Page background | `--theme-bg` → `--color-canvas` | `268 20% 98%` | `#faf9fb` | `html` / `body` background |
+| Page background | `--theme-bg` → `--color-canvas` | `268 20% 98%` | `#faf9fb` (exact) | `html` / `body` background |
 | Surfaces | `--surface`, `--surface-muted`, `--surface-strong` | see tokens file | — | Cards, panels, muted bands |
 | Borders | `--line` → `--color-line` | see tokens file | — | Dividers, outlines |
-| Headings / strong UI | `--ink` → `--color-ink` | `268 10% 20%` | — | `h1`–`h6`, strong emphasis |
-| Body / secondary text | `--ink-soft` | `268 8% 36%` | — | Paragraphs, descriptions |
-| Muted labels | `--ink-muted` | `268 6% 28%` | — | Metadata, captions |
+| Headings / strong UI | `--ink` → `--color-ink` | `268 10% 20%` | `#332e38` (approx.) | `h1`–`h6`, strong emphasis |
+| Body / secondary text | `--ink-soft` | `268 8% 36%` | `#5b5463` (approx.) | Paragraphs, descriptions |
+| Muted labels | `--ink-muted` | `268 6% 28%` | `#47434c` (approx.) | Metadata, captions |
 | Brand wash | `--brand-soft` → `--color-brand-soft` | `267 52% 94%` | — | Tinted surfaces, selections |
 | Links & interactive emphasis | `text-brand`, `hover:text-brand`, `--brand` / `--accent` | — | — | Use utilities; base `a` inherits context |
 
@@ -137,7 +137,7 @@ Raw HSL values live on `:root` / `[data-theme="light"]` in [`src/styles/partials
 
 | Role | CSS sources | HSL (raw) | Usage |
 | :---------- | :------------------ | :------------ | :---- |
-| Page background | `--theme-bg` → `--color-canvas` | `277 20% 10%` | Deep purple‑tinted canvas |
+| Page background | `--theme-bg` → `--color-canvas` | `277 20% 10%` | `#1b141f` — deep purple‑tinted canvas |
 | Surfaces | `--surface`, `--surface-muted`, `--surface-strong` | see tokens file | Elevated UI |
 | Text | `--ink`, `--ink-soft`, `--ink-muted` | see tokens file | Hierarchy |
 | Brand | `--brand`, `--accent`, `--glow`, `--brand-soft` | see Brand Primary table | Same semantics as light |
@@ -162,17 +162,6 @@ Verify all new color pairings with a contrast checker before shipping.
 
 A single variable font is used across the entire brand for consistency and performance.
 
-| Level | Font Family | Size (Desktop) | Weight | Line Height |
-| :------- | :------------ | :------------- | :----- | :---------- |
-| **Display** | Cabinet Grotesk | 64px / 4rem | 800 | 1.1 |
-| **H1** | Cabinet Grotesk | 48px / 3rem | 700 | 1.2 |
-| **H2** | Cabinet Grotesk | 32px / 2rem | 600 | 1.2 |
-| **H3** | Cabinet Grotesk | 24px / 1.5rem | 600 | 1.3 |
-| **Body (L)** | Inter | 18px / 1.125rem | 400 | 1.6 |
-| **Body (M)** | Inter | 16px / 1rem | 400 | 1.6 |
-| **Caption** | Inter | 14px / 0.875rem | 400 | 1.5 |
-| **Code** | Input Mono | 14px / 0.875rem | 400 | 1.5 |
-
 ### Typeface: Montserrat
 
 | Property | Value |
@@ -188,6 +177,17 @@ A single variable font is used across the entire brand for consistency and perfo
 Montserrat is mapped to all four Tailwind font roles to ensure visual consistency regardless of which utility is used.
 
 ### Type Scale
+
+| Level | Font Family | Size (Desktop) | Weight | Line Height |
+| :------- | :------------ | :------------- | :----- | :---------- |
+| **Display** | Montserrat | 64px / 4rem | 800 | 1.1 |
+| **H1** | Montserrat | 48px / 3rem | 700 | 1.2 |
+| **H2** | Montserrat | 32px / 2rem | 600 | 1.2 |
+| **H3** | Montserrat | 24px / 1.5rem | 600 | 1.3 |
+| **Body (L)** | Montserrat | 18px / 1.125rem | 400 | 1.6 |
+| **Body (M)** | Montserrat | 16px / 1rem | 400 | 1.6 |
+| **Caption** | Montserrat | 14px / 0.875rem | 400 | 1.5 |
+| **Code** | Montserrat (or system mono) | 14px / 0.875rem | 400 | 1.5 |
 
 |Role|HTML element|Tailwind class|Usage|
 |:-|:-|:-|:-|
@@ -349,7 +349,7 @@ Always add `aria-hidden="true"` on decorative icons. For standalone icon buttons
 
 ### Badges
 
-`Badge.astro` is the standard tag/label component. Use the named variant — never recreate badge styles inline.
+`Badge.astro` (or `Pill.astro`) is the standard tag/label component. Use the named variant — never recreate badge styles inline.
 
 | Variant | Use case |
 | :------------ | :------- |
@@ -504,9 +504,9 @@ Before shipping any interactive element, verify:
 
 ### Real Example — Homepage Hero (current)
 
-> **Hey 👋 I am Santiago Molina**
+> **Calm systems. Clear delivery.**
 >
-> Seasoned Full Stack Developer and Tech Lead with 12+ years of experience in React, React Native, Node.js, and TypeScript. I specialize in front-end architecture and crafting exceptional UI/UX experiences.
+> Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
 
 This is the reference for the right level of directness, expertise, and human warmth.
 
@@ -610,7 +610,7 @@ One primary CTA per page. Verb-first and specific.
 3. **Opinions & takes** — considered positions on tooling and patterns
 4. **Project updates** — what is being built and what is interesting about it
 
-Publishing cadence: one quality post per month is better than four rushed ones. The blog currently routes to Medium (`medium.com/@santi020k`) pending a native blog implementation.
+Publishing cadence: one quality post per month is better than four rushed ones. The blog routes to the native `/blog/` page.
 
 ---
 
@@ -678,7 +678,7 @@ pnpm run check   # Astro type-check — zero errors
 | :--------- | :--- | :----- |
 | GitHub | [github.com/santi020k](https://github.com/santi020k) | Active |
 | LinkedIn | [linkedin.com/in/santi020k](https://linkedin.com/in/santi020k) | Active |
-| Medium | [medium.com/@santi020k](https://medium.com/@santi020k) | Active (blog, temporary) |
+| Medium | [medium.com/@santi020k](https://medium.com/@santi020k) | Active (syndication) |
 | WhatsApp | Contact link via `api.whatsapp.com` | Active (contact CTA) |
 | Instagram | [instagram.com/santi020k](https://www.instagram.com/santi020k/) | Disabled |
 
@@ -690,10 +690,12 @@ All internal links use trailing slashes.
 
 | Route | Page | Notes |
 | :----------- | :------ | :---- |
-| `/` | Home | Hero + about intro |
+| `/` | Home | Hero + about intro + stats |
+| `/about/` | About | Deep dive and recommendations |
 | `/portfolio/` | Portfolio | Project showcase |
-| Blog | External Medium link | Pending native implementation |
-| Contact | WhatsApp link | No native contact form |
+| `/speaking/` | Speaking | Speaking and community topics |
+| `/blog/` | Blog | Native implementation |
+| Contact | WhatsApp/Email link | No native contact form |
 
 ---
 
@@ -758,10 +760,8 @@ All internal links use trailing slashes.
 | `src/site.config.ts` | Site-wide metadata — title, description, author, nav links |
 | `src/content.config.ts` | Content collection schemas (Zod) |
 | `src/types.ts` | Shared TypeScript types including `Badge` variants |
-| `src/components/Badge.astro` | Badge / tag component with all variants |
-| `src/components/ThemeToggle.astro` | Dark mode toggle |
-| `src/components/SocialList.astro` | Social link list (header) |
-| `src/components/SkipLink.astro` | Accessibility skip-to-content link |
+| `src/components/atoms/Pill.astro` | Pill / tag component |
+| `src/components/atoms/ThemeToggle.astro` | Dark mode toggle |
 | `src/components/layout/Header.astro` | Fixed/relative header with mobile drawer |
 | `src/components/layout/Footer.astro` | Footer with social icons and version |
 | `src/pages/og/` | Open Graph image generation (Satori) |
@@ -773,6 +773,7 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 2.4 | April 2026 | Updated brand identity and hero copy, changed blog to native route, added speaking and about routes, unified typography table to Montserrat. |
 | 2.3 | April 2026 | Light theme **brand** and neutrals returned to match refreshed light logo/icon (hue **~267°** brand, **~268°** surfaces). Updated OG image tints in `render-social-image.js`. Replaced outdated §3 semantic token tables with `tokens.css` mappings. |
 | 2.2 | April 2026 | Shifted brand chroma from blue‑violet (hue 262°) to **purple** (277° / 280° for glow). Updated tokens, OG/social image tints, project cover palette for eslint-config-santi020k, and clarified logo fill vs semantic `--brand`. |
 | 2.1 | April 2026 | Fixed logo path (`src/assets/svg/logo.svg`). Added all social channels (LinkedIn, Medium, WhatsApp). Added Tabler and Huge Icons packs. Added actual homepage copy as voice example. Added mobile drawer motion pattern. Added content width token table. Consolidated Do's & Don'ts. Added Version History and Related Skills sections. |
