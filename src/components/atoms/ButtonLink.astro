@@ -18,6 +18,12 @@ const {
   showArrow = false,
   variant = 'primary'
 } = Astro.props
+
+const typographyClass =
+  variant === 'primary' ?
+    // ≥14pt bold qualifies as “large text” (3:1) so white on dark brand passes a11y.
+    'text-[1.17rem] font-bold tracking-[0.01em]' :
+    'text-sm font-semibold tracking-[0.01em]'
 ---
 
 <a
@@ -25,12 +31,12 @@ const {
   class:list={[
     `
       group inline-flex min-h-11 cursor-pointer items-center justify-center
-      gap-2 rounded-full border text-sm font-semibold tracking-[0.01em]
-      transition duration-200
+      gap-2 rounded-full border transition duration-200
       motion-reduce:transform-none motion-reduce:transition-none
       motion-reduce:hover:translate-y-0
       motion-reduce:active:scale-100
     `,
+    typographyClass,
     variant === 'primary' && `
       border-brand bg-brand px-5 py-3 text-white
       shadow-[0_10px_24px_hsl(var(--brand)/0.14)]

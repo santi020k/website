@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest'
 
 import { renderSocialImage } from '../render-social-image.js'
 
+// Each render runs Satori + Resvg + Sharp on a 1200×630 canvas (~20s+ per call on
+// typical hardware). This test performs two full renders, so it needs a generous timeout.
 describe('renderSocialImage', () => {
   it('changes the generated card when a cover image is provided', async () => {
     const baseImage = await renderSocialImage({
@@ -25,5 +27,5 @@ describe('renderSocialImage', () => {
     expect(baseImage.equals(coverImage)).toBe(false)
     expect(metadata.width).toBe(1200)
     expect(metadata.height).toBe(630)
-  }, 15000)
+  }, 120_000)
 })
