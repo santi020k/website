@@ -41,7 +41,7 @@
     "lint:content": "node scripts/js/content-lint.mjs",
     "lint:md": "markdownlint-cli2",
     "spellcheck": "cspell --quiet \"**/*.{md,mdx}\"",
-    "ci:verify": "npm-run-all --silent --parallel spellcheck lint lint:md lint:content test:coverage build lighthouse && pnpm run test:e2e:ci:stable",
+    "ci:verify": "npm-run-all --silent --parallel spellcheck lint lint:md lint:content test:coverage build && pnpm run lighthouse && pnpm run test:e2e:ci:stable",
     "release": "commit-and-tag-version",
     "release:dry": "commit-and-tag-version --dry-run",
     "prepare": "husky",
