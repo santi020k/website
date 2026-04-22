@@ -83,14 +83,14 @@ const eyebrowLabel = tags[0] ?? 'Article'
           text-xs font-semibold tracking-[0.18em] text-ink-muted uppercase
         "
         >
-          <FormattedDate date={publishDate} />
+          <FormattedDate class="dt-published" date={publishDate} />
         </span>
       </div>
 
       <!-- Title + description -->
       <div class="space-y-4">
         <h1 class="
-          max-w-4xl text-4xl/tight font-bold
+          p-name max-w-4xl text-4xl/tight font-bold
           sm:text-5xl/tight
           lg:text-6xl/tight
         "
@@ -98,7 +98,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
           {title}
         </h1>
         <p class="
-          max-w-3xl text-lg/8 text-ink-soft
+          p-summary max-w-3xl text-lg/8 text-ink-soft
           sm:text-xl/8
         "
         >
