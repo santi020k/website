@@ -11,18 +11,20 @@
 :root,
 :root[data-theme="light"] {
   color-scheme: light;
-  --theme-bg: 277 20% 98%;
-  --surface: 277 20% 100%;
-  --surface-muted: 277 20% 96%;
-  --surface-strong: 277 15% 90%;
-  --line: 277 15% 84%;
-  --ink: 277 10% 20%;
-  --ink-soft: 277 8% 36%;
-  --ink-muted: 277 6% 28%;
-  --brand: 277 72% 38%;
-  --brand-soft: 277 55% 94%;
-  --accent: 277 80% 52%;
-  --glow: 280 90% 70%;
+  /* Neutrals: hue aligned with refreshed light logo / icon (see docs/brand-guidelines.md). */
+  --theme-bg: 268 20% 98%;
+  --surface: 268 20% 100%;
+  --surface-muted: 268 20% 96%;
+  --surface-strong: 268 15% 90%;
+  --line: 268 15% 84%;
+  --ink: 268 10% 20%;
+  --ink-soft: 268 8% 36%;
+  --ink-muted: 268 6% 28%;
+  /* Brand sampled from dark / high-chroma regions of light logo assets (~267°). */
+  --brand: 267 77% 42%;
+  --brand-soft: 267 52% 94%;
+  --accent: 267 82% 52%;
+  --glow: 268 88% 70%;
 }
 
 :root[data-theme="dark"] {
@@ -44,13 +46,13 @@
 @media (prefers-contrast: more) {
   :root,
   :root[data-theme="light"] {
-    --surface-muted: 277 18% 94%;
-    --surface-strong: 277 14% 88%;
-    --line: 277 18% 66%;
-    --ink-soft: 277 12% 24%;
-    --ink-muted: 277 10% 18%;
-    --brand: 277 76% 32%;
-    --brand-soft: 277 52% 90%;
+    --surface-muted: 268 18% 94%;
+    --surface-strong: 268 14% 88%;
+    --line: 268 18% 66%;
+    --ink-soft: 268 12% 24%;
+    --ink-muted: 268 10% 18%;
+    --brand: 267 78% 34%;
+    --brand-soft: 267 52% 90%;
   }
 
   :root[data-theme="dark"] {
