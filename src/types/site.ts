@@ -1,6 +1,6 @@
 export interface SiteNewsletter {
 
-  /** `POST` action URL, e.g. `https://buttondown.email/api/emails/embed-subscribe/yourhandle` */
+  /** `POST` action URL, e.g. `https://buttondown.com/api/emails/embed-subscribe/yourhandle` */
   formAction: string
 }
 

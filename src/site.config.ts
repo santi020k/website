@@ -24,7 +24,7 @@ export const siteConfig: SiteConfig = {
   lang: 'en-US',
   location: 'Medellin, Colombia · Remote worldwide',
   ogLocale: 'en_US',
-  newsletter: { formAction: 'https://buttondown.email/api/emails/embed-subscribe/santi020k' },
+  newsletter: { formAction: 'https://buttondown.com/api/emails/embed-subscribe/santi020k' },
   showAvailabilityBanner: false,
   socialLinks: [
     {
