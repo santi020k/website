@@ -14,11 +14,11 @@
  *  - Skips images whose output file already exists (set FORCE_OG=1 to regenerate)
  *
  * Tuning: `OG_WORKER_THREADS` caps how many worker threads are spawned (default
- * `min(8, os.availableParallelism())`).
+ * `min(16, os.availableParallelism())`).
  */
 
 import yaml from 'js-yaml'
-import fs from 'node:fs'
+import fs, { promises as fsp } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -33,14 +33,17 @@ const FORCE = process.env.FORCE_OG === '1'
 /** @returns {number} Positive worker count before clamping to job count. */
 const getConfiguredWorkerThreads = () => {
   const raw = process.env.OG_WORKER_THREADS
+
   if (raw !== undefined && raw !== '') {
     const n = Number.parseInt(raw, 10)
 
     if (Number.isFinite(n) && n > 0) return Math.min(n, 32)
   }
 
-  return Math.min(8, os.availableParallelism())
+  // Use more cores by default on modern laptops/desktops; users can still cap via OG_WORKER_THREADS.
+  return Math.min(16, os.availableParallelism())
 }
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -92,6 +95,7 @@ export const collectMarkdownFiles = dir => {
 export const getContentSlug = (filePath, baseDir) => {
   const relativePath = path.relative(baseDir, filePath).replaceAll(path.sep, '/')
   const withoutExtension = relativePath.replace(/\.mdx?$/, '')
+
   const slug = path.posix.basename(withoutExtension) === 'index' ?
     path.posix.dirname(withoutExtension) :
     withoutExtension
@@ -105,6 +109,7 @@ export const getContentSlug = (filePath, baseDir) => {
  */
 export const resolveContentImagePath = (markdownFilePath, imagePath) => {
   if (typeof imagePath !== 'string' || imagePath.length === 0) return undefined
+
   if (/^(https?:)?\/\//.test(imagePath) || imagePath.startsWith('data:')) return undefined
 
   const absolutePath = path.isAbsolute(imagePath) ?
@@ -128,6 +133,7 @@ const getCoverImagePath = (markdownFilePath, frontmatter, { preferOgImage = fals
     .map(candidate => resolveContentImagePath(markdownFilePath, candidate))
     .find(Boolean)
 }
+
 // ---------------------------------------------------------------------------
 // Collect image specs
 // ---------------------------------------------------------------------------
@@ -244,10 +250,12 @@ export const collectSpecs = () => {
     })
   }
 
-  // Projects
+  // Projects + technologies (single pass to avoid parsing frontmatter twice)
   const projectDir = path.join(ROOT, 'src', 'content', 'project')
+  const allTechnologies = new Set()
+  const projectFiles = collectMarkdownFiles(projectDir)
 
-  for (const filePath of collectMarkdownFiles(projectDir)) {
+  for (const filePath of projectFiles) {
     const fm = readFrontmatter(filePath)
 
     if (fm.draft && process.env.NODE_ENV === 'production') continue
@@ -265,6 +273,10 @@ export const collectSpecs = () => {
         type: 'Project'
       }
     })
+
+    if (Array.isArray(fm.technologies)) {
+      for (const tech of fm.technologies) allTechnologies.add(tech)
+    }
   }
 
   // Series
@@ -285,20 +297,6 @@ export const collectSpecs = () => {
         type: 'Blog Series'
       }
     })
-  }
-
-  // Technologies — derived from project frontmatter
-  const allTechnologies = new Set()
-  const projectFiles = collectMarkdownFiles(projectDir)
-
-  for (const filePath of projectFiles) {
-    const fm = readFrontmatter(filePath)
-
-    if (fm.draft && process.env.NODE_ENV === 'production') continue
-
-    if (Array.isArray(fm.technologies)) {
-      for (const tech of fm.technologies) allTechnologies.add(tech)
-    }
   }
 
   for (const tech of allTechnologies) {
@@ -341,6 +339,7 @@ class OgRenderPool {
 
     /** @type {Map<number, { resolve: (b: Buffer) => void, reject: (e: Error) => void, worker: Worker }>} */
     this.inFlight = new Map()
+
     this.nextId = 1
   }
 
@@ -349,8 +348,11 @@ class OgRenderPool {
       const w = new Worker(WORKER_SCRIPT, { type: 'module' })
 
       w.on('message', msg => this.onMessage(w, msg))
+
       w.on('error', err => this.onWorkerError(w, err))
+
       this.workers.push(w)
+
       this.available.push(w)
     }
   }
@@ -365,6 +367,7 @@ class OgRenderPool {
     if (!entry) return
 
     this.inFlight.delete(msg.id)
+
     this.available.push(worker)
 
     if (msg.ok) {
@@ -385,7 +388,9 @@ class OgRenderPool {
     for (const [id, entry] of this.inFlight) {
       if (entry.worker === worker) {
         this.inFlight.delete(id)
+
         entry.reject(err instanceof Error ? err : new Error(String(err)))
+
         break
       }
     }
@@ -406,6 +411,7 @@ class OgRenderPool {
         reject: job.reject,
         worker
       })
+
       worker.postMessage({ id, props: job.props })
     }
   }
@@ -414,13 +420,16 @@ class OgRenderPool {
   render(props) {
     return new Promise((resolve, reject) => {
       this.waiting.push({ props, resolve, reject })
+
       this.pump()
     })
   }
 
   async shutdown() {
     await Promise.all(this.workers.map(w => w.terminate()))
+
     this.workers = []
+
     this.available = []
   }
 }
@@ -430,22 +439,15 @@ class OgRenderPool {
  * @param {{ outFile: string, props: object }} spec
  */
 const generateOne = async (pool, { outFile, props }) => {
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
-  if (!FORCE && fs.existsSync(outFile)) {
-    process.stdout.write(`  skip  ${path.relative(ROOT, outFile)}\n`)
-
-    return
-  }
-
   if (!pool) throw new Error('OG render pool is not initialized')
 
   const buffer = await pool.render(props)
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  fs.mkdirSync(path.dirname(outFile), { recursive: true })
+  await fsp.mkdir(path.dirname(outFile), { recursive: true })
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  fs.writeFileSync(outFile, buffer)
+  await fsp.writeFile(outFile, buffer)
 
   process.stdout.write(`  write ${path.relative(ROOT, outFile)}\n`)
 }
@@ -457,11 +459,16 @@ const generateOne = async (pool, { outFile, props }) => {
 export const generateAll = async () => {
   const start = performance.now()
   const specs = collectSpecs()
+
+  const pendingSpecs = FORCE ?
+    specs :
+    specs.filter(s => {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      return !fs.existsSync(s.outFile)
+    })
+
   const configured = getConfiguredWorkerThreads()
-  const pendingCount = specs.filter(s => {
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    return FORCE || !fs.existsSync(s.outFile)
-  }).length
+  const pendingCount = pendingSpecs.length
   const poolSize = pendingCount === 0 ? 0 : Math.min(configured, pendingCount)
 
   /** @type {OgRenderPool | null} */
@@ -470,15 +477,18 @@ export const generateAll = async () => {
   try {
     if (poolSize > 0) {
       pool = new OgRenderPool(poolSize)
+
       await pool.start()
     }
 
     console.log(
-      `\n🖼  Generating ${specs.length} OG images (workers=${poolSize}, ` +
+      `\n🖼  Generating ${pendingCount}/${specs.length} OG images (workers=${poolSize}, ` +
       `OG_WORKER_THREADS=${process.env.OG_WORKER_THREADS ?? 'default'})…\n`
     )
 
-    await Promise.all(specs.map(spec => generateOne(pool, spec)))
+    if (pendingCount > 0) {
+      await Promise.all(pendingSpecs.map(spec => generateOne(pool, spec)))
+    }
   } finally {
     if (pool) await pool.shutdown()
   }
