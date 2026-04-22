@@ -251,7 +251,7 @@ export const renderSocialImage = async ({
           <div style="display: flex; flex-direction: column; gap: 10px;">
             <img
               src="${logoDataURI}"
-              style="display: flex; width: 200px; height: 72px;"
+              style="display: flex; width: 200px; height: 32px;"
             />
             <div style="display: flex; align-items: center; gap: 12px;">
               <div style="

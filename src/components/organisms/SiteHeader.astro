@@ -32,7 +32,7 @@ import type { SiteLink } from '@/types'
           <Picture
             alt="Santi020k"
             class="
-              aspect-11/4 h-9 w-auto object-contain transition duration-300
+              aspect-933/147 h-9 w-auto object-contain transition duration-300
               group-hover:brightness-115
               motion-reduce:transition-none
             "
@@ -41,23 +41,25 @@ import type { SiteLink } from '@/types'
             height={36}
             loading="eager"
             src={LogoMark}
-            width={99}
+            width={228}
+            densities={[1, 1.5, 2, 3]}
           />
-          <span class="
+          <!-- <span class="
             sr-only min-w-0 flex-col
             sm:not-sr-only sm:flex
           "
           >
             <span class="section-label">Santiago Molina</span>
             <span class="truncate text-xs text-ink-soft">Leadership · Automation · DX</span>
-          </span>
+          </span> -->
         </a>
 
         <nav
           aria-label="Main menu"
           class="
             hidden flex-nowrap items-center gap-0
-            lg:flex lg:gap-0.5 xl:gap-1
+            lg:flex lg:gap-0.5
+            xl:gap-1
           "
         >
           {
@@ -71,17 +73,18 @@ import type { SiteLink } from '@/types'
                   aria-current={isActive ? 'page' : undefined}
                   class:list={[
                     `
-                      relative inline-flex min-h-11 shrink-0 items-center gap-1.5
-                      px-2 py-2 whitespace-nowrap text-sm font-medium
-                      lg:px-2 xl:px-3
+                      relative inline-flex min-h-11 shrink-0 items-center
+                      gap-1.5 p-2 text-sm font-medium whitespace-nowrap
                       transition-colors duration-200
                       after:absolute after:inset-x-2 after:bottom-1.5 after:h-px
-                      xl:after:inset-x-3
                       after:origin-left after:scale-x-0 after:bg-brand
                       after:transition-transform after:duration-200
                       after:ease-out
                       motion-reduce:transition-none
                       motion-reduce:after:transition-none
+                      lg:px-2
+                      xl:px-3
+                      xl:after:inset-x-3
                     `,
                     isActive ?
                       `

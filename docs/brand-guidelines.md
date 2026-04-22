@@ -87,8 +87,8 @@ The logo is a custom SVG wordmark — a stylised "S2K" letterform representing t
 | :---------------- | :------------------ | :-------------- |
 | **Source file** | `src/assets/logo.webp` | `src/assets/logo-square.webp` |
 | **Primary format** | WebP | WebP |
-| **Aspect Ratio** | 11:4 | 1:1 |
-| **Rendered size** | `width="140" height="51"` | `width="32" height="32"` |
+| **Aspect Ratio** | 6.34:1 | 1.43:1 |
+| **Rendered size** | `width="228" height="36"` | `width="32" height="32"` |
 | **Primary Use** | Headers, Mastheads | Favicons, Manifest, App Icons |
 
 ### Usage Rules
@@ -751,7 +751,7 @@ All internal links use trailing slashes.
 
 | Asset | Path | Notes |
 | :--------------- | :-------------------------------- | :------------------------------ |
-| Logo (WebP) | `src/assets/logo.webp` | 11:4 aspect ratio |
+| Logo (WebP) | `src/assets/logo.webp` | 6.34:1 aspect ratio |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and about sections |
 | Default OG image | `public/default.webp` | Served statically |
 | Favicon | `public/favicon.svg` | Square wrapper for branding |

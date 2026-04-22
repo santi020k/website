@@ -4,7 +4,7 @@ import sharp from 'sharp'
 
 const publicDir = new URL('../../public/', import.meta.url)
 const publicDirPath = fileURLToPath(publicDir)
-const wordmarkPath = fileURLToPath(new URL('../../public/logo.webp', import.meta.url))
+const wordmarkPath = fileURLToPath(new URL('../../public/logo-square.webp', import.meta.url))
 const faviconSourcePath = fileURLToPath(new URL('favicon-source.png', publicDir))
 const faviconSvgPath = fileURLToPath(new URL('favicon.svg', publicDir))
 
@@ -34,7 +34,7 @@ const renderSourceIcon = async () => {
   // Use the full S2K wordmark so the favicon feels like the brand, not a crop fragment.
   const wordmark = await sharp(wordmarkPath)
     .trim()
-    .resize(392, 192, {
+    .resize(320, 320, {
       fit: 'contain',
       background: { r: 0, g: 0, b: 0, alpha: 0 }
     })
