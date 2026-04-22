@@ -12,6 +12,9 @@ const logoBase64 = (await sharp(path.resolve(process.cwd(), 'public/logo.webp'))
 const logoDataURI = `data:image/png;base64,${logoBase64}`
 const COVER_FRAME_WIDTH = 348
 const COVER_FRAME_HEIGHT = 220
+const OG_BRAND = { r: 99, g: 25, b: 190 }
+const OG_GLOW = { r: 174, g: 111, b: 246 }
+const ogRgba = ({ r, g, b }, a) => `rgba(${r}, ${g}, ${b}, ${a})`
 
 const escapeHTML = value => value
   .replaceAll('&', '&amp;')
@@ -116,7 +119,7 @@ export const renderSocialImage = async ({
             width: 140px;
             height: 10px;
             border-radius: 999px;
-            background: linear-gradient(90deg, rgba(88, 28, 135, 0.16) 0%, rgba(168, 85, 247, 0.02) 100%);
+            background: linear-gradient(90deg, ${ogRgba(OG_BRAND, 0.16)} 0%, ${ogRgba(OG_GLOW, 0.02)} 100%);
           "></div>
           <h1 style="
             display: flex;
@@ -139,7 +142,7 @@ export const renderSocialImage = async ({
           flex-shrink: 0;
           border-radius: 30px;
           padding: 10px;
-          background: linear-gradient(145deg, rgba(88, 28, 135, 0.24) 0%, rgba(168, 85, 247, 0.08) 100%);
+          background: linear-gradient(145deg, ${ogRgba(OG_BRAND, 0.24)} 0%, ${ogRgba(OG_GLOW, 0.08)} 100%);
           box-shadow: 0 24px 54px rgba(35, 27, 48, 0.16);
         ">
           <div style="
@@ -196,8 +199,8 @@ export const renderSocialImage = async ({
       overflow: hidden;
       padding: 34px;
       background:
-        linear-gradient(90deg, rgba(88, 28, 135, 0.05) 1px, transparent 1px),
-        linear-gradient(rgba(88, 28, 135, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, ${ogRgba(OG_BRAND, 0.05)} 1px, transparent 1px),
+        linear-gradient(${ogRgba(OG_BRAND, 0.05)} 1px, transparent 1px),
         linear-gradient(180deg, #fbf9fd 0%, #f4effb 100%);
       background-size: 96px 96px, 96px 96px, cover;
       color: #231b30;
@@ -212,7 +215,7 @@ export const renderSocialImage = async ({
         width: 400px;
         height: 400px;
         border-radius: 999px;
-        background: radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(168, 85, 247, 0) 70%);
+        background: radial-gradient(circle, ${ogRgba(OG_GLOW, 0.22)} 0%, ${ogRgba(OG_GLOW, 0)} 70%);
       "></div>
       <div style="
         display: flex;
@@ -222,7 +225,7 @@ export const renderSocialImage = async ({
         width: 420px;
         height: 420px;
         border-radius: 999px;
-        background: radial-gradient(circle, rgba(88, 28, 135, 0.16) 0%, rgba(88, 28, 135, 0) 70%);
+        background: radial-gradient(circle, ${ogRgba(OG_BRAND, 0.16)} 0%, ${ogRgba(OG_BRAND, 0)} 70%);
       "></div>
 
       <!-- Card -->
@@ -234,7 +237,7 @@ export const renderSocialImage = async ({
         border-radius: 36px;
         padding: 50px 56px;
         background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(249, 245, 252, 0.94) 100%);
-        border: 1px solid rgba(88, 28, 135, 0.14);
+        border: 1px solid ${ogRgba(OG_BRAND, 0.14)};
         box-shadow:
           0 22px 50px rgba(35, 27, 48, 0.08),
           inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -259,7 +262,7 @@ export const renderSocialImage = async ({
                 width: 56px;
                 height: 4px;
                 border-radius: 999px;
-                background: linear-gradient(90deg, #581c87 0%, #9333ea 100%);
+                background: linear-gradient(90deg, #6319be 0%, #7b20e9 100%);
               "></div>
               <span style="
                 display: flex;
@@ -280,8 +283,8 @@ export const renderSocialImage = async ({
             align-items: center;
             border-radius: 999px;
             padding: 14px 24px;
-            background: rgba(88, 28, 135, 0.08);
-            border: 1px solid rgba(88, 28, 135, 0.16);
+            background: ${ogRgba(OG_BRAND, 0.08)};
+            border: 1px solid ${ogRgba(OG_BRAND, 0.16)};
           ">
             <span style="
               display: flex;
@@ -289,7 +292,7 @@ export const renderSocialImage = async ({
               font-weight: 800;
               letter-spacing: 0.2em;
               text-transform: uppercase;
-              color: #7e22ce;
+              color: #6319be;
             ">
               ${escapeHTML(type)}
             </span>
@@ -307,7 +310,7 @@ export const renderSocialImage = async ({
           gap: 32px;
           width: 100%;
           padding-top: 22px;
-          border-top: 1px solid rgba(88, 28, 135, 0.10);
+          border-top: 1px solid ${ogRgba(OG_BRAND, 0.1)};
         ">
           <span style="
             display: flex;

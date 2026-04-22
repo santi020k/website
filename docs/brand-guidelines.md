@@ -1,6 +1,6 @@
 # Santi020k — Brand Guidelines
 
-**Version:** 2.2 · **Last updated:** April 2026 · **Owner:** Santiago Molina (@santi020k)
+**Version:** 2.3 · **Last updated:** April 2026 · **Owner:** Santiago Molina (@santi020k)
 
 > Single source of truth for the visual identity, voice, and implementation standards of the personal website and all related materials. Keep this document up to date whenever design tokens, components, or brand direction change.
 
@@ -99,14 +99,14 @@ The logo is a custom SVG wordmark — a stylised "S2K" letterform representing t
 | Place on white, light, or dark backgrounds | Place on mid-tone backgrounds that reduce contrast |
 | Scale proportionally with `width` and `height` attributes | Stretch, rotate, or distort |
 | Maintain clear space on all sides | Crop or crowd the mark |
-| Keep the logo fill aligned with brand purple (`--color-brand`, approx. `#711ba7` in light / `#af55e7` in dark) | Recolor to unrelated hues (e.g. blue or orange) |
+| Keep the logo fill aligned with brand purple (`--color-brand`, approx. `#6319be` in light / `#af55e7` in dark) | Recolor to unrelated hues (e.g. blue or orange) |
 | Wrap in an `<a>` with `aria-label` when used as a home link | Add drop shadows, borders, or glows |
 
 ---
 
 ## 3. Color System
 
-The palette is fully adaptive between **Light** and **Dark** modes, toggled via `data-theme` on `<html>`. Neutrals use a subtle **purple** tint (hue **277°**) so surfaces and ink feel cohesive with the brand; accent tables below still list legacy teal/coral semantics where those tokens apply to specific UI. All color tokens are defined in `src/styles/partials/tokens.css` (imported from `src/styles/global.css`).
+The palette is fully adaptive between **Light** and **Dark** modes, toggled via `data-theme` on `<html>`. In **light** mode, neutrals use a subtle purple tint (hue **~268°**) and brand purple is aligned with the refreshed light logo and icon (hue **~267°**). **Dark** mode keeps the existing purple system (hue **277°** for neutrals and brand). All color tokens are defined in `src/styles/partials/tokens.css` (imported from `src/styles/global.css`).
 
 **Rule:** Always use semantic CSS custom property tokens in components — never hardcode hex or raw HSL values.
 
@@ -114,45 +114,37 @@ The palette is fully adaptive between **Light** and **Dark** modes, toggled via 
 
 | Tone | Token | HSL (raw) | Hex (approx.) | Usage |
 | :------- | :----------- | :------ | :-------- | :----------- |
-| **Purple** | `--brand` | `277 72% 38%` (light) / `277 75% 62%` (dark) | `#711ba7` / `#af55e7` | Logo, CTAs, highlights — red‑biased purple, not blue‑violet |
-| **Accent** | `--accent` | `277 80% 52%` (light) / `277 82% 72%` (dark) | `#9b23e7` / `#c57df2` | Hovers, active states |
-| **Glow** | `--glow` | `280 90% 70%` (light) / `280 85% 68%` (dark) | `#c96ef7` / `#c568f3` | Background gradients, hero washes |
+| **Purple** | `--brand` | `267 77% 42%` (light) / `277 75% 62%` (dark) | `#6319be` / `#af55e7` | Logo, CTAs, highlights — red‑biased purple |
+| **Accent** | `--accent` | `267 82% 52%` (light) / `277 82% 72%` (dark) | `#7b20e9` / `#c57df2` | Hovers, active states |
+| **Glow** | `--glow` | `268 88% 70%` (light) / `280 85% 68%` (dark) | `#ae6ff6` / `#c568f3` | Background gradients, hero washes |
 
 ### Semantic Tokens — Light Mode
 
-| Token name | CSS custom property | Hex (approx.) | HSL | Usage |
+Raw HSL values live on `:root` / `[data-theme="light"]` in [`src/styles/partials/tokens.css`](../src/styles/partials/tokens.css). Tailwind maps them under `@theme` (for example `--color-canvas`, `--color-brand`).
+
+| Role | CSS sources | HSL (raw) | Hex (approx.) | Usage |
 | :---------- | :------------------ | :------------ | :--- | :---- |
-| Background | `--color-bgColor` | `#F3F5F5` | `hsl(200, 10%, 96%)` | Page background |
-| Body text | `--color-textColor` | — | `hsl(200, 10%, 9%) / 60%` | Paragraphs, UI labels |
-| Accent Base | `--color-accent-base` | `#205169` | `hsl(200, 53%, 27%)` | Buttons, active states |
-| Accent One | `--color-accent-one` | `#205169` | `hsl(200, 53%, 27%)` | Primary interactive elements |
-| Accent Two | `--color-accent-two` | `#CB2A42` | `hsl(351, 66%, 48%)` | Tags, secondary highlights |
-| Link | `--color-link` | `#02699C` | `hsl(200, 97%, 31%)` | Inline text links |
-| Text highlight | *(inline)* | `#C1D4DA` | — | Hero text underline highlight |
+| Page background | `--theme-bg` → `--color-canvas` | `268 20% 98%` | `#faf9fb` | `html` / `body` background |
+| Surfaces | `--surface`, `--surface-muted`, `--surface-strong` | see tokens file | — | Cards, panels, muted bands |
+| Borders | `--line` → `--color-line` | see tokens file | — | Dividers, outlines |
+| Headings / strong UI | `--ink` → `--color-ink` | `268 10% 20%` | — | `h1`–`h6`, strong emphasis |
+| Body / secondary text | `--ink-soft` | `268 8% 36%` | — | Paragraphs, descriptions |
+| Muted labels | `--ink-muted` | `268 6% 28%` | — | Metadata, captions |
+| Brand wash | `--brand-soft` → `--color-brand-soft` | `267 52% 94%` | — | Tinted surfaces, selections |
+| Links & interactive emphasis | `text-brand`, `hover:text-brand`, `--brand` / `--accent` | — | — | Use utilities; base `a` inherits context |
 
 ### Semantic Tokens — Dark Mode
 
-| Token name | CSS custom property | Hex (approx.) | HSL | Usage |
-| :---------- | :------------------ | :------------ | :--- | :---- |
-| Background | `--color-bgColor` | `#01161C` | `hsl(200, 93%, 10%)` | Page background |
-| Body text | `--color-textColor` | — | `hsl(200, 53%, 98%) / 60%` | Paragraphs, UI labels |
-| Accent One | `--color-accent-one` | `#E5DDB3` | `hsl(50, 49%, 80%)` | Primary interactive elements |
-| Accent Two | `--color-accent-two` | `#D4AA40` | `hsl(50, 72%, 63%)` | Tags, secondary highlights |
-| Link | `--color-link` | `#73B8D4` | `hsl(200, 61%, 71%)` | Inline text links |
-| Text highlight | *(inline)* | `#007980` | — | Hero text underline highlight |
+| Role | CSS sources | HSL (raw) | Usage |
+| :---------- | :------------------ | :------------ | :---- |
+| Page background | `--theme-bg` → `--color-canvas` | `277 20% 10%` | Deep purple‑tinted canvas |
+| Surfaces | `--surface`, `--surface-muted`, `--surface-strong` | see tokens file | Elevated UI |
+| Text | `--ink`, `--ink-soft`, `--ink-muted` | see tokens file | Hierarchy |
+| Brand | `--brand`, `--accent`, `--glow`, `--brand-soft` | see Brand Primary table | Same semantics as light |
 
-### Opacity Scale
+### Opacity and overlays
 
-The full scale (`--theme-color-50` → `--theme-color-900`) derives from the foreground hue at stepped opacity levels. Reference via Tailwind utilities (`bg-color-150`, `text-color-500`, etc.).
-
-| Token | Opacity | Typical use |
-| :---- | :------ | :---------- |
-| `--color-color-900` | 100% | Headings, strong UI elements |
-| `--color-color-600` | ~74% | Accent color default (`--color-accent`) |
-| `--color-color-500` | ~60% | Body text (`--color-textColor`) |
-| `--color-color-350` | ~29% | Borders, dividers |
-| `--color-color-150` | ~8% | Subtle surfaces and backgrounds |
-| `--color-color-75` | ~3% | Hover surfaces |
+Use semantic tokens first. For translucent brand or border effects, prefer Tailwind opacity modifiers on those tokens (for example `border-brand/25`, `bg-brand/10`, `text-ink-soft`) rather than ad hoc hex values.
 
 ### Contrast Requirements (WCAG 2.2 AA)
 
@@ -781,6 +773,7 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 2.3 | April 2026 | Light theme **brand** and neutrals returned to match refreshed light logo/icon (hue **~267°** brand, **~268°** surfaces). Updated OG image tints in `render-social-image.js`. Replaced outdated §3 semantic token tables with `tokens.css` mappings. |
 | 2.2 | April 2026 | Shifted brand chroma from blue‑violet (hue 262°) to **purple** (277° / 280° for glow). Updated tokens, OG/social image tints, project cover palette for eslint-config-santi020k, and clarified logo fill vs semantic `--brand`. |
 | 2.1 | April 2026 | Fixed logo path (`src/assets/svg/logo.svg`). Added all social channels (LinkedIn, Medium, WhatsApp). Added Tabler and Huge Icons packs. Added actual homepage copy as voice example. Added mobile drawer motion pattern. Added content width token table. Consolidated Do's & Don'ts. Added Version History and Related Skills sections. |
 | 2.0 | April 2026 | Major rewrite using Brand Guidelines Generator skill. Added component patterns, motion guidelines, accessibility section, marketing strategy, technical standards. |
