@@ -50,6 +50,13 @@ If the site should receive and display [Webmention.io](https://webmention.io/) m
 
 The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for Vercel or this build.
 
+### Testing Webmentions
+
+1. **Unit tests** (mocked HTTP, no secrets): `pnpm run test:webmentions`
+2. **Live checks** (reads `.env` for `WEBMENTION_*`; does not print the API key): `pnpm run check:webmentions`  
+   Optional target URL: `pnpm run check:webmentions -- https://santi020k.com/blog/your-slug/`
+3. **Send a real mention**: publish any public HTML page that contains a normal link to your post URL, then use a sender that POSTs `source` and `target` to your Webmention.io endpoint (many IndieWeb tools do this automatically). [webmention.rocks](https://webmention.rocks/) exercises receivers; for end-to-end, confirm the mention appears on [webmention.io](https://webmention.io/) for your domain, then run **`pnpm run build`** locally (or redeploy) with `WEBMENTION_API_KEY` set — mentions are embedded at build time, not in the browser.
+
 ## Notes
 
 - Caching and security headers are defined in `vercel.json`.

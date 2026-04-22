@@ -23,6 +23,8 @@
     "lint:fix": "eslint . --fix --quiet",
     "check": "astro check",
     "test": "vitest run",
+    "test:webmentions": "vitest run src/utils/__tests__/webmentions-fetch.test.ts",
+    "check:webmentions": "node scripts/js/check-webmentions.mjs",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage --reporter=dot",
