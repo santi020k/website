@@ -225,7 +225,7 @@ const isLinkActive = (linkPath: string): boolean => {
                   motion-reduce:transition-none
                 "
                 href={href}
-                rel={`noreferrer noopener ${indieAuthRelMe ? 'me' : ''}`}
+                rel={`noreferrer noopener ${indieAuthRelMe === false ? '' : 'me'}`}
                 target="_blank"
               >
                 <Icon
