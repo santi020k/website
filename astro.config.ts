@@ -108,23 +108,23 @@ export default defineConfig({
       short_name: 'santi020k',
       description: siteConfig.description,
       lang: siteConfig.lang,
-      icon: 'public/favicon-source.png',
+      icon: 'public/favicon-source.webp',
       icons: [
         {
-          src: 'apple-touch-icon.png',
+          src: 'apple-touch-icon.webp',
           sizes: '180x180',
-          type: 'image/png'
+          type: 'image/webp'
         },
         {
-          src: 'icons/icon-192.png',
+          src: 'icons/icon-192.webp',
           sizes: '192x192',
-          type: 'image/png',
+          type: 'image/webp',
           purpose: 'any maskable'
         },
         {
-          src: 'icons/icon-512.png',
+          src: 'icons/icon-512.webp',
           sizes: '512x512',
-          type: 'image/png',
+          type: 'image/webp',
           purpose: 'any maskable'
         }
       ],

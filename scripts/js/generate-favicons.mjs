@@ -5,7 +5,7 @@ import sharp from 'sharp'
 const publicDir = new URL('../../public/', import.meta.url)
 const publicDirPath = fileURLToPath(publicDir)
 const wordmarkPath = fileURLToPath(new URL('../../public/logos/logo-square.webp', import.meta.url))
-const faviconSourcePath = fileURLToPath(new URL('favicon-source.png', publicDir))
+const faviconSourcePath = fileURLToPath(new URL('favicon-source.webp', publicDir))
 const faviconSvgPath = fileURLToPath(new URL('favicon.svg', publicDir))
 
 const iconBackgroundSvg = Buffer.from(`
@@ -47,6 +47,14 @@ const renderSourceIcon = async () => {
     .toBuffer()
 }
 
+const writeWebp = async (pathname, sourceBuffer, size) => {
+  await sharp(sourceBuffer)
+    .resize(size, size, { fit: 'cover' })
+    .webp({ quality: 92, effort: 4 })
+    .toFile(fileURLToPath(new URL(pathname, publicDir)))
+}
+
+/** PNG fallback for environments that ignore WebP for `apple-touch-icon` (older iOS / some auditors). */
 const writePng = async (pathname, sourceBuffer, size) => {
   await sharp(sourceBuffer)
     .resize(size, size, { fit: 'cover' })
@@ -64,24 +72,27 @@ const main = async () => {
   await mkdir(iconsDir, { recursive: true })
 
   const sourceIcon = await renderSourceIcon()
-  const sourceIconBase64 = sourceIcon.toString('base64')
+  const sourceIconWebp = await sharp(sourceIcon).webp({ quality: 92, effort: 4 }).toBuffer()
+  const sourceIconWebpBase64 = sourceIconWebp.toString('base64')
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  await writeFile(faviconSourcePath, sourceIcon)
+  await writeFile(faviconSourcePath, sourceIconWebp)
 
-  await writePng('favicon.png', sourceIcon, 32)
+  await writeWebp('favicon.webp', sourceIcon, 32)
+
+  await writeWebp('apple-touch-icon.webp', sourceIcon, 180)
 
   await writePng('apple-touch-icon.png', sourceIcon, 180)
 
   // PWA manifest icons (written to public/icons/)
-  await writePng('icons/icon-192.png', sourceIcon, 192)
+  await writeWebp('icons/icon-192.webp', sourceIcon, 192)
 
-  await writePng('icons/icon-512.png', sourceIcon, 512)
+  await writeWebp('icons/icon-512.webp', sourceIcon, 512)
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   await writeFile(
     faviconSvgPath, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <image href="data:image/png;base64,${sourceIconBase64}" width="512" height="512" />
+  <image href="data:image/webp;base64,${sourceIconWebpBase64}" width="512" height="512" />
 </svg>
 `
   )
