@@ -66,7 +66,7 @@ const ogRgba = ({ r, g, b }, a) => `rgba(${r}, ${g}, ${b}, ${a})`
 
 const fontRegular = fs.readFileSync(path.resolve(process.cwd(), 'public/fonts/Montserrat-Regular.ttf'))
 const fontBold = fs.readFileSync(path.resolve(process.cwd(), 'public/fonts/Montserrat-ExtraBold.ttf'))
-const logoBase64 = (await sharp(path.resolve(process.cwd(), 'public/logo.webp')).png().toBuffer()).toString('base64')
+const logoBase64 = (await sharp(path.resolve(process.cwd(), 'public/logos/logo.webp')).png().toBuffer()).toString('base64')
 const logoDataURI = `data:image/png;base64,${logoBase64}`
 const COVER_FRAME_WIDTH = 348
 const COVER_FRAME_HEIGHT = 220

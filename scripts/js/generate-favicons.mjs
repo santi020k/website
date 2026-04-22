@@ -4,7 +4,7 @@ import sharp from 'sharp'
 
 const publicDir = new URL('../../public/', import.meta.url)
 const publicDirPath = fileURLToPath(publicDir)
-const wordmarkPath = fileURLToPath(new URL('../../public/logo-square.webp', import.meta.url))
+const wordmarkPath = fileURLToPath(new URL('../../public/logos/logo-square.webp', import.meta.url))
 const faviconSourcePath = fileURLToPath(new URL('favicon-source.png', publicDir))
 const faviconSvgPath = fileURLToPath(new URL('favicon.svg', publicDir))
 
@@ -74,8 +74,6 @@ const main = async () => {
   await writePng('apple-touch-icon.png', sourceIcon, 180)
 
   // PWA manifest icons (written to public/icons/)
-  await writePng('icons/apple-touch-icon.png', sourceIcon, 180)
-
   await writePng('icons/icon-192.png', sourceIcon, 192)
 
   await writePng('icons/icon-512.png', sourceIcon, 512)
