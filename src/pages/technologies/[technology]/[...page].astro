@@ -5,12 +5,13 @@ import type { CollectionEntry } from 'astro:content'
 import ButtonLink from '../../../components/atoms/ButtonLink.astro'
 import ProjectCard from '../../../components/molecules/ProjectCard.astro'
 import SectionHeading from '../../../components/molecules/SectionHeading.astro'
-import { getAllProjects, getUniqueTechnologies } from '../../../data/project'
+import { getUniqueTechnologies } from '../../../data/project'
 import PageLayout from '../../../layouts/Base.astro'
+import { getCachedProjects } from '../../../utils/content'
 import { collectionDateSortProjects } from '../../../utils/date'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
-  const allProjects = await getAllProjects()
+  const allProjects = await getCachedProjects()
   const sortedProjects = allProjects.sort(collectionDateSortProjects)
   const uniqueTechnologies = getUniqueTechnologies(sortedProjects)
 

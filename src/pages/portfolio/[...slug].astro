@@ -7,12 +7,12 @@ import Prose from '@/components/atoms/Prose.astro'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getRelatedProjects } from '@/utils/content'
 
-import { getAllProjects } from '@/data/project'
 import ProjectLayout from '@/layouts/Projects.astro'
+import { getCachedProjects } from '@/utils/content'
 
 // If you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
 export const getStaticPaths = (async () => {
-  const projectsEntries = await getAllProjects()
+  const projectsEntries = await getCachedProjects()
 
   return projectsEntries.map(project => ({
     params: { slug: project.id },

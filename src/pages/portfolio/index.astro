@@ -9,12 +9,13 @@ import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
-import { getAllProjects, getUniqueTechnologiesWithCount, groupProjectsByTypesId } from '@/data/project'
+import { getUniqueTechnologiesWithCount, groupProjectsByTypesId } from '@/data/project'
+import { getCachedProjects } from '@/utils/content'
 import { getAllTypes } from '@/data/types'
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
 
-const allProjects = (await getAllProjects()).sort(collectionDateSortProjects)
+const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const groupedProjects = groupProjectsByTypesId(allProjects)
 
 const allTypes = (await getAllTypes()).sort((a, b) => {

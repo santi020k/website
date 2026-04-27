@@ -4,6 +4,9 @@ import { defineCollection } from 'astro:content'
 
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 
+const dateField = () => z.string().or(z.date()).transform(val => new Date(val))
+const optionalDateField = () => z.string().optional().transform(str => (str ? new Date(str) : undefined))
+
 const baseSchema = z.object({
   title: z.string().max(100)
 })
@@ -49,14 +52,8 @@ const project = defineCollection({
       .optional(),
     draft: z.boolean().default(false),
     technologies: z.array(z.string()).default([]).transform(removeDuplicates),
-    startingDate: z
-      .string()
-      .or(z.date())
-      .transform(val => new Date(val)),
-    endingDate: z
-      .string()
-      .optional()
-      .transform(str => (str ? new Date(str) : undefined)),
+    startingDate: dateField(),
+    endingDate: optionalDateField(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
     githubUrl: z.url().optional(),
@@ -91,14 +88,8 @@ const post = defineCollection({
   loader: glob({ base: './src/content/post', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
-    publishDate: z
-      .string()
-      .or(z.date())
-      .transform(val => new Date(val)),
-    updatedDate: z
-      .string()
-      .optional()
-      .transform(str => (str ? new Date(str) : undefined)),
+    publishDate: dateField(),
+    updatedDate: optionalDateField(),
     coverImage: z
       .object({
         alt: z.string(),

@@ -84,7 +84,7 @@ const headMeta = {
     <script>
       // Scroll to top on forward navigation; preserve position on back/forward
       document.addEventListener('astro:before-preparation', (e) => {
-        const { navigationType } = e as unknown as { navigationType?: string }
+        const { navigationType } = e as Event & { navigationType?: string }
         if (navigationType !== 'traverse') {
           document.addEventListener('astro:after-swap', () => {
             window.scrollTo(0, 0)

@@ -1,13 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { getCollection, render } from 'astro:content'
+import { render } from 'astro:content'
 
 import PostLayout from '../../layouts/Post.astro'
+import { getCachedPosts } from '../../utils/content'
 import { getPostSlug } from '../../utils/posts'
 
 export const getStaticPaths = async () => {
-  const now = new Date()
-  const posts = await getCollection('post', ({ data }) => import.meta.env.PROD ? !data.draft && data.publishDate <= now : true)
+  const posts = await getCachedPosts()
 
   return posts.map(post => ({
     params: { slug: getPostSlug(post.id) },

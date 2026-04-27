@@ -1,48 +1,50 @@
 /* eslint-disable func-style */
 import type { CollectionEntry } from 'astro:content'
-import { getCollection } from 'astro:content'
 
-/** filter out draft  based on the environment */
+import { getCachedProjects } from '@/utils/content'
+
 export async function getAllProjects(): Promise<CollectionEntry<'project'>[]> {
-  return await getCollection('project', ({ data }) => import.meta.env.PROD ? !data.draft : true)
+  return getCachedProjects()
 }
 
 /** groups projects by year (based on option siteConfig.sortProjectsByUpdatedDate), using the year as the key
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  */
-export function groupProjectsByYear(projects: CollectionEntry<'project'>[]) {
-  return projects.reduce<Record<string, CollectionEntry<'project'>[] | undefined>>(
-    (acc, project) => {
-      const year = project.data.startingDate.getFullYear().toString()
+export function groupProjectsByYear(projects: CollectionEntry<'project'>[]): Record<string, CollectionEntry<'project'>[] | undefined> {
+  const map = new Map<string, CollectionEntry<'project'>[]>()
 
-      /* eslint-disable security/detect-object-injection */
-      acc[year] ??= []
+  for (const project of projects) {
+    const year = project.data.startingDate.getFullYear().toString()
+    const existing = map.get(year)
 
-      acc[year].push(project)
-      /* eslint-enable security/detect-object-injection */
+    if (existing) {
+      existing.push(project)
+    } else {
+      map.set(year, [project])
+    }
+  }
 
-      return acc
-    }, {}
-  )
+  return Object.fromEntries(map)
 }
 
 /** groups projects by typesId, using the typesId as the key
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  */
-export function groupProjectsByTypesId(projects: CollectionEntry<'project'>[]) {
-  return projects.reduce<Record<string, CollectionEntry<'project'>[] | undefined>>(
-    (acc, project) => {
-      const typeId = project.data.typesId ?? 'personal'
+export function groupProjectsByTypesId(projects: CollectionEntry<'project'>[]): Record<string, CollectionEntry<'project'>[] | undefined> {
+  const map = new Map<string, CollectionEntry<'project'>[]>()
 
-      /* eslint-disable security/detect-object-injection */
-      acc[typeId] ??= []
+  for (const project of projects) {
+    const typeId = project.data.typesId ?? 'personal'
+    const existing = map.get(typeId)
 
-      acc[typeId].push(project)
-      /* eslint-enable security/detect-object-injection */
+    if (existing) {
+      existing.push(project)
+    } else {
+      map.set(typeId, [project])
+    }
+  }
 
-      return acc
-    }, {}
-  )
+  return Object.fromEntries(map)
 }
 
 /** returns all technologies created from projects (inc duplicate technologies)
