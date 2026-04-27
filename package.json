@@ -14,6 +14,8 @@
     "build": "astro build",
     "generate:icons": "node scripts/js/generate-favicons.mjs",
     "generate:brand": "node scripts/js/generate-brand-assets.mjs",
+    "generate:banners": "node scripts/js/generate-banners.mjs",
+    "generate:wallpapers": "node scripts/js/generate-wallpapers.mjs",
     "generate:fonts": "node scripts/js/generate-fonts.mjs",
     "generate:fonts:py": "python3 scripts/py/generate-fonts.py",
     "generate:cv": "python3 scripts/py/generate-cv.py",
