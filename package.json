@@ -13,6 +13,7 @@
     "prebuild:clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "astro build",
     "generate:icons": "node scripts/js/generate-favicons.mjs",
+    "generate:brand": "node scripts/js/generate-brand-assets.mjs",
     "generate:fonts": "node scripts/js/generate-fonts.mjs",
     "generate:fonts:py": "python3 scripts/py/generate-fonts.py",
     "generate:cv": "python3 scripts/py/generate-cv.py",

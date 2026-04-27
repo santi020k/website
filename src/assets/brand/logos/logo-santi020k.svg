@@ -1,0 +1,9 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504 80" role="img" aria-label="Santi020k">
+  <g transform="translate(0, 0)">
+    <rect width="80" height="80" rx="18" fill="#6319be" />
+    <path d="M 26 28 L 40 40 L 26 52" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+    <line x1="48" y1="52" x2="62" y2="52" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" />
+  </g>
+  <text x="100" y="54" font-family="Montserrat, Inter, sans-serif" font-weight="800" font-size="48" fill="#332e38" letter-spacing="-0.04em">Santi<tspan fill="#6319be" font-weight="600" letter-spacing="-0.02em">020k</tspan></text>
+</svg>
