@@ -1,6 +1,5 @@
 ---
 import { getImage } from 'astro:assets'
-import { getCollection } from 'astro:content'
 
 import AboutMeImage from '../assets/photos/about-me.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
@@ -13,20 +12,16 @@ import HomeHero from '../components/pages/home/HomeHero.astro'
 import HomeStats from '../components/pages/home/HomeStats.astro'
 import { publishingRhythm } from '../data/editorial-calendar'
 import { collaborationLanes, selectedOrganizations, speakingTopics, usesHighlights } from '../data/profile'
-import { getAllProjects, getUniqueTechnologiesWithCount } from '../data/project'
+import { getUniqueTechnologiesWithCount } from '../data/project'
 import { getSeriesSummaries } from '../data/series'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
+import { getCachedPosts, getCachedProjects } from '../utils/content'
 import { collectionDateSortProjects } from '../utils/date'
 import { getPortfolioPath, getTechnologyPath } from '../utils/links'
 import { sortTechnologyCountsByInterest } from '../utils/technologies'
 
-const allProjects = await getAllProjects()
-const now = new Date()
-
-const allPosts = await getCollection('post', ({ data }) => (
-  import.meta.env.PROD ? !data.draft && data.publishDate <= now : true
-))
+const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
 
 const featuredProjects = allProjects
   .filter(project => project.data.typesId === 'professional')

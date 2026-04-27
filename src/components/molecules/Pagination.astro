@@ -41,7 +41,7 @@ for (let i = 1; i <= lastPage; i++) {
             aria-current={p === currentPage ? 'page' : undefined}
             aria-label={`Page ${p}`}
             class:list={['pagination-btn', p === currentPage && 'pagination-btn--active']}
-            href={getPageUrl(p as number)}
+            href={getPageUrl(p)}
           >
             {p}
           </a>

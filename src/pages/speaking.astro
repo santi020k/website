@@ -1,17 +1,12 @@
 ---
-import { getCollection } from 'astro:content'
-
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
 import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
+import { getCachedPosts } from '../utils/content'
 
-const now = new Date()
-
-const postCount = (await getCollection('post', ({ data }) => (
-  import.meta.env.PROD ? !data.draft && data.publishDate <= now : true
-))).length
+const postCount = (await getCachedPosts()).length
 
 const highlights = speakingHighlights.map(h => h.label === 'Published writing' ? { ...h, value: `${postCount} posts` } : h)
 

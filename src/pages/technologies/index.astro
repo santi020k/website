@@ -2,12 +2,13 @@
 import ButtonLink from '../../components/atoms/ButtonLink.astro'
 import Pill from '../../components/atoms/Pill.astro'
 import SectionHeading from '../../components/molecules/SectionHeading.astro'
-import { getAllProjects, getUniqueTechnologiesWithCount } from '../../data/project'
+import { getUniqueTechnologiesWithCount } from '../../data/project'
 import PageLayout from '../../layouts/Base.astro'
+import { getCachedProjects } from '../../utils/content'
 import { getTechnologyPath } from '../../utils/links'
 import { sortTechnologyCountsByInterest } from '../../utils/technologies'
 
-const allProjects = await getAllProjects()
+const allProjects = await getCachedProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)
 const topTechnology = technologies[0]?.[0]
 const coreTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count >= 4))
