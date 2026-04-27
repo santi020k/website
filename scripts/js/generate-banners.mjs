@@ -103,6 +103,22 @@ const renderBanner4 = () => Buffer.from(`
 </svg>
 `)
 
+const renderBanner5 = () => Buffer.from(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEIGHT}">
+  <rect width="${WIDTH}" height="${HEIGHT}" fill="#1b141f" />
+  
+  <!-- Big fully visible icon on the right -->
+  <g transform="translate(1100, 48) scale(2.4)">
+    <rect width="128" height="128" rx="28" fill="#6319be" />
+    <path d="M 40 44 L 64 64 L 40 84" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+    <line x1="74" y1="84" x2="96" y2="84" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" />
+  </g>
+
+  <!-- Wordmark -->
+  <text x="140" y="222" font-family="Montserrat, Inter, sans-serif" font-weight="800" font-size="72" fill="#faf9fb" letter-spacing="-0.04em">Santi<tspan fill="#af55e7" font-weight="600" letter-spacing="-0.02em">020k</tspan></text>
+</svg>
+`)
+
 const writeWebp = async (pathname, sourceBuffer) => {
   await sharp(sourceBuffer)
     .resize(WIDTH, HEIGHT)
@@ -117,8 +133,9 @@ const main = async () => {
   await writeWebp('banner-2.webp', renderBanner2())
   await writeWebp('banner-3.webp', renderBanner3())
   await writeWebp('banner-4.webp', renderBanner4())
+  await writeWebp('banner-5.webp', renderBanner5())
 
-  console.log('Successfully generated 4 new brand banners in src/assets/banners.')
+  console.log('Successfully generated 5 new brand banners in src/assets/banners.')
 }
 
 main().catch(console.error)
