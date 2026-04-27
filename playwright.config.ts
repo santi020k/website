@@ -3,7 +3,9 @@ import { defineConfig, devices } from '@playwright/test'
 const isGithubCi = Boolean(process.env.CI)
 
 const isCiLikeRun =
-  isGithubCi || process.env.npm_lifecycle_event === 'test:e2e:ci'
+  isGithubCi ||
+  process.env.npm_lifecycle_event === 'test:e2e:ci' ||
+  process.env.npm_lifecycle_event === 'test:e2e:ci:stable'
 
 const isSnapshotUpdateRun = process.argv.includes('--update-snapshots')
 const isSkipBuildRun = Boolean(process.env.SKIP_BUILD)
@@ -21,18 +23,22 @@ const previewServerCommand = shouldBuildPreviewServer ?
 
 export default defineConfig({
   testDir: './tests',
+  timeout: 60_000,
   expect: {
+    timeout: 10_000,
     toHaveScreenshot: {
       maxDiffPixels: 3_000
     }
   },
-  fullyParallel: true,
+  fullyParallel: !isCiLikeRun,
   forbidOnly: isCiLikeRun,
   retries: isCiLikeRun ? 2 : 0,
   workers: shouldRunSerially ? 1 : '50%',
   reporter: 'html',
   use: {
     baseURL: previewURL,
+    navigationTimeout: 30_000,
+    actionTimeout: 15_000,
     launchOptions: {
       // Workaround for occasional CI sandbox/driver instability.
       args: ['--disable-gpu', '--disable-software-rasterizer']
