@@ -76,7 +76,6 @@ const renderMobile2 = () => Buffer.from(`
 </svg>
 `)
 
-
 const renderDesktop3 = () => Buffer.from(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160">
   <defs>
@@ -129,10 +128,10 @@ const main = async () => {
   await writeWebp('wallpaper-2-mobile.webp', renderMobile2(), 1170, 2532)
   await writeWebp('wallpaper-3-desktop.webp', renderDesktop3(), 3840, 2160)
   await writeWebp('wallpaper-3-mobile.webp', renderMobile3(), 1170, 2532)
-  
+
   // also overwrite the default wallpaper.webp with desktop 2
   await writeWebp('wallpaper.webp', renderDesktop2(), 3840, 2160)
-  
+
   console.log('Successfully generated 6 new wallpapers in src/assets/wallpapers.')
 }
 

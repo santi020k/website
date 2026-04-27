@@ -103,7 +103,6 @@ const renderBanner4 = () => Buffer.from(`
 </svg>
 `)
 
-
 const writeWebp = async (pathname, sourceBuffer) => {
   await sharp(sourceBuffer)
     .resize(WIDTH, HEIGHT)
@@ -118,7 +117,7 @@ const main = async () => {
   await writeWebp('banner-2.webp', renderBanner2())
   await writeWebp('banner-3.webp', renderBanner3())
   await writeWebp('banner-4.webp', renderBanner4())
-  
+
   console.log('Successfully generated 4 new brand banners in src/assets/banners.')
 }
 
