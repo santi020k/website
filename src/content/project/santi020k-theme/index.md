@@ -12,7 +12,7 @@ impactMetrics: [
   "Automated validation, packaging, and registry publishing"
 ]
 technologies: [
-  "Visual Studio Code", "VS Code Extension", "Theme Design", "JavaScript", "Node.js", "Vitest", "ESLint", "CI/CD", "GitHub Actions", "Open Source", "Developer Experience (DX)", "Developer Documentation", "Accessibility", "Testing", "Design Systems"
+  "Visual Studio Code", "VS Code Extension", "Theme Design", "JavaScript", "Node.js", "Vitest", "ESLint", "CI-CD", "GitHub Actions", "Open Source", "Developer Experience (DX)", "Developer Documentation", "Accessibility", "Testing", "Design Systems"
 ]
 coverImage:
   src: "./cover.webp"

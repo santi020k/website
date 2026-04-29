@@ -5,7 +5,7 @@ publishDate: "2026-04-29T15:00:00.000Z"
 coverImage:
   alt: "Editorial cover showing noisy terminal output compressed into a quieter automation pipeline with parallel verification steps"
   src: "./cover.webp"
-tags: ["ai", "automation", "developer-experience", "testing", "ci/cd"]
+tags: ["ai", "automation", "developer-experience", "testing", "ci-cd"]
 postType: "Guide"
 seriesId: "the-santi020k-way"
 seriesOrder: 11
