@@ -2,7 +2,7 @@
 title: "Continuous Integration and Deployment for Next.js Projects"
 description: "A practical CI/CD setup for Next.js projects using GitHub Actions so linting, tests, and builds become part of the delivery process instead of an afterthought."
 publishDate: "2024-04-18T17:12:00.000Z"
-tags: ["ci/cd", "github-actions", "nextjs", "react", "deployment"]
+tags: ["ci-cd", "github-actions", "nextjs", "react", "deployment"]
 coverImage:
   alt: "Neon illustration of a CI/CD pipeline flowing through commit, test, build, and deployment stages"
   src: "./cover.webp"

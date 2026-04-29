@@ -2,7 +2,7 @@
 title: "Building a Production Next.js App"
 description: "A practical sequence for turning a fresh Next.js codebase into a product teams can lint, test, document, deploy, and secure with confidence."
 cadence: "A guided walkthrough from project structure to auth and delivery."
-focusAreas: ["Next.js", "Testing", "CI/CD", "Architecture"]
+focusAreas: ["Next.js", "Testing", "CI-CD", "Architecture"]
 order: 1
 status: "active"
 seoTitle: "Building a Production Next.js App Series"
