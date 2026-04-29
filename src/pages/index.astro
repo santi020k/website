@@ -42,7 +42,7 @@ const [featuredPost, ...supportingPosts] = latestPosts
 const featuredSpeakingTopics = speakingTopics.slice(0, 3)
 const contactEmailHref = `mailto:${siteConfig.contact.email}?subject=Start%20a%20conversation`
 
-const publicWorkProjects = ['eslint-config-basic', 'eslint-config-santi020k', 'react-js-colombia']
+const publicWorkProjects = ['santi020k-theme', 'eslint-config-basic', 'react-js-colombia']
   .map(projectId => allProjects.find(project => project.id === projectId))
   .filter((project): project is NonNullable<(typeof allProjects)[number]> => Boolean(project))
 
