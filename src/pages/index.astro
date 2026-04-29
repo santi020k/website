@@ -40,7 +40,7 @@ const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 const [featuredProject, ...supportingProjects] = featuredProjects
 const [featuredPost, ...supportingPosts] = latestPosts
 const featuredSpeakingTopics = speakingTopics.slice(0, 3)
-const contactEmailHref = `mailto:${siteConfig.contact.email}?subject=Start%20a%20conversation`
+const contactHref = siteConfig.contact.whatsapp
 
 const publicWorkProjects = ['santi020k-theme', 'eslint-config-basic', 'react-js-colombia']
   .map(projectId => allProjects.find(project => project.id === projectId))
@@ -66,7 +66,7 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <HomeHero contactEmailHref={contactEmailHref} yearsOfExperience={yearsOfExperience} />
+  <HomeHero contactHref={contactHref} yearsOfExperience={yearsOfExperience} />
   <HomeStats yearsOfExperience={yearsOfExperience} />
 
   <section class="editorial-section" data-animate>

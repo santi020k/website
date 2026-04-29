@@ -3,7 +3,7 @@ import ButtonLink from '../components/atoms/ButtonLink.astro'
 import SectionHeading from '../components/molecules/SectionHeading.astro'
 import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
-import { siteConfig } from '../site.config'
+import { createWhatsAppHref, siteConfig, whatsappMessages } from '../site.config'
 import { getCachedPosts } from '../utils/content'
 
 const postCount = (await getCachedPosts()).length
@@ -18,16 +18,7 @@ const breadcrumbs = [
   { name: 'Speaking', url: '/speaking/' }
 ]
 
-const speakingEmailHref = [
-  `mailto:${siteConfig.contact.email}`,
-  '?subject=Speaking%20invitation',
-  '&body=Hi%20Santiago,%0D%0A%0D%0A',
-  'Event:%0D%0A',
-  'Audience:%0D%0A',
-  'Date:%0D%0A',
-  'Format:%0D%0A',
-  'What%20you%20want%20the%20session%20to%20help%20with:%0D%0A'
-].join('')
+const speakingWhatsAppHref = createWhatsAppHref(whatsappMessages.speaking)
 
 const bookingNotes = [
   {
@@ -40,7 +31,7 @@ const bookingNotes = [
   },
   {
     label: 'Response time',
-    value: 'Most speaker inquiries get a reply within one to two business days.'
+    value: 'WhatsApp is usually fastest for short intros; LinkedIn is great for async context.'
   }
 ]
 
@@ -116,8 +107,8 @@ const structuredData = [
         with more confidence.
       </p>
       <div class="section-actions">
-        <ButtonLink href={speakingEmailHref} showArrow>
-          Invite me to speak
+        <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
+          Invite me on WhatsApp
         </ButtonLink>
         <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
           Connect on LinkedIn
@@ -199,7 +190,7 @@ const structuredData = [
 
   <section class="editorial-section" data-animate>
     <SectionHeading
-      description="If you are planning an event, the fastest path is a direct email with a little context. I can tailor sessions for community rooms, team offsites, internal enablement, or leadership conversations."
+      description="If you are planning an event, the fastest path is a WhatsApp message with a little context. I can tailor sessions for community rooms, team offsites, internal enablement, or leadership conversations."
       eyebrow="Booking"
       title="Make the invite easy."
     />
@@ -224,8 +215,8 @@ const structuredData = [
         </div>
 
         <div class="section-actions">
-          <ButtonLink href={speakingEmailHref} showArrow>
-            Invite me to speak
+          <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
+            Invite me on WhatsApp
           </ButtonLink>
           <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
             Message on LinkedIn

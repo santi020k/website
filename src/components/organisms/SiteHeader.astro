@@ -60,11 +60,12 @@ const isAvailableForBanner =
         </ButtonLink>
         <ButtonLink
           className="min-h-10 px-4 py-2 text-xs sm:text-sm"
-          href={`mailto:${siteConfig.contact.email}?subject=Opportunity%20or%20role`}
+          href={siteConfig.contact.whatsapp}
+          newTab
           showArrow
           variant="ghost"
         >
-          Email
+          WhatsApp
         </ButtonLink>
       </div>
     </div>
@@ -188,8 +189,8 @@ const isAvailableForBanner =
             lg:block
           "
           >
-            <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-              Say hello
+            <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow variant="secondary">
+              WhatsApp
             </ButtonLink>
           </div>
           <div class="
@@ -351,12 +352,12 @@ const isAvailableForBanner =
           >
             <ButtonLink
               className="justify-center"
-              href={siteConfig.contact.linkedin}
+              href={siteConfig.contact.whatsapp}
               newTab
               showArrow
               variant="secondary"
             >
-              Say hello
+              WhatsApp
             </ButtonLink>
             <ButtonLink
               className="justify-center"

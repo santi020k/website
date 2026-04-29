@@ -22,10 +22,11 @@ test.describe('Speaking page', () => {
     await expect(page.getByRole('heading', { name: /Formats that fit teams/i, level: 2 })).toBeVisible()
   })
 
-  test('should expose the invite CTA with a mailto href', async ({ page }) => {
-    const ctaLinks = page.getByRole('link', { name: /Invite me to speak/i })
+  test('should expose the invite CTA with a WhatsApp href', async ({ page }) => {
+    const ctaLinks = page.getByRole('link', { name: /Invite me on WhatsApp/i })
     await expect(ctaLinks.first()).toBeVisible()
-    await expect(ctaLinks.first()).toHaveAttribute('href', /^mailto:/)
+    await expect(ctaLinks.first()).toHaveAttribute('href', /^https:\/\/api\.whatsapp\.com\/send/)
+    await expect(ctaLinks.first()).toHaveAttribute('href', /Speaking%20page|speaking%20page/i)
   })
 
   test('should link to LinkedIn', async ({ page }) => {

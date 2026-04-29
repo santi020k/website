@@ -7,11 +7,11 @@ import ButtonLink from '../../atoms/ButtonLink.astro'
 import Eyebrow from '../../atoms/Eyebrow.astro'
 
 interface Props {
-  contactEmailHref: string
+  contactHref: string
   yearsOfExperience: string
 }
 
-const { contactEmailHref, yearsOfExperience } = Astro.props
+const { contactHref, yearsOfExperience } = Astro.props
 ---
 
 <section class="relative pb-4">
@@ -74,8 +74,8 @@ const { contactEmailHref, yearsOfExperience } = Astro.props
               <p class="section-label text-brand">Open now</p>
               <p class="text-sm/6 text-ink">{siteConfig.availability}</p>
             </div>
-            <ButtonLink className="shrink-0" href={contactEmailHref} showArrow variant="secondary">
-              Start a conversation
+            <ButtonLink className="shrink-0" href={contactHref} newTab showArrow variant="secondary">
+              Message on WhatsApp
             </ButtonLink>
           </div>
         </div>
