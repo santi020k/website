@@ -18,6 +18,7 @@ export interface SiteConfig {
     medium: string
     resume: string
     whatsapp: string
+    whatsappPhone: string
   }
   date: {
     locale: string | string[] | undefined

@@ -1,5 +1,17 @@
 import type { SiteConfig, SiteLink } from './types/site'
 
+const whatsappPhone = '573507990136'
+
+export const whatsappMessages = {
+  default:
+    'Hi Santiago, I found your website and would like to talk about a role, project, or technical collaboration. Here is a bit of context:',
+  speaking:
+    'Hi Santiago, I found your speaking page and would like to invite you to a talk or workshop. Event: Audience: Date: Format: Goal:'
+} as const
+
+export const createWhatsAppHref = (message: string = whatsappMessages.default) =>
+  `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodeURIComponent(message)}`
+
 export const siteConfig: SiteConfig = {
   author: 'Santiago Molina',
   availability: 'Open to tech lead, full-stack, and engineering leadership roles',
@@ -9,7 +21,8 @@ export const siteConfig: SiteConfig = {
     linkedin: 'https://linkedin.com/in/santi020k',
     medium: 'https://medium.com/@santi020k',
     resume: '/pdf/cv.pdf',
-    whatsapp: 'https://api.whatsapp.com/send?phone=573507990136&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch'
+    whatsapp: createWhatsAppHref(),
+    whatsappPhone
   },
   date: {
     locale: 'en-US',
@@ -43,7 +56,7 @@ export const siteConfig: SiteConfig = {
       label: 'Medium'
     },
     {
-      href: 'https://api.whatsapp.com/send?phone=573507990136&text=Hi%2C%20I%20came%20across%20your%20website%20and%20wanted%20to%20get%20in%20touch',
+      href: createWhatsAppHref(),
       icon: 'tabler:brand-whatsapp',
       indieAuthRelMe: false,
       label: 'WhatsApp'

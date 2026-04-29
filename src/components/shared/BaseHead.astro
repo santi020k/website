@@ -236,6 +236,8 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
     contactPoint: {
       '@type': 'ContactPoint',
       email: siteConfig.contact.email,
+      telephone: `+${siteConfig.contact.whatsappPhone}`,
+      url: siteConfig.contact.whatsapp,
       contactType: 'professional inquiries'
     }
   })}

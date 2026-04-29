@@ -9,16 +9,17 @@ import { siteConfig } from '@/site.config'
 
 const contactChannels = [
   {
-    action: 'Start an email',
-    description: 'Best for project scopes, consulting, and engineering leadership conversations.',
-    href: `mailto:${siteConfig.contact.email}`,
-    icon: 'tabler:mail',
-    label: 'Email',
-    value: siteConfig.contact.email
+    action: 'Open WhatsApp',
+    description: 'Best when you want a fast, lightweight conversation with useful context up front.',
+    href: siteConfig.contact.whatsapp,
+    icon: 'tabler:brand-whatsapp',
+    label: 'WhatsApp',
+    newTab: true,
+    value: '+57 350 799 0136'
   },
   {
     action: 'Message on LinkedIn',
-    description: 'A good fit for faster async conversations, referrals, and role discussions.',
+    description: 'A good fit for referrals, role discussions, and keeping the thread professional.',
     href: siteConfig.contact.linkedin,
     icon: 'tabler:brand-linkedin',
     label: 'LinkedIn',
@@ -26,13 +27,12 @@ const contactChannels = [
     value: '/in/santi020k'
   },
   {
-    action: 'Open WhatsApp',
-    description: 'Useful when you want to move quickly and keep the conversation lightweight.',
-    href: siteConfig.contact.whatsapp,
-    icon: 'tabler:brand-whatsapp',
-    label: 'WhatsApp',
-    newTab: true,
-    value: '+57 350 799 0136'
+    action: 'Send email',
+    description: 'Still available for longer briefs, documents, or formal follow-ups.',
+    href: `mailto:${siteConfig.contact.email}`,
+    icon: 'tabler:mail',
+    label: 'Email',
+    value: siteConfig.contact.email
   }
 ]
 ---
@@ -62,7 +62,7 @@ const contactChannels = [
       <div class="mini-note">
         <p class="section-label">Response window</p>
         <p class="mt-2 text-sm/7 text-ink-soft">
-          Most messages get a reply within one to two business days, usually faster for short intros.
+          WhatsApp is the fastest route for short intros; LinkedIn works well for async professional context.
         </p>
       </div>
     </div>
