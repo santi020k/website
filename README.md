@@ -1,6 +1,6 @@
 # [Santiago Molina](https://santi020k.com/)
 
-![Santi020k Logo](./public/logos/logo.webp)
+![Santi020k Logo](./src/assets/brand/logos/logo-santi020k.webp)
 
 ## I build fast, accessible products and stronger frontend systems.
 
