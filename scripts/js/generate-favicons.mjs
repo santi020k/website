@@ -1,48 +1,22 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 
 const publicDir = new URL('../../public/', import.meta.url)
 const publicDirPath = fileURLToPath(publicDir)
-const wordmarkPath = fileURLToPath(new URL('../../public/logos/logo-square.webp', import.meta.url))
+const markPath = fileURLToPath(new URL('../../public/logos/logo-square.webp', import.meta.url))
+const markSvgPath = fileURLToPath(
+  new URL('../../src/assets/brand/logos/logo-square.svg', import.meta.url)
+)
 const faviconSourcePath = fileURLToPath(new URL('favicon-source.webp', publicDir))
 const faviconSvgPath = fileURLToPath(new URL('favicon.svg', publicDir))
 
-const iconBackgroundSvg = Buffer.from(`
-  <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="icon-gradient" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#1c0d32" />
-        <stop offset="100%" stop-color="#09040f" />
-      </linearGradient>
-    </defs>
-    <rect width="512" height="512" rx="118" fill="url(#icon-gradient)" />
-    <rect
-      x="12"
-      y="12"
-      width="488"
-      height="488"
-      rx="106"
-      fill="none"
-      stroke="rgba(255,255,255,0.08)"
-      stroke-width="2"
-    />
-  </svg>
-`)
-
 const renderSourceIcon = async () => {
-  // Use the full S2K wordmark so the favicon feels like the brand, not a crop fragment.
-  const wordmark = await sharp(wordmarkPath)
-    .trim()
-    .resize(320, 320, {
-      fit: 'contain',
+  return sharp(markPath)
+    .resize(512, 512, {
+      fit: 'fill',
       background: { r: 0, g: 0, b: 0, alpha: 0 }
     })
-    .png()
-    .toBuffer()
-
-  return sharp(iconBackgroundSvg)
-    .composite([{ input: wordmark, gravity: 'centre' }])
     .png()
     .toBuffer()
 }
@@ -73,10 +47,14 @@ const main = async () => {
 
   const sourceIcon = await renderSourceIcon()
   const sourceIconWebp = await sharp(sourceIcon).webp({ quality: 92, effort: 4 }).toBuffer()
-  const sourceIconWebpBase64 = sourceIconWebp.toString('base64')
+  const sourceIconSvg = await readFile(markSvgPath, 'utf8')
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   await writeFile(faviconSourcePath, sourceIconWebp)
+
+  await writePng('favicon-16x16.png', sourceIcon, 16)
+
+  await writePng('favicon-32x32.png', sourceIcon, 32)
 
   await writeWebp('favicon.webp', sourceIcon, 32)
 
@@ -90,12 +68,7 @@ const main = async () => {
   await writeWebp('icons/icon-512.webp', sourceIcon, 512)
 
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  await writeFile(
-    faviconSvgPath, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <image href="data:image/webp;base64,${sourceIconWebpBase64}" width="512" height="512" />
-</svg>
-`
-  )
+  await writeFile(faviconSvgPath, sourceIconSvg)
 }
 
 main().catch(error => {
