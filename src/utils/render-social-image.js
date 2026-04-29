@@ -41,9 +41,9 @@ const logoBuf = await sharp(
   .toBuffer()
 const LOGO_DATA_URI = `data:image/png;base64,${logoBuf.toString('base64')}`
 
-// Decorative terminal icon for text-only cards
+// Decorative square mark for text-only cards
 const iconBuf = await sharp(
-  path.resolve(process.cwd(), 'src/assets/brand/icons/icon-terminal-s-dark.webp'),
+  path.resolve(process.cwd(), 'public/logos/logo-square.webp'),
 )
   .resize(260, 260, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
   .png()

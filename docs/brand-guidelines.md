@@ -79,7 +79,7 @@ The site itself demonstrates the engineering values it talks about: fast, access
 
 ## 2. Logo
 
-The logo is a custom SVG wordmark — a stylised "S2K" letterform representing the handle `@santi020k`.
+The logo is a custom WebP wordmark with a stylised "S2K" letterform representing the handle `@santi020k`.
 
 ### Specifications
 
@@ -87,7 +87,7 @@ The logo is a custom SVG wordmark — a stylised "S2K" letterform representing t
 | :---------------- | :------------------ | :-------------- |
 | **Source file** | `src/assets/brand/logos/logo-santi020k.webp` | `public/logos/logo-square.webp` |
 | **Primary format** | WebP | WebP |
-| **Aspect Ratio** | 6.34:1 | 1.43:1 |
+| **Aspect Ratio** | 6.34:1 | 1:1 |
 | **Rendered size** | `width="228" height="36"` | `width="32" height="32"` |
 | **Primary Use** | Headers, Mastheads | Favicons, Manifest, App Icons |
 
@@ -95,7 +95,7 @@ The logo is a custom SVG wordmark — a stylised "S2K" letterform representing t
 
 | ✅ Do | ❌ Don't |
 | :---- | :------- |
-| Use the `.webp` source file for all web contexts | Use old SVG or PNG formats |
+| Use the `.webp` source file for all web contexts | Use old logo or icon files |
 | Place on white, light, or dark backgrounds | Place on mid-tone backgrounds that reduce contrast |
 | Scale proportionally with `width` and `height` attributes | Stretch, rotate, or distort |
 | Maintain clear space on all sides | Crop or crowd the mark |
@@ -276,7 +276,7 @@ Custom `--container-*` values in `@theme` override Tailwind defaults for tighter
 | Logo | `src/assets/brand/logos/logo-santi020k.webp` | Site identity |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and author attribution |
 | Default OG image | `public/default.webp` | Social share fallback |
-| Favicon | `public/favicon.svg` | Browser icon (square wrapper for logo.webp) |
+| Favicon | `public/favicon.svg` | Browser icon generated from the square mark |
 | Fonts | `public/fonts/` | Self-hosted Montserrat variable fonts |
 
 ### Open Graph Images
@@ -705,7 +705,7 @@ All internal links use trailing slashes.
 
 | ✅ Do | ❌ Don't |
 | :------- | :------- |
-| Use the logo WebP from `src/assets/brand/logos/logo-santi020k.webp` | Use the old SVG files |
+| Use the logo WebP from `src/assets/brand/logos/logo-santi020k.webp` | Use older logo or terminal icon files |
 | Reference colors via semantic CSS custom properties | Hardcode hex or HSL values in components |
 | Define new tokens in `src/styles/global.css` `@theme` | Add one-off inline color values |
 | Verify contrast ratios before shipping any new color pair | Assume a color combination is accessible |
@@ -748,7 +748,7 @@ All internal links use trailing slashes.
 | Logo (WebP) | `src/assets/brand/logos/logo-santi020k.webp` | 6.34:1 aspect ratio |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and about sections |
 | Default OG image | `public/default.webp` | Served statically |
-| Favicon | `public/favicon.svg` | Square wrapper for branding |
+| Favicon | `public/favicon.svg` | Square wrapper generated from the current mark |
 | Fonts | `public/fonts/` | Montserrat variable font files |
 
 ### Key Source Files

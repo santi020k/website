@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 
@@ -54,13 +54,6 @@ const main = async () => {
   await mkdir(fileURLToPath(brandDir), { recursive: true })
 
   await mkdir(fileURLToPath(new URL('logos/', publicDir)), { recursive: true })
-
-  // Write SVGs
-  await writeFile(fileURLToPath(new URL('logo-santi020k.svg', brandDir)), lightWordmarkSvg)
-
-  await writeFile(fileURLToPath(new URL('logo-santi020k-dark.svg', brandDir)), darkWordmarkSvg)
-
-  await writeFile(fileURLToPath(new URL('logo-square.svg', brandDir)), markSvg)
 
   // Render WebP
   await writeWebp('logo-santi020k.webp', lightWordmarkSvg, 1008, 160) // 2x for retina
