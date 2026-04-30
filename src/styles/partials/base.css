@@ -61,6 +61,33 @@
     color: hsl(var(--ink));
   }
 
+  :root[data-theme="dark"] body {
+    background:
+      radial-gradient(
+        circle at 10% 0%,
+        hsl(var(--glow) / 0.15),
+        transparent 28rem
+      ),
+      radial-gradient(
+        circle at 90% -10%,
+        hsl(var(--brand) / 0.15),
+        transparent 32rem
+      ),
+      radial-gradient(
+        circle at 50% 120%,
+        hsl(var(--accent) / 0.15),
+        transparent 40rem
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--theme-bg) / 0.88),
+        hsl(var(--theme-bg) / 0.95)
+      ),
+      url("../../assets/wallpapers/wallpaper-3-desktop.webp") center center / cover fixed,
+      hsl(var(--theme-bg));
+    background-attachment: fixed;
+  }
+
   html.mobile-nav-open,
   body.mobile-nav-open,
   html.site-search-open,
