@@ -54,7 +54,7 @@ const ICON_DATA_URI = `data:image/png;base64,${iconBuf.toString('base64')}`
 
 const COVER_W = 400
 const COVER_H = 252
-const DARK_BG = '#0d0d14' // fallback background under wallpaper
+const DARK_BG = '#110c1d' // fallback background under wallpaper
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -98,11 +98,11 @@ const renderHeader = type => `
     <div style="display:flex;flex-direction:column;gap:8px;">
       <img src="${LOGO_DATA_URI}" style="display:flex;width:220px;height:36px;object-fit:contain;object-position:left center;" />
       <div style="display:flex;align-items:center;gap:10px;">
-        <div style="display:flex;width:48px;height:3px;border-radius:999px;background:linear-gradient(90deg,#8b5cf6 0%,#a78bfa 100%);"></div>
+        <div style="display:flex;width:48px;height:3px;border-radius:999px;background:linear-gradient(90deg,#945df4 0%,#6d28d9 100%);"></div>
         <span style="display:flex;font-size:16px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.12em;text-transform:uppercase;">santi020k.com</span>
       </div>
     </div>
-    <div style="display:flex;align-items:center;padding:12px 22px;border-radius:999px;background:#6d28d9;">
+    <div style="display:flex;align-items:center;padding:12px 22px;border-radius:999px;background:#5b21b6;">
       <span style="display:flex;font-size:18px;font-weight:800;color:#ffffff;letter-spacing:0.18em;text-transform:uppercase;">${escape(type)}</span>
     </div>
   </div>
@@ -127,8 +127,8 @@ const renderBody = (title, size, coverUri) =>
       <div style="display:flex;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg,#7c3aed 0%,#a78bfa 100%);"></div>
       ${renderTitle(title, size, '540px')}
     </div>
-    <div style="display:flex;width:${COVER_W}px;height:${COVER_H}px;flex-shrink:0;border-radius:22px;padding:8px;background:linear-gradient(145deg,rgba(124,58,237,0.30) 0%,rgba(99,32,197,0.12) 100%);border:1px solid rgba(255,255,255,0.14);">
-      <div style="display:flex;width:100%;height:100%;border-radius:16px;overflow:hidden;background:#1a0f2e;border:2px solid rgba(255,255,255,0.08);">
+    <div style="display:flex;width:${COVER_W}px;height:${COVER_H}px;flex-shrink:0;border-radius:22px;padding:8px;background:linear-gradient(145deg,rgba(148,93,244,0.30) 0%,rgba(91,33,182,0.12) 100%);border:1px solid rgba(255,255,255,0.14);">
+      <div style="display:flex;width:100%;height:100%;border-radius:16px;overflow:hidden;background:#110c1d;border:2px solid rgba(255,255,255,0.08);">
         <img src="${coverUri}" style="display:flex;width:100%;height:100%;object-fit:contain;object-position:center;" />
       </div>
     </div>
@@ -137,7 +137,7 @@ const renderBody = (title, size, coverUri) =>
     `
   <div style="display:flex;align-items:center;flex:1;gap:40px;width:100%;">
     <div style="display:flex;flex-direction:column;gap:22px;flex:1;min-width:0;">
-      <div style="display:flex;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg,#7c3aed 0%,#a78bfa 100%);"></div>
+      <div style="display:flex;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg,#945df4 0%,#6d28d9 100%);"></div>
       ${renderTitle(title, size, '860px')}
     </div>
     <div style="display:flex;width:240px;height:240px;flex-shrink:0;opacity:0.12;">
@@ -156,7 +156,7 @@ const renderCanvas = (header, body) => `
     <div style="display:flex;position:absolute;top:0;left:0;width:1200px;height:630px;">
       <img src="${WALLPAPER_DATA_URI}" style="display:flex;width:1200px;height:630px;object-fit:cover;" />
     </div>
-    <div style="display:flex;position:absolute;top:0;left:0;width:1200px;height:630px;background:rgba(8,4,20,0.75);"></div>
+    <div style="display:flex;position:absolute;top:0;left:0;width:1200px;height:630px;background:rgba(17,12,29,0.75);"></div>
     <div style="display:flex;position:relative;width:100%;height:100%;flex-direction:column;padding:52px 64px;">
       ${header}
       ${body}

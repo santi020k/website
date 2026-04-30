@@ -31,20 +31,20 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --theme-bg: 277 20% 10%;
-  --surface: 277 20% 14%;
-  --surface-muted: 277 18% 17%;
-  --surface-strong: 277 15% 23%;
-  --line: 277 12% 32%;
-  --ink: 277 10% 88%;
-  --ink-soft: 277 8% 72%;
-  --ink-muted: 277 6% 56%;
-  --brand: 277 75% 62%;
+  --theme-bg: 260 43% 8%;
+  --surface: 260 30% 12%;
+  --surface-muted: 260 25% 15%;
+  --surface-strong: 260 20% 21%;
+  --line: 260 15% 30%;
+  --ink: 260 10% 88%;
+  --ink-soft: 260 8% 72%;
+  --ink-muted: 260 6% 56%;
+  --brand: 262 87% 66%;
   /* Headless Lighthouse defaults to dark scheme; 62% L fails 4.5:1 with white at button sizes. */
-  --brand-solid: 277 70% 46%;
-  --brand-soft: 277 48% 18%;
-  --accent: 277 82% 72%;
-  --glow: 280 85% 68%;
+  --brand-solid: 262 87% 46%;
+  --brand-soft: 262 50% 18%;
+  --accent: 262 87% 76%;
+  --glow: 262 87% 68%;
 }
 
 @media (prefers-contrast: more) {
@@ -61,14 +61,14 @@
   }
 
   :root[data-theme="dark"] {
-    --surface-muted: 277 18% 15%;
-    --surface-strong: 277 16% 20%;
-    --line: 277 14% 48%;
-    --ink-soft: 277 10% 84%;
-    --ink-muted: 277 8% 76%;
-    --brand: 277 78% 68%;
-    --brand-solid: 277 72% 44%;
-    --brand-soft: 277 42% 24%;
+    --surface-muted: 260 25% 15%;
+    --surface-strong: 260 20% 20%;
+    --line: 260 15% 48%;
+    --ink-soft: 260 10% 84%;
+    --ink-muted: 260 8% 76%;
+    --brand: 262 87% 72%;
+    --brand-solid: 262 87% 44%;
+    --brand-soft: 262 50% 24%;
   }
 }
 
