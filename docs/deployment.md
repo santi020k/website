@@ -2,18 +2,23 @@
 
 ## Deployment target
 
+- **Host**: [Cloudflare Pages](https://pages.cloudflare.com/) — static asset publishing with global edge cache.
 - **Output**: Static site from `pnpm run build` (published under `dist/`).
 - **Production domain**: `https://santi020k.com`
 - **Redirect**: `www.santi020k.com` → apex `https://santi020k.com` (configure at your DNS or CDN).
 
-Apply caching and security headers per [`docs/cache-strategy.md`](cache-strategy.md). Typical additions at the edge:
+Cache and security headers are versioned in the repo at [`public/_headers`](../public/_headers) (Cloudflare Pages picks them up at the edge automatically). The defaults include:
 
-- **Content-Security-Policy**: `default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self' data:; frame-ancestors 'none'; img-src 'self' data: blob: https:; manifest-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; worker-src 'self'`
+- **Content-Security-Policy**: locked-down, allows Cloudflare Insights when enabled by Pages.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **X-Content-Type-Options**: `nosniff`
+- **`/_astro/*`** and **`/fonts/*`** → 1 year `immutable`.
+- **`/og/*`** → 1 year `immutable`.
+- **`/sw.js`** → `Cache-Control: public, max-age=0, must-revalidate` so service worker updates propagate.
+- **HTML / `/feed.xml` / `/feed.json` / `/sitemap*.xml`** → `CDN-Cache-Control: s-maxage=3600, stale-while-revalidate=86400` so the edge stays fresh while keeping browser caches conservative.
 
-`/sw.js` should use `Cache-Control: public, max-age=0, must-revalidate` so service worker updates propagate.
+Editing those defaults: update [`public/_headers`](../public/_headers) directly. Do not maintain a separate `vercel.json` — the project no longer targets Vercel.
 
 ## Release flow
 
@@ -34,9 +39,10 @@ Apply caching and security headers per [`docs/cache-strategy.md`](cache-strategy
 
 ## Pre-release local validation
 
-Run before large changes or manual releases:
+Two tiers, picked by intent:
 
-- `pnpm run ci:verify`
+- `pnpm run verify:fast` — lint, type-check via `astro sync`, unit tests, and a build. Runs on `pre-push` to keep daily pushes fast.
+- `pnpm run verify:full` (alias of `ci:verify`) — everything `verify:fast` does, plus coverage, Lighthouse CI, and stable Playwright. Run before manual releases or large changes.
 
 ## Rollback
 
@@ -69,3 +75,4 @@ The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for
 ## Notes
 
 - Cache policy details are documented in [`docs/cache-strategy.md`](cache-strategy.md).
+- The edge cache and CSP live in [`public/_headers`](../public/_headers); changes there ship with the next deploy.

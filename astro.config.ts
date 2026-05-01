@@ -2,7 +2,9 @@ import { defineConfig, envField } from 'astro/config'
 import icon from 'astro-icon'
 import robotsTxt from 'astro-robots-txt'
 import webmanifest from 'astro-webmanifest'
+import yaml from 'js-yaml'
 import fs from 'node:fs'
+import path from 'node:path'
 // Rehype plugins
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypePrettyCode from 'rehype-pretty-code'
@@ -13,6 +15,7 @@ import remarkDirective from 'remark-directive'/* handle ::: directives as nodes 
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { siteConfig } from './src/site.config'
+import { getPostSlug } from './src/utils/posts'
 
 import mdx from '@astrojs/mdx'
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap'
@@ -24,6 +27,92 @@ import {
 import tailwindcss from '@tailwindcss/vite'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
+
+/**
+ * Builds a Map<absoluteUrl, ISO lastmod string> for content-collection routes
+ * by reading frontmatter from disk at build time. Used by the sitemap's
+ * `serialize` callback so each post/project entry advertises its real publish/
+ * update date instead of a uniform build timestamp.
+ */
+const buildContentLastmodMap = (): Map<string, string> => {
+  const siteOrigin = 'https://santi020k.com'
+  const lastmodMap = new Map<string, string>()
+  const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---/
+
+  const walk = (dir: string): string[] => {
+    if (!fs.existsSync(dir)) return []
+    const out: string[] = []
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name)
+      if (entry.isDirectory()) {
+        out.push(...walk(full))
+      } else if (entry.isFile() && /\.mdx?$/.test(entry.name)) {
+        out.push(full)
+      }
+    }
+    return out
+  }
+
+  const toIso = (value: unknown): string | undefined => {
+    if (value instanceof Date) return value.toISOString()
+    if (typeof value === 'string') {
+      const date = new Date(value)
+      return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+    }
+    return undefined
+  }
+
+  const register = (url: string, frontmatter: Record<string, unknown>, prefer: string[]) => {
+    for (const key of prefer) {
+      const iso = toIso(frontmatter[key])
+      if (iso) {
+        lastmodMap.set(url, iso)
+        return
+      }
+    }
+  }
+
+  // Posts: src/content/post/**/<slug>(/index)?.md(x) -> /blog/<slug>/
+  for (const file of walk(path.resolve('src/content/post'))) {
+    try {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      const raw = fs.readFileSync(file, 'utf8')
+      const match = frontmatterRegex.exec(raw)
+      if (!match) continue
+      const data = yaml.load(match[1] ?? '') as Record<string, unknown> | null
+      if (!data || data.draft === true) continue
+      const relative = path.relative(path.resolve('src/content/post'), file).replace(/\\/g, '/')
+      const id = relative.replace(/\.mdx?$/, '')
+      const slug = getPostSlug(id)
+      register(`${siteOrigin}/blog/${slug}/`, data, ['updatedDate', 'publishDate'])
+    } catch {
+      /* ignore unreadable files */
+    }
+  }
+
+  // Projects: src/content/project/<slug>(/index)?.md(x) -> /portfolio/<slug>/
+  for (const file of walk(path.resolve('src/content/project'))) {
+    try {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      const raw = fs.readFileSync(file, 'utf8')
+      const match = frontmatterRegex.exec(raw)
+      if (!match) continue
+      const data = yaml.load(match[1] ?? '') as Record<string, unknown> | null
+      if (!data || data.draft === true) continue
+      const relative = path.relative(path.resolve('src/content/project'), file).replace(/\\/g, '/')
+      const id = relative.replace(/\.mdx?$/, '').replace(/\/index$/, '')
+      const slug = id.split('/').pop() ?? id
+      register(`${siteOrigin}/portfolio/${slug}/`, data, ['endingDate', 'startingDate'])
+    } catch {
+      /* ignore unreadable files */
+    }
+  }
+
+  return lastmodMap
+}
+
+const contentLastmodMap = buildContentLastmodMap()
 
 const rawFonts = (ext: string[]) => ({
   name: 'vite-plugin-raw-fonts',
@@ -58,13 +147,14 @@ export default defineConfig({
       // Draft filtering happens at route level (getStaticPaths / getCachedPosts / getAllProjects)
       // so draft pages never generate URLs and are never included in the sitemap.
       filter: () => true,
-      lastmod: new Date(),
       serialize(item) {
         const url = item.url
+        const contentLastmod = contentLastmodMap.get(url)
+        const next: typeof item = contentLastmod ? { ...item, lastmod: contentLastmod } : { ...item }
 
         // Homepage — highest priority, changes frequently
         if (url === 'https://santi020k.com/' || url === 'https://santi020k.com') {
-          return { ...item, changefreq: ChangeFreqEnum.DAILY, priority: 1.0 }
+          return { ...next, changefreq: ChangeFreqEnum.DAILY, priority: 1.0 }
         }
 
         // Section indexes — important landing pages, checked weekly
@@ -72,35 +162,40 @@ export default defineConfig({
           url === 'https://santi020k.com/blog/' ||
           url === 'https://santi020k.com/portfolio/'
         ) {
-          return { ...item, changefreq: ChangeFreqEnum.WEEKLY, priority: 0.9 }
+          return { ...next, changefreq: ChangeFreqEnum.WEEKLY, priority: 0.9 }
         }
 
         // Individual blog posts — high value, rarely change after publishing
         if (url.includes('/blog/')) {
-          return { ...item, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.8 }
+          return { ...next, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.8 }
         }
 
         // Individual portfolio/project pages
         if (url.includes('/portfolio/')) {
-          return { ...item, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.8 }
+          return { ...next, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.8 }
         }
 
         // About & Speaking — important but stable
         if (url.includes('/about') || url.includes('/speaking')) {
-          return { ...item, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.6 }
+          return { ...next, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.6 }
         }
 
         // Technology index and detail pages
         if (url.includes('/technologies/')) {
-          return { ...item, changefreq: ChangeFreqEnum.WEEKLY, priority: 0.5 }
+          return { ...next, changefreq: ChangeFreqEnum.WEEKLY, priority: 0.5 }
         }
 
         // Uses, offline, 404 and everything else — low priority, stable
-        return { ...item, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.5 }
+        return { ...next, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.5 }
       }
     }),
     mdx(),
-    robotsTxt(),
+    robotsTxt({
+      // The search-index.json blob is intended for the in-page site search and
+      // duplicates content already crawlable from posts/projects. Keep it out
+      // of search results so listings stay clean.
+      policy: [{ userAgent: '*', allow: '/', disallow: ['/search-index.json'] }]
+    }),
     webmanifest({
       // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
       name: siteConfig.title,

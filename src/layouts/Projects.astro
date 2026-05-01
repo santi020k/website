@@ -5,6 +5,7 @@ import { Icon } from 'astro-icon/components'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import ProjectCard from '@/components/molecules/ProjectCard.astro'
+import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
 import ProjectHero from '@/components/organisms/ProjectHero.astro'
 
@@ -42,8 +43,8 @@ const stackPreview = project.data.technologies.slice(0, 6)
 const projectStageLabel = getProjectStageLabel(project.data.typesId, project.data.endingDate)
 const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
 const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
-
 const caseStudy = project.data.caseStudy
+
 const caseStudyRows = caseStudy ?
   [
     { body: caseStudy.problem, label: 'Problem' },
@@ -94,7 +95,7 @@ const breadcrumbs = [
     aria-hidden="true"
     role="presentation"
     class="reading-progress-bar"
-    style="width: 0%"
+    style="transform: scaleX(0)"
   >
   </div>
 
@@ -128,7 +129,8 @@ const breadcrumbs = [
             <div
               aria-label="Case study summary"
               class="
-                grid gap-4 rounded-2xl border border-brand/15 bg-brand-soft/25 p-5
+                grid gap-4 rounded-2xl border border-brand/15 bg-brand-soft/25
+                p-5
                 sm:grid-cols-2 sm:p-6
               "
               role="region"
@@ -146,6 +148,8 @@ const breadcrumbs = [
             <slot />
           </div>
         </div>
+
+        <ShareButtons title={project.data.title} url={canonicalURL.href} />
 
         <footer
           class="
@@ -321,7 +325,9 @@ const breadcrumbs = [
       const onScroll = () => {
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
-        bar.style.width = height > 0 ? `${(winScroll / height) * 100}%` : '0%'
+        // scaleX(0–1) is composited on the GPU — no layout triggered on scroll
+        const scale = height > 0 ? winScroll / height : 0
+        bar.style.transform = `scaleX(${scale})`
       }
 
       window.addEventListener('scroll', onScroll, { passive: true })

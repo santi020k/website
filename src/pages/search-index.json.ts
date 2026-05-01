@@ -6,6 +6,7 @@ import { getImage } from 'astro:assets'
 
 interface SearchIndexEntry {
   coverAlt?: string
+  coverAvifUrl?: string
   coverHeight?: number
   coverUrl?: string
   coverWidth?: number
@@ -17,26 +18,26 @@ interface SearchIndexEntry {
   type: 'post' | 'project'
 }
 
-type SearchThumbFields = Partial<Pick<SearchIndexEntry, 'coverAlt' | 'coverHeight' | 'coverUrl' | 'coverWidth'>>
+type SearchThumbFields = Partial<Pick<SearchIndexEntry, 'coverAlt' | 'coverAvifUrl' | 'coverHeight' | 'coverUrl' | 'coverWidth'>>
 
 const searchThumb = async (
   cover: { alt: string, src: ImageMetadata } | undefined
 ): Promise<SearchThumbFields> => {
   if (!cover) return {}
 
-  const optimized = await getImage({
-    format: 'webp',
-    src: cover.src,
-    width: 200
-  })
+  const [webp, avif] = await Promise.all([
+    getImage({ format: 'webp', src: cover.src, width: 200 }),
+    getImage({ format: 'avif', src: cover.src, width: 200 })
+  ])
 
-  const { attributes } = optimized
+  const { attributes } = webp
   const width = typeof attributes.width === 'number' ? attributes.width : undefined
   const height = typeof attributes.height === 'number' ? attributes.height : undefined
 
   const out: SearchThumbFields = {
     coverAlt: cover.alt,
-    coverUrl: optimized.src
+    coverAvifUrl: avif.src,
+    coverUrl: webp.src
   }
 
   if (typeof width === 'number') out.coverWidth = width

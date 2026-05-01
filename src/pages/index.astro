@@ -18,7 +18,7 @@ import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
 import { getCachedPosts, getCachedProjects } from '../utils/content'
 import { collectionDateSortProjects } from '../utils/date'
-import { getPortfolioPath, getTechnologyPath } from '../utils/links'
+import { getPortfolioPath, getPostPath, getTechnologyPath } from '../utils/links'
 import { sortTechnologyCountsByInterest } from '../utils/technologies'
 
 const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
@@ -52,6 +52,32 @@ const heroPortraitImage = await getImage({
   widths: [400, 600, 800]
 })
 
+const homePageSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ItemList',
+      name: 'Featured projects',
+      itemListElement: featuredProjects.map((project, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: new URL(getPortfolioPath(project.id), Astro.site).href,
+        name: project.data.title
+      }))
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Latest writing',
+      itemListElement: latestPosts.map((post, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: new URL(getPostPath(post.id), Astro.site).href,
+        name: post.data.title
+      }))
+    }
+  ]
+}
+
 const meta = {
   description:
     'Engineering Leader & Full-Stack Architect with 12+ years of experience building resilient systems and scaling technical teams.',
@@ -61,6 +87,7 @@ const meta = {
     imagesrcset: heroPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
+  structuredData: homePageSchema,
   title: 'Engineering Leader & Full-Stack Architect'
 }
 ---
@@ -163,7 +190,7 @@ const meta = {
       "
       >
         <p class="section-label">What I do now</p>
-        <h2 class="mt-4 text-3xl">Engineering that ships and systems that last.</h2>
+        <h3 class="mt-4 text-3xl">Engineering that ships and systems that last.</h3>
         <p class="mt-4 max-w-2xl text-base/7 text-ink-soft">
           My work spans full-stack delivery, developer tooling, and automation: finding the slowest parts of a
           team's workflow and replacing them with repeatable systems that make shipping feel calmer and more
@@ -202,7 +229,7 @@ const meta = {
       >
         <div class="space-y-3">
           <p class="section-label">Speaking and community</p>
-          <h2 class="text-3xl">Practical sessions for engineers, teams, and local communities.</h2>
+          <h3 class="text-3xl">Practical sessions for engineers, teams, and local communities.</h3>
           <p class="max-w-2xl text-base/7 text-ink-soft">
             I am most useful in rooms where the goal is practical clarity: developer experience, technical leadership,
             architecture, testing, automation, and the delivery systems that make teams feel more confident.
@@ -225,7 +252,7 @@ const meta = {
       >
         <div class="space-y-3">
           <p class="section-label">Uses and workflow</p>
-          <h2 class="text-3xl">A practical setup built around clarity and fast feedback.</h2>
+          <h3 class="text-3xl">A practical setup built around clarity and fast feedback.</h3>
           <p class="max-w-2xl text-base/7 text-ink-soft">
             The exact tools shift over time, but the priorities stay the same: boring reliability, fewer context
             switches, and a workflow that supports both deep implementation work and hands-on leadership.
@@ -339,13 +366,13 @@ const meta = {
           </div>
 
           <div class="space-y-3">
-            <h2 class="
+            <h3 class="
               text-xl font-semibold text-ink
               sm:text-2xl
             "
             >
               {project.data.title}
-            </h2>
+            </h3>
             <p class="text-sm/7 text-ink-soft">{project.data.description}</p>
           </div>
 
@@ -388,13 +415,13 @@ const meta = {
         "
         >
           <div class="space-y-3">
-            <h2 class="
+            <h3 class="
               text-xl font-semibold text-ink
               sm:text-2xl
             "
             >
               {lane.title}
-            </h2>
+            </h3>
             <p class="text-sm/7 text-ink-soft">{lane.description}</p>
           </div>
           <p class="text-sm/6 text-ink-muted">{lane.fit}</p>

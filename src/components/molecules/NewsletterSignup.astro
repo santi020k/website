@@ -3,26 +3,31 @@ import { Icon } from 'astro-icon/components'
 
 interface Props {
   formAction: string
+  variant?: 'compact' | 'default'
 }
 
-const { formAction } = Astro.props
+const { formAction, variant = 'default' } = Astro.props
+const isCompact = variant === 'compact'
+const headingId = `newsletter-heading-${variant}`
+const emailId = `newsletter-email-${variant}`
 ---
 
-<section aria-labelledby="newsletter-heading" data-animate>
+<section aria-labelledby={headingId} data-animate>
   <div
-    class="
-      flex flex-col gap-6 rounded-[1.85rem] border border-line/55
-      bg-surface-muted/40 p-6
-      sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:p-8
-    "
+    class:list={[
+      'flex flex-col gap-6 rounded-[1.85rem] border border-line/55 bg-surface-muted/40',
+      isCompact ?
+        'p-5 sm:p-6' :
+        'p-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:p-8'
+    ]}
   >
     <div class="max-w-xl space-y-2">
-      <p class="section-label" id="newsletter-heading">
+      <p class="section-label">
         Updates
       </p>
-      <p class="text-lg font-semibold tracking-tight text-ink">
+      <h2 class="text-lg font-semibold tracking-tight text-ink" id={headingId}>
         Get new posts in your inbox
-      </p>
+      </h2>
       <p class="text-sm/6 text-ink-soft">
         Low volume — engineering notes, architecture writeups, and occasional career updates.
         Prefer a feed?{' '}
@@ -34,6 +39,19 @@ const { formAction } = Astro.props
           href="/feed.xml"
         >
           Subscribe via RSS
+        </a>
+        .
+      </p>
+      <p class="text-xs text-ink-muted">
+        We never share your email.{' '}
+        <a
+          class="
+            text-ink-muted underline-offset-2
+            hover:text-brand hover:underline
+          "
+          href="/privacy/"
+        >
+          Privacy policy
         </a>
         .
       </p>
@@ -49,7 +67,7 @@ const { formAction } = Astro.props
       target="_blank"
     >
       <input name="embed" type="hidden" value="1" />
-      <label class="sr-only" for="newsletter-email">Email address</label>
+      <label class="sr-only" for={emailId}>Email address</label>
       <input
         autocomplete="email"
         class="
@@ -59,7 +77,7 @@ const { formAction } = Astro.props
           placeholder:text-ink-muted
           focus:border-brand/45 focus:ring-2 focus:ring-brand/20
         "
-        id="newsletter-email"
+        id={emailId}
         inputmode="email"
         name="email"
         placeholder="you@company.com"

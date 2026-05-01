@@ -1,8 +1,9 @@
 ---
-import { WEBMENTION_API_KEY } from 'astro:env/server'
 import { type CollectionEntry, render } from 'astro:content'
+import { WEBMENTION_API_KEY } from 'astro:env/server'
 import { Icon } from 'astro-icon/components'
 
+import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
 import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
@@ -10,12 +11,14 @@ import TocCard from '@/components/molecules/TocCard.astro'
 import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
 
-import { getSeriesContext } from '@/data/series'
-import BaseLayout from '@/layouts/Base.astro'
 import { getPostSlug } from '@/utils/posts'
 import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 
 import readingTime from 'reading-time'
+
+import { getSeriesContext } from '@/data/series'
+import BaseLayout from '@/layouts/Base.astro'
+import { siteConfig } from '@/site.config'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -31,8 +34,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const seriesContext = await getSeriesContext(post)
 // Extract headings for the sticky TOC sidebar (same pattern as Projects.astro)
 const { headings } = await render(post)
-
 const pageTargetUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com').href
+
 const webmentions = WEBMENTION_API_KEY ?
   await fetchWebmentionsForTarget(pageTargetUrl, WEBMENTION_API_KEY) :
   []
@@ -185,6 +188,9 @@ const breadcrumbs = [
 
   <div class="mx-auto w-full max-w-6xl space-y-20">
     <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
+    {siteConfig.newsletter?.formAction && (
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} variant="compact" />
+    )}
   </div>
 
   <script>

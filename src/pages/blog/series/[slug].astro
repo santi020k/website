@@ -6,6 +6,8 @@ import Pill from '@/components/atoms/Pill.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 
+import { getPostPath } from '@/utils/links'
+
 import { getSeriesSummaries } from '@/data/series'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -47,7 +49,7 @@ const structuredData: Record<string, unknown> = {
     '@type': 'BlogPosting',
     name: post.data.title,
     position: index + 1,
-    url: new URL(`/blog/${post.id}/`, Astro.site).href
+    url: new URL(getPostPath(post.id), Astro.site).href
   })),
   name: metaTitle,
   url: new URL(Astro.url.pathname, Astro.site).href

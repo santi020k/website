@@ -39,13 +39,7 @@ test('homepage has correct title and main sections', async ({ page }) => {
   await expect(mainMenu.getByRole('link', { name: 'Portfolio' })).toBeVisible()
   await expect(mainMenu.getByRole('link', { name: 'Blog' })).toBeVisible()
 
-  // Accessibility audit
-  await expectNoUnexpectedAccessibilityViolations(page, [
-    {
-      htmlIncludes: 'href="/portfolio/"',
-      id: 'color-contrast'
-    }
-  ])
+  await expectNoUnexpectedAccessibilityViolations(page)
 })
 
 test('homepage exposes shared accessibility affordances', async ({ page }) => {

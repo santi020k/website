@@ -83,9 +83,17 @@
         hsl(var(--theme-bg) / 0.88),
         hsl(var(--theme-bg) / 0.95)
       ),
-      url("../../assets/wallpapers/wallpaper-3-desktop.webp") center center / cover fixed,
+      url("../../assets/wallpapers/wallpaper-3-desktop.webp") center center / cover,
       hsl(var(--theme-bg));
-    background-attachment: fixed;
+    /* Avoid `background-attachment: fixed` on small screens and when reduced motion is requested:
+       on mobile/low-end GPUs it causes scroll-time compositing cost. Restrict to wide,
+       precise-pointer environments where the parallax effect is desired. */
+  }
+
+  @media (min-width: 64rem) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :root[data-theme="dark"] body {
+      background-attachment: scroll, scroll, scroll, scroll, fixed, scroll;
+    }
   }
 
   html.mobile-nav-open,

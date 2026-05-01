@@ -5,12 +5,12 @@ import ProjectCard from '@/components/molecules/ProjectCard.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 
+import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
-import { getTechnologyPath } from '@/utils/links'
+import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
 import { getUniqueTechnologiesWithCount, groupProjectsByTypesId } from '@/data/project'
-import { getCachedProjects } from '@/utils/content'
 import { getAllTypes } from '@/data/types'
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
@@ -36,11 +36,29 @@ const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Portfolio', url: '/portfolio/' }
 ]
+
+const portfolioListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Engineering Portfolio — Santiago Molina',
+  url: new URL('/portfolio/', Astro.site).href,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: allProjects.length,
+    itemListElement: allProjects.map((project, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: new URL(getPortfolioPath(project.id), Astro.site).href,
+      name: project.data.title
+    }))
+  }
+}
 ---
 
 <PageLayout meta={{
   breadcrumbs,
   description: 'A curated showcase of professional engineering projects, open-source contributions, and technical experiments across headless commerce, gaming, and SaaS.',
+  structuredData: portfolioListSchema,
   title: 'Engineering Portfolio — Santiago Molina'
 }}
 >

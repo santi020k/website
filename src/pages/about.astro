@@ -22,7 +22,38 @@ const description =
   `${yearsOfExperience} years shipping full-stack products. ` +
   'Senior engineer and tech lead based in Medellín — focused on automation, developer experience, and cross-functional leadership.'
 
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'About', url: '/about/' }
+]
+
+const aboutPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'About Santiago Molina — Engineering Leader',
+  description,
+  url: new URL('/about/', Astro.site).href,
+  mainEntity: {
+    '@type': 'Person',
+    name: siteConfig.author,
+    jobTitle: 'Engineering Leader & Full-Stack Architect',
+    description: siteConfig.description,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Medellín',
+      addressCountry: 'CO'
+    },
+    email: `mailto:${siteConfig.contact.email}`,
+    sameAs: [
+      siteConfig.contact.github,
+      siteConfig.contact.linkedin,
+      siteConfig.contact.medium
+    ].filter(Boolean)
+  }
+}
+
 const meta = {
+  breadcrumbs,
   description,
   preloadImage: {
     href: aboutPortraitImage.src,
@@ -30,6 +61,7 @@ const meta = {
     imagesrcset: aboutPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
+  structuredData: aboutPageSchema,
   title: 'About Santiago Molina — Engineering Leader'
 }
 ---
@@ -251,8 +283,12 @@ const meta = {
                 (
                   <img
                     alt={name}
-                    class="size-11 rounded-full object-cover"
+                    class="size-11 shrink-0 rounded-full object-cover"
+                    decoding="async"
+                    height="44"
+                    loading="lazy"
                     src={avatarUrl}
+                    width="44"
                   />
                 ) :
                 (

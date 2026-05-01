@@ -51,5 +51,11 @@ document.addEventListener('theme-change', e => {
 })
 
 // listen for prefers-color-scheme change.
-lightModePref.addEventListener('change', e => setTheme(e.matches ? 'light' : 'dark'))
+// Only auto-switch when the user has not made an explicit choice (no stored
+// theme); a saved preference takes precedence over the OS toggling.
+lightModePref.addEventListener('change', e => {
+  const hasStoredTheme = typeof localStorage !== 'undefined' && Boolean(localStorage.getItem('theme'))
+  if (hasStoredTheme) return
+  setTheme(e.matches ? 'light' : 'dark')
+})
 </script>

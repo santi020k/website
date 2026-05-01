@@ -68,6 +68,7 @@ const headMeta = {
           sm:px-6
           lg:px-8
         "
+        tabindex="-1"
         transition:animate="fade"
       >
         <slot />
@@ -82,14 +83,23 @@ const headMeta = {
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
 
     <script>
-      // Scroll to top on forward navigation; preserve position on back/forward
+      // Scroll to top on forward navigation; preserve position on back/forward.
+      // Also restore SR/keyboard focus to <main> after the swap so the virtual
+      // cursor follows the page change instead of staying on a stale element.
       document.addEventListener('astro:before-preparation', (e) => {
         const { navigationType } = e as Event & { navigationType?: string }
-        if (navigationType !== 'traverse') {
-          document.addEventListener('astro:after-swap', () => {
+        const isTraverse = navigationType === 'traverse'
+
+        document.addEventListener('astro:after-swap', () => {
+          if (!isTraverse) {
             window.scrollTo(0, 0)
-          }, { once: true })
-        }
+          }
+
+          const main = document.getElementById('main')
+          if (main instanceof HTMLElement) {
+            main.focus({ preventScroll: true })
+          }
+        }, { once: true })
       })
     </script>
 

@@ -9,6 +9,7 @@ import { getUniqueTechnologies } from '../../../data/project'
 import PageLayout from '../../../layouts/Base.astro'
 import { getCachedProjects } from '../../../utils/content'
 import { collectionDateSortProjects } from '../../../utils/date'
+import { getPortfolioPath, getTechnologyPath } from '../../../utils/links'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const allProjects = await getCachedProjects()
@@ -32,9 +33,34 @@ interface Props {
 const { page } = Astro.props
 const { technology = '' } = Astro.params
 
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Technologies', url: '/technologies/' },
+  { name: technology, url: getTechnologyPath(technology) }
+]
+
+const technologyListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${technology} · Technology`,
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: page.data.length,
+    itemListElement: page.data.map((project, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: new URL(getPortfolioPath(project.id), Astro.site).href,
+      name: project.data.title
+    }))
+  }
+}
+
 const meta = {
+  breadcrumbs,
   description: `Projects and case studies where ${technology} shaped the architecture, ` +
     'delivery workflow, or product experience.',
+  structuredData: technologyListSchema,
   title: `${technology} · Technology`
 }
 
