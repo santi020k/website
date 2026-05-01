@@ -146,9 +146,6 @@ When writing social copy to promote a new blog post or project, use this format:
 
 ## Measuring Success
 
-Given the site uses `@vercel/analytics`, track:
-- **Engagement**: Time on page, scroll depth (via custom events if needed)
-- **Top entry pages**: Which posts/pages bring in new visitors
-- **Referrers**: Where traffic comes from (search, social, direct)
+If you add analytics later (host dashboards, privacy-friendly tools, or server logs), useful signals include engagement, top entry pages, and referrers. Until then, Lighthouse CI and occasional Search Console checks complement qualitative signals.
 
 For a personal site, "success" is usually: readers sharing your posts, getting job/consulting inquiries, or growing your network. Optimize copy toward those outcomes.

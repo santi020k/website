@@ -355,14 +355,10 @@ import { Icon } from 'astro-icon/components'
     let entries = []
     let selectedResultIndex = -1
     let closeAnimTimer = 0
-    let queryTrackTimer = 0
-    let lastTrackedQuerySignature = ''
     /** @type {'idle' | 'loading' | 'ready' | 'error'} */
     let indexLoadState = 'idle'
     /** @type {Promise<boolean> | null} */
     let indexLoadPromise = null
-
-    const resolveTrack = () => import('@vercel/analytics').then(m => m.track).catch(() => () => {})
 
     const getDialog = () => document.querySelector('#site-search-dialog')
     const getInput = () => document.querySelector('#site-search-input')
@@ -411,33 +407,6 @@ import { Icon } from 'astro-icon/components'
       if (!(status instanceof HTMLElement)) return
       if (status.textContent === message) return
       status.textContent = message
-    }
-
-    /**
-     * @param {string} query
-     * @param {number} resultCount
-     */
-    const trackQuery = (query, resultCount) => {
-      const normalized = query.trim().toLowerCase()
-      if (normalized.length < 2) return
-
-      const signature = `${normalized}|${resultCount}`
-      if (signature === lastTrackedQuerySignature) return
-
-      window.clearTimeout(queryTrackTimer)
-      queryTrackTimer = window.setTimeout(() => {
-        lastTrackedQuerySignature = signature
-        const terms = normalized.split(/\s+/).filter(Boolean).length
-        resolveTrack()
-          .then((track) =>
-            track('site_search_query', {
-              query_length: String(normalized.length),
-              query_terms: String(terms),
-              results: String(resultCount)
-            })
-          )
-          .catch(() => {})
-      }, 400)
     }
 
     /**
@@ -575,7 +544,6 @@ import { Icon } from 'astro-icon/components'
         results.innerHTML =
           '<li class="site-search-hint px-1 py-2 text-sm text-ink-muted">No matching results.</li>'
         setStatusMessage(`No matching results for ${trimmed}.`)
-        trackQuery(trimmed, 0)
         return
       }
 
@@ -655,7 +623,6 @@ import { Icon } from 'astro-icon/components'
       setStatusMessage(
         `${matches.length} ${matches.length === 1 ? 'result' : 'results'} available. Use arrow keys to navigate.`
       )
-      trackQuery(trimmed, matches.length)
     }
 
     const openSearch = () => {
@@ -688,7 +655,6 @@ import { Icon } from 'astro-icon/components'
 
       const finish = () => {
         window.clearTimeout(closeAnimTimer)
-        window.clearTimeout(queryTrackTimer)
         if (dialog.open) {
           dialog.close()
         }
@@ -879,9 +845,6 @@ import { Icon } from 'astro-icon/components'
 
         const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
         if (!anchor) return
-        resolveTrack()
-          .then((track) => track('site_search_result_click', { href: anchor.getAttribute('href') ?? '' }))
-          .catch(() => {})
         closeSearch()
       })
 

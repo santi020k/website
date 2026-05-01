@@ -17,7 +17,7 @@ This site uses `@astrojs/sitemap`, `astro-robots-txt`, and `src/site.config.ts` 
 | robots.txt | `astro-robots-txt` in `astro.config.ts` |
 | Open Graph images | Generated via Satori in `src/pages/og/` |
 | Structured data | Inline `<script type="application/ld+json">` in layouts |
-| Analytics | `@vercel/analytics` + `@vercel/speed-insights` |
+| Analytics | None bundled; use Lighthouse CI for lab Web Vitals (`pnpm run ci:verify`) |
 
 ---
 
@@ -150,7 +150,7 @@ This project generates OG images server-side using Satori. When adding new conte
 
 ## Core Web Vitals & Performance
 
-The site uses `@vercel/speed-insights` for real-user monitoring. When making performance changes, aim to improve:
+There is no bundled real-user monitoring SDK. Use Lighthouse (local or CI) for regressions, and add host-level RUM later if needed. When making performance changes, aim to improve:
 
 - **LCP** (Largest Contentful Paint) — ensure above-the-fold images have `loading="eager"` and `fetchpriority="high"`.
 - **CLS** (Cumulative Layout Shift) — always set explicit `width` and `height` on `<img>` tags so the browser reserves space.

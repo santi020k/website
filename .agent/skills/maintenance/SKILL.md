@@ -31,4 +31,4 @@ Use this skill when performing general project cleanup, dependency updates, or s
 ### 4. Deployment Check
 
 - Ensure `astro.config.ts` has the correct `site` and `webmanifest` configuration.
-- Check `vercel.json` if deploying to Vercel (used for redirects/headers).
+- Confirm redirects (e.g. www → apex), caching, and security headers match `docs/deployment.md` and `docs/cache-strategy.md` on your CDN or host.

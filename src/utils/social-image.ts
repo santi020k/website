@@ -13,11 +13,11 @@ const safeDecodeURIComponent = (value: string) => {
 /**
  * Converts a URL pathname into a flat, filesystem-safe slug for OG images.
  *
- * Encoding strategy (must survive as a static filename on Vercel):
+ * Encoding strategy (must survive as a static filename on strict static hosts):
  *  1. Decode each segment first (handles already-encoded paths like `/technologies/C%23/`)
  *     to avoid double-encoding.
  *  2. Re-encode with `encodeURIComponent` to cover special chars (`+`, `#`, spaces, …).
- *  3. Replace every `%` with `~` because `%` is not valid in Vercel output filenames.
+ *  3. Replace every `%` with `~` because `%` is often rejected in generated asset filenames.
  *  4. Join segments with `--` so `/blog/my-post/` → `blog--my-post`.
  *
  * Example: `/technologies/C++/` → `technologies--C~2B~2B`

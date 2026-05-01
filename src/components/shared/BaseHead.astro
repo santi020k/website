@@ -4,15 +4,10 @@ import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
 import { getSocialImageURL } from '@/utils/social-image'
 
-import ErrorMonitoring from './ErrorMonitoring.astro'
-
 import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
 import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
 import { siteConfig } from '@/site.config'
 import type { SiteMeta } from '@/types/site'
-import Analytics from '@vercel/analytics/astro'
-import SpeedInsights from '@vercel/speed-insights/astro'
-
 const logoLightAvif = await getImage({ src: LogoMarkLight, format: 'avif', width: 228, height: 36 })
 const logoDarkAvif = await getImage({ src: LogoMarkDark, format: 'avif', width: 228, height: 36 })
 
@@ -36,11 +31,6 @@ const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparato
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com/')
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
-
-const shouldLoadVercelScripts =
-  import.meta.env.PROD &&
-    !import.meta.env.PUBLIC_IS_CI &&
-    (import.meta.env.VERCEL === '1' || import.meta.env.VERCEL_ENV !== undefined)
 
 const websiteJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -252,13 +242,3 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 {breadcrumbsJsonLd && (
   <script type="application/ld+json" is:inline set:html={breadcrumbsJsonLd} />
 )}
-
-{
-  shouldLoadVercelScripts && (
-    <>
-      <ErrorMonitoring />
-      <SpeedInsights />
-      <Analytics />
-    </>
-  )
-}
