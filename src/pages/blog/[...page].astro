@@ -12,6 +12,7 @@ import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 
 import { getCachedPosts } from '@/utils/content'
+import { getPostPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
 
 import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
@@ -52,12 +53,33 @@ const breadcrumbs = [
   { name: 'Blog', url: '/blog/' },
   ...(page.currentPage > 1 ? [{ name: `Page ${page.currentPage}`, url: Astro.url.pathname }] : [])
 ]
+
+const blogListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Software Engineering Blog — Santiago Molina',
+  url: new URL('/blog/', Astro.site).href,
+  blogPost: page.data.map((post, index) => ({
+    '@type': 'BlogPosting',
+    position: index + 1,
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.publishDate.toISOString(),
+    ...(post.data.updatedDate ? { dateModified: post.data.updatedDate.toISOString() } : {}),
+    url: new URL(getPostPath(post.id), Astro.site).href,
+    author: {
+      '@type': 'Person',
+      name: siteConfig.author
+    }
+  }))
+}
 ---
 
 <PageLayout
   meta={{
     breadcrumbs,
     description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+    structuredData: blogListSchema,
     title: isFirstPage ?
       'Software Engineering Blog — Santiago Molina' :
       `Blog · Page ${page.currentPage} of ${page.lastPage} — Santiago Molina`

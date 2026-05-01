@@ -347,6 +347,7 @@ import { Icon } from 'astro-icon/components'
      *   tags: string[]
      *   type: 'post' | 'project'
      *   coverUrl?: string
+     *   coverAvifUrl?: string
      *   coverAlt?: string
      *   coverWidth?: number
      *   coverHeight?: number
@@ -359,6 +360,51 @@ import { Icon } from 'astro-icon/components'
     let indexLoadState = 'idle'
     /** @type {Promise<boolean> | null} */
     let indexLoadPromise = null
+    /** @type {string[]} */
+    let popularTopics = []
+
+    const RECENT_SEARCHES_KEY = 'site-search-recent'
+    const RECENT_SEARCHES_LIMIT = 5
+
+    /** @returns {string[]} */
+    const getRecentSearches = () => {
+      try {
+        const raw = window.localStorage?.getItem(RECENT_SEARCHES_KEY)
+        if (!raw) return []
+        const parsed = JSON.parse(raw)
+        return Array.isArray(parsed) ? parsed.filter((v) => typeof v === 'string') : []
+      } catch {
+        return []
+      }
+    }
+
+    /** @param {string} query */
+    const rememberRecentSearch = (query) => {
+      const trimmed = query.trim()
+      if (trimmed.length < 2) return
+      try {
+        const list = getRecentSearches().filter((v) => v.toLowerCase() !== trimmed.toLowerCase())
+        list.unshift(trimmed)
+        const next = list.slice(0, RECENT_SEARCHES_LIMIT)
+        window.localStorage?.setItem(RECENT_SEARCHES_KEY, JSON.stringify(next))
+      } catch {
+        /* localStorage may be unavailable (private mode); fail silently. */
+      }
+    }
+
+    const computePopularTopics = () => {
+      /** @type {Map<string, number>} */
+      const counts = new Map()
+      for (const entry of entries) {
+        for (const tag of entry.tags) {
+          counts.set(tag, (counts.get(tag) ?? 0) + 1)
+        }
+      }
+      popularTopics = [...counts.entries()]
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .slice(0, 8)
+        .map(([tag]) => tag)
+    }
 
     const getDialog = () => document.querySelector('#site-search-dialog')
     const getInput = () => document.querySelector('#site-search-input')
@@ -407,6 +453,65 @@ import { Icon } from 'astro-icon/components'
       if (!(status instanceof HTMLElement)) return
       if (status.textContent === message) return
       status.textContent = message
+    }
+
+    /**
+     * Renders the empty state shown before the user starts typing. Prefers a
+     * "Recent searches" list when localStorage has prior queries, otherwise
+     * falls back to "Popular topics" derived from the loaded index.
+     * @param {HTMLElement} results
+     */
+    const renderEmptyState = (results) => {
+      const recents = getRecentSearches()
+      const useRecents = recents.length > 0
+      const items = useRecents ? recents : popularTopics
+
+      if (items.length === 0) {
+        results.innerHTML = `
+          <li class="
+            site-search-hint rounded-xl border border-dashed border-line/55
+            bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
+          ">
+            Type at least two characters to see results.
+          </li>
+        `
+        setStatusMessage('Type at least two characters to search.')
+        return
+      }
+
+      const heading = useRecents ? 'Recent searches' : 'Popular topics'
+      const li = document.createElement('li')
+      li.className = `
+        site-search-hint rounded-xl border border-dashed border-line/55
+        bg-surface-muted/35 px-4 py-4 text-sm text-ink-soft
+      `.trim().replace(/\s+/g, ' ')
+
+      const label = document.createElement('p')
+      label.className = 'mb-3 text-xs font-semibold tracking-[0.18em] text-ink-muted uppercase'
+      label.textContent = heading
+      li.appendChild(label)
+
+      const chips = document.createElement('div')
+      chips.className = 'flex flex-wrap gap-2'
+
+      for (const item of items) {
+        const chip = document.createElement('button')
+        chip.type = 'button'
+        chip.dataset.siteSearchSuggestion = item
+        chip.className = `
+          inline-flex items-center rounded-full border border-line/60
+          bg-surface px-3 py-1 text-xs font-medium text-ink-soft transition
+          hover:border-brand/40 hover:text-brand
+          motion-reduce:transition-none
+        `.trim().replace(/\s+/g, ' ')
+        chip.textContent = item
+        chips.appendChild(chip)
+      }
+
+      li.appendChild(chips)
+      results.innerHTML = ''
+      results.appendChild(li)
+      setStatusMessage(`${items.length} ${heading.toLowerCase()} available.`)
     }
 
     /**
@@ -514,15 +619,7 @@ import { Icon } from 'astro-icon/components'
 
       if (trimmed.length < 2) {
         selectedResultIndex = -1
-        results.innerHTML = `
-          <li class="
-            site-search-hint rounded-xl border border-dashed border-line/55
-            bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
-          ">
-            Type at least two characters to see results.
-          </li>
-        `
-        setStatusMessage('Type at least two characters to search.')
+        renderEmptyState(results)
         return
       }
 
@@ -571,6 +668,15 @@ import { Icon } from 'astro-icon/components'
           placeholder.setAttribute('aria-hidden', 'true')
           placeholder.setAttribute('data-site-search-thumb-placeholder', '')
 
+          const picture = document.createElement('picture')
+
+          if (e.coverAvifUrl) {
+            const avifSource = document.createElement('source')
+            avifSource.type = 'image/avif'
+            avifSource.srcset = e.coverAvifUrl
+            picture.appendChild(avifSource)
+          }
+
           const img = document.createElement('img')
           img.src = e.coverUrl
           img.alt = e.coverAlt || e.title
@@ -590,7 +696,8 @@ import { Icon } from 'astro-icon/components'
             img.alt = ''
           })
 
-          thumbHost.append(placeholder, img)
+          picture.appendChild(img)
+          thumbHost.append(placeholder, picture)
         } else {
           const ph = document.createElement('span')
           ph.className = 'block size-full grid-fade'
@@ -723,6 +830,7 @@ import { Icon } from 'astro-icon/components'
         })
         .then((json) => {
           entries = Array.isArray(json) ? json : []
+          computePopularTopics()
           indexLoadState = 'ready'
           return true
         })
@@ -818,6 +926,7 @@ import { Icon } from 'astro-icon/components'
         const links = [...results.querySelectorAll('a[href]')]
         if (selectedResultIndex < 0 || selectedResultIndex >= links.length) return
         e.preventDefault()
+        rememberRecentSearch(input.value)
         links[selectedResultIndex].click()
       })
 
@@ -843,8 +952,24 @@ import { Icon } from 'astro-icon/components'
           return
         }
 
+        const suggestion =
+          event.target instanceof Element ?
+            event.target.closest('[data-site-search-suggestion]') :
+            null
+        if (suggestion instanceof HTMLButtonElement) {
+          event.preventDefault()
+          const term = suggestion.dataset.siteSearchSuggestion ?? ''
+          if (term) {
+            input.value = term
+            input.dispatchEvent(new Event('input', { bubbles: true }))
+            input.focus()
+          }
+          return
+        }
+
         const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
         if (!anchor) return
+        rememberRecentSearch(input.value)
         closeSearch()
       })
 
@@ -858,15 +983,18 @@ import { Icon } from 'astro-icon/components'
         syncResultSelection()
       })
 
-      void loadIndex().then(() => {
-        const params = new URLSearchParams(window.location.search)
-        const queryFromURL = params.get('q')
-        if (queryFromURL && queryFromURL.trim().length >= 2) {
-          openSearch()
-          input.value = queryFromURL
+      // Defer the search-index fetch until the user actually opens the modal
+      // (trigger click, Cmd/Ctrl+K, or '/'), or arrives with a `?q=` deep-link.
+      // This avoids a network + parse cost on every page navigation.
+      const params = new URLSearchParams(window.location.search)
+      const queryFromURL = params.get('q')
+      if (queryFromURL && queryFromURL.trim().length >= 2) {
+        openSearch()
+        input.value = queryFromURL
+        void loadIndex().then(() => {
           render(queryFromURL)
-        }
-      })
+        })
+      }
     }
 
     const onGlobalKeydown = (event) => {

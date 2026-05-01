@@ -38,4 +38,45 @@ test.describe('RSS feed', () => {
     const postLinks = linkMatches.filter(link => link.includes('/blog/'))
     expect(postLinks.length).toBeGreaterThan(0)
   })
+
+  test('/feed.xml exposes per-item categories from tags', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+
+    expect(body).toContain('<category>')
+  })
+
+  test('/feed.xml exposes the dc:creator namespace and value', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+
+    expect(body).toMatch(/xmlns:dc=/)
+    expect(body).toContain('<dc:creator>')
+  })
+})
+
+test.describe('JSON Feed', () => {
+  test('/feed.json responds with 200 and feed+json content-type', async ({ request }) => {
+    const response = await request.get('/feed.json')
+    expect(response.status()).toBe(200)
+    expect(response.headers()['content-type'] ?? '').toMatch(/feed\+json/)
+  })
+
+  test('/feed.json declares JSON Feed 1.1 and includes posts', async ({ request }) => {
+    const response = await request.get('/feed.json')
+    const json = await response.json()
+
+    expect(json.version).toBe('https://jsonfeed.org/version/1.1')
+    expect(Array.isArray(json.items)).toBe(true)
+    expect(json.items.length).toBeGreaterThan(0)
+    expect(json.items[0]).toHaveProperty('id')
+    expect(json.items[0]).toHaveProperty('url')
+    expect(json.items[0]).toHaveProperty('date_published')
+  })
+
+  test('home page advertises the JSON feed via <link rel="alternate">', async ({ page }) => {
+    await page.goto('/')
+    const link = page.locator('link[rel="alternate"][type="application/feed+json"]')
+    await expect(link).toHaveAttribute('href', '/feed.json')
+  })
 })

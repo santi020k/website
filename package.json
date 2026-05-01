@@ -33,7 +33,7 @@
     "test:coverage": "vitest run --coverage --reporter=dot",
     "playwright:install": "pnpm exec playwright install",
     "playwright:install:chromium": "pnpm exec playwright install chromium",
-    "pretest:e2e": "pnpm run playwright:install",
+    "pretest:e2e": "pnpm run playwright:install:chromium",
     "test:e2e": "playwright test",
     "pretest:e2e:fast": "pnpm run playwright:install:chromium",
     "test:e2e:fast": "SKIP_BUILD=1 playwright test --reporter=line",
@@ -46,12 +46,14 @@
     "lint:content": "node scripts/js/content-lint.mjs",
     "lint:md": "markdownlint-cli2",
     "spellcheck": "cspell --quiet \"**/*.{md,mdx}\"",
-    "ci:verify": "npm-run-all --silent --parallel spellcheck lint lint:md lint:content test:coverage build && pnpm run lighthouse && pnpm run test:e2e:ci:stable",
+    "verify:fast": "npm-run-all --silent --parallel spellcheck lint lint:md lint:content test build",
+    "verify:full": "npm-run-all --silent --parallel spellcheck lint lint:md lint:content test:coverage build && pnpm run lighthouse && pnpm run test:e2e:ci:stable",
+    "ci:verify": "pnpm run verify:full",
     "release": "commit-and-tag-version",
     "release:dry": "commit-and-tag-version --dry-run",
     "prepare": "husky",
     "pre-commit": "lint-staged --quiet && astro check",
-    "pre-push": "pnpm run ci:verify"
+    "pre-push": "pnpm run verify:fast"
   },
   "type": "module",
   "dependencies": {

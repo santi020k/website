@@ -9,6 +9,7 @@
     "strictPropertyInitialization": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
+    "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "lib": [
       "es2022",
