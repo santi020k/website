@@ -31,7 +31,7 @@ The issue arises when a feature is merged into `develop` but isn't ready for pro
 To support parallel feature development, repeatable releases, and rapid hotfixes, we need to establish a clear separation of responsibilities across branches and environments.
 
 | Branch | Purpose | Target Environment |
-|---|---|---|
+| --- | --- | --- |
 | `main` | The source of truth for the latest stable release. | Production |
 | `release/X.Y.Z` | Code specifically isolated for an upcoming release. | UAT → Production |
 | `staging` | The integration ground for QA testing. | UAT / Staging |
