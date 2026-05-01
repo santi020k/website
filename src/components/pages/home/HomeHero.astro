@@ -159,7 +159,7 @@ const { contactHref, yearsOfExperience } = Astro.props
 
     <div
       class="
-        relative isolate mx-auto w-full max-w-88 animate-spring-up-lcp
+        animate-reveal-lcp relative isolate mx-auto w-full max-w-88
         motion-reduce:animate-none
       "
     >
@@ -214,9 +214,11 @@ const { contactHref, yearsOfExperience } = Astro.props
           decoding="sync"
           fetchpriority="high"
           formats={['avif', 'webp']}
+          height={440}
           loading="eager"
           sizes="(min-width: 1024px) 352px, 75vw"
           src={AboutMeImage}
+          width={352}
           widths={[400, 600, 800]}
         />
       </div>

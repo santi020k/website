@@ -3,22 +3,32 @@ import { Icon } from 'astro-icon/components'
 
 interface Props {
   formAction: string
+  label?: string
   variant?: 'compact' | 'default'
 }
 
-const { formAction, variant = 'default' } = Astro.props
+const { formAction, label, variant = 'default' } = Astro.props
 const isCompact = variant === 'compact'
 const headingId = `newsletter-heading-${variant}`
 const emailId = `newsletter-email-${variant}`
 ---
 
-<section aria-labelledby={headingId} data-animate>
+<section aria-label={label} aria-labelledby={label ? undefined : headingId} data-animate>
   <div
     class:list={[
-      'flex flex-col gap-6 rounded-[1.85rem] border border-line/55 bg-surface-muted/40',
+      `
+        flex flex-col gap-6 rounded-[1.85rem] border border-line/55
+        bg-surface-muted/40
+      `,
       isCompact ?
-        'p-5 sm:p-6' :
-        'p-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:p-8'
+        `
+          p-5
+          sm:p-6
+        ` :
+        `
+          p-6
+          sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:p-8
+        `
     ]}
   >
     <div class="max-w-xl space-y-2">
@@ -86,9 +96,9 @@ const emailId = `newsletter-email-${variant}`
       />
       <button
         class="
-          bg-brand-solid inline-flex min-h-11 w-full items-center justify-center
-          gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold text-white
-          shadow-md shadow-brand/25 transition
+          inline-flex min-h-11 w-full items-center justify-center gap-2
+          rounded-2xl bg-brand-solid px-4 py-2.5 text-sm font-semibold
+          text-white shadow-md shadow-brand/25 transition
           hover:brightness-110
           active:scale-[0.99]
           motion-reduce:transition-none

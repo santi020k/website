@@ -189,7 +189,7 @@ const breadcrumbs = [
   <div class="mx-auto w-full max-w-6xl space-y-20">
     <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
     {siteConfig.newsletter?.formAction && (
-      <NewsletterSignup formAction={siteConfig.newsletter.formAction} variant="compact" />
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} variant="compact" label="Newsletter signup (blog post)" />
     )}
   </div>
 
