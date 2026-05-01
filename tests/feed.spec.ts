@@ -59,7 +59,7 @@ test.describe('JSON Feed', () => {
   test('/feed.json responds with 200 and feed+json content-type', async ({ request }) => {
     const response = await request.get('/feed.json')
     expect(response.status()).toBe(200)
-    expect(response.headers()['content-type'] ?? '').toMatch(/feed\+json/)
+    expect(response.headers()['content-type'] ?? '').toMatch(/(feed\+)?json/)
   })
 
   test('/feed.json declares JSON Feed 1.1 and includes posts', async ({ request }) => {

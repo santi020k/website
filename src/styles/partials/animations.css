@@ -63,15 +63,13 @@
   }
 }
 
-@keyframes spring-up-lcp {
+@keyframes reveal-lcp {
   0% {
-    opacity: 1; /* Keep it visible for LCP */
-    transform: translateY(30px) scale(0.9);
-  }
-  70% {
-    transform: translateY(-5px) scale(1.02);
+    opacity: 1;
+    transform: translateY(8px) scale(0.99);
   }
   100% {
+    opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
