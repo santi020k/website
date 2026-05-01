@@ -1,12 +1,21 @@
 # Deployment Runbook
 
-## Deployment Target
+## Deployment target
 
-- Platform: Vercel
-- Production domain: `https://santi020k.com`
-- Redirect: `www.santi020k.com` to apex domain (configured in `vercel.json`)
+- **Output**: Static site from `pnpm run build` (published under `dist/`).
+- **Production domain**: `https://santi020k.com`
+- **Redirect**: `www.santi020k.com` → apex `https://santi020k.com` (configure at your DNS or CDN).
 
-## Release Flow
+Apply caching and security headers per [`docs/cache-strategy.md`](cache-strategy.md). Typical additions at the edge:
+
+- **Content-Security-Policy**: `default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self' data:; frame-ancestors 'none'; img-src 'self' data: blob: https:; manifest-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; worker-src 'self'`
+- **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
+- **Referrer-Policy**: `strict-origin-when-cross-origin`
+- **X-Content-Type-Options**: `nosniff`
+
+`/sw.js` should use `Cache-Control: public, max-age=0, must-revalidate` so service worker updates propagate.
+
+## Release flow
 
 1. Merge approved pull request into `main`.
 2. Verify GitHub Actions CI passes:
@@ -15,7 +24,7 @@
    - build
    - stable E2E
    - Lighthouse CI
-3. Confirm Vercel production deployment is successful.
+3. Confirm production deployment from your hosting provider finished successfully.
 4. Smoke-check key routes in production:
    - `/`
    - `/blog/`
@@ -23,7 +32,7 @@
    - `/feed.xml`
    - `/offline/`
 
-## Pre-release Local Validation
+## Pre-release local validation
 
 Run before large changes or manual releases:
 
@@ -33,22 +42,22 @@ Run before large changes or manual releases:
 
 If a production regression is detected:
 
-1. Open the Vercel project dashboard.
-2. Promote the previous healthy deployment, or revert the offending commit and redeploy.
+1. Promote or redeploy the previous healthy build from your host’s dashboard or pipeline.
+2. Alternatively revert the offending commit and redeploy.
 3. Re-run smoke checks on the same key routes.
 4. Document the cause and follow-up in the incident notes.
 
-## Vercel environment variables (Webmention)
+## Build-time environment variables (Webmentions)
 
-If the site should receive and display [Webmention.io](https://webmention.io/) mentions, set these in the Vercel project (Settings → Environment Variables). Values match `.env.example`.
+If the site should receive and display [Webmention.io](https://webmention.io/) mentions, set these in the environment used for **`pnpm run build`** (CI or local). Values match `.env.example`.
 
-| Variable | Environments | Type | Purpose |
-| --- | --- | --- | --- |
-| `WEBMENTION_API_KEY` | Production, Preview (optional: Development) | **Secret** | Token from the Webmention.io dashboard. Build fetches `mentions.jf2` for each post. |
-| `WEBMENTION_URL` | All | Public | `rel="webmention"` target (e.g. `https://webmention.io/santi020k.com/webmention`). |
-| `WEBMENTION_PINGBACK` | All | Public | Optional. `rel="pingback"` URL if you want legacy pingback (e.g. `https://webmention.io/santi020k.com/xmlrpc`). |
+| Variable | Type | Purpose |
+| --- | --- | --- |
+| `WEBMENTION_API_KEY` | **Secret** | Token from the Webmention.io dashboard. Build fetches `mentions.jf2` for each post. |
+| `WEBMENTION_URL` | Public | `rel="webmention"` target (e.g. `https://webmention.io/santi020k.com/webmention`). |
+| `WEBMENTION_PINGBACK` | Public | Optional. `rel="pingback"` URL if you want legacy pingback (e.g. `https://webmention.io/santi020k.com/xmlrpc`). |
 
-The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for Vercel or this build.
+The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for this build.
 
 ### Testing Webmentions
 
@@ -59,5 +68,4 @@ The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for
 
 ## Notes
 
-- Caching and security headers are defined in `vercel.json`.
-- Cache policy details are documented in `docs/cache-strategy.md`.
+- Cache policy details are documented in [`docs/cache-strategy.md`](cache-strategy.md).

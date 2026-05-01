@@ -12,8 +12,8 @@ test.describe('Privacy page', () => {
     await expect(page.getByRole('heading', { level: 1, name: /Privacy & analytics/i })).toBeVisible()
   })
 
-  test('should mention analytics and theme storage', async ({ page }) => {
-    await expect(page.getByText(/Vercel Web Analytics/i)).toBeVisible()
+  test('should mention hosting and theme storage', async ({ page }) => {
+    await expect(page.getByText(/built with Astro/i)).toBeVisible()
     await expect(page.getByText(/Theme preference/i)).toBeVisible()
   })
 

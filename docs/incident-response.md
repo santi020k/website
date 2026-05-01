@@ -15,7 +15,7 @@ Use this runbook for production incidents affecting availability, correctness, s
 1. **Acknowledge**
    - Record start time and visible symptoms.
 2. **Stabilize**
-   - Roll back or promote last healthy Vercel deployment if needed.
+   - Roll back or redeploy the last healthy production build from your hosting provider if needed.
 3. **Diagnose**
    - Inspect latest merged commits and CI status.
    - Validate key endpoints (`/feed.xml`, `/search-index.json`) and page routes.
@@ -28,7 +28,7 @@ Use this runbook for production incidents affecting availability, correctness, s
 ## Fast Checks
 
 - CI status in GitHub Actions (`build`, `e2e-stable`, `lighthouse`).
-- Vercel deployment status and logs.
+- Hosting dashboard (deploy status, CDN/errors if available).
 - Browser smoke checks:
   - `/`
   - `/blog/`
@@ -40,4 +40,4 @@ Use this runbook for production incidents affecting availability, correctness, s
 
 - Follow disclosure policy in `.github/SECURITY.md`.
 - Rotate any potentially exposed secrets/tokens immediately.
-- Tighten CSP/headers in `vercel.json` when applicable.
+- Tighten CSP and other headers at your CDN or origin when applicable (see [`docs/deployment.md`](deployment.md)).

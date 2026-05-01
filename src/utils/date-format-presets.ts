@@ -1,5 +1,6 @@
 export const dateWithoutDay: Intl.DateTimeFormatOptions = {
-  day: undefined
+  month: 'numeric',
+  year: 'numeric'
 }
 
 export const dateMonthLong: Intl.DateTimeFormatOptions = {

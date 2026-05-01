@@ -662,8 +662,8 @@ pnpm run check   # Astro type-check — zero errors
 | Interactivity | Alpine.js v3 — `x-data`, `x-show`, `x-transition` |
 | Styling | Tailwind CSS v4 — tokens via `@theme` in `global.css`, no `tailwind.config.js` |
 | Language | TypeScript (strict) |
-| Deployment | Vercel (`vercel.json`) |
-| Analytics | `@vercel/analytics` + `@vercel/speed-insights` |
+| Deployment | Static `dist/`; CDN/host config (`docs/deployment.md`) |
+| Analytics | None by default; Lighthouse CI for lab Web Vitals |
 | Testing | Vitest (unit) + Playwright (E2E) |
 | Linting | ESLint with `@santi020k/eslint-config-*` |
 | Commits | Conventional Commits — Commitizen + Husky + lint-staged |
