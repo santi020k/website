@@ -5,8 +5,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
 import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
-import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.svg'
-import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.svg'
+import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import { menuLinks, siteConfig } from '@/site.config'
 import type { SiteLink } from '@/types/site'
 
@@ -81,34 +80,12 @@ const isAvailableForBanner =
           "
           href="/"
         >
-          <img
-            alt="Santi020k"
-            class="
-              h-9 w-auto transition duration-300
-              group-hover:brightness-115
-              motion-reduce:transition-none
-              dark:hidden
-            "
-            fetchpriority="high"
-            height={36}
-            loading="eager"
-            src={LogoMarkLight.src}
-            width={228}
-          />
-          <img
-            alt="Santi020k"
-            class="
-              hidden h-9 w-auto transition duration-300
-              group-hover:brightness-115
-              motion-reduce:transition-none
-              dark:block
-            "
-            fetchpriority="high"
-            height={36}
-            loading="eager"
-            src={LogoMarkDark.src}
-            width={228}
-          />
+          <div class="h-9 w-auto dark:hidden">
+            <AnimatedLogo variant="light" class="h-full w-auto" />
+          </div>
+          <div class="hidden h-9 w-auto dark:block">
+            <AnimatedLogo variant="dark" class="h-full w-auto" />
+          </div>
           <!-- <span class="
             sr-only min-w-0 flex-col
             sm:not-sr-only sm:flex

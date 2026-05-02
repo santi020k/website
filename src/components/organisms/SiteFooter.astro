@@ -6,8 +6,7 @@ import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 
 import { version } from '../../../package.json'
 
-import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.svg'
-import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.svg'
+import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import { menuLinks, siteConfig } from '@/site.config'
 
 const year = new Date().getFullYear()
@@ -109,26 +108,12 @@ const isLinkActive = (linkPath: string): boolean => {
           "
           href="/"
         >
-          <img
-            alt="Santi020k"
-            class="
-              h-8 w-auto
-              dark:hidden
-            "
-            height={32}
-            src={LogoMarkLight.src}
-            width={203}
-          />
-          <img
-            alt="Santi020k"
-            class="
-              hidden h-8 w-auto
-              dark:block
-            "
-            height={32}
-            src={LogoMarkDark.src}
-            width={203}
-          />
+          <div class="h-8 w-auto dark:hidden">
+            <AnimatedLogo variant="light" class="h-full w-auto" />
+          </div>
+          <div class="hidden h-8 w-auto dark:block">
+            <AnimatedLogo variant="dark" class="h-full w-auto" />
+          </div>
         </a>
 
         <p class="max-w-[24ch] text-sm/6 text-ink-soft">
