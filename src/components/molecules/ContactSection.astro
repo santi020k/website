@@ -42,64 +42,31 @@ const contactChannels = [
 ---
 
 {compact ? (
-  <div class="panel-card overflow-hidden">
-    <div class="p-5 space-y-5 sm:p-6">
-      <div class="space-y-1">
-        <p class="section-label">Direct contact</p>
-        <h3 class="text-lg font-semibold">
-          Pick the channel that matches the conversation.
-        </h3>
-      </div>
-
-      <div class="space-y-4">
-        {contactChannels.map(({ action, description, href, icon, label, newTab = false, value }, index) => (
-          <div
-            class:list={[
-              'flex flex-col gap-3',
-              index > 0 && 'border-t border-line/40 pt-4'
-            ]}
-          >
-            <div class="flex gap-3">
-              <div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
-                <Icon aria-hidden="true" class="size-5" name={icon} />
-              </div>
-              <div class="space-y-1 min-w-0 flex-1">
-                <p class="section-label text-xs">{label}</p>
-                <div class="flex items-center gap-2">
-                  <a
-                    class="block text-base font-semibold text-ink transition-colors hover:text-brand truncate"
-                    href={href}
-                    rel={newTab ? 'noopener noreferrer' : undefined}
-                    target={newTab ? '_blank' : undefined}
-                  >
-                    {value}
-                  </a>
-                  {label === 'Email' && (
-                    <>
-                      <span aria-live="polite" class="sr-only" data-copy-announce />
-                      <button
-                        aria-label="Copy email address"
-                        class="inline-flex size-6 shrink-0 items-center justify-center rounded-md border border-line/50 bg-surface-muted/60 text-ink-muted transition-all duration-200 hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand motion-reduce:transition-none"
-                        data-copy-email={value}
-                        type="button"
-                      >
-                        <Icon aria-hidden="true" class="size-3" data-copy-icon name="tabler:copy" />
-                        <Icon aria-hidden="true" class="hidden size-3" data-check-icon name="tabler:check" />
-                      </button>
-                    </>
-                  )}
-                </div>
-                <p class="text-sm text-ink-soft line-clamp-2">{description}</p>
-              </div>
-            </div>
-
-            <ButtonLink className="shrink-0 w-full sm:w-auto text-sm" href={href} newTab={newTab} showArrow variant="secondary">
-              {action}
-            </ButtonLink>
+  <div class="grid gap-3" data-stagger="80">
+    {contactChannels.map(({ href, icon, label, newTab = false, value }) => (
+      <a
+        class="mini-note group flex items-center gap-4 p-4 transition-all duration-200 motion-reduce:transition-none"
+        href={href}
+        rel={newTab ? 'noopener noreferrer' : undefined}
+        target={newTab ? '_blank' : undefined}
+      >
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute top-0 right-0 h-20 w-20 opacity-20 transition-opacity duration-300 group-hover:opacity-30 motion-reduce:transition-none"
+          style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.12), transparent 70%);"
+        />
+        <div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft/60 text-brand transition-all duration-200 group-hover:bg-brand-soft motion-reduce:transition-none">
+          <Icon aria-hidden="true" class="size-5 transition-transform duration-200 group-hover:scale-105 motion-reduce:transition-none" name={icon} />
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center justify-between gap-2">
+            <p class="section-label">{label}</p>
+            <Icon aria-hidden="true" class="size-4 text-ink-muted transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand motion-reduce:transition-none" name="tabler:arrow-up-right" />
           </div>
-        ))}
-      </div>
-    </div>
+          <p class="text-sm font-semibold text-ink transition-colors duration-200 group-hover:text-brand motion-reduce:transition-none">{value}</p>
+        </div>
+      </a>
+    ))}
   </div>
 ) : (
   <section id="contact" class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>

@@ -67,32 +67,32 @@ export const siteConfig: SiteConfig = {
 
 export const menuLinks: SiteLink[] = [
   {
-    icon: 'tabler:home',
+    icon: 'tabler:home-2',
     path: '/',
     title: 'Home'
   },
   {
-    icon: 'tabler:user',
+    icon: 'tabler:user-circle',
     path: '/about/',
     title: 'About'
   },
   {
-    icon: 'tabler:briefcase',
+    icon: 'tabler:timeline',
     path: '/work/',
     title: 'Work'
   },
   {
-    icon: 'tabler:code',
+    icon: 'tabler:layers-intersect',
     path: '/projects/',
     title: 'Projects'
   },
   {
-    icon: 'tabler:microphone',
+    icon: 'tabler:speakerphone',
     path: '/speaking/',
     title: 'Speaking'
   },
   {
-    icon: 'tabler:pencil',
+    icon: 'tabler:edit',
     path: '/blog/',
     title: 'Blog'
   }

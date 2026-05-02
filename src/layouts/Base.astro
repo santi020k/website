@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions'
 
 import BackToTop from '../components/atoms/BackToTop.astro'
+import ParticlesBackground from '../components/atoms/ParticlesBackground.astro'
 import SkipLink from '../components/atoms/SkipLink.astro'
 import SiteFooter from '../components/organisms/SiteFooter.astro'
 import SiteHeader from '../components/organisms/SiteHeader.astro'
@@ -54,6 +55,7 @@ const headMeta = {
     <SkipLink />
 
     <div class="relative min-h-screen w-full overflow-x-clip">
+      <ParticlesBackground density="medium" class="-z-10" />
       <div class="
         pointer-events-none absolute inset-0 -z-10 grid-fade opacity-60
       "

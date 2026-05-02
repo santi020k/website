@@ -23,9 +23,7 @@ const navLinks = [
 const resourceLinks = [
   { icon: 'tabler:calendar-month', path: '/blog/content-calendar/', title: 'Content Calendar' },
   { icon: 'tabler:rss', path: '/feed.xml', title: 'RSS Feed' },
-  { icon: 'tabler:sitemap', path: '/sitemap-index.xml', title: 'Sitemap' },
-  { icon: 'tabler:accessible', path: '/accessibility/', title: 'Accessibility' },
-  { icon: 'tabler:shield-lock', path: '/privacy/', title: 'Privacy' }
+  { icon: 'tabler:sitemap', path: '/sitemap-index.xml', title: 'Sitemap' }
 ]
 
 const currentPath = Astro.url.pathname
@@ -47,21 +45,18 @@ const isLinkActive = (linkPath: string): boolean => {
 <footer class="relative mt-10 overflow-hidden px-4 pb-10 sm:px-6 lg:px-8">
   <GradientDivider class="pt-10" />
 
-  <!-- Top ambient glow matching home page style -->
+  <!-- Top ambient glow with floating animation -->
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute top-0 left-1/2 h-96 w-[80%] max-w-3xl -translate-x-1/2 rounded-full opacity-30 blur-3xl"
-    style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.06), transparent 70%);"
+    class="pointer-events-none absolute top-0 left-1/2 h-96 w-[80%] max-w-3xl -translate-x-1/2 rounded-full opacity-25 blur-3xl motion-safe:animate-float-y-slow motion-reduce:animate-none"
+    style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.08), transparent 70%);"
   />
 
-  <!-- Subtle radial glow behind footer content -->
+  <!-- Subtle radial glow behind footer content with pulse -->
   <div
     aria-hidden="true"
-    class="
-      pointer-events-none absolute top-0 left-1/2 h-112 w-[90%] max-w-4xl
-      -translate-1/2 rounded-full opacity-40 blur-3xl
-    "
-    style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.07), transparent 70%);"
+    class="pointer-events-none absolute top-[10%] left-1/2 h-80 w-[70%] max-w-3xl -translate-x-1/2 rounded-full opacity-20 blur-3xl motion-safe:animate-pulse-slow motion-reduce:animate-none"
+    style="background: radial-gradient(ellipse at center, hsl(var(--accent) / 0.1), transparent 70%);"
   />
 
   <!-- Subtle grid texture in background -->
@@ -71,34 +66,33 @@ const isLinkActive = (linkPath: string): boolean => {
   />
 
   <div class="relative mx-auto w-full max-w-6xl">
+    <!-- Morphing organic blob behind content -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute top-1/2 left-1/2 z-0 h-96 w-96 -translate-x-1/2 -translate-y-1/2 opacity-25 blur-3xl motion-safe:animate-morph motion-reduce:animate-none sm:h-[28rem] sm:w-[28rem]"
+      style="background: linear-gradient(135deg, hsl(var(--brand) / 0.12), hsl(var(--accent) / 0.08), hsl(var(--glow) / 0.05));"
+    />
+
     <!-- Unified Contact & Newsletter Section -->
-    <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-      <div class="space-y-4">
-        <p class="section-label text-brand">Work together</p>
+    <section class="relative z-10 grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+      <div class="space-y-3" data-animate>
+        <p class="section-label text-brand">Get in touch</p>
         <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
-          Open to leadership and architecture roles
+          Let's build something{' '}
+          <span
+            class="bg-linear-to-r from-brand via-accent to-brand bg-[length:200%_100%] bg-clip-text text-transparent motion-safe:animate-shimmer"
+            style="background-size: 200% 100%;"
+          >
+            useful
+          </span>{' '}
+          together.
         </h2>
         <p class="max-w-xl text-sm text-ink-soft">
-          If you need a technical lead who can ship resilient systems and grow high-performing teams, let's talk. Also happy to compare notes on engineering leadership, architecture decisions, or developer experience.
+          Have a project in mind or want to compare notes on engineering? Pick a channel below and I'll get back to you quickly.
         </p>
-        <div class="flex flex-wrap gap-3 pt-1">
-          <div class="inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/8 px-3 py-1.5">
-            <span class="relative flex size-2">
-              <span class="absolute inline-flex size-full animate-ping rounded-full bg-green-400/80 motion-reduce:animate-none" />
-              <span class="relative inline-flex size-2 rounded-full bg-green-500" />
-            </span>
-            <span class="text-xs font-medium text-green-700 dark:text-green-400">{siteConfig.availability}</span>
-          </div>
-          <a
-            class="inline-flex items-center gap-1.5 rounded-full border border-line/60 bg-surface-muted/60 px-3 py-1.5 text-xs font-medium text-ink-soft transition-colors hover:border-brand/40 hover:text-brand motion-reduce:transition-none"
-            href="/portfolio/"
-          >
-            View portfolio
-          </a>
-        </div>
       </div>
 
-      <div class="grid gap-6" data-stagger="60">
+      <div class="relative z-10 grid gap-6" data-stagger="60">
         <ContactSection compact />
         {siteConfig.newsletter?.formAction && (
           <NewsletterSignup formAction={siteConfig.newsletter.formAction} label="Newsletter signup (footer)" variant="compact" />
