@@ -78,8 +78,13 @@ export const menuLinks: SiteLink[] = [
   },
   {
     icon: 'tabler:briefcase',
-    path: '/portfolio/',
-    title: 'Portfolio'
+    path: '/work/',
+    title: 'Work'
+  },
+  {
+    icon: 'tabler:code',
+    path: '/projects/',
+    title: 'Projects'
   },
   {
     icon: 'tabler:microphone',

@@ -1,0 +1,149 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import ProjectCard from '@/components/molecules/ProjectCard.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+
+import { getCachedProjects } from '@/utils/content'
+import { collectionDateSortProjects } from '@/utils/date'
+import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
+import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { getUniqueTechnologiesWithCount } from '@/data/project'
+import PageLayout from '@/layouts/Base.astro'
+import { siteConfig } from '@/site.config'
+
+const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
+const workProjects = allProjects.filter(p => p.data.typesId === 'professional')
+
+const allTechnologies = getUniqueTechnologiesWithCount(workProjects)
+const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
+const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
+
+const [featuredProject, ...otherProjects] = workProjects
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Work', url: '/work/' }
+]
+
+const workListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Work Experience — Santiago Molina',
+  url: new URL('/work/', Astro.site).href,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: workProjects.length,
+    itemListElement: workProjects.map((project, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: new URL(getPortfolioPath(project.id), Astro.site).href,
+      name: project.data.title
+    }))
+  }
+}
+---
+
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description: 'Client and product work across headless commerce, gaming, SaaS, real estate, and martech — architecture decisions, delivery systems, and hands-on technical leadership.',
+    structuredData: workListSchema,
+    title: 'Work Experience — Santiago Molina'
+  }}
+>
+  <section
+    class="
+      grid animate-slide-up gap-10
+      motion-reduce:animate-none
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description="Client and product work across US and LATAM teams. Architecture decisions, delivery systems, and hands-on technical leadership — from startup to scale."
+        eyebrow="Work Experience"
+        level="h1"
+        title="Products shipped. Teams led. Systems that held."
+      />
+      <div class="section-actions">
+        <ButtonLink href={siteConfig.contact.resume} newTab showArrow>
+          Open resume
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Message on LinkedIn
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div
+      class="
+        grid gap-4
+        sm:grid-cols-2
+        lg:grid-cols-1
+      "
+    >
+      <StatCard
+        description="Roles across commerce, gaming, real estate, martech, agencies, and SaaS."
+        label="Roles"
+        value={String(workProjects.length)}
+      />
+      <StatCard
+        description="Recurring tools and platforms across production systems."
+        label="Technologies"
+        value={String(allTechnologies.length)}
+      />
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Work delivered for product teams across commerce, gaming, SaaS, real estate, martech, and platform engineering."
+      eyebrow="Client and product work"
+      title="Professional Work"
+    />
+    <div class="space-y-6">
+      {featuredProject && <ProjectCard featured project={featuredProject} />}
+      {!!otherProjects.length && (
+        <div
+          class="
+            grid gap-6
+            lg:grid-cols-2
+          "
+          data-stagger
+        >
+          {otherProjects.map(project => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="React and TypeScript sit at the center, but the stack widens to fit the product: backend, mobile, testing, DX, and delivery tooling."
+      eyebrow="Technology map"
+      linkHref="/technologies/"
+      linkLabel="Browse the full stack index"
+      title="The tools behind the work."
+    />
+    <div class="space-y-5">
+      <p class="max-w-3xl text-sm/6 text-ink-muted">
+        Recurring technologies across client and product work, ordered from the most interesting product-shaping tools to the more supporting ones.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        {technologies.map(([technology, count]) => (
+          <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
+            <span class="text-xs text-ink-muted">{count}</span>
+          </Pill>
+        ))}
+        {hiddenTechnologyCount > 0 && (
+          <Pill href="/technologies/" label={`+${hiddenTechnologyCount} technologies`} tone="neutral" />
+        )}
+      </div>
+    </div>
+  </section>
+</PageLayout>
