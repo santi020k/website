@@ -1,11 +1,10 @@
 ---
 import { getImage, Picture } from 'astro:assets'
 
-import AboutMeImage from '../assets/photos/about-me.webp'
+import AboutMeImage from '../assets/photos/originals/me-1-square.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import Eyebrow from '../components/atoms/Eyebrow.astro'
 import GradientDivider from '../components/atoms/GradientDivider.astro'
-import SectionHeading from '../components/molecules/SectionHeading.astro'
 import SocialList from '../components/molecules/SocialList.astro'
 import { selectedOrganizations, testimonials } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
@@ -16,7 +15,7 @@ const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 const aboutPortraitImage = await getImage({
   format: 'avif',
   src: AboutMeImage,
-  widths: [240, 360, 480, 720]
+  widths: [400, 600, 800]
 })
 
 const description =
@@ -58,7 +57,7 @@ const meta = {
   description,
   preloadImage: {
     href: aboutPortraitImage.src,
-    imagesizes: '(min-width: 1024px) 360px, 75vw',
+    imagesizes: '(min-width: 1024px) 352px, 75vw',
     imagesrcset: aboutPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
@@ -68,28 +67,184 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section
-    class="
-      grid animate-slide-up gap-10
-      motion-reduce:animate-none
-      lg:grid-cols-[1fr_0.78fr] lg:items-start
+  <section class="relative pb-4">
+    <div class="
+      relative grid gap-10
+      lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center
     "
-  >
-    <div class="max-w-3xl space-y-8">
-      <div class="space-y-5">
-        <Eyebrow label="About" tone="brand" />
-        <h1
+    >
+      <div class="relative z-10 space-y-8">
+        <Eyebrow
+          label="About"
+          tone="brand"
+          className="
+            animate-slide-up whitespace-normal
+            motion-reduce:animate-none
+          "
+        />
+
+        <div
           class="
-            max-w-4xl text-4xl font-extrabold tracking-tight text-ink
-            sm:text-5xl
-            lg:text-6xl
+            animate-slide-up space-y-4 [animation-delay:90ms]
+            motion-reduce:animate-none
           "
         >
-          {siteConfig.headline}
-        </h1>
+          <h1 class="
+            max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+            sm:text-6xl/[0.95]
+            lg:text-[5.2rem]/[0.92]
+          "
+          >
+            Engineering leader.
+            <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">Full-stack architect.</span>
+          </h1>
+          <p class="
+            max-w-xl text-base/7 text-ink-soft
+            sm:text-lg/7
+          "
+          >
+            Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
+          </p>
+        </div>
+
+        <div
+          class="
+            animate-slide-up space-y-5 [animation-delay:180ms]
+            motion-reduce:animate-none
+          "
+        >
+          <div class="section-actions">
+            <ButtonLink href="/portfolio/" showArrow>
+              See selected work
+            </ButtonLink>
+            <ButtonLink href="/blog/" showArrow variant="secondary">
+              Read the blog
+            </ButtonLink>
+            <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
+              Open résumé
+            </ButtonLink>
+          </div>
+
+          <SocialList />
+        </div>
       </div>
 
-      <div class="space-y-6 section-copy">
+      <div
+        class="
+          animate-reveal-lcp relative isolate mx-auto w-full max-w-88
+          motion-reduce:animate-none
+        "
+      >
+        <div
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute inset-[5%] z-10 rounded-4xl
+            bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
+            motion-safe:animate-pulse
+            motion-reduce:animate-none
+          "
+        />
+        <div
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute inset-[-10%] z-20 rounded-full border-2
+            border-brand/15 [animation-delay:800ms]
+            motion-safe:animate-[spin_24s_linear_infinite]
+            motion-reduce:animate-none
+            dark:border-brand/20
+          "
+          style="border-image: linear-gradient(135deg, hsl(var(--brand)/0.3), hsl(var(--accent)/0.15), transparent) 1; border-radius: 9999px;"
+        />
+        <div
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute inset-[8%] z-20 rounded-full border
+            border-brand/10 [animation-delay:800ms]
+            motion-safe:animate-[spin_18s_linear_infinite_reverse]
+            motion-reduce:animate-none
+          "
+          style="border-image: linear-gradient(225deg, hsl(var(--accent)/0.2), hsl(var(--brand)/0.1), transparent) 1; border-radius: 9999px;"
+        />
+
+        <div class="
+          panel-card relative z-0 overflow-hidden rounded-[2.25rem] p-3
+          sm:p-4
+          transition-shadow duration-500
+          hover:shadow-[0_20px_60px_-15px_hsl(var(--brand)/0.15)]
+          motion-reduce:transition-none
+        "
+        >
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute inset-0 z-10 grid-fade opacity-20 dark:opacity-30"
+          />
+          <div
+            aria-hidden="true"
+            class="
+              pointer-events-none absolute inset-0 z-20 bg-linear-to-br
+              from-brand/5 via-transparent to-accent/8
+            "
+          />
+          <Picture
+            alt="Portrait of Santiago Molina"
+            class="
+              relative z-0 aspect-4/5 w-full rounded-[1.7rem] object-cover
+              object-top
+            "
+            decoding="sync"
+            fetchpriority="high"
+            formats={['avif', 'webp']}
+            height={440}
+            loading="eager"
+            sizes="(min-width: 1024px) 352px, 75vw"
+            src={AboutMeImage}
+            width={352}
+            widths={[400, 600, 800]}
+          />
+        </div>
+
+        <div class="
+          absolute bottom-8 -left-4 z-30 hidden mini-note min-w-40 border-l-4 border-l-brand/40
+          [animation-delay:600ms]
+          motion-safe:animate-float-y
+          motion-reduce:animate-none
+          sm:-left-8 sm:block
+        "
+        >
+          <p class="section-label flex items-center gap-1.5">
+            <span class="inline-block h-1.5 w-1.5 rounded-full bg-brand motion-safe:animate-pulse" />
+            Base
+          </p>
+          <p class="mt-2 text-sm/6 text-ink">Medellin · Remote worldwide</p>
+        </div>
+
+        <div
+          class="
+            absolute top-8 -right-4 z-30 hidden mini-note min-w-32 border-r-4 border-r-accent/40
+            [animation-delay:900ms]
+            motion-safe:animate-float-y
+            motion-reduce:animate-none
+            sm:-right-8 sm:block
+          "
+        >
+          <p class="section-label">Experience</p>
+          <p class="mt-2 text-2xl font-bold bg-linear-to-br from-ink to-ink-soft bg-clip-text text-transparent">{yearsOfExperience}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <GradientDivider class="pt-10" />
+  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+    <div class="space-y-3">
+      <p class="section-label text-brand">The story</p>
+      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+        Engineering, leadership, and the work behind it.
+      </h2>
+    </div>
+
+    <div class="space-y-8">
+      <div class="space-y-6 section-copy max-w-2xl">
         <p>
           I'm Santiago Molina, a full-stack engineer and tech lead based in Medellín, Colombia.
           Over the last {yearsOfExperience} years I've shipped products across commerce, SaaS, gaming,
@@ -118,40 +273,9 @@ const meta = {
         </p>
       </div>
 
-      <div class="section-actions">
-        <ButtonLink href="/portfolio/" showArrow>
-          See selected work
-        </ButtonLink>
-        <ButtonLink href="/blog/" showArrow variant="secondary">
-          Read the blog
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
-          Open résumé
-        </ButtonLink>
-      </div>
-
-      <SocialList />
-    </div>
-
-    <div class="grid gap-4 editorial-rail">
-      <div class="panel-card overflow-hidden">
-        <Picture
-          alt="Santiago Molina"
-          class="aspect-3/4 w-full object-cover object-top"
-          decoding="sync"
-          fetchpriority="high"
-          formats={['avif', 'webp']}
-          loading="eager"
-          sizes="(min-width: 1024px) 360px, 75vw"
-          src={AboutMeImage}
-          width={360}
-          widths={[240, 360, 480, 720]}
-        />
-      </div>
       <div class="
-        grid h-max gap-3
+        grid gap-3
         sm:grid-cols-3
-        lg:grid-cols-1
       "
       >
         <div class="mini-note">
@@ -172,11 +296,15 @@ const meta = {
 
   <GradientDivider class="pt-10" />
   <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
-      description="A few of the products, companies, and communities behind the portfolio. The value is in the work itself, but context helps people read the case studies with the right level of trust."
-      eyebrow="Social proof"
-      title="Some of the teams and communities behind the work."
-    />
+    <div class="space-y-3">
+      <p class="section-label text-brand">Social proof</p>
+      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+        Some of the teams and communities behind the work.
+      </h2>
+      <p class="max-w-xl text-sm text-ink-soft">
+        A few of the products, companies, and communities behind the portfolio. The value is in the work itself, but context helps people read the case studies with the right level of trust.
+      </p>
+    </div>
 
     <div class="space-y-6">
       <div class="
@@ -206,11 +334,15 @@ const meta = {
 
   <GradientDivider class="pt-10" />
   <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
-      description="A few things that shape how I work, how I lead, and what I focus on."
-      eyebrow="Principles"
-      title="What I believe about engineering."
-    />
+    <div class="space-y-3">
+      <p class="section-label text-brand">Principles</p>
+      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+        What I believe about engineering.
+      </h2>
+      <p class="max-w-xl text-sm text-ink-soft">
+        A few things that shape how I work, how I lead, and what I focus on.
+      </p>
+    </div>
 
     <div
       class="
@@ -263,11 +395,15 @@ const meta = {
 
   <GradientDivider class="pt-10" />
   <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
-      description="A few direct quotes from colleagues, managers, and clients. The recurring patterns across them are summarised below."
-      eyebrow="Recommendations"
-      title="What collaborators say about the work."
-    />
+    <div class="space-y-3">
+      <p class="section-label text-brand">Recommendations</p>
+      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+        What collaborators say about the work.
+      </h2>
+      <p class="max-w-xl text-sm text-ink-soft">
+        A few direct quotes from colleagues, managers, and clients. The recurring patterns across them are summarised below.
+      </p>
+    </div>
 
     <div class="space-y-10">
       <div
