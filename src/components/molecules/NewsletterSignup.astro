@@ -13,22 +13,13 @@ const headingId = `newsletter-heading-${variant}`
 const emailId = `newsletter-email-${variant}`
 ---
 
-<section aria-label={label} aria-labelledby={label ? undefined : headingId} data-animate>
+<section aria-label={label} aria-labelledby={label ? undefined : headingId} data-animate class="panel-card overflow-hidden">
   <div
     class:list={[
-      `
-        flex flex-col gap-6 rounded-[1.85rem] border border-line/55
-        bg-surface-muted/40
-      `,
+      'p-6 sm:p-8',
       isCompact ?
-        `
-          p-5
-          sm:p-6
-        ` :
-        `
-          p-6
-          sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:p-8
-        `
+        'space-y-4' :
+        'flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8'
     ]}
   >
     <div class="max-w-xl space-y-2">

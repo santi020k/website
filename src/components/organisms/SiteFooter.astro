@@ -2,6 +2,7 @@
 import { Icon } from 'astro-icon/components'
 
 import ContactSection from '@/components/molecules/ContactSection.astro'
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 
 import { version } from '../../../package.json'
@@ -43,23 +44,15 @@ const isLinkActive = (linkPath: string): boolean => {
 }
 ---
 
-<footer class="
-  relative mt-10 overflow-hidden px-4 pt-20 pb-10
-  sm:px-6
-  lg:px-8
-"
->
-  <!-- Decorative top border gradient -->
+<footer class="relative mt-10 overflow-hidden px-4 pb-10 sm:px-6 lg:px-8">
+  <GradientDivider class="pt-10" />
+
+  <!-- Top ambient glow matching home page style -->
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute inset-x-0 top-0 flex justify-center"
-  >
-    <div class="
-      h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/45
-      to-transparent
-    "
-    />
-  </div>
+    class="pointer-events-none absolute top-0 left-1/2 h-96 w-[80%] max-w-3xl -translate-x-1/2 rounded-full opacity-30 blur-3xl"
+    style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.06), transparent 70%);"
+  />
 
   <!-- Subtle radial glow behind footer content -->
   <div
@@ -77,24 +70,53 @@ const isLinkActive = (linkPath: string): boolean => {
     class="pointer-events-none absolute inset-0 grid-fade opacity-40"
   />
 
-  <div class="relative mx-auto w-full max-w-6xl space-y-20">
+  <div class="relative mx-auto w-full max-w-6xl">
+    <!-- Unified Contact & Newsletter Section -->
+    <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+      <div class="space-y-4">
+        <p class="section-label text-brand">Work together</p>
+        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+          Open to leadership and architecture roles
+        </h2>
+        <p class="max-w-xl text-sm text-ink-soft">
+          If you need a technical lead who can ship resilient systems and grow high-performing teams, let's talk. Also happy to compare notes on engineering leadership, architecture decisions, or developer experience.
+        </p>
+        <div class="flex flex-wrap gap-3 pt-1">
+          <div class="inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/8 px-3 py-1.5">
+            <span class="relative flex size-2">
+              <span class="absolute inline-flex size-full animate-ping rounded-full bg-green-400/80 motion-reduce:animate-none" />
+              <span class="relative inline-flex size-2 rounded-full bg-green-500" />
+            </span>
+            <span class="text-xs font-medium text-green-700 dark:text-green-400">{siteConfig.availability}</span>
+          </div>
+          <a
+            class="inline-flex items-center gap-1.5 rounded-full border border-line/60 bg-surface-muted/60 px-3 py-1.5 text-xs font-medium text-ink-soft transition-colors hover:border-brand/40 hover:text-brand motion-reduce:transition-none"
+            href="/portfolio/"
+          >
+            View portfolio
+          </a>
+        </div>
+      </div>
 
-    <!-- Contact section -->
-    <ContactSection />
+      <div class="grid gap-6" data-stagger="60">
+        <ContactSection compact />
+        {siteConfig.newsletter?.formAction && (
+          <NewsletterSignup formAction={siteConfig.newsletter.formAction} label="Newsletter signup (footer)" variant="compact" />
+        )}
+      </div>
+    </section>
 
-    {siteConfig.newsletter?.formAction && (
-      <NewsletterSignup formAction={siteConfig.newsletter.formAction} label="Newsletter signup (footer)" />
-    )}
+    <GradientDivider class="pt-10" />
 
     <!-- Footer body grid -->
-    <div
+    <section
       class="
-        grid gap-10 border-t border-line/40 pt-14
+        grid gap-8 pt-10
         sm:grid-cols-2
         lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_minmax(0,0.75fr)]
-        lg:gap-12
+        lg:gap-10
       "
-      data-stagger="70"
+      data-stagger="60"
     >
 
       <!-- Brand column -->
@@ -305,7 +327,9 @@ const isLinkActive = (linkPath: string): boolean => {
         </ul>
       </div>
 
-    </div>
+    </section>
+
+    <GradientDivider class="pt-10" />
 
     <!-- Bottom bar -->
     <div
