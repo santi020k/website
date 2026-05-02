@@ -1,7 +1,7 @@
 ---
 title: "Optic Power"
 description: "Shipped across gaming, SaaS, and martech products in parallel, improving API performance by 40% while supporting launches for Team Liquid, NurtureBoss, and Stardust.gg."
-rol: "Senior Full Stack Engineer"
+role: "Senior Full Stack Engineer"
 startingDate: "1 Jul 2021"
 endingDate: "1 Feb 2023"
 liveDemoUrl: "https://www.codepwr.com/"

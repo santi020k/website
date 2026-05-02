@@ -1,7 +1,7 @@
 ---
 title: "Santi020k Theme"
 description: "Designed and shipped a VS Code theme extension with matched dark and light variants, marketplace publishing, registry automation, and a focused documentation site."
-rol: "Creator"
+role: "Creator"
 startingDate: "28 Apr 2026"
 githubUrl: "https://github.com/santi020k/santi020k-theme"
 liveDemoUrl: "https://theme.santi020k.com/"

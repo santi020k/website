@@ -9,7 +9,7 @@ import SiteSearch from '@/components/molecules/SiteSearch.astro'
 import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
 import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
 import { menuLinks, siteConfig } from '@/site.config'
-import type { SiteLink } from '@/types'
+import type { SiteLink } from '@/types/site'
 
 const isAvailableForBanner =
   siteConfig.availability.trim().toLowerCase().startsWith('open') &&
@@ -272,28 +272,30 @@ const isAvailableForBanner =
           "
           >
             <p class="section-label">Navigation</p>
-            <span class="
-              inline-flex items-center gap-2 rounded-full border border-line/60
-              bg-surface-muted/72 px-3 py-1 text-[0.68rem] font-semibold
-              tracking-[0.16em] text-ink-muted uppercase
-            "
-            >
-              <span class="relative flex size-1.5">
-                <span class="
-                  absolute inline-flex size-full animate-ping rounded-full
-                  bg-green-400 opacity-75
-                  motion-reduce:animate-none
-                "
-                >
+            {isAvailableForBanner && (
+              <span class="
+                inline-flex items-center gap-2 rounded-full border border-line/60
+                bg-surface-muted/72 px-3 py-1 text-[0.68rem] font-semibold
+                tracking-[0.16em] text-ink-muted uppercase
+              "
+              >
+                <span class="relative flex size-1.5">
+                  <span class="
+                    absolute inline-flex size-full animate-ping rounded-full
+                    bg-green-400 opacity-75
+                    motion-reduce:animate-none
+                  "
+                  >
+                  </span>
+                  <span class="
+                    relative inline-flex size-1.5 rounded-full bg-green-500
+                  "
+                  >
+                  </span>
                 </span>
-                <span class="
-                  relative inline-flex size-1.5 rounded-full bg-green-500
-                "
-                >
-                </span>
+                Available
               </span>
-              Available
-            </span>
+          )}
           </div>
 
           <div class="grid gap-2">

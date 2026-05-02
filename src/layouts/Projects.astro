@@ -27,7 +27,7 @@ interface Props {
 }
 
 const { project, relatedProjects = [] } = Astro.props
-const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.rol ?? 'Project'}`
+const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
 const metaDescription = project.data.seoDescription ?? project.data.description
 // Use Dynamic OG Image generator (/og/portfolio/[id].webp)
 const socialImage = new URL(`/og/portfolio/${project.id}.webp`, Astro.site).href
@@ -231,7 +231,7 @@ const breadcrumbs = [
                 <span>Role</span>
               </dt>
               <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
-                {project.data.rol ?? 'Hands-on builder'}
+                {project.data.role ?? 'Hands-on builder'}
               </dd>
             </div>
 

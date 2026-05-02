@@ -74,7 +74,7 @@ const emailId = `newsletter-email-${variant}`
         sm:max-w-xs
       "
       method="post"
-      target="_blank"
+      data-newsletter-form
     >
       <input name="embed" type="hidden" value="1" />
       <label class="sr-only" for={emailId}>Email address</label>
@@ -112,3 +112,19 @@ const emailId = `newsletter-email-${variant}`
     </form>
   </div>
 </section>
+
+<script>
+  function setupNewsletterForms() {
+    document.querySelectorAll<HTMLFormElement>('[data-newsletter-form]').forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault()
+        const data = new FormData(form)
+        const params = new URLSearchParams(data as unknown as Record<string, string>).toString()
+        window.open(`${form.action}?${params}`, '_blank', 'noopener,noreferrer')
+      })
+    })
+  }
+
+  setupNewsletterForms()
+  document.addEventListener('astro:after-swap', setupNewsletterForms)
+</script>

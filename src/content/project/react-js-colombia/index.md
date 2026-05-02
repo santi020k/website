@@ -1,7 +1,7 @@
 ---
 title: "ReactJS Colombia"
 description: "Co-organize one of Medellin's most active React communities, sustaining free meetups and workshops that drew 100+ participants at peak sessions."
-rol: "Co-Organizer"
+role: "Co-Organizer"
 startingDate: "1 Jan 2017"
 liveDemoUrl: "https://www.meetup.com/es/react-js-medellin/"
 typesId: "personal"
