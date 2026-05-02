@@ -334,7 +334,11 @@ const meta = {
     </div>
   </section>
 
-  <section class="space-y-6 border-t border-line/70 pt-10" data-animate>
+  <section class="relative space-y-6 border-t border-line/70 pt-10" data-animate>
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-brand/20 to-transparent"
+    />
     <SectionHeading
       description="The client work is only part of the story. I also publish tooling, write publicly about delivery systems, and stay close to community rooms where the ideas get tested in the open."
       eyebrow="Public work"
@@ -350,7 +354,7 @@ const meta = {
         md:grid-cols-2
         xl:grid-cols-3
       "
-      data-stagger
+      data-stagger="80"
     >
       {publicWorkProjects.map(project => (
         <article class="
@@ -390,7 +394,11 @@ const meta = {
     </div>
   </section>
 
-  <section class="space-y-6 border-t border-line/70 pt-10" data-animate>
+  <section class="relative space-y-6 border-t border-line/70 pt-10" data-animate>
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-brand/20 to-transparent"
+    />
     <SectionHeading
       description="The teams that get the most leverage from my work usually need stronger technical direction without losing delivery momentum."
       eyebrow="Best fit"
@@ -406,7 +414,7 @@ const meta = {
         md:grid-cols-2
         xl:grid-cols-3
       "
-      data-stagger
+      data-stagger="80"
     >
       {collaborationLanes.map(lane => (
         <article class="
