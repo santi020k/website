@@ -99,10 +99,7 @@ const isAvailableForBanner =
 
         <nav
           aria-label="Main menu"
-          class="
-            hidden items-center gap-1
-            lg:flex
-          "
+          class="ml-6 hidden items-center gap-0.5 lg:flex"
         >
           {
             menuLinks.map((link: SiteLink) => {
@@ -115,15 +112,12 @@ const isAvailableForBanner =
                   aria-current={isActive ? 'page' : undefined}
                   class:list={[
                     `
-                      group relative inline-flex min-h-9 items-center gap-1.5
-                      rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap
-                      transition-all duration-200
-                      hover:bg-brand/5
+                      group relative inline-flex min-h-10 items-center gap-1.5
+                      px-3.5 text-sm font-medium whitespace-nowrap
+                      transition-colors duration-200
                       motion-reduce:transition-none
                     `,
-                    isActive ?
-                      'bg-brand/8 font-semibold text-brand' :
-                      'text-ink-soft hover:text-ink'
+                    isActive ? 'text-ink' : 'text-ink-soft hover:text-ink'
                   ]}
                   href={link.path}
                 >
@@ -132,18 +126,24 @@ const isAvailableForBanner =
                       aria-hidden="true"
                       class:list={[
                         'size-4 shrink-0 transition-colors duration-200 motion-reduce:transition-none',
-                        isActive ? 'text-brand' : 'text-ink-muted group-hover:text-ink'
+                        isActive ? 'text-brand' : 'text-ink-muted/70 group-hover:text-ink-soft'
                       ]}
                       name={link.icon}
                     />
                   )}
                   {link.title}
-                  {isActive && (
-                    <span
-                      aria-hidden="true"
-                      class="absolute bottom-0 left-1/2 h-0.5 w-2/3 -translate-x-1/2 rounded-full bg-brand"
-                    />
-                  )}
+                  <span
+                    aria-hidden="true"
+                    class:list={[
+                      `
+                        absolute bottom-1 left-1/2 h-px -translate-x-1/2 rounded-full bg-brand
+                        transition-all duration-300 ease-out
+                        motion-reduce:transition-none
+                        group-hover:w-4/5
+                      `,
+                      isActive ? 'w-4/5 opacity-100' : 'w-0 opacity-0 group-hover:opacity-60'
+                    ]}
+                  />
                 </a>
               )
             })
@@ -271,7 +271,7 @@ const isAvailableForBanner =
           )}
           </div>
 
-          <div class="grid gap-2">
+          <div class="grid gap-0.5">
             {
               menuLinks.map((link: SiteLink) => {
                 const isActive = link.path === '/' ?
@@ -283,49 +283,42 @@ const isAvailableForBanner =
                     aria-current={isActive ? 'page' : undefined}
                     class:list={[
                       `
-                        flex min-h-12 items-center justify-between gap-3
-                        rounded-[1.35rem] border px-4 py-3 text-sm font-medium
-                        transition duration-200
+                        group flex min-h-11 items-center gap-3
+                        rounded-2xl px-3 py-2 text-sm font-medium
+                        transition-colors duration-150
                         motion-reduce:transition-none
                       `,
                       isActive ?
-                        `
-                          border-brand/20 bg-brand-soft/80 font-semibold
-                          text-brand shadow-[0_14px_28px_hsl(var(--brand)/0.08)]
-                        ` :
-                        `
-                          border-transparent text-ink-soft
-                          hover:border-line/70 hover:bg-surface-muted/70
-                          hover:text-ink
-                        `
+                        'bg-brand/8 text-ink font-semibold' :
+                        'text-ink-soft hover:bg-surface-muted/80 hover:text-ink'
                     ]}
                     data-mobile-nav-link
                     href={link.path}
                   >
-                    <span class="inline-flex items-center gap-2">
+                    <span
+                      aria-hidden="true"
+                      class:list={[
+                        'flex size-8 shrink-0 items-center justify-center rounded-xl transition-colors duration-150 motion-reduce:transition-none',
+                        isActive ?
+                          'bg-brand/10 text-brand' :
+                          'bg-surface-strong/50 text-ink-muted group-hover:text-ink-soft'
+                      ]}
+                    >
                       {link.icon && (
                         <Icon
                           aria-hidden="true"
-                          class:list={[
-                            'size-4 shrink-0',
-                            isActive ? 'text-brand' : 'text-ink-muted'
-                          ]}
+                          class="size-4 shrink-0"
                           name={link.icon}
                         />
                       )}
-                      {link.title}
                     </span>
-                    {
-                      isActive && (
-                        <span class="
-                          rounded-full bg-brand/10 px-2.5 py-1 text-[0.68rem]
-                          font-semibold tracking-[0.14em] uppercase
-                        "
-                        >
-                          Current
-                        </span>
-                      )
-                    }
+                    {link.title}
+                    {isActive && (
+                      <span
+                        aria-hidden="true"
+                        class="ml-auto size-1.5 shrink-0 rounded-full bg-brand"
+                      />
+                    )}
                   </a>
                 )
               })

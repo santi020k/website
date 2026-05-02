@@ -125,6 +125,57 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes float-y-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.25;
+    transform: translateX(-50%) scale(1.03);
+  }
+}
+
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: translate(-50%, -50%) rotate(2deg) scale(1.02);
+  }
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 40% 70% 60%;
+    transform: translate(-50%, -50%) rotate(-1deg) scale(1);
+  }
+  75% {
+    border-radius: 40% 30% 60% 50% / 60% 50% 40% 30%;
+    transform: translate(-50%, -50%) rotate(1deg) scale(1.01);
+  }
+}
+
 /* ─── Scroll-Triggered Reveal ───────────────────────────────────────────────── */
 
 /* Base variant: slide up + fade (default when data-animate has no value or

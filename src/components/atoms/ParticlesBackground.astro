@@ -1,0 +1,88 @@
+---
+interface Props {
+  class?: string
+  density?: 'low' | 'medium' | 'high'
+}
+
+const { class: className = '', density = 'medium' } = Astro.props
+---
+
+<div
+  aria-hidden="true"
+  class:list={['pointer-events-none absolute inset-0 overflow-hidden', className]}
+  data-particles-bg={density}
+  style="z-index: 0;"
+>
+</div>
+
+<script>
+  type ParticleDensity = 'low' | 'medium' | 'high'
+
+  const densityConfig: Record<ParticleDensity, number> = {
+    low: 15,
+    medium: 25,
+    high: 40
+  }
+
+  function initParticlesBg() {
+    const containers = document.querySelectorAll('[data-particles-bg]')
+
+    containers.forEach(container => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+      const density = (container.getAttribute('data-particles-bg') as ParticleDensity) || 'medium'
+      const count = densityConfig[density]
+
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div')
+        const size = Math.random() * 12 + 8 // 8-20px
+        const colors = ['brand', 'accent', 'glow']
+        const color = colors[Math.floor(Math.random() * colors.length)]
+        const left = Math.random() * 100
+        const top = Math.random() * 100
+        const delay = Math.random() * 8
+        const duration = 20 + Math.random() * 15 // 20-35s
+
+        el.style.cssText = `
+          position: absolute;
+          left: ${left}%;
+          top: ${top}%;
+          width: ${size}px;
+          height: ${size}px;
+          border-radius: 50%;
+          background: hsl(var(--${color}) / 0.25);
+          box-shadow: 0 0 ${size}px hsl(var(--${color}) / 0.15);
+          animation: particle-drift ${duration}s ease-in-out ${delay}s infinite;
+          opacity: 0;
+        `
+        container.appendChild(el)
+      }
+    })
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initParticlesBg)
+  } else {
+    initParticlesBg()
+  }
+  document.addEventListener('astro:after-swap', initParticlesBg)
+</script>
+
+<style is:global>
+  @keyframes particle-drift {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.9;
+    }
+    90% {
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(-100vh) translateX(20px);
+      opacity: 0;
+    }
+  }
+</style>
