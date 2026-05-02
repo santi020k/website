@@ -1,5 +1,5 @@
 ---
-import { getImage } from 'astro:assets'
+import { getImage, Image } from 'astro:assets'
 
 import AboutMeImage from '../assets/photos/about-me.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
@@ -17,12 +17,12 @@ const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCache
 const workProjects = allProjects
   .filter(project => project.data.typesId === 'professional')
   .sort(collectionDateSortProjects)
-  .slice(0, 3)
+  .slice(0, 4)
 
 const personalProjects = allProjects
   .filter(project => project.data.typesId === 'personal')
   .sort(collectionDateSortProjects)
-  .slice(0, 3)
+  .slice(0, 4)
 
 const latestPosts = allPosts
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
@@ -104,36 +104,68 @@ const meta = {
     </div>
     <div
       class="
-        grid gap-4
-        md:grid-cols-3
+        grid gap-6
+        md:grid-cols-2
       "
       data-stagger="60"
     >
-      {workProjects.map(project => (
-        <a
-          href={getPortfolioPath(project.id)}
-          class="mini-note group block space-y-3 p-5"
-        >
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-ink-muted">{project.data.role ?? 'Engineering'}</span>
-            <span class="text-xs text-ink-muted">{project.data.startingDate.getFullYear()}</span>
-          </div>
-          <h3 class="text-lg font-semibold text-ink group-hover:text-brand transition-colors">
-            {project.data.title}
-          </h3>
-          <p class="text-sm text-ink-soft line-clamp-2">
-            {project.data.description}
-          </p>
-          <div class="flex flex-wrap gap-1.5 pt-1">
-            {project.data.technologies.slice(0, 3).map(tech => (
-              <span class="text-xs text-ink-muted">{tech}</span>
-            ))}
-            {project.data.technologies.length > 3 && (
-              <span class="text-xs text-ink-muted">+{project.data.technologies.length - 3}</span>
-            )}
-          </div>
-        </a>
-      ))}
+      {workProjects.map(project => {
+        const isActive = !project.data.endingDate
+        const dateRange = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) + ' – ' +
+          (isActive ? 'Present' : project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }))
+        return (
+          <a
+            href={getPortfolioPath(project.id)}
+            class="group block"
+          >
+            <article class="panel-card overflow-hidden transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col">
+              {project.data.coverImage?.src && (
+                <div class="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    alt={project.data.coverImage.alt || project.data.title}
+                    class="h-full w-full object-cover"
+                    src={project.data.coverImage.src}
+                    width={600}
+                    height={375}
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent"></div>
+                  <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                    <span class:list={[
+                      "text-xs font-medium px-2 py-1 rounded-full",
+                      isActive ? "bg-brand/90 text-white" : "bg-surface/90 text-ink-soft"
+                    ]}>
+                      {isActive ? 'Active' : 'Completed'}
+                    </span>
+                    <span class="text-xs text-ink-soft bg-surface/80 px-2 py-1 rounded-full">
+                      {dateRange}
+                    </span>
+                  </div>
+                </div>
+              )}
+              <div class="p-5 space-y-3 flex-1">
+                <div>
+                  <h3 class="text-xl font-semibold text-ink group-hover:text-brand transition-colors">
+                    {project.data.title}
+                  </h3>
+                  <p class="text-sm text-brand font-medium mt-1">{project.data.role ?? 'Engineering'}</p>
+                </div>
+                <p class="text-sm text-ink-soft line-clamp-2">
+                  {project.data.description}
+                </p>
+                <div class="flex flex-wrap gap-1.5 text-xs text-ink-muted pt-2">
+                  {project.data.technologies.slice(0, 4).map(tech => (
+                    <span class="bg-surface/60 px-1.5 py-0.5 rounded">{tech}</span>
+                  ))}
+                  {project.data.technologies.length > 4 && (
+                    <span class="bg-surface/60 px-1.5 py-0.5 rounded">+{project.data.technologies.length - 4}</span>
+                  )}
+                </div>
+              </div>
+            </article>
+          </a>
+        )
+      })}
     </div>
     <div class="flex items-center gap-3">
       <ButtonLink href="/work/" showArrow>
@@ -158,36 +190,68 @@ const meta = {
     </div>
     <div
       class="
-        grid gap-4
-        md:grid-cols-3
+        grid gap-5
+        md:grid-cols-2
       "
       data-stagger="60"
     >
-      {personalProjects.map(project => (
-        <a
-          href={getPortfolioPath(project.id)}
-          class="mini-note group block space-y-3 p-5"
-        >
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-medium text-ink-muted">Open source</span>
-            <span class="text-xs text-ink-muted">{project.data.startingDate.getFullYear()}</span>
-          </div>
-          <h3 class="text-lg font-semibold text-ink group-hover:text-brand transition-colors">
-            {project.data.title}
-          </h3>
-          <p class="text-sm text-ink-soft line-clamp-2">
-            {project.data.description}
-          </p>
-          <div class="flex flex-wrap gap-1.5 pt-1">
-            {project.data.technologies.slice(0, 3).map(tech => (
-              <span class="text-xs text-ink-muted">{tech}</span>
-            ))}
-            {project.data.technologies.length > 3 && (
-              <span class="text-xs text-ink-muted">+{project.data.technologies.length - 3}</span>
-            )}
-          </div>
-        </a>
-      ))}
+      {personalProjects.map(project => {
+        const isActive = !project.data.endingDate
+        const dateRange = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) + ' – ' +
+          (isActive ? 'Present' : project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }))
+        return (
+          <a
+            href={getPortfolioPath(project.id)}
+            class="group block"
+          >
+            <article class="panel-card overflow-hidden transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col">
+              {project.data.coverImage?.src && (
+                <div class="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    alt={project.data.coverImage.alt || project.data.title}
+                    class="h-full w-full object-cover"
+                    src={project.data.coverImage.src}
+                    width={600}
+                    height={375}
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent"></div>
+                  <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                    <span class:list={[
+                      "text-xs font-medium px-2 py-1 rounded-full",
+                      isActive ? "bg-accent/90 text-white" : "bg-surface/90 text-ink-soft"
+                    ]}>
+                      {isActive ? 'Active' : 'Completed'}
+                    </span>
+                    <span class="text-xs text-ink-soft bg-surface/80 px-2 py-1 rounded-full">
+                      {dateRange}
+                    </span>
+                  </div>
+                </div>
+              )}
+              <div class="p-5 space-y-3 flex-1">
+                <div>
+                  <h3 class="text-xl font-semibold text-ink group-hover:text-brand transition-colors">
+                    {project.data.title}
+                  </h3>
+                  <p class="text-sm text-accent font-medium mt-1">Open source</p>
+                </div>
+                <p class="text-sm text-ink-soft line-clamp-2">
+                  {project.data.description}
+                </p>
+                <div class="flex flex-wrap gap-1.5 text-xs text-ink-muted pt-2">
+                  {project.data.technologies.slice(0, 4).map(tech => (
+                    <span class="bg-surface/60 px-1.5 py-0.5 rounded">{tech}</span>
+                  ))}
+                  {project.data.technologies.length > 4 && (
+                    <span class="bg-surface/60 px-1.5 py-0.5 rounded">+{project.data.technologies.length - 4}</span>
+                  )}
+                </div>
+              </div>
+            </article>
+          </a>
+        )
+      })}
     </div>
     <div class="flex items-center gap-3">
       <ButtonLink href="/projects/" showArrow>
@@ -210,17 +274,17 @@ const meta = {
         Articles on architecture, automation, and engineering decisions.
       </p>
     </div>
-    <div class="space-y-4" data-stagger="50">
+    <div class="space-y-0" data-stagger="50">
       {latestPosts.map(post => (
         <a
           href={getPostPath(post.id)}
-          class="group flex items-start justify-between gap-4 py-4 border-b border-line/30 last:border-b-0"
+          class="group flex items-start justify-between gap-4 py-5 border-b border-line/20 last:border-b-0"
         >
-          <div class="space-y-1">
-            <h3 class="font-medium text-ink group-hover:text-brand transition-colors">
+          <div class="space-y-1 min-w-0 flex-1">
+            <h3 class="font-medium text-ink group-hover:text-brand transition-colors line-clamp-1">
               {post.data.title}
             </h3>
-            <p class="text-sm text-ink-soft line-clamp-1 max-w-lg">
+            <p class="text-sm text-ink-soft line-clamp-1">
               {post.data.description}
             </p>
           </div>
