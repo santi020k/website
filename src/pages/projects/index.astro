@@ -1,5 +1,6 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
@@ -96,7 +97,8 @@ const projectsListSchema = {
     </div>
   </section>
 
-  <section class="editorial-section" data-animate>
+  <GradientDivider class="pt-10" />
+  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
     <SectionHeading
       description="Open-source, community, and self-directed projects that show how I like to learn, teach, and build beyond client work."
       eyebrow="Personal builds"
@@ -105,7 +107,8 @@ const projectsListSchema = {
     <CareerTimeline projects={sideProjects} />
   </section>
 
-  <section class="editorial-section" data-animate>
+  <GradientDivider class="pt-10" />
+  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
     <SectionHeading
       description="The recurring technologies from personal projects and open-source work — tooling, DX, testing, and the things I reach for when there are no constraints."
       eyebrow="Technology map"
