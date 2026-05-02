@@ -1,13 +1,12 @@
 ---
-import { Picture } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
 import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
-import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
-import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
+import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.svg'
+import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.svg'
 import { menuLinks, siteConfig } from '@/site.config'
 import type { SiteLink } from '@/types/site'
 
@@ -82,37 +81,32 @@ const isAvailableForBanner =
           "
           href="/"
         >
-          <Picture
+          <img
             alt="Santi020k"
             class="
-              aspect-933/147 h-9 w-auto object-contain transition duration-300
+              h-9 w-auto transition duration-300
               group-hover:brightness-115
               motion-reduce:transition-none
               dark:hidden
             "
-            densities={[1, 1.5, 2, 3]}
             fetchpriority="high"
-            formats={['avif', 'webp']}
             height={36}
             loading="eager"
-            src={LogoMarkLight}
+            src={LogoMarkLight.src}
             width={228}
           />
-          <Picture
+          <img
             alt="Santi020k"
             class="
-              hidden aspect-933/147 h-9 w-auto object-contain transition
-              duration-300
+              hidden h-9 w-auto transition duration-300
               group-hover:brightness-115
               motion-reduce:transition-none
               dark:block
             "
-            densities={[1, 1.5, 2, 3]}
             fetchpriority="high"
-            formats={['avif', 'webp']}
             height={36}
             loading="eager"
-            src={LogoMarkDark}
+            src={LogoMarkDark.src}
             width={228}
           />
           <!-- <span class="
