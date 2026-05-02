@@ -1,6 +1,6 @@
 # Santi020k — Brand Guidelines
 
-**Version:** 2.4 · **Last updated:** April 2026 · **Owner:** Santiago Molina (@santi020k)
+**Version:** 2.5 · **Last updated:** May 2026 · **Owner:** Santiago Molina (@santi020k)
 
 > Single source of truth for the visual identity, voice, and implementation standards of the personal website and all related materials. Keep this document up to date whenever design tokens, components, or brand direction change.
 
@@ -371,26 +371,66 @@ Badges truncate at `200px` on mobile, full width on `sm` and above.
 
 ### Cards
 
-Use `transition-all duration-200` for hover lift. Always include `motion-reduce:` variants.
+Use `transition-all duration-300` for hover lift. Always include `motion-reduce:` variants.
 
+**Standard Card (`panel-card`):**
 ```astro
 <article class="
-  group relative flex flex-col gap-3
-  rounded-xl border border-color-200 bg-special-lighter
-  p-5 shadow-sm
-  transition-all duration-200
-  hover:shadow-md hover:-translate-y-0.5
-  motion-reduce:transition-none motion-reduce:hover:translate-y-0
+  panel-card overflow-hidden
+  transition-all duration-300
+  group-hover:-translate-y-1
 ">
-  <h2 class="title text-lg transition-colors duration-150 group-hover:text-accent-one">
-    {title}
-  </h2>
-  <p class="text-sm text-color-500 leading-relaxed">{description}</p>
-  <!-- Full-card click target — accessible overlay pattern -->
-  <a href={href} class="absolute inset-0" aria-label={title}>
-    <span class="sr-only">{title}</span>
-  </a>
+  <!-- Card content -->
 </article>
+```
+
+**Image Card with Overlays:**
+```astro
+<div class="relative aspect-[16/10] overflow-hidden">
+  <Image src={cover} class="h-full w-full object-cover" />
+  <!-- Gradient overlay for text readability -->
+  <div class="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent"></div>
+  <!-- Badges positioned bottom -->
+  <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+    <span class="text-xs font-medium px-2 py-1 rounded-full bg-brand/90 text-white">
+      Active
+    </span>
+    <span class="text-xs text-ink-soft bg-surface/80 px-2 py-1 rounded-full">
+      Jan 2022 – Present
+    </span>
+  </div>
+</div>
+```
+
+**Compact Card (`mini-note`):**
+```astro
+<div class="mini-note p-6 space-y-4">
+  <div class="flex items-center gap-3">
+    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">
+      <Icon name="icon-name" />
+    </div>
+    <div>
+      <p class="font-medium text-ink">Title</p>
+      <p class="text-xs text-ink-muted">Subtitle</p>
+    </div>
+  </div>
+  <p class="text-sm text-ink-soft">Description</p>
+</div>
+```
+
+**Accent Border Mini-Notes:**
+```astro
+<!-- Left accent -->
+<div class="mini-note border-l-4 border-l-brand/40">
+  <p class="section-label">Label</p>
+  <p class="mt-2 text-sm/6 text-ink">Content</p>
+</div>
+
+<!-- Right accent (alternate) -->
+<div class="mini-note border-r-4 border-r-accent/40">
+  <p class="section-label">Label</p>
+  <p class="mt-2 text-2xl font-bold">Value</p>
+</div>
 ```
 
 ### Navigation Links
@@ -464,6 +504,49 @@ The mobile nav uses a slide-in drawer with `translate-y` transition on the drawe
 ### Page Transitions
 
 Astro View Transitions are enabled globally (`<ViewTransitions />` in the root layout). Named transitions (`transition:name`) are set on: `header`, `footer`, `logo-link`. The built-in transitions automatically respect `prefers-reduced-motion`.
+
+### Hero-Specific Animations
+
+**Gradient Text:**
+```
+bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent
+```
+
+**Spinning Rings (around portrait):**
+```
+motion-safe:animate-[spin_24s_linear_infinite]
+border-image: linear-gradient(135deg, hsl(var(--brand)/0.3), hsl(var(--accent)/0.15), transparent) 1
+```
+
+**Ambient Glow:**
+```
+bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
+motion-safe:animate-pulse
+```
+
+**Floating Cards:**
+```
+motion-safe:animate-float-y
+```
+
+**Staggered Content Reveal:**
+```
+animate-slide-up [animation-delay:90ms]
+animate-slide-up [animation-delay:180ms]
+```
+
+### Decorative Patterns
+
+**Gradient Dividers:**
+```astro
+<div aria-hidden="true" class="pointer-events-none flex justify-center">
+  <div class="h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/40 to-transparent"></div>
+</div>
+```
+
+**Date Format Pattern:**
+- Short month + year: `{date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`
+- Date range: `"Jan 2022 – Present"` or `"Jan 2022 – Dec 2023"`
 
 ### Micro-Interaction Checklist
 
@@ -562,13 +645,105 @@ Before adding ARIA, ask: *is there a native element for this?*
 
 ### Homepage Hero Structure
 
-Answer three questions in under 5 seconds: who, what, why keep reading.
+The hero uses an **asymmetric 2-column layout** with content on the left and a portrait on the right.
 
+**Layout Pattern:**
 ```
-[Role / Identity] — one line, bold, large
-[Value proposition] — 1–2 sentences expanding on the identity
-[Primary CTA] — verb-first, specific
+grid-cols-[minmax(0,1fr)_22rem] lg:items-center
 ```
+
+**Left Column (Content):**
+- **Eyebrow**: `section-label text-brand` — "Santiago Molina"
+- **Headline**: Large display text with gradient accent
+  - `text-4xl/[0.98] sm:text-6xl/[0.95] lg:text-[5.2rem]/[0.92]`
+  - Tight tracking: `tracking-[-0.06em]`
+  - **Gradient text**: `bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent`
+- **Description**: `max-w-xl text-base/7 text-ink-soft` — one concise value proposition
+- **Availability card**: `panel-card` with `section-label` and CTA button
+- **Action buttons**: Primary + secondary in `section-actions`
+- **Meta footer**: Location · Experience · Community
+
+**Right Column (Portrait):**
+- **Aspect ratio**: 4:5 (`aspect-4/5`)
+- **Wrapper**: `panel-card` with large radius (`rounded-[2.25rem]`)
+- **Image**: Rounded corners (`rounded-[1.7rem]`), object-top positioning
+- **Decorative rings**: Two spinning gradient rings (`motion-safe:animate-[spin_*s_linear_infinite]`) around the portrait
+- **Ambient glow**: Radial gradient blur (`bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl`)
+- **Floating mini-notes**: Positioned absolute left/right with `animate-float-y`:
+  - Left card: Location (border-l-4 border-l-brand/40)
+  - Right card: Years of experience (border-r-4 border-r-accent/40)
+
+**Voice for Hero:**
+- Headline: Two short punchy phrases — one plain, one gradient
+- Example: "Calm systems." + gradient "Clear delivery."
+
+### Content Section Layout
+
+Home page sections follow a consistent **asymmetric 2-column pattern**:
+
+**Layout Pattern:**
+```
+grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
+```
+
+**Left Column (Header):**
+- `section-label text-brand` — eyebrow/category label
+- `text-2xl font-semibold tracking-tight sm:text-3xl` — section title
+- `max-w-xl text-sm text-ink-soft` — optional description
+
+**Right Column (Content):**
+- **Grid layouts**: `grid gap-5 md:grid-cols-2` for 2×2 card arrangements
+- **List layouts**: `space-y-0` with `border-b border-line/20` separators
+
+**Dividers:**
+- Use `<GradientDivider class="pt-10" />` between sections
+- Consistent `pt-10` spacing on sections and dividers
+
+---
+
+### Card Design System
+
+#### Project Cards (Work & Side Projects)
+
+**Structure:**
+1. **Image header** (`aspect-[16/10]`) with overlay badges
+2. **Content body** (`p-5 space-y-3`)
+
+**Image Overlay Pattern:**
+```
+absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent
+bottom badges:
+- Status: "Active" (brand/accent bg) or "Completed" (surface bg)
+- Date range: "Jan 2022 – Present"
+```
+
+**Content Hierarchy:**
+- Title: `text-xl font-semibold`
+- Role: `text-sm text-brand/accent font-medium mt-1`
+- Description: `text-sm text-ink-soft line-clamp-2`
+- Tech tags: `flex flex-wrap gap-1.5` with `bg-surface/60 px-1.5 py-0.5 rounded`
+
+#### List Items (Writing Section)
+
+**Structure:**
+```
+flex items-start justify-between gap-4 py-5 border-b border-line/20
+```
+- Left: Title (`font-medium`) + Description (`text-sm text-ink-soft line-clamp-1`)
+- Right: Date (`text-xs text-ink-muted shrink-0`)
+
+#### Mini-Note Cards (Speaking Section)
+
+**Structure:**
+```
+mini-note p-6 space-y-4
+```
+- Icon wrapper: `flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand`
+- Title: `font-medium text-ink`
+- Subtitle: `text-xs text-ink-muted`
+- Description: `text-sm text-ink-soft`
+
+---
 
 ### Project Description Template
 
@@ -773,6 +948,7 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 2.5 | May 2026 | **Major home page refresh**: New hero with gradient text, animated portrait rings, and floating mini-notes. New content sections with asymmetric 2-column layout (`0.72fr / 1.28fr`). New card patterns: project cards with image overlays, status badges (Active/Completed), date ranges. Added `GradientDivider` component. Updated card design system with `panel-card`, `mini-note` patterns. |
 | 2.4 | April 2026 | Updated brand identity and hero copy, changed blog to native route, added speaking and about routes, unified typography table to Montserrat. |
 | 2.3 | April 2026 | Light theme **brand** and neutrals returned to match refreshed light logo/icon (hue **~267°** brand, **~268°** surfaces). Updated OG image tints in `render-social-image.js`. Replaced outdated §3 semantic token tables with `tokens.css` mappings. |
 | 2.2 | April 2026 | Shifted brand chroma from blue‑violet (hue 262°) to **purple** (277° / 280° for glow). Updated tokens, OG/social image tints, project cover palette for eslint-config-santi020k, and clarified logo fill vs semantic `--brand`. |
