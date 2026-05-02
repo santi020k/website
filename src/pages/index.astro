@@ -111,8 +111,9 @@ const meta = {
     >
       {workProjects.map(project => {
         const isActive = !project.data.endingDate
-        const dateRange = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) + ' – ' +
-          (isActive ? 'Present' : project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }))
+        const startDate = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        const endDate = isActive ? 'Present' : project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        const dateRange = `${startDate} – ${endDate}`
         return (
           <a
             href={getPortfolioPath(project.id)}
@@ -131,10 +132,12 @@ const meta = {
                   />
                   <div class="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent"></div>
                   <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <span class:list={[
-                      "text-xs font-medium px-2 py-1 rounded-full",
-                      isActive ? "bg-brand/90 text-white" : "bg-surface/90 text-ink-soft"
-                    ]}>
+                    <span
+                      class:list={[
+                        'text-xs font-medium px-2 py-1 rounded-full',
+                        isActive ? 'bg-brand/90 text-white' : 'bg-surface/90 text-ink-soft'
+                      ]}
+                    >
                       {isActive ? 'Active' : 'Completed'}
                     </span>
                     <span class="text-xs text-ink-soft bg-surface/80 px-2 py-1 rounded-full">
@@ -197,8 +200,9 @@ const meta = {
     >
       {personalProjects.map(project => {
         const isActive = !project.data.endingDate
-        const dateRange = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) + ' – ' +
-          (isActive ? 'Present' : project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }))
+        const startDate = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        const endDate = isActive ? 'Present' : project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        const dateRange = `${startDate} – ${endDate}`
         return (
           <a
             href={getPortfolioPath(project.id)}
@@ -217,10 +221,12 @@ const meta = {
                   />
                   <div class="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent"></div>
                   <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <span class:list={[
-                      "text-xs font-medium px-2 py-1 rounded-full",
-                      isActive ? "bg-accent/90 text-white" : "bg-surface/90 text-ink-soft"
-                    ]}>
+                    <span
+                      class:list={[
+                        'text-xs font-medium px-2 py-1 rounded-full',
+                        isActive ? 'bg-accent/90 text-white' : 'bg-surface/90 text-ink-soft'
+                      ]}
+                    >
                       {isActive ? 'Active' : 'Completed'}
                     </span>
                     <span class="text-xs text-ink-soft bg-surface/80 px-2 py-1 rounded-full">
