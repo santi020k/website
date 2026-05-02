@@ -72,9 +72,13 @@ const projectSchema: Record<string, unknown> = {
   }
 }
 
+const parentPage = project.data.typesId === 'personal' ?
+  { name: 'Projects', url: '/projects/' } :
+  { name: 'Work', url: '/work/' }
+
 const breadcrumbs = [
   { name: 'Home', url: '/' },
-  { name: 'Portfolio', url: '/portfolio/' },
+  parentPage,
   { name: project.data.title, url: Astro.url.pathname }
 ]
 
@@ -158,7 +162,7 @@ const breadcrumbs = [
           "
         >
           <a
-            href="/portfolio/"
+            href={parentPage.url}
             class="
               group inline-flex items-center gap-2 font-medium text-ink
               transition-colors
@@ -173,7 +177,7 @@ const breadcrumbs = [
               "
               name="tabler:arrow-left"
             />
-            Back to portfolio
+            Back to {parentPage.name.toLowerCase()}
           </a>
 
           <div class="section-actions">

@@ -1,0 +1,149 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import ProjectCard from '@/components/molecules/ProjectCard.astro'
+import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+
+import { getCachedProjects } from '@/utils/content'
+import { collectionDateSortProjects } from '@/utils/date'
+import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
+import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { getUniqueTechnologiesWithCount } from '@/data/project'
+import PageLayout from '@/layouts/Base.astro'
+import { siteConfig } from '@/site.config'
+
+const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
+const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
+
+const allTechnologies = getUniqueTechnologiesWithCount(sideProjects)
+const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
+const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
+
+const [featuredProject, ...otherProjects] = sideProjects
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Projects', url: '/projects/' }
+]
+
+const projectsListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Side Projects — Santiago Molina',
+  url: new URL('/projects/', Astro.site).href,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: sideProjects.length,
+    itemListElement: sideProjects.map((project, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: new URL(getPortfolioPath(project.id), Astro.site).href,
+      name: project.data.title
+    }))
+  }
+}
+---
+
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description: 'Open-source tools, community work, and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
+    structuredData: projectsListSchema,
+    title: 'Side Projects — Santiago Molina'
+  }}
+>
+  <section
+    class="
+      grid animate-slide-up gap-10
+      motion-reduce:animate-none
+      lg:grid-cols-[1.05fr_0.95fr]
+    "
+  >
+    <div class="space-y-6">
+      <SectionHeading
+        description="Open-source tools, community work, and self-directed experiments. The projects I build to learn, share, and sharpen how I engineer beyond client work."
+        eyebrow="Side Projects"
+        level="h1"
+        title="Built for the love of it."
+      />
+      <div class="section-actions">
+        <ButtonLink href={siteConfig.contact.github} newTab showArrow>
+          View GitHub
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Message on LinkedIn
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div
+      class="
+        grid gap-4
+        sm:grid-cols-2
+        lg:grid-cols-1
+      "
+    >
+      <StatCard
+        description="Open-source and community work that sharpens how I build and lead."
+        label="Projects"
+        value={String(sideProjects.length)}
+      />
+      <StatCard
+        description="Tools and platforms explored through personal and open-source work."
+        label="Technologies"
+        value={String(allTechnologies.length)}
+      />
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="Open-source, community, and self-directed projects that show how I like to learn, teach, and build beyond client work."
+      eyebrow="Personal builds"
+      title="Side Projects"
+    />
+    <div class="space-y-6">
+      {featuredProject && <ProjectCard featured project={featuredProject} />}
+      {!!otherProjects.length && (
+        <div
+          class="
+            grid gap-6
+            lg:grid-cols-2
+          "
+          data-stagger
+        >
+          {otherProjects.map(project => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="The recurring technologies from personal projects and open-source work — tooling, DX, testing, and the things I reach for when there are no constraints."
+      eyebrow="Technology map"
+      linkHref="/technologies/"
+      linkLabel="Browse the full stack index"
+      title="What I reach for on my own time."
+    />
+    <div class="space-y-5">
+      <p class="max-w-3xl text-sm/6 text-ink-muted">
+        Technologies from side projects and open-source contributions, ordered by interest.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        {technologies.map(([technology, count]) => (
+          <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
+            <span class="text-xs text-ink-muted">{count}</span>
+          </Pill>
+        ))}
+        {hiddenTechnologyCount > 0 && (
+          <Pill href="/technologies/" label={`+${hiddenTechnologyCount} technologies`} tone="neutral" />
+        )}
+      </div>
+    </div>
+  </section>
+</PageLayout>
