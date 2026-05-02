@@ -1,7 +1,7 @@
 ---
 title: "Datagran"
 description: "Led the front-end modernization of an AI martech platform, cutting bugs by 30% while moving the product from jQuery to a scalable React and TypeScript architecture."
-rol: "Front-End Lead"
+role: "Front-End Lead"
 startingDate: "1 Dec 2018"
 endingDate: "1 Jan 2020"
 liveDemoUrl: "https://www.datagran.io"

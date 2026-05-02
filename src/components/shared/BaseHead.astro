@@ -25,7 +25,7 @@ const {
   title
 } = Astro.props
 
-const resolvedOgImageAlt = ogImageAlt ?? description ?? `${title} — ${siteConfig.title}`
+const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
 const titleSeparator = '—'
 const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com/')
@@ -78,8 +78,8 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <link rel="preload" href="/fonts/montserrat-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/fonts/montserrat-italic-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
 {/* Preload the header logo — it's the LCP element on every page */}
-<link rel="preload" as="image" href={logoLightAvif.src} type="image/avif" fetchpriority="high" media="(prefers-color-scheme: light)" />
-<link rel="preload" as="image" href={logoDarkAvif.src} type="image/avif" fetchpriority="high" media="(prefers-color-scheme: dark)" />
+<link rel="preload" as="image" href={logoLightAvif.src} type="image/avif" fetchpriority="high" />
+<link rel="preload" as="image" href={logoDarkAvif.src} type="image/avif" fetchpriority="high" />
 {
   preloadImage && (
     <link
@@ -123,9 +123,6 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 
 {/* SEO Improvements */}
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-<meta name="language" content="en-us" />
-<meta name="revisit-after" content="7 days" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 {/* Open Graph */}
 <meta property="og:type" content={articleDate ? 'article' : 'website'} />

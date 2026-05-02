@@ -29,7 +29,7 @@ const project = defineCollection({
   loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
-    rol: z.enum([
+    role: z.enum([
       'Technical Lead',
       'Full Stack',
       'Front-End Lead',
@@ -99,7 +99,7 @@ const post = defineCollection({
     tags: z.array(z.string()).default([]).transform(removeDuplicates),
     draft: z.boolean().default(false),
     canonicalUrl: z.url().optional(),
-    postType: z.enum(['Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).optional(),
+    postType: z.enum(['Article', 'Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).default('Article'),
     seriesId: z.string().optional(),
     seriesOrder: z.number().int().positive().optional()
   })

@@ -1,7 +1,7 @@
 ---
 title: "Santi020k Chrome Theme"
 description: "Designed and published a Chrome browser theme that maps every surface to a named VS Code token from the Santi020k dark palette — deep violet, muted lavender, zero approximations."
-rol: "Creator"
+role: "Creator"
 startingDate: "1 May 2026"
 githubUrl: "https://github.com/santi020k/santi020k-chrome-theme"
 liveDemoUrl: "https://chrome.santi020k.com/"

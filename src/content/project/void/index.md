@@ -1,7 +1,7 @@
 ---
 title: "Void.GG"
 description: "Led architecture and delivery for a fast-moving esports platform across web, mobile, and backend systems, improving performance, release speed, and team velocity."
-rol: "Technical Lead"
+role: "Technical Lead"
 startingDate: "1 Feb 2023"
 endingDate: "1 May 2025"
 liveDemoUrl: "https://void.gg"

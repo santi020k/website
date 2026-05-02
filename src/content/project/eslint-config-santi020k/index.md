@@ -1,7 +1,7 @@
 ---
 title: "@santi020k/eslint-config-santi020k"
 description: "Turned internal linting conventions into a reusable package that standardized React and TypeScript projects and paved the way for @santi020k/eslint-config-basic."
-rol: "Creator"
+role: "Creator"
 startingDate: "1 Jan 2023"
 endingDate: "1 Mar 2024"
 githubUrl: "https://github.com/santi020k/eslint-config-santi020k"

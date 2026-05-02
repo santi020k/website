@@ -1,7 +1,7 @@
 ---
 title: "X Games"
 description: "Built and scaled the official X Games digital platform — a high-traffic sports media site serving millions of fans — with real-time live streaming, geo-based access control, and a programmatic ad infrastructure powered by Google Ad Manager."
-rol: "Senior Full Stack Engineer"
+role: "Senior Full Stack Engineer"
 startingDate: "1 Jan 2025"
 endingDate: "1 Jul 2025"
 liveDemoUrl: "https://web.archive.org/web/20250827083904/https://www.xgames.com/"

@@ -41,7 +41,7 @@ const projectStats = [
   {
     icon: 'tabler:user-star',
     label: 'Role',
-    value: project.data.rol ?? 'Hands-on builder'
+    value: project.data.role ?? 'Hands-on builder'
   },
   {
     icon: 'tabler:calendar-time',
@@ -246,7 +246,7 @@ const projectStats = [
               <p class="
                 mt-3 text-lg font-semibold tracking-[-0.03em] text-ink
               "
-              >{project.data.title} · {project.data.rol ?? projectTypeLabel}
+              >{project.data.title} · {project.data.role ?? projectTypeLabel}
               </p>
             </div>
             <Pill label={dateRangeLabel} tone="outline" />

@@ -118,22 +118,25 @@ const contactChannels = [
                     {value}
                   </a>
                   {label === 'Email' && (
-                    <button
-                      aria-label="Copy email address"
-                      class="
-                        inline-flex size-7 shrink-0 items-center justify-center
-                        rounded-lg border border-line/50 bg-surface-muted/60 text-ink-muted
-                        transition-all duration-200
-                        hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand
-                        focus-visible:outline-brand
-                        motion-reduce:transition-none
-                      "
-                      data-copy-email={value}
-                      type="button"
-                    >
-                      <Icon aria-hidden="true" class="size-3.5" data-copy-icon name="tabler:copy" />
-                      <Icon aria-hidden="true" class="hidden size-3.5" data-check-icon name="tabler:check" />
-                    </button>
+                    <>
+                      <span aria-live="polite" class="sr-only" data-copy-announce />
+                      <button
+                        aria-label="Copy email address"
+                        class="
+                          inline-flex size-7 shrink-0 items-center justify-center
+                          rounded-lg border border-line/50 bg-surface-muted/60 text-ink-muted
+                          transition-all duration-200
+                          hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand
+                          focus-visible:outline-brand
+                          motion-reduce:transition-none
+                        "
+                        data-copy-email={value}
+                        type="button"
+                      >
+                        <Icon aria-hidden="true" class="size-3.5" data-copy-icon name="tabler:copy" />
+                        <Icon aria-hidden="true" class="hidden size-3.5" data-check-icon name="tabler:check" />
+                      </button>
+                    </>
                   )}
                 </div>
                 <p class="max-w-md text-sm/6 text-ink-soft">{description}</p>
@@ -161,14 +164,17 @@ const contactChannels = [
           await navigator.clipboard.writeText(email)
           const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
           const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
+          const announce = btn.parentElement?.querySelector<HTMLElement>('[data-copy-announce]')
           if (copyIcon && checkIcon) {
             copyIcon.classList.add('hidden')
             checkIcon.classList.remove('hidden')
             btn.setAttribute('aria-label', 'Copied!')
+            if (announce) announce.textContent = 'Email address copied!'
             setTimeout(() => {
               copyIcon.classList.remove('hidden')
               checkIcon.classList.add('hidden')
               btn.setAttribute('aria-label', 'Copy email address')
+              if (announce) announce.textContent = ''
             }, 2000)
           }
         } catch {
