@@ -12,6 +12,7 @@ import type { SiteLink } from '@/types/site'
 const isAvailableForBanner =
   siteConfig.availability.trim().toLowerCase().startsWith('open') &&
   siteConfig.showAvailabilityBanner !== false
+
 ---
 
 <header class="
@@ -99,9 +100,8 @@ const isAvailableForBanner =
         <nav
           aria-label="Main menu"
           class="
-            hidden flex-nowrap items-center gap-0
-            lg:flex lg:gap-0.5
-            xl:gap-1
+            hidden items-center gap-1
+            lg:flex
           "
         >
           {
@@ -115,33 +115,35 @@ const isAvailableForBanner =
                   aria-current={isActive ? 'page' : undefined}
                   class:list={[
                     `
-                      relative inline-flex min-h-11 shrink-0 items-center
-                      gap-1.5 p-2 text-sm font-medium whitespace-nowrap
-                      transition-colors duration-200
-                      after:absolute after:inset-x-2 after:bottom-1.5 after:h-px
-                      after:origin-left after:scale-x-0 after:bg-brand
-                      after:transition-transform after:duration-200
-                      after:ease-out
+                      group relative inline-flex min-h-9 items-center gap-1.5
+                      rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap
+                      transition-all duration-200
+                      hover:bg-brand/5
                       motion-reduce:transition-none
-                      motion-reduce:after:transition-none
-                      lg:px-2
-                      xl:px-3
-                      xl:after:inset-x-3
                     `,
                     isActive ?
-                      `
-                        font-semibold text-brand
-                        after:scale-x-100
-                      ` :
-                      `
-                        text-ink-soft
-                        hover:text-ink
-                        hover:after:scale-x-100
-                      `
+                      'bg-brand/8 font-semibold text-brand' :
+                      'text-ink-soft hover:text-ink'
                   ]}
                   href={link.path}
                 >
+                  {link.icon && (
+                    <Icon
+                      aria-hidden="true"
+                      class:list={[
+                        'size-4 shrink-0 transition-colors duration-200 motion-reduce:transition-none',
+                        isActive ? 'text-brand' : 'text-ink-muted group-hover:text-ink'
+                      ]}
+                      name={link.icon}
+                    />
+                  )}
                   {link.title}
+                  {isActive && (
+                    <span
+                      aria-hidden="true"
+                      class="absolute bottom-0 left-1/2 h-0.5 w-2/3 -translate-x-1/2 rounded-full bg-brand"
+                    />
+                  )}
                 </a>
               )
             })
@@ -157,7 +159,7 @@ const isAvailableForBanner =
           <ThemeToggle />
           <div class="
             hidden
-            lg:block
+            xl:block
           "
           >
             <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow variant="secondary">
@@ -300,7 +302,19 @@ const isAvailableForBanner =
                     data-mobile-nav-link
                     href={link.path}
                   >
-                    <span>{link.title}</span>
+                    <span class="inline-flex items-center gap-2">
+                      {link.icon && (
+                        <Icon
+                          aria-hidden="true"
+                          class:list={[
+                            'size-4 shrink-0',
+                            isActive ? 'text-brand' : 'text-ink-muted'
+                          ]}
+                          name={link.icon}
+                        />
+                      )}
+                      {link.title}
+                    </span>
                     {
                       isActive && (
                         <span class="
