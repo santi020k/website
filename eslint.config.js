@@ -36,6 +36,7 @@ export default [
           '^panel-surface$',
           '^prose-shell$',
           '^animate-spring-up-lcp$',
+          '^animate-reveal-lcp$',
           '^border-brand-solid$',
           '^bg-brand-solid$',
           '^hover:bg-brand-solid/92$',
