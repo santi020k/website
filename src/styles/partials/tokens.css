@@ -20,13 +20,13 @@
   --ink: 268 10% 20%;
   --ink-soft: 268 8% 36%;
   --ink-muted: 268 6% 28%;
-  /* Brand sampled from dark / high-chroma regions of light logo assets (~267°). */
-  --brand: 267 77% 42%;
+  /* Brand: deep purple #5a0fdb (HSL: 264, 92%, 47%). */
+  --brand: 264 92% 47%;
   /* Saturated fills (buttons, skip link): separate from display `brand` for WCAG AA vs white. */
-  --brand-solid: 267 77% 37%;
-  --brand-soft: 267 52% 94%;
-  --accent: 267 82% 52%;
-  --glow: 268 88% 70%;
+  --brand-solid: 264 92% 42%;
+  --brand-soft: 264 60% 94%;
+  --accent: 264 95% 57%;
+  --glow: 264 95% 70%;
 }
 
 :root[data-theme="dark"] {
@@ -39,12 +39,12 @@
   --ink: 260 10% 88%;
   --ink-soft: 260 8% 72%;
   --ink-muted: 260 6% 56%;
-  --brand: 262 87% 66%;
-  /* Headless Lighthouse defaults to dark scheme; 62% L fails 4.5:1 with white at button sizes. */
-  --brand-solid: 262 87% 46%;
-  --brand-soft: 262 50% 18%;
-  --accent: 262 87% 76%;
-  --glow: 262 87% 68%;
+  --brand: 264 90% 58%;
+  /* Lightened for WCAG AA contrast on dark surfaces while keeping purple hue. */
+  --brand-solid: 264 90% 52%;
+  --brand-soft: 264 45% 18%;
+  --accent: 264 90% 68%;
+  --glow: 264 85% 50%;
 }
 
 @media (prefers-contrast: more) {
@@ -55,9 +55,9 @@
     --line: 268 18% 66%;
     --ink-soft: 268 12% 24%;
     --ink-muted: 268 10% 18%;
-    --brand: 267 78% 34%;
-    --brand-solid: 267 78% 32%;
-    --brand-soft: 267 52% 90%;
+    --brand: 264 92% 40%;
+    --brand-solid: 264 92% 38%;
+    --brand-soft: 264 60% 92%;
   }
 
   :root[data-theme="dark"] {
@@ -66,9 +66,9 @@
     --line: 260 15% 48%;
     --ink-soft: 260 10% 84%;
     --ink-muted: 260 8% 76%;
-    --brand: 262 87% 72%;
-    --brand-solid: 262 87% 44%;
-    --brand-soft: 262 50% 24%;
+    --brand: 264 90% 62%;
+    --brand-solid: 264 90% 55%;
+    --brand-soft: 264 45% 22%;
   }
 }
 

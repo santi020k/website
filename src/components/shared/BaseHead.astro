@@ -1,15 +1,10 @@
 ---
-import { getImage } from 'astro:assets'
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
 import { getSocialImageURL } from '@/utils/social-image'
 
-import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
-import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
 import { siteConfig } from '@/site.config'
 import type { SiteMeta } from '@/types/site'
-const logoLightAvif = await getImage({ src: LogoMarkLight, format: 'avif', width: 228, height: 36 })
-const logoDarkAvif = await getImage({ src: LogoMarkDark, format: 'avif', width: 228, height: 36 })
 
 type Props = SiteMeta
 
@@ -77,9 +72,9 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <link rel="manifest" href="/manifest.webmanifest" />
 <link rel="preload" href="/fonts/montserrat-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/fonts/montserrat-italic-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
-{/* Preload the header logo — it's the LCP element on every page */}
-<link rel="preload" as="image" href={logoLightAvif.src} type="image/avif" fetchpriority="high" />
-<link rel="preload" as="image" href={logoDarkAvif.src} type="image/avif" fetchpriority="high" />
+{/* Preload the header logos — LCP elements */}
+<link rel="preload" as="image" href="/src/assets/brand/logos/logo-santi020k.svg" type="image/svg+xml" fetchpriority="high" />
+<link rel="preload" as="image" href="/src/assets/brand/logos/logo-santi020k-dark.svg" type="image/svg+xml" fetchpriority="high" />
 {
   preloadImage && (
     <link

@@ -99,7 +99,7 @@ The logo is a custom WebP wordmark with a stylised "S2K" letterform representing
 | Place on white, light, or dark backgrounds | Place on mid-tone backgrounds that reduce contrast |
 | Scale proportionally with `width` and `height` attributes | Stretch, rotate, or distort |
 | Maintain clear space on all sides | Crop or crowd the mark |
-| Keep the logo fill aligned with brand purple (`--color-brand`, approx. `#6319be` in light / `#af55e7` in dark) | Recolor to unrelated hues (e.g. blue or orange) |
+| Keep the logo fill aligned with brand purple (`--color-brand`, approx. `#5a0fdb` in all themes) | Recolor to unrelated hues (e.g. blue or orange) |
 | Wrap in an `<a>` with `aria-label` when used as a home link | Add drop shadows, borders, or glows |
 
 ---
@@ -114,9 +114,9 @@ The palette is fully adaptive between **Light** and **Dark** modes, toggled via 
 
 | Tone | Token | HSL (raw) | Hex (approx.) | Usage |
 | :------- | :----------- | :------ | :-------- | :----------- |
-| **Purple** | `--brand` | `267 77% 42%` (light) / `277 75% 62%` (dark) | `#6319be` / `#af55e7` | Logo, CTAs, highlights — red‑biased purple |
-| **Accent** | `--accent` | `267 82% 52%` (light) / `277 82% 72%` (dark) | `#7b20e9` / `#c57df2` | Hovers, active states |
-| **Glow** | `--glow` | `268 88% 70%` (light) / `280 85% 68%` (dark) | `#ae6ff6` / `#c568f3` | Background gradients, hero washes |
+| **Purple** | `--brand` | `264 92% 47%` (light) / `264 90% 58%` (dark) | `#5a0fdb` / `#8747ff` | Logo, CTAs, highlights — deep purple |
+| **Accent** | `--accent` | `264 95% 57%` (light) / `264 90% 68%` (dark) | `#7c3af7` / `#a66bff` | Hovers, active states |
+| **Glow** | `--glow` | `264 95% 70%` (light) / `264 85% 50%` (dark) | `#a66bff` / `#7c3af7` | Background gradients, hero washes |
 
 ### Semantic Tokens — Light Mode
 
