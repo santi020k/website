@@ -89,8 +89,8 @@ export const getProjectScopeHighlights = (type: ProjectType): string[] => {
 }
 
 export const getProjectTimelineLabel = (startingDate: Date, endingDate?: Date): string => {
-  const startLabel = getFormattedDate(startingDate, { month: 'short', year: 'numeric' })
-  const endLabel = endingDate ? getFormattedDate(endingDate, { month: 'short', year: 'numeric' }) : 'Present'
+  const startLabel = getFormattedDate(startingDate, { day: undefined, month: 'short', year: 'numeric' })
+  const endLabel = endingDate ? getFormattedDate(endingDate, { day: undefined, month: 'short', year: 'numeric' }) : 'Present'
 
   return `${startLabel} - ${endLabel}`
 }

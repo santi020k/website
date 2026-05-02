@@ -1,9 +1,9 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import ProjectCard from '@/components/molecules/ProjectCard.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
+import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
@@ -20,8 +20,6 @@ const workProjects = allProjects.filter(p => p.data.typesId === 'professional')
 const allTechnologies = getUniqueTechnologiesWithCount(workProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
-
-const [featuredProject, ...otherProjects] = workProjects
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -104,22 +102,7 @@ const workListSchema = {
       eyebrow="Client and product work"
       title="Professional Work"
     />
-    <div class="space-y-6">
-      {featuredProject && <ProjectCard featured project={featuredProject} />}
-      {!!otherProjects.length && (
-        <div
-          class="
-            grid gap-6
-            lg:grid-cols-2
-          "
-          data-stagger
-        >
-          {otherProjects.map(project => (
-            <ProjectCard project={project} />
-          ))}
-        </div>
-      )}
-    </div>
+    <CareerTimeline projects={workProjects} />
   </section>
 
   <section class="editorial-section" data-animate>
