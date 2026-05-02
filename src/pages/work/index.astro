@@ -1,5 +1,6 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
@@ -96,7 +97,8 @@ const workListSchema = {
     </div>
   </section>
 
-  <section class="editorial-section" data-animate>
+  <GradientDivider class="pt-10" />
+  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
     <SectionHeading
       description="Work delivered for product teams across commerce, gaming, SaaS, real estate, martech, and platform engineering."
       eyebrow="Client and product work"
@@ -105,7 +107,8 @@ const workListSchema = {
     <CareerTimeline projects={workProjects} />
   </section>
 
-  <section class="editorial-section" data-animate>
+  <GradientDivider class="pt-10" />
+  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
     <SectionHeading
       description="React and TypeScript sit at the center, but the stack widens to fit the product: backend, mobile, testing, DX, and delivery tooling."
       eyebrow="Technology map"
