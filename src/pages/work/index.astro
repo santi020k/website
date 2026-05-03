@@ -1,8 +1,10 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
 
@@ -53,53 +55,88 @@ const workListSchema = {
     title: 'Work Experience — Santiago Molina'
   }}
 >
-  <section
-    class="
-      grid animate-slide-up gap-10
-      motion-reduce:animate-none
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
-  >
-    <div class="space-y-6">
-      <SectionHeading
-        description="Client and product work across US and LATAM teams. Architecture decisions, delivery systems, and hands-on technical leadership — from startup to scale."
-        eyebrow="Work Experience"
-        level="h1"
-        title="Products shipped. Teams led. Systems that held."
+  <section class="relative pb-4">
+    <div class="relative z-10 space-y-8">
+      <Eyebrow
+        label="Work Experience"
+        tone="brand"
+        className="
+          animate-slide-up whitespace-normal
+          motion-reduce:animate-none
+        "
       />
-      <div class="section-actions">
-        <ButtonLink href={siteConfig.contact.resume} newTab showArrow>
-          Open resume
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          Message on LinkedIn
-        </ButtonLink>
-      </div>
-    </div>
 
-    <div
-      class="
-        grid gap-4
-        sm:grid-cols-2
-        lg:grid-cols-1
-      "
-    >
-      <StatCard
-        description="Roles across commerce, gaming, real estate, martech, agencies, and SaaS."
-        label="Roles"
-        value={String(workProjects.length)}
-      />
-      <StatCard
-        description="Recurring tools and platforms across production systems."
-        label="Technologies"
-        value={String(allTechnologies.length)}
-      />
+      <div
+        class="
+          animate-slide-up space-y-4 [animation-delay:90ms]
+          motion-reduce:animate-none
+        "
+      >
+        <h1 class="
+          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+          sm:text-6xl/[0.95]
+          lg:text-[5.2rem]/[0.92]
+        "
+        >
+          Products shipped.
+          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">Teams led. Systems that held.</span>
+        </h1>
+        <p class="
+          max-w-xl text-base/7 text-ink-soft
+          sm:text-lg/7
+        "
+        >
+          Client and product work across US and LATAM teams. Architecture decisions, delivery systems, and hands-on technical leadership — from startup to scale.
+        </p>
+      </div>
+
+      <div
+        class="
+          animate-slide-up space-y-5 [animation-delay:180ms]
+          motion-reduce:animate-none
+        "
+      >
+        <div class="section-actions">
+          <ButtonLink href={siteConfig.contact.resume} newTab showArrow>
+            Open resume
+          </ButtonLink>
+          <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+            Message on LinkedIn
+          </ButtonLink>
+          <ButtonLink href="/projects/" showArrow variant="secondary">
+            Side projects
+          </ButtonLink>
+        </div>
+      </div>
     </div>
   </section>
 
+  <StatsGrid>
+    <StatCard
+      description="Roles across commerce, gaming, real estate, martech, agencies, and SaaS."
+      label="Roles"
+      value={String(workProjects.length)}
+    />
+    <StatCard
+      description="Largest cross-functional team led across product, design, frontend, and backend."
+      label="Team led"
+      value="14"
+    />
+    <StatCard
+      description="Recurring tools and platforms across production systems."
+      label="Technologies"
+      value={String(allTechnologies.length)}
+    />
+    <StatCard
+      description="Reduced release lead times by optimizing CI/CD pipelines and automating quality gates."
+      label="Cycle Time"
+      value="-75%"
+    />
+  </StatsGrid>
+
   <GradientDivider class="pt-10" />
   <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="Work delivered for product teams across commerce, gaming, SaaS, real estate, martech, and platform engineering."
       eyebrow="Client and product work"
       title="Professional Work"
@@ -109,7 +146,7 @@ const workListSchema = {
 
   <GradientDivider class="pt-10" />
   <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="React and TypeScript sit at the center, but the stack widens to fit the product: backend, mobile, testing, DX, and delivery tooling."
       eyebrow="Technology map"
       linkHref="/technologies/"
