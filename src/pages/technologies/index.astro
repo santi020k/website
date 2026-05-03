@@ -4,7 +4,6 @@ import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PillCount from '@/components/atoms/PillCount.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import { getUniqueTechnologiesWithCount } from '@/data/project'
 import PageLayout from '@/layouts/Base.astro'
@@ -104,13 +103,7 @@ const meta = {
     <StatCard description="Frontend, backend, testing, delivery, and developer tooling." label="Scope" value="Full stack" />
   </StatsGrid>
 
-  <PageSection>
-    <div
-      class="
-        grid gap-8
-        lg:grid-cols-3
-      "
-    >
+  <section class="grid gap-8 pt-10 lg:grid-cols-3" data-animate>
     {technologyGroups.map(group => (
       <div class="space-y-4">
         <div class="space-y-2">
@@ -126,6 +119,5 @@ const meta = {
         </div>
       </div>
     ))}
-    </div>
-  </PageSection>
+  </section>
 </PageLayout>
