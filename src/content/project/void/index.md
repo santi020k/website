@@ -16,6 +16,8 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   alt: "VOID logo on an indigo and cobalt geometric cover"
   ogImage: './cover.webp'
 ---

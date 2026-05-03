@@ -16,6 +16,8 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   alt: "X Games vertical logo on a branded red, charcoal, and ivory geometric cover"
   ogImage: "./cover.webp"
 ---

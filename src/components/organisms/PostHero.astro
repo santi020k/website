@@ -2,9 +2,11 @@
 import type { CollectionEntry } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import CoverImage from '@/components/atoms/CoverImage.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getTagPath } from '@/utils/links'
@@ -13,6 +15,7 @@ import { getPostSlug } from '@/utils/posts'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
+import { siteConfig } from '@/site.config'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -32,293 +35,199 @@ const coverAspectRatio = post.data.coverImage ?
 const useWideCoverFrame = coverAspectRatio > 1.08
 // Use the first tag as an editorial eyebrow label, fallback to "Article"
 const eyebrowLabel = tags[0] ?? 'Article'
+
+const publishDateIso = publishDate.toISOString().slice(0, 10)
+const updatedDateIso = updatedDate?.toISOString().slice(0, 10)
+
+const metaItems = [
+  { label: 'Published', value: publishDate, datetime: publishDateIso, type: 'date' as const },
+  { label: 'Read time', value: readingTimeText, datetime: undefined, type: 'text' as const },
+  { label: 'Words', value: wordCount.toLocaleString(), datetime: undefined, type: 'text' as const },
+  ...(updatedDate ? [{ label: 'Updated', value: updatedDate, datetime: updatedDateIso, type: 'date' as const }] : [])
+]
 ---
 
-<section
-  class="
-    section-shell relative animate-slide-up space-y-10
-    motion-reduce:animate-none
-  "
->
+<section class="relative space-y-12">
+  {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
   <div
-    aria-hidden="true"
-    class="brand-radial-glow"
+    class="
+      animate-slide-up space-y-4
+      motion-reduce:animate-none
+    "
   >
-  </div>
-
-  <div class="
-    relative grid gap-10
-    xl:grid-cols-[minmax(0,1.04fr)_18rem]
-  "
-  >
-    <!-- ── Left column: title, meta, tags ─────────────────────── -->
-    <div class="space-y-8">
-
-      <!-- Breadcrumb -->
-      <div class="flex items-center gap-2 text-sm font-medium text-ink-muted">
+    <div class="flex items-center justify-between">
+      <Eyebrow label={eyebrowLabel} tone="brand" />
+      <nav
+        aria-label="Breadcrumb"
+        class="flex items-center gap-1.5 text-sm font-medium text-ink-muted"
+      >
         <a
           href="/blog/"
           class="
             transition-colors
             hover:text-brand
+            motion-reduce:transition-none
           "
         >Blog
         </a>
-        <Icon
-          aria-hidden="true"
-          class="size-4"
-          name="tabler:chevron-right"
-        />
-        <span class="text-ink-soft">Article</span>
-      </div>
-
-      <!-- Eyebrow + date row -->
-      <div class="
-        flex flex-wrap items-center gap-3
-        sm:gap-4
-      "
-      >
-        <Eyebrow label={eyebrowLabel} tone="brand" />
-        <span class="
-          text-xs font-semibold tracking-[0.18em] text-ink-muted uppercase
-        "
-        >
-          <FormattedDate class="dt-published" date={publishDate} />
-        </span>
-      </div>
-
-      <!-- Title + description -->
-      <div class="space-y-4">
-        <h1 class="
-          p-name max-w-4xl text-4xl/tight font-bold
-          sm:text-5xl/tight
-          lg:text-6xl/tight
-        "
-        >
-          {title}
-        </h1>
-        <p class="
-          p-summary max-w-3xl text-lg/8 text-ink-soft
-          sm:text-xl/8
-        "
-        >
-          {description}
-        </p>
-      </div>
-
-      <!-- Reading stat cards (mirrors ProjectHero's stat grid) -->
-      <div class="
-        grid gap-3
-        sm:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]
-      "
-      >
-        <!-- Published -->
-        <div class="
-          flex mini-note h-full gap-3
-          sm:min-h-24
-        "
-        >
-          <div class="
-            mt-0.5 flex size-10 shrink-0 items-center justify-center
-            rounded-full bg-brand-soft text-brand
-          "
-          >
-            <Icon aria-hidden="true" class="size-5" name="tabler:calendar" />
-          </div>
-          <div class="min-w-0">
-            <p class="section-label">Published</p>
-            <p class="
-              mt-2 text-sm/6 font-semibold text-ink
-              sm:text-base/7
-            "
-            >
-              <FormattedDate date={publishDate} />
-            </p>
-          </div>
-        </div>
-
-        <!-- Read time -->
-        <div class="
-          flex mini-note h-full gap-3
-          sm:min-h-24
-        "
-        >
-          <div class="
-            mt-0.5 flex size-10 shrink-0 items-center justify-center
-            rounded-full bg-brand-soft text-brand
-          "
-          >
-            <Icon aria-hidden="true" class="size-5" name="tabler:clock" />
-          </div>
-          <div class="min-w-0">
-            <p class="section-label">Read time</p>
-            <p class="
-              mt-2 text-sm/6 font-semibold text-ink
-              sm:text-base/7
-            "
-            >
-              {readingTimeText}
-            </p>
-          </div>
-        </div>
-
-        <!-- Word count -->
-        <div class="
-          flex mini-note h-full gap-3
-          sm:min-h-24
-        "
-        >
-          <div class="
-            mt-0.5 flex size-10 shrink-0 items-center justify-center
-            rounded-full bg-brand-soft text-brand
-          "
-          >
-            <Icon aria-hidden="true" class="size-5" name="tabler:file-text" />
-          </div>
-          <div class="min-w-0">
-            <p class="section-label">Words</p>
-            <p class="
-              mt-2 text-sm/6 font-semibold text-ink
-              sm:text-base/7
-            "
-            >
-              {wordCount.toLocaleString()}
-            </p>
-          </div>
-        </div>
-
-        <!-- Updated (conditional) -->
-        {updatedDate && (
-          <div class="
-            flex mini-note h-full gap-3
-            sm:min-h-24
-          "
-          >
-            <div class="
-              mt-0.5 flex size-10 shrink-0 items-center justify-center
-              rounded-full bg-brand-soft text-brand
-            "
-            >
-              <Icon aria-hidden="true" class="size-5" name="tabler:refresh" />
-            </div>
-            <div class="min-w-0">
-              <p class="section-label">Updated</p>
-              <p class="
-                mt-2 text-sm/6 font-semibold text-ink
-                sm:text-base/7
-              "
-              >
-                <FormattedDate date={updatedDate} />
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <!-- Tags / topics -->
-      {tags.length > 0 && (
-        <div class="space-y-4">
-          <div class="flex items-center gap-3">
-            <span class="section-label">Topics</span>
-            <span
-              aria-hidden="true"
-              class="
-                h-px flex-1 bg-linear-to-r from-line via-line/60 to-transparent
-              "
-            />
-          </div>
-          <div class="flex flex-wrap gap-2">
-            {tags.map(tag => (
-              <Pill href={getTagPath(tag)} label={tag} showHash tone="outline" />
-            ))}
-          </div>
-        </div>
-      )}
+        <span aria-hidden="true" class="text-line">/</span>
+        <span aria-current="page" class="text-ink-soft">Article</span>
+      </nav>
     </div>
+  </div>
 
-    <!-- ── Right aside: series · canonical · at a glance ─────── -->
-    <aside
-      aria-label="Article context"
-      class="editorial-rail"
+  {/* ── Title + description ──────────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up space-y-6 [animation-delay:80ms]
+      motion-reduce:animate-none
+    "
+  >
+    <div class="relative">
+      <h1 class="
+        p-name max-w-4xl text-4xl/[0.98] font-bold tracking-tighter wrap-break-word
+        sm:text-5xl/[0.96]
+        lg:text-[3.6rem]/[0.94]
+      "
+      >
+        {title}
+      </h1>
+      <div class="
+        absolute -inset-x-4 -inset-y-2 -z-10 rounded-3xl bg-linear-to-br
+        from-brand/5 to-transparent blur-3xl
+      "
+      >
+      </div>
+    </div>
+    <p class="
+      p-summary max-w-3xl text-lg/7 font-medium text-ink-soft
+      sm:text-xl/8
+    "
     >
-      {seriesContext && (
-        <div class="mini-note">
-          <p class="section-label">Part of a series</p>
-          <a
-            href={`/blog/series/${seriesContext.series.id}/`}
-            class="
-              mt-3 inline-flex items-center gap-2 text-sm font-medium text-ink
-              transition-colors
-              hover:text-brand
+      {description}
+    </p>
+  </div>
+
+  {/* ── Meta row — styled cards ──────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up [animation-delay:160ms]
+      motion-reduce:animate-none
+    "
+  >
+    <GradientDivider class="mb-8" />
+    <dl class="
+      grid grid-cols-1 gap-4
+      sm:grid-cols-2
+      md:grid-cols-4
+    "
+    >
+      {metaItems.map((item, index) => (
+        <div
+          class="
+            relative overflow-hidden rounded-2xl border border-line/30
+            bg-surface/50 p-6 backdrop-blur-sm transition-all duration-300
+            hover:-translate-y-1 hover:border-brand/40 hover:bg-brand-soft/10
+            hover:shadow-lg hover:shadow-brand/5
+          "
+          style={`animation-delay: ${160 + (index * 40)}ms`}
+        >
+          <div class="space-y-2">
+            <dt class="
+              section-label text-xs font-semibold tracking-wider
+              text-ink-muted/80 uppercase
             "
+            >
+              {item.label}
+            </dt>
+            <dd class="
+              text-lg/6 font-bold text-ink
+              sm:text-xl/6
+            "
+            >
+              {item.type === 'date' ?
+                <time datetime={item.datetime}><FormattedDate date={item.value as Date} /></time> :
+                item.value}
+            </dd>
+          </div>
+          <div class="
+            absolute inset-0 bg-linear-to-br from-brand/5 to-transparent
+            opacity-0 transition-opacity duration-300
+            hover:opacity-100
+          "
           >
+          </div>
+        </div>
+      ))}
+    </dl>
+  </div>
+
+  {/* ── Tags / topics ────────────────────────────────────────── */}
+  {tags.length > 0 && (
+    <div
+      class="
+        animate-slide-up space-y-4 [animation-delay:200ms]
+        motion-reduce:animate-none
+      "
+    >
+      <div class="flex items-center gap-3">
+        <span class="section-label">Topics</span>
+        <span
+          aria-hidden="true"
+          class="
+            h-px flex-1 bg-linear-to-r from-line via-line/60 to-transparent
+          "
+        />
+      </div>
+      <div class="flex flex-wrap gap-2">
+        {tags.map(tag => (
+          <Pill href={getTagPath(tag)} label={tag} showHash tone="outline" />
+        ))}
+      </div>
+    </div>
+  )}
+
+  {/* ── CTAs ────────────────────────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up [animation-delay:240ms]
+      motion-reduce:animate-none
+    "
+  >
+    <div class="section-actions">
+      {canonicalUrl && (
+        <ButtonLink href={canonicalUrl} newTab showArrow>
+          Read on Medium
+        </ButtonLink>
+      )}
+      {!canonicalUrl && (
+        <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
+          Open Medium profile
+        </ButtonLink>
+      )}
+      {seriesContext && (
+        <ButtonLink
+          href={`/blog/series/${seriesContext.series.id}/`}
+          showArrow
+          variant="secondary"
+        >
+          <span class="flex items-center gap-2">
             <Icon
               aria-hidden="true"
               class="size-4"
               name="tabler:route"
             />
-            <span>{seriesContext.series.data.title}</span>
-          </a>
-          <p class="mt-3 text-sm/6 text-ink-soft">
-            Article {seriesContext.position} of {seriesContext.total}.{' '}
-            {seriesContext.series.data.description}
-          </p>
-        </div>
+            {seriesContext.series.data.title}
+          </span>
+        </ButtonLink>
       )}
-
-      {canonicalUrl && (
-        <div class="mini-note">
-          <p class="section-label">Originally published</p>
-          <a
-            href={canonicalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              mt-3 inline-flex items-center gap-2 text-sm font-medium text-ink
-              transition-colors
-              hover:text-brand
-            "
-          >
-            <Icon
-              aria-hidden="true"
-              class="size-4"
-              name="tabler:external-link"
-            />
-            <span>Read on Medium</span>
-          </a>
-        </div>
-      )}
-
-      <div class="mini-note">
-        <p class="section-label">At a glance</p>
-        <ul class="mt-4 space-y-3.5">
-          <li class="flex items-center justify-between gap-3">
-            <span class="flex items-center gap-1.5 text-xs text-ink-muted">
-              <Icon aria-hidden="true" class="size-3.5" name="tabler:clock" />
-              Reading time
-            </span>
-            <span class="text-sm font-semibold text-ink">{readingTimeText}</span>
-          </li>
-          <li class="flex items-center justify-between gap-3">
-            <span class="flex items-center gap-1.5 text-xs text-ink-muted">
-              <Icon aria-hidden="true" class="size-3.5" name="tabler:file-text" />
-              Word count
-            </span>
-            <span class="text-sm font-semibold text-ink">{wordCount.toLocaleString()}</span>
-          </li>
-          <li class="flex items-center justify-between gap-3">
-            <span class="flex items-center gap-1.5 text-xs text-ink-muted">
-              <Icon aria-hidden="true" class="size-3.5" name="tabler:tag" />
-              Topics
-            </span>
-            <span class="text-sm font-semibold text-ink">{tags.length}</span>
-          </li>
-        </ul>
-      </div>
-    </aside>
+      <ButtonLink href="/blog/" showArrow variant="secondary" className="text-ink-soft">
+        Browse blog
+      </ButtonLink>
+    </div>
   </div>
 
-  <!-- ── Cover image: full-width below the grid (mirrors ProjectHero) ── -->
+  {/* ── Cover image: full-width below ────────────────────────── */}
   {post.data.coverImage && (
     <div class="space-y-4">
       <div class:list={[

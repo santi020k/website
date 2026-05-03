@@ -18,7 +18,9 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Santi020k Chrome Theme — dark New Tab page with deep violet surfaces and muted lavender accents"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  alt: "Santi020k Chrome Theme logo on a deep violet geometric cover with browser UI artwork"
 ---
 
 ## Browser chrome as calm as your editor

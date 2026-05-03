@@ -21,6 +21,8 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   alt: "Datagran logo on a charcoal and neon green geometric cover"
   ogImage: "./cover.webp"
 ---

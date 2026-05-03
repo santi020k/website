@@ -16,6 +16,8 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   alt: "@santi020k/eslint-config-santi020k badge on an indigo and purple geometric cover"
 ---
 

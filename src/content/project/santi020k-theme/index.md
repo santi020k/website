@@ -16,7 +16,9 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Santi020k Theme dark VS Code preview with an indigo editor and violet syntax accents"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  alt: "Santi020k Theme logo on a deep indigo geometric cover with editor UI artwork"
 ---
 
 ## Building a personal VS Code theme
