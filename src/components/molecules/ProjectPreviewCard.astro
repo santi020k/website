@@ -18,13 +18,14 @@ const projectLink = getPortfolioPath(project.id)
 
 const accentHoverClass = 'group-hover:text-brand'
 const accentTextClass = 'text-brand'
+const cardAccentVar = 'var(--brand)'
 ---
 
-<a href={projectLink} class="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 rounded-[1.75rem]">
+<a href={projectLink} class:list={["group block h-full focus-visible:outline-none focus-visible:ring-2 rounded-[1.75rem] focus-visible:ring-brand/50"]}>
   <article
     class="panel-card h-full flex flex-col overflow-hidden"
     data-project-card
-    style="--card-accent: var(--brand);"
+    style={`--card-accent: ${cardAccentVar};`}
   >
     {/* Top accent line */}
     <div
