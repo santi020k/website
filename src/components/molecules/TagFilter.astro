@@ -1,5 +1,6 @@
 ---
 import Pill from '@/components/atoms/Pill.astro'
+import PillCount from '@/components/atoms/PillCount.astro'
 import { getTagPath } from '@/utils/links'
 
 interface Props {
@@ -23,7 +24,7 @@ const { activeTag, tags } = Astro.props
       showHash
       tone={activeTag === tag ? 'brand' : 'outline'}
     >
-      <span class="text-xs text-ink-muted">{count}</span>
+      <PillCount count={count} />
     </Pill>
   ))}
 </div>

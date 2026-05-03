@@ -1,6 +1,7 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
+import PillCount from '@/components/atoms/PillCount.astro'
 import SectionHeading from '@/components/molecules/SectionHeading.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageLayout from '@/layouts/Base.astro'
@@ -83,7 +84,7 @@ const breadcrumbs = [
         {allTags.map(([tag, count]) => (
           <span data-count={String(count)} data-label={tag}>
             <Pill href={getTagPath(tag)} label={tag} showHash tone="outline">
-              <span class="text-xs text-ink-muted">{count}</span>
+              <PillCount count={count} />
             </Pill>
           </span>
         ))}
