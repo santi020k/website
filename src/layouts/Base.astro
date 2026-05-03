@@ -1,20 +1,20 @@
 ---
 import { ClientRouter } from 'astro:transitions'
 
-import BackToTop from '../components/atoms/BackToTop.astro'
-import ParticlesBackground from '../components/atoms/ParticlesBackground.astro'
-import SkipLink from '../components/atoms/SkipLink.astro'
-import SiteFooter from '../components/organisms/SiteFooter.astro'
-import SiteHeader from '../components/organisms/SiteHeader.astro'
-import BaseHead from '../components/shared/BaseHead.astro'
-import NavProgress from '../components/shared/NavProgress.astro'
-import ScrollReveal from '../components/shared/ScrollReveal.astro'
-import ServiceWorkerRegistration from '../components/shared/ServiceWorkerRegistration.astro'
-import ThemeProvider from '../components/shared/ThemeProvider.astro'
-import { siteConfig } from '../site.config'
-import type { SiteMeta } from '../types/site'
+import BackToTop from '@/components/atoms/BackToTop.astro'
+import ParticlesBackground from '@/components/atoms/ParticlesBackground.astro'
+import SkipLink from '@/components/atoms/SkipLink.astro'
+import SiteFooter from '@/components/organisms/SiteFooter.astro'
+import SiteHeader from '@/components/organisms/SiteHeader.astro'
+import BaseHead from '@/components/shared/BaseHead.astro'
+import NavProgress from '@/components/shared/NavProgress.astro'
+import ScrollReveal from '@/components/shared/ScrollReveal.astro'
+import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistration.astro'
+import ThemeProvider from '@/components/shared/ThemeProvider.astro'
+import { siteConfig } from '@/site.config'
+import type { SiteMeta } from '@/types/site'
 
-import '../styles/global.css'
+import '@/styles/global.css'
 
 interface Props {
   meta: SiteMeta

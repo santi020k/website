@@ -1,6 +1,6 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
 import PageLayout from '@/layouts/Base.astro'
 
@@ -17,17 +17,57 @@ const breadcrumbs = [
     title: 'Portfolio — Santiago Molina'
   }}
 >
-  <section class="
-    animate-slide-up space-y-6
-    motion-reduce:animate-none
-  "
-  >
-    <SectionHeader
-      description="The portfolio is split into two sections — client work and side projects."
-      eyebrow="Portfolio"
-      level="h1"
-      title="Work experience and side projects."
-    />
+  <section class="relative pb-4">
+    <div class="relative z-10 space-y-8">
+      <Eyebrow
+        label="Portfolio"
+        tone="brand"
+        className="
+          animate-slide-up whitespace-normal
+          motion-reduce:animate-none
+        "
+      />
+
+      <div
+        class="
+          animate-slide-up space-y-4 [animation-delay:90ms]
+          motion-reduce:animate-none
+        "
+      >
+        <h1 class="
+          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+          sm:text-6xl/[0.95]
+          lg:text-[5.2rem]/[0.92]
+        "
+        >
+          Work experience
+          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">and side projects.</span>
+        </h1>
+        <p class="
+          max-w-xl text-base/7 text-ink-soft
+          sm:text-lg/7
+        "
+        >
+          The portfolio is split into two sections — client and product work, and personal open-source projects.
+        </p>
+      </div>
+
+      <div
+        class="
+          animate-slide-up space-y-5 [animation-delay:180ms]
+          motion-reduce:animate-none
+        "
+      >
+        <div class="section-actions">
+          <ButtonLink href="/work/" showArrow>
+            Browse work
+          </ButtonLink>
+          <ButtonLink href="/projects/" showArrow variant="secondary">
+            Browse projects
+          </ButtonLink>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section
