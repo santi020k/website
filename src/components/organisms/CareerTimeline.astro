@@ -14,7 +14,17 @@ interface Props {
 
 const { projects } = Astro.props
 
-const careerItems = projects.map(project => ({
+interface CareerItem {
+  company: string
+  description: string
+  href: string
+  isActive: boolean
+  role: string
+  technologies: string[]
+  timeline: string
+}
+
+const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'project'>) => ({
   company: project.data.title,
   description: project.data.description,
   href: getPortfolioPath(project.id),
@@ -29,26 +39,31 @@ const careerItems = projects.map(project => ({
   {/* Timeline connector line */}
   <div
     aria-hidden="true"
-    class="absolute inset-y-0 left-[1.125rem] w-px bg-linear-to-b from-brand/30 via-line to-line/50 sm:left-[1.375rem]"
+    class="
+      absolute inset-y-0 left-4.5 w-px bg-linear-to-b from-brand/25 via-line/60
+      to-line/40
+      sm:left-5.5
+    "
   >
   </div>
 
-  <div class="space-y-8">
-    {careerItems.map(item => (
+  <div class="space-y-8" data-stagger="80">
+    {careerItems.map((item: CareerItem) => (
       <article class="relative pl-12 sm:pl-14">
         {/* Timeline node */}
         <div
           class:list={[
             `
-              absolute left-0 top-1 flex size-9 items-center justify-center rounded-full
-              border-2 sm:size-10
+              absolute top-4 left-0 z-10 flex size-9 items-center justify-center
+              rounded-full border-2 transition-shadow duration-300
+              sm:size-10
+              motion-reduce:transition-none
             `,
-            item.isActive ? `
-              border-brand bg-brand text-white shadow-[0_0_20px_rgba(var(--brand-rgb),0.3)]
-            ` : `
-              border-line bg-surface text-ink-muted
-            `
+            item.isActive ?
+              'border-brand/50 bg-brand text-white shadow-[0_0_0_4px_hsl(var(--brand)/0.15),0_0_24px_hsl(var(--brand)/0.35)]' :
+              'border-line/70 bg-surface-strong/80 text-ink-muted shadow-[0_2px_8px_hsl(230_30%_8%/0.08)]'
           ]}
+          data-timeline-node={item.isActive ? 'active' : 'done'}
         >
           <Icon
             aria-hidden="true"
@@ -57,82 +72,194 @@ const careerItems = projects.map(project => ({
           />
         </div>
 
-        {/* Content card */}
-        <div
-          class:list={[
-            `
-              group card-interactive rounded-2xl border p-5 transition-all duration-200
-              sm:p-6
-              motion-reduce:transition-none
-            `,
-            item.isActive ? `
-              border-brand/20 bg-brand-soft/20
-            ` : `
-              border-line/60 bg-surface/50
-            `
-          ]}
+        {/* Full-card clickable link */}
+        <a
+          aria-label={`View ${item.company} case study`}
+          class="
+            group block rounded-[1.75rem]
+            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50
+          "
+          href={item.href}
         >
-          {/* Header */}
-          <div class="flex flex-wrap items-start justify-between gap-3">
-            <div class="min-w-0">
-              <p class="text-sm font-medium text-ink-soft">{item.role}</p>
-              <h3 class="mt-1 text-xl font-semibold text-ink sm:text-2xl">
-                <a
-                  class="transition-colors hover:text-brand motion-reduce:transition-none"
-                  href={item.href}
-                >
-                  {item.company}
-                </a>
-              </h3>
-            </div>
-
-            <div class="flex items-center gap-2">
-              <Pill
-                label={item.isActive ? 'Current' : 'Completed'}
-                tone={item.isActive ? 'brand' : 'neutral'}
-              />
-            </div>
-          </div>
-
-          {/* Timeline badge */}
-          <div class="mt-4 flex items-center gap-2 text-sm text-ink-muted">
-            <Icon aria-hidden="true" class="size-4" name="tabler:calendar" />
-            <span class="font-medium">{item.timeline}</span>
-          </div>
-
-          {/* Description */}
-          <p class="mt-4 line-clamp-2 text-sm/6 text-ink-soft sm:line-clamp-3">
-            {item.description}
-          </p>
-
-          {/* Technologies */}
-          {item.technologies.length > 0 && (
-            <div class="mt-5 flex flex-wrap gap-2">
-              {item.technologies.map(tech => (
-                <Pill label={tech} tone="outline" />
-              ))}
-            </div>
-          )}
-
-          {/* View link */}
-          <div class="mt-5 flex items-center gap-2 text-sm font-medium">
-            <a
-              class="
-                inline-flex items-center gap-1.5 text-brand transition-colors
-                hover:text-brand-solid
-              "
-              href={item.href}
+          {/* Content card */}
+          <article
+            class:list={[
+              'relative overflow-hidden rounded-[1.75rem] border',
+              item.isActive ?
+                'border-brand/25 bg-surface/80' :
+                'border-line/40 bg-surface/70'
+            ]}
+            data-timeline-card={item.isActive ? 'active' : 'done'}
+          >
+            {/* Gradient header band */}
+            <div
+              class:list={[
+                'relative px-5 pb-5 pt-5 sm:px-6 sm:pt-6',
+                item.isActive ? 'pb-4' : ''
+              ]}
+              data-card-header
             >
-              View case study
-              <Icon
+              {/* Ambient glow layer */}
+              <div
                 aria-hidden="true"
-                class="size-4 transition-transform group-hover:translate-x-0.5"
-                name="tabler:arrow-right"
+                class:list={[
+                  'pointer-events-none absolute inset-0 opacity-0',
+                  item.isActive ? 'opacity-100' : ''
+                ]}
+                style="background: radial-gradient(ellipse at top left, hsl(var(--brand) / 0.10) 0%, transparent 65%);"
               />
-            </a>
-          </div>
-        </div>
+
+              {/* Top accent line */}
+              {item.isActive && (
+                <div
+                  aria-hidden="true"
+                  class="absolute inset-x-0 top-0 h-px opacity-60"
+                  style="background: linear-gradient(90deg, transparent 5%, hsl(var(--brand) / 0.7) 40%, hsl(var(--accent) / 0.5) 65%, transparent 95%);"
+                />
+              )}
+
+              <div class="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div class="min-w-0">
+                  <p class="text-xs font-semibold uppercase tracking-widest text-ink-muted">{item.role}</p>
+                  <h3 class="mt-1.5 text-2xl font-bold leading-tight text-ink sm:text-3xl" data-card-title>
+                    {item.company}
+                  </h3>
+                </div>
+
+                <div class="flex shrink-0 flex-col items-start gap-2 sm:items-end">
+                  <Pill
+                    label={item.isActive ? 'Current' : 'Completed'}
+                    tone={item.isActive ? 'brand' : 'neutral'}
+                  />
+                  <div class="flex items-center gap-1.5 text-xs text-ink-muted">
+                    <Icon aria-hidden="true" class="size-3.5" name="tabler:calendar" />
+                    <span class="font-medium tabular-nums">{item.timeline}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div class="mx-5 border-t border-line/25 sm:mx-6" />
+
+            {/* Body */}
+            <div class="px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
+              {/* Description */}
+              <p class="line-clamp-3 text-sm/6 text-ink-soft">
+                {item.description}
+              </p>
+
+              {/* Technologies */}
+              {item.technologies.length > 0 && (
+                <div class="mt-4 flex flex-wrap gap-2">
+                  {item.technologies.map((tech: string) => (
+                    <Pill label={tech} tone="outline" />
+                  ))}
+                </div>
+              )}
+
+              {/* Footer row */}
+              <div class="mt-5 flex items-center justify-between">
+                <span class="text-xs font-medium text-brand opacity-0 transition-opacity duration-200 group-hover:opacity-100 motion-reduce:opacity-100">
+                  View case study
+                </span>
+                <Icon
+                  aria-hidden="true"
+                  class="
+                    size-4 -translate-x-1 text-brand opacity-0
+                    transition-all duration-200
+                    group-hover:translate-x-0 group-hover:opacity-100
+                    motion-reduce:translate-x-0 motion-reduce:opacity-100
+                  "
+                  name="tabler:arrow-right"
+                />
+              </div>
+            </div>
+          </article>
+        </a>
       </article>
     ))}
   </div>
 </div>
+
+<style>
+  [data-timeline-card] {
+    box-shadow:
+      0 12px 30px hsl(230 30% 8% / 0.04),
+      0 4px 12px hsl(230 30% 8% / 0.02),
+      inset 0 1px 0 hsl(0 0% 100% / 0.05);
+    backdrop-filter: blur(12px);
+    transition:
+      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  [data-timeline-card]::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--border-angle),
+      hsl(var(--line) / 0.2) 0%,
+      hsl(var(--line) / 0.2) 60%,
+      hsl(var(--brand) / 0.55) 75%,
+      hsl(var(--accent) / 0.65) 83%,
+      hsl(var(--brand) / 0.55) 91%,
+      hsl(var(--line) / 0.2) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .group:hover [data-timeline-card] {
+    transform: translateY(-4px);
+    box-shadow:
+      0 24px 60px hsl(230 30% 8% / 0.1),
+      0 10px 24px hsl(var(--brand) / 0.08),
+      inset 0 1px 0 hsl(0 0% 100% / 0.07);
+  }
+
+  .group:hover [data-timeline-card]::before {
+    opacity: 1;
+    animation: border-spin 5s linear infinite;
+  }
+
+  [data-timeline-card] [data-card-title] {
+    transition: color 0.2s ease;
+  }
+
+  .group:hover [data-timeline-card] [data-card-title] {
+    color: hsl(var(--brand));
+  }
+
+  [data-timeline-node='active'] {
+    animation: var(--animate-subtle-pulse);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-timeline-card] {
+      transition: none;
+    }
+
+    [data-timeline-card]::before {
+      display: none;
+    }
+
+    .group:hover [data-timeline-card] {
+      transform: none;
+    }
+
+    [data-timeline-node='active'] {
+      animation: none;
+    }
+  }
+</style>
