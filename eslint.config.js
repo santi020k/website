@@ -51,7 +51,14 @@ export default [
           '^gradient-radial$',
           '^tag-glass-card$',
           '^tag-glass-inner$',
-          '^tag-glass-tint$'
+          '^tag-glass-tint$',
+          '^mini-card$',
+          '^shine-effect$',
+          '^icon-wrapper$',
+          '^arrow-indicator$',
+          '^badge$',
+          '^principle-card$',
+          '^testimonial-card$'
         ]
       }
     }

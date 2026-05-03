@@ -97,7 +97,7 @@ const meta = {
     </div>
   </section>
 
-  <StatsGrid>
+  <StatsGrid columns={3}>
     <StatCard description="Distinct tools and platforms across the full portfolio." label="Technologies" value={String(technologies.length)} />
     <StatCard description="The single technology that appears most often across shipped projects." label="Most used" value={topTechnology ?? ''} />
     <StatCard description="Frontend, backend, testing, delivery, and developer tooling." label="Scope" value="Full stack" />

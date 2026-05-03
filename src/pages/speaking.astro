@@ -160,7 +160,7 @@ const structuredData = [
     >
       {selectedSessions.map(talk => (
         <article class="
-          panel-card flex h-full flex-col space-y-4 p-6
+          talk-card flex h-full flex-col space-y-4 p-6
           sm:p-7
         "
         >
@@ -209,33 +209,22 @@ const structuredData = [
     />
 
     <div class="space-y-6">
-      <article class="
-        panel-card space-y-6 p-6
-        sm:p-7
-      "
-      >
-        <div class="
-          grid gap-4
-          sm:grid-cols-3
-        "
-        >
-          {bookingNotes.map(note => (
-            <div class="mini-note h-full">
-              <p class="section-label">{note.label}</p>
-              <p class="mt-3 text-sm/7 text-ink-soft">{note.value}</p>
-            </div>
-          ))}
-        </div>
-
-        <div class="section-actions">
-          <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
-            Invite me on WhatsApp
-          </ButtonLink>
-          <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-            Message on LinkedIn
-          </ButtonLink>
-        </div>
-      </article>
+      <div class="grid gap-4 sm:grid-cols-3" data-stagger="60">
+        {bookingNotes.map(note => (
+          <div class="mini-note h-full">
+            <p class="section-label">{note.label}</p>
+            <p class="mt-3 text-sm/7 text-ink-soft">{note.value}</p>
+          </div>
+        ))}
+      </div>
+      <div class="section-actions">
+        <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
+          Invite me on WhatsApp
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Message on LinkedIn
+        </ButtonLink>
+      </div>
     </div>
   </PageSection>
 
@@ -253,7 +242,7 @@ const structuredData = [
     >
       {speakingTopics.map(topic => (
         <article class="
-          panel-card h-full space-y-4 p-6
+          talk-card h-full space-y-4 p-6
           sm:p-7
         "
         >
@@ -278,7 +267,7 @@ const structuredData = [
     >
       {speakingFormats.map(format => (
         <article class="
-          panel-card h-full space-y-4 p-6
+          talk-card h-full space-y-4 p-6
           sm:p-7
         "
         >
@@ -296,24 +285,15 @@ const structuredData = [
       title="Community work keeps the engineering practice honest."
     />
     <div class="space-y-6">
-      <article class="
-        panel-card space-y-4 p-6
-        sm:p-7
-      "
-      >
+      <div class="mini-note space-y-3 p-6 sm:p-7" data-animate>
         <p class="section-label">What that looks like in practice</p>
         <p class="text-base/7 text-ink-soft">
           Co-organizing ReactJS Colombia has shaped how I think about mentoring, accessibility, and explaining
           technical tradeoffs without turning them into ego contests. It also keeps me close to the kinds of
           questions engineers are actually asking in the wild.
         </p>
-      </article>
-      <div
-        class="
-          grid gap-4
-          sm:grid-cols-2
-        "
-      >
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2" data-stagger="60">
         <div class="mini-note">
           <p class="section-label">Community sessions</p>
           <p class="mt-3 text-sm/7 text-ink-soft">
@@ -332,3 +312,31 @@ const structuredData = [
     </div>
   </PageSection>
 </PageLayout>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    [data-stagger] > * {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: talk-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    [data-stagger="60"] > *:nth-child(1) { animation-delay: 0ms; }
+    [data-stagger="60"] > *:nth-child(2) { animation-delay: 60ms; }
+    [data-stagger="60"] > *:nth-child(3) { animation-delay: 120ms; }
+    [data-stagger="60"] > *:nth-child(4) { animation-delay: 180ms; }
+
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(14px);
+      animation: talk-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 80ms forwards;
+    }
+
+    @keyframes talk-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+</style>

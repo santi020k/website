@@ -130,14 +130,10 @@ const structuredData = [
       eyebrow="Current setup"
       title="What I reach for most often."
     />
-    <div class="space-y-6">
+    <div class="space-y-10">
       {usesSections.map(section => (
-        <article class="
-          panel-card space-y-6 p-6
-          sm:p-7
-        "
-        >
-          <div class="space-y-3">
+        <div class="space-y-4" data-uses-section>
+          <div class="space-y-1">
             <p class="section-label">{section.title}</p>
             <p class="text-base/7 text-ink-soft">{section.description}</p>
           </div>
@@ -146,6 +142,7 @@ const structuredData = [
               grid gap-4
               lg:grid-cols-3
             "
+            data-stagger="50"
           >
             {section.items.map(item => (
               <div class="mini-note">
@@ -154,7 +151,7 @@ const structuredData = [
               </div>
             ))}
           </div>
-        </article>
+        </div>
       ))}
     </div>
   </PageSection>
@@ -166,22 +163,19 @@ const structuredData = [
       title="A useful setup should disappear into the background."
     />
     <div class="space-y-6">
-      <article class="
-        panel-card space-y-4 p-6
-        sm:p-7
-      "
-      >
+      <div class="mini-note space-y-3 p-6 sm:p-7" data-animate>
         <p class="text-base/7 text-ink-soft">
           If a tool improves clarity, feedback speed, quality, or collaboration, I keep it. If it turns into
           performative complexity, I lose interest quickly. That bias shows up in the technologies I choose,
           the standards I introduce, and the kind of delivery systems I build around a team.
         </p>
-      </article>
+      </div>
       <div
         class="
           grid gap-4
           sm:grid-cols-2
         "
+        data-stagger="60"
       >
         <div class="mini-note">
           <p class="section-label">Worth optimizing</p>
@@ -201,3 +195,37 @@ const structuredData = [
     </div>
   </PageSection>
 </PageLayout>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    [data-stagger] > * {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: uses-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    [data-stagger="50"] > *:nth-child(1) { animation-delay: 0ms; }
+    [data-stagger="50"] > *:nth-child(2) { animation-delay: 50ms; }
+    [data-stagger="50"] > *:nth-child(3) { animation-delay: 100ms; }
+    [data-stagger="50"] > *:nth-child(4) { animation-delay: 150ms; }
+    [data-stagger="50"] > *:nth-child(5) { animation-delay: 200ms; }
+    [data-stagger="50"] > *:nth-child(6) { animation-delay: 250ms; }
+
+    [data-stagger="60"] > *:nth-child(1) { animation-delay: 0ms; }
+    [data-stagger="60"] > *:nth-child(2) { animation-delay: 60ms; }
+    [data-stagger="60"] > *:nth-child(3) { animation-delay: 120ms; }
+
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: uses-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 60ms forwards;
+    }
+
+    @keyframes uses-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+</style>
