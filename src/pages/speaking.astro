@@ -1,7 +1,10 @@
 ---
 import ButtonLink from '../components/atoms/ButtonLink.astro'
-import PageSection from '../components/organisms/PageSection.astro'
+import Eyebrow from '../components/atoms/Eyebrow.astro'
 import SectionHeader from '../components/molecules/SectionHeader.astro'
+import StatCard from '../components/molecules/StatCard.astro'
+import PageSection from '../components/organisms/PageSection.astro'
+import StatsGrid from '../components/organisms/StatsGrid.astro'
 import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
 import { createWhatsAppHref, siteConfig, whatsappMessages } from '../site.config'
@@ -84,55 +87,64 @@ const structuredData = [
   title: 'Speaking & Workshops'
 }}
 >
-  <section
-    class="
-      grid animate-slide-up gap-10
-      motion-reduce:animate-none
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
-  >
-    <div class="space-y-6">
-      <SectionHeader
-        description="I enjoy sessions that are practical, opinionated, and grounded in shipped work. The best talks usually sit at the intersection of leadership, architecture, workflow design, and the small technical choices that make teams faster or slower."
-        eyebrow="Speaking"
-        level="h1"
-        title="Talks, workshops, and engineering conversations."
+  <section class="relative pb-4">
+    <div class="relative z-10 space-y-8">
+      <Eyebrow
+        label="Speaking"
+        tone="brand"
+        className="
+          animate-slide-up whitespace-normal
+          motion-reduce:animate-none
+        "
       />
-      <p class="
-        max-w-3xl text-base/7 text-ink-soft
-        sm:text-lg/8
-      "
+
+      <div
+        class="
+          animate-slide-up space-y-4 [animation-delay:90ms]
+          motion-reduce:animate-none
+        "
       >
-        Through ReactJS Colombia, published writing, and day-to-day leadership work, I keep coming back to the
-        same themes: better developer experience, clearer technical standards, and systems that help teams ship
-        with more confidence.
-      </p>
-      <div class="section-actions">
-        <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
-          Invite me on WhatsApp
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          Connect on LinkedIn
-        </ButtonLink>
+        <h1 class="
+          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+          sm:text-6xl/[0.95]
+          lg:text-[5.2rem]/[0.92]
+        "
+        >
+          Talks, workshops,
+          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">and engineering conversations.</span>
+        </h1>
+        <p class="
+          max-w-xl text-base/7 text-ink-soft
+          sm:text-lg/7
+        "
+        >
+          I enjoy sessions that are practical, opinionated, and grounded in shipped work — at the intersection of leadership, architecture, workflow design, and the small technical choices that make teams faster or slower.
+        </p>
+      </div>
+
+      <div
+        class="
+          animate-slide-up space-y-5 [animation-delay:180ms]
+          motion-reduce:animate-none
+        "
+      >
+        <div class="section-actions">
+          <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
+            Invite me on WhatsApp
+          </ButtonLink>
+          <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+            Connect on LinkedIn
+          </ButtonLink>
+        </div>
       </div>
     </div>
-
-    <div
-      class="
-        grid h-max gap-3
-        sm:grid-cols-3
-        lg:grid-cols-1
-      "
-    >
-      {highlights.map(highlight => (
-        <div class="mini-note">
-          <p class="section-label">{highlight.label}</p>
-          <p class="mt-2 text-lg font-semibold text-ink">{highlight.value}</p>
-          <p class="mt-2 text-sm/7 text-ink-soft">{highlight.description}</p>
-        </div>
-      ))}
-    </div>
   </section>
+
+  <StatsGrid>
+    {highlights.map(highlight => (
+      <StatCard description={highlight.description} label={highlight.label} value={highlight.value} />
+    ))}
+  </StatsGrid>
 
   <PageSection>
     <SectionHeader

@@ -1,9 +1,12 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { getSeriesPath } from '@/utils/links'
 
@@ -32,52 +35,74 @@ const breadcrumbs = [
     title: 'Content Calendar — Santiago Molina'
   }}
 >
-  <section
-    class="
-      grid gap-10
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
-    data-animate
-  >
-    <div class="space-y-6">
-      <SectionHeader
-        description={contentCalendarDescription}
-        eyebrow="Content calendar"
-        level="h1"
-        title="A publishing rhythm built for consistency, refreshes, and stronger internal linking."
+  <section class="relative pb-4">
+    <div class="relative z-10 space-y-8">
+      <Eyebrow
+        label="Content Calendar"
+        tone="brand"
+        className="
+          animate-slide-up whitespace-normal
+          motion-reduce:animate-none
+        "
       />
 
-      <div class="section-actions">
-        <ButtonLink href="/feed.xml" showArrow variant="secondary">
-          Follow via RSS
-        </ButtonLink>
-        <ButtonLink href="/blog/" showArrow variant="ghost">
-          Back to blog
-        </ButtonLink>
+      <div
+        class="
+          animate-slide-up space-y-4 [animation-delay:90ms]
+          motion-reduce:animate-none
+        "
+      >
+        <h1 class="
+          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+          sm:text-6xl/[0.95]
+          lg:text-[5.2rem]/[0.92]
+        "
+        >
+          A documented
+          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">monthly publishing rhythm.</span>
+        </h1>
+        <p class="
+          max-w-xl text-base/7 text-ink-soft
+          sm:text-lg/7
+        "
+        >
+          {contentCalendarDescription}
+        </p>
       </div>
-    </div>
 
-    <div class="
-      grid gap-4
-      sm:grid-cols-3
-      lg:grid-cols-1
-    "
-    >
-      <StatCard description="New flagship post to publish each month." label="New posts" value="1/mo" />
-      <StatCard
-        description="Older article to refresh every month so the archive stays current."
-        label="Refreshes"
-        value="1/mo"
-      />
-      <StatCard
-        description="Active tracks grouping related writing into clear editorial threads."
-        label="Series"
-        value={String(activeSeries.length)}
-      />
+      <div
+        class="
+          animate-slide-up space-y-5 [animation-delay:180ms]
+          motion-reduce:animate-none
+        "
+      >
+        <div class="section-actions">
+          <ButtonLink href="/feed.xml" showArrow>
+            Follow via RSS
+          </ButtonLink>
+          <ButtonLink href="/blog/" showArrow variant="secondary">
+            Back to blog
+          </ButtonLink>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="editorial-section" data-animate>
+  <StatsGrid>
+    <StatCard description="New flagship post to publish each month." label="New posts" value="1/mo" />
+    <StatCard
+      description="Older article to refresh every month so the archive stays current."
+      label="Refreshes"
+      value="1/mo"
+    />
+    <StatCard
+      description="Active tracks grouping related writing into clear editorial threads."
+      label="Series"
+      value={String(activeSeries.length)}
+    />
+  </StatsGrid>
+
+  <PageSection>
     <SectionHeader
       description={publishingRhythm.summary}
       eyebrow="Roadmap"
@@ -131,9 +156,9 @@ const breadcrumbs = [
         </article>
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
+  <PageSection>
     <SectionHeader
       description="These are the active tracks already live on the site, grouped so readers can move through a topic in order instead of guessing what comes next."
       eyebrow="Series"
@@ -151,5 +176,5 @@ const breadcrumbs = [
         <SeriesCard postCount={item.postCount} series={item.series} />
       ))}
     </div>
-  </section>
+  </PageSection>
 </PageLayout>

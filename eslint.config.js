@@ -48,7 +48,10 @@ export default [
           '^p-summary$',
           '^h-entry$',
           '^u-url$',
-          '^gradient-radial$'
+          '^gradient-radial$',
+          '^tag-glass-card$',
+          '^tag-glass-inner$',
+          '^tag-glass-tint$'
         ]
       }
     }
