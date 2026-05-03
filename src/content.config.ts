@@ -45,7 +45,7 @@ const project = defineCollection({
     ]).optional(),
     coverImage: z
       .object({
-        alt: z.string(),
+        alt: z.string().min(1),
         src: image(),
         horizontal: image().optional(),
         vertical: image().optional(),
