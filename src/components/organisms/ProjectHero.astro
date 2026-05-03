@@ -251,7 +251,7 @@ const metaItems = [
             group-hover:scale-105
           "
           fetchpriority="high"
-          image={project.data.coverImage.src}
+          image={project.data.coverImage.vertical ?? project.data.coverImage.src}
           loading="eager"
           sizes="(min-width: 1280px) 1200px, 100vw"
           mode="detail"
