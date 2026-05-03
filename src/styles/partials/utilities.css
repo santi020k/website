@@ -282,12 +282,22 @@
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */
 
 @utility btn-primary {
-  @apply relative overflow-hidden border-transparent bg-brand-solid px-5 py-3 text-white;
-  box-shadow: 0 10px 24px hsl(var(--brand-solid) / 0.14);
+  @apply relative overflow-hidden px-5 py-3 text-white;
+  border-color: hsl(var(--brand) / 0.55);
+  background: linear-gradient(
+    135deg,
+    hsl(var(--brand-solid) / 0.9),
+    hsl(var(--brand) / 0.72)
+  );
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 10px 28px hsl(var(--brand-solid) / 0.22),
+    inset 0 1px 0 hsl(0 0% 100% / 0.22),
+    inset 0 -1px 0 hsl(var(--brand) / 0.3);
   transition:
     transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.25s ease;
+    background 0.25s ease;
   @apply motion-reduce:transition-none;
 
   /* Shimmer sweep */
@@ -298,7 +308,7 @@
     background: linear-gradient(
       105deg,
       transparent 30%,
-      hsl(0 0% 100% / 0.18) 50%,
+      hsl(0 0% 100% / 0.2) 50%,
       transparent 70%
     );
     background-size: 200% 100%;
@@ -309,10 +319,16 @@
 
   &:hover {
     transform: translateY(-3px);
-    background-color: hsl(var(--brand-solid) / 0.92);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--brand-solid) / 0.96),
+      hsl(var(--brand) / 0.86)
+    );
     box-shadow:
-      0 18px 40px hsl(var(--brand-solid) / 0.3),
-      0 0 28px hsl(var(--brand) / 0.18);
+      0 18px 44px hsl(var(--brand-solid) / 0.32),
+      0 0 32px hsl(var(--brand) / 0.2),
+      inset 0 1px 0 hsl(0 0% 100% / 0.28),
+      inset 0 -1px 0 hsl(var(--brand) / 0.2);
 
     &::before {
       background-position: -200% 0;
@@ -327,17 +343,27 @@
 }
 
 @utility btn-secondary {
-  @apply relative border-line/70 bg-surface/72 px-5 py-3 text-ink;
-  box-shadow: 0 4px 12px hsl(var(--ink) / 0.03);
+  @apply relative px-5 py-3 text-ink;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--surface) / 0.65),
+    hsl(var(--surface-muted) / 0.42)
+  );
+  border-color: hsl(var(--line) / 0.5);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 4px 16px hsl(var(--ink) / 0.04),
+    inset 0 1px 0 hsl(0 0% 100% / 0.14),
+    inset 0 -1px 0 hsl(var(--line) / 0.1);
   transition:
     transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
     color 0.25s ease,
-    background-color 0.25s ease;
+    background 0.25s ease;
   @apply motion-reduce:transition-none;
 
-  /* Spinning border arc — same technique as stat-card */
+  /* Spinning border arc */
   &::before {
     content: '';
     position: absolute;
@@ -366,11 +392,17 @@
   &:hover {
     transform: translateY(-3px);
     color: hsl(var(--brand-solid));
-    background-color: hsl(var(--brand-soft) / 0.2);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--brand-soft) / 0.45),
+      hsl(var(--brand-soft) / 0.22)
+    );
     border-color: transparent;
     box-shadow:
-      0 12px 32px hsl(var(--brand) / 0.12),
-      0 0 20px color-mix(in srgb, hsl(var(--brand)) 10%, transparent);
+      0 12px 36px hsl(var(--brand) / 0.14),
+      0 0 24px color-mix(in srgb, hsl(var(--brand)) 12%, transparent),
+      inset 0 1px 0 hsl(var(--brand) / 0.2),
+      inset 0 -1px 0 hsl(var(--brand) / 0.08);
 
     &::before {
       opacity: 1;
@@ -391,13 +423,18 @@
     transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   @apply motion-reduce:transition-none;
 
-  /* Left-to-right fill sweep */
+  /* Glass fill sweep */
   &::before {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background-color: hsl(var(--surface-muted));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--surface) / 0.72),
+      hsl(var(--surface-muted) / 0.52)
+    );
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.1);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
