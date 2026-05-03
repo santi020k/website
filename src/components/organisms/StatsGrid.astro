@@ -1,14 +1,19 @@
 ---
 import GradientDivider from '@/components/atoms/GradientDivider.astro'
+
+interface Props {
+  columns?: 3 | 4
+}
+
+const { columns = 4 } = Astro.props
 ---
 
 <GradientDivider class="pt-10" />
 <section
-  class="
-    relative grid gap-4 pt-10
-    md:grid-cols-2
-    xl:grid-cols-4
-  "
+  class:list={[
+    'relative grid gap-4 pt-10 md:grid-cols-2',
+    columns === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'
+  ]}
   data-animate
 >
   <div

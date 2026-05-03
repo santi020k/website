@@ -1,0 +1,282 @@
+---
+interface Props {
+  title: string
+  description?: string
+  icon?: string
+  href?: string
+  tone?: 'brand' | 'accent' | 'success' | 'warning' | 'neutral'
+  badge?: string
+  className?: string
+}
+
+const {
+  title,
+  description,
+  icon,
+  href,
+  tone = 'brand',
+  badge,
+  className = ''
+} = Astro.props
+
+const isLink = !!href
+const Tag = isLink ? 'a' : 'div'
+
+const toneMap = {
+  brand: {
+    iconBg: 'bg-brand/10 text-brand',
+    glowColor: 'hsl(var(--brand)/0.15)',
+    hoverBorder: 'hover:border-brand/30',
+    badgeBg: 'bg-brand/15 text-brand'
+  },
+  accent: {
+    iconBg: 'bg-accent/10 text-accent',
+    glowColor: 'hsl(var(--accent)/0.15)',
+    hoverBorder: 'hover:border-accent/30',
+    badgeBg: 'bg-accent/15 text-accent'
+  },
+  success: {
+    iconBg: 'bg-success/10 text-success',
+    glowColor: 'hsl(var(--success)/0.15)',
+    hoverBorder: 'hover:border-success/30',
+    badgeBg: 'bg-success/15 text-success'
+  },
+  warning: {
+    iconBg: 'bg-warning/10 text-warning',
+    glowColor: 'hsl(var(--warning)/0.15)',
+    hoverBorder: 'hover:border-warning/30',
+    badgeBg: 'bg-warning/15 text-warning'
+  },
+  neutral: {
+    iconBg: 'bg-surface-strong text-ink-soft',
+    glowColor: 'hsl(var(--line)/0.5)',
+    hoverBorder: 'hover:border-line/60',
+    badgeBg: 'bg-surface-muted text-ink-muted'
+  }
+}
+
+const styles = toneMap[tone]
+---
+
+<Tag
+  href={href}
+  class:list={[
+    'mini-card group relative overflow-hidden',
+    'flex items-start gap-4',
+    'p-4 sm:p-5',
+    'rounded-2xl',
+    'transition-all duration-300 ease-out',
+    styles.hoverBorder,
+    isLink && 'cursor-pointer',
+    className
+  ]}
+  data-minicard
+>
+  {/* Ambient glow background */}
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+    style={`background: radial-gradient(ellipse 80% 60% at 100% 0%, ${styles.glowColor}, transparent 60%);`}
+  />
+
+  {/* Shine effect on hover */}
+  <div
+    aria-hidden="true"
+    class="shine-effect pointer-events-none absolute inset-0 -z-10 opacity-0"
+  />
+
+  {/* Icon */}
+  {icon && (
+    <div
+      class:list={[
+        'icon-wrapper relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl',
+        'transition-all duration-300 ease-out',
+        'group-hover:scale-110 group-hover:rotate-3',
+        styles.iconBg
+      ]}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="transition-transform duration-300 group-hover:scale-105"
+        aria-hidden="true"
+      >
+        <Fragment set:html={icon} />
+      </svg>
+    </div>
+  )}
+
+  {/* Content */}
+  <div class="flex-1 min-w-0">
+    <div class="flex items-center gap-2 flex-wrap">
+      <h3 class="text-sm font-semibold text-ink transition-colors duration-200 group-hover:text-brand">
+        {title}
+      </h3>
+      {badge && (
+        <span
+          class:list={[
+            'badge inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium',
+            'transition-all duration-300',
+            'group-hover:scale-105',
+            styles.badgeBg
+          ]}
+        >
+          {badge}
+        </span>
+      )}
+    </div>
+    {description && (
+      <p class="mt-1.5 text-sm text-ink-soft leading-relaxed line-clamp-2">
+        {description}
+      </p>
+    )}
+  </div>
+
+  {/* Arrow for links */}
+  {isLink && (
+    <div
+      class="arrow-indicator flex items-center self-center text-ink-muted transition-all duration-300 group-hover:text-brand group-hover:translate-x-1"
+      aria-hidden="true"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </div>
+  )}
+</Tag>
+
+<style>
+  .mini-card {
+    background: linear-gradient(
+      145deg,
+      hsl(var(--surface) / 0.72) 0%,
+      hsl(var(--surface-muted) / 0.48) 100%
+    );
+    border: 1px solid hsl(var(--line) / 0.35);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.08),
+      0 4px 16px hsl(230 30% 8% / 0.03),
+      0 2px 6px hsl(230 30% 8% / 0.02);
+  }
+
+  .mini-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      145deg,
+      hsl(0 0% 100% / 0.12) 0%,
+      transparent 50%,
+      hsl(0 0% 100% / 0.05) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mini-card {
+      transition:
+        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.3s ease,
+        background-color 0.3s ease;
+    }
+
+    .mini-card:hover {
+      transform: translateY(-3px) scale(1.005);
+      box-shadow:
+        inset 0 1px 0 hsl(0 0% 100% / 0.12),
+        0 12px 32px hsl(230 30% 8% / 0.08),
+        0 4px 12px hsl(var(--brand) / 0.06);
+    }
+
+    .mini-card:hover::before {
+      opacity: 0.9;
+    }
+
+    /* Shine effect */
+    .shine-effect {
+      background: linear-gradient(
+        105deg,
+        transparent 40%,
+        hsl(0 0% 100% / 0.08) 50%,
+        transparent 60%
+      );
+      transform: translateX(-100%);
+      transition: transform 0s;
+    }
+
+    .mini-card:hover .shine-effect {
+      transform: translateX(100%);
+      transition: transform 0.6s ease-out;
+    }
+
+    /* Icon pulse on hover */
+    .icon-wrapper {
+      box-shadow: 0 2px 8px hsl(var(--brand) / 0.1);
+    }
+
+    .mini-card:hover .icon-wrapper {
+      box-shadow: 0 4px 16px hsl(var(--brand) / 0.2);
+    }
+
+    /* Badge animation */
+    .badge {
+      transform-origin: left center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mini-card {
+      transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .shine-effect,
+    .mini-card::before {
+      display: none;
+    }
+  }
+
+  /* Active/pressed state */
+  .mini-card:active {
+    transform: translateY(-1px) scale(0.995);
+  }
+
+  /* Focus visible styles for accessibility */
+  .mini-card:focus-visible {
+    outline: 2px solid hsl(var(--brand) / 0.6);
+    outline-offset: 2px;
+  }
+</style>

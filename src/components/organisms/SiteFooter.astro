@@ -74,25 +74,43 @@ const isLinkActive = (linkPath: string): boolean => {
     />
 
     <!-- Unified Contact & Newsletter Section -->
-    <section class="relative z-10 grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-      <div class="space-y-3" data-animate>
-        <p class="section-label text-brand">Get in touch</p>
+    <section
+      class="relative z-10 mt-10 grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10"
+      data-animate
+    >
+      <!-- Left: copy -->
+      <div class="space-y-3">
+        <div class="flex flex-wrap items-center gap-3">
+          <p class="section-label text-brand">Get in touch</p>
+          {isAvailable && (
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-success/25 bg-success/8 px-2.5 py-0.5 text-xs font-medium text-success">
+              <span class="relative flex size-1.5 shrink-0">
+                <span class="absolute inline-flex size-full animate-ping rounded-full bg-success/75 opacity-75 motion-reduce:animate-none" />
+                <span class="relative inline-flex size-1.5 rounded-full bg-success" />
+              </span>
+              Available
+            </span>
+          )}
+        </div>
+
         <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
           Let's build something{' '}
           <span
-            class="bg-linear-to-r from-brand via-accent to-brand bg-[length:200%_100%] bg-clip-text text-transparent motion-safe:animate-shimmer"
+            class="bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent motion-safe:animate-shimmer"
             style="background-size: 200% 100%;"
           >
             useful
           </span>{' '}
           together.
         </h2>
+
         <p class="max-w-xl text-sm text-ink-soft">
           Have a project in mind or want to compare notes on engineering? Pick a channel below and I'll get back to you quickly.
         </p>
       </div>
 
-      <div class="relative z-10 grid gap-6" data-stagger="60">
+      <!-- Right: contact + newsletter -->
+      <div class="grid gap-6" data-stagger="60">
         <ContactSection compact />
         {siteConfig.newsletter?.formAction && (
           <NewsletterSignup formAction={siteConfig.newsletter.formAction} label="Newsletter signup (footer)" variant="compact" />
