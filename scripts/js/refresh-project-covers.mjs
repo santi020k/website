@@ -5,6 +5,8 @@ import sharp from 'sharp'
 const PROJECTS_ROOT = path.resolve('src/content/project')
 const CANVAS_WIDTH = 3200
 const CANVAS_HEIGHT = 2000
+const VERTICAL_CANVAS_WIDTH = 1800
+const VERTICAL_CANVAS_HEIGHT = 2400
 const PANEL_WIDTH = 1280
 const PANEL_HEIGHT = 1520
 const PANEL_X = 1820
@@ -160,6 +162,38 @@ const PROJECTS = [
     backgroundColor: '#030507',
     threshold: 26,
     placement: { left: 250, top: 210, width: 1000, height: 920 }
+  },
+  {
+    slug: 'santi020k-theme',
+    alt: 'Santi020k Theme logo on a deep indigo geometric cover with editor UI artwork',
+    variant: 'dark',
+    accent: '#8b5cf6',
+    accentDeep: '#5b21b6',
+    surface: '#181225',
+    ink: '#0f0a18',
+    panel: '#14101f',
+    texture: '#c4b5fd',
+    logoAssetPath: '../santi020k-theme/icon.svg',
+    logoDensity: 960,
+    placement: { left: 300, top: 230, width: 1060, height: 900 },
+    shadowBlur: 7,
+    shadowOpacity: 0.2
+  },
+  {
+    slug: 'santi020k-chrome-theme',
+    alt: 'Santi020k Chrome Theme logo on a deep violet geometric cover with browser UI artwork',
+    variant: 'dark',
+    accent: '#a78bfa',
+    accentDeep: '#6d28d9',
+    surface: '#15111f',
+    ink: '#0b0712',
+    panel: '#120d1c',
+    texture: '#ddd6fe',
+    logoAssetPath: '../santi020k-chrome-theme/icons/icon.svg',
+    logoDensity: 960,
+    placement: { left: 300, top: 230, width: 1060, height: 900 },
+    shadowBlur: 7,
+    shadowOpacity: 0.2
   },
   {
     slug: 'tedx-medellin',
@@ -532,8 +566,8 @@ function getLogoPlacement({ logoWidth, logoHeight }) {
   return STANDARD_BADGE_PLACEMENT
 }
 
-async function buildLogoLayers(logo, project) {
-  const placement = project.placement ?? getLogoPlacement({
+async function buildLogoLayers(logo, project, placementOverride) {
+  const placement = placementOverride ?? project.placement ?? getLogoPlacement({
     logoWidth: logo.width,
     logoHeight: logo.height
   })
@@ -789,6 +823,40 @@ function buildPanelArtworkMarkup(project, palette) {
         <path d="M 330 772 H 960" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
       `
 
+    case 'santi020k-theme':
+      return `
+        ${panelWindow({ x: 86, y: 156, width: 824, height: 610, palette })}
+        <path d="M 184 332 H 444" stroke="${palette.accentStrong}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 184 408 H 654" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 184 484 H 574" stroke="${palette.stroke}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 184 560 H 706" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 184 636 H 498" stroke="${palette.accentStrong}" stroke-width="18" stroke-linecap="round" />
+        ${panelCard({ x: 944, y: 222, width: 196, height: 410, radius: 34, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 986 326 H 1092" stroke="${palette.strokeSoft}" stroke-width="14" stroke-linecap="round" />
+        <path d="M 986 394 H 1066" stroke="${palette.accentStrong}" stroke-width="14" stroke-linecap="round" />
+        <path d="M 986 462 H 1098" stroke="${palette.strokeSoft}" stroke-width="14" stroke-linecap="round" />
+        ${panelCard({ x: 184, y: 930, width: 382, height: 222, radius: 34, fill: palette.fillSoft, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        ${panelCard({ x: 628, y: 874, width: 426, height: 278, radius: 36, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 256 1040 H 492" stroke="${palette.accentStrong}" stroke-width="16" stroke-linecap="round" />
+        <path d="M 704 988 H 986" stroke="${palette.stroke}" stroke-width="16" stroke-linecap="round" />
+        <path d="M 704 1060 H 914" stroke="${palette.strokeSoft}" stroke-width="16" stroke-linecap="round" />
+        <circle cx="930" cy="1250" r="174" fill="${palette.glow}" />
+      `
+
+    case 'santi020k-chrome-theme':
+      return `
+        ${panelWindow({ x: 102, y: 176, width: 870, height: 500, palette })}
+        ${panelCard({ x: 182, y: 318, width: 230, height: 86, radius: 38, fill: palette.accent, stroke: palette.strokeSoft, strokeWidth: 5 })}
+        ${panelCard({ x: 430, y: 318, width: 210, height: 86, radius: 38, fill: palette.fillSoft, stroke: palette.strokeSoft, strokeWidth: 5 })}
+        <path d="M 206 494 H 864" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 260 586 H 760" stroke="${palette.stroke}" stroke-width="18" stroke-linecap="round" />
+        <circle cx="934" cy="818" r="174" fill="${palette.glow}" />
+        ${panelCard({ x: 206, y: 826, width: 790, height: 338, radius: 42, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 302 966 H 874" stroke="${palette.accentStrong}" stroke-width="20" stroke-linecap="round" />
+        <path d="M 302 1052 H 704" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 198 1262 C 358 1154, 532 1110, 722 1138 C 884 1162, 1008 1244, 1110 1368" fill="none" stroke="${palette.accentDeep}" stroke-width="18" stroke-linecap="round" />
+      `
+
     case 'tedx-medellin':
       return `
         ${panelWindow({ x: 112, y: 170, width: 724, height: 278, palette })}
@@ -940,8 +1008,14 @@ function buildBaseSvg(project) {
 async function renderProjectCover(project) {
   const directory = path.join(PROJECTS_ROOT, project.slug)
   const coverPath = path.join(directory, 'cover.webp')
+  const horizontalPath = path.join(directory, 'cover-horizontal.webp')
+  const verticalPath = path.join(directory, 'cover-vertical.webp')
   const backupPath = path.join(directory, 'cover-old.webp')
-  const logoPath = project.logoPath ? path.join(directory, project.logoPath) : null
+  const logoPath = project.logoAssetPath ?
+    path.resolve(project.logoAssetPath) :
+    project.logoPath ?
+      path.join(directory, project.logoPath) :
+      null
 
   if (!logoPath && !project.customLogoBuilder && !project.useCustomWordmark) {
     await ensureBackupFile(coverPath, backupPath)
@@ -959,7 +1033,7 @@ async function renderProjectCover(project) {
   const { textureBuffer, textureLeft, textureTop } = await buildTextureLayer(project)
   const { shadowBuffer, mainBuffer, shadowLeft, shadowTop, mainLeft, mainTop } = await buildLogoLayers(logo, project)
 
-  const image = sharp({
+  const horizontalImage = sharp({
     create: {
       width: CANVAS_WIDTH,
       height: CANVAS_HEIGHT,
@@ -968,7 +1042,7 @@ async function renderProjectCover(project) {
     }
   })
 
-  await image
+  const horizontalBuffer = await horizontalImage
     .composite([
       { input: baseSvg },
       { input: textureBuffer, left: textureLeft, top: textureTop },
@@ -976,7 +1050,50 @@ async function renderProjectCover(project) {
       { input: mainBuffer, left: mainLeft, top: mainTop }
     ])
     .webp({ quality: 92 })
-    .toFile(coverPath)
+    .toBuffer()
+
+  await fs.writeFile(coverPath, horizontalBuffer)
+  await fs.writeFile(horizontalPath, horizontalBuffer)
+
+  const verticalBackground = await sharp(horizontalBuffer)
+    .resize(VERTICAL_CANVAS_WIDTH, VERTICAL_CANVAS_HEIGHT, { fit: 'cover' })
+    .blur(18)
+    .modulate({ brightness: 0.68, saturation: 0.92 })
+    .webp()
+    .toBuffer()
+
+  const verticalPlate = await sharp(horizontalBuffer)
+    .resize(1640, 1025, { fit: 'cover' })
+    .webp({ quality: 94 })
+    .toBuffer()
+
+  const verticalPlateShadow = await sharp({
+    create: {
+      width: 1640,
+      height: 1025,
+      channels: 4,
+      background: '#00000066'
+    }
+  })
+    .blur(22)
+    .png()
+    .toBuffer()
+
+  await sharp({
+    create: {
+      width: VERTICAL_CANVAS_WIDTH,
+      height: VERTICAL_CANVAS_HEIGHT,
+      channels: 4,
+      background: hexToRgb(project.surface)
+    }
+  })
+    .composite([
+      { input: verticalBackground },
+      { input: verticalPlateShadow, left: 80, top: 705 },
+      { input: verticalPlate, left: 80, top: 665 }
+    ])
+    .webp({ quality: 92 })
+    .toFile(verticalPath)
 }
 
 const requestedSlugs = process.argv.slice(2)

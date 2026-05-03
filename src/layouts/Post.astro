@@ -9,6 +9,7 @@ import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
 import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
 
 import { getPostSlug } from '@/utils/posts'
@@ -93,7 +94,7 @@ const breadcrumbs = [
 >
   <ReadingProgressBar />
 
-  <article class="h-entry mx-auto flex w-full max-w-6xl flex-col gap-12">
+  <article class="h-entry mx-auto flex w-full max-w-6xl flex-col gap-10">
     <a class="u-url sr-only" href={canonicalURL.href}>Permalink to this article</a>
     <PostHero post={post} />
 
@@ -127,25 +128,29 @@ const breadcrumbs = [
 
         <WebmentionsSection mentions={webmentions} />
 
-        <footer class="
-          flex items-center justify-between section-divider-compact
-        "
+        <footer
+          class="
+            flex flex-col gap-6 section-divider-compact
+            sm:flex-row sm:items-center sm:justify-between
+          "
         >
           <a
             href="/blog/"
             class="
-              group flex items-center gap-2 font-medium text-ink
+              group inline-flex items-center gap-2 font-medium text-ink
               transition-colors
               hover:text-brand
+              motion-reduce:transition-none
             "
           >
             <Icon
               aria-hidden="true"
-              name="tabler:arrow-left"
               class="
                 size-5 transition-transform
                 group-hover:-translate-x-1
+                motion-reduce:transition-none
               "
+              name="tabler:arrow-left"
             />
             Back to blog
           </a>
@@ -153,20 +158,22 @@ const breadcrumbs = [
           <a
             href="#main"
             class="
-              group flex items-center gap-2 font-medium text-ink-muted
-              transition-colors
+              group inline-flex items-center gap-1.5 text-sm font-medium
+              text-ink-muted transition-colors
               hover:text-brand
+              motion-reduce:transition-none
             "
           >
-            Back to top
             <Icon
               aria-hidden="true"
-              name="tabler:arrow-up"
               class="
-                size-5 transition-transform
-                group-hover:-translate-y-1
+                size-4 transition-transform
+                group-hover:-translate-y-0.5
+                motion-reduce:transition-none
               "
+              name="tabler:arrow-up"
             />
+            Back to top
           </a>
         </footer>
       </div>
@@ -180,12 +187,12 @@ const breadcrumbs = [
     </section>
   </article>
 
-  <div class="mx-auto w-full max-w-6xl space-y-20">
+  <PageSection>
     <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
     {siteConfig.newsletter?.formAction && (
       <NewsletterSignup formAction={siteConfig.newsletter.formAction} variant="compact" label="Newsletter signup (blog post)" />
     )}
-  </div>
+  </PageSection>
 
   <script>
     const COPY_ICON = `

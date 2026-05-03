@@ -16,6 +16,8 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   alt: "PADS wordmark on a magenta and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---

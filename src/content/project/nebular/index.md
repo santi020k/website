@@ -16,6 +16,8 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   alt: "Nebular logo on a graphite and silver geometric cover"
   ogImage: "./cover.webp"
 ---

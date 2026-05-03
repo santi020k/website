@@ -3,6 +3,7 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
@@ -10,6 +11,8 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
@@ -85,55 +88,82 @@ const blogListSchema = {
       `Blog · Page ${page.currentPage} of ${page.lastPage} — Santiago Molina`
   }}
 >
-  <section
-    class="
-      grid animate-slide-up gap-10
-      motion-reduce:animate-none
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
-  >
-    <div class="space-y-6">
-      <SectionHeader
-        description="I write about full-stack systems, architecture, and the automation that helps teams ship with confidence. From backend services to delivery pipelines, I share what I learn along the way."
-        eyebrow="Blog"
-        level="h1"
-        title="Writing about software architecture, automation, and engineering craft."
+  <section class="relative pb-4">
+    <div class="relative z-10 space-y-8">
+      <Eyebrow
+        label="Blog"
+        tone="brand"
+        className="
+          animate-slide-up whitespace-normal
+          motion-reduce:animate-none
+        "
       />
 
-      <div class="section-actions">
-        <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
-          Open Medium profile
-        </ButtonLink>
-        <ButtonLink href="/blog/tags/" showArrow variant="secondary">
-          Browse topics
-        </ButtonLink>
-        <ButtonLink href="/blog/series/" showArrow variant="ghost">
-          Browse series
-        </ButtonLink>
+      <div
+        class="
+          animate-slide-up space-y-4 [animation-delay:90ms]
+          motion-reduce:animate-none
+        "
+      >
+        <h1 class="
+          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+          sm:text-6xl/[0.95]
+          lg:text-[5.2rem]/[0.92]
+        "
+        >
+          Writing about software.
+          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">Architecture. Craft.</span>
+        </h1>
+        <p class="
+          max-w-xl text-base/7 text-ink-soft
+          sm:text-lg/7
+        "
+        >
+          Full-stack systems, architecture decisions, and the automation that helps teams ship with confidence. From backend services to delivery pipelines.
+        </p>
       </div>
-    </div>
 
-    <div class="
-      grid gap-4
-      sm:grid-cols-3
-      lg:grid-cols-1
-    "
-    >
-      <StatCard description="Articles currently hosted on my site and cross-posted to Medium." label="Posts" value={String(page.total)} />
-      <StatCard
-        description="Topics and themes covered in my writing across various publications."
-        label="Tags"
-        value={String(allTagsData.length)}
-      />
-      <StatCard
-        description="Grouped reading tracks so related posts are easier to follow in sequence."
-        label="Series"
-        value={String(activeSeries.length)}
-      />
+      <div
+        class="
+          animate-slide-up space-y-5 [animation-delay:180ms]
+          motion-reduce:animate-none
+        "
+      >
+        <div class="section-actions">
+          <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
+            Open Medium profile
+          </ButtonLink>
+          <ButtonLink href="/blog/tags/" showArrow variant="secondary">
+            Browse topics
+          </ButtonLink>
+          <ButtonLink href="/blog/series/" showArrow variant="secondary">
+            Browse series
+          </ButtonLink>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="editorial-section" data-animate>
+  <StatsGrid>
+    <StatCard description="Articles currently hosted on my site and cross-posted to Medium." label="Posts" value={String(page.total)} />
+    <StatCard
+      description="Topics and themes covered in my writing across various publications."
+      label="Tags"
+      value={String(allTagsData.length)}
+    />
+    <StatCard
+      description="Grouped reading tracks so related posts are easier to follow in sequence."
+      label="Series"
+      value={String(activeSeries.length)}
+    />
+    <StatCard
+      description="Years of writing and sharing engineering knowledge across the web."
+      label="Experience"
+      value={`${new Date().getFullYear() - 2017}+`}
+    />
+  </StatsGrid>
+
+  <PageSection>
     <SectionHeader
       description="Start with the latest piece, then browse the rest by topic and depth."
       eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
@@ -161,10 +191,10 @@ const blogListSchema = {
 
       <Pagination page={page} />
     </div>
-  </section>
+  </PageSection>
 
   {isFirstPage && santi020kWaySeries && (
-    <section class="editorial-section" data-animate>
+    <PageSection>
       <SectionHeader
         description="A new blog section collecting the principles I keep returning to around ownership, code quality, feedback, responsive thinking, and calmer releases."
         eyebrow="The santi020k way"
@@ -228,11 +258,11 @@ const blogListSchema = {
           </p>
         </div>
       </div>
-    </section>
+    </PageSection>
   )}
 
   {isFirstPage && !!activeSeries.length && (
-    <section class="editorial-section" data-animate>
+    <PageSection>
       <SectionHeader
         description="Related posts now live in clearer tracks, so topics like Next.js delivery systems and ESLint tooling feel like connected reading instead of isolated entries."
         eyebrow="Series"
@@ -246,11 +276,11 @@ const blogListSchema = {
           <SeriesCard postCount={item.postCount} series={item.series} />
         ))}
       </div>
-    </section>
+    </PageSection>
   )}
 
   {isFirstPage && (
-    <section class="editorial-section" data-animate>
+    <PageSection>
       <SectionHeader
         description={cadenceDescription}
         eyebrow="Cadence"
@@ -299,6 +329,6 @@ const blogListSchema = {
           </ButtonLink>
         </div>
       </div>
-    </section>
+    </PageSection>
   )}
 </PageLayout>

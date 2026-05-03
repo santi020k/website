@@ -18,6 +18,8 @@ seoTitle: "TEDx Medellin 2019 - WordPress launch and event rollout"
 seoDescription: "How I helped launch the TEDx Medellin 2019 website in WordPress, coordinated technology delivery, and supported a sold-out event with marketing and design collaboration."
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   alt: "TEDx Medellin wordmark on a red and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---

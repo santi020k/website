@@ -67,7 +67,7 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
             shadow-[0_18px_42px_hsl(var(--ink)/0.08)]
           "
           featured={useCoverFeatured}
-          image={project.data.coverImage.src}
+          image={project.data.coverImage.vertical ?? project.data.coverImage.src}
           loading={useCoverFeatured ? 'eager' : 'lazy'}
           mode="card"
           showCardOverlay={false}

@@ -16,6 +16,8 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   alt: "Codepwr logo on a navy, cyan, and ivory geometric cover"
   ogImage: "./cover.webp"
 ---
