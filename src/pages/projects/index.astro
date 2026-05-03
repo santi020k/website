@@ -1,8 +1,10 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
 
@@ -53,53 +55,88 @@ const projectsListSchema = {
     title: 'Side Projects — Santiago Molina'
   }}
 >
-  <section
-    class="
-      grid animate-slide-up gap-10
-      motion-reduce:animate-none
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
-  >
-    <div class="space-y-6">
-      <SectionHeading
-        description="Open-source tools, community work, and self-directed experiments. The projects I build to learn, share, and sharpen how I engineer beyond client work."
-        eyebrow="Side Projects"
-        level="h1"
-        title="Built for the love of it."
+  <section class="relative pb-4">
+    <div class="relative z-10 space-y-8">
+      <Eyebrow
+        label="Side Projects"
+        tone="brand"
+        className="
+          animate-slide-up whitespace-normal
+          motion-reduce:animate-none
+        "
       />
-      <div class="section-actions">
-        <ButtonLink href={siteConfig.contact.github} newTab showArrow>
-          View GitHub
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          Message on LinkedIn
-        </ButtonLink>
-      </div>
-    </div>
 
-    <div
-      class="
-        grid gap-4
-        sm:grid-cols-2
-        lg:grid-cols-1
-      "
-    >
-      <StatCard
-        description="Open-source and community work that sharpens how I build and lead."
-        label="Projects"
-        value={String(sideProjects.length)}
-      />
-      <StatCard
-        description="Tools and platforms explored through personal and open-source work."
-        label="Technologies"
-        value={String(allTechnologies.length)}
-      />
+      <div
+        class="
+          animate-slide-up space-y-4 [animation-delay:90ms]
+          motion-reduce:animate-none
+        "
+      >
+        <h1 class="
+          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+          sm:text-6xl/[0.95]
+          lg:text-[5.2rem]/[0.92]
+        "
+        >
+          Built for the
+          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">love of it.</span>
+        </h1>
+        <p class="
+          max-w-xl text-base/7 text-ink-soft
+          sm:text-lg/7
+        "
+        >
+          Open-source tools, community work, and self-directed experiments. The projects I build to learn, share, and sharpen how I engineer beyond client work.
+        </p>
+      </div>
+
+      <div
+        class="
+          animate-slide-up space-y-5 [animation-delay:180ms]
+          motion-reduce:animate-none
+        "
+      >
+        <div class="section-actions">
+          <ButtonLink href={siteConfig.contact.github} newTab showArrow>
+            View GitHub
+          </ButtonLink>
+          <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+            Message on LinkedIn
+          </ButtonLink>
+          <ButtonLink href="/work/" showArrow variant="secondary">
+            Work experience
+          </ButtonLink>
+        </div>
+      </div>
     </div>
   </section>
 
+  <StatsGrid>
+    <StatCard
+      description="Open-source and community work that sharpens how I build and lead."
+      label="Projects"
+      value={String(sideProjects.length)}
+    />
+    <StatCard
+      description="Tools and platforms explored through personal and open-source work."
+      label="Technologies"
+      value={String(allTechnologies.length)}
+    />
+    <StatCard
+      description="Typical attendance for ReactJS Colombia meetups, workshops, and talks."
+      label="Community"
+      value="100+"
+    />
+    <StatCard
+      description="Years of hands-on engineering and open-source contribution."
+      label="Experience"
+      value={`${new Date().getFullYear() - 2014}+`}
+    />
+  </StatsGrid>
+
   <GradientDivider class="pt-10" />
   <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="Open-source, community, and self-directed projects that show how I like to learn, teach, and build beyond client work."
       eyebrow="Personal builds"
       title="Side Projects"
@@ -109,7 +146,7 @@ const projectsListSchema = {
 
   <GradientDivider class="pt-10" />
   <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="The recurring technologies from personal projects and open-source work — tooling, DX, testing, and the things I reach for when there are no constraints."
       eyebrow="Technology map"
       linkHref="/technologies/"
