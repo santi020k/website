@@ -1,7 +1,7 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 
@@ -40,7 +40,7 @@ const breadcrumbs = [
     data-animate
   >
     <div class="space-y-6">
-      <SectionHeading
+      <SectionHeader
         description={contentCalendarDescription}
         eyebrow="Content calendar"
         level="h1"
@@ -78,7 +78,7 @@ const breadcrumbs = [
   </section>
 
   <section class="editorial-section" data-animate>
-    <SectionHeading
+    <SectionHeader
       description={publishingRhythm.summary}
       eyebrow="Roadmap"
       title="What is scheduled from April through September 2026."
@@ -134,7 +134,7 @@ const breadcrumbs = [
   </section>
 
   <section class="editorial-section" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="These are the active tracks already live on the site, grouped so readers can move through a topic in order instead of guessing what comes next."
       eyebrow="Series"
       linkHref="/blog/series/"

@@ -1,0 +1,21 @@
+---
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
+
+interface Props {
+  class?: string | undefined
+  divider?: boolean
+}
+
+const { class: className, divider = true } = Astro.props
+---
+
+{divider && <GradientDivider class="pt-10" />}
+<section
+  class:list={[
+    'grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10',
+    className
+  ]}
+  data-animate
+>
+  <slot />
+</section>

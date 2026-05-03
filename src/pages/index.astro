@@ -3,7 +3,7 @@ import { getImage } from 'astro:assets'
 
 import AboutMeImage from '../assets/photos/about-me.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
-import GradientDivider from '../components/atoms/GradientDivider.astro'
+import PageSection from '../components/organisms/PageSection.astro'
 import HomeHero from '../components/pages/home/HomeHero.astro'
 import HomeStats from '../components/pages/home/HomeStats.astro'
 import CommunityCard from '../components/molecules/CommunityCard.astro'
@@ -96,8 +96,7 @@ const meta = {
   <HomeStats yearsOfExperience={yearsOfExperience} />
 
   {/* Work Experience */}
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+  <PageSection>
     <SectionHeader
       eyebrow="Work Experience"
       title="Professional roles."
@@ -118,11 +117,10 @@ const meta = {
         </ButtonLink>
       </div>
     </div>
-  </section>
+  </PageSection>
 
   {/* Side Projects */}
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+  <PageSection>
     <SectionHeader
       eyebrow="Side Projects"
       title="Built for the love of it."
@@ -143,11 +141,10 @@ const meta = {
         </ButtonLink>
       </div>
     </div>
-  </section>
+  </PageSection>
 
   {/* Writing */}
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+  <PageSection>
     <SectionHeader
       eyebrow="Writing"
       title="Thoughts on building and leading."
@@ -168,11 +165,10 @@ const meta = {
         </ButtonLink>
       </div>
     </div>
-  </section>
+  </PageSection>
 
   {/* Speaking & Community */}
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+  <PageSection>
     <SectionHeader
       eyebrow="Beyond the code"
       title="Speaking & Community."
@@ -204,5 +200,5 @@ const meta = {
         </ButtonLink>
       </div>
     </div>
-  </section>
+  </PageSection>
 </PageLayout>

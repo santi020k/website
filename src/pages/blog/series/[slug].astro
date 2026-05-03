@@ -4,7 +4,7 @@ import { type CollectionEntry, render } from 'astro:content'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 
 import { getPostPath } from '@/utils/links'
 
@@ -72,7 +72,7 @@ const structuredData: Record<string, unknown> = {
     data-animate
   >
     <div class="space-y-6">
-      <SectionHeading
+      <SectionHeader
         description={series.data.description}
         eyebrow="Blog series"
         level="h1"
@@ -101,7 +101,7 @@ const structuredData: Record<string, unknown> = {
 
   {!!series.data.focusAreas.length && (
     <section class="editorial-section" data-animate>
-      <SectionHeading
+      <SectionHeader
         description="Recurring themes that shape the articles in this track."
         eyebrow="Focus areas"
         title="What this series keeps coming back to."
@@ -116,7 +116,7 @@ const structuredData: Record<string, unknown> = {
   )}
 
   <section class="editorial-section" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="Read these in order if you want the clearest progression from foundations to deeper implementation decisions."
       eyebrow="Posts"
       title="Articles in this series."

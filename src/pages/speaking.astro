@@ -1,7 +1,7 @@
 ---
 import ButtonLink from '../components/atoms/ButtonLink.astro'
-import GradientDivider from '../components/atoms/GradientDivider.astro'
-import SectionHeading from '../components/molecules/SectionHeading.astro'
+import PageSection from '../components/organisms/PageSection.astro'
+import SectionHeader from '../components/molecules/SectionHeader.astro'
 import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
 import { createWhatsAppHref, siteConfig, whatsappMessages } from '../site.config'
@@ -92,7 +92,7 @@ const structuredData = [
     "
   >
     <div class="space-y-6">
-      <SectionHeading
+      <SectionHeader
         description="I enjoy sessions that are practical, opinionated, and grounded in shipped work. The best talks usually sit at the intersection of leadership, architecture, workflow design, and the small technical choices that make teams faster or slower."
         eyebrow="Speaking"
         level="h1"
@@ -134,9 +134,8 @@ const structuredData = [
     </div>
   </section>
 
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
+  <PageSection>
+    <SectionHeader
       description="A sample of past sessions with slides and recordings. Dates and audience figures are approximate — ping me if you want more context on any of these."
       eyebrow="Selected sessions"
       title="Talks with evidence."
@@ -188,11 +187,10 @@ const structuredData = [
         </article>
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
+  <PageSection>
+    <SectionHeader
       description="If you are planning an event, the fastest path is a WhatsApp message with a little context. I can tailor sessions for community rooms, team offsites, internal enablement, or leadership conversations."
       eyebrow="Booking"
       title="Make the invite easy."
@@ -227,11 +225,10 @@ const structuredData = [
         </div>
       </article>
     </div>
-  </section>
+  </PageSection>
 
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
+  <PageSection>
+    <SectionHeader
       description="The strongest sessions for me are the ones that translate hard-won engineering lessons into something teams can use the next day."
       eyebrow="Topics"
       title="What I like to speak about."
@@ -253,11 +250,10 @@ const structuredData = [
         </article>
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
+  <PageSection>
+    <SectionHeader
       description="Good speaking opportunities do not all look the same. I am comfortable in community rooms, workshops, and internal engineering sessions where the goal is alignment as much as inspiration."
       eyebrow="Formats"
       title="Formats that fit teams, communities, and leadership conversations."
@@ -279,11 +275,10 @@ const structuredData = [
         </article>
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <SectionHeading
+  <PageSection>
+    <SectionHeader
       description="Speaking is one of the clearest ways I know to turn private engineering lessons into something useful for more people."
       eyebrow="Why it matters"
       title="Community work keeps the engineering practice honest."
@@ -323,5 +318,5 @@ const structuredData = [
         </div>
       </div>
     </div>
-  </section>
+  </PageSection>
 </PageLayout>

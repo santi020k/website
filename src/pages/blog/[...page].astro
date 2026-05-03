@@ -6,7 +6,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
@@ -93,7 +93,7 @@ const blogListSchema = {
     "
   >
     <div class="space-y-6">
-      <SectionHeading
+      <SectionHeader
         description="I write about full-stack systems, architecture, and the automation that helps teams ship with confidence. From backend services to delivery pipelines, I share what I learn along the way."
         eyebrow="Blog"
         level="h1"
@@ -134,7 +134,7 @@ const blogListSchema = {
   </section>
 
   <section class="editorial-section" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="Start with the latest piece, then browse the rest by topic and depth."
       eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
       title="Recent writing with a practical bias."
@@ -165,7 +165,7 @@ const blogListSchema = {
 
   {isFirstPage && santi020kWaySeries && (
     <section class="editorial-section" data-animate>
-      <SectionHeading
+      <SectionHeader
         description="A new blog section collecting the principles I keep returning to around ownership, code quality, feedback, responsive thinking, and calmer releases."
         eyebrow="The santi020k way"
         linkHref="/blog/series/the-santi020k-way/"
@@ -233,7 +233,7 @@ const blogListSchema = {
 
   {isFirstPage && !!activeSeries.length && (
     <section class="editorial-section" data-animate>
-      <SectionHeading
+      <SectionHeader
         description="Related posts now live in clearer tracks, so topics like Next.js delivery systems and ESLint tooling feel like connected reading instead of isolated entries."
         eyebrow="Series"
         linkHref="/blog/series/"
@@ -251,7 +251,7 @@ const blogListSchema = {
 
   {isFirstPage && (
     <section class="editorial-section" data-animate>
-      <SectionHeading
+      <SectionHeader
         description={cadenceDescription}
         eyebrow="Cadence"
         linkHref="/blog/content-calendar/"

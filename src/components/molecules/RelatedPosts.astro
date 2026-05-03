@@ -2,7 +2,7 @@
 import { getRelatedPosts } from '@/utils/content'
 
 import PostCard from './PostCard.astro'
-import SectionHeading from './SectionHeading.astro'
+import SectionHeader from './SectionHeader.astro'
 
 interface Props {
   currentPostId: string
@@ -25,7 +25,7 @@ const relatedPosts = await getRelatedPosts({
     class="mt-20 space-y-8 border-t border-line pt-20"
   >
     <div data-animate>
-      <SectionHeading
+      <SectionHeader
         description="A few more posts that overlap in topic, tooling, or the engineering tradeoffs behind this article."
         eyebrow="Keep reading"
         title="More writing in the same thread."
