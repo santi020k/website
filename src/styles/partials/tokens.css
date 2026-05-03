@@ -110,4 +110,5 @@
   --animate-shimmer: shimmer 3s linear infinite;
   --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
   --animate-morph: morph 12s ease-in-out infinite;
+  --animate-border-spin: border-spin 5s linear infinite;
 }

@@ -132,6 +132,65 @@
   @apply grid gap-6 lg:grid-cols-2;
 }
 
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@utility stat-card {
+  @apply rounded-2xl bg-surface/80 relative;
+  border: 1px solid hsl(var(--line) / 0.4);
+  box-shadow:
+    0 2px 8px hsl(230 30% 8% / 0.02),
+    inset 0 1px 0 hsl(0 0% 100% / 0.04);
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  @apply motion-reduce:transition-none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--border-angle),
+      hsl(var(--line) / 0.2) 0%,
+      hsl(var(--line) / 0.2) 65%,
+      hsl(var(--brand) / 0.55) 78%,
+      hsl(var(--accent) / 0.65) 85%,
+      hsl(var(--brand) / 0.55) 92%,
+      hsl(var(--line) / 0.2) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    @apply motion-reduce:transition-none motion-reduce:hidden;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 12px 32px hsl(230 30% 8% / 0.08),
+      0 4px 16px hsl(var(--brand) / 0.12),
+      inset 0 1px 0 hsl(0 0% 100% / 0.05);
+    border-color: transparent;
+    @apply motion-reduce:transform-none;
+
+    &::before {
+      opacity: 1;
+      animation: var(--animate-border-spin);
+    }
+  }
+}
+
 @utility mini-note {
   @apply rounded-2xl border border-line/40 bg-surface/80 p-5 h-max relative overflow-hidden;
   min-width: 0;
@@ -144,33 +203,60 @@
   transition:
     transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
     box-shadow 0.3s ease,
-    border-color 0.3s ease;
+    border-color 0.3s ease,
+    background-color 0.3s ease;
   @apply motion-reduce:transition-none;
 
-  /* Subtle gradient accent on left */
+  /* Left accent bar */
   &::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 1rem;
-    bottom: 1rem;
+    top: 0;
+    bottom: 0;
     width: 3px;
-    border-radius: 0 2px 2px 0;
-    background: linear-gradient(180deg, hsl(var(--brand)/0.4), hsl(var(--accent)/0.2), transparent);
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      hsl(var(--brand) / 0.7) 30%,
+      hsl(var(--accent) / 0.8) 60%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.3s ease;
+    @apply motion-reduce:transition-none;
+  }
+
+  /* Brand wash overlay */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at top left,
+      hsl(var(--brand) / 0.06) 0%,
+      transparent 65%
+    );
     opacity: 0;
     transition: opacity 0.3s ease;
+    @apply motion-reduce:transition-none;
   }
 
   &:hover {
     transform: translateY(-3px);
+    border-color: hsl(var(--brand) / 0.25);
     box-shadow:
-      0 12px 32px hsl(230 30% 8% / 0.06),
-      0 4px 12px hsl(var(--brand)/0.04),
+      0 12px 32px hsl(230 30% 8% / 0.07),
+      0 4px 16px hsl(var(--brand) / 0.08),
       inset 0 1px 0 hsl(0 0% 100% / 0.05);
-    border-color: hsl(var(--line) / 0.6);
     @apply motion-reduce:transform-none;
 
     &::before {
+      opacity: 1;
+      width: 4px;
+    }
+
+    &::after {
       opacity: 1;
     }
   }
@@ -189,6 +275,168 @@
  */
 @utility max-w-content-wide {
   max-width: 72rem; /* 1152px — between max-w-5xl and max-w-6xl */
+}
+
+/* ─── Buttons ───────────────────────────────────────────────────────────────── */
+
+@utility btn-primary {
+  @apply relative overflow-hidden border-transparent bg-brand-solid px-5 py-3 text-white;
+  box-shadow: 0 10px 24px hsl(var(--brand-solid) / 0.14);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  @apply motion-reduce:transition-none;
+
+  /* Shimmer sweep */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      hsl(0 0% 100% / 0.18) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    background-position: 200% 0;
+    transition: background-position 0s;
+    @apply motion-reduce:hidden;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    background-color: hsl(var(--brand-solid) / 0.92);
+    box-shadow:
+      0 16px 36px hsl(var(--brand-solid) / 0.28),
+      0 0 24px hsl(var(--brand) / 0.15);
+
+    &::before {
+      background-position: -200% 0;
+      transition: background-position 0.5s ease;
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
+    @apply motion-reduce:transform-none;
+  }
+}
+
+@utility btn-secondary {
+  @apply relative border-line/70 bg-surface/72 px-5 py-3 text-ink;
+  box-shadow: 0 4px 12px hsl(var(--ink) / 0.03);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.3s ease,
+    color 0.2s ease,
+    background-color 0.2s ease;
+  @apply motion-reduce:transition-none;
+
+  /* Spinning border arc — same technique as stat-card */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--border-angle),
+      hsl(var(--line) / 0.2) 0%,
+      hsl(var(--line) / 0.2) 65%,
+      hsl(var(--brand) / 0.55) 78%,
+      hsl(var(--accent) / 0.65) 85%,
+      hsl(var(--brand) / 0.55) 92%,
+      hsl(var(--line) / 0.2) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    @apply motion-reduce:hidden;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    color: hsl(var(--brand-solid));
+    background-color: hsl(var(--brand-soft) / 0.2);
+    border-color: transparent;
+    box-shadow:
+      0 8px 24px hsl(var(--brand) / 0.1),
+      0 2px 8px hsl(var(--brand) / 0.06);
+
+    &::before {
+      opacity: 1;
+      animation: var(--animate-border-spin);
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
+    @apply motion-reduce:transform-none;
+  }
+}
+
+@utility btn-ghost {
+  @apply relative overflow-hidden border-transparent px-4 py-2.5 text-ink;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+  @apply motion-reduce:transition-none;
+
+  /* Left-to-right fill sweep */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: hsl(var(--surface-muted));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    @apply motion-reduce:hidden;
+  }
+
+  &:hover {
+    color: hsl(var(--ink));
+
+    &::before {
+      transform: scaleX(1);
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
+    @apply motion-reduce:transform-none;
+  }
+}
+
+@utility btn-inline {
+  @apply relative min-h-0 rounded-none border-none p-0 text-accent;
+
+  /* Animated underline grows from left */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    @apply motion-reduce:hidden;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
 }
 
 /* ─── Forms & Interactive ───────────────────────────────────────────────────── */

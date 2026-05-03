@@ -176,6 +176,15 @@
   }
 }
 
+@keyframes border-spin {
+  from {
+    --border-angle: 0deg;
+  }
+  to {
+    --border-angle: 360deg;
+  }
+}
+
 /* ─── Scroll-Triggered Reveal ───────────────────────────────────────────────── */
 
 /* Base variant: slide up + fade (default when data-animate has no value or
