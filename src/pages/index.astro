@@ -1,11 +1,15 @@
 ---
-import { getImage, Image } from 'astro:assets'
+import { getImage } from 'astro:assets'
 
 import AboutMeImage from '../assets/photos/about-me.webp'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import GradientDivider from '../components/atoms/GradientDivider.astro'
 import HomeHero from '../components/pages/home/HomeHero.astro'
 import HomeStats from '../components/pages/home/HomeStats.astro'
+import CommunityCard from '../components/molecules/CommunityCard.astro'
+import PostListItem from '../components/molecules/PostListItem.astro'
+import ProjectPreviewCard from '../components/molecules/ProjectPreviewCard.astro'
+import SectionHeader from '../components/molecules/SectionHeader.astro'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
 import { getCachedPosts, getCachedProjects } from '../utils/content'
@@ -91,271 +95,113 @@ const meta = {
   <HomeHero contactHref={contactHref} yearsOfExperience={yearsOfExperience} />
   <HomeStats yearsOfExperience={yearsOfExperience} />
 
+  {/* Work Experience */}
   <GradientDivider class="pt-10" />
   <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <div class="space-y-3">
-      <p class="section-label text-brand">Work Experience</p>
-      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
-        Professional roles.
-      </h2>
-      <p class="max-w-xl text-sm text-ink-soft">
-        Client and product work across teams and industries.
-      </p>
-    </div>
-    <div
-      class="
-        grid gap-6
-        md:grid-cols-2
-      "
-      data-stagger="60"
-    >
-      {workProjects.map(project => {
-        const isActive = !project.data.endingDate
-        const startDate = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        const endDate = isActive ? 'Present' : project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        const dateRange = `${startDate} – ${endDate}`
-        return (
-          <a
-            href={getPortfolioPath(project.id)}
-            class="group block"
-          >
-            <article class="panel-card overflow-hidden transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col">
-              {project.data.coverImage?.src && (
-                <div class="relative aspect-[16/10] overflow-hidden">
-                  <Image
-                    alt={project.data.coverImage.alt || project.data.title}
-                    class="h-full w-full object-cover"
-                    src={project.data.coverImage.src}
-                    width={600}
-                    height={375}
-                    loading="lazy"
-                  />
-                  <div class="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent"></div>
-                  <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <span
-                      class:list={[
-                        'text-xs font-medium px-2 py-1 rounded-full',
-                        isActive ? 'bg-brand/90 text-white' : 'bg-surface/90 text-ink-soft'
-                      ]}
-                    >
-                      {isActive ? 'Active' : 'Completed'}
-                    </span>
-                    <span class="text-xs text-ink-soft bg-surface/80 px-2 py-1 rounded-full">
-                      {dateRange}
-                    </span>
-                  </div>
-                </div>
-              )}
-              <div class="p-5 space-y-3 flex-1">
-                <div>
-                  <h3 class="text-xl font-semibold text-ink group-hover:text-brand transition-colors">
-                    {project.data.title}
-                  </h3>
-                  <p class="text-sm text-brand font-medium mt-1">{project.data.role ?? 'Engineering'}</p>
-                </div>
-                <p class="text-sm text-ink-soft line-clamp-2">
-                  {project.data.description}
-                </p>
-                <div class="flex flex-wrap gap-1.5 text-xs text-ink-muted pt-2">
-                  {project.data.technologies.slice(0, 4).map(tech => (
-                    <span class="bg-surface/60 px-1.5 py-0.5 rounded">{tech}</span>
-                  ))}
-                  {project.data.technologies.length > 4 && (
-                    <span class="bg-surface/60 px-1.5 py-0.5 rounded">+{project.data.technologies.length - 4}</span>
-                  )}
-                </div>
-              </div>
-            </article>
-          </a>
-        )
-      })}
-    </div>
-    <div class="flex items-center gap-3">
-      <ButtonLink href="/work/" showArrow>
-        View all work
-      </ButtonLink>
-      <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-        LinkedIn
-      </ButtonLink>
-    </div>
-  </section>
-
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <div class="space-y-3">
-      <p class="section-label text-brand">Side Projects</p>
-      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
-        Built for the love of it.
-      </h2>
-      <p class="max-w-xl text-sm text-ink-soft">
-        Open source, community work, and experiments.
-      </p>
-    </div>
-    <div
-      class="
-        grid gap-5
-        md:grid-cols-2
-      "
-      data-stagger="60"
-    >
-      {personalProjects.map(project => {
-        const isActive = !project.data.endingDate
-        const startDate = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        const endDate = isActive ? 'Present' : project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        const dateRange = `${startDate} – ${endDate}`
-        return (
-          <a
-            href={getPortfolioPath(project.id)}
-            class="group block"
-          >
-            <article class="panel-card overflow-hidden transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col">
-              {project.data.coverImage?.src && (
-                <div class="relative aspect-[16/10] overflow-hidden">
-                  <Image
-                    alt={project.data.coverImage.alt || project.data.title}
-                    class="h-full w-full object-cover"
-                    src={project.data.coverImage.src}
-                    width={600}
-                    height={375}
-                    loading="lazy"
-                  />
-                  <div class="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent"></div>
-                  <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <span
-                      class:list={[
-                        'text-xs font-medium px-2 py-1 rounded-full',
-                        isActive ? 'bg-accent/90 text-white' : 'bg-surface/90 text-ink-soft'
-                      ]}
-                    >
-                      {isActive ? 'Active' : 'Completed'}
-                    </span>
-                    <span class="text-xs text-ink-soft bg-surface/80 px-2 py-1 rounded-full">
-                      {dateRange}
-                    </span>
-                  </div>
-                </div>
-              )}
-              <div class="p-5 space-y-3 flex-1">
-                <div>
-                  <h3 class="text-xl font-semibold text-ink group-hover:text-brand transition-colors">
-                    {project.data.title}
-                  </h3>
-                  <p class="text-sm text-accent font-medium mt-1">Open source</p>
-                </div>
-                <p class="text-sm text-ink-soft line-clamp-2">
-                  {project.data.description}
-                </p>
-                <div class="flex flex-wrap gap-1.5 text-xs text-ink-muted pt-2">
-                  {project.data.technologies.slice(0, 4).map(tech => (
-                    <span class="bg-surface/60 px-1.5 py-0.5 rounded">{tech}</span>
-                  ))}
-                  {project.data.technologies.length > 4 && (
-                    <span class="bg-surface/60 px-1.5 py-0.5 rounded">+{project.data.technologies.length - 4}</span>
-                  )}
-                </div>
-              </div>
-            </article>
-          </a>
-        )
-      })}
-    </div>
-    <div class="flex items-center gap-3">
-      <ButtonLink href="/projects/" showArrow>
-        View all projects
-      </ButtonLink>
-      <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
-        GitHub
-      </ButtonLink>
-    </div>
-  </section>
-
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <div class="space-y-3">
-      <p class="section-label text-brand">Writing</p>
-      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
-        Thoughts on building and leading.
-      </h2>
-      <p class="max-w-xl text-sm text-ink-soft">
-        Articles on architecture, automation, and engineering decisions.
-      </p>
-    </div>
-    <div class="space-y-0" data-stagger="50">
-      {latestPosts.map(post => (
-        <a
-          href={getPostPath(post.id)}
-          class="group flex items-start justify-between gap-4 py-5 border-b border-line/20 last:border-b-0"
-        >
-          <div class="space-y-1 min-w-0 flex-1">
-            <h3 class="font-medium text-ink group-hover:text-brand transition-colors line-clamp-1">
-              {post.data.title}
-            </h3>
-            <p class="text-sm text-ink-soft line-clamp-1">
-              {post.data.description}
-            </p>
-          </div>
-          <span class="text-xs text-ink-muted shrink-0">
-            {post.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-          </span>
-        </a>
-      ))}
-    </div>
-    <div class="flex items-center gap-3">
-      <ButtonLink href="/blog/" showArrow>
-        Read all articles
-      </ButtonLink>
-      <ButtonLink href="/feed.xml" showArrow variant="secondary">
-        RSS
-      </ButtonLink>
-    </div>
-  </section>
-
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
-    <div class="space-y-3">
-      <p class="section-label text-brand">Beyond the code</p>
-      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
-        Speaking & Community.
-      </h2>
-    </div>
-    <div class="grid gap-4 md:grid-cols-2" data-stagger="60">
-      <div class="mini-note p-6 space-y-4">
-        <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          </div>
-          <div>
-            <p class="font-medium text-ink">ReactJS Colombia</p>
-            <p class="text-xs text-ink-muted">Co-organizer</p>
-          </div>
-        </div>
-        <p class="text-sm text-ink-soft">
-          Building the local React community through meetups, workshops, and knowledge sharing.
-        </p>
+    <SectionHeader
+      eyebrow="Work Experience"
+      title="Professional roles."
+      description="Client and product work across teams and industries."
+    />
+    <div class="space-y-6">
+      <div class="grid gap-6 md:grid-cols-2" data-stagger="60">
+        {workProjects.map(project => (
+          <ProjectPreviewCard project={project} accentTone="brand" />
+        ))}
       </div>
-
-      <div class="mini-note p-6 space-y-4">
-        <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2Z"/><path d="M19 11V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10"/><path d="M3 13h4"/><path d="M17 13h4"/><path d="M19 13v4"/><path d="M5 13v4"/></svg>
-          </div>
-          <div>
-            <p class="font-medium text-ink">Technical Talks</p>
-            <p class="text-xs text-ink-muted">Speaker</p>
-          </div>
-        </div>
-        <p class="text-sm text-ink-soft">
-          Sharing practical insights on DX, architecture, and engineering leadership.
-        </p>
+      <div class="flex items-center gap-3">
+        <ButtonLink href="/work/" showArrow>
+          View all work
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          LinkedIn
+        </ButtonLink>
       </div>
     </div>
-    <div class="flex items-center gap-3">
-      <ButtonLink href="/speaking/" showArrow>
-        Speaking
-      </ButtonLink>
-      <ButtonLink href="http://meetup.com/react-js-medellin" newTab showArrow variant="secondary">
-        ReactJS Colombia
-      </ButtonLink>
+  </section>
+
+  {/* Side Projects */}
+  <GradientDivider class="pt-10" />
+  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+    <SectionHeader
+      eyebrow="Side Projects"
+      title="Built for the love of it."
+      description="Open source, community work, and experiments."
+    />
+    <div class="space-y-6">
+      <div class="grid gap-5 md:grid-cols-2" data-stagger="60">
+        {personalProjects.map(project => (
+          <ProjectPreviewCard project={project} accentTone="accent" />
+        ))}
+      </div>
+      <div class="flex items-center gap-3">
+        <ButtonLink href="/projects/" showArrow>
+          View all projects
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
+          GitHub
+        </ButtonLink>
+      </div>
+    </div>
+  </section>
+
+  {/* Writing */}
+  <GradientDivider class="pt-10" />
+  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+    <SectionHeader
+      eyebrow="Writing"
+      title="Thoughts on building and leading."
+      description="Articles on architecture, automation, and engineering decisions."
+    />
+    <div class="space-y-6">
+      <div class="space-y-0" data-stagger="50">
+        {latestPosts.map(post => (
+          <PostListItem post={post} />
+        ))}
+      </div>
+      <div class="flex items-center gap-3">
+        <ButtonLink href="/blog/" showArrow>
+          Read all articles
+        </ButtonLink>
+        <ButtonLink href="/feed.xml" showArrow variant="secondary">
+          RSS
+        </ButtonLink>
+      </div>
+    </div>
+  </section>
+
+  {/* Speaking & Community */}
+  <GradientDivider class="pt-10" />
+  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+    <SectionHeader
+      eyebrow="Beyond the code"
+      title="Speaking & Community."
+    />
+    <div class="space-y-6">
+      <div class="grid gap-4 md:grid-cols-2" data-stagger="60">
+        <CommunityCard
+          title="ReactJS Colombia"
+          subtitle="Co-organizer"
+          description="Building the local React community through meetups, workshops, and knowledge sharing."
+          icon='<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>'
+          tone="brand"
+        />
+        <CommunityCard
+          title="Technical Talks"
+          subtitle="Speaker"
+          description="Sharing practical insights on DX, architecture, and engineering leadership."
+          icon='<path d="M12 8a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2Z"/><path d="M19 11V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10"/><path d="M3 13h4"/><path d="M17 13h4"/><path d="M19 13v4"/><path d="M5 13v4"/>'
+          tone="accent"
+        />
+      </div>
+      <div class="flex items-center gap-3">
+        <ButtonLink href="/speaking/" showArrow>
+          Speaking
+        </ButtonLink>
+        <ButtonLink href="http://meetup.com/react-js-medellin" newTab showArrow variant="secondary">
+          ReactJS Colombia
+        </ButtonLink>
+      </div>
     </div>
   </section>
 </PageLayout>

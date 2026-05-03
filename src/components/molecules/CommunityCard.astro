@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string
+  subtitle: string
+  description: string
+  icon: string
+  tone?: 'brand' | 'accent'
+}
+
+const { title, subtitle, description, icon, tone = 'brand' } = Astro.props
+
+const toneClasses = tone === 'brand' ?
+  'bg-brand/10 text-brand' :
+  'bg-accent/10 text-accent'
+---
+
+<div class="mini-note p-6 space-y-4">
+  <div class="flex items-center gap-3">
+    <div class:list={['flex h-10 w-10 items-center justify-center rounded-xl', toneClasses]}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <Fragment set:html={icon} />
+      </svg>
+    </div>
+    <div>
+      <p class="font-medium text-ink">{title}</p>
+      <p class="text-xs text-ink-muted">{subtitle}</p>
+    </div>
+  </div>
+  <p class="text-sm text-ink-soft">
+    {description}
+  </p>
+</div>

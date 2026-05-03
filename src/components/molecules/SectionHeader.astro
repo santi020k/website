@@ -1,0 +1,114 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+
+interface Props {
+  align?: 'center' | 'left'
+  description?: string | undefined
+  eyebrow?: string | undefined
+  level?: 'h1' | 'h2' | 'h3'
+  linkHref?: string | undefined
+  linkLabel?: string | undefined
+  title: string
+  variant?: 'default' | 'shelf'
+}
+
+const {
+  align = 'left',
+  description,
+  eyebrow,
+  level = 'h2',
+  linkHref,
+  linkLabel,
+  title,
+  variant = 'default'
+} = Astro.props
+
+const HeadingTag = level
+const isShelf = variant === 'shelf'
+
+const titleClasses = isShelf ?
+  {
+    h1: 'max-w-3xl text-3xl sm:text-4xl lg:text-[2.8rem]',
+    h2: 'max-w-3xl text-2xl sm:text-[2.15rem] lg:text-[2.5rem]',
+    h3: 'max-w-2xl text-xl sm:text-2xl'
+  }[level] :
+  {
+    h1: 'max-w-4xl text-4xl sm:text-5xl lg:text-6xl',
+    h2: 'max-w-4xl text-3xl sm:text-4xl lg:text-[2.8rem]',
+    h3: 'max-w-3xl text-2xl sm:text-3xl'
+  }[level]
+---
+
+{isShelf ?
+  (
+    <div class="
+      flex flex-col gap-5 rounded-[1.75rem] border border-line/48 bg-surface/72
+      p-5
+      sm:p-7
+      lg:flex-row lg:items-end lg:justify-between lg:gap-8
+    "
+    >
+      <div class="space-y-4">
+        {eyebrow && <Eyebrow label={eyebrow} tone="brand" />}
+        <div class="space-y-3">
+          <HeadingTag class={titleClasses}>{title}</HeadingTag>
+          {description && (
+            <p class="
+              max-w-2xl text-sm/7 text-ink-soft
+              sm:text-base/7
+            "
+            >{description}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {linkHref && linkLabel && (
+        <ButtonLink
+          className="
+            shrink-0 self-start
+            lg:self-end
+          "
+          href={linkHref}
+          showArrow
+          variant="secondary"
+        >
+          {linkLabel}
+        </ButtonLink>
+      )}
+    </div>
+  ) :
+  (
+    <div
+      class:list={[
+        'flex flex-col gap-5',
+        align === 'center' && 'items-center text-center'
+      ]}
+    >
+      {eyebrow && <Eyebrow className={align === 'center' ? 'justify-center' : ''} label={eyebrow} tone="brand" />}
+      <div class="space-y-4">
+        <HeadingTag class={titleClasses}>{title}</HeadingTag>
+        {description && (
+          <p
+            class:list={[
+              'max-w-2xl section-copy',
+              align === 'center' && 'mx-auto'
+            ]}
+          >
+            {description}
+          </p>
+        )}
+      </div>
+      {linkHref && linkLabel && (
+        <ButtonLink
+          className={align === 'center' ? 'self-center' : 'self-start'}
+          href={linkHref}
+          showArrow
+          variant="inline"
+        >
+          {linkLabel}
+        </ButtonLink>
+      )}
+    </div>
+  )}
