@@ -44,6 +44,18 @@ export const getProjectNotesLabel = (type: ProjectType): string => {
   return 'Work notes'
 }
 
+export const getProjectNotesDescription = (type: ProjectType): string => {
+  if (type === 'personal') {
+    return 'A closer look at the design decisions, technical choices, and problems this project was built to solve.'
+  }
+
+  if (type === 'experimental') {
+    return 'A closer look at the hypothesis, the approach taken, and what the experiment revealed.'
+  }
+
+  return 'A closer look at the delivery decisions, technical tradeoffs, and product constraints behind this work.'
+}
+
 export const getProjectRelatedHeading = (type: ProjectType): string => {
   if (type === 'personal') return 'More projects in a similar lane.'
 

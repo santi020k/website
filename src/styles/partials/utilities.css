@@ -3,6 +3,8 @@
  * Navigation utilities live in nav.css. Prose utilities live in prose.css.
  * ─────────────────────────────────────────────────────────────────────────── */
 
+/* stylelint-disable at-rule-no-unknown */
+
 /* ─── Surface & Card ────────────────────────────────────────────────────────── */
 
 @utility panel-surface {
@@ -492,6 +494,68 @@
     black 82%,
     transparent
   );
+}
+
+/* ─── Dividers ─────────────────────────────────────────────────────────────── */
+
+@utility divider-subtle {
+  @apply border-t border-line/30;
+}
+
+@utility divider-soft {
+  @apply border-t border-line/50;
+}
+
+@utility divider-medium {
+  @apply border-t border-line/70;
+}
+
+@utility divider-strong {
+  @apply border-t border-line;
+}
+
+@utility divider-gradient {
+  @apply border-0 bg-linear-to-r from-transparent via-brand/40 to-transparent h-px;
+}
+
+@utility divider-gradient-soft {
+  @apply border-0 bg-linear-to-r from-transparent via-line/40 to-transparent h-px;
+}
+
+@utility divider-gradient-strong {
+  @apply border-0 bg-linear-to-r from-transparent via-brand/60 to-transparent h-px;
+}
+
+@utility section-divider {
+  @apply divider-medium pt-10 mt-10;
+}
+
+@utility section-divider-compact {
+  @apply divider-soft pt-8 mt-8;
+}
+
+@utility section-divider-spacious {
+  @apply divider-strong pt-12 mt-12;
+}
+
+@utility card-divider {
+  @apply border-b border-line/40 pb-4 mb-4;
+}
+
+@utility card-divider-subtle {
+  @apply border-b border-line/25 pb-3 mb-3;
+}
+
+@utility list-divider {
+  @apply border-b border-line/20 last:border-b-0;
+}
+
+@utility list-divider-medium {
+  @apply border-b border-line/35 last:border-b-0;
+}
+
+@utility list-divider-strong {
+  @apply border-b border-line/50 last:border-b-0;
 }
 
 /* ─── Progress Bar ──────────────────────────────────────────────────────────── */
