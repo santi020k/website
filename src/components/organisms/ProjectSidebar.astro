@@ -1,0 +1,140 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import type { MarkdownHeading } from 'astro'
+
+import { Icon } from 'astro-icon/components'
+
+import Pill from '@/components/atoms/Pill.astro'
+import ProjectSidebarCard from '@/components/molecules/ProjectSidebarCard.astro'
+import TocCard from '@/components/molecules/TocCard.astro'
+import {
+  getProjectDurationLabel,
+  getProjectFocusLabel,
+  getProjectTimelineLabel,
+  getProjectTypeLabel
+} from '@/utils/project-meta'
+
+interface Props {
+  headings: MarkdownHeading[]
+  project: CollectionEntry<'project'>
+}
+
+const { headings, project } = Astro.props
+
+const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const focusLabel = getProjectFocusLabel(project.data.typesId)
+const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
+const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
+const startIso = project.data.startingDate.toISOString().slice(0, 7)
+const endIso = project.data.endingDate?.toISOString().slice(0, 7)
+const stackPreview = project.data.technologies.slice(0, 6)
+const extraCount = project.data.technologies.length - 6
+---
+
+<aside
+  aria-label="Project details"
+  class="
+    min-w-0 editorial-rail
+    lg:self-start
+  "
+>
+  <div
+    aria-hidden="true"
+    class="
+      -mx-4 mb-6 h-px bg-linear-to-r from-transparent via-brand/40
+      to-transparent
+      sm:-mx-0
+      lg:hidden
+    "
+  />
+
+  {headings.length ?
+    <TocCard headings={headings} /> :
+    (
+      <div class="glass-pro rounded-2xl px-5 py-4 text-sm/6 text-ink-muted">
+        <Icon aria-hidden="true" class="mb-2 size-4 text-brand/50" name="tabler:file-text" />
+        <p>No sections to navigate — this project has a single-page write-up.</p>
+      </div>
+    )}
+
+  <ProjectSidebarCard icon="tabler:info-circle" id="sidebar-glance" title="At a glance">
+    <dl class="mt-4 space-y-3 text-sm/6 text-ink-soft">
+      <div class="group flex items-start justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-brand-soft/10">
+        <dt class="flex items-center gap-2 section-label whitespace-nowrap">
+          <Icon aria-hidden="true" class="size-4 shrink-0 text-brand/70" name="tabler:briefcase-2" />
+          <span>Type</span>
+        </dt>
+        <dd class="text-end text-sm font-medium text-ink">{projectTypeLabel}</dd>
+      </div>
+
+      <div class="group flex items-start justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-brand-soft/10">
+        <dt class="flex items-center gap-2 section-label whitespace-nowrap">
+          <Icon aria-hidden="true" class="size-4 shrink-0 text-brand/70" name="tabler:user-star" />
+          <span>Role</span>
+        </dt>
+        <dd class="text-end text-sm font-medium text-ink">
+          {project.data.role ?? 'Hands-on builder'}
+        </dd>
+      </div>
+
+      <div class="group flex items-start justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-brand-soft/10">
+        <dt class="flex items-center gap-2 section-label whitespace-nowrap">
+          <Icon aria-hidden="true" class="size-4 shrink-0 text-brand/70" name="tabler:calendar-time" />
+          <span>Timeline</span>
+        </dt>
+        <dd class="text-end text-sm font-medium text-ink">
+          <time datetime={endIso ? `${startIso}/${endIso}` : startIso}>{timelineLabel}</time>
+        </dd>
+      </div>
+
+      <div class="group flex items-start justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-brand-soft/10">
+        <dt class="flex items-center gap-2 section-label whitespace-nowrap">
+          <Icon aria-hidden="true" class="size-4 shrink-0 text-brand/70" name="tabler:hourglass" />
+          <span>Duration</span>
+        </dt>
+        <dd class="text-end text-sm font-medium text-ink">{durationLabel}</dd>
+      </div>
+    </dl>
+  </ProjectSidebarCard>
+
+  <ProjectSidebarCard icon="tabler:target" id="sidebar-focus" title="Focus">
+    <p class="mt-3 text-sm/6 text-ink-soft">{focusLabel}</p>
+  </ProjectSidebarCard>
+
+  <ProjectSidebarCard icon="tabler:stack-2" id="sidebar-stack" title="Core stack">
+    <div class="mt-4 flex flex-wrap gap-2">
+      {stackPreview.map(technology => (
+        <Pill label={technology} tone="outline" />
+      ))}
+      {extraCount > 0 && (
+        <Pill label={`+${extraCount} more`} tone="outline" />
+      )}
+    </div>
+  </ProjectSidebarCard>
+
+  {!!project.data.impactMetrics.length && (
+    <ProjectSidebarCard icon="tabler:trophy" id="sidebar-outcomes" title="Outcomes">
+      <ul class="mt-4 list-none space-y-2 p-0">
+        {project.data.impactMetrics.map(metric => (
+          <li
+            class="
+              group flex items-start gap-3 rounded-xl px-3 py-2.5
+              transition-colors hover:bg-brand-soft/20
+            "
+          >
+            <div
+              class="
+                mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center
+                rounded-full bg-brand/15 text-brand transition-colors
+                group-hover:bg-brand/25
+              "
+            >
+              <Icon aria-hidden="true" class="size-3.5" name="tabler:check" />
+            </div>
+            <span class="text-sm/6 font-medium text-ink">{metric}</span>
+          </li>
+        ))}
+      </ul>
+    </ProjectSidebarCard>
+  )}
+</aside>
