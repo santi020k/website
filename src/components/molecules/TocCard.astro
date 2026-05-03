@@ -16,10 +16,15 @@ const tocHeadings = headings.filter(h => h.depth <= 3)
 
 <nav
   aria-label="Table of contents"
-  class="mini-note"
+  class="glass-pro rounded-2xl p-5"
   data-toc-nav
 >
-  <p class="section-label">On this page</p>
+  <p class="section-label flex items-center gap-2">
+    <svg aria-hidden="true" class="size-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+    </svg>
+    On this page
+  </p>
 
   <ul class="mt-4 space-y-1">
     {tocHeadings.map(heading => (

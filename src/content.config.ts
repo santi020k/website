@@ -47,6 +47,8 @@ const project = defineCollection({
       .object({
         alt: z.string(),
         src: image(),
+        horizontal: image().optional(),
+        vertical: image().optional(),
         ogImage: z.string().optional()
       })
       .optional(),
