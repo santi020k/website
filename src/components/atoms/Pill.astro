@@ -22,27 +22,32 @@ const Tag = href ? 'a' : 'span'
   class:list={[
     `
       inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm
-      font-medium transition duration-200
+      font-medium transition-all duration-200
       motion-reduce:transition-none
     `,
     href && `
       min-h-11 cursor-pointer
-      hover:-translate-y-0.5
-      motion-reduce:hover:translate-y-0
+      hover:-translate-y-0.5 active:scale-[0.97]
+      motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100
     `,
     !href && 'min-h-9',
     tone === 'neutral' && `
-      border-transparent bg-surface-muted/80 text-ink-soft
-      hover:bg-surface-strong/80 hover:text-ink
+      border-line/40 bg-surface-muted/80 text-ink-soft
+      shadow-[inset_0_1px_0_hsl(0_0%_100%/0.04)]
+      hover:border-line/70 hover:bg-surface-strong/80 hover:text-ink
+      hover:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.06)]
     `,
     tone === 'brand' && `
-      hover:border-brand-solid/35 hover:bg-brand-solid
-      border-brand/20 bg-brand-soft/80 text-brand
-      hover:text-white
+      border-brand/25 bg-brand-soft/80 text-brand
+      shadow-[0_0_8px_hsl(var(--brand)/0.08),inset_0_1px_0_hsl(0_0%_100%/0.06)]
+      hover:border-brand-solid/40 hover:bg-brand-solid hover:text-white
+      hover:shadow-[0_4px_16px_hsl(var(--brand)/0.25)]
     `,
     tone === 'outline' && `
-      border-line/70 bg-surface/72 text-ink-soft
+      border-line/60 bg-surface/72 text-ink-soft
+      shadow-[inset_0_1px_0_hsl(0_0%_100%/0.04)]
       hover:border-brand/40 hover:bg-brand-soft/35 hover:text-brand
+      hover:shadow-[0_2px_12px_hsl(var(--brand)/0.08)]
     `,
     className
   ]}
