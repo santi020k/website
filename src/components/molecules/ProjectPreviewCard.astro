@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import { getPortfolioPath } from '@/utils/links'
+
+interface Props {
+  project: CollectionEntry<'project'>
+  accentTone?: 'brand' | 'accent'
+}
+
+const { project, accentTone = 'brand' } = Astro.props
+const isActive = !project.data.endingDate
+const startDate = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+const endDate = isActive ? 'Present' : project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+const dateRange = `${startDate} – ${endDate}`
+const projectLink = getPortfolioPath(project.id)
+
+const accentColorClass = accentTone === 'brand' ? 'bg-brand/90' : 'bg-accent/90'
+const accentHoverClass = accentTone === 'brand' ? 'group-hover:text-brand' : 'group-hover:text-accent'
+const accentTextClass = accentTone === 'brand' ? 'text-brand' : 'text-accent'
+---
+
+<a href={projectLink} class="group block">
+  <article class="panel-card overflow-hidden transition-all duration-300 group-hover:-translate-y-1 h-full flex flex-col">
+    {project.data.coverImage?.src && (
+      <div class="relative aspect-[16/10] overflow-hidden">
+        <Image
+          alt={project.data.coverImage.alt || project.data.title}
+          class="h-full w-full object-cover"
+          src={project.data.coverImage.src}
+          width={600}
+          height={375}
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent"></div>
+        <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+          <span
+            class:list={[
+              'text-xs font-medium px-2 py-1 rounded-full',
+              isActive ? `${accentColorClass} text-white` : 'bg-surface/90 text-ink-soft'
+            ]}
+          >
+            {isActive ? 'Active' : 'Completed'}
+          </span>
+          <span class="text-xs text-ink-soft bg-surface/80 px-2 py-1 rounded-full">
+            {dateRange}
+          </span>
+        </div>
+      </div>
+    )}
+    <div class="p-5 space-y-3 flex-1">
+      <div>
+        <h3 class:list={['text-xl font-semibold text-ink transition-colors', accentHoverClass]}>
+          {project.data.title}
+        </h3>
+        <p class:list={['text-sm font-medium mt-1', accentTextClass]}>
+          {project.data.role ?? 'Engineering'}
+        </p>
+      </div>
+      <p class="text-sm text-ink-soft line-clamp-2">
+        {project.data.description}
+      </p>
+      <div class="flex flex-wrap gap-1.5 text-xs text-ink-muted pt-2">
+        {project.data.technologies.slice(0, 4).map(tech => (
+          <span class="bg-surface/60 px-1.5 py-0.5 rounded">{tech}</span>
+        ))}
+        {project.data.technologies.length > 4 && (
+          <span class="bg-surface/60 px-1.5 py-0.5 rounded">+{project.data.technologies.length - 4}</span>
+        )}
+      </div>
+    </div>
+  </article>
+</a>
