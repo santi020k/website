@@ -1,0 +1,19 @@
+---
+import { Icon } from 'astro-icon/components'
+
+interface Props {
+  icon: string
+  id: string
+  title: string
+}
+
+const { icon, id, title } = Astro.props
+---
+
+<div aria-labelledby={id} class="glass-pro rounded-2xl p-5">
+  <p class="section-label flex items-center gap-2" id={id}>
+    <Icon aria-hidden="true" class="size-4 text-brand" name={icon} />
+    {title}
+  </p>
+  <slot />
+</div>

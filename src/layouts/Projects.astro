@@ -1,29 +1,24 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
+import ProjectCaseStudy from '@/components/molecules/ProjectCaseStudy.astro'
+import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
 import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
-import TocCard from '@/components/molecules/TocCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import ProjectHero from '@/components/organisms/ProjectHero.astro'
-
+import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
+import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
+import BaseLayout from '@/layouts/Base.astro'
 import {
-  getProjectDurationLabel,
-  getProjectFocusLabel,
   getProjectNotesDescription,
   getProjectNotesLabel,
   getProjectRelatedHeading,
   getProjectStageLabel,
-  getProjectTimelineLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
-
-import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
-import BaseLayout from '@/layouts/Base.astro'
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -40,16 +35,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)
 const hasLiveDemo = Boolean(project.data.liveDemoUrl)
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
-const focusLabel = getProjectFocusLabel(project.data.typesId)
-const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
-const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
-const stackPreview = project.data.technologies.slice(0, 6)
 const projectStageLabel = getProjectStageLabel(project.data.typesId, project.data.endingDate)
 const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
 const projectNotesDescription = getProjectNotesDescription(project.data.typesId)
 const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
-const startIso = project.data.startingDate.toISOString().slice(0, 7)
-const endIso = project.data.endingDate?.toISOString().slice(0, 7)
 const caseStudy = project.data.caseStudy
 
 const caseStudyRows = caseStudy ?
@@ -129,40 +118,7 @@ const breadcrumbs = [
             <Pill label={projectStageLabel} tone="brand" />
           </div>
 
-          {!!caseStudyRows.length && (
-            <div
-              aria-label="Case study summary"
-              class="glass-pro rounded-2xl p-1"
-              role="region"
-            >
-              <div class="divide-y divide-line/20">
-                {caseStudyRows.map((row, i) => (
-                  <div
-                    class="
-                      group flex gap-4 px-5 py-4 transition-colors
-                      duration-300 hover:bg-brand-soft/10
-                      sm:gap-6 sm:px-6
-                    "
-                  >
-                    <div
-                      class="
-                        mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center
-                        rounded-lg bg-brand/10 text-xs font-bold
-                        tabular-nums text-brand transition-colors
-                        group-hover:bg-brand/20
-                      "
-                    >
-                      {String(i + 1).padStart(2, '0')}
-                    </div>
-                    <div class="min-w-0 space-y-1">
-                      <p class="section-label text-brand/80">{row.label}</p>
-                      <p class="text-sm/6 text-ink">{row.body}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <ProjectCaseStudy rows={caseStudyRows} />
 
           <div class="prose-project prose-santi max-w-none">
             <slot />
@@ -171,212 +127,14 @@ const breadcrumbs = [
 
         <ShareButtons title={project.data.title} url={canonicalURL.href} />
 
-        <footer
-          class="
-            flex flex-col gap-6 section-divider-compact
-            sm:flex-row sm:items-center sm:justify-between
-          "
-        >
-          <a
-            href={parentPage.url}
-            class="
-              group inline-flex items-center gap-2 font-medium text-ink
-              transition-colors
-              hover:text-brand
-            "
-          >
-            <Icon
-              aria-hidden="true"
-              class="
-                size-5 transition-transform
-                group-hover:-translate-x-1
-              "
-              name="tabler:arrow-left"
-            />
-            Back to {parentPage.name.toLowerCase()}
-          </a>
-
-          <div class="flex flex-wrap items-center gap-3">
-            {project.data.liveDemoUrl && (
-              <ButtonLink href={project.data.liveDemoUrl} newTab showArrow>
-                View live project
-              </ButtonLink>
-            )}
-            {project.data.githubUrl && (
-              <ButtonLink href={project.data.githubUrl} newTab showArrow variant="secondary">
-                Open repository
-              </ButtonLink>
-            )}
-            <a
-              href="#main"
-              class="
-                group inline-flex items-center gap-1.5 text-sm font-medium
-                text-ink-muted transition-colors
-                hover:text-brand
-                motion-reduce:transition-none
-              "
-            >
-              <Icon
-                aria-hidden="true"
-                class="
-                  size-4 transition-transform
-                  group-hover:-translate-y-0.5
-                  motion-reduce:transition-none
-                "
-                name="tabler:arrow-up"
-              />
-              Back to top
-            </a>
-          </div>
-        </footer>
+        <ProjectFooterNav
+          githubUrl={project.data.githubUrl}
+          liveDemoUrl={project.data.liveDemoUrl}
+          parentPage={parentPage}
+        />
       </div>
 
-      <aside
-        aria-label="Project details"
-        class="
-          min-w-0 editorial-rail
-          lg:self-start
-        "
-      >
-        <div
-          aria-hidden="true"
-          class="
-            -mx-4 mb-6 h-px bg-linear-to-r from-transparent via-brand/40
-            to-transparent
-            sm:-mx-0
-            lg:hidden
-          "
-        />
-        {headings.length ?
-          <TocCard headings={headings} /> :
-          (
-            <div class="glass-pro rounded-2xl px-5 py-4 text-sm/6 text-ink-muted">
-              <Icon aria-hidden="true" class="mb-2 size-4 text-brand/50" name="tabler:file-text" />
-              <p>No sections to navigate — this project has a single-page write-up.</p>
-            </div>
-          )}
-
-        <div aria-labelledby="sidebar-glance" class="glass-pro rounded-2xl p-5">
-          <p class="section-label flex items-center gap-2" id="sidebar-glance">
-            <Icon aria-hidden="true" class="size-4 text-brand" name="tabler:info-circle" />
-            At a glance
-          </p>
-          <dl class="mt-4 space-y-3 text-sm/6 text-ink-soft">
-            <div class="group flex items-start justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-brand-soft/10">
-              <dt class="flex items-center gap-2 section-label whitespace-nowrap">
-                <Icon
-                  aria-hidden="true"
-                  class="size-4 shrink-0 text-brand/70"
-                  name="tabler:briefcase-2"
-                />
-                <span>Type</span>
-              </dt>
-              <dd class="text-sm font-medium text-ink text-end">
-                {projectTypeLabel}
-              </dd>
-            </div>
-
-            <div class="group flex items-start justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-brand-soft/10">
-              <dt class="flex items-center gap-2 section-label whitespace-nowrap">
-                <Icon
-                  aria-hidden="true"
-                  class="size-4 shrink-0 text-brand/70"
-                  name="tabler:user-star"
-                />
-                <span>Role</span>
-              </dt>
-              <dd class="text-sm font-medium text-ink text-end">
-                {project.data.role ?? 'Hands-on builder'}
-              </dd>
-            </div>
-
-            <div class="group flex items-start justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-brand-soft/10">
-              <dt class="flex items-center gap-2 section-label whitespace-nowrap">
-                <Icon
-                  aria-hidden="true"
-                  class="size-4 shrink-0 text-brand/70"
-                  name="tabler:calendar-time"
-                />
-                <span>Timeline</span>
-              </dt>
-              <dd class="text-sm font-medium text-ink text-end">
-                <time datetime={endIso ? `${startIso}/${endIso}` : startIso}>{timelineLabel}</time>
-              </dd>
-            </div>
-
-            <div class="group flex items-start justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-brand-soft/10">
-              <dt class="flex items-center gap-2 section-label whitespace-nowrap">
-                <Icon
-                  aria-hidden="true"
-                  class="size-4 shrink-0 text-brand/70"
-                  name="tabler:hourglass"
-                />
-                <span>Duration</span>
-              </dt>
-              <dd class="text-sm font-medium text-ink text-end">
-                {durationLabel}
-              </dd>
-            </div>
-          </dl>
-        </div>
-
-        <div aria-labelledby="sidebar-focus" class="glass-pro rounded-2xl p-5">
-          <p class="section-label flex items-center gap-2" id="sidebar-focus">
-            <Icon aria-hidden="true" class="size-4 text-brand" name="tabler:target" />
-            Focus
-          </p>
-          <p class="mt-3 text-sm/6 text-ink-soft">{focusLabel}</p>
-        </div>
-
-        <div aria-labelledby="sidebar-stack" class="glass-pro rounded-2xl p-5">
-          <p class="section-label flex items-center gap-2" id="sidebar-stack">
-            <Icon aria-hidden="true" class="size-4 text-brand" name="tabler:stack-2" />
-            Core stack
-          </p>
-          <div class="mt-4 flex flex-wrap gap-2">
-            {stackPreview.map(technology => (
-              <Pill label={technology} tone="outline" />
-            ))}
-            {project.data.technologies.length > 6 && (
-              <Pill label={`+${project.data.technologies.length - 6} more`} tone="outline" />
-            )}
-          </div>
-        </div>
-
-        {!!project.data.impactMetrics.length && (
-          <div aria-labelledby="sidebar-outcomes" class="glass-pro rounded-2xl p-5">
-            <p class="section-label flex items-center gap-2" id="sidebar-outcomes">
-              <Icon aria-hidden="true" class="size-4 text-brand" name="tabler:trophy" />
-              Outcomes
-            </p>
-            <ul class="mt-4 list-none space-y-2 p-0">
-              {project.data.impactMetrics.map(metric => (
-                <li
-                  class="
-                    group flex items-start gap-3 rounded-xl px-3 py-2.5
-                    transition-colors hover:bg-brand-soft/20
-                  "
-                >
-                  <div
-                    class="
-                      mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center
-                      rounded-full bg-brand/15 text-brand transition-colors
-                      group-hover:bg-brand/25
-                    "
-                  >
-                    <Icon
-                      aria-hidden="true"
-                      class="size-3.5"
-                      name="tabler:check"
-                    />
-                  </div>
-                  <span class="text-sm/6 font-medium text-ink">{metric}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </aside>
+      <ProjectSidebar headings={headings} project={project} />
     </section>
   </article>
 

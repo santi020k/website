@@ -1,22 +1,18 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-
 import { Icon } from 'astro-icon/components'
 
-import { getTechnologyPath } from '@/utils/links'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
+import ProjectHeroCover from '@/components/molecules/ProjectHeroCover.astro'
+import ProjectHeroStack from '@/components/molecules/ProjectHeroStack.astro'
+
 import {
-  getProjectDateRangeLabel,
   getProjectDurationLabel,
   getProjectTimelineLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
-import { sortTechnologiesByInterest } from '@/utils/technologies'
-
-import ButtonLink from '../atoms/ButtonLink.astro'
-import CoverImage from '../atoms/CoverImage.astro'
-import Eyebrow from '../atoms/Eyebrow.astro'
-import GradientDivider from '../atoms/GradientDivider.astro'
-import Pill from '../atoms/Pill.astro'
 
 interface Props {
   parentPage?: { name: string, url: string }
@@ -27,12 +23,9 @@ const { parentPage = { name: 'Portfolio', url: '/portfolio/' }, project } = Astr
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
-const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
-const technologies = sortTechnologiesByInterest(project.data.technologies)
 const titleWords = project.data.title.split(' ')
 const gradientWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : project.data.title
 const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : ''
-
 const startIso = project.data.startingDate.toISOString().slice(0, 7)
 const endIso = project.data.endingDate?.toISOString().slice(0, 7)
 
@@ -102,7 +95,7 @@ const metaItems = [
         </span>
       </h1>
       <div class="
-        bg-gradient-to-br absolute -inset-x-4 -inset-y-2 -z-10 rounded-3xl
+        absolute -inset-x-4 -inset-y-2 -z-10 rounded-3xl bg-linear-to-br
         from-brand/5 to-transparent blur-3xl
       "
       >
@@ -216,153 +209,8 @@ const metaItems = [
   </div>
 
   {/* ── Full-width cover ─────────────────────────────────────── */}
-  {project.data.coverImage && (
-    <div
-      class="
-        animate-slide-up [animation-delay:300ms]
-        motion-reduce:animate-none
-      "
-    >
-      <div class="
-        group
-        hover:shadow-2xl
-        relative overflow-hidden rounded-3xl shadow-2xl shadow-ink/10
-        transition-all duration-500
-        hover:shadow-brand/20
-      "
-      >
-        <div
-          aria-hidden="true"
-          class="
-            pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40
-            bg-linear-to-t from-black/60 via-black/20 to-transparent
-            transition-opacity duration-500
-            group-hover:from-black/70
-          "
-        />
-        <div
-          aria-hidden="true"
-          class="
-            absolute inset-0 bg-linear-to-br from-brand/5 via-transparent
-            to-accent/5 opacity-0 transition-opacity duration-500
-            group-hover:opacity-100
-          "
-        />
-        <CoverImage
-          alt={project.data.coverImage.alt}
-          ariaHidden={true}
-          className="
-            w-full transition-transform duration-700
-            group-hover:scale-105
-          "
-          fetchpriority="high"
-          image={project.data.coverImage.vertical ?? project.data.coverImage.src}
-          loading="eager"
-          sizes="(min-width: 1280px) 1200px, 100vw"
-          mode="detail"
-        />
-        <div
-          aria-hidden="true"
-          class="
-            pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-end
-            justify-between gap-4 px-8 py-6 transition-transform duration-500
-            group-hover:translate-y-1
-          "
-        >
-          <div class="space-y-1">
-            <p class="
-              text-xs font-bold tracking-[0.18em] text-white/80 uppercase
-            "
-            >
-              {dateRangeLabel}
-            </p>
-            <p class="
-              text-xs font-bold tracking-[0.18em] text-white/60 uppercase
-            "
-            >
-              Timeline
-            </p>
-          </div>
-          <div class="space-y-1 text-right">
-            <p class="
-              text-xs font-bold tracking-[0.18em] text-white/80 uppercase
-            "
-            >
-              {projectTypeLabel}
-            </p>
-            <p class="
-              text-xs font-bold tracking-[0.18em] text-white/60 uppercase
-            "
-            >
-              Project Type
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  )}
+  <ProjectHeroCover project={project} />
 
   {/* ── Technologies strip ───────────────────────────────────── */}
-  <div
-    class="
-      animate-slide-up [animation-delay:360ms]
-      motion-reduce:animate-none
-    "
-  >
-    <GradientDivider class="mb-8" />
-    <div class="
-      relative overflow-hidden rounded-2xl border border-line/30 bg-surface/30
-      p-6 backdrop-blur-sm
-    "
-    >
-      <div class="
-        absolute inset-0 bg-linear-to-br from-brand/3 via-transparent
-        to-accent/3
-      "
-      >
-      </div>
-      <div class="relative flex flex-wrap items-center gap-x-6 gap-y-4">
-        <div class="flex items-center gap-3">
-          <span class="
-            section-label text-sm font-bold tracking-wider text-ink-muted/90
-            uppercase
-          "
-          >Stack
-          </span>
-          <span class="
-            inline-flex items-center justify-center rounded-full border
-            border-brand/20 bg-brand/10 px-3 py-1 text-sm font-bold text-brand
-            tabular-nums
-          "
-          >
-            {technologies.length}
-          </span>
-        </div>
-        <span
-          aria-hidden="true"
-          class="
-            hidden h-6 w-px shrink-0 bg-line/40
-            sm:block
-          "
-        >
-        </span>
-        <div class="flex flex-wrap gap-2" id="technologies">
-          {technologies.map((technology, index) => (
-            <Pill
-              href={getTechnologyPath(technology)}
-              label={technology}
-              tone="outline"
-              className={`
-                animate-slide-up transition-all
-                duration-300
-                hover:scale-105 hover:border-brand/40
-                hover:bg-brand-soft/20
-                motion-reduce:animate-none
-              `}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
+  <ProjectHeroStack technologies={project.data.technologies} />
 </section>
