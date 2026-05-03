@@ -5,7 +5,7 @@ import AboutMeImage from '../assets/photos/originals/me-1-square.webp'
 import AnimatedPortrait from '../components/atoms/AnimatedPortrait.astro'
 import ButtonLink from '../components/atoms/ButtonLink.astro'
 import Eyebrow from '../components/atoms/Eyebrow.astro'
-import GradientDivider from '../components/atoms/GradientDivider.astro'
+import PageSection from '../components/organisms/PageSection.astro'
 import MiniNote from '../components/atoms/MiniNote.astro'
 import PrincipleCard from '../components/molecules/PrincipleCard.astro'
 import SectionHeader from '../components/molecules/SectionHeader.astro'
@@ -146,8 +146,7 @@ const meta = {
     </div>
   </section>
 
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+  <PageSection>
     <SectionHeader
       eyebrow="The story"
       title="Engineering, leadership, and the work behind it."
@@ -195,10 +194,9 @@ const meta = {
         </MiniNote>
       </div>
     </div>
-  </section>
+  </PageSection>
 
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+  <PageSection>
     <SectionHeader
       eyebrow="Companies & communities"
       title="Some of the teams and communities behind the work."
@@ -223,10 +221,9 @@ const meta = {
         </ButtonLink>
       </div>
     </div>
-  </section>
+  </PageSection>
 
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+  <PageSection>
     <SectionHeader
       eyebrow="Principles"
       title="What I believe about engineering."
@@ -268,10 +265,9 @@ const meta = {
         />
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <GradientDivider class="pt-10" />
-  <section class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+  <PageSection>
     <SectionHeader
       eyebrow="Recommendations"
       title="What collaborators say about the work."
@@ -298,5 +294,5 @@ const meta = {
         </ButtonLink>
       </div>
     </div>
-  </section>
+  </PageSection>
 </PageLayout>

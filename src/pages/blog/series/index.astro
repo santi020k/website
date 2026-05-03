@@ -1,6 +1,6 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 
@@ -35,7 +35,7 @@ const breadcrumbs = [
     data-animate
   >
     <div class="space-y-6">
-      <SectionHeading
+      <SectionHeader
         description={
           `${publishingRhythm.summary} ` +
           'Series make that rhythm easier to follow by turning scattered posts into clearer reading paths.'
@@ -80,7 +80,7 @@ const breadcrumbs = [
   </section>
 
   <section class="editorial-section" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="Each series is meant to reduce guesswork: where to start, what to read next, and how the topic builds from foundations into implementation details."
       eyebrow="Series"
       title="Current series on the site."

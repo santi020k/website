@@ -2,7 +2,7 @@
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PillCount from '@/components/atoms/PillCount.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageLayout from '@/layouts/Base.astro'
 import { getCachedPosts } from '@/utils/content'
@@ -34,7 +34,7 @@ const breadcrumbs = [
     data-animate
   >
     <div class="space-y-6">
-      <SectionHeading
+      <SectionHeader
         description="Browse the archive by recurring topics so related posts are easier to find without hunting through the full feed."
         eyebrow="Topics"
         level="h1"
@@ -65,7 +65,7 @@ const breadcrumbs = [
   </section>
 
   <section class="editorial-section" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="Each topic opens a filtered archive page with the related posts."
       eyebrow="All topics"
       title="Recurring themes across the archive."

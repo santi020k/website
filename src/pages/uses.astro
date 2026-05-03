@@ -1,6 +1,6 @@
 ---
 import ButtonLink from '../components/atoms/ButtonLink.astro'
-import SectionHeading from '../components/molecules/SectionHeading.astro'
+import SectionHeader from '../components/molecules/SectionHeader.astro'
 import { usesHighlights, usesSections } from '../data/profile'
 import PageLayout from '../layouts/Base.astro'
 import { siteConfig } from '../site.config'
@@ -62,7 +62,7 @@ const structuredData = [
     "
   >
     <div class="space-y-6">
-      <SectionHeading
+      <SectionHeader
         description="This is less a gear shrine and more a map of the setup I keep returning to: the tools, workflow defaults, and working principles that help me ship consistently."
         eyebrow="Uses"
         level="h1"
@@ -104,7 +104,7 @@ const structuredData = [
   </section>
 
   <section class="editorial-section" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="The exact setup changes over time, but these are the patterns and tools that show up most often in how I build, lead, and keep work moving."
       eyebrow="Current setup"
       title="What I reach for most often."
@@ -139,7 +139,7 @@ const structuredData = [
   </section>
 
   <section class="editorial-section" data-animate>
-    <SectionHeading
+    <SectionHeader
       description="The tools matter because they support the work. The work itself is still about helping teams build better software with less avoidable friction."
       eyebrow="Operating principle"
       title="A useful setup should disappear into the background."
