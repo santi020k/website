@@ -4,14 +4,17 @@ import { Icon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import ProjectCard from '@/components/molecules/ProjectCard.astro'
+import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
 import ProjectHero from '@/components/organisms/ProjectHero.astro'
 
 import {
   getProjectDurationLabel,
   getProjectFocusLabel,
+  getProjectNotesDescription,
   getProjectNotesLabel,
   getProjectRelatedHeading,
   getProjectStageLabel,
@@ -43,6 +46,7 @@ const durationLabel = getProjectDurationLabel(project.data.startingDate, project
 const stackPreview = project.data.technologies.slice(0, 6)
 const projectStageLabel = getProjectStageLabel(project.data.typesId, project.data.endingDate)
 const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
+const projectNotesDescription = getProjectNotesDescription(project.data.typesId)
 const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
 const caseStudy = project.data.caseStudy
 
@@ -97,28 +101,28 @@ const breadcrumbs = [
 >
   <ReadingProgressBar />
 
-  <article class="mx-auto flex w-full max-w-6xl flex-col gap-12">
-    <ProjectHero project={project} />
+  <article class="mx-auto flex w-full max-w-6xl flex-col gap-10">
+    <ProjectHero parentPage={parentPage} project={project} />
 
     <section
       class="
-        grid grid-cols-1 gap-10 border-t border-line/70 pt-10
+        grid grid-cols-1 gap-10 section-divider
         lg:grid-cols-[minmax(0,1fr)_18rem]
       "
-      data-animate
+      data-animate="fade"
     >
       <div class="min-w-0 space-y-8">
         <div class="section-shell-subtle space-y-6">
           <div class="
-            flex flex-wrap items-start justify-between gap-4 border-b
-            border-line/60 pb-6
+            -mx-4 -mt-8 mb-2 flex flex-wrap items-start justify-between
+            gap-4 card-divider bg-brand-soft/10 px-4
+            pt-8
+            sm:-mx-8 sm:px-8
           "
           >
             <div class="space-y-2">
               <p class="section-label">{projectNotesLabel}</p>
-              <p class="max-w-2xl text-sm/6 text-ink-soft">
-                A closer look at the delivery decisions, technical tradeoffs, and product constraints behind this work.
-              </p>
+              <p class="max-w-2xl text-sm/6 text-ink-soft">{projectNotesDescription}</p>
             </div>
             <Pill label={projectStageLabel} tone="brand" />
           </div>
@@ -127,16 +131,29 @@ const breadcrumbs = [
             <div
               aria-label="Case study summary"
               class="
-                grid gap-4 rounded-2xl border border-brand/15 bg-brand-soft/25
-                p-5
-                sm:grid-cols-2 sm:p-6
+                overflow-hidden rounded-2xl border border-brand/15
               "
               role="region"
             >
-              {caseStudyRows.map(row => (
-                <div class="min-w-0 space-y-1.5">
-                  <p class="section-label">{row.label}</p>
-                  <p class="text-sm/6 text-ink">{row.body}</p>
+              {caseStudyRows.map((row, i) => (
+                <div
+                  class:list={[
+                    'flex gap-4 list-divider px-5 py-4 sm:gap-6 sm:px-6',
+                    i % 2 === 0 ? 'bg-brand-soft/20' : 'bg-brand-soft/10'
+                  ]}
+                >
+                  <div
+                    class="
+                      mt-0.5 flex w-6 shrink-0 items-start justify-center
+                      text-xs font-bold tabular-nums text-brand/60
+                    "
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <div class="min-w-0 space-y-1">
+                    <p class="section-label text-brand/70">{row.label}</p>
+                    <p class="text-sm/6 text-ink">{row.body}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -151,7 +168,7 @@ const breadcrumbs = [
 
         <footer
           class="
-            flex flex-col gap-6 border-t border-line pt-8
+            flex flex-col gap-6 section-divider-compact
             sm:flex-row sm:items-center sm:justify-between
           "
         >
@@ -174,17 +191,37 @@ const breadcrumbs = [
             Back to {parentPage.name.toLowerCase()}
           </a>
 
-          <div class="section-actions">
+          <div class="flex flex-wrap items-center gap-3">
             {project.data.liveDemoUrl && (
-              <ButtonLink href={project.data.liveDemoUrl} newTab showArrow variant="secondary">
+              <ButtonLink href={project.data.liveDemoUrl} newTab showArrow>
                 View live project
               </ButtonLink>
             )}
             {project.data.githubUrl && (
-              <ButtonLink href={project.data.githubUrl} newTab showArrow variant="ghost">
+              <ButtonLink href={project.data.githubUrl} newTab showArrow variant="secondary">
                 Open repository
               </ButtonLink>
             )}
+            <a
+              href="#main"
+              class="
+                group inline-flex items-center gap-1.5 text-sm font-medium
+                text-ink-muted transition-colors
+                hover:text-brand
+                motion-reduce:transition-none
+              "
+            >
+              <Icon
+                aria-hidden="true"
+                class="
+                  size-4 transition-transform
+                  group-hover:-translate-y-0.5
+                  motion-reduce:transition-none
+                "
+                name="tabler:arrow-up"
+              />
+              Back to top
+            </a>
           </div>
         </footer>
       </div>
@@ -196,12 +233,21 @@ const breadcrumbs = [
           lg:self-start
         "
       >
+        <div
+          aria-hidden="true"
+          class="
+            -mx-4 mb-6 h-px bg-linear-to-r from-transparent via-brand/40
+            to-transparent
+            sm:-mx-0
+            lg:hidden
+          "
+        />
         {!!headings.length && <TocCard headings={headings} />}
 
         <div class="mini-note">
           <p class="section-label">At a glance</p>
           <dl class="mt-4 space-y-4 text-sm/6 text-ink-soft">
-            <div class="flex flex-col">
+            <div class="flex items-center justify-between gap-3">
               <dt class="flex items-center gap-2 section-label">
                 <Icon
                   aria-hidden="true"
@@ -210,12 +256,12 @@ const breadcrumbs = [
                 />
                 <span>Type</span>
               </dt>
-              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+              <dd class="text-sm font-medium text-ink">
                 {projectTypeLabel}
               </dd>
             </div>
 
-            <div class="flex flex-col">
+            <div class="flex items-center justify-between gap-3">
               <dt class="flex items-center gap-2 section-label">
                 <Icon
                   aria-hidden="true"
@@ -224,12 +270,12 @@ const breadcrumbs = [
                 />
                 <span>Role</span>
               </dt>
-              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+              <dd class="text-sm font-medium text-ink">
                 {project.data.role ?? 'Hands-on builder'}
               </dd>
             </div>
 
-            <div class="flex flex-col">
+            <div class="flex items-center justify-between gap-3">
               <dt class="flex items-center gap-2 section-label">
                 <Icon
                   aria-hidden="true"
@@ -238,12 +284,12 @@ const breadcrumbs = [
                 />
                 <span>Timeline</span>
               </dt>
-              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+              <dd class="text-sm font-medium text-ink">
                 {timelineLabel}
               </dd>
             </div>
 
-            <div class="flex flex-col">
+            <div class="flex items-center justify-between gap-3">
               <dt class="flex items-center gap-2 section-label">
                 <Icon
                   aria-hidden="true"
@@ -252,7 +298,7 @@ const breadcrumbs = [
                 />
                 <span>Duration</span>
               </dt>
-              <dd class="mt-1.5 pl-6 text-sm font-medium text-ink">
+              <dd class="text-sm font-medium text-ink">
                 {durationLabel}
               </dd>
             </div>
@@ -276,14 +322,20 @@ const breadcrumbs = [
         {!!project.data.impactMetrics.length && (
           <div class="mini-note">
             <p class="section-label">Outcomes</p>
-            <ul class="mt-4 list-none space-y-3 p-0">
+            <ul class="mt-4 list-none space-y-2.5 p-0">
               {project.data.impactMetrics.map(metric => (
-                <li class="
-                  rounded-2xl border border-brand/12 bg-brand-soft/35 px-4 py-3
-                  text-sm/6 text-ink
-                "
+                <li
+                  class="
+                    flex items-start gap-3 rounded-xl border border-brand/15
+                    bg-brand-soft/30 px-4 py-3
+                  "
                 >
-                  {metric}
+                  <Icon
+                    aria-hidden="true"
+                    class="mt-0.5 size-4 shrink-0 text-brand"
+                    name="tabler:check"
+                  />
+                  <span class="text-sm/6 font-medium text-ink">{metric}</span>
                 </li>
               ))}
             </ul>
@@ -294,25 +346,22 @@ const breadcrumbs = [
   </article>
 
   {!!relatedProjects.length && (
-    <section aria-label="Related work" class="editorial-section" data-animate>
-      <div class="space-y-3">
-        <p class="section-label">Related work</p>
-        <h2 class="text-3xl">{projectRelatedHeading}</h2>
-      </div>
+    <PageSection>
+      <SectionHeader
+        eyebrow="Related work"
+        title={projectRelatedHeading}
+        description="More work from a similar lane — same type, overlapping technologies, adjacent problems."
+      />
       <div class="
         grid gap-6
-        lg:grid-cols-2
+        sm:grid-cols-2
       "
       >
-        {relatedProjects.map((relatedProject, index) => (
-          <ProjectCard
-            coverFeatured={false}
-            featured={index === 0}
-            project={relatedProject}
-          />
+        {relatedProjects.map(relatedProject => (
+          <ProjectPreviewCard project={relatedProject} />
         ))}
       </div>
-    </section>
+    </PageSection>
   )}
 
 </BaseLayout>
