@@ -1,6 +1,7 @@
 ---
 import ButtonLink from '../../components/atoms/ButtonLink.astro'
-import Pill from '../../components/atoms/Pill.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import PillCount from '@/components/atoms/PillCount.astro'
 import SectionHeading from '../../components/molecules/SectionHeading.astro'
 import { getUniqueTechnologiesWithCount } from '../../data/project'
 import PageLayout from '../../layouts/Base.astro'
@@ -96,7 +97,7 @@ const meta = {
         <div class="flex flex-wrap gap-3">
           {group.items.map(([technology, count]) => (
             <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-              <span class="text-xs text-ink-muted">{count}</span>
+              <PillCount count={count} />
             </Pill>
           ))}
         </div>
