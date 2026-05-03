@@ -3,20 +3,20 @@ const { variant = 'default', showHash = true, className = '', title } = Astro.pr
 
 const badgeClasses = {
   base:
-    'inline-flex items-center gap-1 px-2 h-6 rounded-2xl text-sm font-medium transition-colors truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px] sm:max-w-full',
+    'inline-flex items-center gap-1 px-2 h-6 rounded-2xl text-xs font-semibold tracking-wide transition-all duration-200 truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px] sm:max-w-full shadow-[inset_0_1px_0_hsl(0_0%_100%/0.06)]',
   variants: {
-    default: 'bg-ink text-canvas hover:brightness-90',
-    accent: 'bg-accent text-canvas hover:brightness-90',
-    'brand-accent': 'bg-brand text-canvas hover:brightness-90',
+    default: 'bg-ink text-canvas hover:bg-ink-soft',
+    accent: 'bg-accent text-white hover:bg-brand shadow-[0_0_8px_hsl(var(--accent)/0.25)]',
+    'brand-accent': 'bg-brand text-white hover:bg-brand-solid shadow-[0_0_8px_hsl(var(--brand)/0.2)]',
     muted:
-      'bg-surface-muted hover:bg-line text-ink transition duration-300',
+      'bg-surface-muted border border-line/40 text-ink-soft hover:border-line/70 hover:bg-surface-strong hover:text-ink transition duration-200',
     outline:
-      'border border-line text-ink bg-transparent hover:border-accent',
-    inactive: 'bg-surface-muted text-ink/40 cursor-default',
-    subtle: 'bg-surface-muted text-ink/60',
-    ghost: 'bg-transparent text-ink/60 hover:bg-surface-muted',
-    warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-    danger: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+      'border border-line/60 text-ink-soft bg-surface/60 hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand',
+    inactive: 'bg-surface-muted text-ink-muted cursor-default opacity-60',
+    subtle: 'bg-surface-muted/60 text-ink-muted border border-line/30',
+    ghost: 'bg-transparent text-ink-soft hover:bg-surface-muted hover:text-ink',
+    warning: 'bg-yellow-100 text-yellow-800 border border-yellow-200/60 dark:bg-yellow-900/40 dark:text-yellow-200 dark:border-yellow-700/40',
+    danger: 'bg-red-100 text-red-800 border border-red-200/60 dark:bg-red-900/40 dark:text-red-200 dark:border-red-700/40'
   }
 }
 
