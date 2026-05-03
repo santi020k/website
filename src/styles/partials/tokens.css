@@ -27,6 +27,10 @@
   --brand-soft: 264 60% 94%;
   --accent: 264 95% 57%;
   --glow: 264 95% 70%;
+  /* Semantic status colors */
+  --success: 142 76% 36%;
+  --warning: 38 92% 50%;
+  --danger: 0 84% 60%;
 }
 
 :root[data-theme="dark"] {
@@ -45,6 +49,10 @@
   --brand-soft: 264 45% 18%;
   --accent: 264 90% 68%;
   --glow: 264 85% 50%;
+  /* Semantic status colors - dark mode variants */
+  --success: 142 71% 45%;
+  --warning: 38 92% 55%;
+  --danger: 0 84% 65%;
 }
 
 @media (prefers-contrast: more) {
@@ -94,6 +102,10 @@
   --color-brand-soft: hsl(var(--brand-soft));
   --color-accent: hsl(var(--accent));
   --color-glow: hsl(var(--glow));
+  /* Semantic status colors */
+  --color-success: hsl(var(--success));
+  --color-warning: hsl(var(--warning));
+  --color-danger: hsl(var(--danger));
 
   /* Animation shorthands — keyframes live in animations.css */
   --animate-fade-in: fade-in 0.4s ease-out both;

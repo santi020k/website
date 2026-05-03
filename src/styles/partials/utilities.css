@@ -283,9 +283,9 @@
   @apply relative overflow-hidden border-transparent bg-brand-solid px-5 py-3 text-white;
   box-shadow: 0 10px 24px hsl(var(--brand-solid) / 0.14);
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.25s ease;
   @apply motion-reduce:transition-none;
 
   /* Shimmer sweep */
@@ -306,11 +306,11 @@
   }
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     background-color: hsl(var(--brand-solid) / 0.92);
     box-shadow:
-      0 16px 36px hsl(var(--brand-solid) / 0.28),
-      0 0 24px hsl(var(--brand) / 0.15);
+      0 18px 40px hsl(var(--brand-solid) / 0.3),
+      0 0 28px hsl(var(--brand) / 0.18);
 
     &::before {
       background-position: -200% 0;
@@ -319,7 +319,7 @@
   }
 
   &:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
     @apply motion-reduce:transform-none;
   }
 }
@@ -328,11 +328,11 @@
   @apply relative border-line/70 bg-surface/72 px-5 py-3 text-ink;
   box-shadow: 0 4px 12px hsl(var(--ink) / 0.03);
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.3s ease,
-    color 0.2s ease,
-    background-color 0.2s ease;
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.25s ease,
+    background-color 0.25s ease;
   @apply motion-reduce:transition-none;
 
   /* Spinning border arc — same technique as stat-card */
@@ -362,13 +362,13 @@
   }
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     color: hsl(var(--brand-solid));
     background-color: hsl(var(--brand-soft) / 0.2);
     border-color: transparent;
     box-shadow:
-      0 8px 24px hsl(var(--brand) / 0.1),
-      0 2px 8px hsl(var(--brand) / 0.06);
+      0 12px 32px hsl(var(--brand) / 0.12),
+      0 0 20px color-mix(in srgb, hsl(var(--brand)) 10%, transparent);
 
     &::before {
       opacity: 1;
@@ -377,7 +377,7 @@
   }
 
   &:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
     @apply motion-reduce:transform-none;
   }
 }
@@ -385,8 +385,8 @@
 @utility btn-ghost {
   @apply relative overflow-hidden border-transparent px-4 py-2.5 text-ink;
   transition:
-    color 0.2s ease,
-    transform 0.2s ease;
+    color 0.25s ease,
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   @apply motion-reduce:transition-none;
 
   /* Left-to-right fill sweep */
