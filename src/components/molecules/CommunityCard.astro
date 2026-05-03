@@ -10,8 +10,8 @@ interface Props {
 const { title, subtitle, description, icon, tone = 'brand' } = Astro.props
 
 const toneClasses = tone === 'brand' ?
-  'bg-brand/10 text-brand' :
-  'bg-accent/10 text-accent'
+  'bg-brand/12 text-brand backdrop-blur-sm border border-brand/15 shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1)]' :
+  'bg-accent/12 text-accent backdrop-blur-sm border border-accent/15 shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1)]'
 ---
 
 <div class="mini-note p-6 space-y-4">
