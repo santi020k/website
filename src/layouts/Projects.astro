@@ -48,6 +48,8 @@ const projectStageLabel = getProjectStageLabel(project.data.typesId, project.dat
 const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
 const projectNotesDescription = getProjectNotesDescription(project.data.typesId)
 const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
+const startIso = project.data.startingDate.toISOString().slice(0, 7)
+const endIso = project.data.endingDate?.toISOString().slice(0, 7)
 const caseStudy = project.data.caseStudy
 
 const caseStudyRows = caseStudy ?
@@ -245,10 +247,17 @@ const breadcrumbs = [
             lg:hidden
           "
         />
-        {!!headings.length && <TocCard headings={headings} />}
+        {headings.length ?
+          <TocCard headings={headings} /> :
+          (
+            <div class="glass-pro rounded-2xl px-5 py-4 text-sm/6 text-ink-muted">
+              <Icon aria-hidden="true" class="mb-2 size-4 text-brand/50" name="tabler:file-text" />
+              <p>No sections to navigate — this project has a single-page write-up.</p>
+            </div>
+          )}
 
-        <div class="glass-pro rounded-2xl p-5">
-          <p class="section-label flex items-center gap-2">
+        <div aria-labelledby="sidebar-glance" class="glass-pro rounded-2xl p-5">
+          <p class="section-label flex items-center gap-2" id="sidebar-glance">
             <Icon aria-hidden="true" class="size-4 text-brand" name="tabler:info-circle" />
             At a glance
           </p>
@@ -291,7 +300,7 @@ const breadcrumbs = [
                 <span>Timeline</span>
               </dt>
               <dd class="text-sm font-medium text-ink text-end">
-                {timelineLabel}
+                <time datetime={endIso ? `${startIso}/${endIso}` : startIso}>{timelineLabel}</time>
               </dd>
             </div>
 
@@ -311,16 +320,16 @@ const breadcrumbs = [
           </dl>
         </div>
 
-        <div class="glass-pro rounded-2xl p-5">
-          <p class="section-label flex items-center gap-2">
+        <div aria-labelledby="sidebar-focus" class="glass-pro rounded-2xl p-5">
+          <p class="section-label flex items-center gap-2" id="sidebar-focus">
             <Icon aria-hidden="true" class="size-4 text-brand" name="tabler:target" />
             Focus
           </p>
           <p class="mt-3 text-sm/6 text-ink-soft">{focusLabel}</p>
         </div>
 
-        <div class="glass-pro rounded-2xl p-5">
-          <p class="section-label flex items-center gap-2">
+        <div aria-labelledby="sidebar-stack" class="glass-pro rounded-2xl p-5">
+          <p class="section-label flex items-center gap-2" id="sidebar-stack">
             <Icon aria-hidden="true" class="size-4 text-brand" name="tabler:stack-2" />
             Core stack
           </p>
@@ -328,12 +337,15 @@ const breadcrumbs = [
             {stackPreview.map(technology => (
               <Pill label={technology} tone="outline" />
             ))}
+            {project.data.technologies.length > 6 && (
+              <Pill label={`+${project.data.technologies.length - 6} more`} tone="outline" />
+            )}
           </div>
         </div>
 
         {!!project.data.impactMetrics.length && (
-          <div class="glass-pro rounded-2xl p-5">
-            <p class="section-label flex items-center gap-2">
+          <div aria-labelledby="sidebar-outcomes" class="glass-pro rounded-2xl p-5">
+            <p class="section-label flex items-center gap-2" id="sidebar-outcomes">
               <Icon aria-hidden="true" class="size-4 text-brand" name="tabler:trophy" />
               Outcomes
             </p>
@@ -375,10 +387,10 @@ const breadcrumbs = [
         title={projectRelatedHeading}
         description="More work from a similar lane — same type, overlapping technologies, adjacent problems."
       />
-      <div class="
-        grid gap-6
-        sm:grid-cols-2
-      "
+      <div class:list={[
+        'grid gap-6',
+        relatedProjects.length > 1 && 'sm:grid-cols-2'
+      ]}
       >
         {relatedProjects.map(relatedProject => (
           <ProjectPreviewCard project={relatedProject} />
