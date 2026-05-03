@@ -27,7 +27,6 @@ const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
 const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
 const technologies = sortTechnologiesByInterest(project.data.technologies)
-
 const titleWords = project.data.title.split(' ')
 const gradientWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : project.data.title
 const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : ''
@@ -35,69 +34,133 @@ const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : '
 const metaItems = [
   { label: 'Role', value: project.data.role ?? 'Hands-on builder' },
   { label: 'Timeline', value: timelineLabel },
-  { label: 'Duration', value: durationLabel },
+  { label: 'Duration', value: durationLabel }
 ]
 ---
 
-<section class="relative space-y-10">
+<section class="relative space-y-12">
   {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
   <div
     class="
-      animate-slide-up space-y-3
+      animate-slide-up space-y-4
       motion-reduce:animate-none
     "
   >
-    <Eyebrow label={projectTypeLabel} tone="brand" />
-    <nav aria-label="Breadcrumb" class="flex items-center gap-1.5 text-sm font-medium text-ink-muted">
-      <a
-        href={parentPage.url}
-        class="transition-colors hover:text-brand motion-reduce:transition-none"
-      >{parentPage.name}
-      </a>
-      <span aria-hidden="true" class="text-line">/</span>
-      <span class="text-ink-soft">{projectTypeLabel}</span>
-    </nav>
+    <div class="flex items-center justify-between">
+      <Eyebrow label={projectTypeLabel} tone="brand" />
+      <nav
+        aria-label="Breadcrumb"
+        class="flex items-center gap-1.5 text-sm font-medium text-ink-muted"
+      >
+        <a
+          href={parentPage.url}
+          class="
+            transition-colors
+            hover:text-brand
+            motion-reduce:transition-none
+          "
+        >{parentPage.name}
+        </a>
+        <span aria-hidden="true" class="text-line">/</span>
+        <span class="text-ink-soft">{projectTypeLabel}</span>
+      </nav>
+    </div>
   </div>
 
   {/* ── Title + description ──────────────────────────────────── */}
   <div
     class="
-      animate-slide-up space-y-4 [animation-delay:80ms]
+      animate-slide-up space-y-6 [animation-delay:80ms]
       motion-reduce:animate-none
     "
   >
-    <h1 class="
-      max-w-4xl text-4xl/[0.98] font-bold tracking-[-0.05em] wrap-break-word
-      sm:text-5xl/[0.96]
-      lg:text-[3.6rem]/[0.94]
+    <div class="relative">
+      <h1 class="
+        max-w-4xl text-4xl/[0.98] font-bold tracking-tighter wrap-break-word
+        sm:text-5xl/[0.96]
+        lg:text-[3.6rem]/[0.94]
+      "
+      >
+        {plainWords && <span>{plainWords} </span>}
+        <span class="
+          relative bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+          text-transparent
+        "
+        >
+          {gradientWord}
+          <span class="
+            absolute inset-0 -z-10 bg-linear-to-r from-brand via-accent to-brand
+            bg-clip-text text-transparent opacity-50 blur-sm
+          "
+          >
+          </span>
+        </span>
+      </h1>
+      <div class="
+        bg-gradient-to-br absolute -inset-x-4 -inset-y-2 -z-10 rounded-3xl
+        from-brand/5 to-transparent blur-3xl
+      "
+      >
+      </div>
+    </div>
+    <p class="
+      max-w-3xl text-lg/7 font-medium text-ink-soft
+      sm:text-xl/8
     "
     >
-      {plainWords && <span>{plainWords} </span>}
-      <span class="bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent">
-        {gradientWord}
-      </span>
-    </h1>
-    <p class="max-w-2xl text-base/7 text-ink-soft sm:text-lg/8">
       {project.data.description}
     </p>
   </div>
 
-  {/* ── Meta row — flat, inline ──────────────────────────────── */}
+  {/* ── Meta row — enhanced cards ──────────────────────────────── */}
   <div
     class="
       animate-slide-up [animation-delay:160ms]
       motion-reduce:animate-none
     "
   >
-    <GradientDivider class="mb-6" />
-    <dl class="flex flex-wrap gap-x-8 gap-y-4">
-      {metaItems.map(item => (
-        <div>
-          <dt class="section-label">{item.label}</dt>
-          <dd class="mt-1 text-sm/6 font-semibold text-ink">{item.value}</dd>
+    <GradientDivider class="mb-8" />
+    <div class="
+      grid grid-cols-1 gap-4
+      sm:grid-cols-3
+    "
+    >
+      {metaItems.map((item, index) => (
+        <div
+          class="
+            relative overflow-hidden rounded-2xl border border-line/30
+            bg-surface/50 p-6 backdrop-blur-sm transition-all duration-300
+            hover:-translate-y-1 hover:border-brand/40 hover:bg-brand-soft/10
+            hover:shadow-lg hover:shadow-brand/5
+          "
+          style={`animation-delay: ${160 + (index * 40)}ms`}
+        >
+          <div class="space-y-2">
+            <dt class="
+              section-label text-xs font-semibold tracking-wider
+              text-ink-muted/80 uppercase
+            "
+            >
+              {item.label}
+            </dt>
+            <dd class="
+              text-lg/6 font-bold text-ink
+              sm:text-xl/6
+            "
+            >
+              {item.value}
+            </dd>
+          </div>
+          <div class="
+            absolute inset-0 bg-linear-to-br from-brand/5 to-transparent
+            opacity-0 transition-opacity duration-300
+            hover:opacity-100
+          "
+          >
+          </div>
         </div>
       ))}
-    </dl>
+    </div>
   </div>
 
   {/* ── CTAs ────────────────────────────────────────────────── */}
@@ -114,11 +177,34 @@ const metaItems = [
         </ButtonLink>
       )}
       {project.data.githubUrl && (
-        <ButtonLink href={project.data.githubUrl} newTab showArrow variant="secondary">
-          Open repository
+        <ButtonLink
+          href={project.data.githubUrl}
+          newTab
+          showArrow
+          variant="secondary"
+          className="group"
+        >
+          <span class="flex items-center gap-2">
+            Open repository
+            <svg
+              class="
+                size-4 transition-transform
+                group-hover:translate-x-1
+              "
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </span>
         </ButtonLink>
       )}
-      <ButtonLink href={parentPage.url} showArrow variant="ghost">
+      <ButtonLink
+        href={parentPage.url}
+        showArrow
+        variant="secondary"
+        className="text-ink-soft"
+      >
         Browse {parentPage.name.toLowerCase()}
       </ButtonLink>
     </div>
@@ -132,18 +218,38 @@ const metaItems = [
         motion-reduce:animate-none
       "
     >
-      <div class="relative overflow-hidden rounded-2xl">
+      <div class="
+        group
+        hover:shadow-2xl
+        relative overflow-hidden rounded-3xl shadow-2xl shadow-ink/10
+        transition-all duration-500
+        hover:shadow-brand/20
+      "
+      >
         <div
           aria-hidden="true"
           class="
-            pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32
-            bg-linear-to-t from-black/50 via-black/10 to-transparent
+            pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40
+            bg-linear-to-t from-black/60 via-black/20 to-transparent
+            transition-opacity duration-500
+            group-hover:from-black/70
+          "
+        />
+        <div
+          aria-hidden="true"
+          class="
+            absolute inset-0 bg-linear-to-br from-brand/5 via-transparent
+            to-accent/5 opacity-0 transition-opacity duration-500
+            group-hover:opacity-100
           "
         />
         <CoverImage
           alt={project.data.coverImage.alt}
           ariaHidden={true}
-          className="w-full"
+          className="
+            w-full transition-transform duration-700
+            group-hover:scale-105
+          "
           fetchpriority="high"
           image={project.data.coverImage.src}
           loading="eager"
@@ -153,16 +259,39 @@ const metaItems = [
         <div
           aria-hidden="true"
           class="
-            pointer-events-none absolute inset-x-0 bottom-0 z-20 flex
-            items-end justify-between gap-4 px-6 py-5
+            pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-end
+            justify-between gap-4 px-8 py-6 transition-transform duration-500
+            group-hover:translate-y-1
           "
         >
-          <p class="text-xs font-semibold tracking-[0.18em] uppercase text-white/60">
-            {dateRangeLabel}
-          </p>
-          <p class="text-xs font-semibold tracking-[0.18em] uppercase text-white/60">
-            {projectTypeLabel}
-          </p>
+          <div class="space-y-1">
+            <p class="
+              text-xs font-bold tracking-[0.18em] text-white/80 uppercase
+            "
+            >
+              {dateRangeLabel}
+            </p>
+            <p class="
+              text-xs font-bold tracking-[0.18em] text-white/60 uppercase
+            "
+            >
+              Timeline
+            </p>
+          </div>
+          <div class="space-y-1 text-right">
+            <p class="
+              text-xs font-bold tracking-[0.18em] text-white/80 uppercase
+            "
+            >
+              {projectTypeLabel}
+            </p>
+            <p class="
+              text-xs font-bold tracking-[0.18em] text-white/60 uppercase
+            "
+            >
+              Project Type
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -175,17 +304,59 @@ const metaItems = [
       motion-reduce:animate-none
     "
   >
-    <GradientDivider class="mb-6" />
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
-      <span class="section-label">Stack</span>
-      <span class="text-xs font-bold tabular-nums text-brand">
-        {technologies.length}
-      </span>
-      <span aria-hidden="true" class="h-px w-4 shrink-0 bg-line/50" />
-      <div class="flex flex-wrap gap-2" id="technologies">
-        {technologies.map(technology => (
-          <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
-        ))}
+    <GradientDivider class="mb-8" />
+    <div class="
+      relative overflow-hidden rounded-2xl border border-line/30 bg-surface/30
+      p-6 backdrop-blur-sm
+    "
+    >
+      <div class="
+        absolute inset-0 bg-linear-to-br from-brand/3 via-transparent
+        to-accent/3
+      "
+      >
+      </div>
+      <div class="relative flex flex-wrap items-center gap-x-6 gap-y-4">
+        <div class="flex items-center gap-3">
+          <span class="
+            section-label text-sm font-bold tracking-wider text-ink-muted/90
+            uppercase
+          "
+          >Stack
+          </span>
+          <span class="
+            inline-flex items-center justify-center rounded-full border
+            border-brand/20 bg-brand/10 px-3 py-1 text-sm font-bold text-brand
+            tabular-nums
+          "
+          >
+            {technologies.length}
+          </span>
+        </div>
+        <span
+          aria-hidden="true"
+          class="
+            hidden h-6 w-px shrink-0 bg-line/40
+            sm:block
+          "
+        >
+        </span>
+        <div class="flex flex-wrap gap-2" id="technologies">
+          {technologies.map((technology, index) => (
+            <Pill
+              href={getTechnologyPath(technology)}
+              label={technology}
+              tone="outline"
+              className={`
+                animate-slide-up transition-all
+                duration-300
+                hover:scale-105 hover:border-brand/40
+                hover:bg-brand-soft/20
+                motion-reduce:animate-none
+              `}
+            />
+          ))}
+        </div>
       </div>
     </div>
   </div>

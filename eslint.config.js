@@ -47,7 +47,8 @@ export default [
           '^e-content$',
           '^p-summary$',
           '^h-entry$',
-          '^u-url$'
+          '^u-url$',
+          '^gradient-radial$'
         ]
       }
     }
