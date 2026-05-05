@@ -545,6 +545,7 @@ animate-slide-up [animation-delay:180ms]
 ```
 
 **Date Format Pattern:**
+
 - Short month + year: `{date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`
 - Date range: `"Jan 2022 – Present"` or `"Jan 2022 – Dec 2023"`
 
@@ -653,6 +654,7 @@ grid-cols-[minmax(0,1fr)_22rem] lg:items-center
 ```
 
 **Left Column (Content):**
+
 - **Eyebrow**: `section-label text-brand` — "Santiago Molina"
 - **Headline**: Large display text with gradient accent
   - `text-4xl/[0.98] sm:text-6xl/[0.95] lg:text-[5.2rem]/[0.92]`
@@ -664,6 +666,7 @@ grid-cols-[minmax(0,1fr)_22rem] lg:items-center
 - **Meta footer**: Location · Experience · Community
 
 **Right Column (Portrait):**
+
 - **Aspect ratio**: 4:5 (`aspect-4/5`)
 - **Wrapper**: `panel-card` with large radius (`rounded-[2.25rem]`)
 - **Image**: Rounded corners (`rounded-[1.7rem]`), object-top positioning
@@ -674,6 +677,7 @@ grid-cols-[minmax(0,1fr)_22rem] lg:items-center
   - Right card: Years of experience (border-r-4 border-r-accent/40)
 
 **Voice for Hero:**
+
 - Headline: Two short punchy phrases — one plain, one gradient
 - Example: "Calm systems." + gradient "Clear delivery."
 
@@ -687,15 +691,18 @@ grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
 ```
 
 **Left Column (Header):**
+
 - `section-label text-brand` — eyebrow/category label
 - `text-2xl font-semibold tracking-tight sm:text-3xl` — section title
 - `max-w-xl text-sm text-ink-soft` — optional description
 
 **Right Column (Content):**
+
 - **Grid layouts**: `grid gap-5 md:grid-cols-2` for 2×2 card arrangements
 - **List layouts**: `space-y-0` with `border-b border-line/20` separators
 
 **Dividers:**
+
 - Use `<GradientDivider class="pt-10" />` between sections
 - Consistent `pt-10` spacing on sections and dividers
 
@@ -706,6 +713,7 @@ grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
 #### Project Cards (Work & Side Projects)
 
 **Structure:**
+
 1. **Image header** (`aspect-[16/10]`) with overlay badges
 2. **Content body** (`p-5 space-y-3`)
 
@@ -718,6 +726,7 @@ bottom badges:
 ```
 
 **Content Hierarchy:**
+
 - Title: `text-xl font-semibold`
 - Role: `text-sm text-brand/accent font-medium mt-1`
 - Description: `text-sm text-ink-soft line-clamp-2`
@@ -729,6 +738,7 @@ bottom badges:
 ```
 flex items-start justify-between gap-4 py-5 border-b border-line/20
 ```
+
 - Left: Title (`font-medium`) + Description (`text-sm text-ink-soft line-clamp-1`)
 - Right: Date (`text-xs text-ink-muted shrink-0`)
 
@@ -738,6 +748,7 @@ flex items-start justify-between gap-4 py-5 border-b border-line/20
 ```
 mini-note p-6 space-y-4
 ```
+
 - Icon wrapper: `flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand`
 - Title: `font-medium text-ink`
 - Subtitle: `text-xs text-ink-muted`

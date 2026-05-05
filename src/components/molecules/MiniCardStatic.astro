@@ -1,16 +1,8 @@
 ---
-
-/**
- * @deprecated Use MiniCardStatic for display cards or MiniCardLink for clickable cards instead.
- * This component now renders as MiniCardStatic (static only, no link support).
- */
 interface Props {
   title: string
   description?: string
   icon?: string
-
-  /** @deprecated Use MiniCardLink component instead */
-  href?: never
   tone?: 'brand' | 'accent' | 'success' | 'warning' | 'neutral'
   badge?: string
   className?: string
