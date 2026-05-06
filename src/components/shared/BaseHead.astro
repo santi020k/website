@@ -23,7 +23,7 @@ const {
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
 const titleSeparator = '—'
 const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com/')
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com/').href
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
 
@@ -33,14 +33,6 @@ const websiteJsonLd = JSON.stringify({
   '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#website`,
   inLanguage: siteConfig.lang,
   name: siteConfig.title,
-  potentialAction: {
-    '@type': 'SearchAction',
-    'query-input': 'required name=query',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={query}`
-    }
-  },
   url: Astro.site?.href ?? 'https://santi020k.com/'
 })
 

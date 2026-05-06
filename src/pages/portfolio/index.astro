@@ -75,17 +75,22 @@ const breadcrumbs = [
       grid gap-6
       sm:grid-cols-2
     "
-    data-animate
+    data-stagger="80"
   >
-    <div class="section-shell-subtle flex flex-col gap-4">
+    <div class="panel-card flex flex-col gap-6 p-7">
+      {/* Specular top-edge highlight */}
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-x-0 top-0 z-10 h-px"
+        style="background: linear-gradient(90deg, transparent 8%, hsl(0 0% 100% / 0.3) 40%, hsl(0 0% 100% / 0.45) 50%, hsl(0 0% 100% / 0.3) 60%, transparent 92%);"
+      />
       <div class="space-y-2">
         <p class="section-label">Work Experience</p>
         <h2 class="text-xl font-semibold text-ink">
           Client &amp; Product Work
         </h2>
-        <p class="text-sm/6 text-ink-soft">
-          Roles across commerce, gaming, SaaS, real estate, martech, and agencies
-          — with a focus on architecture and technical leadership.
+        <p class="text-sm/7 text-ink-soft">
+          Roles across commerce, gaming, SaaS, real estate, martech, and agencies — focused on architecture and technical leadership.
         </p>
       </div>
       <div class="mt-auto">
@@ -95,15 +100,20 @@ const breadcrumbs = [
       </div>
     </div>
 
-    <div class="section-shell-subtle flex flex-col gap-4">
+    <div class="panel-card flex flex-col gap-6 p-7">
+      {/* Specular top-edge highlight */}
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-x-0 top-0 z-10 h-px"
+        style="background: linear-gradient(90deg, transparent 8%, hsl(0 0% 100% / 0.3) 40%, hsl(0 0% 100% / 0.45) 50%, hsl(0 0% 100% / 0.3) 60%, transparent 92%);"
+      />
       <div class="space-y-2">
         <p class="section-label">Side Projects</p>
         <h2 class="text-xl font-semibold text-ink">
           Open Source &amp; Personal Builds
         </h2>
-        <p class="text-sm/6 text-ink-soft">
-          Open-source tools, community work, and self-directed experiments built
-          to learn, share, and sharpen craft beyond client work.
+        <p class="text-sm/7 text-ink-soft">
+          Open-source tools, community work, and self-directed experiments built to learn, share, and sharpen craft.
         </p>
       </div>
       <div class="mt-auto">
