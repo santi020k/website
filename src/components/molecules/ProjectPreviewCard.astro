@@ -17,6 +17,8 @@ const endDate = isActive ?
   project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
 const dateRange = `${startDate} – ${endDate}`
 const projectLink = getPortfolioPath(project.id)
+const coverImage = project.data.coverImage
+const previewImage = coverImage?.vertical ?? coverImage?.src
 
 const isAccent = accentTone === 'accent'
 const cardAccentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
@@ -35,14 +37,14 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
   >
 
     {/* ── Background media ──────────────────────────────────────── */}
-    {project.data.coverImage?.src ? (
+    {previewImage ? (
       <Image
-        alt={project.data.coverImage.alt}
-        class="absolute inset-0 h-full w-full object-cover"
+        alt={coverImage?.alt ?? project.data.title}
+        class="absolute inset-0 h-full w-full object-cover object-top"
         data-card-img
-        height={450}
+        height={800}
         loading="lazy"
-        src={project.data.coverImage.vertical ?? project.data.coverImage.src}
+        src={previewImage}
         width={600}
       />
     ) : (
@@ -80,7 +82,7 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
     />
 
     {/* ── Spacer pushes glass panel down ────────────────────────── */}
-    <div aria-hidden="true" class="relative" style="padding-top: 60%;" />
+    <div aria-hidden="true" class="relative" style="padding-top: 68%;" />
 
     {/* ── Glass panel ───────────────────────────────────────────── */}
     <div class="relative z-10" data-card-panel>

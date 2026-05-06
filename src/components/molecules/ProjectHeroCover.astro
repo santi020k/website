@@ -12,9 +12,10 @@ interface Props {
 const { project } = Astro.props
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
+const heroImage = project.data.coverImage?.horizontal ?? project.data.coverImage?.src
 ---
 
-{project.data.coverImage && (
+{project.data.coverImage && heroImage && (
   <div
     class="
       animate-slide-up [animation-delay:300ms]
@@ -52,7 +53,7 @@ const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, proje
           group-hover:scale-105
         "
         fetchpriority="high"
-        image={project.data.coverImage.vertical ?? project.data.coverImage.src}
+        image={heroImage}
         loading="eager"
         sizes="(min-width: 1280px) 1200px, 100vw"
         mode="detail"
