@@ -65,8 +65,8 @@ const PROJECTS = [
     ink: '#0d1020',
     panel: '#111426',
     texture: '#d8d1ff',
-    logoAssetPath: '../eslint-config-basic/packages/docs/public/logo.webp',
-    placement: { ...STANDARD_BADGE_PLACEMENT }
+    logoAssetPath: '../eslint-config-basic/packages/docs/src/assets/logo-santi020k-dark.svg',
+    placement: { left: 120, top: 330, width: 1540, height: 560 }
   },
   {
     slug: 'eslint-config-santi020k',
@@ -451,7 +451,16 @@ async function finalizeLogoBuffer(buffer) {
 async function loadLogoAsset(sourcePath, density = 720) {
   const rendered = await sharp(sourcePath, { density }).ensureAlpha().png().toBuffer()
 
-  return finalizeLogoBuffer(rendered)
+  return finalizeLogoBuffer(await trimTransparentPadding(rendered))
+}
+
+async function trimTransparentPadding(buffer) {
+  const image = sharp(buffer).ensureAlpha()
+  const metadata = await image.metadata()
+  const alphaRaw = await image.clone().extractChannel(3).raw().toBuffer()
+  const bounds = getBoundingBox(alphaRaw, metadata.width, metadata.height)
+
+  return image.extract(bounds).png().toBuffer()
 }
 
 async function buildSmithCommerceWordmark() {
