@@ -1,0 +1,11 @@
+# Canonicalize all variants → https://santi020k.com (301 permanent)
+# Cloudflare Pages evaluates these top-to-bottom; first match wins.
+
+# HTTP apex → HTTPS apex
+http://santi020k.com/*  https://santi020k.com/:splat  301
+
+# HTTP www → HTTPS apex
+http://www.santi020k.com/*  https://santi020k.com/:splat  301
+
+# HTTPS www → HTTPS apex
+https://www.santi020k.com/*  https://santi020k.com/:splat  301
