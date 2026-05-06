@@ -556,6 +556,20 @@ function getLogoPlacement({ logoWidth, logoHeight }) {
   return STANDARD_BADGE_PLACEMENT
 }
 
+function getVerticalLogoPlacement({ logoWidth, logoHeight }) {
+  const ratio = logoWidth / logoHeight
+
+  if (ratio > 3.2) {
+    return { left: 170, top: 230, width: 1460, height: 380 }
+  }
+
+  if (ratio > 1.3) {
+    return { left: 250, top: 150, width: 1300, height: 620 }
+  }
+
+  return { left: 500, top: 140, width: 800, height: 760 }
+}
+
 async function buildLogoLayers(logo, project, placementOverride) {
   const placement = placementOverride ?? project.placement ?? getLogoPlacement({
     logoWidth: logo.width,
@@ -995,6 +1009,77 @@ function buildBaseSvg(project) {
   `
 }
 
+function buildVerticalBaseSvg(project) {
+  const surfaceGlow = project.variant === 'light' ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.07)'
+  const surfaceGlowSoft = project.variant === 'light' ? 'rgba(255,255,255,0)' : 'rgba(255,255,255,0)'
+  const gridColor = project.variant === 'light' ? LIGHT_GRID : DARK_GRID
+  const ghostFill = project.variant === 'light' ? 'rgba(17,17,17,0.07)' : 'rgba(255,255,255,0.075)'
+  const topGlow = project.variant === 'light' ? `${project.accent}24` : `${project.accent}30`
+  const accentBand = mix(project.accent, '#ffffff', project.variant === 'light' ? 0.12 : 0.03)
+  const panelWash = project.variant === 'light' ? 'rgba(8, 15, 22, 0.12)' : 'rgba(0, 0, 0, 0.22)'
+
+  return `
+    <svg width="${VERTICAL_CANVAS_WIDTH}" height="${VERTICAL_CANVAS_HEIGHT}" viewBox="0 0 ${VERTICAL_CANVAS_WIDTH} ${VERTICAL_CANVAS_HEIGHT}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="vertical-grid" width="58" height="58" patternUnits="userSpaceOnUse">
+          <path d="M 58 0 L 0 0 0 58" fill="none" stroke="${gridColor}" stroke-width="1" />
+        </pattern>
+        <radialGradient id="vertical-logo-glow" cx="42%" cy="23%" r="48%">
+          <stop offset="0%" stop-color="${topGlow}" />
+          <stop offset="100%" stop-color="${surfaceGlowSoft}" />
+        </radialGradient>
+        <radialGradient id="vertical-art-glow" cx="72%" cy="52%" r="52%">
+          <stop offset="0%" stop-color="${hexToRgba(project.texture, project.variant === 'light' ? 0.24 : 0.18)}" />
+          <stop offset="100%" stop-color="${surfaceGlowSoft}" />
+        </radialGradient>
+        <linearGradient id="vertical-surface-gradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="${mix(project.surface, '#ffffff', project.variant === 'light' ? 0.02 : 0)}" />
+          <stop offset="100%" stop-color="${mix(project.surface, project.ink, project.variant === 'light' ? 0.08 : 0.16)}" />
+        </linearGradient>
+      </defs>
+
+      <rect width="${VERTICAL_CANVAS_WIDTH}" height="${VERTICAL_CANVAS_HEIGHT}" fill="url(#vertical-surface-gradient)" />
+      <rect width="${VERTICAL_CANVAS_WIDTH}" height="${VERTICAL_CANVAS_HEIGHT}" fill="url(#vertical-grid)" />
+      <circle cx="720" cy="480" r="760" fill="url(#vertical-logo-glow)" />
+      <circle cx="1240" cy="1180" r="680" fill="url(#vertical-art-glow)" />
+      <path d="M 190 80 H 1610 L 1388 438 H 82 Z" fill="${ghostFill}" />
+      <path d="M 1180 0 H 1800 V 612 L 1484 508 L 1302 286 Z" fill="${project.ink}" opacity="${project.variant === 'light' ? '0.08' : '0.62'}" />
+      <path d="M 0 1475 L 1800 2160 V 2400 H 0 Z" fill="${accentBand}" opacity="${project.variant === 'light' ? '0.72' : '0.82'}" />
+      <path d="M 0 2400 V 1750 L 575 1378 L 1540 2400 Z" fill="${project.accentDeep}" opacity="${project.variant === 'light' ? '0.24' : '0.40'}" />
+      <path d="M 0 1120 L 560 2400 H 0 Z" fill="${surfaceGlow}" opacity="${project.variant === 'light' ? '0.11' : '0.28'}" />
+      <rect x="1120" y="760" width="680" height="1320" fill="${panelWash}" />
+    </svg>
+  `
+}
+
+async function buildVerticalArtworkLayer(project) {
+  const artwork = await sharp(Buffer.from(buildPanelArtworkSvg(project)))
+    .resize(1420, 1686, { fit: 'cover' })
+    .png()
+    .toBuffer()
+
+  const shadow = await sharp({
+    create: {
+      width: 1420,
+      height: 1686,
+      channels: 4,
+      background: '#00000036'
+    }
+  })
+    .blur(28)
+    .png()
+    .toBuffer()
+
+  return {
+    artwork,
+    artworkLeft: 520,
+    artworkTop: 760,
+    shadow,
+    shadowLeft: 496,
+    shadowTop: 790
+  }
+}
+
 async function renderProjectCover(project) {
   const directory = path.join(PROJECTS_ROOT, project.slug)
   const coverPath = path.join(directory, 'cover.webp')
@@ -1051,29 +1136,13 @@ async function renderProjectCover(project) {
   await fs.writeFile(coverPath, horizontalBuffer)
   await fs.writeFile(horizontalPath, horizontalBuffer)
 
-  const verticalBackground = await sharp(horizontalBuffer)
-    .resize(VERTICAL_CANVAS_WIDTH, VERTICAL_CANVAS_HEIGHT, { fit: 'cover' })
-    .blur(18)
-    .modulate({ brightness: 0.68, saturation: 0.92 })
-    .webp()
-    .toBuffer()
-
-  const verticalPlate = await sharp(horizontalBuffer)
-    .resize(1640, 1025, { fit: 'cover' })
-    .webp({ quality: 94 })
-    .toBuffer()
-
-  const verticalPlateShadow = await sharp({
-    create: {
-      width: 1640,
-      height: 1025,
-      channels: 4,
-      background: '#00000066'
-    }
+  const verticalSvg = Buffer.from(buildVerticalBaseSvg(project))
+  const verticalLogoPlacement = getVerticalLogoPlacement({
+    logoWidth: logo.width,
+    logoHeight: logo.height
   })
-    .blur(22)
-    .png()
-    .toBuffer()
+  const verticalLogo = await buildLogoLayers(logo, project, verticalLogoPlacement)
+  const verticalArtwork = await buildVerticalArtworkLayer(project)
 
   await sharp({
     create: {
@@ -1084,9 +1153,11 @@ async function renderProjectCover(project) {
     }
   })
     .composite([
-      { input: verticalBackground },
-      { input: verticalPlateShadow, left: 80, top: 705 },
-      { input: verticalPlate, left: 80, top: 665 }
+      { input: verticalSvg },
+      { input: verticalArtwork.shadow, left: verticalArtwork.shadowLeft, top: verticalArtwork.shadowTop },
+      { input: verticalArtwork.artwork, left: verticalArtwork.artworkLeft, top: verticalArtwork.artworkTop },
+      { input: verticalLogo.shadowBuffer, left: verticalLogo.shadowLeft, top: verticalLogo.shadowTop },
+      { input: verticalLogo.mainBuffer, left: verticalLogo.mainLeft, top: verticalLogo.mainTop }
     ])
     .webp({ quality: 92 })
     .toFile(verticalPath)
