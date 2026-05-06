@@ -66,7 +66,8 @@ const PROJECTS = [
     panel: '#111426',
     texture: '#d8d1ff',
     logoAssetPath: '../eslint-config-basic/packages/docs/src/assets/logo-santi020k-dark.svg',
-    placement: { left: 120, top: 330, width: 1540, height: 560 }
+    placement: { left: 120, top: 330, width: 1540, height: 560 },
+    verticalPlacement: { left: 70, top: 235, width: 1660, height: 430 }
   },
   {
     slug: 'eslint-config-santi020k',
@@ -81,7 +82,8 @@ const PROJECTS = [
     logoRect: { left: 1040, top: 250, width: 1760, height: 1500 },
     backgroundColor: '#24273a',
     threshold: 32,
-    placement: { ...STANDARD_BADGE_PLACEMENT }
+    placement: { ...STANDARD_BADGE_PLACEMENT },
+    verticalPlacement: { left: 560, top: 220, width: 680, height: 640 }
   },
   {
     slug: 'justbit',
@@ -220,7 +222,8 @@ const PROJECTS = [
     logoRect: { left: 220, top: 640, width: 3400, height: 980 },
     backgroundColor: '#ff6500',
     threshold: 20,
-    placement: { left: 340, top: 330, width: 1220, height: 540 }
+    placement: { left: 340, top: 330, width: 1220, height: 540 },
+    verticalPlacement: { left: 230, top: 285, width: 1340, height: 320 }
   },
   {
     slug: 'void',
@@ -1137,7 +1140,7 @@ async function renderProjectCover(project) {
   await fs.writeFile(horizontalPath, horizontalBuffer)
 
   const verticalSvg = Buffer.from(buildVerticalBaseSvg(project))
-  const verticalLogoPlacement = getVerticalLogoPlacement({
+  const verticalLogoPlacement = project.verticalPlacement ?? getVerticalLogoPlacement({
     logoWidth: logo.width,
     logoHeight: logo.height
   })
