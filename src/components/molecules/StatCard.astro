@@ -1,6 +1,6 @@
 ---
 interface Props {
-  description: string
+  description?: string
   label: string
   value: string
 }
@@ -9,27 +9,39 @@ const { description, label, value } = Astro.props
 ---
 
 <article class="
-  stat-card h-full p-5 overflow-visible
+  group stat-card h-full overflow-visible p-5
   sm:p-6
-  group
 "
 >
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit] z-0"
+    class="
+      pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]
+    "
   >
     <div
-      class="absolute top-0 right-0 h-24 w-24 opacity-30"
+      class="absolute top-0 right-0 size-24 opacity-30"
       style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.15), transparent 70%);"
     />
   </div>
-  <p class="section-label relative z-10">{label}</p>
-  <p class="
-    relative z-10 mt-4 text-4xl font-bold tracking-[-0.06em] leading-tight
-    sm:text-5xl sm:leading-tight
-    break-words
-  "
-  ><span class="bg-linear-to-br from-brand to-accent bg-clip-text text-transparent">{value}</span>
+  <p class="relative z-10 section-label">{label}</p>
+  <p
+    class="
+      relative z-10 mt-4 text-4xl/tight font-bold tracking-[-0.06em]
+      wrap-break-word
+      sm:text-5xl/tight
+    "
+  >
+    <span class="
+      bg-linear-to-br from-brand to-accent bg-clip-text text-transparent
+    "
+    >
+      {value}
+    </span>
   </p>
-  <p class="relative z-10 mt-3 max-w-[24ch] text-sm/6 text-ink-soft">{description}</p>
+  {description ?? (
+    <p class="relative z-10 mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
+      {description}
+    </p>
+  )}
 </article>
