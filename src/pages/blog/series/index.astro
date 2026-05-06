@@ -7,7 +7,7 @@ import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
-import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
+import { editorialCalendar } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -26,7 +26,7 @@ const breadcrumbs = [
 <PageLayout
   meta={{
     breadcrumbs,
-    description: 'Grouped reading tracks for Santiago Molina’s writing on architecture, tooling, testing, and delivery systems.',
+    description: 'Grouped reading tracks for Santiago Molina\'s writing on architecture, tooling, testing, and delivery systems.',
     title: 'Blog Series — Santiago Molina'
   }}
 >
@@ -54,14 +54,19 @@ const breadcrumbs = [
         "
         >
           Follow related posts
-          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">in order.</span>
+          <span class="
+            block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+            pb-4 text-transparent
+          "
+          >in order.
+          </span>
         </h1>
         <p class="
           max-w-xl text-base/7 text-ink-soft
           sm:text-lg/7
         "
         >
-          {publishingRhythm.summary} Series make that rhythm easier to follow by turning scattered posts into clearer reading paths.
+          Grouped reading paths — follow a topic from start to finish without hunting the archive.
         </p>
       </div>
 
@@ -76,7 +81,7 @@ const breadcrumbs = [
             Back to blog
           </ButtonLink>
           <ButtonLink href="/blog/content-calendar/" showArrow variant="secondary">
-            View content calendar
+            Content calendar
           </ButtonLink>
         </div>
       </div>
@@ -85,17 +90,17 @@ const breadcrumbs = [
 
   <StatsGrid>
     <StatCard
-      description="Tracks readers can already follow without hunting around the archive."
+      description="Ongoing reading tracks with at least one published post."
       label="Active series"
       value={String(activeSeries.length)}
     />
     <StatCard
-      description="Articles already grouped into related reading paths."
+      description="Posts that belong to a series rather than standing alone in the archive."
       label="Posts grouped"
       value={String(postsGroupedIntoSeries)}
     />
     <StatCard
-      description="Upcoming roadmap topics that already connect to an existing series."
+      description="Distinct series planned or in progress on the editorial calendar."
       label="Roadmap tracks"
       value={String(roadmapSeriesCount)}
     />
@@ -103,7 +108,7 @@ const breadcrumbs = [
 
   <PageSection>
     <SectionHeader
-      description="Each series is meant to reduce guesswork: where to start, what to read next, and how the topic builds from foundations into implementation details."
+      description="Each series is a self-contained reading track — start at post one, follow the thread, finish with a complete mental model."
       eyebrow="Series"
       title="Current series on the site."
     />

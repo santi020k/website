@@ -5,13 +5,14 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+
+import { getCachedPosts } from '@/utils/content'
+
 import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
 import PageLayout from '@/layouts/Base.astro'
 import { createWhatsAppHref, siteConfig, whatsappMessages } from '@/site.config'
-import { getCachedPosts } from '@/utils/content'
 
 const postCount = (await getCachedPosts()).length
-
 const highlights = speakingHighlights.map(h => h.label === 'Published writing' ? { ...h, value: `${postCount} posts` } : h)
 
 const description =
@@ -111,14 +112,20 @@ const structuredData = [
         "
         >
           Talks, workshops,
-          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">and engineering conversations.</span>
+          <span class="
+            block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+            pb-4 text-transparent
+          "
+          >and engineering conversations.
+          </span>
         </h1>
         <p class="
           max-w-xl text-base/7 text-ink-soft
           sm:text-lg/7
         "
         >
-          I enjoy sessions that are practical, opinionated, and grounded in shipped work — at the intersection of leadership, architecture, workflow design, and the small technical choices that make teams faster or slower.
+          Practical, opinionated sessions grounded in shipped work — leadership,
+          architecture, DX, and the decisions that make teams faster or slower.
         </p>
       </div>
 
@@ -142,13 +149,13 @@ const structuredData = [
 
   <StatsGrid>
     {highlights.map(highlight => (
-      <StatCard description={highlight.description} label={highlight.label} value={highlight.value} />
+      <StatCard label={highlight.label} value={highlight.value} />
     ))}
   </StatsGrid>
 
   <PageSection>
     <SectionHeader
-      description="A sample of past sessions with slides and recordings. Dates and audience figures are approximate — ping me if you want more context on any of these."
+      description="A selection of talks and workshops delivered at meetups, conferences, and internal engineering events. Topics range from architecture decisions to delivery systems."
       eyebrow="Selected sessions"
       title="Talks with evidence."
     />
@@ -203,13 +210,48 @@ const structuredData = [
 
   <PageSection>
     <SectionHeader
-      description="If you are planning an event, the fastest path is a WhatsApp message with a little context. I can tailor sessions for community rooms, team offsites, internal enablement, or leadership conversations."
+      description="Practical sessions grounded in shipped work — not theory. The goal is always for attendees to leave with something they can apply on Monday."
+      eyebrow="Context"
+      title="Where the talks happen."
+    />
+
+    <div
+      class="
+        grid gap-4
+        sm:grid-cols-2
+      "
+      data-stagger="60"
+    >
+      <div class="mini-note h-full">
+        <p class="section-label">ReactJS Colombia</p>
+        <p class="mt-3 text-sm/7 text-ink-soft">
+          Co-organizer of ReactJS Colombia — one of the largest React communities in Latin America. Sessions cover frontend architecture, performance, and developer experience in Spanish for regional engineers.
+        </p>
+      </div>
+      <div class="mini-note h-full">
+        <p class="section-label">Internal team sessions</p>
+        <p class="mt-3 text-sm/7 text-ink-soft">
+          Engineering talks inside product teams — architecture reviews, tooling onboarding, and tech lead cohorts. Closer to coaching than presenting; built around the team's actual problems.
+        </p>
+      </div>
+    </div>
+  </PageSection>
+
+  <PageSection>
+    <SectionHeader
+      description="Making it easy helps both of us. The more context you bring, the better I can tailor the session to your audience."
       eyebrow="Booking"
       title="Make the invite easy."
     />
 
     <div class="space-y-6">
-      <div class="grid gap-4 sm:grid-cols-3" data-stagger="60">
+      <div
+        class="
+          grid gap-4
+          sm:grid-cols-3
+        "
+        data-stagger="60"
+      >
         {bookingNotes.map(note => (
           <div class="mini-note h-full">
             <p class="section-label">{note.label}</p>
@@ -230,9 +272,9 @@ const structuredData = [
 
   <PageSection>
     <SectionHeader
-      description="The strongest sessions for me are the ones that translate hard-won engineering lessons into something teams can use the next day."
+      description="Each topic draws on real project experience — architecture choices made under constraint, delivery problems solved in production, and team dynamics at different scales."
       eyebrow="Topics"
-      title="What I like to speak about."
+      title="What I speak about."
     />
     <div
       class="
@@ -255,9 +297,9 @@ const structuredData = [
 
   <PageSection>
     <SectionHeader
-      description="Good speaking opportunities do not all look the same. I am comfortable in community rooms, workshops, and internal engineering sessions where the goal is alignment as much as inspiration."
+      description="Different formats fit different goals. Pick the one that matches your audience and the outcome you want from the session."
       eyebrow="Formats"
-      title="Formats that fit teams, communities, and leadership conversations."
+      title="Available formats."
     />
     <div
       class="
@@ -278,39 +320,6 @@ const structuredData = [
     </div>
   </PageSection>
 
-  <PageSection>
-    <SectionHeader
-      description="Speaking is one of the clearest ways I know to turn private engineering lessons into something useful for more people."
-      eyebrow="Why it matters"
-      title="Community work keeps the engineering practice honest."
-    />
-    <div class="space-y-6">
-      <div class="mini-note space-y-3 p-6 sm:p-7" data-animate>
-        <p class="section-label">What that looks like in practice</p>
-        <p class="text-base/7 text-ink-soft">
-          Co-organizing ReactJS Colombia has shaped how I think about mentoring, accessibility, and explaining
-          technical tradeoffs without turning them into ego contests. It also keeps me close to the kinds of
-          questions engineers are actually asking in the wild.
-        </p>
-      </div>
-      <div class="grid gap-4 sm:grid-cols-2" data-stagger="60">
-        <div class="mini-note">
-          <p class="section-label">Community sessions</p>
-          <p class="mt-3 text-sm/7 text-ink-soft">
-            Best for React, TypeScript, DX, testing, architecture, and practical workflows teams can adopt
-            quickly.
-          </p>
-        </div>
-        <div class="mini-note">
-          <p class="section-label">Team sessions</p>
-          <p class="mt-3 text-sm/7 text-ink-soft">
-            Strong fit for internal enablement, onboarding, technical standards, release process improvements,
-            and leadership roundtables.
-          </p>
-        </div>
-      </div>
-    </div>
-  </PageSection>
 </PageLayout>
 
 <style>
