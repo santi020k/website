@@ -11,6 +11,7 @@ const PANEL_WIDTH = 1280
 const PANEL_HEIGHT = 1520
 const PANEL_X = 1820
 const PANEL_Y = 220
+const PRESERVED_LOGO_FILE = 'logo.webp'
 const LIGHT_SURFACE = '#f4efe7'
 const LIGHT_PANEL = '#ded8cd'
 const LIGHT_GRID = 'rgba(17, 17, 17, 0.065)'
@@ -64,9 +65,7 @@ const PROJECTS = [
     ink: '#0d1020',
     panel: '#111426',
     texture: '#d8d1ff',
-    logoRect: { left: 1040, top: 250, width: 1760, height: 1500 },
-    backgroundColor: '#24273a',
-    threshold: 32,
+    logoAssetPath: '../eslint-config-basic/packages/docs/public/logo.webp',
     placement: { ...STANDARD_BADGE_PLACEMENT }
   },
   {
@@ -173,7 +172,7 @@ const PROJECTS = [
     ink: '#0f0a18',
     panel: '#14101f',
     texture: '#c4b5fd',
-    logoAssetPath: '../santi020k-theme/icon.svg',
+    logoAssetPath: '../santi020k-theme/icon.png',
     logoDensity: 960,
     placement: { left: 300, top: 230, width: 1060, height: 900 },
     shadowBlur: 7,
@@ -189,7 +188,7 @@ const PROJECTS = [
     ink: '#0b0712',
     panel: '#120d1c',
     texture: '#ddd6fe',
-    logoAssetPath: '../santi020k-chrome-theme/icons/icon.svg',
+    logoAssetPath: '../santi020k-chrome-theme/icons/icon512.png',
     logoDensity: 960,
     placement: { left: 300, top: 230, width: 1060, height: 900 },
     shadowBlur: 7,
@@ -205,7 +204,7 @@ const PROJECTS = [
     ink: '#07090c',
     panel: '#0d1014',
     texture: '#ffd2da',
-    placement: { left: 92, top: 250, width: 1620, height: 620 },
+    placement: { left: 180, top: 250, width: 1350, height: 720 },
     customLogoBuilder: 'tedx-medellin'
   },
   {
@@ -475,42 +474,24 @@ async function buildSmithCommerceWordmark() {
 
 async function buildTedxMedellinWordmark() {
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="4600" height="980" viewBox="0 0 4600 980">
+    <svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1400" viewBox="0 0 2200 1400">
       <rect width="100%" height="100%" fill="transparent" />
       <text
-        x="180"
-        y="496"
+        x="160"
+        y="560"
         fill="#EB0028"
         font-family="Arial, Helvetica, sans-serif"
-        font-size="560"
+        font-size="620"
         font-weight="900"
-        letter-spacing="-0.08em"
-      >TED</text>
+      >TEDx</text>
       <text
-        x="1320"
-        y="360"
-        fill="#EB0028"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="320"
-        font-weight="800"
-        letter-spacing="-0.06em"
-      >x</text>
-      <path
-        d="M 1448 416 H 2580"
-        fill="none"
-        stroke="#EB0028"
-        stroke-linecap="round"
-        stroke-width="36"
-      />
-      <text
-        x="214"
-        y="794"
+        x="160"
+        y="1120"
         fill="#FFFFFF"
         font-family="Arial, Helvetica, sans-serif"
-        font-size="318"
-        font-weight="700"
-        letter-spacing="-0.04em"
-      >Medellin</text>
+        font-size="480"
+        font-weight="400"
+      >Medellín</text>
     </svg>
   `
 
@@ -1011,6 +992,7 @@ async function renderProjectCover(project) {
   const horizontalPath = path.join(directory, 'cover-horizontal.webp')
   const verticalPath = path.join(directory, 'cover-vertical.webp')
   const backupPath = path.join(directory, 'cover-old.webp')
+  const preservedLogoPath = path.join(directory, PRESERVED_LOGO_FILE)
   const logoPath = project.logoAssetPath ?
     path.resolve(project.logoAssetPath) :
     project.logoPath ?
@@ -1028,6 +1010,11 @@ async function renderProjectCover(project) {
     project.useCustomWordmark ?
       await buildSmithCommerceWordmark() :
       await extractLogo(backupPath, project)
+
+  await sharp(logo.buffer)
+    .resize({ width: 1200, height: 1200, fit: 'inside', withoutEnlargement: true })
+    .webp({ quality: 96, lossless: true })
+    .toFile(preservedLogoPath)
 
   const baseSvg = Buffer.from(buildBaseSvg(project))
   const { textureBuffer, textureLeft, textureTop } = await buildTextureLayer(project)
