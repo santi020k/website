@@ -39,7 +39,7 @@ const { description, label, value } = Astro.props
       {value}
     </span>
   </p>
-  {description ?? (
+  {description && (
     <p class="relative z-10 mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
       {description}
     </p>

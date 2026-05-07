@@ -15,7 +15,7 @@ import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
 import { getUniqueTechnologiesWithCount } from '@/data/project'
 import PageLayout from '@/layouts/Base.astro'
-import { siteConfig } from '@/site.config'
+import { CAREER_START_YEAR, siteConfig } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
@@ -90,7 +90,7 @@ const projectsListSchema = {
     <StatCard
       description="Years of hands-on engineering and open-source contribution."
       label="Experience"
-      value={`${new Date().getFullYear() - 2014}+`}
+      value={`${new Date().getFullYear() - CAREER_START_YEAR}+`}
     />
   </StatsGrid>
 

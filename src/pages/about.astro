@@ -1,21 +1,22 @@
 ---
 import { getImage } from 'astro:assets'
 
-import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
 import AnimatedPortrait from '@/components/atoms/AnimatedPortrait.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
 import MiniNote from '@/components/atoms/MiniNote.astro'
 import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SocialList from '@/components/molecules/SocialList.astro'
 import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+
+import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
 import { selectedOrganizations, testimonials } from '@/data/profile'
 import PageLayout from '@/layouts/Base.astro'
-import { siteConfig } from '@/site.config'
+import { CAREER_START_YEAR, siteConfig } from '@/site.config'
 
-const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
+const yearsOfExperience = `${new Date().getFullYear() - CAREER_START_YEAR}+`
 
 const aboutPortraitImage = await getImage({
   format: 'avif',
@@ -101,7 +102,12 @@ const meta = {
           "
           >
             Engineering leader.
-            <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">Full-stack architect.</span>
+            <span class="
+              block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+              pb-4 text-transparent
+            "
+            >Full-stack architect.
+            </span>
           </h1>
           <p class="
             max-w-xl text-base/7 text-ink-soft
@@ -153,7 +159,7 @@ const meta = {
     />
 
     <div class="space-y-8">
-      <div class="space-y-6 section-copy max-w-2xl">
+      <div class="max-w-2xl space-y-6 section-copy">
         <p>
           I'm Santiago Molina, a full-stack engineer and tech lead based in Medellín, Colombia.
           Over the last {yearsOfExperience} years I've shipped products across commerce, SaaS, gaming,
@@ -182,7 +188,11 @@ const meta = {
         </p>
       </div>
 
-      <div class="grid gap-3 sm:grid-cols-3">
+      <div class="
+        grid gap-3
+        sm:grid-cols-3
+      "
+      >
         <MiniNote label="Experience">
           <p class="text-lg font-semibold text-ink">{yearsOfExperience} years</p>
         </MiniNote>
@@ -204,7 +214,12 @@ const meta = {
     />
 
     <div class="space-y-6">
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="
+        grid gap-4
+        sm:grid-cols-2
+        lg:grid-cols-3
+      "
+      >
         {selectedOrganizations.map(({ context, label }) => (
           <MiniNote label={label} className="h-full">
             <p class="text-sm/7 text-ink-soft">{context}</p>
@@ -230,7 +245,11 @@ const meta = {
       description="A few things that shape how I work, how I lead, and what I focus on."
     />
 
-    <div class="grid gap-6 sm:grid-cols-2">
+    <div class="
+      grid gap-6
+      sm:grid-cols-2
+    "
+    >
       {[
         {
           title: 'Automate the friction, not the thinking',
@@ -275,7 +294,13 @@ const meta = {
     />
 
     <div class="space-y-10">
-      <div class="grid gap-6 sm:grid-cols-2" data-stagger="80">
+      <div
+        class="
+          grid gap-6
+          sm:grid-cols-2
+        "
+        data-stagger="80"
+      >
         {testimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
           <TestimonialCard
             quote={quote}
