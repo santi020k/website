@@ -1,0 +1,127 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
+import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import type { CollectionEntry } from 'astro:content'
+
+interface StatItem {
+  description: string
+  label: string
+  value: string
+}
+
+interface HeroAction {
+  href: string
+  label: string
+  newTab?: boolean
+  variant?: 'primary' | 'secondary'
+}
+
+interface Props {
+  heroActions: HeroAction[]
+  heroDescription: string
+  heroEyebrow: string
+  heroGradientText: string
+  heroTitle: string
+  meta: {
+    breadcrumbs: { name: string, url: string }[]
+    description: string
+    structuredData: Record<string, unknown>
+    title: string
+  }
+  projects: CollectionEntry<'project'>[]
+  section1: {
+    description: string
+    eyebrow: string
+    title: string
+  }
+  section2: {
+    description: string
+    eyebrow: string
+    linkHref: string
+    linkLabel: string
+    title: string
+  }
+  stats: StatItem[]
+  technologies: [string, number][]
+  technologyCountHidden: number
+  technologyIntro: string
+}
+
+const {
+  heroActions,
+  heroDescription,
+  heroEyebrow,
+  heroGradientText,
+  heroTitle,
+  meta,
+  projects,
+  section1,
+  section2,
+  stats,
+  technologies,
+  technologyCountHidden,
+  technologyIntro
+} = Astro.props
+---
+
+<PageLayout meta={meta}>
+  <PageHero
+    description={heroDescription}
+    eyebrow={heroEyebrow}
+    gradientText={heroGradientText}
+    title={heroTitle}
+  >
+    {heroActions.map(action => (
+      <ButtonLink
+        href={action.href}
+        showArrow
+        variant={action.variant ?? 'primary'}
+        {...(action.newTab !== undefined ? { newTab: action.newTab } : {})}
+      >
+        {action.label}
+      </ButtonLink>
+    ))}
+  </PageHero>
+
+  <StatsGrid>
+    {stats.map(stat => (
+      <StatCard
+        description={stat.description}
+        label={stat.label}
+        value={stat.value}
+      />
+    ))}
+  </StatsGrid>
+
+  <PageSection>
+    <SectionHeader
+      description={section1.description}
+      eyebrow={section1.eyebrow}
+      title={section1.title}
+    />
+    <CareerTimeline projects={projects} />
+  </PageSection>
+
+  <PageSection>
+    <SectionHeader
+      description={section2.description}
+      eyebrow={section2.eyebrow}
+      linkHref={section2.linkHref}
+      linkLabel={section2.linkLabel}
+      title={section2.title}
+    />
+    <TechnologyPillGrid
+      hiddenCount={technologyCountHidden}
+      intro={technologyIntro}
+      technologies={technologies}
+    />
+  </PageSection>
+</PageLayout>

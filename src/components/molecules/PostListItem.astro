@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 
 const { post } = Astro.props
 const postLink = getPostPath(post.id)
-const formattedDate = post.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+const formattedDate = getFormattedDate(post.data.publishDate)
 ---
 
 <a

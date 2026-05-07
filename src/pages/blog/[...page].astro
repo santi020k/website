@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
+import EditorialEntryCard from '@/components/molecules/EditorialEntryCard.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
@@ -255,32 +256,14 @@ const blogListSchema = {
           data-stagger
         >
           {roadmapPreview.map(entry => (
-            <article class="
-              mini-note flex h-full flex-col gap-5 p-5
-              sm:p-6
-            "
-            >
-              <div class="flex flex-wrap items-center gap-2">
-                <Pill label={entry.month} tone="brand" />
-                <Pill label={entry.format} tone="outline" />
-              </div>
-              <h2 class="text-[1.05rem]/snug font-semibold text-ink">
-                {entry.headline}
-              </h2>
-              <div class="mt-auto space-y-1.5 pt-4">
-                <div class="flex items-center gap-2">
-                  <span class="h-px w-3 rounded-full bg-brand/40"></span>
-                  <span class="
-                    text-[0.7rem] font-medium tracking-wide text-brand uppercase
-                  "
-                  >Also refreshing
-                  </span>
-                </div>
-                <p class="pl-5 text-sm/6 text-ink-muted">
-                  {entry.refreshTitle}
-                </p>
-              </div>
-            </article>
+            <EditorialEntryCard
+              format={entry.format}
+              headline={entry.headline}
+              month={entry.month}
+              refreshTitle={entry.refreshTitle}
+              seriesId={entry.seriesId}
+              variant="compact"
+            />
           ))}
         </div>
 

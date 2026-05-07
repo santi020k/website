@@ -29,6 +29,21 @@ const resourceLinks = [
 const currentPath = Astro.url.pathname
 const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
 
+const connectLinks = [
+  ...siteConfig.socialLinks.map(({ href, icon, indieAuthRelMe, label }) => ({
+    href,
+    icon,
+    label,
+    rel: `noreferrer noopener${indieAuthRelMe === false ? '' : ' me'}`
+  })),
+  { href: siteConfig.contact.resume, icon: 'tabler:file-text', label: 'Resume', rel: 'noreferrer noopener' }
+]
+
+const policyLinks = [
+  { href: '/accessibility/', icon: 'tabler:accessible', label: 'Accessibility' },
+  { href: '/privacy/', icon: 'tabler:shield-lock', label: 'Privacy & analytics' }
+]
+
 const isLinkActive = (linkPath: string): boolean => {
   if (linkPath === '/') return currentPath === '/'
 
@@ -229,7 +244,7 @@ const isLinkActive = (linkPath: string): boolean => {
       <div>
         <p class="mb-5 section-label">Connect</p>
         <ul class="space-y-2.5">
-          {siteConfig.socialLinks.map(({ href, icon, indieAuthRelMe, label }) => (
+          {connectLinks.map(({ href, icon, label, rel }) => (
             <li>
               <a
                 class="
@@ -239,7 +254,7 @@ const isLinkActive = (linkPath: string): boolean => {
                   motion-reduce:transition-none
                 "
                 href={href}
-                rel={`noreferrer noopener ${indieAuthRelMe === false ? '' : 'me'}`}
+                rel={rel}
                 target="_blank"
               >
                 <Icon
@@ -257,32 +272,6 @@ const isLinkActive = (linkPath: string): boolean => {
               </a>
             </li>
           ))}
-          <li class="pt-1">
-            <a
-              class="
-                group inline-flex items-center gap-2 text-sm text-ink-soft
-                transition-colors duration-200
-                hover:text-ink
-                motion-reduce:transition-none
-              "
-              href={siteConfig.contact.resume}
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              <Icon
-                aria-hidden="true"
-                class="
-                  size-4 shrink-0 text-ink-muted transition-[color,transform]
-                  duration-200
-                  group-hover:-translate-y-px group-hover:text-brand
-                  motion-reduce:transition-none
-                  motion-reduce:group-hover:translate-y-0
-                "
-                name="tabler:file-text"
-              />
-              Resume
-            </a>
-          </li>
         </ul>
       </div>
 
@@ -354,29 +343,19 @@ const isLinkActive = (linkPath: string): boolean => {
       <p>&copy; {year} {siteConfig.author}.</p>
 
       <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <a
-          class="
-            inline-flex items-center gap-1.5 text-ink-muted transition-colors
-            hover:text-brand
-            motion-reduce:transition-none
-          "
-          href="/accessibility/"
-        >
-          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:accessible" />
-          Accessibility
-        </a>
-
-        <a
-          class="
-            inline-flex items-center gap-1.5 text-ink-muted transition-colors
-            hover:text-brand
-            motion-reduce:transition-none
-          "
-          href="/privacy/"
-        >
-          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:shield-lock" />
-          Privacy &amp; analytics
-        </a>
+        {policyLinks.map(({ href, icon, label }) => (
+          <a
+            class="
+              inline-flex items-center gap-1.5 text-ink-muted transition-colors
+              hover:text-brand
+              motion-reduce:transition-none
+            "
+            href={href}
+          >
+            <Icon aria-hidden="true" class="size-3 shrink-0" name={icon} />
+            {label}
+          </a>
+        ))}
 
         <a
           class="
