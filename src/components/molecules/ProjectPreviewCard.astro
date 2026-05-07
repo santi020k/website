@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
+import { getFormattedDate } from '@/utils/date'
 import { getPortfolioPath } from '@/utils/links'
 
 interface Props {
@@ -11,11 +12,12 @@ interface Props {
 
 const { project, accentTone = 'brand' } = Astro.props
 const isActive = !project.data.endingDate
-const startDate = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+const dateOptions = { day: undefined, month: 'short' as const, year: 'numeric' as const }
+const startDate = getFormattedDate(project.data.startingDate, dateOptions)
 
 const endDate = isActive ?
   'Present' :
-  project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+  project.data.endingDate ? getFormattedDate(project.data.endingDate, dateOptions) : undefined
 
 const dateRange = `${startDate} – ${endDate}`
 const projectLink = getPortfolioPath(project.id)
@@ -54,35 +56,29 @@ const logoBoxClass = {
     style={`--card-accent: ${cardAccentVar};`}
   >
 
-    {/* ── Background media (vertical cover, blurred) ────────────── */}
-    {bgImage ?
-      (
-        <>
-          <Image
-            alt=""
-            aria-hidden="true"
-            class="absolute inset-0 size-full object-cover"
-            data-card-bg
-            height={800}
-            loading="lazy"
-            src={bgImage}
-            width={600}
-          />
-          {/* Blur + dim overlay for background */}
-          <div
-            aria-hidden="true"
-            class="absolute inset-0"
-            data-card-bg-overlay
-          />
-        </>
-      ) :
-      (
-        <div
-          aria-hidden="true"
-          class="absolute inset-0"
-          data-card-bg-fallback
-        />
-      )}
+    {/* ── Background media: brand wash + ghosted cover texture ───── */}
+    <div
+      aria-hidden="true"
+      class="absolute inset-0"
+      data-card-bg-base
+    />
+    {bgImage && (
+      <Image
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 size-full object-cover"
+        data-card-bg
+        height={800}
+        loading="lazy"
+        src={bgImage}
+        width={600}
+      />
+    )}
+    <div
+      aria-hidden="true"
+      class="absolute inset-0"
+      data-card-bg-overlay
+    />
 
     {/* ── Logo/Brand area ─────────────────────────────────────────── */}
     <div class="absolute inset-x-0 top-0 z-10 flex items-center justify-center" style="padding-top: 16%;">
@@ -259,20 +255,28 @@ const logoBoxClass = {
       0 4px 12px hsl(230 30% 8% / 0.1);
   }
 
-  /* Background image with blur effect */
+  /* Background: stable brand wash with the cover used only as texture */
+  [data-card-bg-base] {
+    background:
+      radial-gradient(ellipse 95% 68% at 50% 2%, hsl(var(--card-accent) / 0.2), transparent 62%),
+      radial-gradient(ellipse 74% 62% at 12% 20%, hsl(var(--card-accent) / 0.1), transparent 68%),
+      radial-gradient(ellipse 70% 58% at 88% 78%, hsl(var(--card-accent) / 0.08), transparent 68%),
+      linear-gradient(180deg, hsl(260 32% 10%) 0%, hsl(260 38% 5%) 72%, hsl(260 42% 3%) 100%);
+  }
+
   [data-card-bg] {
-    filter: blur(8px) brightness(0.7);
-    transform: scale(1.1);
+    opacity: 0.18;
+    filter: saturate(0.72) contrast(0.9) brightness(1.08);
+    mix-blend-mode: screen;
+    transform: scale(1.03);
+    mask-image: linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.72) 45%, transparent 82%);
+    -webkit-mask-image: linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.72) 45%, transparent 82%);
   }
 
   [data-card-bg-overlay] {
-    background: linear-gradient(
-      to bottom,
-      hsl(0 0% 0% / 0.3) 0%,
-      hsl(0 0% 0% / 0.1) 50%,
-      hsl(0 0% 0% / 0.4) 100%
-    );
-    backdrop-filter: blur(2px);
+    background:
+      linear-gradient(180deg, hsl(0 0% 100% / 0.08) 0%, transparent 18%),
+      linear-gradient(180deg, hsl(260 40% 5% / 0.02) 0%, hsl(260 45% 4% / 0.5) 58%, hsl(260 45% 3% / 0.86) 100%);
   }
 
   /* Logo/Brand mark styling */
@@ -373,6 +377,24 @@ const logoBoxClass = {
     -webkit-backdrop-filter: blur(10px) saturate(120%);
   }
 
+  /* SVG noise texture overlay — applied via the ambient layer */
+  [data-card-ambient] {
+    opacity: 0.22;
+  }
+
+  [data-card-ambient]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    pointer-events: none;
+  }
+
+  [data-card-tint] {
+    background: radial-gradient(ellipse 80% 60% at 70% 20%, color-mix(in srgb, hsl(var(--card-accent)) 22%, transparent), transparent 65%);
+  }
+
   @keyframes card-shimmer {
     from { left: -65%; }
     to { left: 130%; }
@@ -443,6 +465,16 @@ const logoBoxClass = {
       transition: background 0.3s ease;
     }
 
+    [data-card-bg] {
+      transition:
+        opacity 0.45s ease,
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .group:hover [data-card-bg] {
+      opacity: 0.25;
+      transform: scale(1.06);
+    }
+
     .group:hover [data-card-panel] {
       background: linear-gradient(
         180deg,
@@ -452,38 +484,10 @@ const logoBoxClass = {
       );
     }
 
-  /* ── Fallback background: deep dark + noise + corner glow ───── */
-
-  [data-card-bg-fallback] {
-    background:
-      radial-gradient(ellipse 90% 70% at 85% 5%, hsl(var(--card-accent) / 0.08), transparent 60%),
-      hsl(260 30% 4%);
-  }
-
-  /* SVG noise texture overlay — applied via the ambient layer */
-  [data-card-ambient] {
-    opacity: 0.38;
-  }
-
-  [data-card-ambient]::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
-    background-size: 180px 180px;
-    pointer-events: none;
-  }
-
-  [data-card-tint] {
-    background: radial-gradient(ellipse 80% 60% at 70% 20%, color-mix(in srgb, hsl(var(--card-accent)) 22%, transparent), transparent 65%);
-    transition: opacity 0.45s ease;
-  }
-  .group:hover [data-card-tint] { opacity: 1; }
-
-    [data-card-img] {
-      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    [data-card-tint] {
+      transition: opacity 0.45s ease;
     }
-    .group:hover [data-card-img] { transform: scale(1.06); }
+    .group:hover [data-card-tint] { opacity: 1; }
 
     [data-card-arrow] {
       transition:

@@ -3,6 +3,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
+import TalkCard from '@/components/molecules/TalkCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
@@ -121,44 +122,16 @@ const structuredData = [
       "
     >
       {selectedSessions.map(talk => (
-        <article class="
-          talk-card flex h-full flex-col space-y-4 p-6
-          sm:p-7
-        "
-        >
-          <div>
-            <p class="section-label">{talk.event} · {talk.year}</p>
-            {talk.audience && (
-              <p class="mt-1 text-xs text-ink-muted">{talk.audience}</p>
-            )}
-          </div>
-          <h2 class="text-xl font-semibold text-ink">{talk.title}</h2>
-          <p class="grow text-sm/7 text-ink-soft">{talk.description}</p>
-          <div class="flex flex-wrap gap-2">
-            {talk.tags.map(tag => (
-              <span class="
-                rounded-full border border-line/50 px-3 py-0.5 text-xs
-                font-medium text-ink-muted
-              "
-              >{tag}
-              </span>
-            ))}
-          </div>
-          {(talk.links.slides ?? talk.links.video) && (
-            <div class="section-actions">
-              {talk.links.slides && (
-                <ButtonLink href={talk.links.slides} newTab showArrow variant="secondary">
-                  Slides
-                </ButtonLink>
-              )}
-              {talk.links.video && (
-                <ButtonLink href={talk.links.video} newTab showArrow variant="secondary">
-                  Watch talk
-                </ButtonLink>
-              )}
-            </div>
-          )}
-        </article>
+        <TalkCard
+          audience={talk.audience}
+          description={talk.description}
+          event={talk.event}
+          links={talk.links}
+          tags={talk.tags}
+          title={talk.title}
+          variant="session"
+          year={talk.year}
+        />
       ))}
     </div>
   </PageSection>
@@ -238,14 +211,7 @@ const structuredData = [
       "
     >
       {speakingTopics.map(topic => (
-        <article class="
-          talk-card h-full space-y-4 p-6
-          sm:p-7
-        "
-        >
-          <h2 class="text-2xl font-semibold text-ink">{topic.title}</h2>
-          <p class="text-sm/7 text-ink-soft">{topic.description}</p>
-        </article>
+        <TalkCard description={topic.description} title={topic.title} variant="topic" />
       ))}
     </div>
   </PageSection>
@@ -263,14 +229,7 @@ const structuredData = [
       "
     >
       {speakingFormats.map(format => (
-        <article class="
-          talk-card h-full space-y-4 p-6
-          sm:p-7
-        "
-        >
-          <p class="section-label">{format.title}</p>
-          <p class="text-base/7 text-ink-soft">{format.description}</p>
-        </article>
+        <TalkCard description={format.description} title={format.title} variant="format" />
       ))}
     </div>
   </PageSection>

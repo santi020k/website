@@ -1,14 +1,12 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import EditorialEntryCard from '@/components/molecules/EditorialEntryCard.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import Pill from '@/components/atoms/Pill.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
-
-import { getSeriesPath } from '@/utils/links'
 
 import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
@@ -76,45 +74,14 @@ const breadcrumbs = [
     "
     >
       {editorialCalendar.map(entry => (
-        <article class="
-          panel-card flex h-full flex-col gap-5 p-6
-          sm:p-7
-        "
-        >
-          <div class="flex flex-wrap items-center gap-2">
-            <Pill label={entry.month} tone="brand" />
-            <Pill label={entry.format} tone="outline" />
-          </div>
-
-          <div class="space-y-3">
-            <h2 class="text-2xl/tight text-ink">
-              {entry.headline}
-            </h2>
-            <p class="text-sm/7 text-ink-soft">
-              Search intent: {entry.searchIntent}
-            </p>
-          </div>
-
-          <div class="border-t border-line/35 pt-5">
-            <p class="section-label">Evergreen refresh</p>
-            <p class="mt-3 text-sm/6 font-semibold text-ink">
-              {entry.refreshTitle}
-            </p>
-          </div>
-
-          {entry.seriesId && (
-            <a
-              class="
-                inline-flex items-center gap-2 text-sm font-medium text-brand
-                transition-colors
-                hover:text-accent
-              "
-              href={getSeriesPath(entry.seriesId)}
-            >
-              Continue the related series
-            </a>
-          )}
-        </article>
+        <EditorialEntryCard
+          format={entry.format}
+          headline={entry.headline}
+          month={entry.month}
+          refreshTitle={entry.refreshTitle}
+          searchIntent={entry.searchIntent}
+          seriesId={entry.seriesId}
+        />
       ))}
     </div>
   </PageSection>
