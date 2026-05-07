@@ -1,15 +1,17 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PillCount from '@/components/atoms/PillCount.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
-import { getUniqueTechnologiesWithCount } from '@/data/project'
-import PageLayout from '@/layouts/Base.astro'
+
 import { getCachedProjects } from '@/utils/content'
 import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { getUniqueTechnologiesWithCount } from '@/data/project'
+import PageLayout from '@/layouts/Base.astro'
 
 const allProjects = await getCachedProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)
@@ -44,58 +46,19 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section class="relative pb-4">
-    <div class="relative z-10 space-y-8">
-      <Eyebrow
-        label="Stack Index"
-        tone="brand"
-        className="
-          animate-slide-up whitespace-normal
-          motion-reduce:animate-none
-        "
-      />
-
-      <div
-        class="
-          animate-slide-up space-y-4 [animation-delay:90ms]
-          motion-reduce:animate-none
-        "
-      >
-        <h1 class="
-          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
-          sm:text-6xl/[0.95]
-          lg:text-[5.2rem]/[0.92]
-        "
-        >
-          Frontend-first stack.
-          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">Full-stack range.</span>
-        </h1>
-        <p class="
-          max-w-xl text-base/7 text-ink-soft
-          sm:text-lg/7
-        "
-        >
-          The recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, DX, and the tools around them.
-        </p>
-      </div>
-
-      <div
-        class="
-          animate-slide-up space-y-5 [animation-delay:180ms]
-          motion-reduce:animate-none
-        "
-      >
-        <div class="section-actions">
-          <ButtonLink href="/work/" showArrow>
-            Browse work
-          </ButtonLink>
-          <ButtonLink href="/portfolio/" showArrow variant="secondary">
-            Back to portfolio
-          </ButtonLink>
-        </div>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    description="The recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, DX, and the tools around them."
+    eyebrow="Stack Index"
+    gradientText="Full-stack range."
+    title="Frontend-first stack."
+  >
+    <ButtonLink href="/work/" showArrow>
+      Browse work
+    </ButtonLink>
+    <ButtonLink href="/portfolio/" showArrow variant="secondary">
+      Back to portfolio
+    </ButtonLink>
+  </PageHero>
 
   <StatsGrid columns={3}>
     <StatCard description="Distinct tools and platforms across the full portfolio." label="Technologies" value={String(technologies.length)} />
@@ -103,7 +66,13 @@ const meta = {
     <StatCard description="Frontend, backend, testing, delivery, and developer tooling." label="Scope" value="Full stack" />
   </StatsGrid>
 
-  <section class="grid gap-8 pt-10 lg:grid-cols-3" data-animate>
+  <section
+    class="
+      grid gap-8 pt-10
+      lg:grid-cols-3
+    "
+    data-animate
+  >
     {technologyGroups.map(group => (
       <div class="space-y-4">
         <div class="space-y-2">

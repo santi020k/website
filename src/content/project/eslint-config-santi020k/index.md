@@ -21,7 +21,7 @@ coverImage:
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
-  logoSurface: "dark"
+  logoSurface: "light"
   alt: "@santi020k/eslint-config-santi020k badge on an indigo and purple geometric cover"
 ---
 
