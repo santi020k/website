@@ -10,10 +10,9 @@ import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
-import { getPortfolioPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
-import { getUniqueTechnologiesWithCount } from '@/data/project'
+import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
 
@@ -28,22 +27,7 @@ const breadcrumbs = [
   { name: 'Work', url: '/work/' }
 ]
 
-const workListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: 'Work Experience — Santiago Molina',
-  url: new URL('/work/', Astro.site).href,
-  mainEntity: {
-    '@type': 'ItemList',
-    numberOfItems: workProjects.length,
-    itemListElement: workProjects.map((project, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      url: new URL(getPortfolioPath(project.id), Astro.site).href,
-      name: project.data.title
-    }))
-  }
-}
+const workListSchema = createProjectCollectionSchema('Work Experience — Santiago Molina', '/work/', workProjects, Astro.site)
 ---
 
 <PageLayout

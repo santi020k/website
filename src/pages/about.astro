@@ -12,11 +12,11 @@ import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 
 import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
-import { selectedOrganizations, testimonials } from '@/data/profile'
+import { engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
 import PageLayout from '@/layouts/Base.astro'
-import { CAREER_START_YEAR, siteConfig } from '@/site.config'
+import { AUTHOR_JOB_TITLE, YEARS_OF_EXPERIENCE, sameAsProfiles, siteConfig } from '@/site.config'
 
-const yearsOfExperience = `${new Date().getFullYear() - CAREER_START_YEAR}+`
+const yearsOfExperience = YEARS_OF_EXPERIENCE
 
 const aboutPortraitImage = await getImage({
   format: 'avif',
@@ -42,7 +42,7 @@ const aboutPageSchema = {
   mainEntity: {
     '@type': 'Person',
     name: siteConfig.author,
-    jobTitle: 'Engineering Leader & Full-Stack Architect',
+    jobTitle: AUTHOR_JOB_TITLE,
     description: siteConfig.description,
     address: {
       '@type': 'PostalAddress',
@@ -50,11 +50,7 @@ const aboutPageSchema = {
       addressCountry: 'CO'
     },
     email: `mailto:${siteConfig.contact.email}`,
-    sameAs: [
-      siteConfig.contact.github,
-      siteConfig.contact.linkedin,
-      siteConfig.contact.medium
-    ].filter(Boolean)
+    sameAs: sameAsProfiles.slice(0, 3)
   }
 }
 
@@ -250,32 +246,7 @@ const meta = {
       sm:grid-cols-2
     "
     >
-      {[
-        {
-          title: 'Automate the friction, not the thinking',
-          body: 'The best automation removes toil — repetitive, low-judgment work that slows teams down. It should never replace the thinking that makes products worth building.'
-        },
-        {
-          title: 'DX is UX for your team',
-          body: 'The developer experience of a codebase shapes how fast and confidently the team can move. Bad DX compounds. Good DX compounds too — invest early and measure it.'
-        },
-        {
-          title: 'Leadership means fewer decisions under pressure',
-          body: 'A good tech lead reduces ambiguity before it becomes risk. Clear standards, good tooling, and systems that fail loudly are how you protect a team\'s velocity at scale.'
-        },
-        {
-          title: 'Performance is a product decision',
-          body: 'Speed isn\'t a tech concern, it\'s a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections.'
-        },
-        {
-          title: 'Boring tech is often the right call',
-          body: 'The goal is to solve the problem, not to use the newest tool. Stable, well-understood solutions let the team focus on the actual product.'
-        },
-        {
-          title: 'Consistency beats perfection',
-          body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
-        }
-      ].map(({ title, body }, index) => (
+      {engineeringPrinciples.map(({ title, body }, index) => (
         <PrincipleCard
           index={index}
           title={title}

@@ -10,12 +10,11 @@ import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
-import { getPortfolioPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
-import { getUniqueTechnologiesWithCount } from '@/data/project'
+import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import PageLayout from '@/layouts/Base.astro'
-import { CAREER_START_YEAR, siteConfig } from '@/site.config'
+import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
@@ -28,22 +27,7 @@ const breadcrumbs = [
   { name: 'Projects', url: '/projects/' }
 ]
 
-const projectsListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: 'Side Projects — Santiago Molina',
-  url: new URL('/projects/', Astro.site).href,
-  mainEntity: {
-    '@type': 'ItemList',
-    numberOfItems: sideProjects.length,
-    itemListElement: sideProjects.map((project, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      url: new URL(getPortfolioPath(project.id), Astro.site).href,
-      name: project.data.title
-    }))
-  }
-}
+const projectsListSchema = createProjectCollectionSchema('Side Projects — Santiago Molina', '/projects/', sideProjects, Astro.site)
 ---
 
 <PageLayout
@@ -90,7 +74,7 @@ const projectsListSchema = {
     <StatCard
       description="Years of hands-on engineering and open-source contribution."
       label="Experience"
-      value={`${new Date().getFullYear() - CAREER_START_YEAR}+`}
+      value={YEARS_OF_EXPERIENCE}
     />
   </StatsGrid>
 

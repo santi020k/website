@@ -1,5 +1,6 @@
 /* eslint-disable func-style */
 import { getCachedProjects } from '@/utils/content'
+import { getPortfolioPath } from '@/utils/links'
 
 import type { CollectionEntry } from 'astro:content'
 
@@ -59,6 +60,31 @@ export function getTechnologiesByUsage(projects: CollectionEntry<'project'>[]) {
   return [...techCount.entries()]
     .sort((a, b) => b[1] - a[1]) // sort by usage count, descending
     .map(([tech]) => tech) // return only the technology names
+}
+
+/** Builds the schema.org CollectionPage + ItemList structured data for a project list page. */
+export function createProjectCollectionSchema(
+  name: string,
+  path: string,
+  projects: CollectionEntry<'project'>[],
+  site: URL | undefined
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    url: new URL(path, site).href,
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: projects.length,
+      itemListElement: projects.map((project, index) => ({
+        '@type': 'ListItem',
+        name: project.data.title,
+        position: index + 1,
+        url: new URL(getPortfolioPath(project.id), site).href
+      }))
+    }
+  }
 }
 
 /** returns a count of each unique Technology - [[TechnologyName, count], ...]

@@ -3,7 +3,7 @@ import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
 import { getSocialImageURL } from '@/utils/social-image'
 
-import { siteConfig } from '@/site.config'
+import { AUTHOR_JOB_TITLE, sameAsProfiles, siteConfig } from '@/site.config'
 import type { SiteMeta } from '@/types/site'
 
 type Props = SiteMeta
@@ -172,15 +172,9 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
     '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
     name: siteConfig.author,
     url: Astro.site?.href,
-    jobTitle: 'Engineering Leader & Full-Stack Architect',
+    jobTitle: AUTHOR_JOB_TITLE,
     description: siteConfig.description,
-    sameAs: [
-      siteConfig.contact.github,
-      siteConfig.contact.linkedin,
-      siteConfig.contact.medium,
-      'https://twitter.com/santi020k',
-      'https://x.com/santi020k'
-    ].filter(Boolean),
+    sameAs: sameAsProfiles,
     knowsAbout: [
       'Full-Stack Engineering',
       'Software Architecture',
@@ -211,13 +205,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
       '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
       name: siteConfig.author
     },
-    sameAs: [
-      siteConfig.contact.github,
-      siteConfig.contact.linkedin,
-      siteConfig.contact.medium,
-      'https://twitter.com/santi020k',
-      'https://x.com/santi020k'
-    ].filter(Boolean),
+    sameAs: sameAsProfiles,
     contactPoint: {
       '@type': 'ContactPoint',
       email: siteConfig.contact.email,

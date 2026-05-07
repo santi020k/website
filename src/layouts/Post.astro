@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
 import { WEBMENTION_API_KEY } from 'astro:env/server'
+
 import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
@@ -10,6 +11,7 @@ import TocCard from '@/components/molecules/TocCard.astro'
 import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
+import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
 
 import { getPostSlug } from '@/utils/posts'
 import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
@@ -17,8 +19,8 @@ import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
-import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
 import BaseLayout from '@/layouts/Base.astro'
+import { createAuthorSchema } from '@/site.config'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -52,16 +54,8 @@ const blogPostingSchema: Record<string, unknown> = {
   keywords: post.data.tags,
   image: ogImage,
   url: canonicalURL.href,
-  author: {
-    '@type': 'Person',
-    name: 'Santiago Molina',
-    url: Astro.site?.href
-  },
-  publisher: {
-    '@type': 'Person',
-    name: 'Santiago Molina',
-    url: Astro.site?.href
-  },
+  author: createAuthorSchema(Astro.site),
+  publisher: createAuthorSchema(Astro.site),
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': canonicalURL.href
@@ -99,7 +93,7 @@ const breadcrumbs = [
     <!-- ── Two-column body: prose + sticky TOC sidebar ─────────── -->
     <section
       class="
-        grid grid-cols-1 gap-10 section-divider
+        section-divider grid grid-cols-1 gap-10
         lg:grid-cols-[minmax(0,1fr)_18rem]
       "
       data-animate="fade"

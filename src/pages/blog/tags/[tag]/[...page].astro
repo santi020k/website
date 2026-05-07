@@ -113,15 +113,7 @@ const breadcrumbs = [
     <div class="space-y-6">
       {featuredPost && <PostCard featured post={featuredPost} />}
 
-      {featuredPost && (
-        <div class="flex items-center gap-4">
-          <div class="h-px flex-1 bg-line/50" />
-          <span class="section-label">Filter posts</span>
-          <div class="h-px flex-1 bg-line/50" />
-        </div>
-      )}
-
-      <TagFilter activeTag={tag} tags={topTags} />
+      <TagFilter activeTag={tag} showDivider={!!featuredPost} tags={topTags} />
 
       {gridPosts.length > 0 ?
         (
