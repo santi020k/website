@@ -1,4 +1,11 @@
 ---
+interface Props {
+  className?: string
+  showHash?: boolean
+  title: string
+  variant?: 'default' | 'accent' | 'brand-accent' | 'muted' | 'outline' | 'inactive' | 'subtle' | 'ghost' | 'warning' | 'danger'
+}
+
 const { variant = 'default', showHash = true, className = '', title } = Astro.props
 
 const badgeClasses = {
@@ -20,7 +27,7 @@ const badgeClasses = {
 
 const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasses.variants]
 ---
-<div class={`
+<span class={`
   ${badgeClasses.base}
   ${variantClasses}
   ${className}
@@ -29,4 +36,4 @@ const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasse
   {showHash && <span class="text-xs font-normal opacity-60">#</span>}
   <span class="truncate">{title}</span>
   <slot />
-</div>
+</span>
