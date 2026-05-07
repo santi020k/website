@@ -1,388 +1,387 @@
 ---
 name: web-design
-description: UI/UX design, visual design system, and web animations for this Astro + Alpine.js + Tailwind v4 website. Use this skill when designing or refining components, building animations and transitions, working on the design system (colors, typography, spacing), implementing scroll-triggered effects, micro-interactions, hover states, page transitions, or any task about how the site looks and feels. Trigger on mentions of design, animation, transition, hover effect, scroll animation, micro-interaction, UI component design, typography, color palette, layout, dark mode, or visual polish.
+description: Design system, glass UI utilities, animations, and component patterns for this Astro + Tailwind v4 site. Use this skill for ANY design or UI task — building components, implementing animations, choosing tokens, dark mode, scroll reveals, micro-interactions, or visual polish. Trigger on: design, animation, transition, hover, glass, card, button, section, layout, typography, color, dark mode, motion, scroll, reveal, gradient.
 ---
 
-# Web Design + Animations Skill — santi020k Website
+# Web Design — santi020k
 
-Stack: **Astro 6 + Alpine.js + Tailwind CSS v4**. Design tokens live in `src/styles/global.css` under `@theme`. All animations should respect `prefers-reduced-motion` (see Accessibility skill).
+Stack: **Astro 6 · Tailwind CSS v4 · Vanilla JS**.
+Design tokens: `src/styles/partials/tokens.css`. Glass utilities: `src/styles/partials/utilities.css`. Animations: `src/styles/partials/animations.css`.
 
----
-
-## Design System
-
-### Tokens — `src/styles/global.css`
-
-All custom colors, spacing, fonts, and effects are defined in the `@theme` block. This is the Tailwind v4 way — no `tailwind.config.js` needed.
-
-```css
-@theme {
-  /* Colors */
-  --color-accent-base: oklch(65% 0.2 250);
-  --color-accent-subtle: oklch(65% 0.2 250 / 15%);
-  --color-surface: oklch(98% 0 0);
-  --color-surface-raised: oklch(96% 0 0);
-  --color-muted: oklch(50% 0 0);
-
-  /* Typography */
-  --font-sans: 'Inter Variable', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', monospace;
-
-  /* Shadows */
-  --shadow-soft: 0 2px 8px 0 oklch(0% 0 0 / 8%);
-  --shadow-medium: 0 4px 24px 0 oklch(0% 0 0 / 12%);
-}
-
-/* Dark mode overrides using data-theme attribute */
-[data-theme="dark"] {
-  --color-surface: oklch(12% 0 0);
-  --color-surface-raised: oklch(16% 0 0);
-  --color-muted: oklch(60% 0 0);
-}
-```
-
-### Typography Scale
-
-Use Tailwind's built-in scale. Establish semantic patterns as `@utility` in `global.css`:
-
-```css
-@utility title {
-  @apply text-3xl font-bold tracking-tight leading-tight;
-}
-
-@utility subtitle {
-  @apply text-xl text-muted leading-relaxed;
-}
-
-@utility prose-link {
-  @apply text-accent-base underline-offset-2 hover:underline;
-}
-```
-
-### Spacing System
-
-Stick to the Tailwind scale (4px base unit). For layout spacing, prefer:
-- **Component padding**: `p-4` to `p-6`
-- **Section gaps**: `gap-8` to `gap-16`
-- **Page margins**: `px-4 md:px-6 lg:px-8`
+**Aesthetic direction: minimalist glass UI.** Frosted-glass surfaces, subtle purple brand gradients, crisp type, spring-physics hover lifts, and scroll-triggered reveals. Never add decorative noise that fights the minimal structure.
 
 ---
 
-## Component Design Patterns
+## Token System
 
-### Cards
+All tokens are raw HSL values on `:root` / `[data-theme="dark"]`. Tailwind maps them via `@theme` — use the Tailwind class names, never hardcode hex.
 
-A consistent card pattern used across projects, blog posts, and other listings:
+### Semantic Colors (Tailwind class → CSS var)
+
+| Tailwind | Raw var | Light | Dark | Usage |
+|---|---|---|---|---|
+| `canvas` | `--theme-bg` | `268 20% 98%` | `260 43% 8%` | `<html>` / `<body>` background |
+| `surface` | `--surface` | `268 20% 100%` | `260 30% 12%` | Glass card base |
+| `surface-muted` | `--surface-muted` | `268 20% 96%` | `260 25% 15%` | Muted glass layer |
+| `surface-strong` | `--surface-strong` | `268 15% 90%` | `260 20% 21%` | Elevated UI |
+| `line` | `--line` | `268 15% 84%` | `260 15% 30%` | Borders, dividers |
+| `ink` | `--ink` | `268 10% 20%` | `260 10% 88%` | Headings, strong UI |
+| `ink-soft` | `--ink-soft` | `268 8% 36%` | `260 8% 72%` | Body text, descriptions |
+| `ink-muted` | `--ink-muted` | `268 6% 28%` | `260 6% 56%` | Metadata, captions |
+| `brand` | `--brand` | `264 92% 47%` | `264 90% 58%` | CTAs, highlights |
+| `brand-solid` | `--brand-solid` | `264 92% 42%` | `264 90% 52%` | Button fills (WCAG AA vs white) |
+| `brand-soft` | `--brand-soft` | `264 60% 94%` | `264 45% 18%` | Tinted surfaces |
+| `accent` | `--accent` | `264 95% 57%` | `264 90% 68%` | Hover, active states |
+| `glow` | `--glow` | `264 95% 70%` | `264 85% 50%` | Glow blobs, gradients |
+
+**Rules:**
+- Always use token names — never hardcode `#5a0fdb` or `hsl(264 92% 47%)`.
+- Opacity modifiers: `bg-brand/10`, `border-line/40`, `text-ink-soft` — no ad hoc rgba.
+- Dark mode: `data-theme="dark"` on `<html>`. The `@custom-variant dark` handles `[data-theme="dark"] &`.
+
+---
+
+## Typography
+
+**One font: Montserrat variable** — maps to ALL four Tailwind font roles (`sans`, `serif`, `mono`, `display`).
+
+| Level | Size (desktop) | Weight | Class |
+|---|---|---|---|
+| Display / H1 | `text-[5.2rem]` lg / `text-6xl` sm | 800 | `font-extrabold` |
+| H1 page | `text-3xl` → `text-5xl` | 700 | `font-bold` |
+| H2 | `text-2xl` → `text-3xl` | 600 | `font-semibold` |
+| H3 | `text-lg` → `text-xl` | 600 | `font-semibold` |
+| Body | `text-base` / `text-lg` | 400 | — |
+| Caption | `text-sm` | 400 | `text-ink-muted` |
+| Micro | `text-xs` | 400/600 | badges, tags |
+
+### Hero Headline Pattern
 
 ```astro
-<article class="
-  group relative flex flex-col gap-3
-  rounded-xl border border-border bg-surface-raised
-  p-5 shadow-soft
-  transition-all duration-200
-  hover:shadow-medium hover:-translate-y-0.5
-  motion-reduce:transition-none motion-reduce:hover:translate-y-0
-">
-  <h2 class="text-lg font-semibold leading-snug group-hover:text-accent-base transition-colors">
-    {title}
-  </h2>
-  <p class="text-sm text-muted leading-relaxed">{description}</p>
-  <a href={href} class="absolute inset-0" aria-label={title}>
-    <span class="sr-only">{title}</span>
-  </a>
+<h1 class="text-4xl/[0.98] font-extrabold tracking-[-0.06em] sm:text-6xl/[0.95] lg:text-[5.2rem]/[0.92]">
+  Calm systems.
+  <span class="bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent">
+    Clear delivery.
+  </span>
+</h1>
+```
+
+### Eyebrow / Section Label
+
+```html
+<p class="section-label text-brand">Section title</p>
+```
+
+`section-label` = `text-xs font-semibold tracking-[0.22em] uppercase text-ink-muted`
+
+---
+
+## Glass UI Utilities
+
+These are the core surface utilities. **Always use these instead of writing ad hoc glass styles.**
+
+### `panel-card`
+
+Primary card surface. Glass gradient + 12px blur + subtle top-edge inset glow.
+
+```astro
+<div class="panel-card p-5">
+  <!-- card content -->
+</div>
+```
+
+### `card-interactive`
+
+`panel-card` + hover spring lift + brand border tint. Use for clickable project/post cards.
+
+```astro
+<article class="card-interactive p-5">
+  <!-- interactive card -->
 </article>
 ```
 
-The `group-hover:` trick lets child elements react to the card hover without extra JS.
+### `glass-pro`
 
-### Buttons
-
-Define button variants as utilities so they're consistent everywhere:
-
-```css
-/* global.css */
-@utility btn {
-  @apply inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium
-         transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2;
-}
-
-@utility btn-primary {
-  @apply btn bg-accent-base text-white hover:bg-accent-base/90 focus-visible:outline-accent-base;
-}
-
-@utility btn-ghost {
-  @apply btn text-muted hover:bg-surface-raised hover:text-foreground;
-}
-```
-
-### Badges / Tags
+Premium glass with SVG noise texture overlay. Use for hero floating elements or feature callouts.
 
 ```astro
-<span class="inline-flex items-center rounded-full bg-accent-subtle px-2.5 py-0.5 text-xs font-medium text-accent-base">
-  {tag}
-</span>
+<div class="glass-pro rounded-2xl p-6">
+  <!-- premium surface -->
+</div>
 ```
+
+### `section-shell`
+
+Full section wrapper with larger radius (`rounded-[2.25rem]`). Use for framed content blocks.
+
+```astro
+<section class="section-shell">
+  <!-- section content -->
+</section>
+```
+
+### `section-shell-subtle`
+
+Lighter glass than `section-shell`. Use for secondary or nested sections.
+
+### `panel-surface`
+
+Tightest glass — for header, nav, or inline panel overlays.
+
+### `mini-note`
+
+Compact glass card with animated left accent bar on hover. Good for stats, info snippets, floating labels.
+
+```astro
+<div class="mini-note p-5">
+  <p class="section-label">Label</p>
+  <p class="mt-1 text-2xl font-bold text-ink">Value</p>
+</div>
+```
+
+### `talk-card`
+
+Rich glass card with specular top highlight + brand glow blob on hover. For speaker/feature cards.
+
+### `stat-card`
+
+Glass card with animated conic-gradient spinning border on hover (via `--border-angle` CSS property).
 
 ---
 
-## CSS Animations
+## Buttons
 
-### Keyframe Definitions — `global.css`
+Defined as `@utility` in `utilities.css`. Always use these — never build ad hoc button styles.
 
-```css
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+| Utility | Purpose |
+|---|---|
+| `btn-primary` | Purple glass gradient; shimmer sweep + lift on hover |
+| `btn-secondary` | Neutral glass; spinning border arc + brand tint on hover |
+| `btn-ghost` | Transparent; glass fill sweeps in on hover |
+| `btn-inline` | Text link; animated underline grows from left |
 
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+Use the `ButtonLink.astro` component which wires these up automatically.
 
-@keyframes slide-down {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+---
 
-@keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to   { opacity: 1; transform: scale(1); }
-}
+## Animation System
+
+### Scroll-Triggered Reveal
+
+Add `data-animate` to any element — the JS observer adds `.is-visible` when it enters the viewport.
+
+```astro
+<!-- Slide up + fade (default) -->
+<section data-animate>...</section>
+
+<!-- Fade only -->
+<div data-animate="fade">...</div>
+
+<!-- Scale in -->
+<div data-animate="scale">...</div>
 ```
 
-Register them as theme animation values:
-```css
-@theme {
-  --animate-fade-in: fade-in 0.3s ease-out both;
-  --animate-slide-up: slide-up 0.4s ease-out both;
-  --animate-scale-in: scale-in 0.2s ease-out both;
-}
+### Auto-Stagger Grid Children
+
+Add `data-stagger` to a grid/list container — all direct children animate in sequence.
+
+```astro
+<!-- 60ms default stagger -->
+<div class="grid gap-6 md:grid-cols-2" data-stagger>
+  {items.map(item => <Card {item} />)}
+</div>
+
+<!-- Custom delay (ms) -->
+<div class="space-y-4" data-stagger="80">...</div>
 ```
 
-Use with Tailwind's `animate-*` class:
+### Keyframe Animations (Tailwind `animate-*` classes)
+
+| Class | Use case |
+|---|---|
+| `animate-slide-up` | Initial content reveals |
+| `animate-fade-in` | Subtle opacity entrance |
+| `animate-scale-in` | Modals, tooltips |
+| `animate-spring-up` | Bouncy entrance for cards |
+| `animate-float-y` | Floating hero elements (6s loop) |
+| `animate-float-y-slow` | Slower floating (8s loop) |
+| `animate-glow-pulse` | Ambient glow blobs |
+| `animate-shimmer` | Loading skeleton shimmer |
+| `animate-border-spin` | Conic gradient border rotation |
+
+**Always pair with `motion-reduce:`:**
+
 ```html
-<div class="animate-slide-up motion-reduce:animate-none">...</div>
+<div class="animate-float-y motion-reduce:animate-none">...</div>
 ```
 
-### Staggered List Animation
+### Inline Stagger Delay
 
-For lists that should animate in one item at a time, use CSS custom property delay:
 ```astro
 {items.map((item, i) => (
-  <li
+  <div
     class="animate-slide-up motion-reduce:animate-none"
     style={`animation-delay: ${i * 60}ms`}
   >
-    {item.name}
-  </li>
+    {item}
+  </div>
 ))}
 ```
 
 ---
 
-## Alpine.js Transitions
+## Layout Utilities
 
-Alpine.js `x-transition` is the easiest way to animate show/hide state. Always pair with CSS custom properties for tweakable values.
+### `editorial-section`
 
-### Basic fade
-```html
-<div
-  x-show="open"
-  x-transition:enter="transition-all duration-200 ease-out"
-  x-transition:enter-start="opacity-0 scale-95"
-  x-transition:enter-end="opacity-100 scale-100"
-  x-transition:leave="transition-all duration-150 ease-in"
-  x-transition:leave-start="opacity-100 scale-100"
-  x-transition:leave-end="opacity-0 scale-95"
->
-  <!-- content -->
+Asymmetric 2-column section grid. Left: 0.72fr header. Right: 1.28fr content.
+
+```astro
+<div class="editorial-section">
+  <!-- Left: eyebrow + title + description -->
+  <div class="editorial-rail">
+    <p class="section-label text-brand">Eyebrow</p>
+    <h2 class="text-2xl font-semibold tracking-tight">Title</h2>
+    <p class="text-sm text-ink-soft">Description</p>
+  </div>
+  <!-- Right: cards / list / content -->
+  <div>...</div>
 </div>
 ```
 
-### Slide from top (dropdown)
-```html
-<div
-  x-show="open"
-  x-transition:enter="transition-all duration-200 ease-out"
-  x-transition:enter-start="opacity-0 -translate-y-2"
-  x-transition:enter-end="opacity-100 translate-y-0"
-  x-transition:leave="transition-all duration-150 ease-in"
-  x-transition:leave-start="opacity-100 translate-y-0"
-  x-transition:leave-end="opacity-0 -translate-y-2"
->
-  Dropdown content
+`editorial-rail` = `sticky top-28 h-fit space-y-5` on `lg`.
+
+### `section-actions`
+
+Button row — stacks vertically on mobile, wraps on `sm`.
+
+```astro
+<div class="section-actions">
+  <ButtonLink href="/work/" showArrow>View all work</ButtonLink>
+  <ButtonLink href="..." variant="secondary" showArrow>GitHub</ButtonLink>
 </div>
 ```
 
-### Respecting reduced motion in Alpine
-```html
-<div
-  x-show="open"
-  :class="prefersReducedMotion ? '' : 'transition-all duration-200 ease-out'"
-  x-data="{ prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches }"
->
+### `section-copy`
+
+Consistent body text in sections: `text-base/7 text-ink-soft sm:text-lg/8`.
+
+---
+
+## Decorative Elements
+
+### Gradient Divider
+
+```astro
+<div aria-hidden="true" class="divider-gradient w-full my-8"></div>
+```
+
+Variants: `divider-gradient-soft`, `divider-gradient-strong`, `divider-subtle`, `divider-soft`, `divider-medium`, `divider-strong`.
+
+### Ambient Glow Blob
+
+```astro
+<div aria-hidden="true" class="brand-radial-glow motion-safe:animate-glow-pulse"></div>
+```
+
+### Mesh Background
+
+```astro
+<div class="bg-mesh-brand absolute inset-0 -z-10 opacity-60"></div>
+```
+
+### Grid Pattern
+
+```astro
+<div aria-hidden="true" class="grid-fade pointer-events-none absolute inset-0 -z-10"></div>
 ```
 
 ---
 
-## Scroll-Triggered Animations
+## Micro-Interaction Rules
 
-Use the `IntersectionObserver` API with a simple Astro `<script>` block. This avoids any dependency and is tiny.
+Apply to EVERY interactive element. All transitions use spring easing for lift/lower.
 
-```astro
-<script>
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible')
-          observer.unobserve(entry.target) // animate once
-        }
-      })
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-  )
+| Element | Classes |
+|---|---|
+| Card hover lift | `hover:-translate-y-1 transition-all duration-300 motion-reduce:hover:translate-y-0` |
+| Button press | `active:scale-[0.96] motion-reduce:active:scale-100` |
+| Link color | `transition-colors duration-150` |
+| Icon button | `hover:text-brand transition-colors duration-150` |
+| Input focus | `focus:border-brand focus:ring-2 focus:ring-brand/10` |
 
-  document.querySelectorAll('[data-animate]').forEach((el) => {
-    observer.observe(el)
-  })
-</script>
-```
-
-In `global.css`, define the before/after states:
+**Spring easing for hover lift:**
 ```css
-[data-animate] {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-[data-animate].is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-animate] {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
+transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 ```
-
-Use it on any element:
-```astro
-<section data-animate>
-  ...
-</section>
-```
-
----
-
-## Page Transitions (Astro View Transitions)
-
-Astro has a built-in View Transitions API. Enable it in the root layout:
-
-```astro
----
-import { ViewTransitions } from 'astro:transitions'
----
-<head>
-  <ViewTransitions />
-</head>
-```
-
-For custom per-element transitions, use `transition:name` and `transition:animate`:
-
-```astro
-<!-- Hero image slides in from the left -->
-<Image
-  src={hero}
-  alt="..."
-  transition:name="hero-image"
-  transition:animate="slide"
-/>
-
-<!-- Blog post title morphs between list and detail page -->
-<h1 transition:name={`post-title-${post.slug}`}>
-  {post.data.title}
-</h1>
-```
-
-For a custom fade transition:
-```astro
-<main transition:animate="fade">
-  <slot />
-</main>
-```
-
-View Transitions automatically respects `prefers-reduced-motion` when using the built-in animations.
-
----
-
-## Micro-Interactions Checklist
-
-Polish every interactive element with thoughtful micro-interactions:
-
-- **Links in body text**: underline on hover with `transition-colors` (not instant)
-- **Buttons**: slight scale down on `:active` (`active:scale-95`)
-- **Cards**: lift on hover (`hover:-translate-y-0.5 hover:shadow-medium`)
-- **Icon buttons**: color change on hover with transition
-- **Form inputs**: border color change on focus, not just an outline
-- **Checkboxes / toggles**: smooth color transition
-
-All transitions should use `duration-150` to `duration-200` — snappy feels better than slow. Only use longer durations (300ms+) for large layout changes or reveals.
 
 ---
 
 ## Dark Mode
 
-The site uses `data-theme="dark"` on the root `<html>` element. Alpine.js manages the toggle:
+Toggle: `data-theme="dark"` on `<html>`. Never use `class="dark"` — the `@custom-variant` won't match.
 
-```html
-<html
-  x-data="{ theme: localStorage.getItem('theme') ?? 'light' }"
-  :data-theme="theme"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val))"
->
-```
-
-Dark mode toggle button:
-```html
-<button
-  type="button"
-  @click="theme = theme === 'dark' ? 'light' : 'dark'"
-  aria-label="Toggle dark mode"
-  :aria-pressed="theme === 'dark'"
->
-  <Icon name="mdi:weather-sunny" aria-hidden="true" x-show="theme === 'dark'" />
-  <Icon name="mdi:weather-night" aria-hidden="true" x-show="theme === 'light'" />
-</button>
-```
-
-When designing components, always test both light and dark variants. Define colors using CSS variables in `@theme` so they automatically switch.
+Tokens automatically switch. Do not add `dark:` class overrides for colors that are already tokenized — if `bg-surface` looks wrong in dark, fix the token, not the component.
 
 ---
 
 ## Responsive Design
 
-Design mobile-first. Start with base classes and layer up:
+Mobile-first. Key breakpoints: `sm` 640px · `md` 768px · `lg` 1024px · `xl` 1280px. Custom `xs` 320px for small phones.
 
-```html
-<div class="
-  grid grid-cols-1 gap-4
-  sm:grid-cols-2
-  lg:grid-cols-3
-  xl:gap-6
-">
+Always test at **375px** and **1440px** before shipping.
+
+---
+
+## Quick Reference — Common Patterns
+
+### Interactive Card with Scroll Reveal
+
+```astro
+<article class="card-interactive" data-animate>
+  <div class="relative aspect-[16/10] overflow-hidden rounded-t-[1.7rem]">
+    <Image src={cover} alt={title} class="h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-linear-to-t from-canvas/60 via-transparent to-transparent" />
+  </div>
+  <div class="p-5 space-y-3">
+    <h3 class="text-xl font-semibold text-ink">{title}</h3>
+    <p class="text-sm text-ink-soft line-clamp-2">{description}</p>
+  </div>
+</article>
 ```
 
-**Key breakpoints (Tailwind default):**
-- `sm`: 640px — small tablets, large phones
-- `md`: 768px — tablets
-- `lg`: 1024px — laptops
-- `xl`: 1280px — desktops
+### Section with Staggered Cards
 
-Always verify designs at 375px (iPhone SE) and 1440px (standard desktop). Check that text never overflows, images scale, and navigation collapses correctly.
+```astro
+<PageSection>
+  <SectionHeader eyebrow="Work" title="Professional roles." />
+  <div class="grid gap-6 md:grid-cols-2" data-stagger="60">
+    {items.map(item => <ProjectPreviewCard project={item} />)}
+  </div>
+  <div class="section-actions">
+    <ButtonLink href="/work/" showArrow>View all</ButtonLink>
+  </div>
+</PageSection>
+```
+
+### Floating Mini-Note (Hero)
+
+```astro
+<div class="mini-note glass-pro absolute -left-4 bottom-16 w-48 motion-safe:animate-float-y">
+  <p class="section-label">Location</p>
+  <p class="mt-1 text-sm font-semibold text-ink">Medellín, Colombia</p>
+</div>
+```
+
+---
+
+## Quality Gates
+
+Before finishing any design work:
+
+- [ ] All colors via token names — no hardcoded hex or HSL
+- [ ] Every animation has `motion-reduce:` variant
+- [ ] `pnpm run lint` passes (class order, no unused)
+- [ ] `pnpm run check` passes (TypeScript)
+- [ ] Tested at 375px and 1440px in both light and dark themes
+- [ ] WCAG AA contrast on all text/background pairs
