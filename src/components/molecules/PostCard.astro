@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getEntry } from 'astro:content'
+import { Icon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import CoverImage from '@/components/atoms/CoverImage.astro'
@@ -20,6 +21,7 @@ const { className = '', featured = false, post } = Astro.props
 const { data } = post
 const series = data.seriesId ? await getEntry('series', data.seriesId) : null
 const readingTime = getReadingTime(post.body)
+const postLink = getPostPath(post.id)
 
 const imageSizes = featured ?
   '(min-width: 1024px) 72vw, 100vw' :
@@ -28,14 +30,21 @@ const imageSizes = featured ?
 
 <article
   class:list={[
-    'group card-interactive overflow-hidden',
+    'group relative overflow-hidden rounded-[1.75rem]',
     className
   ]}
+  data-post-card={featured ? 'featured' : 'default'}
 >
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 z-0 opacity-100"
+    data-post-card-glow
+  />
+
   <a
     aria-label={data.title}
     class:list={[
-      'block',
+      'relative z-10 block overflow-hidden',
       featured ?
         `
           px-4 pt-4
@@ -46,7 +55,7 @@ const imageSizes = featured ?
           sm:px-4 sm:pt-4
         `
     ]}
-    href={getPostPath(post.id)}
+    href={postLink}
   >
     <span class="sr-only">{data.title}</span>
     {data.coverImage ?
@@ -54,9 +63,9 @@ const imageSizes = featured ?
         <CoverImage
           alt={data.coverImage.alt}
           className="
-            rounded-[1.35rem] border border-line/40
-            shadow-[0_18px_42px_hsl(var(--ink)/0.08)]
+            rounded-[1.35rem] border border-b-0 border-line/35
           "
+          featuredMinHeightClass="lg:min-h-0"
           featured={featured}
           image={data.coverImage.src}
           loading={featured ? 'eager' : 'lazy'}
@@ -68,20 +77,25 @@ const imageSizes = featured ?
       ) :
       (
         <div class="
-          aspect-16/10 rounded-[1.35rem] border border-line/40
+          aspect-16/10 rounded-[1.35rem] border border-line/35
           bg-surface-muted grid-fade
         "
         />
       )}
   </a>
 
-  <div class:list={[`
-    flex grow flex-col gap-5 p-6 pt-5
-    sm:p-7 sm:pt-6
-  `, featured && `
-    justify-between
-    lg:p-8 lg:pt-7
-  `]}
+  <div
+    class:list={[
+      `
+        relative z-10 flex grow flex-col gap-5 px-5 py-5
+        sm:px-6 sm:py-6
+      `,
+      featured && `
+        justify-between
+        lg:px-8 lg:py-7
+      `
+    ]}
+    data-post-card-panel
   >
     <div class="space-y-3">
       <div class="flex flex-wrap items-start justify-between gap-3">
@@ -91,7 +105,15 @@ const imageSizes = featured ?
         "
         >
           <Pill label={featured ? 'Featured article' : 'Writing'} tone={featured ? 'brand' : 'outline'} />
-          <Pill label={data.postType} tone="neutral" />
+          <span
+            class="
+              rounded-full border border-line/35 bg-surface/35 px-2.5 py-1
+              text-xs font-semibold tracking-[0.12em] text-ink-muted uppercase
+              backdrop-blur-sm
+            "
+          >
+            {data.postType}
+          </span>
         </div>
         <div class="flex items-center gap-2 text-sm text-ink-muted">
           <FormattedDate date={data.publishDate} />
@@ -106,7 +128,7 @@ const imageSizes = featured ?
         class:list={[
           `
             leading-tight transition-colors duration-200
-            group-hover:text-brand
+            group-hover:text-ink
             motion-reduce:transition-none
           `,
           featured ?
@@ -123,7 +145,7 @@ const imageSizes = featured ?
             hover:text-brand
             motion-reduce:transition-none
           "
-          href={getPostPath(post.id)}
+          href={postLink}
         >
           {data.title}
         </a>
@@ -161,13 +183,145 @@ const imageSizes = featured ?
         ))}
       </div>
       <ButtonLink
-        href={getPostPath(post.id)}
+        href={postLink}
         showArrow
         variant="inline"
       >
-        Read more
+        Read article
         <span class="sr-only"> about {data.title}</span>
       </ButtonLink>
     </div>
   </div>
+
+  <Icon
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute right-5 bottom-5 z-10 size-5
+      -translate-x-1 text-brand opacity-0 transition-all duration-200
+      group-hover:translate-x-0 group-hover:opacity-100
+      motion-reduce:translate-x-0 motion-reduce:transition-none
+    "
+    name="tabler:arrow-right"
+  />
 </article>
+
+<style>
+  [data-post-card] {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(
+      145deg,
+      hsl(var(--surface) / 0.78),
+      hsl(var(--surface-muted) / 0.58)
+    );
+    border: 1px solid hsl(var(--line) / 0.38);
+    backdrop-filter: blur(14px);
+    box-shadow:
+      0 12px 30px hsl(230 30% 8% / 0.04),
+      0 4px 12px hsl(230 30% 8% / 0.02),
+      inset 0 1px 0 hsl(0 0% 100% / 0.08);
+  }
+
+  [data-post-card]::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--border-angle),
+      hsl(var(--line) / 0.2) 0%,
+      hsl(var(--line) / 0.2) 62%,
+      hsl(var(--brand) / 0.5) 76%,
+      hsl(var(--accent) / 0.58) 84%,
+      hsl(var(--brand) / 0.5) 92%,
+      hsl(var(--line) / 0.2) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  [data-post-card-glow] {
+    background:
+      radial-gradient(ellipse 70% 44% at 18% 0%, hsl(var(--brand) / 0.07), transparent 66%),
+      radial-gradient(ellipse 62% 46% at 92% 92%, hsl(var(--accent) / 0.06), transparent 64%);
+    opacity: 0.8;
+    transition: opacity 0.35s ease;
+  }
+
+  [data-post-card-panel] {
+    background: transparent;
+  }
+
+  @media (min-width: 1024px) {
+    [data-post-card='featured'] {
+      display: grid;
+      grid-template-columns: minmax(16rem, 0.92fr) minmax(0, 1fr);
+      align-items: stretch;
+    }
+
+    [data-post-card='featured'] > a {
+      display: flex;
+      padding-right: 0;
+      padding-bottom: 1.25rem;
+    }
+
+    [data-post-card='featured'] > a > :global(*) {
+      flex: 1;
+      min-height: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-post-card] {
+      transition:
+        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    }
+
+    [data-post-card]:hover {
+      transform: translateY(-5px);
+      border-color: transparent;
+      box-shadow:
+        0 26px 66px hsl(230 30% 8% / 0.12),
+        0 12px 28px hsl(var(--brand) / 0.1),
+        inset 0 1px 0 hsl(0 0% 100% / 0.1);
+    }
+
+    [data-post-card]:hover::before {
+      opacity: 1;
+      animation: border-spin 5s linear infinite;
+    }
+
+    [data-post-card]:hover [data-post-card-glow] {
+      opacity: 1;
+    }
+
+    [data-post-card] > a {
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    [data-post-card]:hover > a {
+      transform: translateY(-2px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-post-card],
+    [data-post-card]::before,
+    [data-post-card-glow] {
+      transition: none;
+    }
+
+    [data-post-card]::before {
+      display: none;
+    }
+  }
+</style>

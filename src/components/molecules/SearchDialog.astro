@@ -5,7 +5,7 @@ import { Icon } from 'astro-icon/components'
 <dialog
   aria-labelledby="site-search-title"
   class="
-    fixed inset-0 z-[100] m-0 h-full max-h-none w-full max-w-none border-0
+    fixed inset-0 z-100 m-0 size-full max-h-none max-w-none border-0
     bg-transparent p-0
   "
   data-site-search-dialog
@@ -17,8 +17,9 @@ import { Icon } from 'astro-icon/components'
   -->
   <div
     class="
-      pointer-events-none absolute inset-0 flex min-h-[100dvh] w-full items-center
-      justify-center p-4 sm:p-6
+      pointer-events-none absolute inset-0 flex min-h-dvh w-full items-center
+      justify-center p-4
+      sm:p-6
     "
   >
     <div
@@ -30,14 +31,43 @@ import { Icon } from 'astro-icon/components'
 
     <div
       class="
-        pointer-events-auto panel-card glass-pro relative z-10 flex max-h-[min(90dvh,40rem)] w-full
-        max-w-lg flex-col gap-4 overflow-hidden p-5
-        shadow-[0_24px_80px_hsl(var(--ink)/0.2)]
+        pointer-events-auto relative z-10 flex max-h-[min(90dvh,40rem)] w-full
+        max-w-lg flex-col gap-4 overflow-hidden rounded-[1.75rem] border
+        border-line/38 p-5
         sm:p-6
       "
       data-site-search-panel
       role="document"
+      style="
+        background: linear-gradient(145deg, hsl(var(--surface) / 0.74) 0%, hsl(var(--surface-muted) / 0.52) 100%);
+        backdrop-filter: blur(18px) saturate(150%);
+        box-shadow:
+          0 1px 0 hsl(0 0% 100% / 0.09) inset,
+          0 10px 28px hsl(230 30% 8% / 0.04),
+          0 4px 10px hsl(230 30% 8% / 0.025),
+          0 24px 80px hsl(var(--ink) / 0.15);
+        transition:
+          transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+          border-color 0.3s ease;
+      "
     >
+      <!-- Specular top-edge highlight -->
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-x-[12%] top-0 z-20 h-px"
+        style="background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.38) 30%, hsl(0 0% 100% / 0.52) 50%, hsl(0 0% 100% / 0.38) 70%, transparent);"
+      />
+      <!-- Brand glow blob (bottom-right) -->
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity
+          duration-500
+        "
+        style="background: radial-gradient(ellipse 65% 50% at 88% 92%, hsl(var(--brand) / 0.07), transparent 60%);"
+        data-site-search-glow
+      />
       <div class="flex items-start justify-between gap-4">
         <div>
           <h2 class="text-lg font-semibold text-ink" id="site-search-title">
@@ -52,10 +82,10 @@ import { Icon } from 'astro-icon/components'
         <button
           class="
             inline-flex min-h-10 min-w-10 items-center justify-center
-            rounded-full border border-line/50 bg-surface/65 backdrop-blur-sm
-            text-ink-soft shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1)] transition
-            duration-200
-            hover:scale-105 hover:border-brand/40 hover:text-brand
+            rounded-full border border-line/50 text-ink-soft shadow-sm
+            transition-all duration-300
+            hover:scale-110 hover:border-brand/40 hover:text-brand
+            hover:shadow-md hover:shadow-brand/10
             active:scale-95
             motion-reduce:transition-none
             motion-reduce:hover:scale-100
@@ -63,6 +93,10 @@ import { Icon } from 'astro-icon/components'
           "
           data-site-search-close
           type="button"
+          style="
+            background: linear-gradient(135deg, hsl(var(--surface) / 0.65), hsl(var(--surface-muted) / 0.42));
+            backdrop-filter: blur(14px);
+          "
         >
           <Icon aria-hidden="true" class="size-5" name="tabler:x" />
           <span class="sr-only">Close search</span>
@@ -73,11 +107,11 @@ import { Icon } from 'astro-icon/components'
       <input
         autocomplete="off"
         class="
-          w-full rounded-xl border border-line/55 bg-surface/75 backdrop-blur-sm
-          px-4 py-3 text-sm text-ink ring-brand/30
-          shadow-[inset_0_1px_0_hsl(0_0%_100%/0.08)]
-          transition duration-200 outline-none
-          focus:border-brand/40 focus:ring-2 focus:bg-surface/90
+          w-full rounded-2xl border border-line/55 bg-surface/72 px-4 py-3.5
+          text-sm text-ink shadow-inner shadow-ink/5 transition-all duration-200
+          outline-none
+          placeholder:text-ink-muted
+          focus:border-brand/45 focus:ring-2 focus:ring-brand/15
           motion-reduce:transition-none
         "
         id="site-search-input"
@@ -86,21 +120,29 @@ import { Icon } from 'astro-icon/components'
         type="search"
       />
 
-      <p class="text-xs leading-relaxed text-ink-muted">
+      <p class="text-xs/relaxed text-ink-muted">
         <span class="text-ink-soft">Open from the page</span> (not while typing in a field):
         <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">/</kbd>
-        · <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">⌘</kbd><kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
-        or <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</kbd><kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
+        · <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">⌘</kbd><kbd class="
+          rounded-sm bg-surface-muted px-1 py-0.5
+        "
+                                                                      >K
+                                                                      </kbd>
+        or <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</kbd><kbd class="
+          rounded-sm bg-surface-muted px-1 py-0.5
+        "
+                                                                          >K
+                                                                          </kbd>
       </p>
 
       <p aria-atomic="true" aria-live="polite" class="sr-only" id="site-search-status"></p>
 
       <ul
+        id="site-search-results"
         class="
           max-h-[min(50vh,24rem)] min-h-0 space-y-2 overflow-y-auto
           [-webkit-overflow-scrolling:touch]
         "
-        id="site-search-results"
       >
       </ul>
     </div>
