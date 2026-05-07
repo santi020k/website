@@ -1,11 +1,11 @@
 ---
 import { Icon } from 'astro-icon/components'
 
+import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
 import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
-import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import { menuLinks, siteConfig } from '@/site.config'
 import type { SiteLink } from '@/types/site'
 
@@ -24,19 +24,30 @@ const isAvailableForBanner =
   {isAvailableForBanner && (
     <div
       class="
-        mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col gap-3 rounded-2xl border
-        border-line/48 bg-surface/62 px-4 py-3 backdrop-blur-sm
+        mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col gap-3 rounded-2xl
+        border border-line/48 bg-surface/62 px-4 py-3
         shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),0_4px_16px_hsl(230_30%_8%/0.04)]
+        backdrop-blur-sm
         sm:max-w-6xl sm:flex-row sm:items-center sm:justify-between sm:px-5
       "
       data-availability-strip
     >
-      <p class="flex min-w-0 items-start gap-2.5 text-sm text-ink sm:items-center">
-        <span class="relative mt-1.5 inline-flex size-2 shrink-0 sm:mt-0" aria-hidden="true">
+      <p class="
+        flex min-w-0 items-start gap-2.5 text-sm text-ink
+        sm:items-center
+      "
+      >
+        <span
+          class="
+            relative mt-1.5 inline-flex size-2 shrink-0
+            sm:mt-0
+          "
+          aria-hidden="true"
+        >
           <span
             class="
-              absolute inline-flex size-full animate-ping rounded-full bg-green-400/80
-              opacity-75
+              absolute inline-flex size-full animate-ping rounded-full
+              bg-green-400/80 opacity-75
               motion-reduce:animate-none
             "
           />
@@ -47,9 +58,16 @@ const isAvailableForBanner =
           <span class="font-medium text-ink">{siteConfig.availability}</span>
         </span>
       </p>
-      <div class="flex shrink-0 flex-wrap gap-2 sm:justify-end">
+      <div class="
+        flex shrink-0 flex-wrap gap-2
+        sm:justify-end
+      "
+      >
         <ButtonLink
-          className="min-h-10 px-4 py-2 text-xs sm:text-sm"
+          className="
+            min-h-10 px-4 py-2 text-xs
+            sm:text-sm
+          "
           href={siteConfig.contact.linkedin}
           newTab
           showArrow
@@ -58,7 +76,10 @@ const isAvailableForBanner =
           Discuss a role
         </ButtonLink>
         <ButtonLink
-          className="min-h-10 px-4 py-2 text-xs sm:text-sm"
+          className="
+            min-h-10 px-4 py-2 text-xs
+            sm:text-sm
+          "
           href={siteConfig.contact.whatsapp}
           newTab
           showArrow
@@ -76,15 +97,44 @@ const isAvailableForBanner =
           aria-label="Santiago Molina"
           class="
             group relative z-10 inline-flex min-w-0 items-center gap-3
-            transition duration-200
+            overflow-hidden transition duration-200
             motion-reduce:transition-none
           "
           href="/"
         >
-          <div class="h-9 w-auto dark:hidden">
+          {/* Icon-only for small screens */}
+          <div class="
+            h-9 w-auto
+            sm:hidden
+            dark:hidden
+          "
+          >
+            <AnimatedLogo variant="light" iconOnly class="h-full w-auto" />
+          </div>
+          <div class="
+            hidden h-9 w-auto
+            sm:hidden
+            dark:block
+            dark:sm:hidden
+          "
+          >
+            <AnimatedLogo variant="dark" iconOnly class="h-full w-auto" />
+          </div>
+          {/* Full logo for larger screens */}
+          <div class="
+            hidden h-9 w-auto
+            sm:block
+            dark:hidden
+          "
+          >
             <AnimatedLogo variant="light" class="h-full w-auto" />
           </div>
-          <div class="hidden h-9 w-auto dark:block">
+          <div class="
+            hidden h-9 w-auto
+            sm:hidden
+            dark:sm:block
+          "
+          >
             <AnimatedLogo variant="dark" class="h-full w-auto" />
           </div>
           <!-- <span class="
@@ -99,7 +149,10 @@ const isAvailableForBanner =
 
         <nav
           aria-label="Main menu"
-          class="ml-6 hidden items-center gap-0.5 lg:flex"
+          class="
+            ml-6 hidden items-center gap-0.5
+            lg:flex
+          "
         >
           {
             menuLinks.map((link: SiteLink) => {
@@ -117,7 +170,12 @@ const isAvailableForBanner =
                       transition-colors duration-200
                       motion-reduce:transition-none
                     `,
-                    isActive ? 'text-ink' : 'text-ink-soft hover:text-ink'
+                    isActive ?
+                      'text-ink' :
+                      `
+                        text-ink-soft
+                        hover:text-ink
+                      `
                   ]}
                   href={link.path}
                 >
@@ -126,12 +184,18 @@ const isAvailableForBanner =
                     aria-hidden="true"
                     class:list={[
                       `
-                        absolute bottom-1 left-1/2 h-px -translate-x-1/2 rounded-full bg-brand
-                        transition-all duration-300 ease-out
-                        motion-reduce:transition-none
+                        absolute bottom-1 left-1/2 h-px -translate-x-1/2
+                        rounded-full bg-brand transition-all duration-300
+                        ease-out
                         group-hover:w-4/5
+                        motion-reduce:transition-none
                       `,
-                      isActive ? 'w-4/5 opacity-100' : 'w-0 opacity-0 group-hover:opacity-60'
+                      isActive ?
+                        'w-4/5 opacity-100' :
+                        `
+                          w-0 opacity-0
+                          group-hover:opacity-60
+                        `
                     ]}
                   />
                 </a>
@@ -166,8 +230,9 @@ const isAvailableForBanner =
               aria-expanded="false"
               class="
                 relative z-50 inline-flex min-h-11 cursor-pointer items-center
-                gap-2 rounded-full border border-line/50 bg-surface/68 backdrop-blur-sm px-4
-                text-ink shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)] transition duration-200
+                gap-2 rounded-full border border-line/50 bg-surface/68 px-4
+                text-ink shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)]
+                backdrop-blur-sm transition duration-200
                 hover:border-brand/35 hover:bg-brand-soft/25 hover:text-brand
                 motion-reduce:transition-none
               "
@@ -230,14 +295,14 @@ const isAvailableForBanner =
           "
         >
           <div class="
-            mb-2 flex items-center justify-between gap-4 card-divider-subtle
+            card-divider-subtle mb-2 flex items-center justify-between gap-4
             px-1
           "
           >
             <p class="section-label">Navigation</p>
             {isAvailableForBanner && (
               <span class="
-                inline-flex items-center gap-2 px-1 py-1 text-[0.68rem] font-semibold
+                inline-flex items-center gap-2 p-1 text-[0.68rem] font-semibold
                 tracking-[0.16em] text-ink-muted uppercase
               "
               >
@@ -257,7 +322,7 @@ const isAvailableForBanner =
                 </span>
                 Available
               </span>
-          )}
+            )}
           </div>
 
           <div class="grid gap-0.5">
@@ -272,14 +337,16 @@ const isAvailableForBanner =
                     aria-current={isActive ? 'page' : undefined}
                     class:list={[
                       `
-                        group flex min-h-11 items-center gap-3
-                        rounded-2xl px-3 py-2 text-sm font-medium
-                        transition-colors duration-150
+                        group flex min-h-11 items-center gap-3 rounded-2xl px-3
+                        py-2 text-sm font-medium transition-colors duration-150
                         motion-reduce:transition-none
                       `,
                       isActive ?
-                        'bg-brand/8 text-ink font-semibold' :
-                        'text-ink-soft hover:bg-surface-muted/80 hover:text-ink'
+                        'bg-brand/8 font-semibold text-ink' :
+                        `
+                          text-ink-soft
+                          hover:bg-surface-muted/80 hover:text-ink
+                        `
                     ]}
                     data-mobile-nav-link
                     href={link.path}
@@ -287,10 +354,17 @@ const isAvailableForBanner =
                     <span
                       aria-hidden="true"
                       class:list={[
-                        'flex size-8 shrink-0 items-center justify-center rounded-xl transition-colors duration-150 motion-reduce:transition-none',
+                        `
+                          flex size-8 shrink-0 items-center justify-center
+                          rounded-xl transition-colors duration-150
+                          motion-reduce:transition-none
+                        `,
                         isActive ?
                           'text-brand' :
-                          'text-ink-muted group-hover:text-ink-soft'
+                          `
+                            text-ink-muted
+                            group-hover:text-ink-soft
+                          `
                       ]}
                     >
                       {link.icon && (

@@ -1,0 +1,51 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { Icon } from 'astro-icon/components'
+
+type Props = Omit<HTMLAttributes<'button'>, 'class'> & {
+  className?: string
+  showArrow?: boolean
+  variant?: 'ghost' | 'inline' | 'primary' | 'secondary'
+}
+
+const {
+  className = '',
+  disabled,
+  showArrow = false,
+  type = 'button',
+  variant = 'primary',
+  ...rest
+} = Astro.props
+
+const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
+---
+
+<button
+  class:list={[
+    'group inline-flex cursor-pointer items-center justify-center gap-2',
+    typographyClass,
+    variant !== 'inline' && 'min-h-11 rounded-full border',
+    variant === 'primary' && 'btn-primary',
+    variant === 'secondary' && 'btn-secondary',
+    variant === 'ghost' && 'btn-ghost',
+    variant === 'inline' && 'btn-inline',
+    disabled && 'cursor-not-allowed opacity-50',
+    className
+  ]}
+  disabled={disabled}
+  type={type}
+  {...rest}
+>
+  <slot />
+  {showArrow && (
+    <Icon
+      aria-hidden="true"
+      class="
+        size-4 shrink-0 transition-transform duration-200
+        motion-safe:group-hover:translate-x-0.5
+        motion-reduce:transition-none
+      "
+      name="tabler:arrow-right"
+    />
+  )}
+</button>

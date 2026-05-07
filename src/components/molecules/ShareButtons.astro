@@ -123,8 +123,6 @@ const shareLinks = [
     let timer: ReturnType<typeof setTimeout> | null = null
 
     const supportsWebShare = (): boolean => {
-      // Use Web Share where it makes sense — mobile / touch primary devices.
-      // On desktop the native share sheet is poor UX; keep clipboard-copy.
       if (typeof navigator === 'undefined' || typeof navigator.share !== 'function') {
         return false
       }
