@@ -2,8 +2,9 @@
 import { type CollectionEntry, render } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
@@ -82,13 +83,43 @@ const structuredData: Record<string, unknown> = {
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid>
+  <StatsGrid columns={3}>
     <StatCard description="Articles collected into this reading track." label="Posts" value={String(postCount)} />
-    <StatCard description="Publishing cadence for this series." label="Cadence" value={series.data.cadence} />
+    <article class="
+      stat-card h-full p-5
+      sm:p-6
+    "
+    >
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute inset-0 z-0 overflow-hidden
+          rounded-[inherit]
+        "
+      >
+        <div
+          class="absolute top-0 right-0 size-24 opacity-30"
+          style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.15), transparent 70%);"
+        />
+      </div>
+      <p class="relative z-10 section-label">Cadence</p>
+      <p class="
+        relative z-10 mt-4 max-w-[26ch] text-lg/7 font-semibold text-ink
+        sm:text-xl/8
+      "
+      >
+        {series.data.cadence}
+      </p>
+      <p class="relative z-10 mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
+        Publishing rhythm for this series.
+      </p>
+    </article>
     {!!series.data.focusAreas.length && (
       <StatCard description="Recurring themes shaping the articles in this track." label="Focus areas" value={String(series.data.focusAreas.length)} />
     )}
   </StatsGrid>
+
+  <GradientDivider class="pt-10" />
 
   <section
     class="
@@ -97,7 +128,7 @@ const structuredData: Record<string, unknown> = {
     "
     data-animate
   >
-    <div class="prose-santi max-w-none border-y border-line/45 py-8">
+    <div class="prose-santi max-w-none">
       <Content />
     </div>
 

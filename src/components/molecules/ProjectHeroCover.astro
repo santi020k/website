@@ -1,9 +1,9 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
-import { getProjectDateRangeLabel, getProjectTypeLabel } from '@/utils/project-meta'
+import HoverableCover from '@/components/atoms/HoverableCover.astro'
 
-import CoverImage from '@/components/atoms/CoverImage.astro'
+import { getProjectDateRangeLabel, getProjectTypeLabel } from '@/utils/project-meta'
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -22,41 +22,15 @@ const heroImage = project.data.coverImage?.horizontal ?? project.data.coverImage
       motion-reduce:animate-none
     "
   >
-    <div class="
-      group relative overflow-hidden rounded-3xl shadow-2xl shadow-ink/10
-      transition-all duration-500
-      hover:shadow-2xl hover:shadow-brand/20
-    "
-    >
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40
-          bg-linear-to-t from-black/60 via-black/20 to-transparent
-          transition-opacity duration-500
-          group-hover:from-black/70
-        "
-      />
-      <div
-        aria-hidden="true"
-        class="
-          absolute inset-0 bg-linear-to-br from-brand/5 via-transparent
-          to-accent/5 opacity-0 transition-opacity duration-500
-          group-hover:opacity-100
-        "
-      />
-      <CoverImage
+    <div class="relative">
+      <HoverableCover
         alt={project.data.coverImage.alt}
         ariaHidden={true}
-        className="
-          w-full transition-transform duration-700
-          group-hover:scale-105
-        "
         fetchpriority="high"
         image={heroImage}
         loading="eager"
+        showBottomGradient={true}
         sizes="(min-width: 1280px) 1200px, 100vw"
-        mode="detail"
       />
       <div
         aria-hidden="true"

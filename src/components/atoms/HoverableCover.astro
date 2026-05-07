@@ -1,0 +1,77 @@
+---
+import type { ImageMetadata } from 'astro'
+
+import CoverImage from '@/components/atoms/CoverImage.astro'
+
+interface Props {
+  alt: string
+  className?: string
+  fetchpriority?: 'auto' | 'high' | 'low'
+  image: ImageMetadata
+  loading?: 'eager' | 'lazy'
+  sizes: string
+  transitionName?: string
+  ariaHidden?: boolean
+  showBottomGradient?: boolean
+}
+
+const {
+  alt,
+  className = '',
+  fetchpriority = 'auto',
+  image,
+  loading = 'lazy',
+  sizes,
+  transitionName,
+  ariaHidden = false,
+  showBottomGradient = false
+} = Astro.props
+---
+
+<div
+  class:list={[
+    'group relative overflow-hidden rounded-3xl shadow-2xl shadow-ink/10',
+    'transition-all duration-500',
+    'hover:shadow-2xl hover:shadow-brand/20',
+    className
+  ]}
+>
+  {/* Bottom gradient overlay (optional) */}
+  {showBottomGradient && (
+    <div
+      aria-hidden="true"
+      class="
+        pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40
+        bg-linear-to-t from-black/60 via-black/20 to-transparent
+        transition-opacity duration-500
+        group-hover:from-black/70
+      "
+    />
+  )}
+
+  {/* Brand/accent gradient overlay */}
+  <div
+    aria-hidden="true"
+    class="
+      absolute inset-0 bg-linear-to-br from-brand/5 via-transparent
+      to-accent/5 opacity-0 transition-opacity duration-500
+      group-hover:opacity-100
+    "
+  />
+
+  {/* Cover image with hover scale */}
+  <CoverImage
+    alt={alt}
+    ariaHidden={ariaHidden}
+    className="
+      w-full transition-transform duration-700
+      group-hover:scale-105
+    "
+    fetchpriority={fetchpriority}
+    image={image}
+    loading={loading}
+    mode="detail"
+    sizes={sizes}
+    {...(transitionName ? { transitionName } : {})}
+  />
+</div>
