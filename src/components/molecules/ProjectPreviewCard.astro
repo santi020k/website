@@ -12,14 +12,15 @@ interface Props {
 const { project, accentTone = 'brand' } = Astro.props
 const isActive = !project.data.endingDate
 const startDate = project.data.startingDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+
 const endDate = isActive ?
   'Present' :
   project.data.endingDate?.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+
 const dateRange = `${startDate} – ${endDate}`
 const projectLink = getPortfolioPath(project.id)
 const coverImage = project.data.coverImage
 const previewImage = coverImage?.vertical ?? coverImage?.src
-
 const isAccent = accentTone === 'accent'
 const cardAccentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
 const accentHoverClass = isAccent ? 'group-hover:text-accent' : 'group-hover:text-brand'
@@ -28,7 +29,10 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
 
 <a
   href={projectLink}
-  class="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 rounded-[1.75rem]"
+  class="
+    group block rounded-[1.75rem]
+    focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:outline-none
+  "
 >
   <article
     class="relative overflow-hidden rounded-[1.75rem]"
@@ -37,27 +41,29 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
   >
 
     {/* ── Background media ──────────────────────────────────────── */}
-    {previewImage ? (
-      <Image
-        alt={coverImage?.alt ?? project.data.title}
-        class="absolute inset-0 h-full w-full object-cover object-top"
-        data-card-img
-        height={800}
-        loading="lazy"
-        src={previewImage}
-        width={600}
-      />
-    ) : (
-      <div
-        aria-hidden="true"
-        class="absolute inset-0"
-        style={`background:
+    {previewImage ?
+      (
+        <Image
+          alt={coverImage?.alt ?? project.data.title}
+          class="absolute inset-0 size-full object-cover object-top"
+          data-card-img
+          height={800}
+          loading="lazy"
+          src={previewImage}
+          width={600}
+        />
+      ) :
+      (
+        <div
+          aria-hidden="true"
+          class="absolute inset-0"
+          style={`background:
           radial-gradient(ellipse 120% 95% at 12% 28%, color-mix(in srgb, hsl(var(--card-accent)) 32%, transparent), transparent 55%),
           radial-gradient(ellipse 80% 90% at 88% 10%, color-mix(in srgb, hsl(var(--card-accent)) 16%, transparent), transparent 52%),
           radial-gradient(ellipse 55% 55% at 58% 88%, color-mix(in srgb, hsl(var(--card-accent)) 9%, transparent), transparent 58%),
           hsl(var(--surface-muted));`}
-      />
-    )}
+        />
+      )}
 
     {/* Progressive darkening scrim */}
     <div
@@ -89,28 +95,33 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
 
       {/* Status + date header */}
       <div class="flex items-center justify-between gap-2 px-5 pt-4 pb-3.5">
-        {isActive ? (
-          <span
-            class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold"
-            data-card-status
-            style="background: hsl(var(--brand-soft) / 0.5); color: hsl(var(--card-accent)); border-color: color-mix(in srgb, hsl(var(--card-accent)) 35%, transparent);"
-          >
+        {isActive ?
+          (
             <span
-              aria-hidden="true"
-              class="inline-block size-1.5 rounded-full motion-safe:animate-pulse"
-              style="background: hsl(var(--card-accent));"
-            />
-            Active
-          </span>
-        ) : (
-          <span
-            class="inline-flex items-center rounded-full border border-line/30 bg-surface/30 px-2.5 py-1 text-xs font-medium text-white/70"
-            data-card-status
-          >
-            Completed
-          </span>
-        )}
-        <span class="text-xs tabular-nums text-white/55">
+              class="inline-flex items-center gap-1.5 text-xs font-semibold"
+              data-card-status
+              style="color: hsl(var(--card-accent));"
+            >
+              <span
+                aria-hidden="true"
+                class="
+                  inline-block size-1.5 rounded-full
+                  motion-safe:animate-pulse
+                "
+                style="background: hsl(var(--card-accent));"
+              />
+              Active
+            </span>
+          ) :
+          (
+            <span
+              class="inline-flex items-center text-xs font-medium text-white/70"
+              data-card-status
+            >
+              Completed
+            </span>
+          )}
+        <span class="text-xs text-white/55 tabular-nums">
           {dateRange}
         </span>
       </div>
@@ -123,11 +134,11 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
       />
 
       {/* Title + description + tags */}
-      <div class="px-5 pt-3.5 pb-5 space-y-3">
+      <div class="space-y-3 px-5 pt-3.5 pb-5">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0 space-y-1">
             <h3
-              class:list={['text-base font-semibold leading-snug text-white', accentHoverClass]}
+              class:list={['text-base/snug font-semibold text-white', accentHoverClass]}
               data-card-title
             >
               {project.data.title}
@@ -138,7 +149,10 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
           </div>
           <svg
             aria-hidden="true"
-            class="mt-0.5 size-4 shrink-0 text-white/45 opacity-0 -translate-x-1.5 translate-y-0.5"
+            class="
+              mt-0.5 size-4 shrink-0 -translate-x-1.5 translate-y-0.5
+              text-white/45 opacity-0
+            "
             data-card-arrow
             fill="none"
             stroke="currentColor"
@@ -151,21 +165,21 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
           </svg>
         </div>
 
-        <p class="text-sm leading-relaxed text-white/65 line-clamp-2">
+        <p class="line-clamp-2 text-sm/relaxed text-white/65">
           {project.data.description}
         </p>
 
         <div class="flex flex-wrap gap-2 text-xs">
           {project.data.technologies.slice(0, 4).map(tech => (
             <span
-              class="rounded-md border border-white/15 bg-white/8 px-2.5 py-1 text-white/55 backdrop-blur-sm"
+              class="text-white/55"
               data-card-tag
             >
               {tech}
             </span>
           ))}
           {project.data.technologies.length > 4 && (
-            <span class="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-white/40">
+            <span class="text-white/40">
               +{project.data.technologies.length - 4}
             </span>
           )}
@@ -188,21 +202,34 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
   [data-card-panel] {
     background: linear-gradient(
       180deg,
-      hsl(var(--surface) / 0.44) 0%,
-      hsl(var(--surface) / 0.72) 40%,
-      hsl(var(--surface-muted) / 0.90) 100%
+      hsl(0 0% 0% / 0) 0%,
+      hsl(0 0% 0% / 0.42) 28%,
+      hsl(0 0% 0% / 0.70) 100%
     );
-    border-top: 1px solid hsl(0 0% 100% / 0.22);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.08),
-      inset 0 0 50px hsl(var(--card-accent) / 0.05);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
   }
 
   @keyframes card-shimmer {
     from { left: -65%; }
     to { left: 130%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-project-card] {
+      transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    [data-project-card]::after {
+      display: none;
+    }
+
+    [data-card-panel] {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -250,21 +277,16 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
     }
 
     [data-card-panel] {
-      transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+      transition: background 0.3s ease;
     }
 
     .group:hover [data-card-panel] {
       background: linear-gradient(
         180deg,
-        hsl(var(--surface) / 0.52) 0%,
-        hsl(var(--surface) / 0.80) 40%,
-        hsl(var(--surface-muted) / 0.94) 100%
+        hsl(0 0% 0% / 0) 0%,
+        hsl(0 0% 0% / 0.48) 28%,
+        hsl(0 0% 0% / 0.76) 100%
       );
-      backdrop-filter: blur(24px) saturate(170%);
-      -webkit-backdrop-filter: blur(24px) saturate(170%);
-      box-shadow:
-        inset 0 1px 0 hsl(0 0% 100% / 0.12),
-        inset 0 0 50px hsl(var(--card-accent) / 0.09);
     }
 
     [data-card-tint] {
@@ -290,11 +312,10 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
     [data-card-title] { transition: color 0.2s ease; }
 
     [data-card-tag] {
-      transition: border-color 0.25s ease, background 0.25s ease;
+      transition: color 0.25s ease;
     }
     .group:hover [data-card-tag] {
-      border-color: color-mix(in srgb, hsl(var(--card-accent)) 35%, hsl(0 0% 100% / 0.15));
-      background: color-mix(in srgb, hsl(var(--card-accent)) 12%, hsl(0 0% 100% / 0.08));
+      color: color-mix(in srgb, hsl(var(--card-accent)) 70%, white);
     }
   }
 </style>

@@ -61,9 +61,7 @@ const imageSizes = featured ?
       (
         <CoverImage
           alt={data.coverImage.alt}
-          className="
-            rounded-[1.35rem] border border-b-0 border-line/35
-          "
+          className="rounded-none border-0"
           featured={featured}
           image={data.coverImage.src}
           loading={featured ? 'eager' : 'lazy'}
@@ -75,8 +73,7 @@ const imageSizes = featured ?
       ) :
       (
         <div class="
-          aspect-16/10 rounded-[1.35rem] border border-line/35
-          bg-surface-muted grid-fade
+          aspect-16/10 bg-surface-muted grid-fade
         "
         />
       )}

@@ -19,55 +19,144 @@ const tocHeadings = headings.filter(h => h.depth <= 3)
   class="glass-pro rounded-2xl p-5"
   data-toc-nav
 >
-  <p class="section-label flex items-center gap-2">
+  <p class="flex items-center gap-2 section-label">
     <svg aria-hidden="true" class="size-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
     </svg>
     On this page
   </p>
 
-  <ul class="mt-4 space-y-1">
-    {tocHeadings.map(heading => (
-      <li class:list={[heading.depth === 3 && 'pl-4']}>
-        <a
-          href={`#${heading.slug}`}
-          data-slug={heading.slug}
-          data-toc-link
-          class="
-            group flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm/5
-            text-ink-soft transition-colors duration-200
-            hover:bg-brand-soft/50 hover:text-brand
-            motion-reduce:transition-none
-          "
-        >
-          <span
-            aria-hidden="true"
-            data-toc-dot
-            class="
-              size-1 shrink-0 rounded-full bg-ink-muted/40 transition
-              duration-200
-              group-hover:bg-brand/60
-              motion-reduce:transition-none
-            "
+  <ul class="mt-4 space-y-0.5" data-toc-tree>
+    {tocHeadings.map((heading, index) => {
+      const isH3 = heading.depth === 3
+      const nextHeading = tocHeadings[index + 1]
+      const nextIsH2 = nextHeading?.depth === 2
+      const noNextHeading = !nextHeading
+      const isLastH3InGroup = isH3 && (nextIsH2 || noNextHeading)
+
+      return (
+        <li data-toc-item data-toc-child={isH3 ? 'true' : undefined}>
+          <a
+            href={`#${heading.slug}`}
+            data-slug={heading.slug}
+            data-toc-link
+            data-depth={heading.depth}
+            class:list={[
+              `
+                group flex items-center gap-2 py-1.5 text-sm/5
+              `,
+              'text-ink-soft transition-colors duration-200',
+              'hover:text-brand',
+              'motion-reduce:transition-none',
+              isH3 ? 'pr-2 pl-6' : 'px-2'
+            ]}
           >
-          </span>
-          <span class="truncate">{heading.text}</span>
-        </a>
-      </li>
-    ))}
+            <span
+              aria-hidden="true"
+              data-toc-indicator
+              class:list={[
+                'shrink-0 transition-all duration-200',
+                'motion-reduce:transition-none',
+              ]}
+              data-toc-indicator-kind={isH3 ? 'child' : 'parent'}
+            >
+            </span>
+            <span class="truncate">{heading.text}</span>
+          </a>
+          {isH3 && !isLastH3InGroup ?
+            (
+              <span aria-hidden="true" data-toc-connector />
+            ) :
+            null}
+        </li>
+      )
+    })}
   </ul>
 </nav>
 
 <style>
-  [data-toc-link].is-active {
-    color: hsl(var(--brand));
-    background-color: hsl(var(--brand-soft) / 0.4);
-    font-weight: 600;
+  /* Tree structure styles */
+  [data-toc-tree] {
+    position: relative;
   }
 
-  [data-toc-link].is-active [data-toc-dot] {
+  [data-toc-item] {
+    position: relative;
+  }
+
+  [data-toc-child="true"] {
+    position: relative;
+  }
+
+  /* Vertical connector line for child items */
+  [data-toc-child="true"]::before {
+    content: '';
+    position: absolute;
+    left: 1.125rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--line) / 0.3) 0%,
+      hsl(var(--line) / 0.15) 100%
+    );
+  }
+
+  /* Horizontal connector for L-shape */
+  [data-toc-connector] {
+    display: block;
+    position: absolute;
+    left: 1.125rem;
+    bottom: 0.5rem;
+    width: 0.5rem;
+    height: 1px;
+    background: hsl(var(--line) / 0.3);
+  }
+
+  /* Parent indicator (h2) - dash */
+  [data-toc-indicator-kind="parent"] {
+    display: block;
+    width: 0.75rem;
+    height: 2px;
+    border-radius: 1px;
+    background-color: hsl(var(--ink-muted) / 0.5);
+  }
+
+  /* Child indicator (h3) - smaller dot */
+  [data-toc-indicator-kind="child"] {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: hsl(var(--ink-muted) / 0.35);
+  }
+
+  /* Hover states for indicators */
+  [data-toc-link]:hover [data-toc-indicator-kind="parent"] {
+    background-color: hsl(var(--brand) / 0.6);
+    width: 1rem;
+  }
+
+  [data-toc-link]:hover [data-toc-indicator-kind="child"] {
+    background-color: hsl(var(--brand) / 0.5);
+    transform: scale(1.2);
+  }
+
+  /* Active state */
+  [data-toc-link].is-active {
+    color: hsl(var(--brand));
+    font-weight: 500;
+  }
+
+  [data-toc-link].is-active [data-toc-indicator-kind="parent"] {
     background-color: hsl(var(--brand));
-    transform: scale(1.25);
+    width: 1rem;
+  }
+
+  [data-toc-link].is-active [data-toc-indicator-kind="child"] {
+    background-color: hsl(var(--brand));
+    transform: scale(1.3);
   }
 </style>
 

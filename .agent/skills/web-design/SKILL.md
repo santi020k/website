@@ -8,7 +8,7 @@ description: Design system, glass UI utilities, animations, and component patter
 Stack: **Astro 6 · Tailwind CSS v4 · Vanilla JS**.
 Design tokens: `src/styles/partials/tokens.css`. Glass utilities: `src/styles/partials/utilities.css`. Animations: `src/styles/partials/animations.css`.
 
-**Aesthetic direction: minimalist glass UI.** Frosted-glass surfaces, subtle purple brand gradients, crisp type, spring-physics hover lifts, and scroll-triggered reveals. Never add decorative noise that fights the minimal structure.
+**Aesthetic direction: minimalist glass UI.** Frosted-glass surfaces, subtle purple brand gradients, crisp type, spring-physics hover lifts, and scroll-triggered reveals. Never add decorative noise that fights the minimal structure. Use a single visible surface per content unit: do not place card, panel, shell, or mini-note surfaces inside other card-like surfaces.
 
 ---
 
@@ -82,7 +82,7 @@ These are the core surface utilities. **Always use these instead of writing ad h
 
 ### `panel-card`
 
-Primary card surface. Glass gradient + 12px blur + subtle top-edge inset glow.
+Primary card surface. Layered translucent glass gradient + 18px blur/saturation + subtle specular top highlight and soft internal brand glow. Keep it as the only visible surface for the content unit.
 
 ```astro
 <div class="panel-card p-5">
@@ -124,6 +124,8 @@ Full section wrapper with larger radius (`rounded-[2.25rem]`). Use for framed co
 
 Lighter glass than `section-shell`. Use for secondary or nested sections.
 
+Never use `section-shell-subtle` as a parent for `mini-note`, `panel-card`, `card-interactive`, `talk-card`, `glass-pro`, or another bordered/background card surface. When content needs hierarchy inside a surface, use dividers, plain rows, media, typography, or inline metadata instead.
+
 ### `panel-surface`
 
 Tightest glass — for header, nav, or inline panel overlays.
@@ -138,6 +140,8 @@ Compact glass card with animated left accent bar on hover. Good for stats, info 
   <p class="mt-1 text-2xl font-bold text-ink">Value</p>
 </div>
 ```
+
+Use `mini-note` as a standalone content unit only. Do not nest it inside `panel-card`, `section-shell`, `section-shell-subtle`, `talk-card`, `stat-card`, or another `mini-note`.
 
 ### `talk-card`
 
@@ -266,6 +270,13 @@ Button row — stacks vertically on mobile, wraps on `sm`.
 
 Consistent body text in sections: `text-base/7 text-ink-soft sm:text-lg/8`.
 
+### Surface Hierarchy
+
+- One visible surface per content unit. A card may contain media, text, dividers, inline badges, and buttons, but not another glass/bordered/background card.
+- For grouped information inside a card, prefer `divide-y`, `border-t`, `list-divider-*`, plain rows, or a subtle transparent metadata block.
+- For a section that needs multiple cards, make the section wrapper unframed or use `PageSection`; do not put cards inside `section-shell` or `section-shell-subtle`.
+- Do not add borders, shadows, or tinted backgrounds to internal image frames unless the parent itself is not a card.
+
 ---
 
 ## Decorative Elements
@@ -339,7 +350,7 @@ Always test at **375px** and **1440px** before shipping.
 
 ```astro
 <article class="card-interactive" data-animate>
-  <div class="relative aspect-[16/10] overflow-hidden rounded-t-[1.7rem]">
+  <div class="relative aspect-[16/10] overflow-hidden">
     <Image src={cover} alt={title} class="h-full w-full object-cover" />
     <div class="absolute inset-0 bg-linear-to-t from-canvas/60 via-transparent to-transparent" />
   </div>

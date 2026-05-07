@@ -137,26 +137,20 @@ const structuredData = [
     />
     <div class="space-y-6">
       {usesSections.map(section => (
-        <div class="section-shell-subtle space-y-5" data-uses-section>
-          <div class="space-y-1">
+        <section class="space-y-5 border-t border-line/45 pt-6 first:border-t-0 first:pt-0" data-uses-section>
+          <div class="space-y-2">
             <p class="section-label">{section.title}</p>
             <p class="text-base/7 text-ink-soft">{section.description}</p>
           </div>
-          <div
-            class="
-              grid gap-4
-              lg:grid-cols-3
-            "
-            data-stagger="50"
-          >
+          <dl class="grid gap-4 lg:grid-cols-3" data-stagger="50">
             {section.items.map(item => (
-              <div class="mini-note">
-                <p class="section-label">{item.label}</p>
-                <p class="mt-3 text-sm/7 text-ink-soft">{item.value}</p>
+              <div class="panel-card p-5">
+                <dt class="section-label">{item.label}</dt>
+                <dd class="mt-3 text-sm/7 text-ink-soft">{item.value}</dd>
               </div>
             ))}
-          </div>
-        </div>
+          </dl>
+        </section>
       ))}
     </div>
   </PageSection>

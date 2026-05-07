@@ -1,6 +1,6 @@
 # Santi020k — Brand Guidelines
 
-**Version:** 2.5 · **Last updated:** May 2026 · **Owner:** Santiago Molina (@santi020k)
+**Version:** 2.6 · **Last updated:** May 2026 · **Owner:** Santiago Molina (@santi020k)
 
 > Single source of truth for the visual identity, voice, and implementation standards of the personal website and all related materials. Keep this document up to date whenever design tokens, components, or brand direction change.
 
@@ -371,7 +371,7 @@ Badges truncate at `200px` on mobile, full width on `sm` and above.
 
 ### Cards
 
-Use `transition-all duration-300` for hover lift. Always include `motion-reduce:` variants.
+Use `transition-all duration-300` for hover lift. Always include `motion-reduce:` variants. Cards are single-surface components: never place `panel-card`, `card-interactive`, `mini-note`, `talk-card`, `glass-pro`, `section-shell`, `section-shell-subtle`, or equivalent rounded/bordered/background/shadow blocks inside another card-like surface. Build internal hierarchy with spacing, dividers, plain rows, media, and inline metadata instead.
 
 **Standard Card (`panel-card`):**
 ```astro
@@ -390,15 +390,6 @@ Use `transition-all duration-300` for hover lift. Always include `motion-reduce:
   <Image src={cover} class="h-full w-full object-cover" />
   <!-- Gradient overlay for text readability -->
   <div class="absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent"></div>
-  <!-- Badges positioned bottom -->
-  <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-    <span class="text-xs font-medium px-2 py-1 rounded-full bg-brand/90 text-white">
-      Active
-    </span>
-    <span class="text-xs text-ink-soft bg-surface/80 px-2 py-1 rounded-full">
-      Jan 2022 – Present
-    </span>
-  </div>
 </div>
 ```
 
@@ -959,6 +950,7 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 2.6 | May 2026 | Added the single-surface card rule: no card-like surfaces nested inside cards or framed shells. Internal hierarchy now uses dividers, plain rows, media, and inline metadata. |
 | 2.5 | May 2026 | **Major home page refresh**: New hero with gradient text, animated portrait rings, and floating mini-notes. New content sections with asymmetric 2-column layout (`0.72fr / 1.28fr`). New card patterns: project cards with image overlays, status badges (Active/Completed), date ranges. Added `GradientDivider` component. Updated card design system with `panel-card`, `mini-note` patterns. |
 | 2.4 | April 2026 | Updated brand identity and hero copy, changed blog to native route, added speaking and about routes, unified typography table to Montserrat. |
 | 2.3 | April 2026 | Light theme **brand** and neutrals returned to match refreshed light logo/icon (hue **~267°** brand, **~268°** surfaces). Updated OG image tints in `render-social-image.js`. Replaced outdated §3 semantic token tables with `tokens.css` mappings. |
