@@ -25,7 +25,7 @@ This skill has two jobs:
 | Primary font | Montserrat variable (all roles) |
 | Brand color | Deep purple — `--brand` (light: `264 92% 47%`, dark: `264 90% 58%`) |
 | Dark mode | `data-theme="dark"` on `<html>` |
-| Aesthetic | Minimalist glass UI with purple brand gradients |
+| Aesthetic | Minimalist single-surface glass UI with purple brand gradients |
 
 ---
 
@@ -85,7 +85,7 @@ Use the `Pill.astro` component with named variants. Variant `accent-one` = brand
 
 ### Cards
 
-All cards use the glass utility system (`panel-card`, `card-interactive`, `mini-note`, etc.). See the `web-design` skill for the full list.
+All cards use the glass utility system (`panel-card`, `card-interactive`, `mini-note`, etc.). See the `web-design` skill for the full list. Cards must stay single-layer: never place card-like surfaces inside other cards or framed section shells. Use dividers, plain rows, media, and inline metadata for internal hierarchy.
 
 ### Navigation
 
@@ -124,6 +124,7 @@ Before shipping any new UI component, verify it against the brand:
 - [ ] Colors via token names only (no hex)
 - [ ] Montserrat font — no overrides to another typeface
 - [ ] Glass surface from `utilities.css` (`panel-card`, `mini-note`, etc.)
+- [ ] No card-like surface nested inside another card-like surface
 - [ ] All animations have `motion-reduce:` variants
 - [ ] Responsive at 375px and 1440px
 - [ ] WCAG AA contrast (4.5:1 body, 3:1 large / UI)

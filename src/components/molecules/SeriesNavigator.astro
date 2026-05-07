@@ -20,7 +20,7 @@ const { currentPostId, next, position, posts, previous, series, total } = Astro.
 const seriesPath = getSeriesPath(series.id)
 ---
 
-<section class="not-prose section-shell-subtle mt-16 space-y-6">
+<section class="not-prose mt-16 space-y-6 border-y border-line/45 py-8">
   <div class="
     grid gap-8
     lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]
@@ -58,7 +58,7 @@ const seriesPath = getSeriesPath(series.id)
       </ButtonLink>
     </div>
 
-    <ol class="space-y-3">
+    <ol class="grid gap-3">
       {posts.map((seriesPost, index) => {
         const isCurrentPost = seriesPost.id === currentPostId
 
@@ -68,14 +68,13 @@ const seriesPath = getSeriesPath(series.id)
               aria-current={isCurrentPost ? 'step' : undefined}
               class:list={[
                 `
-                  flex rounded-[1.15rem] border p-4 transition-colors
+                  panel-card flex p-4 transition-colors
                   motion-reduce:transition-none
                 `,
                 isCurrentPost ?
-                  'border-brand/30 bg-brand-soft/55' :
+                  'border-brand/40 text-brand' :
                   `
-                    border-line/55 bg-surface/76
-                    hover:border-brand/25 hover:bg-brand-soft/20
+                    hover:border-brand/30 hover:text-brand
                   `
               ]}
               href={getPostPath(seriesPost.id)}
@@ -102,8 +101,8 @@ const seriesPath = getSeriesPath(series.id)
       {previous && (
         <a
           class="
-            block mini-note border-line/55 transition-colors
-            hover:border-brand/25 hover:bg-brand-soft/20
+            panel-card block p-5 transition-colors
+            hover:border-brand/30 hover:text-brand
           "
           href={getPostPath(previous.id)}
         >
@@ -117,8 +116,8 @@ const seriesPath = getSeriesPath(series.id)
       {next && (
         <a
           class="
-            block mini-note border-line/55 transition-colors
-            hover:border-brand/25 hover:bg-brand-soft/20
+            panel-card block p-5 transition-colors
+            hover:border-brand/30 hover:text-brand
           "
           href={getPostPath(next.id)}
         >

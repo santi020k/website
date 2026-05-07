@@ -18,7 +18,7 @@ import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
 
-import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
+import { editorialCalendar } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
@@ -48,8 +48,7 @@ const featuredPost = page.data[0] ?? null
 const gridPosts = page.data.slice(1)
 
 const cadenceDescription =
-  `${publishingRhythm.summary} ` +
-  'The current roadmap runs from April 2026 through September 2026 so the site keeps growing on a predictable rhythm instead of in bursts.'
+  'One deep post each month, one refreshed evergreen guide. The archive compounds instead of aging.'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -170,7 +169,7 @@ const blogListSchema = {
 
   <PageSection>
     <SectionHeader
-      description="Start with the latest piece, then browse the rest by topic and depth."
+      description="Latest post first, then browse by topic and depth."
       eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
       title="Recent writing with a practical bias."
     />
@@ -288,18 +287,15 @@ const blogListSchema = {
     <PageSection>
       <SectionHeader
         description={cadenceDescription}
-        eyebrow="Cadence"
+        eyebrow="Publishing Rhythm"
         linkHref="/blog/content-calendar/"
-        linkLabel="View the full content calendar"
-        title="A documented monthly publishing rhythm."
+        linkLabel="View full calendar"
+        title="Consistent output, compounding value."
       />
 
-      <div class="space-y-6">
+      <div class="max-w-xl space-y-4">
         <div
-          class="
-            grid gap-5
-            md:grid-cols-3
-          "
+          class="flex flex-col gap-4"
           data-stagger
         >
           {roadmapPreview.map(entry => (
@@ -315,9 +311,16 @@ const blogListSchema = {
               <h2 class="text-[1.05rem]/snug font-semibold text-ink">
                 {entry.headline}
               </h2>
-              <div class="mt-auto space-y-1.5 divider-subtle pt-4">
-                <p class="section-label">Refresh</p>
-                <p class="text-sm/6 text-ink-muted">
+              <div class="mt-auto space-y-1.5 pt-4">
+                <div class="flex items-center gap-2">
+                  <span class="h-px w-3 rounded-full bg-brand/40"></span>
+                  <span class="
+                    text-[0.7rem] font-medium tracking-wide text-brand uppercase
+                  "
+                  >Also refreshing
+                  </span>
+                </div>
+                <p class="pl-5 text-sm/6 text-ink-muted">
                   {entry.refreshTitle}
                 </p>
               </div>
