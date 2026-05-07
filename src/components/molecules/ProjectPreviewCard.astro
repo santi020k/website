@@ -80,11 +80,8 @@ const logoBoxClass = {
         <div
           aria-hidden="true"
           class="absolute inset-0"
-          style={`background:
-          radial-gradient(ellipse 120% 95% at 12% 28%, color-mix(in srgb, hsl(var(--card-accent)) 32%, transparent), transparent 55%),
-          radial-gradient(ellipse 80% 90% at 88% 10%, color-mix(in srgb, hsl(var(--card-accent)) 16%, transparent), transparent 52%),
-          radial-gradient(ellipse 55% 55% at 58% 88%, color-mix(in srgb, hsl(var(--card-accent)) 9%, transparent), transparent 58%),
-          hsl(var(--surface-muted));`}
+          data-card-mesh
+          style="--mesh-base: hsl(var(--surface-muted));"
         />
       )}
 
@@ -130,12 +127,18 @@ const logoBoxClass = {
       style="background: linear-gradient(to bottom, hsl(0 0% 0% / 0) 10%, hsl(0 0% 0% / 0.14) 48%, hsl(0 0% 0% / 0.52) 100%);"
     />
 
+    {/* Ambient animated tint — always present, subtle */}
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0"
+      data-card-ambient
+    />
+
     {/* Accent hover tint */}
     <div
       aria-hidden="true"
       class="pointer-events-none absolute inset-0 opacity-0"
       data-card-tint
-      style="background: radial-gradient(ellipse 80% 60% at 70% 20%, color-mix(in srgb, hsl(var(--card-accent)) 22%, transparent), transparent 65%);"
     />
 
     {/* Specular top-edge highlight — light catching the rim of the glass */}
@@ -450,10 +453,76 @@ const logoBoxClass = {
       );
     }
 
-    [data-card-tint] {
-      transition: opacity 0.45s ease;
+    /* ── Animated mesh gradient (fallback when no cover image) ──── */
+
+  @property --mx1 { syntax: '<percentage>'; inherits: false; initial-value: 18%; }
+  @property --my1 { syntax: '<percentage>'; inherits: false; initial-value: 25%; }
+  @property --mx2 { syntax: '<percentage>'; inherits: false; initial-value: 78%; }
+  @property --my2 { syntax: '<percentage>'; inherits: false; initial-value: 15%; }
+  @property --mx3 { syntax: '<percentage>'; inherits: false; initial-value: 55%; }
+  @property --my3 { syntax: '<percentage>'; inherits: false; initial-value: 82%; }
+
+  [data-card-mesh] {
+    --_a: hsl(var(--card-accent) / 0.18);
+    --_b: hsl(var(--card-accent) / 0.10);
+    --_c: hsl(var(--card-accent) / 0.06);
+    background:
+      radial-gradient(ellipse 110% 90% at var(--mx1) var(--my1), var(--_a), transparent 55%),
+      radial-gradient(ellipse 75% 85% at var(--mx2) var(--my2), var(--_b), transparent 52%),
+      radial-gradient(ellipse 50% 50% at var(--mx3) var(--my3), var(--_c), transparent 58%),
+      var(--mesh-base);
+  }
+
+  @keyframes mesh-drift {
+    0%, 100% {
+      --mx1: 18%; --my1: 25%;
+      --mx2: 78%; --my2: 15%;
+      --mx3: 55%; --my3: 82%;
     }
-    .group:hover [data-card-tint] { opacity: 1; }
+    33% {
+      --mx1: 62%; --my1: 18%;
+      --mx2: 22%; --my2: 72%;
+      --mx3: 78%; --my3: 42%;
+    }
+    66% {
+      --mx1: 48%; --my1: 68%;
+      --mx2: 82%; --my2: 28%;
+      --mx3: 12%; --my3: 52%;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-card-mesh] {
+      animation: mesh-drift 14s ease-in-out infinite;
+    }
+  }
+
+  /* ── Ambient animated tint (always present, subtle) ─────────── */
+
+  @property --atx { syntax: '<percentage>'; inherits: false; initial-value: 65%; }
+  @property --aty { syntax: '<percentage>'; inherits: false; initial-value: 25%; }
+
+  [data-card-ambient] {
+    background: radial-gradient(ellipse 70% 55% at var(--atx) var(--aty), color-mix(in srgb, hsl(var(--card-accent)) 10%, transparent), transparent 68%);
+    opacity: 0.55;
+  }
+
+  @keyframes ambient-drift {
+    0%, 100% { --atx: 65%; --aty: 25%; }
+    50% { --atx: 35%; --aty: 70%; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-card-ambient] {
+      animation: ambient-drift 10s ease-in-out infinite;
+    }
+  }
+
+  [data-card-tint] {
+    background: radial-gradient(ellipse 80% 60% at 70% 20%, color-mix(in srgb, hsl(var(--card-accent)) 22%, transparent), transparent 65%);
+    transition: opacity 0.45s ease;
+  }
+  .group:hover [data-card-tint] { opacity: 1; }
 
     [data-card-img] {
       transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);

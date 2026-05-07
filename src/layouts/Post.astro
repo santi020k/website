@@ -1,9 +1,8 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
 import { WEBMENTION_API_KEY } from 'astro:env/server'
-import { Icon } from 'astro-icon/components'
-
-import Pill from '@/components/atoms/Pill.astro'
+import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
+import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
 import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
@@ -108,19 +107,11 @@ const breadcrumbs = [
       <!-- Left: article prose, series navigator, share -->
       <div class="min-w-0 space-y-10">
         <div class="e-content max-w-none space-y-8 border-y border-line/45 py-8">
-          <div class="
-            flex flex-wrap items-start justify-between gap-4 border-b border-line/35
-            pb-6
-          "
-          >
-            <div class="space-y-2">
-              <p class="section-label">Article notes</p>
-              <p class="max-w-2xl text-sm/6 text-ink-soft">
-                Practical writing from the same lane as the work: architecture decisions, delivery clarity, and engineering systems.
-              </p>
-            </div>
-            <Pill label={post.data.postType} tone="brand" />
-          </div>
+          <ContentNotesHeader
+            description="Practical writing from the same lane as the work: architecture decisions, delivery clarity, and engineering systems."
+            label="Article notes"
+            pill={post.data.postType}
+          />
 
           <div class="prose-santi max-w-none">
             <slot />
@@ -143,54 +134,7 @@ const breadcrumbs = [
 
         <WebmentionsSection mentions={webmentions} />
 
-        <footer
-          class="
-            flex flex-col gap-6 section-divider-compact
-            sm:flex-row sm:items-center sm:justify-between
-          "
-        >
-          <a
-            href="/blog/"
-            class="
-              group inline-flex items-center gap-2 font-medium text-ink
-              transition-colors
-              hover:text-brand
-              motion-reduce:transition-none
-            "
-          >
-            <Icon
-              aria-hidden="true"
-              class="
-                size-5 transition-transform
-                group-hover:-translate-x-1
-                motion-reduce:transition-none
-              "
-              name="tabler:arrow-left"
-            />
-            Back to blog
-          </a>
-
-          <a
-            href="#main"
-            class="
-              group inline-flex items-center gap-1.5 text-sm font-medium
-              text-ink-muted transition-colors
-              hover:text-brand
-              motion-reduce:transition-none
-            "
-          >
-            <Icon
-              aria-hidden="true"
-              class="
-                size-4 transition-transform
-                group-hover:-translate-y-0.5
-                motion-reduce:transition-none
-              "
-              name="tabler:arrow-up"
-            />
-            Back to top
-          </a>
-        </footer>
+        <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} />
       </div>
 
       <!-- Right: sticky TOC — only rendered when the post has headings -->

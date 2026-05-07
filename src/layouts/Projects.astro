@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
 
-import Pill from '@/components/atoms/Pill.astro'
+import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
 import ProjectCaseStudy from '@/components/molecules/ProjectCaseStudy.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
 import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
@@ -104,17 +104,11 @@ const breadcrumbs = [
     >
       <div class="min-w-0 space-y-8">
         <div class="space-y-8 border-y border-line/45 py-8">
-          <div class="
-            flex flex-wrap items-start justify-between gap-4 border-b border-line/35
-            pb-6
-          "
-          >
-            <div class="space-y-2">
-              <p class="section-label">{projectNotesLabel}</p>
-              <p class="max-w-2xl text-sm/6 text-ink-soft">{projectNotesDescription}</p>
-            </div>
-            <Pill label={projectStageLabel} tone="brand" />
-          </div>
+          <ContentNotesHeader
+            description={projectNotesDescription}
+            label={projectNotesLabel}
+            pill={projectStageLabel}
+          />
 
           <ProjectCaseStudy rows={caseStudyRows} />
 
