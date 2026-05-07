@@ -1,50 +1,34 @@
 /* eslint-disable func-style */
-import type { CollectionEntry } from 'astro:content'
-
 import { getCachedProjects } from '@/utils/content'
+
+import type { CollectionEntry } from 'astro:content'
 
 export async function getAllProjects(): Promise<CollectionEntry<'project'>[]> {
   return getCachedProjects()
 }
 
-/** groups projects by year (based on option siteConfig.sortProjectsByUpdatedDate), using the year as the key
- *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
- */
-export function groupProjectsByYear(projects: CollectionEntry<'project'>[]): Record<string, CollectionEntry<'project'>[] | undefined> {
+function groupBy(projects: CollectionEntry<'project'>[], key: (p: CollectionEntry<'project'>) => string): Record<string, CollectionEntry<'project'>[] | undefined> {
   const map = new Map<string, CollectionEntry<'project'>[]>()
 
   for (const project of projects) {
-    const year = project.data.startingDate.getFullYear().toString()
-    const existing = map.get(year)
+    const k = key(project)
+    const existing = map.get(k)
 
-    if (existing) {
-      existing.push(project)
-    } else {
-      map.set(year, [project])
-    }
+    if (existing) existing.push(project)
+    else map.set(k, [project])
   }
 
   return Object.fromEntries(map)
 }
 
-/** groups projects by typesId, using the typesId as the key
- *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
- */
+/** Groups projects by starting year. */
+export function groupProjectsByYear(projects: CollectionEntry<'project'>[]): Record<string, CollectionEntry<'project'>[] | undefined> {
+  return groupBy(projects, p => p.data.startingDate.getFullYear().toString())
+}
+
+/** Groups projects by typesId. */
 export function groupProjectsByTypesId(projects: CollectionEntry<'project'>[]): Record<string, CollectionEntry<'project'>[] | undefined> {
-  const map = new Map<string, CollectionEntry<'project'>[]>()
-
-  for (const project of projects) {
-    const typeId = project.data.typesId ?? 'personal'
-    const existing = map.get(typeId)
-
-    if (existing) {
-      existing.push(project)
-    } else {
-      map.set(typeId, [project])
-    }
-  }
-
-  return Object.fromEntries(map)
+  return groupBy(projects, p => p.data.typesId ?? 'personal')
 }
 
 /** returns all technologies created from projects (inc duplicate technologies)

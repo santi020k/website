@@ -21,7 +21,7 @@ import { getAllTags } from '@/utils/tags'
 import { editorialCalendar } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
 import PageLayout from '@/layouts/Base.astro'
-import { siteConfig } from '@/site.config'
+import { siteConfig, WRITING_START_YEAR } from '@/site.config'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -119,7 +119,7 @@ const blogListSchema = {
     <StatCard
       description="Years of writing and sharing engineering knowledge across the web."
       label="Experience"
-      value={`${new Date().getFullYear() - 2017}+`}
+      value={`${new Date().getFullYear() - WRITING_START_YEAR}+`}
     />
   </StatsGrid>
 

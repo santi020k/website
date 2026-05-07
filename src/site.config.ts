@@ -1,5 +1,8 @@
 import type { SiteConfig, SiteLink } from './types/site'
 
+export const CAREER_START_YEAR = 2014
+export const WRITING_START_YEAR = 2017
+
 const whatsappPhone = '573507990136'
 
 export const whatsappMessages = {

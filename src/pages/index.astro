@@ -11,7 +11,7 @@ import PostListItem from '@/components/molecules/PostListItem.astro'
 import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import PageLayout from '@/layouts/Base.astro'
-import { siteConfig } from '@/site.config'
+import { CAREER_START_YEAR, siteConfig } from '@/site.config'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
@@ -32,7 +32,7 @@ const latestPosts = allPosts
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 4)
 
-const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
+const yearsOfExperience = `${new Date().getFullYear() - CAREER_START_YEAR}+`
 const contactHref = siteConfig.contact.whatsapp
 
 const heroPortraitImage = await getImage({

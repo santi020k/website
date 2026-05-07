@@ -1,3 +1,5 @@
+import { CAREER_START_YEAR } from '@/site.config'
+
 export interface SocialPageDefinition {
   description: string
   pathname: string
@@ -5,7 +7,7 @@ export interface SocialPageDefinition {
   type: string
 }
 
-const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
+const yearsOfExperience = `${new Date().getFullYear() - CAREER_START_YEAR}+`
 
 export const homeSocialPage: SocialPageDefinition = {
   description: 'Engineering Leader & Full-Stack Architect with 12+ years of experience building resilient systems and scaling technical teams.',
