@@ -18,6 +18,8 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "wide"
   alt: "PADS wordmark on a magenta and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---

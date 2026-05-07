@@ -214,8 +214,20 @@ import SearchDialog from './SearchDialog.astro'
   }
 
   #site-search-results a[data-site-search-active="true"] {
-    border-color: hsl(var(--brand) / 0.5);
-    color: hsl(var(--brand));
+    border-color: hsl(var(--brand) / 0.45);
+    background-color: hsl(var(--surface) / 0.85);
+    box-shadow: 0 2px 8px hsl(var(--ink) / 0.06);
+  }
+
+  #site-search-results a[data-site-search-active="true"] [data-site-search-indicator] {
+    opacity: 1;
+    transform: translateY(-50%) scaleY(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results a[data-site-search-active="true"] [data-site-search-indicator] {
+      transition: none;
+    }
   }
 
   #site-search-results > li.site-search-hint {
@@ -239,13 +251,28 @@ import SearchDialog from './SearchDialog.astro'
     width: 4.75rem;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    border-radius: 0.35rem;
+    border-radius: 0.5rem;
     background-color: hsl(var(--surface-muted));
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
+  #site-search-results a:hover [data-site-search-thumb-frame] {
+    transform: scale(1.03);
+    box-shadow: 0 2px 8px hsl(var(--ink) / 0.08);
   }
 
   @media (min-width: 640px) {
     #site-search-results [data-site-search-thumb-frame] {
       width: 5.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results [data-site-search-thumb-frame] {
+      transition: none;
+    }
+    #site-search-results a:hover [data-site-search-thumb-frame] {
+      transform: none;
     }
   }
 
@@ -445,10 +472,23 @@ import SearchDialog from './SearchDialog.astro'
       if (items.length === 0) {
         results.innerHTML = `
           <li class="
-            site-search-hint border-y border-dashed border-line/55
-            px-4 py-5 text-center text-sm text-ink-soft
+            site-search-hint flex flex-col items-center justify-center gap-3
+            border-y border-dashed border-line/50 px-4 py-10 text-center
           ">
-            Type at least two characters to see results.
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+                <path d="M11 8v6" />
+                <path d="M8 11h6" />
+              </svg>
+            </span>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-ink">Start typing to search</p>
+              <p class="text-xs text-ink-soft">Enter at least 2 characters to find posts and projects.</p>
+            </div>
           </li>
         `
         setStatusMessage('Type at least two characters to search.')
@@ -456,15 +496,31 @@ import SearchDialog from './SearchDialog.astro'
       }
 
       const heading = useRecents ? 'Recent searches' : 'Popular topics'
+      const iconSvg = useRecents
+        ? `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="right"
+           >
+             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+             <path d="M3 3v5h5" />
+           </svg>`
+        : `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           >
+             <path d="M16 6 4 20" />
+             <path d="M18 15l-5.5 5.5" />
+             <path d="M21 9 16 4" />
+             <path d="M14 2 4 20" />
+           </svg>`
+
       const li = document.createElement('li')
       li.className = `
-        site-search-hint border-y border-dashed border-line/55
+        site-search-hint rounded-xl border border-line/40 bg-surface/40
         px-4 py-4 text-sm text-ink-soft
       `.trim().replace(/\s+/g, ' ')
 
-      const label = document.createElement('p')
-      label.className = 'mb-3 text-xs font-semibold tracking-[0.18em] text-ink-muted uppercase'
-      label.textContent = heading
+      const label = document.createElement('div')
+      label.className = 'mb-3 flex items-center gap-2 text-xs font-semibold tracking-[0.12em] text-ink-muted uppercase'
+      label.innerHTML = `${iconSvg}<span>${heading}</span>`
       li.appendChild(label)
 
       const chips = document.createElement('div')
@@ -475,9 +531,13 @@ import SearchDialog from './SearchDialog.astro'
         chip.type = 'button'
         chip.dataset.siteSearchSuggestion = item
         chip.className = `
-          inline-flex items-center px-1 py-1 text-xs font-medium text-ink-soft
-          transition hover:text-brand
+          inline-flex items-center rounded-full border border-line/40
+          bg-surface/50 px-3 py-1.5 text-xs font-medium text-ink-soft
+          transition-all duration-200 ease-out
+          hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand hover:shadow-sm
+          active:scale-95
           motion-reduce:transition-none
+          motion-reduce:active:scale-100
         `.trim().replace(/\s+/g, ' ')
         chip.textContent = item
         chips.appendChild(chip)
@@ -554,10 +614,16 @@ import SearchDialog from './SearchDialog.astro'
         selectedResultIndex = -1
         results.innerHTML = `
           <li class="
-            site-search-hint border-y border-dashed border-line/55
-            px-4 py-5 text-center text-sm text-ink-soft
+            site-search-hint flex flex-col items-center justify-center gap-3
+            border-y border-dashed border-line/50 px-4 py-8 text-center
           ">
-            Loading search index…
+            <span class="relative flex h-8 w-8">
+              <span class="absolute inset-0 rounded-full border-2 border-line/30"></span>
+              <span
+                class="absolute inset-0 animate-spin rounded-full border-2 border-brand/60 border-t-transparent"
+              ></span>
+            </span>
+            <span class="text-sm text-ink-soft">Loading search index…</span>
           </li>
         `
         setStatusMessage('Loading search index.')
@@ -569,22 +635,49 @@ import SearchDialog from './SearchDialog.astro'
         results.innerHTML = `
           <li
             class="
-              site-search-hint border-y border-dashed border-line/55
-              px-4 py-5 text-center text-sm text-ink-soft
+              site-search-hint flex flex-col items-center justify-center gap-4
+              border-y border-dashed border-line/50 px-4 py-8 text-center
             "
           >
-            <p class="mb-3">Search is temporarily unavailable.</p>
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-danger/10 text-danger">
+              <svg
+                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" x2="12" y1="8" y2="12" />
+                <line x1="12" x2="12.01" y1="16" y2="16" />
+              </svg>
+            </span>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-ink">Search unavailable</p>
+              <p class="text-xs text-ink-soft">We couldn't load the search index.</p>
+            </div>
             <button
               class="
-                inline-flex min-h-10 items-center rounded-full border border-line/60
-                px-3 py-1.5 text-xs font-medium text-ink-soft transition
-                hover:border-brand/40 hover:text-brand
+                inline-flex min-h-10 items-center gap-2 rounded-full border border-line/60
+                bg-surface/50 px-4 py-2 text-xs font-medium text-ink-soft
+                transition-all duration-200 ease-out
+                hover:border-brand/40 hover:bg-brand-soft/20 hover:text-brand hover:shadow-sm
+                active:scale-95
                 motion-reduce:transition-none
+                motion-reduce:active:scale-100
               "
               data-site-search-retry
               type="button"
             >
-              Retry loading index
+              <svg
+                xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                <path d="M8 16H3v5" />
+              </svg>
+              Try again
             </button>
           </li>
         `
@@ -616,9 +709,49 @@ import SearchDialog from './SearchDialog.astro'
 
       if (matches.length === 0) {
         selectedResultIndex = -1
-        results.innerHTML =
-          '<li class="site-search-hint px-1 py-2 text-sm text-ink-muted">No matching results.</li>'
-        setStatusMessage(`No matching results for ${trimmed}.`)
+        results.innerHTML = `
+          <li class="
+            site-search-hint flex flex-col items-center justify-center gap-3
+            border-y border-dashed border-line/50 px-4 py-10 text-center
+          ">
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+                <path d="m8 8 6 6" />
+                <path d="m14 8-6 6" />
+              </svg>
+            </span>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-ink">No results found</p>
+              <p class="text-xs text-ink-soft">Try different keywords or check your spelling.</p>
+            </div>
+            <button
+              type="button"
+              data-site-search-clear
+              class="
+                mt-1 inline-flex items-center gap-1.5 rounded-full border border-line/50
+                bg-surface/50 px-3 py-1.5 text-xs font-medium text-ink-soft
+                transition-all duration-200 ease-out
+                hover:border-brand/40 hover:bg-brand-soft/20 hover:text-brand
+                active:scale-95
+                motion-reduce:transition-none
+                motion-reduce:active:scale-100
+              "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              >
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+              </svg>
+              Clear search
+            </button>
+          </li>
+        `
+        setStatusMessage(`No matching results for ${trimmed}. Try different keywords.`)
         return
       }
 
@@ -630,11 +763,24 @@ import SearchDialog from './SearchDialog.astro'
         const a = document.createElement('a')
         a.href = e.path
         a.className = `
-          group flex gap-3 border-t border-line/35 p-2.5
-          transition duration-200 hover:border-brand/45 hover:text-brand
+          group relative flex gap-3 rounded-xl border border-transparent p-2.5
+          transition-all duration-250 ease-out
+          hover:border-line/50 hover:bg-surface/60 hover:shadow-sm
           motion-reduce:transition-none
           sm:gap-3.5 sm:p-3
         `.trim().replace(/\s+/g, ' ')
+
+        // Active selection indicator (left border accent)
+        const indicator = document.createElement('span')
+        indicator.setAttribute('data-site-search-indicator', '')
+        indicator.className = `
+          pointer-events-none absolute -left-0.5 top-1/2 h-6 w-1 -translate-y-1/2
+          rounded-r-full bg-brand opacity-0
+          transition-all duration-200
+          group-hover:opacity-40 group-hover:scale-y-75
+          motion-reduce:transition-none
+        `.trim().replace(/\s+/g, ' ')
+        a.appendChild(indicator)
 
         const thumbHost = document.createElement('span')
         thumbHost.setAttribute('data-site-search-thumb-frame', '')
@@ -685,15 +831,25 @@ import SearchDialog from './SearchDialog.astro'
         body.className = 'flex min-w-0 flex-1 flex-col justify-center gap-0.5'
 
         const typeEl = document.createElement('span')
-        typeEl.className = 'section-label'
+        typeEl.className = `
+          section-label transition-colors duration-200
+          group-hover:text-brand/80
+        `.trim()
         typeEl.textContent = e.type === 'post' ? 'Post' : 'Project'
 
         const titleEl = document.createElement('span')
-        titleEl.className = 'text-sm font-semibold text-ink transition group-hover:text-brand'
+        titleEl.className = `
+          text-sm font-semibold text-ink transition-colors duration-200
+          group-hover:text-brand
+        `.trim()
         titleEl.textContent = e.title
 
         const descEl = document.createElement('span')
-        descEl.className = 'line-clamp-2 text-xs/5 text-ink-soft sm:text-sm/6'
+        descEl.className = `
+          line-clamp-2 text-xs/5 text-ink-soft transition-colors duration-200
+          group-hover:text-ink-soft/90
+          sm:text-sm/6
+        `.trim()
         descEl.textContent = e.description
 
         body.append(typeEl, titleEl, descEl)
@@ -940,6 +1096,18 @@ import SearchDialog from './SearchDialog.astro'
             input.dispatchEvent(new Event('input', { bubbles: true }))
             input.focus()
           }
+          return
+        }
+
+        const clearButton =
+          event.target instanceof Element ?
+            event.target.closest('[data-site-search-clear]') :
+            null
+        if (clearButton instanceof HTMLButtonElement) {
+          event.preventDefault()
+          input.value = ''
+          input.dispatchEvent(new Event('input', { bubbles: true }))
+          input.focus()
           return
         }
 

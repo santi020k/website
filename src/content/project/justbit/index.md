@@ -18,6 +18,8 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
   alt: "Justbit logo on a teal and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---

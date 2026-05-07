@@ -321,31 +321,3 @@ const structuredData = [
   </PageSection>
 
 </PageLayout>
-
-<style>
-  @media (prefers-reduced-motion: no-preference) {
-    [data-stagger] > * {
-      opacity: 0;
-      transform: translateY(18px);
-      animation: talk-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    [data-stagger="60"] > *:nth-child(1) { animation-delay: 0ms; }
-    [data-stagger="60"] > *:nth-child(2) { animation-delay: 60ms; }
-    [data-stagger="60"] > *:nth-child(3) { animation-delay: 120ms; }
-    [data-stagger="60"] > *:nth-child(4) { animation-delay: 180ms; }
-
-    [data-animate] {
-      opacity: 0;
-      transform: translateY(14px);
-      animation: talk-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 80ms forwards;
-    }
-
-    @keyframes talk-in {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  }
-</style>

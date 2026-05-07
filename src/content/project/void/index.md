@@ -18,6 +18,9 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "wide"
+  logoSurface: "dark"
   alt: "VOID logo on an indigo and cobalt geometric cover"
   ogImage: './cover.webp'
 ---

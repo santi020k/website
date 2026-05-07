@@ -20,11 +20,25 @@ const endDate = isActive ?
 const dateRange = `${startDate} – ${endDate}`
 const projectLink = getPortfolioPath(project.id)
 const coverImage = project.data.coverImage
-const previewImage = coverImage?.vertical ?? coverImage?.src
+const bgImage = coverImage?.vertical ?? coverImage?.src
 const isAccent = accentTone === 'accent'
 const cardAccentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
 const accentHoverClass = isAccent ? 'group-hover:text-accent' : 'group-hover:text-brand'
 const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
+const logoImage = coverImage?.logo
+
+type LogoAspect = 'square' | 'tall' | 'wide'
+
+type LogoSurface = 'dark' | 'light' | 'neutral'
+
+const logoAspect: LogoAspect = coverImage?.logoAspect ?? 'square'
+const logoSurface: LogoSurface = coverImage?.logoSurface ?? 'neutral'
+
+const logoBoxClass = {
+  square: 'size-20 p-1.5',
+  tall: 'h-24 w-20 p-2.5',
+  wide: 'h-16 w-40 px-4 py-3'
+} satisfies Record<LogoAspect, string>
 ---
 
 <a
@@ -40,18 +54,27 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
     style={`--card-accent: ${cardAccentVar};`}
   >
 
-    {/* ── Background media ──────────────────────────────────────── */}
-    {previewImage ?
+    {/* ── Background media (vertical cover, blurred) ────────────── */}
+    {bgImage ?
       (
-        <Image
-          alt={coverImage?.alt ?? project.data.title}
-          class="absolute inset-0 size-full object-cover object-top"
-          data-card-img
-          height={800}
-          loading="lazy"
-          src={previewImage}
-          width={600}
-        />
+        <>
+          <Image
+            alt=""
+            aria-hidden="true"
+            class="absolute inset-0 size-full object-cover"
+            data-card-bg
+            height={800}
+            loading="lazy"
+            src={bgImage}
+            width={600}
+          />
+          {/* Blur + dim overlay for background */}
+          <div
+            aria-hidden="true"
+            class="absolute inset-0"
+            data-card-bg-overlay
+          />
+        </>
       ) :
       (
         <div
@@ -64,6 +87,41 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
           hsl(var(--surface-muted));`}
         />
       )}
+
+    {/* ── Logo/Brand area ─────────────────────────────────────────── */}
+    <div class="absolute inset-x-0 top-0 z-10 flex items-center justify-center" style="padding-top: 16%;">
+      {logoImage ?
+        (
+          <div
+            class:list={[
+              'flex items-center justify-center overflow-hidden rounded-2xl',
+              logoBoxClass[logoAspect]
+            ]}
+            data-card-logo
+            data-logo-aspect={logoAspect}
+            data-logo-surface={logoSurface}
+          >
+            <Image
+              alt={`${project.data.title} logo`}
+              class="size-full object-contain"
+              data-card-logo-img
+              loading="lazy"
+              src={logoImage}
+            />
+          </div>
+        ) :
+        (
+          <div
+            class="
+              flex size-20 items-center justify-center rounded-2xl text-3xl
+              font-bold text-white
+            "
+            data-card-logo-fallback
+          >
+            {project.data.title.charAt(0).toUpperCase()}
+          </div>
+        )}
+    </div>
 
     {/* Progressive darkening scrim */}
     <div
@@ -88,7 +146,7 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
     />
 
     {/* ── Spacer pushes glass panel down ────────────────────────── */}
-    <div aria-hidden="true" class="relative" style="padding-top: 68%;" />
+    <div aria-hidden="true" class="relative" style="padding-top: 62%;" />
 
     {/* ── Glass panel ───────────────────────────────────────────── */}
     <div class="relative z-10" data-card-panel>
@@ -197,6 +255,109 @@ const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
       inset 1px 0 0 hsl(0 0% 100% / 0.07),
       0 12px 32px hsl(230 30% 8% / 0.14),
       0 4px 12px hsl(230 30% 8% / 0.1);
+  }
+
+  /* Background image with blur effect */
+  [data-card-bg] {
+    filter: blur(8px) brightness(0.7);
+    transform: scale(1.1);
+  }
+
+  [data-card-bg-overlay] {
+    background: linear-gradient(
+      to bottom,
+      hsl(0 0% 0% / 0.3) 0%,
+      hsl(0 0% 0% / 0.1) 50%,
+      hsl(0 0% 0% / 0.4) 100%
+    );
+    backdrop-filter: blur(2px);
+  }
+
+  /* Logo/Brand mark styling */
+  [data-card-logo] {
+    position: relative;
+    isolation: isolate;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--surface) / 0.78) 0%,
+      hsl(var(--surface-muted) / 0.58) 100%
+    );
+    border: 1px solid hsl(var(--card-accent) / 0.3);
+    box-shadow:
+      0 8px 32px hsl(0 0% 0% / 0.2),
+      inset 0 1px 0 hsl(0 0% 100% / 0.1);
+    transition:
+      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.3s ease;
+  }
+
+  [data-logo-surface='dark'] {
+    background: linear-gradient(
+      135deg,
+      hsl(260 32% 13% / 0.9) 0%,
+      hsl(260 45% 8% / 0.78) 100%
+    );
+  }
+
+  [data-logo-surface='light'] {
+    background: linear-gradient(
+      135deg,
+      hsl(0 0% 100% / 0.9) 0%,
+      hsl(264 48% 93% / 0.82) 100%
+    );
+    box-shadow:
+      0 8px 32px hsl(0 0% 0% / 0.18),
+      inset 0 1px 0 hsl(0 0% 100% / 0.52);
+  }
+
+  [data-card-logo-img] {
+    filter:
+      drop-shadow(0 1px 1px hsl(0 0% 100% / 0.12))
+      drop-shadow(0 3px 7px hsl(0 0% 0% / 0.34));
+  }
+
+  [data-logo-surface='light'] [data-card-logo-img] {
+    filter: drop-shadow(0 3px 7px hsl(260 45% 10% / 0.24));
+  }
+
+  [data-card-logo-fallback] {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--card-accent) / 0.25) 0%,
+      hsl(var(--card-accent) / 0.15) 100%
+    );
+    border: 1px solid hsl(var(--card-accent) / 0.3);
+    box-shadow:
+      0 8px 32px hsl(0 0% 0% / 0.2),
+      inset 0 1px 0 hsl(0 0% 100% / 0.1);
+    text-shadow: 0 2px 4px hsl(0 0% 0% / 0.3);
+    transition:
+      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.3s ease,
+      background 0.3s ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .group:hover [data-card-logo] {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow:
+        0 12px 40px hsl(var(--card-accent) / 0.15),
+        0 8px 32px hsl(0 0% 0% / 0.25),
+        inset 0 1px 0 hsl(0 0% 100% / 0.15);
+    }
+
+    .group:hover [data-card-logo-fallback] {
+      transform: translateY(-4px) scale(1.05);
+      background: linear-gradient(
+        135deg,
+        hsl(var(--card-accent) / 0.35) 0%,
+        hsl(var(--card-accent) / 0.25) 100%
+      );
+      box-shadow:
+        0 12px 40px hsl(var(--card-accent) / 0.15),
+        0 8px 32px hsl(0 0% 0% / 0.25),
+        inset 0 1px 0 hsl(0 0% 100% / 0.15);
+    }
   }
 
   [data-card-panel] {

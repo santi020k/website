@@ -114,31 +114,3 @@ const sections = [
     </ButtonLink>
   </div>
 </PageLayout>
-
-<style>
-  @media (prefers-reduced-motion: no-preference) {
-    [data-stagger] > * {
-      opacity: 0;
-      transform: translateY(14px);
-      animation: a11y-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    [data-stagger="60"] > *:nth-child(1) { animation-delay: 0ms; }
-    [data-stagger="60"] > *:nth-child(2) { animation-delay: 60ms; }
-    [data-stagger="60"] > *:nth-child(3) { animation-delay: 120ms; }
-    [data-stagger="60"] > *:nth-child(4) { animation-delay: 180ms; }
-
-    [data-animate] {
-      opacity: 0;
-      transform: translateY(10px);
-      animation: a11y-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) 200ms forwards;
-    }
-
-    @keyframes a11y-in {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  }
-</style>
