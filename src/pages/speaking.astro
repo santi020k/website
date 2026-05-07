@@ -11,7 +11,7 @@ import { getCachedPosts } from '@/utils/content'
 
 import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
 import PageLayout from '@/layouts/Base.astro'
-import { createWhatsAppHref, siteConfig, whatsappMessages } from '@/site.config'
+import { AUTHOR_JOB_TITLE, createWhatsAppHref, sameAsProfiles, siteConfig, whatsappMessages } from '@/site.config'
 
 const postCount = (await getCachedPosts()).length
 const highlights = speakingHighlights.map(h => h.label === 'Published writing' ? { ...h, value: `${postCount} posts` } : h)
@@ -48,10 +48,10 @@ const structuredData = [
     description,
     mainEntity: {
       '@type': 'Person',
-      jobTitle: 'Engineering Leader & Full-Stack Architect',
+      jobTitle: AUTHOR_JOB_TITLE,
       knowsAbout: speakingTopics.map(topic => topic.title),
       name: siteConfig.author,
-      sameAs: [siteConfig.contact.github, siteConfig.contact.linkedin, siteConfig.contact.medium]
+      sameAs: sameAsProfiles.slice(0, 3)
     },
     name: 'Speaking'
   },

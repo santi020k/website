@@ -1,16 +1,25 @@
 ---
 import Pill from '@/components/atoms/Pill.astro'
 import PillCount from '@/components/atoms/PillCount.astro'
+
 import { getTagPath } from '@/utils/links'
 
 interface Props {
   activeTag?: string
+  showDivider?: boolean
   tags: [string, number][]
 }
 
-const { activeTag, tags } = Astro.props
+const { activeTag, showDivider = false, tags } = Astro.props
 ---
 
+{showDivider && (
+  <div class="flex items-center gap-4">
+    <div class="h-px flex-1 bg-line/50" />
+    <span class="section-label">Filter posts</span>
+    <div class="h-px flex-1 bg-line/50" />
+  </div>
+)}
 <div aria-label="Filter by topic" class="flex flex-wrap items-center gap-2" role="group">
   <Pill
     href="/blog/"

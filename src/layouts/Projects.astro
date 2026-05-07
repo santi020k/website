@@ -12,6 +12,7 @@ import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
 import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
 import BaseLayout from '@/layouts/Base.astro'
+import { createAuthorSchema } from '@/site.config'
 import {
   getProjectNotesDescription,
   getProjectNotesLabel,
@@ -61,11 +62,7 @@ const projectSchema: Record<string, unknown> = {
   url: canonicalURL.href,
   ...(project.data.coverImage?.ogImage ? { image: new URL(project.data.coverImage.ogImage, Astro.site).href } : {}),
   ...(sameAs.length > 0 ? { sameAs } : {}),
-  author: {
-    '@type': 'Person',
-    name: 'Santiago Molina',
-    url: Astro.site?.href
-  }
+  author: createAuthorSchema(Astro.site)
 }
 
 const parentPage = project.data.typesId === 'personal' ?

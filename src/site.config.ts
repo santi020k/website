@@ -12,8 +12,7 @@ export const whatsappMessages = {
     'Hi Santiago, I found your speaking page and would like to invite you to a talk or workshop. Event: Audience: Date: Format: Goal:'
 } as const
 
-export const createWhatsAppHref = (message: string = whatsappMessages.default) =>
-  `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodeURIComponent(message)}`
+export const createWhatsAppHref = (message: string = whatsappMessages.default) => `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodeURIComponent(message)}`
 
 export const siteConfig: SiteConfig = {
   author: 'Santiago Molina',
@@ -67,6 +66,25 @@ export const siteConfig: SiteConfig = {
   ],
   title: 'Santiago Molina'
 }
+
+export const sameAsProfiles: string[] = [
+  siteConfig.contact.github,
+  siteConfig.contact.linkedin,
+  siteConfig.contact.medium,
+  'https://twitter.com/santi020k',
+  'https://x.com/santi020k'
+].filter(Boolean)
+
+export const AUTHOR_JOB_TITLE = 'Engineering Leader & Full-Stack Architect'
+
+export const YEARS_OF_EXPERIENCE = `${new Date().getFullYear() - CAREER_START_YEAR}+`
+export const YEARS_OF_WRITING = `${new Date().getFullYear() - WRITING_START_YEAR}+`
+
+export const createAuthorSchema = (siteUrl: URL | undefined) => ({
+  '@type': 'Person',
+  name: siteConfig.author,
+  url: siteUrl?.href
+})
 
 export const menuLinks: SiteLink[] = [
   {

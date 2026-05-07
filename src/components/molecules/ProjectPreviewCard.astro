@@ -46,12 +46,12 @@ const logoBoxClass = {
 <a
   href={projectLink}
   class="
-    group block rounded-[1.75rem]
+    group block h-full rounded-[1.75rem]
     focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:outline-none
   "
 >
   <article
-    class="relative overflow-hidden rounded-[1.75rem]"
+    class="relative h-[27.5rem] overflow-hidden rounded-[1.75rem] sm:h-[27rem]"
     data-project-card
     style={`--card-accent: ${cardAccentVar};`}
   >
@@ -81,7 +81,10 @@ const logoBoxClass = {
     />
 
     {/* ── Logo/Brand area ─────────────────────────────────────────── */}
-    <div class="absolute inset-x-0 top-0 z-10 flex items-center justify-center" style="padding-top: 16%;">
+    <div class="
+      absolute inset-x-0 top-0 z-10 flex h-[52%] -translate-y-1 items-center justify-center
+    "
+    >
       {logoImage ?
         (
           <div
@@ -143,11 +146,8 @@ const logoBoxClass = {
       style="background: linear-gradient(90deg, transparent 8%, hsl(0 0% 100% / 0.4) 28%, hsl(0 0% 100% / 0.56) 50%, hsl(0 0% 100% / 0.4) 72%, transparent 92%);"
     />
 
-    {/* ── Spacer pushes glass panel down ────────────────────────── */}
-    <div aria-hidden="true" class="relative" style="padding-top: 62%;" />
-
     {/* ── Glass panel ───────────────────────────────────────────── */}
-    <div class="relative z-10" data-card-panel>
+    <div class="absolute inset-x-0 bottom-0 z-10" data-card-panel>
 
       {/* Status + date header */}
       <div class="flex items-center justify-between gap-2 px-5 pt-4 pb-3.5">
@@ -225,18 +225,31 @@ const logoBoxClass = {
           {project.data.description}
         </p>
 
-        <div class="flex flex-wrap gap-2 text-xs">
-          {project.data.technologies.slice(0, 4).map(tech => (
+        <div
+          class="
+            flex max-h-[3.1rem] min-h-[3.1rem] flex-wrap gap-1.5
+            overflow-hidden text-[0.66rem]/none
+          "
+        >
+          {project.data.technologies.slice(0, 5).map(tech => (
             <span
-              class="text-white/55"
+              class="
+                inline-flex shrink-0 items-center rounded-full border
+                border-white/10 bg-white/[0.06] px-1.5 py-1 text-white/62
+              "
               data-card-tag
             >
               {tech}
             </span>
           ))}
-          {project.data.technologies.length > 4 && (
-            <span class="text-white/40">
-              +{project.data.technologies.length - 4}
+          {project.data.technologies.length > 5 && (
+            <span
+              class="
+                inline-flex shrink-0 items-center rounded-full border
+                border-white/8 bg-white/[0.04] px-1.5 py-1 text-white/42
+              "
+            >
+              +{project.data.technologies.length - 5}
             </span>
           )}
         </div>
@@ -265,8 +278,8 @@ const logoBoxClass = {
   }
 
   [data-card-bg] {
-    opacity: 0.18;
-    filter: saturate(0.72) contrast(0.9) brightness(1.08);
+    opacity: 0.11;
+    filter: blur(1.25px) saturate(0.7) contrast(0.88) brightness(1.1);
     mix-blend-mode: screen;
     transform: scale(1.03);
     mask-image: linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.72) 45%, transparent 82%);
@@ -367,6 +380,7 @@ const logoBoxClass = {
   }
 
   [data-card-panel] {
+    min-height: 55%;
     background: linear-gradient(
       180deg,
       hsl(0 0% 0% / 0) 0%,
@@ -471,7 +485,7 @@ const logoBoxClass = {
         transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .group:hover [data-card-bg] {
-      opacity: 0.25;
+      opacity: 0.17;
       transform: scale(1.06);
     }
 
