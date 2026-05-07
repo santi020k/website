@@ -614,6 +614,9 @@ import SearchDialog from './SearchDialog.astro'
         .filter((item) => item.score > 0)
         .sort((a, b) => {
           if (b.score !== a.score) return b.score - a.score
+          const typeOrder = { project: 0, post: 1 }
+          const typeDiff = (typeOrder[a.entry.type] ?? 2) - (typeOrder[b.entry.type] ?? 2)
+          if (typeDiff !== 0) return typeDiff
           return a.entry.title.localeCompare(b.entry.title)
         })
         .slice(0, 8)
