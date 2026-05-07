@@ -1,13 +1,13 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PillCount from '@/components/atoms/PillCount.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
@@ -20,7 +20,6 @@ import { siteConfig } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
-
 const allTechnologies = getUniqueTechnologiesWithCount(sideProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
@@ -56,61 +55,22 @@ const projectsListSchema = {
     title: 'Side Projects — Santiago Molina'
   }}
 >
-  <section class="relative pb-4">
-    <div class="relative z-10 space-y-8">
-      <Eyebrow
-        label="Side Projects"
-        tone="brand"
-        className="
-          animate-slide-up whitespace-normal
-          motion-reduce:animate-none
-        "
-      />
-
-      <div
-        class="
-          animate-slide-up space-y-4 [animation-delay:90ms]
-          motion-reduce:animate-none
-        "
-      >
-        <h1 class="
-          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
-          sm:text-6xl/[0.95]
-          lg:text-[5.2rem]/[0.92]
-        "
-        >
-          Built for the
-          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">love of it.</span>
-        </h1>
-        <p class="
-          max-w-xl text-base/7 text-ink-soft
-          sm:text-lg/7
-        "
-        >
-          Open-source tools, community work, and self-directed experiments. The projects I build to learn, share, and sharpen how I engineer beyond client work.
-        </p>
-      </div>
-
-      <div
-        class="
-          animate-slide-up space-y-5 [animation-delay:180ms]
-          motion-reduce:animate-none
-        "
-      >
-        <div class="section-actions">
-          <ButtonLink href={siteConfig.contact.github} newTab showArrow>
-            View GitHub
-          </ButtonLink>
-          <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-            Message on LinkedIn
-          </ButtonLink>
-          <ButtonLink href="/work/" showArrow variant="secondary">
-            Work experience
-          </ButtonLink>
-        </div>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    description="Open-source tools, community work, and self-directed experiments. The projects I build to learn, share, and sharpen how I engineer beyond client work."
+    eyebrow="Side Projects"
+    gradientText="love of it."
+    title="Built for the"
+  >
+    <ButtonLink href={siteConfig.contact.github} newTab showArrow>
+      View GitHub
+    </ButtonLink>
+    <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+      Message on LinkedIn
+    </ButtonLink>
+    <ButtonLink href="/work/" showArrow variant="secondary">
+      Work experience
+    </ButtonLink>
+  </PageHero>
 
   <StatsGrid>
     <StatCard

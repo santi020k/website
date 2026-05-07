@@ -3,15 +3,17 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
 import ProjectCard from '@/components/molecules/ProjectCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
-import { getUniqueTechnologies } from '@/data/project'
-import PageLayout from '@/layouts/Base.astro'
+
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
+
+import { getUniqueTechnologies } from '@/data/project'
+import PageLayout from '@/layouts/Base.astro'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const allProjects = await getCachedProjects()
@@ -69,64 +71,31 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section class="relative pb-4">
-    <div class="relative z-10 space-y-8">
-      <Eyebrow
-        label="Technology filter"
-        tone="brand"
-        className="
-          animate-slide-up whitespace-normal
-          motion-reduce:animate-none
-        "
-      />
-
-      <div
-        class="
-          animate-slide-up space-y-4 [animation-delay:90ms]
-          motion-reduce:animate-none
-        "
-      >
-        <h1 class="
-          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
-          sm:text-6xl/[0.95]
-          lg:text-[5.2rem]/[0.92]
-        "
-        >
-          {technology}
-          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">Projects.</span>
-        </h1>
-        <p class="
-          max-w-xl text-base/7 text-ink-soft
-          sm:text-lg/7
-        "
-        >
-          Projects where {technology} played a meaningful role in the architecture, delivery workflow, or product experience.
-        </p>
-      </div>
-
-      <div
-        class="
-          animate-slide-up space-y-5 [animation-delay:180ms]
-          motion-reduce:animate-none
-        "
-      >
-        <div class="section-actions">
-          <ButtonLink href="/technologies/" showArrow variant="secondary">
-            All technologies
-          </ButtonLink>
-          <ButtonLink href="/portfolio/" showArrow variant="secondary">
-            Portfolio
-          </ButtonLink>
-        </div>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    description={`Projects where ${technology} played a meaningful role in the architecture, delivery workflow, or product experience.`}
+    eyebrow="Technology filter"
+    gradientText="Projects."
+    title={technology}
+  >
+    <ButtonLink href="/technologies/" showArrow variant="secondary">
+      All technologies
+    </ButtonLink>
+    <ButtonLink href="/portfolio/" showArrow variant="secondary">
+      Portfolio
+    </ButtonLink>
+  </PageHero>
 
   <StatsGrid>
     <StatCard description={`Projects in the portfolio where ${technology} shaped the architecture or delivery.`} label="Projects" value={String(page.total)} />
   </StatsGrid>
 
-  <section class="grid gap-6 pt-10 lg:grid-cols-2" data-animate>
+  <section
+    class="
+      grid gap-6 pt-10
+      lg:grid-cols-2
+    "
+    data-animate
+  >
     {page.data.map(project => (
       <ProjectCard project={project} />
     ))}

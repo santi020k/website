@@ -3,9 +3,9 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PillCount from '@/components/atoms/PillCount.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
@@ -50,6 +50,7 @@ const postCount = page.total
 const isFirstPage = page.currentPage === 1
 const featuredPost = isFirstPage ? page.data[0] : null
 const gridPosts = isFirstPage ? page.data.slice(1) : page.data
+
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Blog', url: '/blog/' },
@@ -67,63 +68,19 @@ const breadcrumbs = [
     `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`
 }}
 >
-  <section class="relative pb-4">
-    <div class="relative z-10 space-y-8">
-      <Eyebrow
-        label="Topic archive"
-        tone="brand"
-        className="
-          animate-slide-up whitespace-normal
-          motion-reduce:animate-none
-        "
-      />
-
-      <div
-        class="
-          animate-slide-up space-y-4 [animation-delay:90ms]
-          motion-reduce:animate-none
-        "
-      >
-        <h1 class="
-          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
-          sm:text-6xl/[0.95]
-          lg:text-[5.2rem]/[0.92]
-        "
-        >
-          #{tag}
-          <span class="
-            block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
-            pb-4 text-transparent
-          "
-          >All posts.
-          </span>
-        </h1>
-        <p class="
-          max-w-xl text-base/7 text-ink-soft
-          sm:text-lg/7
-        "
-        >
-          Filtered to {postCount} {postCount === 1 ? 'post' : 'posts'} connected by the #{tag} topic.
-        </p>
-      </div>
-
-      <div
-        class="
-          animate-slide-up space-y-5 [animation-delay:180ms]
-          motion-reduce:animate-none
-        "
-      >
-        <div class="section-actions">
-          <ButtonLink href="/blog/tags/" showArrow variant="secondary">
-            Browse all topics
-          </ButtonLink>
-          <ButtonLink href="/blog/" showArrow variant="secondary">
-            Back to blog
-          </ButtonLink>
-        </div>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    description={`Filtered to ${postCount} ${postCount === 1 ? 'post' : 'posts'} connected by the #${tag} topic.`}
+    eyebrow="Topic archive"
+    gradientText="All posts."
+    title={`#${tag}`}
+  >
+    <ButtonLink href="/blog/tags/" showArrow variant="secondary">
+      Browse all topics
+    </ButtonLink>
+    <ButtonLink href="/blog/" showArrow variant="secondary">
+      Back to blog
+    </ButtonLink>
+  </PageHero>
 
   <StatsGrid>
     <StatCard description="Posts connected by this topic in the archive." label="Posts" value={String(postCount)} />

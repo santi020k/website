@@ -22,7 +22,7 @@ coverImage:
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
-  logoSurface: "dark"
+  logoSurface: "light"
   alt: "Santi020k Chrome Theme logo on a deep violet geometric cover with browser UI artwork"
 ---
 

@@ -2,7 +2,7 @@
 import { type CollectionEntry, render } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
@@ -68,58 +68,19 @@ const structuredData: Record<string, unknown> = {
     title: metaTitle
   }}
 >
-  <section class="relative pb-4">
-    <div class="relative z-10 space-y-8">
-      <Eyebrow
-        label="Blog series"
-        tone="brand"
-        className="
-          animate-slide-up whitespace-normal
-          motion-reduce:animate-none
-        "
-      />
-
-      <div
-        class="
-          animate-slide-up space-y-4 [animation-delay:90ms]
-          motion-reduce:animate-none
-        "
-      >
-        <h1 class="
-          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
-          sm:text-6xl/[0.95]
-          lg:text-[5.2rem]/[0.92]
-        "
-        >
-          {series.data.title.includes('.') ? series.data.title : series.data.title + '.'}
-          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">A reading track.</span>
-        </h1>
-        <p class="
-          max-w-xl text-base/7 text-ink-soft
-          sm:text-lg/7
-        "
-        >
-          {series.data.description}
-        </p>
-      </div>
-
-      <div
-        class="
-          animate-slide-up space-y-5 [animation-delay:180ms]
-          motion-reduce:animate-none
-        "
-      >
-        <div class="section-actions">
-          <ButtonLink href="/blog/series/" showArrow>
-            Browse all series
-          </ButtonLink>
-          <ButtonLink href="/blog/" showArrow variant="secondary">
-            Back to blog
-          </ButtonLink>
-        </div>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    description={series.data.description}
+    eyebrow="Blog series"
+    gradientText="A reading track."
+    title={series.data.title.includes('.') ? series.data.title : series.data.title + '.'}
+  >
+    <ButtonLink href="/blog/series/" showArrow>
+      Browse all series
+    </ButtonLink>
+    <ButtonLink href="/blog/" showArrow variant="secondary">
+      Back to blog
+    </ButtonLink>
+  </PageHero>
 
   <StatsGrid>
     <StatCard description="Articles collected into this reading track." label="Posts" value={String(postCount)} />
