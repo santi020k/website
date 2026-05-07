@@ -80,8 +80,7 @@ const logoBoxClass = {
         <div
           aria-hidden="true"
           class="absolute inset-0"
-          data-card-mesh
-          style="--mesh-base: hsl(var(--surface-muted));"
+          data-card-bg-fallback
         />
       )}
 
@@ -453,69 +452,26 @@ const logoBoxClass = {
       );
     }
 
-    /* ── Animated mesh gradient (fallback when no cover image) ──── */
+  /* ── Fallback background: deep dark + noise + corner glow ───── */
 
-  @property --mx1 { syntax: '<percentage>'; inherits: false; initial-value: 18%; }
-  @property --my1 { syntax: '<percentage>'; inherits: false; initial-value: 25%; }
-  @property --mx2 { syntax: '<percentage>'; inherits: false; initial-value: 78%; }
-  @property --my2 { syntax: '<percentage>'; inherits: false; initial-value: 15%; }
-  @property --mx3 { syntax: '<percentage>'; inherits: false; initial-value: 55%; }
-  @property --my3 { syntax: '<percentage>'; inherits: false; initial-value: 82%; }
-
-  [data-card-mesh] {
-    --_a: hsl(var(--card-accent) / 0.18);
-    --_b: hsl(var(--card-accent) / 0.10);
-    --_c: hsl(var(--card-accent) / 0.06);
+  [data-card-bg-fallback] {
     background:
-      radial-gradient(ellipse 110% 90% at var(--mx1) var(--my1), var(--_a), transparent 55%),
-      radial-gradient(ellipse 75% 85% at var(--mx2) var(--my2), var(--_b), transparent 52%),
-      radial-gradient(ellipse 50% 50% at var(--mx3) var(--my3), var(--_c), transparent 58%),
-      var(--mesh-base);
+      radial-gradient(ellipse 90% 70% at 85% 5%, hsl(var(--card-accent) / 0.08), transparent 60%),
+      hsl(260 30% 4%);
   }
 
-  @keyframes mesh-drift {
-    0%, 100% {
-      --mx1: 18%; --my1: 25%;
-      --mx2: 78%; --my2: 15%;
-      --mx3: 55%; --my3: 82%;
-    }
-    33% {
-      --mx1: 62%; --my1: 18%;
-      --mx2: 22%; --my2: 72%;
-      --mx3: 78%; --my3: 42%;
-    }
-    66% {
-      --mx1: 48%; --my1: 68%;
-      --mx2: 82%; --my2: 28%;
-      --mx3: 12%; --my3: 52%;
-    }
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    [data-card-mesh] {
-      animation: mesh-drift 14s ease-in-out infinite;
-    }
-  }
-
-  /* ── Ambient animated tint (always present, subtle) ─────────── */
-
-  @property --atx { syntax: '<percentage>'; inherits: false; initial-value: 65%; }
-  @property --aty { syntax: '<percentage>'; inherits: false; initial-value: 25%; }
-
+  /* SVG noise texture overlay — applied via the ambient layer */
   [data-card-ambient] {
-    background: radial-gradient(ellipse 70% 55% at var(--atx) var(--aty), color-mix(in srgb, hsl(var(--card-accent)) 10%, transparent), transparent 68%);
-    opacity: 0.55;
+    opacity: 0.38;
   }
 
-  @keyframes ambient-drift {
-    0%, 100% { --atx: 65%; --aty: 25%; }
-    50% { --atx: 35%; --aty: 70%; }
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    [data-card-ambient] {
-      animation: ambient-drift 10s ease-in-out infinite;
-    }
+  [data-card-ambient]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    pointer-events: none;
   }
 
   [data-card-tint] {
