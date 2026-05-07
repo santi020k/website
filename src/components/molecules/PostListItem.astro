@@ -1,8 +1,10 @@
 ---
 import type { CollectionEntry } from 'astro:content'
+import { Icon } from 'astro-icon/components'
 
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
+import { getReadingTime } from '@/utils/reading-time'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -11,21 +13,94 @@ interface Props {
 const { post } = Astro.props
 const postLink = getPostPath(post.id)
 const formattedDate = getFormattedDate(post.data.publishDate)
+const readingTime = getReadingTime(post.body)
 ---
 
 <a
   href={postLink}
-  class="group flex items-start justify-between gap-4 py-5 list-divider"
+  class="
+    group relative flex items-center gap-4 overflow-hidden list-divider py-5
+    focus-visible:outline-2 focus-visible:outline-offset-2
+    focus-visible:outline-brand focus-visible:outline-none
+  "
 >
-  <div class="space-y-1 min-w-0 flex-1">
-    <h3 class="font-medium text-ink group-hover:text-brand transition-colors line-clamp-1">
+  {/* Glass fill */}
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute inset-0 rounded-xl opacity-0
+      transition-opacity duration-300
+      group-hover:opacity-100
+      motion-reduce:hidden
+    "
+    style="background: linear-gradient(135deg, hsl(var(--brand) / 0.045) 0%, hsl(var(--brand) / 0.015) 60%, transparent 100%);"
+  />
+
+  {/* Left accent bar */}
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute inset-y-3 left-0 w-[3px] -translate-x-full
+      rounded-r-full opacity-0 transition-[opacity,transform] duration-300
+      ease-[cubic-bezier(0.34,1.56,0.64,1)]
+      group-hover:translate-x-0 group-hover:opacity-100
+      motion-reduce:hidden
+    "
+    style="background: linear-gradient(180deg, hsl(var(--brand) / 0.65), hsl(var(--accent) / 0.85));"
+  />
+
+  {/* Content */}
+  <div
+    class="
+      relative z-10 min-w-0 flex-1 space-y-1 transition-transform duration-300
+      ease-[cubic-bezier(0.22,1,0.36,1)]
+      group-hover:translate-x-2.5
+      motion-reduce:group-hover:translate-x-0
+    "
+  >
+    <h3
+      class="
+        line-clamp-1 font-medium text-ink transition-colors duration-200
+        group-hover:text-brand
+        motion-reduce:transition-none
+      "
+    >
       {post.data.title}
     </h3>
-    <p class="text-sm text-ink-soft line-clamp-1">
+    <p class="line-clamp-1 text-sm text-ink-soft">
       {post.data.description}
     </p>
   </div>
-  <span class="text-xs text-ink-muted shrink-0">
-    {formattedDate}
-  </span>
+
+  {/* Meta */}
+  <div class="relative z-10 flex shrink-0 flex-col items-end gap-1">
+    <span class="text-xs text-ink-muted tabular-nums">
+      {formattedDate}
+    </span>
+    <span
+      aria-hidden="true"
+      class="
+        flex translate-y-1 items-center gap-1 text-xs text-ink-muted opacity-0
+        transition-[opacity,transform] duration-200
+        group-hover:translate-y-0 group-hover:opacity-100
+        motion-reduce:hidden
+      "
+    >
+      <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:clock" />
+      {readingTime} min
+    </span>
+  </div>
+
+  {/* Arrow indicator */}
+  <Icon
+    aria-hidden="true"
+    class="
+      relative z-10 size-4 shrink-0 translate-x-1 text-ink-muted opacity-0
+      transition-[opacity,transform] duration-300
+      ease-[cubic-bezier(0.34,1.56,0.64,1)]
+      group-hover:translate-x-0 group-hover:text-brand group-hover:opacity-100
+      motion-reduce:hidden
+    "
+    name="tabler:arrow-right"
+  />
 </a>

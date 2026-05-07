@@ -3,10 +3,10 @@ import type { CollectionEntry } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import CoverImage from '@/components/atoms/CoverImage.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import GradientDivider from '@/components/atoms/GradientDivider.astro'
+import HoverableCover from '@/components/atoms/HoverableCover.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getTagPath } from '@/utils/links'
@@ -174,7 +174,8 @@ const metaItems = [
         <span
           aria-hidden="true"
           class="
-            h-px flex-1 bg-linear-to-r from-line via-line/60 to-transparent
+            h-px flex-1 bg-linear-to-r from-transparent via-line/40
+            to-transparent
           "
         />
       </div>
@@ -246,27 +247,18 @@ const metaItems = [
   {post.data.coverImage && (
     <div class="space-y-4">
       <div class:list={[
-        'panel-card relative overflow-hidden',
+        'relative',
         !useWideCoverFrame && 'mx-auto w-full max-w-4xl'
       ]}
       >
-        {useWideCoverFrame && (
-          <div
-            aria-hidden="true"
-            class="
-              pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40
-              bg-linear-to-t from-canvas/80 via-canvas/15 to-transparent
-            "
-          >
-          </div>
-        )}
-        <CoverImage
+        <HoverableCover
           alt={post.data.coverImage.alt}
           ariaHidden={true}
+          className={useWideCoverFrame ? '' : 'mx-auto w-full max-w-4xl'}
           fetchpriority="high"
           image={post.data.coverImage.src}
           loading="eager"
-          mode="detail"
+          showBottomGradient={useWideCoverFrame}
           sizes="(min-width: 1024px) 1200px, 100vw"
           transitionName={`post-cover-${getPostSlug(post.id)}`}
         />
