@@ -153,8 +153,61 @@
 /* ─── Back to Top Button ─────────────────────────────────────────────────────── */
 
 @utility back-to-top-button {
-  @apply fixed right-6 bottom-6 z-40 flex size-11 cursor-pointer items-center justify-center rounded-full border border-line/38 bg-surface/72 text-brand backdrop-blur-md transition duration-500 hover:scale-110 hover:bg-surface/90 hover:shadow-brand/20 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 active:scale-95 motion-reduce:transition-none;
-  box-shadow:
-    0 8px 24px hsl(230 30% 8% / 0.1),
-    inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  @apply fixed right-6 bottom-6 z-40 flex cursor-pointer items-center justify-center gap-1.5 overflow-hidden rounded-full border border-line/45 bg-surface/80 px-3.5 py-2.5 text-ink-soft shadow-[0_4px_20px_hsl(230_30%_8%/0.08),0_1px_4px_hsl(230_30%_8%/0.04),inset_0_1px_0_hsl(0_0%_100%/0.12)] backdrop-blur-md focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2;
+
+  /* Entrance / exit — hidden by default, revealed via .is-visible */
+  opacity: 0;
+  transform: translateY(1rem);
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.15s ease;
+  @apply motion-reduce:transition-none;
+
+  &:hover {
+    color: hsl(var(--brand));
+    background: hsl(var(--brand-soft) / 0.4);
+    border-color: hsl(var(--brand) / 0.3);
+    box-shadow:
+      0 8px 24px hsl(var(--brand) / 0.12),
+      0 2px 8px hsl(230 30% 8% / 0.05),
+      inset 0 1px 0 hsl(0 0% 100% / 0.1);
+    transform: translateY(-2px);
+    @apply motion-reduce:transform-none;
+  }
+
+  &:active {
+    transform: scale(0.96) translateY(-1px);
+    @apply motion-reduce:transform-none;
+  }
+}
+
+@utility back-to-top-label {
+  @apply text-sm font-medium tracking-tight;
+}
+
+/* Visible state — subtle fade-up */
+.back-to-top-button.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.15s ease;
+  @apply motion-reduce:transition-none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top-button,
+  .back-to-top-button.is-visible {
+    transition: none;
+  }
 }

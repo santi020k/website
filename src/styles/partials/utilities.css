@@ -137,7 +137,7 @@
 }
 
 @utility post-grid {
-  @apply grid gap-6 lg:grid-cols-2;
+  @apply grid items-start gap-5;
 }
 
 @property --border-angle {

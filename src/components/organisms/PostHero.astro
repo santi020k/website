@@ -15,7 +15,6 @@ import { getPostSlug } from '@/utils/posts'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
-import { siteConfig } from '@/site.config'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -35,7 +34,6 @@ const coverAspectRatio = post.data.coverImage ?
 const useWideCoverFrame = coverAspectRatio > 1.08
 // Use the first tag as an editorial eyebrow label, fallback to "Article"
 const eyebrowLabel = tags[0] ?? 'Article'
-
 const publishDateIso = publishDate.toISOString().slice(0, 10)
 const updatedDateIso = updatedDate?.toISOString().slice(0, 10)
 
@@ -85,7 +83,8 @@ const metaItems = [
   >
     <div class="relative">
       <h1 class="
-        p-name max-w-4xl text-4xl/[0.98] font-bold tracking-tighter wrap-break-word
+        p-name max-w-4xl text-4xl/[0.98] font-bold tracking-tighter
+        wrap-break-word
         sm:text-5xl/[0.96]
         lg:text-[3.6rem]/[0.94]
       "
@@ -146,7 +145,7 @@ const metaItems = [
             "
             >
               {item.type === 'date' ?
-                <time datetime={item.datetime}><FormattedDate date={item.value as Date} /></time> :
+                <time datetime={item.datetime}><FormattedDate date={item.value} /></time> :
                 item.value}
             </dd>
           </div>
@@ -201,9 +200,20 @@ const metaItems = [
         </ButtonLink>
       )}
       {!canonicalUrl && (
-        <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
-          Open Medium profile
-        </ButtonLink>
+        <button
+          class="
+            group btn-primary inline-flex cursor-pointer items-center
+            justify-center gap-2 rounded-full border px-5 py-2.5 text-sm
+            font-semibold tracking-[0.01em] transition-all
+          "
+          data-copy-link
+          type="button"
+        >
+          <span class="flex items-center gap-2">
+            <Icon aria-hidden="true" class="size-4" name="tabler:link" />
+            <span data-copy-text>Copy link to share</span>
+          </span>
+        </button>
       )}
       {seriesContext && (
         <ButtonLink
@@ -221,7 +231,12 @@ const metaItems = [
           </span>
         </ButtonLink>
       )}
-      <ButtonLink href="/blog/" showArrow variant="secondary" className="text-ink-soft">
+      <ButtonLink
+        href="/blog/"
+        showArrow
+        variant="secondary"
+        className="text-ink-soft"
+      >
         Browse blog
       </ButtonLink>
     </div>
@@ -283,3 +298,33 @@ const metaItems = [
     </div>
   )}
 </section>
+
+<script>
+  function setupCopyLink() {
+    const copyBtn = document.querySelector('[data-copy-link]')
+    if (!copyBtn) return
+
+    const copyText = copyBtn.querySelector('[data-copy-text]')
+    const CHECK_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>`
+    const LINK_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href)
+        if (copyText) copyText.textContent = 'Copied!'
+        const iconSpan = copyBtn.querySelector('span > span:first-child')
+        if (iconSpan) iconSpan.innerHTML = CHECK_ICON
+
+        setTimeout(() => {
+          if (copyText) copyText.textContent = 'Copy link to share'
+          if (iconSpan) iconSpan.innerHTML = LINK_ICON
+        }, 2000)
+      } catch {
+        // Silent fail - button just won't show feedback
+      }
+    })
+  }
+
+  setupCopyLink()
+  document.addEventListener('astro:after-swap', setupCopyLink)
+</script>

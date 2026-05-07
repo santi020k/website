@@ -112,7 +112,12 @@ const blogListSchema = {
         "
         >
           Writing about software.
-          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">Architecture. Craft.</span>
+          <span class="
+            block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+            pb-4 text-transparent
+          "
+          >Architecture. Craft.
+          </span>
         </h1>
         <p class="
           max-w-xl text-base/7 text-ink-soft
@@ -299,7 +304,7 @@ const blogListSchema = {
         >
           {roadmapPreview.map(entry => (
             <article class="
-              flex mini-note h-full flex-col gap-4 p-5
+              mini-note flex h-full flex-col gap-5 p-5
               sm:p-6
             "
             >
@@ -307,12 +312,15 @@ const blogListSchema = {
                 <Pill label={entry.month} tone="brand" />
                 <Pill label={entry.format} tone="outline" />
               </div>
-              <h2 class="text-xl/tight text-ink">
+              <h2 class="text-[1.05rem]/snug font-semibold text-ink">
                 {entry.headline}
               </h2>
-              <p class="text-sm/6 text-ink-soft">
-                Refreshing: {entry.refreshTitle}
-              </p>
+              <div class="mt-auto space-y-1.5 divider-subtle pt-4">
+                <p class="section-label">Refresh</p>
+                <p class="text-sm/6 text-ink-muted">
+                  {entry.refreshTitle}
+                </p>
+              </div>
             </article>
           ))}
         </div>

@@ -1,6 +1,5 @@
 ---
 import { type CollectionEntry, getEntry } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import CoverImage from '@/components/atoms/CoverImage.astro'
@@ -25,7 +24,7 @@ const postLink = getPostPath(post.id)
 
 const imageSizes = featured ?
   '(min-width: 1024px) 72vw, 100vw' :
-  '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
+  '(min-width: 1024px) 48vw, (min-width: 768px) 62vw, 100vw'
 ---
 
 <article
@@ -65,7 +64,6 @@ const imageSizes = featured ?
           className="
             rounded-[1.35rem] border border-b-0 border-line/35
           "
-          featuredMinHeightClass="lg:min-h-0"
           featured={featured}
           image={data.coverImage.src}
           loading={featured ? 'eager' : 'lazy'}
@@ -193,16 +191,6 @@ const imageSizes = featured ?
     </div>
   </div>
 
-  <Icon
-    aria-hidden="true"
-    class="
-      pointer-events-none absolute right-5 bottom-5 z-10 size-5
-      -translate-x-1 text-brand opacity-0 transition-all duration-200
-      group-hover:translate-x-0 group-hover:opacity-100
-      motion-reduce:translate-x-0 motion-reduce:transition-none
-    "
-    name="tabler:arrow-right"
-  />
 </article>
 
 <style>
@@ -259,25 +247,6 @@ const imageSizes = featured ?
     background: transparent;
   }
 
-  @media (min-width: 1024px) {
-    [data-post-card='featured'] {
-      display: grid;
-      grid-template-columns: minmax(16rem, 0.92fr) minmax(0, 1fr);
-      align-items: stretch;
-    }
-
-    [data-post-card='featured'] > a {
-      display: flex;
-      padding-right: 0;
-      padding-bottom: 1.25rem;
-    }
-
-    [data-post-card='featured'] > a > :global(*) {
-      flex: 1;
-      min-height: 100%;
-    }
-  }
-
   @media (prefers-reduced-motion: no-preference) {
     [data-post-card] {
       transition:
@@ -308,7 +277,7 @@ const imageSizes = featured ?
       transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    [data-post-card]:hover > a {
+    [data-post-card='default']:hover > a {
       transform: translateY(-2px);
     }
   }
