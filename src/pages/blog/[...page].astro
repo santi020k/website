@@ -119,7 +119,7 @@ const blogListSchema = {
           sm:text-lg/7
         "
         >
-          Full-stack systems, architecture decisions, and the automation that helps teams ship with confidence. From backend services to delivery pipelines.
+          Practical writing on architecture, team habits, delivery systems, and the automation that helps software work feel calmer.
         </p>
       </div>
 
@@ -131,7 +131,7 @@ const blogListSchema = {
       >
         <div class="section-actions">
           <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
-            Open Medium profile
+            Open Medium
           </ButtonLink>
           <ButtonLink href="/blog/tags/" showArrow variant="secondary">
             Browse topics
@@ -183,7 +183,7 @@ const blogListSchema = {
 
       <TagFilter tags={topTags} />
 
-      <div class="post-grid">
+      <div class="post-grid" data-stagger>
         {gridPosts.map(post => (
           <PostCard post={post} />
         ))}

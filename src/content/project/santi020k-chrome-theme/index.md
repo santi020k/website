@@ -4,7 +4,7 @@ description: "Designed, packaged, and published a Chrome Web Store theme that br
 role: "Creator"
 startingDate: "1 May 2026"
 githubUrl: "https://github.com/santi020k/santi020k-chrome-theme"
-liveDemoUrl: "https://chromewebstore.google.com/detail/santi020k-theme/cljcifjjgolaplmemjcnjhkjfoneadgj"
+liveDemoUrl: "https://chrome.santi020k.com"
 typesId: "personal"
 impactMetrics: [
   "Published on the Chrome Web Store as Santi020k Theme",

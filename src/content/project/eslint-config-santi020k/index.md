@@ -5,6 +5,7 @@ role: "Creator"
 startingDate: "1 Jan 2023"
 endingDate: "1 Mar 2024"
 githubUrl: "https://github.com/santi020k/eslint-config-santi020k"
+liveDemoUrl: "https://eslint.santi020k.com"
 typesId: "personal"
 impactMetrics: [
   "Shared one reusable lint baseline across multiple React and TypeScript projects",
