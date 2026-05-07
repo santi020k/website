@@ -17,6 +17,9 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "wide"
+  logoSurface: "dark"
   alt: "Smith Commerce wordmark on an orange and charcoal geometric cover"
   ogImage: './cover.webp'
 ---

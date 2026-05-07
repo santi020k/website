@@ -20,6 +20,8 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
   alt: "TEDx Medellin wordmark on a red and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---

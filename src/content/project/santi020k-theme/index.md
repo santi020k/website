@@ -18,6 +18,9 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
+  logoSurface: "dark"
   alt: "Santi020k Theme logo on a deep indigo geometric cover with editor UI artwork"
 ---
 

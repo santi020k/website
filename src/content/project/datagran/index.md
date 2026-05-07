@@ -23,6 +23,8 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "wide"
   alt: "Datagran logo on a charcoal and neon green geometric cover"
   ogImage: "./cover.webp"
 ---

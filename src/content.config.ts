@@ -3,7 +3,6 @@ import { z } from 'astro/zod'
 import { defineCollection } from 'astro:content'
 
 const removeDuplicates = (array: string[]) => [...new Set(array)]
-
 const dateField = () => z.string().or(z.date()).transform(val => new Date(val))
 const optionalDateField = () => z.string().optional().transform(str => (str ? new Date(str) : undefined))
 
@@ -49,7 +48,10 @@ const project = defineCollection({
         src: image(),
         horizontal: image().optional(),
         vertical: image().optional(),
-        ogImage: z.string().optional()
+        ogImage: z.string().optional(),
+        logo: image().optional(),
+        logoAspect: z.enum(['square', 'wide', 'tall']).optional(),
+        logoSurface: z.enum(['dark', 'light', 'neutral']).optional()
       })
       .optional(),
     draft: z.boolean().default(false),

@@ -17,6 +17,8 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
   alt: "ReactJS Colombia logo on a midnight blue geometric cover with yellow and blue accents"
   ogImage: "./cover.webp"
 ---
