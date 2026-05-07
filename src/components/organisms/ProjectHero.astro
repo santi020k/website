@@ -44,23 +44,30 @@ const metaItems = [
       motion-reduce:animate-none
     "
   >
-    <div class="flex items-center justify-between">
+    <div class="
+      flex min-w-0 flex-col items-start gap-3
+      sm:flex-row sm:items-center sm:justify-between
+    "
+    >
       <Eyebrow label={projectTypeLabel} tone="brand" />
       <nav
         aria-label="Breadcrumb"
-        class="flex items-center gap-1.5 text-sm font-medium text-ink-muted"
+        class="
+          flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1
+          text-sm font-medium text-ink-muted
+        "
       >
         <a
           href={parentPage.url}
           class="
-            transition-colors
+            whitespace-nowrap transition-colors
             hover:text-brand
             motion-reduce:transition-none
           "
         >{parentPage.name}
         </a>
         <span aria-hidden="true" class="text-line">/</span>
-        <span aria-current="page" class="text-ink-soft">{projectTypeLabel}</span>
+        <span aria-current="page" class="min-w-0 text-ink-soft">{projectTypeLabel}</span>
       </nav>
     </div>
   </div>

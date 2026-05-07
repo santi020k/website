@@ -21,7 +21,7 @@
     min-width: 0;
   }
 
-  /* Keep desktop nav labels from shrinking: global `overflow-wrap: anywhere` on `html`
+  /* Keep desktop nav labels from shrinking: inherited overflow wrapping
      can still break short labels mid-word when the flex track is extremely tight. */
   & > nav {
     min-width: min-content;

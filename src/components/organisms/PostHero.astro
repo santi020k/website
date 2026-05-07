@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content'
 import { Icon } from 'astro-icon/components'
 
+import Button from '@/components/atoms/Button.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
@@ -53,16 +54,23 @@ const metaItems = [
       motion-reduce:animate-none
     "
   >
-    <div class="flex items-center justify-between">
+    <div class="
+      flex min-w-0 flex-col items-start gap-3
+      sm:flex-row sm:items-center sm:justify-between
+    "
+    >
       <Eyebrow label={eyebrowLabel} tone="brand" />
       <nav
         aria-label="Breadcrumb"
-        class="flex items-center gap-1.5 text-sm font-medium text-ink-muted"
+        class="
+          flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1
+          text-sm font-medium text-ink-muted
+        "
       >
         <a
           href="/blog/"
           class="
-            transition-colors
+            whitespace-nowrap transition-colors
             hover:text-brand
             motion-reduce:transition-none
           "
@@ -201,20 +209,10 @@ const metaItems = [
         </ButtonLink>
       )}
       {!canonicalUrl && (
-        <button
-          class="
-            group btn-primary inline-flex cursor-pointer items-center
-            justify-center gap-2 rounded-full border px-5 py-2.5 text-sm
-            font-semibold tracking-[0.01em] transition-all
-          "
-          data-copy-link
-          type="button"
-        >
-          <span class="flex items-center gap-2">
-            <Icon aria-hidden="true" class="size-4" name="tabler:link" />
-            <span data-copy-text>Copy link to share</span>
-          </span>
-        </button>
+        <Button data-copy-link>
+          <Icon aria-hidden="true" class="size-4" name="tabler:link" />
+          <span data-copy-text>Copy link to share</span>
+        </Button>
       )}
       {seriesContext && (
         <ButtonLink
