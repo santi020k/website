@@ -1,14 +1,13 @@
 ---
-import { Picture } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
 import ContactSection from '@/components/molecules/ContactSection.astro'
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 
 import { version } from '../../../package.json'
 
-import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
-import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
+import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import { menuLinks, siteConfig } from '@/site.config'
 
 const year = new Date().getFullYear()
@@ -24,13 +23,26 @@ const navLinks = [
 const resourceLinks = [
   { icon: 'tabler:calendar-month', path: '/blog/content-calendar/', title: 'Content Calendar' },
   { icon: 'tabler:rss', path: '/feed.xml', title: 'RSS Feed' },
-  { icon: 'tabler:sitemap', path: '/sitemap-index.xml', title: 'Sitemap' },
-  { icon: 'tabler:accessible', path: '/accessibility/', title: 'Accessibility' },
-  { icon: 'tabler:shield-lock', path: '/privacy/', title: 'Privacy' }
+  { icon: 'tabler:sitemap', path: '/sitemap-index.xml', title: 'Sitemap' }
 ]
 
 const currentPath = Astro.url.pathname
 const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
+
+const connectLinks = [
+  ...siteConfig.socialLinks.map(({ href, icon, indieAuthRelMe, label }) => ({
+    href,
+    icon,
+    label,
+    rel: `noreferrer noopener${indieAuthRelMe === false ? '' : ' me'}`
+  })),
+  { href: siteConfig.contact.resume, icon: 'tabler:file-text', label: 'Resume', rel: 'noreferrer noopener' }
+]
+
+const policyLinks = [
+  { href: '/accessibility/', icon: 'tabler:accessible', label: 'Accessibility' },
+  { href: '/privacy/', icon: 'tabler:shield-lock', label: 'Privacy & analytics' }
+]
 
 const isLinkActive = (linkPath: string): boolean => {
   if (linkPath === '/') return currentPath === '/'
@@ -45,32 +57,21 @@ const isLinkActive = (linkPath: string): boolean => {
 }
 ---
 
-<footer class="
-  relative mt-10 overflow-hidden px-4 pt-20 pb-10
-  sm:px-6
-  lg:px-8
-"
->
-  <!-- Decorative top border gradient -->
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-x-0 top-0 flex justify-center"
-  >
-    <div class="
-      h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/45
-      to-transparent
-    "
-    />
-  </div>
+<footer class="relative mt-10 overflow-hidden px-4 pb-10 sm:px-6 lg:px-8">
+  <GradientDivider class="pt-10" />
 
-  <!-- Subtle radial glow behind footer content -->
+  <!-- Top ambient glow with floating animation -->
   <div
     aria-hidden="true"
-    class="
-      pointer-events-none absolute top-0 left-1/2 h-112 w-[90%] max-w-4xl
-      -translate-1/2 rounded-full opacity-40 blur-3xl
-    "
-    style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.07), transparent 70%);"
+    class="pointer-events-none absolute top-0 left-1/2 h-96 w-[80%] max-w-3xl -translate-x-1/2 rounded-full opacity-25 blur-3xl motion-safe:animate-float-y-slow motion-reduce:animate-none"
+    style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.08), transparent 70%);"
+  />
+
+  <!-- Subtle radial glow behind footer content with pulse -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute top-[10%] left-1/2 h-80 w-[70%] max-w-3xl -translate-x-1/2 rounded-full opacity-20 blur-3xl motion-safe:animate-pulse-slow motion-reduce:animate-none"
+    style="background: radial-gradient(ellipse at center, hsl(var(--accent) / 0.1), transparent 70%);"
   />
 
   <!-- Subtle grid texture in background -->
@@ -79,24 +80,70 @@ const isLinkActive = (linkPath: string): boolean => {
     class="pointer-events-none absolute inset-0 grid-fade opacity-40"
   />
 
-  <div class="relative mx-auto w-full max-w-6xl space-y-20">
+  <div class="relative mx-auto w-full max-w-6xl">
+    <!-- Morphing organic blob behind content -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute top-1/2 left-1/2 z-0 h-96 w-96 -translate-x-1/2 -translate-y-1/2 opacity-25 blur-3xl motion-safe:animate-morph motion-reduce:animate-none sm:h-[28rem] sm:w-[28rem]"
+      style="background: linear-gradient(135deg, hsl(var(--brand) / 0.12), hsl(var(--accent) / 0.08), hsl(var(--glow) / 0.05));"
+    />
 
-    <!-- Contact section -->
-    <ContactSection />
+    <!-- Unified Contact & Newsletter Section -->
+    <section
+      class="relative z-10 mt-10 grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10"
+      data-animate
+    >
+      <!-- Left: copy -->
+      <div class="space-y-3">
+        <div class="flex flex-wrap items-center gap-3">
+          <p class="section-label text-brand">Get in touch</p>
+          {isAvailable && (
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-success/25 bg-success/8 px-2.5 py-0.5 text-xs font-medium text-success">
+              <span class="relative flex size-1.5 shrink-0">
+                <span class="absolute inline-flex size-full animate-ping rounded-full bg-success/75 opacity-75 motion-reduce:animate-none" />
+                <span class="relative inline-flex size-1.5 rounded-full bg-success" />
+              </span>
+              Available
+            </span>
+          )}
+        </div>
 
-    {siteConfig.newsletter?.formAction && (
-      <NewsletterSignup formAction={siteConfig.newsletter.formAction} label="Newsletter signup (footer)" />
-    )}
+        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+          Let's build something{' '}
+          <span
+            class="bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent motion-safe:animate-shimmer"
+            style="background-size: 200% 100%;"
+          >
+            useful
+          </span>{' '}
+          together.
+        </h2>
+
+        <p class="max-w-xl text-sm text-ink-soft">
+          Have a project in mind or want to compare notes on engineering? Pick a channel below and I'll get back to you quickly.
+        </p>
+      </div>
+
+      <!-- Right: contact + newsletter -->
+      <div class="grid gap-6" data-stagger="60">
+        <ContactSection compact />
+        {siteConfig.newsletter?.formAction && (
+          <NewsletterSignup formAction={siteConfig.newsletter.formAction} label="Newsletter signup (footer)" variant="compact" />
+        )}
+      </div>
+    </section>
+
+    <GradientDivider class="pt-10" />
 
     <!-- Footer body grid -->
-    <div
+    <section
       class="
-        grid gap-10 border-t border-line/40 pt-14
+        grid gap-8 pt-10
         sm:grid-cols-2
         lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_minmax(0,0.75fr)]
-        lg:gap-12
+        lg:gap-10
       "
-      data-stagger="70"
+      data-stagger="60"
     >
 
       <!-- Brand column -->
@@ -110,30 +157,12 @@ const isLinkActive = (linkPath: string): boolean => {
           "
           href="/"
         >
-          <Picture
-            alt="Santi020k"
-            class="
-              aspect-933/147 h-8 w-auto object-contain
-              dark:hidden
-            "
-            densities={[1, 1.5, 2, 3]}
-            formats={['avif', 'webp']}
-            height={32}
-            src={LogoMarkLight}
-            width={203}
-          />
-          <Picture
-            alt="Santi020k"
-            class="
-              hidden aspect-933/147 h-8 w-auto object-contain
-              dark:block
-            "
-            densities={[1, 1.5, 2, 3]}
-            formats={['avif', 'webp']}
-            height={32}
-            src={LogoMarkDark}
-            width={203}
-          />
+          <div class="h-8 w-auto dark:hidden">
+            <AnimatedLogo variant="light" class="h-full w-auto" />
+          </div>
+          <div class="hidden h-8 w-auto dark:block">
+            <AnimatedLogo variant="dark" class="h-full w-auto" />
+          </div>
         </a>
 
         <p class="max-w-[24ch] text-sm/6 text-ink-soft">
@@ -152,16 +181,16 @@ const isLinkActive = (linkPath: string): boolean => {
                   <span class="relative flex size-1.5 shrink-0">
                     <span class="
                       absolute inline-flex size-full animate-ping rounded-full
-                      bg-green-400 opacity-75
+                      bg-success/75 opacity-75
                       motion-reduce:animate-none
                     "
                     />
                     <span class="
-                      relative inline-flex size-1.5 rounded-full bg-green-500
+                      relative inline-flex size-1.5 rounded-full bg-success
                     "
                     />
                   </span>
-                  <span class="text-green-600">{siteConfig.availability}</span>
+                  <span class="text-success">{siteConfig.availability}</span>
                 </>
               ) :
               (
@@ -215,7 +244,7 @@ const isLinkActive = (linkPath: string): boolean => {
       <div>
         <p class="mb-5 section-label">Connect</p>
         <ul class="space-y-2.5">
-          {siteConfig.socialLinks.map(({ href, icon, indieAuthRelMe, label }) => (
+          {connectLinks.map(({ href, icon, label, rel }) => (
             <li>
               <a
                 class="
@@ -225,7 +254,7 @@ const isLinkActive = (linkPath: string): boolean => {
                   motion-reduce:transition-none
                 "
                 href={href}
-                rel={`noreferrer noopener ${indieAuthRelMe === false ? '' : 'me'}`}
+                rel={rel}
                 target="_blank"
               >
                 <Icon
@@ -243,32 +272,6 @@ const isLinkActive = (linkPath: string): boolean => {
               </a>
             </li>
           ))}
-          <li class="pt-1">
-            <a
-              class="
-                group inline-flex items-center gap-2 text-sm text-ink-soft
-                transition-colors duration-200
-                hover:text-ink
-                motion-reduce:transition-none
-              "
-              href={siteConfig.contact.resume}
-              rel="noreferrer noopener"
-              target="_blank"
-            >
-              <Icon
-                aria-hidden="true"
-                class="
-                  size-4 shrink-0 text-ink-muted transition-[color,transform]
-                  duration-200
-                  group-hover:-translate-y-px group-hover:text-brand
-                  motion-reduce:transition-none
-                  motion-reduce:group-hover:translate-y-0
-                "
-                name="tabler:file-text"
-              />
-              Resume
-            </a>
-          </li>
         </ul>
       </div>
 
@@ -325,12 +328,14 @@ const isLinkActive = (linkPath: string): boolean => {
         </ul>
       </div>
 
-    </div>
+    </section>
+
+    <GradientDivider class="pt-10" />
 
     <!-- Bottom bar -->
     <div
       class="
-        flex flex-col gap-3 border-t border-line/30 pt-6 text-xs text-ink-muted
+        flex flex-col gap-3 divider-subtle pt-6 text-xs text-ink-muted
         opacity-100
         sm:flex-row sm:items-center sm:justify-between
       "
@@ -338,29 +343,19 @@ const isLinkActive = (linkPath: string): boolean => {
       <p>&copy; {year} {siteConfig.author}.</p>
 
       <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <a
-          class="
-            inline-flex items-center gap-1.5 text-ink-muted transition-colors
-            hover:text-brand
-            motion-reduce:transition-none
-          "
-          href="/accessibility/"
-        >
-          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:accessible" />
-          Accessibility
-        </a>
-
-        <a
-          class="
-            inline-flex items-center gap-1.5 text-ink-muted transition-colors
-            hover:text-brand
-            motion-reduce:transition-none
-          "
-          href="/privacy/"
-        >
-          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:shield-lock" />
-          Privacy &amp; analytics
-        </a>
+        {policyLinks.map(({ href, icon, label }) => (
+          <a
+            class="
+              inline-flex items-center gap-1.5 text-ink-muted transition-colors
+              hover:text-brand
+              motion-reduce:transition-none
+            "
+            href={href}
+          >
+            <Icon aria-hidden="true" class="size-3 shrink-0" name={icon} />
+            {label}
+          </a>
+        ))}
 
         <a
           class="

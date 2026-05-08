@@ -1,11 +1,12 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Pill from '@/components/atoms/Pill.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import EditorialEntryCard from '@/components/molecules/EditorialEntryCard.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
-
-import { getSeriesPath } from '@/utils/links'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
@@ -32,53 +33,36 @@ const breadcrumbs = [
     title: 'Content Calendar — Santiago Molina'
   }}
 >
-  <section
-    class="
-      grid gap-10
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
-    data-animate
+  <PageHero
+    description={contentCalendarDescription}
+    eyebrow="Content Calendar"
+    gradientText="monthly publishing rhythm."
+    title="A documented"
   >
-    <div class="space-y-6">
-      <SectionHeading
-        description={contentCalendarDescription}
-        eyebrow="Content calendar"
-        level="h1"
-        title="A publishing rhythm built for consistency, refreshes, and stronger internal linking."
-      />
+    <ButtonLink href="/feed.xml" showArrow>
+      Follow via RSS
+    </ButtonLink>
+    <ButtonLink href="/blog/" showArrow variant="secondary">
+      Back to blog
+    </ButtonLink>
+  </PageHero>
 
-      <div class="section-actions">
-        <ButtonLink href="/feed.xml" showArrow variant="secondary">
-          Follow via RSS
-        </ButtonLink>
-        <ButtonLink href="/blog/" showArrow variant="ghost">
-          Back to blog
-        </ButtonLink>
-      </div>
-    </div>
+  <StatsGrid>
+    <StatCard description="New flagship post to publish each month." label="New posts" value="1/mo" />
+    <StatCard
+      description="Older article to refresh every month so the archive stays current."
+      label="Refreshes"
+      value="1/mo"
+    />
+    <StatCard
+      description="Active tracks grouping related writing into clear editorial threads."
+      label="Series"
+      value={String(activeSeries.length)}
+    />
+  </StatsGrid>
 
-    <div class="
-      grid gap-4
-      sm:grid-cols-3
-      lg:grid-cols-1
-    "
-    >
-      <StatCard description="New flagship post to publish each month." label="New posts" value="1/mo" />
-      <StatCard
-        description="Older article to refresh every month so the archive stays current."
-        label="Refreshes"
-        value="1/mo"
-      />
-      <StatCard
-        description="Active tracks grouping related writing into clear editorial threads."
-        label="Series"
-        value={String(activeSeries.length)}
-      />
-    </div>
-  </section>
-
-  <section class="editorial-section" data-animate>
-    <SectionHeading
+  <PageSection>
+    <SectionHeader
       description={publishingRhythm.summary}
       eyebrow="Roadmap"
       title="What is scheduled from April through September 2026."
@@ -90,51 +74,20 @@ const breadcrumbs = [
     "
     >
       {editorialCalendar.map(entry => (
-        <article class="
-          panel-card flex h-full flex-col gap-5 p-6
-          sm:p-7
-        "
-        >
-          <div class="flex flex-wrap items-center gap-2">
-            <Pill label={entry.month} tone="brand" />
-            <Pill label={entry.format} tone="outline" />
-          </div>
-
-          <div class="space-y-3">
-            <h2 class="text-2xl/tight text-ink">
-              {entry.headline}
-            </h2>
-            <p class="text-sm/7 text-ink-soft">
-              Search intent: {entry.searchIntent}
-            </p>
-          </div>
-
-          <div class="mini-note border-line/55 bg-surface-muted/50">
-            <p class="section-label">Evergreen refresh</p>
-            <p class="mt-3 text-sm/6 font-semibold text-ink">
-              {entry.refreshTitle}
-            </p>
-          </div>
-
-          {entry.seriesId && (
-            <a
-              class="
-                inline-flex items-center gap-2 text-sm font-medium text-brand
-                transition-colors
-                hover:text-accent
-              "
-              href={getSeriesPath(entry.seriesId)}
-            >
-              Continue the related series
-            </a>
-          )}
-        </article>
+        <EditorialEntryCard
+          format={entry.format}
+          headline={entry.headline}
+          month={entry.month}
+          refreshTitle={entry.refreshTitle}
+          searchIntent={entry.searchIntent}
+          seriesId={entry.seriesId}
+        />
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
+  <PageSection>
+    <SectionHeader
       description="These are the active tracks already live on the site, grouped so readers can move through a topic in order instead of guessing what comes next."
       eyebrow="Series"
       linkHref="/blog/series/"
@@ -151,5 +104,5 @@ const breadcrumbs = [
         <SeriesCard postCount={item.postCount} series={item.series} />
       ))}
     </div>
-  </section>
+  </PageSection>
 </PageLayout>

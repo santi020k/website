@@ -4,33 +4,29 @@ import { Icon } from 'astro-icon/components'
 
 <theme-toggle class="contents">
   <button
-    class="
-      relative flex size-11 cursor-pointer items-center justify-center
-      rounded-full border border-line/70 bg-surface/80 text-ink transition
-      duration-200
-      hover:-translate-y-0.5 hover:border-brand/35 hover:text-brand
-      motion-reduce:transition-none
-      motion-reduce:hover:translate-y-0
-    "
+    class="relative flex size-11 cursor-pointer items-center justify-center rounded-full border border-line/50 bg-surface/68 backdrop-blur-sm text-ink-soft shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)] motion-reduce:transition-none"
+    data-theme-toggle-btn
     type="button"
   >
     <span class="sr-only">Toggle color theme</span>
+    {/* Sun — visible in light mode */}
     <Icon
       aria-hidden="true"
       class="
         absolute inset-1/2 size-5 -translate-1/2 scale-100 rotate-0 opacity-100
-        transition duration-300 ease-out
+        transition-[transform,opacity] duration-300 ease-out
         motion-reduce:transition-none
         dark:scale-0 dark:rotate-90 dark:opacity-0
       "
       focusable="false"
       name="tabler:sun"
     />
+    {/* Moon — visible in dark mode */}
     <Icon
       aria-hidden="true"
       class="
         absolute inset-1/2 size-5 -translate-1/2 scale-0 -rotate-90 opacity-0
-        transition duration-300 ease-out
+        transition-[transform,opacity] duration-300 ease-out [transition-delay:30ms]
         motion-reduce:transition-none
         dark:scale-100 dark:rotate-0 dark:opacity-100
       "
@@ -39,6 +35,71 @@ import { Icon } from 'astro-icon/components'
     />
   </button>
 </theme-toggle>
+
+<style>
+  [data-theme-toggle-btn] {
+    transition:
+      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.2s ease;
+  }
+
+  /* Spinning border arc — same technique as btn-secondary and stat-card */
+  [data-theme-toggle-btn]::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--border-angle),
+      hsl(var(--line) / 0.15) 0%,
+      hsl(var(--line) / 0.15) 60%,
+      hsl(var(--brand) / 0.6) 75%,
+      hsl(var(--glow) / 0.7) 83%,
+      hsl(var(--brand) / 0.6) 91%,
+      hsl(var(--line) / 0.15) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-theme-toggle-btn]:hover {
+      transform: translateY(-3px);
+      border-color: transparent;
+      background-color: hsl(var(--brand-soft) / 0.35);
+      color: hsl(var(--brand));
+      box-shadow:
+        0 8px 24px hsl(230 30% 8% / 0.08),
+        0 0 16px color-mix(in srgb, hsl(var(--brand)) 14%, transparent),
+        inset 0 1px 0 hsl(0 0% 100% / 0.1);
+    }
+
+    [data-theme-toggle-btn]:hover::before {
+      opacity: 1;
+      animation: var(--animate-border-spin);
+    }
+
+    [data-theme-toggle-btn]:active {
+      transform: scale(0.93);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-theme-toggle-btn]:hover {
+      border-color: hsl(var(--brand) / 0.35);
+      color: hsl(var(--brand));
+    }
+  }
+</style>
 
 <script>
 import { rootInDarkMode } from '@/utils/dom-element'

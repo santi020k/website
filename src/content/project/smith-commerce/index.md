@@ -1,7 +1,7 @@
 ---
 title: "Smith Commerce"
 description: "Rebuilt Marcone's storefront into a faster, more accessible headless experience, lifting Lighthouse from 35 to 98 while giving teams room to ship independently."
-rol: "Senior Front End Developer"
+role: "Senior Front End Developer"
 startingDate: "1 May 2025"
 liveDemoUrl: "https://www.marcone.com/"
 typesId: "professional"
@@ -15,6 +15,11 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "wide"
+  logoSurface: "dark"
   alt: "Smith Commerce wordmark on an orange and charcoal geometric cover"
   ogImage: './cover.webp'
 ---

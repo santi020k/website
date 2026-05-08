@@ -205,11 +205,7 @@ const loadMediumPosts = async (): Promise<MediumPost[]> => {
     }
 
     return posts
-  } catch (error) {
-    if (import.meta.env.DEV && import.meta.env.MODE !== 'test') {
-      console.warn('Falling back to cached Medium posts.', error)
-    }
-
+  } catch {
     return mediumPostsCache
   }
 }

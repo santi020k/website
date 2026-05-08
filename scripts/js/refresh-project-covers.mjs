@@ -5,10 +5,13 @@ import sharp from 'sharp'
 const PROJECTS_ROOT = path.resolve('src/content/project')
 const CANVAS_WIDTH = 3200
 const CANVAS_HEIGHT = 2000
+const VERTICAL_CANVAS_WIDTH = 1800
+const VERTICAL_CANVAS_HEIGHT = 2400
 const PANEL_WIDTH = 1280
 const PANEL_HEIGHT = 1520
 const PANEL_X = 1820
 const PANEL_Y = 220
+const PRESERVED_LOGO_FILE = 'logo.webp'
 const LIGHT_SURFACE = '#f4efe7'
 const LIGHT_PANEL = '#ded8cd'
 const LIGHT_GRID = 'rgba(17, 17, 17, 0.065)'
@@ -62,10 +65,9 @@ const PROJECTS = [
     ink: '#0d1020',
     panel: '#111426',
     texture: '#d8d1ff',
-    logoRect: { left: 1040, top: 250, width: 1760, height: 1500 },
-    backgroundColor: '#24273a',
-    threshold: 32,
-    placement: { ...STANDARD_BADGE_PLACEMENT }
+    logoAssetPath: '../eslint-config-basic/packages/docs/src/assets/logo-santi020k-dark.svg',
+    placement: { left: 120, top: 330, width: 1540, height: 560 },
+    verticalPlacement: { left: 70, top: 235, width: 1660, height: 430 }
   },
   {
     slug: 'eslint-config-santi020k',
@@ -80,7 +82,8 @@ const PROJECTS = [
     logoRect: { left: 1040, top: 250, width: 1760, height: 1500 },
     backgroundColor: '#24273a',
     threshold: 32,
-    placement: { ...STANDARD_BADGE_PLACEMENT }
+    placement: { ...STANDARD_BADGE_PLACEMENT },
+    verticalPlacement: { left: 560, top: 220, width: 680, height: 640 }
   },
   {
     slug: 'justbit',
@@ -162,6 +165,38 @@ const PROJECTS = [
     placement: { left: 250, top: 210, width: 1000, height: 920 }
   },
   {
+    slug: 'santi020k-theme',
+    alt: 'Santi020k Theme logo on a deep indigo geometric cover with editor UI artwork',
+    variant: 'dark',
+    accent: '#8b5cf6',
+    accentDeep: '#5b21b6',
+    surface: '#181225',
+    ink: '#0f0a18',
+    panel: '#14101f',
+    texture: '#c4b5fd',
+    logoAssetPath: '../santi020k-theme/icon.png',
+    logoDensity: 960,
+    placement: { left: 300, top: 230, width: 1060, height: 900 },
+    shadowBlur: 7,
+    shadowOpacity: 0.2
+  },
+  {
+    slug: 'santi020k-chrome-theme',
+    alt: 'Santi020k Chrome Theme logo on a deep violet geometric cover with browser UI artwork',
+    variant: 'dark',
+    accent: '#a78bfa',
+    accentDeep: '#6d28d9',
+    surface: '#15111f',
+    ink: '#0b0712',
+    panel: '#120d1c',
+    texture: '#ddd6fe',
+    logoAssetPath: '../santi020k-chrome-theme/icons/icon512.png',
+    logoDensity: 960,
+    placement: { left: 300, top: 230, width: 1060, height: 900 },
+    shadowBlur: 7,
+    shadowOpacity: 0.2
+  },
+  {
     slug: 'tedx-medellin',
     alt: 'TEDx Medellin wordmark on a red and charcoal geometric cover',
     variant: 'dark',
@@ -171,7 +206,7 @@ const PROJECTS = [
     ink: '#07090c',
     panel: '#0d1014',
     texture: '#ffd2da',
-    placement: { left: 92, top: 250, width: 1620, height: 620 },
+    placement: { left: 180, top: 250, width: 1350, height: 720 },
     customLogoBuilder: 'tedx-medellin'
   },
   {
@@ -187,7 +222,8 @@ const PROJECTS = [
     logoRect: { left: 220, top: 640, width: 3400, height: 980 },
     backgroundColor: '#ff6500',
     threshold: 20,
-    placement: { left: 340, top: 330, width: 1220, height: 540 }
+    placement: { left: 340, top: 330, width: 1220, height: 540 },
+    verticalPlacement: { left: 230, top: 285, width: 1340, height: 320 }
   },
   {
     slug: 'void',
@@ -418,7 +454,16 @@ async function finalizeLogoBuffer(buffer) {
 async function loadLogoAsset(sourcePath, density = 720) {
   const rendered = await sharp(sourcePath, { density }).ensureAlpha().png().toBuffer()
 
-  return finalizeLogoBuffer(rendered)
+  return finalizeLogoBuffer(await trimTransparentPadding(rendered))
+}
+
+async function trimTransparentPadding(buffer) {
+  const image = sharp(buffer).ensureAlpha()
+  const metadata = await image.metadata()
+  const alphaRaw = await image.clone().extractChannel(3).raw().toBuffer()
+  const bounds = getBoundingBox(alphaRaw, metadata.width, metadata.height)
+
+  return image.extract(bounds).png().toBuffer()
 }
 
 async function buildSmithCommerceWordmark() {
@@ -441,42 +486,24 @@ async function buildSmithCommerceWordmark() {
 
 async function buildTedxMedellinWordmark() {
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="4600" height="980" viewBox="0 0 4600 980">
+    <svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1400" viewBox="0 0 2200 1400">
       <rect width="100%" height="100%" fill="transparent" />
       <text
-        x="180"
-        y="496"
+        x="160"
+        y="560"
         fill="#EB0028"
         font-family="Arial, Helvetica, sans-serif"
-        font-size="560"
+        font-size="620"
         font-weight="900"
-        letter-spacing="-0.08em"
-      >TED</text>
+      >TEDx</text>
       <text
-        x="1320"
-        y="360"
-        fill="#EB0028"
-        font-family="Arial, Helvetica, sans-serif"
-        font-size="320"
-        font-weight="800"
-        letter-spacing="-0.06em"
-      >x</text>
-      <path
-        d="M 1448 416 H 2580"
-        fill="none"
-        stroke="#EB0028"
-        stroke-linecap="round"
-        stroke-width="36"
-      />
-      <text
-        x="214"
-        y="794"
+        x="160"
+        y="1120"
         fill="#FFFFFF"
         font-family="Arial, Helvetica, sans-serif"
-        font-size="318"
-        font-weight="700"
-        letter-spacing="-0.04em"
-      >Medellin</text>
+        font-size="480"
+        font-weight="400"
+      >Medellín</text>
     </svg>
   `
 
@@ -532,8 +559,22 @@ function getLogoPlacement({ logoWidth, logoHeight }) {
   return STANDARD_BADGE_PLACEMENT
 }
 
-async function buildLogoLayers(logo, project) {
-  const placement = project.placement ?? getLogoPlacement({
+function getVerticalLogoPlacement({ logoWidth, logoHeight }) {
+  const ratio = logoWidth / logoHeight
+
+  if (ratio > 3.2) {
+    return { left: 170, top: 230, width: 1460, height: 380 }
+  }
+
+  if (ratio > 1.3) {
+    return { left: 250, top: 150, width: 1300, height: 620 }
+  }
+
+  return { left: 500, top: 140, width: 800, height: 760 }
+}
+
+async function buildLogoLayers(logo, project, placementOverride) {
+  const placement = placementOverride ?? project.placement ?? getLogoPlacement({
     logoWidth: logo.width,
     logoHeight: logo.height
   })
@@ -789,6 +830,40 @@ function buildPanelArtworkMarkup(project, palette) {
         <path d="M 330 772 H 960" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
       `
 
+    case 'santi020k-theme':
+      return `
+        ${panelWindow({ x: 86, y: 156, width: 824, height: 610, palette })}
+        <path d="M 184 332 H 444" stroke="${palette.accentStrong}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 184 408 H 654" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 184 484 H 574" stroke="${palette.stroke}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 184 560 H 706" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 184 636 H 498" stroke="${palette.accentStrong}" stroke-width="18" stroke-linecap="round" />
+        ${panelCard({ x: 944, y: 222, width: 196, height: 410, radius: 34, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 986 326 H 1092" stroke="${palette.strokeSoft}" stroke-width="14" stroke-linecap="round" />
+        <path d="M 986 394 H 1066" stroke="${palette.accentStrong}" stroke-width="14" stroke-linecap="round" />
+        <path d="M 986 462 H 1098" stroke="${palette.strokeSoft}" stroke-width="14" stroke-linecap="round" />
+        ${panelCard({ x: 184, y: 930, width: 382, height: 222, radius: 34, fill: palette.fillSoft, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        ${panelCard({ x: 628, y: 874, width: 426, height: 278, radius: 36, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 256 1040 H 492" stroke="${palette.accentStrong}" stroke-width="16" stroke-linecap="round" />
+        <path d="M 704 988 H 986" stroke="${palette.stroke}" stroke-width="16" stroke-linecap="round" />
+        <path d="M 704 1060 H 914" stroke="${palette.strokeSoft}" stroke-width="16" stroke-linecap="round" />
+        <circle cx="930" cy="1250" r="174" fill="${palette.glow}" />
+      `
+
+    case 'santi020k-chrome-theme':
+      return `
+        ${panelWindow({ x: 102, y: 176, width: 870, height: 500, palette })}
+        ${panelCard({ x: 182, y: 318, width: 230, height: 86, radius: 38, fill: palette.accent, stroke: palette.strokeSoft, strokeWidth: 5 })}
+        ${panelCard({ x: 430, y: 318, width: 210, height: 86, radius: 38, fill: palette.fillSoft, stroke: palette.strokeSoft, strokeWidth: 5 })}
+        <path d="M 206 494 H 864" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 260 586 H 760" stroke="${palette.stroke}" stroke-width="18" stroke-linecap="round" />
+        <circle cx="934" cy="818" r="174" fill="${palette.glow}" />
+        ${panelCard({ x: 206, y: 826, width: 790, height: 338, radius: 42, fill: palette.fill, stroke: palette.strokeSoft, strokeWidth: 6 })}
+        <path d="M 302 966 H 874" stroke="${palette.accentStrong}" stroke-width="20" stroke-linecap="round" />
+        <path d="M 302 1052 H 704" stroke="${palette.strokeSoft}" stroke-width="18" stroke-linecap="round" />
+        <path d="M 198 1262 C 358 1154, 532 1110, 722 1138 C 884 1162, 1008 1244, 1110 1368" fill="none" stroke="${palette.accentDeep}" stroke-width="18" stroke-linecap="round" />
+      `
+
     case 'tedx-medellin':
       return `
         ${panelWindow({ x: 112, y: 170, width: 724, height: 278, palette })}
@@ -937,11 +1012,89 @@ function buildBaseSvg(project) {
   `
 }
 
+function buildVerticalBaseSvg(project) {
+  const surfaceGlow = project.variant === 'light' ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.07)'
+  const surfaceGlowSoft = project.variant === 'light' ? 'rgba(255,255,255,0)' : 'rgba(255,255,255,0)'
+  const gridColor = project.variant === 'light' ? LIGHT_GRID : DARK_GRID
+  const ghostFill = project.variant === 'light' ? 'rgba(17,17,17,0.07)' : 'rgba(255,255,255,0.075)'
+  const topGlow = project.variant === 'light' ? `${project.accent}24` : `${project.accent}30`
+  const accentBand = mix(project.accent, '#ffffff', project.variant === 'light' ? 0.12 : 0.03)
+  const panelWash = project.variant === 'light' ? 'rgba(8, 15, 22, 0.12)' : 'rgba(0, 0, 0, 0.22)'
+
+  return `
+    <svg width="${VERTICAL_CANVAS_WIDTH}" height="${VERTICAL_CANVAS_HEIGHT}" viewBox="0 0 ${VERTICAL_CANVAS_WIDTH} ${VERTICAL_CANVAS_HEIGHT}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="vertical-grid" width="58" height="58" patternUnits="userSpaceOnUse">
+          <path d="M 58 0 L 0 0 0 58" fill="none" stroke="${gridColor}" stroke-width="1" />
+        </pattern>
+        <radialGradient id="vertical-logo-glow" cx="42%" cy="23%" r="48%">
+          <stop offset="0%" stop-color="${topGlow}" />
+          <stop offset="100%" stop-color="${surfaceGlowSoft}" />
+        </radialGradient>
+        <radialGradient id="vertical-art-glow" cx="72%" cy="52%" r="52%">
+          <stop offset="0%" stop-color="${hexToRgba(project.texture, project.variant === 'light' ? 0.24 : 0.18)}" />
+          <stop offset="100%" stop-color="${surfaceGlowSoft}" />
+        </radialGradient>
+        <linearGradient id="vertical-surface-gradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="${mix(project.surface, '#ffffff', project.variant === 'light' ? 0.02 : 0)}" />
+          <stop offset="100%" stop-color="${mix(project.surface, project.ink, project.variant === 'light' ? 0.08 : 0.16)}" />
+        </linearGradient>
+      </defs>
+
+      <rect width="${VERTICAL_CANVAS_WIDTH}" height="${VERTICAL_CANVAS_HEIGHT}" fill="url(#vertical-surface-gradient)" />
+      <rect width="${VERTICAL_CANVAS_WIDTH}" height="${VERTICAL_CANVAS_HEIGHT}" fill="url(#vertical-grid)" />
+      <circle cx="720" cy="480" r="760" fill="url(#vertical-logo-glow)" />
+      <circle cx="1240" cy="1180" r="680" fill="url(#vertical-art-glow)" />
+      <path d="M 190 80 H 1610 L 1388 438 H 82 Z" fill="${ghostFill}" />
+      <path d="M 1180 0 H 1800 V 612 L 1484 508 L 1302 286 Z" fill="${project.ink}" opacity="${project.variant === 'light' ? '0.08' : '0.62'}" />
+      <path d="M 0 1475 L 1800 2160 V 2400 H 0 Z" fill="${accentBand}" opacity="${project.variant === 'light' ? '0.72' : '0.82'}" />
+      <path d="M 0 2400 V 1750 L 575 1378 L 1540 2400 Z" fill="${project.accentDeep}" opacity="${project.variant === 'light' ? '0.24' : '0.40'}" />
+      <path d="M 0 1120 L 560 2400 H 0 Z" fill="${surfaceGlow}" opacity="${project.variant === 'light' ? '0.11' : '0.28'}" />
+      <rect x="1120" y="760" width="680" height="1320" fill="${panelWash}" />
+    </svg>
+  `
+}
+
+async function buildVerticalArtworkLayer(project) {
+  const artwork = await sharp(Buffer.from(buildPanelArtworkSvg(project)))
+    .resize(1420, 1686, { fit: 'cover' })
+    .png()
+    .toBuffer()
+
+  const shadow = await sharp({
+    create: {
+      width: 1420,
+      height: 1686,
+      channels: 4,
+      background: '#00000036'
+    }
+  })
+    .blur(28)
+    .png()
+    .toBuffer()
+
+  return {
+    artwork,
+    artworkLeft: 520,
+    artworkTop: 760,
+    shadow,
+    shadowLeft: 496,
+    shadowTop: 790
+  }
+}
+
 async function renderProjectCover(project) {
   const directory = path.join(PROJECTS_ROOT, project.slug)
   const coverPath = path.join(directory, 'cover.webp')
+  const horizontalPath = path.join(directory, 'cover-horizontal.webp')
+  const verticalPath = path.join(directory, 'cover-vertical.webp')
   const backupPath = path.join(directory, 'cover-old.webp')
-  const logoPath = project.logoPath ? path.join(directory, project.logoPath) : null
+  const preservedLogoPath = path.join(directory, PRESERVED_LOGO_FILE)
+  const logoPath = project.logoAssetPath ?
+    path.resolve(project.logoAssetPath) :
+    project.logoPath ?
+      path.join(directory, project.logoPath) :
+      null
 
   if (!logoPath && !project.customLogoBuilder && !project.useCustomWordmark) {
     await ensureBackupFile(coverPath, backupPath)
@@ -955,11 +1108,16 @@ async function renderProjectCover(project) {
       await buildSmithCommerceWordmark() :
       await extractLogo(backupPath, project)
 
+  await sharp(logo.buffer)
+    .resize({ width: 1200, height: 1200, fit: 'inside', withoutEnlargement: true })
+    .webp({ quality: 96, lossless: true })
+    .toFile(preservedLogoPath)
+
   const baseSvg = Buffer.from(buildBaseSvg(project))
   const { textureBuffer, textureLeft, textureTop } = await buildTextureLayer(project)
   const { shadowBuffer, mainBuffer, shadowLeft, shadowTop, mainLeft, mainTop } = await buildLogoLayers(logo, project)
 
-  const image = sharp({
+  const horizontalImage = sharp({
     create: {
       width: CANVAS_WIDTH,
       height: CANVAS_HEIGHT,
@@ -968,7 +1126,7 @@ async function renderProjectCover(project) {
     }
   })
 
-  await image
+  const horizontalBuffer = await horizontalImage
     .composite([
       { input: baseSvg },
       { input: textureBuffer, left: textureLeft, top: textureTop },
@@ -976,7 +1134,36 @@ async function renderProjectCover(project) {
       { input: mainBuffer, left: mainLeft, top: mainTop }
     ])
     .webp({ quality: 92 })
-    .toFile(coverPath)
+    .toBuffer()
+
+  await fs.writeFile(coverPath, horizontalBuffer)
+  await fs.writeFile(horizontalPath, horizontalBuffer)
+
+  const verticalSvg = Buffer.from(buildVerticalBaseSvg(project))
+  const verticalLogoPlacement = project.verticalPlacement ?? getVerticalLogoPlacement({
+    logoWidth: logo.width,
+    logoHeight: logo.height
+  })
+  const verticalLogo = await buildLogoLayers(logo, project, verticalLogoPlacement)
+  const verticalArtwork = await buildVerticalArtworkLayer(project)
+
+  await sharp({
+    create: {
+      width: VERTICAL_CANVAS_WIDTH,
+      height: VERTICAL_CANVAS_HEIGHT,
+      channels: 4,
+      background: hexToRgb(project.surface)
+    }
+  })
+    .composite([
+      { input: verticalSvg },
+      { input: verticalArtwork.shadow, left: verticalArtwork.shadowLeft, top: verticalArtwork.shadowTop },
+      { input: verticalArtwork.artwork, left: verticalArtwork.artworkLeft, top: verticalArtwork.artworkTop },
+      { input: verticalLogo.shadowBuffer, left: verticalLogo.shadowLeft, top: verticalLogo.shadowTop },
+      { input: verticalLogo.mainBuffer, left: verticalLogo.mainLeft, top: verticalLogo.mainTop }
+    ])
+    .webp({ quality: 92 })
+    .toFile(verticalPath)
 }
 
 const requestedSlugs = process.argv.slice(2)

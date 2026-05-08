@@ -9,7 +9,7 @@ test.describe('Privacy page', () => {
 
   test('should have the correct title and main heading', async ({ page }) => {
     await expect(page).toHaveTitle(/Privacy/)
-    await expect(page.getByRole('heading', { level: 1, name: /Privacy & analytics/i })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: /Privacy/i })).toBeVisible()
   })
 
   test('should mention hosting and theme storage', async ({ page }) => {

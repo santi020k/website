@@ -2,9 +2,14 @@
 import { type CollectionEntry, render } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { getPostPath } from '@/utils/links'
 
@@ -64,59 +69,83 @@ const structuredData: Record<string, unknown> = {
     title: metaTitle
   }}
 >
+  <PageHero
+    description={series.data.description}
+    eyebrow="Blog series"
+    gradientText="A reading track."
+    title={series.data.title.includes('.') ? series.data.title : series.data.title + '.'}
+  >
+    <ButtonLink href="/blog/series/" showArrow>
+      Browse all series
+    </ButtonLink>
+    <ButtonLink href="/blog/" showArrow variant="secondary">
+      Back to blog
+    </ButtonLink>
+  </PageHero>
+
+  <StatsGrid columns={3}>
+    <StatCard description="Articles collected into this reading track." label="Posts" value={String(postCount)} />
+    <article class="
+      stat-card h-full p-5
+      sm:p-6
+    "
+    >
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute inset-0 z-0 overflow-hidden
+          rounded-[inherit]
+        "
+      >
+        <div
+          class="absolute top-0 right-0 size-24 opacity-30"
+          style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.15), transparent 70%);"
+        />
+      </div>
+      <p class="relative z-10 section-label">Cadence</p>
+      <p class="
+        relative z-10 mt-4 max-w-[26ch] text-lg/7 font-semibold text-ink
+        sm:text-xl/8
+      "
+      >
+        {series.data.cadence}
+      </p>
+      <p class="relative z-10 mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
+        Publishing rhythm for this series.
+      </p>
+    </article>
+    {!!series.data.focusAreas.length && (
+      <StatCard description="Recurring themes shaping the articles in this track." label="Focus areas" value={String(series.data.focusAreas.length)} />
+    )}
+  </StatsGrid>
+
+  <GradientDivider class="pt-10" />
+
   <section
     class="
-      grid gap-10
-      lg:grid-cols-[1.05fr_0.95fr]
+      grid gap-8 pt-10
+      lg:grid-cols-[1.1fr_0.9fr]
     "
     data-animate
   >
-    <div class="space-y-6">
-      <SectionHeading
-        description={series.data.description}
-        eyebrow="Blog series"
-        level="h1"
-        title={series.data.title}
-      />
-
-      <div class="flex flex-wrap gap-2">
-        <Pill label={`${postCount} ${postCount === 1 ? 'post' : 'posts'}`} tone="brand" />
-        <Pill label={series.data.cadence} tone="outline" />
-      </div>
-
-      <div class="section-actions">
-        <ButtonLink href="/blog/" showArrow variant="secondary">
-          Back to blog
-        </ButtonLink>
-        <ButtonLink href="/blog/content-calendar/" showArrow variant="ghost">
-          View content calendar
-        </ButtonLink>
-      </div>
-    </div>
-
-    <div class="prose-santi section-shell-subtle max-w-none">
+    <div class="prose-santi max-w-none">
       <Content />
     </div>
+
+    {!!series.data.focusAreas.length && (
+      <div class="space-y-4">
+        <p class="section-label">Focus areas</p>
+        <div class="flex flex-wrap gap-2">
+          {series.data.focusAreas.map(area => (
+            <Pill label={area} tone="outline" />
+          ))}
+        </div>
+      </div>
+    )}
   </section>
 
-  {!!series.data.focusAreas.length && (
-    <section class="editorial-section" data-animate>
-      <SectionHeading
-        description="Recurring themes that shape the articles in this track."
-        eyebrow="Focus areas"
-        title="What this series keeps coming back to."
-      />
-
-      <div class="flex h-max flex-wrap gap-3">
-        {series.data.focusAreas.map(area => (
-          <Pill label={area} tone="outline" />
-        ))}
-      </div>
-    </section>
-  )}
-
-  <section class="editorial-section" data-animate>
-    <SectionHeading
+  <PageSection>
+    <SectionHeader
       description="Read these in order if you want the clearest progression from foundations to deeper implementation decisions."
       eyebrow="Posts"
       title="Articles in this series."
@@ -130,5 +159,5 @@ const structuredData: Record<string, unknown> = {
         </div>
       ))}
     </div>
-  </section>
+  </PageSection>
 </PageLayout>

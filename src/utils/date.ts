@@ -13,9 +13,13 @@ export const getFormattedDate = (
 
   if (Number.isNaN(date.getTime())) return 'Invalid Date'
 
-  return new Intl.DateTimeFormat(
-    siteConfig.date.locale, { ...(siteConfig.date.options), ...options }
-  ).format(date)
+  // Merge options, excluding undefined values to allow removing defaults (e.g., day: undefined)
+  const mergedOptions = { ...(siteConfig.date.options), ...options }
+  const cleanedOptions = Object.fromEntries(
+    Object.entries(mergedOptions).filter(([, v]) => v !== undefined)
+  ) as Intl.DateTimeFormatOptions
+
+  return new Intl.DateTimeFormat(siteConfig.date.locale, cleanedOptions).format(date)
 }
 
 /** Sort projects from newest to oldest using their starting date. */

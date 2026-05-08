@@ -1,28 +1,33 @@
 ---
+interface Props {
+  className?: string
+  showHash?: boolean
+  title: string
+  variant?: 'default' | 'accent' | 'brand-accent' | 'muted' | 'outline' | 'inactive' | 'subtle' | 'ghost' | 'warning' | 'danger'
+}
+
 const { variant = 'default', showHash = true, className = '', title } = Astro.props
 
 const badgeClasses = {
   base:
-    'inline-flex items-center gap-1 px-2 h-6 rounded-2xl text-sm font-medium transition-colors truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px] sm:max-w-full',
+    'inline-flex items-center gap-1 px-2 h-6 rounded-2xl text-xs font-semibold tracking-wide transition-all duration-200 truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px] sm:max-w-full',
   variants: {
-    default: 'bg-ink text-canvas hover:brightness-90',
-    accent: 'bg-accent text-canvas hover:brightness-90',
-    'brand-accent': 'bg-brand text-canvas hover:brightness-90',
-    muted:
-      'bg-surface-muted hover:bg-line text-ink transition duration-300',
-    outline:
-      'border border-line text-ink bg-transparent hover:border-accent',
-    inactive: 'bg-surface-muted text-ink/40 cursor-default',
-    subtle: 'bg-surface-muted text-ink/60',
-    ghost: 'bg-transparent text-ink/60 hover:bg-surface-muted',
-    warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-    danger: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+    default: 'bg-ink/90 text-canvas backdrop-blur-sm shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1)] hover:bg-ink-soft/90',
+    accent: 'bg-accent/85 text-white backdrop-blur-sm shadow-[0_0_10px_hsl(var(--accent)/0.25),inset_0_1px_0_hsl(0_0%_100%/0.15)] hover:bg-brand/85',
+    'brand-accent': 'bg-brand/85 text-white backdrop-blur-sm shadow-[0_0_10px_hsl(var(--brand)/0.22),inset_0_1px_0_hsl(0_0%_100%/0.15)] hover:bg-brand-solid/90',
+    muted: 'bg-surface/60 border border-line/40 text-ink-soft backdrop-blur-sm shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1)] hover:border-line/65 hover:bg-surface/80 hover:text-ink',
+    outline: 'border border-line/55 text-ink-soft bg-surface/40 backdrop-blur-sm shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1)] hover:border-brand/40 hover:bg-brand-soft/25 hover:text-brand',
+    inactive: 'bg-surface-muted/60 text-ink-muted border border-line/25 cursor-default opacity-60',
+    subtle: 'bg-surface/35 text-ink-muted border border-line/25 backdrop-blur-sm shadow-[inset_0_1px_0_hsl(0_0%_100%/0.08)]',
+    ghost: 'bg-transparent text-ink-soft backdrop-blur-sm hover:bg-surface/60 hover:text-ink hover:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1)]',
+    warning: 'bg-warning/15 text-warning border border-warning/30 backdrop-blur-sm shadow-[inset_0_1px_0_hsl(0_0%_100%/0.08)] dark:bg-warning/20 dark:text-warning dark:border-warning/30',
+    danger: 'bg-danger/15 text-danger border border-danger/30 backdrop-blur-sm shadow-[inset_0_1px_0_hsl(0_0%_100%/0.08)] dark:bg-danger/20 dark:text-danger dark:border-danger/30'
   }
 }
 
 const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasses.variants]
 ---
-<div class={`
+<span class={`
   ${badgeClasses.base}
   ${variantClasses}
   ${className}
@@ -31,4 +36,4 @@ const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasse
   {showHash && <span class="text-xs font-normal opacity-60">#</span>}
   <span class="truncate">{title}</span>
   <slot />
-</div>
+</span>

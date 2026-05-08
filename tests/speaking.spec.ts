@@ -18,8 +18,8 @@ test.describe('Speaking page', () => {
 
   test('should contain the key sections', async ({ page }) => {
     await expect(page.getByRole('heading', { name: /Make the invite easy/i, level: 2 })).toBeVisible()
-    await expect(page.getByRole('heading', { name: /What I like to speak about/i, level: 2 })).toBeVisible()
-    await expect(page.getByRole('heading', { name: /Formats that fit teams/i, level: 2 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /What I speak about/i, level: 2 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Available formats/i, level: 2 })).toBeVisible()
   })
 
   test('should expose the invite CTA with a WhatsApp href', async ({ page }) => {
@@ -36,7 +36,7 @@ test.describe('Speaking page', () => {
   })
 
   test('should render topic cards', async ({ page }) => {
-    const topicsSection = page.getByRole('heading', { name: /What I like to speak about/i })
+    const topicsSection = page.getByRole('heading', { name: /What I speak about/i })
     await expect(topicsSection).toBeVisible()
     // At least one topic article should be visible after the heading
     const topicArticles = page.locator('section').filter({ has: topicsSection }).locator('article')

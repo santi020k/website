@@ -1,16 +1,20 @@
 ---
 import { Icon } from 'astro-icon/components'
 
-import SectionHeading from './SectionHeading.astro'
-
-import ButtonLink from '../atoms/ButtonLink.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
 import { siteConfig } from '@/site.config'
 
+interface Props {
+  compact?: boolean
+}
+
+const { compact = false } = Astro.props
+
 const contactChannels = [
   {
-    action: 'Open WhatsApp',
-    description: 'Best when you want a fast, lightweight conversation with useful context up front.',
+    action: 'Message on WhatsApp',
+    description: 'Fastest response. Ideal for quick questions, role discussions, or sharing context before a call.',
     href: siteConfig.contact.whatsapp,
     icon: 'tabler:brand-whatsapp',
     label: 'WhatsApp',
@@ -18,8 +22,8 @@ const contactChannels = [
     value: '+57 350 799 0136'
   },
   {
-    action: 'Message on LinkedIn',
-    description: 'A good fit for referrals, role discussions, and keeping the thread professional.',
+    action: 'Connect on LinkedIn',
+    description: 'Best for professional outreach, referrals, and keeping a documented thread.',
     href: siteConfig.contact.linkedin,
     icon: 'tabler:brand-linkedin',
     label: 'LinkedIn',
@@ -27,8 +31,8 @@ const contactChannels = [
     value: '/in/santi020k'
   },
   {
-    action: 'Send email',
-    description: 'Still available for longer briefs, documents, or formal follow-ups.',
+    action: 'Send an email',
+    description: 'For detailed briefs, formal proposals, or when you need attachments and async review.',
     href: `mailto:${siteConfig.contact.email}`,
     icon: 'tabler:mail',
     label: 'Email',
@@ -37,118 +41,135 @@ const contactChannels = [
 ]
 ---
 
-<section
-  id="contact"
-  class="editorial-section"
-  data-animate
->
-  <div class="space-y-6">
-    <SectionHeading
-      description="Whether you have a project in flight or just want to compare notes on engineering leadership, architecture, and developer experience, I'm always open to a thoughtful conversation."
-      eyebrow="Contact"
-      title="Let's build something useful together."
-    />
-
-    <div class="
-      grid gap-3
-      sm:grid-cols-2
-      lg:grid-cols-1
-    "
-    >
-      <div class="mini-note">
-        <p class="section-label">Availability</p>
-        <p class="mt-2 text-sm/7 text-ink-soft">{siteConfig.availability}</p>
-      </div>
-      <div class="mini-note">
-        <p class="section-label">Response window</p>
-        <p class="mt-2 text-sm/7 text-ink-soft">
-          WhatsApp is the fastest route for short intros; LinkedIn works well for async professional context.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="
-    panel-card h-max p-6
-    sm:p-8
-  "
-  >
-    <div class="space-y-6">
-      <div class="space-y-2">
-        <p class="section-label">Direct contact</p>
-        <h3 class="
-          text-2xl
-          sm:text-3xl
-        "
-        >Pick the channel that matches the conversation.
-        </h3>
-      </div>
-
-      <div class="space-y-5">
-        {contactChannels.map(({ action, description, href, icon, label, newTab = false, value }, index) => (
-          <div
-            class:list={[
-              `
-                flex flex-col gap-4
-                sm:flex-row sm:items-start sm:justify-between
-              `,
-              index > 0 && 'border-t border-line/60 pt-5'
-            ]}
-          >
-            <div class="flex gap-4">
-              <div class="
-                flex size-12 shrink-0 items-center justify-center rounded-2xl
-                bg-brand-soft text-brand
-              "
-              >
-                <Icon aria-hidden="true" class="size-6" name={icon} />
-              </div>
-              <div class="space-y-2">
-                <p class="section-label">{label}</p>
-                <div class="flex items-center gap-2">
-                  <a
-                    class="
-                      block text-lg font-semibold text-ink transition-colors
-                      hover:text-brand
-                    "
-                    href={href}
-                    rel={newTab ? 'noopener noreferrer' : undefined}
-                    target={newTab ? '_blank' : undefined}
-                  >
-                    {value}
-                  </a>
-                  {label === 'Email' && (
-                    <button
-                      aria-label="Copy email address"
-                      class="
-                        inline-flex size-7 shrink-0 items-center justify-center
-                        rounded-lg border border-line/50 bg-surface-muted/60 text-ink-muted
-                        transition-all duration-200
-                        hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand
-                        focus-visible:outline-brand
-                        motion-reduce:transition-none
-                      "
-                      data-copy-email={value}
-                      type="button"
-                    >
-                      <Icon aria-hidden="true" class="size-3.5" data-copy-icon name="tabler:copy" />
-                      <Icon aria-hidden="true" class="hidden size-3.5" data-check-icon name="tabler:check" />
-                    </button>
-                  )}
-                </div>
-                <p class="max-w-md text-sm/6 text-ink-soft">{description}</p>
-              </div>
-            </div>
-
-            <ButtonLink className="shrink-0" href={href} newTab={newTab} showArrow variant="secondary">
-              {action}
-            </ButtonLink>
+{compact ? (
+  <div class="grid gap-3" data-stagger="80">
+    {contactChannels.map(({ href, icon, label, newTab = false, value }) => (
+      <a
+        class="mini-note group flex items-center gap-4 p-4 transition-all duration-200 motion-reduce:transition-none"
+        href={href}
+        rel={newTab ? 'noopener noreferrer' : undefined}
+        target={newTab ? '_blank' : undefined}
+      >
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute top-0 right-0 h-20 w-20 opacity-20 transition-opacity duration-300 group-hover:opacity-30 motion-reduce:transition-none"
+          style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.12), transparent 70%);"
+        />
+        <div class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft/60 text-brand transition-all duration-200 group-hover:bg-brand-soft motion-reduce:transition-none">
+          <Icon aria-hidden="true" class="size-5 transition-transform duration-200 group-hover:scale-105 motion-reduce:transition-none" name={icon} />
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center justify-between gap-2">
+            <p class="section-label">{label}</p>
+            <Icon aria-hidden="true" class="size-4 text-ink-muted transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand motion-reduce:transition-none" name="tabler:arrow-up-right" />
           </div>
-        ))}
+          <p class="text-sm font-semibold text-ink transition-colors duration-200 group-hover:text-brand motion-reduce:transition-none">{value}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+) : (
+  <section id="contact" class="grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10" data-animate>
+    <div class="space-y-3">
+      <p class="section-label text-brand">Contact</p>
+      <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+        Let's build something useful together.
+      </h2>
+      <p class="max-w-xl text-sm text-ink-soft">
+        Whether you have a project in flight or just want to compare notes on engineering leadership, architecture, and developer experience, I'm always open to a thoughtful conversation.
+      </p>
+      <div class="flex flex-wrap gap-3 pt-2">
+        <div class="mini-note flex-1 min-w-[200px]">
+          <p class="section-label">Availability</p>
+          <p class="mt-2 text-sm/7 text-ink-soft">{siteConfig.availability}</p>
+        </div>
+        <div class="mini-note flex-1 min-w-[200px]">
+          <p class="section-label">Response window</p>
+          <p class="mt-2 text-sm/7 text-ink-soft">
+            WhatsApp is fastest; LinkedIn for professional context.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+
+    <div class="panel-card overflow-hidden">
+      <div class="p-6 space-y-6 sm:p-8">
+        <div class="space-y-2">
+          <p class="section-label">Direct contact</p>
+          <h3 class="text-xl font-semibold">
+            Pick the channel that matches the conversation.
+          </h3>
+        </div>
+
+        <div class="space-y-5">
+          {contactChannels.map(({ action, description, href, icon, label, newTab = false, value }, index) => (
+            <div
+              class:list={[
+                `
+                  flex flex-col gap-4
+                  sm:flex-row sm:items-start sm:justify-between
+                `,
+                index > 0 && 'list-divider-medium pt-5'
+              ]}
+            >
+              <div class="flex gap-4">
+                <div class="
+                  flex size-12 shrink-0 items-center justify-center rounded-2xl
+                  bg-brand-soft text-brand
+                "
+                >
+                  <Icon aria-hidden="true" class="size-6" name={icon} />
+                </div>
+                <div class="space-y-2">
+                  <p class="section-label">{label}</p>
+                  <div class="flex items-center gap-2">
+                    <a
+                      class="
+                        block text-lg font-semibold text-ink transition-colors
+                        hover:text-brand
+                      "
+                      href={href}
+                      rel={newTab ? 'noopener noreferrer' : undefined}
+                      target={newTab ? '_blank' : undefined}
+                    >
+                      {value}
+                    </a>
+                    {label === 'Email' && (
+                      <>
+                        <span aria-live="polite" class="sr-only" data-copy-announce />
+                        <button
+                          aria-label="Copy email address"
+                          class="
+                            inline-flex size-7 shrink-0 items-center justify-center
+                            rounded-lg border border-line/50 bg-surface-muted/60 text-ink-muted
+                            transition-all duration-200
+                            hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand
+                            focus-visible:outline-brand
+                            motion-reduce:transition-none
+                          "
+                          data-copy-email={value}
+                          type="button"
+                        >
+                          <Icon aria-hidden="true" class="size-3.5" data-copy-icon name="tabler:copy" />
+                          <Icon aria-hidden="true" class="hidden size-3.5" data-check-icon name="tabler:check" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                  <p class="max-w-md text-sm/6 text-ink-soft">{description}</p>
+                </div>
+              </div>
+
+              <ButtonLink className="shrink-0" href={href} newTab={newTab} showArrow variant="secondary">
+                {action}
+              </ButtonLink>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
 
 <script>
   function setupCopyEmail() {
@@ -161,14 +182,17 @@ const contactChannels = [
           await navigator.clipboard.writeText(email)
           const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
           const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
+          const announce = btn.parentElement?.querySelector<HTMLElement>('[data-copy-announce]')
           if (copyIcon && checkIcon) {
             copyIcon.classList.add('hidden')
             checkIcon.classList.remove('hidden')
             btn.setAttribute('aria-label', 'Copied!')
+            if (announce) announce.textContent = 'Email address copied!'
             setTimeout(() => {
               copyIcon.classList.remove('hidden')
               checkIcon.classList.add('hidden')
               btn.setAttribute('aria-label', 'Copy email address')
+              if (announce) announce.textContent = ''
             }, 2000)
           }
         } catch {

@@ -1,12 +1,29 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
 
 import PageLayout from '@/layouts/Base.astro'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Portfolio', url: '/portfolio/' }
+]
+
+const sections = [
+  {
+    buttonLabel: 'Browse work',
+    description: 'Roles across commerce, gaming, SaaS, real estate, martech, and agencies — focused on architecture and technical leadership.',
+    href: '/work/',
+    label: 'Work Experience',
+    title: 'Client & Product Work'
+  },
+  {
+    buttonLabel: 'Browse projects',
+    description: 'Open-source tools, community work, and self-directed experiments built to learn, share, and sharpen craft.',
+    href: '/projects/',
+    label: 'Side Projects',
+    title: 'Open Source & Personal Builds'
+  }
 ]
 ---
 
@@ -17,60 +34,45 @@ const breadcrumbs = [
     title: 'Portfolio — Santiago Molina'
   }}
 >
-  <section class="
-    animate-slide-up space-y-6
-    motion-reduce:animate-none
-  "
+  <PageHero
+    description="The portfolio is split into two sections — client and product work, and personal open-source projects."
+    eyebrow="Portfolio"
+    gradientText="and side projects."
+    title="Work experience"
   >
-    <SectionHeading
-      description="The portfolio is split into two sections — client work and side projects."
-      eyebrow="Portfolio"
-      level="h1"
-      title="Work experience and side projects."
-    />
-  </section>
+    <ButtonLink href="/work/" showArrow>
+      Browse work
+    </ButtonLink>
+    <ButtonLink href="/projects/" showArrow variant="secondary">
+      Browse projects
+    </ButtonLink>
+  </PageHero>
 
   <section
     class="
       grid gap-6
       sm:grid-cols-2
     "
-    data-animate
+    data-stagger="80"
   >
-    <div class="section-shell-subtle flex flex-col gap-4">
-      <div class="space-y-2">
-        <p class="section-label">Work Experience</p>
-        <h2 class="text-xl font-semibold text-ink">
-          Client &amp; Product Work
-        </h2>
-        <p class="text-sm/6 text-ink-soft">
-          Roles across commerce, gaming, SaaS, real estate, martech, and agencies
-          — with a focus on architecture and technical leadership.
-        </p>
+    {sections.map(({ buttonLabel, description, href, label, title }) => (
+      <div class="panel-card flex flex-col gap-6 p-7">
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-x-0 top-0 z-10 h-px"
+          style="background: linear-gradient(90deg, transparent 8%, hsl(0 0% 100% / 0.3) 40%, hsl(0 0% 100% / 0.45) 50%, hsl(0 0% 100% / 0.3) 60%, transparent 92%);"
+        />
+        <div class="space-y-2">
+          <p class="section-label">{label}</p>
+          <h2 class="text-xl font-semibold text-ink">{title}</h2>
+          <p class="text-sm/7 text-ink-soft">{description}</p>
+        </div>
+        <div class="mt-auto">
+          <ButtonLink href={href} showArrow variant="secondary">
+            {buttonLabel}
+          </ButtonLink>
+        </div>
       </div>
-      <div class="mt-auto">
-        <ButtonLink href="/work/" showArrow variant="secondary">
-          Browse work
-        </ButtonLink>
-      </div>
-    </div>
-
-    <div class="section-shell-subtle flex flex-col gap-4">
-      <div class="space-y-2">
-        <p class="section-label">Side Projects</p>
-        <h2 class="text-xl font-semibold text-ink">
-          Open Source &amp; Personal Builds
-        </h2>
-        <p class="text-sm/6 text-ink-soft">
-          Open-source tools, community work, and self-directed experiments built
-          to learn, share, and sharpen craft beyond client work.
-        </p>
-      </div>
-      <div class="mt-auto">
-        <ButtonLink href="/projects/" showArrow variant="secondary">
-          Browse projects
-        </ButtonLink>
-      </div>
-    </div>
+    ))}
   </section>
 </PageLayout>

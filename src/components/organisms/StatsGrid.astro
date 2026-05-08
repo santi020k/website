@@ -1,0 +1,25 @@
+---
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
+
+interface Props {
+  columns?: 3 | 4
+}
+
+const { columns = 4 } = Astro.props
+---
+
+<GradientDivider class="pt-10" />
+<section
+  class:list={[
+    'relative grid gap-4 pt-10 md:grid-cols-2',
+    columns === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'
+  ]}
+  data-animate
+>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 z-0 opacity-30"
+    style="background: radial-gradient(ellipse at top, hsl(var(--brand)/0.04), transparent 70%);"
+  />
+  <slot />
+</section>

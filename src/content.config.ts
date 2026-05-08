@@ -3,7 +3,6 @@ import { z } from 'astro/zod'
 import { defineCollection } from 'astro:content'
 
 const removeDuplicates = (array: string[]) => [...new Set(array)]
-
 const dateField = () => z.string().or(z.date()).transform(val => new Date(val))
 const optionalDateField = () => z.string().optional().transform(str => (str ? new Date(str) : undefined))
 
@@ -29,7 +28,7 @@ const project = defineCollection({
   loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
-    rol: z.enum([
+    role: z.enum([
       'Technical Lead',
       'Full Stack',
       'Front-End Lead',
@@ -45,9 +44,14 @@ const project = defineCollection({
     ]).optional(),
     coverImage: z
       .object({
-        alt: z.string(),
+        alt: z.string().min(1),
         src: image(),
-        ogImage: z.string().optional()
+        horizontal: image().optional(),
+        vertical: image().optional(),
+        ogImage: z.string().optional(),
+        logo: image().optional(),
+        logoAspect: z.enum(['square', 'wide', 'tall']).optional(),
+        logoSurface: z.enum(['dark', 'light', 'neutral']).optional()
       })
       .optional(),
     draft: z.boolean().default(false),
@@ -99,7 +103,7 @@ const post = defineCollection({
     tags: z.array(z.string()).default([]).transform(removeDuplicates),
     draft: z.boolean().default(false),
     canonicalUrl: z.url().optional(),
-    postType: z.enum(['Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).optional(),
+    postType: z.enum(['Article', 'Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).default('Article'),
     seriesId: z.string().optional(),
     seriesOrder: z.number().int().positive().optional()
   })

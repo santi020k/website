@@ -1,4 +1,7 @@
 ---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
 
@@ -15,78 +18,75 @@ const meta = {
   description,
   title: 'Accessibility statement'
 }
+
+const sections = [
+  {
+    label: 'Target standard',
+    body: 'WCAG 2.2 Level AA — keyboard navigation, visible focus, meaningful structure, sufficient contrast, and reduced-motion respect throughout.'
+  },
+  {
+    label: 'How we work toward it',
+    body: 'Semantic HTML, landmarks, and labeled interactive components. Automated CI checks alongside manual review. Resilient layouts across zoom levels and viewports.'
+  },
+  {
+    label: 'Known limits',
+    body: 'Personal site maintained alongside other work. Third-party embeds may lag behind first-party pages. Older articles are refreshed on a rolling basis.'
+  },
+  {
+    label: 'Formal complaints',
+    body: 'This statement does not replace applicable law. Use the email below to request alternative formats or further information about how issues are handled.'
+  }
+]
 ---
 
 <PageLayout meta={meta}>
-  <article
-    class="
-      mx-auto max-w-3xl space-y-10 animate-slide-up
-      motion-reduce:animate-none
-    "
-  >
-    <header class="space-y-3">
-      <p class="section-label">Inclusion</p>
-      <h1 class="text-4xl font-extrabold tracking-tight text-ink">
-        Accessibility statement
-      </h1>
-      <p class="text-base/7 text-ink-soft">
-        Everyone should be able to use this site comfortably. This page summarizes the standard the project aims for,
-        where gaps can still appear, and how to get help if something blocks you.
+  <article class="space-y-12">
+    <PageHero
+      description="WCAG 2.2 AA is the target. Here's what that means in practice and how to flag anything that falls short."
+      eyebrow="Inclusion"
+      gradientText="statement."
+      title="Accessibility"
+    />
+
+    <div
+      class="
+        grid gap-4
+        sm:grid-cols-2
+      "
+      data-stagger="60"
+    >
+      {sections.map(({ label, body }) => (
+        <div class="mini-note h-full">
+          <p class="section-label">{label}</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">{body}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mini-note max-w-xl" data-animate>
+      <p class="section-label">Report a barrier</p>
+      <p class="mt-2 text-sm/7 text-ink-soft">
+        Can't complete a task? Email{' '}
+        <a
+          class="
+            font-medium text-brand transition-colors
+            hover:text-accent
+          "
+          href={`mailto:${siteConfig.contact.email}?subject=Accessibility%20issue%20on%20santi020k.com`}
+        >
+          {siteConfig.contact.email}
+        </a>
+        {' '}with the page URL, your browser, assistive technology, and what you were trying to do.
       </p>
-    </header>
-
-    <div class="prose-santi max-w-none space-y-8 text-ink-soft">
-      <section class="space-y-3">
-        <h2 class="text-xl font-bold text-ink">Goal</h2>
-        <p>
-          This site is built and tested with <strong class="font-semibold text-ink">WCAG 2.2 Level AA</strong> as the
-          target. That includes keyboard use, visible focus, meaningful structure, sufficient contrast for core text
-          and controls, and respect for <strong class="font-semibold text-ink">reduced motion</strong> preferences
-          where animations are used.
-        </p>
-      </section>
-
-      <section class="space-y-3">
-        <h2 class="text-xl font-bold text-ink">How we work toward it</h2>
-        <ul class="list-disc space-y-2 pl-5">
-          <li>Semantic HTML, landmarks, and labels on interactive components.</li>
-          <li>Automated checks in CI (including accessibility-focused tests) alongside manual review.</li>
-          <li>Readable typography and resilient layouts across common zoom levels and viewports.</li>
-        </ul>
-      </section>
-
-      <section class="space-y-3">
-        <h2 class="text-xl font-bold text-ink">Known limits</h2>
-        <p>
-          This is a personal site maintained alongside other work. Third-party embeds (for example video or audio
-          players if added later) may not always meet the same bar as first-party pages. Older articles or legacy
-          markup can occasionally lag behind the current template until they are refreshed.
-        </p>
-        <p>
-          If automated tooling flags something that is a false positive, or if a real issue is hard to fix quickly, it
-          will be tracked and prioritized like any other defect affecting readers.
-        </p>
-      </section>
-
-      <section class="space-y-3">
-        <h2 class="text-xl font-bold text-ink">Reporting a barrier</h2>
-        <p>
-          If you cannot complete a task on this site because of accessibility, please email{' '}
-          <a class="font-medium text-brand hover:underline" href={`mailto:${siteConfig.contact.email}?subject=Accessibility%20issue%20on%20santi020k.com`}>
-            {siteConfig.contact.email}
-          </a>
-          . Include the page URL, your browser and assistive technology if you can, and what you were trying to do.
-          You should receive a substantive reply once the message is seen.
-        </p>
-      </section>
-
-      <section class="space-y-3">
-        <h2 class="text-xl font-bold text-ink">Formal complaints</h2>
-        <p>
-          This statement does not replace applicable law. If you need an escalation path beyond direct contact, you may
-          use the same email to request alternative formats or further information about how issues are handled.
-        </p>
-      </section>
     </div>
   </article>
+
+  <div class="section-actions" data-animate>
+    <ButtonLink href="/" showArrow variant="secondary">
+      Back home
+    </ButtonLink>
+    <ButtonLink href="/privacy/" showArrow variant="ghost">
+      Privacy statement
+    </ButtonLink>
+  </div>
 </PageLayout>

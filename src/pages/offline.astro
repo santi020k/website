@@ -1,6 +1,7 @@
 ---
-import ButtonLink from '../components/atoms/ButtonLink.astro'
-import PageLayout from '../layouts/Base.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 const meta = {
   description: 'Offline fallback page for the santi020k portfolio and blog.',
@@ -9,38 +10,24 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section
-    aria-labelledby="offline-heading"
-    class="
-      section-shell mx-auto max-w-3xl space-y-6 text-center
-      sm:px-10 sm:py-12
-    "
+  <PageHero
+    description="Previously visited pages can still load from the local cache. Refresh once you're back online."
+    eyebrow="Offline"
+    gradientText="but still within reach."
+    title="No connection,"
   >
-    <p class="section-label">Offline</p>
-    <h1
-      class="
-        text-4xl/tight
-        sm:text-5xl
-      "
-      id="offline-heading"
-    >
-      You are offline, but the site is still within reach.
-    </h1>
-    <p class="
-      mx-auto max-w-2xl text-base/7 text-ink-soft
-      sm:text-lg/8
-    "
-    >
-      Previously visited pages can still load from the local cache. Once your connection is back, refresh to get the
-      latest portfolio entries and writing.
+    <ButtonLink href="/">
+      Go home
+    </ButtonLink>
+    <ButtonLink href="/portfolio/" variant="secondary">
+      Browse projects
+    </ButtonLink>
+  </PageHero>
+
+  <div class="mini-note max-w-xl" data-animate>
+    <p class="section-label">What's cached</p>
+    <p class="mt-2 text-sm/7 text-ink-soft">
+      Pages you've visited before are available offline. Refresh when your connection returns to get the latest content.
     </p>
-    <div class="section-actions justify-center">
-      <ButtonLink href="/">
-        Go home
-      </ButtonLink>
-      <ButtonLink href="/portfolio/" variant="secondary">
-        Browse projects
-      </ButtonLink>
-    </div>
-  </section>
+  </div>
 </PageLayout>

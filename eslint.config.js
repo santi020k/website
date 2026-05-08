@@ -47,7 +47,19 @@ export default [
           '^e-content$',
           '^p-summary$',
           '^h-entry$',
-          '^u-url$'
+          '^u-url$',
+          '^gradient-radial$',
+          '^tag-glass-card$',
+          '^tag-glass-inner$',
+          '^tag-glass-tint$',
+          '^mini-card$',
+          '^shine-effect$',
+          '^icon-wrapper$',
+          '^arrow-indicator$',
+          '^badge$',
+          '^principle-card$',
+          '^testimonial-card$',
+          '^post-meta-card$'
         ]
       }
     }

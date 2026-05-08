@@ -1,10 +1,13 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
-import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
+import { editorialCalendar } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -23,65 +26,45 @@ const breadcrumbs = [
 <PageLayout
   meta={{
     breadcrumbs,
-    description: 'Grouped reading tracks for Santiago Molina’s writing on architecture, tooling, testing, and delivery systems.',
+    description: 'Grouped reading tracks for Santiago Molina\'s writing on architecture, tooling, testing, and delivery systems.',
     title: 'Blog Series — Santiago Molina'
   }}
 >
-  <section
-    class="
-      grid gap-10
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
-    data-animate
+  <PageHero
+    description="Grouped reading paths — follow a topic from start to finish without hunting the archive."
+    eyebrow="Series"
+    gradientText="in order."
+    title="Follow related posts"
   >
-    <div class="space-y-6">
-      <SectionHeading
-        description={
-          `${publishingRhythm.summary} ` +
-          'Series make that rhythm easier to follow by turning scattered posts into clearer reading paths.'
-        }
-        eyebrow="Blog series"
-        level="h1"
-        title="Reading tracks for architecture, tooling, testing, and delivery systems."
-      />
+    <ButtonLink href="/blog/" showArrow variant="secondary">
+      Back to blog
+    </ButtonLink>
+    <ButtonLink href="/blog/content-calendar/" showArrow variant="secondary">
+      Content calendar
+    </ButtonLink>
+  </PageHero>
 
-      <div class="section-actions">
-        <ButtonLink href="/blog/" showArrow variant="secondary">
-          Back to blog
-        </ButtonLink>
-        <ButtonLink href="/blog/content-calendar/" showArrow variant="ghost">
-          View content calendar
-        </ButtonLink>
-      </div>
-    </div>
+  <StatsGrid>
+    <StatCard
+      description="Ongoing reading tracks with at least one published post."
+      label="Active series"
+      value={String(activeSeries.length)}
+    />
+    <StatCard
+      description="Posts that belong to a series rather than standing alone in the archive."
+      label="Posts grouped"
+      value={String(postsGroupedIntoSeries)}
+    />
+    <StatCard
+      description="Distinct series planned or in progress on the editorial calendar."
+      label="Roadmap tracks"
+      value={String(roadmapSeriesCount)}
+    />
+  </StatsGrid>
 
-    <div class="
-      grid gap-4
-      sm:grid-cols-3
-      lg:grid-cols-1
-    "
-    >
-      <StatCard
-        description="Tracks readers can already follow without hunting around the archive."
-        label="Active series"
-        value={String(activeSeries.length)}
-      />
-      <StatCard
-        description="Articles already grouped into related reading paths."
-        label="Posts grouped"
-        value={String(postsGroupedIntoSeries)}
-      />
-      <StatCard
-        description="Upcoming roadmap topics that already connect to an existing series."
-        label="Roadmap tracks"
-        value={String(roadmapSeriesCount)}
-      />
-    </div>
-  </section>
-
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="Each series is meant to reduce guesswork: where to start, what to read next, and how the topic builds from foundations into implementation details."
+  <PageSection>
+    <SectionHeader
+      description="Each series is a self-contained reading track — start at post one, follow the thread, finish with a complete mental model."
       eyebrow="Series"
       title="Current series on the site."
     />
@@ -95,5 +78,5 @@ const breadcrumbs = [
         <SeriesCard postCount={item.postCount} series={item.series} />
       ))}
     </div>
-  </section>
+  </PageSection>
 </PageLayout>

@@ -1,7 +1,7 @@
 ---
 title: "Santi020k Theme"
 description: "Designed and shipped a VS Code theme extension with matched dark and light variants, marketplace publishing, registry automation, and a focused documentation site."
-rol: "Creator"
+role: "Creator"
 startingDate: "28 Apr 2026"
 githubUrl: "https://github.com/santi020k/santi020k-theme"
 liveDemoUrl: "https://theme.santi020k.com/"
@@ -16,7 +16,12 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
-  alt: "Santi020k Theme dark VS Code preview with an indigo editor and violet syntax accents"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
+  logoSurface: "dark"
+  alt: "Santi020k Theme logo on a deep indigo geometric cover with editor UI artwork"
 ---
 
 ## Building a personal VS Code theme

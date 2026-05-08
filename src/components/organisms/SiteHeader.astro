@@ -1,19 +1,18 @@
 ---
-import { Picture } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
+import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
 import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
-import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
-import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
 import { menuLinks, siteConfig } from '@/site.config'
-import type { SiteLink } from '@/types'
+import type { SiteLink } from '@/types/site'
 
 const isAvailableForBanner =
   siteConfig.availability.trim().toLowerCase().startsWith('open') &&
   siteConfig.showAvailabilityBanner !== false
+
 ---
 
 <header class="
@@ -25,19 +24,30 @@ const isAvailableForBanner =
   {isAvailableForBanner && (
     <div
       class="
-        mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col gap-3 rounded-2xl border
-        border-line/55 bg-surface-muted/55 px-4 py-3 shadow-sm shadow-ink/5
+        mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col gap-3 rounded-2xl
+        border border-line/48 bg-surface/62 px-4 py-3
+        shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),0_4px_16px_hsl(230_30%_8%/0.04)]
         backdrop-blur-sm
         sm:max-w-6xl sm:flex-row sm:items-center sm:justify-between sm:px-5
       "
       data-availability-strip
     >
-      <p class="flex min-w-0 items-start gap-2.5 text-sm text-ink sm:items-center">
-        <span class="relative mt-1.5 inline-flex size-2 shrink-0 sm:mt-0" aria-hidden="true">
+      <p class="
+        flex min-w-0 items-start gap-2.5 text-sm text-ink
+        sm:items-center
+      "
+      >
+        <span
+          class="
+            relative mt-1.5 inline-flex size-2 shrink-0
+            sm:mt-0
+          "
+          aria-hidden="true"
+        >
           <span
             class="
-              absolute inline-flex size-full animate-ping rounded-full bg-green-400/80
-              opacity-75
+              absolute inline-flex size-full animate-ping rounded-full
+              bg-green-400/80 opacity-75
               motion-reduce:animate-none
             "
           />
@@ -48,9 +58,16 @@ const isAvailableForBanner =
           <span class="font-medium text-ink">{siteConfig.availability}</span>
         </span>
       </p>
-      <div class="flex shrink-0 flex-wrap gap-2 sm:justify-end">
+      <div class="
+        flex shrink-0 flex-wrap gap-2
+        sm:justify-end
+      "
+      >
         <ButtonLink
-          className="min-h-10 px-4 py-2 text-xs sm:text-sm"
+          className="
+            min-h-10 px-4 py-2 text-xs
+            sm:text-sm
+          "
           href={siteConfig.contact.linkedin}
           newTab
           showArrow
@@ -59,7 +76,10 @@ const isAvailableForBanner =
           Discuss a role
         </ButtonLink>
         <ButtonLink
-          className="min-h-10 px-4 py-2 text-xs sm:text-sm"
+          className="
+            min-h-10 px-4 py-2 text-xs
+            sm:text-sm
+          "
           href={siteConfig.contact.whatsapp}
           newTab
           showArrow
@@ -77,44 +97,45 @@ const isAvailableForBanner =
           aria-label="Santiago Molina"
           class="
             group relative z-10 inline-flex min-w-0 items-center gap-3
-            transition duration-200
+            overflow-hidden transition duration-200
             motion-reduce:transition-none
           "
           href="/"
         >
-          <Picture
-            alt="Santi020k"
-            class="
-              aspect-933/147 h-9 w-auto object-contain transition duration-300
-              group-hover:brightness-115
-              motion-reduce:transition-none
-              dark:hidden
-            "
-            densities={[1, 1.5, 2, 3]}
-            fetchpriority="high"
-            formats={['avif', 'webp']}
-            height={36}
-            loading="eager"
-            src={LogoMarkLight}
-            width={228}
-          />
-          <Picture
-            alt="Santi020k"
-            class="
-              hidden aspect-933/147 h-9 w-auto object-contain transition
-              duration-300
-              group-hover:brightness-115
-              motion-reduce:transition-none
-              dark:block
-            "
-            densities={[1, 1.5, 2, 3]}
-            fetchpriority="high"
-            formats={['avif', 'webp']}
-            height={36}
-            loading="eager"
-            src={LogoMarkDark}
-            width={228}
-          />
+          {/* Icon-only for small screens */}
+          <div class="
+            h-9 w-auto
+            sm:hidden
+            dark:hidden
+          "
+          >
+            <AnimatedLogo variant="light" iconOnly class="h-full w-auto" />
+          </div>
+          <div class="
+            hidden h-9 w-auto
+            sm:hidden
+            dark:block
+            sm:dark:hidden
+          "
+          >
+            <AnimatedLogo variant="dark" iconOnly class="h-full w-auto" />
+          </div>
+          {/* Full logo for larger screens */}
+          <div class="
+            hidden h-9 w-auto
+            sm:block
+            dark:hidden
+          "
+          >
+            <AnimatedLogo variant="light" class="h-full w-auto" />
+          </div>
+          <div class="
+            hidden h-9 w-auto
+            dark:sm:block
+          "
+          >
+            <AnimatedLogo variant="dark" class="h-full w-auto" />
+          </div>
           <!-- <span class="
             sr-only min-w-0 flex-col
             sm:not-sr-only sm:flex
@@ -128,9 +149,8 @@ const isAvailableForBanner =
         <nav
           aria-label="Main menu"
           class="
-            hidden flex-nowrap items-center gap-0
-            lg:flex lg:gap-0.5
-            xl:gap-1
+            ml-6 hidden items-center gap-0.5
+            lg:flex
           "
         >
           {
@@ -144,33 +164,39 @@ const isAvailableForBanner =
                   aria-current={isActive ? 'page' : undefined}
                   class:list={[
                     `
-                      relative inline-flex min-h-11 shrink-0 items-center
-                      gap-1.5 p-2 text-sm font-medium whitespace-nowrap
+                      group relative inline-flex min-h-10 items-center gap-1.5
+                      px-3.5 text-sm font-medium whitespace-nowrap
                       transition-colors duration-200
-                      after:absolute after:inset-x-2 after:bottom-1.5 after:h-px
-                      after:origin-left after:scale-x-0 after:bg-brand
-                      after:transition-transform after:duration-200
-                      after:ease-out
                       motion-reduce:transition-none
-                      motion-reduce:after:transition-none
-                      lg:px-2
-                      xl:px-3
-                      xl:after:inset-x-3
                     `,
                     isActive ?
-                      `
-                        font-semibold text-brand
-                        after:scale-x-100
-                      ` :
+                      'text-ink' :
                       `
                         text-ink-soft
                         hover:text-ink
-                        hover:after:scale-x-100
                       `
                   ]}
                   href={link.path}
                 >
                   {link.title}
+                  <span
+                    aria-hidden="true"
+                    class:list={[
+                      `
+                        absolute bottom-1 left-1/2 h-px -translate-x-1/2
+                        rounded-full bg-brand transition-all duration-300
+                        ease-out
+                        group-hover:w-4/5
+                        motion-reduce:transition-none
+                      `,
+                      isActive ?
+                        'w-4/5 opacity-100' :
+                        `
+                          w-0 opacity-0
+                          group-hover:opacity-60
+                        `
+                    ]}
+                  />
                 </a>
               )
             })
@@ -186,7 +212,7 @@ const isAvailableForBanner =
           <ThemeToggle />
           <div class="
             hidden
-            lg:block
+            xl:block
           "
           >
             <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow variant="secondary">
@@ -203,9 +229,10 @@ const isAvailableForBanner =
               aria-expanded="false"
               class="
                 relative z-50 inline-flex min-h-11 cursor-pointer items-center
-                gap-2 rounded-full border border-line/70 bg-surface/76 px-4
-                text-ink transition duration-200
-                hover:border-brand/35 hover:bg-surface hover:text-brand
+                gap-2 rounded-full border border-line/50 bg-surface/68 px-4
+                text-ink shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)]
+                backdrop-blur-sm transition duration-200
+                hover:border-brand/35 hover:bg-brand-soft/25 hover:text-brand
                 motion-reduce:transition-none
               "
               data-mobile-nav-toggle
@@ -267,36 +294,37 @@ const isAvailableForBanner =
           "
         >
           <div class="
-            mb-2 flex items-center justify-between gap-4 border-b border-line/25
-            px-1 pb-4
+            card-divider-subtle mb-2 flex items-center justify-between gap-4
+            px-1
           "
           >
             <p class="section-label">Navigation</p>
-            <span class="
-              inline-flex items-center gap-2 rounded-full border border-line/60
-              bg-surface-muted/72 px-3 py-1 text-[0.68rem] font-semibold
-              tracking-[0.16em] text-ink-muted uppercase
-            "
-            >
-              <span class="relative flex size-1.5">
-                <span class="
-                  absolute inline-flex size-full animate-ping rounded-full
-                  bg-green-400 opacity-75
-                  motion-reduce:animate-none
-                "
-                >
+            {isAvailableForBanner && (
+              <span class="
+                inline-flex items-center gap-2 p-1 text-[0.68rem] font-semibold
+                tracking-[0.16em] text-ink-muted uppercase
+              "
+              >
+                <span class="relative flex size-1.5">
+                  <span class="
+                    absolute inline-flex size-full animate-ping rounded-full
+                    bg-green-400 opacity-75
+                    motion-reduce:animate-none
+                  "
+                  >
+                  </span>
+                  <span class="
+                    relative inline-flex size-1.5 rounded-full bg-green-500
+                  "
+                  >
+                  </span>
                 </span>
-                <span class="
-                  relative inline-flex size-1.5 rounded-full bg-green-500
-                "
-                >
-                </span>
+                Available
               </span>
-              Available
-            </span>
+            )}
           </div>
 
-          <div class="grid gap-2">
+          <div class="grid gap-0.5">
             {
               menuLinks.map((link: SiteLink) => {
                 const isActive = link.path === '/' ?
@@ -308,37 +336,51 @@ const isAvailableForBanner =
                     aria-current={isActive ? 'page' : undefined}
                     class:list={[
                       `
-                        flex min-h-12 items-center justify-between gap-3
-                        rounded-[1.35rem] border px-4 py-3 text-sm font-medium
-                        transition duration-200
+                        group flex min-h-11 items-center gap-3 rounded-2xl px-3
+                        py-2 text-sm font-medium transition-colors duration-150
                         motion-reduce:transition-none
                       `,
                       isActive ?
+                        'bg-brand/8 font-semibold text-ink' :
                         `
-                          border-brand/20 bg-brand-soft/80 font-semibold
-                          text-brand shadow-[0_14px_28px_hsl(var(--brand)/0.08)]
-                        ` :
-                        `
-                          border-transparent text-ink-soft
-                          hover:border-line/70 hover:bg-surface-muted/70
-                          hover:text-ink
+                          text-ink-soft
+                          hover:bg-surface-muted/80 hover:text-ink
                         `
                     ]}
                     data-mobile-nav-link
                     href={link.path}
                   >
-                    <span>{link.title}</span>
-                    {
-                      isActive && (
-                        <span class="
-                          rounded-full bg-brand/10 px-2.5 py-1 text-[0.68rem]
-                          font-semibold tracking-[0.14em] uppercase
-                        "
-                        >
-                          Current
-                        </span>
-                      )
-                    }
+                    <span
+                      aria-hidden="true"
+                      class:list={[
+                        `
+                          flex size-8 shrink-0 items-center justify-center
+                          rounded-xl transition-colors duration-150
+                          motion-reduce:transition-none
+                        `,
+                        isActive ?
+                          'text-brand' :
+                          `
+                            text-ink-muted
+                            group-hover:text-ink-soft
+                          `
+                      ]}
+                    >
+                      {link.icon && (
+                        <Icon
+                          aria-hidden="true"
+                          class="size-4 shrink-0"
+                          name={link.icon}
+                        />
+                      )}
+                    </span>
+                    {link.title}
+                    {isActive && (
+                      <span
+                        aria-hidden="true"
+                        class="ml-auto size-1.5 shrink-0 rounded-full bg-brand"
+                      />
+                    )}
                   </a>
                 )
               })
@@ -346,7 +388,7 @@ const isAvailableForBanner =
           </div>
 
           <div class="
-            mt-3 grid gap-2 border-t border-line/55 pt-3
+            mt-3 grid gap-2 divider-soft pt-3
             sm:grid-cols-2
           "
           >
@@ -653,8 +695,15 @@ if (shell) {
 
 <style is:global>
 [data-mobile-nav-toggle][aria-expanded='true'] {
-  background-color: hsl(var(--surface));
+  background: linear-gradient(
+    135deg,
+    hsl(var(--surface) / 0.82),
+    hsl(var(--surface-muted) / 0.62)
+  );
   border-color: hsl(var(--brand) / 0.35);
   color: hsl(var(--brand));
+  box-shadow:
+    inset 0 1px 0 hsl(0 0% 100% / 0.14),
+    0 0 16px color-mix(in srgb, hsl(var(--brand)) 10%, transparent);
 }
 </style>

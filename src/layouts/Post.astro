@@ -1,15 +1,17 @@
 ---
 import { type CollectionEntry, render } from 'astro:content'
 import { WEBMENTION_API_KEY } from 'astro:env/server'
-import { Icon } from 'astro-icon/components'
 
-import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
+import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
+import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
 import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
 import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
+import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
 
 import { getPostSlug } from '@/utils/posts'
 import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
@@ -18,7 +20,7 @@ import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
 import BaseLayout from '@/layouts/Base.astro'
-import { siteConfig } from '@/site.config'
+import { createAuthorSchema } from '@/site.config'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -52,16 +54,8 @@ const blogPostingSchema: Record<string, unknown> = {
   keywords: post.data.tags,
   image: ogImage,
   url: canonicalURL.href,
-  author: {
-    '@type': 'Person',
-    name: 'Santiago Molina',
-    url: Astro.site?.href
-  },
-  publisher: {
-    '@type': 'Person',
-    name: 'Santiago Molina',
-    url: Astro.site?.href
-  },
+  author: createAuthorSchema(Astro.site),
+  publisher: createAuthorSchema(Astro.site),
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': canonicalURL.href
@@ -90,31 +84,32 @@ const breadcrumbs = [
     title
   }}
 >
-  <div
-    id="reading-progress"
-    aria-hidden="true"
-    role="presentation"
-    class="reading-progress-bar"
-    style="transform: scaleX(0)"
-  >
-  </div>
+  <ReadingProgressBar />
 
-  <article class="h-entry mx-auto flex w-full max-w-6xl flex-col gap-12">
+  <article class="h-entry mx-auto flex w-full max-w-6xl flex-col gap-10">
     <a class="u-url sr-only" href={canonicalURL.href}>Permalink to this article</a>
     <PostHero post={post} />
 
     <!-- ── Two-column body: prose + sticky TOC sidebar ─────────── -->
     <section
       class="
-        grid grid-cols-1 gap-10 border-t border-line/70 pt-10
+        grid grid-cols-1 gap-10 pt-10
         lg:grid-cols-[minmax(0,1fr)_18rem]
       "
       data-animate="fade"
     >
       <!-- Left: article prose, series navigator, share -->
       <div class="min-w-0 space-y-10">
-        <div class="e-content prose-santi section-shell-subtle max-w-none">
-          <slot />
+        <div class="e-content max-w-none space-y-8 pt-4">
+          <ContentNotesHeader
+            description="Practical writing from the same lane as the work: architecture decisions, delivery clarity, and engineering systems."
+            label="Article notes"
+            pill={post.data.postType}
+          />
+
+          <div class="prose-santi max-w-none">
+            <slot />
+          </div>
         </div>
 
         {seriesContext && (
@@ -133,48 +128,7 @@ const breadcrumbs = [
 
         <WebmentionsSection mentions={webmentions} />
 
-        <footer class="
-          flex items-center justify-between border-t border-line pt-8
-        "
-        >
-          <a
-            href="/blog/"
-            class="
-              group flex items-center gap-2 font-medium text-ink
-              transition-colors
-              hover:text-brand
-            "
-          >
-            <Icon
-              aria-hidden="true"
-              name="tabler:arrow-left"
-              class="
-                size-5 transition-transform
-                group-hover:-translate-x-1
-              "
-            />
-            Back to blog
-          </a>
-
-          <a
-            href="#main"
-            class="
-              group flex items-center gap-2 font-medium text-ink-muted
-              transition-colors
-              hover:text-brand
-            "
-          >
-            Back to top
-            <Icon
-              aria-hidden="true"
-              name="tabler:arrow-up"
-              class="
-                size-5 transition-transform
-                group-hover:-translate-y-1
-              "
-            />
-          </a>
-        </footer>
+        <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} />
       </div>
 
       <!-- Right: sticky TOC — only rendered when the post has headings -->
@@ -186,12 +140,9 @@ const breadcrumbs = [
     </section>
   </article>
 
-  <div class="mx-auto w-full max-w-6xl space-y-20">
+  <PageSection>
     <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
-    {siteConfig.newsletter?.formAction && (
-      <NewsletterSignup formAction={siteConfig.newsletter.formAction} variant="compact" label="Newsletter signup (blog post)" />
-    )}
-  </div>
+  </PageSection>
 
   <script>
     const COPY_ICON = `
@@ -307,27 +258,4 @@ const breadcrumbs = [
     document.addEventListener('astro:after-swap', setupEnhancedCodeBlocks);
   </script>
 
-  <script>
-    function setupReadingProgress() {
-      const bar = document.getElementById('reading-progress')
-      if (!bar) return () => {}
-
-      const onScroll = () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
-        // scaleX(0–1) is composited on the GPU — no layout triggered on scroll
-        const scale = height > 0 ? winScroll / height : 0
-        bar.style.transform = `scaleX(${scale})`
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true })
-      return () => window.removeEventListener('scroll', onScroll)
-    }
-
-    let cleanupProgress = setupReadingProgress()
-    document.addEventListener('astro:after-swap', () => {
-      cleanupProgress()
-      cleanupProgress = setupReadingProgress()
-    })
-  </script>
 </BaseLayout>

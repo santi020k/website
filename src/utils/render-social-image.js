@@ -98,11 +98,11 @@ const renderHeader = type => `
     <div style="display:flex;flex-direction:column;gap:8px;">
       <img src="${LOGO_DATA_URI}" style="display:flex;width:220px;height:36px;object-fit:contain;object-position:left center;" />
       <div style="display:flex;align-items:center;gap:10px;">
-        <div style="display:flex;width:48px;height:3px;border-radius:999px;background:linear-gradient(90deg,#945df4 0%,#6d28d9 100%);"></div>
+        <div style="display:flex;width:48px;height:3px;border-radius:999px;background:linear-gradient(90deg,#5a0fdb 0%,#4a0fc7 100%);"></div>
         <span style="display:flex;font-size:16px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.12em;text-transform:uppercase;">santi020k.com</span>
       </div>
     </div>
-    <div style="display:flex;align-items:center;padding:12px 22px;border-radius:999px;background:#5b21b6;">
+    <div style="display:flex;align-items:center;padding:12px 22px;border-radius:999px;background:#5a0fdb;">
       <span style="display:flex;font-size:18px;font-weight:800;color:#ffffff;letter-spacing:0.18em;text-transform:uppercase;">${escape(type)}</span>
     </div>
   </div>
@@ -124,10 +124,10 @@ const renderBody = (title, size, coverUri) =>
     `
   <div style="display:flex;align-items:center;gap:56px;width:100%;flex:1;">
     <div style="display:flex;flex:1;flex-direction:column;justify-content:center;gap:22px;min-width:0;">
-      <div style="display:flex;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg,#7c3aed 0%,#a78bfa 100%);"></div>
+      <div style="display:flex;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg,#5a0fdb 0%,#8f5af7 100%);"></div>
       ${renderTitle(title, size, '540px')}
     </div>
-    <div style="display:flex;width:${COVER_W}px;height:${COVER_H}px;flex-shrink:0;border-radius:22px;padding:8px;background:linear-gradient(145deg,rgba(148,93,244,0.30) 0%,rgba(91,33,182,0.12) 100%);border:1px solid rgba(255,255,255,0.14);">
+    <div style="display:flex;width:${COVER_W}px;height:${COVER_H}px;flex-shrink:0;border-radius:22px;padding:8px;background:linear-gradient(145deg,rgba(90,15,219,0.30) 0%,rgba(74,15,199,0.12) 100%);border:1px solid rgba(255,255,255,0.14);">
       <div style="display:flex;width:100%;height:100%;border-radius:16px;overflow:hidden;background:#110c1d;border:2px solid rgba(255,255,255,0.08);">
         <img src="${coverUri}" style="display:flex;width:100%;height:100%;object-fit:contain;object-position:center;" />
       </div>
@@ -137,7 +137,7 @@ const renderBody = (title, size, coverUri) =>
     `
   <div style="display:flex;align-items:center;flex:1;gap:40px;width:100%;">
     <div style="display:flex;flex-direction:column;gap:22px;flex:1;min-width:0;">
-      <div style="display:flex;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg,#945df4 0%,#6d28d9 100%);"></div>
+      <div style="display:flex;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg,#5a0fdb 0%,#4a0fc7 100%);"></div>
       ${renderTitle(title, size, '860px')}
     </div>
     <div style="display:flex;width:240px;height:240px;flex-shrink:0;opacity:0.12;">

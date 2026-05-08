@@ -1,0 +1,74 @@
+---
+import { Icon } from 'astro-icon/components'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+
+interface Props {
+  githubUrl?: string | undefined
+  liveDemoUrl?: string | undefined
+  parentPage: { name: string, url: string }
+}
+
+const { githubUrl, liveDemoUrl, parentPage } = Astro.props
+---
+
+<footer
+  class="
+    flex flex-col gap-6 pt-8
+    sm:flex-row sm:items-center sm:justify-between
+  "
+>
+  <a
+    href={parentPage.url}
+    class="
+      group inline-flex items-center gap-2 font-medium text-ink
+      transition-colors
+      hover:text-brand
+      motion-reduce:transition-none
+    "
+  >
+    <Icon
+      aria-hidden="true"
+      class="
+        size-5 transition-transform
+        group-hover:-translate-x-1
+        motion-reduce:transition-none
+      "
+      name="tabler:arrow-left"
+    />
+    Back to {parentPage.name.toLowerCase()}
+  </a>
+
+  <div class="flex flex-wrap items-center gap-3">
+    {liveDemoUrl && (
+      <ButtonLink href={liveDemoUrl} newTab showArrow>
+        View live project
+      </ButtonLink>
+    )}
+    {githubUrl && (
+      <ButtonLink href={githubUrl} newTab showArrow variant="secondary">
+        Open repository
+      </ButtonLink>
+    )}
+    <a
+      href="#main"
+      class="
+        group inline-flex items-center gap-1.5 text-sm font-medium
+        text-ink-muted transition-colors
+        hover:text-brand
+        motion-reduce:transition-none
+      "
+    >
+      <Icon
+        aria-hidden="true"
+        class="
+          size-4 transition-transform
+          group-hover:-translate-y-0.5
+          motion-reduce:transition-none
+        "
+        name="tabler:arrow-up"
+      />
+      Back to top
+    </a>
+  </div>
+</footer>

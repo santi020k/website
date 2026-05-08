@@ -1,0 +1,22 @@
+---
+import Pill from '@/components/atoms/Pill.astro'
+
+interface Props {
+  description: string
+  label: string
+  pill: string
+}
+
+const { description, label, pill } = Astro.props
+---
+
+<div class="
+  flex flex-wrap items-start justify-between gap-4 pb-6
+"
+>
+  <div class="space-y-2">
+    <p class="section-label">{label}</p>
+    <p class="max-w-2xl text-sm/6 text-ink-soft">{description}</p>
+  </div>
+  <Pill label={pill} tone="brand" />
+</div>

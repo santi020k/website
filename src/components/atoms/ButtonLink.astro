@@ -25,35 +25,13 @@ const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
 <a
   aria-label={ariaLabel}
   class:list={[
-    `
-      group inline-flex min-h-11 cursor-pointer items-center justify-center
-      gap-2 rounded-full border transition duration-200
-      motion-reduce:transform-none motion-reduce:transition-none
-      motion-reduce:hover:translate-y-0
-      motion-reduce:active:scale-100
-    `,
+    'group inline-flex cursor-pointer items-center justify-center gap-2',
     typographyClass,
-    variant === 'primary' && `
-      border-transparent bg-brand-solid px-5 py-3 text-white
-      shadow-[0_10px_24px_hsl(var(--brand-solid)/0.14)]
-      hover:-translate-y-0.5 hover:bg-brand-solid/92
-      active:scale-[0.98]
-    `,
-    variant === 'secondary' && `
-      border-line/70 bg-surface/72 px-5 py-3 text-ink
-      hover:-translate-y-0.5 hover:border-brand/30 hover:bg-surface
-      hover:text-brand
-      active:scale-[0.98]
-    `,
-    variant === 'ghost' && `
-      border-transparent px-4 py-2.5 text-ink-soft
-      hover:bg-surface-muted/72 hover:text-ink
-      active:scale-[0.98]
-    `,
-    variant === 'inline' && `
-      min-h-0 rounded-none border-none p-0 text-accent underline-offset-4
-      hover:underline
-    `,
+    variant !== 'inline' && 'min-h-11 rounded-full border',
+    variant === 'primary' && 'btn-primary',
+    variant === 'secondary' && 'btn-secondary',
+    variant === 'ghost' && 'btn-ghost',
+    variant === 'inline' && 'btn-inline',
     className
   ]}
   href={href}

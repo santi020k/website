@@ -1,0 +1,62 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import HoverableCover from '@/components/atoms/HoverableCover.astro'
+
+import { getProjectDateRangeLabel, getProjectTypeLabel } from '@/utils/project-meta'
+
+interface Props {
+  project: CollectionEntry<'project'>
+}
+
+const { project } = Astro.props
+const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
+const heroImage = project.data.coverImage?.horizontal ?? project.data.coverImage?.src
+---
+
+{project.data.coverImage && heroImage && (
+  <div
+    class="
+      animate-slide-up [animation-delay:300ms]
+      motion-reduce:animate-none
+    "
+  >
+    <div class="relative">
+      <HoverableCover
+        alt={project.data.coverImage.alt}
+        ariaHidden={true}
+        fetchpriority="high"
+        image={heroImage}
+        loading="eager"
+        showBottomGradient={true}
+        sizes="(min-width: 1280px) 1200px, 100vw"
+      />
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-end
+          justify-between gap-4 px-8 py-6 transition-transform duration-500
+          group-hover:translate-y-1
+        "
+      >
+        <div class="space-y-1">
+          <p class="text-xs font-bold tracking-[0.18em] text-white/80 uppercase">
+            {dateRangeLabel}
+          </p>
+          <p class="text-xs font-bold tracking-[0.18em] text-white/60 uppercase">
+            Timeline
+          </p>
+        </div>
+        <div class="space-y-1 text-right">
+          <p class="text-xs font-bold tracking-[0.18em] text-white/80 uppercase">
+            {projectTypeLabel}
+          </p>
+          <p class="text-xs font-bold tracking-[0.18em] text-white/60 uppercase">
+            Project Type
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+)}

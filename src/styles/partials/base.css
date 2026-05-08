@@ -27,7 +27,7 @@
     width: 100%;
     max-width: 100%;
     overflow-x: clip;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 
   html {
@@ -36,7 +36,7 @@
     font-family: var(--font-sans);
     letter-spacing: 0.025em;
     text-rendering: optimizeLegibility;
-    scroll-padding-top: 1rem;
+    scroll-padding-top: 5rem;
   }
 
   body {
@@ -129,7 +129,7 @@
     h1 {
       font-size: clamp(2rem, 9vw, 2.5rem);
       line-height: 1.15;
-      overflow-wrap: anywhere;
+      overflow-wrap: break-word;
     }
     h1,
     h2,
@@ -137,7 +137,7 @@
     h4,
     h5,
     h6 {
-      overflow-wrap: anywhere;
+      overflow-wrap: break-word;
       word-break: normal;
       hyphens: auto;
     }
@@ -147,7 +147,7 @@
   li {
     color: hsl(var(--ink-soft));
     text-wrap: pretty;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 
   a {

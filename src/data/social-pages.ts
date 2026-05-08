@@ -1,3 +1,5 @@
+import { YEARS_OF_EXPERIENCE } from '@/site.config'
+
 export interface SocialPageDefinition {
   description: string
   pathname: string
@@ -5,10 +7,8 @@ export interface SocialPageDefinition {
   type: string
 }
 
-const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
-
 export const homeSocialPage: SocialPageDefinition = {
-  description: 'Engineering Leader & Full-Stack Architect with 12+ years of experience building resilient systems and scaling technical teams.',
+  description: `Engineering Leader & Full-Stack Architect with ${YEARS_OF_EXPERIENCE} years of experience building resilient systems and scaling technical teams.`,
   pathname: '/',
   title: 'Engineering Leader & Full-Stack Architect',
   type: 'Homepage'
@@ -17,7 +17,7 @@ export const homeSocialPage: SocialPageDefinition = {
 export const staticSocialPages: SocialPageDefinition[] = [
   {
     description:
-      `${yearsOfExperience} years shipping full-stack products. ` +
+      `${YEARS_OF_EXPERIENCE} years shipping full-stack products. ` +
       'Senior engineer and tech lead based in Medellin focused on automation, developer experience, and cross-functional leadership.',
     pathname: '/about/',
     title: 'About Santiago Molina - Engineering Leader',

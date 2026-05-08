@@ -1,7 +1,7 @@
 ---
 title: "PADS"
 description: "Led the web, back-office, and mobile experience for a luxury real estate platform, growing monthly active users by 50% and improving broker workflows."
-rol: "Technical Lead"
+role: "Technical Lead"
 startingDate: "1 Jan 2020"
 endingDate: "1 Jul 2021"
 liveDemoUrl: "https://pads.com.co"
@@ -16,6 +16,10 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "wide"
   alt: "PADS wordmark on a magenta and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---

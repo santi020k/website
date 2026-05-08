@@ -18,7 +18,7 @@ test.describe('Uses page', () => {
 
   test('should contain the key sections', async ({ page }) => {
     await expect(page.getByRole('heading', { name: /What I reach for most often/i, level: 2 })).toBeVisible()
-    await expect(page.getByRole('heading', { name: /A useful setup should disappear/i, level: 2 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Good tools disappear into the work/i, level: 2 })).toBeVisible()
   })
 
   test('should link to the portfolio', async ({ page }) => {
@@ -37,7 +37,7 @@ test.describe('Uses page', () => {
     const setupHeading = page.getByRole('heading', { name: /What I reach for most often/i })
     await expect(setupHeading).toBeVisible()
     const setupSection = page.locator('section').filter({ has: setupHeading })
-    await expect(setupSection.locator('article').first()).toBeVisible()
+    await expect(setupSection.locator('[data-uses-section]').first()).toBeVisible()
   })
 
   test('should pass accessibility audit', async ({ page }) => {

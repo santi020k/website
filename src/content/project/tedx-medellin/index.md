@@ -1,7 +1,7 @@
 ---
 title: "TEDx Medellin"
 description: "Volunteered as Technology Coordinator for TEDx Medellin 2019, launching the WordPress event site and supporting a sold-out edition with Justbit-led UI and visual work."
-rol: "Technology Coordinator"
+role: "Technology Coordinator"
 startingDate: "1 Jan 2019"
 endingDate: "1 Jun 2019"
 liveDemoUrl: "https://web.archive.org/web/20181227002803/https://www.tedxmedellinoficial.com/"
@@ -18,6 +18,10 @@ seoTitle: "TEDx Medellin 2019 - WordPress launch and event rollout"
 seoDescription: "How I helped launch the TEDx Medellin 2019 website in WordPress, coordinated technology delivery, and supported a sold-out event with marketing and design collaboration."
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
   alt: "TEDx Medellin wordmark on a red and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---
