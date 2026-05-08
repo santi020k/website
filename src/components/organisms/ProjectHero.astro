@@ -53,8 +53,8 @@ const metaItems = [
       <nav
         aria-label="Breadcrumb"
         class="
-          flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1
-          text-sm font-medium text-ink-muted
+          flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 text-sm
+          font-medium text-ink-muted
         "
       >
         <a
@@ -125,7 +125,7 @@ const metaItems = [
     "
   >
     <GradientDivider class="mb-8" />
-    <dl class="
+    <div class="
       grid grid-cols-1 gap-4
       sm:grid-cols-3
     "
@@ -140,7 +140,7 @@ const metaItems = [
           "
           style={`animation-delay: ${160 + (index * 40)}ms`}
         >
-          <div class="space-y-2">
+          <dl class="space-y-2">
             <dt class="
               section-label text-xs font-semibold tracking-wider
               text-ink-muted/80 uppercase
@@ -157,17 +157,19 @@ const metaItems = [
                 <time datetime={item.datetime}>{item.value}</time> :
                 item.value}
             </dd>
-          </div>
-          <div class="
-            absolute inset-0 bg-linear-to-br from-brand/5 to-transparent
-            opacity-0 transition-opacity duration-300
-            hover:opacity-100
-          "
+          </dl>
+          <div
+            class="
+              absolute inset-0 bg-linear-to-br from-brand/5 to-transparent
+              opacity-0 transition-opacity duration-300
+              hover:opacity-100
+            "
+            aria-hidden="true"
           >
           </div>
         </div>
       ))}
-    </dl>
+    </div>
   </div>
 
   {/* ── CTAs ────────────────────────────────────────────────── */}

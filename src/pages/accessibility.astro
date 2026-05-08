@@ -1,6 +1,7 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
+
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
 
@@ -39,41 +40,46 @@ const sections = [
 ---
 
 <PageLayout meta={meta}>
-  <PageHero
-    description="WCAG 2.2 AA is the target. Here's what that means in practice and how to flag anything that falls short."
-    eyebrow="Inclusion"
-    gradientText="everyone."
-    title="Built for"
-  />
+  <article class="space-y-12">
+    <PageHero
+      description="WCAG 2.2 AA is the target. Here's what that means in practice and how to flag anything that falls short."
+      eyebrow="Inclusion"
+      gradientText="statement."
+      title="Accessibility"
+    />
 
-  <div
-    class="
-      grid gap-4
-      sm:grid-cols-2
-    "
-    data-stagger="60"
-  >
-    {sections.map(({ label, body }) => (
-      <div class="mini-note h-full">
-        <p class="section-label">{label}</p>
-        <p class="mt-3 text-sm/7 text-ink-soft">{body}</p>
-      </div>
-    ))}
-  </div>
+    <div
+      class="
+        grid gap-4
+        sm:grid-cols-2
+      "
+      data-stagger="60"
+    >
+      {sections.map(({ label, body }) => (
+        <div class="mini-note h-full">
+          <p class="section-label">{label}</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">{body}</p>
+        </div>
+      ))}
+    </div>
 
-  <div class="mini-note max-w-xl" data-animate>
-    <p class="section-label">Report a barrier</p>
-    <p class="mt-2 text-sm/7 text-ink-soft">
-      Can't complete a task? Email{' '}
-      <a
-        class="font-medium text-brand transition-colors hover:text-accent"
-        href={`mailto:${siteConfig.contact.email}?subject=Accessibility%20issue%20on%20santi020k.com`}
-      >
-        {siteConfig.contact.email}
-      </a>
-      {' '}with the page URL, your browser, assistive technology, and what you were trying to do.
-    </p>
-  </div>
+    <div class="mini-note max-w-xl" data-animate>
+      <p class="section-label">Report a barrier</p>
+      <p class="mt-2 text-sm/7 text-ink-soft">
+        Can't complete a task? Email{' '}
+        <a
+          class="
+            font-medium text-brand transition-colors
+            hover:text-accent
+          "
+          href={`mailto:${siteConfig.contact.email}?subject=Accessibility%20issue%20on%20santi020k.com`}
+        >
+          {siteConfig.contact.email}
+        </a>
+        {' '}with the page URL, your browser, assistive technology, and what you were trying to do.
+      </p>
+    </div>
+  </article>
 
   <div class="section-actions" data-animate>
     <ButtonLink href="/" showArrow variant="secondary">

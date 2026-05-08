@@ -33,6 +33,11 @@ const websiteJsonLd = JSON.stringify({
   '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#website`,
   inLanguage: siteConfig.lang,
   name: siteConfig.title,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  },
   url: Astro.site?.href ?? 'https://santi020k.com/'
 })
 

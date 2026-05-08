@@ -58,7 +58,8 @@ export default [
           '^arrow-indicator$',
           '^badge$',
           '^principle-card$',
-          '^testimonial-card$'
+          '^testimonial-card$',
+          '^post-meta-card$'
         ]
       }
     }
