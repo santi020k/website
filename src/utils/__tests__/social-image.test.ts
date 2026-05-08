@@ -36,8 +36,8 @@ describe('getSocialImageSlug', () => {
 })
 
 describe('getSocialImagePath', () => {
-  it('returns /default.webp for root pathname', () => {
-    expect(getSocialImagePath('/')).toBe('/default.webp')
+  it('returns the generated homepage OG path for root pathname', () => {
+    expect(getSocialImagePath('/')).toBe('/og/pages/index.webp')
   })
 
   it('returns an OG page path for a static page', () => {
@@ -76,7 +76,7 @@ describe('getSocialImageURL', () => {
     expect(result).toBe('https://santi020k.com/og/pages/about.webp')
   })
 
-  it('returns the default webp for root when no override is given', () => {
-    expect(getSocialImageURL('/', baseURL)).toBe('https://santi020k.com/default.webp')
+  it('returns the generated homepage OG URL for root when no override is given', () => {
+    expect(getSocialImageURL('/', baseURL)).toBe('https://santi020k.com/og/pages/index.webp')
   })
 })
