@@ -59,8 +59,8 @@ test.describe('SEO — meta tags', () => {
     await page.goto('/blog/')
 
     // Navigate specifically into a blog post (avoiding series links)
-    const firstPost = page.locator('article').filter({ hasText: /Read more/i }).locator('a').first()
-    await expect(firstPost).toHaveAttribute('href', /.+/)
+    const firstPost = page.locator('article a[href^="/blog/"]').first()
+    await expect(firstPost).toHaveAttribute('href', /^\/blog\/.+\/$/)
     const href = await firstPost.getAttribute('href')
 
     if (href) {
@@ -174,7 +174,7 @@ test.describe('SEO — JSON-LD structured data', () => {
 
   test('blog post page has its own JSON-LD schema', async ({ page }) => {
     await page.goto('/blog/')
-    const firstPostHref = await page.locator('article').filter({ hasText: /Read more/i }).locator('a').first().getAttribute('href')
+    const firstPostHref = await page.locator('article a[href^="/blog/"]').first().getAttribute('href')
     if (firstPostHref) {
       await page.goto(firstPostHref)
     }

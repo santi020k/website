@@ -17,7 +17,7 @@ test.describe('Route coverage smoke tests', () => {
     expect(response.status()).toBe(200)
 
     await page.goto('/offline/')
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('You are offline')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('No connection,')
     await expect(page.getByRole('link', { name: 'Go home' })).toHaveAttribute('href', '/')
   })
 

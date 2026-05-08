@@ -13,7 +13,7 @@ test.describe('Newsletter signup', () => {
 
     const privacyLink = page
       .locator('footer')
-      .getByRole('link', { name: 'Privacy policy' })
+      .getByRole('link', { name: 'Privacy & analytics' })
     await expect(privacyLink.first()).toHaveAttribute('href', '/privacy/')
   })
 
@@ -22,7 +22,7 @@ test.describe('Newsletter signup', () => {
 
     const heading = page
       .locator('footer')
-      .getByRole('heading', { name: 'Get new posts in your inbox' })
+      .getByRole('heading', { name: 'Engineering notes & writeups' })
     await expect(heading).toBeVisible()
   })
 })
@@ -54,11 +54,11 @@ test.describe('Share buttons', () => {
     const path = new URL(postUrl).pathname
     await page.goto(path)
 
-    const copyButton = page.getByRole('button', { name: /Copy link/i })
+    const copyButton = page.locator('#copy-link-btn')
     await expect(copyButton).toBeVisible()
     await copyButton.click()
 
-    await expect(page.locator('#copy-label')).toHaveText(/copied/i, { timeout: 4000 })
+    await expect(page.locator('#copy-label')).toHaveText(/Link copied!/i, { timeout: 4000 })
 
     const copied = await page.evaluate(async () => navigator.clipboard.readText())
     expect(copied).toContain(path)
