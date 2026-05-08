@@ -63,6 +63,8 @@ const getSocialImageSlug = pathname => trimOuterSlashes(pathname)
   .map(segment => encodeURIComponent(safeDecodeURIComponent(segment)).replaceAll('%', '~'))
   .join('--')
 
+const getSocialImageFileName = pathname => `${getSocialImageSlug(pathname) || 'index'}.webp`
+
 /** Read and parse the YAML frontmatter from a markdown / MDX file. */
 const readFrontmatter = filePath => {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
@@ -75,6 +77,16 @@ const readFrontmatter = filePath => {
 }
 
 const isMarkdownFile = fileName => fileName.endsWith('.md') || fileName.endsWith('.mdx')
+
+const getPaginationPathnames = (basePathname, totalItems, pageSize) => {
+  const pages = Math.max(1, Math.ceil(totalItems / pageSize))
+
+  return Array.from({ length: pages }, (_, index) => {
+    const pageNumber = index + 1
+
+    return pageNumber === 1 ? basePathname : `${basePathname}${pageNumber}/`
+  })
+}
 
 /** Collect all .md / .mdx files inside `dir`, including nested content dirs. */
 export const collectMarkdownFiles = dir => {
@@ -143,6 +155,14 @@ const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 const staticSocialPages = [
   {
     description:
+      `Engineering Leader & Full-Stack Architect with ${yearsOfExperience} years of ` +
+      'experience building resilient systems and scaling technical teams.',
+    pathname: '/',
+    title: 'Engineering Leader & Full-Stack Architect',
+    type: 'Homepage'
+  },
+  {
+    description:
       `${yearsOfExperience} years shipping full-stack products. ` +
       'Senior engineer and tech lead based in Medellin focused on automation, developer experience, and cross-functional leadership.',
     pathname: '/about/',
@@ -170,10 +190,28 @@ const staticSocialPages = [
     type: 'Blog'
   },
   {
+    description: 'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
+    pathname: '/blog/tags/',
+    title: 'Blog Topics',
+    type: 'Blog'
+  },
+  {
     description: 'A curated showcase of professional engineering projects, open-source contributions, and technical experiments across headless commerce, gaming, and SaaS.',
     pathname: '/portfolio/',
     title: 'Engineering Portfolio - Santiago Molina',
     type: 'Portfolio'
+  },
+  {
+    description: 'Client and product work across headless commerce, gaming, SaaS, real estate, and martech — architecture decisions, delivery systems, and hands-on technical leadership.',
+    pathname: '/work/',
+    title: 'Work Experience — Santiago Molina',
+    type: 'Work'
+  },
+  {
+    description: 'Open-source tools, community work, and self-directed experiments — the projects Santiago Molina builds to learn, share, and sharpen engineering craft.',
+    pathname: '/projects/',
+    title: 'Side Projects — Santiago Molina',
+    type: 'Projects'
   },
   {
     description:
@@ -196,6 +234,19 @@ const staticSocialPages = [
     type: 'Workflow'
   },
   {
+    description: 'Accessibility commitment for santi020k.com: WCAG 2.2 AA as the target, practical limits of a solo-maintained site, and how to report barriers.',
+    pathname: '/accessibility/',
+    title: 'Accessibility statement',
+    type: 'Accessibility'
+  },
+  {
+    description:
+      'How santi020k.com handles data: no ad trackers, no profiling, just a static site with a theme preference.',
+    pathname: '/privacy/',
+    title: 'Privacy & analytics',
+    type: 'Legal'
+  },
+  {
     description: 'Offline fallback page for the santi020k portfolio and blog.',
     pathname: '/offline/',
     title: 'Offline',
@@ -216,7 +267,7 @@ export const collectSpecs = () => {
   // Static pages
   for (const page of staticSocialPages) {
     specs.push({
-      outFile: path.join(OUT_DIR, 'pages', `${getSocialImageSlug(page.pathname)}.webp`),
+      outFile: path.join(OUT_DIR, 'pages', getSocialImageFileName(page.pathname)),
       props: {
         description: page.description,
         pathLabel: page.pathname,
@@ -228,11 +279,14 @@ export const collectSpecs = () => {
 
   // Blog posts
   const postDir = path.join(ROOT, 'src', 'content', 'post')
+  const allPostFrontmatter = []
 
   for (const filePath of collectMarkdownFiles(postDir)) {
     const fm = readFrontmatter(filePath)
 
     if (fm.draft && process.env.NODE_ENV === 'production') continue
+
+    allPostFrontmatter.push(fm)
 
     const rawId = getContentSlug(filePath, postDir)
     const id = rawId.includes('/') ? rawId.split('/').pop() : rawId
@@ -248,6 +302,54 @@ export const collectSpecs = () => {
         type: 'Blog Post'
       }
     })
+  }
+
+  // Blog archive pagination
+  for (const pathname of getPaginationPathnames('/blog/', allPostFrontmatter.length, 9)) {
+    if (pathname === '/blog/') continue
+
+    const pageNumber = Number(pathname.split('/').filter(Boolean).at(-1))
+
+    specs.push({
+      outFile: path.join(OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`),
+      props: {
+        description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+        pathLabel: pathname,
+        title: `Blog · Page ${pageNumber}`,
+        type: 'Blog'
+      }
+    })
+  }
+
+  // Blog tag archives + pagination
+  const tagCounts = new Map()
+
+  for (const fm of allPostFrontmatter) {
+    if (!Array.isArray(fm.tags)) continue
+
+    for (const tag of fm.tags) {
+      if (typeof tag !== 'string' || tag.length === 0) continue
+
+      tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1)
+    }
+  }
+
+  for (const [tag, count] of tagCounts) {
+    const basePathname = `/blog/tags/${encodeURIComponent(tag)}/`
+
+    for (const pathname of getPaginationPathnames(basePathname, count, 9)) {
+      const pageNumber = pathname === basePathname ? 1 : Number(pathname.split('/').filter(Boolean).at(-1))
+
+      specs.push({
+        outFile: path.join(OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`),
+        props: {
+          description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
+          pathLabel: pathname,
+          title: pageNumber === 1 ? `${tag} Posts` : `${tag} Posts · Page ${pageNumber}`,
+          type: 'Topic'
+        }
+      })
+    }
   }
 
   // Projects + technologies (single pass to avoid parsing frontmatter twice)
@@ -301,19 +403,22 @@ export const collectSpecs = () => {
 
   for (const tech of allTechnologies) {
     const pathname = `/technologies/${encodeURIComponent(tech)}/`
-    const slug = getSocialImageSlug(pathname)
 
-    specs.push({
-      outFile: path.join(OUT_DIR, 'pages', `${slug}.webp`),
-      props: {
-        description:
-          `Projects and case studies where ${tech} shaped the architecture, ` +
-          'delivery workflow, or product experience.',
-        pathLabel: pathname,
-        title: `${tech} · Technology`,
-        type: 'Technology'
-      }
-    })
+    for (const pagePathname of getPaginationPathnames(pathname, 1, 50)) {
+      const slug = getSocialImageSlug(pagePathname)
+
+      specs.push({
+        outFile: path.join(OUT_DIR, 'pages', `${slug}.webp`),
+        props: {
+          description:
+            `Projects and case studies where ${tech} shaped the architecture, ` +
+            'delivery workflow, or product experience.',
+          pathLabel: pagePathname,
+          title: `${tech} · Technology`,
+          type: 'Technology'
+        }
+      })
+    }
   }
 
   return specs

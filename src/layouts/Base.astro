@@ -27,6 +27,7 @@ const {
     breadcrumbs,
     description = siteConfig.description,
     ogImage,
+    ogImageAlt,
     preloadImage,
     structuredData,
     title
@@ -40,6 +41,7 @@ const headMeta = {
   ...(articleUpdated !== undefined ? { articleUpdated } : {}),
   ...(breadcrumbs !== undefined ? { breadcrumbs } : {}),
   ...(ogImage !== undefined ? { ogImage } : {}),
+  ...(ogImageAlt !== undefined ? { ogImageAlt } : {}),
   ...(preloadImage !== undefined ? { preloadImage } : {}),
   ...(structuredData !== undefined ? { structuredData } : {})
 }

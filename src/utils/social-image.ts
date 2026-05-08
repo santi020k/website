@@ -30,12 +30,11 @@ export const getSocialImageSlug = (pathname: string) => trimOuterSlashes(pathnam
 
 /**
  * Returns the relative path to the pre-generated OG image for `pathname`.
- * Falls back to `/default.webp` for the root path.
  */
 export const getSocialImagePath = (pathname: string) => {
   const slug = getSocialImageSlug(pathname)
 
-  return slug ? `/og/pages/${slug}.webp` : '/default.webp'
+  return `/og/pages/${slug || 'index'}.webp`
 }
 
 /**
