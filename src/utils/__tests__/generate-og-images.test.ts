@@ -10,6 +10,33 @@ interface SocialImageProps {
 }
 
 describe('collectSpecs', () => {
+  it('includes generated images for the current static page routes', () => {
+    const specs = collectSpecs()
+    const outFiles = new Set(specs.map(spec => spec.outFile))
+
+    for (const fileName of [
+      'index.webp',
+      'work.webp',
+      'projects.webp',
+      'privacy.webp',
+      'accessibility.webp',
+      'blog--tags.webp'
+    ]) {
+      expect(outFiles.has(path.join(process.cwd(), 'public', 'og', 'pages', fileName))).toBe(true)
+    }
+  })
+
+  it('includes generated images for blog topic archive routes', () => {
+    const specs = collectSpecs()
+    const topicSpec = specs.find(spec => spec.outFile === path.join(
+      process.cwd(), 'public', 'og', 'pages', 'blog--tags--typescript.webp'
+    ))
+    const topicProps = topicSpec?.props as SocialImageProps | undefined
+
+    expect(topicProps?.title).toBe('typescript Posts')
+    expect(topicProps?.pathLabel).toBe('/blog/tags/typescript/')
+  })
+
   it('includes project entries stored in nested index.md files', () => {
     const specs = collectSpecs()
     const xgamesSpec = specs.find(spec => spec.outFile === path.join(process.cwd(), 'public', 'og', 'portfolio', 'xgames.webp'))

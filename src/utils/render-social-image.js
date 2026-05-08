@@ -60,7 +60,6 @@ const DARK_BG = '#110c1d' // fallback background under wallpaper
 
 const escape = s =>
   s
-    .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
