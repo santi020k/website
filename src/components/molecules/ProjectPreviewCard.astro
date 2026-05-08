@@ -51,7 +51,10 @@ const logoBoxClass = {
   "
 >
   <article
-    class="relative h-[27.5rem] overflow-hidden rounded-[1.75rem] sm:h-[27rem]"
+    class="
+      relative h-110 overflow-hidden rounded-[1.75rem]
+      sm:h-108
+    "
     data-project-card
     style={`--card-accent: ${cardAccentVar};`}
   >
@@ -82,7 +85,8 @@ const logoBoxClass = {
 
     {/* ── Logo/Brand area ─────────────────────────────────────────── */}
     <div class="
-      absolute inset-x-0 top-0 z-10 flex h-[52%] -translate-y-1 items-center justify-center
+      absolute inset-x-0 top-0 z-10 flex h-[52%] -translate-y-1 items-center
+      justify-center
     "
     >
       {logoImage ?
@@ -122,7 +126,7 @@ const logoBoxClass = {
     <div
       aria-hidden="true"
       class="absolute inset-0"
-      style="background: linear-gradient(to bottom, hsl(0 0% 0% / 0) 10%, hsl(0 0% 0% / 0.14) 48%, hsl(0 0% 0% / 0.52) 100%);"
+      data-card-scrim
     />
 
     {/* Ambient animated tint — always present, subtle */}
@@ -143,7 +147,7 @@ const logoBoxClass = {
     <div
       aria-hidden="true"
       class="pointer-events-none absolute inset-x-0 top-0 z-20 h-px"
-      style="background: linear-gradient(90deg, transparent 8%, hsl(0 0% 100% / 0.4) 28%, hsl(0 0% 100% / 0.56) 50%, hsl(0 0% 100% / 0.4) 72%, transparent 92%);"
+      data-card-rim
     />
 
     {/* ── Glass panel ───────────────────────────────────────────── */}
@@ -171,13 +175,20 @@ const logoBoxClass = {
           ) :
           (
             <span
-              class="inline-flex items-center text-xs font-medium text-white/70"
+              class="
+                inline-flex items-center text-xs font-medium text-ink-muted
+                dark:text-white/70
+              "
               data-card-status
             >
               Completed
             </span>
           )}
-        <span class="text-xs text-white/55 tabular-nums">
+        <span class="
+          text-xs text-ink-muted tabular-nums
+          dark:text-white/55
+        "
+        >
           {dateRange}
         </span>
       </div>
@@ -186,7 +197,7 @@ const logoBoxClass = {
       <div
         aria-hidden="true"
         class="mx-5 h-px"
-        style="background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.1) 20%, hsl(0 0% 100% / 0.1) 80%, transparent);"
+        data-card-separator
       />
 
       {/* Title + description + tags */}
@@ -194,7 +205,10 @@ const logoBoxClass = {
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0 space-y-1">
             <h3
-              class:list={['text-base/snug font-semibold text-white', accentHoverClass]}
+              class:list={[`
+                text-base/snug font-semibold text-ink
+                dark:text-white
+              `, accentHoverClass]}
               data-card-title
             >
               {project.data.title}
@@ -207,7 +221,8 @@ const logoBoxClass = {
             aria-hidden="true"
             class="
               mt-0.5 size-4 shrink-0 -translate-x-1.5 translate-y-0.5
-              text-white/45 opacity-0
+              text-ink-muted opacity-0
+              dark:text-white/45
             "
             data-card-arrow
             fill="none"
@@ -221,22 +236,27 @@ const logoBoxClass = {
           </svg>
         </div>
 
-        <p class="line-clamp-2 text-sm/relaxed text-white/65">
+        <p class="
+          line-clamp-2 text-sm/relaxed text-ink-soft
+          dark:text-white/65
+        "
+        >
           {project.data.description}
         </p>
 
         <div
           class="
-            flex max-h-[3.1rem] min-h-[3.1rem] flex-wrap gap-1.5
-            overflow-hidden text-[0.66rem]/none
+            flex max-h-[3.1rem] min-h-[3.1rem] flex-wrap gap-1.5 overflow-hidden
+            text-[0.66rem]/none
           "
         >
           {project.data.technologies.slice(0, 5).map(tech => (
             <span
               class="
                 inline-flex shrink-0 items-center rounded-full border
-                border-white/10 bg-white/[0.06] px-1.5 py-1 text-white/62
-                whitespace-nowrap
+                border-line/60 bg-surface-muted/72 px-1.5 py-1 whitespace-nowrap
+                text-ink-muted
+                dark:border-white/10 dark:bg-white/6 dark:text-white/62
               "
               data-card-tag
             >
@@ -247,8 +267,9 @@ const logoBoxClass = {
             <span
               class="
                 inline-flex shrink-0 items-center rounded-full border
-                border-white/8 bg-white/[0.04] px-1.5 py-1 text-white/42
-                whitespace-nowrap
+                border-line/50 bg-surface-muted/58 px-1.5 py-1 whitespace-nowrap
+                text-ink-muted/80
+                dark:border-white/8 dark:bg-white/4 dark:text-white/42
               "
             >
               +{project.data.technologies.length - 5}
@@ -262,7 +283,18 @@ const logoBoxClass = {
 
 <style>
   [data-project-card] {
-    border: 1px solid hsl(0 0% 100% / 0.13);
+    border: 1px solid hsl(var(--line) / 0.58);
+    background: hsl(var(--surface) / 0.72);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.72),
+      inset 1px 0 0 hsl(0 0% 100% / 0.38),
+      0 14px 34px hsl(230 30% 8% / 0.08),
+      0 4px 12px hsl(230 30% 8% / 0.045);
+  }
+
+  :global(:root[data-theme='dark']) [data-project-card] {
+    border-color: hsl(0 0% 100% / 0.13);
+    background: transparent;
     box-shadow:
       inset 0 1px 0 hsl(0 0% 100% / 0.18),
       inset 1px 0 0 hsl(0 0% 100% / 0.07),
@@ -273,16 +305,16 @@ const logoBoxClass = {
   /* Background: stable brand wash with the cover used only as texture */
   [data-card-bg-base] {
     background:
-      radial-gradient(ellipse 95% 68% at 50% 2%, hsl(var(--card-accent) / 0.2), transparent 62%),
+      radial-gradient(ellipse 95% 68% at 50% 2%, hsl(var(--card-accent) / 0.18), transparent 62%),
       radial-gradient(ellipse 74% 62% at 12% 20%, hsl(var(--card-accent) / 0.1), transparent 68%),
       radial-gradient(ellipse 70% 58% at 88% 78%, hsl(var(--card-accent) / 0.08), transparent 68%),
-      linear-gradient(180deg, hsl(260 32% 10%) 0%, hsl(260 38% 5%) 72%, hsl(260 42% 3%) 100%);
+      linear-gradient(180deg, hsl(var(--brand-soft) / 0.82) 0%, hsl(var(--surface) / 0.92) 66%, hsl(var(--surface-muted) / 0.98) 100%);
   }
 
   [data-card-bg] {
-    opacity: 0.11;
-    filter: blur(1.25px) saturate(0.7) contrast(0.88) brightness(1.1);
-    mix-blend-mode: screen;
+    opacity: 0.16;
+    filter: blur(1.25px) saturate(0.78) contrast(0.9) brightness(1.02);
+    mix-blend-mode: multiply;
     transform: scale(1.03);
     mask-image: linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.72) 45%, transparent 82%);
     -webkit-mask-image: linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.72) 45%, transparent 82%);
@@ -290,8 +322,88 @@ const logoBoxClass = {
 
   [data-card-bg-overlay] {
     background:
+      linear-gradient(180deg, hsl(0 0% 100% / 0.36) 0%, transparent 18%),
+      linear-gradient(180deg, hsl(var(--surface) / 0.02) 0%, hsl(var(--surface) / 0.52) 58%, hsl(var(--surface) / 0.92) 100%);
+  }
+
+  [data-card-scrim] {
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--surface) / 0) 10%,
+      hsl(var(--surface) / 0.22) 48%,
+      hsl(var(--surface) / 0.82) 100%
+    );
+  }
+
+  [data-card-rim] {
+    background: linear-gradient(
+      90deg,
+      transparent 8%,
+      hsl(0 0% 100% / 0.6) 28%,
+      hsl(0 0% 100% / 0.78) 50%,
+      hsl(0 0% 100% / 0.6) 72%,
+      transparent 92%
+    );
+  }
+
+  [data-card-separator] {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--line) / 0.72) 20%,
+      hsl(var(--line) / 0.72) 80%,
+      transparent
+    );
+  }
+
+  :global(:root[data-theme='dark']) [data-card-bg-base] {
+    background:
+      radial-gradient(ellipse 95% 68% at 50% 2%, hsl(var(--card-accent) / 0.2), transparent 62%),
+      radial-gradient(ellipse 74% 62% at 12% 20%, hsl(var(--card-accent) / 0.1), transparent 68%),
+      radial-gradient(ellipse 70% 58% at 88% 78%, hsl(var(--card-accent) / 0.08), transparent 68%),
+      linear-gradient(180deg, hsl(260 32% 10%) 0%, hsl(260 38% 5%) 72%, hsl(260 42% 3%) 100%);
+  }
+
+  :global(:root[data-theme='dark']) [data-card-bg] {
+    opacity: 0.11;
+    filter: blur(1.25px) saturate(0.7) contrast(0.88) brightness(1.1);
+    mix-blend-mode: screen;
+  }
+
+  :global(:root[data-theme='dark']) [data-card-bg-overlay] {
+    background:
       linear-gradient(180deg, hsl(0 0% 100% / 0.08) 0%, transparent 18%),
       linear-gradient(180deg, hsl(260 40% 5% / 0.02) 0%, hsl(260 45% 4% / 0.5) 58%, hsl(260 45% 3% / 0.86) 100%);
+  }
+
+  :global(:root[data-theme='dark']) [data-card-scrim] {
+    background: linear-gradient(
+      to bottom,
+      hsl(0 0% 0% / 0) 10%,
+      hsl(0 0% 0% / 0.14) 48%,
+      hsl(0 0% 0% / 0.52) 100%
+    );
+  }
+
+  :global(:root[data-theme='dark']) [data-card-rim] {
+    background: linear-gradient(
+      90deg,
+      transparent 8%,
+      hsl(0 0% 100% / 0.4) 28%,
+      hsl(0 0% 100% / 0.56) 50%,
+      hsl(0 0% 100% / 0.4) 72%,
+      transparent 92%
+    );
+  }
+
+  :global(:root[data-theme='dark']) [data-card-separator] {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(0 0% 100% / 0.1) 20%,
+      hsl(0 0% 100% / 0.1) 80%,
+      transparent
+    );
   }
 
   /* Logo/Brand mark styling */
@@ -305,8 +417,8 @@ const logoBoxClass = {
     );
     border: 1px solid hsl(var(--card-accent) / 0.3);
     box-shadow:
-      0 8px 32px hsl(0 0% 0% / 0.2),
-      inset 0 1px 0 hsl(0 0% 100% / 0.1);
+      0 8px 32px hsl(230 30% 8% / 0.1),
+      inset 0 1px 0 hsl(0 0% 100% / 0.42);
     transition:
       transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
       box-shadow 0.3s ease;
@@ -334,7 +446,7 @@ const logoBoxClass = {
   [data-card-logo-img] {
     filter:
       drop-shadow(0 1px 1px hsl(0 0% 100% / 0.12))
-      drop-shadow(0 3px 7px hsl(0 0% 0% / 0.34));
+      drop-shadow(0 3px 7px hsl(260 45% 10% / 0.2));
   }
 
   [data-logo-surface='light'] [data-card-logo-img] {
@@ -385,12 +497,21 @@ const logoBoxClass = {
     min-height: 55%;
     background: linear-gradient(
       180deg,
+      hsl(var(--surface) / 0) 0%,
+      hsl(var(--surface) / 0.58) 28%,
+      hsl(var(--surface) / 0.9) 100%
+    );
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+  }
+
+  :global(:root[data-theme='dark']) [data-card-panel] {
+    background: linear-gradient(
+      180deg,
       hsl(0 0% 0% / 0) 0%,
       hsl(0 0% 0% / 0.42) 28%,
       hsl(0 0% 0% / 0.70) 100%
     );
-    backdrop-filter: blur(10px) saturate(120%);
-    -webkit-backdrop-filter: blur(10px) saturate(120%);
   }
 
   /* SVG noise texture overlay — applied via the ambient layer */
@@ -443,6 +564,16 @@ const logoBoxClass = {
 
     [data-project-card]:hover {
       transform: translateY(-5px);
+      border-color: color-mix(in srgb, hsl(var(--card-accent)) 34%, hsl(var(--line) / 0.62));
+      box-shadow:
+        inset 0 1px 0 hsl(0 0% 100% / 0.76),
+        inset 1px 0 0 hsl(0 0% 100% / 0.42),
+        0 0 0 1px color-mix(in srgb, hsl(var(--card-accent)) 20%, transparent),
+        0 24px 56px hsl(230 30% 8% / 0.12),
+        0 8px 24px color-mix(in srgb, hsl(var(--card-accent)) 18%, transparent);
+    }
+
+    :global(:root[data-theme='dark']) [data-project-card]:hover {
       border-color: color-mix(in srgb, hsl(var(--card-accent)) 32%, hsl(0 0% 100% / 0.14));
       box-shadow:
         inset 0 1px 0 hsl(0 0% 100% / 0.22),
@@ -494,6 +625,15 @@ const logoBoxClass = {
     .group:hover [data-card-panel] {
       background: linear-gradient(
         180deg,
+        hsl(var(--surface) / 0) 0%,
+        hsl(var(--surface) / 0.64) 28%,
+        hsl(var(--surface) / 0.96) 100%
+      );
+    }
+
+    :global(:root[data-theme='dark']) .group:hover [data-card-panel] {
+      background: linear-gradient(
+        180deg,
         hsl(0 0% 0% / 0) 0%,
         hsl(0 0% 0% / 0.48) 28%,
         hsl(0 0% 0% / 0.76) 100%
@@ -521,6 +661,10 @@ const logoBoxClass = {
       transition: color 0.25s ease;
     }
     .group:hover [data-card-tag] {
+      color: color-mix(in srgb, hsl(var(--card-accent)) 84%, hsl(var(--ink)));
+    }
+
+    :global(:root[data-theme='dark']) .group:hover [data-card-tag] {
       color: color-mix(in srgb, hsl(var(--card-accent)) 70%, white);
     }
   }
