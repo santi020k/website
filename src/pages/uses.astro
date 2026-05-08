@@ -1,9 +1,12 @@
 ---
-import ButtonLink from '../components/atoms/ButtonLink.astro'
-import SectionHeading from '../components/molecules/SectionHeading.astro'
-import { usesHighlights, usesSections } from '../data/profile'
-import PageLayout from '../layouts/Base.astro'
-import { siteConfig } from '../site.config'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+
+import { usesHighlights, usesSections } from '@/data/profile'
+import PageLayout from '@/layouts/Base.astro'
+import { siteConfig } from '@/site.config'
 
 const description =
   'A practical look at the tools, workflow defaults, and setup principles Santiago Molina uses for engineering leadership, architecture, writing, and delivery.'
@@ -54,113 +57,72 @@ const structuredData = [
   title: 'Uses & Workflow'
 }}
 >
+  <PageHero
+    description="Tools, workflow defaults, and principles I keep returning to. Less gear shrine, more operating manual."
+    eyebrow="Uses"
+    gradientText="behind the day-to-day."
+    title="Stack and workflow"
+  >
+    <ButtonLink href="/portfolio/" showArrow>
+      See the portfolio
+    </ButtonLink>
+    <ButtonLink href="/speaking/" showArrow variant="secondary">
+      Explore speaking
+    </ButtonLink>
+  </PageHero>
+
   <section
     class="
-      grid animate-slide-up gap-10
-      motion-reduce:animate-none
-      lg:grid-cols-[1.05fr_0.95fr]
+      grid gap-4
+      sm:grid-cols-3
     "
+    data-animate
   >
-    <div class="space-y-6">
-      <SectionHeading
-        description="This is less a gear shrine and more a map of the setup I keep returning to: the tools, workflow defaults, and working principles that help me ship consistently."
-        eyebrow="Uses"
-        level="h1"
-        title="The stack and workflow behind the day-to-day work."
-      />
-      <p class="
-        max-w-3xl text-base/7 text-ink-soft
-        sm:text-lg/8
-      "
-      >
-        I care more about reliable systems than maximalist setups. The goal is simple: reduce friction, keep
-        feedback loops short, and make it easier to move between architecture, implementation, writing, and
-        leadership work without losing focus.
-      </p>
-      <div class="section-actions">
-        <ButtonLink href="/portfolio/" showArrow>
-          See the portfolio
-        </ButtonLink>
-        <ButtonLink href="/speaking/" showArrow variant="secondary">
-          Explore speaking
-        </ButtonLink>
+    {usesHighlights.map(highlight => (
+      <div class="mini-note">
+        <p class="section-label">{highlight.label}</p>
+        <p class="mt-2 text-sm/7 text-ink-soft">{highlight.value}</p>
       </div>
-    </div>
-
-    <div
-      class="
-        grid h-max gap-3
-        sm:grid-cols-3
-        lg:grid-cols-1
-      "
-    >
-      {usesHighlights.map(highlight => (
-        <div class="mini-note">
-          <p class="section-label">{highlight.label}</p>
-          <p class="mt-2 text-sm/7 text-ink-soft">{highlight.value}</p>
-        </div>
-      ))}
-    </div>
+    ))}
   </section>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="The exact setup changes over time, but these are the patterns and tools that show up most often in how I build, lead, and keep work moving."
+  <PageSection>
+    <SectionHeader
       eyebrow="Current setup"
       title="What I reach for most often."
     />
     <div class="space-y-6">
       {usesSections.map(section => (
-        <article class="
-          panel-card space-y-6 p-6
-          sm:p-7
-        "
-        >
-          <div class="space-y-3">
+        <section class="space-y-5 border-t border-line/45 pt-6 first:border-t-0 first:pt-0" data-uses-section>
+          <div class="space-y-2">
             <p class="section-label">{section.title}</p>
             <p class="text-base/7 text-ink-soft">{section.description}</p>
           </div>
-          <div
-            class="
-              grid gap-4
-              lg:grid-cols-3
-            "
-          >
+          <dl class="grid gap-4 lg:grid-cols-3" data-stagger="50">
             {section.items.map(item => (
-              <div class="mini-note">
-                <p class="section-label">{item.label}</p>
-                <p class="mt-3 text-sm/7 text-ink-soft">{item.value}</p>
+              <div class="panel-card p-5">
+                <dt class="section-label">{item.label}</dt>
+                <dd class="mt-3 text-sm/7 text-ink-soft">{item.value}</dd>
               </div>
             ))}
-          </div>
-        </article>
+          </dl>
+        </section>
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="The tools matter because they support the work. The work itself is still about helping teams build better software with less avoidable friction."
+  <PageSection>
+    <SectionHeader
       eyebrow="Operating principle"
-      title="A useful setup should disappear into the background."
+      title="Good tools disappear into the work."
     />
     <div class="space-y-6">
-      <article class="
-        panel-card space-y-4 p-6
-        sm:p-7
-      "
-      >
-        <p class="text-base/7 text-ink-soft">
-          If a tool improves clarity, feedback speed, quality, or collaboration, I keep it. If it turns into
-          performative complexity, I lose interest quickly. That bias shows up in the technologies I choose,
-          the standards I introduce, and the kind of delivery systems I build around a team.
-        </p>
-      </article>
       <div
         class="
           grid gap-4
           sm:grid-cols-2
         "
+        data-stagger="60"
       >
         <div class="mini-note">
           <p class="section-label">Worth optimizing</p>
@@ -178,5 +140,5 @@ const structuredData = [
         </div>
       </div>
     </div>
-  </section>
+  </PageSection>
 </PageLayout>

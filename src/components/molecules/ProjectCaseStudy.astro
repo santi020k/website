@@ -1,0 +1,47 @@
+---
+interface CaseStudyRow {
+  body: string
+  label: string
+}
+
+interface Props {
+  rows: CaseStudyRow[]
+}
+
+const { rows } = Astro.props
+---
+
+{!!rows.length && (
+  <div
+    aria-label="Case study summary"
+    class="border-y border-line/35"
+    role="region"
+  >
+    <div class="divide-y divide-line/20">
+      {rows.map((row, i) => (
+        <div
+          class="
+            group flex gap-4 px-5 py-4 transition-colors
+            duration-300 hover:bg-brand-soft/10
+            sm:gap-6 sm:px-6
+          "
+        >
+          <div
+            class="
+              mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center
+              rounded-lg bg-brand/10 text-xs font-bold
+              tabular-nums text-brand transition-colors
+              group-hover:bg-brand/20
+            "
+          >
+            {String(i + 1).padStart(2, '0')}
+          </div>
+          <div class="min-w-0 space-y-1">
+            <p class="section-label text-brand/80">{row.label}</p>
+            <p class="text-sm/6 text-ink">{row.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}

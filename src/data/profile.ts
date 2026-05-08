@@ -1,3 +1,5 @@
+import { YEARS_OF_EXPERIENCE } from '@/site.config'
+
 export interface SocialProofItem {
   context: string
   label: string
@@ -40,6 +42,11 @@ export interface Testimonial {
   quote: string
   relationship: string
   role: string
+}
+
+export interface EngineeringPrinciple {
+  body: string
+  title: string
 }
 
 export interface UsesSectionItem {
@@ -159,7 +166,7 @@ export const speakingHighlights: ProfileHighlight[] = [
   {
     description: 'A decade-plus of shipping across product engineering, architecture, and leadership roles.',
     label: 'Experience',
-    value: '12+ years'
+    value: YEARS_OF_EXPERIENCE
   },
   {
     description: 'Helping co-organize meetups, workshops, and speaker-friendly community events.',
@@ -216,6 +223,33 @@ export const speakingFormats: SpeakingTopic[] = [
   {
     description: 'Good fit for panels, AMAs, and conversations about technical leadership, full-stack execution, and developer culture.',
     title: 'Panels, Q&A, and leadership conversations'
+  }
+]
+
+export const engineeringPrinciples: EngineeringPrinciple[] = [
+  {
+    title: 'Automate the friction, not the thinking',
+    body: 'The best automation removes toil — repetitive, low-judgment work that slows teams down. It should never replace the thinking that makes products worth building.'
+  },
+  {
+    title: 'DX is UX for your team',
+    body: 'The developer experience of a codebase shapes how fast and confidently the team can move. Bad DX compounds. Good DX compounds too — invest early and measure it.'
+  },
+  {
+    title: 'Leadership means fewer decisions under pressure',
+    body: "A good tech lead reduces ambiguity before it becomes risk. Clear standards, good tooling, and systems that fail loudly are how you protect a team's velocity at scale."
+  },
+  {
+    title: 'Performance is a product decision',
+    body: "Speed isn't a tech concern, it's a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections."
+  },
+  {
+    title: 'Boring tech is often the right call',
+    body: 'The goal is to solve the problem, not to use the newest tool. Stable, well-understood solutions let the team focus on the actual product.'
+  },
+  {
+    title: 'Consistency beats perfection',
+    body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
   }
 ]
 

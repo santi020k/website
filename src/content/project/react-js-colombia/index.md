@@ -1,7 +1,7 @@
 ---
 title: "ReactJS Colombia"
 description: "Co-organize one of Medellin's most active React communities, sustaining free meetups and workshops that drew 100+ participants at peak sessions."
-rol: "Co-Organizer"
+role: "Co-Organizer"
 startingDate: "1 Jan 2017"
 liveDemoUrl: "https://www.meetup.com/es/react-js-medellin/"
 typesId: "personal"
@@ -15,6 +15,10 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
   alt: "ReactJS Colombia logo on a midnight blue geometric cover with yellow and blue accents"
   ogImage: "./cover.webp"
 ---

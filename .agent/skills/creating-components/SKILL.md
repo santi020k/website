@@ -45,6 +45,7 @@ const { title, isActive = false } = Astro.props
 ### 3. Styling Rules
 
 - **Tailwind Utility Classes**: Prefer standard utility classes. Use `class:list` for conditional styling.
+- **Single-surface rule**: Do not nest card-like surfaces (`panel-card`, `card-interactive`, `mini-note`, `talk-card`, `glass-pro`, `section-shell`, `section-shell-subtle`, or equivalent rounded/bordered/background/shadow blocks) inside each other. Use plain rows, dividers, typography, and inline metadata inside cards.
 - **Icons**: Use the `astro-icon` integration (`<Icon name="collection:icon-name" />`).
 - **CSS Formatting**: When applying many Tailwind classes, format them on multiple lines grouped by purpose (layout, spacing, typography, colors, interactions) to improve readability. Do not create excessively long single-line class strings.
 

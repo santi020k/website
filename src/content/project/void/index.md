@@ -1,7 +1,7 @@
 ---
 title: "Void.GG"
 description: "Led architecture and delivery for a fast-moving esports platform across web, mobile, and backend systems, improving performance, release speed, and team velocity."
-rol: "Technical Lead"
+role: "Technical Lead"
 startingDate: "1 Feb 2023"
 endingDate: "1 May 2025"
 liveDemoUrl: "https://void.gg"
@@ -16,6 +16,11 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "wide"
+  logoSurface: "dark"
   alt: "VOID logo on an indigo and cobalt geometric cover"
   ogImage: './cover.webp'
 ---

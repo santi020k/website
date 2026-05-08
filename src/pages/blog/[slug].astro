@@ -2,9 +2,9 @@
 import type { CollectionEntry } from 'astro:content'
 import { render } from 'astro:content'
 
-import PostLayout from '../../layouts/Post.astro'
-import { getCachedPosts } from '../../utils/content'
-import { getPostSlug } from '../../utils/posts'
+import PostLayout from '@/layouts/Post.astro'
+import { getCachedPosts } from '@/utils/content'
+import { getPostSlug } from '@/utils/posts'
 
 export const getStaticPaths = async () => {
   const posts = await getCachedPosts()

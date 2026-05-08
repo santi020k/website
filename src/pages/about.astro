@@ -1,21 +1,27 @@
 ---
-import { getImage, Picture } from 'astro:assets'
+import { getImage } from 'astro:assets'
 
-import AboutMeImage from '../assets/photos/about-me.webp'
-import ButtonLink from '../components/atoms/ButtonLink.astro'
-import Eyebrow from '../components/atoms/Eyebrow.astro'
-import SectionHeading from '../components/molecules/SectionHeading.astro'
-import SocialList from '../components/molecules/SocialList.astro'
-import { selectedOrganizations, testimonials } from '../data/profile'
-import PageLayout from '../layouts/Base.astro'
-import { siteConfig } from '../site.config'
+import AnimatedPortrait from '@/components/atoms/AnimatedPortrait.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import MiniNote from '@/components/atoms/MiniNote.astro'
+import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import SocialList from '@/components/molecules/SocialList.astro'
+import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
 
-const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
+import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
+import { engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
+import PageLayout from '@/layouts/Base.astro'
+import { AUTHOR_JOB_TITLE, YEARS_OF_EXPERIENCE, sameAsProfiles, siteConfig } from '@/site.config'
+
+const yearsOfExperience = YEARS_OF_EXPERIENCE
 
 const aboutPortraitImage = await getImage({
   format: 'avif',
   src: AboutMeImage,
-  widths: [240, 360, 480, 720]
+  widths: [400, 600, 800]
 })
 
 const description =
@@ -36,7 +42,7 @@ const aboutPageSchema = {
   mainEntity: {
     '@type': 'Person',
     name: siteConfig.author,
-    jobTitle: 'Engineering Leader & Full-Stack Architect',
+    jobTitle: AUTHOR_JOB_TITLE,
     description: siteConfig.description,
     address: {
       '@type': 'PostalAddress',
@@ -44,11 +50,7 @@ const aboutPageSchema = {
       addressCountry: 'CO'
     },
     email: `mailto:${siteConfig.contact.email}`,
-    sameAs: [
-      siteConfig.contact.github,
-      siteConfig.contact.linkedin,
-      siteConfig.contact.medium
-    ].filter(Boolean)
+    sameAs: sameAsProfiles.slice(0, 3)
   }
 }
 
@@ -57,7 +59,7 @@ const meta = {
   description,
   preloadImage: {
     href: aboutPortraitImage.src,
-    imagesizes: '(min-width: 1024px) 360px, 75vw',
+    imagesizes: '(min-width: 1024px) 352px, 75vw',
     imagesrcset: aboutPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
@@ -67,28 +69,93 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section
-    class="
-      grid animate-slide-up gap-10
-      motion-reduce:animate-none
-      lg:grid-cols-[1fr_0.78fr] lg:items-start
+  <section class="relative pb-4">
+    <div class="
+      relative grid gap-10
+      lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center
     "
-  >
-    <div class="max-w-3xl space-y-8">
-      <div class="space-y-5">
-        <Eyebrow label="About" tone="brand" />
-        <h1
+    >
+      <div class="relative z-10 space-y-8">
+        <Eyebrow
+          label="About"
+          tone="brand"
+          className="
+            animate-slide-up whitespace-normal
+            motion-reduce:animate-none
+          "
+        />
+
+        <div
           class="
-            max-w-4xl text-4xl font-extrabold tracking-tight text-ink
-            sm:text-5xl
-            lg:text-6xl
+            animate-slide-up space-y-4 [animation-delay:90ms]
+            motion-reduce:animate-none
           "
         >
-          {siteConfig.headline}
-        </h1>
+          <h1 class="
+            max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+            sm:text-6xl/[0.95]
+            lg:text-[5.2rem]/[0.92]
+          "
+          >
+            Engineering leader.
+            <span class="
+              block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+              pb-4 text-transparent
+            "
+            >Full-stack architect.
+            </span>
+          </h1>
+          <p class="
+            max-w-xl text-base/7 text-ink-soft
+            sm:text-lg/7
+          "
+          >
+            Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
+          </p>
+        </div>
+
+        <div
+          class="
+            animate-slide-up space-y-5 [animation-delay:180ms]
+            motion-reduce:animate-none
+          "
+        >
+          <div class="section-actions">
+            <ButtonLink href="/portfolio/" showArrow>
+              See selected work
+            </ButtonLink>
+            <ButtonLink href="/blog/" showArrow variant="secondary">
+              Read the blog
+            </ButtonLink>
+            <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
+              Open résumé
+            </ButtonLink>
+          </div>
+
+          <SocialList />
+        </div>
       </div>
 
-      <div class="space-y-6 section-copy">
+      <AnimatedPortrait
+        src={AboutMeImage}
+        alt="Portrait of Santiago Molina"
+        showFloatingBadges
+        badgeProps={{
+          location: { label: 'Base', text: 'Medellin · Remote worldwide' },
+          experience: { label: 'Experience', value: yearsOfExperience }
+        }}
+      />
+    </div>
+  </section>
+
+  <PageSection>
+    <SectionHeader
+      eyebrow="The story"
+      title="Engineering, leadership, and the work behind it."
+    />
+
+    <div class="space-y-8">
+      <div class="max-w-2xl space-y-6 section-copy">
         <p>
           I'm Santiago Molina, a full-stack engineer and tech lead based in Medellín, Colombia.
           Over the last {yearsOfExperience} years I've shipped products across commerce, SaaS, gaming,
@@ -117,63 +184,29 @@ const meta = {
         </p>
       </div>
 
-      <div class="section-actions">
-        <ButtonLink href="/portfolio/" showArrow>
-          See selected work
-        </ButtonLink>
-        <ButtonLink href="/blog/" showArrow variant="secondary">
-          Read the blog
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
-          Open résumé
-        </ButtonLink>
-      </div>
-
-      <SocialList />
-    </div>
-
-    <div class="grid gap-4 editorial-rail">
-      <div class="panel-card overflow-hidden">
-        <Picture
-          alt="Santiago Molina"
-          class="aspect-3/4 w-full object-cover object-top"
-          decoding="sync"
-          fetchpriority="high"
-          formats={['avif', 'webp']}
-          loading="eager"
-          sizes="(min-width: 1024px) 360px, 75vw"
-          src={AboutMeImage}
-          width={360}
-          widths={[240, 360, 480, 720]}
-        />
-      </div>
       <div class="
-        grid h-max gap-3
+        grid gap-3
         sm:grid-cols-3
-        lg:grid-cols-1
       "
       >
-        <div class="mini-note">
-          <p class="section-label">Experience</p>
-          <p class="mt-2 text-lg font-semibold text-ink">{yearsOfExperience} years</p>
-        </div>
-        <div class="mini-note">
-          <p class="section-label">Leadership</p>
-          <p class="mt-2 text-sm/7 text-ink-soft">Led teams of up to 14 across product, design, frontend, and backend.</p>
-        </div>
-        <div class="mini-note">
-          <p class="section-label">Focus today</p>
-          <p class="mt-2 text-sm/7 text-ink-soft">Automation, delivery clarity, and developer experience that compounds.</p>
-        </div>
+        <MiniNote label="Experience">
+          <p class="text-lg font-semibold text-ink">{yearsOfExperience} years</p>
+        </MiniNote>
+        <MiniNote label="Leadership">
+          <p class="text-sm/7 text-ink-soft">Led teams of up to 14 across product, design, frontend, and backend.</p>
+        </MiniNote>
+        <MiniNote label="Focus today">
+          <p class="text-sm/7 text-ink-soft">Automation, delivery clarity, and developer experience that compounds.</p>
+        </MiniNote>
       </div>
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="A few of the products, companies, and communities behind the portfolio. The value is in the work itself, but context helps people read the case studies with the right level of trust."
-      eyebrow="Social proof"
+  <PageSection>
+    <SectionHeader
+      eyebrow="Companies & communities"
       title="Some of the teams and communities behind the work."
+      description="A few of the products, companies, and communities behind the portfolio. The value is in the work itself, but context helps people read the case studies with the right level of trust."
     />
 
     <div class="space-y-6">
@@ -184,10 +217,9 @@ const meta = {
       "
       >
         {selectedOrganizations.map(({ context, label }) => (
-          <article class="mini-note h-full">
-            <p class="section-label">{label}</p>
-            <p class="mt-3 text-sm/7 text-ink-soft">{context}</p>
-          </article>
+          <MiniNote label={label} className="h-full">
+            <p class="text-sm/7 text-ink-soft">{context}</p>
+          </MiniNote>
         ))}
       </div>
 
@@ -200,69 +232,36 @@ const meta = {
         </ButtonLink>
       </div>
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="A few things that shape how I work, how I lead, and what I focus on."
+  <PageSection>
+    <SectionHeader
       eyebrow="Principles"
       title="What I believe about engineering."
+      description="A few things that shape how I work, how I lead, and what I focus on."
     />
 
-    <div
-      class="
-        grid gap-6
-        sm:grid-cols-2
-      "
+    <div class="
+      grid gap-6
+      sm:grid-cols-2
+    "
     >
-      {[
-        {
-          title: 'Automate the friction, not the thinking',
-          body: 'The best automation removes toil — repetitive, low-judgment work that slows teams down. It should never replace the thinking that makes products worth building.'
-        },
-        {
-          title: 'DX is UX for your team',
-          body: 'The developer experience of a codebase shapes how fast and confidently the team can move. Bad DX compounds. Good DX compounds too — invest early and measure it.'
-        },
-        {
-          title: 'Leadership means fewer decisions under pressure',
-          body: 'A good tech lead reduces ambiguity before it becomes risk. Clear standards, good tooling, and systems that fail loudly are how you protect a team\'s velocity at scale.'
-        },
-        {
-          title: 'Performance is a product decision',
-          body: 'Speed isn\'t a tech concern, it\'s a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections.'
-        },
-        {
-          title: 'Boring tech is often the right call',
-          body: 'The goal is to solve the problem, not to use the newest tool. Stable, well-understood solutions let the team focus on the actual product.'
-        },
-        {
-          title: 'Consistency beats perfection',
-          body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
-        }
-      ].map(({ title, body }, index) => (
-        <div
-          class:list={[
-            `
-              panel-card h-full space-y-3 p-6
-              sm:p-7
-            `,
-            index === 0 && 'sm:col-span-2'
-          ]}
-        >
-          <p class="section-label">{String(index + 1).padStart(2, '0')}</p>
-          <h3 class="text-xl font-semibold text-ink">{title}</h3>
-          <p class="text-sm/7 text-ink-soft">{body}</p>
-        </div>
+      {engineeringPrinciples.map(({ title, body }, index) => (
+        <PrincipleCard
+          index={index}
+          title={title}
+          body={body}
+          featured={index === 0}
+        />
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="A few direct quotes from colleagues, managers, and clients. The recurring patterns across them are summarised below."
+  <PageSection>
+    <SectionHeader
       eyebrow="Recommendations"
       title="What collaborators say about the work."
+      description="A few direct quotes from colleagues, managers, and clients. The recurring patterns across them are summarised below."
     />
 
     <div class="space-y-10">
@@ -271,44 +270,17 @@ const meta = {
           grid gap-6
           sm:grid-cols-2
         "
+        data-stagger="80"
       >
         {testimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
-          <article class="
-            panel-card h-full space-y-5 p-6
-            sm:p-7
-          "
-          >
-            <div class="flex items-center gap-4">
-              {avatarUrl ?
-                (
-                  <img
-                    alt={name}
-                    class="size-11 shrink-0 rounded-full object-cover"
-                    decoding="async"
-                    height="44"
-                    loading="lazy"
-                    src={avatarUrl}
-                    width="44"
-                  />
-                ) :
-                (
-                  <div class="
-                    grid size-11 shrink-0 place-items-center rounded-full
-                    bg-brand/10 text-sm font-semibold text-brand
-                  "
-                  >
-                    {avatarInitials}
-                  </div>
-                )}
-              <div>
-                <p class="text-sm font-semibold text-ink">{name}</p>
-                <p class="text-xs text-ink-muted">{role} · {relationship}</p>
-              </div>
-            </div>
-            <blockquote class="text-sm/7 text-ink-soft">
-              <p>"{quote}"</p>
-            </blockquote>
-          </article>
+          <TestimonialCard
+            quote={quote}
+            authorName={name}
+            role={role}
+            relationship={relationship}
+            avatarInitials={avatarInitials}
+            avatarUrl={avatarUrl}
+          />
         ))}
       </div>
 
@@ -318,5 +290,5 @@ const meta = {
         </ButtonLink>
       </div>
     </div>
-  </section>
+  </PageSection>
 </PageLayout>

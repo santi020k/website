@@ -1,0 +1,50 @@
+---
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+
+interface Props {
+  description: string
+  eyebrow: string
+  gradientText: string
+  title: string
+}
+
+const { description, eyebrow, gradientText, title } = Astro.props
+const hasActions = Astro.slots.has('default')
+---
+
+<section class="relative pb-4">
+  <div class="relative z-10 space-y-8">
+    <Eyebrow
+      className="animate-slide-up whitespace-normal motion-reduce:animate-none"
+      label={eyebrow}
+      tone="brand"
+    />
+
+    <div class="animate-slide-up space-y-4 [animation-delay:90ms] motion-reduce:animate-none">
+      <h1 class="
+        max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+        sm:text-6xl/[0.95]
+        lg:text-[5.2rem]/[0.92]
+      "
+      >
+        {title}
+        <span class="
+          block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+          pb-4 text-transparent
+        "
+        >
+          {gradientText}
+        </span>
+      </h1>
+      <p class="max-w-xl text-base/7 text-ink-soft sm:text-lg/7">{description}</p>
+    </div>
+
+    {hasActions && (
+      <div class="animate-slide-up space-y-5 [animation-delay:180ms] motion-reduce:animate-none">
+        <div class="section-actions">
+          <slot />
+        </div>
+      </div>
+    )}
+  </div>
+</section>

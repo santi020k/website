@@ -1,7 +1,7 @@
 ---
 title: "Justbit.site"
 description: "Co-founded a boutique software studio that shipped 10+ client launches in its first year and helped selected clients grow organic traffic by up to 70%."
-rol: "CTO & Co-Founder"
+role: "CTO & Co-Founder"
 startingDate: "1 Apr 2017"
 endingDate: "1 Dec 2018"
 liveDemoUrl: "https://justbit.site"
@@ -16,6 +16,10 @@ technologies: [
 ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
   alt: "Justbit logo on a teal and charcoal geometric cover"
   ogImage: "./cover.webp"
 ---

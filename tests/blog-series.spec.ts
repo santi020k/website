@@ -36,7 +36,7 @@ test.describe('Blog series index page', () => {
   })
 
   test('should link to the content calendar', async ({ page }) => {
-    const calendarLink = page.getByRole('link', { name: /View content calendar/i })
+    const calendarLink = page.getByRole('link', { name: /Content calendar/i }).first()
     await expect(calendarLink).toBeVisible()
     await expect(calendarLink).toHaveAttribute('href', '/blog/content-calendar/')
   })

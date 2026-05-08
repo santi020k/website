@@ -1,0 +1,17 @@
+---
+interface Props {
+  class?: string
+}
+
+const { class: className = '' } = Astro.props
+---
+
+<div
+  aria-hidden="true"
+  class:list={[
+    'pointer-events-none flex justify-center',
+    className
+  ]}
+>
+  <div class="h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/40 to-transparent"></div>
+</div>

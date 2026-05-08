@@ -1,50 +1,41 @@
 ---
 import { getImage } from 'astro:assets'
 
-import AboutMeImage from '../assets/photos/about-me.webp'
-import ButtonLink from '../components/atoms/ButtonLink.astro'
-import Pill from '../components/atoms/Pill.astro'
-import PostCard from '../components/molecules/PostCard.astro'
-import ProjectCard from '../components/molecules/ProjectCard.astro'
-import SectionHeading from '../components/molecules/SectionHeading.astro'
-import StatCard from '../components/molecules/StatCard.astro'
-import HomeHero from '../components/pages/home/HomeHero.astro'
-import HomeStats from '../components/pages/home/HomeStats.astro'
-import { publishingRhythm } from '../data/editorial-calendar'
-import { collaborationLanes, selectedOrganizations, speakingTopics, usesHighlights } from '../data/profile'
-import { getUniqueTechnologiesWithCount } from '../data/project'
-import { getSeriesSummaries } from '../data/series'
-import PageLayout from '../layouts/Base.astro'
-import { siteConfig } from '../site.config'
-import { getCachedPosts, getCachedProjects } from '../utils/content'
-import { collectionDateSortProjects } from '../utils/date'
-import { getPortfolioPath, getPostPath, getTechnologyPath } from '../utils/links'
-import { sortTechnologyCountsByInterest } from '../utils/technologies'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import CommunityCard from '@/components/molecules/CommunityCard.astro'
+import PostListItem from '@/components/molecules/PostListItem.astro'
+import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import HomeHero from '@/components/pages/home/HomeHero.astro'
+import HomeStats from '@/components/pages/home/HomeStats.astro'
+
+import { getCachedPosts, getCachedProjects } from '@/utils/content'
+import { collectionDateSortProjects } from '@/utils/date'
+import { getPortfolioPath, getPostPath } from '@/utils/links'
+
+import AboutMeImage from '@/assets/photos/about-me.webp'
+import PageLayout from '@/layouts/Base.astro'
+import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 
 const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
 
-const featuredProjects = allProjects
+const workProjects = allProjects
   .filter(project => project.data.typesId === 'professional')
   .sort(collectionDateSortProjects)
-  .slice(0, 3)
+  .slice(0, 4)
+
+const personalProjects = allProjects
+  .filter(project => project.data.typesId === 'personal')
+  .sort(collectionDateSortProjects)
+  .slice(0, 4)
 
 const latestPosts = allPosts
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
-  .slice(0, 3)
+  .slice(0, 4)
 
-const activeSeries = (await getSeriesSummaries()).filter(item => item.postCount > 0 && item.series.data.status === 'active')
-const allTechnologies = getUniqueTechnologiesWithCount(allProjects)
-const topTechnologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 20)
-const hiddenTechnologyCount = Math.max(0, allTechnologies.length - topTechnologies.length)
-const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
-const [featuredProject, ...supportingProjects] = featuredProjects
-const [featuredPost, ...supportingPosts] = latestPosts
-const featuredSpeakingTopics = speakingTopics.slice(0, 3)
+const yearsOfExperience = YEARS_OF_EXPERIENCE
 const contactHref = siteConfig.contact.whatsapp
-
-const publicWorkProjects = ['santi020k-theme', 'eslint-config-basic', 'react-js-colombia']
-  .map(projectId => allProjects.find(project => project.id === projectId))
-  .filter((project): project is NonNullable<(typeof allProjects)[number]> => Boolean(project))
 
 const heroPortraitImage = await getImage({
   format: 'avif',
@@ -57,8 +48,18 @@ const homePageSchema = {
   '@graph': [
     {
       '@type': 'ItemList',
-      name: 'Featured projects',
-      itemListElement: featuredProjects.map((project, index) => ({
+      name: 'Work experience',
+      itemListElement: workProjects.map((project, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: new URL(getPortfolioPath(project.id), Astro.site).href,
+        name: project.data.title
+      }))
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Side projects',
+      itemListElement: personalProjects.map((project, index) => ({
         '@type': 'ListItem',
         position: index + 1,
         url: new URL(getPortfolioPath(project.id), Astro.site).href,
@@ -80,7 +81,7 @@ const homePageSchema = {
 
 const meta = {
   description:
-    'Engineering Leader & Full-Stack Architect with 12+ years of experience building resilient systems and scaling technical teams.',
+    `Engineering Leader & Full-Stack Architect with ${YEARS_OF_EXPERIENCE} years of experience building resilient systems and scaling technical teams.`,
   preloadImage: {
     href: heroPortraitImage.src,
     imagesizes: '(min-width: 1024px) 352px, 75vw',
@@ -96,343 +97,128 @@ const meta = {
   <HomeHero contactHref={contactHref} yearsOfExperience={yearsOfExperience} />
   <HomeStats yearsOfExperience={yearsOfExperience} />
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="A few of the products, companies, and communities behind the case studies. Not logos for the sake of logos, just a quick sense of the environments where the work has shipped."
-      eyebrow="Social proof"
-      title="Teams and products behind the work."
+  {/* Work Experience */}
+  <PageSection>
+    <SectionHeader
+      eyebrow="Work Experience"
+      title="Professional roles."
+      description="Client and product work across teams and industries."
     />
     <div class="space-y-6">
-      <div class="
-        grid gap-4
-        sm:grid-cols-2
-        lg:grid-cols-3
-      "
+      <div
+        class="
+          grid gap-6
+          md:grid-cols-2
+        "
+        data-stagger="60"
       >
-        {selectedOrganizations.map(({ context, label }) => (
-          <article class="mini-note h-full">
-            <p class="section-label">{label}</p>
-            <p class="mt-3 text-sm/7 text-ink-soft">{context}</p>
-          </article>
+        {workProjects.map(project => (
+          <ProjectPreviewCard project={project} accentTone="brand" />
         ))}
       </div>
-
       <div class="section-actions">
-        <ButtonLink href="/portfolio/" showArrow>
-          View case studies
+        <ButtonLink href="/work/" showArrow>
+          View all work
         </ButtonLink>
         <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          Open LinkedIn
+          LinkedIn
         </ButtonLink>
       </div>
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="React and TypeScript sit at the center, but the work extends across the full stack: backend services, automation pipelines, testing infrastructure, and delivery tooling."
-      eyebrow="Stack"
-      title="A full-stack toolkit built around automation and DX."
-    />
-    <div class="space-y-5">
-      <p class="max-w-3xl text-sm/6 text-ink-muted">
-        A curated snapshot of the stack, ordered from the tools that shape products most directly to the supporting
-        systems around them.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        {topTechnologies.map(([technology]) => (
-          <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
-        ))}
-        {hiddenTechnologyCount > 0 && (
-          <Pill href="/technologies/" label={`+${hiddenTechnologyCount} technologies`} tone="neutral" />
-        )}
-      </div>
-    </div>
-  </section>
-
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="From headless commerce and esports to real estate and open source, these projects show how I approach architecture, automation, and delivery under real constraints."
-      eyebrow="Selected work"
-      linkHref="/portfolio/"
-      linkLabel="View all projects"
-      title="Work shaped by real teams, real constraints, and measurable outcomes."
+  {/* Side Projects */}
+  <PageSection>
+    <SectionHeader
+      eyebrow="Side Projects"
+      title="Built for the love of it."
+      description="Open source, community work, and experiments."
     />
     <div class="space-y-6">
-      {featuredProject && <ProjectCard featured project={featuredProject} />}
-      <div class="
-        grid gap-6
-        md:grid-cols-2
-      "
+      <div
+        class="
+          grid gap-6
+          md:grid-cols-2
+        "
+        data-stagger="60"
       >
-        {supportingProjects.map(project => (
-          <ProjectCard project={project} />
+        {personalProjects.map(project => (
+          <ProjectPreviewCard project={project} accentTone="accent" />
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="The throughline in my work is making engineering calmer: clearer priorities, fewer avoidable decisions under pressure, and better systems for the people shipping them."
-      eyebrow="Approach"
-      title="The work is technical, but the goal is always team clarity."
-    />
-    <div class="
-      grid items-start gap-6
-      lg:grid-cols-3
-    "
-    >
-      <div class="
-        panel-card p-6
-        sm:p-7
-        lg:col-span-2
-      "
-      >
-        <p class="section-label">What I do now</p>
-        <h3 class="mt-4 text-3xl">Engineering that ships and systems that last.</h3>
-        <p class="mt-4 max-w-2xl text-base/7 text-ink-soft">
-          My work spans full-stack delivery, developer tooling, and automation: finding the slowest parts of a
-          team's workflow and replacing them with repeatable systems that make shipping feel calmer and more
-          predictable.
-        </p>
-      </div>
-      <div class="grid gap-6">
-        <div class="mini-note">
-          <p class="section-label">How I lead</p>
-          <p class="mt-3 text-sm/7 text-ink-soft">
-            I stay close to the code, set useful standards, and help teams make better technical decisions earlier.
-          </p>
-        </div>
-        <div class="mini-note">
-          <p class="section-label">Outside the sprint</p>
-          <p class="mt-3 text-sm/7 text-ink-soft">
-            I co-organize ReactJS Colombia, write about DX and workflows, and keep building while working
-            remotely from Medellin.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="Projects only show one part of the picture. The other part is how I share what I learn, contribute to engineering communities, and keep my own workflow sharp."
-      eyebrow="Beyond delivery"
-      title="Speaking, community work, and the setup behind the work."
-    />
-    <div class="space-y-6">
-      <article class="
-        panel-card space-y-6 p-6
-        sm:p-7
-      "
-      >
-        <div class="space-y-3">
-          <p class="section-label">Speaking and community</p>
-          <h3 class="text-3xl">Practical sessions for engineers, teams, and local communities.</h3>
-          <p class="max-w-2xl text-base/7 text-ink-soft">
-            I am most useful in rooms where the goal is practical clarity: developer experience, technical leadership,
-            architecture, testing, automation, and the delivery systems that make teams feel more confident.
-          </p>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          {featuredSpeakingTopics.map(topic => (
-            <Pill label={topic.title} tone="outline" />
-          ))}
-        </div>
-        <ButtonLink href="/speaking/" showArrow variant="secondary">
-          Explore speaking
-        </ButtonLink>
-      </article>
-
-      <article class="
-        panel-card space-y-6 p-6
-        sm:p-7
-      "
-      >
-        <div class="space-y-3">
-          <p class="section-label">Uses and workflow</p>
-          <h3 class="text-3xl">A practical setup built around clarity and fast feedback.</h3>
-          <p class="max-w-2xl text-base/7 text-ink-soft">
-            The exact tools shift over time, but the priorities stay the same: boring reliability, fewer context
-            switches, and a workflow that supports both deep implementation work and hands-on leadership.
-          </p>
-        </div>
-        <div
-          class="
-            grid gap-4
-            sm:grid-cols-3
-          "
-        >
-          {usesHighlights.map(highlight => (
-            <div class="mini-note">
-              <p class="section-label">{highlight.label}</p>
-              <p class="mt-3 text-sm/7 text-ink-soft">{highlight.value}</p>
-            </div>
-          ))}
-        </div>
-        <ButtonLink href="/uses/" showArrow variant="secondary">
-          See the uses page
-        </ButtonLink>
-      </article>
-    </div>
-  </section>
-
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="I write about software architecture, full-stack systems, automation, and the engineering decisions that help teams ship with confidence. Published in Towards Dev and on Medium."
-      eyebrow="Writing"
-      linkHref="/blog/"
-      linkLabel="See all articles"
-      title="Practical writing for engineers who build and lead."
-    />
-    <div class="space-y-6">
-      <div class="
-        grid gap-4
-        md:grid-cols-3
-      "
-      >
-        <StatCard
-          description={publishingRhythm.summary}
-          label="Cadence"
-          value="1/mo"
-        />
-        <StatCard
-          description="Older evergreen pieces scheduled for refresh so the archive keeps compounding."
-          label="Refreshes"
-          value="1/mo"
-        />
-        <StatCard
-          description="Related reading tracks already live across the blog archive."
-          label="Series"
-          value={String(activeSeries.length)}
-        />
-      </div>
-
       <div class="section-actions">
-        <ButtonLink href="/blog/content-calendar/" showArrow variant="secondary">
-          View content calendar
+        <ButtonLink href="/projects/" showArrow>
+          View all projects
         </ButtonLink>
-        <ButtonLink href="/blog/series/" showArrow variant="ghost">
-          Browse series
-        </ButtonLink>
-        <ButtonLink href="/feed.xml" showArrow variant="ghost">
-          Follow via RSS
+        <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
+          GitHub
         </ButtonLink>
       </div>
+    </div>
+  </PageSection>
 
-      {featuredPost && <PostCard featured post={featuredPost} />}
-      <div class="
-        grid gap-6
-        md:grid-cols-2
-      "
-      >
-        {supportingPosts.map(post => (
-          <PostCard post={post} />
+  {/* Writing */}
+  <PageSection>
+    <SectionHeader
+      eyebrow="Writing"
+      title="Thoughts on building and leading."
+      description="Articles on architecture, automation, and engineering decisions."
+    />
+    <div class="space-y-6">
+      <div class="space-y-0" data-stagger="50">
+        {latestPosts.map(post => (
+          <PostListItem post={post} />
         ))}
       </div>
+      <div class="section-actions">
+        <ButtonLink href="/blog/" showArrow>
+          Read all articles
+        </ButtonLink>
+        <ButtonLink href="/feed.xml" showArrow variant="secondary">
+          RSS
+        </ButtonLink>
+      </div>
     </div>
-  </section>
+  </PageSection>
 
-  <section class="space-y-6 border-t border-line/70 pt-10" data-animate>
-    <SectionHeading
-      description="The client work is only part of the story. I also publish tooling, write publicly about delivery systems, and stay close to community rooms where the ideas get tested in the open."
-      eyebrow="Public work"
-      linkHref="/portfolio/"
-      linkLabel="Browse public projects"
-      title="What I build publicly outside client work."
-      variant="shelf"
+  {/* Speaking & Community */}
+  <PageSection>
+    <SectionHeader
+      eyebrow="Beyond the code"
+      title="Speaking & Community."
+      description="Co-organizing ReactJS Colombia and speaking on DX, automation, and engineering leadership at local and regional events."
     />
-
-    <div
-      class="
-        grid gap-4
-        md:grid-cols-2
-        xl:grid-cols-3
-      "
-      data-stagger
-    >
-      {publicWorkProjects.map(project => (
-        <article class="
-          flex mini-note h-full flex-col gap-5 p-5
-          sm:p-6
+    <div class="space-y-6">
+      <div
+        class="
+          grid gap-4
+          md:grid-cols-2
         "
-        >
-          <div class="flex flex-wrap items-center gap-2">
-            <Pill label="Public work" tone="brand" />
-            {project.data.impactMetrics[0] && (
-              <span class="text-xs text-ink-muted">{project.data.impactMetrics[0]}</span>
-            )}
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="
-              text-xl font-semibold text-ink
-              sm:text-2xl
-            "
-            >
-              {project.data.title}
-            </h3>
-            <p class="text-sm/7 text-ink-soft">{project.data.description}</p>
-          </div>
-
-          <div class="mt-auto flex flex-wrap gap-2">
-            {project.data.technologies.slice(0, 3).map(technology => (
-              <Pill href={getTechnologyPath(technology)} label={technology} tone="outline" />
-            ))}
-          </div>
-
-          <ButtonLink href={getPortfolioPath(project.id)} showArrow variant="inline">
-            View public project
-          </ButtonLink>
-        </article>
-      ))}
+        data-stagger="60"
+      >
+        <CommunityCard
+          title="ReactJS Colombia"
+          subtitle="Co-organizer"
+          description="Building the local React community through meetups, workshops, and knowledge sharing."
+          icon='<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>'
+          tone="brand"
+        />
+        <CommunityCard
+          title="Technical Talks"
+          subtitle="Speaker"
+          description="Sharing practical insights on DX, architecture, and engineering leadership."
+          icon='<path d="M12 8a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2Z"/><path d="M19 11V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10"/><path d="M3 13h4"/><path d="M17 13h4"/><path d="M19 13v4"/><path d="M5 13v4"/>'
+          tone="accent"
+        />
+      </div>
+      <div class="section-actions">
+        <ButtonLink href="/speaking/" showArrow>
+          Speaking
+        </ButtonLink>
+        <ButtonLink href="http://meetup.com/react-js-medellin" newTab showArrow variant="secondary">
+          ReactJS Colombia
+        </ButtonLink>
+      </div>
     </div>
-  </section>
-
-  <section class="space-y-6 border-t border-line/70 pt-10" data-animate>
-    <SectionHeading
-      description="The teams that get the most leverage from my work usually need stronger technical direction without losing delivery momentum."
-      eyebrow="Best fit"
-      linkHref="/portfolio/"
-      linkLabel="See matching case studies"
-      title="Where my work tends to be most useful."
-      variant="shelf"
-    />
-
-    <div
-      class="
-        grid gap-4
-        md:grid-cols-2
-        xl:grid-cols-3
-      "
-      data-stagger
-    >
-      {collaborationLanes.map(lane => (
-        <article class="
-          mini-note h-full space-y-4 p-5
-          sm:p-6
-        "
-        >
-          <div class="space-y-3">
-            <h3 class="
-              text-xl font-semibold text-ink
-              sm:text-2xl
-            "
-            >
-              {lane.title}
-            </h3>
-            <p class="text-sm/7 text-ink-soft">{lane.description}</p>
-          </div>
-          <p class="text-sm/6 text-ink-muted">{lane.fit}</p>
-        </article>
-      ))}
-    </div>
-
-    <div class="section-actions">
-      <ButtonLink href="/about/" showArrow variant="ghost">
-        Read recommendations
-      </ButtonLink>
-    </div>
-  </section>
+  </PageSection>
 </PageLayout>

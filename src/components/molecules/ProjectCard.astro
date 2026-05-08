@@ -3,11 +3,10 @@ import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import CoverImage from '@/components/atoms/CoverImage.astro'
-import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
-import { getProjectDateRangeLabel, getProjectFeaturedLabel, getProjectTypeLabel } from '@/utils/project-meta'
+import { getProjectFeaturedLabel, getProjectTimelineLabel, getProjectTypeLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 interface Props {
@@ -31,7 +30,8 @@ const imageSizes = useCoverFeatured ?
 
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const projectFeaturedLabel = getProjectFeaturedLabel(project.data.typesId)
-const projectYearsLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
+const projectTimelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
+const isActive = !project.data.endingDate
 const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 2)
 ---
 
@@ -62,12 +62,9 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
       (
         <CoverImage
           alt={project.data.coverImage.alt || project.data.title}
-          className="
-            rounded-[1.35rem] border border-line/40
-            shadow-[0_18px_42px_hsl(var(--ink)/0.08)]
-          "
+          className="rounded-none border-0 shadow-none"
           featured={useCoverFeatured}
-          image={project.data.coverImage.src}
+          image={project.data.coverImage.vertical ?? project.data.coverImage.src}
           loading={useCoverFeatured ? 'eager' : 'lazy'}
           mode="card"
           showCardOverlay={false}
@@ -77,8 +74,7 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
       (
         <div
           class="
-            aspect-16/10 rounded-[1.35rem] border border-line/40
-            bg-surface-muted grid-fade
+            aspect-16/10 bg-surface-muted grid-fade
           "
         />
       )}
@@ -100,30 +96,19 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
         "
         >
           <Pill label={featured ? projectFeaturedLabel : projectTypeLabel} tone={featured ? 'brand' : 'outline'} />
-          {project.data.rol && (
+          {project.data.role && (
             <span class="text-sm font-medium text-ink-muted">
-              {project.data.rol}
+              {project.data.role}
             </span>
           )}
         </div>
 
-        <span class="
-          rounded-full border border-line/70 bg-surface-muted/80 px-3 py-1.5
-          text-xs font-semibold tracking-[0.16em] text-ink-muted uppercase
-        "
-        >{projectYearsLabel}
-        </span>
+        <Pill label={isActive ? 'Active' : 'Completed'} tone={isActive ? 'brand' : 'neutral'} />
       </div>
 
-      <div class="
-        flex flex-wrap items-center gap-2 text-sm text-ink-muted
-        sm:gap-3
-      "
-      >
-        <FormattedDate date={project.data.startingDate} />
-        <span aria-hidden="true">-</span>
-        {project.data.endingDate ? <FormattedDate date={project.data.endingDate} /> : <span>Present</span>}
-      </div>
+      <p class="text-sm text-ink-muted">
+        {projectTimelineLabel}
+      </p>
     </div>
 
     <div class="space-y-3">

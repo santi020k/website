@@ -1,13 +1,19 @@
 ---
-import ButtonLink from '../components/atoms/ButtonLink.astro'
-import SectionHeading from '../components/molecules/SectionHeading.astro'
-import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '../data/profile'
-import PageLayout from '../layouts/Base.astro'
-import { createWhatsAppHref, siteConfig, whatsappMessages } from '../site.config'
-import { getCachedPosts } from '../utils/content'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import TalkCard from '@/components/molecules/TalkCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+
+import { getCachedPosts } from '@/utils/content'
+
+import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
+import PageLayout from '@/layouts/Base.astro'
+import { AUTHOR_JOB_TITLE, createWhatsAppHref, sameAsProfiles, siteConfig, whatsappMessages } from '@/site.config'
 
 const postCount = (await getCachedPosts()).length
-
 const highlights = speakingHighlights.map(h => h.label === 'Published writing' ? { ...h, value: `${postCount} posts` } : h)
 
 const description =
@@ -42,10 +48,10 @@ const structuredData = [
     description,
     mainEntity: {
       '@type': 'Person',
-      jobTitle: 'Engineering Leader & Full-Stack Architect',
+      jobTitle: AUTHOR_JOB_TITLE,
       knowsAbout: speakingTopics.map(topic => topic.title),
       name: siteConfig.author,
-      sameAs: [siteConfig.contact.github, siteConfig.contact.linkedin, siteConfig.contact.medium]
+      sameAs: sameAsProfiles.slice(0, 3)
     },
     name: 'Speaking'
   },
@@ -83,59 +89,29 @@ const structuredData = [
   title: 'Speaking & Workshops'
 }}
 >
-  <section
-    class="
-      grid animate-slide-up gap-10
-      motion-reduce:animate-none
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
+  <PageHero
+    description="Practical, opinionated sessions grounded in shipped work — leadership, architecture, DX, and the decisions that make teams faster or slower."
+    eyebrow="Speaking"
+    gradientText="and engineering conversations."
+    title="Talks, workshops,"
   >
-    <div class="space-y-6">
-      <SectionHeading
-        description="I enjoy sessions that are practical, opinionated, and grounded in shipped work. The best talks usually sit at the intersection of leadership, architecture, workflow design, and the small technical choices that make teams faster or slower."
-        eyebrow="Speaking"
-        level="h1"
-        title="Talks, workshops, and engineering conversations."
-      />
-      <p class="
-        max-w-3xl text-base/7 text-ink-soft
-        sm:text-lg/8
-      "
-      >
-        Through ReactJS Colombia, published writing, and day-to-day leadership work, I keep coming back to the
-        same themes: better developer experience, clearer technical standards, and systems that help teams ship
-        with more confidence.
-      </p>
-      <div class="section-actions">
-        <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
-          Invite me on WhatsApp
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          Connect on LinkedIn
-        </ButtonLink>
-      </div>
-    </div>
+    <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
+      Invite me on WhatsApp
+    </ButtonLink>
+    <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+      Connect on LinkedIn
+    </ButtonLink>
+  </PageHero>
 
-    <div
-      class="
-        grid h-max gap-3
-        sm:grid-cols-3
-        lg:grid-cols-1
-      "
-    >
-      {highlights.map(highlight => (
-        <div class="mini-note">
-          <p class="section-label">{highlight.label}</p>
-          <p class="mt-2 text-lg font-semibold text-ink">{highlight.value}</p>
-          <p class="mt-2 text-sm/7 text-ink-soft">{highlight.description}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <StatsGrid>
+    {highlights.map(highlight => (
+      <StatCard label={highlight.label} value={highlight.value} />
+    ))}
+  </StatsGrid>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="A sample of past sessions with slides and recordings. Dates and audience figures are approximate — ping me if you want more context on any of these."
+  <PageSection>
+    <SectionHeader
+      description="A selection of talks and workshops delivered at meetups, conferences, and internal engineering events. Topics range from architecture decisions to delivery systems."
       eyebrow="Selected sessions"
       title="Talks with evidence."
     />
@@ -146,91 +122,87 @@ const structuredData = [
       "
     >
       {selectedSessions.map(talk => (
-        <article class="
-          panel-card flex h-full flex-col space-y-4 p-6
-          sm:p-7
-        "
-        >
-          <div>
-            <p class="section-label">{talk.event} · {talk.year}</p>
-            {talk.audience && (
-              <p class="mt-1 text-xs text-ink-muted">{talk.audience}</p>
-            )}
-          </div>
-          <h2 class="text-xl font-semibold text-ink">{talk.title}</h2>
-          <p class="grow text-sm/7 text-ink-soft">{talk.description}</p>
-          <div class="flex flex-wrap gap-2">
-            {talk.tags.map(tag => (
-              <span class="
-                rounded-full border border-line/50 px-3 py-0.5 text-xs
-                font-medium text-ink-muted
-              "
-              >{tag}
-              </span>
-            ))}
-          </div>
-          {(talk.links.slides ?? talk.links.video) && (
-            <div class="section-actions">
-              {talk.links.slides && (
-                <ButtonLink href={talk.links.slides} newTab showArrow variant="secondary">
-                  Slides
-                </ButtonLink>
-              )}
-              {talk.links.video && (
-                <ButtonLink href={talk.links.video} newTab showArrow variant="secondary">
-                  Watch talk
-                </ButtonLink>
-              )}
-            </div>
-          )}
-        </article>
+        <TalkCard
+          audience={talk.audience}
+          description={talk.description}
+          event={talk.event}
+          links={talk.links}
+          tags={talk.tags}
+          title={talk.title}
+          variant="session"
+          year={talk.year}
+        />
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="If you are planning an event, the fastest path is a WhatsApp message with a little context. I can tailor sessions for community rooms, team offsites, internal enablement, or leadership conversations."
+  <PageSection>
+    <SectionHeader
+      description="Practical sessions grounded in shipped work — not theory. The goal is always for attendees to leave with something they can apply on Monday."
+      eyebrow="Context"
+      title="Where the talks happen."
+    />
+
+    <div
+      class="
+        grid gap-4
+        sm:grid-cols-2
+      "
+      data-stagger="60"
+    >
+      <div class="mini-note h-full">
+        <p class="section-label">ReactJS Colombia</p>
+        <p class="mt-3 text-sm/7 text-ink-soft">
+          Co-organizer of ReactJS Colombia — one of the largest React communities in Latin America. Sessions cover frontend architecture, performance, and developer experience in Spanish for regional engineers.
+        </p>
+      </div>
+      <div class="mini-note h-full">
+        <p class="section-label">Internal team sessions</p>
+        <p class="mt-3 text-sm/7 text-ink-soft">
+          Engineering talks inside product teams — architecture reviews, tooling onboarding, and tech lead cohorts. Closer to coaching than presenting; built around the team's actual problems.
+        </p>
+      </div>
+    </div>
+  </PageSection>
+
+  <PageSection>
+    <SectionHeader
+      description="Making it easy helps both of us. The more context you bring, the better I can tailor the session to your audience."
       eyebrow="Booking"
       title="Make the invite easy."
     />
 
     <div class="space-y-6">
-      <article class="
-        panel-card space-y-6 p-6
-        sm:p-7
-      "
-      >
-        <div class="
+      <div
+        class="
           grid gap-4
           sm:grid-cols-3
         "
-        >
-          {bookingNotes.map(note => (
-            <div class="mini-note h-full">
-              <p class="section-label">{note.label}</p>
-              <p class="mt-3 text-sm/7 text-ink-soft">{note.value}</p>
-            </div>
-          ))}
-        </div>
-
-        <div class="section-actions">
-          <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
-            Invite me on WhatsApp
-          </ButtonLink>
-          <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-            Message on LinkedIn
-          </ButtonLink>
-        </div>
-      </article>
+        data-stagger="60"
+      >
+        {bookingNotes.map(note => (
+          <div class="mini-note h-full">
+            <p class="section-label">{note.label}</p>
+            <p class="mt-3 text-sm/7 text-ink-soft">{note.value}</p>
+          </div>
+        ))}
+      </div>
+      <div class="section-actions">
+        <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
+          Invite me on WhatsApp
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Message on LinkedIn
+        </ButtonLink>
+      </div>
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="The strongest sessions for me are the ones that translate hard-won engineering lessons into something teams can use the next day."
+  <PageSection>
+    <SectionHeader
+      description="Each topic draws on real project experience — architecture choices made under constraint, delivery problems solved in production, and team dynamics at different scales."
       eyebrow="Topics"
-      title="What I like to speak about."
+      title="What I speak about."
     />
     <div
       class="
@@ -239,23 +211,16 @@ const structuredData = [
       "
     >
       {speakingTopics.map(topic => (
-        <article class="
-          panel-card h-full space-y-4 p-6
-          sm:p-7
-        "
-        >
-          <h2 class="text-2xl font-semibold text-ink">{topic.title}</h2>
-          <p class="text-sm/7 text-ink-soft">{topic.description}</p>
-        </article>
+        <TalkCard description={topic.description} title={topic.title} variant="topic" />
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="Good speaking opportunities do not all look the same. I am comfortable in community rooms, workshops, and internal engineering sessions where the goal is alignment as much as inspiration."
+  <PageSection>
+    <SectionHeader
+      description="Different formats fit different goals. Pick the one that matches your audience and the outcome you want from the session."
       eyebrow="Formats"
-      title="Formats that fit teams, communities, and leadership conversations."
+      title="Available formats."
     />
     <div
       class="
@@ -264,58 +229,9 @@ const structuredData = [
       "
     >
       {speakingFormats.map(format => (
-        <article class="
-          panel-card h-full space-y-4 p-6
-          sm:p-7
-        "
-        >
-          <p class="section-label">{format.title}</p>
-          <p class="text-base/7 text-ink-soft">{format.description}</p>
-        </article>
+        <TalkCard description={format.description} title={format.title} variant="format" />
       ))}
     </div>
-  </section>
+  </PageSection>
 
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="Speaking is one of the clearest ways I know to turn private engineering lessons into something useful for more people."
-      eyebrow="Why it matters"
-      title="Community work keeps the engineering practice honest."
-    />
-    <div class="space-y-6">
-      <article class="
-        panel-card space-y-4 p-6
-        sm:p-7
-      "
-      >
-        <p class="section-label">What that looks like in practice</p>
-        <p class="text-base/7 text-ink-soft">
-          Co-organizing ReactJS Colombia has shaped how I think about mentoring, accessibility, and explaining
-          technical tradeoffs without turning them into ego contests. It also keeps me close to the kinds of
-          questions engineers are actually asking in the wild.
-        </p>
-      </article>
-      <div
-        class="
-          grid gap-4
-          sm:grid-cols-2
-        "
-      >
-        <div class="mini-note">
-          <p class="section-label">Community sessions</p>
-          <p class="mt-3 text-sm/7 text-ink-soft">
-            Best for React, TypeScript, DX, testing, architecture, and practical workflows teams can adopt
-            quickly.
-          </p>
-        </div>
-        <div class="mini-note">
-          <p class="section-label">Team sessions</p>
-          <p class="mt-3 text-sm/7 text-ink-soft">
-            Strong fit for internal enablement, onboarding, technical standards, release process improvements,
-            and leadership roundtables.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
 </PageLayout>

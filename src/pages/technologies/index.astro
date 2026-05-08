@@ -1,12 +1,17 @@
 ---
-import ButtonLink from '../../components/atoms/ButtonLink.astro'
-import Pill from '../../components/atoms/Pill.astro'
-import SectionHeading from '../../components/molecules/SectionHeading.astro'
-import { getUniqueTechnologiesWithCount } from '../../data/project'
-import PageLayout from '../../layouts/Base.astro'
-import { getCachedProjects } from '../../utils/content'
-import { getTechnologyPath } from '../../utils/links'
-import { sortTechnologyCountsByInterest } from '../../utils/technologies'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+import PillCount from '@/components/atoms/PillCount.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+
+import { getCachedProjects } from '@/utils/content'
+import { getTechnologyPath } from '@/utils/links'
+import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { getUniqueTechnologiesWithCount } from '@/data/project'
+import PageLayout from '@/layouts/Base.astro'
 
 const allProjects = await getCachedProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)
@@ -41,48 +46,29 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section
-    class="
-      grid gap-10
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
-    data-animate
+  <PageHero
+    description="The recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, DX, and the tools around them."
+    eyebrow="Stack Index"
+    gradientText="Full-stack range."
+    title="Frontend-first stack."
   >
-    <div class="space-y-6">
-      <SectionHeading
-        description="This is the recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, DX, and the tools around them."
-        eyebrow="Stack index"
-        level="h1"
-        title="A frontend-first stack with full-stack range."
-      />
-      <ButtonLink href="/portfolio/" showArrow variant="secondary">
-        Back to portfolio
-      </ButtonLink>
-    </div>
+    <ButtonLink href="/work/" showArrow>
+      Browse work
+    </ButtonLink>
+    <ButtonLink href="/portfolio/" showArrow variant="secondary">
+      Back to portfolio
+    </ButtonLink>
+  </PageHero>
 
-    <div class="
-      grid gap-3
-      sm:grid-cols-3
-    "
-    >
-      <div class="mini-note">
-        <p class="section-label">Technologies</p>
-        <p class="mt-2 text-lg font-semibold text-ink">{technologies.length}</p>
-      </div>
-      <div class="mini-note">
-        <p class="section-label">Most used</p>
-        <p class="mt-2 text-lg font-semibold text-ink">{topTechnology}</p>
-      </div>
-      <div class="mini-note">
-        <p class="section-label">Scope</p>
-        <p class="mt-2 text-sm/7 text-ink-soft">Frontend, backend, testing, delivery, and developer tooling.</p>
-      </div>
-    </div>
-  </section>
+  <StatsGrid columns={3}>
+    <StatCard description="Distinct tools and platforms across the full portfolio." label="Technologies" value={String(technologies.length)} />
+    <StatCard description="The single technology that appears most often across shipped projects." label="Most used" value={topTechnology ?? ''} />
+    <StatCard description="Frontend, backend, testing, delivery, and developer tooling." label="Scope" value="Full stack" />
+  </StatsGrid>
 
   <section
     class="
-      grid gap-8 border-t border-line/70 pt-10
+      grid gap-8 pt-10
       lg:grid-cols-3
     "
     data-animate
@@ -96,7 +82,7 @@ const meta = {
         <div class="flex flex-wrap gap-3">
           {group.items.map(([technology, count]) => (
             <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-              <span class="text-xs text-ink-muted">{count}</span>
+              <PillCount count={count} />
             </Pill>
           ))}
         </div>

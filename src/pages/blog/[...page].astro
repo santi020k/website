@@ -4,21 +4,25 @@ import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
+import EditorialEntryCard from '@/components/molecules/EditorialEntryCard.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
-import SectionHeading from '@/components/molecules/SectionHeading.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
 
-import { editorialCalendar, publishingRhythm } from '@/data/editorial-calendar'
+import { editorialCalendar } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
 import PageLayout from '@/layouts/Base.astro'
-import { siteConfig } from '@/site.config'
+import { siteConfig, YEARS_OF_WRITING } from '@/site.config'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -45,8 +49,7 @@ const featuredPost = page.data[0] ?? null
 const gridPosts = page.data.slice(1)
 
 const cadenceDescription =
-  `${publishingRhythm.summary} ` +
-  'The current roadmap runs from April 2026 through September 2026 so the site keeps growing on a predictable rhythm instead of in bursts.'
+  'One deep post each month, one refreshed evergreen guide. The archive compounds instead of aging.'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -85,57 +88,45 @@ const blogListSchema = {
       `Blog · Page ${page.currentPage} of ${page.lastPage} — Santiago Molina`
   }}
 >
-  <section
-    class="
-      grid animate-slide-up gap-10
-      motion-reduce:animate-none
-      lg:grid-cols-[1.05fr_0.95fr]
-    "
+  <PageHero
+    description="Practical writing on architecture, team habits, delivery systems, and the automation that helps software work feel calmer."
+    eyebrow="Blog"
+    gradientText="Architecture. Craft."
+    title="Writing about software."
   >
-    <div class="space-y-6">
-      <SectionHeading
-        description="I write about full-stack systems, architecture, and the automation that helps teams ship with confidence. From backend services to delivery pipelines, I share what I learn along the way."
-        eyebrow="Blog"
-        level="h1"
-        title="Writing about software architecture, automation, and engineering craft."
-      />
+    <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
+      Open Medium
+    </ButtonLink>
+    <ButtonLink href="/blog/tags/" showArrow variant="secondary">
+      Browse topics
+    </ButtonLink>
+    <ButtonLink href="/blog/series/" showArrow variant="secondary">
+      Browse series
+    </ButtonLink>
+  </PageHero>
 
-      <div class="section-actions">
-        <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
-          Open Medium profile
-        </ButtonLink>
-        <ButtonLink href="/blog/tags/" showArrow variant="secondary">
-          Browse topics
-        </ButtonLink>
-        <ButtonLink href="/blog/series/" showArrow variant="ghost">
-          Browse series
-        </ButtonLink>
-      </div>
-    </div>
+  <StatsGrid>
+    <StatCard description="Articles currently hosted on my site and cross-posted to Medium." label="Posts" value={String(page.total)} />
+    <StatCard
+      description="Topics and themes covered in my writing across various publications."
+      label="Tags"
+      value={String(allTagsData.length)}
+    />
+    <StatCard
+      description="Grouped reading tracks so related posts are easier to follow in sequence."
+      label="Series"
+      value={String(activeSeries.length)}
+    />
+    <StatCard
+      description="Years of writing and sharing engineering knowledge across the web."
+      label="Experience"
+      value={YEARS_OF_WRITING}
+    />
+  </StatsGrid>
 
-    <div class="
-      grid gap-4
-      sm:grid-cols-3
-      lg:grid-cols-1
-    "
-    >
-      <StatCard description="Articles currently hosted on my site and cross-posted to Medium." label="Posts" value={String(page.total)} />
-      <StatCard
-        description="Topics and themes covered in my writing across various publications."
-        label="Tags"
-        value={String(allTagsData.length)}
-      />
-      <StatCard
-        description="Grouped reading tracks so related posts are easier to follow in sequence."
-        label="Series"
-        value={String(activeSeries.length)}
-      />
-    </div>
-  </section>
-
-  <section class="editorial-section" data-animate>
-    <SectionHeading
-      description="Start with the latest piece, then browse the rest by topic and depth."
+  <PageSection>
+    <SectionHeader
+      description="Latest post first, then browse by topic and depth."
       eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
       title="Recent writing with a practical bias."
     />
@@ -143,17 +134,9 @@ const blogListSchema = {
     <div class="space-y-6">
       {featuredPost && <PostCard featured post={featuredPost} />}
 
-      {featuredPost && (
-        <div class="flex items-center gap-4">
-          <div class="h-px flex-1 bg-line/50" />
-          <span class="section-label">Filter posts</span>
-          <div class="h-px flex-1 bg-line/50" />
-        </div>
-      )}
+      <TagFilter showDivider={!!featuredPost} tags={topTags} />
 
-      <TagFilter tags={topTags} />
-
-      <div class="post-grid">
+      <div class="post-grid" data-stagger>
         {gridPosts.map(post => (
           <PostCard post={post} />
         ))}
@@ -161,11 +144,11 @@ const blogListSchema = {
 
       <Pagination page={page} />
     </div>
-  </section>
+  </PageSection>
 
   {isFirstPage && santi020kWaySeries && (
-    <section class="editorial-section" data-animate>
-      <SectionHeading
+    <PageSection>
+      <SectionHeader
         description="A new blog section collecting the principles I keep returning to around ownership, code quality, feedback, responsive thinking, and calmer releases."
         eyebrow="The santi020k way"
         linkHref="/blog/series/the-santi020k-way/"
@@ -228,12 +211,12 @@ const blogListSchema = {
           </p>
         </div>
       </div>
-    </section>
+    </PageSection>
   )}
 
   {isFirstPage && !!activeSeries.length && (
-    <section class="editorial-section" data-animate>
-      <SectionHeading
+    <PageSection>
+      <SectionHeader
         description="Related posts now live in clearer tracks, so topics like Next.js delivery systems and ESLint tooling feel like connected reading instead of isolated entries."
         eyebrow="Series"
         linkHref="/blog/series/"
@@ -246,44 +229,33 @@ const blogListSchema = {
           <SeriesCard postCount={item.postCount} series={item.series} />
         ))}
       </div>
-    </section>
+    </PageSection>
   )}
 
   {isFirstPage && (
-    <section class="editorial-section" data-animate>
-      <SectionHeading
+    <PageSection>
+      <SectionHeader
         description={cadenceDescription}
-        eyebrow="Cadence"
+        eyebrow="Publishing Rhythm"
         linkHref="/blog/content-calendar/"
-        linkLabel="View the full content calendar"
-        title="A documented monthly publishing rhythm."
+        linkLabel="View full calendar"
+        title="Consistent output, compounding value."
       />
 
-      <div class="space-y-6">
+      <div class="max-w-xl space-y-4">
         <div
-          class="
-            grid gap-5
-            md:grid-cols-3
-          "
+          class="flex flex-col gap-4"
           data-stagger
         >
           {roadmapPreview.map(entry => (
-            <article class="
-              flex mini-note h-full flex-col gap-4 p-5
-              sm:p-6
-            "
-            >
-              <div class="flex flex-wrap items-center gap-2">
-                <Pill label={entry.month} tone="brand" />
-                <Pill label={entry.format} tone="outline" />
-              </div>
-              <h2 class="text-xl/tight text-ink">
-                {entry.headline}
-              </h2>
-              <p class="text-sm/6 text-ink-soft">
-                Refreshing: {entry.refreshTitle}
-              </p>
-            </article>
+            <EditorialEntryCard
+              format={entry.format}
+              headline={entry.headline}
+              month={entry.month}
+              refreshTitle={entry.refreshTitle}
+              seriesId={entry.seriesId}
+              variant="compact"
+            />
           ))}
         </div>
 
@@ -299,6 +271,6 @@ const blogListSchema = {
           </ButtonLink>
         </div>
       </div>
-    </section>
+    </PageSection>
   )}
 </PageLayout>

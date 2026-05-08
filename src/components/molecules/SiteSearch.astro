@@ -1,5 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components'
+
+import SearchDialog from './SearchDialog.astro'
 ---
 
 <div class="relative flex shrink-0 items-center" data-site-search>
@@ -9,122 +11,83 @@ import { Icon } from 'astro-icon/components'
     aria-haspopup="dialog"
     aria-label="Open site search"
     class="
-      inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border
-      border-line/70 bg-surface/76 px-3 py-2 text-sm font-medium text-ink-soft
-      transition duration-200
-      hover:border-brand/35 hover:bg-surface hover:text-brand
+      relative flex size-11 cursor-pointer items-center justify-center
+      rounded-full border border-line/50 bg-surface/68 text-ink-soft
+      shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)] backdrop-blur-sm
       motion-reduce:transition-none
-      lg:px-4
     "
     data-site-search-trigger
     type="button"
   >
     <Icon aria-hidden="true" class="size-5 shrink-0" name="tabler:search" />
-    <span class="hidden sm:inline">Search</span>
   </button>
 
-  <dialog
-    aria-labelledby="site-search-title"
-    class="
-      fixed inset-0 z-[100] m-0 h-full max-h-none w-full max-w-none border-0
-      bg-transparent p-0
-    "
-    data-site-search-dialog
-    id="site-search-dialog"
-  >
-    <!--
-      `pointer-events-none` on the shell so clicks in the letterboxed margin hit the scrim
-      (otherwise the flex box captures them and outside-click never closes).
-    -->
-    <div
-      class="
-        pointer-events-none absolute inset-0 flex min-h-[100dvh] w-full items-center
-        justify-center p-4 sm:p-6
-      "
-    >
-      <div
-        aria-hidden="true"
-        class="pointer-events-auto absolute inset-0 z-0 cursor-default"
-        data-site-search-scrim
-      >
-      </div>
-
-      <div
-        class="
-          pointer-events-auto panel-card relative z-10 flex max-h-[min(90dvh,40rem)] w-full
-          max-w-lg flex-col gap-4 overflow-hidden p-5
-          shadow-[0_24px_80px_hsl(var(--ink)/0.2)]
-          sm:p-6
-        "
-        data-site-search-panel
-        role="document"
-      >
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <h2 class="text-lg font-semibold text-ink" id="site-search-title">
-              Search
-            </h2>
-            <p class="mt-1 text-sm text-ink-soft">
-              Match titles, tags, and descriptions. Arrow keys to move,
-              <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Enter</kbd> to open,
-              <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
-            </p>
-          </div>
-          <button
-            class="
-              inline-flex min-h-10 min-w-10 items-center justify-center
-              rounded-full border border-line/60 text-ink-soft transition
-              duration-200
-              hover:scale-105 hover:border-brand/40 hover:text-brand
-              active:scale-95
-              motion-reduce:transition-none
-              motion-reduce:hover:scale-100
-              motion-reduce:active:scale-100
-            "
-            data-site-search-close
-            type="button"
-          >
-            <Icon aria-hidden="true" class="size-5" name="tabler:x" />
-            <span class="sr-only">Close search</span>
-          </button>
-        </div>
-
-        <label class="sr-only" for="site-search-input">Search posts and projects</label>
-        <input
-          autocomplete="off"
-          class="
-            w-full rounded-xl border border-line/70 bg-surface px-4 py-3 text-sm
-            text-ink ring-brand/30 transition duration-200 outline-none
-            focus:border-brand/40 focus:ring-2
-            motion-reduce:transition-none
-          "
-          id="site-search-input"
-          placeholder="Search by title, tag, or keyword…"
-          spellcheck="false"
-          type="search"
-        />
-
-        <p class="text-xs leading-relaxed text-ink-muted">
-          <span class="text-ink-soft">Open from the page</span> (not while typing in a field):
-          <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">/</kbd>
-          · <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">⌘</kbd><kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
-          or <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</kbd><kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
-        </p>
-
-        <p aria-atomic="true" aria-live="polite" class="sr-only" id="site-search-status"></p>
-
-        <ul
-          class="
-            max-h-[min(50vh,24rem)] min-h-0 space-y-2 overflow-y-auto
-            [-webkit-overflow-scrolling:touch]
-          "
-          id="site-search-results"
-        >
-        </ul>
-      </div>
-    </div>
-  </dialog>
+  <SearchDialog />
 </div>
+
+<style>
+  [data-site-search-trigger] {
+    transition:
+      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.2s ease;
+  }
+
+  [data-site-search-trigger]::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--border-angle),
+      hsl(var(--line) / 0.15) 0%,
+      hsl(var(--line) / 0.15) 60%,
+      hsl(var(--brand) / 0.6) 75%,
+      hsl(var(--glow) / 0.7) 83%,
+      hsl(var(--brand) / 0.6) 91%,
+      hsl(var(--line) / 0.15) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-site-search-trigger]:hover {
+      transform: translateY(-3px);
+      border-color: transparent;
+      background-color: hsl(var(--brand-soft) / 0.35);
+      color: hsl(var(--brand));
+      box-shadow:
+        0 8px 24px hsl(230 30% 8% / 0.08),
+        0 0 16px color-mix(in srgb, hsl(var(--brand)) 14%, transparent),
+        inset 0 1px 0 hsl(0 0% 100% / 0.1);
+    }
+
+    [data-site-search-trigger]:hover::before {
+      opacity: 1;
+      animation: var(--animate-border-spin);
+    }
+
+    [data-site-search-trigger]:active {
+      transform: scale(0.93);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-site-search-trigger]:hover {
+      border-color: hsl(var(--brand) / 0.35);
+      color: hsl(var(--brand));
+    }
+  }
+</style>
 
 <style is:global>
   /* Tailwind `flex` beats UA `dialog:not([open])`; without this, the panel stays in the header row. */
@@ -138,8 +101,8 @@ import { Icon } from 'astro-icon/components'
   }
 
   #site-search-dialog [data-site-search-scrim] {
-    background-color: hsl(var(--theme-bg) / 0.82);
-    backdrop-filter: blur(6px);
+    background-color: hsl(var(--theme-bg) / 0.85);
+    backdrop-filter: blur(12px) saturate(120%);
   }
 
   @keyframes site-search-scrim-in {
@@ -161,14 +124,19 @@ import { Icon } from 'astro-icon/components'
   }
 
   @keyframes site-search-panel-in {
-    from {
+    0% {
       opacity: 0;
-      filter: blur(4px);
-      transform: translateY(1.1rem) scale(0.94);
+      filter: blur(8px) saturate(80%);
+      transform: translateY(2rem) scale(0.88);
     }
-    to {
+    60% {
       opacity: 1;
-      filter: blur(0);
+      filter: blur(0) saturate(150%);
+      transform: translateY(-0.4rem) scale(1.02);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0) saturate(150%);
       transform: translateY(0) scale(1);
     }
   }
@@ -176,13 +144,13 @@ import { Icon } from 'astro-icon/components'
   @keyframes site-search-panel-out {
     from {
       opacity: 1;
-      filter: blur(0);
+      filter: blur(0) saturate(150%);
       transform: translateY(0) scale(1);
     }
     to {
       opacity: 0;
-      filter: blur(3px);
-      transform: translateY(0.65rem) scale(0.96);
+      filter: blur(6px) saturate(80%);
+      transform: translateY(0.75rem) scale(0.94);
     }
   }
 
@@ -198,19 +166,32 @@ import { Icon } from 'astro-icon/components'
   }
 
   #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-scrim] {
-    animation: site-search-scrim-in 0.28s ease-out both;
+    animation: site-search-scrim-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-panel] {
-    animation: site-search-panel-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: site-search-panel-in 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-glow] {
+    animation: site-search-glow-in 0.6s ease-out 0.25s both;
   }
 
   #site-search-dialog[data-site-search-anim="closing"] [data-site-search-scrim] {
-    animation: site-search-scrim-out 0.22s ease-in both;
+    animation: site-search-scrim-out 0.25s ease-in both;
   }
 
   #site-search-dialog[data-site-search-anim="closing"] [data-site-search-panel] {
-    animation: site-search-panel-out 0.26s ease-in both;
+    animation: site-search-panel-out 0.3s ease-in both;
+  }
+
+  @keyframes site-search-glow-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -233,11 +214,20 @@ import { Icon } from 'astro-icon/components'
   }
 
   #site-search-results a[data-site-search-active="true"] {
-    border-color: hsl(var(--brand) / 0.5);
-    background-color: hsl(var(--brand-soft) / 0.35);
-    box-shadow:
-      0 12px 36px hsl(var(--ink) / 0.07),
-      inset 0 1px 0 hsl(var(--ink) / 0.03);
+    border-color: hsl(var(--brand) / 0.45);
+    background-color: hsl(var(--surface) / 0.85);
+    box-shadow: 0 2px 8px hsl(var(--ink) / 0.06);
+  }
+
+  #site-search-results a[data-site-search-active="true"] [data-site-search-indicator] {
+    opacity: 1;
+    transform: translateY(-50%) scaleY(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results a[data-site-search-active="true"] [data-site-search-indicator] {
+      transition: none;
+    }
   }
 
   #site-search-results > li.site-search-hint {
@@ -262,14 +252,27 @@ import { Icon } from 'astro-icon/components'
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: 0.5rem;
-    border: 1px solid hsl(var(--line) / 0.45);
     background-color: hsl(var(--surface-muted));
-    box-shadow: inset 0 1px 0 hsl(var(--ink) / 0.04);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
+  #site-search-results a:hover [data-site-search-thumb-frame] {
+    transform: scale(1.03);
+    box-shadow: 0 2px 8px hsl(var(--ink) / 0.08);
   }
 
   @media (min-width: 640px) {
     #site-search-results [data-site-search-thumb-frame] {
       width: 5.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results [data-site-search-thumb-frame] {
+      transition: none;
+    }
+    #site-search-results a:hover [data-site-search-thumb-frame] {
+      transform: none;
     }
   }
 
@@ -469,10 +472,23 @@ import { Icon } from 'astro-icon/components'
       if (items.length === 0) {
         results.innerHTML = `
           <li class="
-            site-search-hint rounded-xl border border-dashed border-line/55
-            bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
+            site-search-hint flex flex-col items-center justify-center gap-3
+            border-y border-dashed border-line/50 px-4 py-10 text-center
           ">
-            Type at least two characters to see results.
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+                <path d="M11 8v6" />
+                <path d="M8 11h6" />
+              </svg>
+            </span>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-ink">Start typing to search</p>
+              <p class="text-xs text-ink-soft">Enter at least 2 characters to find posts and projects.</p>
+            </div>
           </li>
         `
         setStatusMessage('Type at least two characters to search.')
@@ -480,15 +496,31 @@ import { Icon } from 'astro-icon/components'
       }
 
       const heading = useRecents ? 'Recent searches' : 'Popular topics'
+      const iconSvg = useRecents
+        ? `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="right"
+           >
+             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+             <path d="M3 3v5h5" />
+           </svg>`
+        : `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           >
+             <path d="M16 6 4 20" />
+             <path d="M18 15l-5.5 5.5" />
+             <path d="M21 9 16 4" />
+             <path d="M14 2 4 20" />
+           </svg>`
+
       const li = document.createElement('li')
       li.className = `
-        site-search-hint rounded-xl border border-dashed border-line/55
-        bg-surface-muted/35 px-4 py-4 text-sm text-ink-soft
+        site-search-hint rounded-xl border border-line/40 bg-surface/40
+        px-4 py-4 text-sm text-ink-soft
       `.trim().replace(/\s+/g, ' ')
 
-      const label = document.createElement('p')
-      label.className = 'mb-3 text-xs font-semibold tracking-[0.18em] text-ink-muted uppercase'
-      label.textContent = heading
+      const label = document.createElement('div')
+      label.className = 'mb-3 flex items-center gap-2 text-xs font-semibold tracking-[0.12em] text-ink-muted uppercase'
+      label.innerHTML = `${iconSvg}<span>${heading}</span>`
       li.appendChild(label)
 
       const chips = document.createElement('div')
@@ -499,10 +531,13 @@ import { Icon } from 'astro-icon/components'
         chip.type = 'button'
         chip.dataset.siteSearchSuggestion = item
         chip.className = `
-          inline-flex items-center rounded-full border border-line/60
-          bg-surface px-3 py-1 text-xs font-medium text-ink-soft transition
-          hover:border-brand/40 hover:text-brand
+          inline-flex items-center rounded-full border border-line/40
+          bg-surface/50 px-3 py-1.5 text-xs font-medium text-ink-soft
+          transition-all duration-200 ease-out
+          hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand hover:shadow-sm
+          active:scale-95
           motion-reduce:transition-none
+          motion-reduce:active:scale-100
         `.trim().replace(/\s+/g, ' ')
         chip.textContent = item
         chips.appendChild(chip)
@@ -579,10 +614,16 @@ import { Icon } from 'astro-icon/components'
         selectedResultIndex = -1
         results.innerHTML = `
           <li class="
-            site-search-hint rounded-xl border border-dashed border-line/55
-            bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
+            site-search-hint flex flex-col items-center justify-center gap-3
+            border-y border-dashed border-line/50 px-4 py-8 text-center
           ">
-            Loading search index…
+            <span class="relative flex h-8 w-8">
+              <span class="absolute inset-0 rounded-full border-2 border-line/30"></span>
+              <span
+                class="absolute inset-0 animate-spin rounded-full border-2 border-brand/60 border-t-transparent"
+              ></span>
+            </span>
+            <span class="text-sm text-ink-soft">Loading search index…</span>
           </li>
         `
         setStatusMessage('Loading search index.')
@@ -594,22 +635,49 @@ import { Icon } from 'astro-icon/components'
         results.innerHTML = `
           <li
             class="
-              site-search-hint rounded-xl border border-dashed border-line/55
-              bg-surface-muted/35 px-4 py-5 text-center text-sm text-ink-soft
+              site-search-hint flex flex-col items-center justify-center gap-4
+              border-y border-dashed border-line/50 px-4 py-8 text-center
             "
           >
-            <p class="mb-3">Search is temporarily unavailable.</p>
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-danger/10 text-danger">
+              <svg
+                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" x2="12" y1="8" y2="12" />
+                <line x1="12" x2="12.01" y1="16" y2="16" />
+              </svg>
+            </span>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-ink">Search unavailable</p>
+              <p class="text-xs text-ink-soft">We couldn't load the search index.</p>
+            </div>
             <button
               class="
-                inline-flex min-h-10 items-center rounded-full border border-line/60
-                px-3 py-1.5 text-xs font-medium text-ink-soft transition
-                hover:border-brand/40 hover:text-brand
+                inline-flex min-h-10 items-center gap-2 rounded-full border border-line/60
+                bg-surface/50 px-4 py-2 text-xs font-medium text-ink-soft
+                transition-all duration-200 ease-out
+                hover:border-brand/40 hover:bg-brand-soft/20 hover:text-brand hover:shadow-sm
+                active:scale-95
                 motion-reduce:transition-none
+                motion-reduce:active:scale-100
               "
               data-site-search-retry
               type="button"
             >
-              Retry loading index
+              <svg
+                xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                <path d="M8 16H3v5" />
+              </svg>
+              Try again
             </button>
           </li>
         `
@@ -632,15 +700,58 @@ import { Icon } from 'astro-icon/components'
         .filter((item) => item.score > 0)
         .sort((a, b) => {
           if (b.score !== a.score) return b.score - a.score
+          const typeOrder = { project: 0, post: 1 }
+          const typeDiff = (typeOrder[a.entry.type] ?? 2) - (typeOrder[b.entry.type] ?? 2)
+          if (typeDiff !== 0) return typeDiff
           return a.entry.title.localeCompare(b.entry.title)
         })
         .slice(0, 8)
 
       if (matches.length === 0) {
         selectedResultIndex = -1
-        results.innerHTML =
-          '<li class="site-search-hint px-1 py-2 text-sm text-ink-muted">No matching results.</li>'
-        setStatusMessage(`No matching results for ${trimmed}.`)
+        results.innerHTML = `
+          <li class="
+            site-search-hint flex flex-col items-center justify-center gap-3
+            border-y border-dashed border-line/50 px-4 py-10 text-center
+          ">
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+                <path d="m8 8 6 6" />
+                <path d="m14 8-6 6" />
+              </svg>
+            </span>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-ink">No results found</p>
+              <p class="text-xs text-ink-soft">Try different keywords or check your spelling.</p>
+            </div>
+            <button
+              type="button"
+              data-site-search-clear
+              class="
+                mt-1 inline-flex items-center gap-1.5 rounded-full border border-line/50
+                bg-surface/50 px-3 py-1.5 text-xs font-medium text-ink-soft
+                transition-all duration-200 ease-out
+                hover:border-brand/40 hover:bg-brand-soft/20 hover:text-brand
+                active:scale-95
+                motion-reduce:transition-none
+                motion-reduce:active:scale-100
+              "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              >
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+              </svg>
+              Clear search
+            </button>
+          </li>
+        `
+        setStatusMessage(`No matching results for ${trimmed}. Try different keywords.`)
         return
       }
 
@@ -652,13 +763,24 @@ import { Icon } from 'astro-icon/components'
         const a = document.createElement('a')
         a.href = e.path
         a.className = `
-          group flex gap-3 rounded-xl border border-line/60 bg-surface/70 p-2.5
-          shadow-[inset_0_1px_0_hsl(var(--ink)/0.03)]
-          transition duration-200 hover:border-brand/45 hover:bg-brand-soft/25
-          hover:shadow-[0_12px_40px_hsl(var(--ink)/0.06)]
+          group relative flex gap-3 rounded-xl border border-transparent p-2.5
+          transition-all duration-250 ease-out
+          hover:border-line/50 hover:bg-surface/60 hover:shadow-sm
           motion-reduce:transition-none
           sm:gap-3.5 sm:p-3
         `.trim().replace(/\s+/g, ' ')
+
+        // Active selection indicator (left border accent)
+        const indicator = document.createElement('span')
+        indicator.setAttribute('data-site-search-indicator', '')
+        indicator.className = `
+          pointer-events-none absolute -left-0.5 top-1/2 h-6 w-1 -translate-y-1/2
+          rounded-r-full bg-brand opacity-0
+          transition-all duration-200
+          group-hover:opacity-40 group-hover:scale-y-75
+          motion-reduce:transition-none
+        `.trim().replace(/\s+/g, ' ')
+        a.appendChild(indicator)
 
         const thumbHost = document.createElement('span')
         thumbHost.setAttribute('data-site-search-thumb-frame', '')
@@ -709,15 +831,25 @@ import { Icon } from 'astro-icon/components'
         body.className = 'flex min-w-0 flex-1 flex-col justify-center gap-0.5'
 
         const typeEl = document.createElement('span')
-        typeEl.className = 'section-label'
+        typeEl.className = `
+          section-label transition-colors duration-200
+          group-hover:text-brand/80
+        `.trim()
         typeEl.textContent = e.type === 'post' ? 'Post' : 'Project'
 
         const titleEl = document.createElement('span')
-        titleEl.className = 'text-sm font-semibold text-ink transition group-hover:text-brand'
+        titleEl.className = `
+          text-sm font-semibold text-ink transition-colors duration-200
+          group-hover:text-brand
+        `.trim()
         titleEl.textContent = e.title
 
         const descEl = document.createElement('span')
-        descEl.className = 'line-clamp-2 text-xs/5 text-ink-soft sm:text-sm/6'
+        descEl.className = `
+          line-clamp-2 text-xs/5 text-ink-soft transition-colors duration-200
+          group-hover:text-ink-soft/90
+          sm:text-sm/6
+        `.trim()
         descEl.textContent = e.description
 
         body.append(typeEl, titleEl, descEl)
@@ -964,6 +1096,18 @@ import { Icon } from 'astro-icon/components'
             input.dispatchEvent(new Event('input', { bubbles: true }))
             input.focus()
           }
+          return
+        }
+
+        const clearButton =
+          event.target instanceof Element ?
+            event.target.closest('[data-site-search-clear]') :
+            null
+        if (clearButton instanceof HTMLButtonElement) {
+          event.preventDefault()
+          input.value = ''
+          input.dispatchEvent(new Event('input', { bubbles: true }))
+          input.focus()
           return
         }
 

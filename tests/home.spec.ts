@@ -36,7 +36,8 @@ test('homepage has correct title and main sections', async ({ page }) => {
 
   await expect(mainMenu).toBeVisible()
   await expect(mainMenu.getByRole('link', { name: 'About' })).toBeVisible()
-  await expect(mainMenu.getByRole('link', { name: 'Portfolio' })).toBeVisible()
+  await expect(mainMenu.getByRole('link', { name: 'Work' })).toBeVisible()
+  await expect(mainMenu.getByRole('link', { name: 'Projects' })).toBeVisible()
   await expect(mainMenu.getByRole('link', { name: 'Blog' })).toBeVisible()
 
   await expectNoUnexpectedAccessibilityViolations(page)
@@ -126,16 +127,25 @@ test('keyboard navigation opens selected search result', async ({ page }) => {
   await expect(page).toHaveURL(url => url.pathname === expectedPath)
 })
 
-test('homepage project ctas keep accessible names aligned with their visible labels', async ({ page }) => {
+test('homepage project cards have descriptive accessible names', async ({ page }) => {
   await page.goto('/')
 
-  const projectCtas = page.locator('a').filter({ hasText: 'View project' })
-  const projectCtaCount = await projectCtas.count()
+  // The new design uses cards that contain headings and are wrapped in links
+  // We specifically target h3 elements inside project cards to avoid community cards
+  const projectTitles = page.locator('[data-project-card] h3')
+  const projectCount = await projectTitles.count()
 
-  expect(projectCtaCount).toBeGreaterThan(0)
+  expect(projectCount).toBeGreaterThan(0)
 
-  for (let index = 0; index < projectCtaCount; index += 1) {
-    await expect(projectCtas.nth(index)).toHaveAccessibleName(/View project about /i)
+  for (let index = 0; index < projectCount; index += 1) {
+    const titleElement = projectTitles.nth(index)
+    const titleText = await titleElement.innerText()
+
+    // The link is the ancestor 'a' of the title element
+    const cardLink = titleElement.locator('xpath=ancestor::a').first()
+
+    expect(titleText.trim().length).toBeGreaterThan(0)
+    await expect(cardLink).toContainText(titleText.trim())
   }
 })
 
@@ -195,27 +205,27 @@ if (shouldRunVisualSnapshots) {
   console.info(visualSnapshotSkipReason)
 }
 
-test('desktop navigation to portfolio works', async ({ page }) => {
+test('desktop navigation to work works', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 })
   await page.goto('/')
 
-  await page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'Portfolio' }).click()
+  await page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'Work' }).click()
 
-  await expect(page).toHaveURL(/\/portfolio\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Case studies from real teams/i })).toBeVisible()
+  await expect(page).toHaveURL(/\/work\/$/)
+  await expect(page.getByRole('heading', { level: 1, name: /Products shipped/i })).toBeVisible()
 })
 
-test('mobile navigation to portfolio works', async ({ page }) => {
+test('mobile navigation to work works', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
 
   await navigateFromMobileMenu(page, {
-    linkName: 'Portfolio',
-    urlPattern: /\/portfolio\/$/
+    linkName: 'Work',
+    urlPattern: /\/work\/$/
   })
 
-  await expect(page).toHaveURL(/\/portfolio\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Case studies from real teams/i })).toBeVisible()
+  await expect(page).toHaveURL(/\/work\/$/)
+  await expect(page.getByRole('heading', { level: 1, name: /Products shipped/i })).toBeVisible()
 })
 
 test('desktop navigation to blog works', async ({ page }) => {
@@ -225,7 +235,7 @@ test('desktop navigation to blog works', async ({ page }) => {
   await page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'Blog' }).click()
 
   await expect(page).toHaveURL(/\/blog\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Writing about software architecture/i })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /Writing about software/i })).toBeVisible()
 })
 
 test('mobile navigation to blog works', async ({ page }) => {
@@ -238,5 +248,5 @@ test('mobile navigation to blog works', async ({ page }) => {
   })
 
   await expect(page).toHaveURL(/\/blog\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Writing about software architecture/i })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /Writing about software/i })).toBeVisible()
 })

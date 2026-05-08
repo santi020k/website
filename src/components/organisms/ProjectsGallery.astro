@@ -1,0 +1,145 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { Icon } from 'astro-icon/components'
+
+import CoverImage from '@/components/atoms/CoverImage.astro'
+import Pill from '@/components/atoms/Pill.astro'
+
+import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
+import { getProjectDateRangeLabel } from '@/utils/project-meta'
+import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+interface Props {
+  projects: CollectionEntry<'project'>[]
+}
+
+const { projects } = Astro.props
+
+const projectItems = projects.map(project => ({
+  coverImage: project.data.coverImage,
+  dateRange: getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate),
+  description: project.data.description,
+  href: getPortfolioPath(project.id),
+  isActive: !project.data.endingDate,
+  technologies: sortTechnologiesByInterest(project.data.technologies).slice(0, 3),
+  title: project.data.title
+}))
+---
+
+<div class="space-y-6">
+  {/* Featured project - large */}
+  {projectItems[0] && (
+    <article class="group relative overflow-hidden rounded-3xl border border-line/50 bg-surface">
+      <a class="block" href={projectItems[0].href}>
+        <div class="grid lg:grid-cols-2">
+          {/* Image side */}
+          <div class="relative aspect-16/10 overflow-hidden lg:aspect-auto">
+            {projectItems[0].coverImage?.src ? (
+              <CoverImage
+                alt={projectItems[0].coverImage.alt || projectItems[0].title}
+                className="h-full w-full rounded-none border-0 object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
+                image={projectItems[0].coverImage.src}
+                loading="eager"
+                mode="card"
+                sizes="(min-width: 1024px) 50vw, 100vw"
+              />
+            ) : (
+              <div class="grid-fade flex h-full w-full items-center justify-center bg-surface-muted">
+                <Icon class="size-16 text-line" name="tabler:code" />
+              </div>
+            )}
+            {/* Status badge */}
+            <div class="absolute left-4 top-4">
+              <Pill
+                label={projectItems[0].isActive ? 'Active' : 'Completed'}
+                tone={projectItems[0].isActive ? 'brand' : 'neutral'}
+              />
+            </div>
+          </div>
+
+          {/* Content side */}
+          <div class="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+            <span class="text-sm font-medium text-ink-muted">{projectItems[0].dateRange}</span>
+            <h3 class="mt-2 text-2xl font-semibold text-ink transition-colors group-hover:text-brand sm:text-3xl motion-reduce:transition-none">
+              {projectItems[0].title}
+            </h3>
+            <p class="mt-4 line-clamp-3 text-base/7 text-ink-soft">
+              {projectItems[0].description}
+            </p>
+            {projectItems[0].technologies.length > 0 && (
+              <div class="mt-6 flex flex-wrap gap-2">
+                {projectItems[0].technologies.map(tech => (
+                  <Pill href={getTechnologyPath(tech)} label={tech} tone="outline" />
+                ))}
+              </div>
+            )}
+            <div class="mt-8 flex items-center gap-2 font-medium text-brand">
+              <span>View project</span>
+              <Icon
+                aria-hidden="true"
+                class="size-5 transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
+                name="tabler:arrow-right"
+              />
+            </div>
+          </div>
+        </div>
+      </a>
+    </article>
+  )}
+
+  {/* Grid for remaining projects */}
+  {projectItems.length > 1 && (
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {projectItems.slice(1).map(project => (
+        <article class="group card-interactive flex flex-col overflow-hidden rounded-2xl border border-line/50 bg-surface">
+          <a class="block" href={project.href}>
+            {/* Thumbnail */}
+            <div class="relative aspect-16/10 overflow-hidden">
+              {project.coverImage?.src ? (
+                <CoverImage
+                  alt={project.coverImage.alt || project.title}
+                  className="h-full w-full rounded-none border-0 object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
+                  image={project.coverImage.src}
+                  loading="lazy"
+                  mode="card"
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                />
+              ) : (
+                <div class="grid-fade flex h-full w-full items-center justify-center bg-surface-muted">
+                  <Icon class="size-12 text-line" name="tabler:code" />
+                </div>
+              )}
+              {/* Status badge */}
+              <div class="absolute left-3 top-3">
+                <Pill
+                  label={project.isActive ? 'Active' : 'Completed'}
+                  tone={project.isActive ? 'brand' : 'neutral'}
+                />
+              </div>
+            </div>
+
+            {/* Content */}
+            <div class="flex flex-1 flex-col p-5">
+              <span class="text-xs font-medium text-ink-muted">{project.dateRange}</span>
+              <h3 class="mt-2 text-lg font-semibold text-ink transition-colors group-hover:text-brand motion-reduce:transition-none">
+                {project.title}
+              </h3>
+              <p class="mt-2 line-clamp-2 text-sm/6 text-ink-soft">
+                {project.description}
+              </p>
+              {project.technologies.length > 0 && (
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                  {project.technologies.map(tech => (
+                    <span class="rounded-md bg-surface-muted px-2 py-1 text-xs text-ink-soft">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  )}
+</div>

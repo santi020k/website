@@ -1,0 +1,122 @@
+---
+interface Props {
+  quote: string
+  authorName: string
+  role: string
+  relationship: string
+  avatarInitials: string
+  avatarUrl?: string | undefined
+}
+
+const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Astro.props
+---
+
+<article class="testimonial-card h-full flex flex-col p-6 sm:p-7" data-testimonial>
+  {/* Decorative quote mark */}
+  <div
+    aria-hidden="true"
+    class="mb-4 transition-colors duration-300 text-brand/15 group-hover:text-brand/30"
+    data-testimonial-quote
+  >
+    <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+    </svg>
+  </div>
+
+  <blockquote class="flex-1">
+    <p class="text-base/7 text-ink sm:text-[0.95rem]/[1.75] font-medium">
+      "{quote}"
+    </p>
+  </blockquote>
+
+  <div class="mt-6 flex items-center gap-4 border-t border-line/22 pt-5">
+    {avatarUrl ? (
+      <img
+        alt={authorName}
+        class="size-12 shrink-0 rounded-full object-cover ring-2 ring-brand/15 transition-all duration-300 motion-safe:group-hover:ring-brand/35"
+        decoding="async"
+        height="48"
+        loading="lazy"
+        src={avatarUrl}
+        width="48"
+      />
+    ) : (
+      <div
+        class="
+          grid size-12 shrink-0 place-items-center rounded-full
+          bg-gradient-to-br from-brand/15 to-accent/10
+          text-sm font-semibold text-brand ring-2 ring-brand/15
+          transition-all duration-300 motion-safe:group-hover:ring-brand/35
+        "
+      >
+        {avatarInitials}
+      </div>
+    )}
+    <div class="min-w-0">
+      <p class="text-sm font-semibold text-ink truncate">{authorName}</p>
+      <p class="text-xs text-ink-muted truncate">{role} · {relationship}</p>
+    </div>
+  </div>
+</article>
+
+<style>
+  .testimonial-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.75rem;
+    background: linear-gradient(
+      145deg,
+      hsl(var(--surface) / 0.76) 0%,
+      hsl(var(--surface-muted) / 0.55) 100%
+    );
+    border: 1px solid hsl(var(--line) / 0.38);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.1),
+      0 10px 28px hsl(230 30% 8% / 0.04),
+      0 3px 8px hsl(230 30% 8% / 0.025);
+    transition:
+      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease;
+  }
+
+  /* Subtle brand wash on hover */
+  .testimonial-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 70% 55% at 15% 10%,
+      hsl(var(--brand) / 0.06),
+      transparent 65%
+    );
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      border-color: hsl(var(--brand) / 0.26);
+      box-shadow:
+        inset 0 1px 0 hsl(0 0% 100% / 0.14),
+        0 22px 52px hsl(230 30% 8% / 0.09),
+        0 8px 20px hsl(var(--brand) / 0.1);
+    }
+
+    .testimonial-card:hover::after {
+      opacity: 1;
+    }
+
+    [data-testimonial-quote] {
+      transition: color 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .testimonial-card:hover [data-testimonial-quote] {
+      transform: scale(1.12) rotate(-4deg);
+    }
+  }
+</style>

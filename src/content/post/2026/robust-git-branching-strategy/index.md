@@ -2,6 +2,9 @@
 title: "A Robust Git Branching Strategy for Scaling Engineering Teams"
 description: "How to move past simple feature branching and implement a structured branching model that supports stable releases, UAT environments, and fast hotfixes without disrupting ongoing development."
 publishDate: "2026-05-15"
+coverImage:
+  alt: "Editorial cover for A Robust Git Branching Strategy for Scaling Engineering Teams"
+  src: "./cover.webp"
 tags: ["git", "workflow", "ci-cd", "engineering-management"]
 postType: "Guide"
 draft: true

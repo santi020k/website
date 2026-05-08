@@ -1,19 +1,20 @@
 ---
 import { ClientRouter } from 'astro:transitions'
 
-import BackToTop from '../components/atoms/BackToTop.astro'
-import SkipLink from '../components/atoms/SkipLink.astro'
-import SiteFooter from '../components/organisms/SiteFooter.astro'
-import SiteHeader from '../components/organisms/SiteHeader.astro'
-import BaseHead from '../components/shared/BaseHead.astro'
-import NavProgress from '../components/shared/NavProgress.astro'
-import ScrollReveal from '../components/shared/ScrollReveal.astro'
-import ServiceWorkerRegistration from '../components/shared/ServiceWorkerRegistration.astro'
-import ThemeProvider from '../components/shared/ThemeProvider.astro'
-import { siteConfig } from '../site.config'
-import type { SiteMeta } from '../types/site'
+import BackToTop from '@/components/atoms/BackToTop.astro'
+import ParticlesBackground from '@/components/atoms/ParticlesBackground.astro'
+import SkipLink from '@/components/atoms/SkipLink.astro'
+import SiteFooter from '@/components/organisms/SiteFooter.astro'
+import SiteHeader from '@/components/organisms/SiteHeader.astro'
+import BaseHead from '@/components/shared/BaseHead.astro'
+import NavProgress from '@/components/shared/NavProgress.astro'
+import ScrollReveal from '@/components/shared/ScrollReveal.astro'
+import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistration.astro'
+import ThemeProvider from '@/components/shared/ThemeProvider.astro'
+import { siteConfig } from '@/site.config'
+import type { SiteMeta } from '@/types/site'
 
-import '../styles/global.css'
+import '@/styles/global.css'
 
 interface Props {
   meta: SiteMeta
@@ -53,7 +54,8 @@ const headMeta = {
     <ThemeProvider />
     <SkipLink />
 
-    <div class="relative min-h-screen w-full overflow-x-clip">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-clip">
+      <ParticlesBackground density="medium" class="-z-10" />
       <div class="
         pointer-events-none absolute inset-0 -z-10 grid-fade opacity-60
       "
@@ -63,7 +65,7 @@ const headMeta = {
       <main
         id="main"
         class="
-          mx-auto flex min-h-[calc(100vh-8rem)] w-full max-w-6xl flex-col gap-24
+          mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-24
           px-5 pt-12 pb-24
           sm:px-6
           lg:px-8

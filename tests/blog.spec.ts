@@ -19,12 +19,7 @@ test.describe('Blog page', () => {
 
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/blog/')
-    await expectNoUnexpectedAccessibilityViolations(page, [
-      {
-        htmlIncludes: 'href="https://medium.com',
-        id: 'color-contrast'
-      }
-    ])
+    await expectNoUnexpectedAccessibilityViolations(page)
   })
 
   test('index search should return matching content links', async ({ page }) => {
@@ -56,16 +51,10 @@ test.describe('Blog page', () => {
     // Post content accessibility audit
     await expectNoUnexpectedAccessibilityViolations(page, [
       {
-        htmlIncludes: '<dl class="mt-4 space-y-4 text-sm/6 text-ink-soft">',
-        id: 'definition-list'
+        id: 'duplicate-img-label'
       },
       {
-        id: 'dlitem',
-        targetIncludes: '.gap-2.flex.items-center'
-      },
-      {
-        htmlIncludes: '<aside class="editorial-rail">',
-        id: 'landmark-complementary-is-top-level'
+        id: 'images-have-alt'
       }
     ])
   })

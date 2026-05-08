@@ -1,0 +1,161 @@
+---
+import { Icon } from 'astro-icon/components'
+---
+
+<dialog
+  aria-labelledby="site-search-title"
+  class="
+    fixed inset-0 z-100 m-0 size-full max-h-none max-w-none border-0
+    bg-transparent p-0
+  "
+  data-site-search-dialog
+  id="site-search-dialog"
+>
+  <!--
+    `pointer-events-none` on the shell so clicks in the letterboxed margin hit the scrim
+    (otherwise the flex box captures them and outside-click never closes).
+  -->
+  <div
+    class="
+      pointer-events-none absolute inset-0 flex min-h-dvh w-full items-center
+      justify-center p-4
+      sm:p-6
+    "
+  >
+    <div
+      aria-hidden="true"
+      class="pointer-events-auto absolute inset-0 z-0 cursor-default"
+      data-site-search-scrim
+    >
+    </div>
+
+    <div
+      class="
+        pointer-events-auto relative z-10 flex max-h-[min(90dvh,40rem)] w-full
+        max-w-lg flex-col gap-4 overflow-hidden rounded-[1.75rem] border
+        border-line/38 p-5
+        sm:p-6
+      "
+      data-site-search-panel
+      role="document"
+      style="
+        background: linear-gradient(145deg, hsl(var(--surface) / 0.74) 0%, hsl(var(--surface-muted) / 0.52) 100%);
+        backdrop-filter: blur(18px) saturate(150%);
+        box-shadow:
+          0 1px 0 hsl(0 0% 100% / 0.09) inset,
+          0 10px 28px hsl(230 30% 8% / 0.04),
+          0 4px 10px hsl(230 30% 8% / 0.025),
+          0 24px 80px hsl(var(--ink) / 0.15);
+        transition:
+          transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+          border-color 0.3s ease,
+          background 0.3s ease;
+      "
+      onmouseenter="this.style.boxShadow='0 1px 0 hsl(0 0% 100% / 0.09) inset, 0 14px 40px hsl(230 30% 8% / 0.06), 0 6px 16px hsl(230 30% 8% / 0.04), 0 28px 100px hsl(var(--ink) / 0.18), 0 0 0 1px hsl(var(--brand) / 0.08)'"
+      onmouseleave="this.style.boxShadow='0 1px 0 hsl(0 0% 100% / 0.09) inset, 0 10px 28px hsl(230 30% 8% / 0.04), 0 4px 10px hsl(230 30% 8% / 0.025), 0 24px 80px hsl(var(--ink) / 0.15)'"
+    >
+      <!-- Specular top-edge highlight -->
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-x-[12%] top-0 z-20 h-px"
+        style="background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.38) 30%, hsl(0 0% 100% / 0.52) 50%, hsl(0 0% 100% / 0.38) 70%, transparent);"
+      />
+      <!-- Brand glow blob (bottom-right) -->
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity
+          duration-500
+        "
+        style="background: radial-gradient(ellipse 65% 50% at 88% 92%, hsl(var(--brand) / 0.07), transparent 60%);"
+        data-site-search-glow
+      />
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-semibold text-ink" id="site-search-title">
+            Search
+          </h2>
+          <p class="mt-1 text-sm text-ink-soft">
+            Match titles, tags, and descriptions. Arrow keys to move,
+            <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Enter</kbd> to open,
+            <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
+          </p>
+        </div>
+        <button
+          class="
+            inline-flex min-h-10 min-w-10 items-center justify-center
+            rounded-full border border-transparent text-ink-soft transition-all
+            duration-250 ease-out
+            hover:scale-108 hover:border-line/50 hover:bg-surface-muted/80
+            hover:text-brand hover:shadow-sm
+            active:scale-95
+            motion-reduce:transition-none
+            motion-reduce:hover:scale-100
+            motion-reduce:active:scale-100
+          "
+          data-site-search-close
+          type="button"
+        >
+          <Icon aria-hidden="true" class="size-5" name="tabler:x" />
+          <span class="sr-only">Close search</span>
+        </button>
+      </div>
+
+      <div class="relative">
+        <label class="sr-only" for="site-search-input">Search posts and projects</label>
+        <input
+          autocomplete="off"
+          class="
+            peer w-full border-b border-line/55 bg-transparent px-0 py-3.5
+            text-sm text-ink transition-all duration-300 outline-none
+            placeholder:text-ink-muted/70 placeholder:transition-colors
+            placeholder:duration-300
+            focus:border-brand/60
+            focus:placeholder:text-ink-muted/40
+            motion-reduce:transition-none
+            motion-reduce:focus:placeholder:text-ink-muted
+          "
+          id="site-search-input"
+          placeholder="Search by title, tag, or keyword…"
+          spellcheck="false"
+          type="search"
+        />
+        <!-- Focus glow line -->
+        <span
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left
+            scale-x-0 bg-linear-to-r from-brand/60 via-accent/80 to-brand/60
+            transition-transform duration-300 ease-out
+            peer-focus:scale-x-100
+            motion-reduce:hidden
+          "
+        />
+      </div>
+
+      <p class="text-xs/relaxed text-ink-muted">
+        <span class="text-ink-soft">Open from the page</span> (not while typing in a field):
+        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">/</kbd>
+        ·
+        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">⌘</kbd>
+        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
+        or
+        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</kbd>
+        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
+      </p>
+
+      <p aria-atomic="true" aria-live="polite" class="sr-only" id="site-search-status"></p>
+
+      <!-- Results list with enhanced hover states -->
+      <ul
+        id="site-search-results"
+        class="
+          max-h-[min(50vh,24rem)] min-h-0 space-y-1 overflow-y-auto p-0.5
+          [-webkit-overflow-scrolling:touch]
+        "
+      >
+      </ul>
+    </div>
+  </div>
+</dialog>
