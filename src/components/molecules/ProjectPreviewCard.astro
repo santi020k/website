@@ -305,15 +305,15 @@ const logoBoxClass = {
   /* Background: stable brand wash with the cover used only as texture */
   [data-card-bg-base] {
     background:
-      radial-gradient(ellipse 95% 68% at 50% 2%, hsl(var(--card-accent) / 0.28), transparent 62%),
-      radial-gradient(ellipse 74% 62% at 12% 20%, hsl(var(--card-accent) / 0.16), transparent 68%),
-      radial-gradient(ellipse 70% 58% at 88% 78%, hsl(var(--card-accent) / 0.12), transparent 68%),
+      radial-gradient(ellipse 95% 68% at 50% 2%, hsl(var(--card-accent) / 0.32), transparent 62%),
+      radial-gradient(ellipse 74% 62% at 12% 20%, hsl(var(--card-accent) / 0.18), transparent 68%),
+      radial-gradient(ellipse 70% 58% at 88% 78%, hsl(var(--card-accent) / 0.14), transparent 68%),
       linear-gradient(180deg, hsl(var(--brand-soft) / 0.95) 0%, hsl(var(--surface-muted) / 0.9) 60%, hsl(var(--surface) / 0.98) 100%);
   }
 
   [data-card-bg] {
-    opacity: 0.24;
-    filter: blur(1px) saturate(0.95) contrast(0.98) brightness(0.98);
+    opacity: 0.28;
+    filter: blur(1px) saturate(1.05) contrast(1.02) brightness(0.96);
     mix-blend-mode: multiply;
     transform: scale(1.03);
     mask-image: linear-gradient(to bottom, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.72) 45%, transparent 82%);
@@ -322,8 +322,8 @@ const logoBoxClass = {
 
   [data-card-bg-overlay] {
     background:
-      linear-gradient(180deg, hsl(0 0% 100% / 0.16) 0%, transparent 18%),
-      linear-gradient(180deg, hsl(var(--surface) / 0) 0%, hsl(var(--surface) / 0.36) 56%, hsl(var(--surface) / 0.9) 100%);
+      linear-gradient(180deg, hsl(0 0% 100% / 0.12) 0%, transparent 18%),
+      linear-gradient(180deg, hsl(var(--surface) / 0) 0%, hsl(var(--surface) / 0.3) 56%, hsl(var(--surface) / 0.86) 100%);
   }
 
   [data-card-scrim] {
