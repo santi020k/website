@@ -57,11 +57,11 @@
   },
   "type": "module",
   "dependencies": {
-    "@astrojs/mdx": "5.0.3",
+    "@astrojs/mdx": "5.0.4",
     "@astrojs/rss": "4.0.18",
     "@astrojs/sitemap": "3.7.2",
     "@shikijs/transformers": "^4.0.2",
-    "astro": "6.1.8",
+    "astro": "6.3.1",
     "astro-icon": "^1.1.5",
     "astro-robots-txt": "^1.0.0",
     "astro-webmanifest": "^1.0.0",
@@ -81,7 +81,7 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.8",
+    "@astrojs/check": "^0.9.9",
     "@astrojs/ts-plugin": "^1.10.7",
     "@axe-core/playwright": "^4.11.2",
     "@iconify-json/tabler": "^1.2.33",
