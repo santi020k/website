@@ -84,7 +84,7 @@
     "@astrojs/check": "^0.9.8",
     "@astrojs/ts-plugin": "^1.10.7",
     "@axe-core/playwright": "^4.11.2",
-    "@iconify-json/tabler": "^1.2.33",
+    "@iconify-json/tabler": "^1.2.35",
     "@iconify/tailwind4": "^1.2.3",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.59.1",
