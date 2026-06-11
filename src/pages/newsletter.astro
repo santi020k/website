@@ -1,0 +1,123 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+
+import { fetchNewsletterIssues } from '@/utils/newsletter'
+
+import PageLayout from '@/layouts/Base.astro'
+import { siteConfig } from '@/site.config'
+
+const description =
+  'A low-volume newsletter with engineering notes and essays from Santiago Molina — architecture, automation, developer experience, and calmer delivery.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Newsletter', url: '/newsletter/' }
+]
+
+const issues = siteConfig.newsletter?.archiveFeedUrl ?
+  await fetchNewsletterIssues(siteConfig.newsletter.archiveFeedUrl) :
+  []
+
+const formatDate = (date: Date | undefined) =>
+  (date ? date.toLocaleDateString(siteConfig.date.locale, siteConfig.date.options) : undefined)
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    description,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: issues.map((issue, index) => ({
+        '@type': 'ListItem',
+        name: issue.title,
+        position: index + 1,
+        url: issue.link
+      })),
+      name: 'Newsletter archive'
+    },
+    name: 'Newsletter'
+  }
+]
+---
+
+<PageLayout meta={{
+  breadcrumbs,
+  description,
+  structuredData,
+  title: 'Newsletter'
+}}
+>
+  <PageHero
+    description="Engineering notes and essays — architecture, automation, developer experience, and calmer delivery. Low volume; practical writeups for people who build and lead software."
+    eyebrow="Newsletter"
+    gradientText="straight to your inbox."
+    title="Engineering notes,"
+  >
+    <ButtonLink href="/blog/" showArrow>
+      Read the blog
+    </ButtonLink>
+    <ButtonLink href="/feed.xml" showArrow variant="secondary">
+      Prefer RSS?
+    </ButtonLink>
+  </PageHero>
+
+  {siteConfig.newsletter && (
+    <section data-animate>
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} />
+    </section>
+  )}
+
+  <PageSection>
+    <SectionHeader
+      description="Every issue lives on the web too — browse past sends before deciding whether the inbox version is worth it."
+      eyebrow="Archive"
+      title="Past issues."
+    />
+
+    {issues.length > 0 ? (
+      <ol class="space-y-4" data-stagger="50" role="list">
+        {issues.map(issue => (
+          <li class="panel-card p-5">
+            <article>
+              <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <h3 class="text-base font-semibold text-ink">
+                  <a
+                    class="
+                      transition-colors
+                      hover:text-brand
+                      motion-reduce:transition-none
+                    "
+                    href={issue.link}
+                    rel="noreferrer noopener"
+                    target="_blank"
+                  >
+                    {issue.title}
+                  </a>
+                </h3>
+                {issue.pubDate && (
+                  <time class="text-xs text-ink-muted" datetime={issue.pubDate.toISOString()}>
+                    {formatDate(issue.pubDate)}
+                  </time>
+                )}
+              </div>
+              {issue.description && <p class="mt-2 text-sm/7 text-ink-soft">{issue.description}</p>}
+            </article>
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <div class="mini-note">
+        <p class="section-label">No issues yet</p>
+        <p class="mt-3 text-sm/7 text-ink-soft">
+          The first issue hasn't shipped (or the archive couldn't be loaded at build time). Subscribe above and
+          you'll get it when it lands — or follow along via <a class="underline underline-offset-4 hover:text-brand" href="/feed.xml">RSS</a>.
+        </p>
+      </div>
+    )}
+  </PageSection>
+</PageLayout>

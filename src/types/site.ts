@@ -1,7 +1,26 @@
 export interface SiteNewsletter {
 
+  /** Public RSS feed of past issues, e.g. `https://buttondown.com/yourhandle/rss`. Powers the `/newsletter/` archive. */
+  archiveFeedUrl?: string
+
   /** `POST` action URL, e.g. `https://buttondown.com/api/emails/embed-subscribe/yourhandle` */
   formAction: string
+}
+
+/** Giscus (GitHub Discussions) comments config. All values come from https://giscus.app */
+export interface SiteGiscus {
+  category: string
+  categoryId: string
+
+  /** Public GitHub repo with Discussions enabled, e.g. `santi020k/website-comments` */
+  repo: string
+  repoId: string
+}
+
+export interface SiteAnalytics {
+
+  /** Cloudflare Web Analytics beacon token (dashboard → Analytics & Logs → Web Analytics) */
+  cloudflareBeaconToken: string
 }
 
 /** Site-wide configuration shape used in site.config.ts */
@@ -32,6 +51,12 @@ export interface SiteConfig {
 
   /** Leave unset to hide the footer signup form until you add a provider URL. */
   newsletter?: SiteNewsletter
+
+  /** Leave unset to render no comments UI. Fill from https://giscus.app once a public repo with Discussions exists. */
+  giscus?: SiteGiscus
+
+  /** Leave unset to ship no analytics script. */
+  analytics?: SiteAnalytics
   socialLinks: SiteSocialLink[]
   title: string
 }

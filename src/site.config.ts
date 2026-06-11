@@ -39,7 +39,21 @@ export const siteConfig: SiteConfig = {
   lang: 'en-US',
   location: 'Medellin, Colombia · Remote worldwide',
   ogLocale: 'en_US',
-  newsletter: { formAction: 'https://buttondown.com/api/emails/embed-subscribe/santi020k' },
+  newsletter: {
+    archiveFeedUrl: 'https://buttondown.com/santi020k/rss',
+    formAction: 'https://buttondown.com/api/emails/embed-subscribe/santi020k'
+  },
+  // Comments: create a public repo with Discussions enabled, grab the four IDs
+  // from https://giscus.app, then uncomment. Comments stay hidden until set.
+  // giscus: {
+  //   category: 'Blog comments',
+  //   categoryId: '<from giscus.app>',
+  //   repo: 'santi020k/<public-repo>',
+  //   repoId: '<from giscus.app>'
+  // },
+  // Analytics: Cloudflare dashboard → Analytics & Logs → Web Analytics → add
+  // site → copy the beacon token, then uncomment. No script ships until set.
+  // analytics: { cloudflareBeaconToken: '<token>' },
   showAvailabilityBanner: false,
   socialLinks: [
     {

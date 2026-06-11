@@ -9,9 +9,15 @@ import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { getCachedPosts } from '@/utils/content'
 
-import { selectedSessions, speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
+import { getCollection } from 'astro:content'
+
+import { speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
 import PageLayout from '@/layouts/Base.astro'
 import { AUTHOR_JOB_TITLE, createWhatsAppHref, sameAsProfiles, siteConfig, whatsappMessages } from '@/site.config'
+
+const selectedSessions = (await getCollection('talk', ({ data }) => !data.draft))
+  .map(({ data }) => data)
+  .sort((a, b) => (b.year - a.year) || (a.order - b.order))
 
 const postCount = (await getCachedPosts()).length
 const highlights = speakingHighlights.map(h => h.label === 'Published writing' ? { ...h, value: `${postCount} posts` } : h)

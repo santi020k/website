@@ -88,6 +88,25 @@ const types = defineCollection({
   })
 })
 
+const talk = defineCollection({
+  loader: glob({ base: './src/content/talk', pattern: '**/*.{md,mdx}' }),
+  schema: baseSchema.extend({
+    audience: z.string().optional(),
+    description: z.string(),
+    draft: z.boolean().default(false),
+    event: z.string(),
+    links: z
+      .object({
+        slides: z.url().optional(),
+        video: z.url().optional()
+      })
+      .default({}),
+    order: z.number().default(0),
+    tags: z.array(z.string()).default([]).transform(removeDuplicates),
+    year: z.number().int()
+  })
+})
+
 const post = defineCollection({
   loader: glob({ base: './src/content/post', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
@@ -109,4 +128,4 @@ const post = defineCollection({
   })
 })
 
-export const collections = { post, project, series, types }
+export const collections = { post, project, series, talk, types }

@@ -1,0 +1,105 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+
+import PageLayout from '@/layouts/Base.astro'
+import { siteConfig } from '@/site.config'
+
+// ── Edit this block whenever life changes — that's the whole point of /now ──
+const lastUpdated = new Date('2026-06-11')
+
+const nowSections = [
+  {
+    items: [
+      'Open to tech lead, full-stack, and engineering leadership roles — remote worldwide from Medellín.',
+      'Writing regularly about delivery processes, developer experience, and working with AI coding tools.',
+      'Maintaining the @santi020k ESLint config packages and the tooling around them.'
+    ],
+    title: 'Work'
+  },
+  {
+    items: [
+      'Co-organizing ReactJS Colombia — talks, workshops, and mentorship for the Medellín React community.',
+      'Speaking at meetups and internal engineering sessions about architecture, automation, and calmer delivery.'
+    ],
+    title: 'Community'
+  },
+  {
+    items: [
+      'Evolving this site: newsletter archive, talks, and small quality-of-life improvements ship steadily.',
+      'Exploring where probabilistic AI tooling fits inside deterministic delivery processes.'
+    ],
+    title: 'Currently exploring'
+  }
+]
+// ────────────────────────────────────────────────────────────────────────────
+
+const description =
+  'What Santiago Molina is focused on right now — current work, community involvement, and active explorations. Inspired by nownownow.com.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Now', url: '/now/' }
+]
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    dateModified: lastUpdated.toISOString(),
+    description,
+    mainEntity: {
+      '@type': 'Person',
+      name: siteConfig.author
+    },
+    name: 'Now'
+  }
+]
+
+const formattedDate = lastUpdated.toLocaleDateString(siteConfig.date.locale, siteConfig.date.options)
+---
+
+<PageLayout meta={{
+  breadcrumbs,
+  description,
+  structuredData,
+  title: 'Now'
+}}
+>
+  <PageHero
+    description="A snapshot of current focus — the work, community, and ideas getting real attention at the moment. Updated when things actually change."
+    eyebrow="Now"
+    gradientText="right now."
+    title="What I'm focused on"
+  >
+    <ButtonLink href="/about/" showArrow>
+      More about me
+    </ButtonLink>
+    <ButtonLink href="/uses/" showArrow variant="secondary">
+      See my setup
+    </ButtonLink>
+  </PageHero>
+
+  <PageSection>
+    <SectionHeader
+      description={`A "now page" is a public answer to "what are you up to these days?" — an idea from nownownow.com. Last updated ${formattedDate}.`}
+      eyebrow="Snapshot"
+      title="The current chapter."
+    />
+
+    <div class="space-y-6">
+      {nowSections.map(section => (
+        <section class="space-y-4 border-t border-line/45 pt-6 first:border-t-0 first:pt-0">
+          <p class="section-label">{section.title}</p>
+          <ul class="space-y-3" role="list">
+            {section.items.map(item => (
+              <li class="text-sm/7 text-ink-soft">{item}</li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </PageSection>
+</PageLayout>

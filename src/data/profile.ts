@@ -22,19 +22,6 @@ export interface CollaborationLane {
   title: string
 }
 
-export interface PastTalk {
-  audience?: string
-  description: string
-  event: string
-  links: {
-    slides?: string
-    video?: string
-  }
-  tags: string[]
-  title: string
-  year: number | string
-}
-
 export interface Testimonial {
   avatarInitials: string
   avatarUrl?: string
@@ -115,32 +102,6 @@ export const selectedOrganizations: SocialProofItem[] = [
   {
     context: 'Community talks, workshops, and mentorship through one of Medellin’s most active React groups.',
     label: 'ReactJS Colombia'
-  }
-]
-
-export const selectedSessions: PastTalk[] = [
-  {
-    title: 'Surviving Technical Interviews in React',
-    event: 'ReactJS Medellín',
-    year: 2024,
-    audience: '~110 attendees',
-    description: 'Common React interview questions decoded: what they really test, how to structure your thinking out loud, and the patterns worth knowing cold before any technical screen.',
-    links: {
-      slides: 'https://interviews.santi020k.com/1',
-      video: 'https://www.youtube.com/watch?v=UtBZP93cOUs'
-    },
-    tags: ['React', 'Career', 'Interviews']
-  },
-  {
-    title: 'How to Automate Front End Processes (and Not Die Trying)',
-    event: 'ReactJS Medellín',
-    year: 2024,
-    audience: '~90 attendees',
-    description: 'Practical automation patterns for frontend workflows — linting, testing pipelines, commit conventions, and the small systems changes that let teams ship with less daily friction.',
-    links: {
-      slides: 'https://www.figma.com/proto/sS34aM41Yzpb7yC8wGhsyJ/Untitled?node-id=1-22&t=PtbyUBw0QBWXI4sX-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A22'
-    },
-    tags: ['Frontend', 'Automation', 'DX']
   }
 ]
 

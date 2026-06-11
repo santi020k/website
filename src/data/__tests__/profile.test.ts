@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest'
 import {
   collaborationLanes,
   selectedOrganizations,
-  selectedSessions,
   speakingFormats,
   speakingHighlights,
   speakingTopics,
@@ -37,29 +36,6 @@ describe('selectedOrganizations', () => {
     for (const org of selectedOrganizations) {
       expect(org.label).toBeTruthy()
       expect(org.context).toBeTruthy()
-    }
-  })
-})
-
-describe('selectedSessions', () => {
-  it('is a non-empty array', () => {
-    expect(selectedSessions.length).toBeGreaterThan(0)
-  })
-
-  it('every session has required fields', () => {
-    for (const session of selectedSessions) {
-      expect(session.title).toBeTruthy()
-      expect(session.event).toBeTruthy()
-      expect(session.description).toBeTruthy()
-      expect(session.year).toBeTruthy()
-      expect(Array.isArray(session.tags)).toBe(true)
-    }
-  })
-
-  it('every session has a links object', () => {
-    for (const session of selectedSessions) {
-      expect(session.links).toBeDefined()
-      expect(typeof session.links).toBe('object')
     }
   })
 })

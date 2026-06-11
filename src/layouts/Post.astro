@@ -2,6 +2,7 @@
 import { type CollectionEntry, render } from 'astro:content'
 import { WEBMENTION_API_KEY } from 'astro:env/server'
 
+import CommentsSection from '@/components/molecules/CommentsSection.astro'
 import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
@@ -127,6 +128,8 @@ const breadcrumbs = [
         <ShareButtons title={title} url={canonicalURL.href} />
 
         <WebmentionsSection mentions={webmentions} />
+
+        <CommentsSection />
 
         <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} />
       </div>

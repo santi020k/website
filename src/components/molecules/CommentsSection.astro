@@ -1,0 +1,93 @@
+---
+
+/**
+ * Giscus (GitHub Discussions) comments. Renders nothing until
+ * `siteConfig.giscus` is filled in from https://giscus.app.
+ *
+ * The script element is created client-side so we can pick the initial theme
+ * from the live `data-theme` attribute, then keep the embedded iframe in sync
+ * when the visitor toggles light/dark mode.
+ */
+import { siteConfig } from '@/site.config'
+
+const { giscus } = siteConfig
+---
+
+{giscus && (
+  <section
+    aria-label="Comments"
+    class="space-y-4"
+    data-animate
+    data-giscus-category={giscus.category}
+    data-giscus-category-id={giscus.categoryId}
+    data-giscus-repo={giscus.repo}
+    data-giscus-repo-id={giscus.repoId}
+    id="comments"
+  >
+    <h2 class="text-lg font-semibold text-ink">Comments</h2>
+    <p class="text-sm/7 text-ink-soft">
+      Comments are powered by GitHub Discussions — sign in with GitHub to join the conversation.
+    </p>
+    <div data-giscus-mount></div>
+  </section>
+)}
+
+<script>
+  const GISCUS_THEMES = { dark: 'transparent_dark', light: 'light' } as const
+
+  const getSiteTheme = (): keyof typeof GISCUS_THEMES =>
+    (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light')
+
+  const postThemeToGiscus = () => {
+    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame')
+
+    iframe?.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme: GISCUS_THEMES[getSiteTheme()] } } },
+      'https://giscus.app'
+    )
+  }
+
+  const mountGiscus = () => {
+    const section = document.querySelector<HTMLElement>('#comments')
+    const mount = section?.querySelector('[data-giscus-mount]')
+
+    if (!section || !mount || mount.childElementCount > 0) return
+
+    const script = document.createElement('script')
+
+    script.src = 'https://giscus.app/client.js'
+    script.async = true
+    script.crossOrigin = 'anonymous'
+
+    const attributes: Record<string, string> = {
+      'data-category': section.dataset.giscusCategory ?? '',
+      'data-category-id': section.dataset.giscusCategoryId ?? '',
+      'data-emit-metadata': '0',
+      'data-input-position': 'top',
+      'data-lang': 'en',
+      'data-loading': 'lazy',
+      'data-mapping': 'pathname',
+      'data-reactions-enabled': '1',
+      'data-repo': section.dataset.giscusRepo ?? '',
+      'data-repo-id': section.dataset.giscusRepoId ?? '',
+      'data-strict': '1',
+      'data-theme': GISCUS_THEMES[getSiteTheme()]
+    }
+
+    for (const [name, value] of Object.entries(attributes)) {
+      script.setAttribute(name, value)
+    }
+
+    mount.appendChild(script)
+  }
+
+  // Keep the iframe theme in sync with the site's theme toggle.
+  const themeObserver = new MutationObserver(postThemeToGiscus)
+
+  themeObserver.observe(document.documentElement, { attributeFilter: ['data-theme'] })
+
+  mountGiscus()
+
+  // Re-mount after View Transitions swaps in a new post body.
+  document.addEventListener('astro:after-swap', mountGiscus)
+</script>
