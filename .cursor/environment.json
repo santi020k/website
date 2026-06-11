@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.cursor.com/schemas/environment.schema.json",
-  "name": "private-website",
+  "name": "website",
   "install": "corepack enable && HUSKY=0 pnpm install --frozen-lockfile",
   "ports": [
     {

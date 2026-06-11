@@ -11,7 +11,7 @@ Use this skill when you need to add a new portfolio project entry to the site. P
 
 - Review the project collection schema in `src/content.config.ts` (the `project` `defineCollection` block).
 - Use `npm` as the package manager (not `yarn`).
-- Run commands from the project root (`/Users/smith/Projects/santi020k/private-website`), not from subdirectories.
+- Run commands from the project root (`/Users/smith/Projects/santi020k/website`), not from subdirectories.
 
 ## Steps
 

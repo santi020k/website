@@ -18,6 +18,7 @@ import { siteConfig } from './src/site.config'
 import { getPostSlug } from './src/utils/posts'
 
 import mdx from '@astrojs/mdx'
+import { unified } from '@astrojs/markdown-remark'
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap'
 import {
   transformerMetaHighlight,
@@ -240,40 +241,41 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: false,
 
-    remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
-    remarkRehype: {
-      footnoteLabelProperties: {
-        className: ['']
-      },
-      footnoteBackContent: '⤴'
-    },
+    processor: unified({
+      rehypePlugins: [
+        [
+          rehypeExternalLinks,
+          {
+            rel: ['nofollow', 'noreferrer'],
+            target: '_blank'
+          }
+        ],
 
-    rehypePlugins: [
-      [
-        rehypeExternalLinks,
-        {
-          rel: ['nofollow', 'noreferrer'],
-          target: '_blank'
-        }
+        [
+          rehypePrettyCode,
+          {
+            theme: {
+              light: 'catppuccin-latte',
+              dark: 'catppuccin-mocha'
+            },
+
+            transformers: [
+              transformerNotationDiff(),
+              transformerMetaHighlight(),
+              transformerNotationFocus()
+            ]
+          }
+        ],
+        rehypeUnwrapImages
       ],
-
-      [
-        rehypePrettyCode,
-        {
-          theme: {
-            light: 'catppuccin-latte',
-            dark: 'catppuccin-mocha'
-          },
-
-          transformers: [
-            transformerNotationDiff(),
-            transformerMetaHighlight(),
-            transformerNotationFocus()
-          ]
+      remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
+      remarkRehype: {
+        footnoteBackContent: '⤴',
+        footnoteLabelProperties: {
+          className: ['']
         }
-      ],
-      rehypeUnwrapImages
-    ]
+      }
+    })
   },
   // https://docs.astro.build/en/guides/prefetch/
   prefetch: true,

@@ -1,6 +1,8 @@
 name: Security Audit
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -14,5 +16,4 @@ jobs:
         with:
           version: 10.32.1
       - name: Run pnpm audit
-        continue-on-error: true
         run: pnpm audit --audit-level=moderate
