@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets'
+import { Image, Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import { getFormattedDate } from '@/utils/date'
@@ -66,15 +66,18 @@ const logoBoxClass = {
       data-card-bg-base
     />
     {bgImage && (
-      <Image
+      <Picture
         alt=""
         aria-hidden="true"
         class="absolute inset-0 size-full object-cover"
         data-card-bg
+        formats={['avif', 'webp']}
         height={800}
         loading="lazy"
+        sizes="(min-width: 1024px) 50vw, 100vw"
         src={bgImage}
         width={600}
+        widths={[400, 600, 800]}
       />
     )}
     <div

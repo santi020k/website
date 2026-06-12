@@ -157,7 +157,7 @@ const widths =
   )}
 
   <Picture
-    alt={alt}
+    alt={ariaHidden ? "" : alt}
     aria-hidden={ariaHidden ? 'true' : undefined}
     class:list={imageClasses}
     fetchpriority={fetchpriority}

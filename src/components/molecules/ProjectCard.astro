@@ -62,6 +62,7 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
       (
         <CoverImage
           alt={project.data.coverImage.alt || project.data.title}
+          ariaHidden={true}
           className="rounded-none border-0 shadow-none"
           featured={useCoverFeatured}
           image={project.data.coverImage.vertical ?? project.data.coverImage.src}

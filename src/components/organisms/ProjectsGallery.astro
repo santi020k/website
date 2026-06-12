@@ -29,27 +29,51 @@ const projectItems = projects.map(project => ({
 <div class="space-y-6">
   {/* Featured project - large */}
   {projectItems[0] && (
-    <article class="group relative overflow-hidden rounded-3xl border border-line/50 bg-surface">
+    <article class="
+      group relative overflow-hidden rounded-3xl border border-line/50
+      bg-surface
+    "
+    >
       <a class="block" href={projectItems[0].href}>
-        <div class="grid lg:grid-cols-2">
+        <div class="
+          grid
+          lg:grid-cols-2
+        "
+        >
           {/* Image side */}
-          <div class="relative aspect-16/10 overflow-hidden lg:aspect-auto">
-            {projectItems[0].coverImage?.src ? (
-              <CoverImage
-                alt={projectItems[0].coverImage.alt || projectItems[0].title}
-                className="h-full w-full rounded-none border-0 object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
-                image={projectItems[0].coverImage.src}
-                loading="eager"
-                mode="card"
-                sizes="(min-width: 1024px) 50vw, 100vw"
-              />
-            ) : (
-              <div class="grid-fade flex h-full w-full items-center justify-center bg-surface-muted">
-                <Icon class="size-16 text-line" name="tabler:code" />
-              </div>
-            )}
+          <div class="
+            relative aspect-16/10 overflow-hidden
+            lg:aspect-auto
+          "
+          >
+            {projectItems[0].coverImage?.src ?
+              (
+                <CoverImage
+                  alt={projectItems[0].coverImage.alt || projectItems[0].title}
+                  ariaHidden={true}
+                  className="
+                    size-full rounded-none border-0 object-cover
+                    transition-transform duration-500
+                    group-hover:scale-105
+                    motion-reduce:transition-none
+                  "
+                  image={projectItems[0].coverImage.src}
+                  loading="eager"
+                  mode="card"
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                />
+              ) :
+              (
+                <div class="
+                  flex size-full items-center justify-center bg-surface-muted
+                  grid-fade
+                "
+                >
+                  <Icon class="size-16 text-line" name="tabler:code" />
+                </div>
+              )}
             {/* Status badge */}
-            <div class="absolute left-4 top-4">
+            <div class="absolute top-4 left-4">
               <Pill
                 label={projectItems[0].isActive ? 'Active' : 'Completed'}
                 tone={projectItems[0].isActive ? 'brand' : 'neutral'}
@@ -58,9 +82,20 @@ const projectItems = projects.map(project => ({
           </div>
 
           {/* Content side */}
-          <div class="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+          <div class="
+            flex flex-col justify-center p-6
+            sm:p-8
+            lg:p-10
+          "
+          >
             <span class="text-sm font-medium text-ink-muted">{projectItems[0].dateRange}</span>
-            <h3 class="mt-2 text-2xl font-semibold text-ink transition-colors group-hover:text-brand sm:text-3xl motion-reduce:transition-none">
+            <h3 class="
+              mt-2 text-2xl font-semibold text-ink transition-colors
+              group-hover:text-brand
+              motion-reduce:transition-none
+              sm:text-3xl
+            "
+            >
               {projectItems[0].title}
             </h3>
             <p class="mt-4 line-clamp-3 text-base/7 text-ink-soft">
@@ -77,7 +112,11 @@ const projectItems = projects.map(project => ({
               <span>View project</span>
               <Icon
                 aria-hidden="true"
-                class="size-5 transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
+                class="
+                  size-5 transition-transform
+                  group-hover:translate-x-1
+                  motion-reduce:transition-none
+                "
                 name="tabler:arrow-right"
               />
             </div>
@@ -89,28 +128,49 @@ const projectItems = projects.map(project => ({
 
   {/* Grid for remaining projects */}
   {projectItems.length > 1 && (
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="
+      grid gap-6
+      sm:grid-cols-2
+      lg:grid-cols-3
+    "
+    >
       {projectItems.slice(1).map(project => (
-        <article class="group card-interactive flex flex-col overflow-hidden rounded-2xl border border-line/50 bg-surface">
+        <article class="
+          group card-interactive flex flex-col overflow-hidden rounded-2xl
+          border border-line/50 bg-surface
+        "
+        >
           <a class="block" href={project.href}>
             {/* Thumbnail */}
             <div class="relative aspect-16/10 overflow-hidden">
-              {project.coverImage?.src ? (
-                <CoverImage
-                  alt={project.coverImage.alt || project.title}
-                  className="h-full w-full rounded-none border-0 object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none"
-                  image={project.coverImage.src}
-                  loading="lazy"
-                  mode="card"
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                />
-              ) : (
-                <div class="grid-fade flex h-full w-full items-center justify-center bg-surface-muted">
-                  <Icon class="size-12 text-line" name="tabler:code" />
-                </div>
-              )}
+              {project.coverImage?.src ?
+                (
+                  <CoverImage
+                    alt={project.coverImage.alt || project.title}
+                    ariaHidden={true}
+                    className="
+                      size-full rounded-none border-0 object-cover
+                      transition-transform duration-500
+                      group-hover:scale-105
+                      motion-reduce:transition-none
+                    "
+                    image={project.coverImage.src}
+                    loading="lazy"
+                    mode="card"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  />
+                ) :
+                (
+                  <div class="
+                    flex size-full items-center justify-center bg-surface-muted
+                    grid-fade
+                  "
+                  >
+                    <Icon class="size-12 text-line" name="tabler:code" />
+                  </div>
+                )}
               {/* Status badge */}
-              <div class="absolute left-3 top-3">
+              <div class="absolute top-3 left-3">
                 <Pill
                   label={project.isActive ? 'Active' : 'Completed'}
                   tone={project.isActive ? 'brand' : 'neutral'}
@@ -121,7 +181,12 @@ const projectItems = projects.map(project => ({
             {/* Content */}
             <div class="flex flex-1 flex-col p-5">
               <span class="text-xs font-medium text-ink-muted">{project.dateRange}</span>
-              <h3 class="mt-2 text-lg font-semibold text-ink transition-colors group-hover:text-brand motion-reduce:transition-none">
+              <h3 class="
+                mt-2 text-lg font-semibold text-ink transition-colors
+                group-hover:text-brand
+                motion-reduce:transition-none
+              "
+              >
                 {project.title}
               </h3>
               <p class="mt-2 line-clamp-2 text-sm/6 text-ink-soft">
@@ -130,7 +195,11 @@ const projectItems = projects.map(project => ({
               {project.technologies.length > 0 && (
                 <div class="mt-4 flex flex-wrap gap-1.5">
                   {project.technologies.map(tech => (
-                    <span class="rounded-md bg-surface-muted px-2 py-1 text-xs text-ink-soft">
+                    <span class="
+                      rounded-md bg-surface-muted px-2 py-1 text-xs
+                      text-ink-soft
+                    "
+                    >
                       {tech}
                     </span>
                   ))}
