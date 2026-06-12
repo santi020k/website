@@ -1,10 +1,17 @@
 # [Santiago Molina](https://santi020k.com/)
 
+[![CI](https://github.com/santi020k/website/actions/workflows/build.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/build.yml)
+[![CodeQL](https://github.com/santi020k/website/actions/workflows/codeql.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/codeql.yml)
+[![Security Audit](https://github.com/santi020k/website/actions/workflows/audit.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/audit.yml)
+[![License: Source-Available](https://img.shields.io/badge/license-source--available-orange.svg)](./LICENSE)
+
 ![Santi020k Logo](./src/assets/brand/logos/logo-santi020k.webp)
 
 ## I build fast, accessible products and stronger frontend systems.
 
-Santiago is a seasoned **Full Stack Developer** and **Tech Lead** with over a decade of experience. He specializes in frontend architecture, product systems, and leading high-performance teams to deliver scalable solutions.
+Personal website, blog, and portfolio of **Santiago Molina** — Full Stack Developer and Tech Lead with over a decade of experience in frontend architecture, product systems, and leading high-performance teams.
+
+**→ Live at [santi020k.com](https://santi020k.com/)**
 
 ---
 
@@ -14,9 +21,11 @@ Santiago is a seasoned **Full Stack Developer** and **Tech Lead** with over a de
 - **Tailwind CSS v4**: Modern, future-proof styling with zero-runtime CSS.
 - **Native Script Interactivity**: Lightweight inline scripts and custom events without a framework runtime.
 - **Content Collections**: Type-safe Markdown and MDX for blog posts and projects.
-- **Site search**: Header search (modal) across posts and projects; shortcuts `/` and ⌘K / Ctrl+K.
-- **Accessibility First**: WCAG 2.2 AA compliant, ensuring an inclusive experience for all.
+- **Site Search**: Header search (modal) across posts and projects; shortcuts `/` and ⌘K / Ctrl+K.
+- **Accessibility First**: WCAG 2.2 AA compliant, validated with axe in E2E tests.
 - **View Transitions**: Seamless, app-like navigation between pages.
+- **Generated Assets**: Favicons, OG images, fonts, and brand assets built from scripts — no stale binaries.
+- **Quality Gates**: ESLint (via [`@santi020k/eslint-config-basic`](https://github.com/santi020k/eslint-config-basic)), Vitest, Playwright, Lighthouse CI, CodeQL, and spellchecking on every change.
 
 ---
 
@@ -41,39 +50,48 @@ Santiago is a seasoned **Full Stack Developer** and **Tech Lead** with over a de
 | `src/layouts/` | Core page layouts using Astro. |
 | `src/components/` | Reusable UI components (Atoms, Molecules, Organisms). |
 | `src/styles/global.css` | Tailwind v4 theme tokens and global styles. |
+| `scripts/` | Asset generation (favicons, fonts, OG images, CV) and content linting. |
 | `tests/` | Unit (Vitest) and E2E (Playwright) test suites. |
+| `docs/` | Maintainer docs: deployment, theming, caching, observability. |
 
 ---
 
 ### 🛠️ Getting Started
 
+**Requirements**: Node.js >= 24 and [pnpm](https://pnpm.io/) 10.
+
 #### 1. Install Dependencies
+
 ```bash
 pnpm install
 ```
 
-### 2. Start the Development Server
+#### 2. Start the Development Server
 
 ```bash
 pnpm run dev
 ```
+
 Accessible at `http://localhost:4321`.
 
 #### 3. Build for Production
+
 ```bash
 pnpm run build
 ```
 
-### 4. Other Commands
+#### 4. Other Commands
 
 ```bash
-pnpm run lint      # Linting with ESLint
-pnpm run lint:fix  # Lint and autofix
-pnpm run lint:md   # Markdown quality checks
+pnpm run lint         # Linting with ESLint
+pnpm run lint:fix     # Lint and autofix
+pnpm run lint:md      # Markdown quality checks
 pnpm run lint:content # Content frontmatter quality checks
-pnpm run check     # Astro type-checking
-pnpm run test      # Unit testing
-pnpm run test:e2e  # E2E testing
+pnpm run check        # Astro type-checking
+pnpm run test         # Unit testing
+pnpm run test:e2e     # E2E testing
+pnpm run lighthouse   # Local Lighthouse CI run
+pnpm run verify:fast  # Spellcheck + lint + test + build in parallel
 ```
 
 `test:e2e` commands auto-install Playwright browsers when needed.
@@ -84,11 +102,23 @@ For more stable CI/browser-constrained environments, use:
 pnpm run test:e2e:ci:stable
 ```
 
-### 🤝 Maintainer Docs
+---
+
+### 🤝 Contributing & Maintainer Docs
+
+This is a personal site, but issues and suggestions are welcome.
 
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- [`CHANGELOG.md`](./CHANGELOG.md)
 - [`docs/deployment.md`](./docs/deployment.md)
+- [`docs/theming.md`](./docs/theming.md)
+- [`docs/cache-strategy.md`](./docs/cache-strategy.md)
+- [`docs/observability.md`](./docs/observability.md)
 - [`docs/incident-response.md`](./docs/incident-response.md)
+
+### 📄 License
+
+This is a **source-available** project, not open source. You're welcome to read the code for reference and learning, but you may not use, copy, modify, or redistribute it — see [`LICENSE`](./LICENSE). All content (blog posts, images, brand assets, design) is © Santiago Molina.
 
 ---
 

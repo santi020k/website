@@ -16,7 +16,7 @@ const { giscus } = siteConfig
 {giscus && (
   <section
     aria-label="Comments"
-    class="space-y-4"
+    class="space-y-4 border-t border-line/45 pt-8"
     data-animate
     data-giscus-category={giscus.category}
     data-giscus-category-id={giscus.categoryId}
@@ -24,25 +24,48 @@ const { giscus } = siteConfig
     data-giscus-repo-id={giscus.repoId}
     id="comments"
   >
-    <h2 class="text-lg font-semibold text-ink">Comments</h2>
+    <p class="section-label">Comments</p>
     <p class="text-sm/7 text-ink-soft">
-      Comments are powered by GitHub Discussions — sign in with GitHub to join the conversation.
+      Powered by GitHub Discussions — sign in with GitHub to join the conversation, or
+      <a
+        class="
+          underline underline-offset-4
+          transition-colors
+          hover:text-brand
+          motion-reduce:transition-none
+        "
+        href={`https://github.com/${giscus.repo}/discussions`}
+        rel="noreferrer noopener"
+        target="_blank"
+      >
+        reply on GitHub
+      </a>.
     </p>
-    <div data-giscus-mount></div>
+    <div class="min-h-72" data-giscus-mount></div>
   </section>
 )}
 
 <script>
-  const GISCUS_THEMES = { dark: 'transparent_dark', light: 'light' } as const
+  // Custom brand themes (public/styles/giscus-*.css). giscus only accepts
+  // https:// theme URLs, so plain dev servers fall back to built-in themes.
+  const FALLBACK_THEMES = { dark: 'transparent_dark', light: 'light' } as const
 
-  const getSiteTheme = (): keyof typeof GISCUS_THEMES =>
+  const getSiteTheme = (): keyof typeof FALLBACK_THEMES =>
     (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light')
+
+  const getGiscusTheme = (): string => {
+    const theme = getSiteTheme()
+
+    return window.location.protocol === 'https:' ?
+      `${window.location.origin}/styles/giscus-${theme}.css` :
+      FALLBACK_THEMES[theme]
+  }
 
   const postThemeToGiscus = () => {
     const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame')
 
     iframe?.contentWindow?.postMessage(
-      { giscus: { setConfig: { theme: GISCUS_THEMES[getSiteTheme()] } } },
+      { giscus: { setConfig: { theme: getGiscusTheme() } } },
       'https://giscus.app'
     )
   }
@@ -71,7 +94,7 @@ const { giscus } = siteConfig
       'data-repo': section.dataset.giscusRepo ?? '',
       'data-repo-id': section.dataset.giscusRepoId ?? '',
       'data-strict': '1',
-      'data-theme': GISCUS_THEMES[getSiteTheme()]
+      'data-theme': getGiscusTheme()
     }
 
     for (const [name, value] of Object.entries(attributes)) {
