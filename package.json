@@ -93,7 +93,7 @@
     "@santi020k/eslint-config-astro": "^1.6.0",
     "@santi020k/eslint-config-basic": "^1.6.0",
     "@tailwindcss/typography": "^0.5.20",
-    "@tailwindcss/vite": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@types/hast": "^3.0.4",
@@ -115,7 +115,7 @@
     "markdownlint-cli2": "^0.22.1",
     "npm-run-all2": "^9.0.1",
     "reading-time": "^1.5.0",
-    "tailwindcss": "^4.3.0",
+    "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.8",
     "wawoff2": "^2.0.1"
