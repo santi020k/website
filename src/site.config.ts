@@ -22,7 +22,7 @@ export const siteConfig: SiteConfig = {
     github: 'https://github.com/santi020k',
     linkedin: 'https://linkedin.com/in/santi020k',
     medium: 'https://medium.com/@santi020k',
-    resume: '/pdf/cv.pdf',
+    resume: '/resume/',
     whatsapp: createWhatsAppHref(),
     whatsappPhone
   },

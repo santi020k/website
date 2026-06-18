@@ -1,0 +1,124 @@
+---
+import { Icon } from 'astro-icon/components'
+
+import { getCachedProjects } from '@/utils/content'
+import { collectionDateSortProjects } from '@/utils/date'
+
+import PageLayout from '@/layouts/Base.astro'
+import { AUTHOR_JOB_TITLE, siteConfig } from '@/site.config'
+
+const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
+const workProjects = allProjects.filter((p) => p.data.typesId === 'professional')
+---
+
+<PageLayout
+  meta={{
+    description: 'Printable engineering resume and work experience for Santiago Molina.',
+    title: 'Resume — ' + siteConfig.author
+  }}
+>
+  <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8 print:m-0 print:p-0">
+    <div class="mb-12 flex flex-col justify-between items-start gap-6 sm:flex-row print:mb-8">
+      <div>
+        <h1 class="text-4xl font-bold tracking-tight text-ink">{siteConfig.author}</h1>
+        <p class="mt-2 text-xl text-brand">{AUTHOR_JOB_TITLE}</p>
+        <p class="mt-4 max-w-2xl text-ink-soft">{siteConfig.description}</p>
+      </div>
+      <div class="space-y-2 text-left text-sm text-ink-soft sm:text-right">
+        <p><a class="hover:text-brand" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a></p>
+        <p><a class="hover:text-brand" href={siteConfig.contact.linkedin}>linkedin.com/in/santi020k</a></p>
+        <p><a class="hover:text-brand" href={siteConfig.contact.github}>github.com/santi020k</a></p>
+        <p>{siteConfig.location}</p>
+        <button
+          class="
+            mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2
+            text-sm font-medium transition-colors hover:bg-surface-muted print:hidden
+          "
+          onclick="window.print()"
+          type="button"
+        >
+          <Icon class="size-4" name="tabler:printer" /> Print PDF
+        </button>
+      </div>
+    </div>
+
+    <section class="mb-12 print:mb-8">
+      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Experience</h2>
+      <div class="space-y-10 print:space-y-8">
+        {
+          workProjects.map((project) => (
+            <div class="print:break-inside-avoid">
+              <div class="mb-2 flex flex-col items-baseline justify-between gap-1 sm:flex-row">
+                <h3 class="text-lg font-bold text-ink">
+                  {project.data.title} <span class="text-base font-normal text-ink-muted">— {project.data.role}</span>
+                </h3>
+                <span class="text-sm font-medium text-ink-soft">
+                  {project.data.startingDate} – {project.data.endingDate ?? 'Present'}
+                </span>
+              </div>
+              <p class="mb-4 text-sm text-ink-soft">{project.data.description}</p>
+
+              {project.data.impactMetrics.length > 0 && (
+                <div class="mb-4">
+                  <h4 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Key Impact</h4>
+                  <ul class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft">
+                    {project.data.impactMetrics.map((metric) => (
+                      <li>{metric}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                {project.data.technologies.slice(0, 12).map((tech) => (
+                  <span
+                    class="
+                      inline-flex items-center rounded-md bg-surface-muted px-2 py-0.5 text-xs
+                      font-medium text-ink-soft ring-1 ring-inset ring-line/50 print:border print:border-gray-300
+                    "
+                  >
+                    {tech}
+                  </span>
+                ))}
+                {project.data.technologies.length > 12 && (
+                  <span
+                    class="
+                      inline-flex items-center rounded-md bg-surface-muted px-2 py-0.5 text-xs
+                      font-medium text-ink-soft ring-1 ring-inset ring-line/50 print:border print:border-gray-300
+                    "
+                  >
+                    +{project.data.technologies.length - 12} more
+                  </span>
+                )}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</PageLayout>
+
+<style>
+  @media print {
+    :global(header),
+    :global(footer),
+    :global([data-site-search]),
+    :global(.back-to-top-button) {
+      display: none !important;
+    }
+    :global(body) {
+      background: white !important;
+      color: black !important;
+      font-size: 11pt;
+    }
+    :global(h1),
+    :global(h2),
+    :global(h3) {
+      color: black !important;
+    }
+    @page {
+      margin: 1.5cm;
+    }
+  }
+</style>
