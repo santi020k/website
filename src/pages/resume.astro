@@ -1,6 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components'
 
+import { getFormattedDate } from '@/utils/date'
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 
@@ -53,7 +54,7 @@ const workProjects = allProjects.filter((p) => p.data.typesId === 'professional'
                   {project.data.title} <span class="text-base font-normal text-ink-muted">— {project.data.role}</span>
                 </h3>
                 <span class="text-sm font-medium text-ink-soft">
-                  {project.data.startingDate} – {project.data.endingDate ?? 'Present'}
+                  {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
                 </span>
               </div>
               <p class="mb-4 text-sm text-ink-soft">{project.data.description}</p>
