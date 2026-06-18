@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 
 import { getFormattedDate } from '@/utils/date'
@@ -80,7 +81,7 @@ const showSection = likes.length > 0 || replies.length > 0
                   >
                     {photo ?
                       (
-                        <img alt="" class="size-full object-cover" height={40} loading="lazy" src={photo} width={40} />
+                        <Image alt="" class="size-full object-cover" height={40} loading="lazy" src={photo} width={40} inferSize={true} />
                       ) :
                       (
                         <span class="

@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets'
+
 interface Props {
   quote: string
   authorName: string
@@ -45,7 +47,7 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
   <div class="mt-6 flex items-center gap-4 border-t border-line/22 pt-5">
     {avatarUrl ?
       (
-        <img
+        <Image
           alt={authorName}
           class="
             size-12 shrink-0 rounded-full object-cover ring-2 ring-brand/15
@@ -53,10 +55,11 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
             motion-safe:group-hover:ring-brand/35
           "
           decoding="async"
-          height="48"
+          height={48}
           loading="lazy"
           src={avatarUrl}
-          width="48"
+          width={48}
+          inferSize={true}
         />
       ) :
       (
