@@ -1,9 +1,9 @@
 ---
-import { getTechnologyPath } from '@/utils/links'
-import { sortTechnologiesByInterest } from '@/utils/technologies'
-
 import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
+
+import { getTechnologyPath } from '@/utils/links'
+import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 interface Props {
   technologies: string[]
@@ -21,13 +21,12 @@ const technologies = sortTechnologiesByInterest(raw)
 >
   <GradientDivider class="mb-8" />
   <div class="
-    relative overflow-hidden rounded-2xl border border-line/30 bg-surface/30
-    p-6 backdrop-blur-sm
+    relative overflow-hidden rounded-2xl border border-line/30 bg-surface/30 p-6
+    backdrop-blur-sm
   "
   >
     <div class="
-      absolute inset-0 bg-linear-to-br from-brand/3 via-transparent
-      to-accent/3
+      absolute inset-0 bg-linear-to-br from-brand/3 via-transparent to-accent/3
     "
     >
     </div>
@@ -63,10 +62,8 @@ const technologies = sortTechnologiesByInterest(raw)
             label={technology}
             tone="outline"
             className="
-              animate-slide-up transition-all
-              duration-300
-              hover:scale-105 hover:border-brand/40
-              hover:bg-brand-soft/20
+              animate-slide-up transition-all duration-300
+              hover:scale-105 hover:border-brand/40 hover:bg-brand-soft/20
               motion-reduce:animate-none
             "
           />

@@ -567,10 +567,9 @@ export const generateAll = async () => {
 
   const pendingSpecs = FORCE ?
     specs :
-    specs.filter(s => {
+    specs.filter(s =>
       // eslint-disable-next-line security/detect-non-literal-fs-filename
-      return !fs.existsSync(s.outFile)
-    })
+      !fs.existsSync(s.outFile))
 
   const configured = getConfiguredWorkerThreads()
   const pendingCount = pendingSpecs.length

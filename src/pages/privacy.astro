@@ -1,6 +1,7 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
+
 import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
 
@@ -65,7 +66,13 @@ const sections = [
     <p class="section-label">Questions</p>
     <p class="mt-2 text-sm/7 text-ink-soft">
       Reach out at{' '}
-      <a class="font-medium text-brand transition-colors hover:text-accent" href={`mailto:${siteConfig.contact.email}`}>
+      <a
+        class="
+          font-medium text-brand transition-colors
+          hover:text-accent
+        "
+        href={`mailto:${siteConfig.contact.email}`}
+      >
         {siteConfig.contact.email}
       </a>
       {' '}for anything privacy-related.

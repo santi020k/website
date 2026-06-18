@@ -13,41 +13,44 @@ const FONTS = [
     name: 'Montserrat',
     data: fs.readFileSync(path.resolve(process.cwd(), 'public/fonts/Montserrat-Regular.ttf')),
     style: 'normal',
-    weight: 400,
+    weight: 400
   },
   {
     name: 'Montserrat',
     data: fs.readFileSync(path.resolve(process.cwd(), 'public/fonts/Montserrat-ExtraBold.ttf')),
     style: 'normal',
-    weight: 900,
-  },
+    weight: 900
+  }
 ]
 
 // Load wallpaper background (resize once at startup, keep as PNG for data URI)
 const wallpaperBuf = await sharp(
-  path.resolve(process.cwd(), 'src/assets/wallpapers/wallpaper-3-desktop.webp'),
+  path.resolve(process.cwd(), 'src/assets/wallpapers/wallpaper-3-desktop.webp')
 )
   .resize(1200, 630, { fit: 'cover' })
   .png()
   .toBuffer()
+
 const WALLPAPER_DATA_URI = `data:image/png;base64,${wallpaperBuf.toString('base64')}`
 
 // Dark-mode logo (white/light text on dark background)
 const logoBuf = await sharp(
-  path.resolve(process.cwd(), 'src/assets/brand/logos/logo-santi020k-dark.webp'),
+  path.resolve(process.cwd(), 'src/assets/brand/logos/logo-santi020k-dark.webp')
 )
   .resize(220, 36, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
   .png()
   .toBuffer()
+
 const LOGO_DATA_URI = `data:image/png;base64,${logoBuf.toString('base64')}`
 
 // Decorative square mark for text-only cards
 const iconBuf = await sharp(
-  path.resolve(process.cwd(), 'public/logos/logo-square.webp'),
+  path.resolve(process.cwd(), 'public/logos/logo-square.webp')
 )
   .resize(260, 260, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
   .png()
   .toBuffer()
+
 const ICON_DATA_URI = `data:image/png;base64,${iconBuf.toString('base64')}`
 
 // ─── Layout constants ─────────────────────────────────────────────────────────
@@ -58,12 +61,11 @@ const DARK_BG = '#110c1d' // fallback background under wallpaper
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const escape = s =>
-  s
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;')
+const escape = s => s
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll('\'', '&#39;')
 
 const titleFontSize = (title, hasCover) => {
   const thresholds = hasCover ?
@@ -118,9 +120,8 @@ const renderTitle = (title, size, maxWidth = '100%') => `
  * Body section: two variants — with a cover image (left title / right image) or text-only (title + faded icon).
  * No footer, so the body fills all remaining vertical space.
  */
-const renderBody = (title, size, coverUri) =>
-  coverUri ?
-    `
+const renderBody = (title, size, coverUri) => coverUri ?
+  `
   <div style="display:flex;align-items:center;gap:56px;width:100%;flex:1;">
     <div style="display:flex;flex:1;flex-direction:column;justify-content:center;gap:22px;min-width:0;">
       <div style="display:flex;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg,#5a0fdb 0%,#8f5af7 100%);"></div>
@@ -133,7 +134,7 @@ const renderBody = (title, size, coverUri) =>
     </div>
   </div>
 ` :
-    `
+  `
   <div style="display:flex;align-items:center;flex:1;gap:40px;width:100%;">
     <div style="display:flex;flex-direction:column;gap:22px;flex:1;min-width:0;">
       <div style="display:flex;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg,#5a0fdb 0%,#4a0fc7 100%);"></div>
@@ -175,8 +176,7 @@ export const renderSocialImage = async ({ coverImagePath, title, type }) => {
   const size = titleFontSize(title, hasCover)
 
   const html = renderCanvas(
-    renderHeader(type),
-    renderBody(title, size, coverUri),
+    renderHeader(type), renderBody(title, size, coverUri)
   ).trim()
 
   const markup = /** @type {Parameters<typeof satori>[0]} */ (satoriHtml.html(html))

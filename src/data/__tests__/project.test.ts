@@ -1,5 +1,4 @@
 import type { CollectionEntry } from 'astro:content'
-
 import { describe, expect, it, vi } from 'vitest'
 
 import {

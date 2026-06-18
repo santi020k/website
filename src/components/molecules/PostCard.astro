@@ -73,18 +73,15 @@ const imageSizes = featured ?
         />
       ) :
       (
-        <div class="
-          aspect-16/10 bg-surface-muted grid-fade
-        "
-        />
+        <div class="aspect-16/10 bg-surface-muted grid-fade"/>
       )}
   </a>
 
   <div
     class:list={[
       `
-        relative z-10 flex grow flex-col gap-5 px-5 py-5
-        sm:px-6 sm:py-6
+        relative z-10 flex grow flex-col gap-5 p-5
+        sm:p-6
       `,
       featured && `
         justify-between
@@ -235,6 +232,7 @@ const imageSizes = featured ?
 
   [data-post-card-glow] {
     background:
+      radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, -20%), hsl(var(--brand) / 0.12), transparent 80%),
       radial-gradient(ellipse 70% 44% at 18% 0%, hsl(var(--brand) / 0.07), transparent 66%),
       radial-gradient(ellipse 62% 46% at 92% 92%, hsl(var(--accent) / 0.06), transparent 64%);
     opacity: 0.8;
@@ -292,3 +290,20 @@ const imageSizes = featured ?
     }
   }
 </style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const cards = document.querySelectorAll<HTMLElement>('[data-post-card]')
+
+    for (const card of cards) {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect()
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
+
+        card.style.setProperty('--mouse-x', `${x}px`)
+        card.style.setProperty('--mouse-y', `${y}px`)
+      })
+    }
+  })
+</script>

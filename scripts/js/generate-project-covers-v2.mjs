@@ -187,6 +187,7 @@ function splitTitle(title) {
 
     if (next.length > 18 && current) {
       lines.push(current)
+
       current = word
     } else {
       current = next
@@ -245,6 +246,7 @@ function motifMarkup(project) {
       `
 
     case 'tooling':
+
     case 'rules':
       return `
         ${chromeWindow(1820, 360, 1040, 620, project)}
@@ -441,6 +443,7 @@ async function renderContactSheet() {
   const thumbs = await Promise.all(PROJECTS.map(async project => {
     const file = path.join(PROJECTS_ROOT, project.slug, 'cover-v2.webp')
     const image = await sharp(file).resize(480, 300, { fit: 'cover' }).webp().toBuffer()
+
     const label = await sharp(Buffer.from(`
       <svg width="480" height="52" xmlns="http://www.w3.org/2000/svg">
         <rect width="480" height="52" fill="#111318" />
@@ -488,6 +491,7 @@ async function renderContactSheet() {
 }
 
 const requestedSlugs = process.argv.slice(2)
+
 const selectedProjects = requestedSlugs.length > 0 ?
   PROJECTS.filter(project => requestedSlugs.includes(project.slug)) :
   PROJECTS

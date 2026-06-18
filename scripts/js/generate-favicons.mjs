@@ -5,21 +5,21 @@ import sharp from 'sharp'
 const publicDir = new URL('../../public/', import.meta.url)
 const publicDirPath = fileURLToPath(publicDir)
 const markPath = fileURLToPath(new URL('../../public/logos/logo-square.webp', import.meta.url))
+
 const markSvgPath = fileURLToPath(
   new URL('../../src/assets/brand/logos/logo-square.svg', import.meta.url)
 )
+
 const faviconSourcePath = fileURLToPath(new URL('favicon-source.webp', publicDir))
 const faviconSvgPath = fileURLToPath(new URL('favicon.svg', publicDir))
 
-const renderSourceIcon = async () => {
-  return sharp(markPath)
-    .resize(512, 512, {
-      fit: 'fill',
-      background: { r: 0, g: 0, b: 0, alpha: 0 }
-    })
-    .png()
-    .toBuffer()
-}
+const renderSourceIcon = async () => sharp(markPath)
+  .resize(512, 512, {
+    fit: 'fill',
+    background: { r: 0, g: 0, b: 0, alpha: 0 }
+  })
+  .png()
+  .toBuffer()
 
 const writeWebp = async (pathname, sourceBuffer, size) => {
   await sharp(sourceBuffer)

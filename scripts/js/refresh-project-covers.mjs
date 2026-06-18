@@ -1090,6 +1090,7 @@ async function renderProjectCover(project) {
   const verticalPath = path.join(directory, 'cover-vertical.webp')
   const backupPath = path.join(directory, 'cover-old.webp')
   const preservedLogoPath = path.join(directory, PRESERVED_LOGO_FILE)
+
   const logoPath = project.logoAssetPath ?
     path.resolve(project.logoAssetPath) :
     project.logoPath ?
@@ -1103,10 +1104,10 @@ async function renderProjectCover(project) {
   const logo = logoPath ?
     await loadLogoAsset(logoPath, project.logoDensity) :
     project.customLogoBuilder ?
-    await buildCustomLogo(project.customLogoBuilder) :
-    project.useCustomWordmark ?
-      await buildSmithCommerceWordmark() :
-      await extractLogo(backupPath, project)
+      await buildCustomLogo(project.customLogoBuilder) :
+      project.useCustomWordmark ?
+        await buildSmithCommerceWordmark() :
+        await extractLogo(backupPath, project)
 
   await sharp(logo.buffer)
     .resize({ width: 1200, height: 1200, fit: 'inside', withoutEnlargement: true })
@@ -1137,13 +1138,16 @@ async function renderProjectCover(project) {
     .toBuffer()
 
   await fs.writeFile(coverPath, horizontalBuffer)
+
   await fs.writeFile(horizontalPath, horizontalBuffer)
 
   const verticalSvg = Buffer.from(buildVerticalBaseSvg(project))
+
   const verticalLogoPlacement = project.verticalPlacement ?? getVerticalLogoPlacement({
     logoWidth: logo.width,
     logoHeight: logo.height
   })
+
   const verticalLogo = await buildLogoLayers(logo, project, verticalLogoPlacement)
   const verticalArtwork = await buildVerticalArtworkLayer(project)
 
@@ -1167,6 +1171,7 @@ async function renderProjectCover(project) {
 }
 
 const requestedSlugs = process.argv.slice(2)
+
 const selectedProjects = requestedSlugs.length > 0 ?
   PROJECTS.filter(project => requestedSlugs.includes(project.slug)) :
   PROJECTS

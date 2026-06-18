@@ -1,10 +1,11 @@
 ---
 import { Picture } from 'astro:assets'
 
-import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
-import { siteConfig } from '@/site.config'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
+
+import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
+import { siteConfig } from '@/site.config'
 
 interface Props {
   contactHref: string
@@ -38,15 +39,20 @@ const { contactHref, yearsOfExperience } = Astro.props
       >
         <h1 class="sr-only">Santiago Molina (@santi020k) — Engineering Leader & Full-Stack Architect</h1>
         <h2
-aria-hidden="true"
-class="
-          max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
-          sm:text-6xl/[0.95]
-          lg:text-[5.2rem]/[0.92]
-        "
+          aria-hidden="true"
+          class="
+            max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+            sm:text-6xl/[0.95]
+            lg:text-[5.2rem]/[0.92]
+          "
         >
           Calm systems.
-          <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">Clear delivery.</span>
+          <span class="
+            block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+            pb-4 text-transparent
+          "
+          >Clear delivery.
+          </span>
         </h2>
         <p class="
           max-w-xl text-base/7 text-ink-soft
@@ -74,8 +80,15 @@ class="
           "
           >
             <div class="space-y-1.5">
-              <p class="section-label flex items-center gap-1.5 text-brand">
-                <span class="inline-block h-2 w-2 rounded-full bg-brand motion-safe:animate-pulse motion-reduce:animate-none" aria-hidden="true" />
+              <p class="flex items-center gap-1.5 section-label text-brand">
+                <span
+                  class="
+                    inline-block size-2 rounded-full bg-brand
+                    motion-safe:animate-pulse
+                    motion-reduce:animate-none
+                  "
+                  aria-hidden="true"
+                />
                 Open now
               </p>
               <p class="text-sm/6 text-ink">{siteConfig.availability}</p>
@@ -103,15 +116,15 @@ class="
 
     <div
       class="
-        animate-reveal-lcp relative isolate mx-auto w-full max-w-88
+        relative isolate mx-auto w-full max-w-88 animate-reveal-lcp
         motion-reduce:animate-none
       "
     >
       <div
         aria-hidden="true"
         class="
-          pointer-events-none absolute inset-[5%] z-10 rounded-4xl
-          bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
+          pointer-events-none absolute inset-[5%] z-10 rounded-4xl bg-radial
+          from-brand/18 via-accent/8 to-transparent blur-3xl
           motion-safe:animate-pulse
           motion-reduce:animate-none
         "
@@ -140,15 +153,18 @@ class="
 
       <div class="
         panel-card relative z-0 overflow-hidden rounded-[2.25rem] p-3
-        sm:p-4
         transition-shadow duration-500
         hover:shadow-[0_20px_60px_-15px_hsl(var(--brand)/0.15)]
         motion-reduce:transition-none
+        sm:p-4
       "
       >
         <div
           aria-hidden="true"
-          class="pointer-events-none absolute inset-0 z-10 grid-fade opacity-20 dark:opacity-30"
+          class="
+            pointer-events-none absolute inset-0 z-10 grid-fade opacity-20
+            dark:opacity-30
+          "
         />
         <div
           aria-hidden="true"
@@ -176,15 +192,19 @@ class="
       </div>
 
       <div class="
-        absolute bottom-8 -left-4 z-30 hidden mini-note min-w-40 border-l-4 border-l-brand/40
-        [animation-delay:600ms]
+        mini-note absolute bottom-8 -left-4 z-30 hidden min-w-40 border-l-4
+        border-l-brand/40 [animation-delay:600ms]
         motion-safe:animate-float-y
         motion-reduce:animate-none
         sm:-left-8 sm:block
       "
       >
-        <p class="section-label flex items-center gap-1.5">
-          <span class="inline-block h-1.5 w-1.5 rounded-full bg-brand motion-safe:animate-pulse" />
+        <p class="flex items-center gap-1.5 section-label">
+          <span class="
+            inline-block size-1.5 rounded-full bg-brand
+            motion-safe:animate-pulse
+          "
+          />
           Base
         </p>
         <p class="mt-2 text-sm/6 text-ink">Medellin · Remote worldwide</p>
@@ -192,15 +212,20 @@ class="
 
       <div
         class="
-          absolute top-8 -right-4 z-30 hidden mini-note min-w-32 border-r-4 border-r-accent/40
-          [animation-delay:900ms]
+          mini-note absolute top-8 -right-4 z-30 hidden min-w-32 border-r-4
+          border-r-accent/40 [animation-delay:900ms]
           motion-safe:animate-float-y
           motion-reduce:animate-none
           sm:-right-8 sm:block
         "
       >
         <p class="section-label">Experience</p>
-        <p class="mt-2 text-2xl font-bold bg-linear-to-br from-ink to-ink-soft bg-clip-text text-transparent">{yearsOfExperience}</p>
+        <p class="
+          mt-2 bg-linear-to-br from-ink to-ink-soft bg-clip-text text-2xl
+          font-bold text-transparent
+        "
+        >{yearsOfExperience}
+        </p>
       </div>
     </div>
   </div>

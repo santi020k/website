@@ -15,11 +15,10 @@ const decodeEntities = (value: string): string => value
   .replaceAll('&lt;', '<')
   .replaceAll('&gt;', '>')
   .replaceAll('&quot;', '"')
-  .replaceAll('&#39;', "'")
+  .replaceAll('&#39;', '\'')
   .replaceAll('&amp;', '&')
 
 const stripCdata = (value: string): string => value.replace(/^<!\[CDATA\[([\s\S]*)\]\]>$/, '$1')
-
 const stripHtml = (value: string): string => value.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
 
 const getTag = (block: string, tag: string): string => {
@@ -29,14 +28,13 @@ const getTag = (block: string, tag: string): string => {
 }
 
 const MAX_DESCRIPTION_LENGTH = 280
-
 const truncate = (value: string, max: number): string => (value.length <= max ? value : `${value.slice(0, max).replace(/\s+\S*$/, '')}…`)
 
 export const parseNewsletterFeed = (xml: string): NewsletterIssue[] => {
   const items = xml.match(/<item>[\s\S]*?<\/item>/g) ?? []
 
   return items
-    .map((block) => {
+    .map(block => {
       const rawDate = getTag(block, 'pubDate')
       const parsedDate = rawDate ? new Date(rawDate) : undefined
 

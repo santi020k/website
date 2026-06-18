@@ -93,12 +93,24 @@ const structuredData = [
     />
     <div class="space-y-6">
       {usesSections.map(section => (
-        <section class="space-y-5 border-t border-line/45 pt-6 first:border-t-0 first:pt-0" data-uses-section>
+        <section
+          class="
+            space-y-5 border-t border-line/45 pt-6
+            first:border-t-0 first:pt-0
+          "
+          data-uses-section
+        >
           <div class="space-y-2">
             <p class="section-label">{section.title}</p>
             <p class="text-base/7 text-ink-soft">{section.description}</p>
           </div>
-          <dl class="grid gap-4 lg:grid-cols-3" data-stagger="50">
+          <dl
+            class="
+              grid gap-4
+              lg:grid-cols-3
+            "
+            data-stagger="50"
+          >
             {section.items.map(item => (
               <div class="panel-card p-5">
                 <dt class="section-label">{item.label}</dt>

@@ -10,7 +10,9 @@ parentPort?.on('message', async ({ id, props }) => {
   try {
     const buffer = await renderSocialImage(props)
     const copy = new Uint8Array(buffer.length)
+
     copy.set(buffer)
+
     parentPort.postMessage({ id, ok: true, buffer: copy.buffer }, [copy.buffer])
   } catch (err) {
     parentPort.postMessage({

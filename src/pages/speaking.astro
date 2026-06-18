@@ -1,4 +1,6 @@
 ---
+import { getCollection } from 'astro:content'
+
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
@@ -8,8 +10,6 @@ import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 
 import { getCachedPosts } from '@/utils/content'
-
-import { getCollection } from 'astro:content'
 
 import { speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
 import PageLayout from '@/layouts/Base.astro'

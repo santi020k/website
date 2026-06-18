@@ -34,7 +34,7 @@ export const siteConfig: SiteConfig = {
       year: 'numeric'
     }
   },
-  description: "I'm Santiago Molina (@santi020k), an engineering leader and full-stack architect building resilient systems and scaling technical teams.",
+  description: 'I\'m Santiago Molina (@santi020k), an engineering leader and full-stack architect building resilient systems and scaling technical teams.',
   headline: 'I lead engineering teams, architect resilient systems, and build tools that empower developers.',
   lang: 'en-US',
   location: 'Medellin, Colombia · Remote worldwide',

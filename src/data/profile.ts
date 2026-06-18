@@ -198,11 +198,11 @@ export const engineeringPrinciples: EngineeringPrinciple[] = [
   },
   {
     title: 'Leadership means fewer decisions under pressure',
-    body: "A good tech lead reduces ambiguity before it becomes risk. Clear standards, good tooling, and systems that fail loudly are how you protect a team's velocity at scale."
+    body: 'A good tech lead reduces ambiguity before it becomes risk. Clear standards, good tooling, and systems that fail loudly are how you protect a team\'s velocity at scale.'
   },
   {
     title: 'Performance is a product decision',
-    body: "Speed isn't a tech concern, it's a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections."
+    body: 'Speed isn\'t a tech concern, it\'s a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections.'
   },
   {
     title: 'Boring tech is often the right call',

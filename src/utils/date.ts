@@ -15,6 +15,7 @@ export const getFormattedDate = (
 
   // Merge options, excluding undefined values to allow removing defaults (e.g., day: undefined)
   const mergedOptions = { ...(siteConfig.date.options), ...options }
+
   const cleanedOptions = Object.fromEntries(
     Object.entries(mergedOptions).filter(([, v]) => v !== undefined)
   ) as Intl.DateTimeFormatOptions

@@ -14,7 +14,7 @@ import PageSection from '@/components/organisms/PageSection.astro'
 import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
 import { engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
 import PageLayout from '@/layouts/Base.astro'
-import { AUTHOR_JOB_TITLE, YEARS_OF_EXPERIENCE, sameAsProfiles, siteConfig } from '@/site.config'
+import { AUTHOR_JOB_TITLE, sameAsProfiles, siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 
@@ -93,12 +93,12 @@ const meta = {
         >
           <h1 class="sr-only">About Santiago Molina (@santi020k) — Engineering Leader</h1>
           <h2
-aria-hidden="true"
-class="
-            max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
-            sm:text-6xl/[0.95]
-            lg:text-[5.2rem]/[0.92]
-          "
+            aria-hidden="true"
+            class="
+              max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+              sm:text-6xl/[0.95]
+              lg:text-[5.2rem]/[0.92]
+            "
           >
             Engineering leader.
             <span class="

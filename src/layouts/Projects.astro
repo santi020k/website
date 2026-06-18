@@ -11,8 +11,7 @@ import PageSection from '@/components/organisms/PageSection.astro'
 import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
 import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
-import BaseLayout from '@/layouts/Base.astro'
-import { createAuthorSchema } from '@/site.config'
+
 import {
   getProjectNotesDescription,
   getProjectNotesLabel,
@@ -20,6 +19,9 @@ import {
   getProjectStageLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
+
+import BaseLayout from '@/layouts/Base.astro'
+import { createAuthorSchema } from '@/site.config'
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -94,7 +96,7 @@ const breadcrumbs = [
 
     <section
       class="
-        grid grid-cols-1 gap-10 section-divider
+        section-divider grid grid-cols-1 gap-10
         lg:grid-cols-[minmax(0,1fr)_18rem]
       "
       data-animate="fade"

@@ -34,6 +34,7 @@ const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
     variant === 'inline' && 'btn-inline',
     className
   ]}
+  data-magnetic={variant !== 'inline' ? 'true' : undefined}
   href={href}
   rel={newTab ? 'noreferrer noopener' : undefined}
   target={newTab ? '_blank' : undefined}
@@ -51,3 +52,36 @@ const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
     />
   )}
 </a>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // Only apply on devices with hover capability to avoid mobile touch stickiness
+    if (window.matchMedia('(hover: none)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const magneticElements = document.querySelectorAll<HTMLElement>('[data-magnetic]')
+
+    for (const el of magneticElements) {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect()
+        const hx = rect.left + rect.width / 2
+        const hy = rect.top + rect.height / 2
+
+        // Calculate distance from center
+        const dx = e.clientX - hx
+        const dy = e.clientY - hy
+
+        // Magnet strength (pull factor)
+        const pullX = dx * 0.15
+        const pullY = dy * 0.25
+
+        el.style.transform = `translate(${pullX}px, ${pullY}px)`
+      })
+
+      el.addEventListener('mouseleave', () => {
+        // Reset transform so CSS handles the transition back
+        el.style.transform = ''
+      })
+    }
+  })
+</script>

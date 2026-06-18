@@ -10,8 +10,7 @@ describe('fetchWebmentionsForTarget', () => {
 
   it('returns public mentions from a jf2 feed', async () => {
     vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({
+      'fetch', vi.fn().mockResolvedValue({
         ok: true,
         json: async () => ({
           children: [

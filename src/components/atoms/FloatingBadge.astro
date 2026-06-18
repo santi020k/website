@@ -15,17 +15,27 @@ const borderClasses = borderPosition === 'left' ?
 
 <div
   class:list={[
-    'absolute z-30 hidden mini-note min-w-32 sm:block',
+    `
+      mini-note absolute z-30 hidden min-w-32
+      sm:block
+    `,
     borderPosition === 'left' ? 'min-w-40' : 'min-w-32',
     borderClasses,
-    'motion-safe:animate-float-y motion-reduce:animate-none',
+    `
+      motion-safe:animate-float-y
+      motion-reduce:animate-none
+    `,
     className
   ]}
   style={`animation-delay: ${animationDelay};`}
 >
-  <p class="section-label flex items-center gap-1.5">
+  <p class="flex items-center gap-1.5 section-label">
     {borderPosition === 'left' && (
-      <span class="inline-block h-1.5 w-1.5 rounded-full bg-brand motion-safe:animate-pulse" />
+      <span class="
+        inline-block size-1.5 rounded-full bg-brand
+        motion-safe:animate-pulse
+      "
+      />
     )}
     {label}
   </p>

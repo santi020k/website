@@ -13,10 +13,13 @@ export async function fetchWebmentionsForTarget(
   token: string
 ): Promise<WebmentionsChildren[]> {
   const endpoint = new URL('https://webmention.io/api/mentions.jf2')
+
   endpoint.searchParams.set('target', targetUrl)
+
   endpoint.searchParams.set('token', token)
 
   let response: Response
+
   try {
     response = await fetch(endpoint.href, {
       headers: { Accept: 'application/jf2+json, application/json' },
@@ -31,6 +34,7 @@ export async function fetchWebmentionsForTarget(
   }
 
   let data: unknown
+
   try {
     data = await response.json()
   } catch {
@@ -38,6 +42,7 @@ export async function fetchWebmentionsForTarget(
   }
 
   const raw = (data as Jf2Feed).children
+
   if (!Array.isArray(raw)) {
     return []
   }

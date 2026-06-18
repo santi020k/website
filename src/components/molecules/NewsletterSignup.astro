@@ -13,130 +13,189 @@ const headingId = `newsletter-heading-${variant}`
 const emailId = `newsletter-email-${variant}`
 ---
 
-{isCompact ? (
-  <div class="mini-note relative overflow-hidden transition-all duration-200 motion-reduce:transition-none" data-animate>
+{isCompact ?
+  (
     <div
-      aria-hidden="true"
-      class="pointer-events-none absolute top-0 right-0 h-24 w-24 opacity-20 transition-opacity duration-300 group-hover:opacity-30 motion-reduce:transition-none"
-      style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.12), transparent 70%);"
-    />
-    <div class="relative z-10 space-y-3">
-      <div class="flex items-start justify-between gap-3">
-        <div>
-          <p class="section-label">Stay in the loop</p>
-          <h3 class="mt-1 text-base font-semibold text-ink">Engineering notes & writeups</h3>
+      class="
+        mini-note relative overflow-hidden transition-all duration-200
+        motion-reduce:transition-none
+      "
+      data-animate
+    >
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute top-0 right-0 size-24 opacity-20
+          transition-opacity duration-300
+          group-hover:opacity-30
+          motion-reduce:transition-none
+        "
+        style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.12), transparent 70%);"
+      />
+      <div class="relative z-10 space-y-3">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <p class="section-label">Stay in the loop</p>
+            <h3 class="mt-1 text-base font-semibold text-ink">Engineering notes & writeups</h3>
+          </div>
+          <a
+            class="
+              inline-flex shrink-0 items-center gap-1 text-xs font-medium
+              text-ink-muted transition-colors
+              hover:text-brand
+              motion-reduce:transition-none
+            "
+            href="/feed.xml"
+          >
+            <Icon aria-hidden="true" class="size-3.5" name="tabler:rss" />
+            RSS
+          </a>
         </div>
-        <a
-          class="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-ink-muted transition-colors hover:text-brand motion-reduce:transition-none"
-          href="/feed.xml"
+        <form
+          action={formAction}
+          class="flex gap-2"
+          method="post"
+          data-newsletter-form
         >
-          <Icon aria-hidden="true" class="size-3.5" name="tabler:rss" />
-          RSS
-        </a>
-      </div>
-      <form
-        action={formAction}
-        class="flex gap-2"
-        method="post"
-        data-newsletter-form
-      >
-        <input name="embed" type="hidden" value="1" />
-        <label class="sr-only" for={emailId}>Email address</label>
-        <input
-          autocomplete="email"
-          class="
-            min-h-10 flex-1 rounded-xl border border-line/60 bg-surface px-3
-            py-2 text-sm text-ink outline-none
-            placeholder:text-ink-muted
-            focus:border-brand/45 focus:ring-2 focus:ring-brand/15
-          "
-          id={emailId}
-          inputmode="email"
-          name="email"
-          placeholder="your@email.com"
-          required
-          type="email"
-        />
-        <button
-          class="
-            inline-flex min-h-10 items-center justify-center gap-1.5
-            rounded-xl bg-brand-solid px-3 py-2 text-sm font-semibold
-            text-white shadow-md shadow-brand/20 transition
-            hover:brightness-110
-            active:scale-[0.98]
-            motion-reduce:transition-none
-            motion-reduce:active:scale-100
-          "
-          type="submit"
-        >
-          <Icon aria-hidden="true" class="size-4" name="tabler:send" />
-          <span class="sr-only sm:not-sr-only">Subscribe</span>
-        </button>
-      </form>
-      <p class="text-xs text-ink-muted">
-        No spam. <a class="underline-offset-2 hover:text-brand hover:underline" href="/privacy/">Privacy</a>.
-      </p>
-    </div>
-  </div>
-) : (
-  <section aria-label={label} aria-labelledby={headingId} data-animate class="panel-card overflow-hidden">
-    <div class="flex flex-col gap-6 p-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:p-8">
-      <div class="max-w-xl space-y-2">
-        <p class="section-label">Stay in the loop</p>
-        <h2 class="text-lg font-semibold tracking-tight text-ink" id={headingId}>
-          Engineering notes & architecture writeups
-        </h2>
-        <p class="text-sm/6 text-ink-soft">
-          Low-volume updates on system design, team leadership, and developer experience. No spam.
-          Prefer a feed?{' '}
-          <a class="font-medium text-brand underline-offset-2 hover:underline" href="/feed.xml">Subscribe via RSS</a>.
-        </p>
+          <input name="embed" type="hidden" value="1" />
+          <label class="sr-only" for={emailId}>Email address</label>
+          <input
+            autocomplete="email"
+            class="
+              min-h-10 flex-1 rounded-xl border border-line/60 bg-surface px-3
+              py-2 text-sm text-ink outline-none
+              placeholder:text-ink-muted
+              focus:border-brand/45 focus:ring-2 focus:ring-brand/15
+            "
+            id={emailId}
+            inputmode="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+            type="email"
+          />
+          <button
+            class="
+              inline-flex min-h-10 items-center justify-center gap-1.5
+              rounded-xl bg-brand-solid px-3 py-2 text-sm font-semibold
+              text-white shadow-md shadow-brand/20 transition
+              hover:brightness-110
+              active:scale-[0.98]
+              motion-reduce:transition-none
+              motion-reduce:active:scale-100
+            "
+            type="submit"
+          >
+            <Icon aria-hidden="true" class="size-4" name="tabler:send" />
+            <span class="
+              sr-only
+              sm:not-sr-only
+            "
+            >Subscribe
+            </span>
+          </button>
+        </form>
         <p class="text-xs text-ink-muted">
-          We never share your email.{' '}
-          <a class="text-ink-muted underline-offset-2 hover:text-brand hover:underline" href="/privacy/">Privacy policy</a>.
+          No spam. <a
+            class="
+              underline-offset-2
+              hover:text-brand hover:underline
+            "
+            href="/privacy/"
+                   >Privacy
+                   </a>.
         </p>
       </div>
-
-      <form
-        action={formAction}
-        class="flex w-full min-w-0 flex-col gap-3 sm:max-w-xs"
-        method="post"
-        data-newsletter-form
-      >
-        <input name="embed" type="hidden" value="1" />
-        <label class="sr-only" for={emailId}>Email address</label>
-        <input
-          autocomplete="email"
-          class="
-            min-h-11 w-full rounded-2xl border border-line/70 bg-surface px-4
-            py-2.5 text-sm text-ink shadow-inner shadow-ink/5 transition
-            outline-none placeholder:text-ink-muted
-            focus:border-brand/45 focus:ring-2 focus:ring-brand/20
-          "
-          id={emailId}
-          inputmode="email"
-          name="email"
-          placeholder="your@email.com"
-          required
-          type="email"
-        />
-        <button
-          class="
-            inline-flex min-h-11 w-full items-center justify-center gap-2
-            rounded-2xl bg-brand-solid px-4 py-2.5 text-sm font-semibold
-            text-white shadow-md shadow-brand/25 transition
-            hover:brightness-110 active:scale-[0.99]
-            motion-reduce:transition-none motion-reduce:active:scale-100
-          "
-          type="submit"
-        >
-          <Icon aria-hidden="true" class="size-4 shrink-0" name="tabler:send" />
-          Subscribe
-        </button>
-      </form>
     </div>
-  </section>
-)}
+  ) :
+  (
+    <section
+      aria-label={label}
+      aria-labelledby={headingId}
+      data-animate
+      class="panel-card overflow-hidden"
+    >
+      <div class="
+        flex flex-col gap-6 p-6
+        sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:p-8
+      "
+      >
+        <div class="max-w-xl space-y-2">
+          <p class="section-label">Stay in the loop</p>
+          <h2 class="text-lg font-semibold tracking-tight text-ink" id={headingId}>
+            Engineering notes & architecture writeups
+          </h2>
+          <p class="text-sm/6 text-ink-soft">
+            Low-volume updates on system design, team leadership, and developer experience. No spam.
+            Prefer a feed?{' '}
+            <a
+              class="
+                font-medium text-brand underline-offset-2
+                hover:underline
+              "
+              href="/feed.xml"
+            >Subscribe via RSS
+            </a>.
+          </p>
+          <p class="text-xs text-ink-muted">
+            We never share your email.{' '}
+            <a
+              class="
+                text-ink-muted underline-offset-2
+                hover:text-brand hover:underline
+              "
+              href="/privacy/"
+            >Privacy policy
+            </a>.
+          </p>
+        </div>
+
+        <form
+          action={formAction}
+          class="
+            flex w-full min-w-0 flex-col gap-3
+            sm:max-w-xs
+          "
+          method="post"
+          data-newsletter-form
+        >
+          <input name="embed" type="hidden" value="1" />
+          <label class="sr-only" for={emailId}>Email address</label>
+          <input
+            autocomplete="email"
+            class="
+              min-h-11 w-full rounded-2xl border border-line/70 bg-surface px-4
+              py-2.5 text-sm text-ink shadow-inner shadow-ink/5 transition
+              outline-none
+              placeholder:text-ink-muted
+              focus:border-brand/45 focus:ring-2 focus:ring-brand/20
+            "
+            id={emailId}
+            inputmode="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+            type="email"
+          />
+          <button
+            class="
+              inline-flex min-h-11 w-full items-center justify-center gap-2
+              rounded-2xl bg-brand-solid px-4 py-2.5 text-sm font-semibold
+              text-white shadow-md shadow-brand/25 transition
+              hover:brightness-110
+              active:scale-[0.99]
+              motion-reduce:transition-none
+              motion-reduce:active:scale-100
+            "
+            type="submit"
+          >
+            <Icon aria-hidden="true" class="size-4 shrink-0" name="tabler:send" />
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </section>
+  )}
 
 <script>
   function setupNewsletterForms() {

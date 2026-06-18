@@ -1,13 +1,13 @@
 ---
 import { Icon } from 'astro-icon/components'
 
-import ContactSection from '@/components/molecules/ContactSection.astro'
+import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import GradientDivider from '@/components/atoms/GradientDivider.astro'
+import ContactSection from '@/components/molecules/ContactSection.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 
 import { version } from '../../../package.json'
 
-import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import { menuLinks, siteConfig } from '@/site.config'
 
 const year = new Date().getFullYear()
@@ -59,20 +59,35 @@ const isLinkActive = (linkPath: string): boolean => {
 }
 ---
 
-<footer class="relative mt-10 overflow-hidden px-4 pb-10 sm:px-6 lg:px-8">
+<footer class="
+  relative mt-10 overflow-hidden px-4 pb-10
+  sm:px-6
+  lg:px-8
+"
+>
   <GradientDivider class="pt-10" />
 
   <!-- Top ambient glow with floating animation -->
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute top-0 left-1/2 h-96 w-[80%] max-w-3xl -translate-x-1/2 rounded-full opacity-25 blur-3xl motion-safe:animate-float-y-slow motion-reduce:animate-none"
+    class="
+      pointer-events-none absolute top-0 left-1/2 h-96 w-[80%] max-w-3xl
+      -translate-x-1/2 rounded-full opacity-25 blur-3xl
+      motion-safe:animate-float-y-slow
+      motion-reduce:animate-none
+    "
     style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.08), transparent 70%);"
   />
 
   <!-- Subtle radial glow behind footer content with pulse -->
   <div
     aria-hidden="true"
-    class="pointer-events-none absolute top-[10%] left-1/2 h-80 w-[70%] max-w-3xl -translate-x-1/2 rounded-full opacity-20 blur-3xl motion-safe:animate-pulse-slow motion-reduce:animate-none"
+    class="
+      pointer-events-none absolute top-[10%] left-1/2 h-80 w-[70%] max-w-3xl
+      -translate-x-1/2 rounded-full opacity-20 blur-3xl
+      motion-safe:animate-pulse-slow
+      motion-reduce:animate-none
+    "
     style="background: radial-gradient(ellipse at center, hsl(var(--accent) / 0.1), transparent 70%);"
   />
 
@@ -86,13 +101,22 @@ const isLinkActive = (linkPath: string): boolean => {
     <!-- Morphing organic blob behind content -->
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute top-1/2 left-1/2 z-0 h-96 w-96 -translate-x-1/2 -translate-y-1/2 opacity-25 blur-3xl motion-safe:animate-morph motion-reduce:animate-none sm:h-[28rem] sm:w-[28rem]"
+      class="
+        pointer-events-none absolute top-1/2 left-1/2 z-0 size-96 -translate-1/2
+        opacity-25 blur-3xl
+        motion-safe:animate-morph
+        motion-reduce:animate-none
+        sm:size-112
+      "
       style="background: linear-gradient(135deg, hsl(var(--brand) / 0.12), hsl(var(--accent) / 0.08), hsl(var(--glow) / 0.05));"
     />
 
     <!-- Unified Contact & Newsletter Section -->
     <section
-      class="relative z-10 mt-10 grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10"
+      class="
+        relative z-10 mt-10 grid gap-8
+        lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
+      "
       data-animate
     >
       <!-- Left: copy -->
@@ -100,20 +124,41 @@ const isLinkActive = (linkPath: string): boolean => {
         <div class="flex flex-wrap items-center gap-3">
           <p class="section-label text-brand">Get in touch</p>
           {isAvailable && (
-            <span class="inline-flex items-center gap-1.5 rounded-full border border-success/25 bg-success/8 px-2.5 py-0.5 text-xs font-medium text-success">
+            <span class="
+              inline-flex items-center gap-1.5 rounded-full border
+              border-success/25 bg-success/8 px-2.5 py-0.5 text-xs font-medium
+              text-success
+            "
+            >
               <span class="relative flex size-1.5 shrink-0">
-                <span class="absolute inline-flex size-full animate-ping rounded-full bg-success/75 opacity-75 motion-reduce:animate-none" />
-                <span class="relative inline-flex size-1.5 rounded-full bg-success" />
+                <span class="
+                  absolute inline-flex size-full animate-ping rounded-full
+                  bg-success/75 opacity-75
+                  motion-reduce:animate-none
+                "
+                />
+                <span class="
+                  relative inline-flex size-1.5 rounded-full bg-success
+                "
+                />
               </span>
               Available
             </span>
           )}
         </div>
 
-        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h2 class="
+          text-2xl font-semibold tracking-tight
+          sm:text-3xl
+        "
+        >
           Let's build something{' '}
           <span
-            class="bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent motion-safe:animate-shimmer"
+            class="
+              bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+              text-transparent
+              motion-safe:animate-shimmer
+            "
             style="background-size: 200% 100%;"
           >
             useful
@@ -159,10 +204,18 @@ const isLinkActive = (linkPath: string): boolean => {
           "
           href="/"
         >
-          <div class="h-8 w-auto dark:hidden">
+          <div class="
+            h-8 w-auto
+            dark:hidden
+          "
+          >
             <AnimatedLogo variant="light" class="h-full w-auto" />
           </div>
-          <div class="hidden h-8 w-auto dark:block">
+          <div class="
+            hidden h-8 w-auto
+            dark:block
+          "
+          >
             <AnimatedLogo variant="dark" class="h-full w-auto" />
           </div>
         </a>

@@ -115,7 +115,9 @@ export const getRelatedProjects = async ({
   return projects
     .filter(project => {
       if (project.id === currentProjectId) return false
+
       if (typesId && project.data.typesId !== typesId) return false
+
       return true
     })
     .map(project => ({

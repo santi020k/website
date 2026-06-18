@@ -3,7 +3,6 @@ import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 
 const bannersDir = new URL('../../src/assets/banners/', import.meta.url)
-
 const WIDTH = 1584
 const HEIGHT = 396
 
@@ -130,9 +129,13 @@ const main = async () => {
   await mkdir(fileURLToPath(bannersDir), { recursive: true })
 
   await writeWebp('banner-1.webp', renderBanner1())
+
   await writeWebp('banner-2.webp', renderBanner2())
+
   await writeWebp('banner-3.webp', renderBanner3())
+
   await writeWebp('banner-4.webp', renderBanner4())
+
   await writeWebp('banner-5.webp', renderBanner5())
 
   console.log('Successfully generated 5 new brand banners in src/assets/banners.')

@@ -12,7 +12,10 @@ const formattedIndex = String(index + 1).padStart(2, '0')
 
 <div
   class:list={[
-    'principle-card h-full space-y-3 p-6 sm:p-7',
+    `
+      principle-card h-full space-y-3 p-6
+      sm:p-7
+    `,
     featured && 'sm:col-span-2'
   ]}
   data-principle

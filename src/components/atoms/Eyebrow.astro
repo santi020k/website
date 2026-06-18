@@ -11,19 +11,29 @@ const { className = '', label, tone = 'neutral' } = Astro.props
 <span
   class:list={[
     `
-      inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[0.68rem]
-      font-semibold tracking-[0.24em] wrap-break-word uppercase
+      inline-flex items-center gap-2 rounded-full border px-4 py-1.5
+      text-[0.68rem] font-semibold tracking-[0.24em] wrap-break-word uppercase
     `,
     tone === 'brand' ?
-      'border-brand/30 bg-brand-soft/80 text-brand shadow-[0_0_12px_hsl(var(--brand)/0.1),inset_0_1px_0_hsl(0_0%_100%/0.08)]' :
-      'border-line/60 bg-surface-muted/80 text-ink-muted shadow-[inset_0_1px_0_hsl(0_0%_100%/0.05)]',
+      `
+        border-brand/30 bg-brand-soft/80 text-brand
+        shadow-[0_0_12px_hsl(var(--brand)/0.1),inset_0_1px_0_hsl(0_0%_100%/0.08)]
+      ` :
+      `
+        border-line/60 bg-surface-muted/80 text-ink-muted
+        shadow-[inset_0_1px_0_hsl(0_0%_100%/0.05)]
+      `,
     className
   ]}
 >
   {tone === 'brand' && (
     <span
       aria-hidden="true"
-      class="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-brand motion-safe:animate-pulse motion-reduce:animate-none"
+      class="
+        inline-block size-1.5 shrink-0 rounded-full bg-brand
+        motion-safe:animate-pulse
+        motion-reduce:animate-none
+      "
     />
   )}
   {label}
