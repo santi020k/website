@@ -1,3 +1,7 @@
+<!-- 
+NOTE: The HTML resume at `santi020k.com/resume` is now the primary source of truth. 
+This Markdown file is kept for historical reference and script compatibility.
+-->
 # Santiago Molina
 
 **Tech Lead | Full Stack Developer**

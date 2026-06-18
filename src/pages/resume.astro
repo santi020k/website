@@ -10,12 +10,28 @@ import { AUTHOR_JOB_TITLE, siteConfig } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const workProjects = allProjects.filter((p) => p.data.typesId === 'professional')
+const personalProjects = allProjects.filter((p) => p.data.typesId === 'personal')
+
+const resumePageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  dateCreated: '2024-01-01T00:00:00Z',
+  dateModified: new Date().toISOString(),
+  mainEntity: {
+    '@type': 'Person',
+    name: siteConfig.author,
+    jobTitle: AUTHOR_JOB_TITLE,
+    description: siteConfig.description,
+    url: new URL('/resume/', Astro.site ?? 'https://santi020k.com').href
+  }
+}
 ---
 
 <PageLayout
   meta={{
-    description: 'Printable engineering resume and work experience for Santiago Molina.',
-    title: 'Resume — ' + siteConfig.author
+    description: `Engineering leader and full-stack architect resume. Explore ${siteConfig.author}'s professional experience, technical skills, and open-source projects.`,
+    structuredData: resumePageSchema,
+    title: 'Resume & Curriculum Vitae — ' + siteConfig.author
   }}
 >
   <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8 print:m-0 print:p-0">
@@ -95,6 +111,83 @@ const workProjects = allProjects.filter((p) => p.data.typesId === 'professional'
             </div>
           ))
         }
+      </div>
+    </section>
+
+    <section class="mb-12 print:mb-8 print:break-inside-avoid">
+      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Projects & Community</h2>
+      <div class="space-y-10 print:space-y-6">
+        {
+          personalProjects.map((project) => (
+            <div class="print:break-inside-avoid">
+              <div class="mb-2 flex flex-col items-baseline justify-between gap-1 sm:flex-row">
+                <h3 class="text-lg font-bold text-ink">
+                  {project.data.title} <span class="text-base font-normal text-ink-muted">— {project.data.role}</span>
+                </h3>
+                <span class="text-sm font-medium text-ink-soft">
+                  {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
+                </span>
+              </div>
+              <p class="mb-4 text-sm text-ink-soft">{project.data.description}</p>
+
+              {project.data.impactMetrics.length > 0 && (
+                <div class="mb-4">
+                  <h4 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Key Impact</h4>
+                  <ul class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft">
+                    {project.data.impactMetrics.map((metric) => (
+                      <li>{metric}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                {project.data.technologies.slice(0, 12).map((tech) => (
+                  <span
+                    class="
+                      inline-flex items-center rounded-md bg-surface-muted px-2 py-0.5 text-xs
+                      font-medium text-ink-soft ring-1 ring-inset ring-line/50 print:border print:border-gray-300
+                    "
+                  >
+                    {tech}
+                  </span>
+                ))}
+                {project.data.technologies.length > 12 && (
+                  <span
+                    class="
+                      inline-flex items-center rounded-md bg-surface-muted px-2 py-0.5 text-xs
+                      font-medium text-ink-soft ring-1 ring-inset ring-line/50 print:border print:border-gray-300
+                    "
+                  >
+                    +{project.data.technologies.length - 12} more
+                  </span>
+                )}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="print:break-inside-avoid">
+      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Skills & Expertise</h2>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 print:grid-cols-2 print:gap-4">
+        <div>
+          <h3 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Languages & Interests</h3>
+          <p class="text-sm text-ink-soft">Spanish (Native), English (C1). Continuous learning, community building.</p>
+        </div>
+        <div>
+          <h3 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Front-End</h3>
+          <p class="text-sm text-ink-soft">React.js, Next.js, React Native, Astro, TypeScript, Tailwind CSS, Redux, TanStack Query, Radix UI.</p>
+        </div>
+        <div>
+          <h3 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Back-End</h3>
+          <p class="text-sm text-ink-soft">Node.js, Express.js, NestJS, REST, GraphQL, PostgreSQL, MongoDB, PHP, Ruby on Rails.</p>
+        </div>
+        <div>
+          <h3 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">DevOps & Architecture</h3>
+          <p class="text-sm text-ink-soft">AWS, Docker, CI/CD, GitHub Actions, System Design, Microservices, Turborepo.</p>
+        </div>
       </div>
     </section>
   </div>
