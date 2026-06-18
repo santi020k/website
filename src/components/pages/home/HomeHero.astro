@@ -36,7 +36,10 @@ const { contactHref, yearsOfExperience } = Astro.props
           motion-reduce:animate-none
         "
       >
-        <h1 class="
+        <h1 class="sr-only">Santiago Molina (@santi020k) — Engineering Leader & Full-Stack Architect</h1>
+        <h2
+aria-hidden="true"
+class="
           max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
           sm:text-6xl/[0.95]
           lg:text-[5.2rem]/[0.92]
@@ -44,7 +47,7 @@ const { contactHref, yearsOfExperience } = Astro.props
         >
           Calm systems.
           <span class="block bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent pb-4">Clear delivery.</span>
-        </h1>
+        </h2>
         <p class="
           max-w-xl text-base/7 text-ink-soft
           sm:text-lg/7
@@ -155,7 +158,7 @@ const { contactHref, yearsOfExperience } = Astro.props
           "
         />
         <Picture
-          alt="Portrait of Santiago Molina"
+          alt="Portrait of Santiago Molina (@santi020k)"
           class="
             relative z-0 aspect-4/5 w-full rounded-[1.7rem] object-cover
             object-top

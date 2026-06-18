@@ -26,7 +26,7 @@ const aboutPortraitImage = await getImage({
 
 const description =
   `${yearsOfExperience} years shipping full-stack products. ` +
-  'Senior engineer and tech lead based in Medellín — focused on automation, developer experience, and cross-functional leadership.'
+  'I am Santiago Molina (@santi020k), a senior engineer and tech lead based in Medellín — focused on automation and developer experience.'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -91,7 +91,10 @@ const meta = {
             motion-reduce:animate-none
           "
         >
-          <h1 class="
+          <h1 class="sr-only">About Santiago Molina (@santi020k) — Engineering Leader</h1>
+          <h2
+aria-hidden="true"
+class="
             max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
             sm:text-6xl/[0.95]
             lg:text-[5.2rem]/[0.92]
@@ -104,7 +107,7 @@ const meta = {
             "
             >Full-stack architect.
             </span>
-          </h1>
+          </h2>
           <p class="
             max-w-xl text-base/7 text-ink-soft
             sm:text-lg/7
@@ -138,7 +141,7 @@ const meta = {
 
       <AnimatedPortrait
         src={AboutMeImage}
-        alt="Portrait of Santiago Molina"
+        alt="Portrait of Santiago Molina (@santi020k)"
         showFloatingBadges
         badgeProps={{
           location: { label: 'Base', text: 'Medellin · Remote worldwide' },
