@@ -34,7 +34,7 @@ export const siteConfig: SiteConfig = {
       year: 'numeric'
     }
   },
-  description: 'Engineering leader and full-stack architect specializing in resilient systems, technical leadership, and developer experience. Exploring the intersection of human teams and high-scale software.',
+  description: "I'm Santiago Molina (santi020k), an Engineering leader and full-stack architect specializing in resilient systems, technical leadership, and developer experience. Exploring the intersection of human teams and high-scale software.",
   headline: 'I lead engineering teams, architect resilient systems, and build tools that empower developers.',
   lang: 'en-US',
   location: 'Medellin, Colombia · Remote worldwide',
@@ -76,7 +76,7 @@ export const siteConfig: SiteConfig = {
       label: 'WhatsApp'
     }
   ],
-  title: 'Santiago Molina'
+  title: 'Santiago Molina | santi020k'
 }
 
 export const sameAsProfiles: string[] = [
