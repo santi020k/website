@@ -1,7 +1,7 @@
 ---
-title: "What Is New in @santi020k/eslint-config-basic v2"
-description: "A practical tour of @santi020k/eslint-config-basic v2: ESLint 10, one main install, lazy frameworks, lite mode, monorepos, CLI checks, and AI standards."
-publishDate: "2026-06-11T15:00:00.000Z"
+title: "What Is New in @santi020k/eslint-config-basic v2.0"
+description: "A practical tour of the shipped @santi020k/eslint-config-basic v2.0 release: ESLint 10, one main install, lazy frameworks, lite mode, monorepos, CLI checks, and AI standards."
+publishDate: "2026-06-20T15:00:00.000Z"
 coverImage:
   alt: "Editorial cover showing modular ESLint configuration blocks, checks, docs, and framework nodes connected into one toolkit"
   src: "./cover.webp"
@@ -11,7 +11,7 @@ seriesId: "eslint-in-practice"
 seriesOrder: 5
 ---
 
-I have been working on version 2 of [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic), my ESLint flat-config toolkit for JavaScript and TypeScript projects.
+Version 2.0.0 of [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic) is now live on npm.
 
 This release is bigger than a helper cleanup. It changes the public shape of the package, moves the project to an ESLint 10 baseline, expands framework coverage, improves monorepo behavior, and adds better tooling for humans and AI coding assistants.
 
@@ -48,7 +48,7 @@ That matters for a few reasons:
 - JSX reference tracking improves scope analysis without relying on older plugin workarounds.
 - The package can align around the latest `@eslint/js` recommended baseline.
 
-The supported runtime baseline is Node.js `>=22.18.0`, and TypeScript remains supported when TypeScript linting is enabled.
+The supported runtime baseline is Node.js `^20.19.0 || >=22.18.0`, and TypeScript remains supported when TypeScript linting is enabled.
 
 For teams migrating from older setups, my [ESLint 8 to ESLint 9 migration guide](/blog/migrate-eslint-8-or-less-to-eslint-9/) is still useful background, but v2 is now deliberately looking forward to ESLint 10.
 
@@ -263,9 +263,9 @@ The best parts of this release are:
 
 I do not want an ESLint setup that feels powerful only after a long setup process. I want one that starts simple, explains what it is doing, and still gives teams enough control when their repo becomes more complex.
 
-That is what v2 is trying to do.
+That is what v2 is designed to do.
 
-If you want to try it, the package is available on npm:
+If you want to try the stable release, the package is available on npm:
 
 [`@santi020k/eslint-config-basic`](https://www.npmjs.com/package/@santi020k/eslint-config-basic)
 
