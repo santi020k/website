@@ -30,4 +30,18 @@ Dark mode is controlled with `data-theme="dark"` on `<html>`. Do not use `class=
 
 Use Tailwind token utilities such as `bg-canvas`, `bg-surface`, `border-line`, `text-ink`, `text-ink-soft`, `text-brand`, and `bg-brand/10`. For custom CSS, use semantic variables such as `hsl(var(--surface))` or `hsl(var(--brand) / 0.12)`.
 
-Do not duplicate core brand values in this repo. If the Santi020k palette changes, update and publish `@santi020k/theme`, then bump the dependency here.
+## Asset And Font Helpers
+
+Use package assets for shared Santi020k brand surfaces:
+
+```ts
+import logoUrl from '@santi020k/theme/assets/logos/logo-santi020k.webp'
+import { fontFamily, staticAssets } from '@santi020k/theme'
+```
+
+- `fontFamily` and `typography` provide the canonical Montserrat stacks and metadata.
+- `staticAssets` maps public output paths to package asset paths for generated favicons and app icons.
+- Direct `@santi020k/theme/assets/...` imports are preferred for Vite/Astro-managed image URLs.
+- `import.meta.resolve('@santi020k/theme/assets/...')` is preferred in Node scripts that need filesystem paths for Sharp or Satori.
+
+Do not duplicate core brand values or package-owned assets in this repo. If the Santi020k palette or shared assets change, update and publish `@santi020k/theme`, then bump the dependency here.

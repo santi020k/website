@@ -882,7 +882,7 @@ All internal links use trailing slashes.
 
 | ✅ Do | ❌ Don't |
 | :------- | :------- |
-| Use the logo WebP from `src/assets/brand/logos/logo-santi020k.webp` | Use older logo or terminal icon files |
+| Use shared logo assets from `@santi020k/theme/assets/logos/` for generated brand surfaces | Use older logo or terminal icon files |
 | Reference colors via semantic CSS custom properties | Hardcode hex or HSL values in components |
 | Define new tokens in `src/styles/global.css` `@theme` | Add one-off inline color values |
 | Verify contrast ratios before shipping any new color pair | Assume a color combination is accessible |
@@ -900,6 +900,7 @@ All internal links use trailing slashes.
 | ✅ Do | ❌ Don't |
 | :------- | :------- |
 | Use `@/` import alias for all `src/` paths | Use relative `../../` paths from components |
+| Use `fontFamily`, `typography`, and shared assets from `@santi020k/theme` for package-owned brand surfaces | Duplicate package-owned token, logo, or font-stack values locally |
 | Use `class:list` for conditional Tailwind classes | Concatenate class strings with template literals |
 | Use `<Image>` from `astro:assets` for all images | Use raw `<img>` tags |
 | Pair all animations with `motion-reduce:` variants | Ship animated transitions without reduced-motion fallback |
@@ -922,7 +923,7 @@ All internal links use trailing slashes.
 
 | Asset | Path | Notes |
 | :--------------- | :-------------------------------- | :------------------------------ |
-| Logo (WebP) | `src/assets/brand/logos/logo-santi020k.webp` | 6.34:1 aspect ratio |
+| Shared logos | `@santi020k/theme/assets/logos/` | Source for generated icons, social images, and shared brand surfaces |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and about sections |
 | Default OG image | `public/default.webp` | Served statically |
 | Favicon | `public/favicon.svg` | Square wrapper generated from the current mark |
@@ -932,8 +933,9 @@ All internal links use trailing slashes.
 
 | File | Purpose |
 | :----------------------------------- | :---------- |
-| `src/styles/partials/tokens.css` | HSL design tokens for light/dark and `prefers-contrast` |
-| `src/styles/global.css` | Entry stylesheet: imports partials, `@theme` mappings, utilities, base |
+| `@santi020k/theme/tokens.css` | Shared core color and font tokens |
+| `src/styles/partials/tokens.css` | Site-only status colors and animation shorthands |
+| `src/styles/global.css` | Entry stylesheet: imports shared tokens, partials, utilities, and plugins |
 | `src/site.config.ts` | Site-wide metadata — title, description, author, nav links |
 | `src/content.config.ts` | Content collection schemas (Zod) |
 | `src/types.ts` | Shared TypeScript types including `Badge` variants |
@@ -950,6 +952,7 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 2.7 | June 2026 | Moved core color/font tokens to `@santi020k/theme`, documented shared asset and font helpers, and kept site-only status/animation tokens local. |
 | 2.6 | May 2026 | Added the single-surface card rule: no card-like surfaces nested inside cards or framed shells. Internal hierarchy now uses dividers, plain rows, media, and inline metadata. |
 | 2.5 | May 2026 | **Major home page refresh**: New hero with gradient text, animated portrait rings, and floating mini-notes. New content sections with asymmetric 2-column layout (`0.72fr / 1.28fr`). New card patterns: project cards with image overlays, status badges (Active/Completed), date ranges. Added `GradientDivider` component. Updated card design system with `panel-card`, `mini-note` patterns. |
 | 2.4 | April 2026 | Updated brand identity and hero copy, changed blog to native route, added speaking and about routes, unified typography table to Montserrat. |

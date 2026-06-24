@@ -1,12 +1,20 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+import { Resvg } from '@resvg/resvg-js'
+import { fontFamily, staticAssets } from '@santi020k/theme'
 import satori from 'satori'
 import * as satoriHtml from 'satori-html'
 import sharp from 'sharp'
 
-import { Resvg } from '@resvg/resvg-js'
-
 // ─── Static assets ────────────────────────────────────────────────────────────
+
+const resolveThemeAssetPath = assetPath => fileURLToPath(
+  import.meta.resolve(`@santi020k/theme/${assetPath}`)
+)
+
+const htmlFontFamily = fontFamily.sans.replaceAll('"', '\'')
 
 const FONTS = [
   {
@@ -25,7 +33,7 @@ const FONTS = [
 
 // Load wallpaper background (resize once at startup, keep as PNG for data URI)
 const wallpaperBuf = await sharp(
-  path.resolve(process.cwd(), 'src/assets/wallpapers/wallpaper-3-desktop.webp')
+  resolveThemeAssetPath('assets/wallpapers/wallpaper-3-desktop.webp')
 )
   .resize(1200, 630, { fit: 'cover' })
   .png()
@@ -35,7 +43,7 @@ const WALLPAPER_DATA_URI = `data:image/png;base64,${wallpaperBuf.toString('base6
 
 // Dark-mode logo (white/light text on dark background)
 const logoBuf = await sharp(
-  path.resolve(process.cwd(), 'src/assets/brand/logos/logo-santi020k-dark.webp')
+  resolveThemeAssetPath('assets/logos/logo-santi020k-dark.webp')
 )
   .resize(220, 36, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
   .png()
@@ -45,7 +53,7 @@ const LOGO_DATA_URI = `data:image/png;base64,${logoBuf.toString('base64')}`
 
 // Decorative square mark for text-only cards
 const iconBuf = await sharp(
-  path.resolve(process.cwd(), 'public/logos/logo-square.webp')
+  resolveThemeAssetPath(staticAssets['logos/logo-square.webp'])
 )
   .resize(260, 260, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
   .png()
@@ -152,7 +160,7 @@ const renderBody = (title, size, coverUri) => coverUri ?
  * No footer — header + body fill the full 630px height.
  */
 const renderCanvas = (header, body) => `
-  <div style="display:flex;width:1200px;height:630px;background-color:${DARK_BG};font-family:'Montserrat',sans-serif;">
+  <div style="display:flex;width:1200px;height:630px;background-color:${DARK_BG};font-family:${htmlFontFamily};">
     <div style="display:flex;position:absolute;top:0;left:0;width:1200px;height:630px;">
       <img src="${WALLPAPER_DATA_URI}" style="display:flex;width:1200px;height:630px;object-fit:cover;" />
     </div>

@@ -1,4 +1,6 @@
 ---
+import { fontFamily } from '@santi020k/theme'
+
 interface Props {
   variant?: 'light' | 'dark'
   class?: string
@@ -11,6 +13,7 @@ const fillColor = isDark ? '#713bf7' : '#5a0fdb'
 const strokeColor = isDark ? '#110c1d' : '#FFFFFF'
 const textColor = isDark ? '#faf9fb' : '#332e38'
 const viewBox = iconOnly ? '0 0 80 80' : '0 0 504 80'
+const logoFontFamily = fontFamily.display
 ---
 
 <svg
@@ -56,7 +59,7 @@ const viewBox = iconOnly ? '0 0 80 80' : '0 0 504 80'
       x="100"
       y="40"
       dominant-baseline="central"
-      font-family="Montserrat, Inter, sans-serif"
+      font-family={logoFontFamily}
       font-weight="800"
       font-size="48"
       fill={textColor}

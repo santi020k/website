@@ -1,6 +1,9 @@
 ---
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
+import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
+import logoWordmarkDarkUrl from '@santi020k/theme/assets/logos/logo-santi020k-dark.svg?url'
+import logoWordmarkUrl from '@santi020k/theme/assets/logos/logo-santi020k.svg?url'
 import { getSocialImageURL } from '@/utils/social-image'
 
 import { AUTHOR_JOB_TITLE, sameAsProfiles, siteConfig } from '@/site.config'
@@ -24,6 +27,7 @@ const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
 const titleSeparator = '—'
 const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com/').href
+const organizationLogoURL = new URL(logoSquareUrl, Astro.site ?? 'https://santi020k.com/').href
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
 
@@ -70,8 +74,8 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <link rel="preload" href="/fonts/montserrat-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/fonts/montserrat-italic-variable-font-wght.woff2" as="font" type="font/woff2" crossorigin />
 {/* Preload the header logos — LCP elements */}
-<link rel="preload" as="image" href="/src/assets/brand/logos/logo-santi020k.svg" type="image/svg+xml" fetchpriority="high" />
-<link rel="preload" as="image" href="/src/assets/brand/logos/logo-santi020k-dark.svg" type="image/svg+xml" fetchpriority="high" />
+<link rel="preload" as="image" href={logoWordmarkUrl} type="image/svg+xml" fetchpriority="high" />
+<link rel="preload" as="image" href={logoWordmarkDarkUrl} type="image/svg+xml" fetchpriority="high" />
 {
   preloadImage && (
     <link
@@ -212,7 +216,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
     url: Astro.site?.href,
     logo: {
       '@type': 'ImageObject',
-      url: `${Astro.site?.href ?? 'https://santi020k.com/'}logos/logo-square.webp`,
+      url: organizationLogoURL,
       width: 512,
       height: 512
     },
