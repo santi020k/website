@@ -83,7 +83,7 @@
         hsl(var(--theme-bg) / 0.88),
         hsl(var(--theme-bg) / 0.95)
       ),
-      url("../../assets/wallpapers/wallpaper-3-desktop.webp") center center / cover,
+      url("@santi020k/theme/assets/wallpapers/wallpaper-3-desktop.webp") center center / cover,
       hsl(var(--theme-bg));
     /* Avoid `background-attachment: fixed` on small screens and when reduced motion is requested:
        on mobile/low-end GPUs it causes scroll-time compositing cost. Restrict to wide,

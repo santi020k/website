@@ -85,7 +85,7 @@ The logo is a custom WebP wordmark with a stylised "S2K" letterform representing
 
 | Property | Wordmark (Primary) | Icon (Square) |
 | :---------------- | :------------------ | :-------------- |
-| **Source file** | `src/assets/brand/logos/logo-santi020k.webp` | `public/logos/logo-square.webp` |
+| **Source file** | `@santi020k/theme/assets/logos/logo-santi020k.webp` | `@santi020k/theme/assets/logos/logo-square.webp` |
 | **Primary format** | WebP | WebP |
 | **Aspect Ratio** | 6.34:1 | 1:1 |
 | **Rendered size** | `width="228" height="36"` | `width="32" height="32"` |
@@ -273,7 +273,7 @@ Custom `--container-*` values in `@theme` override Tailwind defaults for tighter
 
 | Asset | Source path | Usage |
 | :----------- | :---------- | :---- |
-| Logo | `src/assets/brand/logos/logo-santi020k.webp` | Site identity |
+| Logo | `@santi020k/theme/assets/logos/logo-santi020k.webp` | Site identity |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and author attribution |
 | Default OG image | `public/default.webp` | Social share fallback |
 | Favicon | `public/favicon.svg` | Browser icon generated from the square mark |
