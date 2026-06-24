@@ -26,6 +26,9 @@ importers:
       '@astrojs/sitemap':
         specifier: 3.7.3
         version: 3.7.3
+      '@santi020k/theme':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@shikijs/transformers':
         specifier: ^4.2.0
         version: 4.2.0
@@ -2525,6 +2528,14 @@ packages:
     engines: {node: ^20.19.0 || >=22.18.0}
     peerDependencies:
       eslint: ^10.0.0
+
+  '@santi020k/theme-core@1.0.0':
+    resolution: {integrity: sha512-yQ1fIkRH0yT4lBlNWf4Pllpx1D6qu+keMPkOvD96tn01uIbgps2HvTARLjsMApjmiDv1wjkNdVXXPB7UzTHCcA==}
+    engines: {node: '>=22.18.0'}
+
+  '@santi020k/theme@1.0.2':
+    resolution: {integrity: sha512-qXuCxBgMB2raoef5JBBw5nvbPwL1wUrBkBBA2etwZUPnC6RpC+lHzxYCnCucrLYsYd3Hg2Lrkzih5A8iAA4pwQ==}
+    engines: {node: '>=22.18.0'}
 
   '@sentry-internal/tracing@7.120.4':
     resolution: {integrity: sha512-Fz5+4XCg3akeoFK+K7g+d7HqGMjmnLoY2eJlpONJmaeT9pXY7yfUyXKZMmMajdE2LxxKJgQ2YKvSCaGVamTjHw==}
@@ -12108,6 +12119,12 @@ snapshots:
       - '@typescript-eslint/parser'
       - supports-color
       - typescript
+
+  '@santi020k/theme-core@1.0.0': {}
+
+  '@santi020k/theme@1.0.2':
+    dependencies:
+      '@santi020k/theme-core': 1.0.0
 
   '@sentry-internal/tracing@7.120.4':
     dependencies:

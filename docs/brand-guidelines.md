@@ -1,6 +1,6 @@
 # Santi020k — Brand Guidelines
 
-**Version:** 2.6 · **Last updated:** May 2026 · **Owner:** Santiago Molina (@santi020k)
+**Version:** 2.7 · **Last updated:** June 2026 · **Owner:** Santiago Molina (@santi020k)
 
 > Single source of truth for the visual identity, voice, and implementation standards of the personal website and all related materials. Keep this document up to date whenever design tokens, components, or brand direction change.
 
@@ -106,7 +106,7 @@ The logo is a custom WebP wordmark with a stylised "S2K" letterform representing
 
 ## 3. Color System
 
-The palette is fully adaptive between **Light** and **Dark** modes, toggled via `data-theme` on `<html>`. In **light** mode, neutrals use a subtle purple tint (hue **~268°**) and brand purple is aligned with the refreshed light logo and icon (hue **~267°**). **Dark** mode keeps the existing purple system (hue **277°** for neutrals and brand). All color tokens are defined in `src/styles/partials/tokens.css` (imported from `src/styles/global.css`).
+The palette is fully adaptive between **Light** and **Dark** modes, toggled via `data-theme` on `<html>`. In **light** mode, neutrals use a subtle purple tint (hue **~268°**) and brand purple is aligned with the refreshed light logo and icon (hue **~264°**). **Dark** mode keeps a deep purple system (hue **~260°** for neutrals, hue **~264°** for brand). Core color and font tokens come from `@santi020k/theme/tokens.css`, imported in `src/styles/global.css`; site-only status and animation tokens live in `src/styles/partials/tokens.css`.
 
 **Rule:** Always use semantic CSS custom property tokens in components — never hardcode hex or raw HSL values.
 
@@ -120,7 +120,7 @@ The palette is fully adaptive between **Light** and **Dark** modes, toggled via 
 
 ### Semantic Tokens — Light Mode
 
-Raw HSL values live on `:root` / `[data-theme="light"]` in [`src/styles/partials/tokens.css`](../src/styles/partials/tokens.css). Tailwind maps them under `@theme` (for example `--color-canvas`, `--color-brand`).
+Raw HSL values live on `:root` / `[data-theme="light"]` in `@santi020k/theme/tokens.css`. Tailwind maps them under `@theme` (for example `--color-canvas`, `--color-brand`). Local site extensions are kept in [`src/styles/partials/tokens.css`](../src/styles/partials/tokens.css).
 
 | Role | CSS sources | HSL (raw) | Hex (approx.) | Usage |
 | :---------- | :------------------ | :------------ | :--- | :---- |
@@ -130,14 +130,14 @@ Raw HSL values live on `:root` / `[data-theme="light"]` in [`src/styles/partials
 | Headings / strong UI | `--ink` → `--color-ink` | `268 10% 20%` | `#332e38` (approx.) | `h1`–`h6`, strong emphasis |
 | Body / secondary text | `--ink-soft` | `268 8% 36%` | `#5b5463` (approx.) | Paragraphs, descriptions |
 | Muted labels | `--ink-muted` | `268 6% 28%` | `#47434c` (approx.) | Metadata, captions |
-| Brand wash | `--brand-soft` → `--color-brand-soft` | `267 52% 94%` | — | Tinted surfaces, selections |
+| Brand wash | `--brand-soft` → `--color-brand-soft` | `264 60% 94%` | — | Tinted surfaces, selections |
 | Links & interactive emphasis | `text-brand`, `hover:text-brand`, `--brand` / `--accent` | — | — | Use utilities; base `a` inherits context |
 
 ### Semantic Tokens — Dark Mode
 
 | Role | CSS sources | HSL (raw) | Usage |
 | :---------- | :------------------ | :------------ | :---- |
-| Page background | `--theme-bg` → `--color-canvas` | `277 20% 10%` | `#1b141f` — deep purple‑tinted canvas |
+| Page background | `--theme-bg` → `--color-canvas` | `260 43% 8%` | Deep purple-tinted canvas |
 | Surfaces | `--surface`, `--surface-muted`, `--surface-strong` | see tokens file | Elevated UI |
 | Text | `--ink`, `--ink-soft`, `--ink-muted` | see tokens file | Hierarchy |
 | Brand | `--brand`, `--accent`, `--glow`, `--brand-soft` | see Brand Primary table | Same semantics as light |

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@santi020k/theme/tokens.css";
 @import "./partials/tokens.css";
 @import "./partials/base.css";
 @import "./partials/nav.css";
