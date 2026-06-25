@@ -5,6 +5,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
 import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
+
 import { siteConfig } from '@/site.config'
 
 interface Props {
@@ -15,53 +16,57 @@ interface Props {
 const { contactHref, yearsOfExperience } = Astro.props
 ---
 
-<section class="relative isolate pb-4">
+<section class="relative isolate mx-auto w-full max-w-352 pt-2 pb-6" data-home-hero>
   <div
     aria-hidden="true"
     class="
-      pointer-events-none absolute -inset-x-8 -top-20 -z-10 h-[34rem]
-      rounded-full bg-radial from-brand/18 via-accent/8 to-transparent
-      blur-3xl
+      pointer-events-none absolute -inset-x-8 -top-24 -z-10 h-152 rounded-full
+      bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
       motion-safe:animate-glow-pulse
       motion-reduce:animate-none
       dark:from-brand/24 dark:via-accent/12
     "
   />
   <div
-    aria-hidden="true"
     class="
-      pointer-events-none absolute inset-x-0 top-8 -z-10 h-[28rem]
-      rounded-[3rem] border border-line/20 bg-surface/18
-      shadow-[inset_0_1px_0_hsl(0_0%_100%/0.08)] backdrop-blur-[2px]
+      relative grid gap-10
+      lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center lg:gap-14
+      2xl:grid-cols-[minmax(0,1fr)_27rem] 2xl:gap-20
     "
-  />
-  <div class="
-    relative grid gap-8
-    lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center lg:gap-12
-    2xl:grid-cols-[minmax(0,1fr)_28rem] 2xl:gap-20
-  "
+    data-home-hero-grid
   >
-    <div class="relative z-10 space-y-6">
-      <Eyebrow
-        label="Santiago Molina (@santi020k)"
-        tone="brand"
-        className="whitespace-normal"
-      />
-
+    <div class="relative z-10">
       <div
         class="
-          space-y-4
+          flex flex-col gap-3
+          sm:flex-row sm:items-center
         "
       >
-        <h1 class="sr-only">Santiago Molina (@santi020k) — Engineering Leader & Full-Stack Architect</h1>
-        <h2
-          aria-hidden="true"
+        <Eyebrow
+          label="Santiago Molina (@santi020k)"
+          tone="brand"
+          className="whitespace-normal"
+        />
+        <p class="
+          hidden w-fit items-center rounded-full border border-line/35
+          bg-surface/36 px-4 py-1.5 section-label text-ink-muted
+          backdrop-blur-md
+          sm:inline-flex
+        "
+        >
+          Engineering leadership · Automation · DX
+        </p>
+      </div>
+
+      <div class="mt-6 max-w-232 space-y-5">
+        <h1
           class="
-            max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+            text-4xl/[0.96] font-extrabold tracking-[-0.06em] wrap-break-word
             sm:text-6xl/[0.95]
-            lg:text-[5.6rem]/[0.9]
-            2xl:text-[6.2rem]/[0.88]
+            lg:text-[6rem]/[0.88]
+            2xl:text-[6.8rem]/[0.86]
           "
+          data-home-hero-heading
         >
           Calm systems.
           <span class="
@@ -70,21 +75,19 @@ const { contactHref, yearsOfExperience } = Astro.props
           "
           >Clear delivery.
           </span>
-        </h2>
-        <div class="glass-pro max-w-2xl rounded-[1.75rem] p-5 sm:p-6">
-          <p class="
-            max-w-xl text-base/7 text-ink-soft
-            sm:text-lg/7
-          "
-          >
-            Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
-          </p>
-        </div>
+        </h1>
+        <p class="
+          max-w-3xl text-base/7 text-ink-soft
+          sm:text-xl/8
+        "
+        >
+          Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
+        </p>
       </div>
 
-      <div class="space-y-4">
+      <div class="mt-8 space-y-5">
         <div class="
-          panel-card max-w-2xl p-5 shadow-[0_22px_70px_hsl(var(--brand)/0.10)]
+          panel-card max-w-3xl p-5 shadow-[0_22px_70px_hsl(var(--brand)/0.10)]
           sm:p-6
         "
         >
@@ -124,19 +127,17 @@ const { contactHref, yearsOfExperience } = Astro.props
             Read the writing
           </ButtonLink>
         </div>
-
-        <!-- <p class="text-sm text-ink-muted">
-          {siteConfig.location} · {yearsOfExperience} years experience · ReactJS Colombia
-        </p> -->
       </div>
     </div>
 
     <div
       class="
-        relative isolate mx-auto w-full max-w-96 animate-reveal-lcp
+        relative isolate mx-auto w-full max-w-80 animate-reveal-lcp
         motion-reduce:animate-none
-        2xl:max-w-[28rem]
+        sm:max-w-96
+        2xl:max-w-108
       "
+      data-home-hero-portrait
     >
       <div
         aria-hidden="true"
@@ -150,23 +151,21 @@ const { contactHref, yearsOfExperience } = Astro.props
       <div
         aria-hidden="true"
         class="
-          pointer-events-none absolute inset-[-10%] z-20 rounded-full border-2
-          border-brand/15 [animation-delay:800ms]
-          motion-safe:animate-[spin_24s_linear_infinite]
+          pointer-events-none absolute inset-[-10%] z-20 rounded-[2.75rem]
+          border-2 border-brand/15 [animation-delay:800ms]
+          motion-safe:animate-[hero-orbit-outer_28s_linear_infinite]
           motion-reduce:animate-none
           dark:border-brand/20
         "
-        style="border-image: linear-gradient(135deg, hsl(var(--brand)/0.3), hsl(var(--accent)/0.15), transparent) 1; border-radius: 9999px;"
       />
       <div
         aria-hidden="true"
         class="
-          pointer-events-none absolute inset-[8%] z-20 rounded-full border
-          border-brand/10 [animation-delay:800ms]
-          motion-safe:animate-[spin_18s_linear_infinite_reverse]
+          pointer-events-none absolute inset-[8%] z-20 rounded-[2.25rem] border
+          border-accent/10 [animation-delay:800ms]
+          motion-safe:animate-[hero-orbit-inner_22s_linear_infinite]
           motion-reduce:animate-none
         "
-        style="border-image: linear-gradient(225deg, hsl(var(--accent)/0.2), hsl(var(--brand)/0.1), transparent) 1; border-radius: 9999px;"
       />
 
       <div class="
@@ -248,3 +247,41 @@ const { contactHref, yearsOfExperience } = Astro.props
     </div>
   </div>
 </section>
+
+<style is:global>
+  @keyframes hero-orbit-outer {
+    from {
+      transform: rotate(14deg);
+    }
+
+    to {
+      transform: rotate(374deg);
+    }
+  }
+
+  @keyframes hero-orbit-inner {
+    from {
+      transform: rotate(-28deg);
+    }
+
+    to {
+      transform: rotate(-388deg);
+    }
+  }
+
+  @media (min-width: 2400px) {
+    [data-home-hero-grid] {
+      grid-template-columns: minmax(0, 1fr) 30rem;
+      gap: 5rem;
+    }
+
+    [data-home-hero-heading] {
+      font-size: 7.4rem;
+      line-height: 0.84;
+    }
+
+    [data-home-hero-portrait] {
+      max-width: 30rem;
+    }
+  }
+</style>
