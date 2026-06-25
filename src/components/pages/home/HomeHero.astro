@@ -16,11 +16,21 @@ interface Props {
 const { contactHref, yearsOfExperience } = Astro.props
 ---
 
-<section class="relative isolate mx-auto w-full max-w-352 pt-2 pb-6" data-home-hero>
+<section
+  class="
+    relative left-1/2 isolate -mt-12 flex w-screen -translate-x-1/2
+    items-center overflow-hidden px-5 pt-24 pb-16
+    sm:px-6 sm:pt-28 sm:pb-20
+    lg:-mt-[9.75rem] lg:min-h-svh lg:px-8 lg:pt-28 lg:pb-20
+    2xl:px-10
+  "
+  data-home-hero
+>
   <div
     aria-hidden="true"
     class="
-      pointer-events-none absolute -inset-x-8 -top-24 -z-10 h-152 rounded-full
+      pointer-events-none absolute -inset-x-24 -top-32 -z-10 h-[44rem]
+      rounded-full
       bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
       motion-safe:animate-glow-pulse
       motion-reduce:animate-none
@@ -28,8 +38,16 @@ const { contactHref, yearsOfExperience } = Astro.props
     "
   />
   <div
+    aria-hidden="true"
     class="
-      relative grid gap-10
+      pointer-events-none absolute inset-x-0 top-0 -z-10 h-full bg-linear-to-b
+      from-canvas/70 via-surface/8 to-canvas/78
+      dark:from-canvas/78 dark:via-surface/7 dark:to-canvas/86
+    "
+  />
+  <div
+    class="
+      mx-auto grid w-full max-w-[88rem] gap-10
       lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center lg:gap-14
       2xl:grid-cols-[minmax(0,1fr)_27rem] 2xl:gap-20
     "
@@ -86,17 +104,23 @@ const { contactHref, yearsOfExperience } = Astro.props
       </div>
 
       <div class="mt-8 space-y-5">
-        <div class="
-          panel-card max-w-3xl p-5 shadow-[0_22px_70px_hsl(var(--brand)/0.10)]
-          sm:p-6
-        "
+        <div
+          class="
+            panel-surface max-w-3xl rounded-[1.65rem] p-3
+            shadow-[0_18px_56px_hsl(var(--brand)/0.08)]
+            sm:rounded-full sm:p-2
+          "
         >
           <div class="
-            flex flex-col gap-4
+            flex flex-col gap-3
             sm:flex-row sm:items-center sm:justify-between
           "
           >
-            <div class="space-y-1.5">
+            <div class="
+              min-w-0 px-2 py-1
+              sm:py-0 sm:pl-3
+            "
+            >
               <p class="flex items-center gap-1.5 section-label text-brand">
                 <span
                   class="
@@ -108,9 +132,18 @@ const { contactHref, yearsOfExperience } = Astro.props
                 />
                 Open now
               </p>
-              <p class="text-sm/6 text-ink">{siteConfig.availability}</p>
+              <p class="mt-1 text-sm/6 text-ink">{siteConfig.availability}</p>
             </div>
-            <ButtonLink className="shrink-0" href={contactHref} newTab showArrow variant="secondary">
+            <ButtonLink
+              className="
+                min-h-12 shrink-0 px-5
+                sm:min-h-11
+              "
+              href={contactHref}
+              newTab
+              showArrow
+              variant="secondary"
+            >
               Message on WhatsApp
             </ButtonLink>
           </div>
@@ -127,6 +160,21 @@ const { contactHref, yearsOfExperience } = Astro.props
             Read the writing
           </ButtonLink>
         </div>
+
+        <ul
+          aria-label="Professional highlights"
+          class="
+            hidden flex-wrap gap-x-3 gap-y-2 text-sm/6 text-ink-muted
+            sm:gap-x-4
+            sm:flex
+          "
+        >
+          <li class="font-medium text-ink-soft">{yearsOfExperience} years experience</li>
+          <li aria-hidden="true" class="text-brand/70">/</li>
+          <li>Medellin · Remote worldwide</li>
+          <li aria-hidden="true" class="text-brand/70">/</li>
+          <li>ReactJS Colombia</li>
+        </ul>
       </div>
     </div>
 

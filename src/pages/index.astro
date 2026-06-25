@@ -95,7 +95,9 @@ const meta = {
 
 <PageLayout meta={meta}>
   <HomeHero contactHref={contactHref} yearsOfExperience={yearsOfExperience} />
-  <HomeStats yearsOfExperience={yearsOfExperience} />
+  <div class="mt-12 lg:mt-16 2xl:mt-20">
+    <HomeStats yearsOfExperience={yearsOfExperience} />
+  </div>
 
   {/* Work Experience */}
   <PageSection>
