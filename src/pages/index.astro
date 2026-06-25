@@ -103,12 +103,14 @@ const meta = {
       eyebrow="Work Experience"
       title="Professional roles."
       description="Client and product work across teams and industries."
+      variant="shelf"
     />
     <div class="space-y-6">
       <div
         class="
           grid gap-6
           md:grid-cols-2
+          2xl:grid-cols-4
         "
         data-stagger="60"
       >
@@ -133,12 +135,14 @@ const meta = {
       eyebrow="Side Projects"
       title="Built for the love of it."
       description="Open source, community work, and experiments."
+      variant="shelf"
     />
     <div class="space-y-6">
       <div
         class="
           grid gap-6
           md:grid-cols-2
+          2xl:grid-cols-4
         "
         data-stagger="60"
       >
@@ -163,9 +167,10 @@ const meta = {
       eyebrow="Writing"
       title="Thoughts on building and leading."
       description="Articles on architecture, automation, and engineering decisions."
+      variant="shelf"
     />
     <div class="space-y-6">
-      <div class="space-y-0" data-stagger="50">
+      <div class="panel-card p-2 sm:p-4" data-stagger="50">
         {latestPosts.map(post => (
           <PostListItem post={post} />
         ))}
@@ -187,6 +192,7 @@ const meta = {
       eyebrow="Beyond the code"
       title="Speaking & Community."
       description="Co-organizing ReactJS Colombia and speaking on DX, automation, and engineering leadership at local and regional events."
+      variant="shelf"
     />
     <div class="space-y-6">
       <div

@@ -8,11 +8,11 @@ interface Props {
 const { columns = 4 } = Astro.props
 ---
 
-<GradientDivider class="pt-10" />
+<GradientDivider class="pt-6 sm:pt-8" />
 <section
   class:list={[
     `
-      relative grid gap-4 pt-10
+      relative grid gap-5 pt-8
       md:grid-cols-2
     `,
     columns === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'

@@ -9,12 +9,13 @@ interface Props {
 const { class: className, divider = true } = Astro.props
 ---
 
-{divider && <GradientDivider class="pt-10" />}
+{divider && <GradientDivider class="pt-6 sm:pt-8" />}
 <section
   class:list={[
     `
-      grid gap-8 pt-10
-      lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
+      grid items-start gap-6 pt-8
+      lg:grid-cols-[minmax(18rem,0.58fr)_minmax(0,1.42fr)] lg:gap-8
+      2xl:grid-cols-[minmax(18rem,0.36fr)_minmax(0,1.64fr)] 2xl:gap-10
     `,
     className
   ]}

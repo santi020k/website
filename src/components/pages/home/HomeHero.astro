@@ -15,26 +15,42 @@ interface Props {
 const { contactHref, yearsOfExperience } = Astro.props
 ---
 
-<section class="relative pb-4">
+<section class="relative isolate pb-4">
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute -inset-x-8 -top-20 -z-10 h-[34rem]
+      rounded-full bg-radial from-brand/18 via-accent/8 to-transparent
+      blur-3xl
+      motion-safe:animate-glow-pulse
+      motion-reduce:animate-none
+      dark:from-brand/24 dark:via-accent/12
+    "
+  />
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute inset-x-0 top-8 -z-10 h-[28rem]
+      rounded-[3rem] border border-line/20 bg-surface/18
+      shadow-[inset_0_1px_0_hsl(0_0%_100%/0.08)] backdrop-blur-[2px]
+    "
+  />
   <div class="
-    relative grid gap-10
-    lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center
+    relative grid gap-8
+    lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center lg:gap-12
+    2xl:grid-cols-[minmax(0,1fr)_28rem] 2xl:gap-20
   "
   >
-    <div class="relative z-10 space-y-8">
+    <div class="relative z-10 space-y-6">
       <Eyebrow
         label="Santiago Molina (@santi020k)"
         tone="brand"
-        className="
-          animate-slide-up whitespace-normal
-          motion-reduce:animate-none
-        "
+        className="whitespace-normal"
       />
 
       <div
         class="
-          animate-slide-up space-y-4 [animation-delay:90ms]
-          motion-reduce:animate-none
+          space-y-4
         "
       >
         <h1 class="sr-only">Santiago Molina (@santi020k) — Engineering Leader & Full-Stack Architect</h1>
@@ -43,7 +59,8 @@ const { contactHref, yearsOfExperience } = Astro.props
           class="
             max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
             sm:text-6xl/[0.95]
-            lg:text-[5.2rem]/[0.92]
+            lg:text-[5.6rem]/[0.9]
+            2xl:text-[6.2rem]/[0.88]
           "
         >
           Calm systems.
@@ -54,23 +71,20 @@ const { contactHref, yearsOfExperience } = Astro.props
           >Clear delivery.
           </span>
         </h2>
-        <p class="
-          max-w-xl text-base/7 text-ink-soft
-          sm:text-lg/7
-        "
-        >
-          Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
-        </p>
+        <div class="glass-pro max-w-2xl rounded-[1.75rem] p-5 sm:p-6">
+          <p class="
+            max-w-xl text-base/7 text-ink-soft
+            sm:text-lg/7
+          "
+          >
+            Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
+          </p>
+        </div>
       </div>
 
-      <div
-        class="
-          animate-slide-up space-y-5 [animation-delay:180ms]
-          motion-reduce:animate-none
-        "
-      >
+      <div class="space-y-4">
         <div class="
-          panel-card max-w-2xl p-5
+          panel-card max-w-2xl p-5 shadow-[0_22px_70px_hsl(var(--brand)/0.10)]
           sm:p-6
         "
         >
@@ -119,15 +133,16 @@ const { contactHref, yearsOfExperience } = Astro.props
 
     <div
       class="
-        relative isolate mx-auto w-full max-w-88 animate-reveal-lcp
+        relative isolate mx-auto w-full max-w-96 animate-reveal-lcp
         motion-reduce:animate-none
+        2xl:max-w-[28rem]
       "
     >
       <div
         aria-hidden="true"
         class="
           pointer-events-none absolute inset-[5%] z-10 rounded-4xl bg-radial
-          from-brand/18 via-accent/8 to-transparent blur-3xl
+          from-brand/24 via-accent/12 to-transparent blur-3xl
           motion-safe:animate-pulse
           motion-reduce:animate-none
         "
@@ -155,9 +170,9 @@ const { contactHref, yearsOfExperience } = Astro.props
       />
 
       <div class="
-        panel-card relative z-0 overflow-hidden rounded-[2.25rem] p-3
+        glass-pro relative z-0 overflow-hidden rounded-[2.25rem] p-3
         transition-shadow duration-500
-        hover:shadow-[0_20px_60px_-15px_hsl(var(--brand)/0.15)]
+        hover:shadow-[0_24px_70px_-18px_hsl(var(--brand)/0.24)]
         motion-reduce:transition-none
         sm:p-4
       "
@@ -187,7 +202,7 @@ const { contactHref, yearsOfExperience } = Astro.props
           formats={['avif', 'webp']}
           height={440}
           loading="eager"
-          sizes="(min-width: 1024px) 352px, 75vw"
+          sizes="(min-width: 1536px) 448px, (min-width: 1024px) 384px, 75vw"
           src={AboutMeImage}
           width={352}
           widths={[400, 600, 800]}
@@ -195,8 +210,8 @@ const { contactHref, yearsOfExperience } = Astro.props
       </div>
 
       <div class="
-        mini-note absolute bottom-8 -left-4 z-30 hidden min-w-40 border-l-4
-        border-l-brand/40 [animation-delay:600ms]
+        glass-pro absolute bottom-8 -left-4 z-30 hidden min-w-40 rounded-2xl
+        border-l-4 border-l-brand/40 p-5 [animation-delay:600ms]
         motion-safe:animate-float-y
         motion-reduce:animate-none
         sm:-left-8 sm:block
@@ -215,8 +230,8 @@ const { contactHref, yearsOfExperience } = Astro.props
 
       <div
         class="
-          mini-note absolute top-8 -right-4 z-30 hidden min-w-32 border-r-4
-          border-r-accent/40 [animation-delay:900ms]
+          glass-pro absolute top-8 -right-4 z-30 hidden min-w-32 rounded-2xl
+          border-r-4 border-r-accent/40 p-5 [animation-delay:900ms]
           motion-safe:animate-float-y
           motion-reduce:animate-none
           sm:-right-8 sm:block

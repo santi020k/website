@@ -16,7 +16,7 @@
 /* ─── Site Header Shell ─────────────────────────────────────────────────────── */
 
 @utility site-header-shell {
-  @apply relative mx-auto flex w-full max-w-[calc(100vw-2rem)] items-center justify-between gap-3 overflow-hidden rounded-[1.85rem] px-4 py-3.5 sm:max-w-6xl sm:px-5;
+  @apply relative mx-auto flex w-full max-w-[calc(100vw-2rem)] items-center justify-between gap-3 overflow-hidden rounded-[1.85rem] px-4 py-3.5 sm:max-w-6xl sm:px-5 2xl:max-w-[96rem] 2xl:px-6;
   & > * {
     min-width: 0;
   }
