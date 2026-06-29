@@ -87,7 +87,7 @@
     "@astrojs/ts-plugin": "^1.10.9",
     "@axe-core/playwright": "^4.11.3",
     "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/config-conventional": "^21.1.0",
     "@iconify-json/tabler": "^1.2.35",
     "@iconify/tailwind4": "^1.2.3",
     "@lhci/cli": "^0.15.1",

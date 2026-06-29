@@ -100,8 +100,8 @@ importers:
         specifier: ^19.3.0
         version: 19.8.1(@types/node@25.9.3)(typescript@6.0.3)
       '@commitlint/config-conventional':
-        specifier: ^19.2.2
-        version: 19.8.1
+        specifier: ^21.1.0
+        version: 21.1.0
       '@iconify-json/tabler':
         specifier: ^1.2.35
         version: 1.2.35
@@ -460,9 +460,9 @@ packages:
     engines: {node: '>=v18'}
     hasBin: true
 
-  '@commitlint/config-conventional@19.8.1':
-    resolution: {integrity: sha512-/AZHJL6F6B/G959CsMAzrPKKZjeEiAVifRyEwXxcT6qtqbPwGw+iQxmNS+Bu+i09OCtdNRW6pNpBvgPrtMr9EQ==}
-    engines: {node: '>=v18'}
+  '@commitlint/config-conventional@21.1.0':
+    resolution: {integrity: sha512-BIFl8xM+3SLy3jrblUC3wmQLCVbLty+++6o859BDCmybVrQdXmIWO+dlkGIbv/M2bBoC55wGuh0zGiw3TPjL1g==}
+    engines: {node: '>=22.12.0'}
 
   '@commitlint/config-validator@19.8.1':
     resolution: {integrity: sha512-0jvJ4u+eqGPBIzzSdqKNX1rvdbSU1lPNYlfQQRIFnBgLy26BtC0cFnr7c/AyuzExMxWsMOte6MkTi9I3SQ3iGQ==}
@@ -540,8 +540,8 @@ packages:
     resolution: {integrity: sha512-/yCrWGCoA1SVKOks25EGadP9Pnj0oAIHGpl2wH2M2Y46dPM2ueb8wyCVOD7O3WCTkaJ0IkKvzhl1JY7+uCT2Dw==}
     engines: {node: '>=v18'}
 
-  '@commitlint/types@21.0.1':
-    resolution: {integrity: sha512-4u7w8jcoCUFWhjWnASYzZHAP34OqOtuFBN87nQmFvqda03YU0T6z+yB4w0gSAMpekiRqqGk5rt+qSlW+a2vSEg==}
+  '@commitlint/types@21.1.0':
+    resolution: {integrity: sha512-YodnnnH1Cp+08nP8HGNJAIuB6L3/vdCTHVRTfF8Ik/wRCLOTsU9zwv3yO1cSPQRDa9CLYtE+UJ2K67r7CwMSFw==}
     engines: {node: '>=22.12.0'}
 
   '@cspell/cspell-bundled-dicts@10.0.1':
@@ -3914,10 +3914,12 @@ packages:
   conventional-changelog-atom@3.0.0:
     resolution: {integrity: sha512-pnN5bWpH+iTUWU3FaYdw5lJmfWeqSyrUkG+wyHBI9tC1dLNnHkbAOg1SzTQ7zBqiFrfo55h40VsGXWMdopwc5g==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-codemirror@3.0.0:
     resolution: {integrity: sha512-wzchZt9HEaAZrenZAUUHMCFcuYzGoZ1wG/kTRMICxsnW5AXohYMRxnyecP9ob42Gvn5TilhC0q66AtTPRSNMfw==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-config-spec@2.1.0:
     resolution: {integrity: sha512-IpVePh16EbbB02V+UA+HQnnPIohgXvJRxHcS5+Uwk4AT5LjzCZJm5sp/yqs5C6KZJ1jMsV4paEV13BN1pvDuxQ==}
@@ -3926,33 +3928,39 @@ packages:
     resolution: {integrity: sha512-3cS3GEtR78zTfMzk0AizXKKIdN4OvSh7ibNz6/DPbhWWQu7LqE/8+/GqSodV+sywUR2gpJAdP/1JFf4XtN7Zpw==}
     engines: {node: '>=14'}
 
-  conventional-changelog-conventionalcommits@7.0.2:
-    resolution: {integrity: sha512-NKXYmMR/Hr1DevQegFB4MwfM5Vv0m4UIxKZTTYuD98lpTknaZlSRrDOG4X7wIXpGkfsYxZTghUN+Qq+T0YQI7w==}
-    engines: {node: '>=16'}
+  conventional-changelog-conventionalcommits@9.3.1:
+    resolution: {integrity: sha512-dTYtpIacRpcZgrvBYvBfArMmK2xvIpv2TaxM0/ZI5CBtNUzvF2x0t15HsbRABWprS6UPmvj+PzHVjSx4qAVKyw==}
+    engines: {node: '>=18'}
 
   conventional-changelog-core@5.0.2:
     resolution: {integrity: sha512-RhQOcDweXNWvlRwUDCpaqXzbZemKPKncCWZG50Alth72WITVd6nhVk9MJ6w1k9PFNBcZ3YwkdkChE+8+ZwtUug==}
     engines: {node: '>=14'}
+    deprecated: Deprecated and no longer maintained. Please use conventional-changelog instead.
 
   conventional-changelog-ember@3.0.0:
     resolution: {integrity: sha512-7PYthCoSxIS98vWhVcSphMYM322OxptpKAuHYdVspryI0ooLDehRXWeRWgN+zWSBXKl/pwdgAg8IpLNSM1/61A==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-eslint@4.0.0:
     resolution: {integrity: sha512-nEZ9byP89hIU0dMx37JXQkE1IpMmqKtsaR24X7aM3L6Yy/uAtbb+ogqthuNYJkeO1HyvK7JsX84z8649hvp43Q==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-express@3.0.0:
     resolution: {integrity: sha512-HqxihpUMfIuxvlPvC6HltA4ZktQEUan/v3XQ77+/zbu8No/fqK3rxSZaYeHYant7zRxQNIIli7S+qLS9tX9zQA==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-jquery@4.0.0:
     resolution: {integrity: sha512-TTIN5CyzRMf8PUwyy4IOLmLV2DFmPtasKN+x7EQKzwSX8086XYwo+NeaeA3VUT8bvKaIy5z/JoWUvi7huUOgaw==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-jshint@3.0.0:
     resolution: {integrity: sha512-bQof4byF4q+n+dwFRkJ/jGf9dCNUv4/kCDcjeCizBvfF81TeimPZBB6fT4HYbXgxxfxWXNl/i+J6T0nI4by6DA==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-preset-loader@3.0.0:
     resolution: {integrity: sha512-qy9XbdSLmVnwnvzEisjxdDiLA4OmV3o8db+Zdg4WiFw14fP3B6XNz98X0swPPpkTd/pc1K7+adKgEDM1JCUMiA==}
@@ -5488,13 +5496,13 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-raw-commits@4.0.0:
     resolution: {integrity: sha512-ICsMM1Wk8xSGMowkOmPrzo2Fgmfo4bMHLNX6ytHjajRJUqvHOw/TFapQ+QG75c3X/tTDDhOSRPGC52dDbNM8FQ==}
     engines: {node: '>=16'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -5504,7 +5512,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   gitconfiglocal@1.0.0:
@@ -6360,8 +6368,8 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
-  libphonenumber-js@1.13.6:
-    resolution: {integrity: sha512-NdB6O6QvlGMCoG003m0YIKG2+Xw7DjmCZhmc1RH+K6HncADUbRf8TZeLegxBBN1VFyPHcNpPTKpIhYLXzJVy1Q==}
+  libphonenumber-js@1.13.7:
+    resolution: {integrity: sha512-rvr3HIMdOgzhz1RFGjftji+wjoAFlzhqCNqJOU/MKTZQ8d9NZxAR/tI+0weDicyoucqVR0U1GCniqHJ0f8aM2A==}
 
   lie@3.1.1:
     resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
@@ -7989,6 +7997,11 @@ packages:
 
   semver@7.8.4:
     resolution: {integrity: sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.8.5:
+    resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -9783,10 +9796,10 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/config-conventional@19.8.1':
+  '@commitlint/config-conventional@21.1.0':
     dependencies:
-      '@commitlint/types': 19.8.1
-      conventional-changelog-conventionalcommits: 7.0.2
+      '@commitlint/types': 21.1.0
+      conventional-changelog-conventionalcommits: 9.3.1
 
   '@commitlint/config-validator@19.8.1':
     dependencies:
@@ -9795,7 +9808,7 @@ snapshots:
 
   '@commitlint/config-validator@21.0.1':
     dependencies:
-      '@commitlint/types': 21.0.1
+      '@commitlint/types': 21.1.0
       ajv: 8.20.0
     optional: true
 
@@ -9851,7 +9864,7 @@ snapshots:
       '@commitlint/config-validator': 21.0.1
       '@commitlint/execute-rule': 21.0.1
       '@commitlint/resolve-extends': 21.0.1
-      '@commitlint/types': 21.0.1
+      '@commitlint/types': 21.1.0
       cosmiconfig: 9.0.2(typescript@6.0.3)
       cosmiconfig-typescript-loader: 6.3.0(@types/node@25.9.3)(cosmiconfig@9.0.2(typescript@6.0.3))(typescript@6.0.3)
       es-toolkit: 1.47.1
@@ -9890,7 +9903,7 @@ snapshots:
   '@commitlint/resolve-extends@21.0.1':
     dependencies:
       '@commitlint/config-validator': 21.0.1
-      '@commitlint/types': 21.0.1
+      '@commitlint/types': 21.1.0
       es-toolkit: 1.47.1
       global-directory: 5.0.0
       resolve-from: 5.0.0
@@ -9914,11 +9927,10 @@ snapshots:
       '@types/conventional-commits-parser': 5.0.2
       chalk: 5.6.2
 
-  '@commitlint/types@21.0.1':
+  '@commitlint/types@21.1.0':
     dependencies:
       conventional-commits-parser: 6.4.0
       picocolors: 1.1.1
-    optional: true
 
   '@cspell/cspell-bundled-dicts@10.0.1':
     dependencies:
@@ -12191,8 +12203,7 @@ snapshots:
       fflate: 0.7.4
       string.prototype.codepointat: 0.2.1
 
-  '@simple-libs/stream-utils@1.2.0':
-    optional: true
+  '@simple-libs/stream-utils@1.2.0': {}
 
   '@sindresorhus/base62@1.0.0': {}
 
@@ -12527,7 +12538,7 @@ snapshots:
       eslint: 10.5.0(jiti@2.7.0)
       json-stable-stringify-without-jsonify: 1.0.1
       lodash.merge: 4.6.2
-      semver: 7.8.4
+      semver: 7.8.5
       typescript: 6.0.3
     transitivePeerDependencies:
       - supports-color
@@ -13496,7 +13507,7 @@ snapshots:
   class-validator@0.15.1:
     dependencies:
       '@types/validator': 13.15.10
-      libphonenumber-js: 1.13.6
+      libphonenumber-js: 1.13.7
       validator: 13.15.35
 
   cli-cursor@2.1.0:
@@ -13690,7 +13701,7 @@ snapshots:
     dependencies:
       compare-func: 2.0.0
 
-  conventional-changelog-conventionalcommits@7.0.2:
+  conventional-changelog-conventionalcommits@9.3.1:
     dependencies:
       compare-func: 2.0.0
 
@@ -13771,7 +13782,6 @@ snapshots:
     dependencies:
       '@simple-libs/stream-utils': 1.2.0
       meow: 13.2.0
-    optional: true
 
   conventional-recommended-bump@7.0.1:
     dependencies:
@@ -16664,7 +16674,7 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  libphonenumber-js@1.13.6: {}
+  libphonenumber-js@1.13.7: {}
 
   lie@3.1.1:
     dependencies:
@@ -17217,8 +17227,7 @@ snapshots:
 
   meow@12.1.1: {}
 
-  meow@13.2.0:
-    optional: true
+  meow@13.2.0: {}
 
   meow@8.1.2:
     dependencies:
@@ -18809,6 +18818,8 @@ snapshots:
   semver@6.3.1: {}
 
   semver@7.8.4: {}
+
+  semver@7.8.5: {}
 
   send@0.19.2:
     dependencies:
