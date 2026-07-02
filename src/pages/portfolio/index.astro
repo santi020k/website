@@ -1,6 +1,7 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
+import { Card } from '@/components/ui'
 
 import PageLayout from '@/layouts/Base.astro'
 
@@ -56,7 +57,7 @@ const sections = [
     data-stagger="80"
   >
     {sections.map(({ buttonLabel, description, href, label, title }) => (
-      <div class="panel-card flex flex-col gap-6 p-7">
+      <Card class="flex flex-col gap-6 p-7">
         <div
           aria-hidden="true"
           class="pointer-events-none absolute inset-x-0 top-0 z-10 h-px"
@@ -72,7 +73,7 @@ const sections = [
             {buttonLabel}
           </ButtonLink>
         </div>
-      </div>
+      </Card>
     ))}
   </section>
 </PageLayout>

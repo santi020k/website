@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components'
 
 import CoverImage from '@/components/atoms/CoverImage.astro'
 import Pill from '@/components/atoms/Pill.astro'
+import { Card } from '@/components/ui'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
 import { getProjectDateRangeLabel } from '@/utils/project-meta'
@@ -29,10 +30,11 @@ const projectItems = projects.map(project => ({
 <div class="space-y-6">
   {/* Featured project - large */}
   {projectItems[0] && (
-    <article class="
-      group relative overflow-hidden rounded-3xl border border-line/50
-      bg-surface
-    "
+    <Card
+      as="article"
+      class="
+        group relative overflow-hidden rounded-3xl border-line/50 bg-surface p-0
+      "
     >
       <a class="block" href={projectItems[0].href}>
         <div class="
@@ -123,7 +125,7 @@ const projectItems = projects.map(project => ({
           </div>
         </div>
       </a>
-    </article>
+    </Card>
   )}
 
   {/* Grid for remaining projects */}
@@ -135,10 +137,13 @@ const projectItems = projects.map(project => ({
     "
     >
       {projectItems.slice(1).map(project => (
-        <article class="
-          group card-interactive flex flex-col overflow-hidden rounded-2xl
-          border border-line/50 bg-surface
-        "
+        <Card
+          as="article"
+          class="
+            group flex flex-col overflow-hidden rounded-2xl border-line/50
+            bg-surface p-0
+          "
+          variant="interactive"
         >
           <a class="block" href={project.href}>
             {/* Thumbnail */}
@@ -207,7 +212,7 @@ const projectItems = projects.map(project => ({
               )}
             </div>
           </a>
-        </article>
+        </Card>
       ))}
     </div>
   )}

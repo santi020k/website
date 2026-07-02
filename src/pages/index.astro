@@ -9,6 +9,7 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import HomeHero from '@/components/pages/home/HomeHero.astro'
 import HomeStats from '@/components/pages/home/HomeStats.astro'
+import { Card } from '@/components/ui'
 
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
@@ -222,11 +223,11 @@ const meta = {
       variant="shelf"
     />
     <div class="space-y-6">
-      <div class="panel-card p-2 sm:p-4" data-stagger="50">
+      <Card class="p-2 sm:p-4" data-stagger="50">
         {latestPosts.map(post => (
           <PostListItem post={post} />
         ))}
-      </div>
+      </Card>
       <div class="section-actions">
         <ButtonLink href="/blog/" showArrow>
           Read all articles

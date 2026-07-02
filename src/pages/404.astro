@@ -1,6 +1,6 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-
+import { Card } from '@/components/ui'
 import PageLayout from '@/layouts/Base.astro'
 
 const meta = {
@@ -114,7 +114,7 @@ const meta = {
         </div>
       </div>
 
-      <div class="panel-card overflow-hidden">
+      <Card class="overflow-hidden p-0">
         <div
           aria-hidden="true"
           class="
@@ -168,7 +168,7 @@ const meta = {
             <circle cx="78"  cy="42"  r="0.8" fill="hsl(var(--ink)/0.20)"/>
           </svg>
         </div>
-      </div>
+      </Card>
     </div>
   </section>
 </PageLayout>

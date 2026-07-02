@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths, Page } from 'astro'
+
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
@@ -14,6 +15,8 @@ import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import { Card } from '@/components/ui'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
@@ -21,7 +24,6 @@ import { getAllTags } from '@/utils/tags'
 
 import { editorialCalendar } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
-import PageLayout from '@/layouts/Base.astro'
 import { siteConfig, YEARS_OF_WRITING } from '@/site.config'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
@@ -186,8 +188,8 @@ const blogListSchema = {
           </div>
         </article>
 
-        <div class="
-          panel-card flex flex-col gap-5 p-6
+        <Card class="
+          flex flex-col gap-5 p-6
           sm:p-7
         "
         >
@@ -209,7 +211,7 @@ const blogListSchema = {
             It is the right track if you want the cultural and operational rules behind how I like to
             build software teams, not only the framework-specific implementation details.
           </p>
-        </div>
+        </Card>
       </div>
     </PageSection>
   )}
