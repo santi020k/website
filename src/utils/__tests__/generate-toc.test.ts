@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import type { TocItem } from '../generate-toc'
 import { generateToc } from '../generate-toc'
@@ -16,11 +16,11 @@ const expectDefined = <T>(value: T | undefined): T => {
 }
 
 describe('generateToc', () => {
-  it('returns an empty array for an empty headings list', () => {
+  test('returns an empty array for an empty headings list', () => {
     expect(generateToc([])).toEqual([])
   })
 
-  it('returns a flat list when all headings are the same depth', () => {
+  test('returns a flat list when all headings are the same depth', () => {
     const headings = [h(2, 'intro'), h(2, 'middle'), h(2, 'end')]
     const toc = generateToc(headings)
 
@@ -29,7 +29,7 @@ describe('generateToc', () => {
     expect(toc.every(item => item.children.length === 0)).toBe(true)
   })
 
-  it('nests an h3 under the preceding h2', () => {
+  test('nests an h3 under the preceding h2', () => {
     const headings = [h(2, 'parent'), h(3, 'child')]
     const toc = generateToc(headings)
     const parent = expectDefined(toc[0])
@@ -41,7 +41,7 @@ describe('generateToc', () => {
     expect(child.slug).toBe('child')
   })
 
-  it('handles alternating parents and children correctly', () => {
+  test('handles alternating parents and children correctly', () => {
     const headings = [
       h(2, 'first'),
       h(3, 'first-child'),
@@ -59,7 +59,7 @@ describe('generateToc', () => {
     expect(secondChild.slug).toBe('second-child')
   })
 
-  it('builds a three-level nested tree correctly', () => {
+  test('builds a three-level nested tree correctly', () => {
     const headings = [h(2, 'h2'), h(3, 'h3'), h(4, 'h4')]
     const toc = generateToc(headings)
     const level2 = expectDefined(toc[0])
@@ -74,7 +74,7 @@ describe('generateToc', () => {
     expect(level4.slug).toBe('h4')
   })
 
-  it('preserves the text property on each TocItem', () => {
+  test('preserves the text property on each TocItem', () => {
     const headings = [h(2, 'intro', 'Introduction')]
     const toc = generateToc(headings)
 
@@ -83,7 +83,7 @@ describe('generateToc', () => {
 })
 
 describe('generateToc — minHeadingLevel', () => {
-  it('excludes headings shallower than minHeadingLevel', () => {
+  test('excludes headings shallower than minHeadingLevel', () => {
     const headings = [h(1, 'title'), h(2, 'section'), h(3, 'sub')]
     const toc = generateToc(headings, { minHeadingLevel: 2 })
 
@@ -91,14 +91,14 @@ describe('generateToc — minHeadingLevel', () => {
     expect(toc.map(item => item.slug)).toContain('section')
   })
 
-  it('returns empty when all headings are below minHeadingLevel', () => {
+  test('returns empty when all headings are below minHeadingLevel', () => {
     const headings = [h(1, 'a'), h(2, 'b')]
     expect(generateToc(headings, { minHeadingLevel: 3 })).toEqual([])
   })
 })
 
 describe('generateToc — maxHeadingLevel', () => {
-  it('excludes headings deeper than maxHeadingLevel', () => {
+  test('excludes headings deeper than maxHeadingLevel', () => {
     const headings = [h(2, 'section'), h(3, 'sub'), h(4, 'deep')]
     const toc = generateToc(headings, { maxHeadingLevel: 3 })
 
@@ -108,7 +108,7 @@ describe('generateToc — maxHeadingLevel', () => {
     expect(allSlugs(toc)).toContain('sub')
   })
 
-  it('returns a single item when maxHeadingLevel matches the only heading depth', () => {
+  test('returns a single item when maxHeadingLevel matches the only heading depth', () => {
     const headings = [h(2, 'only'), h(3, 'excluded')]
     const toc = generateToc(headings, { maxHeadingLevel: 2 })
     const only = expectDefined(toc[0])
@@ -119,7 +119,7 @@ describe('generateToc — maxHeadingLevel', () => {
 })
 
 describe('generateToc — combined min/max constraints', () => {
-  it('only includes headings within the specified range', () => {
+  test('only includes headings within the specified range', () => {
     const headings = [h(1, 'h1'), h(2, 'h2'), h(3, 'h3'), h(4, 'h4'), h(5, 'h5')]
     const toc = generateToc(headings, { minHeadingLevel: 2, maxHeadingLevel: 3 })
 

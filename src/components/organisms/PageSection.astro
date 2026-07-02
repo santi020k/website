@@ -9,7 +9,13 @@ interface Props {
 const { class: className, divider = true } = Astro.props
 ---
 
-{divider && <GradientDivider class="pt-6 sm:pt-8" />}
+{divider && (
+  <GradientDivider class="
+    pt-6
+    sm:pt-8
+  "
+  />
+)}
 <section
   class:list={[
     `

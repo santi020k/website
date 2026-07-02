@@ -10,11 +10,11 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getPostPath } from '@/utils/links'
 
 import { getSeriesSummaries } from '@/data/series'
-import PageLayout from '@/layouts/Base.astro'
 
 export const getStaticPaths = async () => {
   const seriesSummaries = await getSeriesSummaries()

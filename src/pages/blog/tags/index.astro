@@ -5,12 +5,11 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
-
-import PageLayout from '@/layouts/Base.astro'
 
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
@@ -144,7 +143,11 @@ const breadcrumbs = [
                           h-full rounded-full transition-all duration-500
                           motion-reduce:transition-none
                         "
-                        style={`width: ${pct}%; background: linear-gradient(90deg, hsl(var(--brand) / 0.55), hsl(var(--accent) / 0.75));`}
+                        style={`width: ${pct}%; background: linear-gradient(
+                          90deg,
+                          hsl(var(--brand) / 0.55),
+                          hsl(var(--accent) / 0.75)
+                        );`}
                       />
                     </div>
                     <p class="mt-2 text-xs text-ink-muted">

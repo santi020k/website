@@ -1,8 +1,8 @@
 /* eslint-disable func-style */
+import type { CollectionEntry } from 'astro:content'
+
 import { getCachedProjects } from '@/utils/content'
 import { getPortfolioPath } from '@/utils/links'
-
-import type { CollectionEntry } from 'astro:content'
 
 export async function getAllProjects(): Promise<CollectionEntry<'project'>[]> {
   return getCachedProjects()

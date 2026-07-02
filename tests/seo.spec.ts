@@ -63,9 +63,8 @@ test.describe('SEO — meta tags', () => {
     await expect(firstPost).toHaveAttribute('href', /^\/blog\/.+\/$/)
     const href = await firstPost.getAttribute('href')
 
-    if (href) {
-      await page.goto(href)
-    }
+    expect(href).not.toBeNull()
+    await page.goto(href ?? '/blog/')
 
     const ogImageMeta = page.locator('meta[property="og:image"]')
     await expect(ogImageMeta).toHaveAttribute('content', /.+/)
@@ -175,9 +174,8 @@ test.describe('SEO — JSON-LD structured data', () => {
   test('blog post page has its own JSON-LD schema', async ({ page }) => {
     await page.goto('/blog/')
     const firstPostHref = await page.locator('article a[href^="/blog/"]').first().getAttribute('href')
-    if (firstPostHref) {
-      await page.goto(firstPostHref)
-    }
+    expect(firstPostHref).not.toBeNull()
+    await page.goto(firstPostHref ?? '/blog/')
 
     const hasStructuredData = await page.evaluate(() => {
       const scripts = document.querySelectorAll('script[type="application/ld+json"]')

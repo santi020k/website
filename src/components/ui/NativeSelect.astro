@@ -19,7 +19,7 @@ const passthrough = rest as Record<string, unknown>
 
 <select class:list={['ui-select', classProp, className]} {...passthrough}>
   <slot />
-  {options.map((option) => (
+  {options.map(option => (
     <option disabled={option.disabled} value={option.value}>{option.label}</option>
   ))}
 </select>

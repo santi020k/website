@@ -4,7 +4,7 @@ import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
 import type { VFile } from 'vfile'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { remarkAdmonitions } from '../remark-admonitions'
 import { remarkReadingTime } from '../remark-reading-time'
@@ -30,7 +30,7 @@ interface AdmonitionNode extends Paragraph {
 }
 
 describe('remarkReadingTime', () => {
-  it('should calculate reading time and add it to frontmatter', () => {
+  test('should calculate reading time and add it to frontmatter', () => {
     const processor = unified().use(remarkParse).use(remarkReadingTime).use(remarkStringify)
     const file = { data: { astro: { frontmatter: {} } } } as unknown as AstroVFile
     const content = 'Hello world, this is a test page to check reading time calculation. It should have some min read.'
@@ -44,7 +44,7 @@ describe('remarkReadingTime', () => {
 })
 
 describe('remarkAdmonitions', () => {
-  it('should transform note container directives into aside elements', async () => {
+  test('should transform note container directives into aside elements', async () => {
     const processor = unified()
       .use(remarkParse)
       .use(remarkDirective)
@@ -67,7 +67,7 @@ describe('remarkAdmonitions', () => {
     expect(props['aria-label'] ?? props.ariaLabel).toBe('note')
   })
 
-  it('should handle custom titles via directive labels', async () => {
+  test('should handle custom titles via directive labels', async () => {
     const processor = unified()
       .use(remarkParse)
       .use(remarkDirective)
@@ -83,7 +83,7 @@ describe('remarkAdmonitions', () => {
     expect(props['aria-label'] ?? props.ariaLabel).toBe('Custom Title')
   })
 
-  it('should transform unhandled directives to normal text', async () => {
+  test('should transform unhandled directives to normal text', async () => {
     const processor = unified()
       .use(remarkParse)
       .use(remarkDirective)

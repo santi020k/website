@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { fetchNewsletterIssues, parseNewsletterFeed } from '../newsletter'
 
@@ -7,7 +7,9 @@ const sampleFeed = `<?xml version="1.0" encoding="utf-8"?>
 <item>
   <title>Calmer releases, issue #2</title>
   <link>https://buttondown.com/santi020k/archive/issue-2/</link>
-  <description>&lt;p&gt;Notes on &lt;strong&gt;release automation&lt;/strong&gt; &amp;amp; review flow.&lt;/p&gt;</description>
+  <description>
+    &lt;p&gt;Notes on &lt;strong&gt;release automation&lt;/strong&gt; &amp;amp; review flow.&lt;/p&gt;
+  </description>
   <pubDate>Tue, 03 Mar 2026 12:00:00 +0000</pubDate>
 </item>
 <item>
@@ -19,7 +21,7 @@ const sampleFeed = `<?xml version="1.0" encoding="utf-8"?>
 </channel></rss>`
 
 describe('parseNewsletterFeed', () => {
-  it('parses items with decoded, stripped descriptions', () => {
+  test('parses items with decoded, stripped descriptions', () => {
     const issues = parseNewsletterFeed(sampleFeed)
 
     expect(issues).toHaveLength(2)
@@ -29,18 +31,19 @@ describe('parseNewsletterFeed', () => {
     expect(issues[0]?.pubDate?.toISOString()).toBe('2026-03-03T12:00:00.000Z')
   })
 
-  it('handles CDATA blocks and sorts newest first', () => {
+  test('handles CDATA blocks and sorts newest first', () => {
     const issues = parseNewsletterFeed(sampleFeed)
 
     expect(issues[1]?.title).toBe('Hello world')
-    expect(issues[0]?.pubDate?.valueOf() ?? 0).toBeGreaterThan(issues[1]?.pubDate?.valueOf() ?? Number.POSITIVE_INFINITY)
+    expect(issues[0]?.pubDate?.valueOf() ?? 0)
+      .toBeGreaterThan(issues[1]?.pubDate?.valueOf() ?? Number.POSITIVE_INFINITY)
   })
 
-  it('returns an empty list for feeds without items', () => {
+  test('returns an empty list for feeds without items', () => {
     expect(parseNewsletterFeed('<rss><channel></channel></rss>')).toEqual([])
   })
 
-  it('skips items missing a title or link', () => {
+  test('skips items missing a title or link', () => {
     const feed = '<rss><item><title>No link here</title></item></rss>'
 
     expect(parseNewsletterFeed(feed)).toEqual([])
@@ -53,22 +56,22 @@ describe('fetchNewsletterIssues', () => {
     vi.restoreAllMocks()
   })
 
-  it('fetches and parses the feed', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, text: async () => sampleFeed }))
+  test('fetches and parses the feed', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, text: () => Promise.resolve(sampleFeed) }))
 
     const issues = await fetchNewsletterIssues('https://example.com/rss')
 
     expect(issues).toHaveLength(2)
   })
 
-  it('returns an empty list on non-OK responses', async () => {
+  test('returns an empty list on non-OK responses', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined)
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500 }))
 
     await expect(fetchNewsletterIssues('https://example.com/rss')).resolves.toEqual([])
   })
 
-  it('returns an empty list when fetch throws', async () => {
+  test('returns an empty list when fetch throws', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined)
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))
 

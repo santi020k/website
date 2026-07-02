@@ -1,13 +1,14 @@
 ---
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
-import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
-import logoWordmarkDarkUrl from '@santi020k/theme/assets/logos/logo-santi020k-dark.svg?url'
-import logoWordmarkUrl from '@santi020k/theme/assets/logos/logo-santi020k.svg?url'
+import type { SiteMeta } from '@/types/site'
 import { getSocialImageURL } from '@/utils/social-image'
 
+import logoWordmarkUrl from '@santi020k/theme/assets/logos/logo-santi020k.svg?url'
+import logoWordmarkDarkUrl from '@santi020k/theme/assets/logos/logo-santi020k-dark.svg?url'
+import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
+
 import { AUTHOR_JOB_TITLE, sameAsProfiles, siteConfig } from '@/site.config'
-import type { SiteMeta } from '@/types/site'
 
 type Props = SiteMeta
 

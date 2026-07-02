@@ -25,7 +25,7 @@ const badgeClasses = {
   }
 }
 
-const variantClasses = badgeClasses.variants[variant as keyof typeof badgeClasses.variants]
+const variantClasses = badgeClasses.variants[variant]
 ---
 <span class={`
   ${badgeClasses.base}

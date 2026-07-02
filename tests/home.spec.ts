@@ -1,10 +1,10 @@
+import { expect, type Page, test } from '@playwright/test'
+
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import {
   shouldRunVisualSnapshots,
   visualSnapshotSkipReason
 } from './helpers/visual-regression'
-
-import { expect, type Page, test } from '@playwright/test'
 
 const navigateFromMobileMenu = async (
   page: Page,
@@ -39,7 +39,7 @@ test('homepage has correct title and main sections', async ({ page }) => {
   await expect(mainMenu.getByRole('link', { name: 'Work' })).toBeVisible()
   await expect(mainMenu.getByRole('link', { name: 'Projects' })).toBeVisible()
   await expect(mainMenu.getByRole('link', { name: 'Blog' })).toBeVisible()
-
+  await expect(page.locator('body')).toBeVisible()
   await expectNoUnexpectedAccessibilityViolations(page)
 })
 

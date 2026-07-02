@@ -1,7 +1,7 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
 
-interface Props extends HTMLAttributes<"div"> {
+interface Props extends HTMLAttributes<'div'> {
   class?: string
   className?: string
   ratio?: string
@@ -10,7 +10,7 @@ interface Props extends HTMLAttributes<"div"> {
 const {
   class: classProp = '',
   className = '',
-  ratio = "16 / 9",
+  ratio = '16 / 9',
   ...rest
 } = Astro.props
 

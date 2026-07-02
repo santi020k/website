@@ -18,10 +18,10 @@ const { contactHref, yearsOfExperience } = Astro.props
 
 <section
   class="
-    relative left-1/2 isolate -mt-12 flex w-screen -translate-x-1/2
-    items-center overflow-hidden px-5 pt-24 pb-16
+    relative left-1/2 isolate -mt-12 flex w-screen -translate-x-1/2 items-center
+    overflow-hidden px-5 pt-24 pb-16
     sm:px-6 sm:pt-28 sm:pb-20
-    lg:-mt-[9.75rem] lg:min-h-svh lg:px-8 lg:pt-28 lg:pb-20
+    lg:-mt-39 lg:min-h-svh lg:px-8 lg:pt-28 lg:pb-20
     2xl:px-10
   "
   data-home-hero
@@ -29,8 +29,7 @@ const { contactHref, yearsOfExperience } = Astro.props
   <div
     aria-hidden="true"
     class="
-      pointer-events-none absolute -inset-x-24 -top-32 -z-10 h-[44rem]
-      rounded-full
+      pointer-events-none absolute -inset-x-24 -top-32 -z-10 h-176 rounded-full
       bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
       motion-safe:animate-glow-pulse
       motion-reduce:animate-none
@@ -47,7 +46,7 @@ const { contactHref, yearsOfExperience } = Astro.props
   />
   <div
     class="
-      mx-auto grid w-full max-w-[88rem] gap-10
+      mx-auto grid w-full max-w-352 gap-10
       lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center lg:gap-14
       2xl:grid-cols-[minmax(0,1fr)_27rem] 2xl:gap-20
     "
@@ -106,8 +105,8 @@ const { contactHref, yearsOfExperience } = Astro.props
       <div class="mt-8 space-y-5">
         <div
           class="
-            panel-surface max-w-3xl rounded-[1.65rem] p-3
-            shadow-[0_18px_56px_hsl(var(--brand)/0.08)]
+            max-w-3xl rounded-[1.65rem] p-3
+            shadow-[0_18px_56px_hsl(var(--brand)/0.08)] panel-surface
             sm:rounded-full sm:p-2
           "
         >
@@ -124,7 +123,7 @@ const { contactHref, yearsOfExperience } = Astro.props
               <p class="flex items-center gap-1.5 section-label text-brand">
                 <span
                   class="
-                    inline-block size-2 rounded-full bg-brand
+                    ui-marker
                     motion-safe:animate-pulse
                     motion-reduce:animate-none
                   "
@@ -165,8 +164,7 @@ const { contactHref, yearsOfExperience } = Astro.props
           aria-label="Professional highlights"
           class="
             hidden flex-wrap gap-x-3 gap-y-2 text-sm/6 text-ink-muted
-            sm:gap-x-4
-            sm:flex
+            sm:flex sm:gap-x-4
           "
         >
           <li class="font-medium text-ink-soft">{yearsOfExperience} years experience</li>

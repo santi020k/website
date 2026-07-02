@@ -1,10 +1,7 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-import {
-  shouldRunVisualSnapshots,
-  visualSnapshotSkipReason
-} from './helpers/visual-regression'
-
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { shouldRunVisualSnapshots } from './helpers/visual-regression'
 
 test.describe('Blog series index page', () => {
   test.beforeEach(async ({ page }) => {
@@ -42,11 +39,13 @@ test.describe('Blog series index page', () => {
   })
 
   test('should pass accessibility audit', async ({ page }) => {
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
-  test('should match visual snapshot', async ({ page }) => {
-    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
-    await expect(page).toHaveScreenshot('blog-series-index.png')
-  })
+  if (shouldRunVisualSnapshots) {
+    test('should match visual snapshot', async ({ page }) => {
+      await expect(page).toHaveScreenshot('blog-series-index.png')
+    })
+  }
 })

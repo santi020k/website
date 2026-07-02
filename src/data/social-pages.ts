@@ -8,7 +8,10 @@ export interface SocialPageDefinition {
 }
 
 export const homeSocialPage: SocialPageDefinition = {
-  description: `Engineering Leader & Full-Stack Architect with ${YEARS_OF_EXPERIENCE} years of experience building resilient systems and scaling technical teams.`,
+  description: [
+    `Engineering Leader & Full-Stack Architect with ${YEARS_OF_EXPERIENCE} years of experience`,
+    'building resilient systems and scaling technical teams.'
+  ].join(' '),
   pathname: '/',
   title: 'Engineering Leader & Full-Stack Architect',
   type: 'Homepage'

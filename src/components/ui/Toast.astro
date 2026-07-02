@@ -1,16 +1,16 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
 
-interface Props extends HTMLAttributes<"aside"> {
+interface Props extends HTMLAttributes<'aside'> {
   class?: string
   className?: string
-  variant?: "default" | "destructive" | "success" | "warning"
+  variant?: 'default' | 'destructive' | 'success' | 'warning'
 }
 
 const {
   class: classProp = '',
   className = '',
-  variant = "default",
+  variant = 'default',
   ...rest
 } = Astro.props
 
@@ -20,7 +20,10 @@ const passthrough = rest as Record<string, unknown>
 <aside
   data-variant={variant}
   class:list={[
-    'ui-toast', variant === 'destructive' && 'ui-toast--destructive', variant === 'success' && 'ui-toast--success', variant === 'warning' && 'ui-toast--warning',
+    'ui-toast',
+    variant === 'destructive' && 'ui-toast--destructive',
+    variant === 'success' && 'ui-toast--success',
+    variant === 'warning' && 'ui-toast--warning',
     classProp,
     className
   ]}

@@ -68,6 +68,13 @@
 
 /* ─── Mobile Nav Panel Animations ───────────────────────────────────────────── */
 
+@utility site-mobile-nav-toggle {
+  @apply relative z-50 inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border
+    border-line/50 bg-surface/68 px-4 text-ink shadow-inset-soft backdrop-blur-sm transition
+    duration-200 hover:border-brand/35 hover:bg-brand-soft/25 hover:text-brand
+    motion-reduce:transition-none;
+}
+
 @keyframes mobile-nav-panel-in {
   from {
     opacity: 0;

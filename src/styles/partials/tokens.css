@@ -34,6 +34,7 @@
   --color-success: hsl(var(--success));
   --color-warning: hsl(var(--warning));
   --color-danger: hsl(var(--danger));
+  --shadow-inset-soft: inset 0 1px 0 hsl(0 0% 100% / 0.12);
 
   /* Animation shorthands — keyframes live in animations.css */
   --animate-fade-in: fade-in 0.4s ease-out both;

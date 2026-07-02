@@ -1,6 +1,6 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
 test.describe('Privacy page', () => {
   test.beforeEach(async ({ page }) => {
@@ -18,6 +18,7 @@ test.describe('Privacy page', () => {
   })
 
   test('should not have unexpected accessibility violations', async ({ page }) => {
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 })

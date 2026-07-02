@@ -7,6 +7,14 @@
 
 /* ─── Surface & Card ────────────────────────────────────────────────────────── */
 
+@utility privacy-inline-link {
+  @apply underline-offset-2 hover:text-brand hover:underline;
+}
+
+@utility resume-role-text {
+  @apply text-base font-normal text-ink-muted;
+}
+
 @utility panel-surface {
   background: linear-gradient(
     180deg,

@@ -4,6 +4,14 @@ import { siteConfig } from '../site.config'
 import { getCachedPosts } from '../utils/content'
 import { getPostPath } from '../utils/links'
 
+const jsonFeedKeys = {
+  contentText: 'content_text',
+  dateModified: 'date_modified',
+  datePublished: 'date_published',
+  feedUrl: 'feed_url',
+  homePageUrl: 'home_page_url'
+} as const
+
 /**
  * JSON Feed 1.1 endpoint mirroring the RSS feed for reader apps that prefer
  * JSON (NetNewsWire, Feedbin, Inoreader, etc.). Spec: https://jsonfeed.org/version/1.1
@@ -17,8 +25,8 @@ export const GET = async (context: APIContext) => {
     title: `${siteConfig.title} JSON Feed`,
     description:
       'Writing on software architecture, automation, developer experience, and calmer delivery systems.',
-    home_page_url: site,
-    feed_url: new URL('/feed.json', site).toString(),
+    [jsonFeedKeys.homePageUrl]: site,
+    [jsonFeedKeys.feedUrl]: new URL('/feed.json', site).toString(),
     language: siteConfig.lang,
     authors: [
       {
@@ -31,9 +39,9 @@ export const GET = async (context: APIContext) => {
       url: new URL(getPostPath(post.id), site).toString(),
       title: post.data.title,
       summary: post.data.description,
-      content_text: post.data.description,
-      date_published: post.data.publishDate.toISOString(),
-      ...(post.data.updatedDate ? { date_modified: post.data.updatedDate.toISOString() } : {}),
+      [jsonFeedKeys.contentText]: post.data.description,
+      [jsonFeedKeys.datePublished]: post.data.publishDate.toISOString(),
+      ...(post.data.updatedDate ? { [jsonFeedKeys.dateModified]: post.data.updatedDate.toISOString() } : {}),
       tags: post.data.tags,
       authors: [{ name: siteConfig.author }]
     }))

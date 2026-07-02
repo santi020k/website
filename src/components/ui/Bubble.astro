@@ -1,16 +1,16 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
 
-interface Props extends HTMLAttributes<"article"> {
+interface Props extends HTMLAttributes<'article'> {
   class?: string
   className?: string
-  from?: "user" | "assistant"
+  from?: 'user' | 'assistant'
 }
 
 const {
   class: classProp = '',
   className = '',
-  from = "assistant",
+  from = 'assistant',
   ...rest
 } = Astro.props
 
@@ -20,7 +20,8 @@ const passthrough = rest as Record<string, unknown>
 <article
   data-from={from}
   class:list={[
-    'ui-bubble', from === 'user' && 'ui-bubble--user',
+    'ui-bubble',
+    from === 'user' && 'ui-bubble--user',
     classProp,
     className
   ]}

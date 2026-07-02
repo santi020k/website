@@ -17,12 +17,13 @@
  * `min(16, os.availableParallelism())`).
  */
 
-import yaml from 'js-yaml'
 import fs, { promises as fsp } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
+
+import yaml from 'js-yaml'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..')
@@ -67,7 +68,6 @@ const getSocialImageFileName = pathname => `${getSocialImageSlug(pathname) || 'i
 
 /** Read and parse the YAML frontmatter from a markdown / MDX file. */
 const readFrontmatter = filePath => {
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   const content = fs.readFileSync(filePath, 'utf8')
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
 
@@ -90,10 +90,8 @@ const getPaginationPathnames = (basePathname, totalItems, pageSize) => {
 
 /** Collect all .md / .mdx files inside `dir`, including nested content dirs. */
 export const collectMarkdownFiles = dir => {
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (!fs.existsSync(dir)) return []
 
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
     const entryPath = path.join(dir, entry.name)
 
@@ -128,7 +126,6 @@ export const resolveContentImagePath = (markdownFilePath, imagePath) => {
     imagePath :
     path.resolve(path.dirname(markdownFilePath), imagePath)
 
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   return fs.existsSync(absolutePath) ? absolutePath : undefined
 }
 
@@ -548,10 +545,8 @@ const generateOne = async (pool, { outFile, props }) => {
 
   const buffer = await pool.render(props)
 
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   await fsp.mkdir(path.dirname(outFile), { recursive: true })
 
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   await fsp.writeFile(outFile, buffer)
 
   process.stdout.write(`  write ${path.relative(ROOT, outFile)}\n`)
@@ -567,14 +562,11 @@ export const generateAll = async () => {
 
   const pendingSpecs = FORCE ?
     specs :
-    specs.filter(s =>
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
-      !fs.existsSync(s.outFile))
+    specs.filter(s => !fs.existsSync(s.outFile))
 
   const configured = getConfiguredWorkerThreads()
   const pendingCount = pendingSpecs.length
   const poolSize = pendingCount === 0 ? 0 : Math.min(configured, pendingCount)
-
   /** @type {OgRenderPool | null} */
   let pool = null
 

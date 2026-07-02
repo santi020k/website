@@ -42,13 +42,11 @@ test.describe('Share buttons', () => {
     await page.emulateMedia({ media: 'screen', forcedColors: 'none' })
   })
 
-  test('clicking the copy button writes the canonical URL to the clipboard', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'Clipboard read in tests is reliable only on Chromium')
-
+  test('clicking the copy button writes the canonical URL to the clipboard', async ({ page }) => {
     const response = await page.request.get('/feed.xml')
     const body = await response.text()
     const slugMatch = /<link>(https:\/\/[^<]+\/blog\/[^<]+\/)<\/link>/.exec(body)
-    test.skip(!slugMatch, 'No published posts to navigate to for share test')
+    expect(slugMatch).not.toBeNull()
 
     const postUrl = slugMatch?.[1] ?? ''
     const path = new URL(postUrl).pathname

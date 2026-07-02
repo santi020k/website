@@ -5,13 +5,13 @@ import PillCount from '@/components/atoms/PillCount.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
 import { getUniqueTechnologiesWithCount } from '@/data/project'
-import PageLayout from '@/layouts/Base.astro'
 
 const allProjects = await getCachedProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)

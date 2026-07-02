@@ -3,8 +3,8 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
-
 import PageLayout from '@/layouts/Base.astro'
+
 import { siteConfig } from '@/site.config'
 
 // ── Edit this block whenever life changes — that's the whole point of /now ──
@@ -84,7 +84,10 @@ const formattedDate = lastUpdated.toLocaleDateString(siteConfig.date.locale, sit
 
   <PageSection>
     <SectionHeader
-      description={`A "now page" is a public answer to "what are you up to these days?" — an idea from nownownow.com. Last updated ${formattedDate}.`}
+      description={[
+        'A "now page" is a public answer to "what are you up to these days?" — an idea from nownownow.com.',
+        `Last updated ${formattedDate}.`
+      ].join(' ')}
       eyebrow="Snapshot"
       title="The current chapter."
     />

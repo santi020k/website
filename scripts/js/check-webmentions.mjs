@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 
-function parseEnvFile(filePath) {
+const parseEnvFile = filePath => {
   const out = {}
   let raw
 
@@ -49,13 +49,18 @@ function parseEnvFile(filePath) {
       v = v.slice(1, -1)
     }
 
-    out[k] = v
+    Object.defineProperty(out, k, {
+      configurable: true,
+      enumerable: true,
+      value: v,
+      writable: true
+    })
   }
 
   return out
 }
 
-function loadWebmentionConfig() {
+const loadWebmentionConfig = () => {
   const fromFile = parseEnvFile(path.join(root, '.env'))
 
   return {
@@ -76,7 +81,7 @@ const targetUrl = (targetArg && targetArg.startsWith('http')) ?
 
 const { apiKey, endpoint } = loadWebmentionConfig()
 
-async function checkDiscovery() {
+const checkDiscovery = async () => {
   if (!endpoint) {
     console.log('Discovery: skip (WEBMENTION_URL unset)')
 
@@ -119,7 +124,7 @@ async function checkDiscovery() {
   console.log(`  Expected: ${endpoint}`)
 }
 
-async function checkJf2() {
+const checkJf2 = async () => {
   if (!apiKey) {
     console.log('\nAPI: skip (WEBMENTION_API_KEY unset — add to .env for live mention counts)')
 

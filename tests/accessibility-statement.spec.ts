@@ -1,6 +1,6 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
 const contactEmailLink = /hi@santi020k\.com/
 
@@ -22,6 +22,7 @@ test.describe('Accessibility statement page', () => {
   })
 
   test('should not have unexpected accessibility violations', async ({ page }) => {
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 })

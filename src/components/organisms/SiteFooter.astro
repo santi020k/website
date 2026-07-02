@@ -6,9 +6,9 @@ import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import ContactSection from '@/components/molecules/ContactSection.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 
-import { version } from '../../../package.json'
-
 import { menuLinks, siteConfig } from '@/site.config'
+
+import { version } from '../../../package.json'
 
 const year = new Date().getFullYear()
 
@@ -97,7 +97,7 @@ const isLinkActive = (linkPath: string): boolean => {
     class="pointer-events-none absolute inset-0 grid-fade opacity-40"
   />
 
-  <div class="relative mx-auto w-full max-w-[96rem]">
+  <div class="relative mx-auto w-full max-w-384">
     <!-- Morphing organic blob behind content -->
     <div
       aria-hidden="true"
@@ -167,7 +167,8 @@ const isLinkActive = (linkPath: string): boolean => {
         </h2>
 
         <p class="max-w-xl text-sm text-ink-soft">
-          Have a project in mind or want to compare notes on engineering? Pick a channel below and I'll get back to you quickly.
+          Have a project in mind or want to compare notes on engineering?
+          Pick a channel below and I'll get back to you quickly.
         </p>
       </div>
 

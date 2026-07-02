@@ -12,7 +12,11 @@ export const whatsappMessages = {
     'Hi Santiago, I found your speaking page and would like to invite you to a talk or workshop. Event: Audience: Date: Format: Goal:'
 } as const
 
-export const createWhatsAppHref = (message: string = whatsappMessages.default) => `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodeURIComponent(message)}`
+export const createWhatsAppHref = (message: string = whatsappMessages.default) => {
+  const text = encodeURIComponent(message)
+
+  return `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${text}`
+}
 
 export const siteConfig: SiteConfig = {
   author: 'Santiago Molina',

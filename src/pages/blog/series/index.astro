@@ -6,10 +6,10 @@ import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { editorialCalendar } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
-import PageLayout from '@/layouts/Base.astro'
 
 const seriesSummaries = await getSeriesSummaries()
 const activeSeries = seriesSummaries.filter(item => item.postCount > 0 && item.series.data.status === 'active')

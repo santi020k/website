@@ -11,6 +11,7 @@ import PageSection from '@/components/organisms/PageSection.astro'
 import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
 import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
+import BaseLayout from '@/layouts/Base.astro'
 
 import {
   getProjectNotesDescription,
@@ -20,7 +21,6 @@ import {
   getProjectTypeLabel
 } from '@/utils/project-meta'
 
-import BaseLayout from '@/layouts/Base.astro'
 import { createAuthorSchema } from '@/site.config'
 
 interface Props {

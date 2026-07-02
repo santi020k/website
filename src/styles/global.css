@@ -9,4 +9,3 @@
 @import "./partials/prose.css";
 
 @plugin "@tailwindcss/typography";
-@plugin "@iconify/tailwind4";

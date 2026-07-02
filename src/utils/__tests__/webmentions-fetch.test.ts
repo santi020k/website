@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { fetchWebmentionsForTarget } from '../webmentions-fetch'
 
@@ -8,11 +8,11 @@ describe('fetchWebmentionsForTarget', () => {
     vi.restoreAllMocks()
   })
 
-  it('returns public mentions from a jf2 feed', async () => {
+  test('returns public mentions from a jf2 feed', async () => {
     vi.stubGlobal(
       'fetch', vi.fn().mockResolvedValue({
         ok: true,
-        json: async () => ({
+        json: () => Promise.resolve({
           children: [
             {
               'wm-id': 9,
@@ -43,14 +43,14 @@ describe('fetchWebmentionsForTarget', () => {
     expect(out[0]?.['wm-id']).toBe(9)
   })
 
-  it('returns an empty list when the response is not ok', async () => {
+  test('returns an empty list when the response is not ok', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }))
 
     const out = await fetchWebmentionsForTarget('https://santi020k.com/blog/hello/', 'test-token')
     expect(out).toEqual([])
   })
 
-  it('returns an empty list when fetch throws', async () => {
+  test('returns an empty list when fetch throws', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network')))
 
     const out = await fetchWebmentionsForTarget('https://santi020k.com/blog/hello/', 'test-token')

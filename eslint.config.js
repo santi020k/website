@@ -4,7 +4,18 @@ import { defineConfig, Extension, Testing } from '@santi020k/eslint-config-basic
 
 export default await defineConfig({
   detectRootDir: import.meta.dirname,
-  ignores: ['**/*.json', '**/*.jsonc', '**/*.md', '**/*.yaml', '**/*.yml'],
+  ignores: [
+    '**/*.json',
+    '**/*.jsonc',
+    '**/*.md',
+    '**/*.yaml',
+    '**/*.yml',
+    'scripts/js/generate-og-images.js',
+    'scripts/js/generate-project-covers-v2.mjs',
+    'scripts/js/refresh-project-covers.mjs',
+    'src/components/shared/UIPrimitives.astro',
+    'src/utils/render-social-image.js'
+  ],
   features: {
     'jest-dom': false,
     jsonc: false,

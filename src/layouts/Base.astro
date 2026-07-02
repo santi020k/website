@@ -13,10 +13,11 @@ import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistra
 import ThemeProvider from '@/components/shared/ThemeProvider.astro'
 import UIPrimitives from '@/components/shared/UIPrimitives.astro'
 
+import type { SiteMeta } from '@/types/site'
+
 import '@/styles/global.css'
 
 import { siteConfig } from '@/site.config'
-import type { SiteMeta } from '@/types/site'
 
 interface Props {
   meta: SiteMeta
@@ -69,7 +70,7 @@ const headMeta = {
       <main
         id="main"
         class="
-          mx-auto flex w-full max-w-[96rem] flex-1 flex-col justify-center gap-16
+          mx-auto flex w-full max-w-384 flex-1 flex-col justify-center gap-16
           px-5 pt-12 pb-24
           sm:px-6
           lg:gap-20 lg:px-8

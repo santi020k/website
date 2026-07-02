@@ -1,8 +1,9 @@
+import { getImage } from 'astro:assets'
+
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 
 import type { APIRoute, ImageMetadata } from 'astro'
-import { getImage } from 'astro:assets'
 
 interface SearchIndexEntry {
   coverAlt?: string

@@ -13,6 +13,7 @@ import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
 import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
+import BaseLayout from '@/layouts/Base.astro'
 
 import { getPostSlug } from '@/utils/posts'
 import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
@@ -20,7 +21,6 @@ import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
-import BaseLayout from '@/layouts/Base.astro'
 import { createAuthorSchema } from '@/site.config'
 
 interface Props {

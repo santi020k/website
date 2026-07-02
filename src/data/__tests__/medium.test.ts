@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 const makeRss = (items: string) => `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
@@ -84,7 +84,7 @@ describe('getMediumPosts — successful fetch', () => {
     vi.unstubAllGlobals()
   })
 
-  it('parses a valid RSS feed and returns posts', async () => {
+  test('parses a valid RSS feed and returns posts', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
       text: () => Promise.resolve(SINGLE_ITEM)
@@ -102,7 +102,7 @@ describe('getMediumPosts — successful fetch', () => {
     }])
   })
 
-  it('returns cached result on second call without re-fetching', async () => {
+  test('returns cached result on second call without re-fetching', async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
       text: () => Promise.resolve(SINGLE_ITEM)
@@ -116,7 +116,7 @@ describe('getMediumPosts — successful fetch', () => {
     expect(mockFetch).toHaveBeenCalledTimes(1)
   })
 
-  it('handles a single category (not an array)', async () => {
+  test('handles a single category (not an array)', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
       text: () => Promise.resolve(ITEM_WITH_SINGLE_CATEGORY)
@@ -128,7 +128,7 @@ describe('getMediumPosts — successful fetch', () => {
     expect(posts).toMatchObject([{ tags: ['javascript'], publication: 'Medium' }])
   })
 
-  it('falls back to slug from title when link is not a valid URL', async () => {
+  test('falls back to slug from title when link is not a valid URL', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
       text: () => Promise.resolve(ITEM_WITH_INVALID_LINK)
@@ -140,7 +140,7 @@ describe('getMediumPosts — successful fetch', () => {
     expect(posts).toMatchObject([{ slug: 'post-with-bad-link-that-needs-slug-fallback' }])
   })
 
-  it('falls back to cache when all feed items lack a title or link', async () => {
+  test('falls back to cache when all feed items lack a title or link', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
       text: () => Promise.resolve(ITEM_WITH_NO_LINK_TITLE)
@@ -154,7 +154,7 @@ describe('getMediumPosts — successful fetch', () => {
     expect(posts).toEqual(mediumPostsCache)
   })
 
-  it('truncates very long excerpts', async () => {
+  test('truncates very long excerpts', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
       text: () => Promise.resolve(LONG_EXCERPT_CONTENT)
@@ -177,7 +177,7 @@ describe('getMediumPosts — fetch failure', () => {
     vi.unstubAllGlobals()
   })
 
-  it('falls back to mediumPostsCache when fetch throws', async () => {
+  test('falls back to mediumPostsCache when fetch throws', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network error')))
 
     const { getMediumPosts } = await import('../medium')
@@ -187,7 +187,7 @@ describe('getMediumPosts — fetch failure', () => {
     expect(posts).toEqual(mediumPostsCache)
   })
 
-  it('falls back to cache when response is not ok', async () => {
+  test('falls back to cache when response is not ok', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: false,
       status: 500,
@@ -201,7 +201,7 @@ describe('getMediumPosts — fetch failure', () => {
     expect(posts).toEqual(mediumPostsCache)
   })
 
-  it('falls back to cache when feed returns no items', async () => {
+  test('falls back to cache when feed returns no items', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
       text: () => Promise.resolve(makeRss(''))
@@ -224,7 +224,7 @@ describe('getMediumPostBySlug', () => {
     vi.unstubAllGlobals()
   })
 
-  it('returns the matching post by slug', async () => {
+  test('returns the matching post by slug', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
       text: () => Promise.resolve(SINGLE_ITEM)
@@ -237,7 +237,7 @@ describe('getMediumPostBySlug', () => {
     expect(post?.title).toBe('A Practical Guide To Shipping Better React Components')
   })
 
-  it('returns undefined for a slug that does not exist', async () => {
+  test('returns undefined for a slug that does not exist', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
       ok: true,
       text: () => Promise.resolve(SINGLE_ITEM)

@@ -26,6 +26,6 @@ const passthrough = rest as Record<string, unknown>
   {label && <span class="ui-label">{label}</span>}
   <input class="ui-input" list={list} type={type} {...passthrough} />
   <datalist id={list}>
-    {options.map((option) => <option value={option} />)}
+    {options.map(option => <option value={option} />)}
   </datalist>
 </label>

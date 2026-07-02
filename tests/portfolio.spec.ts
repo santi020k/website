@@ -1,10 +1,7 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-import {
-  shouldRunVisualSnapshots,
-  visualSnapshotSkipReason
-} from './helpers/visual-regression'
-
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { shouldRunVisualSnapshots } from './helpers/visual-regression'
 
 test.describe('Portfolio page', () => {
   test('index should have the correct title and list sections', async ({ page }) => {
@@ -26,15 +23,15 @@ test.describe('Portfolio page', () => {
       name: /\+\d+\s+technologies/i
     }).last()
 
-    if (await overflowTechnologyLink.isVisible()) {
-      await overflowTechnologyLink.click()
-      await expect(page).toHaveURL(/\/technologies\/$/)
-      await expect(page.getByRole('heading', { level: 1, name: /Frontend-first stack/i })).toBeVisible()
-    }
+    await expect(overflowTechnologyLink).toBeVisible()
+    await overflowTechnologyLink.click()
+    await expect(page).toHaveURL(/\/technologies\/$/)
+    await expect(page.getByRole('heading', { level: 1, name: /Frontend-first stack/i })).toBeVisible()
   })
 
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/portfolio/')
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page, [
       {
         htmlIncludes: 'href="/pdf/cv.pdf"',
@@ -43,11 +40,12 @@ test.describe('Portfolio page', () => {
     ])
   })
 
-  test('index should match visual snapshot', async ({ page }) => {
-    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
-    await page.goto('/portfolio/')
-    await expect(page).toHaveScreenshot('portfolio-index.png')
-  })
+  if (shouldRunVisualSnapshots) {
+    test('index should match visual snapshot', async ({ page }) => {
+      await page.goto('/portfolio/')
+      await expect(page).toHaveScreenshot('portfolio-index.png')
+    })
+  }
 
   test('project with case study frontmatter shows the summary grid', async ({ page }) => {
     await page.goto('/portfolio/datagran/')
@@ -69,14 +67,15 @@ test.describe('Portfolio page', () => {
     await expect(page.locator('main article').first()).toBeVisible()
 
     // Accessibility audit
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
-  test('single project page should match visual snapshot', async ({ page }) => {
-    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
-
-    const slug = 'eslint-config-santi020k'
-    await page.goto(`/portfolio/${slug}/`)
-    await expect(page).toHaveScreenshot('portfolio-project.png')
-  })
+  if (shouldRunVisualSnapshots) {
+    test('single project page should match visual snapshot', async ({ page }) => {
+      const slug = 'eslint-config-santi020k'
+      await page.goto(`/portfolio/${slug}/`)
+      await expect(page).toHaveScreenshot('portfolio-project.png')
+    })
+  }
 })

@@ -1,5 +1,6 @@
 import path from 'node:path'
-import { describe, expect, it } from 'vitest'
+
+import { describe, expect, test } from 'vitest'
 
 import { collectSpecs } from '../../../scripts/js/generate-og-images.js'
 
@@ -10,7 +11,7 @@ interface SocialImageProps {
 }
 
 describe('collectSpecs', () => {
-  it('includes generated images for the current static page routes', () => {
+  test('includes generated images for the current static page routes', () => {
     const specs = collectSpecs()
     const outFiles = new Set(specs.map(spec => spec.outFile))
 
@@ -26,7 +27,7 @@ describe('collectSpecs', () => {
     }
   })
 
-  it('includes generated images for blog topic archive routes', () => {
+  test('includes generated images for blog topic archive routes', () => {
     const specs = collectSpecs()
     const topicSpec = specs.find(spec => spec.outFile === path.join(
       process.cwd(), 'public', 'og', 'pages', 'blog--tags--typescript.webp'
@@ -37,7 +38,7 @@ describe('collectSpecs', () => {
     expect(topicProps?.pathLabel).toBe('/blog/tags/typescript/')
   })
 
-  it('includes project entries stored in nested index.md files', () => {
+  test('includes project entries stored in nested index.md files', () => {
     const specs = collectSpecs()
     const xgamesSpec = specs.find(spec => spec.outFile === path.join(process.cwd(), 'public', 'og', 'portfolio', 'xgames.webp'))
     const xgamesProps = xgamesSpec?.props as SocialImageProps | undefined
@@ -46,7 +47,7 @@ describe('collectSpecs', () => {
     expect(xgamesProps?.pathLabel).toBe('/portfolio/xgames/')
   })
 
-  it('resolves cover image assets for blog posts and falls back to cover src when a project ogImage is missing', () => {
+  test('resolves cover image assets for blog posts and falls back to cover src when a project ogImage is missing', () => {
     const specs = collectSpecs()
     const postSpec = specs.find(spec => spec.outFile === path.join(
       process.cwd(), 'public', 'og', 'blog', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be.webp'

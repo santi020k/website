@@ -1,16 +1,16 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
 
-interface Props extends HTMLAttributes<"span"> {
+interface Props extends HTMLAttributes<'span'> {
   class?: string
   className?: string
-  variant?: "default" | "secondary" | "outline" | "destructive" | "success" | "warning"
+  variant?: 'default' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning'
 }
 
 const {
   class: classProp = '',
   className = '',
-  variant = "default",
+  variant = 'default',
   ...rest
 } = Astro.props
 
@@ -20,7 +20,13 @@ const passthrough = rest as Record<string, unknown>
 <span
   data-variant={variant}
   class:list={[
-    'ui-badge', variant === 'default' && 'ui-badge--default', variant === 'secondary' && 'ui-badge--secondary', variant === 'outline' && 'ui-badge--outline', variant === 'destructive' && 'ui-badge--destructive', variant === 'success' && 'ui-badge--success', variant === 'warning' && 'ui-badge--warning',
+    'ui-badge',
+    variant === 'default' && 'ui-badge--default',
+    variant === 'secondary' && 'ui-badge--secondary',
+    variant === 'outline' && 'ui-badge--outline',
+    variant === 'destructive' && 'ui-badge--destructive',
+    variant === 'success' && 'ui-badge--success',
+    variant === 'warning' && 'ui-badge--warning',
     classProp,
     className
   ]}

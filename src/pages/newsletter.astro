@@ -5,10 +5,10 @@ import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import { Card } from '@/components/ui'
+import PageLayout from '@/layouts/Base.astro'
 
 import { fetchNewsletterIssues } from '@/utils/newsletter'
 
-import PageLayout from '@/layouts/Base.astro'
 import { siteConfig } from '@/site.config'
 
 const description =
@@ -23,7 +23,11 @@ const issues = siteConfig.newsletter?.archiveFeedUrl ?
   await fetchNewsletterIssues(siteConfig.newsletter.archiveFeedUrl) :
   []
 
-const formatDate = (date: Date | undefined) => (date ? date.toLocaleDateString(siteConfig.date.locale, siteConfig.date.options) : undefined)
+const formatDate = (date: Date | undefined) => {
+  const options = siteConfig.date.options
+
+  return date ? date.toLocaleDateString(siteConfig.date.locale, options) : undefined
+}
 
 const structuredData = [
   {
@@ -120,7 +124,15 @@ const structuredData = [
           <p class="section-label">No issues yet</p>
           <p class="mt-3 text-sm/7 text-ink-soft">
             The first issue hasn't shipped (or the archive couldn't be loaded at build time). Subscribe above and
-            you'll get it when it lands — or follow along via <a class="underline underline-offset-4 hover:text-brand" href="/feed.xml">RSS</a>.
+            you'll get it when it lands — or follow along via{' '}
+            <a
+              class="
+                underline underline-offset-4
+                hover:text-brand
+              "
+              href="/feed.xml"
+            >RSS
+            </a>.
           </p>
         </div>
       )}

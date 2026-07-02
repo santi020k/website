@@ -8,11 +8,11 @@ import StatCard from '@/components/molecules/StatCard.astro'
 import TalkCard from '@/components/molecules/TalkCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
 
 import { speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
-import PageLayout from '@/layouts/Base.astro'
 import { AUTHOR_JOB_TITLE, createWhatsAppHref, sameAsProfiles, siteConfig, whatsappMessages } from '@/site.config'
 
 const selectedSessions = (await getCollection('talk', ({ data }) => !data.draft))
@@ -159,13 +159,15 @@ const structuredData = [
       <div class="mini-note h-full">
         <p class="section-label">ReactJS Colombia</p>
         <p class="mt-3 text-sm/7 text-ink-soft">
-          Co-organizer of ReactJS Colombia — one of the largest React communities in Latin America. Sessions cover frontend architecture, performance, and developer experience in Spanish for regional engineers.
+          Co-organizer of ReactJS Colombia — one of the largest React communities in Latin America.
+          Sessions cover frontend architecture, performance, and developer experience in Spanish for regional engineers.
         </p>
       </div>
       <div class="mini-note h-full">
         <p class="section-label">Internal team sessions</p>
         <p class="mt-3 text-sm/7 text-ink-soft">
-          Engineering talks inside product teams — architecture reviews, tooling onboarding, and tech lead cohorts. Closer to coaching than presenting; built around the team's actual problems.
+          Engineering talks inside product teams — architecture reviews, tooling onboarding, and tech lead cohorts.
+          Closer to coaching than presenting; built around the team's actual problems.
         </p>
       </div>
     </div>

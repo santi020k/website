@@ -10,13 +10,13 @@ import PageSection from '@/components/organisms/PageSection.astro'
 import HomeHero from '@/components/pages/home/HomeHero.astro'
 import HomeStats from '@/components/pages/home/HomeStats.astro'
 import { Card } from '@/components/ui'
+import PageLayout from '@/layouts/Base.astro'
 
+import AboutMeImage from '@/assets/photos/about-me.webp'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 
-import AboutMeImage from '@/assets/photos/about-me.webp'
-import PageLayout from '@/layouts/Base.astro'
 import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 
 const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
@@ -81,8 +81,10 @@ const homePageSchema = {
 }
 
 const meta = {
-  description:
-    `I'm Santiago Molina (@santi020k), an Engineering Leader & Full-Stack Architect with ${YEARS_OF_EXPERIENCE} years of experience building resilient systems and scaling technical teams.`,
+  description: [
+    `I'm Santiago Molina (@santi020k), an Engineering Leader & Full-Stack Architect with ${YEARS_OF_EXPERIENCE}`,
+    'years of experience building resilient systems and scaling technical teams.'
+  ].join(' '),
   preloadImage: {
     href: heroPortraitImage.src,
     imagesizes: '(min-width: 1024px) 352px, 75vw',
@@ -96,7 +98,12 @@ const meta = {
 
 <PageLayout meta={meta}>
   <HomeHero contactHref={contactHref} yearsOfExperience={yearsOfExperience} />
-  <div class="mt-12 lg:mt-16 2xl:mt-20">
+  <div class="
+    mt-12
+    lg:mt-16
+    2xl:mt-20
+  "
+  >
     <HomeStats yearsOfExperience={yearsOfExperience} />
   </div>
 
@@ -111,12 +118,12 @@ const meta = {
     <div
       aria-hidden="true"
       class="
-        pointer-events-none absolute inset-x-0 top-8 bottom-8 bg-radial
-        from-brand/8 via-surface/4 to-transparent
+        pointer-events-none absolute inset-x-0 inset-y-8 bg-radial from-brand/8
+        via-surface/4 to-transparent
       "
     />
     <div class="
-      relative mx-auto w-full max-w-[88rem] space-y-8 px-5
+      relative mx-auto w-full max-w-352 space-y-8 px-5
       sm:px-6
       lg:px-8
       2xl:px-10
@@ -168,12 +175,12 @@ const meta = {
     <div
       aria-hidden="true"
       class="
-        pointer-events-none absolute inset-x-0 top-8 bottom-8 bg-radial
-        from-accent/7 via-surface/4 to-transparent
+        pointer-events-none absolute inset-x-0 inset-y-8 bg-radial from-accent/7
+        via-surface/4 to-transparent
       "
     />
     <div class="
-      relative mx-auto w-full max-w-[88rem] space-y-8 px-5
+      relative mx-auto w-full max-w-352 space-y-8 px-5
       sm:px-6
       lg:px-8
       2xl:px-10
@@ -223,7 +230,13 @@ const meta = {
       variant="shelf"
     />
     <div class="space-y-6">
-      <Card class="p-2 sm:p-4" data-stagger="50">
+      <Card
+        class="
+          p-2
+          sm:p-4
+        "
+        data-stagger="50"
+      >
         {latestPosts.map(post => (
           <PostListItem post={post} />
         ))}

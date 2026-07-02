@@ -322,7 +322,7 @@ Three Iconify packs are used across the site. Always match the correct pack to i
 | Pack | Prefix | Used in | Example |
 | :----------------------- | :-------- | :------- | :------- |
 | **Material Design Icons** | `mdi:` | `<Icon>` component (astro-icon) | `mdi:github` |
-| **Tabler Icons** | `tabler--` | Tailwind CSS utility class | `icon-[tabler--brand-linkedin]` |
+| **Tabler Icons** | `tabler:` | `<Icon>` component (astro-icon) | `tabler:brand-linkedin` |
 | **Huge Icons** | `hugeicons:` | `<Icon>` component | `hugeicons:menu-01` |
 
 Usage patterns:
@@ -331,8 +331,8 @@ Usage patterns:
 <!-- astro-icon component — for inline SVG with props -->
 <Icon name="mdi:github" aria-hidden="true" class="size-8" focusable="false" />
 
-<!-- Iconify Tailwind4 utility — for CSS-only icons -->
-<span class="icon-[tabler--brand-github] size-6" aria-hidden="true"></span>
+<!-- Tabler icon via astro-icon -->
+<Icon name="tabler:brand-github" aria-hidden="true" class="size-6" focusable="false" />
 ```
 
 Always add `aria-hidden="true"` on decorative icons. For standalone icon buttons, label the `<button>`, not the icon:

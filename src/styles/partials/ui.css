@@ -112,7 +112,7 @@
 }
 
 @utility ui-input {
-  @apply ui-focus-ring min-h-11 w-full rounded-xl border border-line/55 bg-surface/60 px-3 py-2 text-sm text-ink shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)] transition-colors duration-200 placeholder:text-ink-muted hover:border-brand/35 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transition-none;
+  @apply ui-focus-ring min-h-11 w-full rounded-xl border border-line/55 bg-surface/60 px-3 py-2 text-sm text-ink shadow-inset-soft transition-colors duration-200 placeholder:text-ink-muted hover:border-brand/35 disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transition-none;
 }
 
 @utility ui-textarea {
@@ -132,7 +132,7 @@
 }
 
 @utility ui-input-group {
-  @apply flex min-h-11 items-center overflow-hidden rounded-xl border border-line/55 bg-surface/60 text-sm text-ink shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)] focus-within:border-brand/45 focus-within:ring-2 focus-within:ring-brand/40;
+  @apply flex min-h-11 items-center overflow-hidden rounded-xl border border-line/55 bg-surface/60 text-sm text-ink shadow-inset-soft focus-within:border-brand/45 focus-within:ring-2 focus-within:ring-brand/40;
 }
 
 @utility ui-checkbox {
