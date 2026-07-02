@@ -35,7 +35,7 @@ const {
 
 <div
   class:list={[
-    'relative isolate mx-auto w-full max-w-88 animate-reveal-lcp',
+    'relative isolate mx-auto w-full max-w-[22rem] animate-reveal-lcp',
     'motion-reduce:animate-none',
     className
   ]}
@@ -97,13 +97,21 @@ const {
       aria-hidden="true"
       class="
         pointer-events-none absolute inset-0 z-20 bg-linear-to-br from-brand/5
-        via-transparent to-accent/8
+        via-transparent to-accent/12 mix-blend-soft-light
+      "
+    />
+    <div
+      aria-hidden="true"
+      class="
+        pointer-events-none absolute inset-0 z-20 bg-linear-to-t from-canvas/18
+        via-transparent to-transparent
       "
     />
     <Picture
       alt={alt}
       class="
         relative z-0 aspect-2/3 w-full rounded-[1.7rem] object-cover object-top
+        saturate-[0.92] contrast-[1.04]
       "
       decoding="sync"
       fetchpriority="high"
@@ -120,11 +128,11 @@ const {
   {/* Floating badges */}
   {showFloatingBadges && badgeProps?.location && (
     <div class="
-      mini-note absolute top-8 -left-4 z-30 hidden min-w-40 border-l-4
-      border-l-brand/40
+      mini-note absolute top-6 right-[-1.5rem] z-30 hidden min-w-36 border-r-4
+      border-r-brand/40 p-4 opacity-[0.92]
       motion-safe:animate-float-y
       motion-reduce:animate-none
-      sm:-left-8 sm:block
+      sm:right-[-3rem] sm:block
     "
     >
       <p class="flex items-center gap-1.5 section-label">
@@ -141,11 +149,11 @@ const {
 
   {showFloatingBadges && badgeProps?.experience && (
     <div class="
-      mini-note absolute top-8 -right-4 z-30 hidden min-w-32 border-r-4
-      border-r-accent/40
+      mini-note absolute bottom-[-1.5rem] left-4 z-30 hidden min-w-32 border-l-4
+      border-l-accent/40
       motion-safe:animate-float-y
       motion-reduce:animate-none
-      sm:-right-8 sm:block
+      sm:left-6 sm:block
     "
     >
       <p class="section-label">{badgeProps.experience.label}</p>
