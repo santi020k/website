@@ -3,6 +3,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
+import { Card } from '@/components/ui'
 
 import { usesHighlights, usesSections } from '@/data/profile'
 import PageLayout from '@/layouts/Base.astro'
@@ -112,10 +113,10 @@ const structuredData = [
             data-stagger="50"
           >
             {section.items.map(item => (
-              <div class="panel-card p-5">
+              <Card className="p-5">
                 <dt class="section-label">{item.label}</dt>
                 <dd class="mt-3 text-sm/7 text-ink-soft">{item.value}</dd>
-              </div>
+              </Card>
             ))}
           </dl>
         </section>

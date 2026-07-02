@@ -2,6 +2,8 @@
 import type { HTMLAttributes } from 'astro/types'
 import { Icon } from 'astro-icon/components'
 
+import { Button as UIButton } from '@/components/ui'
+
 type Props = Omit<HTMLAttributes<'button'>, 'class'> & {
   className?: string
   showArrow?: boolean
@@ -17,23 +19,26 @@ const {
   ...rest
 } = Astro.props
 
-const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
+const uiVariant = {
+  ghost: 'ghost',
+  inline: 'link',
+  primary: 'default',
+  secondary: 'secondary'
+} as const
+
+const buttonClassName = [
+  'group inline-flex cursor-pointer items-center justify-center gap-2',
+  'text-sm font-semibold tracking-[0.01em]',
+  variant === 'inline' ? 'min-h-0 border-transparent px-0 py-0' : '',
+  className
+].filter(Boolean).join(' ')
 ---
 
-<button
-  class:list={[
-    'group inline-flex cursor-pointer items-center justify-center gap-2',
-    typographyClass,
-    variant !== 'inline' && 'min-h-11 rounded-full border',
-    variant === 'primary' && 'btn-primary',
-    variant === 'secondary' && 'btn-secondary',
-    variant === 'ghost' && 'btn-ghost',
-    variant === 'inline' && 'btn-inline',
-    disabled && 'cursor-not-allowed opacity-50',
-    className
-  ]}
+<UIButton
+  className={buttonClassName}
   disabled={disabled}
   type={type}
+  variant={uiVariant[variant]}
   {...rest}
 >
   <slot />
@@ -48,4 +53,4 @@ const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
       name="tabler:arrow-right"
     />
   )}
-</button>
+</UIButton>

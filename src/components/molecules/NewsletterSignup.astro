@@ -1,6 +1,8 @@
 ---
 import { Icon } from 'astro-icon/components'
 
+import { Button, Input } from '@/components/ui'
+
 interface Props {
   formAction: string
   label?: string
@@ -59,14 +61,9 @@ const emailId = `newsletter-email-${variant}`
         >
           <input name="embed" type="hidden" value="1" />
           <label class="sr-only" for={emailId}>Email address</label>
-          <input
+          <Input
             autocomplete="email"
-            class="
-              min-h-10 flex-1 rounded-xl border border-line/60 bg-surface px-3
-              py-2 text-sm text-ink outline-none
-              placeholder:text-ink-muted
-              focus:border-brand/45 focus:ring-2 focus:ring-brand/15
-            "
+            className="min-h-10 flex-1 rounded-xl px-3 py-2"
             id={emailId}
             inputmode="email"
             name="email"
@@ -74,16 +71,9 @@ const emailId = `newsletter-email-${variant}`
             required
             type="email"
           />
-          <button
-            class="
-              inline-flex min-h-10 items-center justify-center gap-1.5
-              rounded-xl bg-brand-solid px-3 py-2 text-sm font-semibold
-              text-white shadow-md shadow-brand/20 transition
-              hover:brightness-110
-              active:scale-[0.98]
-              motion-reduce:transition-none
-              motion-reduce:active:scale-100
-            "
+          <Button
+            className="min-h-10 rounded-xl px-3 py-2"
+            size="sm"
             type="submit"
           >
             <Icon aria-hidden="true" class="size-4" name="tabler:send" />
@@ -93,7 +83,7 @@ const emailId = `newsletter-email-${variant}`
             "
             >Subscribe
             </span>
-          </button>
+          </Button>
         </form>
         <p class="text-xs text-ink-muted">
           No spam. <a
@@ -161,15 +151,9 @@ const emailId = `newsletter-email-${variant}`
         >
           <input name="embed" type="hidden" value="1" />
           <label class="sr-only" for={emailId}>Email address</label>
-          <input
+          <Input
             autocomplete="email"
-            class="
-              min-h-11 w-full rounded-2xl border border-line/70 bg-surface px-4
-              py-2.5 text-sm text-ink shadow-inner shadow-ink/5 transition
-              outline-none
-              placeholder:text-ink-muted
-              focus:border-brand/45 focus:ring-2 focus:ring-brand/20
-            "
+            className="min-h-11 rounded-2xl px-4 py-2.5"
             id={emailId}
             inputmode="email"
             name="email"
@@ -177,21 +161,13 @@ const emailId = `newsletter-email-${variant}`
             required
             type="email"
           />
-          <button
-            class="
-              inline-flex min-h-11 w-full items-center justify-center gap-2
-              rounded-2xl bg-brand-solid px-4 py-2.5 text-sm font-semibold
-              text-white shadow-md shadow-brand/25 transition
-              hover:brightness-110
-              active:scale-[0.99]
-              motion-reduce:transition-none
-              motion-reduce:active:scale-100
-            "
+          <Button
+            className="min-h-11 w-full rounded-2xl px-4 py-2.5"
             type="submit"
           >
             <Icon aria-hidden="true" class="size-4 shrink-0" name="tabler:send" />
             Subscribe
-          </button>
+          </Button>
         </form>
       </div>
     </section>
