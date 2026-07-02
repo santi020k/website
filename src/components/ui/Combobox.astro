@@ -22,7 +22,7 @@ const {
 const passthrough = rest as Record<string, unknown>
 ---
 
-<label class:list={['ui-combobox', classProp, className]}>
+<label class:list={['ui-combobox', classProp, className]} data-ui-combobox>
   {label && <span class="ui-label">{label}</span>}
   <input class="ui-input" list={list} type={type} {...passthrough} />
   <datalist id={list}>

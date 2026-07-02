@@ -11,6 +11,7 @@ import NavProgress from '@/components/shared/NavProgress.astro'
 import ScrollReveal from '@/components/shared/ScrollReveal.astro'
 import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistration.astro'
 import ThemeProvider from '@/components/shared/ThemeProvider.astro'
+import UIPrimitives from '@/components/shared/UIPrimitives.astro'
 
 import '@/styles/global.css'
 
@@ -86,6 +87,7 @@ const headMeta = {
     <BackToTop />
     <NavProgress />
     <ScrollReveal />
+    <UIPrimitives />
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
 
     <script>
