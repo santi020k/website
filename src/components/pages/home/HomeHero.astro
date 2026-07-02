@@ -1,11 +1,12 @@
 ---
-import { Picture } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
+
+import { Picture } from 'astro:assets'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
-import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
+import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
 
 import { siteConfig } from '@/site.config'
 
@@ -240,13 +241,13 @@ const { contactHref, yearsOfExperience } = Astro.props
         <Picture
           alt="Portrait of Santiago Molina (@santi020k)"
           class="
-            relative z-0 aspect-4/5 w-full rounded-[1.7rem] object-cover
+            relative z-0 aspect-2/3 w-full rounded-[1.7rem] object-cover
             object-top
           "
           decoding="sync"
           fetchpriority="high"
           formats={['avif', 'webp']}
-          height={440}
+          height={528}
           loading="eager"
           sizes="(min-width: 1536px) 448px, (min-width: 1024px) 384px, 75vw"
           src={AboutMeImage}
@@ -256,7 +257,7 @@ const { contactHref, yearsOfExperience } = Astro.props
       </div>
 
       <div class="
-        glass-pro absolute bottom-8 -left-4 z-30 hidden min-w-40 rounded-2xl
+        glass-pro absolute top-8 -left-4 z-30 hidden min-w-40 rounded-2xl
         border-l-4 border-l-brand/40 p-5 [animation-delay:600ms]
         motion-safe:animate-float-y
         motion-reduce:animate-none
@@ -297,11 +298,11 @@ const { contactHref, yearsOfExperience } = Astro.props
   <a
     aria-label="Scroll to page highlights"
     class="
-      group absolute bottom-8 left-1/2 z-30 hidden -translate-x-1/2
-      items-center justify-center rounded-full p-2 text-ink-muted
-      transition-colors
+      group absolute bottom-8 left-1/2 z-30 hidden -translate-x-1/2 items-center
+      justify-center rounded-full p-2 text-ink-muted transition-colors
       hover:text-brand
-      focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:outline-none
+      focus-visible:ring-2 focus-visible:ring-brand/50
+      focus-visible:outline-none
       motion-reduce:transition-none
       lg:flex
     "
@@ -311,9 +312,13 @@ const { contactHref, yearsOfExperience } = Astro.props
     <span
       class="
         relative flex h-13 w-7 items-start justify-center rounded-full border
-        border-brand/20 bg-surface/28 pt-2 shadow-[0_16px_36px_hsl(var(--brand)/0.08)]
-        backdrop-blur-sm transition-all
+        border-brand/20 bg-surface/28 pt-2
+        shadow-[0_16px_36px_hsl(var(--brand)/0.08)] backdrop-blur-sm
+        transition-all
         group-hover:border-brand/40 group-hover:bg-brand-soft/28
+        before:absolute before:-inset-1.5 before:rounded-full before:border
+        before:border-brand/18 before:opacity-0 before:content-['']
+        motion-safe:before:animate-[scroll-cue-ring_2.6s_ease-out_infinite]
         motion-reduce:transition-none
       "
     >
@@ -331,6 +336,7 @@ const { contactHref, yearsOfExperience } = Astro.props
       class="
         absolute top-full mt-1 size-3.5 text-brand/55 transition-transform
         group-hover:translate-y-0.5
+        motion-safe:animate-[scroll-chevron_1.8s_ease-in-out_infinite]
         motion-reduce:animate-none motion-reduce:transition-none
       "
       name="tabler:chevron-down"
@@ -352,13 +358,47 @@ const { contactHref, yearsOfExperience } = Astro.props
   @keyframes scroll-dot {
     0%,
     100% {
+      opacity: 0.35;
+      transform: translateY(0);
+    }
+
+    48% {
+      opacity: 1;
+      transform: translateY(1.15rem);
+    }
+
+    72% {
+      opacity: 0;
+      transform: translateY(1.55rem);
+    }
+  }
+
+  @keyframes scroll-cue-ring {
+    0% {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+
+    28% {
+      opacity: 0.55;
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(1.35);
+    }
+  }
+
+  @keyframes scroll-chevron {
+    0%,
+    100% {
       opacity: 0.45;
       transform: translateY(0);
     }
 
-    45% {
-      opacity: 1;
-      transform: translateY(1.05rem);
+    50% {
+      opacity: 0.85;
+      transform: translateY(0.18rem);
     }
   }
 

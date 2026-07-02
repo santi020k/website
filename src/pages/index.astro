@@ -4,15 +4,15 @@ import { getImage } from 'astro:assets'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import CommunityCard from '@/components/molecules/CommunityCard.astro'
 import PostListItem from '@/components/molecules/PostListItem.astro'
-import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import HomeHero from '@/components/pages/home/HomeHero.astro'
+import HomeProjectShowcase from '@/components/pages/home/HomeProjectShowcase.astro'
 import HomeStats from '@/components/pages/home/HomeStats.astro'
 import { Card } from '@/components/ui'
 import PageLayout from '@/layouts/Base.astro'
 
-import AboutMeImage from '@/assets/photos/about-me.webp'
+import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
@@ -109,119 +109,30 @@ const meta = {
     <HomeStats yearsOfExperience={yearsOfExperience} />
   </div>
 
-  {/* Work Experience */}
-  <section
-    class="
-      relative left-1/2 mt-20 w-screen -translate-x-1/2 overflow-hidden py-20
-      sm:mt-24 sm:py-24
-      lg:mt-28 lg:py-28
-    "
-  >
-    <div
-      aria-hidden="true"
-      class="
-        pointer-events-none absolute inset-x-0 inset-y-8 bg-radial from-brand/9
-        via-surface/5 to-transparent
-      "
-    />
-    <div class="
-      relative mx-auto w-full max-w-352 space-y-8 px-5
-      sm:px-6
-      lg:px-8
-      2xl:px-10
-    "
-    >
-      <SectionHeader
-        align="center"
-        eyebrow="Work Experience"
-        title="Professional roles."
-        description="Client and product work where architecture, delivery systems, and team leadership mattered."
-      />
-      <div class="space-y-6">
-        <div
-          class="
-            grid gap-5
-            md:grid-cols-2
-            xl:grid-cols-4
-          "
-          data-stagger="60"
-        >
-          {workProjects.map(project => (
-            <ProjectPreviewCard project={project} accentTone="brand" />
-          ))}
-        </div>
-        <div class="
-          section-actions
-          sm:justify-center
-        "
-        >
-          <ButtonLink href="/work/" showArrow>
-            View all work
-          </ButtonLink>
-          <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-            LinkedIn
-          </ButtonLink>
-        </div>
-      </div>
-    </div>
-  </section>
+  <HomeProjectShowcase
+    actions={[
+      { href: '/work/', label: 'View all work' },
+      { href: siteConfig.contact.linkedin, label: 'LinkedIn', newTab: true, variant: 'secondary' }
+    ]}
+    description="Client and product work where architecture, delivery systems, and team leadership mattered."
+    eyebrow="Work Experience"
+    projects={workProjects}
+    title="Professional roles."
+  />
 
-  {/* Side Projects */}
-  <section
-    class="
-      relative left-1/2 mt-20 w-screen -translate-x-1/2 overflow-hidden py-20
-      sm:mt-24 sm:py-24
-      lg:mt-28 lg:py-28
-    "
-  >
-    <div
-      aria-hidden="true"
-      class="
-        pointer-events-none absolute inset-x-0 inset-y-8 bg-radial from-accent/10
-        via-brand-soft/10 to-transparent
-      "
-    />
-    <div class="
-      relative mx-auto w-full max-w-352 space-y-8 px-5
-      sm:px-6
-      lg:px-8
-      2xl:px-10
-    "
-    >
-      <SectionHeader
-        align="center"
-        eyebrow="Side Projects"
-        title="Built for the love of it."
-        description="Open source, community work, and experiments with a little more room to explore."
-      />
-      <div class="space-y-6">
-        <div
-          class="
-            grid gap-5
-            md:grid-cols-2
-            xl:grid-cols-4
-          "
-          data-stagger="60"
-        >
-          {personalProjects.map(project => (
-            <ProjectPreviewCard project={project} accentTone="accent" />
-          ))}
-        </div>
-        <div class="
-          section-actions
-          sm:justify-center
-        "
-        >
-          <ButtonLink href="/projects/" showArrow>
-            View all projects
-          </ButtonLink>
-          <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
-            GitHub
-          </ButtonLink>
-        </div>
-      </div>
-    </div>
-  </section>
+  <HomeProjectShowcase
+    actions={[
+      { href: '/projects/', label: 'View all projects' },
+      { href: siteConfig.contact.github, label: 'GitHub', newTab: true, variant: 'secondary' }
+    ]}
+    description="Open source, community work, and experiments with a little more room to explore."
+    eyebrow="Side Projects"
+    layout="reverse"
+    projects={personalProjects}
+    supportingLabel="More selected projects"
+    title="Built for the love of it."
+    tone="accent"
+  />
 
   {/* Writing */}
   <PageSection>

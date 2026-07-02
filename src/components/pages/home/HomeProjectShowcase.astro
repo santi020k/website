@@ -1,0 +1,355 @@
+---
+import { Image, Picture } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+import { Icon } from 'astro-icon/components'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+
+import { getProjectTimelineLabel } from '@/utils/project-meta'
+import { getPortfolioPath } from '@/utils/links'
+
+interface Action {
+  href: string
+  label: string
+  newTab?: boolean
+  variant?: 'primary' | 'secondary'
+}
+
+interface Props {
+  actions: Action[]
+  description: string
+  eyebrow: string
+  layout?: 'default' | 'reverse'
+  projects: CollectionEntry<'project'>[]
+  supportingLabel?: string
+  title: string
+  tone?: 'accent' | 'brand'
+}
+
+const {
+  actions,
+  description,
+  eyebrow,
+  layout = 'default',
+  projects,
+  supportingLabel = 'More selected work',
+  title,
+  tone = 'brand'
+} = Astro.props
+
+const [featuredProject, ...supportingProjects] = projects
+const isReverse = layout === 'reverse'
+const isAccent = tone === 'accent'
+const accentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
+const accentTextClass = isAccent ? 'text-accent' : 'text-brand'
+const featureLink = featuredProject ? getPortfolioPath(featuredProject.id) : ''
+const featureImage = featuredProject?.data.coverImage?.horizontal ??
+  featuredProject?.data.coverImage?.src ??
+  featuredProject?.data.coverImage?.vertical
+const featureLogo = featuredProject?.data.coverImage?.logo
+const featureTimeline = featuredProject ?
+  getProjectTimelineLabel(featuredProject.data.startingDate, featuredProject.data.endingDate) :
+  ''
+const featureStatus = featuredProject?.data.endingDate ? 'Completed' : 'Active'
+const hasMetrics = Boolean(featuredProject?.data.impactMetrics.length)
+---
+
+{featuredProject && (
+  <section
+    class="
+      relative py-18
+      sm:py-22
+      lg:py-24
+    "
+    data-animate
+    style={`--showcase-accent: ${accentVar};`}
+  >
+    <div
+      aria-hidden="true"
+      class:list={[
+        `
+          pointer-events-none absolute top-12 bottom-10 w-[38rem] max-w-[86vw]
+          rounded-full bg-radial from-brand/10 via-brand-soft/8 to-transparent
+          blur-2xl
+        `,
+        isReverse ? 'right-0' : 'left-0'
+      ]}
+    />
+
+    <div class="relative space-y-8 sm:space-y-10">
+      <div class="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
+        <div class="space-y-4">
+          <p class:list={['section-label justify-center', accentTextClass]}>{eyebrow}</p>
+          <h2 class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.65rem]">
+            {title}
+          </h2>
+          <p class="section-copy mx-auto max-w-xl">
+            {description}
+          </p>
+        </div>
+
+        <div class="section-actions justify-center">
+          {actions.map(action => (
+            <ButtonLink
+              href={action.href}
+              newTab={action.newTab ?? false}
+              showArrow
+              variant={action.variant ?? 'primary'}
+            >
+              {action.label}
+            </ButtonLink>
+          ))}
+        </div>
+      </div>
+
+      <div
+        class:list={[
+          `
+            grid gap-5
+            lg:grid-cols-[minmax(0,1.14fr)_minmax(21rem,0.86fr)]
+          `,
+          isReverse ?
+            `
+            lg:grid-cols-[minmax(21rem,0.86fr)_minmax(0,1.14fr)]
+          ` :
+            ''
+        ]}
+      >
+        <a
+          aria-label={`View ${featuredProject.data.title}`}
+          class:list={[
+            `
+              group card-interactive min-h-full overflow-hidden rounded-[1.75rem]
+              focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:outline-none
+            `,
+            isReverse && 'lg:col-start-2 lg:row-start-1'
+          ]}
+          href={featureLink}
+        >
+          <article class="flex h-full flex-col">
+            <div class="relative min-h-64 overflow-hidden sm:min-h-72">
+              {featureImage ?
+                (
+                  <Picture
+                    alt=""
+                    aria-hidden="true"
+                    class="absolute inset-0 size-full object-cover"
+                    formats={['avif', 'webp']}
+                    height={720}
+                    loading="lazy"
+                    sizes="(min-width: 1280px) 44vw, (min-width: 768px) 70vw, 100vw"
+                    src={featureImage}
+                    width={960}
+                    widths={[640, 960, 1280]}
+                  />
+                ) :
+                (
+                  <div class="absolute inset-0 bg-brand-soft" />
+                )}
+              <div
+                aria-hidden="true"
+                class="
+                  absolute inset-0 bg-linear-to-b from-brand-soft/20 via-surface/20
+                  to-surface
+                  dark:from-brand/12 dark:via-canvas/42 dark:to-canvas
+                "
+              />
+              <div
+                aria-hidden="true"
+                class="
+                  absolute inset-0 bg-radial from-[hsl(var(--showcase-accent)/0.24)]
+                  via-transparent to-transparent opacity-80
+                "
+              />
+              <div class="absolute inset-x-5 top-5 flex items-start justify-between gap-3">
+                <span
+                  class="
+                    inline-flex items-center gap-2 rounded-full border border-white/30
+                    bg-surface/72 px-3 py-1.5 text-xs font-semibold text-ink
+                    shadow-sm backdrop-blur-xl
+                    dark:border-white/14 dark:bg-white/10 dark:text-white
+                  "
+                >
+                  <span
+                    aria-hidden="true"
+                    class="size-1.5 rounded-full"
+                    style="background: hsl(var(--showcase-accent));"
+                  />
+                  {featureStatus}
+                </span>
+                <span
+                  class="
+                    rounded-full border border-white/30 bg-surface/72 px-3 py-1.5
+                    text-xs font-semibold text-ink-muted shadow-sm backdrop-blur-xl
+                    dark:border-white/14 dark:bg-white/10 dark:text-white/72
+                  "
+                >
+                  {featureTimeline}
+                </span>
+              </div>
+              {featureLogo && (
+                <div
+                  class="
+                    absolute bottom-5 left-5 flex h-16 max-w-44 items-center justify-center
+                    rounded-2xl border border-white/30 bg-surface/78 px-4 py-3 shadow-lg
+                    backdrop-blur-xl
+                    dark:border-white/14 dark:bg-white/10
+                  "
+                >
+                  <Image
+                    alt={`${featuredProject.data.title} logo`}
+                    class="max-h-full max-w-full object-contain"
+                    loading="lazy"
+                    src={featureLogo}
+                  />
+                </div>
+              )}
+            </div>
+
+            <div class="flex grow flex-col gap-5 p-5 sm:p-6">
+              <div class="space-y-3">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="min-w-0 space-y-2">
+                    <p class:list={['text-sm font-semibold', accentTextClass]}>
+                      {featuredProject.data.role ?? 'Engineering'}
+                    </p>
+                    <h3 class="text-2xl font-semibold tracking-tight text-ink transition-colors duration-200 group-hover:text-[hsl(var(--showcase-accent))] motion-reduce:transition-none sm:text-3xl">
+                      {featuredProject.data.title}
+                    </h3>
+                  </div>
+                  <Icon
+                    aria-hidden="true"
+                    class="
+                      mt-1 size-5 shrink-0 text-ink-muted transition duration-200
+                      motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5
+                      group-hover:text-[hsl(var(--showcase-accent))]
+                      motion-reduce:transition-none
+                    "
+                    name="tabler:arrow-up-right"
+                  />
+                </div>
+                <p class="line-clamp-3 max-w-2xl text-sm/7 text-ink-soft sm:text-base/7">
+                  {featuredProject.data.description}
+                </p>
+              </div>
+
+              <div class="mt-auto space-y-3">
+                {hasMetrics && (
+                  <ul class="m-0 flex list-none flex-wrap gap-2 p-0">
+                    {featuredProject.data.impactMetrics.slice(0, 2).map(metric => (
+                      <li
+                        class="
+                          rounded-full border border-brand/15 bg-brand-soft/60 px-3 py-1.5
+                          text-xs font-semibold text-brand
+                        "
+                      >
+                        {metric}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <div class="flex flex-wrap gap-2">
+                  {featuredProject.data.technologies.slice(0, 5).map(technology => (
+                    <span
+                      class="
+                        rounded-full border border-line/70 bg-surface-muted/70 px-2.5 py-1
+                        text-xs font-medium text-ink-muted
+                      "
+                    >
+                      {technology}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </article>
+        </a>
+
+        <div
+          class:list={[
+            `
+              panel-card flex min-h-full flex-col rounded-[1.75rem] p-2 sm:p-3
+            `,
+            isReverse && 'lg:col-start-1 lg:row-start-1'
+          ]}
+        >
+          <div class="border-b border-line/55 px-4 py-4 sm:px-5">
+            <p class="text-sm font-semibold text-ink">{supportingLabel}</p>
+          </div>
+          <div class="divide-y divide-line/55">
+            {supportingProjects.map((project, index) => {
+              const projectLink = getPortfolioPath(project.id)
+              const projectTimeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
+              const projectStatus = project.data.endingDate ? 'Completed' : 'Active'
+              const projectLogo = project.data.coverImage?.logo
+
+              return (
+                <a
+                  class="
+                    group grid gap-3 rounded-2xl px-4 py-3.5 transition duration-200
+                    hover:bg-brand-soft/45
+                    focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:outline-none
+                    motion-reduce:transition-none
+                    sm:grid-cols-[auto_minmax(0,1fr)] sm:px-5
+                  "
+                  href={projectLink}
+                >
+                  <span
+                    class="
+                      flex size-11 items-center justify-center rounded-2xl border border-line/60
+                      bg-surface-muted/72 text-xs font-bold text-ink-muted
+                      group-hover:border-brand/25 group-hover:text-[hsl(var(--showcase-accent))]
+                    "
+                  >
+                    {projectLogo ?
+                      (
+                        <Image
+                          alt=""
+                          aria-hidden="true"
+                          class="max-h-6 max-w-7 object-contain"
+                          loading="lazy"
+                          src={projectLogo}
+                        />
+                      ) :
+                      String(index + 2).padStart(2, '0')}
+                  </span>
+                  <span class="min-w-0 space-y-2">
+                    <span class="flex items-start justify-between gap-3">
+                      <span class="min-w-0">
+                        <span class="block text-base font-semibold text-ink transition-colors duration-200 group-hover:text-[hsl(var(--showcase-accent))] motion-reduce:transition-none">
+                          {project.data.title}
+                        </span>
+                        <span class="mt-1 block text-xs font-medium text-ink-muted">
+                          {project.data.role ?? projectStatus}
+                        </span>
+                      </span>
+                      <Icon
+                        aria-hidden="true"
+                        class="
+                          mt-0.5 size-4 shrink-0 text-ink-muted opacity-70 transition duration-200
+                          motion-safe:group-hover:translate-x-0.5
+                          group-hover:text-[hsl(var(--showcase-accent))]
+                          motion-reduce:transition-none
+                        "
+                        name="tabler:arrow-right"
+                      />
+                    </span>
+                    <span class="line-clamp-2 text-sm/6 text-ink-soft">
+                      {project.data.description}
+                    </span>
+                    <span class="flex flex-wrap items-center gap-2 text-xs font-medium text-ink-muted">
+                      <span>{projectStatus}</span>
+                      <span aria-hidden="true">/</span>
+                      <span>{projectTimeline}</span>
+                    </span>
+                  </span>
+                </a>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+)}

@@ -103,12 +103,12 @@ const {
     <Picture
       alt={alt}
       class="
-        relative z-0 aspect-4/5 w-full rounded-[1.7rem] object-cover object-top
+        relative z-0 aspect-2/3 w-full rounded-[1.7rem] object-cover object-top
       "
       decoding="sync"
       fetchpriority="high"
       formats={['avif', 'webp']}
-      height={440}
+      height={528}
       loading="eager"
       sizes={sizes}
       src={src}
@@ -120,7 +120,7 @@ const {
   {/* Floating badges */}
   {showFloatingBadges && badgeProps?.location && (
     <div class="
-      mini-note absolute bottom-8 -left-4 z-30 hidden min-w-40 border-l-4
+      mini-note absolute top-8 -left-4 z-30 hidden min-w-40 border-l-4
       border-l-brand/40
       motion-safe:animate-float-y
       motion-reduce:animate-none

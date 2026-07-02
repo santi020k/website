@@ -2,7 +2,6 @@
 import { Icon } from 'astro-icon/components'
 
 import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
-import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import ContactSection from '@/components/molecules/ContactSection.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 
@@ -60,13 +59,11 @@ const isLinkActive = (linkPath: string): boolean => {
 ---
 
 <footer class="
-  relative mt-10 overflow-hidden px-4 pb-10
-  sm:px-6
-  lg:px-8
+  relative mt-16 overflow-hidden px-4 pb-12
+  sm:mt-20 sm:px-6 sm:pb-14
+  lg:mt-24 lg:px-8 lg:pb-16
 "
 >
-  <GradientDivider class="pt-10" />
-
   <!-- Top ambient glow with floating animation -->
   <div
     aria-hidden="true"
@@ -114,8 +111,9 @@ const isLinkActive = (linkPath: string): boolean => {
     <!-- Unified Contact & Newsletter Section -->
     <section
       class="
-        relative z-10 mt-10 grid gap-8
-        lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
+        relative z-10 mt-14 grid gap-8
+        sm:mt-16
+        lg:mt-20 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-12
       "
       data-animate
     >
@@ -181,15 +179,14 @@ const isLinkActive = (linkPath: string): boolean => {
       </div>
     </section>
 
-    <GradientDivider class="pt-10" />
-
     <!-- Footer body grid -->
     <section
       class="
-        grid gap-8 pt-10
+        mt-24 grid gap-10
+        sm:mt-28
         sm:grid-cols-2
         lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_minmax(0,0.75fr)]
-        lg:gap-10
+        lg:mt-32 lg:gap-12
       "
       data-stagger="60"
     >
@@ -386,13 +383,13 @@ const isLinkActive = (linkPath: string): boolean => {
 
     </section>
 
-    <GradientDivider class="pt-10" />
-
     <!-- Bottom bar -->
     <div
       class="
-        flex flex-col gap-3 divider-subtle pt-6 text-xs text-ink-muted
+        mt-14 flex flex-col gap-3 text-xs text-ink-muted
         opacity-100
+        sm:mt-16
+        lg:mt-20
         sm:flex-row sm:items-center sm:justify-between
       "
     >
