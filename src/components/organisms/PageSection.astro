@@ -6,7 +6,7 @@ interface Props {
   divider?: boolean
 }
 
-const { class: className, divider = true } = Astro.props
+const { class: className, divider = false } = Astro.props
 ---
 
 {divider && (
@@ -19,8 +19,10 @@ const { class: className, divider = true } = Astro.props
 <section
   class:list={[
     `
-      grid items-start gap-6 pt-8
+      grid items-start gap-6 pt-20
+      sm:pt-24
       lg:grid-cols-[minmax(18rem,0.58fr)_minmax(0,1.42fr)] lg:gap-8
+      lg:pt-28
       2xl:grid-cols-[minmax(18rem,0.36fr)_minmax(0,1.64fr)] 2xl:gap-10
     `,
     className

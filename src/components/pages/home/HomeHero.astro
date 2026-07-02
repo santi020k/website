@@ -1,5 +1,6 @@
 ---
 import { Picture } from 'astro:assets'
+import { Icon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
@@ -292,9 +293,75 @@ const { contactHref, yearsOfExperience } = Astro.props
       </div>
     </div>
   </div>
+
+  <a
+    aria-label="Scroll to page highlights"
+    class="
+      group absolute bottom-8 left-1/2 z-30 hidden -translate-x-1/2
+      items-center justify-center rounded-full p-2 text-ink-muted
+      transition-colors
+      hover:text-brand
+      focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:outline-none
+      motion-reduce:transition-none
+      lg:flex
+    "
+    href="#home-stats"
+  >
+    <span class="sr-only">Scroll to page highlights</span>
+    <span
+      class="
+        relative flex h-13 w-7 items-start justify-center rounded-full border
+        border-brand/20 bg-surface/28 pt-2 shadow-[0_16px_36px_hsl(var(--brand)/0.08)]
+        backdrop-blur-sm transition-all
+        group-hover:border-brand/40 group-hover:bg-brand-soft/28
+        motion-reduce:transition-none
+      "
+    >
+      <span
+        aria-hidden="true"
+        class="
+          size-1.5 rounded-full bg-brand/70
+          motion-safe:animate-[scroll-dot_1.8s_ease-in-out_infinite]
+          motion-reduce:animate-none
+        "
+      />
+    </span>
+    <Icon
+      aria-hidden="true"
+      class="
+        absolute top-full mt-1 size-3.5 text-brand/55 transition-transform
+        group-hover:translate-y-0.5
+        motion-reduce:animate-none motion-reduce:transition-none
+      "
+      name="tabler:chevron-down"
+    />
+  </a>
 </section>
 
 <style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  @keyframes scroll-dot {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: translateY(0);
+    }
+
+    45% {
+      opacity: 1;
+      transform: translateY(1.05rem);
+    }
+  }
+
   @keyframes hero-orbit-outer {
     from {
       transform: rotate(14deg);

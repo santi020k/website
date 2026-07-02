@@ -98,11 +98,13 @@ const meta = {
 
 <PageLayout meta={meta}>
   <HomeHero contactHref={contactHref} yearsOfExperience={yearsOfExperience} />
-  <div class="
-    mt-12
-    lg:mt-16
-    2xl:mt-20
-  "
+  <div
+    class="
+      scroll-mt-28 pt-14
+      lg:pt-18
+      2xl:pt-20
+    "
+    id="home-stats"
   >
     <HomeStats yearsOfExperience={yearsOfExperience} />
   </div>
@@ -110,16 +112,16 @@ const meta = {
   {/* Work Experience */}
   <section
     class="
-      relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-20
-      sm:py-24
-      lg:py-28
+      relative left-1/2 mt-20 w-screen -translate-x-1/2 overflow-hidden py-20
+      sm:mt-24 sm:py-24
+      lg:mt-28 lg:py-28
     "
   >
     <div
       aria-hidden="true"
       class="
-        pointer-events-none absolute inset-x-0 inset-y-8 bg-radial from-brand/8
-        via-surface/4 to-transparent
+        pointer-events-none absolute inset-x-0 inset-y-8 bg-radial from-brand/9
+        via-surface/5 to-transparent
       "
     />
     <div class="
@@ -133,7 +135,7 @@ const meta = {
         align="center"
         eyebrow="Work Experience"
         title="Professional roles."
-        description="Client and product work across teams and industries."
+        description="Client and product work where architecture, delivery systems, and team leadership mattered."
       />
       <div class="space-y-6">
         <div
@@ -167,16 +169,16 @@ const meta = {
   {/* Side Projects */}
   <section
     class="
-      relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-20
-      sm:py-24
-      lg:py-28
+      relative left-1/2 mt-20 w-screen -translate-x-1/2 overflow-hidden py-20
+      sm:mt-24 sm:py-24
+      lg:mt-28 lg:py-28
     "
   >
     <div
       aria-hidden="true"
       class="
-        pointer-events-none absolute inset-x-0 inset-y-8 bg-radial from-accent/7
-        via-surface/4 to-transparent
+        pointer-events-none absolute inset-x-0 inset-y-8 bg-radial from-accent/10
+        via-brand-soft/10 to-transparent
       "
     />
     <div class="
@@ -190,7 +192,7 @@ const meta = {
         align="center"
         eyebrow="Side Projects"
         title="Built for the love of it."
-        description="Open source, community work, and experiments."
+        description="Open source, community work, and experiments with a little more room to explore."
       />
       <div class="space-y-6">
         <div
