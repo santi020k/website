@@ -100,68 +100,118 @@ const meta = {
   </div>
 
   {/* Work Experience */}
-  <PageSection>
-    <SectionHeader
-      eyebrow="Work Experience"
-      title="Professional roles."
-      description="Client and product work across teams and industries."
-      variant="shelf"
+  <section
+    class="
+      relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-20
+      sm:py-24
+      lg:py-28
+    "
+  >
+    <div
+      aria-hidden="true"
+      class="
+        pointer-events-none absolute inset-x-0 top-8 bottom-8 bg-radial
+        from-brand/8 via-surface/4 to-transparent
+      "
     />
-    <div class="space-y-6">
-      <div
-        class="
-          grid gap-6
-          md:grid-cols-2
-          2xl:grid-cols-4
+    <div class="
+      relative mx-auto w-full max-w-[88rem] space-y-8 px-5
+      sm:px-6
+      lg:px-8
+      2xl:px-10
+    "
+    >
+      <SectionHeader
+        align="center"
+        eyebrow="Work Experience"
+        title="Professional roles."
+        description="Client and product work across teams and industries."
+      />
+      <div class="space-y-6">
+        <div
+          class="
+            grid gap-5
+            md:grid-cols-2
+            xl:grid-cols-4
+          "
+          data-stagger="60"
+        >
+          {workProjects.map(project => (
+            <ProjectPreviewCard project={project} accentTone="brand" />
+          ))}
+        </div>
+        <div class="
+          section-actions
+          sm:justify-center
         "
-        data-stagger="60"
-      >
-        {workProjects.map(project => (
-          <ProjectPreviewCard project={project} accentTone="brand" />
-        ))}
-      </div>
-      <div class="section-actions">
-        <ButtonLink href="/work/" showArrow>
-          View all work
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          LinkedIn
-        </ButtonLink>
+        >
+          <ButtonLink href="/work/" showArrow>
+            View all work
+          </ButtonLink>
+          <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+            LinkedIn
+          </ButtonLink>
+        </div>
       </div>
     </div>
-  </PageSection>
+  </section>
 
   {/* Side Projects */}
-  <PageSection>
-    <SectionHeader
-      eyebrow="Side Projects"
-      title="Built for the love of it."
-      description="Open source, community work, and experiments."
-      variant="shelf"
+  <section
+    class="
+      relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-20
+      sm:py-24
+      lg:py-28
+    "
+  >
+    <div
+      aria-hidden="true"
+      class="
+        pointer-events-none absolute inset-x-0 top-8 bottom-8 bg-radial
+        from-accent/7 via-surface/4 to-transparent
+      "
     />
-    <div class="space-y-6">
-      <div
-        class="
-          grid gap-6
-          md:grid-cols-2
-          2xl:grid-cols-4
+    <div class="
+      relative mx-auto w-full max-w-[88rem] space-y-8 px-5
+      sm:px-6
+      lg:px-8
+      2xl:px-10
+    "
+    >
+      <SectionHeader
+        align="center"
+        eyebrow="Side Projects"
+        title="Built for the love of it."
+        description="Open source, community work, and experiments."
+      />
+      <div class="space-y-6">
+        <div
+          class="
+            grid gap-5
+            md:grid-cols-2
+            xl:grid-cols-4
+          "
+          data-stagger="60"
+        >
+          {personalProjects.map(project => (
+            <ProjectPreviewCard project={project} accentTone="accent" />
+          ))}
+        </div>
+        <div class="
+          section-actions
+          sm:justify-center
         "
-        data-stagger="60"
-      >
-        {personalProjects.map(project => (
-          <ProjectPreviewCard project={project} accentTone="accent" />
-        ))}
-      </div>
-      <div class="section-actions">
-        <ButtonLink href="/projects/" showArrow>
-          View all projects
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
-          GitHub
-        </ButtonLink>
+        >
+          <ButtonLink href="/projects/" showArrow>
+            View all projects
+          </ButtonLink>
+          <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
+            GitHub
+          </ButtonLink>
+        </div>
       </div>
     </div>
-  </PageSection>
+  </section>
 
   {/* Writing */}
   <PageSection>

@@ -5,6 +5,7 @@
 @import "./partials/nav.css";
 @import "./partials/animations.css";
 @import "./partials/utilities.css";
+@import "./partials/ui.css";
 @import "./partials/prose.css";
 
 @plugin "@tailwindcss/typography";

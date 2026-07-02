@@ -1,0 +1,30 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<"article"> {
+  class?: string
+  className?: string
+  variant?: "default" | "muted" | "interactive"
+}
+
+const {
+  class: classProp = '',
+  className = '',
+  variant = "default",
+  ...rest
+} = Astro.props
+
+const passthrough = rest as Record<string, unknown>
+---
+
+<article
+  data-variant={variant}
+  class:list={[
+    'ui-card', variant === 'muted' && 'ui-card--muted', variant === 'interactive' && 'ui-card--interactive',
+    classProp,
+    className
+  ]}
+  {...passthrough}
+>
+  <slot />
+</article>
