@@ -87,7 +87,7 @@ const isAvailableForBanner =
           showArrow
           variant="ghost"
         >
-          WhatsApp
+          Let&apos;s talk
         </ButtonLink>
       </div>
     </div>
@@ -151,8 +151,8 @@ const isAvailableForBanner =
         <nav
           aria-label="Main menu"
           class="
-            ml-6 hidden items-center gap-0.5
-            lg:flex
+            ml-6 hidden items-center gap-1
+            lg:flex xl:gap-1.5
           "
         >
           {
@@ -167,15 +167,19 @@ const isAvailableForBanner =
                   class:list={[
                     `
                       group relative inline-flex min-h-10 items-center gap-1.5
-                      px-3.5 text-sm font-medium whitespace-nowrap
-                      transition-colors duration-200
+                      rounded-full px-3.5 text-sm font-medium whitespace-nowrap
+                      transition-[background-color,box-shadow,color] duration-200
                       motion-reduce:transition-none
+                      xl:px-4 xl:text-[0.9375rem]
                     `,
                     isActive ?
-                      'text-ink' :
+                      `
+                        bg-brand-soft/42 text-brand
+                        shadow-[inset_0_1px_0_hsl(0_0%_100%/0.18),0_8px_22px_hsl(var(--brand)/0.08)]
+                      ` :
                       `
                         text-ink-soft
-                        hover:text-ink
+                        hover:bg-surface-muted/58 hover:text-ink
                       `
                   ]}
                   href={link.path}
@@ -185,17 +189,17 @@ const isAvailableForBanner =
                     aria-hidden="true"
                     class:list={[
                       `
-                        absolute bottom-1 left-1/2 h-px -translate-x-1/2
-                        rounded-full bg-brand transition-all duration-300
-                        ease-out
-                        group-hover:w-4/5
+                        absolute bottom-1 left-1/2 h-1 -translate-x-1/2
+                        rounded-full bg-brand shadow-[0_0_14px_hsl(var(--brand)/0.55)]
+                        transition-all duration-300 ease-out
+                        group-hover:w-8
                         motion-reduce:transition-none
                       `,
                       isActive ?
-                        'w-4/5 opacity-100' :
+                        'w-8 opacity-100' :
                         `
-                          w-0 opacity-0
-                          group-hover:opacity-60
+                          w-1 opacity-0
+                          group-hover:opacity-70
                         `
                     ]}
                   />
@@ -218,7 +222,7 @@ const isAvailableForBanner =
           "
           >
             <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow variant="secondary">
-              WhatsApp
+              Let&apos;s talk
             </ButtonLink>
           </div>
           <div class="
@@ -249,7 +253,7 @@ const isAvailableForBanner =
                 </span>
               </span>
               <span
-                class="text-[0.68rem] font-semibold tracking-[0.18em] uppercase"
+                class="text-sm font-semibold tracking-normal"
                 data-mobile-nav-toggle-label
               >
                 Menu
@@ -274,9 +278,8 @@ const isAvailableForBanner =
         aria-hidden="true"
         aria-label="Main menu"
         class="
-          absolute top-[calc(100%+0.75rem)] right-4 z-50
-          w-[min(22rem,calc(100vw-2rem))]
-          sm:right-6
+          absolute top-[calc(100%+0.625rem)] right-4 left-4 z-50
+          sm:right-6 sm:left-auto sm:w-[24rem]
           lg:right-8
         "
         data-mobile-nav-panel
@@ -332,14 +335,22 @@ const isAvailableForBanner =
                     class:list={[
                       `
                         group flex min-h-11 items-center gap-3 rounded-2xl px-3
-                        py-2 text-sm font-medium transition-colors duration-150
+                        py-2 text-sm font-medium transition-[background-color,box-shadow,color,transform]
+                        duration-150 focus-visible:ring-2 focus-visible:ring-brand
+                        focus-visible:ring-offset-2 focus-visible:ring-offset-canvas
+                        focus-visible:outline-none
                         motion-reduce:transition-none
                       `,
                       isActive ?
-                        'bg-brand/8 font-semibold text-ink' :
+                        `
+                          bg-brand-soft/55 font-semibold text-brand
+                          shadow-[inset_0_1px_0_hsl(0_0%_100%/0.16),0_8px_22px_hsl(var(--brand)/0.08)]
+                        ` :
                         `
                           text-ink-soft
                           hover:bg-surface-muted/80 hover:text-ink
+                          hover:translate-x-0.5
+                          motion-reduce:hover:translate-x-0
                         `
                     ]}
                     data-mobile-nav-link
@@ -354,10 +365,10 @@ const isAvailableForBanner =
                           motion-reduce:transition-none
                         `,
                         isActive ?
-                          'text-brand' :
+                          'bg-surface/68 text-brand shadow-inset-soft' :
                           `
                             text-ink-muted
-                            group-hover:text-ink-soft
+                            group-hover:bg-surface/45 group-hover:text-ink-soft
                           `
                       ]}
                     >
@@ -394,7 +405,7 @@ const isAvailableForBanner =
               showArrow
               variant="secondary"
             >
-              WhatsApp
+              Let&apos;s talk
             </ButtonLink>
             <ButtonLink
               className="justify-center"
@@ -687,18 +698,3 @@ if (shell) {
   update()
 }
 </script>
-
-<style is:global>
-[data-mobile-nav-toggle][aria-expanded='true'] {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--surface) / 0.82),
-    hsl(var(--surface-muted) / 0.62)
-  );
-  border-color: hsl(var(--brand) / 0.35);
-  color: hsl(var(--brand));
-  box-shadow:
-    inset 0 1px 0 hsl(0 0% 100% / 0.14),
-    0 0 16px color-mix(in srgb, hsl(var(--brand)) 10%, transparent);
-}
-</style>

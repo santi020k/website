@@ -36,7 +36,6 @@ const latestPosts = allPosts
   .slice(0, 4)
 
 const yearsOfExperience = YEARS_OF_EXPERIENCE
-const contactHref = siteConfig.contact.whatsapp
 
 const heroPortraitImage = await getImage({
   format: 'avif',
@@ -96,13 +95,16 @@ const meta = {
 }
 ---
 
-<PageLayout meta={meta}>
-  <HomeHero contactHref={contactHref} yearsOfExperience={yearsOfExperience} />
+<PageLayout
+  mainSpacing="home"
+  meta={meta}
+>
+  <HomeHero yearsOfExperience={yearsOfExperience} />
   <div
     class="
-      scroll-mt-28 pt-14
-      lg:pt-18
-      2xl:pt-20
+      scroll-mt-28 pt-10
+      sm:pt-12
+      lg:pt-14
     "
     id="home-stats"
   >
@@ -135,7 +137,7 @@ const meta = {
   />
 
   {/* Writing */}
-  <PageSection>
+  <PageSection class="pt-22 sm:pt-24 lg:pt-28">
     <SectionHeader
       eyebrow="Writing"
       title="Thoughts on building and leading."
@@ -166,7 +168,7 @@ const meta = {
   </PageSection>
 
   {/* Speaking & Community */}
-  <PageSection>
+  <PageSection class="pt-22 sm:pt-24 lg:pt-28">
     <SectionHeader
       eyebrow="Beyond the code"
       title="Speaking & Community."

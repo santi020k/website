@@ -11,20 +11,19 @@ import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jp
 import { siteConfig } from '@/site.config'
 
 interface Props {
-  contactHref: string
   yearsOfExperience: string
 }
 
-const { contactHref, yearsOfExperience } = Astro.props
+const { yearsOfExperience } = Astro.props
 ---
 
 <section
   class="
     relative left-1/2 isolate -mt-12 flex w-screen -translate-x-1/2 items-center
-    overflow-hidden px-5 pt-24 pb-16
+    overflow-visible px-5 pt-24 pb-16
     sm:px-6 sm:pt-28 sm:pb-20
-    lg:-mt-39 lg:min-h-svh lg:px-8 lg:pt-28 lg:pb-20
-    2xl:px-10
+    lg:-mt-39 lg:min-h-svh lg:overflow-hidden lg:px-8 lg:pt-28 lg:pb-20
+    2xl:px-10 2xl:pt-24 2xl:pb-16
   "
   data-home-hero
 >
@@ -42,15 +41,20 @@ const { contactHref, yearsOfExperience } = Astro.props
     aria-hidden="true"
     class="
       pointer-events-none absolute inset-x-0 top-0 -z-10 h-full bg-linear-to-b
-      from-canvas/70 via-surface/8 to-canvas/78
+      from-transparent via-surface/8 to-canvas/78
+      lg:from-canvas/70
       dark:from-canvas/78 dark:via-surface/7 dark:to-canvas/86
     "
   />
   <div
     class="
-      mx-auto grid w-full max-w-352 gap-10
+      mx-auto grid w-full max-w-[92rem] gap-10
       lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center lg:gap-14
-      2xl:grid-cols-[minmax(0,1fr)_27rem] 2xl:gap-20
+      2xl:max-w-[100rem] 2xl:grid-cols-[minmax(0,1fr)_26rem] 2xl:gap-24
+      2xl:-translate-y-6
+      min-[2200px]:max-w-[120rem]
+      min-[2200px]:grid-cols-[minmax(0,1fr)_32rem]
+      min-[2200px]:gap-32 min-[2200px]:-translate-y-10
     "
     data-home-hero-grid
   >
@@ -75,6 +79,7 @@ const { contactHref, yearsOfExperience } = Astro.props
             sm:text-6xl/[0.95]
             lg:text-[6rem]/[0.88]
             2xl:text-[6.8rem]/[0.86]
+            min-[2200px]:text-[8rem]/[0.84]
           "
           data-home-hero-heading
         >
@@ -96,28 +101,30 @@ const { contactHref, yearsOfExperience } = Astro.props
       </div>
 
       <div class="mt-7 space-y-5">
-        <p class="flex max-w-3xl items-center gap-2 text-sm/6 text-ink-muted">
+        <p
+          class="
+            flex max-w-3xl flex-wrap items-center gap-x-2 gap-y-1 text-sm/6
+            text-ink-muted
+          "
+        >
           <span
             class="
-              ui-marker
+              ui-marker shrink-0
               motion-safe:animate-pulse
               motion-reduce:animate-none
             "
             aria-hidden="true"
           />
-          <span class="font-medium text-brand">Open now</span>
-          <span aria-hidden="true" class="text-line">/</span>
-          <span>{siteConfig.availability}</span>
+          <span class="shrink-0 whitespace-nowrap font-medium text-brand">Open now</span>
+          <span aria-hidden="true" class="hidden text-line min-[420px]:inline">/</span>
+          <span class="min-w-0">{siteConfig.availability}</span>
         </p>
 
-        <div class="section-actions">
-          <ButtonLink href="/portfolio/" showArrow>
+        <div class="section-actions max-w-3xl sm:items-center">
+          <ButtonLink className="w-full sm:w-auto" href="/portfolio/" showArrow>
             See selected work
           </ButtonLink>
-          <ButtonLink href={contactHref} newTab showArrow variant="secondary">
-            Message on WhatsApp
-          </ButtonLink>
-          <ButtonLink href={siteConfig.contact.resume} showArrow variant="secondary">
+          <ButtonLink className="w-full sm:w-auto" href={siteConfig.contact.resume} showArrow variant="secondary">
             View resume
           </ButtonLink>
         </div>
@@ -129,7 +136,9 @@ const { contactHref, yearsOfExperience } = Astro.props
         relative isolate mx-auto w-full max-w-[19rem] animate-reveal-lcp
         motion-reduce:animate-none
         sm:max-w-[22rem]
-        2xl:max-w-[24rem]
+        xl:max-w-[23rem]
+        2xl:max-w-[25rem]
+        min-[2200px]:max-w-[31rem]
       "
       data-home-hero-portrait
     >

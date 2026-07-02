@@ -20,10 +20,14 @@ import '@/styles/global.css'
 import { siteConfig } from '@/site.config'
 
 interface Props {
+  mainClass?: string | undefined
+  mainSpacing?: 'default' | 'home'
   meta: SiteMeta
 }
 
 const {
+  mainClass,
+  mainSpacing = 'default',
   meta: {
     articleDate,
     articleUpdated,
@@ -48,6 +52,8 @@ const headMeta = {
   ...(preloadImage !== undefined ? { preloadImage } : {}),
   ...(structuredData !== undefined ? { structuredData } : {})
 }
+
+const isHomeSpacing = mainSpacing === 'home'
 ---
 
 <html class="scroll-smooth" lang={siteConfig.lang}>
@@ -69,13 +75,29 @@ const headMeta = {
 
       <main
         id="main"
-        class="
-          mx-auto flex w-full max-w-384 flex-1 flex-col justify-center gap-16
-          px-5 pt-12 pb-24
-          sm:px-6
-          lg:gap-20 lg:px-8
-          2xl:gap-24 2xl:px-10
-        "
+        class:list={[
+          `
+            mx-auto flex w-full max-w-384 flex-1 flex-col justify-center px-5
+            pt-12
+            sm:px-6
+            lg:px-8
+            2xl:px-10
+          `,
+          isHomeSpacing ?
+            `
+              gap-12 pb-16
+              sm:gap-14 sm:pb-18
+              lg:gap-16 lg:pb-20
+              2xl:gap-18
+            ` :
+            `
+              gap-16 pb-20
+              sm:pb-22
+              lg:gap-20 lg:pb-24
+              2xl:gap-24
+            `,
+          mainClass
+        ]}
         tabindex="-1"
         transition:animate="fade"
       >
