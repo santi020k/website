@@ -1,3 +1,5 @@
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'

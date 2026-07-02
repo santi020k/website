@@ -4,6 +4,192 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@astrojs/check':
+      specifier: ^0.9.9
+      version: 0.9.9
+    '@astrojs/markdown-remark':
+      specifier: ^7.2.0
+      version: 7.2.0
+    '@astrojs/mdx':
+      specifier: 6.0.3
+      version: 6.0.3
+    '@astrojs/rss':
+      specifier: 4.0.18
+      version: 4.0.18
+    '@astrojs/sitemap':
+      specifier: 3.7.3
+      version: 3.7.3
+    '@astrojs/ts-plugin':
+      specifier: ^1.10.9
+      version: 1.10.9
+    '@axe-core/playwright':
+      specifier: ^4.11.3
+      version: 4.11.3
+    '@commitlint/cli':
+      specifier: ^19.3.0
+      version: 19.8.1
+    '@commitlint/config-conventional':
+      specifier: ^19.2.2
+      version: 19.8.1
+    '@iconify-json/tabler':
+      specifier: ^1.2.35
+      version: 1.2.35
+    '@lhci/cli':
+      specifier: ^0.15.1
+      version: 0.15.1
+    '@playwright/test':
+      specifier: ^1.61.0
+      version: 1.61.0
+    '@resvg/resvg-js':
+      specifier: ^2.6.2
+      version: 2.6.2
+    '@santi020k/eslint-config-basic':
+      specifier: 2.1.0
+      version: 2.1.0
+    '@santi020k/theme':
+      specifier: ^1.0.2
+      version: 1.0.2
+    '@shikijs/transformers':
+      specifier: ^4.2.0
+      version: 4.2.0
+    '@tailwindcss/typography':
+      specifier: ^0.5.20
+      version: 0.5.20
+    '@tailwindcss/vite':
+      specifier: ^4.3.1
+      version: 4.3.1
+    '@testing-library/dom':
+      specifier: ^10.4.1
+      version: 10.4.1
+    '@testing-library/jest-dom':
+      specifier: ^6.9.1
+      version: 6.9.1
+    '@types/hast':
+      specifier: ^3.0.4
+      version: 3.0.4
+    '@types/js-yaml':
+      specifier: ^4.0.9
+      version: 4.0.9
+    '@types/mdast':
+      specifier: ^4.0.4
+      version: 4.0.4
+    '@vitest/coverage-v8':
+      specifier: ^4.1.9
+      version: 4.1.9
+    '@vitest/ui':
+      specifier: ^4.1.9
+      version: 4.1.9
+    astro:
+      specifier: 6.4.8
+      version: 6.4.8
+    astro-icon:
+      specifier: ^1.1.5
+      version: 1.1.5
+    astro-robots-txt:
+      specifier: ^1.0.0
+      version: 1.0.0
+    astro-webmanifest:
+      specifier: ^1.0.0
+      version: 1.0.0
+    commit-and-tag-version:
+      specifier: ^12.7.3
+      version: 12.7.3
+    commitizen:
+      specifier: ^4.3.0
+      version: 4.3.2
+    cspell:
+      specifier: ^10.0.1
+      version: 10.0.1
+    cz-conventional-changelog:
+      specifier: ^3.3.0
+      version: 3.3.0
+    eslint:
+      specifier: ^10.5.0
+      version: 10.5.0
+    eslint-plugin-playwright:
+      specifier: ^2.10.4
+      version: 2.10.4
+    fast-xml-parser:
+      specifier: ^5.9.2
+      version: 5.9.2
+    graphql:
+      specifier: ^17.0.1
+      version: 17.0.1
+    hastscript:
+      specifier: ^9.0.1
+      version: 9.0.1
+    husky:
+      specifier: ^9.1.7
+      version: 9.1.7
+    js-yaml:
+      specifier: ^4.2.0
+      version: 4.2.0
+    jsdom:
+      specifier: ^29.1.1
+      version: 29.1.1
+    lint-staged:
+      specifier: ^17.0.7
+      version: 17.0.7
+    markdownlint-cli2:
+      specifier: ^0.22.1
+      version: 0.22.1
+    mdast-util-directive:
+      specifier: ^3.1.0
+      version: 3.1.0
+    mdast-util-to-markdown:
+      specifier: ^2.1.2
+      version: 2.1.2
+    mdast-util-to-string:
+      specifier: ^4.0.0
+      version: 4.0.0
+    npm-run-all2:
+      specifier: ^9.0.2
+      version: 9.0.2
+    reading-time:
+      specifier: ^1.5.0
+      version: 1.5.0
+    rehype-external-links:
+      specifier: ^3.0.0
+      version: 3.0.0
+    rehype-pretty-code:
+      specifier: ^0.14.3
+      version: 0.14.3
+    rehype-unwrap-images:
+      specifier: ^1.0.0
+      version: 1.0.0
+    remark-directive:
+      specifier: ^4.0.0
+      version: 4.0.0
+    satori:
+      specifier: 0.26.0
+      version: 0.26.0
+    satori-html:
+      specifier: ^0.3.2
+      version: 0.3.2
+    sharp:
+      specifier: ^0.35.1
+      version: 0.35.1
+    tailwindcss:
+      specifier: ^4.3.1
+      version: 4.3.1
+    typescript:
+      specifier: ^6.0.3
+      version: 6.0.3
+    unified:
+      specifier: ^11.0.5
+      version: 11.0.5
+    unist-util-visit:
+      specifier: ^5.1.0
+      version: 5.1.0
+    vitest:
+      specifier: ^4.1.9
+      version: 4.1.9
+    wawoff2:
+      specifier: ^2.0.1
+      version: 2.0.1
+
 overrides:
   esbuild@>=0.27.3 <0.28.1: '>=0.28.1'
   js-yaml@<=4.1.1: 4.2.0
@@ -18,191 +204,188 @@ importers:
   .:
     dependencies:
       '@astrojs/mdx':
-        specifier: 6.0.3
+        specifier: 'catalog:'
         version: 6.0.3(astro@6.4.8(@types/node@25.9.3)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0))
       '@astrojs/rss':
-        specifier: 4.0.18
+        specifier: 'catalog:'
         version: 4.0.18
       '@astrojs/sitemap':
-        specifier: 3.7.3
+        specifier: 'catalog:'
         version: 3.7.3
       '@santi020k/theme':
-        specifier: ^1.0.2
+        specifier: 'catalog:'
         version: 1.0.2
       '@shikijs/transformers':
-        specifier: ^4.2.0
+        specifier: 'catalog:'
         version: 4.2.0
       astro:
-        specifier: 6.4.8
+        specifier: 'catalog:'
         version: 6.4.8(@types/node@25.9.3)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0)
       astro-icon:
-        specifier: ^1.1.5
+        specifier: 'catalog:'
         version: 1.1.5
       astro-robots-txt:
-        specifier: ^1.0.0
+        specifier: 'catalog:'
         version: 1.0.0
       astro-webmanifest:
-        specifier: ^1.0.0
+        specifier: 'catalog:'
         version: 1.0.0
       fast-xml-parser:
-        specifier: ^5.9.2
+        specifier: 'catalog:'
         version: 5.9.2
       hastscript:
-        specifier: ^9.0.1
+        specifier: 'catalog:'
         version: 9.0.1
       mdast-util-directive:
-        specifier: ^3.1.0
+        specifier: 'catalog:'
         version: 3.1.0
       mdast-util-to-markdown:
-        specifier: ^2.1.2
+        specifier: 'catalog:'
         version: 2.1.2
       mdast-util-to-string:
-        specifier: ^4.0.0
+        specifier: 'catalog:'
         version: 4.0.0
       rehype-external-links:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.0.0
       rehype-pretty-code:
-        specifier: ^0.14.3
+        specifier: 'catalog:'
         version: 0.14.3(shiki@4.2.0)
       rehype-unwrap-images:
-        specifier: ^1.0.0
+        specifier: 'catalog:'
         version: 1.0.0
       remark-directive:
-        specifier: ^4.0.0
+        specifier: 'catalog:'
         version: 4.0.0
       satori:
-        specifier: 0.26.0
+        specifier: 'catalog:'
         version: 0.26.0
       satori-html:
-        specifier: ^0.3.2
+        specifier: 'catalog:'
         version: 0.3.2
       sharp:
-        specifier: ^0.35.1
+        specifier: 'catalog:'
         version: 0.35.1
       unified:
-        specifier: ^11.0.5
+        specifier: 'catalog:'
         version: 11.0.5
       unist-util-visit:
-        specifier: ^5.1.0
+        specifier: 'catalog:'
         version: 5.1.0
     devDependencies:
       '@astrojs/check':
-        specifier: ^0.9.9
+        specifier: 'catalog:'
         version: 0.9.9(prettier@3.8.4)(typescript@6.0.3)
       '@astrojs/markdown-remark':
-        specifier: ^7.2.0
+        specifier: 'catalog:'
         version: 7.2.0
       '@astrojs/ts-plugin':
-        specifier: ^1.10.9
+        specifier: 'catalog:'
         version: 1.10.9
       '@axe-core/playwright':
-        specifier: ^4.11.3
+        specifier: 'catalog:'
         version: 4.11.3(playwright-core@1.61.0)
       '@commitlint/cli':
-        specifier: ^19.3.0
+        specifier: 'catalog:'
         version: 19.8.1(@types/node@25.9.3)(typescript@6.0.3)
       '@commitlint/config-conventional':
-        specifier: ^19.2.2
+        specifier: 'catalog:'
         version: 19.8.1
       '@iconify-json/tabler':
-        specifier: ^1.2.35
+        specifier: 'catalog:'
         version: 1.2.35
-      '@iconify/tailwind4':
-        specifier: ^1.2.3
-        version: 1.2.3(tailwindcss@4.3.1)
       '@lhci/cli':
-        specifier: ^0.15.1
+        specifier: 'catalog:'
         version: 0.15.1
       '@playwright/test':
-        specifier: ^1.61.0
+        specifier: 'catalog:'
         version: 1.61.0
       '@resvg/resvg-js':
-        specifier: ^2.6.2
+        specifier: 'catalog:'
         version: 2.6.2
       '@santi020k/eslint-config-basic':
-        specifier: 2.1.0
+        specifier: 'catalog:'
         version: 2.1.0(1dc253fb64e375ad501f1117be68bd1b)
       '@tailwindcss/typography':
-        specifier: ^0.5.20
+        specifier: 'catalog:'
         version: 0.5.20(tailwindcss@4.3.1)
       '@tailwindcss/vite':
-        specifier: ^4.3.1
+        specifier: 'catalog:'
         version: 4.3.1(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0))
       '@testing-library/dom':
-        specifier: ^10.4.1
+        specifier: 'catalog:'
         version: 10.4.1
       '@testing-library/jest-dom':
-        specifier: ^6.9.1
+        specifier: 'catalog:'
         version: 6.9.1
       '@types/hast':
-        specifier: ^3.0.4
+        specifier: 'catalog:'
         version: 3.0.4
       '@types/js-yaml':
-        specifier: ^4.0.9
+        specifier: 'catalog:'
         version: 4.0.9
       '@types/mdast':
-        specifier: ^4.0.4
+        specifier: 'catalog:'
         version: 4.0.4
       '@vitest/coverage-v8':
-        specifier: ^4.1.9
+        specifier: 'catalog:'
         version: 4.1.9(vitest@4.1.9)
       '@vitest/ui':
-        specifier: ^4.1.9
+        specifier: 'catalog:'
         version: 4.1.9(vitest@4.1.9)
       commit-and-tag-version:
-        specifier: ^12.7.3
+        specifier: 'catalog:'
         version: 12.7.3
       commitizen:
-        specifier: ^4.3.0
+        specifier: 'catalog:'
         version: 4.3.2(@types/node@25.9.3)(typescript@6.0.3)
       cspell:
-        specifier: ^10.0.1
+        specifier: 'catalog:'
         version: 10.0.1
       cz-conventional-changelog:
-        specifier: ^3.3.0
+        specifier: 'catalog:'
         version: 3.3.0(@types/node@25.9.3)(typescript@6.0.3)
       eslint:
-        specifier: ^10.5.0
+        specifier: 'catalog:'
         version: 10.5.0(jiti@2.7.0)
       eslint-plugin-playwright:
-        specifier: ^2.10.4
+        specifier: 'catalog:'
         version: 2.10.4(eslint@10.5.0(jiti@2.7.0))
       graphql:
-        specifier: ^17.0.1
+        specifier: 'catalog:'
         version: 17.0.1
       husky:
-        specifier: ^9.1.7
+        specifier: 'catalog:'
         version: 9.1.7
       js-yaml:
-        specifier: ^4.2.0
+        specifier: 'catalog:'
         version: 4.2.0
       jsdom:
-        specifier: ^29.1.1
+        specifier: 'catalog:'
         version: 29.1.1
       lint-staged:
-        specifier: ^17.0.7
+        specifier: 'catalog:'
         version: 17.0.7
       markdownlint-cli2:
-        specifier: ^0.22.1
+        specifier: 'catalog:'
         version: 0.22.1
       npm-run-all2:
-        specifier: ^9.0.2
+        specifier: 'catalog:'
         version: 9.0.2
       reading-time:
-        specifier: ^1.5.0
+        specifier: 'catalog:'
         version: 1.5.0
       tailwindcss:
-        specifier: ^4.3.1
+        specifier: 'catalog:'
         version: 4.3.1
       typescript:
-        specifier: ^6.0.3
+        specifier: 'catalog:'
         version: 6.0.3
       vitest:
-        specifier: ^4.1.9
+        specifier: 'catalog:'
         version: 4.1.9(@types/node@25.9.3)(@vitest/coverage-v8@4.1.9)(@vitest/ui@4.1.9)(jsdom@29.1.1)(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0))
       wawoff2:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
 
 packages:
@@ -851,9 +1034,6 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@cyberalien/svg-utils@1.2.15':
-    resolution: {integrity: sha512-ZbKU6npzW5PNocdoLVJYfKzaP+c/RpT6JUkoaKrW1DOcw6lyXub8XtcNpI3xok6FnyNjS6ZbsrrtjTnS9yeZAQ==}
-
   '@darraghor/eslint-plugin-nestjs-typed@7.2.4':
     resolution: {integrity: sha512-uld8bu0gUU6zrO3EfTlZVN+yGyXl+vKdLi8JH5es0B3+rx+q15E/C1gdDM+LtFlJfzs0o3vL73dus88RhlStlQ==}
     engines: {node: '>=22.0.0'}
@@ -1428,25 +1608,14 @@ packages:
   '@iconify-json/tabler@1.2.35':
     resolution: {integrity: sha512-/sJMqHvh5ZWrEERVfDCT5NjVDeKJdhosFtKjJofAVl+P/3AzLiryOQw7WvrfDF25Xa5N/eoOQ15Y1jnhYXxBoQ==}
 
-  '@iconify/tailwind4@1.2.3':
-    resolution: {integrity: sha512-z8SKiMHRASJKF/IY//87MF88lcB7ulxh8vlhQXXLWsBkNtOh6ese9R41MyGpQeqXdRvQVt+/fX2glQtHFjQ+MA==}
-    peerDependencies:
-      tailwindcss: '>= 4.0.0'
-
   '@iconify/tools@4.2.0':
     resolution: {integrity: sha512-WRxPva/ipxYkqZd1+CkEAQmd86dQmrwH0vwK89gmp2Kh2WyyVw57XbPng0NehP3x4V1LzLsXUneP1uMfTMZmUA==}
-
-  '@iconify/tools@5.0.12':
-    resolution: {integrity: sha512-aFPwSFmFphUPVjNLUkgxgUPSPVgTEEjv0mE7NgvfoQBuE5TtsMrKa4HTY65cM5oXZ2a1xKQcW/RKhiOKEiAarw==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
   '@iconify/utils@2.3.0':
     resolution: {integrity: sha512-GmQ78prtwYW6EtzXRU1rY+KwOKfz32PD7iJh6Iyqw68GiKuoZ2A6pRtzWONz5VQJbp50mEjXh/7NkumtrAgRKA==}
-
-  '@iconify/utils@3.1.3':
-    resolution: {integrity: sha512-LPKOXPn/zV+zis1oOfGWogaXVpqUybF3ZS6SCZIsz8vg0ivVp9+fVqyYB7xq0aiST/VhUQYGO1qo6uoYSiEJqw==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -3925,10 +4094,12 @@ packages:
   conventional-changelog-atom@3.0.0:
     resolution: {integrity: sha512-pnN5bWpH+iTUWU3FaYdw5lJmfWeqSyrUkG+wyHBI9tC1dLNnHkbAOg1SzTQ7zBqiFrfo55h40VsGXWMdopwc5g==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-codemirror@3.0.0:
     resolution: {integrity: sha512-wzchZt9HEaAZrenZAUUHMCFcuYzGoZ1wG/kTRMICxsnW5AXohYMRxnyecP9ob42Gvn5TilhC0q66AtTPRSNMfw==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-config-spec@2.1.0:
     resolution: {integrity: sha512-IpVePh16EbbB02V+UA+HQnnPIohgXvJRxHcS5+Uwk4AT5LjzCZJm5sp/yqs5C6KZJ1jMsV4paEV13BN1pvDuxQ==}
@@ -3944,26 +4115,32 @@ packages:
   conventional-changelog-core@5.0.2:
     resolution: {integrity: sha512-RhQOcDweXNWvlRwUDCpaqXzbZemKPKncCWZG50Alth72WITVd6nhVk9MJ6w1k9PFNBcZ3YwkdkChE+8+ZwtUug==}
     engines: {node: '>=14'}
+    deprecated: Deprecated and no longer maintained. Please use conventional-changelog instead.
 
   conventional-changelog-ember@3.0.0:
     resolution: {integrity: sha512-7PYthCoSxIS98vWhVcSphMYM322OxptpKAuHYdVspryI0ooLDehRXWeRWgN+zWSBXKl/pwdgAg8IpLNSM1/61A==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-eslint@4.0.0:
     resolution: {integrity: sha512-nEZ9byP89hIU0dMx37JXQkE1IpMmqKtsaR24X7aM3L6Yy/uAtbb+ogqthuNYJkeO1HyvK7JsX84z8649hvp43Q==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-express@3.0.0:
     resolution: {integrity: sha512-HqxihpUMfIuxvlPvC6HltA4ZktQEUan/v3XQ77+/zbu8No/fqK3rxSZaYeHYant7zRxQNIIli7S+qLS9tX9zQA==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-jquery@4.0.0:
     resolution: {integrity: sha512-TTIN5CyzRMf8PUwyy4IOLmLV2DFmPtasKN+x7EQKzwSX8086XYwo+NeaeA3VUT8bvKaIy5z/JoWUvi7huUOgaw==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-jshint@3.0.0:
     resolution: {integrity: sha512-bQof4byF4q+n+dwFRkJ/jGf9dCNUv4/kCDcjeCizBvfF81TeimPZBB6fT4HYbXgxxfxWXNl/i+J6T0nI4by6DA==}
     engines: {node: '>=14'}
+    deprecated: This preset is deprecated. Please use conventional-changelog-conventionalcommits or conventional-changelog-angular instead.
 
   conventional-changelog-preset-loader@3.0.0:
     resolution: {integrity: sha512-qy9XbdSLmVnwnvzEisjxdDiLA4OmV3o8db+Zdg4WiFw14fP3B6XNz98X0swPPpkTd/pc1K7+adKgEDM1JCUMiA==}
@@ -5499,13 +5676,13 @@ packages:
   git-raw-commits@3.0.0:
     resolution: {integrity: sha512-b5OHmZ3vAgGrDn/X0kS+9qCfNKWe4K/jFnhwzVWWg0/k5eLa3060tZShrRg8Dja5kPc+YjS0Gc6y7cRr44Lpjw==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-raw-commits@4.0.0:
     resolution: {integrity: sha512-ICsMM1Wk8xSGMowkOmPrzo2Fgmfo4bMHLNX6ytHjajRJUqvHOw/TFapQ+QG75c3X/tTDDhOSRPGC52dDbNM8FQ==}
     engines: {node: '>=16'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-remote-origin-url@2.0.0:
@@ -5515,7 +5692,7 @@ packages:
   git-semver-tags@5.0.1:
     resolution: {integrity: sha512-hIvOeZwRbQ+7YEUmCkHqo8FOLQZCEn18yevLHADlFPZY02KJGsu5FZt9YW/lybfK2uhWFI7Qg/07LekJiTv7iA==}
     engines: {node: '>=14'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   gitconfiglocal@1.0.0:
@@ -6981,10 +7158,6 @@ packages:
 
   mlly@1.8.2:
     resolution: {integrity: sha512-d+ObxMQFmbt10sretNDytwt85VrbkhhUA/JBGm1MPaWJ65Cl4wOgLaB1NYvJSZ0Ef03MMEU/0xpPMXUIQ29UfA==}
-
-  modern-tar@0.7.6:
-    resolution: {integrity: sha512-sweCIVXzx1aIGTCdzcMlSZt1h8k5Tmk08VNAuRk3IU28XamGiOH5ypi11g6De2CH7PhYqSSnGy2A/EFhbWnVKg==}
-    engines: {node: '>=18.0.0'}
 
   modify-values@1.0.1:
     resolution: {integrity: sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==}
@@ -10205,10 +10378,6 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@cyberalien/svg-utils@1.2.15':
-    dependencies:
-      '@iconify/types': 2.0.0
-
   '@darraghor/eslint-plugin-nestjs-typed@7.2.4(@typescript-eslint/parser@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@6.0.3))(class-validator@0.15.1)(eslint-import-resolver-node@0.3.10)(eslint@10.5.0(jiti@2.7.0))(typescript@6.0.3)':
     dependencies:
       '@typescript-eslint/parser': 8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@6.0.3)
@@ -10912,13 +11081,6 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify/tailwind4@1.2.3(tailwindcss@4.3.1)':
-    dependencies:
-      '@iconify/tools': 5.0.12
-      '@iconify/types': 2.0.0
-      '@iconify/utils': 3.1.3
-      tailwindcss: 4.3.1
-
   '@iconify/tools@4.2.0':
     dependencies:
       '@iconify/types': 2.0.0
@@ -10932,16 +11094,6 @@ snapshots:
       tar: 7.5.16
     transitivePeerDependencies:
       - supports-color
-
-  '@iconify/tools@5.0.12':
-    dependencies:
-      '@cyberalien/svg-utils': 1.2.15
-      '@iconify/types': 2.0.0
-      '@iconify/utils': 3.1.3
-      fflate: 0.8.3
-      modern-tar: 0.7.6
-      pathe: 2.0.3
-      svgo: 4.0.1
 
   '@iconify/types@2.0.0': {}
 
@@ -10957,12 +11109,6 @@ snapshots:
       mlly: 1.8.2
     transitivePeerDependencies:
       - supports-color
-
-  '@iconify/utils@3.1.3':
-    dependencies:
-      '@antfu/install-pkg': 1.1.0
-      '@iconify/types': 2.0.0
-      import-meta-resolve: 4.2.0
 
   '@img/colour@1.1.0': {}
 
@@ -17617,8 +17763,6 @@ snapshots:
       pathe: 2.0.3
       pkg-types: 1.3.1
       ufo: 1.6.4
-
-  modern-tar@0.7.6: {}
 
   modify-values@1.0.1: {}
 

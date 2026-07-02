@@ -1,3 +1,5 @@
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 test.describe('Newsletter signup', () => {
@@ -7,14 +9,14 @@ test.describe('Newsletter signup', () => {
     const form = page.locator('footer form[action*="buttondown"]').first()
     await expect(form).toHaveCount(1)
     await expect(form.locator('input[name="email"]')).toBeVisible()
-    await expect(form.locator('input[name="email"]')).toHaveAttribute('autocomplete', 'email')
-    await expect(form.locator('input[name="email"]')).toHaveAttribute('required', '')
+    await expect(form.locator('input[name="email"]')).toHaveAttribute('autocomplete', /^email$/)
+    await expect(form.locator('input[name="email"]')).toHaveAttribute('required', /^$/)
     await expect(form.getByRole('button', { name: /Subscribe/i })).toBeVisible()
 
     const privacyLink = page
       .locator('footer')
       .getByRole('link', { name: 'Privacy & analytics' })
-    await expect(privacyLink.first()).toHaveAttribute('href', '/privacy/')
+    await expect(privacyLink.first()).toHaveAttribute('href', /^\/privacy\/$/)
   })
 
   test('newsletter heading drives the section accessible name', async ({ page }) => {

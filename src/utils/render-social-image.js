@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/max-len -- TODO: Move the long Satori inline style/template objects into smaller named blocks so this renderer can follow the project line limit. */
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -60,9 +61,7 @@ const iconBuf = await sharp(
   .toBuffer()
 
 const ICON_DATA_URI = `data:image/png;base64,${iconBuf.toString('base64')}`
-
 // ─── Layout constants ─────────────────────────────────────────────────────────
-
 const COVER_W = 400
 const COVER_H = 252
 const DARK_BG = '#110c1d' // fallback background under wallpaper
@@ -84,6 +83,7 @@ const titleFontSize = (title, hasCover) => {
 }
 
 const loadCoverDataURI = async coverImagePath => {
+  // TODO: Restrict cover reads to a validated public image root before re-enabling this filesystem rule.
   // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (!coverImagePath || !fs.existsSync(coverImagePath)) return null
 

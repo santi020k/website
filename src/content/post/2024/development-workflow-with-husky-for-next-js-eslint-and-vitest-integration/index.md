@@ -32,6 +32,8 @@ This approach improves code quality while reducing CI/CD expenses.
 
 Start by installing the required dependencies:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```bash title="terminal"
 npm install --save-dev husky lint-staged
 # or
@@ -40,6 +42,8 @@ yarn add husky lint-staged --dev
 
 To organize Husky within a `config` folder, modify your `package.json`:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```json title="package.json"
 {
   "scripts": {
@@ -66,18 +70,24 @@ This establishes commands for pre-commit and pre-push operations. Customize acco
 
 The `pre-commit` script executes linting with fixes and runs tests before allowing commits:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```json title="package.json"
 "pre-commit": "lint-staged && vitest run"
 ```
 
 The `pre-push` script enforces strict linting standards and triggers the build process:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```json title="package.json"
 "pre-push": "eslint . --fix --max-warnings=0 && npm run build"
 ```
 
 Execute the prepare command to generate the hook files:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```bash title="terminal"
 npm run prepare
 # or
@@ -88,6 +98,8 @@ This generates the necessary files in the `config/.husky` directory. These files
 
 If you ever need to bypass Husky's verification — for example during a work in progress — you can use `--no-verify`:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```bash title="terminal"
 git commit . -m 'quick fix' --no-verify
 ```

@@ -34,7 +34,7 @@ Use Tailwind token utilities such as `bg-canvas`, `bg-surface`, `border-line`, `
 
 Use package assets for shared Santi020k brand surfaces:
 
-```ts
+```text
 import logoUrl from '@santi020k/theme/assets/logos/logo-santi020k.webp'
 import { fontFamily, staticAssets } from '@santi020k/theme'
 ```

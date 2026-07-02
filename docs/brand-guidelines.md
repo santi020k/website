@@ -294,7 +294,7 @@ Generated server-side via Satori at `src/pages/og/`. Every page must have one.
 
 Always use `<Image>` from `astro:assets` — never a raw `<img>` tag.
 
-```astro
+```html
 ---
 import { Image } from 'astro:assets'
 import heroImg from '@/assets/photos/about-me.webp'
@@ -327,7 +327,7 @@ Three Iconify packs are used across the site. Always match the correct pack to i
 
 Usage patterns:
 
-```astro
+```html
 <!-- astro-icon component — for inline SVG with props -->
 <Icon name="mdi:github" aria-hidden="true" class="size-8" focusable="false" />
 
@@ -337,7 +337,7 @@ Usage patterns:
 
 Always add `aria-hidden="true"` on decorative icons. For standalone icon buttons, label the `<button>`, not the icon:
 
-```astro
+```html
 <button type="button" aria-label="Open GitHub profile">
   <Icon name="mdi:github" aria-hidden="true" />
 </button>
@@ -374,7 +374,7 @@ Badges truncate at `200px` on mobile, full width on `sm` and above.
 Use `transition-all duration-300` for hover lift. Always include `motion-reduce:` variants. Cards are single-surface components: never place `panel-card`, `card-interactive`, `mini-note`, `talk-card`, `glass-pro`, `section-shell`, `section-shell-subtle`, or equivalent rounded/bordered/background/shadow blocks inside another card-like surface. Build internal hierarchy with spacing, dividers, plain rows, media, and inline metadata instead.
 
 **Standard Card (`panel-card`):**
-```astro
+```html
 <article class="
   panel-card overflow-hidden
   transition-all duration-300
@@ -385,7 +385,7 @@ Use `transition-all duration-300` for hover lift. Always include `motion-reduce:
 ```
 
 **Image Card with Overlays:**
-```astro
+```html
 <div class="relative aspect-[16/10] overflow-hidden">
   <Image src={cover} class="h-full w-full object-cover" />
   <!-- Gradient overlay for text readability -->
@@ -394,7 +394,7 @@ Use `transition-all duration-300` for hover lift. Always include `motion-reduce:
 ```
 
 **Compact Card (`mini-note`):**
-```astro
+```html
 <div class="mini-note p-6 space-y-4">
   <div class="flex items-center gap-3">
     <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">
@@ -410,7 +410,7 @@ Use `transition-all duration-300` for hover lift. Always include `motion-reduce:
 ```
 
 **Accent Border Mini-Notes:**
-```astro
+```html
 <!-- Left accent -->
 <div class="mini-note border-l-4 border-l-brand/40">
   <p class="section-label">Label</p>
@@ -428,7 +428,7 @@ Use `transition-all duration-300` for hover lift. Always include `motion-reduce:
 
 All nav links use hover underline with `underline-offset-2`. Active state is indicated via `aria-current="page"`.
 
-```astro
+```html
 <a
   aria-current={Astro.url.pathname === link.path ? 'page' : false}
   class="underline-offset-2 hover:underline"
@@ -499,29 +499,29 @@ Astro View Transitions are enabled globally (`<ViewTransitions />` in the root l
 ### Hero-Specific Animations
 
 **Gradient Text:**
-```
+```text
 bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent
 ```
 
 **Spinning Rings (around portrait):**
-```
+```text
 motion-safe:animate-[spin_24s_linear_infinite]
 border-image: linear-gradient(135deg, hsl(var(--brand)/0.3), hsl(var(--accent)/0.15), transparent) 1
 ```
 
 **Ambient Glow:**
-```
+```text
 bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
 motion-safe:animate-pulse
 ```
 
 **Floating Cards:**
-```
+```text
 motion-safe:animate-float-y
 ```
 
 **Staggered Content Reveal:**
-```
+```text
 animate-slide-up [animation-delay:90ms]
 animate-slide-up [animation-delay:180ms]
 ```
@@ -529,7 +529,7 @@ animate-slide-up [animation-delay:180ms]
 ### Decorative Patterns
 
 **Gradient Dividers:**
-```astro
+```html
 <div aria-hidden="true" class="pointer-events-none flex justify-center">
   <div class="h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/40 to-transparent"></div>
 </div>
@@ -640,7 +640,7 @@ Before adding ARIA, ask: *is there a native element for this?*
 The hero uses an **asymmetric 2-column layout** with content on the left and a portrait on the right.
 
 **Layout Pattern:**
-```
+```text
 grid-cols-[minmax(0,1fr)_22rem] lg:items-center
 ```
 
@@ -677,7 +677,7 @@ grid-cols-[minmax(0,1fr)_22rem] lg:items-center
 Home page sections follow a consistent **asymmetric 2-column pattern**:
 
 **Layout Pattern:**
-```
+```text
 grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
 ```
 
@@ -709,7 +709,7 @@ grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
 2. **Content body** (`p-5 space-y-3`)
 
 **Image Overlay Pattern:**
-```
+```text
 absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent
 bottom badges:
 - Status: "Active" (brand/accent bg) or "Completed" (surface bg)
@@ -726,7 +726,7 @@ bottom badges:
 #### List Items (Writing Section)
 
 **Structure:**
-```
+```text
 flex items-start justify-between gap-4 py-5 border-b border-line/20
 ```
 
@@ -736,7 +736,7 @@ flex items-start justify-between gap-4 py-5 border-b border-line/20
 #### Mini-Note Cards (Speaking Section)
 
 **Structure:**
-```
+```text
 mini-note p-6 space-y-4
 ```
 
@@ -749,7 +749,7 @@ mini-note p-6 space-y-4
 
 ### Project Description Template
 
-```
+```text
 [One-line summary — what it is]
 [The problem it solves]
 [One interesting technical detail or challenge]

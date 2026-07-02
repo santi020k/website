@@ -1,4 +1,5 @@
-/* eslint-disable func-style */
+/* eslint func-style: off, jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
@@ -18,7 +19,7 @@ test.describe('Route coverage smoke tests', () => {
 
     await page.goto('/offline/')
     await expect(page.getByRole('heading', { level: 1 })).toContainText('No connection,')
-    await expect(page.getByRole('link', { name: 'Go home' })).toHaveAttribute('href', '/')
+    await expect(page.getByRole('link', { name: 'Go home' })).toHaveAttribute('href', /^\/$/)
   })
 
   test('/search-index.json returns searchable entries', async ({ request }) => {

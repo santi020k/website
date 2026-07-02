@@ -6,7 +6,7 @@ These components mirror the current shadcn/ui component catalog as framework-fre
 
 Import individual components:
 
-```astro
+```html
 ---
 import { Button, Card, Input } from '@/components/ui'
 ---

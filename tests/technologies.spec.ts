@@ -1,3 +1,5 @@
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
@@ -34,7 +36,7 @@ test.describe('Technologies index page', () => {
   test('should link back to the portfolio', async ({ page }) => {
     const backLink = page.getByRole('link', { name: /Back to portfolio/i })
     await expect(backLink).toBeVisible()
-    await expect(backLink).toHaveAttribute('href', '/portfolio/')
+    await expect(backLink).toHaveAttribute('href', /^\/portfolio\/$/)
   })
 
   test('should pass accessibility audit', async ({ page }) => {

@@ -49,6 +49,8 @@ ESLint 9 drops support for older runtimes, so this is the first thing I check. I
 
 At minimum, update the package first:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```json title="package.json"
 {
   "devDependencies": {
@@ -59,6 +61,8 @@ At minimum, update the package first:
 
 Then install again:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```bash title="terminal"
 pnpm install
 ```
@@ -69,6 +73,8 @@ If you are doing the migration today, the same flat-config shape also makes the 
 
 The official ESLint migrator is the fastest way to get an existing project moving:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```bash title="terminal"
 npx @eslint/migrate-config .eslintrc.cjs
 ```
@@ -88,6 +94,8 @@ The generated file is usually a bridge, not the final version. Keep that in mind
 
 One of the biggest mental shifts in ESLint 9 is that the configuration is just JavaScript modules. That means I no longer want this:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title=".eslintrc.cjs"
 module.exports = {
   extends: [
@@ -105,6 +113,8 @@ module.exports = {
 
 I prefer something closer to this:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title="eslint.config.mjs"
 import js from '@eslint/js'
 import { defineConfig } from 'eslint/config'
@@ -141,6 +151,8 @@ This is more verbose, yes. It is also much clearer.
 
 Not every dependency was ready for flat config at the same time. When that happens, `FlatCompat` is useful:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title="eslint.config.mjs"
 import { FlatCompat } from '@eslint/eslintrc'
 import { defineConfig } from 'eslint/config'
@@ -174,6 +186,8 @@ This part is easy to miss if you migrate too fast.
 
 With flat config, `.eslintignore` is not where I want to manage lint ignores anymore. I prefer the ignore rules to live beside the rest of the lint setup so the behavior is visible in one place.
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title="eslint.config.mjs"
 import { defineConfig } from 'eslint/config'
 
@@ -202,6 +216,8 @@ After migrating enough projects, I got tired of rebuilding the same frontend set
 
 The simplest version is:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title="eslint.config.mjs"
 import { eslintConfig } from '@santi020k/eslint-config-basic'
 
@@ -212,6 +228,8 @@ That already gives you a strong starting point and auto-detects common project s
 
 When I want to be more explicit, I prefer something like this:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title="eslint.config.mjs"
 import {
   eslintConfig,

@@ -4,29 +4,6 @@ import { defineConfig, Extension, Testing } from '@santi020k/eslint-config-basic
 
 export default await defineConfig({
   detectRootDir: import.meta.dirname,
-  ignores: [
-    '**/*.json',
-    '**/*.jsonc',
-    '**/*.md',
-    '**/*.yaml',
-    '**/*.yml',
-    'scripts/js/generate-og-images.js',
-    'scripts/js/generate-project-covers-v2.mjs',
-    'scripts/js/refresh-project-covers.mjs',
-    'src/components/shared/UIPrimitives.astro',
-    'src/utils/render-social-image.js'
-  ],
-  features: {
-    'jest-dom': false,
-    jsonc: false,
-    markdown: false,
-    'package-json': false,
-    perfectionist: false,
-    pnpm: false,
-    'testing-library': false,
-    yaml: false,
-    zod: false
-  },
   extensions: [Extension.Security],
   frameworks: {
     astro: true
@@ -78,21 +55,6 @@ export default await defineConfig({
       project: true,
       projectService: false
     }
-  }
-}, {
-  // Astro template expressions currently trigger false positives for this rule.
-  name: 'website/astro-template-typescript-workaround',
-  files: ['**/*.astro'],
-  rules: {
-    '@typescript-eslint/no-unsafe-return': 'off'
-  }
-}, {
-  // @stylistic/jsx-indent-props conflicts with @stylistic/indent in Astro files
-  // because Astro templates are not JSX, disable the JSX-specific variant.
-  name: 'website/astro-indent-conflict-fix',
-  files: ['**/*.astro'],
-  rules: {
-    '@stylistic/jsx-indent-props': 'off'
   }
 }, {
   name: 'website/playwright-rules',

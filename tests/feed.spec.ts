@@ -1,3 +1,5 @@
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 interface JsonFeedItem {
@@ -102,6 +104,6 @@ test.describe('JSON Feed', () => {
   test('home page advertises the JSON feed via <link rel="alternate">', async ({ page }) => {
     await page.goto('/')
     const link = page.locator('link[rel="alternate"][type="application/feed+json"]')
-    await expect(link).toHaveAttribute('href', '/feed.json')
+    await expect(link).toHaveAttribute('href', /^\/feed\.json$/)
   })
 })
