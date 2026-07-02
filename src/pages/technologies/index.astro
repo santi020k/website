@@ -5,6 +5,7 @@ import PillCount from '@/components/atoms/PillCount.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import { Card } from '@/components/ui'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
@@ -74,7 +75,7 @@ const meta = {
     data-animate
   >
     {technologyGroups.map(group => (
-      <div class="space-y-4">
+      <Card class="h-full space-y-4 p-5" variant="muted">
         <div class="space-y-2">
           <p class="section-label">{group.title}</p>
           <p class="text-sm/6 text-ink-soft">{group.description}</p>
@@ -86,7 +87,7 @@ const meta = {
             </Pill>
           ))}
         </div>
-      </div>
+      </Card>
     ))}
   </section>
 </PageLayout>

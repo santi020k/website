@@ -1,6 +1,7 @@
 ---
 import Pill from '@/components/atoms/Pill.astro'
 import PillCount from '@/components/atoms/PillCount.astro'
+import { Card } from '@/components/ui'
 
 import { getTechnologyPath } from '@/utils/links'
 
@@ -13,9 +14,15 @@ interface Props {
 const { hiddenCount = 0, intro, technologies } = Astro.props
 ---
 
-<div class="space-y-5">
+<Card
+  class="
+    space-y-5 p-5
+    sm:p-6
+  "
+  variant="muted"
+>
   <p class="max-w-3xl text-sm/6 text-ink-muted">{intro}</p>
-  <div class="flex flex-wrap gap-3">
+  <div class="flex flex-wrap gap-2.5">
     {technologies.map(([technology, count]) => (
       <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
         <PillCount count={count} />
@@ -25,4 +32,4 @@ const { hiddenCount = 0, intro, technologies } = Astro.props
       <Pill href="/technologies/" label={`+${hiddenCount} technologies`} tone="neutral" />
     )}
   </div>
-</div>
+</Card>

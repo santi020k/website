@@ -20,7 +20,7 @@ interface Props {
   post: CollectionEntry<'post'>
 }
 
-const { post } = Astro.props
+const { post } = Astro.props as Props
 const { Content } = await render(post)
 ---
 

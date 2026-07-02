@@ -27,7 +27,7 @@ interface Props {
   post: CollectionEntry<'post'>
 }
 
-const { post } = Astro.props
+const { post } = Astro.props as Props
 const { description, publishDate, title, updatedDate } = post.data
 // Use Dynamic OG Image generator (/og/blog/[id].webp)
 const ogImage = new URL(`/og/blog/${getPostSlug(post.id)}.webp`, Astro.site).href

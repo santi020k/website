@@ -10,6 +10,7 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import { Card } from '@/components/ui'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getPostPath } from '@/utils/links'
@@ -35,7 +36,7 @@ interface Props {
   series: CollectionEntry<'series'>
 }
 
-const { postCount, posts, series } = Astro.props
+const { postCount, posts, series } = Astro.props as Props
 const { Content } = await render(series)
 const metaTitle = series.data.seoTitle ?? series.data.title
 const metaDescription = series.data.seoDescription ?? series.data.description
@@ -85,35 +86,26 @@ const structuredData: Record<string, unknown> = {
 
   <StatsGrid columns={3}>
     <StatCard description="Articles collected into this reading track." label="Posts" value={String(postCount)} />
-    <article class="
-      stat-card h-full p-5
-      sm:p-6
-    "
+    <Card
+      as="article"
+      class="
+        h-full p-5
+        sm:p-6
+      "
+      variant="muted"
     >
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-0 z-0 overflow-hidden
-          rounded-[inherit]
-        "
-      >
-        <div
-          class="absolute top-0 right-0 size-24 opacity-30"
-          style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.15), transparent 70%);"
-        />
-      </div>
-      <p class="relative z-10 section-label">Cadence</p>
+      <p class="section-label">Cadence</p>
       <p class="
-        relative z-10 mt-4 max-w-[26ch] text-lg/7 font-semibold text-ink
+        mt-4 max-w-[26ch] text-lg/7 font-semibold text-ink
         sm:text-xl/8
       "
       >
         {series.data.cadence}
       </p>
-      <p class="relative z-10 mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
+      <p class="mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
         Publishing rhythm for this series.
       </p>
-    </article>
+    </Card>
     {!!series.data.focusAreas.length && (
       <StatCard description="Recurring themes shaping the articles in this track." label="Focus areas" value={String(series.data.focusAreas.length)} />
     )}
@@ -133,14 +125,20 @@ const structuredData: Record<string, unknown> = {
     </div>
 
     {!!series.data.focusAreas.length && (
-      <div class="space-y-4">
+      <Card
+        class="
+          h-fit space-y-4 p-5
+          sm:p-6
+        "
+        variant="muted"
+      >
         <p class="section-label">Focus areas</p>
         <div class="flex flex-wrap gap-2">
           {series.data.focusAreas.map(area => (
             <Pill label={area} tone="outline" />
           ))}
         </div>
-      </div>
+      </Card>
     )}
   </section>
 

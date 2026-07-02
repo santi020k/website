@@ -1,4 +1,6 @@
 ---
+import { Card } from '@/components/ui'
+
 interface Props {
   title: string
   subtitle: string
@@ -14,7 +16,13 @@ const toneClasses = tone === 'brand' ?
   'bg-accent/12 text-accent backdrop-blur-sm border border-accent/15 shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1)]'
 ---
 
-<div class="mini-note space-y-4 p-6">
+<Card
+  class="
+    h-full space-y-4 p-6
+    sm:p-7
+  "
+  variant="interactive"
+>
   <div class="flex items-center gap-3">
     <div class:list={['flex size-10 items-center justify-center rounded-xl', toneClasses]}>
       <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -29,4 +37,4 @@ const toneClasses = tone === 'brand' ?
   <p class="text-sm text-ink-soft">
     {description}
   </p>
-</div>
+</Card>

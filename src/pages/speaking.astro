@@ -8,6 +8,7 @@ import StatCard from '@/components/molecules/StatCard.astro'
 import TalkCard from '@/components/molecules/TalkCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import { Card } from '@/components/ui'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
@@ -156,20 +157,20 @@ const structuredData = [
       "
       data-stagger="60"
     >
-      <div class="mini-note h-full">
+      <Card class="h-full p-5" variant="muted">
         <p class="section-label">ReactJS Colombia</p>
         <p class="mt-3 text-sm/7 text-ink-soft">
           Co-organizer of ReactJS Colombia — one of the largest React communities in Latin America.
           Sessions cover frontend architecture, performance, and developer experience in Spanish for regional engineers.
         </p>
-      </div>
-      <div class="mini-note h-full">
+      </Card>
+      <Card class="h-full p-5" variant="muted">
         <p class="section-label">Internal team sessions</p>
         <p class="mt-3 text-sm/7 text-ink-soft">
           Engineering talks inside product teams — architecture reviews, tooling onboarding, and tech lead cohorts.
           Closer to coaching than presenting; built around the team's actual problems.
         </p>
-      </div>
+      </Card>
     </div>
   </PageSection>
 
@@ -189,10 +190,10 @@ const structuredData = [
         data-stagger="60"
       >
         {bookingNotes.map(note => (
-          <div class="mini-note h-full">
+          <Card class="h-full p-5" variant="muted">
             <p class="section-label">{note.label}</p>
             <p class="mt-3 text-sm/7 text-ink-soft">{note.value}</p>
-          </div>
+          </Card>
         ))}
       </div>
       <div class="section-actions">

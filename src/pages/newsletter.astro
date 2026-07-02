@@ -120,7 +120,13 @@ const structuredData = [
         </ol>
       ) :
       (
-        <div class="mini-note">
+        <Card
+          class="
+            max-w-2xl p-5
+            sm:p-6
+          "
+          variant="muted"
+        >
           <p class="section-label">No issues yet</p>
           <p class="mt-3 text-sm/7 text-ink-soft">
             The first issue hasn't shipped (or the archive couldn't be loaded at build time). Subscribe above and
@@ -134,7 +140,7 @@ const structuredData = [
             >RSS
             </a>.
           </p>
-        </div>
+        </Card>
       )}
   </PageSection>
 </PageLayout>

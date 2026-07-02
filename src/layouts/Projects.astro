@@ -28,7 +28,7 @@ interface Props {
   relatedProjects?: CollectionEntry<'project'>[]
 }
 
-const { project, relatedProjects = [] } = Astro.props
+const { project, relatedProjects = [] } = Astro.props as Props
 const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
 const metaDescription = project.data.seoDescription ?? project.data.description
 // Use Dynamic OG Image generator (/og/portfolio/[id].webp)

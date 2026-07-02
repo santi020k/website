@@ -80,10 +80,10 @@ const structuredData = [
     data-animate
   >
     {usesHighlights.map(highlight => (
-      <div class="mini-note">
+      <Card class="h-full p-5" variant="muted">
         <p class="section-label">{highlight.label}</p>
         <p class="mt-2 text-sm/7 text-ink-soft">{highlight.value}</p>
-      </div>
+      </Card>
     ))}
   </section>
 
@@ -113,7 +113,7 @@ const structuredData = [
             data-stagger="50"
           >
             {section.items.map(item => (
-              <Card class="p-5">
+              <Card class="p-5" variant="muted">
                 <dt class="section-label">{item.label}</dt>
                 <dd class="mt-3 text-sm/7 text-ink-soft">{item.value}</dd>
               </Card>
@@ -137,20 +137,20 @@ const structuredData = [
         "
         data-stagger="60"
       >
-        <div class="mini-note">
+        <Card class="h-full p-5" variant="muted">
           <p class="section-label">Worth optimizing</p>
           <p class="mt-3 text-sm/7 text-ink-soft">
             Fast local feedback, clear documentation, dependable testing, and automation that makes release work
             feel calmer.
           </p>
-        </div>
-        <div class="mini-note">
+        </Card>
+        <Card class="h-full p-5" variant="muted">
           <p class="section-label">Usually not worth it</p>
           <p class="mt-3 text-sm/7 text-ink-soft">
             Chasing novelty for its own sake, rebuilding stable systems without a product reason, or adding
             process that only looks rigorous from a distance.
           </p>
-        </div>
+        </Card>
       </div>
     </div>
   </PageSection>

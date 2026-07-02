@@ -1,6 +1,7 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
+import { Card } from '@/components/ui'
 import PageLayout from '@/layouts/Base.astro'
 
 const meta = {
@@ -24,10 +25,17 @@ const meta = {
     </ButtonLink>
   </PageHero>
 
-  <div class="mini-note max-w-xl" data-animate>
+  <Card
+    class="
+      max-w-xl p-5
+      sm:p-6
+    "
+    data-animate
+    variant="muted"
+  >
     <p class="section-label">What's cached</p>
     <p class="mt-2 text-sm/7 text-ink-soft">
       Pages you've visited before are available offline. Refresh when your connection returns to get the latest content.
     </p>
-  </div>
+  </Card>
 </PageLayout>

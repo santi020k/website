@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components'
 import type { CollectionEntry } from 'astro:content'
 
 import Pill from '@/components/atoms/Pill.astro'
+import { Card } from '@/components/ui'
 
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
@@ -97,12 +98,14 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
           href={item.href}
         >
           {/* Content card */}
-          <article
+          <Card
+            as="article"
+            variant="interactive"
             class:list={[
-              'relative overflow-hidden rounded-[1.75rem] border',
+              'relative overflow-hidden rounded-[1.75rem]',
               item.isActive ?
-                'border-brand/25 bg-surface/80' :
-                'border-line/40 bg-surface/70'
+                'border-brand/25 bg-surface/82' :
+                'border-line/40 bg-surface/72'
             ]}
             data-timeline-card={item.isActive ? 'active' : 'done'}
           >
@@ -226,7 +229,7 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
                 />
               </div>
             </div>
-          </article>
+          </Card>
         </a>
       </article>
     ))}

@@ -3,6 +3,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
+import { Card } from '@/components/ui'
 import PageLayout from '@/layouts/Base.astro'
 
 import { siteConfig } from '@/site.config'
@@ -92,20 +93,25 @@ const formattedDate = lastUpdated.toLocaleDateString(siteConfig.date.locale, sit
       title="The current chapter."
     />
 
-    <div class="space-y-6">
+    <div
+      class="
+        grid gap-4
+        lg:grid-cols-3
+      "
+      data-stagger="60"
+    >
       {nowSections.map(section => (
-        <section class="
-          space-y-4 border-t border-line/45 pt-6
-          first:border-t-0 first:pt-0
-        "
-        >
+        <Card as="section" class="h-full p-5" variant="muted">
           <p class="section-label">{section.title}</p>
-          <ul class="space-y-3" role="list">
+          <ul class="mt-4 space-y-3" role="list">
             {section.items.map(item => (
-              <li class="text-sm/7 text-ink-soft">{item}</li>
+              <li class="flex gap-3 text-sm/7 text-ink-soft">
+                <span aria-hidden="true" class="mt-2 size-1.5 shrink-0 rounded-full bg-brand/60" />
+                <span>{item}</span>
+              </li>
             ))}
           </ul>
-        </section>
+        </Card>
       ))}
     </div>
   </PageSection>
