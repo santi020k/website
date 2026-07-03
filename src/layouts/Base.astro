@@ -20,13 +20,13 @@ import { siteConfig } from '@/site.config'
 
 interface Props {
   mainClass?: string | undefined
-  mainSpacing?: 'default' | 'home'
+  mainSpacing?: 'generous' | 'standard'
   meta: SiteMeta
 }
 
 const {
   mainClass,
-  mainSpacing = 'default',
+  mainSpacing = 'standard',
   meta: {
     articleDate,
     articleUpdated,
@@ -52,7 +52,7 @@ const headMeta = {
   ...(structuredData !== undefined ? { structuredData } : {})
 }
 
-const isHomeSpacing = mainSpacing === 'home'
+const isGenerousSpacing = mainSpacing === 'generous'
 ---
 
 <html class="scroll-smooth" lang={siteConfig.lang}>
@@ -82,18 +82,18 @@ const isHomeSpacing = mainSpacing === 'home'
             lg:px-8
             2xl:px-10
           `,
-          isHomeSpacing ?
-            `
-              gap-12 pb-16
-              sm:gap-14 sm:pb-18
-              lg:gap-16 lg:pb-20
-              2xl:gap-18
-            ` :
+          isGenerousSpacing ?
             `
               gap-16 pb-20
               sm:pb-22
               lg:gap-20 lg:pb-24
               2xl:gap-24
+            ` :
+            `
+              gap-12 pb-16
+              sm:gap-14 sm:pb-18
+              lg:gap-16 lg:pb-20
+              2xl:gap-18
             `,
           mainClass
         ]}
