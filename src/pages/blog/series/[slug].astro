@@ -74,6 +74,7 @@ const structuredData: Record<string, unknown> = {
     description={series.data.description}
     eyebrow="Blog series"
     gradientText="A reading track."
+    metaItems={['Start to finish', series.data.cadence, `${postCount} ${postCount === 1 ? 'post' : 'posts'}`]}
     title={series.data.title.includes('.') ? series.data.title : series.data.title + '.'}
   >
     <ButtonLink href="/blog/series/" showArrow>

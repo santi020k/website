@@ -213,6 +213,18 @@
   @apply grid items-start gap-5;
 }
 
+@utility page-card-grid {
+  @apply section-container-wide grid gap-4 sm:grid-cols-2 lg:gap-5;
+}
+
+@utility cta-panel {
+  @apply glass-pro rounded-[2rem] p-6 sm:p-8 lg:p-10;
+}
+
+@utility topic-meter-fill {
+  @apply h-full rounded-full bg-linear-to-r from-brand/55 to-accent/75 transition-all duration-500 motion-reduce:transition-none;
+}
+
 @property --border-angle {
   syntax: "<angle>";
   inherits: false;

@@ -396,17 +396,31 @@ import SearchDialog from './SearchDialog.astro'
     }
 
     const computePopularTopics = () => {
-      /** @type {Map<string, number>} */
+      // Blog tags ("typescript") and project technologies ("TypeScript") name the
+      // same topic with different casing; merge them by lowercase key so the list
+      // doesn't show visible near-duplicates, keeping whichever casing reads best.
+      /** @type {Map<string, { count: number, label: string, upperCount: number }>} */
       const counts = new Map()
       for (const entry of entries) {
         for (const tag of entry.tags) {
-          counts.set(tag, (counts.get(tag) ?? 0) + 1)
+          const key = tag.toLowerCase()
+          const upperCount = (tag.match(/[A-Z]/g) ?? []).length
+          const existing = counts.get(key)
+          if (existing) {
+            existing.count += 1
+            if (upperCount > existing.upperCount) {
+              existing.label = tag
+              existing.upperCount = upperCount
+            }
+          } else {
+            counts.set(key, { count: 1, label: tag, upperCount })
+          }
         }
       }
-      popularTopics = [...counts.entries()]
-        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      popularTopics = [...counts.values()]
+        .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
         .slice(0, 8)
-        .map(([tag]) => tag)
+        .map((entry) => entry.label)
     }
 
     const getDialog = () => document.querySelector('#site-search-dialog')

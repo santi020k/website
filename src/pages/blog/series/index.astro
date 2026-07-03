@@ -34,6 +34,7 @@ const breadcrumbs = [
     description="Grouped reading paths — follow a topic from start to finish without hunting the archive."
     eyebrow="Series"
     gradientText="in order."
+    metaItems={['Reading tracks', 'Practical sequence', 'Connected ideas']}
     title="Follow related posts"
   >
     <ButtonLink href="/blog/" showArrow variant="secondary">
@@ -70,11 +71,11 @@ const breadcrumbs = [
     />
 
     <div
-class="
-      grid gap-6
-      lg:grid-cols-2
-    "
-    data-stagger="70"
+      class="
+        grid gap-6
+        lg:grid-cols-2
+      "
+      data-stagger="70"
     >
       {activeSeries.map(item => (
         <SeriesCard postCount={item.postCount} series={item.series} />

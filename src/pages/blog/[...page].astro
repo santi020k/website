@@ -91,9 +91,10 @@ const blogListSchema = {
   }}
 >
   <PageHero
-    description="Practical writing on architecture, team habits, delivery systems, and the automation that helps software work feel calmer."
+    description="Practical writing on architecture, team habits, delivery systems, and the automation that helps software work feel calmer and more repeatable."
     eyebrow="Blog"
     gradientText="Architecture. Craft."
+    metaItems={['Deep dives', 'Field notes', 'Evergreen guides']}
     title="Writing about software."
   >
     <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
@@ -159,11 +160,11 @@ const blogListSchema = {
       />
 
       <div
-class="
-        grid gap-6
-        lg:grid-cols-[1.05fr_0.95fr]
-      "
-      data-stagger="70"
+        class="
+          grid gap-6
+          lg:grid-cols-[1.05fr_0.95fr]
+        "
+        data-stagger="70"
       >
         <Card
           as="article"
@@ -193,10 +194,11 @@ class="
           </div>
         </Card>
 
-        <Card class="
-          flex flex-col gap-5 p-6
-          sm:p-7
-        "
+        <Card
+          class="
+            flex flex-col gap-5 p-6
+            sm:p-7
+          "
         >
           <div class="flex flex-wrap items-center gap-2">
             <Pill label={`${santi020kWaySeries.postCount} posts`} tone="brand" />

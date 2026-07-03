@@ -42,19 +42,14 @@ const sections = [
 
 <PageLayout meta={meta}>
   <PageHero
-    description="A static portfolio with no ad trackers and no profiling. Here's the short version."
+    description="A static portfolio with no ad trackers, no profiling, and only the local preferences needed to make the site feel right."
     eyebrow="Legal"
     gradientText="without the maze."
+    metaItems={['No ad pixels', 'No profiling', 'Theme saved locally']}
     title="Privacy"
   />
 
-  <div
-    class="
-      section-container-wide grid gap-4
-      sm:grid-cols-2
-    "
-    data-stagger="60"
-  >
+  <div class="page-card-grid" data-stagger="60">
     {sections.map(({ label, body }) => (
       <Card class="h-full p-5" variant="muted">
         <p class="section-label">{label}</p>
@@ -63,28 +58,27 @@ const sections = [
     ))}
   </div>
 
-  <Card
-    class="
-      section-container-wide max-w-xl p-5
-      sm:p-6
-    "
-    variant="muted"
-  >
-    <p class="section-label">Questions</p>
-    <p class="mt-2 text-sm/7 text-ink-soft">
-      Reach out at{' '}
-      <a
-        class="
-          font-medium text-brand transition-colors
-          hover:text-accent
-        "
-        href={`mailto:${siteConfig.contact.email}`}
-      >
-        {siteConfig.contact.email}
-      </a>
-      {' '}for anything privacy-related.
-    </p>
-  </Card>
+  <section class="section-container-wide">
+    <div class="cta-panel max-w-3xl">
+      <p class="section-label text-brand">Questions</p>
+      <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">
+        Privacy questions should be easy to ask.
+      </h2>
+      <p class="mt-3 text-sm/7 text-ink-soft">
+        Reach out at{' '}
+        <a
+          class="
+            font-medium text-brand transition-colors
+            hover:text-accent
+          "
+          href={`mailto:${siteConfig.contact.email}`}
+        >
+          {siteConfig.contact.email}
+        </a>
+        {' '}for anything privacy-related.
+      </p>
+    </div>
+  </section>
 
   <div class="section-container-wide section-actions">
     <ButtonLink href="/" showArrow variant="secondary">

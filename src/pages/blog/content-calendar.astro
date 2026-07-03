@@ -37,6 +37,7 @@ const breadcrumbs = [
     description={contentCalendarDescription}
     eyebrow="Content Calendar"
     gradientText="monthly publishing rhythm."
+    metaItems={['One new post', 'One evergreen refresh', 'Series-first archive']}
     title="A documented"
   >
     <ButtonLink href="/feed.xml" showArrow>
@@ -69,11 +70,11 @@ const breadcrumbs = [
     />
 
     <div
-class="
-      grid gap-5
-      md:grid-cols-2
-    "
-    data-stagger="60"
+      class="
+        grid gap-5
+        md:grid-cols-2
+      "
+      data-stagger="60"
     >
       {editorialCalendar.map(entry => (
         <EditorialEntryCard
@@ -98,11 +99,11 @@ class="
     />
 
     <div
-class="
-      grid gap-6
-      lg:grid-cols-2
-    "
-    data-stagger="70"
+      class="
+        grid gap-6
+        lg:grid-cols-2
+      "
+      data-stagger="70"
     >
       {activeSeries.map(item => (
         <SeriesCard postCount={item.postCount} series={item.series} />

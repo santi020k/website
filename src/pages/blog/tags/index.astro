@@ -34,6 +34,7 @@ const breadcrumbs = [
     description="Browse the archive by recurring topics so related posts are easier to find without hunting through the full feed."
     eyebrow="Topics"
     gradientText="Find related writing fast."
+    metaItems={['Architecture', 'Automation', 'Developer experience']}
     title="Browse by topic."
   >
     <ButtonLink href="/blog/" showArrow variant="secondary">
@@ -135,12 +136,9 @@ const breadcrumbs = [
                     >
                       <div
                         class="
-                          h-full rounded-full transition-all duration-500
-                          motion-reduce:transition-none
+                          topic-meter-fill
                         "
-                        style={`width: ${pct}%; background: linear-gradient(
-                            90deg, hsl(var(--brand) / 0.55), hsl(var(--accent) / 0.75)
-                          );`}
+                        style={`width: ${pct}%;`}
                       />
                     </div>
                     <p class="mt-2 text-xs text-ink-muted">

@@ -12,9 +12,10 @@ const meta = {
 
 <PageLayout meta={meta}>
   <PageHero
-    description="Previously visited pages can still load from the local cache. Refresh once you're back online."
+    description="Previously visited pages can still load from the local cache. Refresh when the connection returns to get the newest version."
     eyebrow="Offline"
     gradientText="but still within reach."
+    metaItems={['Cached pages', 'Static-first', 'Refresh when online']}
     title="No connection,"
   >
     <ButtonLink href="/">
@@ -25,16 +26,18 @@ const meta = {
     </ButtonLink>
   </PageHero>
 
-  <Card
-    class="
-      section-container-wide max-w-xl p-5
-      sm:p-6
-    "
-    variant="muted"
-  >
-    <p class="section-label">What's cached</p>
-    <p class="mt-2 text-sm/7 text-ink-soft">
-      Pages you've visited before are available offline. Refresh when your connection returns to get the latest content.
-    </p>
-  </Card>
+  <section class="section-container-wide">
+    <Card
+      class="
+        max-w-xl p-5
+        sm:p-6
+      "
+      variant="muted"
+    >
+      <p class="section-label">What's cached</p>
+      <p class="mt-2 text-sm/7 text-ink-soft">
+        Pages you've visited before are available offline. The freshest posts, projects, and profile updates will appear after the browser reconnects.
+      </p>
+    </Card>
+  </section>
 </PageLayout>

@@ -3,7 +3,9 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PillCount from '@/components/atoms/PillCount.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import { Card } from '@/components/ui'
 import PageLayout from '@/layouts/Base.astro'
@@ -48,9 +50,10 @@ const meta = {
 
 <PageLayout meta={meta}>
   <PageHero
-    description="The recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, DX, and the tools around them."
+    description="The recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, developer experience, and the tools around them."
     eyebrow="Stack Index"
     gradientText="Full-stack range."
+    metaItems={['Frontend architecture', 'Testing', 'Delivery tooling']}
     title="Frontend-first stack."
   >
     <ButtonLink href="/work/" showArrow>
@@ -67,27 +70,67 @@ const meta = {
     <StatCard description="Frontend, backend, testing, delivery, and developer tooling." label="Scope" value="Full stack" />
   </StatsGrid>
 
-  <section
-    class="
-      section-container-wide grid gap-8 pt-10
-      lg:grid-cols-3
-    "
-    data-stagger="70"
-  >
-    {technologyGroups.map(group => (
-      <Card class="h-full space-y-4 p-5" variant="muted">
-        <div class="space-y-2">
-          <p class="section-label">{group.title}</p>
-          <p class="text-sm/6 text-ink-soft">{group.description}</p>
+  <PageSection>
+    <SectionHeader
+      description="Grouped by how often each tool appears in shipped work, with the most product-shaping technologies kept easiest to scan."
+      eyebrow="Technology groups"
+      title="The stack by recurrence."
+    />
+
+    <div
+      class="
+        grid gap-5
+        lg:grid-cols-3
+      "
+      data-stagger="70"
+    >
+      {technologyGroups.map(group => (
+        <Card class="h-full space-y-5 p-5" variant="muted">
+          <div class="space-y-2">
+            <p class="section-label text-brand">{group.title}</p>
+            <h2 class="text-xl font-semibold tracking-tight text-ink">
+              {group.items.length} tools
+            </h2>
+            <p class="text-sm/6 text-ink-soft">{group.description}</p>
+          </div>
+          <div class="flex flex-wrap gap-3 border-t border-line/35 pt-5">
+            {group.items.map(([technology, count]) => (
+              <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
+                <PillCount count={count} />
+              </Pill>
+            ))}
+          </div>
+        </Card>
+      ))}
+    </div>
+  </PageSection>
+
+  <section class="section-container-wide">
+    <div class="cta-panel">
+      <div
+        class="
+          grid gap-6
+          lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end
+        "
+      >
+        <div class="max-w-2xl space-y-3">
+          <p class="section-label text-brand">Trace the evidence</p>
+          <h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+            Tools are easier to trust when they point to real work.
+          </h2>
+          <p class="section-copy">
+            Each technology page filters the portfolio to the projects where that tool shaped the architecture, delivery workflow, or product experience.
+          </p>
         </div>
-        <div class="flex flex-wrap gap-3">
-          {group.items.map(([technology, count]) => (
-            <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-              <PillCount count={count} />
-            </Pill>
-          ))}
+        <div class="section-actions lg:justify-end">
+          <ButtonLink href="/portfolio/" showArrow>
+            Browse portfolio
+          </ButtonLink>
+          <ButtonLink href="/blog/" showArrow variant="secondary">
+            Read the writing
+          </ButtonLink>
         </div>
-      </Card>
-    ))}
+      </div>
+    </div>
   </section>
 </PageLayout>
