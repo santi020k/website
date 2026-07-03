@@ -14,7 +14,7 @@ import PageLayout from '@/layouts/Base.astro'
 
 import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
 
-import { engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
+import { collaborationLanes, engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
 import { AUTHOR_JOB_TITLE, sameAsProfiles, siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 
 const yearsOfExperience = YEARS_OF_EXPERIENCE
@@ -25,9 +25,39 @@ const aboutPortraitImage = await getImage({
   widths: [400, 600, 800]
 })
 
+const profileStats = [
+  {
+    description: 'Building web, mobile, backend, automation, and developer experience systems.',
+    label: 'Experience',
+    value: `${yearsOfExperience} years`
+  },
+  {
+    description: 'Largest cross-functional team led across product, design, frontend, and backend.',
+    label: 'Team leadership',
+    value: '14 people'
+  },
+  {
+    description: 'Release lead-time reduction through CI/CD and quality-gate automation.',
+    label: 'Delivery systems',
+    value: '-75%'
+  }
+]
+
+const storyBeats = [
+  'I am Santiago Molina, a full-stack engineer and tech lead based in Medellin, Colombia. I have spent the last decade-plus shipping products across commerce, SaaS, gaming, real estate, and media.',
+  'The connective tissue across that work is systems thinking: architecture that can evolve, delivery pipelines that make quality visible, and team habits that lower pressure instead of adding ceremony.',
+  'I like being close to the product and close to the code. The best technical leadership I have seen is practical, calm, and specific enough that teams can move faster without guessing what “good” means.'
+]
+
+const workingModes = [
+  'Architecture and modernization for products that need to keep shipping.',
+  'Developer experience, automation, testing, linting, and CI/CD systems that reduce review noise.',
+  'Technical leadership for teams that need clearer standards and calmer decisions under pressure.'
+]
+
 const description =
   `${yearsOfExperience} years shipping full-stack products. ` +
-  'I am Santiago Molina (@santi020k), a senior engineer and tech lead based in Medellín — focused on automation and developer experience.'
+  'I am Santiago Molina (@santi020k), a senior engineer and tech lead based in Medellin, focused on architecture, automation, and developer experience.'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -47,7 +77,7 @@ const aboutPageSchema = {
     description: siteConfig.description,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Medellín',
+      addressLocality: 'Medellin',
       addressCountry: 'CO'
     },
     email: `mailto:${siteConfig.contact.email}`,
@@ -69,52 +99,64 @@ const meta = {
 }
 ---
 
-<PageLayout meta={meta}>
-  <section class="relative pb-4">
-    <div class="
-      relative grid gap-10
-      lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center
-    "
+<PageLayout mainSpacing="home" meta={meta}>
+  <section class="section-container-wide relative pt-4 sm:pt-6 lg:pt-8">
+    <div
+      aria-hidden="true"
+      class="
+        pointer-events-none absolute top-8 right-0 -z-10 h-[30rem] w-[42rem]
+        max-w-[90vw] rounded-full bg-radial from-brand/12 via-brand-soft/8
+        to-transparent opacity-80 blur-2xl
+      "
+    />
+
+    <div
+      class="
+        grid items-center gap-10
+        lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)] lg:gap-14
+      "
     >
       <div class="relative z-10 space-y-8">
         <Eyebrow
-          label="About Santiago Molina (@santi020k)"
-          tone="brand"
           className="
             animate-slide-up whitespace-normal
             motion-reduce:animate-none
           "
+          label="About Santiago Molina (@santi020k)"
+          tone="brand"
         />
 
         <div
           class="
-            animate-slide-up space-y-4 [animation-delay:90ms]
+            animate-slide-up space-y-5 [animation-delay:90ms]
             motion-reduce:animate-none
           "
         >
-          <h1 class="sr-only">About Santiago Molina (@santi020k) — Engineering Leader</h1>
-          <h2
-            aria-hidden="true"
+          <h1
             class="
-              max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+              max-w-5xl text-4xl/[0.98] font-extrabold tracking-[-0.06em]
+              wrap-break-word
               sm:text-6xl/[0.95]
               lg:text-[5.2rem]/[0.92]
             "
           >
-            Engineering leader.
+            I build calm systems for
             <span class="
               block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
               pb-4 text-transparent
             "
-            >Full-stack architect.
+            >teams that ship.
             </span>
-          </h2>
-          <p class="
-            max-w-xl text-base/7 text-ink-soft
-            sm:text-lg/7
-          "
+          </h1>
+          <p
+            class="
+              max-w-2xl text-base/7 text-ink-soft
+              sm:text-lg/8
+            "
           >
-            Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
+            Full-stack architect and engineering leader focused on architecture,
+            automation, developer experience, and the habits that help product teams
+            move with more confidence.
           </p>
         </div>
 
@@ -128,11 +170,11 @@ const meta = {
             <ButtonLink href="/portfolio/" showArrow>
               See selected work
             </ButtonLink>
-            <ButtonLink href="/blog/" showArrow variant="secondary">
-              Read the blog
-            </ButtonLink>
             <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
-              Open résumé
+              Open resume
+            </ButtonLink>
+            <ButtonLink href="/speaking/" showArrow variant="secondary">
+              Speaking
             </ButtonLink>
           </div>
 
@@ -140,88 +182,125 @@ const meta = {
         </div>
       </div>
 
-      <AnimatedPortrait
-        src={AboutMeImage}
-        alt="Portrait of Santiago Molina (@santi020k)"
-        showFloatingBadges
-        badgeProps={{
-          location: { label: 'Base', text: 'Medellin · Remote worldwide' },
-          experience: { label: 'Experience', value: yearsOfExperience }
-        }}
-      />
+      <div
+        class="
+          animate-slide-up [animation-delay:240ms]
+          motion-reduce:animate-none
+        "
+      >
+        <AnimatedPortrait
+          alt="Portrait of Santiago Molina (@santi020k)"
+          badgeProps={{
+            location: { label: 'Base', text: 'Medellin · Remote worldwide' },
+            experience: { label: 'Experience', value: yearsOfExperience }
+          }}
+          showFloatingBadges
+          src={AboutMeImage}
+        />
+      </div>
     </div>
   </section>
 
-  <PageSection>
+  <section class="section-container-wide pt-10 sm:pt-12 lg:pt-14" aria-label="Profile highlights">
+    <div
+      class="
+        grid gap-4
+        sm:grid-cols-3
+      "
+    >
+      {profileStats.map(({ description, label, value }) => (
+        <MiniNote className="h-full p-5 sm:p-6" label={label}>
+          <p class="text-2xl font-bold text-ink">{value}</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">{description}</p>
+        </MiniNote>
+      ))}
+    </div>
+  </section>
+
+  <PageSection class="section-container-wide pt-20 sm:pt-24 lg:pt-28">
     <SectionHeader
-      eyebrow="The story"
-      title="Engineering, leadership, and the work behind it."
+      description="A less linear bio and more of a working model: what I optimize for, where I create leverage, and why the details matter."
+      eyebrow="The shape of the work"
+      title="Engineering, leadership, and delivery systems."
+      variant="shelf"
     />
 
     <div class="space-y-8">
-      <div class="max-w-2xl space-y-6 section-copy">
-        <p>
-          I'm Santiago Molina, a full-stack engineer and tech lead based in Medellín, Colombia.
-          Over the last {yearsOfExperience} years I've shipped products across commerce, SaaS, gaming,
-          and real estate — working across the entire stack from architecture and backend services to
-          CI/CD pipelines and developer tooling.
-        </p>
-
-        <p>
-          Right now my focus is on teams and systems: how to structure engineering organizations so they stay
-          fast to ship, easy to maintain, and hard to break. I care deeply about developer experience — not as
-          a buzzword, but as the measurable gap between a team that ships with confidence and one that ships
-          with anxiety. Automation is usually how you close that gap.
-        </p>
-
-        <p>
-          I've led cross-functional teams of up to 14 people spanning product, design, frontend, and backend.
-          I believe the most valuable thing a tech lead does is reduce the number of decisions engineers
-          have to make under pressure — through clear standards, good tooling, and systems that fail loudly
-          instead of silently.
-        </p>
-
-        <p>
-          Outside work I co-organize ReactJS Colombia, write about engineering workflows and DX, and find the
-          intersection between good software and good products. When I'm not at a keyboard I'm probably reading,
-          hiking, or watching something with a good score on Letterboxd.
-        </p>
+      <div class="section-copy max-w-3xl space-y-6">
+        {storyBeats.map(beat => (
+          <p>{beat}</p>
+        ))}
       </div>
 
-      <div class="
-        grid gap-3
-        sm:grid-cols-3
-      "
-      >
-        <MiniNote label="Experience">
-          <p class="text-lg font-semibold text-ink">{yearsOfExperience} years</p>
-        </MiniNote>
-        <MiniNote label="Leadership">
-          <p class="text-sm/7 text-ink-soft">Led teams of up to 14 across product, design, frontend, and backend.</p>
-        </MiniNote>
-        <MiniNote label="Focus today">
-          <p class="text-sm/7 text-ink-soft">Automation, delivery clarity, and developer experience that compounds.</p>
-        </MiniNote>
+      <div class="divider-gradient-soft" aria-hidden="true"></div>
+
+      <div class="space-y-4">
+        <h2 class="text-2xl font-semibold tracking-tight text-ink">
+          Where I usually help.
+        </h2>
+        <ul class="grid gap-3 sm:grid-cols-3">
+          {workingModes.map((mode, index) => (
+            <li
+              class="
+                flex min-h-36 flex-col justify-between rounded-[1.5rem] border
+                border-line/35 bg-surface/28 p-5
+              "
+            >
+              <span class="section-label text-brand">{String(index + 1).padStart(2, '0')}</span>
+              <p class="mt-5 text-sm/7 font-medium text-ink">{mode}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </PageSection>
 
-  <PageSection>
+  <PageSection class="section-container-wide pt-20 sm:pt-24 lg:pt-28">
     <SectionHeader
-      eyebrow="Companies & communities"
-      title="Some of the teams and communities behind the work."
-      description="A few of the products, companies, and communities behind the portfolio. The value is in the work itself, but context helps people read the case studies with the right level of trust."
+      description="These are the lanes where the work tends to create the most compounding value."
+      eyebrow="Collaboration"
+      title="Useful when the team needs range and clarity."
+    />
+
+    <div
+      class="
+        grid gap-4
+        lg:grid-cols-3
+      "
+    >
+      {collaborationLanes.map(({ description: laneDescription, fit, title }, index) => (
+        <article class="panel-card flex h-full flex-col p-6 sm:p-7">
+          <p class="section-label text-brand">{String(index + 1).padStart(2, '0')}</p>
+          <div class="mt-5 flex grow flex-col gap-4">
+            <h2 class="text-xl font-semibold tracking-tight text-ink">{title}</h2>
+            <p class="text-sm/7 text-ink-soft">{laneDescription}</p>
+            <p class="mt-auto border-t border-line/25 pt-4 text-xs/6 font-semibold text-ink-muted">
+              {fit}
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </PageSection>
+
+  <PageSection class="section-container-wide pt-20 sm:pt-24 lg:pt-28">
+    <SectionHeader
+      description="A few of the products, companies, and communities behind the portfolio. The logos are not the point; the delivery context is."
+      eyebrow="Context"
+      title="Products, clients, and communities behind the work."
+      variant="shelf"
     />
 
     <div class="space-y-6">
-      <div class="
-        grid gap-4
-        sm:grid-cols-2
-        lg:grid-cols-3
-      "
+      <div
+        class="
+          grid gap-4
+          sm:grid-cols-2
+          lg:grid-cols-3
+        "
       >
         {selectedOrganizations.map(({ context, label }) => (
-          <MiniNote label={label} className="h-full">
+          <MiniNote className="h-full p-5" label={label}>
             <p class="text-sm/7 text-ink-soft">{context}</p>
           </MiniNote>
         ))}
@@ -238,52 +317,48 @@ const meta = {
     </div>
   </PageSection>
 
-  <PageSection>
+  <PageSection class="section-container-wide pt-20 sm:pt-24 lg:pt-28">
     <SectionHeader
+      description="The operating principles I come back to when a product is moving fast and the team needs decisions that hold."
       eyebrow="Principles"
       title="What I believe about engineering."
-      description="A few things that shape how I work, how I lead, and what I focus on."
     />
 
-    <div class="
-      grid gap-6
-      sm:grid-cols-2
-    "
+    <div
+      class="
+        grid gap-5
+        sm:grid-cols-2
+      "
     >
-      {engineeringPrinciples.map(({ title, body }, index) => (
-        <PrincipleCard
-          index={index}
-          title={title}
-          body={body}
-          featured={index === 0}
-        />
+      {engineeringPrinciples.map(({ body, title }, index) => (
+        <PrincipleCard body={body} featured={index === 0} index={index} title={title} />
       ))}
     </div>
   </PageSection>
 
-  <PageSection>
+  <PageSection class="section-container-wide pt-20 sm:pt-24 lg:pt-28">
     <SectionHeader
+      description="The recurring pattern is not only technical skill. It is communication, reliability, and helping people do better work together."
       eyebrow="Recommendations"
       title="What collaborators say about the work."
-      description="A few direct quotes from colleagues, managers, and clients. The recurring patterns across them are summarised below."
+      variant="shelf"
     />
 
-    <div class="space-y-10">
+    <div class="space-y-8">
       <div
         class="
-          grid gap-6
+          grid gap-5
           sm:grid-cols-2
         "
-        data-stagger="80"
       >
         {testimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
           <TestimonialCard
-            quote={quote}
             authorName={name}
-            role={role}
-            relationship={relationship}
             avatarInitials={avatarInitials}
             avatarUrl={avatarUrl}
+            quote={quote}
+            relationship={relationship}
+            role={role}
           />
         ))}
       </div>
@@ -295,4 +370,54 @@ const meta = {
       </div>
     </div>
   </PageSection>
+
+  <section
+    class="
+      section-container-wide relative pt-20
+      sm:pt-24
+      lg:pt-28
+    "
+  >
+    <div
+      class="
+        glass-pro relative overflow-hidden rounded-[2rem] p-6
+        sm:p-8
+        lg:p-10
+      "
+    >
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute -right-24 -bottom-28 h-72 w-72 rounded-full
+          bg-radial from-brand/18 via-accent/8 to-transparent blur-2xl
+        "
+      />
+      <div
+        class="
+          relative grid gap-8
+          lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end
+        "
+      >
+        <div class="max-w-3xl space-y-4">
+          <p class="section-label text-brand">Next step</p>
+          <h2 class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            Want the fuller picture?
+          </h2>
+          <p class="section-copy">
+            The portfolio has the project evidence; the blog has the thinking behind
+            the decisions. Start wherever the signal is most useful.
+          </p>
+        </div>
+
+        <div class="section-actions lg:justify-end">
+          <ButtonLink href="/portfolio/" showArrow>
+            View portfolio
+          </ButtonLink>
+          <ButtonLink href="/blog/" showArrow variant="secondary">
+            Read the blog
+          </ButtonLink>
+        </div>
+      </div>
+    </div>
+  </section>
 </PageLayout>

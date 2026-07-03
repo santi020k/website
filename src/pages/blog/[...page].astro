@@ -138,7 +138,7 @@ const blogListSchema = {
 
       <TagFilter showDivider={!!featuredPost} tags={topTags} />
 
-      <div class="post-grid" data-stagger>
+      <div class="post-grid">
         {gridPosts.map(post => (
           <PostCard post={post} />
         ))}
@@ -229,7 +229,7 @@ const blogListSchema = {
         title="Follow related posts in order."
       />
 
-      <div class="post-grid" data-stagger>
+      <div class="post-grid">
         {activeSeries.map(item => (
           <SeriesCard postCount={item.postCount} series={item.series} />
         ))}
@@ -250,7 +250,6 @@ const blogListSchema = {
       <div class="max-w-xl space-y-4">
         <div
           class="flex flex-col gap-4"
-          data-stagger
         >
           {roadmapPreview.map(entry => (
             <EditorialEntryCard

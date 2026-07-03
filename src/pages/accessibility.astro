@@ -54,7 +54,6 @@ const sections = [
         grid gap-4
         sm:grid-cols-2
       "
-      data-stagger="60"
     >
       {sections.map(({ label, body }) => (
         <Card class="h-full p-5" variant="muted">
@@ -69,7 +68,6 @@ const sections = [
         max-w-xl p-5
         sm:p-6
       "
-      data-animate
       variant="muted"
     >
       <p class="section-label">Report a barrier</p>
@@ -89,7 +87,7 @@ const sections = [
     </Card>
   </article>
 
-  <div class="section-actions" data-animate>
+  <div class="section-actions">
     <ButtonLink href="/" showArrow variant="secondary">
       Back home
     </ButtonLink>

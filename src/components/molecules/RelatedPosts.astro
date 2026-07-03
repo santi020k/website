@@ -35,7 +35,6 @@ const relatedPosts = await getRelatedPosts({
         grid gap-6
         sm:grid-cols-2
       "
-      data-stagger="80"
     >
       {relatedPosts.map(post => (
         <PostCard post={post} />

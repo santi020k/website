@@ -8,7 +8,6 @@ import SiteFooter from '@/components/organisms/SiteFooter.astro'
 import SiteHeader from '@/components/organisms/SiteHeader.astro'
 import BaseHead from '@/components/shared/BaseHead.astro'
 import NavProgress from '@/components/shared/NavProgress.astro'
-import ScrollReveal from '@/components/shared/ScrollReveal.astro'
 import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistration.astro'
 import ThemeProvider from '@/components/shared/ThemeProvider.astro'
 import UIPrimitives from '@/components/shared/UIPrimitives.astro'
@@ -109,7 +108,6 @@ const isHomeSpacing = mainSpacing === 'home'
 
     <BackToTop />
     <NavProgress />
-    <ScrollReveal />
     <UIPrimitives />
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
 

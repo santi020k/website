@@ -44,7 +44,7 @@ const contactChannels = [
 
 {compact ?
   (
-    <div class="grid gap-3" data-stagger="80">
+    <div class="grid gap-3">
       {contactChannels.map(({ href, icon, label, newTab = false, value }) => (
         <a
           class="
@@ -116,7 +116,6 @@ const contactChannels = [
         grid gap-8 pt-10
         lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
       "
-      data-animate
     >
       <div class="space-y-3">
         <p class="section-label text-brand">Contact</p>
