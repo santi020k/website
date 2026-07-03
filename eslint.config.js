@@ -33,6 +33,7 @@ export default await defineConfig({
       '^tag-glass-card$',
       '^tag-glass-inner$',
       '^tag-glass-tint$',
+      '^section-container-wide$',
       '^mini-card$',
       '^shine-effect$',
       '^icon-wrapper$',

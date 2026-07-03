@@ -20,6 +20,9 @@ const isAvailableForBanner =
   sticky top-0 z-50 flex flex-col gap-2.5 p-4
   sm:px-6
   lg:px-8
+  xl:px-10
+  2xl:px-12
+  min-[2200px]:px-10
 "
 >
   {isAvailableForBanner && (
@@ -179,8 +182,7 @@ const isAvailableForBanner =
                     `,
                     isActive ?
                       `
-                        bg-brand-soft/42 text-brand
-                        shadow-[inset_0_1px_0_hsl(0_0%_100%/0.18),0_8px_22px_hsl(var(--brand)/0.08)]
+                        text-brand
                       ` :
                       `
                         text-ink-soft

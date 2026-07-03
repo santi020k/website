@@ -47,9 +47,6 @@ const featureImage = featuredProject?.data.coverImage?.horizontal ??
   featuredProject?.data.coverImage?.src ??
   featuredProject?.data.coverImage?.vertical
 const featureLogo = featuredProject?.data.coverImage?.logo
-const featureTimeline = featuredProject ?
-  getProjectTimelineLabel(featuredProject.data.startingDate, featuredProject.data.endingDate) :
-  ''
 const featureStatus = featuredProject?.data.endingDate ? 'Completed' : 'Active'
 const hasMetrics = Boolean(featuredProject?.data.impactMetrics.length)
 type LogoAspect = 'square' | 'tall' | 'wide'
@@ -192,7 +189,7 @@ const supportingLogoSurfaceClass = {
                   via-transparent to-transparent opacity-80
                 "
               />
-              <div class="absolute inset-x-5 top-5 flex items-start justify-between gap-3">
+              <div class="absolute inset-x-5 top-5 flex items-start gap-3">
                 <span
                   class="
                     inline-flex items-center gap-2 rounded-full border border-white/30
@@ -207,15 +204,6 @@ const supportingLogoSurfaceClass = {
                     style="background: hsl(var(--showcase-accent));"
                   />
                   {featureStatus}
-                </span>
-                <span
-                  class="
-                    rounded-full border border-white/30 bg-surface/72 px-3 py-1.5
-                    text-xs font-semibold text-ink-muted shadow-sm backdrop-blur-xl
-                    dark:border-white/14 dark:bg-white/10 dark:text-white/72
-                  "
-                >
-                  {featureTimeline}
                 </span>
               </div>
               {!featureImage && featureLogo && (

@@ -75,6 +75,17 @@
   }
 }
 
+@media (min-width: 2200px) {
+  .site-header-shell,
+  [data-availability-strip] {
+    max-width: 108rem;
+  }
+
+  .site-header-shell {
+    padding-inline: 1.75rem;
+  }
+}
+
 /* ─── Mobile Nav Panel Animations ───────────────────────────────────────────── */
 
 @utility site-mobile-nav-toggle {

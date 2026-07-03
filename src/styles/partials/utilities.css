@@ -448,7 +448,7 @@
  */
 @utility section-container-wide {
   width: 100%;
-  max-width: 72rem;
+  max-width: 76rem;
   margin-inline: auto;
 }
 
