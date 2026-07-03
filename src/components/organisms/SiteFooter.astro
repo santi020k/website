@@ -37,6 +37,11 @@ const policyLinks = [
   { href: '/privacy/', icon: 'tabler:shield-lock', label: 'Privacy & analytics' }
 ]
 
+const footerMeta = [
+  { icon: 'tabler:map-pin', label: 'Location', value: siteConfig.location },
+  { icon: 'tabler:briefcase-2', label: 'Availability', value: siteConfig.availability }
+]
+
 const isLinkActive = (linkPath: string): boolean => {
   if (linkPath === '/') return currentPath === '/'
 
@@ -173,240 +178,232 @@ const isLinkActive = (linkPath: string): boolean => {
 
     <section
       class="
-        relative z-10 mt-16 py-10
+        relative z-10 mt-14 py-10
         before:pointer-events-none before:absolute before:inset-y-0
         before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2
         before:border-y before:border-line/35 before:bg-surface-muted/20
-        sm:mt-18 sm:py-12
-        lg:mt-20
+        sm:mt-16 sm:py-12
+        lg:mt-18
       "
       aria-label="Footer directory"
     >
       <div
+        aria-hidden="true"
         class="
-          grid gap-10
-          sm:grid-cols-2
-          lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.9fr)_minmax(0,0.9fr)_minmax(0,0.8fr)]
+          pointer-events-none absolute inset-x-0 top-0 h-px
+          bg-linear-to-r from-transparent via-brand/35 to-transparent
+        "
+      />
+
+      <div
+        class="
+          grid gap-8
+          md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.45fr)]
           lg:gap-12
         "
         data-stagger="60"
       >
-
-      <!-- Brand column -->
-      <div class="space-y-5">
-        <a
-          aria-label="Santiago Molina — home"
-          class="
-            inline-block transition duration-200
-            hover:opacity-80
-            motion-reduce:transition-none
-          "
-          href="/"
-        >
-          <div class="
-            h-8 w-auto
-            dark:hidden
-          "
-          >
-            <AnimatedLogo variant="light" class="h-full w-auto" />
-          </div>
-          <div class="
-            hidden h-8 w-auto
-            dark:block
-          "
-          >
-            <AnimatedLogo variant="dark" class="h-full w-auto" />
-          </div>
-        </a>
-
-        <p class="max-w-[30ch] text-sm/6 text-ink-soft">
-          Engineering leader and full-stack architect. Building resilient systems and empowering developer teams.
-        </p>
-
-        <dl
-          class="
-            grid max-w-sm gap-2 text-xs text-ink-muted
-            sm:grid-cols-2
-            lg:grid-cols-1
-          "
-        >
-          <div class="
-            flex items-center gap-2 rounded-full border border-line/45
-            bg-surface/35 px-3 py-2
-          "
-          >
-            <dt class="sr-only">Location</dt>
-            <Icon aria-hidden="true" class="size-3.5 shrink-0" name="tabler:map-pin" />
-            <dd>{siteConfig.location}</dd>
-          </div>
-          <div class="
-            flex items-center gap-2 rounded-full border border-line/45
-            bg-surface/35 px-3 py-2
-          "
-          >
-            <dt class="sr-only">Availability</dt>
-            {isAvailable ?
-              (
-                <>
-                  <span class="relative flex size-1.5 shrink-0">
-                    <span class="
-                      absolute inline-flex size-full animate-ping rounded-full
-                      bg-success/75 opacity-75
-                      motion-reduce:animate-none
-                    "
-                    />
-                    <span class="
-                      relative inline-flex size-1.5 rounded-full bg-success
-                    "
-                    />
-                  </span>
-                  <dd class="text-success">{siteConfig.availability}</dd>
-                </>
-              ) :
-              (
-                <dd>{siteConfig.availability}</dd>
-              )}
-          </div>
-        </dl>
-      </div>
-
-      <!-- Navigate column -->
-      <nav aria-label="Footer navigation">
-        <p class="mb-5 section-label">Navigate</p>
-        <ul class="space-y-2.5">
-          {navLinks.map(link => {
-            const active = isLinkActive(link.path)
-
-            return (
-              <li>
-                <a
-                  aria-current={active ? 'page' : undefined}
-                  class:list={[
-                    `
-                      group inline-flex items-center gap-2 text-sm
-                      transition-colors duration-200
-                      motion-reduce:transition-none
-                    `,
-                    active ?
-                      'font-semibold text-brand' :
-                      `
-                        text-ink-soft
-                        hover:text-ink
-                      `
-                  ]}
-                  href={link.path}
-                >
-                  {active && (
-                    <span
-                      aria-hidden="true"
-                      class="size-1.5 shrink-0 rounded-full bg-brand"
-                    />
-                  )}
-                  {link.title}
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-      </nav>
-
-      <!-- Connect column -->
-      <div>
-        <p class="mb-5 section-label">Connect</p>
-        <ul class="space-y-2.5">
-          {connectLinks.map(({ href, icon, label, rel }) => (
-            <li>
-              <a
-                class="
-                  group inline-flex items-center gap-2 text-sm text-ink-soft
-                  transition-colors duration-200
-                  hover:text-ink
-                  motion-reduce:transition-none
-                "
-                href={href}
-                rel={rel}
-                target="_blank"
+        <div class="flex flex-col justify-between gap-7">
+          <div class="space-y-5">
+            <a
+              aria-label="Santiago Molina home"
+              class="
+                inline-flex transition duration-200
+                hover:opacity-80
+                motion-reduce:transition-none
+              "
+              href="/"
+            >
+              <span class="
+                h-8 w-auto
+                dark:hidden
+              "
               >
-                <Icon
-                  aria-hidden="true"
+                <AnimatedLogo variant="light" class="h-full w-auto" />
+              </span>
+              <span class="
+                hidden h-8 w-auto
+                dark:block
+              "
+              >
+                <AnimatedLogo variant="dark" class="h-full w-auto" />
+              </span>
+            </a>
+
+            <p class="max-w-sm text-sm/6 text-ink-soft">
+              Engineering leader and full-stack architect building resilient systems, useful tools, and steady developer teams.
+            </p>
+          </div>
+
+          <dl class="grid gap-3 text-sm">
+            {footerMeta.map(({ icon, label, value }) => {
+              const availabilityItem = label === 'Availability'
+
+              return (
+                <div
                   class="
-                    size-4 shrink-0 text-ink-muted transition-[color,transform]
-                    duration-200
-                    group-hover:-translate-y-px group-hover:text-brand
-                    motion-reduce:transition-none
-                    motion-reduce:group-hover:translate-y-0
+                    grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 rounded-2xl
+                    border border-line/45 bg-surface/35 px-3.5 py-3
                   "
-                  name={icon}
-                />
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Resources column -->
-      <div>
-        <p class="mb-5 section-label">Resources</p>
-        <ul class="space-y-2.5">
-          {resourceLinks.map(({ icon, path, title }) => {
-            const active = isLinkActive(path)
-
-            return (
-              <li>
-                <a
-                  aria-current={active ? 'page' : undefined}
-                  class:list={[
-                    `
-                      group inline-flex items-center gap-2 text-sm
-                      transition-colors duration-200
-                      motion-reduce:transition-none
-                    `,
-                    active ?
-                      'font-semibold text-brand' :
-                      `
-                        text-ink-soft
-                        hover:text-ink
-                      `
-                  ]}
-                  href={path}
                 >
                   <Icon
                     aria-hidden="true"
                     class:list={[
-                      `
-                        size-4 shrink-0 transition-[color,transform]
-                        duration-200
-                        group-hover:-translate-y-px
-                        motion-reduce:transition-none
-                        motion-reduce:group-hover:translate-y-0
-                      `,
-                      active ?
-                        'text-brand' :
-                        `
-                          text-ink-muted
-                          group-hover:text-brand
-                        `
+                      'mt-0.5 size-4 shrink-0',
+                      availabilityItem && isAvailable ? 'text-success' : 'text-brand'
                     ]}
                     name={icon}
                   />
-                  {title}
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
+                  <dt class="section-label text-[0.65rem]">{label}</dt>
+                  <dd
+                    class:list={[
+                      'col-start-2 mt-0.5 text-sm/5',
+                      availabilityItem && isAvailable ? 'text-success' : 'text-ink-soft'
+                    ]}
+                  >
+                    {value}
+                  </dd>
+                </div>
+              )
+            })}
+          </dl>
+        </div>
 
+        <div
+          class="
+            grid gap-8 border-line/45
+            md:border-l md:pl-8
+            lg:grid-cols-3 lg:gap-8 lg:pl-12
+          "
+        >
+          <nav aria-label="Footer navigation">
+            <p class="mb-4 section-label">Navigate</p>
+            <ul class="grid gap-1.5">
+              {navLinks.map(link => {
+                const active = isLinkActive(link.path)
+
+                return (
+                  <li>
+                    <a
+                      aria-current={active ? 'page' : undefined}
+                      class:list={[
+                        `
+                          group flex min-h-9 items-center gap-2 rounded-xl px-2.5
+                          text-sm transition-[background-color,color,transform]
+                          duration-200
+                          hover:bg-brand/8 hover:text-ink
+                          motion-safe:hover:translate-x-0.5
+                          motion-reduce:transition-none
+                          motion-reduce:hover:translate-x-0
+                        `,
+                        active ?
+                          'bg-brand/10 font-semibold text-brand' :
+                          'text-ink-soft'
+                      ]}
+                      href={link.path}
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        class:list={[
+                          'size-4 shrink-0 transition-colors duration-200 motion-reduce:transition-none',
+                          active ? 'text-brand' : 'text-ink-muted group-hover:text-brand'
+                        ]}
+                        name={link.icon}
+                      />
+                      {link.title}
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
+
+          <div>
+            <p class="mb-4 section-label">Connect</p>
+            <ul class="grid gap-1.5">
+              {connectLinks.map(({ href, icon, label, rel }) => (
+                <li>
+                  <a
+                    class="
+                      group flex min-h-9 items-center gap-2 rounded-xl px-2.5
+                      text-sm text-ink-soft
+                      transition-[background-color,color,transform] duration-200
+                      hover:bg-brand/8 hover:text-ink
+                      motion-safe:hover:translate-x-0.5
+                      motion-reduce:transition-none
+                      motion-reduce:hover:translate-x-0
+                    "
+                    href={href}
+                    rel={rel}
+                    target={href.startsWith('http') ? '_blank' : undefined}
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      class="
+                        size-4 shrink-0 text-ink-muted transition-colors duration-200
+                        group-hover:text-brand
+                        motion-reduce:transition-none
+                      "
+                      name={icon}
+                    />
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p class="mb-4 section-label">Resources</p>
+            <ul class="grid gap-1.5">
+              {resourceLinks.map(({ icon, path, title }) => {
+                const active = isLinkActive(path)
+
+                return (
+                  <li>
+                    <a
+                      aria-current={active ? 'page' : undefined}
+                      class:list={[
+                        `
+                          group flex min-h-9 items-center gap-2 rounded-xl px-2.5
+                          text-sm transition-[background-color,color,transform]
+                          duration-200
+                          hover:bg-brand/8 hover:text-ink
+                          motion-safe:hover:translate-x-0.5
+                          motion-reduce:transition-none
+                          motion-reduce:hover:translate-x-0
+                        `,
+                        active ?
+                          'bg-brand/10 font-semibold text-brand' :
+                          'text-ink-soft'
+                      ]}
+                      href={path}
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        class:list={[
+                          'size-4 shrink-0 transition-colors duration-200 motion-reduce:transition-none',
+                          active ? 'text-brand' : 'text-ink-muted group-hover:text-brand'
+                        ]}
+                        name={icon}
+                      />
+                      {title}
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Bottom bar -->
     <div
       class="
-        mt-8 flex flex-col gap-3 text-xs text-ink-muted
+        mt-5 flex flex-col gap-3 px-1 text-xs text-ink-muted
         opacity-100
-        sm:mt-10
+        sm:mt-6
         sm:flex-row sm:items-center sm:justify-between
       "
     >

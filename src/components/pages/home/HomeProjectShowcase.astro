@@ -318,7 +318,7 @@ const supportingLogoSurfaceClass = {
               </span>
             </div>
           </div>
-          <ol class="flex grow flex-col divide-y divide-line/55">
+          <ol class="flex grow flex-col gap-2">
             {supportingProjects.map((project, index) => {
               const projectLink = getPortfolioPath(project.id)
               const projectTimeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
@@ -328,7 +328,7 @@ const supportingLogoSurfaceClass = {
               const projectLogoSurface: LogoSurface = project.data.coverImage?.logoSurface ?? 'neutral'
 
               return (
-                <li class="flex flex-1">
+                <li class="relative flex flex-1" data-showcase-row>
                   <a
                     data-showcase-item
                     class="
@@ -407,8 +407,8 @@ const supportingLogoSurfaceClass = {
                       class="
                         absolute right-4 top-4 flex size-8 items-center justify-center rounded-full
                         border border-line/45 bg-surface/20 text-ink-muted opacity-80 transition duration-200
-                        group-hover:border-brand/35 group-hover:bg-surface/70
-                        group-hover:shadow-[0_12px_26px_hsl(var(--brand)/0.12)]
+                        group-hover:border-brand/30 group-hover:bg-surface/55
+                        group-hover:shadow-[0_10px_22px_hsl(var(--brand)/0.09)]
                         group-hover:text-[hsl(var(--showcase-accent))]
                         motion-safe:group-hover:translate-x-0.5
                         motion-reduce:transition-none
@@ -479,6 +479,16 @@ const supportingLogoSurfaceClass = {
     isolation: isolate;
   }
 
+  [data-showcase-row] + [data-showcase-row]::before {
+    content: "";
+    position: absolute;
+    top: -0.25rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    height: 1px;
+    background: hsl(var(--line) / 0.48);
+  }
+
   [data-showcase-item]::before,
   [data-showcase-item]::after {
     content: "";
@@ -493,29 +503,31 @@ const supportingLogoSurfaceClass = {
   [data-showcase-item]::before {
     inset: 0;
     z-index: -1;
-    border: 1px solid hsl(var(--showcase-accent) / 0.18);
+    border: 1px solid hsl(var(--showcase-accent) / 0.11);
     border-radius: inherit;
     background:
       linear-gradient(
         135deg,
-        hsl(var(--surface) / 0.74),
-        hsl(var(--brand-soft) / 0.62) 54%,
-        hsl(var(--surface) / 0.48)
+        hsl(var(--surface) / 0.62),
+        hsl(var(--brand-soft) / 0.38) 54%,
+        hsl(var(--surface) / 0.34)
       ),
       radial-gradient(
         ellipse 58% 82% at 7% 18%,
-        hsl(var(--showcase-accent) / 0.16),
+        hsl(var(--showcase-accent) / 0.10),
         transparent 70%
       );
     box-shadow:
-      0 18px 36px hsl(230 30% 8% / 0.055),
-      inset 0 1px 0 hsl(0 0% 100% / 0.22);
+      0 14px 28px hsl(230 30% 8% / 0.04),
+      inset 0 1px 0 hsl(0 0% 100% / 0.18);
     transform: scale(0.985);
   }
 
   [data-showcase-item]::after {
-    inset: 0 auto 0 0;
-    width: 3px;
+    top: 2rem;
+    bottom: 2rem;
+    left: 0;
+    width: 2px;
     z-index: 0;
     border-radius: 999px;
     background: hsl(var(--showcase-accent));
@@ -530,25 +542,25 @@ const supportingLogoSurfaceClass = {
 
   [data-showcase-item]:hover::after,
   [data-showcase-item]:focus-visible::after {
-    opacity: 1;
-    transform: scaleY(0.72);
+    opacity: 0.72;
+    transform: scaleY(0.62);
   }
 
   :global(:root[data-theme='dark']) [data-showcase-item]::before {
     background:
       linear-gradient(
         135deg,
-        hsl(var(--surface) / 0.58),
-        hsl(var(--brand-soft) / 0.48) 58%,
-        hsl(var(--surface-muted) / 0.38)
+        hsl(var(--surface) / 0.50),
+        hsl(var(--brand-soft) / 0.34) 58%,
+        hsl(var(--surface-muted) / 0.30)
       ),
       radial-gradient(
         ellipse 58% 82% at 7% 18%,
-        hsl(var(--showcase-accent) / 0.18),
+        hsl(var(--showcase-accent) / 0.12),
         transparent 70%
       );
     box-shadow:
-      0 18px 38px hsl(260 44% 4% / 0.24),
+      0 14px 30px hsl(260 44% 4% / 0.18),
       inset 0 1px 0 hsl(0 0% 100% / 0.11);
   }
 

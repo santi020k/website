@@ -22,7 +22,7 @@ const { yearsOfExperience } = Astro.props
     relative left-1/2 isolate -mt-12 flex w-screen -translate-x-1/2 items-center
     overflow-visible px-5 pt-24 pb-16
     sm:px-6 sm:pt-28 sm:pb-20
-    lg:-mt-39 lg:min-h-svh lg:overflow-hidden lg:px-8 lg:pt-28 lg:pb-20
+    lg:-mt-39 lg:min-h-svh lg:overflow-hidden lg:px-8 lg:pt-28 lg:pb-18
     xl:px-10
     2xl:px-12 2xl:pt-24 2xl:pb-16
     min-[2200px]:px-10
@@ -50,13 +50,13 @@ const { yearsOfExperience } = Astro.props
   />
   <div
     class="
-      mx-auto grid w-full max-w-[92rem] gap-10
-      lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center lg:gap-14
-      2xl:max-w-[100rem] 2xl:grid-cols-[minmax(0,1fr)_26rem] 2xl:gap-24
+      mx-auto grid w-full max-w-[80rem] gap-10
+      lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center lg:gap-12
+      2xl:max-w-[84rem] 2xl:grid-cols-[minmax(0,1fr)_23rem] 2xl:gap-16
       2xl:-translate-y-6
-      min-[2200px]:max-w-[120rem]
-      min-[2200px]:grid-cols-[minmax(0,1fr)_32rem]
-      min-[2200px]:gap-32 min-[2200px]:-translate-y-10
+      min-[2200px]:max-w-[92rem]
+      min-[2200px]:grid-cols-[minmax(0,1fr)_25rem]
+      min-[2200px]:gap-18 min-[2200px]:-translate-y-10
     "
     data-home-hero-grid
   >
@@ -138,9 +138,9 @@ const { yearsOfExperience } = Astro.props
         relative isolate mx-auto w-full max-w-[19rem] animate-reveal-lcp
         motion-reduce:animate-none
         sm:max-w-[22rem]
-        xl:max-w-[23rem]
-        2xl:max-w-[25rem]
-        min-[2200px]:max-w-[31rem]
+        xl:max-w-[22rem]
+        2xl:max-w-[23rem]
+        min-[2200px]:max-w-[25rem]
       "
       data-home-hero-portrait
     >
@@ -388,17 +388,17 @@ const { yearsOfExperience } = Astro.props
 
   @media (min-width: 2400px) {
     [data-home-hero-grid] {
-      grid-template-columns: minmax(0, 1fr) 30rem;
-      gap: 5rem;
+      grid-template-columns: minmax(0, 1fr) 25rem;
+      gap: 4.5rem;
     }
 
     [data-home-hero-heading] {
-      font-size: 7.4rem;
+      font-size: 6.8rem;
       line-height: 0.84;
     }
 
     [data-home-hero-portrait] {
-      max-width: 30rem;
+      max-width: 25rem;
     }
   }
 </style>

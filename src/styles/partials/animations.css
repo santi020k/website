@@ -201,7 +201,7 @@
 @keyframes reveal-rise {
   from {
     opacity: 0;
-    transform: translateY(18px) scale(0.99);
+    transform: translateY(32px) scale(0.98);
   }
 
   to {
@@ -238,10 +238,12 @@
     animation: reveal-rise both;
     /* Must come after the shorthand — `animation:` resets timeline/range. */
     animation-timeline: view();
-    /* Scrub across the first 14rem the element travels into the viewport:
-       fixed travel distance behaves consistently for short cards and tall
-       sections alike, and content already in view on load starts complete. */
-    animation-range: cover 0rem cover 14rem;
+    /* Scrub across the first 24rem the element travels into the viewport, so
+       the rise is clearly visible during normal scrolling and completes about
+       a third of the way up the screen. Fixed travel distance behaves
+       consistently for short cards and tall sections alike, and content
+       already in view on load starts complete. */
+    animation-range: cover 0rem cover 24rem;
   }
 
   /* Fade-only variant — use data-animate="fade" */
