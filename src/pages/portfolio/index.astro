@@ -28,6 +28,7 @@ const sections = [
 ---
 
 <PageLayout
+  mainSpacing="home"
   meta={{
     breadcrumbs,
     description: 'Engineering portfolio of Santiago Molina — browse client and product work or personal projects and open source.',
@@ -50,9 +51,10 @@ const sections = [
 
   <section
     class="
-      grid gap-6
+      section-container-wide grid gap-6
       sm:grid-cols-2
     "
+    data-stagger="70"
   >
     {sections.map(({ buttonLabel, description, href, label, title }) => (
       <Card class="flex flex-col gap-6 p-7">

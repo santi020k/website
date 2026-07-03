@@ -89,12 +89,14 @@ const structuredData = [
 ]
 ---
 
-<PageLayout meta={{
-  breadcrumbs,
-  description,
-  structuredData,
-  title: 'Speaking & Workshops'
-}}
+<PageLayout
+  mainSpacing="home"
+  meta={{
+    breadcrumbs,
+    description,
+    structuredData,
+    title: 'Speaking & Workshops'
+  }}
 >
   <PageHero
     description="Practical, opinionated sessions grounded in shipped work — leadership, architecture, DX, and the decisions that make teams faster or slower."
@@ -127,6 +129,7 @@ const structuredData = [
         grid gap-6
         sm:grid-cols-2
       "
+      data-stagger="70"
     >
       {selectedSessions.map(talk => (
         <TalkCard
@@ -155,6 +158,7 @@ const structuredData = [
         grid gap-4
         sm:grid-cols-2
       "
+      data-stagger="70"
     >
       <Card class="h-full p-5" variant="muted">
         <p class="section-label">ReactJS Colombia</p>
@@ -186,6 +190,7 @@ const structuredData = [
           grid gap-4
           sm:grid-cols-3
         "
+        data-stagger="60"
       >
         {bookingNotes.map(note => (
           <Card class="h-full p-5" variant="muted">
@@ -216,6 +221,7 @@ const structuredData = [
         grid gap-6
         sm:grid-cols-2
       "
+      data-stagger="70"
     >
       {speakingTopics.map(topic => (
         <TalkCard description={topic.description} title={topic.title} variant="topic" />
@@ -234,6 +240,7 @@ const structuredData = [
         grid gap-6
         sm:grid-cols-2
       "
+      data-stagger="70"
     >
       {speakingFormats.map(format => (
         <TalkCard description={format.description} title={format.title} variant="format" />

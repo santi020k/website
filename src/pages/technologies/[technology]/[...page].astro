@@ -58,7 +58,7 @@ const meta = {
 
 ---
 
-<PageLayout meta={meta}>
+<PageLayout mainSpacing="home" meta={meta}>
   <PageHero
     description={`Projects where ${technology} played a meaningful role in the architecture, delivery workflow,
       or product experience.`}
@@ -80,10 +80,11 @@ const meta = {
 
   <section
     class="
-      grid gap-6 pt-10
+      section-container-wide grid gap-6 pt-10
       md:grid-cols-2
       xl:grid-cols-3
     "
+    data-stagger="60"
   >
     {page.data.map(project => (
       <ProjectPreviewCard

@@ -12,7 +12,16 @@ const { description, eyebrow, gradientText, title } = Astro.props
 const hasActions = Astro.slots.has('default')
 ---
 
-<section class="relative pb-4">
+<section class="section-container-wide relative overflow-hidden pt-4 pb-4 sm:pt-6 lg:pt-8">
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute top-4 right-0 -z-10 h-[28rem] w-[42rem]
+      max-w-[90vw] rounded-full bg-radial from-brand/12 via-brand-soft/8
+      to-transparent opacity-80 blur-2xl
+    "
+  />
+
   <div class="relative z-10 space-y-8">
     <Eyebrow
       className="
@@ -29,7 +38,8 @@ const hasActions = Astro.slots.has('default')
     "
     >
       <h1 class="
-        max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+        max-w-5xl text-4xl/[0.98] font-extrabold tracking-[-0.06em]
+        wrap-break-word
         sm:text-6xl/[0.95]
         lg:text-[5.2rem]/[0.92]
       "
@@ -44,8 +54,8 @@ const hasActions = Astro.slots.has('default')
         </span>
       </h1>
       <p class="
-        max-w-xl text-base/7 text-ink-soft
-        sm:text-lg/7
+        max-w-2xl text-base/7 text-ink-soft
+        sm:text-lg/8
       "
       >{description}
       </p>

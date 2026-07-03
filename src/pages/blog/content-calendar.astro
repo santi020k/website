@@ -27,6 +27,7 @@ const breadcrumbs = [
 ---
 
 <PageLayout
+  mainSpacing="home"
   meta={{
     breadcrumbs,
     description: 'A documented monthly publishing rhythm for Santiago Molina, including upcoming topics, evergreen refreshes, and active writing series.',
@@ -68,10 +69,12 @@ const breadcrumbs = [
       title="What is scheduled from April through September 2026."
     />
 
-    <div class="
+    <div
+class="
       grid gap-5
       md:grid-cols-2
     "
+    data-stagger="60"
     >
       {editorialCalendar.map(entry => (
         <EditorialEntryCard
@@ -95,10 +98,12 @@ const breadcrumbs = [
       title="Current writing series."
     />
 
-    <div class="
+    <div
+class="
       grid gap-6
       lg:grid-cols-2
     "
+    data-stagger="70"
     >
       {activeSeries.map(item => (
         <SeriesCard postCount={item.postCount} series={item.series} />

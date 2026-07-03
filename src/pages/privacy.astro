@@ -40,7 +40,7 @@ const sections = [
 ]
 ---
 
-<PageLayout meta={meta}>
+<PageLayout mainSpacing="home" meta={meta}>
   <PageHero
     description="A static portfolio with no ad trackers and no profiling. Here's the short version."
     eyebrow="Legal"
@@ -50,9 +50,10 @@ const sections = [
 
   <div
     class="
-      grid gap-4
+      section-container-wide grid gap-4
       sm:grid-cols-2
     "
+    data-stagger="60"
   >
     {sections.map(({ label, body }) => (
       <Card class="h-full p-5" variant="muted">
@@ -64,7 +65,7 @@ const sections = [
 
   <Card
     class="
-      max-w-xl p-5
+      section-container-wide max-w-xl p-5
       sm:p-6
     "
     variant="muted"
@@ -85,7 +86,7 @@ const sections = [
     </p>
   </Card>
 
-  <div class="section-actions">
+  <div class="section-container-wide section-actions">
     <ButtonLink href="/" showArrow variant="secondary">
       Back home
     </ButtonLink>

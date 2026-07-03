@@ -81,6 +81,7 @@ const blogListSchema = {
 ---
 
 <PageLayout
+  mainSpacing="home"
   meta={{
     breadcrumbs,
     description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
@@ -138,7 +139,7 @@ const blogListSchema = {
 
       <TagFilter showDivider={!!featuredPost} tags={topTags} />
 
-      <div class="post-grid">
+      <div class="post-grid" data-stagger="60">
         {gridPosts.map(post => (
           <PostCard post={post} />
         ))}
@@ -158,10 +159,12 @@ const blogListSchema = {
         title="A clearer home for my engineering principles."
       />
 
-      <div class="
+      <div
+class="
         grid gap-6
         lg:grid-cols-[1.05fr_0.95fr]
       "
+      data-stagger="70"
       >
         <Card
           as="article"
@@ -229,7 +232,7 @@ const blogListSchema = {
         title="Follow related posts in order."
       />
 
-      <div class="post-grid">
+      <div class="post-grid" data-stagger="60">
         {activeSeries.map(item => (
           <SeriesCard postCount={item.postCount} series={item.series} />
         ))}
@@ -248,9 +251,7 @@ const blogListSchema = {
       />
 
       <div class="max-w-xl space-y-4">
-        <div
-          class="flex flex-col gap-4"
-        >
+        <div class="flex flex-col gap-4" data-stagger="60">
           {roadmapPreview.map(entry => (
             <EditorialEntryCard
               format={entry.format}

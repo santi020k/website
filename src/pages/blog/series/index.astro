@@ -24,6 +24,7 @@ const breadcrumbs = [
 ---
 
 <PageLayout
+  mainSpacing="home"
   meta={{
     breadcrumbs,
     description: 'Grouped reading tracks for Santiago Molina\'s writing on architecture, tooling, testing, and delivery systems.',
@@ -69,10 +70,12 @@ const breadcrumbs = [
       title="Current series on the site."
     />
 
-    <div class="
+    <div
+class="
       grid gap-6
       lg:grid-cols-2
     "
+    data-stagger="70"
     >
       {activeSeries.map(item => (
         <SeriesCard postCount={item.postCount} series={item.series} />

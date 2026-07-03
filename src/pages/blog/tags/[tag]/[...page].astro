@@ -60,13 +60,15 @@ const breadcrumbs = [
 ]
 ---
 
-<PageLayout meta={{
-  breadcrumbs,
-  description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
-  title: isFirstPage ?
-    `${tag} Posts` :
-    `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`
-}}
+<PageLayout
+  mainSpacing="home"
+  meta={{
+    breadcrumbs,
+    description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
+    title: isFirstPage ?
+      `${tag} Posts` :
+      `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`
+  }}
 >
   <PageHero
     description={`Filtered to ${postCount} ${postCount === 1 ? 'post' : 'posts'} connected by the #${tag} topic.`}
@@ -89,7 +91,7 @@ const breadcrumbs = [
   </StatsGrid>
 
   {relatedTags.length > 0 && (
-    <section class="flex flex-wrap items-center gap-3 pt-2">
+    <section class="section-container-wide flex flex-wrap items-center gap-3 pt-2">
       <p class="shrink-0 section-label">Related topics</p>
       <div class="flex flex-wrap gap-2">
         {relatedTags.map(([t, count]) => (
@@ -117,7 +119,7 @@ const breadcrumbs = [
 
       {gridPosts.length > 0 ?
         (
-          <div class="post-grid">
+          <div class="post-grid" data-stagger="60">
             {gridPosts.map(post => (
               <PostCard post={post} />
             ))}

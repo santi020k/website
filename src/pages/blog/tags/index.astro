@@ -23,11 +23,13 @@ const breadcrumbs = [
 ]
 ---
 
-<PageLayout meta={{
-  breadcrumbs,
-  description: 'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
-  title: 'Blog Topics'
-}}
+<PageLayout
+  mainSpacing="home"
+  meta={{
+    breadcrumbs,
+    description: 'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
+    title: 'Blog Topics'
+  }}
 >
   <PageHero
     description="Browse the archive by recurring topics so related posts are easier to find without hunting through the full feed."
@@ -72,6 +74,7 @@ const breadcrumbs = [
           lg:grid-cols-3
         "
         id="tags-list"
+        data-stagger="40"
       >
         {allTags.map(([tag, count], i) => {
           const pct = allTags[0]?.[1] ? Math.round((count / allTags[0][1]) * 100) : 0

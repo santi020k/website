@@ -72,6 +72,7 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
+  mainSpacing="home"
   meta={{
     articleDate: publishDate.toISOString(),
     articleUpdated: updatedDate?.toISOString(),
@@ -87,7 +88,7 @@ const breadcrumbs = [
 >
   <ReadingProgressBar />
 
-  <article class="h-entry mx-auto flex w-full max-w-6xl flex-col gap-10">
+  <article class="h-entry section-container-wide flex flex-col gap-10">
     <a class="u-url sr-only" href={canonicalURL.href}>Permalink to this article</a>
     <PostHero post={post} />
 
@@ -97,6 +98,7 @@ const breadcrumbs = [
         grid grid-cols-1 gap-10 pt-10
         lg:grid-cols-[minmax(0,1fr)_18rem]
       "
+      data-animate
     >
       <!-- Left: article prose, series navigator, share -->
       <div class="min-w-0 space-y-10">
