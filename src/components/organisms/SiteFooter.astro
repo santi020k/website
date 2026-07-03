@@ -108,12 +108,12 @@ const isLinkActive = (linkPath: string): boolean => {
     <!-- Unified Contact & Newsletter Section -->
     <section
       class="
-        relative z-10 mt-8 grid gap-8 py-10
+        relative z-10 mt-8 grid gap-8 pt-10 pb-8
         before:pointer-events-none before:absolute before:inset-y-0
         before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2
         before:bg-surface-muted/10
-        sm:mt-10 sm:py-12
-        lg:mt-14 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-12
+        sm:mt-10 sm:pt-12 sm:pb-9
+        lg:mt-14 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-12 lg:pb-8
       "
     >
       <!-- Left: copy -->
@@ -180,11 +180,11 @@ const isLinkActive = (linkPath: string): boolean => {
 
     <section
       class="
-        relative z-10 py-10
+        relative z-10 pt-8 pb-10
         before:pointer-events-none before:absolute before:inset-y-0
         before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2
-        before:bg-surface-muted/20
-        sm:py-12
+        before:bg-surface-muted/25
+        sm:pt-9 sm:pb-12
       "
       aria-label="Footer directory"
     >
@@ -281,7 +281,7 @@ const isLinkActive = (linkPath: string): boolean => {
                       class:list={[
                         `
                           group flex min-h-9 items-center gap-2 rounded-xl px-2.5
-                          text-sm transition-[background-color,color,transform]
+                          text-sm/6 transition-[background-color,color,transform]
                           duration-200
                           hover:bg-brand/8 hover:text-ink
                           motion-safe:hover:translate-x-0.5
@@ -318,7 +318,7 @@ const isLinkActive = (linkPath: string): boolean => {
                   <a
                     class="
                       group flex min-h-9 items-center gap-2 rounded-xl px-2.5
-                      text-sm text-ink-soft
+                      text-sm/6 text-ink-soft
                       transition-[background-color,color,transform] duration-200
                       hover:bg-brand/8 hover:text-ink
                       motion-safe:hover:translate-x-0.5
@@ -358,7 +358,7 @@ const isLinkActive = (linkPath: string): boolean => {
                       class:list={[
                         `
                           group flex min-h-9 items-center gap-2 rounded-xl px-2.5
-                          text-sm transition-[background-color,color,transform]
+                          text-sm/6 transition-[background-color,color,transform]
                           duration-200
                           hover:bg-brand/8 hover:text-ink
                           motion-safe:hover:translate-x-0.5
