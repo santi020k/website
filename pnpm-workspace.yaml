@@ -71,3 +71,6 @@ catalog:
   unist-util-visit: ^5.1.0
   vitest: ^4.1.9
   wawoff2: ^2.0.1
+allowBuilds:
+  esbuild: set this to true or false
+  unrs-resolver: set this to true or false

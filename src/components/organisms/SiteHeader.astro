@@ -30,7 +30,8 @@ const isAvailableForBanner =
         shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),0_4px_16px_hsl(230_30%_8%/0.04)]
         backdrop-blur-sm
         sm:max-w-340 sm:flex-row sm:items-center sm:justify-between sm:px-5
-        2xl:px-6
+        2xl:max-w-384 2xl:px-6
+        min-[2200px]:max-w-[108rem]
       "
       data-availability-strip
     >
@@ -153,6 +154,8 @@ const isAvailableForBanner =
           class="
             ml-6 hidden items-center gap-1
             lg:flex xl:gap-1.5
+            2xl:ml-8 2xl:gap-2
+            min-[2200px]:ml-10 min-[2200px]:gap-2.5
           "
         >
           {
@@ -171,6 +174,8 @@ const isAvailableForBanner =
                       transition-[background-color,box-shadow,color] duration-200
                       motion-reduce:transition-none
                       xl:px-4 xl:text-[0.9375rem]
+                      2xl:min-h-11 2xl:gap-2 2xl:px-4.5
+                      min-[2200px]:px-5
                     `,
                     isActive ?
                       `
@@ -184,6 +189,20 @@ const isAvailableForBanner =
                   ]}
                   href={link.path}
                 >
+                  {link.icon && (
+                    <Icon
+                      aria-hidden="true"
+                      class:list={[
+                        `
+                          hidden size-4 shrink-0 transition-colors duration-200
+                          motion-reduce:transition-none
+                          2xl:block
+                        `,
+                        isActive ? 'text-brand' : 'text-ink-muted group-hover:text-ink-soft'
+                      ]}
+                      name={link.icon}
+                    />
+                  )}
                   {link.title}
                   <span
                     aria-hidden="true"

@@ -443,6 +443,15 @@
   max-width: 72rem; /* 1152px — between max-w-5xl and max-w-6xl */
 }
 
+/**
+ * Shared width for wide site sections.
+ */
+@utility section-container-wide {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */
 
 @utility btn-primary {

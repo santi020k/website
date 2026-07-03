@@ -102,6 +102,7 @@ const meta = {
   <HomeHero yearsOfExperience={yearsOfExperience} />
   <div
     class="
+      section-container-wide
       scroll-mt-28 pt-10
       sm:pt-12
       lg:pt-14
@@ -111,6 +112,7 @@ const meta = {
     <HomeStats yearsOfExperience={yearsOfExperience} />
   </div>
 
+  {/* Santiago likes the breathing room between homepage sections. Keep the spacing intentional. */}
   <HomeProjectShowcase
     actions={[
       { href: '/work/', label: 'View all work' },
@@ -137,7 +139,7 @@ const meta = {
   />
 
   {/* Writing */}
-  <PageSection class="pt-22 sm:pt-24 lg:pt-28">
+  <PageSection class="section-container-wide pt-22 sm:pt-24 lg:pt-28">
     <SectionHeader
       eyebrow="Writing"
       title="Thoughts on building and leading."
@@ -168,7 +170,7 @@ const meta = {
   </PageSection>
 
   {/* Speaking & Community */}
-  <PageSection class="pt-22 sm:pt-24 lg:pt-28">
+  <PageSection class="section-container-wide pt-22 sm:pt-24 lg:pt-28">
     <SectionHeader
       eyebrow="Beyond the code"
       title="Speaking & Community."
