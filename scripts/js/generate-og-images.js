@@ -225,13 +225,6 @@ const staticSocialPages = [
     type: 'Technology'
   },
   {
-    description:
-      'A practical look at the tools, workflow defaults, and setup principles Santiago Molina uses for engineering leadership, architecture, writing, and delivery.',
-    pathname: '/uses/',
-    title: 'Uses & Workflow',
-    type: 'Workflow'
-  },
-  {
     description: 'Accessibility commitment for santi020k.com: WCAG 2.2 AA as the target, practical limits of a solo-maintained site, and how to report barriers.',
     pathname: '/accessibility/',
     title: 'Accessibility statement',

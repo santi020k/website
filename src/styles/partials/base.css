@@ -22,11 +22,15 @@
     font-display: swap;
   }
 
+  /* IMPORTANT: never set overflow-x: clip/hidden on html or body — it makes
+     the root a non-scroll-container, which deactivates every scroll-driven
+     animation timeline (`animation-timeline: view()` in animations.css).
+     Horizontal overflow is clipped by the layout wrapper in Base.astro
+     (.overflow-x-clip) instead. */
   html,
   body {
     width: 100%;
     max-width: 100%;
-    overflow-x: clip;
     overflow-wrap: break-word;
   }
 

@@ -11,15 +11,7 @@ import { version } from '../../../package.json'
 
 const year = new Date().getFullYear()
 
-const navLinks = [
-  ...menuLinks,
-  { path: '/blog/series/', title: 'Series' },
-  { path: '/blog/tags/', title: 'Topics' },
-  { path: '/technologies/', title: 'Technologies' },
-  { path: '/uses/', title: 'Uses' },
-  { path: '/now/', title: 'Now' },
-  { path: '/newsletter/', title: 'Newsletter' }
-]
+const navLinks = [...menuLinks]
 
 const resourceLinks = [
   { icon: 'tabler:calendar-month', path: '/blog/content-calendar/', title: 'Content Calendar' },
@@ -179,20 +171,29 @@ const isLinkActive = (linkPath: string): boolean => {
       </div>
     </section>
 
-    <!-- Footer body grid -->
     <section
       class="
-        mt-20 grid gap-10
-        sm:mt-24
-        sm:grid-cols-2
-        lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_minmax(0,0.75fr)]
-        lg:mt-28 lg:gap-12
+        relative z-10 mt-16 py-10
+        before:pointer-events-none before:absolute before:inset-y-0
+        before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2
+        before:border-y before:border-line/35 before:bg-surface-muted/20
+        sm:mt-18 sm:py-12
+        lg:mt-20
       "
-      data-stagger="60"
+      aria-label="Footer directory"
     >
+      <div
+        class="
+          grid gap-10
+          sm:grid-cols-2
+          lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.9fr)_minmax(0,0.9fr)_minmax(0,0.8fr)]
+          lg:gap-12
+        "
+        data-stagger="60"
+      >
 
       <!-- Brand column -->
-      <div class="space-y-6">
+      <div class="space-y-5">
         <a
           aria-label="Santiago Molina — home"
           class="
@@ -218,16 +219,32 @@ const isLinkActive = (linkPath: string): boolean => {
           </div>
         </a>
 
-        <p class="max-w-[24ch] text-sm/6 text-ink-soft">
+        <p class="max-w-[30ch] text-sm/6 text-ink-soft">
           Engineering leader and full-stack architect. Building resilient systems and empowering developer teams.
         </p>
 
-        <div class="space-y-2.5 text-xs text-ink-muted">
-          <div class="flex items-center gap-2">
+        <dl
+          class="
+            grid max-w-sm gap-2 text-xs text-ink-muted
+            sm:grid-cols-2
+            lg:grid-cols-1
+          "
+        >
+          <div class="
+            flex items-center gap-2 rounded-full border border-line/45
+            bg-surface/35 px-3 py-2
+          "
+          >
+            <dt class="sr-only">Location</dt>
             <Icon aria-hidden="true" class="size-3.5 shrink-0" name="tabler:map-pin" />
-            <span>{siteConfig.location}</span>
+            <dd>{siteConfig.location}</dd>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="
+            flex items-center gap-2 rounded-full border border-line/45
+            bg-surface/35 px-3 py-2
+          "
+          >
+            <dt class="sr-only">Availability</dt>
             {isAvailable ?
               (
                 <>
@@ -243,14 +260,14 @@ const isLinkActive = (linkPath: string): boolean => {
                     "
                     />
                   </span>
-                  <span class="text-success">{siteConfig.availability}</span>
+                  <dd class="text-success">{siteConfig.availability}</dd>
                 </>
               ) :
               (
-                <span>{siteConfig.availability}</span>
+                <dd>{siteConfig.availability}</dd>
               )}
           </div>
-        </div>
+        </dl>
       </div>
 
       <!-- Navigate column -->
@@ -381,15 +398,15 @@ const isLinkActive = (linkPath: string): boolean => {
         </ul>
       </div>
 
+      </div>
     </section>
 
     <!-- Bottom bar -->
     <div
       class="
-        mt-14 flex flex-col gap-3 text-xs text-ink-muted
+        mt-8 flex flex-col gap-3 text-xs text-ink-muted
         opacity-100
-        sm:mt-16
-        lg:mt-20
+        sm:mt-10
         sm:flex-row sm:items-center sm:justify-between
       "
     >

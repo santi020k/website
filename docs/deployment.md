@@ -7,7 +7,12 @@
 - **Production domain**: `https://santi020k.com`
 - **Redirect**: `www.santi020k.com` → apex `https://santi020k.com` (configure at your DNS or CDN).
 
-Cache and security headers are versioned in the repo at [`public/_headers`](../public/_headers) (Cloudflare Pages picks them up at the edge automatically). The defaults include:
+Redirects, cache headers, and security headers are versioned in the repo:
+
+- [`public/_redirects`](../public/_redirects) handles canonical domain redirects and retired-route fallbacks.
+- [`public/_headers`](../public/_headers) handles cache and security headers.
+
+Cloudflare Pages picks both files up at the edge automatically. The header defaults include:
 
 - **Content-Security-Policy**: locked-down, allows Cloudflare Insights when enabled by Pages.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
@@ -18,7 +23,7 @@ Cache and security headers are versioned in the repo at [`public/_headers`](../p
 - **`/sw.js`** → `Cache-Control: public, max-age=0, must-revalidate` so service worker updates propagate.
 - **HTML / `/feed.xml` / `/feed.json` / `/sitemap*.xml`** → `CDN-Cache-Control: s-maxage=3600, stale-while-revalidate=86400` so the edge stays fresh while keeping browser caches conservative.
 
-Editing those defaults: update [`public/_headers`](../public/_headers) directly. Do not maintain a separate `vercel.json` — the project no longer targets Vercel.
+Editing those defaults: update [`public/_headers`](../public/_headers) and [`public/_redirects`](../public/_redirects) directly. Do not maintain a separate `vercel.json` — the project no longer targets Vercel.
 
 ## Release flow
 
@@ -75,4 +80,4 @@ The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for
 ## Notes
 
 - Cache policy details are documented in [`docs/cache-strategy.md`](cache-strategy.md).
-- The edge cache and CSP live in [`public/_headers`](../public/_headers); changes there ship with the next deploy.
+- The edge cache and CSP live in [`public/_headers`](../public/_headers); redirects live in [`public/_redirects`](../public/_redirects). Changes there ship with the next deploy.

@@ -66,13 +66,6 @@ export const staticSocialPages: SocialPageDefinition[] = [
     type: 'Technology'
   },
   {
-    description:
-      'A practical look at the tools, workflow defaults, and setup principles Santiago Molina uses for engineering leadership, architecture, writing, and delivery.',
-    pathname: '/uses/',
-    title: 'Uses & Workflow',
-    type: 'Workflow'
-  },
-  {
     description: 'Offline fallback page for the santi020k portfolio and blog.',
     pathname: '/offline/',
     title: 'Offline',

@@ -1,7 +1,12 @@
 ---
 
 /**
- * ScrollReveal — centralized scroll-triggered animation controller.
+ * ScrollReveal — legacy scroll-triggered animation controller.
+ *
+ * In browsers with CSS scroll-driven animation support
+ * (`animation-timeline: view()`), reveals are handled natively in
+ * animations.css and this script no-ops. It only drives the
+ * IntersectionObserver fallback for older browsers.
  *
  * Mark any element with `data-animate` to opt in.
  * Optionally set `data-animate-delay="150ms"` for stagger effects.
@@ -36,7 +41,11 @@
     return s?.yield() ?? new Promise<void>(resolve => setTimeout(resolve, 0))
   }
 
-  function revealElement(el: HTMLElement): void {
+  // Cap the accumulated stagger delay so long lists never keep late children
+  // invisible for noticeable amounts of time while they sit in the viewport.
+  const MAX_STAGGER_DELAY = 360
+
+  function revealElement(el: HTMLElement, instant = false): void {
     if (el.hasAttribute('data-stagger')) {
       const step = Number(el.dataset.stagger) || 60
       const children = Array.from(el.children) as HTMLElement[]
@@ -50,7 +59,9 @@
         for (let i = start; i < end; i++) {
           const child = children[i]
           if (child) {
-            child.style.transitionDelay = `${i * step}ms`
+            if (!instant) {
+              child.style.transitionDelay = `${Math.min(i * step, MAX_STAGGER_DELAY)}ms`
+            }
             child.classList.add('is-visible')
           }
         }
@@ -62,7 +73,7 @@
       applyChunk(0)
     } else {
       const delay = el.dataset.animateDelay
-      if (delay) {
+      if (delay && !instant) {
         el.style.transitionDelay = delay
       }
       el.classList.add('is-visible')
@@ -98,7 +109,7 @@
     fallbackTimer = window.setTimeout(() => {
       revealInViewport()
       fallbackTimer = null
-    }, 800)
+    }, 500)
   }
 
   function initScrollReveal(fromTransition = false): void {
@@ -120,14 +131,22 @@
       {
         threshold: 0,
         // Negative bottom margin: IO fires only when the element has scrolled
-        // at least 80 px inside the viewport, so the 0.55 s fade-up plays while
-        // the element is already visible at any normal scroll speed.
-        rootMargin: '0px 0px -80px 0px',
+        // at least 40 px inside the viewport, so the fade-up plays while the
+        // element is already visible — without leaving fast scrollers staring
+        // at blank sections while they wait for the trigger point.
+        rootMargin: '0px 0px -40px 0px',
       }
     )
 
     const observeAll = () => {
       document.querySelectorAll<HTMLElement>('[data-animate], [data-stagger]').forEach((el) => {
+        // If the user landed mid-page (anchor link, restored scroll position,
+        // back navigation), anything already above the viewport must be
+        // visible immediately — otherwise scrolling up reveals blank space.
+        if (el.getBoundingClientRect().bottom < 0) {
+          revealElement(el, true)
+          return
+        }
         observer?.observe(el)
       })
       resetFallback()
@@ -154,29 +173,38 @@
     }
   }
 
-  // Tear down before Astro swaps the DOM so we never hold references to
-  // elements from the outgoing page. Also strip data-scroll-reveal so the
-  // incoming elements don't inherit opacity:0 before the observer reinits.
-  document.addEventListener('astro:before-swap', () => {
-    if (fallbackTimer) {
-      window.clearTimeout(fallbackTimer)
-      fallbackTimer = null
+  // When the browser supports CSS scroll-driven animations, the reveal is
+  // implemented natively in animations.css via `animation-timeline: view()`
+  // — scrubbed by scroll, off the main thread, no observers needed. This
+  // controller only runs as the legacy fallback.
+  const supportsScrollDrivenReveal =
+    typeof CSS !== 'undefined' && CSS.supports('animation-timeline', 'view()')
+
+  if (!supportsScrollDrivenReveal) {
+    // Tear down before Astro swaps the DOM so we never hold references to
+    // elements from the outgoing page. Also strip data-scroll-reveal so the
+    // incoming elements don't inherit opacity:0 before the observer reinits.
+    document.addEventListener('astro:before-swap', () => {
+      if (fallbackTimer) {
+        window.clearTimeout(fallbackTimer)
+        fallbackTimer = null
+      }
+
+      if (observer) {
+        observer.disconnect()
+        observer = null
+      }
+
+      document.documentElement.removeAttribute('data-scroll-reveal')
+    })
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => initScrollReveal(false), { once: true })
+    } else {
+      initScrollReveal(false)
     }
 
-    if (observer) {
-      observer.disconnect()
-      observer = null
-    }
-
-    document.documentElement.removeAttribute('data-scroll-reveal')
-  })
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => initScrollReveal(false), { once: true })
-  } else {
-    initScrollReveal(false)
+    // Fires on client-routed pages when the router is enabled.
+    document.addEventListener('astro:page-load', () => initScrollReveal(true))
   }
-
-  // Fires on client-routed pages when the router is enabled.
-  document.addEventListener('astro:page-load', () => initScrollReveal(true))
 </script>
