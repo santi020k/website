@@ -1,715 +1,357 @@
 ---
 import { Image, Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
+import { Icon } from 'astro-icon/components'
 
-import { getFormattedDate } from '@/utils/date'
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectTimelineLabel } from '@/utils/project-meta'
+import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 interface Props {
-  project: CollectionEntry<'project'>
   accentTone?: 'brand' | 'accent'
+  project: CollectionEntry<'project'>
 }
 
 const { project, accentTone = 'brand' } = Astro.props
 const isActive = !project.data.endingDate
-const dateOptions = { day: undefined, month: 'short' as const, year: 'numeric' as const }
-const startDate = getFormattedDate(project.data.startingDate, dateOptions)
-
-const endDate = project.data.endingDate ?
-  getFormattedDate(project.data.endingDate, dateOptions) :
-  'Present'
-
-const dateRange = `${startDate} – ${endDate}`
 const projectLink = getPortfolioPath(project.id)
+const timeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const coverImage = project.data.coverImage
-const bgImage = coverImage?.vertical ?? coverImage?.src
+const previewImage = coverImage?.horizontal ?? coverImage?.src ?? coverImage?.vertical
+const logoImage = coverImage?.logo
 const isAccent = accentTone === 'accent'
 const cardAccentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
+const accentTextClass = isAccent ? 'text-accent' : 'text-brand'
 const accentHoverClass = isAccent ? 'group-hover:text-accent' : 'group-hover:text-brand'
-const accentTextClass = isAccent ? 'text-accent/75' : 'text-brand/75'
-const logoImage = coverImage?.logo
+const sortedTechnologies = sortTechnologiesByInterest(project.data.technologies)
+const visibleTechnologies = sortedTechnologies.slice(0, 4)
+const hiddenTechnologyCount = Math.max(0, sortedTechnologies.length - visibleTechnologies.length)
 
 type LogoAspect = 'square' | 'tall' | 'wide'
-
 type LogoSurface = 'dark' | 'light' | 'neutral'
 
 const logoAspect: LogoAspect = coverImage?.logoAspect ?? 'square'
-const logoSurface: LogoSurface = coverImage?.logoSurface ?? 'neutral'
+const logoSurface: LogoSurface = coverImage?.logoSurface ?? 'dark'
 
-const logoBoxClass = {
-  square: 'size-20 p-1.5',
-  tall: 'h-24 w-20 p-2.5',
-  wide: 'h-16 w-40 px-4 py-3'
+const logoFrameClass = {
+  square: 'size-16 p-2.5',
+  tall: 'h-18 w-15 p-2.5',
+  wide: 'h-15 w-40 px-4 py-2.5'
 } satisfies Record<LogoAspect, string>
+
+const logoImageClass = {
+  square: 'max-h-10 max-w-10',
+  tall: 'max-h-12 max-w-9',
+  wide: 'max-h-9 max-w-32'
+} satisfies Record<LogoAspect, string>
+
+const logoSurfaceClass = {
+  dark: 'border-white/18 bg-ink text-white dark:border-white/14 dark:bg-canvas',
+  light: 'border-line/70 bg-surface text-ink dark:border-white/18 dark:bg-white/92',
+  neutral: 'border-line/60 bg-surface/86 text-ink-muted dark:border-white/12 dark:bg-white/10 dark:text-white/74'
+} satisfies Record<LogoSurface, string>
 ---
 
 <a
-  href={projectLink}
+  aria-label={`View ${project.data.title}`}
   class="
     group block h-full rounded-[1.75rem]
     focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:outline-none
   "
+  href={projectLink}
+  style={`--project-preview-accent: ${cardAccentVar};`}
 >
   <article
     class="
-      relative h-110 overflow-hidden rounded-[1.75rem]
-      sm:h-108
+      card-interactive h-full min-h-[28rem] overflow-hidden rounded-[1.75rem]
+      bg-surface/58
     "
-    data-project-card
-    style={`--card-accent: ${cardAccentVar};`}
+    data-project-preview-card
   >
-
-    {/* ── Background media: brand wash + ghosted cover texture ───── */}
-    <div
-      aria-hidden="true"
-      class="absolute inset-0"
-      data-card-bg-base
-    />
-    {bgImage && (
-      <Picture
-        alt=""
-        aria-hidden="true"
-        class="absolute inset-0 size-full object-cover"
-        data-card-bg
-        formats={['avif', 'webp']}
-        height={800}
-        loading="lazy"
-        sizes="(min-width: 1024px) 50vw, 100vw"
-        src={bgImage}
-        width={600}
-        widths={[400, 600, 800]}
-      />
-    )}
-    <div
-      aria-hidden="true"
-      class="absolute inset-0"
-      data-card-bg-overlay
-    />
-
-    {/* ── Logo/Brand area ─────────────────────────────────────────── */}
-    <div class="
-      absolute inset-x-0 top-0 z-10 flex h-[52%] -translate-y-1 items-center
-      justify-center
-    "
-    >
-      {logoImage ?
+    <div class="relative min-h-48 sm:min-h-52">
+      {previewImage ?
         (
-          <div
-            class:list={[
-              'flex items-center justify-center overflow-hidden rounded-2xl',
-              logoBoxClass[logoAspect]
-            ]}
-            data-card-logo
-            data-logo-aspect={logoAspect}
-            data-logo-surface={logoSurface}
-          >
-            <Image
-              alt={`${project.data.title} logo`}
-              class="size-full object-contain"
-              data-card-logo-img
-              loading="lazy"
-              src={logoImage}
-            />
-          </div>
+          <Picture
+            alt=""
+            aria-hidden="true"
+            class="
+              absolute inset-0 size-full scale-[1.01] object-cover object-center
+              saturate-110 transition-transform duration-500
+              motion-safe:group-hover:scale-[1.035]
+              motion-reduce:transition-none
+            "
+            formats={['avif', 'webp']}
+            height={600}
+            loading="lazy"
+            sizes="(min-width: 1280px) 24vw, (min-width: 768px) 42vw, 100vw"
+            src={previewImage}
+            data-project-preview-media
+            width={840}
+            widths={[480, 720, 960]}
+          />
         ) :
         (
-          <div
-            class="
-              flex size-20 items-center justify-center rounded-2xl text-3xl
-              font-bold text-white
-            "
-            data-card-logo-fallback
-          >
-            {project.data.title.charAt(0).toUpperCase()}
-          </div>
+          <div class="absolute inset-0 bg-brand-soft" />
         )}
-    </div>
 
-    {/* Progressive darkening scrim */}
-    <div
-      aria-hidden="true"
-      class="absolute inset-0"
-      data-card-scrim
-    />
-
-    {/* Ambient animated tint — always present, subtle */}
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-0"
-      data-card-ambient
-    />
-
-    {/* Accent hover tint */}
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-0 opacity-0"
-      data-card-tint
-    />
-
-    {/* Specular top-edge highlight — light catching the rim of the glass */}
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-x-0 top-0 z-20 h-px"
-      data-card-rim
-    />
-
-    {/* ── Glass panel ───────────────────────────────────────────── */}
-    <div class="absolute inset-x-0 bottom-0 z-10" data-card-panel>
-
-      {/* Status + date header */}
-      <div class="flex items-center justify-between gap-2 px-5 pt-4 pb-3.5">
-        {isActive ?
-          (
-            <span
-              class="inline-flex items-center gap-1.5 text-xs font-semibold"
-              data-card-status
-              style="color: hsl(var(--card-accent));"
-            >
-              <span
-                aria-hidden="true"
-                class="
-                  inline-block size-1.5 rounded-full
-                  motion-safe:animate-pulse
-                "
-                style="background: hsl(var(--card-accent));"
-              />
-              Active
-            </span>
-          ) :
-          (
-            <span
-              class="
-                inline-flex items-center text-xs font-medium text-ink-muted
-                dark:text-white/70
-              "
-              data-card-status
-            >
-              Completed
-            </span>
-          )}
-        <span class="
-          text-xs font-medium text-ink-muted tabular-nums
-          dark:text-white/68
+      <div
+        aria-hidden="true"
+        class="
+          absolute inset-0 bg-linear-to-b from-brand-soft/5 via-surface/8
+          via-68% to-surface/58
+          dark:from-brand/10 dark:via-canvas/52 dark:to-canvas
         "
+      />
+      <div
+        aria-hidden="true"
+        class="
+          absolute inset-0 opacity-90
+        "
+        data-project-preview-wash
+      />
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute inset-x-0 bottom-0 h-14
+          bg-linear-to-b from-transparent via-surface/22 to-surface/72
+          dark:via-canvas/86 dark:to-canvas
+        "
+        data-project-preview-media-fade
+      />
+
+      <div class="absolute inset-x-4 top-4 z-20 flex items-start justify-end gap-3">
+        <span
+          class="
+            inline-flex size-9 items-center justify-center rounded-full border
+            border-white/30 bg-surface/72 text-ink-muted shadow-sm backdrop-blur-xl
+            transition duration-200
+            group-hover:border-brand/30 group-hover:text-[hsl(var(--project-preview-accent))]
+            motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5
+            motion-reduce:transition-none
+            dark:border-white/14 dark:bg-white/10 dark:text-white/72
+          "
         >
-          {dateRange}
+          <Icon aria-hidden="true" class="size-4" name="tabler:arrow-up-right" />
         </span>
       </div>
 
-      {/* Separator */}
-      <div
-        aria-hidden="true"
-        class="mx-5 h-px"
-        data-card-separator
-      />
+      <div class="absolute inset-x-5 bottom-0 z-20 flex translate-y-[58%] items-end justify-between gap-3">
+        <span
+          class:list={[
+            `
+              flex shrink-0 items-center justify-center overflow-hidden rounded-2xl
+              border backdrop-blur-xl
+            `,
+            logoFrameClass[logoAspect],
+            logoSurfaceClass[logoSurface],
+            'motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:-translate-y-1 motion-reduce:transition-none'
+          ]}
+          data-project-preview-logo
+          data-logo-aspect={logoAspect}
+          data-logo-surface={logoSurface}
+        >
+          {logoImage ?
+            (
+              <Image
+                alt=""
+                aria-hidden="true"
+                class:list={['object-contain drop-shadow-sm', logoImageClass[logoAspect]]}
+                loading="lazy"
+                src={logoImage}
+              />
+            ) :
+            (
+              <span class="text-base font-bold">{project.data.title.charAt(0).toUpperCase()}</span>
+            )}
+        </span>
+      </div>
+    </div>
 
-      {/* Title + description + tags */}
-      <div class="space-y-3 px-5 pt-3.5 pb-5">
-        <div class="flex items-start justify-between gap-3">
-          <div class="min-w-0 space-y-1">
-            <h3
-              class:list={[`
-                text-base/snug font-semibold text-ink
-                dark:text-white
-              `, accentHoverClass]}
-              data-card-title
-            >
-              {project.data.title}
-            </h3>
-            <p class:list={['text-xs font-medium', accentTextClass]}>
+    <div class="flex grow flex-col gap-5 px-5 pt-12 pb-5 sm:px-6 sm:pb-6">
+      <div class="space-y-3">
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between gap-3">
+            <p class:list={['min-w-0 text-sm/5 font-bold', accentTextClass]}>
               {project.data.role ?? 'Engineering'}
             </p>
+            <span
+              class="
+                inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line/50
+                bg-surface/44 px-2.5 py-1 text-[0.7rem]/4 font-bold text-ink-soft
+              "
+            >
+              <span
+                aria-hidden="true"
+                class="size-1.5 rounded-full"
+                style="background: hsl(var(--project-preview-accent));"
+              />
+              {isActive ? 'Active' : 'Completed'}
+            </span>
           </div>
-          <svg
-            aria-hidden="true"
-            class="
-              mt-0.5 size-4 shrink-0 -translate-x-1.5 translate-y-0.5
-              text-ink-muted opacity-0
-              dark:text-white/45
-            "
-            data-card-arrow
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
+          <h3
+            class:list={[
+              `
+                text-2xl/tight font-semibold tracking-tight text-ink transition-colors
+                duration-200 motion-reduce:transition-none
+              `,
+              accentHoverClass
+            ]}
           >
-            <path d="M7 17L17 7M17 7H7M17 7v10" />
-          </svg>
+            {project.data.title}
+          </h3>
         </div>
 
-        <p class="
-          line-clamp-2 text-sm/relaxed font-medium text-ink-soft
-          dark:text-white/76
-        "
-        >
+        <p class="line-clamp-3 text-sm/7 text-ink-soft">
           {project.data.description}
         </p>
+      </div>
 
-        <div
-          class="
-            flex max-h-[3.1rem] min-h-[3.1rem] flex-wrap gap-1.5 overflow-hidden
-            text-[0.66rem]/none
-          "
-        >
-          {project.data.technologies.slice(0, 5).map(tech => (
-            <span
-              class="
-                inline-flex shrink-0 items-center rounded-full border
-                border-line/70 bg-surface-muted/82 px-1.5 py-1 whitespace-nowrap
-                font-medium text-ink-muted
-                dark:border-white/14 dark:bg-white/8 dark:text-white/72
-              "
-              data-card-tag
-            >
-              {tech}
-            </span>
-          ))}
-          {project.data.technologies.length > 5 && (
-            <span
-              class="
-                inline-flex shrink-0 items-center rounded-full border
-                border-line/60 bg-surface-muted/70 px-1.5 py-1 whitespace-nowrap
-                font-medium text-ink-muted
-                dark:border-white/12 dark:bg-white/6 dark:text-white/58
-              "
-            >
-              +{project.data.technologies.length - 5}
-            </span>
-          )}
+      <div class="mt-auto space-y-4">
+        <div class="flex items-center gap-2 text-xs/5 font-semibold text-ink-soft">
+          <Icon aria-hidden="true" class="size-3.5 shrink-0" name="tabler:calendar" />
+          <span class="tabular-nums">{timeline}</span>
         </div>
+
+        {visibleTechnologies.length > 0 && (
+          <div class="flex min-h-16 flex-wrap content-start gap-2 overflow-hidden">
+            {visibleTechnologies.map(technology => (
+              <span
+                class="
+                  rounded-full border border-line/60 bg-surface/28 px-2.5 py-1
+                  text-xs/5 font-semibold text-ink-soft transition-colors duration-200
+                  group-hover:border-brand/20 group-hover:text-[hsl(var(--project-preview-accent))]
+                  motion-reduce:transition-none
+                "
+              >
+                {technology}
+              </span>
+            ))}
+            {hiddenTechnologyCount > 0 && (
+              <span
+                class="
+                  rounded-full border border-line/50 bg-surface-muted/42 px-2.5 py-1
+                  text-xs/5 font-semibold text-ink-muted
+                "
+              >
+                +{hiddenTechnologyCount}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   </article>
 </a>
 
 <style>
-  [data-project-card] {
-    border: 1px solid hsl(var(--line) / 0.58);
-    background: hsl(var(--surface) / 0.72);
+  [data-project-preview-card] {
     box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.72),
-      inset 1px 0 0 hsl(0 0% 100% / 0.38),
-      0 14px 34px hsl(230 30% 8% / 0.08),
-      0 4px 12px hsl(230 30% 8% / 0.045);
+      0 22px 58px hsl(230 30% 8% / 0.07),
+      0 8px 24px hsl(var(--brand) / 0.035),
+      inset 0 1px 0 hsl(0 0% 100% / 0.22),
+      inset 1px 0 0 hsl(0 0% 100% / 0.10),
+      inset 0 -1px 0 hsl(var(--line) / 0.12);
   }
 
-  :global(:root[data-theme='dark']) [data-project-card] {
-    border-color: hsl(0 0% 100% / 0.13);
-    background: transparent;
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.18),
-      inset 1px 0 0 hsl(0 0% 100% / 0.07),
-      0 12px 32px hsl(230 30% 8% / 0.14),
-      0 4px 12px hsl(230 30% 8% / 0.1);
+  [data-project-preview-card]::after {
+    background: radial-gradient(
+      ellipse at center,
+      hsl(var(--project-preview-accent) / 0.10),
+      transparent 68%
+    );
   }
 
-  /* Background: stable brand wash with the cover used only as texture */
-  [data-card-bg-base] {
-    background:
-      radial-gradient(ellipse 95% 68% at 50% 2%, hsl(var(--card-accent) / 0.32), transparent 62%),
-      radial-gradient(ellipse 74% 62% at 12% 20%, hsl(var(--card-accent) / 0.18), transparent 68%),
-      radial-gradient(ellipse 70% 58% at 88% 78%, hsl(var(--card-accent) / 0.14), transparent 68%),
-      linear-gradient(
-        180deg,
-        hsl(var(--brand-soft) / 0.95) 0%,
-        hsl(var(--surface-muted) / 0.9) 60%,
-        hsl(var(--surface) / 0.98) 100%
-      );
-  }
-
-  [data-card-bg] {
-    opacity: 0.28;
-    filter: blur(1px) saturate(1.05) contrast(1.02) brightness(0.96);
-    mix-blend-mode: multiply;
-    transform: scale(1.03);
+  [data-project-preview-media] {
     mask-image: linear-gradient(
       to bottom,
       hsl(0 0% 0%) 0%,
-      hsl(0 0% 0% / 0.72) 45%,
-      transparent 82%
+      hsl(0 0% 0%) 78%,
+      hsl(0 0% 0% / 0.72) 92%,
+      transparent 100%
     );
     -webkit-mask-image: linear-gradient(
       to bottom,
       hsl(0 0% 0%) 0%,
-      hsl(0 0% 0% / 0.72) 45%,
-      transparent 82%
+      hsl(0 0% 0%) 78%,
+      hsl(0 0% 0% / 0.72) 92%,
+      transparent 100%
     );
   }
 
-  [data-card-bg-overlay] {
+  [data-project-preview-media-fade] {
+    z-index: 10;
+  }
+
+  [data-project-preview-logo] {
+    box-shadow:
+      0 8px 18px hsl(230 30% 8% / 0.10),
+      0 2px 8px hsl(var(--project-preview-accent) / 0.06),
+      inset 0 1px 0 hsl(0 0% 100% / 0.45);
+  }
+
+  [data-project-preview-logo][data-logo-aspect='wide'] {
+    border-radius: 1rem;
+  }
+
+  [data-project-preview-logo][data-logo-surface='dark'] {
+    box-shadow:
+      0 8px 18px hsl(230 30% 8% / 0.14),
+      0 2px 8px hsl(var(--project-preview-accent) / 0.07),
+      inset 0 1px 0 hsl(0 0% 100% / 0.16);
+  }
+
+  [data-project-preview-logo][data-logo-surface='light'] {
+    box-shadow:
+      0 8px 18px hsl(230 30% 8% / 0.08),
+      0 2px 8px hsl(var(--project-preview-accent) / 0.05),
+      inset 0 1px 0 hsl(0 0% 100% / 0.72);
+  }
+
+  [data-project-preview-wash] {
     background:
-      linear-gradient(180deg, hsl(0 0% 100% / 0.12) 0%, transparent 18%),
-      linear-gradient(
-        180deg,
-        hsl(var(--surface) / 0) 0%,
-        hsl(var(--surface) / 0.3) 56%,
-      hsl(var(--surface) / 0.92) 100%
+      radial-gradient(
+        ellipse 70% 80% at 16% 12%,
+        hsl(var(--project-preview-accent) / 0.22),
+        transparent 68%
+      ),
+      radial-gradient(
+        ellipse 82% 60% at 90% 86%,
+        hsl(var(--brand) / 0.13),
+        transparent 70%
       );
   }
 
-  [data-card-scrim] {
-    background: linear-gradient(
-      to bottom,
-      hsl(var(--surface) / 0) 10%,
-      hsl(var(--surface) / 0.12) 46%,
-      hsl(var(--surface) / 0.86) 100%
-    );
+  [data-project-preview-card]:hover {
+    border-color: hsl(var(--project-preview-accent) / 0.34);
+    box-shadow:
+      0 28px 68px hsl(230 30% 8% / 0.10),
+      0 16px 34px hsl(var(--project-preview-accent) / 0.12),
+      inset 0 1px 0 hsl(0 0% 100% / 0.28),
+      inset 0 -1px 0 hsl(var(--project-preview-accent) / 0.12);
   }
 
-  [data-card-rim] {
-    background: linear-gradient(
-      90deg,
-      transparent 8%,
-      hsl(0 0% 100% / 0.6) 28%,
-      hsl(0 0% 100% / 0.78) 50%,
-      hsl(0 0% 100% / 0.6) 72%,
-      transparent 92%
-    );
+  :global(:root[data-theme='dark']) [data-project-preview-card] {
+    background: hsl(var(--surface) / 0.42);
   }
 
-  [data-card-separator] {
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(var(--line) / 0.72) 20%,
-      hsl(var(--line) / 0.72) 80%,
-      transparent
-    );
-  }
-
-  :global(:root[data-theme='dark']) [data-card-bg-base] {
+  :global(:root[data-theme='dark']) [data-project-preview-wash] {
     background:
-      radial-gradient(ellipse 95% 68% at 50% 2%, hsl(var(--card-accent) / 0.2), transparent 62%),
-      radial-gradient(ellipse 74% 62% at 12% 20%, hsl(var(--card-accent) / 0.1), transparent 68%),
-      radial-gradient(ellipse 70% 58% at 88% 78%, hsl(var(--card-accent) / 0.08), transparent 68%),
-      linear-gradient(180deg, hsl(260 32% 10%) 0%, hsl(260 38% 5%) 72%, hsl(260 42% 3%) 100%);
-  }
-
-  :global(:root[data-theme='dark']) [data-card-bg] {
-    opacity: 0.11;
-    filter: blur(1.25px) saturate(0.7) contrast(0.88) brightness(1.1);
-    mix-blend-mode: screen;
-  }
-
-  :global(:root[data-theme='dark']) [data-card-bg-overlay] {
-    background:
-      linear-gradient(180deg, hsl(0 0% 100% / 0.08) 0%, transparent 18%),
-      linear-gradient(180deg, hsl(260 40% 5% / 0.02) 0%, hsl(260 45% 4% / 0.5) 58%, hsl(260 45% 3% / 0.86) 100%);
-  }
-
-  :global(:root[data-theme='dark']) [data-card-scrim] {
-    background: linear-gradient(
-      to bottom,
-      hsl(0 0% 0% / 0) 10%,
-      hsl(0 0% 0% / 0.14) 48%,
-      hsl(0 0% 0% / 0.52) 100%
-    );
-  }
-
-  :global(:root[data-theme='dark']) [data-card-rim] {
-    background: linear-gradient(
-      90deg,
-      transparent 8%,
-      hsl(0 0% 100% / 0.4) 28%,
-      hsl(0 0% 100% / 0.56) 50%,
-      hsl(0 0% 100% / 0.4) 72%,
-      transparent 92%
-    );
-  }
-
-  :global(:root[data-theme='dark']) [data-card-separator] {
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(0 0% 100% / 0.1) 20%,
-      hsl(0 0% 100% / 0.1) 80%,
-      transparent
-    );
-  }
-
-  /* Logo/Brand mark styling */
-  [data-card-logo] {
-    position: relative;
-    isolation: isolate;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--surface) / 0.88) 0%,
-      hsl(var(--surface-muted) / 0.72) 100%
-    );
-    border: 1px solid hsl(var(--card-accent) / 0.38);
-    box-shadow:
-      0 14px 36px hsl(230 30% 8% / 0.14),
-      0 4px 16px hsl(var(--card-accent) / 0.14),
-      inset 0 1px 0 hsl(0 0% 100% / 0.55);
-    transition:
-      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-      box-shadow 0.3s ease;
-  }
-
-  [data-logo-surface='dark'] {
-    background: linear-gradient(
-      135deg,
-      hsl(260 32% 13% / 0.96) 0%,
-      hsl(260 45% 8% / 0.9) 100%
-    );
-  }
-
-  [data-logo-surface='light'] {
-    background: linear-gradient(
-      135deg,
-      hsl(0 0% 100% / 0.9) 0%,
-      hsl(264 48% 93% / 0.82) 100%
-    );
-    box-shadow:
-      0 8px 32px hsl(0 0% 0% / 0.18),
-      inset 0 1px 0 hsl(0 0% 100% / 0.52);
-  }
-
-  [data-card-logo-img] {
-    filter:
-      drop-shadow(0 1px 1px hsl(0 0% 100% / 0.12))
-      drop-shadow(0 3px 7px hsl(260 45% 10% / 0.2));
-  }
-
-  [data-logo-surface='light'] [data-card-logo-img] {
-    filter: drop-shadow(0 3px 7px hsl(260 45% 10% / 0.24));
-  }
-
-  [data-card-logo-fallback] {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--card-accent) / 0.25) 0%,
-      hsl(var(--card-accent) / 0.15) 100%
-    );
-    border: 1px solid hsl(var(--card-accent) / 0.3);
-    box-shadow:
-      0 8px 32px hsl(0 0% 0% / 0.2),
-      inset 0 1px 0 hsl(0 0% 100% / 0.1);
-    text-shadow: 0 2px 4px hsl(0 0% 0% / 0.3);
-    transition:
-      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-      box-shadow 0.3s ease,
-      background 0.3s ease;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .group:hover [data-card-logo] {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow:
-        0 12px 40px hsl(var(--card-accent) / 0.15),
-        0 8px 32px hsl(0 0% 0% / 0.25),
-        inset 0 1px 0 hsl(0 0% 100% / 0.15);
-    }
-
-    .group:hover [data-card-logo-fallback] {
-      transform: translateY(-4px) scale(1.05);
-      background: linear-gradient(
-        135deg,
-        hsl(var(--card-accent) / 0.35) 0%,
-        hsl(var(--card-accent) / 0.25) 100%
+      radial-gradient(
+        ellipse 72% 82% at 16% 12%,
+        hsl(var(--project-preview-accent) / 0.16),
+        transparent 68%
+      ),
+      radial-gradient(
+        ellipse 82% 60% at 90% 86%,
+        hsl(var(--brand) / 0.10),
+        transparent 70%
       );
-      box-shadow:
-        0 12px 40px hsl(var(--card-accent) / 0.15),
-        0 8px 32px hsl(0 0% 0% / 0.25),
-        inset 0 1px 0 hsl(0 0% 100% / 0.15);
-    }
-  }
-
-  [data-card-panel] {
-    min-height: 55%;
-    background: linear-gradient(
-      180deg,
-      hsl(var(--surface) / 0) 0%,
-      hsl(var(--surface) / 0.5) 28%,
-      hsl(var(--surface) / 0.98) 100%
-    );
-    backdrop-filter: blur(10px) saturate(120%);
-    -webkit-backdrop-filter: blur(10px) saturate(120%);
-  }
-
-  :global(:root[data-theme='dark']) [data-card-panel] {
-    background: linear-gradient(
-      180deg,
-      hsl(0 0% 0% / 0) 0%,
-      hsl(0 0% 0% / 0.42) 28%,
-      hsl(0 0% 0% / 0.70) 100%
-    );
-  }
-
-  /* SVG noise texture overlay — applied via the ambient layer */
-  [data-card-ambient] {
-    opacity: 0.22;
-  }
-
-  [data-card-ambient]::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-size: 180px 180px;
-    pointer-events: none;
-  }
-
-  [data-card-tint] {
-    background: radial-gradient(
-      circle 400px at var(--mouse-x, 70%) var(--mouse-y, 20%),
-      color-mix(in srgb, hsl(var(--card-accent)) 25%, transparent),
-      transparent 75%
-    );
-  }
-
-  @keyframes card-shimmer {
-    from { left: -65%; }
-    to { left: 130%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    [data-project-card] {
-      transition:
-        border-color 0.2s ease,
-        background-color 0.2s ease;
-    }
-
-    [data-project-card]::after {
-      display: none;
-    }
-
-    [data-card-panel] {
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    [data-project-card] {
-      transition:
-        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-        box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 0.3s ease;
-    }
-
-    [data-project-card]:hover {
-      transform: translateY(-5px);
-      border-color: color-mix(in srgb, hsl(var(--card-accent)) 34%, hsl(var(--line) / 0.62));
-      box-shadow:
-        inset 0 1px 0 hsl(0 0% 100% / 0.76),
-        inset 1px 0 0 hsl(0 0% 100% / 0.42),
-        0 0 0 1px color-mix(in srgb, hsl(var(--card-accent)) 20%, transparent),
-        0 24px 56px hsl(230 30% 8% / 0.12),
-        0 8px 24px color-mix(in srgb, hsl(var(--card-accent)) 18%, transparent);
-    }
-
-    :global(:root[data-theme='dark']) [data-project-card]:hover {
-      border-color: color-mix(in srgb, hsl(var(--card-accent)) 32%, hsl(0 0% 100% / 0.14));
-      box-shadow:
-        inset 0 1px 0 hsl(0 0% 100% / 0.22),
-        inset 1px 0 0 hsl(0 0% 100% / 0.09),
-        0 0 0 1px color-mix(in srgb, hsl(var(--card-accent)) 20%, transparent),
-        0 24px 56px hsl(230 30% 8% / 0.22),
-        0 8px 24px color-mix(in srgb, hsl(var(--card-accent)) 18%, transparent);
-    }
-
-    /* Diagonal shimmer sweep on hover */
-    [data-project-card]::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: -65%;
-      width: 35%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        hsl(0 0% 100% / 0.04) 40%,
-        hsl(0 0% 100% / 0.07) 50%,
-        hsl(0 0% 100% / 0.04) 60%,
-        transparent
-      );
-      transform: skewX(-10deg);
-      z-index: 9;
-      pointer-events: none;
-    }
-
-    .group:hover [data-project-card]::after {
-      animation: card-shimmer 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    [data-card-panel] {
-      transition: background 0.3s ease;
-    }
-
-    [data-card-bg] {
-      transition:
-        opacity 0.45s ease,
-        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .group:hover [data-card-bg] {
-      opacity: 0.3;
-      transform: scale(1.06);
-    }
-
-    .group:hover [data-card-panel] {
-      background: linear-gradient(
-        180deg,
-        hsl(var(--surface) / 0) 0%,
-        hsl(var(--surface) / 0.56) 28%,
-        hsl(var(--surface) / 0.98) 100%
-      );
-    }
-
-    :global(:root[data-theme='dark']) .group:hover [data-card-panel] {
-      background: linear-gradient(
-        180deg,
-        hsl(0 0% 0% / 0) 0%,
-        hsl(0 0% 0% / 0.48) 28%,
-        hsl(0 0% 0% / 0.76) 100%
-      );
-    }
-
-    [data-card-tint] {
-      transition: opacity 0.45s ease;
-    }
-    .group:hover [data-card-tint] { opacity: 1; }
-
-    [data-card-arrow] {
-      transition:
-        opacity 0.25s ease,
-        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .group:hover [data-card-arrow] {
-      opacity: 1;
-      transform: translate(0, 0);
-    }
-
-    [data-card-title] { transition: color 0.2s ease; }
-
-    [data-card-tag] {
-      transition: color 0.25s ease;
-    }
-    .group:hover [data-card-tag] {
-      color: color-mix(in srgb, hsl(var(--card-accent)) 84%, hsl(var(--ink)));
-    }
-
-    :global(:root[data-theme='dark']) .group:hover [data-card-tag] {
-      color: color-mix(in srgb, hsl(var(--card-accent)) 70%, white);
+    [data-project-preview-card],
+    [data-project-preview-card]:hover {
+      transform: none;
     }
   }
 </style>
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const cards = document.querySelectorAll<HTMLElement>('[data-project-card]')
-
-    for (const card of cards) {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
-
-        card.style.setProperty('--mouse-x', `${x}px`)
-        card.style.setProperty('--mouse-y', `${y}px`)
-      })
-    }
-  })
-</script>

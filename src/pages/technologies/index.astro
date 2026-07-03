@@ -1,11 +1,10 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PillCount from '@/components/atoms/PillCount.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import { Card } from '@/components/ui'
 import PageLayout from '@/layouts/Base.astro'
@@ -19,6 +18,7 @@ import { getUniqueTechnologiesWithCount } from '@/data/project'
 const allProjects = await getCachedProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)
 const topTechnology = technologies[0]?.[0]
+const totalTechnologyMentions = technologies.reduce((total, [, count]) => total + count, 0)
 const coreTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count >= 4))
 const regularTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count >= 2 && count < 4))
 const selectiveTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count === 1))
@@ -27,19 +27,24 @@ const technologyGroups = [
   {
     description: 'The core stack that shows up repeatedly across shipped projects.',
     items: coreTechnologies,
+    summary: 'Repeated foundations across product architecture, delivery workflows, and the portfolio surface.',
     title: 'Core'
   },
   {
     description: 'Technologies that support product delivery on a regular basis.',
     items: regularTechnologies,
+    summary: 'Reliable companion tools that help teams ship, test, document, and maintain production systems.',
     title: 'Regular'
   },
   {
     description: 'Specialized tools that appear in narrower product or platform contexts.',
     items: selectiveTechnologies,
+    summary: 'Context-specific platforms, APIs, and product capabilities used when the problem calls for them.',
     title: 'Selective'
   }
 ].filter(group => group.items.length > 0)
+
+const featuredTechnologies = coreTechnologies.slice(0, 6)
 
 const meta = {
   description: 'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
@@ -64,18 +69,58 @@ const meta = {
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid columns={3}>
+  <StatsGrid showDivider={false}>
     <StatCard description="Distinct tools and platforms across the full portfolio." label="Technologies" value={String(technologies.length)} />
     <StatCard description="The single technology that appears most often across shipped projects." label="Most used" value={topTechnology ?? ''} />
+    <StatCard description="Tagged project evidence connecting tools back to shipped work." label="Signals" value={String(totalTechnologyMentions)} />
     <StatCard description="Frontend, backend, testing, delivery, and developer tooling." label="Scope" value="Full stack" />
   </StatsGrid>
 
-  <PageSection>
-    <SectionHeader
-      description="Grouped by how often each tool appears in shipped work, with the most product-shaping technologies kept easiest to scan."
-      eyebrow="Technology groups"
-      title="The stack by recurrence."
-    />
+  <section class="
+    section-container-wide grid items-start gap-8 pt-20
+    sm:pt-24
+    lg:grid-cols-[minmax(18rem,0.62fr)_minmax(0,1.38fr)] lg:gap-10 lg:pt-28
+  "
+  >
+    <div class="editorial-rail">
+      <div class="space-y-5">
+        <Eyebrow label="Technology groups" tone="brand" />
+        <div class="space-y-4">
+          <h2 class="
+            max-w-xl text-3xl font-bold tracking-tight text-ink
+            sm:text-4xl
+            lg:text-[2.8rem]/tight
+          "
+          >
+            The stack by recurrence.
+          </h2>
+          <p class="section-copy">
+            Grouped by how often each tool appears in shipped work, with the most product-shaping technologies kept easiest to scan.
+          </p>
+        </div>
+      </div>
+
+      <Card class="relative overflow-hidden p-5 sm:p-6" variant="muted">
+        <div aria-hidden="true" class="pointer-events-none absolute inset-0 grid-fade opacity-25"></div>
+        <div
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute -right-10 -bottom-16 size-44 rounded-full
+            bg-radial from-brand/18 via-accent/8 to-transparent blur-2xl
+          "
+        />
+        <div class="relative z-10 space-y-4">
+          <p class="section-label text-brand">Recurring foundations</p>
+          <div class="flex flex-wrap gap-2.5">
+            {featuredTechnologies.map(([technology, count]) => (
+              <Pill href={getTechnologyPath(technology)} label={technology} tone="brand">
+                <PillCount count={count} />
+              </Pill>
+            ))}
+          </div>
+        </div>
+      </Card>
+    </div>
 
     <div
       class="
@@ -84,28 +129,63 @@ const meta = {
       "
       data-stagger="70"
     >
-      {technologyGroups.map(group => (
-        <Card class="h-full space-y-5 p-5" variant="muted">
-          <div class="space-y-2">
-            <p class="section-label text-brand">{group.title}</p>
-            <h2 class="text-xl font-semibold tracking-tight text-ink">
-              {group.items.length} tools
-            </h2>
-            <p class="text-sm/6 text-ink-soft">{group.description}</p>
-          </div>
-          <div class="flex flex-wrap gap-3 border-t border-line/35 pt-5">
-            {group.items.map(([technology, count]) => (
-              <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-                <PillCount count={count} />
-              </Pill>
-            ))}
+      {technologyGroups.map((group, index) => (
+        <Card
+          class="
+            group relative h-full overflow-hidden p-5 transition-all duration-300
+            hover:-translate-y-1 hover:border-brand/35
+            motion-reduce:transition-none motion-reduce:hover:translate-y-0
+            sm:p-6
+          "
+          variant="muted"
+        >
+          <div
+            aria-hidden="true"
+            class:list={[
+              `
+                pointer-events-none absolute inset-x-8 bottom-0 h-32 rounded-full
+                bg-radial from-brand/10 via-accent/5 to-transparent blur-2xl
+                transition-opacity duration-300
+                group-hover:opacity-100
+                motion-reduce:transition-none
+              `,
+              index === 0 ? 'opacity-70' : 'opacity-35'
+            ]}
+          />
+          <div class="relative z-10 space-y-5">
+            <div class="space-y-3">
+              <div class="flex items-start justify-between gap-4">
+                <p class="section-label text-brand">{group.title}</p>
+                <span class="text-xs font-semibold text-ink-muted">{String(index + 1).padStart(2, '0')}</span>
+              </div>
+              <h3 class="
+                text-3xl font-bold tracking-[-0.05em] text-ink
+                sm:text-4xl
+              "
+              >
+                {group.items.length} tools
+              </h3>
+              <p class="text-sm/6 text-ink-soft">{group.description}</p>
+            </div>
+
+            <div class="border-y border-line/35 py-4">
+              <p class="text-sm/6 text-ink-soft">{group.summary}</p>
+            </div>
+
+            <div class="flex flex-wrap gap-2.5">
+              {group.items.map(([technology, count]) => (
+                <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
+                  <PillCount count={count} />
+                </Pill>
+              ))}
+            </div>
           </div>
         </Card>
       ))}
     </div>
-  </PageSection>
+  </section>
 
-  <section class="section-container-wide">
+  <section class="section-container-wide pt-20 sm:pt-24 lg:pt-28">
     <div class="cta-panel">
       <div
         class="
