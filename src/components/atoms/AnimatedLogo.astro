@@ -1,5 +1,6 @@
 ---
 import { fontFamily } from '@santi020k/theme'
+import { AnimatedLogo as LumenAnimatedLogo } from '@santi020k/lumen-astro'
 
 interface Props {
   variant?: 'light' | 'dark'
@@ -16,16 +17,18 @@ const viewBox = iconOnly ? '0 0 80 80' : '0 0 504 80'
 const logoFontFamily = fontFamily.display
 ---
 
-<svg
-  class:list={['h-full w-auto', className]}
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox={viewBox}
-  role="img"
-  aria-label="Santi020k"
->
+<LumenAnimatedLogo animation="sequence" className={className}>
+  <svg
+    class="h-full w-auto"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox={viewBox}
+    role="img"
+    aria-label="Santi020k"
+  >
   {/* Logo mark with draw-in animation */}
   <g data-logo-mark>
     <rect
+      data-ui-logo-pop
       width="80"
       height="80"
       rx="18"
@@ -39,7 +42,8 @@ const logoFontFamily = fontFamily.display
       stroke-width="8"
       stroke-linecap="round"
       stroke-linejoin="round"
-      style="stroke-dasharray: 60; stroke-dashoffset: 60; animation: draw 0.6s ease forwards; animation-delay: 0.3s;"
+      data-ui-logo-draw
+      style="--ui-logo-path-length: 60; --ui-logo-delay: 300ms;"
     />
     <line
       x1="48"
@@ -49,7 +53,8 @@ const logoFontFamily = fontFamily.display
       stroke={strokeColor}
       stroke-width="8"
       stroke-linecap="round"
-      style="stroke-dasharray: 60; stroke-dashoffset: 60; animation: draw 0.6s ease forwards; animation-delay: 0.5s;"
+      data-ui-logo-draw
+      style="--ui-logo-path-length: 60; --ui-logo-delay: 500ms;"
     />
   </g>
 
@@ -64,33 +69,16 @@ const logoFontFamily = fontFamily.display
       font-size="48"
       fill={textColor}
       letter-spacing="-0.04em"
-      style="opacity: 0; transform: translateX(-10px); animation: fade-slide 0.5s ease forwards; animation-delay: 0.7s;"
+      data-ui-logo-reveal
+      style="--ui-logo-delay: 700ms;"
     >
       Santi<tspan fill={fillColor} font-weight="600" letter-spacing="-0.02em">020k</tspan>
     </text>
   )}
-</svg>
+  </svg>
+</LumenAnimatedLogo>
 
 <style>
-  @keyframes pop-in {
-    to {
-      transform: scale(1);
-    }
-  }
-
-  @keyframes draw {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  @keyframes fade-slide {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
   /* Subtle hover - only brightness change */
   :global(a:hover) rect {
     filter: brightness(1.1);

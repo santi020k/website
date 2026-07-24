@@ -3,9 +3,8 @@ import { Icon } from 'astro-icon/components'
 
 import type { CollectionEntry } from 'astro:content'
 
-import CoverImage from '@/components/atoms/CoverImage.astro'
+import { Card, CoverImage, Link } from '@santi020k/lumen-astro'
 import Pill from '@/components/atoms/Pill.astro'
-import { Card } from '@/components/ui'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
 import { getProjectDateRangeLabel } from '@/utils/project-meta'
@@ -37,7 +36,7 @@ const projectItems = projects.map(project => ({
         group relative overflow-hidden rounded-3xl border-line/50 bg-surface p-0
       "
     >
-      <a class="block" href={projectItems[0].href}>
+      <Link className="block font-normal text-inherit no-underline" href={projectItems[0].href}>
         <div class="
           grid
           lg:grid-cols-2
@@ -125,7 +124,7 @@ const projectItems = projects.map(project => ({
             </div>
           </div>
         </div>
-      </a>
+      </Link>
     </Card>
   )}
 
@@ -146,7 +145,7 @@ const projectItems = projects.map(project => ({
           "
           variant="interactive"
         >
-          <a class="block" href={project.href}>
+          <Link className="block font-normal text-inherit no-underline" href={project.href}>
             {/* Thumbnail */}
             <div class="relative aspect-16/10 overflow-hidden">
               {project.coverImage?.src ?
@@ -212,7 +211,7 @@ const projectItems = projects.map(project => ({
                 </div>
               )}
             </div>
-          </a>
+          </Link>
         </Card>
       ))}
     </div>

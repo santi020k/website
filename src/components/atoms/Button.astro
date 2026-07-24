@@ -1,8 +1,6 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
-import { Icon } from 'astro-icon/components'
-
-import { Button as UIButton } from '@/components/ui'
+import { Button as UIButton, Icon } from '@santi020k/lumen-astro'
 
 type Props = Omit<HTMLAttributes<'button'>, 'class'> & {
   className?: string
@@ -45,12 +43,13 @@ const buttonClassName = [
   {showArrow && (
     <Icon
       aria-hidden="true"
-      class="
-        size-4 shrink-0 transition-transform duration-200
+      className="
+        shrink-0 transition-transform duration-200
         motion-safe:group-hover:translate-x-0.5
         motion-reduce:transition-none
       "
-      name="tabler:arrow-right"
+      name="arrow-right"
+      size="sm"
     />
   )}
 </UIButton>

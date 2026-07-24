@@ -1,4 +1,5 @@
 ---
+import { Link } from '@santi020k/lumen-astro'
 import { Icon } from 'astro-icon/components'
 
 import PageLayout from '@/layouts/Base.astro'
@@ -72,9 +73,9 @@ class="
         sm:text-right
       "
       >
-        <p><a class="hover:text-brand" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a></p>
-        <p><a class="hover:text-brand" href={siteConfig.contact.linkedin}>linkedin.com/in/santi020k</a></p>
-        <p><a class="hover:text-brand" href={siteConfig.contact.github}>github.com/santi020k</a></p>
+        <p><Link className="text-inherit hover:text-brand" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</Link></p>
+        <p><Link className="text-inherit hover:text-brand" href={siteConfig.contact.linkedin}>linkedin.com/in/santi020k</Link></p>
+        <p><Link className="text-inherit hover:text-brand" href={siteConfig.contact.github}>github.com/santi020k</Link></p>
         <p>{siteConfig.location}</p>
         <button
           class="

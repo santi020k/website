@@ -1,4 +1,6 @@
 ---
+import { Eyebrow } from '@santi020k/lumen-astro'
+
 interface Props {
   className?: string
   label: string
@@ -8,7 +10,7 @@ interface Props {
 const { className = '', label, tone = 'neutral' } = Astro.props
 ---
 
-<span
+<Eyebrow
   class:list={[
     `
       inline-flex items-center gap-2 rounded-full border px-4 py-1.5
@@ -37,4 +39,4 @@ const { className = '', label, tone = 'neutral' } = Astro.props
     />
   )}
   {label}
-</span>
+</Eyebrow>

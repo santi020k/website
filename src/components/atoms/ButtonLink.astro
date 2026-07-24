@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { ButtonLink as LumenButtonLink } from '@santi020k/lumen-astro'
 
 interface Props {
   ariaLabel?: string
@@ -22,7 +22,7 @@ const {
 const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
 ---
 
-<a
+<LumenButtonLink
   aria-label={ariaLabel}
   class:list={[
     'group inline-flex cursor-pointer items-center justify-center gap-2',
@@ -36,22 +36,12 @@ const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
   ]}
   data-magnetic={variant !== 'inline' ? 'true' : undefined}
   href={href}
-  rel={newTab ? 'noreferrer noopener' : undefined}
-  target={newTab ? '_blank' : undefined}
+  newTab={newTab}
+  showArrow={showArrow}
+  variant={variant}
 >
   <slot />
-  {showArrow && (
-    <Icon
-      aria-hidden="true"
-      class="
-        size-4 shrink-0 transition-transform duration-200
-        motion-safe:group-hover:translate-x-0.5
-        motion-reduce:transition-none
-      "
-      name={newTab ? 'tabler:arrow-up-right' : 'tabler:arrow-right'}
-    />
-  )}
-</a>
+</LumenButtonLink>
 
 <script>
   document.addEventListener('astro:page-load', () => {

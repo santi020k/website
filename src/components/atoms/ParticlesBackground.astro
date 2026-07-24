@@ -1,4 +1,6 @@
 ---
+import { Particles } from '@santi020k/lumen-astro'
+
 interface Props {
   class?: string
   density?: 'low' | 'medium' | 'high'
@@ -7,13 +9,14 @@ interface Props {
 const { class: className = '', density = 'medium' } = Astro.props
 ---
 
-<div
-  aria-hidden="true"
-  class:list={['pointer-events-none absolute inset-0 overflow-hidden', className]}
+<Particles
+  class:list={[
+    'pointer-events-none absolute inset-0 min-h-0 overflow-hidden rounded-none bg-transparent [background-image:none]',
+    className
+  ]}
   data-particles-bg={density}
-  style="z-index: 0;"
->
-</div>
+  density={density}
+/>
 
 <script>
   type ParticleDensity = 'low' | 'medium' | 'high'

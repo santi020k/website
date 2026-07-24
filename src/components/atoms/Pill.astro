@@ -1,4 +1,6 @@
 ---
+import { Link, Pill as LumenPill } from '@santi020k/lumen-astro'
+
 interface Props {
   className?: string
   href?: string
@@ -15,50 +17,55 @@ const {
   tone = 'neutral'
 } = Astro.props
 
-const Tag = href ? 'a' : 'span'
+const pillClasses = [
+  `
+    group inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5
+    text-sm font-medium transition-all duration-200 no-underline
+    motion-reduce:transition-none
+  `,
+  href && `
+    min-h-11 cursor-pointer
+    hover:-translate-y-0.5
+    active:scale-[0.97]
+    motion-reduce:hover:translate-y-0
+    motion-reduce:active:scale-100
+  `,
+  !href && 'min-h-9',
+  tone === 'neutral' && `
+    border-line/35 bg-surface/55 text-ink-soft
+    shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),0_4px_12px_hsl(var(--ink)/0.03)]
+    backdrop-blur-sm
+    hover:border-line/60 hover:bg-surface/72 hover:text-ink
+    hover:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.14),0_6px_18px_hsl(var(--ink)/0.05)]
+  `,
+  tone === 'brand' && `
+    border-brand/30 bg-brand-soft/55 text-brand
+    shadow-[0_0_12px_hsl(var(--brand)/0.1),inset_0_1px_0_hsl(0_0%_100%/0.14),inset_0_-1px_0_hsl(var(--brand)/0.12)]
+    backdrop-blur-sm
+    hover:border-brand/55 hover:bg-brand-solid/85 hover:text-white
+    hover:shadow-[0_6px_20px_hsl(var(--brand)/0.28),inset_0_1px_0_hsl(0_0%_100%/0.2)]
+  `,
+  tone === 'outline' && `
+    border-line/45 bg-surface/40 text-ink-soft
+    shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),inset_0_-1px_0_hsl(var(--line)/0.08)]
+    backdrop-blur-sm
+    hover:border-brand/45 hover:bg-brand-soft/30 hover:text-brand
+    hover:shadow-[0_4px_16px_hsl(var(--brand)/0.14),inset_0_1px_0_hsl(0_0%_100%/0.12)]
+  `,
+  className
+]
 ---
 
-<Tag
-  class:list={[
-    `
-      group inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5
-      text-sm font-medium transition-all duration-200
-      motion-reduce:transition-none
-    `,
-    href && `
-      min-h-11 cursor-pointer
-      hover:-translate-y-0.5
-      active:scale-[0.97]
-      motion-reduce:hover:translate-y-0
-      motion-reduce:active:scale-100
-    `,
-    !href && 'min-h-9',
-    tone === 'neutral' && `
-      border-line/35 bg-surface/55 text-ink-soft
-      shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),0_4px_12px_hsl(var(--ink)/0.03)]
-      backdrop-blur-sm
-      hover:border-line/60 hover:bg-surface/72 hover:text-ink
-      hover:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.14),0_6px_18px_hsl(var(--ink)/0.05)]
-    `,
-    tone === 'brand' && `
-      border-brand/30 bg-brand-soft/55 text-brand
-      shadow-[0_0_12px_hsl(var(--brand)/0.1),inset_0_1px_0_hsl(0_0%_100%/0.14),inset_0_-1px_0_hsl(var(--brand)/0.12)]
-      backdrop-blur-sm
-      hover:border-brand/55 hover:bg-brand-solid/85 hover:text-white
-      hover:shadow-[0_6px_20px_hsl(var(--brand)/0.28),inset_0_1px_0_hsl(0_0%_100%/0.2)]
-    `,
-    tone === 'outline' && `
-      border-line/45 bg-surface/40 text-ink-soft
-      shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),inset_0_-1px_0_hsl(var(--line)/0.08)]
-      backdrop-blur-sm
-      hover:border-brand/45 hover:bg-brand-soft/30 hover:text-brand
-      hover:shadow-[0_4px_16px_hsl(var(--brand)/0.14),inset_0_1px_0_hsl(0_0%_100%/0.12)]
-    `,
-    className
-  ]}
-  href={href}
->
-  {showHash && <span class="text-xs opacity-60">#</span>}
-  <span class="wrap-break-word">{label}</span>
-  <slot />
-</Tag>
+{href ? (
+  <Link class:list={pillClasses} href={href}>
+    {showHash && <span class="text-xs opacity-60">#</span>}
+    <span class="wrap-break-word">{label}</span>
+    <slot />
+  </Link>
+) : (
+  <LumenPill class:list={pillClasses}>
+    {showHash && <span class="text-xs opacity-60">#</span>}
+    <span class="wrap-break-word">{label}</span>
+    <slot />
+  </LumenPill>
+)}

@@ -1,4 +1,6 @@
 ---
+import { GradientDivider } from '@santi020k/lumen-astro'
+
 interface Props {
   class?: string
 }
@@ -6,17 +8,4 @@ interface Props {
 const { class: className = '' } = Astro.props
 ---
 
-<div
-  aria-hidden="true"
-  class:list={[
-    'pointer-events-none flex justify-center',
-    className
-  ]}
->
-  <div class="
-    h-px w-full max-w-4xl bg-linear-to-r from-transparent via-line/28
-    to-transparent
-  "
-  >
-  </div>
-</div>
+<GradientDivider className={className} />

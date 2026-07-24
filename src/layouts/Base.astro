@@ -1,16 +1,15 @@
 ---
 import { ClientRouter } from 'astro:transitions'
+import { SkipLink, UIPrimitives } from '@santi020k/lumen-astro'
 
 import BackToTop from '@/components/atoms/BackToTop.astro'
 import ParticlesBackground from '@/components/atoms/ParticlesBackground.astro'
-import SkipLink from '@/components/atoms/SkipLink.astro'
 import SiteFooter from '@/components/organisms/SiteFooter.astro'
 import SiteHeader from '@/components/organisms/SiteHeader.astro'
 import BaseHead from '@/components/shared/BaseHead.astro'
 import NavProgress from '@/components/shared/NavProgress.astro'
 import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistration.astro'
 import ThemeProvider from '@/components/shared/ThemeProvider.astro'
-import UIPrimitives from '@/components/shared/UIPrimitives.astro'
 
 import type { SiteMeta } from '@/types/site'
 
@@ -62,7 +61,7 @@ const isGenerousSpacing = mainSpacing === 'generous'
   </head>
   <body class="min-h-screen">
     <ThemeProvider />
-    <SkipLink />
+    <SkipLink href="#main">Skip to content</SkipLink>
 
     <div class="relative flex min-h-screen w-full flex-col overflow-x-clip">
       <ParticlesBackground density="medium" class="-z-10" />

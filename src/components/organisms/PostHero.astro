@@ -155,7 +155,7 @@ const metaItems = [
             "
             >
               {item.type === 'date' ?
-                <time datetime={item.datetime}><FormattedDate date={item.value} /></time> :
+                <FormattedDate date={item.value} /> :
                 item.value}
             </dd>
           </dl>
