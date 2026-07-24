@@ -18,6 +18,13 @@ import { ThemeToggle } from '@santi020k/lumen-astro'
       color 0.2s ease;
   }
 
+  [data-theme-toggle-btn]:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px hsl(var(--canvas)),
+      0 0 0 4px hsl(var(--brand));
+  }
+
   /* Spinning border arc — same technique as btn-secondary and stat-card */
   [data-theme-toggle-btn]::before {
     content: '';

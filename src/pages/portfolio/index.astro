@@ -53,9 +53,13 @@ const sections = [
 
   <section class="page-card-grid" data-stagger="70">
     {sections.map(({ buttonLabel, description, href, label, meta, title }, index) => (
-      <Card class="flex h-full flex-col gap-6 p-7" variant="interactive">
+      <Card
+        class="flex h-full flex-col gap-6 p-7"
+        data-portfolio-section
+        variant="interactive"
+      >
         <div class="flex items-start justify-between gap-4">
-          <p class="section-label text-brand">{label}</p>
+          <p class="section-label text-brand dark:text-accent">{label}</p>
           <span class="text-sm font-semibold text-ink-muted">
             {String(index + 1).padStart(2, '0')}
           </span>

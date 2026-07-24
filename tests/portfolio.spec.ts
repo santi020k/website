@@ -12,7 +12,7 @@ test.describe('Portfolio page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 
     // Ensure the two sections (Work and Projects) are listed
-    const sections = page.locator('section .panel-card')
+    const sections = page.locator('[data-portfolio-section]')
     await expect(sections).toHaveCount(2)
     await expect(sections.first().getByRole('link', { name: /Browse work/i })).toBeVisible()
     await expect(sections.last().getByRole('link', { name: /Browse projects/i })).toBeVisible()
@@ -34,12 +34,7 @@ test.describe('Portfolio page', () => {
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/portfolio/')
     await expect(page.locator('body')).toBeVisible()
-    await expectNoUnexpectedAccessibilityViolations(page, [
-      {
-        htmlIncludes: 'href="/pdf/cv.pdf"',
-        id: 'color-contrast'
-      }
-    ])
+    await expectNoUnexpectedAccessibilityViolations(page)
   })
 
   if (shouldRunVisualSnapshots) {

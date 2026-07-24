@@ -1,11 +1,12 @@
 ---
+import { Button } from '@santi020k/lumen-astro'
 import { Icon } from 'astro-icon/components'
 
 import SearchDialog from './SearchDialog.astro'
 ---
 
 <div class="relative flex shrink-0 items-center" data-site-search>
-  <button
+  <Button
     aria-controls="site-search-dialog"
     aria-expanded="false"
     aria-haspopup="dialog"
@@ -17,10 +18,12 @@ import SearchDialog from './SearchDialog.astro'
       motion-reduce:transition-none
     "
     data-site-search-trigger
+    size="icon"
     type="button"
+    variant="ghost"
   >
     <Icon aria-hidden="true" class="size-5 shrink-0" name="tabler:search" />
-  </button>
+  </Button>
 
   <SearchDialog />
 </div>
@@ -33,6 +36,13 @@ import SearchDialog from './SearchDialog.astro'
       border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
       background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
       color 0.2s ease;
+  }
+
+  [data-site-search-trigger]:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px hsl(var(--canvas)),
+      0 0 0 4px hsl(var(--brand));
   }
 
   [data-site-search-trigger]::before {
@@ -90,6 +100,11 @@ import SearchDialog from './SearchDialog.astro'
 </style>
 
 <style is:global>
+  /* This site search is a full-screen dialog shell, not Lumen's centered panel layout. */
+  #site-search-dialog {
+    transform: none;
+  }
+
   /* Tailwind `flex` beats UA `dialog:not([open])`; without this, the panel stays in the header row. */
   #site-search-dialog:not([open]) {
     display: none;

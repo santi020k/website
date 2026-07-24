@@ -1,8 +1,9 @@
 ---
+import { Button, Dialog, Input } from '@santi020k/lumen-astro'
 import { Icon } from 'astro-icon/components'
 ---
 
-<dialog
+<Dialog
   aria-labelledby="site-search-title"
   class="
     fixed inset-0 z-100 m-0 size-full max-h-none max-w-none border-0
@@ -82,7 +83,7 @@ import { Icon } from 'astro-icon/components'
             <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
           </p>
         </div>
-        <button
+        <Button
           class="
             inline-flex min-h-10 min-w-10 items-center justify-center
             rounded-full border border-transparent text-ink-soft transition-all
@@ -95,16 +96,18 @@ import { Icon } from 'astro-icon/components'
             motion-reduce:active:scale-100
           "
           data-site-search-close
+          size="icon"
           type="button"
+          variant="ghost"
         >
           <Icon aria-hidden="true" class="size-5" name="tabler:x" />
           <span class="sr-only">Close search</span>
-        </button>
+        </Button>
       </div>
 
       <div class="relative">
         <label class="sr-only" for="site-search-input">Search posts and projects</label>
-        <input
+        <Input
           autocomplete="off"
           class="
             peer w-full border-b border-line/55 bg-transparent px-0 py-3.5
@@ -120,6 +123,7 @@ import { Icon } from 'astro-icon/components'
           placeholder="Search by title, tag, or keyword…"
           spellcheck="false"
           type="search"
+          size="lg"
         />
         <!-- Focus glow line -->
         <span
@@ -159,4 +163,4 @@ import { Icon } from 'astro-icon/components'
       </ul>
     </div>
   </div>
-</dialog>
+</Dialog>

@@ -16,7 +16,7 @@ test.describe('About page', () => {
   })
 
   test('should contain key sections', async ({ page }) => {
-    await expect(page.locator('#main').getByText('About', { exact: true })).toBeVisible()
+    await expect(page.locator('#main').getByText('About Santiago Molina (@santi020k)', { exact: true })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What I believe about engineering/i })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What collaborators say about the work/i })).toBeVisible()
   })
@@ -34,12 +34,7 @@ test.describe('About page', () => {
 
   test('should pass accessibility audit', async ({ page }) => {
     await expect(page.locator('body')).toBeVisible()
-    await expectNoUnexpectedAccessibilityViolations(page, [
-      {
-        htmlIncludes: 'href="/portfolio/"',
-        id: 'color-contrast'
-      }
-    ])
+    await expectNoUnexpectedAccessibilityViolations(page)
   })
 
   if (shouldRunVisualSnapshots) {

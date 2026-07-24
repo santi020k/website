@@ -1,4 +1,5 @@
 ---
+import { Button } from '@santi020k/lumen-astro'
 import { Icon } from 'astro-icon/components'
 
 import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
@@ -251,12 +252,13 @@ const isAvailableForBanner =
             lg:hidden
           "
           >
-            <button
+            <Button
               aria-controls="mobile-nav"
               aria-expanded="false"
               class="site-mobile-nav-toggle"
               data-mobile-nav-toggle
               type="button"
+              variant="ghost"
             >
               <span
                 aria-hidden="true"
@@ -280,7 +282,7 @@ const isAvailableForBanner =
                 Menu
               </span>
               <span class="sr-only">navigation</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div> <!-- close site-header-shell -->

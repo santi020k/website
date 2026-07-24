@@ -473,8 +473,8 @@
   border-color: hsl(var(--brand) / 0.55);
   background: linear-gradient(
     135deg,
-    hsl(var(--brand-solid) / 0.9),
-    hsl(var(--brand) / 0.72)
+    hsl(var(--brand-solid)),
+    hsl(var(--brand))
   );
   backdrop-filter: blur(8px);
   box-shadow:
@@ -514,8 +514,8 @@
     --button-y: -2px;
     background: linear-gradient(
       135deg,
-      hsl(var(--brand-solid) / 0.96),
-      hsl(var(--brand) / 0.86)
+      hsl(var(--brand-solid)),
+      hsl(var(--brand))
     );
     box-shadow:
       0 14px 34px hsl(var(--brand-solid) / 0.28),

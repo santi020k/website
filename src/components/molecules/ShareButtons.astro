@@ -1,4 +1,5 @@
 ---
+import { Button } from '@santi020k/lumen-astro'
 import { Icon } from 'astro-icon/components'
 
 interface Props {
@@ -70,7 +71,7 @@ const shareLinks = [
       </a>
     ))}
 
-    <button
+    <Button
       id="copy-link-btn"
       type="button"
       aria-label="Copy link to this page"
@@ -80,6 +81,7 @@ const shareLinks = [
         text-ink-soft transition duration-300
         hover:border-brand hover:bg-brand/5 hover:text-brand
       "
+      variant="ghost"
     >
       <Icon
         name="tabler:link"
@@ -100,7 +102,7 @@ const shareLinks = [
         aria-hidden="true"
       />
       <span id="copy-label" aria-live="polite">Copy link</span>
-    </button>
+    </Button>
   </div>
 </div>
 
