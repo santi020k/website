@@ -9,6 +9,7 @@
     "prebuild": "npm-run-all --serial prebuild:clean generate:icons generate:fonts generate:og",
     "prebuild:clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "astro build",
+    "postbuild": "node scripts/js/generate-cross-site-sitemap.mjs",
     "generate:icons": "node scripts/js/generate-favicons.mjs",
     "generate:fonts": "node scripts/js/generate-fonts.mjs",
     "generate:fonts:py": "python3 scripts/py/generate-fonts.py",

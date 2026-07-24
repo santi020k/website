@@ -247,7 +247,8 @@ export default defineConfig({
       // The search-index.json blob is intended for the in-page site search and
       // duplicates content already crawlable from posts/projects. Keep it out
       // of search results so listings stay clean.
-      policy: [{ userAgent: '*', allow: '/', disallow: ['/search-index.json'] }]
+      policy: [{ userAgent: '*', allow: '/', disallow: ['/search-index.json'] }],
+      sitemap: 'https://santi020k.com/sitemap.xml'
     }),
     webmanifest({
       // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
