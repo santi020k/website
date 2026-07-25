@@ -282,6 +282,16 @@ words:
   - Zeepod
   - Zurück
   - Оbserve
+  - Aaronmgz
+  - appcast
+  - appcasts
+  - Coolstead
+  - Difftale
+  - fanless
+  - geocoder
+  - llms
+  - Squeezy
+  - trackpad
 ignorePaths:
   - .agent/**
   - node_modules/**
@@ -291,3 +301,5 @@ ignorePaths:
   - playwright-report/**
   - test-results/**
   - public/favicon.svg
+  - "src/content/post/2026/memudo-ai-from-property-discovery-to-closing/**"
+  - "src/content/project/memudo-ai/**"

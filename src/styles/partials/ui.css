@@ -8,7 +8,7 @@
 }
 
 @utility ui-button {
-  @apply ui-focus-ring inline-flex min-h-10 cursor-pointer items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200 motion-reduce:transition-none;
+  @apply ui-focus-ring inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200 motion-reduce:transition-none;
 }
 
 @utility ui-button--default {
@@ -40,7 +40,7 @@
 }
 
 @utility ui-button--default-size {
-  @apply min-h-10 px-4 py-2;
+  @apply min-h-11 px-4 py-2;
 }
 
 @utility ui-button--lg {
@@ -48,7 +48,7 @@
 }
 
 @utility ui-button--icon {
-  @apply size-10 px-0;
+  @apply size-11 px-0;
 }
 
 @utility ui-button--disabled {
