@@ -34,4 +34,34 @@ test.describe('Accessibility states', () => {
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
+
+  test('theme toggle ignores a stale Lumen theme preference', async ({ page }) => {
+    await page.addInitScript(() => {
+      if (sessionStorage.getItem('theme-seeded') !== 'true') {
+        localStorage.setItem('lumen-theme', 'lumen-light')
+        localStorage.setItem('theme', 'dark')
+        sessionStorage.setItem('theme-seeded', 'true')
+      }
+    })
+    await page.goto('/')
+
+    const root = page.locator('html')
+    const toggle = page.getByRole('button', { name: 'Toggle color theme' })
+
+    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(root).toHaveClass(/dark/)
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+
+    await toggle.click()
+
+    await expect(root).toHaveAttribute('data-theme', 'light')
+    await expect(root).not.toHaveClass(/dark/)
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+
+    await page.reload()
+
+    await expect(root).toHaveAttribute('data-theme', 'light')
+    await expect(root).not.toHaveClass(/dark/)
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+  })
 })

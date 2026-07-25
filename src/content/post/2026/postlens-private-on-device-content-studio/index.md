@@ -16,7 +16,7 @@ It is choosing one image from a crowded library, deciding whether it needs work,
 
 [PostLens](https://postlens.santi020k.com/) is an iPhone-first visual content studio built around that path:
 
-**Select → Enhance → Compose → Export**
+The workflow is **Select → Enhance → Compose → Export**.
 
 The product deliberately stops there. It does not manage social accounts, schedule posts, track engagement, or build an analytics dashboard. That boundary lets it concentrate on visual preparation while keeping the first version private and on-device.
 
