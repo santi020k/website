@@ -280,7 +280,7 @@ const isLinkActive = (linkPath: string): boolean => {
                       aria-current={active ? 'page' : undefined}
                       class:list={[
                         `
-                          group flex min-h-9 items-center gap-2 rounded-xl px-2.5
+                          group flex min-h-11 items-center gap-2 rounded-xl px-2.5
                           text-sm/6 transition-[background-color,color,transform]
                           duration-200
                           hover:bg-brand/8 hover:text-ink
@@ -317,7 +317,7 @@ const isLinkActive = (linkPath: string): boolean => {
                 <li>
                   <a
                     class="
-                      group flex min-h-9 items-center gap-2 rounded-xl px-2.5
+                      group flex min-h-11 items-center gap-2 rounded-xl px-2.5
                       text-sm/6 text-ink-soft
                       transition-[background-color,color,transform] duration-200
                       hover:bg-brand/8 hover:text-ink
@@ -357,7 +357,7 @@ const isLinkActive = (linkPath: string): boolean => {
                       aria-current={active ? 'page' : undefined}
                       class:list={[
                         `
-                          group flex min-h-9 items-center gap-2 rounded-xl px-2.5
+                          group flex min-h-11 items-center gap-2 rounded-xl px-2.5
                           text-sm/6 transition-[background-color,color,transform]
                           duration-200
                           hover:bg-brand/8 hover:text-ink
@@ -405,9 +405,11 @@ const isLinkActive = (linkPath: string): boolean => {
         {policyLinks.map(({ href, icon, label }) => (
           <a
             class="
-              inline-flex items-center gap-1.5 text-ink-muted transition-colors
+              inline-flex min-h-11 items-center gap-1.5 text-ink-muted
+              transition-colors
               hover:text-brand
               motion-reduce:transition-none
+              sm:min-h-0
             "
             href={href}
           >
@@ -418,11 +420,13 @@ const isLinkActive = (linkPath: string): boolean => {
 
         <a
           class="
-            inline-flex items-center gap-1 rounded-full border border-line/60
-            bg-surface-muted/60 px-2 py-0.5 font-medium text-ink-muted
+            inline-flex min-h-11 items-center gap-1 rounded-full border
+            border-line/60 bg-surface-muted/60 px-2 py-0.5 font-medium
+            text-ink-muted
             transition-colors
             hover:border-brand/40 hover:text-brand
             motion-reduce:transition-none
+            sm:min-h-0
           "
           href="https://github.com/santi020k/website"
           rel="noreferrer noopener"

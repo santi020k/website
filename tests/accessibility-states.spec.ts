@@ -16,11 +16,21 @@ test.describe('Accessibility states', () => {
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
-  test('homepage passes a11y in dark theme', async ({ page }) => {
+  test('theme toggle updates and persists its visual and accessible state', async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('switch', { name: 'Toggle color theme' }).click()
 
-    await expect(page.locator('html')).toHaveAttribute('data-theme', /dark|light/)
+    const root = page.locator('html')
+    const toggle = page.getByRole('button', { name: 'Toggle color theme' })
+    const initialTheme = await root.getAttribute('data-theme')
+    const nextTheme = initialTheme === 'dark' ? 'light' : 'dark'
+
+    await toggle.click()
+
+    await expect(root).toHaveAttribute('data-theme', nextTheme)
+    await expect(toggle).toHaveAttribute('aria-pressed', String(nextTheme === 'dark'))
+    await page.reload()
+    await expect(root).toHaveAttribute('data-theme', nextTheme)
+    await expect(toggle).toHaveAttribute('aria-pressed', String(nextTheme === 'dark'))
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })

@@ -122,8 +122,8 @@
 
   /* Copy button — lives in the header, always visible */
   .copy-button {
-    @apply p-1.5 rounded-md bg-surface/20 border border-line/50 text-ink-muted;
-    @apply transition-all duration-150 shrink-0;
+    @apply inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-line/50 bg-surface/20 p-0 text-ink-muted;
+    @apply transition-all duration-150;
   }
 
   .copy-button:hover {

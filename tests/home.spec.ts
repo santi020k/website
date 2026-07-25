@@ -50,7 +50,7 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
 
   await expect(page.getByRole('link', { name: 'Skip to content' })).toHaveAttribute('href', /^#main$/)
   await expect(page.getByRole('button', { name: 'Open site search' })).toBeVisible()
-  await expect(page.getByRole('switch', { name: 'Toggle color theme' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Toggle color theme' })).toBeVisible()
   await expect(
     page.locator('header').getByRole('link', { name: /Santiago Molina/i }).first()
   ).toHaveAttribute('href', /^\/$/)

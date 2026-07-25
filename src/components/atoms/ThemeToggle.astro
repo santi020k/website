@@ -4,6 +4,7 @@ import { ThemeToggle } from '@santi020k/lumen-astro'
 
 <theme-toggle class="contents">
   <ThemeToggle
+    controlled
     data-theme-toggle-btn
   />
 </theme-toggle>
@@ -90,8 +91,7 @@ class ThemeToggle extends HTMLElement {
     const button = this.querySelector<HTMLButtonElement>('button')
     if (!button) return
 
-    button.setAttribute('role', 'switch')
-    button.setAttribute('aria-checked', String(rootInDarkMode()))
+    button.setAttribute('aria-pressed', String(rootInDarkMode()))
 
     button.addEventListener('click', () => {
       if (this.#isAnimating) return
@@ -102,7 +102,7 @@ class ThemeToggle extends HTMLElement {
 
       if (prefersReducedMotion) {
         document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }))
-        button.setAttribute('aria-checked', String(rootInDarkMode()))
+        button.setAttribute('aria-pressed', String(rootInDarkMode()))
         return
       }
 
@@ -120,7 +120,7 @@ class ThemeToggle extends HTMLElement {
 
     if (isTouchDevice || mobileNavOpen) {
       document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }))
-      button.setAttribute('aria-checked', String(rootInDarkMode()))
+      button.setAttribute('aria-pressed', String(rootInDarkMode()))
       return
     }
 
@@ -152,7 +152,7 @@ class ThemeToggle extends HTMLElement {
 
     // Switch theme immediately while hidden under full-screen overlay
     document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }))
-    button.setAttribute('aria-checked', String(rootInDarkMode()))
+    button.setAttribute('aria-pressed', String(rootInDarkMode()))
 
     // Double rAF: first frame lets the browser commit the append + initial clip-path
     // to the compositor; second frame starts the transition. This avoids the

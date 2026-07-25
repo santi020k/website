@@ -10,9 +10,9 @@ interface Props {
 
 const { variant = 'light', class: className = '', iconOnly = false } = Astro.props
 const isDark = variant === 'dark'
-const fillColor = isDark ? '#713bf7' : '#5a0fdb'
-const strokeColor = isDark ? '#110c1d' : '#FFFFFF'
-const textColor = isDark ? '#faf9fb' : '#332e38'
+const fillColor = 'hsl(var(--brand-solid))'
+const strokeColor = isDark ? 'hsl(var(--theme-bg))' : 'hsl(var(--surface))'
+const textColor = 'hsl(var(--ink))'
 const viewBox = iconOnly ? '0 0 80 80' : '0 0 504 80'
 const logoFontFamily = fontFamily.display
 ---

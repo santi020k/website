@@ -41,8 +41,8 @@ const emailId = `newsletter-email-${variant}`
           </div>
           <a
             class="
-              inline-flex shrink-0 items-center gap-1 text-xs font-medium
-              text-ink-muted transition-colors
+              inline-flex min-h-11 shrink-0 items-center gap-1 text-xs
+              font-medium text-ink-muted transition-colors
               hover:text-brand
               motion-reduce:transition-none
             "
@@ -62,7 +62,7 @@ const emailId = `newsletter-email-${variant}`
           <label class="sr-only" for={emailId}>Email address</label>
           <Input
             autocomplete="email"
-            class="min-h-10 flex-1 rounded-xl px-3 py-2"
+            class="min-h-11 flex-1 rounded-xl px-3 py-2"
             id={emailId}
             inputmode="email"
             name="email"
@@ -71,7 +71,7 @@ const emailId = `newsletter-email-${variant}`
             type="email"
           />
           <Button
-            class="min-h-10 rounded-xl px-3 py-2"
+            class="min-h-11 min-w-11 rounded-xl px-3 py-2"
             size="sm"
             type="submit"
           >
