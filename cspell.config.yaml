@@ -292,6 +292,9 @@ words:
   - llms
   - Squeezy
   - trackpad
+  - Ghostty
+  - Powerline
+  - iterm
 ignorePaths:
   - .agent/**
   - node_modules/**

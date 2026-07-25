@@ -1,7 +1,8 @@
 ---
 title: "Workspace Organizer: Context switching at the window level"
 description: "Why I built a native macOS workspace manager around individual windows, public system APIs, adaptive layouts, and privacy-safe automation."
-publishDate: "2026-07-16T15:00:00.000Z"
+publishDate: "2026-11-13T15:00:00.000Z"
+draft: true
 coverImage:
   alt: "Scattered desktop windows flowing into three orderly, color-coded workspace clusters"
   src: "./cover.webp"

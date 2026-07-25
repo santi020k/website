@@ -1,7 +1,8 @@
 ---
 title: "Coolstead: Safety-first cooling for a Mac"
 description: "What it takes to design a native fan-control utility around bounded requests, invalid sensor data, reversible behavior, and macOS as the final safety layer."
-publishDate: "2026-07-22T15:00:00.000Z"
+publishDate: "2026-08-21T15:00:00.000Z"
+draft: true
 coverImage:
   alt: "Dark Mac cooling system with a central fan and a gradual curve moving from amber heat to cool cyan"
   src: "./cover.webp"

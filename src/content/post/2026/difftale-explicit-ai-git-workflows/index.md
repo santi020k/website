@@ -1,7 +1,8 @@
 ---
 title: "Difftale: Explicit AI-assisted Git workflows"
 description: "Why Difftale generates editable commit and pull request drafts while keeping staging, committing, pushing, and pull request creation under direct control."
-publishDate: "2026-07-24T15:00:00.000Z"
+publishDate: "2026-08-28T15:00:00.000Z"
+draft: true
 coverImage:
   alt: "Luminous Git branches flowing into commit and pull request panels above layered file revisions"
   src: "./cover.webp"

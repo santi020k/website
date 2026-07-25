@@ -1,7 +1,8 @@
 ---
 title: "PostLens: A private on-device content studio"
 description: "Why PostLens keeps selection, scoring, enhancement, composition, and caption preparation on the iPhone while making optional generative handoffs explicit."
-publishDate: "2026-07-18T15:00:00.000Z"
+publishDate: "2026-08-14T15:00:00.000Z"
+draft: true
 coverImage:
   alt: "Photo frames moving through selection, enhancement, composition, and carousel export stages"
   src: "./cover.webp"

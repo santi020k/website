@@ -5,6 +5,7 @@ role: "Creator"
 startingDate: "24 Jul 2026"
 githubUrl: "https://github.com/santi020k/difftale"
 typesId: "personal"
+draft: true
 impactMetrics: ["Generates up to five editable commit drafts with a deterministic local fallback", "Follows file history across Git renames without filling the editor with tabs", "Keeps staging, committing, pushing, and pull request creation explicit"]
 technologies: ["VS Code Extension", "TypeScript", "Node.js", "Git", "GitHub CLI", "VS Code Language Model API", "Conventional Commits", "Turborepo", "pnpm", "Vitest", "esbuild", "Developer Experience (DX)", "AI-assisted Development", "Open Source"]
 coverImage:

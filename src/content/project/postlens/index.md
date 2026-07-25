@@ -5,6 +5,7 @@ role: "Creator"
 startingDate: "14 Jul 2026"
 liveDemoUrl: "https://postlens.santi020k.com/"
 typesId: "personal"
+draft: true
 impactMetrics: ["Keeps core photo analysis, scoring, editing, and caption preparation on the iPhone", "Supports reusable formats for Instagram, TikTok, Pinterest, LinkedIn, X, and generic exports", "Ships the app, permission language, StoreKit catalog, landing page, and support hub in English and Spanish"]
 technologies: ["Swift", "SwiftUI", "iOS", "PhotoKit", "PhotosPicker", "Vision", "Core Image", "Foundation Models", "Image Playground", "StoreKit", "Astro", "TypeScript", "Privacy Engineering", "Accessibility", "On-device AI", "Image Processing", "Localization", "Testing"]
 coverImage:
