@@ -28,7 +28,6 @@ const formattedIndex = String(index + 1).padStart(2, '0')
 <style>
   .principle-card {
     position: relative;
-    overflow: hidden;
     border-radius: 1.75rem;
     background: linear-gradient(
       145deg,
@@ -53,6 +52,7 @@ const formattedIndex = String(index + 1).padStart(2, '0')
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: radial-gradient(
       ellipse 60% 50% at 0% 0%,
       hsl(var(--brand) / 0.07),

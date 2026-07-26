@@ -84,7 +84,6 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
 <style>
   .testimonial-card {
     position: relative;
-    overflow: hidden;
     border-radius: 1.75rem;
     background: linear-gradient(
       145deg,
@@ -109,6 +108,7 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: radial-gradient(
       ellipse 70% 55% at 15% 10%,
       hsl(var(--brand) / 0.06),

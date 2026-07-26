@@ -30,6 +30,11 @@ import { ThemeToggle } from '@santi020k/lumen-astro'
       color 0.2s ease;
   }
 
+  [data-theme-toggle-btn] :is(.ui-theme-toggle__sun, .ui-theme-toggle__moon) {
+    margin: 0;
+    translate: -50% -50%;
+  }
+
   [data-theme-toggle-btn]:focus-visible {
     outline: none;
     box-shadow:

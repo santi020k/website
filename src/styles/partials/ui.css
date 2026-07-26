@@ -254,7 +254,7 @@
 }
 
 @utility ui-button-group {
-  @apply inline-flex items-center overflow-hidden rounded-full border border-line/45 bg-surface/55 p-1;
+  @apply inline-flex items-center rounded-full border border-line/45 bg-surface/55 p-1;
 }
 
 @utility ui-toggle {

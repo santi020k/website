@@ -30,7 +30,7 @@
 }
 
 @utility section-shell {
-  @apply relative overflow-hidden rounded-[2.25rem] px-4 py-8 sm:px-8 sm:py-10;
+  @apply relative rounded-[2.25rem] px-4 py-8 sm:px-8 sm:py-10;
   & > * {
     min-width: 0;
   }
@@ -48,7 +48,7 @@
 }
 
 @utility section-shell-subtle {
-  @apply relative overflow-hidden rounded-[2rem] px-4 py-8 sm:px-8 sm:py-10;
+  @apply relative rounded-[2rem] px-4 py-8 sm:px-8 sm:py-10;
   background: linear-gradient(
     180deg,
     hsl(var(--surface) / 0.44),
@@ -293,7 +293,7 @@
 }
 
 @utility talk-card {
-  @apply relative overflow-hidden rounded-[1.75rem];
+  @apply relative rounded-[1.75rem];
   background: linear-gradient(
     145deg,
     hsl(var(--surface) / 0.74) 0%,
@@ -316,6 +316,7 @@
   &::before {
     content: '';
     position: absolute;
+    border-radius: inherit;
     inset-inline: 12%;
     top: 0;
     height: 1px;
@@ -335,6 +336,7 @@
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: radial-gradient(
       ellipse 65% 50% at 88% 92%,
       hsl(var(--brand) / 0.07),
@@ -362,7 +364,7 @@
 }
 
 @utility mini-note {
-  @apply rounded-2xl border border-line/38 p-5 h-max relative overflow-hidden;
+  @apply rounded-2xl border border-line/38 p-5 h-max relative;
   background: linear-gradient(
     135deg,
     hsl(var(--surface) / 0.62),
@@ -410,6 +412,7 @@
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: radial-gradient(
       ellipse at top left,
       hsl(var(--brand) / 0.06) 0%,
@@ -467,7 +470,7 @@
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */
 
 @utility btn-primary {
-  @apply relative overflow-hidden px-5 py-3 text-white;
+  @apply relative px-5 py-3 text-white;
   --button-y: 0px;
   --button-scale: 1;
   border-color: hsl(var(--brand) / 0.55);
@@ -498,6 +501,7 @@
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: linear-gradient(
       105deg,
       transparent 30%,
@@ -618,7 +622,7 @@
 }
 
 @utility btn-ghost {
-  @apply relative overflow-hidden border-transparent px-4 py-2.5 text-ink;
+  @apply relative border-transparent px-4 py-2.5 text-ink;
   --button-y: 0px;
   --button-scale: 1;
   transform: translate3d(

@@ -10,6 +10,9 @@ impactMetrics: ["Unified four public and private experiences behind one domain",
 technologies: ["Astro", "Next.js", "React.js", "TypeScript", "Tailwind CSS", "Hono", "Cloudflare Workers", "Cloudflare D1", "Drizzle ORM", "Zod", "Turborepo", "pnpm", "OpenNext", "i18next", "Accessibility", "Testing", "CI-CD", "Monorepo"]
 coverImage:
   src: "./cover.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
+  logoSurface: "dark"
   alt: "Nautical night scene with a paper boat, lighthouse, and connected web experiences representing Aaronmgz"
   ogImage: "./cover.webp"
 ---
@@ -52,4 +55,4 @@ The important architectural decision was to treat those experiences as one produ
 
 The best personal projects are not always small. Sometimes the emotional reason to build something is exactly what makes it worth designing for the long term.
 
-[Visit Aaronmgz](https://aaronmgz.com/) or [see the source on GitHub](https://github.com/santi020k/aaronmgz).
+[Visit Aaronmgz](https://aaronmgz.com/).

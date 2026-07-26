@@ -11,6 +11,9 @@ impactMetrics: ["Organizes individual windows instead of forcing every window fr
 technologies: ["Swift", "SwiftUI", "AppKit", "macOS", "Accessibility API", "Apple Shortcuts", "App Intents", "iCloud Drive", "Sparkle", "Astro", "TypeScript", "Cloudflare Workers", "Lemon Squeezy", "Homebrew", "Privacy Engineering", "Accessibility", "Testing", "CI-CD"]
 coverImage:
   src: "./cover.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
+  logoSurface: "dark"
   alt: "Scattered desktop windows flowing into three orderly, color-coded workspace clusters"
   ogImage: "./cover.webp"
 ---
@@ -54,4 +57,4 @@ The window-level distinction is the core idea. A Safari window for personal brow
 
 Modern work happens across many windows from the same few applications. Workspace Organizer treats context as the unit that matters, then rebuilds that context without using private system APIs or uploading the details of what you are working on.
 
-[Visit Workspace Organizer](https://workspace.santi020k.com/) or [see the source on GitHub](https://github.com/santi020k/workspace-organizer).
+[Visit Workspace Organizer](https://workspace.santi020k.com/).

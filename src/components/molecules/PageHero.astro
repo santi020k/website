@@ -14,13 +14,18 @@ const hasActions = Astro.slots.has('default')
 const hasMetaItems = metaItems.length > 0
 ---
 
-<section class="section-container-wide relative overflow-hidden pt-4 pb-4 sm:pt-6 lg:pt-8">
+<section class="
+  relative section-container-wide py-4
+  sm:pt-6
+  lg:pt-8
+"
+>
   <div
     aria-hidden="true"
     class="
-      pointer-events-none absolute top-4 right-0 -z-10 h-[28rem] w-[42rem]
-      max-w-[90vw] rounded-full bg-radial from-brand/12 via-brand-soft/8
-      to-transparent opacity-80 blur-2xl
+      pointer-events-none absolute top-4 right-0 -z-10 h-112 w-2xl max-w-[90vw]
+      rounded-full bg-radial from-brand/12 via-brand-soft/8 to-transparent
+      opacity-80 blur-2xl
     "
   />
 
