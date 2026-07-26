@@ -1,15 +1,14 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
+import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSpotlight.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
-import { collectionDateSortProjects } from '@/utils/date'
+import { collectionRelevanceSortProjects } from '@/utils/date'
 
-const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
+const allProjects = (await getCachedProjects()).sort(collectionRelevanceSortProjects)
 const selectedWork = allProjects.filter(project => project.data.typesId === 'professional').slice(0, 3)
 const selectedProjects = allProjects.filter(project => project.data.typesId === 'personal').slice(0, 3)
 
@@ -27,65 +26,145 @@ const breadcrumbs = [
   }}
 >
   <PageHero
-    description="A curated set of client systems, product work, and independent builds. Each case study connects decisions to delivery context and outcomes."
+    compact
+    description="A focused collection of products, platforms, and open-source tools. Each case study shows the constraints, decisions, and measurable result—not just the final screen."
     eyebrow="Selected portfolio"
-    gradientText="with the context."
-    metaItems={['Architecture', 'Developer experience', 'Technical leadership']}
-    title="Shipped work"
+    gradientText="Built to hold up."
+    metaItems={['Product engineering', 'Technical leadership', 'Developer experience']}
+    title="Work that shipped."
   >
     <ButtonLink href="#selected-work" showArrow>
-      Explore selected work
+      See the case studies
     </ButtonLink>
     <ButtonLink href="/work/" showArrow variant="secondary">
-      Full work history
-    </ButtonLink>
-    <ButtonLink href="/projects/" showArrow variant="secondary">
-      All side projects
+      View work history
     </ButtonLink>
   </PageHero>
 
-  <PageSection>
-    <SectionHeader
-      description="Recent professional work where architecture, delivery systems, and technical leadership had to move together."
-      eyebrow="Client and product work"
-      linkHref="/work/"
-      linkLabel="Browse full work history"
-      title="Selected professional work."
-    />
+  <section
+    class="
+      section-container-wide scroll-mt-28 space-y-8 pt-12
+      sm:pt-16
+      lg:pt-20
+    "
+    data-portfolio-section
+    id="selected-work"
+  >
     <div
       class="
-        grid scroll-mt-28 gap-6
-        md:grid-cols-2
-        xl:grid-cols-3
+        grid gap-6 border-b border-line/50 pb-7
+        lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,1.1fr)] lg:items-end
+        lg:gap-12
       "
-      data-stagger="60"
-      id="selected-work"
+      data-animate
     >
-      {selectedWork.map(project => (
-        <ProjectPreviewCard project={project} />
-      ))}
+      <div class="space-y-4">
+        <Eyebrow label="Client and product work" tone="brand" />
+        <h2 class="
+          max-w-2xl text-3xl font-semibold tracking-[-0.04em]
+          sm:text-4xl
+        "
+        >
+          Systems built under real pressure.
+        </h2>
+      </div>
+      <div class="
+        flex flex-col items-start gap-5
+        sm:flex-row sm:items-end sm:justify-between
+      "
+      >
+        <p class="
+          max-w-xl text-sm/7 text-ink-soft
+          sm:text-base/7
+        "
+        >
+          Professional work where architecture, delivery systems, and technical leadership had to move together.
+        </p>
+        <ButtonLink className="shrink-0" href="/work/" showArrow variant="inline">
+          Browse work
+        </ButtonLink>
+      </div>
     </div>
-  </PageSection>
 
-  <PageSection>
-    <SectionHeader
-      description="Open-source, community, and self-directed work that turns curiosity into reusable tools and practices."
-      eyebrow="Independent builds"
-      linkHref="/projects/"
-      linkLabel="Browse all side projects"
-      title="Selected personal projects."
-    />
     <div
-      class="
+      class="space-y-6"
+      data-stagger="60"
+    >
+      {selectedWork[0] && (
+        <PortfolioProjectSpotlight featured imagePriority project={selectedWork[0]} />
+      )}
+      <div class="
         grid gap-6
         md:grid-cols-2
-        xl:grid-cols-3
       "
+      >
+        {selectedWork.slice(1).map(project => (
+          <PortfolioProjectSpotlight project={project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="
+      section-container-wide space-y-8 pt-12
+      sm:pt-16
+      lg:pt-20
+    "
+    data-portfolio-section
+  >
+    <div
+      class="
+        grid gap-6 border-b border-line/50 pb-7
+        lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,1.1fr)] lg:items-end
+        lg:gap-12
+      "
+      data-animate
+    >
+      <div class="space-y-4">
+        <Eyebrow label="Independent builds" tone="brand" />
+        <h2 class="
+          max-w-2xl text-3xl font-semibold tracking-[-0.04em]
+          sm:text-4xl
+        "
+        >
+          Ideas turned into useful tools.
+        </h2>
+      </div>
+      <div class="
+        flex flex-col items-start gap-5
+        sm:flex-row sm:items-end sm:justify-between
+      "
+      >
+        <p class="
+          max-w-xl text-sm/7 text-ink-soft
+          sm:text-base/7
+        "
+        >
+          Open-source, community, and self-directed work where curiosity becomes something other people can use.
+        </p>
+        <ButtonLink className="shrink-0" href="/projects/" showArrow variant="inline">
+          Browse projects
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div
+      class="space-y-6"
       data-stagger="60"
     >
-      {selectedProjects.map(project => (
-        <ProjectPreviewCard accentTone="accent" project={project} />
-      ))}
+      {selectedProjects[0] && (
+        <PortfolioProjectSpotlight featured project={selectedProjects[0]} />
+      )}
+      <div class="
+        grid gap-6
+        md:grid-cols-2
+      "
+      >
+        {selectedProjects.slice(1).map(project => (
+          <PortfolioProjectSpotlight project={project} />
+        ))}
+      </div>
     </div>
-  </PageSection>
+  </section>
 </PageLayout>

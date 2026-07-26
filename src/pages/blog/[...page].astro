@@ -5,6 +5,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
+import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
@@ -242,6 +243,21 @@ const blogListSchema = {
           <SeriesCard postCount={item.postCount} series={item.series} />
         ))}
       </div>
+    </PageSection>
+  )}
+
+  {isFirstPage && siteConfig.newsletter?.formAction && (
+    <PageSection>
+      <SectionHeader
+        description="A low-volume email for new engineering notes, architecture writeups, and practical lessons from the work."
+        eyebrow="Newsletter"
+        title="Keep up with new writing."
+      />
+      <NewsletterSignup
+        formAction={siteConfig.newsletter.formAction}
+        label="Blog newsletter signup"
+        variant="compact"
+      />
     </PageSection>
   )}
 

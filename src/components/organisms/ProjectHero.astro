@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Icon as AstroIcon } from 'astro-icon/components'
 
 import type { CollectionEntry } from 'astro:content'
 
@@ -15,7 +15,7 @@ import {
   getProjectTypeLabel
 } from '@/utils/project-meta'
 
-import { Breadcrumb } from '@santi020k/lumen-astro'
+import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   parentPage?: { name: string, url: string }
@@ -201,14 +201,13 @@ const metaItems = [
           className="group"
         >
           <span class="flex items-center gap-2">
-            <Icon
-              aria-hidden="true"
-              class="
-                size-4 transition-transform
-                group-hover:translate-x-1
-              "
-              name="tabler:brand-github"
-            />
+            <Icon class="
+              size-4 transition-transform
+              group-hover:translate-x-1
+            "
+            >
+              <AstroIcon aria-hidden="true" class="size-full" focusable="false" name="tabler:brand-github" />
+            </Icon>
             Open repository
           </span>
         </ButtonLink>

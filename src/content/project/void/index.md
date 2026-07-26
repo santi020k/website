@@ -6,6 +6,7 @@ startingDate: "1 Feb 2023"
 endingDate: "1 May 2025"
 liveDemoUrl: "https://void.gg"
 typesId: "professional"
+relevanceWeight: 98
 impactMetrics: [
   "35% better system performance",
   "60% faster deployments",

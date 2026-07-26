@@ -5,7 +5,6 @@ import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import PillCount from '@/components/atoms/PillCount.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
@@ -93,9 +92,13 @@ const breadcrumbs = [
       <p class="shrink-0 section-label">Related topics</p>
       <div class="flex flex-wrap gap-2">
         {relatedTags.map(([t, count]) => (
-          <Pill href={getTagPath(t)} label={t} showHash tone="outline">
-            <PillCount count={count} />
-          </Pill>
+          <Pill
+            count={count}
+            href={getTagPath(t)}
+            label={t}
+            showHash
+            tone="outline"
+          />
         ))}
       </div>
     </section>

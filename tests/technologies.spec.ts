@@ -11,7 +11,7 @@ test.describe('Technologies index page', () => {
   })
 
   test('should have the correct title and main heading', async ({ page }) => {
-    await expect(page).toHaveTitle(/Technology Index/)
+    await expect(page).toHaveTitle(/Capabilities & Technologies/)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
 
@@ -31,6 +31,7 @@ test.describe('Technologies index page', () => {
     // Expect more than just the navigation links — technology pills add many more
     await expect(techLinks).toHaveCount(await techLinks.count())
     expect(await techLinks.count()).toBeGreaterThan(5)
+    await expect(page.locator('.ui-pill__count').first()).toBeVisible()
   })
 
   test('should link back to the portfolio', async ({ page }) => {

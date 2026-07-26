@@ -1,4 +1,6 @@
 ---
+import { Card } from '@santi020k/lumen-astro'
+
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
@@ -42,11 +44,14 @@ const titleClasses = isShelf ?
 
 {isShelf ?
   (
-    <div class="
-      glass-pro flex flex-col gap-4 rounded-[1.75rem] p-5
-      sm:p-6
-      lg:flex-row lg:items-end lg:justify-between lg:gap-8
-    "
+    <Card
+      as="section"
+      class="
+        flex flex-col gap-4 rounded-[1.75rem] p-5
+        sm:p-6
+        lg:flex-row lg:items-end lg:justify-between lg:gap-8
+      "
+      glass="subtle"
     >
       <div class="space-y-3">
         {eyebrow && <Eyebrow label={eyebrow} tone="brand" />}
@@ -81,7 +86,7 @@ const titleClasses = isShelf ?
           {linkLabel}
         </ButtonLink>
       )}
-    </div>
+    </Card>
   ) :
   (
     <div

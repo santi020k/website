@@ -28,7 +28,7 @@ test.describe('Portfolio page', () => {
     await expect(overflowTechnologyLink).toBeVisible()
     await overflowTechnologyLink.click()
     await expect(page).toHaveURL(/\/technologies\/$/)
-    await expect(page.getByRole('heading', { level: 1, name: /Frontend-first stack/i })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: /Capabilities and technologies/i })).toBeVisible()
   })
 
   test('index should pass accessibility audit', async ({ page }) => {
@@ -62,6 +62,17 @@ test.describe('Portfolio page', () => {
 
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await expect(page.locator('main article').first()).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Table of contents' })).toBeVisible()
+
+    const readingProgress = page.getByRole('progressbar', { name: 'Reading progress' })
+
+    await expect(readingProgress).toBeVisible()
+    await page.evaluate(() => {
+      window.scrollTo(0, document.documentElement.scrollHeight)
+    })
+    // eslint-disable-next-line @cspell/spellchecker
+    await expect.poll(async () => Number(await readingProgress.getAttribute('aria-valuenow')))
+      .toBeGreaterThan(90)
 
     // Accessibility audit
     await expect(page.locator('body')).toBeVisible()

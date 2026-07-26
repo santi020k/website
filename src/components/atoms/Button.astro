@@ -28,13 +28,18 @@ const uiVariant = {
 const buttonClassName = [
   'group inline-flex cursor-pointer items-center justify-center gap-2',
   'text-sm font-semibold tracking-[0.01em]',
-  variant === 'inline' ? 'min-h-0 border-transparent px-0 py-0' : '',
+  variant !== 'inline' ? 'min-h-11 rounded-full border' : '',
+  variant === 'primary' ? 'btn-primary' : '',
+  variant === 'secondary' ? 'btn-secondary' : '',
+  variant === 'ghost' ? 'btn-ghost' : '',
+  variant === 'inline' ? 'btn-inline' : '',
   className
 ].filter(Boolean).join(' ')
 ---
 
 <UIButton
   class={buttonClassName}
+  data-magnetic={variant !== 'inline' ? 'true' : undefined}
   disabled={disabled}
   type={type}
   variant={uiVariant[variant]}
@@ -54,3 +59,31 @@ const buttonClassName = [
     />
   )}
 </UIButton>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    if (window.matchMedia('(hover: none)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const magneticElements = document.querySelectorAll<HTMLElement>('[data-magnetic]')
+
+    for (const el of magneticElements) {
+      if (el.dataset.magneticInit === 'true') continue
+      el.dataset.magneticInit = 'true'
+
+      el.addEventListener('mousemove', (event) => {
+        const rect = el.getBoundingClientRect()
+        const dx = event.clientX - (rect.left + rect.width / 2)
+        const dy = event.clientY - (rect.top + rect.height / 2)
+
+        el.style.setProperty('--magnetic-x', `${Math.max(Math.min(dx * 0.06, 4), -4)}px`)
+        el.style.setProperty('--magnetic-y', `${Math.max(Math.min(dy * 0.08, 3), -3)}px`)
+      })
+
+      el.addEventListener('mouseleave', () => {
+        el.style.removeProperty('--magnetic-x')
+        el.style.removeProperty('--magnetic-y')
+      })
+    }
+  })
+</script>

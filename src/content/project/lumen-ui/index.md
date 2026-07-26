@@ -6,6 +6,7 @@ startingDate: "3 Jul 2026"
 githubUrl: "https://github.com/santi020k/lumen"
 liveDemoUrl: "https://lumen.santi020k.com/"
 typesId: "personal"
+relevanceWeight: 100
 impactMetrics: ["Ships 123 accessible primitives across Astro, React, and Web Components", "Shares tokens, contracts, styles, and interaction patterns without forcing one runtime", "Includes Figma resources, an agent skill, MCP server, llms.txt, and a machine-readable registry"]
 technologies: ["Astro", "React.js", "Web Components", "TypeScript", "CSS", "Tailwind CSS", "Accessibility", "Design Systems", "Figma", "Model Context Protocol", "AI-assisted Development", "Vitest", "Playwright", "Turborepo", "pnpm", "NPM", "Developer Documentation", "Open Source"]
 coverImage:

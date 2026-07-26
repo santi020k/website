@@ -1,9 +1,10 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Icon as AstroIcon } from 'astro-icon/components'
 
 import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
-import ContactSection from '@/components/molecules/ContactSection.astro'
-import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+
+import { Icon } from '@santi020k/lumen-astro'
 
 import { menuLinks, siteConfig } from '@/site.config'
 
@@ -16,11 +17,26 @@ interface Props {
 const { variant = 'default' } = Astro.props
 const isCompact = variant === 'compact'
 const year = new Date().getFullYear()
-const navLinks = [...menuLinks]
+
+const navigationIcons: Record<string, string> = {
+  'tabler:edit': 'square-pen',
+  'tabler:home-2': 'home',
+  'tabler:layers-intersect': 'panels-top-left',
+  'tabler:speakerphone': 'megaphone',
+  'tabler:timeline': 'history',
+  'tabler:user-circle': 'circle-user-round'
+}
+
+const navLinks = menuLinks.map(link => ({
+  ...link,
+  lumenIcon: link.icon ? navigationIcons[link.icon] : undefined
+}))
 
 const resourceLinks = [
-  { icon: 'tabler:rss', path: '/feed.xml', title: 'RSS Feed' },
-  { icon: 'tabler:sitemap', path: '/sitemap.xml', title: 'Sitemap' }
+  { lumenIcon: 'rss', path: '/feed.xml', title: 'RSS Feed' },
+  { lumenIcon: 'network', path: '/sitemap.xml', title: 'Sitemap' },
+  { lumenIcon: 'accessibility', path: '/accessibility/', title: 'Accessibility' },
+  { lumenIcon: 'shield-check', path: '/privacy/', title: 'Privacy' }
 ]
 
 const currentPath = Astro.url.pathname
@@ -29,21 +45,23 @@ const isAvailable = /^(available|open)\b/i.test(siteConfig.availability)
 const connectLinks = [
   ...siteConfig.socialLinks.map(({ href, icon, indieAuthRelMe, label }) => ({
     href,
-    icon,
+    brandIcon: icon,
     label,
+    lumenIcon: undefined as string | undefined,
     rel: `noreferrer noopener${indieAuthRelMe === false ? '' : ' me'}`
   })),
-  { href: siteConfig.contact.resume, icon: 'tabler:file-text', label: 'Resume', rel: 'noreferrer noopener' }
-]
-
-const policyLinks = [
-  { href: '/accessibility/', icon: 'tabler:accessible', label: 'Accessibility' },
-  { href: '/privacy/', icon: 'tabler:shield-lock', label: 'Privacy & analytics' }
+  {
+    brandIcon: undefined as string | undefined,
+    href: siteConfig.contact.resume,
+    label: 'Resume',
+    lumenIcon: 'file-text',
+    rel: 'noreferrer noopener'
+  }
 ]
 
 const footerMeta = [
-  { icon: 'tabler:map-pin', label: 'Location', value: siteConfig.location },
-  { icon: 'tabler:briefcase-2', label: 'Availability', value: siteConfig.availability }
+  { label: 'Location', lumenIcon: 'map-pin', value: siteConfig.location },
+  { label: 'Availability', lumenIcon: 'briefcase-business', value: siteConfig.availability }
 ]
 
 const isLinkActive = (linkPath: string): boolean => {
@@ -60,9 +78,9 @@ const isLinkActive = (linkPath: string): boolean => {
 ---
 
 <footer class="
-  relative mt-12 overflow-x-clip px-4 pb-12
-  sm:mt-14 sm:px-6 sm:pb-14
-  lg:mt-16 lg:px-8 lg:pb-16
+  relative mt-10 overflow-x-clip px-4 pb-6
+  sm:mt-12 sm:px-6 sm:pb-8
+  lg:mt-14 lg:px-8
 "
 >
   <!-- Top ambient glow with floating animation -->
@@ -109,98 +127,56 @@ const isLinkActive = (linkPath: string): boolean => {
       style="background: linear-gradient(135deg, hsl(var(--brand) / 0.12), hsl(var(--accent) / 0.08), hsl(var(--glow) / 0.05));"
     />
 
-    <!-- Unified Contact & Newsletter Section -->
+    <!-- Concise contact call to action -->
     {!isCompact && (
       <section
         class="
-          relative z-10 mt-8 grid gap-8 pt-10 pb-8
+          relative z-10 mt-6 grid items-end gap-6 pt-8 pb-7
           before:pointer-events-none before:absolute before:inset-y-0
           before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2
           before:bg-surface-muted/10
-          sm:mt-10 sm:pt-12 sm:pb-9
-          lg:mt-14 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-12
-          lg:pb-8
+          sm:mt-8 sm:pt-10 sm:pb-8
+          lg:mt-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-10
         "
       >
-      <!-- Left: copy -->
-      <div class="
-        space-y-3
-        lg:pt-3
-      "
-      >
-        <div class="flex flex-wrap items-center gap-3">
+        <div class="max-w-2xl space-y-3">
           <p class="
             section-label text-brand
             dark:text-accent
           "
           >Get in touch
           </p>
-          {isAvailable && (
-            <span class="
-              inline-flex items-center gap-1.5 rounded-full border
-              border-success/25 bg-success/8 px-2.5 py-0.5 text-xs font-medium
-              text-success
-            "
-            >
-              <span class="relative flex size-1.5 shrink-0">
-                <span class="
-                  absolute inline-flex size-full animate-ping rounded-full
-                  bg-success/75 opacity-75
-                  motion-reduce:animate-none
-                "
-                />
-                <span class="
-                  relative inline-flex size-1.5 rounded-full bg-success
-                "
-                />
-              </span>
-              Available
-            </span>
-          )}
+          <h2 class="
+            text-2xl font-semibold tracking-tight
+            sm:text-3xl
+          "
+          >
+            Let's build something useful together.
+          </h2>
+          <p class="max-w-xl text-sm/6 text-ink-soft">
+            Have a project in mind or want to compare notes on engineering?
+            Tell me what you're working on.
+          </p>
         </div>
 
-        <h2 class="
-          text-2xl font-semibold tracking-tight
-          sm:text-3xl
-        "
-        >
-          Let's build something{' '}
-          <span
-            class="
-              bg-linear-to-r from-brand via-accent to-brand bg-clip-text
-              text-transparent
-              motion-safe:animate-shimmer
-            "
-            style="background-size: 200% 100%;"
-          >
-            useful
-          </span>{' '}
-          together.
-        </h2>
-
-        <p class="max-w-md text-sm text-ink-soft">
-          Have a project in mind or want to compare notes on engineering?
-          Pick a channel below and I'll get back to you quickly.
-        </p>
-      </div>
-
-      <!-- Right: contact + newsletter -->
-      <div class="grid gap-5">
-        <ContactSection compact />
-        {siteConfig.newsletter?.formAction && (
-          <NewsletterSignup formAction={siteConfig.newsletter.formAction} label="Newsletter signup (footer)" variant="compact" />
-        )}
-      </div>
+        <div class="flex flex-row flex-wrap gap-3">
+          <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow>
+            Let's talk
+          </ButtonLink>
+          <ButtonLink href={`mailto:${siteConfig.contact.email}`} variant="secondary">
+            Email me
+          </ButtonLink>
+        </div>
       </section>
     )}
 
     <section
       class="
-        relative z-10 pt-8 pb-10
+        relative z-10 pt-7 pb-8
         before:pointer-events-none before:absolute before:inset-y-0
         before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2
         before:bg-surface-muted/25
-        sm:pt-9 sm:pb-12
+        sm:pt-8 sm:pb-10
       "
       aria-label="Footer directory"
     >
@@ -244,26 +220,25 @@ const isLinkActive = (linkPath: string): boolean => {
             </p>
           </div>
 
-          <dl class="grid gap-3 text-sm">
-            {footerMeta.map(({ icon, label, value }) => {
+          <dl class="
+            grid gap-3 border-t border-line/45 pt-4 text-sm
+            sm:grid-cols-2
+            md:grid-cols-1
+          "
+          >
+            {footerMeta.map(({ label, lumenIcon, value }) => {
               const availabilityItem = label === 'Availability'
 
               return (
-                <div
-                  class="
-                    grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 rounded-2xl
-                    border border-line/45 bg-surface/35 px-3.5 py-3
-                  "
-                >
+                <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3">
                   <Icon
-                    aria-hidden="true"
                     class:list={[
                       'mt-0.5 size-4 shrink-0',
                       availabilityItem && isAvailable ?
                         'text-success' :
                         'text-brand'
                     ]}
-                    name={icon}
+                    name={lumenIcon}
                   />
                   <dt class="section-label text-[0.65rem]">{label}</dt>
                   <dd
@@ -284,7 +259,7 @@ const isLinkActive = (linkPath: string): boolean => {
 
         <div
           class="
-            grid gap-8
+            grid grid-cols-2 gap-x-4 gap-y-7
             md:pl-8
             lg:grid-cols-3 lg:gap-8 lg:pl-12
           "
@@ -317,7 +292,6 @@ const isLinkActive = (linkPath: string): boolean => {
                       href={link.path}
                     >
                       <Icon
-                        aria-hidden="true"
                         class:list={[
                           `
                             size-4 shrink-0 transition-colors duration-200
@@ -330,7 +304,7 @@ const isLinkActive = (linkPath: string): boolean => {
                               group-hover:text-brand
                             `
                         ]}
-                        name={link.icon}
+                        name={link.lumenIcon ?? 'circle-dot'}
                       />
                       {link.title}
                     </a>
@@ -343,7 +317,7 @@ const isLinkActive = (linkPath: string): boolean => {
           <div>
             <p class="mb-4 section-label">Connect</p>
             <ul class="grid gap-1.5">
-              {connectLinks.map(({ href, icon, label, rel }) => (
+              {connectLinks.map(({ brandIcon, href, label, lumenIcon, rel }) => (
                 <li>
                   <a
                     class="
@@ -359,16 +333,29 @@ const isLinkActive = (linkPath: string): boolean => {
                     rel={rel}
                     target={href.startsWith('http') ? '_blank' : undefined}
                   >
-                    <Icon
-                      aria-hidden="true"
-                      class="
-                        size-4 shrink-0 text-ink-muted transition-colors
-                        duration-200
-                        group-hover:text-brand
-                        motion-reduce:transition-none
-                      "
-                      name={icon}
-                    />
+                    {lumenIcon ?
+                      (
+                        <Icon
+                          class="
+                            size-4 shrink-0 text-ink-muted transition-colors
+                            duration-200
+                            group-hover:text-brand
+                            motion-reduce:transition-none
+                          "
+                          name={lumenIcon}
+                        />
+                      ) :
+                      (
+                        <Icon class="
+                          size-4 shrink-0 text-ink-muted transition-colors
+                          duration-200
+                          group-hover:text-brand
+                          motion-reduce:transition-none
+                        "
+                        >
+                          <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={brandIcon} />
+                        </Icon>
+                      )}
                     {label}
                   </a>
                 </li>
@@ -376,10 +363,18 @@ const isLinkActive = (linkPath: string): boolean => {
             </ul>
           </div>
 
-          <div>
+          <div class="
+            col-span-2
+            lg:col-span-1
+          "
+          >
             <p class="mb-4 section-label">Resources</p>
-            <ul class="grid gap-1.5">
-              {resourceLinks.map(({ icon, path, title }) => {
+            <ul class="
+              grid grid-cols-2 gap-1.5
+              lg:grid-cols-1
+            "
+            >
+              {resourceLinks.map(({ lumenIcon, path, title }) => {
                 const active = isLinkActive(path)
 
                 return (
@@ -404,7 +399,6 @@ const isLinkActive = (linkPath: string): boolean => {
                       href={path}
                     >
                       <Icon
-                        aria-hidden="true"
                         class:list={[
                           `
                             size-4 shrink-0 transition-colors duration-200
@@ -417,7 +411,7 @@ const isLinkActive = (linkPath: string): boolean => {
                               group-hover:text-brand
                             `
                         ]}
-                        name={icon}
+                        name={lumenIcon}
                       />
                       {title}
                     </a>
@@ -433,43 +427,55 @@ const isLinkActive = (linkPath: string): boolean => {
     <!-- Bottom bar -->
     <div
       class="
-        mt-5 flex flex-col gap-3 px-1 text-xs text-ink-muted opacity-100
-        sm:mt-6 sm:flex-row sm:items-center sm:justify-between
+        mt-4 border-t border-line/40 pt-5 text-xs text-ink-muted opacity-100
+        sm:mt-5
       "
     >
-      <p>&copy; {year} {siteConfig.author}.</p>
-
-      <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-        {policyLinks.map(({ href, icon, label }) => (
-          <a
-            class="
-              inline-flex min-h-11 items-center gap-1.5 text-ink-muted
-              transition-colors
-              hover:text-brand
-              motion-reduce:transition-none
-              sm:min-h-0
-            "
-            href={href}
+      <div
+        class="
+          flex flex-col gap-1 px-1
+          sm:flex-row sm:items-center sm:justify-between sm:gap-4
+        "
+      >
+        <div>
+          <p class="
+            flex min-h-11 flex-wrap items-center gap-x-1
+            sm:min-h-0
+          "
           >
-            <Icon aria-hidden="true" class="size-3 shrink-0" name={icon} />
-            {label}
-          </a>
-        ))}
+            <span>&copy; {year} {siteConfig.author} —</span>
+            <a
+              class="
+                inline-flex min-h-11 items-center text-ink-muted
+                transition-colors
+                hover:text-brand
+                motion-reduce:transition-none
+                sm:min-h-0
+              "
+              href="https://lumen.santi020k.com"
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              built with Lumen.
+            </a>
+          </p>
+        </div>
 
         <a
           class="
-            inline-flex min-h-11 items-center gap-1 rounded-full border
-            border-line/60 bg-surface-muted/60 px-2 py-0.5 font-medium
+            mr-14 inline-flex min-h-11 items-center gap-1 self-end
             text-ink-muted transition-colors
-            hover:border-brand/40 hover:text-brand
+            hover:text-brand
             motion-reduce:transition-none
-            sm:min-h-0
+            sm:mr-0 sm:min-h-0 sm:self-auto
           "
           href="https://github.com/santi020k/website"
           rel="noreferrer noopener"
           target="_blank"
         >
-          <Icon aria-hidden="true" class="size-3" name="tabler:brand-github" />
+          <Icon class="size-3 shrink-0">
+            <AstroIcon aria-hidden="true" class="size-full" focusable="false" name="tabler:brand-github" />
+          </Icon>
           v{version}
         </a>
       </div>

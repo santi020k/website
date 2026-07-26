@@ -1,12 +1,10 @@
 ---
-import { Icon } from 'astro-icon/components'
-
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects, getFormattedDate } from '@/utils/date'
 
-import { ButtonLink, Link } from '@santi020k/lumen-astro'
+import { ButtonLink, Icon, Link } from '@santi020k/lumen-astro'
 
 import { AUTHOR_JOB_TITLE, siteConfig } from '@/site.config'
 
@@ -131,7 +129,7 @@ const resumePageSchema = {
             href={resumePdfPath}
             variant="primary"
           >
-            <Icon aria-hidden="true" class="size-4" name="tabler:download" /> Download PDF
+            <Icon class="size-4" name="download" /> Download PDF
           </ButtonLink>
           <ButtonLink
             ariaLabel="Open resume PDF in a new tab"
@@ -141,7 +139,7 @@ const resumePageSchema = {
             showArrow
             variant="secondary"
           >
-            <Icon aria-hidden="true" class="size-4" name="tabler:file-type-pdf" />
+            <Icon class="size-4" name="file-type-2" />
             Open PDF
           </ButtonLink>
         </div>

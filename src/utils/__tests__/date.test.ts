@@ -2,7 +2,11 @@ import type { CollectionEntry } from 'astro:content'
 
 import { describe, expect, test } from 'vitest'
 
-import { collectionDateSortProjects, getFormattedDate } from '../date'
+import {
+  collectionDateSortProjects,
+  collectionRelevanceSortProjects,
+  getFormattedDate
+} from '../date'
 
 const expectDefined = <T>(value: T | undefined): T => {
   expect(value).toBeDefined()
@@ -66,7 +70,9 @@ describe('getFormattedDate', () => {
 
 // ─── collectionDateSortProjects ───────────────────────────────────────────────
 
-const makeProject = (startingDate: Date) => ({ data: { startingDate } }) as unknown as CollectionEntry<'project'>
+const makeProject = (startingDate: Date, relevanceWeight = 0) => ({
+  data: { relevanceWeight, startingDate }
+}) as unknown as CollectionEntry<'project'>
 
 describe('collectionDateSortProjects', () => {
   test('returns a positive value when the first project is older', () => {
@@ -100,5 +106,21 @@ describe('collectionDateSortProjects', () => {
     expect(expectDefined(first).data.startingDate.getFullYear()).toBe(2023)
     expect(expectDefined(second).data.startingDate.getFullYear()).toBe(2021)
     expect(expectDefined(third).data.startingDate.getFullYear()).toBe(2020)
+  })
+})
+
+describe('collectionRelevanceSortProjects', () => {
+  test('sorts higher-weight projects first even when they are older', () => {
+    const olderButRelevant = makeProject(new Date('2020-06-01'), 100)
+    const newer = makeProject(new Date('2026-06-01'), 80)
+
+    expect(collectionRelevanceSortProjects(olderButRelevant, newer)).toBeLessThan(0)
+  })
+
+  test('uses the starting date when projects have the same weight', () => {
+    const older = makeProject(new Date('2020-06-01'), 80)
+    const newer = makeProject(new Date('2026-06-01'), 80)
+
+    expect(collectionRelevanceSortProjects(older, newer)).toBeGreaterThan(0)
   })
 })

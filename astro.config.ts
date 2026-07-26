@@ -26,6 +26,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 // Remark plugins
 import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
+import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { siteConfig } from './src/site.config'
@@ -381,6 +382,7 @@ export default defineConfig({
             ]
           }
         ],
+        rehypeLumenCode,
         rehypeUnwrapImages
       ],
       remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],

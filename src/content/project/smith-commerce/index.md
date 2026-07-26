@@ -5,6 +5,7 @@ role: "Senior Front End Developer"
 startingDate: "1 May 2025"
 liveDemoUrl: "https://www.marcone.com/"
 typesId: "professional"
+relevanceWeight: 100
 impactMetrics: [
   "Lighthouse score improved from 35 to 98",
   "Time to Interactive dropped by 75%",

@@ -6,6 +6,7 @@ startingDate: "1 Dec 2018"
 endingDate: "1 Jan 2020"
 liveDemoUrl: "https://www.datagran.io"
 typesId: "professional"
+relevanceWeight: 76
 caseStudy:
   problem: "The product could not pause for a rewrite — a jQuery-heavy martech surface had to keep shipping while engineering raised quality and velocity."
   approach: "Gradual migration to React and TypeScript with shared components, testing discipline, and tight collaboration with backend and data teams on complex dashboards."

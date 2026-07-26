@@ -6,6 +6,7 @@ startingDate: "1 Jan 2020"
 endingDate: "1 Jul 2021"
 liveDemoUrl: "https://pads.com.co"
 typesId: "professional"
+relevanceWeight: 80
 impactMetrics: [
   "50% growth in monthly active users",
   "Connected web, broker, and mobile workflows",

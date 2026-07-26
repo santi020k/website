@@ -6,6 +6,7 @@ startingDate: "1 Jan 2025"
 endingDate: "1 Jul 2025"
 liveDemoUrl: "https://web.archive.org/web/20250827083904/https://www.xgames.com/"
 typesId: "professional"
+relevanceWeight: 94
 impactMetrics: [
   "56+ pull requests merged across two codebases",
   "Real-time geo-based live stream access across global audiences",

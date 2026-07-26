@@ -1,7 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components'
-
-import { Button, Card, Input, Link } from '@santi020k/lumen-astro'
+import { Button, Card, Icon, Input, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   formAction: string
@@ -48,7 +46,7 @@ const emailId = `newsletter-email-${variant}`
             "
             href="/feed.xml"
           >
-            <Icon aria-hidden="true" class="size-3.5" name="tabler:rss" />
+            <Icon class="size-3.5" name="rss" />
             RSS
           </a>
         </div>
@@ -75,7 +73,7 @@ const emailId = `newsletter-email-${variant}`
             size="sm"
             type="submit"
           >
-            <Icon aria-hidden="true" class="size-4" name="tabler:send" />
+            <Icon class="size-4" name="send" />
             <span class="
               sr-only
               sm:not-sr-only
@@ -157,7 +155,7 @@ const emailId = `newsletter-email-${variant}`
             class="min-h-11 w-full rounded-2xl px-4 py-2.5"
             type="submit"
           >
-            <Icon aria-hidden="true" class="size-4 shrink-0" name="tabler:send" />
+            <Icon class="size-4 shrink-0" name="send" />
             Get new posts
           </Button>
         </form>

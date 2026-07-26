@@ -20,32 +20,24 @@ seriesOrder: 3
 canonicalUrl: "https://medium.com/@santi020k/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092"
 ---
 
-[Read the Previous Post: Building the Best Next.js TypeScript ESLint Configuration](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7)
+import { Code, CodeTabs } from '@santi020k/lumen-astro'
 
-[GitHub Repository](https://github.com/santi020k/posts/tree/post-3)
+export const installCommands = [
+  {
+    value: 'npm',
+    label: 'npm',
+    code: 'npm install --save-dev husky lint-staged',
+    language: 'bash'
+  },
+  {
+    value: 'yarn',
+    label: 'yarn',
+    code: 'yarn add husky lint-staged --dev',
+    language: 'bash'
+  }
+]
 
-Implementing a robust pre-commit system can significantly reduce pull request review time. By enforcing ESLint rules, ensuring passing tests, and maintaining a stable build, developers can avoid pushing broken builds and the subsequent need for corrective commits.
-
-This approach improves code quality while reducing CI/CD expenses.
-
-## Setting Up Pre-commit and Pre-push
-
-Start by installing the required dependencies:
-
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
-```bash title="terminal"
-npm install --save-dev husky lint-staged
-# or
-yarn add husky lint-staged --dev
-```
-
-To organize Husky within a `config` folder, modify your `package.json`:
-
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
-```json title="package.json"
-{
+export const packageJson = `{
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -61,8 +53,55 @@ To organize Husky within a `config` folder, modify your `package.json`:
       "eslint --fix"
     ]
   }
-}
-```
+}`
+
+export const prepareCommands = [
+  {
+    value: 'npm',
+    label: 'npm',
+    code: 'npm run prepare',
+    language: 'bash'
+  },
+  {
+    value: 'yarn',
+    label: 'yarn',
+    code: 'yarn run prepare',
+    language: 'bash'
+  }
+]
+
+[Read the Previous Post: Building the Best Next.js TypeScript ESLint Configuration](https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7)
+
+[GitHub Repository](https://github.com/santi020k/posts/tree/post-3)
+
+Implementing a robust pre-commit system can significantly reduce pull request review time. By enforcing ESLint rules, ensuring passing tests, and maintaining a stable build, developers can avoid pushing broken builds and the subsequent need for corrective commits.
+
+This approach improves code quality while reducing CI/CD expenses.
+
+## Setting Up Pre-commit and Pre-push
+
+Start by installing the required dependencies:
+
+<CodeTabs
+  ariaLabel="Choose a package manager to install the development dependencies"
+  class="not-prose"
+  items={installCommands}
+  storageKey="preferred-package-manager"
+  theme="santi020k"
+  wrap={false}
+/>
+
+To organize Husky within a `config` folder, modify your `package.json`:
+
+<Code
+  class="not-prose"
+  code={packageJson}
+  copy
+  label="package.json"
+  language="json"
+  theme="santi020k"
+  variant="block"
+/>
 
 This establishes commands for pre-commit and pre-push operations. Customize according to your project requirements.
 
@@ -70,39 +109,53 @@ This establishes commands for pre-commit and pre-push operations. Customize acco
 
 The `pre-commit` script executes linting with fixes and runs tests before allowing commits:
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
-```json title="package.json"
-"pre-commit": "lint-staged && vitest run"
-```
+<Code
+  class="not-prose"
+  code={'"pre-commit": "lint-staged && vitest run"'}
+  copy
+  label="package.json"
+  language="json"
+  theme="santi020k"
+  variant="block"
+/>
 
 The `pre-push` script enforces strict linting standards and triggers the build process:
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
-```json title="package.json"
-"pre-push": "eslint . --fix --max-warnings=0 && npm run build"
-```
+<Code
+  class="not-prose"
+  code={'"pre-push": "eslint . --fix --max-warnings=0 && npm run build"'}
+  copy
+  label="package.json"
+  language="json"
+  theme="santi020k"
+  variant="block"
+/>
 
 Execute the prepare command to generate the hook files:
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
-```bash title="terminal"
-npm run prepare
-# or
-yarn run prepare
-```
+<CodeTabs
+  ariaLabel="Choose a package manager to prepare the Husky hooks"
+  class="not-prose"
+  items={prepareCommands}
+  storageKey="preferred-package-manager"
+  theme="santi020k"
+  wrap={false}
+/>
 
 This generates the necessary files in the `config/.husky` directory. These files allow Husky to execute the specified commands whenever a commit or push is made.
 
 If you ever need to bypass Husky's verification — for example during a work in progress — you can use `--no-verify`:
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
-```bash title="terminal"
-git commit . -m 'quick fix' --no-verify
-```
+<Code
+  class="not-prose"
+  code={"git commit . -m 'quick fix' --no-verify"}
+  copy
+  label="terminal"
+  language="bash"
+  theme="santi020k"
+  variant="block"
+  wrap={false}
+/>
 
 Bypassing verification risks overlooking console errors and is not recommended as a regular practice.
 

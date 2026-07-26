@@ -44,7 +44,7 @@ const imageSizes = featured ?
   <a
     aria-label={data.title}
     class:list={[
-      'relative z-10 block',
+      'relative z-10 block overflow-hidden rounded-2xl',
       featured ?
         `
           px-4 pt-4
@@ -63,7 +63,7 @@ const imageSizes = featured ?
         <CoverImage
           alt={data.coverImage.alt}
           ariaHidden={true}
-          className="rounded-none border-0"
+          className="rounded-2xl! border-0!"
           featured={featured}
           image={data.coverImage.src}
           loading={featured ? 'eager' : 'lazy'}
@@ -74,7 +74,7 @@ const imageSizes = featured ?
         />
       ) :
       (
-        <div class="aspect-16/10 bg-surface-muted grid-fade"/>
+        <div class="aspect-16/10 rounded-2xl bg-surface-muted grid-fade"/>
       )}
   </a>
 

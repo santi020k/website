@@ -1,6 +1,4 @@
 ---
-import { Icon } from 'astro-icon/components'
-
 import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
@@ -8,7 +6,7 @@ import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
 import type { SiteLink } from '@/types/site'
 
-import { Button } from '@santi020k/lumen-astro'
+import { Button, Icon } from '@santi020k/lumen-astro'
 
 import { menuLinks, siteConfig } from '@/site.config'
 
@@ -17,6 +15,13 @@ const isAvailableForBanner =
   siteConfig.showAvailabilityBanner !== false
 
 const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
+const navigationIcons: Record<string, string> = {
+  'tabler:edit': 'square-pen',
+  'tabler:home-2': 'home',
+  'tabler:layers-intersect': 'panels-top-left',
+  'tabler:timeline': 'history',
+  'tabler:user-circle': 'circle-user-round'
+}
 
 ---
 
@@ -197,7 +202,6 @@ const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
                 >
                   {link.icon && (
                     <Icon
-                      aria-hidden="true"
                       class:list={[
                         `
                           hidden size-4 shrink-0 transition-colors duration-200
@@ -211,7 +215,7 @@ const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
                             group-hover:text-ink-soft
                           `
                       ]}
-                      name={link.icon}
+                      name={navigationIcons[link.icon] ?? 'circle-dot'}
                     />
                   )}
                   {link.title}
@@ -274,14 +278,14 @@ const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
                 class="relative flex size-5 items-center justify-center"
               >
                 <span class="absolute inset-0 flex items-center justify-center" data-mobile-nav-menu-icon>
-                  <Icon aria-hidden="true" class="size-5" name="tabler:menu-2" />
+                  <Icon class="size-5" name="menu" />
                 </span>
                 <span
                   class="absolute inset-0 items-center justify-center"
                   data-mobile-nav-close-icon
                   hidden
                 >
-                  <Icon aria-hidden="true" class="size-5" name="tabler:x" />
+                  <Icon class="size-5" name="x" />
                 </span>
               </span>
               <span
@@ -410,9 +414,8 @@ const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
                     >
                       {link.icon && (
                         <Icon
-                          aria-hidden="true"
                           class="size-4 shrink-0"
-                          name={link.icon}
+                          name={navigationIcons[link.icon] ?? 'circle-dot'}
                         />
                       )}
                     </span>

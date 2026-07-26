@@ -6,6 +6,7 @@ startingDate: "1 Jan 2019"
 endingDate: "1 Jun 2019"
 liveDemoUrl: "https://web.archive.org/web/20181227002803/https://www.tedxmedellinoficial.com/"
 typesId: "personal"
+relevanceWeight: 62
 impactMetrics: [
   "Supported a sold-out 2019 TEDx Medellin edition",
   "Launched the WordPress site for the 'Dialogo' event theme",

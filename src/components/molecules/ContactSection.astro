@@ -1,9 +1,9 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Icon as AstroIcon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
-import { Button, Card } from '@santi020k/lumen-astro'
+import { Button, Card, Icon } from '@santi020k/lumen-astro'
 
 import { siteConfig } from '@/site.config'
 
@@ -36,7 +36,7 @@ const contactChannels = [
     action: 'Send an email',
     description: 'For detailed briefs, formal proposals, or when you need attachments and async review.',
     href: `mailto:${siteConfig.contact.email}`,
-    icon: 'tabler:mail',
+    lumenIcon: 'mail',
     label: 'Email',
     value: siteConfig.contact.email
   }
@@ -46,7 +46,7 @@ const contactChannels = [
 {compact ?
   (
     <div class="grid gap-3">
-      {contactChannels.map(({ href, icon, label, newTab = false, value }) => (
+      {contactChannels.map(({ href, icon, label, lumenIcon, newTab = false, value }) => (
         <a
           class="
             group mini-note flex items-center gap-4 p-4 transition-all
@@ -74,28 +74,39 @@ const contactChannels = [
             motion-reduce:transition-none
           "
           >
-            <Icon
-              aria-hidden="true"
-              class="
-                size-5 transition-transform duration-200
-                group-hover:scale-105
-                motion-reduce:transition-none
-              "
-              name={icon}
-            />
+            {lumenIcon ?
+              (
+                <Icon
+                  class="
+                    size-5 transition-transform duration-200
+                    group-hover:scale-105
+                    motion-reduce:transition-none
+                  "
+                  name={lumenIcon}
+                />
+              ) :
+              (
+                <Icon class="
+                  size-5 transition-transform duration-200
+                  group-hover:scale-105
+                  motion-reduce:transition-none
+                "
+                >
+                  <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={icon} />
+                </Icon>
+              )}
           </div>
           <div class="min-w-0 flex-1">
             <div class="flex items-center justify-between gap-2">
               <p class="section-label">{label}</p>
               <Icon
-                aria-hidden="true"
                 class="
                   size-4 text-ink-muted transition-all duration-200
                   group-hover:translate-x-0.5 group-hover:-translate-y-0.5
                   group-hover:text-brand
                   motion-reduce:transition-none
                 "
-                name="tabler:arrow-up-right"
+                name="arrow-up-right"
               />
             </div>
             <p class="
@@ -164,7 +175,7 @@ const contactChannels = [
           </div>
 
           <div class="space-y-5">
-            {contactChannels.map(({ action, description, href, icon, label, newTab = false, value }, index) => (
+            {contactChannels.map(({ action, description, href, icon, label, lumenIcon, newTab = false, value }, index) => (
               <div
                 class:list={[
                   `
@@ -180,7 +191,13 @@ const contactChannels = [
                     rounded-2xl bg-brand-soft text-brand
                   "
                   >
-                    <Icon aria-hidden="true" class="size-6" name={icon} />
+                    {lumenIcon ?
+                      <Icon class="size-6" name={lumenIcon} /> :
+                      (
+                        <Icon class="size-6">
+                          <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={icon} />
+                        </Icon>
+                      )}
                   </div>
                   <div class="space-y-2">
                     <p class="section-label">{label}</p>
@@ -216,8 +233,8 @@ const contactChannels = [
                             type="button"
                             variant="ghost"
                           >
-                            <Icon aria-hidden="true" class="size-3.5" data-copy-icon name="tabler:copy" />
-                            <Icon aria-hidden="true" class="hidden size-3.5" data-check-icon name="tabler:check" />
+                            <Icon class="size-3.5" data-copy-icon name="copy" />
+                            <Icon class="hidden size-3.5" data-check-icon name="check" />
                           </Button>
                         </>
                       )}

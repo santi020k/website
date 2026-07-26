@@ -1,6 +1,5 @@
 ---
 import Pill from '@/components/atoms/Pill.astro'
-import PillCount from '@/components/atoms/PillCount.astro'
 
 import { getTechnologyPath } from '@/utils/links'
 
@@ -25,9 +24,12 @@ const { hiddenCount = 0, intro, technologies } = Astro.props
   <p class="max-w-3xl text-sm/6 text-ink-muted">{intro}</p>
   <div class="flex flex-wrap gap-2.5">
     {technologies.map(([technology, count]) => (
-      <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-        <PillCount count={count} />
-      </Pill>
+      <Pill
+        count={count}
+        href={getTechnologyPath(technology)}
+        label={technology}
+        tone="outline"
+      />
     ))}
     {hiddenCount > 0 && (
       <Pill href="/technologies/" label={`+${hiddenCount} technologies`} tone="neutral" />

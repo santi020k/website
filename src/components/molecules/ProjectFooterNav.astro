@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Icon } from '@santi020k/lumen-astro'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
@@ -28,13 +28,12 @@ const { githubUrl, liveDemoUrl, parentPage } = Astro.props
     "
   >
     <Icon
-      aria-hidden="true"
       class="
         size-5 transition-transform
         group-hover:-translate-x-1
         motion-reduce:transition-none
       "
-      name="tabler:arrow-left"
+      name="arrow-left"
     />
     Back to {parentPage.name.toLowerCase()}
   </a>
@@ -60,13 +59,12 @@ const { githubUrl, liveDemoUrl, parentPage } = Astro.props
       "
     >
       <Icon
-        aria-hidden="true"
         class="
           size-4 transition-transform
           group-hover:-translate-y-0.5
           motion-reduce:transition-none
         "
-        name="tabler:arrow-up"
+        name="arrow-up"
       />
       Back to top
     </a>

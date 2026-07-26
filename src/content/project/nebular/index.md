@@ -6,6 +6,7 @@ startingDate: "1 Jan 2014"
 endingDate: "1 Apr 2017"
 liveDemoUrl: "https://nebular.co"
 typesId: "professional"
+relevanceWeight: 55
 impactMetrics: [
   "Shipped across backend, frontend, mobile, and CMS work in one studio",
   "Built the foundation for later tech lead and full-stack roles",

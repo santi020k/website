@@ -1,4 +1,6 @@
 ---
+import { Anchor, Icon } from '@santi020k/lumen-astro'
+
 interface HeadingLink {
   depth: number
   slug: string
@@ -10,205 +12,53 @@ interface Props {
 }
 
 const { headings } = Astro.props
-// Filter to only h2 and h3 — deeper headings clutter the TOC
-const tocHeadings = headings.filter(h => h.depth <= 3)
+const tocHeadings = headings.filter(heading => heading.depth <= 3)
 ---
 
-<nav
+<Anchor
   aria-label="Table of contents"
-  class="glass-pro rounded-2xl p-5"
-  data-toc-nav
+  class="glass-pro rounded-2xl border-l-0 p-5"
 >
   <p class="flex items-center gap-2 section-label">
-    <svg aria-hidden="true" class="size-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-    </svg>
+    <Icon class="size-4 text-brand" name="list" />
     On this page
   </p>
 
-  <ul class="mt-4 space-y-0.5" data-toc-tree>
-    {tocHeadings.map((heading, index) => {
-      const isH3 = heading.depth === 3
-      const nextHeading = tocHeadings[index + 1]
-      const nextIsH2 = nextHeading?.depth === 2
-      const noNextHeading = !nextHeading
-      const isLastH3InGroup = isH3 && (nextIsH2 || noNextHeading)
-
-      return (
-        <li data-toc-item data-toc-child={isH3 ? 'true' : undefined}>
-          <a
-            href={`#${heading.slug}`}
-            data-slug={heading.slug}
-            data-toc-link
-            data-depth={heading.depth}
-            class:list={[
-              'group flex min-h-11 items-center gap-2 py-2 text-sm/5',
-              'text-ink-soft transition-colors duration-200',
-              'hover:text-brand',
-              'motion-reduce:transition-none',
-              isH3 ? 'pr-2 pl-6' : 'px-2'
-            ]}
-          >
-            <span
-              aria-hidden="true"
-              data-toc-indicator
-              class:list={[
-                'shrink-0 transition-all duration-200',
-                'motion-reduce:transition-none'
-              ]}
-              data-toc-indicator-kind={isH3 ? 'child' : 'parent'}
-            >
-            </span>
-            <span class="truncate">{heading.text}</span>
-          </a>
-          {isH3 && !isLastH3InGroup ?
-            (
-              <span aria-hidden="true" data-toc-connector />
-            ) :
-            null}
-        </li>
-      )
-    })}
-  </ul>
-</nav>
+  <ol class="mt-4 space-y-0.5" data-toc-tree>
+    {tocHeadings.map((heading, index) => (
+      <li>
+        <a
+          data-active={index === 0 ? 'true' : 'false'}
+          data-depth={heading.depth}
+          href={`#${heading.slug}`}
+        >
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ol>
+</Anchor>
 
 <style>
-  /* Tree structure styles */
-  [data-toc-tree] {
-    position: relative;
+  /* Lumen 0.4.0 owns heading-depth indentation; this keeps 0.3.0 aligned. */
+  [data-toc-tree] a {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    line-height: 1.25rem;
+    transition:
+      border-color 200ms ease,
+      color 200ms ease;
   }
 
-  [data-toc-item] {
-    position: relative;
+  [data-toc-tree] a[data-depth="3"] {
+    padding-inline-start: 1.5rem;
+    font-size: 0.8125rem;
   }
 
-  [data-toc-child="true"] {
-    position: relative;
-  }
-
-  /* Vertical connector line for child items */
-  [data-toc-child="true"]::before {
-    content: '';
-    position: absolute;
-    left: 1.125rem;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: linear-gradient(
-      to bottom,
-      hsl(var(--line) / 0.3) 0%,
-      hsl(var(--line) / 0.15) 100%
-    );
-  }
-
-  /* Horizontal connector for L-shape */
-  [data-toc-connector] {
-    display: block;
-    position: absolute;
-    left: 1.125rem;
-    bottom: 0.5rem;
-    width: 0.5rem;
-    height: 1px;
-    background: hsl(var(--line) / 0.3);
-  }
-
-  /* Parent indicator (h2) - dash */
-  [data-toc-indicator-kind="parent"] {
-    display: block;
-    width: 0.75rem;
-    height: 2px;
-    border-radius: 1px;
-    background-color: hsl(var(--ink-muted) / 0.5);
-  }
-
-  /* Child indicator (h3) - smaller dot */
-  [data-toc-indicator-kind="child"] {
-    display: block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: hsl(var(--ink-muted) / 0.35);
-  }
-
-  /* Hover states for indicators */
-  [data-toc-link]:hover [data-toc-indicator-kind="parent"] {
-    background-color: hsl(var(--brand) / 0.6);
-    width: 1rem;
-  }
-
-  [data-toc-link]:hover [data-toc-indicator-kind="child"] {
-    background-color: hsl(var(--brand) / 0.5);
-    transform: scale(1.2);
-  }
-
-  /* Active state */
-  [data-toc-link].is-active {
-    color: hsl(var(--brand));
-    font-weight: 500;
-  }
-
-  [data-toc-link].is-active [data-toc-indicator-kind="parent"] {
-    background-color: hsl(var(--brand));
-    width: 1rem;
-  }
-
-  [data-toc-link].is-active [data-toc-indicator-kind="child"] {
-    background-color: hsl(var(--brand));
-    transform: scale(1.3);
+  @media (prefers-reduced-motion: reduce) {
+    [data-toc-tree] a {
+      transition: none;
+    }
   }
 </style>
-
-<script>
-  function setup() {
-    const nav = document.querySelector<HTMLElement>('[data-toc-nav]')
-    if (!nav) return () => {}
-
-    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'))
-    if (!links.length) return () => {}
-
-    const targets = Array.from(
-      document.querySelectorAll<HTMLElement>('.prose-santi :is(h2, h3)')
-    )
-    if (!targets.length) return () => {}
-
-    const setActive = (slug: string) => {
-      for (const link of links) {
-        link.classList.toggle('is-active', link.dataset.slug === slug)
-      }
-    }
-
-    // Set first heading active on load
-    setActive(targets[0]?.id ?? '')
-
-    let suppressUntil = 0
-
-    for (const link of links) {
-      link.addEventListener('click', () => {
-        setActive(link.dataset.slug ?? '')
-        // Suppress scroll-based updates for 900ms to let smooth-scroll finish
-        suppressUntil = Date.now() + 900
-      })
-    }
-
-    const onScroll = () => {
-      if (Date.now() < suppressUntil) return
-      // 64px matches scroll-padding-top on html (4rem)
-      let current = targets[0]?.id ?? ''
-      for (const el of targets) {
-        if (el.getBoundingClientRect().top <= 64) current = el.id
-      }
-      setActive(current)
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    requestAnimationFrame(onScroll)
-
-    return () => window.removeEventListener('scroll', onScroll)
-  }
-
-  let cleanup = setup()
-  document.addEventListener('astro:after-swap', () => {
-    cleanup()
-    cleanup = setup()
-  })
-</script>

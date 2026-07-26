@@ -30,3 +30,9 @@ export const collectionDateSortProjects = (
   a: CollectionEntry<'project'>,
   b: CollectionEntry<'project'>
 ) => b.data.startingDate.getTime() - a.data.startingDate.getTime()
+
+/** Sort projects by portfolio relevance, using recency as a stable tie-breaker. */
+export const collectionRelevanceSortProjects = (
+  a: CollectionEntry<'project'>,
+  b: CollectionEntry<'project'>
+) => b.data.relevanceWeight - a.data.relevanceWeight || collectionDateSortProjects(a, b)

@@ -6,6 +6,7 @@ startingDate: "1 Mar 2024"
 githubUrl: "https://github.com/santi020k/eslint-config-basic"
 liveDemoUrl: "https://eslint.santi020k.com/"
 typesId: "personal"
+relevanceWeight: 92
 impactMetrics: [
   "229+ weekly npm downloads across personal, client, and shared codebases",
   "Reduced repeated setup work for new projects and experiments",

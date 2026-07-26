@@ -1,6 +1,4 @@
 ---
-import { Icon } from 'astro-icon/components'
-
 import type { CollectionEntry } from 'astro:content'
 
 import Pill from '@/components/atoms/Pill.astro'
@@ -9,7 +7,7 @@ import { getPortfolioPath } from '@/utils/links'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
-import { Card, Timeline, TimelineItem } from '@santi020k/lumen-astro'
+import { Card, Icon, Timeline, TimelineItem } from '@santi020k/lumen-astro'
 
 interface Props {
   projects: CollectionEntry<'project'>[]
@@ -64,12 +62,11 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
           data-timeline-node={item.isActive ? 'active' : 'done'}
         >
           <Icon
-            aria-hidden="true"
             class="
               size-4
               sm:size-5
             "
-            name={item.isActive ? 'tabler:briefcase' : 'tabler:check'}
+            name={item.isActive ? 'briefcase-business' : 'check'}
           />
         </div>
 
@@ -157,14 +154,13 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
                   >
                     {item.isActive && (
                       <Icon
-                        aria-hidden="true"
                         class="size-3 fill-current"
-                        name="tabler:point-filled"
+                        name="circle-dot"
                       />
                     )}
                   </Pill>
                   <div class="flex items-center gap-1.5 text-xs text-ink-muted">
-                    <Icon aria-hidden="true" class="size-3.5" name="tabler:calendar" />
+                    <Icon class="size-3.5" name="calendar-days" />
                     <span class="font-medium tabular-nums">{item.timeline}</span>
                   </div>
                 </div>
@@ -211,14 +207,13 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
                   View case study
                 </span>
                 <Icon
-                  aria-hidden="true"
                   class="
                     size-4 -translate-x-1 text-brand opacity-0 transition-all
                     duration-200
                     group-hover:translate-x-0 group-hover:opacity-100
                     motion-reduce:translate-x-0 motion-reduce:opacity-100
                   "
-                  name="tabler:arrow-right"
+                  name="arrow-right"
                 />
               </div>
             </div>

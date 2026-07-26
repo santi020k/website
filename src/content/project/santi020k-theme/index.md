@@ -6,6 +6,7 @@ startingDate: "28 Apr 2026"
 githubUrl: "https://github.com/santi020k/santi020k-theme"
 liveDemoUrl: "https://theme.santi020k.com/"
 typesId: "personal"
+relevanceWeight: 88
 impactMetrics: ["Published through the VS Code Marketplace, Open VSX, Chrome Web Store, npm, GitHub Releases, and Homebrew", "Expanded the editor theme to 12 dark, light, high-contrast, bold, and italic variants", "Carried one token system across editors, Chrome, Shiki, six terminal formats, Starship, shell integration, and four product sites"]
 technologies: ["Visual Studio Code", "Cursor", "Windsurf", "VSCodium", "VS Code Extension", "Chrome Extension", "Chrome Web Store", "Shiki", "iTerm2", "Ghostty", "Kitty", "WezTerm", "Windows Terminal", "Alacritty", "Starship", "Zsh", "Bash", "Fish", "JavaScript", "Node.js", "Astro", "Lumen UI", "Vitest", "ESLint", "CI-CD", "GitHub Actions", "Open Source", "Developer Experience (DX)", "Developer Documentation", "Accessibility", "Testing", "Design Systems"]
 coverImage:

@@ -1,5 +1,8 @@
 ---
+import { Card } from '@santi020k/lumen-astro'
+
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
 
 interface SessionVariant {
   audience: string | undefined
@@ -29,15 +32,19 @@ interface FormatVariant {
 
 type Props = SessionVariant | TopicVariant | FormatVariant
 
-const props = Astro.props
+const props = Astro.props as Props
 ---
 
 {
   props.variant === 'session' && (
-    <article class="
-      talk-card flex h-full flex-col space-y-4 p-6
-      sm:p-7
-    "
+    <Card
+      as="article"
+      class="
+        flex h-full flex-col space-y-4 rounded-[1.75rem] p-6
+        sm:p-7
+      "
+      glass="strong"
+      variant="interactive"
     >
       <div>
         <p class="section-label">{props.event} · {props.year}</p>
@@ -47,13 +54,7 @@ const props = Astro.props
       <p class="grow text-sm/7 text-ink-soft">{props.description}</p>
       <div class="flex flex-wrap gap-2">
         {props.tags.map(tag => (
-          <span class="
-            rounded-full border border-line/50 px-3 py-0.5 text-xs font-medium
-            text-ink-muted
-          "
-          >
-            {tag}
-          </span>
+          <Pill label={tag} tone="outline" />
         ))}
       </div>
       {(props.links.slides ?? props.links.video) && (
@@ -70,32 +71,40 @@ const props = Astro.props
           )}
         </div>
       )}
-    </article>
+    </Card>
   )
 }
 
 {
   props.variant === 'topic' && (
-    <article class="
-      talk-card h-full space-y-4 p-6
-      sm:p-7
-    "
+    <Card
+      as="article"
+      class="
+        h-full space-y-4 rounded-[1.75rem] p-6
+        sm:p-7
+      "
+      glass="strong"
+      variant="interactive"
     >
       <h2 class="text-2xl font-semibold text-ink">{props.title}</h2>
       <p class="text-sm/7 text-ink-soft">{props.description}</p>
-    </article>
+    </Card>
   )
 }
 
 {
   props.variant === 'format' && (
-    <article class="
-      talk-card h-full space-y-4 p-6
-      sm:p-7
-    "
+    <Card
+      as="article"
+      class="
+        h-full space-y-4 rounded-[1.75rem] p-6
+        sm:p-7
+      "
+      glass="strong"
+      variant="interactive"
     >
       <p class="section-label">{props.title}</p>
       <p class="text-base/7 text-ink-soft">{props.description}</p>
-    </article>
+    </Card>
   )
 }

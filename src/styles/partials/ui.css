@@ -159,6 +159,16 @@
   @apply block h-full rounded-full bg-brand transition-[width] duration-300 motion-reduce:transition-none;
 }
 
+/* Compatibility for Lumen 0.3.0. Remove after ScrollProgress ships in 0.4.0. */
+@utility ui-scroll-progress {
+  @apply pointer-events-none fixed inset-x-0 top-0 z-50 h-0.75 overflow-hidden bg-surface-strong/48;
+}
+
+@utility ui-scroll-progress__bar {
+  @apply block size-full origin-left scale-x-0 bg-brand-solid;
+  will-change: transform;
+}
+
 @utility ui-skeleton {
   @apply animate-shimmer rounded-xl bg-[linear-gradient(90deg,hsl(var(--surface-muted)/0.55),hsl(var(--surface)/0.85),hsl(var(--surface-muted)/0.55))] bg-[length:200%_100%] motion-reduce:animate-none;
 }

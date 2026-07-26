@@ -17,137 +17,41 @@
   & :not(pre) > code {
     @apply text-brand bg-brand/10 px-1.5 py-0.5 rounded-md font-medium;
   }
-  @apply prose-pre:bg-surface-muted/30 prose-pre:rounded-2xl prose-pre:my-8 prose-pre:p-0 prose-pre:border prose-pre:border-line;
+  /* ─── Lumen Code / Shiki ─────────────────────────────────────────────────── */
 
-  /* ─── Rehype Pretty Code / Shiki ─────────────────────────────────────────── */
-
-  & [data-rehype-pretty-code-figure] {
-    @apply my-10 relative overflow-hidden rounded-2xl border border-line shadow-2xl;
-    background-color: var(--shiki-dark-bg);
+  & > [data-ui-code],
+  & > .ui-code-tabs {
+    @apply my-10;
   }
 
-  :root[data-theme="light"] & [data-rehype-pretty-code-figure] {
-    background-color: var(--shiki-light-bg);
+  & > .ui-code-tabs.ui-tabs {
+    @apply block;
   }
 
-  /* Code block header */
-  .code-header {
-    @apply flex items-center justify-between px-4 py-3 border-b border-line bg-surface-muted/30 backdrop-blur-md;
+  & .ui-code-tabs__panel {
+    @apply min-w-0 overflow-hidden;
   }
 
-  .window-controls {
-    @apply flex gap-2;
-  }
-
-  .window-dot {
-    @apply size-3 rounded-full opacity-60 transition-opacity hover:opacity-100;
-  }
-
-  .window-dot.red {
-    @apply bg-[#ff5f56];
-  }
-  .window-dot.yellow {
-    @apply bg-[#ffbd2e];
-  }
-  .window-dot.green {
-    @apply bg-[#27c93f];
-  }
-
-  .code-title-container {
-    @apply absolute left-1/2 -translate-x-1/2 flex items-center gap-2 text-xs font-semibold text-ink-muted/80 tracking-wide font-mono truncate max-w-[50%];
-  }
-
-  /* Hide original language label and title, we'll re-inject them */
-  & [data-rehype-pretty-code-figure]::before,
-  & [data-rehype-pretty-code-title] {
-    display: none !important;
-  }
-
-  /* Language badge */
-  .lang-badge {
-    @apply px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-brand bg-brand/10 rounded border border-brand/20;
-  }
-
-  & [data-rehype-pretty-code-figure] pre {
-    @apply m-0 p-4 sm:p-6 bg-transparent! overflow-x-auto selection:bg-brand/20 rounded-none!;
-
-    &:focus-visible {
-      @apply outline-2 -outline-offset-2 outline-brand;
-    }
-
-    &.has-scroll-fade {
-      mask-image: linear-gradient(to right, black 82%, transparent 100%);
-      mask-repeat: no-repeat;
-    }
-  }
-
-  & [data-rehype-pretty-code-figure] code {
-    @apply bg-transparent! p-0 text-[14.5px] leading-relaxed block min-w-full font-mono;
-    color: var(--shiki-dark);
-    font-variant-ligatures: none;
-  }
-
-  :root[data-theme="light"] & [data-rehype-pretty-code-figure] code {
-    color: var(--shiki-light);
-  }
-
-  /* Ensure Shiki tokens use the correct theme color */
-  & [data-rehype-pretty-code-figure] span {
-    color: var(--shiki-dark);
-    font-style: var(--shiki-dark-font-style);
-    font-weight: var(--shiki-dark-font-weight);
-    text-decoration: var(--shiki-dark-text-decoration);
-  }
-
-  :root[data-theme="light"] & [data-rehype-pretty-code-figure] span {
-    color: var(--shiki-light);
-    font-style: var(--shiki-light-font-style);
-    font-weight: var(--shiki-light-font-weight);
-    text-decoration: var(--shiki-light-text-decoration);
-  }
-
-  & [data-rehype-pretty-code-figure] [data-line] {
+  & [data-ui-code] [data-line] {
     @apply border-l-2 border-transparent transition-colors duration-200;
   }
 
-  & [data-rehype-pretty-code-figure] [data-line-numbers] {
+  & [data-ui-code] [data-line-numbers] {
     counter-reset: line;
   }
 
-  & [data-rehype-pretty-code-figure] [data-line-numbers] > [data-line]::before {
+  & [data-ui-code] [data-line-numbers] > [data-line]::before {
     counter-increment: line;
     content: counter(line);
     @apply inline-block w-4 mr-6 text-right text-ink-muted/30 select-none font-mono text-xs;
   }
 
-  /* Copy button — lives in the header, always visible */
-  .copy-button {
-    @apply inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-line/50 bg-surface/20 p-0 text-ink-muted;
-    @apply transition-all duration-150;
-  }
-
-  .copy-button:hover {
-    @apply bg-surface text-brand border-brand/30 scale-105;
-  }
-
-  .copy-button:active {
-    @apply scale-95;
-  }
-
-  .copy-button:focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand;
-  }
-
-  .copy-button.copied {
-    @apply text-green-500 border-green-500/50 bg-green-500/10;
-  }
-
   /* Highlighted lines */
-  & [data-rehype-pretty-code-figure] [data-highlighted-line] {
-    @apply border-l-2 border-brand bg-brand/10 -mx-4 px-4 sm:-mx-6 sm:px-6;
+  & [data-ui-code] [data-highlighted-line] {
+    @apply -mx-5 border-l-2 border-brand bg-brand/10 px-5;
   }
 
-  & [data-rehype-pretty-code-figure] [data-highlighted-chars] {
+  & [data-ui-code] [data-highlighted-chars] {
     @apply rounded px-1 bg-brand/20 border-b-2 border-brand;
   }
 

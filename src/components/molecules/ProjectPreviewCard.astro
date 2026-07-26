@@ -1,8 +1,8 @@
 ---
-import { Icon } from 'astro-icon/components'
-
 import { Image, Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
+
+import { Icon } from '@santi020k/lumen-astro'
 
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
@@ -137,7 +137,7 @@ const logoSurfaceClass = {
             dark:border-white/14 dark:bg-white/10 dark:text-white/72
           "
         >
-          <Icon aria-hidden="true" class="size-4" name="tabler:arrow-up-right" />
+          <Icon class="size-4" name="arrow-up-right" />
         </span>
       </div>
 
@@ -231,7 +231,7 @@ const logoSurfaceClass = {
           flex items-center gap-2 text-xs/5 font-semibold text-ink-soft
         "
         >
-          <Icon aria-hidden="true" class="size-3.5 shrink-0" name="tabler:calendar" />
+          <Icon class="size-3.5 shrink-0" name="calendar-days" />
           <span class="tabular-nums">{timeline}</span>
         </div>
 

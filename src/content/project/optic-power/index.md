@@ -6,6 +6,7 @@ startingDate: "1 Jul 2021"
 endingDate: "1 Feb 2023"
 liveDemoUrl: "https://www.codepwr.com/"
 typesId: "professional"
+relevanceWeight: 84
 impactMetrics: [
   "40% better API performance",
   "Multiple client launches in parallel",

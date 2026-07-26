@@ -1,0 +1,197 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+
+import { getPortfolioPath } from '@/utils/links'
+import { getProjectTimelineLabel } from '@/utils/project-meta'
+import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+import { Badge, Card, CoverImage, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  featured?: boolean
+  imagePriority?: boolean
+  project: CollectionEntry<'project'>
+}
+
+const { featured = false, imagePriority = false, project } = Astro.props
+const projectLink = getPortfolioPath(project.id)
+const coverImage = project.data.coverImage
+const previewImage = coverImage?.horizontal ?? coverImage?.src ?? coverImage?.vertical
+const timeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
+const isActive = !project.data.endingDate
+const technologies = sortTechnologiesByInterest(project.data.technologies).slice(0, featured ? 5 : 4)
+const impactMetrics = project.data.impactMetrics.slice(0, featured ? 2 : 1)
+---
+
+<Card
+  as="article"
+  class:list={[
+    `
+      group grid h-full overflow-hidden border-line/55 bg-surface/78 p-0
+      shadow-[0_18px_50px_hsl(var(--brand)/0.045)]
+    `,
+    featured ?
+      `
+        rounded-4xl
+        lg:grid-cols-[minmax(0,1.08fr)_minmax(22rem,0.92fr)]
+      ` :
+      'grid-rows-[auto_1fr] rounded-3xl'
+  ]}
+  data-portfolio-project={featured ? 'featured' : 'supporting'}
+  glass="subtle"
+  variant="interactive"
+>
+  <a
+    aria-label={`View ${project.data.title} case study`}
+    class:list={[
+      `
+        relative block overflow-hidden bg-surface-muted
+        focus-visible:ring-2 focus-visible:ring-brand/50
+        focus-visible:outline-none
+      `,
+      featured ?
+        `
+          aspect-16/10
+          lg:aspect-auto lg:min-h-124
+        ` :
+        'aspect-16/8'
+    ]}
+    href={projectLink}
+  >
+    {previewImage ?
+      (
+        <CoverImage
+          alt={coverImage?.alt ?? project.data.title}
+          ariaHidden={true}
+          className="
+            absolute inset-0 size-full rounded-none border-0
+            [&_picture]:size-full [&_picture]:object-cover
+          "
+          fetchpriority={imagePriority ? 'high' : 'auto'}
+          image={previewImage}
+          loading={imagePriority ? 'eager' : 'lazy'}
+          mode="card"
+          showCardOverlay={false}
+          sizes={featured ? '(min-width: 1024px) 54vw, 100vw' : '(min-width: 768px) 48vw, 100vw'}
+        />
+      ) :
+      (
+        <div
+          aria-hidden="true"
+          class="
+            absolute inset-0 flex items-center justify-center bg-brand-soft
+            grid-fade
+          "
+        >
+          <Icon class="size-12 text-brand/45" name="code-2" />
+        </div>
+      )}
+
+    <div
+      aria-hidden="true"
+      class="
+        absolute inset-0 bg-linear-to-t from-canvas/20 via-transparent
+        to-white/5
+      "
+    />
+  </a>
+
+  <div
+    class:list={[
+      'flex min-w-0 flex-col',
+      featured ?
+        `
+          gap-6 p-6
+          sm:p-8
+          lg:min-h-124 lg:p-9
+        ` :
+        `
+          gap-5 p-5
+          sm:p-6
+        `
+    ]}
+  >
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <span class="
+        text-xs/5 font-semibold tracking-[0.04em] text-ink-muted uppercase
+      "
+      >
+        {project.data.role ?? 'Engineering'}
+      </span>
+      <Badge variant={isActive ? 'success' : 'secondary'}>
+        {isActive ? 'Active' : 'Completed'}
+      </Badge>
+    </div>
+
+    <div class="space-y-3">
+      <p class="
+        text-xs/5 font-semibold tracking-[0.06em] text-ink-muted uppercase
+      "
+      >
+        {timeline}
+      </p>
+      <h3
+        class:list={[
+          `
+            leading-tight font-semibold tracking-[-0.035em] text-ink
+            transition-colors duration-200
+            group-hover:text-brand
+            motion-reduce:transition-none
+          `,
+          featured ?
+            `
+              text-3xl
+              sm:text-[2.5rem]
+            ` :
+            `
+              text-2xl
+              sm:text-[1.75rem]
+            `
+        ]}
+      >
+        <a href={projectLink}>{project.data.title}</a>
+      </h3>
+      <p
+        class:list={[
+          'text-ink-soft',
+          featured ? 'text-base/7' : 'line-clamp-3 text-sm/6'
+        ]}
+      >
+        {project.data.description}
+      </p>
+    </div>
+
+    {impactMetrics.length > 0 && (
+      <ul class="m-0 space-y-2 border-t border-line/45 pt-4">
+        {impactMetrics.map(metric => (
+          <li class="flex gap-2.5 text-sm/6 text-ink-soft">
+            <Icon
+              class="mt-1 size-4 shrink-0 text-brand"
+              name="circle-check"
+            />
+            <span class:list={[!featured && 'line-clamp-2']}>{metric}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <div class="mt-auto space-y-5">
+      {technologies.length > 0 && (
+        <ul class="m-0 flex list-none flex-wrap gap-2 p-0" aria-label="Technologies">
+          {technologies.map(technology => (
+            <li>
+              <Badge variant="outline">{technology}</Badge>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <ButtonLink href={projectLink} showArrow variant="inline">
+        Read case study
+        <span class="sr-only"> for {project.data.title}</span>
+      </ButtonLink>
+    </div>
+  </div>
+</Card>

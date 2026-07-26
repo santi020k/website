@@ -13,7 +13,7 @@ import PageLayout from '@/layouts/Base.astro'
 
 import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
-import { collectionDateSortProjects } from '@/utils/date'
+import { collectionRelevanceSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 
 import { Card } from '@santi020k/lumen-astro'
@@ -24,13 +24,13 @@ const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCache
 
 const workProjects = allProjects
   .filter(project => project.data.typesId === 'professional')
-  .sort(collectionDateSortProjects)
-  .slice(0, 4)
+  .sort(collectionRelevanceSortProjects)
+  .slice(0, 3)
 
 const personalProjects = allProjects
   .filter(project => project.data.typesId === 'personal')
-  .sort(collectionDateSortProjects)
-  .slice(0, 4)
+  .sort(collectionRelevanceSortProjects)
+  .slice(0, 3)
 
 const latestPosts = allPosts
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())

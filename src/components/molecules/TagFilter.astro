@@ -1,6 +1,5 @@
 ---
 import Pill from '@/components/atoms/Pill.astro'
-import PillCount from '@/components/atoms/PillCount.astro'
 
 import { getTagPath } from '@/utils/links'
 
@@ -34,12 +33,11 @@ const { activeTag, showDivider = false, tags } = Astro.props
   />
   {tags.map(([tag, count]) => (
     <Pill
+      count={count}
       href={getTagPath(tag)}
       label={tag}
       showHash
       tone={activeTag === tag ? 'brand' : 'outline'}
-    >
-      <PillCount count={count} />
-    </Pill>
+    />
   ))}
 </div>
