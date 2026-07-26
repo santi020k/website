@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { XMLParser } from 'fast-xml-parser'
+import { getSiteUrls } from '@santi020k/theme/site'
 
 const rootDirectory = fileURLToPath(new URL('../..', import.meta.url))
 const outputDirectory = path.join(rootDirectory, 'dist')
@@ -10,6 +11,7 @@ const rootOrigin = 'https://santi020k.com'
 const outputPath = path.join(outputDirectory, 'sitemap.xml')
 const parser = new XMLParser()
 const retryCount = 3
+const themeSiteUrls = getSiteUrls()
 
 const sitemapSources = [
   {
@@ -34,22 +36,22 @@ const sitemapSources = [
   },
   {
     name: 'Theme',
-    origin: 'https://theme.santi020k.com',
+    origin: new URL(themeSiteUrls.hub).origin,
     sitemap: '/sitemap.xml'
   },
   {
     name: 'Chrome Theme',
-    origin: 'https://chrome.santi020k.com',
+    origin: new URL(themeSiteUrls.chrome).origin,
     sitemap: '/sitemap.xml'
   },
   {
     name: 'Terminal Theme',
-    origin: 'https://terminal.santi020k.com',
+    origin: new URL(themeSiteUrls.terminal).origin,
     sitemap: '/sitemap.xml'
   },
   {
     name: 'VS Code Theme',
-    origin: 'https://vscode.santi020k.com',
+    origin: new URL(themeSiteUrls.vscode).origin,
     sitemap: '/sitemap.xml'
   },
   {

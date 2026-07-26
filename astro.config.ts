@@ -9,12 +9,16 @@ import {
   transformerNotationDiff,
   transformerNotationFocus
 } from '@shikijs/transformers'
+import {
+  santi020kDarkShikiTheme,
+  santi020kLightShikiTheme
+} from '@santi020k/theme/shiki'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
 import icon from 'astro-icon'
 import robotsTxt from 'astro-robots-txt'
 import webmanifest from 'astro-webmanifest'
-import yaml from 'js-yaml'
+import { load as loadYaml } from 'js-yaml'
 // Rehype plugins
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypePrettyCode from 'rehype-pretty-code'
@@ -125,7 +129,7 @@ const buildContentLastmodMap = (): Map<string, string> => {
 
       if (!match) continue
 
-      const data = yaml.load(match[1] ?? '') as Record<string, unknown> | null
+      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
 
       if (!data || data.draft === true) continue
 
@@ -148,7 +152,7 @@ const buildContentLastmodMap = (): Map<string, string> => {
 
       if (!match) continue
 
-      const data = yaml.load(match[1] ?? '') as Record<string, unknown> | null
+      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
 
       if (!data || data.draft === true) continue
 
@@ -308,8 +312,8 @@ export default defineConfig({
           rehypePrettyCode,
           {
             theme: {
-              light: 'catppuccin-latte',
-              dark: 'catppuccin-mocha'
+              light: santi020kLightShikiTheme,
+              dark: santi020kDarkShikiTheme
             },
 
             transformers: [

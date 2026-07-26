@@ -9,7 +9,7 @@ import { getPortfolioPath } from '@/utils/links'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
-import { Card } from '@santi020k/lumen-astro'
+import { Card, Timeline, TimelineItem } from '@santi020k/lumen-astro'
 
 interface Props {
   projects: CollectionEntry<'project'>[]
@@ -38,27 +38,12 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
 }))
 ---
 
-<div class="relative">
-  {/* Timeline connector line */}
-  <div
-    aria-hidden="true"
-    class="
-      absolute inset-y-0 left-4.5 w-px bg-linear-to-b from-brand/25 via-line/60
-      to-line/40
-      sm:left-5.5
-    "
-  >
-  </div>
-
-  <div class="space-y-8">
-    {careerItems.map((item: CareerItem) => (
-      <article class="
-        relative pl-12
-        sm:pl-14
-      "
-      >
+<Timeline data-career-timeline class="relative">
+  {careerItems.map((item: CareerItem) => (
+    <TimelineItem class="pb-8">
         {/* Timeline node */}
         <div
+          slot="dot"
           class:list={[
             `
               absolute top-4 left-0 z-10 flex size-9 items-center justify-center
@@ -232,10 +217,9 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
             </div>
           </Card>
         </a>
-      </article>
-    ))}
-  </div>
-</div>
+    </TimelineItem>
+  ))}
+</Timeline>
 
 <style>
   [data-timeline-card] {
@@ -300,6 +284,40 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
     animation: var(--animate-subtle-pulse);
   }
 
+  [data-career-timeline] :global(.ui-timeline-item__content) {
+    margin-left: 3rem;
+  }
+
+  [data-career-timeline] :global(.ui-timeline-item__dot) {
+    top: 1rem;
+    left: 0;
+    background: transparent;
+    transform: none;
+  }
+
+  [data-career-timeline] :global(.ui-timeline-item__tail) {
+    top: 2.5rem;
+    left: 1.1rem;
+    height: calc(100% - 1rem);
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--brand) / 0.25),
+      hsl(var(--line) / 0.6),
+      hsl(var(--line) / 0.4)
+    );
+  }
+
+  @media (min-width: 40rem) {
+    [data-career-timeline] :global(.ui-timeline-item__content) {
+      margin-left: 3.5rem;
+    }
+
+    [data-career-timeline] :global(.ui-timeline-item__tail) {
+      left: 1.35rem;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     [data-timeline-card] {
       transition: none;
@@ -311,10 +329,6 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
 
     .group:hover [data-timeline-card] {
       transform: none;
-    }
-
-    [data-timeline-node='active'] {
-      animation: none;
     }
 
     [data-timeline-node='active'] {

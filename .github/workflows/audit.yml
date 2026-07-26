@@ -21,6 +21,6 @@ jobs:
           cache: "pnpm"
       - name: Run pnpm audit
         # CVE-2026-14257 is limited to repository-controlled glob patterns in
-        # legacy developer CLIs. Forcing brace-expansion v5 breaks those tools.
-        # Keep audit:strict available so the exception remains visible.
+        # legacy developer CLIs. The exception is documented in
+        # pnpm-workspace.yaml because forcing brace-expansion v5 breaks them.
         run: pnpm run audit

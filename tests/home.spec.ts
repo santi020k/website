@@ -81,8 +81,15 @@ test('homepage exposes IndieAuth.com discovery and rel=me on silo links', async 
 test('keyboard / opens site search dialog', async ({ page }) => {
   await page.goto('/')
   await page.keyboard.press('/')
-  await expect(page.getByRole('dialog', { name: 'Search' })).toBeVisible()
+  const dialog = page.getByRole('dialog', { name: 'Search' })
+  const trigger = page.getByRole('button', { name: 'Open site search' })
+
+  await expect(dialog).toBeVisible()
   await expect(page.getByPlaceholder('Search by title, tag, or keyword…')).toBeFocused()
+
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+  await expect(trigger).toBeFocused()
 })
 
 test('query param opens search with prefilled query and clears on close', async ({ page }) => {

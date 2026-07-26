@@ -1,4 +1,4 @@
-import type { Paragraph, Text } from 'mdast'
+import type { Paragraph, Root, Text } from 'mdast'
 import remarkDirective from 'remark-directive'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
@@ -35,7 +35,7 @@ describe('remarkReadingTime', () => {
     const file = { data: { astro: { frontmatter: {} } } } as unknown as AstroVFile
     const content = 'Hello world, this is a test page to check reading time calculation. It should have some min read.'
 
-    const tree = processor.parse(content)
+    const tree = processor.parse(content) as Root
     remarkReadingTime()(tree, file)
 
     expect(file.data.astro?.frontmatter.readingTime).toBeDefined()
@@ -44,7 +44,7 @@ describe('remarkReadingTime', () => {
 })
 
 describe('remarkAdmonitions', () => {
-  test('should transform note container directives into aside elements', async () => {
+  test('should transform note container directives into aside elements', () => {
     const processor = unified()
       .use(remarkParse)
       .use(remarkDirective)
@@ -52,8 +52,8 @@ describe('remarkAdmonitions', () => {
       .use(remarkStringify)
 
     const content = ':::note\nThis is a note\n:::'
-    const tree = processor.parse(content)
-    await processor.run(tree)
+    const tree = processor.parse(content) as Root
+    processor.runSync(tree)
 
     const aside = tree.children[0] as AdmonitionNode
     expect(aside.data.hName).toBe('aside')
@@ -67,7 +67,7 @@ describe('remarkAdmonitions', () => {
     expect(props['aria-label'] ?? props.ariaLabel).toBe('note')
   })
 
-  test('should handle custom titles via directive labels', async () => {
+  test('should handle custom titles via directive labels', () => {
     const processor = unified()
       .use(remarkParse)
       .use(remarkDirective)
@@ -75,15 +75,15 @@ describe('remarkAdmonitions', () => {
       .use(remarkStringify)
 
     const content = ':::tip[Custom Title]\nTip content\n:::'
-    const tree = processor.parse(content)
-    await processor.run(tree)
+    const tree = processor.parse(content) as Root
+    processor.runSync(tree)
 
     const aside = tree.children[0] as AdmonitionNode
     const props = aside.data.hProperties
     expect(props['aria-label'] ?? props.ariaLabel).toBe('Custom Title')
   })
 
-  test('should transform unhandled directives to normal text', async () => {
+  test('should transform unhandled directives to normal text', () => {
     const processor = unified()
       .use(remarkParse)
       .use(remarkDirective)
@@ -91,8 +91,8 @@ describe('remarkAdmonitions', () => {
       .use(remarkStringify)
 
     const content = ':unknown[label]'
-    const tree = processor.parse(content)
-    await processor.run(tree)
+    const tree = processor.parse(content) as Root
+    processor.runSync(tree)
 
     const result = tree.children[0] as Paragraph
     expect(result.type).toBe('paragraph')

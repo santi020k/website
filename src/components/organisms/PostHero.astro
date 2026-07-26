@@ -18,6 +18,8 @@ import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
 
+import { Breadcrumb } from '@santi020k/lumen-astro'
+
 interface Props {
   post: CollectionEntry<'post'>
 }
@@ -61,25 +63,27 @@ const metaItems = [
     "
     >
       <Eyebrow label={eyebrowLabel} tone="brand" />
-      <nav
-        aria-label="Breadcrumb"
+      <Breadcrumb
         class="
           flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 text-sm
           font-medium text-ink-muted
         "
       >
-        <a
-          href="/blog/"
-          class="
-            whitespace-nowrap transition-colors
-            hover:text-brand
-            motion-reduce:transition-none
-          "
-        >Blog
-        </a>
-        <span aria-hidden="true" class="text-line">/</span>
-        <span aria-current="page" class="text-ink-soft">Article</span>
-      </nav>
+        <ol>
+          <li>
+            <a
+              href="/blog/"
+              class="
+                whitespace-nowrap transition-colors
+                hover:text-brand
+                motion-reduce:transition-none
+              "
+            >Blog
+            </a>
+          </li>
+          <li><span aria-current="page" class="text-ink-soft">Article</span></li>
+        </ol>
+      </Breadcrumb>
     </div>
   </div>
 

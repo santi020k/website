@@ -15,6 +15,8 @@ import {
   getProjectTypeLabel
 } from '@/utils/project-meta'
 
+import { Breadcrumb } from '@santi020k/lumen-astro'
+
 interface Props {
   parentPage?: { name: string, url: string }
   project: CollectionEntry<'project'>
@@ -51,25 +53,29 @@ const metaItems = [
     "
     >
       <Eyebrow label={projectTypeLabel} tone="brand" />
-      <nav
-        aria-label="Breadcrumb"
+      <Breadcrumb
         class="
           flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 text-sm
           font-medium text-ink-muted
         "
       >
-        <a
-          href={parentPage.url}
-          class="
-            whitespace-nowrap transition-colors
-            hover:text-brand
-            motion-reduce:transition-none
-          "
-        >{parentPage.name}
-        </a>
-        <span aria-hidden="true" class="text-line">/</span>
-        <span aria-current="page" class="min-w-0 text-ink-soft">{projectTypeLabel}</span>
-      </nav>
+        <ol>
+          <li>
+            <a
+              href={parentPage.url}
+              class="
+                whitespace-nowrap transition-colors
+                hover:text-brand
+                motion-reduce:transition-none
+              "
+            >{parentPage.name}
+            </a>
+          </li>
+          <li>
+            <span aria-current="page" class="min-w-0 text-ink-soft">{projectTypeLabel}</span>
+          </li>
+        </ol>
+      </Breadcrumb>
     </div>
   </div>
 

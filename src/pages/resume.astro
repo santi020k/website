@@ -6,13 +6,14 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects, getFormattedDate } from '@/utils/date'
 
-import { Button, ButtonLink, Link } from '@santi020k/lumen-astro'
+import { ButtonLink, Link } from '@santi020k/lumen-astro'
 
 import { AUTHOR_JOB_TITLE, siteConfig } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const workProjects = allProjects.filter(p => p.data.typesId === 'professional')
 const personalProjects = allProjects.filter(p => p.data.typesId === 'personal')
+const resumePdfPath = `/pdf/cv.pdf?v=${Date.now()}`
 
 const resumePageSchema = {
   '@context': 'https://schema.org',
@@ -36,7 +37,7 @@ const resumePageSchema = {
       `Explore ${siteConfig.author}'s professional experience, technical skills, and open-source projects.`
     ].join(' '),
     structuredData: resumePageSchema,
-    title: 'Resume & Curriculum Vitae — ' + siteConfig.author
+    title: 'Resume & Curriculum Vitae'
   }}
 >
   <div
@@ -116,23 +117,25 @@ const resumePageSchema = {
         <p>{siteConfig.location}</p>
         <div
           class="
-            mt-4 flex flex-wrap gap-2
-            sm:justify-end
+            mt-4 grid w-full grid-cols-2 gap-2
+            sm:flex sm:w-auto sm:justify-end
             print:hidden
           "
           data-print-hidden
         >
-          <Button
-            class="inline-flex items-center gap-2"
-            onclick="window.print()"
-            type="button"
-            variant="outline"
+          <ButtonLink
+            ariaLabel="Open resume PDF in a new tab to print"
+            class="w-full sm:w-auto"
+            href={resumePdfPath}
+            newTab
+            variant="primary"
           >
             <Icon aria-hidden="true" class="size-4" name="tabler:printer" /> Print PDF
-          </Button>
+          </ButtonLink>
           <ButtonLink
             ariaLabel="Open resume PDF in a new tab"
-            href="/pdf/cv.pdf"
+            class="w-full sm:w-auto"
+            href={resumePdfPath}
             newTab
             showArrow
             variant="secondary"

@@ -2,19 +2,6 @@
  * Core Santi020k color and font tokens are imported from @santi020k/theme.
  */
 
-:root,
-:root[data-theme="light"] {
-  --success: 142 76% 36%;
-  --warning: 38 92% 50%;
-  --danger: 0 84% 60%;
-}
-
-:root[data-theme="dark"] {
-  --success: 142 71% 45%;
-  --warning: 38 92% 55%;
-  --danger: 0 84% 65%;
-}
-
 @media (prefers-contrast: more) {
   :root,
   :root[data-theme="light"] {

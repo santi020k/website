@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components'
 
-import { Button, Dialog, Input } from '@santi020k/lumen-astro'
+import { Button, Dialog, Kbd, SearchField } from '@santi020k/lumen-astro'
 ---
 
 <Dialog
@@ -80,8 +80,8 @@ import { Button, Dialog, Input } from '@santi020k/lumen-astro'
           </h2>
           <p class="mt-1 text-sm text-ink-soft">
             Match titles, tags, and descriptions. Arrow keys to move,
-            <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Enter</kbd> to open,
-            <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
+            <Kbd className="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Enter</Kbd> to open,
+            <Kbd className="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Esc</Kbd> to close.
           </p>
         </div>
         <Button
@@ -108,7 +108,7 @@ import { Button, Dialog, Input } from '@santi020k/lumen-astro'
 
       <div class="relative">
         <label class="sr-only" for="site-search-input">Search posts and projects</label>
-        <Input
+        <SearchField
           autocomplete="off"
           class="
             peer w-full border-b border-line/55 bg-transparent px-0 py-3.5
@@ -142,13 +142,13 @@ import { Button, Dialog, Input } from '@santi020k/lumen-astro'
 
       <p class="text-xs/relaxed text-ink-muted">
         <span class="text-ink-soft">Open from the page</span> (not while typing in a field):
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">/</kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">/</Kbd>
         ·
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">⌘</kbd>
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">⌘</Kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">K</Kbd>
         or
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</kbd>
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</Kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">K</Kbd>
       </p>
 
       <p aria-atomic="true" aria-live="polite" class="sr-only" id="site-search-status"></p>
