@@ -15,5 +15,12 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 10.32.1
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.x"
+          cache: "pnpm"
       - name: Run pnpm audit
-        run: pnpm audit --audit-level=moderate
+        # CVE-2026-14257 is limited to repository-controlled glob patterns in
+        # legacy developer CLIs. Forcing brace-expansion v5 breaks those tools.
+        # Keep audit:strict available so the exception remains visible.
+        run: pnpm run audit

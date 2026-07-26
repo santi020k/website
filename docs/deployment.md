@@ -42,12 +42,21 @@ Editing those defaults: update [`public/_headers`](../public/_headers) and [`pub
    - `/feed.xml`
    - `/offline/`
 
+This repository has not published a Git version tag yet. For the initial
+`v3.0.0` release, run `pnpm run release:first:dry`, review the generated
+changelog, then use `pnpm run release:first`. After that baseline tag exists,
+use the normal `release:dry` and `release` scripts for subsequent versions.
+
 ## Pre-release local validation
 
 Two tiers, picked by intent:
 
-- `pnpm run verify:fast` — lint, type-check via `astro sync`, unit tests, and a build. Runs on `pre-push` to keep daily pushes fast.
+- `pnpm run verify:fast` — lint, Astro type-check, content checks, unit tests, and a build. Runs on `pre-push` to keep daily pushes fast.
 - `pnpm run verify:full` (alias of `ci:verify`) — everything `verify:fast` does, plus coverage, Lighthouse CI, and stable Playwright. Run before manual releases or large changes.
+- `pnpm run audit` — audits at moderate severity while accepting
+  `CVE-2026-14257` for legacy developer-only glob consumers. Those commands use
+  repository-controlled patterns, and forcing the patched major currently
+  breaks ESLint. `pnpm run audit:strict` keeps the exception reviewable.
 
 ## Rollback
 

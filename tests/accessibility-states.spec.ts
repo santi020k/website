@@ -64,4 +64,31 @@ test.describe('Accessibility states', () => {
     await expect(root).not.toHaveClass(/dark/)
     await expect(toggle).toHaveAttribute('aria-pressed', 'false')
   })
+
+  test('topic sort toggles keep one authoritative pressed state', async ({ page }) => {
+    await page.goto('/blog/tags/')
+
+    const byCount = page.getByRole('button', { name: 'By count' })
+    const alphabetical = page.getByRole('button', { name: 'A → Z' })
+    const topics = page.locator('#tags-list > [data-label]')
+
+    await expect(byCount).toHaveAttribute('aria-pressed', 'true')
+    await expect(alphabetical).toHaveAttribute('aria-pressed', 'false')
+
+    await alphabetical.press('Enter')
+
+    await expect(byCount).toHaveAttribute('aria-pressed', 'false')
+    await expect(alphabetical).toHaveAttribute('aria-pressed', 'true')
+    await expect(topics.first()).toHaveAttribute('data-label', 'accessibility')
+
+    await alphabetical.press('Space')
+
+    await expect(alphabetical).toHaveAttribute('aria-pressed', 'true')
+
+    await byCount.click()
+
+    await expect(byCount).toHaveAttribute('aria-pressed', 'true')
+    await expect(alphabetical).toHaveAttribute('aria-pressed', 'false')
+    await expect(topics.first()).toHaveAttribute('data-label', 'developer-experience')
+  })
 })

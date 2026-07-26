@@ -143,7 +143,6 @@ const supportingLogoSurfaceClass = {
         ]}
       >
         <a
-          aria-label={`View ${featuredProject.data.title}`}
           data-project-card
           data-showcase-feature
           class:list={[
@@ -363,6 +362,7 @@ const supportingLogoSurfaceClass = {
                             ]}
                             loading="lazy"
                             src={projectLogo}
+                            width={projectLogoAspect === 'wide' ? 80 : 48}
                           />
                         ) :
                         String(index + 2).padStart(2, '0')}

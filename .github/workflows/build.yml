@@ -7,8 +7,24 @@ name: CI
     branches: [main]
 
 jobs:
+  quality:
+    name: Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.32.1
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.x"
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run verify:quality
+
   build:
     name: Build
+    needs: quality
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

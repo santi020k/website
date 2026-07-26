@@ -3,6 +3,9 @@ packages:
 allowBuilds:
   esbuild: true
   unrs-resolver: true
+auditConfig:
+  ignoreCves:
+    - CVE-2026-14257
 catalog:
   "@astrojs/check": ^0.9.9
   "@astrojs/markdown-remark": ^7.2.1

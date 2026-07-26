@@ -16,9 +16,11 @@ test.describe('Content calendar page', () => {
   })
 
   test('should display the publishing stats panel', async ({ page }) => {
-    await expect(page.getByRole('paragraph').filter({ hasText: /^New posts$/ })).toBeVisible()
-    await expect(page.getByRole('paragraph').filter({ hasText: /^Refreshes$/ })).toBeVisible()
-    await expect(page.getByRole('paragraph').filter({ hasText: /^Series$/ })).toBeVisible()
+    const statLabels = page.locator('p.section-label')
+
+    await expect(statLabels.filter({ hasText: /^New posts$/ })).toBeVisible()
+    await expect(statLabels.filter({ hasText: /^Refreshes$/ })).toBeVisible()
+    await expect(statLabels.filter({ hasText: /^Series$/ })).toBeVisible()
   })
 
   test('should render roadmap entry articles', async ({ page }) => {

@@ -32,6 +32,11 @@ const setTheme = newTheme => {
 
   root.classList.toggle('dark', newTheme === 'dark')
 
+  document.querySelectorAll('[data-ui-theme-toggle]').forEach(control => {
+    control.setAttribute('aria-pressed', String(newTheme === 'dark'))
+    control.setAttribute('data-ui-theme', newTheme)
+  })
+
   // Defer both the querySelector and getComputedStyle reads to avoid a forced
   // synchronous style recalculation immediately after the DOM write above.
   requestAnimationFrame(() => {
