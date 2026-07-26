@@ -19,12 +19,14 @@ import { SkipLink, UIPrimitives } from '@santi020k/lumen-astro'
 import { siteConfig } from '@/site.config'
 
 interface Props {
+  footerVariant?: 'compact' | 'default'
   mainClass?: string | undefined
   mainSpacing?: 'generous' | 'standard'
   meta: SiteMeta
 }
 
 const {
+  footerVariant = 'default',
   mainClass,
   mainSpacing = 'standard',
   meta: {
@@ -107,7 +109,7 @@ const isGenerousSpacing = mainSpacing === 'generous'
         <slot />
       </main>
 
-      <SiteFooter />
+      <SiteFooter variant={footerVariant} />
     </div>
 
     <BackToTop />

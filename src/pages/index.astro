@@ -81,10 +81,7 @@ const homePageSchema = {
 }
 
 const meta = {
-  description: [
-    `I'm Santiago Molina (@santi020k), an Engineering Leader & Full-Stack Architect with ${YEARS_OF_EXPERIENCE}`,
-    'years of experience building resilient systems and scaling technical teams.'
-  ].join(' '),
+  description: siteConfig.description,
   preloadImage: {
     href: heroPortraitImage.src,
     type: 'image/avif'

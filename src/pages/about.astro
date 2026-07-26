@@ -45,7 +45,7 @@ const profileStats = [
 ]
 
 const storyBeats = [
-  'I am Santiago Molina, a full-stack engineer and tech lead based in Medellin, Colombia. I have spent the last decade-plus shipping products across commerce, SaaS, gaming, real estate, and media.',
+  'I am Santiago Molina, a full-stack engineer and tech lead based in Medellín, Colombia. I have spent the last decade-plus shipping products across commerce, SaaS, gaming, real estate, and media.',
   'The connective tissue across that work is systems thinking: architecture that can evolve, delivery pipelines that make quality visible, and team habits that lower pressure instead of adding ceremony.',
   'I like being close to the product and close to the code. The best technical leadership I have seen is practical, calm, and specific enough that teams can move faster without guessing what “good” means.'
 ]
@@ -58,7 +58,7 @@ const workingModes = [
 
 const description =
   `${yearsOfExperience} years shipping full-stack products. ` +
-  'I am Santiago Molina (@santi020k), a senior engineer and tech lead based in Medellin, focused on architecture, automation, and developer experience.'
+  'I am Santiago Molina (@santi020k), an engineering leader and full-stack architect based in Medellín, focused on architecture, automation, and developer experience.'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -78,7 +78,7 @@ const aboutPageSchema = {
     description: siteConfig.description,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Medellin',
+      addressLocality: 'Medellín',
       addressCountry: 'CO'
     },
     email: `mailto:${siteConfig.contact.email}`,
@@ -146,7 +146,7 @@ const meta = {
               lg:text-[5.2rem]/[0.92]
             "
           >
-            I build calm systems for
+            I build calm systems for{' '}
             <span class="
               block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
               pb-4 text-transparent
@@ -160,9 +160,8 @@ const meta = {
               sm:text-lg/8
             "
           >
-            Full-stack architect and engineering leader focused on architecture,
-            automation, developer experience, and the habits that help product teams
-            move with more confidence.
+            Engineering leader and full-stack architect helping teams modernize systems,
+            automate delivery, and improve developer experience.
           </p>
         </div>
 
@@ -179,9 +178,6 @@ const meta = {
             <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
               Open resume
             </ButtonLink>
-            <ButtonLink href="/speaking/" showArrow variant="secondary">
-              Speaking
-            </ButtonLink>
           </div>
 
           <SocialList />
@@ -197,7 +193,7 @@ const meta = {
         <AnimatedPortrait
           alt="Portrait of Santiago Molina (@santi020k)"
           badgeProps={{
-            location: { label: 'Base', text: 'Medellin · Remote worldwide' },
+            location: { label: 'Base', text: 'Medellín · Remote worldwide' },
             experience: { label: 'Experience', value: yearsOfExperience }
           }}
           showFloatingBadges

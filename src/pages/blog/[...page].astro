@@ -5,7 +5,6 @@ import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import EditorialEntryCard from '@/components/molecules/EditorialEntryCard.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
@@ -23,7 +22,6 @@ import { getAllTags } from '@/utils/tags'
 
 import { Card } from '@santi020k/lumen-astro'
 
-import { editorialCalendar } from '@/data/editorial-calendar'
 import { getSeriesSummaries } from '@/data/series'
 import { siteConfig, YEARS_OF_WRITING } from '@/site.config'
 
@@ -46,13 +44,9 @@ const { allTagsData, page } = Astro.props
 const isFirstPage = page.currentPage === 1
 const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const santi020kWaySeries = isFirstPage ? (activeSeries.find(s => s.series.id === 'the-santi020k-way') ?? null) : null
-const roadmapPreview = isFirstPage ? editorialCalendar.slice(0, 3) : []
 const topTags = allTagsData.slice(0, 8)
 const featuredPost = page.data[0] ?? null
 const gridPosts = page.data.slice(1)
-
-const cadenceDescription =
-  'One deep post each month, one refreshed evergreen guide. The archive compounds instead of aging.'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -92,41 +86,29 @@ const blogListSchema = {
   }}
 >
   <PageHero
-    description="Practical writing on architecture, team habits, delivery systems, and the automation that helps software work feel calmer and more repeatable."
+    compact={!isFirstPage}
+    description={isFirstPage ?
+      'Practical writing on architecture, team habits, delivery systems, and the automation that helps software work feel calmer and more repeatable.' :
+      `Older writing from page ${page.currentPage} of ${page.lastPage}, ordered newest first.`}
     eyebrow="Blog"
-    gradientText="Architecture. Craft."
-    metaItems={['Deep dives', 'Field notes', 'Evergreen guides']}
-    title="Writing about software."
+    gradientText={isFirstPage ? 'Architecture. Craft.' : `Page ${page.currentPage}.`}
+    metaItems={isFirstPage ? ['Deep dives', 'Field notes', 'Evergreen guides'] : ['Archive', 'Latest first']}
+    title={isFirstPage ? 'Writing about software.' : 'Writing archive.'}
   >
-    <ButtonLink href={siteConfig.contact.medium} newTab showArrow>
-      Open Medium
-    </ButtonLink>
+    {isFirstPage && featuredPost && (
+      <ButtonLink href={getPostPath(featuredPost.id)} showArrow>
+        Read the latest post
+      </ButtonLink>
+    )}
     <ButtonLink href="/blog/tags/" showArrow variant="secondary">
       Browse topics
     </ButtonLink>
-    <ButtonLink href="/blog/series/" showArrow variant="secondary">
-      Browse series
-    </ButtonLink>
+    {isFirstPage && (
+      <ButtonLink href="/blog/series/" showArrow variant="secondary">
+        Browse series
+      </ButtonLink>
+    )}
   </PageHero>
-
-  <StatsGrid>
-    <StatCard description="Articles currently hosted on my site and cross-posted to Medium." label="Posts" value={String(page.total)} />
-    <StatCard
-      description="Topics and themes covered in my writing across various publications."
-      label="Tags"
-      value={String(allTagsData.length)}
-    />
-    <StatCard
-      description="Grouped reading tracks so related posts are easier to follow in sequence."
-      label="Series"
-      value={String(activeSeries.length)}
-    />
-    <StatCard
-      description="Years of writing and sharing engineering knowledge across the web."
-      label="Experience"
-      value={YEARS_OF_WRITING}
-    />
-  </StatsGrid>
 
   <PageSection>
     <SectionHeader
@@ -149,6 +131,27 @@ const blogListSchema = {
       <Pagination page={page} />
     </div>
   </PageSection>
+
+  {isFirstPage && (
+    <StatsGrid>
+      <StatCard description="Articles currently hosted on my site and cross-posted to Medium." label="Posts" value={String(page.total)} />
+      <StatCard
+        description="Topics and themes covered in my writing across various publications."
+        label="Tags"
+        value={String(allTagsData.length)}
+      />
+      <StatCard
+        description="Grouped reading tracks so related posts are easier to follow in sequence."
+        label="Series"
+        value={String(activeSeries.length)}
+      />
+      <StatCard
+        description="Years of writing and sharing engineering knowledge across the web."
+        label="Experience"
+        value={YEARS_OF_WRITING}
+      />
+    </StatsGrid>
+  )}
 
   {isFirstPage && santi020kWaySeries && (
     <PageSection>
@@ -242,42 +245,4 @@ const blogListSchema = {
     </PageSection>
   )}
 
-  {isFirstPage && (
-    <PageSection>
-      <SectionHeader
-        description={cadenceDescription}
-        eyebrow="Publishing Rhythm"
-        linkHref="/blog/content-calendar/"
-        linkLabel="View full calendar"
-        title="Consistent output, compounding value."
-      />
-
-      <div class="w-full space-y-4">
-        <div class="flex flex-col gap-4" data-stagger="60">
-          {roadmapPreview.map(entry => (
-            <EditorialEntryCard
-              format={entry.format}
-              headline={entry.headline}
-              month={entry.month}
-              refreshTitle={entry.refreshTitle}
-              seriesId={entry.seriesId}
-              variant="compact"
-            />
-          ))}
-        </div>
-
-        <div class="section-actions">
-          <ButtonLink href="/blog/content-calendar/" showArrow>
-            See the roadmap
-          </ButtonLink>
-          <ButtonLink href="/blog/series/" showArrow variant="secondary">
-            Browse series
-          </ButtonLink>
-          <ButtonLink href="/feed.xml" showArrow variant="secondary">
-            Follow via RSS
-          </ButtonLink>
-        </div>
-      </div>
-    </PageSection>
-  )}
 </PageLayout>

@@ -56,6 +56,17 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
   ).toHaveAttribute('href', /^\/$/)
 })
 
+test('homepage stats use the accent Lumen variant as standalone articles', async ({ page }) => {
+  await page.goto('/')
+
+  const stats = page.locator(
+    'article > [data-stat-card-compat][data-variant="accent"].ui-stat--accent'
+  )
+
+  await expect(stats).toHaveCount(4)
+  await expect(stats.locator('.ui-stat-value')).toHaveText(['12+', '14', '-75%', '100+'])
+})
+
 test('homepage keeps speaking in the footer navigation only', async ({ page }) => {
   await page.goto('/')
 

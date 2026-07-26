@@ -8,7 +8,7 @@ import { Card } from '@santi020k/lumen-astro'
 import { siteConfig } from '@/site.config'
 
 const description =
-  'How santi020k.com handles data: no ad trackers, no profiling, just a static site with a theme preference.'
+  'How santi020k.com stores preferences, recent searches, offline pages, and data sent to third-party services.'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -27,30 +27,30 @@ const sections = [
     body: 'Static HTML built with Astro, delivered via CDN. No third-party ad pixels, no visitor profiling.'
   },
   {
-    label: 'Cookies & local storage',
-    body: 'Only your theme preference (light / dark) is stored locally. No cross-site tracking from this domain.'
+    label: 'Browser storage',
+    body: 'Theme preference and recent site-search terms are stored in localStorage on your device. The service worker may also keep previously visited pages and assets in Cache Storage for offline access. Clearing this site’s browser data removes both.'
   },
   {
     label: 'Hosting analytics',
-    body: 'Cloudflare provides aggregate server-side traffic and performance metrics. This site sends no analytics beacon and sets no analytics cookies.'
+    body: 'Cloudflare provides aggregate server-side traffic and performance metrics as the site host. This site sends no first-party analytics beacon and sets no analytics cookies.'
   },
   {
     label: 'Third-party services',
-    body: 'Newsletter forms are handled by their own providers under their own terms. Contact links open your usual app.'
+    body: 'Newsletter subscriptions are processed by Buttondown. Comments are provided by Giscus through GitHub Discussions. Those services receive the information you submit and apply their own privacy terms.'
   },
   {
     label: 'Webmentions',
-    body: 'Blog posts may show public reactions via Webmention.io — only interactions already published on the open web.'
+    body: 'Blog posts may show public reactions retrieved through Webmention.io. These are interactions already published on the open web; removal requests can be sent to the contact address below.'
   }
 ]
 ---
 
-<PageLayout meta={meta}>
+<PageLayout footerVariant="compact" meta={meta}>
   <PageHero
-    description="A static portfolio with no ad trackers, no profiling, and only the local preferences needed to make the site feel right."
+    description="No ad trackers or visitor profiles. This page explains the browser storage and third-party services the site does use."
     eyebrow="Legal"
     gradientText="without the maze."
-    metaItems={['No ad pixels', 'No profiling', 'Theme saved locally']}
+    metaItems={['No ad pixels', 'No profiling', 'Reviewed July 26, 2026']}
     title="Privacy"
   />
 
@@ -86,6 +86,9 @@ const sections = [
           {siteConfig.contact.email}
         </a>
         {' '}for anything privacy-related.
+      </p>
+      <p class="mt-3 text-xs/6 text-ink-muted">
+        Last reviewed July 26, 2026. I aim to acknowledge privacy and deletion requests within five business days.
       </p>
     </div>
   </section>

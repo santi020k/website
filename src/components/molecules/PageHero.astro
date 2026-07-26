@@ -2,6 +2,7 @@
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
 interface Props {
+  compact?: boolean
   description: string
   eyebrow: string
   gradientText: string
@@ -9,16 +10,18 @@ interface Props {
   title: string
 }
 
-const { description, eyebrow, gradientText, metaItems = [], title } = Astro.props
+const { compact = false, description, eyebrow, gradientText, metaItems = [], title } = Astro.props
 const hasActions = Astro.slots.has('default')
 const hasMetaItems = metaItems.length > 0
 ---
 
-<section class="
-  relative section-container-wide py-4
-  sm:pt-6
-  lg:pt-8
-"
+<section
+  class:list={[
+    'relative section-container-wide',
+    compact ?
+      'py-2 sm:pt-3 lg:pt-4' :
+      'py-4 sm:pt-6 lg:pt-8'
+  ]}
 >
   <div
     aria-hidden="true"
@@ -29,7 +32,7 @@ const hasMetaItems = metaItems.length > 0
     "
   />
 
-  <div class="relative z-10 space-y-8">
+  <div class:list={['relative z-10', compact ? 'space-y-5' : 'space-y-8']}>
     <Eyebrow
       className="
         animate-slide-up whitespace-normal
@@ -44,18 +47,23 @@ const hasMetaItems = metaItems.length > 0
       motion-reduce:animate-none
     "
     >
-      <h1 class="
-        max-w-5xl text-4xl/[0.98] font-extrabold tracking-[-0.06em]
-        wrap-break-word
-        sm:text-6xl/[0.95]
-        lg:text-[5.2rem]/[0.92]
-      "
+      <h1
+        class:list={[
+          'max-w-5xl font-extrabold tracking-[-0.06em] wrap-break-word',
+          compact ?
+            'text-3xl/[1] sm:text-5xl/[0.98] lg:text-6xl/[0.95]' :
+            'text-4xl/[0.98] sm:text-6xl/[0.95] lg:text-[5.2rem]/[0.92]'
+        ]}
       >
-        {title}
-        <span class="
-          block bg-linear-to-r from-brand via-accent to-brand bg-clip-text pb-4
-          text-transparent
-        "
+        {title}{' '}
+        <span
+          class:list={[
+            `
+              block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+              text-transparent
+            `,
+            compact ? 'pb-2' : 'pb-4'
+          ]}
         >
           {gradientText}
         </span>

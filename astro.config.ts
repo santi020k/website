@@ -174,6 +174,7 @@ const contentLastmodMap = buildContentLastmodMap()
 
 const buildLegacyRedirects = (): Record<string, string> => {
   const redirects: Record<string, string> = {
+    '/blog/content-calendar/': '/blog/',
     '/blog/tags/hombrew/': '/blog/tags/homebrew/'
   }
   const projectDirectory = path.resolve('src/content/project')

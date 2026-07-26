@@ -9,10 +9,7 @@ export interface SocialPageDefinition {
 }
 
 export const homeSocialPage: SocialPageDefinition = {
-  description: [
-    `Engineering Leader & Full-Stack Architect with ${YEARS_OF_EXPERIENCE} years of experience`,
-    'building resilient systems and scaling technical teams.'
-  ].join(' '),
+  description: 'Engineering leader and full-stack architect helping teams modernize systems, automate delivery, and improve developer experience.',
   pathname: '/',
   title: 'Engineering Leader & Full-Stack Architect',
   type: 'Homepage'
@@ -22,7 +19,7 @@ export const staticSocialPages: SocialPageDefinition[] = [
   {
     description:
       `${YEARS_OF_EXPERIENCE} years shipping full-stack products. ` +
-      'Senior engineer and tech lead based in Medellin focused on automation, developer experience, and cross-functional leadership.',
+      'Engineering leader and full-stack architect based in Medellín focused on automation, developer experience, and cross-functional leadership.',
     pathname: '/about/',
     title: 'About Santiago Molina - Engineering Leader',
     type: 'About'
@@ -38,13 +35,6 @@ export const staticSocialPages: SocialPageDefinition[] = [
       'Browse Santiago Molina’s blog series for connected reading tracks on Next.js delivery, ESLint tooling, testing, and software architecture.',
     pathname: '/blog/series/',
     title: 'Blog Series',
-    type: 'Blog'
-  },
-  {
-    description:
-      'A documented publishing rhythm for upcoming essays, evergreen refreshes, and writing series across Santiago Molina’s engineering blog.',
-    pathname: '/blog/content-calendar/',
-    title: 'Content Calendar',
     type: 'Blog'
   },
   {
@@ -68,9 +58,9 @@ export const staticSocialPages: SocialPageDefinition[] = [
     type: 'Speaking'
   },
   {
-    description: 'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
+    description: 'Browse Santiago Molina’s capabilities and technologies across frontend architecture, product systems, testing, and delivery.',
     pathname: '/technologies/',
-    title: 'Technology Index',
+    title: 'Capabilities & Technologies',
     type: 'Technology'
   },
   {

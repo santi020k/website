@@ -32,30 +32,30 @@ In early 2019, I volunteered as the Technology Coordinator for [TEDx Medellin](h
 
 We used WordPress so the team could move quickly with speaker announcements, event logistics, and ticket communication without turning every update into a development bottleneck. At the same time, my brand at the time, [Justbit.site](https://justbit.site), helped shape the UI and visual direction used across the launch, and the work ended up being featured alongside the participating brands.
 
-### ⚠️ Core challenge
+### Core challenge
 
 The project had the usual nonprofit-event tension: high visibility, real deadline pressure, and a volunteer-driven team that still needed a polished, trustworthy web presence. The site had to feel credible enough for a TEDx audience while staying easy for the team to update as speakers, schedules, and campaign details evolved.
 
-### 🎯 What I owned
+### What I owned
 
 - **Technology coordination for the launch,** making sure the web work stayed aligned with the event timeline and the needs of the marketing team.
 - **WordPress implementation and content setup,** so event information could be published and revised quickly as the edition took shape.
 - **Close collaboration with marketing,** translating campaign needs into updates that supported promotion, clarity, and ticket conversion.
 - **UI and visual execution through Justbit,** helping deliver the design assets and branded presentation the event used that year.
 
-### 📈 Outcomes
+### Outcomes
 
 - **A sold-out event rollout,** with the website helping support promotion and give the edition a clear digital home.
 - **A cleaner launch workflow,** where non-technical collaborators could keep important event details current without waiting on custom code for every change.
 - **Brand visibility for Justbit,** which appeared among the participating brands after contributing the UI and visual work for the launch.
 - **A stronger bridge between product and community work,** combining software delivery, event operations, and storytelling in one project.
 
-### 🛠️ Tech stack
+### Tech stack
 
 - **Platform and delivery:** `WordPress`, `PHP`, `JavaScript`, `Semantic HTML & CSS`
 - **Launch and collaboration:** `UI Design`, `Brand Design`, `Marketing Collaboration`, `Content Strategy`, `Event Operations`
 
-### 🤝 Why it mattered
+### Why it mattered
 
 TEDx Medellin was one of those projects where technology felt very human. It was not only about shipping a website. It was about helping ideas reach an audience, supporting a community event with real cultural weight, and doing the work in a volunteer context where trust and collaboration mattered as much as the code.
 

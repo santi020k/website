@@ -209,7 +209,7 @@ const metaItems = [
       {!canonicalUrl && (
         <Button data-copy-link>
           <Icon aria-hidden="true" class="size-4" name="tabler:link" />
-          <span data-copy-text>Copy link to share</span>
+          <span data-copy-text>Copy link</span>
         </Button>
       )}
       {seriesContext && (
@@ -314,7 +314,7 @@ const metaItems = [
         if (iconSpan) iconSpan.innerHTML = CHECK_ICON
 
         setTimeout(() => {
-          if (copyText) copyText.textContent = 'Copy link to share'
+          if (copyText) copyText.textContent = 'Copy link'
           if (iconSpan) iconSpan.innerHTML = LINK_ICON
         }, 2000)
       } catch {

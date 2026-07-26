@@ -11,7 +11,7 @@ const meta = {
 }
 ---
 
-<PageLayout meta={meta}>
+<PageLayout footerVariant="compact" meta={meta}>
   <section
     aria-labelledby="error-heading"
     class="
@@ -27,7 +27,6 @@ const meta = {
           bg-brand-soft/78 px-3 py-1 text-[0.72rem] font-semibold
           tracking-[0.24em] text-brand uppercase
         "
-        role="alert"
       >
         404 · Page not found
       </span>
@@ -61,10 +60,7 @@ const meta = {
         <ButtonLink href="/" showArrow>
           Back home
         </ButtonLink>
-        <ButtonLink href="/portfolio/" showArrow variant="secondary">
-          Open projects
-        </ButtonLink>
-        <ButtonLink href="/blog/" showArrow variant="ghost">
+        <ButtonLink href="/blog/" showArrow variant="secondary">
           Read blog
         </ButtonLink>
       </div>

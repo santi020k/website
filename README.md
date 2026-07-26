@@ -113,6 +113,7 @@ This is a personal site, but issues and suggestions are welcome.
 - [`CHANGELOG.md`](./CHANGELOG.md)
 - [`docs/deployment.md`](./docs/deployment.md)
 - [`docs/theming.md`](./docs/theming.md)
+- [`docs/lumen-integration.md`](./docs/lumen-integration.md)
 - [`docs/cache-strategy.md`](./docs/cache-strategy.md)
 - [`docs/observability.md`](./docs/observability.md)
 - [`docs/incident-response.md`](./docs/incident-response.md)

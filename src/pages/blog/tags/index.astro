@@ -46,12 +46,6 @@ const breadcrumbs = [
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid>
-    <StatCard description="Distinct recurring topics across the current writing archive." label="Topics" value={String(allTags.length)} />
-    <StatCard description="Published posts that can be reached through these topic pages." label="Posts" value={String(posts.length)} />
-    <StatCard description="How often the most-used topic currently appears in the archive." label="Top topic" value={`${topTagCount}x`} />
-  </StatsGrid>
-
   <PageSection class="lg:grid-cols-1!">
     <SectionHeader
       description="Each topic opens a filtered archive page with the related posts."
@@ -255,4 +249,10 @@ const breadcrumbs = [
       document.addEventListener('astro:page-load', setupTopicIndex)
     </script>
   </PageSection>
+
+  <StatsGrid>
+    <StatCard description="Distinct recurring topics across the current writing archive." label="Topics" value={String(allTags.length)} />
+    <StatCard description="Published posts that can be reached through these topic pages." label="Posts" value={String(posts.length)} />
+    <StatCard description="How often the most-used topic currently appears in the archive." label="Top topic" value={`${topTagCount}x`} />
+  </StatsGrid>
 </PageLayout>

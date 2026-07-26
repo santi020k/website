@@ -20,7 +20,7 @@ export const createWhatsAppHref = (message: string = whatsappMessages.default) =
 
 export const siteConfig: SiteConfig = {
   author: 'Santiago Molina',
-  availability: 'Open to tech lead, full-stack, and engineering leadership roles',
+  availability: 'Available for tech lead, staff-level full-stack, and engineering leadership roles',
   contact: {
     email: 'hi@santi020k.com',
     github: 'https://github.com/santi020k',
@@ -38,10 +38,10 @@ export const siteConfig: SiteConfig = {
       year: 'numeric'
     }
   },
-  description: 'I\'m Santiago Molina (@santi020k), an engineering leader and full-stack architect building resilient systems and scaling technical teams.',
-  headline: 'I lead engineering teams, architect resilient systems, and build tools that empower developers.',
+  description: 'Engineering leader and full-stack architect helping teams modernize systems, automate delivery, and improve developer experience.',
+  headline: 'I help teams modernize systems, automate delivery, and improve developer experience.',
   lang: 'en-US',
-  location: 'Medellin, Colombia · Remote worldwide',
+  location: 'Medellín, Colombia · Remote worldwide',
   ogLocale: 'en_US',
   newsletter: {
     archiveFeedUrl: 'https://buttondown.com/santi020k/rss',

@@ -29,11 +29,11 @@ coverImage:
 
 X Games is one of the most recognized extreme sports brands in the world — home to snowboarding, skateboarding, BMX, and FMX competitions broadcast globally on ESPN. I joined the team to help maintain and evolve the official digital platform during a period of active event seasons, tackling systems work that sits behind audiences of millions.
 
-### ⚠️ Core challenge
+### Core challenge
 
 The site had to work reliably under real broadcast pressure — time-sensitive live events, global audiences with geo-based access restrictions, and a growing advertising infrastructure that needed to integrate cleanly with Next.js without breaking the rendering pipeline. Timing issues, route changes, and ad slot conflicts had to be handled precisely so fans saw the right content at the right time.
 
-### 🎯 What I built and shipped
+### What I built and shipped
 
 - **A full Google Ad Manager integration from scratch**, including a custom `useAdSlot` hook that solved one of the trickier frontend problems on the project: reliably loading `googletag` inside React's lifecycle. The hook uses retry logic with promise-based polling, handles route changes via Next.js router events, and cleans up ad slots on unmount to prevent memory leaks and iframe conflicts.
 - **Geo-based live stream access control**, working across the `HappeningNow` and video player sections to redirect geoblocked users to appropriate external streams, controlled entirely through Sanity CMS flags without requiring code changes per region.
@@ -43,24 +43,24 @@ The site had to work reliably under real broadcast pressure — time-sensitive l
 - **Live event UX polish**, including animated "LIVE" badges, cursor interaction improvements on the video placeholder, and hover scaling on call-to-action buttons with fine-tuned timing.
 - **Sanity Studio schema extensions** for geo-blocking fields, Ad Manager configuration, and global header ad settings — keeping content and runtime behavior in sync without hardcoding values.
 
-### 📈 Key outcomes
+### Key outcomes
 
 - **56+ PRs merged** across the Next.js frontend and Sanity CMS backend over the engagement period.
 - **A programmatic ad infrastructure** that could register, display, resize, and clean up Google Ad Manager slots across page navigations — a non-trivial integration in a React/Next.js context.
 - **Geo-based content routing** that handled live stream access for international audiences through CMS-driven configuration, not conditional deployments.
 - **Clean CMS-to-frontend parity** for ad configuration, live stream flags, and sponsor modules — editors could manage runtime behavior without developer intervention.
 
-### 🛠️ Tech stack
+### Tech stack
 
 - **Frontend:** `Next.js 13`, `React.js`, `JavaScript`, `SCSS`, `Embla Carousel`, `Radix UI`
 - **CMS and content:** `Sanity v3`, `Sanity Studio`, `Portable Text`, `sanity-plugin-vercel-deploy`
 - **Advertising and analytics:** `Google Ad Manager`, `Google Tag Manager`, `Firebase`
 - **Infrastructure and quality:** `Vercel`, `Node.js`, `Jest`, `Storybook`, `ESLint`, `Stylelint`
 
-### 🖼️ Platform snapshot
+### Platform snapshot
 
 The cover image above shows the version of the platform I worked on — archived from August 27, 2025, before the later WordPress redesign. The live link points to that preserved capture.
 
-### 🤝 Why it mattered
+### Why it mattered
 
 X Games runs on tight broadcast windows. There is no "we'll fix it after the event." Working on a platform at that scale — where a broken ad slot or a geo-routing failure affects thousands of concurrent users — sharpened how I think about reliability, cleanup logic, and the operational difference between a feature that works in dev and one that holds under real broadcast traffic.

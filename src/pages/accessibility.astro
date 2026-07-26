@@ -41,13 +41,13 @@ const sections = [
 ]
 ---
 
-<PageLayout meta={meta}>
+<PageLayout footerVariant="compact" meta={meta}>
   <article class="space-y-12">
     <PageHero
       description="WCAG 2.2 AA is the target. This is how the site is built, checked, and improved when something falls short."
       eyebrow="Inclusion"
       gradientText="statement."
-      metaItems={['Keyboard first', 'Reduced motion', 'Clear reporting']}
+      metaItems={['Keyboard first', 'Reduced motion', 'Reviewed July 26, 2026']}
       title="Accessibility"
     />
 
@@ -83,6 +83,9 @@ const sections = [
             {siteConfig.contact.email}
           </a>
           {' '}with the page URL, your browser, assistive technology, and what you were trying to do.
+        </p>
+        <p class="mt-3 text-xs/6 text-ink-muted">
+          Last reviewed July 26, 2026. I aim to acknowledge reports within five business days and share a resolution timeline once the barrier is reproduced.
         </p>
       </div>
     </section>

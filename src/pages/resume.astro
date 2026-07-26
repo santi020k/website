@@ -11,8 +11,8 @@ import { ButtonLink, Link } from '@santi020k/lumen-astro'
 import { AUTHOR_JOB_TITLE, siteConfig } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
-const workProjects = allProjects.filter(p => p.data.typesId === 'professional')
-const personalProjects = allProjects.filter(p => p.data.typesId === 'personal')
+const workProjects = allProjects.filter(p => p.data.typesId === 'professional').slice(0, 4)
+const personalProjects = allProjects.filter(p => p.data.typesId === 'personal').slice(0, 4)
 const resumePdfPath = `/pdf/cv.pdf?v=${Date.now()}`
 
 const resumePageSchema = {
@@ -31,6 +31,7 @@ const resumePageSchema = {
 ---
 
 <PageLayout
+  footerVariant="compact"
   meta={{
     description: [
       'Engineering leader and full-stack architect resume.',
@@ -317,9 +318,9 @@ const resumePageSchema = {
           <h3 class="
             mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
           "
-          >Languages & Interests
+          >Languages
           </h3>
-          <p class="text-sm text-ink-soft">Spanish (Native), English (C1). Continuous learning, community building.</p>
+          <p class="text-sm text-ink-soft">Spanish (native), English (C1).</p>
         </div>
         <div>
           <h3 class="

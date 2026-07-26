@@ -1,92 +1,91 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
+import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Card } from '@santi020k/lumen-astro'
+import { getCachedProjects } from '@/utils/content'
+import { collectionDateSortProjects } from '@/utils/date'
+
+const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
+const selectedWork = allProjects.filter(project => project.data.typesId === 'professional').slice(0, 3)
+const selectedProjects = allProjects.filter(project => project.data.typesId === 'personal').slice(0, 3)
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Portfolio', url: '/portfolio/' }
-]
-
-const sections = [
-  {
-    buttonLabel: 'Browse work',
-    description: 'Roles across commerce, gaming, SaaS, real estate, martech, and agencies — focused on architecture and technical leadership.',
-    href: '/work/',
-    label: 'Work Experience',
-    meta: 'Client systems · leadership · delivery',
-    title: 'Client & Product Work'
-  },
-  {
-    buttonLabel: 'Browse projects',
-    description: 'Open-source tools, community work, and self-directed experiments built to learn, share, and sharpen craft.',
-    href: '/projects/',
-    label: 'Side Projects',
-    meta: 'Open source · community · experiments',
-    title: 'Open Source & Personal Builds'
-  }
 ]
 ---
 
 <PageLayout
   meta={{
     breadcrumbs,
-    description: 'Engineering portfolio of Santiago Molina — browse client and product work or personal projects and open source.',
-    title: 'Portfolio — Santiago Molina'
+    description: 'Selected client systems, product work, open-source tools, and community projects by Santiago Molina.',
+    title: 'Selected Portfolio — Santiago Molina'
   }}
 >
   <PageHero
-    description="A focused map of shipped product work and the personal builds that sharpen the craft behind it."
-    eyebrow="Portfolio"
-    gradientText="and side projects."
+    description="A curated set of client systems, product work, and independent builds. Each case study connects decisions to delivery context and outcomes."
+    eyebrow="Selected portfolio"
+    gradientText="with the context."
     metaItems={['Architecture', 'Developer experience', 'Technical leadership']}
-    title="Work experience"
+    title="Shipped work"
   >
-    <ButtonLink href="/work/" showArrow>
-      Browse work
+    <ButtonLink href="#selected-work" showArrow>
+      Explore selected work
+    </ButtonLink>
+    <ButtonLink href="/work/" showArrow variant="secondary">
+      Full work history
     </ButtonLink>
     <ButtonLink href="/projects/" showArrow variant="secondary">
-      Browse projects
+      All side projects
     </ButtonLink>
   </PageHero>
 
-  <section class="page-card-grid" data-stagger="70">
-    {sections.map(({ buttonLabel, description, href, label, meta, title }, index) => (
-      <Card
-        class="flex h-full flex-col gap-6 p-7"
-        data-portfolio-section
-        variant="interactive"
-      >
-        <div class="flex items-start justify-between gap-4">
-          <p class="
-            section-label text-brand
-            dark:text-accent
-          "
-          >{label}
-          </p>
-          <span class="text-sm font-semibold text-ink-muted">
-            {String(index + 1).padStart(2, '0')}
-          </span>
-        </div>
-        <div class="space-y-2">
-          <h2 class="text-xl font-semibold text-ink">{title}</h2>
-          <p class="text-sm/7 text-ink-soft">{description}</p>
-        </div>
-        <p class="
-          mt-auto border-t border-line/35 pt-4 text-xs/6 font-semibold
-          tracking-[0.14em] text-ink-muted uppercase
-        "
-        >
-          {meta}
-        </p>
-        <div class="mt-auto">
-          <ButtonLink href={href} showArrow variant="secondary">
-            {buttonLabel}
-          </ButtonLink>
-        </div>
-      </Card>
-    ))}
-  </section>
+  <PageSection>
+    <SectionHeader
+      description="Recent professional work where architecture, delivery systems, and technical leadership had to move together."
+      eyebrow="Client and product work"
+      linkHref="/work/"
+      linkLabel="Browse full work history"
+      title="Selected professional work."
+    />
+    <div
+      class="
+        grid scroll-mt-28 gap-6
+        md:grid-cols-2
+        xl:grid-cols-3
+      "
+      data-stagger="60"
+      id="selected-work"
+    >
+      {selectedWork.map(project => (
+        <ProjectPreviewCard project={project} />
+      ))}
+    </div>
+  </PageSection>
+
+  <PageSection>
+    <SectionHeader
+      description="Open-source, community, and self-directed work that turns curiosity into reusable tools and practices."
+      eyebrow="Independent builds"
+      linkHref="/projects/"
+      linkLabel="Browse all side projects"
+      title="Selected personal projects."
+    />
+    <div
+      class="
+        grid gap-6
+        md:grid-cols-2
+        xl:grid-cols-3
+      "
+      data-stagger="60"
+    >
+      {selectedProjects.map(project => (
+        <ProjectPreviewCard accentTone="accent" project={project} />
+      ))}
+    </div>
+  </PageSection>
 </PageLayout>

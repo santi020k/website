@@ -48,19 +48,19 @@ const technologyGroups = [
 const featuredTechnologies = coreTechnologies.slice(0, 6)
 
 const meta = {
-  description: 'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
-  title: 'Technology Index'
+  description: 'Browse Santiago Molina’s capabilities and technologies across frontend architecture, product systems, testing, and delivery.',
+  title: 'Capabilities & Technologies'
 }
 
 ---
 
 <PageLayout meta={meta}>
   <PageHero
-    description="The recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, developer experience, and the tools around them."
-    eyebrow="Stack Index"
+    description="The recurring capabilities and technologies across the portfolio: frontend and backend architecture, testing, delivery automation, developer experience, and the platforms around them."
+    eyebrow="Capabilities index"
     gradientText="Full-stack range."
     metaItems={['Frontend architecture', 'Testing', 'Delivery tooling']}
-    title="Frontend-first stack."
+    title="Capabilities and technologies."
   >
     <ButtonLink href="/work/" showArrow>
       Browse work
@@ -69,13 +69,6 @@ const meta = {
       Back to portfolio
     </ButtonLink>
   </PageHero>
-
-  <StatsGrid showDivider={false}>
-    <StatCard description="Distinct tools and platforms across the full portfolio." label="Technologies" value={String(technologies.length)} />
-    <StatCard description="The single technology that appears most often across shipped projects." label="Most used" value={topTechnology ?? ''} />
-    <StatCard description="Tagged project evidence connecting tools back to shipped work." label="Signals" value={String(totalTechnologyMentions)} />
-    <StatCard description="Frontend, backend, testing, delivery, and developer tooling." label="Scope" value="Full stack" />
-  </StatsGrid>
 
   <section class="
     section-container-wide grid items-start gap-8 pt-20
@@ -244,6 +237,13 @@ const meta = {
       </p>
     </div>
   </section>
+
+  <StatsGrid showDivider={false}>
+    <StatCard description="Distinct capabilities, tools, and platforms across the full portfolio." label="Technologies" value={String(technologies.length)} />
+    <StatCard description="The single technology that appears most often across shipped projects." label="Most used" value={topTechnology ?? ''} />
+    <StatCard description="Tagged project evidence connecting tools back to shipped work." label="Signals" value={String(totalTechnologyMentions)} />
+    <StatCard description="Frontend, backend, testing, delivery, and developer tooling." label="Scope" value="Full stack" />
+  </StatsGrid>
 
   <section class="
     section-container-wide pt-20

@@ -51,10 +51,16 @@ const workListSchema = createProjectCollectionSchema('Work Experience — Santia
     <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
       Message on LinkedIn
     </ButtonLink>
-    <ButtonLink href="/projects/" showArrow variant="secondary">
-      Side projects
-    </ButtonLink>
   </PageHero>
+
+  <PageSection>
+    <SectionHeader
+      description="Work delivered where product constraints, architecture choices, team habits, and release quality all had to improve together."
+      eyebrow="Client and product work"
+      title="Professional Work"
+    />
+    <CareerTimeline projects={workProjects} />
+  </PageSection>
 
   <StatsGrid>
     <StatCard
@@ -78,15 +84,6 @@ const workListSchema = createProjectCollectionSchema('Work Experience — Santia
       value="-75%"
     />
   </StatsGrid>
-
-  <PageSection>
-    <SectionHeader
-      description="Work delivered where product constraints, architecture choices, team habits, and release quality all had to improve together."
-      eyebrow="Client and product work"
-      title="Professional Work"
-    />
-    <CareerTimeline projects={workProjects} />
-  </PageSection>
 
   <PageSection>
     <SectionHeader

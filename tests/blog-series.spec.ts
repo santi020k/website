@@ -20,7 +20,7 @@ test.describe('Blog series index page', () => {
 
     await expect(statLabels.filter({ hasText: 'Active series' })).toBeVisible()
     await expect(statLabels.filter({ hasText: 'Posts grouped' })).toBeVisible()
-    await expect(statLabels.filter({ hasText: 'Roadmap tracks' })).toBeVisible()
+    await expect(statLabels.filter({ hasText: 'Reading tracks' })).toBeVisible()
   })
 
   test('should render at least one series card', async ({ page }) => {
@@ -34,12 +34,6 @@ test.describe('Blog series index page', () => {
     const backLink = page.getByRole('link', { name: /Back to blog/i })
     await expect(backLink).toBeVisible()
     await expect(backLink).toHaveAttribute('href', /^\/blog\/$/)
-  })
-
-  test('should link to the content calendar', async ({ page }) => {
-    const calendarLink = page.getByRole('link', { name: /Content calendar/i }).first()
-    await expect(calendarLink).toBeVisible()
-    await expect(calendarLink).toHaveAttribute('href', /^\/blog\/content-calendar\/$/)
   })
 
   test('should pass accessibility audit', async ({ page }) => {

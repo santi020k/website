@@ -83,10 +83,6 @@ const meta = {
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid>
-    <StatCard description={`Projects in the portfolio where ${technology} shaped the architecture or delivery.`} label="Projects" value={String(page.total)} />
-  </StatsGrid>
-
   <section
     class="
       section-container-wide grid gap-6 pt-10
@@ -95,6 +91,13 @@ const meta = {
     "
     data-stagger="60"
   >
+    <h2 class="
+      col-span-full text-2xl font-semibold tracking-tight text-ink
+      sm:text-3xl
+    "
+    >
+      Projects using {technology}
+    </h2>
     {page.data.map(project => (
       <ProjectPreviewCard
         project={project}
@@ -102,4 +105,8 @@ const meta = {
       />
     ))}
   </section>
+
+  <StatsGrid>
+    <StatCard description={`Projects in the portfolio where ${technology} shaped the architecture or delivery.`} label="Projects" value={String(page.total)} />
+  </StatsGrid>
 </PageLayout>
