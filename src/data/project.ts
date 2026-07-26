@@ -3,9 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 import { getCachedProjects } from '@/utils/content'
 import { getPortfolioPath } from '@/utils/links'
 
-export const getAllProjects = async (): Promise<CollectionEntry<'project'>[]> => {
-  return getCachedProjects()
-}
+export const getAllProjects = async (): Promise<CollectionEntry<'project'>[]> => getCachedProjects()
 
 const groupBy = (
   projects: CollectionEntry<'project'>[],
@@ -27,30 +25,22 @@ const groupBy = (
 /** Groups projects by starting year. */
 export const groupProjectsByYear = (
   projects: CollectionEntry<'project'>[]
-): Record<string, CollectionEntry<'project'>[] | undefined> => {
-  return groupBy(projects, p => p.data.startingDate.getFullYear().toString())
-}
+): Record<string, CollectionEntry<'project'>[] | undefined> => groupBy(projects, p => p.data.startingDate.getFullYear().toString())
 
 /** Groups projects by typesId. */
 export const groupProjectsByTypesId = (
   projects: CollectionEntry<'project'>[]
-): Record<string, CollectionEntry<'project'>[] | undefined> => {
-  return groupBy(projects, p => p.data.typesId ?? 'personal')
-}
+): Record<string, CollectionEntry<'project'>[] | undefined> => groupBy(projects, p => p.data.typesId ?? 'personal')
 
 /** returns all technologies created from projects (inc duplicate technologies)
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
-export const getAllTechnologies = (projects: CollectionEntry<'project'>[]) => {
-  return projects.flatMap(project => [...project.data.technologies])
-}
+export const getAllTechnologies = (projects: CollectionEntry<'project'>[]) => projects.flatMap(project => [...project.data.technologies])
 
 /** returns all unique technologies created from projects
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
-export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) => {
-  return [...new Set(getAllTechnologies(projects))]
-}
+export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) => [...new Set(getAllTechnologies(projects))]
 
 /** Returns an array of strings, ordered by the number of times each technology is used in all the projects
  * Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
@@ -74,32 +64,28 @@ export const createProjectCollectionSchema = (
   path: string,
   projects: CollectionEntry<'project'>[],
   site: URL | undefined
-): Record<string, unknown> => {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name,
-    url: new URL(path, site).href,
-    mainEntity: {
-      '@type': 'ItemList',
-      numberOfItems: projects.length,
-      itemListElement: projects.map((project, index) => ({
-        '@type': 'ListItem',
-        name: project.data.title,
-        position: index + 1,
-        url: new URL(getPortfolioPath(project.id), site).href
-      }))
-    }
+): Record<string, unknown> => ({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name,
+  url: new URL(path, site).href,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: projects.length,
+    itemListElement: projects.map((project, index) => ({
+      '@type': 'ListItem',
+      name: project.data.title,
+      position: index + 1,
+      url: new URL(getPortfolioPath(project.id), site).href
+    }))
   }
-}
+})
 
 /** returns a count of each unique Technology - [[TechnologyName, count], ...]
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
-export const getUniqueTechnologiesWithCount = (projects: CollectionEntry<'project'>[]): [string, number][] => {
-  return [
-    ...getAllTechnologies(projects).reduce(
-      (acc, t) => acc.set(t, (acc.get(t) ?? 0) + 1), new Map<string, number>()
-    )
-  ].sort((a, b) => b[1] - a[1])
-}
+export const getUniqueTechnologiesWithCount = (projects: CollectionEntry<'project'>[]): [string, number][] => [
+  ...getAllTechnologies(projects).reduce(
+    (acc, t) => acc.set(t, (acc.get(t) ?? 0) + 1), new Map<string, number>()
+  )
+].sort((a, b) => b[1] - a[1])

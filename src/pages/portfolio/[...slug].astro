@@ -21,7 +21,7 @@ export const getStaticPaths = (async () => {
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
-const { project } = Astro.props as Props
+const { project } = Astro.props
 const { Content } = await render(project)
 
 const relatedProjects = (await getRelatedProjects({

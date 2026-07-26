@@ -11,7 +11,13 @@
  */
 ---
 
-<div id="nav-progress" aria-hidden="true" role="presentation"></div>
+<div
+  id="nav-progress"
+  aria-hidden="true"
+  role="presentation"
+  transition:persist
+>
+</div>
 
 <style>
   #nav-progress {
@@ -61,10 +67,10 @@
 </style>
 
 <script>
-  const bar = document.getElementById('nav-progress')
   let resetFrame = 0
 
   document.addEventListener('astro:before-preparation', () => {
+    const bar = document.getElementById('nav-progress')
     if (!bar) return
 
     if (resetFrame) {
@@ -81,6 +87,7 @@
   })
 
   document.addEventListener('astro:page-load', () => {
+    const bar = document.getElementById('nav-progress')
     if (!bar) return
 
     if (resetFrame) {

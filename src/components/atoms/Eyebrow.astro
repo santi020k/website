@@ -19,8 +19,8 @@ const { className = '', label, tone = 'neutral' } = Astro.props
     tone === 'brand' ?
       `
         border-brand/30 bg-brand-soft/80 text-brand
-        dark:border-accent/35 dark:text-accent
         shadow-[0_0_12px_hsl(var(--brand)/0.1),inset_0_1px_0_hsl(0_0%_100%/0.08)]
+        dark:border-accent/35 dark:text-accent
       ` :
       `
         border-line/60 bg-surface-muted/80 text-ink-muted
@@ -33,9 +33,10 @@ const { className = '', label, tone = 'neutral' } = Astro.props
     <span
       aria-hidden="true"
       class="
-        inline-block size-1.5 shrink-0 rounded-full bg-brand dark:bg-accent
+        inline-block size-1.5 shrink-0 rounded-full bg-brand
         motion-safe:animate-pulse
         motion-reduce:animate-none
+        dark:bg-accent
       "
     />
   )}

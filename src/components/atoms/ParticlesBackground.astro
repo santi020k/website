@@ -11,7 +11,10 @@ const { class: className = '', density = 'medium' } = Astro.props
 
 <Particles
   class:list={[
-    'pointer-events-none absolute inset-0 min-h-0 overflow-hidden rounded-none bg-transparent [background-image:none]',
+    `
+      pointer-events-none absolute inset-0 min-h-0 overflow-hidden rounded-none
+      bg-transparent bg-none
+    `,
     className
   ]}
   data-particles-bg={density}

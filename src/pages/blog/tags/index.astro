@@ -5,12 +5,13 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
-import { Card, Link, Toggle } from '@santi020k/lumen-astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
+
+import { Card, Input, Link, Toggle } from '@santi020k/lumen-astro'
 
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
@@ -59,13 +60,43 @@ const breadcrumbs = [
     />
 
     <div class="space-y-4">
-      <div class="flex items-center gap-3">
-        <span class="section-label">Sort</span>
-        <div class="flex gap-2">
-          <Toggle className="pagination-btn pagination-btn--active" controlled data-sort-btn="count" pressed>By count</Toggle>
-          <Toggle className="pagination-btn" controlled data-sort-btn="alpha">A → Z</Toggle>
+      <div class="
+        grid gap-4
+        sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end
+      "
+      >
+        <div class="space-y-2">
+          <label class="section-label block" for="tag-filter">Find a topic</label>
+          <Input
+            aria-describedby="tag-filter-status"
+            autocomplete="off"
+            class="field-surface"
+            id="tag-filter"
+            placeholder="Search topics…"
+            spellcheck="false"
+            type="search"
+          />
+        </div>
+        <div class="
+          flex items-center gap-3
+          sm:pb-0.5
+        "
+        >
+          <span class="section-label">Sort</span>
+          <div class="flex gap-2">
+            <Toggle className="pagination-btn pagination-btn--active" controlled data-sort-btn="count" pressed>By count</Toggle>
+            <Toggle className="pagination-btn" controlled data-sort-btn="alpha">A → Z</Toggle>
+          </div>
         </div>
       </div>
+
+      <p
+        id="tag-filter-status"
+        aria-live="polite"
+        class="text-sm text-ink-muted"
+      >
+        Showing all {allTags.length} topics.
+      </p>
 
       <div
         class="
@@ -83,8 +114,8 @@ const breadcrumbs = [
             <span data-count={String(count)} data-label={tag}>
               <Link
                 class="
-                  group block h-full rounded-[1.35rem]
-                  font-normal text-inherit no-underline
+                  group block h-full rounded-[1.35rem] font-normal text-inherit
+                  no-underline
                   focus-visible:ring-2 focus-visible:ring-brand/50
                   focus-visible:outline-none
                 "
@@ -94,8 +125,7 @@ const breadcrumbs = [
                 <Card
                   as="article"
                   class="
-                    relative flex h-full flex-col gap-4
-                    rounded-[1.35rem] p-6
+                    relative flex h-full flex-col gap-4 rounded-[1.35rem] p-6
                   "
                   variant="interactive"
                 >
@@ -136,9 +166,7 @@ const breadcrumbs = [
                       class="h-1 w-full overflow-hidden rounded-full bg-line/35"
                     >
                       <div
-                        class="
-                          topic-meter-fill
-                        "
+                        class="topic-meter-fill"
                         style={`width: ${pct}%;`}
                       />
                     </div>
@@ -152,38 +180,79 @@ const breadcrumbs = [
           )
         })}
       </div>
+      <p
+        class="
+          rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm
+          text-ink-soft
+        "
+        data-tags-empty
+        hidden
+      >
+        No topics match that search.
+      </p>
     </div>
 
     <script>
-      const list = document.getElementById('tags-list')!
-      const btns = document.querySelectorAll<HTMLButtonElement>('[data-sort-btn]')
+      const setupTopicIndex = () => {
+        const list = document.getElementById('tags-list')
+        const input = document.querySelector<HTMLInputElement>('#tag-filter')
+        const status = document.getElementById('tag-filter-status')
+        const empty = document.querySelector<HTMLElement>('[data-tags-empty]')
+        const btns = document.querySelectorAll<HTMLButtonElement>('[data-sort-btn]')
 
-      function setActive(active: HTMLButtonElement) {
-        queueMicrotask(() => {
-          btns.forEach(b => {
-            const isActive = b === active
-            b.classList.toggle('pagination-btn--active', isActive)
-            b.classList.toggle('ui-toggle--pressed', isActive)
-            b.setAttribute('aria-pressed', String(isActive))
+        if (!list || !input || !status || !empty || list.dataset.filterReady === 'true') return
+
+        list.dataset.filterReady = 'true'
+
+        const items = [...list.children] as HTMLElement[]
+
+        const updateFilter = () => {
+          const query = input.value.trim().toLocaleLowerCase()
+          let visibleCount = 0
+
+          items.forEach(item => {
+            const matches = !query || (item.dataset.label ?? '').toLocaleLowerCase().includes(query)
+
+            item.hidden = !matches
+            if (matches) visibleCount += 1
+          })
+
+          empty.hidden = visibleCount > 0
+          status.textContent = query ?
+            `${visibleCount} ${visibleCount === 1 ? 'topic' : 'topics'} found.` :
+            `Showing all ${items.length} topics.`
+        }
+
+        const setActive = (active: HTMLButtonElement) => {
+          queueMicrotask(() => {
+            btns.forEach(button => {
+              const isActive = button === active
+              button.classList.toggle('pagination-btn--active', isActive)
+              button.classList.toggle('ui-toggle--pressed', isActive)
+              button.setAttribute('aria-pressed', String(isActive))
+            })
+          })
+        }
+
+        btns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const sort = btn.getAttribute('data-sort-btn')
+
+            items.sort((a, b) =>
+              sort === 'alpha'
+                ? (a.dataset.label ?? '').localeCompare(b.dataset.label ?? '')
+                : Number(b.dataset.count) - Number(a.dataset.count)
+            )
+
+            items.forEach(item => list.appendChild(item))
+            setActive(btn)
           })
         })
+
+        input.addEventListener('input', updateFilter)
       }
 
-      btns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const sort = btn.getAttribute('data-sort-btn')
-          const items = [...list.children] as HTMLElement[]
-
-          items.sort((a, b) =>
-            sort === 'alpha'
-              ? (a.dataset.label ?? '').localeCompare(b.dataset.label ?? '')
-              : Number(b.dataset.count) - Number(a.dataset.count)
-          )
-
-          items.forEach(el => list.appendChild(el))
-          setActive(btn)
-        })
-      })
+      document.addEventListener('astro:page-load', setupTopicIndex)
     </script>
   </PageSection>
 </PageLayout>

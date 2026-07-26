@@ -56,16 +56,18 @@ const pillClasses = [
 ]
 ---
 
-{href ? (
-  <Link class:list={pillClasses} href={href}>
-    {showHash && <span class="text-xs opacity-60">#</span>}
-    <span class="wrap-break-word">{label}</span>
-    <slot />
-  </Link>
-) : (
-  <LumenPill class:list={pillClasses}>
-    {showHash && <span class="text-xs opacity-60">#</span>}
-    <span class="wrap-break-word">{label}</span>
-    <slot />
-  </LumenPill>
-)}
+{href ?
+  (
+    <Link class:list={pillClasses} href={href}>
+      {showHash && <span class="text-xs opacity-60">#</span>}
+      <span class="wrap-break-word">{label}</span>
+      <slot />
+    </Link>
+  ) :
+  (
+    <LumenPill class:list={pillClasses}>
+      {showHash && <span class="text-xs opacity-60">#</span>}
+      <span class="wrap-break-word">{label}</span>
+      <slot />
+    </LumenPill>
+  )}

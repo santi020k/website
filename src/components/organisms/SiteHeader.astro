@@ -1,5 +1,4 @@
 ---
-import { Button } from '@santi020k/lumen-astro'
 import { Icon } from 'astro-icon/components'
 
 import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
@@ -9,21 +8,25 @@ import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
 import type { SiteLink } from '@/types/site'
 
+import { Button } from '@santi020k/lumen-astro'
+
 import { menuLinks, siteConfig } from '@/site.config'
 
 const isAvailableForBanner =
   siteConfig.availability.trim().toLowerCase().startsWith('open') &&
   siteConfig.showAvailabilityBanner !== false
 
+const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
+
 ---
 
 <header class="
   sticky top-0 z-50 flex flex-col gap-2.5 p-4
+  min-[2200px]:px-10
   sm:px-6
   lg:px-8
   xl:px-10
   2xl:px-12
-  min-[2200px]:px-10
 "
 >
   {isAvailableForBanner && (
@@ -33,9 +36,9 @@ const isAvailableForBanner =
         border border-line/48 bg-surface/62 px-4 py-3
         shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),0_4px_16px_hsl(230_30%_8%/0.04)]
         backdrop-blur-sm
-        sm:max-w-[80rem] sm:flex-row sm:items-center sm:justify-between sm:px-5
-        2xl:max-w-[84rem] 2xl:px-6
-        min-[2200px]:max-w-[92rem]
+        min-[2200px]:max-w-368
+        sm:max-w-7xl sm:flex-row sm:items-center sm:justify-between sm:px-5
+        2xl:max-w-336 2xl:px-6
       "
       data-availability-strip
     >
@@ -157,13 +160,14 @@ const isAvailableForBanner =
           aria-label="Main menu"
           class="
             ml-6 hidden items-center gap-1
-            lg:flex xl:gap-1.5
-            2xl:ml-8 2xl:gap-2
             min-[2200px]:ml-10 min-[2200px]:gap-2.5
+            lg:flex
+            xl:gap-1.5
+            2xl:ml-8 2xl:gap-2
           "
         >
           {
-            menuLinks.map((link: SiteLink) => {
+            navigationLinks.map((link: SiteLink) => {
               const isActive = link.path === '/' ?
                 Astro.url.pathname === '/' :
                 Astro.url.pathname.startsWith(link.path)
@@ -175,16 +179,15 @@ const isAvailableForBanner =
                     `
                       group relative inline-flex min-h-10 items-center gap-1.5
                       rounded-full px-3.5 text-sm font-medium whitespace-nowrap
-                      transition-[background-color,box-shadow,color] duration-200
+                      transition-[background-color,box-shadow,color]
+                      duration-200
                       motion-reduce:transition-none
+                      min-[2200px]:px-5
                       xl:px-4 xl:text-[0.9375rem]
                       2xl:min-h-11 2xl:gap-2 2xl:px-4.5
-                      min-[2200px]:px-5
                     `,
                     isActive ?
-                      `
-                        text-brand
-                      ` :
+                      'text-brand' :
                       `
                         text-ink-soft
                         hover:bg-surface-muted/58 hover:text-ink
@@ -201,7 +204,12 @@ const isAvailableForBanner =
                           motion-reduce:transition-none
                           2xl:block
                         `,
-                        isActive ? 'text-brand' : 'text-ink-muted group-hover:text-ink-soft'
+                        isActive ?
+                          'text-brand' :
+                          `
+                            text-ink-muted
+                            group-hover:text-ink-soft
+                          `
                       ]}
                       name={link.icon}
                     />
@@ -212,8 +220,9 @@ const isAvailableForBanner =
                     class:list={[
                       `
                         absolute bottom-1 left-1/2 h-1 -translate-x-1/2
-                        rounded-full bg-brand shadow-[0_0_14px_hsl(var(--brand)/0.55)]
-                        transition-all duration-300 ease-out
+                        rounded-full bg-brand
+                        shadow-[0_0_14px_hsl(var(--brand)/0.55)] transition-all
+                        duration-300 ease-out
                         group-hover:w-8
                         motion-reduce:transition-none
                       `,
@@ -276,7 +285,7 @@ const isAvailableForBanner =
                 </span>
               </span>
               <span
-                class="text-sm font-semibold tracking-normal"
+                class="back-to-top-label"
                 data-mobile-nav-toggle-label
               >
                 Menu
@@ -301,7 +310,7 @@ const isAvailableForBanner =
         aria-hidden="true"
         aria-label="Main menu"
         class="
-          absolute top-[calc(100%+0.625rem)] right-4 left-4 z-50
+          absolute inset-x-4 top-[calc(100%+0.625rem)] z-50
           sm:right-6 sm:left-auto sm:w-[24rem]
           lg:right-8
         "
@@ -347,7 +356,7 @@ const isAvailableForBanner =
 
           <div class="grid gap-0.5">
             {
-              menuLinks.map((link: SiteLink) => {
+              navigationLinks.map((link: SiteLink) => {
                 const isActive = link.path === '/' ?
                   Astro.url.pathname === '/' :
                   Astro.url.pathname.startsWith(link.path)
@@ -358,9 +367,12 @@ const isAvailableForBanner =
                     class:list={[
                       `
                         group flex min-h-11 items-center gap-3 rounded-2xl px-3
-                        py-2 text-sm font-medium transition-[background-color,box-shadow,color,transform]
-                        duration-150 focus-visible:ring-2 focus-visible:ring-brand
-                        focus-visible:ring-offset-2 focus-visible:ring-offset-canvas
+                        py-2 text-sm font-medium
+                        transition-[background-color,box-shadow,color,transform]
+                        duration-150
+                        focus-visible:ring-2 focus-visible:ring-brand
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-canvas
                         focus-visible:outline-none
                         motion-reduce:transition-none
                       `,
@@ -371,8 +383,8 @@ const isAvailableForBanner =
                         ` :
                         `
                           text-ink-soft
-                          hover:bg-surface-muted/80 hover:text-ink
-                          hover:translate-x-0.5
+                          hover:translate-x-0.5 hover:bg-surface-muted/80
+                          hover:text-ink
                           motion-reduce:hover:translate-x-0
                         `
                     ]}
@@ -391,7 +403,8 @@ const isAvailableForBanner =
                           'bg-surface/68 text-brand shadow-inset-soft' :
                           `
                             text-ink-muted
-                            group-hover:bg-surface/45 group-hover:text-ink-soft
+                            group-hover:ui-message--assistant
+                            group-hover:text-ink-soft
                           `
                       ]}
                     >
@@ -711,13 +724,14 @@ if (!customElements.get('site-header-mobile-nav')) {
   customElements.define('site-header-mobile-nav', SiteHeaderMobileNav)
 }
 
-const shell = document.querySelector<HTMLElement>('[data-header-shell]')
-if (shell) {
-  const update = () => {
+const updateHeaderScrollState = () => {
+  const shell = document.querySelector<HTMLElement>('[data-header-shell]')
+  if (shell) {
     shell.dataset.scrolled = String(window.scrollY > 10)
   }
-  window.addEventListener('scroll', update, { passive: true })
-  document.addEventListener('astro:page-load', update)
-  update()
 }
+
+window.addEventListener('scroll', updateHeaderScrollState, { passive: true })
+document.addEventListener('astro:page-load', updateHeaderScrollState)
+updateHeaderScrollState()
 </script>

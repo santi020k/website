@@ -10,7 +10,6 @@ import { menuLinks, siteConfig } from '@/site.config'
 import { version } from '../../../package.json'
 
 const year = new Date().getFullYear()
-
 const navLinks = [...menuLinks]
 
 const resourceLinks = [
@@ -91,7 +90,7 @@ const isLinkActive = (linkPath: string): boolean => {
     class="pointer-events-none absolute inset-0 grid-fade opacity-40"
   />
 
-  <div class="section-container-wide relative">
+  <div class="relative section-container-wide">
     <!-- Morphing organic blob behind content -->
     <div
       aria-hidden="true"
@@ -113,13 +112,23 @@ const isLinkActive = (linkPath: string): boolean => {
         before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2
         before:bg-surface-muted/10
         sm:mt-10 sm:pt-12 sm:pb-9
-        lg:mt-14 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-12 lg:pb-8
+        lg:mt-14 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-12
+        lg:pb-8
       "
     >
       <!-- Left: copy -->
-      <div class="space-y-3 lg:pt-3">
+      <div class="
+        space-y-3
+        lg:pt-3
+      "
+      >
         <div class="flex flex-wrap items-center gap-3">
-          <p class="section-label text-brand dark:text-accent">Get in touch</p>
+          <p class="
+            section-label text-brand
+            dark:text-accent
+          "
+          >Get in touch
+          </p>
           {isAvailable && (
             <span class="
               inline-flex items-center gap-1.5 rounded-full border
@@ -223,7 +232,8 @@ const isLinkActive = (linkPath: string): boolean => {
             </a>
 
             <p class="max-w-sm text-sm/6 text-ink-soft">
-              Engineering leader and full-stack architect building resilient systems, useful tools, and steady developer teams.
+              Engineering leader and full-stack architect building resilient systems, useful tools,
+              and steady developer teams.
             </p>
           </div>
 
@@ -242,7 +252,9 @@ const isLinkActive = (linkPath: string): boolean => {
                     aria-hidden="true"
                     class:list={[
                       'mt-0.5 size-4 shrink-0',
-                      availabilityItem && isAvailable ? 'text-success' : 'text-brand'
+                      availabilityItem && isAvailable ?
+                        'text-success' :
+                        'text-brand'
                     ]}
                     name={icon}
                   />
@@ -250,7 +262,9 @@ const isLinkActive = (linkPath: string): boolean => {
                   <dd
                     class:list={[
                       'col-start-2 mt-0.5 text-sm/5',
-                      availabilityItem && isAvailable ? 'text-success' : 'text-ink-soft'
+                      availabilityItem && isAvailable ?
+                        'text-success' :
+                        'text-ink-soft'
                     ]}
                   >
                     {value}
@@ -280,8 +294,9 @@ const isLinkActive = (linkPath: string): boolean => {
                       aria-current={active ? 'page' : undefined}
                       class:list={[
                         `
-                          group flex min-h-11 items-center gap-2 rounded-xl px-2.5
-                          text-sm/6 transition-[background-color,color,transform]
+                          group flex min-h-11 items-center gap-2 rounded-xl
+                          px-2.5 text-sm/6
+                          transition-[background-color,color,transform]
                           duration-200
                           hover:bg-brand/8 hover:text-ink
                           motion-safe:hover:translate-x-0.5
@@ -297,8 +312,16 @@ const isLinkActive = (linkPath: string): boolean => {
                       <Icon
                         aria-hidden="true"
                         class:list={[
-                          'size-4 shrink-0 transition-colors duration-200 motion-reduce:transition-none',
-                          active ? 'text-brand' : 'text-ink-muted group-hover:text-brand'
+                          `
+                            size-4 shrink-0 transition-colors duration-200
+                            motion-reduce:transition-none
+                          `,
+                          active ?
+                            'text-brand' :
+                            `
+                              text-ink-muted
+                              group-hover:text-brand
+                            `
                         ]}
                         name={link.icon}
                       />
@@ -332,7 +355,8 @@ const isLinkActive = (linkPath: string): boolean => {
                     <Icon
                       aria-hidden="true"
                       class="
-                        size-4 shrink-0 text-ink-muted transition-colors duration-200
+                        size-4 shrink-0 text-ink-muted transition-colors
+                        duration-200
                         group-hover:text-brand
                         motion-reduce:transition-none
                       "
@@ -357,8 +381,9 @@ const isLinkActive = (linkPath: string): boolean => {
                       aria-current={active ? 'page' : undefined}
                       class:list={[
                         `
-                          group flex min-h-11 items-center gap-2 rounded-xl px-2.5
-                          text-sm/6 transition-[background-color,color,transform]
+                          group flex min-h-11 items-center gap-2 rounded-xl
+                          px-2.5 text-sm/6
+                          transition-[background-color,color,transform]
                           duration-200
                           hover:bg-brand/8 hover:text-ink
                           motion-safe:hover:translate-x-0.5
@@ -374,8 +399,16 @@ const isLinkActive = (linkPath: string): boolean => {
                       <Icon
                         aria-hidden="true"
                         class:list={[
-                          'size-4 shrink-0 transition-colors duration-200 motion-reduce:transition-none',
-                          active ? 'text-brand' : 'text-ink-muted group-hover:text-brand'
+                          `
+                            size-4 shrink-0 transition-colors duration-200
+                            motion-reduce:transition-none
+                          `,
+                          active ?
+                            'text-brand' :
+                            `
+                              text-ink-muted
+                              group-hover:text-brand
+                            `
                         ]}
                         name={icon}
                       />
@@ -393,10 +426,8 @@ const isLinkActive = (linkPath: string): boolean => {
     <!-- Bottom bar -->
     <div
       class="
-        mt-5 flex flex-col gap-3 px-1 text-xs text-ink-muted
-        opacity-100
-        sm:mt-6
-        sm:flex-row sm:items-center sm:justify-between
+        mt-5 flex flex-col gap-3 px-1 text-xs text-ink-muted opacity-100
+        sm:mt-6 sm:flex-row sm:items-center sm:justify-between
       "
     >
       <p>&copy; {year} {siteConfig.author}.</p>
@@ -422,8 +453,7 @@ const isLinkActive = (linkPath: string): boolean => {
           class="
             inline-flex min-h-11 items-center gap-1 rounded-full border
             border-line/60 bg-surface-muted/60 px-2 py-0.5 font-medium
-            text-ink-muted
-            transition-colors
+            text-ink-muted transition-colors
             hover:border-brand/40 hover:text-brand
             motion-reduce:transition-none
             sm:min-h-0

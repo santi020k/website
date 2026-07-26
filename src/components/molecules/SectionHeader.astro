@@ -51,7 +51,12 @@ const titleClasses = isShelf ?
       <div class="space-y-3">
         {eyebrow && <Eyebrow label={eyebrow} tone="brand" />}
         <div class="space-y-2.5">
-          <HeadingTag class={`hyphens-auto ${titleClasses}`}>{title}</HeadingTag>
+          <HeadingTag class={`
+            hyphens-auto
+            ${titleClasses}
+          `}
+          >{title}
+          </HeadingTag>
           {description && (
             <p class="
               max-w-2xl text-sm/7 text-ink-soft
@@ -87,7 +92,12 @@ const titleClasses = isShelf ?
     >
       {eyebrow && <Eyebrow className={align === 'center' ? 'justify-center' : ''} label={eyebrow} tone="brand" />}
       <div class="space-y-4">
-        <HeadingTag class={`hyphens-auto ${titleClasses}`}>{title}</HeadingTag>
+        <HeadingTag class={`
+          hyphens-auto
+          ${titleClasses}
+        `}
+        >{title}
+        </HeadingTag>
         {description && (
           <p
             class:list={[

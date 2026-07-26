@@ -1,11 +1,12 @@
 ---
-import { Button, Link } from '@santi020k/lumen-astro'
 import { Icon } from 'astro-icon/components'
 
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects, getFormattedDate } from '@/utils/date'
+
+import { Button, ButtonLink, Link } from '@santi020k/lumen-astro'
 
 import { AUTHOR_JOB_TITLE, siteConfig } from '@/site.config'
 
@@ -39,14 +40,14 @@ const resumePageSchema = {
   }}
 >
   <div
-class="
-    section-container-wide glass-pro rounded-[2rem] p-5
-    sm:p-8
-    lg:p-10
-    print:m-0 print:max-w-none print:rounded-none print:border-0 print:bg-transparent
-    print:p-0 print:shadow-none
-  "
-  data-resume-shell
+    class="
+      glass-pro section-container-wide rounded-4xl p-5
+      sm:p-8
+      lg:p-10
+      print:m-0 print:max-w-none print:rounded-none print:border-0
+      print:bg-transparent print:p-0 print:shadow-none
+    "
+    data-resume-shell
   >
     <div class="
       mb-12 flex flex-col items-start justify-between gap-6
@@ -55,7 +56,13 @@ class="
     "
     >
       <div>
-        <p class="section-label text-brand dark:text-accent print:text-black">Resume</p>
+        <p class="
+          section-label text-brand
+          dark:text-accent
+          print:text-black
+        "
+        >Resume
+        </p>
         <h1
           class="
             mt-3 text-4xl/[0.98] font-extrabold tracking-[-0.06em] text-ink
@@ -73,35 +80,78 @@ class="
         sm:text-right
       "
       >
-        <p><Link className="text-inherit hover:text-brand" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</Link></p>
-        <p><Link className="text-inherit hover:text-brand" href={siteConfig.contact.linkedin}>linkedin.com/in/santi020k</Link></p>
-        <p><Link className="text-inherit hover:text-brand" href={siteConfig.contact.github}>github.com/santi020k</Link></p>
+        <p>
+          <Link
+            className="
+              text-inherit
+              hover:text-brand
+            "
+            href={`mailto:${siteConfig.contact.email}`}
+          >
+            {siteConfig.contact.email}
+          </Link>
+        </p>
+        <p>
+          <Link
+            className="
+              text-inherit
+              hover:text-brand
+            "
+            href={siteConfig.contact.linkedin}
+          >
+            linkedin.com/in/santi020k
+          </Link>
+        </p>
+        <p>
+          <Link
+            className="
+              text-inherit
+              hover:text-brand
+            "
+            href={siteConfig.contact.github}
+          >
+            github.com/santi020k
+          </Link>
+        </p>
         <p>{siteConfig.location}</p>
-        <Button
+        <div
           class="
-            mt-4 inline-flex items-center gap-2 rounded-full border border-line
-            bg-surface px-4 py-2 text-sm font-medium transition-colors
-            hover:bg-surface-muted
-            motion-reduce:transition-none
+            mt-4 flex flex-wrap gap-2
+            sm:justify-end
             print:hidden
           "
-          onclick="window.print()"
-          type="button"
-          variant="outline"
+          data-print-hidden
         >
-          <Icon aria-hidden="true" class="size-4" name="tabler:printer" /> Print PDF
-        </Button>
+          <Button
+            class="inline-flex items-center gap-2"
+            onclick="window.print()"
+            type="button"
+            variant="outline"
+          >
+            <Icon aria-hidden="true" class="size-4" name="tabler:printer" /> Print PDF
+          </Button>
+          <ButtonLink
+            ariaLabel="Open resume PDF in a new tab"
+            href="/pdf/cv.pdf"
+            newTab
+            showArrow
+            variant="secondary"
+          >
+            <Icon aria-hidden="true" class="size-4" name="tabler:file-type-pdf" />
+            Open PDF
+          </ButtonLink>
+        </div>
       </div>
     </div>
 
     <section class="
-      mb-12
+      mb-10
       print:mb-8
     "
     >
       <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Experience</h2>
       <div class="
-        space-y-10
+        space-y-8
         print:space-y-8
       "
       >
@@ -120,10 +170,10 @@ class="
                   {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
                 </span>
               </div>
-              <p class="mb-4 text-sm text-ink-soft">{project.data.description}</p>
+              <p class="mb-3 text-sm text-ink-soft">{project.data.description}</p>
 
               {project.data.impactMetrics.length > 0 && (
-                <div class="mb-4">
+                <div class="mb-3">
                   <h4 class="
                     mb-2 text-xs font-semibold tracking-wider text-ink-muted
                     uppercase
@@ -141,7 +191,7 @@ class="
                 </div>
               )}
 
-              <div class="mt-4 flex flex-wrap gap-1.5">
+              <div class="mt-3 flex flex-wrap gap-1.5">
                 {project.data.technologies.slice(0, 12).map(tech => (
                   <span
                     class="
@@ -174,13 +224,13 @@ class="
     </section>
 
     <section class="
-      mb-12
+      mb-10
       print:mb-8 print:break-inside-avoid
     "
     >
       <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Projects & Community</h2>
       <div class="
-        space-y-10
+        space-y-8
         print:space-y-6
       "
       >
@@ -199,10 +249,10 @@ class="
                   {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
                 </span>
               </div>
-              <p class="mb-4 text-sm text-ink-soft">{project.data.description}</p>
+              <p class="mb-3 text-sm text-ink-soft">{project.data.description}</p>
 
               {project.data.impactMetrics.length > 0 && (
-                <div class="mb-4">
+                <div class="mb-3">
                   <h4 class="
                     mb-2 text-xs font-semibold tracking-wider text-ink-muted
                     uppercase
@@ -220,7 +270,7 @@ class="
                 </div>
               )}
 
-              <div class="mt-4 flex flex-wrap gap-1.5">
+              <div class="mt-3 flex flex-wrap gap-1.5">
                 {project.data.technologies.slice(0, 12).map(tech => (
                   <span
                     class="
@@ -299,20 +349,62 @@ class="
 
 <style>
   @media print {
+    :global(html) {
+      color-scheme: light !important;
+      --theme-bg: 0 0% 100% !important;
+      --surface: 0 0% 100% !important;
+      --surface-muted: 0 0% 97% !important;
+      --surface-strong: 0 0% 92% !important;
+      --line: 0 0% 72% !important;
+      --ink: 0 0% 7% !important;
+      --ink-soft: 0 0% 23% !important;
+      --ink-muted: 0 0% 38% !important;
+      --brand: 264 92% 38% !important;
+      --brand-solid: 264 92% 38% !important;
+      --brand-soft: 264 60% 94% !important;
+      --accent: 264 92% 38% !important;
+      --glow: 264 60% 70% !important;
+    }
     :global(header),
     :global(footer),
+    :global(.grid-fade),
+    :global(.ui-skip-link),
+    :global([data-particles-bg]),
     :global([data-site-search]),
+    :global([data-print-hidden]),
     :global(.back-to-top-button) {
       display: none !important;
+    }
+    :global(#main) {
+      display: block !important;
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    :global([data-resume-shell]) {
+      isolation: auto !important;
+      width: 100% !important;
+      max-width: none !important;
+      overflow: visible !important;
+      border: 0 !important;
+      background: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
     }
     :global([data-resume-shell])::before,
     :global([data-resume-shell])::after {
       display: none !important;
     }
     :global(body) {
+      margin: 0 !important;
       background: white !important;
       color: black !important;
       font-size: 11pt;
+    }
+    :global([data-resume-shell] a) {
+      color: inherit !important;
+      text-decoration: none !important;
     }
     :global(h1),
     :global(h2),
@@ -320,7 +412,8 @@ class="
       color: black !important;
     }
     @page {
-      margin: 1.5cm;
+      size: A4;
+      margin: 1.35cm;
     }
   }
 </style>

@@ -30,6 +30,10 @@ describe('getFormattedDate', () => {
     expect(getFormattedDate('2024-12-25T12:00:00')).toMatch(/25 Dec 2024|Dec 25, 2024/)
   })
 
+  test('preserves UTC calendar dates at midnight', () => {
+    expect(getFormattedDate('2026-06-22T00:00:00.000Z')).toBe('Jun 22, 2026')
+  })
+
   test('accepts a numeric timestamp and formats it', () => {
     const timestamp = new Date('2024-03-15T12:00:00.000Z').getTime()
     const result = getFormattedDate(timestamp)

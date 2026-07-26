@@ -14,7 +14,9 @@ export const getFormattedDate = (
   if (Number.isNaN(date.getTime())) return 'Invalid Date'
 
   // Merge options, excluding undefined values to allow removing defaults (e.g., day: undefined)
-  const mergedOptions = { ...(siteConfig.date.options), ...options }
+  // Content dates are authored as UTC calendar dates. Formatting them in the
+  // runtime's local timezone can shift midnight values to the previous day.
+  const mergedOptions = { timeZone: 'UTC', ...(siteConfig.date.options), ...options }
 
   const cleanedOptions = Object.fromEntries(
     Object.entries(mergedOptions).filter(([, v]) => v !== undefined)

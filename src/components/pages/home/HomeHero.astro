@@ -21,11 +21,11 @@ const { yearsOfExperience } = Astro.props
   class="
     relative left-1/2 isolate -mt-12 flex w-screen -translate-x-1/2 items-center
     overflow-visible px-5 pt-24 pb-16
+    min-[2200px]:px-10
     sm:px-6 sm:pt-28 sm:pb-20
     lg:-mt-39 lg:min-h-svh lg:overflow-x-clip lg:px-8 lg:pt-28 lg:pb-18
     xl:px-10
     2xl:px-12 2xl:pt-24 2xl:pb-16
-    min-[2200px]:px-10
   "
   data-home-hero
 >
@@ -50,13 +50,12 @@ const { yearsOfExperience } = Astro.props
   />
   <div
     class="
-      mx-auto grid w-full max-w-[80rem] gap-10
+      mx-auto grid w-full max-w-7xl gap-10
+      min-[2200px]:max-w-368 min-[2200px]:-translate-y-10
+      min-[2200px]:grid-cols-[minmax(0,1fr)_25rem] min-[2200px]:gap-18
       lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center lg:gap-12
-      2xl:max-w-[84rem] 2xl:grid-cols-[minmax(0,1fr)_23rem] 2xl:gap-16
-      2xl:-translate-y-6
-      min-[2200px]:max-w-[92rem]
-      min-[2200px]:grid-cols-[minmax(0,1fr)_25rem]
-      min-[2200px]:gap-18 min-[2200px]:-translate-y-10
+      2xl:max-w-336 2xl:-translate-y-6 2xl:grid-cols-[minmax(0,1fr)_23rem]
+      2xl:gap-16
     "
     data-home-hero-grid
   >
@@ -78,10 +77,10 @@ const { yearsOfExperience } = Astro.props
         <h1
           class="
             text-4xl/[0.96] font-extrabold tracking-[-0.06em] wrap-break-word
+            min-[2200px]:text-[8rem]/[0.84]
             sm:text-6xl/[0.95]
             lg:text-[6rem]/[0.88]
             2xl:text-[6.8rem]/[0.86]
-            min-[2200px]:text-[8rem]/[0.84]
           "
           data-home-hero-heading
         >
@@ -117,16 +116,42 @@ const { yearsOfExperience } = Astro.props
             "
             aria-hidden="true"
           />
-          <span class="shrink-0 whitespace-nowrap font-medium text-brand">Open now</span>
-          <span aria-hidden="true" class="hidden text-line min-[420px]:inline">/</span>
+          <span class="shrink-0 font-medium whitespace-nowrap text-brand">Open now</span>
+          <span
+            aria-hidden="true"
+            class="
+              hidden text-line
+              min-[420px]:inline
+            "
+          >/
+          </span>
           <span class="min-w-0">{siteConfig.availability}</span>
         </p>
 
-        <div class="section-actions max-w-3xl sm:items-center">
-          <ButtonLink className="w-full sm:w-auto" href="/portfolio/" showArrow>
+        <div class="
+          section-actions max-w-3xl
+          sm:items-center
+        "
+        >
+          <ButtonLink
+            className="
+              w-full
+              sm:w-auto
+            "
+            href="/portfolio/"
+            showArrow
+          >
             See selected work
           </ButtonLink>
-          <ButtonLink className="w-full sm:w-auto" href={siteConfig.contact.resume} showArrow variant="secondary">
+          <ButtonLink
+            className="
+              w-full
+              sm:w-auto
+            "
+            href={siteConfig.contact.resume}
+            showArrow
+            variant="secondary"
+          >
             View resume
           </ButtonLink>
         </div>
@@ -135,12 +160,12 @@ const { yearsOfExperience } = Astro.props
 
     <div
       class="
-        relative isolate mx-auto w-full max-w-[19rem] animate-reveal-lcp
+        relative isolate mx-auto w-full max-w-76 animate-reveal-lcp
         motion-reduce:animate-none
-        sm:max-w-[22rem]
-        xl:max-w-[22rem]
-        2xl:max-w-[23rem]
-        min-[2200px]:max-w-[25rem]
+        min-[2200px]:max-w-100
+        sm:max-w-88
+        xl:max-w-88
+        2xl:max-w-92
       "
       data-home-hero-portrait
     >
@@ -174,8 +199,8 @@ const { yearsOfExperience } = Astro.props
       />
 
       <div class="
-        glass-pro relative z-0 rounded-[2.25rem] p-3
-        transition-shadow duration-500
+        glass-pro relative z-0 rounded-[2.25rem] p-3 transition-shadow
+        duration-500
         hover:shadow-[0_24px_70px_-18px_hsl(var(--brand)/0.24)]
         motion-reduce:transition-none
         sm:p-4
@@ -206,7 +231,7 @@ const { yearsOfExperience } = Astro.props
           alt="Portrait of Santiago Molina (@santi020k)"
           class="
             relative z-0 aspect-2/3 w-full rounded-[1.7rem] object-cover
-            object-top saturate-[0.92] contrast-[1.04]
+            object-top contrast-[1.04] saturate-[0.92]
           "
           decoding="sync"
           fetchpriority="high"
@@ -221,11 +246,11 @@ const { yearsOfExperience } = Astro.props
       </div>
 
       <div class="
-        glass-pro absolute top-6 right-[-1.5rem] z-30 hidden min-w-36 rounded-2xl
+        glass-pro absolute top-6 -right-6 z-30 hidden min-w-36 rounded-2xl
         border-r-4 border-r-brand/40 p-4 opacity-[0.92] [animation-delay:600ms]
         motion-safe:animate-float-y
         motion-reduce:animate-none
-        sm:right-[-3rem] sm:block
+        sm:-right-12 sm:block
       "
       >
         <p class="flex items-center gap-1.5 section-label">
@@ -241,7 +266,7 @@ const { yearsOfExperience } = Astro.props
 
       <div
         class="
-          glass-pro absolute bottom-[-1.5rem] left-4 z-30 hidden min-w-32 rounded-2xl
+          glass-pro absolute -bottom-6 left-4 z-30 hidden min-w-32 rounded-2xl
           border-l-4 border-l-accent/40 p-5 [animation-delay:900ms]
           motion-safe:animate-float-y
           motion-reduce:animate-none

@@ -28,7 +28,7 @@ interface Props {
   relatedProjects?: CollectionEntry<'project'>[]
 }
 
-const { project, relatedProjects = [] } = Astro.props as Props
+const { project, relatedProjects = [] } = Astro.props
 const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
 const metaDescription = project.data.seoDescription ?? project.data.description
 // Use Dynamic OG Image generator (/og/portfolio/[id].webp)
@@ -137,11 +137,11 @@ const breadcrumbs = [
         description="More work from a similar lane — same type, overlapping technologies, adjacent problems."
       />
       <div
-class:list={[
-        'grid gap-6',
-        relatedProjects.length > 1 && 'sm:grid-cols-2'
-      ]}
-      data-stagger="70"
+        class:list={[
+          'grid gap-6',
+          relatedProjects.length > 1 && 'sm:grid-cols-2'
+        ]}
+        data-stagger="70"
       >
         {relatedProjects.map(relatedProject => (
           <ProjectPreviewCard project={relatedProject} />

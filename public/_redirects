@@ -22,3 +22,12 @@ https://www.santi020k.com/*  https://santi020k.com/:splat  301
 /newsletter   /blog/  301
 /newsletter/  /blog/  301
 /newsletter/* /blog/  301
+
+# Consolidated project case studies
+/portfolio/santi020k-chrome-theme   /portfolio/santi020k-theme/  301
+/portfolio/santi020k-chrome-theme/  /portfolio/santi020k-theme/  301
+/portfolio/santi020k-chrome-theme/* /portfolio/santi020k-theme/  301
+
+/portfolio/santi020k-terminal-theme   /portfolio/santi020k-theme/  301
+/portfolio/santi020k-terminal-theme/  /portfolio/santi020k-theme/  301
+/portfolio/santi020k-terminal-theme/* /portfolio/santi020k-theme/  301

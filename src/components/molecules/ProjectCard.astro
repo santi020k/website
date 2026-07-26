@@ -2,13 +2,13 @@
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import { CoverImage } from '@santi020k/lumen-astro'
 import Pill from '@/components/atoms/Pill.astro'
-import { Card } from '@santi020k/lumen-astro'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
 import { getProjectFeaturedLabel, getProjectTimelineLabel, getProjectTypeLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+import { Card, CoverImage  } from '@santi020k/lumen-astro'
 
 interface Props {
   className?: string

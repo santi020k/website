@@ -78,13 +78,12 @@ const asArray = value => {
   return Array.isArray(value) ? value : [value]
 }
 
-const escapeXml = value =>
-  value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll('\'', '&apos;')
+const escapeXml = value => value
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll('\'', '&apos;')
 
 const parseSitemap = (xml, sitemapUrl) => {
   const document = parser.parse(xml)
@@ -156,6 +155,7 @@ const collectSitemapUrls = async ({ origin, sitemap }, loadSitemap) => {
     if (!sitemapUrl || visited.has(sitemapUrl)) continue
 
     assertUrlOrigin(sitemapUrl, origin, 'Nested sitemap')
+
     visited.add(sitemapUrl)
 
     const xml = await loadSitemap(sitemapUrl)
@@ -163,6 +163,7 @@ const collectSitemapUrls = async ({ origin, sitemap }, loadSitemap) => {
 
     for (const nestedSitemap of parsed.nestedSitemaps) {
       const nestedUrl = assertUrlOrigin(nestedSitemap, origin, 'Nested sitemap')
+
       pending.push(nestedUrl.href)
     }
 
@@ -181,9 +182,9 @@ const collectSitemapUrls = async ({ origin, sitemap }, loadSitemap) => {
 }
 
 const rootUrls = await collectSitemapUrls(
-  { origin: rootOrigin, sitemap: '/sitemap-index.xml' },
-  readLocalSitemap
+  { origin: rootOrigin, sitemap: '/sitemap-index.xml' }, readLocalSitemap
 )
+
 const urls = new Set(rootUrls)
 const sourceSummaries = [`root=${rootUrls.length}`]
 
@@ -197,7 +198,9 @@ for (const source of sitemapSources) {
   } catch (error) {
     if (source.required === false) {
       console.warn(`[sitemap] Skipping optional source ${source.name}: ${String(error)}`)
+
       sourceSummaries.push(`${source.name}=unavailable`)
+
       continue
     }
 
@@ -209,6 +212,7 @@ const entries = [...urls]
   .sort((left, right) => left.localeCompare(right))
   .map(url => `  <url><loc>${escapeXml(url)}</loc></url>`)
   .join('\n')
+
 const xml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -220,4 +224,5 @@ const xml = [
 await writeFile(outputPath, xml, 'utf8')
 
 console.log(`[sitemap] Wrote ${urls.size} cross-site URLs to dist/sitemap.xml`)
+
 console.log(`[sitemap] Sources: ${sourceSummaries.join(', ')}`)

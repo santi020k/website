@@ -1,7 +1,8 @@
 ---
+import { Icon } from 'astro-icon/components'
+
 import { Image, Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
@@ -28,6 +29,7 @@ const visibleTechnologies = sortedTechnologies.slice(0, 4)
 const hiddenTechnologyCount = Math.max(0, sortedTechnologies.length - visibleTechnologies.length)
 
 type LogoAspect = 'square' | 'tall' | 'wide'
+
 type LogoSurface = 'dark' | 'light' | 'neutral'
 
 const logoAspect: LogoAspect = coverImage?.logoAspect ?? 'square'
@@ -62,13 +64,14 @@ const logoSurfaceClass = {
   style={`--project-preview-accent: ${cardAccentVar};`}
 >
   <article
-    class="
-      card-interactive h-full min-h-[28rem] rounded-[1.75rem]
-      bg-surface/58
-    "
+    class="card-interactive h-full min-h-112 rounded-[1.75rem] bg-surface/58"
     data-project-preview-card
   >
-    <div class="relative min-h-48 sm:min-h-52">
+    <div class="
+      relative min-h-48
+      sm:min-h-52
+    "
+    >
       {previewImage ?
         (
           <Picture
@@ -104,29 +107,32 @@ const logoSurfaceClass = {
       />
       <div
         aria-hidden="true"
-        class="
-          absolute inset-0 opacity-90
-        "
+        class="absolute inset-0 opacity-90"
         data-project-preview-wash
       />
       <div
         aria-hidden="true"
         class="
-          pointer-events-none absolute inset-x-0 bottom-0 h-14
-          bg-linear-to-b from-transparent via-surface/22 to-surface/72
+          pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-linear-to-b
+          from-transparent via-surface/22 to-surface/72
           dark:via-canvas/86 dark:to-canvas
         "
         data-project-preview-media-fade
       />
 
-      <div class="absolute inset-x-4 top-4 z-20 flex items-start justify-end gap-3">
+      <div class="
+        absolute inset-x-4 top-4 z-20 flex items-start justify-end gap-3
+      "
+      >
         <span
           class="
             inline-flex size-9 items-center justify-center rounded-full border
-            border-white/30 bg-surface/72 text-ink-muted shadow-sm backdrop-blur-xl
-            transition duration-200
-            group-hover:border-brand/30 group-hover:text-[hsl(var(--project-preview-accent))]
-            motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5
+            border-white/30 bg-surface/72 text-ink-muted shadow-sm
+            backdrop-blur-xl transition duration-200
+            group-hover:border-brand/30
+            group-hover:text-[hsl(var(--project-preview-accent))]
+            motion-safe:group-hover:translate-x-0.5
+            motion-safe:group-hover:-translate-y-0.5
             motion-reduce:transition-none
             dark:border-white/14 dark:bg-white/10 dark:text-white/72
           "
@@ -135,16 +141,24 @@ const logoSurfaceClass = {
         </span>
       </div>
 
-      <div class="absolute inset-x-5 bottom-0 z-20 flex translate-y-[58%] items-end justify-between gap-3">
+      <div class="
+        absolute inset-x-5 bottom-0 z-20 flex translate-y-[58%] items-end
+        justify-between gap-3
+      "
+      >
         <span
           class:list={[
             `
-              flex shrink-0 items-center justify-center overflow-hidden rounded-2xl
-              border backdrop-blur-xl
+              flex shrink-0 items-center justify-center overflow-hidden
+              rounded-2xl border backdrop-blur-xl
             `,
             logoFrameClass[logoAspect],
             logoSurfaceClass[logoSurface],
-            'motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:-translate-y-1 motion-reduce:transition-none'
+            `
+              motion-safe:transition-transform motion-safe:duration-300
+              motion-safe:group-hover:-translate-y-1
+              motion-reduce:transition-none
+            `
           ]}
           data-project-preview-logo
           data-logo-aspect={logoAspect}
@@ -167,7 +181,11 @@ const logoSurfaceClass = {
       </div>
     </div>
 
-    <div class="flex grow flex-col gap-5 px-5 pt-12 pb-5 sm:px-6 sm:pb-6">
+    <div class="
+      flex grow flex-col gap-5 px-5 pt-12 pb-5
+      sm:px-6 sm:pb-6
+    "
+    >
       <div class="space-y-3">
         <div class="space-y-2.5">
           <div class="flex items-center justify-between gap-3">
@@ -176,8 +194,9 @@ const logoSurfaceClass = {
             </p>
             <span
               class="
-                inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line/50
-                bg-surface/44 px-2.5 py-1 text-[0.7rem]/4 font-bold text-ink-soft
+                inline-flex shrink-0 items-center gap-1.5 rounded-full border
+                border-line/50 bg-surface/44 px-2.5 py-1 text-[0.7rem]/4
+                font-bold text-ink-soft
               "
             >
               <span
@@ -191,8 +210,9 @@ const logoSurfaceClass = {
           <h3
             class:list={[
               `
-                text-2xl/tight font-semibold tracking-tight text-ink transition-colors
-                duration-200 motion-reduce:transition-none
+                text-2xl/tight font-semibold tracking-tight text-ink
+                transition-colors duration-200
+                motion-reduce:transition-none
               `,
               accentHoverClass
             ]}
@@ -207,7 +227,10 @@ const logoSurfaceClass = {
       </div>
 
       <div class="mt-auto space-y-4">
-        <div class="flex items-center gap-2 text-xs/5 font-semibold text-ink-soft">
+        <div class="
+          flex items-center gap-2 text-xs/5 font-semibold text-ink-soft
+        "
+        >
           <Icon aria-hidden="true" class="size-3.5 shrink-0" name="tabler:calendar" />
           <span class="tabular-nums">{timeline}</span>
         </div>
@@ -218,8 +241,10 @@ const logoSurfaceClass = {
               <span
                 class="
                   rounded-full border border-line/60 bg-surface/28 px-2.5 py-1
-                  text-xs/5 font-semibold text-ink-soft transition-colors duration-200
-                  group-hover:border-brand/20 group-hover:text-[hsl(var(--project-preview-accent))]
+                  text-xs/5 font-semibold text-ink-soft transition-colors
+                  duration-200
+                  group-hover:border-brand/20
+                  group-hover:text-[hsl(var(--project-preview-accent))]
                   motion-reduce:transition-none
                 "
               >
@@ -229,8 +254,8 @@ const logoSurfaceClass = {
             {hiddenTechnologyCount > 0 && (
               <span
                 class="
-                  rounded-full border border-line/50 bg-surface-muted/42 px-2.5 py-1
-                  text-xs/5 font-semibold text-ink-muted
+                  rounded-full border border-line/50 bg-surface-muted/42 px-2.5
+                  py-1 text-xs/5 font-semibold text-ink-muted
                 "
               >
                 +{hiddenTechnologyCount}

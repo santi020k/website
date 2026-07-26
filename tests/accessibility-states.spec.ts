@@ -17,20 +17,19 @@ test.describe('Accessibility states', () => {
   })
 
   test('theme toggle updates and persists its visual and accessible state', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'light' })
     await page.goto('/')
 
     const root = page.locator('html')
     const toggle = page.getByRole('button', { name: 'Toggle color theme' })
-    const initialTheme = await root.getAttribute('data-theme')
-    const nextTheme = initialTheme === 'dark' ? 'light' : 'dark'
 
     await toggle.click()
 
-    await expect(root).toHaveAttribute('data-theme', nextTheme)
-    await expect(toggle).toHaveAttribute('aria-pressed', String(nextTheme === 'dark'))
+    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true')
     await page.reload()
-    await expect(root).toHaveAttribute('data-theme', nextTheme)
-    await expect(toggle).toHaveAttribute('aria-pressed', String(nextTheme === 'dark'))
+    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true')
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })

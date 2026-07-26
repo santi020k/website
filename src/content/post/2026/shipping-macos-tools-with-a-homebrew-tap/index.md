@@ -17,7 +17,7 @@ For macOS developers, Homebrew already provides a familiar answer.
 
 That is why I created the [Santi020k Homebrew Tap](https://github.com/santi020k/homebrew-tap): a small distribution repository for my developer tools.
 
-Its first formula installs [Santi020k Terminal](/portfolio/santi020k-terminal-theme/) from the larger [Santi020k Theme](/portfolio/santi020k-theme/) family.
+Its first formula installs [Santi020k Terminal](https://terminal.santi020k.com/) from the larger [Santi020k Theme](/portfolio/santi020k-theme/) family.
 
 ## The install command is part of the product
 
@@ -96,4 +96,4 @@ The tap is not a large application. It is a small piece of release engineering.
 
 I still consider it a project because it changes whether another project is usable. Distribution is part of developer experience. A reliable install command, a repeatable upgrade path, and generated packaging metadata remove friction every time someone tries the tool.
 
-The [Santi020k Terminal case study](/portfolio/santi020k-terminal-theme/) covers the product that the formula distributes, and the [tap repository](https://github.com/santi020k/homebrew-tap) contains the current packaging metadata.
+The unified [Santi020k Theme case study](/portfolio/santi020k-theme/) covers the terminal product that the formula distributes, and the [tap repository](https://github.com/santi020k/homebrew-tap) contains the current packaging metadata.

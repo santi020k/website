@@ -10,10 +10,11 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
-import { Card } from '@santi020k/lumen-astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getPostPath } from '@/utils/links'
+
+import { Card } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
 
@@ -30,13 +31,13 @@ export const getStaticPaths = async () => {
   }))
 }
 
-interface Props {
+export interface Props {
   postCount: number
   posts: CollectionEntry<'post'>[]
   series: CollectionEntry<'series'>
 }
 
-const { postCount, posts, series } = Astro.props as Props
+const { postCount, posts, series } = Astro.props
 const { Content } = await render(series)
 const metaTitle = series.data.seoTitle ?? series.data.title
 const metaDescription = series.data.seoDescription ?? series.data.description

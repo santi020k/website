@@ -1,8 +1,9 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import { Card } from '@santi020k/lumen-astro'
 import PageLayout from '@/layouts/Base.astro'
+
+import { Card } from '@santi020k/lumen-astro'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -59,7 +60,12 @@ const sections = [
         variant="interactive"
       >
         <div class="flex items-start justify-between gap-4">
-          <p class="section-label text-brand dark:text-accent">{label}</p>
+          <p class="
+            section-label text-brand
+            dark:text-accent
+          "
+          >{label}
+          </p>
           <span class="text-sm font-semibold text-ink-muted">
             {String(index + 1).padStart(2, '0')}
           </span>
@@ -68,7 +74,11 @@ const sections = [
           <h2 class="text-xl font-semibold text-ink">{title}</h2>
           <p class="text-sm/7 text-ink-soft">{description}</p>
         </div>
-        <p class="mt-auto border-t border-line/35 pt-4 text-xs/6 font-semibold tracking-[0.14em] text-ink-muted uppercase">
+        <p class="
+          mt-auto border-t border-line/35 pt-4 text-xs/6 font-semibold
+          tracking-[0.14em] text-ink-muted uppercase
+        "
+        >
           {meta}
         </p>
         <div class="mt-auto">

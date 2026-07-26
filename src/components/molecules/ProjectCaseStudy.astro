@@ -37,7 +37,12 @@ const { rows } = Astro.props
             {String(i + 1).padStart(2, '0')}
           </div>
           <div class="min-w-0 space-y-1">
-            <p class="section-label text-brand/80 dark:text-accent">{row.label}</p>
+            <p class="
+              section-label text-brand/80
+              dark:text-accent
+            "
+            >{row.label}
+            </p>
             <p class="text-sm/6 text-ink">{row.body}</p>
           </div>
         </div>

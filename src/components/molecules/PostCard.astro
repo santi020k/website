@@ -2,13 +2,14 @@
 import { type CollectionEntry, getEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import { CoverImage } from '@santi020k/lumen-astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPostPath, getSeriesPath, getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingTime } from '@/utils/reading-time'
+
+import { CoverImage } from '@santi020k/lumen-astro'
 
 interface Props {
   className?: string

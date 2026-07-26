@@ -2,6 +2,7 @@
 title: "Expanding Santi020k Theme from editor to terminal"
 description: "How a VS Code palette became a generated terminal system with six application formats, three Starship styles, managed shells, validation, and Homebrew releases."
 publishDate: "2026-07-15T15:00:00.000Z"
+updatedDate: "2026-07-26T15:00:00.000Z"
 coverImage:
   alt: "Dark and light terminal surfaces connected by a violet palette ribbon and coordinated prompt segments"
   src: "./cover.webp"
@@ -136,10 +137,16 @@ The [Homebrew packaging article](/blog/shipping-macos-tools-with-a-homebrew-tap/
 
 The terminal work arrived alongside a broader expansion of Santi020k Theme.
 
-The VS Code extension now ships 12 variants: dark, light, high-contrast dark, and high-contrast light, each with base, bold, and italic syntax styles. Chrome maps the shared palette into a declarative, permission-free browser theme. Shared packages expose tokens, assets, metadata, and mapping helpers. Four focused Astro sites document the family hub, VS Code, Chrome, and terminal products.
+The VS Code extension now ships 12 variants: dark, light, high-contrast dark, and high-contrast light, each with base, bold, and italic syntax styles. They also work across compatible hosts such as Cursor, Windsurf, VSCodium, and GitHub Codespaces. The public theme package exports Shiki-ready dark, light, and high-contrast JSON for code highlighting outside the editor.
+
+Chrome began as a separate repository and a separate portfolio project. That separation stopped making sense once its dark and light manifests, store artwork, product site, and releases all depended on the editor palette and shared tokens.
+
+I moved the Chrome package into the Santi020k Theme monorepo and consolidated its story into the main [Santi020k Theme case study](/portfolio/santi020k-theme/). It remains an independently packaged Chrome Web Store product. The merge is about ownership and source of truth: editor changes can regenerate the browser mappings, shared validation can catch drift, and one Changesets graph can coordinate releases without turning every surface into the same artifact.
+
+Shared packages now expose tokens, assets, typography, Tailwind values, Chrome mapping helpers, product metadata, site behavior, and Shiki themes. Four focused Astro sites document the family hub, VS Code, Chrome, and terminal products.
 
 The result is not one theme file stretched across incompatible tools.
 
 It is one design language translated deliberately for each surface, then supported by generation, validation, documentation, and release automation.
 
-You can [explore Santi020k Terminal](https://terminal.santi020k.com/), read the shorter [portfolio case study](/portfolio/santi020k-terminal-theme/), or browse the [Theme monorepo](https://github.com/santi020k/santi020k-theme).
+You can [explore Santi020k Terminal](https://terminal.santi020k.com/), read the unified [Santi020k Theme case study](/portfolio/santi020k-theme/), or browse the [Theme monorepo](https://github.com/santi020k/santi020k-theme).

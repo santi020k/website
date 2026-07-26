@@ -6,12 +6,13 @@ import PillCount from '@/components/atoms/PillCount.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
-import { Card } from '@santi020k/lumen-astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { Card, Input } from '@santi020k/lumen-astro'
 
 import { getUniqueTechnologiesWithCount } from '@/data/project'
 
@@ -95,22 +96,39 @@ const meta = {
             The stack by recurrence.
           </h2>
           <p class="section-copy">
-            Grouped by how often each tool appears in shipped work, with the most product-shaping technologies kept easiest to scan.
+            Grouped by how often each tool appears in shipped work, with the most product-shaping
+            technologies kept easiest to scan.
           </p>
         </div>
       </div>
 
-      <Card class="relative p-5 sm:p-6" variant="muted">
-        <div aria-hidden="true" class="pointer-events-none absolute inset-0 grid-fade opacity-25"></div>
+      <Card
+        class="
+          relative p-5
+          sm:p-6
+        "
+        variant="muted"
+      >
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 grid-fade opacity-25"
+        >
+        </div>
         <div
           aria-hidden="true"
           class="
-            pointer-events-none absolute -right-10 -bottom-16 size-44 rounded-full
-            bg-radial from-brand/18 via-accent/8 to-transparent blur-2xl
+            pointer-events-none absolute -right-10 -bottom-16 size-44
+            rounded-full bg-radial from-brand/18 via-accent/8 to-transparent
+            blur-2xl
           "
         />
         <div class="relative z-10 space-y-4">
-          <p class="section-label text-brand dark:text-accent">Recurring foundations</p>
+          <p class="
+            section-label text-brand
+            dark:text-accent
+          "
+          >Recurring foundations
+          </p>
           <div class="flex flex-wrap gap-2.5">
             {featuredTechnologies.map(([technology, count]) => (
               <Pill href={getTechnologyPath(technology)} label={technology} tone="brand">
@@ -122,70 +140,117 @@ const meta = {
       </Card>
     </div>
 
-    <div
-      class="
-        grid gap-5
-        lg:grid-cols-3
-      "
-      data-stagger="70"
-    >
-      {technologyGroups.map((group, index) => (
-        <Card
-          class="
-            group relative h-full p-5 transition-all duration-300
-            hover:-translate-y-1 hover:border-brand/35
-            motion-reduce:transition-none motion-reduce:hover:translate-y-0
-            sm:p-6
-          "
-          variant="muted"
-        >
-          <div
-            aria-hidden="true"
-            class:list={[
-              `
-                pointer-events-none absolute inset-x-8 bottom-0 h-32 rounded-full
-                bg-radial from-brand/10 via-accent/5 to-transparent blur-2xl
-                transition-opacity duration-300
-                group-hover:opacity-100
-                motion-reduce:transition-none
-              `,
-              index === 0 ? 'opacity-70' : 'opacity-35'
-            ]}
-          />
-          <div class="relative z-10 space-y-5">
-            <div class="space-y-3">
-              <div class="flex items-start justify-between gap-4">
-                <p class="section-label text-brand dark:text-accent">{group.title}</p>
-                <span class="text-xs font-semibold text-ink-muted">{String(index + 1).padStart(2, '0')}</span>
+    <div class="space-y-5">
+      <div class="space-y-2">
+        <label class="section-label block" for="technology-filter">Find a technology</label>
+        <Input
+          aria-describedby="technology-filter-status"
+          autocomplete="off"
+          class="field-surface"
+          id="technology-filter"
+          placeholder="Search technologies…"
+          spellcheck="false"
+          type="search"
+        />
+      </div>
+      <p
+        id="technology-filter-status"
+        aria-live="polite"
+        class="text-sm text-ink-muted"
+      >
+        Showing all {technologies.length} technologies.
+      </p>
+
+      <div
+        class="
+          grid gap-5
+          lg:grid-cols-3
+        "
+        data-stagger="70"
+        data-technology-groups
+      >
+        {technologyGroups.map((group, index) => (
+          <Card
+            class="
+              group relative h-full p-5 transition-all duration-300
+              hover:-translate-y-1 hover:border-brand/35
+              motion-reduce:transition-none
+              motion-reduce:hover:translate-y-0
+              sm:p-6
+            "
+            data-technology-group
+            variant="muted"
+          >
+            <div
+              aria-hidden="true"
+              class:list={[
+                `
+                  pointer-events-none absolute inset-x-8 bottom-0 h-32
+                  rounded-full bg-radial from-brand/10 via-accent/5 to-transparent
+                  blur-2xl transition-opacity duration-300
+                  group-hover:opacity-100
+                  motion-reduce:transition-none
+                `,
+                index === 0 ? 'opacity-70' : 'opacity-35'
+              ]}
+            />
+            <div class="relative z-10 space-y-5">
+              <div class="space-y-3">
+                <div class="flex items-start justify-between gap-4">
+                  <p class="
+                    section-label text-brand
+                    dark:text-accent
+                  "
+                  >{group.title}
+                  </p>
+                  <span class="text-xs font-semibold text-ink-muted">{String(index + 1).padStart(2, '0')}</span>
+                </div>
+                <h3 class="
+                  text-3xl font-bold tracking-tighter text-ink
+                  sm:text-4xl
+                "
+                >
+                  <span data-technology-group-count>{group.items.length}</span> tools
+                </h3>
+                <p class="text-sm/6 text-ink-soft">{group.description}</p>
               </div>
-              <h3 class="
-                text-3xl font-bold tracking-[-0.05em] text-ink
-                sm:text-4xl
-              "
-              >
-                {group.items.length} tools
-              </h3>
-              <p class="text-sm/6 text-ink-soft">{group.description}</p>
-            </div>
 
-            <div class="border-y border-line/35 py-4">
-              <p class="text-sm/6 text-ink-soft">{group.summary}</p>
-            </div>
+              <div class="border-y border-line/35 py-4">
+                <p class="text-sm/6 text-ink-soft">{group.summary}</p>
+              </div>
 
-            <div class="flex flex-wrap gap-2.5">
-              {group.items.map(([technology, count]) => (
-                <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-                  <PillCount count={count} />
-                </Pill>
-              ))}
+              <div class="flex flex-wrap gap-2.5">
+                {group.items.map(([technology, count]) => (
+                  <span data-technology-item data-label={technology}>
+                    <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
+                      <PillCount count={count} />
+                    </Pill>
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        </Card>
-      ))}
+          </Card>
+        ))}
+      </div>
+      <p
+        class="
+          rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm
+          text-ink-soft
+        "
+        data-technologies-empty
+        hidden
+      >
+        No technologies match that search.
+      </p>
     </div>
   </section>
 
-  <section class="section-container-wide pt-20 sm:pt-24 lg:pt-28">
+  <section class="
+    section-container-wide pt-20
+    sm:pt-24
+    lg:pt-28
+  "
+  >
     <div class="cta-panel">
       <div
         class="
@@ -194,15 +259,29 @@ const meta = {
         "
       >
         <div class="max-w-2xl space-y-3">
-          <p class="section-label text-brand dark:text-accent">Trace the evidence</p>
-          <h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+          <p class="
+            section-label text-brand
+            dark:text-accent
+          "
+          >Trace the evidence
+          </p>
+          <h2 class="
+            text-2xl font-semibold tracking-tight text-ink
+            sm:text-3xl
+          "
+          >
             Tools are easier to trust when they point to real work.
           </h2>
           <p class="section-copy">
-            Each technology page filters the portfolio to the projects where that tool shaped the architecture, delivery workflow, or product experience.
+            Each technology page filters the portfolio to the projects where that tool shaped the
+            architecture, delivery workflow, or product experience.
           </p>
         </div>
-        <div class="section-actions lg:justify-end">
+        <div class="
+          section-actions
+          lg:justify-end
+        "
+        >
           <ButtonLink href="/portfolio/" showArrow>
             Browse portfolio
           </ButtonLink>
@@ -213,4 +292,48 @@ const meta = {
       </div>
     </div>
   </section>
+
+  <script>
+    const setupTechnologyIndex = () => {
+      const groups = document.querySelector<HTMLElement>('[data-technology-groups]')
+      const input = document.querySelector<HTMLInputElement>('#technology-filter')
+      const status = document.getElementById('technology-filter-status')
+      const empty = document.querySelector<HTMLElement>('[data-technologies-empty]')
+
+      if (!groups || !input || !status || !empty || groups.dataset.filterReady === 'true') return
+
+      groups.dataset.filterReady = 'true'
+
+      const groupElements = groups.querySelectorAll<HTMLElement>('[data-technology-group]')
+      const items = groups.querySelectorAll<HTMLElement>('[data-technology-item]')
+
+      input.addEventListener('input', () => {
+        const query = input.value.trim().toLocaleLowerCase()
+        let visibleTotal = 0
+
+        groupElements.forEach(group => {
+          const groupItems = group.querySelectorAll<HTMLElement>('[data-technology-item]')
+          const count = [...groupItems].reduce((total, item) => {
+            const matches = !query || (item.dataset.label ?? '').toLocaleLowerCase().includes(query)
+
+            item.hidden = !matches
+
+            return total + (matches ? 1 : 0)
+          }, 0)
+          const countLabel = group.querySelector<HTMLElement>('[data-technology-group-count]')
+
+          group.hidden = count === 0
+          if (countLabel) countLabel.textContent = String(count)
+          visibleTotal += count
+        })
+
+        empty.hidden = visibleTotal > 0
+        status.textContent = query ?
+          `${visibleTotal} ${visibleTotal === 1 ? 'technology' : 'technologies'} found.` :
+          `Showing all ${items.length} technologies.`
+      })
+    }
+
+    document.addEventListener('astro:page-load', setupTechnologyIndex)
+  </script>
 </PageLayout>

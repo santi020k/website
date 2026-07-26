@@ -1,6 +1,5 @@
 ---
 import { ClientRouter } from 'astro:transitions'
-import { SkipLink, UIPrimitives } from '@santi020k/lumen-astro'
 
 import BackToTop from '@/components/atoms/BackToTop.astro'
 import ParticlesBackground from '@/components/atoms/ParticlesBackground.astro'
@@ -14,6 +13,8 @@ import ThemeProvider from '@/components/shared/ThemeProvider.astro'
 import type { SiteMeta } from '@/types/site'
 
 import '@/styles/global.css'
+
+import { SkipLink, UIPrimitives } from '@santi020k/lumen-astro'
 
 import { siteConfig } from '@/site.config'
 
@@ -54,7 +55,7 @@ const headMeta = {
 const isGenerousSpacing = mainSpacing === 'generous'
 ---
 
-<html class="scroll-smooth" lang={siteConfig.lang}>
+<html class="scroll-smooth motion-reduce:scroll-auto" lang={siteConfig.lang}>
   <head>
     <BaseHead {...headMeta} />
     <ClientRouter />
@@ -111,23 +112,13 @@ const isGenerousSpacing = mainSpacing === 'generous'
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
 
     <script>
-      // Scroll to top on forward navigation; preserve position on back/forward.
-      // Also restore SR/keyboard focus to <main> after the swap so the virtual
-      // cursor follows the page change instead of staying on a stale element.
-      document.addEventListener('astro:before-preparation', (e) => {
-        const { navigationType } = e as Event & { navigationType?: string }
-        const isTraverse = navigationType === 'traverse'
-
-        document.addEventListener('astro:after-swap', () => {
-          if (!isTraverse) {
-            window.scrollTo(0, 0)
-          }
-
-          const main = document.getElementById('main')
-          if (main instanceof HTMLElement) {
-            main.focus({ preventScroll: true })
-          }
-        }, { once: true })
+      // Restore SR/keyboard focus after a swap so the virtual cursor follows
+      // the page change. Astro retains control of fragment and history scroll.
+      document.addEventListener('astro:after-swap', () => {
+        const main = document.getElementById('main')
+        if (main instanceof HTMLElement) {
+          main.focus({ preventScroll: true })
+        }
       })
     </script>
 

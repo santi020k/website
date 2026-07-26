@@ -27,25 +27,49 @@ Editing those defaults: update [`public/_headers`](../public/_headers) and [`pub
 
 ## Release flow
 
-1. Merge approved pull request into `main`.
-2. Verify GitHub Actions CI passes:
+1. Add a Changeset to every pull request that should appear in a release:
+
+   ```bash
+   pnpm changeset
+   ```
+
+   Select `patch`, `minor`, or `major` and write a user-facing summary. Changes
+   that do not affect the shipped site, such as CI-only maintenance, can skip
+   this step.
+2. Merge the approved pull request into `main`.
+3. Verify GitHub Actions CI passes:
    - lint/check/spellcheck
    - unit tests
    - build
    - stable E2E
    - Lighthouse CI
-3. Confirm production deployment from your hosting provider finished successfully.
-4. Smoke-check key routes in production:
+4. After CI succeeds, the Release workflow creates or updates the
+   `chore: release website` pull request. Review the proposed `package.json`
+   version and `CHANGELOG.md`, then merge that pull request when the accumulated
+   changes are ready to launch.
+5. CI validates the release commit. The Release workflow then creates the
+   `website@<version>` Git tag and matching GitHub Release. The package remains
+   private and is never published to npm.
+6. Confirm production deployment from your hosting provider finished successfully.
+7. Smoke-check key routes in production:
    - `/`
    - `/blog/`
    - `/portfolio/`
    - `/feed.xml`
    - `/offline/`
 
-This repository has not published a Git version tag yet. For the initial
-`v3.0.0` release, run `pnpm run release:first:dry`, review the generated
-changelog, then use `pnpm run release:first`. After that baseline tag exists,
-use the normal `release:dry` and `release` scripts for subsequent versions.
+The repository includes a major Changeset for the first controlled release.
+Once this release workflow lands on `main`, it prepares version `4.0.0`; merging
+its release pull request is the explicit v4 launch gate.
+
+Useful local commands:
+
+- `pnpm changeset` — record a release-worthy change.
+- `pnpm run changeset:status` — preview the pending release plan.
+- `pnpm run release:version` — consume pending Changesets locally. Normally,
+  let the Release workflow do this in its pull request.
+- `pnpm run release` — create tags for versioned private applications.
+  Normally, run this only through the Release workflow.
 
 ## Pre-release local validation
 

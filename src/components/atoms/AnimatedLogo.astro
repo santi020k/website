@@ -1,6 +1,6 @@
 ---
-import { fontFamily } from '@santi020k/theme'
 import { AnimatedLogo as LumenAnimatedLogo } from '@santi020k/lumen-astro'
+import { fontFamily } from '@santi020k/theme'
 
 interface Props {
   variant?: 'light' | 'dark'
@@ -25,54 +25,54 @@ const logoFontFamily = fontFamily.display
     role="img"
     aria-label="Santi020k"
   >
-  {/* Logo mark with draw-in animation */}
-  <g data-logo-mark>
-    <rect
-      data-ui-logo-pop
-      width="80"
-      height="80"
-      rx="18"
-      fill={fillColor}
-    />
-    <path
-      d="M 26 28 L 40 40 L 26 52"
-      fill="none"
-      stroke={strokeColor}
-      stroke-width="8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      data-ui-logo-draw
-      style="--ui-logo-path-length: 60; --ui-logo-delay: 300ms;"
-    />
-    <line
-      x1="48"
-      y1="52"
-      x2="62"
-      y2="52"
-      stroke={strokeColor}
-      stroke-width="8"
-      stroke-linecap="round"
-      data-ui-logo-draw
-      style="--ui-logo-path-length: 60; --ui-logo-delay: 500ms;"
-    />
-  </g>
+    {/* Logo mark with draw-in animation */}
+    <g data-logo-mark>
+      <rect
+        data-ui-logo-pop
+        width="80"
+        height="80"
+        rx="18"
+        fill={fillColor}
+      />
+      <path
+        d="M 26 28 L 40 40 L 26 52"
+        fill="none"
+        stroke={strokeColor}
+        stroke-width="8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        data-ui-logo-draw
+        style="--ui-logo-path-length: 60; --ui-logo-delay: 300ms;"
+      />
+      <line
+        x1="48"
+        y1="52"
+        x2="62"
+        y2="52"
+        stroke={strokeColor}
+        stroke-width="8"
+        stroke-linecap="round"
+        data-ui-logo-draw
+        style="--ui-logo-path-length: 60; --ui-logo-delay: 500ms;"
+      />
+    </g>
 
-  {/* Text with fade-in animation */}
-  {!iconOnly && (
-    <text
-      x="100"
-      y="54"
-      font-family={logoFontFamily}
-      font-weight="800"
-      font-size="48"
-      fill={textColor}
-      letter-spacing="-0.04em"
-      data-ui-logo-reveal
-      style="--ui-logo-delay: 700ms;"
-    >
-      Santi<tspan fill={fillColor} font-weight="600" letter-spacing="-0.02em">020k</tspan>
-    </text>
-  )}
+    {/* Text with fade-in animation */}
+    {!iconOnly && (
+      <text
+        x="100"
+        y="54"
+        font-family={logoFontFamily}
+        font-weight="800"
+        font-size="48"
+        fill={textColor}
+        letter-spacing="-0.04em"
+        data-ui-logo-reveal
+        style="--ui-logo-delay: 700ms;"
+      >
+        Santi<tspan fill={fillColor} font-weight="600" letter-spacing="-0.02em">020k</tspan>
+      </text>
+    )}
   </svg>
 </LumenAnimatedLogo>
 
