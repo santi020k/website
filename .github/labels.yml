@@ -1,0 +1,55 @@
+- name: bug
+  color: d73a4a
+  description: Something is not working
+
+- name: enhancement
+  color: a2eeef
+  description: New feature or improvement
+
+- name: content
+  color: 0e8a16
+  description: Blog, note, or portfolio content
+
+- name: components
+  color: 5319e7
+  description: Reusable interface components
+
+- name: layouts
+  color: 7057ff
+  description: Page layouts
+
+- name: pages
+  color: 1d76db
+  description: Routes and page-level changes
+
+- name: styles
+  color: c5def5
+  description: Theme, tokens, and visual styling
+
+- name: config
+  color: fef2c0
+  description: Project configuration
+
+- name: ci
+  color: f9d0c4
+  description: CI/CD and GitHub Actions
+
+- name: docs
+  color: 0075ca
+  description: Documentation
+
+- name: tests
+  color: bfdadc
+  description: Automated tests
+
+- name: dependencies
+  color: 0366d6
+  description: Dependency updates
+
+- name: release
+  color: fbca04
+  description: Changesets and release preparation
+
+- name: 'autorelease: pending'
+  color: fbca04
+  description: Open Changesets release pull request

@@ -47,5 +47,12 @@ tests:
 dependencies:
   - changed-files:
       - any-glob-to-any-file:
-          - 'package.json'
-          - 'package-lock.json'
+          - 'pnpm-lock.yaml'
+          - 'pnpm-workspace.yaml'
+          - '.github/dependabot.yml'
+
+release:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.changeset/**'
+          - 'CHANGELOG.md'

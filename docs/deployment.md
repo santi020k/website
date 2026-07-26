@@ -52,12 +52,20 @@ Protect `main` in the GitHub repository settings. Require a pull request and the
 `Astro Doctor` status checks before merging. Do not create a `release/*` branch
 or merge the same change a second time.
 
-GitHub Releases are optional deployment markers, not a second deployment gate.
-To publish one, run the **Release** workflow from `main`, enter a semantic
-version tag such as `v4.0.0`, and select whether it is a pre-release. The
-workflow tags the already-deployed `main` commit and generates release notes.
-It does not install dependencies, rebuild the site, create a branch, or make
-another commit.
+Website versions and GitHub Releases are managed with Changesets:
+
+1. Run `pnpm changeset` in a pull request that should produce a release, choose
+   the semantic version impact, and commit the generated Markdown file.
+2. After one or more changesets reach `main`, the **Release** workflow opens or
+   updates a single `chore(release): version website` pull request.
+3. Review and merge that pull request. Changesets updates `package.json` and
+   `CHANGELOG.md`; the workflow then creates the matching `vX.Y.Z` tag and
+   GitHub Release from that exact `main` commit.
+
+Documentation, test, and CI-only pull requests do not need a changeset unless
+they should appear in a release. GitHub Releases remain deployment markers, not
+a second deployment gate, and the workflow never publishes the private website
+package to npm.
 
 CodeQL runs weekly and on demand instead of rebuilding its database after every
 merge. The dependency audit remains part of every pull request and reuses the
