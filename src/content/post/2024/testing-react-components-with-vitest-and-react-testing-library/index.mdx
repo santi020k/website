@@ -11,6 +11,8 @@ seriesId: "building-a-production-nextjs-app"
 seriesOrder: 5
 ---
 
+import PackageManagerCodeTabs from '@/components/molecules/PackageManagerCodeTabs.astro'
+
 [Read the Previous Post: Storybook in Action with Next.js, Tailwind and TypeScript](https://medium.com/towardsdev/storybook-in-action-with-next-js-tailwind-and-typescript-dd95875856a2)
 
 After using Storybook to isolate and review components visually, the next step is to validate behavior with tests. I like that combination because Storybook improves the development experience, while tests reduce fear when the component starts changing over time.
@@ -33,11 +35,15 @@ What I do not want is a test suite that feels heavy, slow, or too coupled to imp
 
 Start by installing the testing packages:
 
-```bash title="terminal"
-npm install --save-dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event
-# or
-yarn add --dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event
-```
+<PackageManagerCodeTabs
+  ariaLabel="Choose a package manager to install the testing dependencies"
+  commands={{
+    npm: 'npm install --save-dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event',
+    yarn: 'yarn add --dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event',
+    pnpm: 'pnpm add --save-dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event',
+    bun: 'bun add --dev vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event'
+  }}
+/>
 
 If the project already uses TypeScript, there is no need to over-complicate the setup. Keep the initial configuration small and only add more layers when the project really needs them.
 

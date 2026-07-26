@@ -17,6 +17,8 @@ seriesId: "building-a-production-nextjs-app"
 seriesOrder: 4
 ---
 
+import PackageManagerCodeTabs from '@/components/molecules/PackageManagerCodeTabs.astro'
+
 Continuing from our previous post on optimizing development workflows, today we’ll explore the power of Visual Development Experience (VDE) with Storybook in Action, alongside Next.js. While our last discussion emphasized the importance of pre-commit systems in ensuring code quality and stability, this post dives into enhancing UI development through Storybook’s isolated component environment. Let’s unlock the potential of these tools to streamline development, foster collaboration, and maintain UI consistency across projects.
 
 [Read the Previous Post: Implementing Husky for Next.js](https://medium.com/@santi020k/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration-d75548e48092)
@@ -27,8 +29,8 @@ Continuing from our previous post on optimizing development workflows, today we�
 
 To integrate Storybook into your Next.js project, simply execute the following command:
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```bash title="terminal"
 npx sb init
 ```
@@ -37,20 +39,22 @@ This command initiates the installation of necessary dependencies, configuration
 
 Once installed, start Storybook to visualize and interact with your components in an isolated environment:
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
-```bash title="terminal"
-npm run storybook
-# or
-yarn storybook
-```
+<PackageManagerCodeTabs
+  ariaLabel="Choose a package manager to start Storybook"
+  commands={{
+    npm: 'npm run storybook',
+    yarn: 'yarn run storybook',
+    pnpm: 'pnpm run storybook',
+    bun: 'bun run storybook'
+  }}
+/>
 
 I recommend removing demo components and configuring your existing components with Storybook. In our case, as we are utilizing aliases for imports, they might pose compatibility issues. To address this, add the following configuration to Storybook:
 
 `.storybook/main.ts`
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```typescript title=".storybook/main.ts"
 import type { StorybookConfig } from "@storybook/nextjs";
 import path from 'path'
@@ -100,8 +104,8 @@ Enabling Tailwind support is straightforward. Simply include the following line 
 
 `.storybook/preview.ts`
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```typescript title=".storybook/preview.ts"
 import "../src/app/globals.css";
 ```
@@ -110,8 +114,8 @@ Here’s an example:
 
 `.storybook/preview.ts`
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```typescript title=".storybook/preview.ts"
 import type { Preview } from "@storybook/react";
 
@@ -140,8 +144,8 @@ To achieve this, make the following modifications:
 
 Move **main** and **preview** from the root project to:
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```text title="Project Structure"
 ├── /config
 | ├── /.storybook
@@ -153,8 +157,8 @@ Adjust the Storybook scripts in package.json:
 
 `package.json`
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```json title="package.json"
 {
   "scripts": {
@@ -168,8 +172,8 @@ And update the Storybook main config:
 
 `config/.storybook/main.ts`
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```typescript title="config/.storybook/main.ts"
 import type { StorybookConfig } from "@storybook/nextjs";
 import path from 'path'
@@ -213,8 +217,8 @@ export default config;
 
 `config/.storybook/preview.ts`
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```typescript title="config/.storybook/preview.ts"
 import type { Preview, ReactRenderer } from "@storybook/react";
 import { withThemeByClassName } from '@storybook/addon-themes';
@@ -231,8 +235,8 @@ Now, creating component stories is straightforward. Let’s use our button compo
 
 `src/components/atoms/button/button.stories.ts`
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```typescript title="src/components/atoms/button/button.stories.ts"
 import Button, { type ButtonProps, ButtonSizes, ButtonVariations } from './button'
 
@@ -340,27 +344,17 @@ The end result will resemble this:
 - **HTML Preview:** [https://storybook.js.org/addons/@whitespace/storybook-addon-html](https://storybook.js.org/addons/@whitespace/storybook-addon-html) Visualize and inspect HTML code snippets directly within Storybook for rapid prototyping.
 - **Pseudo States:** [https://storybook.js.org/addons/storybook-addon-pseudo-states](https://storybook.js.org/addons/storybook-addon-pseudo-states) Simulate pseudo states such as hover, focus, and active states for thorough component testing.
 
-To install these integrations, run the following command using npm or yarn:
+To install these integrations, choose your package manager:
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
-```bash title="terminal"
-npm install --save-dev \
-  @storybook/addon-themes \
-  @storybook/addon-storysource \
-  @storybook/addon-console \
-  @storybook/addon-actions \
-  @whitespace/storybook-addon-html \
-  storybook-addon-pseudo-states
-```
-
-or
-
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
-```bash title="terminal"
-yarn add -D @storybook/addon-themes @storybook/addon-storysource @storybook/addon-console @storybook/addon-actions @whitespace/storybook-addon-html storybook-addon-pseudo-states
-```
+<PackageManagerCodeTabs
+  ariaLabel="Choose a package manager to install the Storybook integrations"
+  commands={{
+    npm: 'npm install --save-dev @storybook/addon-themes @storybook/addon-storysource @storybook/addon-console @storybook/addon-actions @whitespace/storybook-addon-html storybook-addon-pseudo-states',
+    yarn: 'yarn add --dev @storybook/addon-themes @storybook/addon-storysource @storybook/addon-console @storybook/addon-actions @whitespace/storybook-addon-html storybook-addon-pseudo-states',
+    pnpm: 'pnpm add --save-dev @storybook/addon-themes @storybook/addon-storysource @storybook/addon-console @storybook/addon-actions @whitespace/storybook-addon-html storybook-addon-pseudo-states',
+    bun: 'bun add --dev @storybook/addon-themes @storybook/addon-storysource @storybook/addon-console @storybook/addon-actions @whitespace/storybook-addon-html storybook-addon-pseudo-states'
+  }}
+/>
 
 ### Note
 
@@ -370,8 +364,8 @@ Once installed, update your Storybook configuration files as follows:
 
 `config/.storybook/main.ts`
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```typescript title="config/.storybook/main.ts"
 import type { StorybookConfig } from "@storybook/nextjs";
 import path from 'path'
@@ -418,8 +412,8 @@ export default config;
 
 `config/.storybook/preview.ts`
 
-<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
-<!-- eslint-skip -->
+{/* TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. */}
+{/* eslint-skip */}
 ```typescript title="config/.storybook/preview.ts"
 import type { Preview, ReactRenderer } from "@storybook/react";
 import { withThemeByClassName } from '@storybook/addon-themes';

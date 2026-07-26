@@ -1,14 +1,21 @@
 name: CI
 
 'on':
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  quality:
-    name: Quality
+  validate:
+    name: Validate and build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -21,21 +28,11 @@ jobs:
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
       - run: pnpm run verify:quality
-
-  build:
-    name: Build
-    needs: quality
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.32.1
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "24.x"
-          cache: "pnpm"
-      - run: pnpm install --frozen-lockfile
+      - name: Audit dependencies
+        # CVE-2026-14257 is limited to repository-controlled glob patterns in
+        # legacy developer CLIs. The exception is documented in
+        # pnpm-workspace.yaml because forcing brace-expansion v5 breaks them.
+        run: pnpm run audit
       - name: Cache pre-rendered OG images
         uses: actions/cache@v4
         with:
@@ -57,7 +54,7 @@ jobs:
 
   e2e-stable:
     name: E2E Tests (Stable Required)
-    needs: build
+    needs: validate
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
@@ -91,7 +88,7 @@ jobs:
 
   lighthouse:
     name: Lighthouse CI
-    needs: build
+    needs: validate
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:

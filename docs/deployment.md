@@ -27,50 +27,41 @@ Editing those defaults: update [`public/_headers`](../public/_headers) and [`pub
 
 ## Release flow
 
-1. Add a Changeset to every pull request that should appear in a release:
+The site uses GitHub Flow and has one production branch:
 
-   ```bash
-   pnpm changeset
-   ```
-
-   Select `patch`, `minor`, or `major` and write a user-facing summary. Changes
-   that do not affect the shipped site, such as CI-only maintenance, can skip
-   this step.
-2. Merge the approved pull request into `main`.
-3. Verify GitHub Actions CI passes:
+1. Create a feature or fix branch from `main`.
+2. Open a pull request into `main`. GitHub Actions validates the pull request:
    - Astro Doctor
-   - lint/check/spellcheck
-   - unit tests
-   - build
+   - lint, Astro type-check, Markdown/content checks, and spellcheck
+   - dependency audit and unit tests
+   - production build
    - stable E2E
    - Lighthouse CI
-4. After CI succeeds, the Release workflow creates or updates the
-   `chore: release website` pull request. Review the proposed `package.json`
-   version and `CHANGELOG.md`, then merge that pull request when the accumulated
-   changes are ready to launch.
-5. CI validates the release commit. The Release workflow then creates the
-   `website@<version>` Git tag and matching GitHub Release. The package remains
-   private and is never published to npm.
-6. Confirm production deployment from your hosting provider finished successfully.
-7. Smoke-check key routes in production:
+3. Merge the approved pull request once. Cloudflare Pages deploys `main`;
+   GitHub Actions does not repeat the pull-request suite after the merge.
+4. Confirm the Cloudflare Pages production deployment completed successfully.
+5. Smoke-check key routes in production:
    - `/`
    - `/blog/`
    - `/portfolio/`
    - `/feed.xml`
    - `/offline/`
 
-The repository includes a major Changeset for the first controlled release.
-Once this release workflow lands on `main`, it prepares version `4.0.0`; merging
-its release pull request is the explicit v4 launch gate.
+Protect `main` in the GitHub repository settings. Require a pull request and the
+`Validate and build`, `E2E Tests (Stable Required)`, `Lighthouse CI`, and
+`Astro Doctor` status checks before merging. Do not create a `release/*` branch
+or merge the same change a second time.
 
-Useful local commands:
+GitHub Releases are optional deployment markers, not a second deployment gate.
+To publish one, run the **Release** workflow from `main`, enter a semantic
+version tag such as `v4.0.0`, and select whether it is a pre-release. The
+workflow tags the already-deployed `main` commit and generates release notes.
+It does not install dependencies, rebuild the site, create a branch, or make
+another commit.
 
-- `pnpm changeset` — record a release-worthy change.
-- `pnpm run changeset:status` — preview the pending release plan.
-- `pnpm run release:version` — consume pending Changesets locally. Normally,
-  let the Release workflow do this in its pull request.
-- `pnpm run release` — create tags for versioned private applications.
-  Normally, run this only through the Release workflow.
+CodeQL runs weekly and on demand instead of rebuilding its database after every
+merge. The dependency audit remains part of every pull request and reuses the
+main CI dependency installation.
 
 ## Pre-release local validation
 
@@ -81,7 +72,7 @@ Two tiers, picked by intent:
 - `pnpm run audit` — audits at moderate severity while accepting
   `CVE-2026-14257` for legacy developer-only glob consumers. Those commands use
   repository-controlled patterns, and forcing the patched major currently
-  breaks ESLint. `pnpm run audit:strict` keeps the exception reviewable.
+  breaks ESLint.
 
 ## Rollback
 

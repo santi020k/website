@@ -12,6 +12,8 @@ seriesOrder: 2
 canonicalUrl: "https://medium.com/@santi020k/building-the-best-next-js-typescript-standard-vitest-eslint-configuration-f6d91d6346e7"
 ---
 
+import PackageManagerCodeTabs from '@/components/molecules/PackageManagerCodeTabs.astro'
+
 Continuing from our previous discussion on establishing a robust structure for React projects using an Atomic Module Component approach, we delve deeper into enhancing our development workflow with the integration of Next.js, TypeScript, and Vitest. In this post, we’ll focus on configuring ESLint to ensure code consistency, quality, and adherence to best practices.
 
 [Previous post: About project structure](https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c)
@@ -28,43 +30,29 @@ A good ESLint configuration file will save us time during code reviews with arbi
 
 To begin, make sure you have ESLint installed in your project. You can do this by running:
 
-```bash title="terminal"
-npm install eslint --save-dev
-# or
-yarn add eslint --dev
-```
+<PackageManagerCodeTabs
+  ariaLabel="Choose a package manager to install ESLint"
+  commands={{
+    npm: 'npm install --save-dev eslint',
+    yarn: 'yarn add --dev eslint',
+    pnpm: 'pnpm add --save-dev eslint',
+    bun: 'bun add --dev eslint'
+  }}
+/>
 
 Next, let’s configure ESLint to work perfectly with Next.js, TypeScript, and Vitest. We will take advantage of the ESLint configuration that I recommend to initialize a project and that can later be adjusted to the needs of each project, which includes plugins and rules designed for this stack.
 
 Starting with installing the dependencies of this ESLint configuration.
 
-```bash title="terminal"
-npm install --save-dev \
- eslint \
- eslint-config-standard \
- eslint-plugin-promise \
- eslint-plugin-import \
- eslint-plugin-n \
- eslint-plugin-react \
- typescript \
- typescript-eslint \
- eslint-plugin-tailwindcss \
- eslint-plugin-testing-library \
- @stylistic/eslint-plugin \
- eslint-plugin-vitest \
- eslint-plugin-react-hooks \
- eslint-plugin-jsx-a11y \
- eslint-plugin-simple-import-sort \
- eslint-config-next \
- @typescript-eslint/eslint-plugin \
- eslint-plugin-unused-imports
-```
-
-Or
-
-```bash title="terminal"
-yarn add --dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports
-```
+<PackageManagerCodeTabs
+  ariaLabel="Choose a package manager to install the ESLint configuration dependencies"
+  commands={{
+    npm: 'npm install --save-dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports',
+    yarn: 'yarn add --dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports',
+    pnpm: 'pnpm add --save-dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports',
+    bun: 'bun add --dev eslint eslint-config-standard eslint-plugin-promise eslint-plugin-import eslint-plugin-n eslint-plugin-react typescript typescript-eslint eslint-plugin-tailwindcss eslint-plugin-testing-library @stylistic/eslint-plugin eslint-plugin-vitest eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-simple-import-sort eslint-config-next @typescript-eslint/eslint-plugin eslint-plugin-unused-imports'
+  }}
+/>
 
 Create the `.eslintrc.cjs` file with the following configuration.
 

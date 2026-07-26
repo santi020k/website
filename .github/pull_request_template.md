@@ -43,7 +43,6 @@ Link to the issue this PR resolves, e.g. "Resolves #123"
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
 - [ ] I have made corresponding changes to the documentation
-- [ ] I added a Changeset (`pnpm changeset`) or this change does not affect a release
 - [ ] The build passes without errors (`pnpm run build`)
 - [ ] Linting passes without errors (`pnpm run lint`)
 - [ ] Tests pass (`pnpm run test`)

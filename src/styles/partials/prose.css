@@ -24,10 +24,6 @@
     @apply my-10;
   }
 
-  & > .ui-code-tabs.ui-tabs {
-    @apply block;
-  }
-
   & .ui-code-tabs__panel {
     @apply min-w-0 overflow-hidden;
   }

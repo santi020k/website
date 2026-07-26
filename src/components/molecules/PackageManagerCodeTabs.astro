@@ -1,0 +1,32 @@
+---
+import { CodeTabs } from '@santi020k/lumen-astro'
+
+interface PackageManagerCommands {
+  bun: string
+  npm: string
+  pnpm: string
+  yarn: string
+}
+
+interface Props {
+  ariaLabel: string
+  commands: PackageManagerCommands
+}
+
+const { ariaLabel, commands } = Astro.props
+const items = [
+  { code: commands.npm, label: 'npm', language: 'bash', value: 'npm' },
+  { code: commands.yarn, label: 'yarn', language: 'bash', value: 'yarn' },
+  { code: commands.pnpm, label: 'pnpm', language: 'bash', value: 'pnpm' },
+  { code: commands.bun, label: 'Bun', language: 'bash', value: 'bun' }
+]
+---
+
+<CodeTabs
+  {ariaLabel}
+  class="not-prose"
+  {items}
+  storageKey="preferred-package-manager"
+  theme="santi020k"
+  wrap={false}
+/>
