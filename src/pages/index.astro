@@ -41,7 +41,7 @@ const yearsOfExperience = YEARS_OF_EXPERIENCE
 const heroPortraitImage = await getImage({
   format: 'avif',
   src: AboutMeImage,
-  widths: [320, 400, 480, 600, 704, 800]
+  width: 320
 })
 
 const homePageSchema = {
@@ -87,8 +87,6 @@ const meta = {
   ].join(' '),
   preloadImage: {
     href: heroPortraitImage.src,
-    imagesizes: '(min-width: 1024px) 352px, 75vw',
-    imagesrcset: heroPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
   structuredData: homePageSchema,

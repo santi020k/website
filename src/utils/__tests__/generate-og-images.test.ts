@@ -19,6 +19,7 @@ describe('collectSpecs', () => {
       'index.webp',
       'work.webp',
       'projects.webp',
+      'resume.webp',
       'privacy.webp',
       'accessibility.webp',
       'blog--tags.webp'
@@ -62,5 +63,14 @@ describe('collectSpecs', () => {
     expect(projectProps?.coverImagePath).toBe(path.join(
       process.cwd(), 'src', 'content', 'project', 'eslint-config-basic', 'cover.webp'
     ))
+  })
+
+  test('keeps existing technology image filenames while using canonical path labels', () => {
+    const designSystemsSpec = collectSpecs().find(spec =>
+      spec.outFile.endsWith('technologies--Design~20Systems.webp')
+    )
+    const designSystemsProps = designSystemsSpec?.props as SocialImageProps | undefined
+
+    expect(designSystemsProps?.pathLabel).toBe('/technologies/design-systems/')
   })
 })

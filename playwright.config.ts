@@ -14,7 +14,7 @@ const chromiumChannel = process.env.PW_CHROMIUM_CHANNEL
 const shouldBuildPreviewServer = (!isCiLikeRun && !isSkipBuildRun) || isSnapshotUpdateRun
 const shouldRunSerially = isCiLikeRun
 const previewHost = '127.0.0.1'
-const previewPort = 4173
+const previewPort = Number(process.env.PW_PREVIEW_PORT ?? 4173)
 const previewURL = `http://${previewHost}:${previewPort}`
 
 const previewServerCommand = shouldBuildPreviewServer ?

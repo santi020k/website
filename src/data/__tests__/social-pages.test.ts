@@ -53,9 +53,9 @@ describe('getTechnologySocialPage', () => {
     expect(page.description).toContain('TypeScript')
   })
 
-  test('generates a pathname with the technology name URL-encoded', () => {
+  test('generates a lowercase slugged pathname', () => {
     const page = getTechnologySocialPage('C++')
-    expect(page.pathname).toBe('/technologies/C%2B%2B/')
+    expect(page.pathname).toBe('/technologies/c-plus-plus/')
   })
 
   test('sets type to Technology', () => {

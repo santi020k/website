@@ -124,13 +124,13 @@ const resumePageSchema = {
           data-print-hidden
         >
           <ButtonLink
-            ariaLabel="Open resume PDF in a new tab to print"
+            ariaLabel="Download resume PDF"
             class="w-full sm:w-auto"
+            download="santiago-molina-resume.pdf"
             href={resumePdfPath}
-            newTab
             variant="primary"
           >
-            <Icon aria-hidden="true" class="size-4" name="tabler:printer" /> Print PDF
+            <Icon aria-hidden="true" class="size-4" name="tabler:download" /> Download PDF
           </ButtonLink>
           <ButtonLink
             ariaLabel="Open resume PDF in a new tab"

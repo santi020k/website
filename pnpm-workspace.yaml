@@ -69,3 +69,15 @@ catalog:
   vfile: ^6.0.3
   vitest: ^4.1.10
   wawoff2: ^2.0.1
+overrides:
+  # Keep legacy build and release tooling on patched transitive versions until
+  # their direct dependencies adopt these releases.
+  '@lhci/cli>tmp': 0.2.7
+  '@lhci/cli>uuid': 11.1.1
+  '@lhci/utils>js-yaml': 3.15.0
+  'astro-webmanifest>sharp': 0.35.3
+  'external-editor>tmp': 0.2.7
+  'markdownlint-cli2>js-yaml': 4.3.0
+  'markdownlint-cli2>markdown-it': 14.3.0
+  'read-yaml-file>js-yaml': 3.15.0
+  'yaml-language-server>yaml': 2.9.0

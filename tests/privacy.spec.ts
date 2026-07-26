@@ -17,6 +17,7 @@ test.describe('Privacy page', () => {
   test('should mention hosting and theme storage', async ({ page }) => {
     await expect(page.getByText(/built with Astro/i)).toBeVisible()
     await expect(page.getByText(/Theme preference/i)).toBeVisible()
+    await expect(page.getByText(/aggregate server-side traffic/i)).toBeVisible()
   })
 
   test('should not have unexpected accessibility violations', async ({ page }) => {

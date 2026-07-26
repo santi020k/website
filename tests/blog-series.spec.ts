@@ -16,9 +16,11 @@ test.describe('Blog series index page', () => {
   })
 
   test('should display the stats panel', async ({ page }) => {
-    await expect(page.getByRole('paragraph').filter({ hasText: 'Active series' })).toBeVisible()
-    await expect(page.getByRole('paragraph').filter({ hasText: 'Posts grouped' })).toBeVisible()
-    await expect(page.getByRole('paragraph').filter({ hasText: 'Roadmap tracks' })).toBeVisible()
+    const statLabels = page.locator('.ui-stat-label')
+
+    await expect(statLabels.filter({ hasText: 'Active series' })).toBeVisible()
+    await expect(statLabels.filter({ hasText: 'Posts grouped' })).toBeVisible()
+    await expect(statLabels.filter({ hasText: 'Roadmap tracks' })).toBeVisible()
   })
 
   test('should render at least one series card', async ({ page }) => {

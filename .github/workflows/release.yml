@@ -36,6 +36,8 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Verify dependency security
+        run: pnpm run audit
       - name: Create release pull request or GitHub Release
         uses: changesets/action@v1
         with:

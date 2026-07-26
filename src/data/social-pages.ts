@@ -1,4 +1,5 @@
 import { YEARS_OF_EXPERIENCE } from '@/site.config'
+import { getTechnologyPath } from '@/utils/links'
 
 export interface SocialPageDefinition {
   description: string
@@ -54,6 +55,13 @@ export const staticSocialPages: SocialPageDefinition[] = [
   },
   {
     description:
+      'Engineering leader and full-stack architect resume. Explore Santiago Molina’s professional experience, technical skills, and open-source projects.',
+    pathname: '/resume/',
+    title: 'Resume & Curriculum Vitae',
+    type: 'Resume'
+  },
+  {
+    description:
       'Talks, workshops, and engineering conversations about developer experience, technical leadership, frontend architecture, and calmer delivery systems.',
     pathname: '/speaking/',
     title: 'Speaking & Workshops',
@@ -83,7 +91,7 @@ export const getTechnologySocialPage = (technology: string): SocialPageDefinitio
   description:
     `Projects and case studies where ${technology} shaped the architecture, ` +
     'delivery workflow, or product experience.',
-  pathname: `/technologies/${encodeURIComponent(technology)}/`,
+  pathname: getTechnologyPath(technology),
   title: `${technology} · Technology`,
   type: 'Technology'
 })

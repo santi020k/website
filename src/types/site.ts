@@ -17,12 +17,6 @@ export interface SiteGiscus {
   repoId: string
 }
 
-export interface SiteAnalytics {
-
-  /** Cloudflare Web Analytics beacon token (dashboard → Analytics & Logs → Web Analytics) */
-  cloudflareBeaconToken: string
-}
-
 /** Site-wide configuration shape used in site.config.ts */
 export interface SiteConfig {
   author: string
@@ -55,8 +49,6 @@ export interface SiteConfig {
   /** Leave unset to render no comments UI. Fill from https://giscus.app once a public repo with Discussions exists. */
   giscus?: SiteGiscus
 
-  /** Leave unset to ship no analytics script. */
-  analytics?: SiteAnalytics
   socialLinks: SiteSocialLink[]
   title: string
 }
@@ -98,6 +90,7 @@ export interface PreloadAsset {
 export interface SiteMeta {
   articleDate?: string | undefined
   articleUpdated?: string | undefined
+  canonicalUrl?: string | undefined
 
   /** Extra JSON-LD object or array of objects (any schema.org type) injected as a second ld+json block */
   structuredData?: Record<string, unknown> | Record<string, unknown>[]
@@ -109,6 +102,7 @@ export interface SiteMeta {
 
   /** Describes the actual visual content of the og:image for accessibility and social previews */
   ogImageAlt?: string
+  noindex?: boolean
   preloadImage?: PreloadAsset
   title: string
 }

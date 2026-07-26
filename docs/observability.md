@@ -16,5 +16,9 @@ Measure using your hosting or CDN metrics (requests, errors), plus Lab data from
 
 ## Instrumentation notes
 
-- Production builds do not ship a first-party analytics SDK by default. Lab performance coverage comes from **`pnpm run lighthouse`** / CI.
-- If you add analytics or error reporting later, document the vendor and events beside this file.
+- Cloudflare provides aggregate traffic and performance metrics at the hosting
+  layer. Production builds do not inject an analytics beacon or ship an
+  analytics SDK.
+- Lab performance coverage comes from **`pnpm run lighthouse`** / CI.
+- If you add client-side analytics or error reporting later, document the
+  vendor and events beside this file.

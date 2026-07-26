@@ -56,6 +56,20 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
   ).toHaveAttribute('href', /^\/$/)
 })
 
+test('homepage keeps speaking in the footer navigation only', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.locator('header a[href="/speaking/"]')).toHaveCount(0)
+  await expect(page.locator('footer a[href="/speaking/"]')).toHaveCount(1)
+})
+
+test('homepage ships no client-side analytics beacon', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.locator('script[src*="cloudflareinsights.com"]')).toHaveCount(0)
+  await expect(page.locator('script[data-cf-beacon]')).toHaveCount(0)
+})
+
 test('homepage exposes IndieAuth.com discovery and rel=me on silo links', async ({ page }) => {
   await page.goto('/')
 

@@ -16,7 +16,7 @@ test.describe('Content calendar page', () => {
   })
 
   test('should display the publishing stats panel', async ({ page }) => {
-    const statLabels = page.locator('p.section-label')
+    const statLabels = page.locator('.ui-stat-label')
 
     await expect(statLabels.filter({ hasText: /^New posts$/ })).toBeVisible()
     await expect(statLabels.filter({ hasText: /^Refreshes$/ })).toBeVisible()

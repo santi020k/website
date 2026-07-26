@@ -29,6 +29,7 @@ import remarkDirective from 'remark-directive'/* handle ::: directives as nodes 
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { siteConfig } from './src/site.config'
+import { getTechnologyPath } from './src/utils/links'
 import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
@@ -171,6 +172,61 @@ const buildContentLastmodMap = (): Map<string, string> => {
 
 const contentLastmodMap = buildContentLastmodMap()
 
+const buildLegacyRedirects = (): Record<string, string> => {
+  const redirects: Record<string, string> = {
+    '/blog/tags/hombrew/': '/blog/tags/homebrew/'
+  }
+  const projectDirectory = path.resolve('src/content/project')
+
+  const walk = (directory: string): string[] => {
+    let entries: fs.Dirent[]
+
+    try {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      entries = fs.readdirSync(directory, { withFileTypes: true })
+    } catch {
+      return []
+    }
+
+    return entries.flatMap(entry => {
+      const entryPath = path.join(directory, entry.name)
+
+      if (entry.isDirectory()) return walk(entryPath)
+
+      return entry.isFile() && /\.mdx?$/.test(entry.name) ? [entryPath] : []
+    })
+  }
+
+  for (const file of walk(projectDirectory)) {
+    try {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      const raw = fs.readFileSync(file, 'utf8')
+      const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw)
+
+      if (!match) continue
+
+      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
+
+      if (!data || data.draft === true || !Array.isArray(data.technologies)) continue
+
+      for (const technology of data.technologies) {
+        if (typeof technology !== 'string') continue
+
+        const legacyPath = `/technologies/${encodeURIComponent(technology)}/`
+        const canonicalPath = getTechnologyPath(technology)
+
+        if (legacyPath !== canonicalPath) redirects[legacyPath] = canonicalPath
+      }
+    } catch {
+      /* ignore unreadable files */
+    }
+  }
+
+  return redirects
+}
+
+const legacyRedirects = buildLegacyRedirects()
+
 const rawFonts = (ext: string[]) => ({
   name: 'vite-plugin-raw-fonts',
   transform(_: string, id: string) {
@@ -190,6 +246,7 @@ const rawFonts = (ext: string[]) => ({
 
 // https://astro.build/config
 export default defineConfig({
+  redirects: legacyRedirects,
   image: {
     remotePatterns: [
       { protocol: 'https', hostname: 'webmention.io' },
@@ -203,7 +260,7 @@ export default defineConfig({
     sitemap({
       // Draft filtering happens at route level (getStaticPaths / getCachedPosts / getAllProjects)
       // so draft pages never generate URLs and are never included in the sitemap.
-      filter: () => true,
+      filter: page => !page.endsWith('/offline/') && !page.endsWith('/404/'),
       serialize(item) {
         const url = item.url
         const contentLastmod = contentLastmodMap.get(url)

@@ -67,6 +67,16 @@ const getSocialImageSlug = pathname => trimOuterSlashes(pathname)
 
 const getSocialImageFileName = pathname => `${getSocialImageSlug(pathname) || 'index'}.webp`
 
+const getTechnologySlug = technology => technology
+  .normalize('NFKD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .replaceAll('&', ' and ')
+  .replaceAll('+', ' plus ')
+  .replaceAll('#', ' sharp ')
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '')
+
 /** Read and parse the YAML frontmatter from a markdown / MDX file. */
 const readFrontmatter = filePath => {
   const content = fs.readFileSync(filePath, 'utf8')
@@ -227,6 +237,13 @@ const staticSocialPages = [
   },
   {
     description:
+      'Engineering leader and full-stack architect resume. Explore Santiago Molina\'s professional experience, technical skills, and open-source projects.',
+    pathname: '/resume/',
+    title: 'Resume & Curriculum Vitae',
+    type: 'Resume'
+  },
+  {
+    description:
       'Talks, workshops, and engineering conversations about developer experience, technical leadership, frontend architecture, and calmer delivery systems.',
     pathname: '/speaking/',
     title: 'Speaking & Workshops',
@@ -376,7 +393,7 @@ export const collectSpecs = () => {
 
   // Projects + technologies (single pass to avoid parsing frontmatter twice)
   const projectDir = path.join(ROOT, 'src', 'content', 'project')
-  const allTechnologies = new Set()
+  const allTechnologies = new Map()
   const projectFiles = collectMarkdownFiles(projectDir)
 
   for (const filePath of projectFiles) {
@@ -402,7 +419,18 @@ export const collectSpecs = () => {
     })
 
     if (Array.isArray(fm.technologies)) {
-      for (const tech of fm.technologies) allTechnologies.add(tech)
+      for (const tech of fm.technologies) {
+        if (typeof tech !== 'string') continue
+
+        const technologySlug = getTechnologySlug(tech)
+        const existingTechnology = allTechnologies.get(technologySlug)
+
+        if (technologySlug === 'npm') {
+          allTechnologies.set(technologySlug, 'NPM')
+        } else if (!existingTechnology) {
+          allTechnologies.set(technologySlug, tech)
+        }
+      }
     }
   }
 
@@ -426,11 +454,12 @@ export const collectSpecs = () => {
     })
   }
 
-  for (const tech of allTechnologies) {
-    const pathname = `/technologies/${encodeURIComponent(tech)}/`
+  for (const [technologySlug, tech] of allTechnologies) {
+    const pathname = `/technologies/${technologySlug}/`
+    const imagePathname = `/technologies/${encodeURIComponent(tech)}/`
 
     for (const pagePathname of getPaginationPathnames(pathname, 1, 50)) {
-      const slug = getSocialImageSlug(pagePathname)
+      const slug = getSocialImageSlug(imagePathname)
 
       specs.push({
         outFile: path.join(OUT_DIR, 'pages', `${slug}.webp`),
@@ -587,6 +616,26 @@ const generateOne = async (pool, { outFile, props }) => {
 export const generateAll = async () => {
   const start = performance.now()
   const specs = collectSpecs()
+  const technologyPagesDirectory = path.join(OUT_DIR, 'pages')
+  const expectedTechnologyFiles = new Set(
+    specs
+      .map(spec => path.basename(spec.outFile))
+      .filter(fileName => fileName.startsWith('technologies--'))
+  )
+
+  if (fs.existsSync(technologyPagesDirectory)) {
+    const staleTechnologyFiles = fs.readdirSync(technologyPagesDirectory)
+      .filter(fileName =>
+        fileName.startsWith('technologies--') &&
+        !expectedTechnologyFiles.has(fileName)
+      )
+
+    await Promise.all(
+      staleTechnologyFiles.map(fileName =>
+        fsp.unlink(path.join(technologyPagesDirectory, fileName))
+      )
+    )
+  }
 
   const pendingSpecs = FORCE ?
     specs :

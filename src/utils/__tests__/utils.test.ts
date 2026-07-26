@@ -2,7 +2,14 @@ import { describe, expect, test } from 'vitest'
 
 import { capitalizeFirstLetter } from '../capitalize-first-letter'
 import { elementHasClass, rootInDarkMode, toggleClass } from '../dom-element'
-import { getPortfolioPath, getPostPath, getSeriesPath, getTagPath, getTechnologyPath } from '../links'
+import {
+  getPortfolioPath,
+  getPostPath,
+  getSeriesPath,
+  getTagPath,
+  getTechnologyPath,
+  getTechnologySlug
+} from '../links'
 import { truncateTitle } from '../truncate-title'
 
 // ─── capitalizeFirstLetter ────────────────────────────────────────────────────
@@ -78,9 +85,16 @@ describe('links', () => {
     expect(getTechnologyPath('react')).toBe('/technologies/react/')
   })
 
-  test('URI-encodes special characters in technology names', () => {
-    expect(getTechnologyPath('C#')).toBe('/technologies/C%23/')
-    expect(getTechnologyPath('C++')).toBe('/technologies/C%2B%2B/')
+  test('slugifies technology names for canonical paths', () => {
+    expect(getTechnologyPath('Design Systems')).toBe('/technologies/design-systems/')
+    expect(getTechnologyPath('C#')).toBe('/technologies/c-sharp/')
+    expect(getTechnologyPath('C++')).toBe('/technologies/c-plus-plus/')
+  })
+
+  test('normalizes technology slug case and punctuation', () => {
+    expect(getTechnologySlug('React.js')).toBe('react-js')
+    expect(getTechnologySlug('NPM')).toBe(getTechnologySlug('npm'))
+    expect(getTechnologySlug('CI/CD')).toBe('ci-cd')
   })
 
   test('always wraps the slug with leading and trailing slashes', () => {

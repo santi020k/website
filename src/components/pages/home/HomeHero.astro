@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components'
 
-import { Picture } from 'astro:assets'
+import { Image } from 'astro:assets'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
@@ -227,7 +227,7 @@ const { yearsOfExperience } = Astro.props
             from-canvas/18 via-transparent to-transparent
           "
         />
-        <Picture
+        <Image
           alt="Portrait of Santiago Molina (@santi020k)"
           class="
             relative z-0 aspect-2/3 w-full rounded-[1.7rem] object-cover
@@ -235,13 +235,11 @@ const { yearsOfExperience } = Astro.props
           "
           decoding="sync"
           fetchpriority="high"
-          formats={['avif', 'webp']}
-          height={528}
+          format="avif"
+          height={480}
           loading="eager"
-          sizes="(min-width: 1536px) 448px, (min-width: 1024px) 384px, 75vw"
           src={AboutMeImage}
-          width={352}
-          widths={[320, 400, 480, 600, 704, 800]}
+          width={320}
         />
       </div>
 

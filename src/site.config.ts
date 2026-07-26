@@ -53,9 +53,6 @@ export const siteConfig: SiteConfig = {
     repo: 'santi020k/website',
     repoId: 'R_kgDOPRBHLw'
   },
-  // Analytics: served zero-code via Cloudflare Pages (project → Settings →
-  // Web Analytics). Set a token here only if switching to the in-repo script.
-  // analytics: { cloudflareBeaconToken: '<token>' },
   showAvailabilityBanner: false,
   socialLinks: [
     {

@@ -1,4 +1,6 @@
 ---
+import { Stat } from '@santi020k/lumen-astro'
+
 interface Props {
   description?: string
   label: string
@@ -8,44 +10,12 @@ interface Props {
 const { description, label, value } = Astro.props
 ---
 
-<article class="
-  group stat-card h-full overflow-visible p-5
-  sm:p-6
-"
->
-  <div
-    aria-hidden="true"
-    class="
-      pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]
-    "
+<article class="h-full">
+  <Stat
+    className="h-full"
+    label={label}
+    value={value}
   >
-    <div
-      class="absolute top-0 right-0 size-24 opacity-30"
-      style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.15), transparent 70%);"
-    />
-  </div>
-  <p class="relative z-10 section-label">{label}</p>
-  <p
-    class="
-      relative z-10 mt-4 text-4xl/tight font-bold tracking-[-0.06em]
-      wrap-break-word
-      sm:text-5xl/tight
-    "
-  >
-    <span class="
-      bg-linear-to-br from-brand to-accent bg-clip-text text-transparent
-    "
-    >
-      {value}
-    </span>
-  </p>
-  {description && (
-    <p class="
-      relative z-10 mt-3 max-w-[42ch] text-sm/6 text-ink-soft
-      xl:max-w-[24ch]
-    "
-    >
-      {description}
-    </p>
-  )}
+    {description && <p class="mt-2 text-sm/6 text-ink-soft">{description}</p>}
+  </Stat>
 </article>

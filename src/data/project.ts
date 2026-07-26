@@ -1,7 +1,7 @@
 import type { CollectionEntry } from 'astro:content'
 
 import { getCachedProjects } from '@/utils/content'
-import { getPortfolioPath } from '@/utils/links'
+import { getPortfolioPath, getTechnologySlug } from '@/utils/links'
 
 export const getAllProjects = async (): Promise<CollectionEntry<'project'>[]> => getCachedProjects()
 
@@ -40,22 +40,47 @@ export const getAllTechnologies = (projects: CollectionEntry<'project'>[]) => pr
 /** returns all unique technologies created from projects
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
-export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) => [...new Set(getAllTechnologies(projects))]
+const groupTechnologyLabels = (technologies: string[]) => {
+  const groups = new Map<string, string[]>()
+
+  for (const technology of technologies) {
+    const slug = getTechnologySlug(technology)
+    const labels = groups.get(slug)
+
+    if (labels) {
+      if (!labels.includes(technology)) labels.push(technology)
+    } else {
+      groups.set(slug, [technology])
+    }
+  }
+
+  return groups
+}
+
+const getPreferredTechnologyLabel = (labels: string[], slug?: string) =>
+  slug === 'npm' ? labels.find(label => label === 'NPM') ?? labels[0] ?? '' : labels[0] ?? ''
+
+export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) =>
+  [...groupTechnologyLabels(getAllTechnologies(projects))]
+    .map(([slug, labels]) => getPreferredTechnologyLabel(labels, slug))
 
 /** Returns an array of strings, ordered by the number of times each technology is used in all the projects
  * Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
 
 export const getTechnologiesByUsage = (projects: CollectionEntry<'project'>[]) => {
+  const technologyGroups = groupTechnologyLabels(getAllTechnologies(projects))
   const techCount = new Map<string, number>()
 
   for (const tech of getAllTechnologies(projects)) {
-    techCount.set(tech, (techCount.get(tech) ?? 0) + 1)
+    const slug = getTechnologySlug(tech)
+
+    techCount.set(slug, (techCount.get(slug) ?? 0) + 1)
   }
 
   return [...techCount.entries()]
     .sort((a, b) => b[1] - a[1]) // sort by usage count, descending
-    .map(([tech]) => tech) // return only the technology names
+    .map(([slug]) => getPreferredTechnologyLabel(technologyGroups.get(slug) ?? [], slug))
 }
 
 /** Builds the schema.org CollectionPage + ItemList structured data for a project list page. */
@@ -84,8 +109,24 @@ export const createProjectCollectionSchema = (
 /** returns a count of each unique Technology - [[TechnologyName, count], ...]
  *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
  *  */
-export const getUniqueTechnologiesWithCount = (projects: CollectionEntry<'project'>[]): [string, number][] => [
-  ...getAllTechnologies(projects).reduce(
-    (acc, t) => acc.set(t, (acc.get(t) ?? 0) + 1), new Map<string, number>()
+export const getUniqueTechnologiesWithCount = (
+  projects: CollectionEntry<'project'>[]
+): [string, number][] => {
+  const technologies = getAllTechnologies(projects)
+  const technologyGroups = groupTechnologyLabels(technologies)
+  const counts = technologies.reduce(
+    (acc, technology) => {
+      const slug = getTechnologySlug(technology)
+
+      return acc.set(slug, (acc.get(slug) ?? 0) + 1)
+    },
+    new Map<string, number>()
   )
-].sort((a, b) => b[1] - a[1])
+
+  return [...counts.entries()]
+    .map(([slug, count]): [string, number] => [
+      getPreferredTechnologyLabel(technologyGroups.get(slug) ?? [], slug),
+      count
+    ])
+    .sort((a, b) => b[1] - a[1])
+}

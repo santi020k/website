@@ -2,6 +2,7 @@
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
 import type { SiteMeta } from '@/types/site'
+import { createSeoDescription, createSeoTitle } from '@/utils/seo'
 import { getSocialImageURL } from '@/utils/social-image'
 
 import logoWordmarkUrl from '@santi020k/theme/assets/logos/logo-santi020k.svg?url'
@@ -16,7 +17,9 @@ const {
   articleDate,
   articleUpdated,
   breadcrumbs,
-  description,
+  canonicalUrl,
+  description = siteConfig.description,
+  noindex = false,
   ogImage,
   ogImageAlt,
   preloadImage,
@@ -25,9 +28,12 @@ const {
 } = Astro.props
 
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
-const titleSeparator = '—'
-const siteTitle = title === siteConfig.title ? title : `${title} ${titleSeparator} ${siteConfig.title}`
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com/').href
+const siteTitle = createSeoTitle(title, siteConfig.title)
+const metaDescription = createSeoDescription(description, title)
+const canonicalURL = new URL(
+  canonicalUrl ?? Astro.url.pathname,
+  Astro.site ?? 'https://santi020k.com/'
+).href
 const organizationLogoURL = new URL(logoSquareUrl, Astro.site ?? 'https://santi020k.com/').href
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
@@ -111,19 +117,24 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 
 {/* Primary Meta */}
 <meta name="title" content={siteTitle} />
-<meta name="description" content={description} />
+<meta name="description" content={metaDescription} />
 <meta name="author" content={siteConfig.author} />
 <meta name="color-scheme" content="light dark" />
 <meta name="theme-color" content="#FAF9FB" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#1B141F" media="(prefers-color-scheme: dark)" />
 
 {/* SEO Improvements */}
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+<meta
+  name="robots"
+  content={noindex ?
+    'noindex, follow' :
+    'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'}
+/>
 
 {/* Open Graph */}
 <meta property="og:type" content={articleDate ? 'article' : 'website'} />
 <meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
+<meta property="og:description" content={metaDescription} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:site_name" content={siteConfig.title} />
 <meta property="og:locale" content={siteConfig.ogLocale} />
@@ -142,7 +153,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={canonicalURL} />
 <meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={description} />
+<meta name="twitter:description" content={metaDescription} />
 <meta name="twitter:image" content={socialImageURL} />
 <meta name="twitter:site" content="@santi020k" />
 <meta name="twitter:creator" content="@santi020k" />
@@ -165,16 +176,6 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <link rel="me" href={`mailto:${siteConfig.contact.email}`} />
 
 <meta name="generator" content={Astro.generator} />
-
-{/* Cloudflare Web Analytics — cookieless; ships only when a beacon token is configured */}
-{siteConfig.analytics?.cloudflareBeaconToken && (
-  <script
-    is:inline
-    defer
-    src="https://static.cloudflareinsights.com/beacon.min.js"
-    data-cf-beacon={JSON.stringify({ token: siteConfig.analytics.cloudflareBeaconToken })}
-  />
-)}
 
 <script
   type="application/ld+json"

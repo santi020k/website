@@ -38,6 +38,7 @@ Editing those defaults: update [`public/_headers`](../public/_headers) and [`pub
    this step.
 2. Merge the approved pull request into `main`.
 3. Verify GitHub Actions CI passes:
+   - Astro Doctor
    - lint/check/spellcheck
    - unit tests
    - build
