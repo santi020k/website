@@ -22,7 +22,7 @@ catalog:
   "@playwright/test": ^1.62.0
   "@resvg/resvg-js": ^2.6.2
   "@santi020k/eslint-config-basic": 2.1.1
-  "@santi020k/lumen-astro": 0.3.0
+  "@santi020k/lumen-astro": 0.4.0
   "@santi020k/theme": ^1.2.0
   "@shikijs/transformers": ^4.3.1
   "@tailwindcss/typography": ^0.5.20
