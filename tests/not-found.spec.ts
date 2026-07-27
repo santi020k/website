@@ -20,8 +20,11 @@ test.describe('404 page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('orbit')
   })
 
-  test('should use role="alert" on the error section', async ({ page }) => {
-    await expect(page.getByRole('alert')).toBeVisible()
+  test('should expose the error section through its heading', async ({ page }) => {
+    const errorSection = page.locator('section[aria-labelledby="error-heading"]')
+
+    await expect(errorSection).toBeVisible()
+    await expect(errorSection.getByRole('heading', { level: 1 })).toHaveAttribute('id', 'error-heading')
   })
 
   test('should provide navigation links back to key pages', async ({ page }) => {

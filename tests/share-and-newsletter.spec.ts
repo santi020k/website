@@ -3,28 +3,28 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('Newsletter signup', () => {
-  test('footer newsletter form points at the configured action and links to privacy', async ({ page }) => {
-    await page.goto('/')
+  test('blog newsletter form points at the configured action and links to privacy', async ({ page }) => {
+    await page.goto('/blog/')
 
-    const form = page.locator('footer form[action*="buttondown"]').first()
+    const form = page.locator('form[data-newsletter-form][action*="buttondown"]')
+    const newsletter = form.locator('..')
+
     await expect(form).toHaveCount(1)
     await expect(form.locator('input[name="email"]')).toBeVisible()
     await expect(form.locator('input[name="email"]')).toHaveAttribute('autocomplete', /^email$/)
     await expect(form.locator('input[name="email"]')).toHaveAttribute('required', /^$/)
-    await expect(form.getByRole('button', { name: /Subscribe/i })).toBeVisible()
+    await expect(form.getByRole('button', { name: /Get new posts/i })).toBeVisible()
 
-    const privacyLink = page
-      .locator('footer')
-      .getByRole('link', { name: 'Privacy & analytics' })
-    await expect(privacyLink.first()).toHaveAttribute('href', /^\/privacy\/$/)
+    const privacyLink = newsletter.getByRole('link', { name: 'Privacy' })
+
+    await expect(privacyLink).toHaveAttribute('href', /^\/privacy\/$/)
   })
 
   test('newsletter heading drives the section accessible name', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/blog/')
 
-    const heading = page
-      .locator('footer')
-      .getByRole('heading', { name: 'Engineering notes & writeups' })
+    const heading = page.getByRole('heading', { name: 'Engineering notes & writeups' })
+
     await expect(heading).toBeVisible()
   })
 })
