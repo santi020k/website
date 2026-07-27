@@ -3,26 +3,33 @@ import GradientDivider from '@/components/atoms/GradientDivider.astro'
 
 interface Props {
   columns?: 3 | 4
+  showDivider?: boolean
 }
 
-const { columns = 4 } = Astro.props
+const { columns = 4, showDivider = true } = Astro.props
 ---
 
-<GradientDivider class="pt-10" />
+{showDivider && (
+  <GradientDivider class="
+    pt-6
+    sm:pt-8
+  "
+  />
+)}
 <section
   class:list={[
     `
-      relative grid gap-4 pt-10
-      md:grid-cols-2
+      relative section-container-wide grid gap-5
+      sm:grid-cols-2
     `,
+    showDivider ? 'pt-8' : '',
     columns === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'
   ]}
-  data-animate
 >
   <div
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 z-0 opacity-30"
-    style="background: radial-gradient(ellipse at top, hsl(var(--brand)/0.04), transparent 70%);"
+    style="background: radial-gradient(ellipse at top, transparent 0%, hsl(var(--brand) / 0.04) 32%, transparent 72%);"
   />
   <slot />
 </section>

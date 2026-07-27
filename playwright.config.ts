@@ -14,12 +14,44 @@ const chromiumChannel = process.env.PW_CHROMIUM_CHANNEL
 const shouldBuildPreviewServer = (!isCiLikeRun && !isSkipBuildRun) || isSnapshotUpdateRun
 const shouldRunSerially = isCiLikeRun
 const previewHost = '127.0.0.1'
-const previewPort = 4173
+const previewPort = Number(process.env.PW_PREVIEW_PORT ?? 4173)
 const previewURL = `http://${previewHost}:${previewPort}`
 
 const previewServerCommand = shouldBuildPreviewServer ?
   `pnpm run build && pnpm run preview --host ${previewHost} --port ${previewPort}` :
   `pnpm run preview --host ${previewHost} --port ${previewPort}`
+
+const chromiumProject = {
+  name: 'chromium',
+  use: {
+    ...devices['Desktop Chrome'],
+    ...(chromiumChannel ? { channel: chromiumChannel } : {})
+  }
+}
+
+const fullBrowserProjects = [
+  chromiumProject,
+  {
+    name: 'firefox',
+    use: { ...devices['Desktop Firefox'] }
+  },
+  {
+    name: 'webkit',
+    use: { ...devices['Desktop Safari'] }
+  },
+  {
+    name: 'Mobile Chrome',
+    use: { ...devices['Pixel 7'] }
+  },
+  {
+    name: 'Mobile Safari',
+    use: { ...devices['iPhone 14'] }
+  }
+]
+
+const playwrightProjects = (isCiLikeRun || isSnapshotUpdateRun) && !shouldRunChromiumOnly ?
+  fullBrowserProjects :
+  [chromiumProject]
 
 export default defineConfig({
   testDir: './tests',
@@ -45,51 +77,7 @@ export default defineConfig({
     },
     trace: 'on-first-retry'
   },
-  projects: shouldRunChromiumOnly ?
-    [
-      {
-        name: 'chromium',
-        use: {
-          ...devices['Desktop Chrome'],
-          ...(chromiumChannel ? { channel: chromiumChannel } : {})
-        }
-      }
-    ] :
-    (isCiLikeRun || isSnapshotUpdateRun) ?
-      [
-        {
-          name: 'chromium',
-          use: {
-            ...devices['Desktop Chrome'],
-            ...(chromiumChannel ? { channel: chromiumChannel } : {})
-          }
-        },
-        {
-          name: 'firefox',
-          use: { ...devices['Desktop Firefox'] }
-        },
-        {
-          name: 'webkit',
-          use: { ...devices['Desktop Safari'] }
-        },
-        {
-          name: 'Mobile Chrome',
-          use: { ...devices['Pixel 7'] }
-        },
-        {
-          name: 'Mobile Safari',
-          use: { ...devices['iPhone 14'] }
-        }
-      ] :
-      [
-        {
-          name: 'chromium',
-          use: {
-            ...devices['Desktop Chrome'],
-            ...(chromiumChannel ? { channel: chromiumChannel } : {})
-          }
-        }
-      ],
+  projects: playwrightProjects,
   webServer: {
     command: previewServerCommand,
     timeout: 600_000,

@@ -42,12 +42,16 @@ Although opinionated, the library is designed with flexibility in mind. You can 
 
 Start by ensuring you have ESLint installed in your project:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```bash title="terminal"
 npm install eslint --save-dev
 ```
 
 Then install my configuration package:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```bash title="terminal"
 npm install @santi020k/eslint-config-santi020k --save-dev
 ```
@@ -56,6 +60,8 @@ npm install @santi020k/eslint-config-santi020k --save-dev
 
 For a TypeScript and React project, your `.eslintrc.js` might look like this:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title="eslint.config.js"
 import { eslintConfig, ConfigOption } from '@santi020k/eslint-config-santi020k'
 
@@ -67,6 +73,8 @@ export default [
 
 To include optional support for TailwindCSS and Vitest:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title="eslint.config.js"
 import { eslintConfig, ConfigOption, OptionalOption } from '@santi020k/eslint-config-santi020k'
 
@@ -88,6 +96,8 @@ Integrating this ESLint configuration library into existing projects is simple:
 
 **2. Extend your ESLint configuration** to use @santi020k/eslint-config-santi020k.
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title="eslint.config.js"
 import { eslintConfig, ConfigOption } from '@santi020k/eslint-config-santi020k'
 
@@ -99,6 +109,8 @@ export default [
 
 **3. Add lint commands** to package.json
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```json title="package.json"
 {
   "scripts": {
@@ -110,6 +122,8 @@ export default [
 
 **4. Run ESLint** to identify and resolve issues in your codebase. Use:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```bash title="terminal"
 npm run lint
 npm run lint:fix

@@ -10,11 +10,13 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getPostPath } from '@/utils/links'
 
+import { Card } from '@santi020k/lumen-astro'
+
 import { getSeriesSummaries } from '@/data/series'
-import PageLayout from '@/layouts/Base.astro'
 
 export const getStaticPaths = async () => {
   const seriesSummaries = await getSeriesSummaries()
@@ -29,7 +31,7 @@ export const getStaticPaths = async () => {
   }))
 }
 
-interface Props {
+export interface Props {
   postCount: number
   posts: CollectionEntry<'post'>[]
   series: CollectionEntry<'series'>
@@ -73,6 +75,7 @@ const structuredData: Record<string, unknown> = {
     description={series.data.description}
     eyebrow="Blog series"
     gradientText="A reading track."
+    metaItems={['Start to finish', series.data.cadence, `${postCount} ${postCount === 1 ? 'post' : 'posts'}`]}
     title={series.data.title.includes('.') ? series.data.title : series.data.title + '.'}
   >
     <ButtonLink href="/blog/series/" showArrow>
@@ -85,35 +88,26 @@ const structuredData: Record<string, unknown> = {
 
   <StatsGrid columns={3}>
     <StatCard description="Articles collected into this reading track." label="Posts" value={String(postCount)} />
-    <article class="
-      stat-card h-full p-5
-      sm:p-6
-    "
+    <Card
+      as="article"
+      class="
+        h-full p-5
+        sm:p-6
+      "
+      variant="muted"
     >
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-0 z-0 overflow-hidden
-          rounded-[inherit]
-        "
-      >
-        <div
-          class="absolute top-0 right-0 size-24 opacity-30"
-          style="background: radial-gradient(circle at top right, hsl(var(--brand)/0.15), transparent 70%);"
-        />
-      </div>
-      <p class="relative z-10 section-label">Cadence</p>
+      <p class="section-label">Cadence</p>
       <p class="
-        relative z-10 mt-4 max-w-[26ch] text-lg/7 font-semibold text-ink
+        mt-4 max-w-[26ch] text-lg/7 font-semibold text-ink
         sm:text-xl/8
       "
       >
         {series.data.cadence}
       </p>
-      <p class="relative z-10 mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
+      <p class="mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
         Publishing rhythm for this series.
       </p>
-    </article>
+    </Card>
     {!!series.data.focusAreas.length && (
       <StatCard description="Recurring themes shaping the articles in this track." label="Focus areas" value={String(series.data.focusAreas.length)} />
     )}
@@ -123,7 +117,7 @@ const structuredData: Record<string, unknown> = {
 
   <section
     class="
-      grid gap-8 pt-10
+      section-container-wide grid gap-8 pt-10
       lg:grid-cols-[1.1fr_0.9fr]
     "
     data-animate
@@ -133,14 +127,20 @@ const structuredData: Record<string, unknown> = {
     </div>
 
     {!!series.data.focusAreas.length && (
-      <div class="space-y-4">
+      <Card
+        class="
+          h-fit space-y-4 p-5
+          sm:p-6
+        "
+        variant="muted"
+      >
         <p class="section-label">Focus areas</p>
         <div class="flex flex-wrap gap-2">
           {series.data.focusAreas.map(area => (
             <Pill label={area} tone="outline" />
           ))}
         </div>
-      </div>
+      </Card>
     )}
   </section>
 

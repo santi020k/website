@@ -78,7 +78,9 @@ export const getProjectRelatedHeading = (type: ProjectType): string => PROJECT_T
 
 export const getProjectFocusLabel = (type: ProjectType): string => PROJECT_TYPE_META[key(type)].focusLabel
 
-export const getProjectScopeHighlights = (type: ProjectType): string[] => [...PROJECT_TYPE_META[key(type)].scopeHighlights]
+export const getProjectScopeHighlights = (type: ProjectType): string[] => [
+  ...PROJECT_TYPE_META[key(type)].scopeHighlights
+]
 
 export const getProjectTimelineLabel = (startingDate: Date, endingDate?: Date): string => {
   const startLabel = getFormattedDate(startingDate, { day: undefined, month: 'short', year: 'numeric' })

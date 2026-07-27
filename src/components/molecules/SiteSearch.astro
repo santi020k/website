@@ -1,11 +1,11 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Button, Icon } from '@santi020k/lumen-astro'
 
 import SearchDialog from './SearchDialog.astro'
 ---
 
 <div class="relative flex shrink-0 items-center" data-site-search>
-  <button
+  <Button
     aria-controls="site-search-dialog"
     aria-expanded="false"
     aria-haspopup="dialog"
@@ -13,14 +13,16 @@ import SearchDialog from './SearchDialog.astro'
     class="
       relative flex size-11 cursor-pointer items-center justify-center
       rounded-full border border-line/50 bg-surface/68 text-ink-soft
-      shadow-[inset_0_1px_0_hsl(0_0%_100%/0.12)] backdrop-blur-sm
+      shadow-inset-soft backdrop-blur-sm
       motion-reduce:transition-none
     "
     data-site-search-trigger
+    size="icon"
     type="button"
+    variant="ghost"
   >
-    <Icon aria-hidden="true" class="size-5 shrink-0" name="tabler:search" />
-  </button>
+    <Icon class="size-5 shrink-0" name="search" />
+  </Button>
 
   <SearchDialog />
 </div>
@@ -33,6 +35,13 @@ import SearchDialog from './SearchDialog.astro'
       border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
       background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
       color 0.2s ease;
+  }
+
+  [data-site-search-trigger]:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px hsl(var(--canvas)),
+      0 0 0 4px hsl(var(--brand));
   }
 
   [data-site-search-trigger]::before {
@@ -90,6 +99,11 @@ import SearchDialog from './SearchDialog.astro'
 </style>
 
 <style is:global>
+  /* This site search is a full-screen dialog shell, not Lumen's centered panel layout. */
+  #site-search-dialog {
+    transform: none;
+  }
+
   /* Tailwind `flex` beats UA `dialog:not([open])`; without this, the panel stays in the header row. */
   #site-search-dialog:not([open]) {
     display: none;
@@ -396,17 +410,31 @@ import SearchDialog from './SearchDialog.astro'
     }
 
     const computePopularTopics = () => {
-      /** @type {Map<string, number>} */
+      // Blog tags ("typescript") and project technologies ("TypeScript") name the
+      // same topic with different casing; merge them by lowercase key so the list
+      // doesn't show visible near-duplicates, keeping whichever casing reads best.
+      /** @type {Map<string, { count: number, label: string, upperCount: number }>} */
       const counts = new Map()
       for (const entry of entries) {
         for (const tag of entry.tags) {
-          counts.set(tag, (counts.get(tag) ?? 0) + 1)
+          const key = tag.toLowerCase()
+          const upperCount = (tag.match(/[A-Z]/g) ?? []).length
+          const existing = counts.get(key)
+          if (existing) {
+            existing.count += 1
+            if (upperCount > existing.upperCount) {
+              existing.label = tag
+              existing.upperCount = upperCount
+            }
+          } else {
+            counts.set(key, { count: 1, label: tag, upperCount })
+          }
         }
       }
-      popularTopics = [...counts.entries()]
-        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      popularTopics = [...counts.values()]
+        .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
         .slice(0, 8)
-        .map(([tag]) => tag)
+        .map((entry) => entry.label)
     }
 
     const getDialog = () => document.querySelector('#site-search-dialog')

@@ -9,7 +9,7 @@ interface Props {
 const { yearsOfExperience } = Astro.props
 ---
 
-<StatsGrid>
+<StatsGrid showDivider={false}>
   <StatCard description="Years shipping web and mobile products across full-stack, leadership, and automation roles." label="Experience" value={yearsOfExperience} />
   <StatCard description="Largest cross-functional team I have led across product, design, frontend, and backend." label="Team led" value="14" />
   <StatCard description="Reduced release lead times by optimizing CI/CD pipelines and automating quality gates." label="Cycle Time" value="-75%" />

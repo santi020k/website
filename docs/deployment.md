@@ -7,7 +7,12 @@
 - **Production domain**: `https://santi020k.com`
 - **Redirect**: `www.santi020k.com` → apex `https://santi020k.com` (configure at your DNS or CDN).
 
-Cache and security headers are versioned in the repo at [`public/_headers`](../public/_headers) (Cloudflare Pages picks them up at the edge automatically). The defaults include:
+Redirects, cache headers, and security headers are versioned in the repo:
+
+- [`public/_redirects`](../public/_redirects) handles canonical domain redirects and retired-route fallbacks.
+- [`public/_headers`](../public/_headers) handles cache and security headers.
+
+Cloudflare Pages picks both files up at the edge automatically. The header defaults include:
 
 - **Content-Security-Policy**: locked-down, allows Cloudflare Insights when enabled by Pages.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
@@ -18,31 +23,64 @@ Cache and security headers are versioned in the repo at [`public/_headers`](../p
 - **`/sw.js`** → `Cache-Control: public, max-age=0, must-revalidate` so service worker updates propagate.
 - **HTML / `/feed.xml` / `/feed.json` / `/sitemap*.xml`** → `CDN-Cache-Control: s-maxage=3600, stale-while-revalidate=86400` so the edge stays fresh while keeping browser caches conservative.
 
-Editing those defaults: update [`public/_headers`](../public/_headers) directly. Do not maintain a separate `vercel.json` — the project no longer targets Vercel.
+Editing those defaults: update [`public/_headers`](../public/_headers) and [`public/_redirects`](../public/_redirects) directly. Do not maintain a separate `vercel.json` — the project no longer targets Vercel.
 
 ## Release flow
 
-1. Merge approved pull request into `main`.
-2. Verify GitHub Actions CI passes:
-   - lint/check/spellcheck
-   - unit tests
-   - build
+The site uses GitHub Flow and has one production branch:
+
+1. Create a feature or fix branch from `main`.
+2. Open a pull request into `main`. GitHub Actions validates the pull request:
+   - Astro Doctor
+   - lint, Astro type-check, Markdown/content checks, and spellcheck
+   - dependency audit and unit tests
+   - production build
    - stable E2E
    - Lighthouse CI
-3. Confirm production deployment from your hosting provider finished successfully.
-4. Smoke-check key routes in production:
+3. Merge the approved pull request once. Cloudflare Pages deploys `main`;
+   GitHub Actions does not repeat the pull-request suite after the merge.
+4. Confirm the Cloudflare Pages production deployment completed successfully.
+5. Smoke-check key routes in production:
    - `/`
    - `/blog/`
    - `/portfolio/`
    - `/feed.xml`
    - `/offline/`
 
+Protect `main` in the GitHub repository settings. Require a pull request and the
+`Validate and build`, `E2E Tests (Stable Required)`, `Lighthouse CI`, and
+`Astro Doctor` status checks before merging. Do not create a `release/*` branch
+or merge the same change a second time.
+
+Website versions and GitHub Releases are managed with Changesets:
+
+1. Run `pnpm changeset` in a pull request that should produce a release, choose
+   the semantic version impact, and commit the generated Markdown file.
+2. After one or more changesets reach `main`, the **Release** workflow opens or
+   updates a single `chore(release): version website` pull request.
+3. Review and merge that pull request. Changesets updates `package.json` and
+   `CHANGELOG.md`; the workflow then creates the matching `vX.Y.Z` tag and
+   GitHub Release from that exact `main` commit.
+
+Documentation, test, and CI-only pull requests do not need a changeset unless
+they should appear in a release. GitHub Releases remain deployment markers, not
+a second deployment gate, and the workflow never publishes the private website
+package to npm.
+
+CodeQL runs weekly and on demand instead of rebuilding its database after every
+merge. The dependency audit remains part of every pull request and reuses the
+main CI dependency installation.
+
 ## Pre-release local validation
 
 Two tiers, picked by intent:
 
-- `pnpm run verify:fast` — lint, type-check via `astro sync`, unit tests, and a build. Runs on `pre-push` to keep daily pushes fast.
+- `pnpm run verify:fast` — lint, Astro type-check, content checks, unit tests, and a build. Runs on `pre-push` to keep daily pushes fast.
 - `pnpm run verify:full` (alias of `ci:verify`) — everything `verify:fast` does, plus coverage, Lighthouse CI, and stable Playwright. Run before manual releases or large changes.
+- `pnpm run audit` — audits at moderate severity while accepting
+  `CVE-2026-14257` for legacy developer-only glob consumers. Those commands use
+  repository-controlled patterns, and forcing the patched major currently
+  breaks ESLint.
 
 ## Rollback
 
@@ -75,4 +113,4 @@ The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for
 ## Notes
 
 - Cache policy details are documented in [`docs/cache-strategy.md`](cache-strategy.md).
-- The edge cache and CSP live in [`public/_headers`](../public/_headers); changes there ship with the next deploy.
+- The edge cache and CSP live in [`public/_headers`](../public/_headers); redirects live in [`public/_redirects`](../public/_redirects). Changes there ship with the next deploy.

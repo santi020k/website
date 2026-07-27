@@ -4,43 +4,44 @@ import { getImage } from 'astro:assets'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import CommunityCard from '@/components/molecules/CommunityCard.astro'
 import PostListItem from '@/components/molecules/PostListItem.astro'
-import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import HomeHero from '@/components/pages/home/HomeHero.astro'
+import HomeProjectShowcase from '@/components/pages/home/HomeProjectShowcase.astro'
 import HomeStats from '@/components/pages/home/HomeStats.astro'
+import PageLayout from '@/layouts/Base.astro'
 
+import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
-import { collectionDateSortProjects } from '@/utils/date'
+import { collectionRelevanceSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 
-import AboutMeImage from '@/assets/photos/about-me.webp'
-import PageLayout from '@/layouts/Base.astro'
+import { Card } from '@santi020k/lumen-astro'
+
 import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 
 const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
 
 const workProjects = allProjects
   .filter(project => project.data.typesId === 'professional')
-  .sort(collectionDateSortProjects)
-  .slice(0, 4)
+  .sort(collectionRelevanceSortProjects)
+  .slice(0, 3)
 
 const personalProjects = allProjects
   .filter(project => project.data.typesId === 'personal')
-  .sort(collectionDateSortProjects)
-  .slice(0, 4)
+  .sort(collectionRelevanceSortProjects)
+  .slice(0, 3)
 
 const latestPosts = allPosts
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 4)
 
 const yearsOfExperience = YEARS_OF_EXPERIENCE
-const contactHref = siteConfig.contact.whatsapp
 
 const heroPortraitImage = await getImage({
   format: 'avif',
   src: AboutMeImage,
-  widths: [400, 600, 800]
+  width: 320
 })
 
 const homePageSchema = {
@@ -80,12 +81,9 @@ const homePageSchema = {
 }
 
 const meta = {
-  description:
-    `I'm Santiago Molina (@santi020k), an Engineering Leader & Full-Stack Architect with ${YEARS_OF_EXPERIENCE} years of experience building resilient systems and scaling technical teams.`,
+  description: siteConfig.description,
   preloadImage: {
     href: heroPortraitImage.src,
-    imagesizes: '(min-width: 1024px) 352px, 75vw',
-    imagesrcset: heroPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
   structuredData: homePageSchema,
@@ -93,83 +91,71 @@ const meta = {
 }
 ---
 
-<PageLayout meta={meta}>
-  <HomeHero contactHref={contactHref} yearsOfExperience={yearsOfExperience} />
-  <HomeStats yearsOfExperience={yearsOfExperience} />
+<PageLayout
+  meta={meta}
+>
+  <HomeHero yearsOfExperience={yearsOfExperience} />
+  <div
+    class="
+      section-container-wide scroll-mt-28 pt-10
+      sm:pt-12
+      lg:pt-14
+    "
+    id="home-stats"
+  >
+    <HomeStats yearsOfExperience={yearsOfExperience} />
+  </div>
 
-  {/* Work Experience */}
-  <PageSection>
-    <SectionHeader
-      eyebrow="Work Experience"
-      title="Professional roles."
-      description="Client and product work across teams and industries."
-    />
-    <div class="space-y-6">
-      <div
-        class="
-          grid gap-6
-          md:grid-cols-2
-        "
-        data-stagger="60"
-      >
-        {workProjects.map(project => (
-          <ProjectPreviewCard project={project} accentTone="brand" />
-        ))}
-      </div>
-      <div class="section-actions">
-        <ButtonLink href="/work/" showArrow>
-          View all work
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          LinkedIn
-        </ButtonLink>
-      </div>
-    </div>
-  </PageSection>
+  {/* Santiago likes the breathing room between homepage sections. Keep the spacing intentional. */}
+  <HomeProjectShowcase
+    actions={[
+      { href: '/work/', label: 'View all work' },
+      { href: siteConfig.contact.linkedin, label: 'LinkedIn', newTab: true, variant: 'secondary' }
+    ]}
+    description="Client and product work where architecture, delivery systems, and team leadership mattered."
+    eyebrow="Work Experience"
+    projects={workProjects}
+    title="Professional roles."
+  />
 
-  {/* Side Projects */}
-  <PageSection>
-    <SectionHeader
-      eyebrow="Side Projects"
-      title="Built for the love of it."
-      description="Open source, community work, and experiments."
-    />
-    <div class="space-y-6">
-      <div
-        class="
-          grid gap-6
-          md:grid-cols-2
-        "
-        data-stagger="60"
-      >
-        {personalProjects.map(project => (
-          <ProjectPreviewCard project={project} accentTone="accent" />
-        ))}
-      </div>
-      <div class="section-actions">
-        <ButtonLink href="/projects/" showArrow>
-          View all projects
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
-          GitHub
-        </ButtonLink>
-      </div>
-    </div>
-  </PageSection>
+  <HomeProjectShowcase
+    actions={[
+      { href: '/projects/', label: 'View all projects' },
+      { href: siteConfig.contact.github, label: 'GitHub', newTab: true, variant: 'secondary' }
+    ]}
+    description="Open source, community work, and experiments with a little more room to explore."
+    eyebrow="Side Projects"
+    layout="reverse"
+    projects={personalProjects}
+    supportingLabel="More selected projects"
+    title="Built for the love of it."
+    tone="accent"
+  />
 
   {/* Writing */}
-  <PageSection>
+  <PageSection class="
+    section-container-wide pt-22
+    sm:pt-24
+    lg:pt-28
+  "
+  >
     <SectionHeader
       eyebrow="Writing"
       title="Thoughts on building and leading."
       description="Articles on architecture, automation, and engineering decisions."
+      variant="shelf"
     />
     <div class="space-y-6">
-      <div class="space-y-0" data-stagger="50">
+      <Card
+        class="
+          p-2
+          sm:p-4
+        "
+      >
         {latestPosts.map(post => (
           <PostListItem post={post} />
         ))}
-      </div>
+      </Card>
       <div class="section-actions">
         <ButtonLink href="/blog/" showArrow>
           Read all articles
@@ -182,11 +168,17 @@ const meta = {
   </PageSection>
 
   {/* Speaking & Community */}
-  <PageSection>
+  <PageSection class="
+    section-container-wide pt-22
+    sm:pt-24
+    lg:pt-28
+  "
+  >
     <SectionHeader
       eyebrow="Beyond the code"
       title="Speaking & Community."
       description="Co-organizing ReactJS Colombia and speaking on DX, automation, and engineering leadership at local and regional events."
+      variant="shelf"
     />
     <div class="space-y-6">
       <div
@@ -194,7 +186,6 @@ const meta = {
           grid gap-4
           md:grid-cols-2
         "
-        data-stagger="60"
       >
         <CommunityCard
           title="ReactJS Colombia"

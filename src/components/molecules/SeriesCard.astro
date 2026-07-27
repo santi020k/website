@@ -6,6 +6,8 @@ import Pill from '@/components/atoms/Pill.astro'
 
 import { getSeriesPath } from '@/utils/links'
 
+import { Card } from '@santi020k/lumen-astro'
+
 interface Props {
   postCount: number
   series: CollectionEntry<'series'>
@@ -17,10 +19,12 @@ const seriesPath = getSeriesPath(series.id)
 const statusLabel = series.data.status === 'planned' ? 'Planned series' : 'Active series'
 ---
 
-<article class="
-  panel-card flex h-full flex-col gap-5 p-6
-  sm:p-7
-"
+<Card
+  as="article"
+  class="
+    flex h-full flex-col gap-5 p-6
+    sm:p-7
+  "
 >
   <div class="flex flex-wrap items-center gap-2">
     <Pill label={statusLabel} tone="brand" />
@@ -64,4 +68,4 @@ const statusLabel = series.data.status === 'planned' ? 'Planned series' : 'Activ
       Browse series
     </ButtonLink>
   </div>
-</article>
+</Card>

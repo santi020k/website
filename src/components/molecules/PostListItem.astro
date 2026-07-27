@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { Icon } from 'astro-icon/components'
+
+import { Icon } from '@santi020k/lumen-astro'
 
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
@@ -19,7 +20,7 @@ const readingTime = getReadingTime(post.body)
 <a
   href={postLink}
   class="
-    group relative flex items-center gap-4 overflow-hidden list-divider py-5
+    group relative flex items-center gap-4 list-divider py-5
     focus-visible:outline-2 focus-visible:outline-offset-2
     focus-visible:outline-brand focus-visible:outline-none
   "
@@ -86,7 +87,7 @@ const readingTime = getReadingTime(post.body)
         motion-reduce:hidden
       "
     >
-      <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:clock" />
+      <Icon class="size-3 shrink-0" name="clock-3" />
       {readingTime} min
     </span>
   </div>
@@ -101,6 +102,6 @@ const readingTime = getReadingTime(post.body)
       group-hover:translate-x-0 group-hover:text-brand group-hover:opacity-100
       motion-reduce:hidden
     "
-    name="tabler:arrow-right"
+    name="arrow-right"
   />
 </a>

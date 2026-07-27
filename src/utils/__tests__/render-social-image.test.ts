@@ -1,13 +1,14 @@
 import path from 'node:path'
+
 import sharp from 'sharp'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { renderSocialImage } from '../render-social-image.js'
 
 // Each render runs Satori + Resvg + Sharp on a 1200×630 canvas (~20s+ per call on
 // typical hardware). This test performs two full renders, so it needs a generous timeout.
 describe('renderSocialImage', () => {
-  it('changes the generated card when a cover image is provided', async () => {
+  test('changes the generated card when a cover image is provided', async () => {
     const baseImage = await renderSocialImage({
       description: 'A practical write-up about resilient delivery systems and engineering standards.',
       title: 'AI Coding Is Probabilistic. Your Delivery Process Should Not Be.',

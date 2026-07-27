@@ -1,10 +1,9 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-import {
-  shouldRunVisualSnapshots,
-  visualSnapshotSkipReason
-} from './helpers/visual-regression'
-
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { shouldRunVisualSnapshots } from './helpers/visual-regression'
 
 test.describe('About page', () => {
   test.beforeEach(async ({ page }) => {
@@ -17,9 +16,10 @@ test.describe('About page', () => {
   })
 
   test('should contain key sections', async ({ page }) => {
-    await expect(page.locator('#main').getByText('About', { exact: true })).toBeVisible()
+    await expect(page.locator('#main').getByText('About Santiago Molina (@santi020k)', { exact: true })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What I believe about engineering/i })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What collaborators say about the work/i })).toBeVisible()
+    await expect(page.locator('.ui-note')).toHaveCount(9)
   })
 
   test('should have working call-to-action links', async ({ page }) => {
@@ -27,23 +27,20 @@ test.describe('About page', () => {
     const blogLink = page.getByRole('link', { name: /Read the blog/i })
 
     await expect(portfolioLink).toBeVisible()
-    await expect(portfolioLink).toHaveAttribute('href', '/portfolio/')
+    await expect(portfolioLink).toHaveAttribute('href', /^\/portfolio\/$/)
 
     await expect(blogLink).toBeVisible()
-    await expect(blogLink).toHaveAttribute('href', '/blog/')
+    await expect(blogLink).toHaveAttribute('href', /^\/blog\/$/)
   })
 
   test('should pass accessibility audit', async ({ page }) => {
-    await expectNoUnexpectedAccessibilityViolations(page, [
-      {
-        htmlIncludes: 'href="/portfolio/"',
-        id: 'color-contrast'
-      }
-    ])
+    await expect(page.locator('body')).toBeVisible()
+    await expectNoUnexpectedAccessibilityViolations(page)
   })
 
-  test('should match visual snapshot', async ({ page }) => {
-    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
-    await expect(page).toHaveScreenshot('about-page.png')
-  })
+  if (shouldRunVisualSnapshots) {
+    test('should match visual snapshot', async ({ page }) => {
+      await expect(page).toHaveScreenshot('about-page.png')
+    })
+  }
 })

@@ -1,5 +1,8 @@
 ---
+import { Card } from '@santi020k/lumen-astro'
+
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
 
 interface SessionVariant {
   audience: string | undefined
@@ -29,69 +32,79 @@ interface FormatVariant {
 
 type Props = SessionVariant | TopicVariant | FormatVariant
 
-const props = Astro.props
+const props = Astro.props as Props
 ---
 
 {
-  props.variant === 'session' ?
-    (
-      <article class="
-        talk-card flex h-full flex-col space-y-4 p-6
+  props.variant === 'session' && (
+    <Card
+      as="article"
+      class="
+        flex h-full flex-col space-y-4 rounded-[1.75rem] p-6
         sm:p-7
       "
-      >
-        <div>
-          <p class="section-label">{props.event} · {props.year}</p>
-          {props.audience && <p class="mt-1 text-xs text-ink-muted">{props.audience}</p>}
+      glass="strong"
+      variant="interactive"
+    >
+      <div>
+        <p class="section-label">{props.event} · {props.year}</p>
+        {props.audience && <p class="mt-1 text-xs text-ink-muted">{props.audience}</p>}
+      </div>
+      <h2 class="text-xl font-semibold text-ink">{props.title}</h2>
+      <p class="grow text-sm/7 text-ink-soft">{props.description}</p>
+      <div class="flex flex-wrap gap-2">
+        {props.tags.map(tag => (
+          <Pill label={tag} tone="outline" />
+        ))}
+      </div>
+      {(props.links.slides ?? props.links.video) && (
+        <div class="section-actions">
+          {props.links.slides && (
+            <ButtonLink href={props.links.slides} newTab showArrow variant="secondary">
+              Slides
+            </ButtonLink>
+          )}
+          {props.links.video && (
+            <ButtonLink href={props.links.video} newTab showArrow variant="secondary">
+              Watch talk
+            </ButtonLink>
+          )}
         </div>
-        <h2 class="text-xl font-semibold text-ink">{props.title}</h2>
-        <p class="grow text-sm/7 text-ink-soft">{props.description}</p>
-        <div class="flex flex-wrap gap-2">
-          {props.tags.map(tag => (
-            <span class="
-              rounded-full border border-line/50 px-3 py-0.5 text-xs font-medium
-              text-ink-muted
-            "
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-        {(props.links.slides ?? props.links.video) && (
-          <div class="section-actions">
-            {props.links.slides && (
-              <ButtonLink href={props.links.slides} newTab showArrow variant="secondary">
-                Slides
-              </ButtonLink>
-            )}
-            {props.links.video && (
-              <ButtonLink href={props.links.video} newTab showArrow variant="secondary">
-                Watch talk
-              </ButtonLink>
-            )}
-          </div>
-        )}
-      </article>
-    ) :
-    props.variant === 'topic' ?
-      (
-        <article class="
-          talk-card h-full space-y-4 p-6
-          sm:p-7
-        "
-        >
-          <h2 class="text-2xl font-semibold text-ink">{props.title}</h2>
-          <p class="text-sm/7 text-ink-soft">{props.description}</p>
-        </article>
-      ) :
-      (
-        <article class="
-          talk-card h-full space-y-4 p-6
-          sm:p-7
-        "
-        >
-          <p class="section-label">{props.title}</p>
-          <p class="text-base/7 text-ink-soft">{props.description}</p>
-        </article>
-      )
+      )}
+    </Card>
+  )
+}
+
+{
+  props.variant === 'topic' && (
+    <Card
+      as="article"
+      class="
+        h-full space-y-4 rounded-[1.75rem] p-6
+        sm:p-7
+      "
+      glass="strong"
+      variant="interactive"
+    >
+      <h2 class="text-2xl font-semibold text-ink">{props.title}</h2>
+      <p class="text-sm/7 text-ink-soft">{props.description}</p>
+    </Card>
+  )
+}
+
+{
+  props.variant === 'format' && (
+    <Card
+      as="article"
+      class="
+        h-full space-y-4 rounded-[1.75rem] p-6
+        sm:p-7
+      "
+      glass="strong"
+      variant="interactive"
+    >
+      <p class="section-label">{props.title}</p>
+      <p class="text-base/7 text-ink-soft">{props.description}</p>
+    </Card>
+  )
 }

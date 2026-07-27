@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
 import Button from '@/components/atoms/Button.astro'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
@@ -16,6 +15,8 @@ import { getPostSlug } from '@/utils/posts'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
+
+import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -60,25 +61,27 @@ const metaItems = [
     "
     >
       <Eyebrow label={eyebrowLabel} tone="brand" />
-      <nav
-        aria-label="Breadcrumb"
+      <Breadcrumb
         class="
           flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 text-sm
           font-medium text-ink-muted
         "
       >
-        <a
-          href="/blog/"
-          class="
-            whitespace-nowrap transition-colors
-            hover:text-brand
-            motion-reduce:transition-none
-          "
-        >Blog
-        </a>
-        <span aria-hidden="true" class="text-line">/</span>
-        <span aria-current="page" class="text-ink-soft">Article</span>
-      </nav>
+        <ol>
+          <li>
+            <a
+              href="/blog/"
+              class="
+                whitespace-nowrap transition-colors
+                hover:text-brand
+                motion-reduce:transition-none
+              "
+            >Blog
+            </a>
+          </li>
+          <li><span aria-current="page" class="text-ink-soft">Article</span></li>
+        </ol>
+      </Breadcrumb>
     </div>
   </div>
 
@@ -132,9 +135,8 @@ const metaItems = [
       {metaItems.map((item, index) => (
         <div
           class="
-            post-meta-card relative overflow-hidden rounded-2xl border
-            border-line/30 bg-surface/50 p-6 backdrop-blur-sm transition-all
-            duration-300
+            post-meta-card relative rounded-2xl border border-line/30
+            bg-surface/50 p-6 backdrop-blur-sm transition-all duration-300
             hover:-translate-y-1 hover:border-brand/40 hover:bg-brand-soft/10
             hover:shadow-lg hover:shadow-brand/5
           "
@@ -154,7 +156,7 @@ const metaItems = [
             "
             >
               {item.type === 'date' ?
-                <time datetime={item.datetime}><FormattedDate date={item.value} /></time> :
+                <FormattedDate date={item.value} /> :
                 item.value}
             </dd>
           </dl>
@@ -204,8 +206,8 @@ const metaItems = [
       )}
       {!canonicalUrl && (
         <Button data-copy-link>
-          <Icon aria-hidden="true" class="size-4" name="tabler:link" />
-          <span data-copy-text>Copy link to share</span>
+          <Icon class="size-4" name="link" />
+          <span data-copy-text>Copy link</span>
         </Button>
       )}
       {seriesContext && (
@@ -216,9 +218,8 @@ const metaItems = [
         >
           <span class="flex items-center gap-2">
             <Icon
-              aria-hidden="true"
               class="size-4"
-              name="tabler:route"
+              name="route"
             />
             {seriesContext.series.data.title}
           </span>
@@ -289,8 +290,18 @@ const metaItems = [
     if (!copyBtn) return
 
     const copyText = copyBtn.querySelector('[data-copy-text]')
-    const CHECK_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>`
-    const LINK_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`
+    const CHECK_ICON = [
+      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"',
+      ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"',
+      ' stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>'
+    ].join('')
+    const LINK_ICON = [
+      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"',
+      ' fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"',
+      ' stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3',
+      'a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54',
+      'l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>'
+    ].join('')
 
     copyBtn.addEventListener('click', async () => {
       try {
@@ -300,7 +311,7 @@ const metaItems = [
         if (iconSpan) iconSpan.innerHTML = CHECK_ICON
 
         setTimeout(() => {
-          if (copyText) copyText.textContent = 'Copy link to share'
+          if (copyText) copyText.textContent = 'Copy link'
           if (iconSpan) iconSpan.innerHTML = LINK_ICON
         }, 2000)
       } catch {

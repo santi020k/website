@@ -6,6 +6,7 @@ startingDate: "1 Apr 2017"
 endingDate: "1 Dec 2018"
 liveDemoUrl: "https://justbit.site"
 typesId: "professional"
+relevanceWeight: 68
 impactMetrics: [
   "10+ client launches in the first year",
   "Up to 70% organic traffic growth for selected clients",
@@ -28,35 +29,35 @@ coverImage:
 
 At [Justbit.site](https://justbit.site), I learned what it means to own both the product and the business side of delivery. As CTO and co-founder, I worked directly with clients, scoped projects, led implementation, and helped turn ideas into launched products.
 
-### ⚠️ Core challenge
+### Core challenge
 
 The hard part was not choosing frameworks. It was building a delivery system that could adapt to very different client needs without turning every project into a one-off reinvention. We needed to move fast, keep quality high, and make technical decisions that supported search visibility, conversion, and maintainability at the same time.
 
-### 🎯 What I led
+### What I led
 
 - **The studio's technical direction,** choosing stacks, shaping architecture, and keeping projects maintainable even when budgets and timelines were tight.
 - **Full-cycle delivery** from sales conversations and scoping through implementation, launch, and post-release iteration.
 - **Growth-aware product work** where technical decisions had to support SEO, analytics, and conversion goals, not just visual polish.
 - **A cross-functional delivery process** that balanced engineering, design, and client communication without hiding behind process theater.
 
-### 📈 Key outcomes
+### Key outcomes
 
 - **10+ client launches in the first year,** spanning marketing sites, e-commerce builds, and custom digital products.
 - **Up to 70% organic traffic growth** for some clients after improving technical SEO, site structure, and performance foundations.
 - **Stronger in-house delivery capacity** by building custom React and Node.js products alongside WordPress and WooCommerce work.
 
-### 💡 Project highlights
+### Project highlights
 
 - **Custom real estate and business platforms** with dynamic content, CRM integrations, and SEO-friendly information architecture.
 - **WooCommerce builds with analytics and ad integrations** that supported both organic growth and paid-acquisition workflows.
 - **Publishing and multisite setups** for teams that needed operational flexibility without losing maintainability.
 
-### 🛠️ Tech stack
+### Tech stack
 
 - **Product delivery:** `React.js`, `TypeScript`, `Node.js`, `JavaScript`, `PostgreSQL`, `MySQL`
 - **CMS and commerce:** `WordPress`, `WooCommerce`, `PHP`
 - **Growth and operations:** `SEO`, `Google Ads`, `Facebook Ads`, `Jest`, `Gitlab`, `Linux`
 
-### 🤝 Why it mattered
+### Why it mattered
 
 Justbit was a crash course in entrepreneurship, communication, and technical ownership. It taught me how to connect user needs, business goals, and engineering decisions without hiding behind process, and it is still one of the clearest reasons I value practicality over theater.

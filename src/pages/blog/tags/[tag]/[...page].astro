@@ -1,10 +1,10 @@
 ---
 import type { GetStaticPaths, Page } from 'astro'
+
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import PillCount from '@/components/atoms/PillCount.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import PostCard from '@/components/molecules/PostCard.astro'
@@ -13,12 +13,11 @@ import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
-
-import PageLayout from '@/layouts/Base.astro'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -60,18 +59,21 @@ const breadcrumbs = [
 ]
 ---
 
-<PageLayout meta={{
-  breadcrumbs,
-  description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
-  title: isFirstPage ?
-    `${tag} Posts` :
-    `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`
-}}
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
+    title: isFirstPage ?
+      `${tag} Posts` :
+      `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`
+  }}
 >
   <PageHero
+    compact={!isFirstPage}
     description={`Filtered to ${postCount} ${postCount === 1 ? 'post' : 'posts'} connected by the #${tag} topic.`}
     eyebrow="Topic archive"
     gradientText="All posts."
+    metaItems={['Filtered archive', 'Related topics', 'Latest first']}
     title={`#${tag}`}
   >
     <ButtonLink href="/blog/tags/" showArrow variant="secondary">
@@ -82,20 +84,21 @@ const breadcrumbs = [
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid>
-    <StatCard description="Posts connected by this topic in the archive." label="Posts" value={String(postCount)} />
-    <StatCard description="Distinct topics across the full writing archive." label="Total topics" value={String(totalTopics)} />
-    {page.lastPage > 1 && <StatCard description="Pagination for this topic archive." label="Page" value={`${page.currentPage} / ${page.lastPage}`} />}
-  </StatsGrid>
-
   {relatedTags.length > 0 && (
-    <section class="flex flex-wrap items-center gap-3 pt-2">
+    <section class="
+      section-container-wide flex flex-wrap items-center gap-3 pt-2
+    "
+    >
       <p class="shrink-0 section-label">Related topics</p>
       <div class="flex flex-wrap gap-2">
         {relatedTags.map(([t, count]) => (
-          <Pill href={getTagPath(t)} label={t} showHash tone="outline">
-            <PillCount count={count} />
-          </Pill>
+          <Pill
+            count={count}
+            href={getTagPath(t)}
+            label={t}
+            showHash
+            tone="outline"
+          />
         ))}
       </div>
     </section>
@@ -117,7 +120,7 @@ const breadcrumbs = [
 
       {gridPosts.length > 0 ?
         (
-          <div class="post-grid" data-stagger>
+          <div class="post-grid" data-stagger="60">
             {gridPosts.map(post => (
               <PostCard post={post} />
             ))}
@@ -137,4 +140,12 @@ const breadcrumbs = [
       <Pagination baseUrl={getTagPath(tag)} page={page} />
     </div>
   </PageSection>
+
+  {isFirstPage && (
+    <StatsGrid>
+      <StatCard description="Posts connected by this topic in the archive." label="Posts" value={String(postCount)} />
+      <StatCard description="Distinct topics across the full writing archive." label="Total topics" value={String(totalTopics)} />
+      {page.lastPage > 1 && <StatCard description="Pagination for this topic archive." label="Page" value={`${page.currentPage} / ${page.lastPage}`} />}
+    </StatsGrid>
+  )}
 </PageLayout>

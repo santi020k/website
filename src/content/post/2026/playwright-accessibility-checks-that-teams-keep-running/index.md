@@ -27,6 +27,8 @@ Adding accessibility assertions to an existing Playwright suite means you get co
 
 The most reliable starting point is pairing Playwright with [`@axe-core/playwright`](https://www.npmjs.com/package/@axe-core/playwright). axe-core is the engine behind most major accessibility testing tools. The Playwright integration makes it straightforward to inject and run a full audit against any page or component state.
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```ts
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
@@ -65,6 +67,8 @@ axe-core catches many things automatically but focus management often needs expl
 
 These are worth testing directly:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```ts
 test('modal keeps focus inside the dialog', async ({ page }) => {
   await page.goto('/dashboard')

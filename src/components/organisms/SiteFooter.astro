@@ -1,49 +1,67 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Icon as AstroIcon } from 'astro-icon/components'
 
 import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
-import GradientDivider from '@/components/atoms/GradientDivider.astro'
-import ContactSection from '@/components/molecules/ContactSection.astro'
-import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
-import { version } from '../../../package.json'
+import { Icon } from '@santi020k/lumen-astro'
 
 import { menuLinks, siteConfig } from '@/site.config'
 
+import { version } from '../../../package.json'
+
+interface Props {
+  variant?: 'compact' | 'default'
+}
+
+const { variant = 'default' } = Astro.props
+const isCompact = variant === 'compact'
 const year = new Date().getFullYear()
 
-const navLinks = [
-  ...menuLinks,
-  { path: '/blog/series/', title: 'Series' },
-  { path: '/blog/tags/', title: 'Topics' },
-  { path: '/technologies/', title: 'Technologies' },
-  { path: '/uses/', title: 'Uses' },
-  { path: '/now/', title: 'Now' },
-  { path: '/newsletter/', title: 'Newsletter' }
-]
+const navigationIcons: Record<string, string> = {
+  'tabler:edit': 'square-pen',
+  'tabler:home-2': 'home',
+  'tabler:layers-intersect': 'panels-top-left',
+  'tabler:speakerphone': 'megaphone',
+  'tabler:timeline': 'history',
+  'tabler:user-circle': 'circle-user-round'
+}
+
+const navLinks = menuLinks.map(link => ({
+  ...link,
+  lumenIcon: link.icon ? navigationIcons[link.icon] : undefined
+}))
 
 const resourceLinks = [
-  { icon: 'tabler:calendar-month', path: '/blog/content-calendar/', title: 'Content Calendar' },
-  { icon: 'tabler:rss', path: '/feed.xml', title: 'RSS Feed' },
-  { icon: 'tabler:sitemap', path: '/sitemap-index.xml', title: 'Sitemap' }
+  { lumenIcon: 'rss', path: '/feed.xml', title: 'RSS Feed' },
+  { lumenIcon: 'network', path: '/sitemap.xml', title: 'Sitemap' },
+  { lumenIcon: 'accessibility', path: '/accessibility/', title: 'Accessibility' },
+  { lumenIcon: 'shield-check', path: '/privacy/', title: 'Privacy' }
 ]
 
 const currentPath = Astro.url.pathname
-const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
+const isAvailable = /^(available|open)\b/i.test(siteConfig.availability)
 
 const connectLinks = [
   ...siteConfig.socialLinks.map(({ href, icon, indieAuthRelMe, label }) => ({
     href,
-    icon,
+    brandIcon: icon,
     label,
+    lumenIcon: undefined as string | undefined,
     rel: `noreferrer noopener${indieAuthRelMe === false ? '' : ' me'}`
   })),
-  { href: siteConfig.contact.resume, icon: 'tabler:file-text', label: 'Resume', rel: 'noreferrer noopener' }
+  {
+    brandIcon: undefined as string | undefined,
+    href: siteConfig.contact.resume,
+    label: 'Resume',
+    lumenIcon: 'file-text',
+    rel: 'noreferrer noopener'
+  }
 ]
 
-const policyLinks = [
-  { href: '/accessibility/', icon: 'tabler:accessible', label: 'Accessibility' },
-  { href: '/privacy/', icon: 'tabler:shield-lock', label: 'Privacy & analytics' }
+const footerMeta = [
+  { label: 'Location', lumenIcon: 'map-pin', value: siteConfig.location },
+  { label: 'Availability', lumenIcon: 'briefcase-business', value: siteConfig.availability }
 ]
 
 const isLinkActive = (linkPath: string): boolean => {
@@ -60,13 +78,11 @@ const isLinkActive = (linkPath: string): boolean => {
 ---
 
 <footer class="
-  relative mt-10 overflow-hidden px-4 pb-10
-  sm:px-6
-  lg:px-8
+  relative mt-10 overflow-x-clip px-4 pb-6
+  sm:mt-12 sm:px-6 sm:pb-8
+  lg:mt-14 lg:px-8
 "
 >
-  <GradientDivider class="pt-10" />
-
   <!-- Top ambient glow with floating animation -->
   <div
     aria-hidden="true"
@@ -97,7 +113,7 @@ const isLinkActive = (linkPath: string): boolean => {
     class="pointer-events-none absolute inset-0 grid-fade opacity-40"
   />
 
-  <div class="relative mx-auto w-full max-w-6xl">
+  <div class="relative section-container-wide">
     <!-- Morphing organic blob behind content -->
     <div
       aria-hidden="true"
@@ -111,320 +127,355 @@ const isLinkActive = (linkPath: string): boolean => {
       style="background: linear-gradient(135deg, hsl(var(--brand) / 0.12), hsl(var(--accent) / 0.08), hsl(var(--glow) / 0.05));"
     />
 
-    <!-- Unified Contact & Newsletter Section -->
+    <!-- Concise contact call to action -->
+    {!isCompact && (
+      <section
+        class="
+          relative z-10 mt-6 grid items-end gap-6 pt-8 pb-7
+          before:pointer-events-none before:absolute before:inset-y-0
+          before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2
+          before:bg-surface-muted/10
+          sm:mt-8 sm:pt-10 sm:pb-8
+          lg:mt-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-10
+        "
+      >
+        <div class="max-w-2xl space-y-3">
+          <p class="
+            section-label text-brand
+            dark:text-accent
+          "
+          >Get in touch
+          </p>
+          <h2 class="
+            text-2xl font-semibold tracking-tight
+            sm:text-3xl
+          "
+          >
+            Let's build something useful together.
+          </h2>
+          <p class="max-w-xl text-sm/6 text-ink-soft">
+            Have a project in mind or want to compare notes on engineering?
+            Tell me what you're working on.
+          </p>
+        </div>
+
+        <div class="flex flex-row flex-wrap gap-3">
+          <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow>
+            Let's talk
+          </ButtonLink>
+          <ButtonLink href={`mailto:${siteConfig.contact.email}`} variant="secondary">
+            Email me
+          </ButtonLink>
+        </div>
+      </section>
+    )}
+
     <section
       class="
-        relative z-10 mt-10 grid gap-8
-        lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
+        relative z-10 pt-7 pb-8
+        before:pointer-events-none before:absolute before:inset-y-0
+        before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2
+        before:bg-surface-muted/25
+        sm:pt-8 sm:pb-10
       "
-      data-animate
+      aria-label="Footer directory"
     >
-      <!-- Left: copy -->
-      <div class="space-y-3">
-        <div class="flex flex-wrap items-center gap-3">
-          <p class="section-label text-brand">Get in touch</p>
-          {isAvailable && (
-            <span class="
-              inline-flex items-center gap-1.5 rounded-full border
-              border-success/25 bg-success/8 px-2.5 py-0.5 text-xs font-medium
-              text-success
+      <div
+        class="
+          grid gap-8
+          md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.45fr)]
+          lg:gap-12
+        "
+      >
+        <div class="flex flex-col justify-between gap-7">
+          <div class="space-y-5">
+            <a
+              aria-label="Santi020k home"
+              class="
+                inline-flex min-h-11 items-center transition duration-200
+                hover:opacity-80
+                motion-reduce:transition-none
+              "
+              href="/"
+            >
+              <span class="
+                h-8 w-auto
+                dark:hidden
+              "
+              >
+                <AnimatedLogo variant="light" class="h-full w-auto" />
+              </span>
+              <span class="
+                hidden h-8 w-auto
+                dark:block
+              "
+              >
+                <AnimatedLogo variant="dark" class="h-full w-auto" />
+              </span>
+            </a>
+
+            <p class="max-w-sm text-sm/6 text-ink-soft">
+              Engineering leader and full-stack architect helping teams modernize systems,
+              automate delivery, and improve developer experience.
+            </p>
+          </div>
+
+          <dl class="
+            grid gap-3 border-t border-line/45 pt-4 text-sm
+            sm:grid-cols-2
+            md:grid-cols-1
+          "
+          >
+            {footerMeta.map(({ label, lumenIcon, value }) => {
+              const availabilityItem = label === 'Availability'
+
+              return (
+                <div class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3">
+                  <Icon
+                    class:list={[
+                      'mt-0.5 size-4 shrink-0',
+                      availabilityItem && isAvailable ?
+                        'text-success' :
+                        'text-brand'
+                    ]}
+                    name={lumenIcon}
+                  />
+                  <dt class="section-label text-[0.65rem]">{label}</dt>
+                  <dd
+                    class:list={[
+                      'col-start-2 mt-0.5 text-sm/5',
+                      availabilityItem && isAvailable ?
+                        'text-success' :
+                        'text-ink-soft'
+                    ]}
+                  >
+                    {value}
+                  </dd>
+                </div>
+              )
+            })}
+          </dl>
+        </div>
+
+        <div
+          class="
+            grid grid-cols-2 gap-x-4 gap-y-7
+            md:pl-8
+            lg:grid-cols-3 lg:gap-8 lg:pl-12
+          "
+        >
+          <nav aria-label="Footer navigation">
+            <p class="mb-4 section-label">Navigate</p>
+            <ul class="grid gap-1.5">
+              {navLinks.map(link => {
+                const active = isLinkActive(link.path)
+
+                return (
+                  <li>
+                    <a
+                      aria-current={active ? 'page' : undefined}
+                      class:list={[
+                        `
+                          group flex min-h-11 items-center gap-2 rounded-xl
+                          px-2.5 text-sm/6
+                          transition-[background-color,color,transform]
+                          duration-200
+                          hover:bg-brand/8 hover:text-ink
+                          motion-safe:hover:translate-x-0.5
+                          motion-reduce:transition-none
+                          motion-reduce:hover:translate-x-0
+                        `,
+                        active ?
+                          'bg-brand/10 font-semibold text-brand' :
+                          'text-ink-soft'
+                      ]}
+                      href={link.path}
+                    >
+                      <Icon
+                        class:list={[
+                          `
+                            size-4 shrink-0 transition-colors duration-200
+                            motion-reduce:transition-none
+                          `,
+                          active ?
+                            'text-brand' :
+                            `
+                              text-ink-muted
+                              group-hover:text-brand
+                            `
+                        ]}
+                        name={link.lumenIcon ?? 'circle-dot'}
+                      />
+                      {link.title}
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
+
+          <div>
+            <p class="mb-4 section-label">Connect</p>
+            <ul class="grid gap-1.5">
+              {connectLinks.map(({ brandIcon, href, label, lumenIcon, rel }) => (
+                <li>
+                  <a
+                    class="
+                      group flex min-h-11 items-center gap-2 rounded-xl px-2.5
+                      text-sm/6 text-ink-soft
+                      transition-[background-color,color,transform] duration-200
+                      hover:bg-brand/8 hover:text-ink
+                      motion-safe:hover:translate-x-0.5
+                      motion-reduce:transition-none
+                      motion-reduce:hover:translate-x-0
+                    "
+                    href={href}
+                    rel={rel}
+                    target={href.startsWith('http') ? '_blank' : undefined}
+                  >
+                    {lumenIcon ?
+                      (
+                        <Icon
+                          class="
+                            size-4 shrink-0 text-ink-muted transition-colors
+                            duration-200
+                            group-hover:text-brand
+                            motion-reduce:transition-none
+                          "
+                          name={lumenIcon}
+                        />
+                      ) :
+                      (
+                        <Icon class="
+                          size-4 shrink-0 text-ink-muted transition-colors
+                          duration-200
+                          group-hover:text-brand
+                          motion-reduce:transition-none
+                        "
+                        >
+                          <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={brandIcon} />
+                        </Icon>
+                      )}
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="
+            col-span-2
+            lg:col-span-1
+          "
+          >
+            <p class="mb-4 section-label">Resources</p>
+            <ul class="
+              grid grid-cols-2 gap-1.5
+              lg:grid-cols-1
             "
             >
-              <span class="relative flex size-1.5 shrink-0">
-                <span class="
-                  absolute inline-flex size-full animate-ping rounded-full
-                  bg-success/75 opacity-75
-                  motion-reduce:animate-none
-                "
-                />
-                <span class="
-                  relative inline-flex size-1.5 rounded-full bg-success
-                "
-                />
-              </span>
-              Available
-            </span>
-          )}
-        </div>
+              {resourceLinks.map(({ lumenIcon, path, title }) => {
+                const active = isLinkActive(path)
 
-        <h2 class="
-          text-2xl font-semibold tracking-tight
-          sm:text-3xl
-        "
-        >
-          Let's build something{' '}
-          <span
-            class="
-              bg-linear-to-r from-brand via-accent to-brand bg-clip-text
-              text-transparent
-              motion-safe:animate-shimmer
-            "
-            style="background-size: 200% 100%;"
-          >
-            useful
-          </span>{' '}
-          together.
-        </h2>
-
-        <p class="max-w-xl text-sm text-ink-soft">
-          Have a project in mind or want to compare notes on engineering? Pick a channel below and I'll get back to you quickly.
-        </p>
-      </div>
-
-      <!-- Right: contact + newsletter -->
-      <div class="grid gap-6" data-stagger="60">
-        <ContactSection compact />
-        {siteConfig.newsletter?.formAction && (
-          <NewsletterSignup formAction={siteConfig.newsletter.formAction} label="Newsletter signup (footer)" variant="compact" />
-        )}
-      </div>
-    </section>
-
-    <GradientDivider class="pt-10" />
-
-    <!-- Footer body grid -->
-    <section
-      class="
-        grid gap-8 pt-10
-        sm:grid-cols-2
-        lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_minmax(0,0.75fr)]
-        lg:gap-10
-      "
-      data-stagger="60"
-    >
-
-      <!-- Brand column -->
-      <div class="space-y-6">
-        <a
-          aria-label="Santiago Molina — home"
-          class="
-            inline-block transition duration-200
-            hover:opacity-80
-            motion-reduce:transition-none
-          "
-          href="/"
-        >
-          <div class="
-            h-8 w-auto
-            dark:hidden
-          "
-          >
-            <AnimatedLogo variant="light" class="h-full w-auto" />
-          </div>
-          <div class="
-            hidden h-8 w-auto
-            dark:block
-          "
-          >
-            <AnimatedLogo variant="dark" class="h-full w-auto" />
-          </div>
-        </a>
-
-        <p class="max-w-[24ch] text-sm/6 text-ink-soft">
-          Engineering leader and full-stack architect. Building resilient systems and empowering developer teams.
-        </p>
-
-        <div class="space-y-2.5 text-xs text-ink-muted">
-          <div class="flex items-center gap-2">
-            <Icon aria-hidden="true" class="size-3.5 shrink-0" name="tabler:map-pin" />
-            <span>{siteConfig.location}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            {isAvailable ?
-              (
-                <>
-                  <span class="relative flex size-1.5 shrink-0">
-                    <span class="
-                      absolute inline-flex size-full animate-ping rounded-full
-                      bg-success/75 opacity-75
-                      motion-reduce:animate-none
-                    "
-                    />
-                    <span class="
-                      relative inline-flex size-1.5 rounded-full bg-success
-                    "
-                    />
-                  </span>
-                  <span class="text-success">{siteConfig.availability}</span>
-                </>
-              ) :
-              (
-                <span>{siteConfig.availability}</span>
-              )}
+                return (
+                  <li>
+                    <a
+                      aria-current={active ? 'page' : undefined}
+                      class:list={[
+                        `
+                          group flex min-h-11 items-center gap-2 rounded-xl
+                          px-2.5 text-sm/6
+                          transition-[background-color,color,transform]
+                          duration-200
+                          hover:bg-brand/8 hover:text-ink
+                          motion-safe:hover:translate-x-0.5
+                          motion-reduce:transition-none
+                          motion-reduce:hover:translate-x-0
+                        `,
+                        active ?
+                          'bg-brand/10 font-semibold text-brand' :
+                          'text-ink-soft'
+                      ]}
+                      href={path}
+                    >
+                      <Icon
+                        class:list={[
+                          `
+                            size-4 shrink-0 transition-colors duration-200
+                            motion-reduce:transition-none
+                          `,
+                          active ?
+                            'text-brand' :
+                            `
+                              text-ink-muted
+                              group-hover:text-brand
+                            `
+                        ]}
+                        name={lumenIcon}
+                      />
+                      {title}
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         </div>
       </div>
-
-      <!-- Navigate column -->
-      <nav aria-label="Footer navigation">
-        <p class="mb-5 section-label">Navigate</p>
-        <ul class="space-y-2.5">
-          {navLinks.map(link => {
-            const active = isLinkActive(link.path)
-
-            return (
-              <li>
-                <a
-                  aria-current={active ? 'page' : undefined}
-                  class:list={[
-                    `
-                      group inline-flex items-center gap-2 text-sm
-                      transition-colors duration-200
-                      motion-reduce:transition-none
-                    `,
-                    active ?
-                      'font-semibold text-brand' :
-                      `
-                        text-ink-soft
-                        hover:text-ink
-                      `
-                  ]}
-                  href={link.path}
-                >
-                  {active && (
-                    <span
-                      aria-hidden="true"
-                      class="size-1.5 shrink-0 rounded-full bg-brand"
-                    />
-                  )}
-                  {link.title}
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-      </nav>
-
-      <!-- Connect column -->
-      <div>
-        <p class="mb-5 section-label">Connect</p>
-        <ul class="space-y-2.5">
-          {connectLinks.map(({ href, icon, label, rel }) => (
-            <li>
-              <a
-                class="
-                  group inline-flex items-center gap-2 text-sm text-ink-soft
-                  transition-colors duration-200
-                  hover:text-ink
-                  motion-reduce:transition-none
-                "
-                href={href}
-                rel={rel}
-                target="_blank"
-              >
-                <Icon
-                  aria-hidden="true"
-                  class="
-                    size-4 shrink-0 text-ink-muted transition-[color,transform]
-                    duration-200
-                    group-hover:-translate-y-px group-hover:text-brand
-                    motion-reduce:transition-none
-                    motion-reduce:group-hover:translate-y-0
-                  "
-                  name={icon}
-                />
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Resources column -->
-      <div>
-        <p class="mb-5 section-label">Resources</p>
-        <ul class="space-y-2.5">
-          {resourceLinks.map(({ icon, path, title }) => {
-            const active = isLinkActive(path)
-
-            return (
-              <li>
-                <a
-                  aria-current={active ? 'page' : undefined}
-                  class:list={[
-                    `
-                      group inline-flex items-center gap-2 text-sm
-                      transition-colors duration-200
-                      motion-reduce:transition-none
-                    `,
-                    active ?
-                      'font-semibold text-brand' :
-                      `
-                        text-ink-soft
-                        hover:text-ink
-                      `
-                  ]}
-                  href={path}
-                >
-                  <Icon
-                    aria-hidden="true"
-                    class:list={[
-                      `
-                        size-4 shrink-0 transition-[color,transform]
-                        duration-200
-                        group-hover:-translate-y-px
-                        motion-reduce:transition-none
-                        motion-reduce:group-hover:translate-y-0
-                      `,
-                      active ?
-                        'text-brand' :
-                        `
-                          text-ink-muted
-                          group-hover:text-brand
-                        `
-                    ]}
-                    name={icon}
-                  />
-                  {title}
-                </a>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-
     </section>
-
-    <GradientDivider class="pt-10" />
 
     <!-- Bottom bar -->
     <div
       class="
-        flex flex-col gap-3 divider-subtle pt-6 text-xs text-ink-muted
-        opacity-100
-        sm:flex-row sm:items-center sm:justify-between
+        mt-4 border-t border-line/40 pt-5 text-xs text-ink-muted opacity-100
+        sm:mt-5
       "
     >
-      <p>&copy; {year} {siteConfig.author}.</p>
-
-      <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-        {policyLinks.map(({ href, icon, label }) => (
-          <a
-            class="
-              inline-flex items-center gap-1.5 text-ink-muted transition-colors
-              hover:text-brand
-              motion-reduce:transition-none
-            "
-            href={href}
+      <div
+        class="
+          flex flex-col gap-1 px-1
+          sm:flex-row sm:items-center sm:justify-between sm:gap-4
+        "
+      >
+        <div>
+          <p class="
+            flex min-h-11 flex-wrap items-center gap-x-1
+            sm:min-h-0
+          "
           >
-            <Icon aria-hidden="true" class="size-3 shrink-0" name={icon} />
-            {label}
-          </a>
-        ))}
+            <span>&copy; {year} {siteConfig.author} —</span>
+            <a
+              class="
+                inline-flex min-h-11 items-center text-ink-muted
+                transition-colors
+                hover:text-brand
+                motion-reduce:transition-none
+                sm:min-h-0
+              "
+              href="https://lumen.santi020k.com"
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              built with Lumen.
+            </a>
+          </p>
+        </div>
 
         <a
           class="
-            inline-flex items-center gap-1 rounded-full border border-line/60
-            bg-surface-muted/60 px-2 py-0.5 font-medium text-ink-muted
-            transition-colors
-            hover:border-brand/40 hover:text-brand
+            mr-14 inline-flex min-h-11 items-center gap-1 self-end
+            text-ink-muted transition-colors
+            hover:text-brand
             motion-reduce:transition-none
+            sm:mr-0 sm:min-h-0 sm:self-auto
           "
           href="https://github.com/santi020k/website"
           rel="noreferrer noopener"
           target="_blank"
         >
-          <Icon aria-hidden="true" class="size-3" name="tabler:brand-github" />
+          <Icon class="size-3 shrink-0">
+            <AstroIcon aria-hidden="true" class="size-full" focusable="false" name="tabler:brand-github" />
+          </Icon>
           v{version}
         </a>
       </div>

@@ -13,8 +13,17 @@ export const getTagPath = (tag: string) => `/blog/tags/${encodeURIComponent(tag)
 export const getPortfolioPath = (slug: string) => `/portfolio/${slug}/`
 
 /**
- * Returns the canonical URL path for a technology filter page.
- * The technology name is URI-encoded so values like "C#" or "C++" work
- * correctly as URL segments.
+ * Produces a stable, lowercase, hyphen-separated technology slug.
  */
-export const getTechnologyPath = (technology: string) => `/technologies/${encodeURIComponent(technology)}/`
+export const getTechnologySlug = (technology: string) => technology
+  .normalize('NFKD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .replaceAll('&', ' and ')
+  .replaceAll('+', ' plus ')
+  .replaceAll('#', ' sharp ')
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '')
+
+/** Returns the canonical URL path for a technology filter page. */
+export const getTechnologyPath = (technology: string) => `/technologies/${getTechnologySlug(technology)}/`

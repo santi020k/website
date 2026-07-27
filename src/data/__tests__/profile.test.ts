@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import {
   collaborationLanes,
@@ -12,11 +12,11 @@ import {
 } from '../profile'
 
 describe('testimonials', () => {
-  it('is a non-empty array', () => {
+  test('is a non-empty array', () => {
     expect(testimonials.length).toBeGreaterThan(0)
   })
 
-  it('every testimonial has required fields', () => {
+  test('every testimonial has required fields', () => {
     for (const t of testimonials) {
       expect(t.name).toBeTruthy()
       expect(t.quote).toBeTruthy()
@@ -28,11 +28,11 @@ describe('testimonials', () => {
 })
 
 describe('selectedOrganizations', () => {
-  it('is a non-empty array', () => {
+  test('is a non-empty array', () => {
     expect(selectedOrganizations.length).toBeGreaterThan(0)
   })
 
-  it('every entry has a label and context', () => {
+  test('every entry has a label and context', () => {
     for (const org of selectedOrganizations) {
       expect(org.label).toBeTruthy()
       expect(org.context).toBeTruthy()
@@ -41,11 +41,11 @@ describe('selectedOrganizations', () => {
 })
 
 describe('collaborationLanes', () => {
-  it('is a non-empty array', () => {
+  test('is a non-empty array', () => {
     expect(collaborationLanes.length).toBeGreaterThan(0)
   })
 
-  it('every lane has title, description, and fit', () => {
+  test('every lane has title, description, and fit', () => {
     for (const lane of collaborationLanes) {
       expect(lane.title).toBeTruthy()
       expect(lane.description).toBeTruthy()
@@ -55,11 +55,11 @@ describe('collaborationLanes', () => {
 })
 
 describe('speakingHighlights', () => {
-  it('is a non-empty array', () => {
+  test('is a non-empty array', () => {
     expect(speakingHighlights.length).toBeGreaterThan(0)
   })
 
-  it('every highlight has label, value, and description', () => {
+  test('every highlight has label, value, and description', () => {
     for (const h of speakingHighlights) {
       expect(h.label).toBeTruthy()
       expect(h.value).toBeTruthy()
@@ -69,11 +69,11 @@ describe('speakingHighlights', () => {
 })
 
 describe('speakingTopics', () => {
-  it('is a non-empty array', () => {
+  test('is a non-empty array', () => {
     expect(speakingTopics.length).toBeGreaterThan(0)
   })
 
-  it('every topic has title and description', () => {
+  test('every topic has title and description', () => {
     for (const topic of speakingTopics) {
       expect(topic.title).toBeTruthy()
       expect(topic.description).toBeTruthy()
@@ -82,11 +82,11 @@ describe('speakingTopics', () => {
 })
 
 describe('speakingFormats', () => {
-  it('is a non-empty array', () => {
+  test('is a non-empty array', () => {
     expect(speakingFormats.length).toBeGreaterThan(0)
   })
 
-  it('every format has title and description', () => {
+  test('every format has title and description', () => {
     for (const fmt of speakingFormats) {
       expect(fmt.title).toBeTruthy()
       expect(fmt.description).toBeTruthy()
@@ -95,11 +95,11 @@ describe('speakingFormats', () => {
 })
 
 describe('usesHighlights', () => {
-  it('is a non-empty array', () => {
+  test('is a non-empty array', () => {
     expect(usesHighlights.length).toBeGreaterThan(0)
   })
 
-  it('every item has label and value', () => {
+  test('every item has label and value', () => {
     for (const item of usesHighlights) {
       expect(item.label).toBeTruthy()
       expect(item.value).toBeTruthy()
@@ -108,11 +108,11 @@ describe('usesHighlights', () => {
 })
 
 describe('usesSections', () => {
-  it('is a non-empty array', () => {
+  test('is a non-empty array', () => {
     expect(usesSections.length).toBeGreaterThan(0)
   })
 
-  it('every section has title, description, and items', () => {
+  test('every section has title, description, and items', () => {
     for (const section of usesSections) {
       expect(section.title).toBeTruthy()
       expect(section.description).toBeTruthy()
@@ -121,7 +121,7 @@ describe('usesSections', () => {
     }
   })
 
-  it('every section item has label and value', () => {
+  test('every section item has label and value', () => {
     for (const section of usesSections) {
       for (const item of section.items) {
         expect(item.label).toBeTruthy()

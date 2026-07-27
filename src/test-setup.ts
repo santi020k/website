@@ -1,6 +1,6 @@
-import { vi } from 'vitest'
-
 import '@testing-library/jest-dom'
+
+import { vi } from 'vitest'
 
 // Mock Astro virtual modules
 vi.mock('astro:env/server', () => ({

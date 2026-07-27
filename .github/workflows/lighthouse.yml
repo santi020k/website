@@ -2,8 +2,8 @@ name: Lighthouse CI (Manual)
 # Lighthouse now runs automatically as part of the CI workflow (build.yml).
 # This workflow is kept for manual one-off audits only.
 
-on:
-  workflow_dispatch:
+'on':
+  workflow_dispatch: {}
 
 jobs:
   lighthouse:

@@ -1,4 +1,6 @@
 ---
+import { Particles } from '@santi020k/lumen-astro'
+
 interface Props {
   class?: string
   density?: 'low' | 'medium' | 'high'
@@ -7,13 +9,17 @@ interface Props {
 const { class: className = '', density = 'medium' } = Astro.props
 ---
 
-<div
-  aria-hidden="true"
-  class:list={['pointer-events-none absolute inset-0 overflow-hidden', className]}
+<Particles
+  class:list={[
+    `
+      pointer-events-none absolute inset-0 min-h-0 overflow-hidden rounded-none
+      bg-transparent bg-none
+    `,
+    className
+  ]}
   data-particles-bg={density}
-  style="z-index: 0;"
->
-</div>
+  density={density}
+/>
 
 <script>
   type ParticleDensity = 'low' | 'medium' | 'high'
@@ -28,7 +34,10 @@ const { class: className = '', density = 'medium' } = Astro.props
     const containers = document.querySelectorAll('[data-particles-bg]')
 
     containers.forEach(container => {
+      if (container.hasAttribute('data-particles-initialized')) return
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+      container.setAttribute('data-particles-initialized', '')
 
       const density = (container.getAttribute('data-particles-bg') as ParticleDensity) || 'medium'
       const count = densityConfig[density]
@@ -55,6 +64,7 @@ const { class: className = '', density = 'medium' } = Astro.props
           animation: particle-drift ${duration}s ease-in-out ${delay}s infinite;
           opacity: 0;
         `
+        el.setAttribute('data-drifting-particle', '')
         container.appendChild(el)
       }
     })
@@ -70,7 +80,8 @@ const { class: className = '', density = 'medium' } = Astro.props
 
 <style is:global>
   @keyframes particle-drift {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0) translateX(0);
       opacity: 0;
     }
@@ -83,6 +94,12 @@ const { class: className = '', density = 'medium' } = Astro.props
     100% {
       transform: translateY(-100vh) translateX(20px);
       opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-drifting-particle] {
+      display: none;
     }
   }
 </style>

@@ -1,4 +1,30 @@
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
+
+interface JsonFeedItem {
+  date_published?: unknown
+  id?: unknown
+  url?: unknown
+}
+
+interface JsonFeed {
+  items: JsonFeedItem[]
+  version: string
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
+
+const isJsonFeed = (value: unknown): value is JsonFeed => isRecord(value) &&
+  typeof value.version === 'string' &&
+  Array.isArray(value.items) &&
+  value.items.every(isRecord)
+
+const assertJsonFeed: (value: unknown) => asserts value is JsonFeed = value => {
+  if (!isJsonFeed(value)) {
+    throw new TypeError('Expected JSON Feed payload')
+  }
+}
 
 test.describe('RSS feed', () => {
   test('/feed.xml responds with 200', async ({ request }) => {
@@ -64,19 +90,20 @@ test.describe('JSON Feed', () => {
 
   test('/feed.json declares JSON Feed 1.1 and includes posts', async ({ request }) => {
     const response = await request.get('/feed.json')
-    const json = await response.json()
+    const json = JSON.parse(await response.text()) as unknown
 
-    expect(json.version).toBe('https://jsonfeed.org/version/1.1')
-    expect(Array.isArray(json.items)).toBe(true)
-    expect(json.items.length).toBeGreaterThan(0)
-    expect(json.items[0]).toHaveProperty('id')
-    expect(json.items[0]).toHaveProperty('url')
-    expect(json.items[0]).toHaveProperty('date_published')
+    assertJsonFeed(json)
+    const feed: JsonFeed = json
+    expect(feed.version).toBe('https://jsonfeed.org/version/1.1')
+    expect(feed.items.length).toBeGreaterThan(0)
+    expect(feed.items[0]).toHaveProperty('id')
+    expect(feed.items[0]).toHaveProperty('url')
+    expect(feed.items[0]).toHaveProperty('date_published')
   })
 
   test('home page advertises the JSON feed via <link rel="alternate">', async ({ page }) => {
     await page.goto('/')
     const link = page.locator('link[rel="alternate"][type="application/feed+json"]')
-    await expect(link).toHaveAttribute('href', '/feed.json')
+    await expect(link).toHaveAttribute('href', /^\/feed\.json$/)
   })
 })

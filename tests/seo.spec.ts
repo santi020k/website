@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint @typescript-eslint/no-unsafe-assignment: off, @typescript-eslint/no-unsafe-member-access: off, jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 // ---------------------------------------------------------------------------
@@ -7,6 +7,62 @@ import { expect, test } from '@playwright/test'
 // ---------------------------------------------------------------------------
 
 test.describe('SEO — meta tags', () => {
+  test('utility pages are noindex and the offline page is excluded from the sitemap', async ({ page }) => {
+    for (const path of ['/404/', '/offline/']) {
+      await page.goto(path)
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
+    }
+
+    const sitemapResponse = await page.request.get('/sitemap-0.xml')
+    const sitemap = await sitemapResponse.text()
+
+    expect(sitemap).not.toContain('https://santi020k.com/offline/')
+    expect(sitemap).not.toContain('https://santi020k.com/404/')
+  })
+
+  test('syndicated posts honor their declared canonical URL', async ({ page }) => {
+    await page.goto('/blog/atomic-module-component-structure-for-react/')
+
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c'
+    )
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+      'content',
+      'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c'
+    )
+  })
+
+  test('rendered titles and descriptions stay within the project SEO limits', async ({ page }) => {
+    for (const path of [
+      '/',
+      '/about/',
+      '/blog/2/',
+      '/blog/authentication-and-authorization-in-next-js-applications-with-supabase/',
+      '/portfolio/xgames/',
+      '/technologies/design-systems/'
+    ]) {
+      await page.goto(path)
+
+      const title = await page.title()
+      const description = await page.locator('meta[name="description"]').getAttribute('content')
+
+      expect(title.length, `title is too long on ${path}`).toBeLessThanOrEqual(60)
+      expect(description?.length, `description is too short on ${path}`).toBeGreaterThanOrEqual(120)
+      expect(description?.length, `description is too long on ${path}`).toBeLessThanOrEqual(160)
+    }
+  })
+
+  test('technology pages use lowercase hyphenated canonical paths', async ({ page }) => {
+    await page.goto('/technologies/design-systems/')
+
+    await expect(page).toHaveURL(/\/technologies\/design-systems\/$/)
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      'https://santi020k.com/technologies/design-systems/'
+    )
+  })
+
   test('homepage has a valid og:image pointing to the generated PNG', async ({ page }) => {
     await page.goto('/')
 
@@ -63,9 +119,8 @@ test.describe('SEO — meta tags', () => {
     await expect(firstPost).toHaveAttribute('href', /^\/blog\/.+\/$/)
     const href = await firstPost.getAttribute('href')
 
-    if (href) {
-      await page.goto(href)
-    }
+    expect(href).not.toBeNull()
+    await page.goto(href ?? '/blog/')
 
     const ogImageMeta = page.locator('meta[property="og:image"]')
     await expect(ogImageMeta).toHaveAttribute('content', /.+/)
@@ -175,9 +230,8 @@ test.describe('SEO — JSON-LD structured data', () => {
   test('blog post page has its own JSON-LD schema', async ({ page }) => {
     await page.goto('/blog/')
     const firstPostHref = await page.locator('article a[href^="/blog/"]').first().getAttribute('href')
-    if (firstPostHref) {
-      await page.goto(firstPostHref)
-    }
+    expect(firstPostHref).not.toBeNull()
+    await page.goto(firstPostHref ?? '/blog/')
 
     const hasStructuredData = await page.evaluate(() => {
       const scripts = document.querySelectorAll('script[type="application/ld+json"]')

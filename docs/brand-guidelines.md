@@ -1,6 +1,6 @@
 # Santi020k — Brand Guidelines
 
-**Version:** 2.6 · **Last updated:** May 2026 · **Owner:** Santiago Molina (@santi020k)
+**Version:** 2.7 · **Last updated:** June 2026 · **Owner:** Santiago Molina (@santi020k)
 
 > Single source of truth for the visual identity, voice, and implementation standards of the personal website and all related materials. Keep this document up to date whenever design tokens, components, or brand direction change.
 
@@ -85,7 +85,7 @@ The logo is a custom WebP wordmark with a stylised "S2K" letterform representing
 
 | Property | Wordmark (Primary) | Icon (Square) |
 | :---------------- | :------------------ | :-------------- |
-| **Source file** | `src/assets/brand/logos/logo-santi020k.webp` | `public/logos/logo-square.webp` |
+| **Source file** | `@santi020k/theme/assets/logos/logo-santi020k.webp` | `@santi020k/theme/assets/logos/logo-square.webp` |
 | **Primary format** | WebP | WebP |
 | **Aspect Ratio** | 6.34:1 | 1:1 |
 | **Rendered size** | `width="228" height="36"` | `width="32" height="32"` |
@@ -106,7 +106,7 @@ The logo is a custom WebP wordmark with a stylised "S2K" letterform representing
 
 ## 3. Color System
 
-The palette is fully adaptive between **Light** and **Dark** modes, toggled via `data-theme` on `<html>`. In **light** mode, neutrals use a subtle purple tint (hue **~268°**) and brand purple is aligned with the refreshed light logo and icon (hue **~267°**). **Dark** mode keeps the existing purple system (hue **277°** for neutrals and brand). All color tokens are defined in `src/styles/partials/tokens.css` (imported from `src/styles/global.css`).
+The palette is fully adaptive between **Light** and **Dark** modes, toggled via `data-theme` on `<html>`. In **light** mode, neutrals use a subtle purple tint (hue **~268°**) and brand purple is aligned with the refreshed light logo and icon (hue **~264°**). **Dark** mode keeps a deep purple system (hue **~260°** for neutrals, hue **~264°** for brand). Core color and font tokens come from `@santi020k/theme/tokens.css`, imported in `src/styles/global.css`; site-only status and animation tokens live in `src/styles/partials/tokens.css`.
 
 **Rule:** Always use semantic CSS custom property tokens in components — never hardcode hex or raw HSL values.
 
@@ -120,7 +120,7 @@ The palette is fully adaptive between **Light** and **Dark** modes, toggled via 
 
 ### Semantic Tokens — Light Mode
 
-Raw HSL values live on `:root` / `[data-theme="light"]` in [`src/styles/partials/tokens.css`](../src/styles/partials/tokens.css). Tailwind maps them under `@theme` (for example `--color-canvas`, `--color-brand`).
+Raw HSL values live on `:root` / `[data-theme="light"]` in `@santi020k/theme/tokens.css`. Tailwind maps them under `@theme` (for example `--color-canvas`, `--color-brand`). Local site extensions are kept in [`src/styles/partials/tokens.css`](../src/styles/partials/tokens.css).
 
 | Role | CSS sources | HSL (raw) | Hex (approx.) | Usage |
 | :---------- | :------------------ | :------------ | :--- | :---- |
@@ -130,14 +130,14 @@ Raw HSL values live on `:root` / `[data-theme="light"]` in [`src/styles/partials
 | Headings / strong UI | `--ink` → `--color-ink` | `268 10% 20%` | `#332e38` (approx.) | `h1`–`h6`, strong emphasis |
 | Body / secondary text | `--ink-soft` | `268 8% 36%` | `#5b5463` (approx.) | Paragraphs, descriptions |
 | Muted labels | `--ink-muted` | `268 6% 28%` | `#47434c` (approx.) | Metadata, captions |
-| Brand wash | `--brand-soft` → `--color-brand-soft` | `267 52% 94%` | — | Tinted surfaces, selections |
+| Brand wash | `--brand-soft` → `--color-brand-soft` | `264 60% 94%` | — | Tinted surfaces, selections |
 | Links & interactive emphasis | `text-brand`, `hover:text-brand`, `--brand` / `--accent` | — | — | Use utilities; base `a` inherits context |
 
 ### Semantic Tokens — Dark Mode
 
 | Role | CSS sources | HSL (raw) | Usage |
 | :---------- | :------------------ | :------------ | :---- |
-| Page background | `--theme-bg` → `--color-canvas` | `277 20% 10%` | `#1b141f` — deep purple‑tinted canvas |
+| Page background | `--theme-bg` → `--color-canvas` | `260 43% 8%` | Deep purple-tinted canvas |
 | Surfaces | `--surface`, `--surface-muted`, `--surface-strong` | see tokens file | Elevated UI |
 | Text | `--ink`, `--ink-soft`, `--ink-muted` | see tokens file | Hierarchy |
 | Brand | `--brand`, `--accent`, `--glow`, `--brand-soft` | see Brand Primary table | Same semantics as light |
@@ -273,7 +273,7 @@ Custom `--container-*` values in `@theme` override Tailwind defaults for tighter
 
 | Asset | Source path | Usage |
 | :----------- | :---------- | :---- |
-| Logo | `src/assets/brand/logos/logo-santi020k.webp` | Site identity |
+| Logo | `@santi020k/theme/assets/logos/logo-santi020k.webp` | Site identity |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and author attribution |
 | Default OG image | `public/default.webp` | Social share fallback |
 | Favicon | `public/favicon.svg` | Browser icon generated from the square mark |
@@ -294,7 +294,7 @@ Generated server-side via Satori at `src/pages/og/`. Every page must have one.
 
 Always use `<Image>` from `astro:assets` — never a raw `<img>` tag.
 
-```astro
+```html
 ---
 import { Image } from 'astro:assets'
 import heroImg from '@/assets/photos/about-me.webp'
@@ -322,22 +322,22 @@ Three Iconify packs are used across the site. Always match the correct pack to i
 | Pack | Prefix | Used in | Example |
 | :----------------------- | :-------- | :------- | :------- |
 | **Material Design Icons** | `mdi:` | `<Icon>` component (astro-icon) | `mdi:github` |
-| **Tabler Icons** | `tabler--` | Tailwind CSS utility class | `icon-[tabler--brand-linkedin]` |
+| **Tabler Icons** | `tabler:` | `<Icon>` component (astro-icon) | `tabler:brand-linkedin` |
 | **Huge Icons** | `hugeicons:` | `<Icon>` component | `hugeicons:menu-01` |
 
 Usage patterns:
 
-```astro
+```html
 <!-- astro-icon component — for inline SVG with props -->
 <Icon name="mdi:github" aria-hidden="true" class="size-8" focusable="false" />
 
-<!-- Iconify Tailwind4 utility — for CSS-only icons -->
-<span class="icon-[tabler--brand-github] size-6" aria-hidden="true"></span>
+<!-- Tabler icon via astro-icon -->
+<Icon name="tabler:brand-github" aria-hidden="true" class="size-6" focusable="false" />
 ```
 
 Always add `aria-hidden="true"` on decorative icons. For standalone icon buttons, label the `<button>`, not the icon:
 
-```astro
+```html
 <button type="button" aria-label="Open GitHub profile">
   <Icon name="mdi:github" aria-hidden="true" />
 </button>
@@ -374,7 +374,7 @@ Badges truncate at `200px` on mobile, full width on `sm` and above.
 Use `transition-all duration-300` for hover lift. Always include `motion-reduce:` variants. Cards are single-surface components: never place `panel-card`, `card-interactive`, `mini-note`, `talk-card`, `glass-pro`, `section-shell`, `section-shell-subtle`, or equivalent rounded/bordered/background/shadow blocks inside another card-like surface. Build internal hierarchy with spacing, dividers, plain rows, media, and inline metadata instead.
 
 **Standard Card (`panel-card`):**
-```astro
+```html
 <article class="
   panel-card overflow-hidden
   transition-all duration-300
@@ -385,7 +385,7 @@ Use `transition-all duration-300` for hover lift. Always include `motion-reduce:
 ```
 
 **Image Card with Overlays:**
-```astro
+```html
 <div class="relative aspect-[16/10] overflow-hidden">
   <Image src={cover} class="h-full w-full object-cover" />
   <!-- Gradient overlay for text readability -->
@@ -394,7 +394,7 @@ Use `transition-all duration-300` for hover lift. Always include `motion-reduce:
 ```
 
 **Compact Card (`mini-note`):**
-```astro
+```html
 <div class="mini-note p-6 space-y-4">
   <div class="flex items-center gap-3">
     <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">
@@ -410,7 +410,7 @@ Use `transition-all duration-300` for hover lift. Always include `motion-reduce:
 ```
 
 **Accent Border Mini-Notes:**
-```astro
+```html
 <!-- Left accent -->
 <div class="mini-note border-l-4 border-l-brand/40">
   <p class="section-label">Label</p>
@@ -428,7 +428,7 @@ Use `transition-all duration-300` for hover lift. Always include `motion-reduce:
 
 All nav links use hover underline with `underline-offset-2`. Active state is indicated via `aria-current="page"`.
 
-```astro
+```html
 <a
   aria-current={Astro.url.pathname === link.path ? 'page' : false}
   class="underline-offset-2 hover:underline"
@@ -499,29 +499,29 @@ Astro View Transitions are enabled globally (`<ViewTransitions />` in the root l
 ### Hero-Specific Animations
 
 **Gradient Text:**
-```
+```text
 bg-linear-to-r from-brand via-accent to-brand bg-clip-text text-transparent
 ```
 
 **Spinning Rings (around portrait):**
-```
+```text
 motion-safe:animate-[spin_24s_linear_infinite]
 border-image: linear-gradient(135deg, hsl(var(--brand)/0.3), hsl(var(--accent)/0.15), transparent) 1
 ```
 
 **Ambient Glow:**
-```
+```text
 bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
 motion-safe:animate-pulse
 ```
 
 **Floating Cards:**
-```
+```text
 motion-safe:animate-float-y
 ```
 
 **Staggered Content Reveal:**
-```
+```text
 animate-slide-up [animation-delay:90ms]
 animate-slide-up [animation-delay:180ms]
 ```
@@ -529,7 +529,7 @@ animate-slide-up [animation-delay:180ms]
 ### Decorative Patterns
 
 **Gradient Dividers:**
-```astro
+```html
 <div aria-hidden="true" class="pointer-events-none flex justify-center">
   <div class="h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/40 to-transparent"></div>
 </div>
@@ -640,7 +640,7 @@ Before adding ARIA, ask: *is there a native element for this?*
 The hero uses an **asymmetric 2-column layout** with content on the left and a portrait on the right.
 
 **Layout Pattern:**
-```
+```text
 grid-cols-[minmax(0,1fr)_22rem] lg:items-center
 ```
 
@@ -677,7 +677,7 @@ grid-cols-[minmax(0,1fr)_22rem] lg:items-center
 Home page sections follow a consistent **asymmetric 2-column pattern**:
 
 **Layout Pattern:**
-```
+```text
 grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
 ```
 
@@ -709,7 +709,7 @@ grid gap-8 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
 2. **Content body** (`p-5 space-y-3`)
 
 **Image Overlay Pattern:**
-```
+```text
 absolute inset-0 bg-gradient-to-t from-canvas/60 via-transparent to-transparent
 bottom badges:
 - Status: "Active" (brand/accent bg) or "Completed" (surface bg)
@@ -726,7 +726,7 @@ bottom badges:
 #### List Items (Writing Section)
 
 **Structure:**
-```
+```text
 flex items-start justify-between gap-4 py-5 border-b border-line/20
 ```
 
@@ -736,7 +736,7 @@ flex items-start justify-between gap-4 py-5 border-b border-line/20
 #### Mini-Note Cards (Speaking Section)
 
 **Structure:**
-```
+```text
 mini-note p-6 space-y-4
 ```
 
@@ -749,7 +749,7 @@ mini-note p-6 space-y-4
 
 ### Project Description Template
 
-```
+```text
 [One-line summary — what it is]
 [The problem it solves]
 [One interesting technical detail or challenge]
@@ -882,7 +882,7 @@ All internal links use trailing slashes.
 
 | ✅ Do | ❌ Don't |
 | :------- | :------- |
-| Use the logo WebP from `src/assets/brand/logos/logo-santi020k.webp` | Use older logo or terminal icon files |
+| Use shared logo assets from `@santi020k/theme/assets/logos/` for generated brand surfaces | Use older logo or terminal icon files |
 | Reference colors via semantic CSS custom properties | Hardcode hex or HSL values in components |
 | Define new tokens in `src/styles/global.css` `@theme` | Add one-off inline color values |
 | Verify contrast ratios before shipping any new color pair | Assume a color combination is accessible |
@@ -900,6 +900,7 @@ All internal links use trailing slashes.
 | ✅ Do | ❌ Don't |
 | :------- | :------- |
 | Use `@/` import alias for all `src/` paths | Use relative `../../` paths from components |
+| Use `fontFamily`, `typography`, and shared assets from `@santi020k/theme` for package-owned brand surfaces | Duplicate package-owned token, logo, or font-stack values locally |
 | Use `class:list` for conditional Tailwind classes | Concatenate class strings with template literals |
 | Use `<Image>` from `astro:assets` for all images | Use raw `<img>` tags |
 | Pair all animations with `motion-reduce:` variants | Ship animated transitions without reduced-motion fallback |
@@ -922,7 +923,7 @@ All internal links use trailing slashes.
 
 | Asset | Path | Notes |
 | :--------------- | :-------------------------------- | :------------------------------ |
-| Logo (WebP) | `src/assets/brand/logos/logo-santi020k.webp` | 6.34:1 aspect ratio |
+| Shared logos | `@santi020k/theme/assets/logos/` | Source for generated icons, social images, and shared brand surfaces |
 | Author photo | `src/assets/photos/about-me.webp` | Hero and about sections |
 | Default OG image | `public/default.webp` | Served statically |
 | Favicon | `public/favicon.svg` | Square wrapper generated from the current mark |
@@ -932,8 +933,9 @@ All internal links use trailing slashes.
 
 | File | Purpose |
 | :----------------------------------- | :---------- |
-| `src/styles/partials/tokens.css` | HSL design tokens for light/dark and `prefers-contrast` |
-| `src/styles/global.css` | Entry stylesheet: imports partials, `@theme` mappings, utilities, base |
+| `@santi020k/theme/tokens.css` | Shared core color and font tokens |
+| `src/styles/partials/tokens.css` | Site-only status colors and animation shorthands |
+| `src/styles/global.css` | Entry stylesheet: imports shared tokens, partials, utilities, and plugins |
 | `src/site.config.ts` | Site-wide metadata — title, description, author, nav links |
 | `src/content.config.ts` | Content collection schemas (Zod) |
 | `src/types.ts` | Shared TypeScript types including `Badge` variants |
@@ -950,6 +952,7 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 2.7 | June 2026 | Moved core color/font tokens to `@santi020k/theme`, documented shared asset and font helpers, and kept site-only status/animation tokens local. |
 | 2.6 | May 2026 | Added the single-surface card rule: no card-like surfaces nested inside cards or framed shells. Internal hierarchy now uses dividers, plain rows, media, and inline metadata. |
 | 2.5 | May 2026 | **Major home page refresh**: New hero with gradient text, animated portrait rings, and floating mini-notes. New content sections with asymmetric 2-column layout (`0.72fr / 1.28fr`). New card patterns: project cards with image overlays, status badges (Active/Completed), date ranges. Added `GradientDivider` component. Updated card design system with `panel-card`, `mini-note` patterns. |
 | 2.4 | April 2026 | Updated brand identity and hero copy, changed blog to native route, added speaking and about routes, unified typography table to Montserrat. |

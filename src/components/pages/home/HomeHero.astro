@@ -1,133 +1,181 @@
 ---
-import { Picture } from 'astro:assets'
+import { Image } from 'astro:assets'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
-import AboutMeImage from '@/assets/photos/originals/me-1-square.webp'
+import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
+
+import { Icon, Marker } from '@santi020k/lumen-astro'
+
 import { siteConfig } from '@/site.config'
 
 interface Props {
-  contactHref: string
   yearsOfExperience: string
 }
 
-const { contactHref, yearsOfExperience } = Astro.props
+const { yearsOfExperience } = Astro.props
 ---
 
-<section class="relative pb-4">
-  <div class="
-    relative grid gap-10
-    lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center
+<section
+  class="
+    relative left-1/2 isolate -mt-12 flex w-screen -translate-x-1/2 items-center
+    overflow-visible px-5 pt-24 pb-16
+    min-[2200px]:px-10
+    sm:px-6 sm:pt-28 sm:pb-20
+    lg:-mt-39 lg:min-h-svh lg:overflow-x-clip lg:px-8 lg:pt-28 lg:pb-18
+    xl:px-10
+    2xl:px-12 2xl:pt-24 2xl:pb-16
   "
+  data-home-hero
+>
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute -inset-x-24 -top-32 -z-10 h-176 rounded-full
+      bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
+      motion-safe:animate-glow-pulse
+      motion-reduce:animate-none
+      dark:from-brand/24 dark:via-accent/12
+    "
+  />
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute inset-x-0 top-0 -z-10 h-full bg-linear-to-b
+      from-transparent via-surface/8 to-canvas/78
+      lg:from-canvas/70
+      dark:from-canvas/78 dark:via-surface/7 dark:to-canvas/86
+    "
+  />
+  <div
+    class="
+      mx-auto grid w-full max-w-7xl gap-10
+      min-[2200px]:max-w-368 min-[2200px]:-translate-y-10
+      min-[2200px]:grid-cols-[minmax(0,1fr)_25rem] min-[2200px]:gap-18
+      lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center lg:gap-12
+      2xl:max-w-336 2xl:-translate-y-6 2xl:grid-cols-[minmax(0,1fr)_23rem]
+      2xl:gap-16
+    "
+    data-home-hero-grid
   >
-    <div class="relative z-10 space-y-8">
-      <Eyebrow
-        label="Santiago Molina (@santi020k)"
-        tone="brand"
-        className="
-          animate-slide-up whitespace-normal
-          motion-reduce:animate-none
-        "
-      />
-
+    <div class="relative z-10">
       <div
         class="
-          animate-slide-up space-y-4 [animation-delay:90ms]
-          motion-reduce:animate-none
+          flex flex-col gap-3
+          sm:flex-row sm:items-center
         "
       >
-        <h1 class="sr-only">Santiago Molina (@santi020k) — Engineering Leader & Full-Stack Architect</h1>
-        <h2
-          aria-hidden="true"
+        <Eyebrow
+          label="Santiago Molina (@santi020k)"
+          tone="brand"
+          className="whitespace-normal"
+        />
+      </div>
+
+      <div class="mt-6 max-w-232 space-y-5">
+        <h1
           class="
-            max-w-4xl text-4xl/[0.98] tracking-[-0.06em] wrap-break-word
+            text-4xl/[0.96] font-extrabold tracking-[-0.06em] wrap-break-word
+            min-[2200px]:text-[8rem]/[0.84]
             sm:text-6xl/[0.95]
-            lg:text-[5.2rem]/[0.92]
+            lg:text-[6rem]/[0.88]
+            2xl:text-[6.8rem]/[0.86]
           "
+          data-home-hero-heading
         >
-          Calm systems.
+          Calm systems.{' '}
           <span class="
             block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
             pb-4 text-transparent
           "
           >Clear delivery.
           </span>
-        </h2>
+        </h1>
         <p class="
-          max-w-xl text-base/7 text-ink-soft
-          sm:text-lg/7
+          max-w-3xl text-base/7 text-ink-soft
+          sm:text-xl/8
         "
         >
-          Tech lead and full-stack engineer focused on architecture, automation, and developer experience.
+          Engineering leader and full-stack architect helping teams modernize
+          systems, automate delivery, and improve developer experience.
         </p>
       </div>
 
-      <div
-        class="
-          animate-slide-up space-y-5 [animation-delay:180ms]
-          motion-reduce:animate-none
-        "
-      >
+      <div class="mt-7 space-y-5">
+        <p
+          class="
+            flex max-w-3xl flex-wrap items-center gap-x-2 gap-y-1 text-sm/6
+            text-ink-muted
+          "
+        >
+          <Marker
+            class="
+              shrink-0
+              motion-safe:animate-pulse
+              motion-reduce:animate-none
+            "
+            aria-hidden="true"
+            variant="success"
+          />
+          <span class="shrink-0 font-medium whitespace-nowrap text-brand">Available</span>
+          <span
+            aria-hidden="true"
+            class="
+              hidden text-line
+              min-[420px]:inline
+            "
+          >/
+          </span>
+          <span class="min-w-0">{siteConfig.availability}</span>
+        </p>
+
         <div class="
-          panel-card max-w-2xl p-5
-          sm:p-6
+          section-actions max-w-3xl
+          sm:items-center
         "
         >
-          <div class="
-            flex flex-col gap-4
-            sm:flex-row sm:items-center sm:justify-between
-          "
+          <ButtonLink
+            className="
+              w-full
+              sm:w-auto
+            "
+            href="/portfolio/"
+            showArrow
           >
-            <div class="space-y-1.5">
-              <p class="flex items-center gap-1.5 section-label text-brand">
-                <span
-                  class="
-                    inline-block size-2 rounded-full bg-brand
-                    motion-safe:animate-pulse
-                    motion-reduce:animate-none
-                  "
-                  aria-hidden="true"
-                />
-                Open now
-              </p>
-              <p class="text-sm/6 text-ink">{siteConfig.availability}</p>
-            </div>
-            <ButtonLink className="shrink-0" href={contactHref} newTab showArrow variant="secondary">
-              Message on WhatsApp
-            </ButtonLink>
-          </div>
-        </div>
-
-        <div class="section-actions">
-          <ButtonLink href="/portfolio/" showArrow>
             See selected work
           </ButtonLink>
-          <ButtonLink href={siteConfig.contact.resume} showArrow variant="secondary">
+          <ButtonLink
+            className="
+              w-full
+              sm:w-auto
+            "
+            href={siteConfig.contact.resume}
+            showArrow
+            variant="secondary"
+          >
             View resume
           </ButtonLink>
-          <ButtonLink href="/blog/" showArrow variant="secondary">
-            Read the writing
-          </ButtonLink>
         </div>
-
-        <!-- <p class="text-sm text-ink-muted">
-          {siteConfig.location} · {yearsOfExperience} years experience · ReactJS Colombia
-        </p> -->
       </div>
     </div>
 
     <div
       class="
-        relative isolate mx-auto w-full max-w-88 animate-reveal-lcp
+        relative isolate mx-auto w-full max-w-76 animate-reveal-lcp
         motion-reduce:animate-none
+        min-[2200px]:max-w-100
+        sm:max-w-88
+        xl:max-w-88
+        2xl:max-w-92
       "
+      data-home-hero-portrait
     >
       <div
         aria-hidden="true"
         class="
           pointer-events-none absolute inset-[5%] z-10 rounded-4xl bg-radial
-          from-brand/18 via-accent/8 to-transparent blur-3xl
+          from-brand/24 via-accent/12 to-transparent blur-3xl
           motion-safe:animate-pulse
           motion-reduce:animate-none
         "
@@ -135,29 +183,27 @@ const { contactHref, yearsOfExperience } = Astro.props
       <div
         aria-hidden="true"
         class="
-          pointer-events-none absolute inset-[-10%] z-20 rounded-full border-2
-          border-brand/15 [animation-delay:800ms]
-          motion-safe:animate-[spin_24s_linear_infinite]
+          pointer-events-none absolute inset-[-10%] z-20 rounded-[2.75rem]
+          border-2 border-brand/15 [animation-delay:800ms]
+          motion-safe:animate-[hero-orbit-outer_28s_linear_infinite]
           motion-reduce:animate-none
           dark:border-brand/20
         "
-        style="border-image: linear-gradient(135deg, hsl(var(--brand)/0.3), hsl(var(--accent)/0.15), transparent) 1; border-radius: 9999px;"
       />
       <div
         aria-hidden="true"
         class="
-          pointer-events-none absolute inset-[8%] z-20 rounded-full border
-          border-brand/10 [animation-delay:800ms]
-          motion-safe:animate-[spin_18s_linear_infinite_reverse]
+          pointer-events-none absolute inset-[8%] z-20 rounded-[2.25rem] border
+          border-accent/10 [animation-delay:800ms]
+          motion-safe:animate-[hero-orbit-inner_22s_linear_infinite]
           motion-reduce:animate-none
         "
-        style="border-image: linear-gradient(225deg, hsl(var(--accent)/0.2), hsl(var(--brand)/0.1), transparent) 1; border-radius: 9999px;"
       />
 
       <div class="
-        panel-card relative z-0 overflow-hidden rounded-[2.25rem] p-3
-        transition-shadow duration-500
-        hover:shadow-[0_20px_60px_-15px_hsl(var(--brand)/0.15)]
+        glass-pro relative z-0 rounded-[2.25rem] p-3 transition-shadow
+        duration-500
+        hover:shadow-[0_24px_70px_-18px_hsl(var(--brand)/0.24)]
         motion-reduce:transition-none
         sm:p-4
       "
@@ -173,33 +219,38 @@ const { contactHref, yearsOfExperience } = Astro.props
           aria-hidden="true"
           class="
             pointer-events-none absolute inset-0 z-20 bg-linear-to-br
-            from-brand/5 via-transparent to-accent/8
+            from-brand/10 via-transparent to-accent/14 mix-blend-soft-light
           "
         />
-        <Picture
+        <div
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute inset-0 z-20 bg-linear-to-t
+            from-canvas/18 via-transparent to-transparent
+          "
+        />
+        <Image
           alt="Portrait of Santiago Molina (@santi020k)"
           class="
-            relative z-0 aspect-4/5 w-full rounded-[1.7rem] object-cover
-            object-top
+            relative z-0 aspect-2/3 w-full rounded-[1.7rem] object-cover
+            object-top contrast-[1.04] saturate-[0.92]
           "
           decoding="sync"
           fetchpriority="high"
-          formats={['avif', 'webp']}
-          height={440}
+          format="avif"
+          height={480}
           loading="eager"
-          sizes="(min-width: 1024px) 352px, 75vw"
           src={AboutMeImage}
-          width={352}
-          widths={[400, 600, 800]}
+          width={320}
         />
       </div>
 
       <div class="
-        mini-note absolute bottom-8 -left-4 z-30 hidden min-w-40 border-l-4
-        border-l-brand/40 [animation-delay:600ms]
+        glass-pro absolute top-6 -right-6 z-30 hidden min-w-36 rounded-2xl
+        border-r-4 border-r-brand/40 p-4 opacity-[0.92] [animation-delay:600ms]
         motion-safe:animate-float-y
         motion-reduce:animate-none
-        sm:-left-8 sm:block
+        sm:-right-12 sm:block
       "
       >
         <p class="flex items-center gap-1.5 section-label">
@@ -210,16 +261,16 @@ const { contactHref, yearsOfExperience } = Astro.props
           />
           Base
         </p>
-        <p class="mt-2 text-sm/6 text-ink">Medellin · Remote worldwide</p>
+        <p class="mt-2 text-sm/6 text-ink-soft">Medellín · Remote worldwide</p>
       </div>
 
       <div
         class="
-          mini-note absolute top-8 -right-4 z-30 hidden min-w-32 border-r-4
-          border-r-accent/40 [animation-delay:900ms]
+          glass-pro absolute -bottom-6 left-4 z-30 hidden min-w-32 rounded-2xl
+          border-l-4 border-l-accent/40 p-5 [animation-delay:900ms]
           motion-safe:animate-float-y
           motion-reduce:animate-none
-          sm:-right-8 sm:block
+          sm:left-6 sm:block
         "
       >
         <p class="section-label">Experience</p>
@@ -232,4 +283,147 @@ const { contactHref, yearsOfExperience } = Astro.props
       </div>
     </div>
   </div>
+
+  <a
+    aria-label="Scroll to page highlights"
+    class="
+      group absolute bottom-8 left-1/2 z-30 hidden -translate-x-1/2 items-center
+      justify-center rounded-full p-2 text-ink-muted transition-colors
+      hover:text-brand
+      focus-visible:ring-2 focus-visible:ring-brand/50
+      focus-visible:outline-none
+      motion-reduce:transition-none
+      lg:flex
+    "
+    href="#home-stats"
+  >
+    <span class="sr-only">Scroll to page highlights</span>
+    <span
+      class="
+        relative flex h-13 w-7 items-start justify-center rounded-full border
+        border-brand/20 bg-surface/28 pt-2
+        shadow-[0_16px_36px_hsl(var(--brand)/0.08)] backdrop-blur-sm
+        transition-all
+        group-hover:border-brand/40 group-hover:bg-brand-soft/28
+        before:absolute before:-inset-1.5 before:rounded-full before:border
+        before:border-brand/18 before:opacity-0 before:content-['']
+        motion-safe:before:animate-[scroll-cue-ring_2.6s_ease-out_infinite]
+        motion-reduce:transition-none
+      "
+    >
+      <span
+        aria-hidden="true"
+        class="
+          size-1.5 rounded-full bg-brand/70
+          motion-safe:animate-[scroll-dot_1.8s_ease-in-out_infinite]
+          motion-reduce:animate-none
+        "
+      />
+    </span>
+    <Icon
+      aria-hidden="true"
+      class="
+        absolute top-full mt-1 size-3.5 text-brand/55 transition-transform
+        group-hover:translate-y-0.5
+        motion-safe:animate-[scroll-chevron_1.8s_ease-in-out_infinite]
+        motion-reduce:animate-none motion-reduce:transition-none
+      "
+      name="chevron-down"
+    />
+  </a>
 </section>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  @keyframes scroll-dot {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: translateY(0);
+    }
+
+    48% {
+      opacity: 1;
+      transform: translateY(1.15rem);
+    }
+
+    72% {
+      opacity: 0;
+      transform: translateY(1.55rem);
+    }
+  }
+
+  @keyframes scroll-cue-ring {
+    0% {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+
+    28% {
+      opacity: 0.55;
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(1.35);
+    }
+  }
+
+  @keyframes scroll-chevron {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: translateY(0);
+    }
+
+    50% {
+      opacity: 0.85;
+      transform: translateY(0.18rem);
+    }
+  }
+
+  @keyframes hero-orbit-outer {
+    from {
+      transform: rotate(14deg);
+    }
+
+    to {
+      transform: rotate(374deg);
+    }
+  }
+
+  @keyframes hero-orbit-inner {
+    from {
+      transform: rotate(-28deg);
+    }
+
+    to {
+      transform: rotate(-388deg);
+    }
+  }
+
+  @media (min-width: 2400px) {
+    [data-home-hero-grid] {
+      grid-template-columns: minmax(0, 1fr) 25rem;
+      gap: 4.5rem;
+    }
+
+    [data-home-hero-heading] {
+      font-size: 6.8rem;
+      line-height: 0.84;
+    }
+
+    [data-home-hero-portrait] {
+      max-width: 25rem;
+    }
+  }
+</style>

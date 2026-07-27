@@ -1,6 +1,8 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
 const contactEmailLink = /hi@santi020k\.com/
 
@@ -22,6 +24,7 @@ test.describe('Accessibility statement page', () => {
   })
 
   test('should not have unexpected accessibility violations', async ({ page }) => {
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 })

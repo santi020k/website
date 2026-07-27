@@ -1,16 +1,25 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { BackToTop, Icon } from '@santi020k/lumen-astro'
 ---
 
-<button
+<BackToTop
   id="back-to-top"
   aria-label="Scroll back to top"
-  class="back-to-top-button"
-  type="button"
+  className="
+    back-to-top-button
+    max-sm:pr-2.5
+  "
 >
-  <Icon aria-hidden="true" name="tabler:arrow-up" class="size-4" />
-  <span class="back-to-top-label">Top</span>
-</button>
+  <span aria-hidden="true" class="back-to-top-icon">
+    <Icon name="arrow-up" size="sm" />
+  </span>
+  <span class="
+    back-to-top-label
+    max-sm:sr-only
+  "
+  >Top
+  </span>
+</BackToTop>
 
 <script>
   function setup() {
@@ -19,18 +28,11 @@ import { Icon } from 'astro-icon/components'
 
     const onScroll = () => btn.classList.toggle('is-visible', window.scrollY > 400)
 
-    const onClick = () => {
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })
-    }
-
     window.addEventListener('scroll', onScroll, { passive: true })
-    btn.addEventListener('click', onClick)
     onScroll()
 
     return () => {
       window.removeEventListener('scroll', onScroll)
-      btn.removeEventListener('click', onClick)
     }
   }
 

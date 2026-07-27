@@ -1,6 +1,7 @@
+import { defineCollection } from 'astro:content'
+
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
-import { defineCollection } from 'astro:content'
 
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 const dateField = () => z.string().or(z.date()).transform(val => new Date(val))
@@ -71,6 +72,7 @@ const project = defineCollection({
         problem: z.string().optional()
       })
       .optional(),
+    relevanceWeight: z.number().int().min(0).max(100).default(0),
     // type
     typesId: z.enum(['professional', 'personal', 'experimental']).optional(),
     orderInTypes: z.number().optional()

@@ -1,9 +1,11 @@
 # Node modules
 node_modules/
+.pnpm-store/
 
 # Build output
 dist/
 .astro/
+.astro-doctor/
 .cache/
 .lighthouseci/
 

@@ -1,10 +1,9 @@
+import rss from '@astrojs/rss'
 import type { APIContext } from 'astro'
 
 import { siteConfig } from '../site.config'
 import { getCachedPosts } from '../utils/content'
 import { getPostPath } from '../utils/links'
-
-import rss from '@astrojs/rss'
 
 const escapeXml = (value: string): string => value
   .replace(/&/g, '&amp;')

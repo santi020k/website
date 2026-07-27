@@ -1,10 +1,12 @@
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
+import { expect, type Page, test } from '@playwright/test'
+
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import {
   shouldRunVisualSnapshots,
   visualSnapshotSkipReason
 } from './helpers/visual-regression'
-
-import { expect, type Page, test } from '@playwright/test'
 
 const navigateFromMobileMenu = async (
   page: Page,
@@ -17,7 +19,7 @@ const navigateFromMobileMenu = async (
   const menuLink = page.locator('#mobile-nav').getByRole('link', { name: options.linkName })
 
   await menuToggle.click()
-  await expect(menuToggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(menuToggle).toHaveAttribute('aria-expanded', /^true$/)
   await expect(menuLink).toBeVisible()
 
   await Promise.all([
@@ -39,19 +41,44 @@ test('homepage has correct title and main sections', async ({ page }) => {
   await expect(mainMenu.getByRole('link', { name: 'Work' })).toBeVisible()
   await expect(mainMenu.getByRole('link', { name: 'Projects' })).toBeVisible()
   await expect(mainMenu.getByRole('link', { name: 'Blog' })).toBeVisible()
-
+  await expect(page.locator('body')).toBeVisible()
   await expectNoUnexpectedAccessibilityViolations(page)
 })
 
 test('homepage exposes shared accessibility affordances', async ({ page }) => {
   await page.goto('/')
 
-  await expect(page.getByRole('link', { name: 'Skip to content' })).toHaveAttribute('href', '#main')
+  await expect(page.getByRole('link', { name: 'Skip to content' })).toHaveAttribute('href', /^#main$/)
   await expect(page.getByRole('button', { name: 'Open site search' })).toBeVisible()
-  await expect(page.getByRole('switch', { name: 'Toggle color theme' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Toggle color theme' })).toBeVisible()
   await expect(
     page.locator('header').getByRole('link', { name: /Santiago Molina/i }).first()
-  ).toHaveAttribute('href', '/')
+  ).toHaveAttribute('href', /^\/$/)
+})
+
+test('homepage stats use the accent Lumen variant as standalone articles', async ({ page }) => {
+  await page.goto('/')
+
+  const stats = page.locator(
+    'article > [data-stat-card-compat][data-variant="accent"].ui-stat--accent'
+  )
+
+  await expect(stats).toHaveCount(4)
+  await expect(stats.locator('.ui-stat-value')).toHaveText(['12+', '14', '-75%', '100+'])
+})
+
+test('homepage keeps speaking in the footer navigation only', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.locator('header a[href="/speaking/"]')).toHaveCount(0)
+  await expect(page.locator('footer a[href="/speaking/"]')).toHaveCount(1)
+})
+
+test('homepage ships no client-side analytics beacon', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.locator('script[src*="cloudflareinsights.com"]')).toHaveCount(0)
+  await expect(page.locator('script[data-cf-beacon]')).toHaveCount(0)
 })
 
 test('homepage exposes IndieAuth.com discovery and rel=me on silo links', async ({ page }) => {
@@ -79,8 +106,15 @@ test('homepage exposes IndieAuth.com discovery and rel=me on silo links', async 
 test('keyboard / opens site search dialog', async ({ page }) => {
   await page.goto('/')
   await page.keyboard.press('/')
-  await expect(page.getByRole('dialog', { name: 'Search' })).toBeVisible()
+  const dialog = page.getByRole('dialog', { name: 'Search' })
+  const trigger = page.getByRole('button', { name: 'Open site search' })
+
+  await expect(dialog).toBeVisible()
   await expect(page.getByPlaceholder('Search by title, tag, or keyword…')).toBeFocused()
+
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+  await expect(trigger).toBeFocused()
 })
 
 test('query param opens search with prefilled query and clears on close', async ({ page }) => {
@@ -169,15 +203,15 @@ test('mobile navigation can open and close cleanly', async ({ page }) => {
   const menuToggle = page.locator('[data-mobile-nav-toggle]')
   const mobileNav = page.locator('#mobile-nav')
 
-  await expect(menuToggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(menuToggle).toHaveAttribute('aria-expanded', /^false$/)
   await expect(mobileNav).toBeHidden()
 
   await menuToggle.click()
-  await expect(menuToggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(menuToggle).toHaveAttribute('aria-expanded', /^true$/)
   await expect(mobileNav).toBeVisible()
 
   await menuToggle.click()
-  await expect(menuToggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(menuToggle).toHaveAttribute('aria-expanded', /^false$/)
   await expect(mobileNav).toBeHidden()
 })
 
@@ -191,7 +225,7 @@ test('mobile navigation resets after navigating to another page', async ({ page 
   })
 
   await expect(page).toHaveURL(/\/about\/$/)
-  await expect(page.locator('[data-mobile-nav-toggle]')).toHaveAttribute('aria-expanded', 'false')
+  await expect(page.locator('[data-mobile-nav-toggle]')).toHaveAttribute('aria-expanded', /^false$/)
   await expect(page.locator('#mobile-nav')).toBeHidden()
 })
 

@@ -1,19 +1,21 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-
 import PageLayout from '@/layouts/Base.astro'
+
+import { Card } from '@santi020k/lumen-astro'
 
 const meta = {
   description: 'The page you are looking for could not be found.',
+  noindex: true,
   title: 'Page not found'
 }
 ---
 
-<PageLayout meta={meta}>
+<PageLayout footerVariant="compact" meta={meta}>
   <section
     aria-labelledby="error-heading"
     class="
-      grid animate-reveal-lcp gap-10
+      section-container-wide grid animate-reveal-lcp gap-10
       motion-reduce:animate-none
       lg:grid-cols-[1fr_0.72fr] lg:items-start
     "
@@ -25,7 +27,6 @@ const meta = {
           bg-brand-soft/78 px-3 py-1 text-[0.72rem] font-semibold
           tracking-[0.24em] text-brand uppercase
         "
-        role="alert"
       >
         404 · Page not found
       </span>
@@ -59,17 +60,14 @@ const meta = {
         <ButtonLink href="/" showArrow>
           Back home
         </ButtonLink>
-        <ButtonLink href="/portfolio/" showArrow variant="secondary">
-          Open projects
-        </ButtonLink>
-        <ButtonLink href="/blog/" showArrow variant="ghost">
+        <ButtonLink href="/blog/" showArrow variant="secondary">
           Read blog
         </ButtonLink>
       </div>
     </div>
 
     <div class="editorial-rail">
-      <div class="mini-note">
+      <Card class="p-5" variant="muted">
         <p class="section-label">Try these instead</p>
         <div class="mt-4 space-y-3 text-sm/7 text-ink-soft">
           <p>
@@ -112,9 +110,9 @@ const meta = {
             for a quick overview of experience, leadership style, and community work.
           </p>
         </div>
-      </div>
+      </Card>
 
-      <div class="panel-card overflow-hidden">
+      <Card class="p-0">
         <div
           aria-hidden="true"
           class="
@@ -168,7 +166,7 @@ const meta = {
             <circle cx="78"  cy="42"  r="0.8" fill="hsl(var(--ink)/0.20)"/>
           </svg>
         </div>
-      </div>
+      </Card>
     </div>
   </section>
 </PageLayout>

@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths, Page } from 'astro'
+
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
@@ -7,13 +8,14 @@ import PageHero from '@/components/molecules/PageHero.astro'
 import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
-import { getTechnologyPath } from '@/utils/links'
+import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
+import { getSocialImagePath } from '@/utils/social-image'
 
 import { createProjectCollectionSchema, getUniqueTechnologies } from '@/data/project'
-import PageLayout from '@/layouts/Base.astro'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const allProjects = await getCachedProjects()
@@ -21,21 +23,27 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const uniqueTechnologies = getUniqueTechnologies(sortedProjects)
 
   return uniqueTechnologies.flatMap(technology => {
-    const filteredProjects = sortedProjects.filter(project => project.data.technologies.includes(technology))
+    const technologySlug = getTechnologySlug(technology)
+    const filteredProjects = sortedProjects.filter(project =>
+      project.data.technologies.some(projectTechnology =>
+        getTechnologySlug(projectTechnology) === technologySlug
+      )
+    )
 
     return paginate(filteredProjects, {
       pageSize: 50,
-      params: { technology }
+      params: { technology: technologySlug },
+      props: { technology }
     })
   })
 }
 
 interface Props {
   page: Page<CollectionEntry<'project'>>
+  technology: string
 }
 
-const { page } = Astro.props
-const { technology = '' } = Astro.params
+const { page, technology } = Astro.props
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -51,6 +59,7 @@ const meta = {
   breadcrumbs,
   description: `Projects and case studies where ${technology} shaped the architecture, ` +
     'delivery workflow, or product experience.',
+  ogImage: getSocialImagePath(`/technologies/${encodeURIComponent(technology)}/`),
   structuredData: technologyListSchema,
   title: `${technology} · Technology`
 }
@@ -59,9 +68,11 @@ const meta = {
 
 <PageLayout meta={meta}>
   <PageHero
-    description={`Projects where ${technology} played a meaningful role in the architecture, delivery workflow, or product experience.`}
+    description={`Projects where ${technology} played a meaningful role in the architecture, delivery workflow,
+      or product experience.`}
     eyebrow="Technology filter"
     gradientText="Projects."
+    metaItems={['Portfolio evidence', 'Architecture context', 'Delivery impact']}
     title={technology}
   >
     <ButtonLink href="/technologies/" showArrow variant="secondary">
@@ -72,18 +83,21 @@ const meta = {
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid>
-    <StatCard description={`Projects in the portfolio where ${technology} shaped the architecture or delivery.`} label="Projects" value={String(page.total)} />
-  </StatsGrid>
-
   <section
     class="
-      grid gap-6 pt-10
+      section-container-wide grid gap-6 pt-10
       md:grid-cols-2
       xl:grid-cols-3
     "
-    data-animate
+    data-stagger="60"
   >
+    <h2 class="
+      col-span-full text-2xl font-semibold tracking-tight text-ink
+      sm:text-3xl
+    "
+    >
+      Projects using {technology}
+    </h2>
     {page.data.map(project => (
       <ProjectPreviewCard
         project={project}
@@ -91,4 +105,8 @@ const meta = {
       />
     ))}
   </section>
+
+  <StatsGrid>
+    <StatCard description={`Projects in the portfolio where ${technology} shaped the architecture or delivery.`} label="Projects" value={String(page.total)} />
+  </StatsGrid>
 </PageLayout>

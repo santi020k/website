@@ -13,6 +13,7 @@ import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
 import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
+import BaseLayout from '@/layouts/Base.astro'
 
 import { getPostSlug } from '@/utils/posts'
 import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
@@ -20,7 +21,6 @@ import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
-import BaseLayout from '@/layouts/Base.astro'
 import { createAuthorSchema } from '@/site.config'
 
 interface Props {
@@ -28,12 +28,13 @@ interface Props {
 }
 
 const { post } = Astro.props
-const { description, publishDate, title, updatedDate } = post.data
+const { canonicalUrl, description, publishDate, title, updatedDate } = post.data
 // Use Dynamic OG Image generator (/og/blog/[id].webp)
 const ogImage = new URL(`/og/blog/${getPostSlug(post.id)}.webp`, Astro.site).href
 const stats = readingTime(post.body ?? '')
 const wordCount = Math.round(stats.words)
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const localURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : localURL
 const seriesContext = await getSeriesContext(post)
 // Extract headings for the sticky TOC sidebar (same pattern as Projects.astro)
 const { headings } = await render(post)
@@ -76,6 +77,7 @@ const breadcrumbs = [
     articleDate: publishDate.toISOString(),
     articleUpdated: updatedDate?.toISOString(),
     breadcrumbs,
+    canonicalUrl: canonicalURL.href,
     description,
     ogImage,
     ogImageAlt: post.data.coverImage?.alt ?
@@ -87,8 +89,8 @@ const breadcrumbs = [
 >
   <ReadingProgressBar />
 
-  <article class="h-entry mx-auto flex w-full max-w-6xl flex-col gap-10">
-    <a class="u-url sr-only" href={canonicalURL.href}>Permalink to this article</a>
+  <article class="h-entry section-container-wide flex flex-col gap-10">
+    <a class="u-url sr-only" href={localURL.href}>Permalink to this article</a>
     <PostHero post={post} />
 
     <!-- ── Two-column body: prose + sticky TOC sidebar ─────────── -->
@@ -97,7 +99,7 @@ const breadcrumbs = [
         grid grid-cols-1 gap-10 pt-10
         lg:grid-cols-[minmax(0,1fr)_18rem]
       "
-      data-animate="fade"
+      data-animate
     >
       <!-- Left: article prose, series navigator, share -->
       <div class="min-w-0 space-y-10">
@@ -125,7 +127,7 @@ const breadcrumbs = [
           />
         )}
 
-        <ShareButtons title={title} url={canonicalURL.href} />
+        <ShareButtons title={title} url={localURL.href} />
 
         <WebmentionsSection mentions={webmentions} />
 
@@ -146,119 +148,5 @@ const breadcrumbs = [
   <PageSection>
     <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
   </PageSection>
-
-  <script>
-    const COPY_ICON = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="size-4" aria-hidden="true" focusable="false">
-        <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-      </svg>
-    `.trim();
-
-    const CHECK_ICON = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-        class="size-4 text-green-500" aria-hidden="true" focusable="false">
-        <path d="M20 6 9 17l-5-5"/>
-      </svg>
-    `.trim();
-
-    // Shared live region: announces copy feedback to screen readers.
-    const liveRegion = document.createElement('div');
-    liveRegion.setAttribute('aria-live', 'polite');
-    liveRegion.setAttribute('aria-atomic', 'true');
-    liveRegion.className = 'sr-only';
-    document.body.appendChild(liveRegion);
-
-    function setupEnhancedCodeBlocks() {
-      const codeFigures = document.querySelectorAll('figure[data-rehype-pretty-code-figure]');
-
-      for (const figure of codeFigures) {
-        const pre = figure.querySelector('pre');
-        if (!pre || figure.querySelector('.code-header')) continue;
-
-        const lang = figure.getAttribute('data-language') || 'code';
-        const titleEl = figure.querySelector('[data-rehype-pretty-code-title]');
-        const titleText = titleEl ? titleEl.textContent : '';
-
-        // Create Header
-        const header = document.createElement('div');
-        header.className = 'code-header';
-
-        // Window Controls (purely decorative — hidden from assistive tech)
-        const controls = document.createElement('div');
-        controls.className = 'window-controls';
-        controls.setAttribute('aria-hidden', 'true');
-        controls.innerHTML = `
-          <span class="window-dot red"></span>
-          <span class="window-dot yellow"></span>
-          <span class="window-dot green"></span>
-        `;
-        header.appendChild(controls);
-
-        // Title / Language Badge Container
-        const centerContainer = document.createElement('div');
-        centerContainer.className = 'code-title-container';
-
-        if (titleText) {
-          centerContainer.innerHTML = `
-            <span class="lang-badge">${lang}</span>
-            <span class="truncate">${titleText}</span>
-          `;
-        } else {
-          centerContainer.innerHTML = `<span class="lang-badge">${lang}</span>`;
-        }
-        header.appendChild(centerContainer);
-
-        // Copy Button — lives in the header's right slot, always visible
-        const copyButton = document.createElement('button');
-        copyButton.className = 'copy-button';
-        copyButton.setAttribute('type', 'button');
-        copyButton.setAttribute('aria-label', 'Copy code to clipboard');
-        copyButton.innerHTML = COPY_ICON;
-
-        copyButton.addEventListener('click', async () => {
-          const code = pre.querySelector('code');
-          const text = code ? code.innerText : pre.innerText;
-
-          await navigator.clipboard.writeText(text);
-
-          copyButton.innerHTML = CHECK_ICON;
-          copyButton.classList.add('copied');
-          copyButton.setAttribute('aria-label', 'Code copied!');
-
-          liveRegion.textContent = 'Code copied to clipboard';
-          setTimeout(() => { liveRegion.textContent = ''; }, 2000);
-          setTimeout(() => {
-            copyButton.innerHTML = COPY_ICON;
-            copyButton.classList.remove('copied');
-            copyButton.setAttribute('aria-label', 'Copy code to clipboard');
-          }, 2000);
-        });
-
-        header.appendChild(copyButton);
-
-        // Add tabindex so keyboard users can scroll long code blocks
-        pre.setAttribute('tabindex', '0');
-
-        figure.insertBefore(header, pre);
-
-        // Apply scroll-fade mask only when code overflows horizontally
-        const updateScrollFade = () => {
-          pre.classList.toggle('has-scroll-fade', pre.scrollWidth > pre.clientWidth);
-        };
-        updateScrollFade();
-        new ResizeObserver(updateScrollFade).observe(pre);
-      }
-    }
-
-    // Run on initial load
-    setupEnhancedCodeBlocks();
-
-    // Run on view transitions
-    document.addEventListener('astro:after-swap', setupEnhancedCodeBlocks);
-  </script>
 
 </BaseLayout>

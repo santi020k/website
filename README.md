@@ -1,8 +1,8 @@
 # [Santiago Molina](https://santi020k.com/)
 
 [![CI](https://github.com/santi020k/website/actions/workflows/build.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/build.yml)
+[![Astro Doctor](https://github.com/santi020k/website/actions/workflows/astro-doctor.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/astro-doctor.yml)
 [![CodeQL](https://github.com/santi020k/website/actions/workflows/codeql.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/codeql.yml)
-[![Security Audit](https://github.com/santi020k/website/actions/workflows/audit.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/audit.yml)
 [![License: Source-Available](https://img.shields.io/badge/license-source--available-orange.svg)](./LICENSE)
 
 ![Santi020k Logo](./src/assets/brand/logos/logo-santi020k.webp)
@@ -25,7 +25,7 @@ Personal website, blog, and portfolio of **Santiago Molina** — Full Stack Deve
 - **Accessibility First**: WCAG 2.2 AA compliant, validated with axe in E2E tests.
 - **View Transitions**: Seamless, app-like navigation between pages.
 - **Generated Assets**: Favicons, OG images, fonts, and brand assets built from scripts — no stale binaries.
-- **Quality Gates**: ESLint (via [`@santi020k/eslint-config-basic`](https://github.com/santi020k/eslint-config-basic)), Vitest, Playwright, Lighthouse CI, CodeQL, and spellchecking on every change.
+- **Quality Gates**: [Astro Doctor](https://github.com/santi020k/astro-doctor), ESLint (via [`@santi020k/eslint-config-basic`](https://github.com/santi020k/eslint-config-basic)), dependency audit, Vitest, Playwright, Lighthouse CI, and spellchecking on every pull request, plus scheduled CodeQL analysis.
 
 ---
 
@@ -112,6 +112,7 @@ This is a personal site, but issues and suggestions are welcome.
 - [`CHANGELOG.md`](./CHANGELOG.md)
 - [`docs/deployment.md`](./docs/deployment.md)
 - [`docs/theming.md`](./docs/theming.md)
+- [`docs/lumen-integration.md`](./docs/lumen-integration.md)
 - [`docs/cache-strategy.md`](./docs/cache-strategy.md)
 - [`docs/observability.md`](./docs/observability.md)
 - [`docs/incident-response.md`](./docs/incident-response.md)

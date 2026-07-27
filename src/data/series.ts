@@ -1,8 +1,8 @@
-import { getCachedPosts, getCachedSeries } from '@/utils/content'
-import { getAdjacentSeriesPosts, sortSeriesPosts } from '@/utils/series'
-
 import type { CollectionEntry } from 'astro:content'
 import { getEntry } from 'astro:content'
+
+import { getCachedPosts, getCachedSeries } from '@/utils/content'
+import { getAdjacentSeriesPosts, sortSeriesPosts } from '@/utils/series'
 
 export const getAllSeries = async (): Promise<CollectionEntry<'series'>[]> => {
   const series = await getCachedSeries()

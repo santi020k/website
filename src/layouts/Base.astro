@@ -3,30 +3,39 @@ import { ClientRouter } from 'astro:transitions'
 
 import BackToTop from '@/components/atoms/BackToTop.astro'
 import ParticlesBackground from '@/components/atoms/ParticlesBackground.astro'
-import SkipLink from '@/components/atoms/SkipLink.astro'
 import SiteFooter from '@/components/organisms/SiteFooter.astro'
 import SiteHeader from '@/components/organisms/SiteHeader.astro'
 import BaseHead from '@/components/shared/BaseHead.astro'
 import NavProgress from '@/components/shared/NavProgress.astro'
-import ScrollReveal from '@/components/shared/ScrollReveal.astro'
 import ServiceWorkerRegistration from '@/components/shared/ServiceWorkerRegistration.astro'
 import ThemeProvider from '@/components/shared/ThemeProvider.astro'
 
-import '@/styles/global.css'
-
-import { siteConfig } from '@/site.config'
 import type { SiteMeta } from '@/types/site'
 
+import '@/styles/global.css'
+
+import { SkipLink, UIPrimitives } from '@santi020k/lumen-astro'
+
+import { siteConfig } from '@/site.config'
+
 interface Props {
+  footerVariant?: 'compact' | 'default'
+  mainClass?: string | undefined
+  mainSpacing?: 'generous' | 'standard'
   meta: SiteMeta
 }
 
 const {
+  footerVariant = 'default',
+  mainClass,
+  mainSpacing = 'standard',
   meta: {
     articleDate,
     articleUpdated,
     breadcrumbs,
+    canonicalUrl,
     description = siteConfig.description,
+    noindex,
     ogImage,
     ogImageAlt,
     preloadImage,
@@ -41,24 +50,28 @@ const headMeta = {
   ...(articleDate !== undefined ? { articleDate } : {}),
   ...(articleUpdated !== undefined ? { articleUpdated } : {}),
   ...(breadcrumbs !== undefined ? { breadcrumbs } : {}),
+  ...(canonicalUrl !== undefined ? { canonicalUrl } : {}),
+  ...(noindex !== undefined ? { noindex } : {}),
   ...(ogImage !== undefined ? { ogImage } : {}),
   ...(ogImageAlt !== undefined ? { ogImageAlt } : {}),
   ...(preloadImage !== undefined ? { preloadImage } : {}),
   ...(structuredData !== undefined ? { structuredData } : {})
 }
+
+const isGenerousSpacing = mainSpacing === 'generous'
 ---
 
-<html class="scroll-smooth" lang={siteConfig.lang}>
+<html class="scroll-smooth motion-reduce:scroll-auto" lang={siteConfig.lang}>
   <head>
     <BaseHead {...headMeta} />
     <ClientRouter />
   </head>
   <body class="min-h-screen">
     <ThemeProvider />
-    <SkipLink />
+    <SkipLink href="#main">Skip to content</SkipLink>
 
     <div class="relative flex min-h-screen w-full flex-col overflow-x-clip">
-      <ParticlesBackground density="medium" class="-z-10" />
+      <ParticlesBackground density="medium" class="z-0" />
       <div class="
         pointer-events-none absolute inset-0 -z-10 grid-fade opacity-60
       "
@@ -67,44 +80,51 @@ const headMeta = {
 
       <main
         id="main"
-        class="
-          mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-24
-          px-5 pt-12 pb-24
-          sm:px-6
-          lg:px-8
-        "
+        class:list={[
+          `
+            mx-auto flex w-full max-w-384 flex-1 flex-col justify-center px-5
+            pt-12
+            sm:px-6
+            lg:px-8
+            2xl:px-10
+          `,
+          isGenerousSpacing ?
+            `
+              gap-16 pb-20
+              sm:pb-22
+              lg:gap-20 lg:pb-24
+              2xl:gap-24
+            ` :
+            `
+              gap-12 pb-16
+              sm:gap-14 sm:pb-18
+              lg:gap-16 lg:pb-20
+              2xl:gap-18
+            `,
+          mainClass
+        ]}
         tabindex="-1"
         transition:animate="fade"
       >
         <slot />
       </main>
 
-      <SiteFooter />
+      <SiteFooter variant={footerVariant} />
     </div>
 
     <BackToTop />
     <NavProgress />
-    <ScrollReveal />
+    <UIPrimitives />
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
 
     <script>
-      // Scroll to top on forward navigation; preserve position on back/forward.
-      // Also restore SR/keyboard focus to <main> after the swap so the virtual
-      // cursor follows the page change instead of staying on a stale element.
-      document.addEventListener('astro:before-preparation', (e) => {
-        const { navigationType } = e as Event & { navigationType?: string }
-        const isTraverse = navigationType === 'traverse'
-
-        document.addEventListener('astro:after-swap', () => {
-          if (!isTraverse) {
-            window.scrollTo(0, 0)
-          }
-
-          const main = document.getElementById('main')
-          if (main instanceof HTMLElement) {
-            main.focus({ preventScroll: true })
-          }
-        }, { once: true })
+      // Restore SR/keyboard focus after a swap so the virtual cursor follows
+      // the page change. Astro retains control of fragment and history scroll.
+      document.addEventListener('astro:after-swap', () => {
+        const main = document.getElementById('main')
+        if (main instanceof HTMLElement) {
+          main.focus({ preventScroll: true })
+        }
       })
     </script>
 

@@ -5,12 +5,13 @@ import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
 
-import PageLayout from '@/layouts/Base.astro'
+import { Card, Input, Link, Toggle } from '@santi020k/lumen-astro'
 
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
@@ -23,16 +24,18 @@ const breadcrumbs = [
 ]
 ---
 
-<PageLayout meta={{
-  breadcrumbs,
-  description: 'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
-  title: 'Blog Topics'
-}}
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description: 'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
+    title: 'Blog Topics'
+  }}
 >
   <PageHero
     description="Browse the archive by recurring topics so related posts are easier to find without hunting through the full feed."
     eyebrow="Topics"
     gradientText="Find related writing fast."
+    metaItems={['Architecture', 'Automation', 'Developer experience']}
     title="Browse by topic."
   >
     <ButtonLink href="/blog/" showArrow variant="secondary">
@@ -43,12 +46,6 @@ const breadcrumbs = [
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid>
-    <StatCard description="Distinct recurring topics across the current writing archive." label="Topics" value={String(allTags.length)} />
-    <StatCard description="Published posts that can be reached through these topic pages." label="Posts" value={String(posts.length)} />
-    <StatCard description="How often the most-used topic currently appears in the archive." label="Top topic" value={`${topTagCount}x`} />
-  </StatsGrid>
-
   <PageSection class="lg:grid-cols-1!">
     <SectionHeader
       description="Each topic opens a filtered archive page with the related posts."
@@ -57,13 +54,43 @@ const breadcrumbs = [
     />
 
     <div class="space-y-4">
-      <div class="flex items-center gap-3">
-        <span class="section-label">Sort</span>
-        <div class="flex gap-2">
-          <button class="pagination-btn pagination-btn--active" data-sort-btn="count" type="button">By count</button>
-          <button class="pagination-btn" data-sort-btn="alpha" type="button">A → Z</button>
+      <div class="
+        grid gap-4
+        sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end
+      "
+      >
+        <div class="space-y-2">
+          <label class="section-label block" for="tag-filter">Find a topic</label>
+          <Input
+            aria-describedby="tag-filter-status"
+            autocomplete="off"
+            class="field-surface"
+            id="tag-filter"
+            placeholder="Search topics…"
+            spellcheck="false"
+            type="search"
+          />
+        </div>
+        <div class="
+          flex items-center gap-3
+          sm:pb-0.5
+        "
+        >
+          <span class="section-label">Sort</span>
+          <div class="flex gap-2">
+            <Toggle className="pagination-btn pagination-btn--active" controlled data-sort-btn="count" pressed>By count</Toggle>
+            <Toggle className="pagination-btn" controlled data-sort-btn="alpha">A → Z</Toggle>
+          </div>
         </div>
       </div>
+
+      <p
+        id="tag-filter-status"
+        aria-live="polite"
+        class="text-sm text-ink-muted"
+      >
+        Showing all {allTags.length} topics.
+      </p>
 
       <div
         class="
@@ -72,43 +99,37 @@ const breadcrumbs = [
           lg:grid-cols-3
         "
         id="tags-list"
+        data-stagger="40"
       >
         {allTags.map(([tag, count], i) => {
           const pct = allTags[0]?.[1] ? Math.round((count / allTags[0][1]) * 100) : 0
 
           return (
             <span data-count={String(count)} data-label={tag}>
-              <a
+              <Link
                 class="
-                  tag-glass-card group block rounded-[1.35rem]
+                  group block h-full rounded-[1.35rem] font-normal text-inherit
+                  no-underline
                   focus-visible:ring-2 focus-visible:ring-brand/50
                   focus-visible:outline-none
                 "
                 href={getTagPath(tag)}
-                style={`--card-accent: var(--brand); animation-delay: ${i * 30}ms`}
+                style={`animation-delay: ${i * 30}ms`}
               >
-                <article
+                <Card
+                  as="article"
                   class="
-                    tag-glass-inner relative flex h-full flex-col gap-4
-                    overflow-hidden rounded-[1.35rem] p-6
+                    relative flex h-full flex-col gap-4 rounded-[1.35rem] p-6
                   "
+                  variant="interactive"
                 >
-                  {/* Specular top-edge highlight */}
                   <div
                     aria-hidden="true"
                     class="
-                      pointer-events-none absolute inset-x-0 top-0 z-20 h-px
+                      pointer-events-none absolute inset-x-0 top-0 h-1
+                      bg-linear-to-r from-brand/55 via-accent/45 to-transparent
+                      opacity-70
                     "
-                    style="background: linear-gradient(90deg, transparent 8%, hsl(0 0% 100% / 0.35) 30%, hsl(0 0% 100% / 0.5) 50%, hsl(0 0% 100% / 0.35) 70%, transparent 92%);"
-                  />
-                  {/* Accent tint on hover */}
-                  <div
-                    aria-hidden="true"
-                    class="
-                      tag-glass-tint pointer-events-none absolute inset-0
-                      opacity-0
-                    "
-                    style="background: radial-gradient(ellipse 80% 60% at 70% 20%, color-mix(in srgb, hsl(var(--card-accent)) 18%, transparent), transparent 65%);"
                   />
 
                   <div class="
@@ -125,10 +146,10 @@ const breadcrumbs = [
                     </span>
                     <span
                       class="
-                        shrink-0 rounded-full border px-2 py-0.5 text-xs
-                        font-semibold tabular-nums
+                        shrink-0 rounded-full border border-brand/20
+                        bg-brand-soft/60 px-2 py-0.5 text-xs font-semibold
+                        text-brand tabular-nums
                       "
-                      style="background: hsl(var(--brand-soft) / 0.55); color: hsl(var(--brand)); border-color: color-mix(in srgb, hsl(var(--brand)) 30%, transparent);"
                     >
                       {count}
                     </span>
@@ -136,128 +157,102 @@ const breadcrumbs = [
 
                   <div class="relative z-10 mt-auto">
                     <div
-                      class="h-1 w-full overflow-hidden rounded-full"
-                      style="background: hsl(var(--line) / 0.35);"
+                      class="h-1 w-full overflow-hidden rounded-full bg-line/35"
                     >
                       <div
-                        class="
-                          h-full rounded-full transition-all duration-500
-                          motion-reduce:transition-none
-                        "
-                        style={`width: ${pct}%; background: linear-gradient(90deg, hsl(var(--brand) / 0.55), hsl(var(--accent) / 0.75));`}
+                        class="topic-meter-fill"
+                        style={`width: ${pct}%;`}
                       />
                     </div>
                     <p class="mt-2 text-xs text-ink-muted">
                       {count} {count === 1 ? 'post' : 'posts'}
                     </p>
                   </div>
-                </article>
-              </a>
+                </Card>
+              </Link>
             </span>
           )
         })}
       </div>
+      <p
+        class="
+          rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm
+          text-ink-soft
+        "
+        data-tags-empty
+        hidden
+      >
+        No topics match that search.
+      </p>
     </div>
 
     <script>
-      const list = document.getElementById('tags-list')!
-      const btns = document.querySelectorAll<HTMLButtonElement>('[data-sort-btn]')
+      const setupTopicIndex = () => {
+        const list = document.getElementById('tags-list')
+        const input = document.querySelector<HTMLInputElement>('#tag-filter')
+        const status = document.getElementById('tag-filter-status')
+        const empty = document.querySelector<HTMLElement>('[data-tags-empty]')
+        const btns = document.querySelectorAll<HTMLButtonElement>('[data-sort-btn]')
 
-      function setActive(active: HTMLButtonElement) {
-        btns.forEach(b => b.classList.toggle('pagination-btn--active', b === active))
-      }
+        if (!list || !input || !status || !empty || list.dataset.filterReady === 'true') return
 
-      btns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const sort = btn.getAttribute('data-sort-btn')
-          const items = [...list.children] as HTMLElement[]
+        list.dataset.filterReady = 'true'
 
-          items.sort((a, b) =>
-            sort === 'alpha'
-              ? (a.dataset.label ?? '').localeCompare(b.dataset.label ?? '')
-              : Number(b.dataset.count) - Number(a.dataset.count)
-          )
+        const items = [...list.children] as HTMLElement[]
 
-          items.forEach(el => list.appendChild(el))
-          setActive(btn)
+        const updateFilter = () => {
+          const query = input.value.trim().toLocaleLowerCase()
+          let visibleCount = 0
+
+          items.forEach(item => {
+            const matches = !query || (item.dataset.label ?? '').toLocaleLowerCase().includes(query)
+
+            item.hidden = !matches
+            if (matches) visibleCount += 1
+          })
+
+          empty.hidden = visibleCount > 0
+          status.textContent = query ?
+            `${visibleCount} ${visibleCount === 1 ? 'topic' : 'topics'} found.` :
+            `Showing all ${items.length} topics.`
+        }
+
+        const setActive = (active: HTMLButtonElement) => {
+          queueMicrotask(() => {
+            btns.forEach(button => {
+              const isActive = button === active
+              button.classList.toggle('pagination-btn--active', isActive)
+              button.classList.toggle('ui-toggle--pressed', isActive)
+              button.setAttribute('aria-pressed', String(isActive))
+            })
+          })
+        }
+
+        btns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const sort = btn.getAttribute('data-sort-btn')
+
+            items.sort((a, b) =>
+              sort === 'alpha'
+                ? (a.dataset.label ?? '').localeCompare(b.dataset.label ?? '')
+                : Number(b.dataset.count) - Number(a.dataset.count)
+            )
+
+            items.forEach(item => list.appendChild(item))
+            setActive(btn)
+          })
         })
-      })
+
+        input.addEventListener('input', updateFilter)
+      }
+
+      document.addEventListener('astro:page-load', setupTopicIndex)
     </script>
-
-    <style>
-      .tag-glass-inner {
-        background: linear-gradient(
-          160deg,
-          hsl(var(--surface) / 0.82),
-          hsl(var(--surface-muted) / 0.62)
-        );
-        border: 1px solid hsl(var(--line) / 0.42);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        box-shadow:
-          0 8px 24px hsl(230 30% 8% / 0.04),
-          0 3px 8px hsl(230 30% 8% / 0.025),
-          inset 0 1px 0 hsl(0 0% 100% / 0.1);
-      }
-
-      @media (prefers-reduced-motion: no-preference) {
-        .tag-glass-card {
-          transition:
-            transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-            box-shadow 0.3s ease;
-        }
-
-        .tag-glass-card:hover {
-          transform: translateY(-4px);
-        }
-
-        .tag-glass-card:hover .tag-glass-inner {
-          border-color: color-mix(in srgb, hsl(var(--brand)) 28%, hsl(var(--line) / 0.42));
-          box-shadow:
-            inset 0 1px 0 hsl(0 0% 100% / 0.14),
-            0 0 0 1px color-mix(in srgb, hsl(var(--brand)) 16%, transparent),
-            0 16px 40px hsl(230 30% 8% / 0.1),
-            0 6px 16px color-mix(in srgb, hsl(var(--brand)) 14%, transparent);
-        }
-
-        /* Shimmer sweep */
-        .tag-glass-inner::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: -65%;
-          width: 35%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            hsl(0 0% 100% / 0.04) 40%,
-            hsl(0 0% 100% / 0.07) 50%,
-            hsl(0 0% 100% / 0.04) 60%,
-            transparent
-          );
-          transform: skewX(-10deg);
-          z-index: 9;
-          pointer-events: none;
-        }
-
-        @keyframes tag-shimmer {
-          from { left: -65%; }
-          to   { left: 130%; }
-        }
-
-        .tag-glass-card:hover .tag-glass-inner::after {
-          animation: tag-shimmer 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .tag-glass-tint {
-          transition: opacity 0.4s ease;
-        }
-
-        .tag-glass-card:hover .tag-glass-tint {
-          opacity: 1;
-        }
-      }
-    </style>
   </PageSection>
+
+  <StatsGrid>
+    <StatCard description="Distinct recurring topics across the current writing archive." label="Topics" value={String(allTags.length)} />
+    <StatCard description="Published posts that can be reached through these topic pages." label="Posts" value={String(posts.length)} />
+    <StatCard description="How often the most-used topic currently appears in the archive." label="Top topic" value={`${topTagCount}x`} />
+  </StatsGrid>
 </PageLayout>

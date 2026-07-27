@@ -2,7 +2,7 @@
 title: "Configuring MongoDB with Homebrew on macOS: Converting a Standalone Instance to a Replica Set"
 description: "Convert a standalone MongoDB instance to a replica set on macOS using Homebrew. Covers mongod.conf changes, replication settings, and local verification steps."
 publishDate: "2024-04-05T18:33:37.000Z"
-tags: ["mongo", "configuration", "hombrew", "mac"]
+tags: ["mongo", "configuration", "homebrew", "mac"]
 coverImage:
   alt: "configuring mongodb with homebrew on macos converting a standalone instance to a replica set"
   src: "./cover.webp"

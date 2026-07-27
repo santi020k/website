@@ -1,8 +1,13 @@
 name: "CodeQL"
 
-on:
-  push:
-    branches: [ "main" ]
+'on':
+  schedule:
+    - cron: "23 7 * * 1"
+  workflow_dispatch: {}
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   analyze:

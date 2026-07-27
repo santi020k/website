@@ -1,6 +1,7 @@
-import yaml from 'js-yaml'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+
+import yaml from 'js-yaml'
 
 const CONTENT_ROOT = path.resolve('src/content')
 

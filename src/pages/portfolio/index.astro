@@ -1,78 +1,170 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-
+import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSpotlight.astro'
 import PageLayout from '@/layouts/Base.astro'
+
+import { getCachedProjects } from '@/utils/content'
+import { collectionRelevanceSortProjects } from '@/utils/date'
+
+const allProjects = (await getCachedProjects()).sort(collectionRelevanceSortProjects)
+const selectedWork = allProjects.filter(project => project.data.typesId === 'professional').slice(0, 3)
+const selectedProjects = allProjects.filter(project => project.data.typesId === 'personal').slice(0, 3)
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Portfolio', url: '/portfolio/' }
-]
-
-const sections = [
-  {
-    buttonLabel: 'Browse work',
-    description: 'Roles across commerce, gaming, SaaS, real estate, martech, and agencies — focused on architecture and technical leadership.',
-    href: '/work/',
-    label: 'Work Experience',
-    title: 'Client & Product Work'
-  },
-  {
-    buttonLabel: 'Browse projects',
-    description: 'Open-source tools, community work, and self-directed experiments built to learn, share, and sharpen craft.',
-    href: '/projects/',
-    label: 'Side Projects',
-    title: 'Open Source & Personal Builds'
-  }
 ]
 ---
 
 <PageLayout
   meta={{
     breadcrumbs,
-    description: 'Engineering portfolio of Santiago Molina — browse client and product work or personal projects and open source.',
-    title: 'Portfolio — Santiago Molina'
+    description: 'Selected client systems, product work, open-source tools, and community projects by Santiago Molina.',
+    title: 'Selected Portfolio — Santiago Molina'
   }}
 >
   <PageHero
-    description="The portfolio is split into two sections — client and product work, and personal open-source projects."
-    eyebrow="Portfolio"
-    gradientText="and side projects."
-    title="Work experience"
+    compact
+    description="A focused collection of products, platforms, and open-source tools. Each case study shows the constraints, decisions, and measurable result—not just the final screen."
+    eyebrow="Selected portfolio"
+    gradientText="Built to hold up."
+    metaItems={['Product engineering', 'Technical leadership', 'Developer experience']}
+    title="Work that shipped."
   >
-    <ButtonLink href="/work/" showArrow>
-      Browse work
+    <ButtonLink href="#selected-work" showArrow>
+      See the case studies
     </ButtonLink>
-    <ButtonLink href="/projects/" showArrow variant="secondary">
-      Browse projects
+    <ButtonLink href="/work/" showArrow variant="secondary">
+      View work history
     </ButtonLink>
   </PageHero>
 
   <section
     class="
-      grid gap-6
-      sm:grid-cols-2
+      section-container-wide scroll-mt-28 space-y-8 pt-12
+      sm:pt-16
+      lg:pt-20
     "
-    data-stagger="80"
+    data-portfolio-section
+    id="selected-work"
   >
-    {sections.map(({ buttonLabel, description, href, label, title }) => (
-      <div class="panel-card flex flex-col gap-6 p-7">
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute inset-x-0 top-0 z-10 h-px"
-          style="background: linear-gradient(90deg, transparent 8%, hsl(0 0% 100% / 0.3) 40%, hsl(0 0% 100% / 0.45) 50%, hsl(0 0% 100% / 0.3) 60%, transparent 92%);"
-        />
-        <div class="space-y-2">
-          <p class="section-label">{label}</p>
-          <h2 class="text-xl font-semibold text-ink">{title}</h2>
-          <p class="text-sm/7 text-ink-soft">{description}</p>
-        </div>
-        <div class="mt-auto">
-          <ButtonLink href={href} showArrow variant="secondary">
-            {buttonLabel}
-          </ButtonLink>
-        </div>
+    <div
+      class="
+        grid gap-6 border-b border-line/50 pb-7
+        lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,1.1fr)] lg:items-end
+        lg:gap-12
+      "
+      data-animate
+    >
+      <div class="space-y-4">
+        <Eyebrow label="Client and product work" tone="brand" />
+        <h2 class="
+          max-w-2xl text-3xl font-semibold tracking-[-0.04em]
+          sm:text-4xl
+        "
+        >
+          Systems built under real pressure.
+        </h2>
       </div>
-    ))}
+      <div class="
+        flex flex-col items-start gap-5
+        sm:flex-row sm:items-end sm:justify-between
+      "
+      >
+        <p class="
+          max-w-xl text-sm/7 text-ink-soft
+          sm:text-base/7
+        "
+        >
+          Professional work where architecture, delivery systems, and technical leadership had to move together.
+        </p>
+        <ButtonLink className="shrink-0" href="/work/" showArrow variant="inline">
+          Browse work
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div
+      class="space-y-6"
+      data-stagger="60"
+    >
+      {selectedWork[0] && (
+        <PortfolioProjectSpotlight featured imagePriority project={selectedWork[0]} />
+      )}
+      <div class="
+        grid gap-6
+        md:grid-cols-2
+      "
+      >
+        {selectedWork.slice(1).map(project => (
+          <PortfolioProjectSpotlight project={project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="
+      section-container-wide space-y-8 pt-12
+      sm:pt-16
+      lg:pt-20
+    "
+    data-portfolio-section
+  >
+    <div
+      class="
+        grid gap-6 border-b border-line/50 pb-7
+        lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,1.1fr)] lg:items-end
+        lg:gap-12
+      "
+      data-animate
+    >
+      <div class="space-y-4">
+        <Eyebrow label="Independent builds" tone="brand" />
+        <h2 class="
+          max-w-2xl text-3xl font-semibold tracking-[-0.04em]
+          sm:text-4xl
+        "
+        >
+          Ideas turned into useful tools.
+        </h2>
+      </div>
+      <div class="
+        flex flex-col items-start gap-5
+        sm:flex-row sm:items-end sm:justify-between
+      "
+      >
+        <p class="
+          max-w-xl text-sm/7 text-ink-soft
+          sm:text-base/7
+        "
+        >
+          Open-source, community, and self-directed work where curiosity becomes something other people can use.
+        </p>
+        <ButtonLink className="shrink-0" href="/projects/" showArrow variant="inline">
+          Browse projects
+        </ButtonLink>
+      </div>
+    </div>
+
+    <div
+      class="space-y-6"
+      data-stagger="60"
+    >
+      {selectedProjects[0] && (
+        <PortfolioProjectSpotlight featured project={selectedProjects[0]} />
+      )}
+      <div class="
+        grid gap-6
+        md:grid-cols-2
+      "
+      >
+        {selectedProjects.slice(1).map(project => (
+          <PortfolioProjectSpotlight project={project} />
+        ))}
+      </div>
+    </div>
   </section>
 </PageLayout>

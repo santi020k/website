@@ -7,7 +7,9 @@ export const toggleClass = (element: HTMLElement, className: string): void => {
 }
 
 /** Returns `true` when the element currently has the given CSS class applied. */
-export const elementHasClass = (element: HTMLElement, className: string): boolean => element.classList.contains(className) // eslint-disable-line @stylistic/max-len
+export const elementHasClass = (element: HTMLElement, className: string): boolean => (
+  element.classList.contains(className)
+)
 
 /**
  * Returns `true` when the site is currently displayed in dark mode.

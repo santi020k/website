@@ -4,6 +4,8 @@
  * empty feed) degrade to an empty list — the page renders fine without it.
  */
 
+import { XMLParser } from 'fast-xml-parser'
+
 export interface NewsletterIssue {
   description: string
   link: string
@@ -18,32 +20,80 @@ const decodeEntities = (value: string): string => value
   .replaceAll('&#39;', '\'')
   .replaceAll('&amp;', '&')
 
-const stripCdata = (value: string): string => value.replace(/^<!\[CDATA\[([\s\S]*)\]\]>$/, '$1')
 const stripHtml = (value: string): string => value.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
 
-const getTag = (block: string, tag: string): string => {
-  const value = new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)</${tag}>`).exec(block)?.[1]
+const parser = new XMLParser({
+  ignoreAttributes: false,
+  processEntities: true,
+  trimValues: true
+})
 
-  return value ? stripCdata(value).trim() : ''
+const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
+
+const toArray = (value: unknown): Record<string, unknown>[] => {
+  if (Array.isArray(value)) {
+    return value.filter(isRecord)
+  }
+
+  return isRecord(value) ? [value] : []
+}
+
+const textValue = (value: unknown): string => {
+  if (typeof value === 'string' || typeof value === 'number') {
+    return String(value).trim()
+  }
+
+  return ''
+}
+
+const getItemValue = (
+  item: Record<string, unknown>,
+  key: 'description' | 'link' | 'pubDate' | 'title'
+): string => {
+  switch (key) {
+    case 'description':
+      return textValue(item.description)
+
+    case 'link':
+      return textValue(item.link)
+
+    case 'pubDate':
+      return textValue(item.pubDate)
+
+    case 'title':
+      return textValue(item.title)
+  }
+}
+
+const getFeedItems = (xml: string): Record<string, unknown>[] => {
+  const parsed = parser.parse(xml) as unknown
+
+  if (!isRecord(parsed) || !isRecord(parsed.rss) || !isRecord(parsed.rss.channel)) {
+    return []
+  }
+
+  return toArray(parsed.rss.channel.item)
 }
 
 const MAX_DESCRIPTION_LENGTH = 280
 const truncate = (value: string, max: number): string => (value.length <= max ? value : `${value.slice(0, max).replace(/\s+\S*$/, '')}…`)
 
 export const parseNewsletterFeed = (xml: string): NewsletterIssue[] => {
-  const items = xml.match(/<item>[\s\S]*?<\/item>/g) ?? []
+  const items = getFeedItems(xml)
 
   return items
-    .map(block => {
-      const rawDate = getTag(block, 'pubDate')
+    .map(item => {
+      const rawDate = getItemValue(item, 'pubDate')
       const parsedDate = rawDate ? new Date(rawDate) : undefined
 
       return {
         // Decode twice: once for the XML escaping, once for entities inside the embedded HTML.
-        description: truncate(decodeEntities(stripHtml(decodeEntities(getTag(block, 'description')))), MAX_DESCRIPTION_LENGTH),
-        link: decodeEntities(getTag(block, 'link')),
+        description: truncate(
+          decodeEntities(stripHtml(decodeEntities(getItemValue(item, 'description')))), MAX_DESCRIPTION_LENGTH
+        ),
+        link: decodeEntities(getItemValue(item, 'link')),
         pubDate: parsedDate && !Number.isNaN(parsedDate.valueOf()) ? parsedDate : undefined,
-        title: stripHtml(decodeEntities(getTag(block, 'title')))
+        title: stripHtml(decodeEntities(getItemValue(item, 'title')))
       }
     })
     .filter(issue => issue.title.length > 0 && issue.link.length > 0)

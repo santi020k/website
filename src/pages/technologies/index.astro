@@ -1,21 +1,24 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import Pill from '@/components/atoms/Pill.astro'
-import PillCount from '@/components/atoms/PillCount.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
+import { Card, Input } from '@santi020k/lumen-astro'
+
 import { getUniqueTechnologiesWithCount } from '@/data/project'
-import PageLayout from '@/layouts/Base.astro'
 
 const allProjects = await getCachedProjects()
 const technologies = getUniqueTechnologiesWithCount(allProjects)
 const topTechnology = technologies[0]?.[0]
+const totalTechnologyMentions = technologies.reduce((total, [, count]) => total + count, 0)
 const coreTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count >= 4))
 const regularTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count >= 2 && count < 4))
 const selectiveTechnologies = sortTechnologyCountsByInterest(technologies.filter(([, count]) => count === 1))
@@ -24,33 +27,39 @@ const technologyGroups = [
   {
     description: 'The core stack that shows up repeatedly across shipped projects.',
     items: coreTechnologies,
+    summary: 'Repeated foundations across product architecture, delivery workflows, and the portfolio surface.',
     title: 'Core'
   },
   {
     description: 'Technologies that support product delivery on a regular basis.',
     items: regularTechnologies,
+    summary: 'Reliable companion tools that help teams ship, test, document, and maintain production systems.',
     title: 'Regular'
   },
   {
     description: 'Specialized tools that appear in narrower product or platform contexts.',
     items: selectiveTechnologies,
+    summary: 'Context-specific platforms, APIs, and product capabilities used when the problem calls for them.',
     title: 'Selective'
   }
 ].filter(group => group.items.length > 0)
 
+const featuredTechnologies = coreTechnologies.slice(0, 6)
+
 const meta = {
-  description: 'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
-  title: 'Technology Index'
+  description: 'Browse Santiago Molina’s capabilities and technologies across frontend architecture, product systems, testing, and delivery.',
+  title: 'Capabilities & Technologies'
 }
 
 ---
 
 <PageLayout meta={meta}>
   <PageHero
-    description="The recurring stack across the portfolio: React, Next.js, TypeScript, Node.js, React Native, testing, DX, and the tools around them."
-    eyebrow="Stack Index"
+    description="The recurring capabilities and technologies across the portfolio: frontend and backend architecture, testing, delivery automation, developer experience, and the platforms around them."
+    eyebrow="Capabilities index"
     gradientText="Full-stack range."
-    title="Frontend-first stack."
+    metaItems={['Frontend architecture', 'Testing', 'Delivery tooling']}
+    title="Capabilities and technologies."
   >
     <ButtonLink href="/work/" showArrow>
       Browse work
@@ -60,33 +69,276 @@ const meta = {
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid columns={3}>
-    <StatCard description="Distinct tools and platforms across the full portfolio." label="Technologies" value={String(technologies.length)} />
+  <section class="
+    section-container-wide grid items-start gap-8 pt-20
+    sm:pt-24
+    lg:grid-cols-[minmax(18rem,0.62fr)_minmax(0,1.38fr)] lg:gap-10 lg:pt-28
+  "
+  >
+    <div class="editorial-rail">
+      <div class="space-y-5">
+        <Eyebrow label="Technology groups" tone="brand" />
+        <div class="space-y-4">
+          <h2 class="
+            max-w-xl text-3xl font-bold tracking-tight text-ink
+            sm:text-4xl
+            lg:text-[2.8rem]/tight
+          "
+          >
+            The stack by recurrence.
+          </h2>
+          <p class="section-copy">
+            Grouped by how often each tool appears in shipped work, with the most product-shaping
+            technologies kept easiest to scan.
+          </p>
+        </div>
+      </div>
+
+      <Card
+        class="
+          relative p-5
+          sm:p-6
+        "
+        variant="muted"
+      >
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 grid-fade opacity-25"
+        >
+        </div>
+        <div
+          aria-hidden="true"
+          class="
+            pointer-events-none absolute -right-10 -bottom-16 size-44
+            rounded-full bg-radial from-brand/18 via-accent/8 to-transparent
+            blur-2xl
+          "
+        />
+        <div class="relative z-10 space-y-4">
+          <p class="
+            section-label text-brand
+            dark:text-accent
+          "
+          >Recurring foundations
+          </p>
+          <div class="flex flex-wrap gap-2.5">
+            {featuredTechnologies.map(([technology, count]) => (
+              <Pill
+                count={count}
+                href={getTechnologyPath(technology)}
+                label={technology}
+                tone="brand"
+              />
+            ))}
+          </div>
+        </div>
+      </Card>
+    </div>
+
+    <div class="space-y-5">
+      <div class="space-y-2">
+        <label class="section-label block" for="technology-filter">Find a technology</label>
+        <Input
+          aria-describedby="technology-filter-status"
+          autocomplete="off"
+          class="field-surface"
+          id="technology-filter"
+          placeholder="Search technologies…"
+          spellcheck="false"
+          type="search"
+        />
+      </div>
+      <p
+        id="technology-filter-status"
+        aria-live="polite"
+        class="text-sm text-ink-muted"
+      >
+        Showing all {technologies.length} technologies.
+      </p>
+
+      <div
+        class="
+          grid gap-5
+          lg:grid-cols-3
+        "
+        data-stagger="70"
+        data-technology-groups
+      >
+        {technologyGroups.map((group, index) => (
+          <Card
+            class="
+              group relative h-full p-5 transition-all duration-300
+              hover:-translate-y-1 hover:border-brand/35
+              motion-reduce:transition-none
+              motion-reduce:hover:translate-y-0
+              sm:p-6
+            "
+            data-technology-group
+            variant="muted"
+          >
+            <div
+              aria-hidden="true"
+              class:list={[
+                `
+                  pointer-events-none absolute inset-x-8 bottom-0 h-32
+                  rounded-full bg-radial from-brand/10 via-accent/5 to-transparent
+                  blur-2xl transition-opacity duration-300
+                  group-hover:opacity-100
+                  motion-reduce:transition-none
+                `,
+                index === 0 ? 'opacity-70' : 'opacity-35'
+              ]}
+            />
+            <div class="relative z-10 space-y-5">
+              <div class="space-y-3">
+                <div class="flex items-start justify-between gap-4">
+                  <p class="
+                    section-label text-brand
+                    dark:text-accent
+                  "
+                  >{group.title}
+                  </p>
+                  <span class="text-xs font-semibold text-ink-muted">{String(index + 1).padStart(2, '0')}</span>
+                </div>
+                <h3 class="
+                  text-3xl font-bold tracking-tighter text-ink
+                  sm:text-4xl
+                "
+                >
+                  <span data-technology-group-count>{group.items.length}</span> tools
+                </h3>
+                <p class="text-sm/6 text-ink-soft">{group.description}</p>
+              </div>
+
+              <div class="border-y border-line/35 py-4">
+                <p class="text-sm/6 text-ink-soft">{group.summary}</p>
+              </div>
+
+              <div class="flex flex-wrap gap-2.5">
+                {group.items.map(([technology, count]) => (
+                  <span data-technology-item data-label={technology}>
+                    <Pill
+                      count={count}
+                      href={getTechnologyPath(technology)}
+                      label={technology}
+                      tone="outline"
+                    />
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+      <p
+        class="
+          rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm
+          text-ink-soft
+        "
+        data-technologies-empty
+        hidden
+      >
+        No technologies match that search.
+      </p>
+    </div>
+  </section>
+
+  <StatsGrid showDivider={false}>
+    <StatCard description="Distinct capabilities, tools, and platforms across the full portfolio." label="Technologies" value={String(technologies.length)} />
     <StatCard description="The single technology that appears most often across shipped projects." label="Most used" value={topTechnology ?? ''} />
+    <StatCard description="Tagged project evidence connecting tools back to shipped work." label="Signals" value={String(totalTechnologyMentions)} />
     <StatCard description="Frontend, backend, testing, delivery, and developer tooling." label="Scope" value="Full stack" />
   </StatsGrid>
 
-  <section
-    class="
-      grid gap-8 pt-10
-      lg:grid-cols-3
-    "
-    data-animate
+  <section class="
+    section-container-wide pt-20
+    sm:pt-24
+    lg:pt-28
+  "
   >
-    {technologyGroups.map(group => (
-      <div class="space-y-4">
-        <div class="space-y-2">
-          <p class="section-label">{group.title}</p>
-          <p class="text-sm/6 text-ink-soft">{group.description}</p>
+    <div class="cta-panel">
+      <div
+        class="
+          grid gap-6
+          lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end
+        "
+      >
+        <div class="max-w-2xl space-y-3">
+          <p class="
+            section-label text-brand
+            dark:text-accent
+          "
+          >Trace the evidence
+          </p>
+          <h2 class="
+            text-2xl font-semibold tracking-tight text-ink
+            sm:text-3xl
+          "
+          >
+            Tools are easier to trust when they point to real work.
+          </h2>
+          <p class="section-copy">
+            Each technology page filters the portfolio to the projects where that tool shaped the
+            architecture, delivery workflow, or product experience.
+          </p>
         </div>
-        <div class="flex flex-wrap gap-3">
-          {group.items.map(([technology, count]) => (
-            <Pill href={getTechnologyPath(technology)} label={technology} tone="outline">
-              <PillCount count={count} />
-            </Pill>
-          ))}
+        <div class="
+          section-actions
+          lg:justify-end
+        "
+        >
+          <ButtonLink href="/portfolio/" showArrow>
+            Browse portfolio
+          </ButtonLink>
+          <ButtonLink href="/blog/" showArrow variant="secondary">
+            Read the writing
+          </ButtonLink>
         </div>
       </div>
-    ))}
+    </div>
   </section>
+
+  <script>
+    const setupTechnologyIndex = () => {
+      const groups = document.querySelector<HTMLElement>('[data-technology-groups]')
+      const input = document.querySelector<HTMLInputElement>('#technology-filter')
+      const status = document.getElementById('technology-filter-status')
+      const empty = document.querySelector<HTMLElement>('[data-technologies-empty]')
+
+      if (!groups || !input || !status || !empty || groups.dataset.filterReady === 'true') return
+
+      groups.dataset.filterReady = 'true'
+
+      const groupElements = groups.querySelectorAll<HTMLElement>('[data-technology-group]')
+      const items = groups.querySelectorAll<HTMLElement>('[data-technology-item]')
+
+      input.addEventListener('input', () => {
+        const query = input.value.trim().toLocaleLowerCase()
+        let visibleTotal = 0
+
+        groupElements.forEach(group => {
+          const groupItems = group.querySelectorAll<HTMLElement>('[data-technology-item]')
+          const count = [...groupItems].reduce((total, item) => {
+            const matches = !query || (item.dataset.label ?? '').toLocaleLowerCase().includes(query)
+
+            item.hidden = !matches
+
+            return total + (matches ? 1 : 0)
+          }, 0)
+          const countLabel = group.querySelector<HTMLElement>('[data-technology-group-count]')
+
+          group.hidden = count === 0
+          if (countLabel) countLabel.textContent = String(count)
+          visibleTotal += count
+        })
+
+        empty.hidden = visibleTotal > 0
+        status.textContent = query ?
+          `${visibleTotal} ${visibleTotal === 1 ? 'technology' : 'technologies'} found.` :
+          `Showing all ${items.length} technologies.`
+      })
+    }
+
+    document.addEventListener('astro:page-load', setupTechnologyIndex)
+  </script>
 </PageLayout>

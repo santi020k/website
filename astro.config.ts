@@ -1,21 +1,5 @@
-import { defineConfig, envField } from 'astro/config'
-import icon from 'astro-icon'
-import robotsTxt from 'astro-robots-txt'
-import webmanifest from 'astro-webmanifest'
-import yaml from 'js-yaml'
 import fs from 'node:fs'
 import path from 'node:path'
-// Rehype plugins
-import rehypeExternalLinks from 'rehype-external-links'
-import rehypePrettyCode from 'rehype-pretty-code'
-import rehypeUnwrapImages from 'rehype-unwrap-images'
-// Remark plugins
-import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
-
-import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
-import { remarkReadingTime } from './src/plugins/remark-reading-time'
-import { siteConfig } from './src/site.config'
-import { getPostSlug } from './src/utils/posts'
 
 import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
@@ -25,7 +9,29 @@ import {
   transformerNotationDiff,
   transformerNotationFocus
 } from '@shikijs/transformers'
+import {
+  santi020kDarkShikiTheme,
+  santi020kLightShikiTheme
+} from '@santi020k/theme/shiki'
 import tailwindcss from '@tailwindcss/vite'
+import { defineConfig, envField } from 'astro/config'
+import icon from 'astro-icon'
+import robotsTxt from 'astro-robots-txt'
+import webmanifest from 'astro-webmanifest'
+import { load as loadYaml } from 'js-yaml'
+// Rehype plugins
+import rehypeExternalLinks from 'rehype-external-links'
+import rehypePrettyCode from 'rehype-pretty-code'
+import rehypeUnwrapImages from 'rehype-unwrap-images'
+// Remark plugins
+import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
+
+import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
+import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
+import { remarkReadingTime } from './src/plugins/remark-reading-time'
+import { siteConfig } from './src/site.config'
+import { getTechnologyPath } from './src/utils/links'
+import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
 
@@ -41,12 +47,17 @@ const buildContentLastmodMap = (): Map<string, string> => {
   const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---/
 
   const walk = (dir: string): string[] => {
-    if (!fs.existsSync(dir)) return []
-
     const out: string[] = []
+    let entries: fs.Dirent[]
 
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    try {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      entries = fs.readdirSync(dir, { withFileTypes: true })
+    } catch {
+      return []
+    }
+
+    for (const entry of entries) {
       const full = path.join(dir, entry.name)
 
       if (entry.isDirectory()) {
@@ -71,9 +82,37 @@ const buildContentLastmodMap = (): Map<string, string> => {
     return undefined
   }
 
-  const register = (url: string, frontmatter: Record<string, unknown>, prefer: string[]) => {
+  type FrontmatterDateKey = 'date' | 'endingDate' | 'pubDate' | 'publishDate' | 'startingDate' | 'updatedDate'
+
+  const frontmatterDate = (frontmatter: Record<string, unknown>, key: FrontmatterDateKey) => {
+    switch (key) {
+      case 'date':
+        return frontmatter.date
+
+      case 'endingDate':
+        return frontmatter.endingDate
+
+      case 'pubDate':
+        return frontmatter.pubDate
+
+      case 'publishDate':
+        return frontmatter.publishDate
+
+      case 'startingDate':
+        return frontmatter.startingDate
+
+      case 'updatedDate':
+        return frontmatter.updatedDate
+    }
+  }
+
+  const register = (
+    url: string,
+    frontmatter: Record<string, unknown>,
+    prefer: FrontmatterDateKey[]
+  ) => {
     for (const key of prefer) {
-      const iso = toIso(frontmatter[key])
+      const iso = toIso(frontmatterDate(frontmatter, key))
 
       if (iso) {
         lastmodMap.set(url, iso)
@@ -92,7 +131,7 @@ const buildContentLastmodMap = (): Map<string, string> => {
 
       if (!match) continue
 
-      const data = yaml.load(match[1] ?? '') as Record<string, unknown> | null
+      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
 
       if (!data || data.draft === true) continue
 
@@ -115,7 +154,7 @@ const buildContentLastmodMap = (): Map<string, string> => {
 
       if (!match) continue
 
-      const data = yaml.load(match[1] ?? '') as Record<string, unknown> | null
+      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
 
       if (!data || data.draft === true) continue
 
@@ -133,6 +172,62 @@ const buildContentLastmodMap = (): Map<string, string> => {
 }
 
 const contentLastmodMap = buildContentLastmodMap()
+
+const buildLegacyRedirects = (): Record<string, string> => {
+  const redirects: Record<string, string> = {
+    '/blog/content-calendar/': '/blog/',
+    '/blog/tags/hombrew/': '/blog/tags/homebrew/'
+  }
+  const projectDirectory = path.resolve('src/content/project')
+
+  const walk = (directory: string): string[] => {
+    let entries: fs.Dirent[]
+
+    try {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      entries = fs.readdirSync(directory, { withFileTypes: true })
+    } catch {
+      return []
+    }
+
+    return entries.flatMap(entry => {
+      const entryPath = path.join(directory, entry.name)
+
+      if (entry.isDirectory()) return walk(entryPath)
+
+      return entry.isFile() && /\.mdx?$/.test(entry.name) ? [entryPath] : []
+    })
+  }
+
+  for (const file of walk(projectDirectory)) {
+    try {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      const raw = fs.readFileSync(file, 'utf8')
+      const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw)
+
+      if (!match) continue
+
+      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
+
+      if (!data || data.draft === true || !Array.isArray(data.technologies)) continue
+
+      for (const technology of data.technologies) {
+        if (typeof technology !== 'string') continue
+
+        const legacyPath = `/technologies/${encodeURIComponent(technology)}/`
+        const canonicalPath = getTechnologyPath(technology)
+
+        if (legacyPath !== canonicalPath) redirects[legacyPath] = canonicalPath
+      }
+    } catch {
+      /* ignore unreadable files */
+    }
+  }
+
+  return redirects
+}
+
+const legacyRedirects = buildLegacyRedirects()
 
 const rawFonts = (ext: string[]) => ({
   name: 'vite-plugin-raw-fonts',
@@ -153,6 +248,7 @@ const rawFonts = (ext: string[]) => ({
 
 // https://astro.build/config
 export default defineConfig({
+  redirects: legacyRedirects,
   image: {
     remotePatterns: [
       { protocol: 'https', hostname: 'webmention.io' },
@@ -166,7 +262,7 @@ export default defineConfig({
     sitemap({
       // Draft filtering happens at route level (getStaticPaths / getCachedPosts / getAllProjects)
       // so draft pages never generate URLs and are never included in the sitemap.
-      filter: () => true,
+      filter: page => !page.endsWith('/offline/') && !page.endsWith('/404/'),
       serialize(item) {
         const url = item.url
         const contentLastmod = contentLastmodMap.get(url)
@@ -214,7 +310,8 @@ export default defineConfig({
       // The search-index.json blob is intended for the in-page site search and
       // duplicates content already crawlable from posts/projects. Keep it out
       // of search results so listings stay clean.
-      policy: [{ userAgent: '*', allow: '/', disallow: ['/search-index.json'] }]
+      policy: [{ userAgent: '*', allow: '/', disallow: ['/search-index.json'] }],
+      sitemap: 'https://santi020k.com/sitemap.xml'
     }),
     webmanifest({
       // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
@@ -274,8 +371,8 @@ export default defineConfig({
           rehypePrettyCode,
           {
             theme: {
-              light: 'catppuccin-latte',
-              dark: 'catppuccin-mocha'
+              light: santi020kLightShikiTheme,
+              dark: santi020kDarkShikiTheme
             },
 
             transformers: [
@@ -285,6 +382,7 @@ export default defineConfig({
             ]
           }
         ],
+        rehypeLumenCode,
         rehypeUnwrapImages
       ],
       remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],

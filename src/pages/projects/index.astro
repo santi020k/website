@@ -7,13 +7,13 @@ import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
 import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
-import PageLayout from '@/layouts/Base.astro'
 import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
@@ -39,21 +39,30 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
   }}
 >
   <PageHero
-    description="Open-source tools, community work, and self-directed experiments. The projects I build to learn, share, and sharpen how I engineer beyond client work."
+    description="Open-source tools, community work, and self-directed experiments. These are the builds where curiosity becomes reusable practice."
     eyebrow="Side Projects"
     gradientText="love of it."
+    metaItems={['Open source', 'Community', 'Learning in public']}
     title="Built for the"
   >
-    <ButtonLink href={siteConfig.contact.github} newTab showArrow>
+    <ButtonLink href="#projects" showArrow>
+      Explore projects
+    </ButtonLink>
+    <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
       View GitHub
     </ButtonLink>
-    <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-      Message on LinkedIn
-    </ButtonLink>
-    <ButtonLink href="/work/" showArrow variant="secondary">
-      Work experience
-    </ButtonLink>
   </PageHero>
+
+  <PageSection>
+    <SectionHeader
+      description="Open-source, community, and self-directed projects that show how I learn, teach, test ideas, and turn rough edges into reusable patterns."
+      eyebrow="Personal builds"
+      title="Side Projects"
+    />
+    <div class="scroll-mt-28" id="projects">
+      <CareerTimeline projects={sideProjects} />
+    </div>
+  </PageSection>
 
   <StatsGrid>
     <StatCard
@@ -72,20 +81,11 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       value="100+"
     />
     <StatCard
-      description="Years of hands-on engineering and open-source contribution."
+      description="Years of professional engineering experience."
       label="Experience"
       value={YEARS_OF_EXPERIENCE}
     />
   </StatsGrid>
-
-  <PageSection>
-    <SectionHeader
-      description="Open-source, community, and self-directed projects that show how I like to learn, teach, and build beyond client work."
-      eyebrow="Personal builds"
-      title="Side Projects"
-    />
-    <CareerTimeline projects={sideProjects} />
-  </PageSection>
 
   <PageSection>
     <SectionHeader

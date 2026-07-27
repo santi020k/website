@@ -1,27 +1,47 @@
-# Theming: HSL Dynamic System
+# Theming: Shared Santi020k Tokens
 
-The project uses a flexible theming system based on **HSL (Hue, Saturation, Lightness)** using CSS variables. This allows for dynamic color adjustments and seamless dark/light mode management by changing just a few root parameters.
+The website uses the public `@santi020k/theme` package as the source for core brand color and font tokens. Tailwind CSS v4 still reads everything from `src/styles/global.css`, but the shared token values now enter through:
 
-## Core Principles
+```css
+@import "@santi020k/theme/tokens.css";
+```
 
-1. **Hue Rotation (`--hue`)**: The base color for backgrounds, secondary accents, and text is centered around a single hue.
-2. **Adaptive Saturation (`--saturation`)**: Saturation levels adjust automatically between dark and light modes for optimal contrast.
-3. **Dynamic Brightness**: Background (`--bg-brightness`) and text (`--fg-brightness`) are calculated using percentages for consistent transitions.
-4. **Gradation Scale**: A set of variables (`--theme-color-50` to `--theme-color-950`) creates a smooth gradient of the base color.
+Local website-only extensions live in `src/styles/partials/tokens.css`.
+
+## Token Layers
+
+1. **Package tokens**: `@santi020k/theme/tokens.css` defines the core Santi020k HSL variables, font variables, `data-theme` dark variant, and Tailwind `@theme` color mappings.
+2. **Website extensions**: `src/styles/partials/tokens.css` defines status colors (`success`, `warning`, `danger`) and animation shorthands used by local components.
+3. **Base and utilities**: the remaining style partials consume those tokens through semantic custom properties and Tailwind utilities.
 
 ## Key CSS Variables
 
-- **`--theme-bg`**: The dynamic background color.
-- **`--theme-text`**: The main foreground text color.
-- **`--theme-accent-base`**: Secondary brand/accent color.
-- **`--theme-accent-two`**: Primary brand/accent color (distinct from base hue).
-- **`--theme-link`**: Color for interactive links.
+- **`--theme-bg`** / `--color-canvas`: page background.
+- **`--surface`**, **`--surface-muted`**, **`--surface-strong`**: card, panel, and elevated UI surfaces.
+- **`--line`**: borders and dividers.
+- **`--ink`**, **`--ink-soft`**, **`--ink-muted`**: text hierarchy.
+- **`--brand`**, **`--brand-solid`**, **`--brand-soft`**, **`--accent`**, **`--glow`**: brand and interactive emphasis.
 
-## Color Scheme Implementation
+## Dark Mode
 
-- **Light Mode**: Uses higher background brightness (~95%) and lower text brightness (~9%).
-- **Dark Mode**: Flips the logic with low background brightness (~17%) and high text brightness (~98%).
+Dark mode is controlled with `data-theme="dark"` on `<html>`. Do not use `class="dark"` for theme switching; the Tailwind custom variant is defined against the data attribute.
 
 ## Usage
 
-When generating new components or styling advice, respect the HSL variables instead of using hardcoded hex or tailwind classes that don't follow the `--theme` tokens. Always prefer `var(--theme-*)` for consistent UI.
+Use Tailwind token utilities such as `bg-canvas`, `bg-surface`, `border-line`, `text-ink`, `text-ink-soft`, `text-brand`, and `bg-brand/10`. For custom CSS, use semantic variables such as `hsl(var(--surface))` or `hsl(var(--brand) / 0.12)`.
+
+## Asset And Font Helpers
+
+Use package assets for shared Santi020k brand surfaces:
+
+```text
+import logoUrl from '@santi020k/theme/assets/logos/logo-santi020k.webp'
+import { fontFamily, staticAssets } from '@santi020k/theme'
+```
+
+- `fontFamily` and `typography` provide the canonical Montserrat stacks and metadata.
+- `staticAssets` maps public output paths to package asset paths for generated favicons and app icons.
+- Direct `@santi020k/theme/assets/...` imports are preferred for Vite/Astro-managed image URLs.
+- `import.meta.resolve('@santi020k/theme/assets/...')` is preferred in Node scripts that need filesystem paths for Sharp or Satori.
+
+Do not duplicate core brand values or package-owned assets in this repo. If the Santi020k palette or shared assets change, update and publish `@santi020k/theme`, then bump the dependency here.

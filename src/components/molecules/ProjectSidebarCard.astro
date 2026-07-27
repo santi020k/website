@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Card, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   icon: string
@@ -10,10 +10,15 @@ interface Props {
 const { icon, id, title } = Astro.props
 ---
 
-<div aria-labelledby={id} class="glass-pro rounded-2xl p-5">
+<Card
+  as="section"
+  aria-labelledby={id}
+  class="rounded-2xl p-5"
+  glass="subtle"
+>
   <p class="flex items-center gap-2 section-label" id={id}>
-    <Icon aria-hidden="true" class="size-4 text-brand" name={icon} />
+    <Icon class="size-4 text-brand" name={icon} />
     {title}
   </p>
   <slot />
-</div>
+</Card>

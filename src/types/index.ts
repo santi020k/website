@@ -17,7 +17,6 @@ export type {
   SiteNewsletter,
   SiteSocialLink
 } from './site'
-export type { Badge, BadgeVariant } from './ui'
 export type {
   WebmentionAuthor,
   WebmentionContent,

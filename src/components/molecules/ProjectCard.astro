@@ -2,12 +2,13 @@
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import CoverImage from '@/components/atoms/CoverImage.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
 import { getProjectFeaturedLabel, getProjectTimelineLabel, getProjectTypeLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+import { Card, CoverImage  } from '@santi020k/lumen-astro'
 
 interface Props {
   className?: string
@@ -33,13 +34,14 @@ const projectFeaturedLabel = getProjectFeaturedLabel(project.data.typesId)
 const projectTimelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const isActive = !project.data.endingDate
 const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 2)
+const cardClass = ['group', className].filter(Boolean).join(' ')
 ---
 
-<article
-  class:list={[
-    'group card-interactive',
-    className
-  ]}
+<Card
+  as="article"
+  class={cardClass}
+  data-project-card
+  variant="interactive"
 >
   <a
     aria-label={project.data.title}
@@ -181,4 +183,4 @@ const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 
       </ButtonLink>
     </div>
   </div>
-</article>
+</Card>

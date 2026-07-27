@@ -1,10 +1,9 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-import {
-  shouldRunVisualSnapshots,
-  visualSnapshotSkipReason
-} from './helpers/visual-regression'
-
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { shouldRunVisualSnapshots } from './helpers/visual-regression'
 
 test.describe('Speaking page', () => {
   test.beforeEach(async ({ page }) => {
@@ -44,11 +43,13 @@ test.describe('Speaking page', () => {
   })
 
   test('should pass accessibility audit', async ({ page }) => {
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
-  test('should match visual snapshot', async ({ page }) => {
-    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
-    await expect(page).toHaveScreenshot('speaking-page.png')
-  })
+  if (shouldRunVisualSnapshots) {
+    test('should match visual snapshot', async ({ page }) => {
+      await expect(page).toHaveScreenshot('speaking-page.png')
+    })
+  }
 })

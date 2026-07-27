@@ -1,6 +1,7 @@
 ---
+import { Icon as AstroIcon } from 'astro-icon/components'
+
 import type { CollectionEntry } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
@@ -13,6 +14,8 @@ import {
   getProjectTimelineLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
+
+import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   parentPage?: { name: string, url: string }
@@ -50,25 +53,29 @@ const metaItems = [
     "
     >
       <Eyebrow label={projectTypeLabel} tone="brand" />
-      <nav
-        aria-label="Breadcrumb"
+      <Breadcrumb
         class="
           flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 text-sm
           font-medium text-ink-muted
         "
       >
-        <a
-          href={parentPage.url}
-          class="
-            whitespace-nowrap transition-colors
-            hover:text-brand
-            motion-reduce:transition-none
-          "
-        >{parentPage.name}
-        </a>
-        <span aria-hidden="true" class="text-line">/</span>
-        <span aria-current="page" class="min-w-0 text-ink-soft">{projectTypeLabel}</span>
-      </nav>
+        <ol>
+          <li>
+            <a
+              href={parentPage.url}
+              class="
+                whitespace-nowrap transition-colors
+                hover:text-brand
+                motion-reduce:transition-none
+              "
+            >{parentPage.name}
+            </a>
+          </li>
+          <li>
+            <span aria-current="page" class="min-w-0 text-ink-soft">{projectTypeLabel}</span>
+          </li>
+        </ol>
+      </Breadcrumb>
     </div>
   </div>
 
@@ -133,8 +140,8 @@ const metaItems = [
       {metaItems.map((item, index) => (
         <div
           class="
-            relative overflow-hidden rounded-2xl border border-line/30
-            bg-surface/50 p-6 backdrop-blur-sm transition-all duration-300
+            relative rounded-2xl border border-line/30 bg-surface/50 p-6
+            backdrop-blur-sm transition-all duration-300
             hover:-translate-y-1 hover:border-brand/40 hover:bg-brand-soft/10
             hover:shadow-lg hover:shadow-brand/5
           "
@@ -194,14 +201,13 @@ const metaItems = [
           className="group"
         >
           <span class="flex items-center gap-2">
-            <Icon
-              aria-hidden="true"
-              class="
-                size-4 transition-transform
-                group-hover:translate-x-1
-              "
-              name="tabler:brand-github"
-            />
+            <Icon class="
+              size-4 transition-transform
+              group-hover:translate-x-1
+            "
+            >
+              <AstroIcon aria-hidden="true" class="size-full" focusable="false" name="tabler:brand-github" />
+            </Icon>
             Open repository
           </span>
         </ButtonLink>

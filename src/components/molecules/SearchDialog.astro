@@ -1,8 +1,8 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
 ---
 
-<dialog
+<Dialog
   aria-labelledby="site-search-title"
   class="
     fixed inset-0 z-100 m-0 size-full max-h-none max-w-none border-0
@@ -78,11 +78,11 @@ import { Icon } from 'astro-icon/components'
           </h2>
           <p class="mt-1 text-sm text-ink-soft">
             Match titles, tags, and descriptions. Arrow keys to move,
-            <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Enter</kbd> to open,
-            <kbd class="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Esc</kbd> to close.
+            <Kbd className="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Enter</Kbd> to open,
+            <Kbd className="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Esc</Kbd> to close.
           </p>
         </div>
-        <button
+        <Button
           class="
             inline-flex min-h-10 min-w-10 items-center justify-center
             rounded-full border border-transparent text-ink-soft transition-all
@@ -95,16 +95,18 @@ import { Icon } from 'astro-icon/components'
             motion-reduce:active:scale-100
           "
           data-site-search-close
+          size="icon"
           type="button"
+          variant="ghost"
         >
-          <Icon aria-hidden="true" class="size-5" name="tabler:x" />
+          <Icon class="size-5" name="x" />
           <span class="sr-only">Close search</span>
-        </button>
+        </Button>
       </div>
 
       <div class="relative">
         <label class="sr-only" for="site-search-input">Search posts and projects</label>
-        <input
+        <SearchField
           autocomplete="off"
           class="
             peer w-full border-b border-line/55 bg-transparent px-0 py-3.5
@@ -120,14 +122,16 @@ import { Icon } from 'astro-icon/components'
           placeholder="Search by title, tag, or keyword…"
           spellcheck="false"
           type="search"
+          size="lg"
         />
         <!-- Focus glow line -->
         <span
           aria-hidden="true"
           class="
-            pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left
-            scale-x-0 bg-linear-to-r from-brand/60 via-accent/80 to-brand/60
-            transition-transform duration-300 ease-out
+            pointer-events-none absolute bottom-0 left-0
+            ui-separator--horizontal origin-left scale-x-0 bg-linear-to-r
+            from-brand/60 via-accent/80 to-brand/60 transition-transform
+            duration-300 ease-out
             peer-focus:scale-x-100
             motion-reduce:hidden
           "
@@ -136,13 +140,13 @@ import { Icon } from 'astro-icon/components'
 
       <p class="text-xs/relaxed text-ink-muted">
         <span class="text-ink-soft">Open from the page</span> (not while typing in a field):
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">/</kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">/</Kbd>
         ·
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">⌘</kbd>
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">⌘</Kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">K</Kbd>
         or
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</kbd>
-        <kbd class="rounded-sm bg-surface-muted px-1 py-0.5">K</kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</Kbd>
+        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">K</Kbd>
       </p>
 
       <p aria-atomic="true" aria-live="polite" class="sr-only" id="site-search-status"></p>
@@ -158,4 +162,4 @@ import { Icon } from 'astro-icon/components'
       </ul>
     </div>
   </div>
-</dialog>
+</Dialog>

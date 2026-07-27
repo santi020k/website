@@ -1,16 +1,17 @@
 ---
-import { Icon } from 'astro-icon/components'
-
-import { getFormattedDate } from '@/utils/date'
-import { getCachedProjects } from '@/utils/content'
-import { collectionDateSortProjects } from '@/utils/date'
-
 import PageLayout from '@/layouts/Base.astro'
+
+import { getCachedProjects } from '@/utils/content'
+import { collectionDateSortProjects, getFormattedDate } from '@/utils/date'
+
+import { ButtonLink, Icon, Link } from '@santi020k/lumen-astro'
+
 import { AUTHOR_JOB_TITLE, siteConfig } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
-const workProjects = allProjects.filter((p) => p.data.typesId === 'professional')
-const personalProjects = allProjects.filter((p) => p.data.typesId === 'personal')
+const workProjects = allProjects.filter(p => p.data.typesId === 'professional').slice(0, 4)
+const personalProjects = allProjects.filter(p => p.data.typesId === 'personal').slice(0, 4)
+const resumePdfPath = `/pdf/cv.pdf?v=${Date.now()}`
 
 const resumePageSchema = {
   '@context': 'https://schema.org',
@@ -28,70 +29,178 @@ const resumePageSchema = {
 ---
 
 <PageLayout
+  footerVariant="compact"
   meta={{
-    description: `Engineering leader and full-stack architect resume. Explore ${siteConfig.author}'s professional experience, technical skills, and open-source projects.`,
+    description: [
+      'Engineering leader and full-stack architect resume.',
+      `Explore ${siteConfig.author}'s professional experience, technical skills, and open-source projects.`
+    ].join(' '),
     structuredData: resumePageSchema,
-    title: 'Resume & Curriculum Vitae — ' + siteConfig.author
+    title: 'Resume & Curriculum Vitae'
   }}
 >
-  <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8 print:m-0 print:p-0">
-    <div class="mb-12 flex flex-col justify-between items-start gap-6 sm:flex-row print:mb-8">
+  <div
+    class="
+      glass-pro section-container-wide rounded-4xl p-5
+      sm:p-8
+      lg:p-10
+      print:m-0 print:max-w-none print:rounded-none print:border-0
+      print:bg-transparent print:p-0 print:shadow-none
+    "
+    data-resume-shell
+  >
+    <div class="
+      mb-12 flex flex-col items-start justify-between gap-6
+      sm:flex-row
+      print:mb-8
+    "
+    >
       <div>
-        <h1 class="text-4xl font-bold tracking-tight text-ink">{siteConfig.author}</h1>
+        <p class="
+          section-label text-brand
+          dark:text-accent
+          print:text-black
+        "
+        >Resume
+        </p>
+        <h1
+          class="
+            mt-3 text-4xl/[0.98] font-extrabold tracking-[-0.06em] text-ink
+            sm:text-5xl/[0.96]
+            print:text-3xl print:tracking-tight
+          "
+        >
+          {siteConfig.author}
+        </h1>
         <p class="mt-2 text-xl text-brand">{AUTHOR_JOB_TITLE}</p>
         <p class="mt-4 max-w-2xl text-ink-soft">{siteConfig.description}</p>
       </div>
-      <div class="space-y-2 text-left text-sm text-ink-soft sm:text-right">
-        <p><a class="hover:text-brand" href={`mailto:${siteConfig.contact.email}`}>{siteConfig.contact.email}</a></p>
-        <p><a class="hover:text-brand" href={siteConfig.contact.linkedin}>linkedin.com/in/santi020k</a></p>
-        <p><a class="hover:text-brand" href={siteConfig.contact.github}>github.com/santi020k</a></p>
+      <div class="
+        space-y-2 text-left text-sm text-ink-soft
+        sm:text-right
+      "
+      >
+        <p>
+          <Link
+            className="
+              text-inherit
+              hover:text-brand
+            "
+            href={`mailto:${siteConfig.contact.email}`}
+          >
+            {siteConfig.contact.email}
+          </Link>
+        </p>
+        <p>
+          <Link
+            className="
+              text-inherit
+              hover:text-brand
+            "
+            href={siteConfig.contact.linkedin}
+          >
+            linkedin.com/in/santi020k
+          </Link>
+        </p>
+        <p>
+          <Link
+            className="
+              text-inherit
+              hover:text-brand
+            "
+            href={siteConfig.contact.github}
+          >
+            github.com/santi020k
+          </Link>
+        </p>
         <p>{siteConfig.location}</p>
-        <button
+        <div
           class="
-            mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2
-            text-sm font-medium transition-colors hover:bg-surface-muted print:hidden
+            mt-4 grid w-full grid-cols-2 gap-2
+            sm:flex sm:w-auto sm:justify-end
+            print:hidden
           "
-          onclick="window.print()"
-          type="button"
+          data-print-hidden
         >
-          <Icon class="size-4" name="tabler:printer" /> Print PDF
-        </button>
+          <ButtonLink
+            ariaLabel="Download resume PDF"
+            class="w-full sm:w-auto"
+            download="santiago-molina-resume.pdf"
+            href={resumePdfPath}
+            variant="primary"
+          >
+            <Icon class="size-4" name="download" /> Download PDF
+          </ButtonLink>
+          <ButtonLink
+            ariaLabel="Open resume PDF in a new tab"
+            class="w-full sm:w-auto"
+            href={resumePdfPath}
+            newTab
+            showArrow
+            variant="secondary"
+          >
+            <Icon class="size-4" name="file-type-2" />
+            Open PDF
+          </ButtonLink>
+        </div>
       </div>
     </div>
 
-    <section class="mb-12 print:mb-8">
+    <section class="
+      mb-10
+      print:mb-8
+    "
+    >
       <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Experience</h2>
-      <div class="space-y-10 print:space-y-8">
+      <div class="
+        space-y-8
+        print:space-y-8
+      "
+      >
         {
-          workProjects.map((project) => (
+          workProjects.map(project => (
             <div class="print:break-inside-avoid">
-              <div class="mb-2 flex flex-col items-baseline justify-between gap-1 sm:flex-row">
+              <div class="
+                mb-2 flex flex-col items-baseline justify-between gap-1
+                sm:flex-row
+              "
+              >
                 <h3 class="text-lg font-bold text-ink">
-                  {project.data.title} <span class="text-base font-normal text-ink-muted">— {project.data.role}</span>
+                  {project.data.title} <span class="resume-role-text">— {project.data.role}</span>
                 </h3>
                 <span class="text-sm font-medium text-ink-soft">
                   {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
                 </span>
               </div>
-              <p class="mb-4 text-sm text-ink-soft">{project.data.description}</p>
+              <p class="mb-3 text-sm text-ink-soft">{project.data.description}</p>
 
               {project.data.impactMetrics.length > 0 && (
-                <div class="mb-4">
-                  <h4 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Key Impact</h4>
-                  <ul class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft">
-                    {project.data.impactMetrics.map((metric) => (
+                <div class="mb-3">
+                  <h4 class="
+                    mb-2 text-xs font-semibold tracking-wider text-ink-muted
+                    uppercase
+                  "
+                  >Key Impact
+                  </h4>
+                  <ul class="
+                    ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft
+                  "
+                  >
+                    {project.data.impactMetrics.map(metric => (
                       <li>{metric}</li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              <div class="mt-4 flex flex-wrap gap-1.5">
-                {project.data.technologies.slice(0, 12).map((tech) => (
+              <div class="mt-3 flex flex-wrap gap-1.5">
+                {project.data.technologies.slice(0, 12).map(tech => (
                   <span
                     class="
-                      inline-flex items-center rounded-md bg-surface-muted px-2 py-0.5 text-xs
-                      font-medium text-ink-soft ring-1 ring-inset ring-line/50 print:border print:border-gray-300
+                      inline-flex items-center rounded-md bg-surface-muted px-2
+                      py-0.5 text-xs font-medium text-ink-soft ring-1
+                      ring-line/50 ring-inset
+                      print:border print:border-gray-300
                     "
                   >
                     {tech}
@@ -100,8 +209,10 @@ const resumePageSchema = {
                 {project.data.technologies.length > 12 && (
                   <span
                     class="
-                      inline-flex items-center rounded-md bg-surface-muted px-2 py-0.5 text-xs
-                      font-medium text-ink-soft ring-1 ring-inset ring-line/50 print:border print:border-gray-300
+                      inline-flex items-center rounded-md bg-surface-muted px-2
+                      py-0.5 text-xs font-medium text-ink-soft ring-1
+                      ring-line/50 ring-inset
+                      print:border print:border-gray-300
                     "
                   >
                     +{project.data.technologies.length - 12} more
@@ -114,39 +225,61 @@ const resumePageSchema = {
       </div>
     </section>
 
-    <section class="mb-12 print:mb-8 print:break-inside-avoid">
+    <section class="
+      mb-10
+      print:mb-8 print:break-inside-avoid
+    "
+    >
       <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Projects & Community</h2>
-      <div class="space-y-10 print:space-y-6">
+      <div class="
+        space-y-8
+        print:space-y-6
+      "
+      >
         {
-          personalProjects.map((project) => (
+          personalProjects.map(project => (
             <div class="print:break-inside-avoid">
-              <div class="mb-2 flex flex-col items-baseline justify-between gap-1 sm:flex-row">
+              <div class="
+                mb-2 flex flex-col items-baseline justify-between gap-1
+                sm:flex-row
+              "
+              >
                 <h3 class="text-lg font-bold text-ink">
-                  {project.data.title} <span class="text-base font-normal text-ink-muted">— {project.data.role}</span>
+                  {project.data.title} <span class="resume-role-text">— {project.data.role}</span>
                 </h3>
                 <span class="text-sm font-medium text-ink-soft">
                   {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
                 </span>
               </div>
-              <p class="mb-4 text-sm text-ink-soft">{project.data.description}</p>
+              <p class="mb-3 text-sm text-ink-soft">{project.data.description}</p>
 
               {project.data.impactMetrics.length > 0 && (
-                <div class="mb-4">
-                  <h4 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Key Impact</h4>
-                  <ul class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft">
-                    {project.data.impactMetrics.map((metric) => (
+                <div class="mb-3">
+                  <h4 class="
+                    mb-2 text-xs font-semibold tracking-wider text-ink-muted
+                    uppercase
+                  "
+                  >Key Impact
+                  </h4>
+                  <ul class="
+                    ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft
+                  "
+                  >
+                    {project.data.impactMetrics.map(metric => (
                       <li>{metric}</li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              <div class="mt-4 flex flex-wrap gap-1.5">
-                {project.data.technologies.slice(0, 12).map((tech) => (
+              <div class="mt-3 flex flex-wrap gap-1.5">
+                {project.data.technologies.slice(0, 12).map(tech => (
                   <span
                     class="
-                      inline-flex items-center rounded-md bg-surface-muted px-2 py-0.5 text-xs
-                      font-medium text-ink-soft ring-1 ring-inset ring-line/50 print:border print:border-gray-300
+                      inline-flex items-center rounded-md bg-surface-muted px-2
+                      py-0.5 text-xs font-medium text-ink-soft ring-1
+                      ring-line/50 ring-inset
+                      print:border print:border-gray-300
                     "
                   >
                     {tech}
@@ -155,8 +288,10 @@ const resumePageSchema = {
                 {project.data.technologies.length > 12 && (
                   <span
                     class="
-                      inline-flex items-center rounded-md bg-surface-muted px-2 py-0.5 text-xs
-                      font-medium text-ink-soft ring-1 ring-inset ring-line/50 print:border print:border-gray-300
+                      inline-flex items-center rounded-md bg-surface-muted px-2
+                      py-0.5 text-xs font-medium text-ink-soft ring-1
+                      ring-line/50 ring-inset
+                      print:border print:border-gray-300
                     "
                   >
                     +{project.data.technologies.length - 12} more
@@ -171,21 +306,42 @@ const resumePageSchema = {
 
     <section class="print:break-inside-avoid">
       <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Skills & Expertise</h2>
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 print:grid-cols-2 print:gap-4">
+      <div class="
+        grid grid-cols-1 gap-6
+        md:grid-cols-2
+        print:grid-cols-2 print:gap-4
+      "
+      >
         <div>
-          <h3 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Languages & Interests</h3>
-          <p class="text-sm text-ink-soft">Spanish (Native), English (C1). Continuous learning, community building.</p>
+          <h3 class="
+            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
+          "
+          >Languages
+          </h3>
+          <p class="text-sm text-ink-soft">Spanish (native), English (C1).</p>
         </div>
         <div>
-          <h3 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Front-End</h3>
+          <h3 class="
+            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
+          "
+          >Front-End
+          </h3>
           <p class="text-sm text-ink-soft">React.js, Next.js, React Native, Astro, TypeScript, Tailwind CSS, Redux, TanStack Query, Radix UI.</p>
         </div>
         <div>
-          <h3 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">Back-End</h3>
+          <h3 class="
+            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
+          "
+          >Back-End
+          </h3>
           <p class="text-sm text-ink-soft">Node.js, Express.js, NestJS, REST, GraphQL, PostgreSQL, MongoDB, PHP, Ruby on Rails.</p>
         </div>
         <div>
-          <h3 class="mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase">DevOps & Architecture</h3>
+          <h3 class="
+            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
+          "
+          >DevOps & Architecture
+          </h3>
           <p class="text-sm text-ink-soft">AWS, Docker, CI/CD, GitHub Actions, System Design, Microservices, Turborepo.</p>
         </div>
       </div>
@@ -195,16 +351,62 @@ const resumePageSchema = {
 
 <style>
   @media print {
+    :global(html) {
+      color-scheme: light !important;
+      --theme-bg: 0 0% 100% !important;
+      --surface: 0 0% 100% !important;
+      --surface-muted: 0 0% 97% !important;
+      --surface-strong: 0 0% 92% !important;
+      --line: 0 0% 72% !important;
+      --ink: 0 0% 7% !important;
+      --ink-soft: 0 0% 23% !important;
+      --ink-muted: 0 0% 38% !important;
+      --brand: 264 92% 38% !important;
+      --brand-solid: 264 92% 38% !important;
+      --brand-soft: 264 60% 94% !important;
+      --accent: 264 92% 38% !important;
+      --glow: 264 60% 70% !important;
+    }
     :global(header),
     :global(footer),
+    :global(.grid-fade),
+    :global(.ui-skip-link),
+    :global([data-particles-bg]),
     :global([data-site-search]),
+    :global([data-print-hidden]),
     :global(.back-to-top-button) {
       display: none !important;
     }
+    :global(#main) {
+      display: block !important;
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    :global([data-resume-shell]) {
+      isolation: auto !important;
+      width: 100% !important;
+      max-width: none !important;
+      overflow: visible !important;
+      border: 0 !important;
+      background: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+    }
+    :global([data-resume-shell])::before,
+    :global([data-resume-shell])::after {
+      display: none !important;
+    }
     :global(body) {
+      margin: 0 !important;
       background: white !important;
       color: black !important;
       font-size: 11pt;
+    }
+    :global([data-resume-shell] a) {
+      color: inherit !important;
+      text-decoration: none !important;
     }
     :global(h1),
     :global(h2),
@@ -212,7 +414,8 @@ const resumePageSchema = {
       color: black !important;
     }
     @page {
-      margin: 1.5cm;
+      size: A4;
+      margin: 1.35cm;
     }
   }
 </style>

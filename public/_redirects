@@ -9,3 +9,25 @@ http://www.santi020k.com/*  https://santi020k.com/:splat  301
 
 # HTTPS www → HTTPS apex
 https://www.santi020k.com/*  https://santi020k.com/:splat  301
+
+# Retired pages → nearest active destination
+/uses   /about/  301
+/uses/  /about/  301
+/uses/* /about/  301
+
+/now   /about/  301
+/now/  /about/  301
+/now/* /about/  301
+
+/newsletter   /blog/  301
+/newsletter/  /blog/  301
+/newsletter/* /blog/  301
+
+# Consolidated project case studies
+/portfolio/santi020k-chrome-theme   /portfolio/santi020k-theme/  301
+/portfolio/santi020k-chrome-theme/  /portfolio/santi020k-theme/  301
+/portfolio/santi020k-chrome-theme/* /portfolio/santi020k-theme/  301
+
+/portfolio/santi020k-terminal-theme   /portfolio/santi020k-theme/  301
+/portfolio/santi020k-terminal-theme/  /portfolio/santi020k-theme/  301
+/portfolio/santi020k-terminal-theme/* /portfolio/santi020k-theme/  301

@@ -41,6 +41,8 @@ It’s just a base project. We may add many more things in future posts, such as
 
 ## Base Project Structure
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```text title="project-structure"
 ├── /config
 | ├── /Tests
@@ -102,6 +104,8 @@ As for whether to call the component `index.tsx` or `button.tsx`, it’s also a 
 
 A useful tip is to import and export everything from the main component, so you don’t have to make so many imports when you need something related to a project.
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```javascript title="src/components/atoms/button/button.tsx"
 import styles from './button.module.css';
 import { type ButtonProps, types } from './button.types'

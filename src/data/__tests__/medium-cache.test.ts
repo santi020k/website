@@ -1,13 +1,13 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { mediumPostsCache } from '../medium-cache'
 
 describe('mediumPostsCache', () => {
-  it('is a non-empty array', () => {
+  test('is a non-empty array', () => {
     expect(mediumPostsCache.length).toBeGreaterThan(0)
   })
 
-  it('every post has required fields', () => {
+  test('every post has required fields', () => {
     for (const post of mediumPostsCache) {
       expect(post.title, 'post missing title').toBeTruthy()
       expect(post.link, `"${post.title}" missing link`).toBeTruthy()
@@ -17,19 +17,19 @@ describe('mediumPostsCache', () => {
     }
   })
 
-  it('every post has a tags array', () => {
+  test('every post has a tags array', () => {
     for (const post of mediumPostsCache) {
       expect(Array.isArray(post.tags)).toBe(true)
     }
   })
 
-  it('every post has a non-empty excerpt', () => {
+  test('every post has a non-empty excerpt', () => {
     for (const post of mediumPostsCache) {
       expect(post.excerpt, `"${post.title}" missing excerpt`).toBeTruthy()
     }
   })
 
-  it('slugs are unique across all posts', () => {
+  test('slugs are unique across all posts', () => {
     const slugs = mediumPostsCache.map(p => p.slug)
     expect(new Set(slugs).size).toBe(slugs.length)
   })

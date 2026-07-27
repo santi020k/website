@@ -1,10 +1,9 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-import {
-  shouldRunVisualSnapshots,
-  visualSnapshotSkipReason
-} from './helpers/visual-regression'
-
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { shouldRunVisualSnapshots } from './helpers/visual-regression'
 
 test.describe('404 page', () => {
   test.beforeEach(async ({ page }) => {
@@ -21,14 +20,17 @@ test.describe('404 page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('orbit')
   })
 
-  test('should use role="alert" on the error section', async ({ page }) => {
-    await expect(page.getByRole('alert')).toBeVisible()
+  test('should expose the error section through its heading', async ({ page }) => {
+    const errorSection = page.locator('section[aria-labelledby="error-heading"]')
+
+    await expect(errorSection).toBeVisible()
+    await expect(errorSection.getByRole('heading', { level: 1 })).toHaveAttribute('id', 'error-heading')
   })
 
   test('should provide navigation links back to key pages', async ({ page }) => {
     const homeLink = page.getByRole('link', { name: /Back home/i })
     await expect(homeLink).toBeVisible()
-    await expect(homeLink).toHaveAttribute('href', '/')
+    await expect(homeLink).toHaveAttribute('href', /^\/$/)
 
     const portfolioLink = page.getByRole('link', { name: 'Portfolio' })
     await expect(portfolioLink.first()).toBeVisible()
@@ -38,11 +40,13 @@ test.describe('404 page', () => {
   })
 
   test('should pass accessibility audit', async ({ page }) => {
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
-  test('should match visual snapshot', async ({ page }) => {
-    test.skip(!shouldRunVisualSnapshots, visualSnapshotSkipReason)
-    await expect(page).toHaveScreenshot('not-found-page.png')
-  })
+  if (shouldRunVisualSnapshots) {
+    test('should match visual snapshot', async ({ page }) => {
+      await expect(page).toHaveScreenshot('not-found-page.png')
+    })
+  }
 })

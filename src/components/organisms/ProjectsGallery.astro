@@ -1,13 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
-import CoverImage from '@/components/atoms/CoverImage.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
 import { getProjectDateRangeLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+import { Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   projects: CollectionEntry<'project'>[]
@@ -29,12 +29,11 @@ const projectItems = projects.map(project => ({
 <div class="space-y-6">
   {/* Featured project - large */}
   {projectItems[0] && (
-    <article class="
-      group relative overflow-hidden rounded-3xl border border-line/50
-      bg-surface
-    "
+    <Card
+      as="article"
+      class="group relative rounded-3xl border-line/50 bg-surface p-0"
     >
-      <a class="block" href={projectItems[0].href}>
+      <Link className="block font-normal text-inherit no-underline" href={projectItems[0].href}>
         <div class="
           grid
           lg:grid-cols-2
@@ -69,7 +68,7 @@ const projectItems = projects.map(project => ({
                   grid-fade
                 "
                 >
-                  <Icon aria-hidden="true" class="size-16 text-line" name="tabler:code" />
+                  <Icon class="size-16 text-line" name="code-2" />
                 </div>
               )}
             {/* Status badge */}
@@ -117,13 +116,13 @@ const projectItems = projects.map(project => ({
                   group-hover:translate-x-1
                   motion-reduce:transition-none
                 "
-                name="tabler:arrow-right"
+                name="arrow-right"
               />
             </div>
           </div>
         </div>
-      </a>
-    </article>
+      </Link>
+    </Card>
   )}
 
   {/* Grid for remaining projects */}
@@ -135,12 +134,12 @@ const projectItems = projects.map(project => ({
     "
     >
       {projectItems.slice(1).map(project => (
-        <article class="
-          group card-interactive flex flex-col overflow-hidden rounded-2xl
-          border border-line/50 bg-surface
-        "
+        <Card
+          as="article"
+          class="group flex flex-col rounded-2xl border-line/50 bg-surface p-0"
+          variant="interactive"
         >
-          <a class="block" href={project.href}>
+          <Link className="block font-normal text-inherit no-underline" href={project.href}>
             {/* Thumbnail */}
             <div class="relative aspect-16/10 overflow-hidden">
               {project.coverImage?.src ?
@@ -166,7 +165,7 @@ const projectItems = projects.map(project => ({
                     grid-fade
                   "
                   >
-                    <Icon aria-hidden="true" class="size-12 text-line" name="tabler:code" />
+                    <Icon class="size-12 text-line" name="code-2" />
                   </div>
                 )}
               {/* Status badge */}
@@ -206,8 +205,8 @@ const projectItems = projects.map(project => ({
                 </div>
               )}
             </div>
-          </a>
-        </article>
+          </Link>
+        </Card>
       ))}
     </div>
   )}

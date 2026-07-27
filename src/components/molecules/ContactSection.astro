@@ -1,7 +1,9 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Icon as AstroIcon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
+
+import { Button, Card, Icon } from '@santi020k/lumen-astro'
 
 import { siteConfig } from '@/site.config'
 
@@ -34,7 +36,7 @@ const contactChannels = [
     action: 'Send an email',
     description: 'For detailed briefs, formal proposals, or when you need attachments and async review.',
     href: `mailto:${siteConfig.contact.email}`,
-    icon: 'tabler:mail',
+    lumenIcon: 'mail',
     label: 'Email',
     value: siteConfig.contact.email
   }
@@ -43,8 +45,8 @@ const contactChannels = [
 
 {compact ?
   (
-    <div class="grid gap-3" data-stagger="80">
-      {contactChannels.map(({ href, icon, label, newTab = false, value }) => (
+    <div class="grid gap-3">
+      {contactChannels.map(({ href, icon, label, lumenIcon, newTab = false, value }) => (
         <a
           class="
             group mini-note flex items-center gap-4 p-4 transition-all
@@ -72,32 +74,43 @@ const contactChannels = [
             motion-reduce:transition-none
           "
           >
-            <Icon
-              aria-hidden="true"
-              class="
-                size-5 transition-transform duration-200
-                group-hover:scale-105
-                motion-reduce:transition-none
-              "
-              name={icon}
-            />
+            {lumenIcon ?
+              (
+                <Icon
+                  class="
+                    size-5 transition-transform duration-200
+                    group-hover:scale-105
+                    motion-reduce:transition-none
+                  "
+                  name={lumenIcon}
+                />
+              ) :
+              (
+                <Icon class="
+                  size-5 transition-transform duration-200
+                  group-hover:scale-105
+                  motion-reduce:transition-none
+                "
+                >
+                  <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={icon} />
+                </Icon>
+              )}
           </div>
           <div class="min-w-0 flex-1">
             <div class="flex items-center justify-between gap-2">
               <p class="section-label">{label}</p>
               <Icon
-                aria-hidden="true"
                 class="
                   size-4 text-ink-muted transition-all duration-200
                   group-hover:translate-x-0.5 group-hover:-translate-y-0.5
                   group-hover:text-brand
                   motion-reduce:transition-none
                 "
-                name="tabler:arrow-up-right"
+                name="arrow-up-right"
               />
             </div>
             <p class="
-              text-sm font-semibold text-ink transition-colors duration-200
+              ui-label transition-colors duration-200
               group-hover:text-brand
               motion-reduce:transition-none
             "
@@ -115,10 +128,14 @@ const contactChannels = [
         grid gap-8 pt-10
         lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10
       "
-      data-animate
     >
       <div class="space-y-3">
-        <p class="section-label text-brand">Contact</p>
+        <p class="
+          section-label text-brand
+          dark:text-accent
+        "
+        >Contact
+        </p>
         <h2 class="
           text-2xl font-semibold tracking-tight
           sm:text-3xl
@@ -127,7 +144,8 @@ const contactChannels = [
           Let's build something useful together.
         </h2>
         <p class="max-w-xl text-sm text-ink-soft">
-          Whether you have a project in flight or just want to compare notes on engineering leadership, architecture, and developer experience, I'm always open to a thoughtful conversation.
+          Whether you have a project in flight or just want to compare notes on engineering leadership,
+          architecture, and developer experience, I'm always open to a thoughtful conversation.
         </p>
         <div class="flex flex-wrap gap-3 pt-2">
           <div class="mini-note min-w-[200px] flex-1">
@@ -143,7 +161,7 @@ const contactChannels = [
         </div>
       </div>
 
-      <div class="panel-card overflow-hidden">
+      <Card class="p-0">
         <div class="
           space-y-6 p-6
           sm:p-8
@@ -157,7 +175,7 @@ const contactChannels = [
           </div>
 
           <div class="space-y-5">
-            {contactChannels.map(({ action, description, href, icon, label, newTab = false, value }, index) => (
+            {contactChannels.map(({ action, description, href, icon, label, lumenIcon, newTab = false, value }, index) => (
               <div
                 class:list={[
                   `
@@ -173,7 +191,13 @@ const contactChannels = [
                     rounded-2xl bg-brand-soft text-brand
                   "
                   >
-                    <Icon aria-hidden="true" class="size-6" name={icon} />
+                    {lumenIcon ?
+                      <Icon class="size-6" name={lumenIcon} /> :
+                      (
+                        <Icon class="size-6">
+                          <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={icon} />
+                        </Icon>
+                      )}
                   </div>
                   <div class="space-y-2">
                     <p class="section-label">{label}</p>
@@ -192,7 +216,7 @@ const contactChannels = [
                       {label === 'Email' && (
                         <>
                           <span aria-live="polite" class="sr-only" data-copy-announce />
-                          <button
+                          <Button
                             aria-label="Copy email address"
                             class="
                               inline-flex size-7 shrink-0 items-center
@@ -205,11 +229,13 @@ const contactChannels = [
                               motion-reduce:transition-none
                             "
                             data-copy-email={value}
+                            size="icon"
                             type="button"
+                            variant="ghost"
                           >
-                            <Icon aria-hidden="true" class="size-3.5" data-copy-icon name="tabler:copy" />
-                            <Icon aria-hidden="true" class="hidden size-3.5" data-check-icon name="tabler:check" />
-                          </button>
+                            <Icon class="size-3.5" data-copy-icon name="copy" />
+                            <Icon class="hidden size-3.5" data-check-icon name="check" />
+                          </Button>
                         </>
                       )}
                     </div>
@@ -224,7 +250,7 @@ const contactChannels = [
             ))}
           </div>
         </div>
-      </div>
+      </Card>
     </section>
   )}
 

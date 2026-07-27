@@ -1,5 +1,7 @@
+/* eslint-disable func-style, no-nested-ternary, @stylistic/max-len, no-fallthrough -- TODO: Convert this one-off generated cover-art script into smaller named template helpers before enforcing app-style function and line-length rules. */
 import fs from 'node:fs/promises'
 import path from 'node:path'
+
 import sharp from 'sharp'
 
 const PROJECTS_ROOT = path.resolve('src/content/project')

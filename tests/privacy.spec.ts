@@ -1,6 +1,8 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
 test.describe('Privacy page', () => {
   test.beforeEach(async ({ page }) => {
@@ -15,9 +17,11 @@ test.describe('Privacy page', () => {
   test('should mention hosting and theme storage', async ({ page }) => {
     await expect(page.getByText(/built with Astro/i)).toBeVisible()
     await expect(page.getByText(/Theme preference/i)).toBeVisible()
+    await expect(page.getByText(/aggregate server-side traffic/i)).toBeVisible()
   })
 
   test('should not have unexpected accessibility violations', async ({ page }) => {
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 })

@@ -1,12 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { Icon } from 'astro-icon/components'
 
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+import { Card, Icon, Timeline, TimelineItem } from '@santi020k/lumen-astro'
 
 interface Props {
   projects: CollectionEntry<'project'>[]
@@ -35,31 +36,16 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
 }))
 ---
 
-<div class="relative">
-  {/* Timeline connector line */}
-  <div
-    aria-hidden="true"
-    class="
-      absolute inset-y-0 left-4.5 w-px bg-linear-to-b from-brand/25 via-line/60
-      to-line/40
-      sm:left-5.5
-    "
-  >
-  </div>
-
-  <div class="space-y-8" data-stagger="80">
-    {careerItems.map((item: CareerItem) => (
-      <article class="
-        relative pl-12
-        sm:pl-14
-      "
-      >
+<Timeline data-career-timeline class="relative">
+  {careerItems.map((item: CareerItem) => (
+    <TimelineItem class="pb-8">
         {/* Timeline node */}
         <div
+          slot="dot"
           class:list={[
             `
-              absolute top-4 left-0 z-10 flex size-9 items-center justify-center
-              rounded-full border-2 transition-shadow duration-300
+              flex size-9 items-center justify-center rounded-full border-2
+              transition-shadow duration-300
               motion-reduce:transition-none
               sm:size-10
             `,
@@ -76,12 +62,11 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
           data-timeline-node={item.isActive ? 'active' : 'done'}
         >
           <Icon
-            aria-hidden="true"
             class="
               size-4
               sm:size-5
             "
-            name={item.isActive ? 'tabler:briefcase' : 'tabler:check'}
+            name={item.isActive ? 'briefcase-business' : 'check'}
           />
         </div>
 
@@ -96,12 +81,14 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
           href={item.href}
         >
           {/* Content card */}
-          <article
+          <Card
+            as="article"
+            variant="interactive"
             class:list={[
-              'relative overflow-hidden rounded-[1.75rem] border',
+              'relative rounded-[1.75rem] p-0',
               item.isActive ?
-                'border-brand/25 bg-surface/80' :
-                'border-line/40 bg-surface/70'
+                'border-brand/30 bg-surface/84' :
+                'border-line/40 bg-surface/72'
             ]}
             data-timeline-card={item.isActive ? 'active' : 'done'}
           >
@@ -116,22 +103,14 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
               ]}
               data-card-header
             >
-              {/* Ambient glow layer */}
-              <div
-                aria-hidden="true"
-                class:list={[
-                  'pointer-events-none absolute inset-0 opacity-0',
-                  item.isActive ? 'opacity-100' : ''
-                ]}
-                style="background: radial-gradient(ellipse at top left, hsl(var(--brand) / 0.10) 0%, transparent 65%);"
-              />
-
               {/* Top accent line */}
               {item.isActive && (
                 <div
                   aria-hidden="true"
-                  class="absolute inset-x-0 top-0 h-px opacity-60"
-                  style="background: linear-gradient(90deg, transparent 5%, hsl(var(--brand) / 0.7) 40%, hsl(var(--accent) / 0.5) 65%, transparent 95%);"
+                  class="
+                    absolute inset-x-0 top-0 h-px
+                    bg-linear-to-r from-transparent via-brand/70 to-transparent
+                  "
                 />
               )}
 
@@ -141,15 +120,21 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
               "
               >
                 <div class="min-w-0">
-                  <p class="
-                    text-xs font-semibold tracking-widest text-ink-muted
-                    uppercase
-                  "
+                  <p
+                    class:list={[
+                      `
+                        text-xs font-semibold tracking-widest uppercase
+                      `,
+                      item.isActive ? 'text-brand' : 'text-ink-muted'
+                    ]}
                   >{item.role}
                   </p>
                   <h3
                     class="
                       mt-1.5 text-2xl/tight font-bold text-ink
+                      transition-colors duration-200
+                      group-hover:text-brand
+                      motion-reduce:transition-none
                       sm:text-3xl
                     "
                     data-card-title
@@ -166,9 +151,16 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
                   <Pill
                     label={item.isActive ? 'Current' : 'Completed'}
                     tone={item.isActive ? 'brand' : 'neutral'}
-                  />
+                  >
+                    {item.isActive && (
+                      <Icon
+                        class="size-3 fill-current"
+                        name="circle-dot"
+                      />
+                    )}
+                  </Pill>
                   <div class="flex items-center gap-1.5 text-xs text-ink-muted">
-                    <Icon aria-hidden="true" class="size-3.5" name="tabler:calendar" />
+                    <Icon class="size-3.5" name="calendar-days" />
                     <span class="font-medium tabular-nums">{item.timeline}</span>
                   </div>
                 </div>
@@ -176,10 +168,11 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
             </div>
 
             {/* Divider */}
-            <div class="
-              mx-5 border-t border-line/25
-              sm:mx-6
-            "
+            <div
+              class:list={[
+                'relative mx-5 border-t sm:mx-6',
+                item.isActive ? 'border-brand/18' : 'border-line/25'
+              ]}
             />
 
             {/* Body */}
@@ -214,104 +207,62 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
                   View case study
                 </span>
                 <Icon
-                  aria-hidden="true"
                   class="
                     size-4 -translate-x-1 text-brand opacity-0 transition-all
                     duration-200
                     group-hover:translate-x-0 group-hover:opacity-100
                     motion-reduce:translate-x-0 motion-reduce:opacity-100
                   "
-                  name="tabler:arrow-right"
+                  name="arrow-right"
                 />
               </div>
             </div>
-          </article>
+          </Card>
         </a>
-      </article>
-    ))}
-  </div>
-</div>
+    </TimelineItem>
+  ))}
+</Timeline>
 
 <style>
-  [data-timeline-card] {
-    box-shadow:
-      0 12px 30px hsl(230 30% 8% / 0.04),
-      0 4px 12px hsl(230 30% 8% / 0.02),
-      inset 0 1px 0 hsl(0 0% 100% / 0.05);
-    backdrop-filter: blur(12px);
-    transition:
-      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-      box-shadow 0.3s ease,
-      border-color 0.3s ease;
-  }
-
-  [data-timeline-card]::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    padding: 2px;
-    background: conic-gradient(
-      from var(--border-angle),
-      hsl(var(--line) / 0.2) 0%,
-      hsl(var(--line) / 0.2) 60%,
-      hsl(var(--brand) / 0.55) 75%,
-      hsl(var(--accent) / 0.65) 83%,
-      hsl(var(--brand) / 0.55) 91%,
-      hsl(var(--line) / 0.2) 100%
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-
-  .group:hover [data-timeline-card] {
-    transform: translateY(-4px);
-    box-shadow:
-      0 24px 60px hsl(230 30% 8% / 0.1),
-      0 10px 24px hsl(var(--brand) / 0.08),
-      inset 0 1px 0 hsl(0 0% 100% / 0.07);
-  }
-
-  .group:hover [data-timeline-card]::before {
-    opacity: 1;
-    animation: border-spin 5s linear infinite;
-  }
-
-  [data-timeline-card] [data-card-title] {
-    transition: color 0.2s ease;
-  }
-
-  .group:hover [data-timeline-card] [data-card-title] {
-    color: hsl(var(--brand));
-  }
-
   [data-timeline-node='active'] {
     animation: var(--animate-subtle-pulse);
   }
 
+  [data-career-timeline] :global(.ui-timeline-item__content) {
+    margin-left: 3rem;
+  }
+
+  [data-career-timeline] :global(.ui-timeline-item__dot) {
+    top: 1rem;
+    left: 0;
+    background: transparent;
+    transform: none;
+  }
+
+  [data-career-timeline] :global(.ui-timeline-item__tail) {
+    top: 2.5rem;
+    left: 1.1rem;
+    height: calc(100% - 1rem);
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--brand) / 0.25),
+      hsl(var(--line) / 0.6),
+      hsl(var(--line) / 0.4)
+    );
+  }
+
+  @media (min-width: 40rem) {
+    [data-career-timeline] :global(.ui-timeline-item__content) {
+      margin-left: 3.5rem;
+    }
+
+    [data-career-timeline] :global(.ui-timeline-item__tail) {
+      left: 1.35rem;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    [data-timeline-card] {
-      transition: none;
-    }
-
-    [data-timeline-card]::before {
-      display: none;
-    }
-
-    .group:hover [data-timeline-card] {
-      transform: none;
-    }
-
-    [data-timeline-node='active'] {
-      animation: none;
-    }
-
     [data-timeline-node='active'] {
       animation: none;
     }

@@ -1,0 +1,659 @@
+---
+import { Image, Picture } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import { Icon } from '@santi020k/lumen-astro'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+
+import { getPortfolioPath } from '@/utils/links'
+import { getProjectTimelineLabel } from '@/utils/project-meta'
+
+interface Action {
+  href: string
+  label: string
+  newTab?: boolean
+  variant?: 'primary' | 'secondary'
+}
+
+interface Props {
+  actions: Action[]
+  description: string
+  eyebrow: string
+  layout?: 'default' | 'reverse'
+  projects: CollectionEntry<'project'>[]
+  supportingLabel?: string
+  title: string
+  tone?: 'accent' | 'brand'
+}
+
+const {
+  actions,
+  description,
+  eyebrow,
+  layout = 'default',
+  projects,
+  supportingLabel = 'More selected work',
+  title,
+  tone = 'brand'
+} = Astro.props
+
+const [featuredProject, ...supportingProjects] = projects
+const isReverse = layout === 'reverse'
+const isAccent = tone === 'accent'
+const accentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
+const accentTextClass = isAccent ? 'text-accent' : 'text-brand'
+const featureLink = featuredProject ? getPortfolioPath(featuredProject.id) : ''
+
+const featureImage = featuredProject?.data.coverImage?.horizontal ??
+  featuredProject?.data.coverImage?.src ??
+  featuredProject?.data.coverImage?.vertical
+
+const featureLogo = featuredProject?.data.coverImage?.logo
+const featureStatus = featuredProject?.data.endingDate ? 'Completed' : 'Active'
+const hasMetrics = Boolean(featuredProject?.data.impactMetrics.length)
+
+type LogoAspect = 'square' | 'tall' | 'wide'
+
+type LogoSurface = 'dark' | 'light' | 'neutral'
+
+const supportingLogoBoxClass = {
+  square: 'size-10',
+  tall: 'size-10',
+  wide: 'h-10 w-14'
+} satisfies Record<LogoAspect, string>
+
+const supportingLogoImageClass = {
+  square: 'max-h-6 max-w-6',
+  tall: 'max-h-7 max-w-6',
+  wide: 'max-h-5 max-w-10'
+} satisfies Record<LogoAspect, string>
+
+const supportingLogoSurfaceClass = {
+  dark: `
+    border-white/16 bg-ink text-white shadow-sm
+    dark:border-white/12 dark:bg-canvas
+  `,
+  light: `
+    border-line/70 bg-surface text-ink shadow-sm
+    dark:border-white/18 dark:bg-white/92
+  `,
+  neutral: `
+    border-line/65 bg-surface-muted/82 text-ink-muted
+    dark:border-white/12 dark:bg-white/8 dark:text-white/72
+  `
+} satisfies Record<LogoSurface, string>
+---
+
+{featuredProject && (
+  <section
+    class="
+      relative py-16
+      sm:py-20
+      lg:py-24
+    "
+    style={`--showcase-accent: ${accentVar};`}
+  >
+    <div
+      aria-hidden="true"
+      class:list={[
+        `
+          pointer-events-none absolute top-20 h-120 w-2xl max-w-[88vw]
+          rounded-full bg-radial from-brand/12 via-brand-soft/7 to-transparent
+          opacity-80 blur-2xl
+        `,
+        isReverse ? 'right-0' : 'left-0'
+      ]}
+    />
+
+    <div class="
+      relative section-container-wide space-y-7
+      sm:space-y-8
+    "
+    >
+      <div class="
+        mx-auto flex max-w-2xl flex-col items-center gap-5 text-center
+      "
+      >
+        <div class="space-y-4">
+          <p class:list={['justify-center section-label', accentTextClass]}>{eyebrow}</p>
+          <div class="space-y-3">
+            <h2 class="
+              text-3xl font-semibold tracking-tight text-ink
+              sm:text-4xl
+              lg:text-[2.65rem]
+            "
+            >
+              {title}
+            </h2>
+            <p class="mx-auto max-w-xl section-copy">
+              {description}
+            </p>
+          </div>
+        </div>
+
+        <div class="section-actions justify-center">
+          {actions.map(action => (
+            <ButtonLink
+              href={action.href}
+              newTab={action.newTab ?? false}
+              showArrow
+              variant={action.variant ?? 'primary'}
+            >
+              {action.label}
+            </ButtonLink>
+          ))}
+        </div>
+      </div>
+
+      <div
+        class:list={[
+          `
+            grid items-stretch gap-4
+            lg:grid-cols-[minmax(0,1.18fr)_minmax(21rem,0.82fr)]
+          `,
+          isReverse ?
+            'lg:grid-cols-[minmax(21rem,0.82fr)_minmax(0,1.18fr)]' :
+            ''
+        ]}
+      >
+        <a
+          data-project-card
+          data-showcase-feature
+          class:list={[
+            `
+              group card-interactive min-h-full rounded-[1.75rem]
+              focus-visible:ring-2 focus-visible:ring-brand/50
+              focus-visible:outline-none
+            `,
+            isReverse && 'lg:col-start-2 lg:row-start-1'
+          ]}
+          href={featureLink}
+        >
+          <article class="flex h-full flex-col">
+            <div class="
+              relative h-72 overflow-hidden
+              sm:h-80
+              lg:h-80
+            "
+            >
+              {featureImage ?
+                (
+                  <Picture
+                    alt=""
+                    aria-hidden="true"
+                    class="
+                      absolute inset-0 size-full scale-[1.01] object-cover
+                      object-[20%_42%] saturate-110 transition-transform
+                      duration-500
+                      motion-safe:group-hover:scale-[1.035]
+                      motion-reduce:transition-none
+                      sm:object-[center_42%]
+                    "
+                    formats={['avif', 'webp']}
+                    height={720}
+                    loading="lazy"
+                    sizes="(min-width: 1280px) 44vw, (min-width: 768px) 70vw, 100vw"
+                    src={featureImage}
+                    width={960}
+                    widths={[640, 960, 1280]}
+                  />
+                ) :
+                (
+                  <div class="absolute inset-0 bg-brand-soft" />
+                )}
+              <div
+                aria-hidden="true"
+                class="
+                  absolute inset-0 bg-linear-to-b from-brand-soft/10
+                  via-surface/24 via-60% to-surface
+                  dark:from-brand/10 dark:via-canvas/48 dark:to-canvas
+                "
+              />
+              <div
+                aria-hidden="true"
+                class="
+                  absolute inset-0 bg-radial
+                  from-[hsl(var(--showcase-accent)/0.24)] via-transparent
+                  to-transparent opacity-80
+                "
+              />
+              <div class="absolute inset-x-5 top-5 flex items-start gap-3">
+                <span
+                  class="
+                    inline-flex items-center gap-2 rounded-full border
+                    border-white/30 bg-surface/72 px-3 py-1.5 text-xs
+                    font-semibold text-ink shadow-sm backdrop-blur-xl
+                    dark:border-white/14 dark:bg-white/10 dark:text-white
+                  "
+                >
+                  <span
+                    aria-hidden="true"
+                    class="size-1.5 rounded-full"
+                    style="background: hsl(var(--showcase-accent));"
+                  />
+                  {featureStatus}
+                </span>
+              </div>
+              {!featureImage && featureLogo && (
+                <div
+                  class="
+                    absolute bottom-5 left-5 flex h-16 max-w-44 items-center
+                    justify-center rounded-2xl border border-white/30
+                    bg-surface/78 px-4 py-3 shadow-lg backdrop-blur-xl
+                    dark:border-white/14 dark:bg-white/10
+                  "
+                >
+                  <Image
+                    alt={`${featuredProject.data.title} logo`}
+                    class="max-h-full max-w-full object-contain"
+                    loading="lazy"
+                    src={featureLogo}
+                  />
+                </div>
+              )}
+            </div>
+
+            <div class="
+              flex grow flex-col gap-5 p-5
+              sm:p-6
+              lg:p-7
+            "
+            >
+              <div class="space-y-3">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="min-w-0 space-y-2">
+                    <p class:list={['text-sm font-bold', accentTextClass]}>
+                      {featuredProject.data.role ?? 'Engineering'}
+                    </p>
+                    <h3 class="
+                      text-2xl font-semibold tracking-tight text-ink
+                      transition-colors duration-200
+                      group-hover:text-[hsl(var(--showcase-accent))]
+                      motion-reduce:transition-none
+                      sm:text-3xl
+                    "
+                    >
+                      {featuredProject.data.title}
+                    </h3>
+                  </div>
+                  <Icon
+                    aria-hidden="true"
+                    class="
+                      relative z-10 mt-1 size-5 shrink-0 text-ink-muted
+                      transition duration-200
+                      group-hover:text-[hsl(var(--showcase-accent))]
+                      motion-safe:group-hover:translate-x-0.5
+                      motion-safe:group-hover:-translate-y-0.5
+                      motion-reduce:transition-none
+                    "
+                    name="arrow-up-right"
+                  />
+                </div>
+                <p class="
+                  line-clamp-3 max-w-2xl text-sm/7 text-ink-soft
+                  sm:text-base/7
+                "
+                >
+                  {featuredProject.data.description}
+                </p>
+              </div>
+
+              <div class="mt-auto space-y-3.5">
+                {hasMetrics && (
+                  <div class="space-y-2">
+                    <p class="
+                      text-[0.7rem]/4 font-bold tracking-[0.18em] text-ink-muted
+                      uppercase
+                    "
+                    >
+                      Impact
+                    </p>
+                    <ul class="m-0 flex list-none flex-wrap gap-2.5 p-0">
+                      {featuredProject.data.impactMetrics.slice(0, 2).map(metric => (
+                        <li
+                          class="
+                            rounded-full border border-brand/15 bg-brand-soft/70
+                            px-3.5 py-1.5 text-xs/5 font-bold text-brand
+                          "
+                        >
+                          {metric}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div class="space-y-2">
+                  <p class="
+                    text-[0.7rem]/4 font-bold tracking-[0.18em] text-ink-muted
+                    uppercase
+                  "
+                  >
+                    Stack
+                  </p>
+                  <div class="flex flex-wrap gap-2">
+                    {featuredProject.data.technologies.slice(0, 5).map(technology => (
+                      <span
+                        class="
+                          rounded-full border border-line/60 bg-surface/28
+                          px-2.5 py-1 text-xs/5 font-semibold text-ink-soft
+                        "
+                      >
+                        {technology}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </a>
+
+        <div
+          class:list={[
+            `
+              panel-card flex flex-col rounded-[1.75rem] p-2
+              sm:p-3
+            `,
+            isReverse && 'lg:col-start-1 lg:row-start-1'
+          ]}
+        >
+          <div class="
+            px-4 pt-4 pb-3
+            sm:px-5
+          "
+          >
+            <div class="flex items-center justify-between gap-3">
+              <p class="text-sm/5 font-bold text-ink">{supportingLabel}</p>
+              <span
+                class="
+                  rounded-full border border-line/45 px-2.5 py-1 text-[0.7rem]/4
+                  font-bold text-ink-soft
+                "
+              >
+                {supportingProjects.length} more
+              </span>
+            </div>
+          </div>
+          <ol class="flex grow flex-col gap-2">
+            {supportingProjects.map((project, index) => {
+              const projectLink = getPortfolioPath(project.id)
+              const projectTimeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
+              const projectStatus = project.data.endingDate ? 'Completed' : 'Active'
+              const projectLogo = project.data.coverImage?.logo
+              const projectLogoAspect: LogoAspect = project.data.coverImage?.logoAspect ?? 'square'
+              const projectLogoSurface: LogoSurface = project.data.coverImage?.logoSurface ?? 'neutral'
+
+              return (
+                <li class="relative flex flex-1" data-showcase-row>
+                  <a
+                    data-showcase-item
+                    class="
+                      group relative grid grow content-center gap-3 rounded-2xl
+                      p-4 transition duration-300
+                      focus-visible:ring-2 focus-visible:ring-brand/50
+                      focus-visible:outline-none
+                      motion-reduce:transition-none
+                      sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:px-5
+                    "
+                    href={projectLink}
+                  >
+                    <span
+                      class:list={[
+                        `
+                          z-10 flex shrink-0 items-center justify-center
+                          self-start rounded-xl border text-xs font-bold
+                          transition duration-200
+                          group-hover:border-brand/35
+                          motion-safe:group-hover:-translate-y-0.5
+                          motion-reduce:transition-none
+                        `,
+                        supportingLogoBoxClass[projectLogoAspect],
+                        supportingLogoSurfaceClass[projectLogoSurface]
+                      ]}
+                    >
+                      {projectLogo ?
+                        (
+                          <Image
+                            alt=""
+                            aria-hidden="true"
+                            class:list={[
+                              'object-contain drop-shadow-sm',
+                              supportingLogoImageClass[projectLogoAspect]
+                            ]}
+                            loading="lazy"
+                            src={projectLogo}
+                            width={projectLogoAspect === 'wide' ? 80 : 48}
+                          />
+                        ) :
+                        String(index + 2).padStart(2, '0')}
+                    </span>
+                    <span class="min-w-0 space-y-2">
+                      <span class="space-y-0.5">
+                        <span
+                          class="
+                            block text-base/5 font-bold text-ink
+                            transition-colors duration-200
+                            group-hover:text-[hsl(var(--showcase-accent))]
+                            motion-reduce:transition-none
+                          "
+                        >
+                          {project.data.title}
+                        </span>
+                        <span class="
+                          block text-xs/5 font-semibold text-ink-soft
+                        "
+                        >
+                          {project.data.role ?? projectStatus}
+                        </span>
+                      </span>
+                      <span class="
+                        line-clamp-2 max-w-124 text-sm/6 text-ink-soft
+                      "
+                      >
+                        {project.data.description}
+                      </span>
+                      <span
+                        class="
+                          flex flex-wrap items-center gap-x-2.5 gap-y-1
+                          text-xs/5 font-semibold text-ink-soft
+                        "
+                      >
+                        <span class="inline-flex items-center gap-1.5 text-ink">
+                          <span
+                            aria-hidden="true"
+                            class="
+                              size-1.5 rounded-full
+                              bg-[hsl(var(--showcase-accent))]
+                            "
+                          />
+                          {projectStatus}
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="size-1 rounded-full bg-line"
+                        />
+                        <span>{projectTimeline}</span>
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="
+                        absolute top-4 right-4 flex size-8 items-center
+                        justify-center rounded-full border border-line/45
+                        bg-surface/20 text-ink-muted opacity-80 transition
+                        duration-200
+                        group-hover:border-brand/30 group-hover:bg-surface/55
+                        group-hover:text-[hsl(var(--showcase-accent))]
+                        group-hover:shadow-[0_10px_22px_hsl(var(--brand)/0.09)]
+                        motion-safe:group-hover:translate-x-0.5
+                        motion-reduce:transition-none
+                        sm:static sm:self-start
+                      "
+                    >
+                      <Icon
+                        aria-hidden="true"
+                        class="size-4"
+                        name="arrow-up-right"
+                      />
+                    </span>
+                  </a>
+                </li>
+              )
+            })}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  [data-showcase-feature] {
+    box-shadow:
+      0 22px 58px hsl(230 30% 8% / 0.07),
+      0 8px 24px hsl(var(--brand) / 0.035),
+      inset 0 1px 0 hsl(0 0% 100% / 0.22),
+      inset 1px 0 0 hsl(0 0% 100% / 0.10),
+      inset 0 -1px 0 hsl(var(--line) / 0.12);
+  }
+
+  [data-showcase-feature]::before {
+    z-index: 1;
+  }
+
+  [data-showcase-feature]::after {
+    inset: auto -12% -26% 32%;
+    height: 46%;
+    background:
+      radial-gradient(
+        ellipse at center,
+        hsl(var(--showcase-accent) / 0.18),
+        transparent 68%
+      );
+    opacity: 0.72;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  [data-showcase-feature]:hover {
+    border-color: hsl(var(--showcase-accent) / 0.34);
+    box-shadow:
+      0 28px 68px hsl(230 30% 8% / 0.10),
+      0 16px 34px hsl(var(--showcase-accent) / 0.12),
+      inset 0 1px 0 hsl(0 0% 100% / 0.28),
+      inset 0 -1px 0 hsl(var(--showcase-accent) / 0.12);
+  }
+
+  [data-showcase-feature]:hover::after {
+    opacity: 1;
+    transform: translate3d(5%, -4%, 0) scale(1.08);
+  }
+
+  [data-showcase-item] {
+    isolation: isolate;
+  }
+
+  [data-showcase-row] + [data-showcase-row]::before {
+    content: "";
+    position: absolute;
+    top: -0.25rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    height: 1px;
+    background: hsl(var(--line) / 0.48);
+  }
+
+  [data-showcase-item]::before,
+  [data-showcase-item]::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      opacity 0.24s ease,
+      transform 0.24s ease;
+  }
+
+  [data-showcase-item]::before {
+    inset: 0;
+    z-index: -1;
+    border: 1px solid hsl(var(--showcase-accent) / 0.11);
+    border-radius: inherit;
+    background:
+      linear-gradient(
+        135deg,
+        hsl(var(--surface) / 0.62),
+        hsl(var(--brand-soft) / 0.38) 54%,
+        hsl(var(--surface) / 0.34)
+      ),
+      radial-gradient(
+        ellipse 58% 82% at 7% 18%,
+        hsl(var(--showcase-accent) / 0.10),
+        transparent 70%
+      );
+    box-shadow:
+      0 14px 28px hsl(230 30% 8% / 0.04),
+      inset 0 1px 0 hsl(0 0% 100% / 0.18);
+    transform: scale(0.985);
+  }
+
+  [data-showcase-item]::after {
+    top: 2rem;
+    bottom: 2rem;
+    left: 0;
+    width: 2px;
+    z-index: 0;
+    border-radius: 999px;
+    background: hsl(var(--showcase-accent));
+    transform: scaleY(0.35);
+  }
+
+  [data-showcase-item]:hover::before,
+  [data-showcase-item]:focus-visible::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  [data-showcase-item]:hover::after,
+  [data-showcase-item]:focus-visible::after {
+    opacity: 0.72;
+    transform: scaleY(0.62);
+  }
+
+  :global(:root[data-theme='dark']) [data-showcase-item]::before {
+    background:
+      linear-gradient(
+        135deg,
+        hsl(var(--surface) / 0.50),
+        hsl(var(--brand-soft) / 0.34) 58%,
+        hsl(var(--surface-muted) / 0.30)
+      ),
+      radial-gradient(
+        ellipse 58% 82% at 7% 18%,
+        hsl(var(--showcase-accent) / 0.12),
+        transparent 70%
+      );
+    box-shadow:
+      0 14px 30px hsl(260 44% 4% / 0.18),
+      inset 0 1px 0 hsl(0 0% 100% / 0.11);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-showcase-feature]::after,
+    [data-showcase-item]::before,
+    [data-showcase-item]::after {
+      transition: none;
+    }
+
+    [data-showcase-feature]:hover::after,
+    [data-showcase-item]:hover::before,
+    [data-showcase-item]:hover::after,
+    [data-showcase-item]:focus-visible::before,
+    [data-showcase-item]:focus-visible::after {
+      transform: none;
+    }
+  }
+</style>

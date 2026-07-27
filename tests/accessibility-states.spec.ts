@@ -1,6 +1,8 @@
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
-
+/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
+// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
 test.describe('Accessibility states', () => {
   test('homepage passes a11y when mobile navigation is open', async ({ page }) => {
@@ -9,16 +11,83 @@ test.describe('Accessibility states', () => {
 
     const menuToggle = page.locator('[data-mobile-nav-toggle]')
     await menuToggle.click()
-    await expect(menuToggle).toHaveAttribute('aria-expanded', 'true')
-
+    await expect(menuToggle).toHaveAttribute('aria-expanded', /^true$/)
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
-  test('homepage passes a11y in dark theme', async ({ page }) => {
+  test('theme toggle updates and persists its visual and accessible state', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'light' })
     await page.goto('/')
-    await page.getByRole('switch', { name: 'Toggle color theme' }).click()
 
-    await expect(page.locator('html')).toHaveAttribute('data-theme', /dark|light/)
+    const root = page.locator('html')
+    const toggle = page.getByRole('button', { name: 'Toggle color theme' })
+
+    await toggle.click()
+
+    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+    await page.reload()
+    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
+  })
+
+  test('theme toggle ignores a stale Lumen theme preference', async ({ page }) => {
+    await page.addInitScript(() => {
+      if (sessionStorage.getItem('theme-seeded') !== 'true') {
+        localStorage.setItem('lumen-theme', 'lumen-light')
+        localStorage.setItem('theme', 'dark')
+        sessionStorage.setItem('theme-seeded', 'true')
+      }
+    })
+    await page.goto('/')
+
+    const root = page.locator('html')
+    const toggle = page.getByRole('button', { name: 'Toggle color theme' })
+
+    await expect(root).toHaveAttribute('data-theme', 'dark')
+    await expect(root).toHaveClass(/dark/)
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+
+    await toggle.click()
+
+    await expect(root).toHaveAttribute('data-theme', 'light')
+    await expect(root).not.toHaveClass(/dark/)
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+
+    await page.reload()
+
+    await expect(root).toHaveAttribute('data-theme', 'light')
+    await expect(root).not.toHaveClass(/dark/)
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+  })
+
+  test('topic sort toggles keep one authoritative pressed state', async ({ page }) => {
+    await page.goto('/blog/tags/')
+
+    const byCount = page.getByRole('button', { name: 'By count' })
+    const alphabetical = page.getByRole('button', { name: 'A → Z' })
+    const topics = page.locator('#tags-list > [data-label]')
+
+    await expect(byCount).toHaveAttribute('aria-pressed', 'true')
+    await expect(alphabetical).toHaveAttribute('aria-pressed', 'false')
+
+    await alphabetical.press('Enter')
+
+    await expect(byCount).toHaveAttribute('aria-pressed', 'false')
+    await expect(alphabetical).toHaveAttribute('aria-pressed', 'true')
+    await expect(topics.first()).toHaveAttribute('data-label', 'accessibility')
+
+    await alphabetical.press('Space')
+
+    await expect(alphabetical).toHaveAttribute('aria-pressed', 'true')
+
+    await byCount.click()
+
+    await expect(byCount).toHaveAttribute('aria-pressed', 'true')
+    await expect(alphabetical).toHaveAttribute('aria-pressed', 'false')
+    await expect(topics.first()).toHaveAttribute('data-label', 'developer-experience')
   })
 })

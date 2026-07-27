@@ -22,6 +22,9 @@
     font-display: swap;
   }
 
+  /* Note: overflow-x: clip on html/body makes the root a non-scroll-container,
+     which would deactivate CSS scroll-driven animation timelines (view()/scroll()).
+     Fine today — the site doesn't use them — but remove this if they return. */
   html,
   body {
     width: 100%;
@@ -43,19 +46,24 @@
     min-height: 100vh;
     background:
       radial-gradient(
-        circle at top left,
-        hsl(var(--glow) / 0.08),
-        transparent 18rem
+        circle at 8% -4%,
+        hsl(var(--glow) / 0.13),
+        transparent 24rem
       ),
       radial-gradient(
         circle at 86% 0%,
-        hsl(var(--accent) / 0.06),
-        transparent 18rem
+        hsl(var(--accent) / 0.10),
+        transparent 24rem
+      ),
+      radial-gradient(
+        circle at 48% 110%,
+        hsl(var(--brand) / 0.08),
+        transparent 34rem
       ),
       linear-gradient(
         180deg,
-        hsl(var(--surface-muted) / 0.46),
-        transparent 18rem
+        hsl(var(--surface-muted) / 0.5),
+        transparent 22rem
       ),
       hsl(var(--theme-bg));
     color: hsl(var(--ink));
@@ -83,7 +91,7 @@
         hsl(var(--theme-bg) / 0.88),
         hsl(var(--theme-bg) / 0.95)
       ),
-      url("../../assets/wallpapers/wallpaper-3-desktop.webp") center center / cover,
+      url("@santi020k/theme/assets/wallpapers/wallpaper-3-desktop.webp") center center / cover,
       hsl(var(--theme-bg));
     /* Avoid `background-attachment: fixed` on small screens and when reduced motion is requested:
        on mobile/low-end GPUs it causes scroll-time compositing cost. Restrict to wide,

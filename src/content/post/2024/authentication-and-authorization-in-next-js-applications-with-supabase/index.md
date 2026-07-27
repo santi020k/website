@@ -58,12 +58,16 @@ The current Supabase recommendation for server-side auth uses `@supabase/ssr` to
 
 Install the packages:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```bash title="terminal"
 npm install @supabase/supabase-js @supabase/ssr
 ```
 
 Then declare the environment variables:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```env title=".env.local"
 NEXT_PUBLIC_SUPABASE_URL=your_project_url
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
@@ -77,6 +81,8 @@ I prefer this split from the start.
 
 `lib/supabase/client.ts`
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```typescript title="lib/supabase/client.ts"
 import { createBrowserClient } from '@supabase/ssr'
 
@@ -90,6 +96,8 @@ export function createClient() {
 
 `lib/supabase/server.ts`
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```typescript title="lib/supabase/server.ts"
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
@@ -133,6 +141,8 @@ For Next.js server-side auth, session refresh must be handled carefully. A commo
 
 `lib/supabase/proxy.ts`
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```typescript title="lib/supabase/proxy.ts"
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
@@ -168,6 +178,8 @@ export async function updateSession(request: NextRequest) {
 
 `proxy.ts`
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```typescript title="proxy.ts"
 import { type NextRequest } from 'next/server'
 
@@ -190,6 +202,8 @@ The important idea is not the file name itself. The important idea is that sessi
 
 If a page should be private, I prefer the protection to happen on the server before the page renders:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```typescript title="app/dashboard/page.tsx"
 import { redirect } from 'next/navigation'
 
@@ -219,6 +233,8 @@ With Supabase, Row Level Security is one of the best tools for this.
 
 For example, if users should only read their own profile:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```sql title="sql"
 alter table profiles enable row level security;
 
@@ -230,6 +246,8 @@ using (auth.uid() = user_id);
 
 And if they should only update their own profile:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```sql title="sql"
 create policy "Users can update their own profile"
 on profiles
@@ -243,6 +261,8 @@ This is the kind of authorization I trust much more than a frontend `if` stateme
 
 The frontend still has a role in authorization, but I prefer it to be very clear and limited:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```tsx title="components/project-actions.tsx"
 interface ProjectActionsProps {
   canEdit: boolean

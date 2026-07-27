@@ -1,10 +1,13 @@
+@import "@santi020k/lumen-astro/layers.css";
 @import "tailwindcss";
+@import "@santi020k/lumen-astro/styles.css";
+@import "@santi020k/theme/tokens.css";
 @import "./partials/tokens.css";
 @import "./partials/base.css";
 @import "./partials/nav.css";
 @import "./partials/animations.css";
 @import "./partials/utilities.css";
+@import "./partials/ui.css";
 @import "./partials/prose.css";
 
 @plugin "@tailwindcss/typography";
-@plugin "@iconify/tailwind4";

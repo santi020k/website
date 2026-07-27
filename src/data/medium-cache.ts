@@ -23,7 +23,7 @@ export const mediumPostsCache: MediumPost[] = [
     publication: 'Towards Dev',
     publishedAt: 'Fri, 05 Apr 2024 18:33:37 GMT',
     slug: 'configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set-482623476dcf',
-    tags: ['mongo', 'configuration', 'hombrew', 'mac'],
+    tags: ['mongo', 'configuration', 'homebrew', 'mac'],
     title: 'Configuring MongoDB with Homebrew on macOS: Converting a Standalone Instance to a Replica Set',
     updatedAt: '2024-04-05T18:33:37.971Z'
   },

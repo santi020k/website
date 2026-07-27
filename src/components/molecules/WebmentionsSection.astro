@@ -1,10 +1,10 @@
 ---
 import { Image } from 'astro:assets'
-import { Icon } from 'astro-icon/components'
 
-import { getFormattedDate } from '@/utils/date'
+import { Icon } from '@santi020k/lumen-astro'
 
 import type { WebmentionsChildren } from '@/types/webmentions'
+import { getFormattedDate } from '@/utils/date'
 
 interface Props {
   mentions: WebmentionsChildren[]
@@ -53,9 +53,8 @@ const showSection = likes.length > 0 || replies.length > 0
         <div class="space-y-3">
           <p class="section-label">
             <Icon
-              aria-hidden="true"
               class="mr-1 inline size-4 align-text-bottom"
-              name="tabler:heart"
+              name="heart"
             />
             {likes.length} {likes.length === 1 ? 'like' : 'likes'} across the IndieWeb
           </p>
@@ -104,9 +103,8 @@ const showSection = likes.length > 0 || replies.length > 0
         <div class="space-y-4">
           <p class="section-label">
             <Icon
-              aria-hidden="true"
               class="mr-1 inline size-4 align-text-bottom"
-              name="tabler:message-circle"
+              name="message-circle"
             />
             Replies &amp; mentions
           </p>
@@ -163,7 +161,7 @@ const showSection = likes.length > 0 || replies.length > 0
                       target="_blank"
                     >
                       View original
-                      <Icon aria-hidden="true" class="size-3.5" name="tabler:external-link" />
+                      <Icon class="size-3.5" name="external-link" />
                     </a>
                   </p>
                 </li>

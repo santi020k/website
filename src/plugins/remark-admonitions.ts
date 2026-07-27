@@ -34,16 +34,14 @@ const transformUnhandledDirective = (
     value: toMarkdown(node, { extensions: [directiveToMarkdown()] })
   } as const
 
-  /* eslint-disable security/detect-object-injection */
   if (node.type === 'textDirective') {
-    parent.children[index] = textNode
+    parent.children.splice(index, 1, textNode)
   } else {
-    parent.children[index] = {
+    parent.children.splice(index, 1, {
       children: [textNode],
       type: 'paragraph'
-    }
+    })
   }
-  /* eslint-enable security/detect-object-injection */
 }
 
 const h = (el: string, attrs: Properties = {}, children: Node[] = []): P => {
@@ -95,8 +93,6 @@ export const remarkAdmonitions: Plugin<[], Root> = () => tree => {
       h('div', { class: 'aside-content' }, node.children)
     ])
 
-    /* eslint-disable security/detect-object-injection */
-    parent.children[index] = aside
-    /* eslint-enable security/detect-object-injection */
+    parent.children.splice(index, 1, aside)
   })
 }

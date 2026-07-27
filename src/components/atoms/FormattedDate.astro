@@ -1,16 +1,16 @@
 ---
-import type { HTMLAttributes } from 'astro/types'
-
 import { getFormattedDate } from '@/utils/date'
 
-type Props = HTMLAttributes<'time'> & {
+import { FormattedDate } from '@santi020k/lumen-astro'
+
+interface Props {
   date: Date
   dateTimeOptions?: Intl.DateTimeFormatOptions
 }
 
-const { date, dateTimeOptions, ...attrs } = Astro.props
+const { date, dateTimeOptions } = Astro.props
 const postDate = getFormattedDate(date, dateTimeOptions)
 const ISO = date.toISOString();
 ---
 
-<time datetime={ISO} title={ISO} {...attrs}>{postDate}</time>
+<FormattedDate datetime={ISO} title={ISO}>{postDate}</FormattedDate>

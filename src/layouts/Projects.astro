@@ -11,6 +11,7 @@ import PageSection from '@/components/organisms/PageSection.astro'
 import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
 import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
+import BaseLayout from '@/layouts/Base.astro'
 
 import {
   getProjectNotesDescription,
@@ -20,7 +21,6 @@ import {
   getProjectTypeLabel
 } from '@/utils/project-meta'
 
-import BaseLayout from '@/layouts/Base.astro'
 import { createAuthorSchema } from '@/site.config'
 
 interface Props {
@@ -91,7 +91,7 @@ const breadcrumbs = [
 >
   <ReadingProgressBar />
 
-  <article class="mx-auto flex w-full max-w-6xl flex-col gap-10">
+  <article class="section-container-wide flex flex-col gap-10">
     <ProjectHero parentPage={parentPage} project={project} />
 
     <section
@@ -99,7 +99,7 @@ const breadcrumbs = [
         section-divider grid grid-cols-1 gap-10
         lg:grid-cols-[minmax(0,1fr)_18rem]
       "
-      data-animate="fade"
+      data-animate
     >
       <div class="min-w-0 space-y-8">
         <div class="space-y-8 border-y border-line/45 py-8">
@@ -136,10 +136,12 @@ const breadcrumbs = [
         title={projectRelatedHeading}
         description="More work from a similar lane — same type, overlapping technologies, adjacent problems."
       />
-      <div class:list={[
-        'grid gap-6',
-        relatedProjects.length > 1 && 'sm:grid-cols-2'
-      ]}
+      <div
+        class:list={[
+          'grid gap-6',
+          relatedProjects.length > 1 && 'sm:grid-cols-2'
+        ]}
+        data-stagger="70"
       >
         {relatedProjects.map(relatedProject => (
           <ProjectPreviewCard project={relatedProject} />

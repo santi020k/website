@@ -2,13 +2,14 @@
 import { type CollectionEntry, getEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import CoverImage from '@/components/atoms/CoverImage.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPostPath, getSeriesPath, getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingTime } from '@/utils/reading-time'
+
+import { CoverImage } from '@santi020k/lumen-astro'
 
 interface Props {
   className?: string
@@ -43,7 +44,7 @@ const imageSizes = featured ?
   <a
     aria-label={data.title}
     class:list={[
-      'relative z-10 block overflow-hidden',
+      'relative z-10 block overflow-hidden rounded-2xl',
       featured ?
         `
           px-4 pt-4
@@ -62,7 +63,7 @@ const imageSizes = featured ?
         <CoverImage
           alt={data.coverImage.alt}
           ariaHidden={true}
-          className="rounded-none border-0"
+          className="rounded-2xl! border-0!"
           featured={featured}
           image={data.coverImage.src}
           loading={featured ? 'eager' : 'lazy'}
@@ -73,7 +74,7 @@ const imageSizes = featured ?
         />
       ) :
       (
-        <div class="aspect-16/10 bg-surface-muted grid-fade"/>
+        <div class="aspect-16/10 rounded-2xl bg-surface-muted grid-fade"/>
       )}
   </a>
 
@@ -232,7 +233,11 @@ const imageSizes = featured ?
 
   [data-post-card-glow] {
     background:
-      radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, -20%), hsl(var(--brand) / 0.12), transparent 80%),
+      radial-gradient(
+        circle 350px at var(--mouse-x, 50%) var(--mouse-y, -20%),
+        hsl(var(--brand) / 0.12),
+        transparent 80%
+      ),
       radial-gradient(ellipse 70% 44% at 18% 0%, hsl(var(--brand) / 0.07), transparent 66%),
       radial-gradient(ellipse 62% 46% at 92% 92%, hsl(var(--accent) / 0.06), transparent 64%);
     opacity: 0.8;

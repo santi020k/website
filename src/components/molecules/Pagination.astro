@@ -1,6 +1,8 @@
 ---
 import type { Page } from 'astro'
 
+import { Link, Pagination } from '@santi020k/lumen-astro'
+
 interface Props {
   baseUrl?: string
   page: Page<unknown>
@@ -21,13 +23,13 @@ for (let i = 1; i <= lastPage; i++) {
 ---
 
 {lastPage > 1 && (
-  <nav
+  <Pagination
     aria-label="Blog pagination"
-    class="flex items-center justify-center gap-1.5 pt-2"
+    className="flex items-center justify-center gap-1.5 pt-2"
   >
     {url.prev ?
       (
-        <a aria-label="Previous page" class="pagination-btn" href={url.prev}>←</a>
+        <Link aria-label="Previous page" className="pagination-btn no-underline" href={url.prev}>←</Link>
       ) :
       (
         <span
@@ -42,28 +44,28 @@ for (let i = 1; i <= lastPage; i++) {
       p === '...' ?
         (
           <span class="
-            flex size-10 items-center justify-center text-sm text-ink-muted
+            flex size-11 items-center justify-center text-sm text-ink-muted
           "
           >…
           </span>
         ) :
         (
-          <a
+          <Link
             aria-current={p === currentPage ? 'page' : undefined}
             aria-label={`Page ${p}`}
-            class:list={['pagination-btn', p === currentPage && `
+            class:list={['pagination-btn no-underline', p === currentPage && `
               pagination-btn--active
             `]}
             href={getPageUrl(p)}
           >
             {p}
-          </a>
+          </Link>
         )
     ))}
 
     {url.next ?
       (
-        <a aria-label="Next page" class="pagination-btn" href={url.next}>→</a>
+        <Link aria-label="Next page" className="pagination-btn no-underline" href={url.next}>→</Link>
       ) :
       (
         <span
@@ -73,5 +75,5 @@ for (let i = 1; i <= lastPage; i++) {
         >→
         </span>
       )}
-  </nav>
+  </Pagination>
 )}

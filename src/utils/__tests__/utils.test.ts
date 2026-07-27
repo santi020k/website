@@ -1,30 +1,37 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { capitalizeFirstLetter } from '../capitalize-first-letter'
 import { elementHasClass, rootInDarkMode, toggleClass } from '../dom-element'
-import { getPortfolioPath, getPostPath, getSeriesPath, getTagPath, getTechnologyPath } from '../links'
+import {
+  getPortfolioPath,
+  getPostPath,
+  getSeriesPath,
+  getTagPath,
+  getTechnologyPath,
+  getTechnologySlug
+} from '../links'
 import { truncateTitle } from '../truncate-title'
 
 // ─── capitalizeFirstLetter ────────────────────────────────────────────────────
 
 describe('capitalizeFirstLetter', () => {
-  it('capitalizes the first letter of a lowercase string', () => {
+  test('capitalizes the first letter of a lowercase string', () => {
     expect(capitalizeFirstLetter('hello')).toBe('Hello')
   })
 
-  it('returns an empty string unchanged', () => {
+  test('returns an empty string unchanged', () => {
     expect(capitalizeFirstLetter('')).toBe('')
   })
 
-  it('handles a single character', () => {
+  test('handles a single character', () => {
     expect(capitalizeFirstLetter('a')).toBe('A')
   })
 
-  it('does not change already-capitalized strings', () => {
+  test('does not change already-capitalized strings', () => {
     expect(capitalizeFirstLetter('Hello')).toBe('Hello')
   })
 
-  it('only uppercases the first character, leaving the rest unchanged', () => {
+  test('only uppercases the first character, leaving the rest unchanged', () => {
     expect(capitalizeFirstLetter('hELLO WORLD')).toBe('HELLO WORLD')
   })
 })
@@ -32,21 +39,21 @@ describe('capitalizeFirstLetter', () => {
 // ─── truncateTitle ────────────────────────────────────────────────────────────
 
 describe('truncateTitle', () => {
-  it('truncates titles longer than 50 characters with an ellipsis', () => {
+  test('truncates titles longer than 50 characters with an ellipsis', () => {
     const longTitle = 'a'.repeat(60)
     expect(truncateTitle(longTitle)).toBe(`${'a'.repeat(50)}...`)
   })
 
-  it('does not truncate titles of exactly 50 characters', () => {
+  test('does not truncate titles of exactly 50 characters', () => {
     const title = 'a'.repeat(50)
     expect(truncateTitle(title)).toBe(title)
   })
 
-  it('does not truncate short titles', () => {
+  test('does not truncate short titles', () => {
     expect(truncateTitle('Short Title')).toBe('Short Title')
   })
 
-  it('returns an empty string unchanged', () => {
+  test('returns an empty string unchanged', () => {
     expect(truncateTitle('')).toBe('')
   })
 })
@@ -54,36 +61,43 @@ describe('truncateTitle', () => {
 // ─── links ────────────────────────────────────────────────────────────────────
 
 describe('links', () => {
-  it('returns the correct canonical path for a blog post', () => {
+  test('returns the correct canonical path for a blog post', () => {
     expect(getPostPath('my-post')).toBe('/blog/my-post/')
   })
 
-  it('returns the correct canonical path for a series', () => {
+  test('returns the correct canonical path for a series', () => {
     expect(getSeriesPath('my-series')).toBe('/blog/series/my-series/')
   })
 
-  it('returns the correct canonical path for a tag archive', () => {
+  test('returns the correct canonical path for a tag archive', () => {
     expect(getTagPath('developer experience')).toBe('/blog/tags/developer%20experience/')
   })
 
-  it('URI-encodes reserved characters in tag archive paths', () => {
+  test('URI-encodes reserved characters in tag archive paths', () => {
     expect(getTagPath('ci/cd')).toBe('/blog/tags/ci%2Fcd/')
   })
 
-  it('returns the correct canonical path for a portfolio project', () => {
+  test('returns the correct canonical path for a portfolio project', () => {
     expect(getPortfolioPath('my-project')).toBe('/portfolio/my-project/')
   })
 
-  it('returns the correct canonical path for a plain technology name', () => {
+  test('returns the correct canonical path for a plain technology name', () => {
     expect(getTechnologyPath('react')).toBe('/technologies/react/')
   })
 
-  it('URI-encodes special characters in technology names', () => {
-    expect(getTechnologyPath('C#')).toBe('/technologies/C%23/')
-    expect(getTechnologyPath('C++')).toBe('/technologies/C%2B%2B/')
+  test('slugifies technology names for canonical paths', () => {
+    expect(getTechnologyPath('Design Systems')).toBe('/technologies/design-systems/')
+    expect(getTechnologyPath('C#')).toBe('/technologies/c-sharp/')
+    expect(getTechnologyPath('C++')).toBe('/technologies/c-plus-plus/')
   })
 
-  it('always wraps the slug with leading and trailing slashes', () => {
+  test('normalizes technology slug case and punctuation', () => {
+    expect(getTechnologySlug('React.js')).toBe('react-js')
+    expect(getTechnologySlug('NPM')).toBe(getTechnologySlug('npm'))
+    expect(getTechnologySlug('CI/CD')).toBe('ci-cd')
+  })
+
+  test('always wraps the slug with leading and trailing slashes', () => {
     expect(getPostPath('slug').startsWith('/')).toBe(true)
     expect(getPostPath('slug').endsWith('/')).toBe(true)
   })
@@ -92,55 +106,55 @@ describe('links', () => {
 // ─── dom-element ─────────────────────────────────────────────────────────────
 
 describe('toggleClass', () => {
-  it('adds a class when the element does not have it', () => {
+  test('adds a class when the element does not have it', () => {
     const el = document.createElement('div')
     toggleClass(el, 'active')
-    expect(el.classList.contains('active')).toBe(true)
+    expect(el).toHaveClass('active')
   })
 
-  it('removes a class when the element already has it', () => {
+  test('removes a class when the element already has it', () => {
     const el = document.createElement('div')
     el.classList.add('active')
     toggleClass(el, 'active')
-    expect(el.classList.contains('active')).toBe(false)
+    expect(el).not.toHaveClass('active')
   })
 
-  it('toggles independently for different class names', () => {
+  test('toggles independently for different class names', () => {
     const el = document.createElement('div')
     toggleClass(el, 'foo')
     toggleClass(el, 'bar')
-    expect(el.classList.contains('foo')).toBe(true)
-    expect(el.classList.contains('bar')).toBe(true)
+    expect(el).toHaveClass('foo')
+    expect(el).toHaveClass('bar')
   })
 })
 
 describe('elementHasClass', () => {
-  it('returns true when the element has the class', () => {
+  test('returns true when the element has the class', () => {
     const el = document.createElement('div')
     el.classList.add('test')
     expect(elementHasClass(el, 'test')).toBe(true)
   })
 
-  it('returns false when the element does not have the class', () => {
+  test('returns false when the element does not have the class', () => {
     const el = document.createElement('div')
     expect(elementHasClass(el, 'not-here')).toBe(false)
   })
 })
 
 describe('rootInDarkMode', () => {
-  it('returns true when <html> has data-theme="dark"', () => {
+  test('returns true when <html> has data-theme="dark"', () => {
     document.documentElement.setAttribute('data-theme', 'dark')
     expect(rootInDarkMode()).toBe(true)
     document.documentElement.removeAttribute('data-theme')
   })
 
-  it('returns false when <html> does not have data-theme="dark"', () => {
+  test('returns false when <html> does not have data-theme="dark"', () => {
     document.documentElement.setAttribute('data-theme', 'light')
     expect(rootInDarkMode()).toBe(false)
     document.documentElement.removeAttribute('data-theme')
   })
 
-  it('returns false when data-theme attribute is absent', () => {
+  test('returns false when data-theme attribute is absent', () => {
     document.documentElement.removeAttribute('data-theme')
     expect(rootInDarkMode()).toBe(false)
   })

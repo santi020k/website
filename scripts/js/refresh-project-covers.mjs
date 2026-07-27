@@ -1,5 +1,7 @@
+/* eslint-disable func-style, security/detect-object-injection, no-use-before-define, @stylistic/max-len, no-nested-ternary -- TODO: Refactor the generated cover refresh pipeline into typed lookup helpers and smaller drawing modules so these safety/style rules can be re-enabled. */
 import fs from 'node:fs/promises'
 import path from 'node:path'
+
 import sharp from 'sharp'
 
 const PROJECTS_ROOT = path.resolve('src/content/project')

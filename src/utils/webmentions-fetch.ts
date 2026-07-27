@@ -8,10 +8,10 @@ interface Jf2Feed {
  * Loads public webmentions for a canonical page URL from webmention.io (build time).
  * Requires `WEBMENTION_API_KEY` (API token from the webmention.io dashboard).
  */
-export async function fetchWebmentionsForTarget(
+export const fetchWebmentionsForTarget = async (
   targetUrl: string,
   token: string
-): Promise<WebmentionsChildren[]> {
+): Promise<WebmentionsChildren[]> => {
   const endpoint = new URL('https://webmention.io/api/mentions.jf2')
 
   endpoint.searchParams.set('target', targetUrl)

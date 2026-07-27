@@ -108,6 +108,8 @@ This is the kind of before-and-after I had in mind.
 
 Old package:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```js title="eslint.config.js"
 import {
   ConfigOption,
@@ -125,6 +127,8 @@ export default [
 
 New package:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```js title="eslint.config.js"
 import { eslintConfig, Library, Testing } from '@santi020k/eslint-config-basic'
 import react from '@santi020k/eslint-config-react'

@@ -1,6 +1,9 @@
-<!-- src/components/Prose.astro -->
-<div class="
-  prose-shell
+---
+import { Prose } from '@santi020k/lumen-astro'
+---
+
+<Prose className="
+  prose-shell max-w-none
   prose-h1:scroll-mt-28
   prose-h2:scroll-mt-28
   prose-h3:scroll-mt-28
@@ -10,4 +13,4 @@
 "
 >
   <slot />
-</div>
+</Prose>

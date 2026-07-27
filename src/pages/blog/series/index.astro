@@ -6,15 +6,13 @@ import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
-
-import { editorialCalendar } from '@/data/editorial-calendar'
-import { getSeriesSummaries } from '@/data/series'
 import PageLayout from '@/layouts/Base.astro'
+
+import { getSeriesSummaries } from '@/data/series'
 
 const seriesSummaries = await getSeriesSummaries()
 const activeSeries = seriesSummaries.filter(item => item.postCount > 0 && item.series.data.status === 'active')
 const postsGroupedIntoSeries = activeSeries.reduce((count, item) => count + item.postCount, 0)
-const roadmapSeriesCount = new Set(editorialCalendar.map(entry => entry.seriesId).filter(Boolean)).size
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -34,13 +32,11 @@ const breadcrumbs = [
     description="Grouped reading paths — follow a topic from start to finish without hunting the archive."
     eyebrow="Series"
     gradientText="in order."
+    metaItems={['Reading tracks', 'Practical sequence', 'Connected ideas']}
     title="Follow related posts"
   >
     <ButtonLink href="/blog/" showArrow variant="secondary">
       Back to blog
-    </ButtonLink>
-    <ButtonLink href="/blog/content-calendar/" showArrow variant="secondary">
-      Content calendar
     </ButtonLink>
   </PageHero>
 
@@ -56,9 +52,9 @@ const breadcrumbs = [
       value={String(postsGroupedIntoSeries)}
     />
     <StatCard
-      description="Distinct series planned or in progress on the editorial calendar."
-      label="Roadmap tracks"
-      value={String(roadmapSeriesCount)}
+      description="Published reading tracks, including active and archived series."
+      label="Reading tracks"
+      value={String(seriesSummaries.filter(item => item.postCount > 0).length)}
     />
   </StatsGrid>
 
@@ -69,10 +65,12 @@ const breadcrumbs = [
       title="Current series on the site."
     />
 
-    <div class="
-      grid gap-6
-      lg:grid-cols-2
-    "
+    <div
+      class="
+        grid gap-6
+        lg:grid-cols-2
+      "
+      data-stagger="70"
     >
       {activeSeries.map(item => (
         <SeriesCard postCount={item.postCount} series={item.series} />

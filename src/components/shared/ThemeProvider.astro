@@ -17,7 +17,7 @@ const getUserPref = () => {
   return storedTheme || (lightModePref.matches ? 'light' : 'dark')
 }
 
-const setTheme = (newTheme, options = {}) => {
+const setTheme = newTheme => {
   if (newTheme !== 'light' && newTheme !== 'dark') {
     return
   }
@@ -29,6 +29,13 @@ const setTheme = (newTheme, options = {}) => {
   if (themeChanged) {
     root.setAttribute('data-theme', newTheme)
   }
+
+  root.classList.toggle('dark', newTheme === 'dark')
+
+  document.querySelectorAll('[data-ui-theme-toggle]').forEach(control => {
+    control.setAttribute('aria-pressed', String(newTheme === 'dark'))
+    control.setAttribute('data-ui-theme', newTheme)
+  })
 
   // Defer both the querySelector and getComputedStyle reads to avoid a forced
   // synchronous style recalculation immediately after the DOM write above.
@@ -44,13 +51,6 @@ const setTheme = (newTheme, options = {}) => {
     }
   })
 
-  if (options.persist) {
-    try {
-      localStorage.setItem('theme', newTheme)
-    } catch {
-      // localStorage can be unavailable in private browsing contexts.
-    }
-  }
 }
 
 // initial setup
@@ -59,9 +59,9 @@ setTheme(getUserPref())
 // View Transitions hook to restore theme
 document.addEventListener('astro:after-swap', () => setTheme(getUserPref()))
 
-// listen for theme-change custom event, fired in src/components/ThemeToggle.astro
-document.addEventListener('theme-change', e => {
-  setTheme(e.detail.theme, { persist: true })
+// Keep browser chrome metadata in sync after Lumen applies a user-selected theme.
+document.addEventListener('ui:theme-change', e => {
+  setTheme(e.detail.theme)
 })
 
 // listen for prefers-color-scheme change.

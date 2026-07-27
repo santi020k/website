@@ -56,6 +56,8 @@ If the project already has E2E tests, those can be added too, but I do not recom
 
 Create the file `.github/workflows/ci.yml`:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```yaml title=".github/workflows/ci.yml"
 name: CI
 
@@ -124,6 +126,8 @@ It is simple, and simplicity is valuable.
 
 If you need more control, you can deploy after the verification job succeeds. For example:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```yaml title=".github/workflows/deploy.yml"
 name: Deploy
 
@@ -173,6 +177,8 @@ That is the same reason I try to avoid weak defaults in frontend code. Ambiguous
 
 Your project scripts should support the pipeline directly:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```json title="package.json"
 {
   "scripts": {

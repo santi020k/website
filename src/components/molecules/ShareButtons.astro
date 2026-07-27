@@ -1,5 +1,9 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Icon as AstroIcon } from 'astro-icon/components'
+
+import Button from '@/components/atoms/Button.astro'
+
+import { Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   title: string
@@ -52,37 +56,33 @@ const shareLinks = [
         data-track-event="share"
         data-track-platform={link.platform}
         class="
-          group flex cursor-pointer items-center gap-2.5 rounded-full border
-          border-line/40 bg-surface-muted/50 px-5 py-2.5 text-sm font-semibold
-          text-ink-soft transition duration-300
-          hover:border-brand hover:bg-brand/5 hover:text-brand
+          group inline-flex min-h-11 cursor-pointer items-center justify-center
+          gap-2 rounded-full border text-sm font-semibold tracking-[0.01em]
+          btn-secondary
         "
       >
-        <Icon
-          name={link.icon}
-          aria-hidden="true"
-          class="
-            size-5 transition-transform
-            group-hover:scale-110
-          "
-        />
+        <Icon class="
+          size-5 transition-transform
+          group-hover:scale-110
+        "
+        >
+          <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={link.icon} />
+        </Icon>
         <span>{link.platform}</span>
       </a>
     ))}
 
-    <button
+    <Button
       id="copy-link-btn"
       type="button"
       aria-label="Copy link to this page"
-      class="
-        group flex cursor-pointer items-center gap-2.5 rounded-full border
-        border-line/40 bg-surface-muted/50 px-5 py-2.5 text-sm font-semibold
-        text-ink-soft transition duration-300
-        hover:border-brand hover:bg-brand/5 hover:text-brand
+      className="
+        group
       "
+      variant="secondary"
     >
       <Icon
-        name="tabler:link"
+        name="link"
         data-copy-icon
         aria-hidden="true"
         class="
@@ -91,7 +91,7 @@ const shareLinks = [
         "
       />
       <Icon
-        name="tabler:check"
+        name="check"
         data-check-icon
         class="
           hidden size-5 animate-spring-up
@@ -100,7 +100,7 @@ const shareLinks = [
         aria-hidden="true"
       />
       <span id="copy-label" aria-live="polite">Copy link</span>
-    </button>
+    </Button>
   </div>
 </div>
 

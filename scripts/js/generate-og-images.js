@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-unsafe-regex, @stylistic/max-len, @stylistic/lines-around-comment -- TODO: Split the OG card templates and SVG/CSS literals into smaller template modules so this generated asset script can use the normal lint rules. */
 /**
  * Pre-build OG image generator.
  *
@@ -17,12 +18,13 @@
  * `min(16, os.availableParallelism())`).
  */
 
-import yaml from 'js-yaml'
 import fs, { promises as fsp } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
+
+import yaml from 'js-yaml'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..')
@@ -65,9 +67,18 @@ const getSocialImageSlug = pathname => trimOuterSlashes(pathname)
 
 const getSocialImageFileName = pathname => `${getSocialImageSlug(pathname) || 'index'}.webp`
 
+const getTechnologySlug = technology => technology
+  .normalize('NFKD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .replaceAll('&', ' and ')
+  .replaceAll('+', ' plus ')
+  .replaceAll('#', ' sharp ')
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '')
+
 /** Read and parse the YAML frontmatter from a markdown / MDX file. */
 const readFrontmatter = filePath => {
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   const content = fs.readFileSync(filePath, 'utf8')
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
 
@@ -90,10 +101,8 @@ const getPaginationPathnames = (basePathname, totalItems, pageSize) => {
 
 /** Collect all .md / .mdx files inside `dir`, including nested content dirs. */
 export const collectMarkdownFiles = dir => {
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (!fs.existsSync(dir)) return []
 
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
     const entryPath = path.join(dir, entry.name)
 
@@ -105,12 +114,16 @@ export const collectMarkdownFiles = dir => {
 
 /** Derive a content id from a markdown path, matching Astro's `index.md` behavior. */
 export const getContentSlug = (filePath, baseDir) => {
-  const relativePath = path.relative(baseDir, filePath).replaceAll(path.sep, '/')
+  const relativePath = path
+    .relative(baseDir, filePath)
+    .replaceAll(path.sep, '/')
+
   const withoutExtension = relativePath.replace(/\.mdx?$/, '')
 
-  const slug = path.posix.basename(withoutExtension) === 'index' ?
-    path.posix.dirname(withoutExtension) :
-    withoutExtension
+  const slug =
+    path.posix.basename(withoutExtension) === 'index' ?
+      path.posix.dirname(withoutExtension) :
+      withoutExtension
 
   return slug === '.' ? '' : slug
 }
@@ -122,17 +135,21 @@ export const getContentSlug = (filePath, baseDir) => {
 export const resolveContentImagePath = (markdownFilePath, imagePath) => {
   if (typeof imagePath !== 'string' || imagePath.length === 0) return undefined
 
-  if (/^(https?:)?\/\//.test(imagePath) || imagePath.startsWith('data:')) return undefined
+  if (/^(https?:)?\/\//.test(imagePath) || imagePath.startsWith('data:'))
+    return undefined
 
   const absolutePath = path.isAbsolute(imagePath) ?
     imagePath :
     path.resolve(path.dirname(markdownFilePath), imagePath)
 
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   return fs.existsSync(absolutePath) ? absolutePath : undefined
 }
 
-const getCoverImagePath = (markdownFilePath, frontmatter, { preferOgImage = false } = {}) => {
+const getCoverImagePath = (
+  markdownFilePath,
+  frontmatter,
+  { preferOgImage = false } = {}
+) => {
   const coverImage = frontmatter.coverImage
 
   if (!coverImage) return undefined
@@ -170,7 +187,8 @@ const staticSocialPages = [
     type: 'About'
   },
   {
-    description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+    description:
+      'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
     pathname: '/blog/',
     title: 'Software Engineering Blog - Santiago Molina',
     type: 'Blog'
@@ -190,28 +208,39 @@ const staticSocialPages = [
     type: 'Blog'
   },
   {
-    description: 'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
+    description:
+      'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
     pathname: '/blog/tags/',
     title: 'Blog Topics',
     type: 'Blog'
   },
   {
-    description: 'A curated showcase of professional engineering projects, open-source contributions, and technical experiments across headless commerce, gaming, and SaaS.',
+    description:
+      'A curated showcase of professional engineering projects, open-source contributions, and technical experiments across headless commerce, gaming, and SaaS.',
     pathname: '/portfolio/',
     title: 'Engineering Portfolio - Santiago Molina',
     type: 'Portfolio'
   },
   {
-    description: 'Client and product work across headless commerce, gaming, SaaS, real estate, and martech — architecture decisions, delivery systems, and hands-on technical leadership.',
+    description:
+      'Client and product work across headless commerce, gaming, SaaS, real estate, and martech — architecture decisions, delivery systems, and hands-on technical leadership.',
     pathname: '/work/',
     title: 'Work Experience — Santiago Molina',
     type: 'Work'
   },
   {
-    description: 'Open-source tools, community work, and self-directed experiments — the projects Santiago Molina builds to learn, share, and sharpen engineering craft.',
+    description:
+      'Open-source tools, community work, and self-directed experiments — the projects Santiago Molina builds to learn, share, and sharpen engineering craft.',
     pathname: '/projects/',
     title: 'Side Projects — Santiago Molina',
     type: 'Projects'
+  },
+  {
+    description:
+      'Engineering leader and full-stack architect resume. Explore Santiago Molina\'s professional experience, technical skills, and open-source projects.',
+    pathname: '/resume/',
+    title: 'Resume & Curriculum Vitae',
+    type: 'Resume'
   },
   {
     description:
@@ -221,20 +250,15 @@ const staticSocialPages = [
     type: 'Speaking'
   },
   {
-    description: 'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
+    description:
+      'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
     pathname: '/technologies/',
     title: 'Technology Index',
     type: 'Technology'
   },
   {
     description:
-      'A practical look at the tools, workflow defaults, and setup principles Santiago Molina uses for engineering leadership, architecture, writing, and delivery.',
-    pathname: '/uses/',
-    title: 'Uses & Workflow',
-    type: 'Workflow'
-  },
-  {
-    description: 'Accessibility commitment for santi020k.com: WCAG 2.2 AA as the target, practical limits of a solo-maintained site, and how to report barriers.',
+      'Accessibility commitment for santi020k.com: WCAG 2.2 AA as the target, practical limits of a solo-maintained site, and how to report barriers.',
     pathname: '/accessibility/',
     title: 'Accessibility statement',
     type: 'Accessibility'
@@ -267,7 +291,9 @@ export const collectSpecs = () => {
   // Static pages
   for (const page of staticSocialPages) {
     specs.push({
-      outFile: path.join(OUT_DIR, 'pages', getSocialImageFileName(page.pathname)),
+      outFile: path.join(
+        OUT_DIR, 'pages', getSocialImageFileName(page.pathname)
+      ),
       props: {
         description: page.description,
         pathLabel: page.pathname,
@@ -284,7 +310,7 @@ export const collectSpecs = () => {
   for (const filePath of collectMarkdownFiles(postDir)) {
     const fm = readFrontmatter(filePath)
 
-    if (fm.draft && process.env.NODE_ENV === 'production') continue
+    if (fm.draft && process.env.OG_INCLUDE_DRAFTS !== '1') continue
 
     allPostFrontmatter.push(fm)
 
@@ -305,15 +331,20 @@ export const collectSpecs = () => {
   }
 
   // Blog archive pagination
-  for (const pathname of getPaginationPathnames('/blog/', allPostFrontmatter.length, 9)) {
+  for (const pathname of getPaginationPathnames(
+    '/blog/', allPostFrontmatter.length, 9
+  )) {
     if (pathname === '/blog/') continue
 
     const pageNumber = Number(pathname.split('/').filter(Boolean).at(-1))
 
     specs.push({
-      outFile: path.join(OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`),
+      outFile: path.join(
+        OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`
+      ),
       props: {
-        description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+        description:
+          'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
         pathLabel: pathname,
         title: `Blog · Page ${pageNumber}`,
         type: 'Blog'
@@ -338,14 +369,22 @@ export const collectSpecs = () => {
     const basePathname = `/blog/tags/${encodeURIComponent(tag)}/`
 
     for (const pathname of getPaginationPathnames(basePathname, count, 9)) {
-      const pageNumber = pathname === basePathname ? 1 : Number(pathname.split('/').filter(Boolean).at(-1))
+      const pageNumber =
+        pathname === basePathname ?
+          1 :
+          Number(pathname.split('/').filter(Boolean).at(-1))
 
       specs.push({
-        outFile: path.join(OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`),
+        outFile: path.join(
+          OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`
+        ),
         props: {
           description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
           pathLabel: pathname,
-          title: pageNumber === 1 ? `${tag} Posts` : `${tag} Posts · Page ${pageNumber}`,
+          title:
+            pageNumber === 1 ?
+              `${tag} Posts` :
+              `${tag} Posts · Page ${pageNumber}`,
           type: 'Topic'
         }
       })
@@ -354,16 +393,19 @@ export const collectSpecs = () => {
 
   // Projects + technologies (single pass to avoid parsing frontmatter twice)
   const projectDir = path.join(ROOT, 'src', 'content', 'project')
-  const allTechnologies = new Set()
+  const allTechnologies = new Map()
   const projectFiles = collectMarkdownFiles(projectDir)
 
   for (const filePath of projectFiles) {
     const fm = readFrontmatter(filePath)
 
-    if (fm.draft && process.env.NODE_ENV === 'production') continue
+    if (fm.draft && process.env.OG_INCLUDE_DRAFTS !== '1') continue
 
     const id = getContentSlug(filePath, projectDir)
-    const coverImagePath = getCoverImagePath(filePath, fm, { preferOgImage: true })
+
+    const coverImagePath = getCoverImagePath(filePath, fm, {
+      preferOgImage: true
+    })
 
     specs.push({
       outFile: path.join(OUT_DIR, 'portfolio', `${id}.webp`),
@@ -377,7 +419,18 @@ export const collectSpecs = () => {
     })
 
     if (Array.isArray(fm.technologies)) {
-      for (const tech of fm.technologies) allTechnologies.add(tech)
+      for (const tech of fm.technologies) {
+        if (typeof tech !== 'string') continue
+
+        const technologySlug = getTechnologySlug(tech)
+        const existingTechnology = allTechnologies.get(technologySlug)
+
+        if (technologySlug === 'npm') {
+          allTechnologies.set(technologySlug, 'NPM')
+        } else if (!existingTechnology) {
+          allTechnologies.set(technologySlug, tech)
+        }
+      }
     }
   }
 
@@ -401,11 +454,12 @@ export const collectSpecs = () => {
     })
   }
 
-  for (const tech of allTechnologies) {
-    const pathname = `/technologies/${encodeURIComponent(tech)}/`
+  for (const [technologySlug, tech] of allTechnologies) {
+    const pathname = `/technologies/${technologySlug}/`
+    const imagePathname = `/technologies/${encodeURIComponent(tech)}/`
 
     for (const pagePathname of getPaginationPathnames(pathname, 1, 50)) {
-      const slug = getSocialImageSlug(pagePathname)
+      const slug = getSocialImageSlug(imagePathname)
 
       specs.push({
         outFile: path.join(OUT_DIR, 'pages', `${slug}.webp`),
@@ -548,10 +602,8 @@ const generateOne = async (pool, { outFile, props }) => {
 
   const buffer = await pool.render(props)
 
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   await fsp.mkdir(path.dirname(outFile), { recursive: true })
 
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   await fsp.writeFile(outFile, buffer)
 
   process.stdout.write(`  write ${path.relative(ROOT, outFile)}\n`)
@@ -564,17 +616,34 @@ const generateOne = async (pool, { outFile, props }) => {
 export const generateAll = async () => {
   const start = performance.now()
   const specs = collectSpecs()
+  const technologyPagesDirectory = path.join(OUT_DIR, 'pages')
+  const expectedTechnologyFiles = new Set(
+    specs
+      .map(spec => path.basename(spec.outFile))
+      .filter(fileName => fileName.startsWith('technologies--'))
+  )
+
+  if (fs.existsSync(technologyPagesDirectory)) {
+    const staleTechnologyFiles = fs.readdirSync(technologyPagesDirectory)
+      .filter(fileName =>
+        fileName.startsWith('technologies--') &&
+        !expectedTechnologyFiles.has(fileName)
+      )
+
+    await Promise.all(
+      staleTechnologyFiles.map(fileName =>
+        fsp.unlink(path.join(technologyPagesDirectory, fileName))
+      )
+    )
+  }
 
   const pendingSpecs = FORCE ?
     specs :
-    specs.filter(s =>
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
-      !fs.existsSync(s.outFile))
+    specs.filter(s => !fs.existsSync(s.outFile))
 
   const configured = getConfiguredWorkerThreads()
   const pendingCount = pendingSpecs.length
   const poolSize = pendingCount === 0 ? 0 : Math.min(configured, pendingCount)
-
   /** @type {OgRenderPool | null} */
   let pool = null
 
@@ -602,6 +671,9 @@ export const generateAll = async () => {
   console.log(`\n✅ Done in ${elapsed}s\n`)
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
   await generateAll()
 }

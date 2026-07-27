@@ -22,12 +22,16 @@ Readers usually understand the "normal" path faster than the exception path. Whe
 
 This:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```ts
 const maxWidth = isDesktop ? 288 : '100%'
 ```
 
 usually reads faster than this:
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```ts
 const maxWidth = !isDesktop ? '100%' : 288
 ```
@@ -59,6 +63,8 @@ Sometimes the logic is only inverted because the variable was named from the wro
 
 Instead of pushing negation into every expression, handle the exceptional case early and let the main body stay direct.
 
+<!-- TODO: Rewrite this historical article snippet as a valid standalone example before enabling ESLint for the fenced block. -->
+<!-- eslint-skip -->
 ```ts
 if (!user) return null
 

@@ -218,6 +218,50 @@ words:
   - verbinden
   - vercel
   - Verfügbarkeit
+  - adblocks
+  - adjacents
+  - affordances
+  - apos
+  - Avenir
+  - catppuccin
+  - cookieless
+  - crawlable
+  - domcontentloaded
+  - DOPRBH
+  - DOPRBHL
+  - Drummond
+  - Feedbin
+  - FOUC
+  - Giscus
+  - giscus
+  - hrefs
+  - Inoreader
+  - Micropub
+  - mozjpeg
+  - noopener
+  - normalise
+  - noreferrer
+  - nownownow
+  - nums
+  - onwarn
+  - overengineering
+  - résumé
+  - roundtables
+  - scroller
+  - Segoe
+  - slideware
+  - slugified
+  - sonner
+  - summarised
+  - tedx
+  - Tedx
+  - Turborepo
+  - uppercased
+  - uppercases
+  - viewports
+  - vites
+  - woocommerce
+  - xgames
   - Verlauf
   - Veröffentlichen
   - vfile
@@ -238,6 +282,20 @@ words:
   - Zeepod
   - Zurück
   - Оbserve
+  - sitemapindex
+  - Aaronmgz
+  - appcast
+  - appcasts
+  - Coolstead
+  - Difftale
+  - fanless
+  - geocoder
+  - llms
+  - Squeezy
+  - trackpad
+  - Ghostty
+  - Powerline
+  - iterm
 ignorePaths:
   - .agent/**
   - node_modules/**
@@ -247,3 +305,5 @@ ignorePaths:
   - playwright-report/**
   - test-results/**
   - public/favicon.svg
+  - "src/content/post/2026/memudo-ai-from-property-discovery-to-closing/**"
+  - "src/content/project/memudo-ai/**"
