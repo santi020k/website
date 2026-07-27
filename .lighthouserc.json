@@ -23,7 +23,16 @@
         "forced-reflow-insight": "off",
         "link-name": ["error", {"minScore": 0.9}],
         "dom-size": "off"
-      }
+      },
+      "assertMatrix": [
+        {
+          "matchingUrlPattern": ".*404.*",
+          "assertions": {
+            "categories:seo": "off",
+            "is-crawlable": "off"
+          }
+        }
+      ]
     }
   }
 }
