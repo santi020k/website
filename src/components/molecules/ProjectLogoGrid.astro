@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import { getPortfolioPath } from '@/utils/links'
+
+interface Props {
+  projects: CollectionEntry<'project'>[]
+}
+
+type LogoAspect = 'square' | 'tall' | 'wide'
+type LogoSurface = 'dark' | 'light' | 'neutral'
+
+const { projects } = Astro.props
+
+const logoFrameClass = {
+  square: 'size-16 p-3',
+  tall: 'h-16 w-14 p-3',
+  wide: 'h-14 w-24 px-4 py-2.5'
+} satisfies Record<LogoAspect, string>
+
+const logoImageClass = {
+  square: 'max-h-10 max-w-10',
+  tall: 'max-h-10 max-w-8',
+  wide: 'max-h-8 max-w-16'
+} satisfies Record<LogoAspect, string>
+
+const logoSurfaceClass = {
+  dark: 'border-white/18 bg-ink text-white dark:border-white/14 dark:bg-canvas',
+  light: 'border-line/70 bg-surface text-ink dark:border-white/18 dark:bg-white/92',
+  neutral: 'border-line/60 bg-surface-strong/86 text-ink-muted dark:border-white/12 dark:bg-white/10 dark:text-white/74'
+} satisfies Record<LogoSurface, string>
+
+const getProjectInitial = (title: string) => {
+  const name = title.includes('/') ? title.split('/').at(-1) : title
+
+  return name?.charAt(0).toUpperCase() || 'P'
+}
+---
+
+<ul class="grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+  {projects.map(project => {
+    const logo = project.data.coverImage?.logo
+    const logoAspect: LogoAspect = project.data.coverImage?.logoAspect ?? 'square'
+    const logoSurface: LogoSurface = project.data.coverImage?.logoSurface ?? 'neutral'
+
+    return (
+      <li>
+        <a
+          aria-label={`View ${project.data.title} project`}
+          class="
+            group relative flex min-h-40 h-full flex-col items-center justify-center
+            gap-4 overflow-hidden rounded-3xl border border-line/40 bg-surface/58
+            px-4 py-6 text-center shadow-sm backdrop-blur-sm transition duration-300
+            hover:-translate-y-1 hover:border-brand/30 hover:shadow-lg
+            hover:shadow-brand/10
+            focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:outline-none
+            motion-reduce:transform-none motion-reduce:transition-none
+          "
+          href={getPortfolioPath(project.id)}
+        >
+          <span
+            aria-hidden="true"
+            class="
+              pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_115%,hsl(var(--brand)/0.18),transparent_58%)]
+              opacity-45 transition-opacity duration-300 group-hover:opacity-100
+              motion-reduce:transition-none
+            "
+          />
+          <span
+            aria-hidden="true"
+            class="
+              absolute inset-x-8 top-0 h-px bg-linear-to-r from-transparent
+              via-brand/0 to-transparent transition-colors duration-300
+              group-hover:via-brand/60 motion-reduce:transition-none
+            "
+          />
+
+          <span
+            class:list={[
+              `
+                relative flex shrink-0 items-center justify-center overflow-hidden
+                rounded-2xl border text-base font-bold shadow-sm transition duration-300
+                group-hover:scale-105 group-hover:shadow-md
+                motion-reduce:transform-none motion-reduce:transition-none
+              `,
+              logoFrameClass[logoAspect],
+              logoSurfaceClass[logoSurface]
+            ]}
+          >
+            {logo ?
+              (
+                <Image
+                  alt=""
+                  aria-hidden="true"
+                  class:list={['object-contain drop-shadow-sm', logoImageClass[logoAspect]]}
+                  loading="lazy"
+                  src={logo}
+                />
+              ) :
+              getProjectInitial(project.data.title)}
+          </span>
+
+          <span class="relative max-w-full text-sm/5 font-bold text-ink sm:text-base/5">
+            {project.data.title}
+          </span>
+        </a>
+      </li>
+    )
+  })}
+</ul>

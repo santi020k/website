@@ -11,6 +11,9 @@ impactMetrics: ["Generates up to five editable commit drafts with a deterministi
 technologies: ["VS Code Extension", "TypeScript", "Node.js", "Git", "GitHub CLI", "VS Code Language Model API", "Conventional Commits", "Turborepo", "pnpm", "Vitest", "esbuild", "Developer Experience (DX)", "AI-assisted Development", "Open Source"]
 coverImage:
   src: "./cover.webp"
+  logo: "./logo.svg"
+  logoAspect: "square"
+  logoSurface: "light"
   alt: "Luminous Git branches flowing into commit and pull request panels above layered file revisions"
   ogImage: "./cover.webp"
 ---

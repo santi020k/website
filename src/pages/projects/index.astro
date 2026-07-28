@@ -1,6 +1,7 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
+import ProjectLogoGrid from '@/components/molecules/ProjectLogoGrid.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
@@ -53,15 +54,21 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
     </ButtonLink>
   </PageHero>
 
+  <section
+    aria-label={`${sideProjects.length} personal projects`}
+    class="section-container-wide scroll-mt-28 pt-20 sm:pt-24 lg:pt-28"
+    id="projects"
+  >
+    <ProjectLogoGrid projects={sideProjects} />
+  </section>
+
   <PageSection>
     <SectionHeader
       description="Open-source, community, and self-directed projects that show how I learn, teach, test ideas, and turn rough edges into reusable patterns."
       eyebrow="Personal builds"
       title="Side Projects"
     />
-    <div class="scroll-mt-28" id="projects">
-      <CareerTimeline projects={sideProjects} />
-    </div>
+    <CareerTimeline projects={sideProjects} />
   </PageSection>
 
   <StatsGrid>

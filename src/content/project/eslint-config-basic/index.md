@@ -1,5 +1,5 @@
 ---
-title: "@santi020k/eslint-config-basic"
+title: "eslint-config-basic"
 description: "Built a DX-first ESLint toolkit for JavaScript and TypeScript teams that want stronger defaults, less setup friction, and cleaner reviews."
 role: "Creator"
 startingDate: "1 Mar 2024"
@@ -19,8 +19,8 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
-  logo: "./logo.webp"
-  logoAspect: "wide"
+  logo: "./logo-square.webp"
+  logoAspect: "square"
   logoSurface: "dark"
   alt: "@santi020k/eslint-config-basic badge on an indigo and lilac geometric cover"
   ogImage: "./cover-eslint-config.webp"

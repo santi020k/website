@@ -10,6 +10,9 @@ impactMetrics: ["Returns every controlled fan to automatic mode when cooling sto
 technologies: ["Swift", "SwiftUI", "macOS", "AppKit", "Swift Package Manager", "SMC", "Privileged Helper", "Hardware Monitoring", "Thermal Management", "Safety Engineering", "Testing", "Turborepo", "pnpm"]
 coverImage:
   src: "./cover.webp"
+  logo: "./logo.webp"
+  logoAspect: "square"
+  logoSurface: "neutral"
   alt: "Dark Mac cooling system with a central fan and a gradual curve moving from amber heat to cool cyan"
   ogImage: "./cover.webp"
 ---
