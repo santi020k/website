@@ -23,12 +23,13 @@ const {
   ogImage,
   ogImageAlt,
   preloadImage,
+  seoTitle,
   structuredData,
   title
 } = Astro.props
 
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
-const siteTitle = createSeoTitle(title, siteConfig.title)
+const siteTitle = createSeoTitle(seoTitle ?? title, siteConfig.title)
 const metaDescription = createSeoDescription(description, title)
 const canonicalURL = new URL(
   canonicalUrl ?? Astro.url.pathname,

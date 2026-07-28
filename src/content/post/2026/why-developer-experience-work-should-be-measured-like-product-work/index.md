@@ -2,6 +2,8 @@
 title: "Why Developer Experience Work Should Be Measured Like Product Work"
 description: "DX improvements that cannot be measured rarely survive long enough to compound. Treating them like product work changes that."
 publishDate: "2026-06-12T15:00:00.000Z"
+updatedDate: "2026-07-28T00:00:00.000Z"
+seoTitle: "How to Measure Developer Experience"
 coverImage:
   alt: "Editorial cover showing engineering workflow metrics, dashboards, and delivery feedback loops connected across a development pipeline"
   src: "./cover.webp"
@@ -18,6 +20,20 @@ A team improves the local setup, fixes a slow CI pipeline, or rewrites a painful
 That is not a measurement problem. It is a framing problem.
 
 Product work survives because it is attached to outcomes. Conversion rate. Activation time. Retention. Churn. The metrics are imperfect, but they connect the work to outcomes people already care about. Developer experience work often never gets that connection made.
+
+## How to measure developer experience
+
+Measure developer experience by tracking cycle time, feedback-loop speed, onboarding time, workflow failure recovery, and unplanned tooling interruptions. Establish a baseline before changing the workflow, then compare the same metrics after the improvement ships.
+
+| Metric | What it measures | Example source | Review frequency |
+| --- | --- | --- | --- |
+| Cycle time | Time from work starting to a production release | Git and deployment history | Weekly |
+| Feedback-loop speed | How quickly linting, tests, builds, and previews respond | Local timings and CI logs | Per release |
+| Setup time | Time until a new contributor can run and ship the project | Onboarding observation | Per contributor |
+| Recovery time | Time needed to recover from broken tools or environments | Incident and support notes | Monthly |
+| Tooling interruptions | Workflow disruptions unrelated to feature work | Sprint retrospectives | Per sprint |
+
+Start with one or two metrics tied to the problem being changed. Record the current value, ship the improvement, compare under similar conditions, and keep the measurement only if it helps the team make a decision. A small, repeatable scorecard is more useful than a dashboard nobody trusts.
 
 ## The case for treating DX like product work
 

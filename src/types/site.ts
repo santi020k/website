@@ -104,5 +104,8 @@ export interface SiteMeta {
   ogImageAlt?: string
   noindex?: boolean
   preloadImage?: PreloadAsset
+
+  /** Concise document title for search results when the visible page title is intentionally longer. */
+  seoTitle?: string | undefined
   title: string
 }
