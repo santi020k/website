@@ -39,6 +39,7 @@ const {
     ogImage,
     ogImageAlt,
     preloadImage,
+    seoTitle,
     structuredData,
     title
   }
@@ -55,13 +56,20 @@ const headMeta = {
   ...(ogImage !== undefined ? { ogImage } : {}),
   ...(ogImageAlt !== undefined ? { ogImageAlt } : {}),
   ...(preloadImage !== undefined ? { preloadImage } : {}),
+  ...(seoTitle !== undefined ? { seoTitle } : {}),
   ...(structuredData !== undefined ? { structuredData } : {})
 }
 
 const isGenerousSpacing = mainSpacing === 'generous'
 ---
 
-<html class="scroll-smooth motion-reduce:scroll-auto" lang={siteConfig.lang}>
+<html
+  class="
+    scroll-smooth
+    motion-reduce:scroll-auto
+  "
+  lang={siteConfig.lang}
+>
   <head>
     <BaseHead {...headMeta} />
     <ClientRouter />

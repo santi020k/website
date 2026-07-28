@@ -3,8 +3,6 @@ import type { MarkdownHeading } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
-import { Icon } from '@santi020k/lumen-astro'
-
 import Pill from '@/components/atoms/Pill.astro'
 import ProjectSidebarCard from '@/components/molecules/ProjectSidebarCard.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
@@ -15,6 +13,8 @@ import {
   getProjectTimelineLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
+
+import { Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   headings: MarkdownHeading[]

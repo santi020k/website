@@ -1,8 +1,8 @@
 ---
-import { Card } from '@santi020k/lumen-astro'
-
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
+
+import { Card } from '@santi020k/lumen-astro'
 
 interface SessionVariant {
   audience: string | undefined
@@ -30,9 +30,9 @@ interface FormatVariant {
   variant: 'format'
 }
 
-type Props = SessionVariant | TopicVariant | FormatVariant
+type TalkCardProps = SessionVariant | TopicVariant | FormatVariant
 
-const props = Astro.props as Props
+const props = Astro.props as TalkCardProps
 ---
 
 {

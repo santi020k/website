@@ -124,6 +124,7 @@ const post = defineCollection({
     tags: z.array(z.string()).default([]).transform(removeDuplicates),
     draft: z.boolean().default(false),
     canonicalUrl: z.url().optional(),
+    seoTitle: z.string().optional(),
     postType: z.enum(['Article', 'Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).default('Article'),
     seriesId: z.string().optional(),
     seriesOrder: z.number().int().positive().optional()

@@ -116,7 +116,7 @@ const resumePageSchema = {
         <p>{siteConfig.location}</p>
         <div
           class="
-            mt-4 grid w-full grid-cols-2 gap-2
+            mt-4 ui-combobox w-full grid-cols-2
             sm:flex sm:w-auto sm:justify-end
             print:hidden
           "
@@ -124,7 +124,10 @@ const resumePageSchema = {
         >
           <ButtonLink
             ariaLabel="Download resume PDF"
-            class="w-full sm:w-auto"
+            class="
+              w-full
+              sm:w-auto
+            "
             download="santiago-molina-resume.pdf"
             href={resumePdfPath}
             variant="primary"
@@ -133,7 +136,10 @@ const resumePageSchema = {
           </ButtonLink>
           <ButtonLink
             ariaLabel="Open resume PDF in a new tab"
-            class="w-full sm:w-auto"
+            class="
+              w-full
+              sm:w-auto
+            "
             href={resumePdfPath}
             newTab
             showArrow

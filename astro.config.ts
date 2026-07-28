@@ -5,14 +5,14 @@ import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap'
 import {
+  santi020kDarkShikiTheme,
+  santi020kLightShikiTheme
+} from '@santi020k/theme/shiki'
+import {
   transformerMetaHighlight,
   transformerNotationDiff,
   transformerNotationFocus
 } from '@shikijs/transformers'
-import {
-  santi020kDarkShikiTheme,
-  santi020kLightShikiTheme
-} from '@santi020k/theme/shiki'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
 import icon from 'astro-icon'
@@ -36,14 +36,14 @@ import { getPostSlug } from './src/utils/posts'
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
 
 /**
- * Builds a Map<absoluteUrl, ISO lastmod string> for content-collection routes
- * by reading frontmatter from disk at build time. Used by the sitemap's
- * `serialize` callback so each post/project entry advertises its real publish/
- * update date instead of a uniform build timestamp.
+ * Builds sitemap metadata for content-collection routes from frontmatter.
+ * Last-modified dates let entries advertise real content changes, while pages
+ * that declare another canonical URL are omitted to avoid conflicting signals.
  */
-const buildContentLastmodMap = (): Map<string, string> => {
+const buildContentSitemapMetadata = () => {
   const siteOrigin = 'https://santi020k.com'
   const lastmodMap = new Map<string, string>()
+  const nonCanonicalPageUrls = new Set<string>()
   const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---/
 
   const walk = (dir: string): string[] => {
@@ -138,8 +138,13 @@ const buildContentLastmodMap = (): Map<string, string> => {
       const relative = path.relative(path.resolve('src/content/post'), file).replace(/\\/g, '/')
       const id = relative.replace(/\.mdx?$/, '')
       const slug = getPostSlug(id)
+      const pageUrl = `${siteOrigin}/blog/${slug}/`
 
-      register(`${siteOrigin}/blog/${slug}/`, data, ['updatedDate', 'publishDate'])
+      if (typeof data.canonicalUrl === 'string' && data.canonicalUrl !== pageUrl) {
+        nonCanonicalPageUrls.add(pageUrl)
+      }
+
+      register(pageUrl, data, ['updatedDate', 'publishDate'])
     } catch {
       /* ignore unreadable files */
     }
@@ -168,16 +173,20 @@ const buildContentLastmodMap = (): Map<string, string> => {
     }
   }
 
-  return lastmodMap
+  return { lastmodMap, nonCanonicalPageUrls }
 }
 
-const contentLastmodMap = buildContentLastmodMap()
+const {
+  lastmodMap: contentLastmodMap,
+  nonCanonicalPageUrls
+} = buildContentSitemapMetadata()
 
 const buildLegacyRedirects = (): Record<string, string> => {
   const redirects: Record<string, string> = {
     '/blog/content-calendar/': '/blog/',
     '/blog/tags/hombrew/': '/blog/tags/homebrew/'
   }
+
   const projectDirectory = path.resolve('src/content/project')
 
   const walk = (directory: string): string[] => {
@@ -217,7 +226,7 @@ const buildLegacyRedirects = (): Record<string, string> => {
         const legacyPath = `/technologies/${encodeURIComponent(technology)}/`
         const canonicalPath = getTechnologyPath(technology)
 
-        if (legacyPath !== canonicalPath) redirects[legacyPath] = canonicalPath
+        if (legacyPath !== canonicalPath) Object.assign(redirects, { [legacyPath]: canonicalPath })
       }
     } catch {
       /* ignore unreadable files */
@@ -262,7 +271,9 @@ export default defineConfig({
     sitemap({
       // Draft filtering happens at route level (getStaticPaths / getCachedPosts / getAllProjects)
       // so draft pages never generate URLs and are never included in the sitemap.
-      filter: page => !page.endsWith('/offline/') && !page.endsWith('/404/'),
+      filter: page => !page.endsWith('/offline/') &&
+        !page.endsWith('/404/') &&
+        !nonCanonicalPageUrls.has(page),
       serialize(item) {
         const url = item.url
         const contentLastmod = contentLastmodMap.get(url)

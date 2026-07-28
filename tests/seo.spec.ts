@@ -24,12 +24,10 @@ test.describe('SEO — meta tags', () => {
     await page.goto('/blog/atomic-module-component-structure-for-react/')
 
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-      'href',
-      'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c'
+      'href', 'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c'
     )
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
-      'content',
-      'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c'
+      'content', 'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c'
     )
   })
 
@@ -58,8 +56,7 @@ test.describe('SEO — meta tags', () => {
 
     await expect(page).toHaveURL(/\/technologies\/design-systems\/$/)
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-      'href',
-      'https://santi020k.com/technologies/design-systems/'
+      'href', 'https://santi020k.com/technologies/design-systems/'
     )
   })
 

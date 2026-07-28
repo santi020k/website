@@ -2,11 +2,11 @@
 import { Image, Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
-import { Icon } from '@santi020k/lumen-astro'
-
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+import { Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   accentTone?: 'brand' | 'accent'

@@ -2,12 +2,12 @@
 import { Image, Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
-import { Icon } from '@santi020k/lumen-astro'
-
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
+
+import { Icon } from '@santi020k/lumen-astro'
 
 interface Action {
   href: string

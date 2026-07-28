@@ -28,7 +28,7 @@ interface Props {
 }
 
 const { post } = Astro.props
-const { canonicalUrl, description, publishDate, title, updatedDate } = post.data
+const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
 // Use Dynamic OG Image generator (/og/blog/[id].webp)
 const ogImage = new URL(`/og/blog/${getPostSlug(post.id)}.webp`, Astro.site).href
 const stats = readingTime(post.body ?? '')
@@ -83,6 +83,7 @@ const breadcrumbs = [
     ogImageAlt: post.data.coverImage?.alt ?
       `${post.data.coverImage.alt} — article on ${title}` :
       `Social preview card for the article "${title}"`,
+    seoTitle,
     structuredData: blogPostingSchema,
     title
   }}

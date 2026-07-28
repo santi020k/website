@@ -15,30 +15,33 @@ const classNames = (node: Element): string[] => {
   const value = node.properties.className
 
   if (Array.isArray(value)) return value.map(String)
+
   if (typeof value === 'string') return value.split(/\s+/u).filter(Boolean)
 
   return []
 }
 
-const dataProperty = (node: Element, property: string): unknown =>
-  node.properties[`data-${property}`] ?? node.properties[
-    `data${property.replaceAll(/-([a-z])/gu, (_, letter: string) => letter.toUpperCase())
-      .replace(/^./u, letter => letter.toUpperCase())}`
-  ]
+const dataProperty = (node: Element, property: string): unknown => {
+  const kebabName = `data-${property}`
 
-const isElement = (node: Node): node is Element =>
-  node.type === 'element' &&
+  const camelName = `data${property.replaceAll(/-([a-z])/gu, (_, letter: string) => letter.toUpperCase())
+    .replace(/^./u, letter => letter.toUpperCase())}`
+
+  return Reflect.get(node.properties, kebabName) ?? Reflect.get(node.properties, camelName)
+}
+
+const isElement = (node: Node): node is Element => node.type === 'element' &&
   'tagName' in node &&
   'properties' in node &&
   'children' in node
 
-const isPrettyCodeFigure = (node: Node): node is Element =>
-  isElement(node) &&
+const isPrettyCodeFigure = (node: Node): node is Element => isElement(node) &&
   node.tagName === 'figure' &&
   dataProperty(node, 'rehype-pretty-code-figure') !== undefined
 
 const nodeText = (node: RootContent | ElementContent): string => {
   if (node.type === 'text') return node.value
+
   if ('children' in node) return node.children.map(child => nodeText(child)).join('')
 
   return ''
@@ -84,7 +87,9 @@ const getCodeMetadata = (figure: Element) => {
     child.type === 'element' &&
     dataProperty(child, 'rehype-pretty-code-title') !== undefined
   ))
+
   const pre = figure.children.find(child => child.type === 'element' && child.tagName === 'pre')
+
   const language = (
     title?.type === 'element' ? dataProperty(title, 'language') : undefined
   ) ?? (
@@ -100,6 +105,7 @@ const getCodeMetadata = (figure: Element) => {
 
 const getCodeElement = (figure: Element): Element | undefined => {
   const { pre } = getCodeMetadata(figure)
+
   const code = pre?.children.find(child => (
     child.type === 'element' && child.tagName === 'code'
   ))
@@ -138,8 +144,11 @@ const convertFigure = (figure: Element): void => {
   const { label, language, pre } = getCodeMetadata(figure)
 
   figure.properties.className = [...classNames(figure), 'ui-code', 'ui-code--block']
+
   figure.properties.dataCodeTheme = 'santi020k'
+
   figure.properties.dataLanguage = language
+
   figure.properties.dataUiCode = ''
 
   if (pre) {
@@ -162,14 +171,13 @@ const packageManager = (figure: Element): string | undefined => {
   return /^(bun|npm|pnpm|yarn)(?=\s)/u.exec(command)?.[1]
 }
 
-const isOrParagraph = (node: RootContent | undefined): boolean =>
-  node?.type === 'element' &&
+const isOrParagraph = (node: RootContent | undefined): boolean => node?.type === 'element' &&
   node.tagName === 'p' &&
   nodeText(node).trim().toLowerCase() === 'or'
 
 const nextContentIndex = (children: RootContent[], start: number): number => {
   for (let index = start; index < children.length; index += 1) {
-    const node = children[index]
+    const node = children.at(index)
 
     if (node?.type !== 'text' || node.value.trim()) return index
   }
@@ -182,7 +190,7 @@ const createCodeTabs = (figures: [Element, Element], labels: [string, string]): 
 
   return element('div', {
     className: ['ui-tabs', 'ui-code-tabs'],
-    dataInitialValue: values[0],
+    dataInitialValue: values.at(0) ?? '',
     dataUiTabs: ''
   }, [
     element('div', {
@@ -192,13 +200,13 @@ const createCodeTabs = (figures: [Element, Element], labels: [string, string]): 
     }, labels.map((label, index) => element('button', {
       ariaSelected: index === 0 ? 'true' : 'false',
       className: ['ui-code-tabs__tab'],
-      dataValue: values[index],
+      dataValue: values.at(index) ?? '',
       role: 'tab',
       type: 'button'
     }, [text(label)]))),
     ...figures.map((figure, index) => element('div', {
       className: ['ui-code-tabs__panel'],
-      dataValue: values[index],
+      dataValue: values.at(index) ?? '',
       hidden: index > 0,
       role: 'tabpanel'
     }, [figure]))
@@ -209,16 +217,18 @@ const trimLineWhitespace = (children: ElementContent[]): ElementContent[] => {
   const trimmed = [...children]
 
   while (trimmed.length > 0) {
-    const first = trimmed[0]!
+    const first = trimmed.at(0)
 
-    if (first.type !== 'text' || first.value.trim()) break
+    if (first?.type !== 'text' || first.value.trim()) break
+
     trimmed.shift()
   }
 
   while (trimmed.length > 0) {
-    const last = trimmed.at(-1)!
+    const last = trimmed.at(-1)
 
-    if (last.type !== 'text' || last.value.trim()) break
+    if (last?.type !== 'text' || last.value.trim()) break
+
     trimmed.pop()
   }
 
@@ -227,11 +237,12 @@ const trimLineWhitespace = (children: ElementContent[]): ElementContent[] => {
 
 const splitInlinePackageAlternatives = (parent: Root | Element): void => {
   for (let index = 0; index < parent.children.length; index += 1) {
-    const child = parent.children[index]
+    const child = parent.children.at(index)
 
     if (!child || !isPrettyCodeFigure(child)) continue
 
     const code = getCodeElement(child)
+
     const separatorIndex = code?.children.findIndex(line => (
       /^#\s*or$/iu.test(nodeText(line).trim())
     )) ?? -1
@@ -246,6 +257,7 @@ const splitInlinePackageAlternatives = (parent: Root | Element): void => {
     if (!firstCode || !secondCode) continue
 
     firstCode.children = trimLineWhitespace(code.children.slice(0, separatorIndex))
+
     secondCode.children = trimLineWhitespace(code.children.slice(separatorIndex + 1))
 
     const firstManager = packageManager(first)
@@ -254,25 +266,24 @@ const splitInlinePackageAlternatives = (parent: Root | Element): void => {
     if (!firstManager || !secondManager || firstManager === secondManager) continue
 
     parent.children.splice(
-      index,
-      1,
-      createCodeTabs([first, second], [firstManager, secondManager])
+      index, 1, createCodeTabs([first, second], [firstManager, secondManager])
     )
   }
 }
 
 const groupChildren = (parent: Root | Element): void => {
   for (let index = 0; index < parent.children.length; index += 1) {
-    const first = parent.children[index]
+    const first = parent.children.at(index)
 
     if (!first || !isPrettyCodeFigure(first)) continue
 
     const separatorIndex = nextContentIndex(parent.children, index + 1)
     const secondIndex = nextContentIndex(parent.children, separatorIndex + 1)
-    const separator = parent.children[separatorIndex]
-    const second = parent.children[secondIndex]
+    const separator = parent.children.at(separatorIndex)
+    const second = parent.children.at(secondIndex)
 
     if (!second || !isPrettyCodeFigure(second)) continue
+
     if (!isOrParagraph(separator)) continue
 
     const firstManager = packageManager(first)
@@ -281,19 +292,19 @@ const groupChildren = (parent: Root | Element): void => {
     if (!firstManager || !secondManager || firstManager === secondManager) continue
 
     parent.children.splice(
-      index,
-      secondIndex - index + 1,
-      createCodeTabs([first, second], [firstManager, secondManager])
+      index, secondIndex - index + 1, createCodeTabs([first, second], [firstManager, secondManager])
     )
   }
 }
 
 const groupPackageManagerAlternatives = (tree: Root): void => {
   splitInlinePackageAlternatives(tree)
+
   groupChildren(tree)
 
   visit(tree, 'element', node => {
     splitInlinePackageAlternatives(node)
+
     groupChildren(node)
   })
 }
