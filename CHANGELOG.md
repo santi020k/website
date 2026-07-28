@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.0
+
+### Minor Changes
+
+- [`521e055`](https://github.com/santi020k/website/commit/521e05561ec05a19ee32f41019f9187c8a97b053) Thanks [@santi020k](https://github.com/santi020k)! - Redesign the projects showcase with a new logo grid, improve technology discovery with clearer stack groupings, and strengthen SEO metadata and redirects.
+
 ## 3.1.0
 
 ### Minor Changes
