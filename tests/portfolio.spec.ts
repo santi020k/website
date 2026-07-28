@@ -22,8 +22,8 @@ test.describe('Portfolio page', () => {
     await page.goto('/work/')
 
     const overflowTechnologyLink = page.getByRole('link', {
-      name: /\+\d+\s+technologies/i
-    }).last()
+      name: /^Explore \d+ more$/i
+    })
 
     await expect(overflowTechnologyLink).toBeVisible()
     await overflowTechnologyLink.click()
