@@ -11,6 +11,7 @@ interface Props {
 }
 
 const { description, label, value, variant = 'accent' } = Astro.props
+
 const variantClasses: Record<StatVariant, string | false> = {
   accent: 'ui-stat--accent',
   default: false,

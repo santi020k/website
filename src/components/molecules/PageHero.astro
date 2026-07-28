@@ -19,8 +19,16 @@ const hasMetaItems = metaItems.length > 0
   class:list={[
     'relative section-container-wide',
     compact ?
-      'py-2 sm:pt-3 lg:pt-4' :
-      'py-4 sm:pt-6 lg:pt-8'
+      `
+        py-2
+        sm:pt-3
+        lg:pt-4
+      ` :
+      `
+        py-4
+        sm:pt-6
+        lg:pt-8
+      `
   ]}
 >
   <div
@@ -51,8 +59,16 @@ const hasMetaItems = metaItems.length > 0
         class:list={[
           'max-w-5xl font-extrabold tracking-[-0.06em] wrap-break-word',
           compact ?
-            'text-3xl/[1] sm:text-5xl/[0.98] lg:text-6xl/[0.95]' :
-            'text-4xl/[0.98] sm:text-6xl/[0.95] lg:text-[5.2rem]/[0.92]'
+            `
+              text-3xl/[1]
+              sm:text-5xl/[0.98]
+              lg:text-6xl/[0.95]
+            ` :
+            `
+              text-4xl/[0.98]
+              sm:text-6xl/[0.95]
+              lg:text-[5.2rem]/[0.92]
+            `
         ]}
       >
         {title}{' '}

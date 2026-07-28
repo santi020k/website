@@ -31,10 +31,11 @@ const {
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
 const siteTitle = createSeoTitle(seoTitle ?? title, siteConfig.title)
 const metaDescription = createSeoDescription(description, title)
+
 const canonicalURL = new URL(
-  canonicalUrl ?? Astro.url.pathname,
-  Astro.site ?? 'https://santi020k.com/'
+  canonicalUrl ?? Astro.url.pathname, Astro.site ?? 'https://santi020k.com/'
 ).href
+
 const organizationLogoURL = new URL(logoSquareUrl, Astro.site ?? 'https://santi020k.com/').href
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null

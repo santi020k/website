@@ -57,12 +57,10 @@ const groupTechnologyLabels = (technologies: string[]) => {
   return groups
 }
 
-const getPreferredTechnologyLabel = (labels: string[], slug?: string) =>
-  slug === 'npm' ? labels.find(label => label === 'NPM') ?? labels[0] ?? '' : labels[0] ?? ''
+const getPreferredTechnologyLabel = (labels: string[], slug?: string) => slug === 'npm' ? labels.find(label => label === 'NPM') ?? labels[0] ?? '' : labels[0] ?? ''
 
-export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) =>
-  [...groupTechnologyLabels(getAllTechnologies(projects))]
-    .map(([slug, labels]) => getPreferredTechnologyLabel(labels, slug))
+export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) => [...groupTechnologyLabels(getAllTechnologies(projects))]
+  .map(([slug, labels]) => getPreferredTechnologyLabel(labels, slug))
 
 /** Returns an array of strings, ordered by the number of times each technology is used in all the projects
  * Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
@@ -114,13 +112,13 @@ export const getUniqueTechnologiesWithCount = (
 ): [string, number][] => {
   const technologies = getAllTechnologies(projects)
   const technologyGroups = groupTechnologyLabels(technologies)
+
   const counts = technologies.reduce(
     (acc, technology) => {
       const slug = getTechnologySlug(technology)
 
       return acc.set(slug, (acc.get(slug) ?? 0) + 1)
-    },
-    new Map<string, number>()
+    }, new Map<string, number>()
   )
 
   return [...counts.entries()]

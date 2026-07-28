@@ -24,11 +24,10 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 
   return uniqueTechnologies.flatMap(technology => {
     const technologySlug = getTechnologySlug(technology)
-    const filteredProjects = sortedProjects.filter(project =>
-      project.data.technologies.some(projectTechnology =>
-        getTechnologySlug(projectTechnology) === technologySlug
-      )
-    )
+
+    const filteredProjects = sortedProjects.filter(project => project.data.technologies.some(
+      projectTechnology => getTechnologySlug(projectTechnology) === technologySlug
+    ))
 
     return paginate(filteredProjects, {
       pageSize: 50,

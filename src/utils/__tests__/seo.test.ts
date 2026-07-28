@@ -12,16 +12,14 @@ describe('createSeoTitle', () => {
   test('removes a duplicated author suffix before branding', () => {
     expect(
       createSeoTitle(
-        'Software Engineering Blog — Santiago Molina',
-        'Santiago Molina | santi020k'
+        'Software Engineering Blog — Santiago Molina', 'Santiago Molina | santi020k'
       )
     ).toBe('Software Engineering Blog | santi020k')
   })
 
   test('limits long titles to 60 characters without splitting a word', () => {
     const title = createSeoTitle(
-      'Authentication and Authorization in Next.js Applications with Supabase',
-      'Santiago Molina | santi020k'
+      'Authentication and Authorization in Next.js Applications with Supabase', 'Santiago Molina | santi020k'
     )
 
     expect(title.length).toBeLessThanOrEqual(60)
@@ -32,8 +30,7 @@ describe('createSeoTitle', () => {
 describe('createSeoDescription', () => {
   test('expands a short description with page-specific context', () => {
     const description = createSeoDescription(
-      'The page you are looking for could not be found.',
-      'Page not found'
+      'The page you are looking for could not be found.', 'Page not found'
     )
 
     expect(description.length).toBeGreaterThanOrEqual(120)

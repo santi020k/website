@@ -2,8 +2,8 @@ import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { XMLParser } from 'fast-xml-parser'
 import { getSiteUrls } from '@santi020k/theme/site'
+import { XMLParser } from 'fast-xml-parser'
 
 const rootDirectory = fileURLToPath(new URL('../..', import.meta.url))
 const outputDirectory = path.join(rootDirectory, 'dist')

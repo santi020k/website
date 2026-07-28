@@ -1,5 +1,5 @@
-import type { Paragraph, Root, Text } from 'mdast'
 import type { Element, Root as HastRoot } from 'hast'
+import type { Paragraph, Text } from 'mdast'
 import remarkDirective from 'remark-directive'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
@@ -7,8 +7,8 @@ import { unified } from 'unified'
 import type { VFile } from 'vfile'
 import { describe, expect, test } from 'vitest'
 
-import { remarkAdmonitions } from '../remark-admonitions'
 import { rehypeLumenCode } from '../rehype-lumen-code'
+import { remarkAdmonitions } from '../remark-admonitions'
 import { remarkReadingTime } from '../remark-reading-time'
 
 interface AstroVFile extends VFile {
@@ -37,7 +37,7 @@ describe('remarkReadingTime', () => {
     const file = { data: { astro: { frontmatter: {} } } } as unknown as AstroVFile
     const content = 'Hello world, this is a test page to check reading time calculation. It should have some min read.'
 
-    const tree = processor.parse(content) as Root
+    const tree = processor.parse(content)
     remarkReadingTime()(tree, file)
 
     expect(file.data.astro?.frontmatter.readingTime).toBeDefined()
@@ -54,7 +54,7 @@ describe('remarkAdmonitions', () => {
       .use(remarkStringify)
 
     const content = ':::note\nThis is a note\n:::'
-    const tree = processor.parse(content) as Root
+    const tree = processor.parse(content)
     processor.runSync(tree)
 
     const aside = tree.children[0] as AdmonitionNode
@@ -77,7 +77,7 @@ describe('remarkAdmonitions', () => {
       .use(remarkStringify)
 
     const content = ':::tip[Custom Title]\nTip content\n:::'
-    const tree = processor.parse(content) as Root
+    const tree = processor.parse(content)
     processor.runSync(tree)
 
     const aside = tree.children[0] as AdmonitionNode
@@ -93,7 +93,7 @@ describe('remarkAdmonitions', () => {
       .use(remarkStringify)
 
     const content = ':unknown[label]'
-    const tree = processor.parse(content) as Root
+    const tree = processor.parse(content)
     processor.runSync(tree)
 
     const result = tree.children[0] as Paragraph
@@ -161,11 +161,13 @@ const inlineAlternativeFigure = (): Element => {
   return figure
 }
 
-const hastText = (node: Element): string => node.children.map(child => (
-  child.type === 'text' ? child.value :
-  child.type === 'element' ? hastText(child) :
-  ''
-)).join('')
+const hastText = (node: Element): string => node.children.map(child => {
+  if (child.type === 'text') return child.value
+
+  if (child.type === 'element') return hastText(child)
+
+  return ''
+}).join('')
 
 describe('rehypeLumenCode', () => {
   test('adapts highlighted figures to the Lumen Code contract', () => {

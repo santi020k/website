@@ -1,5 +1,6 @@
-import { YEARS_OF_EXPERIENCE } from '@/site.config'
 import { getTechnologyPath } from '@/utils/links'
+
+import { YEARS_OF_EXPERIENCE } from '@/site.config'
 
 export interface SocialPageDefinition {
   description: string

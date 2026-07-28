@@ -39,186 +39,187 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
 <Timeline data-career-timeline class="relative">
   {careerItems.map((item: CareerItem) => (
     <TimelineItem class="pb-8">
-        {/* Timeline node */}
-        <div
-          slot="dot"
-          class:list={[
+      {/* Timeline node */}
+      <div
+        slot="dot"
+        class:list={[
+          `
+            flex size-9 items-center justify-center rounded-full border-2
+            transition-shadow duration-300
+            motion-reduce:transition-none
+            sm:size-10
+          `,
+          item.isActive ?
             `
-              flex size-9 items-center justify-center rounded-full border-2
-              transition-shadow duration-300
-              motion-reduce:transition-none
-              sm:size-10
-            `,
-            item.isActive ?
-              `
-                border-brand/50 bg-brand text-white
-                shadow-[0_0_0_4px_hsl(var(--brand)/0.15),0_0_24px_hsl(var(--brand)/0.35)]
-              ` :
-              `
-                border-line/70 bg-surface-strong/80 text-ink-muted
-                shadow-[0_2px_8px_hsl(230_30%_8%/0.08)]
-              `
-          ]}
-          data-timeline-node={item.isActive ? 'active' : 'done'}
-        >
-          <Icon
-            class="
-              size-4
-              sm:size-5
-            "
-            name={item.isActive ? 'briefcase-business' : 'check'}
-          />
-        </div>
-
-        {/* Full-card clickable link */}
-        <a
-          aria-label={`View ${item.company} case study`}
+              border-brand/50 bg-brand text-white
+              shadow-[0_0_0_4px_hsl(var(--brand)/0.15),0_0_24px_hsl(var(--brand)/0.35)]
+            ` :
+            `
+              border-line/70 bg-surface-strong/80 text-ink-muted
+              shadow-[0_2px_8px_hsl(230_30%_8%/0.08)]
+            `
+        ]}
+        data-timeline-node={item.isActive ? 'active' : 'done'}
+      >
+        <Icon
           class="
-            group block rounded-[1.75rem]
-            focus-visible:ring-2 focus-visible:ring-brand/50
-            focus-visible:outline-none
+            size-4
+            sm:size-5
           "
-          href={item.href}
+          name={item.isActive ? 'briefcase-business' : 'check'}
+        />
+      </div>
+
+      {/* Full-card clickable link */}
+      <a
+        aria-label={`View ${item.company} case study`}
+        class="
+          group block rounded-[1.75rem]
+          focus-visible:ring-2 focus-visible:ring-brand/50
+          focus-visible:outline-none
+        "
+        href={item.href}
+      >
+        {/* Content card */}
+        <Card
+          as="article"
+          variant="interactive"
+          class:list={[
+            'relative rounded-[1.75rem] p-0',
+            item.isActive ?
+              'border-brand/30 bg-surface/84' :
+              'border-line/40 bg-surface/72'
+          ]}
+          data-timeline-card={item.isActive ? 'active' : 'done'}
         >
-          {/* Content card */}
-          <Card
-            as="article"
-            variant="interactive"
+          {/* Gradient header band */}
+          <div
             class:list={[
-              'relative rounded-[1.75rem] p-0',
-              item.isActive ?
-                'border-brand/30 bg-surface/84' :
-                'border-line/40 bg-surface/72'
+              `
+                relative p-5
+                sm:px-6 sm:pt-6
+              `,
+              item.isActive ? 'pb-4' : ''
             ]}
-            data-timeline-card={item.isActive ? 'active' : 'done'}
+            data-card-header
           >
-            {/* Gradient header band */}
-            <div
-              class:list={[
-                `
-                  relative p-5
-                  sm:px-6 sm:pt-6
-                `,
-                item.isActive ? 'pb-4' : ''
-              ]}
-              data-card-header
+            {/* Top accent line */}
+            {item.isActive && (
+              <div
+                aria-hidden="true"
+                class="
+                  absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent
+                  via-brand/70 to-transparent
+                "
+              />
+            )}
+
+            <div class="
+              relative flex flex-col gap-3
+              sm:flex-row sm:items-start sm:justify-between
+            "
             >
-              {/* Top accent line */}
-              {item.isActive && (
-                <div
-                  aria-hidden="true"
+              <div class="min-w-0">
+                <p
+                  class:list={[
+                    'text-xs font-semibold tracking-widest uppercase',
+                    item.isActive ? 'text-brand' : 'text-ink-muted'
+                  ]}
+                >{item.role}
+                </p>
+                <h3
                   class="
-                    absolute inset-x-0 top-0 h-px
-                    bg-linear-to-r from-transparent via-brand/70 to-transparent
+                    mt-1.5 text-2xl/tight font-bold text-ink transition-colors
+                    duration-200
+                    group-hover:text-brand
+                    motion-reduce:transition-none
+                    sm:text-3xl
                   "
-                />
-              )}
+                  data-card-title
+                >
+                  {item.company}
+                </h3>
+              </div>
 
               <div class="
-                relative flex flex-col gap-3
-                sm:flex-row sm:items-start sm:justify-between
+                flex shrink-0 flex-col items-start gap-2
+                sm:items-end
               "
               >
-                <div class="min-w-0">
-                  <p
-                    class:list={[
-                      `
-                        text-xs font-semibold tracking-widest uppercase
-                      `,
-                      item.isActive ? 'text-brand' : 'text-ink-muted'
-                    ]}
-                  >{item.role}
-                  </p>
-                  <h3
-                    class="
-                      mt-1.5 text-2xl/tight font-bold text-ink
-                      transition-colors duration-200
-                      group-hover:text-brand
-                      motion-reduce:transition-none
-                      sm:text-3xl
-                    "
-                    data-card-title
-                  >
-                    {item.company}
-                  </h3>
-                </div>
-
-                <div class="
-                  flex shrink-0 flex-col items-start gap-2
-                  sm:items-end
-                "
+                <Pill
+                  label={item.isActive ? 'Current' : 'Completed'}
+                  tone={item.isActive ? 'brand' : 'neutral'}
                 >
-                  <Pill
-                    label={item.isActive ? 'Current' : 'Completed'}
-                    tone={item.isActive ? 'brand' : 'neutral'}
-                  >
-                    {item.isActive && (
-                      <Icon
-                        class="size-3 fill-current"
-                        name="circle-dot"
-                      />
-                    )}
-                  </Pill>
-                  <div class="flex items-center gap-1.5 text-xs text-ink-muted">
-                    <Icon class="size-3.5" name="calendar-days" />
-                    <span class="font-medium tabular-nums">{item.timeline}</span>
-                  </div>
+                  {item.isActive && (
+                    <Icon
+                      class="size-3 fill-current"
+                      name="circle-dot"
+                    />
+                  )}
+                </Pill>
+                <div class="flex items-center gap-1.5 text-xs text-ink-muted">
+                  <Icon class="size-3.5" name="calendar-days" />
+                  <span class="font-medium tabular-nums">{item.timeline}</span>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Divider */}
-            <div
-              class:list={[
-                'relative mx-5 border-t sm:mx-6',
-                item.isActive ? 'border-brand/18' : 'border-line/25'
-              ]}
-            />
+          {/* Divider */}
+          <div
+            class:list={[
+              `
+                relative mx-5 border-t
+                sm:mx-6
+              `,
+              item.isActive ? 'border-brand/18' : 'border-line/25'
+            ]}
+          />
 
-            {/* Body */}
-            <div class="
-              px-5 pt-4 pb-5
-              sm:px-6 sm:pb-6
-            "
-            >
-              {/* Description */}
-              <p class="line-clamp-3 text-sm/6 text-ink-soft">
-                {item.description}
-              </p>
+          {/* Body */}
+          <div class="
+            px-5 pt-4 pb-5
+            sm:px-6 sm:pb-6
+          "
+          >
+            {/* Description */}
+            <p class="line-clamp-3 text-sm/6 text-ink-soft">
+              {item.description}
+            </p>
 
-              {/* Technologies */}
-              {item.technologies.length > 0 && (
-                <div class="mt-4 flex flex-wrap gap-2">
-                  {item.technologies.map((tech: string) => (
-                    <Pill label={tech} tone="outline" />
-                  ))}
-                </div>
-              )}
+            {/* Technologies */}
+            {item.technologies.length > 0 && (
+              <div class="mt-4 flex flex-wrap gap-2">
+                {item.technologies.map((tech: string) => (
+                  <Pill label={tech} tone="outline" />
+                ))}
+              </div>
+            )}
 
-              {/* Footer row */}
-              <div class="mt-5 flex items-center justify-between">
-                <span class="
-                  text-xs font-medium text-brand opacity-0 transition-opacity
+            {/* Footer row */}
+            <div class="mt-5 flex items-center justify-between">
+              <span class="
+                text-xs font-medium text-brand opacity-0 transition-opacity
+                duration-200
+                group-hover:opacity-100
+                motion-reduce:opacity-100
+              "
+              >
+                View case study
+              </span>
+              <Icon
+                class="
+                  size-4 -translate-x-1 text-brand opacity-0 transition-all
                   duration-200
-                  group-hover:opacity-100
-                  motion-reduce:opacity-100
+                  group-hover:translate-x-0 group-hover:opacity-100
+                  motion-reduce:translate-x-0 motion-reduce:opacity-100
                 "
-                >
-                  View case study
-                </span>
-                <Icon
-                  class="
-                    size-4 -translate-x-1 text-brand opacity-0 transition-all
-                    duration-200
-                    group-hover:translate-x-0 group-hover:opacity-100
-                    motion-reduce:translate-x-0 motion-reduce:opacity-100
-                  "
-                  name="arrow-right"
-                />
-              </div>
+                name="arrow-right"
+              />
             </div>
-          </Card>
-        </a>
+          </div>
+        </Card>
+      </a>
     </TimelineItem>
   ))}
 </Timeline>

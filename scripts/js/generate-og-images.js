@@ -617,6 +617,7 @@ export const generateAll = async () => {
   const start = performance.now()
   const specs = collectSpecs()
   const technologyPagesDirectory = path.join(OUT_DIR, 'pages')
+
   const expectedTechnologyFiles = new Set(
     specs
       .map(spec => path.basename(spec.outFile))
@@ -625,15 +626,11 @@ export const generateAll = async () => {
 
   if (fs.existsSync(technologyPagesDirectory)) {
     const staleTechnologyFiles = fs.readdirSync(technologyPagesDirectory)
-      .filter(fileName =>
-        fileName.startsWith('technologies--') &&
-        !expectedTechnologyFiles.has(fileName)
-      )
+      .filter(fileName => fileName.startsWith('technologies--') &&
+        !expectedTechnologyFiles.has(fileName))
 
     await Promise.all(
-      staleTechnologyFiles.map(fileName =>
-        fsp.unlink(path.join(technologyPagesDirectory, fileName))
-      )
+      staleTechnologyFiles.map(fileName => fsp.unlink(path.join(technologyPagesDirectory, fileName)))
     )
   }
 

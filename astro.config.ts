@@ -226,7 +226,7 @@ const buildLegacyRedirects = (): Record<string, string> => {
         const legacyPath = `/technologies/${encodeURIComponent(technology)}/`
         const canonicalPath = getTechnologyPath(technology)
 
-        if (legacyPath !== canonicalPath) redirects[legacyPath] = canonicalPath
+        if (legacyPath !== canonicalPath) Object.assign(redirects, { [legacyPath]: canonicalPath })
       }
     } catch {
       /* ignore unreadable files */

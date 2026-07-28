@@ -137,7 +137,7 @@ const meta = {
 
     <div class="space-y-5">
       <div class="space-y-2">
-        <label class="section-label block" for="technology-filter">Find a technology</label>
+        <label class="block section-label" for="technology-filter">Find a technology</label>
         <Input
           aria-describedby="technology-filter-status"
           autocomplete="off"
@@ -181,8 +181,8 @@ const meta = {
               class:list={[
                 `
                   pointer-events-none absolute inset-x-8 bottom-0 h-32
-                  rounded-full bg-radial from-brand/10 via-accent/5 to-transparent
-                  blur-2xl transition-opacity duration-300
+                  rounded-full bg-radial from-brand/10 via-accent/5
+                  to-transparent blur-2xl transition-opacity duration-300
                   group-hover:opacity-100
                   motion-reduce:transition-none
                 `,

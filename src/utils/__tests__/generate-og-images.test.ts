@@ -66,9 +66,7 @@ describe('collectSpecs', () => {
   })
 
   test('keeps existing technology image filenames while using canonical path labels', () => {
-    const designSystemsSpec = collectSpecs().find(spec =>
-      spec.outFile.endsWith('technologies--Design~20Systems.webp')
-    )
+    const designSystemsSpec = collectSpecs().find(spec => spec.outFile.endsWith('technologies--Design~20Systems.webp'))
     const designSystemsProps = designSystemsSpec?.props as SocialImageProps | undefined
 
     expect(designSystemsProps?.pathLabel).toBe('/technologies/design-systems/')

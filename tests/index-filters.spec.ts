@@ -11,8 +11,7 @@ test.describe('Index filters', () => {
     await expect(page.locator('#tag-filter-status')).toHaveText('1 topic found.')
     await expect(page.locator('#tags-list > [data-label]:visible')).toHaveCount(1)
     await expect(page.locator('#tags-list > [data-label]:visible')).toHaveAttribute(
-      'data-label',
-      'accessibility'
+      'data-label', 'accessibility'
     )
   })
 

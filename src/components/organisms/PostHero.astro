@@ -12,11 +12,10 @@ import Pill from '@/components/atoms/Pill.astro'
 import { getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 
+import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
-
-import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   post: CollectionEntry<'post'>

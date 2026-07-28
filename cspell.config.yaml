@@ -296,6 +296,10 @@ words:
   - Ghostty
   - Powerline
   - iterm
+  - cloudflareinsights
+  - labelledby
+  - networkidle
+  - slugifies
 ignorePaths:
   - .agent/**
   - node_modules/**

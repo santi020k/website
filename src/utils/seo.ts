@@ -2,7 +2,6 @@ const MAX_META_DESCRIPTION_LENGTH = 160
 const MAX_META_TITLE_LENGTH = 60
 const MIN_META_DESCRIPTION_LENGTH = 120
 const SHORT_BRAND_SUFFIX = ' | santi020k'
-
 const normalizeWhitespace = (value: string) => value.replace(/\s+/g, ' ').trim()
 
 const truncateAtWord = (value: string, maxLength: number) => {
@@ -16,10 +15,13 @@ const truncateAtWord = (value: string, maxLength: number) => {
   return `${candidate.slice(0, cutAt).trimEnd()}…`
 }
 
-const removeTrailingBrand = (title: string) => title
-  .replace(/\s+(?:—|-)\s+Santiago Molina(?:\s*\|\s*santi020k)?$/i, '')
-  .replace(/\s*\|\s*santi020k$/i, '')
-  .trim()
+const removeTrailingBrand = (title: string) => {
+  const withoutShortBrand = title.replace(/\s*\|\s*santi020k$/i, '')
+
+  return withoutShortBrand
+    .replace(/\s+(?:—|-)\s+Santiago Molina$/i, '')
+    .trim()
+}
 
 /**
  * Creates a concise, consistently branded document title without changing the
@@ -49,9 +51,11 @@ export const createSeoDescription = (description: string, title: string) => {
   }
 
   const conciseTitle = removeTrailingBrand(normalizeWhitespace(title))
+
   const expandedDescription = [
     normalizedDescription,
-    `Explore ${conciseTitle} through practical context, technical decisions, and lessons from Santiago Molina’s real-world work.`
+    `Explore ${conciseTitle} through practical context, technical decisions,`,
+    'and lessons from Santiago Molina’s real-world work.'
   ].join(' ')
 
   return truncateAtWord(expandedDescription, MAX_META_DESCRIPTION_LENGTH)
