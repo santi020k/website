@@ -30,9 +30,9 @@ interface FormatVariant {
   variant: 'format'
 }
 
-type Props = SessionVariant | TopicVariant | FormatVariant
+type TalkCardProps = SessionVariant | TopicVariant | FormatVariant
 
-const props: Props = Astro.props
+const props = Astro.props as TalkCardProps
 ---
 
 {
