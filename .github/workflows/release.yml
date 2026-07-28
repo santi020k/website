@@ -38,16 +38,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Create or update the Changesets release pull request
-        uses: changesets/action@v1
-        with:
-          version: pnpm run version-packages
-          commit: "chore(release): version website"
-          title: "chore(release): version website"
-        env:
-          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN || github.token }}
-          HUSKY: 0
-
       - name: Detect a merged version bump
         id: version
         if: github.event_name == 'push'
@@ -126,3 +116,13 @@ jobs:
               --title "$RELEASE_TAG" \
               --generate-notes
           fi
+
+      - name: Create or update the Changesets release pull request
+        uses: changesets/action@v1
+        with:
+          version: pnpm run version-packages
+          commit: "chore(release): version website"
+          title: "chore(release): version website"
+        env:
+          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN || github.token }}
+          HUSKY: 0
