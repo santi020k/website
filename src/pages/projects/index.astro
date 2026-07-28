@@ -5,13 +5,13 @@ import ProjectLogoGrid from '@/components/molecules/ProjectLogoGrid.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
-import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
+import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
-import { collectionDateSortProjects } from '@/utils/date'
+import { collectionDateSortProjects, collectionRelevanceSortProjects } from '@/utils/date'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
@@ -19,6 +19,8 @@ import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
+const showcaseProjects = [...sideProjects].sort(collectionRelevanceSortProjects)
+const selectedProjects = showcaseProjects.slice(0, 3)
 const allTechnologies = getUniqueTechnologiesWithCount(sideProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
@@ -59,17 +61,26 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
     class="section-container-wide scroll-mt-28 pt-20 sm:pt-24 lg:pt-28"
     id="projects"
   >
-    <ProjectLogoGrid projects={sideProjects} />
+    <SectionHeader
+      description="A curated view of the products, developer tools, open-source systems, and community work I build beyond client engagements."
+      eyebrow={`${sideProjects.length} personal builds`}
+      title="A growing project ecosystem."
+    />
+    <div class="mt-10 sm:mt-12">
+      <ProjectLogoGrid projects={showcaseProjects} />
+    </div>
   </section>
 
-  <PageSection>
+  <section class="section-container-wide pt-20 sm:pt-24 lg:pt-28">
     <SectionHeader
-      description="Open-source, community, and self-directed projects that show how I learn, teach, test ideas, and turn rough edges into reusable patterns."
-      eyebrow="Personal builds"
-      title="Side Projects"
+      description="A closer look at the projects that best represent how I turn ambitious ideas into useful, maintainable systems."
+      eyebrow="Selected stories"
+      title="The work behind the logos."
     />
-    <CareerTimeline projects={sideProjects} />
-  </PageSection>
+    <div class="mt-10 sm:mt-12">
+      <ProjectsGallery projects={selectedProjects} />
+    </div>
+  </section>
 
   <StatsGrid>
     <StatCard
