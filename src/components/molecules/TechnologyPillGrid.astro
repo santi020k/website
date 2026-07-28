@@ -12,27 +12,122 @@ interface Props {
 }
 
 const { hiddenCount = 0, intro, technologies } = Astro.props
+
+const featuredTechnologies = technologies.slice(0, 6)
+const supportingTechnologies = technologies.slice(6)
+const totalTechnologyCount = technologies.length + hiddenCount
 ---
 
 <Card
   class="
-    space-y-5 p-5
-    sm:p-6
+    relative overflow-hidden p-0
   "
   variant="muted"
 >
-  <p class="max-w-3xl text-sm/6 text-ink-muted">{intro}</p>
-  <div class="flex flex-wrap gap-2.5">
-    {technologies.map(([technology, count]) => (
-      <Pill
-        count={count}
-        href={getTechnologyPath(technology)}
-        label={technology}
-        tone="outline"
-      />
-    ))}
-    {hiddenCount > 0 && (
-      <Pill href="/technologies/" label={`+${hiddenCount} technologies`} tone="neutral" />
-    )}
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 grid-fade opacity-25"
+  >
+  </div>
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute -right-16 -bottom-24 size-64 rounded-full
+      bg-radial from-brand/16 via-accent/7 to-transparent blur-3xl
+    "
+  />
+
+  <div class="
+    relative z-10 space-y-6 p-5
+    sm:p-6
+    lg:p-7
+  "
+  >
+    <div class="
+      flex flex-col gap-5
+      sm:flex-row sm:items-end sm:justify-between
+    "
+    >
+      <div class="max-w-2xl space-y-2">
+        <p class="
+          section-label text-brand
+          dark:text-accent
+        "
+        >
+          Stack snapshot
+        </p>
+        <p class="text-sm/6 text-ink-soft">{intro}</p>
+      </div>
+
+      <dl class="
+        grid shrink-0 grid-cols-2 gap-x-6
+        sm:text-right
+      "
+      >
+        <div>
+          <dt class="text-xs text-ink-muted">Highlighted</dt>
+          <dd class="mt-1 text-xl font-bold tracking-tight text-ink">{technologies.length}</dd>
+        </div>
+        <div class="border-l border-line/55 pl-6">
+          <dt class="text-xs text-ink-muted">Full index</dt>
+          <dd class="mt-1 text-xl font-bold tracking-tight text-ink">{totalTechnologyCount}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="h-px bg-linear-to-r from-line/70 via-line/35 to-transparent"></div>
+
+    <div class="space-y-6">
+      <div class="space-y-3">
+        <div class="
+          flex flex-col gap-1
+          sm:flex-row sm:items-baseline sm:justify-between sm:gap-4
+        "
+        >
+          <h3 class="text-sm font-semibold text-ink">Top of mind</h3>
+          <p class="text-xs/5 text-ink-muted">The tools I’m most interested in reaching for.</p>
+        </div>
+        <div class="flex flex-wrap gap-2.5">
+          {featuredTechnologies.map(([technology, count]) => (
+            <Pill
+              count={count}
+              href={getTechnologyPath(technology)}
+              label={technology}
+              tone="brand"
+            />
+          ))}
+        </div>
+      </div>
+
+      {(supportingTechnologies.length > 0 || hiddenCount > 0) && (
+        <div class="space-y-3">
+          <div class="
+            flex flex-col gap-1
+            sm:flex-row sm:items-baseline sm:justify-between sm:gap-4
+          "
+          >
+            <h3 class="text-sm font-semibold text-ink">In rotation</h3>
+            <p class="text-xs/5 text-ink-muted">Supporting tools across delivery, testing, and DX.</p>
+          </div>
+          <div class="flex flex-wrap gap-2.5">
+            {supportingTechnologies.map(([technology, count]) => (
+              <Pill
+                count={count}
+                href={getTechnologyPath(technology)}
+                label={technology}
+                tone="outline"
+              />
+            ))}
+            {hiddenCount > 0 && (
+              <Pill
+                href="/technologies/"
+                label={`Explore ${hiddenCount} more`}
+                tone="neutral"
+              />
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   </div>
 </Card>

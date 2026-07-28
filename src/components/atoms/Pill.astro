@@ -47,13 +47,23 @@ const modifierClass = tone === 'neutral' ? '' : `ui-pill--${tone}`
     color: hsl(var(--ink-soft));
   }
 
+  :global([data-pill-compat] > .ui-pill__count) {
+    border-left-color: currentColor;
+    color: inherit;
+    opacity: 0.78;
+  }
+
   :global(a[data-pill-compat]) {
     min-height: 2.75rem;
   }
 
-  :global(a[data-pill-compat].ui-pill--brand:hover) {
+  :global(a[data-pill-compat].ui-pill--brand:is(:hover, :focus-visible)) {
     border-color: hsl(var(--brand) / 0.6);
     background: hsl(var(--brand-solid));
     color: hsl(var(--canvas));
+  }
+
+  :global(a[data-pill-compat].ui-pill--brand:is(:hover, :focus-visible) > .ui-pill__count) {
+    opacity: 0.9;
   }
 </style>

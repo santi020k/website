@@ -1,9 +1,10 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -25,26 +26,21 @@ const selectiveTechnologies = sortTechnologyCountsByInterest(technologies.filter
 
 const technologyGroups = [
   {
-    description: 'The core stack that shows up repeatedly across shipped projects.',
     items: coreTechnologies,
     summary: 'Repeated foundations across product architecture, delivery workflows, and the portfolio surface.',
     title: 'Core'
   },
   {
-    description: 'Technologies that support product delivery on a regular basis.',
     items: regularTechnologies,
     summary: 'Reliable companion tools that help teams ship, test, document, and maintain production systems.',
     title: 'Regular'
   },
   {
-    description: 'Specialized tools that appear in narrower product or platform contexts.',
     items: selectiveTechnologies,
     summary: 'Context-specific platforms, APIs, and product capabilities used when the problem calls for them.',
     title: 'Selective'
   }
 ].filter(group => group.items.length > 0)
-
-const featuredTechnologies = coreTechnologies.slice(0, 6)
 
 const meta = {
   description: 'Browse Santiago Molina’s capabilities and technologies across frontend architecture, product systems, testing, and delivery.',
@@ -69,179 +65,132 @@ const meta = {
     </ButtonLink>
   </PageHero>
 
-  <section class="
-    section-container-wide grid items-start gap-8 pt-20
-    sm:pt-24
-    lg:grid-cols-[minmax(18rem,0.62fr)_minmax(0,1.38fr)] lg:gap-10 lg:pt-28
-  "
-  >
-    <div class="editorial-rail">
-      <div class="space-y-5">
-        <Eyebrow label="Technology groups" tone="brand" />
-        <div class="space-y-4">
-          <h2 class="
-            max-w-xl text-3xl font-bold tracking-tight text-ink
-            sm:text-4xl
-            lg:text-[2.8rem]/tight
-          "
-          >
-            The stack by recurrence.
-          </h2>
-          <p class="section-copy">
-            Grouped by how often each tool appears in shipped work, with the most product-shaping
-            technologies kept easiest to scan.
-          </p>
-        </div>
-      </div>
+  <PageSection>
+    <SectionHeader
+      description="Grouped by how often each tool appears in shipped work, with the most product-shaping technologies kept easiest to scan."
+      eyebrow="Technology groups"
+      title="The stack by recurrence."
+    />
 
-      <Card
+    <Card
+      class="
+        relative overflow-hidden p-0
+      "
+      variant="muted"
+    >
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0 grid-fade opacity-25"></div>
+      <div
+        aria-hidden="true"
         class="
-          relative p-5
-          sm:p-6
+          pointer-events-none absolute -right-20 -bottom-28 size-72 rounded-full
+          bg-radial from-brand/16 via-accent/7 to-transparent blur-3xl
         "
-        variant="muted"
-      >
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute inset-0 grid-fade opacity-25"
+      />
+
+      <div class="relative z-10">
+        <div class="
+          grid gap-5 p-5
+          sm:p-6
+          lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.72fr)] lg:items-end lg:p-7
+        "
         >
-        </div>
-        <div
-          aria-hidden="true"
-          class="
-            pointer-events-none absolute -right-10 -bottom-16 size-44
-            rounded-full bg-radial from-brand/18 via-accent/8 to-transparent
-            blur-2xl
-          "
-        />
-        <div class="relative z-10 space-y-4">
-          <p class="
-            section-label text-brand
-            dark:text-accent
-          "
-          >Recurring foundations
-          </p>
-          <div class="flex flex-wrap gap-2.5">
-            {featuredTechnologies.map(([technology, count]) => (
-              <Pill
-                count={count}
-                href={getTechnologyPath(technology)}
-                label={technology}
-                tone="brand"
-              />
-            ))}
+          <div class="max-w-xl space-y-2">
+            <p class="
+              section-label text-brand
+              dark:text-accent
+            "
+            >Stack snapshot
+            </p>
+            <p class="text-sm/6 text-ink-soft">
+              Search the full index, then follow any technology to the projects where it appears.
+            </p>
+          </div>
+
+          <div class="space-y-2">
+            <label class="block section-label" for="technology-filter">Find a technology</label>
+            <Input
+              aria-describedby="technology-filter-status"
+              autocomplete="off"
+              class="field-surface"
+              id="technology-filter"
+              placeholder="Search technologies…"
+              spellcheck="false"
+              type="search"
+            />
+            <p
+              id="technology-filter-status"
+              aria-live="polite"
+              class="text-xs text-ink-muted"
+            >
+              Showing all {technologies.length} technologies.
+            </p>
           </div>
         </div>
-      </Card>
-    </div>
 
-    <div class="space-y-5">
-      <div class="space-y-2">
-        <label class="block section-label" for="technology-filter">Find a technology</label>
-        <Input
-          aria-describedby="technology-filter-status"
-          autocomplete="off"
-          class="field-surface"
-          id="technology-filter"
-          placeholder="Search technologies…"
-          spellcheck="false"
-          type="search"
-        />
-      </div>
-      <p
-        id="technology-filter-status"
-        aria-live="polite"
-        class="text-sm text-ink-muted"
-      >
-        Showing all {technologies.length} technologies.
-      </p>
+        <div class="h-px bg-linear-to-r from-line/70 via-line/35 to-transparent"></div>
 
-      <div
-        class="
-          grid gap-5
-          lg:grid-cols-3
-        "
-        data-stagger="70"
-        data-technology-groups
-      >
-        {technologyGroups.map((group, index) => (
-          <Card
-            class="
-              group relative h-full p-5 transition-all duration-300
-              hover:-translate-y-1 hover:border-brand/35
-              motion-reduce:transition-none
-              motion-reduce:hover:translate-y-0
-              sm:p-6
-            "
-            data-technology-group
-            variant="muted"
-          >
-            <div
-              aria-hidden="true"
+        <div data-technology-groups>
+          {technologyGroups.map((group, index) => (
+            <section
+              aria-labelledby={`technology-group-${index}`}
               class:list={[
                 `
-                  pointer-events-none absolute inset-x-8 bottom-0 h-32
-                  rounded-full bg-radial from-brand/10 via-accent/5
-                  to-transparent blur-2xl transition-opacity duration-300
-                  group-hover:opacity-100
-                  motion-reduce:transition-none
+                  grid gap-5 p-5
+                  sm:p-6
+                  lg:grid-cols-[minmax(12rem,0.38fr)_minmax(0,1.62fr)] lg:gap-8
+                  lg:p-7
                 `,
-                index === 0 ? 'opacity-70' : 'opacity-35'
+                index > 0 && 'border-t border-line/40'
               ]}
-            />
-            <div class="relative z-10 space-y-5">
+              data-technology-group
+            >
               <div class="space-y-3">
-                <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <span class="text-xs font-semibold text-ink-muted">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
                   <p class="
                     section-label text-brand
                     dark:text-accent
                   "
                   >{group.title}
                   </p>
-                  <span class="text-xs font-semibold text-ink-muted">{String(index + 1).padStart(2, '0')}</span>
                 </div>
-                <h3 class="
-                  text-3xl font-bold tracking-tighter text-ink
-                  sm:text-4xl
-                "
+                <h3
+                  class="text-2xl font-bold tracking-tight text-ink"
+                  id={`technology-group-${index}`}
                 >
                   <span data-technology-group-count>{group.items.length}</span> tools
                 </h3>
-                <p class="text-sm/6 text-ink-soft">{group.description}</p>
+                <p class="max-w-sm text-sm/6 text-ink-soft">{group.summary}</p>
               </div>
 
-              <div class="border-y border-line/35 py-4">
-                <p class="text-sm/6 text-ink-soft">{group.summary}</p>
-              </div>
-
-              <div class="flex flex-wrap gap-2.5">
+              <div class="flex content-start flex-wrap gap-2.5">
                 {group.items.map(([technology, count]) => (
-                  <span data-technology-item data-label={technology}>
+                  <span data-label={technology} data-technology-item>
                     <Pill
                       count={count}
                       href={getTechnologyPath(technology)}
                       label={technology}
-                      tone="outline"
+                      tone={index === 0 ? 'brand' : 'outline'}
                     />
                   </span>
                 ))}
               </div>
-            </div>
-          </Card>
-        ))}
+            </section>
+          ))}
+        </div>
+
+        <p
+          class="m-5 rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm text-ink-soft sm:m-6 lg:m-7"
+          data-technologies-empty
+          hidden
+        >
+          No technologies match that search. Try a broader term or clear the search field.
+        </p>
       </div>
-      <p
-        class="
-          rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm
-          text-ink-soft
-        "
-        data-technologies-empty
-        hidden
-      >
-        No technologies match that search.
-      </p>
-    </div>
-  </section>
+    </Card>
+  </PageSection>
 
   <StatsGrid showDivider={false}>
     <StatCard description="Distinct capabilities, tools, and platforms across the full portfolio." label="Technologies" value={String(technologies.length)} />
