@@ -71,31 +71,38 @@
 
   document.addEventListener('astro:before-preparation', () => {
     const bar = document.getElementById('nav-progress')
+
     if (!bar) return
 
     if (resetFrame) {
       cancelAnimationFrame(resetFrame)
+
       resetFrame = 0
     }
 
     // Reset to 0, then start the crawl on the next frame without forcing layout.
     bar.classList.remove('is-loading', 'is-complete')
+
     resetFrame = requestAnimationFrame(() => {
       bar.classList.add('is-loading')
+
       resetFrame = 0
     })
   })
 
   document.addEventListener('astro:page-load', () => {
     const bar = document.getElementById('nav-progress')
+
     if (!bar) return
 
     if (resetFrame) {
       cancelAnimationFrame(resetFrame)
+
       resetFrame = 0
     }
 
     bar.classList.remove('is-loading')
+
     bar.classList.add('is-complete')
   })
 </script>

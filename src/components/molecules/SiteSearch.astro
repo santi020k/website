@@ -373,10 +373,13 @@ import SearchDialog from './SearchDialog.astro'
     let entries = []
     let selectedResultIndex = -1
     let closeAnimTimer = 0
+
     /** @type {'idle' | 'loading' | 'ready' | 'error'} */
     let indexLoadState = 'idle'
+
     /** @type {Promise<boolean> | null} */
     let indexLoadPromise = null
+
     /** @type {string[]} */
     let popularTopics = []
 
@@ -387,22 +390,30 @@ import SearchDialog from './SearchDialog.astro'
     const getRecentSearches = () => {
       try {
         const raw = window.localStorage?.getItem(RECENT_SEARCHES_KEY)
+
         if (!raw) return []
+
         const parsed = JSON.parse(raw)
-        return Array.isArray(parsed) ? parsed.filter((v) => typeof v === 'string') : []
+
+        return Array.isArray(parsed) ? parsed.filter(v => typeof v === 'string') : []
       } catch {
         return []
       }
     }
 
     /** @param {string} query */
-    const rememberRecentSearch = (query) => {
+    const rememberRecentSearch = query => {
       const trimmed = query.trim()
+
       if (trimmed.length < 2) return
+
       try {
-        const list = getRecentSearches().filter((v) => v.toLowerCase() !== trimmed.toLowerCase())
+        const list = getRecentSearches().filter(v => v.toLowerCase() !== trimmed.toLowerCase())
+
         list.unshift(trimmed)
+
         const next = list.slice(0, RECENT_SEARCHES_LIMIT)
+
         window.localStorage?.setItem(RECENT_SEARCHES_KEY, JSON.stringify(next))
       } catch {
         /* localStorage may be unavailable (private mode); fail silently. */
@@ -415,15 +426,19 @@ import SearchDialog from './SearchDialog.astro'
       // doesn't show visible near-duplicates, keeping whichever casing reads best.
       /** @type {Map<string, { count: number, label: string, upperCount: number }>} */
       const counts = new Map()
+
       for (const entry of entries) {
         for (const tag of entry.tags) {
           const key = tag.toLowerCase()
           const upperCount = (tag.match(/[A-Z]/g) ?? []).length
           const existing = counts.get(key)
+
           if (existing) {
             existing.count += 1
+
             if (upperCount > existing.upperCount) {
               existing.label = tag
+
               existing.upperCount = upperCount
             }
           } else {
@@ -431,10 +446,11 @@ import SearchDialog from './SearchDialog.astro'
           }
         }
       }
+
       popularTopics = [...counts.values()]
         .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
         .slice(0, 8)
-        .map((entry) => entry.label)
+        .map(entry => entry.label)
     }
 
     const getDialog = () => document.querySelector('#site-search-dialog')
@@ -444,16 +460,17 @@ import SearchDialog from './SearchDialog.astro'
     const getTrigger = () => document.querySelector('[data-site-search-trigger]')
     const getPanel = () => document.querySelector('[data-site-search-panel]')
 
-    const setScrollLock = (locked) => {
+    const setScrollLock = locked => {
       document.documentElement.classList.toggle('site-search-open', locked)
+
       document.body.classList.toggle('site-search-open', locked)
     }
 
-    const prefersReducedMotion = () =>
-      window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true
+    const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true
 
-    const setTriggerExpanded = (open) => {
+    const setTriggerExpanded = open => {
       const trigger = getTrigger()
+
       if (trigger instanceof HTMLButtonElement) {
         trigger.setAttribute('aria-expanded', String(open))
       }
@@ -461,11 +478,15 @@ import SearchDialog from './SearchDialog.astro'
 
     const syncResultSelection = () => {
       const results = getResults()
+
       if (!results) return
+
       const anchors = results.querySelectorAll('a[href]')
+
       anchors.forEach((a, i) => {
         if (i === selectedResultIndex) {
           a.setAttribute('data-site-search-active', 'true')
+
           a.scrollIntoView({
             block: 'nearest',
             behavior: prefersReducedMotion() ? 'auto' : 'smooth'
@@ -479,10 +500,13 @@ import SearchDialog from './SearchDialog.astro'
     /**
      * @param {string} message
      */
-    const setStatusMessage = (message) => {
+    const setStatusMessage = message => {
       const status = getStatus()
+
       if (!(status instanceof HTMLElement)) return
+
       if (status.textContent === message) return
+
       status.textContent = message
     }
 
@@ -492,10 +516,10 @@ import SearchDialog from './SearchDialog.astro'
      * falls back to "Popular topics" derived from the loaded index.
      * @param {HTMLElement} results
      */
-    const renderEmptyState = (results) => {
-      const recents = getRecentSearches()
-      const useRecents = recents.length > 0
-      const items = useRecents ? recents : popularTopics
+    const renderEmptyState = results => {
+      const recentSearches = getRecentSearches()
+      const hasRecentSearches = recentSearches.length > 0
+      const items = hasRecentSearches ? recentSearches : popularTopics
 
       if (items.length === 0) {
         results.innerHTML = `
@@ -519,19 +543,22 @@ import SearchDialog from './SearchDialog.astro'
             </div>
           </li>
         `
+
         setStatusMessage('Type at least two characters to search.')
+
         return
       }
 
-      const heading = useRecents ? 'Recent searches' : 'Popular topics'
-      const iconSvg = useRecents
-        ? `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+      const heading = hasRecentSearches ? 'Recent searches' : 'Popular topics'
+
+      const iconSvg = hasRecentSearches ?
+        `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="right"
            >
              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
              <path d="M3 3v5h5" />
-           </svg>`
-        : `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+           </svg>` :
+        `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
            >
              <path d="M16 6 4 20" />
@@ -541,23 +568,31 @@ import SearchDialog from './SearchDialog.astro'
            </svg>`
 
       const li = document.createElement('li')
+
       li.className = `
         site-search-hint rounded-xl border border-line/40 bg-surface/40
         px-4 py-4 text-sm text-ink-soft
       `.trim().replace(/\s+/g, ' ')
 
       const label = document.createElement('div')
+
       label.className = 'mb-3 flex items-center gap-2 text-xs font-semibold tracking-[0.12em] text-ink-muted uppercase'
+
       label.innerHTML = `${iconSvg}<span>${heading}</span>`
+
       li.appendChild(label)
 
       const chips = document.createElement('div')
+
       chips.className = 'flex flex-wrap gap-2'
 
       for (const item of items) {
         const chip = document.createElement('button')
+
         chip.type = 'button'
+
         chip.dataset.siteSearchSuggestion = item
+
         chip.className = `
           inline-flex items-center rounded-full border border-line/40
           bg-surface/50 px-3 py-1.5 text-xs font-medium text-ink-soft
@@ -567,13 +602,18 @@ import SearchDialog from './SearchDialog.astro'
           motion-reduce:transition-none
           motion-reduce:active:scale-100
         `.trim().replace(/\s+/g, ' ')
+
         chip.textContent = item
+
         chips.appendChild(chip)
       }
 
       li.appendChild(chips)
+
       results.innerHTML = ''
+
       results.appendChild(li)
+
       setStatusMessage(`${items.length} ${heading.toLowerCase()} available.`)
     }
 
@@ -584,17 +624,17 @@ import SearchDialog from './SearchDialog.astro'
     const rankEntry = (entry, normalizedQuery) => {
       const normalizedTitle = entry.title.toLowerCase()
       const normalizedDescription = entry.description.toLowerCase()
-      const normalizedTags = entry.tags.map((tag) => tag.toLowerCase())
+      const normalizedTags = entry.tags.map(tag => tag.toLowerCase())
       const terms = normalizedQuery.split(/\s+/).filter(Boolean)
-
       let score = 0
 
       if (normalizedTitle === normalizedQuery) score += 120
+
       if (normalizedTitle.startsWith(normalizedQuery)) score += 90
       else if (normalizedTitle.includes(normalizedQuery)) score += 55
 
-      if (normalizedTags.some((tag) => tag === normalizedQuery)) score += 48
-      else if (normalizedTags.some((tag) => tag.startsWith(normalizedQuery))) score += 36
+      if (normalizedTags.some(tag => tag === normalizedQuery)) score += 48
+      else if (normalizedTags.some(tag => tag.startsWith(normalizedQuery))) score += 36
 
       if (normalizedDescription.includes(normalizedQuery)) score += 16
 
@@ -603,25 +643,31 @@ import SearchDialog from './SearchDialog.astro'
 
         if (normalizedTitle.startsWith(term)) {
           score += 22
+
           termMatched = true
         } else if (normalizedTitle.includes(term)) {
           score += 14
+
           termMatched = true
         }
 
-        if (normalizedTags.some((tag) => tag === term)) {
+        if (normalizedTags.some(tag => tag === term)) {
           score += 16
+
           termMatched = true
-        } else if (normalizedTags.some((tag) => tag.startsWith(term))) {
+        } else if (normalizedTags.some(tag => tag.startsWith(term))) {
           score += 11
+
           termMatched = true
-        } else if (normalizedTags.some((tag) => tag.includes(term))) {
+        } else if (normalizedTags.some(tag => tag.includes(term))) {
           score += 7
+
           termMatched = true
         }
 
         if (normalizedDescription.includes(term)) {
           score += 6
+
           termMatched = true
         }
 
@@ -631,15 +677,18 @@ import SearchDialog from './SearchDialog.astro'
       return score
     }
 
-    const render = (query) => {
+    const render = query => {
       const results = getResults()
+
       if (!results) return
 
       results.innerHTML = ''
+
       const trimmed = query.trim()
 
       if (indexLoadState === 'loading') {
         selectedResultIndex = -1
+
         results.innerHTML = `
           <li class="
             site-search-hint flex flex-col items-center justify-center gap-3
@@ -654,12 +703,15 @@ import SearchDialog from './SearchDialog.astro'
             <span class="text-sm text-ink-soft">Loading search index…</span>
           </li>
         `
+
         setStatusMessage('Loading search index.')
+
         return
       }
 
       if (indexLoadState === 'error') {
         selectedResultIndex = -1
+
         results.innerHTML = `
           <li
             class="
@@ -709,34 +761,44 @@ import SearchDialog from './SearchDialog.astro'
             </button>
           </li>
         `
+
         setStatusMessage('Search is temporarily unavailable.')
+
         return
       }
 
       if (trimmed.length < 2) {
         selectedResultIndex = -1
+
         renderEmptyState(results)
+
         return
       }
 
       const normalized = trimmed.toLowerCase()
+
       const matches = entries
-        .map((entry) => {
+        .map(entry => {
           const score = rankEntry(entry, normalized)
+
           return { entry, score }
         })
-        .filter((item) => item.score > 0)
+        .filter(item => item.score > 0)
         .sort((a, b) => {
           if (b.score !== a.score) return b.score - a.score
+
           const typeOrder = { project: 0, post: 1 }
           const typeDiff = (typeOrder[a.entry.type] ?? 2) - (typeOrder[b.entry.type] ?? 2)
+
           if (typeDiff !== 0) return typeDiff
+
           return a.entry.title.localeCompare(b.entry.title)
         })
         .slice(0, 8)
 
       if (matches.length === 0) {
         selectedResultIndex = -1
+
         results.innerHTML = `
           <li class="
             site-search-hint flex flex-col items-center justify-center gap-3
@@ -779,7 +841,9 @@ import SearchDialog from './SearchDialog.astro'
             </button>
           </li>
         `
+
         setStatusMessage(`No matching results for ${trimmed}. Try different keywords.`)
+
         return
       }
 
@@ -789,7 +853,9 @@ import SearchDialog from './SearchDialog.astro'
         const e = match.entry
         const li = document.createElement('li')
         const a = document.createElement('a')
+
         a.href = e.path
+
         a.className = `
           group relative flex gap-3 rounded-xl border border-transparent p-2.5
           transition-all duration-250 ease-out
@@ -800,7 +866,9 @@ import SearchDialog from './SearchDialog.astro'
 
         // Active selection indicator (left border accent)
         const indicator = document.createElement('span')
+
         indicator.setAttribute('data-site-search-indicator', '')
+
         indicator.className = `
           pointer-events-none absolute -left-0.5 top-1/2 h-6 w-1 -translate-y-1/2
           rounded-r-full bg-brand opacity-0
@@ -808,85 +876,116 @@ import SearchDialog from './SearchDialog.astro'
           group-hover:opacity-40 group-hover:scale-y-75
           motion-reduce:transition-none
         `.trim().replace(/\s+/g, ' ')
+
         a.appendChild(indicator)
 
         const thumbHost = document.createElement('span')
+
         thumbHost.setAttribute('data-site-search-thumb-frame', '')
 
         if (e.coverUrl) {
           const placeholder = document.createElement('span')
+
           placeholder.setAttribute('aria-hidden', 'true')
+
           placeholder.setAttribute('data-site-search-thumb-placeholder', '')
 
           const picture = document.createElement('picture')
 
           if (e.coverAvifUrl) {
             const avifSource = document.createElement('source')
+
             avifSource.type = 'image/avif'
+
             avifSource.srcset = e.coverAvifUrl
+
             picture.appendChild(avifSource)
           }
 
           const img = document.createElement('img')
+
           img.src = e.coverUrl
+
           img.alt = e.coverAlt || e.title
+
           img.decoding = 'async'
+
           img.loading = 'eager'
+
           img.setAttribute('data-site-search-thumb', '')
+
           img.setAttribute('data-site-search-thumb-state', 'loading')
 
           img.addEventListener('load', () => {
             img.setAttribute('data-site-search-thumb-state', 'loaded')
+
             thumbHost.setAttribute('data-site-search-thumb-loaded', 'true')
           })
 
           img.addEventListener('error', () => {
             img.setAttribute('data-site-search-thumb-state', 'error')
+
             thumbHost.removeAttribute('data-site-search-thumb-loaded')
+
             img.alt = ''
           })
 
           picture.appendChild(img)
+
           thumbHost.append(placeholder, picture)
         } else {
           const ph = document.createElement('span')
+
           ph.className = 'block size-full grid-fade'
+
           ph.setAttribute('aria-hidden', 'true')
+
           thumbHost.appendChild(ph)
         }
 
         const body = document.createElement('span')
+
         body.className = 'flex min-w-0 flex-1 flex-col justify-center gap-0.5'
 
         const typeEl = document.createElement('span')
+
         typeEl.className = `
           section-label transition-colors duration-200
           group-hover:text-brand/80
         `.trim()
+
         typeEl.textContent = e.type === 'post' ? 'Post' : 'Project'
 
         const titleEl = document.createElement('span')
+
         titleEl.className = `
           text-sm font-semibold text-ink transition-colors duration-200
           group-hover:text-brand
         `.trim()
+
         titleEl.textContent = e.title
 
         const descEl = document.createElement('span')
+
         descEl.className = `
           line-clamp-2 text-xs/5 text-ink-soft transition-colors duration-200
           group-hover:text-ink-soft/90
           sm:text-sm/6
         `.trim()
+
         descEl.textContent = e.description
 
         body.append(typeEl, titleEl, descEl)
+
         a.append(thumbHost, body)
+
         li.appendChild(a)
+
         results.appendChild(li)
       }
 
       syncResultSelection()
+
       setStatusMessage(
         `${matches.length} ${matches.length === 1 ? 'result' : 'results'} available. Use arrow keys to navigate.`
       )
@@ -895,19 +994,26 @@ import SearchDialog from './SearchDialog.astro'
     const openSearch = () => {
       const dialog = getDialog()
       const input = getInput()
+
       if (!(dialog instanceof HTMLDialogElement) || !(input instanceof HTMLInputElement)) return
 
       window.clearTimeout(closeAnimTimer)
+
       dialog.removeAttribute('data-site-search-anim')
 
       if (!dialog.open) {
         dialog.showModal()
       }
+
       setScrollLock(true)
+
       setTriggerExpanded(true)
+
       window.requestAnimationFrame(() => {
         input.focus()
+
         input.select()
+
         render(input.value)
       })
     }
@@ -918,18 +1024,24 @@ import SearchDialog from './SearchDialog.astro'
     const closeSearch = (options = {}) => {
       const { focusTrigger = false } = options
       const dialog = getDialog()
+
       if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
 
       const finish = () => {
         window.clearTimeout(closeAnimTimer)
+
         if (dialog.open) {
           dialog.close()
         }
+
         setScrollLock(false)
+
         /* Remove after `close()` so `[open]` never pairs with "not closing" (intro CSS). */
         dialog.removeAttribute('data-site-search-anim')
+
         if (focusTrigger) {
           const t = getTrigger()
+
           if (t instanceof HTMLElement) {
             t.focus()
           }
@@ -938,35 +1050,46 @@ import SearchDialog from './SearchDialog.astro'
 
       if (prefersReducedMotion()) {
         finish()
+
         return
       }
 
       const panel = getPanel()
+
       if (!(panel instanceof HTMLElement)) {
         finish()
+
         return
       }
 
       dialog.setAttribute('data-site-search-anim', 'closing')
 
-      const onAnimEnd = (e) => {
+      const onAnimEnd = e => {
         if (e.animationName !== 'site-search-panel-out') return
+
         panel.removeEventListener('animationend', onAnimEnd)
+
         finish()
       }
 
       panel.addEventListener('animationend', onAnimEnd)
+
       closeAnimTimer = window.setTimeout(() => {
         panel.removeEventListener('animationend', onAnimEnd)
+
         finish()
       }, 420)
     }
 
-    const isEditableTarget = (target) => {
+    const isEditableTarget = target => {
       if (!(target instanceof HTMLElement)) return false
+
       if (target.isContentEditable) return true
+
       const tag = target.tagName
+
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true
+
       return false
     }
 
@@ -975,32 +1098,42 @@ import SearchDialog from './SearchDialog.astro'
      */
     const loadIndex = async (options = {}) => {
       const { force = false } = options
+
       if (!force && indexLoadState === 'ready' && entries.length > 0) return true
+
       if (!force && indexLoadPromise) return indexLoadPromise
 
       indexLoadState = 'loading'
+
       render(getInput()?.value ?? '')
 
       indexLoadPromise = fetch('/search-index.json')
-        .then((response) => {
+        .then(response => {
           if (!response.ok) {
             throw new Error('Failed search index response')
           }
+
           return response.json()
         })
-        .then((json) => {
+        .then(json => {
           entries = Array.isArray(json) ? json : []
+
           computePopularTopics()
+
           indexLoadState = 'ready'
+
           return true
         })
         .catch(() => {
           entries = []
+
           indexLoadState = 'error'
+
           return false
         })
         .finally(() => {
           indexLoadPromise = null
+
           render(getInput()?.value ?? '')
         })
 
@@ -1009,6 +1142,7 @@ import SearchDialog from './SearchDialog.astro'
 
     const bindUi = () => {
       const root = document.querySelector('[data-site-search]')
+
       if (!root || root.getAttribute('data-site-search-bound') === 'true') return
 
       const trigger = root.querySelector('[data-site-search-trigger]')
@@ -1016,12 +1150,11 @@ import SearchDialog from './SearchDialog.astro'
       const input = getInput()
       const results = getResults()
       const dialog = getDialog()
-
       const scrim = dialog.querySelector('[data-site-search-scrim]')
 
       if (!(trigger instanceof HTMLButtonElement) || !(closeBtn instanceof HTMLButtonElement) ||
-          !(input instanceof HTMLInputElement) || !(results instanceof HTMLElement) ||
-          !(dialog instanceof HTMLDialogElement)) {
+        !(input instanceof HTMLInputElement) || !(results instanceof HTMLElement) ||
+        !(dialog instanceof HTMLDialogElement)) {
         return
       }
 
@@ -1030,10 +1163,13 @@ import SearchDialog from './SearchDialog.astro'
       trigger.addEventListener('click', () => {
         if (dialog.open) {
           closeSearch({ focusTrigger: true })
+
           return
         }
+
         openSearch()
-        void loadIndex()
+
+        loadIndex()
       })
 
       closeBtn.addEventListener('click', () => {
@@ -1048,25 +1184,35 @@ import SearchDialog from './SearchDialog.astro'
 
       dialog.addEventListener('close', () => {
         setScrollLock(false)
+
         setTriggerExpanded(false)
+
         const url = new URL(window.location.href)
+
         if (url.searchParams.has('q')) {
           url.searchParams.delete('q')
+
           window.history.replaceState({}, '', url)
         }
       })
 
-      dialog.addEventListener('cancel', (e) => {
+      dialog.addEventListener('cancel', e => {
         e.preventDefault()
+
         closeSearch({ focusTrigger: true })
       })
 
-      dialog.addEventListener('keydown', (e) => {
+      dialog.addEventListener('keydown', e => {
         if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
+
         if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
+
         const links = [...results.querySelectorAll('a[href]')]
+
         if (links.length === 0) return
+
         e.preventDefault()
+
         if (e.key === 'ArrowDown') {
           if (selectedResultIndex < 0) {
             selectedResultIndex = 0
@@ -1078,37 +1224,50 @@ import SearchDialog from './SearchDialog.astro'
         } else {
           selectedResultIndex = (selectedResultIndex - 1 + links.length) % links.length
         }
+
         syncResultSelection()
       })
 
-      input.addEventListener('keydown', (e) => {
+      input.addEventListener('keydown', e => {
         if (e.key !== 'Enter') return
+
         const links = [...results.querySelectorAll('a[href]')]
+
         if (selectedResultIndex < 0 || selectedResultIndex >= links.length) return
+
         e.preventDefault()
+
         rememberRecentSearch(input.value)
+
         links[selectedResultIndex].click()
       })
 
       input.addEventListener('input', () => {
         const value = input.value
+
         render(value)
+
         const next = new URL(window.location.href)
         const trimmed = value.trim()
+
         if (trimmed.length >= 2) {
           next.searchParams.set('q', trimmed)
         } else {
           next.searchParams.delete('q')
         }
+
         window.history.replaceState({}, '', next)
       })
 
-      results.addEventListener('click', (event) => {
+      results.addEventListener('click', event => {
         const retryButton =
           event.target instanceof Element ? event.target.closest('[data-site-search-retry]') : null
+
         if (retryButton instanceof HTMLButtonElement) {
           event.preventDefault()
-          void loadIndex({ force: true })
+
+          loadIndex({ force: true })
+
           return
         }
 
@@ -1116,14 +1275,20 @@ import SearchDialog from './SearchDialog.astro'
           event.target instanceof Element ?
             event.target.closest('[data-site-search-suggestion]') :
             null
+
         if (suggestion instanceof HTMLButtonElement) {
           event.preventDefault()
+
           const term = suggestion.dataset.siteSearchSuggestion ?? ''
+
           if (term) {
             input.value = term
+
             input.dispatchEvent(new Event('input', { bubbles: true }))
+
             input.focus()
           }
+
           return
         }
 
@@ -1131,27 +1296,40 @@ import SearchDialog from './SearchDialog.astro'
           event.target instanceof Element ?
             event.target.closest('[data-site-search-clear]') :
             null
+
         if (clearButton instanceof HTMLButtonElement) {
           event.preventDefault()
+
           input.value = ''
+
           input.dispatchEvent(new Event('input', { bubbles: true }))
+
           input.focus()
+
           return
         }
 
         const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
+
         if (!anchor) return
+
         rememberRecentSearch(input.value)
+
         closeSearch()
       })
 
-      results.addEventListener('mousemove', (event) => {
+      results.addEventListener('mousemove', event => {
         const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
+
         if (!anchor) return
+
         const links = [...results.querySelectorAll('a[href]')]
         const next = links.indexOf(anchor)
+
         if (next < 0 || next === selectedResultIndex) return
+
         selectedResultIndex = next
+
         syncResultSelection()
       })
 
@@ -1160,44 +1338,57 @@ import SearchDialog from './SearchDialog.astro'
       // This avoids a network + parse cost on every page navigation.
       const params = new URLSearchParams(window.location.search)
       const queryFromURL = params.get('q')
+
       if (queryFromURL && queryFromURL.trim().length >= 2) {
         openSearch()
+
         input.value = queryFromURL
-        void loadIndex().then(() => {
-          render(queryFromURL)
+
+        loadIndex().then(() => {
+          return render(queryFromURL)
         })
       }
     }
 
-    const onGlobalKeydown = (event) => {
+    const onGlobalKeydown = event => {
       const dialog = getDialog()
       const isOpen = dialog instanceof HTMLDialogElement && dialog.open
 
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         if (!isOpen && isEditableTarget(event.target)) return
+
         event.preventDefault()
+
         if (!isOpen) {
           openSearch()
         }
-        void loadIndex()
+
+        loadIndex()
+
         return
       }
 
       if (event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
         if (isOpen) return
+
         if (isEditableTarget(event.target)) return
+
         event.preventDefault()
+
         openSearch()
-        void loadIndex()
+
+        loadIndex()
       }
     }
 
     if (!window.__siteSearchGlobalKeys) {
       window.__siteSearchGlobalKeys = true
+
       document.addEventListener('keydown', onGlobalKeydown)
     }
 
     bindUi()
+
     document.addEventListener('astro:after-swap', bindUi)
   })()
 </script>

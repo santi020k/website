@@ -51,7 +51,6 @@ const buildContentSitemapMetadata = () => {
     let entries: fs.Dirent[]
 
     try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       entries = fs.readdirSync(dir, { withFileTypes: true })
     } catch {
       return []
@@ -125,7 +124,6 @@ const buildContentSitemapMetadata = () => {
   // Posts: src/content/post/**/<slug>(/index)?.md(x) -> /blog/<slug>/
   for (const file of walk(path.resolve('src/content/post'))) {
     try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       const raw = fs.readFileSync(file, 'utf8')
       const match = frontmatterRegex.exec(raw)
 
@@ -153,7 +151,6 @@ const buildContentSitemapMetadata = () => {
   // Projects: src/content/project/<slug>(/index)?.md(x) -> /portfolio/<slug>/
   for (const file of walk(path.resolve('src/content/project'))) {
     try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       const raw = fs.readFileSync(file, 'utf8')
       const match = frontmatterRegex.exec(raw)
 
@@ -193,7 +190,6 @@ const buildLegacyRedirects = (): Record<string, string> => {
     let entries: fs.Dirent[]
 
     try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       entries = fs.readdirSync(directory, { withFileTypes: true })
     } catch {
       return []
@@ -210,7 +206,6 @@ const buildLegacyRedirects = (): Record<string, string> => {
 
   for (const file of walk(projectDirectory)) {
     try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       const raw = fs.readFileSync(file, 'utf8')
       const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw)
 
@@ -242,7 +237,6 @@ const rawFonts = (ext: string[]) => ({
   name: 'vite-plugin-raw-fonts',
   transform(_: string, id: string) {
     if (ext.some(e => id.endsWith(e))) {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       const buffer = fs.readFileSync(id)
 
       return {

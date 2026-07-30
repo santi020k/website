@@ -165,17 +165,20 @@ const emailId = `newsletter-email-${variant}`
   )}
 
 <script>
-  function setupNewsletterForms() {
-    document.querySelectorAll<HTMLFormElement>('[data-newsletter-form]').forEach((form) => {
-      form.addEventListener('submit', (event) => {
+  const setupNewsletterForms = function () {
+    document.querySelectorAll<HTMLFormElement>('[data-newsletter-form]').forEach(form => {
+      form.addEventListener('submit', event => {
         event.preventDefault()
+
         const data = new FormData(form)
         const params = new URLSearchParams(data as unknown as Record<string, string>).toString()
+
         window.open(`${form.action}?${params}`, '_blank', 'noopener,noreferrer')
       })
     })
   }
 
   setupNewsletterForms()
+
   document.addEventListener('astro:after-swap', setupNewsletterForms)
 </script>

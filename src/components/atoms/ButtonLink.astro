@@ -47,31 +47,33 @@ const typographyClass = 'text-sm font-semibold tracking-[0.01em]'
   document.addEventListener('astro:page-load', () => {
     // Only apply on devices with hover capability to avoid mobile touch stickiness
     if (window.matchMedia('(hover: none)').matches) return
+
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const magneticElements = document.querySelectorAll<HTMLElement>('[data-magnetic]')
 
     for (const el of magneticElements) {
       if (el.dataset.magneticInit === 'true') continue
+
       el.dataset.magneticInit = 'true'
 
-      el.addEventListener('mousemove', (e) => {
+      el.addEventListener('mousemove', e => {
         const rect = el.getBoundingClientRect()
         const hx = rect.left + rect.width / 2
         const hy = rect.top + rect.height / 2
-
         const dx = e.clientX - hx
         const dy = e.clientY - hy
-
         const pullX = Math.max(Math.min(dx * 0.06, 4), -4)
         const pullY = Math.max(Math.min(dy * 0.08, 3), -3)
 
         el.style.setProperty('--magnetic-x', `${pullX}px`)
+
         el.style.setProperty('--magnetic-y', `${pullY}px`)
       })
 
       el.addEventListener('mouseleave', () => {
         el.style.removeProperty('--magnetic-x')
+
         el.style.removeProperty('--magnetic-y')
       })
     }

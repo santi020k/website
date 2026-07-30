@@ -84,7 +84,6 @@ const titleFontSize = (title, hasCover) => {
 
 const loadCoverDataURI = async coverImagePath => {
   // TODO: Restrict cover reads to a validated public image root before re-enabling this filesystem rule.
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (!coverImagePath || !fs.existsSync(coverImagePath)) return null
 
   const buf = await sharp(coverImagePath)

@@ -130,6 +130,7 @@ const isGenerousSpacing = mainSpacing === 'generous'
       // the page change. Astro retains control of fragment and history scroll.
       document.addEventListener('astro:after-swap', () => {
         const main = document.getElementById('main')
+
         if (main instanceof HTMLElement) {
           main.focus({ preventScroll: true })
         }

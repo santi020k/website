@@ -73,12 +73,14 @@ const meta = {
     />
 
     <Card
-      class="
-        relative overflow-hidden p-0
-      "
+      class="relative overflow-hidden p-0"
       variant="muted"
     >
-      <div aria-hidden="true" class="pointer-events-none absolute inset-0 grid-fade opacity-25"></div>
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 grid-fade opacity-25"
+      >
+      </div>
       <div
         aria-hidden="true"
         class="
@@ -165,7 +167,7 @@ const meta = {
                 <p class="max-w-sm text-sm/6 text-ink-soft">{group.summary}</p>
               </div>
 
-              <div class="flex content-start flex-wrap gap-2.5">
+              <div class="flex flex-wrap content-start gap-2.5">
                 {group.items.map(([technology, count]) => (
                   <span data-label={technology} data-technology-item>
                     <Pill
@@ -182,7 +184,12 @@ const meta = {
         </div>
 
         <p
-          class="m-5 rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm text-ink-soft sm:m-6 lg:m-7"
+          class="
+            m-5 rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm
+            text-ink-soft
+            sm:m-6
+            lg:m-7
+          "
           data-technologies-empty
           hidden
         >
@@ -267,6 +274,7 @@ const meta = {
 
         groupElements.forEach(group => {
           const groupItems = group.querySelectorAll<HTMLElement>('[data-technology-item]')
+
           const count = [...groupItems].reduce((total, item) => {
             const matches = !query || (item.dataset.label ?? '').toLocaleLowerCase().includes(query)
 
@@ -274,14 +282,18 @@ const meta = {
 
             return total + (matches ? 1 : 0)
           }, 0)
+
           const countLabel = group.querySelector<HTMLElement>('[data-technology-group-count]')
 
           group.hidden = count === 0
+
           if (countLabel) countLabel.textContent = String(count)
+
           visibleTotal += count
         })
 
         empty.hidden = visibleTotal > 0
+
         status.textContent = query ?
           `${visibleTotal} ${visibleTotal === 1 ? 'technology' : 'technologies'} found.` :
           `Showing all ${items.length} technologies.`

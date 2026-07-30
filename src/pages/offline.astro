@@ -57,6 +57,7 @@ const meta = {
       const status = document.querySelector<HTMLElement>('[data-connection-status]')
 
       if (!retry || !status || retry.dataset.ready === 'true') return
+
       retry.dataset.ready = 'true'
 
       const updateStatus = () => {
@@ -66,12 +67,16 @@ const meta = {
       }
 
       retry.addEventListener('click', () => window.location.reload())
+
       window.addEventListener('online', updateStatus)
+
       window.addEventListener('offline', updateStatus)
+
       updateStatus()
     }
 
     setupOfflineControls()
+
     document.addEventListener('astro:page-load', setupOfflineControls)
   </script>
 </PageLayout>

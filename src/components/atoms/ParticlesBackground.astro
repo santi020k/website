@@ -30,11 +30,12 @@ const { class: className = '', density = 'medium' } = Astro.props
     high: 40
   }
 
-  function initParticlesBg() {
+  const initParticlesBg = function () {
     const containers = document.querySelectorAll('[data-particles-bg]')
 
     containers.forEach(container => {
       if (container.hasAttribute('data-particles-initialized')) return
+
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
       container.setAttribute('data-particles-initialized', '')
@@ -64,7 +65,9 @@ const { class: className = '', density = 'medium' } = Astro.props
           animation: particle-drift ${duration}s ease-in-out ${delay}s infinite;
           opacity: 0;
         `
+
         el.setAttribute('data-drifting-particle', '')
+
         container.appendChild(el)
       }
     })
@@ -75,6 +78,7 @@ const { class: className = '', density = 'medium' } = Astro.props
   } else {
     initParticlesBg()
   }
+
   document.addEventListener('astro:after-swap', initParticlesBg)
 </script>
 

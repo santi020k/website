@@ -58,7 +58,11 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
 
   <section
     aria-label={`${sideProjects.length} personal projects`}
-    class="section-container-wide scroll-mt-28 pt-20 sm:pt-24 lg:pt-28"
+    class="
+      section-container-wide scroll-mt-28 pt-20
+      sm:pt-24
+      lg:pt-28
+    "
     id="projects"
   >
     <SectionHeader
@@ -66,18 +70,31 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       eyebrow={`${sideProjects.length} personal builds`}
       title="A growing project ecosystem."
     />
-    <div class="mt-10 sm:mt-12">
+    <div class="
+      mt-10
+      sm:mt-12
+    "
+    >
       <ProjectLogoGrid projects={showcaseProjects} />
     </div>
   </section>
 
-  <section class="section-container-wide pt-16 sm:pt-20 lg:pt-24">
+  <section class="
+    section-container-wide pt-16
+    sm:pt-20
+    lg:pt-24
+  "
+  >
     <SectionHeader
       description="Three deeper case studies that show how I turn ambitious ideas into useful, maintainable systems."
       eyebrow="Selected stories"
       title="The work behind the logos."
     />
-    <div class="mt-10 sm:mt-12">
+    <div class="
+      mt-10
+      sm:mt-12
+    "
+    >
       <ProjectsGallery projects={selectedProjects} />
     </div>
   </section>

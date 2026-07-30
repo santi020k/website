@@ -117,36 +117,46 @@ const shareLinks = [
 </style>
 
 <script>
-  function setup() {
+  const setup = function () {
     const btn = document.getElementById('copy-link-btn')
-    if (!btn) return () => {}
+
+    if (!btn) return () => undefined
 
     const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
     const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
     const label = document.getElementById('copy-label')
-
     let timer: ReturnType<typeof setTimeout> | null = null
 
     const supportsWebShare = (): boolean => {
       if (typeof navigator === 'undefined' || typeof navigator.share !== 'function') {
         return false
       }
+
       const isCoarsePointer = window.matchMedia?.('(pointer: coarse)').matches === true
+
       return isCoarsePointer
     }
 
     const showCopiedState = () => {
       btn.classList.add('copied')
+
       copyIcon?.classList.add('hidden')
+
       checkIcon?.classList.remove('hidden')
+
       if (label) label.textContent = 'Link copied!'
 
       if (timer) clearTimeout(timer)
+
       timer = setTimeout(() => {
         btn.classList.remove('copied')
+
         copyIcon?.classList.remove('hidden')
+
         checkIcon?.classList.add('hidden')
+
         if (label) label.textContent = 'Copy link'
+
         timer = null
       }, 2000)
     }
@@ -158,6 +168,7 @@ const shareLinks = [
             title: document.title,
             url: window.location.href
           })
+
           return
         } catch {
           // User cancelled or share failed — fall through to clipboard copy.
@@ -166,6 +177,7 @@ const shareLinks = [
 
       try {
         await navigator.clipboard.writeText(window.location.href)
+
         showCopiedState()
       } catch {
         /* clipboard may be unavailable; keep silent. */
@@ -173,8 +185,10 @@ const shareLinks = [
     }
 
     btn.addEventListener('click', onClick)
+
     return () => {
       btn.removeEventListener('click', onClick)
+
       if (timer) clearTimeout(timer)
     }
   }
@@ -183,6 +197,7 @@ const shareLinks = [
 
   document.addEventListener('astro:after-swap', () => {
     cleanup()
+
     cleanup = setup()
   })
 </script>
