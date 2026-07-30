@@ -47,8 +47,10 @@ const { giscus } = siteConfig
   // Custom brand themes (public/styles/giscus-*.css). giscus only accepts
   // https:// theme URLs, so plain dev servers fall back to built-in themes.
   const FALLBACK_THEMES = { dark: 'transparent_dark', light: 'light' } as const
-  const getSiteTheme = (): keyof typeof FALLBACK_THEMES =>
-    document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+
+  const getSiteTheme = function (): keyof typeof FALLBACK_THEMES {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+  }
 
   const getGiscusTheme = (): string => {
     const theme = getSiteTheme()

@@ -373,16 +373,9 @@ import SearchDialog from './SearchDialog.astro'
     let entries = []
     let selectedResultIndex = -1
     let closeAnimTimer = 0
-
-    /** @type {'idle' | 'loading' | 'ready' | 'error'} */
-    let indexLoadState = 'idle'
-
-    /** @type {Promise<boolean> | null} */
-    let indexLoadPromise = null
-
-    /** @type {string[]} */
-    let popularTopics = []
-
+    let indexLoadState = /** @type {'idle' | 'loading' | 'ready' | 'error'} */ ('idle')
+    let indexLoadPromise = /** @type {Promise<boolean> | null} */ (null)
+    let popularTopics = /** @type {string[]} */ ([])
     const RECENT_SEARCHES_KEY = 'site-search-recent'
     const RECENT_SEARCHES_LIMIT = 5
 
@@ -1344,9 +1337,9 @@ import SearchDialog from './SearchDialog.astro'
 
         input.value = queryFromURL
 
-        loadIndex().then(() => {
-          return render(queryFromURL)
-        })
+        loadIndex()
+          .then(() => render(queryFromURL))
+          .catch(() => undefined)
       }
     }
 

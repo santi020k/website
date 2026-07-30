@@ -21,7 +21,7 @@
     "generate:og:force": "FORCE_OG=1 node scripts/js/generate-og-images.js",
     "preview": "astro preview",
     "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --fix --quiet",
+    "lint:fix": "eslint . --fix --max-warnings=0",
     "check": "astro check",
     "audit": "pnpm audit --audit-level=moderate",
     "test": "vitest run",
@@ -54,7 +54,7 @@
     "prepare": "husky",
     "pre-commit": "lint-staged --quiet && astro check",
     "pre-push": "pnpm run verify:fast",
-    "commit": "cz"
+    "commit": "commitprompt"
   },
   "dependencies": {
     "@astrojs/mdx": "catalog:",
@@ -95,6 +95,7 @@
     "@lhci/cli": "catalog:",
     "@playwright/test": "catalog:",
     "@resvg/resvg-js": "catalog:",
+    "@santi020k/commitprompt": "catalog:",
     "@santi020k/eslint-config-full": "catalog:",
     "@tailwindcss/typography": "catalog:",
     "@tailwindcss/vite": "catalog:",
@@ -104,9 +105,7 @@
     "@types/mdast": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
-    "commitizen": "catalog:",
     "cspell": "catalog:",
-    "cz-conventional-changelog": "catalog:",
     "eslint": "catalog:",
     "husky": "catalog:",
     "js-yaml": "catalog:",
@@ -129,15 +128,10 @@
   "packageManager": "pnpm@10.32.1",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,md,mdx,json}": [
-      "eslint --fix --quiet"
+      "eslint --fix --max-warnings=0"
     ],
     "*.{md,mdx}": [
       "cspell --quiet --no-must-find-files"
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

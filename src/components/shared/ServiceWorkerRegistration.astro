@@ -7,21 +7,22 @@ if ('serviceWorker' in navigator) {
     '::1'
   ].includes(window.location.hostname)
 
-  const clearSwCaches = () => {
+  const clearSwCaches = async () => {
     if (!('caches' in window)) {
-      return Promise.resolve([])
+      return []
     }
 
-    return window.caches.keys().then(keys => Promise.all(keys.map(k => window.caches.delete(k))))
+    const keys = await window.caches.keys()
+
+    return Promise.all(keys.map(key => window.caches.delete(key)))
   }
 
   if (isLocalHost) {
     navigator.serviceWorker
       .getRegistrations()
-      .then(registrations => {
-        return Promise.all(registrations.map(registration => registration.unregister()))
-      })
+      .then(registrations => Promise.all(registrations.map(registration => registration.unregister())))
       .then(clearSwCaches)
+      .catch(() => undefined)
   } else {
     const registerServiceWorker = () => {
       navigator.serviceWorker.register('/sw.js').catch(() => {
