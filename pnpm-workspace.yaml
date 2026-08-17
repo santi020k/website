@@ -21,9 +21,9 @@ catalog:
   "@lhci/cli": ^0.15.1
   "@playwright/test": ^1.62.0
   "@resvg/resvg-js": ^2.6.2
-  "@santi020k/eslint-config-basic": 2.1.1
-  "@santi020k/lumen-astro": 0.3.0
-  "@santi020k/theme": ^1.2.0
+  "@santi020k/eslint-config-basic": 3.3.0
+  "@santi020k/lumen-astro": 1.0.0
+  "@santi020k/theme": ^1.2.1
   "@shikijs/transformers": ^4.3.1
   "@tailwindcss/typography": ^0.5.20
   "@tailwindcss/vite": ^4.3.3
@@ -40,7 +40,7 @@ catalog:
   commitizen: ^4.3.2
   cspell: ^10.0.1
   cz-conventional-changelog: ^3.3.0
-  eslint: ^10.8.0
+  eslint: ^10.8.1
   fast-xml-parser: ^5.10.1
   hastscript: ^9.0.1
   husky: ^9.1.7
