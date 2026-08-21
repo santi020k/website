@@ -27,11 +27,11 @@ interface RawMediumItem {
 
 let mediumPostsPromise: Promise<MediumPost[]> | undefined
 
-const decodeHtmlEntities = (value: string) => value
+export const decodeHtmlEntities = (value: string) => value
   .replaceAll('&nbsp;', ' ')
-  .replaceAll('&amp;', '&')
-  .replaceAll('&_quot;', '"')
+  .replaceAll('&quot;', '"')
   .replaceAll('&#39;', '\'')
+  .replaceAll('&amp;', '&')
 
 const stripHtml = (value: string) => decodeHtmlEntities(
   value

@@ -102,6 +102,13 @@ describe('getMediumPosts — successful fetch', () => {
     }])
   })
 
+  test('decodes known entities once without double-unescaping nested input', async () => {
+    const { decodeHtmlEntities } = await import('../medium')
+
+    expect(decodeHtmlEntities('Tom &amp; Jerry &quot;hello&quot;')).toBe('Tom & Jerry "hello"')
+    expect(decodeHtmlEntities('&amp;quot;quoted&amp;quot;')).toBe('&quot;quoted&quot;')
+  })
+
   test('returns cached result on second call without re-fetching', async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,

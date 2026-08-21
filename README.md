@@ -17,7 +17,7 @@ Personal website, blog, and portfolio of **Santiago Molina** — Full Stack Deve
 
 ### 🚀 Key Features
 
-- **Astro 6 Power**: Built with the latest Astro framework for optimized performance.
+- **Astro 7 Power**: Built with the latest Astro framework for optimized performance.
 - **Tailwind CSS v4**: Modern, future-proof styling with zero-runtime CSS.
 - **Native Script Interactivity**: Lightweight inline scripts and custom events without a framework runtime.
 - **Content Collections**: Type-safe Markdown and MDX for blog posts and projects.
@@ -25,7 +25,7 @@ Personal website, blog, and portfolio of **Santiago Molina** — Full Stack Deve
 - **Accessibility First**: WCAG 2.2 AA compliant, validated with axe in E2E tests.
 - **View Transitions**: Seamless, app-like navigation between pages.
 - **Generated Assets**: Favicons, OG images, fonts, and brand assets built from scripts — no stale binaries.
-- **Quality Gates**: [Astro Doctor](https://github.com/santi020k/astro-doctor), ESLint (via [`@santi020k/eslint-config-basic`](https://github.com/santi020k/eslint-config-basic)), dependency audit, Vitest, Playwright, Lighthouse CI, and spellchecking on every pull request, plus scheduled CodeQL analysis.
+- **Quality Gates**: [Astro Doctor](https://github.com/santi020k/astro-doctor), ESLint (via [`@santi020k/eslint-config-full`](https://github.com/santi020k/eslint-config-basic)), dependency audit, Vitest, Playwright, Lighthouse CI, and CodeQL share one path-aware pull-request job. A monthly CodeQL scan catches newly published queries without rebuilding the site after every merge.
 
 ---
 
@@ -91,7 +91,7 @@ pnpm run check        # Astro type-checking
 pnpm run test         # Unit testing
 pnpm run test:e2e     # E2E testing
 pnpm run lighthouse   # Local Lighthouse CI run
-pnpm run verify:fast  # Spellcheck + lint + test + build in parallel
+pnpm run verify:fast  # Spellcheck + lint + type-check + test + build
 ```
 
 `test:e2e` commands auto-install Playwright browsers when needed.
@@ -109,6 +109,7 @@ pnpm run test:e2e:ci:stable
 This is a personal site, but issues and suggestions are welcome.
 
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- [`.github/SECURITY.md`](./.github/SECURITY.md)
 - [`CHANGELOG.md`](./CHANGELOG.md)
 - [`docs/deployment.md`](./docs/deployment.md)
 - [`docs/theming.md`](./docs/theming.md)

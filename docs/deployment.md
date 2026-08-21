@@ -31,12 +31,11 @@ The site uses GitHub Flow and has one production branch:
 
 1. Create a feature or fix branch from `main`.
 2. Open a pull request into `main`. GitHub Actions validates the pull request:
-   - Astro Doctor
+   - Astro Doctor and CodeQL
    - lint, Astro type-check, Markdown/content checks, and spellcheck
    - dependency audit and unit tests
-   - production build
-   - stable E2E
-   - Lighthouse CI
+   - production build, stable Chromium E2E, and Lighthouse assertions
+   The checks share one path-aware runner and one dependency installation.
 3. Merge the approved pull request once. Cloudflare Pages deploys `main`;
    GitHub Actions does not repeat the pull-request suite after the merge.
 4. Confirm the Cloudflare Pages production deployment completed successfully.
@@ -48,8 +47,7 @@ The site uses GitHub Flow and has one production branch:
    - `/offline/`
 
 Protect `main` in the GitHub repository settings. Require a pull request and the
-`Validate and build`, `E2E Tests (Stable Required)`, `Lighthouse CI`, and
-`Astro Doctor` status checks before merging. Do not create a `release/*` branch
+`Quality gate` status check before merging. Do not create a `release/*` branch
 or merge the same change a second time.
 
 Website versions and GitHub Releases are managed with Changesets:
@@ -67,9 +65,8 @@ they should appear in a release. GitHub Releases remain deployment markers, not
 a second deployment gate, and the workflow never publishes the private website
 package to npm.
 
-CodeQL runs weekly and on demand instead of rebuilding its database after every
-merge. The dependency audit remains part of every pull request and reuses the
-main CI dependency installation.
+CodeQL runs inside the path-aware pull-request gate, monthly, and on demand.
+The dependency audit reuses the same pull-request dependency installation.
 
 ## Pre-release local validation
 
@@ -77,7 +74,7 @@ Two tiers, picked by intent:
 
 - `pnpm run verify:fast` — lint, Astro type-check, content checks, unit tests, and a build. Runs on `pre-push` to keep daily pushes fast.
 - `pnpm run verify:full` (alias of `ci:verify`) — everything `verify:fast` does, plus coverage, Lighthouse CI, and stable Playwright. Run before manual releases or large changes.
-- `pnpm run audit` — audits at moderate severity while accepting
+- `pnpm run audit` — audits at moderate severity while accepting only
   `CVE-2026-14257` for legacy developer-only glob consumers. Those commands use
   repository-controlled patterns, and forcing the patched major currently
   breaks ESLint.

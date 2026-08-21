@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/santi020k/website/security/policy
+    about: Report suspected vulnerabilities privately instead of opening an issue
   - name: Astro Documentation
     url: https://docs.astro.build
     about: Official Astro documentation

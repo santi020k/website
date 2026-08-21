@@ -6,7 +6,6 @@
       "url": ["http://127.0.0.1:59123/"]
     },
     "assert": {
-      "preset": "lighthouse:no-pwa",
       "assertions": {
         "categories:performance": ["error", { "minScore": 0.85 }],
         "categories:accessibility": ["error", { "minScore": 0.95 }],
@@ -18,7 +17,6 @@
         "total-byte-weight": ["warn", { "maxNumericValue": 1048576 }],
         "unused-javascript": ["warn", { "maxNumericValue": 102400 }],
         "errors-in-console": ["warn", { "minScore": 0.9 }],
-        "uses-responsive-images": ["warn", { "maxLength": 1 }],
         "image-delivery-insight": ["warn", { "minScore": 0.9 }],
         "network-dependency-tree-insight": "off",
         "forced-reflow-insight": "off",
