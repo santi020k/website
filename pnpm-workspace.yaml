@@ -25,9 +25,9 @@ catalog:
   "@playwright/test": ^1.62.0
   "@resvg/resvg-js": ^2.6.2
   "@santi020k/commitprompt": ^1.0.0
-  "@santi020k/eslint-config-full": 3.1.0
+  "@santi020k/eslint-config-full": 3.1.1
   "@santi020k/lumen-astro": 1.0.0
-  "@santi020k/theme": ^1.2.0
+  "@santi020k/theme": ^1.2.1
   "@shikijs/transformers": ^4.3.1
   "@tailwindcss/typography": ^0.5.20
   "@tailwindcss/vite": ^4.3.3
@@ -42,7 +42,7 @@ catalog:
   astro-robots-txt: ^1.0.0
   astro-webmanifest: ^1.0.0
   cspell: ^10.0.1
-  eslint: ^10.8.0
+  eslint: ^10.8.1
   fast-xml-parser: ^5.10.1
   hastscript: ^9.0.1
   husky: ^9.1.7
