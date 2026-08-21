@@ -22,13 +22,15 @@ import { BackToTop, Icon } from '@santi020k/lumen-astro'
 </BackToTop>
 
 <script>
-  function setup() {
+  const setup = function () {
     const btn = document.getElementById('back-to-top')
-    if (!btn) return () => {}
+
+    if (!btn) return () => undefined
 
     const onScroll = () => btn.classList.toggle('is-visible', window.scrollY > 400)
 
     window.addEventListener('scroll', onScroll, { passive: true })
+
     onScroll()
 
     return () => {
@@ -37,8 +39,10 @@ import { BackToTop, Icon } from '@santi020k/lumen-astro'
   }
 
   let cleanup = setup()
+
   document.addEventListener('astro:after-swap', () => {
     cleanup()
+
     cleanup = setup()
   })
 </script>

@@ -76,7 +76,7 @@ This site has a few small examples of what I mean:
 
 ```json
 {
-  "lint": "eslint . --fix --quiet",
+  "lint": "eslint . --fix --max-warnings=0",
   "spellcheck": "cspell --quiet \"**/*.{md,mdx}\"",
   "test:coverage": "vitest run --coverage --reporter=dot",
   "test:e2e:fast": "SKIP_BUILD=1 playwright test --reporter=line",
@@ -87,7 +87,9 @@ This site has a few small examples of what I mean:
 
 Those choices are small, but they compound.
 
-`eslint . --fix --quiet` keeps the linter focused on what actually needs attention instead of printing every warning-level detail on every run.
+ESLint is the deliberate exception to muting: `--max-warnings=0` keeps the output honest and makes
+every warning actionable. Concise automation should remove wrapper noise, not hide code-quality
+debt.
 
 `cspell --quiet` does the same for spelling checks. If content is clean, the output stays clean.
 

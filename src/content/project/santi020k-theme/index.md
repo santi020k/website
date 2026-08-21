@@ -1,6 +1,8 @@
 ---
 title: "Santi020k Theme"
 description: "Built one calm violet theme system for VS Code-compatible editors, Chrome, six terminal formats, Starship, Shiki, websites, and reusable design tokens."
+seoTitle: "Santi020k Theme: Editors, Chrome & Terminals"
+seoDescription: "Explore a shared violet theme system for VS Code, Chrome, terminals, Starship, Shiki, and websites, built from reusable tokens and automated releases."
 role: "Creator"
 startingDate: "28 Apr 2026"
 githubUrl: "https://github.com/santi020k/santi020k-theme"
@@ -70,3 +72,5 @@ Themes look simple from the outside, but a coherent workspace touches hierarchy,
 ![Santi020k Theme light preview](preview-light.webp)
 
 Explore the [theme family](https://theme.santi020k.com/), install an [editor variant](https://vscode.santi020k.com/), preview the [Chrome themes](https://chrome.santi020k.com/), or configure the [terminal edition](https://terminal.santi020k.com/).
+
+For the implementation story, read how I [expanded the theme from editors to terminals](/blog/expanding-santi020k-theme-to-the-terminal/) and [shipped the macOS tooling through Homebrew](/blog/shipping-macos-tools-with-a-homebrew-tap/).

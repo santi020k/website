@@ -1,9 +1,9 @@
 ---
 title: "Authentication and Authorization in Next.js Applications with Supabase"
-description: "A practical approach to authentication and authorization in Next.js with Supabase, focused on SSR, route protection, and keeping auth logic understandable."
+description: "Build maintainable Next.js authentication with Supabase SSR, protected routes, session handling, and clear authorization patterns for production teams."
 publishDate: "2024-04-25T18:20:00.000Z"
-updatedDate: "2026-07-28T00:00:00.000Z"
-seoTitle: "Next.js + Supabase Authentication Guide"
+updatedDate: "2026-08-20T00:00:00.000Z"
+seoTitle: "Next.js Supabase Auth: SSR & Route Protection"
 tags: ["supabase", "authentication", "authorization", "nextjs", "typescript"]
 coverImage:
   alt: "Neon illustration of a secure auth panel connected to protected access badges and role checkpoints"

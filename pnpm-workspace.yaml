@@ -5,6 +5,9 @@ allowBuilds:
 auditConfig:
   ignoreCves:
     - CVE-2026-14257
+    # No patched extract-zip release exists; exposure is limited to Lighthouse's
+    # development-only Chromium downloader and our CI uses trusted artifacts.
+    - CVE-2026-56876
 catalog:
   "@astrojs/check": ^0.9.9
   "@astrojs/markdown-remark": ^7.2.1
@@ -21,8 +24,9 @@ catalog:
   "@lhci/cli": ^0.15.1
   "@playwright/test": ^1.62.0
   "@resvg/resvg-js": ^2.6.2
-  "@santi020k/eslint-config-basic": 2.1.1
-  "@santi020k/lumen-astro": 0.3.0
+  "@santi020k/commitprompt": ^1.0.0
+  "@santi020k/eslint-config-full": 3.1.0
+  "@santi020k/lumen-astro": 1.0.0
   "@santi020k/theme": ^1.2.0
   "@shikijs/transformers": ^4.3.1
   "@tailwindcss/typography": ^0.5.20
@@ -37,14 +41,12 @@ catalog:
   astro-icon: ^1.1.5
   astro-robots-txt: ^1.0.0
   astro-webmanifest: ^1.0.0
-  commitizen: ^4.3.2
   cspell: ^10.0.1
-  cz-conventional-changelog: ^3.3.0
   eslint: ^10.8.0
   fast-xml-parser: ^5.10.1
   hastscript: ^9.0.1
   husky: ^9.1.7
-  js-yaml: ^4.3.0
+  js-yaml: ^4.3.1
   jsdom: ^29.1.1
   lint-staged: ^17.2.0
   markdownlint-cli2: ^0.22.1
@@ -69,15 +71,24 @@ catalog:
   vfile: ^6.0.3
   vitest: ^4.1.10
   wawoff2: ^2.0.1
+minimumReleaseAgeExclude:
+  - "@santi020k/eslint-config-typescript"
 overrides:
   # Keep legacy build and release tooling on patched transitive versions until
   # their direct dependencies adopt these releases.
-  '@lhci/cli>tmp': 0.2.7
-  '@lhci/cli>uuid': 11.1.1
-  '@lhci/utils>js-yaml': 3.15.0
-  'astro-webmanifest>sharp': 0.35.3
-  'external-editor>tmp': 0.2.7
-  'markdownlint-cli2>js-yaml': 4.3.0
-  'markdownlint-cli2>markdown-it': 14.3.0
-  'read-yaml-file>js-yaml': 3.15.0
-  'yaml-language-server>yaml': 2.9.0
+  "@lhci/cli>tmp": 0.2.7
+  "@lhci/cli>uuid": 11.1.1
+  "@lhci/utils>js-yaml": 3.15.1
+  "astro-webmanifest>sharp": 0.35.3
+  brace-expansion@<1.1.18: 1.1.18
+  brace-expansion@>=2.0.0 <2.1.4: 2.1.4
+  brace-expansion@>=4.0.0 <5.0.9: 5.0.9
+  "external-editor>tmp": 0.2.7
+  fast-uri@>=3.0.0 <3.1.5: 3.1.5
+  ip-address@<=10.3.0: 10.3.1
+  "markdownlint-cli2>js-yaml": 4.3.1
+  "markdownlint-cli2>markdown-it": 14.3.0
+  nanoid@<3.3.18: 3.3.18
+  "read-yaml-file>js-yaml": 3.15.1
+  undici@>=7.0.0 <7.29.0: 7.29.0
+  "yaml-language-server>yaml": 2.9.0

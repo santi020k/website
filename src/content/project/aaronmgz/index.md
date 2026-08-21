@@ -56,4 +56,6 @@ The important architectural decision was to treat those experiences as one produ
 
 The best personal projects are not always small. Sometimes the emotional reason to build something is exactly what makes it worth designing for the long term.
 
+That family story also led to [Between Contractions](/portfolio/between-contractions/), a calm, privacy-first timer I built while Alejandra and I prepared for Aarón's arrival. Aaronmgz holds the story of waiting for him; Between Contractions supports one practical part of the journey.
+
 [Visit Aaronmgz](https://aaronmgz.com/).

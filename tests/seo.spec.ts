@@ -51,6 +51,54 @@ test.describe('SEO — meta tags', () => {
     }
   })
 
+  test('priority search pages render complete intent-specific snippets', async ({ page }) => {
+    const priorityPages = [
+      {
+        path: '/',
+        title: 'Santiago Molina — Engineering Leader & Architect | santi020k'
+      },
+      {
+        path: '/work/',
+        title: 'Santiago Molina — Engineering Leadership Work | santi020k'
+      },
+      {
+        path: '/blog/authentication-and-authorization-in-next-js-applications-with-supabase/',
+        title: 'Next.js Supabase Auth: SSR & Route Protection | santi020k'
+      },
+      {
+        path: '/blog/eslint-config-basic-version-2/',
+        title: 'ESLint Config Basic v2: ESLint 10 & Frameworks | santi020k'
+      },
+      {
+        path: '/blog/continuous-integration-and-deployment-for-next-js-projects/',
+        title: 'Next.js CI/CD with GitHub Actions | santi020k'
+      },
+      {
+        path: '/portfolio/astro-doctor/',
+        title: 'Astro Doctor: Astro Code Quality Toolkit | santi020k'
+      },
+      {
+        path: '/portfolio/void/',
+        title: 'Void.GG: Esports Platform Engineering | santi020k'
+      },
+      {
+        path: '/portfolio/santi020k-theme/',
+        title: 'Santi020k Theme: Editors, Chrome & Terminals | santi020k'
+      }
+    ]
+
+    for (const { path, title } of priorityPages) {
+      await page.goto(path)
+
+      const description = await page.locator('meta[name="description"]').getAttribute('content')
+
+      await expect(page).toHaveTitle(title)
+      expect(description, `description is truncated on ${path}`).not.toContain('…')
+      expect(description?.length, `description is too short on ${path}`).toBeGreaterThanOrEqual(120)
+      expect(description?.length, `description is too long on ${path}`).toBeLessThanOrEqual(160)
+    }
+  })
+
   test('technology pages use lowercase hyphenated canonical paths', async ({ page }) => {
     await page.goto('/technologies/design-systems/')
 
@@ -58,6 +106,15 @@ test.describe('SEO — meta tags', () => {
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       'href', 'https://santi020k.com/technologies/design-systems/'
     )
+  })
+
+  test('resume links keep one stable canonical PDF URL', async ({ page }) => {
+    await page.goto('/resume/')
+
+    const pdfLinks = page.locator('a[href="/pdf/cv.pdf"]')
+
+    await expect(pdfLinks).toHaveCount(2)
+    await expect(page.locator('a[href^="/pdf/cv.pdf?"]')).toHaveCount(0)
   })
 
   test('homepage has a valid og:image pointing to the generated PNG', async ({ page }) => {
@@ -157,6 +214,8 @@ test.describe('SEO — JSON-LD structured data', () => {
 
     expect(websiteSchema).not.toBeNull()
     expect(websiteSchema.potentialAction?.['@type']).toBe('SearchAction')
+    expect(websiteSchema.name).toBe('Santiago Molina')
+    expect(websiteSchema.alternateName).toBe('santi020k')
   })
 
   test('homepage has a Person schema with an @id', async ({ page }) => {

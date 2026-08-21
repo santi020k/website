@@ -20,8 +20,8 @@
     "generate:og": "node scripts/js/generate-og-images.js",
     "generate:og:force": "FORCE_OG=1 node scripts/js/generate-og-images.js",
     "preview": "astro preview",
-    "lint": "eslint . --quiet",
-    "lint:fix": "eslint . --fix --quiet",
+    "lint": "SYNCKIT_TIMEOUT=180000 eslint . --max-warnings=0",
+    "lint:fix": "SYNCKIT_TIMEOUT=180000 eslint . --fix --max-warnings=0",
     "check": "astro check",
     "audit": "pnpm audit --audit-level=moderate",
     "test": "vitest run",
@@ -47,14 +47,14 @@
     "lint:content": "node scripts/js/content-lint.mjs",
     "lint:md": "markdownlint-cli2",
     "spellcheck": "cspell --quiet \"**/*.{md,mdx}\"",
-    "verify:quality": "npm-run-all --silent --parallel spellcheck lint check lint:md lint:content test",
-    "verify:fast": "npm-run-all --silent --parallel verify:quality build",
-    "verify:full": "npm-run-all --silent --parallel spellcheck lint check lint:md lint:content test:coverage build && pnpm run lighthouse && pnpm run test:e2e:ci:stable",
+    "verify:quality": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content test",
+    "verify:fast": "npm-run-all --silent --serial verify:quality build",
+    "verify:full": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content test:coverage build && pnpm run lighthouse && pnpm run test:e2e:ci:stable",
     "ci:verify": "pnpm run verify:full",
     "prepare": "husky",
     "pre-commit": "lint-staged --quiet && astro check",
     "pre-push": "pnpm run verify:fast",
-    "commit": "cz"
+    "commit": "commitprompt"
   },
   "dependencies": {
     "@astrojs/mdx": "catalog:",
@@ -95,7 +95,8 @@
     "@lhci/cli": "catalog:",
     "@playwright/test": "catalog:",
     "@resvg/resvg-js": "catalog:",
-    "@santi020k/eslint-config-basic": "catalog:",
+    "@santi020k/commitprompt": "catalog:",
+    "@santi020k/eslint-config-full": "catalog:",
     "@tailwindcss/typography": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@testing-library/dom": "catalog:",
@@ -104,9 +105,7 @@
     "@types/mdast": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
-    "commitizen": "catalog:",
     "cspell": "catalog:",
-    "cz-conventional-changelog": "catalog:",
     "eslint": "catalog:",
     "husky": "catalog:",
     "js-yaml": "catalog:",
@@ -124,20 +123,15 @@
     "wawoff2": "catalog:"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.0.0"
   },
   "packageManager": "pnpm@10.32.1",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,md,mdx,json}": [
-      "eslint --fix --quiet"
+      "eslint --fix --max-warnings=0"
     ],
     "*.{md,mdx}": [
       "cspell --quiet --no-must-find-files"
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

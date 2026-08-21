@@ -73,7 +73,6 @@ export const technologyInterestWeights = new Map<string, number>([
 ])
 
 // TODO: Replace the curated regex fragments with precompiled literal patterns if this metadata becomes user-editable.
-// eslint-disable-next-line security/detect-non-literal-regexp
 const makePattern = (terms: string[]) => new RegExp(terms.join('|'))
 
 export const technologyInterestPatterns = [

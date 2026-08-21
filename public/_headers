@@ -37,6 +37,7 @@
 
 # ─── Search consolidation ────────────────────────────────────────────────────
 /pdf/cv.pdf
+  Cache-Control: public, max-age=0, must-revalidate
   Link: <https://santi020k.com/resume/>; rel="canonical"
 
 # ─── Security & privacy headers (applied globally) ───────────────────────────

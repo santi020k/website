@@ -129,7 +129,10 @@ const projectItems = projects.map(project => ({
   {projectItems.length > 1 && (
     <div
       class:list={[
-        'grid gap-6 sm:grid-cols-2',
+        `
+          grid gap-6
+          sm:grid-cols-2
+        `,
         projectItems.length > 3 && 'lg:grid-cols-3'
       ]}
     >

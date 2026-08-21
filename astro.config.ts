@@ -30,7 +30,6 @@ import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { siteConfig } from './src/site.config'
-import { getTechnologyPath } from './src/utils/links'
 import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
@@ -51,7 +50,6 @@ const buildContentSitemapMetadata = () => {
     let entries: fs.Dirent[]
 
     try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       entries = fs.readdirSync(dir, { withFileTypes: true })
     } catch {
       return []
@@ -125,7 +123,6 @@ const buildContentSitemapMetadata = () => {
   // Posts: src/content/post/**/<slug>(/index)?.md(x) -> /blog/<slug>/
   for (const file of walk(path.resolve('src/content/post'))) {
     try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       const raw = fs.readFileSync(file, 'utf8')
       const match = frontmatterRegex.exec(raw)
 
@@ -153,7 +150,6 @@ const buildContentSitemapMetadata = () => {
   // Projects: src/content/project/<slug>(/index)?.md(x) -> /portfolio/<slug>/
   for (const file of walk(path.resolve('src/content/project'))) {
     try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       const raw = fs.readFileSync(file, 'utf8')
       const match = frontmatterRegex.exec(raw)
 
@@ -181,68 +177,19 @@ const {
   nonCanonicalPageUrls
 } = buildContentSitemapMetadata()
 
-const buildLegacyRedirects = (): Record<string, string> => {
-  const redirects: Record<string, string> = {
-    '/blog/content-calendar/': '/blog/',
-    '/blog/tags/hombrew/': '/blog/tags/homebrew/'
-  }
-
-  const projectDirectory = path.resolve('src/content/project')
-
-  const walk = (directory: string): string[] => {
-    let entries: fs.Dirent[]
-
-    try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
-      entries = fs.readdirSync(directory, { withFileTypes: true })
-    } catch {
-      return []
-    }
-
-    return entries.flatMap(entry => {
-      const entryPath = path.join(directory, entry.name)
-
-      if (entry.isDirectory()) return walk(entryPath)
-
-      return entry.isFile() && /\.mdx?$/.test(entry.name) ? [entryPath] : []
-    })
-  }
-
-  for (const file of walk(projectDirectory)) {
-    try {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
-      const raw = fs.readFileSync(file, 'utf8')
-      const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw)
-
-      if (!match) continue
-
-      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
-
-      if (!data || data.draft === true || !Array.isArray(data.technologies)) continue
-
-      for (const technology of data.technologies) {
-        if (typeof technology !== 'string') continue
-
-        const legacyPath = `/technologies/${encodeURIComponent(technology)}/`
-        const canonicalPath = getTechnologyPath(technology)
-
-        if (legacyPath !== canonicalPath) Object.assign(redirects, { [legacyPath]: canonicalPath })
-      }
-    } catch {
-      /* ignore unreadable files */
-    }
-  }
-
-  return redirects
+// Keep only redirects that must work in Astro's local preview. The larger set
+// of legacy technology URLs is emitted as real HTTP 301 rules for production
+// by generate-cloudflare-redirects.mjs. Adding those routes here would also
+// create hundreds of static redirect documents that crawlers can rediscover.
+const legacyRedirects: Record<string, string> = {
+  '/blog/content-calendar/': '/blog/',
+  '/blog/tags/hombrew/': '/blog/tags/homebrew/'
 }
-
-const legacyRedirects = buildLegacyRedirects()
 
 const rawFonts = (ext: string[]) => ({
   name: 'vite-plugin-raw-fonts',
   transform(_: string, id: string) {
     if (ext.some(e => id.endsWith(e))) {
-      // eslint-disable-next-line security/detect-non-literal-fs-filename
       const buffer = fs.readFileSync(id)
 
       return {

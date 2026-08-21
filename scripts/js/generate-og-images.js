@@ -1,4 +1,4 @@
-/* eslint-disable security/detect-unsafe-regex, @stylistic/max-len, @stylistic/lines-around-comment -- TODO: Split the OG card templates and SVG/CSS literals into smaller template modules so this generated asset script can use the normal lint rules. */
+/* eslint-disable @stylistic/max-len, @stylistic/lines-around-comment -- TODO: Split the OG card templates and SVG/CSS literals into smaller template modules so this generated asset script can use the normal lint rules. */
 /**
  * Pre-build OG image generator.
  *

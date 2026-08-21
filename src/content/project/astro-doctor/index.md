@@ -1,6 +1,8 @@
 ---
 title: "Astro Doctor"
 description: "Built a deterministic Astro health-check toolkit with a CLI, ESLint plugin, editor extension, GitHub Action, docs site, and installable agent skills."
+seoTitle: "Astro Doctor: Astro Code Quality Toolkit"
+seoDescription: "Explore Astro Doctor, a CLI, ESLint plugin, editor extension, and GitHub Action for catching Astro performance, accessibility, and security issues."
 role: "Creator"
 startingDate: "1 Jan 2026"
 githubUrl: "https://github.com/santi020k/astro-doctor"
@@ -65,3 +67,5 @@ The tool scans `.astro` files and project configuration for patterns that affect
 ### Why it matters
 
 Astro is fast by default, but defaults only help if the codebase keeps respecting them. Astro Doctor turns the patterns I look for during Astro reviews into repeatable tooling: fast feedback, clear explanations, and standards that can live in the repository instead of only in someone's head.
+
+Read the [Astro Doctor launch story](/blog/astro-doctor-announcement/) for the reasoning behind the toolkit and the workflows it protects.

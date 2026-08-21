@@ -11,6 +11,12 @@ http://www.santi020k.com/*  https://santi020k.com/:splat  301
 https://www.santi020k.com/*  https://santi020k.com/:splat  301
 
 # Retired pages → nearest active destination
+/blog/content-calendar   /blog/  301
+/blog/content-calendar/  /blog/  301
+
+/blog/tags/hombrew   /blog/tags/homebrew/  301
+/blog/tags/hombrew/  /blog/tags/homebrew/  301
+
 /uses   /about/  301
 /uses/  /about/  301
 /uses/* /about/  301

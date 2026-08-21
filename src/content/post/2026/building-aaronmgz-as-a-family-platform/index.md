@@ -13,6 +13,8 @@ Some projects begin with a market gap. Aaronmgz began with a person.
 
 I wanted to create a personal space on the web for my son, Aaron: something playful enough to feel like his, useful enough to support family moments now, and flexible enough to keep changing as he grows.
 
+That same family chapter later inspired [Between Contractions](/blog/why-i-built-between-contractions/), a separate privacy-first timer built to support the practical side of preparing for his arrival.
+
 The first version could have been a single static page. Instead, the idea quickly became a useful architecture question:
 
 How do you build a family platform without making it feel like enterprise software?

@@ -5,6 +5,7 @@ const lightModePref = window.matchMedia('(prefers-color-scheme: light)')
 const getStoredTheme = () => {
   try {
     const storedTheme = typeof localStorage !== 'undefined' && localStorage.getItem('theme')
+
     return storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : null
   } catch {
     return null
@@ -23,7 +24,6 @@ const setTheme = newTheme => {
   }
 
   const root = document.documentElement
-
   const themeChanged = newTheme !== root.getAttribute('data-theme')
 
   if (themeChanged) {
@@ -34,6 +34,7 @@ const setTheme = newTheme => {
 
   document.querySelectorAll('[data-ui-theme-toggle]').forEach(control => {
     control.setAttribute('aria-pressed', String(newTheme === 'dark'))
+
     control.setAttribute('data-ui-theme', newTheme)
   })
 
@@ -46,11 +47,11 @@ const setTheme = newTheme => {
     if (bgColor) {
       colorThemeMetaTags.forEach(metaTag => {
         metaTag.setAttribute('content', `hsl(${bgColor})`)
+
         metaTag.removeAttribute('media')
       })
     }
   })
-
 }
 
 // initial setup
@@ -69,7 +70,9 @@ document.addEventListener('ui:theme-change', e => {
 // theme); a saved preference takes precedence over the OS toggling.
 lightModePref.addEventListener('change', e => {
   const hasStoredTheme = Boolean(getStoredTheme())
+
   if (hasStoredTheme) return
+
   setTheme(e.matches ? 'light' : 'dark')
 })
 </script>

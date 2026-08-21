@@ -1,6 +1,8 @@
 ---
 title: "Void.GG"
 description: "Led architecture and delivery for a fast-moving esports platform across web, mobile, and backend systems, improving performance, release speed, and team velocity."
+seoTitle: "Void.GG: Esports Platform Engineering"
+seoDescription: "See how I led architecture and delivery for Void.GG across web, mobile, and backend systems while improving performance, release speed, and team flow."
 role: "Technical Lead"
 startingDate: "1 Feb 2023"
 endingDate: "1 May 2025"

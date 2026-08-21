@@ -476,11 +476,17 @@ class SiteHeaderMobileNav extends HTMLElement {
 
   connectedCallback() {
     this.root = this.querySelector('[data-mobile-nav]')
+
     this.toggle = this.querySelector('[data-mobile-nav-toggle]')
+
     this.toggleLabel = this.querySelector('[data-mobile-nav-toggle-label]')
+
     this.menuIcon = this.querySelector('[data-mobile-nav-menu-icon]')
+
     this.closeIcon = this.querySelector('[data-mobile-nav-close-icon]')
+
     this.backdrop = this.querySelector('[data-mobile-nav-backdrop]')
+
     this.panel = this.querySelector('[data-mobile-nav-panel]')
 
     if (
@@ -496,12 +502,19 @@ class SiteHeaderMobileNav extends HTMLElement {
     }
 
     this.toggle.addEventListener('click', this.handleToggleClick)
+
     this.backdrop.addEventListener('click', this.handleBackdropClick)
+
     this.panel.addEventListener('click', this.handlePanelClick)
+
     window.addEventListener('keydown', this.handleWindowKeydown)
+
     window.addEventListener('resize', this.handleWindowResize, { passive: true })
+
     window.addEventListener('pageshow', this.handlePageShow)
+
     document.addEventListener('astro:before-preparation', this.handleAstroPreparation)
+
     document.addEventListener('astro:page-load', this.handleAstroPreparation)
 
     this.sync()
@@ -509,12 +522,19 @@ class SiteHeaderMobileNav extends HTMLElement {
 
   disconnectedCallback() {
     this.toggle?.removeEventListener('click', this.handleToggleClick)
+
     this.backdrop?.removeEventListener('click', this.handleBackdropClick)
+
     this.panel?.removeEventListener('click', this.handlePanelClick)
+
     window.removeEventListener('keydown', this.handleWindowKeydown)
+
     window.removeEventListener('resize', this.handleWindowResize)
+
     window.removeEventListener('pageshow', this.handlePageShow)
+
     document.removeEventListener('astro:before-preparation', this.handleAstroPreparation)
+
     document.removeEventListener('astro:page-load', this.handleAstroPreparation)
 
     this.toggleScrollLock(false)
@@ -523,6 +543,7 @@ class SiteHeaderMobileNav extends HTMLElement {
   handleToggleClick = () => {
     if (this.isOpen) {
       this.closeMenu()
+
       return
     }
 
@@ -567,6 +588,7 @@ class SiteHeaderMobileNav extends HTMLElement {
   handleWindowKeydown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       this.closeMenu()
+
       return
     }
 
@@ -595,12 +617,15 @@ class SiteHeaderMobileNav extends HTMLElement {
     }
 
     this.isOpen = true
+
     // Remove any stale closing state before showing
     this.panel?.removeAttribute('data-nav-closing')
+
     this.sync()
 
     window.requestAnimationFrame(() => {
       const firstLink = this.panel?.querySelector('a[href]')
+
       if (firstLink instanceof HTMLElement) {
         firstLink.focus({ preventScroll: true })
       }
@@ -609,6 +634,7 @@ class SiteHeaderMobileNav extends HTMLElement {
 
   closeMenu({ restoreFocus = true } = {}) {
     const wasOpen = this.isOpen
+
     this.isOpen = false
 
     if (wasOpen && this.panel instanceof HTMLElement && !this.panel.hidden) {
@@ -618,11 +644,15 @@ class SiteHeaderMobileNav extends HTMLElement {
       const finishClose = () => {
         if (this.panel instanceof HTMLElement) {
           this.panel.removeAttribute('data-nav-closing')
+
           this.panel.hidden = true
+
           this.panel.setAttribute('aria-hidden', 'true')
         }
       }
+
       this.panel.addEventListener('animationend', finishClose, { once: true })
+
       setTimeout(finishClose, 250)
 
       // Update everything else immediately
@@ -648,10 +678,15 @@ class SiteHeaderMobileNav extends HTMLElement {
     }
 
     this.toggle.setAttribute('aria-expanded', String(isOpen))
+
     this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
+
     this.menuIcon.hidden = isOpen
+
     this.closeIcon.hidden = !isOpen
+
     this.backdrop.hidden = !isOpen
+
     this.toggleScrollLock(isOpen)
   }
 
@@ -671,12 +706,19 @@ class SiteHeaderMobileNav extends HTMLElement {
     const isOpen = this.isOpen
 
     this.toggle.setAttribute('aria-expanded', String(isOpen))
+
     this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
+
     this.menuIcon.hidden = isOpen
+
     this.closeIcon.hidden = !isOpen
+
     this.backdrop.hidden = !isOpen
+
     this.panel.hidden = !isOpen
+
     this.panel.setAttribute('aria-hidden', String(!isOpen))
+
     this.toggleScrollLock(isOpen)
   }
 
@@ -702,24 +744,30 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     if (!(activeElement instanceof HTMLElement) || !this.panel.contains(activeElement)) {
       event.preventDefault()
+
       firstElement.focus({ preventScroll: true })
+
       return
     }
 
     if (event.shiftKey && activeElement === firstElement) {
       event.preventDefault()
+
       lastElement.focus({ preventScroll: true })
+
       return
     }
 
     if (!event.shiftKey && activeElement === lastElement) {
       event.preventDefault()
+
       firstElement.focus({ preventScroll: true })
     }
   }
 
   toggleScrollLock(locked: boolean) {
     document.documentElement.classList.toggle('mobile-nav-open', locked)
+
     document.body.classList.toggle('mobile-nav-open', locked)
   }
 }
@@ -730,12 +778,15 @@ if (!customElements.get('site-header-mobile-nav')) {
 
 const updateHeaderScrollState = () => {
   const shell = document.querySelector<HTMLElement>('[data-header-shell]')
+
   if (shell) {
     shell.dataset.scrolled = String(window.scrollY > 10)
   }
 }
 
 window.addEventListener('scroll', updateHeaderScrollState, { passive: true })
+
 document.addEventListener('astro:page-load', updateHeaderScrollState)
+
 updateHeaderScrollState()
 </script>

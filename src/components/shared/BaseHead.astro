@@ -44,8 +44,9 @@ const websiteJsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#website`,
+  alternateName: 'santi020k',
   inLanguage: siteConfig.lang,
-  name: siteConfig.title,
+  name: siteConfig.author,
   potentialAction: {
     '@type': 'SearchAction',
     target: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={search_term_string}`,

@@ -1,7 +1,9 @@
 ---
 title: "What Is New in @santi020k/eslint-config-basic v2.0"
-description: "A practical tour of the shipped @santi020k/eslint-config-basic v2.0 release: ESLint 10, one main install, lazy frameworks, lite mode, monorepos, CLI checks, and AI standards."
+description: "Explore @santi020k/eslint-config-basic v2 with ESLint 10, one-package setup, lazy framework support, monorepo tooling, lite mode, and CLI checks."
 publishDate: "2026-06-20T15:00:00.000Z"
+updatedDate: "2026-08-20T00:00:00.000Z"
+seoTitle: "ESLint Config Basic v2: ESLint 10 & Frameworks"
 coverImage:
   alt: "Editorial cover showing modular ESLint configuration blocks, checks, docs, and framework nodes connected into one toolkit"
   src: "./cover.webp"

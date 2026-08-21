@@ -257,26 +257,36 @@ const contactChannels = [
   )}
 
 <script>
-  function setupCopyEmail() {
-    document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((btn) => {
+  const setupCopyEmail = function () {
+    document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach(btn => {
       btn.addEventListener('click', async () => {
         const email = btn.dataset.copyEmail
+
         if (!email) return
 
         try {
           await navigator.clipboard.writeText(email)
+
           const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
           const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
           const announce = btn.parentElement?.querySelector<HTMLElement>('[data-copy-announce]')
+
           if (copyIcon && checkIcon) {
             copyIcon.classList.add('hidden')
+
             checkIcon.classList.remove('hidden')
+
             btn.setAttribute('aria-label', 'Copied!')
+
             if (announce) announce.textContent = 'Email address copied!'
+
             setTimeout(() => {
               copyIcon.classList.remove('hidden')
+
               checkIcon.classList.add('hidden')
+
               btn.setAttribute('aria-label', 'Copy email address')
+
               if (announce) announce.textContent = ''
             }, 2000)
           }
@@ -288,5 +298,6 @@ const contactChannels = [
   }
 
   setupCopyEmail()
+
   document.addEventListener('astro:after-swap', setupCopyEmail)
 </script>

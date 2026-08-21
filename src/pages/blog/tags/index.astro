@@ -208,10 +208,12 @@ const breadcrumbs = [
             const matches = !query || (item.dataset.label ?? '').toLocaleLowerCase().includes(query)
 
             item.hidden = !matches
+
             if (matches) visibleCount += 1
           })
 
           empty.hidden = visibleCount > 0
+
           status.textContent = query ?
             `${visibleCount} ${visibleCount === 1 ? 'topic' : 'topics'} found.` :
             `Showing all ${items.length} topics.`
@@ -221,8 +223,11 @@ const breadcrumbs = [
           queueMicrotask(() => {
             btns.forEach(button => {
               const isActive = button === active
+
               button.classList.toggle('pagination-btn--active', isActive)
+
               button.classList.toggle('ui-toggle--pressed', isActive)
+
               button.setAttribute('aria-pressed', String(isActive))
             })
           })
@@ -232,13 +237,12 @@ const breadcrumbs = [
           btn.addEventListener('click', () => {
             const sort = btn.getAttribute('data-sort-btn')
 
-            items.sort((a, b) =>
-              sort === 'alpha'
-                ? (a.dataset.label ?? '').localeCompare(b.dataset.label ?? '')
-                : Number(b.dataset.count) - Number(a.dataset.count)
-            )
+            items.sort((a, b) => sort === 'alpha' ?
+              (a.dataset.label ?? '').localeCompare(b.dataset.label ?? '') :
+              Number(b.dataset.count) - Number(a.dataset.count))
 
             items.forEach(item => list.appendChild(item))
+
             setActive(btn)
           })
         })
