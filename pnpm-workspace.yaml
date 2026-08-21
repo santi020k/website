@@ -28,7 +28,7 @@ catalog:
   "@santi020k/eslint-config-full": 3.1.0
   "@santi020k/lumen-astro": 1.0.0
   "@santi020k/theme": ^1.2.0
-  "@shikijs/transformers": ^4.3.1
+  "@shikijs/transformers": ^4.4.3
   "@tailwindcss/typography": ^0.5.20
   "@tailwindcss/vite": ^4.3.3
   "@testing-library/dom": ^10.4.1
