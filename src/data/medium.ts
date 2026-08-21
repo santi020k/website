@@ -27,21 +27,24 @@ interface RawMediumItem {
 
 let mediumPostsPromise: Promise<MediumPost[]> | undefined
 
-export const decodeHtmlEntities = (value: string) => value
+const decodeHtmlEntities = (value: string) => value
   .replaceAll('&nbsp;', ' ')
   .replaceAll('&quot;', '"')
   .replaceAll('&#39;', '\'')
   .replaceAll('&amp;', '&')
 
-const stripHtml = (value: string) => decodeHtmlEntities(
-  value
-    .replaceAll(/<figcaption[\s\S]*?<\/figcaption>/gi, ' ')
-    .replaceAll(/<pre[\s\S]*?<\/pre>/gi, ' ')
-    .replaceAll(/<code[\s\S]*?<\/code>/gi, ' ')
-    .replaceAll(/<[^>]+>/g, ' ')
-)
+const stripMarkup = (value: string) => value
+  .replaceAll(/<figcaption[\s\S]*?<\/figcaption>/gi, ' ')
+  .replaceAll(/<pre[\s\S]*?<\/pre>/gi, ' ')
+  .replaceAll(/<code[\s\S]*?<\/code>/gi, ' ')
+  .replaceAll(/<[^>]+>/g, ' ')
+
+const normaliseWhitespace = (value: string) => value
   .replaceAll(/\s+/g, ' ')
   .trim()
+
+const stripHtml = (value: string) => normaliseWhitespace(decodeHtmlEntities(stripMarkup(value)))
+const normaliseParsedText = (value: string) => normaliseWhitespace(stripMarkup(value))
 
 const extractImageUrl = (html: string) => {
   const doubleQuoteMatch = (/<img[^>]+src="([^"]+)"/i.exec(html))?.[1]
@@ -116,7 +119,7 @@ const formatPublicationName = (hostname: string) => hostname
   .join(' ')
 
 const normalisePost = (item: RawMediumItem, index: number): MediumPost => {
-  const title = stripHtml(item.title ?? '')
+  const title = normaliseParsedText(item.title ?? '')
   const link = (item.link ?? '').trim()
   const content = item['content:encoded'] ?? ''
 
@@ -136,18 +139,18 @@ const normalisePost = (item: RawMediumItem, index: number): MediumPost => {
 
   const tagsValue = (() => {
     if (Array.isArray(item.category)) {
-      return item.category.map(category => stripHtml(category))
+      return item.category.map(category => normaliseParsedText(category))
     }
 
     if (item.category) {
-      return [stripHtml(item.category)]
+      return [normaliseParsedText(item.category)]
     }
 
     return []
   })()
 
   return {
-    author: stripHtml(item['dc:creator'] ?? siteConfig.author),
+    author: normaliseParsedText(item['dc:creator'] ?? siteConfig.author),
     excerpt: extractExcerpt(content),
     guid: guidValue,
     imageUrl: extractImageUrl(content),

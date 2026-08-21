@@ -34,26 +34,32 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          should_run=false
+          run_checks=false
+          run_full=false
 
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            should_run=true
+            run_checks=true
+            run_full=true
           else
             git diff --no-renames --name-only --diff-filter=ACDMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
             while IFS= read -r path; do
               case "$path" in
                 src/*|public/*|scripts/*|tests/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|cspell.config.*|eslint.config.*|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|.markdownlint-cli2.*|.npmrc|.github/workflows/build.yml)
-                  should_run=true
-                  break
+                  run_checks=true
+                  run_full=true
+                  ;;
+                *.md|*.mdx)
+                  run_checks=true
                   ;;
               esac
             done < "$RUNNER_TEMP/changed-files"
           fi
 
-          echo "run=$should_run" >> "$GITHUB_OUTPUT"
+          echo "checks=$run_checks" >> "$GITHUB_OUTPUT"
+          echo "full=$run_full" >> "$GITHUB_OUTPUT"
 
       - name: Run Astro Doctor on the changed code
-        if: steps.changes.outputs.run == 'true' && github.event_name == 'pull_request'
+        if: steps.changes.outputs.full == 'true' && github.event_name == 'pull_request'
         uses: santi020k/astro-doctor@15c01314c0601c88fb087946f9238f018e76589c # v1
         with:
           comment: 'false'
@@ -61,32 +67,36 @@ jobs:
           fail-on: warning
 
       - name: Set up pnpm
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.checks == 'true'
         uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
           version: 10.32.1
 
       - name: Set up Node.js
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.checks == 'true'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 24.x
           cache: pnpm
 
       - name: Install dependencies
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.checks == 'true'
         run: pnpm install --frozen-lockfile
 
+      - name: Check documentation
+        if: steps.changes.outputs.checks == 'true' && steps.changes.outputs.full != 'true'
+        run: pnpm run spellcheck && pnpm run lint:md
+
       - name: Run static checks and unit tests
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.full == 'true'
         run: pnpm run verify:quality
 
       - name: Audit dependencies
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.full == 'true'
         run: pnpm run audit
 
       - name: Cache pre-rendered OG images
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.full == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: public/og
@@ -96,13 +106,13 @@ jobs:
             og-${{ runner.os }}-
 
       - name: Build production site
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.full == 'true'
         run: pnpm run build
         env:
           PUBLIC_IS_CI: true
 
       - name: Cache Playwright browser
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.full == 'true'
         id: playwright-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
@@ -110,19 +120,19 @@ jobs:
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install Chromium browser
-        if: steps.changes.outputs.run == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
+        if: steps.changes.outputs.full == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Install Chromium system dependencies
-        if: steps.changes.outputs.run == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
+        if: steps.changes.outputs.full == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
         run: pnpm exec playwright install-deps chromium
 
       - name: Run stable browser tests
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.full == 'true'
         run: pnpm run test:e2e:ci:stable
 
       - name: Run Lighthouse assertions
-        if: steps.changes.outputs.run == 'true'
+        if: steps.changes.outputs.full == 'true'
         run: pnpm exec lhci autorun --config=.lighthouserc.json
 
       - name: Upload browser diagnostics on failure
