@@ -1,6 +1,7 @@
 version: "0.2"
 language: en,es
 words:
+  - Aarón
   - abgerufen
   - accesslint
   - Ackerbaus
@@ -19,6 +20,7 @@ words:
   - Ausführen
   - ausgewählt
   - autodocs
+  - doula
   - autolinks
   - automations
   - automatisch
@@ -157,6 +159,7 @@ words:
   - Pantone
   - Passwort
   - pingback
+  - preflights
   - PINGBACK
   - pretium
   - Profilbild
