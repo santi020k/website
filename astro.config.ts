@@ -30,7 +30,6 @@ import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { siteConfig } from './src/site.config'
-import { getTechnologyPath } from './src/utils/links'
 import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
@@ -178,60 +177,14 @@ const {
   nonCanonicalPageUrls
 } = buildContentSitemapMetadata()
 
-const buildLegacyRedirects = (): Record<string, string> => {
-  const redirects: Record<string, string> = {
-    '/blog/content-calendar/': '/blog/',
-    '/blog/tags/hombrew/': '/blog/tags/homebrew/'
-  }
-
-  const projectDirectory = path.resolve('src/content/project')
-
-  const walk = (directory: string): string[] => {
-    let entries: fs.Dirent[]
-
-    try {
-      entries = fs.readdirSync(directory, { withFileTypes: true })
-    } catch {
-      return []
-    }
-
-    return entries.flatMap(entry => {
-      const entryPath = path.join(directory, entry.name)
-
-      if (entry.isDirectory()) return walk(entryPath)
-
-      return entry.isFile() && /\.mdx?$/.test(entry.name) ? [entryPath] : []
-    })
-  }
-
-  for (const file of walk(projectDirectory)) {
-    try {
-      const raw = fs.readFileSync(file, 'utf8')
-      const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw)
-
-      if (!match) continue
-
-      const data = loadYaml(match[1] ?? '') as Record<string, unknown> | null
-
-      if (!data || data.draft === true || !Array.isArray(data.technologies)) continue
-
-      for (const technology of data.technologies) {
-        if (typeof technology !== 'string') continue
-
-        const legacyPath = `/technologies/${encodeURIComponent(technology)}/`
-        const canonicalPath = getTechnologyPath(technology)
-
-        if (legacyPath !== canonicalPath) Object.assign(redirects, { [legacyPath]: canonicalPath })
-      }
-    } catch {
-      /* ignore unreadable files */
-    }
-  }
-
-  return redirects
+// Keep only redirects that must work in Astro's local preview. The larger set
+// of legacy technology URLs is emitted as real HTTP 301 rules for production
+// by generate-cloudflare-redirects.mjs. Adding those routes here would also
+// create hundreds of static redirect documents that crawlers can rediscover.
+const legacyRedirects: Record<string, string> = {
+  '/blog/content-calendar/': '/blog/',
+  '/blog/tags/hombrew/': '/blog/tags/homebrew/'
 }
-
-const legacyRedirects = buildLegacyRedirects()
 
 const rawFonts = (ext: string[]) => ({
   name: 'vite-plugin-raw-fonts',

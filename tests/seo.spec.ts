@@ -60,6 +60,15 @@ test.describe('SEO — meta tags', () => {
     )
   })
 
+  test('resume links keep one stable canonical PDF URL', async ({ page }) => {
+    await page.goto('/resume/')
+
+    const pdfLinks = page.locator('a[href="/pdf/cv.pdf"]')
+
+    await expect(pdfLinks).toHaveCount(2)
+    await expect(page.locator('a[href^="/pdf/cv.pdf?"]')).toHaveCount(0)
+  })
+
   test('homepage has a valid og:image pointing to the generated PNG', async ({ page }) => {
     await page.goto('/')
 

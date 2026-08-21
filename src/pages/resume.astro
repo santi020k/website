@@ -11,7 +11,9 @@ import { AUTHOR_JOB_TITLE, siteConfig } from '@/site.config'
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const workProjects = allProjects.filter(p => p.data.typesId === 'professional').slice(0, 4)
 const personalProjects = allProjects.filter(p => p.data.typesId === 'personal').slice(0, 4)
-const resumePdfPath = `/pdf/cv.pdf?v=${Date.now()}`
+// Keep one crawlable PDF URL across deployments. The response revalidates at
+// the edge, so cache busting does not need to create a new query URL per build.
+const resumePdfPath = '/pdf/cv.pdf'
 
 const resumePageSchema = {
   '@context': 'https://schema.org',
