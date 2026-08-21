@@ -25,7 +25,7 @@ Personal website, blog, and portfolio of **Santiago Molina** — Full Stack Deve
 - **Accessibility First**: WCAG 2.2 AA compliant, validated with axe in E2E tests.
 - **View Transitions**: Seamless, app-like navigation between pages.
 - **Generated Assets**: Favicons, OG images, fonts, and brand assets built from scripts — no stale binaries.
-- **Quality Gates**: [Astro Doctor](https://github.com/santi020k/astro-doctor), ESLint (via [`@santi020k/eslint-config-full`](https://github.com/santi020k/eslint-config-basic)), dependency audit, Vitest, Playwright, Lighthouse CI, and CodeQL share one path-aware pull-request job. A monthly CodeQL scan catches newly published queries without rebuilding the site after every merge.
+- **Quality Gates**: [Astro Doctor](https://github.com/santi020k/astro-doctor), ESLint (via [`@santi020k/eslint-config-full`](https://github.com/santi020k/eslint-config-basic)), dependency audit, Vitest, Playwright, and Lighthouse CI share one read-only, path-aware pull-request job. A monthly CodeQL scan checks the protected default branch without granting write permissions to pull-request code.
 
 ---
 

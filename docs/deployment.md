@@ -31,7 +31,7 @@ The site uses GitHub Flow and has one production branch:
 
 1. Create a feature or fix branch from `main`.
 2. Open a pull request into `main`. GitHub Actions validates the pull request:
-   - Astro Doctor and CodeQL
+   - Astro Doctor
    - lint, Astro type-check, Markdown/content checks, and spellcheck
    - dependency audit and unit tests
    - production build, stable Chromium E2E, and Lighthouse assertions
@@ -65,8 +65,9 @@ they should appear in a release. GitHub Releases remain deployment markers, not
 a second deployment gate, and the workflow never publishes the private website
 package to npm.
 
-CodeQL runs inside the path-aware pull-request gate, monthly, and on demand.
-The dependency audit reuses the same pull-request dependency installation.
+CodeQL runs monthly and on demand against the protected default branch. The
+pull-request job stays read-only, and the dependency audit reuses its single
+dependency installation.
 
 ## Pre-release local validation
 

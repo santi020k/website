@@ -13,8 +13,6 @@ concurrency:
 permissions:
   actions: read
   contents: read
-  pull-requests: write
-  security-events: write
 
 jobs:
   quality:
@@ -26,6 +24,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Detect build-affecting changes
         id: changes
@@ -53,17 +52,11 @@ jobs:
 
           echo "run=$should_run" >> "$GITHUB_OUTPUT"
 
-      - name: Initialize CodeQL
-        if: steps.changes.outputs.run == 'true'
-        uses: github/codeql-action/init@ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd # v4
-        with:
-          languages: javascript-typescript
-
       - name: Run Astro Doctor on the changed code
         if: steps.changes.outputs.run == 'true' && github.event_name == 'pull_request'
         uses: santi020k/astro-doctor@15c01314c0601c88fb087946f9238f018e76589c # v1
         with:
-          comment: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+          comment: 'false'
           diff-only: 'true'
           fail-on: warning
 
@@ -131,12 +124,6 @@ jobs:
       - name: Run Lighthouse assertions
         if: steps.changes.outputs.run == 'true'
         run: pnpm exec lhci autorun --config=.lighthouserc.json
-
-      - name: Analyze source with CodeQL
-        if: steps.changes.outputs.run == 'true'
-        uses: github/codeql-action/analyze@ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd # v4
-        with:
-          category: /language:javascript-typescript
 
       - name: Upload browser diagnostics on failure
         if: failure()
