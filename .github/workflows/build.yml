@@ -40,10 +40,10 @@ jobs:
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             should_run=true
           else
-            git diff --name-only --diff-filter=ACMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
+            git diff --name-only --diff-filter=ACDMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
             while IFS= read -r path; do
               case "$path" in
-                src/*|public/*|scripts/*|tests/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|eslint.config.*|playwright.config.*|tsconfig.json|.lighthouserc*.json|.github/workflows/build.yml)
+                src/*|public/*|scripts/*|tests/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|eslint.config.*|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|.github/workflows/build.yml)
                   should_run=true
                   break
                   ;;
