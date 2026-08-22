@@ -22,8 +22,9 @@ catalog:
   "@playwright/test": ^1.62.0
   "@resvg/resvg-js": ^2.6.2
   "@santi020k/commitprompt": ^1.0.0
-  "@santi020k/eslint-config-full": 3.1.0
-  "@santi020k/lumen-astro": 1.0.0
+  "@santi020k/eslint-config-full": 3.2.0
+  "@santi020k/lumen-astro": 1.2.0
+  "@santi020k/og": ^0.4.0
   "@santi020k/theme": ^1.2.0
   "@shikijs/transformers": ^4.3.1
   "@tailwindcss/typography": ^0.5.20
@@ -42,7 +43,6 @@ catalog:
   eslint: ^10.8.0
   fast-xml-parser: ^5.10.1
   hastscript: ^9.0.1
-  husky: ^9.1.7
   js-yaml: ^4.3.1
   jsdom: ^29.1.1
   lint-staged: ^17.2.0
@@ -69,6 +69,10 @@ catalog:
   vitest: ^4.1.10
   wawoff2: ^2.0.1
 minimumReleaseAgeExclude:
+  - "@santi020k/og"
+  - "@santi020k/lumen-astro@1.2.0"
+  - "@santi020k/lumen-core@1.2.0"
+  - "@santi020k/lumen@1.2.0"
   - "@santi020k/eslint-config-typescript"
 overrides:
   # Keep legacy build and release tooling on patched transitive versions until

@@ -18,34 +18,16 @@
  * `min(16, os.availableParallelism())`).
  */
 
-import fs, { promises as fsp } from 'node:fs'
-import os from 'node:os'
+import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { Worker } from 'node:worker_threads'
 
+import { definePresetConfig } from '@santi020k/og/presets'
 import yaml from 'js-yaml'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..')
 const OUT_DIR = path.join(ROOT, 'public', 'og')
-const WORKER_SCRIPT = new URL('./og-render-worker.mjs', import.meta.url)
-const FORCE = process.env.FORCE_OG === '1'
-
-/** @returns {number} Positive worker count before clamping to job count. */
-const getConfiguredWorkerThreads = () => {
-  const raw = process.env.OG_WORKER_THREADS
-
-  if (raw !== undefined && raw !== '') {
-    const n = Number.parseInt(raw, 10)
-
-    if (Number.isFinite(n) && n > 0) return Math.min(n, 32)
-  }
-
-  // Use more cores by default on modern laptops/desktops; users can still cap via OG_WORKER_THREADS.
-  return Math.min(16, os.availableParallelism())
-}
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -478,199 +460,25 @@ export const collectSpecs = () => {
   return specs
 }
 
-// ---------------------------------------------------------------------------
-// Worker pool (one Satori/Resvg pipeline per thread)
-// ---------------------------------------------------------------------------
-
-class OgRenderPool {
-  /** @param {number} workerCount */
-  constructor(workerCount) {
-    this.workerCount = workerCount
-
-    /** @type {Worker[]} */
-    this.workers = []
-
-    /** @type {Worker[]} */
-    this.available = []
-
-    /** @type {Array<{ props: object, resolve: (b: Buffer) => void, reject: (e: Error) => void }>} */
-    this.waiting = []
-
-    /** @type {Map<number, { resolve: (b: Buffer) => void, reject: (e: Error) => void, worker: Worker }>} */
-    this.inFlight = new Map()
-
-    this.nextId = 1
-  }
-
-  async start() {
-    for (let i = 0; i < this.workerCount; i++) {
-      const w = new Worker(WORKER_SCRIPT, { type: 'module' })
-
-      w.on('message', msg => this.onMessage(w, msg))
-
-      w.on('error', err => this.onWorkerError(w, err))
-
-      this.workers.push(w)
-
-      this.available.push(w)
-    }
-  }
-
-  /**
-   * @param {Worker} worker
-   * @param {{ id: number, ok: true, buffer: ArrayBuffer } | { id: number, ok: false, message?: string }} msg
-   */
-  onMessage(worker, msg) {
-    const entry = this.inFlight.get(msg.id)
-
-    if (!entry) return
-
-    this.inFlight.delete(msg.id)
-
-    this.available.push(worker)
-
-    if (msg.ok) {
-      entry.resolve(Buffer.from(msg.buffer))
-    } else {
-      entry.reject(new Error(msg.message ?? 'OG worker render failed'))
-    }
-
-    this.pump()
-  }
-
-  /** @param {Worker} worker */
-  onWorkerError(worker, err) {
-    const idx = this.workers.indexOf(worker)
-
-    if (idx !== -1) this.workers.splice(idx, 1)
-
-    for (const [id, entry] of this.inFlight) {
-      if (entry.worker === worker) {
-        this.inFlight.delete(id)
-
-        entry.reject(err instanceof Error ? err : new Error(String(err)))
-
-        break
-      }
-    }
-
-    this.pump()
-  }
-
-  pump() {
-    while (this.waiting.length > 0 && this.available.length > 0) {
-      const job = this.waiting.shift()
-      const worker = this.available.pop()
-      const id = this.nextId++
-
-      if (!job || !worker) break
-
-      this.inFlight.set(id, {
-        resolve: job.resolve,
-        reject: job.reject,
-        worker
-      })
-
-      worker.postMessage({ id, props: job.props })
-    }
-  }
-
-  /** @param {object} props */
-  render(props) {
-    return new Promise((resolve, reject) => {
-      this.waiting.push({ props, resolve, reject })
-
-      this.pump()
-    })
-  }
-
-  async shutdown() {
-    await Promise.all(this.workers.map(w => w.terminate()))
-
-    this.workers = []
-
-    this.available = []
-  }
-}
-
-/**
- * @param {OgRenderPool | null} pool
- * @param {{ outFile: string, props: object }} spec
- */
-const generateOne = async (pool, { outFile, props }) => {
-  if (!pool) throw new Error('OG render pool is not initialized')
-
-  const buffer = await pool.render(props)
-
-  await fsp.mkdir(path.dirname(outFile), { recursive: true })
-
-  await fsp.writeFile(outFile, buffer)
-
-  process.stdout.write(`  write ${path.relative(ROOT, outFile)}\n`)
-}
-
-// ---------------------------------------------------------------------------
-// Entry point
-// ---------------------------------------------------------------------------
-
-export const generateAll = async () => {
-  const start = performance.now()
-  const specs = collectSpecs()
-  const technologyPagesDirectory = path.join(OUT_DIR, 'pages')
-
-  const expectedTechnologyFiles = new Set(
-    specs
-      .map(spec => path.basename(spec.outFile))
-      .filter(fileName => fileName.startsWith('technologies--'))
-  )
-
-  if (fs.existsSync(technologyPagesDirectory)) {
-    const staleTechnologyFiles = fs.readdirSync(technologyPagesDirectory)
-      .filter(fileName => fileName.startsWith('technologies--') &&
-        !expectedTechnologyFiles.has(fileName))
-
-    await Promise.all(
-      staleTechnologyFiles.map(fileName => fsp.unlink(path.join(technologyPagesDirectory, fileName)))
-    )
-  }
-
-  const pendingSpecs = FORCE ?
-    specs :
-    specs.filter(s => !fs.existsSync(s.outFile))
-
-  const configured = getConfiguredWorkerThreads()
-  const pendingCount = pendingSpecs.length
-  const poolSize = pendingCount === 0 ? 0 : Math.min(configured, pendingCount)
-  /** @type {OgRenderPool | null} */
-  let pool = null
-
-  try {
-    if (poolSize > 0) {
-      pool = new OgRenderPool(poolSize)
-
-      await pool.start()
-    }
-
-    console.log(
-      `\n🖼  Generating ${pendingCount}/${specs.length} OG images (workers=${poolSize}, ` +
-      `OG_WORKER_THREADS=${process.env.OG_WORKER_THREADS ?? 'default'})…\n`
-    )
-
-    if (pendingCount > 0) {
-      await Promise.all(pendingSpecs.map(spec => generateOne(pool, spec)))
-    }
-  } finally {
-    if (pool) await pool.shutdown()
-  }
-
-  const elapsed = ((performance.now() - start) / 1000).toFixed(2)
-
-  console.log(`\n✅ Done in ${elapsed}s\n`)
-}
-
-if (
-  process.argv[1] &&
-  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
-) {
-  await generateAll()
-}
+export default definePresetConfig({
+  cards: () => collectSpecs().map(({ outFile, props }) => ({
+    data: {
+      badge: props.type,
+      description: props.description,
+      domain: props.pathLabel,
+      ...(props.coverImagePath ? { image: props.coverImagePath } : {}),
+      title: props.title,
+      variant: props.coverImagePath ? 'article' : 'simple'
+    },
+    output: path.relative(OUT_DIR, outFile),
+    ...(props.coverImagePath ? { sources: [props.coverImagePath] } : {})
+  })),
+  clean: true,
+  concurrency: 'auto',
+  outputDirectory: 'public/og',
+  preset: {
+    brand: { domain: 'santi020k.com', name: 'Santiago Molina' },
+    theme: { accent: '#945df4', background: '#0d0718', panel: '#1c1528' }
+  },
+  root: ROOT
+})

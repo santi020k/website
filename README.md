@@ -1,10 +1,12 @@
 # [Santiago Molina](https://santi020k.com/)
 
+[Website](https://santi020k.com) · [Portfolio](https://santi020k.com/portfolio/) ·
+[Blog](https://santi020k.com/blog/) · [Resume](https://santi020k.com/resume/) ·
+[Documentation](docs) · [Changelog](CHANGELOG.md)
+
 [![CI](https://github.com/santi020k/website/actions/workflows/build.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/build.yml)
 [![CodeQL](https://github.com/santi020k/website/actions/workflows/codeql.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/codeql.yml)
 [![License: Source-Available](https://img.shields.io/badge/license-source--available-orange.svg)](./LICENSE)
-
-![Santi020k Logo](./src/assets/brand/logos/logo-santi020k.webp)
 
 ## I build fast, accessible products and stronger frontend systems.
 

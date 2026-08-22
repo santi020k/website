@@ -2,6 +2,7 @@
   "name": "website",
   "version": "3.2.0",
   "private": true,
+  "description": "Engineering portfolio and blog by Santiago Molina.",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
@@ -17,8 +18,9 @@
     "generate:fonts:py": "python3 scripts/py/generate-fonts.py",
     "pregenerate:cv": "pnpm run build",
     "generate:cv": "node scripts/js/generate-resume-pdf.mjs",
-    "generate:og": "node scripts/js/generate-og-images.js",
-    "generate:og:force": "FORCE_OG=1 node scripts/js/generate-og-images.js",
+    "generate:og": "santi-og generate --config scripts/js/generate-og-images.js",
+    "generate:og:force": "santi-og generate --config scripts/js/generate-og-images.js --force",
+    "check:og": "santi-og check --config scripts/js/generate-og-images.js",
     "preview": "astro preview",
     "lint": "SYNCKIT_TIMEOUT=180000 eslint . --max-warnings=0",
     "lint:fix": "SYNCKIT_TIMEOUT=180000 eslint . --fix --max-warnings=0",
@@ -51,7 +53,7 @@
     "verify:fast": "npm-run-all --silent --serial verify:quality build",
     "verify:full": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content test:coverage build && pnpm run lighthouse && pnpm run test:e2e:ci:stable",
     "ci:verify": "pnpm run verify:full",
-    "prepare": "husky",
+    "hooks:install": "quality hooks install",
     "pre-commit": "lint-staged --quiet && astro check",
     "pre-push": "pnpm run verify:fast",
     "commit": "commitprompt"
@@ -97,6 +99,7 @@
     "@resvg/resvg-js": "catalog:",
     "@santi020k/commitprompt": "catalog:",
     "@santi020k/eslint-config-full": "catalog:",
+    "@santi020k/og": "catalog:",
     "@tailwindcss/typography": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@testing-library/dom": "catalog:",
@@ -107,7 +110,6 @@
     "@vitest/ui": "catalog:",
     "cspell": "catalog:",
     "eslint": "catalog:",
-    "husky": "catalog:",
     "js-yaml": "catalog:",
     "jsdom": "catalog:",
     "lint-staged": "catalog:",
@@ -126,6 +128,7 @@
     "node": ">=24.0.0"
   },
   "packageManager": "pnpm@10.32.1",
+  "license": "SEE LICENSE IN LICENSE",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,md,mdx,json}": [
       "eslint --fix --max-warnings=0"
