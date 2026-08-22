@@ -23,7 +23,7 @@ catalog:
   "@resvg/resvg-js": ^2.6.2
   "@santi020k/commitprompt": ^1.0.0
   "@santi020k/eslint-config-full": 3.2.0
-  "@santi020k/lumen-astro": 1.2.0
+  "@santi020k/lumen-astro": 1.4.0
   "@santi020k/og": ^0.4.0
   "@santi020k/theme": ^1.2.0
   "@shikijs/transformers": ^4.3.1
@@ -70,9 +70,9 @@ catalog:
   wawoff2: ^2.0.1
 minimumReleaseAgeExclude:
   - "@santi020k/og"
-  - "@santi020k/lumen-astro@1.2.0"
-  - "@santi020k/lumen-core@1.2.0"
-  - "@santi020k/lumen@1.2.0"
+  - "@santi020k/lumen-astro@1.4.0"
+  - "@santi020k/lumen-core@1.4.0"
+  - "@santi020k/lumen@1.4.0"
   - "@santi020k/eslint-config-typescript"
 overrides:
   # Keep legacy build and release tooling on patched transitive versions until
