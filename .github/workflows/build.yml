@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [edited, labeled, opened, reopened, ready_for_review, synchronize, unlabeled]
   workflow_dispatch: {}
 
 concurrency:
@@ -20,6 +20,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Validate pull request title
+        if: >-
+          github.event_name == 'pull_request' &&
+          !contains(github.event.pull_request.labels.*.name, 'autorelease: pending')
+        shell: bash
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [[ ! "$PR_TITLE" =~ ^(feat|fix|docs|style|chore|refactor|perf|test|ci|build|revert)([(][-a-z0-9._/]+[)])?:[[:space:]].+ ]]; then
+            echo "::error::Use a Conventional Commit title, for example: feat: add project filters"
+            exit 1
+          fi
+
+          subject="${PR_TITLE#*: }"
+          if [[ "$subject" =~ ^[A-Z] ]]; then
+            echo "::error::The title subject must start with a lowercase letter."
+            exit 1
+          fi
+
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -31,6 +50,7 @@ jobs:
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
@@ -40,6 +60,8 @@ jobs:
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             run_checks=true
             run_full=true
+          elif [[ "$EVENT_ACTION" == "edited" || "$EVENT_ACTION" == "labeled" || "$EVENT_ACTION" == "unlabeled" ]]; then
+            : # Metadata-only events validate the title without repeating the build.
           else
             git diff --no-renames --name-only --diff-filter=ACDMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
             while IFS= read -r path; do
