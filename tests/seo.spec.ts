@@ -337,4 +337,22 @@ test.describe('SEO — JSON-LD structured data', () => {
     expect(Array.isArray(breadcrumbSchema.itemListElement)).toBe(true)
     expect(breadcrumbSchema.itemListElement.length).toBeGreaterThanOrEqual(3)
   })
+
+  test('project structured data points to the published social image', async ({ page }) => {
+    for (const projectId of ['og', 'quality']) {
+      await page.goto(`/portfolio/${projectId}/`)
+
+      const schemaContents = await page.locator('script[type="application/ld+json"]').allTextContents()
+      const projectSchema = schemaContents
+        .map(content => JSON.parse(content) as unknown)
+        .find(value => typeof value === 'object' && value !== null && '@type' in value && (
+          value['@type'] === 'CreativeWork' ||
+          (Array.isArray(value['@type']) && value['@type'].includes('CreativeWork'))
+        ))
+
+      expect(projectSchema).toMatchObject({
+        image: `https://santi020k.com/og/portfolio/${projectId}.webp`
+      })
+    }
+  })
 })

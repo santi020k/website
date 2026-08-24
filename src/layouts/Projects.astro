@@ -63,7 +63,7 @@ const projectSchema: Record<string, unknown> = {
   ...(project.data.endingDate ? { dateModified: project.data.endingDate.toISOString() } : {}),
   keywords: project.data.technologies,
   url: canonicalURL.href,
-  ...(project.data.coverImage?.ogImage ? { image: new URL(project.data.coverImage.ogImage, Astro.site).href } : {}),
+  image: socialImage,
   ...(sameAs.length > 0 ? { sameAs } : {}),
   author: createAuthorSchema(Astro.site)
 }
