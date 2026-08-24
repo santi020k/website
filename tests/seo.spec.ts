@@ -61,6 +61,16 @@ test.describe('SEO — meta tags', () => {
     await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', headline)
   })
 
+  test('uses seoTitle only for the document title', async ({ page }) => {
+    const headline = 'Authentication and Authorization in Next.js Applications with Supabase'
+
+    await page.goto('/blog/authentication-and-authorization-in-next-js-applications-with-supabase/')
+
+    await expect(page).toHaveTitle('Next.js Supabase Auth: SSR & Route Protection | santi020k')
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', headline)
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', headline)
+  })
+
   test('priority search pages render complete intent-specific snippets', async ({ page }) => {
     const priorityPages = [
       {

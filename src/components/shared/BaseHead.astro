@@ -39,8 +39,8 @@ const {
 } = Astro.props
 
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
-const socialTitle = seoTitle ?? title
-const siteTitle = createSeoTitle(socialTitle, siteConfig.title)
+const socialTitle = title
+const siteTitle = createSeoTitle(seoTitle ?? title, siteConfig.title)
 const metaDescription = createSeoDescription(description, title)
 
 const canonicalURL = new URL(
