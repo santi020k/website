@@ -13,10 +13,10 @@ impactMetrics: [
   "Catches Astro-specific performance, accessibility, security, and best-practice issues",
   "Reports health scores in local, editor, and CI workflows",
   "Installs agent skills that teach coding assistants Astro standards"
-]
+  ]
 technologies: [
   "Astro", "TypeScript", "Node.js", "ESLint", "VS Code Extension", "GitHub Actions", "Code Quality", "CI-CD", "Developer Experience (DX)", "Developer Documentation", "Open Source", "Accessibility", "Performance Optimization"
-]
+  ]
 coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"

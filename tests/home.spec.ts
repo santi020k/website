@@ -60,7 +60,7 @@ test('homepage stats use the accent Lumen variant as standalone articles', async
   await page.goto('/')
 
   const stats = page.locator(
-    'article > [data-stat-card-compat][data-variant="accent"].ui-stat--accent'
+    'article[data-slot="stat"][data-variant="accent"].ui-stat--accent'
   )
 
   await expect(stats).toHaveCount(4)

@@ -32,6 +32,11 @@
     @apply border-l-2 border-transparent transition-colors duration-200;
   }
 
+  /* Keep Tailwind Typography's pre background from obscuring Lumen's code theme. */
+  & [data-ui-code] > pre {
+    background: var(--ui-code-bg);
+  }
+
   & [data-ui-code] [data-line-numbers] {
     counter-reset: line;
   }

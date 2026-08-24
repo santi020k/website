@@ -153,7 +153,7 @@
   animation: mobile-nav-panel-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-[data-mobile-nav-panel] .ui-chart {
+[data-mobile-nav-panel] [data-mobile-nav-surface] {
   border-color: hsl(var(--line) / 0.52);
   background:
     linear-gradient(

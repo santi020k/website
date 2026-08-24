@@ -11,10 +11,10 @@ impactMetrics: [
   "56+ pull requests merged across two codebases",
   "Real-time geo-based live stream access across global audiences",
   "Full Google Ad Manager programmatic infrastructure shipped from scratch"
-]
+  ]
 technologies: [
   "Next.js", "React.js", "JavaScript", "SCSS", "Sanity CMS", "Sanity Studio", "Portable Text", "Firebase", "Google Ad Manager", "Google Tag Manager", "Embla Carousel", "Radix UI", "Vercel", "Node.js", "Jest", "Storybook", "ESLint", "Stylelint", "Git", "GitHub", "Scrum", "REST APIs", "Geo-location APIs"
-]
+  ]
 coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"

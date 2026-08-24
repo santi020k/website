@@ -843,7 +843,7 @@ pnpm run check   # Astro type-check — zero errors
 | Analytics | None by default; Lighthouse CI for lab Web Vitals |
 | Testing | Vitest (unit) + Playwright (E2E) |
 | Linting | ESLint with `@santi020k/eslint-config-*` |
-| Commits | Conventional Commits — Commitizen + Husky + lint-staged |
+| Commits | Conventional Commits — Commitprompt + quality hooks + lint-staged |
 
 ---
 

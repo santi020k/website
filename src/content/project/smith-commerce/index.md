@@ -10,10 +10,10 @@ impactMetrics: [
   "Lighthouse score improved from 35 to 98",
   "Time to Interactive dropped by 75%",
   "100% accessibility score on the rebuilt storefront"
-]
+  ]
 technologies: [
   "Next.js", "React.js", "TypeScript", "Turborepo", "Tailwind CSS", "Radix UI", "Lucide React", "Storybook", "tailwindcss-animate", "TanStack Query", "Zustand", "Apollo Client", "OpenAPI", "React Hook Form", "Zod", "ESLint", "Prettier", "Husky", "Auth0", "i18next", "Docker", "AWS", "Builder.io", "Jest", "Playwright", "Performance Optimization", "Lighthouse", "Accessibility", "Developer Experience (DX)", "Code Quality", "CI-CD", "Headless Commerce", "Monorepo"
-]
+  ]
 coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"

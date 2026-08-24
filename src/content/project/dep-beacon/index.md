@@ -11,12 +11,12 @@ impactMetrics: [
   "Published for VS Code users through Visual Studio Marketplace and Open VSX",
   "Shows inline dependency status, diagnostics, CodeLens update actions, and package-manager commands",
   "Understands package.json, pnpm workspace catalogs, overrides, package extensions, and OSV vulnerability signals"
-]
+  ]
 technologies: [
   "VS Code Extension", "TypeScript", "Node.js", "Astro", "pnpm", "Monorepo", "CodeLens", "npm",
   "OSV.dev", "Open VSX", "Visual Studio Marketplace", "Vitest", "esbuild", "Developer Experience (DX)",
   "Dependency Management", "Security", "Developer Documentation", "Open Source"
-]
+  ]
 coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"

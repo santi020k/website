@@ -16,8 +16,6 @@ const classNames = (node: Element): string[] => {
 
   if (Array.isArray(value)) return value.map(String)
 
-  if (typeof value === 'string') return value.split(/\s+/u).filter(Boolean)
-
   return []
 }
 
@@ -56,12 +54,12 @@ const copyIcon = () => element('svg', {
   stroke: 'currentColor',
   strokeLinecap: 'round',
   strokeLinejoin: 'round',
-  strokeWidth: 2,
+  strokeWidth: '2',
   viewBox: '0 0 24 24',
   width: '1em',
   xmlns: 'http://www.w3.org/2000/svg'
 }, [
-  element('rect', { height: 14, rx: 2, ry: 2, width: 14, x: 8, y: 8 }),
+  element('rect', { height: '14', rx: '2', ry: '2', width: '14', x: '8', y: '8' }),
   element('path', { d: 'M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2' })
 ])
 
@@ -74,7 +72,7 @@ const checkIcon = () => element('svg', {
   stroke: 'currentColor',
   strokeLinecap: 'round',
   strokeLinejoin: 'round',
-  strokeWidth: 2,
+  strokeWidth: '2',
   viewBox: '0 0 24 24',
   width: '1em',
   xmlns: 'http://www.w3.org/2000/svg'

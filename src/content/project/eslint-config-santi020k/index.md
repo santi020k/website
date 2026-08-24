@@ -12,10 +12,10 @@ impactMetrics: [
   "Shared one reusable lint baseline across multiple React and TypeScript projects",
   "Reduced repeated setup work for new apps and experiments",
   "Created the foundation later rebuilt into eslint-config-basic"
-]
+  ]
 technologies: [
   "React.js", "Next.js", "TypeScript", "Expo", "Astro", "ESLint", "JavaScript", "Code Quality", "NPM", "Open Source", "Tailwind CSS", "Vitest", "i18next"
-]
+  ]
 coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"

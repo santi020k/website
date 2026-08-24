@@ -20,7 +20,6 @@ import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
 const showcaseProjects = [...sideProjects].sort(collectionRelevanceSortProjects)
-const selectedProjects = showcaseProjects.slice(1, 4)
 const allTechnologies = getUniqueTechnologiesWithCount(sideProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
@@ -86,8 +85,8 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
   "
   >
     <SectionHeader
-      description="Three deeper case studies that show how I turn ambitious ideas into useful, maintainable systems."
-      eyebrow="Selected stories"
+      description="Every project has a deeper story about the problem, the decisions, and the system behind the finished work."
+      eyebrow={`${showcaseProjects.length} project stories`}
       title="The work behind the logos."
     />
     <div class="
@@ -95,7 +94,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       sm:mt-12
     "
     >
-      <ProjectsGallery projects={selectedProjects} />
+      <ProjectsGallery projects={showcaseProjects} />
     </div>
   </section>
 

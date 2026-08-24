@@ -11,10 +11,10 @@ impactMetrics: [
   "Shipped across backend, frontend, mobile, and CMS work in one studio",
   "Built the foundation for later tech lead and full-stack roles",
   "Learned testing, reviews, and release discipline under real deadlines"
-]
+  ]
 technologies: [
   "Ruby", "Ruby on Rails", "RSpec", "AngularJS", "Java", "Cordova", "PHP", "WordPress", "WooCommerce", "JavaScript", "Semantic HTML & CSS", "SASS", "Git", "PostgreSQL", "MySQL", "Linux", "Scrum", "Heroku", "TypeScript", "jQuery", "Bitbucket", "Android"
-]
+  ]
 coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"

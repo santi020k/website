@@ -12,7 +12,7 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 - **Analytics**: None bundled; Lighthouse CI covers lab performance in `pnpm run ci:verify`
 - **Testing**: Vitest (unit) + Playwright (E2E)
 - **Linting**: ESLint with `@santi020k/eslint-config-*` packages
-- **Commits**: Conventional Commits (Commitizen + Husky + lint-staged)
+- **Commits**: Conventional Commits (Commitprompt + quality hooks + lint-staged)
 
 ## Key Files & Directories
 

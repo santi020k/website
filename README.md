@@ -1,10 +1,12 @@
 # [Santiago Molina](https://santi020k.com/)
 
+[Website](https://santi020k.com) · [Portfolio](https://santi020k.com/portfolio/) ·
+[Blog](https://santi020k.com/blog/) · [Resume](https://santi020k.com/resume/) ·
+[Documentation](docs) · [Changelog](CHANGELOG.md)
+
 [![CI](https://github.com/santi020k/website/actions/workflows/build.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/build.yml)
 [![CodeQL](https://github.com/santi020k/website/actions/workflows/codeql.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/codeql.yml)
 [![License: Source-Available](https://img.shields.io/badge/license-source--available-orange.svg)](./LICENSE)
-
-![Santi020k Logo](./src/assets/brand/logos/logo-santi020k.webp)
 
 ## I build fast, accessible products and stronger frontend systems.
 
@@ -57,7 +59,19 @@ Personal website, blog, and portfolio of **Santiago Molina** — Full Stack Deve
 
 ### 🛠️ Getting Started
 
-**Requirements**: Node.js >= 24 and [pnpm](https://pnpm.io/) 10.
+**Requirements**: Node.js >= 24, [pnpm](https://pnpm.io/) 10, and
+[Quality CLI](https://github.com/santi020k/quality) v0.3.1 for repository Git hooks.
+
+Install the pinned Quality CLI release with its checksum-verifying installer:
+
+```bash
+curl --proto '=https' --tlsv1.2 -fsSL \
+  https://raw.githubusercontent.com/santi020k/quality/main/install.sh \
+  | sh -s -- santi020k/quality v0.3.1
+```
+
+If Quality is not installed yet, `pnpm install` remains non-blocking and prints
+these recovery instructions. Run `pnpm run hooks:install` after installing it.
 
 #### 1. Install Dependencies
 

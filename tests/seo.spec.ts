@@ -51,6 +51,26 @@ test.describe('SEO — meta tags', () => {
     }
   })
 
+  test('social metadata preserves a full headline when the document title is truncated', async ({ page }) => {
+    const headline = 'Configuring MongoDB with Homebrew on macOS: Converting a Standalone Instance to a Replica Set'
+
+    await page.goto('/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/')
+
+    expect(await page.title()).not.toBe(headline)
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', headline)
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', headline)
+  })
+
+  test('uses seoTitle only for the document title', async ({ page }) => {
+    const headline = 'Authentication and Authorization in Next.js Applications with Supabase'
+
+    await page.goto('/blog/authentication-and-authorization-in-next-js-applications-with-supabase/')
+
+    await expect(page).toHaveTitle('Next.js Supabase Auth: SSR & Route Protection | santi020k')
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', headline)
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', headline)
+  })
+
   test('priority search pages render complete intent-specific snippets', async ({ page }) => {
     const priorityPages = [
       {
@@ -115,6 +135,16 @@ test.describe('SEO — meta tags', () => {
 
     await expect(pdfLinks).toHaveCount(2)
     await expect(page.locator('a[href^="/pdf/cv.pdf?"]')).toHaveCount(0)
+  })
+
+  test('resume print styles hide the decorative particle layer', async ({ page }) => {
+    await page.goto('/resume/')
+
+    const particles = page.locator('[data-particles-bg]')
+
+    await expect(particles).toHaveCount(1)
+    await page.emulateMedia({ media: 'print' })
+    await expect(particles).toBeHidden()
   })
 
   test('homepage has a valid og:image pointing to the generated PNG', async ({ page }) => {
@@ -316,5 +346,23 @@ test.describe('SEO — JSON-LD structured data', () => {
     expect(breadcrumbSchema).not.toBeNull()
     expect(Array.isArray(breadcrumbSchema.itemListElement)).toBe(true)
     expect(breadcrumbSchema.itemListElement.length).toBeGreaterThanOrEqual(3)
+  })
+
+  test('project structured data points to the published social image', async ({ page }) => {
+    for (const projectId of ['og', 'quality']) {
+      await page.goto(`/portfolio/${projectId}/`)
+
+      const schemaContents = await page.locator('script[type="application/ld+json"]').allTextContents()
+      const projectSchema = schemaContents
+        .map(content => JSON.parse(content) as unknown)
+        .find(value => typeof value === 'object' && value !== null && '@type' in value && (
+          value['@type'] === 'CreativeWork' ||
+          (Array.isArray(value['@type']) && value['@type'].includes('CreativeWork'))
+        ))
+
+      expect(projectSchema).toMatchObject({
+        image: `https://santi020k.com/og/portfolio/${projectId}.webp`
+      })
+    }
   })
 })

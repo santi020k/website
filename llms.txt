@@ -9,7 +9,7 @@ Modern personal portfolio and blog built with Astro, React, and Tailwind CSS. Op
 - **Content**: MDX, [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
 - **Testing**: [Vitest](https://vitest.dev), [Playwright](https://playwright.dev)
 - **CI/CD**: GitHub Actions
-- **Formatting/Linting**: ESLint (Flat Config), Husky, lint-staged
+- **Formatting/Linting**: ESLint (Flat Config), quality hooks, lint-staged
 
 ## Project Structure
 - `/src/content/`: All content collections (posts, projects, notes, types)
@@ -18,7 +18,7 @@ Modern personal portfolio and blog built with Astro, React, and Tailwind CSS. Op
 - `/src/layouts/`: Base layouts for pages and articles
 - `/src/utils/`: Business logic and helpers
 - `/.github/workflows/`: CI/CD pipelines
-- `/.husky/`: Git hooks for local quality checks
+- `/quality.yml`: Analyzer policy and Git hook steps
 
 ## Key Configs
 - `astro.config.mjs`: Main framework configuration

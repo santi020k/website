@@ -11,10 +11,10 @@ impactMetrics: [
   "50% growth in monthly active users",
   "Connected web, broker, and mobile workflows",
   "Search and map experiences that improved buyer discovery"
-]
+  ]
 technologies: [
   "React.js", "Next.js", "TypeScript", "React Native", "Redux", "Redux Sagas", "Styled Components", "Socket.io", "Docker", "AWS", "Google Maps API", "Team Leadership", "Scrum", "OAuth", "Linux", "Semantic HTML & CSS", "JavaScript", "SASS", "Git", "i18n", "Expo", "React Hook Form", "Yup", "Figma", "Storybook", "Jest", "CI-CD", "Testing", "Developer Experience (DX)", "Performance Optimization", "Lighthouse", "Web Vitals", "SEO", "Sentry", "Mapbox", "ESLint", "React Navigation", "React Router", "Android", "iOS"
-]
+  ]
 coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"

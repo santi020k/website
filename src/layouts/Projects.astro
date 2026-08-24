@@ -10,7 +10,6 @@ import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
-import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
 import {
@@ -20,6 +19,8 @@ import {
   getProjectStageLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
+
+import { ScrollProgress } from '@santi020k/lumen-astro'
 
 import { createAuthorSchema } from '@/site.config'
 
@@ -62,7 +63,7 @@ const projectSchema: Record<string, unknown> = {
   ...(project.data.endingDate ? { dateModified: project.data.endingDate.toISOString() } : {}),
   keywords: project.data.technologies,
   url: canonicalURL.href,
-  ...(project.data.coverImage?.ogImage ? { image: new URL(project.data.coverImage.ogImage, Astro.site).href } : {}),
+  image: socialImage,
   ...(sameAs.length > 0 ? { sameAs } : {}),
   author: createAuthorSchema(Astro.site)
 }
@@ -89,7 +90,7 @@ const breadcrumbs = [
     title: metaTitle
   }}
 >
-  <ReadingProgressBar />
+  <ScrollProgress />
 
   <article class="section-container-wide flex flex-col gap-10">
     <ProjectHero parentPage={parentPage} project={project} />

@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/max-len, @stylistic/lines-around-comment -- TODO: Split the OG card templates and SVG/CSS literals into smaller template modules so this generated asset script can use the normal lint rules. */
 /**
  * Pre-build OG image generator.
  *
@@ -18,54 +17,27 @@
  * `min(16, os.availableParallelism())`).
  */
 
-import fs, { promises as fsp } from 'node:fs'
-import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { Worker } from 'node:worker_threads'
 
-import yaml from 'js-yaml'
+import { createCards, pathnameOutput } from '@santi020k/og'
+import {
+  collectContentCards,
+  getFrontmatterValue,
+  groupArchive,
+  paginateArchive,
+  resolveContentAsset
+} from '@santi020k/og/content'
+import { definePageMetadata } from '@santi020k/og/metadata'
+import { definePresetConfig } from '@santi020k/og/presets'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..')
 const OUT_DIR = path.join(ROOT, 'public', 'og')
-const WORKER_SCRIPT = new URL('./og-render-worker.mjs', import.meta.url)
-const FORCE = process.env.FORCE_OG === '1'
-
-/** @returns {number} Positive worker count before clamping to job count. */
-const getConfiguredWorkerThreads = () => {
-  const raw = process.env.OG_WORKER_THREADS
-
-  if (raw !== undefined && raw !== '') {
-    const n = Number.parseInt(raw, 10)
-
-    if (Number.isFinite(n) && n > 0) return Math.min(n, 32)
-  }
-
-  // Use more cores by default on modern laptops/desktops; users can still cap via OG_WORKER_THREADS.
-  return Math.min(16, os.availableParallelism())
-}
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-const trimOuterSlashes = value => value.replace(/^\/+|\/+$/g, '')
-
-const safeDecodeURIComponent = value => {
-  try {
-    return decodeURIComponent(value)
-  } catch {
-    return value
-  }
-}
-
-const getSocialImageSlug = pathname => trimOuterSlashes(pathname)
-  .split('/')
-  .filter(Boolean)
-  .map(segment => encodeURIComponent(safeDecodeURIComponent(segment)).replaceAll('%', '~'))
-  .join('--')
-
-const getSocialImageFileName = pathname => `${getSocialImageSlug(pathname) || 'index'}.webp`
+const getSocialImageFileName = pathname => pathnameOutput(pathname)
 
 const getTechnologySlug = technology => technology
   .normalize('NFKD')
@@ -76,92 +48,6 @@ const getTechnologySlug = technology => technology
   .toLowerCase()
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-+|-+$/g, '')
-
-/** Read and parse the YAML frontmatter from a markdown / MDX file. */
-const readFrontmatter = filePath => {
-  const content = fs.readFileSync(filePath, 'utf8')
-  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
-
-  if (!match) return {}
-
-  return yaml.load(match[1]) ?? {}
-}
-
-const isMarkdownFile = fileName => fileName.endsWith('.md') || fileName.endsWith('.mdx')
-
-const getPaginationPathnames = (basePathname, totalItems, pageSize) => {
-  const pages = Math.max(1, Math.ceil(totalItems / pageSize))
-
-  return Array.from({ length: pages }, (_, index) => {
-    const pageNumber = index + 1
-
-    return pageNumber === 1 ? basePathname : `${basePathname}${pageNumber}/`
-  })
-}
-
-/** Collect all .md / .mdx files inside `dir`, including nested content dirs. */
-export const collectMarkdownFiles = dir => {
-  if (!fs.existsSync(dir)) return []
-
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
-    const entryPath = path.join(dir, entry.name)
-
-    if (entry.isDirectory()) return collectMarkdownFiles(entryPath)
-
-    return isMarkdownFile(entry.name) ? [entryPath] : []
-  })
-}
-
-/** Derive a content id from a markdown path, matching Astro's `index.md` behavior. */
-export const getContentSlug = (filePath, baseDir) => {
-  const relativePath = path
-    .relative(baseDir, filePath)
-    .replaceAll(path.sep, '/')
-
-  const withoutExtension = relativePath.replace(/\.mdx?$/, '')
-
-  const slug =
-    path.posix.basename(withoutExtension) === 'index' ?
-      path.posix.dirname(withoutExtension) :
-      withoutExtension
-
-  return slug === '.' ? '' : slug
-}
-
-/**
- * Resolve a frontmatter image path to an absolute file path.
- * Remote URLs are ignored because the prebuild renderer only handles local assets.
- */
-export const resolveContentImagePath = (markdownFilePath, imagePath) => {
-  if (typeof imagePath !== 'string' || imagePath.length === 0) return undefined
-
-  if (/^(https?:)?\/\//.test(imagePath) || imagePath.startsWith('data:'))
-    return undefined
-
-  const absolutePath = path.isAbsolute(imagePath) ?
-    imagePath :
-    path.resolve(path.dirname(markdownFilePath), imagePath)
-
-  return fs.existsSync(absolutePath) ? absolutePath : undefined
-}
-
-const getCoverImagePath = (
-  markdownFilePath,
-  frontmatter,
-  { preferOgImage = false } = {}
-) => {
-  const coverImage = frontmatter.coverImage
-
-  if (!coverImage) return undefined
-
-  const candidates = preferOgImage ?
-    [coverImage.ogImage, coverImage.src] :
-    [coverImage.src]
-
-  return candidates
-    .map(candidate => resolveContentImagePath(markdownFilePath, candidate))
-    .find(Boolean)
-}
 
 // ---------------------------------------------------------------------------
 // Collect image specs
@@ -284,393 +170,219 @@ const staticSocialPages = [
   }
 ]
 
-export const collectSpecs = () => {
-  /** @type {Array<{outFile: string, props: object}>} */
-  const specs = []
+const includeDrafts = process.env.OG_INCLUDE_DRAFTS === '1'
 
-  // Static pages
-  for (const page of staticSocialPages) {
-    specs.push({
-      outFile: path.join(
-        OUT_DIR, 'pages', getSocialImageFileName(page.pathname)
-      ),
-      props: {
+const nonIndexableStaticPathnames = new Set([
+  '/404/',
+  '/blog/content-calendar/',
+  '/offline/'
+])
+
+export const isPublishedPost = entry => {
+  if (includeDrafts) return true
+
+  const value = getFrontmatterValue(entry, 'publishDate')
+  let publishTime = Number.NaN
+
+  if (value instanceof Date) publishTime = value.getTime()
+  else if (typeof value === 'string') publishTime = Date.parse(value)
+
+  return Number.isFinite(publishTime) && publishTime <= Date.now()
+}
+
+const archiveCard = (pathname, title, description, badge) => ({
+  data: { badge, description, domain: pathname, title, variant: 'simple' },
+  output: `pages/${getSocialImageFileName(pathname)}`,
+  route: { description, pathname, title }
+})
+
+export const collectCards = async () => {
+  const staticPages = staticSocialPages.map(page => definePageMetadata({
+    description: page.description,
+    image: {
+      alt: `${page.title} — Santiago Molina`,
+      output: `pages/${getSocialImageFileName(page.pathname)}`
+    },
+    pathname: page.pathname,
+    title: page.title,
+    type: page.type
+  }))
+
+  const staticCards = createCards(staticPages, page => ({
+    badge: page.type,
+    description: page.description,
+    domain: page.pathname,
+    title: page.title,
+    variant: 'simple'
+  }), {
+    output: page => page.image.output,
+    route: page => {
+      if (nonIndexableStaticPathnames.has(page.pathname)) return undefined
+
+      return {
+        alt: page.image.alt,
         description: page.description,
-        pathLabel: page.pathname,
-        title: page.title,
-        type: page.type
+        pathname: page.pathname,
+        title: page.title
       }
-    })
-  }
-
-  // Blog posts
-  const postDir = path.join(ROOT, 'src', 'content', 'post')
-  const allPostFrontmatter = []
-
-  for (const filePath of collectMarkdownFiles(postDir)) {
-    const fm = readFrontmatter(filePath)
-
-    if (fm.draft && process.env.OG_INCLUDE_DRAFTS !== '1') continue
-
-    allPostFrontmatter.push(fm)
-
-    const rawId = getContentSlug(filePath, postDir)
-    const id = rawId.includes('/') ? rawId.split('/').pop() : rawId
-    const coverImagePath = getCoverImagePath(filePath, fm)
-
-    specs.push({
-      outFile: path.join(OUT_DIR, 'blog', `${id}.webp`),
-      props: {
-        ...(coverImagePath ? { coverImagePath } : {}),
-        description: fm.description ?? '',
-        pathLabel: `/blog/${id}/`,
-        title: fm.title ?? id,
-        type: 'Blog Post'
-      }
-    })
-  }
-
-  // Blog archive pagination
-  for (const pathname of getPaginationPathnames(
-    '/blog/', allPostFrontmatter.length, 9
-  )) {
-    if (pathname === '/blog/') continue
-
-    const pageNumber = Number(pathname.split('/').filter(Boolean).at(-1))
-
-    specs.push({
-      outFile: path.join(
-        OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`
-      ),
-      props: {
-        description:
-          'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
-        pathLabel: pathname,
-        title: `Blog · Page ${pageNumber}`,
-        type: 'Blog'
-      }
-    })
-  }
-
-  // Blog tag archives + pagination
-  const tagCounts = new Map()
-
-  for (const fm of allPostFrontmatter) {
-    if (!Array.isArray(fm.tags)) continue
-
-    for (const tag of fm.tags) {
-      if (typeof tag !== 'string' || tag.length === 0) continue
-
-      tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1)
     }
-  }
+  })
 
-  for (const [tag, count] of tagCounts) {
-    const basePathname = `/blog/tags/${encodeURIComponent(tag)}/`
-
-    for (const pathname of getPaginationPathnames(basePathname, count, 9)) {
-      const pageNumber =
-        pathname === basePathname ?
-          1 :
-          Number(pathname.split('/').filter(Boolean).at(-1))
-
-      specs.push({
-        outFile: path.join(
-          OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`
-        ),
-        props: {
-          description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
-          pathLabel: pathname,
-          title:
-            pageNumber === 1 ?
-              `${tag} Posts` :
-              `${tag} Posts · Page ${pageNumber}`,
-          type: 'Topic'
-        }
+  const postCards = await collectContentCards({
+    archives: [
+      paginateArchive({
+        basePath: '/blog/',
+        data: context => ({
+          badge: 'Blog',
+          description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+          domain: context.pathname,
+          title: `Blog · Page ${context.pageNumber}`,
+          variant: 'simple'
+        }),
+        includeFirst: false,
+        output: context => `pages/${getSocialImageFileName(context.pathname)}`,
+        pageSize: 9
+      }),
+      groupArchive({
+        basePath: '/blog/tags/',
+        data: context => ({
+          badge: 'Topic',
+          description: `Posts tagged ${context.group} across architecture, automation, developer experience, and engineering workflow.`,
+          domain: context.pathname,
+          title: context.pageNumber === 1 ? `${context.group} Posts` : `${context.group} Posts · Page ${context.pageNumber}`,
+          variant: 'simple'
+        }),
+        field: 'tags',
+        output: context => `pages/${getSocialImageFileName(context.pathname)}`,
+        pageSize: 9,
+        slug: group => encodeURIComponent(group)
       })
-    }
-  }
+    ],
+    basePath: 'blog',
+    directory: 'src/content/post',
+    filter: isPublishedPost,
+    includeDrafts,
+    map: async entry => {
+      const id = entry.slug.split('/').at(-1) ?? entry.slug
+      const coverImagePath = await resolveContentAsset(entry, getFrontmatterValue(entry, 'coverImage.src'))
 
-  // Projects + technologies (single pass to avoid parsing frontmatter twice)
-  const projectDir = path.join(ROOT, 'src', 'content', 'project')
-  const allTechnologies = new Map()
-  const projectFiles = collectMarkdownFiles(projectDir)
-
-  for (const filePath of projectFiles) {
-    const fm = readFrontmatter(filePath)
-
-    if (fm.draft && process.env.OG_INCLUDE_DRAFTS !== '1') continue
-
-    const id = getContentSlug(filePath, projectDir)
-
-    const coverImagePath = getCoverImagePath(filePath, fm, {
-      preferOgImage: true
-    })
-
-    specs.push({
-      outFile: path.join(OUT_DIR, 'portfolio', `${id}.webp`),
-      props: {
-        ...(coverImagePath ? { coverImagePath } : {}),
-        description: fm.seoDescription ?? fm.description ?? '',
-        pathLabel: `/portfolio/${id}/`,
-        title: fm.title ?? id,
-        type: 'Project'
+      return {
+        badge: 'Blog Post',
+        ...(coverImagePath ? { coverImagePath, image: coverImagePath } : {}),
+        description: entry.frontmatter.description ?? '',
+        domain: `/blog/${id}/`,
+        title: entry.frontmatter.title ?? id,
+        variant: coverImagePath ? 'article' : 'simple'
       }
-    })
+    },
+    output: entry => `blog/${entry.slug.split('/').at(-1)}.webp`,
+    route: entry => `/blog/${entry.slug.split('/').at(-1)}/`,
+    root: ROOT,
+    sources: (entry, data) => data.coverImagePath ? [entry.filePath, data.coverImagePath] : [entry.filePath]
+  })
 
-    if (Array.isArray(fm.technologies)) {
-      for (const tech of fm.technologies) {
-        if (typeof tech !== 'string') continue
+  const technologies = new Map()
 
-        const technologySlug = getTechnologySlug(tech)
-        const existingTechnology = allTechnologies.get(technologySlug)
+  const projectCards = await collectContentCards({
+    aggregate: entries => {
+      for (const entry of entries) {
+        if (!includeDrafts && entry.frontmatter.draft === true) continue
 
-        if (technologySlug === 'npm') {
-          allTechnologies.set(technologySlug, 'NPM')
-        } else if (!existingTechnology) {
-          allTechnologies.set(technologySlug, tech)
+        const values = entry.frontmatter.technologies
+
+        if (!Array.isArray(values)) continue
+
+        for (const tech of values) {
+          if (typeof tech !== 'string') continue
+
+          const slug = getTechnologySlug(tech)
+
+          if (slug === 'ci-cd') technologies.set(slug, 'CI/CD')
+          else if (slug === 'npm') technologies.set(slug, 'NPM')
+          else if (!technologies.has(slug)) technologies.set(slug, tech)
         }
       }
-    }
-  }
 
-  // Series
-  const seriesDir = path.join(ROOT, 'src', 'content', 'series')
+      return []
+    },
+    directory: 'src/content/project',
+    basePath: 'portfolio',
+    includeDrafts,
+    map: async entry => {
+      const coverImagePath = await resolveContentAsset(
+        entry,
+        getFrontmatterValue(entry, 'coverImage.ogImage')
+      ) ?? await resolveContentAsset(entry, getFrontmatterValue(entry, 'coverImage.src'))
 
-  for (const filePath of collectMarkdownFiles(seriesDir)) {
-    const fm = readFrontmatter(filePath)
-    const id = getContentSlug(filePath, seriesDir)
-    const seriesPathname = `/blog/series/${id}/`
-    const slug = getSocialImageSlug(seriesPathname)
-
-    specs.push({
-      outFile: path.join(OUT_DIR, 'pages', `${slug}.webp`),
-      props: {
-        description: fm.seoDescription ?? fm.description ?? '',
-        pathLabel: seriesPathname,
-        title: fm.seoTitle ?? fm.title ?? id,
-        type: 'Blog Series'
+      return {
+        badge: 'Project',
+        ...(coverImagePath ? { coverImagePath, image: coverImagePath } : {}),
+        description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
+        domain: `/portfolio/${entry.slug}/`,
+        title: entry.frontmatter.title ?? entry.slug,
+        variant: coverImagePath ? 'article' : 'simple'
       }
-    })
-  }
+    },
+    output: entry => `portfolio/${entry.slug}.webp`,
+    root: ROOT,
+    sources: (entry, data) => data.coverImagePath ? [entry.filePath, data.coverImagePath] : [entry.filePath]
+  })
 
-  for (const [technologySlug, tech] of allTechnologies) {
-    const pathname = `/technologies/${technologySlug}/`
-    const imagePathname = `/technologies/${encodeURIComponent(tech)}/`
+  const seriesCards = await collectContentCards({
+    basePath: 'blog/series',
+    directory: 'src/content/series',
+    map: entry => ({
+      badge: 'Blog Series',
+      description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
+      domain: `/blog/series/${entry.slug}/`,
+      title: entry.frontmatter.seoTitle ?? entry.frontmatter.title ?? entry.slug,
+      variant: 'simple'
+    }),
+    output: entry => `pages/${getSocialImageFileName(`/blog/series/${entry.slug}/`)}`,
+    root: ROOT
+  })
 
-    for (const pagePathname of getPaginationPathnames(pathname, 1, 50)) {
-      const slug = getSocialImageSlug(imagePathname)
+  const technologyCards = [...technologies].map(([slug, technology]) => {
+    const pathname = `/technologies/${slug}/`
 
-      specs.push({
-        outFile: path.join(OUT_DIR, 'pages', `${slug}.webp`),
-        props: {
-          description:
-            `Projects and case studies where ${tech} shaped the architecture, ` +
-            'delivery workflow, or product experience.',
-          pathLabel: pagePathname,
-          title: `${tech} · Technology`,
-          type: 'Technology'
-        }
-      })
-    }
-  }
-
-  return specs
-}
-
-// ---------------------------------------------------------------------------
-// Worker pool (one Satori/Resvg pipeline per thread)
-// ---------------------------------------------------------------------------
-
-class OgRenderPool {
-  /** @param {number} workerCount */
-  constructor(workerCount) {
-    this.workerCount = workerCount
-
-    /** @type {Worker[]} */
-    this.workers = []
-
-    /** @type {Worker[]} */
-    this.available = []
-
-    /** @type {Array<{ props: object, resolve: (b: Buffer) => void, reject: (e: Error) => void }>} */
-    this.waiting = []
-
-    /** @type {Map<number, { resolve: (b: Buffer) => void, reject: (e: Error) => void, worker: Worker }>} */
-    this.inFlight = new Map()
-
-    this.nextId = 1
-  }
-
-  async start() {
-    for (let i = 0; i < this.workerCount; i++) {
-      const w = new Worker(WORKER_SCRIPT, { type: 'module' })
-
-      w.on('message', msg => this.onMessage(w, msg))
-
-      w.on('error', err => this.onWorkerError(w, err))
-
-      this.workers.push(w)
-
-      this.available.push(w)
-    }
-  }
-
-  /**
-   * @param {Worker} worker
-   * @param {{ id: number, ok: true, buffer: ArrayBuffer } | { id: number, ok: false, message?: string }} msg
-   */
-  onMessage(worker, msg) {
-    const entry = this.inFlight.get(msg.id)
-
-    if (!entry) return
-
-    this.inFlight.delete(msg.id)
-
-    this.available.push(worker)
-
-    if (msg.ok) {
-      entry.resolve(Buffer.from(msg.buffer))
-    } else {
-      entry.reject(new Error(msg.message ?? 'OG worker render failed'))
-    }
-
-    this.pump()
-  }
-
-  /** @param {Worker} worker */
-  onWorkerError(worker, err) {
-    const idx = this.workers.indexOf(worker)
-
-    if (idx !== -1) this.workers.splice(idx, 1)
-
-    for (const [id, entry] of this.inFlight) {
-      if (entry.worker === worker) {
-        this.inFlight.delete(id)
-
-        entry.reject(err instanceof Error ? err : new Error(String(err)))
-
-        break
-      }
-    }
-
-    this.pump()
-  }
-
-  pump() {
-    while (this.waiting.length > 0 && this.available.length > 0) {
-      const job = this.waiting.shift()
-      const worker = this.available.pop()
-      const id = this.nextId++
-
-      if (!job || !worker) break
-
-      this.inFlight.set(id, {
-        resolve: job.resolve,
-        reject: job.reject,
-        worker
-      })
-
-      worker.postMessage({ id, props: job.props })
-    }
-  }
-
-  /** @param {object} props */
-  render(props) {
-    return new Promise((resolve, reject) => {
-      this.waiting.push({ props, resolve, reject })
-
-      this.pump()
-    })
-  }
-
-  async shutdown() {
-    await Promise.all(this.workers.map(w => w.terminate()))
-
-    this.workers = []
-
-    this.available = []
-  }
-}
-
-/**
- * @param {OgRenderPool | null} pool
- * @param {{ outFile: string, props: object }} spec
- */
-const generateOne = async (pool, { outFile, props }) => {
-  if (!pool) throw new Error('OG render pool is not initialized')
-
-  const buffer = await pool.render(props)
-
-  await fsp.mkdir(path.dirname(outFile), { recursive: true })
-
-  await fsp.writeFile(outFile, buffer)
-
-  process.stdout.write(`  write ${path.relative(ROOT, outFile)}\n`)
-}
-
-// ---------------------------------------------------------------------------
-// Entry point
-// ---------------------------------------------------------------------------
-
-export const generateAll = async () => {
-  const start = performance.now()
-  const specs = collectSpecs()
-  const technologyPagesDirectory = path.join(OUT_DIR, 'pages')
-
-  const expectedTechnologyFiles = new Set(
-    specs
-      .map(spec => path.basename(spec.outFile))
-      .filter(fileName => fileName.startsWith('technologies--'))
-  )
-
-  if (fs.existsSync(technologyPagesDirectory)) {
-    const staleTechnologyFiles = fs.readdirSync(technologyPagesDirectory)
-      .filter(fileName => fileName.startsWith('technologies--') &&
-        !expectedTechnologyFiles.has(fileName))
-
-    await Promise.all(
-      staleTechnologyFiles.map(fileName => fsp.unlink(path.join(technologyPagesDirectory, fileName)))
-    )
-  }
-
-  const pendingSpecs = FORCE ?
-    specs :
-    specs.filter(s => !fs.existsSync(s.outFile))
-
-  const configured = getConfiguredWorkerThreads()
-  const pendingCount = pendingSpecs.length
-  const poolSize = pendingCount === 0 ? 0 : Math.min(configured, pendingCount)
-  /** @type {OgRenderPool | null} */
-  let pool = null
-
-  try {
-    if (poolSize > 0) {
-      pool = new OgRenderPool(poolSize)
-
-      await pool.start()
-    }
-
-    console.log(
-      `\n🖼  Generating ${pendingCount}/${specs.length} OG images (workers=${poolSize}, ` +
-      `OG_WORKER_THREADS=${process.env.OG_WORKER_THREADS ?? 'default'})…\n`
+    const card = archiveCard(
+      `/technologies/${encodeURIComponent(technology)}/`,
+      `${technology} · Technology`,
+      `Projects and case studies where ${technology} shaped the architecture, delivery workflow, or product experience.`,
+      'Technology'
     )
 
-    if (pendingCount > 0) {
-      await Promise.all(pendingSpecs.map(spec => generateOne(pool, spec)))
+    return {
+      ...card,
+      data: { ...card.data, domain: pathname },
+      output: `pages/technologies--${encodeURIComponent(technology).replaceAll('%', '~')}.webp`,
+      route: { ...card.route, pathname }
     }
-  } finally {
-    if (pool) await pool.shutdown()
+  })
+
+  return [...staticCards, ...postCards, ...projectCards, ...seriesCards, ...technologyCards]
+}
+
+export const collectSpecs = async () => (await collectCards()).map(card => ({
+  outFile: path.join(OUT_DIR, card.output),
+  props: {
+    ...(card.data.coverImagePath ? { coverImagePath: card.data.coverImagePath } : {}),
+    description: card.data.description,
+    pathLabel: card.data.domain,
+    title: card.data.title,
+    type: card.data.badge
   }
+}))
 
-  const elapsed = ((performance.now() - start) / 1000).toFixed(2)
-
-  console.log(`\n✅ Done in ${elapsed}s\n`)
-}
-
-if (
-  process.argv[1] &&
-  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
-) {
-  await generateAll()
-}
+export default definePresetConfig({
+  cards: collectCards,
+  clean: true,
+  concurrency: 'auto',
+  outputDirectory: 'public/og',
+  routeManifest: { file: 'public/og/manifest.json', publicPath: '/og' },
+  preset: {
+    brand: { domain: 'santi020k.com', name: 'Santiago Molina' },
+    theme: { accent: '#945df4', background: '#0d0718', panel: '#1c1528' }
+  },
+  root: ROOT
+})
