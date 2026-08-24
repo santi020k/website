@@ -128,9 +128,9 @@ jobs:
       - name: Create or update the Changesets release pull request
         uses: changesets/action@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
         with:
-          version: pnpm run version-packages
-          commit: "chore(release): version website"
-          title: "chore(release): version website"
+          version-script: pnpm run version-packages
+          commit-message: "chore(release): version website"
+          pr-title: "chore(release): version website"
         env:
           GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN || github.token }}
           HUSKY: 0
