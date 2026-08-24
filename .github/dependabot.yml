@@ -1,51 +1,36 @@
 version: 2
 
 updates:
-  # npm dependencies
+  # pnpm catalogs are maintained deliberately because Dependabot currently
+  # rewrites catalog references into lockfiles that fail frozen installs.
+  # A zero version-PR limit keeps security update pull requests enabled.
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
-    open-pull-requests-limit: 10
+      time: '06:00'
+      timezone: America/Bogota
+    open-pull-requests-limit: 0
     groups:
-      astro:
+      npm-security-updates:
+        applies-to: security-updates
         patterns:
-          - 'astro'
-          - 'astro-*'
-          - '@astrojs/*'
-      testing:
-        patterns:
-          - 'vitest'
-          - '@vitest/*'
-          - '@testing-library/*'
-          - '@playwright/*'
-          - 'jsdom'
-      styling:
-        patterns:
-          - 'tailwindcss'
-          - '@tailwindcss/*'
-          - 'autoprefixer'
-          - 'cssnano'
-      eslint:
-        patterns:
-          - 'eslint'
-          - 'eslint-*'
-          - '@santi020k/*'
-      icons:
-        patterns:
-          - '@iconify-json/*'
-          - '@iconify/*'
-          - 'astro-icon'
+          - '*'
+    commit-message:
+      prefix: chore(deps)
 
-  # GitHub Actions
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
-    open-pull-requests-limit: 5
+      time: '06:15'
+      timezone: America/Bogota
+    open-pull-requests-limit: 1
     groups:
-      actions:
+      workflow-actions:
         patterns:
           - '*'
+    commit-message:
+      prefix: chore(deps)

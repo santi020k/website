@@ -3,6 +3,12 @@ name: Release
 'on':
   push:
     branches: [main]
+    paths:
+      - .changeset/**
+      - .github/workflows/release.yml
+      - CHANGELOG.md
+      - package.json
+      - pnpm-lock.yaml
   workflow_dispatch: {}
 
 concurrency:
@@ -20,17 +26,17 @@ jobs:
       pull-requests: write
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
           version: 10.32.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: "24.x"
           cache: pnpm
@@ -68,9 +74,11 @@ jobs:
           fi
 
           echo "Detected version bump: ${previous_version} -> ${current_version}"
-          echo "changed=true" >> "$GITHUB_OUTPUT"
-          echo "version=$current_version" >> "$GITHUB_OUTPUT"
-          echo "tag=v$current_version" >> "$GITHUB_OUTPUT"
+          {
+            echo "changed=true"
+            echo "version=$current_version"
+            echo "tag=v$current_version"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create version tag and GitHub Release
         if: steps.version.outputs.changed == 'true'
@@ -118,7 +126,7 @@ jobs:
           fi
 
       - name: Create or update the Changesets release pull request
-        uses: changesets/action@v1
+        uses: changesets/action@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
         with:
           version: pnpm run version-packages
           commit: "chore(release): version website"

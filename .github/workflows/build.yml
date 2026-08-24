@@ -1,106 +1,149 @@
 name: CI
 
-'on':
+on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch: {}
 
-permissions:
-  contents: read
-
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  actions: read
+  contents: read
+
 jobs:
-  validate:
-    name: Validate and build
+  quality:
+    name: Quality gate
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Detect build-affecting changes
+        id: changes
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          run_checks=false
+          run_full=false
+
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            run_checks=true
+            run_full=true
+          else
+            git diff --no-renames --name-only --diff-filter=ACDMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
+            while IFS= read -r path; do
+              case "$path" in
+                src/*|public/*|scripts/*|tests/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|cspell.config.*|eslint.config.*|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|.markdownlint-cli2.*|.npmrc|.changeset/*|.github/*.yml|.github/*.yaml|.github/workflows/*|.github/ISSUE_TEMPLATE/*)
+                  run_checks=true
+                  run_full=true
+                  ;;
+                *.md|*.mdx)
+                  run_checks=true
+                  ;;
+              esac
+            done < "$RUNNER_TEMP/changed-files"
+          fi
+
+          echo "checks=$run_checks" >> "$GITHUB_OUTPUT"
+          echo "full=$run_full" >> "$GITHUB_OUTPUT"
+
+      - name: Run Astro Doctor on the changed code
+        if: steps.changes.outputs.full == 'true' && github.event_name == 'pull_request'
+        uses: santi020k/astro-doctor@15c01314c0601c88fb087946f9238f018e76589c # v1
+        with:
+          comment: 'false'
+          diff-only: 'true'
+          fail-on: warning
+
+      - name: Set up pnpm
+        if: steps.changes.outputs.checks == 'true'
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
           version: 10.32.1
-      - uses: actions/setup-node@v6
+
+      - name: Set up Node.js
+        if: steps.changes.outputs.checks == 'true'
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: "24.x"
-          cache: "pnpm"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run verify:quality
+          node-version: 24.x
+          cache: pnpm
+
+      - name: Install dependencies
+        if: steps.changes.outputs.checks == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Check documentation
+        if: steps.changes.outputs.checks == 'true' && steps.changes.outputs.full != 'true'
+        run: pnpm run spellcheck && pnpm run lint:md
+
+      - name: Run static checks and unit tests
+        if: steps.changes.outputs.full == 'true'
+        run: pnpm run verify:quality
+
       - name: Audit dependencies
-        # CVE-2026-14257 is limited to repository-controlled glob patterns in
-        # legacy developer CLIs. The exception is documented in
-        # pnpm-workspace.yaml because forcing brace-expansion v5 breaks them.
+        if: steps.changes.outputs.full == 'true'
         run: pnpm run audit
+
       - name: Cache pre-rendered OG images
-        uses: actions/cache@v4
+        if: steps.changes.outputs.full == 'true'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: public/og
           key: >-
             og-${{ runner.os }}-${{ hashFiles('src/content/**/*.md', 'src/content/**/*.mdx', 'scripts/js/generate-og-images.js', 'scripts/js/og-render-worker.mjs', 'src/utils/render-social-image.js', 'public/fonts/Montserrat-Regular.ttf', 'public/fonts/Montserrat-ExtraBold.ttf', 'public/logos/logo.webp') }}
           restore-keys: |
             og-${{ runner.os }}-
-      - name: Build
+
+      - name: Build production site
+        if: steps.changes.outputs.full == 'true'
         run: pnpm run build
         env:
           PUBLIC_IS_CI: true
-      - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-          retention-days: 1
 
-  e2e-stable:
-    name: E2E Tests (Stable Required)
-    needs: validate
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.32.1
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "24.x"
-          cache: "pnpm"
-      - run: pnpm install --frozen-lockfile
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
+      - name: Cache Playwright browser
+        if: steps.changes.outputs.full == 'true'
         id: playwright-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-      - name: Install Chromium browser
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps chromium
-      - name: Install Playwright system deps
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm exec playwright install-deps
-      - name: Download dist artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-      - run: pnpm run test:e2e:ci:stable
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-  lighthouse:
-    name: Lighthouse CI
-    needs: validate
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Download dist artifact
-        uses: actions/download-artifact@v4
+      - name: Install Chromium browser
+        if: steps.changes.outputs.full == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Install Chromium system dependencies
+        if: steps.changes.outputs.full == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+
+      - name: Run stable browser tests
+        if: steps.changes.outputs.full == 'true'
+        run: pnpm run test:e2e:ci:stable
+
+      - name: Run Lighthouse assertions
+        if: steps.changes.outputs.full == 'true'
+        run: pnpm exec lhci autorun --config=.lighthouserc.json
+
+      - name: Upload browser diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: dist
-          path: dist/
-      - name: Audit Performance with Lighthouse
-        uses: treosh/lighthouse-ci-action@v12
-        with:
-          uploadArtifacts: true
-          temporaryPublicStorage: true
-          configPath: "./.lighthouserc.json"
+          name: browser-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+            .lighthouseci/
+          if-no-files-found: ignore
+          include-hidden-files: true
+          retention-days: 7

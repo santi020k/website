@@ -102,6 +102,35 @@ describe('getMediumPosts — successful fetch', () => {
     }])
   })
 
+  test('does not double-unescape XML entities parsed from feed metadata', async () => {
+    const feed = makeRss(`
+      <item>
+        <title>&amp;quot;Quoted&amp;quot; &amp; normal</title>
+        <link>https://medium.com/@santi020k/entity-test</link>
+        <content:encoded><![CDATA[
+          <p>Tom &amp; Jerry &quot;hello&quot; in a paragraph long enough to become the generated excerpt.</p>
+        ]]></content:encoded>
+        <dc:creator>&amp;quot;Author&amp;quot;</dc:creator>
+        <category>&amp;quot;category&amp;quot;</category>
+      </item>
+    `)
+
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      text: () => Promise.resolve(feed)
+    }))
+
+    const { getMediumPosts } = await import('../medium')
+    const posts = await getMediumPosts()
+
+    expect(posts).toMatchObject([{
+      author: '&quot;Author&quot;',
+      excerpt: 'Tom & Jerry "hello" in a paragraph long enough to become the generated excerpt.',
+      tags: ['&quot;category&quot;'],
+      title: '&quot;Quoted&quot; & normal'
+    }])
+  })
+
   test('returns cached result on second call without re-fetching', async () => {
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
