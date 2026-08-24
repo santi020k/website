@@ -1,12 +1,15 @@
-name: CodeQL scheduled scan
+name: CodeQL
 
 on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
   schedule:
     - cron: '23 7 1 * *'
   workflow_dispatch: {}
 
 concurrency:
-  group: codeql-scheduled
+  group: codeql-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -16,12 +19,14 @@ permissions:
 
 jobs:
   analyze:
-    name: CodeQL scheduled scan
+    name: CodeQL scan
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@ff2f1c621b7f889edc0d3c761ac2e6a3f8cdb0dd # v4
