@@ -1,7 +1,6 @@
 # [Santiago Molina](https://santi020k.com/)
 
 [![CI](https://github.com/santi020k/website/actions/workflows/build.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/build.yml)
-[![Astro Doctor](https://github.com/santi020k/website/actions/workflows/astro-doctor.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/astro-doctor.yml)
 [![CodeQL](https://github.com/santi020k/website/actions/workflows/codeql.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/codeql.yml)
 [![License: Source-Available](https://img.shields.io/badge/license-source--available-orange.svg)](./LICENSE)
 
@@ -25,7 +24,7 @@ Personal website, blog, and portfolio of **Santiago Molina** — Full Stack Deve
 - **Accessibility First**: WCAG 2.2 AA compliant, validated with axe in E2E tests.
 - **View Transitions**: Seamless, app-like navigation between pages.
 - **Generated Assets**: Favicons, OG images, fonts, and brand assets built from scripts — no stale binaries.
-- **Quality Gates**: [Astro Doctor](https://github.com/santi020k/astro-doctor), ESLint (via [`@santi020k/eslint-config-full`](https://github.com/santi020k/eslint-config-basic)), dependency audit, Vitest, Playwright, and Lighthouse CI share one read-only, path-aware pull-request job. A monthly CodeQL scan checks the protected default branch without granting write permissions to pull-request code.
+- **Quality Gates**: [Astro Doctor](https://github.com/santi020k/astro-doctor), ESLint (via [`@santi020k/eslint-config-full`](https://github.com/santi020k/eslint-config-basic)), dependency audit, Vitest, Playwright, and Lighthouse CI share one read-only, path-aware pull-request job. CodeQL scans pull requests and runs monthly against the protected default branch without granting write permissions to pull-request code.
 
 ---
 

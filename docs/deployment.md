@@ -65,9 +65,9 @@ they should appear in a release. GitHub Releases remain deployment markers, not
 a second deployment gate, and the workflow never publishes the private website
 package to npm.
 
-CodeQL runs monthly and on demand against the protected default branch. The
-pull-request job stays read-only, and the dependency audit reuses its single
-dependency installation.
+CodeQL scans pull requests and also runs monthly or on demand against the
+protected default branch. The pull-request jobs stay read-only, and the
+dependency audit reuses the quality gate's single dependency installation.
 
 ## Pre-release local validation
 
