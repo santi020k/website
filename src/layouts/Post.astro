@@ -12,12 +12,12 @@ import TocCard from '@/components/molecules/TocCard.astro'
 import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
-import ReadingProgressBar from '@/components/shared/ReadingProgressBar.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
 import { getPostSlug } from '@/utils/posts'
 import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 
+import { ScrollProgress } from '@santi020k/lumen-astro'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
@@ -88,7 +88,7 @@ const breadcrumbs = [
     title
   }}
 >
-  <ReadingProgressBar />
+  <ScrollProgress />
 
   <article class="h-entry section-container-wide flex flex-col gap-10">
     <a class="u-url sr-only" href={localURL.href}>Permalink to this article</a>

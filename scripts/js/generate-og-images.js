@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/max-len, @stylistic/lines-around-comment -- TODO: Split the OG card templates and SVG/CSS literals into smaller template modules so this generated asset script can use the normal lint rules. */
 /**
  * Pre-build OG image generator.
  *
@@ -18,12 +17,19 @@
  * `min(16, os.availableParallelism())`).
  */
 
-import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { createCards, pathnameOutput } from '@santi020k/og'
+import {
+  collectContentCards,
+  getFrontmatterValue,
+  groupArchive,
+  paginateArchive,
+  resolveContentAsset
+} from '@santi020k/og/content'
+import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
-import yaml from 'js-yaml'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..')
@@ -31,23 +37,7 @@ const OUT_DIR = path.join(ROOT, 'public', 'og')
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-const trimOuterSlashes = value => value.replace(/^\/+|\/+$/g, '')
-
-const safeDecodeURIComponent = value => {
-  try {
-    return decodeURIComponent(value)
-  } catch {
-    return value
-  }
-}
-
-const getSocialImageSlug = pathname => trimOuterSlashes(pathname)
-  .split('/')
-  .filter(Boolean)
-  .map(segment => encodeURIComponent(safeDecodeURIComponent(segment)).replaceAll('%', '~'))
-  .join('--')
-
-const getSocialImageFileName = pathname => `${getSocialImageSlug(pathname) || 'index'}.webp`
+const getSocialImageFileName = pathname => pathnameOutput(pathname)
 
 const getTechnologySlug = technology => technology
   .normalize('NFKD')
@@ -58,92 +48,6 @@ const getTechnologySlug = technology => technology
   .toLowerCase()
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-+|-+$/g, '')
-
-/** Read and parse the YAML frontmatter from a markdown / MDX file. */
-const readFrontmatter = filePath => {
-  const content = fs.readFileSync(filePath, 'utf8')
-  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
-
-  if (!match) return {}
-
-  return yaml.load(match[1]) ?? {}
-}
-
-const isMarkdownFile = fileName => fileName.endsWith('.md') || fileName.endsWith('.mdx')
-
-const getPaginationPathnames = (basePathname, totalItems, pageSize) => {
-  const pages = Math.max(1, Math.ceil(totalItems / pageSize))
-
-  return Array.from({ length: pages }, (_, index) => {
-    const pageNumber = index + 1
-
-    return pageNumber === 1 ? basePathname : `${basePathname}${pageNumber}/`
-  })
-}
-
-/** Collect all .md / .mdx files inside `dir`, including nested content dirs. */
-export const collectMarkdownFiles = dir => {
-  if (!fs.existsSync(dir)) return []
-
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
-    const entryPath = path.join(dir, entry.name)
-
-    if (entry.isDirectory()) return collectMarkdownFiles(entryPath)
-
-    return isMarkdownFile(entry.name) ? [entryPath] : []
-  })
-}
-
-/** Derive a content id from a markdown path, matching Astro's `index.md` behavior. */
-export const getContentSlug = (filePath, baseDir) => {
-  const relativePath = path
-    .relative(baseDir, filePath)
-    .replaceAll(path.sep, '/')
-
-  const withoutExtension = relativePath.replace(/\.mdx?$/, '')
-
-  const slug =
-    path.posix.basename(withoutExtension) === 'index' ?
-      path.posix.dirname(withoutExtension) :
-      withoutExtension
-
-  return slug === '.' ? '' : slug
-}
-
-/**
- * Resolve a frontmatter image path to an absolute file path.
- * Remote URLs are ignored because the prebuild renderer only handles local assets.
- */
-export const resolveContentImagePath = (markdownFilePath, imagePath) => {
-  if (typeof imagePath !== 'string' || imagePath.length === 0) return undefined
-
-  if (/^(https?:)?\/\//.test(imagePath) || imagePath.startsWith('data:'))
-    return undefined
-
-  const absolutePath = path.isAbsolute(imagePath) ?
-    imagePath :
-    path.resolve(path.dirname(markdownFilePath), imagePath)
-
-  return fs.existsSync(absolutePath) ? absolutePath : undefined
-}
-
-const getCoverImagePath = (
-  markdownFilePath,
-  frontmatter,
-  { preferOgImage = false } = {}
-) => {
-  const coverImage = frontmatter.coverImage
-
-  if (!coverImage) return undefined
-
-  const candidates = preferOgImage ?
-    [coverImage.ogImage, coverImage.src] :
-    [coverImage.src]
-
-  return candidates
-    .map(candidate => resolveContentImagePath(markdownFilePath, candidate))
-    .find(Boolean)
-}
 
 // ---------------------------------------------------------------------------
 // Collect image specs
@@ -266,216 +170,216 @@ const staticSocialPages = [
   }
 ]
 
-export const collectSpecs = () => {
-  /** @type {Array<{outFile: string, props: object}>} */
-  const specs = []
+const includeDrafts = process.env.OG_INCLUDE_DRAFTS === '1'
 
-  // Static pages
-  for (const page of staticSocialPages) {
-    specs.push({
-      outFile: path.join(
-        OUT_DIR, 'pages', getSocialImageFileName(page.pathname)
-      ),
-      props: {
-        description: page.description,
-        pathLabel: page.pathname,
-        title: page.title,
-        type: page.type
-      }
-    })
-  }
+const nonIndexableStaticPathnames = new Set([
+  '/404/',
+  '/blog/content-calendar/',
+  '/offline/'
+])
 
-  // Blog posts
-  const postDir = path.join(ROOT, 'src', 'content', 'post')
-  const allPostFrontmatter = []
+export const isPublishedPost = entry => {
+  if (includeDrafts) return true
 
-  for (const filePath of collectMarkdownFiles(postDir)) {
-    const fm = readFrontmatter(filePath)
+  const value = getFrontmatterValue(entry, 'publishDate')
+  let publishTime = Number.NaN
 
-    if (fm.draft && process.env.OG_INCLUDE_DRAFTS !== '1') continue
+  if (value instanceof Date) publishTime = value.getTime()
+  else if (typeof value === 'string') publishTime = Date.parse(value)
 
-    allPostFrontmatter.push(fm)
-
-    const rawId = getContentSlug(filePath, postDir)
-    const id = rawId.includes('/') ? rawId.split('/').pop() : rawId
-    const coverImagePath = getCoverImagePath(filePath, fm)
-
-    specs.push({
-      outFile: path.join(OUT_DIR, 'blog', `${id}.webp`),
-      props: {
-        ...(coverImagePath ? { coverImagePath } : {}),
-        description: fm.description ?? '',
-        pathLabel: `/blog/${id}/`,
-        title: fm.title ?? id,
-        type: 'Blog Post'
-      }
-    })
-  }
-
-  // Blog archive pagination
-  for (const pathname of getPaginationPathnames(
-    '/blog/', allPostFrontmatter.length, 9
-  )) {
-    if (pathname === '/blog/') continue
-
-    const pageNumber = Number(pathname.split('/').filter(Boolean).at(-1))
-
-    specs.push({
-      outFile: path.join(
-        OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`
-      ),
-      props: {
-        description:
-          'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
-        pathLabel: pathname,
-        title: `Blog · Page ${pageNumber}`,
-        type: 'Blog'
-      }
-    })
-  }
-
-  // Blog tag archives + pagination
-  const tagCounts = new Map()
-
-  for (const fm of allPostFrontmatter) {
-    if (!Array.isArray(fm.tags)) continue
-
-    for (const tag of fm.tags) {
-      if (typeof tag !== 'string' || tag.length === 0) continue
-
-      tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1)
-    }
-  }
-
-  for (const [tag, count] of tagCounts) {
-    const basePathname = `/blog/tags/${encodeURIComponent(tag)}/`
-
-    for (const pathname of getPaginationPathnames(basePathname, count, 9)) {
-      const pageNumber =
-        pathname === basePathname ?
-          1 :
-          Number(pathname.split('/').filter(Boolean).at(-1))
-
-      specs.push({
-        outFile: path.join(
-          OUT_DIR, 'pages', `${getSocialImageSlug(pathname)}.webp`
-        ),
-        props: {
-          description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
-          pathLabel: pathname,
-          title:
-            pageNumber === 1 ?
-              `${tag} Posts` :
-              `${tag} Posts · Page ${pageNumber}`,
-          type: 'Topic'
-        }
-      })
-    }
-  }
-
-  // Projects + technologies (single pass to avoid parsing frontmatter twice)
-  const projectDir = path.join(ROOT, 'src', 'content', 'project')
-  const allTechnologies = new Map()
-  const projectFiles = collectMarkdownFiles(projectDir)
-
-  for (const filePath of projectFiles) {
-    const fm = readFrontmatter(filePath)
-
-    if (fm.draft && process.env.OG_INCLUDE_DRAFTS !== '1') continue
-
-    const id = getContentSlug(filePath, projectDir)
-
-    const coverImagePath = getCoverImagePath(filePath, fm, {
-      preferOgImage: true
-    })
-
-    specs.push({
-      outFile: path.join(OUT_DIR, 'portfolio', `${id}.webp`),
-      props: {
-        ...(coverImagePath ? { coverImagePath } : {}),
-        description: fm.seoDescription ?? fm.description ?? '',
-        pathLabel: `/portfolio/${id}/`,
-        title: fm.title ?? id,
-        type: 'Project'
-      }
-    })
-
-    if (Array.isArray(fm.technologies)) {
-      for (const tech of fm.technologies) {
-        if (typeof tech !== 'string') continue
-
-        const technologySlug = getTechnologySlug(tech)
-        const existingTechnology = allTechnologies.get(technologySlug)
-
-        if (technologySlug === 'npm') {
-          allTechnologies.set(technologySlug, 'NPM')
-        } else if (!existingTechnology) {
-          allTechnologies.set(technologySlug, tech)
-        }
-      }
-    }
-  }
-
-  // Series
-  const seriesDir = path.join(ROOT, 'src', 'content', 'series')
-
-  for (const filePath of collectMarkdownFiles(seriesDir)) {
-    const fm = readFrontmatter(filePath)
-    const id = getContentSlug(filePath, seriesDir)
-    const seriesPathname = `/blog/series/${id}/`
-    const slug = getSocialImageSlug(seriesPathname)
-
-    specs.push({
-      outFile: path.join(OUT_DIR, 'pages', `${slug}.webp`),
-      props: {
-        description: fm.seoDescription ?? fm.description ?? '',
-        pathLabel: seriesPathname,
-        title: fm.seoTitle ?? fm.title ?? id,
-        type: 'Blog Series'
-      }
-    })
-  }
-
-  for (const [technologySlug, tech] of allTechnologies) {
-    const pathname = `/technologies/${technologySlug}/`
-    const imagePathname = `/technologies/${encodeURIComponent(tech)}/`
-
-    for (const pagePathname of getPaginationPathnames(pathname, 1, 50)) {
-      const slug = getSocialImageSlug(imagePathname)
-
-      specs.push({
-        outFile: path.join(OUT_DIR, 'pages', `${slug}.webp`),
-        props: {
-          description:
-            `Projects and case studies where ${tech} shaped the architecture, ` +
-            'delivery workflow, or product experience.',
-          pathLabel: pagePathname,
-          title: `${tech} · Technology`,
-          type: 'Technology'
-        }
-      })
-    }
-  }
-
-  return specs
+  return Number.isFinite(publishTime) && publishTime <= Date.now()
 }
 
-export default definePresetConfig({
-  cards: () => collectSpecs().map(({ outFile, props }) => ({
-    data: {
-      badge: props.type,
-      description: props.description,
-      domain: props.pathLabel,
-      ...(props.coverImagePath ? { image: props.coverImagePath } : {}),
-      title: props.title,
-      variant: props.coverImagePath ? 'article' : 'simple'
+const archiveCard = (pathname, title, description, badge) => ({
+  data: { badge, description, domain: pathname, title, variant: 'simple' },
+  output: `pages/${getSocialImageFileName(pathname)}`,
+  route: { description, pathname, title }
+})
+
+export const collectCards = async () => {
+  const staticPages = staticSocialPages.map(page => definePageMetadata({
+    description: page.description,
+    image: {
+      alt: `${page.title} — Santiago Molina`,
+      output: `pages/${getSocialImageFileName(page.pathname)}`
     },
-    output: path.relative(OUT_DIR, outFile),
-    ...(props.coverImagePath ? { sources: [props.coverImagePath] } : {})
-  })),
+    pathname: page.pathname,
+    title: page.title,
+    type: page.type
+  }))
+
+  const staticCards = createCards(staticPages, page => ({
+    badge: page.type,
+    description: page.description,
+    domain: page.pathname,
+    title: page.title,
+    variant: 'simple'
+  }), {
+    output: page => page.image.output,
+    route: page => {
+      if (nonIndexableStaticPathnames.has(page.pathname)) return undefined
+
+      return {
+        alt: page.image.alt,
+        description: page.description,
+        pathname: page.pathname,
+        title: page.title
+      }
+    }
+  })
+
+  const postCards = await collectContentCards({
+    archives: [
+      paginateArchive({
+        basePath: '/blog/',
+        data: context => ({
+          badge: 'Blog',
+          description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+          domain: context.pathname,
+          title: `Blog · Page ${context.pageNumber}`,
+          variant: 'simple'
+        }),
+        includeFirst: false,
+        output: context => `pages/${getSocialImageFileName(context.pathname)}`,
+        pageSize: 9
+      }),
+      groupArchive({
+        basePath: '/blog/tags/',
+        data: context => ({
+          badge: 'Topic',
+          description: `Posts tagged ${context.group} across architecture, automation, developer experience, and engineering workflow.`,
+          domain: context.pathname,
+          title: context.pageNumber === 1 ? `${context.group} Posts` : `${context.group} Posts · Page ${context.pageNumber}`,
+          variant: 'simple'
+        }),
+        field: 'tags',
+        output: context => `pages/${getSocialImageFileName(context.pathname)}`,
+        pageSize: 9,
+        slug: group => encodeURIComponent(group)
+      })
+    ],
+    basePath: 'blog',
+    directory: 'src/content/post',
+    filter: isPublishedPost,
+    includeDrafts,
+    map: async entry => {
+      const id = entry.slug.split('/').at(-1) ?? entry.slug
+      const coverImagePath = await resolveContentAsset(entry, getFrontmatterValue(entry, 'coverImage.src'))
+
+      return {
+        badge: 'Blog Post',
+        ...(coverImagePath ? { coverImagePath, image: coverImagePath } : {}),
+        description: entry.frontmatter.description ?? '',
+        domain: `/blog/${id}/`,
+        title: entry.frontmatter.title ?? id,
+        variant: coverImagePath ? 'article' : 'simple'
+      }
+    },
+    output: entry => `blog/${entry.slug.split('/').at(-1)}.webp`,
+    route: entry => `/blog/${entry.slug.split('/').at(-1)}/`,
+    root: ROOT,
+    sources: (entry, data) => data.coverImagePath ? [entry.filePath, data.coverImagePath] : [entry.filePath]
+  })
+
+  const technologies = new Map()
+
+  const projectCards = await collectContentCards({
+    aggregate: entries => {
+      for (const entry of entries) {
+        if (!includeDrafts && entry.frontmatter.draft === true) continue
+
+        const values = entry.frontmatter.technologies
+
+        if (!Array.isArray(values)) continue
+
+        for (const tech of values) {
+          if (typeof tech !== 'string') continue
+
+          const slug = getTechnologySlug(tech)
+
+          if (slug === 'ci-cd') technologies.set(slug, 'CI/CD')
+          else if (slug === 'npm') technologies.set(slug, 'NPM')
+          else if (!technologies.has(slug)) technologies.set(slug, tech)
+        }
+      }
+
+      return []
+    },
+    directory: 'src/content/project',
+    basePath: 'portfolio',
+    includeDrafts,
+    map: async entry => {
+      const coverImagePath = await resolveContentAsset(
+        entry,
+        getFrontmatterValue(entry, 'coverImage.ogImage')
+      ) ?? await resolveContentAsset(entry, getFrontmatterValue(entry, 'coverImage.src'))
+
+      return {
+        badge: 'Project',
+        ...(coverImagePath ? { coverImagePath, image: coverImagePath } : {}),
+        description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
+        domain: `/portfolio/${entry.slug}/`,
+        title: entry.frontmatter.title ?? entry.slug,
+        variant: coverImagePath ? 'article' : 'simple'
+      }
+    },
+    output: entry => `portfolio/${entry.slug}.webp`,
+    root: ROOT,
+    sources: (entry, data) => data.coverImagePath ? [entry.filePath, data.coverImagePath] : [entry.filePath]
+  })
+
+  const seriesCards = await collectContentCards({
+    basePath: 'blog/series',
+    directory: 'src/content/series',
+    map: entry => ({
+      badge: 'Blog Series',
+      description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
+      domain: `/blog/series/${entry.slug}/`,
+      title: entry.frontmatter.seoTitle ?? entry.frontmatter.title ?? entry.slug,
+      variant: 'simple'
+    }),
+    output: entry => `pages/${getSocialImageFileName(`/blog/series/${entry.slug}/`)}`,
+    root: ROOT
+  })
+
+  const technologyCards = [...technologies].map(([slug, technology]) => {
+    const pathname = `/technologies/${slug}/`
+
+    const card = archiveCard(
+      `/technologies/${encodeURIComponent(technology)}/`,
+      `${technology} · Technology`,
+      `Projects and case studies where ${technology} shaped the architecture, delivery workflow, or product experience.`,
+      'Technology'
+    )
+
+    return {
+      ...card,
+      data: { ...card.data, domain: pathname },
+      output: `pages/technologies--${encodeURIComponent(technology).replaceAll('%', '~')}.webp`,
+      route: { ...card.route, pathname }
+    }
+  })
+
+  return [...staticCards, ...postCards, ...projectCards, ...seriesCards, ...technologyCards]
+}
+
+export const collectSpecs = async () => (await collectCards()).map(card => ({
+  outFile: path.join(OUT_DIR, card.output),
+  props: {
+    ...(card.data.coverImagePath ? { coverImagePath: card.data.coverImagePath } : {}),
+    description: card.data.description,
+    pathLabel: card.data.domain,
+    title: card.data.title,
+    type: card.data.badge
+  }
+}))
+
+export default definePresetConfig({
+  cards: collectCards,
   clean: true,
   concurrency: 'auto',
   outputDirectory: 'public/og',
+  routeManifest: { file: 'public/og/manifest.json', publicPath: '/og' },
   preset: {
     brand: { domain: 'santi020k.com', name: 'Santiago Molina' },
     theme: { accent: '#945df4', background: '#0d0718', panel: '#1c1528' }

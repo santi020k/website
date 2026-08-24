@@ -274,7 +274,6 @@ export default defineConfig({
     webmanifest({
       // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
       name: siteConfig.title,
-      /* eslint-disable camelcase */
       short_name: 'santi020k',
       description: siteConfig.description,
       lang: siteConfig.lang,
@@ -303,7 +302,6 @@ export default defineConfig({
       start_url: '/',
       background_color: '#09040f',
       theme_color: '#09040f',
-      /* eslint-enable camelcase */
       display: 'standalone',
       config: {
         insertFaviconLinks: false,
@@ -391,7 +389,7 @@ export default defineConfig({
       }
     },
     optimizeDeps: {
-      exclude: ['@resvg/resvg-js']
+      exclude: []
     },
     plugins: [rawFonts(['.ttf', '.woff']), tailwindcss()]
   },

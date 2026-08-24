@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
-import yaml from 'js-yaml'
+import { load as loadYaml } from 'js-yaml'
 
 const CONTENT_ROOT = path.resolve('src/content')
 
@@ -26,7 +26,7 @@ const parseFrontmatter = raw => {
 
   if (end === -1) return null
 
-  return yaml.load(raw.slice(4, end))
+  return loadYaml(raw.slice(4, end))
 }
 
 const validateFile = async filePath => {

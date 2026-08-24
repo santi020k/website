@@ -1,0 +1,5142 @@
+{
+  "generatorVersion": "1.0.0",
+  "routes": {
+    "/": {
+      "alt": "Engineering Leader & Full-Stack Architect — Santiago Molina",
+      "description": "Engineering Leader & Full-Stack Architect with 12+ years of experience building resilient systems and scaling technical teams.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/index.webp",
+          "primary": true,
+          "url": "/og/pages/index.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/",
+      "title": "Engineering Leader & Full-Stack Architect"
+    },
+    "/about/": {
+      "alt": "About Santiago Molina - Engineering Leader — Santiago Molina",
+      "description": "12+ years shipping full-stack products. Senior engineer and tech lead based in Medellin focused on automation, developer experience, and cross-functional leadership.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/about.webp",
+          "primary": true,
+          "url": "/og/pages/about.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/about/",
+      "title": "About Santiago Molina - Engineering Leader"
+    },
+    "/blog/": {
+      "alt": "Software Engineering Blog - Santiago Molina — Santiago Molina",
+      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog.webp",
+          "primary": true,
+          "url": "/og/pages/blog.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/",
+      "title": "Software Engineering Blog - Santiago Molina"
+    },
+    "/blog/series/": {
+      "alt": "Blog Series — Santiago Molina",
+      "description": "Browse Santiago Molina's blog series for connected reading tracks on Next.js delivery, ESLint tooling, testing, and software architecture.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--series.webp",
+          "primary": true,
+          "url": "/og/pages/blog--series.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/series/",
+      "title": "Blog Series"
+    },
+    "/blog/tags/": {
+      "alt": "Blog Topics — Santiago Molina",
+      "description": "Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/",
+      "title": "Blog Topics"
+    },
+    "/portfolio/": {
+      "alt": "Engineering Portfolio - Santiago Molina — Santiago Molina",
+      "description": "A curated showcase of professional engineering projects, open-source contributions, and technical experiments across headless commerce, gaming, and SaaS.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/portfolio.webp",
+          "primary": true,
+          "url": "/og/pages/portfolio.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/",
+      "title": "Engineering Portfolio - Santiago Molina"
+    },
+    "/work/": {
+      "alt": "Work Experience — Santiago Molina — Santiago Molina",
+      "description": "Client and product work across headless commerce, gaming, SaaS, real estate, and martech — architecture decisions, delivery systems, and hands-on technical leadership.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/work.webp",
+          "primary": true,
+          "url": "/og/pages/work.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/work/",
+      "title": "Work Experience — Santiago Molina"
+    },
+    "/projects/": {
+      "alt": "Side Projects — Santiago Molina — Santiago Molina",
+      "description": "Open-source tools, community work, and self-directed experiments — the projects Santiago Molina builds to learn, share, and sharpen engineering craft.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/projects.webp",
+          "primary": true,
+          "url": "/og/pages/projects.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/projects/",
+      "title": "Side Projects — Santiago Molina"
+    },
+    "/resume/": {
+      "alt": "Resume & Curriculum Vitae — Santiago Molina",
+      "description": "Engineering leader and full-stack architect resume. Explore Santiago Molina's professional experience, technical skills, and open-source projects.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/resume.webp",
+          "primary": true,
+          "url": "/og/pages/resume.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/resume/",
+      "title": "Resume & Curriculum Vitae"
+    },
+    "/speaking/": {
+      "alt": "Speaking & Workshops — Santiago Molina",
+      "description": "Talks, workshops, and engineering conversations about developer experience, technical leadership, frontend architecture, and calmer delivery systems.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/speaking.webp",
+          "primary": true,
+          "url": "/og/pages/speaking.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/speaking/",
+      "title": "Speaking & Workshops"
+    },
+    "/technologies/": {
+      "alt": "Technology Index — Santiago Molina",
+      "description": "Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies.webp",
+          "primary": true,
+          "url": "/og/pages/technologies.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/",
+      "title": "Technology Index"
+    },
+    "/accessibility/": {
+      "alt": "Accessibility statement — Santiago Molina",
+      "description": "Accessibility commitment for santi020k.com: WCAG 2.2 AA as the target, practical limits of a solo-maintained site, and how to report barriers.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/accessibility.webp",
+          "primary": true,
+          "url": "/og/pages/accessibility.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/accessibility/",
+      "title": "Accessibility statement"
+    },
+    "/privacy/": {
+      "alt": "Privacy & analytics — Santiago Molina",
+      "description": "How santi020k.com handles data: no ad trackers, no profiling, just a static site with a theme preference.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/privacy.webp",
+          "primary": true,
+          "url": "/og/pages/privacy.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/privacy/",
+      "title": "Privacy & analytics"
+    },
+    "/blog/atomic-module-component-structure-for-react/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/atomic-module-component-structure-for-react.webp",
+          "primary": true,
+          "url": "/og/blog/atomic-module-component-structure-for-react.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/atomic-module-component-structure-for-react/"
+    },
+    "/blog/authentication-and-authorization-in-next-js-applications-with-supabase/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/authentication-and-authorization-in-next-js-applications-with-supabase.webp",
+          "primary": true,
+          "url": "/og/blog/authentication-and-authorization-in-next-js-applications-with-supabase.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/authentication-and-authorization-in-next-js-applications-with-supabase/"
+    },
+    "/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp",
+          "primary": true,
+          "url": "/og/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library/"
+    },
+    "/blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration.webp",
+          "primary": true,
+          "url": "/og/blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration/"
+    },
+    "/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp",
+          "primary": true,
+          "url": "/og/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/"
+    },
+    "/blog/continuous-integration-and-deployment-for-next-js-projects/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/continuous-integration-and-deployment-for-next-js-projects.webp",
+          "primary": true,
+          "url": "/og/blog/continuous-integration-and-deployment-for-next-js-projects.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/continuous-integration-and-deployment-for-next-js-projects/"
+    },
+    "/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp",
+          "primary": true,
+          "url": "/og/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/"
+    },
+    "/blog/migrate-eslint-8-or-less-to-eslint-9/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/migrate-eslint-8-or-less-to-eslint-9.webp",
+          "primary": true,
+          "url": "/og/blog/migrate-eslint-8-or-less-to-eslint-9.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/migrate-eslint-8-or-less-to-eslint-9/"
+    },
+    "/blog/skin-in-the-game-for-software-teams/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/skin-in-the-game-for-software-teams.webp",
+          "primary": true,
+          "url": "/og/blog/skin-in-the-game-for-software-teams.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/skin-in-the-game-for-software-teams/"
+    },
+    "/blog/storybook-in-action-with-next-js-tailwind-and-typescript/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/storybook-in-action-with-next-js-tailwind-and-typescript.webp",
+          "primary": true,
+          "url": "/og/blog/storybook-in-action-with-next-js-tailwind-and-typescript.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/storybook-in-action-with-next-js-tailwind-and-typescript/"
+    },
+    "/blog/testing-react-components-with-vitest-and-react-testing-library/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/testing-react-components-with-vitest-and-react-testing-library.webp",
+          "primary": true,
+          "url": "/og/blog/testing-react-components-with-vitest-and-react-testing-library.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/testing-react-components-with-vitest-and-react-testing-library/"
+    },
+    "/blog/a-release-process-that-reduces-drama/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/a-release-process-that-reduces-drama.webp",
+          "primary": true,
+          "url": "/og/blog/a-release-process-that-reduces-drama.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/a-release-process-that-reduces-drama/"
+    },
+    "/blog/avoid-inverted-conditionals-when-clarity-matters/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/avoid-inverted-conditionals-when-clarity-matters.webp",
+          "primary": true,
+          "url": "/og/blog/avoid-inverted-conditionals-when-clarity-matters.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/avoid-inverted-conditionals-when-clarity-matters/"
+    },
+    "/blog/avoid-magic-strings-in-typescript-and-javascript/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/avoid-magic-strings-in-typescript-and-javascript.webp",
+          "primary": true,
+          "url": "/og/blog/avoid-magic-strings-in-typescript-and-javascript.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/avoid-magic-strings-in-typescript-and-javascript/"
+    },
+    "/blog/code-standards-that-scale-with-a-team/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/code-standards-that-scale-with-a-team.webp",
+          "primary": true,
+          "url": "/og/blog/code-standards-that-scale-with-a-team.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/code-standards-that-scale-with-a-team/"
+    },
+    "/blog/common-code-pitfalls-that-signal-maintenance-risk/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/common-code-pitfalls-that-signal-maintenance-risk.webp",
+          "primary": true,
+          "url": "/og/blog/common-code-pitfalls-that-signal-maintenance-risk.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/common-code-pitfalls-that-signal-maintenance-risk/"
+    },
+    "/blog/git-best-practices-for-calm-collaboration/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/git-best-practices-for-calm-collaboration.webp",
+          "primary": true,
+          "url": "/og/blog/git-best-practices-for-calm-collaboration.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/git-best-practices-for-calm-collaboration/"
+    },
+    "/blog/responsive-design-standards-that-scale-across-components/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/responsive-design-standards-that-scale-across-components.webp",
+          "primary": true,
+          "url": "/og/blog/responsive-design-standards-that-scale-across-components.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/responsive-design-standards-that-scale-across-components/"
+    },
+    "/blog/write-better-review-feedback-with-conventional-comments/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/write-better-review-feedback-with-conventional-comments.webp",
+          "primary": true,
+          "url": "/og/blog/write-better-review-feedback-with-conventional-comments.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/write-better-review-feedback-with-conventional-comments/"
+    },
+    "/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be.webp",
+          "primary": true,
+          "url": "/og/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/"
+    },
+    "/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/astro-and-alpine-patterns-for-fast-content-heavy-sites.webp",
+          "primary": true,
+          "url": "/og/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites/"
+    },
+    "/blog/astro-doctor-announcement/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/astro-doctor-announcement.webp",
+          "primary": true,
+          "url": "/og/blog/astro-doctor-announcement.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/astro-doctor-announcement/"
+    },
+    "/blog/building-aaronmgz-as-a-family-platform/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/building-aaronmgz-as-a-family-platform.webp",
+          "primary": true,
+          "url": "/og/blog/building-aaronmgz-as-a-family-platform.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/building-aaronmgz-as-a-family-platform/"
+    },
+    "/blog/dep-beacon-vscode-extension/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/dep-beacon-vscode-extension.webp",
+          "primary": true,
+          "url": "/og/blog/dep-beacon-vscode-extension.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/dep-beacon-vscode-extension/"
+    },
+    "/blog/designing-eslint-packages-teams-actually-adopt/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/designing-eslint-packages-teams-actually-adopt.webp",
+          "primary": true,
+          "url": "/og/blog/designing-eslint-packages-teams-actually-adopt.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/designing-eslint-packages-teams-actually-adopt/"
+    },
+    "/blog/deterministic-open-graph-images-without-design-lock-in/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/deterministic-open-graph-images-without-design-lock-in.webp",
+          "primary": true,
+          "url": "/og/blog/deterministic-open-graph-images-without-design-lock-in.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/deterministic-open-graph-images-without-design-lock-in/"
+    },
+    "/blog/eslint-config-basic-version-2/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/eslint-config-basic-version-2.webp",
+          "primary": true,
+          "url": "/og/blog/eslint-config-basic-version-2.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/eslint-config-basic-version-2/"
+    },
+    "/blog/expanding-santi020k-theme-to-the-terminal/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/expanding-santi020k-theme-to-the-terminal.webp",
+          "primary": true,
+          "url": "/og/blog/expanding-santi020k-theme-to-the-terminal.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/expanding-santi020k-theme-to-the-terminal/"
+    },
+    "/blog/lumen-ui-one-system-three-frameworks/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/lumen-ui-one-system-three-frameworks.webp",
+          "primary": true,
+          "url": "/og/blog/lumen-ui-one-system-three-frameworks.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/lumen-ui-one-system-three-frameworks/"
+    },
+    "/blog/muted-commands-make-ai-automation-faster-and-cheaper/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/muted-commands-make-ai-automation-faster-and-cheaper.webp",
+          "primary": true,
+          "url": "/og/blog/muted-commands-make-ai-automation-faster-and-cheaper.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/muted-commands-make-ai-automation-faster-and-cheaper/"
+    },
+    "/blog/one-quality-command-across-polyglot-repositories/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/one-quality-command-across-polyglot-repositories.webp",
+          "primary": true,
+          "url": "/og/blog/one-quality-command-across-polyglot-repositories.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/one-quality-command-across-polyglot-repositories/"
+    },
+    "/blog/playwright-accessibility-checks-that-teams-keep-running/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/playwright-accessibility-checks-that-teams-keep-running.webp",
+          "primary": true,
+          "url": "/og/blog/playwright-accessibility-checks-that-teams-keep-running.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/playwright-accessibility-checks-that-teams-keep-running/"
+    },
+    "/blog/shipping-macos-tools-with-a-homebrew-tap/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/shipping-macos-tools-with-a-homebrew-tap.webp",
+          "primary": true,
+          "url": "/og/blog/shipping-macos-tools-with-a-homebrew-tap.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/shipping-macos-tools-with-a-homebrew-tap/"
+    },
+    "/blog/why-developer-experience-work-should-be-measured-like-product-work/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/why-developer-experience-work-should-be-measured-like-product-work.webp",
+          "primary": true,
+          "url": "/og/blog/why-developer-experience-work-should-be-measured-like-product-work.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/why-developer-experience-work-should-be-measured-like-product-work/"
+    },
+    "/blog/why-i-built-between-contractions/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/why-i-built-between-contractions.webp",
+          "primary": true,
+          "url": "/og/blog/why-i-built-between-contractions.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/why-i-built-between-contractions/"
+    },
+    "/blog/why-i-moved-my-eslint-library-to-eslint-config-basic/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/why-i-moved-my-eslint-library-to-eslint-config-basic.webp",
+          "primary": true,
+          "url": "/og/blog/why-i-moved-my-eslint-library-to-eslint-config-basic.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/why-i-moved-my-eslint-library-to-eslint-config-basic/"
+    },
+    "/blog/2/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--2.webp",
+          "primary": true,
+          "url": "/og/pages/blog--2.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/2/"
+    },
+    "/blog/3/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--3.webp",
+          "primary": true,
+          "url": "/og/pages/blog--3.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/3/"
+    },
+    "/blog/4/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--4.webp",
+          "primary": true,
+          "url": "/og/pages/blog--4.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/4/"
+    },
+    "/blog/tags/development/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--development.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--development.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/development/"
+    },
+    "/blog/tags/react/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--react.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--react.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/react/"
+    },
+    "/blog/tags/nextjs/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--nextjs.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--nextjs.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/nextjs/"
+    },
+    "/blog/tags/typescript/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--typescript.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--typescript.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/typescript/"
+    },
+    "/blog/tags/typescript/2/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--typescript--2.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--typescript--2.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/typescript/2/"
+    },
+    "/blog/tags/supabase/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--supabase.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--supabase.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/supabase/"
+    },
+    "/blog/tags/authentication/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--authentication.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--authentication.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/authentication/"
+    },
+    "/blog/tags/authorization/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--authorization.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--authorization.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/authorization/"
+    },
+    "/blog/tags/react-native/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--react-native.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--react-native.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/react-native/"
+    },
+    "/blog/tags/eslint/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--eslint.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--eslint.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/eslint/"
+    },
+    "/blog/tags/eslint-config/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--eslint-config.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--eslint-config.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/eslint-config/"
+    },
+    "/blog/tags/vitest/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--vitest.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--vitest.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/vitest/"
+    },
+    "/blog/tags/standards/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--standards.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--standards.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/standards/"
+    },
+    "/blog/tags/mongo/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--mongo.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--mongo.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/mongo/"
+    },
+    "/blog/tags/configuration/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--configuration.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--configuration.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/configuration/"
+    },
+    "/blog/tags/homebrew/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--homebrew.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--homebrew.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/homebrew/"
+    },
+    "/blog/tags/mac/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--mac.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--mac.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/mac/"
+    },
+    "/blog/tags/ci-cd/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--ci-cd.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--ci-cd.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/ci-cd/"
+    },
+    "/blog/tags/github-actions/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--github-actions.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--github-actions.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/github-actions/"
+    },
+    "/blog/tags/deployment/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--deployment.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--deployment.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/deployment/"
+    },
+    "/blog/tags/pre-commit/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--pre-commit.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--pre-commit.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/pre-commit/"
+    },
+    "/blog/tags/husky/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--husky.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--husky.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/husky/"
+    },
+    "/blog/tags/migration/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--migration.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--migration.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/migration/"
+    },
+    "/blog/tags/engineering-culture/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--engineering-culture.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--engineering-culture.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/engineering-culture/"
+    },
+    "/blog/tags/leadership/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--leadership.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--leadership.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/leadership/"
+    },
+    "/blog/tags/product-thinking/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--product-thinking.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--product-thinking.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/product-thinking/"
+    },
+    "/blog/tags/software-teams/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--software-teams.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--software-teams.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/software-teams/"
+    },
+    "/blog/tags/tailwind/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--tailwind.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--tailwind.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/tailwind/"
+    },
+    "/blog/tags/storybook/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--storybook.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--storybook.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/storybook/"
+    },
+    "/blog/tags/testing-library/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--testing-library.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--testing-library.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/testing-library/"
+    },
+    "/blog/tags/release-management/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--release-management.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--release-management.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/release-management/"
+    },
+    "/blog/tags/git/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--git.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--git.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/git/"
+    },
+    "/blog/tags/qa/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--qa.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--qa.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/qa/"
+    },
+    "/blog/tags/delivery/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--delivery.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--delivery.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/delivery/"
+    },
+    "/blog/tags/readability/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--readability.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--readability.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/readability/"
+    },
+    "/blog/tags/javascript/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--javascript.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--javascript.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/javascript/"
+    },
+    "/blog/tags/frontend/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--frontend.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--frontend.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/frontend/"
+    },
+    "/blog/tags/clean-code/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--clean-code.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--clean-code.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/clean-code/"
+    },
+    "/blog/tags/code-quality/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--code-quality.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--code-quality.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/code-quality/"
+    },
+    "/blog/tags/refactoring/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--refactoring.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--refactoring.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/refactoring/"
+    },
+    "/blog/tags/engineering-standards/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--engineering-standards.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--engineering-standards.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/engineering-standards/"
+    },
+    "/blog/tags/team-process/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--team-process.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--team-process.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/team-process/"
+    },
+    "/blog/tags/maintainability/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--maintainability.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--maintainability.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/maintainability/"
+    },
+    "/blog/tags/software-design/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--software-design.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--software-design.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/software-design/"
+    },
+    "/blog/tags/pull-requests/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--pull-requests.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--pull-requests.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/pull-requests/"
+    },
+    "/blog/tags/collaboration/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--collaboration.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--collaboration.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/collaboration/"
+    },
+    "/blog/tags/developer-experience/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--developer-experience.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--developer-experience.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/developer-experience/"
+    },
+    "/blog/tags/developer-experience/2/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--developer-experience--2.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--developer-experience--2.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/developer-experience/2/"
+    },
+    "/blog/tags/responsive-design/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--responsive-design.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--responsive-design.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/responsive-design/"
+    },
+    "/blog/tags/design-systems/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--design-systems.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--design-systems.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/design-systems/"
+    },
+    "/blog/tags/ui-engineering/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--ui-engineering.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--ui-engineering.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/ui-engineering/"
+    },
+    "/blog/tags/code-review/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--code-review.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--code-review.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/code-review/"
+    },
+    "/blog/tags/communication/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--communication.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--communication.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/communication/"
+    },
+    "/blog/tags/ai/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--ai.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--ai.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/ai/"
+    },
+    "/blog/tags/testing/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--testing.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--testing.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/testing/"
+    },
+    "/blog/tags/e2e/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--e2e.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--e2e.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/e2e/"
+    },
+    "/blog/tags/astro/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--astro.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--astro.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/astro/"
+    },
+    "/blog/tags/alpine/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--alpine.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--alpine.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/alpine/"
+    },
+    "/blog/tags/performance/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--performance.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--performance.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/performance/"
+    },
+    "/blog/tags/accessibility/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--accessibility.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--accessibility.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/accessibility/"
+    },
+    "/blog/tags/open-source/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--open-source.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--open-source.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/open-source/"
+    },
+    "/blog/tags/cloudflare/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--cloudflare.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--cloudflare.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/cloudflare/"
+    },
+    "/blog/tags/product-architecture/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--product-architecture.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--product-architecture.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/product-architecture/"
+    },
+    "/blog/tags/personal-projects/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--personal-projects.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--personal-projects.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/personal-projects/"
+    },
+    "/blog/tags/vscode/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--vscode.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--vscode.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/vscode/"
+    },
+    "/blog/tags/dependencies/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--dependencies.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--dependencies.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/dependencies/"
+    },
+    "/blog/tags/security/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--security.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--security.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/security/"
+    },
+    "/blog/tags/open-graph/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--open-graph.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--open-graph.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/open-graph/"
+    },
+    "/blog/tags/nodejs/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--nodejs.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--nodejs.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/nodejs/"
+    },
+    "/blog/tags/build-tools/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--build-tools.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--build-tools.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/build-tools/"
+    },
+    "/blog/tags/terminal/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--terminal.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--terminal.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/terminal/"
+    },
+    "/blog/tags/web-components/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--web-components.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--web-components.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/web-components/"
+    },
+    "/blog/tags/automation/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--automation.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--automation.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/automation/"
+    },
+    "/blog/tags/rust/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--rust.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--rust.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/rust/"
+    },
+    "/blog/tags/tooling/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--tooling.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--tooling.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/tooling/"
+    },
+    "/blog/tags/playwright/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--playwright.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--playwright.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/playwright/"
+    },
+    "/blog/tags/macos/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--macos.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--macos.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/macos/"
+    },
+    "/blog/tags/release-engineering/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--release-engineering.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--release-engineering.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/release-engineering/"
+    },
+    "/blog/tags/metrics/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--metrics.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--metrics.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/metrics/"
+    },
+    "/blog/tags/product-engineering/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--product-engineering.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--product-engineering.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/product-engineering/"
+    },
+    "/blog/tags/swiftui/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--swiftui.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--swiftui.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/swiftui/"
+    },
+    "/blog/tags/android/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--android.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--android.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/android/"
+    },
+    "/blog/tags/privacy/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--privacy.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--privacy.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/privacy/"
+    },
+    "/blog/tags/flat-config/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--flat-config.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--flat-config.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/flat-config/"
+    },
+    "/portfolio/aaronmgz/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/aaronmgz.webp",
+          "primary": true,
+          "url": "/og/portfolio/aaronmgz.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/aaronmgz/"
+    },
+    "/portfolio/astro-doctor/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/astro-doctor.webp",
+          "primary": true,
+          "url": "/og/portfolio/astro-doctor.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/astro-doctor/"
+    },
+    "/portfolio/between-contractions/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/between-contractions.webp",
+          "primary": true,
+          "url": "/og/portfolio/between-contractions.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/between-contractions/"
+    },
+    "/portfolio/datagran/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/datagran.webp",
+          "primary": true,
+          "url": "/og/portfolio/datagran.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/datagran/"
+    },
+    "/portfolio/dep-beacon/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/dep-beacon.webp",
+          "primary": true,
+          "url": "/og/portfolio/dep-beacon.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/dep-beacon/"
+    },
+    "/portfolio/eslint-config-basic/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/eslint-config-basic.webp",
+          "primary": true,
+          "url": "/og/portfolio/eslint-config-basic.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/eslint-config-basic/"
+    },
+    "/portfolio/eslint-config-santi020k/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/eslint-config-santi020k.webp",
+          "primary": true,
+          "url": "/og/portfolio/eslint-config-santi020k.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/eslint-config-santi020k/"
+    },
+    "/portfolio/justbit/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/justbit.webp",
+          "primary": true,
+          "url": "/og/portfolio/justbit.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/justbit/"
+    },
+    "/portfolio/lumen-ui/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/lumen-ui.webp",
+          "primary": true,
+          "url": "/og/portfolio/lumen-ui.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/lumen-ui/"
+    },
+    "/portfolio/nebular/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/nebular.webp",
+          "primary": true,
+          "url": "/og/portfolio/nebular.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/nebular/"
+    },
+    "/portfolio/og/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/og.webp",
+          "primary": true,
+          "url": "/og/portfolio/og.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/og/"
+    },
+    "/portfolio/optic-power/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/optic-power.webp",
+          "primary": true,
+          "url": "/og/portfolio/optic-power.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/optic-power/"
+    },
+    "/portfolio/pads/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/pads.webp",
+          "primary": true,
+          "url": "/og/portfolio/pads.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/pads/"
+    },
+    "/portfolio/quality/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/quality.webp",
+          "primary": true,
+          "url": "/og/portfolio/quality.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/quality/"
+    },
+    "/portfolio/react-js-colombia/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/react-js-colombia.webp",
+          "primary": true,
+          "url": "/og/portfolio/react-js-colombia.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/react-js-colombia/"
+    },
+    "/portfolio/santi020k-theme/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/santi020k-theme.webp",
+          "primary": true,
+          "url": "/og/portfolio/santi020k-theme.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/santi020k-theme/"
+    },
+    "/portfolio/smith-commerce/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/smith-commerce.webp",
+          "primary": true,
+          "url": "/og/portfolio/smith-commerce.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/smith-commerce/"
+    },
+    "/portfolio/tedx-medellin/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/tedx-medellin.webp",
+          "primary": true,
+          "url": "/og/portfolio/tedx-medellin.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/tedx-medellin/"
+    },
+    "/portfolio/void/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/void.webp",
+          "primary": true,
+          "url": "/og/portfolio/void.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/void/"
+    },
+    "/portfolio/xgames/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/xgames.webp",
+          "primary": true,
+          "url": "/og/portfolio/xgames.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/xgames/"
+    },
+    "/blog/series/building-a-production-nextjs-app/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--series--building-a-production-nextjs-app.webp",
+          "primary": true,
+          "url": "/og/pages/blog--series--building-a-production-nextjs-app.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/series/building-a-production-nextjs-app/"
+    },
+    "/blog/series/eslint-in-practice/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--series--eslint-in-practice.webp",
+          "primary": true,
+          "url": "/og/pages/blog--series--eslint-in-practice.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/series/eslint-in-practice/"
+    },
+    "/blog/series/the-santi020k-way/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--series--the-santi020k-way.webp",
+          "primary": true,
+          "url": "/og/pages/blog--series--the-santi020k-way.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/series/the-santi020k-way/"
+    },
+    "/technologies/astro/": {
+      "description": "Projects and case studies where Astro shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Astro.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Astro.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/astro/",
+      "title": "Astro · Technology"
+    },
+    "/technologies/next-js/": {
+      "description": "Projects and case studies where Next.js shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Next.js.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Next.js.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/next-js/",
+      "title": "Next.js · Technology"
+    },
+    "/technologies/react-js/": {
+      "description": "Projects and case studies where React.js shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--React.js.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--React.js.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/react-js/",
+      "title": "React.js · Technology"
+    },
+    "/technologies/typescript/": {
+      "description": "Projects and case studies where TypeScript shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--TypeScript.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--TypeScript.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/typescript/",
+      "title": "TypeScript · Technology"
+    },
+    "/technologies/tailwind-css/": {
+      "description": "Projects and case studies where Tailwind CSS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Tailwind~20CSS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Tailwind~20CSS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/tailwind-css/",
+      "title": "Tailwind CSS · Technology"
+    },
+    "/technologies/hono/": {
+      "description": "Projects and case studies where Hono shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Hono.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Hono.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/hono/",
+      "title": "Hono · Technology"
+    },
+    "/technologies/cloudflare-workers/": {
+      "description": "Projects and case studies where Cloudflare Workers shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Cloudflare~20Workers.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Cloudflare~20Workers.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/cloudflare-workers/",
+      "title": "Cloudflare Workers · Technology"
+    },
+    "/technologies/cloudflare-d1/": {
+      "description": "Projects and case studies where Cloudflare D1 shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Cloudflare~20D1.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Cloudflare~20D1.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/cloudflare-d1/",
+      "title": "Cloudflare D1 · Technology"
+    },
+    "/technologies/drizzle-orm/": {
+      "description": "Projects and case studies where Drizzle ORM shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Drizzle~20ORM.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Drizzle~20ORM.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/drizzle-orm/",
+      "title": "Drizzle ORM · Technology"
+    },
+    "/technologies/zod/": {
+      "description": "Projects and case studies where Zod shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Zod.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Zod.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/zod/",
+      "title": "Zod · Technology"
+    },
+    "/technologies/turborepo/": {
+      "description": "Projects and case studies where Turborepo shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Turborepo.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Turborepo.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/turborepo/",
+      "title": "Turborepo · Technology"
+    },
+    "/technologies/pnpm/": {
+      "description": "Projects and case studies where pnpm shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--pnpm.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--pnpm.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/pnpm/",
+      "title": "pnpm · Technology"
+    },
+    "/technologies/opennext/": {
+      "description": "Projects and case studies where OpenNext shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--OpenNext.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--OpenNext.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/opennext/",
+      "title": "OpenNext · Technology"
+    },
+    "/technologies/i18next/": {
+      "description": "Projects and case studies where i18next shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--i18next.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--i18next.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/i18next/",
+      "title": "i18next · Technology"
+    },
+    "/technologies/accessibility/": {
+      "description": "Projects and case studies where Accessibility shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Accessibility.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Accessibility.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/accessibility/",
+      "title": "Accessibility · Technology"
+    },
+    "/technologies/testing/": {
+      "description": "Projects and case studies where Testing shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Testing.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Testing.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/testing/",
+      "title": "Testing · Technology"
+    },
+    "/technologies/ci-cd/": {
+      "description": "Projects and case studies where CI/CD shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--CI~2FCD.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--CI~2FCD.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/ci-cd/",
+      "title": "CI/CD · Technology"
+    },
+    "/technologies/monorepo/": {
+      "description": "Projects and case studies where Monorepo shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Monorepo.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Monorepo.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/monorepo/",
+      "title": "Monorepo · Technology"
+    },
+    "/technologies/node-js/": {
+      "description": "Projects and case studies where Node.js shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Node.js.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Node.js.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/node-js/",
+      "title": "Node.js · Technology"
+    },
+    "/technologies/eslint/": {
+      "description": "Projects and case studies where ESLint shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--ESLint.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--ESLint.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/eslint/",
+      "title": "ESLint · Technology"
+    },
+    "/technologies/vs-code-extension/": {
+      "description": "Projects and case studies where VS Code Extension shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--VS~20Code~20Extension.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--VS~20Code~20Extension.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/vs-code-extension/",
+      "title": "VS Code Extension · Technology"
+    },
+    "/technologies/github-actions/": {
+      "description": "Projects and case studies where GitHub Actions shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--GitHub~20Actions.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--GitHub~20Actions.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/github-actions/",
+      "title": "GitHub Actions · Technology"
+    },
+    "/technologies/code-quality/": {
+      "description": "Projects and case studies where Code Quality shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Code~20Quality.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Code~20Quality.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/code-quality/",
+      "title": "Code Quality · Technology"
+    },
+    "/technologies/developer-experience-dx/": {
+      "description": "Projects and case studies where Developer Experience (DX) shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Developer~20Experience~20(DX).webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Developer~20Experience~20(DX).webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/developer-experience-dx/",
+      "title": "Developer Experience (DX) · Technology"
+    },
+    "/technologies/developer-documentation/": {
+      "description": "Projects and case studies where Developer Documentation shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Developer~20Documentation.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Developer~20Documentation.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/developer-documentation/",
+      "title": "Developer Documentation · Technology"
+    },
+    "/technologies/open-source/": {
+      "description": "Projects and case studies where Open Source shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Open~20Source.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Open~20Source.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/open-source/",
+      "title": "Open Source · Technology"
+    },
+    "/technologies/performance-optimization/": {
+      "description": "Projects and case studies where Performance Optimization shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Performance~20Optimization.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Performance~20Optimization.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/performance-optimization/",
+      "title": "Performance Optimization · Technology"
+    },
+    "/technologies/lumen-ui/": {
+      "description": "Projects and case studies where Lumen UI shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Lumen~20UI.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Lumen~20UI.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/lumen-ui/",
+      "title": "Lumen UI · Technology"
+    },
+    "/technologies/swift/": {
+      "description": "Projects and case studies where Swift shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Swift.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Swift.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/swift/",
+      "title": "Swift · Technology"
+    },
+    "/technologies/swiftui/": {
+      "description": "Projects and case studies where SwiftUI shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SwiftUI.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SwiftUI.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/swiftui/",
+      "title": "SwiftUI · Technology"
+    },
+    "/technologies/swiftdata/": {
+      "description": "Projects and case studies where SwiftData shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SwiftData.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SwiftData.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/swiftdata/",
+      "title": "SwiftData · Technology"
+    },
+    "/technologies/widgetkit/": {
+      "description": "Projects and case studies where WidgetKit shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--WidgetKit.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--WidgetKit.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/widgetkit/",
+      "title": "WidgetKit · Technology"
+    },
+    "/technologies/watchconnectivity/": {
+      "description": "Projects and case studies where WatchConnectivity shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--WatchConnectivity.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--WatchConnectivity.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/watchconnectivity/",
+      "title": "WatchConnectivity · Technology"
+    },
+    "/technologies/kotlin/": {
+      "description": "Projects and case studies where Kotlin shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Kotlin.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Kotlin.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/kotlin/",
+      "title": "Kotlin · Technology"
+    },
+    "/technologies/jetpack-compose/": {
+      "description": "Projects and case studies where Jetpack Compose shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Jetpack~20Compose.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Jetpack~20Compose.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/jetpack-compose/",
+      "title": "Jetpack Compose · Technology"
+    },
+    "/technologies/room/": {
+      "description": "Projects and case studies where Room shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Room.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Room.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/room/",
+      "title": "Room · Technology"
+    },
+    "/technologies/glance/": {
+      "description": "Projects and case studies where Glance shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Glance.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Glance.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/glance/",
+      "title": "Glance · Technology"
+    },
+    "/technologies/wear-os/": {
+      "description": "Projects and case studies where Wear OS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Wear~20OS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Wear~20OS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/wear-os/",
+      "title": "Wear OS · Technology"
+    },
+    "/technologies/websockets/": {
+      "description": "Projects and case studies where WebSockets shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--WebSockets.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--WebSockets.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/websockets/",
+      "title": "WebSockets · Technology"
+    },
+    "/technologies/i18n/": {
+      "description": "Projects and case studies where i18n shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--i18n.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--i18n.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/i18n/",
+      "title": "i18n · Technology"
+    },
+    "/technologies/redux/": {
+      "description": "Projects and case studies where Redux shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Redux.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Redux.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/redux/",
+      "title": "Redux · Technology"
+    },
+    "/technologies/redux-sagas/": {
+      "description": "Projects and case studies where Redux Sagas shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Redux~20Sagas.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Redux~20Sagas.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/redux-sagas/",
+      "title": "Redux Sagas · Technology"
+    },
+    "/technologies/d3-js/": {
+      "description": "Projects and case studies where D3.js shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--D3.js.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--D3.js.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/d3-js/",
+      "title": "D3.js · Technology"
+    },
+    "/technologies/styled-components/": {
+      "description": "Projects and case studies where Styled Components shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Styled~20Components.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Styled~20Components.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/styled-components/",
+      "title": "Styled Components · Technology"
+    },
+    "/technologies/javascript/": {
+      "description": "Projects and case studies where JavaScript shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--JavaScript.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--JavaScript.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/javascript/",
+      "title": "JavaScript · Technology"
+    },
+    "/technologies/semantic-html-and-css/": {
+      "description": "Projects and case studies where Semantic HTML & CSS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Semantic~20HTML~20~26~20CSS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Semantic~20HTML~20~26~20CSS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/semantic-html-and-css/",
+      "title": "Semantic HTML & CSS · Technology"
+    },
+    "/technologies/sass/": {
+      "description": "Projects and case studies where SASS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SASS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SASS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/sass/",
+      "title": "SASS · Technology"
+    },
+    "/technologies/git/": {
+      "description": "Projects and case studies where Git shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Git.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Git.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/git/",
+      "title": "Git · Technology"
+    },
+    "/technologies/github/": {
+      "description": "Projects and case studies where GitHub shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--GitHub.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--GitHub.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/github/",
+      "title": "GitHub · Technology"
+    },
+    "/technologies/scrum/": {
+      "description": "Projects and case studies where Scrum shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Scrum.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Scrum.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/scrum/",
+      "title": "Scrum · Technology"
+    },
+    "/technologies/team-leadership/": {
+      "description": "Projects and case studies where Team Leadership shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Team~20Leadership.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Team~20Leadership.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/team-leadership/",
+      "title": "Team Leadership · Technology"
+    },
+    "/technologies/gcp/": {
+      "description": "Projects and case studies where GCP shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--GCP.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--GCP.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/gcp/",
+      "title": "GCP · Technology"
+    },
+    "/technologies/jquery/": {
+      "description": "Projects and case studies where jQuery shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--jQuery.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--jQuery.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/jquery/",
+      "title": "jQuery · Technology"
+    },
+    "/technologies/react-router/": {
+      "description": "Projects and case studies where React Router shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--React~20Router.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--React~20Router.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/react-router/",
+      "title": "React Router · Technology"
+    },
+    "/technologies/jest/": {
+      "description": "Projects and case studies where Jest shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Jest.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Jest.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/jest/",
+      "title": "Jest · Technology"
+    },
+    "/technologies/storybook/": {
+      "description": "Projects and case studies where Storybook shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Storybook.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Storybook.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/storybook/",
+      "title": "Storybook · Technology"
+    },
+    "/technologies/cypress/": {
+      "description": "Projects and case studies where Cypress shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Cypress.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Cypress.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/cypress/",
+      "title": "Cypress · Technology"
+    },
+    "/technologies/yup/": {
+      "description": "Projects and case studies where Yup shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Yup.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Yup.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/yup/",
+      "title": "Yup · Technology"
+    },
+    "/technologies/sentry/": {
+      "description": "Projects and case studies where Sentry shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Sentry.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Sentry.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/sentry/",
+      "title": "Sentry · Technology"
+    },
+    "/technologies/highcharts/": {
+      "description": "Projects and case studies where Highcharts shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Highcharts.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Highcharts.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/highcharts/",
+      "title": "Highcharts · Technology"
+    },
+    "/technologies/formik/": {
+      "description": "Projects and case studies where Formik shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Formik.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Formik.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/formik/",
+      "title": "Formik · Technology"
+    },
+    "/technologies/codelens/": {
+      "description": "Projects and case studies where CodeLens shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--CodeLens.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--CodeLens.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/codelens/",
+      "title": "CodeLens · Technology"
+    },
+    "/technologies/npm/": {
+      "description": "Projects and case studies where NPM shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--NPM.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--NPM.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/npm/",
+      "title": "NPM · Technology"
+    },
+    "/technologies/osv-dev/": {
+      "description": "Projects and case studies where OSV.dev shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--OSV.dev.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--OSV.dev.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/osv-dev/",
+      "title": "OSV.dev · Technology"
+    },
+    "/technologies/open-vsx/": {
+      "description": "Projects and case studies where Open VSX shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Open~20VSX.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Open~20VSX.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/open-vsx/",
+      "title": "Open VSX · Technology"
+    },
+    "/technologies/visual-studio-marketplace/": {
+      "description": "Projects and case studies where Visual Studio Marketplace shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Visual~20Studio~20Marketplace.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Visual~20Studio~20Marketplace.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/visual-studio-marketplace/",
+      "title": "Visual Studio Marketplace · Technology"
+    },
+    "/technologies/vitest/": {
+      "description": "Projects and case studies where Vitest shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Vitest.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Vitest.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/vitest/",
+      "title": "Vitest · Technology"
+    },
+    "/technologies/esbuild/": {
+      "description": "Projects and case studies where esbuild shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--esbuild.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--esbuild.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/esbuild/",
+      "title": "esbuild · Technology"
+    },
+    "/technologies/dependency-management/": {
+      "description": "Projects and case studies where Dependency Management shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Dependency~20Management.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Dependency~20Management.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/dependency-management/",
+      "title": "Dependency Management · Technology"
+    },
+    "/technologies/security/": {
+      "description": "Projects and case studies where Security shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Security.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Security.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/security/",
+      "title": "Security · Technology"
+    },
+    "/technologies/expo/": {
+      "description": "Projects and case studies where Expo shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Expo.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Expo.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/expo/",
+      "title": "Expo · Technology"
+    },
+    "/technologies/devops-automation/": {
+      "description": "Projects and case studies where DevOps Automation shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--DevOps~20Automation.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--DevOps~20Automation.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/devops-automation/",
+      "title": "DevOps Automation · Technology"
+    },
+    "/technologies/wordpress/": {
+      "description": "Projects and case studies where WordPress shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--WordPress.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--WordPress.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/wordpress/",
+      "title": "WordPress · Technology"
+    },
+    "/technologies/php/": {
+      "description": "Projects and case studies where PHP shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--PHP.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--PHP.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/php/",
+      "title": "PHP · Technology"
+    },
+    "/technologies/woocommerce/": {
+      "description": "Projects and case studies where WooCommerce shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--WooCommerce.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--WooCommerce.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/woocommerce/",
+      "title": "WooCommerce · Technology"
+    },
+    "/technologies/postgresql/": {
+      "description": "Projects and case studies where PostgreSQL shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--PostgreSQL.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--PostgreSQL.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/postgresql/",
+      "title": "PostgreSQL · Technology"
+    },
+    "/technologies/mysql/": {
+      "description": "Projects and case studies where MySQL shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--MySQL.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--MySQL.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/mysql/",
+      "title": "MySQL · Technology"
+    },
+    "/technologies/linux/": {
+      "description": "Projects and case studies where Linux shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Linux.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Linux.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/linux/",
+      "title": "Linux · Technology"
+    },
+    "/technologies/google-ads/": {
+      "description": "Projects and case studies where Google Ads shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Google~20Ads.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Google~20Ads.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/google-ads/",
+      "title": "Google Ads · Technology"
+    },
+    "/technologies/facebook-ads/": {
+      "description": "Projects and case studies where Facebook Ads shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Facebook~20Ads.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Facebook~20Ads.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/facebook-ads/",
+      "title": "Facebook Ads · Technology"
+    },
+    "/technologies/seo/": {
+      "description": "Projects and case studies where SEO shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SEO.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SEO.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/seo/",
+      "title": "SEO · Technology"
+    },
+    "/technologies/gitlab/": {
+      "description": "Projects and case studies where GitLab shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--GitLab.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--GitLab.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/gitlab/",
+      "title": "GitLab · Technology"
+    },
+    "/technologies/web-components/": {
+      "description": "Projects and case studies where Web Components shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Web~20Components.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Web~20Components.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/web-components/",
+      "title": "Web Components · Technology"
+    },
+    "/technologies/css/": {
+      "description": "Projects and case studies where CSS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--CSS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--CSS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/css/",
+      "title": "CSS · Technology"
+    },
+    "/technologies/design-systems/": {
+      "description": "Projects and case studies where Design Systems shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Design~20Systems.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Design~20Systems.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/design-systems/",
+      "title": "Design Systems · Technology"
+    },
+    "/technologies/figma/": {
+      "description": "Projects and case studies where Figma shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Figma.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Figma.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/figma/",
+      "title": "Figma · Technology"
+    },
+    "/technologies/model-context-protocol/": {
+      "description": "Projects and case studies where Model Context Protocol shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Model~20Context~20Protocol.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Model~20Context~20Protocol.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/model-context-protocol/",
+      "title": "Model Context Protocol · Technology"
+    },
+    "/technologies/ai-assisted-development/": {
+      "description": "Projects and case studies where AI-assisted Development shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--AI-assisted~20Development.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--AI-assisted~20Development.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/ai-assisted-development/",
+      "title": "AI-assisted Development · Technology"
+    },
+    "/technologies/playwright/": {
+      "description": "Projects and case studies where Playwright shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Playwright.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Playwright.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/playwright/",
+      "title": "Playwright · Technology"
+    },
+    "/technologies/ruby/": {
+      "description": "Projects and case studies where Ruby shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Ruby.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Ruby.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/ruby/",
+      "title": "Ruby · Technology"
+    },
+    "/technologies/ruby-on-rails/": {
+      "description": "Projects and case studies where Ruby on Rails shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Ruby~20on~20Rails.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Ruby~20on~20Rails.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/ruby-on-rails/",
+      "title": "Ruby on Rails · Technology"
+    },
+    "/technologies/rspec/": {
+      "description": "Projects and case studies where RSpec shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--RSpec.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--RSpec.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/rspec/",
+      "title": "RSpec · Technology"
+    },
+    "/technologies/angularjs/": {
+      "description": "Projects and case studies where AngularJS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--AngularJS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--AngularJS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/angularjs/",
+      "title": "AngularJS · Technology"
+    },
+    "/technologies/java/": {
+      "description": "Projects and case studies where Java shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Java.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Java.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/java/",
+      "title": "Java · Technology"
+    },
+    "/technologies/cordova/": {
+      "description": "Projects and case studies where Cordova shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Cordova.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Cordova.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/cordova/",
+      "title": "Cordova · Technology"
+    },
+    "/technologies/heroku/": {
+      "description": "Projects and case studies where Heroku shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Heroku.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Heroku.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/heroku/",
+      "title": "Heroku · Technology"
+    },
+    "/technologies/bitbucket/": {
+      "description": "Projects and case studies where Bitbucket shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Bitbucket.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Bitbucket.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/bitbucket/",
+      "title": "Bitbucket · Technology"
+    },
+    "/technologies/android/": {
+      "description": "Projects and case studies where Android shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Android.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Android.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/android/",
+      "title": "Android · Technology"
+    },
+    "/technologies/open-graph/": {
+      "description": "Projects and case studies where Open Graph shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Open~20Graph.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Open~20Graph.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/open-graph/",
+      "title": "Open Graph · Technology"
+    },
+    "/technologies/satori/": {
+      "description": "Projects and case studies where Satori shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Satori.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Satori.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/satori/",
+      "title": "Satori · Technology"
+    },
+    "/technologies/sharp/": {
+      "description": "Projects and case studies where Sharp shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Sharp.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Sharp.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/sharp/",
+      "title": "Sharp · Technology"
+    },
+    "/technologies/svg/": {
+      "description": "Projects and case studies where SVG shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SVG.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SVG.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/svg/",
+      "title": "SVG · Technology"
+    },
+    "/technologies/webp/": {
+      "description": "Projects and case studies where WebP shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--WebP.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--WebP.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/webp/",
+      "title": "WebP · Technology"
+    },
+    "/technologies/avif/": {
+      "description": "Projects and case studies where AVIF shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--AVIF.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--AVIF.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/avif/",
+      "title": "AVIF · Technology"
+    },
+    "/technologies/worker-threads/": {
+      "description": "Projects and case studies where Worker Threads shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Worker~20Threads.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Worker~20Threads.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/worker-threads/",
+      "title": "Worker Threads · Technology"
+    },
+    "/technologies/developer-tooling/": {
+      "description": "Projects and case studies where Developer Tooling shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Developer~20Tooling.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Developer~20Tooling.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/developer-tooling/",
+      "title": "Developer Tooling · Technology"
+    },
+    "/technologies/redux-toolkit/": {
+      "description": "Projects and case studies where Redux Toolkit shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Redux~20Toolkit.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Redux~20Toolkit.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/redux-toolkit/",
+      "title": "Redux Toolkit · Technology"
+    },
+    "/technologies/mongodb/": {
+      "description": "Projects and case studies where MongoDB shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--MongoDB.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--MongoDB.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/mongodb/",
+      "title": "MongoDB · Technology"
+    },
+    "/technologies/graphql/": {
+      "description": "Projects and case studies where GraphQL shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--GraphQL.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--GraphQL.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/graphql/",
+      "title": "GraphQL · Technology"
+    },
+    "/technologies/aws/": {
+      "description": "Projects and case studies where AWS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--AWS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--AWS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/aws/",
+      "title": "AWS · Technology"
+    },
+    "/technologies/socket-io/": {
+      "description": "Projects and case studies where Socket.io shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Socket.io.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Socket.io.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/socket-io/",
+      "title": "Socket.io · Technology"
+    },
+    "/technologies/elixir/": {
+      "description": "Projects and case studies where Elixir shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Elixir.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Elixir.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/elixir/",
+      "title": "Elixir · Technology"
+    },
+    "/technologies/phoenix/": {
+      "description": "Projects and case studies where Phoenix shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Phoenix.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Phoenix.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/phoenix/",
+      "title": "Phoenix · Technology"
+    },
+    "/technologies/docker/": {
+      "description": "Projects and case studies where Docker shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Docker.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Docker.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/docker/",
+      "title": "Docker · Technology"
+    },
+    "/technologies/angular/": {
+      "description": "Projects and case studies where Angular shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Angular.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Angular.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/angular/",
+      "title": "Angular · Technology"
+    },
+    "/technologies/express-js/": {
+      "description": "Projects and case studies where Express.js shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Express.js.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Express.js.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/express-js/",
+      "title": "Express.js · Technology"
+    },
+    "/technologies/youtube-api/": {
+      "description": "Projects and case studies where YouTube API shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--YouTube~20API.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--YouTube~20API.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/youtube-api/",
+      "title": "YouTube API · Technology"
+    },
+    "/technologies/twitch-api/": {
+      "description": "Projects and case studies where Twitch API shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Twitch~20API.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Twitch~20API.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/twitch-api/",
+      "title": "Twitch API · Technology"
+    },
+    "/technologies/oauth/": {
+      "description": "Projects and case studies where OAuth shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--OAuth.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--OAuth.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/oauth/",
+      "title": "OAuth · Technology"
+    },
+    "/technologies/c-sharp/": {
+      "description": "Projects and case studies where C-Sharp shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--C-Sharp.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--C-Sharp.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/c-sharp/",
+      "title": "C-Sharp · Technology"
+    },
+    "/technologies/unity/": {
+      "description": "Projects and case studies where Unity shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Unity.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Unity.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/unity/",
+      "title": "Unity · Technology"
+    },
+    "/technologies/ios/": {
+      "description": "Projects and case studies where iOS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--iOS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--iOS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/ios/",
+      "title": "iOS · Technology"
+    },
+    "/technologies/react-native/": {
+      "description": "Projects and case studies where React Native shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--React~20Native.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--React~20Native.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/react-native/",
+      "title": "React Native · Technology"
+    },
+    "/technologies/lighthouse/": {
+      "description": "Projects and case studies where Lighthouse shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Lighthouse.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Lighthouse.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/lighthouse/",
+      "title": "Lighthouse · Technology"
+    },
+    "/technologies/web-vitals/": {
+      "description": "Projects and case studies where Web Vitals shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Web~20Vitals.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Web~20Vitals.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/web-vitals/",
+      "title": "Web Vitals · Technology"
+    },
+    "/technologies/tanstack-query/": {
+      "description": "Projects and case studies where TanStack Query shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--TanStack~20Query.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--TanStack~20Query.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/tanstack-query/",
+      "title": "TanStack Query · Technology"
+    },
+    "/technologies/3rd-party-apis/": {
+      "description": "Projects and case studies where 3rd Party APIs shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--3rd~20Party~20APIs.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--3rd~20Party~20APIs.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/3rd-party-apis/",
+      "title": "3rd Party APIs · Technology"
+    },
+    "/technologies/react-hook-form/": {
+      "description": "Projects and case studies where React Hook Form shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--React~20Hook~20Form.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--React~20Hook~20Form.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/react-hook-form/",
+      "title": "React Hook Form · Technology"
+    },
+    "/technologies/google-maps-api/": {
+      "description": "Projects and case studies where Google Maps API shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Google~20Maps~20API.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Google~20Maps~20API.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/google-maps-api/",
+      "title": "Google Maps API · Technology"
+    },
+    "/technologies/mapbox/": {
+      "description": "Projects and case studies where Mapbox shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Mapbox.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Mapbox.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/mapbox/",
+      "title": "Mapbox · Technology"
+    },
+    "/technologies/react-navigation/": {
+      "description": "Projects and case studies where React Navigation shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--React~20Navigation.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--React~20Navigation.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/react-navigation/",
+      "title": "React Navigation · Technology"
+    },
+    "/technologies/rust/": {
+      "description": "Projects and case studies where Rust shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Rust.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Rust.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/rust/",
+      "title": "Rust · Technology"
+    },
+    "/technologies/sarif/": {
+      "description": "Projects and case studies where SARIF shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SARIF.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SARIF.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/sarif/",
+      "title": "SARIF · Technology"
+    },
+    "/technologies/prettier/": {
+      "description": "Projects and case studies where Prettier shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Prettier.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Prettier.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/prettier/",
+      "title": "Prettier · Technology"
+    },
+    "/technologies/clippy/": {
+      "description": "Projects and case studies where Clippy shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Clippy.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Clippy.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/clippy/",
+      "title": "Clippy · Technology"
+    },
+    "/technologies/swiftlint/": {
+      "description": "Projects and case studies where SwiftLint shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SwiftLint.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SwiftLint.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/swiftlint/",
+      "title": "SwiftLint · Technology"
+    },
+    "/technologies/swiftformat/": {
+      "description": "Projects and case studies where SwiftFormat shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SwiftFormat.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SwiftFormat.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/swiftformat/",
+      "title": "SwiftFormat · Technology"
+    },
+    "/technologies/android-lint/": {
+      "description": "Projects and case studies where Android Lint shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Android~20Lint.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Android~20Lint.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/android-lint/",
+      "title": "Android Lint · Technology"
+    },
+    "/technologies/detekt/": {
+      "description": "Projects and case studies where detekt shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--detekt.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--detekt.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/detekt/",
+      "title": "detekt · Technology"
+    },
+    "/technologies/ktlint/": {
+      "description": "Projects and case studies where ktlint shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--ktlint.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--ktlint.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/ktlint/",
+      "title": "ktlint · Technology"
+    },
+    "/technologies/cspell/": {
+      "description": "Projects and case studies where CSpell shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--CSpell.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--CSpell.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/cspell/",
+      "title": "CSpell · Technology"
+    },
+    "/technologies/knip/": {
+      "description": "Projects and case studies where Knip shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Knip.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Knip.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/knip/",
+      "title": "Knip · Technology"
+    },
+    "/technologies/actionlint/": {
+      "description": "Projects and case studies where Actionlint shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Actionlint.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Actionlint.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/actionlint/",
+      "title": "Actionlint · Technology"
+    },
+    "/technologies/community-building/": {
+      "description": "Projects and case studies where Community Building shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Community~20Building.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Community~20Building.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/community-building/",
+      "title": "Community Building · Technology"
+    },
+    "/technologies/public-speaking/": {
+      "description": "Projects and case studies where Public Speaking shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Public~20Speaking.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Public~20Speaking.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/public-speaking/",
+      "title": "Public Speaking · Technology"
+    },
+    "/technologies/workshops/": {
+      "description": "Projects and case studies where Workshops shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Workshops.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Workshops.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/workshops/",
+      "title": "Workshops · Technology"
+    },
+    "/technologies/mentorship/": {
+      "description": "Projects and case studies where Mentorship shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Mentorship.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Mentorship.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/mentorship/",
+      "title": "Mentorship · Technology"
+    },
+    "/technologies/event-organization/": {
+      "description": "Projects and case studies where Event Organization shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Event~20Organization.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Event~20Organization.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/event-organization/",
+      "title": "Event Organization · Technology"
+    },
+    "/technologies/visual-studio-code/": {
+      "description": "Projects and case studies where Visual Studio Code shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Visual~20Studio~20Code.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Visual~20Studio~20Code.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/visual-studio-code/",
+      "title": "Visual Studio Code · Technology"
+    },
+    "/technologies/cursor/": {
+      "description": "Projects and case studies where Cursor shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Cursor.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Cursor.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/cursor/",
+      "title": "Cursor · Technology"
+    },
+    "/technologies/windsurf/": {
+      "description": "Projects and case studies where Windsurf shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Windsurf.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Windsurf.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/windsurf/",
+      "title": "Windsurf · Technology"
+    },
+    "/technologies/vscodium/": {
+      "description": "Projects and case studies where VSCodium shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--VSCodium.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--VSCodium.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/vscodium/",
+      "title": "VSCodium · Technology"
+    },
+    "/technologies/chrome-extension/": {
+      "description": "Projects and case studies where Chrome Extension shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Chrome~20Extension.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Chrome~20Extension.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/chrome-extension/",
+      "title": "Chrome Extension · Technology"
+    },
+    "/technologies/chrome-web-store/": {
+      "description": "Projects and case studies where Chrome Web Store shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Chrome~20Web~20Store.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Chrome~20Web~20Store.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/chrome-web-store/",
+      "title": "Chrome Web Store · Technology"
+    },
+    "/technologies/shiki/": {
+      "description": "Projects and case studies where Shiki shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Shiki.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Shiki.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/shiki/",
+      "title": "Shiki · Technology"
+    },
+    "/technologies/iterm2/": {
+      "description": "Projects and case studies where iTerm2 shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--iTerm2.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--iTerm2.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/iterm2/",
+      "title": "iTerm2 · Technology"
+    },
+    "/technologies/ghostty/": {
+      "description": "Projects and case studies where Ghostty shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Ghostty.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Ghostty.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/ghostty/",
+      "title": "Ghostty · Technology"
+    },
+    "/technologies/kitty/": {
+      "description": "Projects and case studies where Kitty shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Kitty.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Kitty.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/kitty/",
+      "title": "Kitty · Technology"
+    },
+    "/technologies/wezterm/": {
+      "description": "Projects and case studies where WezTerm shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--WezTerm.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--WezTerm.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/wezterm/",
+      "title": "WezTerm · Technology"
+    },
+    "/technologies/windows-terminal/": {
+      "description": "Projects and case studies where Windows Terminal shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Windows~20Terminal.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Windows~20Terminal.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/windows-terminal/",
+      "title": "Windows Terminal · Technology"
+    },
+    "/technologies/alacritty/": {
+      "description": "Projects and case studies where Alacritty shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Alacritty.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Alacritty.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/alacritty/",
+      "title": "Alacritty · Technology"
+    },
+    "/technologies/starship/": {
+      "description": "Projects and case studies where Starship shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Starship.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Starship.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/starship/",
+      "title": "Starship · Technology"
+    },
+    "/technologies/zsh/": {
+      "description": "Projects and case studies where Zsh shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Zsh.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Zsh.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/zsh/",
+      "title": "Zsh · Technology"
+    },
+    "/technologies/bash/": {
+      "description": "Projects and case studies where Bash shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Bash.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Bash.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/bash/",
+      "title": "Bash · Technology"
+    },
+    "/technologies/fish/": {
+      "description": "Projects and case studies where Fish shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Fish.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Fish.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/fish/",
+      "title": "Fish · Technology"
+    },
+    "/technologies/radix-ui/": {
+      "description": "Projects and case studies where Radix UI shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Radix~20UI.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Radix~20UI.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/radix-ui/",
+      "title": "Radix UI · Technology"
+    },
+    "/technologies/lucide-react/": {
+      "description": "Projects and case studies where Lucide React shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Lucide~20React.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Lucide~20React.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/lucide-react/",
+      "title": "Lucide React · Technology"
+    },
+    "/technologies/tailwindcss-animate/": {
+      "description": "Projects and case studies where tailwindcss-animate shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--tailwindcss-animate.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--tailwindcss-animate.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/tailwindcss-animate/",
+      "title": "tailwindcss-animate · Technology"
+    },
+    "/technologies/zustand/": {
+      "description": "Projects and case studies where Zustand shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Zustand.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Zustand.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/zustand/",
+      "title": "Zustand · Technology"
+    },
+    "/technologies/apollo-client/": {
+      "description": "Projects and case studies where Apollo Client shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Apollo~20Client.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Apollo~20Client.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/apollo-client/",
+      "title": "Apollo Client · Technology"
+    },
+    "/technologies/openapi/": {
+      "description": "Projects and case studies where OpenAPI shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--OpenAPI.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--OpenAPI.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/openapi/",
+      "title": "OpenAPI · Technology"
+    },
+    "/technologies/husky/": {
+      "description": "Projects and case studies where Husky shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Husky.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Husky.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/husky/",
+      "title": "Husky · Technology"
+    },
+    "/technologies/auth0/": {
+      "description": "Projects and case studies where Auth0 shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Auth0.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Auth0.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/auth0/",
+      "title": "Auth0 · Technology"
+    },
+    "/technologies/builder-io/": {
+      "description": "Projects and case studies where Builder.io shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Builder.io.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Builder.io.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/builder-io/",
+      "title": "Builder.io · Technology"
+    },
+    "/technologies/headless-commerce/": {
+      "description": "Projects and case studies where Headless Commerce shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Headless~20Commerce.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Headless~20Commerce.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/headless-commerce/",
+      "title": "Headless Commerce · Technology"
+    },
+    "/technologies/ui-design/": {
+      "description": "Projects and case studies where UI Design shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--UI~20Design.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--UI~20Design.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/ui-design/",
+      "title": "UI Design · Technology"
+    },
+    "/technologies/brand-design/": {
+      "description": "Projects and case studies where Brand Design shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Brand~20Design.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Brand~20Design.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/brand-design/",
+      "title": "Brand Design · Technology"
+    },
+    "/technologies/marketing-collaboration/": {
+      "description": "Projects and case studies where Marketing Collaboration shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Marketing~20Collaboration.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Marketing~20Collaboration.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/marketing-collaboration/",
+      "title": "Marketing Collaboration · Technology"
+    },
+    "/technologies/content-strategy/": {
+      "description": "Projects and case studies where Content Strategy shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Content~20Strategy.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Content~20Strategy.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/content-strategy/",
+      "title": "Content Strategy · Technology"
+    },
+    "/technologies/event-operations/": {
+      "description": "Projects and case studies where Event Operations shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Event~20Operations.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Event~20Operations.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/event-operations/",
+      "title": "Event Operations · Technology"
+    },
+    "/technologies/nestjs/": {
+      "description": "Projects and case studies where NestJS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--NestJS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--NestJS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/nestjs/",
+      "title": "NestJS · Technology"
+    },
+    "/technologies/software-architecture/": {
+      "description": "Projects and case studies where Software Architecture shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Software~20Architecture.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Software~20Architecture.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/software-architecture/",
+      "title": "Software Architecture · Technology"
+    },
+    "/technologies/system-design/": {
+      "description": "Projects and case studies where System Design shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--System~20Design.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--System~20Design.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/system-design/",
+      "title": "System Design · Technology"
+    },
+    "/technologies/microservices/": {
+      "description": "Projects and case studies where Microservices shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Microservices.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Microservices.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/microservices/",
+      "title": "Microservices · Technology"
+    },
+    "/technologies/css-modules/": {
+      "description": "Projects and case studies where CSS Modules shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--CSS~20Modules.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--CSS~20Modules.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/css-modules/",
+      "title": "CSS Modules · Technology"
+    },
+    "/technologies/docker-compose/": {
+      "description": "Projects and case studies where Docker Compose shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Docker~20Compose.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Docker~20Compose.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/docker-compose/",
+      "title": "Docker Compose · Technology"
+    },
+    "/technologies/vercel/": {
+      "description": "Projects and case studies where Vercel shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Vercel.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Vercel.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/vercel/",
+      "title": "Vercel · Technology"
+    },
+    "/technologies/nx/": {
+      "description": "Projects and case studies where NX shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--NX.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--NX.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/nx/",
+      "title": "NX · Technology"
+    },
+    "/technologies/micro-frontend/": {
+      "description": "Projects and case studies where Micro Frontend shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Micro~20Frontend.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Micro~20Frontend.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/micro-frontend/",
+      "title": "Micro Frontend · Technology"
+    },
+    "/technologies/mantine-ui/": {
+      "description": "Projects and case studies where Mantine UI shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Mantine~20UI.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Mantine~20UI.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/mantine-ui/",
+      "title": "Mantine UI · Technology"
+    },
+    "/technologies/pwa/": {
+      "description": "Projects and case studies where PWA shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--PWA.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--PWA.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/pwa/",
+      "title": "PWA · Technology"
+    },
+    "/technologies/scss/": {
+      "description": "Projects and case studies where SCSS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SCSS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SCSS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/scss/",
+      "title": "SCSS · Technology"
+    },
+    "/technologies/sanity-cms/": {
+      "description": "Projects and case studies where Sanity CMS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Sanity~20CMS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Sanity~20CMS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/sanity-cms/",
+      "title": "Sanity CMS · Technology"
+    },
+    "/technologies/sanity-studio/": {
+      "description": "Projects and case studies where Sanity Studio shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Sanity~20Studio.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Sanity~20Studio.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/sanity-studio/",
+      "title": "Sanity Studio · Technology"
+    },
+    "/technologies/portable-text/": {
+      "description": "Projects and case studies where Portable Text shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Portable~20Text.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Portable~20Text.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/portable-text/",
+      "title": "Portable Text · Technology"
+    },
+    "/technologies/firebase/": {
+      "description": "Projects and case studies where Firebase shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Firebase.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Firebase.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/firebase/",
+      "title": "Firebase · Technology"
+    },
+    "/technologies/google-ad-manager/": {
+      "description": "Projects and case studies where Google Ad Manager shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Google~20Ad~20Manager.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Google~20Ad~20Manager.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/google-ad-manager/",
+      "title": "Google Ad Manager · Technology"
+    },
+    "/technologies/google-tag-manager/": {
+      "description": "Projects and case studies where Google Tag Manager shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Google~20Tag~20Manager.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Google~20Tag~20Manager.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/google-tag-manager/",
+      "title": "Google Tag Manager · Technology"
+    },
+    "/technologies/embla-carousel/": {
+      "description": "Projects and case studies where Embla Carousel shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Embla~20Carousel.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Embla~20Carousel.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/embla-carousel/",
+      "title": "Embla Carousel · Technology"
+    },
+    "/technologies/stylelint/": {
+      "description": "Projects and case studies where Stylelint shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Stylelint.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Stylelint.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/stylelint/",
+      "title": "Stylelint · Technology"
+    },
+    "/technologies/rest-apis/": {
+      "description": "Projects and case studies where REST APIs shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--REST~20APIs.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--REST~20APIs.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/rest-apis/",
+      "title": "REST APIs · Technology"
+    },
+    "/technologies/geo-location-apis/": {
+      "description": "Projects and case studies where Geo-location APIs shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Geo-location~20APIs.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Geo-location~20APIs.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/geo-location-apis/",
+      "title": "Geo-location APIs · Technology"
+    }
+  },
+  "version": 1
+}

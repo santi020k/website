@@ -11,10 +11,10 @@ impactMetrics: [
   "Supported a sold-out 2019 TEDx Medellin edition",
   "Launched the WordPress site for the 'Dialogo' event theme",
   "Justbit featured among the participating brands after leading UI and visual delivery"
-]
+  ]
 technologies: [
   "WordPress", "PHP", "JavaScript", "Semantic HTML & CSS", "UI Design", "Brand Design", "Marketing Collaboration", "Content Strategy", "Event Operations"
-]
+  ]
 seoTitle: "TEDx Medellin 2019 - WordPress launch and event rollout"
 seoDescription: "How I helped launch the TEDx Medellin 2019 website in WordPress, coordinated technology delivery, and supported a sold-out event with marketing and design collaboration."
 coverImage:

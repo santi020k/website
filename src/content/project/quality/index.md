@@ -11,12 +11,12 @@ impactMetrics: [
   "Coordinates 13 native analyzers across Rust, Swift, Android, Kotlin, JavaScript, TypeScript, and Astro",
   "Supports changed-file runs, repository baselines, external adapters, concurrent execution, and cross-repository audits",
   "Ships native binaries and a GitHub Action with annotations, job summaries, checksum verification, and SARIF output"
-]
+  ]
 technologies: [
   "Rust", "TypeScript", "Node.js", "Astro", "GitHub Actions", "SARIF", "ESLint", "Prettier", "Clippy",
   "SwiftLint", "SwiftFormat", "Android Lint", "detekt", "ktlint", "CSpell", "Knip", "Actionlint",
   "Developer Experience (DX)", "CI/CD", "Monorepo", "Turborepo", "pnpm", "Open Source"
-]
+  ]
 coverImage:
   src: "./cover.png"
   logo: "./logo.png"

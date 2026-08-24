@@ -19,51 +19,15 @@ const {
   tone = 'neutral'
 } = Astro.props
 
-const modifierClass = tone === 'neutral' ? '' : `ui-pill--${tone}`
 ---
 
 <LumenPill
-  class:list={['group gap-1.5', modifierClass, className]}
-  data-pill-compat
-  data-variant={tone}
+  class:list={['group gap-1.5', className]}
   {...(count !== undefined ? { count } : {})}
   {...(href !== undefined ? { href } : {})}
+  variant={tone}
 >
   {showHash && <span aria-hidden="true" class="text-xs opacity-60">#</span>}
   <span class="wrap-break-word">{label}</span>
   <slot />
 </LumenPill>
-
-<style>
-  /* Compatibility for Lumen 0.3.0. Remove after upgrading to 0.4.0. */
-  :global([data-pill-compat].ui-pill--brand) {
-    border-color: hsl(var(--brand) / 0.34);
-    background: hsl(var(--brand-soft) / 0.72);
-    color: hsl(var(--brand));
-  }
-
-  :global([data-pill-compat].ui-pill--outline) {
-    background: transparent;
-    color: hsl(var(--ink-soft));
-  }
-
-  :global([data-pill-compat] > .ui-pill__count) {
-    border-left-color: currentColor;
-    color: inherit;
-    opacity: 0.78;
-  }
-
-  :global(a[data-pill-compat]) {
-    min-height: 2.75rem;
-  }
-
-  :global(a[data-pill-compat].ui-pill--brand:is(:hover, :focus-visible)) {
-    border-color: hsl(var(--brand) / 0.6);
-    background: hsl(var(--brand-solid));
-    color: hsl(var(--canvas));
-  }
-
-  :global(a[data-pill-compat].ui-pill--brand:is(:hover, :focus-visible) > .ui-pill__count) {
-    opacity: 0.9;
-  }
-</style>

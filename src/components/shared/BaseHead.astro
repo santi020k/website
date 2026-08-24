@@ -5,6 +5,16 @@ import type { SiteMeta } from '@/types/site'
 import { createSeoDescription, createSeoTitle } from '@/utils/seo'
 import { getSocialImageURL } from '@/utils/social-image'
 
+import MetadataHead from '@santi020k/og/astro/head'
+import type { MetadataTag } from '@santi020k/og/metadata'
+import {
+  breadcrumbSchema,
+  organizationSchema,
+  personSchema,
+  serializeJsonLd,
+  webSiteSchema
+} from '@santi020k/og/schema'
+import { defineSite } from '@santi020k/og/site'
 import logoWordmarkUrl from '@santi020k/theme/assets/logos/logo-santi020k.svg?url'
 import logoWordmarkDarkUrl from '@santi020k/theme/assets/logos/logo-santi020k-dark.svg?url'
 import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
@@ -38,40 +48,64 @@ const canonicalURL = new URL(
 
 const organizationLogoURL = new URL(logoSquareUrl, Astro.site ?? 'https://santi020k.com/').href
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
-const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
 
-const websiteJsonLd = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#website`,
-  alternateName: 'santi020k',
-  inLanguage: siteConfig.lang,
-  name: siteConfig.author,
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={search_term_string}`,
-    'query-input': 'required name=search_term_string'
-  },
-  url: Astro.site?.href ?? 'https://santi020k.com/'
+const site = defineSite({
+  siteName: siteConfig.title,
+  siteUrl: Astro.site ?? 'https://santi020k.com/'
 })
 
+const article = articleDate ?
+    {
+      authors: [siteConfig.author],
+      ...(articleUpdated ? { modifiedTime: articleUpdated } : {}),
+      publishedTime: articleDate
+    } :
+    undefined
+
+const page = site.page({
+  ...(article ? { article } : {}),
+  authors: [siteConfig.author],
+  canonical: canonicalURL,
+  description: metaDescription,
+  image: { alt: resolvedOgImageAlt, url: socialImageURL },
+  locale: siteConfig.ogLocale,
+  pathname: Astro.url.pathname,
+  robots: { index: !noindex },
+  title: siteTitle,
+  twitter: { creator: '@santi020k', site: '@santi020k' },
+  type: articleDate ? 'article' : 'website'
+})
+
+const transform = (tags: readonly MetadataTag[]) => tags.map(tag => tag.tag === 'meta' && tag.name === 'robots' ?
+{
+  ...tag,
+  content: noindex ?
+    'noindex, follow' :
+    'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+} :
+tag)
+
+const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
+
+const websiteJsonLd = serializeJsonLd(webSiteSchema({
+  id: `${Astro.site?.href ?? 'https://santi020k.com/'}#website`,
+  inLanguage: siteConfig.lang,
+  name: siteConfig.author,
+  searchAction: { target: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={search_term_string}` },
+  url: Astro.site?.href ?? 'https://santi020k.com/'
+}, { alternateName: 'santi020k' }))
+
 const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
-  JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: breadcrumbs.map((crumb, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: crumb.name,
-      item: new URL(crumb.url, Astro.site ?? 'https://santi020k.com/').href
-    }))
-  }) :
+  serializeJsonLd(breadcrumbSchema(breadcrumbs.map(crumb => ({
+    name: crumb.name,
+    url: new URL(crumb.url, Astro.site ?? 'https://santi020k.com/').href
+  })))) :
   null
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>{siteTitle}</title>
+<MetadataHead {page} site={site.options} {transform} />
 
 {/* Icons */}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -101,7 +135,6 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 }
 
 {/* Canonical */}
-<link rel="canonical" href={canonicalURL} />
 <link
   rel="alternate"
   type="application/rss+xml"
@@ -120,50 +153,12 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 
 {/* Primary Meta */}
 <meta name="title" content={siteTitle} />
-<meta name="description" content={metaDescription} />
-<meta name="author" content={siteConfig.author} />
 <meta name="color-scheme" content="light dark" />
 <meta name="theme-color" content="#FAF9FB" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#1B141F" media="(prefers-color-scheme: dark)" />
 
 {/* SEO Improvements */}
-<meta
-  name="robots"
-  content={noindex ?
-    'noindex, follow' :
-    'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'}
-/>
-
-{/* Open Graph */}
-<meta property="og:type" content={articleDate ? 'article' : 'website'} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={metaDescription} />
-<meta property="og:url" content={canonicalURL} />
-<meta property="og:site_name" content={siteConfig.title} />
-<meta property="og:locale" content={siteConfig.ogLocale} />
-<meta property="og:image" content={socialImageURL} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-{articleDate && (
-  <>
-    <meta property="article:author" content={siteConfig.author} />
-    <meta property="article:published_time" content={articleDate} />
-    {articleUpdated && <meta property="article:modified_time" content={articleUpdated} />}
-  </>
-)}
-
-{/* Twitter */}
-<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={canonicalURL} />
-<meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={metaDescription} />
-<meta name="twitter:image" content={socialImageURL} />
-<meta name="twitter:site" content="@santi020k" />
-<meta name="twitter:creator" content="@santi020k" />
-
-{/* Additional Social */}
-<meta property="og:image:alt" content={resolvedOgImageAlt} />
-<meta name="twitter:image:alt" content={resolvedOgImageAlt} />
 
 {/* Webmentions */}
 {WEBMENTION_URL && (
@@ -189,13 +184,12 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <script
   type="application/ld+json"
   is:inline
-  set:html={JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
+  set:html={serializeJsonLd(personSchema({
+    id: `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
     name: siteConfig.author,
+    url: Astro.site?.href ?? 'https://santi020k.com/'
+  }, {
     alternateName: 'santi020k',
-    url: Astro.site?.href,
     jobTitle: AUTHOR_JOB_TITLE,
     description: siteConfig.description,
     sameAs: sameAsProfiles,
@@ -206,18 +200,17 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
       'Developer Experience',
       'Automation Systems'
     ]
-  })}
+  }))}
 />
 
 <script
   type="application/ld+json"
   is:inline
-  set:html={JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#organization`,
+  set:html={serializeJsonLd(organizationSchema({
+    id: `${Astro.site?.href ?? 'https://santi020k.com/'}#organization`,
     name: siteConfig.title,
-    url: Astro.site?.href,
+    url: Astro.site?.href ?? 'https://santi020k.com/'
+  }, {
     logo: {
       '@type': 'ImageObject',
       url: organizationLogoURL,
@@ -237,7 +230,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
       url: siteConfig.contact.whatsapp,
       contactType: 'professional inquiries'
     }
-  })}
+  }))}
 />
 
 {structuredDataJsonLd && (

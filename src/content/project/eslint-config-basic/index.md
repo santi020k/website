@@ -11,10 +11,10 @@ impactMetrics: [
   "229+ weekly npm downloads across personal, client, and shared codebases",
   "Reduced repeated setup work for new projects and experiments",
   "Encoded strong defaults across React, Next.js, Astro, and monorepos"
-]
+  ]
 technologies: [
   "React.js", "Next.js", "TypeScript", "Node.js", "Astro", "Expo", "ESLint", "JavaScript", "Code Quality", "Monorepo", "CI-CD", "DevOps Automation", "NPM", "Open Source", "Vitest", "Tailwind CSS", "i18next", "Testing", "Developer Documentation", "Developer Experience (DX)"
-]
+  ]
 coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"

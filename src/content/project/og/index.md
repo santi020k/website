@@ -11,12 +11,12 @@ impactMetrics: [
   "Generates SVG, PNG, WebP, JPEG, and AVIF through project-owned renderers",
   "Supports Astro, Next.js, plain Node.js, monorepos, Markdown collections, and CMS data without a framework runtime",
   "Ships deterministic fingerprints, bounded worker concurrency, tracked cleanup, and a read-only CI check"
-]
+  ]
 technologies: [
   "TypeScript", "Node.js", "Open Graph", "Satori", "Sharp", "SVG", "WebP", "AVIF", "Worker Threads",
   "Astro", "Next.js", "Turborepo", "pnpm", "NPM", "Vitest", "CI/CD", "Developer Experience (DX)",
   "Developer Tooling", "Open Source"
-]
+  ]
 coverImage:
   src: "./cover.webp"
   logo: "./logo.png"
