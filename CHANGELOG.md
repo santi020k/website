@@ -5,7 +5,7 @@
 ### Minor Changes
 
 - [#126](https://github.com/santi020k/website/pull/126) [`f8f6e0a`](https://github.com/santi020k/website/commit/f8f6e0a3e40567eb5d09e5e4b27d6105eef0805e) Thanks [@santi020k](https://github.com/santi020k)! - Show every published project in the project gallery, migrate social metadata and generated images
-  to `@santi020k/og` 1.0, adopt the public Lumen 1.4 primitives, and refresh compatible dependencies.
+  to `@santi020k/og` 1.0, adopt the public Lumen 1.6 primitives, and refresh compatible dependencies.
 
 ## 3.2.0
 
