@@ -2,6 +2,10 @@ import { execFileSync } from 'node:child_process'
 
 const legacyHuskyHooksPath = '.husky/_'
 
+if (process.env.CI) {
+  process.exit(0)
+}
+
 const getHooksPath = () => {
   try {
     return execFileSync('git', ['config', '--local', '--get', 'core.hooksPath'], {
