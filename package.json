@@ -55,7 +55,8 @@
     "verify:fast": "npm-run-all --silent --serial verify:quality build",
     "verify:full": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content test:coverage build && pnpm run lighthouse && pnpm run test:e2e:ci:stable",
     "ci:verify": "pnpm run verify:full",
-    "hooks:install": "quality hooks install",
+    "hooks:install": "node scripts/js/install-quality-hooks.mjs",
+    "prepare": "pnpm run hooks:install",
     "pre-commit": "lint-staged --quiet && astro check",
     "pre-push": "pnpm run verify:fast",
     "commit": "commitprompt"
