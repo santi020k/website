@@ -51,6 +51,16 @@ test.describe('SEO — meta tags', () => {
     }
   })
 
+  test('social metadata preserves a full headline when the document title is truncated', async ({ page }) => {
+    const headline = 'Configuring MongoDB with Homebrew on macOS: Converting a Standalone Instance to a Replica Set'
+
+    await page.goto('/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/')
+
+    expect(await page.title()).not.toBe(headline)
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', headline)
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', headline)
+  })
+
   test('priority search pages render complete intent-specific snippets', async ({ page }) => {
     const priorityPages = [
       {
@@ -115,6 +125,16 @@ test.describe('SEO — meta tags', () => {
 
     await expect(pdfLinks).toHaveCount(2)
     await expect(page.locator('a[href^="/pdf/cv.pdf?"]')).toHaveCount(0)
+  })
+
+  test('resume print styles hide the decorative particle layer', async ({ page }) => {
+    await page.goto('/resume/')
+
+    const particles = page.locator('[data-particles-bg]')
+
+    await expect(particles).toHaveCount(1)
+    await page.emulateMedia({ media: 'print' })
+    await expect(particles).toBeHidden()
   })
 
   test('homepage has a valid og:image pointing to the generated PNG', async ({ page }) => {

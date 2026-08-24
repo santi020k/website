@@ -39,7 +39,8 @@ const {
 } = Astro.props
 
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
-const siteTitle = createSeoTitle(seoTitle ?? title, siteConfig.title)
+const socialTitle = seoTitle ?? title
+const siteTitle = createSeoTitle(socialTitle, siteConfig.title)
 const metaDescription = createSeoDescription(description, title)
 
 const canonicalURL = new URL(
@@ -71,19 +72,25 @@ const page = site.page({
   locale: siteConfig.ogLocale,
   pathname: Astro.url.pathname,
   robots: { index: !noindex },
-  title: siteTitle,
+  title: socialTitle,
   twitter: { creator: '@santi020k', site: '@santi020k' },
   type: articleDate ? 'article' : 'website'
 })
 
-const transform = (tags: readonly MetadataTag[]) => tags.map(tag => tag.tag === 'meta' && tag.name === 'robots' ?
-{
-  ...tag,
-  content: noindex ?
-    'noindex, follow' :
-    'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
-} :
-tag)
+const transform = (tags: readonly MetadataTag[]) => tags.map(tag => {
+  if (tag.tag === 'title') return { ...tag, content: siteTitle }
+
+  if (tag.tag === 'meta' && tag.name === 'robots') {
+    return {
+      ...tag,
+      content: noindex ?
+        'noindex, follow' :
+        'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+    }
+  }
+
+  return tag
+})
 
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
 
