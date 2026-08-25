@@ -16,6 +16,7 @@
     "generate:icons": "node scripts/js/generate-favicons.mjs",
     "generate:fonts": "node scripts/js/generate-fonts.mjs",
     "generate:fonts:py": "python3 scripts/py/generate-fonts.py",
+    "generate:project-images": "node scripts/js/generate-project-images.mjs",
     "pregenerate:cv": "pnpm run build",
     "generate:cv": "node scripts/js/generate-resume-pdf.mjs",
     "generate:og": "santi-og generate --config scripts/js/generate-og-images.js",

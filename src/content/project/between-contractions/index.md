@@ -12,6 +12,8 @@ impactMetrics: ["Delivered one bilingual timer across browser, phone, watch, wid
 technologies: ["Astro", "TypeScript", "Lumen UI", "Swift", "SwiftUI", "SwiftData", "WidgetKit", "WatchConnectivity", "Kotlin", "Jetpack Compose", "Room", "Glance", "Wear OS", "Hono", "Cloudflare Workers", "Cloudflare D1", "WebSockets", "Turborepo", "pnpm", "Accessibility", "Testing", "CI-CD", "i18n"]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"

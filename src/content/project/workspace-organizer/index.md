@@ -12,6 +12,8 @@ impactMetrics: ["Organizes individual windows instead of forcing every window fr
 technologies: ["Swift", "SwiftUI", "AppKit", "macOS", "Accessibility API", "Apple Shortcuts", "App Intents", "iCloud Drive", "Sparkle", "Astro", "TypeScript", "Cloudflare Workers", "Lemon Squeezy", "Homebrew", "Privacy Engineering", "Accessibility", "Testing", "CI-CD"]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"

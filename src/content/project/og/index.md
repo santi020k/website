@@ -19,6 +19,8 @@ technologies: [
   ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"

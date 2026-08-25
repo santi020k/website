@@ -18,12 +18,14 @@ technologies: [
   "Developer Experience (DX)", "CI/CD", "Monorepo", "Turborepo", "pnpm", "Open Source"
   ]
 coverImage:
-  src: "./cover.png"
+  src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"
   alt: "Quality CLI dashboard summarizing checks across a polyglot repository"
-  ogImage: "./cover.png"
+  ogImage: "./cover.webp"
 ---
 
 <!-- cspell:words Clippy detekt ktlint SARIF -->

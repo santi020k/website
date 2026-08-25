@@ -11,6 +11,8 @@ impactMetrics: ["Unified four public and private experiences behind one domain",
 technologies: ["Astro", "Next.js", "React.js", "TypeScript", "Tailwind CSS", "Hono", "Cloudflare Workers", "Cloudflare D1", "Drizzle ORM", "Zod", "Turborepo", "pnpm", "OpenNext", "i18next", "Accessibility", "Testing", "CI-CD", "Monorepo"]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"

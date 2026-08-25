@@ -11,6 +11,8 @@ impactMetrics: ["Keeps core photo analysis, scoring, editing, and caption prepar
 technologies: ["Swift", "SwiftUI", "iOS", "PhotoKit", "PhotosPicker", "Vision", "Core Image", "Foundation Models", "Image Playground", "StoreKit", "Astro", "TypeScript", "Privacy Engineering", "Accessibility", "On-device AI", "Image Processing", "Localization", "Testing"]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"

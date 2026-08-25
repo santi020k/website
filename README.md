@@ -103,6 +103,7 @@ pnpm run lint:content # Content frontmatter quality checks
 pnpm run check        # Astro type-checking
 pnpm run test         # Unit testing
 pnpm run test:e2e     # E2E testing
+pnpm run generate:project-images # Regenerate responsive project covers
 pnpm run lighthouse   # Local Lighthouse CI run
 pnpm run verify:fast  # Spellcheck + lint + type-check + test + build
 ```

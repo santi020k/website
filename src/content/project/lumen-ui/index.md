@@ -11,6 +11,8 @@ impactMetrics: ["Ships 123 accessible primitives across Astro, React, and Web Co
 technologies: ["Astro", "React.js", "Web Components", "TypeScript", "CSS", "Tailwind CSS", "Accessibility", "Design Systems", "Figma", "Model Context Protocol", "AI-assisted Development", "Vitest", "Playwright", "Turborepo", "pnpm", "NPM", "Developer Documentation", "Open Source"]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "light"
