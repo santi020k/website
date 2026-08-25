@@ -16,16 +16,29 @@ test.describe('Blog page', () => {
     await expect(postLinks.first()).toBeVisible()
   })
 
-  test('index promotes one post and presents the rest as a visual gallery', async ({ page }) => {
+  test('renders twelve visual posts consistently on every full archive page', async ({ page }) => {
     await page.goto('/blog/')
 
-    await expect(page.locator('[data-post-gallery-featured]')).toHaveCount(1)
-    await expect(page.locator('[data-post-gallery-card]')).toHaveCount(8)
+    await expect(page.locator('[data-post-gallery-featured]')).toHaveCount(0)
+    await expect(page.locator('[data-post-gallery-card]')).toHaveCount(12)
 
     await page.goto('/blog/2/')
 
     await expect(page.locator('[data-post-gallery-featured]')).toHaveCount(0)
-    await expect(page.locator('[data-post-gallery-card]')).toHaveCount(9)
+    await expect(page.locator('[data-post-gallery-card]')).toHaveCount(12)
+  })
+
+  test('topic and series archives reuse the visual post gallery', async ({ page }) => {
+    await page.goto('/blog/tags/developer-experience/')
+
+    await expect(page.locator('[data-post-gallery-card]')).toHaveCount(12)
+    await expect(page.locator('[data-post-card]')).toHaveCount(0)
+
+    await page.goto('/blog/series/the-santi020k-way/')
+
+    await expect(page.locator('[data-post-gallery-card]').first()).toBeVisible()
+    await expect(page.locator('[data-post-gallery-card]').first()).toContainText('Part 1')
+    await expect(page.locator('[data-post-card]')).toHaveCount(0)
   })
 
   test('index should pass accessibility audit', async ({ page }) => {

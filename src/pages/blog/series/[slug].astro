@@ -5,10 +5,9 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
+import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -144,20 +143,25 @@ const structuredData: Record<string, unknown> = {
     )}
   </section>
 
-  <PageSection>
+  <section
+    class="
+      section-container-wide pt-20
+      sm:pt-24
+      lg:pt-28
+    "
+  >
     <SectionHeader
       description="Read these in order if you want the clearest progression from foundations to deeper implementation decisions."
       eyebrow="Posts"
       title="Articles in this series."
     />
 
-    <div class="space-y-6">
-      {posts.map((post, index) => (
-        <div class="space-y-3">
-          <p class="section-label">Part {index + 1}</p>
-          <PostCard post={post} />
-        </div>
-      ))}
+    <div class="
+      mt-10
+      sm:mt-12
+    "
+    >
+      <PostsGallery posts={posts} showSequence />
     </div>
-  </PageSection>
+  </section>
 </PageLayout>

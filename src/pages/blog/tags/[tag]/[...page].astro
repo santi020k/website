@@ -7,11 +7,10 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
-import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
+import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -28,7 +27,7 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 
     return paginate(tagPosts, {
       params: { tag: encodeURIComponent(tag) },
-      pageSize: 9,
+      pageSize: 12,
       props: { tag, totalTopics: allTags.length }
     })
   })
@@ -47,8 +46,6 @@ const topTags = allTags.slice(0, 8)
 const relatedTags = topTags.filter(([t]) => t !== tag).slice(0, 6)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
-const featuredPost = isFirstPage ? page.data[0] : null
-const gridPosts = isFirstPage ? page.data.slice(1) : page.data
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -104,7 +101,13 @@ const breadcrumbs = [
     </section>
   )}
 
-  <PageSection>
+  <section
+    class="
+      section-container-wide pt-20
+      sm:pt-24
+      lg:pt-28
+    "
+  >
     <SectionHeader
       description={isFirstPage ?
         `Start with the latest post tagged #${tag}, then browse the rest.` :
@@ -113,18 +116,16 @@ const breadcrumbs = [
       title={`Posts tagged #${tag}`}
     />
 
-    <div class="space-y-6">
-      {featuredPost && <PostCard featured post={featuredPost} />}
+    <div class="
+      mt-10 space-y-8
+      sm:mt-12
+    "
+    >
+      <TagFilter activeTag={tag} scrollOnMobile tags={topTags} />
 
-      <TagFilter activeTag={tag} showDivider={!!featuredPost} tags={topTags} />
-
-      {gridPosts.length > 0 ?
+      {page.data.length > 0 ?
         (
-          <div class="post-grid" data-stagger="60">
-            {gridPosts.map(post => (
-              <PostCard post={post} />
-            ))}
-          </div>
+          <PostsGallery posts={page.data} />
         ) :
         (
           <div class="flex flex-col items-center gap-4 py-16 text-center">
@@ -139,7 +140,7 @@ const breadcrumbs = [
 
       <Pagination baseUrl={getTagPath(tag)} page={page} />
     </div>
-  </PageSection>
+  </section>
 
   {isFirstPage && (
     <StatsGrid>

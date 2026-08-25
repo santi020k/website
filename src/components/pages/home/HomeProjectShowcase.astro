@@ -467,12 +467,16 @@ const supportingLogoSurfaceClass = {
 
 <style>
   [data-showcase-feature] {
+    transform: none;
     box-shadow:
       0 22px 58px hsl(230 30% 8% / 0.07),
       0 8px 24px hsl(var(--brand) / 0.035),
       inset 0 1px 0 hsl(0 0% 100% / 0.22),
       inset 1px 0 0 hsl(0 0% 100% / 0.10),
       inset 0 -1px 0 hsl(var(--line) / 0.12);
+    transition:
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
   }
 
   [data-project-readable] {
@@ -500,18 +504,21 @@ const supportingLogoSurfaceClass = {
       transform 0.3s ease;
   }
 
-  [data-showcase-feature]:hover {
-    border-color: hsl(var(--showcase-accent) / 0.34);
-    box-shadow:
-      0 28px 68px hsl(230 30% 8% / 0.10),
-      0 16px 34px hsl(var(--showcase-accent) / 0.12),
-      inset 0 1px 0 hsl(0 0% 100% / 0.28),
-      inset 0 -1px 0 hsl(var(--showcase-accent) / 0.12);
-  }
+  @media (hover: hover) and (pointer: fine) {
+    [data-showcase-feature]:hover {
+      transform: none;
+      border-color: hsl(var(--showcase-accent) / 0.34);
+      box-shadow:
+        0 28px 68px hsl(230 30% 8% / 0.10),
+        0 16px 34px hsl(var(--showcase-accent) / 0.12),
+        inset 0 1px 0 hsl(0 0% 100% / 0.28),
+        inset 0 -1px 0 hsl(var(--showcase-accent) / 0.12);
+    }
 
-  [data-showcase-feature]:hover::after {
-    opacity: 1;
-    transform: translate3d(5%, -4%, 0) scale(1.08);
+    [data-showcase-feature]:hover::after {
+      opacity: 1;
+      transform: translate3d(5%, -4%, 0) scale(1.08);
+    }
   }
 
   [data-showcase-item] {
@@ -609,12 +616,17 @@ const supportingLogoSurfaceClass = {
   }
 
   @media (prefers-reduced-motion: reduce) {
+    [data-showcase-feature] {
+      transition: none;
+    }
+
     [data-showcase-feature]::after,
     [data-showcase-item]::before,
     [data-showcase-item]::after {
       transition: none;
     }
 
+    [data-showcase-feature]:hover,
     [data-showcase-feature]:hover::after,
     [data-showcase-item]:hover::before,
     [data-showcase-item]:hover::after,

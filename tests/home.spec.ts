@@ -234,6 +234,16 @@ test('homepage featured projects use uncropped information-rich artwork', async 
   }
 })
 
+test('homepage featured project card stays in place on hover', async ({ page }) => {
+  await page.goto('/')
+
+  const featuredCard = page.locator('[data-showcase-feature]').first()
+
+  await featuredCard.scrollIntoViewIfNeeded()
+  await featuredCard.hover()
+  await expect(featuredCard).toHaveCSS('transform', 'none')
+})
+
 test('mobile navigation toggle keeps its accessible name aligned with its visible label', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')

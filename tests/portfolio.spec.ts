@@ -31,19 +31,16 @@ test.describe('Portfolio page', () => {
     await expect(page.getByRole('heading', { level: 1, name: /Capabilities and technologies/i })).toBeVisible()
   })
 
-  test('work timeline should render project artwork', async ({ page }) => {
+  test('work timeline should render a compact chronological ledger', async ({ page }) => {
     await page.goto('/work/')
 
-    const timelineItems = page.locator('[data-career-timeline] [data-timeline-artwork]')
-    const timelineImages = timelineItems.locator('img')
-    const timelineCardCount = await page.locator('[data-career-timeline] [data-timeline-card]').count()
+    const timelineRows = page.locator('[data-career-timeline] [data-timeline-row]')
+    const timelineRowCount = await timelineRows.count()
 
-    expect(timelineCardCount).toBeGreaterThan(0)
-    await expect(timelineItems).toHaveCount(timelineCardCount)
-    await expect(timelineImages).toHaveCount(timelineCardCount)
-    await expect(timelineImages.first()).toBeVisible()
-    await expect(timelineImages.first()).toHaveAttribute('alt', '')
-    await expect(timelineImages.first()).toHaveAttribute('src', /cover-horizontal/)
+    expect(timelineRowCount).toBeGreaterThan(0)
+    await expect(timelineRows.first()).toContainText('Current')
+    await expect(timelineRows.first()).toContainText('May 2025 - Present')
+    await expect(timelineRows.locator('img')).toHaveCount(0)
   })
 
   test('index should pass accessibility audit', async ({ page }) => {
@@ -90,7 +87,7 @@ test.describe('Portfolio page', () => {
 
     await page.goto('/portfolio/smith-commerce/')
 
-    const projectHero = page.locator('main article img[src*="cover-horizontal"]').first()
+    const projectHero = page.locator('main article img[src*="cover-commerce-system"]').first()
 
     await expect(projectHero).toBeVisible()
 

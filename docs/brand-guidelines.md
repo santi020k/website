@@ -324,6 +324,12 @@ Generated before the Astro build with `@santi020k/og` from
 | Typography | Montserrat variable, measured before wrapping |
 | Validation | `pnpm run check:og`, deterministic comparison, and post-build SEO audit |
 
+Real editorial media is the only right-side visual: blog posts use their cover artwork and
+portfolio projects use their project cover. Pages, archives, series, technologies, and any content
+entry without a cover use the wide typographic composition with no placeholder illustration. A
+low-opacity blurred purple atmosphere may add depth to image-free cards, but it must remain diffuse,
+non-semantic, and subordinate to the copy.
+
 ### Blog Cover Art
 
 Blog covers use a shared technical-editorial system that is separate from Open Graph cards.
@@ -336,6 +342,7 @@ The post title and metadata are rendered by the page, so the artwork never repea
 | Style | Dimensional technical editorial illustration with matte and restrained glass surfaces |
 | Base palette | Graphite, off-white, deep brand purple, and lilac |
 | Variation | One restrained topic accent, chosen for meaning rather than decoration |
+| Portfolio integration | Aubergine/navy upper field, brand-purple atmosphere, subtle circular geometry, and a soft violet lower sweep; related articles inherit their project's accent |
 | Composition | One focal concept inside the central 80%; readable at card size |
 | Content | Visual metaphor only; no embedded title, readable code, product logo, or watermark |
 | Accessibility | Concrete descriptive alt text; never “Editorial cover for…” or a copy of the title |
@@ -1003,7 +1010,7 @@ All internal links use trailing slashes.
 | `src/components/layout/Footer.astro` | Footer with social icons and version |
 | `scripts/js/generate-og-images.js` | Open Graph catalog, metadata routes, and preset configuration |
 | `scripts/js/generate-project-images.mjs` | Project-palette cover generation and logo staging |
-| `scripts/js/render-og-decoration.mjs` | Brand-owned abstract system decoration for image-free cards |
+| `scripts/js/render-og-atmosphere.mjs` | Diffuse brand-light treatment for image-free Open Graph cards |
 | `src/layouts/` | Page layout wrappers |
 
 ---
@@ -1012,6 +1019,8 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 3.2 | August 2026 | Added restrained ambient blur to image-free Open Graph cards while preserving the no-placeholder rule and real cover artwork for blog posts and projects. |
+| 3.1 | August 2026 | Limited Open Graph media to meaningful blog and project cover artwork; image-free routes now use an intentionally typographic composition without generic placeholder decoration. |
 | 3.0 | August 2026 | Added project-level primary, secondary, and surface palettes; scoped them across portfolio interfaces; added contrast-safe text derivatives; and connected the same palette source to project image generation. |
 | 2.9 | August 2026 | Aligned generated Open Graph cards with Montserrat, shared brand assets and colors, content-aware variants, route metadata, optimized WebP encoding, and deterministic Quality checks. |
 | 2.8 | August 2026 | Standardized blog cover art as 1600 × 900 WebP technical-editorial illustrations, documented composition and accessibility rules, and migrated the complete post archive. |

@@ -39,6 +39,23 @@ describe('selectedOrganizations', () => {
       expect(org.projectId).toBeTruthy()
     }
   })
+
+  test('includes every public professional engagement and the featured community', () => {
+    const projectIds = selectedOrganizations.map(organization => organization.projectId)
+
+    expect(new Set(projectIds).size).toBe(projectIds.length)
+    expect(projectIds).toEqual([
+      'void',
+      'optic-power',
+      'datagran',
+      'xgames',
+      'smith-commerce',
+      'pads',
+      'justbit',
+      'nebular',
+      'react-js-colombia'
+    ])
+  })
 })
 
 describe('collaborationLanes', () => {

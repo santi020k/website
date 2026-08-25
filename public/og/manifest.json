@@ -865,22 +865,6 @@
       "pathname": "/blog/4/",
       "title": "Blog · Page 4"
     },
-    "/blog/5/": {
-      "alt": "Blog · Page 5 — Santiago Molina",
-      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--5.webp",
-          "primary": true,
-          "url": "/og/pages/blog--5.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/5/",
-      "title": "Blog · Page 5"
-    },
     "/blog/tags/development/": {
       "alt": "Development posts — Santiago Molina",
       "description": "Explore Development posts on architecture, automation, DX, and engineering workflow.",

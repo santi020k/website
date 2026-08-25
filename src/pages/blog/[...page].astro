@@ -31,7 +31,7 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const allTagsData = getAllTags(posts)
 
   return paginate(posts, {
-    pageSize: 9,
+    pageSize: 12,
     props: { allTagsData }
   })
 }
@@ -46,8 +46,7 @@ const isFirstPage = page.currentPage === 1
 const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const santi020kWaySeries = isFirstPage ? (activeSeries.find(s => s.series.id === 'the-santi020k-way') ?? null) : null
 const topTags = allTagsData.slice(0, 8)
-const featuredPost = isFirstPage ? (page.data[0] ?? null) : null
-const galleryPosts = isFirstPage ? page.data.slice(1) : page.data
+const latestPost = page.data[0] ?? null
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -96,8 +95,8 @@ const blogListSchema = {
     metaItems={isFirstPage ? ['Deep dives', 'Field notes', 'Evergreen guides'] : ['Archive', 'Latest first']}
     title={isFirstPage ? 'Writing about software.' : 'Writing archive.'}
   >
-    {isFirstPage && featuredPost && (
-      <ButtonLink href={getPostPath(featuredPost.id)} showArrow>
+    {isFirstPage && latestPost && (
+      <ButtonLink href={getPostPath(latestPost.id)} showArrow>
         Read the latest post
       </ButtonLink>
     )}
@@ -132,7 +131,7 @@ const blogListSchema = {
     >
       <TagFilter scrollOnMobile tags={topTags} />
 
-      <PostsGallery featuredPost={featuredPost} posts={galleryPosts} />
+      <PostsGallery posts={page.data} />
 
       <div class="pt-2">
         <Pagination page={page} />

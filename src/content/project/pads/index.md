@@ -21,6 +21,7 @@ technologies: [
   ]
 coverImage:
   src: "./cover.webp"
+  background: "./cover-background.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"

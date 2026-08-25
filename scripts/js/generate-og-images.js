@@ -29,7 +29,7 @@ import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
 
 import { prepareOgImage } from './prepare-og-image.mjs'
-import { renderOgDecoration } from './render-og-decoration.mjs'
+import { renderOgAtmosphere } from './render-og-atmosphere.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..')
@@ -90,16 +90,6 @@ export const formatTopicName = topic => {
       index === 0 ? `${part.charAt(0).toUpperCase()}${part.slice(1)}` : part
     ))
     .join(' ')
-}
-
-const getStaticPageVariant = page => {
-  if (['Blog', 'Legal', 'Resume'].includes(page.badge)) return 'docs'
-
-  if (['Homepage', 'Portfolio', 'Projects', 'Technology', 'Work'].includes(page.badge)) {
-    return 'product'
-  }
-
-  return 'article'
 }
 
 // ---------------------------------------------------------------------------
@@ -251,7 +241,7 @@ export const isPublishedPost = entry => {
 }
 
 const archiveCard = (pathname, title, description, badge) => ({
-  data: { badge, description, domain: pathname, title, variant: 'product' },
+  data: { badge, description, domain: pathname, title, variant: 'simple' },
   output: `pages/${getSocialImageFileName(pathname)}`,
   route: { description, pathname, title }
 })
@@ -274,7 +264,7 @@ export const collectCards = async () => {
     description: page.description,
     domain: page.pathname,
     title: page.title,
-    variant: getStaticPageVariant(page)
+    variant: 'simple'
   }), {
     output: page => page.image.output,
     route: page => {
@@ -298,11 +288,11 @@ export const collectCards = async () => {
           description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
           domain: context.pathname,
           title: `Blog · Page ${context.pageNumber}`,
-          variant: 'article'
+          variant: 'simple'
         }),
         includeFirst: false,
         output: context => `pages/${getSocialImageFileName(context.pathname)}`,
-        pageSize: 9
+        pageSize: 12
       }),
       groupArchive({
         basePath: '/blog/tags/',
@@ -314,7 +304,7 @@ export const collectCards = async () => {
             description: `Explore ${topic} posts on architecture, automation, DX, and engineering workflow.`,
             domain: context.pathname,
             title: context.pageNumber === 1 ? `${topic} posts` : `${topic} posts · Page ${context.pageNumber}`,
-            variant: 'docs'
+            variant: 'simple'
           }
         },
         field: 'tags',
@@ -342,7 +332,7 @@ export const collectCards = async () => {
         description: entry.frontmatter.description ?? '',
         domain: `/blog/${id}/`,
         title: entry.frontmatter.title ?? id,
-        variant: 'article'
+        variant: coverImagePath ? 'article' : 'simple'
       }
     },
     output: entry => `blog/${entry.slug.split('/').at(-1)}.webp`,
@@ -395,7 +385,7 @@ export const collectCards = async () => {
         description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
         domain: `/portfolio/${entry.slug}/`,
         title: entry.frontmatter.title ?? entry.slug,
-        variant: 'product'
+        variant: coverImagePath ? 'product' : 'simple'
       }
     },
     output: entry => `portfolio/${entry.slug}.webp`,
@@ -411,7 +401,7 @@ export const collectCards = async () => {
       description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
       domain: `/blog/series/${entry.slug}/`,
       title: entry.frontmatter.seoTitle ?? entry.frontmatter.title ?? entry.slug,
-      variant: 'docs'
+      variant: 'simple'
     }),
     output: entry => `pages/${getSocialImageFileName(`/blog/series/${entry.slug}/`)}`,
     root: ROOT
@@ -462,11 +452,11 @@ export const collectSpecs = async () => (await collectCards()).map(card => ({
 
 export default definePresetConfig({
   cache: {
-    key: 'santi020k-social-cards-v1',
+    key: 'santi020k-social-cards-v3',
     sources: [
       BRAND_LOGO,
       'scripts/js/prepare-og-image.mjs',
-      'scripts/js/render-og-decoration.mjs'
+      'scripts/js/render-og-atmosphere.mjs'
     ]
   },
   cards: collectCards,
@@ -476,7 +466,7 @@ export default definePresetConfig({
   routeManifest: { file: 'public/og/manifest.json', publicPath: '/og' },
   preset: {
     brand: { domain: 'santi020k.com', logo: BRAND_LOGO, name: 'Santiago Molina' },
-    decoration: renderOgDecoration,
+    decoration: renderOgAtmosphere,
     sharp: { webp: { effort: 6, quality: 90, smartSubsample: true } },
     theme: {
       accent: '#9b66ff',

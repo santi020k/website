@@ -2,9 +2,9 @@
 title: "Smith Commerce"
 description: "Rebuilt Marcone's storefront into a faster, more accessible headless experience while giving teams room to ship independently."
 brand:
-  primary: "#e5e7eb"
-  secondary: "#6b7280"
-  surface: "#111827"
+  primary: "#ff5c00"
+  secondary: "#f8f7f3"
+  surface: "#161a23"
 role: "Senior Front End Developer"
 startingDate: "1 May 2025"
 liveDemoUrl: "https://www.marcone.com/"
@@ -20,12 +20,13 @@ technologies: [
   ]
 coverImage:
   src: "./cover.webp"
-  horizontal: "./cover-horizontal.webp"
+  background: "./cover-background.webp"
+  horizontal: "./cover-commerce-system.webp"
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "wide"
   logoSurface: "dark"
-  alt: "Smith Commerce wordmark on an orange and charcoal geometric cover"
+  alt: "Smith Commerce wordmark surrounded by a modern headless commerce interface"
   ogImage: './cover.webp'
 ---
 

@@ -7,6 +7,7 @@ import {
   collectSpecs,
   formatTopicName
 } from '../../../scripts/js/generate-og-images.js'
+import { renderOgAtmosphere } from '../../../scripts/js/render-og-atmosphere.mjs'
 
 interface SocialImageProps {
   coverImagePath?: string
@@ -44,6 +45,14 @@ describe('collectSpecs', () => {
     expect(topicProps?.pathLabel).toBe('/blog/tags/typescript/')
   })
 
+  test('matches the blog index pagination size', async () => {
+    const cards = await collectCards()
+    const pathnames = new Set(cards.map(card => card.route?.pathname))
+
+    expect(pathnames.has('/blog/4/')).toBe(true)
+    expect(pathnames.has('/blog/5/')).toBe(false)
+  })
+
   test('embeds normalized cover art and complete route metadata', async () => {
     const cards = await collectCards()
     const postCard = cards.find(card => card.output ===
@@ -57,6 +66,19 @@ describe('collectSpecs', () => {
       pathname: '/blog/deterministic-open-graph-images-without-design-lock-in/',
       title: 'Deterministic Open Graph images without design lock-in'
     })
+  })
+
+  test('uses real cover art as the only right-side visual', async () => {
+    const cards = await collectCards()
+    const visualVariants = cards
+      .filter(card => Boolean((card.data as { image?: unknown }).image))
+      .map(card => (card.data as { variant?: string }).variant)
+    const imageFreeVariants = cards
+      .filter(card => !(card.data as { image?: unknown }).image)
+      .map(card => (card.data as { variant?: string }).variant)
+
+    expect(new Set(visualVariants)).toEqual(new Set(['article', 'product']))
+    expect(new Set(imageFreeVariants)).toEqual(new Set(['simple']))
   })
 
   test.each([
@@ -109,5 +131,27 @@ describe('collectSpecs', () => {
     const designSystemsProps = designSystemsSpec?.props as SocialImageProps | undefined
 
     expect(designSystemsProps?.pathLabel).toBe('/technologies/design-systems/')
+  })
+})
+
+describe('renderOgAtmosphere', () => {
+  test('adds only diffuse light to image-free cards', () => {
+    const atmosphere = renderOgAtmosphere(
+      { title: 'Image-free page' },
+      {},
+      { accent: '#9b66ff' }
+    )
+
+    expect(atmosphere).toContain('feGaussianBlur')
+    expect(atmosphere).toContain('aria-hidden="true"')
+    expect(atmosphere).not.toContain('<rect')
+  })
+
+  test('preserves the preset cover visual when a real image exists', () => {
+    expect(renderOgAtmosphere(
+      { image: 'data:image/png;base64,cover' },
+      {},
+      { accent: '#9b66ff' }
+    )).toBeUndefined()
   })
 })
