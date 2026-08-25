@@ -3,6 +3,7 @@ import { Image, Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
@@ -18,7 +19,7 @@ const isActive = !project.data.endingDate
 const projectLink = getPortfolioPath(project.id)
 const timeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const coverImage = project.data.coverImage
-const previewImage = coverImage?.horizontal ?? coverImage?.src ?? coverImage?.vertical
+const previewImage = getProjectCoverForUsage(coverImage, 'thumbnail')
 const logoImage = coverImage?.logo
 const isAccent = accentTone === 'accent'
 const cardAccentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
@@ -67,11 +68,7 @@ const logoSurfaceClass = {
     class="card-interactive h-full min-h-112 rounded-[1.75rem] bg-surface/58"
     data-project-preview-card
   >
-    <div class="
-      relative min-h-48
-      sm:min-h-52
-    "
-    >
+    <div class="relative aspect-16/10 overflow-hidden">
       {previewImage ?
         (
           <Picture
@@ -84,13 +81,13 @@ const logoSurfaceClass = {
               motion-reduce:transition-none
             "
             formats={['avif', 'webp']}
-            height={600}
+            height={800}
             loading="lazy"
             sizes="(min-width: 1280px) 24vw, (min-width: 768px) 42vw, 100vw"
             src={previewImage}
             data-project-preview-media
-            width={840}
-            widths={[480, 720, 960]}
+            width={1280}
+            widths={[480, 800, 1280]}
           />
         ) :
         (

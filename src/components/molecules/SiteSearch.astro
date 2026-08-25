@@ -1140,6 +1140,7 @@ import SearchDialog from './SearchDialog.astro'
 
       const trigger = root.querySelector('[data-site-search-trigger]')
       const closeBtn = root.querySelector('[data-site-search-close]')
+      const inputClearBtn = root.querySelector('[data-site-search-input-clear]')
       const input = getInput()
       const results = getResults()
       const dialog = getDialog()
@@ -1168,6 +1169,16 @@ import SearchDialog from './SearchDialog.astro'
       closeBtn.addEventListener('click', () => {
         closeSearch({ focusTrigger: true })
       })
+
+      if (inputClearBtn instanceof HTMLButtonElement) {
+        inputClearBtn.addEventListener('click', () => {
+          input.value = ''
+
+          input.dispatchEvent(new Event('input', { bubbles: true }))
+
+          input.focus()
+        })
+      }
 
       if (scrim instanceof HTMLElement) {
         scrim.addEventListener('click', () => {

@@ -2,6 +2,7 @@ import { getImage } from 'astro:assets'
 
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
 
 import type { APIRoute, ImageMetadata } from 'astro'
 
@@ -64,15 +65,23 @@ export const GET: APIRoute = async () => {
   )
 
   const projectEntries = await Promise.all(
-    projects.map(async (project): Promise<SearchIndexEntry> => ({
-      description: project.data.description,
-      path: getPortfolioPath(project.id),
-      searchCategory: 'technology',
-      tags: project.data.technologies,
-      title: project.data.title,
-      type: 'project',
-      ...(await searchThumb(project.data.coverImage))
-    }))
+    projects.map(async (project): Promise<SearchIndexEntry> => {
+      const thumbnail = getProjectCoverForUsage(project.data.coverImage, 'thumbnail')
+
+      const searchCover = project.data.coverImage && thumbnail ?
+        { alt: project.data.coverImage.alt, src: thumbnail } :
+        undefined
+
+      return {
+        description: project.data.description,
+        path: getPortfolioPath(project.id),
+        searchCategory: 'technology',
+        tags: project.data.technologies,
+        title: project.data.title,
+        type: 'project',
+        ...(await searchThumb(searchCover))
+      }
+    })
   )
 
   const entries = [...postEntries, ...projectEntries]

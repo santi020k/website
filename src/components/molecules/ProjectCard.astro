@@ -5,6 +5,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectFeaturedLabel, getProjectTimelineLabel, getProjectTypeLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
@@ -24,6 +25,7 @@ const sortedTechnologies = sortTechnologiesByInterest(project.data.technologies)
 const hiddenTechnologyCount = Math.max(0, sortedTechnologies.length - technologyLimit)
 const hiddenTechnologyLabel = `+${hiddenTechnologyCount} ${hiddenTechnologyCount === 1 ? 'technology' : 'technologies'}`
 const useCoverFeatured = coverFeatured ?? featured
+const thumbnailImage = getProjectCoverForUsage(project.data.coverImage, 'thumbnail')
 
 const imageSizes = useCoverFeatured ?
   '(min-width: 1024px) 72vw, 100vw' :
@@ -60,14 +62,14 @@ const cardClass = ['group', className].filter(Boolean).join(' ')
     href={projectLink}
   >
     <span class="sr-only">{project.data.title}</span>
-    {project.data.coverImage?.src ?
+    {project.data.coverImage && thumbnailImage ?
       (
         <CoverImage
           alt={project.data.coverImage.alt || project.data.title}
           ariaHidden={true}
           className="rounded-none border-0 shadow-none"
           featured={useCoverFeatured}
-          image={project.data.coverImage.vertical ?? project.data.coverImage.src}
+          image={thumbnailImage}
           loading={useCoverFeatured ? 'eager' : 'lazy'}
           mode="card"
           showCardOverlay={false}

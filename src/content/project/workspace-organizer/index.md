@@ -7,7 +7,7 @@ githubUrl: "https://github.com/santi020k/workspace-organizer"
 liveDemoUrl: "https://workspace.santi020k.com/"
 typesId: "personal"
 draft: true
-relevanceWeight: 86
+relevanceWeight: 60
 impactMetrics: ["Organizes individual windows instead of forcing every window from one application into the same context", "Restores adaptive layouts across changing display arrangements", "Supports menu-bar, keyboard, Shortcuts, URL scheme, and privacy-safe CLI workflows"]
 technologies: ["Swift", "SwiftUI", "AppKit", "macOS", "Accessibility API", "Apple Shortcuts", "App Intents", "iCloud Drive", "Sparkle", "Astro", "TypeScript", "Cloudflare Workers", "Lemon Squeezy", "Homebrew", "Privacy Engineering", "Accessibility", "Testing", "CI-CD"]
 coverImage:

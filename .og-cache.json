@@ -235,6 +235,12 @@
       "fingerprint": "01ef193a368692eabe8a6908eafcc09c086022d6fd547e0bd06fdbdbccd4e140",
       "output": "blog/building-aaronmgz-as-a-family-platform.webp"
     },
+    "blog/coolstead-safety-first-mac-cooling.webp": {
+      "baseDirectory": "public/og",
+      "digest": "d1dd72931037f1221e6ff6957c2e8e4632f756621258a1b96e4ec52a6ba47281",
+      "fingerprint": "d062f3b1caa3e1a055b6d4a3e8deda0399d5c5e1a6bf25fb34d518e2fee37581",
+      "output": "blog/coolstead-safety-first-mac-cooling.webp"
+    },
     "blog/dep-beacon-vscode-extension.webp": {
       "baseDirectory": "public/og",
       "digest": "fc25e1525d653a22fb0124cee3156eb1010b659551444c9352e18b4a63ba922b",
@@ -322,14 +328,20 @@
     "pages/blog--3.webp": {
       "baseDirectory": "public/og",
       "digest": "c4608b97b6b4555ef9026e4cdba75dc728eb161969d1d3ca25759dced8766d3f",
-      "fingerprint": "77ae519c9b6c5982e45aeedd7425ec440043bb63bc392ad76411e1a355baf331",
+      "fingerprint": "67bf00953a6509fa341104fafbb9a1793f3e2d8bc1ebb4ba233768c842729e4d",
       "output": "pages/blog--3.webp"
     },
     "pages/blog--4.webp": {
       "baseDirectory": "public/og",
       "digest": "0bce8046a772e8f2052345595f767bb2d9803fc5ce02ac25b995a5d15c4040d1",
-      "fingerprint": "068dfd8450322519232973fb402067db0f6714a49151be0c233555b04128cf47",
+      "fingerprint": "19abef6377b8b436dde2fd55693e59fd1b4563190bf07b80b71cd81e5c993533",
       "output": "pages/blog--4.webp"
+    },
+    "pages/blog--5.webp": {
+      "baseDirectory": "public/og",
+      "digest": "b0882d5e7fde57153e3cfdcc758cc378578592d89d61ac1024486e263f5adc72",
+      "fingerprint": "e4206bc77b2692c385b76d64f352111ec1392319e85ae9edd449b60cffa61f1a",
+      "output": "pages/blog--5.webp"
     },
     "pages/blog--tags--development.webp": {
       "baseDirectory": "public/og",
@@ -715,6 +727,36 @@
       "fingerprint": "b84711f00fae0743d8ede6c0e2020e750f8c4d06c46e43ffd0edece4170259c8",
       "output": "pages/blog--tags--personal-projects.webp"
     },
+    "pages/blog--tags--macos.webp": {
+      "baseDirectory": "public/og",
+      "digest": "cccce3d8193ab57b8662cd756af0338462a7cdc5e9c9b9da8e35e9515c26ac13",
+      "fingerprint": "8095c4142b00537239e94fe03c6c3733e2245acfac8c09deded9d052ce7e0f5c",
+      "output": "pages/blog--tags--macos.webp"
+    },
+    "pages/blog--tags--swift.webp": {
+      "baseDirectory": "public/og",
+      "digest": "c85abe50d74f38cf30709095be65d0ac30fb3bad0e807f4c13b01e497c0ae9e5",
+      "fingerprint": "80554e786cbdf356c10e277ce551c0f6dabdeb0b485a1376de7c1d8504272b67",
+      "output": "pages/blog--tags--swift.webp"
+    },
+    "pages/blog--tags--hardware.webp": {
+      "baseDirectory": "public/og",
+      "digest": "9940a1db14304f5c3d77f232adc4ae186a30f974c81f5dbbdd8dc70d8336c100",
+      "fingerprint": "d42398a1076aa6b9263c7a52f1f4725d54df0057606ec50df976e3be2866d54f",
+      "output": "pages/blog--tags--hardware.webp"
+    },
+    "pages/blog--tags--safety-engineering.webp": {
+      "baseDirectory": "public/og",
+      "digest": "d4a2c566fd105654c4e6f6a9b64bee2b9e0a87b8df072f69ac14921ce76b8d4c",
+      "fingerprint": "76f28b8f00b022334080b1b16a36e28833871343f16ffe4974cb3799fbe69259",
+      "output": "pages/blog--tags--safety-engineering.webp"
+    },
+    "pages/blog--tags--native-apps.webp": {
+      "baseDirectory": "public/og",
+      "digest": "eaed16ddad6af7dbfbf75dcff77545468177a00e5c49ef185ad941b809ccd87b",
+      "fingerprint": "3984ab42e1816106064858bfd710782447189dcd32a865b26bf63071e2761157",
+      "output": "pages/blog--tags--native-apps.webp"
+    },
     "pages/blog--tags--vscode.webp": {
       "baseDirectory": "public/og",
       "digest": "68b3b7d543fe3658acc85574c5cd88a1eea5ebe3663c4f9867d177db1ae92e71",
@@ -787,12 +829,6 @@
       "fingerprint": "b0dd23b6fab9be4ee580108ba5ed68ceed2bddaa0d671757a0d67cb5007221a7",
       "output": "pages/blog--tags--playwright.webp"
     },
-    "pages/blog--tags--macos.webp": {
-      "baseDirectory": "public/og",
-      "digest": "cccce3d8193ab57b8662cd756af0338462a7cdc5e9c9b9da8e35e9515c26ac13",
-      "fingerprint": "8413811764e9c835afd1f18a3316a1d81dc7d749715424158b3b59541008a7e0",
-      "output": "pages/blog--tags--macos.webp"
-    },
     "pages/blog--tags--release-engineering.webp": {
       "baseDirectory": "public/og",
       "digest": "9796c0081416574f2fc028afdb2e6b2ec1ceaf46c59da0eeab715bd1e876170b",
@@ -838,121 +874,127 @@
     "portfolio/aaronmgz.webp": {
       "baseDirectory": "public/og",
       "digest": "2d314615f522a2e0e353734268518aeb9e80b2e19b5b1b3231517fd9d7bf8024",
-      "fingerprint": "949654f714c0ae1c77b2ffc2bd2ade01e16cbd485ba0f754222392d4ec7d6f61",
+      "fingerprint": "8239579f243e1b01bdd9598056d0632044a0fced7a09130a50da1db7c45cbfcf",
       "output": "portfolio/aaronmgz.webp"
     },
     "portfolio/astro-doctor.webp": {
       "baseDirectory": "public/og",
       "digest": "bceeea1c23c4a8215b2894d3373b16dfe0d5f9283fb2015de3c4d836c6264a14",
-      "fingerprint": "442264e74033a76b8a32aeafd4269fade11db8bee30ba4e0189a83dce882bca9",
+      "fingerprint": "0a43ce65f955279e99cb4368b6d17b51a545abd42a6665045da5e44cf5d9598f",
       "output": "portfolio/astro-doctor.webp"
     },
     "portfolio/between-contractions.webp": {
       "baseDirectory": "public/og",
       "digest": "9b7648ad7385c0f90e70dba1d4ed876d04e0ce0755f96ac4dd0039d222801677",
-      "fingerprint": "6eb44fca427e2b4fae5a1337be8ad5adf3379a0e4776c295aa6f8a538aaf8f26",
+      "fingerprint": "17f1a7a249b72d9242553f141f8fbe02170d43e79e82537a0a5949a676b513c2",
       "output": "portfolio/between-contractions.webp"
+    },
+    "portfolio/coolstead.webp": {
+      "baseDirectory": "public/og",
+      "digest": "427686d61f27546d55851811a360575a080c0f4a6f1362c7370d055059c89083",
+      "fingerprint": "48028d81203aac7f8c5c0d485cd14efe65eaa481fdd1161f263d09e9e2162e84",
+      "output": "portfolio/coolstead.webp"
     },
     "portfolio/datagran.webp": {
       "baseDirectory": "public/og",
       "digest": "565a8ed3e7923d21bab518aa74eb773e8d5861cc6b3fd29df8cb1b67a21e6ed7",
-      "fingerprint": "af88f86c45146195444f909493bdc76239570112d1ce8ba157d7feaabba5e712",
+      "fingerprint": "1a868cbc59218f3793da32d409382d359b562855cc2368722f05479f3732afca",
       "output": "portfolio/datagran.webp"
     },
     "portfolio/dep-beacon.webp": {
       "baseDirectory": "public/og",
       "digest": "4346e96212c50f36da3ee717a06bad5631d0805c77b0c0e831d1c95cc69d895f",
-      "fingerprint": "5f6f67178cb59fd0c5de8a15691d76ba77b02df90301f2920b1062466751ba71",
+      "fingerprint": "bb2bad9d6f921bf76f6c484b28ddddcb074f1b9aeefda322ebdc2be151b5c679",
       "output": "portfolio/dep-beacon.webp"
     },
     "portfolio/eslint-config-basic.webp": {
       "baseDirectory": "public/og",
       "digest": "876fcb29a7411b4e78927c6af7170bc665ee6cab30267cdf8c2df9f896f61322",
-      "fingerprint": "34b855cb2bf89e9479de87d1d6b5af8af25fc95d8ad22878b001c4d7c42ed0e2",
+      "fingerprint": "412a39ea7f814491ed34ace2105820b71959d49413dbbb8ab965f6d708ee5d21",
       "output": "portfolio/eslint-config-basic.webp"
     },
     "portfolio/eslint-config-santi020k.webp": {
       "baseDirectory": "public/og",
       "digest": "9c76c69ab1db8648c24d2b7fe62fa2f568b4a6fd83e3dd0d7c2c7d9657fbb110",
-      "fingerprint": "f11a69be5d1b53c436ee87b6b858785665190682960ea340d7ed15b72ce03f22",
+      "fingerprint": "ef2a513018947294f535100f741ca8325c5670580287963999a132cc57e6d10e",
       "output": "portfolio/eslint-config-santi020k.webp"
     },
     "portfolio/justbit.webp": {
       "baseDirectory": "public/og",
       "digest": "96c88d4594134c9d6ea22ebfb711061f03dd2f08b45fc9ac00aa7ad37f27d87a",
-      "fingerprint": "34097992fb32f17d6a9a6c07a342fa6444e02a6bf2f333d5ba5e47249beedbe8",
+      "fingerprint": "84e2f049c46c5ed9dbbe910a3778751fd9ffcc8c66acf16a85f20fa1a26f7789",
       "output": "portfolio/justbit.webp"
     },
     "portfolio/lumen-ui.webp": {
       "baseDirectory": "public/og",
       "digest": "4692f42442c9dc7fdf041c9bc8b6b47e181cb0ae87f1300a3c7fac328d2ef91e",
-      "fingerprint": "e87644b939aef8d67d8d59ef98fbbbb1af1cde5c93cfe1e0f3576de84a3a671d",
+      "fingerprint": "ba09474142ee76bb44e456abbe109fd487e071d75810d8e6b39b670614585360",
       "output": "portfolio/lumen-ui.webp"
     },
     "portfolio/nebular.webp": {
       "baseDirectory": "public/og",
       "digest": "e450d84297874ffd532d90891ee566c09afb05dfee4adb28a0720bfd825275ee",
-      "fingerprint": "b8daf06ed5be71db3b5c033802e80d63783360ff375c81cd162632fef3ff3d9d",
+      "fingerprint": "631fbe447dc694e9cf048267b0eb5d037812bc1af43a7f4bafd8415865f80613",
       "output": "portfolio/nebular.webp"
     },
     "portfolio/og.webp": {
       "baseDirectory": "public/og",
       "digest": "9f5e81d14b1547fad772aa53138fa42944581ae7b9aa8df96bb7e3e545cc4947",
-      "fingerprint": "164918a3457fafca8be3c526de90f79d7d154ced9846ba0486a0044a10ba97b8",
+      "fingerprint": "730b2db2344e35e41c589dbdf5b27cc045eaed17280a21dad262d0301e4d609e",
       "output": "portfolio/og.webp"
     },
     "portfolio/optic-power.webp": {
       "baseDirectory": "public/og",
       "digest": "be677f2152373e3c14d86b84a6dbdf19bb62abbd92db505be7c351427bd68578",
-      "fingerprint": "f42e4433cca727c12cb4551d6da2fb142dcf1f144d3a81eb1170823a706932a9",
+      "fingerprint": "a57add4c9b5ebacb5c9348e01062f0b6aa1db5ad5c3ceb77cf5ef95e6bcae98a",
       "output": "portfolio/optic-power.webp"
     },
     "portfolio/pads.webp": {
       "baseDirectory": "public/og",
       "digest": "0e1470f88287557fdbbc2ebba43708d1b3daa5aed4af2d7b59e225f1fd3551d0",
-      "fingerprint": "65afcd823e105585a9f677e34304af8d554e7398b017f09e98d92ac28ccc1021",
+      "fingerprint": "647578b67eb9ccef44a640fee2956ceb0c0fad011c5966dae0e5a335667fdd36",
       "output": "portfolio/pads.webp"
     },
     "portfolio/quality.webp": {
       "baseDirectory": "public/og",
       "digest": "b28327ee1a60d6c787b11d9db9b7e0ea8de56e7918f65306554cb591190d2d02",
-      "fingerprint": "8583ee22ace4eb234760e2c6e6104bc1150c8e49fc26e04940fb82918d7b1bfe",
+      "fingerprint": "ca11bf3f19f61b8c96b487388d806a8af9876a1073ec7bed9e26269cbd1eb267",
       "output": "portfolio/quality.webp"
     },
     "portfolio/react-js-colombia.webp": {
       "baseDirectory": "public/og",
       "digest": "00f189c10d926b73b726a0eb2ac51d30eb3038bf50ea4043b2177e237f26f16b",
-      "fingerprint": "706433ae5c3200c1094a03a417d2b30132bb522a8f193de76e75b4703bb0c531",
+      "fingerprint": "244cbba90584c578ab556e2bdf58d076bd94e38f162bd73d9df052aae082e408",
       "output": "portfolio/react-js-colombia.webp"
     },
     "portfolio/santi020k-theme.webp": {
       "baseDirectory": "public/og",
       "digest": "43fb416b3b773c79a0165d50b5a877e0bebd65ff84450af6443fb5c76349298a",
-      "fingerprint": "7733dcc3cecbe65e29d7c98cb357639af7d4c44548f8e8fd3356225db7dbf65f",
+      "fingerprint": "8c1e9f220151d9aeca9e54c6de84ffd25b43eee07cdb72809d4c1d6225621d7f",
       "output": "portfolio/santi020k-theme.webp"
     },
     "portfolio/smith-commerce.webp": {
       "baseDirectory": "public/og",
       "digest": "0730f7625e5c8007b3cca345091b7cfd0044ae5131c94b931aa4a87ce8755c1e",
-      "fingerprint": "4af897ca803e70310fc108b4ff19b261826ef377f0ed0aaaa8149e284b27c84f",
+      "fingerprint": "e37fe6f1dc7cb4a6007c27ac19d20ea8f4b81a8c533e903ae82d40afc32889db",
       "output": "portfolio/smith-commerce.webp"
     },
     "portfolio/tedx-medellin.webp": {
       "baseDirectory": "public/og",
       "digest": "1908de0dd18e8c9cd62dccf8d3ef5d98746dd812d16945391b388f39cc12795d",
-      "fingerprint": "f2d29d5a4fed6472f53a9f4eff6b66dac35d6c07b4fb72719add964dda75ed39",
+      "fingerprint": "0d4060ac47bb96ede545689e832d9f166339d60e5c264408c47e7298646a24a8",
       "output": "portfolio/tedx-medellin.webp"
     },
     "portfolio/void.webp": {
       "baseDirectory": "public/og",
       "digest": "7d2be36046600f94fdd9c786859b3af9a950222a15a740699b622f6e3c641a3f",
-      "fingerprint": "24a528a42817355d87f8ae8c2aaa6c3e06ace71b337457091d7ca00b3f9a01af",
+      "fingerprint": "043f88e91bb734b37e0cf37dc364187698f1b9f5341e18968fd2e2639c7307ab",
       "output": "portfolio/void.webp"
     },
     "portfolio/xgames.webp": {
       "baseDirectory": "public/og",
       "digest": "7159a0c877a29fa2e000210be9411643af04b374a5ad950ba1c3c12b00cf3c1a",
-      "fingerprint": "3747857b77240813c28f3e84a720a2dd04a4bab8f8f59ff9fda580e7c7ddfa8f",
+      "fingerprint": "ac592269210b394b5ac56d87424a676080ff187040e9ba835b27fe836d800680",
       "output": "portfolio/xgames.webp"
     },
     "pages/blog--series--building-a-production-nextjs-app.webp": {
@@ -1212,6 +1254,54 @@
       "digest": "8935094cab643dcf3b50c9df2fb6f1d87278d5aa0625aedf2be4bb88aafbced5",
       "fingerprint": "a67bced4285688926724755948a360b08c178cad4aadbf8700b2d2bdaa12afd8",
       "output": "pages/technologies--i18n.webp"
+    },
+    "pages/technologies--macOS.webp": {
+      "baseDirectory": "public/og",
+      "digest": "e84135d8136b698edc39d4a349db715cfb3b8cef8450e0bb9653336b4ce72433",
+      "fingerprint": "916f59e10eeeb3b0f70a48af5a555aa1b9c526da0006261ed3fee77ae9f61113",
+      "output": "pages/technologies--macOS.webp"
+    },
+    "pages/technologies--AppKit.webp": {
+      "baseDirectory": "public/og",
+      "digest": "dab3cd69e963ef9251b941efdb0987aa80d089376566a5e7beb971f0c5a2894a",
+      "fingerprint": "2dad57e26db4592fc105d1627dcca8141d75d90bb0f896676ccde55dfbd9bb6f",
+      "output": "pages/technologies--AppKit.webp"
+    },
+    "pages/technologies--Swift~20Package~20Manager.webp": {
+      "baseDirectory": "public/og",
+      "digest": "c02a1ccacb44b4367caee6581895856c07821507898cd4f97ca29b7ff86fddf4",
+      "fingerprint": "731a735e8495e7e16b8742dc916fb7c1766707c39662346ed4cd08d8457b3b83",
+      "output": "pages/technologies--Swift~20Package~20Manager.webp"
+    },
+    "pages/technologies--SMC.webp": {
+      "baseDirectory": "public/og",
+      "digest": "f00cffcb1730a1b5835cb80ecd1cfcdaa8daf10f04750b2a2b3d2983bf6c0b47",
+      "fingerprint": "e8bd83b1ba7ecf31924d43dead07702ff5fa174021cf09196d83ff64e1a887c6",
+      "output": "pages/technologies--SMC.webp"
+    },
+    "pages/technologies--Privileged~20Helper.webp": {
+      "baseDirectory": "public/og",
+      "digest": "a00f4fb0962efdea4b2679dafe8b275f712632bae44612bea396dc7e08604d14",
+      "fingerprint": "85ac83c1c560d912a876ed5b5a2327a103dfedb369cf8dfeb8ff9bdbcb3c1cd0",
+      "output": "pages/technologies--Privileged~20Helper.webp"
+    },
+    "pages/technologies--Hardware~20Monitoring.webp": {
+      "baseDirectory": "public/og",
+      "digest": "1d20db305c9c804a84de955a9c0609467de8b95779f9433ac176e8a465893022",
+      "fingerprint": "0e821562f942a0cb11d82790342fb79ff39403f9417c7048c1b45ac9b4420c34",
+      "output": "pages/technologies--Hardware~20Monitoring.webp"
+    },
+    "pages/technologies--Thermal~20Management.webp": {
+      "baseDirectory": "public/og",
+      "digest": "fba9c54afb65758442ccd35a585b724f82da2af2039db268e5b3d5775f1dbb26",
+      "fingerprint": "9ec58c06bb74c44666e64b26751181731f7904f0e2d33c3df2f0d17309f4974f",
+      "output": "pages/technologies--Thermal~20Management.webp"
+    },
+    "pages/technologies--Safety~20Engineering.webp": {
+      "baseDirectory": "public/og",
+      "digest": "de29183be227827927a2acf724d5b4b0284ec4caf85777d16f9a44fb1cd3c413",
+      "fingerprint": "d83e3133040b8a70585609cb522a9b5d3f3c3378ff21ff99fa2b42922f3a36d8",
+      "output": "pages/technologies--Safety~20Engineering.webp"
     },
     "pages/technologies--Redux.webp": {
       "baseDirectory": "public/og",

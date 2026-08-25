@@ -6,7 +6,7 @@ startingDate: "1 Jun 2026"
 githubUrl: "https://github.com/santi020k/dep-beacon"
 liveDemoUrl: "https://beacon.santi020k.com/"
 typesId: "personal"
-relevanceWeight: 80
+relevanceWeight: 50
 impactMetrics: [
   "Published for VS Code users through Visual Studio Marketplace and Open VSX",
   "Shows inline dependency status, diagnostics, CodeLens update actions, and package-manager commands",

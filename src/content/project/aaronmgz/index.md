@@ -6,7 +6,7 @@ startingDate: "25 May 2026"
 githubUrl: "https://github.com/santi020k/aaronmgz"
 liveDemoUrl: "https://aaronmgz.com/"
 typesId: "personal"
-relevanceWeight: 70
+relevanceWeight: 35
 impactMetrics: ["Unified four public and private experiences behind one domain", "Built shared contracts, content, database helpers, localization, media, and UI packages", "Added migration, schema-drift, accessibility, end-to-end, and deployment checks"]
 technologies: ["Astro", "Next.js", "React.js", "TypeScript", "Tailwind CSS", "Hono", "Cloudflare Workers", "Cloudflare D1", "Drizzle ORM", "Zod", "Turborepo", "pnpm", "OpenNext", "i18next", "Accessibility", "Testing", "CI-CD", "Monorepo"]
 coverImage:

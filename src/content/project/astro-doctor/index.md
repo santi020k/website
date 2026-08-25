@@ -8,7 +8,7 @@ startingDate: "1 Jan 2026"
 githubUrl: "https://github.com/santi020k/astro-doctor"
 liveDemoUrl: "https://doctor.santi020k.com/"
 typesId: "personal"
-relevanceWeight: 96
+relevanceWeight: 85
 impactMetrics: [
   "Catches Astro-specific performance, accessibility, security, and best-practice issues",
   "Reports health scores in local, editor, and CI workflows",

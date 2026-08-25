@@ -6,7 +6,7 @@ startingDate: "21 Aug 2026"
 githubUrl: "https://github.com/santi020k/quality"
 liveDemoUrl: "https://quality-cli.santi020k.chatgpt.site/"
 typesId: "personal"
-relevanceWeight: 96
+relevanceWeight: 75
 impactMetrics: [
   "Coordinates 13 native analyzers across Rust, Swift, Android, Kotlin, JavaScript, TypeScript, and Astro",
   "Supports changed-file runs, repository baselines, external adapters, concurrent execution, and cross-repository audits",

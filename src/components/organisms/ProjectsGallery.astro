@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectDateRangeLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
@@ -17,6 +18,7 @@ const { projects } = Astro.props
 
 const projectItems = projects.map(project => ({
   coverImage: project.data.coverImage,
+  thumbnailImage: getProjectCoverForUsage(project.data.coverImage, 'thumbnail'),
   dateRange: getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate),
   description: project.data.description,
   href: getPortfolioPath(project.id),
@@ -45,7 +47,7 @@ const projectItems = projects.map(project => ({
             lg:aspect-auto
           "
           >
-            {projectItems[0].coverImage?.src ?
+            {projectItems[0].coverImage && projectItems[0].thumbnailImage ?
               (
                 <CoverImage
                   alt={projectItems[0].coverImage.alt || projectItems[0].title}
@@ -56,7 +58,7 @@ const projectItems = projects.map(project => ({
                     group-hover:scale-105
                     motion-reduce:transition-none
                   "
-                  image={projectItems[0].coverImage.src}
+                  image={projectItems[0].thumbnailImage}
                   loading="eager"
                   mode="card"
                   sizes="(min-width: 1024px) 50vw, 100vw"
@@ -145,7 +147,7 @@ const projectItems = projects.map(project => ({
           <Link className="block font-normal text-inherit no-underline" href={project.href}>
             {/* Thumbnail */}
             <div class="relative aspect-16/10 overflow-hidden">
-              {project.coverImage?.src ?
+              {project.coverImage && project.thumbnailImage ?
                 (
                   <CoverImage
                     alt={project.coverImage.alt || project.title}
@@ -156,7 +158,7 @@ const projectItems = projects.map(project => ({
                       group-hover:scale-105
                       motion-reduce:transition-none
                     "
-                    image={project.coverImage.src}
+                    image={project.thumbnailImage}
                     loading="lazy"
                     mode="card"
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

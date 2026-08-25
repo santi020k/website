@@ -5,6 +5,7 @@ import type { CollectionEntry } from 'astro:content'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 
 import { Icon } from '@santi020k/lumen-astro'
@@ -44,11 +45,7 @@ const isAccent = tone === 'accent'
 const accentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
 const accentTextClass = isAccent ? 'text-accent' : 'text-brand'
 const featureLink = featuredProject ? getPortfolioPath(featuredProject.id) : ''
-
-const featureImage = featuredProject?.data.coverImage?.horizontal ??
-  featuredProject?.data.coverImage?.src ??
-  featuredProject?.data.coverImage?.vertical
-
+const featureImage = getProjectCoverForUsage(featuredProject?.data.coverImage, 'hero')
 const featureLogo = featuredProject?.data.coverImage?.logo
 const featureStatus = featuredProject?.data.endingDate ? 'Completed' : 'Active'
 const hasMetrics = Boolean(featuredProject?.data.impactMetrics.length)

@@ -133,6 +133,21 @@ test('query param opens search with prefilled query and clears on close', async 
   await expect(page).toHaveURL('/')
 })
 
+test('search input clear button clears the query and returns focus', async ({ page }) => {
+  await page.goto('/?q=eslint')
+
+  const searchInput = page.locator('#site-search-input')
+  const clearButton = page.getByRole('button', { name: 'Clear search' })
+
+  await expect(clearButton).toBeVisible()
+  await clearButton.click()
+
+  await expect(searchInput).toHaveValue('')
+  await expect(searchInput).toBeFocused()
+  await expect(clearButton).toBeHidden()
+  await expect(page).toHaveURL('/')
+})
+
 test('keyboard navigation opens selected search result', async ({ page }) => {
   await page.goto('/')
   await page.keyboard.press('/')

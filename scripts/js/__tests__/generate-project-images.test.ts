@@ -6,10 +6,12 @@ import sharp from 'sharp'
 import { describe, expect, test } from 'vitest'
 
 import {
+  buildProjectSvg,
   generateProjectImages,
   getFallbackAccent,
   IMAGE_VARIANTS,
-  selectAccentFromPixels
+  selectAccentFromPixels,
+  splitTitle
 } from '../generate-project-images.mjs'
 
 describe('project image generator', () => {
@@ -86,6 +88,53 @@ coverImage:
     }
 
     await fs.rm(root, { force: true, recursive: true })
+  })
+
+  test('keeps metadata in thumbnails and scenery templates text-free', () => {
+    const project = {
+      accent: '#7c3aed',
+      logoAspect: 'square',
+      logoSurface: 'dark',
+      role: 'Creator',
+      technologies: ['Astro'],
+      title: 'Sample Project',
+      type: 'personal'
+    }
+    const [thumbnail, hero, portrait] = IMAGE_VARIANTS
+
+    expect(buildProjectSvg(project, thumbnail)).toContain('Sample Project')
+    expect(buildProjectSvg(project, hero)).not.toContain('Sample Project')
+    expect(buildProjectSvg(project, portrait)).not.toContain('Sample Project')
+    expect(hero?.kind).toBe('hero')
+    expect(portrait?.kind).toBe('portrait')
+  })
+
+  test('wraps long thumbnail titles without splitting ordinary titles', () => {
+    expect(splitTitle('Between Contractions', false)).toEqual(['Between', 'Contractions'])
+    expect(splitTitle('Workspace Organizer', false)).toEqual(['Workspace', 'Organizer'])
+    expect(splitTitle('Smith Commerce', false)).toEqual(['Smith Commerce'])
+    expect(splitTitle('eslint-config-basic', false)).toEqual(['eslint-config-basic'])
+  })
+
+  test('keeps thumbnail technology pills and the portfolio label legible', () => {
+    const project = {
+      accent: '#052660',
+      logoAspect: 'square',
+      logoSurface: 'dark',
+      role: 'Creator',
+      technologies: ['Astro'],
+      title: 'Sample Project',
+      type: 'personal'
+    }
+    const [thumbnail] = IMAGE_VARIANTS
+    const svg = buildProjectSvg(project, thumbnail)
+
+    expect(svg).toContain('fill="#fbf8ff" fill-opacity="0.12"')
+    expect(svg).toContain('stroke-opacity="0.62"')
+    expect(svg).toContain('class="eyebrow project-label">INDEPENDENT PROJECT</text>')
+    expect(svg).toContain('.project-label { fill: #d8c8f2; fill-opacity: 0.92; }')
+    expect(svg).toContain('class="eyebrow footer-label">SANTI020K / PORTFOLIO</text>')
+    expect(svg).toContain('.footer-label { fill: #fbf8ff; fill-opacity: 0.88; }')
   })
 
   test('rejects unknown project slugs', async () => {

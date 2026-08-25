@@ -37,6 +37,108 @@ test.describe('Portfolio page', () => {
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
+  test('project images should use the aspect ratio intended for each layout', async ({ page }) => {
+    await page.goto('/portfolio/')
+
+    const featuredImage = page.locator('[data-portfolio-project="featured"] img').first()
+    const supportingImage = page.locator('[data-portfolio-project="supporting"] img').first()
+
+    await expect(featuredImage).toBeVisible()
+    await expect(supportingImage).toBeVisible()
+
+    const featuredRatios = await featuredImage.evaluate(element => {
+      if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a featured image')
+
+      const rect = element.getBoundingClientRect()
+
+      return {
+        natural: element.naturalWidth / element.naturalHeight,
+        rendered: rect.width / rect.height
+      }
+    })
+
+    const supportingRatios = await supportingImage.evaluate(element => {
+      if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a supporting image')
+
+      const rect = element.getBoundingClientRect()
+
+      return {
+        natural: element.naturalWidth / element.naturalHeight,
+        rendered: rect.width / rect.height
+      }
+    })
+
+    expect(featuredRatios.natural).toBeCloseTo(16 / 9, 2)
+    expect(featuredRatios.rendered).toBeCloseTo(16 / 9, 2)
+    expect(supportingRatios.natural).toBeCloseTo(16 / 10, 2)
+    expect(supportingRatios.rendered).toBeCloseTo(16 / 10, 2)
+
+    await page.goto('/portfolio/smith-commerce/')
+
+    const projectHero = page.locator('main article img[src*="cover-horizontal"]').first()
+
+    await expect(projectHero).toBeVisible()
+
+    const projectHeroRatios = await projectHero.evaluate(element => {
+      if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a project hero image')
+
+      const rect = element.getBoundingClientRect()
+
+      return {
+        natural: element.naturalWidth / element.naturalHeight,
+        rendered: rect.width / rect.height
+      }
+    })
+
+    expect(projectHeroRatios.natural).toBeCloseTo(16 / 9, 2)
+    expect(projectHeroRatios.rendered).toBeCloseTo(16 / 9, 2)
+
+    const relatedImage = page.locator('[data-project-preview-media]').first()
+
+    await relatedImage.scrollIntoViewIfNeeded()
+    await expect(relatedImage).toBeVisible()
+    await expect(relatedImage).toHaveAttribute('width', '1280')
+    await expect(relatedImage).toHaveAttribute('height', '800')
+    await expect.poll(async () => relatedImage.evaluate(element => {
+      if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a related image')
+
+      return element.naturalWidth
+    })).toBeGreaterThan(0)
+
+    const relatedRatios = await relatedImage.evaluate(element => {
+      if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a related image')
+
+      const rect = element.getBoundingClientRect()
+
+      return {
+        natural: element.naturalWidth / element.naturalHeight,
+        rendered: rect.width / rect.height
+      }
+    })
+
+    expect(relatedRatios.natural).toBeCloseTo(16 / 10, 2)
+    expect(relatedRatios.rendered).toBeCloseTo(16 / 10, 2)
+
+    await page.setViewportSize({ height: 812, width: 375 })
+    await expect(relatedImage).toBeVisible()
+
+    const mobileLayout = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      viewportWidth: window.innerWidth
+    }))
+
+    expect(mobileLayout.scrollWidth).toBeLessThanOrEqual(mobileLayout.viewportWidth)
+
+    await page.getByRole('button', { name: 'Toggle color theme' }).click()
+
+    const alternateThemeLayout = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      viewportWidth: window.innerWidth
+    }))
+
+    expect(alternateThemeLayout.scrollWidth).toBeLessThanOrEqual(alternateThemeLayout.viewportWidth)
+  })
+
   if (shouldRunVisualSnapshots) {
     test('index should match visual snapshot', async ({ page }) => {
       await page.goto('/portfolio/')

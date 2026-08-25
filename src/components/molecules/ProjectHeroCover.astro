@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
 
+import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectDateRangeLabel, getProjectTypeLabel } from '@/utils/project-meta'
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
 const { project } = Astro.props
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
-const heroImage = project.data.coverImage?.horizontal ?? project.data.coverImage?.src
+const heroImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
 ---
 
 {project.data.coverImage && heroImage && (
@@ -29,6 +30,7 @@ const heroImage = project.data.coverImage?.horizontal ?? project.data.coverImage
         fetchpriority="high"
         image={heroImage}
         loading="eager"
+        preserveAspectRatio={true}
         showBottomGradient={true}
         sizes="(min-width: 1280px) 1200px, 100vw"
       />

@@ -4,8 +4,8 @@ description: "Built a native macOS menu-bar app that monitors thermal conditions
 role: "Creator"
 startingDate: "24 Jul 2026"
 typesId: "personal"
-draft: true
-relevanceWeight: 74
+draft: false
+relevanceWeight: 40
 impactMetrics: ["Returns every controlled fan to automatic mode when cooling stops or the app quits", "Caps requested speed at 75% of each fan's reported range", "Supports fanless Macs with a monitoring-only experience"]
 technologies: ["Swift", "SwiftUI", "macOS", "AppKit", "Swift Package Manager", "SMC", "Privileged Helper", "Hardware Monitoring", "Thermal Management", "Safety Engineering", "Testing", "Turborepo", "pnpm"]
 coverImage:

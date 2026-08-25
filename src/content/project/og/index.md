@@ -6,7 +6,7 @@ startingDate: "22 Aug 2026"
 githubUrl: "https://github.com/santi020k/og"
 liveDemoUrl: "https://og.santi020k.com/"
 typesId: "personal"
-relevanceWeight: 94
+relevanceWeight: 80
 impactMetrics: [
   "Generates SVG, PNG, WebP, JPEG, and AVIF through project-owned renderers",
   "Supports Astro, Next.js, plain Node.js, monorepos, Markdown collections, and CMS data without a framework runtime",

@@ -7,7 +7,7 @@ githubUrl: "https://github.com/santi020k/betweencontractions"
 liveDemoUrl: "https://between.santi020k.com/"
 typesId: "personal"
 orderInTypes: 1
-relevanceWeight: 88
+relevanceWeight: 70
 impactMetrics: ["Delivered one bilingual timer across browser, phone, watch, widget, and desktop surfaces", "Kept the core timer free, ad-free, account-free, and local-first", "Separated optional Partner Sync from private on-device contraction history"]
 technologies: ["Astro", "TypeScript", "Lumen UI", "Swift", "SwiftUI", "SwiftData", "WidgetKit", "WatchConnectivity", "Kotlin", "Jetpack Compose", "Room", "Glance", "Wear OS", "Hono", "Cloudflare Workers", "Cloudflare D1", "WebSockets", "Turborepo", "pnpm", "Accessibility", "Testing", "CI-CD", "i18n"]
 coverImage:

@@ -3,6 +3,7 @@ import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
 
 import { Icon } from '@santi020k/lumen-astro'
 
@@ -69,7 +70,7 @@ const getProjectStatus = (project: CollectionEntry<'project'>) => {
   data-stagger="55"
 >
   {featuredProject && (() => {
-    const cover = featuredProject.data.coverImage?.horizontal ?? featuredProject.data.coverImage?.src
+    const cover = getProjectCoverForUsage(featuredProject.data.coverImage, 'hero')
     const logo = featuredProject.data.coverImage?.logo
     const logoAspect: LogoAspect = featuredProject.data.coverImage?.logoAspect ?? 'square'
     const logoSurface: LogoSurface = featuredProject.data.coverImage?.logoSurface ?? 'neutral'

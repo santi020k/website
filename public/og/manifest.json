@@ -508,6 +508,19 @@
       ],
       "pathname": "/blog/building-aaronmgz-as-a-family-platform/"
     },
+    "/blog/coolstead-safety-first-mac-cooling/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/coolstead-safety-first-mac-cooling.webp",
+          "primary": true,
+          "url": "/og/blog/coolstead-safety-first-mac-cooling.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/coolstead-safety-first-mac-cooling/"
+    },
     "/blog/dep-beacon-vscode-extension/": {
       "images": [
         {
@@ -715,6 +728,19 @@
         }
       ],
       "pathname": "/blog/4/"
+    },
+    "/blog/5/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--5.webp",
+          "primary": true,
+          "url": "/og/pages/blog--5.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/5/"
     },
     "/blog/tags/development/": {
       "images": [
@@ -1548,6 +1574,71 @@
       ],
       "pathname": "/blog/tags/personal-projects/"
     },
+    "/blog/tags/macos/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--macos.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--macos.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/macos/"
+    },
+    "/blog/tags/swift/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--swift.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--swift.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/swift/"
+    },
+    "/blog/tags/hardware/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--hardware.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--hardware.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/hardware/"
+    },
+    "/blog/tags/safety-engineering/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--safety-engineering.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--safety-engineering.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/safety-engineering/"
+    },
+    "/blog/tags/native-apps/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--native-apps.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--native-apps.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/native-apps/"
+    },
     "/blog/tags/vscode/": {
       "images": [
         {
@@ -1704,19 +1795,6 @@
       ],
       "pathname": "/blog/tags/playwright/"
     },
-    "/blog/tags/macos/": {
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--macos.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--macos.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/macos/"
-    },
     "/blog/tags/release-engineering/": {
       "images": [
         {
@@ -1846,6 +1924,19 @@
         }
       ],
       "pathname": "/portfolio/between-contractions/"
+    },
+    "/portfolio/coolstead/": {
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/coolstead.webp",
+          "primary": true,
+          "url": "/og/portfolio/coolstead.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/coolstead/"
     },
     "/portfolio/datagran/": {
       "images": [
@@ -2706,6 +2797,126 @@
       ],
       "pathname": "/technologies/i18n/",
       "title": "i18n · Technology"
+    },
+    "/technologies/macos/": {
+      "description": "Projects and case studies where macOS shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--macOS.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--macOS.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/macos/",
+      "title": "macOS · Technology"
+    },
+    "/technologies/appkit/": {
+      "description": "Projects and case studies where AppKit shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--AppKit.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--AppKit.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/appkit/",
+      "title": "AppKit · Technology"
+    },
+    "/technologies/swift-package-manager/": {
+      "description": "Projects and case studies where Swift Package Manager shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Swift~20Package~20Manager.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Swift~20Package~20Manager.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/swift-package-manager/",
+      "title": "Swift Package Manager · Technology"
+    },
+    "/technologies/smc/": {
+      "description": "Projects and case studies where SMC shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--SMC.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--SMC.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/smc/",
+      "title": "SMC · Technology"
+    },
+    "/technologies/privileged-helper/": {
+      "description": "Projects and case studies where Privileged Helper shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Privileged~20Helper.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Privileged~20Helper.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/privileged-helper/",
+      "title": "Privileged Helper · Technology"
+    },
+    "/technologies/hardware-monitoring/": {
+      "description": "Projects and case studies where Hardware Monitoring shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Hardware~20Monitoring.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Hardware~20Monitoring.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/hardware-monitoring/",
+      "title": "Hardware Monitoring · Technology"
+    },
+    "/technologies/thermal-management/": {
+      "description": "Projects and case studies where Thermal Management shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Thermal~20Management.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Thermal~20Management.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/thermal-management/",
+      "title": "Thermal Management · Technology"
+    },
+    "/technologies/safety-engineering/": {
+      "description": "Projects and case studies where Safety Engineering shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Safety~20Engineering.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Safety~20Engineering.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/safety-engineering/",
+      "title": "Safety Engineering · Technology"
     },
     "/technologies/redux/": {
       "description": "Projects and case studies where Redux shaped the architecture, delivery workflow, or product experience.",
