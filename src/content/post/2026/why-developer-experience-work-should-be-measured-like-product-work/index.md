@@ -5,7 +5,7 @@ publishDate: "2026-06-12T15:00:00.000Z"
 updatedDate: "2026-07-28T00:00:00.000Z"
 seoTitle: "How to Measure Developer Experience"
 coverImage:
-  alt: "Editorial cover showing engineering workflow metrics, dashboards, and delivery feedback loops connected across a development pipeline"
+  alt: "Developer workflow signals feeding a product-style measurement and outcome loop"
   src: "./cover.webp"
 tags: ["developer-experience", "engineering-culture", "metrics", "leadership"]
 postType: "Opinion"

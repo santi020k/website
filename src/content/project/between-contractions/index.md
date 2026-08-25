@@ -1,6 +1,10 @@
 ---
 title: "Between Contractions"
 description: "Built a calm, privacy-first contraction timer for the web, iOS, Android, watches, widgets, and optional real-time partner coordination."
+brand:
+  primary: "#e21c46"
+  secondary: "#f490a8"
+  surface: "#1f0b13"
 role: "Creator"
 startingDate: "8 Jan 2026"
 githubUrl: "https://github.com/santi020k/betweencontractions"

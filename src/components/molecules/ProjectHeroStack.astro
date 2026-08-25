@@ -25,9 +25,9 @@ const technologies = sortTechnologiesByInterest(raw)
     backdrop-blur-sm
   "
   >
-    <div class="
-      absolute inset-0 bg-linear-to-br from-brand/3 via-transparent to-accent/3
-    "
+    <div
+class="absolute inset-0"
+data-project-stack-glow
     >
     </div>
     <div class="relative flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -38,11 +38,12 @@ const technologies = sortTechnologiesByInterest(raw)
         "
         >Stack
         </span>
-        <span class="
-          inline-flex items-center justify-center rounded-full border
-          border-brand/20 bg-brand/10 px-3 py-1 text-sm font-bold text-brand
-          tabular-nums
-        "
+        <span
+class="
+  inline-flex items-center justify-center rounded-full border px-3 py-1 text-sm
+  font-bold tabular-nums
+"
+        data-project-stack-count
         >
           {technologies.length}
         </span>
@@ -55,7 +56,7 @@ const technologies = sortTechnologiesByInterest(raw)
         "
       >
       </span>
-      <div class="flex flex-wrap gap-2" id="technologies">
+      <div class="flex flex-wrap gap-2" data-project-stack-pills id="technologies">
         {technologies.map(technology => (
           <Pill
             href={getTechnologyPath(technology)}
@@ -63,7 +64,7 @@ const technologies = sortTechnologiesByInterest(raw)
             tone="outline"
             className="
               animate-slide-up transition-all duration-300
-              hover:scale-105 hover:border-brand/40 hover:bg-brand-soft/20
+              hover:scale-105
               motion-reduce:animate-none
             "
           />
@@ -72,3 +73,29 @@ const technologies = sortTechnologiesByInterest(raw)
     </div>
   </div>
 </div>
+
+<style>
+  [data-project-stack-glow] {
+    background-image: linear-gradient(
+      to bottom right,
+      hsl(var(--project-primary) / 0.05),
+      transparent,
+      hsl(var(--project-secondary) / 0.05)
+    );
+  }
+
+  [data-project-stack-count] {
+    border: 1px solid hsl(var(--project-primary) / 0.24);
+    background: hsl(var(--project-primary) / 0.1);
+    color: hsl(var(--project-primary-readable));
+  }
+
+  [data-project-stack-pills] :global(a:hover) {
+    border-color: hsl(var(--project-primary) / 0.4);
+    background: hsl(var(--project-primary) / 0.1);
+  }
+
+  :global(:root[data-theme='dark']) [data-project-stack-count] {
+    color: hsl(var(--project-primary-readable-dark));
+  }
+</style>

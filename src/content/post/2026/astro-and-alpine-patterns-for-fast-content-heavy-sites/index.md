@@ -3,7 +3,7 @@ title: "Astro and Alpine Patterns for Fast Content-Heavy Sites"
 description: "The Astro and Alpine.js patterns that keep content-heavy sites fast without giving up the interactive details that make them feel polished."
 publishDate: "2026-08-14T15:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing a static content page connected to lightweight interactive islands and fast navigation paths"
+  alt: "A static content plane connected to lightweight media, controls, and performance islands"
   src: "./cover.webp"
 tags: ["astro", "alpine", "performance", "frontend", "javascript"]
 postType: "Guide"

@@ -3,7 +3,7 @@ title: "Lumen UI: One system, three frameworks"
 description: "How I built 123 accessible primitives for Astro, React, and Web Components while sharing tokens and behavior without forcing one runtime model."
 publishDate: "2026-07-04T15:00:00.000Z"
 coverImage:
-  alt: "Translucent interface primitives connected across three luminous framework lanes"
+  alt: "Shared interface primitives and tokens flowing into three distinct framework implementations"
   src: "./cover.webp"
 tags: ["design-systems", "astro", "react", "web-components", "accessibility"]
 postType: "Deep Dive"

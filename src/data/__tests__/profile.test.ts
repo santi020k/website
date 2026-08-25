@@ -32,10 +32,11 @@ describe('selectedOrganizations', () => {
     expect(selectedOrganizations.length).toBeGreaterThan(0)
   })
 
-  test('every entry has a label and context', () => {
+  test('every entry has a label, context, and project link', () => {
     for (const org of selectedOrganizations) {
       expect(org.label).toBeTruthy()
       expect(org.context).toBeTruthy()
+      expect(org.projectId).toBeTruthy()
     }
   })
 })

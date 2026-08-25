@@ -4,7 +4,7 @@ description: "A release process should lower stress, tighten feedback loops, and
 publishDate: "2025-10-05T18:44:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
-  alt: "Editorial cover for A Release Process That Reduces Drama"
+  alt: "Unstable release fragments passing through controlled gates into a calm protected artifact"
   src: "./cover.webp"
 tags: ["release-management", "git", "qa", "delivery"]
 postType: "Guide"

@@ -3,7 +3,7 @@ title: "Building Aaronmgz as a family platform"
 description: "How a nautical personal site became a shared family platform for messages, invitations, administration, and a long-lived digital home."
 publishDate: "2026-06-04T15:00:00.000Z"
 coverImage:
-  alt: "Nautical night scene with a paper boat, lighthouse, and connected web experiences representing Aaronmgz"
+  alt: "A paper boat approaching a warm digital harbor with a lighthouse and connected family spaces"
   src: "./cover.webp"
 tags: ["astro", "nextjs", "cloudflare", "product-architecture", "personal-projects"]
 postType: "Case Study"

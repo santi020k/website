@@ -209,7 +209,25 @@
       "pathname": "/privacy/",
       "title": "Privacy & analytics"
     },
+    "/terms/": {
+      "alt": "Terms & Conditions — Santiago Molina",
+      "description": "Terms for using santi020k.com, including acceptable use, intellectual property, external links, and limitations.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/terms.webp",
+          "primary": true,
+          "url": "/og/pages/terms.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/terms/",
+      "title": "Terms & Conditions"
+    },
     "/blog/atomic-module-component-structure-for-react/": {
+      "alt": "Atomic Module Component Structure for React — Santiago Molina",
+      "description": "Structure React projects using Atomic Module Components — covering file layout, naming conventions, and scalability patterns for growing TypeScript codebases.",
       "images": [
         {
           "format": "webp",
@@ -220,9 +238,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/atomic-module-component-structure-for-react/"
+      "pathname": "/blog/atomic-module-component-structure-for-react/",
+      "title": "Atomic Module Component Structure for React"
     },
     "/blog/authentication-and-authorization-in-next-js-applications-with-supabase/": {
+      "alt": "Authentication and Authorization in Next.js Applications with Supabase — Santiago Molina",
+      "description": "Build maintainable Next.js authentication with Supabase SSR, protected routes, session handling, and clear authorization patterns for production teams.",
       "images": [
         {
           "format": "webp",
@@ -233,9 +254,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/authentication-and-authorization-in-next-js-applications-with-supabase/"
+      "pathname": "/blog/authentication-and-authorization-in-next-js-applications-with-supabase/",
+      "title": "Authentication and Authorization in Next.js Applications with Supabase"
     },
     "/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library/": {
+      "alt": "Boosting Code Quality and Efficiency with My ESLint Configuration Library — Santiago Molina",
+      "description": "Reusable ESLint library for React, Next.js, and TypeScript projects. Enforces code quality with flat config support and simplifies the move from ESLint 8 to 9.",
       "images": [
         {
           "format": "webp",
@@ -246,9 +270,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library/"
+      "pathname": "/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library/",
+      "title": "Boosting Code Quality and Efficiency with My ESLint Configuration Library"
     },
     "/blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration/": {
+      "alt": "Building the Best Next.js TypeScript Standard Vitest ESLint Configuration — Santiago Molina",
+      "description": "Configure ESLint for Next.js with TypeScript and Vitest integration. Covers code quality rules, import conventions, and a scalable setup for React projects.",
       "images": [
         {
           "format": "webp",
@@ -259,9 +286,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration/"
+      "pathname": "/blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration/",
+      "title": "Building the Best Next.js TypeScript Standard Vitest ESLint Configuration"
     },
     "/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/": {
+      "alt": "Configuring MongoDB with Homebrew on macOS: Converting a Standalone Instance to a Replica Set — Santiago Molina",
+      "description": "Convert a standalone MongoDB instance to a replica set on macOS using Homebrew. Covers mongod.conf changes, replication settings, and local verification steps.",
       "images": [
         {
           "format": "webp",
@@ -272,9 +302,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/"
+      "pathname": "/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/",
+      "title": "Configuring MongoDB with Homebrew on macOS: Converting a Standalone Instance to a Replica Set"
     },
     "/blog/continuous-integration-and-deployment-for-next-js-projects/": {
+      "alt": "Continuous Integration and Deployment for Next.js Projects — Santiago Molina",
+      "description": "Build a practical Next.js CI/CD pipeline with GitHub Actions that installs cleanly, runs linting and tests, verifies builds, and deploys trusted code.",
       "images": [
         {
           "format": "webp",
@@ -285,9 +318,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/continuous-integration-and-deployment-for-next-js-projects/"
+      "pathname": "/blog/continuous-integration-and-deployment-for-next-js-projects/",
+      "title": "Continuous Integration and Deployment for Next.js Projects"
     },
     "/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/": {
+      "alt": "Development Workflow with Husky for Next.js, ESLint, and Vitest Integration — Santiago Molina",
+      "description": "A practical Husky setup for Next.js projects so linting, testing, and pre-push checks become part of the team workflow instead of a last-minute cleanup step.",
       "images": [
         {
           "format": "webp",
@@ -298,9 +334,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/"
+      "pathname": "/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/",
+      "title": "Development Workflow with Husky for Next.js, ESLint, and Vitest Integration"
     },
     "/blog/migrate-eslint-8-or-less-to-eslint-9/": {
+      "alt": "Migrate ESLint 8 or Less to ESLint 9 — Santiago Molina",
+      "description": "A practical guide to moving from ESLint 8 to flat config in ESLint 9, with a cleaner setup for React, Next.js, and TypeScript projects.",
       "images": [
         {
           "format": "webp",
@@ -311,9 +350,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/migrate-eslint-8-or-less-to-eslint-9/"
+      "pathname": "/blog/migrate-eslint-8-or-less-to-eslint-9/",
+      "title": "Migrate ESLint 8 or Less to ESLint 9"
     },
     "/blog/skin-in-the-game-for-software-teams/": {
+      "alt": "Skin in the Game for Software Teams — Santiago Molina",
+      "description": "Why strong engineers care about product outcomes, users, and system health instead of stopping at ticket completion.",
       "images": [
         {
           "format": "webp",
@@ -324,9 +366,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/skin-in-the-game-for-software-teams/"
+      "pathname": "/blog/skin-in-the-game-for-software-teams/",
+      "title": "Skin in the Game for Software Teams"
     },
     "/blog/storybook-in-action-with-next-js-tailwind-and-typescript/": {
+      "alt": "Storybook in Action with Next.js, Tailwind and TypeScript — Santiago Molina",
+      "description": "Set up Storybook in a Next.js project with Tailwind and TypeScript. Build isolated UI components, write stories, and improve design system collaboration.",
       "images": [
         {
           "format": "webp",
@@ -337,9 +382,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/storybook-in-action-with-next-js-tailwind-and-typescript/"
+      "pathname": "/blog/storybook-in-action-with-next-js-tailwind-and-typescript/",
+      "title": "Storybook in Action with Next.js, Tailwind and TypeScript"
     },
     "/blog/testing-react-components-with-vitest-and-react-testing-library/": {
+      "alt": "Testing React Components with Vitest and React Testing Library — Santiago Molina",
+      "description": "A practical setup for testing React components with Vitest and React Testing Library, focused on behavior, confidence, and maintainable frontend code.",
       "images": [
         {
           "format": "webp",
@@ -350,9 +398,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/testing-react-components-with-vitest-and-react-testing-library/"
+      "pathname": "/blog/testing-react-components-with-vitest-and-react-testing-library/",
+      "title": "Testing React Components with Vitest and React Testing Library"
     },
     "/blog/a-release-process-that-reduces-drama/": {
+      "alt": "A Release Process That Reduces Drama — Santiago Molina",
+      "description": "A release process should lower stress, tighten feedback loops, and make production changes easier to trust.",
       "images": [
         {
           "format": "webp",
@@ -363,9 +414,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/a-release-process-that-reduces-drama/"
+      "pathname": "/blog/a-release-process-that-reduces-drama/",
+      "title": "A Release Process That Reduces Drama"
     },
     "/blog/avoid-inverted-conditionals-when-clarity-matters/": {
+      "alt": "Avoid Inverted Conditionals When Clarity Matters — Santiago Molina",
+      "description": "Positive conditionals usually reduce mental load and make branches easier to scan, review, and change.",
       "images": [
         {
           "format": "webp",
@@ -376,9 +430,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/avoid-inverted-conditionals-when-clarity-matters/"
+      "pathname": "/blog/avoid-inverted-conditionals-when-clarity-matters/",
+      "title": "Avoid Inverted Conditionals When Clarity Matters"
     },
     "/blog/avoid-magic-strings-in-typescript-and-javascript/": {
+      "alt": "Avoid Magic Strings in TypeScript and JavaScript — Santiago Molina",
+      "description": "Replace ad-hoc string literals with clearer domain language, stronger typing, and safer refactors.",
       "images": [
         {
           "format": "webp",
@@ -389,9 +446,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/avoid-magic-strings-in-typescript-and-javascript/"
+      "pathname": "/blog/avoid-magic-strings-in-typescript-and-javascript/",
+      "title": "Avoid Magic Strings in TypeScript and JavaScript"
     },
     "/blog/code-standards-that-scale-with-a-team/": {
+      "alt": "Code Standards That Scale With a Team — Santiago Molina",
+      "description": "The version of coding standards I would actually hand to a growing frontend team today.",
       "images": [
         {
           "format": "webp",
@@ -402,9 +462,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/code-standards-that-scale-with-a-team/"
+      "pathname": "/blog/code-standards-that-scale-with-a-team/",
+      "title": "Code Standards That Scale With a Team"
     },
     "/blog/common-code-pitfalls-that-signal-maintenance-risk/": {
+      "alt": "Common Code Pitfalls That Signal Maintenance Risk — Santiago Molina",
+      "description": "The code smells that usually predict rising maintenance cost before a team feels the full pain.",
       "images": [
         {
           "format": "webp",
@@ -415,9 +478,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/common-code-pitfalls-that-signal-maintenance-risk/"
+      "pathname": "/blog/common-code-pitfalls-that-signal-maintenance-risk/",
+      "title": "Common Code Pitfalls That Signal Maintenance Risk"
     },
     "/blog/git-best-practices-for-calm-collaboration/": {
+      "alt": "Git Best Practices for Calm Collaboration — Santiago Molina",
+      "description": "Simple commit and pull-request habits that reduce review friction and make collaboration calmer.",
       "images": [
         {
           "format": "webp",
@@ -428,9 +494,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/git-best-practices-for-calm-collaboration/"
+      "pathname": "/blog/git-best-practices-for-calm-collaboration/",
+      "title": "Git Best Practices for Calm Collaboration"
     },
     "/blog/responsive-design-standards-that-scale-across-components/": {
+      "alt": "Responsive Design Standards That Scale Across Components — Santiago Molina",
+      "description": "Responsive work gets easier when breakpoints and layout decisions are treated like a shared system.",
       "images": [
         {
           "format": "webp",
@@ -441,9 +510,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/responsive-design-standards-that-scale-across-components/"
+      "pathname": "/blog/responsive-design-standards-that-scale-across-components/",
+      "title": "Responsive Design Standards That Scale Across Components"
     },
     "/blog/write-better-review-feedback-with-conventional-comments/": {
+      "alt": "Write Better Review Feedback with Conventional Comments — Santiago Molina",
+      "description": "A lightweight review language that makes feedback clearer, kinder, and easier to act on.",
       "images": [
         {
           "format": "webp",
@@ -454,9 +526,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/write-better-review-feedback-with-conventional-comments/"
+      "pathname": "/blog/write-better-review-feedback-with-conventional-comments/",
+      "title": "Write Better Review Feedback with Conventional Comments"
     },
     "/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/": {
+      "alt": "AI Coding Is Probabilistic. Your Delivery Process Should Not Be. — Santiago Molina",
+      "description": "AI speeds up code changes, but ESLint, tests, snapshots, and end-to-end checks are what keep probabilistic output from turning into production risk.",
       "images": [
         {
           "format": "webp",
@@ -467,9 +542,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/"
+      "pathname": "/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/",
+      "title": "AI Coding Is Probabilistic. Your Delivery Process Should Not Be."
     },
     "/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites/": {
+      "alt": "Astro and Alpine Patterns for Fast Content-Heavy Sites — Santiago Molina",
+      "description": "The Astro and Alpine.js patterns that keep content-heavy sites fast without giving up the interactive details that make them feel polished.",
       "images": [
         {
           "format": "webp",
@@ -480,9 +558,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites/"
+      "pathname": "/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites/",
+      "title": "Astro and Alpine Patterns for Fast Content-Heavy Sites"
     },
     "/blog/astro-doctor-announcement/": {
+      "alt": "Astro Doctor: A Health Check for Astro Codebases — Santiago Molina",
+      "description": "Why I built Astro Doctor: a CLI, ESLint plugin, editor extension, GitHub Action, and agent skill system for catching Astro anti-patterns early.",
       "images": [
         {
           "format": "webp",
@@ -493,9 +574,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/astro-doctor-announcement/"
+      "pathname": "/blog/astro-doctor-announcement/",
+      "title": "Astro Doctor: A Health Check for Astro Codebases"
     },
     "/blog/building-aaronmgz-as-a-family-platform/": {
+      "alt": "Building Aaronmgz as a family platform — Santiago Molina",
+      "description": "How a nautical personal site became a shared family platform for messages, invitations, administration, and a long-lived digital home.",
       "images": [
         {
           "format": "webp",
@@ -506,9 +590,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/building-aaronmgz-as-a-family-platform/"
+      "pathname": "/blog/building-aaronmgz-as-a-family-platform/",
+      "title": "Building Aaronmgz as a family platform"
     },
     "/blog/coolstead-safety-first-mac-cooling/": {
+      "alt": "Coolstead: Safety-first cooling for a Mac — Santiago Molina",
+      "description": "What it takes to design a native fan-control utility around bounded requests, invalid sensor data, reversible behavior, and macOS as the final safety layer.",
       "images": [
         {
           "format": "webp",
@@ -519,9 +606,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/coolstead-safety-first-mac-cooling/"
+      "pathname": "/blog/coolstead-safety-first-mac-cooling/",
+      "title": "Coolstead: Safety-first cooling for a Mac"
     },
     "/blog/dep-beacon-vscode-extension/": {
+      "alt": "Dep Beacon: Dependency Signals Inside VS Code — Santiago Molina",
+      "description": "Why I built Dep Beacon, a VS Code extension that keeps npm update paths, pnpm catalog context, and OSV security warnings inside manifests.",
       "images": [
         {
           "format": "webp",
@@ -532,9 +622,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/dep-beacon-vscode-extension/"
+      "pathname": "/blog/dep-beacon-vscode-extension/",
+      "title": "Dep Beacon: Dependency Signals Inside VS Code"
     },
     "/blog/designing-eslint-packages-teams-actually-adopt/": {
+      "alt": "Designing ESLint Packages Teams Actually Adopt — Santiago Molina",
+      "description": "What separates ESLint configurations that spread across a codebase from ones that get removed after the first sprint.",
       "images": [
         {
           "format": "webp",
@@ -545,9 +638,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/designing-eslint-packages-teams-actually-adopt/"
+      "pathname": "/blog/designing-eslint-packages-teams-actually-adopt/",
+      "title": "Designing ESLint Packages Teams Actually Adopt"
     },
     "/blog/deterministic-open-graph-images-without-design-lock-in/": {
+      "alt": "Deterministic Open Graph images without design lock-in — Santiago Molina",
+      "description": "Why I separated social-image generation mechanics from project-owned visuals, then built caching, safe cleanup, worker concurrency, and CI checks around that boundary.",
       "images": [
         {
           "format": "webp",
@@ -558,9 +654,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/deterministic-open-graph-images-without-design-lock-in/"
+      "pathname": "/blog/deterministic-open-graph-images-without-design-lock-in/",
+      "title": "Deterministic Open Graph images without design lock-in"
     },
     "/blog/eslint-config-basic-version-2/": {
+      "alt": "What Is New in @santi020k/eslint-config-basic v2.0 — Santiago Molina",
+      "description": "Explore @santi020k/eslint-config-basic v2 with ESLint 10, one-package setup, lazy framework support, monorepo tooling, lite mode, and CLI checks.",
       "images": [
         {
           "format": "webp",
@@ -571,9 +670,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/eslint-config-basic-version-2/"
+      "pathname": "/blog/eslint-config-basic-version-2/",
+      "title": "What Is New in @santi020k/eslint-config-basic v2.0"
     },
     "/blog/expanding-santi020k-theme-to-the-terminal/": {
+      "alt": "Expanding Santi020k Theme from editor to terminal — Santiago Molina",
+      "description": "How a VS Code palette became a generated terminal system with six application formats, three Starship styles, managed shells, validation, and Homebrew releases.",
       "images": [
         {
           "format": "webp",
@@ -584,9 +686,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/expanding-santi020k-theme-to-the-terminal/"
+      "pathname": "/blog/expanding-santi020k-theme-to-the-terminal/",
+      "title": "Expanding Santi020k Theme from editor to terminal"
     },
     "/blog/lumen-ui-one-system-three-frameworks/": {
+      "alt": "Lumen UI: One system, three frameworks — Santiago Molina",
+      "description": "How I built 123 accessible primitives for Astro, React, and Web Components while sharing tokens and behavior without forcing one runtime model.",
       "images": [
         {
           "format": "webp",
@@ -597,9 +702,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/lumen-ui-one-system-three-frameworks/"
+      "pathname": "/blog/lumen-ui-one-system-three-frameworks/",
+      "title": "Lumen UI: One system, three frameworks"
     },
     "/blog/muted-commands-make-ai-automation-faster-and-cheaper/": {
+      "alt": "Muted Commands Make AI Automation Faster and Cheaper — Santiago Molina",
+      "description": "AI agents rerun checks constantly. Quiet logs, compact reporters, and parallel verification reduce token waste without lowering the quality bar.",
       "images": [
         {
           "format": "webp",
@@ -610,9 +718,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/muted-commands-make-ai-automation-faster-and-cheaper/"
+      "pathname": "/blog/muted-commands-make-ai-automation-faster-and-cheaper/",
+      "title": "Muted Commands Make AI Automation Faster and Cheaper"
     },
     "/blog/one-quality-command-across-polyglot-repositories/": {
+      "alt": "One quality command across polyglot repositories — Santiago Molina",
+      "description": "How I built a native CLI that coordinates existing analyzers across Rust, Swift, Android, Kotlin, JavaScript, and Astro without flattening their ecosystem-specific strengths.",
       "images": [
         {
           "format": "webp",
@@ -623,9 +734,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/one-quality-command-across-polyglot-repositories/"
+      "pathname": "/blog/one-quality-command-across-polyglot-repositories/",
+      "title": "One quality command across polyglot repositories"
     },
     "/blog/playwright-accessibility-checks-that-teams-keep-running/": {
+      "alt": "Playwright Accessibility Checks That Teams Keep Running — Santiago Molina",
+      "description": "How to add accessibility automation to your Playwright suite in a way that is fast enough to stay in the workflow and specific enough to actually catch problems.",
       "images": [
         {
           "format": "webp",
@@ -636,9 +750,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/playwright-accessibility-checks-that-teams-keep-running/"
+      "pathname": "/blog/playwright-accessibility-checks-that-teams-keep-running/",
+      "title": "Playwright Accessibility Checks That Teams Keep Running"
     },
     "/blog/shipping-macos-tools-with-a-homebrew-tap/": {
+      "alt": "Shipping macOS tools with a personal Homebrew tap — Santiago Molina",
+      "description": "How I separated product code from distribution metadata and turned signed terminal releases into familiar Homebrew install and upgrade commands.",
       "images": [
         {
           "format": "webp",
@@ -649,9 +766,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/shipping-macos-tools-with-a-homebrew-tap/"
+      "pathname": "/blog/shipping-macos-tools-with-a-homebrew-tap/",
+      "title": "Shipping macOS tools with a personal Homebrew tap"
     },
     "/blog/why-developer-experience-work-should-be-measured-like-product-work/": {
+      "alt": "Why Developer Experience Work Should Be Measured Like Product Work — Santiago Molina",
+      "description": "DX improvements that cannot be measured rarely survive long enough to compound. Treating them like product work changes that.",
       "images": [
         {
           "format": "webp",
@@ -662,9 +782,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/why-developer-experience-work-should-be-measured-like-product-work/"
+      "pathname": "/blog/why-developer-experience-work-should-be-measured-like-product-work/",
+      "title": "Why Developer Experience Work Should Be Measured Like Product Work"
     },
     "/blog/why-i-built-between-contractions/": {
+      "alt": "Why I Built Between Contractions — Santiago Molina",
+      "description": "How waiting for Aarón became a calm, private contraction timer across the web, iOS, Android, watches, widgets, and partner devices.",
       "images": [
         {
           "format": "webp",
@@ -675,9 +798,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/why-i-built-between-contractions/"
+      "pathname": "/blog/why-i-built-between-contractions/",
+      "title": "Why I Built Between Contractions"
     },
     "/blog/why-i-moved-my-eslint-library-to-eslint-config-basic/": {
+      "alt": "Why I Moved My ESLint Library to @santi020k/eslint-config-basic — Santiago Molina",
+      "description": "Why I deprecated @santi020k/eslint-config-santi020k in favor of a composable monorepo with clearer packages, better docs, and stronger DX.",
       "images": [
         {
           "format": "webp",
@@ -688,9 +814,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/why-i-moved-my-eslint-library-to-eslint-config-basic/"
+      "pathname": "/blog/why-i-moved-my-eslint-library-to-eslint-config-basic/",
+      "title": "Why I Moved My ESLint Library to @santi020k/eslint-config-basic"
     },
     "/blog/2/": {
+      "alt": "Blog · Page 2 — Santiago Molina",
+      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
       "images": [
         {
           "format": "webp",
@@ -701,9 +830,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/2/"
+      "pathname": "/blog/2/",
+      "title": "Blog · Page 2"
     },
     "/blog/3/": {
+      "alt": "Blog · Page 3 — Santiago Molina",
+      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
       "images": [
         {
           "format": "webp",
@@ -714,9 +846,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/3/"
+      "pathname": "/blog/3/",
+      "title": "Blog · Page 3"
     },
     "/blog/4/": {
+      "alt": "Blog · Page 4 — Santiago Molina",
+      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
       "images": [
         {
           "format": "webp",
@@ -727,9 +862,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/4/"
+      "pathname": "/blog/4/",
+      "title": "Blog · Page 4"
     },
     "/blog/5/": {
+      "alt": "Blog · Page 5 — Santiago Molina",
+      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
       "images": [
         {
           "format": "webp",
@@ -740,9 +878,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/5/"
+      "pathname": "/blog/5/",
+      "title": "Blog · Page 5"
     },
     "/blog/tags/development/": {
+      "alt": "Development posts — Santiago Molina",
+      "description": "Explore Development posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -753,9 +894,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/development/"
+      "pathname": "/blog/tags/development/",
+      "title": "Development posts"
     },
     "/blog/tags/react/": {
+      "alt": "React posts — Santiago Molina",
+      "description": "Explore React posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -766,9 +910,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/react/"
+      "pathname": "/blog/tags/react/",
+      "title": "React posts"
     },
     "/blog/tags/nextjs/": {
+      "alt": "Next.js posts — Santiago Molina",
+      "description": "Explore Next.js posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -779,9 +926,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/nextjs/"
+      "pathname": "/blog/tags/nextjs/",
+      "title": "Next.js posts"
     },
     "/blog/tags/typescript/": {
+      "alt": "TypeScript posts — Santiago Molina",
+      "description": "Explore TypeScript posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -792,9 +942,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/typescript/"
+      "pathname": "/blog/tags/typescript/",
+      "title": "TypeScript posts"
     },
     "/blog/tags/typescript/2/": {
+      "alt": "TypeScript posts · Page 2 — Santiago Molina",
+      "description": "Explore TypeScript posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -805,9 +958,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/typescript/2/"
+      "pathname": "/blog/tags/typescript/2/",
+      "title": "TypeScript posts · Page 2"
     },
     "/blog/tags/supabase/": {
+      "alt": "Supabase posts — Santiago Molina",
+      "description": "Explore Supabase posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -818,9 +974,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/supabase/"
+      "pathname": "/blog/tags/supabase/",
+      "title": "Supabase posts"
     },
     "/blog/tags/authentication/": {
+      "alt": "Authentication posts — Santiago Molina",
+      "description": "Explore Authentication posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -831,9 +990,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/authentication/"
+      "pathname": "/blog/tags/authentication/",
+      "title": "Authentication posts"
     },
     "/blog/tags/authorization/": {
+      "alt": "Authorization posts — Santiago Molina",
+      "description": "Explore Authorization posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -844,9 +1006,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/authorization/"
+      "pathname": "/blog/tags/authorization/",
+      "title": "Authorization posts"
     },
     "/blog/tags/react-native/": {
+      "alt": "React native posts — Santiago Molina",
+      "description": "Explore React native posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -857,9 +1022,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/react-native/"
+      "pathname": "/blog/tags/react-native/",
+      "title": "React native posts"
     },
     "/blog/tags/eslint/": {
+      "alt": "ESLint posts — Santiago Molina",
+      "description": "Explore ESLint posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -870,9 +1038,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/eslint/"
+      "pathname": "/blog/tags/eslint/",
+      "title": "ESLint posts"
     },
     "/blog/tags/eslint-config/": {
+      "alt": "ESLint config posts — Santiago Molina",
+      "description": "Explore ESLint config posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -883,9 +1054,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/eslint-config/"
+      "pathname": "/blog/tags/eslint-config/",
+      "title": "ESLint config posts"
     },
     "/blog/tags/vitest/": {
+      "alt": "Vitest posts — Santiago Molina",
+      "description": "Explore Vitest posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -896,9 +1070,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/vitest/"
+      "pathname": "/blog/tags/vitest/",
+      "title": "Vitest posts"
     },
     "/blog/tags/standards/": {
+      "alt": "Standards posts — Santiago Molina",
+      "description": "Explore Standards posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -909,9 +1086,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/standards/"
+      "pathname": "/blog/tags/standards/",
+      "title": "Standards posts"
     },
     "/blog/tags/mongo/": {
+      "alt": "Mongo posts — Santiago Molina",
+      "description": "Explore Mongo posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -922,9 +1102,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/mongo/"
+      "pathname": "/blog/tags/mongo/",
+      "title": "Mongo posts"
     },
     "/blog/tags/configuration/": {
+      "alt": "Configuration posts — Santiago Molina",
+      "description": "Explore Configuration posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -935,9 +1118,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/configuration/"
+      "pathname": "/blog/tags/configuration/",
+      "title": "Configuration posts"
     },
     "/blog/tags/homebrew/": {
+      "alt": "Homebrew posts — Santiago Molina",
+      "description": "Explore Homebrew posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -948,9 +1134,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/homebrew/"
+      "pathname": "/blog/tags/homebrew/",
+      "title": "Homebrew posts"
     },
     "/blog/tags/mac/": {
+      "alt": "Mac posts — Santiago Molina",
+      "description": "Explore Mac posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -961,9 +1150,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/mac/"
+      "pathname": "/blog/tags/mac/",
+      "title": "Mac posts"
     },
     "/blog/tags/ci-cd/": {
+      "alt": "Ci cd posts — Santiago Molina",
+      "description": "Explore Ci cd posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -974,9 +1166,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/ci-cd/"
+      "pathname": "/blog/tags/ci-cd/",
+      "title": "Ci cd posts"
     },
     "/blog/tags/github-actions/": {
+      "alt": "Github actions posts — Santiago Molina",
+      "description": "Explore Github actions posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -987,9 +1182,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/github-actions/"
+      "pathname": "/blog/tags/github-actions/",
+      "title": "Github actions posts"
     },
     "/blog/tags/deployment/": {
+      "alt": "Deployment posts — Santiago Molina",
+      "description": "Explore Deployment posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1000,9 +1198,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/deployment/"
+      "pathname": "/blog/tags/deployment/",
+      "title": "Deployment posts"
     },
     "/blog/tags/pre-commit/": {
+      "alt": "Pre commit posts — Santiago Molina",
+      "description": "Explore Pre commit posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1013,9 +1214,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/pre-commit/"
+      "pathname": "/blog/tags/pre-commit/",
+      "title": "Pre commit posts"
     },
     "/blog/tags/husky/": {
+      "alt": "Husky posts — Santiago Molina",
+      "description": "Explore Husky posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1026,9 +1230,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/husky/"
+      "pathname": "/blog/tags/husky/",
+      "title": "Husky posts"
     },
     "/blog/tags/migration/": {
+      "alt": "Migration posts — Santiago Molina",
+      "description": "Explore Migration posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1039,9 +1246,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/migration/"
+      "pathname": "/blog/tags/migration/",
+      "title": "Migration posts"
     },
     "/blog/tags/engineering-culture/": {
+      "alt": "Engineering culture posts — Santiago Molina",
+      "description": "Explore Engineering culture posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1052,9 +1262,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/engineering-culture/"
+      "pathname": "/blog/tags/engineering-culture/",
+      "title": "Engineering culture posts"
     },
     "/blog/tags/leadership/": {
+      "alt": "Leadership posts — Santiago Molina",
+      "description": "Explore Leadership posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1065,9 +1278,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/leadership/"
+      "pathname": "/blog/tags/leadership/",
+      "title": "Leadership posts"
     },
     "/blog/tags/product-thinking/": {
+      "alt": "Product thinking posts — Santiago Molina",
+      "description": "Explore Product thinking posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1078,9 +1294,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/product-thinking/"
+      "pathname": "/blog/tags/product-thinking/",
+      "title": "Product thinking posts"
     },
     "/blog/tags/software-teams/": {
+      "alt": "Software teams posts — Santiago Molina",
+      "description": "Explore Software teams posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1091,9 +1310,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/software-teams/"
+      "pathname": "/blog/tags/software-teams/",
+      "title": "Software teams posts"
     },
     "/blog/tags/tailwind/": {
+      "alt": "Tailwind posts — Santiago Molina",
+      "description": "Explore Tailwind posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1104,9 +1326,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/tailwind/"
+      "pathname": "/blog/tags/tailwind/",
+      "title": "Tailwind posts"
     },
     "/blog/tags/storybook/": {
+      "alt": "Storybook posts — Santiago Molina",
+      "description": "Explore Storybook posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1117,9 +1342,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/storybook/"
+      "pathname": "/blog/tags/storybook/",
+      "title": "Storybook posts"
     },
     "/blog/tags/testing-library/": {
+      "alt": "Testing library posts — Santiago Molina",
+      "description": "Explore Testing library posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1130,9 +1358,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/testing-library/"
+      "pathname": "/blog/tags/testing-library/",
+      "title": "Testing library posts"
     },
     "/blog/tags/release-management/": {
+      "alt": "Release management posts — Santiago Molina",
+      "description": "Explore Release management posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1143,9 +1374,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/release-management/"
+      "pathname": "/blog/tags/release-management/",
+      "title": "Release management posts"
     },
     "/blog/tags/git/": {
+      "alt": "Git posts — Santiago Molina",
+      "description": "Explore Git posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1156,9 +1390,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/git/"
+      "pathname": "/blog/tags/git/",
+      "title": "Git posts"
     },
     "/blog/tags/qa/": {
+      "alt": "QA posts — Santiago Molina",
+      "description": "Explore QA posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1169,9 +1406,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/qa/"
+      "pathname": "/blog/tags/qa/",
+      "title": "QA posts"
     },
     "/blog/tags/delivery/": {
+      "alt": "Delivery posts — Santiago Molina",
+      "description": "Explore Delivery posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1182,9 +1422,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/delivery/"
+      "pathname": "/blog/tags/delivery/",
+      "title": "Delivery posts"
     },
     "/blog/tags/readability/": {
+      "alt": "Readability posts — Santiago Molina",
+      "description": "Explore Readability posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1195,9 +1438,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/readability/"
+      "pathname": "/blog/tags/readability/",
+      "title": "Readability posts"
     },
     "/blog/tags/javascript/": {
+      "alt": "JavaScript posts — Santiago Molina",
+      "description": "Explore JavaScript posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1208,9 +1454,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/javascript/"
+      "pathname": "/blog/tags/javascript/",
+      "title": "JavaScript posts"
     },
     "/blog/tags/frontend/": {
+      "alt": "Frontend posts — Santiago Molina",
+      "description": "Explore Frontend posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1221,9 +1470,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/frontend/"
+      "pathname": "/blog/tags/frontend/",
+      "title": "Frontend posts"
     },
     "/blog/tags/clean-code/": {
+      "alt": "Clean code posts — Santiago Molina",
+      "description": "Explore Clean code posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1234,9 +1486,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/clean-code/"
+      "pathname": "/blog/tags/clean-code/",
+      "title": "Clean code posts"
     },
     "/blog/tags/code-quality/": {
+      "alt": "Code quality posts — Santiago Molina",
+      "description": "Explore Code quality posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1247,9 +1502,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/code-quality/"
+      "pathname": "/blog/tags/code-quality/",
+      "title": "Code quality posts"
     },
     "/blog/tags/refactoring/": {
+      "alt": "Refactoring posts — Santiago Molina",
+      "description": "Explore Refactoring posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1260,9 +1518,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/refactoring/"
+      "pathname": "/blog/tags/refactoring/",
+      "title": "Refactoring posts"
     },
     "/blog/tags/engineering-standards/": {
+      "alt": "Engineering standards posts — Santiago Molina",
+      "description": "Explore Engineering standards posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1273,9 +1534,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/engineering-standards/"
+      "pathname": "/blog/tags/engineering-standards/",
+      "title": "Engineering standards posts"
     },
     "/blog/tags/team-process/": {
+      "alt": "Team process posts — Santiago Molina",
+      "description": "Explore Team process posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1286,9 +1550,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/team-process/"
+      "pathname": "/blog/tags/team-process/",
+      "title": "Team process posts"
     },
     "/blog/tags/maintainability/": {
+      "alt": "Maintainability posts — Santiago Molina",
+      "description": "Explore Maintainability posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1299,9 +1566,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/maintainability/"
+      "pathname": "/blog/tags/maintainability/",
+      "title": "Maintainability posts"
     },
     "/blog/tags/software-design/": {
+      "alt": "Software design posts — Santiago Molina",
+      "description": "Explore Software design posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1312,9 +1582,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/software-design/"
+      "pathname": "/blog/tags/software-design/",
+      "title": "Software design posts"
     },
     "/blog/tags/pull-requests/": {
+      "alt": "Pull requests posts — Santiago Molina",
+      "description": "Explore Pull requests posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1325,9 +1598,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/pull-requests/"
+      "pathname": "/blog/tags/pull-requests/",
+      "title": "Pull requests posts"
     },
     "/blog/tags/collaboration/": {
+      "alt": "Collaboration posts — Santiago Molina",
+      "description": "Explore Collaboration posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1338,9 +1614,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/collaboration/"
+      "pathname": "/blog/tags/collaboration/",
+      "title": "Collaboration posts"
     },
     "/blog/tags/developer-experience/": {
+      "alt": "Developer experience posts — Santiago Molina",
+      "description": "Explore Developer experience posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1351,9 +1630,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/developer-experience/"
+      "pathname": "/blog/tags/developer-experience/",
+      "title": "Developer experience posts"
     },
     "/blog/tags/developer-experience/2/": {
+      "alt": "Developer experience posts · Page 2 — Santiago Molina",
+      "description": "Explore Developer experience posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1364,9 +1646,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/developer-experience/2/"
+      "pathname": "/blog/tags/developer-experience/2/",
+      "title": "Developer experience posts · Page 2"
     },
     "/blog/tags/responsive-design/": {
+      "alt": "Responsive design posts — Santiago Molina",
+      "description": "Explore Responsive design posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1377,9 +1662,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/responsive-design/"
+      "pathname": "/blog/tags/responsive-design/",
+      "title": "Responsive design posts"
     },
     "/blog/tags/design-systems/": {
+      "alt": "Design systems posts — Santiago Molina",
+      "description": "Explore Design systems posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1390,9 +1678,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/design-systems/"
+      "pathname": "/blog/tags/design-systems/",
+      "title": "Design systems posts"
     },
     "/blog/tags/ui-engineering/": {
+      "alt": "UI engineering posts — Santiago Molina",
+      "description": "Explore UI engineering posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1403,9 +1694,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/ui-engineering/"
+      "pathname": "/blog/tags/ui-engineering/",
+      "title": "UI engineering posts"
     },
     "/blog/tags/code-review/": {
+      "alt": "Code review posts — Santiago Molina",
+      "description": "Explore Code review posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1416,9 +1710,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/code-review/"
+      "pathname": "/blog/tags/code-review/",
+      "title": "Code review posts"
     },
     "/blog/tags/communication/": {
+      "alt": "Communication posts — Santiago Molina",
+      "description": "Explore Communication posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1429,9 +1726,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/communication/"
+      "pathname": "/blog/tags/communication/",
+      "title": "Communication posts"
     },
     "/blog/tags/ai/": {
+      "alt": "AI posts — Santiago Molina",
+      "description": "Explore AI posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1442,9 +1742,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/ai/"
+      "pathname": "/blog/tags/ai/",
+      "title": "AI posts"
     },
     "/blog/tags/testing/": {
+      "alt": "Testing posts — Santiago Molina",
+      "description": "Explore Testing posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1455,9 +1758,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/testing/"
+      "pathname": "/blog/tags/testing/",
+      "title": "Testing posts"
     },
     "/blog/tags/e2e/": {
+      "alt": "E2e posts — Santiago Molina",
+      "description": "Explore E2e posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1468,9 +1774,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/e2e/"
+      "pathname": "/blog/tags/e2e/",
+      "title": "E2e posts"
     },
     "/blog/tags/astro/": {
+      "alt": "Astro posts — Santiago Molina",
+      "description": "Explore Astro posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1481,9 +1790,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/astro/"
+      "pathname": "/blog/tags/astro/",
+      "title": "Astro posts"
     },
     "/blog/tags/alpine/": {
+      "alt": "Alpine posts — Santiago Molina",
+      "description": "Explore Alpine posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1494,9 +1806,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/alpine/"
+      "pathname": "/blog/tags/alpine/",
+      "title": "Alpine posts"
     },
     "/blog/tags/performance/": {
+      "alt": "Performance posts — Santiago Molina",
+      "description": "Explore Performance posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1507,9 +1822,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/performance/"
+      "pathname": "/blog/tags/performance/",
+      "title": "Performance posts"
     },
     "/blog/tags/accessibility/": {
+      "alt": "Accessibility posts — Santiago Molina",
+      "description": "Explore Accessibility posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1520,9 +1838,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/accessibility/"
+      "pathname": "/blog/tags/accessibility/",
+      "title": "Accessibility posts"
     },
     "/blog/tags/open-source/": {
+      "alt": "Open source posts — Santiago Molina",
+      "description": "Explore Open source posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1533,9 +1854,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/open-source/"
+      "pathname": "/blog/tags/open-source/",
+      "title": "Open source posts"
     },
     "/blog/tags/cloudflare/": {
+      "alt": "Cloudflare posts — Santiago Molina",
+      "description": "Explore Cloudflare posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1546,9 +1870,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/cloudflare/"
+      "pathname": "/blog/tags/cloudflare/",
+      "title": "Cloudflare posts"
     },
     "/blog/tags/product-architecture/": {
+      "alt": "Product architecture posts — Santiago Molina",
+      "description": "Explore Product architecture posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1559,9 +1886,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/product-architecture/"
+      "pathname": "/blog/tags/product-architecture/",
+      "title": "Product architecture posts"
     },
     "/blog/tags/personal-projects/": {
+      "alt": "Personal projects posts — Santiago Molina",
+      "description": "Explore Personal projects posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1572,9 +1902,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/personal-projects/"
+      "pathname": "/blog/tags/personal-projects/",
+      "title": "Personal projects posts"
     },
     "/blog/tags/macos/": {
+      "alt": "macOS posts — Santiago Molina",
+      "description": "Explore macOS posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1585,9 +1918,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/macos/"
+      "pathname": "/blog/tags/macos/",
+      "title": "macOS posts"
     },
     "/blog/tags/swift/": {
+      "alt": "Swift posts — Santiago Molina",
+      "description": "Explore Swift posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1598,9 +1934,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/swift/"
+      "pathname": "/blog/tags/swift/",
+      "title": "Swift posts"
     },
     "/blog/tags/hardware/": {
+      "alt": "Hardware posts — Santiago Molina",
+      "description": "Explore Hardware posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1611,9 +1950,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/hardware/"
+      "pathname": "/blog/tags/hardware/",
+      "title": "Hardware posts"
     },
     "/blog/tags/safety-engineering/": {
+      "alt": "Safety engineering posts — Santiago Molina",
+      "description": "Explore Safety engineering posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1624,9 +1966,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/safety-engineering/"
+      "pathname": "/blog/tags/safety-engineering/",
+      "title": "Safety engineering posts"
     },
     "/blog/tags/native-apps/": {
+      "alt": "Native apps posts — Santiago Molina",
+      "description": "Explore Native apps posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1637,9 +1982,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/native-apps/"
+      "pathname": "/blog/tags/native-apps/",
+      "title": "Native apps posts"
     },
     "/blog/tags/vscode/": {
+      "alt": "VS Code posts — Santiago Molina",
+      "description": "Explore VS Code posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1650,9 +1998,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/vscode/"
+      "pathname": "/blog/tags/vscode/",
+      "title": "VS Code posts"
     },
     "/blog/tags/dependencies/": {
+      "alt": "Dependencies posts — Santiago Molina",
+      "description": "Explore Dependencies posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1663,9 +2014,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/dependencies/"
+      "pathname": "/blog/tags/dependencies/",
+      "title": "Dependencies posts"
     },
     "/blog/tags/security/": {
+      "alt": "Security posts — Santiago Molina",
+      "description": "Explore Security posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1676,9 +2030,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/security/"
+      "pathname": "/blog/tags/security/",
+      "title": "Security posts"
     },
     "/blog/tags/open-graph/": {
+      "alt": "Open graph posts — Santiago Molina",
+      "description": "Explore Open graph posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1689,9 +2046,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/open-graph/"
+      "pathname": "/blog/tags/open-graph/",
+      "title": "Open graph posts"
     },
     "/blog/tags/nodejs/": {
+      "alt": "Node.js posts — Santiago Molina",
+      "description": "Explore Node.js posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1702,9 +2062,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/nodejs/"
+      "pathname": "/blog/tags/nodejs/",
+      "title": "Node.js posts"
     },
     "/blog/tags/build-tools/": {
+      "alt": "Build tools posts — Santiago Molina",
+      "description": "Explore Build tools posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1715,9 +2078,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/build-tools/"
+      "pathname": "/blog/tags/build-tools/",
+      "title": "Build tools posts"
     },
     "/blog/tags/terminal/": {
+      "alt": "Terminal posts — Santiago Molina",
+      "description": "Explore Terminal posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1728,9 +2094,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/terminal/"
+      "pathname": "/blog/tags/terminal/",
+      "title": "Terminal posts"
     },
     "/blog/tags/web-components/": {
+      "alt": "Web components posts — Santiago Molina",
+      "description": "Explore Web components posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1741,9 +2110,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/web-components/"
+      "pathname": "/blog/tags/web-components/",
+      "title": "Web components posts"
     },
     "/blog/tags/automation/": {
+      "alt": "Automation posts — Santiago Molina",
+      "description": "Explore Automation posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1754,9 +2126,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/automation/"
+      "pathname": "/blog/tags/automation/",
+      "title": "Automation posts"
     },
     "/blog/tags/rust/": {
+      "alt": "Rust posts — Santiago Molina",
+      "description": "Explore Rust posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1767,9 +2142,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/rust/"
+      "pathname": "/blog/tags/rust/",
+      "title": "Rust posts"
     },
     "/blog/tags/tooling/": {
+      "alt": "Tooling posts — Santiago Molina",
+      "description": "Explore Tooling posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1780,9 +2158,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/tooling/"
+      "pathname": "/blog/tags/tooling/",
+      "title": "Tooling posts"
     },
     "/blog/tags/playwright/": {
+      "alt": "Playwright posts — Santiago Molina",
+      "description": "Explore Playwright posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1793,9 +2174,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/playwright/"
+      "pathname": "/blog/tags/playwright/",
+      "title": "Playwright posts"
     },
     "/blog/tags/release-engineering/": {
+      "alt": "Release engineering posts — Santiago Molina",
+      "description": "Explore Release engineering posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1806,9 +2190,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/release-engineering/"
+      "pathname": "/blog/tags/release-engineering/",
+      "title": "Release engineering posts"
     },
     "/blog/tags/metrics/": {
+      "alt": "Metrics posts — Santiago Molina",
+      "description": "Explore Metrics posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1819,9 +2206,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/metrics/"
+      "pathname": "/blog/tags/metrics/",
+      "title": "Metrics posts"
     },
     "/blog/tags/product-engineering/": {
+      "alt": "Product engineering posts — Santiago Molina",
+      "description": "Explore Product engineering posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1832,9 +2222,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/product-engineering/"
+      "pathname": "/blog/tags/product-engineering/",
+      "title": "Product engineering posts"
     },
     "/blog/tags/swiftui/": {
+      "alt": "Swiftui posts — Santiago Molina",
+      "description": "Explore Swiftui posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1845,9 +2238,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/swiftui/"
+      "pathname": "/blog/tags/swiftui/",
+      "title": "Swiftui posts"
     },
     "/blog/tags/android/": {
+      "alt": "Android posts — Santiago Molina",
+      "description": "Explore Android posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1858,9 +2254,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/android/"
+      "pathname": "/blog/tags/android/",
+      "title": "Android posts"
     },
     "/blog/tags/privacy/": {
+      "alt": "Privacy posts — Santiago Molina",
+      "description": "Explore Privacy posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1871,9 +2270,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/privacy/"
+      "pathname": "/blog/tags/privacy/",
+      "title": "Privacy posts"
     },
     "/blog/tags/flat-config/": {
+      "alt": "Flat config posts — Santiago Molina",
+      "description": "Explore Flat config posts on architecture, automation, DX, and engineering workflow.",
       "images": [
         {
           "format": "webp",
@@ -1884,9 +2286,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/tags/flat-config/"
+      "pathname": "/blog/tags/flat-config/",
+      "title": "Flat config posts"
     },
     "/portfolio/aaronmgz/": {
+      "alt": "Aaronmgz — Santiago Molina",
+      "description": "Built a growing family web platform with a nautical personal site, public message board, baby-shower experience, admin tools, and a shared Cloudflare API.",
       "images": [
         {
           "format": "webp",
@@ -1897,9 +2302,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/aaronmgz/"
+      "pathname": "/portfolio/aaronmgz/",
+      "title": "Aaronmgz"
     },
     "/portfolio/astro-doctor/": {
+      "alt": "Astro Doctor — Santiago Molina",
+      "description": "Explore Astro Doctor, a CLI, ESLint plugin, editor extension, and GitHub Action for catching Astro performance, accessibility, and security issues.",
       "images": [
         {
           "format": "webp",
@@ -1910,9 +2318,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/astro-doctor/"
+      "pathname": "/portfolio/astro-doctor/",
+      "title": "Astro Doctor"
     },
     "/portfolio/between-contractions/": {
+      "alt": "Between Contractions — Santiago Molina",
+      "description": "Built a calm, privacy-first contraction timer for the web, iOS, Android, watches, widgets, and optional real-time partner coordination.",
       "images": [
         {
           "format": "webp",
@@ -1923,9 +2334,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/between-contractions/"
+      "pathname": "/portfolio/between-contractions/",
+      "title": "Between Contractions"
     },
     "/portfolio/coolstead/": {
+      "alt": "Coolstead — Santiago Molina",
+      "description": "Built a native macOS menu-bar app that monitors thermal conditions and applies a gradual, safety-bounded fan curve without replacing macOS thermal protection.",
       "images": [
         {
           "format": "webp",
@@ -1936,9 +2350,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/coolstead/"
+      "pathname": "/portfolio/coolstead/",
+      "title": "Coolstead"
     },
     "/portfolio/datagran/": {
+      "alt": "Datagran — Santiago Molina",
+      "description": "Led the front-end modernization of an AI martech platform, cutting bugs by 30% while moving the product from jQuery to a scalable React and TypeScript architecture.",
       "images": [
         {
           "format": "webp",
@@ -1949,9 +2366,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/datagran/"
+      "pathname": "/portfolio/datagran/",
+      "title": "Datagran"
     },
     "/portfolio/dep-beacon/": {
+      "alt": "Dep Beacon — Santiago Molina",
+      "description": "Built and published a VS Code extension that brings npm dependency status, update targets, pnpm workspace catalog context, and OSV security signals into package manifests.",
       "images": [
         {
           "format": "webp",
@@ -1962,9 +2382,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/dep-beacon/"
+      "pathname": "/portfolio/dep-beacon/",
+      "title": "Dep Beacon"
     },
     "/portfolio/eslint-config-basic/": {
+      "alt": "eslint-config-basic — Santiago Molina",
+      "description": "Built a DX-first ESLint toolkit for JavaScript and TypeScript teams that want stronger defaults, less setup friction, and cleaner reviews.",
       "images": [
         {
           "format": "webp",
@@ -1975,9 +2398,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/eslint-config-basic/"
+      "pathname": "/portfolio/eslint-config-basic/",
+      "title": "eslint-config-basic"
     },
     "/portfolio/eslint-config-santi020k/": {
+      "alt": "eslint-config-santi020k — Santiago Molina",
+      "description": "Turned internal linting conventions into a reusable package that standardized React and TypeScript projects and paved the way for @santi020k/eslint-config-basic.",
       "images": [
         {
           "format": "webp",
@@ -1988,9 +2414,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/eslint-config-santi020k/"
+      "pathname": "/portfolio/eslint-config-santi020k/",
+      "title": "eslint-config-santi020k"
     },
     "/portfolio/justbit/": {
+      "alt": "Justbit.site — Santiago Molina",
+      "description": "Co-founded a boutique software studio that shipped 10+ client launches in its first year and helped selected clients grow organic traffic by up to 70%.",
       "images": [
         {
           "format": "webp",
@@ -2001,9 +2430,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/justbit/"
+      "pathname": "/portfolio/justbit/",
+      "title": "Justbit.site"
     },
     "/portfolio/lumen-ui/": {
+      "alt": "Lumen UI — Santiago Molina",
+      "description": "Built a multi-framework design system with 123 accessible primitives for Astro, React, and Web Components, plus Figma, agent, MCP, and registry workflows.",
       "images": [
         {
           "format": "webp",
@@ -2014,9 +2446,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/lumen-ui/"
+      "pathname": "/portfolio/lumen-ui/",
+      "title": "Lumen UI"
     },
     "/portfolio/nebular/": {
+      "alt": "Nebular Technologies — Santiago Molina",
+      "description": "Shipped client web, Android, and commerce products across Rails, AngularJS, Java, and WordPress, building the release discipline and full-stack range I still rely on today as a senior engineer.",
       "images": [
         {
           "format": "webp",
@@ -2027,9 +2462,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/nebular/"
+      "pathname": "/portfolio/nebular/",
+      "title": "Nebular Technologies"
     },
     "/portfolio/og/": {
+      "alt": "@santi020k/og — Santiago Molina",
+      "description": "Built a renderer-agnostic Open Graph image pipeline with deterministic caching, safe cleanup, parallel generation, and CI verification while leaving every project's visual system in its own hands.",
       "images": [
         {
           "format": "webp",
@@ -2040,9 +2478,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/og/"
+      "pathname": "/portfolio/og/",
+      "title": "@santi020k/og"
     },
     "/portfolio/optic-power/": {
+      "alt": "Optic Power — Santiago Molina",
+      "description": "Shipped across gaming, SaaS, and martech products in parallel, improving API performance by 40% while supporting launches for Team Liquid, NurtureBoss, and Stardust.gg.",
       "images": [
         {
           "format": "webp",
@@ -2053,9 +2494,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/optic-power/"
+      "pathname": "/portfolio/optic-power/",
+      "title": "Optic Power"
     },
     "/portfolio/pads/": {
+      "alt": "PADS — Santiago Molina",
+      "description": "Led the web, back-office, and mobile experience for a luxury real estate platform, growing monthly active users by 50% and improving broker workflows.",
       "images": [
         {
           "format": "webp",
@@ -2066,9 +2510,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/pads/"
+      "pathname": "/portfolio/pads/",
+      "title": "PADS"
     },
     "/portfolio/quality/": {
+      "alt": "quality — Santiago Molina",
+      "description": "Built a fast, predictable code-quality CLI and GitHub Action that detects and coordinates native analyzers across Rust, Swift, Android, Kotlin, JavaScript, and Astro repositories.",
       "images": [
         {
           "format": "webp",
@@ -2079,9 +2526,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/quality/"
+      "pathname": "/portfolio/quality/",
+      "title": "quality"
     },
     "/portfolio/react-js-colombia/": {
+      "alt": "ReactJS Colombia — Santiago Molina",
+      "description": "Co-organize one of Medellin's most active React communities, sustaining free meetups and workshops that drew 100+ participants at peak sessions.",
       "images": [
         {
           "format": "webp",
@@ -2092,9 +2542,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/react-js-colombia/"
+      "pathname": "/portfolio/react-js-colombia/",
+      "title": "ReactJS Colombia"
     },
     "/portfolio/santi020k-theme/": {
+      "alt": "Santi020k Theme — Santiago Molina",
+      "description": "Explore a shared violet theme system for VS Code, Chrome, terminals, Starship, Shiki, and websites, built from reusable tokens and automated releases.",
       "images": [
         {
           "format": "webp",
@@ -2105,9 +2558,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/santi020k-theme/"
+      "pathname": "/portfolio/santi020k-theme/",
+      "title": "Santi020k Theme"
     },
     "/portfolio/smith-commerce/": {
+      "alt": "Smith Commerce — Santiago Molina",
+      "description": "Rebuilt Marcone's storefront into a faster, more accessible headless experience while giving teams room to ship independently.",
       "images": [
         {
           "format": "webp",
@@ -2118,9 +2574,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/smith-commerce/"
+      "pathname": "/portfolio/smith-commerce/",
+      "title": "Smith Commerce"
     },
     "/portfolio/tedx-medellin/": {
+      "alt": "TEDx Medellin — Santiago Molina",
+      "description": "How I helped launch the TEDx Medellin 2019 website in WordPress, coordinated technology delivery, and supported a sold-out event with marketing and design collaboration.",
       "images": [
         {
           "format": "webp",
@@ -2131,9 +2590,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/tedx-medellin/"
+      "pathname": "/portfolio/tedx-medellin/",
+      "title": "TEDx Medellin"
     },
     "/portfolio/void/": {
+      "alt": "Void.GG — Santiago Molina",
+      "description": "See how I led architecture and delivery for Void.GG across web, mobile, and backend systems while improving performance, release speed, and team flow.",
       "images": [
         {
           "format": "webp",
@@ -2144,9 +2606,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/void/"
+      "pathname": "/portfolio/void/",
+      "title": "Void.GG"
     },
     "/portfolio/xgames/": {
+      "alt": "X Games — Santiago Molina",
+      "description": "Built and scaled the official X Games digital platform — a high-traffic sports media site serving millions of fans — with real-time live streaming, geo-based access control, and a programmatic ad infrastructure powered by Google Ad Manager.",
       "images": [
         {
           "format": "webp",
@@ -2157,9 +2622,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/portfolio/xgames/"
+      "pathname": "/portfolio/xgames/",
+      "title": "X Games"
     },
     "/blog/series/building-a-production-nextjs-app/": {
+      "alt": "Building a Production Next.js App Series — Santiago Molina",
+      "description": "Follow the series that covers structure, linting, testing, CI/CD, and auth for production-ready Next.js teams.",
       "images": [
         {
           "format": "webp",
@@ -2170,9 +2638,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/series/building-a-production-nextjs-app/"
+      "pathname": "/blog/series/building-a-production-nextjs-app/",
+      "title": "Building a Production Next.js App Series"
     },
     "/blog/series/eslint-in-practice/": {
+      "alt": "ESLint in Practice Series — Santiago Molina",
+      "description": "Guides and case studies on ESLint configs, migrations, and developer experience for modern JavaScript teams.",
       "images": [
         {
           "format": "webp",
@@ -2183,9 +2654,12 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/series/eslint-in-practice/"
+      "pathname": "/blog/series/eslint-in-practice/",
+      "title": "ESLint in Practice Series"
     },
     "/blog/series/the-santi020k-way/": {
+      "alt": "The santi020k way Series — Santiago Molina",
+      "description": "Read the series on engineering culture, code quality, review feedback, Git habits, responsive standards, and calmer releases.",
       "images": [
         {
           "format": "webp",
@@ -2196,9 +2670,11 @@
           "width": 1200
         }
       ],
-      "pathname": "/blog/series/the-santi020k-way/"
+      "pathname": "/blog/series/the-santi020k-way/",
+      "title": "The santi020k way Series"
     },
     "/technologies/astro/": {
+      "alt": "Astro · Technology — Santiago Molina",
       "description": "Projects and case studies where Astro shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2214,6 +2690,7 @@
       "title": "Astro · Technology"
     },
     "/technologies/next-js/": {
+      "alt": "Next.js · Technology — Santiago Molina",
       "description": "Projects and case studies where Next.js shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2229,6 +2706,7 @@
       "title": "Next.js · Technology"
     },
     "/technologies/react-js/": {
+      "alt": "React.js · Technology — Santiago Molina",
       "description": "Projects and case studies where React.js shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2244,6 +2722,7 @@
       "title": "React.js · Technology"
     },
     "/technologies/typescript/": {
+      "alt": "TypeScript · Technology — Santiago Molina",
       "description": "Projects and case studies where TypeScript shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2259,6 +2738,7 @@
       "title": "TypeScript · Technology"
     },
     "/technologies/tailwind-css/": {
+      "alt": "Tailwind CSS · Technology — Santiago Molina",
       "description": "Projects and case studies where Tailwind CSS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2274,6 +2754,7 @@
       "title": "Tailwind CSS · Technology"
     },
     "/technologies/hono/": {
+      "alt": "Hono · Technology — Santiago Molina",
       "description": "Projects and case studies where Hono shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2289,6 +2770,7 @@
       "title": "Hono · Technology"
     },
     "/technologies/cloudflare-workers/": {
+      "alt": "Cloudflare Workers · Technology — Santiago Molina",
       "description": "Projects and case studies where Cloudflare Workers shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2304,6 +2786,7 @@
       "title": "Cloudflare Workers · Technology"
     },
     "/technologies/cloudflare-d1/": {
+      "alt": "Cloudflare D1 · Technology — Santiago Molina",
       "description": "Projects and case studies where Cloudflare D1 shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2319,6 +2802,7 @@
       "title": "Cloudflare D1 · Technology"
     },
     "/technologies/drizzle-orm/": {
+      "alt": "Drizzle ORM · Technology — Santiago Molina",
       "description": "Projects and case studies where Drizzle ORM shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2334,6 +2818,7 @@
       "title": "Drizzle ORM · Technology"
     },
     "/technologies/zod/": {
+      "alt": "Zod · Technology — Santiago Molina",
       "description": "Projects and case studies where Zod shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2349,6 +2834,7 @@
       "title": "Zod · Technology"
     },
     "/technologies/turborepo/": {
+      "alt": "Turborepo · Technology — Santiago Molina",
       "description": "Projects and case studies where Turborepo shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2364,6 +2850,7 @@
       "title": "Turborepo · Technology"
     },
     "/technologies/pnpm/": {
+      "alt": "pnpm · Technology — Santiago Molina",
       "description": "Projects and case studies where pnpm shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2379,6 +2866,7 @@
       "title": "pnpm · Technology"
     },
     "/technologies/opennext/": {
+      "alt": "OpenNext · Technology — Santiago Molina",
       "description": "Projects and case studies where OpenNext shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2394,6 +2882,7 @@
       "title": "OpenNext · Technology"
     },
     "/technologies/i18next/": {
+      "alt": "i18next · Technology — Santiago Molina",
       "description": "Projects and case studies where i18next shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2409,6 +2898,7 @@
       "title": "i18next · Technology"
     },
     "/technologies/accessibility/": {
+      "alt": "Accessibility · Technology — Santiago Molina",
       "description": "Projects and case studies where Accessibility shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2424,6 +2914,7 @@
       "title": "Accessibility · Technology"
     },
     "/technologies/testing/": {
+      "alt": "Testing · Technology — Santiago Molina",
       "description": "Projects and case studies where Testing shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2439,6 +2930,7 @@
       "title": "Testing · Technology"
     },
     "/technologies/ci-cd/": {
+      "alt": "CI/CD · Technology — Santiago Molina",
       "description": "Projects and case studies where CI/CD shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2454,6 +2946,7 @@
       "title": "CI/CD · Technology"
     },
     "/technologies/monorepo/": {
+      "alt": "Monorepo · Technology — Santiago Molina",
       "description": "Projects and case studies where Monorepo shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2469,6 +2962,7 @@
       "title": "Monorepo · Technology"
     },
     "/technologies/node-js/": {
+      "alt": "Node.js · Technology — Santiago Molina",
       "description": "Projects and case studies where Node.js shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2484,6 +2978,7 @@
       "title": "Node.js · Technology"
     },
     "/technologies/eslint/": {
+      "alt": "ESLint · Technology — Santiago Molina",
       "description": "Projects and case studies where ESLint shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2499,6 +2994,7 @@
       "title": "ESLint · Technology"
     },
     "/technologies/vs-code-extension/": {
+      "alt": "VS Code Extension · Technology — Santiago Molina",
       "description": "Projects and case studies where VS Code Extension shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2514,6 +3010,7 @@
       "title": "VS Code Extension · Technology"
     },
     "/technologies/github-actions/": {
+      "alt": "GitHub Actions · Technology — Santiago Molina",
       "description": "Projects and case studies where GitHub Actions shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2529,6 +3026,7 @@
       "title": "GitHub Actions · Technology"
     },
     "/technologies/code-quality/": {
+      "alt": "Code Quality · Technology — Santiago Molina",
       "description": "Projects and case studies where Code Quality shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2544,6 +3042,7 @@
       "title": "Code Quality · Technology"
     },
     "/technologies/developer-experience-dx/": {
+      "alt": "Developer Experience (DX) · Technology — Santiago Molina",
       "description": "Projects and case studies where Developer Experience (DX) shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2559,6 +3058,7 @@
       "title": "Developer Experience (DX) · Technology"
     },
     "/technologies/developer-documentation/": {
+      "alt": "Developer Documentation · Technology — Santiago Molina",
       "description": "Projects and case studies where Developer Documentation shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2574,6 +3074,7 @@
       "title": "Developer Documentation · Technology"
     },
     "/technologies/open-source/": {
+      "alt": "Open Source · Technology — Santiago Molina",
       "description": "Projects and case studies where Open Source shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2589,6 +3090,7 @@
       "title": "Open Source · Technology"
     },
     "/technologies/performance-optimization/": {
+      "alt": "Performance Optimization · Technology — Santiago Molina",
       "description": "Projects and case studies where Performance Optimization shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2604,6 +3106,7 @@
       "title": "Performance Optimization · Technology"
     },
     "/technologies/lumen-ui/": {
+      "alt": "Lumen UI · Technology — Santiago Molina",
       "description": "Projects and case studies where Lumen UI shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2619,6 +3122,7 @@
       "title": "Lumen UI · Technology"
     },
     "/technologies/swift/": {
+      "alt": "Swift · Technology — Santiago Molina",
       "description": "Projects and case studies where Swift shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2634,6 +3138,7 @@
       "title": "Swift · Technology"
     },
     "/technologies/swiftui/": {
+      "alt": "SwiftUI · Technology — Santiago Molina",
       "description": "Projects and case studies where SwiftUI shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2649,6 +3154,7 @@
       "title": "SwiftUI · Technology"
     },
     "/technologies/swiftdata/": {
+      "alt": "SwiftData · Technology — Santiago Molina",
       "description": "Projects and case studies where SwiftData shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2664,6 +3170,7 @@
       "title": "SwiftData · Technology"
     },
     "/technologies/widgetkit/": {
+      "alt": "WidgetKit · Technology — Santiago Molina",
       "description": "Projects and case studies where WidgetKit shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2679,6 +3186,7 @@
       "title": "WidgetKit · Technology"
     },
     "/technologies/watchconnectivity/": {
+      "alt": "WatchConnectivity · Technology — Santiago Molina",
       "description": "Projects and case studies where WatchConnectivity shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2694,6 +3202,7 @@
       "title": "WatchConnectivity · Technology"
     },
     "/technologies/kotlin/": {
+      "alt": "Kotlin · Technology — Santiago Molina",
       "description": "Projects and case studies where Kotlin shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2709,6 +3218,7 @@
       "title": "Kotlin · Technology"
     },
     "/technologies/jetpack-compose/": {
+      "alt": "Jetpack Compose · Technology — Santiago Molina",
       "description": "Projects and case studies where Jetpack Compose shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2724,6 +3234,7 @@
       "title": "Jetpack Compose · Technology"
     },
     "/technologies/room/": {
+      "alt": "Room · Technology — Santiago Molina",
       "description": "Projects and case studies where Room shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2739,6 +3250,7 @@
       "title": "Room · Technology"
     },
     "/technologies/glance/": {
+      "alt": "Glance · Technology — Santiago Molina",
       "description": "Projects and case studies where Glance shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2754,6 +3266,7 @@
       "title": "Glance · Technology"
     },
     "/technologies/wear-os/": {
+      "alt": "Wear OS · Technology — Santiago Molina",
       "description": "Projects and case studies where Wear OS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2769,6 +3282,7 @@
       "title": "Wear OS · Technology"
     },
     "/technologies/websockets/": {
+      "alt": "WebSockets · Technology — Santiago Molina",
       "description": "Projects and case studies where WebSockets shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2784,6 +3298,7 @@
       "title": "WebSockets · Technology"
     },
     "/technologies/i18n/": {
+      "alt": "i18n · Technology — Santiago Molina",
       "description": "Projects and case studies where i18n shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2799,6 +3314,7 @@
       "title": "i18n · Technology"
     },
     "/technologies/macos/": {
+      "alt": "macOS · Technology — Santiago Molina",
       "description": "Projects and case studies where macOS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2814,6 +3330,7 @@
       "title": "macOS · Technology"
     },
     "/technologies/appkit/": {
+      "alt": "AppKit · Technology — Santiago Molina",
       "description": "Projects and case studies where AppKit shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2829,6 +3346,7 @@
       "title": "AppKit · Technology"
     },
     "/technologies/swift-package-manager/": {
+      "alt": "Swift Package Manager · Technology — Santiago Molina",
       "description": "Projects and case studies where Swift Package Manager shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2844,6 +3362,7 @@
       "title": "Swift Package Manager · Technology"
     },
     "/technologies/smc/": {
+      "alt": "SMC · Technology — Santiago Molina",
       "description": "Projects and case studies where SMC shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2859,6 +3378,7 @@
       "title": "SMC · Technology"
     },
     "/technologies/privileged-helper/": {
+      "alt": "Privileged Helper · Technology — Santiago Molina",
       "description": "Projects and case studies where Privileged Helper shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2874,6 +3394,7 @@
       "title": "Privileged Helper · Technology"
     },
     "/technologies/hardware-monitoring/": {
+      "alt": "Hardware Monitoring · Technology — Santiago Molina",
       "description": "Projects and case studies where Hardware Monitoring shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2889,6 +3410,7 @@
       "title": "Hardware Monitoring · Technology"
     },
     "/technologies/thermal-management/": {
+      "alt": "Thermal Management · Technology — Santiago Molina",
       "description": "Projects and case studies where Thermal Management shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2904,6 +3426,7 @@
       "title": "Thermal Management · Technology"
     },
     "/technologies/safety-engineering/": {
+      "alt": "Safety Engineering · Technology — Santiago Molina",
       "description": "Projects and case studies where Safety Engineering shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2919,6 +3442,7 @@
       "title": "Safety Engineering · Technology"
     },
     "/technologies/redux/": {
+      "alt": "Redux · Technology — Santiago Molina",
       "description": "Projects and case studies where Redux shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2934,6 +3458,7 @@
       "title": "Redux · Technology"
     },
     "/technologies/redux-sagas/": {
+      "alt": "Redux Sagas · Technology — Santiago Molina",
       "description": "Projects and case studies where Redux Sagas shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2949,6 +3474,7 @@
       "title": "Redux Sagas · Technology"
     },
     "/technologies/d3-js/": {
+      "alt": "D3.js · Technology — Santiago Molina",
       "description": "Projects and case studies where D3.js shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2964,6 +3490,7 @@
       "title": "D3.js · Technology"
     },
     "/technologies/styled-components/": {
+      "alt": "Styled Components · Technology — Santiago Molina",
       "description": "Projects and case studies where Styled Components shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2979,6 +3506,7 @@
       "title": "Styled Components · Technology"
     },
     "/technologies/javascript/": {
+      "alt": "JavaScript · Technology — Santiago Molina",
       "description": "Projects and case studies where JavaScript shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -2994,6 +3522,7 @@
       "title": "JavaScript · Technology"
     },
     "/technologies/semantic-html-and-css/": {
+      "alt": "Semantic HTML & CSS · Technology — Santiago Molina",
       "description": "Projects and case studies where Semantic HTML & CSS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3009,6 +3538,7 @@
       "title": "Semantic HTML & CSS · Technology"
     },
     "/technologies/sass/": {
+      "alt": "SASS · Technology — Santiago Molina",
       "description": "Projects and case studies where SASS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3024,6 +3554,7 @@
       "title": "SASS · Technology"
     },
     "/technologies/git/": {
+      "alt": "Git · Technology — Santiago Molina",
       "description": "Projects and case studies where Git shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3039,6 +3570,7 @@
       "title": "Git · Technology"
     },
     "/technologies/github/": {
+      "alt": "GitHub · Technology — Santiago Molina",
       "description": "Projects and case studies where GitHub shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3054,6 +3586,7 @@
       "title": "GitHub · Technology"
     },
     "/technologies/scrum/": {
+      "alt": "Scrum · Technology — Santiago Molina",
       "description": "Projects and case studies where Scrum shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3069,6 +3602,7 @@
       "title": "Scrum · Technology"
     },
     "/technologies/team-leadership/": {
+      "alt": "Team Leadership · Technology — Santiago Molina",
       "description": "Projects and case studies where Team Leadership shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3084,6 +3618,7 @@
       "title": "Team Leadership · Technology"
     },
     "/technologies/gcp/": {
+      "alt": "GCP · Technology — Santiago Molina",
       "description": "Projects and case studies where GCP shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3099,6 +3634,7 @@
       "title": "GCP · Technology"
     },
     "/technologies/jquery/": {
+      "alt": "jQuery · Technology — Santiago Molina",
       "description": "Projects and case studies where jQuery shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3114,6 +3650,7 @@
       "title": "jQuery · Technology"
     },
     "/technologies/react-router/": {
+      "alt": "React Router · Technology — Santiago Molina",
       "description": "Projects and case studies where React Router shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3129,6 +3666,7 @@
       "title": "React Router · Technology"
     },
     "/technologies/jest/": {
+      "alt": "Jest · Technology — Santiago Molina",
       "description": "Projects and case studies where Jest shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3144,6 +3682,7 @@
       "title": "Jest · Technology"
     },
     "/technologies/storybook/": {
+      "alt": "Storybook · Technology — Santiago Molina",
       "description": "Projects and case studies where Storybook shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3159,6 +3698,7 @@
       "title": "Storybook · Technology"
     },
     "/technologies/cypress/": {
+      "alt": "Cypress · Technology — Santiago Molina",
       "description": "Projects and case studies where Cypress shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3174,6 +3714,7 @@
       "title": "Cypress · Technology"
     },
     "/technologies/yup/": {
+      "alt": "Yup · Technology — Santiago Molina",
       "description": "Projects and case studies where Yup shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3189,6 +3730,7 @@
       "title": "Yup · Technology"
     },
     "/technologies/sentry/": {
+      "alt": "Sentry · Technology — Santiago Molina",
       "description": "Projects and case studies where Sentry shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3204,6 +3746,7 @@
       "title": "Sentry · Technology"
     },
     "/technologies/highcharts/": {
+      "alt": "Highcharts · Technology — Santiago Molina",
       "description": "Projects and case studies where Highcharts shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3219,6 +3762,7 @@
       "title": "Highcharts · Technology"
     },
     "/technologies/formik/": {
+      "alt": "Formik · Technology — Santiago Molina",
       "description": "Projects and case studies where Formik shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3234,6 +3778,7 @@
       "title": "Formik · Technology"
     },
     "/technologies/codelens/": {
+      "alt": "CodeLens · Technology — Santiago Molina",
       "description": "Projects and case studies where CodeLens shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3249,6 +3794,7 @@
       "title": "CodeLens · Technology"
     },
     "/technologies/npm/": {
+      "alt": "NPM · Technology — Santiago Molina",
       "description": "Projects and case studies where NPM shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3264,6 +3810,7 @@
       "title": "NPM · Technology"
     },
     "/technologies/osv-dev/": {
+      "alt": "OSV.dev · Technology — Santiago Molina",
       "description": "Projects and case studies where OSV.dev shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3279,6 +3826,7 @@
       "title": "OSV.dev · Technology"
     },
     "/technologies/open-vsx/": {
+      "alt": "Open VSX · Technology — Santiago Molina",
       "description": "Projects and case studies where Open VSX shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3294,6 +3842,7 @@
       "title": "Open VSX · Technology"
     },
     "/technologies/visual-studio-marketplace/": {
+      "alt": "Visual Studio Marketplace · Technology — Santiago Molina",
       "description": "Projects and case studies where Visual Studio Marketplace shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3309,6 +3858,7 @@
       "title": "Visual Studio Marketplace · Technology"
     },
     "/technologies/vitest/": {
+      "alt": "Vitest · Technology — Santiago Molina",
       "description": "Projects and case studies where Vitest shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3324,6 +3874,7 @@
       "title": "Vitest · Technology"
     },
     "/technologies/esbuild/": {
+      "alt": "esbuild · Technology — Santiago Molina",
       "description": "Projects and case studies where esbuild shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3339,6 +3890,7 @@
       "title": "esbuild · Technology"
     },
     "/technologies/dependency-management/": {
+      "alt": "Dependency Management · Technology — Santiago Molina",
       "description": "Projects and case studies where Dependency Management shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3354,6 +3906,7 @@
       "title": "Dependency Management · Technology"
     },
     "/technologies/security/": {
+      "alt": "Security · Technology — Santiago Molina",
       "description": "Projects and case studies where Security shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3369,6 +3922,7 @@
       "title": "Security · Technology"
     },
     "/technologies/expo/": {
+      "alt": "Expo · Technology — Santiago Molina",
       "description": "Projects and case studies where Expo shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3384,6 +3938,7 @@
       "title": "Expo · Technology"
     },
     "/technologies/devops-automation/": {
+      "alt": "DevOps Automation · Technology — Santiago Molina",
       "description": "Projects and case studies where DevOps Automation shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3399,6 +3954,7 @@
       "title": "DevOps Automation · Technology"
     },
     "/technologies/wordpress/": {
+      "alt": "WordPress · Technology — Santiago Molina",
       "description": "Projects and case studies where WordPress shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3414,6 +3970,7 @@
       "title": "WordPress · Technology"
     },
     "/technologies/php/": {
+      "alt": "PHP · Technology — Santiago Molina",
       "description": "Projects and case studies where PHP shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3429,6 +3986,7 @@
       "title": "PHP · Technology"
     },
     "/technologies/woocommerce/": {
+      "alt": "WooCommerce · Technology — Santiago Molina",
       "description": "Projects and case studies where WooCommerce shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3444,6 +4002,7 @@
       "title": "WooCommerce · Technology"
     },
     "/technologies/postgresql/": {
+      "alt": "PostgreSQL · Technology — Santiago Molina",
       "description": "Projects and case studies where PostgreSQL shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3459,6 +4018,7 @@
       "title": "PostgreSQL · Technology"
     },
     "/technologies/mysql/": {
+      "alt": "MySQL · Technology — Santiago Molina",
       "description": "Projects and case studies where MySQL shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3474,6 +4034,7 @@
       "title": "MySQL · Technology"
     },
     "/technologies/linux/": {
+      "alt": "Linux · Technology — Santiago Molina",
       "description": "Projects and case studies where Linux shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3489,6 +4050,7 @@
       "title": "Linux · Technology"
     },
     "/technologies/google-ads/": {
+      "alt": "Google Ads · Technology — Santiago Molina",
       "description": "Projects and case studies where Google Ads shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3504,6 +4066,7 @@
       "title": "Google Ads · Technology"
     },
     "/technologies/facebook-ads/": {
+      "alt": "Facebook Ads · Technology — Santiago Molina",
       "description": "Projects and case studies where Facebook Ads shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3519,6 +4082,7 @@
       "title": "Facebook Ads · Technology"
     },
     "/technologies/seo/": {
+      "alt": "SEO · Technology — Santiago Molina",
       "description": "Projects and case studies where SEO shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3534,6 +4098,7 @@
       "title": "SEO · Technology"
     },
     "/technologies/gitlab/": {
+      "alt": "GitLab · Technology — Santiago Molina",
       "description": "Projects and case studies where GitLab shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3549,6 +4114,7 @@
       "title": "GitLab · Technology"
     },
     "/technologies/web-components/": {
+      "alt": "Web Components · Technology — Santiago Molina",
       "description": "Projects and case studies where Web Components shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3564,6 +4130,7 @@
       "title": "Web Components · Technology"
     },
     "/technologies/css/": {
+      "alt": "CSS · Technology — Santiago Molina",
       "description": "Projects and case studies where CSS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3579,6 +4146,7 @@
       "title": "CSS · Technology"
     },
     "/technologies/design-systems/": {
+      "alt": "Design Systems · Technology — Santiago Molina",
       "description": "Projects and case studies where Design Systems shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3594,6 +4162,7 @@
       "title": "Design Systems · Technology"
     },
     "/technologies/figma/": {
+      "alt": "Figma · Technology — Santiago Molina",
       "description": "Projects and case studies where Figma shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3609,6 +4178,7 @@
       "title": "Figma · Technology"
     },
     "/technologies/model-context-protocol/": {
+      "alt": "Model Context Protocol · Technology — Santiago Molina",
       "description": "Projects and case studies where Model Context Protocol shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3624,6 +4194,7 @@
       "title": "Model Context Protocol · Technology"
     },
     "/technologies/ai-assisted-development/": {
+      "alt": "AI-assisted Development · Technology — Santiago Molina",
       "description": "Projects and case studies where AI-assisted Development shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3639,6 +4210,7 @@
       "title": "AI-assisted Development · Technology"
     },
     "/technologies/playwright/": {
+      "alt": "Playwright · Technology — Santiago Molina",
       "description": "Projects and case studies where Playwright shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3654,6 +4226,7 @@
       "title": "Playwright · Technology"
     },
     "/technologies/ruby/": {
+      "alt": "Ruby · Technology — Santiago Molina",
       "description": "Projects and case studies where Ruby shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3669,6 +4242,7 @@
       "title": "Ruby · Technology"
     },
     "/technologies/ruby-on-rails/": {
+      "alt": "Ruby on Rails · Technology — Santiago Molina",
       "description": "Projects and case studies where Ruby on Rails shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3684,6 +4258,7 @@
       "title": "Ruby on Rails · Technology"
     },
     "/technologies/rspec/": {
+      "alt": "RSpec · Technology — Santiago Molina",
       "description": "Projects and case studies where RSpec shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3699,6 +4274,7 @@
       "title": "RSpec · Technology"
     },
     "/technologies/angularjs/": {
+      "alt": "AngularJS · Technology — Santiago Molina",
       "description": "Projects and case studies where AngularJS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3714,6 +4290,7 @@
       "title": "AngularJS · Technology"
     },
     "/technologies/java/": {
+      "alt": "Java · Technology — Santiago Molina",
       "description": "Projects and case studies where Java shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3729,6 +4306,7 @@
       "title": "Java · Technology"
     },
     "/technologies/cordova/": {
+      "alt": "Cordova · Technology — Santiago Molina",
       "description": "Projects and case studies where Cordova shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3744,6 +4322,7 @@
       "title": "Cordova · Technology"
     },
     "/technologies/heroku/": {
+      "alt": "Heroku · Technology — Santiago Molina",
       "description": "Projects and case studies where Heroku shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3759,6 +4338,7 @@
       "title": "Heroku · Technology"
     },
     "/technologies/bitbucket/": {
+      "alt": "Bitbucket · Technology — Santiago Molina",
       "description": "Projects and case studies where Bitbucket shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3774,6 +4354,7 @@
       "title": "Bitbucket · Technology"
     },
     "/technologies/android/": {
+      "alt": "Android · Technology — Santiago Molina",
       "description": "Projects and case studies where Android shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3789,6 +4370,7 @@
       "title": "Android · Technology"
     },
     "/technologies/open-graph/": {
+      "alt": "Open Graph · Technology — Santiago Molina",
       "description": "Projects and case studies where Open Graph shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3804,6 +4386,7 @@
       "title": "Open Graph · Technology"
     },
     "/technologies/satori/": {
+      "alt": "Satori · Technology — Santiago Molina",
       "description": "Projects and case studies where Satori shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3819,6 +4402,7 @@
       "title": "Satori · Technology"
     },
     "/technologies/sharp/": {
+      "alt": "Sharp · Technology — Santiago Molina",
       "description": "Projects and case studies where Sharp shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3834,6 +4418,7 @@
       "title": "Sharp · Technology"
     },
     "/technologies/svg/": {
+      "alt": "SVG · Technology — Santiago Molina",
       "description": "Projects and case studies where SVG shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3849,6 +4434,7 @@
       "title": "SVG · Technology"
     },
     "/technologies/webp/": {
+      "alt": "WebP · Technology — Santiago Molina",
       "description": "Projects and case studies where WebP shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3864,6 +4450,7 @@
       "title": "WebP · Technology"
     },
     "/technologies/avif/": {
+      "alt": "AVIF · Technology — Santiago Molina",
       "description": "Projects and case studies where AVIF shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3879,6 +4466,7 @@
       "title": "AVIF · Technology"
     },
     "/technologies/worker-threads/": {
+      "alt": "Worker Threads · Technology — Santiago Molina",
       "description": "Projects and case studies where Worker Threads shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3894,6 +4482,7 @@
       "title": "Worker Threads · Technology"
     },
     "/technologies/developer-tooling/": {
+      "alt": "Developer Tooling · Technology — Santiago Molina",
       "description": "Projects and case studies where Developer Tooling shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3909,6 +4498,7 @@
       "title": "Developer Tooling · Technology"
     },
     "/technologies/redux-toolkit/": {
+      "alt": "Redux Toolkit · Technology — Santiago Molina",
       "description": "Projects and case studies where Redux Toolkit shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3924,6 +4514,7 @@
       "title": "Redux Toolkit · Technology"
     },
     "/technologies/mongodb/": {
+      "alt": "MongoDB · Technology — Santiago Molina",
       "description": "Projects and case studies where MongoDB shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3939,6 +4530,7 @@
       "title": "MongoDB · Technology"
     },
     "/technologies/graphql/": {
+      "alt": "GraphQL · Technology — Santiago Molina",
       "description": "Projects and case studies where GraphQL shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3954,6 +4546,7 @@
       "title": "GraphQL · Technology"
     },
     "/technologies/aws/": {
+      "alt": "AWS · Technology — Santiago Molina",
       "description": "Projects and case studies where AWS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3969,6 +4562,7 @@
       "title": "AWS · Technology"
     },
     "/technologies/socket-io/": {
+      "alt": "Socket.io · Technology — Santiago Molina",
       "description": "Projects and case studies where Socket.io shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3984,6 +4578,7 @@
       "title": "Socket.io · Technology"
     },
     "/technologies/elixir/": {
+      "alt": "Elixir · Technology — Santiago Molina",
       "description": "Projects and case studies where Elixir shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -3999,6 +4594,7 @@
       "title": "Elixir · Technology"
     },
     "/technologies/phoenix/": {
+      "alt": "Phoenix · Technology — Santiago Molina",
       "description": "Projects and case studies where Phoenix shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4014,6 +4610,7 @@
       "title": "Phoenix · Technology"
     },
     "/technologies/docker/": {
+      "alt": "Docker · Technology — Santiago Molina",
       "description": "Projects and case studies where Docker shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4029,6 +4626,7 @@
       "title": "Docker · Technology"
     },
     "/technologies/angular/": {
+      "alt": "Angular · Technology — Santiago Molina",
       "description": "Projects and case studies where Angular shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4044,6 +4642,7 @@
       "title": "Angular · Technology"
     },
     "/technologies/express-js/": {
+      "alt": "Express.js · Technology — Santiago Molina",
       "description": "Projects and case studies where Express.js shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4059,6 +4658,7 @@
       "title": "Express.js · Technology"
     },
     "/technologies/youtube-api/": {
+      "alt": "YouTube API · Technology — Santiago Molina",
       "description": "Projects and case studies where YouTube API shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4074,6 +4674,7 @@
       "title": "YouTube API · Technology"
     },
     "/technologies/twitch-api/": {
+      "alt": "Twitch API · Technology — Santiago Molina",
       "description": "Projects and case studies where Twitch API shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4089,6 +4690,7 @@
       "title": "Twitch API · Technology"
     },
     "/technologies/oauth/": {
+      "alt": "OAuth · Technology — Santiago Molina",
       "description": "Projects and case studies where OAuth shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4104,6 +4706,7 @@
       "title": "OAuth · Technology"
     },
     "/technologies/c-sharp/": {
+      "alt": "C-Sharp · Technology — Santiago Molina",
       "description": "Projects and case studies where C-Sharp shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4119,6 +4722,7 @@
       "title": "C-Sharp · Technology"
     },
     "/technologies/unity/": {
+      "alt": "Unity · Technology — Santiago Molina",
       "description": "Projects and case studies where Unity shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4134,6 +4738,7 @@
       "title": "Unity · Technology"
     },
     "/technologies/ios/": {
+      "alt": "iOS · Technology — Santiago Molina",
       "description": "Projects and case studies where iOS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4149,6 +4754,7 @@
       "title": "iOS · Technology"
     },
     "/technologies/react-native/": {
+      "alt": "React Native · Technology — Santiago Molina",
       "description": "Projects and case studies where React Native shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4164,6 +4770,7 @@
       "title": "React Native · Technology"
     },
     "/technologies/lighthouse/": {
+      "alt": "Lighthouse · Technology — Santiago Molina",
       "description": "Projects and case studies where Lighthouse shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4179,6 +4786,7 @@
       "title": "Lighthouse · Technology"
     },
     "/technologies/web-vitals/": {
+      "alt": "Web Vitals · Technology — Santiago Molina",
       "description": "Projects and case studies where Web Vitals shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4194,6 +4802,7 @@
       "title": "Web Vitals · Technology"
     },
     "/technologies/tanstack-query/": {
+      "alt": "TanStack Query · Technology — Santiago Molina",
       "description": "Projects and case studies where TanStack Query shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4209,6 +4818,7 @@
       "title": "TanStack Query · Technology"
     },
     "/technologies/3rd-party-apis/": {
+      "alt": "3rd Party APIs · Technology — Santiago Molina",
       "description": "Projects and case studies where 3rd Party APIs shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4224,6 +4834,7 @@
       "title": "3rd Party APIs · Technology"
     },
     "/technologies/react-hook-form/": {
+      "alt": "React Hook Form · Technology — Santiago Molina",
       "description": "Projects and case studies where React Hook Form shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4239,6 +4850,7 @@
       "title": "React Hook Form · Technology"
     },
     "/technologies/google-maps-api/": {
+      "alt": "Google Maps API · Technology — Santiago Molina",
       "description": "Projects and case studies where Google Maps API shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4254,6 +4866,7 @@
       "title": "Google Maps API · Technology"
     },
     "/technologies/mapbox/": {
+      "alt": "Mapbox · Technology — Santiago Molina",
       "description": "Projects and case studies where Mapbox shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4269,6 +4882,7 @@
       "title": "Mapbox · Technology"
     },
     "/technologies/react-navigation/": {
+      "alt": "React Navigation · Technology — Santiago Molina",
       "description": "Projects and case studies where React Navigation shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4284,6 +4898,7 @@
       "title": "React Navigation · Technology"
     },
     "/technologies/rust/": {
+      "alt": "Rust · Technology — Santiago Molina",
       "description": "Projects and case studies where Rust shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4299,6 +4914,7 @@
       "title": "Rust · Technology"
     },
     "/technologies/sarif/": {
+      "alt": "SARIF · Technology — Santiago Molina",
       "description": "Projects and case studies where SARIF shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4314,6 +4930,7 @@
       "title": "SARIF · Technology"
     },
     "/technologies/prettier/": {
+      "alt": "Prettier · Technology — Santiago Molina",
       "description": "Projects and case studies where Prettier shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4329,6 +4946,7 @@
       "title": "Prettier · Technology"
     },
     "/technologies/clippy/": {
+      "alt": "Clippy · Technology — Santiago Molina",
       "description": "Projects and case studies where Clippy shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4344,6 +4962,7 @@
       "title": "Clippy · Technology"
     },
     "/technologies/swiftlint/": {
+      "alt": "SwiftLint · Technology — Santiago Molina",
       "description": "Projects and case studies where SwiftLint shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4359,6 +4978,7 @@
       "title": "SwiftLint · Technology"
     },
     "/technologies/swiftformat/": {
+      "alt": "SwiftFormat · Technology — Santiago Molina",
       "description": "Projects and case studies where SwiftFormat shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4374,6 +4994,7 @@
       "title": "SwiftFormat · Technology"
     },
     "/technologies/android-lint/": {
+      "alt": "Android Lint · Technology — Santiago Molina",
       "description": "Projects and case studies where Android Lint shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4389,6 +5010,7 @@
       "title": "Android Lint · Technology"
     },
     "/technologies/detekt/": {
+      "alt": "detekt · Technology — Santiago Molina",
       "description": "Projects and case studies where detekt shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4404,6 +5026,7 @@
       "title": "detekt · Technology"
     },
     "/technologies/ktlint/": {
+      "alt": "ktlint · Technology — Santiago Molina",
       "description": "Projects and case studies where ktlint shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4419,6 +5042,7 @@
       "title": "ktlint · Technology"
     },
     "/technologies/cspell/": {
+      "alt": "CSpell · Technology — Santiago Molina",
       "description": "Projects and case studies where CSpell shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4434,6 +5058,7 @@
       "title": "CSpell · Technology"
     },
     "/technologies/knip/": {
+      "alt": "Knip · Technology — Santiago Molina",
       "description": "Projects and case studies where Knip shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4449,6 +5074,7 @@
       "title": "Knip · Technology"
     },
     "/technologies/actionlint/": {
+      "alt": "Actionlint · Technology — Santiago Molina",
       "description": "Projects and case studies where Actionlint shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4464,6 +5090,7 @@
       "title": "Actionlint · Technology"
     },
     "/technologies/community-building/": {
+      "alt": "Community Building · Technology — Santiago Molina",
       "description": "Projects and case studies where Community Building shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4479,6 +5106,7 @@
       "title": "Community Building · Technology"
     },
     "/technologies/public-speaking/": {
+      "alt": "Public Speaking · Technology — Santiago Molina",
       "description": "Projects and case studies where Public Speaking shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4494,6 +5122,7 @@
       "title": "Public Speaking · Technology"
     },
     "/technologies/workshops/": {
+      "alt": "Workshops · Technology — Santiago Molina",
       "description": "Projects and case studies where Workshops shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4509,6 +5138,7 @@
       "title": "Workshops · Technology"
     },
     "/technologies/mentorship/": {
+      "alt": "Mentorship · Technology — Santiago Molina",
       "description": "Projects and case studies where Mentorship shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4524,6 +5154,7 @@
       "title": "Mentorship · Technology"
     },
     "/technologies/event-organization/": {
+      "alt": "Event Organization · Technology — Santiago Molina",
       "description": "Projects and case studies where Event Organization shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4539,6 +5170,7 @@
       "title": "Event Organization · Technology"
     },
     "/technologies/visual-studio-code/": {
+      "alt": "Visual Studio Code · Technology — Santiago Molina",
       "description": "Projects and case studies where Visual Studio Code shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4554,6 +5186,7 @@
       "title": "Visual Studio Code · Technology"
     },
     "/technologies/cursor/": {
+      "alt": "Cursor · Technology — Santiago Molina",
       "description": "Projects and case studies where Cursor shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4569,6 +5202,7 @@
       "title": "Cursor · Technology"
     },
     "/technologies/windsurf/": {
+      "alt": "Windsurf · Technology — Santiago Molina",
       "description": "Projects and case studies where Windsurf shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4584,6 +5218,7 @@
       "title": "Windsurf · Technology"
     },
     "/technologies/vscodium/": {
+      "alt": "VSCodium · Technology — Santiago Molina",
       "description": "Projects and case studies where VSCodium shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4599,6 +5234,7 @@
       "title": "VSCodium · Technology"
     },
     "/technologies/chrome-extension/": {
+      "alt": "Chrome Extension · Technology — Santiago Molina",
       "description": "Projects and case studies where Chrome Extension shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4614,6 +5250,7 @@
       "title": "Chrome Extension · Technology"
     },
     "/technologies/chrome-web-store/": {
+      "alt": "Chrome Web Store · Technology — Santiago Molina",
       "description": "Projects and case studies where Chrome Web Store shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4629,6 +5266,7 @@
       "title": "Chrome Web Store · Technology"
     },
     "/technologies/shiki/": {
+      "alt": "Shiki · Technology — Santiago Molina",
       "description": "Projects and case studies where Shiki shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4644,6 +5282,7 @@
       "title": "Shiki · Technology"
     },
     "/technologies/iterm2/": {
+      "alt": "iTerm2 · Technology — Santiago Molina",
       "description": "Projects and case studies where iTerm2 shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4659,6 +5298,7 @@
       "title": "iTerm2 · Technology"
     },
     "/technologies/ghostty/": {
+      "alt": "Ghostty · Technology — Santiago Molina",
       "description": "Projects and case studies where Ghostty shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4674,6 +5314,7 @@
       "title": "Ghostty · Technology"
     },
     "/technologies/kitty/": {
+      "alt": "Kitty · Technology — Santiago Molina",
       "description": "Projects and case studies where Kitty shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4689,6 +5330,7 @@
       "title": "Kitty · Technology"
     },
     "/technologies/wezterm/": {
+      "alt": "WezTerm · Technology — Santiago Molina",
       "description": "Projects and case studies where WezTerm shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4704,6 +5346,7 @@
       "title": "WezTerm · Technology"
     },
     "/technologies/windows-terminal/": {
+      "alt": "Windows Terminal · Technology — Santiago Molina",
       "description": "Projects and case studies where Windows Terminal shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4719,6 +5362,7 @@
       "title": "Windows Terminal · Technology"
     },
     "/technologies/alacritty/": {
+      "alt": "Alacritty · Technology — Santiago Molina",
       "description": "Projects and case studies where Alacritty shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4734,6 +5378,7 @@
       "title": "Alacritty · Technology"
     },
     "/technologies/starship/": {
+      "alt": "Starship · Technology — Santiago Molina",
       "description": "Projects and case studies where Starship shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4749,6 +5394,7 @@
       "title": "Starship · Technology"
     },
     "/technologies/zsh/": {
+      "alt": "Zsh · Technology — Santiago Molina",
       "description": "Projects and case studies where Zsh shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4764,6 +5410,7 @@
       "title": "Zsh · Technology"
     },
     "/technologies/bash/": {
+      "alt": "Bash · Technology — Santiago Molina",
       "description": "Projects and case studies where Bash shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4779,6 +5426,7 @@
       "title": "Bash · Technology"
     },
     "/technologies/fish/": {
+      "alt": "Fish · Technology — Santiago Molina",
       "description": "Projects and case studies where Fish shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4794,6 +5442,7 @@
       "title": "Fish · Technology"
     },
     "/technologies/radix-ui/": {
+      "alt": "Radix UI · Technology — Santiago Molina",
       "description": "Projects and case studies where Radix UI shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4809,6 +5458,7 @@
       "title": "Radix UI · Technology"
     },
     "/technologies/lucide-react/": {
+      "alt": "Lucide React · Technology — Santiago Molina",
       "description": "Projects and case studies where Lucide React shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4824,6 +5474,7 @@
       "title": "Lucide React · Technology"
     },
     "/technologies/tailwindcss-animate/": {
+      "alt": "tailwindcss-animate · Technology — Santiago Molina",
       "description": "Projects and case studies where tailwindcss-animate shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4839,6 +5490,7 @@
       "title": "tailwindcss-animate · Technology"
     },
     "/technologies/zustand/": {
+      "alt": "Zustand · Technology — Santiago Molina",
       "description": "Projects and case studies where Zustand shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4854,6 +5506,7 @@
       "title": "Zustand · Technology"
     },
     "/technologies/apollo-client/": {
+      "alt": "Apollo Client · Technology — Santiago Molina",
       "description": "Projects and case studies where Apollo Client shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4869,6 +5522,7 @@
       "title": "Apollo Client · Technology"
     },
     "/technologies/openapi/": {
+      "alt": "OpenAPI · Technology — Santiago Molina",
       "description": "Projects and case studies where OpenAPI shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4884,6 +5538,7 @@
       "title": "OpenAPI · Technology"
     },
     "/technologies/husky/": {
+      "alt": "Husky · Technology — Santiago Molina",
       "description": "Projects and case studies where Husky shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4899,6 +5554,7 @@
       "title": "Husky · Technology"
     },
     "/technologies/auth0/": {
+      "alt": "Auth0 · Technology — Santiago Molina",
       "description": "Projects and case studies where Auth0 shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4914,6 +5570,7 @@
       "title": "Auth0 · Technology"
     },
     "/technologies/builder-io/": {
+      "alt": "Builder.io · Technology — Santiago Molina",
       "description": "Projects and case studies where Builder.io shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4929,6 +5586,7 @@
       "title": "Builder.io · Technology"
     },
     "/technologies/headless-commerce/": {
+      "alt": "Headless Commerce · Technology — Santiago Molina",
       "description": "Projects and case studies where Headless Commerce shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4944,6 +5602,7 @@
       "title": "Headless Commerce · Technology"
     },
     "/technologies/ui-design/": {
+      "alt": "UI Design · Technology — Santiago Molina",
       "description": "Projects and case studies where UI Design shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4959,6 +5618,7 @@
       "title": "UI Design · Technology"
     },
     "/technologies/brand-design/": {
+      "alt": "Brand Design · Technology — Santiago Molina",
       "description": "Projects and case studies where Brand Design shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4974,6 +5634,7 @@
       "title": "Brand Design · Technology"
     },
     "/technologies/marketing-collaboration/": {
+      "alt": "Marketing Collaboration · Technology — Santiago Molina",
       "description": "Projects and case studies where Marketing Collaboration shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -4989,6 +5650,7 @@
       "title": "Marketing Collaboration · Technology"
     },
     "/technologies/content-strategy/": {
+      "alt": "Content Strategy · Technology — Santiago Molina",
       "description": "Projects and case studies where Content Strategy shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5004,6 +5666,7 @@
       "title": "Content Strategy · Technology"
     },
     "/technologies/event-operations/": {
+      "alt": "Event Operations · Technology — Santiago Molina",
       "description": "Projects and case studies where Event Operations shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5019,6 +5682,7 @@
       "title": "Event Operations · Technology"
     },
     "/technologies/nestjs/": {
+      "alt": "NestJS · Technology — Santiago Molina",
       "description": "Projects and case studies where NestJS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5034,6 +5698,7 @@
       "title": "NestJS · Technology"
     },
     "/technologies/software-architecture/": {
+      "alt": "Software Architecture · Technology — Santiago Molina",
       "description": "Projects and case studies where Software Architecture shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5049,6 +5714,7 @@
       "title": "Software Architecture · Technology"
     },
     "/technologies/system-design/": {
+      "alt": "System Design · Technology — Santiago Molina",
       "description": "Projects and case studies where System Design shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5064,6 +5730,7 @@
       "title": "System Design · Technology"
     },
     "/technologies/microservices/": {
+      "alt": "Microservices · Technology — Santiago Molina",
       "description": "Projects and case studies where Microservices shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5079,6 +5746,7 @@
       "title": "Microservices · Technology"
     },
     "/technologies/css-modules/": {
+      "alt": "CSS Modules · Technology — Santiago Molina",
       "description": "Projects and case studies where CSS Modules shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5094,6 +5762,7 @@
       "title": "CSS Modules · Technology"
     },
     "/technologies/docker-compose/": {
+      "alt": "Docker Compose · Technology — Santiago Molina",
       "description": "Projects and case studies where Docker Compose shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5109,6 +5778,7 @@
       "title": "Docker Compose · Technology"
     },
     "/technologies/vercel/": {
+      "alt": "Vercel · Technology — Santiago Molina",
       "description": "Projects and case studies where Vercel shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5124,6 +5794,7 @@
       "title": "Vercel · Technology"
     },
     "/technologies/nx/": {
+      "alt": "NX · Technology — Santiago Molina",
       "description": "Projects and case studies where NX shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5139,6 +5810,7 @@
       "title": "NX · Technology"
     },
     "/technologies/micro-frontend/": {
+      "alt": "Micro Frontend · Technology — Santiago Molina",
       "description": "Projects and case studies where Micro Frontend shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5154,6 +5826,7 @@
       "title": "Micro Frontend · Technology"
     },
     "/technologies/mantine-ui/": {
+      "alt": "Mantine UI · Technology — Santiago Molina",
       "description": "Projects and case studies where Mantine UI shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5169,6 +5842,7 @@
       "title": "Mantine UI · Technology"
     },
     "/technologies/pwa/": {
+      "alt": "PWA · Technology — Santiago Molina",
       "description": "Projects and case studies where PWA shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5184,6 +5858,7 @@
       "title": "PWA · Technology"
     },
     "/technologies/scss/": {
+      "alt": "SCSS · Technology — Santiago Molina",
       "description": "Projects and case studies where SCSS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5199,6 +5874,7 @@
       "title": "SCSS · Technology"
     },
     "/technologies/sanity-cms/": {
+      "alt": "Sanity CMS · Technology — Santiago Molina",
       "description": "Projects and case studies where Sanity CMS shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5214,6 +5890,7 @@
       "title": "Sanity CMS · Technology"
     },
     "/technologies/sanity-studio/": {
+      "alt": "Sanity Studio · Technology — Santiago Molina",
       "description": "Projects and case studies where Sanity Studio shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5229,6 +5906,7 @@
       "title": "Sanity Studio · Technology"
     },
     "/technologies/portable-text/": {
+      "alt": "Portable Text · Technology — Santiago Molina",
       "description": "Projects and case studies where Portable Text shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5244,6 +5922,7 @@
       "title": "Portable Text · Technology"
     },
     "/technologies/firebase/": {
+      "alt": "Firebase · Technology — Santiago Molina",
       "description": "Projects and case studies where Firebase shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5259,6 +5938,7 @@
       "title": "Firebase · Technology"
     },
     "/technologies/google-ad-manager/": {
+      "alt": "Google Ad Manager · Technology — Santiago Molina",
       "description": "Projects and case studies where Google Ad Manager shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5274,6 +5954,7 @@
       "title": "Google Ad Manager · Technology"
     },
     "/technologies/google-tag-manager/": {
+      "alt": "Google Tag Manager · Technology — Santiago Molina",
       "description": "Projects and case studies where Google Tag Manager shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5289,6 +5970,7 @@
       "title": "Google Tag Manager · Technology"
     },
     "/technologies/embla-carousel/": {
+      "alt": "Embla Carousel · Technology — Santiago Molina",
       "description": "Projects and case studies where Embla Carousel shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5304,6 +5986,7 @@
       "title": "Embla Carousel · Technology"
     },
     "/technologies/stylelint/": {
+      "alt": "Stylelint · Technology — Santiago Molina",
       "description": "Projects and case studies where Stylelint shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5319,6 +6002,7 @@
       "title": "Stylelint · Technology"
     },
     "/technologies/rest-apis/": {
+      "alt": "REST APIs · Technology — Santiago Molina",
       "description": "Projects and case studies where REST APIs shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {
@@ -5334,6 +6018,7 @@
       "title": "REST APIs · Technology"
     },
     "/technologies/geo-location-apis/": {
+      "alt": "Geo-location APIs · Technology — Santiago Molina",
       "description": "Projects and case studies where Geo-location APIs shaped the architecture, delivery workflow, or product experience.",
       "images": [
         {

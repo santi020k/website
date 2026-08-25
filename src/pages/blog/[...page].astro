@@ -8,12 +8,12 @@ import Pill from '@/components/atoms/Pill.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
-import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
+import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -46,8 +46,8 @@ const isFirstPage = page.currentPage === 1
 const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const santi020kWaySeries = isFirstPage ? (activeSeries.find(s => s.series.id === 'the-santi020k-way') ?? null) : null
 const topTags = allTagsData.slice(0, 8)
-const featuredPost = page.data[0] ?? null
-const gridPosts = page.data.slice(1)
+const featuredPost = isFirstPage ? (page.data[0] ?? null) : null
+const galleryPosts = isFirstPage ? page.data.slice(1) : page.data
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -111,27 +111,34 @@ const blogListSchema = {
     )}
   </PageHero>
 
-  <PageSection>
+  <section
+    aria-label={isFirstPage ? 'Latest blog posts' : `Blog posts, page ${page.currentPage}`}
+    class="
+      section-container-wide pt-20
+      sm:pt-24
+      lg:pt-28
+    "
+  >
     <SectionHeader
       description="Latest post first, then browse by topic and depth."
       eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
       title="Recent writing with a practical bias."
     />
 
-    <div class="space-y-6">
-      {featuredPost && <PostCard featured post={featuredPost} />}
+    <div class="
+      mt-10 space-y-8
+      sm:mt-12
+    "
+    >
+      <TagFilter scrollOnMobile tags={topTags} />
 
-      <TagFilter showDivider={!!featuredPost} tags={topTags} />
+      <PostsGallery featuredPost={featuredPost} posts={galleryPosts} />
 
-      <div class="post-grid" data-stagger="60">
-        {gridPosts.map(post => (
-          <PostCard post={post} />
-        ))}
+      <div class="pt-2">
+        <Pagination page={page} />
       </div>
-
-      <Pagination page={page} />
     </div>
-  </PageSection>
+  </section>
 
   {isFirstPage && (
     <StatsGrid>

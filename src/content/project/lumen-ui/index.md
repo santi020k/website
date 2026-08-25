@@ -1,6 +1,10 @@
 ---
 title: "Lumen UI"
 description: "Built a multi-framework design system with 123 accessible primitives for Astro, React, and Web Components, plus Figma, agent, MCP, and registry workflows."
+brand:
+  primary: "#f49e0e"
+  secondary: "#4b5563"
+  surface: "#111827"
 role: "Creator"
 startingDate: "3 Jul 2026"
 githubUrl: "https://github.com/santi020k/lumen"
@@ -15,7 +19,7 @@ coverImage:
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
-  logoSurface: "light"
+  logoSurface: "dark"
   alt: "Translucent interface primitives connected across three luminous framework lanes"
   ogImage: "./cover.webp"
 ---

@@ -1,6 +1,10 @@
 ---
 title: "Void.GG"
 description: "Led architecture and delivery for a fast-moving esports platform across web, mobile, and backend systems, improving performance, release speed, and team velocity."
+brand:
+  primary: "#f59e0b"
+  secondary: "#f8fafc"
+  surface: "#111118"
 seoTitle: "Void.GG: Esports Platform Engineering"
 seoDescription: "See how I led architecture and delivery for Void.GG across web, mobile, and backend systems while improving performance, release speed, and team flow."
 role: "Technical Lead"
@@ -19,6 +23,7 @@ technologies: [
   ]
 coverImage:
   src: "./cover.webp"
+  background: "./cover-background.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"

@@ -4,7 +4,7 @@ description: "Structure React projects using Atomic Module Components — coveri
 publishDate: "2024-03-07T22:05:53.000Z"
 tags: ["development", "react", "nextjs", "typescript"]
 coverImage:
-  alt: "atomic module component structure for react"
+  alt: "Interface primitives connecting into nested React component modules and application layers"
   src: "./cover.webp"
 postType: "Guide"
 seriesId: "building-a-production-nextjs-app"

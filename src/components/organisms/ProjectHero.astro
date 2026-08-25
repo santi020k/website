@@ -94,24 +94,23 @@ const metaItems = [
       "
       >
         {plainWords && <span>{plainWords} </span>}
-        <span class="
-          relative bg-linear-to-r from-brand via-accent to-brand bg-clip-text
-          text-transparent
-        "
+        <span
+          class="relative bg-clip-text text-transparent"
+          data-project-title-gradient
         >
           {gradientWord}
-          <span class="
-            absolute inset-0 -z-10 bg-linear-to-r from-brand via-accent to-brand
-            bg-clip-text text-transparent opacity-50 blur-sm
-          "
+          <span
+class="absolute inset-0 -z-10 bg-clip-text text-transparent opacity-50 blur-sm"
+          data-project-title-gradient
           >
           </span>
         </span>
       </h1>
-      <div class="
-        absolute -inset-x-4 -inset-y-2 -z-10 rounded-3xl bg-linear-to-br
-        from-brand/5 to-transparent blur-3xl
-      "
+      <div
+class="
+  absolute -inset-x-4 -inset-y-2 -z-10 rounded-3xl bg-linear-to-br blur-3xl
+"
+        data-project-title-glow
       >
       </div>
     </div>
@@ -142,9 +141,9 @@ const metaItems = [
           class="
             relative rounded-2xl border border-line/30 bg-surface/50 p-6
             backdrop-blur-sm transition-all duration-300
-            hover:-translate-y-1 hover:border-brand/40 hover:bg-brand-soft/10
-            hover:shadow-lg hover:shadow-brand/5
+            hover:-translate-y-1
           "
+          data-project-meta
           style={`animation-delay: ${160 + (index * 40)}ms`}
         >
           <dl class="space-y-2">
@@ -167,10 +166,10 @@ const metaItems = [
           </dl>
           <div
             class="
-              absolute inset-0 bg-linear-to-br from-brand/5 to-transparent
-              opacity-0 transition-opacity duration-300
+              absolute inset-0 opacity-0 transition-opacity duration-300
               hover:opacity-100
             "
+            data-project-meta-glow
             aria-hidden="true"
           >
           </div>
@@ -229,3 +228,44 @@ const metaItems = [
   {/* ── Technologies strip ───────────────────────────────────── */}
   <ProjectHeroStack technologies={project.data.technologies} />
 </section>
+
+<style>
+  [data-project-title-gradient] {
+    background-image: linear-gradient(
+      to right,
+      hsl(var(--project-primary-readable)),
+      hsl(var(--project-secondary)),
+      hsl(var(--project-primary-readable))
+    );
+  }
+
+  [data-project-title-glow],
+  [data-project-meta-glow] {
+    background-image: linear-gradient(
+      to bottom right,
+      hsl(var(--project-primary) / 0.08),
+      transparent
+    );
+  }
+
+  [data-project-meta]:hover {
+    border-color: hsl(var(--project-primary) / 0.4);
+    background: hsl(var(--project-primary) / 0.04);
+    box-shadow: 0 10px 28px hsl(var(--project-primary) / 0.08);
+  }
+
+  :global(:root[data-theme='dark']) [data-project-title-gradient] {
+    background-image: linear-gradient(
+      to right,
+      hsl(var(--project-primary-readable-dark)),
+      hsl(var(--project-secondary)),
+      hsl(var(--project-primary-readable-dark))
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-project-meta] {
+      transition: none;
+    }
+  }
+</style>

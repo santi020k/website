@@ -31,6 +31,21 @@ test.describe('Portfolio page', () => {
     await expect(page.getByRole('heading', { level: 1, name: /Capabilities and technologies/i })).toBeVisible()
   })
 
+  test('work timeline should render project artwork', async ({ page }) => {
+    await page.goto('/work/')
+
+    const timelineItems = page.locator('[data-career-timeline] [data-timeline-artwork]')
+    const timelineImages = timelineItems.locator('img')
+    const timelineCardCount = await page.locator('[data-career-timeline] [data-timeline-card]').count()
+
+    expect(timelineCardCount).toBeGreaterThan(0)
+    await expect(timelineItems).toHaveCount(timelineCardCount)
+    await expect(timelineImages).toHaveCount(timelineCardCount)
+    await expect(timelineImages.first()).toBeVisible()
+    await expect(timelineImages.first()).toHaveAttribute('alt', '')
+    await expect(timelineImages.first()).toHaveAttribute('src', /cover-horizontal/)
+  })
+
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/portfolio/')
     await expect(page.locator('body')).toBeVisible()

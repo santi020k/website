@@ -13,7 +13,8 @@ const FONT_PATH = path.join(ROOT, 'public', 'fonts', 'Montserrat-Bold.ttf')
 export const IMAGE_VARIANTS = [
   { fileName: 'cover.webp', height: 1000, kind: 'thumbnail', width: 1600 },
   { fileName: 'cover-horizontal.webp', height: 1350, kind: 'hero', width: 2400 },
-  { fileName: 'cover-vertical.webp', height: 1600, kind: 'portrait', width: 1200 }
+  { fileName: 'cover-vertical.webp', height: 1600, kind: 'portrait', width: 1200 },
+  { fileName: 'cover-background.webp', height: 1350, kind: 'background', width: 2400 }
 ]
 
 const FALLBACK_ACCENTS = [
@@ -26,6 +27,11 @@ const FALLBACK_ACCENTS = [
   '#14b8a6',
   '#f59e0b'
 ]
+
+const DEFAULT_BRAND = {
+  secondary: '#b78cff',
+  surface: '#10091c'
+}
 
 const escapeXml = value => value
   .replaceAll('&', '&amp;')
@@ -54,6 +60,35 @@ const rgbToHex = ({ blue, green, red }) => `#${[red, green, blue]
   .map(channel => channel.toString(16).padStart(2, '0'))
   .join('')}`
 
+const hexToRgb = hex => {
+  const match = /^#([\da-f]{2})([\da-f]{2})([\da-f]{2})$/iu.exec(hex)
+
+  if (!match) throw new TypeError(`Invalid accent color: ${hex}`)
+
+  return {
+    blue: Number.parseInt(match[3], 16),
+    green: Number.parseInt(match[2], 16),
+    red: Number.parseInt(match[1], 16)
+  }
+}
+
+const getRelativeLuminance = color => {
+  const channels = [color.red, color.green, color.blue].map(channel => {
+    const normalized = channel / 255
+
+    return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4
+  })
+
+  return (0.2126 * channels[0]) + (0.7152 * channels[1]) + (0.0722 * channels[2])
+}
+
+const getContrastRatio = (first, second) => {
+  const lighter = Math.max(getRelativeLuminance(first), getRelativeLuminance(second))
+  const darker = Math.min(getRelativeLuminance(first), getRelativeLuminance(second))
+
+  return (lighter + 0.05) / (darker + 0.05)
+}
+
 const rgbToHsl = ({ blue, green, red }) => {
   const r = red / 255
   const g = green / 255
@@ -63,11 +98,63 @@ const rgbToHsl = ({ blue, green, red }) => {
   const lightness = (max + min) / 2
   const delta = max - min
 
-  if (delta === 0) return { lightness, saturation: 0 }
+  if (delta === 0) return { hue: 0, lightness, saturation: 0 }
 
   const saturation = delta / (1 - Math.abs((2 * lightness) - 1))
+  let hue
 
-  return { lightness, saturation }
+  if (max === r) hue = ((g - b) / delta) % 6
+  else if (max === g) hue = ((b - r) / delta) + 2
+  else hue = ((r - g) / delta) + 4
+
+  hue = ((hue * 60) + 360) % 360
+
+  return { hue, lightness, saturation }
+}
+
+const hslToRgb = ({ hue, lightness, saturation }) => {
+  const chroma = (1 - Math.abs((2 * lightness) - 1)) * saturation
+  const hueSegment = hue / 60
+  const secondary = chroma * (1 - Math.abs((hueSegment % 2) - 1))
+
+  const channels = [
+    [chroma, secondary, 0],
+    [secondary, chroma, 0],
+    [0, chroma, secondary],
+    [0, secondary, chroma],
+    [secondary, 0, chroma],
+    [chroma, 0, secondary]
+  ][Math.floor(hueSegment) % 6] ?? [0, 0, 0]
+
+  const match = lightness - (chroma / 2)
+
+  return {
+    blue: Math.round((channels[2] + match) * 255),
+    green: Math.round((channels[1] + match) * 255),
+    red: Math.round((channels[0] + match) * 255)
+  }
+}
+
+export const getReadableAccent = (accent, backgroundColor = '#10091c') => {
+  const color = hexToRgb(accent)
+  const background = hexToRgb(backgroundColor)
+
+  if (getContrastRatio(color, background) >= 4.5) return accent.toLowerCase()
+
+  const { hue, lightness, saturation } = rgbToHsl(color)
+  const readableSaturation = Math.max(saturation, 0.52)
+
+  for (let readableLightness = lightness; readableLightness <= 0.9; readableLightness += 0.02) {
+    const mixed = hslToRgb({
+      hue,
+      lightness: readableLightness,
+      saturation: readableSaturation
+    })
+
+    if (getContrastRatio(mixed, background) >= 4.5) return rgbToHex(mixed)
+  }
+
+  return '#fbf8ff'
 }
 
 export const selectAccentFromPixels = (pixels, fallback) => {
@@ -143,6 +230,25 @@ const getStringArray = (record, key) => {
   return value.filter(item => typeof item === 'string')
 }
 
+const getBrandPalette = async (frontmatter, logoPath, slug) => {
+  const configuredBrand = frontmatter.brand
+  const extractedPrimary = await getLogoAccent(logoPath, getFallbackAccent(slug))
+
+  if (!isRecord(configuredBrand)) {
+    return {
+      primary: extractedPrimary,
+      secondary: DEFAULT_BRAND.secondary,
+      surface: DEFAULT_BRAND.surface
+    }
+  }
+
+  return {
+    primary: getString(configuredBrand, 'primary') ?? extractedPrimary,
+    secondary: getString(configuredBrand, 'secondary') ?? DEFAULT_BRAND.secondary,
+    surface: getString(configuredBrand, 'surface') ?? DEFAULT_BRAND.surface
+  }
+}
+
 const resolveLogoPath = (projectDirectory, coverImage) => {
   const configuredLogo = getString(coverImage, 'logo')
 
@@ -175,8 +281,12 @@ export const discoverProjects = async (projectsRoot = PROJECTS_ROOT) => {
 
     await fs.access(logoPath)
 
+    const brand = await getBrandPalette(frontmatter, logoPath, slug)
+
     return {
-      accent: await getLogoAccent(logoPath, getFallbackAccent(slug)),
+      accent: brand.primary,
+      background: getString(coverImage, 'background'),
+      brand,
       description,
       directory,
       logoAspect: getString(coverImage, 'logoAspect') ?? 'square',
@@ -192,7 +302,11 @@ export const discoverProjects = async (projectsRoot = PROJECTS_ROOT) => {
 }
 
 export const splitTitle = (title, portrait) => {
-  const limit = portrait ? 14 : title.includes(' ') ? 18 : 20
+  let limit = 20
+
+  if (portrait) limit = 14
+  else if (title.includes(' ')) limit = 18
+
   const words = title.split(/(?=[./@-])|\s+/u).filter(Boolean)
   const lines = []
   let current = ''
@@ -244,7 +358,7 @@ const getLogoBox = (project, variant) => {
   return { ...box, padding: Math.round(Math.min(box.width, box.height) * paddingRatio) }
 }
 
-const getLogoSurface = project => project.logoSurface === 'light' ? '#f8f5ff' : '#0d0815'
+const getLogoSurface = project => project.logoSurface === 'light' ? '#f8f5ff' : project.brand.surface
 
 const buildTechnologyMarkup = (technologies, x, y, fontSize, accent) => technologies
   .map((technology, index) => {
@@ -256,7 +370,7 @@ const buildTechnologyMarkup = (technologies, x, y, fontSize, accent) => technolo
 
     return `
       <g transform="translate(${x + offset} ${y})">
-        <rect width="${width}" height="${fontSize * 1.9}" rx="${fontSize}" fill="#fbf8ff" fill-opacity="0.12" stroke="${accent}" stroke-opacity="0.62" />
+        <rect width="${width}" height="${fontSize * 1.9}" rx="${fontSize}" fill="${accent}" fill-opacity="0.26" stroke="${accent}" stroke-opacity="0.72" />
         <text x="${width / 2}" y="${fontSize * 1.28}" text-anchor="middle" class="chip">${escapeXml(technology)}</text>
       </g>
     `
@@ -265,6 +379,8 @@ const buildTechnologyMarkup = (technologies, x, y, fontSize, accent) => technolo
 
 const buildThumbnailSvg = (project, variant, logoBox) => {
   const scale = variant.width / 1600
+  const readableAccent = getReadableAccent(project.brand.primary, project.brand.surface)
+  const readableFooterAccent = getReadableAccent(project.brand.primary, project.brand.surface)
   const titleX = Math.round(112 * scale)
   const titleY = Math.round(470 * scale)
   const titleSize = Math.round(92 * scale)
@@ -287,50 +403,50 @@ const buildThumbnailSvg = (project, variant, logoBox) => {
         <style>
           @font-face { font-family: 'Project Montserrat'; src: url('${fontUrl}'); font-weight: 700; }
           text { font-family: 'Project Montserrat', Montserrat, Arial, sans-serif; }
-          .eyebrow { fill: ${project.accent}; font-size: ${Math.round(25 * scale)}px; font-weight: 700; letter-spacing: 0.17em; }
+          .eyebrow { fill: ${project.brand.primary}; font-size: ${Math.round(25 * scale)}px; font-weight: 700; letter-spacing: 0.17em; }
           .title { fill: #fbf8ff; font-size: ${titleSize}px; font-weight: 700; letter-spacing: -0.045em; }
           .role { fill: #c9bfd8; font-size: ${Math.round(30 * scale)}px; font-weight: 700; }
           .chip { fill: #ece5f7; font-size: ${chipSize}px; font-weight: 700; }
-          .project-label { fill: #d8c8f2; fill-opacity: 0.92; }
-          .footer-label { fill: #fbf8ff; fill-opacity: 0.88; }
+          .project-label { fill: ${readableAccent}; }
+          .footer-label { fill: ${readableFooterAccent}; paint-order: stroke; stroke: ${project.brand.surface}; stroke-opacity: 0.72; stroke-width: 2px; }
         </style>
         <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
           <path d="M64 0H0V64" fill="none" stroke="#bca9d9" stroke-opacity="0.065" stroke-width="1" />
         </pattern>
         <radialGradient id="accent-glow" cx="72%" cy="28%" r="62%">
-          <stop offset="0" stop-color="${project.accent}" stop-opacity="0.33" />
-          <stop offset="1" stop-color="${project.accent}" stop-opacity="0" />
+          <stop offset="0" stop-color="${project.brand.primary}" stop-opacity="0.33" />
+          <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0" />
         </radialGradient>
         <radialGradient id="brand-glow" cx="12%" cy="88%" r="72%">
-          <stop offset="0" stop-color="#8747ff" stop-opacity="0.30" />
-          <stop offset="1" stop-color="#8747ff" stop-opacity="0" />
+          <stop offset="0" stop-color="${project.brand.secondary}" stop-opacity="0.30" />
+          <stop offset="1" stop-color="${project.brand.secondary}" stop-opacity="0" />
         </radialGradient>
         <linearGradient id="beam" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stop-color="#8747ff" stop-opacity="0.42" />
-          <stop offset="1" stop-color="${project.accent}" stop-opacity="0.06" />
+          <stop offset="0" stop-color="${project.brand.secondary}" stop-opacity="0.42" />
+          <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0.06" />
         </linearGradient>
         <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
           <feDropShadow dx="0" dy="24" stdDeviation="32" flood-color="#050208" flood-opacity="0.46" />
         </filter>
       </defs>
 
-      <rect width="100%" height="100%" fill="#10091c" />
+      <rect width="100%" height="100%" fill="${project.brand.surface}" />
       <rect width="100%" height="100%" fill="url(#grid)" />
       <rect width="100%" height="100%" fill="url(#accent-glow)" />
       <rect width="100%" height="100%" fill="url(#brand-glow)" />
       <path d="M0 ${variant.height * 0.84} C ${variant.width * 0.24} ${variant.height * 0.66}, ${variant.width * 0.54} ${variant.height * 1.02}, ${variant.width} ${variant.height * 0.68} V ${variant.height} H0Z" fill="url(#beam)" />
-      <circle cx="${variant.width * 0.88}" cy="${variant.height * 0.13}" r="${variant.width * 0.18}" fill="none" stroke="${project.accent}" stroke-opacity="0.17" stroke-width="2" />
+      <circle cx="${variant.width * 0.88}" cy="${variant.height * 0.13}" r="${variant.width * 0.18}" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.17" stroke-width="2" />
       <circle cx="${variant.width * 0.88}" cy="${variant.height * 0.13}" r="${variant.width * 0.12}" fill="none" stroke="#f5efff" stroke-opacity="0.08" stroke-width="2" />
 
       <g filter="url(#shadow)">
         <rect x="${logoBox.left}" y="${logoBox.top}" width="${logoBox.width}" height="${logoBox.height}" rx="${Math.round(42 * scale)}" fill="${getLogoSurface(project)}" fill-opacity="0.88" stroke="#ffffff" stroke-opacity="0.15" stroke-width="2" />
-        <rect x="${logoBox.left + 2}" y="${logoBox.top + 2}" width="${logoBox.width - 4}" height="${logoBox.height - 4}" rx="${Math.round(40 * scale)}" fill="none" stroke="${project.accent}" stroke-opacity="0.13" stroke-width="2" />
+        <rect x="${logoBox.left + 2}" y="${logoBox.top + 2}" width="${logoBox.width - 4}" height="${logoBox.height - 4}" rx="${Math.round(40 * scale)}" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.13" stroke-width="2" />
       </g>
 
       <text x="${titleX}" y="${eyebrowY}" class="eyebrow project-label">${escapeXml(getTypeLabel(project.type).toUpperCase())}</text>
       ${titleMarkup}
       <text x="${titleX}" y="${roleY}" class="role">${escapeXml(project.role)}</text>
-      ${buildTechnologyMarkup(project.technologies, titleX, chipY, chipSize, project.accent)}
+      ${buildTechnologyMarkup(project.technologies, titleX, chipY, chipSize, readableAccent)}
       <text x="${variant.width - Math.round(86 * scale)}" y="${variant.height - Math.round(64 * scale)}" text-anchor="end" class="eyebrow footer-label">SANTI020K / PORTFOLIO</text>
     </svg>
   `
@@ -342,16 +458,16 @@ const buildSceneDefinitions = project => `
       <path d="M72 0H0V72" fill="none" stroke="#c9b8e5" stroke-opacity="0.055" stroke-width="1" />
     </pattern>
     <radialGradient id="accent-glow" cx="50%" cy="42%" r="62%">
-      <stop offset="0" stop-color="${project.accent}" stop-opacity="0.42" />
-      <stop offset="1" stop-color="${project.accent}" stop-opacity="0" />
+      <stop offset="0" stop-color="${project.brand.primary}" stop-opacity="0.42" />
+      <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0" />
     </radialGradient>
     <radialGradient id="brand-glow" cx="18%" cy="74%" r="78%">
-      <stop offset="0" stop-color="#8747ff" stop-opacity="0.34" />
-      <stop offset="1" stop-color="#8747ff" stop-opacity="0" />
+      <stop offset="0" stop-color="${project.brand.secondary}" stop-opacity="0.34" />
+      <stop offset="1" stop-color="${project.brand.secondary}" stop-opacity="0" />
     </radialGradient>
     <linearGradient id="horizon" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#8747ff" stop-opacity="0.34" />
-      <stop offset="1" stop-color="${project.accent}" stop-opacity="0.07" />
+      <stop offset="0" stop-color="${project.brand.secondary}" stop-opacity="0.34" />
+      <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0.07" />
     </linearGradient>
     <filter id="shadow" x="-35%" y="-35%" width="170%" height="190%">
       <feDropShadow dx="0" dy="34" stdDeviation="42" flood-color="#030106" flood-opacity="0.56" />
@@ -362,35 +478,39 @@ const buildSceneDefinitions = project => `
   </defs>
 `
 
-const buildHeroSvg = (project, variant, logoBox) => `
+const buildHeroSvg = (project, variant, logoBox, includeLogo = true) => `
   <svg width="${variant.width}" height="${variant.height}" viewBox="0 0 ${variant.width} ${variant.height}" xmlns="http://www.w3.org/2000/svg">
     ${buildSceneDefinitions(project)}
 
-    <rect width="100%" height="100%" fill="#10091c" />
+    <rect width="100%" height="100%" fill="${project.brand.surface}" />
     <rect width="100%" height="100%" fill="url(#grid)" />
     <rect width="100%" height="100%" fill="url(#accent-glow)" />
     <rect width="100%" height="100%" fill="url(#brand-glow)" />
 
-    <ellipse cx="1200" cy="515" rx="670" ry="420" fill="none" stroke="${project.accent}" stroke-opacity="0.18" stroke-width="3" />
+    <ellipse cx="1200" cy="515" rx="670" ry="420" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.18" stroke-width="3" />
     <ellipse cx="1200" cy="515" rx="840" ry="525" fill="none" stroke="#ffffff" stroke-opacity="0.055" stroke-width="2" />
-    <circle cx="1200" cy="515" r="390" fill="${project.accent}" fill-opacity="0.10" filter="url(#soft-glow)" />
+    <circle cx="1200" cy="515" r="390" fill="${project.brand.primary}" fill-opacity="0.10" filter="url(#soft-glow)" />
 
     <g opacity="0.72">
       <rect x="180" y="245" width="390" height="245" rx="34" fill="#ffffff" fill-opacity="0.035" stroke="#ffffff" stroke-opacity="0.10" stroke-width="2" />
-      <circle cx="232" cy="300" r="12" fill="${project.accent}" fill-opacity="0.80" />
+      <circle cx="232" cy="300" r="12" fill="${project.brand.primary}" fill-opacity="0.80" />
       <path d="M280 300H480M232 360H500M232 410H420" stroke="#ffffff" stroke-opacity="0.13" stroke-width="16" stroke-linecap="round" />
       <rect x="1850" y="330" width="370" height="210" rx="32" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.09" stroke-width="2" />
       <path d="M1910 395H2140M1910 455H2070" stroke="#ffffff" stroke-opacity="0.13" stroke-width="16" stroke-linecap="round" />
-      <circle cx="2145" cy="455" r="16" fill="${project.accent}" fill-opacity="0.68" />
+      <circle cx="2145" cy="455" r="16" fill="${project.brand.primary}" fill-opacity="0.68" />
     </g>
 
     <path d="M0 1005 C430 790 760 1135 1200 930 C1610 740 1920 970 2400 690 V1350H0Z" fill="url(#horizon)" />
     <path d="M0 1130 C520 935 790 1220 1240 1040 C1710 850 2040 1060 2400 860" fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="3" />
 
-    <g filter="url(#shadow)">
-      <rect x="${logoBox.left}" y="${logoBox.top}" width="${logoBox.width}" height="${logoBox.height}" rx="72" fill="${getLogoSurface(project)}" fill-opacity="0.90" stroke="#ffffff" stroke-opacity="0.17" stroke-width="3" />
-      <rect x="${logoBox.left + 3}" y="${logoBox.top + 3}" width="${logoBox.width - 6}" height="${logoBox.height - 6}" rx="69" fill="none" stroke="${project.accent}" stroke-opacity="0.18" stroke-width="3" />
-    </g>
+    ${includeLogo ?
+      `
+      <g filter="url(#shadow)">
+        <rect x="${logoBox.left}" y="${logoBox.top}" width="${logoBox.width}" height="${logoBox.height}" rx="72" fill="${getLogoSurface(project)}" fill-opacity="0.90" stroke="#ffffff" stroke-opacity="0.17" stroke-width="3" />
+        <rect x="${logoBox.left + 3}" y="${logoBox.top + 3}" width="${logoBox.width - 6}" height="${logoBox.height - 6}" rx="69" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.18" stroke-width="3" />
+      </g>
+    ` :
+      ''}
 
     <rect y="1040" width="2400" height="310" fill="#07040d" fill-opacity="0.30" />
   </svg>
@@ -400,27 +520,27 @@ const buildPortraitSvg = (project, variant, logoBox) => `
   <svg width="${variant.width}" height="${variant.height}" viewBox="0 0 ${variant.width} ${variant.height}" xmlns="http://www.w3.org/2000/svg">
     ${buildSceneDefinitions(project)}
 
-    <rect width="100%" height="100%" fill="#10091c" />
+    <rect width="100%" height="100%" fill="${project.brand.surface}" />
     <rect width="100%" height="100%" fill="url(#grid)" />
     <rect width="100%" height="100%" fill="url(#accent-glow)" />
     <rect width="100%" height="100%" fill="url(#brand-glow)" />
 
-    <circle cx="600" cy="450" r="440" fill="none" stroke="${project.accent}" stroke-opacity="0.14" stroke-width="3" />
-    <circle cx="600" cy="450" r="350" fill="${project.accent}" fill-opacity="0.10" filter="url(#soft-glow)" />
+    <circle cx="600" cy="450" r="440" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.14" stroke-width="3" />
+    <circle cx="600" cy="450" r="350" fill="${project.brand.primary}" fill-opacity="0.10" filter="url(#soft-glow)" />
 
     <g filter="url(#shadow)">
       <rect x="${logoBox.left}" y="${logoBox.top}" width="${logoBox.width}" height="${logoBox.height}" rx="64" fill="${getLogoSurface(project)}" fill-opacity="0.90" stroke="#ffffff" stroke-opacity="0.17" stroke-width="3" />
-      <rect x="${logoBox.left + 3}" y="${logoBox.top + 3}" width="${logoBox.width - 6}" height="${logoBox.height - 6}" rx="61" fill="none" stroke="${project.accent}" stroke-opacity="0.18" stroke-width="3" />
+      <rect x="${logoBox.left + 3}" y="${logoBox.top + 3}" width="${logoBox.width - 6}" height="${logoBox.height - 6}" rx="61" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.18" stroke-width="3" />
     </g>
 
-    <path d="M600 780V930M330 1110H870M330 1110V1210M600 930V1210M870 1110V1210" fill="none" stroke="${project.accent}" stroke-opacity="0.40" stroke-width="7" stroke-linecap="round" />
-    <circle cx="600" cy="930" r="18" fill="${project.accent}" />
+    <path d="M600 780V930M330 1110H870M330 1110V1210M600 930V1210M870 1110V1210" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.40" stroke-width="7" stroke-linecap="round" />
+    <circle cx="600" cy="930" r="18" fill="${project.brand.primary}" />
     <circle cx="330" cy="1110" r="14" fill="#fbf8ff" fill-opacity="0.62" />
     <circle cx="870" cy="1110" r="14" fill="#fbf8ff" fill-opacity="0.62" />
 
     <g opacity="0.82">
       <rect x="115" y="1210" width="350" height="230" rx="38" fill="#ffffff" fill-opacity="0.045" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2" />
-      <rect x="425" y="1160" width="350" height="270" rx="38" fill="${project.accent}" fill-opacity="0.075" stroke="${project.accent}" stroke-opacity="0.20" stroke-width="2" />
+      <rect x="425" y="1160" width="350" height="270" rx="38" fill="${project.brand.primary}" fill-opacity="0.075" stroke="${project.brand.primary}" stroke-opacity="0.20" stroke-width="2" />
       <rect x="735" y="1210" width="350" height="230" rx="38" fill="#ffffff" fill-opacity="0.045" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2" />
       <path d="M175 1280H390M175 1340H330M485 1240H710M485 1300H665M795 1280H1025M795 1340H960" stroke="#ffffff" stroke-opacity="0.14" stroke-width="15" stroke-linecap="round" />
     </g>
@@ -431,6 +551,8 @@ const buildPortraitSvg = (project, variant, logoBox) => `
 
 export const buildProjectSvg = (project, variant) => {
   const logoBox = getLogoBox(project, variant)
+
+  if (variant.kind === 'background') return buildHeroSvg(project, variant, logoBox, false)
 
   if (variant.kind === 'hero') return buildHeroSvg(project, variant, logoBox)
 
@@ -462,16 +584,21 @@ const buildLogoComposite = async (project, logoBox) => {
 export const renderProjectImage = async (project, variant) => {
   const logoBox = getLogoBox(project, variant)
   const background = Buffer.from(buildProjectSvg(project, variant))
-  const logo = await buildLogoComposite(project, logoBox)
   const outputPath = path.join(project.directory, variant.fileName)
 
-  await sharp(background)
-    .composite([logo])
+  const image = variant.kind === 'background' ?
+    sharp(background) :
+    sharp(background).composite([await buildLogoComposite(project, logoBox)])
+
+  await image
     .webp({ effort: 6, quality: 90, smartSubsample: true })
     .toFile(outputPath)
 
   return outputPath
 }
+
+export const getProjectImageVariants = project => IMAGE_VARIANTS
+  .filter(variant => variant.kind !== 'background' || project.background)
 
 /**
  * @param {{ projectsRoot?: string, slugs?: string[] }} [options]
@@ -491,7 +618,7 @@ export const generateProjectImages = async ({ projectsRoot = PROJECTS_ROOT, slug
   const outputs = []
 
   for (const project of selected) {
-    for (const variant of IMAGE_VARIANTS) {
+    for (const variant of getProjectImageVariants(project)) {
       outputs.push(await renderProjectImage(project, variant))
     }
   }

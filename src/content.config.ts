@@ -6,6 +6,7 @@ import { z } from 'astro/zod'
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 const dateField = () => z.string().or(z.date()).transform(val => new Date(val))
 const optionalDateField = () => z.string().optional().transform(str => (str ? new Date(str) : undefined))
+const projectBrandColor = z.string().regex(/^#[\da-f]{6}$/iu, 'Use a six-digit hexadecimal brand color')
 
 const baseSchema = z.object({
   title: z.string().max(100)
@@ -29,6 +30,11 @@ const project = defineCollection({
   loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
+    brand: z.object({
+      primary: projectBrandColor,
+      secondary: projectBrandColor,
+      surface: projectBrandColor
+    }),
     role: z.enum([
       'Technical Lead',
       'Full Stack',
@@ -46,6 +52,7 @@ const project = defineCollection({
     coverImage: z
       .object({
         alt: z.string().min(1),
+        background: image().optional(),
         src: image(),
         horizontal: image().optional(),
         vertical: image().optional(),
@@ -110,7 +117,7 @@ const talk = defineCollection({
 })
 
 const post = defineCollection({
-  loader: glob({ base: './src/content/post', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: './src/content/post', pattern: ['**/*.{md,mdx}', '!AGENTS.md'] }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
     publishDate: dateField(),

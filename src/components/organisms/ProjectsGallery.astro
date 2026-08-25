@@ -4,8 +4,9 @@ import type { CollectionEntry } from 'astro:content'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
+import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
-import { getProjectDateRangeLabel } from '@/utils/project-meta'
+import { getProjectDateRangeLabel, getProjectStatusLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 import { Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
@@ -16,13 +17,20 @@ interface Props {
 
 const { projects } = Astro.props
 
+const projectStatusTone = {
+  Active: 'brand',
+  Completed: 'neutral',
+  Draft: 'outline'
+} as const
+
 const projectItems = projects.map(project => ({
+  brand: project.data.brand,
   coverImage: project.data.coverImage,
   thumbnailImage: getProjectCoverForUsage(project.data.coverImage, 'thumbnail'),
   dateRange: getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate),
   description: project.data.description,
   href: getPortfolioPath(project.id),
-  isActive: !project.data.endingDate,
+  status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
   technologies: sortTechnologiesByInterest(project.data.technologies).slice(0, 3),
   title: project.data.title
 }))
@@ -31,9 +39,11 @@ const projectItems = projects.map(project => ({
 <div class="space-y-6">
   {/* Featured project - large */}
   {projectItems[0] && (
+    <div style={getProjectBrandStyle(projectItems[0].brand)}>
     <Card
       as="article"
       class="group relative rounded-3xl border-line/50 bg-surface p-0"
+      data-project-gallery-card
     >
       <Link className="block font-normal text-inherit no-underline" href={projectItems[0].href}>
         <div class="
@@ -76,8 +86,8 @@ const projectItems = projects.map(project => ({
             {/* Status badge */}
             <div class="absolute top-4 left-4">
               <Pill
-                label={projectItems[0].isActive ? 'Active' : 'Completed'}
-                tone={projectItems[0].isActive ? 'brand' : 'neutral'}
+                label={projectItems[0].status}
+                tone={projectStatusTone[projectItems[0].status]}
               />
             </div>
           </div>
@@ -92,7 +102,7 @@ const projectItems = projects.map(project => ({
             <span class="text-sm font-medium text-ink-muted">{projectItems[0].dateRange}</span>
             <h3 class="
               mt-2 text-2xl font-semibold text-ink transition-colors
-              group-hover:text-brand
+              group-hover:text-[hsl(var(--project-primary-readable))]
               motion-reduce:transition-none
               sm:text-3xl
             "
@@ -109,7 +119,7 @@ const projectItems = projects.map(project => ({
                 ))}
               </div>
             )}
-            <div class="mt-8 flex items-center gap-2 font-medium text-brand">
+            <div class="mt-8 flex items-center gap-2 font-medium" data-project-gallery-readable>
               <span>View project</span>
               <Icon
                 aria-hidden="true"
@@ -125,6 +135,7 @@ const projectItems = projects.map(project => ({
         </div>
       </Link>
     </Card>
+    </div>
   )}
 
   {/* Grid for remaining projects */}
@@ -139,9 +150,13 @@ const projectItems = projects.map(project => ({
       ]}
     >
       {projectItems.slice(1).map(project => (
+        <div class="h-full" style={getProjectBrandStyle(project.brand)}>
         <Card
           as="article"
-          class="group flex flex-col rounded-2xl border-line/50 bg-surface p-0"
+          class="
+            group flex h-full flex-col rounded-2xl border-line/50 bg-surface p-0
+          "
+          data-project-gallery-card
           variant="interactive"
         >
           <Link className="block font-normal text-inherit no-underline" href={project.href}>
@@ -176,8 +191,8 @@ const projectItems = projects.map(project => ({
               {/* Status badge */}
               <div class="absolute top-3 left-3">
                 <Pill
-                  label={project.isActive ? 'Active' : 'Completed'}
-                  tone={project.isActive ? 'brand' : 'neutral'}
+                  label={project.status}
+                  tone={projectStatusTone[project.status]}
                 />
               </div>
             </div>
@@ -187,7 +202,7 @@ const projectItems = projects.map(project => ({
               <span class="text-xs font-medium text-ink-muted">{project.dateRange}</span>
               <h3 class="
                 mt-2 text-lg font-semibold text-ink transition-colors
-                group-hover:text-brand
+                group-hover:text-[hsl(var(--project-primary-readable))]
                 motion-reduce:transition-none
               "
               >
@@ -212,7 +227,23 @@ const projectItems = projects.map(project => ({
             </div>
           </Link>
         </Card>
+        </div>
       ))}
     </div>
   )}
 </div>
+
+<style>
+  [data-project-gallery-card]:hover {
+    border-color: hsl(var(--project-primary) / 0.34);
+    box-shadow: 0 16px 36px hsl(var(--project-primary) / 0.1);
+  }
+
+  [data-project-gallery-readable] {
+    color: hsl(var(--project-primary-readable));
+  }
+
+  :global(:root[data-theme='dark']) [data-project-gallery-card] {
+    --project-primary-readable: var(--project-primary-readable-dark);
+  }
+</style>

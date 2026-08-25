@@ -4,7 +4,7 @@ description: "Simple commit and pull-request habits that reduce review friction 
 publishDate: "2025-07-21T13:10:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
-  alt: "Editorial cover for Git Best Practices for Calm Collaboration"
+  alt: "Four clean development paths passing review checks and merging into one protected line"
   src: "./cover.webp"
 tags: ["git", "pull-requests", "collaboration", "developer-experience"]
 postType: "Guide"

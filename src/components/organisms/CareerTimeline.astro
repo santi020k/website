@@ -1,9 +1,11 @@
 ---
+import { Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
@@ -15,25 +17,18 @@ interface Props {
 
 const { projects } = Astro.props
 
-interface CareerItem {
-  company: string
-  description: string
-  href: string
-  isActive: boolean
-  role: string
-  technologies: string[]
-  timeline: string
-}
-
-const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'project'>) => ({
+const careerItems = projects.map((project: CollectionEntry<'project'>) => ({
   company: project.data.title,
   description: project.data.description,
   href: getPortfolioPath(project.id),
+  image: getProjectCoverForUsage(project.data.coverImage, 'hero'),
   isActive: !project.data.endingDate,
   role: project.data.role ?? 'Engineer',
   technologies: sortTechnologiesByInterest(project.data.technologies).slice(0, 4),
   timeline: getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 }))
+
+type CareerItem = (typeof careerItems)[number]
 ---
 
 <Timeline data-career-timeline class="relative">
@@ -85,137 +80,197 @@ const careerItems: CareerItem[] = projects.map((project: CollectionEntry<'projec
           as="article"
           variant="interactive"
           class:list={[
-            'relative rounded-[1.75rem] p-0',
+            'relative overflow-hidden rounded-[1.75rem] p-0',
             item.isActive ?
               'border-brand/30 bg-surface/84' :
               'border-line/40 bg-surface/72'
           ]}
           data-timeline-card={item.isActive ? 'active' : 'done'}
         >
-          {/* Gradient header band */}
-          <div
-            class:list={[
-              `
-                relative p-5
-                sm:px-6 sm:pt-6
-              `,
-              item.isActive ? 'pb-4' : ''
-            ]}
-            data-card-header
+          {item.isActive && (
+            <div
+              aria-hidden="true"
+              class="
+                absolute inset-x-0 top-0 z-10 h-px bg-linear-to-r
+                from-transparent via-brand/70 to-transparent
+              "
+            />
+          )}
+
+          <div class="
+            grid
+            md:grid-cols-[minmax(13rem,0.36fr)_minmax(0,1fr)]
+          "
           >
-            {/* Top accent line */}
-            {item.isActive && (
+            {/* Project artwork */}
+            <div
+              aria-hidden="true"
+              class="
+                relative aspect-16/7 overflow-hidden bg-brand-soft
+                md:aspect-auto md:min-h-full
+              "
+              data-timeline-artwork
+            >
+              {item.image ?
+                (
+                  <Picture
+                    alt=""
+                    aria-hidden="true"
+                    class="
+                      absolute inset-0 size-full scale-[1.01] object-cover
+                      object-center saturate-110 transition-transform
+                      duration-500
+                      motion-safe:group-hover:scale-[1.035]
+                      motion-reduce:transition-none
+                    "
+                    formats={['avif', 'webp']}
+                    height={1350}
+                    loading="lazy"
+                    sizes="(min-width: 1024px) 28vw, (min-width: 768px) 34vw, 100vw"
+                    src={item.image}
+                    width={2400}
+                    widths={[480, 800, 1200]}
+                  />
+                ) :
+                (
+                  <div class="
+                    absolute inset-0 flex items-center justify-center grid-fade
+                  "
+                  >
+                    <Icon class="size-10 text-brand/45" name="code-2" />
+                  </div>
+                )}
+
               <div
                 aria-hidden="true"
                 class="
-                  absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent
-                  via-brand/70 to-transparent
+                  absolute inset-0 bg-linear-to-b from-transparent
+                  via-transparent to-surface/32
+                  md:bg-linear-to-r md:to-surface/42
                 "
               />
-            )}
+            </div>
 
-            <div class="
-              relative flex flex-col gap-3
-              sm:flex-row sm:items-start sm:justify-between
-            "
-            >
-              <div class="min-w-0">
-                <p
-                  class:list={[
-                    'text-xs font-semibold tracking-widest uppercase',
-                    item.isActive ? 'text-brand' : 'text-ink-muted'
-                  ]}
-                >{item.role}
-                </p>
-                <h3
-                  class="
-                    mt-1.5 text-2xl/tight font-bold text-ink transition-colors
-                    duration-200
-                    group-hover:text-brand
-                    motion-reduce:transition-none
-                    sm:text-3xl
-                  "
-                  data-card-title
-                >
-                  {item.company}
-                </h3>
-              </div>
-
-              <div class="
-                flex shrink-0 flex-col items-start gap-2
-                sm:items-end
-              "
+            <div class="min-w-0">
+              {/* Gradient header band */}
+              <div
+                class:list={[
+                  `
+                    relative p-5
+                    sm:px-6 sm:pt-6
+                  `,
+                  item.isActive ? 'pb-4' : ''
+                ]}
+                data-card-header
               >
-                <Pill
-                  label={item.isActive ? 'Current' : 'Completed'}
-                  tone={item.isActive ? 'brand' : 'neutral'}
+
+                <div class="
+                  relative flex flex-col gap-3
+                  sm:flex-row sm:items-start sm:justify-between
+                "
                 >
-                  {item.isActive && (
-                    <Icon
-                      class="size-3 fill-current"
-                      name="circle-dot"
-                    />
-                  )}
-                </Pill>
-                <div class="flex items-center gap-1.5 text-xs text-ink-muted">
-                  <Icon class="size-3.5" name="calendar-days" />
-                  <span class="font-medium tabular-nums">{item.timeline}</span>
+                  <div class="min-w-0">
+                    <p
+                      class:list={[
+                        'text-xs font-semibold tracking-widest uppercase',
+                        item.isActive ? 'text-brand' : 'text-ink-muted'
+                      ]}
+                    >{item.role}
+                    </p>
+                    <h3
+                      class="
+                        mt-1.5 text-2xl/tight font-bold text-ink
+                        transition-colors duration-200
+                        group-hover:text-brand
+                        motion-reduce:transition-none
+                        sm:text-3xl
+                      "
+                      data-card-title
+                    >
+                      {item.company}
+                    </h3>
+                  </div>
+
+                  <div class="
+                    flex shrink-0 flex-col items-start gap-2
+                    sm:items-end
+                  "
+                  >
+                    <Pill
+                      label={item.isActive ? 'Current' : 'Completed'}
+                      tone={item.isActive ? 'brand' : 'neutral'}
+                    >
+                      {item.isActive && (
+                        <Icon
+                          class="size-3 fill-current"
+                          name="circle-dot"
+                        />
+                      )}
+                    </Pill>
+                    <div class="
+                      flex items-center gap-1.5 text-xs text-ink-muted
+                    "
+                    >
+                      <Icon class="size-3.5" name="calendar-days" />
+                      <span class="font-medium tabular-nums">{item.timeline}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Divider */}
-          <div
-            class:list={[
-              `
-                relative mx-5 border-t
-                sm:mx-6
-              `,
-              item.isActive ? 'border-brand/18' : 'border-line/25'
-            ]}
-          />
+              {/* Divider */}
+              <div
+                class:list={[
+                  `
+                    relative mx-5 border-t
+                    sm:mx-6
+                  `,
+                  item.isActive ? 'border-brand/18' : 'border-line/25'
+                ]}
+              />
 
-          {/* Body */}
-          <div class="
-            px-5 pt-4 pb-5
-            sm:px-6 sm:pb-6
-          "
-          >
-            {/* Description */}
-            <p class="line-clamp-3 text-sm/6 text-ink-soft">
-              {item.description}
-            </p>
-
-            {/* Technologies */}
-            {item.technologies.length > 0 && (
-              <div class="mt-4 flex flex-wrap gap-2">
-                {item.technologies.map((tech: string) => (
-                  <Pill label={tech} tone="outline" />
-                ))}
-              </div>
-            )}
-
-            {/* Footer row */}
-            <div class="mt-5 flex items-center justify-between">
-              <span class="
-                text-xs font-medium text-brand opacity-0 transition-opacity
-                duration-200
-                group-hover:opacity-100
-                motion-reduce:opacity-100
+              {/* Body */}
+              <div class="
+                px-5 pt-4 pb-5
+                sm:px-6 sm:pb-6
               "
               >
-                View case study
-              </span>
-              <Icon
-                class="
-                  size-4 -translate-x-1 text-brand opacity-0 transition-all
-                  duration-200
-                  group-hover:translate-x-0 group-hover:opacity-100
-                  motion-reduce:translate-x-0 motion-reduce:opacity-100
-                "
-                name="arrow-right"
-              />
+                {/* Description */}
+                <p class="line-clamp-3 text-sm/6 text-ink-soft">
+                  {item.description}
+                </p>
+
+                {/* Technologies */}
+                {item.technologies.length > 0 && (
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    {item.technologies.map((tech: string) => (
+                      <Pill label={tech} tone="outline" />
+                    ))}
+                  </div>
+                )}
+
+                {/* Footer row */}
+                <div class="mt-5 flex items-center justify-between">
+                  <span class="
+                    text-xs font-medium text-brand opacity-0 transition-opacity
+                    duration-200
+                    group-hover:opacity-100
+                    motion-reduce:opacity-100
+                  "
+                  >
+                    View case study
+                  </span>
+                  <Icon
+                    class="
+                      size-4 -translate-x-1 text-brand opacity-0 transition-all
+                      duration-200
+                      group-hover:translate-x-0 group-hover:opacity-100
+                      motion-reduce:translate-x-0 motion-reduce:opacity-100
+                    "
+                    name="arrow-right"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </Card>

@@ -17,6 +17,18 @@ tools:
     check: false
     required: true
 tasks:
+  og-images:
+    name: Open Graph image check
+    command: pnpm
+    args:
+      - exec
+      - santi-og
+      - check
+      - --config
+      - scripts/js/generate-og-images.js
+      - --silent
+    required: true
+    parser: generic
   repository-check:
     name: Repository check (verify:quality)
     command: pnpm

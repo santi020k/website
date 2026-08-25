@@ -3,7 +3,7 @@ title: "Astro Doctor: A Health Check for Astro Codebases"
 description: "Why I built Astro Doctor: a CLI, ESLint plugin, editor extension, GitHub Action, and agent skill system for catching Astro anti-patterns early."
 publishDate: "2026-06-22T00:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing Astro Doctor scanning an Astro codebase through CLI, editor, CI, and agent workflows"
+  alt: "A diagnostic lens scanning connected code modules and reporting performance, accessibility, and workflow health"
   src: "./cover.webp"
 tags: ["astro", "developer-experience", "performance", "accessibility", "open-source"]
 postType: "Case Study"

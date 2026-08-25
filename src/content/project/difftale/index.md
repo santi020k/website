@@ -1,6 +1,10 @@
 ---
 title: "Difftale"
 description: "Built a VS Code Git companion for editable Conventional Commit drafts, pull request composition, file history navigation, and explicit commit and push workflows."
+brand:
+  primary: "#14b8a6"
+  secondary: "#6366f1"
+  surface: "#081b1c"
 role: "Creator"
 startingDate: "24 Jul 2026"
 githubUrl: "https://github.com/santi020k/difftale"

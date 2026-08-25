@@ -112,7 +112,8 @@ pnpm run verify:fast  # Spellcheck + lint + type-check + test + build
 
 `generate:project-images` discovers project frontmatter and logos automatically. It renders
 `cover.webp` as the information-rich thumbnail, `cover-horizontal.webp` as the text-free detail
-hero, and `cover-vertical.webp` as the portrait scene used by vertical cards.
+hero, `cover-vertical.webp` as the portrait scene used by vertical cards, and opt-in
+`cover-background.webp` scenes without embedded logos for composited brand treatments.
 
 The site selects those roles consistently: search and project galleries use the thumbnail,
 featured and detail views use the horizontal hero, and portrait project cards use the vertical

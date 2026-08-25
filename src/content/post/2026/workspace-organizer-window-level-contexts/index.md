@@ -4,7 +4,7 @@ description: "Why I built a native macOS workspace manager around individual win
 publishDate: "2026-11-13T15:00:00.000Z"
 draft: true
 coverImage:
-  alt: "Scattered desktop windows flowing into three orderly, color-coded workspace clusters"
+  alt: "Scattered application windows passing through a layout engine into three organized workspaces"
   src: "./cover.webp"
 tags: ["macos", "swiftui", "productivity", "privacy", "native-apps"]
 postType: "Deep Dive"

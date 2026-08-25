@@ -1,6 +1,10 @@
 ---
 title: "Aaronmgz"
 description: "Built a growing family web platform with a nautical personal site, public message board, baby-shower experience, admin tools, and a shared Cloudflare API."
+brand:
+  primary: "#1677a6"
+  secondary: "#0d2256"
+  surface: "#06152f"
 role: "Creator"
 startingDate: "25 May 2026"
 githubUrl: "https://github.com/santi020k/aaronmgz"

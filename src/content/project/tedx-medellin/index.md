@@ -1,6 +1,10 @@
 ---
 title: "TEDx Medellin"
 description: "Volunteered as Technology Coordinator for TEDx Medellin 2019, launching the WordPress event site and supporting a sold-out edition with Justbit-led UI and visual work."
+brand:
+  primary: "#eb0028"
+  secondary: "#f8fafc"
+  surface: "#12070a"
 role: "Technology Coordinator"
 startingDate: "1 Jan 2019"
 endingDate: "1 Jun 2019"

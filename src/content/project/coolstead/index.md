@@ -1,6 +1,10 @@
 ---
 title: "Coolstead"
 description: "Built a native macOS menu-bar app that monitors thermal conditions and applies a gradual, safety-bounded fan curve without replacing macOS thermal protection."
+brand:
+  primary: "#00cfe8"
+  secondary: "#21c7bd"
+  surface: "#071525"
 role: "Creator"
 startingDate: "24 Jul 2026"
 typesId: "personal"

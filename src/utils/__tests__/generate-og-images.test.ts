@@ -2,7 +2,11 @@ import path from 'node:path'
 
 import { describe, expect, test } from 'vitest'
 
-import { collectSpecs } from '../../../scripts/js/generate-og-images.js'
+import {
+  collectCards,
+  collectSpecs,
+  formatTopicName
+} from '../../../scripts/js/generate-og-images.js'
 
 interface SocialImageProps {
   coverImagePath?: string
@@ -22,6 +26,7 @@ describe('collectSpecs', () => {
       'resume.webp',
       'privacy.webp',
       'accessibility.webp',
+      'terms.webp',
       'blog--tags.webp'
     ]) {
       expect(outFiles.has(path.join(process.cwd(), 'public', 'og', 'pages', fileName))).toBe(true)
@@ -35,8 +40,33 @@ describe('collectSpecs', () => {
     ))
     const topicProps = topicSpec?.props as SocialImageProps | undefined
 
-    expect(topicProps?.title).toBe('typescript Posts')
+    expect(topicProps?.title).toBe('TypeScript posts')
     expect(topicProps?.pathLabel).toBe('/blog/tags/typescript/')
+  })
+
+  test('embeds normalized cover art and complete route metadata', async () => {
+    const cards = await collectCards()
+    const postCard = cards.find(card => card.output ===
+      'blog/deterministic-open-graph-images-without-design-lock-in.webp')
+    const postData: { image?: unknown, variant?: string } | undefined = postCard?.data
+
+    expect(postData?.image).toMatch(/^data:image\/png;base64,/u)
+    expect(postData?.variant).toBe('article')
+    expect(postCard?.route).toMatchObject({
+      alt: 'Deterministic Open Graph images without design lock-in — Santiago Molina',
+      pathname: '/blog/deterministic-open-graph-images-without-design-lock-in/',
+      title: 'Deterministic Open Graph images without design lock-in'
+    })
+  })
+
+  test.each([
+    ['configuration', 'Configuration'],
+    ['developer-experience', 'Developer experience'],
+    ['typescript', 'TypeScript'],
+    ['ui-engineering', 'UI engineering'],
+    ['vscode', 'VS Code']
+  ])('formats the topic label %s as %s', (topic, expected) => {
+    expect(formatTopicName(topic)).toBe(expected)
   })
 
   test('excludes scheduled posts until their publish date', async () => {

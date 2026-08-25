@@ -4,7 +4,7 @@ description: "What it takes to design a native fan-control utility around bounde
 publishDate: "2026-08-21T15:00:00.000Z"
 draft: false
 coverImage:
-  alt: "Dark Mac cooling system with a central fan and a gradual curve moving from amber heat to cool cyan"
+  alt: "Thermal sensor signals passing safety bounds through a central cooling fan"
   src: "./cover.webp"
 tags: ["macos", "swift", "hardware", "safety-engineering", "native-apps"]
 postType: "Deep Dive"

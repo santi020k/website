@@ -3,7 +3,7 @@ title: "Shipping macOS tools with a personal Homebrew tap"
 description: "How I separated product code from distribution metadata and turned signed terminal releases into familiar Homebrew install and upgrade commands."
 publishDate: "2026-07-12T15:00:00.000Z"
 coverImage:
-  alt: "Amber release artifacts moving through a package pipeline from a brew vessel toward a macOS app silhouette"
+  alt: "A signed release moving through distribution metadata and verification into an installable tool package"
   src: "./cover.webp"
 tags: ["homebrew", "macos", "release-engineering", "developer-experience", "open-source"]
 postType: "Case Study"

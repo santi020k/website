@@ -6,7 +6,7 @@ updatedDate: "2026-07-28T00:00:00.000Z"
 seoTitle: "ESLint 8 to 9 Migration Guide: Flat Config"
 tags: ["eslint", "typescript", "react", "nextjs", "migration"]
 coverImage:
-  alt: "Neon illustration of a legacy ESLint configuration migrating into a modern flat config panel"
+  alt: "Tangled configuration layers passing through migration gates into a clean flat configuration"
   src: "./cover.webp"
 postType: "Guide"
 seriesId: "eslint-in-practice"

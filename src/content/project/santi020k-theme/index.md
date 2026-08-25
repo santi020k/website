@@ -1,6 +1,10 @@
 ---
 title: "Santi020k Theme"
 description: "Built one calm violet theme system for VS Code-compatible editors, Chrome, six terminal formats, Starship, Shiki, websites, and reusable design tokens."
+brand:
+  primary: "#8747ff"
+  secondary: "#c5a3ff"
+  surface: "#130b22"
 seoTitle: "Santi020k Theme: Editors, Chrome & Terminals"
 seoDescription: "Explore a shared violet theme system for VS Code, Chrome, terminals, Starship, Shiki, and websites, built from reusable tokens and automated releases."
 role: "Creator"

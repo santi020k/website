@@ -4,7 +4,7 @@ description: "Convert a standalone MongoDB instance to a replica set on macOS us
 publishDate: "2024-04-05T18:33:37.000Z"
 tags: ["mongo", "configuration", "homebrew", "mac"]
 coverImage:
-  alt: "configuring mongodb with homebrew on macos converting a standalone instance to a replica set"
+  alt: "A standalone database node becoming three synchronized nodes in a replication ring"
   src: "./cover.webp"
 canonicalUrl: "https://towardsdev.com/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set-482623476dcf"
 postType: "Tutorial"

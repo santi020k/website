@@ -4,12 +4,14 @@ import { describe, expect, test } from 'vitest'
 
 describe('getProjectCoverForUsage', () => {
   const cover = {
+    background: 'background.webp',
     horizontal: 'hero.webp',
     src: 'thumbnail.webp',
     vertical: 'portrait.webp'
   }
 
   test.each([
+    ['background', 'background.webp'],
     ['thumbnail', 'thumbnail.webp'],
     ['hero', 'hero.webp'],
     ['portrait', 'portrait.webp']
@@ -18,6 +20,8 @@ describe('getProjectCoverForUsage', () => {
   })
 
   test('falls back to the thumbnail when a purpose-built variant is unavailable', () => {
+    expect(getProjectCoverForUsage({ horizontal: 'hero.webp', src: 'thumbnail.webp' }, 'background')).toBe('hero.webp')
+    expect(getProjectCoverForUsage({ src: 'thumbnail.webp' }, 'background')).toBe('thumbnail.webp')
     expect(getProjectCoverForUsage({ src: 'thumbnail.webp' }, 'hero')).toBe('thumbnail.webp')
     expect(getProjectCoverForUsage({ src: 'thumbnail.webp' }, 'portrait')).toBe('thumbnail.webp')
   })

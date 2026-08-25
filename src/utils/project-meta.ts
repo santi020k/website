@@ -2,6 +2,8 @@ import { getFormattedDate } from './date'
 
 type ProjectType = 'experimental' | 'personal' | 'professional' | undefined
 
+export type ProjectStatus = 'Active' | 'Completed' | 'Draft'
+
 const getMonthDifference = (startDate: Date, endDate: Date): number => {
   const years = endDate.getFullYear() - startDate.getFullYear()
   const months = endDate.getMonth() - startDate.getMonth()
@@ -62,8 +64,16 @@ const PROJECT_TYPE_META = {
 
 export const getProjectTypeLabel = (type: ProjectType): string => PROJECT_TYPE_META[key(type)].typeLabel
 
-export const getProjectStageLabel = (type: ProjectType, endingDate?: Date): string => {
+export const getProjectStatusLabel = (draft: boolean, endingDate?: Date): ProjectStatus => {
+  if (draft) return 'Draft'
+
+  return endingDate ? 'Completed' : 'Active'
+}
+
+export const getProjectStageLabel = (type: ProjectType, endingDate?: Date, draft = false): string => {
   const meta = PROJECT_TYPE_META[key(type)]
+
+  if (draft) return `Draft ${meta.typeLabel.toLowerCase()}`
 
   return endingDate ? meta.stageCompleted : meta.stageActive
 }

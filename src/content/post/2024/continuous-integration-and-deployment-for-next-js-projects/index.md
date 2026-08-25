@@ -6,7 +6,7 @@ updatedDate: "2026-08-20T00:00:00.000Z"
 seoTitle: "Next.js CI/CD with GitHub Actions"
 tags: ["ci-cd", "github-actions", "nextjs", "react", "deployment"]
 coverImage:
-  alt: "Neon illustration of a CI/CD pipeline flowing through commit, test, build, and deployment stages"
+  alt: "Code artifacts moving through five verified delivery gates into a protected release"
   src: "./cover.webp"
 postType: "Guide"
 seriesId: "building-a-production-nextjs-app"

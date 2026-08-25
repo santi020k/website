@@ -1,7 +1,6 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import ProjectLogoGrid from '@/components/molecules/ProjectLogoGrid.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
@@ -63,26 +62,6 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       lg:pt-28
     "
     id="projects"
-  >
-    <SectionHeader
-      description="A curated view of the products, developer tools, open-source systems, and community work I build beyond client engagements."
-      eyebrow={`${sideProjects.length} personal builds`}
-      title="A growing project ecosystem."
-    />
-    <div class="
-      mt-10
-      sm:mt-12
-    "
-    >
-      <ProjectLogoGrid projects={showcaseProjects} />
-    </div>
-  </section>
-
-  <section class="
-    section-container-wide pt-16
-    sm:pt-20
-    lg:pt-24
-  "
   >
     <SectionHeader
       description="Every project has a deeper story about the problem, the decisions, and the system behind the finished work."

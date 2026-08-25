@@ -12,6 +12,7 @@ import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
+import { getProjectBrandStyle } from '@/utils/project-brand'
 import {
   getProjectNotesDescription,
   getProjectNotesLabel,
@@ -39,7 +40,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)
 const hasLiveDemo = Boolean(project.data.liveDemoUrl)
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
-const projectStageLabel = getProjectStageLabel(project.data.typesId, project.data.endingDate)
+const projectStageLabel = getProjectStageLabel(project.data.typesId, project.data.endingDate, project.data.draft)
 const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
 const projectNotesDescription = getProjectNotesDescription(project.data.typesId)
 const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
@@ -92,7 +93,11 @@ const breadcrumbs = [
 >
   <ScrollProgress />
 
-  <article class="section-container-wide flex flex-col gap-10">
+  <article
+    class="section-container-wide flex flex-col gap-10"
+    data-project-brand
+    style={getProjectBrandStyle(project.data.brand)}
+  >
     <ProjectHero parentPage={parentPage} project={project} />
 
     <section

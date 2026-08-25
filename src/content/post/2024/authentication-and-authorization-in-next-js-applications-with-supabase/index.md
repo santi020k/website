@@ -6,7 +6,7 @@ updatedDate: "2026-08-20T00:00:00.000Z"
 seoTitle: "Next.js Supabase Auth: SSR & Route Protection"
 tags: ["supabase", "authentication", "authorization", "nextjs", "typescript"]
 coverImage:
-  alt: "Neon illustration of a secure auth panel connected to protected access badges and role checkpoints"
+  alt: "Identity card passing through verification and authorization gates toward protected application services"
   src: "./cover.webp"
 postType: "Tutorial"
 seriesId: "building-a-production-nextjs-app"

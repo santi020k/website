@@ -3,7 +3,7 @@ title: "Why I Moved My ESLint Library to @santi020k/eslint-config-basic"
 description: "Why I deprecated @santi020k/eslint-config-santi020k in favor of a composable monorepo with clearer packages, better docs, and stronger DX."
 publishDate: "2026-04-01T18:30:00.000Z"
 coverImage:
-  alt: "Editorial cover showing a single ESLint config evolving into a modular package system with docs and framework nodes"
+  alt: "An aging monolithic configuration decomposing into a modular package system with documentation"
   src: "./cover.webp"
 tags: ["eslint", "flat-config", "developer-experience", "open-source", "typescript"]
 postType: "Case Study"

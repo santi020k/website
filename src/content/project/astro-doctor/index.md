@@ -1,6 +1,10 @@
 ---
 title: "Astro Doctor"
 description: "Built a deterministic Astro health-check toolkit with a CLI, ESLint plugin, editor extension, GitHub Action, docs site, and installable agent skills."
+brand:
+  primary: "#fc7719"
+  secondary: "#ffbe78"
+  surface: "#17111f"
 seoTitle: "Astro Doctor: Astro Code Quality Toolkit"
 seoDescription: "Explore Astro Doctor, a CLI, ESLint plugin, editor extension, and GitHub Action for catching Astro performance, accessibility, and security issues."
 role: "Creator"

@@ -16,6 +16,18 @@ test.describe('Blog page', () => {
     await expect(postLinks.first()).toBeVisible()
   })
 
+  test('index promotes one post and presents the rest as a visual gallery', async ({ page }) => {
+    await page.goto('/blog/')
+
+    await expect(page.locator('[data-post-gallery-featured]')).toHaveCount(1)
+    await expect(page.locator('[data-post-gallery-card]')).toHaveCount(8)
+
+    await page.goto('/blog/2/')
+
+    await expect(page.locator('[data-post-gallery-featured]')).toHaveCount(0)
+    await expect(page.locator('[data-post-gallery-card]')).toHaveCount(9)
+  })
+
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/blog/')
     await expect(page.locator('body')).toBeVisible()

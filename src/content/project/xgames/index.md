@@ -1,6 +1,10 @@
 ---
 title: "X Games"
 description: "Built and scaled the official X Games digital platform — a high-traffic sports media site serving millions of fans — with real-time live streaming, geo-based access control, and a programmatic ad infrastructure powered by Google Ad Manager."
+brand:
+  primary: "#cd2b29"
+  secondary: "#f8fafc"
+  surface: "#241010"
 role: "Senior Full Stack Engineer"
 startingDate: "1 Jan 2025"
 endingDate: "1 Jul 2025"
@@ -17,6 +21,7 @@ technologies: [
   ]
 coverImage:
   src: "./cover.webp"
+  background: "./cover-background.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"

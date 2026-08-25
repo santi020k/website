@@ -3,6 +3,7 @@ import { YEARS_OF_EXPERIENCE } from '@/site.config'
 export interface SocialProofItem {
   context: string
   label: string
+  projectId: 'datagran' | 'optic-power' | 'react-js-colombia' | 'void' | 'xgames'
 }
 
 export interface ProfileHighlight {
@@ -81,27 +82,28 @@ export const testimonials: Testimonial[] = [
 export const selectedOrganizations: SocialProofItem[] = [
   {
     context: 'Technical leadership across esports web, mobile, backend, and real-time delivery at Void.',
-    label: 'Void'
+    label: 'Void',
+    projectId: 'void'
   },
   {
-    context: 'Product engineering and fan-engagement systems shipped through Optic Power client work.',
-    label: 'Team Liquid'
+    context: 'Product engineering shipped across Team Liquid, NurtureBoss, and Stardust.gg client work.',
+    label: 'Optic Power',
+    projectId: 'optic-power'
   },
   {
-    context: 'AI martech dashboards and campaign workflows built during the Datagran modernization work.',
-    label: 'Rappi'
-  },
-  {
-    context: 'Analytics and customer-data product work supported through Datagran.',
-    label: 'Subway'
+    context: 'AI martech dashboards and campaign workflows supporting brands including Rappi and Subway.',
+    label: 'Datagran',
+    projectId: 'datagran'
   },
   {
     context: 'High-traffic sports media platform and programmatic ad infrastructure for one of the world’s most recognized extreme sports brands.',
-    label: 'X Games'
+    label: 'X Games',
+    projectId: 'xgames'
   },
   {
     context: 'Community talks, workshops, and mentorship through one of Medellin’s most active React groups.',
-    label: 'ReactJS Colombia'
+    label: 'ReactJS Colombia',
+    projectId: 'react-js-colombia'
   }
 ]
 

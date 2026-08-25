@@ -4,7 +4,7 @@ description: "Replace ad-hoc string literals with clearer domain language, stron
 publishDate: "2025-03-29T14:22:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing typed domain tokens and shared constants converging into a structured system"
+  alt: "Loose string fragments becoming typed domain tokens connected across a structured system"
   src: "./cover.webp"
 tags: ["typescript", "javascript", "code-quality", "refactoring"]
 postType: "Guide"

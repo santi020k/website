@@ -1,6 +1,10 @@
 ---
 title: "PADS"
 description: "Led the web, back-office, and mobile experience for a luxury real estate platform, growing monthly active users by 50% and improving broker workflows."
+brand:
+  primary: "#ec4899"
+  secondary: "#8b5cf6"
+  surface: "#210b1b"
 role: "Technical Lead"
 startingDate: "1 Jan 2020"
 endingDate: "1 Jul 2021"

@@ -1,11 +1,10 @@
 /**
  * Cached content collection helpers.
  *
- * `getCollection` is called once per collection per process lifetime and the
- * result is stored in a module-level cache.  Subsequent callers within the
- * same Astro build receive the same array without triggering another FS read,
- * which is especially useful when multiple components query posts on the same
- * page (e.g. PostCard + RelatedPosts + SeriesNavigator).
+ * During production builds, `getCollection` is called once per collection per
+ * process lifetime and the result is stored in a module-level cache. In
+ * development, each call delegates to Astro so content edits are reflected by
+ * HMR instead of leaving the long-running dev server with stale entries.
  *
  * Usage:
  *   import { getCachedPosts, getCachedProjects } from '@/utils/content'
@@ -24,16 +23,18 @@ let _series: CollectionEntry<'series'>[] | null = null
  * The result is cached for the duration of the Astro build process.
  */
 export const getCachedPosts = async (): Promise<CollectionEntry<'post'>[]> => {
-  if (_posts) return _posts
+  if (import.meta.env.PROD && _posts) return _posts
 
   const now = new Date()
   const all = await getCollection('post', ({ data }) => import.meta.env.PROD ? !data.draft && data.publishDate <= now : true)
 
-  _posts = all.sort(
+  const posts = all.sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
   )
 
-  return _posts
+  if (import.meta.env.PROD) _posts = posts
+
+  return posts
 }
 
 /**
@@ -41,11 +42,13 @@ export const getCachedPosts = async (): Promise<CollectionEntry<'post'>[]> => {
  * The result is cached for the duration of the Astro build process.
  */
 export const getCachedProjects = async (): Promise<CollectionEntry<'project'>[]> => {
-  if (_projects) return _projects
+  if (import.meta.env.PROD && _projects) return _projects
 
-  _projects = await getCollection('project', ({ data }) => import.meta.env.PROD ? !data.draft : true)
+  const projects = await getCollection('project', ({ data }) => import.meta.env.PROD ? !data.draft : true)
 
-  return _projects
+  if (import.meta.env.PROD) _projects = projects
+
+  return projects
 }
 
 /**
@@ -53,11 +56,13 @@ export const getCachedProjects = async (): Promise<CollectionEntry<'project'>[]>
  * The result is cached for the duration of the Astro build process.
  */
 export const getCachedSeries = async (): Promise<CollectionEntry<'series'>[]> => {
-  if (_series) return _series
+  if (import.meta.env.PROD && _series) return _series
 
-  _series = await getCollection('series')
+  const series = await getCollection('series')
 
-  return _series
+  if (import.meta.env.PROD) _series = series
+
+  return series
 }
 
 /**

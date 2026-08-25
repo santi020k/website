@@ -1,6 +1,10 @@
 ---
 title: "quality"
 description: "Built a fast, predictable code-quality CLI and GitHub Action that detects and coordinates native analyzers across Rust, Swift, Android, Kotlin, JavaScript, and Astro repositories."
+brand:
+  primary: "#1f70ea"
+  secondary: "#18a8f0"
+  surface: "#08152d"
 role: "Creator"
 startingDate: "21 Aug 2026"
 githubUrl: "https://github.com/santi020k/quality"

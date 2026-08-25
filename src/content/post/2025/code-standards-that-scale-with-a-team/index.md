@@ -4,7 +4,7 @@ description: "The version of coding standards I would actually hand to a growing
 publishDate: "2025-09-14T14:18:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
-  alt: "Editorial cover for Code Standards That Scale With a Team"
+  alt: "Multiple project modules aligned through a shared standards core"
   src: "./cover.webp"
 tags: ["engineering-standards", "typescript", "frontend", "team-process"]
 postType: "Deep Dive"

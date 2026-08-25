@@ -6,7 +6,7 @@ import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
-import { getProjectFeaturedLabel, getProjectTimelineLabel, getProjectTypeLabel } from '@/utils/project-meta'
+import { getProjectFeaturedLabel, getProjectStatusLabel, getProjectTimelineLabel, getProjectTypeLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 import { Card, CoverImage  } from '@santi020k/lumen-astro'
@@ -34,7 +34,14 @@ const imageSizes = useCoverFeatured ?
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const projectFeaturedLabel = getProjectFeaturedLabel(project.data.typesId)
 const projectTimelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
-const isActive = !project.data.endingDate
+const projectStatus = getProjectStatusLabel(project.data.draft, project.data.endingDate)
+
+const projectStatusTone = {
+  Active: 'brand',
+  Completed: 'neutral',
+  Draft: 'outline'
+} as const
+
 const visibleImpactMetrics = project.data.impactMetrics.slice(0, featured ? 3 : 2)
 const cardClass = ['group', className].filter(Boolean).join(' ')
 ---
@@ -106,7 +113,10 @@ const cardClass = ['group', className].filter(Boolean).join(' ')
           )}
         </div>
 
-        <Pill label={isActive ? 'Active' : 'Completed'} tone={isActive ? 'brand' : 'neutral'} />
+        <Pill
+          label={projectStatus}
+          tone={projectStatusTone[projectStatus]}
+        />
       </div>
 
       <p class="text-sm text-ink-muted">

@@ -4,7 +4,7 @@ description: "Why Difftale generates editable commit and pull request drafts whi
 publishDate: "2026-08-28T15:00:00.000Z"
 draft: true
 coverImage:
-  alt: "Luminous Git branches flowing into commit and pull request panels above layered file revisions"
+  alt: "AI-generated Git drafts stopping at an explicit action boundary before repository operations"
   src: "./cover.webp"
 tags: ["vscode", "git", "developer-experience", "ai", "conventional-commits"]
 postType: "Case Study"

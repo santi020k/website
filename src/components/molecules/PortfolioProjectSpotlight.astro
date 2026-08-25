@@ -5,8 +5,9 @@ import type { CollectionEntry } from 'astro:content'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
-import { getProjectTimelineLabel } from '@/utils/project-meta'
+import { getProjectStatusLabel, getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 import { Badge, Card, Icon } from '@santi020k/lumen-astro'
@@ -22,7 +23,14 @@ const projectLink = getPortfolioPath(project.id)
 const coverImage = project.data.coverImage
 const previewImage = getProjectCoverForUsage(coverImage, featured ? 'hero' : 'thumbnail')
 const timeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
-const isActive = !project.data.endingDate
+const projectStatus = getProjectStatusLabel(project.data.draft, project.data.endingDate)
+
+const projectStatusVariant = {
+  Active: 'success',
+  Completed: 'secondary',
+  Draft: 'outline'
+} as const
+
 const technologies = sortTechnologiesByInterest(project.data.technologies).slice(0, featured ? 5 : 4)
 const impactMetrics = project.data.impactMetrics.slice(0, featured ? 2 : 1)
 const previewTargetWidth = previewImage ? Math.min(1600, previewImage.width) : 0
@@ -32,6 +40,7 @@ const previewTargetHeight = previewImage ?
   0
 ---
 
+<div class="h-full" style={getProjectBrandStyle(project.data.brand)}>
 <Card
   as="article"
   class:list={[
@@ -120,8 +129,8 @@ const previewTargetHeight = previewImage ?
       >
         {project.data.role ?? 'Engineering'}
       </span>
-      <Badge variant={isActive ? 'success' : 'secondary'}>
-        {isActive ? 'Active' : 'Completed'}
+      <Badge variant={projectStatusVariant[projectStatus]}>
+        {projectStatus}
       </Badge>
     </div>
 
@@ -137,7 +146,7 @@ const previewTargetHeight = previewImage ?
           `
             leading-tight font-semibold tracking-[-0.035em] text-ink
             transition-colors duration-200
-            group-hover:text-brand
+            group-hover:text-[hsl(var(--project-primary-readable))]
             motion-reduce:transition-none
           `,
           featured ?
@@ -168,7 +177,9 @@ const previewTargetHeight = previewImage ?
         {impactMetrics.map(metric => (
           <li class="flex gap-2.5 text-sm/6 text-ink-soft">
             <Icon
-              class="mt-1 size-4 shrink-0 text-brand"
+              class="
+                mt-1 size-4 shrink-0 text-[hsl(var(--project-primary-readable))]
+              "
               name="circle-check"
             />
             <span class:list={[!featured && 'line-clamp-2']}>{metric}</span>
@@ -195,3 +206,17 @@ const previewTargetHeight = previewImage ?
     </div>
   </div>
 </Card>
+</div>
+
+<style>
+  [data-portfolio-project]:hover {
+    border-color: hsl(var(--project-primary) / 0.34);
+    box-shadow:
+      0 24px 60px hsl(230 30% 8% / 0.09),
+      0 12px 30px hsl(var(--project-primary) / 0.1);
+  }
+
+  :global(:root[data-theme='dark']) [data-portfolio-project] h3 {
+    --project-primary-readable: var(--project-primary-readable-dark);
+  }
+</style>

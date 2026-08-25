@@ -22,6 +22,7 @@
     "generate:og": "santi-og generate --config scripts/js/generate-og-images.js",
     "generate:og:force": "santi-og generate --config scripts/js/generate-og-images.js --force",
     "check:og": "santi-og check --config scripts/js/generate-og-images.js",
+    "compare:og": "santi-og compare --config scripts/js/generate-og-images.js --threshold 0",
     "audit:seo": "santi-og audit --config og.audit.config.mjs",
     "inspect:og": "santi-og inspect https://santi020k.com --json",
     "preview": "ASTRO_PREVIEW_BACKGROUND=0 astro preview",

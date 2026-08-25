@@ -3,8 +3,8 @@ title: "One quality command across polyglot repositories"
 description: "How I built a native CLI that coordinates existing analyzers across Rust, Swift, Android, Kotlin, JavaScript, and Astro without flattening their ecosystem-specific strengths."
 publishDate: "2026-08-21T15:00:00.000Z"
 coverImage:
-  alt: "Quality CLI dashboard summarizing checks across a polyglot repository"
-  src: "./cover.png"
+  alt: "Distinct language ecosystems running specialized checks through one orchestration core"
+  src: "./cover.webp"
 tags: ["rust", "code-quality", "developer-experience", "ci-cd", "tooling"]
 postType: "Deep Dive"
 ---

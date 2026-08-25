@@ -7,8 +7,11 @@ import { describe, expect, test } from 'vitest'
 
 import {
   buildProjectSvg,
+  discoverProjects,
   generateProjectImages,
   getFallbackAccent,
+  getProjectImageVariants,
+  getReadableAccent,
   IMAGE_VARIANTS,
   selectAccentFromPixels,
   splitTitle
@@ -54,12 +57,17 @@ describe('project image generator', () => {
     await fs.writeFile(path.join(projectDirectory, 'index.md'), `---
 title: Sample Project
 description: A generated fixture.
+brand:
+  primary: "#0ea5e9"
+  secondary: "#22d3ee"
+  surface: "#082f49"
 role: Creator
 typesId: personal
 technologies:
   - Astro
 coverImage:
   src: ./cover.webp
+  background: ./cover-background.webp
   logo: ./logo.png
   logoAspect: square
   logoSurface: dark
@@ -75,7 +83,15 @@ coverImage:
       }
     }).png().toFile(path.join(projectDirectory, 'logo.png'))
 
+    const [project] = await discoverProjects(root)
     const outputs = await generateProjectImages({ projectsRoot: root })
+
+    expect(project?.brand).toEqual({
+      primary: '#0ea5e9',
+      secondary: '#22d3ee',
+      surface: '#082f49'
+    })
+    expect(project?.accent).toBe('#0ea5e9')
 
     expect(outputs).toHaveLength(IMAGE_VARIANTS.length)
 
@@ -93,6 +109,11 @@ coverImage:
   test('keeps metadata in thumbnails and scenery templates text-free', () => {
     const project = {
       accent: '#7c3aed',
+      brand: {
+        primary: '#7c3aed',
+        secondary: '#22d3ee',
+        surface: '#10091c'
+      },
       logoAspect: 'square',
       logoSurface: 'dark',
       role: 'Creator',
@@ -100,13 +121,20 @@ coverImage:
       title: 'Sample Project',
       type: 'personal'
     }
-    const [thumbnail, hero, portrait] = IMAGE_VARIANTS
+    const [thumbnail, hero, portrait, background] = IMAGE_VARIANTS
 
     expect(buildProjectSvg(project, thumbnail)).toContain('Sample Project')
     expect(buildProjectSvg(project, hero)).not.toContain('Sample Project')
     expect(buildProjectSvg(project, portrait)).not.toContain('Sample Project')
+    expect(buildProjectSvg(project, background)).not.toContain('<g filter="url(#shadow)">')
     expect(hero?.kind).toBe('hero')
     expect(portrait?.kind).toBe('portrait')
+    expect(background?.kind).toBe('background')
+  })
+
+  test('generates a logo-free background only when the project opts in', () => {
+    expect(getProjectImageVariants({ background: undefined })).toHaveLength(3)
+    expect(getProjectImageVariants({ background: './cover-background.webp' })).toEqual(IMAGE_VARIANTS)
   })
 
   test('wraps long thumbnail titles without splitting ordinary titles', () => {
@@ -119,6 +147,11 @@ coverImage:
   test('keeps thumbnail technology pills and the portfolio label legible', () => {
     const project = {
       accent: '#052660',
+      brand: {
+        primary: '#052660',
+        secondary: '#22d3ee',
+        surface: '#10091c'
+      },
       logoAspect: 'square',
       logoSurface: 'dark',
       role: 'Creator',
@@ -128,13 +161,28 @@ coverImage:
     }
     const [thumbnail] = IMAGE_VARIANTS
     const svg = buildProjectSvg(project, thumbnail)
+    const readableAccentValue: unknown = getReadableAccent(project.accent)
+    const readableFooterAccentValue: unknown = getReadableAccent(project.brand.primary, project.brand.surface)
 
-    expect(svg).toContain('fill="#fbf8ff" fill-opacity="0.12"')
-    expect(svg).toContain('stroke-opacity="0.62"')
+    expect(typeof readableAccentValue).toBe('string')
+    expect(typeof readableFooterAccentValue).toBe('string')
+
+    if (typeof readableAccentValue !== 'string' || typeof readableFooterAccentValue !== 'string') {
+      throw new TypeError('Readable project accents must be strings')
+    }
+
+    const readableAccent = readableAccentValue
+    const readableFooterAccent = readableFooterAccentValue
+
+    expect(readableAccent).not.toBe(project.accent)
+    expect(readableAccent).toBe('#3279f4')
+    expect(getReadableAccent('#ff002b')).toBe('#ff002b')
+    expect(svg).toContain(`fill="${readableAccent}" fill-opacity="0.26"`)
+    expect(svg).toContain('stroke-opacity="0.72"')
     expect(svg).toContain('class="eyebrow project-label">INDEPENDENT PROJECT</text>')
-    expect(svg).toContain('.project-label { fill: #d8c8f2; fill-opacity: 0.92; }')
+    expect(svg).toContain(`.project-label { fill: ${readableAccent}; }`)
     expect(svg).toContain('class="eyebrow footer-label">SANTI020K / PORTFOLIO</text>')
-    expect(svg).toContain('.footer-label { fill: #fbf8ff; fill-opacity: 0.88; }')
+    expect(svg).toContain(`.footer-label { fill: ${readableFooterAccent};`)
   })
 
   test('rejects unknown project slugs', async () => {

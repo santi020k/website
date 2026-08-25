@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectStatusLabel } from '@/utils/project-meta'
 
 import { Icon } from '@santi020k/lumen-astro'
 
@@ -54,11 +55,6 @@ const getProjectInitial = (title: string) => {
   return name?.charAt(0).toUpperCase() || 'P'
 }
 
-const getProjectStatus = (project: CollectionEntry<'project'>) => {
-  if (project.data.draft) return 'In development'
-
-  return project.data.endingDate ? 'Completed' : 'Active'
-}
 ---
 
 <ul
@@ -74,7 +70,7 @@ const getProjectStatus = (project: CollectionEntry<'project'>) => {
     const logo = featuredProject.data.coverImage?.logo
     const logoAspect: LogoAspect = featuredProject.data.coverImage?.logoAspect ?? 'square'
     const logoSurface: LogoSurface = featuredProject.data.coverImage?.logoSurface ?? 'neutral'
-    const status = getProjectStatus(featuredProject)
+    const status = getProjectStatusLabel(featuredProject.data.draft, featuredProject.data.endingDate)
     const metric = featuredProject.data.impactMetrics.at(0)
 
     return (
@@ -239,7 +235,7 @@ const getProjectStatus = (project: CollectionEntry<'project'>) => {
     const logo = project.data.coverImage?.logo
     const logoAspect: LogoAspect = project.data.coverImage?.logoAspect ?? 'square'
     const logoSurface: LogoSurface = project.data.coverImage?.logoSurface ?? 'neutral'
-    const status = getProjectStatus(project)
+    const status = getProjectStatusLabel(project.data.draft, project.data.endingDate)
 
     return (
       <li>

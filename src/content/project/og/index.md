@@ -1,6 +1,10 @@
 ---
 title: "@santi020k/og"
 description: "Built a renderer-agnostic Open Graph image pipeline with deterministic caching, safe cleanup, parallel generation, and CI verification while leaving every project's visual system in its own hands."
+brand:
+  primary: "#65f7bc"
+  secondary: "#14b8a6"
+  surface: "#071b17"
 role: "Creator"
 startingDate: "22 Aug 2026"
 githubUrl: "https://github.com/santi020k/og"

@@ -1,6 +1,10 @@
 ---
 title: "Optic Power"
 description: "Shipped across gaming, SaaS, and martech products in parallel, improving API performance by 40% while supporting launches for Team Liquid, NurtureBoss, and Stardust.gg."
+brand:
+  primary: "#0d4060"
+  secondary: "#0090a8"
+  surface: "#071923"
 role: "Senior Full Stack Engineer"
 startingDate: "1 Jul 2021"
 endingDate: "1 Feb 2023"
@@ -17,6 +21,7 @@ technologies: [
   ]
 coverImage:
   src: "./cover.webp"
+  background: "./cover-background.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"

@@ -1,6 +1,10 @@
 ---
 title: "Workspace Organizer"
 description: "Built a native macOS app that groups individual windows into focused spaces, restores layouts, switches contexts, and keeps workspace data private."
+brand:
+  primary: "#00a8ff"
+  secondary: "#7830f0"
+  surface: "#0f0a60"
 role: "Creator"
 startingDate: "13 Jul 2026"
 githubUrl: "https://github.com/santi020k/workspace-organizer"

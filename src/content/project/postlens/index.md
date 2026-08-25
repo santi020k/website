@@ -1,6 +1,10 @@
 ---
 title: "PostLens"
 description: "Built an iPhone-first private visual content studio for selecting strong photos, applying transparent on-device enhancements, composing layouts, and exporting social-ready work."
+brand:
+  primary: "#f26044"
+  secondary: "#7c2ce8"
+  surface: "#05051f"
 role: "Creator"
 startingDate: "14 Jul 2026"
 liveDemoUrl: "https://postlens.santi020k.com/"

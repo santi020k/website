@@ -7,14 +7,11 @@
  * Run via: `pnpm run generate:og` or automatically as part of `prebuild`.
  *
  * Strategy:
- *  - Reads content frontmatter directly with `js-yaml` (no Astro runtime needed)
- *  - Collects all image specs (pages, posts, projects, series, technologies)
- *  - Renders CPU-heavy cards in a `worker_threads` pool (Satori + Resvg + Sharp
- *    run in separate isolates; async concurrency on one thread does not scale)
- *  - Skips images whose output file already exists (set FORCE_OG=1 to regenerate)
- *
- * Tuning: `OG_WORKER_THREADS` caps how many worker threads are spawned (default
- * `min(16, os.availableParallelism())`).
+ *  - Uses @santi020k/og's framework-neutral content and archive collectors
+ *  - Shares page copy with route-manifest metadata and generated image data
+ *  - Normalizes local cover art for reliable SVG embedding
+ *  - Applies the branded preset, measured Montserrat typography, and Sharp WebP
+ *  - Uses content-aware caching, bounded concurrency, and tracked cleanup
  */
 
 import path from 'node:path'
@@ -31,9 +28,18 @@ import {
 import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
 
+import { prepareOgImage } from './prepare-og-image.mjs'
+import { renderOgDecoration } from './render-og-decoration.mjs'
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..')
 const OUT_DIR = path.join(ROOT, 'public', 'og')
+
+const BRAND_LOGO = fileURLToPath(import.meta.resolve(
+  '@santi020k/theme/assets/logos/logo-square.png'
+))
+
+const BRAND_FONT = 'public/fonts/montserrat-variable-font-wght.ttf'
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -49,6 +55,53 @@ const getTechnologySlug = technology => technology
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-+|-+$/g, '')
 
+const topicNames = new Map([
+  ['ai', 'AI'],
+  ['api', 'API'],
+  ['css', 'CSS'],
+  ['dx', 'DX'],
+  ['eslint', 'ESLint'],
+  ['git', 'Git'],
+  ['graphql', 'GraphQL'],
+  ['html', 'HTML'],
+  ['ios', 'iOS'],
+  ['javascript', 'JavaScript'],
+  ['macos', 'macOS'],
+  ['mongodb', 'MongoDB'],
+  ['nextjs', 'Next.js'],
+  ['nodejs', 'Node.js'],
+  ['qa', 'QA'],
+  ['react', 'React'],
+  ['typescript', 'TypeScript'],
+  ['ui', 'UI'],
+  ['ux', 'UX'],
+  ['vitest', 'Vitest'],
+  ['vscode', 'VS Code']
+])
+
+export const formatTopicName = topic => {
+  const knownName = topicNames.get(topic.toLowerCase())
+
+  if (knownName) return knownName
+
+  return topic
+    .split(/[ -]+/u)
+    .map((part, index) => topicNames.get(part.toLowerCase()) ?? (
+      index === 0 ? `${part.charAt(0).toUpperCase()}${part.slice(1)}` : part
+    ))
+    .join(' ')
+}
+
+const getStaticPageVariant = page => {
+  if (['Blog', 'Legal', 'Resume'].includes(page.badge)) return 'docs'
+
+  if (['Homepage', 'Portfolio', 'Projects', 'Technology', 'Work'].includes(page.badge)) {
+    return 'product'
+  }
+
+  return 'article'
+}
+
 // ---------------------------------------------------------------------------
 // Collect image specs
 // ---------------------------------------------------------------------------
@@ -62,7 +115,7 @@ const staticSocialPages = [
       'experience building resilient systems and scaling technical teams.',
     pathname: '/',
     title: 'Engineering Leader & Full-Stack Architect',
-    type: 'Homepage'
+    badge: 'Homepage'
   },
   {
     description:
@@ -70,103 +123,110 @@ const staticSocialPages = [
       'Senior engineer and tech lead based in Medellin focused on automation, developer experience, and cross-functional leadership.',
     pathname: '/about/',
     title: 'About Santiago Molina - Engineering Leader',
-    type: 'About'
+    badge: 'About'
   },
   {
     description:
       'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
     pathname: '/blog/',
     title: 'Software Engineering Blog - Santiago Molina',
-    type: 'Blog'
+    badge: 'Blog'
   },
   {
     description:
       'Browse Santiago Molina\'s blog series for connected reading tracks on Next.js delivery, ESLint tooling, testing, and software architecture.',
     pathname: '/blog/series/',
     title: 'Blog Series',
-    type: 'Blog'
+    badge: 'Blog'
   },
   {
     description:
       'A documented publishing rhythm for upcoming essays, evergreen refreshes, and writing series across Santiago Molina\'s engineering blog.',
     pathname: '/blog/content-calendar/',
     title: 'Content Calendar',
-    type: 'Blog'
+    badge: 'Blog'
   },
   {
     description:
       'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
     pathname: '/blog/tags/',
     title: 'Blog Topics',
-    type: 'Blog'
+    badge: 'Blog'
   },
   {
     description:
       'A curated showcase of professional engineering projects, open-source contributions, and technical experiments across headless commerce, gaming, and SaaS.',
     pathname: '/portfolio/',
     title: 'Engineering Portfolio - Santiago Molina',
-    type: 'Portfolio'
+    badge: 'Portfolio'
   },
   {
     description:
       'Client and product work across headless commerce, gaming, SaaS, real estate, and martech — architecture decisions, delivery systems, and hands-on technical leadership.',
     pathname: '/work/',
     title: 'Work Experience — Santiago Molina',
-    type: 'Work'
+    badge: 'Work'
   },
   {
     description:
       'Open-source tools, community work, and self-directed experiments — the projects Santiago Molina builds to learn, share, and sharpen engineering craft.',
     pathname: '/projects/',
     title: 'Side Projects — Santiago Molina',
-    type: 'Projects'
+    badge: 'Projects'
   },
   {
     description:
       'Engineering leader and full-stack architect resume. Explore Santiago Molina\'s professional experience, technical skills, and open-source projects.',
     pathname: '/resume/',
     title: 'Resume & Curriculum Vitae',
-    type: 'Resume'
+    badge: 'Resume'
   },
   {
     description:
       'Talks, workshops, and engineering conversations about developer experience, technical leadership, frontend architecture, and calmer delivery systems.',
     pathname: '/speaking/',
     title: 'Speaking & Workshops',
-    type: 'Speaking'
+    badge: 'Speaking'
   },
   {
     description:
       'Browse the technologies Santiago Molina uses across frontend architecture, product systems, testing, and delivery.',
     pathname: '/technologies/',
     title: 'Technology Index',
-    type: 'Technology'
+    badge: 'Technology'
   },
   {
     description:
       'Accessibility commitment for santi020k.com: WCAG 2.2 AA as the target, practical limits of a solo-maintained site, and how to report barriers.',
     pathname: '/accessibility/',
     title: 'Accessibility statement',
-    type: 'Accessibility'
+    badge: 'Accessibility'
   },
   {
     description:
       'How santi020k.com handles data: no ad trackers, no profiling, just a static site with a theme preference.',
     pathname: '/privacy/',
     title: 'Privacy & analytics',
-    type: 'Legal'
+    badge: 'Legal'
+  },
+  {
+    description:
+      'Terms for using santi020k.com, including acceptable use, intellectual property, external links, and limitations.',
+    pathname: '/terms/',
+    title: 'Terms & Conditions',
+    badge: 'Legal'
   },
   {
     description: 'Offline fallback page for the santi020k portfolio and blog.',
     pathname: '/offline/',
     title: 'Offline',
-    type: 'Status'
+    badge: 'Status'
   },
   {
     description: 'The page you are looking for could not be found.',
     pathname: '/404/',
     title: 'Page not found',
-    type: 'Status'
+    badge: 'Status'
   }
 ]
 
@@ -191,13 +251,14 @@ export const isPublishedPost = entry => {
 }
 
 const archiveCard = (pathname, title, description, badge) => ({
-  data: { badge, description, domain: pathname, title, variant: 'simple' },
+  data: { badge, description, domain: pathname, title, variant: 'product' },
   output: `pages/${getSocialImageFileName(pathname)}`,
   route: { description, pathname, title }
 })
 
 export const collectCards = async () => {
   const staticPages = staticSocialPages.map(page => definePageMetadata({
+    badge: page.badge,
     description: page.description,
     image: {
       alt: `${page.title} — Santiago Molina`,
@@ -205,15 +266,15 @@ export const collectCards = async () => {
     },
     pathname: page.pathname,
     title: page.title,
-    type: page.type
+    type: page.pathname === '/about/' ? 'profile' : 'website'
   }))
 
   const staticCards = createCards(staticPages, page => ({
-    badge: page.type,
+    badge: page.badge,
     description: page.description,
     domain: page.pathname,
     title: page.title,
-    variant: 'simple'
+    variant: getStaticPageVariant(page)
   }), {
     output: page => page.image.output,
     route: page => {
@@ -237,7 +298,7 @@ export const collectCards = async () => {
           description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
           domain: context.pathname,
           title: `Blog · Page ${context.pageNumber}`,
-          variant: 'simple'
+          variant: 'article'
         }),
         includeFirst: false,
         output: context => `pages/${getSocialImageFileName(context.pathname)}`,
@@ -245,13 +306,17 @@ export const collectCards = async () => {
       }),
       groupArchive({
         basePath: '/blog/tags/',
-        data: context => ({
-          badge: 'Topic',
-          description: `Posts tagged ${context.group} across architecture, automation, developer experience, and engineering workflow.`,
-          domain: context.pathname,
-          title: context.pageNumber === 1 ? `${context.group} Posts` : `${context.group} Posts · Page ${context.pageNumber}`,
-          variant: 'simple'
-        }),
+        data: context => {
+          const topic = formatTopicName(context.group)
+
+          return {
+            badge: 'Topic',
+            description: `Explore ${topic} posts on architecture, automation, DX, and engineering workflow.`,
+            domain: context.pathname,
+            title: context.pageNumber === 1 ? `${topic} posts` : `${topic} posts · Page ${context.pageNumber}`,
+            variant: 'docs'
+          }
+        },
         field: 'tags',
         output: context => `pages/${getSocialImageFileName(context.pathname)}`,
         pageSize: 9,
@@ -268,11 +333,16 @@ export const collectCards = async () => {
 
       return {
         badge: 'Blog Post',
-        ...(coverImagePath ? { coverImagePath, image: coverImagePath } : {}),
+        ...(coverImagePath ?
+          {
+            coverImagePath,
+            image: await prepareOgImage(coverImagePath)
+          } :
+          {}),
         description: entry.frontmatter.description ?? '',
         domain: `/blog/${id}/`,
         title: entry.frontmatter.title ?? id,
-        variant: coverImagePath ? 'article' : 'simple'
+        variant: 'article'
       }
     },
     output: entry => `blog/${entry.slug.split('/').at(-1)}.webp`,
@@ -316,11 +386,16 @@ export const collectCards = async () => {
 
       return {
         badge: 'Project',
-        ...(coverImagePath ? { coverImagePath, image: coverImagePath } : {}),
+        ...(coverImagePath ?
+          {
+            coverImagePath,
+            image: await prepareOgImage(coverImagePath)
+          } :
+          {}),
         description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
         domain: `/portfolio/${entry.slug}/`,
         title: entry.frontmatter.title ?? entry.slug,
-        variant: coverImagePath ? 'article' : 'simple'
+        variant: 'product'
       }
     },
     output: entry => `portfolio/${entry.slug}.webp`,
@@ -336,7 +411,7 @@ export const collectCards = async () => {
       description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
       domain: `/blog/series/${entry.slug}/`,
       title: entry.frontmatter.seoTitle ?? entry.frontmatter.title ?? entry.slug,
-      variant: 'simple'
+      variant: 'docs'
     }),
     output: entry => `pages/${getSocialImageFileName(`/blog/series/${entry.slug}/`)}`,
     root: ROOT
@@ -361,6 +436,17 @@ export const collectCards = async () => {
   })
 
   return [...staticCards, ...postCards, ...projectCards, ...seriesCards, ...technologyCards]
+    .map(card => card.route ?
+      {
+        ...card,
+        route: {
+          alt: `${card.data.title} — Santiago Molina`,
+          description: card.data.description,
+          title: card.data.title,
+          ...card.route
+        }
+      } :
+      card)
 }
 
 export const collectSpecs = async () => (await collectCards()).map(card => ({
@@ -375,14 +461,31 @@ export const collectSpecs = async () => (await collectCards()).map(card => ({
 }))
 
 export default definePresetConfig({
+  cache: {
+    key: 'santi020k-social-cards-v1',
+    sources: [
+      BRAND_LOGO,
+      'scripts/js/prepare-og-image.mjs',
+      'scripts/js/render-og-decoration.mjs'
+    ]
+  },
   cards: collectCards,
   clean: true,
   concurrency: 'auto',
   outputDirectory: 'public/og',
   routeManifest: { file: 'public/og/manifest.json', publicPath: '/og' },
   preset: {
-    brand: { domain: 'santi020k.com', name: 'Santiago Molina' },
-    theme: { accent: '#945df4', background: '#0d0718', panel: '#1c1528' }
+    brand: { domain: 'santi020k.com', logo: BRAND_LOGO, name: 'Santiago Molina' },
+    decoration: renderOgDecoration,
+    sharp: { webp: { effort: 6, quality: 90, smartSubsample: true } },
+    theme: {
+      accent: '#9b66ff',
+      background: '#0c0715',
+      foreground: '#f1edf8',
+      muted: '#c7c0d2',
+      panel: '#1a1426'
+    },
+    typography: { family: 'Montserrat', file: BRAND_FONT }
   },
   root: ROOT
 })

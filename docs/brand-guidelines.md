@@ -1,6 +1,6 @@
 # Santi020k — Brand Guidelines
 
-**Version:** 2.7 · **Last updated:** June 2026 · **Owner:** Santiago Molina (@santi020k)
+**Version:** 3.0 · **Last updated:** August 2026 · **Owner:** Santiago Molina (@santi020k)
 
 > Single source of truth for the visual identity, voice, and implementation standards of the personal website and all related materials. Keep this document up to date whenever design tokens, components, or brand direction change.
 
@@ -156,6 +156,37 @@ Use semantic tokens first. For translucent brand or border effects, prefer Tailw
 
 Verify all new color pairings with a contrast checker before shipping.
 
+### Project brand palettes
+
+The site-wide purple remains the identity for navigation, page-level calls to action, focus
+states, and Santiago-owned brand surfaces. Project cards, project detail accents, logo stages,
+and generated project artwork use the palette declared by that project instead. This gives each
+project a recognizable visual world without fragmenting the surrounding site.
+
+Every project frontmatter entry defines three six-digit hexadecimal source colors:
+
+```yaml
+brand:
+  primary: "#00cfe8"
+  secondary: "#21c7bd"
+  surface: "#071525"
+```
+
+| Role | Purpose |
+| :--- | :------ |
+| `primary` | The project’s most recognizable color. Used for glows, borders, status dots, and interactive emphasis. |
+| `secondary` | A supporting brand color. Used in gradients and generated-image depth. |
+| `surface` | The project’s preferred dark stage. Used behind logos and as the base of generated cover artwork. |
+
+`src/utils/project-brand.ts` converts the source palette into scoped HSL custom properties and
+derives readable primary variants for the light and dark canvases. Text must use the readable
+variant; the unadjusted primary is reserved for decoration unless its contrast has been verified.
+The image generator treats the declared palette as authoritative and only extracts a logo color
+as a fallback for legacy fixtures.
+
+Project colors must stay scoped to a project surface. Do not recolor global navigation, shared
+buttons, or the Santi020k logo to match the current project.
+
 ---
 
 ## 4. Typography
@@ -281,14 +312,40 @@ Custom `--container-*` values in `@theme` override Tailwind defaults for tighter
 
 ### Open Graph Images
 
-Generated server-side via Satori at `src/pages/og/`. Every page must have one.
+Generated before the Astro build with `@santi020k/og` from
+`scripts/js/generate-og-images.js`. Every indexable page must have one.
 
 | Property | Requirement |
 | :------- | :---------- |
 | Size | 1200 × 630 px |
-| Format | PNG (Satori output) |
-| Content | Page title + site branding |
+| Format | Optimized WebP (Sharp output) |
+| Content | Page title, description, route context, site branding, and optional cover art |
 | Contrast | Body text clearly legible at thumbnail size |
+| Typography | Montserrat variable, measured before wrapping |
+| Validation | `pnpm run check:og`, deterministic comparison, and post-build SEO audit |
+
+### Blog Cover Art
+
+Blog covers use a shared technical-editorial system that is separate from Open Graph cards.
+The post title and metadata are rendered by the page, so the artwork never repeats them.
+
+| Property | Requirement |
+| :------- | :---------- |
+| Size | 1600 × 900 px (16:9) |
+| Format | Optimized WebP at `./cover.webp` beside the post |
+| Style | Dimensional technical editorial illustration with matte and restrained glass surfaces |
+| Base palette | Graphite, off-white, deep brand purple, and lilac |
+| Variation | One restrained topic accent, chosen for meaning rather than decoration |
+| Composition | One focal concept inside the central 80%; readable at card size |
+| Content | Visual metaphor only; no embedded title, readable code, product logo, or watermark |
+| Accessibility | Concrete descriptive alt text; never “Editorial cover for…” or a copy of the title |
+
+Use one of four recurring compositions: central system, before-and-after transformation,
+connected layers, or journey through gates. Review every generated cover for accidental text,
+logos, characters, malformed symbols, subject clarity, and crop safety before accepting it.
+
+The canonical prompt, palette roles, workflow, and review checklist live in
+[`docs/blog-cover-art.md`](blog-cover-art.md).
 
 ### Astro Image Component
 
@@ -938,12 +995,15 @@ All internal links use trailing slashes.
 | `src/styles/global.css` | Entry stylesheet: imports shared tokens, partials, utilities, and plugins |
 | `src/site.config.ts` | Site-wide metadata — title, description, author, nav links |
 | `src/content.config.ts` | Content collection schemas (Zod) |
+| `src/utils/project-brand.ts` | Scoped project palette variables and contrast-safe derived colors |
 | `src/types.ts` | Shared TypeScript types including `Badge` variants |
 | `src/components/atoms/Pill.astro` | Pill / tag component |
 | `src/components/atoms/ThemeToggle.astro` | Dark mode toggle |
 | `src/components/layout/Header.astro` | Fixed/relative header with mobile drawer |
 | `src/components/layout/Footer.astro` | Footer with social icons and version |
-| `src/pages/og/` | Open Graph image generation (Satori) |
+| `scripts/js/generate-og-images.js` | Open Graph catalog, metadata routes, and preset configuration |
+| `scripts/js/generate-project-images.mjs` | Project-palette cover generation and logo staging |
+| `scripts/js/render-og-decoration.mjs` | Brand-owned abstract system decoration for image-free cards |
 | `src/layouts/` | Page layout wrappers |
 
 ---
@@ -952,6 +1012,9 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 3.0 | August 2026 | Added project-level primary, secondary, and surface palettes; scoped them across portfolio interfaces; added contrast-safe text derivatives; and connected the same palette source to project image generation. |
+| 2.9 | August 2026 | Aligned generated Open Graph cards with Montserrat, shared brand assets and colors, content-aware variants, route metadata, optimized WebP encoding, and deterministic Quality checks. |
+| 2.8 | August 2026 | Standardized blog cover art as 1600 × 900 WebP technical-editorial illustrations, documented composition and accessibility rules, and migrated the complete post archive. |
 | 2.7 | June 2026 | Moved core color/font tokens to `@santi020k/theme`, documented shared asset and font helpers, and kept site-only status/animation tokens local. |
 | 2.6 | May 2026 | Added the single-surface card rule: no card-like surfaces nested inside cards or framed shells. Internal hierarchy now uses dividers, plain rows, media, and inline metadata. |
 | 2.5 | May 2026 | **Major home page refresh**: New hero with gradient text, animated portrait rings, and floating mini-notes. New content sections with asymmetric 2-column layout (`0.72fr / 1.28fr`). New card patterns: project cards with image overlays, status badges (Active/Completed), date ranges. Added `GradientDivider` component. Updated card design system with `panel-card`, `mini-note` patterns. |

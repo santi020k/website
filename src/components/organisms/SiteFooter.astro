@@ -27,16 +27,17 @@ const navigationIcons: Record<string, string> = {
   'tabler:user-circle': 'circle-user-round'
 }
 
-const navLinks = menuLinks.map(link => ({
-  ...link,
-  lumenIcon: link.icon ? navigationIcons[link.icon] : undefined
-}))
+const navLinks = menuLinks
+  .filter(({ path }) => path !== '/speaking/')
+  .map(link => ({
+    ...link,
+    lumenIcon: link.icon ? navigationIcons[link.icon] : undefined
+  }))
 
 const resourceLinks = [
-  { lumenIcon: 'rss', path: '/feed.xml', title: 'RSS Feed' },
-  { lumenIcon: 'network', path: '/sitemap.xml', title: 'Sitemap' },
   { lumenIcon: 'accessibility', path: '/accessibility/', title: 'Accessibility' },
-  { lumenIcon: 'shield-check', path: '/privacy/', title: 'Privacy' }
+  { lumenIcon: 'shield-check', path: '/privacy/', title: 'Privacy' },
+  { lumenIcon: 'file-text', path: '/terms/', title: 'Terms' }
 ]
 
 const currentPath = Astro.url.pathname

@@ -1,6 +1,10 @@
 ---
 title: "Smith Commerce"
 description: "Rebuilt Marcone's storefront into a faster, more accessible headless experience while giving teams room to ship independently."
+brand:
+  primary: "#e5e7eb"
+  secondary: "#6b7280"
+  surface: "#111827"
 role: "Senior Front End Developer"
 startingDate: "1 May 2025"
 liveDemoUrl: "https://www.marcone.com/"

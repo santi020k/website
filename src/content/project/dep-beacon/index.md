@@ -1,6 +1,10 @@
 ---
 title: "Dep Beacon"
 description: "Built and published a VS Code extension that brings npm dependency status, update targets, pnpm workspace catalog context, and OSV security signals into package manifests."
+brand:
+  primary: "#7cd3fc"
+  secondary: "#f0c060"
+  surface: "#12152a"
 role: "Creator"
 startingDate: "1 Jun 2026"
 githubUrl: "https://github.com/santi020k/dep-beacon"
