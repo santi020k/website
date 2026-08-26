@@ -143,6 +143,14 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(xgamesProps?.pathLabel).toBe('/portfolio/xgames/')
   })
 
+  test('labels community case-study cards as community work', async () => {
+    const communityCard = (await collectCards()).find(
+      card => card.route?.pathname === '/portfolio/react-js-colombia/'
+    )
+
+    expect(communityCard?.data.badge).toBe('Community work')
+  })
+
   test('resolves cover image assets for blog posts and falls back to cover src when a project ogImage is missing', async () => {
     const specs = await collectSpecs()
     const postSpec = specs.find(spec => spec.outFile === path.join(

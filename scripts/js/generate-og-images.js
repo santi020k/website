@@ -384,7 +384,7 @@ export const collectCards = async () => {
       ) ?? await resolveContentAsset(entry, getFrontmatterValue(entry, 'coverImage.src'))
 
       return {
-        badge: 'Project',
+        badge: entry.frontmatter.typesId === 'community' ? 'Community work' : 'Project',
         ...(coverImagePath ?
           {
             coverImagePath,
