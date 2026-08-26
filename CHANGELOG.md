@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.0
+
+### Minor Changes
+
+- [#129](https://github.com/santi020k/website/pull/129) [`a73de52`](https://github.com/santi020k/website/commit/a73de5298e61dfeaee9d708f20f7c3fceeffc129) Thanks [@santi020k](https://github.com/santi020k)! - Launch the refreshed portfolio with a dedicated developer-experience hub, a complete speaking and community timeline, expanded project context, improved discovery and social metadata, and more resilient responsive presentation across the site.
+
 ## 3.3.0
 
 ### Minor Changes
