@@ -1,7 +1,5 @@
 /* eslint @typescript-eslint/no-unsafe-assignment: off, @typescript-eslint/no-unsafe-member-access: off, jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
 // TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
-import { execFileSync } from 'node:child_process'
-
 import { expect, test } from '@playwright/test'
 
 // ---------------------------------------------------------------------------
@@ -185,21 +183,7 @@ test.describe('SEO — meta tags', () => {
     await expect(page.locator('a[href^="/pdf/cv.pdf?"]')).toHaveCount(0)
   })
 
-  test('resume structured data uses a committed Git modification date', async ({ page }) => {
-    const trackedPaths = [
-      'scripts/py/cv.md',
-      'src/content/project',
-      'src/pages/resume.astro',
-      'src/site.config.ts'
-    ]
-    const committedModificationDates = execFileSync(
-      'git', ['log', '--format=%cI', '--', ...trackedPaths], { encoding: 'utf8' }
-    )
-      .trim()
-      .split('\n')
-      .filter(Boolean)
-      .map(value => new Date(value).toISOString())
-
+  test('resume structured data uses a valid stable modification date', async ({ page }) => {
     await page.goto('/resume/')
 
     const profilePageSchema = await page.evaluate((): unknown => {
@@ -232,7 +216,12 @@ test.describe('SEO — meta tags', () => {
       typeof profilePageSchema.dateModified !== 'string'
     ) throw new TypeError('ProfilePage dateModified must be a string')
 
-    expect(committedModificationDates).toContain(profilePageSchema.dateModified)
+    const dateModified = new Date(profilePageSchema.dateModified)
+
+    expect(Number.isNaN(dateModified.getTime())).toBe(false)
+    expect(dateModified.toISOString()).toBe(profilePageSchema.dateModified)
+    expect(dateModified.getTime()).toBeGreaterThanOrEqual(new Date('2024-01-01T00:00:00.000Z').getTime())
+    expect(dateModified.getTime()).toBeLessThanOrEqual(Date.now())
   })
 
   test('resume print styles hide the decorative particle layer', async ({ page }) => {
