@@ -2296,8 +2296,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/aaronmgz.webp",
+          "output": "portfolio/aaronmgz-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/aaronmgz-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/aaronmgz.webp",
+          "primary": false,
           "url": "/og/portfolio/aaronmgz.webp",
           "width": 1200
         }
@@ -2312,8 +2320,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/astro-doctor.webp",
+          "output": "portfolio/astro-doctor-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/astro-doctor-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/astro-doctor.webp",
+          "primary": false,
           "url": "/og/portfolio/astro-doctor.webp",
           "width": 1200
         }
@@ -2328,8 +2344,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/between-contractions.webp",
+          "output": "portfolio/between-contractions-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/between-contractions-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/between-contractions.webp",
+          "primary": false,
           "url": "/og/portfolio/between-contractions.webp",
           "width": 1200
         }
@@ -2344,8 +2368,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/coolstead.webp",
+          "output": "portfolio/coolstead-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/coolstead-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/coolstead.webp",
+          "primary": false,
           "url": "/og/portfolio/coolstead.webp",
           "width": 1200
         }
@@ -2360,8 +2392,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/datagran.webp",
+          "output": "portfolio/datagran-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/datagran-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/datagran.webp",
+          "primary": false,
           "url": "/og/portfolio/datagran.webp",
           "width": 1200
         }
@@ -2376,8 +2416,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/dep-beacon.webp",
+          "output": "portfolio/dep-beacon-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/dep-beacon-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/dep-beacon.webp",
+          "primary": false,
           "url": "/og/portfolio/dep-beacon.webp",
           "width": 1200
         }
@@ -2392,8 +2440,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/eslint-config-basic.webp",
+          "output": "portfolio/eslint-config-basic-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/eslint-config-basic-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/eslint-config-basic.webp",
+          "primary": false,
           "url": "/og/portfolio/eslint-config-basic.webp",
           "width": 1200
         }
@@ -2408,8 +2464,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/eslint-config-santi020k.webp",
+          "output": "portfolio/eslint-config-santi020k-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/eslint-config-santi020k-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/eslint-config-santi020k.webp",
+          "primary": false,
           "url": "/og/portfolio/eslint-config-santi020k.webp",
           "width": 1200
         }
@@ -2424,8 +2488,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/justbit.webp",
+          "output": "portfolio/justbit-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/justbit-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/justbit.webp",
+          "primary": false,
           "url": "/og/portfolio/justbit.webp",
           "width": 1200
         }
@@ -2440,8 +2512,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/lumen-ui.webp",
+          "output": "portfolio/lumen-ui-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/lumen-ui-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/lumen-ui.webp",
+          "primary": false,
           "url": "/og/portfolio/lumen-ui.webp",
           "width": 1200
         }
@@ -2456,8 +2536,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/nebular.webp",
+          "output": "portfolio/nebular-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/nebular-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/nebular.webp",
+          "primary": false,
           "url": "/og/portfolio/nebular.webp",
           "width": 1200
         }
@@ -2472,8 +2560,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/og.webp",
+          "output": "portfolio/og-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/og-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/og.webp",
+          "primary": false,
           "url": "/og/portfolio/og.webp",
           "width": 1200
         }
@@ -2488,8 +2584,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/optic-power.webp",
+          "output": "portfolio/optic-power-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/optic-power-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/optic-power.webp",
+          "primary": false,
           "url": "/og/portfolio/optic-power.webp",
           "width": 1200
         }
@@ -2504,8 +2608,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/pads.webp",
+          "output": "portfolio/pads-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/pads-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/pads.webp",
+          "primary": false,
           "url": "/og/portfolio/pads.webp",
           "width": 1200
         }
@@ -2520,8 +2632,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/quality.webp",
+          "output": "portfolio/quality-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/quality-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/quality.webp",
+          "primary": false,
           "url": "/og/portfolio/quality.webp",
           "width": 1200
         }
@@ -2536,8 +2656,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/react-js-colombia.webp",
+          "output": "portfolio/react-js-colombia-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/react-js-colombia-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/react-js-colombia.webp",
+          "primary": false,
           "url": "/og/portfolio/react-js-colombia.webp",
           "width": 1200
         }
@@ -2552,8 +2680,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/santi020k-theme.webp",
+          "output": "portfolio/santi020k-theme-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/santi020k-theme-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/santi020k-theme.webp",
+          "primary": false,
           "url": "/og/portfolio/santi020k-theme.webp",
           "width": 1200
         }
@@ -2568,8 +2704,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/smith-commerce.webp",
+          "output": "portfolio/smith-commerce-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/smith-commerce-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/smith-commerce.webp",
+          "primary": false,
           "url": "/og/portfolio/smith-commerce.webp",
           "width": 1200
         }
@@ -2584,8 +2728,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/tedx-medellin.webp",
+          "output": "portfolio/tedx-medellin-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/tedx-medellin-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/tedx-medellin.webp",
+          "primary": false,
           "url": "/og/portfolio/tedx-medellin.webp",
           "width": 1200
         }
@@ -2600,8 +2752,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/void.webp",
+          "output": "portfolio/void-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/void-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/void.webp",
+          "primary": false,
           "url": "/og/portfolio/void.webp",
           "width": 1200
         }
@@ -2616,8 +2776,16 @@
         {
           "format": "webp",
           "height": 630,
-          "output": "portfolio/xgames.webp",
+          "output": "portfolio/xgames-logo.webp",
           "primary": true,
+          "url": "/og/portfolio/xgames-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/xgames.webp",
+          "primary": false,
           "url": "/og/portfolio/xgames.webp",
           "width": 1200
         }

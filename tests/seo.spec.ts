@@ -234,17 +234,16 @@ test.describe('SEO — meta tags', () => {
     await expect(particles).toBeHidden()
   })
 
-  test('homepage has a valid og:image pointing to the generated PNG', async ({ page }) => {
+  test('homepage has a valid og:image pointing to the generated WebP', async ({ page }) => {
     await page.goto('/')
 
     const ogImageMeta = page.locator('meta[property="og:image"]')
     await expect(ogImageMeta).toHaveAttribute('content', /.+/)
     const ogImage = await ogImageMeta.getAttribute('content')
-    // Root uses the default webp fallback (no OG slug for '/')
-    expect(ogImage).toContain('.webp')
+    expect(ogImage).toBe('https://santi020k.com/og/pages/index.webp')
   })
 
-  test('blog index has an og:image pointing to the generated pages PNG', async ({ page }) => {
+  test('blog index has an og:image pointing to the generated pages WebP', async ({ page }) => {
     await page.goto('/blog/')
 
     const ogImageMeta = page.locator('meta[property="og:image"]')
@@ -253,7 +252,7 @@ test.describe('SEO — meta tags', () => {
     expect(ogImage).toMatch(/\/og\/pages\/.+\.webp$/)
   })
 
-  test('about page has an og:image pointing to the generated pages PNG', async ({ page }) => {
+  test('about page has an og:image pointing to the generated pages WebP', async ({ page }) => {
     await page.goto('/about/')
 
     const ogImageMeta = page.locator('meta[property="og:image"]')
@@ -462,7 +461,7 @@ test.describe('SEO — JSON-LD structured data', () => {
         ))
 
       expect(projectSchema).toMatchObject({
-        image: `https://santi020k.com/og/portfolio/${projectId}.webp`
+        image: `https://santi020k.com/og/portfolio/${projectId}-logo.webp`
       })
     }
   })
