@@ -9,7 +9,7 @@
  * Strategy:
  *  - Uses @santi020k/og's framework-neutral content and archive collectors
  *  - Shares page copy with route-manifest metadata and generated image data
- *  - Normalizes local cover art for reliable SVG embedding
+ *  - Normalizes local cover art and project logos for reliable SVG embedding
  *  - Applies the branded preset, measured Montserrat typography, and Sharp WebP
  *  - Uses content-aware caching, bounded concurrency, and tracked cleanup
  */
@@ -30,7 +30,7 @@ import { definePresetConfig } from '@santi020k/og/presets'
 
 import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
 
-import { prepareOgImage } from './prepare-og-image.mjs'
+import { prepareOgImage, prepareOgLogo } from './prepare-og-image.mjs'
 import { renderOgAtmosphere } from './render-og-atmosphere.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -378,28 +378,31 @@ export const collectCards = async () => {
     basePath: 'portfolio',
     includeDrafts,
     map: async entry => {
-      const coverImagePath = await resolveContentAsset(
+      const logoImagePath = await resolveContentAsset(
         entry,
-        getFrontmatterValue(entry, 'coverImage.ogImage')
-      ) ?? await resolveContentAsset(entry, getFrontmatterValue(entry, 'coverImage.src'))
+        getFrontmatterValue(entry, 'coverImage.logo')
+      )
 
       return {
         badge: entry.frontmatter.typesId === 'community' ? 'Community work' : 'Project',
-        ...(coverImagePath ?
+        ...(logoImagePath ?
           {
-            coverImagePath,
-            image: await prepareOgImage(coverImagePath)
+            image: await prepareOgLogo(
+              logoImagePath,
+              getFrontmatterValue(entry, 'coverImage.logoSurface')
+            ),
+            logoImagePath
           } :
           {}),
         description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
         domain: `/portfolio/${entry.slug}/`,
         title: entry.frontmatter.title ?? entry.slug,
-        variant: coverImagePath ? 'product' : 'simple'
+        variant: logoImagePath ? 'product' : 'simple'
       }
     },
     output: entry => `portfolio/${entry.slug}.webp`,
     root: ROOT,
-    sources: (entry, data) => data.coverImagePath ? [entry.filePath, data.coverImagePath] : [entry.filePath]
+    sources: (entry, data) => data.logoImagePath ? [entry.filePath, data.logoImagePath] : [entry.filePath]
   })
 
   const seriesCards = await collectContentCards({
@@ -452,6 +455,7 @@ export const collectSpecs = async () => (await collectCards()).map(card => ({
   outFile: path.join(OUT_DIR, card.output),
   props: {
     ...(card.data.coverImagePath ? { coverImagePath: card.data.coverImagePath } : {}),
+    ...(card.data.logoImagePath ? { logoImagePath: card.data.logoImagePath } : {}),
     description: card.data.description,
     pathLabel: card.data.domain,
     title: card.data.title,

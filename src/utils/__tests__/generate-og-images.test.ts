@@ -12,6 +12,7 @@ import { staticSocialPages } from '../../data/social-pages'
 
 interface SocialImageProps {
   coverImagePath?: string
+  logoImagePath?: string
   pathLabel?: string
   title?: string
 }
@@ -102,16 +103,22 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     })
   })
 
-  test('uses real cover art as the only right-side visual', async () => {
+  test('uses editorial covers for posts and dedicated logos for projects', async () => {
     const cards = await collectCards()
-    const visualVariants = cards
-      .filter(card => Boolean((card.data as { image?: unknown }).image))
-      .map(card => (card.data as { variant?: string }).variant)
+    const postCard = cards.find(card => card.route?.pathname ===
+      '/blog/deterministic-open-graph-images-without-design-lock-in/')
+    const projectCard = cards.find(card => card.route?.pathname ===
+      '/portfolio/react-js-colombia/')
+    const postData = postCard?.data as { coverImagePath?: string, variant?: string } | undefined
+    const projectData = projectCard?.data as { logoImagePath?: string, variant?: string } | undefined
     const imageFreeVariants = cards
       .filter(card => !(card.data as { image?: unknown }).image)
       .map(card => (card.data as { variant?: string }).variant)
 
-    expect(new Set(visualVariants)).toEqual(new Set(['article', 'product']))
+    expect(postData).toMatchObject({ variant: 'article' })
+    expect(postData?.coverImagePath).toMatch(/cover\.webp$/u)
+    expect(projectData).toMatchObject({ variant: 'product' })
+    expect(projectData?.logoImagePath).toMatch(/logo\.webp$/u)
     expect(new Set(imageFreeVariants)).toEqual(new Set(['simple']))
   })
 
@@ -151,7 +158,7 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(communityCard?.data.badge).toBe('Community work')
   })
 
-  test('resolves cover image assets for blog posts and falls back to cover src when a project ogImage is missing', async () => {
+  test('resolves cover art for blog posts and logo assets for projects', async () => {
     const specs = await collectSpecs()
     const postSpec = specs.find(spec => spec.outFile === path.join(
       process.cwd(), 'public', 'og', 'blog', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be.webp'
@@ -163,8 +170,8 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(postProps?.coverImagePath).toBe(path.join(
       process.cwd(), 'src', 'content', 'post', '2026', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be', 'cover.webp'
     ))
-    expect(projectProps?.coverImagePath).toBe(path.join(
-      process.cwd(), 'src', 'content', 'project', 'eslint-config-basic', 'cover.webp'
+    expect(projectProps?.logoImagePath).toBe(path.join(
+      process.cwd(), 'src', 'content', 'project', 'eslint-config-basic', 'logo-square.webp'
     ))
   })
 
