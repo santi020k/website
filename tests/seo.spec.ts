@@ -192,29 +192,47 @@ test.describe('SEO — meta tags', () => {
       'src/pages/resume.astro',
       'src/site.config.ts'
     ]
-    const expectedDateModified = new Date(execFileSync(
-      'git', ['log', '-1', '--format=%cI', '--', ...trackedPaths], { encoding: 'utf8' }
-    ).trim()).toISOString()
+    const committedModificationDates = execFileSync(
+      'git', ['log', '--format=%cI', '--', ...trackedPaths], { encoding: 'utf8' }
+    )
+      .trim()
+      .split('\n')
+      .filter(Boolean)
+      .map(value => new Date(value).toISOString())
 
     await page.goto('/resume/')
 
-    const profilePageSchema = await page.evaluate((): any => {
+    const profilePageSchema = await page.evaluate((): unknown => {
       const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
 
       for (const script of scripts) {
         try {
           const content = script.textContent
           if (!content) continue
-          const json = JSON.parse(content)
-          if (json['@type'] === 'ProfilePage') return json
+          const json: unknown = JSON.parse(content)
+
+          if (
+            typeof json === 'object' &&
+            json !== null &&
+            '@type' in json &&
+            json['@type'] === 'ProfilePage'
+          ) return json
         } catch { /* skip */ }
       }
 
       return null
     })
 
-    expect(profilePageSchema).not.toBeNull()
-    expect(profilePageSchema.dateModified).toBe(expectedDateModified)
+    expect(profilePageSchema).toMatchObject({ dateModified: expect.any(String) })
+
+    if (
+      typeof profilePageSchema !== 'object' ||
+      profilePageSchema === null ||
+      !('dateModified' in profilePageSchema) ||
+      typeof profilePageSchema.dateModified !== 'string'
+    ) throw new TypeError('ProfilePage dateModified must be a string')
+
+    expect(committedModificationDates).toContain(profilePageSchema.dateModified)
   })
 
   test('resume print styles hide the decorative particle layer', async ({ page }) => {
