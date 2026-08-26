@@ -66,6 +66,21 @@ test.describe('About page', () => {
     await expect(items.nth(8)).not.toBeVisible()
   })
 
+  test('should dispose carousel resize work across page transitions', async ({ page }) => {
+    const detachedStatus = await page.locator('[data-carousel-status]').evaluateHandle(status => status)
+
+    await page.locator('a[href="/"]').first().click()
+    await expect(page).toHaveURL('/')
+
+    await detachedStatus.evaluate(status => {
+      status.textContent = 'detached-sentinel'
+    })
+
+    await page.setViewportSize({ height: 900, width: 800 })
+
+    expect(await detachedStatus.evaluate(status => status.textContent)).toBe('detached-sentinel')
+  })
+
   test('should pass accessibility audit', async ({ page }) => {
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)

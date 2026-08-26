@@ -200,6 +200,8 @@ const logoSurfaceClass = {
 
       carousel.dataset.carouselBound = 'true'
 
+      const controller = new AbortController()
+      const { signal } = controller
       let startIndex = 0
       let resizeFrame = 0
 
@@ -271,9 +273,9 @@ const logoSurfaceClass = {
         render()
       }
 
-      previousButton.addEventListener('click', () => move(-1))
+      previousButton.addEventListener('click', () => move(-1), { signal })
 
-      nextButton.addEventListener('click', () => move(1))
+      nextButton.addEventListener('click', () => move(1), { signal })
 
       carousel.addEventListener('keydown', event => {
         if (event.target !== previousButton && event.target !== nextButton) return
@@ -283,13 +285,19 @@ const logoSurfaceClass = {
         event.preventDefault()
 
         move(event.key === 'ArrowLeft' ? -1 : 1)
-      })
+      }, { signal })
 
       window.addEventListener('resize', () => {
         window.cancelAnimationFrame(resizeFrame)
 
         resizeFrame = window.requestAnimationFrame(render)
-      })
+      }, { signal })
+
+      document.addEventListener('astro:before-swap', () => {
+        window.cancelAnimationFrame(resizeFrame)
+
+        controller.abort()
+      }, { once: true })
 
       render()
     }
