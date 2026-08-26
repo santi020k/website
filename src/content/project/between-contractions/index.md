@@ -1,17 +1,23 @@
 ---
 title: "Between Contractions"
 description: "Built a calm, privacy-first contraction timer for the web, iOS, Android, watches, widgets, and optional real-time partner coordination."
+brand:
+  primary: "#e21c46"
+  secondary: "#f490a8"
+  surface: "#1f0b13"
 role: "Creator"
 startingDate: "8 Jan 2026"
 githubUrl: "https://github.com/santi020k/betweencontractions"
 liveDemoUrl: "https://between.santi020k.com/"
 typesId: "personal"
 orderInTypes: 1
-relevanceWeight: 88
+relevanceWeight: 70
 impactMetrics: ["Delivered one bilingual timer across browser, phone, watch, widget, and desktop surfaces", "Kept the core timer free, ad-free, account-free, and local-first", "Separated optional Partner Sync from private on-device contraction history"]
 technologies: ["Astro", "TypeScript", "Lumen UI", "Swift", "SwiftUI", "SwiftData", "WidgetKit", "WatchConnectivity", "Kotlin", "Jetpack Compose", "Room", "Glance", "Wear OS", "Hono", "Cloudflare Workers", "Cloudflare D1", "WebSockets", "Turborepo", "pnpm", "Accessibility", "Testing", "CI-CD", "i18n"]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"

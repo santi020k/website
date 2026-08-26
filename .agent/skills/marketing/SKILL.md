@@ -133,7 +133,7 @@ When writing social copy to promote a new blog post or project, use this format:
 ## Content Strategy for Blog
 
 **Content pillars** (what to write about):
-1. **Tutorials & how-tos** — step-by-step guides using the site's actual tech stack (Astro, Alpine.js, Tailwind)
+1. **Tutorials & how-tos** — step-by-step guides using the site's actual tech stack (Astro, native JavaScript, Tailwind)
 2. **Case studies** — what was built, why, and what was learned
 3. **Opinions & takes** — considered positions on tooling, patterns, or industry topics
 4. **Project updates** — what's being built and what's interesting about it

@@ -19,7 +19,12 @@ import logoWordmarkUrl from '@santi020k/theme/assets/logos/logo-santi020k.svg?ur
 import logoWordmarkDarkUrl from '@santi020k/theme/assets/logos/logo-santi020k-dark.svg?url'
 import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
 
-import { AUTHOR_JOB_TITLE, sameAsProfiles, siteConfig } from '@/site.config'
+import {
+  AUTHOR_JOB_TITLE,
+  createSchemaEntityId,
+  sameAsProfiles,
+  siteConfig
+} from '@/site.config'
 
 type Props = SiteMeta
 
@@ -95,7 +100,7 @@ const transform = (tags: readonly MetadataTag[]) => tags.map(tag => {
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
 
 const websiteJsonLd = serializeJsonLd(webSiteSchema({
-  id: `${Astro.site?.href ?? 'https://santi020k.com/'}#website`,
+  id: createSchemaEntityId('website', Astro.site),
   inLanguage: siteConfig.lang,
   name: siteConfig.author,
   searchAction: { target: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={search_term_string}` },
@@ -119,6 +124,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 <link rel="icon" href="/favicon.webp" sizes="32x32" type="image/webp" />
 <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.webp" type="image/webp" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" type="image/png" />
 <link rel="manifest" href="/manifest.webmanifest" />
@@ -192,9 +198,9 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   type="application/ld+json"
   is:inline
   set:html={serializeJsonLd(personSchema({
-    id: `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
+    id: createSchemaEntityId('person', Astro.site),
     name: siteConfig.author,
-    url: Astro.site?.href ?? 'https://santi020k.com/'
+    url: new URL('/about/', Astro.site ?? 'https://santi020k.com/').href
   }, {
     alternateName: 'santi020k',
     jobTitle: AUTHOR_JOB_TITLE,
@@ -214,7 +220,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   type="application/ld+json"
   is:inline
   set:html={serializeJsonLd(organizationSchema({
-    id: `${Astro.site?.href ?? 'https://santi020k.com/'}#organization`,
+    id: createSchemaEntityId('organization', Astro.site),
     name: siteConfig.title,
     url: Astro.site?.href ?? 'https://santi020k.com/'
   }, {
@@ -226,7 +232,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
     },
     founder: {
       '@type': 'Person',
-      '@id': `${Astro.site?.href ?? 'https://santi020k.com/'}#person`,
+      '@id': createSchemaEntityId('person', Astro.site),
       name: siteConfig.author
     },
     sameAs: sameAsProfiles,

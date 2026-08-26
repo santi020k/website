@@ -1,6 +1,10 @@
 ---
 title: "Astro Doctor"
 description: "Built a deterministic Astro health-check toolkit with a CLI, ESLint plugin, editor extension, GitHub Action, docs site, and installable agent skills."
+brand:
+  primary: "#fc7719"
+  secondary: "#ffbe78"
+  surface: "#17111f"
 seoTitle: "Astro Doctor: Astro Code Quality Toolkit"
 seoDescription: "Explore Astro Doctor, a CLI, ESLint plugin, editor extension, and GitHub Action for catching Astro performance, accessibility, and security issues."
 role: "Creator"
@@ -8,7 +12,7 @@ startingDate: "1 Jan 2026"
 githubUrl: "https://github.com/santi020k/astro-doctor"
 liveDemoUrl: "https://doctor.santi020k.com/"
 typesId: "personal"
-relevanceWeight: 96
+relevanceWeight: 85
 impactMetrics: [
   "Catches Astro-specific performance, accessibility, security, and best-practice issues",
   "Reports health scores in local, editor, and CI workflows",

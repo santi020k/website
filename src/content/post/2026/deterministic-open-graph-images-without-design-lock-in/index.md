@@ -3,7 +3,7 @@ title: "Deterministic Open Graph images without design lock-in"
 description: "Why I separated social-image generation mechanics from project-owned visuals, then built caching, safe cleanup, worker concurrency, and CI checks around that boundary."
 publishDate: "2026-08-22T15:00:00.000Z"
 coverImage:
-  alt: "Open Graph card generation interface for the @santi020k/og toolkit"
+  alt: "A deterministic generation engine producing several project-owned social-card templates"
   src: "./cover.webp"
 tags: ["open-graph", "typescript", "nodejs", "developer-experience", "build-tools"]
 postType: "Deep Dive"

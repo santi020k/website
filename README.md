@@ -103,11 +103,22 @@ pnpm run lint:content # Content frontmatter quality checks
 pnpm run check        # Astro type-checking
 pnpm run test         # Unit testing
 pnpm run test:e2e     # E2E testing
+pnpm run generate:project-images # Regenerate responsive project covers
 pnpm run lighthouse   # Local Lighthouse CI run
 pnpm run verify:fast  # Spellcheck + lint + type-check + test + build
 ```
 
 `test:e2e` commands auto-install Playwright browsers when needed.
+
+`generate:project-images` discovers project frontmatter and logos automatically. It renders
+`cover.webp` as the information-rich thumbnail, `cover-horizontal.webp` as the text-free detail
+hero, `cover-vertical.webp` as the portrait scene used by vertical cards, and opt-in
+`cover-background.webp` scenes without embedded logos for composited brand treatments.
+
+The site selects those roles consistently: search and project galleries use the thumbnail,
+featured and detail views use the horizontal hero, and portrait project cards use the vertical
+scene. `src/utils/project-cover.ts` owns the fallback order for projects that do not yet provide
+every variant.
 
 For more stable CI/browser-constrained environments, use:
 

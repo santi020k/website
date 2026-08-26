@@ -1,12 +1,16 @@
 ---
 title: "quality"
 description: "Built a fast, predictable code-quality CLI and GitHub Action that detects and coordinates native analyzers across Rust, Swift, Android, Kotlin, JavaScript, and Astro repositories."
+brand:
+  primary: "#1f70ea"
+  secondary: "#18a8f0"
+  surface: "#08152d"
 role: "Creator"
 startingDate: "21 Aug 2026"
 githubUrl: "https://github.com/santi020k/quality"
 liveDemoUrl: "https://quality-cli.santi020k.chatgpt.site/"
 typesId: "personal"
-relevanceWeight: 96
+relevanceWeight: 75
 impactMetrics: [
   "Coordinates 13 native analyzers across Rust, Swift, Android, Kotlin, JavaScript, TypeScript, and Astro",
   "Supports changed-file runs, repository baselines, external adapters, concurrent execution, and cross-repository audits",
@@ -18,12 +22,14 @@ technologies: [
   "Developer Experience (DX)", "CI/CD", "Monorepo", "Turborepo", "pnpm", "Open Source"
   ]
 coverImage:
-  src: "./cover.png"
+  src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"
   alt: "Quality CLI dashboard summarizing checks across a polyglot repository"
-  ogImage: "./cover.png"
+  ogImage: "./cover.webp"
 ---
 
 <!-- cspell:words Clippy detekt ktlint SARIF -->

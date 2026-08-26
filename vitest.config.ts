@@ -5,17 +5,27 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   plugins: [
     {
-      name: 'vitest-astro-env-mock',
+      name: 'vitest-astro-virtual-modules',
       resolveId(id) {
         if (id === 'astro:env/server') {
           return '\0astro:env/server'
         }
+
+        if (id === 'astro:content') {
+          return '\0astro:content'
+        }
+
         return null
       },
       load(id) {
         if (id === '\0astro:env/server') {
           return 'export const WEBMENTION_API_KEY = "mock-key";'
         }
+
+        if (id === '\0astro:content') {
+          return 'export const getCollection = () => Promise.resolve([]);'
+        }
+
         return null
       }
     }

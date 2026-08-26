@@ -1,17 +1,23 @@
 ---
 title: "Workspace Organizer"
 description: "Built a native macOS app that groups individual windows into focused spaces, restores layouts, switches contexts, and keeps workspace data private."
+brand:
+  primary: "#00a8ff"
+  secondary: "#7830f0"
+  surface: "#0f0a60"
 role: "Creator"
 startingDate: "13 Jul 2026"
 githubUrl: "https://github.com/santi020k/workspace-organizer"
 liveDemoUrl: "https://workspace.santi020k.com/"
 typesId: "personal"
 draft: true
-relevanceWeight: 86
+relevanceWeight: 60
 impactMetrics: ["Organizes individual windows instead of forcing every window from one application into the same context", "Restores adaptive layouts across changing display arrangements", "Supports menu-bar, keyboard, Shortcuts, URL scheme, and privacy-safe CLI workflows"]
 technologies: ["Swift", "SwiftUI", "AppKit", "macOS", "Accessibility API", "Apple Shortcuts", "App Intents", "iCloud Drive", "Sparkle", "Astro", "TypeScript", "Cloudflare Workers", "Lemon Squeezy", "Homebrew", "Privacy Engineering", "Accessibility", "Testing", "CI-CD"]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"

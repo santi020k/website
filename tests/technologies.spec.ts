@@ -40,6 +40,31 @@ test.describe('Technologies index page', () => {
     await expect(backLink).toHaveAttribute('href', /^\/portfolio\/$/)
   })
 
+  test('technology archives separate projects from work experience', async ({ page }) => {
+    await page.goto('/technologies/typescript/')
+
+    const projectsHeading = page.getByRole('heading', {
+      level: 2,
+      name: 'Projects using TypeScript'
+    })
+
+    const workHeading = page.getByRole('heading', {
+      level: 2,
+      name: 'Work experience using TypeScript'
+    })
+
+    await expect(projectsHeading).toBeVisible()
+    await expect(workHeading).toBeVisible()
+
+    const projectsSection = page.getByRole('region', { name: 'Projects using TypeScript' })
+    const workSection = page.getByRole('region', { name: 'Work experience using TypeScript' })
+
+    expect(await projectsSection.locator('[data-project-gallery-card]').count()).toBeGreaterThan(0)
+    expect(await workSection.locator('[data-project-gallery-card]').count()).toBeGreaterThan(0)
+    await expect(page.locator('[data-portfolio-project]')).toHaveCount(0)
+    await expect(page.locator('[data-project-preview-card]')).toHaveCount(0)
+  })
+
   test('should pass accessibility audit', async ({ page }) => {
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)

@@ -3,7 +3,7 @@ title: "AI Coding Is Probabilistic. Your Delivery Process Should Not Be."
 description: "AI speeds up code changes, but ESLint, tests, snapshots, and end-to-end checks are what keep probabilistic output from turning into production risk."
 publishDate: "2026-04-15T15:30:00.000Z"
 coverImage:
-  alt: "Editorial cover for AI Coding Is Probabilistic. Your Delivery Process Should Not Be."
+  alt: "Probabilistic code fragments entering deterministic verification rails and emerging as a stable artifact"
   src: "./cover.webp"
 tags: ["ai", "eslint", "testing", "e2e", "developer-experience"]
 postType: "Opinion"

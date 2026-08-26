@@ -3,7 +3,7 @@ title: "What Changed When I Started Writing Architecture Notes Every Month"
 description: "A year of monthly architecture notes changed how I review systems, how I catch drift, and how I explain decisions to the people who inherit them."
 publishDate: "2026-09-11T15:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing monthly architecture notes, recurring review milestones, and evolving system diagrams"
+  alt: "Recurring architecture notes orbiting and feeding changes into an evolving system diagram"
   src: "./cover.webp"
 tags: ["architecture", "documentation", "software-design", "engineering-culture"]
 postType: "Case Study"

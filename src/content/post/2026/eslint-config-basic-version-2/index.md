@@ -5,7 +5,7 @@ publishDate: "2026-06-20T15:00:00.000Z"
 updatedDate: "2026-08-20T00:00:00.000Z"
 seoTitle: "ESLint Config Basic v2: ESLint 10 & Frameworks"
 coverImage:
-  alt: "Editorial cover showing modular ESLint configuration blocks, checks, docs, and framework nodes connected into one toolkit"
+  alt: "A modular linting toolkit connecting framework modules, documentation, monorepos, and checks"
   src: "./cover.webp"
 tags: ["eslint", "javascript", "typescript", "developer-experience", "open-source"]
 postType: "Article"

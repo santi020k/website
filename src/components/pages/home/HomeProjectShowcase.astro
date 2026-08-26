@@ -5,7 +5,9 @@ import type { CollectionEntry } from 'astro:content'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
 import { getPortfolioPath } from '@/utils/links'
-import { getProjectTimelineLabel } from '@/utils/project-meta'
+import { getProjectBrandStyle } from '@/utils/project-brand'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectStatusLabel, getProjectTimelineLabel } from '@/utils/project-meta'
 
 import { Icon } from '@santi020k/lumen-astro'
 
@@ -33,7 +35,7 @@ const {
   eyebrow,
   layout = 'default',
   projects,
-  supportingLabel = 'More selected work',
+  supportingLabel = 'Also worth exploring',
   title,
   tone = 'brand'
 } = Astro.props
@@ -41,16 +43,17 @@ const {
 const [featuredProject, ...supportingProjects] = projects
 const isReverse = layout === 'reverse'
 const isAccent = tone === 'accent'
-const accentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
 const accentTextClass = isAccent ? 'text-accent' : 'text-brand'
+const supportingAction = actions.find(action => (action.variant ?? 'primary') === 'primary')
+const headerActions = actions.filter(action => action !== supportingAction)
 const featureLink = featuredProject ? getPortfolioPath(featuredProject.id) : ''
-
-const featureImage = featuredProject?.data.coverImage?.horizontal ??
-  featuredProject?.data.coverImage?.src ??
-  featuredProject?.data.coverImage?.vertical
-
+const featureImage = getProjectCoverForUsage(featuredProject?.data.coverImage, 'thumbnail')
 const featureLogo = featuredProject?.data.coverImage?.logo
-const featureStatus = featuredProject?.data.endingDate ? 'Completed' : 'Active'
+
+const featureStatus = featuredProject ?
+  getProjectStatusLabel(featuredProject.data.draft, featuredProject.data.endingDate) :
+  'Active'
+
 const hasMetrics = Boolean(featuredProject?.data.impactMetrics.length)
 
 type LogoAspect = 'square' | 'tall' | 'wide'
@@ -92,7 +95,6 @@ const supportingLogoSurfaceClass = {
       sm:py-20
       lg:py-24
     "
-    style={`--showcase-accent: ${accentVar};`}
   >
     <div
       aria-hidden="true"
@@ -133,7 +135,7 @@ const supportingLogoSurfaceClass = {
         </div>
 
         <div class="section-actions justify-center">
-          {actions.map(action => (
+          {headerActions.map(action => (
             <ButtonLink
               href={action.href}
               newTab={action.newTab ?? false}
@@ -169,13 +171,12 @@ const supportingLogoSurfaceClass = {
             isReverse && 'lg:col-start-2 lg:row-start-1'
           ]}
           href={featureLink}
+          style={`${getProjectBrandStyle(featuredProject.data.brand)}; --showcase-accent: var(--project-primary);`}
         >
           <article class="flex h-full flex-col">
-            <div class="
-              relative h-72 overflow-hidden
-              sm:h-80
-              lg:h-80
-            "
+            <div
+              class="relative aspect-8/5 overflow-hidden"
+              data-showcase-artwork
             >
               {featureImage ?
                 (
@@ -184,40 +185,23 @@ const supportingLogoSurfaceClass = {
                     aria-hidden="true"
                     class="
                       absolute inset-0 size-full scale-[1.01] object-cover
-                      object-[20%_42%] saturate-110 transition-transform
+                      object-center saturate-110 transition-transform
                       duration-500
                       motion-safe:group-hover:scale-[1.035]
                       motion-reduce:transition-none
-                      sm:object-[center_42%]
                     "
                     formats={['avif', 'webp']}
-                    height={720}
+                    height={1000}
                     loading="lazy"
                     sizes="(min-width: 1280px) 44vw, (min-width: 768px) 70vw, 100vw"
                     src={featureImage}
-                    width={960}
+                    width={1600}
                     widths={[640, 960, 1280]}
                   />
                 ) :
                 (
                   <div class="absolute inset-0 bg-brand-soft" />
                 )}
-              <div
-                aria-hidden="true"
-                class="
-                  absolute inset-0 bg-linear-to-b from-brand-soft/10
-                  via-surface/24 via-60% to-surface
-                  dark:from-brand/10 dark:via-canvas/48 dark:to-canvas
-                "
-              />
-              <div
-                aria-hidden="true"
-                class="
-                  absolute inset-0 bg-radial
-                  from-[hsl(var(--showcase-accent)/0.24)] via-transparent
-                  to-transparent opacity-80
-                "
-              />
               <div class="absolute inset-x-5 top-5 flex items-start gap-3">
                 <span
                   class="
@@ -255,34 +239,28 @@ const supportingLogoSurfaceClass = {
             </div>
 
             <div class="
-              flex grow flex-col gap-5 p-5
+              flex grow flex-col gap-4 p-5
               sm:p-6
-              lg:p-7
             "
             >
-              <div class="space-y-3">
+              <div class="space-y-2.5">
                 <div class="flex items-start justify-between gap-4">
-                  <div class="min-w-0 space-y-2">
-                    <p class:list={['text-sm font-bold', accentTextClass]}>
-                      {featuredProject.data.role ?? 'Engineering'}
-                    </p>
-                    <h3 class="
-                      text-2xl font-semibold tracking-tight text-ink
-                      transition-colors duration-200
-                      group-hover:text-[hsl(var(--showcase-accent))]
-                      motion-reduce:transition-none
-                      sm:text-3xl
-                    "
-                    >
-                      {featuredProject.data.title}
-                    </h3>
-                  </div>
+                  <h3 class="
+                    text-xl font-semibold tracking-tight text-ink
+                    transition-colors duration-200
+                    group-hover:text-[hsl(var(--project-primary-readable))]
+                    motion-reduce:transition-none
+                    sm:text-2xl
+                  "
+                  >
+                    {featuredProject.data.title}
+                  </h3>
                   <Icon
                     aria-hidden="true"
                     class="
                       relative z-10 mt-1 size-5 shrink-0 text-ink-muted
                       transition duration-200
-                      group-hover:text-[hsl(var(--showcase-accent))]
+                      group-hover:text-[hsl(var(--project-primary-readable))]
                       motion-safe:group-hover:translate-x-0.5
                       motion-safe:group-hover:-translate-y-0.5
                       motion-reduce:transition-none
@@ -291,7 +269,7 @@ const supportingLogoSurfaceClass = {
                   />
                 </div>
                 <p class="
-                  line-clamp-3 max-w-2xl text-sm/7 text-ink-soft
+                  line-clamp-2 max-w-2xl text-sm/6 text-ink-soft
                   sm:text-base/7
                 "
                 >
@@ -299,7 +277,7 @@ const supportingLogoSurfaceClass = {
                 </p>
               </div>
 
-              <div class="mt-auto space-y-3.5">
+              <div class="mt-auto">
                 {hasMetrics && (
                   <div class="space-y-2">
                     <p class="
@@ -313,9 +291,10 @@ const supportingLogoSurfaceClass = {
                       {featuredProject.data.impactMetrics.slice(0, 2).map(metric => (
                         <li
                           class="
-                            rounded-full border border-brand/15 bg-brand-soft/70
-                            px-3.5 py-1.5 text-xs/5 font-bold text-brand
+                            rounded-full border px-3.5 py-1.5 text-xs/5
+                            font-bold
                           "
+                          data-project-readable
                         >
                           {metric}
                         </li>
@@ -323,28 +302,6 @@ const supportingLogoSurfaceClass = {
                     </ul>
                   </div>
                 )}
-
-                <div class="space-y-2">
-                  <p class="
-                    text-[0.7rem]/4 font-bold tracking-[0.18em] text-ink-muted
-                    uppercase
-                  "
-                  >
-                    Stack
-                  </p>
-                  <div class="flex flex-wrap gap-2">
-                    {featuredProject.data.technologies.slice(0, 5).map(technology => (
-                      <span
-                        class="
-                          rounded-full border border-line/60 bg-surface/28
-                          px-2.5 py-1 text-xs/5 font-semibold text-ink-soft
-                        "
-                      >
-                        {technology}
-                      </span>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
           </article>
@@ -366,21 +323,18 @@ const supportingLogoSurfaceClass = {
           >
             <div class="flex items-center justify-between gap-3">
               <p class="text-sm/5 font-bold text-ink">{supportingLabel}</p>
-              <span
-                class="
-                  rounded-full border border-line/45 px-2.5 py-1 text-[0.7rem]/4
-                  font-bold text-ink-soft
-                "
-              >
-                {supportingProjects.length} more
-              </span>
+              {supportingAction && (
+                <ButtonLink href={supportingAction.href} showArrow variant="inline">
+                  {supportingAction.label}
+                </ButtonLink>
+              )}
             </div>
           </div>
           <ol class="flex grow flex-col gap-2">
             {supportingProjects.map((project, index) => {
               const projectLink = getPortfolioPath(project.id)
               const projectTimeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
-              const projectStatus = project.data.endingDate ? 'Completed' : 'Active'
+              const projectStatus = getProjectStatusLabel(project.data.draft, project.data.endingDate)
               const projectLogo = project.data.coverImage?.logo
               const projectLogoAspect: LogoAspect = project.data.coverImage?.logoAspect ?? 'square'
               const projectLogoSurface: LogoSurface = project.data.coverImage?.logoSurface ?? 'neutral'
@@ -398,6 +352,7 @@ const supportingLogoSurfaceClass = {
                       sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:px-5
                     "
                     href={projectLink}
+                    style={`${getProjectBrandStyle(project.data.brand)}; --showcase-accent: var(--project-primary);`}
                   >
                     <span
                       class:list={[
@@ -435,7 +390,7 @@ const supportingLogoSurfaceClass = {
                           class="
                             block text-base/5 font-bold text-ink
                             transition-colors duration-200
-                            group-hover:text-[hsl(var(--showcase-accent))]
+                            group-hover:text-[hsl(var(--project-primary-readable))]
                             motion-reduce:transition-none
                           "
                         >
@@ -485,7 +440,7 @@ const supportingLogoSurfaceClass = {
                         bg-surface/20 text-ink-muted opacity-80 transition
                         duration-200
                         group-hover:border-brand/30 group-hover:bg-surface/55
-                        group-hover:text-[hsl(var(--showcase-accent))]
+                        group-hover:text-[hsl(var(--project-primary-readable))]
                         group-hover:shadow-[0_10px_22px_hsl(var(--brand)/0.09)]
                         motion-safe:group-hover:translate-x-0.5
                         motion-reduce:transition-none
@@ -511,12 +466,22 @@ const supportingLogoSurfaceClass = {
 
 <style>
   [data-showcase-feature] {
+    transform: none;
     box-shadow:
       0 22px 58px hsl(230 30% 8% / 0.07),
       0 8px 24px hsl(var(--brand) / 0.035),
       inset 0 1px 0 hsl(0 0% 100% / 0.22),
       inset 1px 0 0 hsl(0 0% 100% / 0.10),
       inset 0 -1px 0 hsl(var(--line) / 0.12);
+    transition:
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  [data-project-readable] {
+    border-color: hsl(var(--project-primary) / 0.18);
+    background: hsl(var(--project-primary) / 0.08);
+    color: hsl(var(--project-primary-readable));
   }
 
   [data-showcase-feature]::before {
@@ -538,18 +503,21 @@ const supportingLogoSurfaceClass = {
       transform 0.3s ease;
   }
 
-  [data-showcase-feature]:hover {
-    border-color: hsl(var(--showcase-accent) / 0.34);
-    box-shadow:
-      0 28px 68px hsl(230 30% 8% / 0.10),
-      0 16px 34px hsl(var(--showcase-accent) / 0.12),
-      inset 0 1px 0 hsl(0 0% 100% / 0.28),
-      inset 0 -1px 0 hsl(var(--showcase-accent) / 0.12);
-  }
+  @media (hover: hover) and (pointer: fine) {
+    [data-showcase-feature]:hover {
+      transform: none;
+      border-color: hsl(var(--showcase-accent) / 0.34);
+      box-shadow:
+        0 28px 68px hsl(230 30% 8% / 0.10),
+        0 16px 34px hsl(var(--showcase-accent) / 0.12),
+        inset 0 1px 0 hsl(0 0% 100% / 0.28),
+        inset 0 -1px 0 hsl(var(--showcase-accent) / 0.12);
+    }
 
-  [data-showcase-feature]:hover::after {
-    opacity: 1;
-    transform: translate3d(5%, -4%, 0) scale(1.08);
+    [data-showcase-feature]:hover::after {
+      opacity: 1;
+      transform: translate3d(5%, -4%, 0) scale(1.08);
+    }
   }
 
   [data-showcase-item] {
@@ -641,13 +609,23 @@ const supportingLogoSurfaceClass = {
       inset 0 1px 0 hsl(0 0% 100% / 0.11);
   }
 
+  :global(:root[data-theme='dark']) [data-showcase-feature],
+  :global(:root[data-theme='dark']) [data-showcase-item] {
+    --project-primary-readable: var(--project-primary-readable-dark);
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    [data-showcase-feature] {
+      transition: none;
+    }
+
     [data-showcase-feature]::after,
     [data-showcase-item]::before,
     [data-showcase-item]::after {
       transition: none;
     }
 
+    [data-showcase-feature]:hover,
     [data-showcase-feature]:hover::after,
     [data-showcase-item]:hover::before,
     [data-showcase-item]:hover::after,

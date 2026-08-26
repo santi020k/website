@@ -4,7 +4,7 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 
 ## Tech Stack
 
-- **Framework**: Astro 6 (file-based routing, content collections, View Transitions)
+- **Framework**: Astro 7 (file-based routing, content collections, View Transitions)
 - **Interactivity**: Vanilla JS (lightweight inline scripts + custom events, no frontend framework runtime)
 - **Styling**: Tailwind CSS v4 — configured via `src/styles/global.css` `@theme` block (no `tailwind.config.js`)
 - **Language**: TypeScript (strict)
@@ -73,7 +73,7 @@ Specialized guidance for this project is consolidated in `/.agent/skills/`:
 
 - **[maintenance](/.agent/skills/maintenance/SKILL.md)** — Dependency updates, security audits, and linting workflows.
 - **[testing](/.agent/skills/testing/SKILL.md)** — Unit testing with Vitest and E2E testing with Playwright.
-- **[accessibility](/.agent/skills/accessibility/SKILL.md)** — WCAG 2.2 AA compliance and Alpine.js a11y patterns.
+- **[accessibility](/.agent/skills/accessibility/SKILL.md)** — WCAG 2.2 AA compliance and native JavaScript a11y patterns.
 
 ### ✍️ Content & Marketing
 

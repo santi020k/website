@@ -16,11 +16,13 @@
     "generate:icons": "node scripts/js/generate-favicons.mjs",
     "generate:fonts": "node scripts/js/generate-fonts.mjs",
     "generate:fonts:py": "python3 scripts/py/generate-fonts.py",
+    "generate:project-images": "node scripts/js/generate-project-images.mjs",
     "pregenerate:cv": "pnpm run build",
     "generate:cv": "node scripts/js/generate-resume-pdf.mjs",
     "generate:og": "santi-og generate --config scripts/js/generate-og-images.js",
     "generate:og:force": "santi-og generate --config scripts/js/generate-og-images.js --force",
     "check:og": "santi-og check --config scripts/js/generate-og-images.js",
+    "compare:og": "santi-og compare --config scripts/js/generate-og-images.js --threshold 0",
     "audit:seo": "santi-og audit --config og.audit.config.mjs",
     "inspect:og": "santi-og inspect https://santi020k.com --json",
     "preview": "ASTRO_PREVIEW_BACKGROUND=0 astro preview",
@@ -131,7 +133,7 @@
   "license": "SEE LICENSE IN LICENSE",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,md,mdx,json}": [
-      "eslint --fix --max-warnings=0"
+      "eslint --fix --max-warnings=0 --no-warn-ignored"
     ],
     "*.{md,mdx}": [
       "cspell --quiet --no-must-find-files"

@@ -6,6 +6,7 @@ import { z } from 'astro/zod'
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 const dateField = () => z.string().or(z.date()).transform(val => new Date(val))
 const optionalDateField = () => z.string().optional().transform(str => (str ? new Date(str) : undefined))
+const projectBrandColor = z.string().regex(/^#[\da-f]{6}$/iu, 'Use a six-digit hexadecimal brand color')
 
 const baseSchema = z.object({
   title: z.string().max(100)
@@ -29,12 +30,18 @@ const project = defineCollection({
   loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
+    brand: z.object({
+      primary: projectBrandColor,
+      secondary: projectBrandColor,
+      surface: projectBrandColor
+    }),
     role: z.enum([
       'Technical Lead',
       'Full Stack',
       'Front-End Lead',
       'Front End Developer',
       'Technology Coordinator',
+      'Volunteer Technology Coordinator',
       'Senior Front End Developer',
       'Senior Full Stack Engineer',
       'Junior Full Stack Developer',
@@ -46,6 +53,7 @@ const project = defineCollection({
     coverImage: z
       .object({
         alt: z.string().min(1),
+        background: image().optional(),
         src: image(),
         horizontal: image().optional(),
         vertical: image().optional(),
@@ -74,7 +82,7 @@ const project = defineCollection({
       .optional(),
     relevanceWeight: z.number().int().min(0).max(100).default(0),
     // type
-    typesId: z.enum(['professional', 'personal', 'experimental']).optional(),
+    typesId: z.enum(['professional', 'personal', 'experimental', 'community']).optional(),
     orderInTypes: z.number().optional()
     // End
   })
@@ -94,15 +102,20 @@ const talk = defineCollection({
   loader: glob({ base: './src/content/talk', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
     audience: z.string().optional(),
+    date: optionalDateField(),
+    dateLabel: z.string().optional(),
     description: z.string(),
     draft: z.boolean().default(false),
+    evidence: z.enum(['private', 'public', 'reconstructed']).default('public'),
     event: z.string(),
     links: z
       .object({
+        event: z.url().optional(),
         slides: z.url().optional(),
         video: z.url().optional()
       })
       .default({}),
+    location: z.string().optional(),
     order: z.number().default(0),
     tags: z.array(z.string()).default([]).transform(removeDuplicates),
     year: z.number().int()
@@ -110,7 +123,7 @@ const talk = defineCollection({
 })
 
 const post = defineCollection({
-  loader: glob({ base: './src/content/post', pattern: '**/*.{md,mdx}' }),
+  loader: glob({ base: './src/content/post', pattern: ['**/*.{md,mdx}', '!AGENTS.md'] }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
     publishDate: dateField(),

@@ -1,12 +1,16 @@
 ---
 title: "@santi020k/og"
 description: "Built a renderer-agnostic Open Graph image pipeline with deterministic caching, safe cleanup, parallel generation, and CI verification while leaving every project's visual system in its own hands."
+brand:
+  primary: "#65f7bc"
+  secondary: "#14b8a6"
+  surface: "#071b17"
 role: "Creator"
 startingDate: "22 Aug 2026"
 githubUrl: "https://github.com/santi020k/og"
 liveDemoUrl: "https://og.santi020k.com/"
 typesId: "personal"
-relevanceWeight: 94
+relevanceWeight: 80
 impactMetrics: [
   "Generates SVG, PNG, WebP, JPEG, and AVIF through project-owned renderers",
   "Supports Astro, Next.js, plain Node.js, monorepos, Markdown collections, and CMS data without a framework runtime",
@@ -19,6 +23,8 @@ technologies: [
   ]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"

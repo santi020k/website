@@ -9,6 +9,7 @@ import {
   getProjectRelatedHeading,
   getProjectScopeHighlights,
   getProjectStageLabel,
+  getProjectStatusLabel,
   getProjectTimelineLabel,
   getProjectTypeLabel
 } from '../project-meta'
@@ -28,6 +29,10 @@ describe('getProjectTypeLabel', () => {
     expect(getProjectTypeLabel('professional')).toBe('Professional work')
   })
 
+  test('returns "Community work" for community type', () => {
+    expect(getProjectTypeLabel('community')).toBe('Community work')
+  })
+
   test('returns "Professional work" for undefined type', () => {
     expect(getProjectTypeLabel(undefined)).toBe('Professional work')
   })
@@ -36,6 +41,11 @@ describe('getProjectTypeLabel', () => {
 // ─── getProjectStageLabel ─────────────────────────────────────────────────────
 
 describe('getProjectStageLabel', () => {
+  test('returns a draft label before active or completed state', () => {
+    expect(getProjectStageLabel('personal', undefined, true)).toBe('Draft personal project')
+    expect(getProjectStageLabel('experimental', new Date(), true)).toBe('Draft experimental work')
+  })
+
   test('returns "Completed project" for personal with end date', () => {
     expect(getProjectStageLabel('personal', new Date())).toBe('Completed project')
   })
@@ -60,8 +70,24 @@ describe('getProjectStageLabel', () => {
     expect(getProjectStageLabel('professional')).toBe('Active work')
   })
 
+  test('returns "Active community" for ongoing community work', () => {
+    expect(getProjectStageLabel('community')).toBe('Active community')
+  })
+
   test('returns "Active work" for undefined without end date', () => {
     expect(getProjectStageLabel(undefined)).toBe('Active work')
+  })
+})
+
+describe('getProjectStatusLabel', () => {
+  test('returns Draft for draft projects regardless of their timeline', () => {
+    expect(getProjectStatusLabel(true)).toBe('Draft')
+    expect(getProjectStatusLabel(true, new Date())).toBe('Draft')
+  })
+
+  test('returns Active or Completed for published projects', () => {
+    expect(getProjectStatusLabel(false)).toBe('Active')
+    expect(getProjectStatusLabel(false, new Date())).toBe('Completed')
   })
 })
 

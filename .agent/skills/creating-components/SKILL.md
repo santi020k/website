@@ -53,6 +53,6 @@ const { title, isActive = false } = Astro.props
 
 If a component requires client-side interactivity, you have options:
 
-- **Alpine.js**: For lightweight interactions (dropdowns, modals), use Alpine attributes (e.g., `x-data`, `x-show`) directly in the `.astro` HTML.
-- **Client Directives**: If using a framework component (e.g., React, though this project primarily uses Astro/Alpine), remember to use `client:load`, `client:visible`, etc.
-- **Inline Scripts**: `<script>` tags in Astro components are bundled and run on the client. Use them for complex vanilla JS logic if Alpine is insufficient.
+- **Inline scripts**: Use bundled `<script>` tags, DOM APIs, and custom events for lightweight interactions such as dropdowns, dialogs, and filters.
+- **Custom elements**: Prefer a small standards-based custom element when behavior needs a reusable lifecycle or encapsulated state.
+- **Client directives**: Do not introduce a frontend framework runtime unless the interaction genuinely requires a component tree and the architectural tradeoff is explicitly approved.

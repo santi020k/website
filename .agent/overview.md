@@ -13,7 +13,7 @@ This directory contains specialized guidance and logic for AI agents. These skil
 - **[automation-scripts](skills/automation-scripts/SKILL.md)**: Utilities for generating favicons, fonts, OG images, and the personal CV.
 - **[maintenance](skills/maintenance/SKILL.md)**: Dependency updates, security audits, and linting workflows.
 - **[testing](skills/testing/SKILL.md)**: Unit testing with Vitest and E2E testing with Playwright.
-- **[accessibility](skills/accessibility/SKILL.md)**: WCAG 2.2 AA compliance and Alpine.js a11y patterns.
+- **[accessibility](skills/accessibility/SKILL.md)**: WCAG 2.2 AA compliance and native JavaScript a11y patterns.
 
 ## ✍️ Content & Marketing
 

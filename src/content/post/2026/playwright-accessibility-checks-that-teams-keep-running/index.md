@@ -3,7 +3,7 @@ title: "Playwright Accessibility Checks That Teams Keep Running"
 description: "How to add accessibility automation to your Playwright suite in a way that is fast enough to stay in the workflow and specific enough to actually catch problems."
 publishDate: "2026-05-15T15:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing automated accessibility audits, focus states, and keyboard navigation checks inside a browser workflow"
+  alt: "A browser workflow passing keyboard, structure, contrast, and audit checkpoints"
   src: "./cover.webp"
 tags: ["accessibility", "playwright", "testing", "e2e", "developer-experience"]
 postType: "Guide"

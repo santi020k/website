@@ -33,6 +33,13 @@ export const staticSocialPages: SocialPageDefinition[] = [
   },
   {
     description:
+      'A practical guide to developer experience: measure delivery friction, encode useful standards, automate verification, and help teams ship confidently.',
+    pathname: '/developer-experience/',
+    title: 'Developer Experience & Engineering Quality',
+    type: 'Guide'
+  },
+  {
+    description:
       'Browse Santiago Molina’s blog series for connected reading tracks on Next.js delivery, ESLint tooling, testing, and software architecture.',
     pathname: '/blog/series/',
     title: 'Blog Series',
@@ -46,16 +53,23 @@ export const staticSocialPages: SocialPageDefinition[] = [
   },
   {
     description:
-      'Engineering leader and full-stack architect resume. Explore Santiago Molina’s professional experience, technical skills, and open-source projects.',
+      'Open-source tools and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
+    pathname: '/projects/',
+    title: 'Side Projects — Santiago Molina',
+    type: 'Projects'
+  },
+  {
+    description:
+      'Engineering leader and full-stack architect resume. Explore Santiago Molina’s professional experience, technical skills, and community leadership.',
     pathname: '/resume/',
     title: 'Resume & Curriculum Vitae',
     type: 'Resume'
   },
   {
     description:
-      'Talks, workshops, and engineering conversations about developer experience, technical leadership, frontend architecture, and calmer delivery systems.',
+      'Talks, workshops, and community work around developer experience, technical leadership, frontend architecture, and practical knowledge sharing.',
     pathname: '/speaking/',
-    title: 'Speaking & Workshops',
+    title: 'Speaking & Community',
     type: 'Speaking'
   },
   {

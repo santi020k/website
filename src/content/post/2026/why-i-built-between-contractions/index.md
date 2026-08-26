@@ -3,7 +3,7 @@ title: "Why I Built Between Contractions"
 description: "How waiting for Aarón became a calm, private contraction timer across the web, iOS, Android, watches, widgets, and partner devices."
 publishDate: "2026-08-20T15:00:00.000Z"
 coverImage:
-  alt: "Between Contractions project journal cover with Santiago and Alejandra waiting for Aarón alongside their three dogs"
+  alt: "Two rhythmic timing pulses synchronizing across private devices around a warm central light"
   src: "./cover.webp"
 tags: ["product-engineering", "swiftui", "android", "astro", "privacy", "personal-projects"]
 postType: "Case Study"

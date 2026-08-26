@@ -2,7 +2,13 @@ import path from 'node:path'
 
 import { describe, expect, test } from 'vitest'
 
-import { collectSpecs } from '../../../scripts/js/generate-og-images.js'
+import {
+  collectCards,
+  collectSpecs,
+  formatTopicName
+} from '../../../scripts/js/generate-og-images.js'
+import { renderOgAtmosphere } from '../../../scripts/js/render-og-atmosphere.mjs'
+import { staticSocialPages } from '../../data/social-pages'
 
 interface SocialImageProps {
   coverImagePath?: string
@@ -10,18 +16,20 @@ interface SocialImageProps {
   title?: string
 }
 
-describe('collectSpecs', () => {
+describe('collectSpecs', { timeout: 15_000 }, () => {
   test('includes generated images for the current static page routes', async () => {
     const specs = await collectSpecs()
     const outFiles = new Set(specs.map(spec => spec.outFile))
 
     for (const fileName of [
       'index.webp',
+      'developer-experience.webp',
       'work.webp',
       'projects.webp',
       'resume.webp',
       'privacy.webp',
       'accessibility.webp',
+      'terms.webp',
       'blog--tags.webp'
     ]) {
       expect(outFiles.has(path.join(process.cwd(), 'public', 'og', 'pages', fileName))).toBe(true)
@@ -35,8 +43,86 @@ describe('collectSpecs', () => {
     ))
     const topicProps = topicSpec?.props as SocialImageProps | undefined
 
-    expect(topicProps?.title).toBe('typescript Posts')
+    expect(topicProps?.title).toBe('TypeScript posts')
     expect(topicProps?.pathLabel).toBe('/blog/tags/typescript/')
+  })
+
+  test('includes generated route cards for non-empty taxonomies with one entry', async () => {
+    const pathnames = new Set((await collectCards()).map(card => card.route?.pathname))
+
+    expect(pathnames.has('/blog/tags/alpine/')).toBe(true)
+    expect(pathnames.has('/technologies/actionlint/')).toBe(true)
+    expect(pathnames.has('/blog/tags/typescript/')).toBe(true)
+    expect(pathnames.has('/technologies/typescript/')).toBe(true)
+  })
+
+  test('matches the blog topic archive pagination size', async () => {
+    const pathnames = new Set((await collectCards()).map(card => card.route?.pathname))
+
+    expect(pathnames.has('/blog/tags/react/2/')).toBe(false)
+    expect(pathnames.has('/blog/tags/typescript/2/')).toBe(true)
+    expect(pathnames.has('/blog/tags/typescript/3/')).toBe(false)
+  })
+
+  test('matches the blog index pagination size', async () => {
+    const cards = await collectCards()
+    const pathnames = new Set(cards.map(card => card.route?.pathname))
+
+    expect(pathnames.has('/blog/4/')).toBe(true)
+    expect(pathnames.has('/blog/5/')).toBe(false)
+  })
+
+  test('keeps refreshed social cards aligned with page metadata', async () => {
+    const cards = await collectCards()
+
+    for (const pathname of ['/projects/', '/resume/', '/speaking/']) {
+      const page = staticSocialPages.find(candidate => candidate.pathname === pathname)
+      const card = cards.find(candidate => candidate.route?.pathname === pathname)
+
+      expect(page, `${pathname} is missing canonical social metadata`).toBeDefined()
+      expect(card?.data).toMatchObject({
+        description: page?.description,
+        title: page?.title
+      })
+    }
+  })
+
+  test('embeds normalized cover art and complete route metadata', async () => {
+    const cards = await collectCards()
+    const postCard = cards.find(card => card.output ===
+      'blog/deterministic-open-graph-images-without-design-lock-in.webp')
+    const postData: { image?: unknown, variant?: string } | undefined = postCard?.data
+
+    expect(postData?.image).toMatch(/^data:image\/png;base64,/u)
+    expect(postData?.variant).toBe('article')
+    expect(postCard?.route).toMatchObject({
+      alt: 'Deterministic Open Graph images without design lock-in — Santiago Molina',
+      pathname: '/blog/deterministic-open-graph-images-without-design-lock-in/',
+      title: 'Deterministic Open Graph images without design lock-in'
+    })
+  })
+
+  test('uses real cover art as the only right-side visual', async () => {
+    const cards = await collectCards()
+    const visualVariants = cards
+      .filter(card => Boolean((card.data as { image?: unknown }).image))
+      .map(card => (card.data as { variant?: string }).variant)
+    const imageFreeVariants = cards
+      .filter(card => !(card.data as { image?: unknown }).image)
+      .map(card => (card.data as { variant?: string }).variant)
+
+    expect(new Set(visualVariants)).toEqual(new Set(['article', 'product']))
+    expect(new Set(imageFreeVariants)).toEqual(new Set(['simple']))
+  })
+
+  test.each([
+    ['configuration', 'Configuration'],
+    ['developer-experience', 'Developer experience'],
+    ['typescript', 'TypeScript'],
+    ['ui-engineering', 'UI engineering'],
+    ['vscode', 'VS Code']
+  ])('formats the topic label %s as %s', (topic, expected) => {
+    expect(formatTopicName(topic)).toBe(expected)
   })
 
   test('excludes scheduled posts until their publish date', async () => {
@@ -55,6 +141,14 @@ describe('collectSpecs', () => {
 
     expect(xgamesProps?.title).toBe('X Games')
     expect(xgamesProps?.pathLabel).toBe('/portfolio/xgames/')
+  })
+
+  test('labels community case-study cards as community work', async () => {
+    const communityCard = (await collectCards()).find(
+      card => card.route?.pathname === '/portfolio/react-js-colombia/'
+    )
+
+    expect(communityCard?.data.badge).toBe('Community work')
   })
 
   test('resolves cover image assets for blog posts and falls back to cover src when a project ogImage is missing', async () => {
@@ -79,5 +173,27 @@ describe('collectSpecs', () => {
     const designSystemsProps = designSystemsSpec?.props as SocialImageProps | undefined
 
     expect(designSystemsProps?.pathLabel).toBe('/technologies/design-systems/')
+  })
+})
+
+describe('renderOgAtmosphere', () => {
+  test('adds only diffuse light to image-free cards', () => {
+    const atmosphere = renderOgAtmosphere(
+      { title: 'Image-free page' },
+      {},
+      { accent: '#9b66ff' }
+    )
+
+    expect(atmosphere).toContain('feGaussianBlur')
+    expect(atmosphere).toContain('aria-hidden="true"')
+    expect(atmosphere).not.toContain('<rect')
+  })
+
+  test('preserves the preset cover visual when a real image exists', () => {
+    expect(renderOgAtmosphere(
+      { image: 'data:image/png;base64,cover' },
+      {},
+      { accent: '#9b66ff' }
+    )).toBeUndefined()
   })
 })

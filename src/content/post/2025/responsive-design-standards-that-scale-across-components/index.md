@@ -4,7 +4,7 @@ description: "Responsive work gets easier when breakpoints and layout decisions 
 publishDate: "2025-09-12T16:40:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
-  alt: "Editorial cover for Responsive Design Standards That Scale Across Components"
+  alt: "One interface system adapting across mobile, tablet, and desktop layout frames"
   src: "./cover.webp"
 tags: ["responsive-design", "frontend", "design-systems", "ui-engineering"]
 postType: "Deep Dive"

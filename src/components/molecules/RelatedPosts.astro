@@ -1,7 +1,8 @@
 ---
+import PostsGallery from '@/components/organisms/PostsGallery.astro'
+
 import { getRelatedPosts } from '@/utils/content'
 
-import PostCard from './PostCard.astro'
 import SectionHeader from './SectionHeader.astro'
 
 interface Props {
@@ -11,6 +12,19 @@ interface Props {
 }
 
 const { currentPostId, excludeSeriesId, tags } = Astro.props
+
+const developerExperienceTags = new Set([
+  'ai',
+  'automation',
+  'ci-cd',
+  'code-quality',
+  'developer-experience',
+  'engineering-standards',
+  'eslint',
+  'testing'
+])
+
+const belongsToDeveloperExperienceHub = tags.some(tag => developerExperienceTags.has(tag))
 
 const relatedPosts = await getRelatedPosts({
   currentPostId,
@@ -25,20 +39,11 @@ const relatedPosts = await getRelatedPosts({
     <SectionHeader
       description="More writing from a similar lane — overlapping topics, tooling choices, and the tradeoffs behind the article you just read."
       eyebrow="Related writing"
-      linkHref="/blog/"
-      linkLabel="Browse all posts"
+      linkHref={belongsToDeveloperExperienceHub ? '/developer-experience/' : '/blog/'}
+      linkLabel={belongsToDeveloperExperienceHub ? 'Explore the developer experience guide' : 'Browse all posts'}
       title="Keep reading in the same thread."
     />
 
-    <div
-      class="
-        grid gap-6
-        sm:grid-cols-2
-      "
-    >
-      {relatedPosts.map(post => (
-        <PostCard post={post} />
-      ))}
-    </div>
+    <PostsGallery columns={2} posts={relatedPosts} />
   </>
 )}

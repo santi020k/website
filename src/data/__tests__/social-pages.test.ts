@@ -24,6 +24,8 @@ describe('staticSocialPages', () => {
     expect(pathnames).toContain('/about/')
     expect(pathnames).toContain('/blog/')
     expect(pathnames).toContain('/portfolio/')
+    expect(pathnames).toContain('/projects/')
+    expect(pathnames).toContain('/resume/')
     expect(pathnames).toContain('/speaking/')
   })
 

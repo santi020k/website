@@ -4,7 +4,7 @@ description: "A lightweight review language that makes feedback clearer, kinder,
 publishDate: "2025-05-17T17:34:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing code review panels with connected feedback bubbles for praise, issues, and questions"
+  alt: "Distinct review feedback signals flowing from a code change into an actionable revision"
   src: "./cover.webp"
 tags: ["code-review", "engineering-culture", "communication", "git"]
 postType: "Guide"

@@ -1,0 +1,309 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import { getPortfolioPath } from '@/utils/links'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
+
+import { Icon } from '@santi020k/lumen-astro'
+
+interface OrganizationLogoRailItem {
+  context: string
+  label: string
+  project: CollectionEntry<'project'>
+}
+
+interface Props {
+  organizations: OrganizationLogoRailItem[]
+}
+
+type LogoAspect = 'square' | 'tall' | 'wide'
+
+type LogoSurface = 'dark' | 'light' | 'neutral'
+
+const { organizations } = Astro.props
+
+const logoFrameClass = {
+  square: 'max-h-24 max-w-32',
+  tall: 'max-h-24 max-w-20',
+  wide: 'max-h-16 max-w-52'
+} satisfies Record<LogoAspect, string>
+
+const logoSurfaceClass = {
+  dark: 'bg-linear-to-br from-ink via-ink to-brand/35',
+  light: 'bg-linear-to-br from-white via-surface to-brand-soft/65 dark:from-white dark:via-white/95 dark:to-brand-soft',
+  neutral: 'bg-linear-to-br from-surface-strong via-surface-muted to-brand-soft/65 dark:from-white dark:via-white/92 dark:to-brand-soft'
+} satisfies Record<LogoSurface, string>
+---
+
+<section
+  aria-label="Selected products, companies, and communities"
+  aria-roledescription="carousel"
+  class="min-w-0"
+  data-organization-carousel
+>
+  <ul
+    class="
+      grid list-none gap-4 p-0
+      sm:grid-cols-2
+      lg:grid-cols-3
+    "
+    id="organization-carousel-items"
+  >
+    {organizations.map(({ context, label, project }) => {
+      const logo = project.data.coverImage?.logo
+      const cover = getProjectCoverForUsage(project.data.coverImage, 'background')
+      const logoAspect: LogoAspect = project.data.coverImage?.logoAspect ?? 'square'
+      const logoSurface: LogoSurface = project.data.coverImage?.logoSurface ?? 'neutral'
+
+      return (
+        <li class="min-w-0" data-carousel-item>
+          <a
+            aria-label={`Read the ${label} case study`}
+            class="
+              group card-interactive h-full min-h-96 p-0
+              focus-visible:ring-2 focus-visible:ring-brand/50
+              focus-visible:outline-none
+            "
+            href={getPortfolioPath(project.id)}
+          >
+            <span
+              class:list={[
+                `
+                  relative flex h-40 shrink-0 items-center justify-center
+                  overflow-hidden border-b border-line/30 px-8
+                `,
+                logoSurfaceClass[logoSurface]
+              ]}
+            >
+              {cover && (
+                <Image
+                  alt=""
+                  aria-hidden="true"
+                  class="
+                    absolute inset-0 size-full scale-105 object-cover opacity-58
+                    saturate-125 transition duration-500
+                    group-hover:scale-110 group-hover:opacity-72
+                    motion-reduce:transform-none motion-reduce:transition-none
+                  "
+                  loading="lazy"
+                  sizes="320px"
+                  src={cover}
+                  widths={[320, 640]}
+                />
+              )}
+              <span
+                aria-hidden="true"
+                class="
+                  absolute inset-0 bg-linear-to-b from-white/4 via-transparent
+                  to-canvas/18
+                "
+              />
+              {logo ?
+                (
+                  <Image
+                    alt=""
+                    class:list={[
+                      `
+                        relative object-contain drop-shadow-md transition
+                        duration-300
+                        group-hover:scale-105
+                        motion-reduce:transform-none
+                        motion-reduce:transition-none
+                      `,
+                      logoFrameClass[logoAspect]
+                    ]}
+                    loading="lazy"
+                    src={logo}
+                  />
+                ) :
+                (
+                  <span aria-hidden="true" class="text-xl font-bold text-ink">
+                    {label.charAt(0)}
+                  </span>
+                )}
+            </span>
+
+            <span class="flex grow flex-col p-5">
+              <span class="text-xl font-semibold tracking-tight text-ink">{label}</span>
+              <span class="mt-3 text-sm/7 text-ink-soft">{context}</span>
+              <span class="
+                mt-auto inline-flex items-center gap-2 pt-5 text-sm
+                font-semibold text-brand
+              "
+              >
+                Read case study
+                <Icon
+                  aria-hidden="true"
+                  class="
+                    size-4 transition-transform duration-200
+                    group-hover:translate-x-1
+                    motion-reduce:transform-none motion-reduce:transition-none
+                  "
+                  name="arrow-right"
+                />
+              </span>
+            </span>
+          </a>
+        </li>
+      )
+    })}
+  </ul>
+
+  <div
+    class="mt-5 flex items-center justify-between gap-4"
+    data-carousel-controls
+    hidden
+  >
+    <p aria-live="polite" class="text-sm font-medium text-ink-muted" data-carousel-status />
+    <div class="flex items-center gap-2">
+      <button
+        aria-controls="organization-carousel-items"
+        aria-label="Show previous organizations"
+        class="
+          btn-secondary inline-flex size-11 items-center justify-center p-0
+        "
+        data-carousel-previous
+        type="button"
+      >
+        <Icon aria-hidden="true" class="size-5" name="arrow-left" />
+      </button>
+      <button
+        aria-controls="organization-carousel-items"
+        aria-label="Show next organizations"
+        class="
+          btn-secondary inline-flex size-11 items-center justify-center p-0
+        "
+        data-carousel-next
+        type="button"
+      >
+        <Icon aria-hidden="true" class="size-5" name="arrow-right" />
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const initializeOrganizationCarousels = (): void => {
+    const carousels = document.querySelectorAll<HTMLElement>('[data-organization-carousel]')
+
+    for (const carousel of carousels) {
+      if (carousel.dataset.carouselBound === 'true') continue
+
+      const items = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-item]')]
+      const controls = carousel.querySelector<HTMLElement>('[data-carousel-controls]')
+      const previousButton = carousel.querySelector<HTMLButtonElement>('[data-carousel-previous]')
+      const nextButton = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]')
+      const status = carousel.querySelector<HTMLElement>('[data-carousel-status]')
+
+      if (!controls || !previousButton || !nextButton || !status || items.length === 0) continue
+
+      carousel.dataset.carouselBound = 'true'
+
+      const controller = new AbortController()
+      const { signal } = controller
+      let startIndex = 0
+      let resizeFrame = 0
+
+      const getPageSize = (): number => {
+        if (window.matchMedia('(min-width: 1024px)').matches) return 3
+
+        if (window.matchMedia('(min-width: 640px)').matches) return 2
+
+        return 1
+      }
+
+      const getPageStarts = (pageSize: number): number[] => {
+        const maximumStart = Math.max(0, items.length - pageSize)
+        const pageStarts: number[] = []
+
+        for (let index = 0; index <= maximumStart; index += pageSize) pageStarts.push(index)
+
+        if (pageStarts.at(-1) !== maximumStart) pageStarts.push(maximumStart)
+
+        return pageStarts
+      }
+
+      const getPageIndex = (pageStarts: number[]): number => {
+        let pageIndex = 0
+
+        for (const [index, pageStart] of pageStarts.entries()) {
+          if (pageStart > startIndex) break
+
+          pageIndex = index
+        }
+
+        return pageIndex
+      }
+
+      const render = (): void => {
+        const pageSize = getPageSize()
+        const pageStarts = getPageStarts(pageSize)
+        const pageIndex = getPageIndex(pageStarts)
+
+        startIndex = pageStarts[pageIndex] ?? 0
+
+        for (const [index, item] of items.entries()) {
+          item.hidden = index < startIndex || index >= startIndex + pageSize
+        }
+
+        previousButton.disabled = pageIndex === 0
+
+        nextButton.disabled = pageIndex === pageStarts.length - 1
+
+        controls.hidden = items.length <= pageSize
+
+        status.textContent = pageSize === 1 ?
+          `Showing ${startIndex + 1} of ${items.length}` :
+          `Showing ${startIndex + 1}–${Math.min(startIndex + pageSize, items.length)} of ${items.length}`
+      }
+
+      const move = (direction: -1 | 1): void => {
+        const pageSize = getPageSize()
+        const pageStarts = getPageStarts(pageSize)
+        const pageIndex = getPageIndex(pageStarts)
+
+        const nextPageIndex = Math.min(
+          pageStarts.length - 1,
+          Math.max(0, pageIndex + direction)
+        )
+
+        startIndex = pageStarts[nextPageIndex] ?? 0
+
+        render()
+      }
+
+      previousButton.addEventListener('click', () => move(-1), { signal })
+
+      nextButton.addEventListener('click', () => move(1), { signal })
+
+      carousel.addEventListener('keydown', event => {
+        if (event.target !== previousButton && event.target !== nextButton) return
+
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+
+        event.preventDefault()
+
+        move(event.key === 'ArrowLeft' ? -1 : 1)
+      }, { signal })
+
+      window.addEventListener('resize', () => {
+        window.cancelAnimationFrame(resizeFrame)
+
+        resizeFrame = window.requestAnimationFrame(render)
+      }, { signal })
+
+      document.addEventListener('astro:before-swap', () => {
+        window.cancelAnimationFrame(resizeFrame)
+
+        controller.abort()
+      }, { once: true })
+
+      render()
+    }
+  }
+
+  document.addEventListener('astro:page-load', initializeOrganizationCarousels)
+
+  initializeOrganizationCarousels()
+</script>

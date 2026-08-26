@@ -93,10 +93,27 @@ export const AUTHOR_JOB_TITLE = 'Engineering Leader & Full-Stack Architect'
 export const YEARS_OF_EXPERIENCE = `${new Date().getFullYear() - CAREER_START_YEAR}+`
 export const YEARS_OF_WRITING = `${new Date().getFullYear() - WRITING_START_YEAR}+`
 
+const defaultSiteUrl = new URL('https://santi020k.com/')
+
+export type SchemaEntity = 'organization' | 'person' | 'website'
+
+export const createSchemaEntityId = (entity: SchemaEntity, siteUrl?: URL) => new URL(`#${entity}`, siteUrl ?? defaultSiteUrl).href
+
 export const createAuthorSchema = (siteUrl: URL | undefined) => ({
   '@type': 'Person',
+  '@id': createSchemaEntityId('person', siteUrl),
   name: siteConfig.author,
-  url: siteUrl?.href
+  url: new URL('/about/', siteUrl ?? defaultSiteUrl).href
+})
+
+export const createPublisherSchema = (siteUrl: URL | undefined) => ({
+  '@type': 'Organization',
+  '@id': createSchemaEntityId('organization', siteUrl)
+})
+
+export const createWebsiteSchemaReference = (siteUrl: URL | undefined) => ({
+  '@type': 'WebSite',
+  '@id': createSchemaEntityId('website', siteUrl)
 })
 
 export const menuLinks: SiteLink[] = [
@@ -123,7 +140,7 @@ export const menuLinks: SiteLink[] = [
   {
     icon: 'tabler:speakerphone',
     path: '/speaking/',
-    title: 'Speaking'
+    title: 'Speaking & Community'
   },
   {
     icon: 'tabler:edit',

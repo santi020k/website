@@ -3,7 +3,7 @@ title: "Muted Commands Make AI Automation Faster and Cheaper"
 description: "AI agents rerun checks constantly. Quiet logs, compact reporters, and parallel verification reduce token waste without lowering the quality bar."
 publishDate: "2026-04-29T15:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing noisy terminal output compressed into a quieter automation pipeline with parallel verification steps"
+  alt: "Dense command output compressed into a compact signal and split across parallel verification lanes"
   src: "./cover.webp"
 tags: ["ai", "automation", "developer-experience", "testing", "ci-cd"]
 postType: "Guide"

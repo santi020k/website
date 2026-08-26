@@ -1,0 +1,118 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { Card } from '@santi020k/lumen-astro'
+
+import { siteConfig } from '@/site.config'
+
+const description =
+  'Terms and conditions for using santi020k.com, including acceptable use, intellectual property, external links, and limitations.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Terms & Conditions', url: '/terms/' }
+]
+
+const meta = {
+  breadcrumbs,
+  description,
+  title: 'Terms & Conditions'
+}
+
+const sections = [
+  {
+    label: 'Using this site',
+    body: 'By accessing santi020k.com, you agree to use it lawfully and in a way that does not damage, disrupt, overload, or interfere with the site or anyone else’s use of it. If you do not agree with these terms, please do not use the site.'
+  },
+  {
+    label: 'Purpose of the content',
+    body: 'This portfolio and blog share personal work, experience, and general educational information. The content is not legal, financial, medical, or other professional advice, and it should not be treated as a substitute for advice tailored to your circumstances.'
+  },
+  {
+    label: 'Intellectual property',
+    body: 'Unless stated otherwise, the writing, design, code examples, images, logos, and other original material on this site belong to Santiago Molina and are protected by applicable intellectual-property laws. You may link to and quote brief portions with clear attribution, but you may not reproduce, republish, sell, or present substantial parts as your own without prior written permission.'
+  },
+  {
+    label: 'Third-party links and services',
+    body: 'The site links to services and websites operated by others, including GitHub, LinkedIn, Medium, Buttondown, Giscus, and WhatsApp. Their content, availability, security, and privacy practices are controlled by their respective operators and governed by their own terms.'
+  },
+  {
+    label: 'Availability and accuracy',
+    body: 'I work to keep the site useful and accurate, but content may become outdated and the site may occasionally be unavailable. The site and its content are provided as available, without guarantees that every page will always be complete, current, uninterrupted, or error-free.'
+  },
+  {
+    label: 'Limitation of liability',
+    body: 'To the fullest extent permitted by applicable law, Santiago Molina is not responsible for indirect, incidental, or consequential loss arising from use of, inability to use, or reliance on this site or linked third-party services. Nothing in these terms excludes liability that cannot lawfully be excluded.'
+  },
+  {
+    label: 'Privacy',
+    body: 'The Privacy page explains browser storage, hosting metrics, third-party services, and how information connected with the site is handled. It forms part of these terms where relevant.'
+  },
+  {
+    label: 'Changes and governing law',
+    body: 'These terms may be updated when the site or applicable requirements change. Updated terms take effect when published here. These terms are governed by the laws of the Republic of Colombia, without limiting any rights that applicable law gives you.'
+  }
+]
+---
+
+<PageLayout footerVariant="compact" meta={meta}>
+  <article class="space-y-12">
+    <PageHero
+      description="Clear expectations for using this portfolio, blog, and the resources shared here."
+      eyebrow="Legal"
+      gradientText="plain language."
+      metaItems={['Personal portfolio', 'Educational content', 'Effective August 25, 2026']}
+      title="Terms & Conditions"
+    />
+
+    <div class="page-card-grid" data-stagger="60">
+      {sections.map(({ label, body }) => (
+        <Card class="h-full p-5" variant="muted">
+          <h2 class="section-label">{label}</h2>
+          <p class="mt-3 text-sm/7 text-ink-soft">{body}</p>
+        </Card>
+      ))}
+    </div>
+
+    <section class="section-container-wide">
+      <div class="cta-panel max-w-3xl">
+        <p class="
+          section-label text-brand
+          dark:text-accent
+        "
+        >Questions or permissions
+        </p>
+        <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">
+          Ask before reusing substantial material.
+        </h2>
+        <p class="mt-3 text-sm/7 text-ink-soft">
+          For questions about these terms or permission to reuse site material, email{' '}
+          <a
+            class="
+              font-medium text-brand transition-colors
+              hover:text-accent
+              motion-reduce:transition-none
+            "
+            href={`mailto:${siteConfig.contact.email}?subject=Terms%20and%20permissions`}
+          >
+            {siteConfig.contact.email}
+          </a>.
+        </p>
+        <p class="mt-3 text-xs/6 text-ink-muted">
+          Effective August 25, 2026. Last reviewed August 25, 2026.
+        </p>
+      </div>
+    </section>
+  </article>
+
+  <div class="section-container-wide section-actions">
+    <ButtonLink href="/" showArrow variant="secondary">
+      Back home
+    </ButtonLink>
+    <ButtonLink href="/privacy/" showArrow variant="ghost">
+      Privacy statement
+    </ButtonLink>
+  </div>
+</PageLayout>

@@ -8,30 +8,31 @@ import Pill from '@/components/atoms/Pill.astro'
 import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
-import PostCard from '@/components/molecules/PostCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCard from '@/components/molecules/SeriesCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TagFilter from '@/components/molecules/TagFilter.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
+import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
+import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
 import { getAllTags } from '@/utils/tags'
 
 import { Card } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
-import { siteConfig, YEARS_OF_WRITING } from '@/site.config'
+import { createAuthorSchema, siteConfig, YEARS_OF_WRITING } from '@/site.config'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
   const allTagsData = getAllTags(posts)
 
   return paginate(posts, {
-    pageSize: 9,
+    pageSize: BLOG_ARCHIVE_PAGE_SIZE,
     props: { allTagsData }
   })
 }
@@ -46,8 +47,7 @@ const isFirstPage = page.currentPage === 1
 const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const santi020kWaySeries = isFirstPage ? (activeSeries.find(s => s.series.id === 'the-santi020k-way') ?? null) : null
 const topTags = allTagsData.slice(0, 8)
-const featuredPost = page.data[0] ?? null
-const gridPosts = page.data.slice(1)
+const latestPost = page.data[0] ?? null
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -68,10 +68,7 @@ const blogListSchema = {
     datePublished: post.data.publishDate.toISOString(),
     ...(post.data.updatedDate ? { dateModified: post.data.updatedDate.toISOString() } : {}),
     url: new URL(getPostPath(post.id), Astro.site).href,
-    author: {
-      '@type': 'Person',
-      name: siteConfig.author
-    }
+    author: createAuthorSchema(Astro.site)
   }))
 }
 ---
@@ -96,8 +93,8 @@ const blogListSchema = {
     metaItems={isFirstPage ? ['Deep dives', 'Field notes', 'Evergreen guides'] : ['Archive', 'Latest first']}
     title={isFirstPage ? 'Writing about software.' : 'Writing archive.'}
   >
-    {isFirstPage && featuredPost && (
-      <ButtonLink href={getPostPath(featuredPost.id)} showArrow>
+    {isFirstPage && latestPost && (
+      <ButtonLink href={getPostPath(latestPost.id)} showArrow>
         Read the latest post
       </ButtonLink>
     )}
@@ -105,33 +102,45 @@ const blogListSchema = {
       Browse topics
     </ButtonLink>
     {isFirstPage && (
+      <ButtonLink href="/developer-experience/" showArrow variant="secondary">
+        Developer experience guide
+      </ButtonLink>
+    )}
+    {isFirstPage && (
       <ButtonLink href="/blog/series/" showArrow variant="secondary">
         Browse series
       </ButtonLink>
     )}
   </PageHero>
 
-  <PageSection>
+  <section
+    aria-label={isFirstPage ? 'Latest blog posts' : `Blog posts, page ${page.currentPage}`}
+    class="
+      section-container-wide pt-20
+      sm:pt-24
+      lg:pt-28
+    "
+  >
     <SectionHeader
       description="Latest post first, then browse by topic and depth."
       eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
       title="Recent writing with a practical bias."
     />
 
-    <div class="space-y-6">
-      {featuredPost && <PostCard featured post={featuredPost} />}
+    <div class="
+      mt-10 space-y-8
+      sm:mt-12
+    "
+    >
+      <TagFilter scrollOnMobile tags={topTags} />
 
-      <TagFilter showDivider={!!featuredPost} tags={topTags} />
+      <PostsGallery posts={page.data} />
 
-      <div class="post-grid" data-stagger="60">
-        {gridPosts.map(post => (
-          <PostCard post={post} />
-        ))}
+      <div class="pt-2">
+        <Pagination page={page} />
       </div>
-
-      <Pagination page={page} />
     </div>
-  </PageSection>
+  </section>
 
   {isFirstPage && (
     <StatsGrid>

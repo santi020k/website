@@ -1,6 +1,10 @@
 ---
 title: "Datagran"
 description: "Led the front-end modernization of an AI martech platform, cutting bugs by 30% while moving the product from jQuery to a scalable React and TypeScript architecture."
+brand:
+  primary: "#02f57d"
+  secondary: "#00b8d9"
+  surface: "#061a12"
 role: "Front-End Lead"
 startingDate: "1 Dec 2018"
 endingDate: "1 Jan 2020"
@@ -22,6 +26,7 @@ technologies: [
   ]
 coverImage:
   src: "./cover.webp"
+  background: "./cover-background.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"

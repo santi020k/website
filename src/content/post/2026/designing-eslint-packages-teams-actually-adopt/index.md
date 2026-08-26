@@ -3,7 +3,7 @@ title: "Designing ESLint Packages Teams Actually Adopt"
 description: "What separates ESLint configurations that spread across a codebase from ones that get removed after the first sprint."
 publishDate: "2026-07-10T15:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing layered ESLint packages, configuration modules, and a central validation shield"
+  alt: "A compact linting core connected to optional framework modules, documentation, and checks"
   src: "./cover.webp"
 tags: ["eslint", "code-quality", "javascript", "typescript", "developer-experience"]
 postType: "Deep Dive"

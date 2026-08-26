@@ -1,16 +1,22 @@
 ---
 title: "Difftale"
 description: "Built a VS Code Git companion for editable Conventional Commit drafts, pull request composition, file history navigation, and explicit commit and push workflows."
+brand:
+  primary: "#14b8a6"
+  secondary: "#6366f1"
+  surface: "#081b1c"
 role: "Creator"
 startingDate: "24 Jul 2026"
 githubUrl: "https://github.com/santi020k/difftale"
 typesId: "personal"
 draft: true
-relevanceWeight: 78
+relevanceWeight: 45
 impactMetrics: ["Generates up to five editable commit drafts with a deterministic local fallback", "Follows file history across Git renames without filling the editor with tabs", "Keeps staging, committing, pushing, and pull request creation explicit"]
 technologies: ["VS Code Extension", "TypeScript", "Node.js", "Git", "GitHub CLI", "VS Code Language Model API", "Conventional Commits", "Turborepo", "pnpm", "Vitest", "esbuild", "Developer Experience (DX)", "AI-assisted Development", "Open Source"]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.svg"
   logoAspect: "square"
   logoSurface: "light"

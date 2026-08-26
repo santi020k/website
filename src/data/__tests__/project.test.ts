@@ -75,12 +75,14 @@ describe('groupProjectsByTypesId', () => {
     const professional = makeProject({ id: 'a', typesId: 'professional' })
     const personal = makeProject({ id: 'b', typesId: 'personal' })
     const experimental = makeProject({ id: 'c', typesId: 'experimental' })
+    const community = makeProject({ id: 'd', typesId: 'community' })
 
-    const result = groupProjectsByTypesId([professional, personal, experimental])
+    const result = groupProjectsByTypesId([professional, personal, experimental, community])
 
     expect(result.professional).toHaveLength(1)
     expect(result.personal).toHaveLength(1)
     expect(result.experimental).toHaveLength(1)
+    expect(result.community).toHaveLength(1)
   })
 
   test('defaults to "personal" when typesId is absent', () => {

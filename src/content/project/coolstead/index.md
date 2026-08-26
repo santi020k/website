@@ -1,15 +1,21 @@
 ---
 title: "Coolstead"
 description: "Built a native macOS menu-bar app that monitors thermal conditions and applies a gradual, safety-bounded fan curve without replacing macOS thermal protection."
+brand:
+  primary: "#00cfe8"
+  secondary: "#21c7bd"
+  surface: "#071525"
 role: "Creator"
 startingDate: "24 Jul 2026"
 typesId: "personal"
-draft: true
-relevanceWeight: 74
+draft: false
+relevanceWeight: 40
 impactMetrics: ["Returns every controlled fan to automatic mode when cooling stops or the app quits", "Caps requested speed at 75% of each fan's reported range", "Supports fanless Macs with a monitoring-only experience"]
 technologies: ["Swift", "SwiftUI", "macOS", "AppKit", "Swift Package Manager", "SMC", "Privileged Helper", "Hardware Monitoring", "Thermal Management", "Safety Engineering", "Testing", "Turborepo", "pnpm"]
 coverImage:
   src: "./cover.webp"
+  horizontal: "./cover-horizontal.webp"
+  vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "neutral"

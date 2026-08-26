@@ -4,7 +4,7 @@ description: "The code smells that usually predict rising maintenance cost befor
 publishDate: "2025-01-07T15:08:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing cracked code modules, warning markers, and tangled dependencies"
+  alt: "Cracked software modules and tangled dependencies emitting maintenance-risk warnings"
   src: "./cover.webp"
 tags: ["code-quality", "maintainability", "refactoring", "software-design"]
 postType: "Guide"

@@ -154,7 +154,7 @@ There is no bundled real-user monitoring SDK. Use Lighthouse (local or CI) for r
 
 - **LCP** (Largest Contentful Paint) — ensure above-the-fold images have `loading="eager"` and `fetchpriority="high"`.
 - **CLS** (Cumulative Layout Shift) — always set explicit `width` and `height` on `<img>` tags so the browser reserves space.
-- **INP** (Interaction to Next Paint) — keep Alpine.js handlers lightweight; defer heavy work off the main thread.
+- **INP** (Interaction to Next Paint) — keep native event handlers lightweight; defer heavy work off the main thread.
 
 ### Image optimization checklist
 - Use `sharp` (already installed) via Astro's `<Image>` component from `astro:assets`.

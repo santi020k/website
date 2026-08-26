@@ -32,11 +32,29 @@ describe('selectedOrganizations', () => {
     expect(selectedOrganizations.length).toBeGreaterThan(0)
   })
 
-  test('every entry has a label and context', () => {
+  test('every entry has a label, context, and project link', () => {
     for (const org of selectedOrganizations) {
       expect(org.label).toBeTruthy()
       expect(org.context).toBeTruthy()
+      expect(org.projectId).toBeTruthy()
     }
+  })
+
+  test('includes every public professional engagement and the featured community', () => {
+    const projectIds = selectedOrganizations.map(organization => organization.projectId)
+
+    expect(new Set(projectIds).size).toBe(projectIds.length)
+    expect(projectIds).toEqual([
+      'void',
+      'optic-power',
+      'datagran',
+      'xgames',
+      'smith-commerce',
+      'pads',
+      'justbit',
+      'nebular',
+      'react-js-colombia'
+    ])
   })
 })
 

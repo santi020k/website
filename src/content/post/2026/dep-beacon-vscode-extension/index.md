@@ -3,7 +3,7 @@ title: "Dep Beacon: Dependency Signals Inside VS Code"
 description: "Why I built Dep Beacon, a VS Code extension that keeps npm update paths, pnpm catalog context, and OSV security warnings inside manifests."
 publishDate: "2026-07-01T15:00:00.000Z"
 coverImage:
-  alt: "Dep Beacon editor preview showing package dependency status, update targets, catalog context, and security signals"
+  alt: "A package manifest receiving update, workspace, and security signals inside an editor context"
   src: "./cover.webp"
 tags: ["vscode", "developer-experience", "dependencies", "security", "open-source"]
 postType: "Case Study"

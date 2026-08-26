@@ -1,0 +1,287 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import PostsGallery from '@/components/organisms/PostsGallery.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { getCachedPosts } from '@/utils/content'
+import { getPostPath } from '@/utils/links'
+import { getPostSlug } from '@/utils/posts'
+
+import { Card } from '@santi020k/lumen-astro'
+
+import {
+  createAuthorSchema,
+  createWebsiteSchemaReference,
+  YEARS_OF_EXPERIENCE
+} from '@/site.config'
+
+const description =
+  'A practical guide to developer experience: measure delivery friction, encode useful standards, automate verification, and help teams ship confidently.'
+
+const allPosts = await getCachedPosts()
+
+const developerExperienceTags = new Set([
+  'ai',
+  'automation',
+  'ci-cd',
+  'code-quality',
+  'developer-experience',
+  'engineering-standards',
+  'eslint',
+  'testing'
+])
+
+const topicPosts = allPosts.filter(post => post.data.tags.some(tag => developerExperienceTags.has(tag)))
+
+const featuredSlugs = [
+  'why-developer-experience-work-should-be-measured-like-product-work',
+  'designing-eslint-packages-teams-actually-adopt',
+  'ai-coding-is-probabilistic-your-delivery-process-should-not-be',
+  'one-quality-command-across-polyglot-repositories',
+  'playwright-accessibility-checks-that-teams-keep-running',
+  'muted-commands-make-ai-automation-faster-and-cheaper'
+] as const
+
+const postsBySlug = new Map(allPosts.map(post => [getPostSlug(post.id), post]))
+
+const getFeaturedPost = (slug: typeof featuredSlugs[number]): CollectionEntry<'post'> => {
+  const post = postsBySlug.get(slug)
+
+  if (!post) throw new Error(`Missing developer experience hub post: ${slug}`)
+
+  return post
+}
+
+const featuredPosts = featuredSlugs.map(getFeaturedPost)
+
+const principles = [
+  {
+    title: 'Measure friction before choosing tools',
+    body: 'Start with cycle time, failed checks, review delays, repeated questions, and recovery work. A tool is useful only when one of those outcomes improves.'
+  },
+  {
+    title: 'Turn repeated judgment into clear defaults',
+    body: 'Document the decision once, encode the deterministic part in linting or tests, and leave the genuinely contextual part visible for human review.'
+  },
+  {
+    title: 'Keep feedback close to the change',
+    body: 'Fast local checks, focused editor guidance, and one dependable quality command shorten the distance between a mistake and a useful explanation.'
+  },
+  {
+    title: 'Protect the flow, not just the code',
+    body: 'A healthy system covers accessibility, release confidence, documentation, ownership, and recovery—not merely formatting or a passing build.'
+  }
+]
+
+const canonicalUrl = new URL('/developer-experience/', Astro.site).href
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonicalUrl}#page`,
+  name: 'Developer Experience & Engineering Quality',
+  description,
+  url: canonicalUrl,
+  author: createAuthorSchema(Astro.site),
+  isPartOf: createWebsiteSchemaReference(Astro.site),
+  about: [
+    { '@type': 'Thing', name: 'Developer experience' },
+    { '@type': 'Thing', name: 'Engineering quality' },
+    { '@type': 'Thing', name: 'Software delivery automation' }
+  ],
+  mainEntity: {
+    '@type': 'ItemList',
+    name: 'Developer experience field guides',
+    itemListElement: featuredPosts.map((post, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: post.data.title,
+      url: new URL(getPostPath(post.id), Astro.site).href
+    }))
+  }
+}
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Developer Experience', url: '/developer-experience/' }
+]
+---
+
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description,
+    seoTitle: 'Developer Experience & Engineering Quality',
+    structuredData,
+    title: 'Developer Experience & Engineering Quality'
+  }}
+>
+  <PageHero
+    description="Developer experience is the quality of the system around software delivery: how clearly people can understand, change, verify, release, and recover the product. The goal is not more tooling. It is less avoidable friction and more trustworthy feedback."
+    eyebrow="Developer Experience"
+    gradientText="improves delivery."
+    metaItems={['Engineering quality', 'Delivery automation', 'Team systems']}
+    title="Build a system that"
+  >
+    <ButtonLink href="#field-guides" showArrow>
+      Read the field guides
+    </ButtonLink>
+    <ButtonLink href="/portfolio/astro-doctor/" showArrow variant="secondary">
+      See the system in practice
+    </ButtonLink>
+  </PageHero>
+
+  <StatsGrid columns={3}>
+    <StatCard
+      description="Published articles connected to developer experience, engineering quality, testing, and automation."
+      label="Field notes"
+      value={String(topicPosts.length)}
+    />
+    <StatCard
+      description="Release lead-time reduction achieved by improving CI/CD pipelines and automating quality gates."
+      label="Delivery outcome"
+      value="-75%"
+    />
+    <StatCard
+      description="Building software products, delivery systems, and engineering practices across teams and platforms."
+      label="Experience"
+      value={YEARS_OF_EXPERIENCE}
+    />
+  </StatsGrid>
+
+  <PageSection>
+    <SectionHeader
+      description="The useful version of DX connects a recurring team problem to a measurable delivery outcome."
+      eyebrow="Working definition"
+      title="Developer experience is an operating system for delivery."
+    />
+
+    <Card
+      as="section"
+      class="
+        space-y-5 rounded-[1.75rem] p-6
+        sm:p-7
+      "
+      glass="subtle"
+    >
+      <p class="text-base/8 text-ink-soft">
+        Good developer experience makes the correct path easier to discover, the risky path easier to
+        detect, and failures easier to recover from. It combines architecture, documentation, tooling,
+        tests, release processes, and team agreements into one coherent feedback system.
+      </p>
+      <p class="text-base/8 text-ink-soft">
+        That means measuring outcomes instead of counting tools. Faster feedback matters when it reduces
+        waiting. Automation matters when it removes repeated work. Standards matter when they help people
+        make decisions without guessing what “good” means.
+      </p>
+      <div class="section-actions">
+        <ButtonLink href="/blog/why-developer-experience-work-should-be-measured-like-product-work/" showArrow>
+          Read the measurement framework
+        </ButtonLink>
+      </div>
+    </Card>
+  </PageSection>
+
+  <PageSection>
+    <SectionHeader
+      description="Four practices keep developer-experience work tied to product delivery instead of turning it into a collection of disconnected tools."
+      eyebrow="Operating model"
+      title="Make the feedback system explicit."
+    />
+
+    <div
+class="
+  grid gap-5
+  sm:grid-cols-2
+"
+data-stagger="60"
+    >
+      {principles.map((principle, index) => (
+        <PrincipleCard body={principle.body} index={index} title={principle.title} />
+      ))}
+    </div>
+  </PageSection>
+
+  <section
+    aria-label="Developer experience field guides"
+    class="
+      section-container-wide scroll-mt-28 pt-20
+      sm:pt-24
+      lg:pt-28
+    "
+    id="field-guides"
+  >
+    <SectionHeader
+      description="Start with measurement and standards, then follow the implementation paths through linting, testing, automation, and AI-assisted delivery."
+      eyebrow="Field guides"
+      linkHref="/blog/tags/developer-experience/"
+      linkLabel="Browse every developer experience post"
+      title="Evidence, decisions, and implementation details."
+    />
+    <div class="
+      mt-10
+      sm:mt-12
+    "
+    >
+      <PostsGallery columns={3} posts={featuredPosts} />
+    </div>
+  </section>
+
+  <PageSection>
+    <SectionHeader
+      description="The portfolio shows how these ideas become products, rules, editor feedback, documentation, and reusable component systems."
+      eyebrow="Shipped systems"
+      title="The practice behind the writing."
+    />
+
+    <div
+class="
+  grid gap-5
+  lg:grid-cols-3
+"
+data-stagger="60"
+    >
+      <Card
+as="article"
+class="flex h-full flex-col gap-4 rounded-[1.75rem] p-6"
+variant="muted"
+      >
+        <h3 class="text-xl font-semibold">Astro Doctor</h3>
+        <p class="grow text-sm/7 text-ink-soft">
+          One rule system expressed through a CLI, ESLint, editor diagnostics, CI feedback, and agent guidance.
+        </p>
+        <ButtonLink href="/portfolio/astro-doctor/" showArrow variant="inline">Explore Astro Doctor</ButtonLink>
+      </Card>
+      <Card
+as="article"
+class="flex h-full flex-col gap-4 rounded-[1.75rem] p-6"
+variant="muted"
+      >
+        <h3 class="text-xl font-semibold">ESLint Config Basic</h3>
+        <p class="grow text-sm/7 text-ink-soft">
+          Composable standards designed to reduce configuration work while keeping framework and monorepo decisions explicit.
+        </p>
+        <ButtonLink href="/portfolio/eslint-config-basic/" showArrow variant="inline">Explore the ESLint toolkit</ButtonLink>
+      </Card>
+      <Card
+as="article"
+class="flex h-full flex-col gap-4 rounded-[1.75rem] p-6"
+variant="muted"
+      >
+        <h3 class="text-xl font-semibold">Lumen UI</h3>
+        <p class="grow text-sm/7 text-ink-soft">
+          Shared accessibility, interaction, and token contracts across Astro, React, and Web Components without runtime lock-in.
+        </p>
+        <ButtonLink href="/portfolio/lumen-ui/" showArrow variant="inline">Explore Lumen UI</ButtonLink>
+      </Card>
+    </div>
+  </PageSection>
+</PageLayout>

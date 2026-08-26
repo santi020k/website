@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets'
 import { type CollectionEntry, getEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
@@ -8,8 +9,6 @@ import Pill from '@/components/atoms/Pill.astro'
 import { getPostPath, getSeriesPath, getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingTime } from '@/utils/reading-time'
-
-import { CoverImage } from '@santi020k/lumen-astro'
 
 interface Props {
   className?: string
@@ -26,6 +25,17 @@ const postLink = getPostPath(post.id)
 const imageSizes = featured ?
   '(min-width: 1024px) 72vw, 100vw' :
   '(min-width: 1024px) 48vw, (min-width: 768px) 62vw, 100vw'
+
+const coverSourceWidth = data.coverImage?.src.width ?? 1600
+const coverWidth = Math.min(1600, coverSourceWidth)
+
+const coverHeight = data.coverImage ?
+  Math.round(coverWidth * data.coverImage.src.height / data.coverImage.src.width) :
+  900
+
+const coverWidths = [...new Set([320, 400, 560, 740, 960, 1280, 1600, coverWidth])]
+  .filter(width => width <= coverSourceWidth)
+  .sort((firstWidth, secondWidth) => firstWidth - secondWidth)
 ---
 
 <article
@@ -60,21 +70,30 @@ const imageSizes = featured ?
     <span class="sr-only">{data.title}</span>
     {data.coverImage ?
       (
-        <CoverImage
-          alt={data.coverImage.alt}
-          ariaHidden={true}
-          className="rounded-2xl! border-0!"
-          featured={featured}
-          image={data.coverImage.src}
-          loading={featured ? 'eager' : 'lazy'}
-          mode="card"
-          showCardOverlay={false}
-          sizes={imageSizes}
-          transitionName={`post-cover-${getPostSlug(post.id)}`}
-        />
+        <div
+          class="overflow-hidden rounded-2xl bg-surface-muted"
+          transition:name={`post-cover-${getPostSlug(post.id)}`}
+        >
+          <Picture
+            alt=""
+            aria-hidden="true"
+            class="
+              block h-auto w-full transition duration-500
+              motion-safe:group-hover:scale-[1.03]
+              motion-reduce:transition-none
+            "
+            formats={['avif', 'webp']}
+            height={coverHeight}
+            loading={featured ? 'eager' : 'lazy'}
+            sizes={imageSizes}
+            src={data.coverImage.src}
+            width={coverWidth}
+            widths={coverWidths}
+          />
+        </div>
       ) :
       (
-        <div class="aspect-16/10 rounded-2xl bg-surface-muted grid-fade"/>
+        <div class="aspect-video rounded-2xl bg-surface-muted grid-fade"/>
       )}
   </a>
 

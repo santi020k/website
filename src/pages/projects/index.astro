@@ -1,7 +1,6 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import ProjectLogoGrid from '@/components/molecules/ProjectLogoGrid.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
@@ -35,16 +34,16 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
 <PageLayout
   meta={{
     breadcrumbs,
-    description: 'Open-source tools, community work, and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
+    description: 'Open-source tools and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
     structuredData: projectsListSchema,
     title: 'Side Projects — Santiago Molina'
   }}
 >
   <PageHero
-    description="Open-source tools, community work, and self-directed experiments. These are the builds where curiosity becomes reusable practice."
+    description="Open-source tools and self-directed experiments. These are the builds where curiosity becomes reusable practice."
     eyebrow="Side Projects"
     gradientText="love of it."
-    metaItems={['Open source', 'Community', 'Learning in public']}
+    metaItems={['Open source', 'Developer tooling', 'Learning in public']}
     title="Built for the"
   >
     <ButtonLink href="#projects" showArrow>
@@ -65,26 +64,6 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
     id="projects"
   >
     <SectionHeader
-      description="A curated view of the products, developer tools, open-source systems, and community work I build beyond client engagements."
-      eyebrow={`${sideProjects.length} personal builds`}
-      title="A growing project ecosystem."
-    />
-    <div class="
-      mt-10
-      sm:mt-12
-    "
-    >
-      <ProjectLogoGrid projects={showcaseProjects} />
-    </div>
-  </section>
-
-  <section class="
-    section-container-wide pt-16
-    sm:pt-20
-    lg:pt-24
-  "
-  >
-    <SectionHeader
       description="Every project has a deeper story about the problem, the decisions, and the system behind the finished work."
       eyebrow={`${showcaseProjects.length} project stories`}
       title="The work behind the logos."
@@ -100,7 +79,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
 
   <StatsGrid>
     <StatCard
-      description="Open-source and community work that sharpens how I build and lead."
+      description="Open-source tools and experiments that sharpen how I build and lead."
       label="Projects"
       value={String(sideProjects.length)}
     />
@@ -108,11 +87,6 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       description="Tools and platforms explored through personal and open-source work."
       label="Technologies"
       value={String(allTechnologies.length)}
-    />
-    <StatCard
-      description="Typical attendance for ReactJS Colombia meetups, workshops, and talks."
-      label="Community"
-      value="100+"
     />
     <StatCard
       description="Years of professional engineering experience."

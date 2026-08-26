@@ -3,7 +3,9 @@ import { Image, Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import { getPortfolioPath } from '@/utils/links'
-import { getProjectTimelineLabel } from '@/utils/project-meta'
+import { getProjectBrandStyle } from '@/utils/project-brand'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectStatusLabel, getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 import { Icon } from '@santi020k/lumen-astro'
@@ -13,17 +15,13 @@ interface Props {
   project: CollectionEntry<'project'>
 }
 
-const { project, accentTone = 'brand' } = Astro.props
-const isActive = !project.data.endingDate
+const { project } = Astro.props
+const projectStatus = getProjectStatusLabel(project.data.draft, project.data.endingDate)
 const projectLink = getPortfolioPath(project.id)
 const timeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const coverImage = project.data.coverImage
-const previewImage = coverImage?.horizontal ?? coverImage?.src ?? coverImage?.vertical
+const previewImage = getProjectCoverForUsage(coverImage, 'thumbnail')
 const logoImage = coverImage?.logo
-const isAccent = accentTone === 'accent'
-const cardAccentVar = isAccent ? 'var(--accent)' : 'var(--brand)'
-const accentTextClass = isAccent ? 'text-accent' : 'text-brand'
-const accentHoverClass = isAccent ? 'group-hover:text-accent' : 'group-hover:text-brand'
 const sortedTechnologies = sortTechnologiesByInterest(project.data.technologies)
 const visibleTechnologies = sortedTechnologies.slice(0, 4)
 const hiddenTechnologyCount = Math.max(0, sortedTechnologies.length - visibleTechnologies.length)
@@ -47,6 +45,18 @@ const logoImageClass = {
   wide: 'max-h-9 max-w-32'
 } satisfies Record<LogoAspect, string>
 
+const logoSizes = {
+  square: '40px',
+  tall: '36px',
+  wide: '128px'
+} satisfies Record<LogoAspect, string>
+
+const logoWidths = {
+  square: [40, 80],
+  tall: [36, 72],
+  wide: [128, 256]
+} satisfies Record<LogoAspect, number[]>
+
 const logoSurfaceClass = {
   dark: 'border-white/18 bg-ink text-white dark:border-white/14 dark:bg-canvas',
   light: 'border-line/70 bg-surface text-ink dark:border-white/18 dark:bg-white/92',
@@ -61,17 +71,13 @@ const logoSurfaceClass = {
     focus-visible:ring-2 focus-visible:ring-brand/50 focus-visible:outline-none
   "
   href={projectLink}
-  style={`--project-preview-accent: ${cardAccentVar};`}
+  style={`${getProjectBrandStyle(project.data.brand)}; --project-preview-accent: var(--project-primary);`}
 >
   <article
     class="card-interactive h-full min-h-112 rounded-[1.75rem] bg-surface/58"
     data-project-preview-card
   >
-    <div class="
-      relative min-h-48
-      sm:min-h-52
-    "
-    >
+    <div class="relative aspect-16/10 overflow-hidden">
       {previewImage ?
         (
           <Picture
@@ -84,13 +90,13 @@ const logoSurfaceClass = {
               motion-reduce:transition-none
             "
             formats={['avif', 'webp']}
-            height={600}
+            height={800}
             loading="lazy"
             sizes="(min-width: 1280px) 24vw, (min-width: 768px) 42vw, 100vw"
             src={previewImage}
             data-project-preview-media
-            width={840}
-            widths={[480, 720, 960]}
+            width={1280}
+            widths={[480, 800, 1280]}
           />
         ) :
         (
@@ -171,7 +177,9 @@ const logoSurfaceClass = {
                 aria-hidden="true"
                 class:list={['object-contain drop-shadow-sm', logoImageClass[logoAspect]]}
                 loading="lazy"
+                sizes={logoSizes[logoAspect]}
                 src={logoImage}
+                widths={logoWidths[logoAspect]}
               />
             ) :
             (
@@ -189,7 +197,7 @@ const logoSurfaceClass = {
       <div class="space-y-3">
         <div class="space-y-2.5">
           <div class="flex items-center justify-between gap-3">
-            <p class:list={['min-w-0 text-sm/5 font-bold', accentTextClass]}>
+            <p class="min-w-0 text-sm/5 font-bold" data-project-readable>
               {project.data.role ?? 'Engineering'}
             </p>
             <span
@@ -204,18 +212,16 @@ const logoSurfaceClass = {
                 class="size-1.5 rounded-full"
                 style="background: hsl(var(--project-preview-accent));"
               />
-              {isActive ? 'Active' : 'Completed'}
+              {projectStatus}
             </span>
           </div>
           <h3
-            class:list={[
-              `
-                text-2xl/tight font-semibold tracking-tight text-ink
-                transition-colors duration-200
-                motion-reduce:transition-none
-              `,
-              accentHoverClass
-            ]}
+            class="
+              text-2xl/tight font-semibold tracking-tight text-ink
+              transition-colors duration-200
+              group-hover:text-[hsl(var(--project-primary-readable))]
+              motion-reduce:transition-none
+            "
           >
             {project.data.title}
           </h3>
@@ -357,6 +363,15 @@ const logoSurfaceClass = {
 
   :global(:root[data-theme='dark']) [data-project-preview-card] {
     background: hsl(var(--surface) / 0.42);
+  }
+
+  [data-project-readable] {
+    color: hsl(var(--project-primary-readable));
+  }
+
+  :global(:root[data-theme='dark']) [data-project-readable],
+  :global(:root[data-theme='dark']) [data-project-preview-card] h3 {
+    --project-primary-readable: var(--project-primary-readable-dark);
   }
 
   :global(:root[data-theme='dark']) [data-project-preview-wash] {

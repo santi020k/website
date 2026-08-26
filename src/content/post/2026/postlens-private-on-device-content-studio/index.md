@@ -4,7 +4,7 @@ description: "Why PostLens keeps selection, scoring, enhancement, composition, a
 publishDate: "2026-08-14T15:00:00.000Z"
 draft: true
 coverImage:
-  alt: "Photo frames moving through selection, enhancement, composition, and carousel export stages"
+  alt: "Photos moving through selection, scoring, enhancement, composition, and export inside a protected phone"
   src: "./cover.webp"
 tags: ["ios", "swiftui", "on-device-ai", "privacy", "photography"]
 postType: "Deep Dive"

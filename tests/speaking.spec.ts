@@ -16,13 +16,15 @@ test.describe('Speaking page', () => {
   })
 
   test('should contain the key sections', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: /Make the invite easy/i, level: 2 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /ReactJS Colombia/i, level: 2 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /talks, in one timeline/i, level: 2 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Bring the audience/i, level: 2 })).toBeVisible()
     await expect(page.getByRole('heading', { name: /What I speak about/i, level: 2 })).toBeVisible()
     await expect(page.getByRole('heading', { name: /Available formats/i, level: 2 })).toBeVisible()
   })
 
   test('should expose the invite CTA with a WhatsApp href', async ({ page }) => {
-    const ctaLinks = page.getByRole('link', { name: /Invite me on WhatsApp/i })
+    const ctaLinks = page.getByRole('link', { name: /Invite me to speak/i })
     await expect(ctaLinks.first()).toBeVisible()
     await expect(ctaLinks.first()).toHaveAttribute('href', /^https:\/\/api\.whatsapp\.com\/send/)
     await expect(ctaLinks.first()).toHaveAttribute('href', /Speaking%20page|speaking%20page/i)
@@ -32,6 +34,36 @@ test.describe('Speaking page', () => {
     const linkedInLink = page.getByRole('link', { name: /Connect on LinkedIn/i })
     await expect(linkedInLink.first()).toBeVisible()
     await expect(linkedInLink.first()).toHaveAttribute('href', /linkedin/)
+  })
+
+  test('should present ReactJS Colombia as community work', async ({ page }) => {
+    const communityHeading = page.getByRole('heading', { name: /ReactJS Colombia/i, level: 2 })
+    const communitySection = page.locator('section').filter({ has: communityHeading })
+
+    await expect(communitySection.getByText('Co-Organizer')).toBeVisible()
+    await expect(communitySection.getByRole('link', { name: /Visit the community/i }))
+      .toHaveAttribute('href', /meetup\.com/)
+    await expect(communitySection.getByRole('link', { name: /Read the community story/i }))
+      .toHaveAttribute('href', '/portfolio/react-js-colombia/')
+  })
+
+  test('should render the complete speaking history as an evidence-labeled timeline', async ({ page }) => {
+    const timeline = page.locator('[data-speaking-timeline]')
+    const rows = timeline.locator('[data-speaking-row]')
+
+    await expect(rows).toHaveCount(8)
+    await expect(rows.first()).toContainText('How to Automate Front End Processes')
+    await expect(rows.last()).toContainText('CSS, Sass, and Preprocessors')
+    await expect(timeline.locator('[data-speaking-row][data-evidence="public"]')).toHaveCount(6)
+    await expect(timeline.locator('[data-speaking-row][data-evidence="private"]')).toHaveCount(1)
+    await expect(timeline.locator('[data-speaking-row][data-evidence="reconstructed"]')).toHaveCount(1)
+    await expect(page.getByRole('heading', { name: 'Unit Testing with React' }))
+      .toBeVisible()
+    await expect(page.getByRole('link', { name: /Event record/i }).first())
+      .toHaveAttribute('href', /meetup\.com/)
+
+    const timelineTag = await timeline.evaluate(element => element.tagName)
+    expect(timelineTag).toBe('OL')
   })
 
   test('should render topic cards', async ({ page }) => {

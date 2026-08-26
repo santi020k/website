@@ -1,0 +1,211 @@
+---
+import { Picture } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import Pill from '@/components/atoms/Pill.astro'
+
+import { getFormattedDate } from '@/utils/date'
+import { getPostPath } from '@/utils/links'
+import { getPostSlug } from '@/utils/posts'
+import { getReadingTime } from '@/utils/reading-time'
+
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
+
+interface Props {
+  columns?: 2 | 3
+  posts: CollectionEntry<'post'>[]
+  showSequence?: boolean
+}
+
+const { columns = 3, posts, showSequence = false } = Astro.props
+
+const imageSizes = columns === 2 ?
+  '(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw' :
+  '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+
+const createGalleryItem = (post: CollectionEntry<'post'>) => {
+  const { data } = post
+  const coverSourceWidth = data.coverImage?.src.width ?? 1600
+  const coverWidth = Math.min(1600, coverSourceWidth)
+
+  const coverHeight = data.coverImage ?
+    Math.round(coverWidth * data.coverImage.src.height / data.coverImage.src.width) :
+    900
+
+  const coverWidths = [...new Set([320, 480, 640, 800, 960, 1280, 1600, coverWidth])]
+    .filter(width => width <= coverSourceWidth)
+    .sort((firstWidth, secondWidth) => firstWidth - secondWidth)
+
+  return {
+    coverHeight,
+    coverWidth,
+    coverWidths,
+    data,
+    formattedDate: getFormattedDate(data.publishDate),
+    href: getPostPath(post.id),
+    readingTime: getReadingTime(post.body),
+    slug: getPostSlug(post.id)
+  }
+}
+
+const galleryItems = posts.map(createGalleryItem)
+---
+
+<div>
+  {galleryItems.length > 0 && (
+    <div
+      class:list={[
+        `
+          grid gap-6
+          sm:grid-cols-2
+        `,
+        columns === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'
+      ]}
+      data-post-gallery-grid
+      data-stagger="45"
+    >
+      {galleryItems.map((item, index) => (
+        <Card
+          as="article"
+          class="
+            group flex h-full flex-col overflow-hidden rounded-2xl!
+            border-line/50 bg-surface p-0!
+          "
+          data-post-gallery-card
+          variant="interactive"
+        >
+          <Link
+            aria-label={`Read ${item.data.draft ? 'draft post: ' : ''}${item.data.title}`}
+            className="
+              flex h-full flex-col font-normal text-inherit no-underline
+            "
+            href={item.href}
+            variant="inherit"
+          >
+            <div
+              class="relative aspect-video overflow-hidden bg-surface-muted"
+              transition:name={`post-cover-${item.slug}`}
+            >
+              {item.data.coverImage ?
+                (
+                  <Picture
+                    alt=""
+                    aria-hidden="true"
+                    class="
+                      absolute inset-0 size-full object-cover
+                      transition-transform duration-500
+                      motion-safe:group-hover:scale-105
+                      motion-reduce:transition-none
+                    "
+                    formats={['avif', 'webp']}
+                    height={item.coverHeight}
+                    loading="lazy"
+                    sizes={imageSizes}
+                    src={item.data.coverImage.src}
+                    width={item.coverWidth}
+                    widths={item.coverWidths}
+                  />
+                ) :
+                (
+                  <div aria-hidden="true" class="absolute inset-0 grid-fade" />
+                )}
+
+              <div
+                aria-hidden="true"
+                class="
+                  absolute inset-0 bg-linear-to-t from-canvas/28 via-transparent
+                  to-transparent opacity-70 transition-opacity duration-300
+                  group-hover:opacity-100
+                  motion-reduce:transition-none
+                "
+              />
+              <div class="
+                absolute inset-x-3 top-3 flex items-start justify-between gap-2
+              "
+              >
+                <Pill
+                  className="
+                    border-line/80! bg-canvas/92! font-bold! text-ink! shadow-lg
+                    backdrop-blur-xl
+                  "
+                  label={item.data.postType}
+                  tone="neutral"
+                />
+                {item.data.draft && (
+                  <Pill
+                    className="
+                      border-warning/70! bg-canvas/92! font-bold! text-warning!
+                      shadow-lg backdrop-blur-xl
+                    "
+                    label="Draft"
+                    tone="neutral"
+                  />
+                )}
+              </div>
+            </div>
+
+            <div class="
+              flex grow flex-col p-5
+              sm:p-6
+            "
+            >
+              <div class="
+                flex flex-wrap items-center gap-2 text-xs text-ink-muted
+              "
+              >
+                {showSequence && (
+                  <>
+                    <span class="font-semibold text-brand">
+                      Part {item.data.seriesOrder ?? index + 1}
+                    </span>
+                    <span aria-hidden="true">·</span>
+                  </>
+                )}
+                <time datetime={item.data.publishDate.toISOString()}>
+                  {item.formattedDate}
+                </time>
+                <span aria-hidden="true">·</span>
+                <span class="inline-flex items-center gap-1">
+                  <Icon aria-hidden="true" class="size-3.5" name="clock-3" />
+                  {item.readingTime} min read
+                </span>
+              </div>
+
+              <h3 class="
+                mt-3 line-clamp-3 text-xl/tight font-semibold tracking-tight
+                text-ink transition-colors duration-200
+                group-hover:text-brand
+                motion-reduce:transition-none
+              "
+              >
+                {item.data.title}
+              </h3>
+
+              <p class="mt-3 line-clamp-3 text-sm/6 text-ink-soft">
+                {item.data.description}
+              </p>
+
+              <div class="mt-auto flex items-end justify-between gap-4 pt-6">
+                <div class="flex min-w-0 flex-wrap gap-1.5">
+                  {item.data.tags.slice(0, 2).map(tag => (
+                    <Pill label={tag} showHash tone="outline" />
+                  ))}
+                </div>
+                <Icon
+                  aria-hidden="true"
+                  class="
+                    size-5 shrink-0 text-ink-muted transition-[color,transform]
+                    duration-200
+                    group-hover:translate-x-1 group-hover:text-brand
+                    motion-reduce:transition-none
+                  "
+                  name="arrow-right"
+                />
+              </div>
+            </div>
+          </Link>
+        </Card>
+      ))}
+    </div>
+  )}
+</div>

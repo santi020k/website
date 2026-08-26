@@ -2,9 +2,9 @@
 import { type CollectionEntry, render } from 'astro:content'
 
 import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
+import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSpotlight.astro'
 import ProjectCaseStudy from '@/components/molecules/ProjectCaseStudy.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
-import ProjectPreviewCard from '@/components/molecules/ProjectPreviewCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
@@ -12,6 +12,7 @@ import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
+import { getProjectBrandStyle } from '@/utils/project-brand'
 import {
   getProjectNotesDescription,
   getProjectNotesLabel,
@@ -22,7 +23,7 @@ import {
 
 import { ScrollProgress } from '@santi020k/lumen-astro'
 
-import { createAuthorSchema } from '@/site.config'
+import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
 
 interface Props {
   project: CollectionEntry<'project'>
@@ -37,9 +38,9 @@ const socialImage = new URL(`/og/portfolio/${project.id}.webp`, Astro.site).href
 const { headings } = await render(project)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)
-const hasLiveDemo = Boolean(project.data.liveDemoUrl)
+const hasLiveDemo = Boolean(project.data.liveDemoUrl) && project.data.typesId !== 'community'
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
-const projectStageLabel = getProjectStageLabel(project.data.typesId, project.data.endingDate)
+const projectStageLabel = getProjectStageLabel(project.data.typesId, project.data.endingDate, project.data.draft)
 const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
 const projectNotesDescription = getProjectNotesDescription(project.data.typesId)
 const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
@@ -65,12 +66,21 @@ const projectSchema: Record<string, unknown> = {
   url: canonicalURL.href,
   image: socialImage,
   ...(sameAs.length > 0 ? { sameAs } : {}),
-  author: createAuthorSchema(Astro.site)
+  author: createAuthorSchema(Astro.site),
+  isPartOf: createWebsiteSchemaReference(Astro.site)
 }
 
-const parentPage = project.data.typesId === 'personal' ?
-  { name: 'Projects', url: '/projects/' } :
-  { name: 'Work', url: '/work/' }
+const parentPage = (() => {
+  if (project.data.typesId === 'community') {
+    return { name: 'Speaking & Community', url: '/speaking/' }
+  }
+
+  if (project.data.typesId === 'personal') {
+    return { name: 'Projects', url: '/projects/' }
+  }
+
+  return { name: 'Work', url: '/work/' }
+})()
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -92,7 +102,11 @@ const breadcrumbs = [
 >
   <ScrollProgress />
 
-  <article class="section-container-wide flex flex-col gap-10">
+  <article
+    class="section-container-wide flex flex-col gap-10"
+    data-project-brand
+    style={getProjectBrandStyle(project.data.brand)}
+  >
     <ProjectHero parentPage={parentPage} project={project} />
 
     <section
@@ -131,21 +145,24 @@ const breadcrumbs = [
   </article>
 
   {!!relatedProjects.length && (
-    <PageSection>
+    <PageSection class="lg:grid-cols-1!">
       <SectionHeader
-        eyebrow="Related work"
-        title={projectRelatedHeading}
         description="More work from a similar lane — same type, overlapping technologies, adjacent problems."
+        eyebrow="Related work"
+        linkHref={parentPage.url}
+        linkLabel={`Browse all ${parentPage.name.toLowerCase()}`}
+        title={projectRelatedHeading}
+        variant="shelf"
       />
       <div
         class:list={[
           'grid gap-6',
-          relatedProjects.length > 1 && 'sm:grid-cols-2'
+          relatedProjects.length > 1 && 'lg:grid-cols-2'
         ]}
         data-stagger="70"
       >
         {relatedProjects.map(relatedProject => (
-          <ProjectPreviewCard project={relatedProject} />
+          <PortfolioProjectSpotlight project={relatedProject} />
         ))}
       </div>
     </PageSection>

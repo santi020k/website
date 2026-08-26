@@ -1,13 +1,17 @@
 ---
 title: "eslint-config-santi020k"
 description: "Turned internal linting conventions into a reusable package that standardized React and TypeScript projects and paved the way for @santi020k/eslint-config-basic."
+brand:
+  primary: "#524086"
+  secondary: "#c0a8f0"
+  surface: "#17132a"
 role: "Creator"
 startingDate: "1 Jan 2023"
 endingDate: "1 Mar 2024"
 githubUrl: "https://github.com/santi020k/eslint-config-santi020k"
 liveDemoUrl: "https://eslint.santi020k.com"
 typesId: "personal"
-relevanceWeight: 50
+relevanceWeight: 25
 impactMetrics: [
   "Shared one reusable lint baseline across multiple React and TypeScript projects",
   "Reduced repeated setup work for new apps and experiments",

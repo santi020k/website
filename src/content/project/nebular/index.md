@@ -1,6 +1,10 @@
 ---
 title: "Nebular Technologies"
 description: "Shipped client web, Android, and commerce products across Rails, AngularJS, Java, and WordPress, building the release discipline and full-stack range I still rely on today as a senior engineer."
+brand:
+  primary: "#3b82f6"
+  secondary: "#94a3b8"
+  surface: "#0f172a"
 role: "Full Stack Developer"
 startingDate: "1 Jan 2014"
 endingDate: "1 Apr 2017"
@@ -17,6 +21,7 @@ technologies: [
   ]
 coverImage:
   src: "./cover.webp"
+  background: "./cover-background.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"

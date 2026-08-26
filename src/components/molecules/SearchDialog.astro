@@ -105,25 +105,44 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
       </div>
 
       <div class="relative">
-        <label class="sr-only" for="site-search-input">Search posts and projects</label>
+        <label class="sr-only" for="site-search-input">Search posts, projects, and community work</label>
         <SearchField
           autocomplete="off"
           class="
-            peer w-full border-b border-line/55 bg-transparent px-0 py-3.5
-            text-sm text-ink transition-all duration-300 outline-none
+            peer h-auto min-h-0 w-full appearance-none rounded-none border-0
+            border-b border-line/55 bg-transparent py-3.5 pr-12 pl-0 text-base
+            text-ink shadow-none transition-all duration-300 outline-none
             placeholder:text-ink-muted/70 placeholder:transition-colors
             placeholder:duration-300
             focus:border-brand/60
             focus:placeholder:text-ink-muted/40
             motion-reduce:transition-none
             motion-reduce:focus:placeholder:text-ink-muted
+            [&::-webkit-search-cancel-button]:appearance-none
           "
           id="site-search-input"
           placeholder="Search by title, tag, or keyword…"
           spellcheck="false"
           type="search"
-          size="lg"
         />
+        <Button
+          aria-label="Clear search"
+          class="
+            absolute top-1/2 right-0 inline-flex min-h-11 min-w-11
+            -translate-y-1/2 items-center justify-center rounded-full border
+            border-transparent text-ink-muted transition-colors duration-150
+            peer-placeholder-shown:pointer-events-none
+            peer-placeholder-shown:invisible
+            hover:bg-surface-muted hover:text-brand
+            motion-reduce:transition-none
+          "
+          data-site-search-input-clear
+          size="icon"
+          type="button"
+          variant="ghost"
+        >
+          <Icon aria-hidden="true" class="size-4" name="x" />
+        </Button>
         <!-- Focus glow line -->
         <span
           aria-hidden="true"

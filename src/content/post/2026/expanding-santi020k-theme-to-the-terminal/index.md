@@ -4,7 +4,7 @@ description: "How a VS Code palette became a generated terminal system with six 
 publishDate: "2026-07-15T15:00:00.000Z"
 updatedDate: "2026-07-26T15:00:00.000Z"
 coverImage:
-  alt: "Dark and light terminal surfaces connected by a violet palette ribbon and coordinated prompt segments"
+  alt: "One violet color palette branching into coordinated terminal themes and prompt styles"
   src: "./cover.webp"
 tags: ["terminal", "design-systems", "developer-experience", "homebrew", "open-source"]
 postType: "Case Study"

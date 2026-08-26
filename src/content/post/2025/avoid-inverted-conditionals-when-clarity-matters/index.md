@@ -4,7 +4,7 @@ description: "Positive conditionals usually reduce mental load and make branches
 publishDate: "2025-10-13T12:56:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
-  alt: "Editorial cover for Avoid Inverted Conditionals When Clarity Matters"
+  alt: "A tangled decision path transforming into two clear direct branches"
   src: "./cover.webp"
 tags: ["readability", "javascript", "frontend", "clean-code"]
 postType: "Opinion"

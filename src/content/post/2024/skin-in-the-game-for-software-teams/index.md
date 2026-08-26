@@ -4,7 +4,7 @@ description: "Why strong engineers care about product outcomes, users, and syste
 publishDate: "2024-12-08T16:12:00.000Z"
 updatedDate: "2026-04-08T18:00:00.000Z"
 coverImage:
-  alt: "Editorial cover showing connected product, engineering, and reliability systems sharing feedback loops"
+  alt: "Product, users, engineering, and reliability connected around one shared outcome"
   src: "./cover.webp"
 tags: ["engineering-culture", "leadership", "product-thinking", "software-teams"]
 postType: "Opinion"

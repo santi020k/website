@@ -16,6 +16,7 @@ import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
+import { siteConfig } from '@/site.config'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -114,6 +115,20 @@ const metaItems = [
     "
     >
       {description}
+    </p>
+    <p class="text-sm/6 text-ink-muted">
+      By{' '}
+      <a
+        class="
+          p-name u-url font-semibold text-ink-soft transition-colors
+          hover:text-brand
+          motion-reduce:transition-none
+        "
+        href="/about/"
+        rel="author"
+      >
+        {siteConfig.author}
+      </a>
     </p>
   </div>
 

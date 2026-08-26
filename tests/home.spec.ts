@@ -67,11 +67,25 @@ test('homepage stats use the accent Lumen variant as standalone articles', async
   await expect(stats.locator('.ui-stat-value')).toHaveText(['12+', '14', '-75%', '100+'])
 })
 
-test('homepage keeps speaking in the footer navigation only', async ({ page }) => {
+test('homepage keeps speaking out of the header and exposes it in the footer', async ({ page }) => {
   await page.goto('/')
 
   await expect(page.locator('header a[href="/speaking/"]')).toHaveCount(0)
-  await expect(page.locator('footer a[href="/speaking/"]')).toHaveCount(1)
+  await expect(
+    page.locator('footer').getByRole('link', { name: 'Speaking', exact: true })
+  ).toHaveAttribute('href', '/speaking/')
+})
+
+test('footer keeps technical XML endpoints out of user-facing resources', async ({ page }) => {
+  await page.goto('/')
+
+  const footer = page.locator('footer')
+
+  await expect(footer.locator('a[href="/feed.xml"]')).toHaveCount(0)
+  await expect(footer.locator('a[href="/sitemap.xml"]')).toHaveCount(0)
+  await expect(footer.getByRole('link', { name: 'Terms', exact: true })).toHaveAttribute(
+    'href', /^\/terms\/$/
+  )
 })
 
 test('homepage ships no client-side analytics beacon', async ({ page }) => {
@@ -133,6 +147,21 @@ test('query param opens search with prefilled query and clears on close', async 
   await expect(page).toHaveURL('/')
 })
 
+test('search input clear button clears the query and returns focus', async ({ page }) => {
+  await page.goto('/?q=eslint')
+
+  const searchInput = page.locator('#site-search-input')
+  const clearButton = page.getByRole('button', { name: 'Clear search' })
+
+  await expect(clearButton).toBeVisible()
+  await clearButton.click()
+
+  await expect(searchInput).toHaveValue('')
+  await expect(searchInput).toBeFocused()
+  await expect(clearButton).toBeHidden()
+  await expect(page).toHaveURL('/')
+})
+
 test('keyboard navigation opens selected search result', async ({ page }) => {
   await page.goto('/')
   await page.keyboard.press('/')
@@ -181,6 +210,40 @@ test('homepage project cards have descriptive accessible names', async ({ page }
     expect(titleText.trim().length).toBeGreaterThan(0)
     await expect(cardLink).toContainText(titleText.trim())
   }
+})
+
+test('homepage featured projects use uncropped information-rich artwork', async ({ page }) => {
+  await page.goto('/')
+
+  const artwork = page.locator('[data-showcase-artwork]')
+  const images = artwork.locator('img')
+
+  await expect(artwork).toHaveCount(2)
+  await expect(images).toHaveCount(2)
+
+  for (const image of await images.all()) {
+    await expect(image).toHaveAttribute('src', /\/cover\./)
+    await expect(image).not.toHaveAttribute('src', /cover-horizontal/)
+    await expect(image).toHaveAttribute('width', '1600')
+    await expect(image).toHaveAttribute('height', '1000')
+  }
+
+  for (const frame of await artwork.all()) {
+    const box = await frame.boundingBox()
+
+    expect(box).not.toBeNull()
+    expect(box?.width).toBeCloseTo((box?.height ?? 0) * (8 / 5), 0)
+  }
+})
+
+test('homepage featured project card stays in place on hover', async ({ page }) => {
+  await page.goto('/')
+
+  const featuredCard = page.locator('[data-showcase-feature]').first()
+
+  await featuredCard.scrollIntoViewIfNeeded()
+  await featuredCard.hover()
+  await expect(featuredCard).toHaveCSS('transform', 'none')
 })
 
 test('mobile navigation toggle keeps its accessible name aligned with its visible label', async ({ page }) => {
