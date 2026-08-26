@@ -110,7 +110,11 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     const projectCard = cards.find(card => card.route?.pathname ===
       '/portfolio/react-js-colombia/')
     const postData = postCard?.data as { coverImagePath?: string, variant?: string } | undefined
-    const projectData = projectCard?.data as { logoImagePath?: string, variant?: string } | undefined
+    const projectData = projectCard?.data as {
+      imagePresentation?: { fit?: string, padding?: number }
+      logoImagePath?: string
+      variant?: string
+    } | undefined
     const imageFreeVariants = cards
       .filter(card => !(card.data as { image?: unknown }).image)
       .map(card => (card.data as { variant?: string }).variant)
@@ -119,6 +123,7 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(postData?.coverImagePath).toMatch(/cover\.webp$/u)
     expect(projectData).toMatchObject({ variant: 'product' })
     expect(projectData?.logoImagePath).toMatch(/logo\.webp$/u)
+    expect(projectData?.imagePresentation).toMatchObject({ fit: 'contain', padding: 50 })
     expect(new Set(imageFreeVariants)).toEqual(new Set(['simple']))
   })
 

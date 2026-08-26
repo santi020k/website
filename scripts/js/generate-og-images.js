@@ -30,7 +30,7 @@ import { definePresetConfig } from '@santi020k/og/presets'
 
 import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
 
-import { prepareOgImage, prepareOgLogo } from './prepare-og-image.mjs'
+import { prepareOgImage } from './prepare-og-image.mjs'
 import { renderOgAtmosphere } from './render-og-atmosphere.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -42,6 +42,13 @@ const BRAND_LOGO = fileURLToPath(import.meta.resolve(
 ))
 
 const BRAND_FONT = 'public/fonts/montserrat-variable-font-wght.ttf'
+
+const PROJECT_LOGO_SURFACES = {
+  dark: '#0f172a',
+  light: '#f8fafc',
+  neutral: '#e2e8f0'
+}
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -387,10 +394,14 @@ export const collectCards = async () => {
         badge: entry.frontmatter.typesId === 'community' ? 'Community work' : 'Project',
         ...(logoImagePath ?
           {
-            image: await prepareOgLogo(
-              logoImagePath,
-              getFrontmatterValue(entry, 'coverImage.logoSurface')
-            ),
+            image: logoImagePath,
+            imagePresentation: {
+              background: PROJECT_LOGO_SURFACES[
+                getFrontmatterValue(entry, 'coverImage.logoSurface')
+              ] ?? PROJECT_LOGO_SURFACES.dark,
+              fit: 'contain',
+              padding: 50
+            },
             logoImagePath
           } :
           {}),
