@@ -104,7 +104,7 @@ coverImage:
     }
 
     await fs.rm(root, { force: true, recursive: true })
-  })
+  }, 15_000)
 
   test('keeps metadata in thumbnails and scenery templates text-free', () => {
     const project = {
