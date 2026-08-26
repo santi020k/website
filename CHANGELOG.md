@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.2
+
+### Patch Changes
+
+- [#133](https://github.com/santi020k/website/pull/133) [`8d592dc`](https://github.com/santi020k/website/commit/8d592dc1f2be2ed028ba715ff361915b7eab1712) Thanks [@santi020k](https://github.com/santi020k)! - Version generated Open Graph image URLs with the website release so immutable CDN caches and social crawlers receive updated artwork.
+
 ## 3.4.1
 
 ### Patch Changes
