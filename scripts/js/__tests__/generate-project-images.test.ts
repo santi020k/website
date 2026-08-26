@@ -180,6 +180,8 @@ coverImage:
     expect(svg).toContain(`fill="${readableAccent}" fill-opacity="0.26"`)
     expect(svg).toContain('stroke-opacity="0.72"')
     expect(svg).toContain('class="eyebrow project-label">INDEPENDENT PROJECT</text>')
+    expect(buildProjectSvg({ ...project, type: 'community' }, thumbnail))
+      .toContain('class="eyebrow project-label">COMMUNITY WORK</text>')
     expect(svg).toContain(`.project-label { fill: ${readableAccent}; }`)
     expect(svg).toContain('class="eyebrow footer-label">SANTI020K / PORTFOLIO</text>')
     expect(svg).toContain(`.footer-label { fill: ${readableFooterAccent};`)

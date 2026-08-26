@@ -332,6 +332,8 @@ export const splitTitle = (title, portrait) => {
 const getTypeLabel = type => {
   if (type === 'professional') return 'Selected work'
 
+  if (type === 'community') return 'Community work'
+
   if (type === 'experimental') return 'Experiment'
 
   return 'Independent project'
