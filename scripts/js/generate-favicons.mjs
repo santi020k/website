@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url'
 import { staticAssets } from '@santi020k/theme'
 import sharp from 'sharp'
 
+import { encodePngIco } from './favicon-ico.mjs'
+
 const publicDir = new URL('../../public/', import.meta.url)
 const publicDirPath = fileURLToPath(publicDir)
 
@@ -40,6 +42,15 @@ const writePng = async (pathname, sourceBuffer, size) => {
     .toFile(getPublicAssetPath(pathname))
 }
 
+const writeIco = async (pathname, sourceBuffer, size) => {
+  const png = await sharp(sourceBuffer)
+    .resize(size, size, { fit: 'cover' })
+    .png()
+    .toBuffer()
+
+  await writeFile(getPublicAssetPath(pathname), encodePngIco(png, size))
+}
+
 const main = async () => {
   const iconsDir = fileURLToPath(new URL('icons/', publicDir))
 
@@ -58,7 +69,7 @@ const main = async () => {
   await writePng('favicon-32x32.png', sourceIcon, 32)
 
   // Conventional fallback for browsers and tooling that request `/favicon.ico` directly.
-  await writePng('favicon.ico', sourceIcon, 32)
+  await writeIco('favicon.ico', sourceIcon, 32)
 
   await writeWebp('favicon.webp', sourceIcon, 32)
 

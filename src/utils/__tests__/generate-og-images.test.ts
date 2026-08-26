@@ -8,6 +8,7 @@ import {
   formatTopicName
 } from '../../../scripts/js/generate-og-images.js'
 import { renderOgAtmosphere } from '../../../scripts/js/render-og-atmosphere.mjs'
+import { staticSocialPages } from '../../data/social-pages'
 
 interface SocialImageProps {
   coverImagePath?: string
@@ -69,6 +70,17 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
 
     expect(pathnames.has('/blog/4/')).toBe(true)
     expect(pathnames.has('/blog/5/')).toBe(false)
+  })
+
+  test('keeps the speaking social card aligned with the page metadata', async () => {
+    const speakingPage = staticSocialPages.find(page => page.pathname === '/speaking/')
+    const speakingCard = (await collectCards()).find(card => card.route?.pathname === '/speaking/')
+
+    expect(speakingPage).toBeDefined()
+    expect(speakingCard?.data).toMatchObject({
+      description: speakingPage?.description,
+      title: speakingPage?.title
+    })
   })
 
   test('embeds normalized cover art and complete route metadata', async () => {

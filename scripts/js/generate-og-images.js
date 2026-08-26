@@ -182,9 +182,9 @@ const staticSocialPages = [
   },
   {
     description:
-      'Talks, workshops, and engineering conversations about developer experience, technical leadership, frontend architecture, and calmer delivery systems.',
+      'Talks, workshops, and community work around developer experience, technical leadership, frontend architecture, and practical knowledge sharing.',
     pathname: '/speaking/',
-    title: 'Speaking & Workshops',
+    title: 'Speaking & Community',
     badge: 'Speaking'
   },
   {
