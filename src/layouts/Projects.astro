@@ -33,8 +33,7 @@ interface Props {
 const { project, relatedProjects = [] } = Astro.props
 const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
 const metaDescription = project.data.seoDescription ?? project.data.description
-// Use Dynamic OG Image generator (/og/portfolio/[id].webp)
-const socialImage = new URL(`/og/portfolio/${project.id}.webp`, Astro.site).href
+const socialImage = new URL(`/og/portfolio/${project.id}-logo.webp`, Astro.site).href
 const { headings } = await render(project)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)

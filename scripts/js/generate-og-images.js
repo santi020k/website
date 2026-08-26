@@ -411,10 +411,15 @@ export const collectCards = async () => {
         variant: logoImagePath ? 'product' : 'simple'
       }
     },
-    output: entry => `portfolio/${entry.slug}.webp`,
+    output: entry => `portfolio/${entry.slug}-logo.webp`,
     root: ROOT,
     sources: (entry, data) => data.logoImagePath ? [entry.filePath, data.logoImagePath] : [entry.filePath]
   })
+
+  const portfolioCards = projectCards.map(card => ({
+    ...card,
+    aliases: [card.output.replace(/-logo\.webp$/u, '.webp')]
+  }))
 
   const seriesCards = await collectContentCards({
     basePath: 'blog/series',
@@ -448,7 +453,7 @@ export const collectCards = async () => {
     }
   })
 
-  return [...staticCards, ...postCards, ...projectCards, ...seriesCards, ...technologyCards]
+  return [...staticCards, ...postCards, ...portfolioCards, ...seriesCards, ...technologyCards]
     .map(card => card.route ?
       {
         ...card,

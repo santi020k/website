@@ -115,6 +115,7 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
       logoImagePath?: string
       variant?: string
     } | undefined
+    const projectAliases = projectCard && 'aliases' in projectCard ? projectCard.aliases : undefined
     const imageFreeVariants = cards
       .filter(card => !(card.data as { image?: unknown }).image)
       .map(card => (card.data as { variant?: string }).variant)
@@ -124,6 +125,8 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(projectData).toMatchObject({ variant: 'product' })
     expect(projectData?.logoImagePath).toMatch(/logo\.webp$/u)
     expect(projectData?.imagePresentation).toMatchObject({ fit: 'contain', padding: 50 })
+    expect(projectCard?.output).toBe('portfolio/react-js-colombia-logo.webp')
+    expect(projectAliases).toContain('portfolio/react-js-colombia.webp')
     expect(new Set(imageFreeVariants)).toEqual(new Set(['simple']))
   })
 
@@ -148,7 +151,9 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
 
   test('includes project entries stored in nested index.md files', async () => {
     const specs = await collectSpecs()
-    const xgamesSpec = specs.find(spec => spec.outFile === path.join(process.cwd(), 'public', 'og', 'portfolio', 'xgames.webp'))
+    const xgamesSpec = specs.find(spec => spec.outFile === path.join(
+      process.cwd(), 'public', 'og', 'portfolio', 'xgames-logo.webp'
+    ))
     const xgamesProps = xgamesSpec?.props as SocialImageProps | undefined
 
     expect(xgamesProps?.title).toBe('X Games')
@@ -168,7 +173,9 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     const postSpec = specs.find(spec => spec.outFile === path.join(
       process.cwd(), 'public', 'og', 'blog', 'ai-coding-is-probabilistic-your-delivery-process-should-not-be.webp'
     ))
-    const projectSpec = specs.find(spec => spec.outFile === path.join(process.cwd(), 'public', 'og', 'portfolio', 'eslint-config-basic.webp'))
+    const projectSpec = specs.find(spec => spec.outFile === path.join(
+      process.cwd(), 'public', 'og', 'portfolio', 'eslint-config-basic-logo.webp'
+    ))
     const postProps = postSpec?.props as SocialImageProps | undefined
     const projectProps = projectSpec?.props as SocialImageProps | undefined
 
