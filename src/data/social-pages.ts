@@ -53,7 +53,14 @@ export const staticSocialPages: SocialPageDefinition[] = [
   },
   {
     description:
-      'Engineering leader and full-stack architect resume. Explore Santiago Molina’s professional experience, technical skills, and open-source projects.',
+      'Open-source tools and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
+    pathname: '/projects/',
+    title: 'Side Projects — Santiago Molina',
+    type: 'Projects'
+  },
+  {
+    description:
+      'Engineering leader and full-stack architect resume. Explore Santiago Molina’s professional experience, technical skills, and community leadership.',
     pathname: '/resume/',
     title: 'Resume & Curriculum Vitae',
     type: 'Resume'

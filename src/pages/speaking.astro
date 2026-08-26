@@ -53,9 +53,8 @@ const speakingWhatsAppHref = createWhatsAppHref(whatsappMessages.speaking)
 
 const speakerPortraitImage = await getImage({
   format: 'avif',
-  height: 480,
   src: SpeakerPortrait,
-  width: 384
+  widths: [336, 384, 672, 768]
 })
 
 const bookingNotes = [
@@ -131,6 +130,8 @@ const structuredData = [
     description,
     preloadImage: {
       href: speakerPortraitImage.src,
+      imagesizes: '(min-width: 1280px) 384px, (min-width: 1024px) 352px, (min-width: 640px) 368px, 336px',
+      imagesrcset: speakerPortraitImage.srcSet.attribute,
       type: 'image/avif'
     },
     structuredData,

@@ -72,15 +72,19 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(pathnames.has('/blog/5/')).toBe(false)
   })
 
-  test('keeps the speaking social card aligned with the page metadata', async () => {
-    const speakingPage = staticSocialPages.find(page => page.pathname === '/speaking/')
-    const speakingCard = (await collectCards()).find(card => card.route?.pathname === '/speaking/')
+  test('keeps refreshed social cards aligned with page metadata', async () => {
+    const cards = await collectCards()
 
-    expect(speakingPage).toBeDefined()
-    expect(speakingCard?.data).toMatchObject({
-      description: speakingPage?.description,
-      title: speakingPage?.title
-    })
+    for (const pathname of ['/projects/', '/resume/', '/speaking/']) {
+      const page = staticSocialPages.find(candidate => candidate.pathname === pathname)
+      const card = cards.find(candidate => candidate.route?.pathname === pathname)
+
+      expect(page, `${pathname} is missing canonical social metadata`).toBeDefined()
+      expect(card?.data).toMatchObject({
+        description: page?.description,
+        title: page?.title
+      })
+    }
   })
 
   test('embeds normalized cover art and complete route metadata', async () => {

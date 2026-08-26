@@ -168,14 +168,14 @@ const staticSocialPages = [
   },
   {
     description:
-      'Open-source tools, community work, and self-directed experiments — the projects Santiago Molina builds to learn, share, and sharpen engineering craft.',
+      'Open-source tools and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
     pathname: '/projects/',
     title: 'Side Projects — Santiago Molina',
     badge: 'Projects'
   },
   {
     description:
-      'Engineering leader and full-stack architect resume. Explore Santiago Molina\'s professional experience, technical skills, and open-source projects.',
+      'Engineering leader and full-stack architect resume. Explore Santiago Molina’s professional experience, technical skills, and community leadership.',
     pathname: '/resume/',
     title: 'Resume & Curriculum Vitae',
     badge: 'Resume'
