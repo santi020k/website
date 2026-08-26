@@ -9,7 +9,7 @@
  * Strategy:
  *  - Uses @santi020k/og's framework-neutral content and archive collectors
  *  - Shares page copy with route-manifest metadata and generated image data
- *  - Normalizes local cover art for reliable SVG embedding
+ *  - Normalizes local cover art and project logos for reliable SVG embedding
  *  - Applies the branded preset, measured Montserrat typography, and Sharp WebP
  *  - Uses content-aware caching, bounded concurrency, and tracked cleanup
  */
@@ -42,6 +42,13 @@ const BRAND_LOGO = fileURLToPath(import.meta.resolve(
 ))
 
 const BRAND_FONT = 'public/fonts/montserrat-variable-font-wght.ttf'
+
+const PROJECT_LOGO_SURFACES = {
+  dark: '#0f172a',
+  light: '#f8fafc',
+  neutral: '#e2e8f0'
+}
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -378,28 +385,35 @@ export const collectCards = async () => {
     basePath: 'portfolio',
     includeDrafts,
     map: async entry => {
-      const coverImagePath = await resolveContentAsset(
+      const logoImagePath = await resolveContentAsset(
         entry,
-        getFrontmatterValue(entry, 'coverImage.ogImage')
-      ) ?? await resolveContentAsset(entry, getFrontmatterValue(entry, 'coverImage.src'))
+        getFrontmatterValue(entry, 'coverImage.logo')
+      )
 
       return {
         badge: entry.frontmatter.typesId === 'community' ? 'Community work' : 'Project',
-        ...(coverImagePath ?
+        ...(logoImagePath ?
           {
-            coverImagePath,
-            image: await prepareOgImage(coverImagePath)
+            image: logoImagePath,
+            imagePresentation: {
+              background: PROJECT_LOGO_SURFACES[
+                getFrontmatterValue(entry, 'coverImage.logoSurface')
+              ] ?? PROJECT_LOGO_SURFACES.dark,
+              fit: 'contain',
+              padding: 50
+            },
+            logoImagePath
           } :
           {}),
         description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
         domain: `/portfolio/${entry.slug}/`,
         title: entry.frontmatter.title ?? entry.slug,
-        variant: coverImagePath ? 'product' : 'simple'
+        variant: logoImagePath ? 'product' : 'simple'
       }
     },
     output: entry => `portfolio/${entry.slug}.webp`,
     root: ROOT,
-    sources: (entry, data) => data.coverImagePath ? [entry.filePath, data.coverImagePath] : [entry.filePath]
+    sources: (entry, data) => data.logoImagePath ? [entry.filePath, data.logoImagePath] : [entry.filePath]
   })
 
   const seriesCards = await collectContentCards({
@@ -452,6 +466,7 @@ export const collectSpecs = async () => (await collectCards()).map(card => ({
   outFile: path.join(OUT_DIR, card.output),
   props: {
     ...(card.data.coverImagePath ? { coverImagePath: card.data.coverImagePath } : {}),
+    ...(card.data.logoImagePath ? { logoImagePath: card.data.logoImagePath } : {}),
     description: card.data.description,
     pathLabel: card.data.domain,
     title: card.data.title,
