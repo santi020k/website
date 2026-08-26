@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.1
+
+### Patch Changes
+
+- [#131](https://github.com/santi020k/website/pull/131) [`111203d`](https://github.com/santi020k/website/commit/111203da76d36c10d4282932d4932a9d1efe4c5a) Thanks [@santi020k](https://github.com/santi020k)! - Replace nested portfolio cover artwork in project Open Graph images with each project's dedicated logo on a clean, contrast-aware surface using the native image presentation controls in `@santi020k/og` 1.1.
+
 ## 3.4.0
 
 ### Minor Changes
