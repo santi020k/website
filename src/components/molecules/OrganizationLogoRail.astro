@@ -211,19 +211,43 @@ const logoSurfaceClass = {
         return 1
       }
 
+      const getPageStarts = (pageSize: number): number[] => {
+        const maximumStart = Math.max(0, items.length - pageSize)
+        const pageStarts: number[] = []
+
+        for (let index = 0; index <= maximumStart; index += pageSize) pageStarts.push(index)
+
+        if (pageStarts.at(-1) !== maximumStart) pageStarts.push(maximumStart)
+
+        return pageStarts
+      }
+
+      const getPageIndex = (pageStarts: number[]): number => {
+        let pageIndex = 0
+
+        for (const [index, pageStart] of pageStarts.entries()) {
+          if (pageStart > startIndex) break
+
+          pageIndex = index
+        }
+
+        return pageIndex
+      }
+
       const render = (): void => {
         const pageSize = getPageSize()
-        const maximumStart = Math.max(0, items.length - pageSize)
+        const pageStarts = getPageStarts(pageSize)
+        const pageIndex = getPageIndex(pageStarts)
 
-        startIndex = Math.min(startIndex, maximumStart)
+        startIndex = pageStarts[pageIndex] ?? 0
 
         for (const [index, item] of items.entries()) {
           item.hidden = index < startIndex || index >= startIndex + pageSize
         }
 
-        previousButton.disabled = startIndex === 0
+        previousButton.disabled = pageIndex === 0
 
-        nextButton.disabled = startIndex === maximumStart
+        nextButton.disabled = pageIndex === pageStarts.length - 1
 
         controls.hidden = items.length <= pageSize
 
@@ -234,9 +258,15 @@ const logoSurfaceClass = {
 
       const move = (direction: -1 | 1): void => {
         const pageSize = getPageSize()
-        const maximumStart = Math.max(0, items.length - pageSize)
+        const pageStarts = getPageStarts(pageSize)
+        const pageIndex = getPageIndex(pageStarts)
 
-        startIndex = Math.min(maximumStart, Math.max(0, startIndex + (direction * pageSize)))
+        const nextPageIndex = Math.min(
+          pageStarts.length - 1,
+          Math.max(0, pageIndex + direction)
+        )
+
+        startIndex = pageStarts[nextPageIndex] ?? 0
 
         render()
       }
@@ -246,6 +276,8 @@ const logoSurfaceClass = {
       nextButton.addEventListener('click', () => move(1))
 
       carousel.addEventListener('keydown', event => {
+        if (event.target !== previousButton && event.target !== nextButton) return
+
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
 
         event.preventDefault()

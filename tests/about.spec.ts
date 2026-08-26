@@ -34,6 +34,38 @@ test.describe('About page', () => {
     await expect(blogLink).toHaveAttribute('href', /^\/blog\/$/)
   })
 
+  test('should page the organization carousel reversibly without hiding focused links', async ({ page }) => {
+    await page.setViewportSize({ height: 900, width: 800 })
+
+    const carousel = page.locator('[data-organization-carousel]')
+    const items = carousel.locator('[data-carousel-item]')
+    const previousButton = carousel.getByRole('button', { name: 'Show previous organizations' })
+    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
+
+    await expect(items).toHaveCount(9)
+
+    for (let pageIndex = 0; pageIndex < 4; pageIndex += 1) await nextButton.click()
+
+    await expect(items.nth(6)).not.toBeVisible()
+    await expect(items.nth(7)).toBeVisible()
+    await expect(items.nth(8)).toBeVisible()
+
+    await previousButton.click()
+
+    await expect(items.nth(6)).toBeVisible()
+    await expect(items.nth(7)).toBeVisible()
+    await expect(items.nth(8)).not.toBeVisible()
+
+    const focusedLink = items.nth(6).getByRole('link')
+
+    await focusedLink.focus()
+    await page.keyboard.press('ArrowRight')
+
+    await expect(focusedLink).toBeFocused()
+    await expect(items.nth(6)).toBeVisible()
+    await expect(items.nth(8)).not.toBeVisible()
+  })
+
   test('should pass accessibility audit', async ({ page }) => {
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)

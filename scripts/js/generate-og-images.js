@@ -28,6 +28,8 @@ import {
 import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
 
+import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
+
 import { prepareOgImage } from './prepare-og-image.mjs'
 import { renderOgAtmosphere } from './render-og-atmosphere.mjs'
 
@@ -299,7 +301,7 @@ export const collectCards = async () => {
         }),
         includeFirst: false,
         output: context => `pages/${getSocialImageFileName(context.pathname)}`,
-        pageSize: 12
+        pageSize: BLOG_ARCHIVE_PAGE_SIZE
       }),
       groupArchive({
         basePath: '/blog/tags/',
@@ -316,7 +318,7 @@ export const collectCards = async () => {
         },
         field: 'tags',
         output: context => `pages/${getSocialImageFileName(context.pathname)}`,
-        pageSize: 9,
+        pageSize: BLOG_ARCHIVE_PAGE_SIZE,
         slug: group => encodeURIComponent(group)
       })
     ],

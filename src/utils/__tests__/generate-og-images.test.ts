@@ -55,6 +55,14 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     expect(pathnames.has('/technologies/typescript/')).toBe(true)
   })
 
+  test('matches the blog topic archive pagination size', async () => {
+    const pathnames = new Set((await collectCards()).map(card => card.route?.pathname))
+
+    expect(pathnames.has('/blog/tags/react/2/')).toBe(false)
+    expect(pathnames.has('/blog/tags/typescript/2/')).toBe(true)
+    expect(pathnames.has('/blog/tags/typescript/3/')).toBe(false)
+  })
+
   test('matches the blog index pagination size', async () => {
     const cards = await collectCards()
     const pathnames = new Set(cards.map(card => card.route?.pathname))

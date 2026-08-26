@@ -1,0 +1,1 @@
+export const BLOG_ARCHIVE_PAGE_SIZE = 12
