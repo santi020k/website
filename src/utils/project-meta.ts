@@ -1,6 +1,6 @@
 import { getFormattedDate } from './date'
 
-type ProjectType = 'experimental' | 'personal' | 'professional' | undefined
+type ProjectType = 'community' | 'experimental' | 'personal' | 'professional' | undefined
 
 export type ProjectStatus = 'Active' | 'Completed' | 'Draft'
 
@@ -12,21 +12,36 @@ const getMonthDifference = (startDate: Date, endDate: Date): number => {
   return Math.max(1, totalMonths + (endDate.getDate() >= startDate.getDate() ? 1 : 0))
 }
 
-const key = (type: ProjectType): 'experimental' | 'personal' | 'professional' => type ?? 'professional'
+const key = (type: ProjectType): 'community' | 'experimental' | 'personal' | 'professional' => type ?? 'professional'
 
 const PROJECT_TYPE_META = {
+  community: {
+    typeLabel: 'Community work',
+    featuredLabel: 'Community work',
+    notesLabel: 'Community story',
+    notesDescription: 'A closer look at the events, mentorship, and organizing work behind this developer community.',
+    relatedHeading: 'More community work.',
+    focusLabel: 'Meetups, workshops, mentorship, and accessible knowledge sharing.',
+    stageActive: 'Active community',
+    stageCompleted: 'Past community work',
+    scopeHighlights: [
+      'Free meetups and practical workshops',
+      'Mentorship for developers and first-time speakers',
+      'A more connected regional engineering community'
+    ]
+  },
   personal: {
     typeLabel: 'Personal project',
     featuredLabel: 'Personal project',
     notesLabel: 'Project notes',
     notesDescription: 'A closer look at the design decisions, technical choices, and problems this project was built to solve.',
     relatedHeading: 'More projects in a similar lane.',
-    focusLabel: 'Open source, community work, and practical developer experience.',
+    focusLabel: 'Open source, self-directed tools, and practical developer experience.',
     stageActive: 'Active project',
     stageCompleted: 'Completed project',
     scopeHighlights: [
       'Knowledge sharing and public problem-solving',
-      'Developer tooling, community, and reusability',
+      'Developer tooling, experimentation, and reusability',
       'Low-friction adoption for real teams'
     ]
   },

@@ -57,6 +57,9 @@ const main = async () => {
 
   await writePng('favicon-32x32.png', sourceIcon, 32)
 
+  // Conventional fallback for browsers and tooling that request `/favicon.ico` directly.
+  await writePng('favicon.ico', sourceIcon, 32)
+
   await writeWebp('favicon.webp', sourceIcon, 32)
 
   await writeWebp('apple-touch-icon.webp', sourceIcon, 180)

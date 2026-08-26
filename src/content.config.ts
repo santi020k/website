@@ -41,6 +41,7 @@ const project = defineCollection({
       'Front-End Lead',
       'Front End Developer',
       'Technology Coordinator',
+      'Volunteer Technology Coordinator',
       'Senior Front End Developer',
       'Senior Full Stack Engineer',
       'Junior Full Stack Developer',
@@ -81,7 +82,7 @@ const project = defineCollection({
       .optional(),
     relevanceWeight: z.number().int().min(0).max(100).default(0),
     // type
-    typesId: z.enum(['professional', 'personal', 'experimental']).optional(),
+    typesId: z.enum(['professional', 'personal', 'experimental', 'community']).optional(),
     orderInTypes: z.number().optional()
     // End
   })
@@ -101,15 +102,20 @@ const talk = defineCollection({
   loader: glob({ base: './src/content/talk', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
     audience: z.string().optional(),
+    date: optionalDateField(),
+    dateLabel: z.string().optional(),
     description: z.string(),
     draft: z.boolean().default(false),
+    evidence: z.enum(['private', 'public', 'reconstructed']).default('public'),
     event: z.string(),
     links: z
       .object({
+        event: z.url().optional(),
         slides: z.url().optional(),
         video: z.url().optional()
       })
       .default({}),
+    location: z.string().optional(),
     order: z.number().default(0),
     tags: z.array(z.string()).default([]).transform(removeDuplicates),
     year: z.number().int()

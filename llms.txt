@@ -1,11 +1,12 @@
 # santi020k/website
 
-Modern personal portfolio and blog built with Astro, React, and Tailwind CSS. Optimized for performance (98+ Lighthouse) and developer experience.
+Modern personal portfolio and blog built with Astro, Lumen UI, and Tailwind CSS. Optimized for performance and developer experience.
 
 ## Tech Stack
-- **Framework**: [Astro 6.0+](https://astro.build)
+- **Framework**: [Astro 7](https://astro.build)
 - **Styling**: [Tailwind CSS 4.0+](https://tailwindcss.com)
-- **Components**: [React](https://reactjs.org), [Alpine.js](https://alpinejs.dev)
+- **Components**: Astro components and [`@santi020k/lumen-astro`](https://www.npmjs.com/package/@santi020k/lumen-astro)
+- **Interactivity**: Lightweight native JavaScript and custom events; no frontend framework runtime
 - **Content**: MDX, [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
 - **Testing**: [Vitest](https://vitest.dev), [Playwright](https://playwright.dev)
 - **CI/CD**: GitHub Actions
@@ -21,8 +22,8 @@ Modern personal portfolio and blog built with Astro, React, and Tailwind CSS. Op
 - `/quality.yml`: Analyzer policy and Git hook steps
 
 ## Key Configs
-- `astro.config.mjs`: Main framework configuration
-- `eslint.config.js`: Custom Flat Config extending `@santi020k/eslint-config-basic`
+- `astro.config.ts`: Main framework configuration
+- `eslint.config.js`: Flat Config extending `@santi020k/eslint-config-full`
 - `package.json`: Dependency and script manifest
 - `llms.txt`: This file (for AI agents)
 - `/.agent/overview.md`: Index of available AI agent skills and capabilities

@@ -34,16 +34,16 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
 <PageLayout
   meta={{
     breadcrumbs,
-    description: 'Open-source tools, community work, and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
+    description: 'Open-source tools and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
     structuredData: projectsListSchema,
     title: 'Side Projects — Santiago Molina'
   }}
 >
   <PageHero
-    description="Open-source tools, community work, and self-directed experiments. These are the builds where curiosity becomes reusable practice."
+    description="Open-source tools and self-directed experiments. These are the builds where curiosity becomes reusable practice."
     eyebrow="Side Projects"
     gradientText="love of it."
-    metaItems={['Open source', 'Community', 'Learning in public']}
+    metaItems={['Open source', 'Developer tooling', 'Learning in public']}
     title="Built for the"
   >
     <ButtonLink href="#projects" showArrow>
@@ -79,7 +79,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
 
   <StatsGrid>
     <StatCard
-      description="Open-source and community work that sharpens how I build and lead."
+      description="Open-source tools and experiments that sharpen how I build and lead."
       label="Projects"
       value={String(sideProjects.length)}
     />
@@ -87,11 +87,6 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       description="Tools and platforms explored through personal and open-source work."
       label="Technologies"
       value={String(allTechnologies.length)}
-    />
-    <StatCard
-      description="Typical attendance for ReactJS Colombia meetups, workshops, and talks."
-      label="Community"
-      value="100+"
     />
     <StatCard
       description="Years of professional engineering experience."

@@ -15,13 +15,14 @@ interface SocialImageProps {
   title?: string
 }
 
-describe('collectSpecs', () => {
+describe('collectSpecs', { timeout: 15_000 }, () => {
   test('includes generated images for the current static page routes', async () => {
     const specs = await collectSpecs()
     const outFiles = new Set(specs.map(spec => spec.outFile))
 
     for (const fileName of [
       'index.webp',
+      'developer-experience.webp',
       'work.webp',
       'projects.webp',
       'resume.webp',
@@ -43,6 +44,15 @@ describe('collectSpecs', () => {
 
     expect(topicProps?.title).toBe('TypeScript posts')
     expect(topicProps?.pathLabel).toBe('/blog/tags/typescript/')
+  })
+
+  test('includes generated route cards for non-empty taxonomies with one entry', async () => {
+    const pathnames = new Set((await collectCards()).map(card => card.route?.pathname))
+
+    expect(pathnames.has('/blog/tags/alpine/')).toBe(true)
+    expect(pathnames.has('/technologies/actionlint/')).toBe(true)
+    expect(pathnames.has('/blog/tags/typescript/')).toBe(true)
+    expect(pathnames.has('/technologies/typescript/')).toBe(true)
   })
 
   test('matches the blog index pagination size', async () => {

@@ -35,7 +35,7 @@ const {
   eyebrow,
   layout = 'default',
   projects,
-  supportingLabel = 'More selected work',
+  supportingLabel = 'Also worth exploring',
   title,
   tone = 'brand'
 } = Astro.props
@@ -44,6 +44,8 @@ const [featuredProject, ...supportingProjects] = projects
 const isReverse = layout === 'reverse'
 const isAccent = tone === 'accent'
 const accentTextClass = isAccent ? 'text-accent' : 'text-brand'
+const supportingAction = actions.find(action => (action.variant ?? 'primary') === 'primary')
+const headerActions = actions.filter(action => action !== supportingAction)
 const featureLink = featuredProject ? getPortfolioPath(featuredProject.id) : ''
 const featureImage = getProjectCoverForUsage(featuredProject?.data.coverImage, 'thumbnail')
 const featureLogo = featuredProject?.data.coverImage?.logo
@@ -133,7 +135,7 @@ const supportingLogoSurfaceClass = {
         </div>
 
         <div class="section-actions justify-center">
-          {actions.map(action => (
+          {headerActions.map(action => (
             <ButtonLink
               href={action.href}
               newTab={action.newTab ?? false}
@@ -321,14 +323,11 @@ const supportingLogoSurfaceClass = {
           >
             <div class="flex items-center justify-between gap-3">
               <p class="text-sm/5 font-bold text-ink">{supportingLabel}</p>
-              <span
-                class="
-                  rounded-full border border-line/45 px-2.5 py-1 text-[0.7rem]/4
-                  font-bold text-ink-soft
-                "
-              >
-                {supportingProjects.length} more
-              </span>
+              {supportingAction && (
+                <ButtonLink href={supportingAction.href} showArrow variant="inline">
+                  {supportingAction.label}
+                </ButtonLink>
+              )}
             </div>
           </div>
           <ol class="flex grow flex-col gap-2">

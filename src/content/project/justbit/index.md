@@ -2,9 +2,9 @@
 title: "Justbit.site"
 description: "Co-founded a boutique software studio that shipped 10+ client launches in its first year and helped selected clients grow organic traffic by up to 70%."
 brand:
-  primary: "#d946ef"
-  secondary: "#8b5cf6"
-  surface: "#200923"
+  primary: "#4bbeb0"
+  secondary: "#1c8d85"
+  surface: "#172429"
 role: "CTO & Co-Founder"
 startingDate: "1 Apr 2017"
 endingDate: "1 Dec 2018"

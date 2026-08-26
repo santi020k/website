@@ -19,7 +19,8 @@ test.describe('About page', () => {
     await expect(page.locator('#main').getByText('About Santiago Molina (@santi020k)', { exact: true })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What I believe about engineering/i })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What collaborators say about the work/i })).toBeVisible()
-    await expect(page.locator('.ui-note')).toHaveCount(9)
+    await expect(page.locator('.ui-note')).toHaveCount(3)
+    await expect(page.locator('[data-principle]')).toHaveCount(6)
   })
 
   test('should have working call-to-action links', async ({ page }) => {

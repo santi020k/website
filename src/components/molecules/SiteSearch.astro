@@ -362,7 +362,7 @@ import SearchDialog from './SearchDialog.astro'
      *   description: string
      *   path: string
      *   tags: string[]
-     *   type: 'post' | 'project'
+     *   type: 'community' | 'post' | 'project'
      *   coverUrl?: string
      *   coverAvifUrl?: string
      *   coverAlt?: string
@@ -532,7 +532,7 @@ import SearchDialog from './SearchDialog.astro'
             </span>
             <div class="space-y-1">
               <p class="text-sm font-medium text-ink">Start typing to search</p>
-              <p class="text-xs text-ink-soft">Enter at least 2 characters to find posts and projects.</p>
+              <p class="text-xs text-ink-soft">Enter at least 2 characters to find posts, projects, and community work.</p>
             </div>
           </li>
         `
@@ -780,7 +780,7 @@ import SearchDialog from './SearchDialog.astro'
         .sort((a, b) => {
           if (b.score !== a.score) return b.score - a.score
 
-          const typeOrder = { project: 0, post: 1 }
+          const typeOrder = { community: 0, project: 1, post: 2 }
           const typeDiff = (typeOrder[a.entry.type] ?? 2) - (typeOrder[b.entry.type] ?? 2)
 
           if (typeDiff !== 0) return typeDiff
@@ -947,7 +947,15 @@ import SearchDialog from './SearchDialog.astro'
           group-hover:text-brand/80
         `.trim()
 
-        typeEl.textContent = e.type === 'post' ? 'Post' : 'Project'
+        let resultTypeLabel = 'Project'
+
+        if (e.type === 'post') {
+          resultTypeLabel = 'Post'
+        } else if (e.type === 'community') {
+          resultTypeLabel = 'Community'
+        }
+
+        typeEl.textContent = resultTypeLabel
 
         const titleEl = document.createElement('span')
 

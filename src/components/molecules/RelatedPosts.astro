@@ -13,6 +13,19 @@ interface Props {
 
 const { currentPostId, excludeSeriesId, tags } = Astro.props
 
+const developerExperienceTags = new Set([
+  'ai',
+  'automation',
+  'ci-cd',
+  'code-quality',
+  'developer-experience',
+  'engineering-standards',
+  'eslint',
+  'testing'
+])
+
+const belongsToDeveloperExperienceHub = tags.some(tag => developerExperienceTags.has(tag))
+
 const relatedPosts = await getRelatedPosts({
   currentPostId,
   ...(excludeSeriesId ? { excludeSeriesId } : {}),
@@ -26,8 +39,8 @@ const relatedPosts = await getRelatedPosts({
     <SectionHeader
       description="More writing from a similar lane — overlapping topics, tooling choices, and the tradeoffs behind the article you just read."
       eyebrow="Related writing"
-      linkHref="/blog/"
-      linkLabel="Browse all posts"
+      linkHref={belongsToDeveloperExperienceHub ? '/developer-experience/' : '/blog/'}
+      linkLabel={belongsToDeveloperExperienceHub ? 'Explore the developer experience guide' : 'Browse all posts'}
       title="Keep reading in the same thread."
     />
 

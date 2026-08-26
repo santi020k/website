@@ -20,12 +20,14 @@ interface SessionVariant {
 
 interface TopicVariant {
   description: string
+  index?: number
   title: string
   variant: 'topic'
 }
 
 interface FormatVariant {
   description: string
+  index?: number
   title: string
   variant: 'format'
 }
@@ -50,7 +52,7 @@ const props = Astro.props as TalkCardProps
         <p class="section-label">{props.event} · {props.year}</p>
         {props.audience && <p class="mt-1 text-xs text-ink-muted">{props.audience}</p>}
       </div>
-      <h2 class="text-xl font-semibold text-ink">{props.title}</h2>
+      <h3 class="text-xl font-semibold text-ink">{props.title}</h3>
       <p class="grow text-sm/7 text-ink-soft">{props.description}</p>
       <div class="flex flex-wrap gap-2">
         {props.tags.map(tag => (
@@ -86,7 +88,16 @@ const props = Astro.props as TalkCardProps
       glass="strong"
       variant="interactive"
     >
-      <h2 class="text-2xl font-semibold text-ink">{props.title}</h2>
+      {props.index !== undefined && (
+        <p aria-hidden="true" class="text-sm font-semibold text-brand">
+          {String(props.index + 1).padStart(2, '0')}
+        </p>
+      )}
+      <h3 class="
+        text-xl font-semibold text-ink
+        sm:text-2xl
+      "
+      >{props.title}</h3>
       <p class="text-sm/7 text-ink-soft">{props.description}</p>
     </Card>
   )
@@ -103,7 +114,12 @@ const props = Astro.props as TalkCardProps
       glass="strong"
       variant="interactive"
     >
-      <p class="section-label">{props.title}</p>
+      {props.index !== undefined && (
+        <p aria-hidden="true" class="text-sm font-semibold text-brand">
+          {String(props.index + 1).padStart(2, '0')}
+        </p>
+      )}
+      <h3 class="section-label text-ink">{props.title}</h3>
       <p class="text-base/7 text-ink-soft">{props.description}</p>
     </Card>
   )

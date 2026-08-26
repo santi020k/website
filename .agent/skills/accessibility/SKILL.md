@@ -1,6 +1,6 @@
 ---
 name: accessibility
-description: Web accessibility (a11y) for this Astro + Alpine.js + Tailwind website. Use this skill when auditing pages for accessibility, adding ARIA attributes, fixing keyboard navigation, improving color contrast, writing semantic HTML, making interactive Alpine.js components accessible, or any task related to WCAG compliance, screen reader compatibility, or inclusive design. Trigger on mentions of accessibility, a11y, WCAG, ARIA, screen reader, keyboard navigation, focus management, color contrast, or inclusive design.
+description: Web accessibility (a11y) for this Astro + native JavaScript + Tailwind website. Use this skill when auditing pages for accessibility, adding ARIA attributes, fixing keyboard navigation, improving color contrast, writing semantic HTML, making interactive custom elements accessible, or any task related to WCAG compliance, screen reader compatibility, or inclusive design. Trigger on mentions of accessibility, a11y, WCAG, ARIA, screen reader, keyboard navigation, focus management, color contrast, or inclusive design.
 ---
 
 # Accessibility Skill — santi020k Website
@@ -88,65 +88,61 @@ Every interactive element must be keyboard reachable and operable.
 
 ---
 
-## Alpine.js Accessible Patterns
+## Native JavaScript Accessible Patterns
 
-Alpine.js components require manual ARIA since they're custom widgets. Here are the correct patterns:
+Custom elements and inline scripts must keep DOM visibility, keyboard behavior, and ARIA state synchronized.
 
 ### Disclosure (show/hide)
 ```html
-<div x-data="{ open: false }">
+<div data-disclosure>
   <button
     type="button"
-    :aria-expanded="open.toString()"
+    aria-expanded="false"
     aria-controls="panel-id"
-    @click="open = !open"
+    data-disclosure-toggle
   >
     Toggle section
   </button>
-  <div id="panel-id" x-show="open">
+  <div id="panel-id" hidden>
     Content here
   </div>
 </div>
 ```
 
+The controller toggles `hidden` on the panel and writes the matching `aria-expanded` value to the button.
+
 ### Modal / Dialog
 ```html
-<div
-  x-data="{ open: false }"
-  @keydown.escape.window="open = false"
->
-  <button type="button" @click="open = true" aria-haspopup="dialog">
+<div data-dialog-controller>
+  <button type="button" aria-haspopup="dialog" data-dialog-open>
     Open dialog
   </button>
 
   <div
-    x-show="open"
+    hidden
     role="dialog"
     aria-modal="true"
     aria-labelledby="dialog-title"
-    x-trap.noscroll="open"
-    @click.outside="open = false"
+    data-dialog
   >
     <h2 id="dialog-title">Dialog heading</h2>
     <!-- content -->
-    <button type="button" @click="open = false" aria-label="Close dialog">
+    <button type="button" aria-label="Close dialog" data-dialog-close>
       <Icon name="mdi:close" aria-hidden="true" />
     </button>
   </div>
 </div>
 ```
 
-Note: `x-trap` (focus trap) requires the `@alpinejs/focus` plugin. Install it if not already present.
+The controller must move focus into the dialog, trap focus while open, close on Escape and backdrop activation, and restore focus to the opener.
 
 ### Tabs
 ```html
-<div x-data="{ activeTab: 'tab1' }" role="tablist" aria-label="Section tabs">
+<div role="tablist" aria-label="Section tabs" data-tabs>
   <button
     role="tab"
-    :aria-selected="activeTab === 'tab1'"
-    :tabindex="activeTab === 'tab1' ? 0 : -1"
-    @click="activeTab = 'tab1'"
-    @keydown.arrow-right="activeTab = 'tab2'"
+    aria-selected="true"
+    tabindex="0"
     id="tab-tab1"
     aria-controls="panel-tab1"
   >
@@ -159,7 +155,6 @@ Note: `x-trap` (focus trap) requires the `@alpinejs/focus` plugin. Install it if
   role="tabpanel"
   id="panel-tab1"
   aria-labelledby="tab-tab1"
-  x-show="activeTab === 'tab1'"
 >
   Tab 1 content
 </div>
@@ -172,15 +167,14 @@ Note: `x-trap` (focus trap) requires the `@alpinejs/focus` plugin. Install it if
     type="button"
     aria-expanded="false"
     aria-controls="nav-menu"
-    x-bind:aria-expanded="menuOpen.toString()"
-    @click="menuOpen = !menuOpen"
+    data-mobile-nav-toggle
     class="md:hidden"
   >
     <span class="sr-only">Toggle navigation</span>
     <Icon name="mdi:menu" aria-hidden="true" />
   </button>
 
-  <ul id="nav-menu" x-show="menuOpen || isDesktop">
+  <ul id="nav-menu" hidden data-mobile-nav-menu>
     <li><a href="/">Home</a></li>
     <!-- ... -->
   </ul>
@@ -219,7 +213,7 @@ Don't convey information by color alone — always pair color with an icon, labe
   aria-describedby="email-hint email-error"
 />
 <p id="email-hint" class="text-muted text-sm">We'll never share your email.</p>
-<p id="email-error" role="alert" class="text-sm text-red-600" x-show="hasError">
+<p id="email-error" role="alert" class="text-sm text-red-600" hidden data-email-error>
   Please enter a valid email address.
 </p>
 ```
@@ -230,13 +224,13 @@ Use `role="alert"` or `aria-live="polite"` for dynamic error messages so screen 
 
 ## Live Regions & Dynamic Content
 
-When content updates dynamically (Alpine.js shows/hides, notifications appear, etc.), screen readers need to be notified:
+When content updates dynamically (filters change, notifications appear, and so on), screen readers need to be notified:
 
 ```html
 <!-- Polite: announces when user is idle (most cases) -->
 <div aria-live="polite" aria-atomic="true" class="sr-only">
   <!-- Update this text when status changes -->
-  <span x-text="statusMessage"></span>
+  <span data-status-message></span>
 </div>
 
 <!-- Assertive: interrupts immediately (errors, critical alerts only) -->
@@ -300,7 +294,7 @@ Always respect `prefers-reduced-motion`. In Tailwind, use the `motion-safe:` and
 </div>
 ```
 
-In Alpine.js transitions, check the media query:
+In JavaScript-driven transitions, check the media query:
 ```js
 // Disable transitions for users who prefer reduced motion
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches

@@ -37,6 +37,7 @@ const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.p
       ` :
       'flex-wrap'
   ]}
+  data-blog-tag-filter
   role="group"
 >
   <Pill
@@ -56,3 +57,33 @@ const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.p
     />
   ))}
 </div>
+
+<script>
+  import type { TransitionBeforePreparationEvent } from 'astro:transitions/client'
+
+  let preservedFilterTop: number | undefined
+
+  document.addEventListener('astro:before-preparation', event => {
+    const { sourceElement } = event as TransitionBeforePreparationEvent
+    const filter = sourceElement?.closest<HTMLElement>('[data-blog-tag-filter]')
+
+    preservedFilterTop = filter?.getBoundingClientRect().top
+  })
+
+  document.addEventListener('astro:after-swap', () => {
+    if (preservedFilterTop === undefined) return
+
+    const filter = document.querySelector<HTMLElement>('[data-blog-tag-filter]')
+
+    if (filter) {
+      const filterTop = filter.getBoundingClientRect().top
+
+      window.scrollBy({
+        behavior: 'instant',
+        top: filterTop - preservedFilterTop
+      })
+    }
+
+    preservedFilterTop = undefined
+  })
+</script>

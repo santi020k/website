@@ -17,7 +17,13 @@ import { getCachedProjects } from '@/utils/content'
 import { AnimatedPortrait, Note } from '@santi020k/lumen-astro'
 
 import { collaborationLanes, engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
-import { AUTHOR_JOB_TITLE, sameAsProfiles, siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
+import {
+  AUTHOR_JOB_TITLE,
+  createAuthorSchema,
+  sameAsProfiles,
+  siteConfig,
+  YEARS_OF_EXPERIENCE
+} from '@/site.config'
 
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 const projectsById = new Map((await getCachedProjects()).map(project => [project.id, project]))
@@ -84,8 +90,7 @@ const aboutPageSchema = {
   description,
   url: new URL('/about/', Astro.site).href,
   mainEntity: {
-    '@type': 'Person',
-    name: siteConfig.author,
+    ...createAuthorSchema(Astro.site),
     jobTitle: AUTHOR_JOB_TITLE,
     description: siteConfig.description,
     address: {

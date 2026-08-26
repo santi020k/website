@@ -1,5 +1,7 @@
 /* eslint @typescript-eslint/no-unsafe-assignment: off, @typescript-eslint/no-unsafe-member-access: off, jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
 // TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
+import { execFileSync } from 'node:child_process'
+
 import { expect, test } from '@playwright/test'
 
 // ---------------------------------------------------------------------------
@@ -7,6 +9,29 @@ import { expect, test } from '@playwright/test'
 // ---------------------------------------------------------------------------
 
 test.describe('SEO — meta tags', () => {
+  test('AI search crawlers have explicit access without indexing the search payload', async ({ page }) => {
+    const robotsResponse = await page.request.get('/robots.txt')
+    const robots = await robotsResponse.text()
+
+    for (const userAgent of ['OAI-SearchBot', 'PerplexityBot', 'Claude-SearchBot', 'Claude-User']) {
+      expect(robots).toContain(`User-agent: ${userAgent}`)
+    }
+
+    expect(robots).toContain('Disallow: /search-index.json')
+  })
+
+  test('developer experience hub is canonical, indexable, and connected to the blog', async ({ page }) => {
+    await page.goto('/developer-experience/')
+
+    await expect(page).toHaveTitle(/Developer Experience/)
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href', 'https://santi020k.com/developer-experience/'
+    )
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /index, follow/)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Build a system that')
+    await expect(page.locator('article a[href^="/blog/"]')).toHaveCount(6)
+  })
+
   test('utility pages are noindex and the offline page is excluded from the sitemap', async ({ page }) => {
     for (const path of ['/404/', '/offline/']) {
       await page.goto(path)
@@ -18,6 +43,29 @@ test.describe('SEO — meta tags', () => {
 
     expect(sitemap).not.toContain('https://santi020k.com/offline/')
     expect(sitemap).not.toContain('https://santi020k.com/404/')
+  })
+
+  test('non-empty taxonomy pages are indexable and included in the sitemap', async ({ page }) => {
+    const sparseTaxonomyPaths = [
+      '/blog/tags/alpine/',
+      '/technologies/actionlint/'
+    ]
+
+    for (const path of sparseTaxonomyPaths) {
+      await page.goto(path)
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+        'content', /\bindex, follow\b/u
+      )
+    }
+
+    const sitemapResponse = await page.request.get('/sitemap-0.xml')
+    const sitemap = await sitemapResponse.text()
+
+    for (const path of sparseTaxonomyPaths) {
+      expect(sitemap).toContain(`https://santi020k.com${path}`)
+    }
+
+    expect(sitemap).toContain('https://santi020k.com/technologies/typescript/')
   })
 
   test('syndicated posts honor their declared canonical URL', async ({ page }) => {
@@ -135,6 +183,38 @@ test.describe('SEO — meta tags', () => {
 
     await expect(pdfLinks).toHaveCount(2)
     await expect(page.locator('a[href^="/pdf/cv.pdf?"]')).toHaveCount(0)
+  })
+
+  test('resume structured data uses a committed Git modification date', async ({ page }) => {
+    const trackedPaths = [
+      'scripts/py/cv.md',
+      'src/content/project',
+      'src/pages/resume.astro',
+      'src/site.config.ts'
+    ]
+    const expectedDateModified = new Date(execFileSync(
+      'git', ['log', '-1', '--format=%cI', '--', ...trackedPaths], { encoding: 'utf8' }
+    ).trim()).toISOString()
+
+    await page.goto('/resume/')
+
+    const profilePageSchema = await page.evaluate((): any => {
+      const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
+
+      for (const script of scripts) {
+        try {
+          const content = script.textContent
+          if (!content) continue
+          const json = JSON.parse(content)
+          if (json['@type'] === 'ProfilePage') return json
+        } catch { /* skip */ }
+      }
+
+      return null
+    })
+
+    expect(profilePageSchema).not.toBeNull()
+    expect(profilePageSchema.dateModified).toBe(expectedDateModified)
   })
 
   test('resume print styles hide the decorative particle layer', async ({ page }) => {
@@ -325,6 +405,20 @@ test.describe('SEO — JSON-LD structured data', () => {
     })
 
     expect(hasStructuredData).toBe(true)
+  })
+
+  test('blog posts expose visible authorship and reference the global schema entities', async ({ page }) => {
+    await page.goto('/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/')
+
+    await expect(page.locator('a[rel="author"]')).toHaveAttribute('href', '/about/')
+    await expect(page.locator('a[rel="author"]')).toHaveText('Santiago Molina')
+
+    const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
+    const articleSchema = schemas.find(schema => schema.includes('"@type":"BlogPosting"'))
+
+    expect(articleSchema).toContain('"@id":"https://santi020k.com/#person"')
+    expect(articleSchema).toContain('"@id":"https://santi020k.com/#organization"')
+    expect(articleSchema).toContain('"@id":"https://santi020k.com/#website"')
   })
 
   test('blog post page includes breadcrumb structured data', async ({ page }) => {

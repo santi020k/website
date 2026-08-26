@@ -14,7 +14,7 @@ These `.claude/skills/` documents expand on specific areas of this guide:
 | :---- | :---- |
 | [`web-design`](../.claude/skills/web-design/SKILL.md) | Design tokens, component patterns, animations, dark mode |
 | [`seo`](../.claude/skills/seo/SKILL.md) | Meta tags, structured data, sitemap, Core Web Vitals |
-| [`accessibility`](../.claude/skills/accessibility/SKILL.md) | WCAG 2.2 AA, ARIA, keyboard navigation, Alpine.js patterns |
+| [`accessibility`](../.agent/skills/accessibility/SKILL.md) | WCAG 2.2 AA, ARIA, keyboard navigation, native JavaScript patterns |
 | [`marketing`](../.claude/skills/marketing/SKILL.md) | Copy, CTAs, blog strategy, social media |
 | [`brand-guidelines`](../.claude/skills/brand-guidelines/SKILL.md) | This document — generation and maintenance |
 
@@ -65,7 +65,7 @@ The brand sits at the intersection of technical depth and human approachability 
 | Attribute | Description |
 | :-------- | :---------- |
 | **Approachable** | Personal and direct in tone. "Engineering leader sharing what they know" — not corporate marketing speak. |
-| **Modern** | Current with web standards. The stack choices (Astro, Alpine.js, Tailwind v4) reflect this deliberately. |
+| **Modern** | Current with web standards. The stack choices (Astro, native JavaScript, Tailwind v4) reflect this deliberately. |
 
 ### Target Audience
 
@@ -178,9 +178,11 @@ brand:
 | `secondary` | A supporting brand color. Used in gradients and generated-image depth. |
 | `surface` | The project’s preferred dark stage. Used behind logos and as the base of generated cover artwork. |
 
-`src/utils/project-brand.ts` converts the source palette into scoped HSL custom properties and
-derives readable primary variants for the light and dark canvases. Text must use the readable
-variant; the unadjusted primary is reserved for decoration unless its contrast has been verified.
+`src/utils/project-brand.ts` converts the source palette into scoped custom properties and derives
+readable variants for the light and dark canvases. Project title gradients validate both endpoints
+and sampled colors between them against the WCAG AA 4.5:1 text threshold. Text must use a readable
+variant; unadjusted project colors are reserved for decoration unless their contrast has been
+verified.
 The image generator treats the declared palette as authoritative and only extracts a logo color
 as a fallback for legacy fixtures.
 
@@ -523,8 +525,8 @@ All animations **must** include a `motion-reduce:` variant or a `prefers-reduced
 | Hover micro-interactions | 150–200ms | `ease-out` |
 | Content reveals (fade, slide) | 300–400ms | `ease-out` |
 | Large layout changes | 400–500ms | `ease-in-out` |
-| Alpine `x-show` enter | 200ms | `ease-out` |
-| Alpine `x-show` leave | 150ms | `ease-in` |
+| Disclosure enter | 200ms | `ease-out` |
+| Disclosure leave | 150ms | `ease-in` |
 | Mobile nav drawer | 300ms | `ease-in-out` |
 
 Snappy always feels better than slow. Reserve durations above 300ms for large reveals only.
@@ -536,21 +538,20 @@ class="transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md
        motion-reduce:transition-none motion-reduce:hover:translate-y-0"
 ```
 
-### Alpine.js Show / Hide
+### Native JavaScript Show / Hide
 
-Always pair `x-show` with `x-transition`. Example — dropdown slide from top:
+Keep the visible state, the `hidden` attribute, and `aria-expanded` synchronized. Example markup for a disclosure:
 
 ```html
 <div
-  x-show="open"
-  x-transition:enter="transition-all duration-200 ease-out"
-  x-transition:enter-start="opacity-0 -translate-y-2"
-  x-transition:enter-end="opacity-100 translate-y-0"
-  x-transition:leave="transition-all duration-150 ease-in"
-  x-transition:leave-start="opacity-100 translate-y-0"
-  x-transition:leave-end="opacity-0 -translate-y-2"
+  hidden
+  id="disclosure-panel"
+  class="transition-all duration-200 ease-out motion-reduce:transition-none"
+  data-disclosure-panel
 >
 ```
+
+The controlling button uses `aria-controls="disclosure-panel"` and updates `aria-expanded` whenever the panel opens or closes.
 
 ### Mobile Drawer
 
@@ -829,7 +830,7 @@ Strong headlines are specific, useful, or surprising:
 | How I [result] with [method] | "How I reduced my Astro build time by 40%" |
 | Why I switched from X to Y | "Why I switched from CRA to Vite" |
 | [N] things I learned from [project] | "5 things I learned building a Tailwind v4 site" |
-| [Common belief] is wrong | "Alpine.js doesn't need a bundler — and that's the point" |
+| [Common belief] is wrong | "Small interactions do not require a framework runtime — and that is the point" |
 
 Avoid vague headlines like "Thoughts on React" or "Some useful CSS tips."
 
@@ -893,14 +894,14 @@ pnpm run check   # Astro type-check — zero errors
 | Lighthouse score | ≥ 90 on mobile |
 | LCP | `loading="eager"` + `fetchpriority="high"` on above-fold images |
 | CLS | Explicit `width` and `height` on all images |
-| INP | Alpine.js handlers lightweight; heavy work off the main thread |
+| INP | Native event handlers stay lightweight; heavy work remains off the main thread |
 
 ### Stack Overview
 
 | Layer | Technology |
 | :----------- | :--------- |
-| Framework | Astro 6 — file-based routing, content collections, View Transitions |
-| Interactivity | Alpine.js v3 — `x-data`, `x-show`, `x-transition` |
+| Framework | Astro 7 — file-based routing, content collections, View Transitions |
+| Interactivity | Native JavaScript — bundled inline scripts, custom elements, and custom events |
 | Styling | Tailwind CSS v4 — tokens via `@theme` in `global.css`, no `tailwind.config.js` |
 | Language | TypeScript (strict) |
 | Deployment | Static `dist/`; CDN/host config (`docs/deployment.md`) |
@@ -1006,8 +1007,8 @@ All internal links use trailing slashes.
 | `src/types.ts` | Shared TypeScript types including `Badge` variants |
 | `src/components/atoms/Pill.astro` | Pill / tag component |
 | `src/components/atoms/ThemeToggle.astro` | Dark mode toggle |
-| `src/components/layout/Header.astro` | Fixed/relative header with mobile drawer |
-| `src/components/layout/Footer.astro` | Footer with social icons and version |
+| `src/components/organisms/SiteHeader.astro` | Responsive header with mobile navigation |
+| `src/components/organisms/SiteFooter.astro` | Footer with social links and version |
 | `scripts/js/generate-og-images.js` | Open Graph catalog, metadata routes, and preset configuration |
 | `scripts/js/generate-project-images.mjs` | Project-palette cover generation and logo staging |
 | `scripts/js/render-og-atmosphere.mjs` | Diffuse brand-light treatment for image-free Open Graph cards |
@@ -1019,6 +1020,7 @@ All internal links use trailing slashes.
 
 | Version | Date | Changes |
 | :------ | :--------- | :------ |
+| 3.3 | August 2026 | Aligned the documented stack with Astro 7, Lumen UI, and native JavaScript interactivity. |
 | 3.2 | August 2026 | Added restrained ambient blur to image-free Open Graph cards while preserving the no-placeholder rule and real cover artwork for blog posts and projects. |
 | 3.1 | August 2026 | Limited Open Graph media to meaningful blog and project cover artwork; image-free routes now use an intentionally typographic composition without generic placeholder decoration. |
 | 3.0 | August 2026 | Added project-level primary, secondary, and surface palettes; scoped them across portfolio interfaces; added contrast-safe text derivatives; and connected the same palette source to project image generation. |

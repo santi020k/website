@@ -8,7 +8,7 @@ brand:
 role: "Co-Organizer"
 startingDate: "1 Jan 2017"
 liveDemoUrl: "https://www.meetup.com/es/react-js-medellin/"
-typesId: "personal"
+typesId: "community"
 relevanceWeight: 55
 impactMetrics: [
   "Dozens of events since 2017",

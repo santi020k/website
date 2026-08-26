@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 import Pill from '@/components/atoms/Pill.astro'
 
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
@@ -16,6 +17,7 @@ interface Props {
 const { projects } = Astro.props
 
 const careerItems = projects.map((project: CollectionEntry<'project'>) => ({
+  brand: project.data.brand,
   company: project.data.title,
   description: project.data.description,
   href: getPortfolioPath(project.id),
@@ -30,18 +32,22 @@ type CareerItem = (typeof careerItems)[number]
 
 <Card
   class="overflow-hidden rounded-[1.75rem] p-0"
-  glass="subtle"
-  variant="glass"
+  variant="default"
 >
   <Timeline data-career-timeline class="relative">
     {careerItems.map((item: CareerItem) => (
-      <TimelineItem data-timeline-row={item.isActive ? 'active' : 'completed'}>
+      <TimelineItem
+        data-timeline-row={item.isActive ? 'active' : 'completed'}
+        style={getProjectBrandStyle(item.brand)}
+      >
         <span
           slot="dot"
           aria-hidden="true"
           class:list={[
             `
               flex items-center justify-center rounded-full border
+              transition-[background-color,border-color,box-shadow,color]
+              duration-200
               motion-reduce:transition-none
             `,
             item.isActive ?
@@ -49,10 +55,7 @@ type CareerItem = (typeof careerItems)[number]
                 size-8 border-brand/40 bg-brand text-white
                 shadow-[0_0_0_5px_hsl(var(--brand)/0.1)]
               ` :
-              `
-                size-6 border-line/70 bg-surface text-ink-muted
-                transition-colors duration-200
-              `
+              'size-6 border-line/70 bg-surface text-ink-muted'
           ]}
         >
           <Icon
@@ -63,13 +66,14 @@ type CareerItem = (typeof careerItems)[number]
 
         <a
           aria-label={`View ${item.company} case study`}
+          data-career-link
           class:list={[
             `
-              group block px-5 py-6 transition-colors duration-200
+              group block py-6 pr-5 pl-18 transition-colors duration-200
               focus-visible:ring-2 focus-visible:ring-brand/50
               focus-visible:outline-none focus-visible:ring-inset
               motion-reduce:transition-none
-              sm:p-7
+              sm:py-7 sm:pr-7 sm:pl-20
             `,
             item.isActive ?
               `
@@ -101,10 +105,10 @@ type CareerItem = (typeof careerItems)[number]
                 </div>
 
                 <h3
+                  data-career-title
                   class="
                     mt-2 text-2xl/tight font-bold text-ink transition-colors
                     duration-150
-                    group-hover:text-brand
                     motion-reduce:transition-none
                     sm:text-[1.7rem]
                   "
@@ -169,6 +173,7 @@ type CareerItem = (typeof careerItems)[number]
               )}
 
               <span
+                data-career-action
                 class="
                   flex shrink-0 items-center gap-2 text-xs font-semibold
                   text-brand
@@ -203,7 +208,42 @@ type CareerItem = (typeof careerItems)[number]
   }
 
   [data-career-timeline] :global(.ui-timeline-item__content) {
-    margin-left: 3.25rem;
+    margin-left: 0;
+  }
+
+  [data-career-link] {
+    transition-property: background-color, box-shadow;
+  }
+
+  [data-career-timeline] [data-career-link]:is(:hover, :focus-visible) {
+    background-color: hsl(var(--project-primary) / 0.09);
+    box-shadow: inset 3px 0 0 hsl(var(--project-primary) / 0.72);
+  }
+
+  [data-career-link]:focus-visible {
+    --tw-ring-color: hsl(var(--project-primary) / 0.48);
+  }
+
+  [data-career-link]:is(:hover, :focus-visible) :is([data-career-title], [data-career-action]) {
+    color: hsl(var(--project-primary-readable));
+  }
+
+  [data-career-timeline]
+    :global(.ui-timeline-item:has([data-career-link]:is(:hover, :focus-visible)) .ui-timeline-item__dot > span) {
+    border-color: hsl(var(--project-primary) / 0.7);
+    background-color: hsl(var(--project-primary) / 0.13);
+    box-shadow: 0 0 0 5px hsl(var(--project-primary) / 0.1);
+    color: hsl(var(--project-primary-readable));
+  }
+
+  :global(:root[data-theme='dark']) [data-career-timeline] :global(.ui-timeline-item) {
+    --project-primary-readable: var(--project-primary-readable-dark);
+  }
+
+  :global(:root[data-theme='dark'])
+    [data-career-timeline]
+    [data-career-link]:is(:hover, :focus-visible) {
+    background-color: hsl(var(--project-primary) / 0.14);
   }
 
   [data-career-timeline] :global(.ui-timeline-item__dot) {
@@ -215,6 +255,7 @@ type CareerItem = (typeof careerItems)[number]
   }
 
   [data-career-timeline] :global(.ui-timeline-item__tail) {
+    z-index: 1;
     top: 3.25rem;
     left: 2.25rem;
     width: 1px;
@@ -227,10 +268,6 @@ type CareerItem = (typeof careerItems)[number]
   }
 
   @media (min-width: 40rem) {
-    [data-career-timeline] :global(.ui-timeline-item__content) {
-      margin-left: 3.75rem;
-    }
-
     [data-career-timeline] :global(.ui-timeline-item__dot) {
       top: 1.75rem;
       left: 1.5rem;

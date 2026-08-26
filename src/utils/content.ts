@@ -112,7 +112,7 @@ export const getRelatedProjects = async ({
   currentProjectId: string
   limit?: number
   technologies: string[]
-  typesId?: 'professional' | 'personal' | 'experimental'
+  typesId?: 'community' | 'experimental' | 'personal' | 'professional'
 }): Promise<CollectionEntry<'project'>[]> => {
   const projects = await getCachedProjects()
   const technologySet = new Set(technologies)

@@ -21,12 +21,12 @@ technologies: [
 coverImage:
   src: "./cover.webp"
   background: "./cover-background.webp"
-  horizontal: "./cover-commerce-system.webp"
+  horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "wide"
   logoSurface: "dark"
-  alt: "Smith Commerce wordmark surrounded by a modern headless commerce interface"
+  alt: "Smith Commerce wordmark on an amber and charcoal geometric cover"
   ogImage: './cover.webp'
 ---
 
@@ -37,6 +37,8 @@ At [Smith Commerce](https://smithcommerce.com), I worked on the frontend rebuild
 ### Core challenge
 
 This was not a greenfield marketing site. It was a storefront migration with real performance debt, accessibility issues, and delivery pressure on both the frontend and backend sides. The work only mattered if the team could improve user experience immediately while still creating space for parallel delivery and longer-term maintainability.
+
+![Smith Commerce wordmark surrounded by a modern headless commerce interface](cover-commerce-system.webp)
 
 ### What I owned
 

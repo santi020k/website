@@ -59,6 +59,48 @@ test.describe('View transitions', () => {
     await expect(page.locator('#main')).toBeFocused()
   })
 
+  test('keeps the topic filter in place while filtering blog posts', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.goto('/blog/')
+
+    const topicFilter = page.locator('[data-blog-tag-filter]')
+
+    await topicFilter.evaluate(element => {
+      element.scrollIntoView({ behavior: 'instant', block: 'center' })
+    })
+
+    const initialFilterTop = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
+
+    await topicFilter.getByRole('link', { name: /react/i }).click()
+
+    await expect(page).toHaveURL(/\/blog\/tags\/react\/$/)
+    await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/)
+    await expect(topicFilter).toBeVisible()
+
+    const filteredPagePosition = await topicFilter.evaluate(element => ({
+      scrollY: window.scrollY,
+      top: element.getBoundingClientRect().top
+    }))
+
+    expect(filteredPagePosition.scrollY).toBeGreaterThan(0)
+    expect(filteredPagePosition.top).toBeCloseTo(initialFilterTop, 0)
+
+    // Let the native view-transition animation release its snapshots before
+    // starting the reverse navigation.
+    await page.waitForTimeout(400)
+
+    const filterTopBeforeReset = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
+
+    await topicFilter.getByRole('link', { name: 'All posts' }).click()
+
+    await expect(page).toHaveURL(/\/blog\/$/)
+    await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/)
+
+    const restoredFilterTop = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
+
+    expect(restoredFilterTop).toBeCloseTo(filterTopBeforeReset, 0)
+  })
+
   test('disables smooth scrolling when reduced motion is requested', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')

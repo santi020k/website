@@ -45,6 +45,18 @@ const logoImageClass = {
   wide: 'max-h-9 max-w-32'
 } satisfies Record<LogoAspect, string>
 
+const logoSizes = {
+  square: '40px',
+  tall: '36px',
+  wide: '128px'
+} satisfies Record<LogoAspect, string>
+
+const logoWidths = {
+  square: [40, 80],
+  tall: [36, 72],
+  wide: [128, 256]
+} satisfies Record<LogoAspect, number[]>
+
 const logoSurfaceClass = {
   dark: 'border-white/18 bg-ink text-white dark:border-white/14 dark:bg-canvas',
   light: 'border-line/70 bg-surface text-ink dark:border-white/18 dark:bg-white/92',
@@ -165,7 +177,9 @@ const logoSurfaceClass = {
                 aria-hidden="true"
                 class:list={['object-contain drop-shadow-sm', logoImageClass[logoAspect]]}
                 loading="lazy"
+                sizes={logoSizes[logoAspect]}
                 src={logoImage}
+                widths={logoWidths[logoAspect]}
               />
             ) :
             (

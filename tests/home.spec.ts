@@ -67,11 +67,13 @@ test('homepage stats use the accent Lumen variant as standalone articles', async
   await expect(stats.locator('.ui-stat-value')).toHaveText(['12+', '14', '-75%', '100+'])
 })
 
-test('homepage hides speaking from global navigation', async ({ page }) => {
+test('homepage keeps speaking out of the header and exposes it in the footer', async ({ page }) => {
   await page.goto('/')
 
   await expect(page.locator('header a[href="/speaking/"]')).toHaveCount(0)
-  await expect(page.locator('footer a[href="/speaking/"]')).toHaveCount(0)
+  await expect(
+    page.locator('footer').getByRole('link', { name: 'Speaking', exact: true })
+  ).toHaveAttribute('href', '/speaking/')
 })
 
 test('footer keeps technical XML endpoints out of user-facing resources', async ({ page }) => {

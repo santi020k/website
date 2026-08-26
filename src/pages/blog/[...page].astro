@@ -24,7 +24,7 @@ import { getAllTags } from '@/utils/tags'
 import { Card } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
-import { siteConfig, YEARS_OF_WRITING } from '@/site.config'
+import { createAuthorSchema, siteConfig, YEARS_OF_WRITING } from '@/site.config'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -67,10 +67,7 @@ const blogListSchema = {
     datePublished: post.data.publishDate.toISOString(),
     ...(post.data.updatedDate ? { dateModified: post.data.updatedDate.toISOString() } : {}),
     url: new URL(getPostPath(post.id), Astro.site).href,
-    author: {
-      '@type': 'Person',
-      name: siteConfig.author
-    }
+    author: createAuthorSchema(Astro.site)
   }))
 }
 ---
@@ -103,6 +100,11 @@ const blogListSchema = {
     <ButtonLink href="/blog/tags/" showArrow variant="secondary">
       Browse topics
     </ButtonLink>
+    {isFirstPage && (
+      <ButtonLink href="/developer-experience/" showArrow variant="secondary">
+        Developer experience guide
+      </ButtonLink>
+    )}
     {isFirstPage && (
       <ButtonLink href="/blog/series/" showArrow variant="secondary">
         Browse series

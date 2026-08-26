@@ -3,29 +3,37 @@ import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects, getFormattedDate } from '@/utils/date'
+import { getGitLastModified } from '@/utils/git'
 
 import { ButtonLink, Icon, Link } from '@santi020k/lumen-astro'
 
-import { AUTHOR_JOB_TITLE, siteConfig } from '@/site.config'
+import { AUTHOR_JOB_TITLE, createAuthorSchema, siteConfig } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const workProjects = allProjects.filter(p => p.data.typesId === 'professional').slice(0, 4)
-const personalProjects = allProjects.filter(p => p.data.typesId === 'personal').slice(0, 4)
+const communityWork = allProjects.filter(p => p.data.typesId === 'community')
 // Keep one crawlable PDF URL across deployments. The response revalidates at
 // the edge, so cache busting does not need to create a new query URL per build.
 const resumePdfPath = '/pdf/cv.pdf'
+const resumeDateCreated = '2024-01-01T00:00:00.000Z'
+
+const resumeDateModified = getGitLastModified([
+  'scripts/py/cv.md',
+  'src/content/project',
+  'src/pages/resume.astro',
+  'src/site.config.ts'
+], resumeDateCreated)
 
 const resumePageSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
-  dateCreated: '2024-01-01T00:00:00Z',
-  dateModified: new Date().toISOString(),
+  dateCreated: resumeDateCreated,
+  dateModified: resumeDateModified,
   mainEntity: {
-    '@type': 'Person',
-    name: siteConfig.author,
+    ...createAuthorSchema(Astro.site),
     jobTitle: AUTHOR_JOB_TITLE,
     description: siteConfig.description,
-    url: new URL('/resume/', Astro.site ?? 'https://santi020k.com').href
+    mainEntityOfPage: new URL('/resume/', Astro.site ?? 'https://santi020k.com').href
   }
 }
 ---
@@ -35,7 +43,7 @@ const resumePageSchema = {
   meta={{
     description: [
       'Engineering leader and full-stack architect resume.',
-      `Explore ${siteConfig.author}'s professional experience, technical skills, and open-source projects.`
+      `Explore ${siteConfig.author}'s professional experience, technical skills, and community leadership.`
     ].join(' '),
     structuredData: resumePageSchema,
     title: 'Resume & Curriculum Vitae'
@@ -238,14 +246,14 @@ const resumePageSchema = {
       print:mb-8 print:break-inside-avoid
     "
     >
-      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Projects & Community</h2>
+      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Community</h2>
       <div class="
         space-y-8
         print:space-y-6
       "
       >
         {
-          personalProjects.map(project => (
+          communityWork.map(project => (
             <div class="print:break-inside-avoid">
               <div class="
                 mb-2 flex flex-col items-baseline justify-between gap-1

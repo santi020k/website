@@ -28,10 +28,10 @@ const navigationIcons: Record<string, string> = {
 }
 
 const navLinks = menuLinks
-  .filter(({ path }) => path !== '/speaking/')
   .map(link => ({
     ...link,
-    lumenIcon: link.icon ? navigationIcons[link.icon] : undefined
+    lumenIcon: link.icon ? navigationIcons[link.icon] : undefined,
+    title: link.path === '/speaking/' ? 'Speaking' : link.title
   }))
 
 const resourceLinks = [
@@ -62,7 +62,11 @@ const connectLinks = [
 
 const footerMeta = [
   { label: 'Location', lumenIcon: 'map-pin', value: siteConfig.location },
-  { label: 'Availability', lumenIcon: 'briefcase-business', value: siteConfig.availability }
+  {
+    label: 'Availability',
+    lumenIcon: 'briefcase-business',
+    value: 'Open to tech lead, staff, and leadership roles'
+  }
 ]
 
 const isLinkActive = (linkPath: string): boolean => {

@@ -23,11 +23,11 @@ This directory contains the rules and conventions for the Santi020k private webs
 
 - **[SEO](../.agent/skills/seo/SKILL.md)**: Meta tags, sitemap, Core Web Vitals, image optimization.
 - **[Marketing](../.agent/skills/marketing/SKILL.md)**: Brand voice, CTAs, blog strategy, social media.
-- **[Accessibility](../.agent/skills/accessibility/SKILL.md)**: WCAG 2.2 AA, ARIA, keyboard nav, Alpine.js accessible patterns, reduced motion.
-- **[Web Design](../.agent/skills/web-design/SKILL.md)**: Design system, Tailwind tokens, CSS/Alpine animations, scroll effects, dark mode, responsive patterns.
+- **[Accessibility](../.agent/skills/accessibility/SKILL.md)**: WCAG 2.2 AA, ARIA, keyboard nav, native JavaScript patterns, reduced motion.
+- **[Web Design](../.agent/skills/web-design/SKILL.md)**: Design system, Tailwind tokens, CSS and native JavaScript animations, scroll effects, dark mode, responsive patterns.
 
 ## General Principles
 
 - **Clean Build**: Always ensure `npm run lint` and `npm run check` pass with zero errors.
-- **Modern Standards**: Favor Astro 6 features and Tailwind 4 utility-first approach.
+- **Modern Standards**: Favor Astro 7 features and Tailwind 4 utility-first patterns.
 - **Centralized Config**: Use `src/site.config.ts` for site-wide metadata.

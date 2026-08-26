@@ -29,6 +29,10 @@ describe('getProjectTypeLabel', () => {
     expect(getProjectTypeLabel('professional')).toBe('Professional work')
   })
 
+  test('returns "Community work" for community type', () => {
+    expect(getProjectTypeLabel('community')).toBe('Community work')
+  })
+
   test('returns "Professional work" for undefined type', () => {
     expect(getProjectTypeLabel(undefined)).toBe('Professional work')
   })
@@ -64,6 +68,10 @@ describe('getProjectStageLabel', () => {
 
   test('returns "Active work" for professional without end date', () => {
     expect(getProjectStageLabel('professional')).toBe('Active work')
+  })
+
+  test('returns "Active community" for ongoing community work', () => {
+    expect(getProjectStageLabel('community')).toBe('Active community')
   })
 
   test('returns "Active work" for undefined without end date', () => {

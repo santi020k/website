@@ -124,6 +124,13 @@ const staticSocialPages = [
   },
   {
     description:
+      'A practical guide to developer experience: measure delivery friction, encode useful standards, automate verification, and help teams ship confidently.',
+    pathname: '/developer-experience/',
+    title: 'Developer Experience & Engineering Quality',
+    badge: 'Guide'
+  },
+  {
+    description:
       'Browse Santiago Molina\'s blog series for connected reading tracks on Next.js delivery, ESLint tooling, testing, and software architecture.',
     pathname: '/blog/series/',
     title: 'Blog Series',

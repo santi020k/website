@@ -17,7 +17,7 @@ interface SearchIndexEntry {
   searchCategory: 'tag' | 'technology'
   tags: string[]
   title: string
-  type: 'post' | 'project'
+  type: 'community' | 'post' | 'project'
 }
 
 type SearchThumbFields = Partial<Pick<SearchIndexEntry, 'coverAlt' | 'coverAvifUrl' | 'coverHeight' | 'coverUrl' | 'coverWidth'>>
@@ -78,7 +78,7 @@ export const GET: APIRoute = async () => {
         searchCategory: 'technology',
         tags: project.data.technologies,
         title: project.data.title,
-        type: 'project',
+        type: project.data.typesId === 'community' ? 'community' : 'project',
         ...(await searchThumb(searchCover))
       }
     })

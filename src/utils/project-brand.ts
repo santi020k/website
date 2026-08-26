@@ -17,13 +17,16 @@ interface RgbColor {
 }
 
 const HEX_COLOR_PATTERN = /^#[\da-f]{6}$/iu
-const LIGHT_CANVAS = '#fbf8ff'
-const DARK_CANVAS = '#10091c'
+const GRADIENT_CONTRAST_SAMPLES = 20
+
+export const MINIMUM_PROJECT_TEXT_CONTRAST = 4.5
+export const PROJECT_LIGHT_CANVAS = '#faf9fb'
+export const PROJECT_DARK_CANVAS = '#110c1d'
 
 export const DEFAULT_PROJECT_BRAND = {
   primary: '#8747ff',
   secondary: '#b78cff',
-  surface: DARK_CANVAS
+  surface: PROJECT_DARK_CANVAS
 } satisfies ProjectBrandPalette
 
 const normalizeHex = (value: string) => {
@@ -102,7 +105,10 @@ export const getReadableProjectColor = (color: string, background: string) => {
   const normalizedColor = normalizeHex(color)
   const normalizedBackground = normalizeHex(background)
 
-  if (getProjectColorContrast(normalizedColor, normalizedBackground) >= 4.5) return normalizedColor
+  if (
+    getProjectColorContrast(normalizedColor, normalizedBackground) >=
+    MINIMUM_PROJECT_TEXT_CONTRAST
+  ) return normalizedColor
 
   const source = hexToRgb(normalizedColor)
   const backgroundLuminance = getRelativeLuminance(hexToRgb(normalizedBackground))
@@ -111,10 +117,63 @@ export const getReadableProjectColor = (color: string, background: string) => {
   for (let amount = 0.05; amount <= 1; amount += 0.05) {
     const candidate = rgbToHex(mixRgb(source, target, amount))
 
-    if (getProjectColorContrast(candidate, normalizedBackground) >= 4.5) return candidate
+    if (
+      getProjectColorContrast(candidate, normalizedBackground) >=
+      MINIMUM_PROJECT_TEXT_CONTRAST
+    ) return candidate
   }
 
   return backgroundLuminance > 0.45 ? '#000000' : '#ffffff'
+}
+
+export const getProjectGradientMinimumContrast = (
+  first: string,
+  second: string,
+  background: string
+) => {
+  const firstRgb = hexToRgb(first)
+  const secondRgb = hexToRgb(second)
+  const normalizedBackground = normalizeHex(background)
+
+  return Math.min(...Array.from({ length: GRADIENT_CONTRAST_SAMPLES + 1 }, (_, index) => {
+    const amount = index / GRADIENT_CONTRAST_SAMPLES
+    const sample = rgbToHex(mixRgb(firstRgb, secondRgb, amount))
+
+    return getProjectColorContrast(sample, normalizedBackground)
+  }))
+}
+
+export const getReadableProjectGradientColors = (
+  first: string,
+  second: string,
+  background: string
+): readonly [string, string] => {
+  const normalizedBackground = normalizeHex(background)
+  const readableFirst = getReadableProjectColor(first, normalizedBackground)
+  const readableSecond = getReadableProjectColor(second, normalizedBackground)
+
+  if (
+    getProjectGradientMinimumContrast(readableFirst, readableSecond, normalizedBackground) >=
+    MINIMUM_PROJECT_TEXT_CONTRAST
+  ) return [readableFirst, readableSecond]
+
+  const backgroundLuminance = getRelativeLuminance(hexToRgb(normalizedBackground))
+  const target = backgroundLuminance > 0.45 ? '#000000' : '#ffffff'
+  const targetRgb = hexToRgb(target)
+  const readableFirstRgb = hexToRgb(readableFirst)
+  const readableSecondRgb = hexToRgb(readableSecond)
+
+  for (let amount = 0.05; amount <= 1; amount += 0.05) {
+    const candidateFirst = rgbToHex(mixRgb(readableFirstRgb, targetRgb, amount))
+    const candidateSecond = rgbToHex(mixRgb(readableSecondRgb, targetRgb, amount))
+
+    if (
+      getProjectGradientMinimumContrast(candidateFirst, candidateSecond, normalizedBackground) >=
+      MINIMUM_PROJECT_TEXT_CONTRAST
+    ) return [candidateFirst, candidateSecond]
+  }
+
+  return [target, target]
 }
 
 const toHslChannels = (value: string) => {
@@ -128,9 +187,26 @@ export const getProjectBrandStyle = (brand?: ProjectBrandPalette) => {
   const primary = normalizeHex(palette.primary)
   const secondary = normalizeHex(palette.secondary)
   const surface = normalizeHex(palette.surface)
-  const onSurface = getProjectColorContrast('#ffffff', surface) >= 4.5 ? '#ffffff' : '#000000'
-  const primaryOnLight = getReadableProjectColor(primary, LIGHT_CANVAS)
-  const primaryOnDark = getReadableProjectColor(primary, DARK_CANVAS)
+
+  const onSurface = getProjectColorContrast('#ffffff', surface) >=
+    MINIMUM_PROJECT_TEXT_CONTRAST ?
+    '#ffffff' :
+    '#000000'
+
+  const primaryOnLight = getReadableProjectColor(primary, PROJECT_LIGHT_CANVAS)
+  const primaryOnDark = getReadableProjectColor(primary, PROJECT_DARK_CANVAS)
+
+  const [titlePrimaryOnLight, titleSecondaryOnLight] = getReadableProjectGradientColors(
+    primary,
+    secondary,
+    PROJECT_LIGHT_CANVAS
+  )
+
+  const [titlePrimaryOnDark, titleSecondaryOnDark] = getReadableProjectGradientColors(
+    primary,
+    secondary,
+    PROJECT_DARK_CANVAS
+  )
 
   return [
     `--project-primary: ${toHslChannels(primary)}`,
@@ -138,6 +214,10 @@ export const getProjectBrandStyle = (brand?: ProjectBrandPalette) => {
     `--project-surface: ${toHslChannels(surface)}`,
     `--project-on-surface: ${toHslChannels(onSurface)}`,
     `--project-primary-readable: ${toHslChannels(primaryOnLight)}`,
-    `--project-primary-readable-dark: ${toHslChannels(primaryOnDark)}`
+    `--project-primary-readable-dark: ${toHslChannels(primaryOnDark)}`,
+    `--project-title-primary-readable: ${titlePrimaryOnLight}`,
+    `--project-title-secondary-readable: ${titleSecondaryOnLight}`,
+    `--project-title-primary-readable-dark: ${titlePrimaryOnDark}`,
+    `--project-title-secondary-readable-dark: ${titleSecondaryOnDark}`
   ].join('; ')
 }

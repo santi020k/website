@@ -3,7 +3,7 @@ import path from 'node:path'
 
 import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
-import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap'
+import sitemap from '@astrojs/sitemap'
 import {
   santi020kDarkShikiTheme,
   santi020kLightShikiTheme
@@ -132,6 +132,10 @@ const buildContentSitemapMetadata = () => {
 
       if (!data || data.draft === true) continue
 
+      const publishDate = toIso(data.publishDate)
+
+      if (publishDate && new Date(publishDate) > new Date()) continue
+
       const relative = path.relative(path.resolve('src/content/post'), file).replace(/\\/g, '/')
       const id = relative.replace(/\.mdx?$/, '')
       const slug = getPostSlug(id)
@@ -222,53 +226,25 @@ export default defineConfig({
         !page.endsWith('/404/') &&
         !nonCanonicalPageUrls.has(page),
       serialize(item) {
-        const url = item.url
-        const contentLastmod = contentLastmodMap.get(url)
-        const next: typeof item = contentLastmod ? { ...item, lastmod: contentLastmod } : { ...item }
+        const contentLastmod = contentLastmodMap.get(item.url)
 
-        // Homepage — highest priority, changes frequently
-        if (url === 'https://santi020k.com/' || url === 'https://santi020k.com') {
-          return { ...next, changefreq: ChangeFreqEnum.DAILY, priority: 1.0 }
-        }
-
-        // Section indexes — important landing pages, checked weekly
-        if (
-          url === 'https://santi020k.com/blog/' ||
-          url === 'https://santi020k.com/portfolio/'
-        ) {
-          return { ...next, changefreq: ChangeFreqEnum.WEEKLY, priority: 0.9 }
-        }
-
-        // Individual blog posts — high value, rarely change after publishing
-        if (url.includes('/blog/')) {
-          return { ...next, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.8 }
-        }
-
-        // Individual portfolio/project pages
-        if (url.includes('/portfolio/')) {
-          return { ...next, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.8 }
-        }
-
-        // About & Speaking — important but stable
-        if (url.includes('/about') || url.includes('/speaking')) {
-          return { ...next, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.6 }
-        }
-
-        // Technology index and detail pages
-        if (url.includes('/technologies/')) {
-          return { ...next, changefreq: ChangeFreqEnum.WEEKLY, priority: 0.5 }
-        }
-
-        // Uses, offline, 404 and everything else — low priority, stable
-        return { ...next, changefreq: ChangeFreqEnum.MONTHLY, priority: 0.5 }
+        return contentLastmod ? { ...item, lastmod: contentLastmod } : item
       }
     }),
     mdx(),
     robotsTxt({
       // The search-index.json blob is intended for the in-page site search and
       // duplicates content already crawlable from posts/projects. Keep it out
-      // of search results so listings stay clean.
-      policy: [{ userAgent: '*', allow: '/', disallow: ['/search-index.json'] }],
+      // of search results so listings stay clean. Search-specific AI crawlers
+      // are allowed explicitly so Cloudflare's separate training opt-out does
+      // not accidentally remove the site from cited answer experiences.
+      policy: [
+        { userAgent: 'OAI-SearchBot', allow: '/', disallow: ['/search-index.json'] },
+        { userAgent: 'PerplexityBot', allow: '/', disallow: ['/search-index.json'] },
+        { userAgent: 'Claude-SearchBot', allow: '/', disallow: ['/search-index.json'] },
+        { userAgent: 'Claude-User', allow: '/', disallow: ['/search-index.json'] },
+        { userAgent: '*', allow: '/', disallow: ['/search-index.json'] }
+      ],
       sitemap: 'https://santi020k.com/sitemap.xml'
     }),
     webmanifest({

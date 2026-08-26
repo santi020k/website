@@ -133,7 +133,7 @@
   "license": "SEE LICENSE IN LICENSE",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,md,mdx,json}": [
-      "eslint --fix --max-warnings=0"
+      "eslint --fix --max-warnings=0 --no-warn-ignored"
     ],
     "*.{md,mdx}": [
       "cspell --quiet --no-must-find-files"

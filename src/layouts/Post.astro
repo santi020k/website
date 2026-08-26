@@ -21,7 +21,11 @@ import { ScrollProgress } from '@santi020k/lumen-astro'
 import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
-import { createAuthorSchema } from '@/site.config'
+import {
+  createAuthorSchema,
+  createPublisherSchema,
+  createWebsiteSchemaReference
+} from '@/site.config'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -57,7 +61,8 @@ const blogPostingSchema: Record<string, unknown> = {
   image: ogImage,
   url: canonicalURL.href,
   author: createAuthorSchema(Astro.site),
-  publisher: createAuthorSchema(Astro.site),
+  publisher: createPublisherSchema(Astro.site),
+  isPartOf: createWebsiteSchemaReference(Astro.site),
   mainEntityOfPage: {
     '@type': 'WebPage',
     '@id': canonicalURL.href

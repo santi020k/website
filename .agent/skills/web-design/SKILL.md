@@ -5,7 +5,7 @@ description: Design system, glass UI utilities, animations, and component patter
 
 # Web Design — santi020k
 
-Stack: **Astro 6 · Tailwind CSS v4 · Vanilla JS**.
+Stack: **Astro 7 · Tailwind CSS v4 · Vanilla JS**.
 Design tokens: `src/styles/partials/tokens.css`. Glass utilities: `src/styles/partials/utilities.css`. Animations: `src/styles/partials/animations.css`.
 
 **Aesthetic direction: minimalist glass UI.** Frosted-glass surfaces, subtle purple brand gradients, crisp type, spring-physics hover lifts, and scroll-triggered reveals. Never add decorative noise that fights the minimal structure. Use a single visible surface per content unit: do not place card, panel, shell, or mini-note surfaces inside other card-like surfaces.

@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import Pill from '@/components/atoms/Pill.astro'
 
-import { getPortfolioPath, getTechnologyPath } from '@/utils/links'
+import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectDateRangeLabel, getProjectStatusLabel } from '@/utils/project-meta'
@@ -115,7 +115,7 @@ const projectItems = projects.map(project => ({
             {projectItems[0].technologies.length > 0 && (
               <div class="mt-6 flex flex-wrap gap-2">
                 {projectItems[0].technologies.map(tech => (
-                  <Pill href={getTechnologyPath(tech)} label={tech} tone="outline" />
+                  <Pill label={tech} tone="outline" />
                 ))}
               </div>
             )}
