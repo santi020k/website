@@ -107,8 +107,8 @@ jobs:
           const archiveDirectory = resolve(process.env.RUNNER_TEMP, 'lumen-packages')
           const archives = await readdir(archiveDirectory)
           const candidate = packageName => {
-            const prefix = `santi020k-${packageName}-`
-            const found = archives.filter(name => name.startsWith(prefix) && name.endsWith('.tgz'))
+            const archivePattern = new RegExp(`^santi020k-${packageName}-\\d[^/]*\\.tgz$`, 'u')
+            const found = archives.filter(name => archivePattern.test(name))
             if (found.length !== 1) throw new Error(`Expected one ${packageName} archive; found ${found.length}.`)
             return `file:${resolve(archiveDirectory, found[0])}`
           }
