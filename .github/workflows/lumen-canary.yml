@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: lumen-astro-canary-${{ github.ref }}
+  group: lumen-astro-canary-${{ inputs.release_manifest_url || github.event.client_payload.release_manifest_url }}
   cancel-in-progress: true
 
 jobs:
@@ -99,7 +99,11 @@ jobs:
           import { resolve } from 'node:path'
 
           const path = 'pnpm-workspace.yaml'
-          const source = await readFile(path, 'utf8')
+          const packageManifestPath = 'package.json'
+          const [source, packageManifestSource] = await Promise.all([
+            readFile(path, 'utf8'),
+            readFile(packageManifestPath, 'utf8')
+          ])
           const pattern = /^(\s*["']@santi020k\/lumen-astro["']:)\s*.*$/mu
           const matches = source.match(new RegExp(pattern.source, 'gmu')) ?? []
           if (matches.length !== 1) throw new Error(`Expected one Lumen Astro catalog entry; found ${matches.length}.`)
@@ -122,16 +126,24 @@ jobs:
           const marker = /^overrides:\s*$/mu
           if (!marker.test(updated)) throw new Error('Missing overrides policy.')
           updated = updated.replace(marker, match => `${match}\n${Object.entries(candidates).map(([name, value]) => `  "${name}": "${value}"`).join('\n')}`)
-          await writeFile(path, updated)
+          const packageManifest = JSON.parse(packageManifestSource)
+          packageManifest.devDependencies = {
+            ...packageManifest.devDependencies,
+            '@santi020k/lumen': candidates['@santi020k/lumen']
+          }
+          await Promise.all([
+            writeFile(path, updated),
+            writeFile(packageManifestPath, JSON.stringify(packageManifest, null, 2) + '\n')
+          ])
           NODE
           pnpm install --no-frozen-lockfile
 
       - name: Exercise the v2 migration
         run: |
-          node .lumen-candidate/packages/lumen/bin/lumen.mjs migrate v2 --cwd src --dry-run
-          node .lumen-candidate/packages/lumen/bin/lumen.mjs migrate v2 --cwd src --apply
-          node .lumen-candidate/packages/lumen/bin/lumen.mjs migrate v2 --cwd src --dry-run
           rm -rf .lumen-candidate
+          pnpm exec lumen migrate v2 --cwd src --dry-run
+          pnpm exec lumen migrate v2 --cwd src --apply
+          pnpm exec lumen migrate v2 --cwd src --dry-run
 
       - name: Verify resolved adapter, umbrella, and core versions
         env:
