@@ -127,10 +127,12 @@ jobs:
           if (!marker.test(updated)) throw new Error('Missing overrides policy.')
           updated = updated.replace(marker, match => `${match}\n${Object.entries(candidates).map(([name, value]) => `  "${name}": "${value}"`).join('\n')}`)
           const packageManifest = JSON.parse(packageManifestSource)
-          packageManifest.devDependencies = {
-            ...packageManifest.devDependencies,
-            '@santi020k/lumen': candidates['@santi020k/lumen']
-          }
+          packageManifest.devDependencies = Object.fromEntries(
+            Object.entries({
+              ...packageManifest.devDependencies,
+              '@santi020k/lumen': candidates['@santi020k/lumen']
+            }).sort(([left], [right]) => left.localeCompare(right))
+          )
           await Promise.all([
             writeFile(path, updated),
             writeFile(packageManifestPath, JSON.stringify(packageManifest, null, 2) + '\n')
