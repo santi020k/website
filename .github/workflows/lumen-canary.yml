@@ -1,0 +1,205 @@
+name: Lumen Astro candidate
+
+on:
+  repository_dispatch:
+    types: [lumen-candidate]
+  workflow_dispatch:
+    inputs:
+      release_manifest_url:
+        description: Immutable HTTPS URL for the Lumen release manifest
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lumen-astro-canary-${{ inputs.release_manifest_url || github.event.client_payload.release_manifest_url }}
+  cancel-in-progress: true
+
+jobs:
+  candidate:
+    name: Astro consumer
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      LUMEN_RELEASE_MANIFEST_URL: ${{ inputs.release_manifest_url || github.event.client_payload.release_manifest_url }}
+    steps:
+      - name: Check out the maintained consumer
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        with:
+          version: 10.32.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6.2.0
+        with:
+          node-version: 24.x
+          cache: pnpm
+
+      - name: Read the candidate manifest
+        id: lumen
+        shell: bash
+        run: |
+          if [[ ! "$LUMEN_RELEASE_MANIFEST_URL" =~ ^https:// ]]; then
+            echo "::error title=Package policy::release_manifest_url must be an immutable HTTPS URL."
+            exit 1
+          fi
+          curl --fail --location --proto '=https' --retry 3 --tlsv1.2 \
+            "$LUMEN_RELEASE_MANIFEST_URL" --output "$RUNNER_TEMP/lumen-release-manifest.json"
+          node --input-type=module <<'NODE'
+          import { appendFile, readFile } from 'node:fs/promises'
+
+          const match = /^https:\/\/raw\.githubusercontent\.com\/santi020k\/lumen\/([0-9a-f]{40})\/registry\/release-manifest\.json$/.exec(process.env.LUMEN_RELEASE_MANIFEST_URL)
+          if (!match) throw new Error('Use the canonical exact-revision raw Lumen release manifest URL.')
+
+          const manifest = JSON.parse(await readFile(process.env.RUNNER_TEMP + '/lumen-release-manifest.json', 'utf8'))
+          const packages = manifest.release?.npm?.packages
+          const required = ['@santi020k/lumen-astro', '@santi020k/lumen', '@santi020k/lumen-core']
+
+          if (manifest.schemaVersion !== 1 || !packages) throw new Error('Unsupported Lumen release manifest.')
+
+          const output = [`REVISION=${match[1]}`, ...required.map(name => {
+            const version = packages[name]?.version
+            if (!version) throw new Error(`Release manifest is missing ${name}.`)
+            return `${name.replace('@santi020k/lumen', '').replace('-', '').toUpperCase() || 'LUMEN'}_VERSION=${version}`
+          })]
+
+          await appendFile(process.env.GITHUB_OUTPUT, output.join('\n') + '\n')
+          NODE
+
+      - name: Check out the exact Lumen candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: santi020k/lumen
+          ref: ${{ steps.lumen.outputs.REVISION }}
+          path: .lumen-candidate
+          persist-credentials: false
+
+      - name: Pack the exact candidate packages
+        run: |
+          pnpm --dir .lumen-candidate install --frozen-lockfile
+          pnpm --dir .lumen-candidate run build
+          mkdir -p "$RUNNER_TEMP/lumen-packages"
+          for package_name in core lumen astro; do
+            pnpm --dir ".lumen-candidate/packages/$package_name" pack \
+              --pack-destination "$RUNNER_TEMP/lumen-packages"
+          done
+
+      - name: Select and install the exact candidate packages
+        env:
+          LUMEN_ASTRO_VERSION: ${{ steps.lumen.outputs.ASTRO_VERSION }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { readdir, readFile, writeFile } from 'node:fs/promises'
+          import { resolve } from 'node:path'
+
+          const path = 'pnpm-workspace.yaml'
+          const packageManifestPath = 'package.json'
+          const [source, packageManifestSource] = await Promise.all([
+            readFile(path, 'utf8'),
+            readFile(packageManifestPath, 'utf8')
+          ])
+          const pattern = /^(\s*["']@santi020k\/lumen-astro["']:)\s*.*$/mu
+          const matches = source.match(new RegExp(pattern.source, 'gmu')) ?? []
+          if (matches.length !== 1) throw new Error(`Expected one Lumen Astro catalog entry; found ${matches.length}.`)
+
+          const archiveDirectory = resolve(process.env.RUNNER_TEMP, 'lumen-packages')
+          const archives = await readdir(archiveDirectory)
+          const candidate = packageName => {
+            const archivePattern = new RegExp(`^santi020k-${packageName}-\\d[^/]*\\.tgz$`, 'u')
+            const found = archives.filter(name => archivePattern.test(name))
+            if (found.length !== 1) throw new Error(`Expected one ${packageName} archive; found ${found.length}.`)
+            return `file:${resolve(archiveDirectory, found[0])}`
+          }
+          const candidates = {
+            '@santi020k/lumen-astro': candidate('lumen-astro'),
+            '@santi020k/lumen-core': candidate('lumen-core'),
+            '@santi020k/lumen': candidate('lumen')
+          }
+
+          let updated = source.replace(pattern, `$1 "${candidates['@santi020k/lumen-astro']}"`)
+          const marker = /^overrides:\s*$/mu
+          if (!marker.test(updated)) throw new Error('Missing overrides policy.')
+          updated = updated.replace(marker, match => `${match}\n${Object.entries(candidates).map(([name, value]) => `  "${name}": "${value}"`).join('\n')}`)
+          const packageManifest = JSON.parse(packageManifestSource)
+          packageManifest.devDependencies = Object.fromEntries(
+            Object.entries({
+              ...packageManifest.devDependencies,
+              '@santi020k/lumen': candidates['@santi020k/lumen']
+            }).sort(([left], [right]) => left.localeCompare(right))
+          )
+          await Promise.all([
+            writeFile(path, updated),
+            writeFile(packageManifestPath, JSON.stringify(packageManifest, null, 2) + '\n')
+          ])
+          NODE
+          pnpm install --no-frozen-lockfile
+
+      - name: Exercise the v2 migration
+        run: |
+          rm -rf .lumen-candidate
+          pnpm exec lumen migrate v2 --cwd src --dry-run
+          pnpm exec lumen migrate v2 --cwd src --apply
+          pnpm exec lumen migrate v2 --cwd src --dry-run
+
+      - name: Verify resolved adapter, umbrella, and core versions
+        env:
+          ASTRO_VERSION: ${{ steps.lumen.outputs.ASTRO_VERSION }}
+          CORE_VERSION: ${{ steps.lumen.outputs.CORE_VERSION }}
+          LUMEN_VERSION: ${{ steps.lumen.outputs.LUMEN_VERSION }}
+        run: |
+          pnpm list @santi020k/lumen-astro @santi020k/lumen @santi020k/lumen-core \
+            --json --depth Infinity > "$RUNNER_TEMP/lumen-resolution.json"
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs'
+
+          const tree = JSON.parse(readFileSync(process.env.RUNNER_TEMP + '/lumen-resolution.json', 'utf8'))
+          const expected = new Map([
+            ['@santi020k/lumen-astro', process.env.ASTRO_VERSION],
+            ['@santi020k/lumen', process.env.LUMEN_VERSION],
+            ['@santi020k/lumen-core', process.env.CORE_VERSION]
+          ])
+          const found = new Map([...expected.keys()].map(name => [name, new Set()]))
+
+          const visit = value => {
+            if (!value || typeof value !== 'object') return
+            for (const [key, child] of Object.entries(value)) {
+              if (found.has(key) && child && typeof child === 'object' && typeof child.version === 'string') {
+                found.get(key).add(child.version)
+              }
+              visit(child)
+            }
+          }
+          visit(tree)
+
+          for (const [name, version] of expected) {
+            const versions = [...found.get(name)]
+            if (versions.length !== 1 || versions[0] !== version) {
+              throw new Error(`${name} resolved ${versions.join(', ') || 'nothing'}; expected ${version}.`)
+            }
+          }
+          NODE
+
+      - name: Install the browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run the complete consumer gate
+        run: pnpm run ci:verify
+
+      - name: Record canary classification
+        if: always()
+        run: |
+          {
+            echo '### Lumen Astro consumer canary'
+            echo '- Package policy: canonical manifest, exact revision checkout, and local candidate tarballs'
+            echo '- Resolution: adapter, umbrella, and core checked separately'
+            echo '- Migration: dry-run, apply, and idempotent follow-up against the exact candidate'
+            echo "- Complete gate: \`pnpm run ci:verify\`"
+            echo '- Browser/accessibility: Playwright, Lighthouse, and the repository E2E suite'
+            echo '- Device: not applicable to this Astro consumer'
+          } >> "$GITHUB_STEP_SUMMARY"
