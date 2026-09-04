@@ -7,7 +7,12 @@ import { getGitLastModified } from '@/utils/git'
 
 import { ButtonLink, Icon, Link } from '@santi020k/lumen-astro'
 
-import { AUTHOR_JOB_TITLE, createAuthorSchema, siteConfig } from '@/site.config'
+import {
+  AUTHOR_JOB_TITLE,
+  CAREER_START_YEAR,
+  createAuthorSchema,
+  siteConfig
+} from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const workProjects = allProjects.filter(p => p.data.typesId === 'professional').slice(0, 4)
@@ -16,6 +21,10 @@ const communityWork = allProjects.filter(p => p.data.typesId === 'community')
 // the edge, so cache busting does not need to create a new query URL per build.
 const resumePdfPath = '/pdf/cv.pdf'
 const resumeDateCreated = '2024-01-01T00:00:00.000Z'
+
+const resumeDescription =
+  `View ${siteConfig.author}'s resume: ${new Date().getFullYear() - CAREER_START_YEAR}+ years leading full-stack products, ` +
+  'software architecture, delivery automation, and developer experience from Medellín.'
 
 const resumeDateModified = getGitLastModified([
   'scripts/py/cv.md',
@@ -32,7 +41,7 @@ const resumePageSchema = {
   mainEntity: {
     ...createAuthorSchema(Astro.site),
     jobTitle: AUTHOR_JOB_TITLE,
-    description: siteConfig.description,
+    description: resumeDescription,
     mainEntityOfPage: new URL('/resume/', Astro.site ?? 'https://santi020k.com').href
   }
 }
@@ -41,10 +50,7 @@ const resumePageSchema = {
 <PageLayout
   footerVariant="compact"
   meta={{
-    description: [
-      'Engineering leader and full-stack architect resume.',
-      `Explore ${siteConfig.author}'s professional experience, technical skills, and community leadership.`
-    ].join(' '),
+    description: resumeDescription,
     structuredData: resumePageSchema,
     title: 'Resume & Curriculum Vitae'
   }}
@@ -83,7 +89,7 @@ const resumePageSchema = {
           {siteConfig.author}
         </h1>
         <p class="mt-2 text-xl text-brand">{AUTHOR_JOB_TITLE}</p>
-        <p class="mt-4 max-w-2xl text-ink-soft">{siteConfig.description}</p>
+        <p class="mt-4 max-w-2xl text-ink-soft">{resumeDescription}</p>
       </div>
       <div class="
         space-y-2 text-left text-sm text-ink-soft

@@ -19,10 +19,10 @@ export const homeSocialPage: SocialPageDefinition = {
 export const staticSocialPages: SocialPageDefinition[] = [
   {
     description:
-      `${YEARS_OF_EXPERIENCE} years shipping full-stack products. ` +
-      'Engineering leader and full-stack architect based in Medellín focused on automation, developer experience, and cross-functional leadership.',
+      `Santiago Molina is a Medellín-based engineering leader and full-stack architect with ${YEARS_OF_EXPERIENCE} years ` +
+      'building products, delivery systems, and developer teams.',
     pathname: '/about/',
-    title: 'About Santiago Molina - Engineering Leader',
+    title: 'About Santiago Molina — Engineering Leader',
     type: 'About'
   },
   {

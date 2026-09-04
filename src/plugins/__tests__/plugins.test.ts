@@ -22,7 +22,7 @@ interface AstroVFile extends VFile {
   }
 }
 
-interface AdmonitionData {
+interface AdmonitionData extends NonNullable<Paragraph['data']> {
   hName: string
   hProperties: Record<string, string | string[] | undefined>
 }

@@ -3,7 +3,7 @@ import { Icon as AstroIcon } from 'astro-icon/components'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 
-import { Button, Card, Icon } from '@santi020k/lumen-astro'
+import { Card, CopyButton, Icon } from '@santi020k/lumen-astro'
 
 import { siteConfig } from '@/site.config'
 
@@ -217,9 +217,7 @@ const contactChannels = [
                       </a>
                       {label === 'Email' && (
                         <>
-                          <span aria-live="polite" class="sr-only" data-copy-announce />
-                          <Button
-                            aria-label="Copy email address"
+                          <CopyButton
                             class="
                               inline-flex size-7 shrink-0 items-center
                               justify-center rounded-lg border border-line/50
@@ -230,14 +228,14 @@ const contactChannels = [
                               focus-visible:outline-brand
                               motion-reduce:transition-none
                             "
-                            data-copy-email={value}
-                            size="icon"
-                            type="button"
-                            variant="ghost"
+                            copiedLabel="Email address copied"
+                            errorLabel="Could not copy email address"
+                            label="Copy email address"
+                            value={value}
                           >
                             <Icon class="size-3.5" data-copy-icon name="copy" />
                             <Icon class="hidden size-3.5" data-check-icon name="check" />
-                          </Button>
+                          </CopyButton>
                         </>
                       )}
                     </div>
@@ -256,48 +254,17 @@ const contactChannels = [
     </section>
   )}
 
-<script>
-  const setupCopyEmail = function () {
-    document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const email = btn.dataset.copyEmail
-
-        if (!email) return
-
-        try {
-          await navigator.clipboard.writeText(email)
-
-          const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
-          const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
-          const announce = btn.parentElement?.querySelector<HTMLElement>('[data-copy-announce]')
-
-          if (copyIcon && checkIcon) {
-            copyIcon.classList.add('hidden')
-
-            checkIcon.classList.remove('hidden')
-
-            btn.setAttribute('aria-label', 'Copied!')
-
-            if (announce) announce.textContent = 'Email address copied!'
-
-            setTimeout(() => {
-              copyIcon.classList.remove('hidden')
-
-              checkIcon.classList.add('hidden')
-
-              btn.setAttribute('aria-label', 'Copy email address')
-
-              if (announce) announce.textContent = ''
-            }, 2000)
-          }
-        } catch {
-          // clipboard API unavailable — silently ignore
-        }
-      })
-    })
+<style>
+  [data-ui-copy-button][data-state='copied'] [data-copy-icon] {
+    display: none;
   }
 
-  setupCopyEmail()
+  [data-ui-copy-button][data-state='copied'] [data-check-icon] {
+    display: inline-flex;
+  }
 
-  document.addEventListener('astro:after-swap', setupCopyEmail)
-</script>
+  [data-ui-copy-button][data-state='error'] {
+    border-color: hsl(var(--danger));
+    color: hsl(var(--danger));
+  }
+</style>

@@ -18,8 +18,8 @@
       "title": "Engineering Leader & Full-Stack Architect"
     },
     "/about/": {
-      "alt": "About Santiago Molina - Engineering Leader — Santiago Molina",
-      "description": "12+ years shipping full-stack products. Senior engineer and tech lead based in Medellin focused on automation, developer experience, and cross-functional leadership.",
+      "alt": "About Santiago Molina — Engineering Leader — Santiago Molina",
+      "description": "Santiago Molina is a Medellín-based engineering leader and full-stack architect with 12+ years building products, delivery systems, and developer teams.",
       "images": [
         {
           "format": "webp",
@@ -31,7 +31,7 @@
         }
       ],
       "pathname": "/about/",
-      "title": "About Santiago Molina - Engineering Leader"
+      "title": "About Santiago Molina — Engineering Leader"
     },
     "/blog/": {
       "alt": "Software Engineering Blog - Santiago Molina — Santiago Molina",
@@ -768,6 +768,22 @@
       ],
       "pathname": "/blog/playwright-accessibility-checks-that-teams-keep-running/",
       "title": "Playwright Accessibility Checks That Teams Keep Running"
+    },
+    "/blog/postlens-private-on-device-content-studio/": {
+      "alt": "PostLens: A private on-device content studio — Santiago Molina",
+      "description": "Why PostLens keeps selection, scoring, enhancement, composition, and caption preparation on the iPhone while making optional generative handoffs explicit.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/postlens-private-on-device-content-studio.webp",
+          "primary": true,
+          "url": "/og/blog/postlens-private-on-device-content-studio.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/postlens-private-on-device-content-studio/",
+      "title": "PostLens: A private on-device content studio"
     },
     "/blog/shipping-macos-tools-with-a-homebrew-tap/": {
       "alt": "Shipping macOS tools with a personal Homebrew tap — Santiago Molina",
@@ -2177,6 +2193,86 @@
       "pathname": "/blog/tags/playwright/",
       "title": "Playwright posts"
     },
+    "/blog/tags/ios/": {
+      "alt": "iOS posts — Santiago Molina",
+      "description": "Explore iOS posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--ios.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--ios.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/ios/",
+      "title": "iOS posts"
+    },
+    "/blog/tags/swiftui/": {
+      "alt": "Swiftui posts — Santiago Molina",
+      "description": "Explore Swiftui posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--swiftui.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--swiftui.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/swiftui/",
+      "title": "Swiftui posts"
+    },
+    "/blog/tags/on-device-ai/": {
+      "alt": "On device AI posts — Santiago Molina",
+      "description": "Explore On device AI posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--on-device-ai.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--on-device-ai.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/on-device-ai/",
+      "title": "On device AI posts"
+    },
+    "/blog/tags/privacy/": {
+      "alt": "Privacy posts — Santiago Molina",
+      "description": "Explore Privacy posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--privacy.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--privacy.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/privacy/",
+      "title": "Privacy posts"
+    },
+    "/blog/tags/photography/": {
+      "alt": "Photography posts — Santiago Molina",
+      "description": "Explore Photography posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--photography.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--photography.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/photography/",
+      "title": "Photography posts"
+    },
     "/blog/tags/release-engineering/": {
       "alt": "Release engineering posts — Santiago Molina",
       "description": "Explore Release engineering posts on architecture, automation, DX, and engineering workflow.",
@@ -2225,22 +2321,6 @@
       "pathname": "/blog/tags/product-engineering/",
       "title": "Product engineering posts"
     },
-    "/blog/tags/swiftui/": {
-      "alt": "Swiftui posts — Santiago Molina",
-      "description": "Explore Swiftui posts on architecture, automation, DX, and engineering workflow.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--swiftui.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--swiftui.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/swiftui/",
-      "title": "Swiftui posts"
-    },
     "/blog/tags/android/": {
       "alt": "Android posts — Santiago Molina",
       "description": "Explore Android posts on architecture, automation, DX, and engineering workflow.",
@@ -2256,22 +2336,6 @@
       ],
       "pathname": "/blog/tags/android/",
       "title": "Android posts"
-    },
-    "/blog/tags/privacy/": {
-      "alt": "Privacy posts — Santiago Molina",
-      "description": "Explore Privacy posts on architecture, automation, DX, and engineering workflow.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--privacy.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--privacy.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/privacy/",
-      "title": "Privacy posts"
     },
     "/blog/tags/flat-config/": {
       "alt": "Flat config posts — Santiago Molina",
@@ -2624,6 +2688,30 @@
       ],
       "pathname": "/portfolio/pads/",
       "title": "PADS"
+    },
+    "/portfolio/postlens/": {
+      "alt": "PostLens — Santiago Molina",
+      "description": "Built an iPhone-first private visual content studio for selecting strong photos, applying transparent on-device enhancements, composing layouts, and exporting social-ready work.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/postlens-logo.webp",
+          "primary": true,
+          "url": "/og/portfolio/postlens-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/postlens.webp",
+          "primary": false,
+          "url": "/og/portfolio/postlens.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/postlens/",
+      "title": "PostLens"
     },
     "/portfolio/quality/": {
       "alt": "quality — Santiago Molina",
@@ -5064,6 +5152,182 @@
       ],
       "pathname": "/technologies/react-navigation/",
       "title": "React Navigation · Technology"
+    },
+    "/technologies/photokit/": {
+      "alt": "PhotoKit · Technology — Santiago Molina",
+      "description": "Projects and case studies where PhotoKit shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--PhotoKit.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--PhotoKit.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/photokit/",
+      "title": "PhotoKit · Technology"
+    },
+    "/technologies/photospicker/": {
+      "alt": "PhotosPicker · Technology — Santiago Molina",
+      "description": "Projects and case studies where PhotosPicker shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--PhotosPicker.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--PhotosPicker.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/photospicker/",
+      "title": "PhotosPicker · Technology"
+    },
+    "/technologies/vision/": {
+      "alt": "Vision · Technology — Santiago Molina",
+      "description": "Projects and case studies where Vision shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Vision.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Vision.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/vision/",
+      "title": "Vision · Technology"
+    },
+    "/technologies/core-image/": {
+      "alt": "Core Image · Technology — Santiago Molina",
+      "description": "Projects and case studies where Core Image shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Core~20Image.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Core~20Image.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/core-image/",
+      "title": "Core Image · Technology"
+    },
+    "/technologies/foundation-models/": {
+      "alt": "Foundation Models · Technology — Santiago Molina",
+      "description": "Projects and case studies where Foundation Models shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Foundation~20Models.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Foundation~20Models.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/foundation-models/",
+      "title": "Foundation Models · Technology"
+    },
+    "/technologies/image-playground/": {
+      "alt": "Image Playground · Technology — Santiago Molina",
+      "description": "Projects and case studies where Image Playground shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Image~20Playground.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Image~20Playground.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/image-playground/",
+      "title": "Image Playground · Technology"
+    },
+    "/technologies/storekit/": {
+      "alt": "StoreKit · Technology — Santiago Molina",
+      "description": "Projects and case studies where StoreKit shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--StoreKit.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--StoreKit.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/storekit/",
+      "title": "StoreKit · Technology"
+    },
+    "/technologies/privacy-engineering/": {
+      "alt": "Privacy Engineering · Technology — Santiago Molina",
+      "description": "Projects and case studies where Privacy Engineering shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Privacy~20Engineering.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Privacy~20Engineering.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/privacy-engineering/",
+      "title": "Privacy Engineering · Technology"
+    },
+    "/technologies/on-device-ai/": {
+      "alt": "On-device AI · Technology — Santiago Molina",
+      "description": "Projects and case studies where On-device AI shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--On-device~20AI.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--On-device~20AI.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/on-device-ai/",
+      "title": "On-device AI · Technology"
+    },
+    "/technologies/image-processing/": {
+      "alt": "Image Processing · Technology — Santiago Molina",
+      "description": "Projects and case studies where Image Processing shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Image~20Processing.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Image~20Processing.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/image-processing/",
+      "title": "Image Processing · Technology"
+    },
+    "/technologies/localization/": {
+      "alt": "Localization · Technology — Santiago Molina",
+      "description": "Projects and case studies where Localization shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Localization.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Localization.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/localization/",
+      "title": "Localization · Technology"
     },
     "/technologies/rust/": {
       "alt": "Rust · Technology — Santiago Molina",

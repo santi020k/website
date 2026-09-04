@@ -121,7 +121,7 @@ test.describe('SEO — meta tags', () => {
     const priorityPages = [
       {
         path: '/',
-        title: 'Santiago Molina — Engineering Leader & Architect | santi020k'
+        title: 'Santiago Molina | santi020k'
       },
       {
         path: '/work/',
@@ -330,8 +330,16 @@ test.describe('SEO — JSON-LD structured data', () => {
 
     expect(websiteSchema).not.toBeNull()
     expect(websiteSchema.potentialAction?.['@type']).toBe('SearchAction')
-    expect(websiteSchema.name).toBe('Santiago Molina')
-    expect(websiteSchema.alternateName).toBe('santi020k')
+    expect(websiteSchema.name).toBe('santi020k')
+    expect(websiteSchema.alternateName).toBe('Santiago Molina')
+  })
+
+  test('WebSite site-name schema only appears on the domain homepage', async ({ page }) => {
+    await page.goto('/resume/')
+
+    const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+    expect(schemas).not.toContainEqual(expect.stringContaining('"@type":"WebSite"'))
   })
 
   test('homepage has a Person schema with an @id', async ({ page }) => {

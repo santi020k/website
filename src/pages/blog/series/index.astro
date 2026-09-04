@@ -8,6 +8,8 @@ import PageSection from '@/components/organisms/PageSection.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
+import { RevealGroup } from '@santi020k/lumen-astro'
+
 import { getSeriesSummaries } from '@/data/series'
 
 const seriesSummaries = await getSeriesSummaries()
@@ -65,16 +67,16 @@ const breadcrumbs = [
       title="Current series on the site."
     />
 
-    <div
+    <RevealGroup
       class="
         grid gap-6
         lg:grid-cols-2
       "
-      data-stagger="70"
+      stagger={70}
     >
       {activeSeries.map(item => (
         <SeriesCard postCount={item.postCount} series={item.series} />
       ))}
-    </div>
+    </RevealGroup>
   </PageSection>
 </PageLayout>

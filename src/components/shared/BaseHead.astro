@@ -56,7 +56,7 @@ const organizationLogoURL = new URL(logoSquareUrl, Astro.site ?? 'https://santi0
 const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
 
 const site = defineSite({
-  siteName: siteConfig.title,
+  siteName: siteConfig.siteName,
   siteUrl: Astro.site ?? 'https://santi020k.com/'
 })
 
@@ -98,14 +98,15 @@ const transform = (tags: readonly MetadataTag[]) => tags.map(tag => {
 })
 
 const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
+const isHomePage = Astro.url.pathname === '/'
 
 const websiteJsonLd = serializeJsonLd(webSiteSchema({
   id: createSchemaEntityId('website', Astro.site),
   inLanguage: siteConfig.lang,
-  name: siteConfig.author,
+  name: siteConfig.siteName,
   searchAction: { target: `${Astro.site?.href ?? 'https://santi020k.com/'}?q={search_term_string}` },
   url: Astro.site?.href ?? 'https://santi020k.com/'
-}, { alternateName: 'santi020k' }))
+}, { alternateName: siteConfig.author }))
 
 const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   serializeJsonLd(breadcrumbSchema(breadcrumbs.map(crumb => ({
@@ -188,11 +189,13 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 
 <meta name="generator" content={Astro.generator} />
 
-<script
-  type="application/ld+json"
-  is:inline
-  set:html={websiteJsonLd}
-/>
+{isHomePage && (
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={websiteJsonLd}
+  />
+)}
 
 <script
   type="application/ld+json"
@@ -221,7 +224,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
   is:inline
   set:html={serializeJsonLd(organizationSchema({
     id: createSchemaEntityId('organization', Astro.site),
-    name: siteConfig.title,
+    name: siteConfig.siteName,
     url: Astro.site?.href ?? 'https://santi020k.com/'
   }, {
     logo: {

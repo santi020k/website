@@ -3,7 +3,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Card } from '@santi020k/lumen-astro'
+import { Card, RevealGroup } from '@santi020k/lumen-astro'
 
 import { siteConfig } from '@/site.config'
 
@@ -67,14 +67,14 @@ const sections = [
       title="Terms & Conditions"
     />
 
-    <div class="page-card-grid" data-stagger="60">
+    <RevealGroup class="page-card-grid" stagger={60}>
       {sections.map(({ label, body }) => (
         <Card class="h-full p-5" variant="muted">
           <h2 class="section-label">{label}</h2>
           <p class="mt-3 text-sm/7 text-ink-soft">{body}</p>
         </Card>
       ))}
-    </div>
+    </RevealGroup>
 
     <section class="section-container-wide">
       <div class="cta-panel max-w-3xl">
