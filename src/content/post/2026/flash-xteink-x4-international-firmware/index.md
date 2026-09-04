@@ -124,7 +124,7 @@ without modifying anything:
 
 ```sh
 diskutil list external physical
-find /Volumes -maxdepth 1 -mindepth 1 -print
+ls -1 /Volumes
 ```
 
 My card mounted at `/Volumes/NO NAME`, but yours may have a different name. Verify the volume by checking its capacity
