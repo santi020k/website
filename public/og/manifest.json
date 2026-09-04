@@ -593,6 +593,22 @@
       "pathname": "/blog/astro-doctor-announcement/",
       "title": "Astro Doctor: A Health Check for Astro Codebases"
     },
+    "/blog/between-contractions-sync-critical-path/": {
+      "alt": "Between Contractions: Local-First Partner Sync — Santiago Molina",
+      "description": "How I designed optional cross-platform Partner Sync without making a contraction timer depend on the network, an account, or a central history database.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/between-contractions-sync-critical-path.webp",
+          "primary": true,
+          "url": "/og/blog/between-contractions-sync-critical-path.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/between-contractions-sync-critical-path/",
+      "title": "Between Contractions: Local-First Partner Sync"
+    },
     "/blog/building-aaronmgz-as-a-family-platform/": {
       "alt": "Building Aaronmgz as a family platform — Santiago Molina",
       "description": "How a nautical personal site became a shared family platform for messages, invitations, administration, and a long-lived digital home.",
@@ -1873,6 +1889,22 @@
       "pathname": "/blog/tags/open-source/",
       "title": "Open source posts"
     },
+    "/blog/tags/distributed-systems/": {
+      "alt": "Distributed systems posts — Santiago Molina",
+      "description": "Explore Distributed systems posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--distributed-systems.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--distributed-systems.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/distributed-systems/",
+      "title": "Distributed systems posts"
+    },
     "/blog/tags/cloudflare/": {
       "alt": "Cloudflare posts — Santiago Molina",
       "description": "Explore Cloudflare posts on architecture, automation, DX, and engineering workflow.",
@@ -1888,6 +1920,70 @@
       ],
       "pathname": "/blog/tags/cloudflare/",
       "title": "Cloudflare posts"
+    },
+    "/blog/tags/websockets/": {
+      "alt": "Websockets posts — Santiago Molina",
+      "description": "Explore Websockets posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--websockets.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--websockets.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/websockets/",
+      "title": "Websockets posts"
+    },
+    "/blog/tags/swiftui/": {
+      "alt": "Swiftui posts — Santiago Molina",
+      "description": "Explore Swiftui posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--swiftui.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--swiftui.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/swiftui/",
+      "title": "Swiftui posts"
+    },
+    "/blog/tags/android/": {
+      "alt": "Android posts — Santiago Molina",
+      "description": "Explore Android posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--android.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--android.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/android/",
+      "title": "Android posts"
+    },
+    "/blog/tags/local-first/": {
+      "alt": "Local first posts — Santiago Molina",
+      "description": "Explore Local first posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--local-first.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--local-first.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/local-first/",
+      "title": "Local first posts"
     },
     "/blog/tags/product-architecture/": {
       "alt": "Product architecture posts — Santiago Molina",
@@ -2209,22 +2305,6 @@
       "pathname": "/blog/tags/ios/",
       "title": "iOS posts"
     },
-    "/blog/tags/swiftui/": {
-      "alt": "Swiftui posts — Santiago Molina",
-      "description": "Explore Swiftui posts on architecture, automation, DX, and engineering workflow.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--swiftui.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--swiftui.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/swiftui/",
-      "title": "Swiftui posts"
-    },
     "/blog/tags/on-device-ai/": {
       "alt": "On device AI posts — Santiago Molina",
       "description": "Explore On device AI posts on architecture, automation, DX, and engineering workflow.",
@@ -2320,22 +2400,6 @@
       ],
       "pathname": "/blog/tags/product-engineering/",
       "title": "Product engineering posts"
-    },
-    "/blog/tags/android/": {
-      "alt": "Android posts — Santiago Molina",
-      "description": "Explore Android posts on architecture, automation, DX, and engineering workflow.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--android.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--android.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/android/",
-      "title": "Android posts"
     },
     "/blog/tags/flat-config/": {
       "alt": "Flat config posts — Santiago Molina",
