@@ -9,7 +9,7 @@ import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingTime } from '@/utils/reading-time'
 
-import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import { Card, Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
 
 interface Props {
   columns?: 2 | 3
@@ -53,7 +53,7 @@ const galleryItems = posts.map(createGalleryItem)
 
 <div>
   {galleryItems.length > 0 && (
-    <div
+    <RevealGroup
       class:list={[
         `
           grid gap-6
@@ -62,7 +62,7 @@ const galleryItems = posts.map(createGalleryItem)
         columns === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'
       ]}
       data-post-gallery-grid
-      data-stagger="45"
+      stagger={45}
     >
       {galleryItems.map((item, index) => (
         <Card
@@ -206,6 +206,6 @@ const galleryItems = posts.map(createGalleryItem)
           </Link>
         </Card>
       ))}
-    </div>
+    </RevealGroup>
   )}
 </div>

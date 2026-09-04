@@ -9,6 +9,15 @@ import { visit } from 'unist-util-visit'
 
 import type { AdmonitionType } from '../types/content'
 
+interface HastParagraphData extends NonNullable<P['data']> {
+  hName: string
+  hProperties: Properties
+}
+
+interface HastParagraph extends P {
+  data: HastParagraphData
+}
+
 // Supported admonition types
 const Admonitions = new Set<AdmonitionType>(['tip', 'note', 'important', 'caution', 'warning'])
 const isAdmonition = (s: string): s is AdmonitionType => Admonitions.has(s as AdmonitionType)
@@ -44,7 +53,7 @@ const transformUnhandledDirective = (
   }
 }
 
-const h = (el: string, attrs: Properties = {}, children: Node[] = []): P => {
+const h = (el: string, attrs: Properties = {}, children: Node[] = []): HastParagraph => {
   const { properties, tagName } = _h(el, attrs)
 
   return {

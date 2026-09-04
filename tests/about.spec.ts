@@ -11,12 +11,24 @@ test.describe('About page', () => {
   })
 
   test('should have the correct title and main heading', async ({ page }) => {
-    await expect(page).toHaveTitle(/About Santiago Molina/)
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    await expect(page).toHaveTitle('Santiago Molina — Engineering Leader | santi020k')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('I’m Santiago Molina.')
+  })
+
+  test('should identify Santiago Molina as the profile page main entity', async ({ page }) => {
+    const structuredData = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents()
+    const profileSchema = structuredData.find(schema => schema.includes('"@type":"ProfilePage"'))
+
+    expect(profileSchema).toBeDefined()
+    expect(profileSchema).toContain('"name":"Santiago Molina"')
+    expect(profileSchema).toContain('"alternateName":"santi020k"')
+    expect(profileSchema).toContain('"sameAs"')
   })
 
   test('should contain key sections', async ({ page }) => {
-    await expect(page.locator('#main').getByText('About Santiago Molina (@santi020k)', { exact: true })).toBeVisible()
+    await expect(page.locator('#main').getByText('Engineering leader · full-stack architect', { exact: true })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What I believe about engineering/i })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What collaborators say about the work/i })).toBeVisible()
     await expect(page.locator('.ui-note')).toHaveCount(3)

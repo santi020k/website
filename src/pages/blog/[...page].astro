@@ -22,7 +22,7 @@ import { getPostPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
 import { getAllTags } from '@/utils/tags'
 
-import { Card } from '@santi020k/lumen-astro'
+import { Card, RevealGroup } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
 import { createAuthorSchema, siteConfig, YEARS_OF_WRITING } from '@/site.config'
@@ -173,12 +173,12 @@ const blogListSchema = {
         title="A clearer home for my engineering principles."
       />
 
-      <div
+      <RevealGroup
         class="
           grid gap-6
           lg:grid-cols-[1.05fr_0.95fr]
         "
-        data-stagger="70"
+        stagger={70}
       >
         <Card
           as="article"
@@ -233,7 +233,7 @@ const blogListSchema = {
             build software teams, not only the framework-specific implementation details.
           </p>
         </Card>
-      </div>
+      </RevealGroup>
     </PageSection>
   )}
 
@@ -247,11 +247,11 @@ const blogListSchema = {
         title="Follow related posts in order."
       />
 
-      <div class="post-grid" data-stagger="60">
+      <RevealGroup class="post-grid" stagger={60}>
         {activeSeries.map(item => (
           <SeriesCard postCount={item.postCount} series={item.series} />
         ))}
-      </div>
+      </RevealGroup>
     </PageSection>
   )}
 

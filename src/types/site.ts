@@ -24,6 +24,8 @@ export interface SiteConfig {
 
   /** When true, show the slim availability banner under the header chrome. */
   showAvailabilityBanner?: boolean
+  /** Concise brand name preferred for search-result site names and social metadata. */
+  siteName: string
   contact: {
     email: string
     github: string

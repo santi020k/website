@@ -16,7 +16,7 @@ import SpeakerPortrait from '@/assets/photos/originals/me-1-square.webp'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { getPortfolioPath } from '@/utils/links'
 
-import { Card, Icon } from '@santi020k/lumen-astro'
+import { Card, Icon, RevealGroup } from '@santi020k/lumen-astro'
 
 import { speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
 import {
@@ -241,12 +241,12 @@ const structuredData = [
       eyebrow="Topics"
       title="What I speak about."
     />
-    <div
+    <RevealGroup
       class="
         grid gap-6
         sm:grid-cols-2
       "
-      data-stagger="70"
+      stagger={70}
     >
       {speakingTopics.map((topic, index) => (
         <TalkCard
@@ -256,7 +256,7 @@ const structuredData = [
           variant="topic"
         />
       ))}
-    </div>
+    </RevealGroup>
   </PageSection>
 
   <PageSection>
@@ -265,12 +265,12 @@ const structuredData = [
       eyebrow="Formats"
       title="Available formats."
     />
-    <div
+    <RevealGroup
       class="
         grid gap-6
         sm:grid-cols-2
       "
-      data-stagger="70"
+      stagger={70}
     >
       {speakingFormats.map((format, index) => (
         <TalkCard
@@ -280,7 +280,7 @@ const structuredData = [
           variant="format"
         />
       ))}
-    </div>
+    </RevealGroup>
   </PageSection>
 
   <PageSection>
@@ -298,12 +298,12 @@ const structuredData = [
       "
       glass="strong"
     >
-      <div
+      <RevealGroup
         class="
           grid gap-6
           sm:grid-cols-3
         "
-        data-stagger="60"
+        stagger={60}
       >
         {bookingNotes.map(note => (
           <div class="
@@ -319,7 +319,7 @@ const structuredData = [
             <p class="mt-3 text-sm/7 text-ink-soft">{note.value}</p>
           </div>
         ))}
-      </div>
+      </RevealGroup>
 
       <div
         class="

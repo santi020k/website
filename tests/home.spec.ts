@@ -28,11 +28,25 @@ const navigateFromMobileMenu = async (
   ])
 }
 
-test('homepage has correct title and main sections', async ({ page }) => {
+test('homepage has branded search metadata and main sections', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 })
   await page.goto('/')
 
-  await expect(page).toHaveTitle(/santi|Santi/)
+  await expect(page).toHaveTitle('Santiago Molina | santi020k')
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    /Santiago Molina, known online as santi020k/
+  )
+  await expect(page.getByText(/I’m Santiago Molina, known online as santi020k/)).toBeVisible()
+
+  const structuredData = await page
+    .locator('script[type="application/ld+json"]')
+    .allTextContents()
+  const homePageSchema = structuredData.find(schema => schema.includes('"@type":"WebPage"'))
+
+  expect(homePageSchema).toContain('"name":"Santiago Molina | santi020k"')
+  expect(homePageSchema).toContain('"alternateName":"santi020k"')
+  expect(homePageSchema).toContain('"@id":"https://santi020k.com/#person"')
 
   const mainMenu = page.getByRole('navigation', { name: 'Main menu' }).first()
 

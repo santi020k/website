@@ -11,7 +11,7 @@ import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
 
-import { Card, Input, Link, Toggle } from '@santi020k/lumen-astro'
+import { Card, Input, Link, RevealGroup, Toggle } from '@santi020k/lumen-astro'
 
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
@@ -92,14 +92,14 @@ const breadcrumbs = [
         Showing all {allTags.length} topics.
       </p>
 
-      <div
+      <RevealGroup
         class="
           grid gap-4
           sm:grid-cols-2
           lg:grid-cols-3
         "
         id="tags-list"
-        data-stagger="40"
+        stagger={40}
       >
         {allTags.map(([tag, count], i) => {
           const pct = allTags[0]?.[1] ? Math.round((count / allTags[0][1]) * 100) : 0
@@ -173,7 +173,7 @@ const breadcrumbs = [
             </span>
           )
         })}
-      </div>
+      </RevealGroup>
       <p
         class="
           rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm

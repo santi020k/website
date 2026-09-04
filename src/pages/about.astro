@@ -20,6 +20,7 @@ import { collaborationLanes, engineeringPrinciples, selectedOrganizations, testi
 import {
   AUTHOR_JOB_TITLE,
   createAuthorSchema,
+  createWebsiteSchemaReference,
   sameAsProfiles,
   siteConfig,
   YEARS_OF_EXPERIENCE
@@ -63,7 +64,7 @@ const profileStats = [
 ]
 
 const storyBeats = [
-  'I am Santiago Molina, a full-stack engineer and tech lead based in Medellín, Colombia. I have spent the last decade-plus shipping products across commerce, SaaS, gaming, real estate, and media.',
+  'Based in Medellín, Colombia, I have spent the last decade-plus shipping products across commerce, SaaS, gaming, real estate, and media.',
   'The connective tissue across that work is systems thinking: architecture that can evolve, delivery pipelines that make quality visible, and team habits that lower pressure instead of adding ceremony.',
   'I like being close to the product and close to the code. The best technical leadership I have seen is practical, calm, and specific enough that teams can move faster without guessing what “good” means.'
 ]
@@ -76,7 +77,7 @@ const workingModes = [
 
 const description =
   `Santiago Molina is a Medellín-based engineering leader and full-stack architect with ${yearsOfExperience} years ` +
-  'in architecture, automation, and developer experience.'
+  'building products, delivery systems, and developer teams.'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -85,21 +86,31 @@ const breadcrumbs = [
 
 const aboutPageSchema = {
   '@context': 'https://schema.org',
-  '@type': 'AboutPage',
+  '@type': 'ProfilePage',
   name: 'About Santiago Molina — Engineering Leader',
   description,
   url: new URL('/about/', Astro.site).href,
+  isPartOf: createWebsiteSchemaReference(Astro.site),
   mainEntity: {
     ...createAuthorSchema(Astro.site),
+    alternateName: 'santi020k',
     jobTitle: AUTHOR_JOB_TITLE,
-    description: siteConfig.description,
+    description,
+    image: new URL(aboutPortraitImage.src, Astro.site).href,
+    knowsAbout: [
+      'Full-Stack Engineering',
+      'Software Architecture',
+      'Technical Leadership',
+      'Developer Experience',
+      'Automation Systems'
+    ],
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Medellín',
       addressCountry: 'CO'
     },
     email: `mailto:${siteConfig.contact.email}`,
-    sameAs: sameAsProfiles.slice(0, 3)
+    sameAs: sameAsProfiles
   }
 }
 
@@ -112,6 +123,7 @@ const meta = {
     imagesrcset: aboutPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
+  seoTitle: 'Santiago Molina — Engineering Leader',
   structuredData: aboutPageSchema,
   title: 'About Santiago Molina — Engineering Leader'
 }
@@ -145,7 +157,7 @@ const meta = {
             animate-slide-up whitespace-normal
             motion-reduce:animate-none
           "
-          label="About Santiago Molina (@santi020k)"
+          label="Engineering leader · full-stack architect"
           tone="brand"
         />
 
@@ -163,7 +175,7 @@ const meta = {
               lg:text-[5.2rem]/[0.92]
             "
           >
-            I build calm systems for{' '}
+            I’m Santiago Molina. I build calm systems for{' '}
             <span class="
               block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
               pb-4 text-transparent

@@ -21,7 +21,7 @@ import {
   getProjectTypeLabel
 } from '@/utils/project-meta'
 
-import { ScrollProgress } from '@santi020k/lumen-astro'
+import { RevealGroup, ScrollProgress } from '@santi020k/lumen-astro'
 
 import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
 
@@ -153,17 +153,17 @@ const breadcrumbs = [
         title={projectRelatedHeading}
         variant="shelf"
       />
-      <div
+      <RevealGroup
         class:list={[
           'grid gap-6',
           relatedProjects.length > 1 && 'lg:grid-cols-2'
         ]}
-        data-stagger="70"
+        stagger={70}
       >
         {relatedProjects.map(relatedProject => (
           <PortfolioProjectSpotlight project={relatedProject} />
         ))}
-      </div>
+      </RevealGroup>
     </PageSection>
   )}
 

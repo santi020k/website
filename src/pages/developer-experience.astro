@@ -15,7 +15,7 @@ import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 
-import { Card } from '@santi020k/lumen-astro'
+import { Card, RevealGroup } from '@santi020k/lumen-astro'
 
 import {
   createAuthorSchema,
@@ -197,17 +197,17 @@ const breadcrumbs = [
       title="Make the feedback system explicit."
     />
 
-    <div
+    <RevealGroup
 class="
   grid gap-5
   sm:grid-cols-2
 "
-data-stagger="60"
+stagger={60}
     >
       {principles.map((principle, index) => (
         <PrincipleCard body={principle.body} index={index} title={principle.title} />
       ))}
-    </div>
+    </RevealGroup>
   </PageSection>
 
   <section
@@ -242,12 +242,12 @@ data-stagger="60"
       title="The practice behind the writing."
     />
 
-    <div
+    <RevealGroup
 class="
   grid gap-5
   lg:grid-cols-3
 "
-data-stagger="60"
+stagger={60}
     >
       <Card
 as="article"
@@ -282,6 +282,6 @@ variant="muted"
         </p>
         <ButtonLink href="/portfolio/lumen-ui/" showArrow variant="inline">Explore Lumen UI</ButtonLink>
       </Card>
-    </div>
+    </RevealGroup>
   </PageSection>
 </PageLayout>

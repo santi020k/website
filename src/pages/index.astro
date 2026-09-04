@@ -18,7 +18,12 @@ import { getPortfolioPath, getPostPath } from '@/utils/links'
 
 import { Card } from '@santi020k/lumen-astro'
 
-import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
+import {
+  createSchemaEntityId,
+  createWebsiteSchemaReference,
+  siteConfig,
+  YEARS_OF_EXPERIENCE
+} from '@/site.config'
 
 const [allProjects, allPosts] = await Promise.all([getCachedProjects(), getCachedPosts()])
 
@@ -38,6 +43,11 @@ const latestPosts = allPosts
 
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 
+const homeDescription =
+  'Santiago Molina, known online as santi020k, is an engineering leader and full-stack architect building modern systems and better developer experiences.'
+
+const homeUrl = new URL('/', Astro.site).href
+
 const heroPortraitImage = await getImage({
   format: 'avif',
   src: AboutMeImage,
@@ -47,6 +57,19 @@ const heroPortraitImage = await getImage({
 const homePageSchema = {
   '@context': 'https://schema.org',
   '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${homeUrl}#webpage`,
+      url: homeUrl,
+      name: siteConfig.title,
+      alternateName: 'santi020k',
+      description: homeDescription,
+      isPartOf: createWebsiteSchemaReference(Astro.site),
+      about: {
+        '@type': 'Person',
+        '@id': createSchemaEntityId('person', Astro.site)
+      }
+    },
     {
       '@type': 'ItemList',
       name: 'Work experience',
@@ -81,12 +104,12 @@ const homePageSchema = {
 }
 
 const meta = {
-  description: siteConfig.description,
+  description: homeDescription,
   preloadImage: {
     href: heroPortraitImage.src,
     type: 'image/avif'
   },
-  seoTitle: 'Santiago Molina — Engineering Leader & Architect',
+  seoTitle: siteConfig.title,
   structuredData: homePageSchema,
   title: 'Engineering Leader & Full-Stack Architect'
 }

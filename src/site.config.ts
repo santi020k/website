@@ -54,6 +54,7 @@ export const siteConfig: SiteConfig = {
     repoId: 'R_kgDOPRBHLw'
   },
   showAvailabilityBanner: false,
+  siteName: 'santi020k',
   socialLinks: [
     {
       href: 'https://linkedin.com/in/santi020k',

@@ -9,10 +9,10 @@ auditConfig:
     - CVE-2026-56876
 catalog:
   "@astrojs/check": ^0.9.10
-  "@astrojs/markdown-remark": ^7.2.4
-  "@astrojs/mdx": 7.0.8
+  "@astrojs/markdown-remark": ^7.3.0
+  "@astrojs/mdx": 8.0.0
   "@astrojs/rss": 4.0.19
-  "@astrojs/sitemap": 3.7.3
+  "@astrojs/sitemap": 3.7.4
   "@astrojs/ts-plugin": ^1.10.11
   "@axe-core/playwright": ^4.13.0
   "@changesets/changelog-github": ^1.0.0
@@ -24,7 +24,7 @@ catalog:
   "@playwright/test": ^1.62.1
   "@santi020k/commitprompt": ^1.1.0
   "@santi020k/eslint-config-full": 3.2.2
-  "@santi020k/lumen-astro": 1.6.0
+  "@santi020k/lumen-astro": 2.1.0
   "@santi020k/og": 1.1.1
   "@santi020k/theme": ^1.3.0
   "@shikijs/transformers": ^4.4.3
@@ -34,19 +34,19 @@ catalog:
   "@testing-library/jest-dom": ^7.0.1
   "@types/js-yaml": ^4.0.9
   "@types/mdast": ^4.0.4
-  "@vitest/coverage-v8": ^4.1.11
-  "@vitest/ui": ^4.1.11
-  astro: 7.2.6
+  "@vitest/coverage-v8": ^5.0.0
+  "@vitest/ui": ^5.0.0
+  astro: 7.3.1
   astro-icon: ^1.2.0
   astro-robots-txt: ^1.0.0
   astro-webmanifest: ^1.0.0
-  cspell: ^10.1.0
+  cspell: ^10.2.1
   eslint: ^10.9.0
-  fast-xml-parser: ^5.11.0
+  fast-xml-parser: ^5.11.1
   hastscript: ^9.0.1
-  js-yaml: ^5.3.0
+  js-yaml: ^5.4.1
   jsdom: ^30.0.1
-  lint-staged: ^17.3.0
+  lint-staged: ^17.4.1
   markdownlint-cli2: ^0.23.2
   mdast-util-directive: ^3.1.0
   mdast-util-to-markdown: ^2.1.2
@@ -59,20 +59,20 @@ catalog:
   remark-directive: ^4.0.0
   remark-parse: ^11.0.0
   remark-stringify: ^11.0.0
-  sharp: ^0.35.3
+  sharp: ^0.35.4
   tailwindcss: ^4.3.3
-  # Astro Check and the shared ESLint configuration do not support TypeScript 7 yet.
+  # TypeScript 7 does not yet expose the programmatic API required by Astro and MDX tooling.
   typescript: ^6.0.3
   unified: ^11.0.5
   unist-util-visit: ^5.1.0
   vfile: ^6.0.3
-  vitest: ^4.1.11
+  vitest: ^5.0.0
   wawoff2: ^2.0.1
 minimumReleaseAgeExclude:
   - "@santi020k/og"
-  - "@santi020k/lumen-astro@1.6.0"
-  - "@santi020k/lumen-core@1.4.0"
-  - "@santi020k/lumen@1.6.0"
+  - "@santi020k/lumen-astro@2.1.0"
+  - "@santi020k/lumen-core@2.1.0"
+  - "@santi020k/lumen@2.1.0"
   - "@santi020k/eslint-config-typescript"
 overrides:
   # Keep legacy build and release tooling on patched transitive versions until
@@ -82,7 +82,7 @@ overrides:
   "@lhci/cli>tmp": 0.2.7
   "@lhci/cli>uuid": 11.1.1
   "@lhci/utils>js-yaml": 3.15.1
-  astro-webmanifest>sharp: 0.35.3
+  astro-webmanifest>sharp: 0.35.4
   brace-expansion@<1.1.18: 1.1.18
   brace-expansion@>=2.0.0 <2.1.4: 2.1.4
   brace-expansion@>=4.0.0 <5.0.9: 5.0.9
