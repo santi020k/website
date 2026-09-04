@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.6.0
+
+### Minor Changes
+
+- [#139](https://github.com/santi020k/website/pull/139) [`d97d6e0`](https://github.com/santi020k/website/commit/d97d6e07a533f76ace4085350a4b3da24f9b095d) Thanks [@santi020k](https://github.com/santi020k)! - Publish the Between Contractions Partner Sync architecture deep dive with a compliant editorial cover and generated social metadata.
+
 ## 3.5.0
 
 ### Minor Changes
