@@ -292,7 +292,7 @@
     "blog/flash-xteink-x4-international-firmware.webp": {
       "baseDirectory": "public/og",
       "digest": "c26800a589ff969118ca861cdd4532056f78620f0f5eb761990618eac5b92580",
-      "fingerprint": "f8cb454955ae35c0e95a32adfcea181a7e649177884abd3a7a976f84883549cb",
+      "fingerprint": "c2a1c0aa35dc21663e184a4b76d1c8ef204a57cba1908300db3e1f0adb846d95",
       "output": "blog/flash-xteink-x4-international-firmware.webp"
     },
     "blog/lumen-ui-one-system-three-frameworks.webp": {
@@ -358,7 +358,7 @@
     "pages/blog--3.webp": {
       "baseDirectory": "public/og",
       "digest": "d8c9fb648215451667deb0b11e005d5c9567bdffeb58445b2880920c6f3ed73b",
-      "fingerprint": "3243714522d5aa4ee8b717840b23034f439f44379b7d10323137a345ec50bdb4",
+      "fingerprint": "418559410b5d73c8a5c952b767ab1891e588b1515f8833f9c33691bcff23660b",
       "output": "pages/blog--3.webp"
     },
     "pages/blog--4.webp": {
@@ -796,7 +796,7 @@
     "pages/blog--tags--hardware.webp": {
       "baseDirectory": "public/og",
       "digest": "188497c1f637b60a9646f001e765eb4970fda0c809488c5f4e8d4c3384a61f3f",
-      "fingerprint": "aed156dfb5de0b1b0e507368cb153388f41d6a62dc36b2b136707d3df50338b8",
+      "fingerprint": "8b8dce360694aab1fc35326bb6273a00d1cf69654298bcf21acf215e7b4819d7",
       "output": "pages/blog--tags--hardware.webp"
     },
     "pages/blog--tags--safety-engineering.webp": {
@@ -856,25 +856,25 @@
     "pages/blog--tags--xteink.webp": {
       "baseDirectory": "public/og",
       "digest": "e91b29095e41bd0d92dce7f9f386fcb6faa1fd5f5b1a252633d7a76ba2229972",
-      "fingerprint": "e8eb46098c93366a084e96bbb4bb62b32ac1b5595f40e1b8033d63d842678022",
+      "fingerprint": "e77d9869193b3e7c4961f736ebb2e93fadb16f20580c844cc26f00bd900d6486",
       "output": "pages/blog--tags--xteink.webp"
     },
     "pages/blog--tags--e-reader.webp": {
       "baseDirectory": "public/og",
       "digest": "325963f794abc51de65d70d07d70bc5e5c375b25372a1601f3a243ca7f0c2302",
-      "fingerprint": "d5fc0c62c19d63b961a819be15a6bae50bcb500421591b54e08094b8b46cf862",
+      "fingerprint": "b43c187bf999d3b625c3bc2ce973883d1dcad8867256e70d0ff570369ce44d34",
       "output": "pages/blog--tags--e-reader.webp"
     },
     "pages/blog--tags--firmware.webp": {
       "baseDirectory": "public/og",
       "digest": "79fbbe51d4864bfde8d187acf6be4007cdc0fbd7516cde5d100ead46be0a8b48",
-      "fingerprint": "e2d77eb7266a3294a4a086801f98df770eb7235e1f9215001e770db42aa42f68",
+      "fingerprint": "2c32707ef4b6f390985567a22325eb8c19df188f6ef6de63c70e99e56565d588",
       "output": "pages/blog--tags--firmware.webp"
     },
     "pages/blog--tags--troubleshooting.webp": {
       "baseDirectory": "public/og",
       "digest": "f1122878b15834c74882a8257b0b6715b153cfd5f0350c357d77b70a6bc5e2f5",
-      "fingerprint": "3f182601c5caade08a1ff725cc354d59aa54f90b0ccc6ed363b0f7a0ff8f338e",
+      "fingerprint": "c9b248f6b799c6eb848b317b10e70ca38443d7e419c05556b452d8b45b39f666",
       "output": "pages/blog--tags--troubleshooting.webp"
     },
     "pages/blog--tags--web-components.webp": {
