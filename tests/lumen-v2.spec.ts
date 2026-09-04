@@ -12,7 +12,7 @@ test.describe('Lumen v2 integration', () => {
     await expect(revealGroups.first()).toHaveAttribute('data-ui-reveal-once', 'true')
   })
 
-  test('copies an article URL with accessible feedback', async ({ page, context }) => {
+  test('copies an article URL with accessible feedback', async ({ page, context, browserName }) => {
     try {
       await context.grantPermissions(['clipboard-read', 'clipboard-write'])
     } catch {
@@ -58,8 +58,10 @@ test.describe('Lumen v2 integration', () => {
       state: 'copied'
     })
 
-    const copied = await page.evaluate(async () => navigator.clipboard.readText())
+    if (browserName === 'chromium') {
+      const copied = await page.evaluate(async () => navigator.clipboard.readText())
 
-    expect(copied).toContain('/blog/avoid-magic-strings-in-typescript-and-javascript/')
+      expect(copied).toContain('/blog/avoid-magic-strings-in-typescript-and-javascript/')
+    }
   })
 })

@@ -118,10 +118,10 @@ const staticSocialPages = [
   },
   {
     description:
-      `${yearsOfExperience} years shipping full-stack products. ` +
-      'Senior engineer and tech lead based in Medellin focused on automation, developer experience, and cross-functional leadership.',
+      `Santiago Molina is a Medellín-based engineering leader and full-stack architect with ${yearsOfExperience} years ` +
+      'building products, delivery systems, and developer teams.',
     pathname: '/about/',
-    title: 'About Santiago Molina - Engineering Leader',
+    title: 'About Santiago Molina — Engineering Leader',
     badge: 'About'
   },
   {
