@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.7.0
+
+### Minor Changes
+
+- [#141](https://github.com/santi020k/website/pull/141) [`bee723f`](https://github.com/santi020k/website/commit/bee723fb21953acf9fc026f982b70c352e276030) Thanks [@santi020k](https://github.com/santi020k)! - Publish the tested e-reader international firmware guide with safety boundaries, troubleshooting guidance, and generated social metadata.
+
 ## 3.6.0
 
 ### Minor Changes
