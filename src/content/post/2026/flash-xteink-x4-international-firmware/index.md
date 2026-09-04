@@ -2,7 +2,7 @@
 title: "How I Flashed International Firmware on an Xteink X4"
 description: "A tested guide to replacing Chinese Xteink X4 firmware with the international release by using its microSD updater when USB flashing is unavailable."
 publishDate: "2026-09-03T15:00:00.000Z"
-draft: true
+draft: false
 coverImage:
   alt: "A microSD card passing through three verification gates toward a compact e-paper reader"
   src: "./cover.webp"
