@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.5.0
+
+### Minor Changes
+
+- [#137](https://github.com/santi020k/website/pull/137) [`b69df14`](https://github.com/santi020k/website/commit/b69df1408d5d42ea6aae5724c6e8eafa88b72bcc) Thanks [@santi020k](https://github.com/santi020k)! - Publish the PostLens portfolio case study and deep-dive article with their generated social metadata, modernize the site on the latest compatible Astro, MDX, Vitest, Lumen UI, content, linting, and image-processing dependencies, and move the repository to pnpm 11 with patched transitive dependencies and explicit HAST/UNIST type contracts.
+
+- [#137](https://github.com/santi020k/website/pull/137) [`b69df14`](https://github.com/santi020k/website/commit/b69df1408d5d42ea6aae5724c6e8eafa88b72bcc) Thanks [@santi020k](https://github.com/santi020k)! - Upgrade the portfolio to Lumen UI 2.0, migrate the Astro runtime entrypoint, adopt accessible copy actions and reduced-motion-aware reveal groups, and preserve the existing Lumen component behavior across the site.
+
 ## 3.4.2
 
 ### Patch Changes
