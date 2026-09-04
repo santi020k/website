@@ -289,6 +289,12 @@
       "fingerprint": "b09531257cd7eaafd30e4bb6e80c567947996f42acd977b66b2d898a0510051d",
       "output": "blog/expanding-santi020k-theme-to-the-terminal.webp"
     },
+    "blog/flash-xteink-x4-international-firmware.webp": {
+      "baseDirectory": "public/og",
+      "digest": "c26800a589ff969118ca861cdd4532056f78620f0f5eb761990618eac5b92580",
+      "fingerprint": "f8cb454955ae35c0e95a32adfcea181a7e649177884abd3a7a976f84883549cb",
+      "output": "blog/flash-xteink-x4-international-firmware.webp"
+    },
     "blog/lumen-ui-one-system-three-frameworks.webp": {
       "baseDirectory": "public/og",
       "digest": "138c07be0ae97cb4a1b359e6bbed46373146cbc0c8a5479311389810f01e10d9",
@@ -352,13 +358,13 @@
     "pages/blog--3.webp": {
       "baseDirectory": "public/og",
       "digest": "d8c9fb648215451667deb0b11e005d5c9567bdffeb58445b2880920c6f3ed73b",
-      "fingerprint": "f4806d65a65eae2a99aee8a4291dda3d89df5090f59accb70f0af848d5700f7e",
+      "fingerprint": "3243714522d5aa4ee8b717840b23034f439f44379b7d10323137a345ec50bdb4",
       "output": "pages/blog--3.webp"
     },
     "pages/blog--4.webp": {
       "baseDirectory": "public/og",
       "digest": "68aab1404932a495bd71a3908cc93abeca18fdfe0aac9419210ee3af57ed02c6",
-      "fingerprint": "7f25f4ce397109bc212a59f39bd5e7b98b5a37e360b30dde67bdc4e2492f5ce4",
+      "fingerprint": "18dcff6119c6cb9f44261e6d866c581a9d8af713ad3d63e46dd4fda8608bb75f",
       "output": "pages/blog--4.webp"
     },
     "pages/blog--tags--development.webp": {
@@ -790,7 +796,7 @@
     "pages/blog--tags--hardware.webp": {
       "baseDirectory": "public/og",
       "digest": "188497c1f637b60a9646f001e765eb4970fda0c809488c5f4e8d4c3384a61f3f",
-      "fingerprint": "6bfcbaf02644db5f38462155396006e36f479e084dc8f66f55f22b04147bff77",
+      "fingerprint": "aed156dfb5de0b1b0e507368cb153388f41d6a62dc36b2b136707d3df50338b8",
       "output": "pages/blog--tags--hardware.webp"
     },
     "pages/blog--tags--safety-engineering.webp": {
@@ -846,6 +852,30 @@
       "digest": "40e5a6accd8594663b8ab9eb43963fb9426114fd105022330da8356a6c55941e",
       "fingerprint": "e33a175fd59f75a417a63d6f3a48291407db05f5f2175137ec1fe81b550433e2",
       "output": "pages/blog--tags--terminal.webp"
+    },
+    "pages/blog--tags--xteink.webp": {
+      "baseDirectory": "public/og",
+      "digest": "e91b29095e41bd0d92dce7f9f386fcb6faa1fd5f5b1a252633d7a76ba2229972",
+      "fingerprint": "e8eb46098c93366a084e96bbb4bb62b32ac1b5595f40e1b8033d63d842678022",
+      "output": "pages/blog--tags--xteink.webp"
+    },
+    "pages/blog--tags--e-reader.webp": {
+      "baseDirectory": "public/og",
+      "digest": "325963f794abc51de65d70d07d70bc5e5c375b25372a1601f3a243ca7f0c2302",
+      "fingerprint": "d5fc0c62c19d63b961a819be15a6bae50bcb500421591b54e08094b8b46cf862",
+      "output": "pages/blog--tags--e-reader.webp"
+    },
+    "pages/blog--tags--firmware.webp": {
+      "baseDirectory": "public/og",
+      "digest": "79fbbe51d4864bfde8d187acf6be4007cdc0fbd7516cde5d100ead46be0a8b48",
+      "fingerprint": "e2d77eb7266a3294a4a086801f98df770eb7235e1f9215001e770db42aa42f68",
+      "output": "pages/blog--tags--firmware.webp"
+    },
+    "pages/blog--tags--troubleshooting.webp": {
+      "baseDirectory": "public/og",
+      "digest": "f1122878b15834c74882a8257b0b6715b153cfd5f0350c357d77b70a6bc5e2f5",
+      "fingerprint": "3f182601c5caade08a1ff725cc354d59aa54f90b0ccc6ed363b0f7a0ff8f338e",
+      "output": "pages/blog--tags--troubleshooting.webp"
     },
     "pages/blog--tags--web-components.webp": {
       "baseDirectory": "public/og",

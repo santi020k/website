@@ -2,7 +2,7 @@
 title: "How I Flashed International Firmware on an Xteink X4"
 description: "A tested guide to replacing Chinese Xteink X4 firmware with the international release by using its microSD updater when USB flashing is unavailable."
 publishDate: "2026-09-03T15:00:00.000Z"
-draft: true
+draft: false
 coverImage:
   alt: "A microSD card passing through three verification gates toward a compact e-paper reader"
   src: "./cover.webp"
@@ -124,7 +124,7 @@ without modifying anything:
 
 ```sh
 diskutil list external physical
-find /Volumes -maxdepth 1 -mindepth 1 -print
+ls -1 /Volumes
 ```
 
 My card mounted at `/Volumes/NO NAME`, but yours may have a different name. Verify the volume by checking its capacity

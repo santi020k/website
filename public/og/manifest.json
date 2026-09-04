@@ -721,6 +721,22 @@
       "pathname": "/blog/expanding-santi020k-theme-to-the-terminal/",
       "title": "Expanding Santi020k Theme from editor to terminal"
     },
+    "/blog/flash-xteink-x4-international-firmware/": {
+      "alt": "How I Flashed International Firmware on an Xteink X4 — Santiago Molina",
+      "description": "A tested guide to replacing Chinese Xteink X4 firmware with the international release by using its microSD updater when USB flashing is unavailable.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/flash-xteink-x4-international-firmware.webp",
+          "primary": true,
+          "url": "/og/blog/flash-xteink-x4-international-firmware.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/flash-xteink-x4-international-firmware/",
+      "title": "How I Flashed International Firmware on an Xteink X4"
+    },
     "/blog/lumen-ui-one-system-three-frameworks/": {
       "alt": "Lumen UI: One system, three frameworks — Santiago Molina",
       "description": "How I built 123 accessible primitives for Astro, React, and Web Components while sharing tokens and behavior without forcing one runtime model.",
@@ -2208,6 +2224,70 @@
       ],
       "pathname": "/blog/tags/terminal/",
       "title": "Terminal posts"
+    },
+    "/blog/tags/xteink/": {
+      "alt": "Xteink posts — Santiago Molina",
+      "description": "Explore Xteink posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--xteink.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--xteink.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/xteink/",
+      "title": "Xteink posts"
+    },
+    "/blog/tags/e-reader/": {
+      "alt": "E reader posts — Santiago Molina",
+      "description": "Explore E reader posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--e-reader.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--e-reader.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/e-reader/",
+      "title": "E reader posts"
+    },
+    "/blog/tags/firmware/": {
+      "alt": "Firmware posts — Santiago Molina",
+      "description": "Explore Firmware posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--firmware.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--firmware.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/firmware/",
+      "title": "Firmware posts"
+    },
+    "/blog/tags/troubleshooting/": {
+      "alt": "Troubleshooting posts — Santiago Molina",
+      "description": "Explore Troubleshooting posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--troubleshooting.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--troubleshooting.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/troubleshooting/",
+      "title": "Troubleshooting posts"
     },
     "/blog/tags/web-components/": {
       "alt": "Web components posts — Santiago Molina",
