@@ -625,6 +625,22 @@
       "pathname": "/blog/building-aaronmgz-as-a-family-platform/",
       "title": "Building Aaronmgz as a family platform"
     },
+    "/blog/building-roadscore-offline-road-trip-game/": {
+      "alt": "Building RoadScore: An Offline Road-Trip Game for One Shared Phone — Santiago Molina",
+      "description": "How I designed RoadScore around a co-pilot, an offline catalog, flexible trip sessions, and privacy boundaries that keep game data on the device.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/building-roadscore-offline-road-trip-game.webp",
+          "primary": true,
+          "url": "/og/blog/building-roadscore-offline-road-trip-game.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/building-roadscore-offline-road-trip-game/",
+      "title": "Building RoadScore: An Offline Road-Trip Game for One Shared Phone"
+    },
     "/blog/coolstead-safety-first-mac-cooling/": {
       "alt": "Coolstead: Safety-first cooling for a Mac — Santiago Molina",
       "description": "What it takes to design a native fan-control utility around bounded requests, invalid sensor data, reversible behavior, and macOS as the final safety layer.",
@@ -2049,6 +2065,70 @@
       "pathname": "/blog/tags/personal-projects/",
       "title": "Personal projects posts"
     },
+    "/blog/tags/roadscore/": {
+      "alt": "Roadscore posts — Santiago Molina",
+      "description": "Explore Roadscore posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--roadscore.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--roadscore.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/roadscore/",
+      "title": "Roadscore posts"
+    },
+    "/blog/tags/expo/": {
+      "alt": "Expo posts — Santiago Molina",
+      "description": "Explore Expo posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--expo.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--expo.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/expo/",
+      "title": "Expo posts"
+    },
+    "/blog/tags/offline-first/": {
+      "alt": "Offline first posts — Santiago Molina",
+      "description": "Explore Offline first posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--offline-first.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--offline-first.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/offline-first/",
+      "title": "Offline first posts"
+    },
+    "/blog/tags/game-development/": {
+      "alt": "Game development posts — Santiago Molina",
+      "description": "Explore Game development posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--game-development.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--game-development.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/game-development/",
+      "title": "Game development posts"
+    },
     "/blog/tags/macos/": {
       "alt": "macOS posts — Santiago Molina",
       "description": "Explore macOS posts on architecture, automation, DX, and engineering workflow.",
@@ -2984,6 +3064,30 @@
       ],
       "pathname": "/portfolio/react-js-colombia/",
       "title": "ReactJS Colombia"
+    },
+    "/portfolio/roadscore/": {
+      "alt": "RoadScore — Santiago Molina",
+      "description": "Built a bilingual, offline road-trip card game that turns one passenger-operated phone into a shared scoreboard, deck library, and private trip journal.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/roadscore-logo.webp",
+          "primary": true,
+          "url": "/og/portfolio/roadscore-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/roadscore.webp",
+          "primary": false,
+          "url": "/og/portfolio/roadscore.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/roadscore/",
+      "title": "RoadScore"
     },
     "/portfolio/santi020k-theme/": {
       "alt": "Santi020k Theme — Santiago Molina",
@@ -5825,6 +5929,70 @@
       "pathname": "/technologies/event-organization/",
       "title": "Event Organization · Technology"
     },
+    "/technologies/expo-router/": {
+      "alt": "Expo Router · Technology — Santiago Molina",
+      "description": "Projects and case studies where Expo Router shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Expo~20Router.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Expo~20Router.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/expo-router/",
+      "title": "Expo Router · Technology"
+    },
+    "/technologies/zustand/": {
+      "alt": "Zustand · Technology — Santiago Molina",
+      "description": "Projects and case studies where Zustand shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Zustand.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Zustand.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/zustand/",
+      "title": "Zustand · Technology"
+    },
+    "/technologies/web/": {
+      "alt": "Web · Technology — Santiago Molina",
+      "description": "Projects and case studies where Web shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Web.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Web.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/web/",
+      "title": "Web · Technology"
+    },
+    "/technologies/google-play-billing/": {
+      "alt": "Google Play Billing · Technology — Santiago Molina",
+      "description": "Projects and case studies where Google Play Billing shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Google~20Play~20Billing.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Google~20Play~20Billing.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/google-play-billing/",
+      "title": "Google Play Billing · Technology"
+    },
     "/technologies/visual-studio-code/": {
       "alt": "Visual Studio Code · Technology — Santiago Molina",
       "description": "Projects and case studies where Visual Studio Code shaped the architecture, delivery workflow, or product experience.",
@@ -6144,22 +6312,6 @@
       ],
       "pathname": "/technologies/tailwindcss-animate/",
       "title": "tailwindcss-animate · Technology"
-    },
-    "/technologies/zustand/": {
-      "alt": "Zustand · Technology — Santiago Molina",
-      "description": "Projects and case studies where Zustand shaped the architecture, delivery workflow, or product experience.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/technologies--Zustand.webp",
-          "primary": true,
-          "url": "/og/pages/technologies--Zustand.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/technologies/zustand/",
-      "title": "Zustand · Technology"
     },
     "/technologies/apollo-client/": {
       "alt": "Apollo Client · Technology — Santiago Molina",
