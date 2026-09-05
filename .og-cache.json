@@ -2562,6 +2562,36 @@
       "digest": "97fb0afba8ea1a140c25aa75d4cfc693cbfa387771cf673988d76d2469ce2c6e",
       "fingerprint": "b3321bb0dac775507f1fe285cd887d38c543e2f15f1ee3c63d10b7443e490749",
       "output": "pages/technologies--Geo-location~20APIs.webp"
+    },
+    "blog/run-repo-on-mac-with-silo-dxmt.webp": {
+      "baseDirectory": "public/og",
+      "digest": "f9655c3a87c45262527709723f0443678a20922032896daae9681f3c17b6713c",
+      "fingerprint": "fb2951611795cdc397468d4b9b1d8b78f6b0272d68d6ff7cde1ff2b7f48f7ede",
+      "output": "blog/run-repo-on-mac-with-silo-dxmt.webp"
+    },
+    "pages/blog--tags--apple-silicon.webp": {
+      "baseDirectory": "public/og",
+      "digest": "a16bac74014238992d35808dbb15f7e74ac9ebbf51d0bd15dfc08e995c02dd1c",
+      "fingerprint": "8fb5709f11468158e0e32f59a1694cd9708eb923726cb5ed78946b88e72daa85",
+      "output": "pages/blog--tags--apple-silicon.webp"
+    },
+    "pages/blog--tags--dxmt.webp": {
+      "baseDirectory": "public/og",
+      "digest": "5cefd71d735b9ac00240752d08291ff5f4bcadad524977c5a634620969dc602f",
+      "fingerprint": "950fc9acdeec85a432f99db71a555ac8cf005cd944d36265f6f337aa99caeb9f",
+      "output": "pages/blog--tags--dxmt.webp"
+    },
+    "pages/blog--tags--gaming.webp": {
+      "baseDirectory": "public/og",
+      "digest": "bd38edeaa493a4c6417e5d8b0a4de9bb7fa928d4ca5197f9362d892a33039b51",
+      "fingerprint": "3643d1e7fee1aea08846267da1dd598bd8ca0a5be4406e07000eded21f68f31b",
+      "output": "pages/blog--tags--gaming.webp"
+    },
+    "pages/blog--tags--wine.webp": {
+      "baseDirectory": "public/og",
+      "digest": "a7913b73bdb148b0223ee3e5ae510ebb530ae0614c74dc6ef731c34b1feed6f5",
+      "fingerprint": "138f88c87cdb56064e394033c62d31d616a983e48919959f3e8dde2172b081a9",
+      "output": "pages/blog--tags--wine.webp"
     }
   },
   "generatorVersion": "1.1.1",
