@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.8.0
+
+### Minor Changes
+
+- [#144](https://github.com/santi020k/website/pull/144) [`b4f695a`](https://github.com/santi020k/website/commit/b4f695a462414f58ca9039a69b48f1078f63ee13) Thanks [@santi020k](https://github.com/santi020k)! - Publish a tested guide for running R.E.P.O. on Apple silicon, including the DirectX 11 failure diagnosis and 64-bit graphics-runtime fix.
+
 ## 3.7.0
 
 ### Minor Changes
