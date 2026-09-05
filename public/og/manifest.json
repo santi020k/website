@@ -817,6 +817,22 @@
       "pathname": "/blog/postlens-private-on-device-content-studio/",
       "title": "PostLens: A private on-device content studio"
     },
+    "/blog/run-repo-on-mac-with-silo-dxmt/": {
+      "alt": "How I Got R.E.P.O. Running on Mac Without Whisky — Santiago Molina",
+      "description": "A tested Apple silicon setup for running R.E.P.O. through Silo, Wine, and DXMT, including the DirectX graphics failure and its exact fix.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/run-repo-on-mac-with-silo-dxmt.webp",
+          "primary": true,
+          "url": "/og/blog/run-repo-on-mac-with-silo-dxmt.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/run-repo-on-mac-with-silo-dxmt/",
+      "title": "How I Got R.E.P.O. Running on Mac Without Whisky"
+    },
     "/blog/shipping-macos-tools-with-a-homebrew-tap/": {
       "alt": "Shipping macOS tools with a personal Homebrew tap — Santiago Molina",
       "description": "How I separated product code from distribution metadata and turned signed terminal releases into familiar Homebrew install and upgrade commands.",
@@ -2432,6 +2448,70 @@
       ],
       "pathname": "/blog/tags/photography/",
       "title": "Photography posts"
+    },
+    "/blog/tags/apple-silicon/": {
+      "alt": "Apple silicon posts — Santiago Molina",
+      "description": "Explore Apple silicon posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--apple-silicon.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--apple-silicon.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/apple-silicon/",
+      "title": "Apple silicon posts"
+    },
+    "/blog/tags/gaming/": {
+      "alt": "Gaming posts — Santiago Molina",
+      "description": "Explore Gaming posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--gaming.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--gaming.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/gaming/",
+      "title": "Gaming posts"
+    },
+    "/blog/tags/wine/": {
+      "alt": "Wine posts — Santiago Molina",
+      "description": "Explore Wine posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--wine.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--wine.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/wine/",
+      "title": "Wine posts"
+    },
+    "/blog/tags/dxmt/": {
+      "alt": "Dxmt posts — Santiago Molina",
+      "description": "Explore Dxmt posts on architecture, automation, DX, and engineering workflow.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--dxmt.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--dxmt.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/dxmt/",
+      "title": "Dxmt posts"
     },
     "/blog/tags/release-engineering/": {
       "alt": "Release engineering posts — Santiago Molina",
@@ -6608,86 +6688,6 @@
       ],
       "pathname": "/technologies/geo-location-apis/",
       "title": "Geo-location APIs · Technology"
-    },
-    "/blog/run-repo-on-mac-with-silo-dxmt/": {
-      "alt": "How I Got R.E.P.O. Running on Mac Without Whisky — Santiago Molina",
-      "description": "A tested Apple silicon setup for running R.E.P.O. through Silo, Wine, and DXMT, including the DirectX graphics failure and its exact fix.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "blog/run-repo-on-mac-with-silo-dxmt.webp",
-          "primary": true,
-          "url": "/og/blog/run-repo-on-mac-with-silo-dxmt.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/run-repo-on-mac-with-silo-dxmt/",
-      "title": "How I Got R.E.P.O. Running on Mac Without Whisky"
-    },
-    "/blog/tags/apple-silicon/": {
-      "alt": "Apple silicon posts — Santiago Molina",
-      "description": "Explore Apple silicon posts on architecture, automation, DX, and engineering workflow.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--apple-silicon.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--apple-silicon.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/apple-silicon/",
-      "title": "Apple silicon posts"
-    },
-    "/blog/tags/dxmt/": {
-      "alt": "Dxmt posts — Santiago Molina",
-      "description": "Explore Dxmt posts on architecture, automation, DX, and engineering workflow.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--dxmt.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--dxmt.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/dxmt/",
-      "title": "Dxmt posts"
-    },
-    "/blog/tags/gaming/": {
-      "alt": "Gaming posts — Santiago Molina",
-      "description": "Explore Gaming posts on architecture, automation, DX, and engineering workflow.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--gaming.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--gaming.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/gaming/",
-      "title": "Gaming posts"
-    },
-    "/blog/tags/wine/": {
-      "alt": "Wine posts — Santiago Molina",
-      "description": "Explore Wine posts on architecture, automation, DX, and engineering workflow.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--wine.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--wine.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/wine/",
-      "title": "Wine posts"
     }
   },
   "version": 1
