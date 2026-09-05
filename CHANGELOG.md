@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.9.0
+
+### Minor Changes
+
+- [#146](https://github.com/santi020k/website/pull/146) [`df98779`](https://github.com/santi020k/website/commit/df987795edf898f6a9952d10aee953ac7e61da31) Thanks [@santi020k](https://github.com/santi020k)! - Publish the RoadScore portfolio project and launch case study.
+
 ## 3.8.0
 
 ### Minor Changes
