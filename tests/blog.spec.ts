@@ -79,6 +79,35 @@ test.describe('Blog page', () => {
     await expect(results.first()).toHaveAttribute('href', /\/blog\/|\/portfolio\//)
   })
 
+  test('search arrow-key navigation announces the highlighted result to screen readers', async ({ page }) => {
+    await page.goto('/blog/')
+
+    await page.getByRole('button', { name: 'Open site search' }).click()
+    const input = page.getByPlaceholder('Search by title, tag, or keyword…')
+    await input.fill('typescript')
+
+    const results = page.locator('#site-search-results li a')
+    await expect(results.nth(1)).toBeVisible()
+
+    const resultCount = await results.count()
+    expect(resultCount).toBeGreaterThanOrEqual(2)
+
+    // Typing already auto-selects the first result; one ArrowDown moves to the second.
+    const secondTitle = await results.nth(1).locator('span.font-semibold').innerText()
+
+    await input.press('ArrowDown')
+
+    const status = page.locator('#site-search-status')
+    await expect(status).toHaveText(`${secondTitle}, 2 of ${resultCount}`)
+    await expect(results.nth(1)).toHaveAttribute('data-site-search-active', 'true')
+    await expect(input).toBeFocused()
+
+    const firstTitle = await results.first().locator('span.font-semibold').innerText()
+
+    await input.press('ArrowUp')
+    await expect(status).toHaveText(`${firstTitle}, 1 of ${resultCount}`)
+  })
+
   if (shouldRunVisualSnapshots) {
     test('index should match visual snapshot', async ({ page }) => {
       await page.goto('/blog/')

@@ -314,7 +314,7 @@ const navigationIcons: Record<string, string> = {
         aria-hidden="true"
         aria-label="Main menu"
         class="
-          absolute inset-x-4 top-[calc(100%+0.625rem)] z-50
+          fixed inset-x-4 z-50
           sm:right-6 sm:left-auto sm:w-[24rem]
           lg:right-8
         "
@@ -323,17 +323,19 @@ const navigationIcons: Record<string, string> = {
       >
         <div
           class="
-            max-h-[calc(100vh-7rem)] overflow-y-auto
-            shadow-[0_22px_56px_hsl(var(--ink)/0.18)]
+            overflow-y-auto overscroll-contain rounded-3xl border border-line
+            p-4
           "
           data-mobile-nav-surface
         >
           <div class="
-            card-divider-subtle mb-2 flex items-center justify-between gap-4
-            px-1
+            mb-3 flex flex-wrap items-center justify-between gap-2 px-3 py-2
           "
           >
-            <p class="section-label">Navigation</p>
+            <p class="
+              text-xs font-semibold tracking-widest text-ink-soft uppercase
+            "
+            >Navigation</p>
             {isAvailableForBanner && (
               <span class="
                 inline-flex items-center gap-2 p-1 text-[0.68rem] font-semibold
@@ -371,8 +373,8 @@ const navigationIcons: Record<string, string> = {
                     aria-current={isActive ? 'page' : undefined}
                     class:list={[
                       `
-                        group flex min-h-11 items-center gap-3 rounded-2xl px-3
-                        py-2 text-sm font-medium
+                        group flex min-h-13 items-center gap-3 rounded-2xl px-3
+                        py-2 text-base font-medium
                         transition-[background-color,box-shadow,color,transform]
                         duration-150
                         focus-visible:ring-2 focus-visible:ring-brand
@@ -383,7 +385,7 @@ const navigationIcons: Record<string, string> = {
                       `,
                       isActive ?
                         `
-                          bg-brand-soft/55 font-semibold text-brand
+                          bg-brand-soft/55 font-semibold text-ink
                           shadow-[inset_0_1px_0_hsl(0_0%_100%/0.16),0_8px_22px_hsl(var(--brand)/0.08)]
                         ` :
                         `
@@ -405,10 +407,10 @@ const navigationIcons: Record<string, string> = {
                           motion-reduce:transition-none
                         `,
                         isActive ?
-                          'bg-surface/68 text-brand shadow-inset-soft' :
+                          'bg-surface/68 text-ink shadow-inset-soft' :
                           `
                             text-ink-muted
-                            group-hover:ui-message--assistant
+                            group-hover:bg-surface-muted
                             group-hover:text-ink-soft
                           `
                       ]}
@@ -433,11 +435,7 @@ const navigationIcons: Record<string, string> = {
             }
           </div>
 
-          <div class="
-            mt-3 ui-combobox divider-soft pt-3
-            sm:grid-cols-2
-          "
-          >
+          <div class="mt-4 divider-strong pt-4" data-mobile-nav-actions>
             <ButtonLink
               className="justify-center"
               href={siteConfig.contact.whatsapp}
@@ -464,6 +462,8 @@ const navigationIcons: Record<string, string> = {
 </header>
 
 <script>
+const prefersReducedMotion = (): boolean => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 class SiteHeaderMobileNav extends HTMLElement {
   isOpen = false
   root: HTMLElement | null = null
@@ -473,6 +473,8 @@ class SiteHeaderMobileNav extends HTMLElement {
   closeIcon: HTMLElement | null = null
   backdrop: HTMLElement | null = null
   panel: HTMLElement | null = null
+  closeTimer: number | null = null
+  closeAnimationHandler: (() => void) | null = null
 
   connectedCallback() {
     this.root = this.querySelector('[data-mobile-nav]')
@@ -521,6 +523,8 @@ class SiteHeaderMobileNav extends HTMLElement {
   }
 
   disconnectedCallback() {
+    this.cancelPendingClose()
+
     this.toggle?.removeEventListener('click', this.handleToggleClick)
 
     this.backdrop?.removeEventListener('click', this.handleBackdropClick)
@@ -586,18 +590,25 @@ class SiteHeaderMobileNav extends HTMLElement {
   }
 
   handleWindowKeydown = (event: KeyboardEvent) => {
+    // A modal dialog owns keyboard navigation until its top layer closes.
+    const hasOpenDialog = document.querySelector('dialog[open]') !== null
+
     if (event.key === 'Escape') {
+      if (hasOpenDialog) return
+
       this.closeMenu()
 
       return
     }
 
-    if (event.key === 'Tab' && this.isOpen) {
+    if (event.key === 'Tab' && this.isOpen && !hasOpenDialog) {
       this.trapFocus(event)
     }
   }
 
   handleWindowResize = () => {
+    this.updatePanelPosition()
+
     if (window.innerWidth >= 1024) {
       this.closeMenu({ restoreFocus: false })
     }
@@ -611,7 +622,19 @@ class SiteHeaderMobileNav extends HTMLElement {
     this.closeMenu({ restoreFocus: false })
   }
 
+  updatePanelPosition() {
+    const header = this.closest('header')
+
+    if (header && this.panel) {
+      this.panel.style.setProperty('--mobile-nav-top', `${header.getBoundingClientRect().bottom}px`)
+    }
+  }
+
   openMenu() {
+    this.updatePanelPosition()
+
+    this.cancelPendingClose()
+
     if (this.isOpen) {
       return
     }
@@ -632,16 +655,36 @@ class SiteHeaderMobileNav extends HTMLElement {
     })
   }
 
+  cancelPendingClose() {
+    if (this.closeTimer !== null) {
+      window.clearTimeout(this.closeTimer)
+
+      this.closeTimer = null
+    }
+
+    if (this.closeAnimationHandler) {
+      this.panel?.removeEventListener('animationend', this.closeAnimationHandler)
+
+      this.closeAnimationHandler = null
+    }
+
+    this.panel?.removeAttribute('data-nav-closing')
+  }
+
   closeMenu({ restoreFocus = true } = {}) {
+    this.cancelPendingClose()
+
     const wasOpen = this.isOpen
 
     this.isOpen = false
 
-    if (wasOpen && this.panel instanceof HTMLElement && !this.panel.hidden) {
+    if (wasOpen && this.panel instanceof HTMLElement && !this.panel.hidden && !prefersReducedMotion()) {
       // Animate panel out, then hide after animation
       this.panel.setAttribute('data-nav-closing', '')
 
       const finishClose = () => {
+        this.cancelPendingClose()
+
         if (this.panel instanceof HTMLElement) {
           this.panel.removeAttribute('data-nav-closing')
 
@@ -651,9 +694,11 @@ class SiteHeaderMobileNav extends HTMLElement {
         }
       }
 
+      this.closeAnimationHandler = finishClose
+
       this.panel.addEventListener('animationend', finishClose, { once: true })
 
-      setTimeout(finishClose, 250)
+      this.closeTimer = window.setTimeout(finishClose, 250)
 
       // Update everything else immediately
       this.#syncControls(false)

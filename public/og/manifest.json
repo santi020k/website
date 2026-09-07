@@ -913,6 +913,22 @@
       "pathname": "/blog/why-i-moved-my-eslint-library-to-eslint-config-basic/",
       "title": "Why I Moved My ESLint Library to @santi020k/eslint-config-basic"
     },
+    "/blog/why-i-moved-to-zed/": {
+      "alt": "Why I Moved from VS Code-Based Editors to Zed — Santiago Molina",
+      "description": "Why Zed became my editor of choice: responsive work across multiple projects, flexible AI integrations, and Dep Beacon now available as a Zed extension.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/why-i-moved-to-zed.webp",
+          "primary": true,
+          "url": "/og/blog/why-i-moved-to-zed.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/why-i-moved-to-zed/",
+      "title": "Why I Moved from VS Code-Based Editors to Zed"
+    },
     "/blog/2/": {
       "alt": "Blog · Page 2 — Santiago Molina",
       "description": "Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.",
@@ -2673,6 +2689,54 @@
       "pathname": "/blog/tags/flat-config/",
       "title": "Flat config posts"
     },
+    "/blog/tags/zed/": {
+      "alt": "Zed posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Zed.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--zed.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--zed.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/zed/",
+      "title": "Zed posts"
+    },
+    "/blog/tags/productivity/": {
+      "alt": "Productivity posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Productivity.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--productivity.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--productivity.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/productivity/",
+      "title": "Productivity posts"
+    },
+    "/blog/tags/developer-tools/": {
+      "alt": "Developer tools posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Developer tools.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--developer-tools.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--developer-tools.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/developer-tools/",
+      "title": "Developer tools posts"
+    },
     "/portfolio/aaronmgz/": {
       "alt": "Aaronmgz — Santiago Molina",
       "description": "Built a growing family web platform with a nautical personal site, public message board, baby-shower experience, admin tools, and a shared Cloudflare API.",
@@ -2795,7 +2859,7 @@
     },
     "/portfolio/dep-beacon/": {
       "alt": "Dep Beacon — Santiago Molina",
-      "description": "Built and published a VS Code extension that brings npm dependency status, update targets, pnpm workspace catalog context, and OSV security signals into package manifests.",
+      "description": "Built and published dependency tools for VS Code and Zed that bring npm dependency status, update targets, pnpm workspace catalog context, and OSV security signals into package manifests.",
       "images": [
         {
           "format": "webp",
@@ -3107,7 +3171,7 @@
     },
     "/portfolio/santi020k-theme/": {
       "alt": "Santi020k Theme — Santiago Molina",
-      "description": "Explore a shared violet theme system for VS Code, Chrome, terminals, Starship, Shiki, and websites, built from reusable tokens and automated releases.",
+      "description": "Explore Santi020k themes for Zed, Codex, VS Code, Chrome, terminals, Raycast, Slack, JetBrains, and Xcode, with reusable tokens and setup guides.",
       "images": [
         {
           "format": "webp",
@@ -4376,6 +4440,54 @@
       ],
       "pathname": "/technologies/formik/",
       "title": "Formik · Technology"
+    },
+    "/technologies/zed-extension/": {
+      "alt": "Zed Extension · Technology — Santiago Molina",
+      "description": "Projects and case studies where Zed Extension shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Zed~20Extension.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Zed~20Extension.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/zed-extension/",
+      "title": "Zed Extension · Technology"
+    },
+    "/technologies/language-server-protocol/": {
+      "alt": "Language Server Protocol · Technology — Santiago Molina",
+      "description": "Projects and case studies where Language Server Protocol shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Language~20Server~20Protocol.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Language~20Server~20Protocol.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/language-server-protocol/",
+      "title": "Language Server Protocol · Technology"
+    },
+    "/technologies/rust/": {
+      "alt": "Rust · Technology — Santiago Molina",
+      "description": "Projects and case studies where Rust shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Rust.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Rust.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/rust/",
+      "title": "Rust · Technology"
     },
     "/technologies/codelens/": {
       "alt": "CodeLens · Technology — Santiago Molina",
@@ -5673,22 +5785,6 @@
       "pathname": "/technologies/localization/",
       "title": "Localization · Technology"
     },
-    "/technologies/rust/": {
-      "alt": "Rust · Technology — Santiago Molina",
-      "description": "Projects and case studies where Rust shaped the architecture, delivery workflow, or product experience.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/technologies--Rust.webp",
-          "primary": true,
-          "url": "/og/pages/technologies--Rust.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/technologies/rust/",
-      "title": "Rust · Technology"
-    },
     "/technologies/sarif/": {
       "alt": "SARIF · Technology — Santiago Molina",
       "description": "Projects and case studies where SARIF shaped the architecture, delivery workflow, or product experience.",
@@ -6008,6 +6104,118 @@
       ],
       "pathname": "/technologies/google-play-billing/",
       "title": "Google Play Billing · Technology"
+    },
+    "/technologies/zed/": {
+      "alt": "Zed · Technology — Santiago Molina",
+      "description": "Projects and case studies where Zed shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Zed.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Zed.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/zed/",
+      "title": "Zed · Technology"
+    },
+    "/technologies/codex/": {
+      "alt": "Codex · Technology — Santiago Molina",
+      "description": "Projects and case studies where Codex shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Codex.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Codex.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/codex/",
+      "title": "Codex · Technology"
+    },
+    "/technologies/raycast/": {
+      "alt": "Raycast · Technology — Santiago Molina",
+      "description": "Projects and case studies where Raycast shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Raycast.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Raycast.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/raycast/",
+      "title": "Raycast · Technology"
+    },
+    "/technologies/slack/": {
+      "alt": "Slack · Technology — Santiago Molina",
+      "description": "Projects and case studies where Slack shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Slack.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Slack.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/slack/",
+      "title": "Slack · Technology"
+    },
+    "/technologies/jetbrains/": {
+      "alt": "JetBrains · Technology — Santiago Molina",
+      "description": "Projects and case studies where JetBrains shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--JetBrains.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--JetBrains.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/jetbrains/",
+      "title": "JetBrains · Technology"
+    },
+    "/technologies/android-studio/": {
+      "alt": "Android Studio · Technology — Santiago Molina",
+      "description": "Projects and case studies where Android Studio shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Android~20Studio.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Android~20Studio.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/android-studio/",
+      "title": "Android Studio · Technology"
+    },
+    "/technologies/xcode/": {
+      "alt": "Xcode · Technology — Santiago Molina",
+      "description": "Projects and case studies where Xcode shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Xcode.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Xcode.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/xcode/",
+      "title": "Xcode · Technology"
     },
     "/technologies/visual-studio-code/": {
       "alt": "Visual Studio Code · Technology — Santiago Molina",

@@ -37,37 +37,78 @@ const shouldHandleRequest = (request, url) => request.method === 'GET' &&
   // optimized images (e.g. search modal thumbnails) are not double-fetched via SW.
   !url.pathname.startsWith('/_image')
 
+// Cache storage is an optional optimization: failures must not discard network responses.
+/** @returns {Promise<Cache | undefined>} */
+const openCache = async () => {
+  try {
+    return await caches.open(STATIC_CACHE)
+  } catch {
+    return undefined
+  }
+}
+
+/**
+ * @param {Cache | undefined} cache
+ * @param {Request | string} request
+ */
+const matchCached = async (cache, request) => {
+  try {
+    return await cache?.match(request)
+  } catch {
+    return undefined
+  }
+}
+
+/**
+ * @param {Cache | undefined} cache
+ * @param {Request} request
+ * @param {Response} response
+ */
+const storeResponse = async (cache, request, response) => {
+  try {
+    await cache?.put(request, response.clone())
+  } catch {
+    // Storage may be unavailable or full; the response is still usable.
+  }
+}
+
+/** @param {Request} request */
 const networkFirst = async request => {
-  const cache = await caches.open(STATIC_CACHE)
+  const cache = await openCache()
 
   try {
     const response = await fetch(request)
 
     if (response.ok) {
-      await cache.put(request, response.clone())
+      await storeResponse(cache, request, response)
     }
 
     return response
   } catch {
-    return (await cache.match(request)) ?? (await cache.match('/offline/'))
+    return (await matchCached(cache, request)) ??
+      (await matchCached(cache, '/offline/')) ?? Response.error()
   }
 }
 
-const staleWhileRevalidate = async request => {
-  const cache = await caches.open(STATIC_CACHE)
-  const cachedResponse = await cache.match(request)
+/** @param {Request} request */
+const staleWhileRevalidate = request => {
+  const cachePromise = openCache()
+  const cachedResponsePromise = cachePromise.then(cache => matchCached(cache, request))
 
   const networkResponsePromise = fetch(request)
     .then(async response => {
       if (response.ok) {
-        await cache.put(request, response.clone())
+        await storeResponse(await cachePromise, request, response)
       }
 
       return response
     })
-    .catch(() => cachedResponse)
+    .catch(async () => (await cachedResponsePromise) ?? Response.error())
 
-  return cachedResponse ?? networkResponsePromise
+  return {
+    response: cachedResponsePromise.then(cachedResponse => cachedResponse ?? networkResponsePromise),
+    revalidate: networkResponsePromise.then(() => undefined)
+  }
 }
 
 self.addEventListener('fetch', event => {
@@ -83,5 +124,9 @@ self.addEventListener('fetch', event => {
     return
   }
 
-  event.respondWith(staleWhileRevalidate(event.request))
+  const { response, revalidate } = staleWhileRevalidate(event.request)
+
+  event.waitUntil(revalidate)
+
+  event.respondWith(response)
 })

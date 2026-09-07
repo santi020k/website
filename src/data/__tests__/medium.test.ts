@@ -102,6 +102,35 @@ describe('getMediumPosts — successful fetch', () => {
     }])
   })
 
+  test('uses cached posts when the bounded feed request is aborted', async () => {
+    const controller = new AbortController()
+    const timeout = vi.spyOn(AbortSignal, 'timeout').mockReturnValue(controller.signal)
+    const mockFetch = vi.fn<typeof fetch>((_input, init) => new Promise((_resolve, reject) => {
+      const signal = init?.signal
+
+      signal?.addEventListener('abort', () => {
+        reject(new DOMException('Feed request timed out', 'TimeoutError'))
+      }, { once: true })
+    }))
+
+    vi.stubGlobal('fetch', mockFetch)
+
+    try {
+      const { getMediumPosts } = await import('../medium')
+      const { mediumPostsCache } = await import('../medium-cache')
+      const posts = getMediumPosts()
+
+      expect(timeout).toHaveBeenCalledWith(15_000)
+      expect(mockFetch.mock.calls[0]?.[1]?.signal).toBe(controller.signal)
+
+      controller.abort()
+
+      await expect(posts).resolves.toEqual(mediumPostsCache)
+    } finally {
+      timeout.mockRestore()
+    }
+  })
+
   test('does not double-unescape XML entities parsed from feed metadata', async () => {
     const feed = makeRss(`
       <item>

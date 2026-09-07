@@ -149,7 +149,7 @@ test.describe('SEO — meta tags', () => {
       },
       {
         path: '/portfolio/santi020k-theme/',
-        title: 'Santi020k Theme: Editors, Chrome & Terminals | santi020k'
+        title: 'Santi020k Theme: Zed, Codex & More | santi020k'
       }
     ]
 

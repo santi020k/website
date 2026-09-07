@@ -170,8 +170,11 @@ const shareLinks = [
           })
 
           return
-        } catch {
-          // User cancelled or share failed — fall through to clipboard copy.
+        } catch (error) {
+          // Cancellation leaves the clipboard unchanged; other errors use the fallback.
+          if (error instanceof DOMException && error.name === 'AbortError') {
+            return
+          }
         }
       }
 
