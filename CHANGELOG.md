@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.10.0
+
+### Minor Changes
+
+- [#148](https://github.com/santi020k/website/pull/148) [`12374eb`](https://github.com/santi020k/website/commit/12374ebe94f1e2929bbbf1718662c28075fcf82c) Thanks [@santi020k](https://github.com/santi020k)! - Welcome reading, gaming, and everyday discoveries alongside software in the blog. Make personal topics easier to find and align newsletter, feed, and social preview copy with the broader writing scope.
+
 ## 3.9.0
 
 ### Minor Changes
