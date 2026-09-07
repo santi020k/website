@@ -2,12 +2,15 @@
 title: "Dep Beacon: Dependency Signals Inside VS Code"
 description: "Why I built Dep Beacon, a VS Code extension that keeps npm update paths, pnpm catalog context, and OSV security warnings inside manifests."
 publishDate: "2026-07-01T15:00:00.000Z"
+updatedDate: "2026-09-07"
 coverImage:
   alt: "A package manifest receiving update, workspace, and security signals inside an editor context"
   src: "./cover.webp"
 tags: ["vscode", "developer-experience", "dependencies", "security", "open-source"]
 postType: "Case Study"
 ---
+
+> **September 2026 update:** Dep Beacon is also available in the [Zed extension registry](https://zed.dev/extensions/dep-beacon-lsp). See the [Zed setup guide](https://beacon.santi020k.com/docs/zed-extension) and [why I moved to Zed](/blog/why-i-moved-to-zed/). This post describes the original VS Code release.
 
 Dependency maintenance has a strange shape.
 

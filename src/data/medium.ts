@@ -7,6 +7,7 @@ import { mediumPostsCache } from './medium-cache'
 
 const MEDIUM_SITE_URL = siteConfig.contact.medium.replace(/\/$/, '')
 const MEDIUM_FEED_URL = `${MEDIUM_SITE_URL}/feed`
+const FETCH_TIMEOUT_MS = 15_000
 
 const parser = new XMLParser({
   ignoreAttributes: false,
@@ -193,7 +194,8 @@ const loadMediumPosts = async (): Promise<MediumPost[]> => {
     const response = await fetch(MEDIUM_FEED_URL, {
       headers: {
         Accept: 'application/rss+xml, application/xml, text/xml'
-      }
+      },
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS)
     })
 
     if (!response.ok) {

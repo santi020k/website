@@ -373,6 +373,8 @@ import SearchDialog from './SearchDialog.astro'
     let entries = []
     let selectedResultIndex = -1
     let closeAnimTimer = 0
+    let closeAnimPanel = /** @type {HTMLElement | null} */ (null)
+    let closeAnimHandler = /** @type {((event: AnimationEvent) => void) | null} */ (null)
     let indexLoadState = /** @type {'idle' | 'loading' | 'ready' | 'error'} */ ('idle')
     let indexLoadPromise = /** @type {Promise<boolean> | null} */ (null)
     let popularTopics = /** @type {string[]} */ ([])
@@ -501,6 +503,25 @@ import SearchDialog from './SearchDialog.astro'
       if (status.textContent === message) return
 
       status.textContent = message
+    }
+
+    /**
+     * Announces the highlighted result while keyboard focus remains in the input.
+     * @param {number} index
+     * @param {number} total
+     * @returns {string}
+     */
+    const describeResultAt = (index, total) => {
+      const results = getResults()
+
+      if (!results) return ''
+
+      const anchors = [...results.querySelectorAll('a[href]')]
+      const title = anchors[index]?.querySelector('[data-site-search-result-title]')?.textContent?.trim()
+
+      if (!title) return ''
+
+      return `${title}, ${index + 1} of ${total}`
     }
 
     /**
@@ -964,6 +985,8 @@ import SearchDialog from './SearchDialog.astro'
           group-hover:text-brand
         `.trim()
 
+        titleEl.setAttribute('data-site-search-result-title', '')
+
         titleEl.textContent = e.title
 
         const descEl = document.createElement('span')
@@ -992,13 +1015,28 @@ import SearchDialog from './SearchDialog.astro'
       )
     }
 
+    // Keep only one close cycle alive so a stale callback cannot close a reopened dialog.
+    const cancelPendingClose = () => {
+      window.clearTimeout(closeAnimTimer)
+
+      closeAnimTimer = 0
+
+      if (closeAnimHandler) {
+        closeAnimPanel?.removeEventListener('animationend', closeAnimHandler)
+
+        closeAnimHandler = null
+      }
+
+      closeAnimPanel = null
+    }
+
     const openSearch = () => {
       const dialog = getDialog()
       const input = getInput()
 
       if (!(dialog instanceof HTMLDialogElement) || !(input instanceof HTMLInputElement)) return
 
-      window.clearTimeout(closeAnimTimer)
+      cancelPendingClose()
 
       dialog.removeAttribute('data-site-search-anim')
 
@@ -1028,8 +1066,10 @@ import SearchDialog from './SearchDialog.astro'
 
       if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
 
+      cancelPendingClose()
+
       const finish = () => {
-        window.clearTimeout(closeAnimTimer)
+        cancelPendingClose()
 
         if (dialog.open) {
           dialog.close()
@@ -1068,18 +1108,16 @@ import SearchDialog from './SearchDialog.astro'
       const onAnimEnd = e => {
         if (e.animationName !== 'site-search-panel-out') return
 
-        panel.removeEventListener('animationend', onAnimEnd)
-
         finish()
       }
 
+      closeAnimPanel = panel
+
+      closeAnimHandler = onAnimEnd
+
       panel.addEventListener('animationend', onAnimEnd)
 
-      closeAnimTimer = window.setTimeout(() => {
-        panel.removeEventListener('animationend', onAnimEnd)
-
-        finish()
-      }, 420)
+      closeAnimTimer = window.setTimeout(finish, 420)
     }
 
     const isEditableTarget = target => {
@@ -1195,6 +1233,11 @@ import SearchDialog from './SearchDialog.astro'
       }
 
       dialog.addEventListener('close', () => {
+        // Native close events may arrive after a rapid reopen or a page swap.
+        if (dialog.open || !dialog.isConnected) return
+
+        cancelPendingClose()
+
         setScrollLock(false)
 
         setTriggerExpanded(false)
@@ -1238,6 +1281,10 @@ import SearchDialog from './SearchDialog.astro'
         }
 
         syncResultSelection()
+
+        const description = describeResultAt(selectedResultIndex, links.length)
+
+        if (description) setStatusMessage(description)
       })
 
       input.addEventListener('keydown', e => {
@@ -1400,6 +1447,12 @@ import SearchDialog from './SearchDialog.astro'
     }
 
     bindUi()
+
+    document.addEventListener('astro:before-swap', () => {
+      cancelPendingClose()
+
+      setScrollLock(false)
+    })
 
     document.addEventListener('astro:after-swap', bindUi)
   })()

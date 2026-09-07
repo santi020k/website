@@ -292,6 +292,53 @@ test('mobile navigation can open and close cleanly', async ({ page }) => {
   await expect(mobileNav).toBeHidden()
 })
 
+test('mobile navigation closes immediately when reduced motion is requested', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+
+  const menuToggle = page.locator('[data-mobile-nav-toggle]')
+  const mobileNav = page.locator('#mobile-nav')
+
+  await menuToggle.click()
+  await expect(mobileNav).toBeVisible()
+
+  const hiddenImmediately = await menuToggle.evaluate(button => {
+    if (!(button instanceof HTMLButtonElement)) return false
+
+    button.click()
+
+    return document.getElementById('mobile-nav')?.hidden
+  })
+
+  expect(hiddenImmediately).toBe(true)
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'false')
+})
+
+test('mobile navigation stays open when reopened during its closing animation', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  await page.clock.install()
+
+  const menuToggle = page.locator('[data-mobile-nav-toggle]')
+  const mobileNav = page.locator('#mobile-nav')
+
+  await menuToggle.click()
+  await expect(mobileNav).toBeVisible()
+  await menuToggle.evaluate(button => {
+    if (!(button instanceof HTMLButtonElement)) return
+
+    button.click()
+    button.click()
+  })
+  await page.clock.runFor(400)
+
+  await expect(menuToggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(mobileNav).toBeVisible()
+  await expect(mobileNav).toHaveAttribute('aria-hidden', 'false')
+})
+
 test('mobile navigation resets after navigating to another page', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')

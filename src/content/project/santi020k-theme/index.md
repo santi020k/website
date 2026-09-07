@@ -1,20 +1,20 @@
 ---
 title: "Santi020k Theme"
-description: "Built one calm violet theme system for VS Code-compatible editors, Chrome, six terminal formats, Starship, Shiki, websites, and reusable design tokens."
+description: "Built a theme family for VS Code, Zed, Codex, Chrome, terminals, Raycast, Slack, JetBrains, and Xcode, with shared tokens and a unified product website."
 brand:
   primary: "#8747ff"
   secondary: "#c5a3ff"
   surface: "#130b22"
-seoTitle: "Santi020k Theme: Editors, Chrome & Terminals"
-seoDescription: "Explore a shared violet theme system for VS Code, Chrome, terminals, Starship, Shiki, and websites, built from reusable tokens and automated releases."
+seoTitle: "Santi020k Theme: Zed, Codex & Nine Workspace Themes"
+seoDescription: "Explore Santi020k themes for Zed, Codex, VS Code, Chrome, terminals, Raycast, Slack, JetBrains, and Xcode, with reusable tokens and setup guides."
 role: "Creator"
 startingDate: "28 Apr 2026"
 githubUrl: "https://github.com/santi020k/santi020k-theme"
 liveDemoUrl: "https://theme.santi020k.com/"
 typesId: "personal"
 relevanceWeight: 65
-impactMetrics: ["Published through the VS Code Marketplace, Open VSX, Chrome Web Store, npm, GitHub Releases, and Homebrew", "Expanded the editor theme to 12 dark, light, high-contrast, bold, and italic variants", "Carried one token system across editors, Chrome, Shiki, six terminal formats, Starship, shell integration, and four product sites"]
-technologies: ["Visual Studio Code", "Cursor", "Windsurf", "VSCodium", "VS Code Extension", "Chrome Extension", "Chrome Web Store", "Shiki", "iTerm2", "Ghostty", "Kitty", "WezTerm", "Windows Terminal", "Alacritty", "Starship", "Zsh", "Bash", "Fish", "JavaScript", "Node.js", "Astro", "Lumen UI", "Vitest", "ESLint", "CI-CD", "GitHub Actions", "Open Source", "Developer Experience (DX)", "Developer Documentation", "Accessibility", "Testing", "Design Systems"]
+impactMetrics: ["Published through the VS Code Marketplace, Open VSX, Zed extension registry, Chrome Web Store, npm, GitHub Releases, and Homebrew", "Expanded the editor theme to 12 dark, light, high-contrast, bold, and italic variants", "Expanded to nine app and workspace theme products with shared packages and one consolidated website"]
+technologies: ["Zed", "Codex", "Raycast", "Slack", "JetBrains", "Android Studio", "Xcode", "Visual Studio Code", "Cursor", "Windsurf", "VSCodium", "VS Code Extension", "Chrome Extension", "Chrome Web Store", "Shiki", "iTerm2", "Ghostty", "Kitty", "WezTerm", "Windows Terminal", "Alacritty", "Starship", "Zsh", "Bash", "Fish", "JavaScript", "Node.js", "Astro", "Lumen UI", "Vitest", "ESLint", "CI-CD", "GitHub Actions", "Open Source", "Developer Experience (DX)", "Developer Documentation", "Accessibility", "Testing", "Design Systems"]
 coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
@@ -27,7 +27,7 @@ coverImage:
 
 ## Building one theme family across the developer workspace
 
-I started Santi020k Theme as a focused pair of editor themes for the tools I use every day. It has grown into one theme family for VS Code-compatible editors, Chrome, syntax-highlighted websites, terminals, prompts, and shells. The monorepo now ships 12 editor variants, two Chrome Web Store themes, six terminal formats, three Starship styles, managed shell integration, shared token packages, and four dedicated product sites.
+I started Santi020k Theme as a focused pair of editor themes for the tools I use every day. It has grown into nine theme products: VS Code, Zed, Codex, Chrome, terminals, Raycast, Slack, JetBrains IDEs, and Xcode. Shared packages also support Shiki syntax highlighting, websites, prompts, and shells. The monorepo brings these products together with installation guides and previews on [theme.santi020k.com](https://theme.santi020k.com/).
 
 The family shares one calm violet color language while respecting the capabilities of each surface. VS Code and compatible editors receive semantic highlighting and high-contrast variants. Chrome receives declarative, permission-free dark and light mappings. Shiki consumers receive importable syntax themes. Terminals receive generated palette formats and prompts that can follow the system appearance.
 
@@ -41,11 +41,16 @@ The family shares one calm violet color language while respecting the capabiliti
 ### What I built
 
 - **Twelve VS Code variants** across dark, light, high-contrast dark, and high-contrast light profiles, each with base, bold, and italic syntax options.
+- **A published Zed theme extension** with dark and light variants generated from the shared palette, available in the [Zed extension registry](https://zed.dev/extensions/santi020k-theme).
+- **Codex custom theme presets** available through the [Codex theme page](https://theme.santi020k.com/codex/), with copy-ready appearance settings.
+- **Raycast Pro and Slack themes** with Raycast import URLs and Slack custom color strings and semantic maps.
+- **JetBrains and Android Studio support** through an installable dark/light plugin covering both the IDE interface and editor syntax.
+- **Native Xcode themes** for editor syntax and debug-console colors in dark and light modes.
 - **Dark and light Chrome themes** that map browser surfaces back to named editor tokens and ship without permissions, collected data, or remote code.
 - **A terminal product** with dark and light palettes for iTerm2, Ghostty, Kitty, WezTerm, Windows Terminal, and Alacritty.
 - **Rich, portable, and minimal Starship presets** plus managed Zsh, Bash, and Fish integration with automatic appearance selection.
 - **Shared `@santi020k/theme` and `@santi020k/theme-core` packages** for tokens, assets, metadata, Chrome mappings, Tailwind values, product-site behavior, and importable Shiki themes.
-- **Four Astro product sites** for the family hub, VS Code, Chrome, and terminal experiences.
+- **One consolidated Astro website** for all nine products, with shared navigation, previews, installation guidance, and terminal documentation.
 - **Validation and release pipelines** for marketplace metadata, contrast, generated theme files, terminal presets, packaging, and registry publishing.
 
 ![Santi020k Theme dark Chrome Web Store preview](chrome-store-preview.webp)
@@ -62,8 +67,8 @@ The `santi020k-terminal` CLI keeps installation and shell changes reviewable. It
 
 ### Results
 
-- **One recognizable workspace language** across editor, browser, terminal, prompt, and documentation.
-- **Public distribution** through the Visual Studio Marketplace, Open VSX, Chrome Web Store, npm, GitHub releases, and Homebrew.
+- **One recognizable workspace language** across editors, AI coding tools, browsers, terminals, launchers, collaboration tools, and documentation.
+- **Public distribution** through the Visual Studio Marketplace, Open VSX, Zed extension registry, Chrome Web Store, npm, GitHub releases, and Homebrew, alongside app-specific presets and installable packages.
 - **Repeatable releases** backed by Changesets, generated artifacts, contrast checks, tests, linting, and package validation.
 - **Portable theme infrastructure** that can support new tools without copying colors or brand assets by hand.
 
@@ -75,6 +80,11 @@ Themes look simple from the outside, but a coherent workspace touches hierarchy,
 
 ![Santi020k Theme light preview](preview-light.webp)
 
-Explore the [theme family](https://theme.santi020k.com/), install an [editor variant](https://vscode.santi020k.com/), preview the [Chrome themes](https://chrome.santi020k.com/), or configure the [terminal edition](https://terminal.santi020k.com/).
+Explore the [theme family](https://theme.santi020k.com/) or go directly to the setup for your tools:
+
+- [VS Code](https://theme.santi020k.com/vscode/), [Zed](https://theme.santi020k.com/zed/), and [Codex](https://theme.santi020k.com/codex/).
+- [Chrome](https://theme.santi020k.com/chrome/) and [terminals](https://theme.santi020k.com/terminal/).
+- [Raycast](https://theme.santi020k.com/raycast/) and [Slack](https://theme.santi020k.com/slack/).
+- [JetBrains and Android Studio](https://theme.santi020k.com/jetbrains/) and [Xcode](https://theme.santi020k.com/xcode/).
 
 For the implementation story, read how I [expanded the theme from editors to terminals](/blog/expanding-santi020k-theme-to-the-terminal/) and [shipped the macOS tooling through Homebrew](/blog/shipping-macos-tools-with-a-homebrew-tap/).
