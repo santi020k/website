@@ -26,9 +26,9 @@ export const staticSocialPages: SocialPageDefinition[] = [
     type: 'About'
   },
   {
-    description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+    description: 'Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.',
     pathname: '/blog/',
-    title: 'Software Engineering Blog - Santiago Molina',
+    title: 'Personal Blog - Santiago Molina',
     type: 'Blog'
   },
   {

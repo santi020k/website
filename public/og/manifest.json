@@ -34,8 +34,8 @@
       "title": "About Santiago Molina — Engineering Leader"
     },
     "/blog/": {
-      "alt": "Software Engineering Blog - Santiago Molina — Santiago Molina",
-      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
+      "alt": "Personal Blog - Santiago Molina — Santiago Molina",
+      "description": "Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.",
       "images": [
         {
           "format": "webp",
@@ -47,7 +47,7 @@
         }
       ],
       "pathname": "/blog/",
-      "title": "Software Engineering Blog - Santiago Molina"
+      "title": "Personal Blog - Santiago Molina"
     },
     "/developer-experience/": {
       "alt": "Developer Experience & Engineering Quality — Santiago Molina",
@@ -83,7 +83,7 @@
     },
     "/blog/tags/": {
       "alt": "Blog Topics — Santiago Molina",
-      "description": "Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.",
+      "description": "Browse posts about software, reading, gaming, and everyday discoveries by topic.",
       "images": [
         {
           "format": "webp",
@@ -915,7 +915,7 @@
     },
     "/blog/2/": {
       "alt": "Blog · Page 2 — Santiago Molina",
-      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
+      "description": "Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.",
       "images": [
         {
           "format": "webp",
@@ -931,7 +931,7 @@
     },
     "/blog/3/": {
       "alt": "Blog · Page 3 — Santiago Molina",
-      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
+      "description": "Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.",
       "images": [
         {
           "format": "webp",
@@ -947,7 +947,7 @@
     },
     "/blog/4/": {
       "alt": "Blog · Page 4 — Santiago Molina",
-      "description": "Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.",
+      "description": "Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.",
       "images": [
         {
           "format": "webp",
@@ -963,7 +963,7 @@
     },
     "/blog/tags/development/": {
       "alt": "Development posts — Santiago Molina",
-      "description": "Explore Development posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Development.",
       "images": [
         {
           "format": "webp",
@@ -979,7 +979,7 @@
     },
     "/blog/tags/react/": {
       "alt": "React posts — Santiago Molina",
-      "description": "Explore React posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about React.",
       "images": [
         {
           "format": "webp",
@@ -995,7 +995,7 @@
     },
     "/blog/tags/nextjs/": {
       "alt": "Next.js posts — Santiago Molina",
-      "description": "Explore Next.js posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Next.js.",
       "images": [
         {
           "format": "webp",
@@ -1011,7 +1011,7 @@
     },
     "/blog/tags/typescript/": {
       "alt": "TypeScript posts — Santiago Molina",
-      "description": "Explore TypeScript posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about TypeScript.",
       "images": [
         {
           "format": "webp",
@@ -1027,7 +1027,7 @@
     },
     "/blog/tags/typescript/2/": {
       "alt": "TypeScript posts · Page 2 — Santiago Molina",
-      "description": "Explore TypeScript posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about TypeScript.",
       "images": [
         {
           "format": "webp",
@@ -1043,7 +1043,7 @@
     },
     "/blog/tags/supabase/": {
       "alt": "Supabase posts — Santiago Molina",
-      "description": "Explore Supabase posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Supabase.",
       "images": [
         {
           "format": "webp",
@@ -1059,7 +1059,7 @@
     },
     "/blog/tags/authentication/": {
       "alt": "Authentication posts — Santiago Molina",
-      "description": "Explore Authentication posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Authentication.",
       "images": [
         {
           "format": "webp",
@@ -1075,7 +1075,7 @@
     },
     "/blog/tags/authorization/": {
       "alt": "Authorization posts — Santiago Molina",
-      "description": "Explore Authorization posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Authorization.",
       "images": [
         {
           "format": "webp",
@@ -1091,7 +1091,7 @@
     },
     "/blog/tags/react-native/": {
       "alt": "React native posts — Santiago Molina",
-      "description": "Explore React native posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about React native.",
       "images": [
         {
           "format": "webp",
@@ -1107,7 +1107,7 @@
     },
     "/blog/tags/eslint/": {
       "alt": "ESLint posts — Santiago Molina",
-      "description": "Explore ESLint posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about ESLint.",
       "images": [
         {
           "format": "webp",
@@ -1123,7 +1123,7 @@
     },
     "/blog/tags/eslint-config/": {
       "alt": "ESLint config posts — Santiago Molina",
-      "description": "Explore ESLint config posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about ESLint config.",
       "images": [
         {
           "format": "webp",
@@ -1139,7 +1139,7 @@
     },
     "/blog/tags/vitest/": {
       "alt": "Vitest posts — Santiago Molina",
-      "description": "Explore Vitest posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Vitest.",
       "images": [
         {
           "format": "webp",
@@ -1155,7 +1155,7 @@
     },
     "/blog/tags/standards/": {
       "alt": "Standards posts — Santiago Molina",
-      "description": "Explore Standards posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Standards.",
       "images": [
         {
           "format": "webp",
@@ -1171,7 +1171,7 @@
     },
     "/blog/tags/mongo/": {
       "alt": "Mongo posts — Santiago Molina",
-      "description": "Explore Mongo posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Mongo.",
       "images": [
         {
           "format": "webp",
@@ -1187,7 +1187,7 @@
     },
     "/blog/tags/configuration/": {
       "alt": "Configuration posts — Santiago Molina",
-      "description": "Explore Configuration posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Configuration.",
       "images": [
         {
           "format": "webp",
@@ -1203,7 +1203,7 @@
     },
     "/blog/tags/homebrew/": {
       "alt": "Homebrew posts — Santiago Molina",
-      "description": "Explore Homebrew posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Homebrew.",
       "images": [
         {
           "format": "webp",
@@ -1219,7 +1219,7 @@
     },
     "/blog/tags/mac/": {
       "alt": "Mac posts — Santiago Molina",
-      "description": "Explore Mac posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Mac.",
       "images": [
         {
           "format": "webp",
@@ -1235,7 +1235,7 @@
     },
     "/blog/tags/ci-cd/": {
       "alt": "Ci cd posts — Santiago Molina",
-      "description": "Explore Ci cd posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Ci cd.",
       "images": [
         {
           "format": "webp",
@@ -1251,7 +1251,7 @@
     },
     "/blog/tags/github-actions/": {
       "alt": "Github actions posts — Santiago Molina",
-      "description": "Explore Github actions posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Github actions.",
       "images": [
         {
           "format": "webp",
@@ -1267,7 +1267,7 @@
     },
     "/blog/tags/deployment/": {
       "alt": "Deployment posts — Santiago Molina",
-      "description": "Explore Deployment posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Deployment.",
       "images": [
         {
           "format": "webp",
@@ -1283,7 +1283,7 @@
     },
     "/blog/tags/pre-commit/": {
       "alt": "Pre commit posts — Santiago Molina",
-      "description": "Explore Pre commit posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Pre commit.",
       "images": [
         {
           "format": "webp",
@@ -1299,7 +1299,7 @@
     },
     "/blog/tags/husky/": {
       "alt": "Husky posts — Santiago Molina",
-      "description": "Explore Husky posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Husky.",
       "images": [
         {
           "format": "webp",
@@ -1315,7 +1315,7 @@
     },
     "/blog/tags/migration/": {
       "alt": "Migration posts — Santiago Molina",
-      "description": "Explore Migration posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Migration.",
       "images": [
         {
           "format": "webp",
@@ -1331,7 +1331,7 @@
     },
     "/blog/tags/engineering-culture/": {
       "alt": "Engineering culture posts — Santiago Molina",
-      "description": "Explore Engineering culture posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Engineering culture.",
       "images": [
         {
           "format": "webp",
@@ -1347,7 +1347,7 @@
     },
     "/blog/tags/leadership/": {
       "alt": "Leadership posts — Santiago Molina",
-      "description": "Explore Leadership posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Leadership.",
       "images": [
         {
           "format": "webp",
@@ -1363,7 +1363,7 @@
     },
     "/blog/tags/product-thinking/": {
       "alt": "Product thinking posts — Santiago Molina",
-      "description": "Explore Product thinking posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Product thinking.",
       "images": [
         {
           "format": "webp",
@@ -1379,7 +1379,7 @@
     },
     "/blog/tags/software-teams/": {
       "alt": "Software teams posts — Santiago Molina",
-      "description": "Explore Software teams posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Software teams.",
       "images": [
         {
           "format": "webp",
@@ -1395,7 +1395,7 @@
     },
     "/blog/tags/tailwind/": {
       "alt": "Tailwind posts — Santiago Molina",
-      "description": "Explore Tailwind posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Tailwind.",
       "images": [
         {
           "format": "webp",
@@ -1411,7 +1411,7 @@
     },
     "/blog/tags/storybook/": {
       "alt": "Storybook posts — Santiago Molina",
-      "description": "Explore Storybook posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Storybook.",
       "images": [
         {
           "format": "webp",
@@ -1427,7 +1427,7 @@
     },
     "/blog/tags/testing-library/": {
       "alt": "Testing library posts — Santiago Molina",
-      "description": "Explore Testing library posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Testing library.",
       "images": [
         {
           "format": "webp",
@@ -1443,7 +1443,7 @@
     },
     "/blog/tags/release-management/": {
       "alt": "Release management posts — Santiago Molina",
-      "description": "Explore Release management posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Release management.",
       "images": [
         {
           "format": "webp",
@@ -1459,7 +1459,7 @@
     },
     "/blog/tags/git/": {
       "alt": "Git posts — Santiago Molina",
-      "description": "Explore Git posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Git.",
       "images": [
         {
           "format": "webp",
@@ -1475,7 +1475,7 @@
     },
     "/blog/tags/qa/": {
       "alt": "QA posts — Santiago Molina",
-      "description": "Explore QA posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about QA.",
       "images": [
         {
           "format": "webp",
@@ -1491,7 +1491,7 @@
     },
     "/blog/tags/delivery/": {
       "alt": "Delivery posts — Santiago Molina",
-      "description": "Explore Delivery posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Delivery.",
       "images": [
         {
           "format": "webp",
@@ -1507,7 +1507,7 @@
     },
     "/blog/tags/readability/": {
       "alt": "Readability posts — Santiago Molina",
-      "description": "Explore Readability posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Readability.",
       "images": [
         {
           "format": "webp",
@@ -1523,7 +1523,7 @@
     },
     "/blog/tags/javascript/": {
       "alt": "JavaScript posts — Santiago Molina",
-      "description": "Explore JavaScript posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about JavaScript.",
       "images": [
         {
           "format": "webp",
@@ -1539,7 +1539,7 @@
     },
     "/blog/tags/frontend/": {
       "alt": "Frontend posts — Santiago Molina",
-      "description": "Explore Frontend posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Frontend.",
       "images": [
         {
           "format": "webp",
@@ -1555,7 +1555,7 @@
     },
     "/blog/tags/clean-code/": {
       "alt": "Clean code posts — Santiago Molina",
-      "description": "Explore Clean code posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Clean code.",
       "images": [
         {
           "format": "webp",
@@ -1571,7 +1571,7 @@
     },
     "/blog/tags/code-quality/": {
       "alt": "Code quality posts — Santiago Molina",
-      "description": "Explore Code quality posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Code quality.",
       "images": [
         {
           "format": "webp",
@@ -1587,7 +1587,7 @@
     },
     "/blog/tags/refactoring/": {
       "alt": "Refactoring posts — Santiago Molina",
-      "description": "Explore Refactoring posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Refactoring.",
       "images": [
         {
           "format": "webp",
@@ -1603,7 +1603,7 @@
     },
     "/blog/tags/engineering-standards/": {
       "alt": "Engineering standards posts — Santiago Molina",
-      "description": "Explore Engineering standards posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Engineering standards.",
       "images": [
         {
           "format": "webp",
@@ -1619,7 +1619,7 @@
     },
     "/blog/tags/team-process/": {
       "alt": "Team process posts — Santiago Molina",
-      "description": "Explore Team process posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Team process.",
       "images": [
         {
           "format": "webp",
@@ -1635,7 +1635,7 @@
     },
     "/blog/tags/maintainability/": {
       "alt": "Maintainability posts — Santiago Molina",
-      "description": "Explore Maintainability posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Maintainability.",
       "images": [
         {
           "format": "webp",
@@ -1651,7 +1651,7 @@
     },
     "/blog/tags/software-design/": {
       "alt": "Software design posts — Santiago Molina",
-      "description": "Explore Software design posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Software design.",
       "images": [
         {
           "format": "webp",
@@ -1667,7 +1667,7 @@
     },
     "/blog/tags/pull-requests/": {
       "alt": "Pull requests posts — Santiago Molina",
-      "description": "Explore Pull requests posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Pull requests.",
       "images": [
         {
           "format": "webp",
@@ -1683,7 +1683,7 @@
     },
     "/blog/tags/collaboration/": {
       "alt": "Collaboration posts — Santiago Molina",
-      "description": "Explore Collaboration posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Collaboration.",
       "images": [
         {
           "format": "webp",
@@ -1699,7 +1699,7 @@
     },
     "/blog/tags/developer-experience/": {
       "alt": "Developer experience posts — Santiago Molina",
-      "description": "Explore Developer experience posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Developer experience.",
       "images": [
         {
           "format": "webp",
@@ -1715,7 +1715,7 @@
     },
     "/blog/tags/developer-experience/2/": {
       "alt": "Developer experience posts · Page 2 — Santiago Molina",
-      "description": "Explore Developer experience posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Developer experience.",
       "images": [
         {
           "format": "webp",
@@ -1731,7 +1731,7 @@
     },
     "/blog/tags/responsive-design/": {
       "alt": "Responsive design posts — Santiago Molina",
-      "description": "Explore Responsive design posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Responsive design.",
       "images": [
         {
           "format": "webp",
@@ -1747,7 +1747,7 @@
     },
     "/blog/tags/design-systems/": {
       "alt": "Design systems posts — Santiago Molina",
-      "description": "Explore Design systems posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Design systems.",
       "images": [
         {
           "format": "webp",
@@ -1763,7 +1763,7 @@
     },
     "/blog/tags/ui-engineering/": {
       "alt": "UI engineering posts — Santiago Molina",
-      "description": "Explore UI engineering posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about UI engineering.",
       "images": [
         {
           "format": "webp",
@@ -1779,7 +1779,7 @@
     },
     "/blog/tags/code-review/": {
       "alt": "Code review posts — Santiago Molina",
-      "description": "Explore Code review posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Code review.",
       "images": [
         {
           "format": "webp",
@@ -1795,7 +1795,7 @@
     },
     "/blog/tags/communication/": {
       "alt": "Communication posts — Santiago Molina",
-      "description": "Explore Communication posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Communication.",
       "images": [
         {
           "format": "webp",
@@ -1811,7 +1811,7 @@
     },
     "/blog/tags/ai/": {
       "alt": "AI posts — Santiago Molina",
-      "description": "Explore AI posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about AI.",
       "images": [
         {
           "format": "webp",
@@ -1827,7 +1827,7 @@
     },
     "/blog/tags/testing/": {
       "alt": "Testing posts — Santiago Molina",
-      "description": "Explore Testing posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Testing.",
       "images": [
         {
           "format": "webp",
@@ -1843,7 +1843,7 @@
     },
     "/blog/tags/e2e/": {
       "alt": "E2e posts — Santiago Molina",
-      "description": "Explore E2e posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about E2e.",
       "images": [
         {
           "format": "webp",
@@ -1859,7 +1859,7 @@
     },
     "/blog/tags/astro/": {
       "alt": "Astro posts — Santiago Molina",
-      "description": "Explore Astro posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Astro.",
       "images": [
         {
           "format": "webp",
@@ -1875,7 +1875,7 @@
     },
     "/blog/tags/alpine/": {
       "alt": "Alpine posts — Santiago Molina",
-      "description": "Explore Alpine posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Alpine.",
       "images": [
         {
           "format": "webp",
@@ -1891,7 +1891,7 @@
     },
     "/blog/tags/performance/": {
       "alt": "Performance posts — Santiago Molina",
-      "description": "Explore Performance posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Performance.",
       "images": [
         {
           "format": "webp",
@@ -1907,7 +1907,7 @@
     },
     "/blog/tags/accessibility/": {
       "alt": "Accessibility posts — Santiago Molina",
-      "description": "Explore Accessibility posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Accessibility.",
       "images": [
         {
           "format": "webp",
@@ -1923,7 +1923,7 @@
     },
     "/blog/tags/open-source/": {
       "alt": "Open source posts — Santiago Molina",
-      "description": "Explore Open source posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Open source.",
       "images": [
         {
           "format": "webp",
@@ -1939,7 +1939,7 @@
     },
     "/blog/tags/distributed-systems/": {
       "alt": "Distributed systems posts — Santiago Molina",
-      "description": "Explore Distributed systems posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Distributed systems.",
       "images": [
         {
           "format": "webp",
@@ -1955,7 +1955,7 @@
     },
     "/blog/tags/cloudflare/": {
       "alt": "Cloudflare posts — Santiago Molina",
-      "description": "Explore Cloudflare posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Cloudflare.",
       "images": [
         {
           "format": "webp",
@@ -1971,7 +1971,7 @@
     },
     "/blog/tags/websockets/": {
       "alt": "Websockets posts — Santiago Molina",
-      "description": "Explore Websockets posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Websockets.",
       "images": [
         {
           "format": "webp",
@@ -1987,7 +1987,7 @@
     },
     "/blog/tags/swiftui/": {
       "alt": "Swiftui posts — Santiago Molina",
-      "description": "Explore Swiftui posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Swiftui.",
       "images": [
         {
           "format": "webp",
@@ -2003,7 +2003,7 @@
     },
     "/blog/tags/android/": {
       "alt": "Android posts — Santiago Molina",
-      "description": "Explore Android posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Android.",
       "images": [
         {
           "format": "webp",
@@ -2019,7 +2019,7 @@
     },
     "/blog/tags/local-first/": {
       "alt": "Local first posts — Santiago Molina",
-      "description": "Explore Local first posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Local first.",
       "images": [
         {
           "format": "webp",
@@ -2035,7 +2035,7 @@
     },
     "/blog/tags/product-architecture/": {
       "alt": "Product architecture posts — Santiago Molina",
-      "description": "Explore Product architecture posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Product architecture.",
       "images": [
         {
           "format": "webp",
@@ -2051,7 +2051,7 @@
     },
     "/blog/tags/personal-projects/": {
       "alt": "Personal projects posts — Santiago Molina",
-      "description": "Explore Personal projects posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Personal projects.",
       "images": [
         {
           "format": "webp",
@@ -2067,7 +2067,7 @@
     },
     "/blog/tags/roadscore/": {
       "alt": "Roadscore posts — Santiago Molina",
-      "description": "Explore Roadscore posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Roadscore.",
       "images": [
         {
           "format": "webp",
@@ -2083,7 +2083,7 @@
     },
     "/blog/tags/expo/": {
       "alt": "Expo posts — Santiago Molina",
-      "description": "Explore Expo posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Expo.",
       "images": [
         {
           "format": "webp",
@@ -2099,7 +2099,7 @@
     },
     "/blog/tags/offline-first/": {
       "alt": "Offline first posts — Santiago Molina",
-      "description": "Explore Offline first posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Offline first.",
       "images": [
         {
           "format": "webp",
@@ -2115,7 +2115,7 @@
     },
     "/blog/tags/game-development/": {
       "alt": "Game development posts — Santiago Molina",
-      "description": "Explore Game development posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Game development.",
       "images": [
         {
           "format": "webp",
@@ -2131,7 +2131,7 @@
     },
     "/blog/tags/macos/": {
       "alt": "macOS posts — Santiago Molina",
-      "description": "Explore macOS posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about macOS.",
       "images": [
         {
           "format": "webp",
@@ -2147,7 +2147,7 @@
     },
     "/blog/tags/swift/": {
       "alt": "Swift posts — Santiago Molina",
-      "description": "Explore Swift posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Swift.",
       "images": [
         {
           "format": "webp",
@@ -2163,7 +2163,7 @@
     },
     "/blog/tags/hardware/": {
       "alt": "Hardware posts — Santiago Molina",
-      "description": "Explore Hardware posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Hardware.",
       "images": [
         {
           "format": "webp",
@@ -2179,7 +2179,7 @@
     },
     "/blog/tags/safety-engineering/": {
       "alt": "Safety engineering posts — Santiago Molina",
-      "description": "Explore Safety engineering posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Safety engineering.",
       "images": [
         {
           "format": "webp",
@@ -2195,7 +2195,7 @@
     },
     "/blog/tags/native-apps/": {
       "alt": "Native apps posts — Santiago Molina",
-      "description": "Explore Native apps posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Native apps.",
       "images": [
         {
           "format": "webp",
@@ -2211,7 +2211,7 @@
     },
     "/blog/tags/vscode/": {
       "alt": "VS Code posts — Santiago Molina",
-      "description": "Explore VS Code posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about VS Code.",
       "images": [
         {
           "format": "webp",
@@ -2227,7 +2227,7 @@
     },
     "/blog/tags/dependencies/": {
       "alt": "Dependencies posts — Santiago Molina",
-      "description": "Explore Dependencies posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Dependencies.",
       "images": [
         {
           "format": "webp",
@@ -2243,7 +2243,7 @@
     },
     "/blog/tags/security/": {
       "alt": "Security posts — Santiago Molina",
-      "description": "Explore Security posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Security.",
       "images": [
         {
           "format": "webp",
@@ -2259,7 +2259,7 @@
     },
     "/blog/tags/open-graph/": {
       "alt": "Open graph posts — Santiago Molina",
-      "description": "Explore Open graph posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Open graph.",
       "images": [
         {
           "format": "webp",
@@ -2275,7 +2275,7 @@
     },
     "/blog/tags/nodejs/": {
       "alt": "Node.js posts — Santiago Molina",
-      "description": "Explore Node.js posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Node.js.",
       "images": [
         {
           "format": "webp",
@@ -2291,7 +2291,7 @@
     },
     "/blog/tags/build-tools/": {
       "alt": "Build tools posts — Santiago Molina",
-      "description": "Explore Build tools posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Build tools.",
       "images": [
         {
           "format": "webp",
@@ -2307,7 +2307,7 @@
     },
     "/blog/tags/terminal/": {
       "alt": "Terminal posts — Santiago Molina",
-      "description": "Explore Terminal posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Terminal.",
       "images": [
         {
           "format": "webp",
@@ -2321,9 +2321,25 @@
       "pathname": "/blog/tags/terminal/",
       "title": "Terminal posts"
     },
+    "/blog/tags/reading/": {
+      "alt": "Reading posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Reading.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--reading.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--reading.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/reading/",
+      "title": "Reading posts"
+    },
     "/blog/tags/xteink/": {
       "alt": "Xteink posts — Santiago Molina",
-      "description": "Explore Xteink posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Xteink.",
       "images": [
         {
           "format": "webp",
@@ -2339,7 +2355,7 @@
     },
     "/blog/tags/e-reader/": {
       "alt": "E reader posts — Santiago Molina",
-      "description": "Explore E reader posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about E reader.",
       "images": [
         {
           "format": "webp",
@@ -2355,7 +2371,7 @@
     },
     "/blog/tags/firmware/": {
       "alt": "Firmware posts — Santiago Molina",
-      "description": "Explore Firmware posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Firmware.",
       "images": [
         {
           "format": "webp",
@@ -2371,7 +2387,7 @@
     },
     "/blog/tags/troubleshooting/": {
       "alt": "Troubleshooting posts — Santiago Molina",
-      "description": "Explore Troubleshooting posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Troubleshooting.",
       "images": [
         {
           "format": "webp",
@@ -2387,7 +2403,7 @@
     },
     "/blog/tags/web-components/": {
       "alt": "Web components posts — Santiago Molina",
-      "description": "Explore Web components posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Web components.",
       "images": [
         {
           "format": "webp",
@@ -2403,7 +2419,7 @@
     },
     "/blog/tags/automation/": {
       "alt": "Automation posts — Santiago Molina",
-      "description": "Explore Automation posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Automation.",
       "images": [
         {
           "format": "webp",
@@ -2419,7 +2435,7 @@
     },
     "/blog/tags/rust/": {
       "alt": "Rust posts — Santiago Molina",
-      "description": "Explore Rust posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Rust.",
       "images": [
         {
           "format": "webp",
@@ -2435,7 +2451,7 @@
     },
     "/blog/tags/tooling/": {
       "alt": "Tooling posts — Santiago Molina",
-      "description": "Explore Tooling posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Tooling.",
       "images": [
         {
           "format": "webp",
@@ -2451,7 +2467,7 @@
     },
     "/blog/tags/playwright/": {
       "alt": "Playwright posts — Santiago Molina",
-      "description": "Explore Playwright posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Playwright.",
       "images": [
         {
           "format": "webp",
@@ -2467,7 +2483,7 @@
     },
     "/blog/tags/ios/": {
       "alt": "iOS posts — Santiago Molina",
-      "description": "Explore iOS posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about iOS.",
       "images": [
         {
           "format": "webp",
@@ -2483,7 +2499,7 @@
     },
     "/blog/tags/on-device-ai/": {
       "alt": "On device AI posts — Santiago Molina",
-      "description": "Explore On device AI posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about On device AI.",
       "images": [
         {
           "format": "webp",
@@ -2499,7 +2515,7 @@
     },
     "/blog/tags/privacy/": {
       "alt": "Privacy posts — Santiago Molina",
-      "description": "Explore Privacy posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Privacy.",
       "images": [
         {
           "format": "webp",
@@ -2515,7 +2531,7 @@
     },
     "/blog/tags/photography/": {
       "alt": "Photography posts — Santiago Molina",
-      "description": "Explore Photography posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Photography.",
       "images": [
         {
           "format": "webp",
@@ -2531,7 +2547,7 @@
     },
     "/blog/tags/apple-silicon/": {
       "alt": "Apple silicon posts — Santiago Molina",
-      "description": "Explore Apple silicon posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Apple silicon.",
       "images": [
         {
           "format": "webp",
@@ -2547,7 +2563,7 @@
     },
     "/blog/tags/gaming/": {
       "alt": "Gaming posts — Santiago Molina",
-      "description": "Explore Gaming posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Gaming.",
       "images": [
         {
           "format": "webp",
@@ -2563,7 +2579,7 @@
     },
     "/blog/tags/wine/": {
       "alt": "Wine posts — Santiago Molina",
-      "description": "Explore Wine posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Wine.",
       "images": [
         {
           "format": "webp",
@@ -2579,7 +2595,7 @@
     },
     "/blog/tags/dxmt/": {
       "alt": "Dxmt posts — Santiago Molina",
-      "description": "Explore Dxmt posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Dxmt.",
       "images": [
         {
           "format": "webp",
@@ -2595,7 +2611,7 @@
     },
     "/blog/tags/release-engineering/": {
       "alt": "Release engineering posts — Santiago Molina",
-      "description": "Explore Release engineering posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Release engineering.",
       "images": [
         {
           "format": "webp",
@@ -2611,7 +2627,7 @@
     },
     "/blog/tags/metrics/": {
       "alt": "Metrics posts — Santiago Molina",
-      "description": "Explore Metrics posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Metrics.",
       "images": [
         {
           "format": "webp",
@@ -2627,7 +2643,7 @@
     },
     "/blog/tags/product-engineering/": {
       "alt": "Product engineering posts — Santiago Molina",
-      "description": "Explore Product engineering posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Product engineering.",
       "images": [
         {
           "format": "webp",
@@ -2643,7 +2659,7 @@
     },
     "/blog/tags/flat-config/": {
       "alt": "Flat config posts — Santiago Molina",
-      "description": "Explore Flat config posts on architecture, automation, DX, and engineering workflow.",
+      "description": "Explore articles, guides, and personal notes about Flat config.",
       "images": [
         {
           "format": "webp",

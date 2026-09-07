@@ -16,6 +16,26 @@ test.describe('Blog page', () => {
     await expect(postLinks.first()).toBeVisible()
   })
 
+  test('personal topics lead to their posts and preserve navigation back to the mixed feed', async ({ page }) => {
+    await page.goto('/blog/')
+    await expect(page).toHaveTitle(/Personal Blog/)
+
+    const filter = page.getByRole('group', { name: 'Filter by topic' })
+    await filter.getByRole('link', { name: /reading/i }).click()
+    await expect(page).toHaveURL(/\/blog\/tags\/reading\//)
+    await expect(page.locator('[data-post-gallery-card]')).toContainText('International Firmware')
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /^Articles, guides, and personal notes tagged reading\./)
+
+    await filter.getByRole('link', { name: /gaming/i }).focus()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/blog\/tags\/gaming\//)
+    await expect(page.locator('[data-post-gallery-card]')).toContainText('R.E.P.O.')
+
+    await filter.getByRole('link', { name: 'All posts' }).click()
+    await expect(page).toHaveURL(/\/blog\/$/)
+    await expect(page.locator('[data-post-gallery-card]')).toHaveCount(12)
+  })
+
   test('renders twelve visual posts consistently on every full archive page', async ({ page }) => {
     await page.goto('/blog/')
 

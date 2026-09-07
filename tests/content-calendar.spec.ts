@@ -5,6 +5,6 @@ test.describe('Retired content calendar route', () => {
     await page.goto('/blog/content-calendar/')
 
     await expect(page).toHaveURL(/\/blog\/$/)
-    await expect(page).toHaveTitle(/Software Engineering Blog/)
+    await expect(page).toHaveTitle(/Personal Blog/)
   })
 })

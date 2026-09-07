@@ -54,8 +54,8 @@ export const createSeoDescription = (description: string, title: string) => {
 
   const expandedDescription = [
     normalizedDescription,
-    `Explore ${conciseTitle} through practical context, technical decisions,`,
-    'and lessons from Santiago Molina’s real-world work.'
+    `Explore ${conciseTitle} through personal experiences, useful discoveries,`,
+    'and lessons shared by Santiago Molina.'
   ].join(' ')
 
   return truncateAtWord(expandedDescription, MAX_META_DESCRIPTION_LENGTH)

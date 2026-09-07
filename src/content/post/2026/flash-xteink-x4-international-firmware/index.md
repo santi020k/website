@@ -6,7 +6,7 @@ draft: false
 coverImage:
   alt: "A microSD card passing through three verification gates toward a compact e-paper reader"
   src: "./cover.webp"
-tags: ["xteink", "e-reader", "firmware", "hardware", "troubleshooting"]
+tags: ["reading", "xteink", "e-reader", "firmware", "hardware", "troubleshooting"]
 postType: "Guide"
 ---
 
