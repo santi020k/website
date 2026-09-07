@@ -1,5 +1,23 @@
 # Changelog
 
+## 3.10.1
+
+### Patch Changes
+
+- [#150](https://github.com/santi020k/website/pull/150) [`04d97c9`](https://github.com/santi020k/website/commit/04d97c90a6b0cc3a5ee7f4847a6dfcd7285d28d9) Thanks [@santi020k](https://github.com/santi020k)! - Add a post about moving to Zed, link the published Dep Beacon and Santi020k Theme extensions, and refresh both project entries with current editor and app support.
+
+- [#150](https://github.com/santi020k/website/pull/150) [`04d97c9`](https://github.com/santi020k/website/commit/04d97c90a6b0cc3a5ee7f4847a6dfcd7285d28d9) Thanks [@santi020k](https://github.com/santi020k)! - Announce highlighted search results to screen readers and keep mobile navigation reliable when reopening the menu or using reduced motion.
+  
+  Make the shared article introduction welcome reading, gaming, and personal topics alongside software.
+  
+  Restore native newsletter POST submissions, respect cancelled native sharing, and bound Medium feed requests with cached fallback.
+  
+  Keep offline responses valid and preserve successful network requests when cache storage fails.
+  
+  Prevent stale search-close callbacks from affecting reopened dialogs and keep keyboard focus in the topmost overlay when mobile navigation and search are open together.
+
+- [#150](https://github.com/santi020k/website/pull/150) [`04d97c9`](https://github.com/santi020k/website/commit/04d97c90a6b0cc3a5ee7f4847a6dfcd7285d28d9) Thanks [@santi020k](https://github.com/santi020k)! - Restore mobile menu padding, rounded borders, and an opaque background; improve dark-mode contrast and align the contact actions. Keep the menu below the header and scrollable within the available viewport, including landscape screens and larger text.
+
 ## 3.10.0
 
 ### Minor Changes
