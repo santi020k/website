@@ -5,7 +5,7 @@ brand:
   primary: "#8747ff"
   secondary: "#c5a3ff"
   surface: "#130b22"
-seoTitle: "Santi020k Theme: Zed, Codex & Nine Workspace Themes"
+seoTitle: "Santi020k Theme: Zed, Codex & More"
 seoDescription: "Explore Santi020k themes for Zed, Codex, VS Code, Chrome, terminals, Raycast, Slack, JetBrains, and Xcode, with reusable tokens and setup guides."
 role: "Creator"
 startingDate: "28 Apr 2026"
