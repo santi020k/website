@@ -126,9 +126,9 @@ const staticSocialPages = [
   },
   {
     description:
-      'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+      'Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.',
     pathname: '/blog/',
-    title: 'Software Engineering Blog - Santiago Molina',
+    title: 'Personal Blog - Santiago Molina',
     badge: 'Blog'
   },
   {
@@ -154,7 +154,7 @@ const staticSocialPages = [
   },
   {
     description:
-      'Browse the blog archive by recurring topics and tags across architecture, automation, DX, and engineering workflow.',
+      'Browse posts about software, reading, gaming, and everyday discoveries by topic.',
     pathname: '/blog/tags/',
     title: 'Blog Topics',
     badge: 'Blog'
@@ -301,7 +301,7 @@ export const collectCards = async () => {
         basePath: '/blog/',
         data: context => ({
           badge: 'Blog',
-          description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+          description: 'Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.',
           domain: context.pathname,
           title: `Blog · Page ${context.pageNumber}`,
           variant: 'simple'
@@ -317,7 +317,7 @@ export const collectCards = async () => {
 
           return {
             badge: 'Topic',
-            description: `Explore ${topic} posts on architecture, automation, DX, and engineering workflow.`,
+            description: `Explore articles, guides, and personal notes about ${topic}.`,
             domain: context.pathname,
             title: context.pageNumber === 1 ? `${topic} posts` : `${topic} posts · Page ${context.pageNumber}`,
             variant: 'simple'

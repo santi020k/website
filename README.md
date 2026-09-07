@@ -41,6 +41,17 @@ Personal website, blog, and portfolio of **Santiago Molina** — Full Stack Deve
 
 ---
 
+### Blog scope
+
+The blog is a single chronological feed for software, reading, gaming, hobbies, and everyday
+experiences. Use specific frontmatter tags to connect related posts; posts do not need a
+programming angle or a series. The e-reader setup guide belongs to `reading` as well as its device
+and firmware topics. Gaming posts use `gaming`.
+
+Topic archives are generated from published posts. The blog filters keep `reading` and `gaming`
+visible when those topics have published entries, alongside the most frequent tags. Existing
+post URLs and the shared RSS feed stay the same.
+
 ### 📂 Project Structure
 
 | Path | Purpose |

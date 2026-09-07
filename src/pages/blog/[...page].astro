@@ -20,7 +20,7 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
-import { getAllTags } from '@/utils/tags'
+import { getAllTags, getBlogBrowseTags } from '@/utils/tags'
 
 import { Card, RevealGroup } from '@santi020k/lumen-astro'
 
@@ -46,7 +46,7 @@ const { allTagsData, page } = Astro.props
 const isFirstPage = page.currentPage === 1
 const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const santi020kWaySeries = isFirstPage ? (activeSeries.find(s => s.series.id === 'the-santi020k-way') ?? null) : null
-const topTags = allTagsData.slice(0, 8)
+const topTags = getBlogBrowseTags(allTagsData)
 const latestPost = page.data[0] ?? null
 
 const breadcrumbs = [
@@ -58,7 +58,7 @@ const breadcrumbs = [
 const blogListSchema = {
   '@context': 'https://schema.org',
   '@type': 'Blog',
-  name: 'Software Engineering Blog — Santiago Molina',
+  name: 'Personal Blog — Santiago Molina',
   url: new URL('/blog/', Astro.site).href,
   blogPost: page.data.map((post, index) => ({
     '@type': 'BlogPosting',
@@ -76,22 +76,22 @@ const blogListSchema = {
 <PageLayout
   meta={{
     breadcrumbs,
-    description: 'Practical guides and deep dives into software architecture, full-stack systems, and automation by Santiago Molina.',
+    description: 'Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.',
     structuredData: blogListSchema,
     title: isFirstPage ?
-      'Software Engineering Blog — Santiago Molina' :
+      'Personal Blog — Santiago Molina' :
       `Blog · Page ${page.currentPage} of ${page.lastPage} — Santiago Molina`
   }}
 >
   <PageHero
     compact={!isFirstPage}
     description={isFirstPage ?
-      'Practical writing on architecture, team habits, delivery systems, and the automation that helps software work feel calmer and more repeatable.' :
+      'Notes on software, reading, gaming, hobbies, and everyday discoveries. A place for what I build, what I enjoy, and what I learn along the way.' :
       `Older writing from page ${page.currentPage} of ${page.lastPage}, ordered newest first.`}
     eyebrow="Blog"
-    gradientText={isFirstPage ? 'Architecture. Craft.' : `Page ${page.currentPage}.`}
-    metaItems={isFirstPage ? ['Deep dives', 'Field notes', 'Evergreen guides'] : ['Archive', 'Latest first']}
-    title={isFirstPage ? 'Writing about software.' : 'Writing archive.'}
+    gradientText={isFirstPage ? 'enjoy, and learn.' : `Page ${page.currentPage}.`}
+    metaItems={isFirstPage ? ['Software', 'Reading', 'Gaming'] : ['Archive', 'Latest first']}
+    title={isFirstPage ? 'Things I build,' : 'Writing archive.'}
   >
     {isFirstPage && latestPost && (
       <ButtonLink href={getPostPath(latestPost.id)} showArrow>
@@ -101,11 +101,6 @@ const blogListSchema = {
     <ButtonLink href="/blog/tags/" showArrow variant="secondary">
       Browse topics
     </ButtonLink>
-    {isFirstPage && (
-      <ButtonLink href="/developer-experience/" showArrow variant="secondary">
-        Developer experience guide
-      </ButtonLink>
-    )}
     {isFirstPage && (
       <ButtonLink href="/blog/series/" showArrow variant="secondary">
         Browse series
@@ -122,9 +117,9 @@ const blogListSchema = {
     "
   >
     <SectionHeader
-      description="Latest post first, then browse by topic and depth."
+      description="The latest posts across my interests, with topics to help you find yours."
       eyebrow={isFirstPage ? 'Latest' : `Page ${page.currentPage} of ${page.lastPage}`}
-      title="Recent writing with a practical bias."
+      title="Recent notes and discoveries."
     />
 
     <div class="
@@ -144,7 +139,7 @@ const blogListSchema = {
 
   {isFirstPage && (
     <StatsGrid>
-      <StatCard description="Articles currently hosted on my site and cross-posted to Medium." label="Posts" value={String(page.total)} />
+      <StatCard description="Published articles across software, personal interests, and everyday discoveries." label="Posts" value={String(page.total)} />
       <StatCard
         description="Topics and themes covered in my writing across various publications."
         label="Tags"
@@ -156,7 +151,7 @@ const blogListSchema = {
         value={String(activeSeries.length)}
       />
       <StatCard
-        description="Years of writing and sharing engineering knowledge across the web."
+        description="Years of sharing ideas, experiences, and things I have learned."
         label="Experience"
         value={YEARS_OF_WRITING}
       />
@@ -258,7 +253,7 @@ const blogListSchema = {
   {isFirstPage && siteConfig.newsletter?.formAction && (
     <PageSection>
       <SectionHeader
-        description="A low-volume email for new engineering notes, architecture writeups, and practical lessons from the work."
+        description="A low-volume email with new posts on software, reading, gaming, and everyday discoveries."
         eyebrow="Newsletter"
         title="Keep up with new writing."
       />

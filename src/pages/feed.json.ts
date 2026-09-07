@@ -24,7 +24,7 @@ export const GET = async (context: APIContext) => {
     version: 'https://jsonfeed.org/version/1.1',
     title: `${siteConfig.title} JSON Feed`,
     description:
-      'Writing on software architecture, automation, developer experience, and calmer delivery systems.',
+      'Writing on software, reading, gaming, and everyday discoveries.',
     [jsonFeedKeys.homePageUrl]: site,
     [jsonFeedKeys.feedUrl]: new URL('/feed.json', site).toString(),
     language: siteConfig.lang,

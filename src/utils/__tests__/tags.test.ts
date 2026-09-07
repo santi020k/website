@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { getAllTags, getTopTags } from '../tags'
+import { getAllTags, getBlogBrowseTags, getTopTags } from '../tags'
 
 const makePosts = (tagSets: string[][]) => tagSets.map(tags => ({ data: { tags } }))
 
@@ -77,5 +77,38 @@ describe('getTopTags', () => {
     const original = [...firstPost.data.tags]
     getTopTags(posts)
     expect(firstPost.data.tags).toEqual(original)
+  })
+})
+
+describe('getBlogBrowseTags', () => {
+  test('keeps smaller personal topics visible without duplicating or changing counts', () => {
+    const tags: [string, number][] = [
+      ['typescript', 30],
+      ['astro', 20],
+      ['react', 18],
+      ['testing', 12],
+      ['architecture', 10],
+      ['automation', 9],
+      ['css', 8],
+      ['html', 7],
+      ['gaming', 1],
+      ['reading', 1]
+    ]
+    const original = structuredClone(tags)
+    const result = getBlogBrowseTags(tags)
+
+    expect(result).toHaveLength(8)
+    expect(result.slice(0, 2)).toEqual([
+      ['gaming', 1],
+      ['reading', 1]
+    ])
+    expect(result.slice(2)).toEqual(tags.slice(0, 6))
+    expect(new Set(result.map(([tag]) => tag)).size).toBe(8)
+    expect(tags).toEqual(original)
+  })
+
+  test('does not invent empty topics', () => {
+    expect(getBlogBrowseTags([])).toEqual([])
+    expect(getBlogBrowseTags([['astro', 2]])).toEqual([['astro', 2]])
   })
 })

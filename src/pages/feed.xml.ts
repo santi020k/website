@@ -17,7 +17,7 @@ export const GET = async (context: APIContext) => {
 
   return rss({
     title: `${siteConfig.title} RSS Feed`,
-    description: 'Writing on software architecture, automation, developer experience, and calmer delivery systems.',
+    description: 'Writing on software, reading, gaming, and everyday discoveries.',
     site: context.site ?? 'https://santi020k.com/',
     xmlns: { dc: 'http://purl.org/dc/elements/1.1/' },
     items: posts.map(post => ({

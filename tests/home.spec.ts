@@ -346,7 +346,7 @@ test('desktop navigation to blog works', async ({ page }) => {
   await page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'Blog' }).click()
 
   await expect(page).toHaveURL(/\/blog\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Writing about software/i })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /Things I build/i })).toBeVisible()
 })
 
 test('mobile navigation to blog works', async ({ page }) => {
@@ -359,5 +359,5 @@ test('mobile navigation to blog works', async ({ page }) => {
   })
 
   await expect(page).toHaveURL(/\/blog\/$/)
-  await expect(page.getByRole('heading', { level: 1, name: /Writing about software/i })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: /Things I build/i })).toBeVisible()
 })

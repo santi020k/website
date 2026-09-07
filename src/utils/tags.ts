@@ -13,3 +13,12 @@ export const getTopTags = (
   posts: { data: { tags: string[] } }[],
   limit = 8
 ): [string, number][] => getAllTags(posts).slice(0, limit)
+
+/** Keep personal interests discoverable alongside the most frequent software topics. */
+export const getBlogBrowseTags = (tags: [string, number][]): [string, number][] => {
+  const interests = ['reading', 'gaming']
+  const featured = tags.filter(([tag]) => interests.includes(tag))
+  const remaining = tags.filter(([tag]) => !interests.includes(tag))
+
+  return [...featured, ...remaining].slice(0, 8)
+}

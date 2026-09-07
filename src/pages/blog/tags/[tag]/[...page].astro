@@ -17,7 +17,7 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '@/utils/pagination'
-import { getAllTags } from '@/utils/tags'
+import { getAllTags, getBlogBrowseTags } from '@/utils/tags'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const posts = await getCachedPosts()
@@ -43,7 +43,7 @@ interface Props {
 const { page, tag, totalTopics } = Astro.props
 const allPosts = await getCachedPosts()
 const allTags = getAllTags(allPosts)
-const topTags = allTags.slice(0, 8)
+const topTags = getBlogBrowseTags(allTags)
 const relatedTags = topTags.filter(([t]) => t !== tag).slice(0, 6)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
@@ -60,7 +60,7 @@ const breadcrumbs = [
 <PageLayout
   meta={{
     breadcrumbs,
-    description: `Posts tagged ${tag} across architecture, automation, developer experience, and engineering workflow.`,
+    description: `Articles, guides, and personal notes tagged ${tag}.`,
     title: isFirstPage ?
       `${tag} Posts` :
       `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`

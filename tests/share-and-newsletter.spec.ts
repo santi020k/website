@@ -20,10 +20,10 @@ test.describe('Newsletter signup', () => {
     await expect(privacyLink).toHaveAttribute('href', /^\/privacy\/$/)
   })
 
-  test('newsletter heading drives the section accessible name', async ({ page }) => {
+  test('newsletter heading welcomes the wider writing topics', async ({ page }) => {
     await page.goto('/blog/')
 
-    const heading = page.getByRole('heading', { name: 'Engineering notes & writeups' })
+    const heading = page.getByRole('heading', { name: 'New posts and discoveries' })
 
     await expect(heading).toBeVisible()
   })
