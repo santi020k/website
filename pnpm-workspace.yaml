@@ -46,7 +46,7 @@ catalog:
   eslint: ^10.9.0
   fast-xml-parser: ^5.11.1
   hastscript: ^9.0.1
-  js-yaml: ^5.4.1
+  js-yaml: ^3.15.2
   jsdom: ^30.0.1
   lint-staged: ^17.4.1
   markdownlint-cli2: ^0.23.2

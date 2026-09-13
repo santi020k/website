@@ -121,8 +121,8 @@ catalogs:
       specifier: ^9.0.1
       version: 9.0.1
     js-yaml:
-      specifier: ^5.4.1
-      version: 5.4.1
+      specifier: ^3.15.2
+      version: 3.15.2
     jsdom:
       specifier: ^30.0.1
       version: 30.0.1
@@ -363,7 +363,7 @@ importers:
         version: 10.9.1(jiti@2.7.0)(supports-color@9.4.0)
       js-yaml:
         specifier: 'catalog:'
-        version: 5.4.1
+        version: 3.15.2
       jsdom:
         specifier: 'catalog:'
         version: 30.0.1
@@ -6442,12 +6442,12 @@ packages:
     resolution: {integrity: sha512-S99WuO3HlhO3XN41EtYUNl9zzXjoJx7QvmipxsJVxtCBT0YHEFy+iOJhjSvrmV12nYhWpZaM8lPHkJm0yUMbag==}
     hasBin: true
 
-  js-yaml@4.3.1:
-    resolution: {integrity: sha512-CY6crGq313MX8GkwvB7tzgp99vjQxY1++5y10/BKN/GUfHqWaOGQMNZkBvqSzsZKWk/ijwHlWzzkLulsGHhjWQ==}
+  js-yaml@3.15.2:
+    resolution: {integrity: sha512-6EuL879VkRA+1Cz578mKMiKvjPNEuk6+r1JaFzoSWejZmtf7xWbIyw1e3KkxlkzTIt9Taw6JBhEppG7utc1P+w==}
     hasBin: true
 
-  js-yaml@5.4.1:
-    resolution: {integrity: sha512-28R/k+NAjeuf7+CKlTxWZVExJGwVVLwY06DgEnOMz2gEpfNkDcD7QvyiVPT0xy0XXhU8vHsd4Ot42OOPdJG7dQ==}
+  js-yaml@4.3.1:
+    resolution: {integrity: sha512-CY6crGq313MX8GkwvB7tzgp99vjQxY1++5y10/BKN/GUfHqWaOGQMNZkBvqSzsZKWk/ijwHlWzzkLulsGHhjWQ==}
     hasBin: true
 
   jsdoc-type-pratt-parser@9.0.1:
@@ -16404,11 +16404,12 @@ snapshots:
       argparse: 1.0.10
       esprima: 4.0.1
 
-  js-yaml@4.3.1:
+  js-yaml@3.15.2:
     dependencies:
-      argparse: 2.0.1
+      argparse: 1.0.10
+      esprima: 4.0.1
 
-  js-yaml@5.4.1:
+  js-yaml@4.3.1:
     dependencies:
       argparse: 2.0.1
 
