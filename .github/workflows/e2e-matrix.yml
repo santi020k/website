@@ -22,6 +22,14 @@ jobs:
             og-${{ runner.os }}-${{ hashFiles('src/content/**/*.md', 'src/content/**/*.mdx', 'scripts/js/generate-og-images.js', 'scripts/js/og-render-worker.mjs', 'src/utils/render-social-image.js', 'public/fonts/Montserrat-Regular.ttf', 'public/fonts/Montserrat-ExtraBold.ttf', 'public/logos/logo.webp') }}
           restore-keys: |
             og-${{ runner.os }}-
+      - name: Cache Astro image transformations
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: node_modules/.astro
+          key: >-
+            astro-images-v1-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'astro.config.*', 'src/assets/**') }}
+          restore-keys: |
+            astro-images-v1-${{ runner.os }}-
       - name: Build
         run: pnpm run build
         env:
