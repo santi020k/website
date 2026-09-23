@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
 import {
   collectCards,
@@ -141,12 +141,19 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
   })
 
   test('excludes scheduled posts until their publish date', async () => {
-    const specs = await collectSpecs()
-    const scheduledPost = specs.find(spec => spec.outFile.endsWith(
-      'what-changed-when-i-started-writing-architecture-notes-every-month.webp'
-    ))
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-09-01T00:00:00.000Z'))
 
-    expect(scheduledPost).toBeUndefined()
+    try {
+      const specs = await collectSpecs()
+      const scheduledPost = specs.find(spec => spec.outFile.endsWith(
+        'what-changed-when-i-started-writing-architecture-notes-every-month.webp'
+      ))
+
+      expect(scheduledPost).toBeUndefined()
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   test('includes project entries stored in nested index.md files', async () => {
