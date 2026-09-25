@@ -5,12 +5,12 @@ import { siteConfig } from '../site.config'
 import { getCachedPosts } from '../utils/content'
 import { getPostPath } from '../utils/links'
 
-const escapeXml = (value: string): string => value
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;')
-  .replace(/'/g, '&apos;')
+/**
+ * Makes a value safe to embed inside a CDATA section. Entity escaping must not
+ * be used here: CDATA content is not entity-decoded, so `&amp;` would surface
+ * literally in readers. Only the section terminator needs escaping.
+ */
+const escapeCdata = (value: string): string => value.replaceAll(']]>', ']]]]><![CDATA[>')
 
 export const GET = async (context: APIContext) => {
   const posts = await getCachedPosts()
@@ -27,7 +27,7 @@ export const GET = async (context: APIContext) => {
       link: getPostPath(post.id),
       categories: post.data.tags,
       author: siteConfig.author,
-      customData: `<dc:creator><![CDATA[${escapeXml(siteConfig.author)}]]></dc:creator>`
+      customData: `<dc:creator><![CDATA[${escapeCdata(siteConfig.author)}]]></dc:creator>`
     }))
   })
 }

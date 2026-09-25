@@ -35,7 +35,10 @@ Personal portfolio and blog for Santiago Molina (@santi020k).
 - Use trailing slashes for all internal links (e.g., `/posts/my-post/`)
 - TypeScript interfaces for Astro component props, always destructured from `Astro.props`
 - `class:list` for conditional Tailwind classes (not template literals)
-- Icons via `astro-icon` — `<Icon name="collection:icon-name" />`; always add `aria-hidden="true"` on decorative icons
+- Icons: Lumen's `<Icon name="lucide-name" />` is the default. It is decorative unless given a
+  `label`, so do **not** pass `aria-hidden` — Lumen already emits it and a second one lands as a
+  duplicate attribute. Brand marks use `astro-icon` (`<Icon name="collection:icon-name" />`), which
+  does need an explicit `aria-hidden="true"` when decorative.
 
 ## Styling Rules
 

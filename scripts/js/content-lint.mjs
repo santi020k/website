@@ -6,8 +6,21 @@ import sharp from 'sharp'
 
 const CONTENT_ROOT = path.resolve('src/content')
 const POST_ROOT = path.resolve(CONTENT_ROOT, 'post')
+const SERIES_ROOT = path.resolve(CONTENT_ROOT, 'series')
 const POST_COVER_HEIGHT = 900
 const POST_COVER_WIDTH = 1600
+const isContentFile = filePath => filePath.endsWith('.md') || filePath.endsWith('.mdx')
+
+/**
+ * Mirrors the collection id that `glob()` derives for a content file: the path
+ * relative to the collection base, without extension and without `/index`.
+ */
+const collectionId = (root, filePath) => path
+  .relative(root, filePath)
+  .split(path.sep)
+  .join('/')
+  .replace(/\.mdx?$/, '')
+  .replace(/\/index$/, '')
 
 const walkFiles = async directory => {
   const entries = await fs.readdir(directory, { withFileTypes: true })
@@ -71,15 +84,15 @@ const validatePostCover = async (filePath, coverImage) => {
 }
 
 const validateFile = async filePath => {
-  if (path.basename(filePath) === 'AGENTS.md') return []
+  if (path.basename(filePath) === 'AGENTS.md') return { errors: [] }
 
-  if (!filePath.endsWith('.md') && !filePath.endsWith('.mdx')) return []
+  if (!isContentFile(filePath)) return { errors: [] }
 
   const raw = await fs.readFile(filePath, 'utf8')
   const frontmatter = parseFrontmatter(raw)
 
   if (!frontmatter || typeof frontmatter !== 'object') {
-    return [`${filePath}: missing or invalid frontmatter`]
+    return { errors: [`${filePath}: missing or invalid frontmatter`] }
   }
 
   const errors = []
@@ -110,12 +123,76 @@ const validateFile = async filePath => {
 
   errors.push(...await validatePostCover(filePath, coverImage))
 
+  const isPost = filePath.startsWith(`${POST_ROOT}${path.sep}`)
+
+  const seriesMembership = isPost && typeof frontmatter.seriesId === 'string' ?
+    {
+      filePath,
+      seriesId: frontmatter.seriesId,
+      seriesOrder: frontmatter.seriesOrder
+    } :
+    undefined
+
+  return { errors, ...(seriesMembership ? { seriesMembership } : {}) }
+}
+
+/** Collects the ids declared by the `series` collection. */
+const readSeriesIds = async () => {
+  const files = await walkFiles(SERIES_ROOT)
+
+  return new Set(files.filter(isContentFile).map(file => collectionId(SERIES_ROOT, file)))
+}
+
+/**
+ * Cross-file checks for series membership. A `seriesId` that does not resolve to
+ * a real series silently drops the post out of its reading track, and duplicate
+ * `seriesOrder` values make that track's order depend on tie-breaking instead of
+ * intent — neither is visible from a single file, so the schema cannot catch them.
+ */
+const validateSeriesMembership = (memberships, seriesIds) => {
+  const errors = []
+  const ordersBySeries = new Map()
+
+  for (const { filePath, seriesId, seriesOrder } of memberships) {
+    if (!seriesIds.has(seriesId)) {
+      errors.push(
+        `${filePath}: seriesId "${seriesId}" does not match any entry in src/content/series ` +
+        `(known: ${[...seriesIds].sort().join(', ') || 'none'})`
+      )
+
+      continue
+    }
+
+    if (typeof seriesOrder !== 'number') continue
+
+    const seen = ordersBySeries.get(seriesId) ?? new Map()
+    const previous = seen.get(seriesOrder)
+
+    if (previous) {
+      errors.push(
+        `${filePath}: seriesOrder ${seriesOrder} in series "${seriesId}" is already used by ${previous}`
+      )
+    } else {
+      seen.set(seriesOrder, filePath)
+    }
+
+    ordersBySeries.set(seriesId, seen)
+  }
+
   return errors
 }
 
 const run = async () => {
-  const files = await walkFiles(CONTENT_ROOT)
-  const errors = (await Promise.all(files.map(validateFile))).flat()
+  const [files, seriesIds] = await Promise.all([walkFiles(CONTENT_ROOT), readSeriesIds()])
+  const results = await Promise.all(files.map(validateFile))
+
+  const errors = [
+    ...results.flatMap(result => result.errors),
+    ...validateSeriesMembership(
+      results.flatMap(result => (result.seriesMembership ? [result.seriesMembership] : [])),
+      seriesIds
+    )
+  ]
 
   if (errors.length > 0) {
     for (const error of errors) {

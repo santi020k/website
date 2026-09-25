@@ -641,6 +641,22 @@
       "pathname": "/blog/building-roadscore-offline-road-trip-game/",
       "title": "Building RoadScore: An Offline Road-Trip Game for One Shared Phone"
     },
+    "/blog/building-santi020k-developer-tool-ecosystem/": {
+      "alt": "How I Built the santi020k Developer Tool Ecosystem — Santiago Molina",
+      "description": "How Lumen, ESLint Config Basic, Quality, Astro Doctor, Commitprompt, Dep Beacon, OG, Theme, and Auth form one practical system for my projects.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/building-santi020k-developer-tool-ecosystem.webp",
+          "primary": true,
+          "url": "/og/blog/building-santi020k-developer-tool-ecosystem.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/building-santi020k-developer-tool-ecosystem/",
+      "title": "How I Built the santi020k Developer Tool Ecosystem"
+    },
     "/blog/coolstead-safety-first-mac-cooling/": {
       "alt": "Coolstead: Safety-first cooling for a Mac — Santiago Molina",
       "description": "What it takes to design a native fan-control utility around bounded requests, invalid sensor data, reversible behavior, and macOS as the final safety layer.",
@@ -801,6 +817,22 @@
       "pathname": "/blog/one-quality-command-across-polyglot-repositories/",
       "title": "One quality command across polyglot repositories"
     },
+    "/blog/open-sourcing-santi020k-auth-cloudflare/": {
+      "alt": "Open-sourcing authentication without sharing accounts — Santiago Molina",
+      "description": "Why I made @santi020k/auth-cloudflare public, how it reuses email-code and passkey policy across Cloudflare applications, and where the shared boundary deliberately ends.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/open-sourcing-santi020k-auth-cloudflare.webp",
+          "primary": true,
+          "url": "/og/blog/open-sourcing-santi020k-auth-cloudflare.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/open-sourcing-santi020k-auth-cloudflare/",
+      "title": "Open-sourcing authentication without sharing accounts"
+    },
     "/blog/playwright-accessibility-checks-that-teams-keep-running/": {
       "alt": "Playwright Accessibility Checks That Teams Keep Running — Santiago Molina",
       "description": "How to add accessibility automation to your Playwright suite in a way that is fast enough to stay in the workflow and specific enough to actually catch problems.",
@@ -864,6 +896,22 @@
       ],
       "pathname": "/blog/shipping-macos-tools-with-a-homebrew-tap/",
       "title": "Shipping macOS tools with a personal Homebrew tap"
+    },
+    "/blog/what-changed-when-i-started-writing-architecture-notes-every-month/": {
+      "alt": "What Changed When I Started Writing Architecture Notes Every Month — Santiago Molina",
+      "description": "A year of monthly architecture notes changed how I review systems, how I catch drift, and how I explain decisions to the people who inherit them.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "blog/what-changed-when-i-started-writing-architecture-notes-every-month.webp",
+          "primary": true,
+          "url": "/og/blog/what-changed-when-i-started-writing-architecture-notes-every-month.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/what-changed-when-i-started-writing-architecture-notes-every-month/",
+      "title": "What Changed When I Started Writing Architecture Notes Every Month"
     },
     "/blog/why-developer-experience-work-should-be-measured-like-product-work/": {
       "alt": "Why Developer Experience Work Should Be Measured Like Product Work — Santiago Molina",
@@ -2145,6 +2193,38 @@
       "pathname": "/blog/tags/game-development/",
       "title": "Game development posts"
     },
+    "/blog/tags/developer-tools/": {
+      "alt": "Developer tools posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Developer tools.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--developer-tools.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--developer-tools.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/developer-tools/",
+      "title": "Developer tools posts"
+    },
+    "/blog/tags/automation/": {
+      "alt": "Automation posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Automation.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--automation.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--automation.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/automation/",
+      "title": "Automation posts"
+    },
     "/blog/tags/macos/": {
       "alt": "macOS posts — Santiago Molina",
       "description": "Explore articles, guides, and personal notes about macOS.",
@@ -2433,22 +2513,6 @@
       "pathname": "/blog/tags/web-components/",
       "title": "Web components posts"
     },
-    "/blog/tags/automation/": {
-      "alt": "Automation posts — Santiago Molina",
-      "description": "Explore articles, guides, and personal notes about Automation.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--automation.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--automation.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/automation/",
-      "title": "Automation posts"
-    },
     "/blog/tags/rust/": {
       "alt": "Rust posts — Santiago Molina",
       "description": "Explore articles, guides, and personal notes about Rust.",
@@ -2480,6 +2544,38 @@
       ],
       "pathname": "/blog/tags/tooling/",
       "title": "Tooling posts"
+    },
+    "/blog/tags/cloudflare-workers/": {
+      "alt": "Cloudflare workers posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Cloudflare workers.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--cloudflare-workers.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--cloudflare-workers.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/cloudflare-workers/",
+      "title": "Cloudflare workers posts"
+    },
+    "/blog/tags/passkeys/": {
+      "alt": "Passkeys posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Passkeys.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--passkeys.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--passkeys.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/passkeys/",
+      "title": "Passkeys posts"
     },
     "/blog/tags/playwright/": {
       "alt": "Playwright posts — Santiago Molina",
@@ -2641,6 +2737,38 @@
       "pathname": "/blog/tags/release-engineering/",
       "title": "Release engineering posts"
     },
+    "/blog/tags/architecture/": {
+      "alt": "Architecture posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Architecture.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--architecture.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--architecture.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/architecture/",
+      "title": "Architecture posts"
+    },
+    "/blog/tags/documentation/": {
+      "alt": "Documentation posts — Santiago Molina",
+      "description": "Explore articles, guides, and personal notes about Documentation.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/blog--tags--documentation.webp",
+          "primary": true,
+          "url": "/og/pages/blog--tags--documentation.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/blog/tags/documentation/",
+      "title": "Documentation posts"
+    },
     "/blog/tags/metrics/": {
       "alt": "Metrics posts — Santiago Molina",
       "description": "Explore articles, guides, and personal notes about Metrics.",
@@ -2721,22 +2849,6 @@
       "pathname": "/blog/tags/productivity/",
       "title": "Productivity posts"
     },
-    "/blog/tags/developer-tools/": {
-      "alt": "Developer tools posts — Santiago Molina",
-      "description": "Explore articles, guides, and personal notes about Developer tools.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/blog--tags--developer-tools.webp",
-          "primary": true,
-          "url": "/og/pages/blog--tags--developer-tools.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/blog/tags/developer-tools/",
-      "title": "Developer tools posts"
-    },
     "/portfolio/aaronmgz/": {
       "alt": "Aaronmgz — Santiago Molina",
       "description": "Built a growing family web platform with a nautical personal site, public message board, baby-shower experience, admin tools, and a shared Cloudflare API.",
@@ -2784,6 +2896,30 @@
       ],
       "pathname": "/portfolio/astro-doctor/",
       "title": "Astro Doctor"
+    },
+    "/portfolio/auth/": {
+      "alt": "santi020k auth — Santiago Molina",
+      "description": "Built an open-source authentication policy for single-owner and multi-user Hono applications on Cloudflare Workers and D1, with email codes, passkeys, isolated identity state, and explicit production-readiness gates.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/auth-logo.webp",
+          "primary": true,
+          "url": "/og/portfolio/auth-logo.webp",
+          "width": 1200
+        },
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "portfolio/auth.webp",
+          "primary": false,
+          "url": "/og/portfolio/auth.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/portfolio/auth/",
+      "title": "santi020k auth"
     },
     "/portfolio/between-contractions/": {
       "alt": "Between Contractions — Santiago Molina",
@@ -3769,6 +3905,70 @@
       "pathname": "/technologies/performance-optimization/",
       "title": "Performance Optimization · Technology"
     },
+    "/technologies/better-auth/": {
+      "alt": "Better Auth · Technology — Santiago Molina",
+      "description": "Projects and case studies where Better Auth shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Better~20Auth.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Better~20Auth.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/better-auth/",
+      "title": "Better Auth · Technology"
+    },
+    "/technologies/passkeys/": {
+      "alt": "Passkeys · Technology — Santiago Molina",
+      "description": "Projects and case studies where Passkeys shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Passkeys.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Passkeys.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/passkeys/",
+      "title": "Passkeys · Technology"
+    },
+    "/technologies/webauthn/": {
+      "alt": "WebAuthn · Technology — Santiago Molina",
+      "description": "Projects and case studies where WebAuthn shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--WebAuthn.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--WebAuthn.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/webauthn/",
+      "title": "WebAuthn · Technology"
+    },
+    "/technologies/email-otp/": {
+      "alt": "Email OTP · Technology — Santiago Molina",
+      "description": "Projects and case studies where Email OTP shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Email~20OTP.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Email~20OTP.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/email-otp/",
+      "title": "Email OTP · Technology"
+    },
     "/technologies/lumen-ui/": {
       "alt": "Lumen UI · Technology — Santiago Molina",
       "description": "Projects and case studies where Lumen UI shaped the architecture, delivery workflow, or product experience.",
@@ -3784,6 +3984,86 @@
       ],
       "pathname": "/technologies/lumen-ui/",
       "title": "Lumen UI · Technology"
+    },
+    "/technologies/vitest/": {
+      "alt": "Vitest · Technology — Santiago Molina",
+      "description": "Projects and case studies where Vitest shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Vitest.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Vitest.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/vitest/",
+      "title": "Vitest · Technology"
+    },
+    "/technologies/playwright/": {
+      "alt": "Playwright · Technology — Santiago Molina",
+      "description": "Projects and case studies where Playwright shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Playwright.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Playwright.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/playwright/",
+      "title": "Playwright · Technology"
+    },
+    "/technologies/codeql/": {
+      "alt": "CodeQL · Technology — Santiago Molina",
+      "description": "Projects and case studies where CodeQL shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--CodeQL.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--CodeQL.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/codeql/",
+      "title": "CodeQL · Technology"
+    },
+    "/technologies/authentication/": {
+      "alt": "Authentication · Technology — Santiago Molina",
+      "description": "Projects and case studies where Authentication shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Authentication.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Authentication.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/authentication/",
+      "title": "Authentication · Technology"
+    },
+    "/technologies/security/": {
+      "alt": "Security · Technology — Santiago Molina",
+      "description": "Projects and case studies where Security shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Security.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Security.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/security/",
+      "title": "Security · Technology"
     },
     "/technologies/swift/": {
       "alt": "Swift · Technology — Santiago Molina",
@@ -4569,22 +4849,6 @@
       "pathname": "/technologies/visual-studio-marketplace/",
       "title": "Visual Studio Marketplace · Technology"
     },
-    "/technologies/vitest/": {
-      "alt": "Vitest · Technology — Santiago Molina",
-      "description": "Projects and case studies where Vitest shaped the architecture, delivery workflow, or product experience.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/technologies--Vitest.webp",
-          "primary": true,
-          "url": "/og/pages/technologies--Vitest.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/technologies/vitest/",
-      "title": "Vitest · Technology"
-    },
     "/technologies/esbuild/": {
       "alt": "esbuild · Technology — Santiago Molina",
       "description": "Projects and case studies where esbuild shaped the architecture, delivery workflow, or product experience.",
@@ -4616,22 +4880,6 @@
       ],
       "pathname": "/technologies/dependency-management/",
       "title": "Dependency Management · Technology"
-    },
-    "/technologies/security/": {
-      "alt": "Security · Technology — Santiago Molina",
-      "description": "Projects and case studies where Security shaped the architecture, delivery workflow, or product experience.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/technologies--Security.webp",
-          "primary": true,
-          "url": "/og/pages/technologies--Security.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/technologies/security/",
-      "title": "Security · Technology"
     },
     "/technologies/expo/": {
       "alt": "Expo · Technology — Santiago Molina",
@@ -4920,22 +5168,6 @@
       ],
       "pathname": "/technologies/ai-assisted-development/",
       "title": "AI-assisted Development · Technology"
-    },
-    "/technologies/playwright/": {
-      "alt": "Playwright · Technology — Santiago Molina",
-      "description": "Projects and case studies where Playwright shaped the architecture, delivery workflow, or product experience.",
-      "images": [
-        {
-          "format": "webp",
-          "height": 630,
-          "output": "pages/technologies--Playwright.webp",
-          "primary": true,
-          "url": "/og/pages/technologies--Playwright.webp",
-          "width": 1200
-        }
-      ],
-      "pathname": "/technologies/playwright/",
-      "title": "Playwright · Technology"
     },
     "/technologies/ruby/": {
       "alt": "Ruby · Technology — Santiago Molina",

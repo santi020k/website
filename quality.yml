@@ -16,6 +16,11 @@ tools:
     enabled: true
     check: false
     required: true
+  santi-og:
+    # The required og-images task below supplies this site's non-default config.
+    enabled: true
+    check: false
+    required: true
 tasks:
   og-images:
     name: Open Graph image check

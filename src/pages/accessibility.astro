@@ -10,6 +10,9 @@ import { siteConfig } from '@/site.config'
 const description =
   'Accessibility commitment for santi020k.com: WCAG 2.2 AA as the target, practical limits of a solo-maintained site, and how to report barriers.'
 
+/** Single source of truth for the review date shown in the hero and the footnote. */
+const lastReviewed = 'July 26, 2026'
+
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Accessibility', url: '/accessibility/' }
@@ -47,7 +50,7 @@ const sections = [
       description="WCAG 2.2 AA is the target. This is how the site is built, checked, and improved when something falls short."
       eyebrow="Inclusion"
       gradientText="statement."
-      metaItems={['Keyboard first', 'Reduced motion', 'Reviewed July 26, 2026']}
+      metaItems={['Keyboard first', 'Reduced motion', `Reviewed ${lastReviewed}`]}
       title="Accessibility"
     />
 
@@ -85,7 +88,7 @@ const sections = [
           {' '}with the page URL, your browser, assistive technology, and what you were trying to do.
         </p>
         <p class="mt-3 text-xs/6 text-ink-muted">
-          Last reviewed July 26, 2026. I aim to acknowledge reports within five business days and share a
+          Last reviewed {lastReviewed}. I aim to acknowledge reports within five business days and share a
           resolution timeline once the barrier is reproduced.
         </p>
       </div>

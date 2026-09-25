@@ -393,6 +393,15 @@ export default defineConfig({
     host: true
   },
   build: {
-    inlineStylesheets: 'always' // Ensures one global CSS bundle
+    // The global bundle (Tailwind + Lumen UI + site partials) is ~420 KiB raw.
+    // Inlining it copied that payload into every one of the ~440 documents, so it
+    // could never be cached across pages and every `prefetch` hover re-downloaded
+    // it. `auto` keeps tiny page-scoped stylesheets inline and emits the global
+    // bundle as a hashed `/_astro/` asset, which `public/_headers` already serves
+    // as `immutable`. Documents drop from ~627 KiB to ~204 KiB (~93 KiB to ~30 KiB
+    // over the wire). Lighthouse lab scores are unchanged either way (performance
+    // 91, LCP/FCP/SI within run-to-run noise over 3 runs each); the win is transfer
+    // and caching across a multi-page site, not first-paint timing.
+    inlineStylesheets: 'auto'
   }
 })

@@ -48,6 +48,33 @@ test.describe('Blog page', () => {
     await expect(page.locator('[data-post-gallery-card]')).toHaveCount(12)
   })
 
+  test('pagination links keep the trailing slash so no host redirect is needed', async ({ page }) => {
+    for (const route of ['/blog/', '/blog/2/', '/blog/tags/typescript/']) {
+      await page.goto(route)
+
+      const pagination = page.getByRole('navigation', { name: 'Pagination' })
+      const hrefs = await pagination.getByRole('link').evaluateAll(
+        links => links.map(link => link.getAttribute('href') ?? '')
+      )
+
+      expect(hrefs.length).toBeGreaterThan(0)
+      expect(hrefs.filter(href => !href.endsWith('/'))).toEqual([])
+    }
+  })
+
+  test('pagination exposes prev and next relationships and never hides a single page', async ({ page }) => {
+    await page.goto('/blog/2/')
+
+    const pagination = page.getByRole('navigation', { name: 'Pagination' })
+
+    await expect(pagination.locator('a[rel="prev"]')).toHaveAttribute('href', '/blog/')
+    await expect(pagination.locator('a[rel="next"]')).toHaveAttribute('href', '/blog/3/')
+
+    // A four-page archive fits without an ellipsis standing in for one number.
+    await expect(pagination.getByText('…')).toHaveCount(0)
+    await expect(pagination.getByRole('link', { exact: true, name: 'Page 3' })).toBeVisible()
+  })
+
   test('topic and series archives reuse the visual post gallery', async ({ page }) => {
     await page.goto('/blog/tags/developer-experience/')
 
@@ -125,14 +152,7 @@ test.describe('Blog page', () => {
 
     // Post content accessibility audit
     await expect(page.locator('body')).toBeVisible()
-    await expectNoUnexpectedAccessibilityViolations(page, [
-      {
-        id: 'duplicate-img-label'
-      },
-      {
-        id: 'images-have-alt'
-      }
-    ])
+    await expectNoUnexpectedAccessibilityViolations(page)
   })
 
   if (shouldRunVisualSnapshots) {

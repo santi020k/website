@@ -3,11 +3,10 @@ import { Button, Card, Icon, Input, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   formAction: string
-  label?: string
   variant?: 'compact' | 'default'
 }
 
-const { formAction, label, variant = 'default' } = Astro.props
+const { formAction, variant = 'default' } = Astro.props
 const isCompact = variant === 'compact'
 const headingId = `newsletter-heading-${variant}`
 const emailId = `newsletter-email-${variant}`
@@ -94,7 +93,6 @@ const emailId = `newsletter-email-${variant}`
   (
     <Card
       as="section"
-      aria-label={label}
       aria-labelledby={headingId}
       class="p-0"
     >

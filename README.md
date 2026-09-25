@@ -70,15 +70,15 @@ post URLs and the shared RSS feed stay the same.
 
 ### 🛠️ Getting Started
 
-**Requirements**: Node.js >= 24, [pnpm](https://pnpm.io/) 10, and
-[Quality CLI](https://github.com/santi020k/quality) v0.3.1 for repository Git hooks.
+**Requirements**: Node.js >= 24, [pnpm](https://pnpm.io/) 11, and
+[Quality CLI](https://github.com/santi020k/quality) v1.3.0 for repository Git hooks.
 
 Install the pinned Quality CLI release with its checksum-verifying installer:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -fsSL \
   https://raw.githubusercontent.com/santi020k/quality/main/install.sh \
-  | sh -s -- santi020k/quality v0.3.1
+  | sh -s -- santi020k/quality v1.3.0
 ```
 
 If Quality is not installed yet, `pnpm install` remains non-blocking and prints

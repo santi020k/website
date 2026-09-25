@@ -10,6 +10,10 @@ import { siteConfig } from '@/site.config'
 const description =
   'Terms and conditions for using santi020k.com, including acceptable use, intellectual property, external links, and limitations.'
 
+/** Single source of truth for the effective and review dates shown across this page. */
+const effectiveDate = 'August 25, 2026'
+const lastReviewed = 'August 25, 2026'
+
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Terms & Conditions', url: '/terms/' }
@@ -63,7 +67,7 @@ const sections = [
       description="Clear expectations for using this portfolio, blog, and the resources shared here."
       eyebrow="Legal"
       gradientText="plain language."
-      metaItems={['Personal portfolio', 'Educational content', 'Effective August 25, 2026']}
+      metaItems={['Personal portfolio', 'Educational content', `Effective ${effectiveDate}`]}
       title="Terms & Conditions"
     />
 
@@ -101,7 +105,7 @@ const sections = [
           </a>.
         </p>
         <p class="mt-3 text-xs/6 text-ink-muted">
-          Effective August 25, 2026. Last reviewed August 25, 2026.
+          Effective {effectiveDate}. Last reviewed {lastReviewed}.
         </p>
       </div>
     </section>

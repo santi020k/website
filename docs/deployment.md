@@ -75,10 +75,9 @@ Two tiers, picked by intent:
 
 - `pnpm run verify:fast` — lint, Astro type-check, content checks, unit tests, and a build. Runs on `pre-push` to keep daily pushes fast.
 - `pnpm run verify:full` (alias of `ci:verify`) — everything `verify:fast` does, plus coverage, Lighthouse CI, and stable Playwright. Run before manual releases or large changes.
-- `pnpm run audit` — audits at moderate severity while accepting only
-  `CVE-2026-14257` for legacy developer-only glob consumers. Those commands use
-  repository-controlled patterns, and forcing the patched major currently
-  breaks ESLint.
+- `pnpm run audit` — audits production and development dependencies at moderate
+  severity without a vulnerability allowlist. Any exception must document its
+  exact dependency path, exposure boundary, and removal condition.
 
 ## Rollback
 

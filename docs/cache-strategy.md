@@ -8,7 +8,7 @@
 
 ## Route Policy
 
-- `/*.css`, `/fonts/*`, `/og/*.webp`: `max-age=31536000, immutable`
+- `/_astro/*` (hashed CSS and JS), `/fonts/*`, `/og/*.webp`: `max-age=31536000, immutable`
 - `/feed.xml`: `s-maxage=1800, stale-while-revalidate=86400`
 - `/sitemap-index.xml` and `/sitemap-*.xml`: `s-maxage=3600, stale-while-revalidate=86400`
 - `/robots.txt`: `s-maxage=3600, stale-while-revalidate=86400`
@@ -17,6 +17,9 @@
 
 ## Why this split
 
-- Static hashed assets should never be re-downloaded unless URLs change.
+- Static hashed assets should never be re-downloaded unless URLs change. The global
+  stylesheet is emitted under `/_astro/` (`build.inlineStylesheets: 'auto'`) rather than
+  inlined into every document, so one cached copy serves the whole site instead of
+  ~420 KiB riding along inside each of the ~440 pages and every prefetched document.
 - Feed/sitemap updates need to propagate quickly for SEO freshness.
 - HTML can be served stale briefly while the CDN refreshes in background.

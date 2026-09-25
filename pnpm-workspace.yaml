@@ -2,54 +2,49 @@ allowBuilds:
   esbuild: true
   sharp: true
   unrs-resolver: true
-auditConfig:
-  ignoreCves:
-    # No patched extract-zip release exists; exposure is limited to Lighthouse's
-    # development-only Chromium downloader and CI installs trusted browser artifacts.
-    - CVE-2026-56876
 catalog:
   "@astrojs/check": ^0.9.10
-  "@astrojs/markdown-remark": ^7.3.0
-  "@astrojs/mdx": 8.0.0
+  "@astrojs/markdown-remark": ^7.3.1
+  "@astrojs/mdx": 8.0.2
   "@astrojs/rss": 4.0.19
   "@astrojs/sitemap": 3.7.4
-  "@astrojs/ts-plugin": ^1.10.11
+  "@astrojs/ts-plugin": ^1.10.12
   "@axe-core/playwright": ^4.13.0
-  "@changesets/changelog-github": ^1.0.0
-  "@changesets/cli": ^3.0.1
-  "@commitlint/cli": ^21.2.2
-  "@commitlint/config-conventional": ^21.2.2
-  "@iconify-json/tabler": ^1.2.38
+  "@changesets/changelog-github": ^1.0.1
+  "@changesets/cli": ^3.0.3
+  "@commitlint/cli": ^21.2.3
+  "@commitlint/config-conventional": ^21.2.3
+  "@iconify-json/tabler": ^1.2.40
   "@lhci/cli": ^0.15.1
-  "@playwright/test": ^1.62.1
+  "@playwright/test": ^1.63.0
   "@santi020k/commitprompt": ^1.1.0
-  "@santi020k/eslint-config-full": 3.2.2
+  "@santi020k/eslint-config-full": 3.2.4
   "@santi020k/lumen-astro": 2.1.0
   "@santi020k/og": 1.1.1
   "@santi020k/theme": ^1.3.0
   "@shikijs/transformers": ^4.4.3
   "@tailwindcss/typography": ^0.5.20
   "@tailwindcss/vite": ^4.3.3
-  "@testing-library/dom": ^10.4.1
+  "@testing-library/dom": ^10.4.2
   "@testing-library/jest-dom": ^7.0.1
   "@types/js-yaml": ^4.0.9
   "@types/hast": ^3.0.5
   "@types/mdast": ^4.0.4
   "@types/unist": ^3.0.3
-  "@vitest/coverage-v8": ^5.0.0
-  "@vitest/ui": ^5.0.0
-  astro: 7.3.1
+  "@vitest/coverage-v8": ^5.0.1
+  "@vitest/ui": ^5.0.1
+  astro: 7.3.5
   astro-icon: ^1.2.0
   astro-robots-txt: ^1.0.0
   astro-webmanifest: ^1.0.0
-  cspell: ^10.2.1
-  eslint: ^10.9.0
+  cspell: ^10.3.3
+  eslint: ^10.11.0
   fast-xml-parser: ^5.11.1
   hastscript: ^9.0.1
-  js-yaml: ^5.4.1
-  jsdom: ^30.0.1
-  lint-staged: ^17.4.1
-  markdownlint-cli2: ^0.23.2
+  js-yaml: ^5.4.2
+  jsdom: ^30.1.1
+  lint-staged: ^17.5.1
+  markdownlint-cli2: ^0.23.3
   mdast-util-directive: ^3.1.0
   mdast-util-to-markdown: ^2.1.2
   mdast-util-to-string: ^4.0.0
@@ -68,7 +63,7 @@ catalog:
   unified: ^11.0.5
   unist-util-visit: ^5.1.0
   vfile: ^6.0.3
-  vitest: ^5.0.0
+  vitest: ^5.0.1
   wawoff2: ^2.0.1
 minimumReleaseAgeExclude:
   - "@santi020k/og"
@@ -76,6 +71,33 @@ minimumReleaseAgeExclude:
   - "@santi020k/lumen-core@2.1.0"
   - "@santi020k/lumen@2.1.0"
   - "@santi020k/eslint-config-typescript"
+  - "@santi020k/eslint-config-core@3.1.3"
+  - "@santi020k/eslint-config-angular@3.1.2"
+  - "@santi020k/eslint-config-astro@3.1.4"
+  - "@santi020k/eslint-config-basic@3.5.4"
+  - "@santi020k/eslint-config-expo@3.1.2"
+  - "@santi020k/eslint-config-extensions@3.1.3"
+  - "@santi020k/eslint-config-formats@3.1.3"
+  - "@santi020k/eslint-config-full@3.2.4"
+  - "@santi020k/eslint-config-hono@3.1.2"
+  - "@santi020k/eslint-config-libraries@3.1.3"
+  - "@santi020k/eslint-config-lit@3.1.2"
+  - "@santi020k/eslint-config-nest@3.1.2"
+  - "@santi020k/eslint-config-next@3.1.2"
+  - "@santi020k/eslint-config-nuxt@3.1.2"
+  - "@santi020k/eslint-config-preact@3.1.2"
+  - "@santi020k/eslint-config-qwik@3.1.2"
+  - "@santi020k/eslint-config-react-router@3.1.2"
+  - "@santi020k/eslint-config-react@3.1.2"
+  - "@santi020k/eslint-config-slidev@3.1.2"
+  - "@santi020k/eslint-config-solid@3.1.2"
+  - "@santi020k/eslint-config-svelte@3.1.2"
+  - "@santi020k/eslint-config-tanstack-start@3.1.2"
+  - "@santi020k/eslint-config-testing@3.1.3"
+  - "@santi020k/eslint-config-tools@3.1.3"
+  - "@santi020k/eslint-config-vite@3.1.2"
+  - "@santi020k/eslint-config-vue@3.1.2"
+  - astro@7.3.5
 overrides:
   # Keep legacy build and release tooling on patched transitive versions until
   # their direct dependencies adopt these releases.
@@ -83,12 +105,14 @@ overrides:
   "@lhci/utils>lighthouse": 13.4.1
   "@lhci/cli>tmp": 0.2.7
   "@lhci/cli>uuid": 11.1.1
+  "@lhci/cli>proxy-agent": 8.0.2
   "@lhci/utils>js-yaml": 3.15.2
   astro-webmanifest>sharp: 0.35.4
   brace-expansion@<1.1.18: 1.1.18
   brace-expansion@>=2.0.0 <2.1.4: 2.1.4
   brace-expansion@>=4.0.0 <5.0.9: 5.0.9
   external-editor>tmp: 0.2.7
+  eslint-plugin-tsdoc>@typescript-eslint/utils: 8.70.1
   fast-uri@>=3.0.0 <3.1.6: 3.1.6
   fflate@>=0.7.0 <0.7.5: 0.7.5
   ip-address@<=10.3.0: 10.3.1
