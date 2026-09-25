@@ -10,6 +10,9 @@ import { siteConfig } from '@/site.config'
 const description =
   'How santi020k.com stores preferences, recent searches, offline pages, and data sent to third-party services.'
 
+/** Single source of truth for the review date shown in the hero and the footnote. */
+const lastReviewed = 'July 26, 2026'
+
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Privacy', url: '/privacy/' }
@@ -50,7 +53,7 @@ const sections = [
     description="No ad trackers or visitor profiles. This page explains the browser storage and third-party services the site does use."
     eyebrow="Legal"
     gradientText="without the maze."
-    metaItems={['No ad pixels', 'No profiling', 'Reviewed July 26, 2026']}
+    metaItems={['No ad pixels', 'No profiling', `Reviewed ${lastReviewed}`]}
     title="Privacy"
   />
 
@@ -88,7 +91,7 @@ const sections = [
         {' '}for anything privacy-related.
       </p>
       <p class="mt-3 text-xs/6 text-ink-muted">
-        Last reviewed July 26, 2026. I aim to acknowledge privacy and deletion requests within five business days.
+        Last reviewed {lastReviewed}. I aim to acknowledge privacy and deletion requests within five business days.
       </p>
     </div>
   </section>

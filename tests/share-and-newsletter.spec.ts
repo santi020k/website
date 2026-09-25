@@ -221,3 +221,38 @@ test.describe('Share buttons', () => {
     expect(copied).toContain(path)
   })
 })
+
+test.describe('Share buttons — clipboard failure', () => {
+  test('a rejected clipboard write announces the failure instead of doing nothing', async ({ page }) => {
+    const path = await getFirstPostPath(page)
+
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'share', { configurable: true, value: undefined })
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: {
+          writeText: () => Promise.reject(new DOMException('denied for test', 'NotAllowedError'))
+        }
+      })
+    })
+
+    await page.goto(path)
+
+    const copyButton = page.locator('#copy-link-btn')
+    const label = page.locator('#copy-label')
+
+    await expect(copyButton).toBeVisible()
+    await copyButton.click()
+
+    // The label is the button's accessible name and an aria-live region, so the
+    // failure reaches both sighted and screen-reader visitors.
+    await expect(label).toHaveText(/Copy failed/i, { timeout: 4000 })
+    await expect(label).toHaveAttribute('aria-live', 'polite')
+    await expect(copyButton).toHaveClass(/copy-failed/)
+    await expect(copyButton).not.toHaveClass(/(^|\s)copied(\s|$)/)
+
+    // State is transient: the control returns to its idle label.
+    await expect(label).toHaveText('Copy link', { timeout: 6000 })
+    await expect(copyButton).not.toHaveClass(/copy-failed/)
+  })
+})

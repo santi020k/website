@@ -1,6 +1,8 @@
 ---
 import type { Page } from 'astro'
 
+import { getArchivePageUrl, getPaginationItems, PAGINATION_GAP } from '@/utils/pagination'
+
 import { Link, Pagination } from '@santi020k/lumen-astro'
 
 interface Props {
@@ -9,27 +11,30 @@ interface Props {
 }
 
 const { baseUrl = '/blog/', page } = Astro.props
-const { currentPage, lastPage, url } = page
-const getPageUrl = (n: number) => n === 1 ? baseUrl : `${baseUrl}${n}/`
-const pages: (number | '...')[] = []
+const { currentPage, lastPage } = page
+const items = getPaginationItems(currentPage, lastPage)
+const previousUrl = currentPage > 1 ? getArchivePageUrl(baseUrl, currentPage - 1) : undefined
 
-for (let i = 1; i <= lastPage; i++) {
-  if (i === 1 || i === lastPage || Math.abs(i - currentPage) <= 1) {
-    pages.push(i)
-  } else if (pages.at(-1) !== '...') {
-    pages.push('...')
-  }
-}
+const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage + 1) : undefined
+
+/*
+ * No `aria-label` is passed to <Pagination>: Lumen writes `aria-label="Pagination"`
+ * before spreading passthrough props, so a consumer label is emitted as a duplicate
+ * attribute and the parser keeps the first one. One pagination landmark per page
+ * makes the built-in name unambiguous. Tracked in improvements.md.
+ */
 ---
 
 {lastPage > 1 && (
-  <Pagination
-    aria-label="Blog pagination"
-    className="flex items-center justify-center gap-1.5 pt-2"
-  >
-    {url.prev ?
+  <Pagination className="flex items-center justify-center gap-1.5 pt-2">
+    {previousUrl ?
       (
-        <Link aria-label="Previous page" className="pagination-btn no-underline" href={url.prev}>←</Link>
+        <Link
+          aria-label="Previous page"
+          className="pagination-btn no-underline"
+          href={previousUrl}
+          rel="prev"
+        >←</Link>
       ) :
       (
         <span
@@ -40,32 +45,39 @@ for (let i = 1; i <= lastPage; i++) {
         </span>
       )}
 
-    {pages.map(p => (
-      p === '...' ?
+    {items.map(item => (
+      item === PAGINATION_GAP ?
         (
-          <span class="
-            flex size-11 items-center justify-center text-sm text-ink-muted
-          "
+          <span
+            aria-hidden="true"
+            class="
+              flex size-11 items-center justify-center text-sm text-ink-muted
+            "
           >…
           </span>
         ) :
         (
           <Link
-            aria-current={p === currentPage ? 'page' : undefined}
-            aria-label={`Page ${p}`}
-            class:list={['pagination-btn no-underline', p === currentPage && `
+            aria-current={item === currentPage ? 'page' : undefined}
+            aria-label={`Page ${item}`}
+            class:list={['pagination-btn no-underline', item === currentPage && `
               pagination-btn--active
             `]}
-            href={getPageUrl(p)}
+            href={getArchivePageUrl(baseUrl, item)}
           >
-            {p}
+            {item}
           </Link>
         )
     ))}
 
-    {url.next ?
+    {nextUrl ?
       (
-        <Link aria-label="Next page" className="pagination-btn no-underline" href={url.next}>→</Link>
+        <Link
+          aria-label="Next page"
+          className="pagination-btn no-underline"
+          href={nextUrl}
+          rel="next"
+        >→</Link>
       ) :
       (
         <span

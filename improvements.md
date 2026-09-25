@@ -33,6 +33,25 @@ These findings came from integrating `@santi020k/og` 1.0.0 and Quality CLI 0.3.1
   report recommends moving a large catalog through `createCards()` even when the config already
   does so for its static catalog.
 
+## `@santi020k/lumen-astro`
+
+- Let consumers override the labels that components hardcode before spreading passthrough
+  props. `Pagination.astro` writes `aria-label="Pagination"` ahead of `{...passthrough}`, so a
+  consumer-supplied `aria-label` is emitted as a duplicate attribute on the same `<nav>`. HTML
+  parsing keeps the first occurrence, which means the consumer label is silently dropped and the
+  document carries a validity error. Reading the label out of `rest` (or exposing an explicit
+  `label` prop) would make the intent expressible.
+- Stop forwarding `aria-hidden` into `Icon` from inside Lumen. `Icon` already derives
+  `aria-hidden="true"` whenever no `label` is given, but `ButtonLink` (the `showArrow` chevron) and
+  `ThemeToggle` (the sun and moon glyphs) still pass `aria-hidden="true"` explicitly, so the
+  rendered `<span class="ui-icon">` carries the attribute twice. Consumers cannot fix this — it is
+  emitted by the library — and it costs every page an HTML validity error.
+- Ship the component stylesheet in slices, or document a supported subset entry point.
+  `@santi020k/lumen/styles.css` is a single precompiled ~170 KiB file, so Tailwind cannot tree-shake
+  it and every consumer pays for components it never renders (this site ships `ui-phone-input`
+  rules without a phone input anywhere). `styles/critical.css` helps, but there is no documented
+  way to opt into "critical plus the components I actually import".
+
 ## Quality CLI
 
 - Add a first-class `santi-og` adapter that can run `check` before a build and parse `audit` output

@@ -14,7 +14,6 @@ interface SearchIndexEntry {
   coverWidth?: number
   description: string
   path: string
-  searchCategory: 'tag' | 'technology'
   tags: string[]
   title: string
   type: 'community' | 'post' | 'project'
@@ -56,7 +55,6 @@ export const GET: APIRoute = async () => {
     posts.map(async (post): Promise<SearchIndexEntry> => ({
       description: post.data.description,
       path: getPostPath(post.id),
-      searchCategory: 'tag',
       tags: post.data.tags,
       title: post.data.title,
       type: 'post',
@@ -75,7 +73,6 @@ export const GET: APIRoute = async () => {
       return {
         description: project.data.description,
         path: getPortfolioPath(project.id),
-        searchCategory: 'technology',
         tags: project.data.technologies,
         title: project.data.title,
         type: project.data.typesId === 'community' ? 'community' : 'project',

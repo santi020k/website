@@ -75,14 +75,12 @@ const shareLinks = [
     <Button
       id="copy-link-btn"
       type="button"
-      aria-label="Copy link to this page"
       className="group"
       variant="secondary"
     >
       <Icon
         name="link"
         data-copy-icon
-        aria-hidden="true"
         class="
           size-5 transition-transform
           group-hover:rotate-45
@@ -95,7 +93,6 @@ const shareLinks = [
           hidden size-5 animate-spring-up
           motion-reduce:animate-none
         "
-        aria-hidden="true"
       />
       <span id="copy-label" aria-live="polite">Copy link</span>
     </Button>
@@ -107,6 +104,12 @@ const shareLinks = [
     background-color: hsl(var(--brand) / 0.1) !important;
     color: hsl(var(--brand)) !important;
     border-color: hsl(var(--brand)) !important;
+  }
+
+  #copy-link-btn.copy-failed {
+    background-color: hsl(var(--danger) / 0.1) !important;
+    color: hsl(var(--danger)) !important;
+    border-color: hsl(var(--danger)) !important;
   }
 
   @keyframes spring-up {
@@ -137,28 +140,41 @@ const shareLinks = [
       return isCoarsePointer
     }
 
-    const showCopiedState = () => {
-      btn.classList.add('copied')
+    const IDLE_LABEL = 'Copy link'
+    const STATE_RESET_MS = 2000
 
-      copyIcon?.classList.add('hidden')
+    const resetState = () => {
+      btn.classList.remove('copied', 'copy-failed')
 
-      checkIcon?.classList.remove('hidden')
+      copyIcon?.classList.remove('hidden')
 
-      if (label) label.textContent = 'Link copied!'
+      checkIcon?.classList.add('hidden')
+
+      if (label) label.textContent = IDLE_LABEL
+    }
+
+    /** Shows a transient result state; `#copy-label` is a live region, so the text is announced. */
+    const showResultState = (outcome: 'copied' | 'failed') => {
+      const succeeded = outcome === 'copied'
+
+      btn.classList.remove('copied', 'copy-failed')
+
+      btn.classList.add(succeeded ? 'copied' : 'copy-failed')
+
+      copyIcon?.classList.toggle('hidden', succeeded)
+
+      checkIcon?.classList.toggle('hidden', !succeeded)
+
+      // Kept short so the control still fits a 320px viewport alongside the share links.
+      if (label) label.textContent = succeeded ? 'Link copied!' : 'Copy failed'
 
       if (timer) clearTimeout(timer)
 
       timer = setTimeout(() => {
-        btn.classList.remove('copied')
-
-        copyIcon?.classList.remove('hidden')
-
-        checkIcon?.classList.add('hidden')
-
-        if (label) label.textContent = 'Copy link'
+        resetState()
 
         timer = null
-      }, 2000)
+      }, STATE_RESET_MS)
     }
 
     const onClick = async () => {
@@ -181,9 +197,11 @@ const shareLinks = [
       try {
         await navigator.clipboard.writeText(window.location.href)
 
-        showCopiedState()
+        showResultState('copied')
       } catch {
-        /* clipboard may be unavailable; keep silent. */
+        // Insecure contexts and denied permissions both land here. Telling the
+        // visitor beats a button that appears to do nothing at all.
+        showResultState('failed')
       }
     }
 

@@ -40,9 +40,45 @@ test.describe('Route coverage smoke tests', () => {
         path: expect.stringMatching(/^\/(blog|portfolio)\//),
         tags: expect.any(Array),
         title: expect.any(String),
-        type: expect.stringMatching(/^(post|project)$/)
+        type: expect.stringMatching(/^(community|post|project)$/)
       })
     )
+  })
+
+  test('internal links stay in the same tab so View Transitions and history keep working', async ({ page }) => {
+    const routes = ['/', '/about/', '/work/', '/projects/', '/blog/', '/speaking/', '/portfolio/', '/resume/']
+
+    for (const route of routes) {
+      await page.goto(route)
+
+      const offenders = await page.locator('a[target="_blank"]').evaluateAll(
+        links => links
+          .map(link => link.getAttribute('href') ?? '')
+          .filter(href => href.startsWith('/'))
+          // Downloadable assets (the resume PDF) legitimately open in a new tab.
+          .filter(href => !/\.[a-z0-9]+$/i.test(href))
+      )
+
+      expect(offenders, `${route} opens internal links in a new tab`).toEqual([])
+    }
+  })
+
+  test('internal page links use trailing slashes across primary routes', async ({ page }) => {
+    const routes = ['/', '/about/', '/work/', '/blog/', '/blog/2/', '/portfolio/', '/technologies/']
+
+    for (const route of routes) {
+      await page.goto(route)
+
+      const offenders = await page.locator('a[href^="/"]').evaluateAll(
+        links => links
+          .map(link => (link.getAttribute('href') ?? '').split('#')[0]?.split('?')[0] ?? '')
+          .filter(href => href.length > 1 && !href.endsWith('/'))
+          // Asset routes (feeds, PDFs, images) are files, not pages.
+          .filter(href => !/\.[a-z0-9]+$/i.test(href))
+      )
+
+      expect(offenders, `${route} links to a page without a trailing slash`).toEqual([])
+    }
   })
 
   test('first topic link from /blog/tags/ resolves to a topic archive page', async ({ page }) => {

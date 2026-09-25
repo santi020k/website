@@ -1,17 +1,20 @@
 import { execFileSync } from 'node:child_process'
 
 const legacyHuskyHooksPath = '.husky/_'
-const qualityVersion = 'v0.3.1'
+const qualityRelease = 'v1.3.0'
+const qualityVersionOutput = `quality ${qualityRelease.slice(1)}`
 
 if (process.env.CI) {
   process.exit(0)
 }
 
-const hasQualityCli = () => {
+const hasCompatibleQualityCli = () => {
   try {
-    execFileSync('quality', ['--version'], { stdio: 'ignore' })
+    const installedVersion = execFileSync('quality', ['--version'], {
+      encoding: 'utf8'
+    }).trim()
 
-    return true
+    return installedVersion === qualityVersionOutput
   } catch (error) {
     if (
       error instanceof Error &&
@@ -25,11 +28,11 @@ const hasQualityCli = () => {
   }
 }
 
-if (!hasQualityCli()) {
+if (!hasCompatibleQualityCli()) {
   process.stderr.write(
     [
-      `[hooks] Quality CLI ${qualityVersion} is required to install repository hooks.`,
-      `Install it with: curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/santi020k/quality/main/install.sh | sh -s -- santi020k/quality ${qualityVersion}`,
+      `[hooks] Quality CLI ${qualityRelease} is required to install repository hooks.`,
+      `Install it with: curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/santi020k/quality/main/install.sh | sh -s -- santi020k/quality ${qualityRelease}`,
       'Then run: pnpm run hooks:install',
       ''
     ].join('\n')
