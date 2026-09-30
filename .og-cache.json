@@ -322,7 +322,7 @@
     "blog/one-quality-command-across-polyglot-repositories.webp": {
       "baseDirectory": "public/og",
       "digest": "979b104e97a2adf52689734c82044211477bdd878ec0fa1e1fcd14a76b646300",
-      "fingerprint": "0953602e0ff6e4d80b919e3a18d122742a237d190ffa437afeadc88256d02c64",
+      "fingerprint": "2098ab97aca4ab2f2c62d848ceb5ad645cd97998ffe37d0dcb6ff71d6cfb0275",
       "output": "blog/one-quality-command-across-polyglot-repositories.webp"
     },
     "blog/open-sourcing-santi020k-auth-cloudflare.webp": {
@@ -394,7 +394,7 @@
     "pages/blog--3.webp": {
       "baseDirectory": "public/og",
       "digest": "ce318c851f6ff8f7d776b78cd3ccebbe75e163116ad4519275393a31942e7d3e",
-      "fingerprint": "0546a35bdf37c6e59144b6efe4dc086e1fe3c0529d923343ee8395b1fa2677ff",
+      "fingerprint": "0a0dafac92eb81735d618ac991ec87b3114301245a5d622f7cb79b980320a003",
       "output": "pages/blog--3.webp"
     },
     "pages/blog--4.webp": {
@@ -508,7 +508,7 @@
     "pages/blog--tags--ci-cd.webp": {
       "baseDirectory": "public/og",
       "digest": "92cac2430ef4a3c38875f983c4d2d29d07a2e488be202e007a6cb38eea3c1590",
-      "fingerprint": "0064189930049d0cea3b28740851ca7d1726601ffdafcfc27e7dd5bcf2e04a20",
+      "fingerprint": "f0cf414c80387bb6ad3c1ec6a62fa99f98228cce8dc804a8507d47f6642116a4",
       "output": "pages/blog--tags--ci-cd.webp"
     },
     "pages/blog--tags--github-actions.webp": {
@@ -634,7 +634,7 @@
     "pages/blog--tags--code-quality.webp": {
       "baseDirectory": "public/og",
       "digest": "81780bcc9f0c2787d4473a509a752b1e24059ab2e9234f358048c0067bd23092",
-      "fingerprint": "1d50dcb2dddf3380159135bf502e61cefd49261097b28fa1601c45114d6bb4e4",
+      "fingerprint": "ea1c74eaf09c449d227885d03569ab2872a851b24237982055df55ba2b40c133",
       "output": "pages/blog--tags--code-quality.webp"
     },
     "pages/blog--tags--refactoring.webp": {
@@ -682,7 +682,7 @@
     "pages/blog--tags--developer-experience.webp": {
       "baseDirectory": "public/og",
       "digest": "c74dc39f576a906cf0fbf93665773928113ba89faf8d9483aa3d891275635b26",
-      "fingerprint": "1d49a15563e4795561b17e66d57091ef8a1fe7d50646dc9251f14f394f15311f",
+      "fingerprint": "b2a4c50109ca422c527e0c7bd98d9189eee4425418852dc65779e574feeb0373",
       "output": "pages/blog--tags--developer-experience.webp"
     },
     "pages/blog--tags--developer-experience--2.webp": {
@@ -964,13 +964,13 @@
     "pages/blog--tags--rust.webp": {
       "baseDirectory": "public/og",
       "digest": "e29516d5800b458e55ad4589a6d9241c210611c47841085bbe1be321aff1839c",
-      "fingerprint": "09a794c4443aaab849df5ee8a4a019e68a1680468a2307faaf1edfe2d66c923f",
+      "fingerprint": "0db2873e72b2708297f14b32c44761df62e9aaa657edb1677d8a67584f0f3492",
       "output": "pages/blog--tags--rust.webp"
     },
     "pages/blog--tags--tooling.webp": {
       "baseDirectory": "public/og",
       "digest": "903852b2e2c0fb41145ee20a02daf0f304415a7b260f11c7c9de1eb8af1b65d4",
-      "fingerprint": "5468d8b188d9a8f6eca2dfa5658c97531a8c04d1e154e6fa1b2acc839e16a680",
+      "fingerprint": "2e04dff55c29c12d875e261c5a433ba7ecc2a4318f54b5ae519bb8461875cada",
       "output": "pages/blog--tags--tooling.webp"
     },
     "pages/blog--tags--cloudflare-workers.webp": {

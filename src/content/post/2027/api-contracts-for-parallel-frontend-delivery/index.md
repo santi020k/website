@@ -1,7 +1,7 @@
 ---
 title: "How API Contracts Keep Frontend Delivery Moving"
 description: "Use API contracts and realistic mocks to develop frontend and backend in parallel, expose unclear behavior early, and keep integration honest."
-publishDate: "2026-10-06T15:00:00.000Z"
+publishDate: "2027-01-05T14:00:00.000Z"
 draft: true
 coverImage:
   alt: "Off-white interface tiles and violet service blocks connected through a shared translucent template"
