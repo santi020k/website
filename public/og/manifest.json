@@ -370,7 +370,7 @@
       "title": "Development Workflow with Husky for Next.js, ESLint, and Vitest Integration"
     },
     "/blog/migrate-eslint-8-or-less-to-eslint-9/": {
-      "alt": "Migrate ESLint 8 or Less to ESLint 9 — Santiago Molina",
+      "alt": "Migrate from ESLint 8 or Earlier to ESLint 9 — Santiago Molina",
       "description": "A practical guide to moving from ESLint 8 to flat config in ESLint 9, with a cleaner setup for React, Next.js, and TypeScript projects.",
       "images": [
         {
@@ -383,7 +383,7 @@
         }
       ],
       "pathname": "/blog/migrate-eslint-8-or-less-to-eslint-9/",
-      "title": "Migrate ESLint 8 or Less to ESLint 9"
+      "title": "Migrate from ESLint 8 or Earlier to ESLint 9"
     },
     "/blog/skin-in-the-game-for-software-teams/": {
       "alt": "Skin in the Game for Software Teams — Santiago Molina",
@@ -931,7 +931,7 @@
     },
     "/blog/why-developer-experience-work-should-be-measured-like-product-work/": {
       "alt": "Why Developer Experience Work Should Be Measured Like Product Work — Santiago Molina",
-      "description": "DX improvements that cannot be measured rarely survive long enough to compound. Treating them like product work changes that.",
+      "description": "Measure developer experience with cycle time, feedback speed, onboarding time, recovery time, and tooling interruptions. Start with a baseline.",
       "images": [
         {
           "format": "webp",

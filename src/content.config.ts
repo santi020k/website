@@ -74,6 +74,7 @@ const project = defineCollection({
     technologies: z.array(z.string()).default([]).transform(removeDuplicates),
     startingDate: dateField(),
     endingDate: optionalDateField(),
+    updatedDate: optionalDateField(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
     githubUrl: z.url().optional(),

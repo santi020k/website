@@ -46,7 +46,7 @@ const {
 const resolvedOgImageAlt = ogImageAlt ?? `${title} — ${siteConfig.title}`
 const socialTitle = title
 const siteTitle = createSeoTitle(seoTitle ?? title, siteConfig.title)
-const metaDescription = createSeoDescription(description, title)
+const metaDescription = createSeoDescription(description)
 
 const canonicalURL = new URL(
   canonicalUrl ?? Astro.url.pathname, Astro.site ?? 'https://santi020k.com/'

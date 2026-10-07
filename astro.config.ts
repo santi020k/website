@@ -167,7 +167,8 @@ const buildContentSitemapMetadata = () => {
       const id = relative.replace(/\.mdx?$/, '').replace(/\/index$/, '')
       const slug = id.split('/').pop() ?? id
 
-      register(`${siteOrigin}/portfolio/${slug}/`, data, ['endingDate', 'startingDate'])
+      // Project start/end dates describe the work, not this case study's latest edit.
+      register(`${siteOrigin}/portfolio/${slug}/`, data, ['updatedDate'])
     } catch {
       /* ignore unreadable files */
     }

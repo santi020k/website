@@ -18,6 +18,11 @@
 
 ### Patch Changes
 
+- Preserve authored search titles and descriptions without automatic truncation or filler.
+  Add focused search titles for the homepage, selected tutorials, and personal projects;
+  clarify selected About, portfolio, newsletter, and article copy. Remove FAQ markup from
+  speaking topics and use verified case-study update dates in project sitemap entries.
+
 - Unify the Blog landing and shared buttons, labels, newsletter, and Back to Top with
   the sculpted design. Keep long mobile article grids visible and show complete titles
   at narrow widths. Preserve the background balls and improve dark-theme link contrast.

@@ -24,6 +24,14 @@ Projects sharing a hub origin and sitemap path are fetched once, including the
 Theme 2 product pages under `theme.santi020k.com`. Distinct sitemap paths are
 still included, and deduplication never makes a required source optional.
 
+## Content modification dates
+
+Blog entries use `updatedDate`, falling back to `publishDate`. Project case studies
+use only an optional `updatedDate` in frontmatter. Set it to the date of a substantive
+content update, using an ISO date such as `2026-10-07`. Omit it when the actual edit
+date is unknown. Project `startingDate` and `endingDate` describe the work itself,
+so they are not used as sitemap modification dates.
+
 ## Google Search Console setup
 
 1. Add and DNS-verify the Domain property `santi020k.com`. A Domain property

@@ -1,5 +1,6 @@
 ---
 title: "PostLens"
+seoTitle: "PostLens: Private Photo Editing for iPhone"
 description: "Built an iPhone-first private visual content studio for selecting strong photos, applying transparent on-device enhancements, composing layouts, and exporting social-ready work."
 brand:
   primary: "#f26044"

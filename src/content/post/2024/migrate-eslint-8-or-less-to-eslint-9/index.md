@@ -1,5 +1,5 @@
 ---
-title: "Migrate ESLint 8 or Less to ESLint 9"
+title: "Migrate from ESLint 8 or Earlier to ESLint 9"
 description: "A practical guide to moving from ESLint 8 to flat config in ESLint 9, with a cleaner setup for React, Next.js, and TypeScript projects."
 publishDate: "2024-05-19T15:41:30.167Z"
 updatedDate: "2026-07-28T00:00:00.000Z"

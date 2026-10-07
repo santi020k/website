@@ -87,18 +87,6 @@ const structuredData = [
   },
   {
     '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: speakingTopics.map(topic => ({
-      '@type': 'Question',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: topic.description
-      },
-      name: topic.title
-    }))
-  },
-  {
-    '@context': 'https://schema.org',
     '@type': 'ItemList',
     description: 'A chronological record of public, private, and reconstructed speaking sessions',
     itemListElement: talks.map((talk, index) => ({

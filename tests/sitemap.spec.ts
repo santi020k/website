@@ -29,7 +29,15 @@ test('combined sitemap advertises canonical pages and preserves content dates', 
 
   expect(combinedByUrl.size).toBe(combined.length)
   expect(combinedByUrl.has('https://santi020k.com/')).toBe(true)
-  expect(root.some(entry => entry.lastmod !== null)).toBe(true)
+  expect(root.some(entry => entry.url.includes('/blog/') && entry.lastmod !== null)).toBe(true)
+
+  // These case studies have project dates, but no verified page modification date.
+  for (const slug of ['lumen-ui', 'xgames']) {
+    expect(combinedByUrl.get(`https://santi020k.com/portfolio/${slug}/`)).toEqual({
+      url: `https://santi020k.com/portfolio/${slug}/`,
+      lastmod: null
+    })
+  }
 
   for (const entry of root) expect(combinedByUrl.get(entry.url)).toEqual(entry)
 

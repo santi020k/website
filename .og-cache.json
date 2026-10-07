@@ -142,7 +142,7 @@
     "blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp": {
       "baseDirectory": "public/og",
       "digest": "ff4d1aee330b9210f93f02aa2fc9479c4293d4f1990c85c53850d3b77a163b28",
-      "fingerprint": "4b7d7172a0205a7150a597f6023a1f63b3d343071ea0445a85cc23d409087135",
+      "fingerprint": "933572e990116a55ddc4d46457213cc9322a34aed69c59e87bb949cd887b0947",
       "output": "blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp"
     },
     "blog/continuous-integration-and-deployment-for-next-js-projects.webp": {
@@ -159,8 +159,8 @@
     },
     "blog/migrate-eslint-8-or-less-to-eslint-9.webp": {
       "baseDirectory": "public/og",
-      "digest": "fae7e949a66d6d9c2f6b44ad636cca2c5d2031f1050d660fb82eb42ef7174420",
-      "fingerprint": "378367b7f2c93342a4e5c64e32fbef4c28fef34a1eadcbc3f8755ab28b9037d7",
+      "digest": "9d18b0f14a9b4abc40c435a95ecff573f0e7815403f496e25e0bb221707c6916",
+      "fingerprint": "17bcacdd2bea82701e30fd69f47fc4df16a7009a277f17f9a702d41fc43b6e56",
       "output": "blog/migrate-eslint-8-or-less-to-eslint-9.webp"
     },
     "blog/skin-in-the-game-for-software-teams.webp": {
@@ -310,7 +310,7 @@
     "blog/flash-xteink-x4-international-firmware.webp": {
       "baseDirectory": "public/og",
       "digest": "c26800a589ff969118ca861cdd4532056f78620f0f5eb761990618eac5b92580",
-      "fingerprint": "e2760045559b57569f303c80a9428ac1601e9a85f46f85946297cd8bb59c0fdd",
+      "fingerprint": "187741bcf16db6da6fa608f5bdc0df724f247ff93211b0c299125d58a4a03517",
       "output": "blog/flash-xteink-x4-international-firmware.webp"
     },
     "blog/lumen-ui-one-system-three-frameworks.webp": {
@@ -358,7 +358,7 @@
     "blog/shipping-macos-tools-with-a-homebrew-tap.webp": {
       "baseDirectory": "public/og",
       "digest": "a7e6db435509382f8b8f55d7becb93bea86298a83d8d8bcf42ba73118a8e0e9e",
-      "fingerprint": "5ab2e30fa063ac0473c6d525e63f82b7a78d9f4a196616e1c50c9c12cab16bf3",
+      "fingerprint": "400768d435a399bd409c65de6ea0b2a8002c3c6c7fd104fa10ea1dcb2927c6bc",
       "output": "blog/shipping-macos-tools-with-a-homebrew-tap.webp"
     },
     "blog/what-changed-when-i-started-writing-architecture-notes-every-month.webp": {
@@ -369,8 +369,8 @@
     },
     "blog/why-developer-experience-work-should-be-measured-like-product-work.webp": {
       "baseDirectory": "public/og",
-      "digest": "9cd531b4ea55c644acfe33e0438dd7f7905dd02cd1f0e5c7dffeb74688d64d5a",
-      "fingerprint": "22dfd6f7b3689110cd9cfd191fd244b3fb253f7d7ba143e7f6dced0b33f2c5c8",
+      "digest": "18af3277c5f695112575275f2ace6d1b21bf4736e8a1a29046fb86db256a1b16",
+      "fingerprint": "f527d02d311d8f41f46275d6f899b81215750e6e6174e72f734c7f8ab25cc2d3",
       "output": "blog/why-developer-experience-work-should-be-measured-like-product-work.webp"
     },
     "blog/why-i-built-between-contractions.webp": {
@@ -400,13 +400,13 @@
     "pages/blog--3.webp": {
       "baseDirectory": "public/og",
       "digest": "ce318c851f6ff8f7d776b78cd3ccebbe75e163116ad4519275393a31942e7d3e",
-      "fingerprint": "17c4246de22df71abce10518e87d46dcd823049daf952407bc9dfdf81b20ec6a",
+      "fingerprint": "73eb91693ca2c585259fc90c5a5df1d519aa028ff35bb59f9ef6f044d7c4a0d2",
       "output": "pages/blog--3.webp"
     },
     "pages/blog--4.webp": {
       "baseDirectory": "public/og",
       "digest": "d50cf8e69931460440afbbac80186bd71beab1afe81bf9e0c2af15a0561b262b",
-      "fingerprint": "d93fc8fdc01a3d1f6909fe5eece2d90c74384bf9ee039ca594c9088513772bc0",
+      "fingerprint": "ddfdb4374c256a3345219fb7ce4f6d567236fc9d2a1e004ddb7bb360b542dd6c",
       "output": "pages/blog--4.webp"
     },
     "pages/blog--tags--development.webp": {
@@ -418,19 +418,19 @@
     "pages/blog--tags--react.webp": {
       "baseDirectory": "public/og",
       "digest": "764580b50db232e375988d8174cb6ac15065526bc1b0b589b3ba33e685272c4b",
-      "fingerprint": "48a2b9c32d3ce874419497495a6be3b91b988a9271874c4e9d0090be95ae3fed",
+      "fingerprint": "4cb5cc526e1591c12ab62243c9de09460b6b827edd8f9343e5e98f20c9a8df95",
       "output": "pages/blog--tags--react.webp"
     },
     "pages/blog--tags--nextjs.webp": {
       "baseDirectory": "public/og",
       "digest": "e06ccaa564f5c9be867e0e5f66132a98ece8f786405a3e20716624411a651910",
-      "fingerprint": "2d3901c4a55d0f59a3035692fa2aff1dd18db5085b5f4fa66175d6715adc8f15",
+      "fingerprint": "aeb28b7d49f1e6ec6efa35374c2923c4410f7d174ad2f898a05ad37633733f09",
       "output": "pages/blog--tags--nextjs.webp"
     },
     "pages/blog--tags--typescript.webp": {
       "baseDirectory": "public/og",
       "digest": "c95318356924d5cfbe09aa2ee9a06e1091792701f563b5e090c8d5df7bac6ef2",
-      "fingerprint": "2ec504afb67ce8530a0851a79cea6ba8a2ed25895f064ee45338ff781ba772a1",
+      "fingerprint": "45aaeaab62d4fe6934d6cae1105e014480eee6ee1c93e7485ceb5bb630247355",
       "output": "pages/blog--tags--typescript.webp"
     },
     "pages/blog--tags--typescript--2.webp": {
@@ -466,7 +466,7 @@
     "pages/blog--tags--eslint.webp": {
       "baseDirectory": "public/og",
       "digest": "f73190d75ddb1a5303f507dbcf7fa9f36c9d3ebc34310e2f4e741d9cb157b327",
-      "fingerprint": "8b4dae54491a518e9fef188ae2d73d6825a07f06cd62b0513724b46d1a38b298",
+      "fingerprint": "35ef1f7a99f19e183c354e29bab2651fecac6123a583040b48d25b1697293335",
       "output": "pages/blog--tags--eslint.webp"
     },
     "pages/blog--tags--eslint-config.webp": {
@@ -490,25 +490,25 @@
     "pages/blog--tags--mongo.webp": {
       "baseDirectory": "public/og",
       "digest": "b81969e9dc43679df966ce386a223f443374e118e2c58f42cf85e9691a5f6a24",
-      "fingerprint": "dd62f261d34080976290f3d27ab2cbc82129007ff27170babf515fec319f3287",
+      "fingerprint": "512e8269de0d803eb0e769e286cb9a8406c7948e8bf9fb7d4e324b2c904730cf",
       "output": "pages/blog--tags--mongo.webp"
     },
     "pages/blog--tags--configuration.webp": {
       "baseDirectory": "public/og",
       "digest": "977d3ec0521126d59297e6e9f1f5bac5400e5aee984ea252644653c3a26ec7cf",
-      "fingerprint": "a1b3e133beea635cddc3637005189cc0a9b801394da6e02e2ffd438d11ae6583",
+      "fingerprint": "2a6374967eb0beef8d2af53e8081546cd90100dc86850c4cb1a2d6998cab37c1",
       "output": "pages/blog--tags--configuration.webp"
     },
     "pages/blog--tags--homebrew.webp": {
       "baseDirectory": "public/og",
       "digest": "4543bbe79118103a717fd65a7f0f8cb140714337f32342bc8dd98229eb04cd0c",
-      "fingerprint": "8b16ee0734fd9315e0faff8f54785ad3504668bac9a5ed255b396f2c2364705c",
+      "fingerprint": "d12f23839d221108a03a9c41abe540dc1f8b7a9d5c9c6af1be38eb98042e2505",
       "output": "pages/blog--tags--homebrew.webp"
     },
     "pages/blog--tags--mac.webp": {
       "baseDirectory": "public/og",
       "digest": "184f283ee9bd6a0f7ff13bea4a54977d06b0c8e8f1ff6d59445817cda08ac25a",
-      "fingerprint": "98daea81fa346c709155a6f3d92fa2786df50393033a3f52a6adabee6dfab790",
+      "fingerprint": "657a8b3cec9f758385ee0f10b4814ad9cab2f02ed9e49e44bf6ca4b2b31e551a",
       "output": "pages/blog--tags--mac.webp"
     },
     "pages/blog--tags--ci-cd.webp": {
@@ -544,19 +544,19 @@
     "pages/blog--tags--migration.webp": {
       "baseDirectory": "public/og",
       "digest": "ed195571d585ae02cac69e7425c9fe880a77908e57ffbc07f3e00a8313fbb71b",
-      "fingerprint": "d10e183d383c174c63b49e6c01900ccf6662618667d24acb4f9d8f75b3f7c8ff",
+      "fingerprint": "fef1f99e5c51d61d8066353068a73c21fd8164441f42a4f2a5ac66e8d07992b0",
       "output": "pages/blog--tags--migration.webp"
     },
     "pages/blog--tags--engineering-culture.webp": {
       "baseDirectory": "public/og",
       "digest": "0d5d7a9754685c986b950bcb6ed4a6d7a3ebc33149ce6c1461884f81e1dd0320",
-      "fingerprint": "b411887ba3fd431cf397941ba026fa0b0b9f88a341d7d24e16aac21f24328951",
+      "fingerprint": "8fb66d130167ca9fb34c38395c388d140b1f610a914908380ff14d285f1faf51",
       "output": "pages/blog--tags--engineering-culture.webp"
     },
     "pages/blog--tags--leadership.webp": {
       "baseDirectory": "public/og",
       "digest": "304bf3902c8434f8f41505c8e2569d5d9e9285910fe88cded29371632cd6cbee",
-      "fingerprint": "8ca75fd5ab8b9566e613e450b7168b313a5c5c6d4f3c6eecb004700c5f5d93d8",
+      "fingerprint": "669432ca7ca8fadfd18f431c8ea3d48f15967ae0ba1443d11dc586e6f5d67de8",
       "output": "pages/blog--tags--leadership.webp"
     },
     "pages/blog--tags--product-thinking.webp": {
@@ -694,7 +694,7 @@
     "pages/blog--tags--developer-experience--2.webp": {
       "baseDirectory": "public/og",
       "digest": "1ff90c968e407cd842c16d163eb4c99a89547b56b6fd5229365038dd04e18efa",
-      "fingerprint": "e9c659506c2f243487583bb2475a2bfedffaa9916111d3ba5adfbead22c9f231",
+      "fingerprint": "ec46621cb0f8883a4df64cb7f559a252253e8932d0da01a967ee32a497ad45e6",
       "output": "pages/blog--tags--developer-experience--2.webp"
     },
     "pages/blog--tags--responsive-design.webp": {
@@ -772,7 +772,7 @@
     "pages/blog--tags--open-source.webp": {
       "baseDirectory": "public/og",
       "digest": "3c24b53b0bb072a087f988fa0d4000de7966839c8eb9a32e26a143c6c190022f",
-      "fingerprint": "412c09480472394cca677753919731d34af8dfac2c3eed8da46d62063b40b649",
+      "fingerprint": "7eb8708102ce3ebc84dd7be1dbe00f66f086afe3c7f889c7797e257c0c6e6479",
       "output": "pages/blog--tags--open-source.webp"
     },
     "pages/blog--tags--distributed-systems.webp": {
@@ -862,7 +862,7 @@
     "pages/blog--tags--macos.webp": {
       "baseDirectory": "public/og",
       "digest": "69e757874ab16231aff2c75df0d8737d4d82afba90aa3735ff18f3c1800823ef",
-      "fingerprint": "e842e955f5bd5ddaba5a2e54d1f6def0c177adb80ec109cb9cf63d1993f55017",
+      "fingerprint": "4ccac6b50f37ac376626f82ab5a35000fafec0da7d983f33b12891a112862288",
       "output": "pages/blog--tags--macos.webp"
     },
     "pages/blog--tags--swift.webp": {
@@ -874,7 +874,7 @@
     "pages/blog--tags--hardware.webp": {
       "baseDirectory": "public/og",
       "digest": "f434c36f1d82876ae2d98fe429366071ee9b88ac641774d4769356b71683f9c6",
-      "fingerprint": "0da7bb027eb974c6a32955996c89115c9a9ebbcd1a1c502eecbf4fb60ecb0432",
+      "fingerprint": "7f531ea4c44fc759cb05ec6dd8ffe157aa38c3bab6a6d8d33f0df3486e9a96a9",
       "output": "pages/blog--tags--hardware.webp"
     },
     "pages/blog--tags--safety-engineering.webp": {
@@ -934,31 +934,31 @@
     "pages/blog--tags--reading.webp": {
       "baseDirectory": "public/og",
       "digest": "4b29e3e378ae1f1acb884504f179b0052c271077fa6438142b63594b290534d6",
-      "fingerprint": "d914f8b547201968c8ba3aa9d637e02a85ae1d239ec907092b59617584aa4df7",
+      "fingerprint": "0539db5198a56e5e5ff9c1bd3558905b22c2d06598f2484be99bceefd5e913a0",
       "output": "pages/blog--tags--reading.webp"
     },
     "pages/blog--tags--xteink.webp": {
       "baseDirectory": "public/og",
       "digest": "7e7a61007d9946b761dd336551c464a625bb5c563a8db2dddd5b703cd8eee4a0",
-      "fingerprint": "6182429232cbea446850b375518719e4cdc7be82b7f036ce323c17a5beead971",
+      "fingerprint": "1065fc8dc2946dae5444f4bac9af7ca62d012cce0ab79fa31de42a9af51dc457",
       "output": "pages/blog--tags--xteink.webp"
     },
     "pages/blog--tags--e-reader.webp": {
       "baseDirectory": "public/og",
       "digest": "997300d01cd7f27a04689ad258180ef2851902631a0d36032ce455656e52ccea",
-      "fingerprint": "4f6e843266b74cd9547269321f8fa3bb865d7884f8d2c342e3627be0b51e238f",
+      "fingerprint": "db4972bb36a700ba559260d9233af1efd2bb174713688c2d7dd9e167b032f857",
       "output": "pages/blog--tags--e-reader.webp"
     },
     "pages/blog--tags--firmware.webp": {
       "baseDirectory": "public/og",
       "digest": "bebfdd1bdb18c4ff06596550810043d157e19e008292d92a284f8a5d3fe238f6",
-      "fingerprint": "9b1e2fc861e4178453456bb3d48fcc19aac6a7c4b9f6bef26166f05500f03e25",
+      "fingerprint": "c49746e70b6ba8176b7bf63bc24bc3b25bc98deb7c0db4f938ec33e65b4220fd",
       "output": "pages/blog--tags--firmware.webp"
     },
     "pages/blog--tags--troubleshooting.webp": {
       "baseDirectory": "public/og",
       "digest": "ebb71a337d5555177e0d2b79edc6d189a6042a50197d697813779fdf462127e9",
-      "fingerprint": "e967c15717d05f65cf0bce7a187d16fb20d3c656ea7131b6b04847a141c8047b",
+      "fingerprint": "cbee54e567c7b5c2f11d41a1e913731a9e464d0ae5e3cadcfc380347fb06471d",
       "output": "pages/blog--tags--troubleshooting.webp"
     },
     "pages/blog--tags--web-components.webp": {
@@ -1048,7 +1048,7 @@
     "pages/blog--tags--release-engineering.webp": {
       "baseDirectory": "public/og",
       "digest": "154223e5a048787d1e4da1c858fc3bc7c4f239d7e9f83f534986cecbba5d83bc",
-      "fingerprint": "4af4216b64460ec4a80e6c72029eb8195485e5c17ad55848510f1c5e707e29c1",
+      "fingerprint": "a95d71711e11d8c3c35e117bb2699174d24ca7aeb7efa9131a460820dd3c8d26",
       "output": "pages/blog--tags--release-engineering.webp"
     },
     "pages/blog--tags--architecture.webp": {
@@ -1066,7 +1066,7 @@
     "pages/blog--tags--metrics.webp": {
       "baseDirectory": "public/og",
       "digest": "99e741bcf6b91c24816a28ab05c6fc2d10be64f3a43d3ab85295f28cb7ff547d",
-      "fingerprint": "0a5950c9da1911c1e45b6383973c0959b2140c09733ffbf97542d7555c25108e",
+      "fingerprint": "9ea26a7367f59e20db72b246ca63390b012691d1e9ae0cba8f22381bfea03cff",
       "output": "pages/blog--tags--metrics.webp"
     },
     "pages/blog--tags--product-engineering.webp": {
@@ -1216,13 +1216,13 @@
     "portfolio/lumen-ui-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "12e2b21745372f9fddc613c6926da1307e201d1667309fd8734237f2b5cde761",
-      "fingerprint": "4f064a05df3a4561e2607645b77661fed782351313558622aa5cbdf351a4c3af",
+      "fingerprint": "0a564ca53b67e9e2d06b22714d1ac5fef75e57f4ac63e9ef3d8f645cf9158e4a",
       "output": "portfolio/lumen-ui-logo.webp"
     },
     "portfolio/lumen-ui.webp": {
       "baseDirectory": "public/og",
       "digest": "12e2b21745372f9fddc613c6926da1307e201d1667309fd8734237f2b5cde761",
-      "fingerprint": "4f064a05df3a4561e2607645b77661fed782351313558622aa5cbdf351a4c3af",
+      "fingerprint": "0a564ca53b67e9e2d06b22714d1ac5fef75e57f4ac63e9ef3d8f645cf9158e4a",
       "output": "portfolio/lumen-ui.webp"
     },
     "portfolio/nebular-logo.webp": {
@@ -1240,13 +1240,13 @@
     "portfolio/og-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "ffcb363f7733b2fee13f31a8bb0d363597bb73818012aab678fc2e3b62b88640",
-      "fingerprint": "1adeeb54f3fdd5aa41735fc44c94632a81917d69b447bc93fa613b320dc05cbc",
+      "fingerprint": "ad8f76790fd7657948eff5c8cc2a60825fbf91390ef2b1790234cf09680122af",
       "output": "portfolio/og-logo.webp"
     },
     "portfolio/og.webp": {
       "baseDirectory": "public/og",
       "digest": "ffcb363f7733b2fee13f31a8bb0d363597bb73818012aab678fc2e3b62b88640",
-      "fingerprint": "1adeeb54f3fdd5aa41735fc44c94632a81917d69b447bc93fa613b320dc05cbc",
+      "fingerprint": "ad8f76790fd7657948eff5c8cc2a60825fbf91390ef2b1790234cf09680122af",
       "output": "portfolio/og.webp"
     },
     "portfolio/optic-power-logo.webp": {
@@ -1276,25 +1276,25 @@
     "portfolio/postlens-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "7b32a54e95e57886eae087939384008b56ed78d00d1bd6194b1b8008d867db67",
-      "fingerprint": "d3292bf817fafbb29c03ab076b02efe71f721bfa464852cb0b89f14073734e49",
+      "fingerprint": "9c9e393cb53cb7367bf220910b99493e916ed97051ea787ecdb787a182749c1e",
       "output": "portfolio/postlens-logo.webp"
     },
     "portfolio/postlens.webp": {
       "baseDirectory": "public/og",
       "digest": "7b32a54e95e57886eae087939384008b56ed78d00d1bd6194b1b8008d867db67",
-      "fingerprint": "d3292bf817fafbb29c03ab076b02efe71f721bfa464852cb0b89f14073734e49",
+      "fingerprint": "9c9e393cb53cb7367bf220910b99493e916ed97051ea787ecdb787a182749c1e",
       "output": "portfolio/postlens.webp"
     },
     "portfolio/quality-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "f7b2d983f5b4eef499b94f33dcab23dd8dbe4c3ae55a06cd0d9bbb4fa3518a16",
-      "fingerprint": "7c1bd58bb8aceef3b1f2fd4ba313bcc6d0b405833891b6f5eedb9fdf93543470",
+      "fingerprint": "f18394a1782a845b9c7ce2c92982a1454b0cd329ca7b3983cfd01b66168d727a",
       "output": "portfolio/quality-logo.webp"
     },
     "portfolio/quality.webp": {
       "baseDirectory": "public/og",
       "digest": "f7b2d983f5b4eef499b94f33dcab23dd8dbe4c3ae55a06cd0d9bbb4fa3518a16",
-      "fingerprint": "7c1bd58bb8aceef3b1f2fd4ba313bcc6d0b405833891b6f5eedb9fdf93543470",
+      "fingerprint": "f18394a1782a845b9c7ce2c92982a1454b0cd329ca7b3983cfd01b66168d727a",
       "output": "portfolio/quality.webp"
     },
     "portfolio/react-js-colombia-logo.webp": {
@@ -1312,13 +1312,13 @@
     "portfolio/roadscore-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "bbacf50e5938681b8ba173fa3a2e4c80e7bf2dcd732413d9f8d6607682efa5be",
-      "fingerprint": "dea68d16bd4403d47df4dff19d7310cbb6851d04136fcced5a628de0e8b12b62",
+      "fingerprint": "6b7fe1de000a3644939f4df3c88c002fe130cb2f65cb96c997d729fcf0c372ca",
       "output": "portfolio/roadscore-logo.webp"
     },
     "portfolio/roadscore.webp": {
       "baseDirectory": "public/og",
       "digest": "bbacf50e5938681b8ba173fa3a2e4c80e7bf2dcd732413d9f8d6607682efa5be",
-      "fingerprint": "dea68d16bd4403d47df4dff19d7310cbb6851d04136fcced5a628de0e8b12b62",
+      "fingerprint": "6b7fe1de000a3644939f4df3c88c002fe130cb2f65cb96c997d729fcf0c372ca",
       "output": "portfolio/roadscore.webp"
     },
     "portfolio/santi020k-theme-logo.webp": {

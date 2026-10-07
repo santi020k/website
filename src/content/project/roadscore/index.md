@@ -1,5 +1,6 @@
 ---
 title: "RoadScore"
+seoTitle: "RoadScore: Offline Road-Trip Game"
 description: "Built a bilingual, offline road-trip card game that turns one passenger-operated phone into a shared scoreboard, deck library, and private trip journal."
 brand:
   primary: "#ff8a3d"
