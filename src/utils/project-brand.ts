@@ -22,6 +22,7 @@ const GRADIENT_CONTRAST_SAMPLES = 20
 export const MINIMUM_PROJECT_TEXT_CONTRAST = 4.5
 export const PROJECT_LIGHT_CANVAS = '#faf9fb'
 export const PROJECT_DARK_CANVAS = '#110c1d'
+export const PROJECT_DARK_SURFACE = '#1c1528'
 
 export const DEFAULT_PROJECT_BRAND = {
   primary: '#8747ff',
@@ -194,7 +195,8 @@ export const getProjectBrandStyle = (brand?: ProjectBrandPalette) => {
     '#000000'
 
   const primaryOnLight = getReadableProjectColor(primary, PROJECT_LIGHT_CANVAS)
-  const primaryOnDark = getReadableProjectColor(primary, PROJECT_DARK_CANVAS)
+  // Gallery labels sit on the elevated surface, which needs more contrast than the canvas.
+  const primaryOnDark = getReadableProjectColor(primary, PROJECT_DARK_SURFACE)
 
   const [titlePrimaryOnLight, titleSecondaryOnLight] = getReadableProjectGradientColors(
     primary,

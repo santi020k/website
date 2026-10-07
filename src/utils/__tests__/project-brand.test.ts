@@ -7,6 +7,7 @@ import {
   getReadableProjectGradientColors,
   MINIMUM_PROJECT_TEXT_CONTRAST,
   PROJECT_DARK_CANVAS,
+  PROJECT_DARK_SURFACE,
   PROJECT_LIGHT_CANVAS
 } from '@/utils/project-brand'
 
@@ -69,6 +70,17 @@ describe('project brand utilities', () => {
     expect(getProjectGradientMinimumContrast(readableFirst, readableSecond, background))
       .toBeGreaterThanOrEqual(MINIMUM_PROJECT_TEXT_CONTRAST)
   })
+
+  test.each(['#6366f1', '#27153e', '#8747ff', '#ff5c00'])(
+    'keeps project labels readable on both dark backgrounds for %s', primary => {
+      const readable = getReadableProjectColor(primary, PROJECT_DARK_SURFACE)
+
+      for (const background of [PROJECT_DARK_CANVAS, PROJECT_DARK_SURFACE]) {
+        expect(getProjectColorContrast(readable, background))
+          .toBeGreaterThanOrEqual(MINIMUM_PROJECT_TEXT_CONTRAST)
+      }
+    }
+  )
 
   test('uses the site brand palette when project metadata is unavailable', () => {
     expect(getProjectBrandStyle()).toBe(getProjectBrandStyle(DEFAULT_PROJECT_BRAND))
