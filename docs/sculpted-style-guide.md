@@ -86,6 +86,24 @@ Keep native anchors for links wrapping a complete project or article.
 - Keep hover changes subtle: color, border, or a small image scale. Do not move whole cards.
 - External links opening a new tab include `noopener noreferrer`; retain `rel="me"` where used.
 
+## Shared navbar
+
+Preserve the signature tab and the continuous sculpted dock from the approved navbar.
+The supplied navbar references inform its connection to the page canvas, restrained
+type, distinct contact action, and signature silhouette. Translate these relationships
+through the site's existing Montserrat, semantic tokens, and editorial grid.
+
+- Match the main content gutters: 1.25rem on phones, 1.5rem from 640px, 2rem from
+  1024px, and 2.5rem from 1536px, with the same 72rem maximum width.
+- Use a Montserrat 600 wordmark and 500 navigation labels. Keep the personal tab compact.
+- Mark the current desktop route with a fine accent underline and `aria-current`,
+  leaving its surface open. Hover adds a quiet neutral fill.
+- Keep the dock opaque with a fine rule, sculpted corners, and restrained shadow;
+  scrolling adds modest depth. Separate desktop utilities with a fine vertical rule
+  only when the contact action is visible.
+- Preserve the attached mobile menu, numbered rows, utility spacing, 44px controls,
+  keyboard behavior, and reduced-motion support.
+
 ## Content sections
 
 1. **Track record:** four bare Lumen `Stat` articles. Keep value, label, and context together.

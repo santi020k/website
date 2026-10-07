@@ -11,6 +11,17 @@ for (const width of [320, 375, 390, 768, 1024, 1280, 1440]) {
         document.documentElement.style.fontSize = size
       }, fontSize)
       await expect(page.locator('html')).toHaveCSS('font-size', fontSize)
+      // Rem-based theme values settle on the next paint after text resizing.
+      await page.evaluate(async () => {
+        await document.fonts.ready
+        await new Promise<void>(resolve => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              resolve()
+            })
+          })
+        })
+      })
 
       const geometry = await page.locator('[data-header-shell]').evaluate(shell => {
         const bounds = shell.getBoundingClientRect()
@@ -22,8 +33,15 @@ for (const width of [320, 375, 390, 768, 1024, 1280, 1440]) {
             return { left: rect.left, right: rect.right, height: rect.height, width: rect.width }
           })
 
-        return { left: bounds.left, right: bounds.right, controls }
+        const hero = document.querySelector('[data-home-hero]')?.getBoundingClientRect()
+
+        if (!hero) throw new Error('Home hero has no rendered bounds')
+
+        return { left: bounds.left, right: bounds.right, heroLeft: hero.left, heroRight: hero.right, controls }
       })
+
+      expect(Math.abs(geometry.left - geometry.heroLeft)).toBeLessThanOrEqual(1)
+      expect(Math.abs(geometry.right - geometry.heroRight)).toBeLessThanOrEqual(1)
 
       for (const [index, control] of geometry.controls.entries()) {
         expect(control.left).toBeGreaterThanOrEqual(geometry.left)
