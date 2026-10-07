@@ -47,8 +47,9 @@ The site uses GitHub Flow and has one production branch:
    - `/offline/`
 
 Protect `main` in the GitHub repository settings. Require a pull request and the
-`Quality gate` status check before merging. Do not create a `release/*` branch
-or merge the same change a second time.
+`Quality gate` status check before merging. Routine changes use feature or fix
+branches; the v4 redesign is being consolidated on `release/v4.0.0`. Merge its
+reviewed pull request once into `main`, using the same production checks.
 
 Website versions and GitHub Releases are managed with Changesets:
 
@@ -68,6 +69,23 @@ package to npm.
 CodeQL scans pull requests and also runs monthly or on demand against the
 protected default branch. The pull-request jobs stay read-only, and the
 dependency audit reuses the quality gate's single dependency installation.
+
+## v4 design candidate
+
+`release/v4.0.0` consolidates the new design and replaces the unpublished 3.12.0
+release preparation. Existing source checkouts remain intact until their work is
+integrated and their owners finish. Public page URLs and content collections are
+retained; no visitor migration is required.
+
+The candidate uses the coordinated Lumen 4.0.0 registry packages. Install the committed
+lockfile with the pinned pnpm version, regenerate CV downloads after dependency or design
+changes, and run the release gates. `preview:lumen:v4` remains available for future local
+library evaluation; never commit its temporary overrides or local tarball paths.
+
+Before the first push or pull request, independently review the complete v4 diff
+against `main` and address findings. Publishing remains the existing GitHub
+Actions and Cloudflare Pages workflow from the reviewed, merged `main` commit.
+Use the rollback procedure below if production smoke checks fail.
 
 ## Pre-release local validation
 

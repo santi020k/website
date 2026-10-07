@@ -121,7 +121,7 @@ test.describe('About page', () => {
         await expect(page.locator('[data-testimonial]')).toHaveCount(4)
         await expectNoUnexpectedAccessibilityViolations(page)
 
-        const resumeLink = page.getByRole('link', { name: 'View resume', exact: true })
+        const resumeLink = page.getByRole('main').getByRole('link', { name: 'View resume', exact: true })
         await resumeLink.focus()
         await page.keyboard.press('Enter')
         await expect(page).toHaveURL('/resume/')

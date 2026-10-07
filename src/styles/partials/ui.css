@@ -513,3 +513,8 @@
 @utility ui-typography {
   @apply prose-santi;
 }
+
+/* Keep branded site pills readable over muted surfaces in the dark theme. */
+:root[data-theme="dark"] [data-site-pill][data-variant="brand"] {
+  color: hsl(var(--ink));
+}

@@ -51,15 +51,13 @@ published posts still require a valid cover.
 
 ## Map dependency and release boundary
 
-The page requires Lumen 4's public `WorldMap` component and
-`@santi020k/lumen-core/world-map-data` export. Use the existing
-[Lumen candidate preview](../lumen-integration.md#lumen-4-candidate-preview) to verify it while
-the coordinated packages remain unpublished. The release branch retains registry-backed baseline
-dependencies; those baseline versions cannot compile the new map. This is a release blocker,
-not a deployment-ready fallback. Never deploy using local tarball paths.
+The page uses Lumen 4's public `WorldMap` component and
+`@santi020k/lumen-core/world-map-data` export. The coordinated Astro, core, and umbrella
+catalog entries and registry lockfile pin the published 4.0.0 packages. Normal development
+and validation use the committed registry dependencies; local tarball paths must never
+enter a deployment or commit. Regenerate the CV PDFs and rerun the website gates whenever
+the coordinated packages change.
 
-Once Lumen 4 is published, set both the Astro and core catalog entries to the coordinated stable
-version, regenerate the registry lockfile, regenerate the CV PDFs, and rerun the website gates.
 Verify map selection, keyboard zoom, navigation away and back, narrow layouts, themes, and draft
 exclusion using `tests/travel.spec.ts`. Country details remain readable without JavaScript.
 

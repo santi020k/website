@@ -1,10 +1,8 @@
 # Lumen UI integration
 
-The dependency lockfile retains `@santi020k/lumen-astro` 2.1.0. Lumen 4 is being
-qualified locally while its coordinated packages remain unpublished. This adoption branch now
-uses v4-only components and the optional motion stylesheet, so build and validation commands must
-run through `preview:lumen:v4` until the registry-backed v4 upgrade is available. Do not deploy this
-branch using its older dependency lockfile. Import Lumen styles
+The dependency catalog and lockfile use the coordinated `@santi020k/lumen`,
+`@santi020k/lumen-astro`, and `@santi020k/lumen-core` 4.0.0 registry packages.
+Normal development and validation use those published dependencies. Import Lumen styles
 once from `src/styles/global.css`, mount the default export from
 `@santi020k/lumen-astro/runtime` once in `src/layouts/Base.astro`, use public Lumen components
 instead of recreating their `ui-*` classes, and keep site-specific wrappers only when the published
@@ -134,17 +132,15 @@ article markup instead of reusing HTML from the previous integration.
 The initial candidate comes from Lumen revision `f7bfcc07a0805a420ffeb6ad5f24da709ecca6dd`.
 This is local consumer evidence, not qualification of the Lumen release or published v4 packages.
 
-The travel page also consumes the public `WorldMap` and `lumen-core/world-map-data` exports.
-Its implementation requires v4; the registry baseline cannot build this release until those
-packages are published. See the [travel editing guide](editorial/travel.md) for the map data.
+The travel page consumes the public `WorldMap` and `lumen-core/world-map-data` exports
+from the published v4 packages. See the [travel editing guide](editorial/travel.md) for map data.
 
-After publication, change the Lumen adapter, core, and umbrella catalog entries in `pnpm-workspace.yaml`
-to `4.0.0`, add exact release-age exceptions for the coordinated three packages if needed by the
-existing supply-chain policy, and run `pnpm install` to commit a registry-backed lockfile.
-Re-run the migration audit, website quality/build gates, Playwright interactions, and mobile /
-desktop visual checks against those actual published packages before deployment. Use the
-website's Changesets process in `docs/deployment.md`; reverting the adoption commit and
-reinstalling the previous lockfile is the consumer rollback.
+The registry rollout updates all three catalog entries together and retains exact release-age
+exceptions for those owned 4.0.0 packages under the existing supply-chain policy. The lockfile
+contains registry resolutions, and CV downloads are regenerated from the resulting build.
+Run the migration audit, website gates, Playwright interactions, and mobile / desktop visual
+checks after future upgrades. Use the website's Changesets process in `docs/deployment.md`;
+reverting the coordinated dependency and consumer changes together is the rollback.
 
 ## Upgrade checks
 

@@ -66,7 +66,7 @@ post URLs and the shared RSS feed stay the same.
 
 The `/travel/` page connects Lumen WorldMap with country visit counts and personal notes.
 See [the travel editing guide](docs/editorial/travel.md) for the data source, title-only drafts,
-and the Lumen 4 publication prerequisite.
+and the coordinated Lumen 4 dependency requirements.
 
 ### Portfolio order
 
@@ -93,10 +93,10 @@ gallery uses the same ranking for its full list and structured data.
 
 ### 🛠️ Getting Started
 
-This branch previews unpublished Lumen 4 APIs. Use the
-[Lumen candidate workflow](docs/lumen-integration.md#lumen-4-candidate-preview) for development
-and validation; the older registry lockfile does not yet support these components. Deploy only
-after the coordinated v4 packages are published and the dependency upgrade is validated.
+The v4 design uses the coordinated `@santi020k/lumen`, `lumen-astro`, and `lumen-core`
+4.0.0 registry packages. Normal development and validation commands use the committed lockfile.
+The [Lumen candidate workflow](docs/lumen-integration.md#lumen-4-candidate-preview) remains
+available for evaluating future local library changes.
 
 **Requirements**: Node.js >= 24, [pnpm](https://pnpm.io/) 11, and
 [Quality CLI](https://github.com/santi020k/quality) v1.3.0 for repository Git hooks.

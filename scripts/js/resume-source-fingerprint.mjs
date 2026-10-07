@@ -25,13 +25,19 @@ export const resumeSourcePaths = [
   'src/pages/resume.astro',
   'src/site.config.ts',
   'src/styles/global.css',
+  'src/styles/partials/about.css',
   'src/styles/partials/animations.css',
   'src/styles/partials/base.css',
+  'src/styles/partials/footer.css',
+  'src/styles/partials/home-content.css',
+  'src/styles/partials/home-hero.css',
   'src/styles/partials/nav.css',
+  'src/styles/partials/projects.css',
   'src/styles/partials/prose.css',
   'src/styles/partials/tokens.css',
   'src/styles/partials/ui.css',
   'src/styles/partials/utilities.css',
+  'src/styles/partials/work.css',
   ...resumeProjectFiles.map(file => `src/content/project/${file}`)
 ].sort()
 

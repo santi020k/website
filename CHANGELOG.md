@@ -1,22 +1,52 @@
 # Changelog
 
-## 3.12.0
+## 4.0.0
 
-### Minor Changes
+### Major Changes
 
-- Add a travel notebook with a dotted Lumen WorldMap hero, in-map controls, interactive country notes, repeat visit counts, Colombian roots,
-  and Paraguayan residence. Prepare five title-only travel drafts without publishing their routes,
-  and retain cover validation when writing begins. Include the consolidated concise and full CV downloads.
+- Introduce the v4 website design across the homepage, navigation, footer, About, Work, Projects,
+  and blog. Retain public page URLs and the shared content collections while improving responsive
+  layouts, keyboard navigation, theme support, and reduced-motion behavior.
+
+  Add a travel notebook with a full-width dotted map before the introduction, interactive country
+  notes, repeat visit counts, Colombian roots, and Paraguayan residence. Keep the five title-only
+  travel drafts unpublished. Offer concise and full CV downloads and reveal complete project
+  technology stacks through accessible disclosures.
+
+  Use the coordinated stable Lumen 4 packages, preserve custom card spacing, and give article code examples distinct
+  accessible names. Retain the local candidate preview for future library evaluation. Regenerate CV downloads from the merged design and track the Void MDX source correctly.
 
 ### Patch Changes
 
-- Unify the home and travel heroes with a quiet editorial design and sculpted navigation. Let the travel map span the full page width before the introduction, with country notes and controls inside the hero.
+- Update compatible dependency security fixes, including Sharp and shell utilities,
+  and document the remaining upstream tooling advisories without suppressing them.
 
-- Prepare the website for Lumen 4 with a local candidate preview and preserve custom card spacing and uniquely label article code examples for screen readers.
+- Adopt Lumen motion for topic and technology lists, animated metrics, native disclosures, semantic background effects, and the existing Void product screenshot.
 
-- Make additional project technologies available through a keyboard-accessible Lumen disclosure instead of a static overflow count.
+- Accept native dates from Astro's frontmatter parser for optional post update,
+  project end, and talk dates, preserving quoted dates and omitted values.
 
-- Remove the hard background edge below the homepage navbar on mobile and tablet screens while preserving the desktop hero treatment.
+- Feature Lumen UI first, followed by PostLens, Between Contractions, and RoadScore across personal project showcases. Include all four on the portfolio page and align project structured data with the visible order.
+
+- Align About with the sculpted navigation and personal homepage: use the soft-smile portrait,
+  quieter typography, numbered sections, solid recommendations, and consistent compact actions.
+  Preserve the organization carousel, profile metadata, and existing recommendations.
+
+- Extend the sculpted homepage design through work, projects, writing, and community sections with responsive layouts and accessible navigation.
+
+- Refresh the site navigation with a signature tab, compact desktop controls, and an attached numbered mobile menu. Give the contact action a flat contrasting label and separate arrow tile. Keep search, theme switching, and closing reachable by keyboard while the menu is open, and preserve reduced-motion and enlarged-text support.
+
+  Improve mobile navbar spacing and carry the new design into site search with a solid signature-tab panel, numbered suggestions, compact results, and accessible keyboard hints.
+
+- Align the projects index with the new site design, using an editorial introduction, compact metrics,
+  and a responsive project gallery while preserving technology archive layouts.
+
+- Use public Lumen hooks for package-manager tab styling and résumé printing, adopt Lumen buttons for organization carousel controls, and expose the current blog topic through accessible Pill links. Preserve the existing appearance, pagination, and tab behavior.
+
+- Validate external Webmention data and URLs before rendering, preserve anonymous
+  author fallbacks, and prevent avatar dimension lookup failures from breaking builds.
+  Send Webmention authentication in headers instead of request URLs.
+  Let the browser handle partial file requests without service-worker cache interception.
 
 ## 3.11.0
 
