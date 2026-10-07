@@ -72,7 +72,8 @@ const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.p
     preservedFilterTop = filter?.getBoundingClientRect().top
   })
 
-  document.addEventListener('astro:after-swap', () => {
+  // Measure after the destination page's scripts and styles have settled.
+  document.addEventListener('astro:page-load', () => {
     if (preservedFilterTop === undefined) return
 
     const filter = document.querySelector<HTMLElement>('[data-blog-tag-filter]')

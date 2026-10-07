@@ -86,5 +86,8 @@ preview of the newest published post. On mobile, the preview follows the introdu
 come from the published collection; the preview also remains in the chronological twelve-post
 feed. Older archive pages use a compact heading and a direct link back to the latest posts.
 
-The approved main blog gallery is retained. Topic, series, and older archives use solid Lumen
-surfaces through the shared supporting-page scope. Series discovery appears once below the main feed.
+The Blog landing, topic, series, and older archives share the sculpted typography and solid
+Lumen surfaces. Article headings wrap in full, and long galleries render visibly without
+a group reveal threshold. The shared actions and newsletter use the same solid control
+treatment. Series discovery appears once below the main feed. Topic filtering restores
+its viewport position after the destination page has loaded.

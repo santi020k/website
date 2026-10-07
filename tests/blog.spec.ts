@@ -68,6 +68,44 @@ test.describe('Blog page', () => {
     await expect(page.locator('[data-post-gallery-card]')).toHaveCount(12)
   })
 
+  test('long mobile archives keep every article visible with motion enabled', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+
+    for (const route of ['/blog/', '/blog/2/', '/blog/3/', '/blog/tags/developer-experience/', '/blog/tags/typescript/', '/blog/series/the-santi020k-way/']) {
+      await page.goto(route)
+      const cards = page.locator('[data-post-gallery-card]')
+
+      expect(await cards.count()).toBeGreaterThanOrEqual(12)
+
+      for (const card of await cards.all()) {
+        await card.scrollIntoViewIfNeeded()
+        await expect(card).toBeInViewport()
+        await expect(card).toHaveCSS('opacity', '1')
+      }
+    }
+  })
+
+  test('mobile article headings wrap completely without clipping', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 812 })
+    await page.goto('/blog/3/')
+
+    const headings = page.locator('[data-post-gallery-card] h3')
+    expect(await headings.count()).toBe(12)
+
+    for (const heading of await headings.all()) {
+      const bounds = await heading.evaluate(element => ({
+        available: element.clientHeight,
+        content: element.scrollHeight
+      }))
+
+      expect(bounds.content).toBeLessThanOrEqual(bounds.available + 1)
+      await expect(heading).toHaveCSS('-webkit-line-clamp', 'none')
+    }
+
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320)
+  })
+
   test('pagination links keep the trailing slash so no host redirect is needed', async ({ page }) => {
     for (const route of ['/blog/', '/blog/2/', '/blog/tags/typescript/']) {
       await page.goto(route)

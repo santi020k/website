@@ -85,9 +85,10 @@ test.describe('View transitions', () => {
     expect(filteredPagePosition.scrollY).toBeGreaterThan(0)
     expect(filteredPagePosition.top).toBeCloseTo(initialFilterTop, 0)
 
-    // Let the native view-transition animation release its snapshots before
-    // starting the reverse navigation.
-    await page.waitForTimeout(400)
+    // Position must remain stable after the page-load event, including any
+    // browser scrolling queued while focus moved to the new document.
+    await page.waitForTimeout(500)
+    expect(await topicFilter.evaluate(element => element.getBoundingClientRect().top)).toBeCloseTo(initialFilterTop, 0)
 
     const filterTopBeforeReset = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
 
@@ -99,6 +100,8 @@ test.describe('View transitions', () => {
     const restoredFilterTop = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
 
     expect(restoredFilterTop).toBeCloseTo(filterTopBeforeReset, 0)
+    await page.waitForTimeout(500)
+    expect(await topicFilter.evaluate(element => element.getBoundingClientRect().top)).toBeCloseTo(initialFilterTop, 0)
   })
 
   test('disables smooth scrolling when reduced motion is requested', async ({ page }) => {

@@ -55,15 +55,12 @@ const shareLinks = [
         aria-label={link.label}
         data-track-event="share"
         data-track-platform={link.platform}
-        class="
-          group btn-secondary inline-flex min-h-11 cursor-pointer items-center
-          justify-center gap-2 rounded-full border text-sm font-semibold
-          tracking-[0.01em]
-        "
+        class="group btn-secondary"
       >
         <Icon class="
           size-5 transition-transform
-          group-hover:scale-110
+          motion-safe:group-hover:scale-110
+          motion-reduce:transition-none
         "
         >
           <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={link.icon} />
@@ -83,7 +80,8 @@ const shareLinks = [
         data-copy-icon
         class="
           size-5 transition-transform
-          group-hover:rotate-45
+          motion-safe:group-hover:rotate-45
+          motion-reduce:transition-none
         "
       />
       <Icon

@@ -38,13 +38,6 @@ const coverWidths = cover ?
   data-blog-hero
 >
   <div
-    aria-hidden="true"
-    class="
-      pointer-events-none absolute -top-24 right-0 -z-10 h-144 w-full max-w-3xl
-      rounded-full bg-radial from-brand/14 via-accent/6 to-transparent blur-3xl
-    "
-  />
-  <div
     class:list={[
       `
         grid gap-10
@@ -56,28 +49,16 @@ const coverWidths = cover ?
     <div class="space-y-6">
       <Eyebrow label="The personal blog" tone="brand" />
       <h1
-        class="
-          max-w-3xl text-4xl/[0.98] font-extrabold tracking-[-0.06em]
-          wrap-break-word
-          sm:text-6xl/[0.95]
-          lg:text-[5.2rem]/[0.92]
-        "
+        class="editorial-page-title"
       >
         Things I build,{' '}
         <span
-          class="
-            block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
-            pb-3 text-transparent
-          "
+          class="editorial-page-emphasis"
         >
           enjoy, and learn.
         </span>
       </h1>
-      <p class="
-        max-w-xl text-base/7 text-ink-soft
-        sm:text-lg/8
-      "
-      >
+      <p class="editorial-page-description max-w-xl">
         Notes on software, reading, gaming, and everyday discoveries. What I’m building,
         what holds my attention, and what I learn along the way.
       </p>
@@ -87,11 +68,11 @@ const coverWidths = cover ?
       </div>
       <div class="
         flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line/45 pt-5
-        text-sm text-ink-muted
+        text-xs text-ink-soft
       "
       >
-        <span><strong class="font-semibold text-ink">{postCount}</strong> posts</span>
-        <span><strong class="font-semibold text-ink">{topicCount}</strong> topics</span>
+        <span><strong class="font-medium text-ink">{postCount}</strong> posts</span>
+        <span><strong class="font-medium text-ink">{topicCount}</strong> topics</span>
         <a
           class="inline-flex min-h-11 items-center gap-2 font-medium text-brand"
           href="/blog/series/"
@@ -104,11 +85,11 @@ const coverWidths = cover ?
       <Card
         as="article"
         class="
-          group overflow-hidden rounded-4xl border-line/55 bg-surface/78 p-0!
+          group overflow-hidden rounded-3xl border border-line/65 bg-surface
+          p-0!
         "
         data-blog-latest
-        glass="subtle"
-        variant="interactive"
+        variant="unstyled"
       >
         <a
           aria-label={`Read the latest post: ${latestPost.data.title}`}
@@ -121,7 +102,7 @@ const coverWidths = cover ?
                 <Picture
                   alt=""
                   class="
-                    size-full object-cover transition-transform duration-500
+                    size-full object-cover transition-transform duration-300
                     motion-safe:group-hover:scale-105
                     motion-reduce:transition-none
                   "
@@ -146,7 +127,7 @@ const coverWidths = cover ?
           >
             <p class="section-label text-brand">Latest post</p>
             <h2 class="
-              text-2xl/tight font-semibold tracking-[-0.04em] text-ink
+              text-2xl/8 font-medium tracking-[-0.04em] text-ink
               transition-colors
               group-hover:text-brand
               motion-reduce:transition-none
@@ -171,7 +152,7 @@ const coverWidths = cover ?
                 <span>{getReadingTime(latestPost.body)} min read</span>
               </p>
               <span class="
-                inline-flex items-center gap-2 text-sm font-semibold text-brand
+                inline-flex items-center gap-2 text-xs font-medium text-brand
               "
               >
                 Read post <Icon class="size-4" name="arrow-right" />

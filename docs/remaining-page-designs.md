@@ -71,3 +71,18 @@ The integration checkout stayed clean after its completion gate and all 266 brow
 This documentation evidence update follows the validated implementation merge and is
 included in the local release. No page families remain pending; Firefox verification is
 the outstanding environment limitation described above. No push, PR, or deployment occurred.
+
+## Consistency audit follow-up
+
+The follow-up starts from `release/v4.0.0` at `1fb6a585`. The Blog landing now shares
+sculpted typography, solid surfaces, and a 72rem content alignment with the supporting
+pages. Shared buttons, eyebrows, section headers, the newsletter, and Back to Top use
+the same treatment. The gallery composition and content order are preserved.
+
+Long article grids no longer depend on a group intersection threshold. All cards are
+visible on mobile with normal motion enabled, and headings wrap completely at 320px.
+Topic filtering restores its position after the destination page has loaded. Background
+balls remain enabled through the shared Lumen component, with reduced-motion support.
+
+Before-and-after captures for this follow-up are saved outside Git at
+`/Users/santi020k/.codex/visualizations/2026/10/07/01a114cd-e2e6-7150-a42b-338bba6cb65f/style-consistency/`.

@@ -9,7 +9,7 @@ import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingTime } from '@/utils/reading-time'
 
-import { Card, Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   columns?: 2 | 3
@@ -53,7 +53,7 @@ const galleryItems = posts.map(createGalleryItem)
 
 <div>
   {galleryItems.length > 0 && (
-    <RevealGroup
+    <div
       class:list={[
         `
           grid gap-6
@@ -62,18 +62,16 @@ const galleryItems = posts.map(createGalleryItem)
         columns === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'
       ]}
       data-post-gallery-grid
-      stagger={45}
     >
       {galleryItems.map((item, index) => (
         <Card
           as="article"
           class="
             group flex h-full flex-col overflow-hidden rounded-3xl!
-            border-line/55 bg-surface/78 p-0!
+            border-line/55 bg-surface p-0!
           "
           data-post-gallery-card
-          glass="subtle"
-          variant="interactive"
+          variant="unstyled"
         >
           <Link
             aria-label={`Read ${item.data.draft ? 'draft post: ' : ''}${item.data.title}`}
@@ -125,18 +123,14 @@ const galleryItems = posts.map(createGalleryItem)
               "
               >
                 <Pill
-                  className="
-                    border-line/80! bg-canvas/92! font-bold! text-ink! shadow-lg
-                    backdrop-blur-xl
-                  "
+                  className="border-line/80! bg-surface! font-medium! text-ink!"
                   label={item.data.postType}
                   tone="neutral"
                 />
                 {item.data.draft && (
                   <Pill
                     className="
-                      border-warning/70! bg-canvas/92! font-bold! text-warning!
-                      shadow-lg backdrop-blur-xl
+                      border-warning/70! bg-surface! font-medium! text-warning!
                     "
                     label="Draft"
                     tone="neutral"
@@ -173,8 +167,8 @@ const galleryItems = posts.map(createGalleryItem)
               </div>
 
               <h3 class="
-                mt-3 line-clamp-3 text-xl/tight font-semibold tracking-tight
-                text-ink transition-colors duration-200
+                mt-3 text-xl/7 font-medium tracking-tight text-ink
+                transition-colors duration-200
                 group-hover:text-brand
                 motion-reduce:transition-none
               "
@@ -197,7 +191,7 @@ const galleryItems = posts.map(createGalleryItem)
                     size-5 shrink-0 text-ink-muted transition-[color,transform]
                     duration-200
                     group-hover:translate-x-1 group-hover:text-brand
-                    motion-reduce:transition-none
+                    motion-reduce:transform-none motion-reduce:transition-none
                   "
                   name="arrow-right"
                 />
@@ -206,6 +200,6 @@ const galleryItems = posts.map(createGalleryItem)
           </Link>
         </Card>
       ))}
-    </RevealGroup>
+    </div>
   )}
 </div>

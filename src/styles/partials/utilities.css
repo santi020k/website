@@ -8,7 +8,7 @@
 /* ─── Surface & Card ────────────────────────────────────────────────────────── */
 
 @utility privacy-inline-link {
-  @apply underline-offset-2 hover:text-brand hover:underline;
+  @apply underline underline-offset-2 hover:text-ink;
 }
 
 @utility resume-role-text {
@@ -469,228 +469,48 @@
 
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */
 
-@utility btn-primary {
-  @apply relative px-5 py-3 text-white;
-  --button-y: 0px;
-  --button-scale: 1;
-  border-color: hsl(var(--brand) / 0.55);
-  background: linear-gradient(
-    135deg,
-    hsl(var(--brand-solid)),
-    hsl(var(--brand))
-  );
-  backdrop-filter: blur(8px);
-  box-shadow:
-    0 10px 28px hsl(var(--brand-solid) / 0.22),
-    inset 0 1px 0 hsl(0 0% 100% / 0.22),
-    inset 0 -1px 0 hsl(var(--brand) / 0.3);
-  transform: translate3d(
-      var(--magnetic-x, 0px),
-      calc(var(--magnetic-y, 0px) + var(--button-y)),
-      0
-    )
-    scale(var(--button-scale));
-  transition:
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    background 0.25s ease;
+@utility site-action {
+  @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-3 rounded-xl border px-4 py-2 text-xs font-medium tracking-normal no-underline;
+  box-shadow: none;
+  backdrop-filter: none;
+  transform: none;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  &:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 4px; }
   @apply motion-reduce:transition-none;
+}
 
-  /* Shimmer sweep */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      105deg,
-      transparent 30%,
-      hsl(0 0% 100% / 0.2) 50%,
-      transparent 70%
-    );
-    background-size: 200% 100%;
-    background-position: 200% 0;
-    transition: background-position 0s;
-    @apply motion-reduce:hidden;
-  }
-
-  &:hover {
-    --button-y: -2px;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--brand-solid)),
-      hsl(var(--brand))
-    );
-    box-shadow:
-      0 14px 34px hsl(var(--brand-solid) / 0.28),
-      0 0 24px hsl(var(--brand) / 0.14),
-      inset 0 1px 0 hsl(0 0% 100% / 0.28),
-      inset 0 -1px 0 hsl(var(--brand) / 0.2);
-
-    &::before {
-      background-position: -200% 0;
-      transition: background-position 0.5s ease;
-    }
-  }
-
-  &:active {
-    --button-scale: 0.98;
-    @apply motion-reduce:transform-none;
-  }
+@utility btn-primary {
+  @apply site-action border-ink bg-ink text-surface;
+  &:hover { background: hsl(var(--ink-soft)); }
 }
 
 @utility btn-secondary {
-  @apply relative px-5 py-3 text-ink;
-  --button-y: 0px;
-  --button-scale: 1;
-  background: linear-gradient(
-    135deg,
-    hsl(var(--surface) / 0.65),
-    hsl(var(--surface-muted) / 0.42)
-  );
-  border-color: hsl(var(--line) / 0.5);
-  backdrop-filter: blur(14px);
-  box-shadow:
-    0 4px 16px hsl(var(--ink) / 0.04),
-    inset 0 1px 0 hsl(0 0% 100% / 0.14),
-    inset 0 -1px 0 hsl(var(--line) / 0.1);
-  transform: translate3d(
-      var(--magnetic-x, 0px),
-      calc(var(--magnetic-y, 0px) + var(--button-y)),
-      0
-    )
-    scale(var(--button-scale));
-  transition:
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    color 0.25s ease,
-    background 0.25s ease;
-  @apply motion-reduce:transition-none;
-
-  /* Spinning border arc */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    padding: 2px;
-    background: conic-gradient(
-      from var(--border-angle),
-      hsl(var(--line) / 0.2) 0%,
-      hsl(var(--line) / 0.2) 65%,
-      hsl(var(--brand) / 0.36) 78%,
-      hsl(var(--accent) / 0.48) 85%,
-      hsl(var(--brand) / 0.36) 92%,
-      hsl(var(--line) / 0.2) 100%
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    @apply motion-reduce:hidden;
-  }
-
-  &:hover {
-    --button-y: -2px;
-    color: hsl(var(--brand-solid));
-    background: linear-gradient(
-      135deg,
-      hsl(var(--brand-soft) / 0.45),
-      hsl(var(--brand-soft) / 0.22)
-    );
-    border-color: hsl(var(--brand) / 0.32);
-    box-shadow:
-      0 10px 26px hsl(var(--brand) / 0.10),
-      0 0 18px hsl(var(--brand) / 0.08),
-      inset 0 1px 0 hsl(var(--brand) / 0.16),
-      inset 0 -1px 0 hsl(var(--brand) / 0.08);
-
-    &::before {
-      opacity: 0.72;
-      animation: var(--animate-border-spin);
-    }
-  }
-
-  &:active {
-    --button-scale: 0.98;
-    @apply motion-reduce:transform-none;
-  }
+  @apply site-action border-line/65 bg-surface text-ink;
+  &:hover { background: hsl(var(--surface-muted)); }
 }
 
 @utility btn-ghost {
-  @apply relative border-transparent px-4 py-2.5 text-ink;
-  --button-y: 0px;
-  --button-scale: 1;
-  transform: translate3d(
-      var(--magnetic-x, 0px),
-      calc(var(--magnetic-y, 0px) + var(--button-y)),
-      0
-    )
-    scale(var(--button-scale));
-  transition:
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    color 0.25s ease,
-    border-color 0.25s ease;
-  @apply motion-reduce:transition-none;
-
-  /* Glass fill sweep */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--surface) / 0.72),
-      hsl(var(--surface-muted) / 0.52)
-    );
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.1);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-    @apply motion-reduce:hidden;
-  }
-
-  &:hover {
-    color: hsl(var(--ink));
-
-    &::before {
-      transform: scaleX(1);
-    }
-  }
-
-  &:active {
-    --button-scale: 0.98;
-    @apply motion-reduce:transform-none;
-  }
+  @apply site-action border-transparent bg-transparent text-ink;
+  &:hover { background: hsl(var(--surface-muted)); }
 }
 
 @utility btn-inline {
-  @apply relative min-h-0 rounded-none border-none p-0 text-accent;
-
-  /* Animated underline grows from left */
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-    @apply motion-reduce:hidden;
-  }
-
-  &:hover::after {
-    transform: scaleX(1);
-  }
+  @apply site-action rounded-none border-transparent bg-transparent px-0 text-ink;
+  &:hover { color: hsl(var(--brand)); }
 }
+
+@utility site-action-arrow {
+  @apply inline-grid size-8 shrink-0 place-items-center rounded-lg;
+}
+.btn-primary .site-action-arrow {
+  color: hsl(var(--ink));
+  background: hsl(var(--surface));
+}
+
+[data-site-action='primary'] { @apply btn-primary; }
+[data-site-action='secondary'] { @apply btn-secondary; }
+[data-site-action='ghost'] { @apply btn-ghost; }
+[data-site-action='inline'] { @apply btn-inline; }
 
 /* ─── Forms & Interactive ───────────────────────────────────────────────────── */
 

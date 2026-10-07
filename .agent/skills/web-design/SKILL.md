@@ -171,13 +171,13 @@ Defined as `@utility` in `utilities.css`. Always use these — never build ad ho
 
 | Utility | Purpose |
 |---|---|
-| `btn-primary` | Purple glass gradient; shimmer sweep + lift on hover |
-| `btn-secondary` | Neutral glass; spinning border arc + brand tint on hover |
-| `btn-ghost` | Transparent; glass fill sweeps in on hover |
-| `btn-inline` | Text link; animated underline grows from left |
+| `btn-primary` | Solid high-contrast action with an optional arrow compartment |
+| `btn-secondary` | Solid neutral action with a fine border |
+| `btn-ghost` | Transparent action with a quiet hover fill |
+| `btn-inline` | Plain text link with a generous hit area |
 
-Use the `ButtonLink.astro` component for existing consumer semantics. Supporting pages
-opt into `remaining-pages`, which gives these actions the approved solid treatment.
+Use the shared `Button.astro` and `ButtonLink.astro` components for consumer semantics.
+Their defaults use the approved solid treatment on every route.
 New primary page actions compose Lumen `ButtonLink` with `variant="unstyled"` and the
 shared sculpted visual rules. Preserve focus, 44px targets, and external-link safety.
 

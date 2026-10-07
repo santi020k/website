@@ -53,7 +53,11 @@ Consume the shared semantic tokens; do not introduce a second brand palette.
 
 Use solid surfaces, restrained borders, and rounded corners. Save depth for the navbar and
 artwork. Avoid page-wide glow, glass on every card, spinning borders, and continuous decorative
-animation on the homepage.
+animation on content surfaces.
+
+The site-wide background balls are an approved exception, restored at Santiago’s request.
+Keep the shared Lumen `Particles` in the Base layout, behind content and non-interactive.
+Respect its reduced-motion behavior; do not add competing glow or animation to cards.
 
 ## Layout and spacing
 
@@ -122,8 +126,9 @@ Use Astro `Image` for optimized assets. Keep home-specific rules scoped to their
 
 ## Supporting pages and reading templates
 
-Supporting routes opt into `remaining-pages` through the Base layout's `mainClass`.
-The current primary landing pages retain their integrated compositions. Shared `PageHero`
+The Blog landing and supporting routes opt into `remaining-pages` through the Base layout's `mainClass`.
+The Blog keeps its image-led latest-post composition with the same editorial typography
+and solid surfaces. The other primary landing pages retain their integrated compositions. Shared `PageHero`
 uses a plain eyebrow, a Montserrat 500 headline, a solid purple emphasis, a short introduction,
 and a fine metadata rule. Its `compact` mode serves smaller archive introductions.
 The `editorial-title` text token controls responsive title size, leading, and tracking.
@@ -131,7 +136,10 @@ The `editorial-title` text token controls responsive title size, leading, and tr
 Archives, technology indexes, speaking, developer experience, and portfolio summaries use
 solid Lumen surfaces with no hover lift. Statistics form quiet strips rather than nested
 cards. Search, topic sorting, counts, disclosures, and pagination retain their existing
-Lumen and consumer behavior. Actions use a dark primary with a light arrow tile where
+Lumen and consumer behavior. Topic filtering restores its position after
+the destination page has loaded. Long article grids render visibly without a group reveal
+threshold, and all article titles wrap in full at every viewport width. The shared `Button`, `ButtonLink`, `Eyebrow`, and `SectionHeader` defaults also follow this
+direction outside the page scope. Actions use a dark primary with a light arrow tile where
 present, rounded secondary controls, and plain text links. All controls retain a visible
 focus ring and at least a 44px target. Short motion respects reduced-motion preferences.
 
