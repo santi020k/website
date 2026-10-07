@@ -18,7 +18,7 @@ when translucency fits the surrounding surface.
 ## Current primitive migrations
 
 - About-page supplementary cards use Lumen `Note` directly.
-- The homepage availability status uses Lumen `Marker`.
+- The About hero availability status uses Lumen `Marker`.
 - The article and project table of contents use Lumen `Anchor` and its shared scroll-spy runtime.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.

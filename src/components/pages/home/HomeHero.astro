@@ -1,430 +1,77 @@
 ---
 import { Image } from 'astro:assets'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import HeroArtwork from '@/assets/artwork/interlocking-forms.png'
 
-import AboutMeImage from '@/assets/photos/originals/me-1.png'
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
 
-import { Icon, Marker } from '@santi020k/lumen-astro'
-
-import { siteConfig } from '@/site.config'
-
-interface Props {
-  yearsOfExperience: string
-}
-
-const { yearsOfExperience } = Astro.props
+import LumenLogo from '@/content/project/lumen-ui/logo.webp'
+import PostLensLogo from '@/content/project/postlens/logo.webp'
 ---
 
-<section
-  class="
-    relative left-1/2 isolate -mt-12 flex w-screen -translate-x-1/2 items-center
-    overflow-visible px-5 pt-24 pb-16
-    min-[2200px]:px-10
-    sm:px-6 sm:pt-28 sm:pb-20
-    lg:-mt-39 lg:min-h-svh lg:overflow-x-clip lg:px-8 lg:pt-28 lg:pb-18
-    xl:px-10
-    2xl:px-12 2xl:pt-24 2xl:pb-16
-  "
-  data-home-hero
->
-  <div
-    aria-hidden="true"
-    class="
-      pointer-events-none absolute -inset-x-24 -top-32 -z-10 h-176 rounded-full
-      bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
-      motion-safe:animate-glow-pulse
-      motion-reduce:animate-none
-      dark:from-brand/24 dark:via-accent/12
-    "
-  />
-  <div
-    aria-hidden="true"
-    class="
-      pointer-events-none absolute inset-x-0 top-0 -z-10 h-full bg-linear-to-b
-      from-transparent via-surface/8 to-canvas/78
-      lg:from-canvas/70
-      dark:from-transparent dark:via-surface/7 dark:to-canvas/86
-      lg:dark:from-canvas/78
-    "
-  />
-  <div
-    class="
-      mx-auto grid w-full max-w-7xl gap-10
-      min-[2200px]:max-w-368 min-[2200px]:-translate-y-10
-      min-[2200px]:grid-cols-[minmax(0,1fr)_25rem] min-[2200px]:gap-18
-      lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center lg:gap-12
-      2xl:max-w-336 2xl:-translate-y-6 2xl:grid-cols-[minmax(0,1fr)_23rem]
-      2xl:gap-16
-    "
-    data-home-hero-grid
-  >
-    <div class="relative z-10">
-      <div
-        class="
-          flex flex-col gap-3
-          sm:flex-row sm:items-center
-        "
-      >
-        <Eyebrow
-          label="Santiago Molina (@santi020k)"
-          tone="brand"
-          className="whitespace-normal"
-        />
-      </div>
-
-      <div class="mt-6 max-w-232 space-y-5">
-        <h1
-          class="
-            text-4xl/[0.96] font-extrabold tracking-[-0.06em] wrap-break-word
-            min-[2200px]:text-[8rem]/[0.84]
-            sm:text-6xl/[0.95]
-            lg:text-[6rem]/[0.88]
-            2xl:text-[6.8rem]/[0.86]
-          "
-          data-home-hero-heading
-        >
-          Calm systems.{' '}
-          <span class="
-            block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
-            pb-4 text-transparent
-          "
-          >Clear delivery.
-          </span>
-        </h1>
-        <p class="
-          max-w-3xl text-base/7 text-ink-soft
-          sm:text-xl/8
-        "
-        >
-          I’m Santiago Molina, known online as santi020k—an engineering leader
-          and full-stack architect helping teams modernize systems, automate
-          delivery, and improve developer experience.
-        </p>
-      </div>
-
-      <div class="mt-7 space-y-5">
-        <p
-          class="
-            flex max-w-3xl flex-wrap items-center gap-x-2 gap-y-1 text-sm/6
-            text-ink-muted
-          "
-        >
-          <Marker
-            class="
-              shrink-0
-              motion-safe:animate-pulse
-              motion-reduce:animate-none
-            "
-            aria-hidden="true"
-            variant="success"
-          />
-          <span class="shrink-0 font-medium whitespace-nowrap text-brand">Available</span>
-          <span
-            aria-hidden="true"
-            class="
-              hidden text-line
-              min-[420px]:inline
-            "
-          >/
-          </span>
-          <span class="min-w-0">{siteConfig.availability}</span>
-        </p>
-
-        <div class="
-          section-actions max-w-3xl
-          sm:items-center
-        "
-        >
-          <ButtonLink
-            className="
-              w-full
-              sm:w-auto
-            "
-            href="/portfolio/"
-            showArrow
-          >
-            See selected work
-          </ButtonLink>
-          <ButtonLink
-            className="
-              w-full
-              sm:w-auto
-            "
-            href={siteConfig.contact.resume}
-            showArrow
-            variant="secondary"
-          >
-            View resume
-          </ButtonLink>
-        </div>
+<section class="maker-hero" aria-labelledby="home-heading" data-home-hero>
+  <div class="maker-hero-stage" data-home-hero-grid>
+    <div class="maker-hero-copy">
+      <p class="maker-hero-eyebrow">
+        <span aria-hidden="true" class="maker-hero-signal"></span>
+        Engineering &amp; independent making
+      </p>
+      <h1 id="home-heading" data-home-hero-heading>
+        <span>I build products.</span>
+        <span>And the tools</span>
+        <span class="maker-hero-emphasis">behind them.</span>
+      </h1>
+      <p class="maker-hero-description">
+        I’m Santiago. Engineer, maker, and technical lead.
+        Turning complex problems into useful software,
+        with care for every detail.
+      </p>
+      <div class="maker-hero-actions">
+        <ButtonLink class="maker-hero-primary" href="/portfolio/" variant="unstyled">
+          Explore my work
+          <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-up-right" /></span>
+        </ButtonLink>
+        <ButtonLink class="maker-hero-secondary" href="/about/" variant="unstyled">
+          A little about me <Icon name="arrow-right" />
+        </ButtonLink>
       </div>
     </div>
 
-    <div
-      class="
-        relative isolate mx-auto w-full max-w-76 animate-reveal-lcp
-        motion-reduce:animate-none
-        min-[2200px]:max-w-100
-        sm:max-w-88
-        xl:max-w-88
-        2xl:max-w-92
-      "
-      data-home-hero-portrait
-    >
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-[5%] z-10 rounded-4xl bg-radial
-          from-brand/24 via-accent/12 to-transparent blur-3xl
-          motion-safe:animate-pulse
-          motion-reduce:animate-none
-        "
+    <div class="maker-hero-visual" aria-hidden="true">
+      <div class="maker-hero-orbit"></div>
+      <span class="maker-hero-coordinate top-0 right-0">Ideas / systems / craft</span>
+      <Image
+        alt=""
+        class="maker-hero-artwork"
+        src={HeroArtwork}
+        widths={[400, 640, 960, 1280]}
+        sizes="(min-width: 1024px) 560px, (min-width: 640px) 460px, 320px"
+        width={640}
+        height={640}
+        format="webp"
+        quality={85}
+        loading="eager"
+        fetchpriority="high"
       />
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-[-10%] z-20 rounded-[2.75rem]
-          border-2 border-brand/15 [animation-delay:800ms]
-          motion-safe:animate-[hero-orbit-outer_28s_linear_infinite]
-          motion-reduce:animate-none
-          dark:border-brand/20
-        "
-      />
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-[8%] z-20 rounded-[2.25rem] border
-          border-accent/10 [animation-delay:800ms]
-          motion-safe:animate-[hero-orbit-inner_22s_linear_infinite]
-          motion-reduce:animate-none
-        "
-      />
-
-      <div class="
-        glass-pro relative z-0 rounded-[2.25rem] p-3 transition-shadow
-        duration-500
-        hover:shadow-[0_24px_70px_-18px_hsl(var(--brand)/0.24)]
-        motion-reduce:transition-none
-        sm:p-4
-      "
-      >
-        <div
-          aria-hidden="true"
-          class="
-            pointer-events-none absolute inset-0 z-10 grid-fade opacity-20
-            dark:opacity-30
-          "
-        />
-        <div
-          aria-hidden="true"
-          class="
-            pointer-events-none absolute inset-0 z-20 bg-linear-to-br
-            from-brand/10 via-transparent to-accent/14 mix-blend-soft-light
-          "
-        />
-        <div
-          aria-hidden="true"
-          class="
-            pointer-events-none absolute inset-0 z-20 bg-linear-to-t
-            from-canvas/18 via-transparent to-transparent
-          "
-        />
-        <Image
-          alt="Portrait of Santiago Molina (@santi020k)"
-          class="
-            relative z-0 aspect-2/3 w-full rounded-[1.7rem] object-cover
-            object-top contrast-[1.04] saturate-[0.92]
-          "
-          decoding="sync"
-          fetchpriority="high"
-          format="avif"
-          height={480}
-          loading="eager"
-          src={AboutMeImage}
-          width={320}
-        />
-      </div>
-
-      <div class="
-        glass-pro absolute top-6 -right-6 z-30 hidden min-w-36 rounded-2xl
-        border-r-4 border-r-brand/40 p-4 opacity-[0.92] [animation-delay:600ms]
-        motion-safe:animate-float-y
-        motion-reduce:animate-none
-        sm:-right-12 sm:block
-      "
-      >
-        <p class="flex items-center gap-1.5 section-label">
-          <span class="
-            inline-block size-1.5 rounded-full bg-brand
-            motion-safe:animate-pulse
-          "
-          />
-          Base
-        </p>
-        <p class="mt-2 text-sm/6 text-ink-soft">Medellín · Remote worldwide</p>
-      </div>
-
-      <div
-        class="
-          glass-pro absolute -bottom-6 left-4 z-30 hidden min-w-32 rounded-2xl
-          border-l-4 border-l-accent/40 p-5 [animation-delay:900ms]
-          motion-safe:animate-float-y
-          motion-reduce:animate-none
-          sm:left-6 sm:block
-        "
-      >
-        <p class="section-label">Experience</p>
-        <p class="
-          mt-2 bg-linear-to-br from-ink to-ink-soft bg-clip-text text-2xl
-          font-bold text-transparent
-        "
-        >{yearsOfExperience}
-        </p>
-      </div>
+      <span class="maker-hero-coordinate maker-hero-coordinate-bottom">
+        Separate ideas. Better together.
+        <span class="maker-hero-cross">+</span>
+      </span>
     </div>
   </div>
 
-  <a
-    aria-label="Scroll to page highlights"
-    class="
-      group absolute bottom-8 left-1/2 z-30 hidden -translate-x-1/2 items-center
-      justify-center rounded-full p-2 text-ink-muted transition-colors
-      hover:text-brand
-      focus-visible:ring-2 focus-visible:ring-brand/50
-      focus-visible:outline-none
-      motion-reduce:transition-none
-      lg:flex
-    "
-    href="#home-stats"
-  >
-    <span class="sr-only">Scroll to page highlights</span>
-    <span
-      class="
-        relative flex h-13 w-7 items-start justify-center rounded-full border
-        border-brand/20 bg-surface/28 pt-2
-        shadow-[0_16px_36px_hsl(var(--brand)/0.08)] backdrop-blur-sm
-        transition-all
-        group-hover:border-brand/40 group-hover:bg-brand-soft/28
-        before:absolute before:-inset-1.5 before:rounded-full before:border
-        before:border-brand/18 before:opacity-0 before:content-['']
-        motion-safe:before:animate-[scroll-cue-ring_2.6s_ease-out_infinite]
-        motion-reduce:transition-none
-      "
-    >
-      <span
-        aria-hidden="true"
-        class="
-          size-1.5 rounded-full bg-brand/70
-          motion-safe:animate-[scroll-dot_1.8s_ease-in-out_infinite]
-          motion-reduce:animate-none
-        "
-      />
-    </span>
-    <Icon
-      class="
-        absolute top-full mt-1 size-3.5 text-brand/55 transition-transform
-        group-hover:translate-y-0.5
-        motion-safe:animate-[scroll-chevron_1.8s_ease-in-out_infinite]
-        motion-reduce:animate-none motion-reduce:transition-none
-      "
-      name="chevron-down"
-    />
-  </a>
+  <div class="maker-hero-shelf">
+    <p class="maker-hero-shelf-label">A few things<br />I’m building <Icon name="arrow-down-right" /></p>
+    <a class="maker-hero-project" href="/portfolio/lumen-ui/">
+      <Image alt="" class="maker-hero-project-logo" src={LumenLogo} width={40} height={40} />
+      <span><strong>Lumen UI</strong><span>One system. Many platforms.</span></span>
+      <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
+    </a>
+    <a class="maker-hero-project" href="/portfolio/postlens/">
+      <Image alt="" class="maker-hero-project-logo" src={PostLensLogo} width={40} height={40} />
+      <span><strong>PostLens</strong><span>A little more from every photo.</span></span>
+      <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
+    </a>
+    <a class="maker-hero-index" href="/projects/" aria-label="Explore all projects"><Icon name="plus" /></a>
+  </div>
 </section>
-
-<style is:global>
-  html {
-    scroll-behavior: smooth;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-
-  @keyframes scroll-dot {
-    0%,
-    100% {
-      opacity: 0.35;
-      transform: translateY(0);
-    }
-
-    48% {
-      opacity: 1;
-      transform: translateY(1.15rem);
-    }
-
-    72% {
-      opacity: 0;
-      transform: translateY(1.55rem);
-    }
-  }
-
-  @keyframes scroll-cue-ring {
-    0% {
-      opacity: 0;
-      transform: scale(0.92);
-    }
-
-    28% {
-      opacity: 0.55;
-    }
-
-    100% {
-      opacity: 0;
-      transform: scale(1.35);
-    }
-  }
-
-  @keyframes scroll-chevron {
-    0%,
-    100% {
-      opacity: 0.45;
-      transform: translateY(0);
-    }
-
-    50% {
-      opacity: 0.85;
-      transform: translateY(0.18rem);
-    }
-  }
-
-  @keyframes hero-orbit-outer {
-    from {
-      transform: rotate(14deg);
-    }
-
-    to {
-      transform: rotate(374deg);
-    }
-  }
-
-  @keyframes hero-orbit-inner {
-    from {
-      transform: rotate(-28deg);
-    }
-
-    to {
-      transform: rotate(-388deg);
-    }
-  }
-
-  @media (min-width: 2400px) {
-    [data-home-hero-grid] {
-      grid-template-columns: minmax(0, 1fr) 25rem;
-      gap: 4.5rem;
-    }
-
-    [data-home-hero-heading] {
-      font-size: 6.8rem;
-      line-height: 0.84;
-    }
-
-    [data-home-hero-portrait] {
-      max-width: 25rem;
-    }
-  }
-</style>
