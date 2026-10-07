@@ -139,7 +139,7 @@ export const collaborationLanes: CollaborationLane[] = [
     title: 'Modernization work that still respects delivery pressure'
   },
   {
-    description: 'A lot of the leverage comes from better linting, testing, CI/CD, documentation, and automation that reduce review noise and release stress.',
+    description: 'I improve linting, testing, CI/CD, and documentation so teams spend less time on repeated fixes and release friction.',
     fit: 'Best when the team already feels the friction every week and wants a calmer default.',
     title: 'Developer experience and quality systems that compound'
   }

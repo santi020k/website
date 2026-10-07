@@ -1,5 +1,6 @@
 ---
 title: "Shipping macOS tools with a personal Homebrew tap"
+seoTitle: "Shipping macOS Tools with a Homebrew Tap"
 description: "How I separated product code from distribution metadata and turned signed terminal releases into familiar Homebrew install and upgrade commands."
 publishDate: "2026-07-12T15:00:00.000Z"
 coverImage:

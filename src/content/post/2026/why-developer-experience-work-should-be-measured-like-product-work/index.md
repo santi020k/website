@@ -1,6 +1,6 @@
 ---
 title: "Why Developer Experience Work Should Be Measured Like Product Work"
-description: "DX improvements that cannot be measured rarely survive long enough to compound. Treating them like product work changes that."
+description: "Measure developer experience with cycle time, feedback speed, onboarding time, recovery time, and tooling interruptions. Start with a baseline."
 publishDate: "2026-06-12T15:00:00.000Z"
 updatedDate: "2026-07-28T00:00:00.000Z"
 seoTitle: "How to Measure Developer Experience"

@@ -1,10 +1,11 @@
-/* eslint @typescript-eslint/no-unsafe-assignment: off, @typescript-eslint/no-unsafe-member-access: off, jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
-// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
-import { expect, test } from '@playwright/test'
+import { expect, type Page, test } from '@playwright/test'
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
+const findSchema = async (page: Page, type: string) => {
+  const contents = await page.locator('script[type="application/ld+json"]').allTextContents()
+  const schemas = contents.map((content): unknown => JSON.parse(content)).flat()
+
+  return schemas.find((value): value is Record<string, unknown> => typeof value === 'object' && value !== null && '@type' in value && value['@type'] === type)
+}
 
 test.describe('SEO — meta tags', () => {
   test('AI search crawlers have explicit access without indexing the search payload', async ({ page }) => {
@@ -77,32 +78,34 @@ test.describe('SEO — meta tags', () => {
     )
   })
 
-  test('rendered titles and descriptions stay within the project SEO limits', async ({ page }) => {
-    for (const path of [
-      '/',
-      '/about/',
-      '/blog/2/',
-      '/blog/authentication-and-authorization-in-next-js-applications-with-supabase/',
-      '/portfolio/xgames/',
-      '/technologies/design-systems/'
-    ]) {
+  test('renders complete authored descriptions without padding short pages', async ({ page }) => {
+    const pages = [
+      { path: '/404/', description: 'The page you are looking for could not be found.' },
+      {
+        path: '/portfolio/xgames/',
+        description: 'Built and scaled the official X Games digital platform — a high-traffic sports media site serving millions of fans — with real-time live streaming, geo-based access control, and a programmatic ad infrastructure powered by Google Ad Manager.'
+      },
+      {
+        path: '/blog/why-developer-experience-work-should-be-measured-like-product-work/',
+        description: 'Measure developer experience with cycle time, feedback speed, onboarding time, recovery time, and tooling interruptions. Start with a baseline.'
+      }
+    ]
+
+    for (const { path, description } of pages) {
       await page.goto(path)
-
-      const title = await page.title()
-      const description = await page.locator('meta[name="description"]').getAttribute('content')
-
-      expect(title.length, `title is too long on ${path}`).toBeLessThanOrEqual(60)
-      expect(description?.length, `description is too short on ${path}`).toBeGreaterThanOrEqual(120)
-      expect(description?.length, `description is too long on ${path}`).toBeLessThanOrEqual(160)
+      await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', description)
+      await expect(page.locator('meta[property="og:description"]')).toHaveAttribute('content', description)
+      await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute('content', description)
     }
   })
 
-  test('social metadata preserves a full headline when the document title is truncated', async ({ page }) => {
+  test('a concise search title preserves the full visible and social headline', async ({ page }) => {
     const headline = 'Configuring MongoDB with Homebrew on macOS: Converting a Standalone Instance to a Replica Set'
 
     await page.goto('/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/')
 
-    expect(await page.title()).not.toBe(headline)
+    await expect(page).toHaveTitle('MongoDB Replica Set on macOS with Homebrew | santi020k')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(headline)
     await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', headline)
     await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', headline)
   })
@@ -121,7 +124,35 @@ test.describe('SEO — meta tags', () => {
     const priorityPages = [
       {
         path: '/',
-        title: 'Santiago Molina | santi020k'
+        title: 'Santiago Molina — Full-Stack Engineer & Tech Lead | santi020k'
+      },
+      {
+        path: '/blog/flash-xteink-x4-international-firmware/',
+        title: 'Xteink X4: Flash International Firmware | santi020k'
+      },
+      {
+        path: '/blog/shipping-macos-tools-with-a-homebrew-tap/',
+        title: 'Shipping macOS Tools with a Homebrew Tap | santi020k'
+      },
+      {
+        path: '/portfolio/lumen-ui/',
+        title: 'Lumen UI: Web and Native Component Library | santi020k'
+      },
+      {
+        path: '/portfolio/postlens/',
+        title: 'PostLens: Private Photo Editing for iPhone | santi020k'
+      },
+      {
+        path: '/portfolio/roadscore/',
+        title: 'RoadScore: Offline Road-Trip Game | santi020k'
+      },
+      {
+        path: '/portfolio/quality/',
+        title: 'Quality: One CLI for Repository Checks | santi020k'
+      },
+      {
+        path: '/portfolio/og/',
+        title: '@santi020k/og: Open Graph Image Generation | santi020k'
       },
       {
         path: '/work/',
@@ -160,8 +191,8 @@ test.describe('SEO — meta tags', () => {
 
       await expect(page).toHaveTitle(title)
       expect(description, `description is truncated on ${path}`).not.toContain('…')
-      expect(description?.length, `description is too short on ${path}`).toBeGreaterThanOrEqual(120)
-      expect(description?.length, `description is too long on ${path}`).toBeLessThanOrEqual(160)
+      expect(description, `description is missing on ${path}`).toMatch(/\S/u)
+      expect(description).not.toContain('through personal experiences, useful discoveries')
     }
   })
 
@@ -328,26 +359,29 @@ test.describe('SEO — meta tags', () => {
 })
 
 test.describe('SEO — JSON-LD structured data', () => {
+  test('speaking topics describe expertise without claiming to be FAQs', async ({ page }) => {
+    await page.goto('/speaking/')
+
+    const aboutSchema = await findSchema(page, 'AboutPage')
+
+    expect(aboutSchema).toMatchObject({
+      mainEntity: { knowsAbout: expect.arrayContaining([expect.stringMatching(/\S/u)]) },
+      name: 'Speaking & Community'
+    })
+    expect(await findSchema(page, 'ItemList')).toBeDefined()
+    expect(await findSchema(page, 'FAQPage')).toBeUndefined()
+  })
+
   test('homepage has a WebSite schema with SearchAction', async ({ page }) => {
     await page.goto('/')
 
-    const websiteSchema = await page.evaluate((): any => {
-      const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
-      for (const script of scripts) {
-        try {
-          const content = script.textContent
-          if (!content) continue
-          const json = JSON.parse(content)
-          if (json['@type'] === 'WebSite') return json
-        } catch { /* skip */ }
-      }
-      return null
-    })
+    const websiteSchema = await findSchema(page, 'WebSite')
 
-    expect(websiteSchema).not.toBeNull()
-    expect(websiteSchema.potentialAction?.['@type']).toBe('SearchAction')
-    expect(websiteSchema.name).toBe('santi020k')
-    expect(websiteSchema.alternateName).toBe('Santiago Molina')
+    expect(websiteSchema).toMatchObject({
+      alternateName: 'Santiago Molina',
+      name: 'santi020k',
+      potentialAction: { '@type': 'SearchAction' }
+    })
   })
 
   test('WebSite site-name schema only appears on the domain homepage', async ({ page }) => {
@@ -361,66 +395,33 @@ test.describe('SEO — JSON-LD structured data', () => {
   test('homepage has a Person schema with an @id', async ({ page }) => {
     await page.goto('/')
 
-    const personSchema = await page.evaluate((): any => {
-      const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
-      for (const script of scripts) {
-        try {
-          const content = script.textContent
-          if (!content) continue
-          const json = JSON.parse(content)
-          if (json['@type'] === 'Person') return json
-        } catch { /* skip */ }
-      }
-      return null
-    })
+    const personSchema = await findSchema(page, 'Person')
 
-    expect(personSchema).not.toBeNull()
-    expect(personSchema['@id']).toMatch(/#person$/)
-    expect(personSchema.name).toBeTruthy()
-    expect(personSchema.jobTitle).toBeTruthy()
+    expect(personSchema).toMatchObject({
+      '@id': expect.stringMatching(/#person$/u),
+      jobTitle: expect.stringMatching(/\S/u),
+      name: 'Santiago Molina'
+    })
   })
 
   test('homepage has an Organization schema with a logo', async ({ page }) => {
     await page.goto('/')
 
-    const orgSchema = await page.evaluate((): any => {
-      const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
-      for (const script of scripts) {
-        try {
-          const content = script.textContent
-          if (!content) continue
-          const json = JSON.parse(content)
-          if (json['@type'] === 'Organization') return json
-        } catch { /* skip */ }
-      }
-      return null
-    })
+    const orgSchema = await findSchema(page, 'Organization')
 
-    expect(orgSchema).not.toBeNull()
-    expect(orgSchema['@id']).toMatch(/#organization$/)
-    expect(orgSchema.name).toBeTruthy()
-    expect(orgSchema.logo).toBeDefined()
-    expect(orgSchema.logo['@type']).toBe('ImageObject')
-    expect(orgSchema.logo.url).toMatch(/\.webp$/)
+    expect(orgSchema).toMatchObject({
+      '@id': expect.stringMatching(/#organization$/u),
+      logo: { '@type': 'ImageObject', url: expect.stringMatching(/\.webp$/u) },
+      name: expect.stringMatching(/\S/u)
+    })
   })
 
   test('Organization schema links back to the Person schema via founder', async ({ page }) => {
     await page.goto('/')
 
-    const orgSchema = await page.evaluate((): any => {
-      const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
-      for (const script of scripts) {
-        try {
-          const content = script.textContent
-          if (!content) continue
-          const json = JSON.parse(content)
-          if (json['@type'] === 'Organization') return json
-        } catch { /* skip */ }
-      }
-      return null
-    })
+    const orgSchema = await findSchema(page, 'Organization')
 
-    expect(orgSchema?.founder?.['@id']).toMatch(/#person$/)
+    expect(orgSchema).toMatchObject({ founder: { '@id': expect.stringMatching(/#person$/u) } })
   })
 
   test('blog post page has its own JSON-LD schema', async ({ page }) => {
@@ -454,22 +455,15 @@ test.describe('SEO — JSON-LD structured data', () => {
   test('blog post page includes breadcrumb structured data', async ({ page }) => {
     await page.goto('/blog/atomic-module-component-structure-for-react/')
 
-    const breadcrumbSchema = await page.evaluate((): any => {
-      const scripts = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
-      for (const script of scripts) {
-        try {
-          const content = script.textContent
-          if (!content) continue
-          const json = JSON.parse(content)
-          if (json['@type'] === 'BreadcrumbList') return json
-        } catch { /* skip */ }
-      }
-      return null
-    })
+    const breadcrumbSchema = await findSchema(page, 'BreadcrumbList')
 
-    expect(breadcrumbSchema).not.toBeNull()
-    expect(Array.isArray(breadcrumbSchema.itemListElement)).toBe(true)
-    expect(breadcrumbSchema.itemListElement.length).toBeGreaterThanOrEqual(3)
+    const items: unknown = breadcrumbSchema?.itemListElement
+
+    expect(Array.isArray(items)).toBe(true)
+
+    if (!Array.isArray(items)) throw new Error('Breadcrumbs must be a list')
+
+    expect(items.length).toBeGreaterThanOrEqual(3)
   })
 
   test('project structured data points to the published social image', async ({ page }) => {
