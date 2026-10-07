@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- Add a travel notebook with Lumen WorldMap, country details, repeat visit counts, Colombian roots,
+- Add a travel notebook with a dotted Lumen WorldMap hero, in-map controls, interactive country notes, repeat visit counts, Colombian roots,
   and Paraguayan residence. Prepare five title-only travel drafts without publishing their routes,
   and retain cover validation when writing begins. Include the consolidated concise and full CV downloads.
 

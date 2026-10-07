@@ -2,7 +2,8 @@
 
 The `/travel/` page uses the destinations and country visit counts supplied by Santiago on
 October 6, 2026. Edit `src/data/travel.ts` for country names, places, visits, and residence labels.
-Edit `src/pages/travel.astro` for the introductory and personal copy.
+Edit `src/components/pages/travel/TravelMap.astro` for the hero copy and
+`src/pages/travel.astro` for the personal story.
 
 There are 14 countries visited outside Colombia and 29 country visits. Colombia is the home
 country, with no invented visit count. Paraguay has seven visits and a separate residence label.
@@ -13,6 +14,16 @@ it does not imply that a country-level count applies to each city.
 Dates, trip order, lengths of stay, photos, and claims about working in particular countries have
 not been supplied. Add these only when confirmed. The current page is a geographic notebook rather
 than a chronological itinerary.
+
+## Map hero interaction
+
+The dotted Lumen map is the page hero. Its zoom and reset controls sit inside the map.
+Selecting a country opens a compact place note; visitors can browse the next country, close the
+note, or press Escape. Closing clears the selection so the same country can be opened again.
+The country selector appears on keyboard focus, while the duplicate highlighted-country list is
+hidden. On narrow screens, the map scrolls horizontally and reveals off-screen selections.
+The full country notebook sits in a native disclosure and remains usable without JavaScript.
+Browsing order is the data order, not a claimed travel timeline.
 
 ## Title-only drafts
 

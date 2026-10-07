@@ -1,13 +1,12 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import TravelMap from '@/components/pages/travel/TravelMap.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Badge, Card, Icon } from '@santi020k/lumen-astro'
+import { Badge, Card, Collapsible, Icon } from '@santi020k/lumen-astro'
 
-import { getTravelVisitLabel, travelCountries, travelPageDescription, travelSummary } from '@/data/travel'
+import { getTravelVisitLabel, travelCountries, travelPageDescription } from '@/data/travel'
 import { createAuthorSchema } from '@/site.config'
 
 const meta = {
@@ -26,70 +25,7 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section
-class="
-  section-container-wide pt-6
-  sm:pt-10
-"
-aria-labelledby="travel-heading"
-  >
-    <Eyebrow label="Travel · Digital nomad" tone="brand" />
-    <h1
-class="
-  mt-5 max-w-4xl text-4xl font-semibold tracking-tight
-  sm:text-5xl
-  lg:text-6xl
-"
-id="travel-heading"
-    >
-      A life in more than one place.
-    </h1>
-    <p class="mt-6 max-w-3xl section-copy">
-      I’m from Colombia and a resident of Paraguay. My travels have taken me across the Americas,
-      to Europe, and to Japan. This is a growing record of those places and my life as a digital nomad.
-    </p>
-    <dl class="mt-8 flex flex-wrap gap-x-12 gap-y-6 divider-strong pt-6">
-      <div><dt class="text-sm text-ink-soft">Countries visited abroad</dt><dd class="
-        mt-1 text-3xl font-semibold tabular-nums
-      "
-                                                                          >{travelSummary.countriesAbroad}</dd></div>
-      <div><dt class="text-sm text-ink-soft">Country visits</dt><dd class="
-        mt-1 text-3xl font-semibold tabular-nums
-      "
-                                                                >{travelSummary.countryVisits}</dd></div>
-      <div><dt class="text-sm text-ink-soft">My roots</dt><dd class="
-        mt-1 text-xl font-semibold
-      "
-                                                          >Colombia</dd></div>
-      <div><dt class="text-sm text-ink-soft">Country of residence</dt><dd class="
-        mt-1 text-xl font-semibold
-      "
-                                                                      >Paraguay</dd></div>
-    </dl>
-  </section>
-
-  <section
-class="
-  section-container-wide pt-14
-  sm:pt-20
-"
-aria-labelledby="travel-map-heading"
-  >
-    <h2
-class="
-  mb-3 text-2xl font-semibold
-  sm:text-3xl
-"
-id="travel-map-heading"
-    >Places along the way</h2>
-    <p class="mb-6 max-w-2xl text-sm/7 text-ink-soft">
-      Select a country on the map or use the country chooser to see my stops.
-      Colombia, my home country, is highlighted alongside the places I have visited.
-    </p>
-    <TravelMap />
-    <p class="mt-4 text-xs/6 text-ink-muted">Visit counts are per country, including return visits. They do not count individual cities or separate trips around the world.</p>
-    <ButtonLink className="mt-4" href="#travel-countries" variant="inline">Browse the full country list</ButtonLink>
-  </section>
+  <TravelMap />
 
   <section
 class="
@@ -131,8 +67,10 @@ class="
 id="country-list-heading"
     >My travel notebook</h2>
     <p class="mt-3 max-w-2xl text-sm/7 text-ink-soft">The countries, cities, and regions I have visited, with room for more memories as I write.</p>
+    <Collapsible class="mt-7" id="travel-notebook">
+      <summary class="cursor-pointer py-4 text-base font-semibold">All {travelCountries.length} countries & the places within them</summary>
     <div class="
-      mt-7 grid gap-4
+      mt-4 grid gap-4
       sm:grid-cols-2
       lg:grid-cols-3
     "
@@ -155,6 +93,7 @@ id="country-list-heading"
         </Card>
       ))}
     </div>
+    </Collapsible>
   </section>
 
   <section
