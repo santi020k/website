@@ -20,16 +20,7 @@ const technologies = sortTechnologiesByInterest(raw)
   "
 >
   <GradientDivider class="mb-8" />
-  <div class="
-    relative rounded-2xl border border-line/30 bg-surface/30 p-6
-    backdrop-blur-sm
-  "
-  >
-    <div
-class="absolute inset-0"
-data-project-stack-glow
-    >
-    </div>
+  <div class="editorial-project-stack">
     <div class="relative flex flex-wrap items-center gap-x-6 gap-y-4">
       <div class="flex items-center gap-3">
         <span class="
@@ -64,8 +55,7 @@ class="
             tone="outline"
             className="
               animate-slide-up transition-all duration-300
-              hover:scale-105
-              motion-reduce:animate-none
+              motion-reduce:animate-none motion-reduce:transition-none
             "
           />
         ))}
@@ -75,15 +65,6 @@ class="
 </div>
 
 <style>
-  [data-project-stack-glow] {
-    background-image: linear-gradient(
-      to bottom right,
-      hsl(var(--project-primary) / 0.05),
-      transparent,
-      hsl(var(--project-secondary) / 0.05)
-    );
-  }
-
   [data-project-stack-count] {
     border: 1px solid hsl(var(--project-primary) / 0.24);
     background: hsl(var(--project-primary) / 0.1);

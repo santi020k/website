@@ -11,7 +11,7 @@ const meta = {
 }
 ---
 
-<PageLayout footerVariant="compact" meta={meta}>
+<PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
   <section
     aria-labelledby="error-heading"
     class="
@@ -21,21 +21,13 @@ const meta = {
     "
   >
     <div class="space-y-6">
-      <span
-        class="
-          inline-flex items-center rounded-full border border-brand/25
-          bg-brand-soft/78 px-3 py-1 text-[0.72rem] font-semibold
-          tracking-[0.24em] text-brand uppercase
-        "
-      >
-        404 · Page not found
-      </span>
+      <p class="editorial-eyebrow">404 · Page not found</p>
 
       <div class="space-y-4">
         <span
           aria-hidden="true"
           class="
-            block text-[6.25rem] leading-none font-black tracking-[-0.08em]
+            block text-[6.25rem] leading-none font-medium tracking-[-0.08em]
             text-brand/85 select-none
             sm:text-[8rem]
           "

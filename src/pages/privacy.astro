@@ -48,7 +48,7 @@ const sections = [
 ]
 ---
 
-<PageLayout footerVariant="compact" meta={meta}>
+<PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
   <PageHero
     description="No ad trackers or visitor profiles. This page explains the browser storage and third-party services the site does use."
     eyebrow="Legal"
@@ -57,10 +57,11 @@ const sections = [
     title="Privacy"
   />
 
-  <RevealGroup class="page-card-grid" stagger={60}>
-    {sections.map(({ label, body }) => (
-      <Card class="h-full p-5" variant="muted">
-        <p class="section-label">{label}</p>
+  <RevealGroup class="section-container-wide editorial-policy-list" stagger={60}>
+    {sections.map(({ label, body }, index) => (
+      <Card as="section" class="editorial-policy-row" variant="unstyled">
+        <span class="editorial-policy-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        <h2>{label}</h2>
         <p class="mt-3 text-sm/7 text-ink-soft">{body}</p>
       </Card>
     ))}

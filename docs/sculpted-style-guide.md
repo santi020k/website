@@ -1,8 +1,8 @@
 # Sculpted website style guide
 
 The redesign starts with the sculpted navbar, the new Home hero, and the homepage sections.
-This is the visual direction for future page updates. Existing routes can migrate incrementally;
-adding a new homepage style must not silently restyle reading, résumé, or portfolio pages.
+The integrated navbar, Home, and footer are the shared visual authority. Supporting and reading
+routes now follow this direction through an explicit scope; prose and resume print rules remain separate.
 
 ## Character
 
@@ -89,7 +89,7 @@ Keep native anchors for links wrapping a complete project or article.
 3. **Independent projects:** two featured products and supporting project rows.
 4. **Writing:** chronological article rows with full titles, publication dates, and reading times.
 5. **Community:** one tinted panel for community and speaking links.
-The shared site footer is being redesigned separately. Continue using `SiteFooter` so its contact,
+The integrated shared footer uses the same direction. Continue using `SiteFooter` so its contact,
 navigation, social, and legal links stay consistent across routes.
 
 Keep project ordering and article visibility under the existing content utilities. Development
@@ -119,3 +119,34 @@ and image scaling. The homepage content adds no client JavaScript.
 
 Use Lumen `Stat`, `Card`, `ButtonLink`, and `Icon` rather than duplicating their component contracts.
 Use Astro `Image` for optimized assets. Keep home-specific rules scoped to their compositions.
+
+## Supporting pages and reading templates
+
+Supporting routes opt into `remaining-pages` through the Base layout's `mainClass`.
+The current primary landing pages retain their integrated compositions. Shared `PageHero`
+uses a plain eyebrow, a Montserrat 500 headline, a solid purple emphasis, a short introduction,
+and a fine metadata rule. Its `compact` mode serves smaller archive introductions.
+The `editorial-title` text token controls responsive title size, leading, and tracking.
+
+Archives, technology indexes, speaking, developer experience, and portfolio summaries use
+solid Lumen surfaces with no hover lift. Statistics form quiet strips rather than nested
+cards. Search, topic sorting, counts, disclosures, and pagination retain their existing
+Lumen and consumer behavior. Actions use a dark primary with a light arrow tile where
+present, rounded secondary controls, and plain text links. All controls retain a visible
+focus ring and at least a 44px target. Short motion respects reduced-motion preferences.
+
+Legal and accessibility statements use numbered, divided rows with real section headings.
+They keep the complete policy wording and review dates. Article and project headers use
+lighter titles and open metadata rows; project titles retain their readable project-brand
+accent. Long-form prose, code controls, reading progress, and sticky table-of-contents links
+keep their existing reading behavior. The table of contents uses an open rule instead of
+a glass panel. The resume uses the same canvas on screen; its separate print rules and
+both downloadable PDF variants remain authoritative.
+
+Consumer-owned `data-site-eyebrow` and `data-editorial-toc` attributes provide stable
+styling boundaries where the Lumen component does not expose a `data-slot`. Other composed
+surfaces use Lumen's documented Card, Stat, and ButtonLink slots. Do not target private
+library implementation classes to extend this appearance.
+
+See [remaining page coverage](remaining-page-designs.md) for route families, evidence,
+validation, and local integration status.
