@@ -48,6 +48,8 @@ test('Lumen country selection updates travel details and clears them for unliste
 
 test('map supports pointer selection, keyboard zoom, and return navigation', async ({ page }) => {
   await page.goto('/travel/')
+  await expect(page.locator('[data-ui-world-map-select]')).toBeEnabled()
+  await expect(page.locator('[data-travel-explorer]')).toHaveAttribute('data-bound', 'true')
   await page.locator('[data-ui-world-map-country="BR"]').click()
   await expect(page.locator('[data-travel-selection]')).toContainText('Rio de Janeiro · São Paulo · Iguazu')
   const zoomIn = page.locator('button[aria-label="Zoom in"]')
@@ -106,6 +108,8 @@ test('title-only drafts stay out of production routes, feeds, search, and sitema
 test('country details close, reopen the same country, and cycle through places', async ({ page }) => {
   await page.goto('/travel/')
   const details = page.locator('[data-travel-selection]')
+  await expect(page.locator('[data-ui-world-map-select]')).toBeEnabled()
+  await expect(page.locator('[data-travel-explorer]')).toHaveAttribute('data-bound', 'true')
   await page.locator('[data-ui-world-map-country="BR"]').click()
   await expect(details).toBeVisible()
   await page.locator('[data-travel-next]').click()
@@ -141,6 +145,8 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     expect(controls.y).toBeGreaterThanOrEqual(viewport.y)
     expect(controls.x + controls.width).toBeLessThanOrEqual(viewport.x + viewport.width)
     expect(controls.y + controls.height).toBeLessThanOrEqual(viewport.y + viewport.height)
+    await expect(page.locator('[data-ui-world-map-select]')).toBeEnabled()
+    await expect(page.locator('[data-travel-explorer]')).toHaveAttribute('data-bound', 'true')
     await page.locator('[data-ui-world-map-country="BR"]').click()
     await expect(page.locator('[data-travel-selection]')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
