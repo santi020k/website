@@ -7,7 +7,11 @@ const isCiLikeRun =
   process.env.npm_lifecycle_event === 'test:e2e:ci' ||
   process.env.npm_lifecycle_event === 'test:e2e:ci:stable'
 
-const isSnapshotUpdateRun = process.argv.includes('--update-snapshots')
+// Workers do not retain the coordinator's CLI arguments. Preserve the project matrix.
+const isSnapshotUpdateRun = process.argv.includes('--update-snapshots') || process.env.PW_UPDATE_SNAPSHOTS === 'true'
+
+if (isSnapshotUpdateRun) process.env.PW_UPDATE_SNAPSHOTS = 'true'
+
 const isSkipBuildRun = Boolean(process.env.SKIP_BUILD)
 const shouldRunChromiumOnly = process.env.PW_ONLY_CHROMIUM === 'true'
 const chromiumChannel = process.env.PW_CHROMIUM_CHANNEL
