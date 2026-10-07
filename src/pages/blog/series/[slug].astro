@@ -86,7 +86,7 @@ const structuredData: Record<string, unknown> = {
   </PageHero>
 
   <StatsGrid columns={3}>
-    <StatCard description="Articles collected into this reading track." label="Posts" value={String(postCount)} />
+    <StatCard description="Articles collected into this reading track." label="Posts" value={postCount} />
     <Card
       as="article"
       class="
@@ -108,7 +108,7 @@ const structuredData: Record<string, unknown> = {
       </p>
     </Card>
     {!!series.data.focusAreas.length && (
-      <StatCard description="Recurring themes shaping the articles in this track." label="Focus areas" value={String(series.data.focusAreas.length)} />
+      <StatCard description="Recurring themes shaping the articles in this track." label="Focus areas" value={series.data.focusAreas.length} />
     )}
   </StatsGrid>
 

@@ -11,7 +11,7 @@ import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
 
-import { Card, Input, Link, RevealGroup, Toggle } from '@santi020k/lumen-astro'
+import { Card, Input, Link, MotionGroup, Toggle } from '@santi020k/lumen-astro'
 
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
@@ -92,20 +92,19 @@ const breadcrumbs = [
         Showing all {allTags.length} topics.
       </p>
 
-      <RevealGroup
+      <MotionGroup
         class="
           grid gap-4
           sm:grid-cols-2
           lg:grid-cols-3
         "
         id="tags-list"
-        stagger={40}
       >
         {allTags.map(([tag, count], i) => {
           const pct = allTags[0]?.[1] ? Math.round((count / allTags[0][1]) * 100) : 0
 
           return (
-            <span data-count={String(count)} data-label={tag}>
+            <span data-count={String(count)} data-label={tag} data-ui-motion-key={tag}>
               <Link
                 class="
                   group block h-full rounded-[1.35rem] font-normal text-inherit
@@ -173,7 +172,7 @@ const breadcrumbs = [
             </span>
           )
         })}
-      </RevealGroup>
+      </MotionGroup>
       <p
         class="
           rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm
@@ -198,7 +197,7 @@ const breadcrumbs = [
 
         list.dataset.filterReady = 'true'
 
-        const items = [...list.children] as HTMLElement[]
+        const items = [...list.children].filter((item): item is HTMLElement => item instanceof HTMLElement)
 
         const updateFilter = () => {
           const query = input.value.trim().toLocaleLowerCase()
@@ -255,8 +254,8 @@ const breadcrumbs = [
   </PageSection>
 
   <StatsGrid>
-    <StatCard description="Distinct recurring topics across the current writing archive." label="Topics" value={String(allTags.length)} />
-    <StatCard description="Published posts that can be reached through these topic pages." label="Posts" value={String(posts.length)} />
-    <StatCard description="How often the most-used topic currently appears in the archive." label="Top topic" value={`${topTagCount}x`} />
+    <StatCard description="Distinct recurring topics across the current writing archive." label="Topics" value={allTags.length} />
+    <StatCard description="Published posts that can be reached through these topic pages." label="Posts" value={posts.length} />
+    <StatCard description="How often the most-used topic currently appears in the archive." label="Top topic" suffix="x" value={topTagCount} />
   </StatsGrid>
 </PageLayout>

@@ -33,6 +33,10 @@ coverImage:
   ogImage: './cover.webp'
 ---
 
+import { Image } from 'astro:assets'
+import { DeviceFrame } from '@santi020k/lumen-astro'
+import homeScreenshot from './home.webp'
+
 ## Leading innovation in gaming and esports with Void
 
 At [Void](https://www.void.gg/), I led technical work across a fast-moving gaming and esports platform with web, mobile, backend, and real-time requirements. The job was not only to make the product work. It was to help the team move faster without letting the architecture collapse under that speed.
@@ -57,7 +61,12 @@ At [Void](https://www.void.gg/), I led technical work across a fast-moving gamin
 - **Platform and backend:** `Node`, `Nest.js`, `Express.js`, `Socket.io`, `MongoDB`, `PostgreSQL`, `AWS`, `Docker`
 - **Quality and DX:** `GitHub Actions`, `Jest`, `Cypress`, `Storybook`, `Sentry`, `ESLint`, `NX`, `Developer Documentation`
 
-![Void home experience](home.webp)
+<figure>
+  <DeviceFrame className="not-prose" device="laptop" screenWidth={homeScreenshot.width} screenHeight={homeScreenshot.height} scroll={false}>
+    <Image src={homeScreenshot} alt="Void home experience" class="m-0 block size-full rounded-none object-contain" widths={[640, 960, 1440]} sizes="(min-width: 1024px) 66vw, 100vw" />
+  </DeviceFrame>
+  <figcaption>Void’s web experience for gaming communities and creators.</figcaption>
+</figure>
 
 ### Real-world impact
 

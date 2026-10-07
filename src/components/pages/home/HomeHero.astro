@@ -6,7 +6,7 @@ import Eyebrow from '@/components/atoms/Eyebrow.astro'
 
 import AboutMeImage from '@/assets/photos/originals/me-1.png'
 
-import { Icon, Marker } from '@santi020k/lumen-astro'
+import { Icon, Marker, VisualEffect } from '@santi020k/lumen-astro'
 
 import { siteConfig } from '@/site.config'
 
@@ -29,15 +29,13 @@ const { yearsOfExperience } = Astro.props
   "
   data-home-hero
 >
-  <div
+  <VisualEffect
     aria-hidden="true"
     class="
-      pointer-events-none absolute -inset-x-24 -top-32 -z-10 h-176 rounded-full
-      bg-radial from-brand/18 via-accent/8 to-transparent blur-3xl
-      motion-safe:animate-glow-pulse
-      motion-reduce:animate-none
-      dark:from-brand/24 dark:via-accent/12
+      pointer-events-none absolute inset-0 -z-10 rounded-none bg-transparent p-0
     "
+    intensity={0.35}
+    variant="aurora"
   />
   <div
     aria-hidden="true"

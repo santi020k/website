@@ -1,7 +1,10 @@
 # Lumen UI integration
 
-The committed production baseline uses `@santi020k/lumen-astro` 2.1.0. Lumen 4 is being
-qualified locally while its coordinated packages remain unpublished. Import Lumen styles
+The dependency lockfile retains `@santi020k/lumen-astro` 2.1.0. Lumen 4 is being
+qualified locally while its coordinated packages remain unpublished. This adoption branch now
+uses v4-only components and the optional motion stylesheet, so build and validation commands must
+run through `preview:lumen:v4` until the registry-backed v4 upgrade is available. Do not deploy this
+branch using its older dependency lockfile. Import Lumen styles
 once from `src/styles/global.css`, mount the default export from
 `@santi020k/lumen-astro/runtime` once in `src/layouts/Base.astro`, use public Lumen components
 instead of recreating their `ui-*` classes, and keep site-specific wrappers only when the published
@@ -39,6 +42,21 @@ when translucency fits the surrounding surface.
   announcements. The share toolbar retains its site-owned controller because it also offers the
   platform-native share sheet on supported touch devices.
 
+## Motion and effects
+
+- Numeric homepage metrics and stack counts compose `AnimatedNumber`, with a stable screen-reader
+  value and final content rendered on the server. Text-only statistics remain static.
+- Topic sorting and technology filtering use keyed `MotionGroup` children. Site controllers retain
+  ownership of sorting, search, focus, and result announcements.
+- `@santi020k/lumen/styles/motion.css` enables native disclosure height transitions in supporting
+  browsers. Unsupported browsers keep the native immediate toggle.
+- The hero uses a static Lumen aurora and stack cards use a static mesh effect, replacing bespoke
+  decorative backgrounds without adding continuous animation or a pause-control requirement.
+- The existing Void homepage screenshot is rendered with `DeviceFrame` and Astro's optimized image.
+  Other project artwork remains unframed; it does not represent actual product screens.
+- Maps, charts, and AI interfaces are intentionally absent because current site content does not
+  require them. No model service or sample product data was added.
+
 ## Lumen 4 candidate preview
 
 Use Node 24 or newer and this website's pinned pnpm 11.25.0. Build and pack `lumen-core`,
@@ -54,7 +72,8 @@ pnpm run preview:lumen:v4 .cache/tarballs
 pnpm run preview:lumen:v4 .cache/tarballs pnpm run verify:fast
 ```
 
-The preview command temporarily overrides only the three Lumen packages. It keeps those
+The preview command temporarily overrides only the three Lumen packages. The umbrella package is
+also a direct website dependency so its public optional stylesheet resolves under pnpm. It keeps those
 overrides active while the child command runs, then restores the workspace, lockfile, and
 published dependencies on normal completion or command failure. Do not run another install,
 preview session, or dependency edit concurrently in this checkout. If the process is forcibly
@@ -74,7 +93,7 @@ article markup instead of reusing HTML from the previous integration.
 The initial candidate comes from Lumen revision `f7bfcc07a0805a420ffeb6ad5f24da709ecca6dd`.
 This is local consumer evidence, not qualification of the Lumen release or published v4 packages.
 
-After publication, change only the Lumen adapter's catalog entry in `pnpm-workspace.yaml` to
+After publication, change the Lumen adapter and umbrella catalog entries in `pnpm-workspace.yaml` to
 `4.0.0`, add exact release-age exceptions for the coordinated three packages if needed by the
 existing supply-chain policy, and run `pnpm install` to commit a registry-backed lockfile.
 Re-run the migration audit, website quality/build gates, Playwright interactions, and mobile /

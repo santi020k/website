@@ -139,16 +139,16 @@ const blogListSchema = {
 
   {isFirstPage && (
     <StatsGrid>
-      <StatCard description="Published articles across software, personal interests, and everyday discoveries." label="Posts" value={String(page.total)} />
+      <StatCard description="Published articles across software, personal interests, and everyday discoveries." label="Posts" value={page.total} />
       <StatCard
         description="Topics and themes covered in my writing across various publications."
         label="Tags"
-        value={String(allTagsData.length)}
+        value={allTagsData.length}
       />
       <StatCard
         description="Grouped reading tracks so related posts are easier to follow in sequence."
         label="Series"
-        value={String(activeSeries.length)}
+        value={activeSeries.length}
       />
       <StatCard
         description="Years of sharing ideas, experiences, and things I have learned."

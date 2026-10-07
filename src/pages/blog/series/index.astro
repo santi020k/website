@@ -46,17 +46,17 @@ const breadcrumbs = [
     <StatCard
       description="Ongoing reading tracks with at least one published post."
       label="Active series"
-      value={String(activeSeries.length)}
+      value={activeSeries.length}
     />
     <StatCard
       description="Posts that belong to a series rather than standing alone in the archive."
       label="Posts grouped"
-      value={String(postsGroupedIntoSeries)}
+      value={postsGroupedIntoSeries}
     />
     <StatCard
       description="Published reading tracks, including active and archived series."
       label="Reading tracks"
-      value={String(seriesSummaries.filter(item => item.postCount > 0).length)}
+      value={seriesSummaries.filter(item => item.postCount > 0).length}
     />
   </StatsGrid>
 

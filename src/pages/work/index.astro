@@ -67,22 +67,23 @@ const workListSchema = createProjectCollectionSchema('Work Experience — Santia
     <StatCard
       description="Roles across commerce, gaming, real estate, martech, agencies, and SaaS."
       label="Roles"
-      value={String(workProjects.length)}
+      value={workProjects.length}
     />
     <StatCard
       description="Largest cross-functional team led across product, design, frontend, and backend."
       label="Team led"
-      value="14"
+      value={14}
     />
     <StatCard
       description="Recurring tools and platforms across production systems."
       label="Technologies"
-      value={String(allTechnologies.length)}
+      value={allTechnologies.length}
     />
     <StatCard
       description="Reduced release lead times by optimizing CI/CD pipelines and automating quality gates."
       label="Cycle Time"
-      value="-75%"
+      suffix="%"
+      value={-75}
     />
   </StatsGrid>
 
