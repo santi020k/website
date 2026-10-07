@@ -37,11 +37,20 @@ for (const width of [320, 375, 390, 768, 1024, 1280, 1440]) {
 
         if (!hero) throw new Error('Home hero has no rendered bounds')
 
-        return { left: bounds.left, right: bounds.right, heroLeft: hero.left, heroRight: hero.right, controls }
+        return {
+          left: bounds.left,
+          right: bounds.right,
+          bottom: bounds.bottom,
+          heroTop: hero.top,
+          heroLeft: hero.left,
+          heroRight: hero.right,
+          controls
+        }
       })
 
       expect(Math.abs(geometry.left - geometry.heroLeft)).toBeLessThanOrEqual(1)
       expect(Math.abs(geometry.right - geometry.heroRight)).toBeLessThanOrEqual(1)
+      expect(Math.abs(geometry.bottom - geometry.heroTop)).toBeLessThanOrEqual(1)
 
       for (const [index, control] of geometry.controls.entries()) {
         expect(control.left).toBeGreaterThanOrEqual(geometry.left)
@@ -115,6 +124,58 @@ test('the open menu keeps header utilities and close reachable by keyboard', asy
   await page.keyboard.press('Escape')
   await expect(page.locator('#mobile-nav')).toBeHidden()
   await expect(toggle).toBeFocused()
+})
+
+test('the mobile frame stays joined through closing and rapid reopening', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 })
+  await page.goto('/')
+
+  const toggle = page.locator('[data-mobile-nav-toggle]')
+  const panel = page.locator('[data-mobile-nav-panel]')
+  const backdrop = page.locator('[data-mobile-nav-backdrop]')
+
+  await toggle.click()
+  await expect(page.locator('[data-mobile-nav-link]').last()).toHaveCSS('opacity', '1')
+  await toggle.evaluate(button => {
+    if (!(button instanceof HTMLButtonElement)) throw new TypeError('Expected a menu button')
+
+    button.click()
+  })
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(panel).toHaveAttribute('inert', '')
+  await expect(backdrop).toBeVisible()
+  await expect(page.locator('html')).toHaveClass(/mobile-nav-open/)
+
+  await toggle.evaluate(button => {
+    if (!(button instanceof HTMLButtonElement)) throw new TypeError('Expected a menu button')
+
+    button.click()
+  })
+  await expect.poll(() => panel.evaluate(element => element.getAnimations({ subtree: true })
+    .filter(animation => animation.playState === 'running').length)).toBe(0)
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(panel).toBeVisible()
+  await expect(panel).not.toHaveAttribute('inert')
+  await expect(page.locator('[data-mobile-nav-link]').first()).toBeFocused()
+
+  await page.keyboard.press('Escape')
+  await expect(panel).toBeHidden()
+  await expect(backdrop).toBeHidden()
+  await expect(page.locator('html')).not.toHaveClass(/mobile-nav-open/)
+})
+
+test('reduced motion reveals every menu row immediately without a stagger', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 812 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await page.locator('[data-mobile-nav-toggle]').click()
+
+  for (const link of await page.locator('[data-mobile-nav-link]').all()) {
+    await expect(link).toHaveCSS('animation-name', 'none')
+    await expect(link).toHaveCSS('opacity', '1')
+  }
+
+  await expect(page.locator('[data-mobile-nav-backdrop]')).toHaveCSS('animation-name', 'none')
 })
 
 test('the menu follows the dock after scrolling and closes on desktop resize', async ({ page }) => {

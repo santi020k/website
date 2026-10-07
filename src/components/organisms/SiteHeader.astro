@@ -88,8 +88,7 @@ const isCurrentPage = (path: string) => path === '/' ?
   )}
   <site-header-mobile-nav class="contents">
     <div class="contents" data-mobile-nav>
-      <div class="site-header-shell" data-header-shell>
-        <span class="site-header-signature" aria-hidden="true">Santiago Molina</span>
+      <div class="site-header-shell" data-header-home={Astro.url.pathname === '/' ? '' : undefined} data-header-shell>
         <a aria-label="Santiago Molina" class="site-header-brand" href="/">
           <span class="
             site-header-mark
@@ -163,17 +162,14 @@ const isCurrentPage = (path: string) => path === '/' ?
         hidden
       >
         <div class="site-mobile-nav-surface" data-mobile-nav-surface>
-          <div class="site-mobile-nav-heading">
-            <p>Explore</p>
-            <span aria-hidden="true">01 — {String(navigationLinks.length).padStart(2, '0')}</span>
-          </div>
-          <div class="grid">
+          <div class="grid" data-mobile-nav-links>
             {navigationLinks.map((link: SiteLink, index: number) => (
               <a
                 aria-current={isCurrentPage(link.path) ? 'page' : undefined}
                 class="site-mobile-nav-link"
                 data-mobile-nav-link
                 href={link.path}
+                style={`--nav-item-index: ${index}`}
               >
                 <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 <span>{link.title}</span>
@@ -181,18 +177,15 @@ const isCurrentPage = (path: string) => path === '/' ?
               </a>
             ))}
           </div>
-          <div class="grid gap-5">
-            <p class="site-mobile-nav-note">A little of what I build.<br />A little of who I am.</p>
-            <div data-mobile-nav-actions>
-              <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
-                <span class="site-nav-contact-label">Let&apos;s talk</span>
-                <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
-              </NavigationLink>
-              <NavigationLink class="site-nav-resume" href={siteConfig.contact.resume} variant="unstyled">
-                <span>View resume</span>
-                <Icon class="size-4" name="arrow-right" />
-              </NavigationLink>
-            </div>
+          <div data-mobile-nav-actions>
+            <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+              <span class="site-nav-contact-label">Let&apos;s talk</span>
+              <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+            </NavigationLink>
+            <NavigationLink class="site-nav-resume" href={siteConfig.contact.resume} variant="unstyled">
+              <span>View resume</span>
+              <Icon class="size-4" name="arrow-right" />
+            </NavigationLink>
           </div>
         </div>
       </nav>
@@ -213,7 +206,7 @@ class SiteHeaderMobileNav extends HTMLElement {
   backdrop: HTMLElement | null = null
   panel: HTMLElement | null = null
   closeTimer: number | null = null
-  closeAnimationHandler: (() => void) | null = null
+  closeAnimationHandler: ((event: AnimationEvent) => void) | null = null
 
   connectedCallback() {
     this.root = this.querySelector('[data-mobile-nav]')
@@ -392,6 +385,8 @@ class SiteHeaderMobileNav extends HTMLElement {
     this.sync()
 
     window.requestAnimationFrame(() => {
+      if (!this.isOpen || !this.isConnected) return
+
       const firstLink = this.panel?.querySelector('a[href]')
 
       if (firstLink instanceof HTMLElement) {
@@ -414,6 +409,8 @@ class SiteHeaderMobileNav extends HTMLElement {
     }
 
     this.panel?.removeAttribute('data-nav-closing')
+
+    this.root?.removeAttribute('data-nav-closing')
   }
 
   closeMenu({ restoreFocus = true } = {}) {
@@ -427,25 +424,25 @@ class SiteHeaderMobileNav extends HTMLElement {
       // Animate panel out, then hide after animation
       this.panel.setAttribute('data-nav-closing', '')
 
-      const finishClose = () => {
+      this.panel.inert = true
+
+      this.root?.setAttribute('data-nav-closing', '')
+
+      const finishClose = (event?: AnimationEvent) => {
+        if (event && (event.target !== this.panel || event.animationName !== 'mobile-nav-panel-out')) return
+
         this.cancelPendingClose()
 
-        if (this.panel instanceof HTMLElement) {
-          this.panel.removeAttribute('data-nav-closing')
-
-          this.panel.hidden = true
-
-          this.panel.setAttribute('aria-hidden', 'true')
-        }
+        this.sync()
       }
 
       this.closeAnimationHandler = finishClose
 
-      this.panel.addEventListener('animationend', finishClose, { once: true })
+      this.panel.addEventListener('animationend', finishClose)
 
-      this.closeTimer = window.setTimeout(finishClose, 250)
+      this.closeTimer = window.setTimeout(() => finishClose(), 250)
 
-      // Update everything else immediately
+      // Keep the joined surface, backdrop, and scroll lock until the exit ends.
       this.#syncControls(false)
     } else {
       this.sync()
@@ -474,10 +471,6 @@ class SiteHeaderMobileNav extends HTMLElement {
     this.menuIcon.hidden = isOpen
 
     this.closeIcon.hidden = !isOpen
-
-    this.backdrop.hidden = !isOpen
-
-    this.toggleScrollLock(isOpen)
   }
 
   sync() {
@@ -495,19 +488,17 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     const isOpen = this.isOpen
 
-    this.toggle.setAttribute('aria-expanded', String(isOpen))
-
-    this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
-
-    this.menuIcon.hidden = isOpen
-
-    this.closeIcon.hidden = !isOpen
+    this.#syncControls(isOpen)
 
     this.backdrop.hidden = !isOpen
 
     this.panel.hidden = !isOpen
 
+    this.panel.inert = !isOpen
+
     this.panel.setAttribute('aria-hidden', String(!isOpen))
+
+    this.root.toggleAttribute('data-nav-visible', isOpen)
 
     this.toggleScrollLock(isOpen)
   }

@@ -14,6 +14,36 @@ const viewports = [
   { width: 667, height: 375, fontSize: 16 }
 ]
 
+test('search keeps keyboard focus inside while the index is loading', async ({ page, browserName }) => {
+  let releaseIndex: (() => void) | undefined
+  const pendingIndex = new Promise<void>(resolve => {
+    releaseIndex = resolve
+  })
+
+  await page.route('**/search-index.json', async route => {
+    await pendingIndex
+    await route.fulfill({ json: searchEntries })
+  })
+
+  try {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/')
+    await page.locator('[data-mobile-nav-toggle]').click()
+    await page.locator('[data-site-search-trigger]').click()
+    await expect(page.locator('#site-search-input')).toBeFocused()
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+    await expect(page.locator('[data-site-search-close]')).toBeFocused()
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab')
+    await expect(page.locator('#site-search-input')).toBeFocused()
+  } finally {
+    releaseIndex?.()
+  }
+
+  await expect(page.locator('[data-site-search-suggestion]')).toHaveCount(8)
+  await page.keyboard.press('Escape')
+  await expect(page.locator('[data-site-search-trigger]')).toBeFocused()
+})
+
 for (const { width, height, fontSize } of viewports) {
   test(`search stays usable at ${width}x${height} with ${fontSize}px text`, async ({ page }) => {
     await page.setViewportSize({ width, height })

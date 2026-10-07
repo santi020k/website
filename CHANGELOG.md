@@ -18,6 +18,10 @@
 
 ### Patch Changes
 
+- Join the homepage navbar and hero with the Signature frame design. Refine the
+  attached mobile menu with coordinated motion and blur, and carry the stepped
+  shape into search. Preserve keyboard focus while search results are loading.
+
 - Preserve authored search titles and descriptions without automatic truncation or filler.
   Add focused search titles for the homepage, selected tutorials, and personal projects;
   clarify selected About, portfolio, newsletter, and article copy. Remove FAQ markup from

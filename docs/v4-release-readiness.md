@@ -60,6 +60,24 @@ version remains 3.0.3. No advisory is ignored and no release exception is grante
 Replace the patch with a published fixed version and obtain a passing audit
 before recommending production release.
 
+## Signature frame follow-up
+
+The navigation now joins the homepage hero through a raised identity tab, with a
+solid dock on inner pages and after scrolling. Mobile navigation and search share
+the frame, backdrop blur, coordinated opening and closing, and reduced-motion
+behavior. Search keeps keyboard focus inside while its index loads.
+
+The complete Chrome suite passed 277 tests. The final navigation, search, and hero
+checks passed 147 tests across Chrome, WebKit, and Mobile Safari, including both
+themes, enlarged text, short viewports, keyboard focus, and reduced motion.
+
+The Chrome, WebKit, Mobile Chrome, and Mobile Safari visual baselines were
+regenerated and reviewed for this design. The six existing Firefox macOS
+baselines are preserved: Playwright's Firefox launcher exits before page load
+with `Could not find profile folder`, including with a separate temporary
+directory. Repair that launcher, refresh its baselines, and rerun its checks
+before claiming Firefox verification.
+
 ## Verification
 
 - Frozen dependency installation passed with Node 24.21.0 and pnpm 11.25.0.
