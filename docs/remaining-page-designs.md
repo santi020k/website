@@ -46,7 +46,10 @@ in 22 representative light/dark states with zero violations.
   one-pixel rounding error in the image content box, excluding borders/padding.
   Both mobile checks passed; image loading and ratio checks remain enforced.
 - `SKIP_BUILD=true PW_PREVIEW_PORT=4379 pnpm run test:e2e:ci:stable`: 266 passed.
-- Focused commit and local release integration: ready; integrated checks will be repeated.
+- Integrated `pnpm run verify:fast` passed at `85abe6ff`, with the same zero-warning
+  checks, 365 unit tests, current PDFs, and 449-page SEO audit.
+- Integrated `SKIP_BUILD=true PW_PREVIEW_PORT=4380 pnpm run test:e2e:ci:stable`:
+  266 passed.
 
 ## Blockers
 
@@ -61,4 +64,10 @@ documentation. This pass changes no dependencies and performs no remote actions.
 ## Local integration
 
 Implementation branch: `feature/remaining-page-designs`, based on `b0eee71b`.
-Source commit and verified release integration will be recorded after the final gate.
+Implementation commit: `1948b4e5` (`feat(design): align remaining pages with sculpted design`).
+Local release merge: `85abe6ff` (`chore(release): integrate remaining page designs`).
+Git ancestry confirms the implementation is contained in `release/v4.0.0`.
+The integration checkout stayed clean after its completion gate and all 266 browser checks.
+This documentation evidence update follows the validated implementation merge and is
+included in the local release. No page families remain pending; Firefox verification is
+the outstanding environment limitation described above. No push, PR, or deployment occurred.
