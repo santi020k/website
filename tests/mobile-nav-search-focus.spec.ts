@@ -53,6 +53,7 @@ test.describe('Mobile menu + search dialog interaction', () => {
     await page.locator('[data-site-search-trigger]').click()
     await expect(page.locator('#site-search-dialog')).toBeVisible()
 
+    await page.locator('#site-search-input').fill('Astro')
     await page.keyboard.press('Escape')
 
     await expect(page.locator('#site-search-dialog')).toBeHidden()

@@ -56,8 +56,17 @@ The desktop menu starts at 1024px; the contact button appears at 1200px to prese
 The contact action uses Lumen's unstyled `ButtonLink` with a flat, contrasting label and a
 separate arrow tile. It has no gradient, glow, or magnetic effect. Its mobile version fills
 the menu width above a quiet resume link; both keep the same keyboard and link semantics.
+Below 640px, the shell has more side padding and separation between icon controls. A container
+query hides the secondary wordmark when narrow widths or enlarged text need room for the controls;
+the signature tab and accessible home-link name remain available.
 
 The mobile panel follows the header's measured position and scrolls within the available viewport.
 Its keyboard loop includes the visible header controls, yields to the search dialog, and restores
 focus on dismissal. Route changes and desktop resizing close it. Panel motion is disabled for
 reduced-motion preferences. Navigation shadows are site tokens in `partials/tokens.css`.
+
+`SearchDialog.astro` carries the same signature tab, solid surface, and squared controls into
+site search. Numbered suggestions and compact result rows share a scrollable area above keyboard
+hints. The panel uses the available viewport height, with a compact header on short screens.
+`SiteSearch.astro` retains query ranking, recent searches, retry and clear actions, keyboard
+navigation, focus restoration, and reduced-motion-aware opening and closing.

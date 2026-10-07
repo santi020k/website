@@ -98,7 +98,7 @@ test.describe('Blog page', () => {
     await page.goto('/blog/')
 
     await page.getByRole('button', { name: 'Open site search' }).click()
-    const input = page.getByPlaceholder('Search by title, tag, or keyword…')
+    const input = page.locator('#site-search-input')
     await input.fill('eslint')
 
     const results = page.locator('#site-search-results li a')
@@ -110,7 +110,7 @@ test.describe('Blog page', () => {
     await page.goto('/blog/')
 
     await page.getByRole('button', { name: 'Open site search' }).click()
-    const input = page.getByPlaceholder('Search by title, tag, or keyword…')
+    const input = page.locator('#site-search-input')
     await input.fill('typescript')
 
     const results = page.locator('#site-search-results li a')
@@ -120,7 +120,7 @@ test.describe('Blog page', () => {
     expect(resultCount).toBeGreaterThanOrEqual(2)
 
     // Typing already auto-selects the first result; one ArrowDown moves to the second.
-    const secondTitle = await results.nth(1).locator('span.font-semibold').innerText()
+    const secondTitle = await results.nth(1).locator('[data-site-search-result-title]').innerText()
 
     await input.press('ArrowDown')
 
@@ -129,7 +129,7 @@ test.describe('Blog page', () => {
     await expect(results.nth(1)).toHaveAttribute('data-site-search-active', 'true')
     await expect(input).toBeFocused()
 
-    const firstTitle = await results.first().locator('span.font-semibold').innerText()
+    const firstTitle = await results.first().locator('[data-site-search-result-title]').innerText()
 
     await input.press('ArrowUp')
     await expect(status).toHaveText(`${firstTitle}, 1 of ${resultCount}`)

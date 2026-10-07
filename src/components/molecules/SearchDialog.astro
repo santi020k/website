@@ -10,132 +10,38 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
   "
   data-site-search-dialog
   id="site-search-dialog"
+  layout="fullscreen"
 >
-  <!--
-    `pointer-events-none` on the shell so clicks in the letterboxed margin hit the scrim
-    (otherwise the flex box captures them and outside-click never closes).
-  -->
-  <div
-    class="
-      pointer-events-none absolute inset-0 flex min-h-dvh w-full items-center
-      justify-center p-4
-      sm:p-6
-    "
-  >
-    <div
-      aria-hidden="true"
-      class="pointer-events-auto absolute inset-0 z-0 cursor-default"
-      data-site-search-scrim
-    >
-    </div>
-
-    <div
-      class="
-        pointer-events-auto relative z-10 flex max-h-[min(90dvh,40rem)] w-full
-        max-w-lg flex-col gap-4 overflow-hidden rounded-[1.75rem] border
-        border-line/38 p-5
-        sm:p-6
-      "
-      data-site-search-panel
-      role="document"
-      style="
-        background: linear-gradient(145deg, hsl(var(--surface) / 0.74) 0%, hsl(var(--surface-muted) / 0.52) 100%);
-        backdrop-filter: blur(18px) saturate(150%);
-        box-shadow:
-          0 1px 0 hsl(0 0% 100% / 0.09) inset,
-          0 10px 28px hsl(230 30% 8% / 0.04),
-          0 4px 10px hsl(230 30% 8% / 0.025),
-          0 24px 80px hsl(var(--ink) / 0.15);
-        transition:
-          transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-          box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-          border-color 0.3s ease,
-          background 0.3s ease;
-      "
-      onmouseenter="this.style.boxShadow='0 1px 0 hsl(0 0% 100% / 0.09) inset, 0 14px 40px hsl(230 30% 8% / 0.06), 0 6px 16px hsl(230 30% 8% / 0.04), 0 28px 100px hsl(var(--ink) / 0.18), 0 0 0 1px hsl(var(--brand) / 0.08)'"
-      onmouseleave="this.style.boxShadow='0 1px 0 hsl(0 0% 100% / 0.09) inset, 0 10px 28px hsl(230 30% 8% / 0.04), 0 4px 10px hsl(230 30% 8% / 0.025), 0 24px 80px hsl(var(--ink) / 0.15)'"
-    >
-      <!-- Specular top-edge highlight -->
-      <div
-        aria-hidden="true"
-        class="pointer-events-none absolute inset-x-[12%] top-0 z-20 h-px"
-        style="background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.38) 30%, hsl(0 0% 100% / 0.52) 50%, hsl(0 0% 100% / 0.38) 70%, transparent);"
-      />
-      <!-- Brand glow blob (bottom-right) -->
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity
-          duration-500
-        "
-        style="background: radial-gradient(ellipse 65% 50% at 88% 92%, hsl(var(--brand) / 0.07), transparent 60%);"
-        data-site-search-glow
-      />
-      <div class="flex items-start justify-between gap-4">
+  <div data-site-search-shell>
+    <div aria-hidden="true" data-site-search-scrim></div>
+    <div data-site-search-panel role="document">
+      <span aria-hidden="true" data-site-search-label>Site index</span>
+      <div data-site-search-heading>
         <div>
-          <h2 class="text-lg font-semibold text-ink" id="site-search-title">
-            Search
-          </h2>
-          <p class="mt-1 text-sm text-ink-soft">
-            Match titles, tags, and descriptions. Arrow keys to move,
-            <Kbd className="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Enter</Kbd> to open,
-            <Kbd className="rounded-sm bg-surface-muted px-1.5 py-0.5 text-xs">Esc</Kbd> to close.
-          </p>
+          <h2 id="site-search-title">Search</h2>
+          <p>Posts, projects, and community.</p>
         </div>
-        <Button
-          class="
-            inline-flex min-h-10 min-w-10 items-center justify-center
-            rounded-full border border-transparent text-ink-soft transition-all
-            duration-250 ease-out
-            hover:scale-108 hover:border-line/50 hover:bg-surface-muted/80
-            hover:text-brand hover:shadow-sm
-            active:scale-95
-            motion-reduce:transition-none
-            motion-reduce:hover:scale-100
-            motion-reduce:active:scale-100
-          "
-          data-site-search-close
-          size="icon"
-          type="button"
-          variant="ghost"
-        >
+        <Button data-site-search-close size="icon" type="button" variant="ghost">
           <Icon class="size-5" name="x" />
           <span class="sr-only">Close search</span>
         </Button>
       </div>
 
-      <div class="relative">
+      <div data-site-search-field>
+        <Icon class="size-5 shrink-0" name="search" />
         <label class="sr-only" for="site-search-input">Search posts, projects, and community work</label>
         <SearchField
+          aria-describedby="site-search-help"
           autocomplete="off"
-          class="
-            peer h-auto min-h-0 w-full appearance-none rounded-none border-0
-            border-b border-line/55 bg-transparent py-3.5 pr-12 pl-0 text-base
-            text-ink shadow-none transition-all duration-300 outline-none
-            placeholder:text-ink-muted/70 placeholder:transition-colors
-            placeholder:duration-300
-            focus:border-brand/60
-            focus:placeholder:text-ink-muted/40
-            motion-reduce:transition-none
-            motion-reduce:focus:placeholder:text-ink-muted
-            [&::-webkit-search-cancel-button]:appearance-none
-          "
+          class="peer"
           id="site-search-input"
-          placeholder="Search by title, tag, or keyword…"
+          placeholder="Search the site…"
           spellcheck="false"
           type="search"
         />
         <Button
           aria-label="Clear search"
-          class="
-            absolute top-1/2 right-0 inline-flex min-h-11 min-w-11
-            -translate-y-1/2 items-center justify-center rounded-full border
-            border-transparent text-ink-muted transition-colors duration-150
-            peer-placeholder-shown:pointer-events-none
-            peer-placeholder-shown:invisible
-            hover:bg-surface-muted hover:text-brand
-            motion-reduce:transition-none
-          "
+          class="peer-placeholder-shown:invisible"
           data-site-search-input-clear
           size="icon"
           type="button"
@@ -143,42 +49,213 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
         >
           <Icon class="size-4" name="x" />
         </Button>
-        <!-- Focus glow line -->
-        <span
-          aria-hidden="true"
-          class="
-            pointer-events-none absolute bottom-0 left-0
-            ui-separator--horizontal origin-left scale-x-0 bg-linear-to-r
-            from-brand/60 via-accent/80 to-brand/60 transition-transform
-            duration-300 ease-out
-            peer-focus:scale-x-100
-            motion-reduce:hidden
-          "
-        />
       </div>
 
-      <p class="text-xs/relaxed text-ink-muted">
-        <span class="text-ink-soft">Open from the page</span> (not while typing in a field):
-        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">/</Kbd>
-        ·
-        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">⌘</Kbd>
-        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">K</Kbd>
-        or
-        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">Ctrl</Kbd>
-        <Kbd className="rounded-sm bg-surface-muted px-1 py-0.5">K</Kbd>
-      </p>
-
       <p aria-atomic="true" aria-live="polite" class="sr-only" id="site-search-status"></p>
+      <ul id="site-search-results"></ul>
 
-      <!-- Results list with enhanced hover states -->
-      <ul
-        id="site-search-results"
-        class="
-          max-h-[min(50vh,24rem)] min-h-0 space-y-1 overflow-y-auto p-0.5
-          [-webkit-overflow-scrolling:touch]
-        "
-      >
-      </ul>
+      <div data-site-search-footer id="site-search-help">
+        <span><Kbd><span aria-hidden="true">↑ ↓</span><span class="sr-only">Arrow keys</span></Kbd> Move</span>
+        <span><Kbd><span aria-hidden="true">↵</span><span class="sr-only">Enter</span></Kbd> Open</span>
+        <span><Kbd>Esc</Kbd> Close</span>
+      </div>
     </div>
   </div>
 </Dialog>
+
+<style is:global>
+  #site-search-dialog [data-site-search-shell] {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(2rem, 10dvh, 7rem) 1rem 1rem;
+    pointer-events: none;
+  }
+
+  #site-search-dialog [data-site-search-scrim] {
+    position: absolute;
+    inset: 0;
+    pointer-events: auto;
+  }
+
+  #site-search-dialog [data-site-search-panel] {
+    --search-inset: 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 40rem;
+    max-height: 100%;
+    border: 1px solid hsl(var(--line) / 0.6);
+    border-radius: 0 1.25rem 1.25rem 1.25rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    box-shadow: var(--shadow-nav-scrolled);
+    pointer-events: auto;
+  }
+
+  #site-search-dialog [data-site-search-label] {
+    position: absolute;
+    top: -1.125rem;
+    left: -1px;
+    height: 1.125rem;
+    padding: 0.125rem 1.5rem 0 1rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1rem;
+    text-transform: uppercase;
+    isolation: isolate;
+  }
+
+  #site-search-dialog [data-site-search-label]::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border: 1px solid hsl(var(--line) / 0.6);
+    border-bottom: 0;
+    border-radius: 0.75rem 0.5rem 0 0;
+    background: hsl(var(--surface));
+    content: '';
+    transform: skewX(24deg);
+    transform-origin: bottom left;
+  }
+
+  #site-search-dialog [data-site-search-heading] {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: var(--search-inset) var(--search-inset) 0;
+  }
+
+  #site-search-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.25;
+  }
+
+  #site-search-dialog [data-site-search-heading] p {
+    margin-top: 0.375rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+  }
+
+  #site-search-dialog :is([data-site-search-close], [data-site-search-input-clear]) {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid hsl(var(--line) / 0.6);
+    border-radius: 0.625rem;
+    background: transparent;
+    color: hsl(var(--ink-soft));
+    box-shadow: none;
+  }
+
+  #site-search-dialog :is([data-site-search-close], [data-site-search-input-clear]):hover {
+    background: hsl(var(--surface-muted));
+    color: hsl(var(--ink));
+  }
+
+  #site-search-dialog [data-site-search-field] {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.5rem var(--search-inset) 0;
+    padding: 0.25rem 0.375rem 0.25rem 1rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 0.625rem;
+    background: hsl(var(--surface-muted));
+    color: hsl(var(--ink-soft));
+  }
+
+  #site-search-dialog [data-site-search-field]:focus-within {
+    border-color: hsl(var(--brand));
+    outline: 1px solid hsl(var(--brand));
+    outline-offset: 0;
+  }
+
+  #site-search-input {
+    width: 100%;
+    min-width: 0;
+    height: 3rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: hsl(var(--ink));
+    font-size: 1rem;
+    box-shadow: none;
+    outline: none;
+  }
+
+  #site-search-input::placeholder { color: hsl(var(--ink-soft)); opacity: 1; }
+  #site-search-input::-webkit-search-cancel-button { appearance: none; }
+  #site-search-dialog [data-site-search-input-clear] { border-color: transparent; }
+
+  #site-search-results {
+    flex: 0 1 auto;
+    min-height: 0;
+    margin: 1.25rem var(--search-inset);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.25rem;
+    scrollbar-gutter: stable;
+    list-style: none;
+  }
+
+  #site-search-dialog [data-site-search-footer] {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.875rem var(--search-inset);
+    border-top: 1px solid hsl(var(--line) / 0.6);
+    color: hsl(var(--ink-soft));
+    font-size: 0.6875rem;
+  }
+
+  #site-search-dialog [data-site-search-footer] > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  #site-search-dialog [data-site-search-footer] > span:last-child { margin-left: auto; }
+
+  #site-search-dialog kbd {
+    min-width: 1.5rem;
+    padding: 0.125rem 0.375rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 0.25rem;
+    background: hsl(var(--surface-muted));
+    color: hsl(var(--ink-soft));
+    font-size: 0.625rem;
+    box-shadow: none;
+  }
+
+  #site-search-dialog :is(a, button):focus-visible {
+    outline: 2px solid hsl(var(--brand));
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 639px) {
+    #site-search-dialog [data-site-search-panel] { --search-inset: 1rem; }
+    #site-search-dialog [data-site-search-footer] { gap: 0.75rem; flex-wrap: wrap; }
+  }
+
+  @media (max-height: 500px) {
+    #site-search-dialog [data-site-search-shell] { padding-block: 1.5rem 0.5rem; }
+    #site-search-dialog [data-site-search-heading] { padding-top: 0.75rem; }
+    #site-search-dialog [data-site-search-heading] p { display: none; }
+    #site-search-dialog [data-site-search-field] { margin-top: 0.75rem; }
+    #site-search-results { margin-block: 0.75rem; }
+  }
+</style>

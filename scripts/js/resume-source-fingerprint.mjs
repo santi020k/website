@@ -4,16 +4,16 @@ import { join, relative, resolve as resolvePath } from 'node:path'
 
 const projectRoot = resolvePath(import.meta.dirname, '../..')
 
-const resumeProjectIds = [
-  'datagran',
-  'justbit',
-  'nebular',
-  'optic-power',
-  'pads',
-  'react-js-colombia',
-  'smith-commerce',
-  'void',
-  'xgames'
+const resumeProjectFiles = [
+  'datagran/index.md',
+  'justbit/index.md',
+  'nebular/index.md',
+  'optic-power/index.md',
+  'pads/index.md',
+  'react-js-colombia/index.md',
+  'smith-commerce/index.md',
+  'void/index.mdx',
+  'xgames/index.md'
 ]
 
 export const resumeSourcePaths = [
@@ -32,7 +32,7 @@ export const resumeSourcePaths = [
   'src/styles/partials/tokens.css',
   'src/styles/partials/ui.css',
   'src/styles/partials/utilities.css',
-  ...resumeProjectIds.map(id => `src/content/project/${id}/index.md`)
+  ...resumeProjectFiles.map(file => `src/content/project/${file}`)
 ].sort()
 
 export const getResumeSourceHash = async () => {
