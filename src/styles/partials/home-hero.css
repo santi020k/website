@@ -8,12 +8,11 @@
   letter-spacing: -0.025em;
 }
 
-/* Keep this proposal's quiet canvas local to Home, including after page swaps. */
+/* Keep Home's solid canvas and floating particles after page swaps. */
 body:has([data-home-hero]) {
   background: hsl(var(--theme-bg));
 }
 
-body:has([data-home-hero]) [data-particles-bg],
 body:has([data-home-hero]) > div > .grid-fade {
   display: none;
 }
