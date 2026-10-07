@@ -61,3 +61,13 @@ The mobile panel follows the header's measured position and scrolls within the a
 Its keyboard loop includes the visible header controls, yields to the search dialog, and restores
 focus on dismissal. Route changes and desktop resizing close it. Panel motion is disabled for
 reduced-motion preferences. Navigation shadows are site tokens in `partials/tokens.css`.
+
+## Blog archive
+
+The blog introduction uses a split editorial layout: writing context and browse links beside a
+preview of the newest published post. On mobile, the preview follows the introduction. Counts
+come from the published collection; the preview also remains in the chronological twelve-post
+feed. Older archive pages use a compact heading and a direct link back to the latest posts.
+
+Post galleries use the same rounded, subtle Lumen glass surfaces as the portfolio. Topic and
+series archives share that gallery, while series discovery appears once below the main feed.
