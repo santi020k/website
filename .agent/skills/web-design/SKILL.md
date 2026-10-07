@@ -378,16 +378,14 @@ Always test at **375px** and **1440px** before shipping.
 </article>
 ```
 
-### Section with Staggered Cards
+### Section with the Shared Project Gallery
 
 ```astro
 <PageSection>
-  <SectionHeader eyebrow="Work" title="Professional roles." />
-  <div class="grid gap-6 md:grid-cols-2" data-stagger="60">
-    {items.map(item => <ProjectPreviewCard project={item} />)}
-  </div>
+  <SectionHeader eyebrow="Projects" title="Selected projects." />
+  <ProjectsGallery projects={projects} variant="editorial" />
   <div class="section-actions">
-    <ButtonLink href="/work/" showArrow>View all</ButtonLink>
+    <ButtonLink href="/projects/" showArrow>View all</ButtonLink>
   </div>
 </PageSection>
 ```

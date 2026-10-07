@@ -191,22 +191,6 @@ const legacyRedirects: Record<string, string> = {
   '/blog/tags/hombrew/': '/blog/tags/homebrew/'
 }
 
-const rawFonts = (ext: string[]) => ({
-  name: 'vite-plugin-raw-fonts',
-  transform(_: string, id: string) {
-    if (ext.some(e => id.endsWith(e))) {
-      const buffer = fs.readFileSync(id)
-
-      return {
-        code: `export default ${JSON.stringify(buffer)}`,
-        map: null
-      }
-    }
-
-    return null
-  }
-})
-
 // https://astro.build/config
 export default defineConfig({
   redirects: legacyRedirects,
@@ -353,6 +337,11 @@ export default defineConfig({
           // Files under ~4 KiB that are only used by Astro page/layout scripts get
           // merged back into the chunk that imports them, reducing HTTP round-trips.
           manualChunks(id) {
+            // Phone formatting stays behind Lumen's conditional phone-input
+            // import. Split its metadata from flag artwork so neither lazy
+            // chunk exceeds the bundle budget on this site.
+            if (id.includes('/libphonenumber-js/')) return 'phone-formatting'
+
             if (
               (id.includes('astro/dist/runtime') || id.includes('@astrojs/')) &&
               !id.includes('client-router')
@@ -365,10 +354,7 @@ export default defineConfig({
         }
       }
     },
-    optimizeDeps: {
-      exclude: []
-    },
-    plugins: [rawFonts(['.ttf', '.woff']), tailwindcss()]
+    plugins: [tailwindcss()]
   },
   env: {
     schema: {
@@ -390,7 +376,6 @@ export default defineConfig({
     }
   },
   server: {
-    // port: 1234,
     host: true
   },
   build: {

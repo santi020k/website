@@ -17,10 +17,22 @@
 
 ## Service worker
 
-The service worker uses network-first navigation and stale-while-revalidate for
-other eligible same-origin GET requests. Requests with a `Range` header bypass
-it, including partial downloads of the resume PDFs. The Cache API cannot store
-partial responses or produce the requested byte range from a cached full file.
+The service worker uses network-first for document navigations and for every
+page route — any same-origin GET whose path is `/` or ends in `/`, matching
+the trailing-slash convention for internal links. This also covers the Astro
+ClientRouter, which fetches route HTML through a plain `fetch()` (mode
+`"cors"`, not `"navigate"`) to diff and swap the document in place; without
+this, an in-page transition could silently swap in a stale cached page. All
+other eligible same-origin GET requests (hashed assets, JSON endpoints,
+feeds, etc.) use stale-while-revalidate. Requests with a `Range` header
+bypass the worker entirely, including partial downloads of the resume PDFs.
+The Cache API cannot store partial responses or produce the requested byte
+range from a cached full file.
+
+If the network fails, a page or navigation request falls back to its own
+cached copy, then to the cached `/offline/` document. A cache miss or write
+failure never blocks the response — cache storage is treated as an optional
+optimization.
 
 ## Build cache
 

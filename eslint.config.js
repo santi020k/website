@@ -1,4 +1,4 @@
-import recommended from '@santi020k/eslint-config-full/recommended'
+import recommended from '@santi020k/eslint-config-basic/recommended'
 
 // Tailwind v4 initialization can exceed Synckit's one-minute default on CI.
 // Keep the canonical-class rule enabled and give its worker enough time.

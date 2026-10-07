@@ -14,6 +14,40 @@ const viewports = [
   { width: 667, height: 375, fontSize: 16 }
 ]
 
+const invalidIndexes: { name: string, response: unknown }[] = [
+  { name: 'an invalid response root', response: { entries: searchEntries } },
+  { name: 'a non-string title', response: [{ ...searchEntries[0], title: 42 }] },
+  { name: 'a non-string tag', response: [{ ...searchEntries[0], tags: [42] }] },
+  { name: 'an external destination', response: [{ ...searchEntries[0], path: '//example.com/' }] },
+  { name: 'a backslash destination', response: [{ ...searchEntries[0], path: '/\\example.com/' }] },
+  { name: 'an unsafe cover URL', response: [{ ...searchEntries[0], coverUrl: 'javascript:alert(1)' }] },
+  { name: 'an invalid image dimension', response: [{ ...searchEntries[0], coverWidth: -1 }] }
+]
+
+for (const { name, response } of invalidIndexes) {
+  test(`search recovers from ${name} without browser errors`, async ({ page }) => {
+    const pageErrors: string[] = []
+    let requests = 0
+
+    page.on('pageerror', error => pageErrors.push(error.message))
+    await page.route('**/search-index.json', route => {
+      requests += 1
+
+      return route.fulfill({ json: requests === 1 ? response : searchEntries })
+    })
+    await page.goto('/')
+    await page.locator('[data-site-search-trigger]').click()
+    await expect(page.locator('#site-search-results')).toContainText('Search unavailable')
+    await page.locator('#site-search-input').fill('Astro')
+    await expect(page.locator('[data-site-search-result]')).toHaveCount(0)
+    await page.locator('[data-site-search-retry]').click()
+    await expect(page.locator('[data-site-search-result]')).toHaveCount(8)
+    await expect(page.locator('#site-search-input')).toBeFocused()
+    expect(requests).toBe(2)
+    expect(pageErrors).toEqual([])
+  })
+}
+
 test('search keeps keyboard focus inside while the index is loading', async ({ page, browserName }) => {
   let releaseIndex: (() => void) | undefined
   const pendingIndex = new Promise<void>(resolve => {

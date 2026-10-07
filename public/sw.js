@@ -42,6 +42,15 @@ const shouldHandleRequest = (request, url) => request.method === 'GET' &&
   // byte ranges must go straight to the network instead of through the SW.
   !request.headers.has('Range')
 
+// Every internal route is authored with a trailing slash (see AGENTS.md), and
+// Astro emits one `index.html` per route under that convention. The
+// ClientRouter fetches route HTML through a plain `fetch()` (mode "cors", not
+// "navigate") to diff and swap the document, so it must receive the same
+// network-first treatment as a real navigation — otherwise an in-page
+// transition would silently swap in stale cached markup.
+/** @param {URL} url */
+const isPageRequest = url => url.pathname === '/' || url.pathname.endsWith('/')
+
 // Cache storage is an optional optimization: failures must not discard network responses.
 /** @returns {Promise<Cache | undefined>} */
 const openCache = async () => {
@@ -123,7 +132,7 @@ self.addEventListener('fetch', event => {
     return
   }
 
-  if (event.request.mode === 'navigate') {
+  if (event.request.mode === 'navigate' || isPageRequest(url)) {
     event.respondWith(networkFirst(event.request))
 
     return

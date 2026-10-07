@@ -18,6 +18,18 @@
 
 ### Patch Changes
 
+- Fetch page HTML from the network first during Astro client-side navigation,
+  retaining cached pages for offline use. Release offline connection listeners
+  during navigation and rebind them when returning to the offline page.
+
+- Remove unused legacy page components and font-import configuration. Replace the
+  all-framework ESLint bundle with the applicable owned packages and refresh the
+  compatible transitive dependency graph without weakening lint rules. Add a
+  complete built-page integrity audit for local links, assets, fragment targets,
+  duplicate IDs, and page landmarks. Keep phone metadata behind a separate lazy
+  chunk and validate search-index responses so malformed data offers retry rather
+  than breaking result rendering.
+
 - Join the homepage navbar and hero with the Signature frame design. Refine the
   attached mobile menu with coordinated motion and blur, and carry the stepped
   shape into search. Preserve keyboard focus while search results are loading.

@@ -20,8 +20,8 @@ its directive extension and application types share the same contract.
 
 ## Published security fixes
 
-Targeted overrides install `basic-ftp` 6.2.1, `katex` 0.18.2,
-`@graphql-tools/utils` 12.0.1, and `postcss-selector-parser` 7.1.6 under older
+Targeted overrides install `basic-ftp` 6.2.2, `katex` 0.18.2,
+`@graphql-tools/utils` 12.0.3, and `postcss-selector-parser` 7.1.6 under older
 parent dependency ranges. Their advisories no longer appear in the registry
 audit. Validate Lighthouse, Markdown linting, ESLint, and the production build
 when changing these overrides.
@@ -68,10 +68,14 @@ The focused security regression command is:
 pnpm exec vitest run scripts/js/__tests__/dependency-security.test.ts
 ```
 
-Review peer dependency diagnostics as well. The existing ESLint 10 graph includes
-plugins whose declared peer ranges stop at ESLint 9 (`eslint-plugin-import`,
-`eslint-plugin-jsx-a11y`, and `eslint-plugin-react`); coordinate their updates
-through the owned ESLint configuration packages instead of suppressing peers.
+Review peer dependency diagnostics as well. The final local cleanup replaces the all-framework ESLint bundle with Basic,
+Astro, Libraries, Testing, Formats, and Tools. A fresh lockfile resolution removes
+385 package entries compared with the original release candidate, including unused
+framework adapters. It also refreshes compatible transitive dependencies such as
+TypeScript ESLint 8.71.1 and Vite 8.3.3. Lighthouse is updated to 13.5.0;
+its CLI retains the safe YAML compatibility patch. `pnpm peers check` reports no peer issues;
+no peer warning is suppressed. Effective-rule comparison retains the existing
+coverage and enables the newer unsafe-enum-assignment error rule.
 
 Theme 2 moves product URLs beneath `https://theme.santi020k.com/` and expands the
 `SiteUrls` fields. Existing consumers use `getSiteUrls()` rather than constructing

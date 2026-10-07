@@ -32,3 +32,34 @@ test('serves a partial PDF response after caching the complete file', async ({ p
   expect(partial.contentRange).toBe(`bytes 0-63/${full.length}`)
   expect(partial.length).toBe(64)
 })
+
+test('bypasses a stale cached page for an ordinary GET route fetch', async ({ page }) => {
+  // A static text document avoids the site's intentional localhost worker cleanup.
+  await page.goto('/robots.txt')
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.register('/sw.js')
+    await navigator.serviceWorker.ready
+  })
+  await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+
+  // Seed the worker's own cache with a stale copy of the home page, the way a
+  // prior visit would have left one behind.
+  await page.evaluate(async () => {
+    const cacheNames = await caches.keys()
+    const staticCacheName = cacheNames.find(name => name.startsWith('santi020k-static-'))
+
+    if (!staticCacheName) throw new Error('Service worker cache was not created')
+
+    const cache = await caches.open(staticCacheName)
+
+    await cache.put('/', new Response('<html>STALE_MARKER</html>', {
+      headers: { 'content-type': 'text/html' }
+    }))
+  })
+
+  // The Astro ClientRouter fetches route HTML through a plain fetch(), not a
+  // navigation — this must still receive the live network response.
+  const text = await page.evaluate(async () => (await fetch('/')).text())
+
+  expect(text).not.toContain('STALE_MARKER')
+})

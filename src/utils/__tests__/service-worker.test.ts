@@ -204,4 +204,90 @@ describe('Service worker fetch handling', () => {
     expect(event.response).toBeUndefined()
     expect(worker.cache.match).not.toHaveBeenCalled()
   })
+
+  test('serves fresh HTML for a cached page fetched through an ordinary GET', async () => {
+    const worker = setupWorker()
+
+    // The ClientRouter diffs route HTML through a plain fetch() (mode "cors"),
+    // never "navigate" — this must still bypass a stale cached copy.
+    worker.cache.match.mockResolvedValue(new Response('stale html'))
+    worker.fetch.mockResolvedValue(new Response('fresh html'))
+
+    const event = worker.dispatch(makeRequest('/posts/one/'))
+    const response = await event.response
+
+    expect(await response?.text()).toBe('fresh html')
+    expect(worker.cache.match).not.toHaveBeenCalled()
+    await Promise.all(event.lifetime)
+    expect(await worker.cache.put.mock.calls[0]?.[1]?.text()).toBe('fresh html')
+  })
+
+  test('serves a cached page offline for an ordinary GET page request', async () => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    worker.cache.match.mockResolvedValue(new Response('cached page'))
+
+    const event = worker.dispatch(makeRequest('/posts/one/'))
+    const response = await event.response
+
+    expect(await response?.text()).toBe('cached page')
+    await Promise.all(event.lifetime)
+  })
+
+  test('falls back to the offline document for an uncached page request without navigate mode', async () => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    worker.cache.match.mockImplementation(request => Promise.resolve(
+      request === '/offline/' ? new Response('Offline page') : undefined
+    ))
+
+    const event = worker.dispatch(makeRequest('/never-visited/'))
+    const response = await event.response
+
+    expect(await response?.text()).toBe('Offline page')
+    await Promise.all(event.lifetime)
+  })
+
+  test.each([false, true])('preserves a fresh 404 page response instead of a cached page (navigation: %s)', async navigation => {
+    const worker = setupWorker()
+
+    worker.fetch.mockResolvedValue(new Response('Not Found', { status: 404 }))
+    worker.cache.match.mockResolvedValue(new Response('cached page'))
+
+    const event = worker.dispatch(makeRequest('/posts/one/', navigation))
+    const response = await event.response
+
+    expect(response?.status).toBe(404)
+    expect(await response?.text()).toBe('Not Found')
+    await Promise.all(event.lifetime)
+    expect(worker.cache.put).not.toHaveBeenCalled()
+  })
+
+  test('preserves the query string on a network-first page request', async () => {
+    const worker = setupWorker()
+
+    worker.fetch.mockResolvedValue(new Response('tagged page'))
+
+    const event = worker.dispatch(makeRequest('/posts/one/?tag=foo'))
+    await event.response
+    await Promise.all(event.lifetime)
+
+    expect(worker.fetch).toHaveBeenCalledWith(expect.objectContaining({ url: `${origin}/posts/one/?tag=foo` }))
+    expect(worker.cache.put.mock.calls[0]?.[0]?.url).toBe(`${origin}/posts/one/?tag=foo`)
+  })
+
+  test('treats a non-trailing-slash GET as stale-while-revalidate, not network-first', async () => {
+    const worker = setupWorker()
+
+    worker.cache.match.mockResolvedValue(new Response('stale json'))
+    worker.fetch.mockResolvedValue(new Response('fresh json'))
+
+    const event = worker.dispatch(makeRequest('/search-index.json'))
+    const response = await event.response
+
+    expect(await response?.text()).toBe('stale json')
+    await Promise.all(event.lifetime)
+  })
 })

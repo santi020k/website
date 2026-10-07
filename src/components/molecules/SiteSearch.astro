@@ -279,20 +279,7 @@ import SearchDialog from './SearchDialog.astro'
 
 <script is:inline>
   (() => {
-    /**
-     * @type {Array<{
-     *   title: string
-     *   description: string
-     *   path: string
-     *   tags: string[]
-     *   type: 'community' | 'post' | 'project'
-     *   coverUrl?: string
-     *   coverAvifUrl?: string
-     *   coverAlt?: string
-     *   coverWidth?: number
-     *   coverHeight?: number
-     * }>}
-     */
+    /** @type {import('@/types/search').SearchIndexEntry[]} */
     let entries = []
     let selectedResultIndex = -1
     let closeAnimTimer = 0
@@ -301,6 +288,40 @@ import SearchDialog from './SearchDialog.astro'
     let indexLoadState = /** @type {'idle' | 'loading' | 'ready' | 'error'} */ ('idle')
     let indexLoadPromise = /** @type {Promise<boolean> | null} */ (null)
     let popularTopics = /** @type {string[]} */ ([])
+    /** @param {unknown} value @returns {value is Record<string, unknown>} */
+    const isRecord = value => typeof value === 'object' && value !== null && !Array.isArray(value)
+
+    /** @param {unknown} value @returns {value is string} */
+    const isLocalPath = value => {
+      if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//') || value.includes('\\')) {
+        return false
+      }
+
+      try {
+        return new URL(value, window.location.origin).origin === window.location.origin
+      } catch {
+        return false
+      }
+    }
+
+    /** @param {unknown} value */
+    const isImageDimension = value => value === undefined ||
+      (typeof value === 'number' && Number.isInteger(value) && value > 0)
+
+    /** @param {unknown} value @returns {value is import('@/types/search').SearchIndexEntry} */
+    const isSearchEntry = value => {
+      if (!isRecord(value)) return false
+
+      return typeof value.title === 'string' && value.title.trim().length > 0 &&
+        typeof value.description === 'string' && isLocalPath(value.path) &&
+        Array.isArray(value.tags) && value.tags.every(/** @param {unknown} tag */ tag => typeof tag === 'string') &&
+        typeof value.type === 'string' && ['community', 'post', 'project'].includes(value.type) &&
+        (value.coverAlt === undefined || typeof value.coverAlt === 'string') &&
+        (value.coverUrl === undefined || isLocalPath(value.coverUrl)) &&
+        (value.coverAvifUrl === undefined || isLocalPath(value.coverAvifUrl)) &&
+        isImageDimension(value.coverWidth) && isImageDimension(value.coverHeight)
+    }
+
     const RECENT_SEARCHES_KEY = 'site-search-recent'
     const RECENT_SEARCHES_LIMIT = 5
 
@@ -311,9 +332,10 @@ import SearchDialog from './SearchDialog.astro'
 
         if (!raw) return []
 
+        /** @type {unknown} */
         const parsed = JSON.parse(raw)
 
-        return Array.isArray(parsed) ? parsed.filter(v => typeof v === 'string') : []
+        return Array.isArray(parsed) ? parsed.filter(/** @param {unknown} value */ value => typeof value === 'string') : []
       } catch {
         return []
       }
@@ -1008,8 +1030,12 @@ import SearchDialog from './SearchDialog.astro'
 
           return response.json()
         })
-        .then(json => {
-          entries = Array.isArray(json) ? json : []
+        .then(/** @param {unknown} json */ json => {
+          if (!Array.isArray(json) || !json.every(isSearchEntry)) {
+            throw new TypeError('Invalid search index response')
+          }
+
+          entries = json
 
           computePopularTopics()
 
@@ -1210,6 +1236,8 @@ import SearchDialog from './SearchDialog.astro'
 
         if (retryButton instanceof HTMLButtonElement) {
           event.preventDefault()
+
+          input.focus()
 
           loadIndex({ force: true })
 

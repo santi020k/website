@@ -132,6 +132,7 @@ future library changes without committing tarballs.
 | `pnpm run audit` | Moderate-and-higher dependency vulnerability audit, including development dependencies. |
 | `pnpm run ci:verify` | Coverage, production build, Lighthouse assertions, and stable Chromium E2E alongside quality checks. |
 | `pnpm run audit:seo` | Built-page metadata, canonical, and social-image audit. |
+| `pnpm run audit:pages` | Every built document: local links/assets, fragments, duplicate IDs, and page landmarks. |
 | `pnpm run lint:content` | Frontmatter and editorial quality checks. |
 
 `pnpm run test:e2e:fast` reuses an existing build; browser-test scripts install Chromium when
@@ -143,7 +144,7 @@ workflow runs and do not certify an unpublished release candidate.
 <summary>Generated assets and release boundaries</summary>
 
 Builds regenerate favicons, fonts, and OG images before Astro renders pages. After-build scripts
-assemble the cross-site sitemap, generate Cloudflare redirects, and audit SEO.
+assemble the cross-site sitemap, generate Cloudflare redirects, and audit SEO and local page integrity.
 
 `pnpm run generate:project-images` discovers frontmatter and logos, producing thumbnail,
 horizontal, and portrait covers. `src/utils/project-cover.ts` owns fallback selection. The

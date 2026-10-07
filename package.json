@@ -10,7 +10,7 @@
     "prebuild": "npm-run-all --serial prebuild:clean generate:icons generate:fonts generate:og",
     "prebuild:clean": "node -e \"const fs = require('node:fs'); fs.rmSync('dist', { recursive: true, force: true }); for (const file of ['.astro/data-store.json', 'node_modules/.astro/data-store.json']) fs.rmSync(file, { force: true })\"",
     "build": "astro build",
-    "postbuild": "npm-run-all --serial postbuild:sitemap postbuild:redirects audit:seo",
+    "postbuild": "npm-run-all --serial postbuild:sitemap postbuild:redirects audit:seo audit:pages",
     "postbuild:sitemap": "node scripts/js/generate-cross-site-sitemap.mjs",
     "postbuild:redirects": "node scripts/js/generate-cloudflare-redirects.mjs",
     "generate:icons": "node scripts/js/generate-favicons.mjs",
@@ -63,7 +63,8 @@
     "pre-commit": "lint-staged --quiet && astro check",
     "pre-push": "pnpm run verify:fast",
     "commit": "commitprompt",
-    "preview:lumen:v4": "node scripts/js/preview-lumen-v4.mjs"
+    "preview:lumen:v4": "node scripts/js/preview-lumen-v4.mjs",
+    "audit:pages": "node scripts/js/audit-built-pages.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "catalog:",
@@ -105,7 +106,12 @@
     "@lhci/cli": "catalog:",
     "@playwright/test": "catalog:",
     "@santi020k/commitprompt": "catalog:",
-    "@santi020k/eslint-config-full": "catalog:",
+    "@santi020k/eslint-config-astro": "catalog:",
+    "@santi020k/eslint-config-basic": "catalog:",
+    "@santi020k/eslint-config-formats": "catalog:",
+    "@santi020k/eslint-config-libraries": "catalog:",
+    "@santi020k/eslint-config-testing": "catalog:",
+    "@santi020k/eslint-config-tools": "catalog:",
     "@santi020k/og": "catalog:",
     "@tailwindcss/typography": "catalog:",
     "@tailwindcss/vite": "catalog:",
