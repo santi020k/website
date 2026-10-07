@@ -83,11 +83,11 @@ test.describe('View transitions', () => {
     }))
 
     expect(filteredPagePosition.scrollY).toBeGreaterThan(0)
-    expect(filteredPagePosition.top).toBeCloseTo(initialFilterTop, 0)
+    await expect.poll(() => topicFilter.evaluate(element => element.getBoundingClientRect().top))
+      .toBeCloseTo(initialFilterTop, 0)
 
-    // Let the native view-transition animation release its snapshots before
-    // starting the reverse navigation.
-    await page.waitForTimeout(400)
+    // Wait for Astro to release transition snapshots before reverse navigation.
+    await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition')
 
     const filterTopBeforeReset = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
 
@@ -96,9 +96,8 @@ test.describe('View transitions', () => {
     await expect(page).toHaveURL(/\/blog\/$/)
     await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/)
 
-    const restoredFilterTop = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
-
-    expect(restoredFilterTop).toBeCloseTo(filterTopBeforeReset, 0)
+    await expect.poll(() => topicFilter.evaluate(element => element.getBoundingClientRect().top))
+      .toBeCloseTo(filterTopBeforeReset, 0)
   })
 
   test('disables smooth scrolling when reduced motion is requested', async ({ page }) => {

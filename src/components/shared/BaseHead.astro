@@ -2,7 +2,7 @@
 import { WEBMENTION_PINGBACK, WEBMENTION_URL } from 'astro:env/client'
 
 import type { SiteMeta } from '@/types/site'
-import { createSeoDescription, createSeoTitle } from '@/utils/seo'
+import { createSeoDescription, createSeoTitle, serializeStructuredData } from '@/utils/seo'
 import { getSocialImageURL } from '@/utils/social-image'
 
 import MetadataHead from '@santi020k/og/astro/head'
@@ -97,7 +97,7 @@ const transform = (tags: readonly MetadataTag[]) => tags.map(tag => {
   return tag
 })
 
-const structuredDataJsonLd = structuredData ? JSON.stringify(structuredData) : null
+const structuredDataJsonLd = structuredData ? serializeStructuredData(structuredData) : null
 const isHomePage = Astro.url.pathname === '/'
 
 const websiteJsonLd = serializeJsonLd(webSiteSchema({
@@ -163,7 +163,7 @@ const breadcrumbsJsonLd = breadcrumbs && breadcrumbs.length > 0 ?
 />
 
 <!-- Sitemap -->
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="sitemap" href="/sitemap.xml" />
 
 {/* Primary Meta */}
 <meta name="title" content={siteTitle} />

@@ -8,6 +8,48 @@ once from `src/styles/global.css`, mount the default export from
 instead of recreating their `ui-*` classes, and keep site-specific wrappers only when the published
 package lacks a required semantic contract.
 
+## Published setup and stable styling
+
+The website follows the same one-adapter setup as Lumen's README. Keep the layer order in the
+shared stylesheet so Tailwind utilities can override component defaults:
+
+```css
+@import "@santi020k/lumen-astro/layers.css";
+@import "tailwindcss";
+@import "@santi020k/lumen-astro/styles.css";
+@import "@santi020k/lumen/styles/motion.css";
+```
+
+`Base.astro` imports that global stylesheet and mounts `UIPrimitives` once. Pages and content
+components import their public primitives from `@santi020k/lumen-astro`; they do not add a
+second adapter or mount a second runtime. The site-owned Theme tokens follow the shared imports.
+
+| Contract | Website usage |
+| --- | --- |
+| Public component props | Variants and semantic element choices for cards, actions, metrics, and disclosures. |
+| Semantic variables | Site theme values and the documented `--ui-card-gap` layout override. |
+| Public `data-slot` hooks | Styling component parts, including print visibility for `SkipLink`. |
+| Semantic roles | Markdown `CodeTabs` styling through tablist, tab, and tabpanel roles. |
+| Application-owned state | Search, sorting, navigation, share-sheet selection, and travel data. |
+
+Prefer these contracts over private component class names. Lumen provides presentation and
+accessible interaction; the website retains its content rules, routing, logging, and recovery
+policy. Use the [Lumen error-handling guide](https://github.com/santi020k/lumen/blob/main/docs/error-handling.md)
+when adding a failure state, rather than inventing another alert or toast system.
+
+## Documentation and feedback
+
+The repository README uses the site's generated OG hero and project artwork, with accessible
+image descriptions and links to real routes. These images are artwork, not product screenshots.
+Keep generated artwork under the existing OG pipeline rather than maintaining duplicate binaries.
+
+Website bug reports collect a page or revision, expected and actual behavior, browser/device,
+and relevant keyboard, screen reader, theme, zoom, and reduced-motion context. Content corrections
+have a separate form. Reproduce a library-level issue against the installed Lumen package before
+reporting it to [Lumen](https://github.com/santi020k/lumen/issues/new/choose); website-specific
+composition and content reports belong in this repository. Security reports follow the
+[private reporting policy](../.github/SECURITY.md).
+
 ## Statistics
 
 Homepage metrics use Lumen `Stat` directly with `variant="bare"` and `as="article"` to create
@@ -129,8 +171,9 @@ enhances these blocks as regions and repeated default names fail the article acc
 The build clears Astro's generated content store so changes to Markdown adapters regenerate
 article markup instead of reusing HTML from the previous integration.
 
-The initial candidate comes from Lumen revision `f7bfcc07a0805a420ffeb6ad5f24da709ecca6dd`.
-This is local consumer evidence, not qualification of the Lumen release or published v4 packages.
+The historical initial candidate came from Lumen revision `f7bfcc07a0805a420ffeb6ad5f24da709ecca6dd`.
+That revision records historical local consumer evidence. Normal website development now uses
+the published registry packages; historical candidate checks do not qualify later revisions.
 
 The travel page consumes the public `WorldMap` and `lumen-core/world-map-data` exports
 from the published v4 packages. See the [travel editing guide](editorial/travel.md) for map data.
