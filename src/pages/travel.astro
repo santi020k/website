@@ -1,0 +1,176 @@
+---
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import TravelMap from '@/components/pages/travel/TravelMap.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { Badge, Card, Icon } from '@santi020k/lumen-astro'
+
+import { getTravelVisitLabel, travelCountries, travelPageDescription, travelSummary } from '@/data/travel'
+import { createAuthorSchema } from '@/site.config'
+
+const meta = {
+  breadcrumbs: [{ name: 'Home', url: '/' }, { name: 'Travel', url: '/travel/' }],
+  description: travelPageDescription,
+  title: 'Travel & Life Abroad',
+  structuredData: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Travel & Life Abroad',
+    description: travelPageDescription,
+    url: new URL('/travel/', Astro.site).href,
+    author: createAuthorSchema(Astro.site)
+  }
+}
+---
+
+<PageLayout meta={meta}>
+  <section
+class="
+  section-container-wide pt-6
+  sm:pt-10
+"
+aria-labelledby="travel-heading"
+  >
+    <Eyebrow label="Travel · Digital nomad" tone="brand" />
+    <h1
+class="
+  mt-5 max-w-4xl text-4xl font-semibold tracking-tight
+  sm:text-5xl
+  lg:text-6xl
+"
+id="travel-heading"
+    >
+      A life in more than one place.
+    </h1>
+    <p class="mt-6 max-w-3xl section-copy">
+      I’m from Colombia and a resident of Paraguay. My travels have taken me across the Americas,
+      to Europe, and to Japan. This is a growing record of those places and my life as a digital nomad.
+    </p>
+    <dl class="mt-8 flex flex-wrap gap-x-12 gap-y-6 divider-strong pt-6">
+      <div><dt class="text-sm text-ink-soft">Countries visited abroad</dt><dd class="
+        mt-1 text-3xl font-semibold tabular-nums
+      "
+                                                                          >{travelSummary.countriesAbroad}</dd></div>
+      <div><dt class="text-sm text-ink-soft">Country visits</dt><dd class="
+        mt-1 text-3xl font-semibold tabular-nums
+      "
+                                                                >{travelSummary.countryVisits}</dd></div>
+      <div><dt class="text-sm text-ink-soft">My roots</dt><dd class="
+        mt-1 text-xl font-semibold
+      "
+                                                          >Colombia</dd></div>
+      <div><dt class="text-sm text-ink-soft">Country of residence</dt><dd class="
+        mt-1 text-xl font-semibold
+      "
+                                                                      >Paraguay</dd></div>
+    </dl>
+  </section>
+
+  <section
+class="
+  section-container-wide pt-14
+  sm:pt-20
+"
+aria-labelledby="travel-map-heading"
+  >
+    <h2
+class="
+  mb-3 text-2xl font-semibold
+  sm:text-3xl
+"
+id="travel-map-heading"
+    >Places along the way</h2>
+    <p class="mb-6 max-w-2xl text-sm/7 text-ink-soft">
+      Select a country on the map or use the country chooser to see my stops.
+      Colombia, my home country, is highlighted alongside the places I have visited.
+    </p>
+    <TravelMap />
+    <p class="mt-4 text-xs/6 text-ink-muted">Visit counts are per country, including return visits. They do not count individual cities or separate trips around the world.</p>
+    <ButtonLink className="mt-4" href="#travel-countries" variant="inline">Browse the full country list</ButtonLink>
+  </section>
+
+  <section
+class="
+  section-container-wide pt-14
+  sm:pt-20
+"
+aria-labelledby="travel-story-heading"
+  >
+    <div class="
+      grid gap-8
+      lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]
+    "
+    >
+      <div>
+        <Eyebrow label="Roots & returns" tone="brand" />
+        <h2 class="mt-4 text-3xl font-semibold" id="travel-story-heading">Colombia, Paraguay, and the places between.</h2>
+      </div>
+      <div class="space-y-5 text-base/8 text-ink-soft">
+        <p>Colombia is where I’m from. Paraguay is part of my story as both a destination and my country of residence: I have been there seven times, with visits to Asunción, Encarnación, and Ciudad del Este.</p>
+        <p>Some countries appear once on this map; others are places I have returned to. I have visited Mexico seven times, and the United States, Brazil, and Argentina twice each.</p>
+        <p>I’m starting this journal with the places. Over time, I’ll add the stories behind them: everyday life while traveling, working from different places, and the memories I want to keep.</p>
+      </div>
+    </div>
+  </section>
+
+  <section
+class="
+  section-container-wide scroll-mt-28 pt-14
+  sm:pt-20
+"
+id="travel-countries"
+aria-labelledby="country-list-heading"
+  >
+    <h2
+class="
+  text-2xl font-semibold
+  sm:text-3xl
+"
+id="country-list-heading"
+    >My travel notebook</h2>
+    <p class="mt-3 max-w-2xl text-sm/7 text-ink-soft">The countries, cities, and regions I have visited, with room for more memories as I write.</p>
+    <div class="
+      mt-7 grid gap-4
+      sm:grid-cols-2
+      lg:grid-cols-3
+    "
+    >
+      {travelCountries.map(country => (
+        <Card as="article" class="scroll-mt-28 p-6" id={`country-${country.code.toLowerCase()}`} aria-labelledby={`country-name-${country.code.toLowerCase()}`}>
+          <div class="mb-4 flex items-center gap-3">
+            <Icon class="size-5 shrink-0 text-brand" name={country.connection === 'home' ? 'house' : 'map-pin'} />
+            <h3 class="text-lg font-semibold" id={`country-name-${country.code.toLowerCase()}`}>{country.name}</h3>
+          </div>
+          <Badge variant={country.connection ? 'default' : 'outline'}>{getTravelVisitLabel(country)}</Badge>
+          {country.places.length > 0 ?
+(
+            <ul class="mt-4 space-y-1 text-sm/7 text-ink-soft">
+              {country.places.map(place => <li>{place}</li>)}
+            </ul>
+          ) :
+<p class="mt-4 text-sm/7 text-ink-soft">I’m from Colombia. This is where my story begins.</p>}
+          {country.note && <p class="mt-4 text-xs/6 text-ink-muted">{country.note}</p>}
+        </Card>
+      ))}
+    </div>
+  </section>
+
+  <section
+class="
+  section-container-wide pt-14 pb-8
+  sm:pt-20
+"
+aria-label="Travel stories"
+  >
+    <SectionHeader
+      description="I’m collecting the stories behind these journeys. Travel posts will join my blog as I finish writing them."
+      eyebrow="Stories to come"
+      linkHref="/blog/"
+      linkLabel="Read the blog"
+      title="More than places on a map."
+      variant="shelf"
+    />
+  </section>
+</PageLayout>

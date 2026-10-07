@@ -144,6 +144,11 @@ export const menuLinks: SiteLink[] = [
     title: 'Speaking & Community'
   },
   {
+    icon: 'tabler:world',
+    path: '/travel/',
+    title: 'Travel'
+  },
+  {
     icon: 'tabler:edit',
     path: '/blog/',
     title: 'Blog'

@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.12.0
+
+### Minor Changes
+
+- Add a travel notebook with Lumen WorldMap, country details, repeat visit counts, Colombian roots,
+  and Paraguayan residence. Prepare five title-only travel drafts without publishing their routes,
+  and retain cover validation when writing begins. Include the consolidated concise and full CV downloads.
+
+### Patch Changes
+
+- Prepare the website for Lumen 4 with a local candidate preview and preserve custom card spacing and uniquely label article code examples for screen readers.
+
+- Make additional project technologies available through a keyboard-accessible Lumen disclosure instead of a static overflow count.
+
+- Remove the hard background edge below the homepage navbar on mobile and tablet screens while preserving the desktop hero treatment.
+
 ## 3.11.0
 
 ### Minor Changes

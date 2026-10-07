@@ -1,12 +1,22 @@
-# [Santiago Molina](https://santi020k.com/)
+# Santiago Molina
+
+<p align="center">
+  <img src="public/apple-touch-icon.webp" alt="Santiago Molina" width="88">
+</p>
+
+<p align="center">The portfolio, writing, and product home of santi020k.</p>
 
 [Website](https://santi020k.com) · [Portfolio](https://santi020k.com/portfolio/) ·
-[Blog](https://santi020k.com/blog/) · [Resume](https://santi020k.com/resume/) ·
+[Blog](https://santi020k.com/blog/) · [Travel](https://santi020k.com/travel/) · [Resume](https://santi020k.com/resume/) ·
 [Documentation](docs) · [Changelog](CHANGELOG.md)
 
-[![CI](https://github.com/santi020k/website/actions/workflows/build.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/build.yml)
-[![CodeQL](https://github.com/santi020k/website/actions/workflows/codeql.yml/badge.svg)](https://github.com/santi020k/website/actions/workflows/codeql.yml)
-[![License: Source-Available](https://img.shields.io/badge/license-source--available-orange.svg)](./LICENSE)
+<p align="center">
+  <a href="https://github.com/santi020k/website/actions/workflows/build.yml"><img src="https://github.com/santi020k/website/actions/workflows/build.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/santi020k/website/actions/workflows/codeql.yml"><img src="https://github.com/santi020k/website/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-source--available-orange.svg" alt="License: Source-Available"></a>
+</p>
+
+**Explore:** [🚀 Key Features](#-key-features) · [⚡ Tech Stack](#-tech-stack) · [Blog scope](#blog-scope) · [📂 Project Structure](#-project-structure) · [🛠️ Getting Started](#️-getting-started) · [📫 Connect with Santiago](#-connect-with-santiago)
 
 ## I build fast, accessible products and stronger frontend systems.
 
@@ -32,12 +42,12 @@ Personal website, blog, and portfolio of **Santiago Molina** — Full Stack Deve
 
 ### ⚡ Tech Stack
 
-[![Astro](https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE)](https://astro.build/)
-[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
-[![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/)
+[![Astro](https://img.shields.io/badge/Astro-0C1222?style=flat-square&logo=astro&logoColor=FDFDFE)](https://astro.build/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat-square&logo=javascript&logoColor=F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=flat-square&logo=playwright&logoColor=white)](https://playwright.dev/)
 
 ---
 
@@ -51,6 +61,12 @@ and firmware topics. Gaming posts use `gaming`.
 Topic archives are generated from published posts. The blog filters keep `reading` and `gaming`
 visible when those topics have published entries, alongside the most frequent tags. Existing
 post URLs and the shared RSS feed stay the same.
+
+### Travel notebook
+
+The `/travel/` page connects Lumen WorldMap with country visit counts and personal notes.
+See [the travel editing guide](docs/editorial/travel.md) for the data source, title-only drafts,
+and the Lumen 4 publication prerequisite.
 
 ### 📂 Project Structure
 
@@ -153,6 +169,15 @@ This is a personal site, but issues and suggestions are welcome.
 - [`docs/observability.md`](./docs/observability.md)
 - [`docs/incident-response.md`](./docs/incident-response.md)
 
+## Find your next step
+
+| Resource | Use it for |
+| --- | --- |
+| [Deployment](docs/deployment.md) | Environment setup and deployment procedures. |
+| [Lumen integration](docs/lumen-integration.md) | Shared UI setup and application styling. |
+| [Contributing](CONTRIBUTING.md) | Contributor setup and validation workflow. |
+| [Security policy](.github/SECURITY.md) | Private vulnerability reporting. |
+
 ### 📄 License
 
 This is a **source-available** project, not open source. You're welcome to read the code for reference and learning, but you may not use, copy, modify, or redistribute it — see [`LICENSE`](./LICENSE). All content (blog posts, images, brand assets, design) is © Santiago Molina.
@@ -161,10 +186,10 @@ This is a **source-available** project, not open source. You're welcome to read 
 
 ### 📫 Connect with Santiago
 
-[![LinkedIn Badge](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/santi020k)
-[![GitHub Badge](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/santi020k)
-[![Medium Badge](https://img.shields.io/badge/Medium-000000?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@santi020k)
-[![WhatsApp Badge](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://api.whatsapp.com/send?phone=573507990136)
+[![LinkedIn Badge](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/santi020k)
+[![GitHub Badge](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/santi020k)
+[![Medium Badge](https://img.shields.io/badge/Medium-000000?style=flat-square&logo=medium&logoColor=white)](https://medium.com/@santi020k)
+[![WhatsApp Badge](https://img.shields.io/badge/WhatsApp-25D366?style=flat-square&logo=whatsapp&logoColor=white)](https://api.whatsapp.com/send?phone=573507990136)
 
 ---
 

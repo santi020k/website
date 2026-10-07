@@ -18,6 +18,12 @@ export const homeSocialPage: SocialPageDefinition = {
 
 export const staticSocialPages: SocialPageDefinition[] = [
   {
+    description: 'Explore the places I have visited across the Americas, Europe, and Asia, from my roots in Colombia to life abroad as a resident of Paraguay.',
+    pathname: '/travel/',
+    title: 'Travel & Life Abroad',
+    type: 'Travel'
+  },
+  {
     description:
       `Santiago Molina is a Medellín-based engineering leader and full-stack architect with ${YEARS_OF_EXPERIENCE} years ` +
       'building products, delivery systems, and developer teams.',

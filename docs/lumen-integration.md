@@ -74,8 +74,12 @@ article markup instead of reusing HTML from the previous integration.
 The initial candidate comes from Lumen revision `f7bfcc07a0805a420ffeb6ad5f24da709ecca6dd`.
 This is local consumer evidence, not qualification of the Lumen release or published v4 packages.
 
-After publication, change only the Lumen adapter's catalog entry in `pnpm-workspace.yaml` to
-`4.0.0`, add exact release-age exceptions for the coordinated three packages if needed by the
+The travel page also consumes the public `WorldMap` and `lumen-core/world-map-data` exports.
+Its implementation requires v4; the registry baseline cannot build this release until those
+packages are published. See the [travel editing guide](editorial/travel.md) for the map data.
+
+After publication, change both the Lumen adapter and core catalog entries in `pnpm-workspace.yaml`
+to `4.0.0`, add exact release-age exceptions for the coordinated three packages if needed by the
 existing supply-chain policy, and run `pnpm install` to commit a registry-backed lockfile.
 Re-run the migration audit, website quality/build gates, Playwright interactions, and mobile /
 desktop visual checks against those actual published packages before deployment. Use the

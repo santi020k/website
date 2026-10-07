@@ -1,6 +1,6 @@
 {
   "name": "website",
-  "version": "3.11.0",
+  "version": "3.12.0",
   "private": true,
   "description": "Engineering portfolio and blog by Santiago Molina.",
   "type": "module",
@@ -70,6 +70,7 @@
     "@astrojs/rss": "catalog:",
     "@astrojs/sitemap": "catalog:",
     "@santi020k/lumen-astro": "catalog:",
+    "@santi020k/lumen-core": "catalog:",
     "@santi020k/theme": "catalog:",
     "@shikijs/transformers": "catalog:",
     "astro": "catalog:",

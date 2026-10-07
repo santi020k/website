@@ -1,6 +1,22 @@
 {
   "generatorVersion": "1.1.1",
   "routes": {
+    "/travel/": {
+      "alt": "Travel & Life Abroad — Santiago Molina",
+      "description": "Explore the places I have visited across the Americas, Europe, and Asia, from my roots in Colombia to life abroad as a resident of Paraguay.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/travel.webp",
+          "primary": true,
+          "url": "/og/pages/travel.webp",
+          "width": 1200
+        }
+      ],
+      "pathname": "/travel/",
+      "title": "Travel & Life Abroad"
+    },
     "/": {
       "alt": "Engineering Leader & Full-Stack Architect — Santiago Molina",
       "description": "Engineering Leader & Full-Stack Architect with 12+ years of experience building resilient systems and scaling technical teams.",

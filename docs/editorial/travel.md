@@ -1,0 +1,50 @@
+# Travel notebook
+
+The `/travel/` page uses the destinations and country visit counts supplied by Santiago on
+October 6, 2026. Edit `src/data/travel.ts` for country names, places, visits, and residence labels.
+Edit `src/pages/travel.astro` for the introductory and personal copy.
+
+There are 14 countries visited outside Colombia and 29 country visits. Colombia is the home
+country, with no invented visit count. Paraguay has seven visits and a separate residence label.
+Mexico's list is explicitly partial. Patagonia remains a region. Columbus and Iguazu retain the
+names supplied without inferring a state, exact city, or coordinates. The map highlights countries;
+it does not imply that a country-level count applies to each city.
+
+Dates, trip order, lengths of stay, photos, and claims about working in particular countries have
+not been supplied. Add these only when confirmed. The current page is a geographic notebook rather
+than a chronological itinerary.
+
+## Title-only drafts
+
+These files contain no article body or artwork. Their descriptions repeat the working title to
+satisfy the existing content schema. The provisional date is the draft creation date, not a
+publication schedule. Keep `draft: true` until the content, cover, metadata, and publication date
+are ready. Production excludes drafts from routes, search, feeds, and sitemaps; development includes
+them for editing.
+
+- `src/content/post/2026/how-i-became-a-digital-nomad/index.md`
+- `src/content/post/2026/working-from-a-city-everyday-life/index.md`
+- `src/content/post/2026/what-i-wish-i-had-known-before-working-while-traveling/index.md`
+- `src/content/post/2026/the-place-i-keep-thinking-about-and-why/index.md`
+- `src/content/post/2026/how-traveling-changed-what-i-want-from-everyday-life/index.md`
+
+The city placeholder is intentional. Select the destination when writing that article. Content
+lint permits an absent cover only for an empty, explicitly marked draft; written drafts and
+published posts still require a valid cover.
+
+## Map dependency and release boundary
+
+The page requires Lumen 4's public `WorldMap` component and
+`@santi020k/lumen-core/world-map-data` export. Use the existing
+[Lumen candidate preview](../lumen-integration.md#lumen-4-candidate-preview) to verify it while
+the coordinated packages remain unpublished. The release branch retains registry-backed baseline
+dependencies; those baseline versions cannot compile the new map. This is a release blocker,
+not a deployment-ready fallback. Never deploy using local tarball paths.
+
+Once Lumen 4 is published, set both the Astro and core catalog entries to the coordinated stable
+version, regenerate the registry lockfile, regenerate the CV PDFs, and rerun the website gates.
+Verify map selection, keyboard zoom, navigation away and back, narrow layouts, themes, and draft
+exclusion using `tests/travel.spec.ts`. Country details remain readable without JavaScript.
+
+Rollback the website release through the established deployment workflow, or revert the travel
+page, navigation, and metadata together. Draft source files can remain unpublished independently.
