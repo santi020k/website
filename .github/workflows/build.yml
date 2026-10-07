@@ -60,7 +60,7 @@ jobs:
 
       - name: Run Astro Doctor on the changed code
         if: steps.changes.outputs.full == 'true' && github.event_name == 'pull_request'
-        uses: santi020k/astro-doctor@19061e7b586af120b35e31b2aecd4bacaef8f137 # v1
+        uses: santi020k/astro-doctor@ada77ece2296778b4c9a84b26229bd0c9e52c83f # v1
         with:
           comment: 'false'
           diff-only: 'true'
