@@ -12,7 +12,7 @@ import { RevealGroup } from '@santi020k/lumen-astro'
 
 const allProjects = (await getCachedProjects()).sort(collectionRelevanceSortProjects)
 const selectedWork = allProjects.filter(project => project.data.typesId === 'professional').slice(0, 3)
-const selectedProjects = allProjects.filter(project => project.data.typesId === 'personal').slice(0, 3)
+const selectedProjects = allProjects.filter(project => project.data.typesId === 'personal').slice(0, 4)
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -161,6 +161,7 @@ const breadcrumbs = [
       <div class="
         grid gap-6
         md:grid-cols-2
+        xl:grid-cols-3
       "
       >
         {selectedProjects.slice(1).map(project => (
