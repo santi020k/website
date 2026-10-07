@@ -138,7 +138,7 @@ test('keyboard / opens site search dialog', async ({ page }) => {
   const trigger = page.getByRole('button', { name: 'Open site search' })
 
   await expect(dialog).toBeVisible()
-  await expect(page.getByPlaceholder('Search by title, tag, or keyword…')).toBeFocused()
+  await expect(page.locator('#site-search-input')).toBeFocused()
 
   await page.keyboard.press('Escape')
   await expect(dialog).toBeHidden()

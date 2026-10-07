@@ -441,19 +441,27 @@
 }
 
 @media (max-width: 639px) {
-  .site-header-shell { gap: 0.375rem; padding-inline: 0.5rem; }
+  .site-header-shell {
+    gap: 0.5rem;
+    padding-inline: 0.875rem;
+    container: mobile-header / inline-size;
+  }
   .site-header-brand { gap: 0.375rem; }
   .site-header-wordmark { font-size: 1rem; }
-  .site-header-actions { gap: 0; }
+  .site-header-actions { gap: 0.375rem; }
   .site-mobile-nav-toggle.ui-button { width: 2.75rem; padding: 0.625rem; }
 }
 
 @media (max-width: 359px) {
-  .site-header-shell { gap: 0.25rem; padding-inline: 0.5rem; }
+  .site-header-shell { gap: 0.375rem; padding-inline: 0.75rem; }
   .site-header-brand { gap: 0.375rem; }
   .site-header-wordmark { display: none; }
   .site-header-mark { width: 1.75rem; height: 1.75rem; }
-  .site-header-actions { gap: 0; }
+  .site-header-actions { gap: 0.25rem; }
+}
+
+@container mobile-header (max-width: 18rem) {
+  .site-header-wordmark { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
