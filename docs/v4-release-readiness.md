@@ -87,7 +87,8 @@ regenerated and reviewed for this design. The six existing Firefox macOS
 baselines are preserved: Playwright's Firefox launcher exits before page load
 with `Could not find profile folder`, including with a separate temporary
 directory. Repair that launcher, refresh its baselines, and rerun its checks
-before claiming Firefox verification.
+before claiming macOS Firefox baseline verification. Linux Firefox coverage is
+recorded separately below.
 
 ## Verification
 
@@ -161,5 +162,45 @@ The full dependency audit still reports the one high-severity braces advisory
 above. Production publication remains blocked. No push, pull request, remote
 merge, or deployment follows from this local consolidation. Older dirty README
 and Projects worktree copies remain preserved: their useful changes are already
-included or superseded by the current release. New interaction work started in
-an isolated worktree during validation and remains separate from this snapshot.
+included or superseded by the current release.
+
+## Final interaction and page review
+
+The release now includes `2e703285` (theme persistence and carousel keyboard
+focus), `7622d2fa` (responsive image source auditing), and `c3a2327d` (readable
+project labels in dark galleries), consolidated at `45bb54bc`. The page review
+covered all 449 generated pages at 320, 375, 768, and 1,440 pixels in both themes,
+with 898 mobile and desktop captures. Representative responsive Chrome and
+WebKit checks passed after the contrast correction. The interaction checks
+passed 95 Chromium and four focused WebKit tests; the combined quality gate
+passed 416 unit tests.
+
+Firefox qualification uses an isolated Ubuntu ARM64 VM, Node 24.21.0, and the
+same Playwright 1.63.0 tests, timeouts, assertions, one worker, and zero retries.
+The production build was transferred with SHA-256 verification. The first run
+passed 333 tests and failed three: the temporary Python server lacked HTTP byte
+range support, and two dark travel accessibility scans waited indefinitely for
+Firefox transitions inside the closed notebook. These failures remain recorded.
+The verification server now serves byte ranges without changing the PDF test.
+Commit `48fb6e58` excludes unrendered animation targets from the accessibility
+helper's wait, retains visible finite-animation waits and every axe assertion,
+and adds regressions for both cases. All 22 focused Firefox and Chromium checks
+passed without retries.
+
+## Pre-push qualification
+
+Commit `63e34b87` fixes a reproduced Safari focus regression: explicitly closing
+the travel details panel now returns focus to the map even when Safari did not
+focus the clicked button. Escape and country selection preserve their contextual
+focus behavior. The existing regression passed nine times across Chromium,
+WebKit, and Mobile Safari without retries. All 44 affected Chromium and WebKit
+checks passed against that source, including the accessibility helper, service
+worker PDF handling, and travel interactions.
+
+A fresh independent read-only review inspected the full candidate against
+`origin/main`, the pending documentation, and the travel focus fix. It reported
+no new actionable findings and retained the known braces audit blocker. The
+final-source focused Linux Firefox checks passed all 22 tests without retries,
+including the close-button focus correction. The full Linux Firefox repeat of
+the earlier product source with the animation helper fix remains pending; macOS
+Firefox visual baselines remain unverified.
