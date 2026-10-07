@@ -201,6 +201,27 @@ A fresh independent read-only review inspected the full candidate against
 `origin/main`, the pending documentation, and the travel focus fix. It reported
 no new actionable findings and retained the known braces audit blocker. The
 final-source focused Linux Firefox checks passed all 22 tests without retries,
-including the close-button focus correction. The full Linux Firefox repeat of
-the earlier product source with the animation helper fix remains pending; macOS
-Firefox visual baselines remain unverified.
+including the close-button focus correction. The earlier full repeat passed
+337 tests and failed one because a trace file was missing: overlapping harness
+runs shared Playwright's output directory. This failed invocation is retained.
+
+The final isolated Linux Firefox run passed all 338 tests on `63e34b87` and its
+exact committed tests, with zero retries, failures, flaky tests, or skips.
+It used one worker, unchanged repository timeouts, Firefox 155.0, Playwright
+1.63.0, and Node 24.21.0 on Ubuntu ARM64. The transferred build's SHA-256 was
+`e8cbf0eaa52c29d5f9805ea82257f35bc19a6b78606b6a25dbcff3684862fffc`.
+Separate output storage and no overlapping runs resolved the harness collision.
+Sixteen representative mobile/desktop and light/dark Firefox layout captures
+reported no page errors, overflow, broken images, or theme mismatches.
+The unchanged test helper does not declare macOS screenshot tests on Linux;
+macOS Firefox visual baselines remain unverified.
+
+## Pull request checks
+
+Draft pull request [#157](https://github.com/santi020k/website/pull/157) contains
+the pushed release. GitHub's quality checks passed lint, strict Astro checking,
+documentation and content checks, CV freshness, and all 416 unit tests before
+the required audit stopped on the retained braces advisory. CodeQL and the PR
+title checks passed. The Cloudflare branch preview deployed successfully.
+This preview is separate from the production release workflow. Codex review
+was requested; the audit exception decision remains pending.
