@@ -8,14 +8,13 @@
   letter-spacing: -0.025em;
 }
 
-/* Keep the quiet canvas local to the editorial heroes, including after page swaps. */
+/* Keep the editorial canvas after page swaps and preserve Home's floating particles. */
 body:has([data-home-hero], [data-travel-explorer]) {
   background: hsl(var(--theme-bg));
 }
 
-body:has([data-home-hero], [data-travel-explorer]) [data-particles-bg],
-body:has([data-home-hero], [data-travel-explorer]) > div > .grid-fade {
-  display: none;
+body:has([data-travel-explorer]) [data-particles-bg],
+body:has([data-home-hero], [data-travel-explorer]) > div > .grid-fade {  display: none;
 }
 
 @utility maker-hero-stage {

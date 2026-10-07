@@ -25,7 +25,7 @@ test('the hero connects products, personal background, and the full portfolio', 
   await page.goBack()
   await expect(page).toHaveURL(/\/$/)
   await expect(hero).toBeVisible()
-  await expect(page.locator('[data-particles-bg]')).toBeHidden()
+  await expect(page.locator('[data-particles-bg]')).toBeVisible()
 })
 
 for (const theme of ['light', 'dark']) {
