@@ -17,13 +17,7 @@ const replies = mentions.filter(
   m => m['wm-property'] === 'in-reply-to' || m['wm-property'] === 'mention-of'
 )
 
-const authorPhoto = (entry: WebmentionsChildren): string | undefined => {
-  const author = entry.author
-
-  if (!author?.photo) return undefined
-
-  return Array.isArray(author.photo) ? author.photo[0] : author.photo
-}
+const authorPhoto = (entry: WebmentionsChildren): string | undefined => entry.author?.photo ?? undefined
 
 const replyText = (entry: WebmentionsChildren): string => {
   const raw = entry.content?.text ?? entry.summary?.value ?? ''
@@ -80,7 +74,7 @@ const showSection = likes.length > 0 || replies.length > 0
                   >
                     {photo ?
                       (
-                        <Image alt="" class="size-full object-cover" height={40} loading="lazy" src={photo} width={40} inferSize={true} />
+                        <Image alt="" class="size-full object-cover" height={40} loading="lazy" src={photo} width={40} />
                       ) :
                       (
                         <span class="

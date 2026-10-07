@@ -5,7 +5,7 @@ Thanks for contributing to this project.
 ## Prerequisites
 
 - Node.js `24.x` (the repo enforces `>=24.0.0`)
-- `pnpm@10.32.1`
+- `pnpm@11.25.0` (pinned in `package.json`)
 
 ## Local Setup
 
@@ -23,7 +23,11 @@ Run these before opening a pull request:
 - `pnpm run test`
 - `pnpm run test:e2e:fast` (recommended for route-level changes)
 
-For full parity with pre-push validation:
+For parity with the local pre-push hook:
+
+- `pnpm run verify:fast`
+
+For the full local validation suite, including coverage, Lighthouse, and browser tests:
 
 - `pnpm run ci:verify`
 

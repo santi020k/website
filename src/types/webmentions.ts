@@ -1,4 +1,4 @@
-/** Root Webmentions feed payload returned by the Webmention API. */
+/** Webmentions feed with normalized entries. */
 export interface WebmentionsFeed {
   children: WebmentionsChildren[]
   name: string
@@ -11,47 +11,34 @@ export interface WebmentionsCache {
   lastFetched: null | string
 }
 
-/** A single Webmention entry (like, reply, repost, bookmark, etc.). */
+/**
+ * A single public Webmention entry (like, reply, repost, bookmark, etc.),
+ * normalized by `fetchWebmentionsForTarget` from third-party, sender-controlled
+ * microformats2 data. Every field here reflects what that normalization step
+ * actually guarantees — in particular, `url`-shaped fields are verified to be
+ * absolute `http(s)` URLs so they are safe to render as `href`/`src`.
+ */
 export interface WebmentionsChildren {
   author: WebmentionAuthor | null
-  content?: WebmentionContent | null
-  'mention-of': string
-  name?: null | string
-  photo?: null | string[]
-  published?: null | string
-  rels?: WebmentionRels | null
-  summary?: WebmentionSummary | null
-  syndication?: null | string[]
-  type: string
-  url: string
-  'wm-id': number
-  'wm-private': boolean
+  content: WebmentionContent | null
+  published: string | null
+  summary: WebmentionSummary | null
   'wm-property': string
-  'wm-protocol': string
-  'wm-received': string
+  'wm-received': string | null
   'wm-source': string
-  'wm-target': string
 }
 
+/** Author of a Webmention, normalized from the sender's microformats2 h-card. */
 export interface WebmentionAuthor {
-  name: string
-  photo: string
-  type: string
-  url: string
+  name: string | null
+  photo: string | null
+  url: string | null
 }
 
 export interface WebmentionContent {
-  'content-type': string
-  html: string
   text: string
-  value: string
-}
-
-export interface WebmentionRels {
-  canonical: string
 }
 
 export interface WebmentionSummary {
-  'content-type': string
   value: string
 }
