@@ -62,14 +62,25 @@ before recommending production release.
 
 ## Signature frame follow-up
 
-The navigation now joins the homepage hero through a raised identity tab, with a
-solid dock on inner pages and after scrolling. Mobile navigation and search share
+The navigation now joins the Home, About, Work, Projects, and Blog landing heroes
+through a shared raised identity tab. Travel, reading pages, archives, and the
+scrolled header retain the solid dock. Mobile navigation and search share
 the frame, backdrop blur, coordinated opening and closing, and reduced-motion
 behavior. Search keeps keyboard focus inside while its index loads.
 
 The complete Chrome suite passed 277 tests. The final navigation, search, and hero
 checks passed 147 tests across Chrome, WebKit, and Mobile Safari, including both
 themes, enlarged text, short viewports, keyboard focus, and reduced motion.
+
+The landing-page extension passed all 332 Chrome tests. Its 55 additional checks
+cover joined surfaces, both themes, narrow screens, enlarged text, accessibility,
+page transitions, and the routes that retain the dock. Navigation, search, and
+landing checks passed 177 of 178 tests across WebKit and Mobile Safari. The one
+failure exposed a test timing race when reopening the menu during its exit
+animation. Capturing the closing state and reopening in the same browser task
+preserves every assertion; nine repeated checks then passed across Chrome,
+WebKit, and Mobile Safari. About and Blog visual baselines were refreshed and
+reviewed in all four supported snapshot projects below.
 
 The Chrome, WebKit, Mobile Chrome, and Mobile Safari visual baselines were
 regenerated and reviewed for this design. The six existing Firefox macOS
@@ -124,3 +135,32 @@ the remaining browser stage was rerun on port 4460. Other task previews were
 preserved. Lighthouse was also rerun in an isolated report directory after a
 concurrent audit reused the default directory; its route set and assertions were
 unchanged. The wrapper exit is recorded rather than described as a passing run.
+
+
+## Final local branch consolidation
+
+The pending dependency cleanup, page integrity audit, search validation, and
+service-worker and offline listener fixes are committed as `6decead9`. The
+`feature/landing-signature-frames` commit `4d9d397e` is integrated into
+`release/v4.0.0`. Changelog conflicts retain both sets of changes; both CV files
+and their source metadata are regenerated from the combined source.
+
+The combined state passed spelling, zero-warning lint, strict Astro checks,
+Markdown and content checks, CV freshness, all 410 unit tests in 37 files,
+coverage, build, SEO and page integrity audits, and Lighthouse assertions across
+all eight routes and 24 runs. The complete stable Chromium suite passed all
+341 tests without retries, including the new search recovery, offline lifecycle,
+service-worker freshness, landing frame, and screenshot checks.
+
+The `PW_PREVIEW_PORT=45868 pnpm run ci:verify` wrapper completed through Lighthouse
+but exited when another chat's preview held Astro's per-checkout lock. After that
+chat stopped its preview, the unchanged remaining browser stage passed with
+`PW_PREVIEW_PORT=45868 pnpm run test:e2e:ci:stable`. This records a completed set of
+checks, rather than a passing full wrapper invocation.
+
+The full dependency audit still reports the one high-severity braces advisory
+above. Production publication remains blocked. No push, pull request, remote
+merge, or deployment follows from this local consolidation. Older dirty README
+and Projects worktree copies remain preserved: their useful changes are already
+included or superseded by the current release. New interaction work started in
+an isolated worktree during validation and remains separate from this snapshot.

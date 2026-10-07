@@ -17,16 +17,20 @@ body:has([data-work-page]) > div > .grid-fade {
 
 @utility work-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
   gap: 3rem;
   align-items: end;
   padding-block: 2rem 4rem;
 }
 
+@utility work-intro { padding-bottom: 0; }
+.work-intro .work-hero-grid { padding-top: 0; }
+.work-intro .work-stats { border-bottom: 0; }
+
 @utility work-heading {
   margin: 0;
   color: hsl(var(--ink));
-  font-size: clamp(2.5rem, 5.8vw, 5.25rem);
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
   font-weight: 600;
   line-height: 1.07;
   letter-spacing: -0.07em;

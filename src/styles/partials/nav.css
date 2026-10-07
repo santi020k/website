@@ -1,5 +1,5 @@
-/* The signature frame joins Home's hero. Scrolling and inner pages use a solid
-   dock; the mobile menu extends that same surface above a blurred backdrop. */
+/* Landing heroes join the signature frame. Reading pages and scrolling use a
+   solid dock; the mobile menu extends it above a blurred backdrop. */
 @utility site-header {
   position: sticky;
   top: 0;
@@ -8,6 +8,22 @@
   flex-direction: column;
   gap: 2rem;
   padding: 1.5rem 1.25rem 1rem;
+}
+
+.site-header:has([data-header-frame]) { padding-bottom: 0; }
+#main[data-page-frame] { padding-top: 0; }
+
+@utility signature-frame {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: 2rem;
+  border-radius: 0 1.5rem 1.5rem 1.5rem;
+  background: hsl(var(--surface));
+}
+
+@media (max-width: 47.999rem) {
+  .signature-frame { padding: 1.75rem 1.125rem; }
 }
 
 .site-header :is(a, button):focus-visible {
@@ -42,7 +58,7 @@
   transition: opacity 220ms ease;
 }
 
-.site-header-shell[data-header-home][data-scrolled="false"]::before {
+.site-header-shell[data-header-frame][data-scrolled="false"]::before {
   opacity: 0;
 }
 
@@ -61,7 +77,7 @@
   isolation: isolate;
 }
 
-.site-header-shell[data-header-home][data-scrolled="false"] .site-header-brand {
+.site-header-shell[data-header-frame][data-scrolled="false"] .site-header-brand {
   border-radius: 1.5rem 1.5rem 0 0;
 }
 
@@ -80,7 +96,7 @@
   transition: opacity 220ms ease;
 }
 
-.site-header-shell[data-header-home][data-scrolled="false"] .site-header-brand::after {
+.site-header-shell[data-header-frame][data-scrolled="false"] .site-header-brand::after {
   opacity: 1;
 }
 
@@ -333,8 +349,8 @@
   box-shadow: none;
 }
 
-[data-nav-visible] .site-header-shell[data-header-home]::before { opacity: 1; }
-[data-nav-visible] .site-header-shell[data-header-home] .site-header-brand::after { opacity: 0; }
+[data-nav-visible] .site-header-shell[data-header-frame]::before { opacity: 1; }
+[data-nav-visible] .site-header-shell[data-header-frame] .site-header-brand::after { opacity: 0; }
 
 [data-mobile-nav-links] {
   border-top: 1px solid hsl(var(--line) / 0.65);
