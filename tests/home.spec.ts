@@ -70,15 +70,14 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
   ).toHaveAttribute('href', /^\/$/)
 })
 
-test('homepage stats use the accent Lumen variant as standalone articles', async ({ page }) => {
+test('homepage presents four readable impact measures', async ({ page }) => {
   await page.goto('/')
 
-  const stats = page.locator(
-    'article[data-slot="stat"][data-variant="accent"].ui-stat--accent'
-  )
+  const stats = page.locator('#home-stats article')
 
   await expect(stats).toHaveCount(4)
-  await expect(stats.locator('.ui-stat-value')).toHaveText(['12+', '14', '-75%', '100+'])
+  await expect(stats).toContainText(['12+', '14', '−75%', '100+'])
+  await expect(stats).toContainText(['Years building', 'People, one team', 'Release cycle time', 'People learning together'])
 })
 
 test('homepage keeps speaking out of the header and exposes it in the footer', async ({ page }) => {
@@ -226,27 +225,22 @@ test('homepage project cards have descriptive accessible names', async ({ page }
   }
 })
 
-test('homepage featured projects use uncropped information-rich artwork', async ({ page }) => {
+test('homepage project imagery has usable sources and readable titles', async ({ page }) => {
   await page.goto('/')
 
-  const artwork = page.locator('[data-showcase-artwork]')
-  const images = artwork.locator('img')
+  const cards = page.locator('[data-showcase-feature]')
 
-  await expect(artwork).toHaveCount(2)
-  await expect(images).toHaveCount(2)
+  await expect(cards).toHaveCount(3)
 
-  for (const image of await images.all()) {
-    await expect(image).toHaveAttribute('src', /\/cover\./)
-    await expect(image).not.toHaveAttribute('src', /cover-horizontal/)
-    await expect(image).toHaveAttribute('width', '1600')
-    await expect(image).toHaveAttribute('height', '1000')
-  }
+  for (const card of await cards.all()) {
+    await card.scrollIntoViewIfNeeded()
+    const image = card.locator('img')
 
-  for (const frame of await artwork.all()) {
-    const box = await frame.boundingBox()
-
-    expect(box).not.toBeNull()
-    expect(box?.width).toBeCloseTo((box?.height ?? 0) * (8 / 5), 0)
+    await expect(image).toBeVisible()
+    await expect(card.locator('h3')).not.toHaveText('')
+    await expect.poll(() => image.evaluate(
+      element => element instanceof HTMLImageElement && element.complete && element.naturalWidth > 0
+    )).toBe(true)
   }
 })
 

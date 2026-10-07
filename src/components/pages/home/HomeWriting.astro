@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import HomeSectionHeading from '@/components/pages/home/HomeSectionHeading.astro'
+
+import { getFormattedDate } from '@/utils/date'
+import { getPostPath } from '@/utils/links'
+import { getReadingTime } from '@/utils/reading-time'
+
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  posts: CollectionEntry<'post'>[]
+}
+
+const { posts } = Astro.props
+---
+
+{posts.length > 0 && (
+  <section class="studio-section" aria-labelledby="writing-heading" data-home-writing>
+    <HomeSectionHeading
+      id="writing-heading"
+      number="03"
+      eyebrow="The notebook"
+      title="A few things on my mind."
+      description="Notes from the work, and the life around it. Software, books, games, and things worth figuring out."
+      href="/blog/"
+      action="Read all articles"
+    />
+    <ol class="studio-writing-list">
+      {posts.map((post, index) => (
+        <li>
+          <a class="studio-writing-row" href={getPostPath(post.id)}>
+            <span class="studio-row-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="studio-writing-meta"><time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate)}</time><span>{getReadingTime(post.body)} min read</span></p>
+              <h3>{post.data.title}</h3>
+              <p class="studio-writing-description">{post.data.description}</p>
+            </div>
+            <span class="studio-arrow-box" aria-hidden="true"><Icon name="arrow-up-right" /></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <div class="studio-writing-follow">
+      <p>Prefer a quieter way to keep up?</p>
+      <ButtonLink class="studio-text-link" href="/feed.xml" variant="unstyled">Follow via RSS <Icon name="rss" /></ButtonLink>
+    </div>
+  </section>
+)}

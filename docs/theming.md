@@ -8,6 +8,12 @@ The website uses the public `@santi020k/theme` package as the source for core br
 
 Local website-only extensions live in `src/styles/partials/tokens.css`.
 
+## Homepage redesign
+
+The [sculpted style guide](sculpted-style-guide.md) defines the new homepage typography,
+solid surfaces, spacing, buttons, and responsive compositions. It builds on the same shared
+tokens; other routes keep their existing styles until they are deliberately migrated.
+
 ## Token Layers
 
 1. **Package tokens**: `@santi020k/theme/tokens.css` defines the core Santi020k HSL variables, font variables, `data-theme` dark variant, and Tailwind `@theme` color mappings.
