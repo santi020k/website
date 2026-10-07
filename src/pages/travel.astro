@@ -1,9 +1,8 @@
 ---
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import TravelMap from '@/components/pages/travel/TravelMap.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Badge, Card, Collapsible, Icon } from '@santi020k/lumen-astro'
+import { ButtonLink, Collapsible, Icon } from '@santi020k/lumen-astro'
 
 import { getTravelVisitLabel, travelCountries, travelPageDescription } from '@/data/travel'
 import { createAuthorSchema } from '@/site.config'
@@ -26,89 +25,123 @@ const meta = {
 <PageLayout meta={meta}>
   <TravelMap />
 
-  <section
-class="
-  section-container-wide pt-14
-  sm:pt-20
-"
-aria-labelledby="travel-story-heading"
-  >
-    <div class="
-      grid gap-8
-      lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]
-    "
-    >
-      <div>
-        <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>Roots &amp; returns</p>
-        <h2 class="mt-4 text-3xl font-semibold" id="travel-story-heading">Colombia, Paraguay, and the places between.</h2>
-      </div>
-      <div class="space-y-5 text-base/8 text-ink-soft">
-        <p>Colombia is where I’m from. Paraguay is part of my story as both a destination and my country of residence: I have been there seven times, with visits to Asunción, Encarnación, and Ciudad del Este.</p>
-        <p>Some countries appear once on this map; others are places I have returned to. I have visited Mexico seven times, and the United States, Brazil, and Argentina twice each.</p>
-        <p>I’m starting this journal with the places. Over time, I’ll add the stories behind them: everyday life while traveling, working from different places, and the memories I want to keep.</p>
-      </div>
+  <section data-travel-section aria-labelledby="travel-story-heading">
+    <div data-travel-section-heading>
+      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>Roots &amp; returns</p>
+      <h2 id="travel-story-heading">Colombia, Paraguay,<br />and the places between.</h2>
+    </div>
+    <div data-travel-story>
+      <p>Colombia is where I’m from. Paraguay is part of my story as both a destination and my country of residence: I have been there seven times, with visits to Asunción, Encarnación, and Ciudad del Este.</p>
+      <p>Some countries appear once on this map; others are places I have returned to. I have visited Mexico seven times, and the United States, Brazil, and Argentina twice each.</p>
+      <p>I’m starting this journal with the places. Over time, I’ll add the stories behind them: everyday life while traveling, working from different places, and the memories I want to keep.</p>
     </div>
   </section>
 
-  <section
-class="
-  section-container-wide scroll-mt-28 pt-14
-  sm:pt-20
-"
-id="travel-countries"
-aria-labelledby="country-list-heading"
-  >
-    <h2
-class="
-  text-2xl font-semibold
-  sm:text-3xl
-"
-id="country-list-heading"
-    >My travel notebook</h2>
-    <p class="mt-3 max-w-2xl text-sm/7 text-ink-soft">The countries, cities, and regions I have visited, with room for more memories as I write.</p>
-    <Collapsible class="mt-7" id="travel-notebook">
-      <summary class="cursor-pointer py-4 text-base font-semibold">All {travelCountries.length} countries & the places within them</summary>
-    <div class="
-      mt-4 grid gap-4
-      sm:grid-cols-2
-      lg:grid-cols-3
-    "
-    >
-      {travelCountries.map(country => (
-        <Card as="article" class="scroll-mt-28 p-6" id={`country-${country.code.toLowerCase()}`} aria-labelledby={`country-name-${country.code.toLowerCase()}`}>
-          <div class="mb-4 flex items-center gap-3">
-            <Icon class="size-5 shrink-0 text-brand" name={country.connection === 'home' ? 'house' : 'map-pin'} />
-            <h3 class="text-lg font-semibold" id={`country-name-${country.code.toLowerCase()}`}>{country.name}</h3>
-          </div>
-          <Badge variant={country.connection ? 'default' : 'outline'}>{getTravelVisitLabel(country)}</Badge>
-          {country.places.length > 0 ?
-(
-            <ul class="mt-4 space-y-1 text-sm/7 text-ink-soft">
-              {country.places.map(place => <li>{place}</li>)}
-            </ul>
-          ) :
-<p class="mt-4 text-sm/7 text-ink-soft">I’m from Colombia. This is where my story begins.</p>}
-          {country.note && <p class="mt-4 text-xs/6 text-ink-muted">{country.note}</p>}
-        </Card>
-      ))}
+  <section data-travel-section id="travel-countries" aria-labelledby="country-list-heading">
+    <div data-travel-section-heading>
+      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>The notebook</p>
+      <h2 id="country-list-heading">Places I’ve kept<br />along the way.</h2>
+      <p>The countries, cities, and regions I have visited, with room for more memories as I write.</p>
     </div>
+    <Collapsible id="travel-notebook">
+      <summary>All {travelCountries.length} countries &amp; the places within them</summary>
+      <div data-travel-country-list>
+        {travelCountries.map(country => (
+          <article id={`country-${country.code.toLowerCase()}`} aria-labelledby={`country-name-${country.code.toLowerCase()}`}>
+            <div data-travel-country-heading>
+              <Icon class="size-4 shrink-0 text-ink-soft" name={country.connection === 'home' ? 'house' : 'map-pin'} />
+              <h3 id={`country-name-${country.code.toLowerCase()}`}>{country.name}</h3>
+              <span data-travel-visit-label>{getTravelVisitLabel(country)}</span>
+            </div>
+            {country.places.length > 0 ?
+(
+              <ul data-travel-place-list>
+                {country.places.map(place => <li>{place}</li>)}
+              </ul>
+            ) :
+<p>I’m from Colombia. This is where my story begins.</p>}
+            {country.note && <p data-travel-country-note>{country.note}</p>}
+          </article>
+        ))}
+      </div>
     </Collapsible>
   </section>
 
-  <section
-class="
-  section-container-wide pt-14 pb-8
-  sm:pt-20
-"
-aria-label="Travel stories"
-  >
-    <SectionHeader
-      description="I’m collecting the stories behind these journeys. Travel posts will join my blog as I finish writing them."
-      eyebrow="Stories to come"
-      linkHref="/blog/"
-      linkLabel="Read the blog"
-      title="More than places on a map."
-      variant="shelf"
-    />
+  <section data-travel-section aria-labelledby="travel-stories-heading">
+    <div data-travel-section-heading>
+      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>Stories to come</p>
+      <h2 id="travel-stories-heading">More than places<br />on a map.</h2>
+    </div>
+    <div data-travel-story>
+      <p>I’m collecting the stories behind these journeys. Travel posts will join my blog as I finish writing them.</p>
+      <div class="maker-hero-actions">
+        <ButtonLink class="maker-hero-primary" href="/blog/" variant="unstyled">
+          Read the blog
+          <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-up-right" /></span>
+        </ButtonLink>
+      </div>
+    </div>
   </section>
 </PageLayout>
+
+<style>
+  [data-travel-section] {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 4rem;
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-top: 3rem;
+    border-top: 1px solid hsl(var(--line) / 0.65);
+    scroll-margin-top: 7rem;
+  }
+
+  [data-travel-section-heading] .maker-hero-eyebrow { margin-bottom: 1.5rem; }
+  [data-travel-section-heading] h2 {
+    font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+  [data-travel-section-heading] > p:last-child:not(.maker-hero-eyebrow) {
+    max-width: 22rem;
+    margin-top: 1.25rem;
+  }
+  [data-travel-story], [data-travel-section-heading] > p:last-child:not(.maker-hero-eyebrow) {
+    color: hsl(var(--ink-soft));
+    font-size: 0.9375rem;
+    line-height: 1.9;
+    letter-spacing: -0.012em;
+  }
+  [data-travel-story] > p + p { margin-top: 1.25rem; }
+
+  /* Keep the native Lumen disclosure; the notebook shares the hero's ruled canvas. */
+  :global(#travel-notebook.ui-collapsible) { --ui-disclosure-inset: 0; overflow: visible; border: 0; border-radius: 0; background: transparent; }
+  :global(#travel-notebook > summary) {
+    min-height: 3.5rem;
+    padding: 0.75rem 2.5rem 0.75rem 0;
+    border-bottom: 1px solid hsl(var(--line) / 0.65);
+    background: transparent;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.7;
+  }
+  :global(#travel-notebook > summary:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; }
+  [data-travel-country-list] { padding: 0; }
+  [data-travel-country-list] article { padding-block: 1.5rem; border-bottom: 1px solid hsl(var(--line) / 0.65); scroll-margin-top: 7rem; }
+  [data-travel-country-heading] { display: flex; flex-wrap: wrap; align-items: center; gap: 0.625rem; }
+  [data-travel-country-heading] h3 { font-size: 1rem; font-weight: 600; letter-spacing: -0.025em; }
+  [data-travel-visit-label] { margin-left: auto; color: hsl(var(--ink-soft)); font-size: 0.75rem; }
+  [data-travel-place-list] { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin-top: 0.75rem; padding: 0; list-style: none; }
+  [data-travel-place-list] li, [data-travel-country-list] article > p { color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
+  [data-travel-country-list] article > p { margin-top: 0.75rem; }
+  [data-travel-country-list] article > [data-travel-country-note] { font-size: 0.75rem; }
+
+  @media (max-width: 47.999rem) {
+    [data-travel-section] { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; padding-top: 2rem; }
+    [data-travel-section-heading] .maker-hero-eyebrow { margin-bottom: 1rem; }
+    [data-travel-visit-label] { flex-basis: 100%; margin-left: 1.625rem; }
+  }
+</style>
