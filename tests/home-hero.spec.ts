@@ -13,7 +13,8 @@ test('the hero connects products, personal background, and the full portfolio', 
   await expect(hero.locator('a[href="/portfolio/"]')).toHaveAttribute('href', '/portfolio/')
   await expect(hero.locator('a[href="/portfolio/lumen-ui/"]')).toHaveAttribute('href', '/portfolio/lumen-ui/')
   await expect(hero.locator('a[href="/portfolio/postlens/"]')).toHaveAttribute('href', '/portfolio/postlens/')
-  await expect(hero.locator('img[alt*="Portrait of Santiago"]')).toHaveCount(0)
+  await expect(hero.locator('img[alt="Portrait of Santiago Molina, smiling"]')).toBeVisible()
+  await expect(hero.locator('img[alt="Portrait of Santiago Molina, smiling"]')).toHaveJSProperty('complete', true)
 
   await hero.locator('a[href="/about/"]').click()
   await expect(page).toHaveURL(/\/about\/$/)
