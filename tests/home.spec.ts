@@ -37,7 +37,7 @@ test('homepage has branded search metadata and main sections', async ({ page }) 
     'content',
     /Santiago Molina, known online as santi020k/
   )
-  await expect(page.getByText(/I’m Santiago Molina, known online as santi020k/)).toBeVisible()
+  await expect(page.getByText(/I’m Santiago. Engineer, maker, and technical lead/)).toBeVisible()
 
   const structuredData = await page
     .locator('script[type="application/ld+json"]')

@@ -2,19 +2,18 @@
 import { getImage } from 'astro:assets'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import OrganizationLogoRail from '@/components/molecules/OrganizationLogoRail.astro'
 import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
-import SocialList from '@/components/molecules/SocialList.astro'
 import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
+import AboutHero from '@/components/pages/about/AboutHero.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
+import AboutMeImage from '@/assets/photos/originals/me-1.png'
 import { getCachedProjects } from '@/utils/content'
 
-import { AnimatedPortrait, Note } from '@santi020k/lumen-astro'
+import { Note } from '@santi020k/lumen-astro'
 
 import { collaborationLanes, engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
 import {
@@ -42,7 +41,9 @@ const organizationRailItems = selectedOrganizations.map(organization => {
 const aboutPortraitImage = await getImage({
   format: 'avif',
   src: AboutMeImage,
-  widths: [400, 600, 800]
+  width: 320,
+  height: 480,
+  widths: [320, 480, 640, 800]
 })
 
 const profileStats = [
@@ -119,7 +120,7 @@ const meta = {
   description,
   preloadImage: {
     href: aboutPortraitImage.src,
-    imagesizes: '(min-width: 1024px) 352px, 75vw',
+    imagesizes: '(min-width: 1536px) 400px, (min-width: 640px) 352px, 304px',
     imagesrcset: aboutPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
@@ -130,107 +131,7 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <section class="
-    relative section-container-wide pt-4
-    sm:pt-6
-    lg:pt-8
-  "
-  >
-    <div
-      aria-hidden="true"
-      class="
-        pointer-events-none absolute top-8 right-0 -z-10 h-120 w-2xl
-        max-w-[90vw] rounded-full bg-radial from-brand/12 via-brand-soft/8
-        to-transparent opacity-80 blur-2xl
-      "
-    />
-
-    <div
-      class="
-        grid items-center gap-10
-        lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)] lg:gap-14
-      "
-    >
-      <div class="relative z-10 space-y-8">
-        <Eyebrow
-          className="
-            animate-slide-up whitespace-normal
-            motion-reduce:animate-none
-          "
-          label="Engineering leader · full-stack architect"
-          tone="brand"
-        />
-
-        <div
-          class="
-            animate-slide-up space-y-5 [animation-delay:90ms]
-            motion-reduce:animate-none
-          "
-        >
-          <h1
-            class="
-              max-w-5xl text-4xl/[0.98] font-extrabold tracking-[-0.06em]
-              wrap-break-word
-              sm:text-6xl/[0.95]
-              lg:text-[5.2rem]/[0.92]
-            "
-          >
-            I’m Santiago Molina. I build calm systems for{' '}
-            <span class="
-              block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
-              pb-4 text-transparent
-            "
-            >teams that ship.
-            </span>
-          </h1>
-          <p
-            class="
-              max-w-2xl text-base/7 text-ink-soft
-              sm:text-lg/8
-            "
-          >
-            Engineering leader and full-stack architect helping teams modernize systems,
-            automate delivery, and improve developer experience.
-          </p>
-        </div>
-
-        <div
-          class="
-            animate-slide-up space-y-5 [animation-delay:180ms]
-            motion-reduce:animate-none
-          "
-        >
-          <div class="section-actions">
-            <ButtonLink href="/portfolio/" showArrow>
-              See selected work
-            </ButtonLink>
-            <ButtonLink href={siteConfig.contact.resume} showArrow variant="secondary">
-              Open resume
-            </ButtonLink>
-          </div>
-
-          <SocialList />
-        </div>
-      </div>
-
-      <div
-        class="
-          animate-slide-up [animation-delay:240ms]
-          motion-reduce:animate-none
-        "
-      >
-        <AnimatedPortrait
-          alt="Portrait of Santiago Molina (@santi020k)"
-          badgeProps={{
-            location: { label: 'Base', text: 'Medellín · Remote worldwide' },
-            experience: { label: 'Experience', value: yearsOfExperience }
-          }}
-          showFloatingBadges
-          src={AboutMeImage}
-        />
-      </div>
-    </div>
-  </section>
+  <AboutHero yearsOfExperience={yearsOfExperience} />
 
   <section
     class="

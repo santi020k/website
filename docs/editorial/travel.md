@@ -17,7 +17,10 @@ than a chronological itinerary.
 
 ## Map hero interaction
 
-The dotted Lumen map is the page hero. Its zoom and reset controls sit inside the map.
+The dotted Lumen map spans the full viewport width as the page hero, with the same quiet canvas,
+typography, signature eyebrow, and thin rules as the home hero and sculpted navigation.
+The introduction aligns with the navigation while the map extends to both page edges.
+Its zoom and reset controls sit inside the map.
 Selecting a country opens a compact place note; visitors can browse the next country, close the
 note, or press Escape. Closing clears the selection so the same country can be opened again.
 The country selector appears on keyboard focus, while the duplicate highlighted-country list is

@@ -18,6 +18,8 @@
 }
 
 @theme {
+  --shadow-nav: 0 12px 32px hsl(var(--ink) / 0.07);
+  --shadow-nav-scrolled: 0 14px 40px hsl(var(--ink) / 0.14);
   --color-success: hsl(var(--success));
   --color-warning: hsl(var(--warning));
   --color-danger: hsl(var(--danger));
