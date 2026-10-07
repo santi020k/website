@@ -1,0 +1,31 @@
+name: Content correction or broken link
+description: Flag an inaccurate statement, typo, outdated resource, or broken link.
+title: "Content: "
+labels: ["content"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping keep the site useful. Reports are public; share only public sources.
+        For suspected vulnerabilities, follow the [security policy](https://github.com/santi020k/website/security/policy).
+  - type: input
+    id: page
+    attributes:
+      label: Page URL
+      placeholder: https://santi020k.com/blog/article/
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What needs correcting?
+      description: Quote the relevant sentence or identify the link and where it appears.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction or source
+      description: Include a replacement link or an authoritative public source when available.
+    validations:
+      required: true

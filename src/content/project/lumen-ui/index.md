@@ -1,6 +1,6 @@
 ---
 title: "Lumen UI"
-description: "Built a multi-framework design system with 123 accessible primitives for Astro, React, and Web Components, plus Figma, agent, MCP, and registry workflows."
+description: "Built Lumen UI: shared design foundations for Astro, React, Web Components, and native interfaces, with accessible primitives, product layouts, Figma, and AI tooling."
 brand:
   primary: "#f49e0e"
   secondary: "#4b5563"
@@ -11,7 +11,7 @@ githubUrl: "https://github.com/santi020k/lumen"
 liveDemoUrl: "https://lumen.santi020k.com/"
 typesId: "personal"
 relevanceWeight: 100
-impactMetrics: ["Ships 123 accessible primitives across Astro, React, and Web Components", "Shares tokens, contracts, styles, and interaction patterns without forcing one runtime", "Includes Figma resources, an agent skill, MCP server, llms.txt, and a machine-readable registry"]
+impactMetrics: ["Connects web and native interfaces through shared tokens and explicit component contracts", "Combines accessible controls, charts, maps, and operational layouts with platform-native authoring", "Supports design and AI workflows through Figma resources, an agent skill, MCP, and a machine-readable registry"]
 technologies: ["Astro", "React.js", "Web Components", "TypeScript", "CSS", "Tailwind CSS", "Accessibility", "Design Systems", "Figma", "Model Context Protocol", "AI-assisted Development", "Vitest", "Playwright", "Turborepo", "pnpm", "NPM", "Developer Documentation", "Open Source"]
 coverImage:
   src: "./cover.webp"
@@ -24,43 +24,77 @@ coverImage:
   ogImage: "./cover.webp"
 ---
 
-## One component system, three native authoring models
+## A shared language for web and native interfaces
 
-I built Lumen UI to give Astro, React, and standards-based Web Component projects one visual and interaction language without pretending those frameworks are the same.
+I built Lumen UI to carry a consistent visual language across products while preserving each
+platform's way of building. Astro, React, and standards-based Web Components share web contracts;
+React Native, SwiftUI, and Jetpack Compose extend the foundations into native interfaces.
 
-The packages share tokens, component contracts, styles, and behavior rules. Each implementation still respects its host: progressive enhancement for Astro, native components and hooks for React, and custom elements for browser-standard delivery.
+Shared tokens and explicit component contracts connect the system. Framework adapters own their
+rendering and interaction: progressive enhancement for Astro, components and hooks for React,
+custom elements for the browser, and platform-native composition for mobile and desktop apps.
+Applications keep their business rules, data, routing, and recovery policy.
 
 ### Goals
 
-- **Share product language, not framework compromises** across multiple rendering models.
-- **Build accessibility into primitives** with semantic markup, keyboard paths, focus management, and reduced-motion support.
-- **Work with or without Tailwind** through standalone layered CSS and an explicit integration path.
-- **Make the system legible to designers and coding agents** as well as application developers.
+- **Share product language** across web and native interfaces without forcing a common runtime.
+- **Make accessible interaction repeatable** through semantics, keyboard paths, focus management,
+  readable status feedback, and reduced-motion support.
+- **Support real product work** with forms, data presentation, operational layouts, and recovery states.
+- **Make design decisions discoverable** for developers, designers, and coding agents.
 
-### What I built
+### What Lumen 4 brings together
 
-- **123 accessible primitives** implemented for Astro, React, and Web Components.
-- **A shared core** for tokens, metadata, class helpers, public contracts, and behavior expectations.
-- **A progressively enhanced Astro runtime** that activates interactive markup without adding a front-end framework.
-- **An umbrella package and registry** for package discovery, recipes, and installable file groups.
-- **A documentation site and Figma library** for human design and implementation workflows.
-- **An agent skill and MCP server** that let coding assistants search the catalog, retrieve real source, and follow current tokens and rules.
+- **Accessible controls and feedback:** buttons, disclosures, dialogs, fields, clipboard actions,
+  progress, and error states with explicit interaction contracts.
+- **Operational interfaces:** data tables, calendars, Kanban layouts, navigation, and complete
+  dashboard templates that applications compose around their own state and workflows.
+- **Data and presentation:** charts, `WorldMap`, `DeviceFrame`, and image comparison for readable
+  product stories, analytics, and media experiences.
+- **Motion with restraint:** reveal groups, animated numbers, and layout motion with stable content
+  and reduced-motion paths.
+- **Native foundations:** React Native, SwiftUI, and Compose adapters, alongside focused WidgetKit
+  and Wear OS surfaces that respect their host platforms.
+- **Design and AI resources:** a Figma library, portable agent skill, MCP catalog, CLI recipes,
+  `llms.txt`, and machine-readable component and styling contracts.
 
 ### Technical highlights
 
-- **Framework packages:** `@santi020k/lumen-astro`, `@santi020k/lumen-react`, and `@santi020k/lumen-elements`.
-- **System packages:** `@santi020k/lumen-core`, the umbrella `@santi020k/lumen`, and `@santi020k/lumen-mcp`.
-- **CSS architecture:** standalone component styles with documented cascade layers for Tailwind projects.
-- **Quality controls:** interaction tests, accessibility checks, visual coverage, bundle-size checks, registry validation, and cross-framework contract checks.
+- **Web adapters:** `@santi020k/lumen-astro`, `@santi020k/lumen-react`, and
+  `@santi020k/lumen-elements`; choose the adapter for the existing application.
+- **Shared foundations:** canonical design tokens, metadata, and behavior expectations; the
+  umbrella `@santi020k/lumen` exposes the CLI and registry.
+- **Public styling contracts:** semantic tokens, component props, documented variables, and stable
+  part hooks instead of depending on private implementation classes.
+- **CSS architecture:** standalone styles and explicit cascade layers for optional Tailwind use.
+- **Verification:** interaction, accessibility, visual, package, and contract checks, with native
+  compatibility and device evidence tracked separately.
 
-### Results
+The platform families share foundations, but their component coverage and supported toolchains
+are qualified per adapter. A local build, a published package, a store build, and physical-device
+accessibility are separate evidence. The
+[native compatibility matrix](https://github.com/santi020k/lumen/blob/main/docs/native-compatibility.md)
+and [device validation record](https://github.com/santi020k/lumen/blob/main/docs/native-device-validation.md)
+make those boundaries visible.
 
-- **One coherent API surface** across three implementation targets.
-- **Portable accessibility decisions** that applications do not need to rediscover component by component.
-- **A design system that supports AI-assisted work** with structured, source-backed discovery instead of prompt-only conventions.
+### Used in this website
+
+This site consumes the published Lumen 4.0.0 Astro, core, and umbrella packages. The travel notebook
+uses `WorldMap`, the homepage presents a product screenshot through `DeviceFrame`, and reading
+layouts compose shared progress, copy actions, and navigation primitives. The website keeps its
+editorial styling, search, content ordering, and travel data.
+
+This consumer work helps identify library improvements from real interfaces: clear defaults,
+public styling hooks, accessible clipboard feedback, and predictable motion. The
+[v3 to v4 migration guide](https://github.com/santi020k/lumen/blob/main/docs/migrating-v3-to-v4.md)
+records the upgrade contract for other consumers.
 
 ### Why it matters
 
-Multi-framework design systems often collapse into a stylesheet plus three unrelated implementations. Lumen treats shared behavior, accessibility, documentation, and machine-readable context as first-class parts of the system.
+Lumen makes interface decisions reusable without moving application policy into a design system.
+A developer can discover a real component contract, a designer can work from the same foundations,
+and a coding agent can retrieve source-backed guidance instead of inventing an API.
 
-[Explore the Lumen documentation](https://lumen.santi020k.com/) or [see the source on GitHub](https://github.com/santi020k/lumen).
+[Explore the Lumen documentation](https://lumen.santi020k.com/),
+[try the playgrounds](https://lumen.santi020k.com/#playgrounds), or
+[see the source on GitHub](https://github.com/santi020k/lumen).

@@ -1,52 +1,32 @@
-# 📝 Pull Request
+# Pull request
 
-## Description
+## Change
 
-<!--
-Please include a summary of the change and which issue is fixed.
-Please also include relevant motivation and context.
--->
+<!-- Explain the problem, the resulting behavior, and why this approach fits the site. -->
 
-## Related Issue
+## Related issue
 
-<!--
-Link to the issue this PR resolves, e.g. "Resolves #123"
--->
+<!-- Link the relevant issue, such as Fixes #123. -->
 
-## Type of Change
+## Validation
 
-<!-- Please delete options that are not relevant. -->
+<!-- List commands actually run and their results. Include exact blockers when a check cannot run. -->
 
-- [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 🛠️ Bug fix (non-breaking change which fixes an issue)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to change)
-- [ ] 🧹 Refactor (no functional changes, no api changes)
-- [ ] 🧪 Tests (adding missing tests or correcting existing tests)
-- [ ] 📚 Documentation / Content (updating docs or adding content)
-- [ ] ⚙️ CI/CD (updates to workflows or build scripts)
-- [ ] 🎨 Styling (CSS, layout, visual changes)
+- [ ] `pnpm run verify:fast`
+- [ ] `pnpm run audit` for dependency or release changes
+- [ ] Relevant browser and accessibility checks for route or interaction changes
+- [ ] `pnpm run ci:verify` for release or substantial visual changes
 
-## Areas Affected
+## Review evidence
 
-<!-- Check all that apply -->
+- [ ] Tests and nearest documentation reflect the resulting behavior
+- [ ] Public URLs, canonical metadata, sitemap, and redirects reviewed when routes change
+- [ ] Lumen public contracts and semantic tokens used for UI changes
+- [ ] Mobile/desktop and light/dark screenshots attached for material visual changes
+- [ ] Keyboard, visible focus, and reduced motion verified for interaction changes
+- [ ] Changeset included when this change should produce a release
 
-- [ ] Pages / Routes
-- [ ] Components
-- [ ] Content (posts, projects, notes)
-- [ ] Styles / Design System
-- [ ] Configuration (Astro, ESLint, Tailwind)
-- [ ] CI/CD / DevOps
-- [ ] Tests
+## Screenshots or release notes
 
-## Checklist
-
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my own code
-- [ ] I have made corresponding changes to the documentation
-- [ ] The build passes without errors (`pnpm run build`)
-- [ ] Linting passes without errors (`pnpm run lint`)
-- [ ] Tests pass (`pnpm run test`)
-
-## Screenshots (if applicable)
-
-<!-- Add screenshots here if your changes affect the UI. -->
+<!-- Add comparable before/after evidence, or an after screenshot for a new surface.
+For release changes include migration impact and a rollback or forward-recovery plan. -->

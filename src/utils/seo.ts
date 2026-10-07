@@ -4,6 +4,9 @@ const MIN_META_DESCRIPTION_LENGTH = 120
 const SHORT_BRAND_SUFFIX = ' | santi020k'
 const normalizeWhitespace = (value: string) => value.replace(/\s+/g, ' ').trim()
 
+/** Prevent content strings from closing the JSON-LD script element. */
+export const serializeStructuredData = (value: Record<string, unknown> | Record<string, unknown>[]) => JSON.stringify(value).replaceAll('<', '\\u003c')
+
 const truncateAtWord = (value: string, maxLength: number) => {
   if (value.length <= maxLength) return value
 

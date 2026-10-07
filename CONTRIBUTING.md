@@ -1,44 +1,74 @@
 # Contributing
 
-Thanks for contributing to this project.
+Issues, corrections, and focused pull requests are welcome. This is Santiago's personal,
+source-available website. Read [LICENSE](LICENSE) before contributing; it permits reference and
+contributions under its terms, but does not grant reuse rights for other products.
 
-## Prerequisites
+## Report the right problem
 
-- Node.js `24.x` (the repo enforces `>=24.0.0`)
-- `pnpm@11.25.0` (pinned in `package.json`)
+- [Bugs and accessibility](https://github.com/santi020k/website/issues/new?template=bug_report.yml):
+  include the page, reproduction, expected/actual behavior, browser, and relevant assistive settings.
+- [Content corrections](https://github.com/santi020k/website/issues/new?template=content_correction.yml):
+  include the sentence or broken link and a public source for the correction.
+- [Improvements](https://github.com/santi020k/website/issues/new?template=feature_request.yml):
+  explain the reader's task and how the proposal helps.
+- **Security:** follow [the private reporting policy](.github/SECURITY.md).
 
-## Local Setup
+Search existing issues first. Public reports must not contain secrets, private screenshots,
+or personal information. Discuss substantial changes to navigation, architecture, content direction,
+or dependencies before implementing them. Reports about separate products belong in their own repos.
 
-1. Install dependencies:
-   - `pnpm install`
-2. Start development server:
-   - `pnpm run dev`
+## Local setup
 
-## Quality Gates
+Use Node.js `>=24.0.0` and `pnpm@11.25.0`, as pinned in `package.json`.
 
-Run these before opening a pull request:
+```bash
+pnpm install --frozen-lockfile
+pnpm run dev
+```
 
-- `pnpm run lint`
-- `pnpm run check`
-- `pnpm run test`
-- `pnpm run test:e2e:fast` (recommended for route-level changes)
+Open `http://localhost:4321`. Install the pinned Quality CLI and run `pnpm run hooks:install`
+as described in [README](README.md#run-it-locally). Never commit local environment files,
+Lumen preview tarballs, credentials, or generated test reports.
 
-For parity with the local pre-push hook:
+## Quality gates
 
-- `pnpm run verify:fast`
+```bash
+pnpm run verify:fast
+pnpm run audit
+```
 
-For the full local validation suite, including coverage, Lighthouse, and browser tests:
+`verify:fast` covers spellcheck, lint with zero warnings, strict Astro checks, Markdown/content
+checks, CV consistency, unit tests, and the production build. For route or interaction changes,
+run `pnpm run test:e2e:fast` after building. For release or substantial visual changes, run the
+full suite, including coverage, Lighthouse, and stable Chromium browser tests:
 
-- `pnpm run ci:verify`
+```bash
+pnpm run ci:verify
+```
 
-## Commit and PR Expectations
+Record the commands actually run and any exact blockers. A local pass does not establish CI,
+deployment, or production status.
 
-- Follow Conventional Commits (`feat:`, `fix:`, `docs:`, etc.).
-- Keep changes focused and include tests/docs when behavior changes.
-- Use the pull request template and complete the checklist.
+## UI, content, and accessibility
 
-## Content and Accessibility
+- Reuse Lumen's public Astro components and semantic tokens. Follow the
+  [integration guide](docs/lumen-integration.md) for runtime, styling, and upgrade checks.
+- Keep application behavior in the site and use public `data-slot` hooks and roles for styling.
+- Keep internal links with trailing slashes and page metadata descriptive and unique.
+- Preserve keyboard access, visible focus, meaningful accessible names, and reduced motion.
+- Verify material visual changes in light and dark themes at mobile and desktop widths. Include
+  comparable before/after screenshots, or an after screenshot for a new page.
+- Update the nearest documentation and add useful regression coverage when behavior changes.
+- Regenerate CV downloads after changes affecting the résumé or its rendered styles.
 
-- Keep internal links with trailing slashes.
-- Ensure each new page has a unique title and meta description.
-- Preserve WCAG 2.2 AA quality (keyboard access, semantic structure, and reduced-motion support).
+## Commits and pull requests
+
+Follow Conventional Commits and the repository's Commitprompt rules. Keep each change focused
+and complete the [pull request template](.github/pull_request_template.md), including validation
+and visual evidence where relevant. Do not weaken lint, type, audit, or accessibility gates.
+
+The v4 redesign is integrated on `release/v4.0.0`; coordinate release-bound contributions with
+its maintainer. Production changes require reviewed pull requests into `main`. Release metadata
+uses Changesets; follow the [deployment runbook](docs/deployment.md) for the exact versioning,
+GitHub workflow, production smoke checks, and rollback boundaries.

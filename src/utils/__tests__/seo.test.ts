@@ -1,6 +1,22 @@
 import { describe, expect, test } from 'vitest'
 
-import { createSeoDescription, createSeoTitle } from '../seo'
+import { createSeoDescription, createSeoTitle, serializeStructuredData } from '../seo'
+
+describe('serializeStructuredData', () => {
+  test('keeps content from escaping an inline script while preserving JSON values', () => {
+    const value = { '@type': 'Article', headline: '</script><script>alert("content")</script>' }
+    const serialized = serializeStructuredData(value)
+
+    expect(serialized).not.toContain('<')
+    expect(JSON.parse(serialized)).toEqual(value)
+  })
+
+  test('preserves arrays of schema nodes without changing their structure', () => {
+    const value = [{ '@type': 'Article', headline: 'A < B & C' }, { '@type': 'BreadcrumbList' }]
+
+    expect(JSON.parse(serializeStructuredData(value))).toEqual(value)
+  })
+})
 
 describe('createSeoTitle', () => {
   test('keeps the site title unchanged on the homepage', () => {

@@ -43,6 +43,9 @@ The site uses GitHub Flow and has one production branch:
    - `/`
    - `/blog/`
    - `/portfolio/`
+   - `/projects/`
+   - `/travel/`
+   - `/sitemap.xml`
    - `/feed.xml`
    - `/offline/`
 
@@ -82,6 +85,13 @@ lockfile with the pinned pnpm version, regenerate CV downloads after dependency 
 changes, and run the release gates. `preview:lumen:v4` remains available for future local
 library evaluation; never commit its temporary overrides or local tarball paths.
 
+Finished task changes must be committed into `release/v4.0.0` and validated on the
+integrated revision. Inspect worktree status and commit ancestry before carrying
+forward older edits: already-integrated copies and superseded local preview
+overrides must not overwrite the current release. Preserve dirty source checkouts
+until their owners finish. Delete a remote source branch only after its intended
+work is proven contained in the release and its open pull request is accounted for.
+
 Before the first push or pull request, independently review the complete v4 diff
 against `main` and address findings. Publishing remains the existing GitHub
 Actions and Cloudflare Pages workflow from the reviewed, merged `main` commit.
@@ -100,6 +110,26 @@ Two tiers, picked by intent:
 See [dependency security follow-up](dependency-security.md) for unresolved
 upstream findings and their required compatibility checks. Documenting a finding
 does not waive the audit gate.
+
+The full Lighthouse audit covers Home, About, Work, Projects, Portfolio, Travel,
+Blog, and Accessibility. `pnpm run lighthouse` is the faster homepage smoke audit;
+`pnpm run lighthouse:full` repeats the configured route audit three times.
+The manual workflow uses read-only permissions and retains diagnostic artifacts.
+
+When another checkout owns Playwright's default preview port, keep that server
+running and select an unused port for the gate, for example:
+
+```bash
+PW_PREVIEW_PORT=4460 pnpm run ci:verify
+```
+
+Astro also allows one preview server per checkout. Stop only your own completed
+verification preview before starting the gate; an unrelated active preview must
+remain intact. Do not relax server isolation to make the tests run.
+
+Lighthouse CI writes reports beneath its working directory. Keep concurrent audits
+in separate checkouts or isolated working directories so one run cannot clear or
+mix another run's results.
 
 ## Rollback
 

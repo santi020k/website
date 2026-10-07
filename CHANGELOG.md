@@ -21,6 +21,21 @@
 - Open the resume's external profile links in a new tab and include explicit
   opener protection on external links rendered from Markdown.
 
+- Refresh compatible dependencies and npm Lumen 4 integration guidance. Remove legacy
+  vulnerable tooling chains and apply the upstream braces nesting mitigation while retaining
+  the registry audit blocker until a fixed release is published.
+
+- Preserve modification dates in the combined sitemap, fetch shared Theme product sitemaps
+  once, reject malformed source metadata, and safely serialize caller-provided structured data.
+
+- Preserve the blog topic filter's viewport position in both navigation directions after
+  destination page initialization. Verify transition completion without fixed test delays.
+
+- Refresh the visual README, Lumen v4 project overview, and contribution guidance. Add
+  content correction reports and accessibility context, and extend full Lighthouse validation
+  across eight release routes.
+  Include dependency patch changes in CI and retain manual Lighthouse diagnostics.
+
 - Extend the sculpted design to article and project details, topic and series archives,
   technology indexes, speaking, developer experience, legal statements, and recovery pages.
   Keep filtering, reading controls, public URLs, and resume print behavior intact.
