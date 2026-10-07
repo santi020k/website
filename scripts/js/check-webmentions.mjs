@@ -135,17 +135,15 @@ const checkJf2 = async () => {
 
   url.searchParams.set('target', targetUrl)
 
-  url.searchParams.set('token', apiKey)
-
   let res
 
   try {
     res = await fetch(url.href, {
-      headers: { Accept: 'application/jf2+json, application/json' },
+      headers: { Accept: 'application/jf2+json, application/json', Authorization: `Bearer ${apiKey}` },
       signal: AbortSignal.timeout(15_000)
     })
-  } catch (e) {
-    console.log(`\nAPI: fetch failed (${e instanceof Error ? e.message : String(e)})`)
+  } catch {
+    console.log('\nAPI: fetch failed (network error or request timeout)')
 
     return
   }
@@ -166,15 +164,15 @@ const checkJf2 = async () => {
     return
   }
 
-  const children = Array.isArray(data.children) ? data.children : []
+  const children = Array.isArray(data?.children) ? data.children : []
 
   const publicRows = children.filter(
-    row => row && row['wm-private'] !== true && typeof row['wm-property'] === 'string'
+    row => row && !row['wm-private'] && typeof row['wm-property'] === 'string'
   )
 
   console.log(`\nAPI: target ${targetUrl}`)
 
-  console.log(`  Total rows: ${children.length}, public (shown in build): ${publicRows.length}`)
+  console.log(`  Total rows: ${children.length}, public (before build validation): ${publicRows.length}`)
 
   for (const row of publicRows.slice(0, 8)) {
     const prop = row['wm-property']

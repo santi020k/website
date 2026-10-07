@@ -35,7 +35,12 @@ const shouldHandleRequest = (request, url) => request.method === 'GET' &&
   !url.pathname.startsWith('/api/') &&
   // Astro dev image pipeline — let the browser hit the dev server directly so
   // optimized images (e.g. search modal thumbnails) are not double-fetched via SW.
-  !url.pathname.startsWith('/_image')
+  !url.pathname.startsWith('/_image') &&
+  // The Cache API has no concept of partial responses: cache.match() ignores
+  // Range and returns a full 200 body, and cache.put() rejects a 206 outright.
+  // Large same-origin files (e.g. the resume PDF) that browsers fetch in
+  // byte ranges must go straight to the network instead of through the SW.
+  !request.headers.has('Range')
 
 // Cache storage is an optional optimization: failures must not discard network responses.
 /** @returns {Promise<Cache | undefined>} */

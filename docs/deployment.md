@@ -104,6 +104,17 @@ If the site should receive and display [Webmention.io](https://webmention.io/) m
 
 The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for this build.
 
+The build validates each public mention before rendering it. Malformed fields
+fall back to anonymous authors or empty text; links and avatar sources accept
+only absolute HTTP or HTTPS URLs. Private mentions and entries without a usable
+source URL are omitted. Avatars have fixed dimensions, so rendering does not
+need to fetch their dimensions from third-party hosts.
+
+Both the build and diagnostic script send the API token in the supported
+`Authorization` header, keeping it out of request URLs. Target matching follows
+[Webmention.io's canonical URL and redirect aliases](https://webmention.io/api#basics),
+so an alias may legitimately return a different canonical `wm-target`.
+
 ### Testing Webmentions
 
 1. **Unit tests** (mocked HTTP, no secrets): `pnpm run test:webmentions`

@@ -20,7 +20,6 @@ export type {
 export type {
   WebmentionAuthor,
   WebmentionContent,
-  WebmentionRels,
   WebmentionsCache,
   WebmentionsChildren,
   WebmentionsFeed,

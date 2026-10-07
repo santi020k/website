@@ -88,11 +88,13 @@ jobs:
         if: steps.changes.outputs.full == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          path: public/og
+          path: |
+            public/og
+            .og-cache.json
           key: >-
-            og-${{ runner.os }}-${{ hashFiles('src/content/**/*.md', 'src/content/**/*.mdx', 'scripts/js/generate-og-images.js', 'scripts/js/og-render-worker.mjs', 'src/utils/render-social-image.js', 'public/fonts/Montserrat-Regular.ttf', 'public/fonts/Montserrat-ExtraBold.ttf', 'public/logos/logo.webp') }}
+            og-v2-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'src/content/**', 'src/assets/**', 'src/utils/pagination.ts', 'scripts/js/generate-og-images.js', 'scripts/js/prepare-og-image.mjs', 'scripts/js/render-og-atmosphere.mjs', 'public/fonts/montserrat-variable-font-wght.ttf') }}
           restore-keys: |
-            og-${{ runner.os }}-
+            og-v2-${{ runner.os }}-
 
       - name: Cache Astro image transformations
         if: steps.changes.outputs.full == 'true'

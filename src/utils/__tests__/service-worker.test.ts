@@ -178,4 +178,30 @@ describe('Service worker fetch handling', () => {
     expect(event.response).toBeUndefined()
     expect(worker.fetch).not.toHaveBeenCalled()
   })
+
+  test('leaves same-origin Range requests to the browser', () => {
+    const worker = setupWorker()
+
+    const event = worker.dispatch(new Request(new URL('/pdf/cv.pdf', origin), {
+      headers: { Range: 'bytes=0-1023' }
+    }))
+
+    expect(event.response).toBeUndefined()
+    expect(event.lifetime).toEqual([])
+    expect(worker.fetch).not.toHaveBeenCalled()
+  })
+
+  test('bypasses a previously cached full response when a Range request arrives', () => {
+    const worker = setupWorker()
+
+    // A plain GET for the same URL was already cached as a full 200 response.
+    worker.cache.match.mockResolvedValue(new Response('full pdf bytes'))
+
+    const event = worker.dispatch(new Request(new URL('/pdf/cv.pdf', origin), {
+      headers: { Range: 'bytes=0-1023' }
+    }))
+
+    expect(event.response).toBeUndefined()
+    expect(worker.cache.match).not.toHaveBeenCalled()
+  })
 })
