@@ -18,6 +18,9 @@
 
 ### Patch Changes
 
+- Return keyboard focus to the travel map when closing country details with a
+  pointer, including browsers that do not focus clicked buttons.
+
 - Fetch page HTML from the network first during Astro client-side navigation,
   retaining cached pages for offline use. Release offline connection listeners
   during navigation and rebind them when returning to the offline page.

@@ -241,9 +241,7 @@ class="size-4"
 
     let selectedCode = ''
 
-    const closeDetails = () => {
-      const restoreFocus = panel.contains(document.activeElement)
-
+    const closeDetails = (restoreFocus = panel.contains(document.activeElement)) => {
       panel.hidden = true
 
       selectedCode = ''
@@ -261,7 +259,7 @@ class="size-4"
       if (!chooser.value && !panel.hidden) closeDetails()
     })
 
-    explorer.querySelector('[data-travel-close]')?.addEventListener('click', closeDetails)
+    explorer.querySelector('[data-travel-close]')?.addEventListener('click', () => closeDetails(true))
 
     explorer.addEventListener('keydown', event => {
       if (event.key === 'Escape' && !panel.hidden) closeDetails()
