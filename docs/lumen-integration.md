@@ -25,6 +25,9 @@ when translucency fits the surrounding surface.
 - Series navigation uses Lumen `Progress` with a readable current/max value.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
+- Project stack cards use Lumen `Collapsible` for technologies beyond the first six. The native
+  disclosure supports keyboard input and works without JavaScript; projects with shorter stacks
+  show their complete list directly.
 - Testimonial identities use Lumen `Avatar`; optimized Astro images remain slotted inside it.
 - Site-specific interface icons use Lumen `Icon` when Lucide provides the mark. Third-party brand
   logos remain on `astro-icon` because Lucide intentionally excludes brand assets.
