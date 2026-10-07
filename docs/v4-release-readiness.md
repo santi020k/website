@@ -136,7 +136,6 @@ preserved. Lighthouse was also rerun in an isolated report directory after a
 concurrent audit reused the default directory; its route set and assertions were
 unchanged. The wrapper exit is recorded rather than described as a passing run.
 
-
 ## Final local branch consolidation
 
 The pending dependency cleanup, page integrity audit, search validation, and
