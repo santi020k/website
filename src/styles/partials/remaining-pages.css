@@ -210,4 +210,11 @@
 [data-post-gallery-card]::after { display: none; }
 [data-post-gallery-card]:hover { transform: none; box-shadow: none; }
 [data-post-gallery-card] h3 { line-height: 1.4; }
+/* The featured story belongs to the hero's single surface. */
+[data-blog-hero] .editorial-page-title { font-size: clamp(2rem, 5vw, 4.5rem); }
+[data-blog-hero] [data-blog-latest][data-slot='card'] {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
 [data-blog-latest] h2 { line-height: 1.4; }

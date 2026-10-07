@@ -89,8 +89,9 @@ Keep native anchors for links wrapping a complete project or article.
 ## Shared navbar
 
 Use the approved Signature frame direction: the identity sits on a raised tab that
-joins the homepage hero as one continuous surface. Inner pages and the scrolled
-header use a compact solid dock; keep the same wordmark, controls, and alignment.
+joins the opening hero on Home, About, Work, Projects, and the first Blog page as
+one continuous surface. Travel, reading pages, archives, and the scrolled header
+use a compact solid dock; keep the same wordmark, controls, and alignment.
 The supplied navbar references inform its connection to the page canvas, restrained
 type, distinct contact action, and signature silhouette. Translate these relationships
 through the site's existing Montserrat, semantic tokens, and editorial grid.
@@ -101,7 +102,7 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   ends in a quiet diagonal step; do not add a second signature label above it.
 - Mark the current desktop route with a fine accent underline and `aria-current`,
   leaving its surface open. Hover adds a quiet neutral fill.
-- Keep the homepage navigation strip open above the opaque hero frame. Scrolling
+- Keep the landing-page navigation strip open above the opaque hero frame. Scrolling
   fills the dock and adds modest depth. Separate desktop utilities with a fine
   vertical rule only when the contact action is visible.
 - Preserve the attached mobile menu, numbered rows, utility spacing, 44px controls,
@@ -112,6 +113,14 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   control, and blurred backdrop. Keep its input and results separated by fine rules.
   Long results scroll inside the dialog while the close control and keyboard hints
   remain visible, including on short screens and with enlarged text.
+
+Opt into this composition with `headerVariant="signature"` on `Base` and the
+`signature-frame` utility on the opening surface. The shared frame owns the
+72rem alignment, inset spacing, solid background, and stepped corners. Keep each
+page's content layout: About's portrait, Work's introduction and statistics,
+Projects' summary, and Blog's latest story. The story sits directly on that
+surface without a nested card border. Narrow Projects statistics stack when
+their container cannot fit readable columns, including with enlarged text.
 
 ## Content sections
 

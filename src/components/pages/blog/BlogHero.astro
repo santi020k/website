@@ -30,11 +30,7 @@ const coverWidths = cover ?
 ---
 
 <section
-  class="
-    relative section-container-wide pt-4
-    sm:pt-6
-    lg:pt-8
-  "
+  class="relative signature-frame"
   data-blog-hero
 >
   <div
@@ -84,10 +80,7 @@ const coverWidths = cover ?
     {latestPost && (
       <Card
         as="article"
-        class="
-          group overflow-hidden rounded-3xl border border-line/65 bg-surface
-          p-0!
-        "
+        class="group min-w-0 p-0!"
         data-blog-latest
         variant="unstyled"
       >
@@ -96,7 +89,10 @@ const coverWidths = cover ?
           class="block h-full text-inherit no-underline"
           href={getPostPath(latestPost.id)}
         >
-          <div class="relative aspect-video overflow-hidden bg-surface-muted">
+          <div class="
+            relative aspect-video overflow-hidden rounded-2xl bg-surface-muted
+          "
+          >
             {cover ?
               (
                 <Picture
@@ -120,11 +116,7 @@ const coverWidths = cover ?
                 <div aria-hidden="true" class="absolute inset-0 grid-fade" />
               )}
           </div>
-          <div class="
-            space-y-4 p-6
-            sm:p-7
-          "
-          >
+          <div class="space-y-4 pt-5">
             <p class="section-label text-brand">Latest post</p>
             <h2 class="
               text-2xl/8 font-medium tracking-[-0.04em] text-ink

@@ -62,14 +62,25 @@ before recommending production release.
 
 ## Signature frame follow-up
 
-The navigation now joins the homepage hero through a raised identity tab, with a
-solid dock on inner pages and after scrolling. Mobile navigation and search share
+The navigation now joins the Home, About, Work, Projects, and Blog landing heroes
+through a shared raised identity tab. Travel, reading pages, archives, and the
+scrolled header retain the solid dock. Mobile navigation and search share
 the frame, backdrop blur, coordinated opening and closing, and reduced-motion
 behavior. Search keeps keyboard focus inside while its index loads.
 
 The complete Chrome suite passed 277 tests. The final navigation, search, and hero
 checks passed 147 tests across Chrome, WebKit, and Mobile Safari, including both
 themes, enlarged text, short viewports, keyboard focus, and reduced motion.
+
+The landing-page extension passed all 332 Chrome tests. Its 55 additional checks
+cover joined surfaces, both themes, narrow screens, enlarged text, accessibility,
+page transitions, and the routes that retain the dock. Navigation, search, and
+landing checks passed 177 of 178 tests across WebKit and Mobile Safari. The one
+failure exposed a test timing race when reopening the menu during its exit
+animation. Capturing the closing state and reopening in the same browser task
+preserves every assertion; nine repeated checks then passed across Chrome,
+WebKit, and Mobile Safari. About and Blog visual baselines were refreshed and
+reviewed in all four supported snapshot projects below.
 
 The Chrome, WebKit, Mobile Chrome, and Mobile Safari visual baselines were
 regenerated and reviewed for this design. The six existing Firefox macOS
