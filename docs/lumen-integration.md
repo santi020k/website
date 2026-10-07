@@ -12,11 +12,12 @@ package lacks a required semantic contract.
 
 ## Statistics
 
-All website metric cards, including the Experience, Team led, Cycle Time, and Community cards on
-the homepage, render Lumen's `Stat` component through
-`src/components/molecules/StatCard.astro`. The wrapper uses the public `as="article"` and `variant`
-contracts. Prefer `default` for a neutral metric, `accent` for a featured metric, and `glass` only
-when translucency fits the surrounding surface.
+Homepage metrics use Lumen `Stat` directly with `variant="bare"` and `as="article"` to create
+a quiet typographic strip. Other metric cards use `src/components/molecules/StatCard.astro`.
+Prefer `default` for a neutral metric, `accent` for a featured metric, and `glass` only when
+translucency fits the surrounding surface. The homepage project surfaces use `Card` with
+`variant="unstyled"`, and its actions use `ButtonLink` with `variant="unstyled"` so the shared
+semantics remain intact while the site owns its visual composition.
 
 ## Current primitive migrations
 

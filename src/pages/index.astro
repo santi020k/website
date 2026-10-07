@@ -1,19 +1,14 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import CommunityCard from '@/components/molecules/CommunityCard.astro'
-import PostListItem from '@/components/molecules/PostListItem.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
+import HomeCommunity from '@/components/pages/home/HomeCommunity.astro'
 import HomeHero from '@/components/pages/home/HomeHero.astro'
 import HomeProjectShowcase from '@/components/pages/home/HomeProjectShowcase.astro'
 import HomeStats from '@/components/pages/home/HomeStats.astro'
+import HomeWriting from '@/components/pages/home/HomeWriting.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { collectionRelevanceSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
-
-import { Card } from '@santi020k/lumen-astro'
 
 import {
   createSchemaEntityId,
@@ -102,124 +97,13 @@ const meta = {
 }
 ---
 
-<PageLayout
-  meta={meta}
->
+<PageLayout meta={meta}>
   <HomeHero />
-  <div
-    class="
-      section-container-wide scroll-mt-28 pt-10
-      sm:pt-12
-      lg:pt-14
-    "
-    id="home-stats"
-  >
+  <div class="studio-home" data-home-content>
     <HomeStats yearsOfExperience={yearsOfExperience} />
+    <HomeProjectShowcase kind="work" projects={workProjects} />
+    <HomeProjectShowcase kind="projects" projects={personalProjects} />
+    <HomeWriting posts={latestPosts} />
+    <HomeCommunity />
   </div>
-
-  {/* Santiago likes the breathing room between homepage sections. Keep the spacing intentional. */}
-  <HomeProjectShowcase
-    actions={[
-      { href: '/work/', label: 'View all work' },
-      { href: siteConfig.contact.linkedin, label: 'LinkedIn', newTab: true, variant: 'secondary' }
-    ]}
-    description="Client and product work where architecture, delivery systems, and team leadership mattered."
-    eyebrow="Work Experience"
-    projects={workProjects}
-    title="Professional roles."
-  />
-
-  <HomeProjectShowcase
-    actions={[
-      { href: '/projects/', label: 'View all projects' },
-      { href: siteConfig.contact.github, label: 'GitHub', newTab: true, variant: 'secondary' }
-    ]}
-    description="Open-source tools and experiments with a little more room to explore."
-    eyebrow="Side Projects"
-    layout="reverse"
-    projects={personalProjects}
-    title="Built for the love of it."
-    tone="accent"
-  />
-
-  {/* Writing */}
-  <PageSection class="
-    section-container-wide pt-22
-    sm:pt-24
-    lg:pt-28
-  "
-  >
-    <SectionHeader
-      eyebrow="Writing"
-      title="Thoughts on building and leading."
-      description="Notes on software, reading, gaming, and everyday discoveries."
-      variant="shelf"
-    />
-    <div class="space-y-6">
-      <Card
-        class="
-          p-2
-          sm:p-4
-        "
-      >
-        {latestPosts.map(post => (
-          <PostListItem post={post} />
-        ))}
-      </Card>
-      <div class="section-actions">
-        <ButtonLink href="/blog/" showArrow>
-          Read all articles
-        </ButtonLink>
-        <ButtonLink href="/feed.xml" showArrow variant="secondary">
-          RSS
-        </ButtonLink>
-      </div>
-    </div>
-  </PageSection>
-
-  {/* Speaking & Community */}
-  <PageSection class="
-    section-container-wide pt-22
-    sm:pt-24
-    lg:pt-28
-  "
-  >
-    <SectionHeader
-      eyebrow="Beyond the code"
-      title="Speaking & Community."
-      description="Co-organizing ReactJS Colombia and speaking on DX, automation, and engineering leadership at local and regional events."
-      variant="shelf"
-    />
-    <div class="space-y-6">
-      <div
-        class="
-          grid gap-4
-          md:grid-cols-2
-        "
-      >
-        <CommunityCard
-          title="ReactJS Colombia"
-          subtitle="Co-organizer"
-          description="Building the local React community through meetups, workshops, and knowledge sharing."
-          icon='<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>'
-          tone="brand"
-        />
-        <CommunityCard
-          title="Technical Talks"
-          subtitle="Speaker"
-          description="Sharing practical insights on DX, architecture, and engineering leadership."
-          icon='<path d="M12 8a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2Z"/><path d="M19 11V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10"/><path d="M3 13h4"/><path d="M17 13h4"/><path d="M19 13v4"/><path d="M5 13v4"/>'
-          tone="accent"
-        />
-      </div>
-      <div class="section-actions">
-        <ButtonLink href="/speaking/" showArrow>
-          Speaking & Community
-        </ButtonLink>
-        <ButtonLink href="https://www.meetup.com/react-js-medellin/" newTab showArrow variant="secondary">
-          ReactJS Colombia
-        </ButtonLink>
-      </div>
-    </div>
-  </PageSection>
 </PageLayout>

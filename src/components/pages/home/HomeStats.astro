@@ -1,17 +1,25 @@
 ---
-import StatCard from '@/components/molecules/StatCard.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import { AnimatedNumber, Stat } from '@santi020k/lumen-astro'
 
 interface Props {
   yearsOfExperience: string
 }
 
 const { yearsOfExperience } = Astro.props
+
+const stats = [
+  { value: Number.parseInt(yearsOfExperience, 10), suffix: '+', label: 'Years building', description: 'Across web, mobile, and the systems behind them.' },
+  { value: 14, suffix: '', label: 'People, one team', description: 'The largest cross-functional team I’ve led.' },
+  { value: -75, suffix: '%', label: 'Release cycle time', description: 'Through better pipelines and automated quality gates.' },
+  { value: 100, suffix: '+', label: 'People learning together', description: 'Typical attendance at our community events.' }
+]
 ---
 
-<StatsGrid showDivider={false}>
-  <StatCard description="Years shipping web and mobile products across full-stack, leadership, and automation roles." label="Experience" suffix="+" value={Number.parseInt(yearsOfExperience, 10)} />
-  <StatCard description="Largest cross-functional team I have led across product, design, frontend, and backend." label="Team led" value={14} />
-  <StatCard description="Reduced release lead times by optimizing CI/CD pipelines and automating quality gates." label="Cycle Time" suffix="%" value={-75} />
-  <StatCard description="Typical attendance for ReactJS Colombia meetups, workshops, and talks." label="Community" suffix="+" value={100} />
-</StatsGrid>
+<section class="studio-stats" aria-label="Experience and impact" id="home-stats">
+  {stats.map(stat => (
+    <Stat as="article" class="studio-stat" label={stat.label} variant="bare">
+      <AnimatedNumber class="studio-stat-value" locale="en-US" suffix={stat.suffix} value={stat.value} />
+      <p>{stat.description}</p>
+    </Stat>
+  ))}
+</section>
