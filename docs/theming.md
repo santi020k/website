@@ -32,6 +32,10 @@ The [remaining-page checklist](remaining-page-designs.md) records coverage and v
 
 ## Dark Mode
 
+An explicit light or dark selection stays active during client navigation even when browser
+storage is unavailable. Persistence across full reloads still requires storage access. The system
+color preference applies until the visitor chooses a theme.
+
 Dark mode is controlled with `data-theme="dark"` on `<html>`. Do not use `class="dark"` for theme switching; the Tailwind custom variant is defined against the data attribute.
 
 ## Usage

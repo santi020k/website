@@ -78,6 +78,31 @@ test.describe('About page', () => {
     await expect(items.nth(8)).not.toBeVisible()
   })
 
+  test('keeps the focused organization visible when responsive page sizes change', async ({ page }) => {
+    await page.setViewportSize({ height: 900, width: 800 })
+
+    const carousel = page.locator('[data-organization-carousel]')
+    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
+
+    for (let pageIndex = 0; pageIndex < 3; pageIndex += 1) await nextButton.click()
+
+    const focusedLink = carousel.locator('[data-carousel-item]').nth(7).locator('a')
+
+    await focusedLink.focus()
+
+    for (const { width, status } of [
+      { width: 390, status: 'Showing 8 of 9' },
+      { width: 1440, status: 'Showing 7–9 of 9' },
+      { width: 800, status: 'Showing 7–8 of 9' }
+    ]) {
+      await page.setViewportSize({ height: 900, width })
+      await expect(carousel.locator('[data-carousel-status]')).toHaveText(status)
+      await expect(focusedLink).toBeVisible()
+      await expect(focusedLink).toBeFocused()
+      await expect(focusedLink).toBeInViewport()
+    }
+  })
+
   test('should dispose carousel resize work across page transitions', async ({ page }) => {
     const detachedStatus = await page.locator('[data-carousel-status]').evaluateHandle(status => status)
 

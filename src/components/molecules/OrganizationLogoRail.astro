@@ -225,11 +225,11 @@ const logoSurfaceClass = {
         return pageStarts
       }
 
-      const getPageIndex = (pageStarts: number[]): number => {
+      const getPageIndex = (pageStarts: number[], anchorIndex = startIndex): number => {
         let pageIndex = 0
 
         for (const [index, pageStart] of pageStarts.entries()) {
-          if (pageStart > startIndex) break
+          if (pageStart > anchorIndex) break
 
           pageIndex = index
         }
@@ -240,8 +240,18 @@ const logoSurfaceClass = {
       const render = (): void => {
         const pageSize = getPageSize()
         const pageStarts = getPageStarts(pageSize)
-        const pageIndex = getPageIndex(pageStarts)
+        const focusedElement = document.activeElement
+        const focusedIndex = items.findIndex(item => item.contains(focusedElement))
+        const currentPageIndex = getPageIndex(pageStarts)
+        const currentPageStart = pageStarts[currentPageIndex] ?? 0
 
+        const focusOutsidePage = focusedIndex >= 0 &&
+          (focusedIndex < currentPageStart || focusedIndex >= currentPageStart + pageSize)
+
+        const pageIndex = focusOutsidePage ? getPageIndex(pageStarts, focusedIndex) : currentPageIndex
+
+        // Resizing may change the page size. Keep the focused case study visible
+        // so a keyboard user never loses their place to a hidden card.
         startIndex = pageStarts[pageIndex] ?? 0
 
         for (const [index, item] of items.entries()) {
@@ -257,6 +267,12 @@ const logoSurfaceClass = {
         status.textContent = pageSize === 1 ?
           `Showing ${startIndex + 1} of ${items.length}` :
           `Showing ${startIndex + 1}–${Math.min(startIndex + pageSize, items.length)} of ${items.length}`
+
+        // Content above the carousel also reflows. Keep the active link on screen
+        // after the new layout settles, without adding scrolling animation.
+        if (focusedIndex >= 0 && focusedElement instanceof HTMLElement) {
+          focusedElement.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' })
+        }
       }
 
       const move = (direction: -1 | 1): void => {
