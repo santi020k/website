@@ -174,13 +174,29 @@ test.describe('SEO — meta tags', () => {
     )
   })
 
-  test('resume links keep one stable canonical PDF URL', async ({ page }) => {
+  test('resume links keep stable canonical PDF URLs', async ({ page }) => {
     await page.goto('/resume/')
 
-    const pdfLinks = page.locator('a[href="/pdf/cv.pdf"]')
+    const shortPdfLink = page.locator('a[href="/pdf/cv.pdf"]')
+    const fullPdfLink = page.locator('a[href="/pdf/cv-full.pdf"]')
 
-    await expect(pdfLinks).toHaveCount(2)
+    await expect(shortPdfLink).toHaveAttribute('download', 'santiago-molina-resume.pdf')
+    await expect(fullPdfLink).toHaveAttribute('download', 'santiago-molina-full-cv.pdf')
     await expect(page.locator('a[href^="/pdf/cv.pdf?"]')).toHaveCount(0)
+    await expect(page.locator('a[href^="/pdf/cv-full.pdf?"]')).toHaveCount(0)
+  })
+
+  test('resume keeps the full work history on the web and a concise print layout', async ({ page }) => {
+    await page.goto('/resume/')
+
+    const earlierExperience = page.getByRole('heading', { name: 'Earlier Experience' })
+
+    await expect(earlierExperience).toBeVisible()
+    await expect(page.getByText('Two-page resume for applications · Full CV with complete work history')).toBeVisible()
+    await expect(page.getByText(/^\+\d+ more$/u)).toHaveCount(0)
+
+    await page.emulateMedia({ media: 'print' })
+    await expect(earlierExperience).toBeHidden()
   })
 
   test('resume structured data uses a valid stable modification date', async ({ page }) => {
