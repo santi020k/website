@@ -76,3 +76,13 @@ site search. Numbered suggestions and compact result rows share a scrollable are
 hints. The panel uses the available viewport height, with a compact header on short screens.
 `SiteSearch.astro` retains query ranking, recent searches, retry and clear actions, keyboard
 navigation, focus restoration, and reduced-motion-aware opening and closing.
+
+## Blog archive
+
+The blog introduction uses a split editorial layout: writing context and browse links beside a
+preview of the newest published post. On mobile, the preview follows the introduction. Counts
+come from the published collection; the preview also remains in the chronological twelve-post
+feed. Older archive pages use a compact heading and a direct link back to the latest posts.
+
+Post galleries use the same rounded, subtle Lumen glass surfaces as the portfolio. Topic and
+series archives share that gallery, while series discovery appears once below the main feed.

@@ -16,6 +16,26 @@ test.describe('Blog page', () => {
     await expect(postLinks.first()).toBeVisible()
   })
 
+  test('latest preview and writing shortcut lead into the chronological feed', async ({ page }) => {
+    await page.goto('/blog/')
+
+    const latest = page.locator('[data-blog-latest] a')
+    const firstPost = page.locator('[data-post-gallery-card] a').first()
+    const latestHref = await latest.getAttribute('href')
+
+    if (!latestHref) throw new Error('The latest post must have a destination')
+
+    expect(latestHref).toBe(await firstPost.getAttribute('href'))
+    await page.getByRole('link', { name: 'Explore the writing' }).click()
+    await expect(page).toHaveURL(/#posts$/)
+    await expect(page.locator('#posts')).toBeInViewport()
+
+    await latest.focus()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(new RegExp(`${latestHref}$`))
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  })
+
   test('personal topics lead to their posts and preserve navigation back to the mixed feed', async ({ page }) => {
     await page.goto('/blog/')
     await expect(page).toHaveTitle(/Personal Blog/)
@@ -92,6 +112,18 @@ test.describe('Blog page', () => {
     await page.goto('/blog/')
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
+  })
+
+  test('index remains accessible in the dark theme on mobile', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('theme', 'dark')
+    })
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/blog/')
+
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+    await expectNoUnexpectedAccessibilityViolations(page)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(375)
   })
 
   test('index search should return matching content links', async ({ page }) => {
