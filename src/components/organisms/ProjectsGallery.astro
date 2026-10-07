@@ -13,9 +13,10 @@ import { Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   projects: CollectionEntry<'project'>[]
+  variant?: 'default' | 'editorial'
 }
 
-const { projects } = Astro.props
+const { projects, variant = 'default' } = Astro.props
 
 const projectStatusTone = {
   Active: 'brand',
@@ -23,7 +24,8 @@ const projectStatusTone = {
   Draft: 'outline'
 } as const
 
-const projectItems = projects.map(project => ({
+const projectItems = projects.map((project, index) => ({
+  editorialImage: getProjectCoverForUsage(project.data.coverImage, index === 0 ? 'hero' : 'thumbnail'),
   brand: project.data.brand,
   coverImage: project.data.coverImage,
   thumbnailImage: getProjectCoverForUsage(project.data.coverImage, 'thumbnail'),
@@ -36,6 +38,46 @@ const projectItems = projects.map(project => ({
 }))
 ---
 
+{variant === 'editorial' && (
+  <div class="projects-editorial-grid">
+    {projectItems.map((project, index) => (
+      <Card as="article" class="group projects-editorial-card" variant="unstyled" data-project-gallery-card style={getProjectBrandStyle(project.brand)}>
+        <Link className="projects-editorial-link" href={project.href}>
+          <div class="projects-editorial-image">
+            {project.editorialImage ?
+(
+              <CoverImage
+                alt=""
+                ariaHidden={true}
+                className="size-full rounded-none border-0 object-cover"
+                image={project.editorialImage}
+                loading="lazy"
+                mode="card"
+                sizes={index === 0 ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 768px) 50vw, 100vw'}
+              />
+            ) :
+(
+              <Icon class="size-16 text-ink-muted" name="code-2" />
+            )}
+          </div>
+          <div class="projects-editorial-copy">
+            <div class="projects-editorial-meta">
+              <span>{String(index + 1).padStart(2, '0')} / {project.dateRange}</span>
+              <Pill label={project.status} tone="outline" />
+            </div>
+            <h3>{project.title}<Icon name="arrow-up-right" /></h3>
+            <p>{project.description}</p>
+            <ul aria-label="Technologies">
+              {project.technologies.map(technology => <li>{technology}</li>)}
+            </ul>
+            <span class="projects-editorial-action">View project <Icon name="arrow-right" /></span>
+          </div>
+        </Link>
+      </Card>
+    ))}
+  </div>
+)}
+{variant === 'default' && (
 <div class="space-y-6">
   {/* Featured project - large */}
   {projectItems[0] && (
@@ -232,8 +274,10 @@ const projectItems = projects.map(project => ({
   )}
 </div>
 
+)}
+
 <style>
-  [data-project-gallery-card]:hover {
+  [data-project-gallery-card]:not(.projects-editorial-card):hover {
     border-color: hsl(var(--project-primary) / 0.34);
     box-shadow: 0 16px 36px hsl(var(--project-primary) / 0.1);
   }

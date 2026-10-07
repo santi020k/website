@@ -159,6 +159,10 @@ featured and detail views use the horizontal hero, and portrait project cards us
 scene. `src/utils/project-cover.ts` owns the fallback order for projects that do not yet provide
 every variant.
 
+The projects index uses the editorial gallery variant: a horizontal featured cover followed by
+two columns of project stories, with a single column on mobile. Technology archives retain the
+default gallery. Both views share project ordering, metadata, and cover selection utilities.
+
 For more stable CI/browser-constrained environments, use:
 
 ```bash

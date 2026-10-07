@@ -8,13 +8,14 @@
   letter-spacing: -0.025em;
 }
 
-/* Keep the editorial canvas after page swaps and preserve Home's floating particles. */
-body:has([data-home-hero], [data-travel-explorer]) {
+/* Preserve Home's particles while keeping Travel and Projects on a quiet canvas. */
+body:has([data-home-hero], [data-travel-explorer], [data-projects-page]) {
   background: hsl(var(--theme-bg));
 }
 
-body:has([data-travel-explorer]) [data-particles-bg],
-body:has([data-home-hero], [data-travel-explorer]) > div > .grid-fade {  display: none;
+body:has([data-travel-explorer], [data-projects-page]) [data-particles-bg],
+body:has([data-home-hero], [data-travel-explorer], [data-projects-page]) > div > .grid-fade {
+  display: none;
 }
 
 @utility maker-hero-stage {
