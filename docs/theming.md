@@ -8,11 +8,13 @@ The website uses the public `@santi020k/theme` package as the source for core br
 
 Local website-only extensions live in `src/styles/partials/tokens.css`.
 
-## Homepage redesign
+## Shared sculpted design
 
 The [sculpted style guide](sculpted-style-guide.md) defines the new homepage typography,
 solid surfaces, spacing, buttons, and responsive compositions. It builds on the same shared
-tokens; other routes keep their existing styles until they are deliberately migrated.
+tokens. Supporting pages, policy pages, archives, and article/project details now use
+`partials/remaining-pages.css`; article prose and resume print rules retain their reading contracts.
+The [remaining-page checklist](remaining-page-designs.md) records coverage and validation.
 
 ## Token Layers
 
@@ -84,5 +86,5 @@ preview of the newest published post. On mobile, the preview follows the introdu
 come from the published collection; the preview also remains in the chronological twelve-post
 feed. Older archive pages use a compact heading and a direct link back to the latest posts.
 
-Post galleries use the same rounded, subtle Lumen glass surfaces as the portfolio. Topic and
-series archives share that gallery, while series discovery appears once below the main feed.
+The approved main blog gallery is retained. Topic, series, and older archives use solid Lumen
+surfaces through the shared supporting-page scope. Series discovery appears once below the main feed.

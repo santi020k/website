@@ -33,6 +33,7 @@ export const resumeSourcePaths = [
   'src/styles/partials/home-hero.css',
   'src/styles/partials/nav.css',
   'src/styles/partials/projects.css',
+  'src/styles/partials/remaining-pages.css',
   'src/styles/partials/prose.css',
   'src/styles/partials/tokens.css',
   'src/styles/partials/ui.css',

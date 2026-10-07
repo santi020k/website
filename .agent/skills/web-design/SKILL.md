@@ -8,7 +8,14 @@ description: Design system, glass UI utilities, animations, and component patter
 Stack: **Astro 7 · Tailwind CSS v4 · Vanilla JS**.
 Design tokens: `src/styles/partials/tokens.css`. Glass utilities: `src/styles/partials/utilities.css`. Animations: `src/styles/partials/animations.css`.
 
-**Aesthetic direction: minimalist glass UI.** Frosted-glass surfaces, subtle purple brand gradients, crisp type, spring-physics hover lifts, and scroll-triggered reveals. Never add decorative noise that fights the minimal structure. Use a single visible surface per content unit: do not place card, panel, shell, or mini-note surfaces inside other card-like surfaces.
+**Current direction: the sculpted editorial canvas.** Read `docs/sculpted-style-guide.md`
+before styling a page. It is authoritative for the approved navbar, homepage, and
+supporting-page typography, actions, spacing, and surfaces. Favor open space, fine
+rules, Montserrat 500 headings, restrained purple emphasis, and solid Lumen surfaces.
+Keep one surface per content unit. Preserve the user-requested site particles and
+respect reduced motion. The glass utilities documented below are legacy options for
+existing surfaces, not the default for new page design. Do not add spring hover lifts
+or nested cards when migrating a page to the current style.
 
 ---
 
@@ -42,6 +49,11 @@ All tokens are raw HSL values on `:root` / `[data-theme="dark"]`. Tailwind maps 
 ---
 
 ## Typography
+
+The table and gradient hero example below describe legacy components. For current page
+work use the scale in `docs/sculpted-style-guide.md`, the shared `PageHero`, or the
+approved primary page composition. Reading prose and resume print rules have their
+own contracts and must remain legible.
 
 **One font: Montserrat variable** — maps to ALL four Tailwind font roles (`sans`, `serif`, `mono`, `display`).
 
@@ -164,7 +176,10 @@ Defined as `@utility` in `utilities.css`. Always use these — never build ad ho
 | `btn-ghost` | Transparent; glass fill sweeps in on hover |
 | `btn-inline` | Text link; animated underline grows from left |
 
-Use the `ButtonLink.astro` component which wires these up automatically.
+Use the `ButtonLink.astro` component for existing consumer semantics. Supporting pages
+opt into `remaining-pages`, which gives these actions the approved solid treatment.
+New primary page actions compose Lumen `ButtonLink` with `variant="unstyled"` and the
+shared sculpted visual rules. Preserve focus, 44px targets, and external-link safety.
 
 ---
 
@@ -311,7 +326,9 @@ Variants: `divider-gradient-soft`, `divider-gradient-strong`, `divider-subtle`, 
 
 ## Micro-Interaction Rules
 
-Apply to EVERY interactive element. All transitions use spring easing for lift/lower.
+The following spring interactions describe legacy surfaces. Current sculpted pages
+use short color and background transitions without whole-card movement. Every
+interaction still needs a keyboard path, visible focus, and reduced-motion support.
 
 | Element | Classes |
 |---|---|

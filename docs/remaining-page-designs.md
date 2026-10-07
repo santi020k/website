@@ -1,0 +1,64 @@
+# Remaining page design pass
+
+Release base: `release/v4.0.0` at `b0eee71b`. Isolated branch:
+`feature/remaining-page-designs`. The integrated source and sculpted style guide are
+this pass's design authority. The primary redesign tasks finished before this pass.
+No package changes, remote actions, or production mutations are part of this work.
+
+## Route and template checklist
+
+| Family | Routes | Status |
+| --- | --- | --- |
+| Approved landing pages | Home, About, Work, Projects, Travel, Blog | Existing integrated design retained |
+| Portfolio summary | `/portfolio/` | Shared editorial hero and solid project surfaces |
+| Project details | `/portfolio/[...slug]/` | All project types share lighter metadata, open stack and reading navigation |
+| Article details | `/blog/[slug]/` | Shared article hero, reading controls and prose preserved |
+| Blog archive pages | `/blog/[...page]/` | Existing gallery retained; shared compact hero aligned |
+| Topics | `/blog/tags/`, `/blog/tags/[tag]/[...page]/` | Index, filtering, sorting and paginated archive aligned |
+| Series | `/blog/series/`, `/blog/series/[slug]/` | Index, planned/active reading tracks and empty states aligned |
+| Technologies | `/technologies/`, `/technologies/[technology]/[...page]/` | Search, count announcements and project archive aligned |
+| Supporting pages | `/speaking/`, `/developer-experience/` | Shared surfaces, typography and actions aligned |
+| Policies | `/privacy/`, `/terms/`, `/accessibility/` | Numbered reading rows; content and dates preserved |
+| Resume | `/resume/` | Screen canvas aligned; print preserved; compact/full PDFs verified at 2/3 A4 pages |
+| Recovery | `/404/`, `/offline/` | Recovery links, connection status and retry behavior retained |
+| Nonvisual endpoints | XML/JSON feeds and search index | No visual template; excluded from styling changes |
+
+## Evidence and validation
+
+Comparable mobile (375px) and desktop (1440px) captures are saved outside Git in:
+`/Users/santi020k/.codex/visualizations/2026/10/07/01a114f5-1115-7a00-907a-26924cf3b91c/`.
+The `before` and `after` folders use matching route and viewport filenames.
+The `after-dark` folder covers the same routes in dark mode. Twenty representative routes
+include all visual template families, with desktop and mobile comparisons. Reduced motion
+was enabled during capture. Layout checks covered 152 light/dark states at 320, 375, 768,
+and 1440px, with one main heading and no horizontal page overflow. Axe audits passed
+in 22 representative light/dark states with zero violations.
+
+- Registry installation: `pnpm install --frozen-lockfile` passed with the committed Lumen 4 packages.
+- Initial `pnpm run check`: zero errors, warnings, and hints.
+- Formatting uses the repository's ESLint autofix command; Prettier is not a repository dependency.
+- `pnpm run lint:fix` passed, followed by zero-warning canonical lint.
+- `pnpm run generate:cv` regenerated the compact and full A4 PDFs and source fingerprint.
+- `pnpm run verify:fast` passed: spelling, lint, types, Markdown, content, CV freshness,
+  365 unit tests, production build, and SEO audit (449 pages, zero errors/warnings).
+- Affected browser checks passed 246 tests across Chromium, WebKit, Mobile Chrome,
+  and Mobile Safari. Two mobile aspect-ratio assertions were corrected to allow a maximum
+  one-pixel rounding error in the image content box, excluding borders/padding.
+  Both mobile checks passed; image loading and ratio checks remain enforced.
+- `SKIP_BUILD=true PW_PREVIEW_PORT=4379 pnpm run test:e2e:ci:stable`: 266 passed.
+- Focused commit and local release integration: ready; integrated checks will be repeated.
+
+## Blockers
+
+Firefox could not launch: `Could not find profile folder` (62 affected checks). A fresh
+Playwright Firefox installation and dedicated temporary directory did not resolve the
+launcher failure. Firefox snapshots were retained and were not regenerated or verified.
+The canonical stable browser gate uses Chromium; other available browser engines were checked.
+
+The release's six existing tooling advisories remain tracked separately in its security
+documentation. This pass changes no dependencies and performs no remote actions.
+
+## Local integration
+
+Implementation branch: `feature/remaining-page-designs`, based on `b0eee71b`.
+Source commit and verified release integration will be recorded after the final gate.

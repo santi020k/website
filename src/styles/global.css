@@ -18,3 +18,5 @@
 @import "./partials/about.css";
 
 @plugin "@tailwindcss/typography";
+
+@import "./partials/remaining-pages.css";

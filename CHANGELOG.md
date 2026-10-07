@@ -18,6 +18,12 @@
 
 ### Patch Changes
 
+- Extend the sculpted design to article and project details, topic and series archives,
+  technology indexes, speaking, developer experience, legal statements, and recovery pages.
+  Keep filtering, reading controls, public URLs, and resume print behavior intact.
+  Add a durable route coverage checklist and fingerprint the supporting-page stylesheet
+  when generating resume PDFs.
+
 - Update compatible dependency security fixes, including Sharp and shell utilities,
   and document the remaining upstream tooling advisories without suppressing them.
 

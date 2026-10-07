@@ -22,6 +22,34 @@ const expectImageLoaded = async (image: Locator) => {
   ))).toBe(true)
 }
 
+// Intrinsic srcset dimensions and rendered CSS pixels can round independently
+// on high-density devices. Check the image content box, excluding decorative
+// borders and padding, and bound rounding error in pixels.
+const expectImageAspectRatio = async (image: Locator, ratio: number) => {
+  const dimensions = await image.evaluate(element => {
+    if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a project image')
+
+    const rect = element.getBoundingClientRect()
+    const style = getComputedStyle(element)
+    const horizontalInset = Number.parseFloat(style.borderLeftWidth) +
+      Number.parseFloat(style.borderRightWidth) + Number.parseFloat(style.paddingLeft) +
+      Number.parseFloat(style.paddingRight)
+    const verticalInset = Number.parseFloat(style.borderTopWidth) +
+      Number.parseFloat(style.borderBottomWidth) + Number.parseFloat(style.paddingTop) +
+      Number.parseFloat(style.paddingBottom)
+
+    return {
+      height: rect.height - verticalInset,
+      naturalHeight: element.naturalHeight,
+      naturalWidth: element.naturalWidth,
+      width: rect.width - horizontalInset
+    }
+  })
+
+  expect(Math.abs(dimensions.naturalHeight - dimensions.naturalWidth / ratio)).toBeLessThanOrEqual(1)
+  expect(Math.abs(dimensions.height - dimensions.width / ratio)).toBeLessThanOrEqual(1)
+}
+
 const expectReadableProjectTitleGradient = async (page: Page) => {
   const root = page.locator('html')
 
@@ -210,32 +238,8 @@ test.describe('Portfolio page', () => {
     await expectImageLoaded(featuredImage)
     await expectImageLoaded(supportingImage)
 
-    const featuredRatios = await featuredImage.evaluate(element => {
-      if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a featured image')
-
-      const rect = element.getBoundingClientRect()
-
-      return {
-        natural: element.naturalWidth / element.naturalHeight,
-        rendered: rect.width / rect.height
-      }
-    })
-
-    const supportingRatios = await supportingImage.evaluate(element => {
-      if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a supporting image')
-
-      const rect = element.getBoundingClientRect()
-
-      return {
-        natural: element.naturalWidth / element.naturalHeight,
-        rendered: rect.width / rect.height
-      }
-    })
-
-    expect(featuredRatios.natural).toBeCloseTo(16 / 9, 2)
-    expect(featuredRatios.rendered).toBeCloseTo(16 / 9, 2)
-    expect(supportingRatios.natural).toBeCloseTo(16 / 10, 2)
-    expect(supportingRatios.rendered).toBeCloseTo(16 / 10, 2)
+    await expectImageAspectRatio(featuredImage, 16 / 9)
+    await expectImageAspectRatio(supportingImage, 16 / 10)
 
     await page.goto('/portfolio/smith-commerce/')
 
@@ -243,37 +247,13 @@ test.describe('Portfolio page', () => {
 
     await expectImageLoaded(projectHero)
 
-    const projectHeroRatios = await projectHero.evaluate(element => {
-      if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a project hero image')
-
-      const rect = element.getBoundingClientRect()
-
-      return {
-        natural: element.naturalWidth / element.naturalHeight,
-        rendered: rect.width / rect.height
-      }
-    })
-
-    expect(projectHeroRatios.natural).toBeCloseTo(16 / 9, 2)
-    expect(projectHeroRatios.rendered).toBeCloseTo(16 / 9, 2)
+    await expectImageAspectRatio(projectHero, 16 / 9)
 
     const relatedImage = page.locator('[data-portfolio-project="supporting"] img').first()
 
     await expectImageLoaded(relatedImage)
 
-    const relatedRatios = await relatedImage.evaluate(element => {
-      if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a related image')
-
-      const rect = element.getBoundingClientRect()
-
-      return {
-        natural: element.naturalWidth / element.naturalHeight,
-        rendered: rect.width / rect.height
-      }
-    })
-
-    expect(relatedRatios.natural).toBeCloseTo(16 / 10, 2)
-    expect(relatedRatios.rendered).toBeCloseTo(16 / 10, 2)
+    await expectImageAspectRatio(relatedImage, 16 / 10)
 
     await page.setViewportSize({ height: 812, width: 375 })
     await expect(relatedImage).toBeVisible()
