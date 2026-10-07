@@ -104,8 +104,8 @@ import SearchDialog from './SearchDialog.astro'
   #site-search-dialog::backdrop { background: transparent; }
 
   #site-search-dialog [data-site-search-scrim] {
-    background: hsl(var(--theme-bg) / 0.7);
-    backdrop-filter: blur(6px);
+    background: hsl(var(--theme-bg) / 0.24);
+    backdrop-filter: blur(7px) saturate(0.8);
   }
 
   @keyframes site-search-scrim-in {
@@ -129,11 +129,11 @@ import SearchDialog from './SearchDialog.astro'
   }
 
   #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-scrim] {
-    animation: site-search-scrim-in 180ms ease both;
+    animation: site-search-scrim-in 280ms ease both;
   }
 
   #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-panel] {
-    animation: site-search-panel-in 220ms ease both;
+    animation: site-search-panel-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   #site-search-dialog[data-site-search-anim="closing"] [data-site-search-scrim] {
@@ -204,13 +204,14 @@ import SearchDialog from './SearchDialog.astro'
     font-size: 0.5625rem;
     font-weight: 550;
     letter-spacing: 0.12em;
+    line-height: 1rem;
     text-transform: uppercase;
   }
 
   #site-search-results [data-site-search-result-title] {
     color: hsl(var(--ink));
     font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.5;
   }
 
@@ -1112,6 +1113,27 @@ import SearchDialog from './SearchDialog.astro'
 
       dialog.addEventListener('keydown', e => {
         if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
+
+        // The native dialog may tab into browser chrome when the loading state
+        // leaves the input last. Keep both ends inside as results come and go.
+        if (e.key === 'Tab') {
+          const focusable = [...dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled])')]
+            .filter(element => element instanceof HTMLElement && element.getClientRects().length > 0 &&
+              element.tabIndex >= 0 && getComputedStyle(element).visibility === 'visible')
+
+          const first = focusable.at(0)
+          const last = focusable.at(-1)
+          const boundary = e.shiftKey ? first : last
+          const destination = e.shiftKey ? last : first
+
+          if (document.activeElement === boundary && destination instanceof HTMLElement) {
+            e.preventDefault()
+
+            destination.focus({ preventScroll: true })
+          }
+
+          return
+        }
 
         if (e.key === 'Escape') {
           // Override the native search-input clear action and keep the underlying menu open.

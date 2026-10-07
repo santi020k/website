@@ -38,6 +38,17 @@ for (const theme of ['light', 'dark']) {
 
     for (const width of [320, 375, 640, 768, 1024, 1440]) {
       await page.setViewportSize({ width, height: 900 })
+      // Wait for responsive styles and fonts before measuring the resized hero.
+      await page.evaluate(async () => {
+        await document.fonts.ready
+        await new Promise<void>(resolve => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              resolve()
+            })
+          })
+        })
+      })
 
       const hero = page.locator('[data-home-hero]')
       const heading = hero.locator('h1')

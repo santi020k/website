@@ -32,7 +32,7 @@ test('homepage has branded search metadata and main sections', async ({ page }) 
   await page.setViewportSize({ width: 1280, height: 720 })
   await page.goto('/')
 
-  await expect(page).toHaveTitle('Santiago Molina | santi020k')
+  await expect(page).toHaveTitle('Santiago Molina — Full-Stack Engineer & Tech Lead | santi020k')
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     'content',
     /Santiago Molina, known online as santi020k/

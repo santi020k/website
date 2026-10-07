@@ -88,21 +88,30 @@ Keep native anchors for links wrapping a complete project or article.
 
 ## Shared navbar
 
-Preserve the signature tab and the continuous sculpted dock from the approved navbar.
+Use the approved Signature frame direction: the identity sits on a raised tab that
+joins the homepage hero as one continuous surface. Inner pages and the scrolled
+header use a compact solid dock; keep the same wordmark, controls, and alignment.
 The supplied navbar references inform its connection to the page canvas, restrained
 type, distinct contact action, and signature silhouette. Translate these relationships
 through the site's existing Montserrat, semantic tokens, and editorial grid.
 
 - Match the main content gutters: 1.25rem on phones, 1.5rem from 640px, 2rem from
   1024px, and 2.5rem from 1536px, with the same 72rem maximum width.
-- Use a Montserrat 600 wordmark and 500 navigation labels. Keep the personal tab compact.
+- Use a Montserrat 600 wordmark and 500 navigation labels. The raised identity tab
+  ends in a quiet diagonal step; do not add a second signature label above it.
 - Mark the current desktop route with a fine accent underline and `aria-current`,
   leaving its surface open. Hover adds a quiet neutral fill.
-- Keep the dock opaque with a fine rule, sculpted corners, and restrained shadow;
-  scrolling adds modest depth. Separate desktop utilities with a fine vertical rule
-  only when the contact action is visible.
+- Keep the homepage navigation strip open above the opaque hero frame. Scrolling
+  fills the dock and adds modest depth. Separate desktop utilities with a fine
+  vertical rule only when the contact action is visible.
 - Preserve the attached mobile menu, numbered rows, utility spacing, 44px controls,
-  keyboard behavior, and reduced-motion support.
+  keyboard behavior, and reduced-motion support. Opening fills the header into one
+  continuous surface, with a short row reveal and 7px blur behind it. Keep the
+  backdrop and scroll lock through the exit animation; reopening cancels the exit.
+- Search uses the same raised title tab, diagonal step, solid body, accent close
+  control, and blurred backdrop. Keep its input and results separated by fine rules.
+  Long results scroll inside the dialog while the close control and keyboard hints
+  remain visible, including on short screens and with enlarged text.
 
 ## Content sections
 
