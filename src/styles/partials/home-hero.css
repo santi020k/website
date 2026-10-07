@@ -1,6 +1,6 @@
 @utility maker-hero {
   --hero-rule: hsl(var(--line) / 0.65);
-  --hero-radius: 1rem;
+  --hero-radius: 0.625rem;
   width: 100%;
   max-width: 72rem;
   margin-inline: auto;
@@ -38,11 +38,10 @@ body:has([data-home-hero]) > div > .grid-fade {
   gap: 0.625rem;
   margin-bottom: 2.125rem;
   color: hsl(var(--ink-soft));
-  font-size: 0.625rem;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.5;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
 @utility maker-hero-signal {
@@ -125,8 +124,9 @@ body:has([data-home-hero]) > div > .grid-fade {
   place-items: center;
   width: 2.25rem;
   height: 2.25rem;
-  border: 1px solid hsl(var(--surface) / 0.3);
-  border-radius: 0.625rem;
+  border-radius: 0.375rem;
+  background: hsl(var(--surface));
+  color: hsl(var(--ink));
 }
 
 @utility maker-hero-secondary {
@@ -152,62 +152,47 @@ body:has([data-home-hero]) > div > .grid-fade {
 
 @utility maker-hero-visual {
   position: relative;
-  display: grid;
-  place-items: center;
-  align-self: stretch;
-  isolation: isolate;
+  width: min(100% - 2rem, 24rem);
   min-width: 0;
+  margin: 0 0 0 auto;
 }
 
-@utility maker-hero-orbit {
-  position: absolute;
-  z-index: -1;
-  width: 88%;
-  aspect-ratio: 1;
+@utility maker-hero-portrait-frame {
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
   border: 1px solid var(--hero-rule);
-  border-radius: 50%;
-  background: radial-gradient(ellipse, hsl(var(--brand) / 0.06), transparent 68%);
+  border-radius: 1.5rem;
+  background: hsl(var(--surface-muted));
 }
 
-.maker-hero-orbit::after {
-  position: absolute;
-  inset: 11%;
-  content: "";
-  border: 1px dashed hsl(var(--line) / 0.6);
-  border-radius: inherit;
+@utility maker-hero-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
 }
 
-@utility maker-hero-artwork {
-  position: relative;
-  width: 112%;
-  max-width: none;
-  height: 31rem;
-  object-fit: contain;
-  filter: drop-shadow(0 22px 26px hsl(var(--brand) / 0.1));
-}
-
-@utility maker-hero-coordinate {
-  position: absolute;
-  z-index: 1;
-  color: hsl(var(--ink-soft));
-  font-size: 0.5625rem;
-  font-weight: 500;
-  letter-spacing: 0.13em;
-  line-height: 1.6;
-  text-transform: uppercase;
-}
-
-@utility maker-hero-coordinate-bottom {
-  right: 0;
-  bottom: -0.25rem;
+@utility maker-hero-caption {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: hsl(var(--ink-soft));
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.6;
 }
 
-@utility maker-hero-cross {
-  font-size: 1.5rem;
-  font-weight: 300;
+@utility maker-hero-handle {
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 0.625rem;
+}
+
+@utility maker-hero-location {
+  text-align: right;
 }
 
 @utility maker-hero-shelf {
@@ -299,7 +284,9 @@ body:has([data-home-hero]) > div > .grid-fade {
   }
 
   .maker-hero h1 { font-size: clamp(2.625rem, 6.2vw, 4.5rem); }
-  .maker-hero-coordinate { display: none; }
+  .maker-hero-visual { width: calc(100% - 1.25rem); }
+  .maker-hero-caption { flex-direction: column; gap: 0.25rem; }
+  .maker-hero-location { text-align: left; }
   .maker-hero-actions { gap: 0.75rem 1.25rem; }
   .maker-hero-shelf { gap: 1rem; }
   .maker-hero-project { padding-inline: 1rem 0; }
@@ -315,7 +302,7 @@ body:has([data-home-hero]) > div > .grid-fade {
 
   .maker-hero-eyebrow {
     margin-bottom: 1.625rem;
-    font-size: 0.5625rem;
+    font-size: 0.8125rem;
   }
 
   .maker-hero h1 {
@@ -332,9 +319,9 @@ body:has([data-home-hero]) > div > .grid-fade {
   }
 
   .maker-hero-actions { margin-top: 1.5rem; }
-  .maker-hero-visual { width: min(100%, 23rem); margin: 1.5rem auto 0; }
-  .maker-hero-artwork { width: 100%; height: auto; }
-  .maker-hero-orbit { width: 80%; }
+  .maker-hero-visual { width: min(100%, 22rem); margin: 2.25rem auto 1rem; }
+  .maker-hero-caption { flex-direction: row; gap: 1rem; }
+  .maker-hero-location { text-align: right; }
 
   .maker-hero-shelf {
     grid-template-columns: 1fr auto;
