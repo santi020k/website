@@ -6,7 +6,7 @@ import SiteSearch from '@/components/molecules/SiteSearch.astro'
 
 import type { SiteLink } from '@/types/site'
 
-import { Button, Icon } from '@santi020k/lumen-astro'
+import { Button, ButtonLink as NavigationLink, Icon } from '@santi020k/lumen-astro'
 
 import { menuLinks, siteConfig } from '@/site.config'
 
@@ -79,18 +79,10 @@ const isCurrentPage = (path: string) => path === '/' ?
         >
           Discuss a role
         </ButtonLink>
-        <ButtonLink
-          className="
-            ui-button--default-size text-xs
-            sm:text-sm
-          "
-          href={siteConfig.contact.whatsapp}
-          newTab
-          showArrow
-          variant="ghost"
-        >
-          Let&apos;s talk
-        </ButtonLink>
+        <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+          <span class="site-nav-contact-label">Let&apos;s talk</span>
+          <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+        </NavigationLink>
       </div>
     </div>
   )}
@@ -135,9 +127,10 @@ const isCurrentPage = (path: string) => path === '/' ?
           <SiteSearch />
           <ThemeToggle />
           <div class="site-header-contact">
-            <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow variant="primary">
-              Let&apos;s talk
-            </ButtonLink>
+            <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+              <span class="site-nav-contact-label">Let&apos;s talk</span>
+              <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+            </NavigationLink>
           </div>
           <Button
             aria-controls="mobile-nav"
@@ -191,12 +184,14 @@ const isCurrentPage = (path: string) => path === '/' ?
           <div class="grid gap-5">
             <p class="site-mobile-nav-note">A little of what I build.<br />A little of who I am.</p>
             <div data-mobile-nav-actions>
-              <ButtonLink className="justify-center" href={siteConfig.contact.whatsapp} newTab showArrow variant="primary">
-                Let&apos;s talk
-              </ButtonLink>
-              <ButtonLink className="justify-center" href={siteConfig.contact.resume} showArrow variant="ghost">
-                Resume
-              </ButtonLink>
+              <NavigationLink class="site-nav-contact" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
+                <span class="site-nav-contact-label">Let&apos;s talk</span>
+                <span class="site-nav-contact-arrow"><Icon class="size-5" name="arrow-up-right" /></span>
+              </NavigationLink>
+              <NavigationLink class="site-nav-resume" href={siteConfig.contact.resume} variant="unstyled">
+                <span>View resume</span>
+                <Icon class="size-4" name="arrow-right" />
+              </NavigationLink>
             </div>
           </div>
         </div>

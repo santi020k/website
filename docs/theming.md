@@ -53,6 +53,9 @@ controls into a single surface. Native `nav` preserves normal Tab access to ever
 installed Lumen navigation menu uses arrow-key groups instead. `src/styles/partials/nav.css` owns the signature tab, desktop dock, and attached
 mobile menu. Both menus derive their links and active route from `menuLinks` in `src/site.config.ts`.
 The desktop menu starts at 1024px; the contact button appears at 1200px to preserve link space.
+The contact action uses Lumen's unstyled `ButtonLink` with a flat, contrasting label and a
+separate arrow tile. It has no gradient, glow, or magnetic effect. Its mobile version fills
+the menu width above a quiet resume link; both keep the same keyboard and link semantics.
 
 The mobile panel follows the header's measured position and scrolls within the available viewport.
 Its keyboard loop includes the visible header controls, yields to the search dialog, and restores
