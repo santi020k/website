@@ -1,19 +1,17 @@
 ---
 import { getImage } from 'astro:assets'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import OrganizationLogoRail from '@/components/molecules/OrganizationLogoRail.astro'
 import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
 import AboutHero from '@/components/pages/about/AboutHero.astro'
+import AboutSectionHeading from '@/components/pages/about/AboutSectionHeading.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import AboutMeImage from '@/assets/photos/originals/me-1.png'
+import AboutMeImage from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
 import { getCachedProjects } from '@/utils/content'
 
-import { Note } from '@santi020k/lumen-astro'
+import { ButtonLink, Icon, Note } from '@santi020k/lumen-astro'
 
 import { collaborationLanes, engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
 import {
@@ -41,9 +39,9 @@ const organizationRailItems = selectedOrganizations.map(organization => {
 const aboutPortraitImage = await getImage({
   format: 'avif',
   src: AboutMeImage,
-  width: 320,
-  height: 480,
-  widths: [320, 480, 640, 800]
+  width: 400,
+  height: 500,
+  widths: [320, 400, 640, 800]
 })
 
 const profileStats = [
@@ -120,7 +118,7 @@ const meta = {
   description,
   preloadImage: {
     href: aboutPortraitImage.src,
-    imagesizes: '(min-width: 1536px) 400px, (min-width: 640px) 352px, 304px',
+    imagesizes: '(min-width: 768px) 400px, calc(100vw - 48px)',
     imagesrcset: aboutPortraitImage.srcSet.attribute,
     type: 'image/avif'
   },
@@ -131,287 +129,84 @@ const meta = {
 ---
 
 <PageLayout meta={meta}>
-  <AboutHero yearsOfExperience={yearsOfExperience} />
+  <div class="about-page" data-about-page>
+    <AboutHero />
 
-  <section
-    class="
-      section-container-wide pt-10
-      sm:pt-12
-      lg:pt-14
-    "
-    aria-label="Profile highlights"
-  >
-    <div
-      class="
-        grid gap-4
-        sm:grid-cols-3
-      "
-    >
-      {profileStats.map(({ description, label, value }) => (
-        <Note
-          borderPosition="none"
-          class="
-            h-full p-5
-            sm:p-6
-          "
-          label={label}
-        >
-          <p class="text-2xl font-bold text-ink">{value}</p>
-          <p class="mt-3 text-sm/7 text-ink-soft">{description}</p>
+    <section class="about-stats" aria-label="Profile highlights">
+      {profileStats.map(({ description: statDescription, label, value }) => (
+        <Note borderPosition="none" class="about-stat" label={label}>
+          <p class="about-stat-value">{value}</p>
+          <p>{statDescription}</p>
         </Note>
       ))}
-    </div>
-  </section>
+    </section>
 
-  <PageSection class="
-    section-container-wide pt-20
-    sm:pt-24
-    lg:pt-28
-  "
-  >
-    <SectionHeader
-      description="A less linear bio and more of a working model: what I optimize for, where I create leverage, and why the details matter."
-      eyebrow="The shape of the work"
-      title="Engineering, leadership, and delivery systems."
-      variant="shelf"
-    />
+    <section class="about-section">
+      <AboutSectionHeading index="01" eyebrow="The shape of the work" title="Engineering, leadership, and delivery systems." description="A working model of what I care about, where I can help, and why the details matter." />
+      <div class="about-story">
+        <div class="about-story-copy">{storyBeats.map(beat => <p>{beat}</p>)}</div>
+        <div class="about-working-modes">
+          <h3>Where I usually help.</h3>
+          <ul>{workingModes.map((mode, index) => (
+            <li><span>{String(index + 1).padStart(2, '0')}</span><p>{mode}</p></li>
+          ))}</ul>
+        </div>
+      </div>
+    </section>
 
-    <div class="space-y-8">
-      <div class="max-w-3xl space-y-6 section-copy">
-        {storyBeats.map(beat => (
-          <p>{beat}</p>
+    <section class="about-section">
+      <AboutSectionHeading index="02" eyebrow="Collaboration" title="Range, with a clear purpose." description="The places where hands-on engineering and technical leadership can make the biggest difference." />
+      <div class="about-lanes">
+        {collaborationLanes.map(({ description: laneDescription, fit, title }, index) => (
+          <article>
+            <p class="about-eyebrow">{String(index + 1).padStart(2, '0')}</p>
+            <h3>{title}</h3>
+            <p>{laneDescription}</p>
+            <p class="about-lane-fit">{fit}</p>
+          </article>
         ))}
       </div>
+    </section>
 
-      <div class="divider-gradient-soft" aria-hidden="true"></div>
-
-      <div class="space-y-4">
-        <h2 class="text-2xl font-semibold tracking-tight text-ink">
-          Where I usually help.
-        </h2>
-        <ul class="
-          grid gap-3
-          sm:grid-cols-3
-        "
-        >
-          {workingModes.map((mode, index) => (
-            <li
-              class="
-                flex min-h-36 flex-col justify-between rounded-3xl border
-                border-line/35 bg-surface/28 p-5
-              "
-            >
-              <span class="
-                section-label text-brand
-                dark:text-accent
-              "
-              >{String(index + 1).padStart(2, '0')}
-              </span>
-              <p class="mt-5 text-sm/7 font-medium text-ink">{mode}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </PageSection>
-
-  <PageSection class="
-    section-container-wide pt-20
-    sm:pt-24
-    lg:pt-28
-  "
-  >
-    <SectionHeader
-      description="These are the lanes where the work tends to create the most compounding value."
-      eyebrow="Collaboration"
-      title="Useful when the team needs range and clarity."
-    />
-
-    <div
-      class="
-        grid gap-4
-        lg:grid-cols-3
-      "
-    >
-      {collaborationLanes.map(({ description: laneDescription, fit, title }, index) => (
-        <article class="
-          panel-card flex h-full flex-col p-6
-          sm:p-7
-        "
-        >
-          <p class="
-            section-label text-brand
-            dark:text-accent
-          "
-          >{String(index + 1).padStart(2, '0')}
-          </p>
-          <div class="mt-5 flex grow flex-col gap-4">
-            <h2 class="text-xl font-semibold tracking-tight text-ink">{title}</h2>
-            <p class="text-sm/7 text-ink-soft">{laneDescription}</p>
-            <p class="
-              mt-auto border-t border-line/25 pt-4 text-xs/6 font-semibold
-              text-ink-muted
-            "
-            >
-              {fit}
-            </p>
-          </div>
-        </article>
-      ))}
-    </div>
-  </PageSection>
-
-  <PageSection class="
-    section-container-wide pt-20
-    sm:pt-24
-    lg:pt-28
-  "
-  >
-    <SectionHeader
-      description="A few of the products, companies, and communities behind the portfolio. The logos are not the point; the delivery context is."
-      eyebrow="Context"
-      title="Products, clients, and communities behind the work."
-      variant="shelf"
-    />
-
-    <div class="min-w-0 space-y-6">
+    <section class="about-section">
+      <AboutSectionHeading index="03" eyebrow="Context" title="The people and products behind the work." description="Commerce, SaaS, gaming, real estate, and community. Each brought a different problem to solve." />
       <OrganizationLogoRail organizations={organizationRailItems} />
-
-      <div class="section-actions">
-        <ButtonLink href="/portfolio/" showArrow>
-          Read the case studies
-        </ButtonLink>
-        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          Open LinkedIn
-        </ButtonLink>
+      <div class="about-actions">
+        <ButtonLink class="about-link" href="/portfolio/" variant="unstyled">Read the case studies<Icon name="arrow-right" /></ButtonLink>
+        <ButtonLink class="about-link" href={siteConfig.contact.linkedin} newTab variant="unstyled">Open LinkedIn<Icon name="arrow-up-right" /></ButtonLink>
       </div>
-    </div>
-  </PageSection>
+    </section>
 
-  <PageSection class="
-    section-container-wide pt-20
-    sm:pt-24
-    lg:pt-28
-  "
-  >
-    <SectionHeader
-      description="The operating principles I come back to when a product is moving fast and the team needs decisions that hold."
-      eyebrow="Principles"
-      title="What I believe about engineering."
-    />
-
-    <div
-      class="
-        grid gap-5
-        sm:grid-cols-2
-      "
-    >
-      {engineeringPrinciples.map(({ body, title }, index) => (
-        <PrincipleCard body={body} featured={index === 0} index={index} title={title} />
-      ))}
-    </div>
-  </PageSection>
-
-  <PageSection class="
-    section-container-wide pt-20
-    sm:pt-24
-    lg:pt-28
-  "
-  >
-    <SectionHeader
-      description="The recurring pattern is not only technical skill. It is communication, reliability, and helping people do better work together."
-      eyebrow="Recommendations"
-      title="What collaborators say about the work."
-      variant="shelf"
-    />
-
-    <div class="space-y-8">
-      <div
-        class="
-          grid gap-5
-          sm:grid-cols-2
-        "
-      >
-        {testimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
-          <TestimonialCard
-            authorName={name}
-            avatarInitials={avatarInitials}
-            avatarUrl={avatarUrl}
-            quote={quote}
-            relationship={relationship}
-            role={role}
-          />
+    <section class="about-section">
+      <AboutSectionHeading index="04" eyebrow="Principles" title="What I believe about engineering." description="The principles I come back to when a product is moving fast and the team needs decisions that hold." />
+      <div class="about-principles">
+        {engineeringPrinciples.map(({ body, title }, index) => (
+          <PrincipleCard appearance="editorial" body={body} index={index} title={title} />
         ))}
       </div>
+    </section>
 
-      <div class="section-actions">
-        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-          See all LinkedIn recommendations
-        </ButtonLink>
+    <section class="about-section">
+      <AboutSectionHeading index="05" eyebrow="Recommendations" title="What collaborators say about the work." description="Communication, reliability, and helping people do better work together—in their own words." />
+      <div class="about-testimonials">
+        {testimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
+          <TestimonialCard authorName={name} avatarInitials={avatarInitials} avatarUrl={avatarUrl} quote={quote} relationship={relationship} role={role} />
+        ))}
       </div>
-    </div>
-  </PageSection>
-
-  <section
-    class="
-      relative section-container-wide pt-20
-      sm:pt-24
-      lg:pt-28
-    "
-  >
-    <div
-      class="
-        glass-pro relative rounded-4xl p-6
-        sm:p-8
-        lg:p-10
-      "
-    >
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute -right-24 -bottom-28 size-72 rounded-full
-          bg-radial from-brand/18 via-accent/8 to-transparent blur-2xl
-        "
-      />
-      <div
-        class="
-          relative grid gap-8
-          lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end
-        "
-      >
-        <div class="max-w-3xl space-y-4">
-          <p class="
-            section-label text-brand
-            dark:text-accent
-          "
-          >Next step
-          </p>
-          <h2 class="
-            text-3xl font-semibold tracking-tight text-ink
-            sm:text-4xl
-          "
-          >
-            Want the fuller picture?
-          </h2>
-          <p class="section-copy">
-            The portfolio has the project evidence; the blog has the thinking behind
-            the decisions. Start wherever the signal is most useful.
-          </p>
-        </div>
-
-        <div class="
-          section-actions
-          lg:justify-end
-        "
-        >
-          <ButtonLink href="/portfolio/" showArrow>
-            View portfolio
-          </ButtonLink>
-          <ButtonLink href="/blog/" showArrow variant="secondary">
-            Read the blog
-          </ButtonLink>
-        </div>
+      <div class="about-actions">
+        <ButtonLink class="about-link" href={siteConfig.contact.linkedin} newTab variant="unstyled">See all LinkedIn recommendations<Icon name="arrow-up-right" /></ButtonLink>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="about-next">
+      <div><p class="about-eyebrow">Keep exploring</p><h2>Want the fuller picture?</h2><p>The portfolio has the project evidence; the blog has the thinking behind the decisions.</p></div>
+      <div class="maker-hero-actions">
+        <ButtonLink class="maker-hero-primary" href="/portfolio/" variant="unstyled">View portfolio<span class="
+          maker-hero-arrow
+        "
+                                                                                                   ><Icon name="arrow-up-right" /></span></ButtonLink>
+        <ButtonLink class="maker-hero-secondary" href="/blog/" variant="unstyled">Read the blog<Icon name="arrow-right" /></ButtonLink>
+      </div>
+    </section>
+  </div>
 </PageLayout>

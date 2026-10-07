@@ -10,5 +10,6 @@
 @import "./partials/utilities.css";
 @import "./partials/ui.css";
 @import "./partials/prose.css";
+@import "./partials/about.css";
 
 @plugin "@tailwindcss/typography";

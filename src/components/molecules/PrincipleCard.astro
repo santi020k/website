@@ -2,13 +2,14 @@
 import { Card } from '@santi020k/lumen-astro'
 
 interface Props {
+  appearance?: 'default' | 'editorial'
   index: number
   title: string
   body: string
   featured?: boolean
 }
 
-const { index, title, body, featured = false } = Astro.props
+const { appearance = 'default', index, title, body, featured = false } = Astro.props
 const formattedIndex = String(index + 1).padStart(2, '0')
 ---
 
@@ -19,11 +20,12 @@ const formattedIndex = String(index + 1).padStart(2, '0')
       principle-card h-full space-y-3 rounded-[1.75rem] p-6
       sm:p-7
     `,
+    appearance === 'editorial' && 'about-principle',
     featured && 'sm:col-span-2'
   ]}
   data-principle
-  glass="strong"
-  variant="interactive"
+  glass={appearance === 'default' ? 'strong' : false}
+  variant={appearance === 'editorial' ? 'unstyled' : 'interactive'}
 >
   <p class="section-label transition-colors duration-300" data-principle-index>{formattedIndex}</p>
   <h3 class="text-xl font-semibold text-ink transition-colors duration-200" data-principle-title>{title}</h3>

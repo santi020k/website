@@ -22,8 +22,8 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
     sm:p-7
   "
   data-testimonial
-  glass="strong"
-  variant="interactive"
+  glass={false}
+  variant="unstyled"
 >
   {/* Decorative quote mark */}
   <div
@@ -80,8 +80,8 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
         />
       )}
     <div class="min-w-0">
-      <p class="truncate ui-label">{authorName}</p>
-      <p class="truncate text-xs text-ink-muted">{role} · {relationship}</p>
+      <p class="ui-label">{authorName}</p>
+      <p class="text-xs text-ink-muted">{role} · {relationship}</p>
     </div>
   </div>
 </Card>
