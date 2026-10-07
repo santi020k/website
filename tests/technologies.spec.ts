@@ -76,3 +76,16 @@ test.describe('Technologies index page', () => {
     })
   }
 })
+
+test('technology project labels keep sufficient contrast on dark card surfaces', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('theme', 'dark')
+  })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.setViewportSize({ width: 375, height: 900 })
+  await page.goto('/technologies/3rd-party-apis/')
+
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('[data-project-gallery-readable]').first()).toContainText('View project')
+  await expectNoUnexpectedAccessibilityViolations(page)
+})
