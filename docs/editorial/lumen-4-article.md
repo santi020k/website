@@ -6,8 +6,9 @@ and the v3 to v4 migration guide.
 
 - Website source: `src/content/post/2026/lumen-4-from-primitives-to-product-workflows/index.md`.
 - Website state: local draft; publication timing is pending. No deployment was performed.
-- Medium: [saved draft](https://medium.com/p/f537feb6bda2/edit), with matching article text and cover.
-- Medium state: unpublished; the requested future scheduling date, time, and timezone are pending.
+- Medium: [scheduled article](https://medium.com/p/f537feb6bda2/edit), with matching article text and cover.
+- Medium state: scheduled for October 20, 2026 at 10:00 a.m. Bogotá time (GMT-5), still unpublished.
+  Confirmed in Medium's story list after submitting the schedule. Subscriber notification is enabled.
 - Canonical attribution: set the Medium canonical URL to
   `https://santi020k.com/blog/lumen-4-from-primitives-to-product-workflows/` after the website post
   is published. Do not mark it as previously published elsewhere while that URL is unavailable.
