@@ -18,6 +18,9 @@
 
 ### Patch Changes
 
+- Open the resume's external profile links in a new tab and include explicit
+  opener protection on external links rendered from Markdown.
+
 - Extend the sculpted design to article and project details, topic and series archives,
   technology indexes, speaking, developer experience, legal statements, and recovery pages.
   Keep filtering, reading controls, public URLs, and resume print behavior intact.
