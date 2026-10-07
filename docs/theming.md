@@ -45,3 +45,16 @@ import { fontFamily, staticAssets } from '@santi020k/theme'
 - `import.meta.resolve('@santi020k/theme/assets/...')` is preferred in Node scripts that need filesystem paths for Sharp or Satori.
 
 Do not duplicate core brand values or package-owned assets in this repo. If the Santi020k palette or shared assets change, update and publish `@santi020k/theme`, then bump the dependency here.
+
+## Site navigation
+
+`SiteHeader.astro` composes native navigation with Lumen buttons, icons, search, and theme
+controls into a single surface. Native `nav` preserves normal Tab access to every link; the
+installed Lumen navigation menu uses arrow-key groups instead. `src/styles/partials/nav.css` owns the signature tab, desktop dock, and attached
+mobile menu. Both menus derive their links and active route from `menuLinks` in `src/site.config.ts`.
+The desktop menu starts at 1024px; the contact button appears at 1200px to preserve link space.
+
+The mobile panel follows the header's measured position and scrolls within the available viewport.
+Its keyboard loop includes the visible header controls, yields to the search dialog, and restores
+focus on dismissal. Route changes and desktop resizing close it. Panel motion is disabled for
+reduced-motion preferences. Navigation shadows are site tokens in `partials/tokens.css`.

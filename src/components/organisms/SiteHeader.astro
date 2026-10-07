@@ -16,25 +16,13 @@ const isAvailableForBanner =
 
 const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
 
-const navigationIcons: Record<string, string> = {
-  'tabler:edit': 'square-pen',
-  'tabler:home-2': 'home',
-  'tabler:layers-intersect': 'panels-top-left',
-  'tabler:timeline': 'history',
-  'tabler:user-circle': 'circle-user-round'
-}
+const isCurrentPage = (path: string) => path === '/' ?
+  Astro.url.pathname === '/' :
+  Astro.url.pathname.startsWith(path)
 
 ---
 
-<header class="
-  sticky top-0 z-50 flex flex-col gap-2.5 p-4
-  min-[2200px]:px-10
-  sm:px-6
-  lg:px-8
-  xl:px-10
-  2xl:px-12
-"
->
+<header class="site-header">
   {isAvailableForBanner && (
     <div
       class="
@@ -108,351 +96,108 @@ const navigationIcons: Record<string, string> = {
   )}
   <site-header-mobile-nav class="contents">
     <div class="contents" data-mobile-nav>
-      <div class="site-header-shell z-50" data-header-shell>
-        <a
-          aria-label="Santiago Molina"
-          class="
-            group relative z-10 inline-flex min-h-11 min-w-11 items-center gap-3
-            transition duration-200
-            motion-reduce:transition-none
-          "
-          href="/"
-        >
-          {/* Icon-only for small screens */}
-          <div class="
-            h-9 w-auto
-            sm:hidden
+      <div class="site-header-shell" data-header-shell>
+        <span class="site-header-signature" aria-hidden="true">Santiago Molina</span>
+        <a aria-label="Santiago Molina" class="site-header-brand" href="/">
+          <span class="
+            site-header-mark
             dark:hidden
           "
           >
             <AnimatedLogo variant="light" iconOnly class="h-full w-auto" />
-          </div>
-          <div class="
-            hidden h-9 w-auto
-            sm:hidden
+          </span>
+          <span class="
+            hidden site-header-mark
             dark:block
-            sm:dark:hidden
           "
           >
             <AnimatedLogo variant="dark" iconOnly class="h-full w-auto" />
-          </div>
-          {/* Full logo for larger screens */}
-          <div class="
-            hidden h-9 w-auto
-            sm:block
-            dark:hidden
+          </span>
+          <span class="site-header-wordmark" aria-hidden="true">santi<span>020k</span><span class="
+            site-header-period
           "
-          >
-            <AnimatedLogo variant="light" class="h-full w-auto" />
-          </div>
-          <div class="
-            hidden h-9 w-auto
-            dark:sm:block
-          "
-          >
-            <AnimatedLogo variant="dark" class="h-full w-auto" />
-          </div>
-          <!-- <span class="
-            sr-only min-w-0 flex-col
-            sm:not-sr-only sm:flex
-          "
-          >
-            <span class="section-label">Santiago Molina</span>
-            <span class="truncate text-xs text-ink-soft">Leadership · Automation · DX</span>
-          </span> -->
+                                                                                      >.</span></span>
         </a>
 
-        <nav
-          aria-label="Main menu"
-          class="
-            ml-6 hidden items-center gap-1
-            min-[2200px]:ml-10 min-[2200px]:gap-2.5
-            lg:flex
-            xl:gap-1.5
-            2xl:ml-8 2xl:gap-2
-          "
-        >
-          {
-            navigationLinks.map((link: SiteLink) => {
-              const isActive = link.path === '/' ?
-                Astro.url.pathname === '/' :
-                Astro.url.pathname.startsWith(link.path)
-
-              return (
-                <a
-                  aria-current={isActive ? 'page' : undefined}
-                  class:list={[
-                    `
-                      group relative inline-flex min-h-10 items-center gap-1.5
-                      rounded-full px-3.5 text-sm font-medium whitespace-nowrap
-                      transition-[background-color,box-shadow,color]
-                      duration-200
-                      motion-reduce:transition-none
-                      min-[2200px]:px-5
-                      xl:px-4 xl:text-[0.9375rem]
-                      2xl:min-h-11 2xl:gap-2 2xl:px-4.5
-                    `,
-                    isActive ?
-                      'text-brand' :
-                      `
-                        text-ink-soft
-                        hover:bg-surface-muted/58 hover:text-ink
-                      `
-                  ]}
-                  href={link.path}
-                >
-                  {link.icon && (
-                    <Icon
-                      class:list={[
-                        `
-                          hidden size-4 shrink-0 transition-colors duration-200
-                          motion-reduce:transition-none
-                          2xl:block
-                        `,
-                        isActive ?
-                          'text-brand' :
-                          `
-                            text-ink-muted
-                            group-hover:text-ink-soft
-                          `
-                      ]}
-                      name={navigationIcons[link.icon] ?? 'circle-dot'}
-                    />
-                  )}
-                  {link.title}
-                  <span
-                    aria-hidden="true"
-                    class:list={[
-                      `
-                        absolute bottom-0.5 left-1/2 h-1 -translate-x-1/2
-                        rounded-full bg-brand
-                        shadow-[0_0_14px_hsl(var(--brand)/0.55)] transition-all
-                        duration-300 ease-out
-                        motion-reduce:transition-none
-                      `,
-                      isActive ?
-                        'w-10 opacity-100' :
-                        `
-                          w-1 opacity-0
-                          group-hover:w-8 group-hover:opacity-70
-                        `
-                    ]}
-                  />
-                </a>
-              )
-            })
-          }
+        <nav aria-label="Main menu" class="site-desktop-nav">
+          {navigationLinks.map((link: SiteLink) => (
+            <a
+              aria-current={isCurrentPage(link.path) ? 'page' : undefined}
+              class="site-desktop-nav-link"
+              href={link.path}
+            >
+              {link.title}
+            </a>
+          ))}
         </nav>
 
-        <div class="
-          relative z-50 flex min-w-0 shrink-0 items-center justify-end gap-2
-          sm:gap-3
-        "
-        >
+        <div class="site-header-actions">
           <SiteSearch />
           <ThemeToggle />
-          <div class="
-            hidden
-            xl:block
-          "
-          >
-            <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow variant="secondary">
+          <div class="site-header-contact">
+            <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow variant="primary">
               Let&apos;s talk
             </ButtonLink>
           </div>
-          <div class="
-            relative
-            lg:hidden
-          "
+          <Button
+            aria-controls="mobile-nav"
+            aria-expanded="false"
+            class="site-mobile-nav-toggle"
+            data-mobile-nav-toggle
+            type="button"
+            variant="ghost"
           >
-            <Button
-              aria-controls="mobile-nav"
-              aria-expanded="false"
-              class="site-mobile-nav-toggle"
-              data-mobile-nav-toggle
-              type="button"
-              variant="ghost"
-            >
-              <span
-                aria-hidden="true"
-                class="relative flex size-5 items-center justify-center"
-              >
-                <span class="absolute inset-0 flex items-center justify-center" data-mobile-nav-menu-icon>
-                  <Icon class="size-5" name="menu" />
-                </span>
-                <span
-                  class="absolute inset-0 items-center justify-center"
-                  data-mobile-nav-close-icon
-                  hidden
-                >
-                  <Icon class="size-5" name="x" />
-                </span>
+            <span class="site-menu-symbol" aria-hidden="true">
+              <span class="site-menu-grid" data-mobile-nav-menu-icon>
+                <span /><span /><span /><span />
               </span>
-              <span
-                class="back-to-top-label"
-                data-mobile-nav-toggle-label
-              >
-                Menu
-              </span>
-              <span class="sr-only">navigation</span>
-            </Button>
-          </div>
+              <span data-mobile-nav-close-icon hidden><Icon class="size-5" name="x" /></span>
+            </span>
+            <span class="site-menu-label" data-mobile-nav-toggle-label>Menu</span>
+            <span class="sr-only">navigation</span>
+          </Button>
         </div>
-      </div> <!-- close site-header-shell -->
+      </div>
 
-      <div
-        class="
-          fixed inset-0 z-40 bg-canvas/72 backdrop-blur-[2px]
-          supports-backdrop-filter:bg-canvas/58
-        "
-        data-mobile-nav-backdrop
-        hidden
-      />
+      <div class="site-nav-backdrop" data-mobile-nav-backdrop hidden />
 
       <nav
         id="mobile-nav"
         aria-hidden="true"
         aria-label="Main menu"
-        class="
-          fixed inset-x-4 z-50
-          sm:right-6 sm:left-auto sm:w-[24rem]
-          lg:right-8
-        "
+        class="site-mobile-nav"
         data-mobile-nav-panel
         hidden
       >
-        <div
-          class="
-            overflow-y-auto overscroll-contain rounded-3xl border border-line
-            p-4
-          "
-          data-mobile-nav-surface
-        >
-          <div class="
-            mb-3 flex flex-wrap items-center justify-between gap-2 px-3 py-2
-          "
-          >
-            <p class="
-              text-xs font-semibold tracking-widest text-ink-soft uppercase
-            "
-            >Navigation</p>
-            {isAvailableForBanner && (
-              <span class="
-                inline-flex items-center gap-2 p-1 text-[0.68rem] font-semibold
-                tracking-[0.16em] text-ink-muted uppercase
-              "
+        <div class="site-mobile-nav-surface" data-mobile-nav-surface>
+          <div class="site-mobile-nav-heading">
+            <p>Explore</p>
+            <span aria-hidden="true">01 — {String(navigationLinks.length).padStart(2, '0')}</span>
+          </div>
+          <div class="grid">
+            {navigationLinks.map((link: SiteLink, index: number) => (
+              <a
+                aria-current={isCurrentPage(link.path) ? 'page' : undefined}
+                class="site-mobile-nav-link"
+                data-mobile-nav-link
+                href={link.path}
               >
-                <span class="relative flex size-1.5">
-                  <span class="
-                    absolute inline-flex size-full animate-ping rounded-full
-                    bg-green-400 opacity-75
-                    motion-reduce:animate-none
-                  "
-                  >
-                  </span>
-                  <span class="
-                    relative inline-flex size-1.5 rounded-full bg-green-500
-                  "
-                  >
-                  </span>
-                </span>
-                Available
-              </span>
-            )}
+                <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <span>{link.title}</span>
+                <Icon class="site-mobile-nav-arrow" name="arrow-up-right" />
+              </a>
+            ))}
           </div>
-
-          <div class="grid gap-0.5">
-            {
-              navigationLinks.map((link: SiteLink) => {
-                const isActive = link.path === '/' ?
-                  Astro.url.pathname === '/' :
-                  Astro.url.pathname.startsWith(link.path)
-
-                return (
-                  <a
-                    aria-current={isActive ? 'page' : undefined}
-                    class:list={[
-                      `
-                        group flex min-h-13 items-center gap-3 rounded-2xl px-3
-                        py-2 text-base font-medium
-                        transition-[background-color,box-shadow,color,transform]
-                        duration-150
-                        focus-visible:ring-2 focus-visible:ring-brand
-                        focus-visible:ring-offset-2
-                        focus-visible:ring-offset-canvas
-                        focus-visible:outline-none
-                        motion-reduce:transition-none
-                      `,
-                      isActive ?
-                        `
-                          bg-brand-soft/55 font-semibold text-ink
-                          shadow-[inset_0_1px_0_hsl(0_0%_100%/0.16),0_8px_22px_hsl(var(--brand)/0.08)]
-                        ` :
-                        `
-                          text-ink-soft
-                          hover:translate-x-0.5 hover:bg-surface-muted/80
-                          hover:text-ink
-                          motion-reduce:hover:translate-x-0
-                        `
-                    ]}
-                    data-mobile-nav-link
-                    href={link.path}
-                  >
-                    <span
-                      aria-hidden="true"
-                      class:list={[
-                        `
-                          flex size-8 shrink-0 items-center justify-center
-                          rounded-xl transition-colors duration-150
-                          motion-reduce:transition-none
-                        `,
-                        isActive ?
-                          'bg-surface/68 text-ink shadow-inset-soft' :
-                          `
-                            text-ink-muted
-                            group-hover:bg-surface-muted
-                            group-hover:text-ink-soft
-                          `
-                      ]}
-                    >
-                      {link.icon && (
-                        <Icon
-                          class="size-4 shrink-0"
-                          name={navigationIcons[link.icon] ?? 'circle-dot'}
-                        />
-                      )}
-                    </span>
-                    {link.title}
-                    {isActive && (
-                      <span
-                        aria-hidden="true"
-                        class="ml-auto size-1.5 shrink-0 rounded-full bg-brand"
-                      />
-                    )}
-                  </a>
-                )
-              })
-            }
-          </div>
-
-          <div class="mt-4 divider-strong pt-4" data-mobile-nav-actions>
-            <ButtonLink
-              className="justify-center"
-              href={siteConfig.contact.whatsapp}
-              newTab
-              showArrow
-              variant="secondary"
-            >
-              Let&apos;s talk
-            </ButtonLink>
-            <ButtonLink
-              className="justify-center"
-              href={siteConfig.contact.resume}
-              showArrow
-              variant="ghost"
-            >
-              Resume
-            </ButtonLink>
+          <div class="grid gap-5">
+            <p class="site-mobile-nav-note">A little of what I build.<br />A little of who I am.</p>
+            <div data-mobile-nav-actions>
+              <ButtonLink className="justify-center" href={siteConfig.contact.whatsapp} newTab showArrow variant="primary">
+                Let&apos;s talk
+              </ButtonLink>
+              <ButtonLink className="justify-center" href={siteConfig.contact.resume} showArrow variant="ghost">
+                Resume
+              </ButtonLink>
+            </div>
           </div>
         </div>
       </nav>
@@ -622,10 +367,16 @@ class SiteHeaderMobileNav extends HTMLElement {
   }
 
   updatePanelPosition() {
-    const header = this.closest('header')
+    const shell = this.querySelector<HTMLElement>('[data-header-shell]')
 
-    if (header && this.panel) {
-      this.panel.style.setProperty('--mobile-nav-top', `${header.getBoundingClientRect().bottom}px`)
+    if (shell && this.panel) {
+      const bounds = shell.getBoundingClientRect()
+
+      this.panel.style.setProperty('--mobile-nav-top', `${bounds.bottom - 1}px`)
+
+      this.panel.style.setProperty('--mobile-nav-left', `${bounds.left}px`)
+
+      this.panel.style.setProperty('--mobile-nav-width', `${bounds.width}px`)
     }
   }
 
@@ -767,15 +518,15 @@ class SiteHeaderMobileNav extends HTMLElement {
   }
 
   trapFocus(event: KeyboardEvent) {
-    if (!(this.panel instanceof HTMLElement)) {
+    if (!(this.root instanceof HTMLElement)) {
       return
     }
 
     const focusableElements = [
-      ...this.panel.querySelectorAll<HTMLElement>(
+      ...this.root.querySelectorAll<HTMLElement>(
         'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
       )
-    ].filter(el => !el.hasAttribute('hidden') && el.getAttribute('aria-hidden') !== 'true')
+    ].filter(el => el.getClientRects().length > 0 && el.getAttribute('aria-hidden') !== 'true')
 
     const firstElement = focusableElements.at(0)
     const lastElement = focusableElements.at(-1)
@@ -786,7 +537,7 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     const activeElement = document.activeElement
 
-    if (!(activeElement instanceof HTMLElement) || !this.panel.contains(activeElement)) {
+    if (!(activeElement instanceof HTMLElement) || !this.root.contains(activeElement)) {
       event.preventDefault()
 
       firstElement.focus({ preventScroll: true })
