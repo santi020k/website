@@ -68,6 +68,13 @@ The `/travel/` page connects Lumen WorldMap with country visit counts and person
 See [the travel editing guide](docs/editorial/travel.md) for the data source, title-only drafts,
 and the Lumen 4 publication prerequisite.
 
+### Portfolio order
+
+Personal projects lead with Lumen UI, PostLens, Between Contractions, and RoadScore, in that order.
+Project frontmatter's `relevanceWeight` controls the shared ranking, with higher values first and
+starting dates breaking ties. The homepage and portfolio feature the first four; the projects
+gallery uses the same ranking for its full list and structured data.
+
 ### 📂 Project Structure
 
 | Path | Purpose |
