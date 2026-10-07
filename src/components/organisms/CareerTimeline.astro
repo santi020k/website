@@ -11,10 +11,11 @@ import { sortTechnologiesByInterest } from '@/utils/technologies'
 import { Card, Icon, Timeline, TimelineItem } from '@santi020k/lumen-astro'
 
 interface Props {
+  appearance?: 'default' | 'editorial'
   projects: CollectionEntry<'project'>[]
 }
 
-const { projects } = Astro.props
+const { appearance = 'default', projects } = Astro.props
 
 const careerItems = projects.map((project: CollectionEntry<'project'>) => ({
   brand: project.data.brand,
@@ -31,6 +32,7 @@ type CareerItem = (typeof careerItems)[number]
 ---
 
 <Card
+  data-career-appearance={appearance}
   class="overflow-hidden rounded-[1.75rem] p-0"
   variant="default"
 >
