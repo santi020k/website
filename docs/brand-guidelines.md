@@ -4,6 +4,13 @@
 
 > Single source of truth for the visual identity, voice, and implementation standards of the personal website and all related materials. Keep this document up to date whenever design tokens, components, or brand direction change.
 
+The About redesign uses the same quiet canvas and compact split-arrow actions as the sculpted
+navigation and homepage hero. Its implementation lives in `src/styles/partials/about.css`:
+Montserrat headings at weights 500–600, numbered section labels, thin rules, solid recommendation
+cards, and the plum soft-smile portrait. It keeps the existing palette and semantic Lumen
+components. The earlier glass and gradient patterns below remain applicable to surfaces awaiting
+redesign; the complete site style guide will be finalized after design approval.
+
 ---
 
 ## Related Skills

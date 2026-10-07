@@ -98,6 +98,39 @@ test.describe('About page', () => {
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
+  for (const width of [390, 1440]) {
+    for (const theme of ['light', 'dark']) {
+      test(`keeps the profile usable at ${width}px in ${theme} mode`, async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 })
+        await page.emulateMedia({ reducedMotion: 'reduce' })
+        await page.addInitScript(selectedTheme => {
+          localStorage.setItem('theme', selectedTheme)
+        }, theme)
+        await page.reload()
+        await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+
+        const portrait = page.getByRole('img', { name: 'Portrait of Santiago Molina (@santi020k)' })
+        await expect(portrait).toBeVisible()
+        const portraitLoaded = await portrait.evaluate(image => {
+          if (!(image instanceof HTMLImageElement)) return false
+
+          return image.complete && image.naturalWidth > 0
+        })
+        expect(portraitLoaded).toBe(true)
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+        await expect(page.locator('[data-testimonial]')).toHaveCount(4)
+        await expectNoUnexpectedAccessibilityViolations(page)
+
+        const resumeLink = page.getByRole('link', { name: 'View resume', exact: true })
+        await resumeLink.focus()
+        await page.keyboard.press('Enter')
+        await expect(page).toHaveURL('/resume/')
+        await page.goBack()
+        await expect(page.getByRole('heading', { level: 1 })).toContainText('Calm systems. Clear delivery.')
+      })
+    }
+  }
+
   if (shouldRunVisualSnapshots) {
     test('should match visual snapshot', async ({ page }) => {
       await expect(page).toHaveScreenshot('about-page.png')
