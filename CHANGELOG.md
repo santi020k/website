@@ -30,6 +30,10 @@
   chunk and validate search-index responses so malformed data offers retry rather
   than breaking result rendering.
 
+- Extend the Signature frame across About, Work, Projects, and the Blog landing
+  page while preserving their distinct layouts. Keep the quiet dock for Travel,
+  reading pages, and archives, and stack Projects statistics when space is tight.
+
 - Join the homepage navbar and hero with the Signature frame design. Refine the
   attached mobile menu with coordinated motion and blur, and carry the stepped
   shape into search. Preserve keyboard focus while search results are loading.

@@ -28,6 +28,7 @@ const workListSchema = createProjectCollectionSchema('Work Experience — Santia
 ---
 
 <PageLayout
+  headerVariant="signature"
   meta={{
     breadcrumbs,
     description: 'Explore Santiago Molina’s engineering work across commerce, SaaS, gaming, and platforms, including architecture, delivery systems, and technical leadership.',
@@ -37,48 +38,51 @@ const workListSchema = createProjectCollectionSchema('Work Experience — Santia
   }}
 >
   <div class="work-page" data-work-page>
-    <section aria-labelledby="work-heading" class="work-hero-grid">
-      <div>
-        <p class="maker-hero-eyebrow"><span
-aria-hidden="true"
-class="maker-hero-signal"
-                                      ></span>Work experience / US &amp; LATAM</p>
-        <h1 id="work-heading" class="work-heading">Products shipped.<br /><span class="
-          maker-hero-emphasis
-        "
-                                                                          >Teams led.</span></h1>
-      </div>
-      <div>
-        <p class="text-lg/7 font-medium tracking-tight text-ink">Good software takes more than code.</p>
-        <p class="mt-4 text-sm/7 text-ink-soft">I help teams turn complex problems into products that hold up. Architecture decisions, delivery systems, and hands-on technical leadership, from startup pressure to scale-up complexity.</p>
-        <div class="maker-hero-actions">
-          <ButtonLink class="maker-hero-primary" href={siteConfig.contact.resume} variant="unstyled">Open resume <span
-aria-hidden="true"
-class="maker-hero-arrow"
-                                                                                                                 ><Icon name="arrow-up-right" /></span></ButtonLink>
-          <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <Icon name="arrow-up-right" /></ButtonLink>
+    <div class="signature-frame work-intro">
+      <section aria-labelledby="work-heading" class="work-hero-grid">
+        <div>
+          <p class="maker-hero-eyebrow"><span
+  aria-hidden="true"
+  class="maker-hero-signal"
+                                        ></span>Work experience / US &amp; LATAM</p>
+          <h1 id="work-heading" class="work-heading">Products shipped.<br /><span class="
+            maker-hero-emphasis
+          "
+                                                                            >Teams led.</span></h1>
         </div>
-      </div>
-    </section>
+        <div>
+          <p class="text-lg/7 font-medium tracking-tight text-ink">Good software takes more than code.</p>
+          <p class="mt-4 text-sm/7 text-ink-soft">I help teams turn complex problems into products that hold up. Architecture decisions, delivery systems, and hands-on technical leadership, from startup pressure to scale-up complexity.</p>
+          <div class="maker-hero-actions">
+            <ButtonLink class="maker-hero-primary" href={siteConfig.contact.resume} variant="unstyled">Open resume <span
+  aria-hidden="true"
+  class="maker-hero-arrow"
+                                                                                                                   ><Icon name="arrow-up-right" /></span></ButtonLink>
+            <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <Icon name="arrow-up-right" /></ButtonLink>
+          </div>
+        </div>
+      </section>
 
-    <section aria-label="Career at a glance" class="work-stats">
-      <Stat label="Professional roles" value={String(workProjects.length)} variant="bare"><p class="
-        mt-3 text-xs/6 text-ink-soft
-      "
-                                                                                          >Across commerce, gaming, agencies, and SaaS.</p></Stat>
-      <Stat label="Largest team led" value="14" variant="bare"><p class="
-        mt-3 text-xs/6 text-ink-soft
-      "
-                                                               >Product, design, frontend, and backend.</p></Stat>
-      <Stat label="Production technologies" value={String(allTechnologies.length)} variant="bare"><p class="
-        mt-3 text-xs/6 text-ink-soft
-      "
-                                                                                                  >Tools chosen to fit the product.</p></Stat>
-      <Stat label="Release cycle time" value="−75%" variant="bare"><p class="
-        mt-3 text-xs/6 text-ink-soft
-      "
-                                                                   >Through CI/CD and automated quality gates.</p></Stat>
-    </section>
+      <section aria-label="Career at a glance" class="work-stats">
+        <Stat label="Professional roles" value={String(workProjects.length)} variant="bare"><p class="
+          mt-3 text-xs/6 text-ink-soft
+        "
+                                                                                            >Across commerce, gaming, agencies, and SaaS.</p></Stat>
+        <Stat label="Largest team led" value="14" variant="bare"><p class="
+          mt-3 text-xs/6 text-ink-soft
+        "
+                                                                 >Product, design, frontend, and backend.</p></Stat>
+        <Stat label="Production technologies" value={String(allTechnologies.length)} variant="bare"><p class="
+          mt-3 text-xs/6 text-ink-soft
+        "
+                                                                                                    >Tools chosen to fit the product.</p></Stat>
+        <Stat label="Release cycle time" value="−75%" variant="bare"><p class="
+          mt-3 text-xs/6 text-ink-soft
+        "
+                                                                     >Through CI/CD and automated quality gates.</p></Stat>
+      </section>
+
+    </div>
 
     <section
 aria-labelledby="experience-heading"
