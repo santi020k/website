@@ -79,6 +79,10 @@ Two tiers, picked by intent:
   severity without a vulnerability allowlist. Any exception must document its
   exact dependency path, exposure boundary, and removal condition.
 
+See [dependency security follow-up](dependency-security.md) for unresolved
+upstream findings and their required compatibility checks. Documenting a finding
+does not waive the audit gate.
+
 ## Rollback
 
 If a production regression is detected:
