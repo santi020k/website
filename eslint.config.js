@@ -7,6 +7,15 @@ process.env.SYNCKIT_TIMEOUT ??= '180000'
 export default [
   ...recommended,
   {
+    name: 'website/playwright-library-detection',
+    files: ['tests/**/*.spec.ts'],
+    settings: {
+      // Playwright locators share query names with Testing Library, but they
+      // operate in a browser. Detect actual imports instead of name heuristics.
+      'testing-library/utils-module': 'off'
+    }
+  },
+  {
     name: 'website/project-tailwind-classes',
     rules: {
       'better-tailwindcss/no-unknown-classes': ['error', {

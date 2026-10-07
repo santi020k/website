@@ -20,11 +20,11 @@
   /* ─── Lumen Code / Shiki ─────────────────────────────────────────────────── */
 
   & > [data-ui-code],
-  & > .ui-code-tabs {
+  & > [data-package-manager-code-tabs] {
     @apply my-10;
   }
 
-  & .ui-code-tabs__panel {
+  & [data-package-manager-code-tabs] [role="tabpanel"] {
     @apply min-w-0 overflow-hidden;
   }
 
