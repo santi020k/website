@@ -4,15 +4,11 @@
   width: 100%;
   max-width: 72rem;
   margin-inline: auto;
-  padding: 1.5rem 2rem 0;
-  border-radius: 0 1.5rem 1.5rem 1.5rem;
-  background: hsl(var(--surface));
   color: hsl(var(--ink));
   letter-spacing: -0.025em;
 }
 
-body:has([data-home-hero]) .site-header { padding-bottom: 0; }
-#main:has(> [data-home-hero]) { padding-top: 0; }
+.signature-frame[data-home-hero] { padding-block: 1.5rem 0; }
 
 /* Preserve Home's particles while keeping Travel and Projects on a quiet canvas. */
 body:has([data-home-hero], [data-travel-explorer], [data-projects-page]) {
@@ -300,7 +296,7 @@ body:has([data-home-hero], [data-travel-explorer], [data-projects-page]) > div >
 }
 
 @media (max-width: 47.999rem) {
-  .maker-hero { padding: 1.75rem 1.125rem 0; }
+  .signature-frame[data-home-hero] { padding-top: 1.75rem; }
   .maker-hero-stage {
     grid-template-columns: 1fr;
     padding-block: 0 1.25rem;

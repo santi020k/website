@@ -9,6 +9,7 @@ body:has([data-about-page]) > div > .grid-fade {
 }
 
 @utility about-page {
+  container: about-page / inline-size;
   --hero-radius: 1rem;
   --about-accent: hsl(var(--brand));
   width: 100%;
@@ -23,8 +24,9 @@ body:has([data-about-page]) > div > .grid-fade {
   grid-template-columns: minmax(0, 1fr) minmax(0, 25rem);
   align-items: center;
   gap: 5rem;
-  padding-block: 2rem 4.5rem;
 }
+
+.about-hero.signature-frame { padding-bottom: 2.5rem; }
 
 @utility about-hero-copy { min-width: 0; }
 
@@ -104,7 +106,7 @@ body:has([data-about-page]) > div > .grid-fade {
 .about-portrait figcaption { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1rem; font-size: 0.6875rem; line-height: 1.75; }
 .about-portrait figcaption > span + span { text-align: right; color: hsl(var(--ink-soft)); }
 
-@utility about-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; padding-block: 2.5rem; border-block: 1px solid hsl(var(--line) / 0.65); }
+@utility about-stats { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem; padding-block: 2.5rem; border-block: 1px solid hsl(var(--line) / 0.65); }
 .about-stats .about-stat { padding: 0; border: 0; border-radius: 0; box-shadow: none; background: transparent; backdrop-filter: none; }
 .about-stat .ui-note__content > p:not(.about-stat-value) { max-width: 19rem; margin-top: 0.875rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.85; }
 @utility about-stat { min-width: 0; }
@@ -167,8 +169,13 @@ body:has([data-about-page]) > div > .grid-fade {
   .about-next { grid-template-columns: 1fr; gap: 0; }
 }
 
+@container about-page (max-width: 48rem) {
+  .about-hero { grid-template-columns: 1fr; gap: 2rem; }
+  .about-portrait { width: min(100%, 25rem); margin-inline: auto; }
+}
+
 @media (max-width: 47.999rem) {
-  .about-hero { grid-template-columns: 1fr; gap: 2rem; padding-block: 0 2.5rem; }
+  .about-hero { grid-template-columns: 1fr; gap: 2rem; }
   .about-hero h1 { font-size: clamp(2.625rem, 11vw, 4rem); }
   .about-hero-intro { font-size: 0.875rem; }
   .about-portrait { width: min(100%, 25rem); margin-inline: auto; }

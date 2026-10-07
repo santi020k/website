@@ -10,6 +10,12 @@ import { Button, ButtonLink as NavigationLink, Icon } from '@santi020k/lumen-ast
 
 import { menuLinks, siteConfig } from '@/site.config'
 
+interface Props {
+  variant?: 'dock' | 'signature'
+}
+
+const { variant = 'dock' } = Astro.props
+
 const isAvailableForBanner =
   siteConfig.availability.trim().toLowerCase().startsWith('open') &&
   siteConfig.showAvailabilityBanner !== false
@@ -88,7 +94,7 @@ const isCurrentPage = (path: string) => path === '/' ?
   )}
   <site-header-mobile-nav class="contents">
     <div class="contents" data-mobile-nav>
-      <div class="site-header-shell" data-header-home={Astro.url.pathname === '/' ? '' : undefined} data-header-shell>
+      <div class="site-header-shell" data-header-frame={variant === 'signature' ? '' : undefined} data-header-shell>
         <a aria-label="Santiago Molina" class="site-header-brand" href="/">
           <span class="
             site-header-mark

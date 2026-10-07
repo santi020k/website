@@ -140,7 +140,8 @@
 }
 
 @utility projects-intro {
-  padding-top: 2rem;
+  container: projects-intro / inline-size;
+  padding-bottom: 0;
 }
 
 @utility projects-intro-stage {
@@ -165,7 +166,7 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
   padding-block: 1.5rem;
-  border-block: 1px solid hsl(var(--line) / 0.65);
+  border-top: 1px solid hsl(var(--line) / 0.65);
 }
 
 .projects-intro-ledger > div + div {
@@ -196,10 +197,26 @@
   letter-spacing: normal;
 }
 
-@media (max-width: 767px) {
-  .projects-intro {
-    padding-top: 1rem;
+/* Stack the ledger when narrow screens or enlarged text squeeze its columns. */
+@container projects-intro (max-width: 16rem) {
+  .projects-intro-ledger { grid-template-columns: 1fr; gap: 0; padding-block: 0; }
+  .projects-intro-ledger > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1rem;
   }
+  .projects-intro-ledger > div + div {
+    border-top: 1px solid hsl(var(--line) / 0.65);
+    border-left: 0;
+    padding-left: 0;
+  }
+  .projects-intro-ledger dd { justify-content: end; margin-top: 0; text-align: right; }
+  .projects-intro-ledger dd span { width: 100%; }
+}
+
+@media (max-width: 767px) {
   .projects-intro-stage {
     grid-template-columns: 1fr;
     gap: 1.75rem;

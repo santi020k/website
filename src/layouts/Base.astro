@@ -20,6 +20,7 @@ import { siteConfig } from '@/site.config'
 
 interface Props {
   footerVariant?: 'compact' | 'default'
+  headerVariant?: 'dock' | 'signature'
   mainClass?: string | undefined
   mainSpacing?: 'generous' | 'standard'
   meta: SiteMeta
@@ -27,6 +28,7 @@ interface Props {
 
 const {
   footerVariant = 'default',
+  headerVariant = 'dock',
   mainClass,
   mainSpacing = 'standard',
   meta: {
@@ -91,9 +93,10 @@ const isGenerousSpacing = mainSpacing === 'generous'
         pointer-events-none absolute inset-0 -z-10 grid-fade opacity-60
       "
       />
-      <SiteHeader />
+      <SiteHeader variant={headerVariant} />
 
       <main
+        data-page-frame={headerVariant === 'signature' ? '' : undefined}
         id="main"
         class:list={[
           `

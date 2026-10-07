@@ -136,20 +136,37 @@ test('the mobile frame stays joined through closing and rapid reopening', async 
 
   await toggle.click()
   await expect(page.locator('[data-mobile-nav-link]').last()).toHaveCSS('opacity', '1')
-  await toggle.evaluate(button => {
+  // Capture the closing frame and reopen in one task, before its exit animation can finish.
+  const closingState = await toggle.evaluate(button => {
     if (!(button instanceof HTMLButtonElement)) throw new TypeError('Expected a menu button')
 
+    const root = button.closest('[data-mobile-nav]')
+    const menu = root?.querySelector('[data-mobile-nav-panel]')
+    const overlay = root?.querySelector('[data-mobile-nav-backdrop]')
+
+    if (!(menu instanceof HTMLElement) || !(overlay instanceof HTMLElement)) {
+      throw new TypeError('Expected a mobile menu and backdrop')
+    }
+
     button.click()
+
+    const state = {
+      expanded: button.getAttribute('aria-expanded'),
+      panelInert: menu.inert,
+      backdropVisible: !overlay.hidden && overlay.getClientRects().length > 0 &&
+        getComputedStyle(overlay).visibility === 'visible',
+      scrollLocked: document.documentElement.classList.contains('mobile-nav-open')
+    }
+
+    button.click()
+
+    return state
   })
-  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
-  await expect(panel).toHaveAttribute('inert', '')
-  await expect(backdrop).toBeVisible()
-  await expect(page.locator('html')).toHaveClass(/mobile-nav-open/)
-
-  await toggle.evaluate(button => {
-    if (!(button instanceof HTMLButtonElement)) throw new TypeError('Expected a menu button')
-
-    button.click()
+  expect(closingState).toEqual({
+    expanded: 'false',
+    panelInert: true,
+    backdropVisible: true,
+    scrollLocked: true
   })
   await expect.poll(() => panel.evaluate(element => element.getAnimations({ subtree: true })
     .filter(animation => animation.playState === 'running').length)).toBe(0)
