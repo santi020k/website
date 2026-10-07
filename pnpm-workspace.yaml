@@ -19,6 +19,7 @@ catalog:
   "@playwright/test": ^1.63.0
   "@santi020k/commitprompt": ^1.1.0
   "@santi020k/eslint-config-full": 3.2.4
+  "@santi020k/lumen": 2.1.0
   "@santi020k/lumen-astro": 2.1.0
   "@santi020k/lumen-core": 3.0.1
   "@santi020k/og": 1.1.1

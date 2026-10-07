@@ -145,8 +145,8 @@ const breadcrumbs = [
 
   {isFirstPage && (
     <StatsGrid>
-      <StatCard description="Posts connected by this topic in the archive." label="Posts" value={String(postCount)} />
-      <StatCard description="Distinct topics across the full writing archive." label="Total topics" value={String(totalTopics)} />
+      <StatCard description="Posts connected by this topic in the archive." label="Posts" value={postCount} />
+      <StatCard description="Distinct topics across the full writing archive." label="Total topics" value={totalTopics} />
       {page.lastPage > 1 && <StatCard description="Pagination for this topic archive." label="Page" value={`${page.currentPage} / ${page.lastPage}`} />}
     </StatsGrid>
   )}

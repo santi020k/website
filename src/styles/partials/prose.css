@@ -133,7 +133,7 @@
     @apply border-line/75;
   }
 
-  & img {
+  & img:not(:where(.not-prose, .not-prose *)) {
     @apply rounded-[1.8rem] border border-line/50 shadow-[0_18px_42px_hsl(230_30%_8%_/0.06)];
   }
 }

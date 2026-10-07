@@ -86,6 +86,11 @@ and the Lumen 4 publication prerequisite.
 
 ### 🛠️ Getting Started
 
+This branch previews unpublished Lumen 4 APIs. Use the
+[Lumen candidate workflow](docs/lumen-integration.md#lumen-4-candidate-preview) for development
+and validation; the older registry lockfile does not yet support these components. Deploy only
+after the coordinated v4 packages are published and the dependency upgrade is validated.
+
 **Requirements**: Node.js >= 24, [pnpm](https://pnpm.io/) 11, and
 [Quality CLI](https://github.com/santi020k/quality) v1.3.0 for repository Git hooks.
 

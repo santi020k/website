@@ -1,7 +1,10 @@
 # Lumen UI integration
 
-The committed production baseline uses `@santi020k/lumen-astro` 2.1.0. Lumen 4 is being
-qualified locally while its coordinated packages remain unpublished. Import Lumen styles
+The dependency lockfile retains `@santi020k/lumen-astro` 2.1.0. Lumen 4 is being
+qualified locally while its coordinated packages remain unpublished. This adoption branch now
+uses v4-only components and the optional motion stylesheet, so build and validation commands must
+run through `preview:lumen:v4` until the registry-backed v4 upgrade is available. Do not deploy this
+branch using its older dependency lockfile. Import Lumen styles
 once from `src/styles/global.css`, mount the default export from
 `@santi020k/lumen-astro/runtime` once in `src/layouts/Base.astro`, use public Lumen components
 instead of recreating their `ui-*` classes, and keep site-specific wrappers only when the published
@@ -69,6 +72,21 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   component tree and cannot render the real Astro components directly.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
 
+## Motion and effects
+
+- Numeric homepage metrics and stack counts compose `AnimatedNumber`, with a stable screen-reader
+  value and final content rendered on the server. Text-only statistics remain static.
+- Topic sorting and technology filtering use keyed `MotionGroup` children. Site controllers retain
+  ownership of sorting, search, focus, and result announcements.
+- `@santi020k/lumen/styles/motion.css` enables native disclosure height transitions in supporting
+  browsers. Unsupported browsers keep the native immediate toggle.
+- Stack cards use a static mesh effect. The sculpted homepage hero uses its site-owned artwork
+  without continuous animation or a pause-control requirement.
+- The existing Void homepage screenshot is rendered with `DeviceFrame` and Astro's optimized image.
+  Other project artwork remains unframed; it does not represent actual product screens.
+- The travel notebook uses Lumen `WorldMap` with site-owned visit data. Charts and AI interfaces
+  are absent because current content does not require them.
+
 ## Lumen 4 candidate preview
 
 Use Node 24 or newer and this website's pinned pnpm 11.25.0. Build and pack `lumen-core`,
@@ -84,7 +102,8 @@ pnpm run preview:lumen:v4 .cache/tarballs
 pnpm run preview:lumen:v4 .cache/tarballs pnpm run verify:fast
 ```
 
-The preview command temporarily overrides only the three Lumen packages. It keeps those
+The preview command temporarily overrides only the three Lumen packages. The umbrella package is
+also a direct website dependency so its public optional stylesheet resolves under pnpm. It keeps those
 overrides active while the child command runs, then restores the workspace, lockfile, and
 published dependencies on normal completion or command failure. Do not run another install,
 preview session, or dependency edit concurrently in this checkout. If the process is forcibly
@@ -108,7 +127,7 @@ The travel page also consumes the public `WorldMap` and `lumen-core/world-map-da
 Its implementation requires v4; the registry baseline cannot build this release until those
 packages are published. See the [travel editing guide](editorial/travel.md) for the map data.
 
-After publication, change both the Lumen adapter and core catalog entries in `pnpm-workspace.yaml`
+After publication, change the Lumen adapter, core, and umbrella catalog entries in `pnpm-workspace.yaml`
 to `4.0.0`, add exact release-age exceptions for the coordinated three packages if needed by the
 existing supply-chain policy, and run `pnpm install` to commit a registry-backed lockfile.
 Re-run the migration audit, website quality/build gates, Playwright interactions, and mobile /

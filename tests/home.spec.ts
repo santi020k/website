@@ -78,7 +78,8 @@ test('homepage stats use the accent Lumen variant as standalone articles', async
   )
 
   await expect(stats).toHaveCount(4)
-  await expect(stats.locator('.ui-stat-value')).toHaveText(['12+', '14', '-75%', '100+'])
+  await stats.first().scrollIntoViewIfNeeded()
+  await expect(stats.locator('[data-ui-animated-number-output]')).toHaveText(['12+', '14', '-75%', '100+'])
 })
 
 test('homepage keeps speaking out of the header and exposes it in the footer', async ({ page }) => {
