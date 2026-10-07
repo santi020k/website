@@ -26,7 +26,9 @@ Selecting a country opens a compact place note; visitors can browse the next cou
 note, or press Escape. Closing clears the selection so the same country can be opened again.
 The country selector appears on keyboard focus, while the duplicate highlighted-country list is
 hidden. On narrow screens, the map scrolls horizontally and reveals off-screen selections.
-The full country notebook sits in a native disclosure and remains usable without JavaScript.
+The story, notebook, and forthcoming stories share the hero’s 72rem alignment, thin rules, and
+quiet canvas. Country entries use plain rows with inline visit labels rather than nested cards.
+The full country notebook sits in a native Lumen disclosure and remains usable without JavaScript.
 Browsing order is the data order, not a claimed travel timeline.
 
 ## Title-only drafts

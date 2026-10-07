@@ -159,3 +159,28 @@ test('keyboard exploration reveals off-screen countries on mobile and clears emp
   await chooser.selectOption('')
   await expect(page.locator('[data-travel-selection]')).toBeHidden()
 })
+
+for (const width of [375, 1440]) {
+  test(`editorial sections align with the hero and the notebook works by keyboard at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/travel/')
+    const introduction = await page.locator('[data-travel-intro]').boundingBox()
+    if (!introduction) throw new Error('Travel introduction must be rendered')
+    for (const section of await page.locator('[data-travel-section]').all()) {
+      const bounds = await section.boundingBox()
+      if (!bounds) throw new Error('Travel section must be rendered')
+      expect(bounds.x).toBeCloseTo(introduction.x, 0)
+      expect(bounds.width).toBeCloseTo(introduction.width, 0)
+    }
+    const summary = page.locator('#travel-notebook summary')
+    await expect(page.locator('#country-jp')).toBeHidden()
+    await summary.focus()
+    await page.keyboard.press('Enter')
+    await expect(page.locator('#country-jp')).toBeVisible()
+    await expect(summary).toBeFocused()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+    await expectNoUnexpectedAccessibilityViolations(page)
+    await page.keyboard.press('Space')
+    await expect(page.locator('#country-jp')).toBeHidden()
+  })
+}
