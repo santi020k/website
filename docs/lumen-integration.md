@@ -1,6 +1,7 @@
-# Lumen UI v2 integration
+# Lumen UI integration
 
-The website uses `@santi020k/lumen-astro` 2.x as its shared component layer. Import Lumen styles
+The committed production baseline uses `@santi020k/lumen-astro` 2.1.0. Lumen 4 is being
+qualified locally while its coordinated packages remain unpublished. Import Lumen styles
 once from `src/styles/global.css`, mount the default export from
 `@santi020k/lumen-astro/runtime` once in `src/layouts/Base.astro`, use public Lumen components
 instead of recreating their `ui-*` classes, and keep site-specific wrappers only when the published
@@ -29,25 +30,69 @@ when translucency fits the surrounding surface.
   logos remain on `astro-icon` because Lucide intentionally excludes brand assets.
 - Reading layouts use Lumen `ScrollProgress` directly.
 - The site-wide background uses Lumen `Particles` directly, including its reduced-motion behavior.
-- Repeated card and content grids use Lumen v2 `RevealGroup` for selector-loaded, tokenized motion
+- Repeated card and content grids use Lumen `RevealGroup` for selector-loaded, tokenized motion
   with a built-in reduced-motion path.
-- Article and email copy actions use Lumen v2 `CopyButton`, including accessible success and error
+- Article and email copy actions use Lumen `CopyButton`, including accessible success and error
   announcements. The share toolbar retains its site-owned controller because it also offers the
   platform-native share sheet on supported touch devices.
+
+## Lumen 4 candidate preview
+
+Use Node 24 or newer and this website's pinned pnpm 11.25.0. Build and pack `lumen-core`,
+`lumen`, and `lumen-astro` from one fixed Lumen release revision in an isolated checkout.
+Follow the Lumen repository's own build instructions and package manager there. Keep the
+three `santi020k-*-4.0.0.tgz` files outside tracked source, for example in `.cache/tarballs/`.
+Do not pack mutable checkouts while another release task is changing them.
+
+Run a local preview or a validation command:
+
+```bash
+pnpm run preview:lumen:v4 .cache/tarballs
+pnpm run preview:lumen:v4 .cache/tarballs pnpm run verify:fast
+```
+
+The preview command temporarily overrides only the three Lumen packages. It keeps those
+overrides active while the child command runs, then restores the workspace, lockfile, and
+published dependencies on normal completion or command failure. Do not run another install,
+preview session, or dependency edit concurrently in this checkout. If the process is forcibly
+terminated, recover the two dependency files from Git after preserving unrelated changes,
+then run `pnpm install --frozen-lockfile`. Local tarballs must never enter a deployment or commit.
+
+The v4 source migration currently requires no automatic rewrites in this Astro consumer.
+Existing site cards own their spacing through utility classes and composed content, so
+`src/styles/partials/ui.css` sets the public `--ui-card-gap` variable to zero to avoid adding
+v4's default gap to those layouts. Explicit gap utilities still work. Media frames retain their
+own clipping, and the root stylesheet and runtime imports remain valid. The Markdown adapter
+assigns each scrollable code block a distinct accessible landmark name, because the v4 runtime
+enhances these blocks as regions and repeated default names fail the article accessibility audit.
+The build clears Astro's generated content store so changes to Markdown adapters regenerate
+article markup instead of reusing HTML from the previous integration.
+
+The initial candidate comes from Lumen revision `f7bfcc07a0805a420ffeb6ad5f24da709ecca6dd`.
+This is local consumer evidence, not qualification of the Lumen release or published v4 packages.
+
+After publication, change only the Lumen adapter's catalog entry in `pnpm-workspace.yaml` to
+`4.0.0`, add exact release-age exceptions for the coordinated three packages if needed by the
+existing supply-chain policy, and run `pnpm install` to commit a registry-backed lockfile.
+Re-run the migration audit, website quality/build gates, Playwright interactions, and mobile /
+desktop visual checks against those actual published packages before deployment. Use the
+website's Changesets process in `docs/deployment.md`; reverting the adoption commit and
+reinstalling the previous lockfile is the consumer rollback.
 
 ## Upgrade checks
 
 After updating Lumen, run these package-owned checks before the website gates:
 
 ```bash
-pnpm exec lumen migrate v2
-pnpm exec lumen audit-tokens
-pnpm exec lumen doctor
+pnpm exec lumen migrate v4 --dry-run
+pnpm exec lumen audit-tokens src
+pnpm exec lumen doctor src
 ```
 
-The migration command should report no pending rewrites, the token audit should report no
-incompatible semantic variables, and the doctor should confirm one Astro adapter, one stylesheet
-boundary, and one runtime mount.
+The migration command should report no pending rewrites. Review its manual findings against the
+actual rendered site. The source token audit should report no incompatible semantic variables.
+Confirm one Astro adapter, one stylesheet boundary, and one runtime mount; generated `dist/`
+styles are excluded from the source audit because minified selectors can produce false positives.
 
 Unused local Badge, FloatingBadge, Separator, SocialIconLink, MiniNote, PillCount,
 ReadingProgressBar, and ParticlesBackground components were removed rather than duplicated in the

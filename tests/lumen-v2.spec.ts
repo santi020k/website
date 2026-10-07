@@ -2,7 +2,7 @@
 // TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
-test.describe('Lumen v2 integration', () => {
+test.describe('Lumen integration', () => {
   test('enhances repeated content with the shared reveal runtime', async ({ page }) => {
     await page.goto('/blog/')
 

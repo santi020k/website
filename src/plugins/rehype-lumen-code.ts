@@ -138,7 +138,7 @@ const createHeader = (language: string, label: string): Element => {
   ])
 }
 
-const convertFigure = (figure: Element): void => {
+const convertFigure = (figure: Element, exampleNumber: number): void => {
   const { label, language, pre } = getCodeMetadata(figure)
 
   figure.properties.className = [...classNames(figure), 'ui-code', 'ui-code--block']
@@ -151,6 +151,10 @@ const convertFigure = (figure: Element): void => {
 
   if (pre) {
     pre.properties.tabIndex = 0
+
+    pre.properties.role = 'region'
+
+    pre.properties.ariaLabel = `Code example ${exampleNumber}: ${label || language || 'plain text'}`
   }
 
   figure.children = [
@@ -314,7 +318,13 @@ const groupPackageManagerAlternatives = (tree: Root): void => {
 export const rehypeLumenCode: Plugin<[], Root> = () => tree => {
   groupPackageManagerAlternatives(tree)
 
+  let exampleNumber = 0
+
   visit(tree, 'element', node => {
-    if (isPrettyCodeFigure(node)) convertFigure(node)
+    if (!isPrettyCodeFigure(node)) return
+
+    exampleNumber += 1
+
+    convertFigure(node, exampleNumber)
   })
 }

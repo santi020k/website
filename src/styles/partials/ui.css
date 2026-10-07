@@ -59,6 +59,11 @@
   @apply panel-card p-5;
 }
 
+/* Website cards compose their own child spacing; avoid adding the v4 default gap. */
+.ui-card {
+  --ui-card-gap: 0;
+}
+
 @utility ui-card--muted {
   @apply bg-surface-muted/50;
 }

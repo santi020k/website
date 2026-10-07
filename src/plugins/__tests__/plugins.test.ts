@@ -4,6 +4,7 @@ import remarkDirective from 'remark-directive'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
 import { unified } from 'unified'
+import { visit } from 'unist-util-visit'
 import type { VFile } from 'vfile'
 import { describe, expect, test } from 'vitest'
 
@@ -183,6 +184,45 @@ describe('rehypeLumenCode', () => {
     expect(figure.properties.dataLanguage).toBe('bash')
     expect(figure.properties.dataUiCode).toBe('')
     expect(header.properties.className).toEqual(['ui-code__header'])
+  })
+
+  test('gives repeated code examples unique landmarks and restarts numbering for each article', () => {
+    const processor = unified().use(rehypeLumenCode)
+
+    for (let article = 0; article < 2; article += 1) {
+      const tree: HastRoot = { children: [codeFigure('npm'), codeFigure('npm')], type: 'root' }
+      const labels: string[] = []
+
+      processor.runSync(tree)
+
+      visit(tree, 'element', node => {
+        if (node.tagName !== 'pre') return
+
+        expect(node.properties.role).toBe('region')
+        expect(node.properties.tabIndex).toBe(0)
+
+        if (typeof node.properties.ariaLabel === 'string') labels.push(node.properties.ariaLabel)
+      })
+
+      expect(labels).toEqual(['Code example 1: terminal', 'Code example 2: terminal'])
+    }
+  })
+
+  test.each(['bash', ''])('names untitled code examples using the language %s', language => {
+    const figure = codeFigure('npm', language)
+    const tree: HastRoot = { children: [figure], type: 'root' }
+    const labels: string[] = []
+
+    figure.children = figure.children.filter(child => child.type !== 'element' || child.tagName !== 'figcaption')
+    unified().use(rehypeLumenCode).runSync(tree)
+
+    visit(tree, 'element', node => {
+      if (node.tagName === 'pre' && typeof node.properties.ariaLabel === 'string') {
+        labels.push(node.properties.ariaLabel)
+      }
+    })
+
+    expect(labels).toEqual([`Code example 1: ${language || 'plain text'}`])
   })
 
   test('groups adjacent package-manager alternatives into Lumen CodeTabs', () => {

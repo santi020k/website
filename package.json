@@ -8,7 +8,7 @@
     "dev": "astro dev",
     "prelint": "astro sync",
     "prebuild": "npm-run-all --serial prebuild:clean generate:icons generate:fonts generate:og",
-    "prebuild:clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "prebuild:clean": "node -e \"const fs = require('node:fs'); fs.rmSync('dist', { recursive: true, force: true }); for (const file of ['.astro/data-store.json', 'node_modules/.astro/data-store.json']) fs.rmSync(file, { force: true })\"",
     "build": "astro build",
     "postbuild": "npm-run-all --serial postbuild:sitemap postbuild:redirects audit:seo",
     "postbuild:sitemap": "node scripts/js/generate-cross-site-sitemap.mjs",
@@ -61,7 +61,8 @@
     "prepare": "pnpm run hooks:install",
     "pre-commit": "lint-staged --quiet && astro check",
     "pre-push": "pnpm run verify:fast",
-    "commit": "commitprompt"
+    "commit": "commitprompt",
+    "preview:lumen:v4": "node scripts/js/preview-lumen-v4.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "catalog:",
