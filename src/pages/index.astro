@@ -1,6 +1,4 @@
 ---
-import { getImage } from 'astro:assets'
-
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import CommunityCard from '@/components/molecules/CommunityCard.astro'
 import PostListItem from '@/components/molecules/PostListItem.astro'
@@ -11,7 +9,6 @@ import HomeProjectShowcase from '@/components/pages/home/HomeProjectShowcase.ast
 import HomeStats from '@/components/pages/home/HomeStats.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import AboutMeImage from '@/assets/photos/originals/me-1.png'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { collectionRelevanceSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
@@ -47,12 +44,6 @@ const homeDescription =
   'Santiago Molina, known online as santi020k, is an engineering leader and full-stack architect building modern systems and better developer experiences.'
 
 const homeUrl = new URL('/', Astro.site).href
-
-const heroPortraitImage = await getImage({
-  format: 'avif',
-  src: AboutMeImage,
-  width: 320
-})
 
 const homePageSchema = {
   '@context': 'https://schema.org',
@@ -105,10 +96,6 @@ const homePageSchema = {
 
 const meta = {
   description: homeDescription,
-  preloadImage: {
-    href: heroPortraitImage.src,
-    type: 'image/avif'
-  },
   seoTitle: siteConfig.title,
   structuredData: homePageSchema,
   title: 'Engineering Leader & Full-Stack Architect'
@@ -118,7 +105,7 @@ const meta = {
 <PageLayout
   meta={meta}
 >
-  <HomeHero yearsOfExperience={yearsOfExperience} />
+  <HomeHero />
   <div
     class="
       section-container-wide scroll-mt-28 pt-10

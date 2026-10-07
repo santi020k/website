@@ -12,7 +12,7 @@ test.describe('About page', () => {
 
   test('should have the correct title and main heading', async ({ page }) => {
     await expect(page).toHaveTitle('Santiago Molina — Engineering Leader | santi020k')
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('I’m Santiago Molina.')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Calm systems. Clear delivery.')
   })
 
   test('should identify Santiago Molina as the profile page main entity', async ({ page }) => {

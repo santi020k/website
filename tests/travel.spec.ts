@@ -122,15 +122,21 @@ test('country details close, reopen the same country, and cycle through places',
   await expect(page.locator('[data-ui-world-map-viewport]')).toBeFocused()
 })
 
-for (const width of [390, 1440]) {
+for (const width of [320, 390, 768, 1440, 1920]) {
   test(`map controls stay inside the map at ${width}px and selected details remain accessible`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/travel/')
     const viewport = await page.locator('[data-ui-world-map-viewport]').boundingBox()
     const controls = await page.locator('.ui-world-map__zoom-controls').boundingBox()
     const hero = await page.locator('[data-travel-explorer]').boundingBox()
-    if (!viewport || !controls || !hero) throw new Error('Map controls, viewport, and hero must be rendered')
-    expect(viewport.width).toBeLessThanOrEqual(hero.width)
+    const introduction = await page.locator('[data-travel-intro]').boundingBox()
+    if (!viewport || !controls || !hero || !introduction) throw new Error('Map controls, viewport, and hero must be rendered')
+    expect(viewport.y + viewport.height).toBeLessThanOrEqual(introduction.y)
+    expect(hero.x).toBeCloseTo(0, 0)
+    expect(hero.width).toBeCloseTo(width, 0)
+    expect(viewport.width).toBeCloseTo(width, 0)
+    await expect(page.locator('[data-particles-bg]')).toBeHidden()
+    await expect(page.locator('header a[href="/travel/"][aria-current="page"]').first()).toHaveCount(1)
     expect(controls.x).toBeGreaterThanOrEqual(viewport.x)
     expect(controls.y).toBeGreaterThanOrEqual(viewport.y)
     expect(controls.x + controls.width).toBeLessThanOrEqual(viewport.x + viewport.width)

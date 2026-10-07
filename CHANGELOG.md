@@ -10,6 +10,8 @@
 
 ### Patch Changes
 
+- Unify the home and travel heroes with a quiet editorial design and sculpted navigation. Let the travel map span the full page width before the introduction, with country notes and controls inside the hero.
+
 - Prepare the website for Lumen 4 with a local candidate preview and preserve custom card spacing and uniquely label article code examples for screen readers.
 
 - Make additional project technologies available through a keyboard-accessible Lumen disclosure instead of a static overflow count.
