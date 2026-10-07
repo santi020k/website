@@ -12,6 +12,12 @@ test('footer preserves contact destinations, profile identity, and keyboard navi
   await expect(footer.locator('a[href="mailto:hi@santi020k.com"]')).toBeVisible()
   await expect(footer.locator('a[href="https://santi020k.com"]')).toHaveAccessibleName('Santiago Molina — santi020k')
   await expect(footer.locator('a[href="https://github.com/santi020k"]')).toHaveAttribute('rel', /\bme\b/)
+  const reportIssue = footer.getByRole('link', { name: 'Report an issue', exact: true })
+  await expect(reportIssue).toHaveAttribute('href', 'https://github.com/santi020k/website/issues/new/choose')
+  await expect(reportIssue).toHaveAttribute('target', '_blank')
+  await expect(reportIssue).toHaveAttribute('rel', 'noopener noreferrer')
+  await reportIssue.focus()
+  await expect(reportIssue).toBeFocused()
 
   await contact.focus()
   await expect(contact).toBeFocused()

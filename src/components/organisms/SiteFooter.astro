@@ -87,6 +87,7 @@ const activePath = [...navLinks, ...resourceLinks]
         {resourceLinks.map(({ path, title }) => (
           <a href={path} aria-current={activePath === path ? 'page' : undefined}>{title}</a>
         ))}
+        <a href="https://github.com/santi020k/website/issues/new/choose" rel="noopener noreferrer" target="_blank">Report an issue</a>
       </nav>
       <a class="maker-footer-version" href="https://github.com/santi020k/website" rel="noopener noreferrer" target="_blank" aria-label={`Website source, version ${version}`}>v{version}<Icon name="arrow-up-right" /></a>
     </div>

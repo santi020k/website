@@ -16,6 +16,14 @@ The child sites keep their own sitemap and `robots.txt` declarations. Those
 files are useful for independent diagnostics and other crawlers, while the
 cross-site sitemap provides one Google submission point.
 
+The combined sitemap preserves source `lastmod` dates when supplied. It never
+substitutes the build time for a content modification date. Nested indexes are
+deduplicated, and URLs outside each source's HTTPS origin or invalid dates fail
+validation. Optional unavailable sources remain non-blocking.
+Projects sharing a hub origin and sitemap path are fetched once, including the
+Theme 2 product pages under `theme.santi020k.com`. Distinct sitemap paths are
+still included, and deduplication never makes a required source optional.
+
 ## Google Search Console setup
 
 1. Add and DNS-verify the Domain property `santi020k.com`. A Domain property

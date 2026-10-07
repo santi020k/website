@@ -1,49 +1,59 @@
-name: 🐛 Bug Report
-description: Create a report to help us improve
-title: "[Bug]: "
+name: Bug or accessibility report
+description: Report a broken page, unexpected behavior, or an accessibility problem.
+title: "Bug: "
 labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
-
-  - type: textarea
-    id: description
+        Reports are public. Remove personal information, credentials, and private screenshots.
+        For suspected vulnerabilities, follow the [security policy](https://github.com/santi020k/website/security/policy).
+        For typos and broken links, use the content correction form.
+  - type: input
+    id: page
     attributes:
-      label: Description
-      description: A clear and concise description of what the bug is.
-      placeholder: When I visit the page, it shows...
+      label: Affected page or revision
+      description: Link to the public page. For local development, include the branch or commit.
+      placeholder: https://santi020k.com/blog/
     validations:
       required: true
-
   - type: textarea
     id: reproduction
     attributes:
-      label: Reproduction
-      description: |
-        Steps to reproduce the behavior.
+      label: Steps to reproduce
       placeholder: |
-        1. Go to '...'
-        2. Click on '...'
-        3. Scroll down to '...'
-        4. See error
+        1. Open the page...
+        2. Use the search or navigate with the keyboard...
+        3. Observe...
     validations:
       required: true
-
   - type: textarea
-    id: expected-behavior
+    id: expected
     attributes:
-      label: Expected Behavior
-      description: A clear and concise description of what you expected to happen.
+      label: Expected behavior
     validations:
       required: true
-
-  - type: input
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include safe error details or a screenshot if useful.
+    validations:
+      required: true
+  - type: textarea
     id: environment
     attributes:
-      label: Browser & OS
-      description: What browser and operating system are you using?
-      placeholder: "Chrome 120 on macOS 14"
+      label: Browser, device, and accessibility context
+      description: Include browser and OS versions, screen size, theme, and any relevant keyboard, zoom, screen reader, or reduced-motion settings.
+      placeholder: Browser and OS versions; mobile or desktop; light or dark theme.
     validations:
-      required: false
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues for this problem.
+          required: true
+        - label: This report contains no credentials or private personal information.
+          required: true
