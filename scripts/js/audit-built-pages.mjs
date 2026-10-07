@@ -37,6 +37,41 @@ const getInfo = target => stat(target).catch(error => {
  * @typedef {{route: string, pathname: string, hash: string}} LocalReference
  */
 
+/**
+ * Read URL tokens separately from density/width descriptors. Commas inside a
+ * URL (including data URLs) belong to that URL, not to another candidate.
+ * @param {string} srcset
+ * @returns {string[]}
+ */
+const getSrcsetUrls = srcset => {
+  const urls = []
+  let remaining = srcset
+
+  while (remaining) {
+    remaining = remaining.replace(/^[\s,]+/u, '')
+
+    const match = /^\S+/u.exec(remaining)
+
+    if (!match) break
+
+    const token = match[0]
+
+    remaining = remaining.slice(token.length)
+
+    urls.push(token.replace(/,+$/u, ''))
+
+    // A trailing comma ends a descriptor-free candidate; otherwise consume the
+    // descriptor up to the next separator without splitting the URL token.
+    if (!token.endsWith(',')) {
+      const separator = remaining.indexOf(',')
+
+      remaining = separator >= 0 ? remaining.slice(separator + 1) : ''
+    }
+  }
+
+  return urls
+}
+
 /** @param {string} directory */
 export const auditBuiltPages = async directory => {
   const files = (await walk(directory)).filter(file => file.endsWith('.html'))
@@ -80,14 +115,21 @@ export const auditBuiltPages = async directory => {
       if (!document.title.trim()) issues.push({ route, kind: 'title' })
     }
 
-    for (const element of document.querySelectorAll('a[href], img[src], script[src], link[href]')) {
-      const value = element.getAttribute(element.hasAttribute('src') ? 'src' : 'href')
-
-      if (!value) continue
-
+    /** @param {string} value */
+    const addReference = value => {
       const url = new URL(value, `${origin}${route}`)
 
       if (url.origin === origin) references.push({ route, pathname: url.pathname, hash: url.hash })
+    }
+
+    for (const element of document.querySelectorAll('a[href], img[src], script[src], link[href]')) {
+      const value = element.getAttribute(element.hasAttribute('src') ? 'src' : 'href')
+
+      if (value) addReference(value)
+    }
+
+    for (const element of document.querySelectorAll('img[srcset], source[srcset]')) {
+      for (const value of getSrcsetUrls(element.getAttribute('srcset') ?? '')) addReference(value)
     }
 
     dom.window.close()

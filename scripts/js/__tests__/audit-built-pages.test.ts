@@ -91,3 +91,38 @@ test('resolves wildcard redirects and validates fragments on the destination pag
     ])
   })
 })
+
+test('checks picture sources and every width or density candidate in responsive images', async () => {
+  await withSite(async directory => {
+    await writeFile(path.join(directory, 'index.html'), document(`
+      <picture>
+        <source srcset="/missing.avif 1x, /large.avif 2x">
+        <img src="/fallback.webp" srcset="/small.webp 320w,/missing-large.webp 640w" alt="Fixture">
+      </picture>
+    `))
+
+    for (const asset of ['large.avif', 'fallback.webp', 'small.webp']) {
+      await writeFile(path.join(directory, asset), 'fixture')
+    }
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/missing.avif' },
+      { route: '/', kind: 'missing-target', target: '/missing-large.webp' }
+    ])
+  })
+})
+
+test('preserves commas in srcset URLs and ignores external and embedded image candidates', async () => {
+  await withSite(async directory => {
+    await writeFile(path.join(directory, 'index.html'), document(`
+      <img srcset="/small.webp, /image,large.webp 2x" alt="Local">
+      <img srcset="data:image/png;base64,AAAA 1x, /small.webp 2x" alt="Embedded">
+      <source srcset="https://example.com/image.webp 1x, //cdn.example.com/image.webp 2x">
+    `))
+
+    await writeFile(path.join(directory, 'small.webp'), 'fixture')
+    await writeFile(path.join(directory, 'image,large.webp'), 'fixture')
+
+    expect(await auditBuiltPages(directory)).toEqual({ pages: 1, targets: 2, issues: [] })
+  })
+})

@@ -132,7 +132,7 @@ future library changes without committing tarballs.
 | `pnpm run audit` | Moderate-and-higher dependency vulnerability audit, including development dependencies. |
 | `pnpm run ci:verify` | Coverage, production build, Lighthouse assertions, and stable Chromium E2E alongside quality checks. |
 | `pnpm run audit:seo` | Built-page metadata, canonical, and social-image audit. |
-| `pnpm run audit:pages` | Every built document: local links/assets, fragments, duplicate IDs, and page landmarks. |
+| `pnpm run audit:pages` | Every built document: local links/assets (including responsive image candidates), fragments, duplicate IDs, and page landmarks. |
 | `pnpm run lint:content` | Frontmatter and editorial quality checks. |
 
 `pnpm run test:e2e:fast` reuses an existing build; browser-test scripts install Chromium when
