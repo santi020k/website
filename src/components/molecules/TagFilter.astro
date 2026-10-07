@@ -41,6 +41,7 @@ const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.p
   role="group"
 >
   <Pill
+    aria-current={!activeTag ? 'page' : undefined}
     className={scrollOnMobile ? 'shrink-0' : ''}
     href="/blog/"
     label="All posts"
@@ -48,6 +49,7 @@ const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.p
   />
   {tags.map(([tag, count]) => (
     <Pill
+      aria-current={activeTag === tag ? 'page' : undefined}
       className={scrollOnMobile ? 'shrink-0' : ''}
       count={count}
       href={getTagPath(tag)}

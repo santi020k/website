@@ -5,7 +5,7 @@ import type { CollectionEntry } from 'astro:content'
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 
-import { Icon } from '@santi020k/lumen-astro'
+import { Button, Icon } from '@santi020k/lumen-astro'
 
 interface OrganizationLogoRailItem {
   context: string
@@ -156,28 +156,30 @@ const logoSurfaceClass = {
   >
     <p aria-live="polite" class="text-sm font-medium text-ink-muted" data-carousel-status />
     <div class="flex items-center gap-2">
-      <button
+      <Button
         aria-controls="organization-carousel-items"
         aria-label="Show previous organizations"
         class="
           btn-secondary inline-flex size-11 items-center justify-center p-0
         "
         data-carousel-previous
-        type="button"
+        size="icon"
+        variant="secondary"
       >
         <Icon class="size-5" name="arrow-left" />
-      </button>
-      <button
+      </Button>
+      <Button
         aria-controls="organization-carousel-items"
         aria-label="Show next organizations"
         class="
           btn-secondary inline-flex size-11 items-center justify-center p-0
         "
         data-carousel-next
-        type="button"
+        size="icon"
+        variant="secondary"
       >
         <Icon class="size-5" name="arrow-right" />
-      </button>
+      </Button>
     </div>
   </div>
 </section>

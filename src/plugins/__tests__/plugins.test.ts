@@ -206,11 +206,19 @@ describe('rehypeLumenCode', () => {
     processor.runSync(tree)
 
     const tabs = tree.children[0] as Element
+    const tabList = tabs.children[0] as Element
+    const firstTab = tabList.children[0] as Element
 
     expect(tree.children).toHaveLength(1)
     expect(tabs.properties.className).toEqual(['ui-tabs', 'ui-code-tabs'])
+    expect(tabs.properties.dataPackageManagerCodeTabs).toBe('')
+    expect(tabs.properties.dataSlot).toBe('code-tabs')
     expect(tabs.properties.dataUiTabs).toBe('')
     expect(tabs.children).toHaveLength(3)
+    expect(tabList.properties.role).toBe('tablist')
+    expect(tabList.properties.className).toBeUndefined()
+    expect(firstTab.properties.role).toBe('tab')
+    expect(firstTab.properties.className).toBeUndefined()
   })
 
   test('splits inline package-manager alternatives into Lumen CodeTabs', () => {
@@ -224,6 +232,8 @@ describe('rehypeLumenCode', () => {
     const secondPanel = tabs.children[2] as Element
 
     expect(tabs.properties.className).toEqual(['ui-tabs', 'ui-code-tabs'])
+    expect(firstPanel.properties.role).toBe('tabpanel')
+    expect(firstPanel.properties.className).toBeUndefined()
     expect(firstPanel.properties.dataValue).toBe('npm')
     expect(hastText(firstPanel)).toContain('npm install package')
     expect(hastText(firstPanel)).not.toContain('# or')

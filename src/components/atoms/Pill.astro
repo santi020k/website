@@ -1,7 +1,10 @@
 ---
+import type { HTMLAttributes } from 'astro/types'
+
 import { Pill as LumenPill } from '@santi020k/lumen-astro'
 
 interface Props {
+  'aria-current'?: HTMLAttributes<'a'>['aria-current']
   className?: string
   count?: number | string
   href?: string
@@ -11,6 +14,7 @@ interface Props {
 }
 
 const {
+  'aria-current': ariaCurrent,
   className = '',
   count,
   href,
@@ -22,6 +26,7 @@ const {
 ---
 
 <LumenPill
+  aria-current={ariaCurrent}
   class:list={['group gap-1.5', className]}
   {...(count !== undefined ? { count } : {})}
   {...(href !== undefined ? { href } : {})}

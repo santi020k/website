@@ -189,21 +189,20 @@ const createCodeTabs = (figures: [Element, Element], labels: [string, string]): 
   return element('div', {
     className: ['ui-tabs', 'ui-code-tabs'],
     dataInitialValue: values.at(0) ?? '',
+    dataPackageManagerCodeTabs: '',
+    dataSlot: 'code-tabs',
     dataUiTabs: ''
   }, [
     element('div', {
       ariaLabel: 'Package manager',
-      className: ['ui-code-tabs__list'],
       role: 'tablist'
     }, labels.map((label, index) => element('button', {
       ariaSelected: index === 0 ? 'true' : 'false',
-      className: ['ui-code-tabs__tab'],
       dataValue: values.at(index) ?? '',
       role: 'tab',
       type: 'button'
     }, [text(label)]))),
     ...figures.map((figure, index) => element('div', {
-      className: ['ui-code-tabs__panel'],
       dataValue: values.at(index) ?? '',
       hidden: index > 0,
       role: 'tabpanel'
