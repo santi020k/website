@@ -142,6 +142,39 @@ test.describe('Portfolio page', () => {
       .not.toBe(restingBackground)
   })
 
+  test('work page keeps readable content and case-study navigation on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 })
+    await page.goto('/work/')
+
+    await expect(page.getByRole('heading', { level: 1, name: 'Products shipped. Teams led.' })).toBeVisible()
+    await expect(page.getByRole('region', { name: 'Career at a glance' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Open resume', exact: true })).toHaveAttribute('href', '/resume/')
+
+    const firstCaseStudy = page.locator('[data-career-link]').first()
+    await firstCaseStudy.focus()
+    await expect(firstCaseStudy).toBeFocused()
+    await firstCaseStudy.press('Enter')
+    await expect(page).toHaveURL(/\/portfolio\/smith-commerce\/$/)
+  })
+
+  test('work page fits responsive widths and passes accessibility in both themes', async ({ page }) => {
+    for (const theme of ['light', 'dark'] as const) {
+      await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+      await page.goto('/work/')
+      await page.evaluate(value => {
+        document.documentElement.dataset.theme = value
+      }, theme)
+
+      for (const width of [375, 768, 1440]) {
+        await page.setViewportSize({ width, height: 1000 })
+        await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+      }
+
+      await expectNoUnexpectedAccessibilityViolations(page)
+    }
+  })
+
   test('index should pass accessibility audit', async ({ page }) => {
     await page.goto('/portfolio/')
     await expect(page.locator('body')).toBeVisible()

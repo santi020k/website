@@ -15,6 +15,16 @@ the homepage, render Lumen's `Stat` component through
 contracts. Prefer `default` for a neutral metric, `accent` for a featured metric, and `glass` only
 when translucency fits the surrounding surface.
 
+## Work page composition
+
+The Work page follows the solid editorial canvas of the homepage and navbar: generous
+spacing, Montserrat headings, fine dividers, a purple emphasis, and the shared solid resume
+button. Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `Pill`.
+The existing `CareerTimeline` has an opt-in `appearance="editorial"` for Work, keeping the
+portfolio index's default presentation. Work shows complete role descriptions, with the
+same chronological content and keyboard-accessible case-study links in both themes.
+Page-specific styles live in `src/styles/partials/work.css`.
+
 ## Current primitive migrations
 
 - About-page supplementary cards use Lumen `Note` directly.
