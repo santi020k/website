@@ -45,6 +45,11 @@ export const resumeSourcePaths = [
 export const getResumeSourceHash = async () => {
   const hash = createHash('sha256')
 
+  // The rendered experience count changes each year even when source files do not.
+  hash.update(String(new Date().getFullYear()))
+
+  hash.update('\0')
+
   for (const sourcePath of resumeSourcePaths) {
     const absolutePath = join(projectRoot, sourcePath)
     const content = await readFile(absolutePath)

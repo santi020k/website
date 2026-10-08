@@ -54,6 +54,30 @@ describe('fetchWebmentionsForTarget', () => {
     })
   })
 
+  test.each([
+    [{ 'content-type': 'text/plain', value: 'Legacy reply' }, 'Legacy reply'],
+    [{ text: 'Current reply', value: 'Legacy reply' }, 'Current reply'],
+    [{ text: '   ', value: 'Legacy reply' }, 'Legacy reply'],
+    [{ text: 42, value: 'Legacy reply' }, 'Legacy reply'],
+    [{ value: 42 }, null],
+    [{ value: '   ' }, null]
+  ])('normalizes modern and legacy reply content %j', async (content, expectedText) => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({
+        children: [{
+          'wm-property': 'in-reply-to',
+          'wm-source': 'https://alice.example/reply',
+          content
+        }]
+      })
+    }))
+
+    const out = await fetchWebmentionsForTarget('https://santi020k.com/blog/hello/', 'test-token')
+
+    expect(out[0]?.content).toEqual(expectedText === null ? null : { text: expectedText })
+  })
+
   test('returns an empty list when the response is not ok', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }))
 

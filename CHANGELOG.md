@@ -18,6 +18,10 @@
 
 ### Patch Changes
 
+- Include the render year in CV freshness checks and preserve legacy Webmention
+  reply content alongside modern text values. Improve the repository overview,
+  site navigation, developer-tool map, and local verification guidance.
+
 - Upgrade OG to 1.2.0 and the coordinated ESLint 3.6 package family. Refresh
   social card compositions and use content-versioned manifest URLs in page metadata
   while preserving custom artwork. Replace the Playwright detection workaround

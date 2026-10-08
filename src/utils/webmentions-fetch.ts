@@ -32,7 +32,9 @@ const normalizeAuthor = (value: unknown): WebmentionAuthor | null => {
 }
 
 const normalizeContent = (value: unknown): WebmentionContent | null => {
-  const text = isRecord(value) ? asNonEmptyString(value.text) : null
+  const text = isRecord(value) ?
+    asNonEmptyString(value.text) ?? asNonEmptyString(value.value) :
+    null
 
   return text ? { text } : null
 }

@@ -264,3 +264,27 @@ metadata, generated image responses, visual snapshots, accessibility, responsive
 layouts, and navigation. Firefox, WebKit, and Lighthouse were not rerun for this
 adoption. Production dependencies have no known audit vulnerabilities; the full
 tooling audit remains blocked by the retained braces advisory above.
+
+## README and Codex review follow-up
+
+The repository overview now follows the product-first structure of the sibling
+Lumen and GitHub profile READMEs: visitor routes, project artwork, shared tooling
+boundaries, reproducible setup, and focused verification commands.
+
+Both findings from the Codex review of `add4e214` are addressed:
+
+- CV freshness includes the render year used by the résumé experience count.
+  Regression tests prove year rollover invalidates the fingerprint and dates
+  within one year preserve it. Both PDFs were regenerated from the current source.
+- Webmention normalization accepts legacy `content.value` after modern `content.text`.
+  Tests cover modern precedence, blank or malformed text, legacy replies, and
+  blank or malformed legacy values.
+
+The 28 focused regression tests and `pnpm run verify:fast` pass: 431 unit tests
+in 38 files, zero-warning lint and Astro diagnostics, documentation/content/CV
+checks, production build, and zero-error SEO and page-integrity audits.
+A fresh independent read-only review of
+all release changes against `origin/main` and these fixes found no additional
+actionable issues. The reviewer retained the dependency audit as a release blocker;
+this is not an approved exception. Final remote checks and review disposition must
+refer to the pushed PR head before recommending release.
