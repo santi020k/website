@@ -10,12 +10,6 @@
         "dist/**"
       ],
       "cache": false
-    },
-    "//#build:site": {
-      "outputs": [
-        "dist/**"
-      ],
-      "cache": false
     }
   },
   "globalEnv": [
