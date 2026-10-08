@@ -5,7 +5,10 @@ const playbackStatus = document.querySelector<HTMLElement>('#playback-status')
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 const themeButtons = document.querySelectorAll<HTMLButtonElement>('[data-time]')
 const duration = Number(frame?.dataset.duration)
-let selectedTime = 1
+const music = document.querySelector<HTMLButtonElement>('#music')
+const audioStatus = document.querySelector<HTMLElement>('#audio-status')
+let musicEnabled = false
+let selectedTime = Number(frame?.dataset.openingStill)
 let playing = false
 
 const isPlaybackTime = (time: unknown): time is number => (
@@ -61,6 +64,8 @@ frame?.addEventListener('load', () => {
 
   send('website-motion-seek', selectedTime)
 
+  frame.contentWindow?.postMessage({ type: 'website-motion-music', enabled: musicEnabled }, window.location.origin)
+
   updateState(selectedTime, false)
 })
 
@@ -108,10 +113,28 @@ document.querySelector('#pause')?.addEventListener('click', () => {
   updateState(selectedTime, false)
 })
 
+music?.addEventListener('click', () => {
+  musicEnabled = !musicEnabled
+
+  music.setAttribute('aria-pressed', String(musicEnabled))
+
+  music.textContent = musicEnabled ? 'Music on' : 'Music off'
+
+  if (audioStatus) audioStatus.hidden = true
+
+  frame?.contentWindow?.postMessage({ type: 'website-motion-music', enabled: musicEnabled }, window.location.origin)
+})
+
 window.addEventListener('message', (event: MessageEvent<unknown>) => {
   if (event.origin !== window.location.origin || event.source !== frame?.contentWindow) return
 
   const state = event.data
+
+  if (typeof state === 'object' && state !== null && 'type' in state && state.type === 'website-motion-audio-blocked') {
+    if (audioStatus) audioStatus.hidden = false
+
+    return
+  }
 
   if (!isPlaybackState(state)) return
 

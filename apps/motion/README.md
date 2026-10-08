@@ -1,7 +1,7 @@
-<!-- cspell:ignore HyperFrames GSAP FFmpeg FFprobe MP4 -->
+<!-- cspell:ignore HyperFrames GSAP FFmpeg FFprobe MP4 Holizna -->
 # Website motion studio
 
-A private Astro workspace for **A website, over time**: a 26-second film about the
+A private Astro workspace for **A website, over time**: a 30-second film about the
 four design eras of santi020k.com. It follows the Lumen motion studio strategy:
 local assets, one paused GSAP timeline, an interactive preview, and local
 [HyperFrames](https://hyperframes.app/docs/1-startup/2-quickstart) MP4 exports.
@@ -39,21 +39,23 @@ Local rendering needs Chrome, FFmpeg, and FFprobe. All exports use 30 fps:
 | Square | 1080 × 1080 | `renders/website-history-square.mp4` |
 | Landscape | 1920 × 1080 | `renders/website-history-landscape.mp4` |
 
-The three films are silent. On-screen text describes the changes; there is no
-voiceover or music dependency. No hosted rendering, generated-media service, or
-subscription is used. Render commands disable HyperFrames telemetry. Files remain
+The three films include an edited excerpt of **Chills by Holizna**, dedicated to
+the public domain under CC0 1.0. See [source, license, and edit details](audio/README.md).
+The preview starts paused with music off; its Music button enables playback on
+request. Seeking, pausing, switching format, and reduced motion stop the audio.
+There is no voiceover. Render commands disable HyperFrames telemetry. Files remain
 local; rendering does not publish or deploy them.
 
 ## Story and source
 
 | Time | Chapter |
 | --- | --- |
-| 0–2 s | Opening: A website, over time |
-| 2–7 s | V1: personal introduction and selected work |
-| 7–12 s | V2: purple identity, writing, and projects |
-| 12–17 s | V3: shared design system and product family |
-| 17–22 s | V4: warmer portrait and sculpted editorial canvas |
-| 22–26 s | Ending: Old ideas. Open doors. |
+| 0–4 s | Purple brand reveal: A website, over time |
+| 4–9 s | V1: personal introduction and selected work |
+| 9–14 s | V2: purple identity, writing, and projects |
+| 14–19 s | V3: shared design system and product family |
+| 19–24 s | V4: warmer portrait and sculpted editorial canvas |
+| 24–30 s | Closing signature: Always a work in progress |
 
 The metadata comes from `packages/website-history/versions.json` and `current.json`.
 The real desktop and mobile captures come from `src/assets/website-history/`.
@@ -67,6 +69,14 @@ owns every animation and registers the timeline using the composition ID, as
 required by the [GSAP authoring contract](https://hyperframes.app/docs/3-guides/3-gsap-animation).
 `src/styles/composition.css` owns format-specific layout and uses public Theme tokens.
 The preview uses Lumen buttons, badges, and links.
+
+`src/components/BrandBookend.astro` shares the opening and ending structure across
+all three formats. The official Theme mark, animated signature, and four nested
+frames connect the identity to the four eras. Square and portrait layouts have
+their own type sizes, spacing, and safe margins; they are not cropped exports.
+The decorative frame group intentionally continues beyond the canvas edge; only
+that group declares HyperFrames' `data-layout-allow-overflow` contract. Text and
+brand content remain inside the composition.
 
 There are no browser-clock CSS animations or live embedded websites in the film.
 Seeking is deterministic, including backwards. Generated assets, stills, static
@@ -85,8 +95,9 @@ indexable history page. Attribution: [Santiago Molina](https://santi020k.com).
 `pnpm run verify:fast` checks the studio alongside the website and archives,
 including its own build and browser tests. `check:composition` additionally checks
 all export formats with HyperFrames. Tests verify local assets, chapter text and
-layout, deterministic seeking, keyboard controls, reduced motion, and preview
-accessibility. They save temporary representative stills under `renders/stills/`.
+layout, deterministic seeking, keyboard controls, reduced motion, music playback
+and recovery, and preview accessibility. They save temporary representative stills
+under `renders/stills/`, including both bookends in every format.
 
 To revise or remove this film, edit or remove the private workspace and its root
 scripts/catalog entries. It has no production data or public runtime contract.

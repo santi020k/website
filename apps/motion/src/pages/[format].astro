@@ -1,7 +1,9 @@
 ---
 import '../styles/theme.css'
 import '../styles/composition.css'
+import '../styles/brand-bookend.css'
 
+import BrandBookend from '../components/BrandBookend.astro'
 import { chapters, duration, formats, outroStart } from '../composition'
 
 export const getStaticPaths = () => formats.map(format => ({ params: { format } }))
@@ -21,12 +23,7 @@ const height = format === 'portrait' ? 1920 : 1080
   </head>
   <body>
     <main aria-label="Website history film" id="website-history" data-composition-id="website-history" data-width={width} data-height={height} data-duration={duration} data-outro-start={outroStart} data-format={format}>
-      <section class="opening scene" data-scene-start="0">
-        <p class="film-eyebrow">santi020k.com · A digital time capsule</p>
-        <h1>A website,<br /><em>over time.</em></h1>
-        <p class="opening-note">Same maker. Different chapters.</p>
-        <span class="opening-index">01 — 04</span>
-      </section>
+      <BrandBookend kind="opening" start={0} />
       {chapters.map((era, index) => (
         <section class="chapter scene" data-scene-start={era.start} data-era={era.id}>
           <header class="film-header"><span>santi020k.</span><span>Website history · 2026</span></header>
@@ -43,13 +40,8 @@ const height = format === 'portrait' ? 1920 : 1080
           <div class="era-rail" aria-hidden="true">{chapters.map(item => <span class:list={{ active: item.id === era.id }}>{item.id.toUpperCase()}</span>)}</div>
         </section>
       ))}
-      <section class="ending scene" data-scene-start={outroStart}>
-        <p class="film-eyebrow">Nothing lost. Still evolving.</p>
-        <h2>Old ideas.<br /><em>Open doors.</em></h2>
-        <p class="ending-description">Explore every chapter.</p>
-        <a href="https://santi020k.com/history/" target="_blank" rel="noopener noreferrer">santi020k.com/history</a>
-        <p class="curation-note">V1 & V2 are curated design eras, not release tags.</p>
-      </section>
+      <BrandBookend kind="ending" start={outroStart} />
+      <audio id="soundtrack" src="/assets/chills-history-edit.mp3" preload="auto" data-start="0" data-duration={duration} data-volume="1" aria-label="Chills by Holizna, CC0 soundtrack"></audio>
     </main>
     <script>import '../scripts/timeline'
 </script>

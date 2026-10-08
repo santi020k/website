@@ -8,10 +8,6 @@ body { margin: 0; font-family: Montserrat, sans-serif; color: hsl(var(--ink)); b
 h1, h2, p, figure { margin: 0; }
 em { color: hsl(var(--brand)); font-style: normal; }
 .film-eyebrow { font-size: 22px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: hsl(var(--ink-soft)); }
-.opening, .ending { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 100px; }
-.opening h1, .ending h2 { margin-top: 50px; font-size: 144px; font-weight: 500; line-height: 1.02; letter-spacing: -.07em; }
-.opening-note, .ending-description { margin-top: 50px; font-size: 32px; color: hsl(var(--ink-soft)); }
-.opening-index { margin-top: 80px; padding-top: 25px; width: 100%; border-top: 1px solid hsl(var(--line)); font-size: 28px; letter-spacing: .1em; color: hsl(var(--ink-soft)); }
 .film-header, .film-footer { position: absolute; left: 60px; right: 60px; display: flex; justify-content: space-between; align-items: center; font-size: 20px; color: hsl(var(--ink-soft)); }
 .film-header { top: 50px; }
 .film-header > span:first-child { font-size: 30px; font-weight: 600; letter-spacing: -.07em; color: hsl(var(--ink)); }
@@ -28,8 +24,6 @@ em { color: hsl(var(--brand)); font-style: normal; }
 .era-rail { position: absolute; bottom: 20px; left: 60px; right: 60px; display: flex; gap: 12px; }
 .era-rail span { flex: 1; border-top: 3px solid hsl(var(--line)); padding-top: 8px; font-size: 16px; color: hsl(var(--ink-soft)); }
 .era-rail .active { color: hsl(var(--brand)); border-color: hsl(var(--brand)); font-weight: 600; }
-.ending a { margin-top: 40px; font-size: 36px; color: hsl(var(--brand)); text-decoration: none; }
-.curation-note { margin-top: 90px; font-size: 20px; color: hsl(var(--ink-soft)); }
 [data-format='portrait'] .chapter-copy { top: 240px; left: 80px; right: 80px; }
 [data-format='portrait'] .chapter-copy h2 { font-size: 94px; }
 [data-format='portrait'] .chapter-change { font-size: 30px; }
@@ -39,7 +33,6 @@ em { color: hsl(var(--brand)); font-style: normal; }
 [data-format='portrait'] .film-header { top: 160px; left: 80px; right: 80px; }
 [data-format='portrait'] .film-footer { bottom: 160px; left: 80px; right: 80px; }
 [data-format='portrait'] .era-rail { bottom: 230px; left: 80px; right: 80px; }
-[data-format='landscape'] .opening h1, [data-format='landscape'] .ending h2 { font-size: 185px; }
 [data-format='landscape'] .chapter-copy { top: 255px; left: 100px; width: 620px; right: auto; }
 [data-format='landscape'] .chapter-copy h2 { font-size: 88px; }
 [data-format='landscape'] .chapter-change { max-width: 570px; font-size: 30px; }

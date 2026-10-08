@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from '../../../tests/helpers/accessibility'
-import { chapters, duration, formats } from '../src/composition'
+import { chapters, duration, endingStill, formats, openingStill } from '../src/composition'
 
 for (const format of formats) {
   test(`${format} has loaded assets, readable chapters and deterministic seeking`, async ({ page }) => {
@@ -65,9 +65,29 @@ for (const format of formats) {
 
     const first = createHash('sha256').update(await page.screenshot({ path: `renders/stills/${format}-seek-first.png` })).digest('hex')
 
-    await page.evaluate(() => {
-      window.__timelines?.['website-history']?.pause().seek(24)
-    })
+    for (const [name, time] of [['opening', openingStill], ['ending', endingStill]] as const) {
+      await page.evaluate(time => {
+        window.__timelines?.['website-history']?.pause().seek(time)
+      }, time)
+
+      const scene = page.locator(`.${name}`)
+
+      await expect(scene).toBeVisible()
+
+      expect(await scene.evaluate(element => {
+        const root = element.getBoundingClientRect()
+        const center = element.querySelector('.brand-center')?.getBoundingClientRect()
+        const bottom = element.querySelector('.brand-bottom')?.getBoundingClientRect()
+
+        return [...element.querySelectorAll('.brand-center, .brand-kicker, .brand-bottom')].every(item => {
+          const box = item.getBoundingClientRect()
+
+          return box.left >= 0 && box.right <= root.right && box.top >= 0 && box.bottom <= root.bottom
+        }) && Boolean(center && bottom && center.bottom < bottom.top)
+      })).toBe(true)
+
+      await page.screenshot({ path: `renders/stills/${format}-${name}.png` })
+    }
 
     await expect(page.locator('.ending')).toBeVisible()
 
@@ -140,7 +160,72 @@ test('preview rejects foreign senders and non-finite seek values', async ({ page
     window.dispatchEvent(new MessageEvent('message', { origin: window.location.origin, source: window, data: { type: 'website-motion-play' } }))
   })
 
-  expect(await frame.locator('body').evaluate(() => window.__timelines?.['website-history']?.time())).toBe(1)
+  expect(await frame.locator('body').evaluate(() => window.__timelines?.['website-history']?.time())).toBe(openingStill)
 
   expect(await frame.locator('body').evaluate(() => window.__timelines?.['website-history']?.paused())).toBe(true)
+})
+
+test('music starts on request, stays synchronized, and stops on seek or reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+
+  await page.goto('/')
+
+  const audio = page.frameLocator('#composition').locator('audio')
+
+  await expect.poll(() => audio.evaluate(element => (
+    element instanceof HTMLAudioElement && element.readyState >= 2
+  ))).toBe(true)
+
+  expect(await audio.evaluate(element => element instanceof HTMLAudioElement && element.paused)).toBe(true)
+
+  await page.getByRole('button', { name: 'Music off' }).click()
+
+  await page.getByRole('button', { name: 'Play animation' }).click()
+
+  await expect.poll(() => audio.evaluate(element => (
+    element instanceof HTMLAudioElement && !element.paused && element.currentTime > 0
+  ))).toBe(true)
+
+  expect(await audio.evaluate(element => (
+    element instanceof HTMLAudioElement &&
+    Math.abs(element.currentTime - (window.__timelines?.['website-history']?.time() ?? 0)) < 0.3
+  ))).toBe(true)
+
+  await page.getByRole('button', { name: 'V4', exact: true }).click()
+
+  await expect.poll(() => audio.evaluate(element => element instanceof HTMLAudioElement && element.paused)).toBe(true)
+
+  await page.getByRole('button', { name: 'Square', exact: true }).click()
+
+  await expect(page.getByRole('button', { name: 'Music on' })).toHaveAttribute('aria-pressed', 'true')
+
+  await page.getByRole('button', { name: 'Play animation' }).click()
+
+  await expect.poll(() => audio.evaluate(element => element instanceof HTMLAudioElement && !element.paused)).toBe(true)
+
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+
+  await expect.poll(() => audio.evaluate(element => element instanceof HTMLAudioElement && element.paused)).toBe(true)
+})
+
+test('blocked audio offers recovery while the film remains usable', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+
+  await page.goto('/')
+
+  await page.frameLocator('#composition').locator('audio').evaluate(element => {
+    if (element instanceof HTMLAudioElement) element.play = () => Promise.reject(new DOMException('Playback blocked', 'NotAllowedError'))
+  })
+
+  await page.getByRole('button', { name: 'Music off' }).click()
+
+  await page.getByRole('button', { name: 'Play animation' }).click()
+
+  await expect(page.locator('#audio-status')).toBeVisible()
+
+  await expect(page.locator('#playback-status')).toContainText('Playing')
+
+  await page.getByRole('button', { name: 'Music on' }).click()
+
+  await expect(page.locator('#audio-status')).toBeHidden()
 })

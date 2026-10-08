@@ -5,7 +5,7 @@ import '../styles/preview.css'
 
 import { Badge, Button, Link } from '@santi020k/lumen-astro'
 
-import { chapters, duration, outroStart } from '../composition'
+import { chapters, duration, endingStill, openingStill, outroStart } from '../composition'
 ---
 
 <!doctype html>
@@ -34,22 +34,25 @@ import { chapters, duration, outroStart } from '../composition'
             <Button data-format="landscape" variant="outline" aria-pressed="false">Landscape</Button>
           </div>
           <div class="controls" role="group" aria-label="Choose chapter">
-            <Button data-time="1" data-start="0" data-name="Opening" variant="outline" aria-pressed="true">Opening</Button>
+            <Button data-time={openingStill} data-start="0" data-name="Opening" variant="outline" aria-pressed="true">Opening</Button>
             {chapters.map(chapter => <Button data-time={chapter.still} data-start={chapter.start} data-name={chapter.id.toUpperCase()} variant="outline" aria-pressed="false">{chapter.id.toUpperCase()}</Button>)}
-            <Button data-time="24" data-start={outroStart} data-name="Ending" variant="outline" aria-pressed="false">Ending</Button>
+            <Button data-time={endingStill} data-start={outroStart} data-name="Ending" variant="outline" aria-pressed="false">Ending</Button>
           </div>
           <div class="controls" role="group" aria-label="Playback">
             <Button id="play">Play animation</Button>
             <Button id="pause" variant="outline">Pause</Button>
+            <Button id="music" variant="outline" aria-pressed="false">Music off</Button>
           </div>
           <p id="playback-status" role="status">Paused · Opening</p>
           <p id="motion-preference" hidden>Reduced motion is enabled. Choose a chapter to view a still frame.</p>
-          <p class="preview-note">Authentic website captures. V1 and V2 are curated design eras. The film is silent and uses local assets.</p>
+          <p id="audio-status" role="status" hidden>Audio playback was blocked. Turn music off and on to retry.</p>
+          <p class="preview-note">Authentic website captures. V1 and V2 are curated design eras. Exports include “Chills” by Holizna (CC0). Preview music is optional.</p>
+          <p class="preview-note"><Link href="https://opengameart.org/content/chills" newTab>Music source</Link> · <Link href="https://creativecommons.org/publicdomain/zero/1.0/" newTab>CC0 license</Link></p>
           <Link href="https://santi020k.com/history/" newTab>Explore the website history ↗</Link>
         </section>
         <section class="preview-stage" aria-label="Animation preview">
           <div class="frame-container" data-preview-format="portrait">
-            <iframe id="composition" data-duration={duration} src="/portrait/" title="Website history film" width="1080" height="1920"></iframe>
+            <iframe id="composition" data-duration={duration} data-opening-still={openingStill} src="/portrait/" title="Website history film" width="1080" height="1920" allow="autoplay"></iframe>
           </div>
         </section>
       </div>

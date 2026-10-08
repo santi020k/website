@@ -1,0 +1,45 @@
+---
+import mark from '@santi020k/theme/assets/logos/logo-square.svg?raw'
+
+interface Props {
+  kind: 'opening' | 'ending'
+  start: number
+}
+
+const { kind, start } = Astro.props
+const opening = kind === 'opening'
+---
+
+<section class:list={['scene', 'brand-bookend', kind]} data-scene-start={start}>
+  <!-- Decorative frames intentionally continue beyond the canvas edge. -->
+  <div class="brand-frames" aria-hidden="true" data-layout-allow-overflow>
+    {[1, 2, 3, 4].map(() => <div class="brand-frame"></div>)}
+  </div>
+  <p class="brand-kicker">{opening ? 'A personal website, in four chapters' : 'The next chapter is still being written'}</p>
+  <div class="brand-center">
+    <div class="brand-signature" aria-label="santi020k">
+      <div class="signature-mark" aria-hidden="true" set:html={mark} />
+      <span class="signature-word">santi020k<span class="signature-dot">.</span></span>
+    </div>
+    <div class="brand-rule" aria-hidden="true"></div>
+    {opening ?
+<h1 class="brand-message">A website,<br /><span>over time.</span></h1> :
+(
+<h2 class="brand-message">Always a work<br /><span>in progress.</span></h2>
+)}
+    {opening ?
+<p class="brand-caption">Same maker. Different chapters.</p> :
+(
+<a
+class="brand-destination"
+href="https://santi020k.com/history/"
+target="_blank"
+rel="noopener noreferrer"
+>Explore the timeline <span aria-hidden="true">↗</span><strong>santi020k.com/history</strong></a>
+)}
+  </div>
+  <div class="brand-bottom">
+    <span>{opening ? 'Design / Build / Evolve' : 'Santiago Molina · Engineer & maker'}</span>
+    <span>{opening ? '2026 · V1 — V4' : 'More to come.'}</span>
+  </div>
+</section>
