@@ -63,3 +63,22 @@ test('bypasses a stale cached page for an ordinary GET route fetch', async ({ pa
 
   expect(text).not.toContain('STALE_MARKER')
 })
+
+test('retires the previous release cache while preserving unrelated caches', async ({ page }) => {
+  await page.goto('/robots.txt')
+  await page.evaluate(async () => {
+    const previous = await caches.open('santi020k-static-2026-04-21')
+
+    await previous.put('/', new Response('Previous release'))
+    await caches.open('unrelated-cache')
+    await navigator.serviceWorker.register('/sw.js')
+    await navigator.serviceWorker.ready
+  })
+  await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+
+  const names = await page.evaluate(() => caches.keys())
+
+  expect(names).not.toContain('santi020k-static-2026-04-21')
+  expect(names).toContain('santi020k-static-v4.0.0')
+  expect(names).toContain('unrelated-cache')
+})

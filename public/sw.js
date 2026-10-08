@@ -1,4 +1,4 @@
-const CACHE_VERSION = '2026-04-21'
+const CACHE_VERSION = 'v4.0.0'
 const STATIC_CACHE = `santi020k-static-${CACHE_VERSION}`
 
 const CORE_ROUTES = [

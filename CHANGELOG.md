@@ -18,6 +18,9 @@
 
 ### Patch Changes
 
+- Track local résumé render dependencies in CV freshness checks and retire the previous
+  service-worker cache during the v4 rollout. Verify both PDF links initiate downloads.
+
 - Remove the vulnerable Markdown glob-tooling chain by using the same markdownlint
   engine and rules with native Node file discovery. Retire the braces mitigation
   patch and retain the full dependency audit gate.

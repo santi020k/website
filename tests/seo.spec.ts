@@ -219,6 +219,21 @@ test.describe('SEO — meta tags', () => {
     await expect(fullPdfLink).toHaveAttribute('download', 'santiago-molina-full-cv.pdf')
     await expect(page.locator('a[href^="/pdf/cv.pdf?"]')).toHaveCount(0)
     await expect(page.locator('a[href^="/pdf/cv-full.pdf?"]')).toHaveCount(0)
+
+    for (const [link, filename] of [
+      [shortPdfLink, 'santiago-molina-resume.pdf'],
+      [fullPdfLink, 'santiago-molina-full-cv.pdf']
+    ] as const) {
+      const downloadPromise = page.waitForEvent('download')
+
+      await link.click()
+
+      const download = await downloadPromise
+
+      expect(download.suggestedFilename()).toBe(filename)
+      expect(await download.failure()).toBeNull()
+      await expect(page).toHaveURL(/\/resume\/$/)
+    }
   })
 
   test('resume keeps the full work history on the web and a concise print layout', async ({ page }) => {

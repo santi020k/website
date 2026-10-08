@@ -310,3 +310,25 @@ page-integrity audits, 24 Lighthouse runs across eight routes, and all 367
 Chromium tests with no retries used. A fresh independent read-only release
 review found no actionable issues. Required remote checks and Codex review must
 complete against the pushed revision before recommending release.
+
+## Final CV and service-worker review follow-up
+
+The CV fingerprint now includes the imported date formatter, other local render
+dependencies, and the canonical and served variable fonts with their generator.
+Five fixture mutation cases prove these changes invalidate freshness. Both PDFs
+were regenerated from the current source. The service-worker namespace is
+`santi020k-static-v4.0.0`; activation removes prior site caches and preserves
+unrelated caches.
+
+The Codex download finding referred to a local wrapper that the résumé does not
+use. Its direct Lumen import already forwards `download`; browser verification
+now checks that both links complete downloads with the expected filenames while
+keeping the résumé route open. No wrapper change was needed.
+
+`pnpm run verify:fast` passes with 438 tests in 39 files and zero lint or Astro
+diagnostics. All 46 affected Chromium checks pass with zero retries, including
+cache retirement, PDF downloads, external links, SEO, and Lumen interactions.
+The full dependency audit remains clean. Final independent read-only review
+identified the font-input omission; that finding was fixed and rechecked with
+no further actionable finding. Remote CI and Codex review must still qualify
+the final pushed revision before release.
