@@ -8,8 +8,8 @@ publish the candidate or deploy it.
 
 - Upgrade 17 direct dependencies to current compatible stable releases. Keep the
   coordinated Lumen 4.0.0 npm packages and TypeScript 6 compiler API compatibility.
-- Remove five advisory chains, install the upstream braces nesting mitigation,
-  and preserve the remaining registry audit failure. See
+- Remove vulnerable tooling chains, including the final Markdown glob chain,
+  and retain the full dependency audit gate. See
   [dependency security](dependency-security.md) for exact versions, patch sources,
   removal conditions, and recovery.
 - Preserve sitemap modification dates, validate XML and dates, deduplicate shared
@@ -51,14 +51,18 @@ Its sole actionable finding was that patch-only changes could skip CI. The
 that fix. A follow-up review of the footer link, browser regression assertions,
 and changelog found no additional actionable issues.
 
-## Release blocker
+## Dependency audit gate
 
-`pnpm run audit` still exits with one high-severity `braces` registry advisory,
-[registry advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm).
-The installed mitigation has behavioral regression coverage, but the published
-version remains 3.0.3. No advisory is ignored and no release exception is granted.
-Replace the patch with a published fixed version and obtain a passing audit
-before recommending production release.
+The former high-severity `braces` blocker is removed from the dependency graph.
+ESLint 3.6 removed its chain; the final migration replaces markdownlint-cli2 with
+the same markdownlint engine and Node's native file discovery. The 115-file scope
+and existing rules are unchanged. `pnpm run audit` passes with no known findings;
+no advisory is ignored and no exception is granted. See
+[dependency security](dependency-security.md) for details and recovery.
+
+The qualification sections below record earlier revisions and their blockers.
+They remain historical evidence; final release readiness depends on the latest
+pushed head, required checks, and review disposition.
 
 ## Signature frame follow-up
 
@@ -288,3 +292,21 @@ all release changes against `origin/main` and these fixes found no additional
 actionable issues. The reviewer retained the dependency audit as a release blocker;
 this is not an approved exception. Final remote checks and review disposition must
 refer to the pushed PR head before recommending release.
+
+## Markdown tooling release follow-up
+
+The user approved removal of the last vulnerable glob-tooling chain. The
+`lint:md` command now runs `scripts/js/lint-markdown.mjs`; the configuration is
+renamed to `markdownlint.config.json` with unchanged patterns and rules. CI treats
+changes to that configuration as build-affecting. The obsolete braces patch,
+whitespace exemption, CLI dependency, and CLI-only overrides are removed.
+
+The migration's before/after discovery sets match exactly: 115 Markdown files.
+Five focused tooling/security tests pass, and the full development dependency
+audit reports no known vulnerabilities. A frozen install and peer checks pass.
+`pnpm run verify:full` passes with 433 tests in 39 files, coverage above all
+existing thresholds, zero lint/type diagnostics, a production build, SEO and
+page-integrity audits, 24 Lighthouse runs across eight routes, and all 367
+Chromium tests with no retries used. A fresh independent read-only release
+review found no actionable issues. Required remote checks and Codex review must
+complete against the pushed revision before recommending release.

@@ -123,6 +123,7 @@ controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile 
 | `src/layouts/` / `src/components/` | Page composition and reusable Astro UI. |
 | `src/styles/global.css` / `src/styles/partials/` | Shared style boundary, tokens, and page styles. |
 | `scripts/` | Assets, content checks, CV generation, sitemap, and deployment helpers. |
+| `markdownlint.config.json` | Markdown rules and file scope, checked through the engine and native file discovery. |
 | `src/**/__tests__/` / `tests/` | Unit and rendered browser regression coverage. |
 | `docs/` | Editorial, UI, security, SEO, and deployment guidance. |
 

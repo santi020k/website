@@ -18,6 +18,10 @@
 
 ### Patch Changes
 
+- Remove the vulnerable Markdown glob-tooling chain by using the same markdownlint
+  engine and rules with native Node file discovery. Retire the braces mitigation
+  patch and retain the full dependency audit gate.
+
 - Include the render year in CV freshness checks and preserve legacy Webmention
   reply content alongside modern text values. Improve the repository overview,
   site navigation, developer-tool map, and local verification guidance.

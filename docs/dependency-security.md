@@ -7,10 +7,9 @@ packages. TypeScript stays on 6.0.3: TypeScript 7.0 lacks the programmatic API
 required by Astro, MDX, and ESLint consumers. This is a compatibility constraint,
 not an overlooked upgrade.
 
-Run `pnpm run audit` to check the current graph. The registry still reports the
-high-severity `braces` advisory because its published version remains 3.0.3,
-even with the mitigation below installed. The audit gate remains failing; no
-advisory is ignored, and this document does not authorize a release exception.
+Run `pnpm run audit` to check the current graph. The final Markdown tooling
+migration produces a clean audit, including development dependencies. No advisory
+is ignored and no release exception is required.
 
 The sitemap collector uses the maintained `fast-xml-validator` 1.4.2 syntax
 validator alongside Fast XML Parser 5.11.2, replacing the parser package's
@@ -33,40 +32,36 @@ exact-version `@lhci/utils` 0.15.1 patch preserves YAML and JSON configuration
 loading and rejects JavaScript-specific YAML tags. Remove the patch when an
 upstream Lighthouse CI release adopts the supported API and dependency.
 
-## Unpublished braces mitigation
+## Braces dependency chain removed
 
-`patches/braces@3.0.3.patch` is the same patch used by the parent Lumen project.
-Its source is [upstream pull request 72](https://github.com/micromatch/braces/pull/72),
-commit `28d440b5dd449dbf1fe6f3506cf94ecca4d02660`; its SHA-256 is
-`bfdb0c171556074c2785f98d0a7355209223df8e29dbc2ff489240c16a47da97`.
-The upstream change is not a published patched release. Git attributes exempt
-trailing whitespace checks only in these two exact unified patch files;
-those blank-line markers are required patch syntax. Their original bytes and
-other whitespace checks are preserved. Remove each attribute with its patch.
+ESLint Basic 3.6.0 and its coordinated adapters removed the ESLint dependency
+chain. The only remaining `braces` consumer was `markdownlint-cli2`, through
+`micromatch`, `globby`, and `fast-glob`. The registry still has no published fix
+for [the advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm).
 
-The patch bounds brace and parenthesis nesting to 100 levels across parsing,
-compiling, expanding, and string serialization, caps attempts to raise that bound, and
-rejects cyclic AST parent chains. Installed-package regression tests cover
-ordinary globs and ranges, the 100/101-depth boundary, deep malicious inputs,
-fractional limits, manually supplied ASTs, and cycles.
+The website now depends directly on markdownlint 0.41.1, the same engine version
+used by the former CLI. `scripts/js/lint-markdown.mjs` uses Node's native file
+discovery and the unchanged rules and patterns in `markdownlint.config.json`.
+Migration verification found the exact same 115 files. Regression tests cover
+nested files, excluded MDX and unrelated Markdown, preserved rule exceptions,
+actionable file/line/rule diagnostics, and successful and failing exit codes.
+An empty match set fails instead of silently passing.
 
-The remaining [registry advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)
-now enters only through Markdown glob tooling. ESLint Basic 3.6.0 and its
-coordinated adapters remove the ESLint chain from the audit. The website deploys static
-files, but build inputs and pull requests still cross those tooling boundaries.
-Do not treat a development-only dependency as automatically safe. Track the
-upstream release, replace the exact patch with that published fix when available,
-and retain the regression coverage.
+Removing the CLI removes every installed `braces` chain. Its unpublished patch,
+patch whitespace exemption, and obsolete CLI-specific overrides are retired.
+The installed-package braces tests are removed because that package no longer
+exists in the graph; the Lighthouse YAML security regression remains in place.
+`pnpm why braces` returns no installed dependency and `pnpm run audit` passes.
 
 ## Validation and recovery
 
 After changing dependencies, run a frozen install, `pnpm run verify:full`, and
 `pnpm run audit`. The canonical full gate includes CV freshness, coverage,
 production build and SEO audit, the full Lighthouse route set, and browser tests.
-The focused security regression command is:
+The focused tooling and security regression command is:
 
 ```bash
-pnpm exec vitest run scripts/js/__tests__/dependency-security.test.ts
+pnpm exec vitest run scripts/js/__tests__/lint-markdown.test.ts scripts/js/__tests__/dependency-security.test.ts
 ```
 
 Review peer dependency diagnostics as well. The final local cleanup replaces the all-framework ESLint bundle with Basic,
@@ -87,3 +82,7 @@ If an update regresses the build, revert its workspace, patch, and lockfile chan
 together and reinstall with `pnpm install --frozen-lockfile`. Reverting a security
 fix restores its exposure, so keep the audit gate closed until a replacement is
 validated.
+
+Restoring markdownlint-cli2 would restore the vulnerable chain. If the native
+runner needs a correction, preserve the engine, configured scope, and rule set,
+and fix the runner with regression coverage before reopening the release gate.
