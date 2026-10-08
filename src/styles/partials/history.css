@@ -1,11 +1,11 @@
 @utility history-era-body { min-width: 0; }
 @utility history-era-heading { min-width: 0; }
 @utility history-shell { width: 100%; max-width: 72rem; margin-inline: auto; }
-@utility history-intro { padding-bottom: 4rem; }
+@utility history-intro { padding-bottom: 3rem; }
 @utility history-intro-bottom { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
 .history-intro-bottom .editorial-page-description { max-width: 36rem; }
 @utility history-jump { display: inline-flex; align-items: center; gap: .75rem; min-height: 44px; font-size: .8125rem; white-space: nowrap; color: hsl(var(--ink)); }
-@utility history-timeline { list-style: none; margin: 0; padding: 0; }
+@utility history-timeline { list-style: none; margin: 7rem 0 0; padding: 0; }
 @utility history-era { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 3rem; padding-block: 3rem 4.5rem; border-top: 1px solid hsl(var(--line) / .65); scroll-margin-top: 7rem; }
 @utility history-era-marker { display: flex; flex-direction: column; align-items: start; gap: .75rem; }
 @utility history-version { font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 500; line-height: 1; letter-spacing: -.075em; color: hsl(var(--brand)); }
@@ -30,4 +30,4 @@
 .history-footnote > p:not(:first-child) { margin-top: 1rem; font-size: .875rem; line-height: 1.9; color: hsl(var(--ink-soft)); }
 .history-jump:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 5px; border-radius: .25rem; }
 @media (max-width: 959px) { .history-era { grid-template-columns: 6rem minmax(0, 1fr); gap: 1.5rem; } .history-intro-bottom { display: block; } .history-jump { margin-top: 1.5rem; } }
-@media (max-width: 639px) { .history-era { display: block; padding-block: 2rem 3rem; } .history-era-marker { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; } .history-version { font-size: 2.75rem; } .history-status { border: 0; padding: 0; } .history-mobile { width: 100px; border-radius: .75rem; } .history-captures { padding-right: 1.5rem; padding-bottom: 2.5rem; } .history-browser-bar { padding: .5rem; } .history-era-actions { margin-top: 1rem; } }
+@media (max-width: 639px) { .history-timeline { margin-top: 4.5rem; } .history-era { display: block; padding-block: 2rem 3rem; } .history-era-marker { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; } .history-version { font-size: 2.75rem; } .history-status { border: 0; padding: 0; } .history-mobile { width: 100px; border-radius: .75rem; } .history-captures { padding-right: 1.5rem; padding-bottom: 2.5rem; } .history-browser-bar { padding: .5rem; } .history-era-actions { margin-top: 1rem; } }

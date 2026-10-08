@@ -16,6 +16,21 @@ for (const theme of ['light', 'dark']) {
     for (const width of [390, 1440]) {
       await page.setViewportSize({ width, height: 900 })
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+      const navbar = await page.locator('[data-header-frame]').evaluate(element => {
+        const { x, y, width, height } = element.getBoundingClientRect()
+        return { x, y, width, height }
+      })
+      const hero = await page.locator('.history-intro').evaluate(element => {
+        const { x, y, width, height } = element.getBoundingClientRect()
+        return { x, y, width, height }
+      })
+      expect(hero.x).toBeCloseTo(navbar.x, 1)
+      expect(hero.width).toBeCloseTo(navbar.width, 1)
+      expect(hero.y).toBeCloseTo(navbar.y + navbar.height, 1)
+      const heroSurface = await page.locator('.history-intro').evaluate(element => getComputedStyle(element).backgroundColor)
+      const brandSurface = await page.locator('.site-header-brand').evaluate(element => getComputedStyle(element).backgroundColor)
+      expect(heroSurface).toBe(brandSurface)
+
       await expectNoUnexpectedAccessibilityViolations(page)
     }
     const openArchive = page.getByRole('link', { name: 'Open V1', exact: true })
