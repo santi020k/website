@@ -1,13 +1,22 @@
 @import "@santi020k/lumen-astro/layers.css";
 @import "tailwindcss";
 @import "@santi020k/lumen-astro/styles.css";
+@import "@santi020k/lumen/styles/motion.css";
 @import "@santi020k/theme/tokens.css";
 @import "./partials/tokens.css";
 @import "./partials/base.css";
 @import "./partials/nav.css";
+@import "./partials/home-hero.css";
+@import "./partials/footer.css";
+@import "./partials/home-content.css";
+@import "./partials/projects.css";
+@import "./partials/work.css";
 @import "./partials/animations.css";
 @import "./partials/utilities.css";
 @import "./partials/ui.css";
 @import "./partials/prose.css";
+@import "./partials/about.css";
 
 @plugin "@tailwindcss/typography";
+
+@import "./partials/remaining-pages.css";

@@ -1,0 +1,28 @@
+---
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  id: string
+  number: string
+  eyebrow: string
+  title: string
+  description: string
+  href: string
+  action: string
+}
+
+const { id, number, eyebrow, title, description, href, action } = Astro.props
+---
+
+<header class="studio-section-heading">
+  <div>
+    <p class="studio-eyebrow"><span>{number}</span> {eyebrow}</p>
+    <h2 class="studio-title" id={id}>{title}</h2>
+  </div>
+  <div class="studio-section-intro">
+    <p>{description}</p>
+    <ButtonLink class="studio-text-link" href={href} variant="unstyled">
+      {action} <Icon name="arrow-up-right" />
+    </ButtonLink>
+  </div>
+</header>

@@ -30,17 +30,6 @@ const sessionTraits = [
     xl:grid-cols-[minmax(0,1fr)_24rem]
   "
 >
-  <div
-    aria-hidden="true"
-    class="
-      pointer-events-none absolute -top-16 right-0 -z-10 h-128 w-3xl
-      max-w-[95vw] rounded-full bg-radial from-brand/16 via-brand-soft/8
-      to-transparent blur-3xl
-      motion-safe:animate-glow-pulse
-      motion-reduce:animate-none
-    "
-  />
-
   <div class="relative z-10">
     <Eyebrow
       className="
@@ -57,21 +46,9 @@ const sessionTraits = [
         motion-reduce:animate-none
       "
     >
-      <h1
-        class="
-          max-w-5xl text-4xl/[0.98] font-extrabold tracking-[-0.06em]
-          wrap-break-word
-          sm:text-6xl/[0.95]
-          lg:text-[5rem]/[0.92]
-        "
-      >
+      <h1 class="editorial-page-title">
         Technical talks.
-        <span
-          class="
-            block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
-            pb-3 text-transparent
-          "
-        >Practical takeaways.</span>
+        <span class="editorial-page-emphasis">Practical takeaways.</span>
       </h1>
       <p class="
         max-w-2xl text-base/7 text-ink-soft
@@ -127,7 +104,7 @@ const sessionTraits = [
         relative overflow-hidden rounded-4xl p-3
         sm:p-4
       "
-      glass="strong"
+      variant="unstyled"
     >
       <div
         aria-hidden="true"
@@ -161,11 +138,11 @@ const sessionTraits = [
         <dl class="grid grid-cols-2 gap-4 divider-soft pt-4">
           <div>
             <dt class="text-xs text-ink-muted">Community</dt>
-            <dd class="mt-1 ui-label">Since 2017</dd>
+            <dd class="mt-1 site-label">Since 2017</dd>
           </div>
           <div>
             <dt class="text-xs text-ink-muted">Based in</dt>
-            <dd class="mt-1 ui-label">Medellín</dd>
+            <dd class="mt-1 site-label">Medellín</dd>
           </div>
         </dl>
       </div>

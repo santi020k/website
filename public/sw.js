@@ -1,4 +1,4 @@
-const CACHE_VERSION = '2026-04-21'
+const CACHE_VERSION = 'v4.0.0'
 const STATIC_CACHE = `santi020k-static-${CACHE_VERSION}`
 
 const CORE_ROUTES = [
@@ -35,7 +35,21 @@ const shouldHandleRequest = (request, url) => request.method === 'GET' &&
   !url.pathname.startsWith('/api/') &&
   // Astro dev image pipeline — let the browser hit the dev server directly so
   // optimized images (e.g. search modal thumbnails) are not double-fetched via SW.
-  !url.pathname.startsWith('/_image')
+  !url.pathname.startsWith('/_image') &&
+  // The Cache API has no concept of partial responses: cache.match() ignores
+  // Range and returns a full 200 body, and cache.put() rejects a 206 outright.
+  // Large same-origin files (e.g. the resume PDF) that browsers fetch in
+  // byte ranges must go straight to the network instead of through the SW.
+  !request.headers.has('Range')
+
+// Every internal route is authored with a trailing slash (see AGENTS.md), and
+// Astro emits one `index.html` per route under that convention. The
+// ClientRouter fetches route HTML through a plain `fetch()` (mode "cors", not
+// "navigate") to diff and swap the document, so it must receive the same
+// network-first treatment as a real navigation — otherwise an in-page
+// transition would silently swap in stale cached markup.
+/** @param {URL} url */
+const isPageRequest = url => url.pathname === '/' || url.pathname.endsWith('/')
 
 // Cache storage is an optional optimization: failures must not discard network responses.
 /** @returns {Promise<Cache | undefined>} */
@@ -118,7 +132,7 @@ self.addEventListener('fetch', event => {
     return
   }
 
-  if (event.request.mode === 'navigate') {
+  if (event.request.mode === 'navigate' || isPageRequest(url)) {
     event.respondWith(networkFirst(event.request))
 
     return

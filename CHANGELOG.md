@@ -1,5 +1,132 @@
 # Changelog
 
+## 4.0.0
+
+### Major Changes
+
+- Introduce the v4 website design across the homepage, navigation, footer, About, Work, Projects,
+  and blog. Retain public page URLs and the shared content collections while improving responsive
+  layouts, keyboard navigation, theme support, and reduced-motion behavior.
+
+  Add a travel notebook with a full-width dotted map before the introduction, interactive country
+  notes, repeat visit counts, Colombian roots, and Paraguayan residence. Keep the five title-only
+  travel drafts unpublished. Offer concise and full CV downloads and reveal complete project
+  technology stacks through accessible disclosures.
+
+  Use the coordinated stable Lumen 4 packages, preserve custom card spacing, and give article code examples distinct
+  accessible names. Retain the local candidate preview for future library evaluation. Regenerate CV downloads from the merged design and track the Void MDX source correctly.
+
+### Patch Changes
+
+- Preserve GitHub label hex colors as YAML strings when consolidating the release.
+
+- Track local résumé render dependencies in CV freshness checks and retire the previous
+  service-worker cache during the v4 rollout. Verify both PDF links initiate downloads.
+
+- Remove the vulnerable Markdown glob-tooling chain by using the same markdownlint
+  engine and rules with native Node file discovery. Retire the braces mitigation
+  patch and retain the full dependency audit gate.
+
+- Include the render year in CV freshness checks and preserve legacy Webmention
+  reply content alongside modern text values. Improve the repository overview,
+  site navigation, developer-tool map, and local verification guidance.
+
+- Upgrade OG to 1.2.0 and the coordinated ESLint 3.6 package family. Refresh
+  social card compositions and use content-versioned manifest URLs in page metadata
+  while preserving custom artwork. Replace the Playwright detection workaround
+  with the shared configuration's explicit browser-test scope.
+
+- Remove 93 unused primitive style definitions and replace supported Lumen internal
+  selectors with public styling contracts and site-owned hooks. Preserve active
+  utilities and document the remaining Timeline, WorldMap, and ThemeToggle parts
+  that lack public styling hooks in 4.0.0.
+
+- Return keyboard focus to the travel map when closing country details with a
+  pointer, including browsers that do not focus clicked buttons.
+
+- Fetch page HTML from the network first during Astro client-side navigation,
+  retaining cached pages for offline use. Release offline connection listeners
+  during navigation and rebind them when returning to the offline page.
+
+- Remove unused legacy page components and font-import configuration. Replace the
+  all-framework ESLint bundle with the applicable owned packages and refresh the
+  compatible transitive dependency graph without weakening lint rules. Add a
+  complete built-page integrity audit for local links, assets, fragment targets,
+  duplicate IDs, and page landmarks. Keep phone metadata behind a separate lazy
+  chunk and validate search-index responses so malformed data offers retry rather
+  than breaking result rendering.
+
+- Extend the Signature frame across About, Work, Projects, and the Blog landing
+  page while preserving their distinct layouts. Keep the quiet dock for Travel,
+  reading pages, and archives, and stack Projects statistics when space is tight.
+
+- Join the homepage navbar and hero with the Signature frame design. Refine the
+  attached mobile menu with coordinated motion and blur, and carry the stepped
+  shape into search. Preserve keyboard focus while search results are loading.
+
+- Preserve authored search titles and descriptions without automatic truncation or filler.
+  Add focused search titles for the homepage, selected tutorials, and personal projects;
+  clarify selected About, portfolio, newsletter, and article copy. Remove FAQ markup from
+  speaking topics and use verified case-study update dates in project sitemap entries.
+
+- Unify the Blog landing and shared buttons, labels, newsletter, and Back to Top with
+  the sculpted design. Keep long mobile article grids visible and show complete titles
+  at narrow widths. Preserve the background balls and improve dark-theme link contrast.
+
+- Open the resume's external profile links in a new tab and include explicit
+  opener protection on external links rendered from Markdown.
+
+- Refresh compatible dependencies and npm Lumen 4 integration guidance. Remove legacy
+  vulnerable tooling chains and apply the upstream braces nesting mitigation while retaining
+  the registry audit blocker until a fixed release is published.
+
+- Preserve modification dates in the combined sitemap, fetch shared Theme product sitemaps
+  once, reject malformed source metadata, and safely serialize caller-provided structured data.
+
+- Preserve the blog topic filter's viewport position in both navigation directions after
+  destination page initialization. Verify transition completion and subsequent scroll stability.
+
+- Refresh the visual README, Lumen v4 project overview, and contribution guidance. Add
+  content correction reports and accessibility context, and extend full Lighthouse validation
+  across eight release routes.
+  Include dependency patch changes in CI and retain manual Lighthouse diagnostics.
+
+- Extend the sculpted design to article and project details, topic and series archives,
+  technology indexes, speaking, developer experience, legal statements, and recovery pages.
+  Keep filtering, reading controls, public URLs, and resume print behavior intact.
+  Add a durable route coverage checklist and fingerprint the supporting-page stylesheet
+  when generating resume PDFs.
+
+- Update compatible dependency security fixes, including Sharp and shell utilities,
+  and document the remaining upstream tooling advisories without suppressing them.
+
+- Adopt Lumen motion for topic and technology lists, animated metrics, native disclosures, semantic background effects, and the existing Void product screenshot.
+
+- Accept native dates from Astro's frontmatter parser for optional post update,
+  project end, and talk dates, preserving quoted dates and omitted values.
+
+- Feature Lumen UI first, followed by PostLens, Between Contractions, and RoadScore across personal project showcases. Include all four on the portfolio page and align project structured data with the visible order.
+
+- Align About with the sculpted navigation and personal homepage: use the soft-smile portrait,
+  quieter typography, numbered sections, solid recommendations, and consistent compact actions.
+  Preserve the organization carousel, profile metadata, and existing recommendations.
+
+- Extend the sculpted homepage design through work, projects, writing, and community sections with responsive layouts and accessible navigation.
+
+- Refresh the site navigation with a signature tab, compact desktop controls, and an attached numbered mobile menu. Give the contact action a flat contrasting label and separate arrow tile. Keep search, theme switching, and closing reachable by keyboard while the menu is open, and preserve reduced-motion and enlarged-text support.
+
+  Improve mobile navbar spacing and carry the new design into site search with a solid signature-tab panel, numbered suggestions, compact results, and accessible keyboard hints.
+
+- Align the projects index with the new site design, using an editorial introduction, compact metrics,
+  and a responsive project gallery while preserving technology archive layouts.
+
+- Use public Lumen hooks for package-manager tab styling and résumé printing, adopt Lumen buttons for organization carousel controls, and expose the current blog topic through accessible Pill links. Preserve the existing appearance, pagination, and tab behavior.
+
+- Validate external Webmention data and URLs before rendering, preserve anonymous
+  author fallbacks, and prevent avatar dimension lookup failures from breaking builds.
+  Send Webmention authentication in headers instead of request URLs.
+  Let the browser handle partial file requests without service-worker cache interception.
+
 ## 3.11.0
 
 ### Minor Changes

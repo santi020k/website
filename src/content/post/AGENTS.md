@@ -7,7 +7,8 @@ These instructions apply to every post below this directory. Follow the reposito
 
 - Store each post at `YYYY/<kebab-case-slug>/index.md` or `index.mdx`.
 - Keep post-specific assets beside the post.
-- Every post must provide `coverImage.alt` and `coverImage.src` in its frontmatter.
+- Published posts and drafts with body text must provide `coverImage.alt` and `coverImage.src`.
+- Title-only drafts (`draft: true` with an empty body) may omit the cover until writing begins.
 - Set `coverImage.src` to `./cover.webp`.
 
 ## Cover artwork

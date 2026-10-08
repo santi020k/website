@@ -5,7 +5,6 @@ import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
-import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import ProjectHeroCover from '@/components/molecules/ProjectHeroCover.astro'
 import ProjectHeroStack from '@/components/molecules/ProjectHeroStack.astro'
 
@@ -39,7 +38,7 @@ const metaItems = [
 ]
 ---
 
-<section class="relative space-y-12">
+<section class="editorial-detail-hero space-y-12">
   {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
   <div
     class="
@@ -93,14 +92,14 @@ const metaItems = [
     "
     >
       {plainWords && <span>{plainWords} </span>}
-      <span class="bg-clip-text text-transparent" data-project-title-gradient>
-        {gradientWord}
-      </span>
+      <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
     </h1>
-    <p class="
-      max-w-3xl text-lg/7 font-medium text-ink-soft
-      sm:text-xl/8
-    "
+    <p
+data-editorial-summary
+class="
+  max-w-3xl text-lg/7 font-medium text-ink-soft
+  sm:text-xl/8
+"
     >
       {project.data.description}
     </p>
@@ -113,22 +112,14 @@ const metaItems = [
       motion-reduce:animate-none
     "
   >
-    <GradientDivider class="mb-8" />
+
     <div class="
-      grid grid-cols-1 gap-4
+      grid grid-cols-2 gap-4
       sm:grid-cols-3
     "
     >
-      {metaItems.map((item, index) => (
-        <div
-          class="
-            relative rounded-2xl border border-line/30 bg-surface/50 p-6
-            backdrop-blur-sm transition-all duration-300
-            hover:-translate-y-1
-          "
-          data-project-meta
-          style={`animation-delay: ${160 + (index * 40)}ms`}
-        >
+      {metaItems.map(item => (
+        <div class="editorial-detail-meta-item" data-project-meta data-editorial-meta>
           <dl class="space-y-2">
             <dt class="
               section-label text-xs font-semibold tracking-wider
@@ -147,15 +138,6 @@ const metaItems = [
                 item.value}
             </dd>
           </dl>
-          <div
-            class="
-              absolute inset-0 opacity-0 transition-opacity duration-300
-              hover:opacity-100
-            "
-            data-project-meta-glow
-            aria-hidden="true"
-          >
-          </div>
         </div>
       ))}
     </div>
@@ -214,40 +196,9 @@ const metaItems = [
 
 <style>
   [data-project-title-gradient] {
-    background-image: linear-gradient(
-      to right,
-      var(--project-title-primary-readable),
-      var(--project-title-secondary-readable),
-      var(--project-title-primary-readable)
-    );
+    background-image: linear-gradient(to right, var(--project-title-primary-readable), var(--project-title-secondary-readable), var(--project-title-primary-readable));
   }
-
-  [data-project-meta-glow] {
-    background-image: linear-gradient(
-      to bottom right,
-      hsl(var(--project-primary) / 0.08),
-      transparent
-    );
-  }
-
-  [data-project-meta]:hover {
-    border-color: hsl(var(--project-primary) / 0.4);
-    background: hsl(var(--project-primary) / 0.04);
-    box-shadow: 0 10px 28px hsl(var(--project-primary) / 0.08);
-  }
-
   :global(:root[data-theme='dark']) [data-project-title-gradient] {
-    background-image: linear-gradient(
-      to right,
-      var(--project-title-primary-readable-dark),
-      var(--project-title-secondary-readable-dark),
-      var(--project-title-primary-readable-dark)
-    );
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    [data-project-meta] {
-      transition: none;
-    }
+    background-image: linear-gradient(to right, var(--project-title-primary-readable-dark), var(--project-title-secondary-readable-dark), var(--project-title-primary-readable-dark));
   }
 </style>

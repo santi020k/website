@@ -1,3 +1,5 @@
+import { getRouteManifestImage, type OgRouteManifest } from '@santi020k/og'
+
 const defaultSiteURL = 'https://santi020k.com/'
 const trimOuterSlashes = (value: string) => value.replace(/^\/+|\/+$/g, '')
 
@@ -44,5 +46,28 @@ export const getSocialImagePath = (pathname: string) => {
 export const getSocialImageURL = (
   pathname: string,
   baseURL: string | URL | undefined,
-  overridePath?: string
-) => new URL(overridePath ?? getSocialImagePath(pathname), baseURL ?? defaultSiteURL).href
+  overridePath?: string,
+  manifest?: OgRouteManifest
+) => {
+  const base = baseURL ?? defaultSiteURL
+  const image = manifest ? getRouteManifestImage(manifest, pathname) : undefined
+  const overrideURL = overridePath ? new URL(overridePath, base) : undefined
+  const generatedURL = image?.url ? new URL(image.url, base) : undefined
+  const alias = manifest ? getRouteManifestImage(manifest, pathname, { primary: false }) : undefined
+
+  const isGeneratedOverride = overrideURL ?
+    [image, alias].some(candidate => {
+      if (!candidate?.url) return false
+
+      const candidateURL = new URL(candidate.url, base)
+
+      return candidateURL.origin === overrideURL.origin && candidateURL.pathname === overrideURL.pathname
+    }) :
+    false
+
+  // Explicit custom artwork wins. Generated overrides (including legacy aliases)
+  // use the route's current primary image and its content fingerprint.
+  if (overrideURL && !isGeneratedOverride) return overrideURL.href
+
+  return generatedURL?.href ?? new URL(overridePath ?? getSocialImagePath(pathname), base).href
+}

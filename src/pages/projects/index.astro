@@ -1,17 +1,14 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
 import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
 import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects, collectionRelevanceSortProjects } from '@/utils/date'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { ButtonLink as LumenButtonLink, Icon } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
@@ -28,10 +25,12 @@ const breadcrumbs = [
   { name: 'Projects', url: '/projects/' }
 ]
 
-const projectsListSchema = createProjectCollectionSchema('Side Projects — Santiago Molina', '/projects/', sideProjects, Astro.site)
+const projectsListSchema = createProjectCollectionSchema('Side Projects — Santiago Molina', '/projects/', showcaseProjects, Astro.site)
 ---
 
 <PageLayout
+  headerVariant="signature"
+  mainClass="projects-page"
   meta={{
     breadcrumbs,
     description: 'Open-source tools and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
@@ -39,27 +38,46 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
     title: 'Side Projects — Santiago Molina'
   }}
 >
-  <PageHero
-    description="Open-source tools and self-directed experiments. These are the builds where curiosity becomes reusable practice."
-    eyebrow="Side Projects"
-    gradientText="love of it."
-    metaItems={['Open source', 'Developer tooling', 'Learning in public']}
-    title="Built for the"
-  >
-    <ButtonLink href="#projects" showArrow>
-      Explore projects
-    </ButtonLink>
-    <ButtonLink href={siteConfig.contact.github} newTab showArrow variant="secondary">
-      View GitHub
-    </ButtonLink>
-  </PageHero>
+  <section class="signature-frame maker-hero projects-intro" aria-labelledby="projects-heading" data-projects-page>
+    <p class="maker-hero-eyebrow">
+      <span aria-hidden="true" class="maker-hero-signal"></span>
+      Independent making / Side projects
+    </p>
+    <div class="projects-intro-stage">
+      <h1 id="projects-heading">
+        <span>Built for the{' '}</span>
+        <span class="maker-hero-emphasis">love of it.</span>
+      </h1>
+      <div>
+        <p class="maker-hero-description">
+          Useful products. Better tools. Room to explore.
+          These are the things I build beyond client work,
+          turning curiosity into something other people can use.
+        </p>
+        <div class="maker-hero-actions">
+          <LumenButtonLink class="maker-hero-primary" href="#projects" variant="unstyled">
+            Explore projects
+            <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-down-right" /></span>
+          </LumenButtonLink>
+          <LumenButtonLink class="maker-hero-secondary" href={siteConfig.contact.github} newTab variant="unstyled">
+            View GitHub <Icon name="arrow-up-right" />
+          </LumenButtonLink>
+        </div>
+      </div>
+    </div>
+    <dl class="projects-intro-ledger">
+      <div><dt>Independent builds</dt><dd>{sideProjects.length}<span>Projects &amp; experiments</span></dd></div>
+      <div><dt>Tools of the trade</dt><dd>{allTechnologies.length}<span>Technologies explored</span></dd></div>
+      <div><dt>Experience behind it</dt><dd>{YEARS_OF_EXPERIENCE}<span>Years in engineering</span></dd></div>
+    </dl>
+  </section>
 
   <section
     aria-label={`${sideProjects.length} personal projects`}
     class="
-      section-container-wide scroll-mt-28 pt-20
-      sm:pt-24
-      lg:pt-28
+      section-container-wide scroll-mt-28 pt-12
+      sm:pt-16
+      lg:pt-20
     "
     id="projects"
   >
@@ -73,29 +91,16 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       sm:mt-12
     "
     >
-      <ProjectsGallery projects={showcaseProjects} />
+      <ProjectsGallery projects={showcaseProjects} variant="editorial" />
     </div>
   </section>
 
-  <StatsGrid>
-    <StatCard
-      description="Open-source tools and experiments that sharpen how I build and lead."
-      label="Projects"
-      value={String(sideProjects.length)}
-    />
-    <StatCard
-      description="Tools and platforms explored through personal and open-source work."
-      label="Technologies"
-      value={String(allTechnologies.length)}
-    />
-    <StatCard
-      description="Years of professional engineering experience."
-      label="Experience"
-      value={YEARS_OF_EXPERIENCE}
-    />
-  </StatsGrid>
-
-  <PageSection>
+  <section class="
+    section-container-wide space-y-8 pt-20
+    sm:pt-24
+    lg:pt-28
+  "
+  >
     <SectionHeader
       description="Trusted foundations and tools I’m actively exploring across personal projects, open source, developer experience, and testing."
       eyebrow="Technology map"
@@ -108,5 +113,5 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       intro="Technologies from side projects and open-source contributions, ordered by interest."
       technologies={technologies}
     />
-  </PageSection>
+  </section>
 </PageLayout>

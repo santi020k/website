@@ -99,195 +99,137 @@ import SearchDialog from './SearchDialog.astro'
 </style>
 
 <style is:global>
-  /* This site search is a full-screen dialog shell, not Lumen's centered panel layout. */
-  #site-search-dialog {
-    transform: none;
-  }
-
-  /* Tailwind `flex` beats UA `dialog:not([open])`; without this, the panel stays in the header row. */
-  #site-search-dialog:not([open]) {
-    display: none;
-  }
-
-  /* Dimmed layer is animated inside the dialog (`[data-site-search-scrim]`). */
-  #site-search-dialog::backdrop {
-    background-color: transparent;
-  }
+  #site-search-dialog { transform: none; }
+  #site-search-dialog:not([open]) { display: none; }
+  #site-search-dialog::backdrop { background: transparent; }
 
   #site-search-dialog [data-site-search-scrim] {
-    background-color: hsl(var(--theme-bg) / 0.85);
-    backdrop-filter: blur(12px) saturate(120%);
+    background: hsl(var(--theme-bg) / 0.24);
+    backdrop-filter: blur(7px) saturate(0.8);
   }
 
   @keyframes site-search-scrim-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   @keyframes site-search-scrim-out {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
+    from { opacity: 1; }
+    to { opacity: 0; }
   }
 
   @keyframes site-search-panel-in {
-    0% {
-      opacity: 0;
-      filter: blur(8px) saturate(80%);
-      transform: translateY(2rem) scale(0.88);
-    }
-    60% {
-      opacity: 1;
-      filter: blur(0) saturate(150%);
-      transform: translateY(-0.4rem) scale(1.02);
-    }
-    100% {
-      opacity: 1;
-      filter: blur(0) saturate(150%);
-      transform: translateY(0) scale(1);
-    }
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes site-search-panel-out {
-    from {
-      opacity: 1;
-      filter: blur(0) saturate(150%);
-      transform: translateY(0) scale(1);
-    }
-    to {
-      opacity: 0;
-      filter: blur(6px) saturate(80%);
-      transform: translateY(0.75rem) scale(0.94);
-    }
-  }
-
-  @keyframes site-search-hint-in {
-    from {
-      opacity: 0;
-      transform: translateY(0.25rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-6px); }
   }
 
   #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-scrim] {
-    animation: site-search-scrim-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: site-search-scrim-in 280ms ease both;
   }
 
   #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-panel] {
-    animation: site-search-panel-in 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  }
-
-  #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-glow] {
-    animation: site-search-glow-in 0.6s ease-out 0.25s both;
+    animation: site-search-panel-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   #site-search-dialog[data-site-search-anim="closing"] [data-site-search-scrim] {
-    animation: site-search-scrim-out 0.25s ease-in both;
+    animation: site-search-scrim-out 180ms ease both;
   }
 
   #site-search-dialog[data-site-search-anim="closing"] [data-site-search-panel] {
-    animation: site-search-panel-out 0.3s ease-in both;
+    animation: site-search-panel-out 180ms ease both;
   }
 
-  @keyframes site-search-glow-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  #site-search-results [data-site-search-group-title] {
+    margin-bottom: 0.75rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.625rem;
+    font-weight: 550;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-scrim],
-    #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-panel],
-    #site-search-dialog[data-site-search-anim="closing"] [data-site-search-scrim],
-    #site-search-dialog[data-site-search-anim="closing"] [data-site-search-panel] {
-      animation: none;
-    }
-
-    #site-search-dialog[open] [data-site-search-scrim] {
-      opacity: 1;
-    }
-
-    #site-search-dialog[open] [data-site-search-panel] {
-      opacity: 1;
-      filter: none;
-      transform: none;
-    }
+  #site-search-results [data-site-search-topics] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.25rem;
   }
 
-  #site-search-results a[data-site-search-active="true"] {
-    border-color: hsl(var(--brand) / 0.45);
-    background-color: hsl(var(--surface) / 0.85);
-    box-shadow: 0 2px 8px hsl(var(--ink) / 0.06);
+  #site-search-results [data-site-search-suggestion] {
+    display: flex;
+    min-width: 0;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.25rem;
+    border-bottom: 1px solid hsl(var(--line) / 0.6);
+    color: hsl(var(--ink));
+    font-size: 0.8125rem;
+    text-align: left;
+    overflow-wrap: anywhere;
+    transition: background-color 160ms ease;
   }
 
-  #site-search-results a[data-site-search-active="true"] [data-site-search-indicator] {
-    opacity: 1;
-    transform: translateY(-50%) scaleY(1);
+  #site-search-results [data-site-search-suggestion] > [aria-hidden] {
+    flex-shrink: 0;
+    color: hsl(var(--ink-soft));
+    font-size: 0.5625rem;
+    font-variant-numeric: tabular-nums;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    #site-search-results a[data-site-search-active="true"] [data-site-search-indicator] {
-      transition: none;
-    }
+  #site-search-results [data-site-search-suggestion]:hover {
+    background: hsl(var(--surface-muted));
   }
 
-  #site-search-results > li.site-search-hint {
-    animation: site-search-hint-in 0.32s ease-out both;
+  #site-search-results [data-site-search-result] {
+    display: flex;
+    gap: 0.875rem;
+    padding: 0.875rem 0.5rem;
+    border-bottom: 1px solid hsl(var(--line) / 0.6);
+    border-radius: 0.5rem;
+    transition: background-color 160ms ease;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    #site-search-results > li.site-search-hint {
-      animation: none;
-    }
+  #site-search-results [data-site-search-active="true"],
+  #site-search-results [data-site-search-result]:hover {
+    background: hsl(var(--surface-muted));
   }
 
-  /*
-    Thumbnails from inline JS: fixed square frame; image uses object-fit contain inside
-    so aspect ratio is preserved (letterboxed), matching the pre-stretch layout.
-  */
+  #site-search-results [data-site-search-result-type] {
+    color: hsl(var(--ink-soft));
+    font-size: 0.5625rem;
+    font-weight: 550;
+    letter-spacing: 0.12em;
+    line-height: 1rem;
+    text-transform: uppercase;
+  }
+
+  #site-search-results [data-site-search-result-title] {
+    color: hsl(var(--ink));
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  #site-search-results [data-site-search-active="true"] [data-site-search-result-title] {
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--brand));
+    text-underline-offset: 0.2em;
+  }
+
   #site-search-results [data-site-search-thumb-frame] {
     position: relative;
     flex-shrink: 0;
     align-self: center;
-    width: 4.75rem;
-    aspect-ratio: 1 / 1;
+    width: 4rem;
+    aspect-ratio: 1;
     overflow: hidden;
-    border-radius: 0.5rem;
-    background-color: hsl(var(--surface-muted));
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-  }
-
-  #site-search-results a:hover [data-site-search-thumb-frame] {
-    transform: scale(1.03);
-    box-shadow: 0 2px 8px hsl(var(--ink) / 0.08);
-  }
-
-  @media (min-width: 640px) {
-    #site-search-results [data-site-search-thumb-frame] {
-      width: 5.5rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #site-search-results [data-site-search-thumb-frame] {
-      transition: none;
-    }
-    #site-search-results a:hover [data-site-search-thumb-frame] {
-      transform: none;
-    }
+    border-radius: 0.375rem;
+    background: hsl(var(--surface-muted));
   }
 
   #site-search-results [data-site-search-thumb] {
@@ -297,58 +239,39 @@ import SearchDialog from './SearchDialog.astro'
     width: 100%;
     height: 100%;
     opacity: 0;
-    transition: opacity 160ms ease-out;
-    /* Full row height slot, but never crop or squash the bitmap — letterbox if needed. */
     object-fit: contain;
     object-position: center;
+    transition: opacity 160ms ease;
   }
 
-  #site-search-results [data-site-search-thumb-state="loaded"] {
-    opacity: 1;
-  }
-
-  #site-search-results [data-site-search-thumb-state="error"] {
-    display: none;
-  }
+  #site-search-results [data-site-search-thumb-state="loaded"] { opacity: 1; }
+  #site-search-results [data-site-search-thumb-state="error"] { display: none; }
 
   #site-search-results [data-site-search-thumb-placeholder] {
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background:
-      linear-gradient(
-        110deg,
-        hsl(var(--surface-muted)) 8%,
-        hsl(var(--surface) / 0.96) 18%,
-        hsl(var(--surface-muted)) 33%
-      );
-    background-size: 220% 100%;
-    animation: site-search-thumb-shimmer 1.05s linear infinite;
+    background: hsl(var(--surface-muted));
   }
 
-  #site-search-results [data-site-search-thumb-frame][data-site-search-thumb-loaded="true"]
-    [data-site-search-thumb-placeholder] {
+  #site-search-results [data-site-search-thumb-loaded="true"] [data-site-search-thumb-placeholder] {
     opacity: 0;
-    transition: opacity 160ms ease-out;
   }
 
-  @keyframes site-search-thumb-shimmer {
-    to {
-      background-position-x: -220%;
-    }
+  @media (max-width: 639px) {
+    #site-search-results [data-site-search-topics] { column-gap: 0.75rem; }
+    #site-search-results [data-site-search-thumb-frame] { width: 3rem; }
+  }
+
+  @media (max-width: 359px) {
+    #site-search-results [data-site-search-topics] { grid-template-columns: 1fr; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #site-search-results [data-site-search-thumb] {
-      transition: none;
-    }
-
-    #site-search-results [data-site-search-thumb-placeholder] {
+    #site-search-dialog[open] :is([data-site-search-panel], [data-site-search-scrim]) {
       animation: none;
     }
-
-    #site-search-results [data-site-search-thumb-frame][data-site-search-thumb-loaded="true"]
-      [data-site-search-thumb-placeholder] {
+    #site-search-results :is([data-site-search-suggestion], [data-site-search-result], [data-site-search-thumb]) {
       transition: none;
     }
   }
@@ -356,20 +279,7 @@ import SearchDialog from './SearchDialog.astro'
 
 <script is:inline>
   (() => {
-    /**
-     * @type {Array<{
-     *   title: string
-     *   description: string
-     *   path: string
-     *   tags: string[]
-     *   type: 'community' | 'post' | 'project'
-     *   coverUrl?: string
-     *   coverAvifUrl?: string
-     *   coverAlt?: string
-     *   coverWidth?: number
-     *   coverHeight?: number
-     * }>}
-     */
+    /** @type {import('@/types/search').SearchIndexEntry[]} */
     let entries = []
     let selectedResultIndex = -1
     let closeAnimTimer = 0
@@ -378,6 +288,40 @@ import SearchDialog from './SearchDialog.astro'
     let indexLoadState = /** @type {'idle' | 'loading' | 'ready' | 'error'} */ ('idle')
     let indexLoadPromise = /** @type {Promise<boolean> | null} */ (null)
     let popularTopics = /** @type {string[]} */ ([])
+    /** @param {unknown} value @returns {value is Record<string, unknown>} */
+    const isRecord = value => typeof value === 'object' && value !== null && !Array.isArray(value)
+
+    /** @param {unknown} value @returns {value is string} */
+    const isLocalPath = value => {
+      if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//') || value.includes('\\')) {
+        return false
+      }
+
+      try {
+        return new URL(value, window.location.origin).origin === window.location.origin
+      } catch {
+        return false
+      }
+    }
+
+    /** @param {unknown} value */
+    const isImageDimension = value => value === undefined ||
+      (typeof value === 'number' && Number.isInteger(value) && value > 0)
+
+    /** @param {unknown} value @returns {value is import('@/types/search').SearchIndexEntry} */
+    const isSearchEntry = value => {
+      if (!isRecord(value)) return false
+
+      return typeof value.title === 'string' && value.title.trim().length > 0 &&
+        typeof value.description === 'string' && isLocalPath(value.path) &&
+        Array.isArray(value.tags) && value.tags.every(/** @param {unknown} tag */ tag => typeof tag === 'string') &&
+        typeof value.type === 'string' && ['community', 'post', 'project'].includes(value.type) &&
+        (value.coverAlt === undefined || typeof value.coverAlt === 'string') &&
+        (value.coverUrl === undefined || isLocalPath(value.coverUrl)) &&
+        (value.coverAvifUrl === undefined || isLocalPath(value.coverAvifUrl)) &&
+        isImageDimension(value.coverWidth) && isImageDimension(value.coverHeight)
+    }
+
     const RECENT_SEARCHES_KEY = 'site-search-recent'
     const RECENT_SEARCHES_LIMIT = 5
 
@@ -388,9 +332,10 @@ import SearchDialog from './SearchDialog.astro'
 
         if (!raw) return []
 
+        /** @type {unknown} */
         const parsed = JSON.parse(raw)
 
-        return Array.isArray(parsed) ? parsed.filter(v => typeof v === 'string') : []
+        return Array.isArray(parsed) ? parsed.filter(/** @param {unknown} value */ value => typeof value === 'string') : []
       } catch {
         return []
       }
@@ -539,7 +484,7 @@ import SearchDialog from './SearchDialog.astro'
         results.innerHTML = `
           <li class="
             site-search-hint flex flex-col items-center justify-center gap-3
-            border-y border-dashed border-line/50 px-4 py-10 text-center
+            px-4 py-10 text-center
           ">
             <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -564,60 +509,40 @@ import SearchDialog from './SearchDialog.astro'
       }
 
       const heading = hasRecentSearches ? 'Recent searches' : 'Popular topics'
+    const li = document.createElement('li')
 
-      const iconSvg = hasRecentSearches ?
-        `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-           >
-             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-             <path d="M3 3v5h5" />
-           </svg>` :
-        `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-           >
-             <path d="M16 6 4 20" />
-             <path d="M18 15l-5.5 5.5" />
-             <path d="M21 9 16 4" />
-             <path d="M14 2 4 20" />
-           </svg>`
-
-      const li = document.createElement('li')
-
-      li.className = `
-        site-search-hint rounded-xl border border-line/40 bg-surface/40
-        px-4 py-4 text-sm text-ink-soft
-      `.trim().replace(/\s+/g, ' ')
+      li.className = 'site-search-hint'
 
       const label = document.createElement('div')
 
-      label.className = 'mb-3 flex items-center gap-2 text-xs font-semibold tracking-[0.12em] text-ink-muted uppercase'
+      label.setAttribute('data-site-search-group-title', '')
 
-      label.innerHTML = `${iconSvg}<span>${heading}</span>`
+      label.textContent = heading
 
       li.appendChild(label)
 
       const chips = document.createElement('div')
 
-      chips.className = 'flex flex-wrap gap-2'
+      chips.setAttribute('data-site-search-topics', '')
 
-      for (const item of items) {
+      for (const [index, item] of items.entries()) {
         const chip = document.createElement('button')
 
         chip.type = 'button'
 
         chip.dataset.siteSearchSuggestion = item
 
-        chip.className = `
-          inline-flex items-center rounded-full border border-line/40
-          bg-surface/50 px-3 py-1.5 text-xs font-medium text-ink-soft
-          transition-all duration-200 ease-out
-          hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand hover:shadow-sm
-          active:scale-95
-          motion-reduce:transition-none
-          motion-reduce:active:scale-100
-        `.trim().replace(/\s+/g, ' ')
+        const number = document.createElement('span')
 
-        chip.textContent = item
+        number.setAttribute('aria-hidden', 'true')
+
+        number.textContent = String(index + 1).padStart(2, '0')
+
+        const text = document.createElement('span')
+
+        text.textContent = item
+
+        chip.append(number, text)
 
         chips.appendChild(chip)
       }
@@ -706,12 +631,12 @@ import SearchDialog from './SearchDialog.astro'
         results.innerHTML = `
           <li class="
             site-search-hint flex flex-col items-center justify-center gap-3
-            border-y border-dashed border-line/50 px-4 py-8 text-center
+            px-4 py-8 text-center
           ">
             <span class="relative flex h-8 w-8">
               <span class="absolute inset-0 rounded-full border-2 border-line/30"></span>
               <span
-                class="absolute inset-0 animate-spin rounded-full border-2 border-brand/60 border-t-transparent"
+                class="absolute inset-0 animate-spin rounded-full border-2 border-brand/60 border-t-transparent motion-reduce:animate-none"
               ></span>
             </span>
             <span class="text-sm text-ink-soft">Loading search index…</span>
@@ -730,7 +655,7 @@ import SearchDialog from './SearchDialog.astro'
           <li
             class="
               site-search-hint flex flex-col items-center justify-center gap-4
-              border-y border-dashed border-line/50 px-4 py-8 text-center
+              px-4 py-8 text-center
             "
           >
             <span class="flex h-10 w-10 items-center justify-center rounded-full bg-danger/10 text-danger">
@@ -749,15 +674,7 @@ import SearchDialog from './SearchDialog.astro'
               <p class="text-xs text-ink-soft">We couldn't load the search index.</p>
             </div>
             <button
-              class="
-                inline-flex min-h-10 items-center gap-2 rounded-full border border-line/60
-                bg-surface/50 px-4 py-2 text-xs font-medium text-ink-soft
-                transition-all duration-200 ease-out
-                hover:border-brand/40 hover:bg-brand-soft/20 hover:text-brand hover:shadow-sm
-                active:scale-95
-                motion-reduce:transition-none
-                motion-reduce:active:scale-100
-              "
+              class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-line bg-surface-muted px-4 py-2 text-xs font-medium text-ink"
               data-site-search-retry
               type="button"
             >
@@ -816,7 +733,7 @@ import SearchDialog from './SearchDialog.astro'
         results.innerHTML = `
           <li class="
             site-search-hint flex flex-col items-center justify-center gap-3
-            border-y border-dashed border-line/50 px-4 py-10 text-center
+            px-4 py-10 text-center
           ">
             <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -835,15 +752,7 @@ import SearchDialog from './SearchDialog.astro'
             <button
               type="button"
               data-site-search-clear
-              class="
-                mt-1 inline-flex items-center gap-1.5 rounded-full border border-line/50
-                bg-surface/50 px-3 py-1.5 text-xs font-medium text-ink-soft
-                transition-all duration-200 ease-out
-                hover:border-brand/40 hover:bg-brand-soft/20 hover:text-brand
-                active:scale-95
-                motion-reduce:transition-none
-                motion-reduce:active:scale-100
-              "
+              class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-line bg-surface-muted px-4 py-2 text-xs font-medium text-ink"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -870,28 +779,7 @@ import SearchDialog from './SearchDialog.astro'
 
         a.href = e.path
 
-        a.className = `
-          group relative flex gap-3 rounded-xl border border-transparent p-2.5
-          transition-all duration-250 ease-out
-          hover:border-line/50 hover:bg-surface/60 hover:shadow-sm
-          motion-reduce:transition-none
-          sm:gap-3.5 sm:p-3
-        `.trim().replace(/\s+/g, ' ')
-
-        // Active selection indicator (left border accent)
-        const indicator = document.createElement('span')
-
-        indicator.setAttribute('data-site-search-indicator', '')
-
-        indicator.className = `
-          pointer-events-none absolute -left-0.5 top-1/2 h-6 w-1 -translate-y-1/2
-          rounded-r-full bg-brand opacity-0
-          transition-all duration-200
-          group-hover:opacity-40 group-hover:scale-y-75
-          motion-reduce:transition-none
-        `.trim().replace(/\s+/g, ' ')
-
-        a.appendChild(indicator)
+        a.setAttribute('data-site-search-result', '')
 
         const thumbHost = document.createElement('span')
 
@@ -963,10 +851,7 @@ import SearchDialog from './SearchDialog.astro'
 
         const typeEl = document.createElement('span')
 
-        typeEl.className = `
-          section-label transition-colors duration-200
-          group-hover:text-brand/80
-        `.trim()
+        typeEl.setAttribute('data-site-search-result-type', '')
 
         let resultTypeLabel = 'Project'
 
@@ -980,22 +865,13 @@ import SearchDialog from './SearchDialog.astro'
 
         const titleEl = document.createElement('span')
 
-        titleEl.className = `
-          text-sm font-semibold text-ink transition-colors duration-200
-          group-hover:text-brand
-        `.trim()
-
         titleEl.setAttribute('data-site-search-result-title', '')
 
         titleEl.textContent = e.title
 
         const descEl = document.createElement('span')
 
-        descEl.className = `
-          line-clamp-2 text-xs/5 text-ink-soft transition-colors duration-200
-          group-hover:text-ink-soft/90
-          sm:text-sm/6
-        `.trim()
+        descEl.className = 'line-clamp-2 text-xs/5 text-ink-soft'
 
         descEl.textContent = e.description
 
@@ -1154,8 +1030,12 @@ import SearchDialog from './SearchDialog.astro'
 
           return response.json()
         })
-        .then(json => {
-          entries = Array.isArray(json) ? json : []
+        .then(/** @param {unknown} json */ json => {
+          if (!Array.isArray(json) || !json.every(isSearchEntry)) {
+            throw new TypeError('Invalid search index response')
+          }
+
+          entries = json
 
           computePopularTopics()
 
@@ -1260,6 +1140,38 @@ import SearchDialog from './SearchDialog.astro'
       dialog.addEventListener('keydown', e => {
         if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
 
+        // The native dialog may tab into browser chrome when the loading state
+        // leaves the input last. Keep both ends inside as results come and go.
+        if (e.key === 'Tab') {
+          const focusable = [...dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled])')]
+            .filter(element => element instanceof HTMLElement && element.getClientRects().length > 0 &&
+              element.tabIndex >= 0 && getComputedStyle(element).visibility === 'visible')
+
+          const first = focusable.at(0)
+          const last = focusable.at(-1)
+          const boundary = e.shiftKey ? first : last
+          const destination = e.shiftKey ? last : first
+
+          if (document.activeElement === boundary && destination instanceof HTMLElement) {
+            e.preventDefault()
+
+            destination.focus({ preventScroll: true })
+          }
+
+          return
+        }
+
+        if (e.key === 'Escape') {
+          // Override the native search-input clear action and keep the underlying menu open.
+          e.preventDefault()
+
+          e.stopPropagation()
+
+          closeSearch({ focusTrigger: true })
+
+          return
+        }
+
         if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
 
         const links = [...results.querySelectorAll('a[href]')]
@@ -1324,6 +1236,8 @@ import SearchDialog from './SearchDialog.astro'
 
         if (retryButton instanceof HTMLButtonElement) {
           event.preventDefault()
+
+          input.focus()
 
           loadIndex({ force: true })
 

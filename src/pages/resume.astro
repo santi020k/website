@@ -15,16 +15,41 @@ import {
 } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
-const workProjects = allProjects.filter(p => p.data.typesId === 'professional').slice(0, 4)
-const communityWork = allProjects.filter(p => p.data.typesId === 'community')
+const projectsById = new Map(allProjects.map(project => [project.id.replace(/\/index$/u, ''), project]))
+
+const selectResumeProjects = (ids: readonly string[]) => ids.map(id => {
+  const project = projectsById.get(id)
+
+  if (!project) throw new Error(`Missing resume project: ${id}`)
+
+  return project
+})
+
+const workProjects = selectResumeProjects([
+  'smith-commerce',
+  'xgames',
+  'void',
+  'optic-power'
+])
+
+const earlierWork = selectResumeProjects([
+  'pads',
+  'datagran',
+  'justbit',
+  'nebular'
+])
+
+const communityWork = selectResumeProjects(['react-js-colombia'])
+const resumeTechnologyLimit = 8
 // Keep one crawlable PDF URL across deployments. The response revalidates at
 // the edge, so cache busting does not need to create a new query URL per build.
 const resumePdfPath = '/pdf/cv.pdf'
+const fullResumePdfPath = '/pdf/cv-full.pdf'
 const resumeDateCreated = '2024-01-01T00:00:00.000Z'
 
 const resumeDescription =
-  `View ${siteConfig.author}'s resume: ${new Date().getFullYear() - CAREER_START_YEAR}+ years leading full-stack products, ` +
-  'software architecture, delivery automation, and developer experience from Medellín.'
+  `Engineering leader and full-stack architect with ${new Date().getFullYear() - CAREER_START_YEAR}+ years building resilient products, ` +
+  'modernizing frontend systems, and helping teams deliver with confidence.'
 
 const resumeDateModified = getGitLastModified([
   'scripts/py/cv.md',
@@ -48,6 +73,7 @@ const resumePageSchema = {
 ---
 
 <PageLayout
+mainClass="remaining-pages"
   footerVariant="compact"
   meta={{
     description: resumeDescription,
@@ -68,7 +94,7 @@ const resumePageSchema = {
     <div class="
       mb-12 flex flex-col items-start justify-between gap-6
       sm:flex-row
-      print:mb-8
+      print:mb-6
     "
     >
       <div>
@@ -114,6 +140,7 @@ const resumePageSchema = {
               hover:text-brand
             "
             href={siteConfig.contact.linkedin}
+            newTab
           >
             linkedin.com/in/santi020k
           </Link>
@@ -125,6 +152,7 @@ const resumePageSchema = {
               hover:text-brand
             "
             href={siteConfig.contact.github}
+            newTab
           >
             github.com/santi020k
           </Link>
@@ -139,7 +167,7 @@ const resumePageSchema = {
           data-print-hidden
         >
           <ButtonLink
-            ariaLabel="Download resume PDF"
+            ariaLabel="Download two-page resume PDF"
             class="
               w-full
               sm:w-auto
@@ -148,44 +176,55 @@ const resumePageSchema = {
             href={resumePdfPath}
             variant="primary"
           >
-            <Icon class="size-4" name="download" /> Download PDF
+            <Icon class="size-4" name="download" /> 2-page resume
           </ButtonLink>
           <ButtonLink
-            ariaLabel="Open resume PDF in a new tab"
+            ariaLabel="Download full CV PDF"
             class="
               w-full
               sm:w-auto
             "
-            href={resumePdfPath}
-            newTab
-            showArrow
+            download="santiago-molina-full-cv.pdf"
+            href={fullResumePdfPath}
             variant="secondary"
           >
-            <Icon class="size-4" name="file-type-2" />
-            Open PDF
+            <Icon class="size-4" name="download" /> Full CV
           </ButtonLink>
         </div>
+        <p class="
+          text-xs text-ink-muted
+          print:hidden
+        "
+        >
+          Two-page resume for applications · Full CV with complete work history
+        </p>
       </div>
     </div>
 
     <section class="
       mb-10
-      print:mb-8
+      print:mb-5
     "
     >
-      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Experience</h2>
+      <h2 class="
+        mb-6 border-b border-line pb-2 text-2xl font-semibold
+        print:mb-4
+      "
+      >Experience</h2>
       <div class="
         space-y-8
-        print:space-y-8
+        print:space-y-6
       "
       >
         {
           workProjects.map(project => (
-            <div class="print:break-inside-avoid">
-              <div class="
-                mb-2 flex flex-col items-baseline justify-between gap-1
-                sm:flex-row
-              "
+            <div class="print:break-inside-avoid" data-resume-entry>
+              <div
+class="
+  mb-2 flex flex-col items-baseline justify-between gap-1
+  sm:flex-row
+"
+                data-resume-compact-header
               >
                 <h3 class="text-lg font-bold text-ink">
                   {project.data.title} <span class="resume-role-text">— {project.data.role}</span>
@@ -215,8 +254,12 @@ const resumePageSchema = {
                 </div>
               )}
 
-              <div class="mt-3 flex flex-wrap gap-1.5">
-                {project.data.technologies.slice(0, 12).map(tech => (
+              <div class="
+                mt-3 flex flex-wrap gap-1.5
+                print:hidden
+              "
+              >
+                {project.data.technologies.slice(0, resumeTechnologyLimit).map(tech => (
                   <span
                     class="
                       inline-flex items-center rounded-md bg-surface-muted px-2
@@ -228,19 +271,47 @@ const resumePageSchema = {
                     {tech}
                   </span>
                 ))}
-                {project.data.technologies.length > 12 && (
-                  <span
-                    class="
-                      inline-flex items-center rounded-md bg-surface-muted px-2
-                      py-0.5 text-xs font-medium text-ink-soft ring-1
-                      ring-line/50 ring-inset
-                      print:border print:border-gray-300
-                    "
-                  >
-                    +{project.data.technologies.length - 12} more
-                  </span>
-                )}
               </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section
+class="
+  mb-10
+  print:hidden
+"
+      data-resume-full-only
+    >
+      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Earlier Experience</h2>
+      <div class="divide-y divide-line">
+        {
+          earlierWork.map(project => (
+            <div
+class="
+  py-5
+  first:pt-0
+  last:pb-0
+"
+              data-resume-compact-entry
+            >
+              <div
+class="
+  mb-2 flex flex-col items-baseline justify-between gap-1
+  sm:flex-row
+"
+                data-resume-compact-header
+              >
+                <h3 class="text-base font-bold text-ink">
+                  {project.data.title} <span class="resume-role-text">— {project.data.role}</span>
+                </h3>
+                <span class="text-sm font-medium text-ink-soft">
+                  {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
+                </span>
+              </div>
+              <p class="text-sm text-ink-soft">{project.data.description}</p>
             </div>
           ))
         }
@@ -249,10 +320,14 @@ const resumePageSchema = {
 
     <section class="
       mb-10
-      print:mb-8 print:break-inside-avoid
+      print:mb-5 print:break-inside-avoid
     "
     >
-      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Community</h2>
+      <h2 class="
+        mb-6 border-b border-line pb-2 text-2xl font-semibold
+        print:mb-4
+      "
+      >Community</h2>
       <div class="
         space-y-8
         print:space-y-6
@@ -294,8 +369,12 @@ const resumePageSchema = {
                 </div>
               )}
 
-              <div class="mt-3 flex flex-wrap gap-1.5">
-                {project.data.technologies.slice(0, 12).map(tech => (
+              <div class="
+                mt-3 flex flex-wrap gap-1.5
+                print:hidden
+              "
+              >
+                {project.data.technologies.slice(0, resumeTechnologyLimit).map(tech => (
                   <span
                     class="
                       inline-flex items-center rounded-md bg-surface-muted px-2
@@ -307,18 +386,6 @@ const resumePageSchema = {
                     {tech}
                   </span>
                 ))}
-                {project.data.technologies.length > 12 && (
-                  <span
-                    class="
-                      inline-flex items-center rounded-md bg-surface-muted px-2
-                      py-0.5 text-xs font-medium text-ink-soft ring-1
-                      ring-line/50 ring-inset
-                      print:border print:border-gray-300
-                    "
-                  >
-                    +{project.data.technologies.length - 12} more
-                  </span>
-                )}
               </div>
             </div>
           ))
@@ -327,7 +394,11 @@ const resumePageSchema = {
     </section>
 
     <section class="print:break-inside-avoid">
-      <h2 class="mb-6 border-b border-line pb-2 text-2xl font-semibold">Skills & Expertise</h2>
+      <h2 class="
+        mb-6 border-b border-line pb-2 text-2xl font-semibold
+        print:mb-4
+      "
+      >Skills & Expertise</h2>
       <div class="
         grid grid-cols-1 gap-6
         md:grid-cols-2
@@ -392,7 +463,7 @@ const resumePageSchema = {
     :global(header),
     :global(footer),
     :global(.grid-fade),
-    :global(.ui-skip-link),
+    :global([data-slot="skip-link"]),
     :global([data-particles-bg]),
     :global([data-site-search]),
     :global([data-print-hidden]),
@@ -429,6 +500,28 @@ const resumePageSchema = {
     :global([data-resume-shell] a) {
       color: inherit !important;
       text-decoration: none !important;
+    }
+    :global([data-resume-entry]) {
+      break-inside: avoid-page !important;
+      page-break-inside: avoid !important;
+    }
+    :global([data-resume-compact-entry]) {
+      break-inside: avoid-page !important;
+      page-break-inside: avoid !important;
+    }
+    :global([data-resume-compact-header]) {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) auto !important;
+      column-gap: 1rem !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0.65rem !important;
+    }
+    :global([data-resume-entry]:nth-child(3)) {
+      break-before: page;
+      page-break-before: always;
+    }
+    :global(html[data-resume-variant='full'] [data-resume-full-only]) {
+      display: block !important;
     }
     :global(h1),
     :global(h2),

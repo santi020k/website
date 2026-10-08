@@ -44,7 +44,7 @@ jobs:
             git diff --no-renames --name-only --diff-filter=ACDMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
             while IFS= read -r path; do
               case "$path" in
-                src/*|public/*|scripts/*|tests/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|cspell.config.*|eslint.config.*|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|.markdownlint-cli2.*|.npmrc|.changeset/*|.github/*.yml|.github/*.yaml|.github/workflows/*|.github/ISSUE_TEMPLATE/*)
+                src/*|public/*|scripts/*|tests/*|patches/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|cspell.config.*|eslint.config.*|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|markdownlint.config.json|.npmrc|.gitattributes|.changeset/*|.github/*.yml|.github/*.yaml|.github/workflows/*|.github/ISSUE_TEMPLATE/*)
                   run_checks=true
                   run_full=true
                   ;;
@@ -60,7 +60,7 @@ jobs:
 
       - name: Run Astro Doctor on the changed code
         if: steps.changes.outputs.full == 'true' && github.event_name == 'pull_request'
-        uses: santi020k/astro-doctor@19061e7b586af120b35e31b2aecd4bacaef8f137 # v1
+        uses: santi020k/astro-doctor@ada77ece2296778b4c9a84b26229bd0c9e52c83f # v1
         with:
           comment: 'false'
           diff-only: 'true'
@@ -88,11 +88,13 @@ jobs:
         if: steps.changes.outputs.full == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          path: public/og
+          path: |
+            public/og
+            .og-cache.json
           key: >-
-            og-${{ runner.os }}-${{ hashFiles('src/content/**/*.md', 'src/content/**/*.mdx', 'scripts/js/generate-og-images.js', 'scripts/js/og-render-worker.mjs', 'src/utils/render-social-image.js', 'public/fonts/Montserrat-Regular.ttf', 'public/fonts/Montserrat-ExtraBold.ttf', 'public/logos/logo.webp') }}
+            og-v2-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'src/content/**', 'src/assets/**', 'src/utils/pagination.ts', 'scripts/js/generate-og-images.js', 'scripts/js/prepare-og-image.mjs', 'scripts/js/render-og-atmosphere.mjs', 'public/fonts/montserrat-variable-font-wght.ttf') }}
           restore-keys: |
-            og-${{ runner.os }}-
+            og-v2-${{ runner.os }}-
 
       - name: Cache Astro image transformations
         if: steps.changes.outputs.full == 'true'

@@ -1,5 +1,3 @@
-/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
-// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
@@ -75,4 +73,17 @@ test.describe('Technologies index page', () => {
       await expect(page).toHaveScreenshot('technologies-index.png')
     })
   }
+})
+
+test('technology project labels keep sufficient contrast on dark card surfaces', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('theme', 'dark')
+  })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.setViewportSize({ width: 375, height: 900 })
+  await page.goto('/technologies/3rd-party-apis/')
+
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('[data-project-gallery-readable]').first()).toContainText('View project')
+  await expectNoUnexpectedAccessibilityViolations(page)
 })

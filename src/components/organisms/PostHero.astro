@@ -4,7 +4,6 @@ import type { CollectionEntry } from 'astro:content'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
-import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
 import Pill from '@/components/atoms/Pill.astro'
 
@@ -47,7 +46,7 @@ const metaItems = [
 ]
 ---
 
-<section class="relative space-y-12">
+<section class="editorial-detail-hero space-y-12">
   {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
   <div
     class="
@@ -102,17 +101,14 @@ const metaItems = [
       >
         {title}
       </h1>
-      <div class="
-        absolute -inset-x-4 -inset-y-2 -z-10 rounded-3xl bg-linear-to-br
-        from-brand/5 to-transparent blur-3xl
-      "
-      >
-      </div>
+
     </div>
-    <p class="
-      p-summary max-w-3xl text-lg/7 font-medium text-ink-soft
-      sm:text-xl/8
-    "
+    <p
+data-editorial-summary
+class="
+  p-summary max-w-3xl text-lg/7 font-medium text-ink-soft
+  sm:text-xl/8
+"
     >
       {description}
     </p>
@@ -139,9 +135,9 @@ const metaItems = [
       motion-reduce:animate-none
     "
   >
-    <GradientDivider class="mb-8" />
+
     <div class="
-      grid grid-cols-1 gap-4
+      grid grid-cols-2 gap-4
       sm:grid-cols-2
       md:grid-cols-4
     "
@@ -150,7 +146,8 @@ const metaItems = [
         <div
           class="
             post-meta-card relative rounded-2xl border border-line/30
-            bg-surface/50 p-6 backdrop-blur-sm transition-all duration-300
+            bg-surface/50 p-6 editorial-detail-meta-item backdrop-blur-sm
+            transition-all duration-300
             hover:-translate-y-1 hover:border-brand/40 hover:bg-brand-soft/10
             hover:shadow-lg hover:shadow-brand/5
           "
@@ -220,10 +217,7 @@ const metaItems = [
       )}
       {!canonicalUrl && (
         <CopyButton
-          className="
-            group btn-primary inline-flex min-h-11 items-center justify-center
-            gap-2 rounded-full border text-sm font-semibold tracking-[0.01em]
-          "
+          className="btn-primary"
           copiedLabel="Article link copied"
           errorLabel="Could not copy article link"
           label="Copy article link"

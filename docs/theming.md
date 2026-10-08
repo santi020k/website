@@ -8,6 +8,14 @@ The website uses the public `@santi020k/theme` package as the source for core br
 
 Local website-only extensions live in `src/styles/partials/tokens.css`.
 
+## Shared sculpted design
+
+The [sculpted style guide](sculpted-style-guide.md) defines the new homepage typography,
+solid surfaces, spacing, buttons, and responsive compositions. It builds on the same shared
+tokens. Supporting pages, policy pages, archives, and article/project details now use
+`partials/remaining-pages.css`; article prose and resume print rules retain their reading contracts.
+The [remaining-page checklist](remaining-page-designs.md) records coverage and validation.
+
 ## Token Layers
 
 1. **Package tokens**: `@santi020k/theme/tokens.css` defines the core Santi020k HSL variables, font variables, `data-theme` dark variant, and Tailwind `@theme` color mappings.
@@ -23,6 +31,10 @@ Local website-only extensions live in `src/styles/partials/tokens.css`.
 - **`--brand`**, **`--brand-solid`**, **`--brand-soft`**, **`--accent`**, **`--glow`**: brand and interactive emphasis.
 
 ## Dark Mode
+
+An explicit light or dark selection stays active during client navigation even when browser
+storage is unavailable. Persistence across full reloads still requires storage access. The system
+color preference applies until the visitor chooses a theme.
 
 Dark mode is controlled with `data-theme="dark"` on `<html>`. Do not use `class="dark"` for theme switching; the Tailwind custom variant is defined against the data attribute.
 
@@ -45,3 +57,41 @@ import { fontFamily, staticAssets } from '@santi020k/theme'
 - `import.meta.resolve('@santi020k/theme/assets/...')` is preferred in Node scripts that need filesystem paths for Sharp or Satori.
 
 Do not duplicate core brand values or package-owned assets in this repo. If the Santi020k palette or shared assets change, update and publish `@santi020k/theme`, then bump the dependency here.
+
+## Site navigation
+
+`SiteHeader.astro` composes native navigation with Lumen buttons, icons, search, and theme
+controls into a single surface. Native `nav` preserves normal Tab access to every link; the
+installed Lumen navigation menu uses arrow-key groups instead. `src/styles/partials/nav.css` owns the signature tab, desktop dock, and attached
+mobile menu. Both menus derive their links and active route from `menuLinks` in `src/site.config.ts`.
+The desktop menu starts at 1024px; the contact button appears at 1200px to preserve link space.
+The contact action uses Lumen's unstyled `ButtonLink` with a flat, contrasting label and a
+separate arrow tile. It has no gradient, glow, or magnetic effect. Its mobile version fills
+the menu width above a quiet resume link; both keep the same keyboard and link semantics.
+Below 640px, the shell has more side padding and separation between icon controls. A container
+query hides the secondary wordmark when narrow widths or enlarged text need room for the controls;
+the signature tab and accessible home-link name remain available.
+
+The mobile panel follows the header's measured position and scrolls within the available viewport.
+Its keyboard loop includes the visible header controls, yields to the search dialog, and restores
+focus on dismissal. Route changes and desktop resizing close it. Panel motion is disabled for
+reduced-motion preferences. Navigation shadows are site tokens in `partials/tokens.css`.
+
+`SearchDialog.astro` carries the same signature tab, solid surface, and squared controls into
+site search. Numbered suggestions and compact result rows share a scrollable area above keyboard
+hints. The panel uses the available viewport height, with a compact header on short screens.
+`SiteSearch.astro` retains query ranking, recent searches, retry and clear actions, keyboard
+navigation, focus restoration, and reduced-motion-aware opening and closing.
+
+## Blog archive
+
+The blog introduction uses a split editorial layout: writing context and browse links beside a
+preview of the newest published post. On mobile, the preview follows the introduction. Counts
+come from the published collection; the preview also remains in the chronological twelve-post
+feed. Older archive pages use a compact heading and a direct link back to the latest posts.
+
+The Blog landing, topic, series, and older archives share the sculpted typography and solid
+Lumen surfaces. Article headings wrap in full, and long galleries render visibly without
+a group reveal threshold. The shared actions and newsletter use the same solid control
+treatment. Series discovery appears once below the main feed. Topic filtering restores
+its viewport position after the destination page has loaded.

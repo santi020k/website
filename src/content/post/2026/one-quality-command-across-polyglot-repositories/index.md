@@ -19,7 +19,7 @@ None of those tools is the problem. Most are very good at their job.
 
 The problem is the layer around them: detecting what a repository intends to use, resolving the right executable, running independent checks efficiently, preserving monorepo semantics, and presenting one result that works locally and in CI.
 
-I built [`quality`](https://quality-cli.santi020k.chatgpt.site/) to provide that layer.
+I built [`quality`](https://quality.santi020k.com/) to provide that layer.
 
 ## Coordination is better than replacement
 
@@ -98,4 +98,4 @@ The useful abstraction is not a universal analyzer. It is a consistent way to an
 
 `quality` answers those questions while leaving language-specific analysis where it belongs.
 
-You can [read the documentation](https://quality-cli.santi020k.chatgpt.site/), [view the source](https://github.com/santi020k/quality), or see the shorter [portfolio case study](/portfolio/quality/).
+You can [read the documentation](https://quality.santi020k.com/), [view the source](https://github.com/santi020k/quality), or see the shorter [portfolio case study](/portfolio/quality/).

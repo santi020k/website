@@ -121,7 +121,10 @@ const validateFile = async filePath => {
     }
   }
 
-  errors.push(...await validatePostCover(filePath, coverImage))
+  const body = raw.slice(raw.indexOf('\n---\n', 4) + 5).trim()
+  const titleOnlyDraft = frontmatter.draft === true && body.length === 0 && coverImage === undefined
+
+  if (!titleOnlyDraft) errors.push(...await validatePostCover(filePath, coverImage))
 
   const isPost = filePath.startsWith(`${POST_ROOT}${path.sep}`)
 

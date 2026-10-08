@@ -1,0 +1,3 @@
+# Preserve required blank context-line markers in the exact upstream patch.
+# Other whitespace checks remain enabled; remove this rule with its retired patch.
+patches/@lhci__utils@0.15.1.patch whitespace=-blank-at-eol

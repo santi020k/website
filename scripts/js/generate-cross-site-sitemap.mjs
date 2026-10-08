@@ -3,13 +3,13 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { getSiteUrls } from '@santi020k/theme/site'
-import { XMLParser } from 'fast-xml-parser'
+
+import { collectSitemapEntries, deduplicateSitemapSources, renderSitemap } from './sitemap.mjs'
 
 const rootDirectory = fileURLToPath(new URL('../..', import.meta.url))
 const outputDirectory = path.join(rootDirectory, 'dist')
 const rootOrigin = 'https://santi020k.com'
 const outputPath = path.join(outputDirectory, 'sitemap.xml')
-const parser = new XMLParser()
 const retryCount = 3
 const themeSiteUrls = getSiteUrls()
 
@@ -74,43 +74,11 @@ const sitemapSources = [
   }
 ]
 
-const asArray = value => {
-  if (value === undefined) return []
-
-  return Array.isArray(value) ? value : [value]
-}
-
-const escapeXml = value => value
-  .replaceAll('&', '&amp;')
-  .replaceAll('<', '&lt;')
-  .replaceAll('>', '&gt;')
-  .replaceAll('"', '&quot;')
-  .replaceAll('\'', '&apos;')
-
-const parseSitemap = (xml, sitemapUrl) => {
-  const document = parser.parse(xml)
-  const nestedSitemaps = asArray(document.sitemapindex?.sitemap).map(entry => entry.loc)
-  const pageUrls = asArray(document.urlset?.url).map(entry => entry.loc)
-
-  if (nestedSitemaps.length === 0 && pageUrls.length === 0) {
-    throw new Error(`${sitemapUrl} is not a sitemap index or URL set`)
-  }
-
-  return { nestedSitemaps, pageUrls }
-}
-
-const assertUrlOrigin = (value, expectedOrigin, label) => {
-  const url = new URL(value)
-
-  if (url.origin !== expectedOrigin) {
-    throw new Error(`${label} uses ${url.origin}; expected ${expectedOrigin}`)
-  }
-
-  return url
-}
-
 const readLocalSitemap = async sitemapUrl => {
-  const url = assertUrlOrigin(sitemapUrl, rootOrigin, 'Local sitemap')
+  const url = new URL(sitemapUrl)
+
+  if (url.origin !== rootOrigin) throw new Error(`Local sitemap must use ${rootOrigin}`)
+
   const relativePath = decodeURIComponent(url.pathname).replace(/^\/+/, '')
   const filePath = path.resolve(outputDirectory, relativePath)
   const relativeToOutput = path.relative(outputDirectory, filePath)
@@ -145,58 +113,20 @@ const fetchText = async url => {
   throw new Error(`Could not fetch ${url}: ${String(lastError)}`)
 }
 
-const collectSitemapUrls = async ({ origin, sitemap }, loadSitemap) => {
-  const initialUrl = new URL(sitemap, origin).href
-  const pending = [initialUrl]
-  const visited = new Set()
-  const pageUrls = []
-
-  while (pending.length > 0) {
-    const sitemapUrl = pending.shift()
-
-    if (!sitemapUrl || visited.has(sitemapUrl)) continue
-
-    assertUrlOrigin(sitemapUrl, origin, 'Nested sitemap')
-
-    visited.add(sitemapUrl)
-
-    const xml = await loadSitemap(sitemapUrl)
-    const parsed = parseSitemap(xml, sitemapUrl)
-
-    for (const nestedSitemap of parsed.nestedSitemaps) {
-      const nestedUrl = assertUrlOrigin(nestedSitemap, origin, 'Nested sitemap')
-
-      pending.push(nestedUrl.href)
-    }
-
-    for (const pageUrl of parsed.pageUrls) {
-      const url = assertUrlOrigin(pageUrl, origin, 'Sitemap URL')
-
-      if (url.protocol !== 'https:') {
-        throw new Error(`Sitemap URL must use HTTPS: ${url.href}`)
-      }
-
-      pageUrls.push(url.href)
-    }
-  }
-
-  return pageUrls
-}
-
-const rootUrls = await collectSitemapUrls(
+const rootEntries = await collectSitemapEntries(
   { origin: rootOrigin, sitemap: '/sitemap-index.xml' }, readLocalSitemap
 )
 
-const urls = new Set(rootUrls)
-const sourceSummaries = [`root=${rootUrls.length}`]
+const entries = new Map(rootEntries.map(entry => [entry.url, entry]))
+const sourceSummaries = [`root=${rootEntries.length}`]
 
-for (const source of sitemapSources) {
+for (const source of deduplicateSitemapSources(sitemapSources)) {
   try {
-    const sourceUrls = await collectSitemapUrls(source, fetchText)
+    const sourceEntries = await collectSitemapEntries(source, fetchText)
 
-    for (const url of sourceUrls) urls.add(url)
+    for (const entry of sourceEntries) entries.set(entry.url, entry)
 
-    sourceSummaries.push(`${source.name}=${sourceUrls.length}`)
+    sourceSummaries.push(`${source.name}=${sourceEntries.length}`)
   } catch (error) {
     if (source.required === false) {
       console.warn(`[sitemap] Skipping optional source ${source.name}: ${String(error)}`)
@@ -210,21 +140,10 @@ for (const source of sitemapSources) {
   }
 }
 
-const entries = [...urls]
-  .sort((left, right) => left.localeCompare(right))
-  .map(url => `  <url><loc>${escapeXml(url)}</loc></url>`)
-  .join('\n')
-
-const xml = [
-  '<?xml version="1.0" encoding="UTF-8"?>',
-  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-  entries,
-  '</urlset>',
-  ''
-].join('\n')
+const xml = renderSitemap([...entries.values()])
 
 await writeFile(outputPath, xml, 'utf8')
 
-console.log(`[sitemap] Wrote ${urls.size} cross-site URLs to dist/sitemap.xml`)
+console.log(`[sitemap] Wrote ${entries.size} cross-site URLs to dist/sitemap.xml`)
 
 console.log(`[sitemap] Sources: ${sourceSummaries.join(', ')}`)

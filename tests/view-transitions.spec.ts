@@ -1,5 +1,27 @@
-/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
-import { expect, test } from '@playwright/test'
+import { expect, type Locator, test } from '@playwright/test'
+
+// Observe every paint for the original 500ms stability window, so a delayed
+// focus scroll cannot hide behind an eventual-success assertion.
+const expectStableTop = async (locator: Locator, expected: number) => {
+  const positions = await locator.evaluate(async element => {
+    const values: number[] = []
+    const deadline = performance.now() + 500
+
+    do {
+      values.push(element.getBoundingClientRect().top)
+      await new Promise<void>(resolve => {
+        requestAnimationFrame(() => {
+          resolve()
+        })
+      })
+    } while (performance.now() < deadline)
+
+    values.push(element.getBoundingClientRect().top)
+    return values
+  })
+
+  for (const position of positions) expect(position).toBeCloseTo(expected, 0)
+}
 
 test.describe('View transitions', () => {
   test('keeps global transition UI working after a body swap', async ({ page }) => {
@@ -83,11 +105,14 @@ test.describe('View transitions', () => {
     }))
 
     expect(filteredPagePosition.scrollY).toBeGreaterThan(0)
-    expect(filteredPagePosition.top).toBeCloseTo(initialFilterTop, 0)
+    await expect.poll(() => topicFilter.evaluate(element => element.getBoundingClientRect().top))
+      .toBeCloseTo(initialFilterTop, 0)
 
-    // Let the native view-transition animation release its snapshots before
-    // starting the reverse navigation.
-    await page.waitForTimeout(400)
+    await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition')
+
+    // Position must remain stable after the page-load event, including any
+    // browser scrolling queued while focus moved to the new document.
+    await expectStableTop(topicFilter, initialFilterTop)
 
     const filterTopBeforeReset = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
 
@@ -96,9 +121,9 @@ test.describe('View transitions', () => {
     await expect(page).toHaveURL(/\/blog\/$/)
     await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/)
 
-    const restoredFilterTop = await topicFilter.evaluate(element => element.getBoundingClientRect().top)
-
-    expect(restoredFilterTop).toBeCloseTo(filterTopBeforeReset, 0)
+    await expect.poll(() => topicFilter.evaluate(element => element.getBoundingClientRect().top))
+      .toBeCloseTo(filterTopBeforeReset, 0)
+    await expectStableTop(topicFilter, initialFilterTop)
   })
 
   test('disables smooth scrolling when reduced motion is requested', async ({ page }) => {

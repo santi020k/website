@@ -3,7 +3,7 @@ import Pill from '@/components/atoms/Pill.astro'
 
 import { getTechnologyPath } from '@/utils/links'
 
-import { Card } from '@santi020k/lumen-astro'
+import { AnimatedNumber, Card, VisualEffect } from '@santi020k/lumen-astro'
 
 interface Props {
   hiddenCount?: number
@@ -21,17 +21,11 @@ const totalTechnologyCount = technologies.length + hiddenCount
   class="relative overflow-hidden p-0"
   variant="muted"
 >
-  <div
+  <VisualEffect
     aria-hidden="true"
-    class="pointer-events-none absolute inset-0 grid-fade opacity-25"
-  >
-  </div>
-  <div
-    aria-hidden="true"
-    class="
-      pointer-events-none absolute -right-16 -bottom-24 size-64 rounded-full
-      bg-radial from-brand/16 via-accent/7 to-transparent blur-3xl
-    "
+    class="pointer-events-none absolute inset-0 rounded-none bg-transparent p-0"
+    intensity={0.25}
+    variant="mesh"
   />
 
   <div class="
@@ -63,11 +57,11 @@ const totalTechnologyCount = technologies.length + hiddenCount
       >
         <div>
           <dt class="text-xs text-ink-muted">Highlighted</dt>
-          <dd class="mt-1 text-xl font-bold tracking-tight text-ink">{technologies.length}</dd>
+          <dd class="mt-1 text-xl font-bold tracking-tight text-ink"><AnimatedNumber locale="en-US" value={technologies.length} /></dd>
         </div>
         <div class="border-l border-line/55 pl-6">
           <dt class="text-xs text-ink-muted">Full index</dt>
-          <dd class="mt-1 text-xl font-bold tracking-tight text-ink">{totalTechnologyCount}</dd>
+          <dd class="mt-1 text-xl font-bold tracking-tight text-ink"><AnimatedNumber locale="en-US" value={totalTechnologyCount} /></dd>
         </div>
       </dl>
     </div>
@@ -81,7 +75,7 @@ const totalTechnologyCount = technologies.length + hiddenCount
           sm:flex-row sm:items-baseline sm:justify-between sm:gap-4
         "
         >
-          <h3 class="ui-label">Top of mind</h3>
+          <h3 class="site-label">Top of mind</h3>
           <p class="text-xs/5 text-ink-muted">The tools I’m most interested in reaching for.</p>
         </div>
         <div class="flex flex-wrap gap-2.5">
@@ -103,7 +97,7 @@ const totalTechnologyCount = technologies.length + hiddenCount
             sm:flex-row sm:items-baseline sm:justify-between sm:gap-4
           "
           >
-            <h3 class="ui-label">In rotation</h3>
+            <h3 class="site-label">In rotation</h3>
             <p class="text-xs/5 text-ink-muted">Supporting tools across delivery, testing, and DX.</p>
           </div>
           <div class="flex flex-wrap gap-2.5">

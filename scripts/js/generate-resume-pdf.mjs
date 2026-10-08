@@ -1,15 +1,20 @@
-import { copyFile, mkdir, readFile, rename, rm, stat } from 'node:fs/promises'
+import { copyFile, mkdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:http'
 import { extname, join, relative, resolve as resolvePath, sep } from 'node:path'
 
-import { chromium } from 'playwright'
+import { chromium } from '@playwright/test'
+
+import { getResumeSourceHash } from './resume-source-fingerprint.mjs'
 
 const projectRoot = resolvePath(import.meta.dirname, '../..')
 const distDirectory = join(projectRoot, 'dist')
 const publicPdfDirectory = join(projectRoot, 'public', 'pdf')
-const publicPdfPath = join(publicPdfDirectory, 'cv.pdf')
-const temporaryPdfPath = join(publicPdfDirectory, 'cv.tmp.pdf')
-const distPdfPath = join(distDirectory, 'pdf', 'cv.pdf')
+const sourceMetadataPath = join(publicPdfDirectory, 'cv.source.json')
+
+const pdfVariants = [
+  { filename: 'cv.pdf', temporaryFilename: 'cv.tmp.pdf', variant: 'short' },
+  { filename: 'cv-full.pdf', temporaryFilename: 'cv-full.tmp.pdf', variant: 'full' }
+]
 
 const contentTypes = new Map([
   ['.avif', 'image/avif'],
@@ -74,35 +79,60 @@ try {
 
   browser = await chromium.launch({ headless: true })
 
-  const page = await browser.newPage({ colorScheme: 'light' })
+  for (const pdfVariant of pdfVariants) {
+    const page = await browser.newPage({ colorScheme: 'light' })
 
-  await page.goto(`http://127.0.0.1:${address.port}/resume/`, {
-    waitUntil: 'networkidle'
-  })
+    await page.goto(`http://127.0.0.1:${address.port}/resume/`, {
+      waitUntil: 'networkidle'
+    })
 
-  await page.evaluate(() => document.fonts.ready)
+    await page.evaluate(() => document.fonts.ready)
 
-  await page.pdf({
-    path: temporaryPdfPath,
-    displayHeaderFooter: false,
-    format: 'A4',
-    outline: true,
-    preferCSSPageSize: true,
-    printBackground: true,
-    tagged: true
-  })
+    await page.emulateMedia({ media: 'print' })
 
-  await rename(temporaryPdfPath, publicPdfPath)
+    if (pdfVariant.variant === 'full') {
+      await page.evaluate(() => {
+        document.documentElement.dataset.resumeVariant = 'full'
+      })
+    }
 
-  await mkdir(join(distDirectory, 'pdf'), { recursive: true })
+    await page.evaluate(async () => {
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+    })
 
-  await copyFile(publicPdfPath, distPdfPath)
+    const publicPdfPath = join(publicPdfDirectory, pdfVariant.filename)
+    const temporaryPdfPath = join(publicPdfDirectory, pdfVariant.temporaryFilename)
 
-  console.log(`Generated ${relative(projectRoot, publicPdfPath)} from the current resume page.`)
+    await page.pdf({
+      path: temporaryPdfPath,
+      displayHeaderFooter: false,
+      format: 'A4',
+      outline: true,
+      preferCSSPageSize: true,
+      printBackground: true,
+      tagged: true
+    })
+
+    await rename(temporaryPdfPath, publicPdfPath)
+
+    await mkdir(join(distDirectory, 'pdf'), { recursive: true })
+
+    await copyFile(publicPdfPath, join(distDirectory, 'pdf', pdfVariant.filename))
+
+    await page.close()
+
+    console.log(`Generated ${relative(projectRoot, publicPdfPath)} from the current resume page.`)
+  }
+
+  const sourceHash = await getResumeSourceHash()
+
+  await writeFile(sourceMetadataPath, `${JSON.stringify({ sourceHash }, null, 2)}\n`, 'utf8')
 } finally {
   await browser?.close()
 
-  await rm(temporaryPdfPath, { force: true })
+  await Promise.all(pdfVariants.map(pdfVariant => (
+    rm(join(publicPdfDirectory, pdfVariant.temporaryFilename), { force: true })
+  )))
 
   await new Promise(resolve => server.close(resolve))
 }

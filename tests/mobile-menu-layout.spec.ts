@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { requireValue } from './helpers/assertions'
+
 for (const theme of ['light', 'dark']) {
   for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }, { width: 844, height: 390 }]) {
     test(`mobile menu stays readable and reachable at ${viewport.width}x${viewport.height} in ${theme}`, async ({ page }) => {
@@ -14,11 +16,9 @@ for (const theme of ['light', 'dark']) {
       await page.locator('[data-mobile-nav-toggle]').click()
 
       const surface = page.locator('[data-mobile-nav-surface]')
-      const bounds = await surface.boundingBox()
+      const bounds = requireValue(await surface.boundingBox())
 
       expect(bounds).not.toBeNull()
-
-      if (!bounds) throw new Error('Menu surface has no layout bounds')
 
       expect(bounds.x).toBeGreaterThanOrEqual(0)
       expect(bounds.x + bounds.width).toBeLessThanOrEqual(viewport.width)

@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Report a security vulnerability
+  - name: Report a security vulnerability privately
     url: https://github.com/santi020k/website/security/policy
-    about: Report suspected vulnerabilities privately instead of opening an issue
-  - name: Astro Documentation
-    url: https://docs.astro.build
-    about: Official Astro documentation
-  - name: GitHub Discussions
-    url: https://github.com/santi020k/website/discussions
-    about: Ask questions and discuss ideas
+    about: Follow the private reporting instructions; do not open a public issue.
+  - name: Ask Santiago a question
+    url: https://santi020k.com/about/
+    about: Contact Santiago about work, writing, or general questions.
+  - name: Lumen UI support
+    url: https://github.com/santi020k/lumen/issues/new/choose
+    about: Report a reproducible issue in Lumen itself in the library repository.

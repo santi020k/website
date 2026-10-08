@@ -43,12 +43,16 @@ The site uses GitHub Flow and has one production branch:
    - `/`
    - `/blog/`
    - `/portfolio/`
+   - `/projects/`
+   - `/travel/`
+   - `/sitemap.xml`
    - `/feed.xml`
    - `/offline/`
 
 Protect `main` in the GitHub repository settings. Require a pull request and the
-`Quality gate` status check before merging. Do not create a `release/*` branch
-or merge the same change a second time.
+`Quality gate` status check before merging. Routine changes use feature or fix
+branches; the v4 redesign is being consolidated on `release/v4.0.0`. Merge its
+reviewed pull request once into `main`, using the same production checks.
 
 Website versions and GitHub Releases are managed with Changesets:
 
@@ -69,6 +73,30 @@ CodeQL scans pull requests and also runs monthly or on demand against the
 protected default branch. The pull-request jobs stay read-only, and the
 dependency audit reuses the quality gate's single dependency installation.
 
+## v4 design candidate
+
+`release/v4.0.0` consolidates the new design and replaces the unpublished 3.12.0
+release preparation. Existing source checkouts remain intact until their work is
+integrated and their owners finish. Public page URLs and content collections are
+retained; no visitor migration is required.
+
+The candidate uses the coordinated Lumen 4.0.0 registry packages. Install the committed
+lockfile with the pinned pnpm version, regenerate CV downloads after dependency or design
+changes, and run the release gates. `preview:lumen:v4` remains available for future local
+library evaluation; never commit its temporary overrides or local tarball paths.
+
+Finished task changes must be committed into `release/v4.0.0` and validated on the
+integrated revision. Inspect worktree status and commit ancestry before carrying
+forward older edits: already-integrated copies and superseded local preview
+overrides must not overwrite the current release. Preserve dirty source checkouts
+until their owners finish. Delete a remote source branch only after its intended
+work is proven contained in the release and its open pull request is accounted for.
+
+Before the first push or pull request, independently review the complete v4 diff
+against `main` and address findings. Publishing remains the existing GitHub
+Actions and Cloudflare Pages workflow from the reviewed, merged `main` commit.
+Use the rollback procedure below if production smoke checks fail.
+
 ## Pre-release local validation
 
 Two tiers, picked by intent:
@@ -78,6 +106,30 @@ Two tiers, picked by intent:
 - `pnpm run audit` — audits production and development dependencies at moderate
   severity without a vulnerability allowlist. Any exception must document its
   exact dependency path, exposure boundary, and removal condition.
+
+See [dependency security follow-up](dependency-security.md) for unresolved
+upstream findings and their required compatibility checks. Documenting a finding
+does not waive the audit gate.
+
+The full Lighthouse audit covers Home, About, Work, Projects, Portfolio, Travel,
+Blog, and Accessibility. `pnpm run lighthouse` is the faster homepage smoke audit;
+`pnpm run lighthouse:full` repeats the configured route audit three times.
+The manual workflow uses read-only permissions and retains diagnostic artifacts.
+
+When another checkout owns Playwright's default preview port, keep that server
+running and select an unused port for the gate, for example:
+
+```bash
+PW_PREVIEW_PORT=4460 pnpm run ci:verify
+```
+
+Astro also allows one preview server per checkout. Stop only your own completed
+verification preview before starting the gate; an unrelated active preview must
+remain intact. Do not relax server isolation to make the tests run.
+
+Lighthouse CI writes reports beneath its working directory. Keep concurrent audits
+in separate checkouts or isolated working directories so one run cannot clear or
+mix another run's results.
 
 ## Rollback
 
@@ -99,6 +151,17 @@ If the site should receive and display [Webmention.io](https://webmention.io/) m
 | `WEBMENTION_PINGBACK` | Public | Optional. `rel="pingback"` URL if you want legacy pingback (e.g. `https://webmention.io/santi020k.com/xmlrpc`). |
 
 The dashboard “Mentions Feed” (HTML/Atom) URLs are for feed readers, not for this build.
+
+The build validates each public mention before rendering it. Malformed fields
+fall back to anonymous authors or empty text; links and avatar sources accept
+only absolute HTTP or HTTPS URLs. Private mentions and entries without a usable
+source URL are omitted. Avatars have fixed dimensions, so rendering does not
+need to fetch their dimensions from third-party hosts.
+
+Both the build and diagnostic script send the API token in the supported
+`Authorization` header, keeping it out of request URLs. Target matching follows
+[Webmention.io's canonical URL and redirect aliases](https://webmention.io/api#basics),
+so an alias may legitimately return a different canonical `wm-target`.
 
 ### Testing Webmentions
 

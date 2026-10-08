@@ -13,7 +13,7 @@ const meta = {
 }
 ---
 
-<PageLayout footerVariant="compact" meta={meta}>
+<PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
   <PageHero
     description="Previously visited pages can still load from the local cache. Refresh when the connection returns to get the newest version."
     eyebrow="Offline"
@@ -52,13 +52,21 @@ const meta = {
   </section>
 
   <script>
+    let offlineControls: AbortController | undefined
+
     const setupOfflineControls = () => {
+      offlineControls?.abort()
+
+      offlineControls = undefined
+
       const retry = document.querySelector<HTMLButtonElement>('[data-retry-connection]')
       const status = document.querySelector<HTMLElement>('[data-connection-status]')
 
-      if (!retry || !status || retry.dataset.ready === 'true') return
+      if (!retry || !status) return
 
-      retry.dataset.ready = 'true'
+      offlineControls = new AbortController()
+
+      const { signal } = offlineControls
 
       const updateStatus = () => {
         status.textContent = navigator.onLine ?
@@ -66,11 +74,11 @@ const meta = {
           'You appear to be offline.'
       }
 
-      retry.addEventListener('click', () => window.location.reload())
+      retry.addEventListener('click', () => window.location.reload(), { signal })
 
-      window.addEventListener('online', updateStatus)
+      window.addEventListener('online', updateStatus, { signal })
 
-      window.addEventListener('offline', updateStatus)
+      window.addEventListener('offline', updateStatus, { signal })
 
       updateStatus()
     }
@@ -78,5 +86,11 @@ const meta = {
     setupOfflineControls()
 
     document.addEventListener('astro:page-load', setupOfflineControls)
+
+    document.addEventListener('astro:before-swap', () => {
+      offlineControls?.abort()
+
+      offlineControls = undefined
+    })
   </script>
 </PageLayout>

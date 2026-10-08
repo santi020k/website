@@ -1,23 +1,11 @@
 import { getImage } from 'astro:assets'
 
+import type { SearchIndexEntry } from '@/types/search'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 
 import type { APIRoute, ImageMetadata } from 'astro'
-
-interface SearchIndexEntry {
-  coverAlt?: string
-  coverAvifUrl?: string
-  coverHeight?: number
-  coverUrl?: string
-  coverWidth?: number
-  description: string
-  path: string
-  tags: string[]
-  title: string
-  type: 'community' | 'post' | 'project'
-}
 
 type SearchThumbFields = Partial<Pick<SearchIndexEntry, 'coverAlt' | 'coverAvifUrl' | 'coverHeight' | 'coverUrl' | 'coverWidth'>>
 

@@ -138,7 +138,7 @@ const createHeader = (language: string, label: string): Element => {
   ])
 }
 
-const convertFigure = (figure: Element): void => {
+const convertFigure = (figure: Element, exampleNumber: number): void => {
   const { label, language, pre } = getCodeMetadata(figure)
 
   figure.properties.className = [...classNames(figure), 'ui-code', 'ui-code--block']
@@ -151,6 +151,10 @@ const convertFigure = (figure: Element): void => {
 
   if (pre) {
     pre.properties.tabIndex = 0
+
+    pre.properties.role = 'region'
+
+    pre.properties.ariaLabel = `Code example ${exampleNumber}: ${label || language || 'plain text'}`
   }
 
   figure.children = [
@@ -189,21 +193,20 @@ const createCodeTabs = (figures: [Element, Element], labels: [string, string]): 
   return element('div', {
     className: ['ui-tabs', 'ui-code-tabs'],
     dataInitialValue: values.at(0) ?? '',
+    dataPackageManagerCodeTabs: '',
+    dataSlot: 'code-tabs',
     dataUiTabs: ''
   }, [
     element('div', {
       ariaLabel: 'Package manager',
-      className: ['ui-code-tabs__list'],
       role: 'tablist'
     }, labels.map((label, index) => element('button', {
       ariaSelected: index === 0 ? 'true' : 'false',
-      className: ['ui-code-tabs__tab'],
       dataValue: values.at(index) ?? '',
       role: 'tab',
       type: 'button'
     }, [text(label)]))),
     ...figures.map((figure, index) => element('div', {
-      className: ['ui-code-tabs__panel'],
       dataValue: values.at(index) ?? '',
       hidden: index > 0,
       role: 'tabpanel'
@@ -314,7 +317,13 @@ const groupPackageManagerAlternatives = (tree: Root): void => {
 export const rehypeLumenCode: Plugin<[], Root> = () => tree => {
   groupPackageManagerAlternatives(tree)
 
+  let exampleNumber = 0
+
   visit(tree, 'element', node => {
-    if (isPrettyCodeFigure(node)) convertFigure(node)
+    if (!isPrettyCodeFigure(node)) return
+
+    exampleNumber += 1
+
+    convertFigure(node, exampleNumber)
   })
 }

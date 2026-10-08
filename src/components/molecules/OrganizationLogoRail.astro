@@ -5,7 +5,7 @@ import type { CollectionEntry } from 'astro:content'
 import { getPortfolioPath } from '@/utils/links'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 
-import { Icon } from '@santi020k/lumen-astro'
+import { Button, Icon } from '@santi020k/lumen-astro'
 
 interface OrganizationLogoRailItem {
   context: string
@@ -156,28 +156,30 @@ const logoSurfaceClass = {
   >
     <p aria-live="polite" class="text-sm font-medium text-ink-muted" data-carousel-status />
     <div class="flex items-center gap-2">
-      <button
+      <Button
         aria-controls="organization-carousel-items"
         aria-label="Show previous organizations"
         class="
           btn-secondary inline-flex size-11 items-center justify-center p-0
         "
         data-carousel-previous
-        type="button"
+        size="icon"
+        variant="secondary"
       >
         <Icon class="size-5" name="arrow-left" />
-      </button>
-      <button
+      </Button>
+      <Button
         aria-controls="organization-carousel-items"
         aria-label="Show next organizations"
         class="
           btn-secondary inline-flex size-11 items-center justify-center p-0
         "
         data-carousel-next
-        type="button"
+        size="icon"
+        variant="secondary"
       >
         <Icon class="size-5" name="arrow-right" />
-      </button>
+      </Button>
     </div>
   </div>
 </section>
@@ -223,11 +225,11 @@ const logoSurfaceClass = {
         return pageStarts
       }
 
-      const getPageIndex = (pageStarts: number[]): number => {
+      const getPageIndex = (pageStarts: number[], anchorIndex = startIndex): number => {
         let pageIndex = 0
 
         for (const [index, pageStart] of pageStarts.entries()) {
-          if (pageStart > startIndex) break
+          if (pageStart > anchorIndex) break
 
           pageIndex = index
         }
@@ -238,8 +240,18 @@ const logoSurfaceClass = {
       const render = (): void => {
         const pageSize = getPageSize()
         const pageStarts = getPageStarts(pageSize)
-        const pageIndex = getPageIndex(pageStarts)
+        const focusedElement = document.activeElement
+        const focusedIndex = items.findIndex(item => item.contains(focusedElement))
+        const currentPageIndex = getPageIndex(pageStarts)
+        const currentPageStart = pageStarts[currentPageIndex] ?? 0
 
+        const focusOutsidePage = focusedIndex >= 0 &&
+          (focusedIndex < currentPageStart || focusedIndex >= currentPageStart + pageSize)
+
+        const pageIndex = focusOutsidePage ? getPageIndex(pageStarts, focusedIndex) : currentPageIndex
+
+        // Resizing may change the page size. Keep the focused case study visible
+        // so a keyboard user never loses their place to a hidden card.
         startIndex = pageStarts[pageIndex] ?? 0
 
         for (const [index, item] of items.entries()) {
@@ -255,6 +267,12 @@ const logoSurfaceClass = {
         status.textContent = pageSize === 1 ?
           `Showing ${startIndex + 1} of ${items.length}` :
           `Showing ${startIndex + 1}–${Math.min(startIndex + pageSize, items.length)} of ${items.length}`
+
+        // Content above the carousel also reflows. Keep the active link on screen
+        // after the new layout settles, without adding scrolling animation.
+        if (focusedIndex >= 0 && focusedElement instanceof HTMLElement) {
+          focusedElement.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' })
+        }
       }
 
       const move = (direction: -1 | 1): void => {

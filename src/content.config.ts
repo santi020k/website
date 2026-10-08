@@ -5,7 +5,14 @@ import { z } from 'astro/zod'
 
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 const dateField = () => z.string().or(z.date()).transform(val => new Date(val))
-const optionalDateField = () => z.string().optional().transform(str => (str ? new Date(str) : undefined))
+
+// Astro's frontmatter parser can provide Date objects for unquoted YAML dates.
+const optionalDateField = () => z
+  .string()
+  .or(z.date())
+  .optional()
+  .transform(value => (value ? new Date(value) : undefined))
+
 const projectBrandColor = z.string().regex(/^#[\da-f]{6}$/iu, 'Use a six-digit hexadecimal brand color')
 
 const baseSchema = z.object({
@@ -67,6 +74,7 @@ const project = defineCollection({
     technologies: z.array(z.string()).default([]).transform(removeDuplicates),
     startingDate: dateField(),
     endingDate: optionalDateField(),
+    updatedDate: optionalDateField(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
     githubUrl: z.url().optional(),

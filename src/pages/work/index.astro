@@ -1,17 +1,14 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import PageHero from '@/components/molecules/PageHero.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
-import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
+import Pill from '@/components/atoms/Pill.astro'
 import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
+import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
+
+import { ButtonLink, Icon, Stat } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import { siteConfig } from '@/site.config'
@@ -31,6 +28,7 @@ const workListSchema = createProjectCollectionSchema('Work Experience — Santia
 ---
 
 <PageLayout
+  headerVariant="signature"
   meta={{
     breadcrumbs,
     description: 'Explore Santiago Molina’s engineering work across commerce, SaaS, gaming, and platforms, including architecture, delivery systems, and technical leadership.',
@@ -39,65 +37,115 @@ const workListSchema = createProjectCollectionSchema('Work Experience — Santia
     title: 'Work Experience — Santiago Molina'
   }}
 >
-  <PageHero
-    description="Client and product work across US and LATAM teams. Architecture decisions, delivery systems, and hands-on technical leadership from startup pressure to scale-up complexity."
-    eyebrow="Work Experience"
-    gradientText="Teams led. Systems that held."
-    metaItems={['Commerce', 'SaaS', 'Gaming', 'Platform engineering']}
-    title="Products shipped."
-  >
-    <ButtonLink href={siteConfig.contact.resume} showArrow>
-      Open resume
-    </ButtonLink>
-    <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
-      Message on LinkedIn
-    </ButtonLink>
-  </PageHero>
+  <div class="work-page" data-work-page>
+    <div class="signature-frame work-intro">
+      <section aria-labelledby="work-heading" class="work-hero-grid">
+        <div>
+          <p class="maker-hero-eyebrow"><span
+  aria-hidden="true"
+  class="maker-hero-signal"
+                                        ></span>Work experience / US &amp; LATAM</p>
+          <h1 id="work-heading" class="work-heading">Products shipped.<br /><span class="
+            maker-hero-emphasis
+          "
+                                                                            >Teams led.</span></h1>
+        </div>
+        <div>
+          <p class="text-lg/7 font-medium tracking-tight text-ink">Good software takes more than code.</p>
+          <p class="mt-4 text-sm/7 text-ink-soft">I help teams turn complex problems into products that hold up. Architecture decisions, delivery systems, and hands-on technical leadership, from startup pressure to scale-up complexity.</p>
+          <div class="maker-hero-actions">
+            <ButtonLink class="maker-hero-primary" href={siteConfig.contact.resume} variant="unstyled">Open resume <span
+  aria-hidden="true"
+  class="maker-hero-arrow"
+                                                                                                                   ><Icon name="arrow-up-right" /></span></ButtonLink>
+            <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <Icon name="arrow-up-right" /></ButtonLink>
+          </div>
+        </div>
+      </section>
 
-  <PageSection>
-    <SectionHeader
-      description="Work delivered where product constraints, architecture choices, team habits, and release quality all had to improve together."
-      eyebrow="Client and product work"
-      title="Professional Work"
-    />
-    <CareerTimeline projects={workProjects} />
-  </PageSection>
+      <section aria-label="Career at a glance" class="work-stats">
+        <Stat label="Professional roles" value={String(workProjects.length)} variant="bare"><p class="
+          mt-3 text-xs/6 text-ink-soft
+        "
+                                                                                            >Across commerce, gaming, agencies, and SaaS.</p></Stat>
+        <Stat label="Largest team led" value="14" variant="bare"><p class="
+          mt-3 text-xs/6 text-ink-soft
+        "
+                                                                 >Product, design, frontend, and backend.</p></Stat>
+        <Stat label="Production technologies" value={String(allTechnologies.length)} variant="bare"><p class="
+          mt-3 text-xs/6 text-ink-soft
+        "
+                                                                                                    >Tools chosen to fit the product.</p></Stat>
+        <Stat label="Release cycle time" value="−75%" variant="bare"><p class="
+          mt-3 text-xs/6 text-ink-soft
+        "
+                                                                     >Through CI/CD and automated quality gates.</p></Stat>
+      </section>
 
-  <StatsGrid>
-    <StatCard
-      description="Roles across commerce, gaming, real estate, martech, agencies, and SaaS."
-      label="Roles"
-      value={String(workProjects.length)}
-    />
-    <StatCard
-      description="Largest cross-functional team led across product, design, frontend, and backend."
-      label="Team led"
-      value="14"
-    />
-    <StatCard
-      description="Recurring tools and platforms across production systems."
-      label="Technologies"
-      value={String(allTechnologies.length)}
-    />
-    <StatCard
-      description="Reduced release lead times by optimizing CI/CD pipelines and automating quality gates."
-      label="Cycle Time"
-      value="-75%"
-    />
-  </StatsGrid>
+    </div>
 
-  <PageSection>
-    <SectionHeader
-      description="React and TypeScript sit at the center, but the work widens to fit the product: backend, mobile, testing, developer experience, and delivery tooling."
-      eyebrow="Technology map"
-      linkHref="/technologies/"
-      linkLabel="Browse the full stack index"
-      title="The tools behind the work."
-    />
-    <TechnologyPillGrid
-      hiddenCount={hiddenTechnologyCount}
-      intro="Recurring technologies across client and product work, ordered from the most interesting product-shaping tools to the more supporting ones."
-      technologies={technologies}
-    />
-  </PageSection>
+    <section
+aria-labelledby="experience-heading"
+class="
+  pt-16
+  sm:pt-20
+"
+    >
+      <div class="work-section-heading">
+        <div><p class="maker-hero-eyebrow mb-4">01 / Experience</p><h2
+id="experience-heading"
+class="
+  text-3xl/tight font-semibold tracking-tighter text-ink
+  sm:text-4xl
+"
+                                                                   >The work, over time.</h2></div>
+        <p class="max-w-sm text-sm/7 text-ink-soft">Client and product work where architecture, team habits, and release quality had to improve together.</p>
+      </div>
+      <CareerTimeline appearance="editorial" projects={workProjects} />
+    </section>
+
+    <section
+aria-labelledby="tools-heading"
+class="
+  border-t border-line/65 pt-12
+  sm:pt-16
+"
+    >
+      <div class="work-section-heading">
+        <div><p class="maker-hero-eyebrow mb-4">02 / Toolkit</p><h2
+id="tools-heading"
+class="
+  text-3xl/tight font-semibold tracking-tighter text-ink
+  sm:text-4xl
+"
+                                                                >The tools behind the work.</h2></div>
+        <p class="max-w-sm text-sm/7 text-ink-soft">React and TypeScript at the center. Backend, mobile, testing, and delivery tools to fit the problem.</p>
+      </div>
+      <ul
+aria-label="Technologies used in professional work"
+class="flex flex-wrap gap-3"
+data-work-stack
+      >
+        {technologies.map(([name, count]) => <li><Pill count={count} href={getTechnologyPath(name)} label={name} tone="outline" /></li>)}
+      </ul>
+      <div class="
+        mt-7 flex flex-wrap items-center justify-between gap-4 text-xs/6
+        text-ink-soft
+      "
+      >
+        <p>Numbers indicate the professional projects using each technology.</p>
+        <ButtonLink
+class="
+  inline-flex min-h-11 items-center gap-2 maker-hero-secondary font-semibold
+  text-ink
+"
+href="/technologies/"
+variant="unstyled"
+        >Explore {hiddenTechnologyCount} more <Icon
+class="size-4"
+name="arrow-right"
+                                              /></ButtonLink>
+      </div>
+    </section>
+  </div>
 </PageLayout>

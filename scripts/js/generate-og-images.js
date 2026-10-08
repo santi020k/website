@@ -109,6 +109,12 @@ const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 /** Static page definitions (mirrors `src/data/social-pages.ts`). */
 const staticSocialPages = [
   {
+    description: 'Explore the places I have visited across the Americas, Europe, and Asia, from my roots in Colombia to life abroad as a resident of Paraguay.',
+    pathname: '/travel/',
+    title: 'Travel & Life Abroad',
+    badge: 'Travel'
+  },
+  {
     description:
       `Engineering Leader & Full-Stack Architect with ${yearsOfExperience} years of ` +
       'experience building resilient systems and scaling technical teams.',
@@ -492,7 +498,7 @@ export default definePresetConfig({
   clean: true,
   concurrency: 'auto',
   outputDirectory: 'public/og',
-  routeManifest: { file: 'public/og/manifest.json', publicPath: '/og' },
+  routeManifest: { cacheBust: true, file: 'public/og/manifest.json', publicPath: '/og' },
   preset: {
     brand: { domain: 'santi020k.com', logo: BRAND_LOGO, name: 'Santiago Molina' },
     decoration: renderOgAtmosphere,

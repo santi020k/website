@@ -1,0 +1,193 @@
+/* Work uses the solid, editorial canvas established by the homepage and navbar. */
+body:has([data-work-page]) {
+  background: hsl(var(--theme-bg));
+}
+
+body:has([data-work-page]) [data-particles-bg],
+body:has([data-work-page]) > div > .grid-fade {
+  display: none;
+}
+
+@utility work-page {
+  --hero-radius: 1rem;
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+@utility work-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: end;
+  padding-block: 2rem 4rem;
+}
+
+@utility work-intro { padding-bottom: 0; }
+.work-intro .work-hero-grid { padding-top: 0; }
+.work-intro .work-stats { border-bottom: 0; }
+
+@utility work-heading {
+  margin: 0;
+  color: hsl(var(--ink));
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.07em;
+}
+
+@utility work-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid hsl(var(--line) / 0.65);
+  padding-block: 2rem;
+}
+
+.work-stats [data-slot="stat"] {
+  padding: 0 1.75rem;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.work-stats [data-slot="stat"]:first-child {
+  padding-left: 0;
+}
+.work-stats [data-slot="stat"] + [data-slot="stat"] {
+  border-left: 1px solid hsl(var(--line) / 0.65);
+}
+.work-stats [data-slot="stat-label"] {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: hsl(var(--ink-soft));
+}
+.work-stats [data-slot="stat-value"] {
+  margin-top: 0.75rem;
+  font-size: 2.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.065em;
+}
+
+@utility work-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+[data-career-appearance="editorial"] {
+  margin-bottom: 4rem;
+  border: 0;
+  border-top: 1px solid hsl(var(--line) / 0.65);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+[data-career-appearance="editorial"] [data-career-link] {
+  padding-block: 2rem;
+  background: transparent;
+}
+
+[data-career-appearance="editorial"] [data-career-title] {
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+[data-career-appearance="editorial"] [data-career-link] article > p {
+  display: block;
+  overflow: visible;
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+
+[data-career-appearance="editorial"]
+  [data-career-link]
+  article
+  > div:last-child {
+  border: 0;
+  padding-top: 0;
+}
+
+[data-career-appearance="editorial"] .ui-timeline-item__tail {
+  display: none;
+}
+[data-career-appearance="editorial"] .ui-timeline-item__dot {
+  top: 2rem;
+}
+[data-career-appearance="editorial"] .ui-timeline-item__dot > span {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.625rem;
+  box-shadow: none;
+}
+
+[data-work-stack] a {
+  min-height: 2.75rem;
+  border-radius: 0.625rem;
+  padding-inline: 1rem;
+  background: hsl(var(--surface));
+}
+
+:root[data-theme="dark"] [data-work-page] .maker-hero-emphasis {
+  color: hsl(var(--accent));
+}
+
+@media (max-width: 63.999rem) {
+  .work-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-top: 0.5rem;
+  }
+  .work-hero-grid > div:last-child {
+    max-width: 34rem;
+  }
+  .work-heading {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+  }
+}
+
+@media (max-width: 39.999rem) {
+  .work-hero-grid {
+    padding-bottom: 2rem;
+  }
+  .work-heading {
+    font-size: clamp(2rem, 9.5vw, 3.75rem);
+  }
+  .work-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 0;
+  }
+  .work-stats [data-slot="stat"] {
+    padding-inline: 1rem;
+  }
+  .work-stats [data-slot="stat"]:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .work-stats [data-slot="stat-value"] {
+    font-size: 2.25rem;
+  }
+  .work-section-heading {
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+  }
+  [data-career-appearance="editorial"] [data-career-link] {
+    padding-right: 0.75rem;
+    padding-left: 3.5rem;
+  }
+  [data-career-appearance="editorial"] .ui-timeline-item__dot {
+    left: 0.5rem;
+  }
+}
+
+/* Small purple labels need a lighter foreground on the solid dark canvas. */
+:root[data-theme="dark"] [data-career-appearance="editorial"] .text-brand,
+:root[data-theme="dark"] [data-career-appearance="editorial"] [data-site-pill]:where([data-variant="brand"]) {
+  color: hsl(var(--accent));
+}

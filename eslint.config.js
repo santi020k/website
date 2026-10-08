@@ -1,11 +1,13 @@
-import recommended from '@santi020k/eslint-config-full/recommended'
+import { defineConfig } from '@santi020k/eslint-config-basic'
 
 // Tailwind v4 initialization can exceed Synckit's one-minute default on CI.
 // Keep the canonical-class rule enabled and give its worker enough time.
 process.env.SYNCKIT_TIMEOUT ??= '180000'
 
 export default [
-  ...recommended,
+  ...await defineConfig({
+    testingFiles: { playwright: ['tests/**/*.spec.ts'] }
+  }),
   {
     name: 'website/project-tailwind-classes',
     rules: {

@@ -1,14 +1,12 @@
-/* eslint func-style: off, jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
-// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
 
-function assertArray(value: unknown): asserts value is unknown[] {
+const assertArray: (value: unknown) => asserts value is unknown[] = value => {
   if (!Array.isArray(value)) throw new Error('Expected payload to be an array')
 }
 
-function assertRecord(value: unknown): asserts value is Record<string, unknown> {
+const assertRecord: (value: unknown) => asserts value is Record<string, unknown> = value => {
   if (!isRecord(value)) throw new Error('Expected payload item to be an object')
 }
 

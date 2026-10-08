@@ -1,5 +1,3 @@
-/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
-// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, type Page, test } from '@playwright/test'
 
 const getFirstPostPath = async (page: Page): Promise<string> => {

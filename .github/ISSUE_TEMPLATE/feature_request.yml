@@ -1,29 +1,33 @@
-name: ✨ Feature Request
-description: Suggest an idea for this project
-title: "[Feature]: "
+name: Suggest an improvement
+description: Propose a useful improvement to the website or reading experience.
+title: "Idea: "
 labels: ["enhancement"]
 body:
-  - type: textarea
-    id: description
+  - type: markdown
     attributes:
-      label: Is your feature request related to a problem? Please describe.
-      description: A clear and concise description of what the problem is.
-      placeholder: I'm always frustrated when...
+      value: |
+        Describe the reader's need and the affected page. Reports are public; omit personal information.
+        Requests about a separate product belong in that product's repository.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would this help you do?
+      description: Explain the task, problem, or missing information and who benefits.
     validations:
       required: true
-
+  - type: input
+    id: page
+    attributes:
+      label: Relevant page
+      description: Optional public URL or website section.
   - type: textarea
     id: solution
     attributes:
-      label: Describe the solution you'd like
-      description: A clear and concise description of what you want to happen.
+      label: Suggested improvement
     validations:
       required: true
-
   - type: textarea
     id: alternatives
     attributes:
-      label: Describe alternatives you've considered
-      description: A clear and concise description of any alternative solutions or features you've considered.
-    validations:
-      required: false
+      label: Alternatives or examples
+      description: Public references or a simpler approach, if available.
