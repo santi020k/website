@@ -6,18 +6,13 @@ import { Image } from 'astro:assets'
 import PageLayout from '@/layouts/Base.astro'
 
 import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+import current from '@santi020k/website-history/current'
 import versions from '@santi020k/website-history/versions'
 
 const captures = import.meta.glob<{ default: ImageMetadata }>('../assets/website-history/*.webp', { eager: true })
 
 const eras = [
-  {
-    id: 'v4',
-    title: 'A more personal canvas.',
-    date: '2026-10-07',
-    description: 'Warmer portraits, sculpted typography, and room for the stories behind the work. The website feels more like a studio, with a shared visual language across every page.',
-    current: true
-  },
+  { ...current, current: true },
   ...[...versions].reverse().map(version => ({ ...version, current: false }))
 ]
 

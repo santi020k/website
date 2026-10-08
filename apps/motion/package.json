@@ -1,0 +1,43 @@
+{
+  "name": "@santi020k/website-motion",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Local films of the design history of santi020k.com.",
+  "type": "module",
+  "scripts": {
+    "prepare:assets": "node scripts/prepare-assets.mjs",
+    "dev": "pnpm run prepare:assets && astro dev --host 127.0.0.1 --port 4342",
+    "build": "pnpm run prepare:assets && astro build && node scripts/prepare-compositions.mjs",
+    "preview": "ASTRO_PREVIEW_BACKGROUND=0 astro preview --host 127.0.0.1 --port 4342",
+    "check": "astro check",
+    "lint": "eslint . --max-warnings=0",
+    "test": "playwright test",
+    "check:composition": "HYPERFRAMES_NO_TELEMETRY=1 hyperframes check dist/portrait --strict && HYPERFRAMES_NO_TELEMETRY=1 hyperframes check dist/square --strict && HYPERFRAMES_NO_TELEMETRY=1 hyperframes check dist/landscape --strict",
+    "render:portrait": "HYPERFRAMES_NO_TELEMETRY=1 hyperframes render dist --composition portrait/index.html --output renders/website-history-portrait.mp4 --fps 30 --quality delivery",
+    "render:square": "HYPERFRAMES_NO_TELEMETRY=1 hyperframes render dist --composition square/index.html --output renders/website-history-square.mp4 --fps 30 --quality delivery",
+    "render:landscape": "HYPERFRAMES_NO_TELEMETRY=1 hyperframes render dist --composition landscape/index.html --output renders/website-history-landscape.mp4 --fps 30 --quality delivery"
+  },
+  "dependencies": {
+    "astro": "catalog:",
+    "gsap": "catalog:",
+    "@santi020k/lumen-astro": "catalog:",
+    "@santi020k/theme": "catalog:",
+    "@santi020k/website-history": "workspace:*"
+  },
+  "devDependencies": {
+    "@astrojs/check": "catalog:",
+    "@playwright/test": "catalog:",
+    "typescript": "catalog:",
+    "hyperframes": "catalog:",
+    "@axe-core/playwright": "catalog:",
+    "@santi020k/eslint-config-basic": "catalog:"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "author": {
+    "name": "Santiago Molina",
+    "url": "https://santi020k.com"
+  }
+}

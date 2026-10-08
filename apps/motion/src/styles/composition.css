@@ -1,0 +1,49 @@
+@font-face { font-family: Montserrat; src: url('/assets/montserrat.woff2') format('woff2'); font-weight: 100 900; font-display: block; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Montserrat, sans-serif; color: hsl(var(--ink)); background: hsl(var(--theme-bg)); }
+[data-composition-id] { position: relative; overflow: hidden; width: 1080px; height: 1080px; background: hsl(var(--theme-bg)); }
+[data-format='portrait'] { height: 1920px; }
+[data-format='landscape'] { width: 1920px; }
+.scene { position: absolute; inset: 0; visibility: hidden; background: hsl(var(--theme-bg)); }
+h1, h2, p, figure { margin: 0; }
+em { color: hsl(var(--brand)); font-style: normal; }
+.film-eyebrow { font-size: 22px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: hsl(var(--ink-soft)); }
+.opening, .ending { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 100px; }
+.opening h1, .ending h2 { margin-top: 50px; font-size: 144px; font-weight: 500; line-height: 1.02; letter-spacing: -.07em; }
+.opening-note, .ending-description { margin-top: 50px; font-size: 32px; color: hsl(var(--ink-soft)); }
+.opening-index { margin-top: 80px; padding-top: 25px; width: 100%; border-top: 1px solid hsl(var(--line)); font-size: 28px; letter-spacing: .1em; color: hsl(var(--ink-soft)); }
+.film-header, .film-footer { position: absolute; left: 60px; right: 60px; display: flex; justify-content: space-between; align-items: center; font-size: 20px; color: hsl(var(--ink-soft)); }
+.film-header { top: 50px; }
+.film-header > span:first-child { font-size: 30px; font-weight: 600; letter-spacing: -.07em; color: hsl(var(--ink)); }
+.film-footer { bottom: 64px; }
+.chapter-copy { position: absolute; top: 135px; left: 60px; right: 60px; }
+.chapter-copy h2 { max-width: 900px; margin-top: 24px; font-size: 74px; line-height: 1.05; font-weight: 500; letter-spacing: -.06em; }
+.chapter-change { max-width: 820px; margin-top: 24px; font-size: 26px; line-height: 1.5; color: hsl(var(--ink-soft)); }
+.film-artwork { position: absolute; left: 60px; right: 60px; top: 440px; height: 510px; }
+.desktop-capture { position: absolute; width: 710px; left: 0; top: 0; border: 1px solid hsl(var(--line)); border-radius: 18px; overflow: hidden; background: hsl(var(--surface)); box-shadow: 0 25px 65px hsl(var(--ink) / .08); }
+.desktop-capture figcaption { display: flex; justify-content: space-between; padding: 12px 20px; font-size: 15px; color: hsl(var(--ink-soft)); border-bottom: 1px solid hsl(var(--line)); }
+.desktop-capture img { display: block; width: 100%; height: auto; transform-origin: top center; }
+.mobile-capture { position: absolute; right: 0; top: 55px; width: 205px; padding: 7px; border: 1px solid hsl(var(--line)); border-radius: 25px; overflow: hidden; background: hsl(var(--surface)); box-shadow: 0 20px 60px hsl(var(--ink) / .12); }
+.mobile-capture img { display: block; width: 100%; height: auto; border-radius: 18px; }
+.era-rail { position: absolute; bottom: 20px; left: 60px; right: 60px; display: flex; gap: 12px; }
+.era-rail span { flex: 1; border-top: 3px solid hsl(var(--line)); padding-top: 8px; font-size: 16px; color: hsl(var(--ink-soft)); }
+.era-rail .active { color: hsl(var(--brand)); border-color: hsl(var(--brand)); font-weight: 600; }
+.ending a { margin-top: 40px; font-size: 36px; color: hsl(var(--brand)); text-decoration: none; }
+.curation-note { margin-top: 90px; font-size: 20px; color: hsl(var(--ink-soft)); }
+[data-format='portrait'] .chapter-copy { top: 240px; left: 80px; right: 80px; }
+[data-format='portrait'] .chapter-copy h2 { font-size: 94px; }
+[data-format='portrait'] .chapter-change { font-size: 30px; }
+[data-format='portrait'] .film-artwork { left: 80px; right: 80px; top: 700px; height: 850px; }
+[data-format='portrait'] .desktop-capture { width: 850px; }
+[data-format='portrait'] .mobile-capture { top: 300px; width: 300px; }
+[data-format='portrait'] .film-header { top: 160px; left: 80px; right: 80px; }
+[data-format='portrait'] .film-footer { bottom: 160px; left: 80px; right: 80px; }
+[data-format='portrait'] .era-rail { bottom: 230px; left: 80px; right: 80px; }
+[data-format='landscape'] .opening h1, [data-format='landscape'] .ending h2 { font-size: 185px; }
+[data-format='landscape'] .chapter-copy { top: 255px; left: 100px; width: 620px; right: auto; }
+[data-format='landscape'] .chapter-copy h2 { font-size: 88px; }
+[data-format='landscape'] .chapter-change { max-width: 570px; font-size: 30px; }
+[data-format='landscape'] .film-artwork { left: 790px; right: 80px; top: 185px; height: 720px; }
+[data-format='landscape'] .desktop-capture { width: 990px; }
+[data-format='landscape'] .mobile-capture { width: 255px; top: 190px; }
+[data-format='landscape'] .film-header, [data-format='landscape'] .film-footer, [data-format='landscape'] .era-rail { left: 100px; right: 100px; }

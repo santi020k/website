@@ -74,3 +74,13 @@ Deployment remains the existing GitHub Actions / Cloudflare static pipeline.
 Rollback is a deployment of the previous main commit; archives have no persisted
 server data or migrations. Freeze new eras explicitly rather than silently copying
 new content into an existing archive.
+
+## Motion studio
+
+The private [website motion studio](../apps/motion/README.md) turns the same era
+metadata and authentic captures into a short film. Preview it with
+`pnpm --filter @santi020k/website-motion dev`, or build and test it with
+`pnpm run test:motion`. It exports three video formats locally and is excluded
+from the assembled website deployment. Playback is optional; reduced motion keeps
+chapter stills available. The studio README is the source of truth for timing,
+render commands, prerequisites, and the visual description.

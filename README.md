@@ -253,3 +253,9 @@ are not licensed for reuse in other products.
 workspaces share one maintained dependency catalog and lockfile; Turborepo builds
 one combined static deployment. See [website history](docs/website-history.md)
 for snapshots, SEO, storage isolation, and screenshot capture commands.
+
+### Website history film
+
+The private [motion studio](apps/motion/README.md) uses the real website-history
+captures for a short film in portrait, square, and landscape formats. Run
+`pnpm --filter @santi020k/website-motion dev` to preview it locally.

@@ -26,9 +26,9 @@
     "audit:seo": "santi-og audit --config og.audit.config.mjs",
     "inspect:og": "santi-og inspect https://santi020k.com --json",
     "preview": "ASTRO_PREVIEW_BACKGROUND=0 astro preview",
-    "lint": "pnpm run lint:current && pnpm --filter \"@santi020k/website-v*\" --workspace-concurrency=1 run lint",
+    "lint": "pnpm run lint:current && pnpm --filter \"@santi020k/website-v*\" --workspace-concurrency=1 run lint && pnpm --filter @santi020k/website-motion lint",
     "lint:fix": "SYNCKIT_TIMEOUT=180000 eslint . --fix --max-warnings=0",
-    "check": "pnpm run check:current && pnpm --filter \"@santi020k/website-v*\" --workspace-concurrency=1 run check",
+    "check": "pnpm run check:current && pnpm --filter \"@santi020k/website-v*\" --workspace-concurrency=1 run check && pnpm --filter @santi020k/website-motion check",
     "audit": "pnpm audit --audit-level=moderate",
     "test": "vitest run",
     "test:webmentions": "vitest run src/utils/__tests__/webmentions-fetch.test.ts",
@@ -53,9 +53,9 @@
     "lint:content": "node scripts/js/content-lint.mjs",
     "lint:md": "node scripts/js/lint-markdown.mjs",
     "spellcheck": "cspell --quiet \"**/*.{md,mdx}\"",
-    "verify:quality": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content check:cv test",
+    "verify:quality": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content check:cv test test:motion",
     "verify:fast": "npm-run-all --silent --serial verify:quality build",
-    "verify:full": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content check:cv test:coverage build && pnpm run lighthouse:full && pnpm run test:e2e:ci:stable",
+    "verify:full": "npm-run-all --silent --serial spellcheck lint check lint:md lint:content check:cv test:coverage test:motion build && pnpm run lighthouse:full && pnpm run test:e2e:ci:stable",
     "ci:verify": "pnpm run verify:full",
     "hooks:install": "node scripts/js/install-quality-hooks.mjs",
     "prepare": "pnpm run hooks:install",
@@ -69,7 +69,8 @@
     "check:current": "astro check",
     "lint:current": "SYNCKIT_TIMEOUT=180000 eslint . --max-warnings=0",
     "history:screenshots": "node scripts/js/capture-website-history.mjs",
-    "audit:history": "node scripts/js/audit-website-history.mjs"
+    "audit:history": "node scripts/js/audit-website-history.mjs",
+    "test:motion": "pnpm --filter @santi020k/website-motion build && pnpm --filter @santi020k/website-motion test"
   },
   "dependencies": {
     "@astrojs/mdx": "catalog:",

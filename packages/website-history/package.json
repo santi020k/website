@@ -12,7 +12,8 @@
     "./archive": {
       "types": "./finalize-archive.d.mts",
       "default": "./finalize-archive.mjs"
-    }
+    },
+    "./current": "./current.json"
   },
   "dependencies": {
     "astro": "catalog:",

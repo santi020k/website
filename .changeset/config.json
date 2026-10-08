@@ -16,7 +16,8 @@
     "@santi020k/website-history",
     "@santi020k/website-v1",
     "@santi020k/website-v2",
-    "@santi020k/website-v3"
+    "@santi020k/website-v3",
+    "@santi020k/website-motion"
   ],
   "privatePackages": {
     "version": true,
