@@ -332,3 +332,28 @@ The full dependency audit remains clean. Final independent read-only review
 identified the font-input omission; that finding was fixed and rechecked with
 no further actionable finding. Remote CI and Codex review must still qualify
 the final pushed revision before release.
+
+## Release completeness audit
+
+A fresh fetch and inventory checked both local branches, both remote branches,
+all six registered Git checkouts, eight preserved stashes, and open pull requests.
+Every branch and worktree HEAD is contained in the release. The primary checkout
+and the other source checkouts have no pending source edits; the old Lumen
+checkout retains only an untracked dependency symlink. PR #157 is the only open
+website pull request.
+
+The stash contents are retained for recovery, with these release dispositions:
+
+- Stashes 0–2 contain earlier blog gallery, project palette/cover, editorial
+  artwork, profile, terms, and related tests. Their behavior is integrated or
+  superseded by the current sculpted layouts, 12-post archive, current artwork,
+  contrast fixes, and stricter types. Do not reapply the obsolete layouts.
+- Stashes 3–4 contain the earlier Lumen and OG migration. Published Lumen 4 and
+  OG 1.2 contracts, generated manifests, metadata, and regression checks supersede
+  those dependency snapshots and generated artifacts.
+- Stash 5 contains the missed label-color quoting. Restore its quoting so YAML
+  keeps all six-digit colors as strings; an unquoted `5319e7` parses as a number.
+- Stashes 6–7 duplicate older identity and Lumen styling work. Current components,
+  tokens, search controls, focus treatment, and contrast fixes supersede them.
+
+No stash, worktree file, or historical branch was discarded by this audit.

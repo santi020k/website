@@ -18,6 +18,8 @@
 
 ### Patch Changes
 
+- Preserve GitHub label hex colors as YAML strings when consolidating the release.
+
 - Track local résumé render dependencies in CV freshness checks and retire the previous
   service-worker cache during the v4 rollout. Verify both PDF links initiate downloads.
 
