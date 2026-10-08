@@ -43,7 +43,7 @@ body:has([data-work-page]) > div > .grid-fade {
   padding-block: 2rem;
 }
 
-.work-stats .ui-stat {
+.work-stats [data-slot="stat"] {
   padding: 0 1.75rem;
   background: none;
   border: 0;
@@ -51,18 +51,18 @@ body:has([data-work-page]) > div > .grid-fade {
   box-shadow: none;
 }
 
-.work-stats .ui-stat:first-child {
+.work-stats [data-slot="stat"]:first-child {
   padding-left: 0;
 }
-.work-stats .ui-stat + .ui-stat {
+.work-stats [data-slot="stat"] + [data-slot="stat"] {
   border-left: 1px solid hsl(var(--line) / 0.65);
 }
-.work-stats .ui-stat-label {
+.work-stats [data-slot="stat-label"] {
   font-size: 0.6875rem;
   font-weight: 500;
   color: hsl(var(--ink-soft));
 }
-.work-stats .ui-stat-value {
+.work-stats [data-slot="stat-value"] {
   margin-top: 0.75rem;
   font-size: 2.75rem;
   font-weight: 500;
@@ -162,14 +162,14 @@ body:has([data-work-page]) > div > .grid-fade {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem 0;
   }
-  .work-stats .ui-stat {
+  .work-stats [data-slot="stat"] {
     padding-inline: 1rem;
   }
-  .work-stats .ui-stat:nth-child(odd) {
+  .work-stats [data-slot="stat"]:nth-child(odd) {
     padding-left: 0;
     border-left: 0;
   }
-  .work-stats .ui-stat-value {
+  .work-stats [data-slot="stat-value"] {
     font-size: 2.25rem;
   }
   .work-section-heading {
@@ -188,6 +188,6 @@ body:has([data-work-page]) > div > .grid-fade {
 
 /* Small purple labels need a lighter foreground on the solid dark canvas. */
 :root[data-theme="dark"] [data-career-appearance="editorial"] .text-brand,
-:root[data-theme="dark"] [data-career-appearance="editorial"] .ui-pill--brand {
+:root[data-theme="dark"] [data-career-appearance="editorial"] [data-site-pill]:where([data-variant="brand"]) {
   color: hsl(var(--accent));
 }

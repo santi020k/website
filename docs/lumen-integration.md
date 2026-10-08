@@ -185,6 +185,23 @@ Run the migration audit, website gates, Playwright interactions, and mobile / de
 checks after future upgrades. Use the website's Changesets process in `docs/deployment.md`;
 reverting the coordinated dependency and consumer changes together is the rollback.
 
+## Consumer styling cleanup
+
+The local `ui.css` layer retains seven source-used utility definitions, including the
+shared focus-ring dependency. Ninety-three unused primitive definitions were removed;
+Lumen continues to own primitive defaults. `site-label` names the site's text utility
+without sharing Lumen's internal Label class. Card spacing and Work metrics use public
+`data-slot` hooks. About descriptions, testimonial authors, homepage icons, project
+section eyebrows, and branded Work pills use consumer-owned attributes.
+
+The installed 4.0.0 contracts do not expose styling parts for TimelineItem's connector,
+dot frame, and content wrapper, or for every WorldMap frame/control part. Those scoped
+internal selectors remain necessary to preserve the approved timeline and travel layouts.
+ThemeToggle's icon-position override also remains until the adapter exposes icon parts.
+Track their replacement in this section after Lumen publishes matching public parts;
+do not replace them with child-index selectors or remove them solely to silence an audit.
+The two Timeline part advisories from `lumen doctor src` therefore remain reviewed limitations.
+
 ## Upgrade checks
 
 After updating Lumen, run these package-owned checks before the website gates:

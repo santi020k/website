@@ -245,7 +245,7 @@
     letter-spacing: -0.065em;
   }
 
-  & .ui-eyebrow {
+  & [data-site-eyebrow] {
     padding: 0;
     border: 0;
     background: transparent;
