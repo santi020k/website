@@ -73,6 +73,9 @@ Seeking is deterministic, including backwards. Generated assets, stills, static
 output, and renders are ignored. The studio is excluded from deployment assembly
 and Changesets versioning; production website dependencies do not import it.
 
+Exports use screenshot capture. The accelerated capture path produced an empty
+frame during local verification, so render scripts explicitly disable it.
+
 Portrait content leaves space for social overlays, but each platform's upload
 preview must be checked before publication. The ending links to the visible,
 indexable history page. Attribution: [Santiago Molina](https://santi020k.com).
