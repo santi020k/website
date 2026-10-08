@@ -136,7 +136,7 @@ const meta = {
       {profileStats.map(({ description: statDescription, label, value }) => (
         <Note borderPosition="none" class="about-stat" label={label}>
           <p class="about-stat-value">{value}</p>
-          <p>{statDescription}</p>
+          <p data-about-stat-description>{statDescription}</p>
         </Note>
       ))}
     </section>

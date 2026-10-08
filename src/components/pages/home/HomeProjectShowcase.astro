@@ -81,7 +81,7 @@ const supporting = projects.slice(featured.length)
             <span class="studio-row-number" aria-hidden="true">{String(index + featured.length + 1).padStart(2, '0')}</span>
             <span class="studio-row-title"><strong>{project.data.title}</strong><span>{project.data.role}</span></span>
             <span class="studio-row-summary">{project.data.description}</span>
-            <Icon name="arrow-up-right" />
+            <Icon data-project-row-icon name="arrow-up-right" />
           </a>
         </li>
       ))}

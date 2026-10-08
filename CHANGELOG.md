@@ -23,6 +23,11 @@
   while preserving custom artwork. Replace the Playwright detection workaround
   with the shared configuration's explicit browser-test scope.
 
+- Remove 93 unused primitive style definitions and replace supported Lumen internal
+  selectors with public styling contracts and site-owned hooks. Preserve active
+  utilities and document the remaining Timeline, WorldMap, and ThemeToggle parts
+  that lack public styling hooks in 4.0.0.
+
 - Return keyboard focus to the travel map when closing country details with a
   pointer, including browsers that do not focus clicked buttons.
 
