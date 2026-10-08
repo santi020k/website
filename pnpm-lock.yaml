@@ -528,9 +528,15 @@ importers:
       '@santi020k/eslint-config-basic':
         specifier: 'catalog:'
         version: 3.6.0(0a01b6a5ba50e6149e4a9a0b5b434c6b)
+      '@tailwindcss/vite':
+        specifier: 'catalog:'
+        version: 4.3.3(vite@8.3.3(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
       hyperframes:
         specifier: 'catalog:'
         version: 0.8.142(@types/node@26.6.4)(proxy-agent@8.0.2(supports-color@9.4.0))(supports-color@9.4.0)
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.3.3
       typescript:
         specifier: 'catalog:'
         version: 6.0.3

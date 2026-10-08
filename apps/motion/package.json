@@ -25,6 +25,8 @@
     "@santi020k/website-history": "workspace:*"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
+    "tailwindcss": "catalog:",
     "@astrojs/check": "catalog:",
     "@playwright/test": "catalog:",
     "typescript": "catalog:",
