@@ -12,11 +12,11 @@ test('serves a partial PDF response after caching the complete file', async ({ p
   const full = await page.evaluate(async () => {
     const response = await fetch('/pdf/cv.pdf')
 
-    return { status: response.status, length: (await response.arrayBuffer()).byteLength }
+    return { status: response.status, byteLength: (await response.arrayBuffer()).byteLength }
   })
 
   expect(full.status).toBe(200)
-  expect(full.length).toBeGreaterThan(64)
+  expect(full.byteLength).toBeGreaterThan(64)
 
   const partial = await page.evaluate(async () => {
     const response = await fetch('/pdf/cv.pdf', { headers: { Range: 'bytes=0-63' } })
@@ -24,13 +24,13 @@ test('serves a partial PDF response after caching the complete file', async ({ p
     return {
       status: response.status,
       contentRange: response.headers.get('content-range'),
-      length: (await response.arrayBuffer()).byteLength
+      byteLength: (await response.arrayBuffer()).byteLength
     }
   })
 
   expect(partial.status).toBe(206)
-  expect(partial.contentRange).toBe(`bytes 0-63/${full.length}`)
-  expect(partial.length).toBe(64)
+  expect(partial.contentRange).toBe(`bytes 0-63/${full.byteLength}`)
+  expect(partial.byteLength).toBe(64)
 })
 
 test('bypasses a stale cached page for an ordinary GET route fetch', async ({ page }) => {

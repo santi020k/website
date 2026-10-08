@@ -143,7 +143,12 @@ workflow runs and do not certify an unpublished release candidate.
 <details>
 <summary>Generated assets and release boundaries</summary>
 
-Builds regenerate favicons, fonts, and OG images before Astro renders pages. After-build scripts
+Builds regenerate favicons, fonts, and OG images before Astro renders pages.
+OG 1.2.0 writes content-versioned image URLs to `public/og/manifest.json`; page
+metadata uses those URLs so changed cards invalidate social preview caches.
+Explicit custom artwork and unlisted utility-page fallbacks remain supported.
+ESLint Basic 3.6.0 owns browser-test detection through `testingFiles.playwright`,
+with `tests/**/*.spec.ts` declared in the site configuration. After-build scripts
 assemble the cross-site sitemap, generate Cloudflare redirects, and audit SEO and local page integrity.
 
 `pnpm run generate:project-images` discovers frontmatter and logos, producing thumbnail,

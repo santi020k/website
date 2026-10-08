@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test'
 import sharp from 'sharp'
 
+import { requireValue } from './helpers/assertions'
+
 for (const theme of ['light', 'dark']) {
   for (const width of [390, 768, 1023]) {
     test(`homepage background flows beneath the mobile header at ${width}px in ${theme}`, async ({ page }) => {
@@ -11,9 +13,7 @@ for (const theme of ['light', 'dark']) {
         document.documentElement.dataset.theme = selectedTheme
       }, theme)
 
-      const hero = await page.locator('[data-home-hero]').boundingBox()
-
-      if (!hero) throw new Error('Homepage hero has no layout bounds')
+      const hero = requireValue(await page.locator('[data-home-hero]').boundingBox())
 
       expect(hero.y).toBeGreaterThan(0)
 
@@ -32,12 +32,8 @@ for (const theme of ['light', 'dark']) {
 
         for (let pixel = 0; pixel < 4; pixel++) {
           const index = pixel * 3 + channel
-          const above = pixels[index]
-          const below = pixels[index + rowSize]
-
-          if (above === undefined || below === undefined) {
-            throw new Error('Background screenshot is missing pixel data')
-          }
+          const above = requireValue(pixels[index])
+          const below = requireValue(pixels[index + rowSize])
 
           difference += Math.abs(above - below)
         }

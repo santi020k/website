@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { requireValue } from './helpers/assertions'
 
 const draftSlugs = [
   'how-i-became-a-digital-nomad',
@@ -22,7 +23,7 @@ test('travel separates home, residence, countries, and repeat visits', async ({ 
   await expect(page.locator('#country-mx')).toContainText('there are more to add')
   await expect(page.locator('#country-ar')).toContainText('Patagonia is a region')
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://santi020k.com/travel/')
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /\/og\/pages\/travel\.webp$/u)
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /\/og\/pages\/travel\.webp\?v=[a-f0-9]{12}$/u)
 })
 
 test('Lumen country selection updates travel details and clears them for unlisted places', async ({ page }) => {
@@ -130,11 +131,10 @@ for (const width of [320, 390, 768, 1440, 1920]) {
   test(`map controls stay inside the map at ${width}px and selected details remain accessible`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/travel/')
-    const viewport = await page.locator('[data-ui-world-map-viewport]').boundingBox()
-    const controls = await page.locator('.ui-world-map__zoom-controls').boundingBox()
-    const hero = await page.locator('[data-travel-explorer]').boundingBox()
-    const introduction = await page.locator('[data-travel-intro]').boundingBox()
-    if (!viewport || !controls || !hero || !introduction) throw new Error('Map controls, viewport, and hero must be rendered')
+    const viewport = requireValue(await page.locator('[data-ui-world-map-viewport]').boundingBox())
+    const controls = requireValue(await page.locator('.ui-world-map__zoom-controls').boundingBox())
+    const hero = requireValue(await page.locator('[data-travel-explorer]').boundingBox())
+    const introduction = requireValue(await page.locator('[data-travel-intro]').boundingBox())
     expect(viewport.y + viewport.height).toBeLessThanOrEqual(introduction.y)
     expect(hero.x).toBeCloseTo(0, 0)
     expect(hero.width).toBeCloseTo(width, 0)
@@ -170,11 +170,9 @@ for (const width of [375, 1440]) {
   test(`editorial sections align with the hero and the notebook works by keyboard at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/travel/')
-    const introduction = await page.locator('[data-travel-intro]').boundingBox()
-    if (!introduction) throw new Error('Travel introduction must be rendered')
+    const introduction = requireValue(await page.locator('[data-travel-intro]').boundingBox())
     for (const section of await page.locator('[data-travel-section]').all()) {
-      const bounds = await section.boundingBox()
-      if (!bounds) throw new Error('Travel section must be rendered')
+      const bounds = requireValue(await section.boundingBox())
       expect(bounds.x).toBeCloseTo(introduction.x, 0)
       expect(bounds.width).toBeCloseTo(introduction.width, 0)
     }

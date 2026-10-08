@@ -1,4 +1,8 @@
 import { expect, type Page, test } from '@playwright/test'
+import { getRouteManifestImage } from '@santi020k/og'
+import { z } from 'astro/zod'
+
+import { routeManifestSchema } from '../src/data/og-manifest'
 
 const findSchema = async (page: Page, type: string) => {
   const contents = await page.locator('script[type="application/ld+json"]').allTextContents()
@@ -256,17 +260,11 @@ test.describe('SEO — meta tags', () => {
 
     expect(profilePageSchema).toMatchObject({ dateModified: expect.any(String) })
 
-    if (
-      typeof profilePageSchema !== 'object' ||
-      profilePageSchema === null ||
-      !('dateModified' in profilePageSchema) ||
-      typeof profilePageSchema.dateModified !== 'string'
-    ) throw new TypeError('ProfilePage dateModified must be a string')
-
-    const dateModified = new Date(profilePageSchema.dateModified)
+    const { dateModified: modifiedValue } = z.object({ dateModified: z.string() }).parse(profilePageSchema)
+    const dateModified = new Date(modifiedValue)
 
     expect(Number.isNaN(dateModified.getTime())).toBe(false)
-    expect(dateModified.toISOString()).toBe(profilePageSchema.dateModified)
+    expect(dateModified.toISOString()).toBe(modifiedValue)
     expect(dateModified.getTime()).toBeGreaterThanOrEqual(new Date('2024-01-01T00:00:00.000Z').getTime())
     expect(dateModified.getTime()).toBeLessThanOrEqual(Date.now())
   })
@@ -287,7 +285,7 @@ test.describe('SEO — meta tags', () => {
     const ogImageMeta = page.locator('meta[property="og:image"]')
     await expect(ogImageMeta).toHaveAttribute('content', /.+/)
     const ogImage = await ogImageMeta.getAttribute('content')
-    expect(ogImage).toBe('https://santi020k.com/og/pages/index.webp')
+    expect(ogImage).toMatch(/^https:\/\/santi020k\.com\/og\/pages\/index\.webp\?v=[a-f0-9]{12}$/u)
   })
 
   test('blog index has an og:image pointing to the generated pages WebP', async ({ page }) => {
@@ -296,7 +294,7 @@ test.describe('SEO — meta tags', () => {
     const ogImageMeta = page.locator('meta[property="og:image"]')
     await expect(ogImageMeta).toHaveAttribute('content', /.+/)
     const ogImage = await ogImageMeta.getAttribute('content')
-    expect(ogImage).toMatch(/\/og\/pages\/.+\.webp$/)
+    expect(ogImage).toMatch(/\/og\/pages\/.+\.webp\?v=[a-f0-9]{12}$/u)
   })
 
   test('about page has an og:image pointing to the generated pages WebP', async ({ page }) => {
@@ -305,7 +303,26 @@ test.describe('SEO — meta tags', () => {
     const ogImageMeta = page.locator('meta[property="og:image"]')
     await expect(ogImageMeta).toHaveAttribute('content', /.+/)
     const ogImage = await ogImageMeta.getAttribute('content')
-    expect(ogImage).toMatch(/\/og\/pages\/.+\.webp$/)
+    expect(ogImage).toMatch(/\/og\/pages\/.+\.webp\?v=[a-f0-9]{12}$/u)
+  })
+
+  test('generated social URLs match the manifest and serve images across route types', async ({ page }) => {
+    const response = await page.request.get('/og/manifest.json')
+    const content: unknown = await response.json()
+    const manifest = routeManifestSchema.parse(content)
+    expect(response.ok()).toBe(true)
+
+    for (const path of ['/', '/blog/', '/portfolio/lumen-ui/', '/technologies/typescript/']) {
+      await page.goto(path)
+      const image = getRouteManifestImage(manifest, path)
+      const imageURL = z.string().parse(image?.url)
+      const expected = new URL(imageURL, 'https://santi020k.com').href
+      await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', expected)
+      await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', expected)
+      const imageResponse = await page.request.get(imageURL)
+      expect(imageResponse.ok()).toBe(true)
+      expect(imageResponse.headers()['content-type']).toContain('image/webp')
+    }
   })
 
   test('og:image:alt and twitter:image:alt are set on the homepage', async ({ page }) => {
@@ -343,7 +360,7 @@ test.describe('SEO — meta tags', () => {
     await expect(ogImageMeta).toHaveAttribute('content', /.+/)
     const ogImage = await ogImageMeta.getAttribute('content')
     // Blog post OG images live under /og/blog/
-    expect(ogImage).toMatch(/\/og\/blog\/.+\.webp$/)
+    expect(ogImage).toMatch(/\/og\/blog\/.+\.webp\?v=[a-f0-9]{12}$/u)
   })
 
   test('every page has og:title and og:description', async ({ page }) => {
@@ -461,9 +478,9 @@ test.describe('SEO — JSON-LD structured data', () => {
 
     expect(Array.isArray(items)).toBe(true)
 
-    if (!Array.isArray(items)) throw new Error('Breadcrumbs must be a list')
+    const breadcrumbItems = z.array(z.unknown()).parse(items)
 
-    expect(items.length).toBeGreaterThanOrEqual(3)
+    expect(breadcrumbItems.length).toBeGreaterThanOrEqual(3)
   })
 
   test('project structured data points to the published social image', async ({ page }) => {

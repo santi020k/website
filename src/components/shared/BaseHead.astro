@@ -19,6 +19,7 @@ import logoWordmarkUrl from '@santi020k/theme/assets/logos/logo-santi020k.svg?ur
 import logoWordmarkDarkUrl from '@santi020k/theme/assets/logos/logo-santi020k-dark.svg?url'
 import logoSquareUrl from '@santi020k/theme/assets/logos/logo-square.webp?url'
 
+import { ogManifest } from '@/data/og-manifest'
 import {
   AUTHOR_JOB_TITLE,
   createSchemaEntityId,
@@ -53,7 +54,7 @@ const canonicalURL = new URL(
 ).href
 
 const organizationLogoURL = new URL(logoSquareUrl, Astro.site ?? 'https://santi020k.com/').href
-const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage)
+const socialImageURL = getSocialImageURL(Astro.url.pathname, Astro.site ?? Astro.url, ogImage, ogManifest)
 
 const site = defineSite({
   siteName: siteConfig.siteName,

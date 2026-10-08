@@ -51,7 +51,8 @@ ordinary globs and ranges, the 100/101-depth boundary, deep malicious inputs,
 fractional limits, manually supplied ASTs, and cycles.
 
 The remaining [registry advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)
-enters through Markdown and ESLint glob tooling. The website deploys static
+now enters only through Markdown glob tooling. ESLint Basic 3.6.0 and its
+coordinated adapters remove the ESLint chain from the audit. The website deploys static
 files, but build inputs and pull requests still cross those tooling boundaries.
 Do not treat a development-only dependency as automatically safe. Track the
 upstream release, replace the exact patch with that published fix when available,

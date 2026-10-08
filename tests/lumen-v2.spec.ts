@@ -1,6 +1,6 @@
-/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
-// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
+
+import { expectArticleClipboard } from './helpers/clipboard'
 
 test.describe('Lumen integration', () => {
   test('enhances repeated content with the shared reveal runtime', async ({ page }) => {
@@ -57,11 +57,6 @@ test.describe('Lumen integration', () => {
       copiedLabelVisible: true,
       state: 'copied'
     })
-
-    if (browserName === 'chromium') {
-      const copied = await page.evaluate(async () => navigator.clipboard.readText())
-
-      expect(copied).toContain('/blog/avoid-magic-strings-in-typescript-and-javascript/')
-    }
+    await expectArticleClipboard(page, browserName, '/blog/avoid-magic-strings-in-typescript-and-javascript/')
   })
 })

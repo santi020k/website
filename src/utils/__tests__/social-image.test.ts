@@ -1,5 +1,7 @@
+import type { OgRouteManifest } from '@santi020k/og'
 import { describe, expect, test } from 'vitest'
 
+import { routeManifestSchema } from '../../data/og-manifest'
 import { getSocialImagePath, getSocialImageSlug, getSocialImageURL } from '../social-image'
 
 describe('getSocialImageSlug', () => {
@@ -78,5 +80,72 @@ describe('getSocialImageURL', () => {
 
   test('returns the generated homepage OG URL for root when no override is given', () => {
     expect(getSocialImageURL('/', baseURL)).toBe('https://santi020k.com/og/pages/index.webp')
+  })
+})
+
+const manifest: OgRouteManifest = {
+  generatorVersion: '1.2.0',
+  routes: {
+    '/portfolio/example/': {
+      images: [
+        { format: 'webp', height: 630, output: 'portfolio/example-logo.webp', primary: true, url: '/og/portfolio/example-logo.webp?v=abc123', width: 1200 },
+        { format: 'webp', height: 630, output: 'portfolio/example.webp', primary: false, url: '/og/portfolio/example.webp?v=abc123', width: 1200 }
+      ],
+      pathname: '/portfolio/example/'
+    }
+  },
+  version: 1
+}
+
+describe('generated social image metadata', () => {
+  const base = 'https://santi020k.com/'
+  const route = '/portfolio/example/'
+  const expected = 'https://santi020k.com/og/portfolio/example-logo.webp?v=abc123'
+
+  test('uses the generated fingerprint with normalized route paths', () => {
+    expect(getSocialImageURL('/portfolio/example?preview=1', base, undefined, manifest)).toBe(expected)
+  })
+
+  test('versions generated overrides and legacy aliases', () => {
+    for (const override of ['/og/portfolio/example-logo.webp', '/og/portfolio/example.webp']) {
+      expect(getSocialImageURL(route, base, override, manifest)).toBe(expected)
+    }
+  })
+
+  test('preserves explicit custom artwork and external overrides', () => {
+    expect(getSocialImageURL(route, base, '/custom.webp', manifest)).toBe('https://santi020k.com/custom.webp')
+    expect(getSocialImageURL(route, base, 'https://other.test/og/portfolio/example.webp', manifest))
+      .toBe('https://other.test/og/portfolio/example.webp')
+  })
+
+  test('retains fallback images for routes absent from the manifest', () => {
+    expect(getSocialImageURL('/offline/', base, undefined, manifest)).toBe('https://santi020k.com/og/pages/offline.webp')
+  })
+
+  test('preserves overrides when a route has no public manifest URL', () => {
+    const withoutURL: OgRouteManifest = {
+      ...manifest,
+      routes: { [route]: { pathname: route, images: [] } }
+    }
+    expect(getSocialImageURL(route, base, '/custom.webp', withoutURL)).toBe('https://santi020k.com/custom.webp')
+  })
+})
+
+describe('generated manifest validation', () => {
+  test('accepts the published manifest contract', () => {
+    expect(routeManifestSchema.parse(manifest).routes['/portfolio/example/']?.pathname).toBe('/portfolio/example/')
+  })
+
+  test('rejects unsupported manifest versions and missing public image URLs', () => {
+    expect(() => routeManifestSchema.parse({ ...manifest, version: 2 })).toThrow()
+    expect(() => routeManifestSchema.parse({
+      ...manifest,
+      routes: {
+        '/': {
+          images: [{ format: 'webp', height: 630, output: 'index.webp', primary: true, width: 1200 }],
+          pathname: '/'
+        }
+      }
+    })).toThrow()
   })
 })

@@ -1,8 +1,7 @@
-/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
-// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { requireValue } from './helpers/assertions'
 import { shouldRunVisualSnapshots } from './helpers/visual-regression'
 
 test.describe('Blog page', () => {
@@ -21,11 +20,10 @@ test.describe('Blog page', () => {
 
     const latest = page.locator('[data-blog-latest] a')
     const firstPost = page.locator('[data-post-gallery-card] a').first()
-    const latestHref = await latest.getAttribute('href')
+    await expect(latest).toHaveAttribute('href', /^\/blog\/.+\/$/u)
+    const latestHref = requireValue(await latest.getAttribute('href'))
 
-    if (!latestHref) throw new Error('The latest post must have a destination')
-
-    expect(latestHref).toBe(await firstPost.getAttribute('href'))
+    await expect(firstPost).toHaveAttribute('href', latestHref)
     await page.getByRole('link', { name: 'Explore the writing' }).click()
     await expect(page).toHaveURL(/#posts$/)
     await expect(page.locator('#posts')).toBeInViewport()
@@ -91,7 +89,7 @@ test.describe('Blog page', () => {
     await page.goto('/blog/3/')
 
     const headings = page.locator('[data-post-gallery-card] h3')
-    expect(await headings.count()).toBe(12)
+    await expect(headings).toHaveCount(12)
 
     for (const heading of await headings.all()) {
       const bounds = await heading.evaluate(element => ({

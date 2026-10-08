@@ -18,6 +18,11 @@
 
 ### Patch Changes
 
+- Upgrade OG to 1.2.0 and the coordinated ESLint 3.6 package family. Refresh
+  social card compositions and use content-versioned manifest URLs in page metadata
+  while preserving custom artwork. Replace the Playwright detection workaround
+  with the shared configuration's explicit browser-test scope.
+
 - Return keyboard focus to the travel map when closing country details with a
   pointer, including browsers that do not focus clicked buttons.
 

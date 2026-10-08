@@ -1,4 +1,6 @@
-import { expect, test } from '@playwright/test'
+import { expect, type Locator, type Page, test } from '@playwright/test'
+
+import { requireValue } from './helpers/assertions'
 
 const routes = [
   '/',
@@ -20,9 +22,7 @@ const routes = [
 ]
 
 test('external links render with new-tab protection even without JavaScript', async ({ browser, baseURL }) => {
-  if (!baseURL) throw new Error('External-link checks require a configured base URL.')
-
-  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
+  const context = await browser.newContext({ baseURL: requireValue(baseURL), javaScriptEnabled: false })
   const page = await context.newPage()
 
   try {
@@ -48,7 +48,17 @@ test('external links render with new-tab protection even without JavaScript', as
   }
 })
 
-for (const activation of ['pointer', 'keyboard']) {
+const activations = [
+  { name: 'pointer', activate: async (_page: Page, profile: Locator) => profile.click() },
+  { name: 'keyboard',
+    activate: async (page: Page, profile: Locator) => {
+      await profile.focus()
+      await expect(profile).toBeFocused()
+      await page.keyboard.press('Enter')
+    } }
+]
+
+for (const { name: activation, activate } of activations) {
   test(`resume profile opens a separate tab with ${activation} activation`, async ({ page, context }) => {
     await context.route('https://github.com/santi020k', route => route.fulfill({
       contentType: 'text/html',
@@ -59,13 +69,7 @@ for (const activation of ['pointer', 'keyboard']) {
     const profile = page.locator('main').getByRole('link', { name: 'github.com/santi020k', exact: true })
     const openedPage = context.waitForEvent('page')
 
-    if (activation === 'keyboard') {
-      await profile.focus()
-      await expect(profile).toBeFocused()
-      await page.keyboard.press('Enter')
-    } else {
-      await profile.click()
-    }
+    await activate(page, profile)
 
     const popup = await openedPage
     await expect(popup).toHaveURL('https://github.com/santi020k')

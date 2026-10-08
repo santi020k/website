@@ -498,7 +498,7 @@ export default definePresetConfig({
   clean: true,
   concurrency: 'auto',
   outputDirectory: 'public/og',
-  routeManifest: { file: 'public/og/manifest.json', publicPath: '/og' },
+  routeManifest: { cacheBust: true, file: 'public/og/manifest.json', publicPath: '/og' },
   preset: {
     brand: { domain: 'santi020k.com', logo: BRAND_LOGO, name: 'Santiago Molina' },
     decoration: renderOgAtmosphere,

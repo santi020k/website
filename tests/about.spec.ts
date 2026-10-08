@@ -1,5 +1,3 @@
-/* eslint jest-dom/prefer-to-have-class: off, testing-library/prefer-screen-queries: off */
-// TODO: These are Playwright specs; remove when DOM Testing Library rules stop applying here.
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
@@ -58,7 +56,7 @@ test.describe('About page', () => {
 
     for (let pageIndex = 0; pageIndex < 4; pageIndex += 1) await nextButton.click()
 
-    await expect(items.nth(6)).not.toBeVisible()
+    await expect(items.nth(6)).toBeHidden()
     await expect(items.nth(7)).toBeVisible()
     await expect(items.nth(8)).toBeVisible()
 
@@ -66,7 +64,7 @@ test.describe('About page', () => {
 
     await expect(items.nth(6)).toBeVisible()
     await expect(items.nth(7)).toBeVisible()
-    await expect(items.nth(8)).not.toBeVisible()
+    await expect(items.nth(8)).toBeHidden()
 
     const focusedLink = items.nth(6).getByRole('link')
 
@@ -75,7 +73,7 @@ test.describe('About page', () => {
 
     await expect(focusedLink).toBeFocused()
     await expect(items.nth(6)).toBeVisible()
-    await expect(items.nth(8)).not.toBeVisible()
+    await expect(items.nth(8)).toBeHidden()
   })
 
   test('keeps the focused organization visible when responsive page sizes change', async ({ page }) => {

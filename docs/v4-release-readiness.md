@@ -225,3 +225,42 @@ the required audit stopped on the retained braces advisory. CodeQL and the PR
 title checks passed. The Cloudflare branch preview deployed successfully.
 This preview is separate from the production release workflow. Codex review
 was requested; the audit exception decision remains pending.
+
+## OG and ESLint library adoption
+
+The release uses published OG 1.2.0, ESLint Basic 3.6.0, Astro adapter 3.1.5,
+and Formats, Libraries, Testing, and Tools adapters 3.1.4. Their updated graph
+retains Node 24, ESLint 10, and TypeScript 6 compatibility. Satori 0.36.0 is the
+renderer dependency selected by OG's tested release; the catalog and lockfile
+retain that version rather than upgrading it independently.
+
+OG's preset v6 regenerates the social cards with the site's existing colors,
+Montserrat font, artwork, and logo surfaces. Generation enables `cacheBust` on
+the route manifest. The shared metadata head selects the generated primary URL,
+including its content fingerprint, for Open Graph and Twitter images. Existing
+project-image aliases resolve to the current primary image. Explicit custom
+artwork and utility-page fallback images remain supported. The manifest is
+validated during build without unsafe JSON casts.
+
+ESLint uses `defineConfig` with `testingFiles.playwright` for the site's
+`tests/**/*.spec.ts` location. The library now owns Playwright/Testing Library
+coexistence, replacing the local detection workaround and applying the shared
+Playwright rules to the browser suite. Runtime validation and required rendered
+values replace conditional test assertions without removing behavior checks.
+
+The full registry audit retains one high-severity braces advisory through
+Markdown tooling; the ESLint adapter chains no longer appear. The existing
+braces patch and regression tests remain necessary. Roll back this adoption by
+reverting its source, workspace, lockfile, generated OG assets, and CV artifacts
+together, then reinstalling the frozen lockfile. No production release or remote
+update is authorized by this local adoption.
+
+Local adoption verification passed zero-warning lint, strict Astro checking,
+the production build, generated OG and CV freshness, documentation and content
+checks, all 423 unit tests with coverage, and all 367 Chromium tests with zero
+retries. The unit coverage run used one worker to avoid host contention without
+changing assertions, timeouts, or coverage thresholds. Browser coverage includes
+metadata, generated image responses, visual snapshots, accessibility, responsive
+layouts, and navigation. Firefox, WebKit, and Lighthouse were not rerun for this
+adoption. Production dependencies have no known audit vulnerabilities; the full
+tooling audit remains blocked by the retained braces advisory above.

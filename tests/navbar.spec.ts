@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { requireValue } from './helpers/assertions'
+
 for (const width of [320, 375, 390, 768, 1024, 1280, 1440]) {
   for (const fontSize of ['16px', '20px']) {
     test(`header controls fit at ${width}px with ${fontSize} text`, async ({ page }) => {
@@ -52,15 +54,15 @@ for (const width of [320, 375, 390, 768, 1024, 1280, 1440]) {
       expect(Math.abs(geometry.right - geometry.heroRight)).toBeLessThanOrEqual(1)
       expect(Math.abs(geometry.bottom - geometry.heroTop)).toBeLessThanOrEqual(1)
 
-      for (const [index, control] of geometry.controls.entries()) {
+      for (const control of geometry.controls) {
         expect(control.left).toBeGreaterThanOrEqual(geometry.left)
         expect(control.right).toBeLessThanOrEqual(geometry.right)
         expect(control.height).toBeGreaterThanOrEqual(44)
         expect(control.width).toBeGreaterThanOrEqual(44)
+      }
 
-        const previous = geometry.controls[index - 1]
-
-        if (previous) expect(control.left).toBeGreaterThanOrEqual(previous.right)
+      for (const [index, control] of geometry.controls.slice(1).entries()) {
+        expect(control.left).toBeGreaterThanOrEqual(requireValue(geometry.controls[index]).right)
       }
     })
   }
@@ -93,12 +95,14 @@ test('the open menu keeps header utilities and close reachable by keyboard', asy
 
   const toggle = page.locator('[data-mobile-nav-toggle]')
   const firstLink = page.locator('[data-mobile-nav-link]').first()
-  const previousKey = browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
+  const { previous: previousKey, next: nextKey } = {
+    chromium: { previous: 'Shift+Tab', next: 'Tab' },
+    firefox: { previous: 'Shift+Tab', next: 'Tab' },
+    webkit: { previous: 'Alt+Shift+Tab', next: 'Alt+Tab' }
+  }[browserName]
 
   await toggle.press('Enter')
   await expect(firstLink).toBeFocused()
-
-  const nextKey = browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
 
   for (const link of await page.locator('[data-mobile-nav-link]').all()) {
     await expect(link).toBeFocused()
@@ -205,10 +209,8 @@ test('the menu follows the dock after scrolling and closes on desktop resize', a
   await expect(page.locator('[data-header-shell]')).toHaveAttribute('data-scrolled', 'true')
   await page.locator('[data-mobile-nav-toggle]').click()
 
-  const shell = await page.locator('[data-header-shell]').boundingBox()
-  const panel = await page.locator('[data-mobile-nav-panel]').boundingBox()
-
-  if (!shell || !panel) throw new Error('Navigation has no rendered bounds')
+  const shell = requireValue(await page.locator('[data-header-shell]').boundingBox())
+  const panel = requireValue(await page.locator('[data-mobile-nav-panel]').boundingBox())
 
   expect(Math.abs(panel.y - (shell.y + shell.height))).toBeLessThanOrEqual(1)
   expect(panel.x).toBe(shell.x)
