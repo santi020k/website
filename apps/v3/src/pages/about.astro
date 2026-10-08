@@ -1,0 +1,516 @@
+---
+import { getImage } from 'astro:assets'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import OrganizationLogoRail from '@/components/molecules/OrganizationLogoRail.astro'
+import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import SocialList from '@/components/molecules/SocialList.astro'
+import TestimonialCard from '@/components/molecules/TestimonialCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import AboutMeImage from '@/assets/photos/originals/santiago-profile-with-dog.jpg'
+import { getCachedProjects } from '@/utils/content'
+
+import { AnimatedPortrait, Note } from '@santi020k/lumen-astro'
+
+import { collaborationLanes, engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
+import {
+  AUTHOR_JOB_TITLE,
+  createAuthorSchema,
+  createWebsiteSchemaReference,
+  sameAsProfiles,
+  siteConfig,
+  YEARS_OF_EXPERIENCE
+} from '@/site.config'
+
+const yearsOfExperience = YEARS_OF_EXPERIENCE
+const projectsById = new Map((await getCachedProjects()).map(project => [project.id, project]))
+
+const organizationRailItems = selectedOrganizations.map(organization => {
+  const project = projectsById.get(organization.projectId)
+
+  if (!project) {
+    throw new Error(`Missing project for About page organization: ${organization.projectId}`)
+  }
+
+  return { ...organization, project }
+})
+
+const aboutPortraitImage = await getImage({
+  format: 'avif',
+  src: AboutMeImage,
+  widths: [400, 600, 800]
+})
+
+const profileStats = [
+  {
+    description: 'Building web, mobile, backend, automation, and developer experience systems.',
+    label: 'Experience',
+    value: `${yearsOfExperience} years`
+  },
+  {
+    description: 'Largest cross-functional team led across product, design, frontend, and backend.',
+    label: 'Team leadership',
+    value: '14 people'
+  },
+  {
+    description: 'Release lead-time reduction through CI/CD and quality-gate automation.',
+    label: 'Delivery systems',
+    value: '-75%'
+  }
+]
+
+const storyBeats = [
+  'Based in Medellín, Colombia, I have spent the last decade-plus shipping products across commerce, SaaS, gaming, real estate, and media.',
+  'The connective tissue across that work is systems thinking: architecture that can evolve, delivery pipelines that make quality visible, and team habits that lower pressure instead of adding ceremony.',
+  'I like being close to the product and close to the code. The best technical leadership I have seen is practical, calm, and specific enough that teams can move faster without guessing what “good” means.'
+]
+
+const workingModes = [
+  'Architecture and modernization for products that need to keep shipping.',
+  'Developer experience, automation, testing, linting, and CI/CD systems that reduce review noise.',
+  'Technical leadership for teams that need clearer standards and calmer decisions under pressure.'
+]
+
+const description =
+  `Santiago Molina is a Medellín-based engineering leader and full-stack architect with ${yearsOfExperience} years ` +
+  'building products, delivery systems, and developer teams.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'About', url: '/about/' }
+]
+
+const aboutPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  name: 'About Santiago Molina — Engineering Leader',
+  description,
+  url: new URL('/about/', Astro.site).href,
+  isPartOf: createWebsiteSchemaReference(Astro.site),
+  mainEntity: {
+    ...createAuthorSchema(Astro.site),
+    alternateName: 'santi020k',
+    jobTitle: AUTHOR_JOB_TITLE,
+    description,
+    image: new URL(aboutPortraitImage.src, Astro.site).href,
+    knowsAbout: [
+      'Full-Stack Engineering',
+      'Software Architecture',
+      'Technical Leadership',
+      'Developer Experience',
+      'Automation Systems'
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Medellín',
+      addressCountry: 'CO'
+    },
+    email: `mailto:${siteConfig.contact.email}`,
+    sameAs: sameAsProfiles
+  }
+}
+
+const meta = {
+  breadcrumbs,
+  description,
+  preloadImage: {
+    href: aboutPortraitImage.src,
+    imagesizes: '(min-width: 1024px) 352px, 75vw',
+    imagesrcset: aboutPortraitImage.srcSet.attribute,
+    type: 'image/avif'
+  },
+  seoTitle: 'Santiago Molina — Engineering Leader',
+  structuredData: aboutPageSchema,
+  title: 'About Santiago Molina — Engineering Leader'
+}
+---
+
+<PageLayout meta={meta}>
+  <section class="
+    relative section-container-wide pt-4
+    sm:pt-6
+    lg:pt-8
+  "
+  >
+    <div
+      aria-hidden="true"
+      class="
+        pointer-events-none absolute top-8 right-0 -z-10 h-120 w-2xl
+        max-w-[90vw] rounded-full bg-radial from-brand/12 via-brand-soft/8
+        to-transparent opacity-80 blur-2xl
+      "
+    />
+
+    <div
+      class="
+        grid items-center gap-10
+        lg:grid-cols-[minmax(0,1.08fr)_minmax(20rem,0.92fr)] lg:gap-14
+      "
+    >
+      <div class="relative z-10 space-y-8">
+        <Eyebrow
+          className="
+            animate-slide-up whitespace-normal
+            motion-reduce:animate-none
+          "
+          label="Engineering leader · full-stack architect"
+          tone="brand"
+        />
+
+        <div
+          class="
+            animate-slide-up space-y-5 [animation-delay:90ms]
+            motion-reduce:animate-none
+          "
+        >
+          <h1
+            class="
+              max-w-5xl text-4xl/[0.98] font-extrabold tracking-[-0.06em]
+              wrap-break-word
+              sm:text-6xl/[0.95]
+              lg:text-[5.2rem]/[0.92]
+            "
+          >
+            I’m Santiago Molina. I build calm systems for{' '}
+            <span class="
+              block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+              pb-4 text-transparent
+            "
+            >teams that ship.
+            </span>
+          </h1>
+          <p
+            class="
+              max-w-2xl text-base/7 text-ink-soft
+              sm:text-lg/8
+            "
+          >
+            Engineering leader and full-stack architect helping teams modernize systems,
+            automate delivery, and improve developer experience.
+          </p>
+        </div>
+
+        <div
+          class="
+            animate-slide-up space-y-5 [animation-delay:180ms]
+            motion-reduce:animate-none
+          "
+        >
+          <div class="section-actions">
+            <ButtonLink href="/portfolio/" showArrow>
+              See selected work
+            </ButtonLink>
+            <ButtonLink href={siteConfig.contact.resume} showArrow variant="secondary">
+              Open resume
+            </ButtonLink>
+          </div>
+
+          <SocialList />
+        </div>
+      </div>
+
+      <div
+        class="
+          animate-slide-up [animation-delay:240ms]
+          motion-reduce:animate-none
+        "
+      >
+        <AnimatedPortrait
+          alt="Portrait of Santiago Molina (@santi020k)"
+          badgeProps={{
+            location: { label: 'Base', text: 'Medellín · Remote worldwide' },
+            experience: { label: 'Experience', value: yearsOfExperience }
+          }}
+          showFloatingBadges
+          src={AboutMeImage}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="
+      section-container-wide pt-10
+      sm:pt-12
+      lg:pt-14
+    "
+    aria-label="Profile highlights"
+  >
+    <div
+      class="
+        grid gap-4
+        sm:grid-cols-3
+      "
+    >
+      {profileStats.map(({ description, label, value }) => (
+        <Note
+          borderPosition="none"
+          class="
+            h-full p-5
+            sm:p-6
+          "
+          label={label}
+        >
+          <p class="text-2xl font-bold text-ink">{value}</p>
+          <p class="mt-3 text-sm/7 text-ink-soft">{description}</p>
+        </Note>
+      ))}
+    </div>
+  </section>
+
+  <PageSection class="
+    section-container-wide pt-20
+    sm:pt-24
+    lg:pt-28
+  "
+  >
+    <SectionHeader
+      description="A less linear bio and more of a working model: what I optimize for, where I create leverage, and why the details matter."
+      eyebrow="The shape of the work"
+      title="Engineering, leadership, and delivery systems."
+      variant="shelf"
+    />
+
+    <div class="space-y-8">
+      <div class="max-w-3xl space-y-6 section-copy">
+        {storyBeats.map(beat => (
+          <p>{beat}</p>
+        ))}
+      </div>
+
+      <div class="divider-gradient-soft" aria-hidden="true"></div>
+
+      <div class="space-y-4">
+        <h2 class="text-2xl font-semibold tracking-tight text-ink">
+          Where I usually help.
+        </h2>
+        <ul class="
+          grid gap-3
+          sm:grid-cols-3
+        "
+        >
+          {workingModes.map((mode, index) => (
+            <li
+              class="
+                flex min-h-36 flex-col justify-between rounded-3xl border
+                border-line/35 bg-surface/28 p-5
+              "
+            >
+              <span class="
+                section-label text-brand
+                dark:text-accent
+              "
+              >{String(index + 1).padStart(2, '0')}
+              </span>
+              <p class="mt-5 text-sm/7 font-medium text-ink">{mode}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </PageSection>
+
+  <PageSection class="
+    section-container-wide pt-20
+    sm:pt-24
+    lg:pt-28
+  "
+  >
+    <SectionHeader
+      description="These are the lanes where the work tends to create the most compounding value."
+      eyebrow="Collaboration"
+      title="Useful when the team needs range and clarity."
+    />
+
+    <div
+      class="
+        grid gap-4
+        lg:grid-cols-3
+      "
+    >
+      {collaborationLanes.map(({ description: laneDescription, fit, title }, index) => (
+        <article class="
+          panel-card flex h-full flex-col p-6
+          sm:p-7
+        "
+        >
+          <p class="
+            section-label text-brand
+            dark:text-accent
+          "
+          >{String(index + 1).padStart(2, '0')}
+          </p>
+          <div class="mt-5 flex grow flex-col gap-4">
+            <h2 class="text-xl font-semibold tracking-tight text-ink">{title}</h2>
+            <p class="text-sm/7 text-ink-soft">{laneDescription}</p>
+            <p class="
+              mt-auto border-t border-line/25 pt-4 text-xs/6 font-semibold
+              text-ink-muted
+            "
+            >
+              {fit}
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </PageSection>
+
+  <PageSection class="
+    section-container-wide pt-20
+    sm:pt-24
+    lg:pt-28
+  "
+  >
+    <SectionHeader
+      description="A few of the products, companies, and communities behind the portfolio. The logos are not the point; the delivery context is."
+      eyebrow="Context"
+      title="Products, clients, and communities behind the work."
+      variant="shelf"
+    />
+
+    <div class="min-w-0 space-y-6">
+      <OrganizationLogoRail organizations={organizationRailItems} />
+
+      <div class="section-actions">
+        <ButtonLink href="/portfolio/" showArrow>
+          Read the case studies
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Open LinkedIn
+        </ButtonLink>
+      </div>
+    </div>
+  </PageSection>
+
+  <PageSection class="
+    section-container-wide pt-20
+    sm:pt-24
+    lg:pt-28
+  "
+  >
+    <SectionHeader
+      description="The operating principles I come back to when a product is moving fast and the team needs decisions that hold."
+      eyebrow="Principles"
+      title="What I believe about engineering."
+    />
+
+    <div
+      class="
+        grid gap-5
+        sm:grid-cols-2
+      "
+    >
+      {engineeringPrinciples.map(({ body, title }, index) => (
+        <PrincipleCard body={body} featured={index === 0} index={index} title={title} />
+      ))}
+    </div>
+  </PageSection>
+
+  <PageSection class="
+    section-container-wide pt-20
+    sm:pt-24
+    lg:pt-28
+  "
+  >
+    <SectionHeader
+      description="The recurring pattern is not only technical skill. It is communication, reliability, and helping people do better work together."
+      eyebrow="Recommendations"
+      title="What collaborators say about the work."
+      variant="shelf"
+    />
+
+    <div class="space-y-8">
+      <div
+        class="
+          grid gap-5
+          sm:grid-cols-2
+        "
+      >
+        {testimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
+          <TestimonialCard
+            authorName={name}
+            avatarInitials={avatarInitials}
+            avatarUrl={avatarUrl}
+            quote={quote}
+            relationship={relationship}
+            role={role}
+          />
+        ))}
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          See all LinkedIn recommendations
+        </ButtonLink>
+      </div>
+    </div>
+  </PageSection>
+
+  <section
+    class="
+      relative section-container-wide pt-20
+      sm:pt-24
+      lg:pt-28
+    "
+  >
+    <div
+      class="
+        glass-pro relative rounded-4xl p-6
+        sm:p-8
+        lg:p-10
+      "
+    >
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute -right-24 -bottom-28 size-72 rounded-full
+          bg-radial from-brand/18 via-accent/8 to-transparent blur-2xl
+        "
+      />
+      <div
+        class="
+          relative grid gap-8
+          lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end
+        "
+      >
+        <div class="max-w-3xl space-y-4">
+          <p class="
+            section-label text-brand
+            dark:text-accent
+          "
+          >Next step
+          </p>
+          <h2 class="
+            text-3xl font-semibold tracking-tight text-ink
+            sm:text-4xl
+          "
+          >
+            Want the fuller picture?
+          </h2>
+          <p class="section-copy">
+            The portfolio has the project evidence; the blog has the thinking behind
+            the decisions. Start wherever the signal is most useful.
+          </p>
+        </div>
+
+        <div class="
+          section-actions
+          lg:justify-end
+        "
+        >
+          <ButtonLink href="/portfolio/" showArrow>
+            View portfolio
+          </ButtonLink>
+          <ButtonLink href="/blog/" showArrow variant="secondary">
+            Read the blog
+          </ButtonLink>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

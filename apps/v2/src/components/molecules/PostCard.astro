@@ -1,0 +1,148 @@
+---
+import { type CollectionEntry, getEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import CoverImage from '@/components/atoms/CoverImage.astro'
+import FormattedDate from '@/components/atoms/FormattedDate.astro'
+import Pill from '@/components/atoms/Pill.astro'
+
+import { getPostPath, getSeriesPath, getTagPath } from '@/utils/links'
+import { getPostSlug } from '@/utils/posts'
+import { getReadingTime } from '@/utils/reading-time'
+
+interface Props {
+  className?: string
+  featured?: boolean
+  post: CollectionEntry<'post'>
+}
+
+const { className = '', featured = false, post } = Astro.props
+const { data } = post
+const series = data.seriesId ? await getEntry('series', data.seriesId) : null
+const readingTime = getReadingTime(post.body)
+
+const imageSizes = featured ?
+  '(min-width: 1024px) 72vw, 100vw' :
+  '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
+---
+
+<article
+  class:list={[
+    'group card-interactive',
+    className
+  ]}
+>
+  <a
+    aria-label={data.title}
+    class="block"
+    href={getPostPath(post.id)}
+    tabindex="-1"
+  >
+    <span class="sr-only">{data.title}</span>
+    {data.coverImage ?
+      (
+        <CoverImage
+          alt={data.coverImage.alt}
+          ariaHidden={true}
+          featured={featured}
+          image={data.coverImage.src}
+          loading={featured ? 'eager' : 'lazy'}
+          mode="card"
+          sizes={imageSizes}
+          transitionName={`post-cover-${getPostSlug(post.id)}`}
+        />
+      ) :
+      (
+        <div class="
+          aspect-16/10 border-b border-line/45 bg-surface-muted grid-fade
+        "
+        />
+      )}
+  </a>
+
+  <div class:list={[`
+    flex grow flex-col gap-6 p-6
+    sm:p-7
+  `, featured && `
+    justify-between
+    lg:p-8
+  `]}
+  >
+    <div class="flex flex-wrap items-center gap-3 text-sm text-ink-muted">
+      <Pill label={featured ? 'Featured article' : 'Writing'} tone="brand" />
+      {data.postType && <Pill label={data.postType} tone="neutral" />}
+      <FormattedDate date={data.publishDate} />
+      <span aria-hidden="true">·</span>
+      <span>{readingTime} min read</span>
+    </div>
+
+    <div class="space-y-3">
+      <h2
+        class:list={[
+          `
+            leading-tight transition-colors duration-200
+            group-hover:text-brand
+            motion-reduce:transition-none
+          `,
+          featured ?
+            `
+              text-[1.95rem]
+              sm:text-[2.25rem]
+            ` :
+            'text-[1.35rem]'
+        ]}
+      >
+        <a
+          class="
+            transition
+            hover:text-brand
+            motion-reduce:transition-none
+          "
+          href={getPostPath(post.id)}
+        >
+          {data.title}
+        </a>
+      </h2>
+      <p
+        class:list={[
+          featured ? 'max-w-2xl text-base/7' : 'line-clamp-3 text-sm/7',
+          'text-ink-soft'
+        ]}
+      >
+        {data.description}
+      </p>
+
+      {series && (
+        <p class="text-sm/6 text-ink-muted">
+          In series:{' '}
+          <a
+            class="
+              font-medium text-brand transition-colors
+              hover:text-accent
+            "
+            href={getSeriesPath(series.id)}
+          >
+            {series.data.title}
+          </a>
+          {data.seriesOrder && ` · Part ${data.seriesOrder}`}
+        </p>
+      )}
+    </div>
+
+    <div class="mt-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex flex-wrap gap-2">
+        {data.tags.slice(0, featured ? 4 : 3).map(tag => (
+          <Pill href={getTagPath(tag)} label={tag} showHash tone="outline" />
+        ))}
+      </div>
+      <ButtonLink
+        href={getPostPath(post.id)}
+        showArrow
+        variant="inline"
+      >
+        Read more
+        <span class="sr-only"> about {data.title}</span>
+      </ButtonLink>
+    </div>
+  </div>
+</article>

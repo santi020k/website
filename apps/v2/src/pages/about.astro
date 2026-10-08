@@ -1,0 +1,323 @@
+---
+import { getImage, Picture } from 'astro:assets'
+
+import AboutMeImage from '../assets/photos/about-me.webp'
+import ButtonLink from '../components/atoms/ButtonLink.astro'
+import Eyebrow from '../components/atoms/Eyebrow.astro'
+import SectionHeading from '../components/molecules/SectionHeading.astro'
+import SocialList from '../components/molecules/SocialList.astro'
+import { selectedOrganizations, testimonials } from '../data/profile'
+import PageLayout from '../layouts/Base.astro'
+import { siteConfig } from '../site.config'
+
+const yearsOfExperience = `${2026 - 2014}+`
+
+const aboutPortraitImage = await getImage({
+  format: 'avif',
+  src: AboutMeImage,
+  widths: [240, 360, 480, 720]
+})
+
+const description =
+  `${yearsOfExperience} years shipping full-stack products. ` +
+  'Senior engineer and tech lead based in Medellín — focused on automation, developer experience, and cross-functional leadership.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'About', url: '/about/' }
+]
+
+const aboutPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'About Santiago Molina — Engineering Leader',
+  description,
+  url: new URL('/about/', Astro.site).href,
+  mainEntity: {
+    '@type': 'Person',
+    name: siteConfig.author,
+    jobTitle: 'Engineering Leader & Full-Stack Architect',
+    description: siteConfig.description,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Medellín',
+      addressCountry: 'CO'
+    },
+    email: `mailto:${siteConfig.contact.email}`,
+    sameAs: [
+      siteConfig.contact.github,
+      siteConfig.contact.linkedin,
+      siteConfig.contact.medium
+    ].filter(Boolean)
+  }
+}
+
+const meta = {
+  breadcrumbs,
+  description,
+  preloadImage: {
+    href: aboutPortraitImage.src,
+    imagesizes: '(min-width: 1024px) 360px, 75vw',
+    imagesrcset: aboutPortraitImage.srcSet.attribute,
+    type: 'image/avif'
+  },
+  structuredData: aboutPageSchema,
+  title: 'About Santiago Molina — Engineering Leader'
+}
+---
+
+<PageLayout meta={meta}>
+  <section
+    class="
+      grid animate-slide-up gap-10
+      motion-reduce:animate-none
+      lg:grid-cols-[1fr_0.78fr] lg:items-start
+    "
+  >
+    <div class="max-w-3xl space-y-8">
+      <div class="space-y-5">
+        <Eyebrow label="About" tone="brand" />
+        <h1
+          class="
+            max-w-4xl text-4xl font-extrabold tracking-tight text-ink
+            sm:text-5xl
+            lg:text-6xl
+          "
+        >
+          {siteConfig.headline}
+        </h1>
+      </div>
+
+      <div class="space-y-6 section-copy">
+        <p>
+          I'm Santiago Molina, a full-stack engineer and tech lead based in Medellín, Colombia.
+          Over the last {yearsOfExperience} years I've shipped products across commerce, SaaS, gaming,
+          and real estate — working across the entire stack from architecture and backend services to
+          CI/CD pipelines and developer tooling.
+        </p>
+
+        <p>
+          Right now my focus is on teams and systems: how to structure engineering organizations so they stay
+          fast to ship, easy to maintain, and hard to break. I care deeply about developer experience — not as
+          a buzzword, but as the measurable gap between a team that ships with confidence and one that ships
+          with anxiety. Automation is usually how you close that gap.
+        </p>
+
+        <p>
+          I've led cross-functional teams of up to 14 people spanning product, design, frontend, and backend.
+          I believe the most valuable thing a tech lead does is reduce the number of decisions engineers
+          have to make under pressure — through clear standards, good tooling, and systems that fail loudly
+          instead of silently.
+        </p>
+
+        <p>
+          Outside work I co-organize ReactJS Colombia, write about engineering workflows and DX, and find the
+          intersection between good software and good products. When I'm not at a keyboard I'm probably reading,
+          hiking, or watching something with a good score on Letterboxd.
+        </p>
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href="/portfolio/" showArrow>
+          See selected work
+        </ButtonLink>
+        <ButtonLink href="/blog/" showArrow variant="secondary">
+          Read the blog
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.resume} newTab showArrow variant="secondary">
+          Open résumé
+        </ButtonLink>
+      </div>
+
+      <SocialList />
+    </div>
+
+    <div class="grid gap-4 editorial-rail">
+      <div class="panel-card overflow-hidden">
+        <Picture
+fallbackFormat="webp"
+          alt="Santiago Molina"
+          class="aspect-3/4 w-full object-cover object-top"
+          decoding="sync"
+          fetchpriority="high"
+          formats={['webp']}
+          loading="eager"
+          sizes="(min-width: 1024px) 360px, 75vw"
+          src={AboutMeImage}
+          width={360}
+          widths={[240, 360, 480, 720]}
+        />
+      </div>
+      <div class="
+        grid h-max gap-3
+        sm:grid-cols-3
+        lg:grid-cols-1
+      "
+      >
+        <div class="mini-note">
+          <p class="section-label">Experience</p>
+          <p class="mt-2 text-lg font-semibold text-ink">{yearsOfExperience} years</p>
+        </div>
+        <div class="mini-note">
+          <p class="section-label">Leadership</p>
+          <p class="mt-2 text-sm/7 text-ink-soft">Led teams of up to 14 across product, design, frontend, and backend.</p>
+        </div>
+        <div class="mini-note">
+          <p class="section-label">Focus today</p>
+          <p class="mt-2 text-sm/7 text-ink-soft">Automation, delivery clarity, and developer experience that compounds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="A few of the products, companies, and communities behind the portfolio. The value is in the work itself, but context helps people read the case studies with the right level of trust."
+      eyebrow="Social proof"
+      title="Some of the teams and communities behind the work."
+    />
+
+    <div class="space-y-6">
+      <div class="
+        grid gap-4
+        sm:grid-cols-2
+        lg:grid-cols-3
+      "
+      >
+        {selectedOrganizations.map(({ context, label }) => (
+          <article class="mini-note h-full">
+            <p class="section-label">{label}</p>
+            <p class="mt-3 text-sm/7 text-ink-soft">{context}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href="/portfolio/" showArrow>
+          Read the case studies
+        </ButtonLink>
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          Open LinkedIn
+        </ButtonLink>
+      </div>
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="A few things that shape how I work, how I lead, and what I focus on."
+      eyebrow="Principles"
+      title="What I believe about engineering."
+    />
+
+    <div
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+    >
+      {[
+        {
+          title: 'Automate the friction, not the thinking',
+          body: 'The best automation removes toil — repetitive, low-judgment work that slows teams down. It should never replace the thinking that makes products worth building.'
+        },
+        {
+          title: 'DX is UX for your team',
+          body: 'The developer experience of a codebase shapes how fast and confidently the team can move. Bad DX compounds. Good DX compounds too — invest early and measure it.'
+        },
+        {
+          title: 'Leadership means fewer decisions under pressure',
+          body: 'A good tech lead reduces ambiguity before it becomes risk. Clear standards, good tooling, and systems that fail loudly are how you protect a team\'s velocity at scale.'
+        },
+        {
+          title: 'Performance is a product decision',
+          body: 'Speed isn\'t a tech concern, it\'s a user concern. Every kilobyte and every render-blocking resource is a choice that affects real people on real connections.'
+        },
+        {
+          title: 'Boring tech is often the right call',
+          body: 'The goal is to solve the problem, not to use the newest tool. Stable, well-understood solutions let the team focus on the actual product.'
+        },
+        {
+          title: 'Consistency beats perfection',
+          body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
+        }
+      ].map(({ title, body }, index) => (
+        <div
+          class:list={[
+            `
+              panel-card h-full space-y-3 p-6
+              sm:p-7
+            `,
+            index === 0 && 'sm:col-span-2'
+          ]}
+        >
+          <p class="section-label">{String(index + 1).padStart(2, '0')}</p>
+          <h3 class="text-xl font-semibold text-ink">{title}</h3>
+          <p class="text-sm/7 text-ink-soft">{body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="editorial-section" data-animate>
+    <SectionHeading
+      description="A few direct quotes from colleagues, managers, and clients. The recurring patterns across them are summarised below."
+      eyebrow="Recommendations"
+      title="What collaborators say about the work."
+    />
+
+    <div class="space-y-10">
+      <div
+        class="
+          grid gap-6
+          sm:grid-cols-2
+        "
+      >
+        {testimonials.map(({ avatarInitials, avatarUrl, name, quote, relationship, role }) => (
+          <article class="
+            panel-card h-full space-y-5 p-6
+            sm:p-7
+          "
+          >
+            <div class="flex items-center gap-4">
+              {avatarUrl ?
+                (
+                  <img
+                    alt={name}
+                    class="size-11 shrink-0 rounded-full object-cover"
+                    decoding="async"
+                    height="44"
+                    loading="lazy"
+                    src={avatarUrl}
+                    width="44"
+                  />
+                ) :
+                (
+                  <div class="
+                    grid size-11 shrink-0 place-items-center rounded-full
+                    bg-brand/10 text-sm font-semibold text-brand
+                  "
+                  >
+                    {avatarInitials}
+                  </div>
+                )}
+              <div>
+                <p class="text-sm font-semibold text-ink">{name}</p>
+                <p class="text-xs text-ink-muted">{role} · {relationship}</p>
+              </div>
+            </div>
+            <blockquote class="text-sm/7 text-ink-soft">
+              <p>"{quote}"</p>
+            </blockquote>
+          </article>
+        ))}
+      </div>
+
+      <div class="section-actions">
+        <ButtonLink href={siteConfig.contact.linkedin} newTab showArrow variant="secondary">
+          See all LinkedIn recommendations
+        </ButtonLink>
+      </div>
+    </div>
+  </section>
+</PageLayout>

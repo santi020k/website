@@ -1,0 +1,44 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "globalDependencies": [
+    "pnpm-workspace.yaml",
+    "packages/website-history/**"
+  ],
+  "tasks": {
+    "build:site": {
+      "outputs": [
+        "dist/**"
+      ],
+      "cache": false
+    },
+    "//#build:site": {
+      "outputs": [
+        "dist/**"
+      ],
+      "cache": false
+    }
+  },
+  "globalEnv": [
+    "BASE_URL",
+    "CI",
+    "DEBUG",
+    "DEV",
+    "ENABLE_PRODUCTION_SOURCE_MAPS",
+    "HISTORY_PREVIEW_URL",
+    "NODE_ENV",
+    "OG_INCLUDE_DRAFTS",
+    "PATH",
+    "PROD",
+    "PW_CHROMIUM_CHANNEL",
+    "PW_ONLY_CHROMIUM",
+    "PW_PREVIEW_PORT",
+    "PW_UPDATE_SNAPSHOTS",
+    "SITE",
+    "SKIP_BUILD",
+    "SYNCKIT_TIMEOUT",
+    "WEBMENTION_API_KEY",
+    "WEBMENTION_URL",
+    "WEBMENTION_PINGBACK",
+    "npm_lifecycle_event"
+  ]
+}

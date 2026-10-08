@@ -1,0 +1,387 @@
+---
+import { Icon } from 'astro-icon/components'
+
+import { Picture } from 'astro:assets'
+
+import ContactSection from '@/components/molecules/ContactSection.astro'
+import NewsletterSignup from '@/components/molecules/NewsletterSignup.astro'
+
+import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
+import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
+
+import { menuLinks, siteConfig } from '@/site.config'
+
+import { version } from '../../../package.json'
+
+const year = 2026
+
+const navLinks = [
+  ...menuLinks,
+  { path: '/blog/series/', title: 'Series' },
+  { path: '/blog/tags/', title: 'Topics' },
+  { path: '/technologies/', title: 'Technologies' },
+  { path: '/uses/', title: 'Uses' }
+]
+
+const resourceLinks = [
+  { icon: 'tabler:calendar-month', path: '/blog/content-calendar/', title: 'Content Calendar' },
+  { icon: 'tabler:rss', path: '/feed.xml', title: 'RSS Feed' },
+  { icon: 'tabler:accessible', path: '/accessibility/', title: 'Accessibility' },
+  { icon: 'tabler:shield-lock', path: '/privacy/', title: 'Privacy' }
+]
+
+const currentPath = Astro.url.pathname.replace(/^\/v2(?=\/|$)/, '') || '/'
+const isAvailable = siteConfig.availability.toLowerCase().startsWith('open')
+
+const isLinkActive = (linkPath: string): boolean => {
+  if (linkPath === '/') return currentPath === '/'
+
+  const allLinks = [...navLinks, ...resourceLinks]
+
+  const bestMatch = allLinks
+    .filter(l => l.path !== '/' && currentPath.startsWith(l.path))
+    .sort((a, b) => b.path.length - a.path.length)[0]
+
+  return bestMatch?.path === linkPath
+}
+---
+
+<footer class="
+  relative mt-10 overflow-hidden px-4 pt-20 pb-10
+  sm:px-6
+  lg:px-8
+"
+>
+  <!-- Decorative top border gradient -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-0 flex justify-center"
+  >
+    <div class="
+      h-px w-full max-w-5xl bg-linear-to-r from-transparent via-brand/45
+      to-transparent
+    "
+    />
+  </div>
+
+  <!-- Subtle radial glow behind footer content -->
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute top-0 left-1/2 h-112 w-[90%] max-w-4xl
+      -translate-1/2 rounded-full opacity-40 blur-3xl
+    "
+    style="background: radial-gradient(ellipse at center, hsl(var(--brand) / 0.07), transparent 70%);"
+  />
+
+  <!-- Subtle grid texture in background -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 grid-fade opacity-40"
+  />
+
+  <div class="relative mx-auto w-full max-w-6xl space-y-20">
+
+    <!-- Contact section -->
+    <ContactSection />
+
+    {siteConfig.newsletter?.formAction && (
+      <NewsletterSignup formAction={siteConfig.newsletter.formAction} label="Newsletter signup (footer)" />
+    )}
+
+    <!-- Footer body grid -->
+    <div
+      class="
+        grid gap-10 border-t border-line/40 pt-14
+        sm:grid-cols-2
+        lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_minmax(0,0.75fr)]
+        lg:gap-12
+      "
+      data-stagger="70"
+    >
+
+      <!-- Brand column -->
+      <div class="space-y-6">
+        <a
+          aria-label="Santiago Molina — home"
+          class="
+            inline-block transition duration-200
+            hover:opacity-80
+            motion-reduce:transition-none
+          "
+          href="/"
+        >
+          <Picture
+fallbackFormat="webp"
+            alt="Santi020k"
+            class="
+              aspect-933/147 h-8 w-auto object-contain
+              dark:hidden
+            "
+            densities={[1, 1.5, 2, 3]}
+            formats={['webp']}
+            height={32}
+            src={LogoMarkLight}
+            width={203}
+          />
+          <Picture
+fallbackFormat="webp"
+            alt="Santi020k"
+            class="
+              hidden aspect-933/147 h-8 w-auto object-contain
+              dark:block
+            "
+            densities={[1, 1.5, 2, 3]}
+            formats={['webp']}
+            height={32}
+            src={LogoMarkDark}
+            width={203}
+          />
+        </a>
+
+        <p class="max-w-[24ch] text-sm/6 text-ink-soft">
+          Engineering leader and full-stack architect. Building resilient systems and empowering developer teams.
+        </p>
+
+        <div class="space-y-2.5 text-xs text-ink-muted">
+          <div class="flex items-center gap-2">
+            <Icon aria-hidden="true" class="size-3.5 shrink-0" name="tabler:map-pin" />
+            <span>{siteConfig.location}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            {isAvailable ?
+              (
+                <>
+                  <span class="relative flex size-1.5 shrink-0">
+                    <span class="
+                      absolute inline-flex size-full animate-ping rounded-full
+                      bg-green-400 opacity-75
+                      motion-reduce:animate-none
+                    "
+                    />
+                    <span class="
+                      relative inline-flex size-1.5 rounded-full bg-green-500
+                    "
+                    />
+                  </span>
+                  <span class="text-green-600">{siteConfig.availability}</span>
+                </>
+              ) :
+              (
+                <span>{siteConfig.availability}</span>
+              )}
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigate column -->
+      <nav aria-label="Footer navigation">
+        <p class="mb-5 section-label">Navigate</p>
+        <ul class="space-y-2.5">
+          {navLinks.map(link => {
+            const active = isLinkActive(link.path)
+
+            return (
+              <li>
+                <a
+                  aria-current={active ? 'page' : undefined}
+                  class:list={[
+                    `
+                      group inline-flex items-center gap-2 text-sm
+                      transition-colors duration-200
+                      motion-reduce:transition-none
+                    `,
+                    active ?
+                      'font-semibold text-brand' :
+                      `
+                        text-ink-soft
+                        hover:text-ink
+                      `
+                  ]}
+                  href={link.path}
+                >
+                  {active && (
+                    <span
+                      aria-hidden="true"
+                      class="size-1.5 shrink-0 rounded-full bg-brand"
+                    />
+                  )}
+                  {link.title}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+
+      <!-- Connect column -->
+      <div>
+        <p class="mb-5 section-label">Connect</p>
+        <ul class="space-y-2.5">
+          {siteConfig.socialLinks.map(({ href, icon, indieAuthRelMe, label }) => (
+            <li>
+              <a
+                class="
+                  group inline-flex items-center gap-2 text-sm text-ink-soft
+                  transition-colors duration-200
+                  hover:text-ink
+                  motion-reduce:transition-none
+                "
+                href={href}
+                rel={`noreferrer noopener ${indieAuthRelMe === false ? '' : 'me'}`}
+                target="_blank"
+              >
+                <Icon
+                  aria-hidden="true"
+                  class="
+                    size-4 shrink-0 text-ink-muted transition-[color,transform]
+                    duration-200
+                    group-hover:-translate-y-px group-hover:text-brand
+                    motion-reduce:transition-none
+                    motion-reduce:group-hover:translate-y-0
+                  "
+                  name={icon}
+                />
+                {label}
+              </a>
+            </li>
+          ))}
+          <li class="pt-1">
+            <a
+              class="
+                group inline-flex items-center gap-2 text-sm text-ink-soft
+                transition-colors duration-200
+                hover:text-ink
+                motion-reduce:transition-none
+              "
+              href={siteConfig.contact.resume}
+              rel="noreferrer noopener"
+              target="_blank"
+            >
+              <Icon
+                aria-hidden="true"
+                class="
+                  size-4 shrink-0 text-ink-muted transition-[color,transform]
+                  duration-200
+                  group-hover:-translate-y-px group-hover:text-brand
+                  motion-reduce:transition-none
+                  motion-reduce:group-hover:translate-y-0
+                "
+                name="tabler:file-text"
+              />
+              Resume
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Resources column -->
+      <div>
+        <p class="mb-5 section-label">Resources</p>
+        <ul class="space-y-2.5">
+          {resourceLinks.map(({ icon, path, title }) => {
+            const active = isLinkActive(path)
+
+            return (
+              <li>
+                <a
+                  aria-current={active ? 'page' : undefined}
+                  class:list={[
+                    `
+                      group inline-flex items-center gap-2 text-sm
+                      transition-colors duration-200
+                      motion-reduce:transition-none
+                    `,
+                    active ?
+                      'font-semibold text-brand' :
+                      `
+                        text-ink-soft
+                        hover:text-ink
+                      `
+                  ]}
+                  href={path}
+                >
+                  <Icon
+                    aria-hidden="true"
+                    class:list={[
+                      `
+                        size-4 shrink-0 transition-[color,transform]
+                        duration-200
+                        group-hover:-translate-y-px
+                        motion-reduce:transition-none
+                        motion-reduce:group-hover:translate-y-0
+                      `,
+                      active ?
+                        'text-brand' :
+                        `
+                          text-ink-muted
+                          group-hover:text-brand
+                        `
+                    ]}
+                    name={icon}
+                  />
+                  {title}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div
+      class="
+        flex flex-col gap-3 border-t border-line/30 pt-6 text-xs text-ink-muted
+        opacity-100
+        sm:flex-row sm:items-center sm:justify-between
+      "
+    >
+      <p>&copy; {year} {siteConfig.author}.</p>
+
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <a
+          class="
+            inline-flex items-center gap-1.5 text-ink-muted transition-colors
+            hover:text-brand
+            motion-reduce:transition-none
+          "
+          href="/accessibility/"
+        >
+          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:accessible" />
+          Accessibility
+        </a>
+
+        <a
+          class="
+            inline-flex items-center gap-1.5 text-ink-muted transition-colors
+            hover:text-brand
+            motion-reduce:transition-none
+          "
+          href="/privacy/"
+        >
+          <Icon aria-hidden="true" class="size-3 shrink-0" name="tabler:shield-lock" />
+          Privacy &amp; analytics
+        </a>
+
+        <a
+          class="
+            inline-flex items-center gap-1 rounded-full border border-line/60
+            bg-surface-muted/60 px-2 py-0.5 font-medium text-ink-muted
+            transition-colors
+            hover:border-brand/40 hover:text-brand
+            motion-reduce:transition-none
+          "
+          href="https://github.com/santi020k/private-website"
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          <Icon aria-hidden="true" class="size-3" name="tabler:brand-github" />
+          v{version}
+        </a>
+      </div>
+    </div>
+
+  </div>
+</footer>

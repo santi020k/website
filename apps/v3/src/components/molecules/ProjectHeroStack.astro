@@ -1,0 +1,101 @@
+---
+import GradientDivider from '@/components/atoms/GradientDivider.astro'
+import Pill from '@/components/atoms/Pill.astro'
+
+import { getTechnologyPath } from '@/utils/links'
+import { sortTechnologiesByInterest } from '@/utils/technologies'
+
+interface Props {
+  technologies: string[]
+}
+
+const { technologies: raw } = Astro.props
+const technologies = sortTechnologiesByInterest(raw)
+---
+
+<div
+  class="
+    animate-slide-up [animation-delay:360ms]
+    motion-reduce:animate-none
+  "
+>
+  <GradientDivider class="mb-8" />
+  <div class="
+    relative rounded-2xl border border-line/30 bg-surface/30 p-6
+    backdrop-blur-sm
+  "
+  >
+    <div
+class="absolute inset-0"
+data-project-stack-glow
+    >
+    </div>
+    <div class="relative flex flex-wrap items-center gap-x-6 gap-y-4">
+      <div class="flex items-center gap-3">
+        <span class="
+          section-label text-sm font-bold tracking-wider text-ink-muted/90
+          uppercase
+        "
+        >Stack
+        </span>
+        <span
+class="
+  inline-flex items-center justify-center rounded-full border px-3 py-1 text-sm
+  font-bold tabular-nums
+"
+        data-project-stack-count
+        >
+          {technologies.length}
+        </span>
+      </div>
+      <span
+        aria-hidden="true"
+        class="
+          hidden h-6 w-px shrink-0 bg-line/40
+          sm:block
+        "
+      >
+      </span>
+      <div class="flex flex-wrap gap-2" data-project-stack-pills id="technologies">
+        {technologies.map(technology => (
+          <Pill
+            href={getTechnologyPath(technology)}
+            label={technology}
+            tone="outline"
+            className="
+              animate-slide-up transition-all duration-300
+              hover:scale-105
+              motion-reduce:animate-none
+            "
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  [data-project-stack-glow] {
+    background-image: linear-gradient(
+      to bottom right,
+      hsl(var(--project-primary) / 0.05),
+      transparent,
+      hsl(var(--project-secondary) / 0.05)
+    );
+  }
+
+  [data-project-stack-count] {
+    border: 1px solid hsl(var(--project-primary) / 0.24);
+    background: hsl(var(--project-primary) / 0.1);
+    color: hsl(var(--project-primary-readable));
+  }
+
+  [data-project-stack-pills] :global(a:hover) {
+    border-color: hsl(var(--project-primary) / 0.4);
+    background: hsl(var(--project-primary) / 0.1);
+  }
+
+  :global(:root[data-theme='dark']) [data-project-stack-count] {
+    color: hsl(var(--project-primary-readable-dark));
+  }
+</style>

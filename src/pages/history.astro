@@ -1,0 +1,98 @@
+---
+import type { ImageMetadata } from 'astro'
+
+import { Image } from 'astro:assets'
+
+import PageLayout from '@/layouts/Base.astro'
+
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+import versions from '@santi020k/website-history/versions'
+
+const captures = import.meta.glob<{ default: ImageMetadata }>('../assets/website-history/*.webp', { eager: true })
+
+const eras = [
+  {
+    id: 'v4',
+    title: 'A more personal canvas.',
+    date: '2026-10-07',
+    description: 'Warmer portraits, sculpted typography, and room for the stories behind the work. The website feels more like a studio, with a shared visual language across every page.',
+    current: true
+  },
+  ...[...versions].reverse().map(version => ({ ...version, current: false }))
+]
+
+const imageFor = (id: string, device: 'desktop' | 'mobile') => {
+  const capture = captures[`../assets/website-history/${id}-${device}.webp`]?.default
+
+  if (!capture) throw new Error(`Missing website history capture: ${id}-${device}`)
+
+  return capture
+}
+
+const formatDate = (date: string) => new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T12:00:00Z`))
+const archiveNavigation = { 'data-astro-reload': '' }
+
+const meta = {
+  title: 'Website history',
+  description: 'A living history of santi020k.com. Explore four design eras, see real desktop and mobile screenshots, and browse preserved versions of the website.',
+  breadcrumbs: [{ name: 'Home', url: '/' }, { name: 'Website history', url: '/history/' }]
+}
+---
+
+<PageLayout meta={meta} mainClass="remaining-pages" headerVariant="signature">
+  <div class="history-shell">
+    <header class="editorial-page-hero history-intro">
+      <p class="editorial-eyebrow">The site behind the work · 2026 onward</p>
+      <h1 class="editorial-page-title">A website,<span class="
+        editorial-page-emphasis
+      "
+                                                 >over time.</span></h1>
+      <div class="history-intro-bottom">
+        <p class="editorial-page-description">A small record of changing ideas, growing craft, and the versions that made this one possible. Look around. You can still open the old doors.</p>
+        <a class="history-jump" href="#versions">Explore the versions<Icon name="arrow-down" /></a>
+      </div>
+    </header>
+
+    <ol class="history-timeline" id="versions" aria-label="Website design eras, newest first">
+      {eras.map(era => (
+        <li class="history-era" id={era.id}>
+          <div class="history-era-marker">
+            <span class="history-version">{era.id.toUpperCase()}</span>
+            <time datetime={era.date}>{formatDate(era.date)}</time>
+            <span class="history-status">{era.current ? 'Current chapter' : 'Preserved chapter'}</span>
+          </div>
+          <article class="history-era-body" aria-labelledby={`${era.id}-title`}>
+            <div class="history-era-heading">
+              <h2 id={`${era.id}-title`}>{era.title}</h2>
+              <p>{era.description}</p>
+            </div>
+            <div class="history-captures">
+              <figure class="history-desktop">
+                <div class="history-browser-bar" aria-hidden="true"><span>● ● ●</span><span>santi020k.com{era.current ? '' : `/${era.id}/`}</span><span>↗</span></div>
+                <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} homepage at desktop size`} widths={[480, 800, 1200]} sizes="(min-width: 960px) 850px, 95vw" loading="lazy" />
+                <figcaption>Desktop · 1440 × 1000</figcaption>
+              </figure>
+              <figure class="history-mobile">
+                <Image src={imageFor(era.id, 'mobile')} alt={`${era.id.toUpperCase()} homepage at mobile size`} widths={[195, 390]} sizes="(min-width: 640px) 170px, 100px" loading="lazy" />
+                <figcaption>Mobile · 390 × 844</figcaption>
+              </figure>
+            </div>
+            <div class="history-era-actions">
+              <ButtonLink href={era.current ? '/' : `/${era.id}/`} {...archiveNavigation} variant="secondary">
+                {era.current ? 'Explore the current website' : `Open ${era.id.toUpperCase()}`}<Icon name="arrow-up-right" />
+              </ButtonLink>
+              <span>{era.current ? 'Still evolving.' : 'Browseable, with the content of its time.'}</span>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ol>
+
+    <aside class="history-footnote" aria-labelledby="history-note-title">
+      <p class="editorial-eyebrow">A note on preservation</p>
+      <h2 id="history-note-title">Old ideas. Open doors.</h2>
+      <p>V1 and V2 are curated design eras, chosen from stable snapshots before a larger visual change. They are labels for this collection, rather than formal release numbers. V3 preserves the final chapter before the current design.</p>
+      <p>The archived designs and content stay frozen. Their software stays maintained. Forms and comments are disabled, and every archive has a way back to today’s website.</p>
+    </aside>
+  </div>
+</PageLayout>

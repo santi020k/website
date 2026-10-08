@@ -1,0 +1,836 @@
+---
+import AnimatedLogo from '@/components/atoms/AnimatedLogo.astro'
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
+import SiteSearch from '@/components/molecules/SiteSearch.astro'
+
+import type { SiteLink } from '@/types/site'
+
+import { Button, Icon } from '@santi020k/lumen-astro'
+
+import { menuLinks, siteConfig } from '@/site.config'
+
+const isAvailableForBanner =
+  siteConfig.availability.trim().toLowerCase().startsWith('open') &&
+  siteConfig.showAvailabilityBanner !== false
+
+const navigationLinks = menuLinks.filter(({ path }) => path !== '/speaking/')
+
+const navigationIcons: Record<string, string> = {
+  'tabler:edit': 'square-pen',
+  'tabler:home-2': 'home',
+  'tabler:layers-intersect': 'panels-top-left',
+  'tabler:timeline': 'history',
+  'tabler:user-circle': 'circle-user-round'
+}
+
+---
+
+<header class="
+  sticky top-0 z-50 flex flex-col gap-2.5 p-4
+  min-[2200px]:px-10
+  sm:px-6
+  lg:px-8
+  xl:px-10
+  2xl:px-12
+"
+>
+  {isAvailableForBanner && (
+    <div
+      class="
+        mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col gap-3 rounded-2xl
+        border border-line/48 bg-surface/62 px-4 py-3
+        shadow-[inset_0_1px_0_hsl(0_0%_100%/0.1),0_4px_16px_hsl(230_30%_8%/0.04)]
+        backdrop-blur-sm
+        min-[2200px]:max-w-368
+        sm:max-w-7xl sm:flex-row sm:items-center sm:justify-between sm:px-5
+        2xl:max-w-336 2xl:px-6
+      "
+      data-availability-strip
+    >
+      <p class="
+        flex min-w-0 items-start gap-2.5 text-sm text-ink
+        sm:items-center
+      "
+      >
+        <span
+          class="
+            relative mt-1.5 inline-flex size-2 shrink-0
+            sm:mt-0
+          "
+          aria-hidden="true"
+        >
+          <span
+            class="
+              absolute inline-flex size-full animate-ping rounded-full
+              bg-green-400/80 opacity-75
+              motion-reduce:animate-none
+            "
+          />
+          <span class="relative inline-flex size-2 rounded-full bg-green-500" />
+        </span>
+        <span class="min-w-0 leading-snug">
+          <span class="sr-only">Availability: </span>
+          <span class="font-medium text-ink">{siteConfig.availability}</span>
+        </span>
+      </p>
+      <div class="
+        flex shrink-0 flex-wrap gap-2
+        sm:justify-end
+      "
+      >
+        <ButtonLink
+          className="
+            ui-button--default-size text-xs
+            sm:text-sm
+          "
+          href={siteConfig.contact.linkedin}
+          newTab
+          showArrow
+          variant="secondary"
+        >
+          Discuss a role
+        </ButtonLink>
+        <ButtonLink
+          className="
+            ui-button--default-size text-xs
+            sm:text-sm
+          "
+          href={siteConfig.contact.whatsapp}
+          newTab
+          showArrow
+          variant="ghost"
+        >
+          Let&apos;s talk
+        </ButtonLink>
+      </div>
+    </div>
+  )}
+  <site-header-mobile-nav class="contents">
+    <div class="contents" data-mobile-nav>
+      <div class="site-header-shell z-50" data-header-shell>
+        <a
+          aria-label="Santiago Molina"
+          class="
+            group relative z-10 inline-flex min-h-11 min-w-11 items-center gap-3
+            transition duration-200
+            motion-reduce:transition-none
+          "
+          href="/"
+        >
+          {/* Icon-only for small screens */}
+          <div class="
+            h-9 w-auto
+            sm:hidden
+            dark:hidden
+          "
+          >
+            <AnimatedLogo variant="light" iconOnly class="h-full w-auto" />
+          </div>
+          <div class="
+            hidden h-9 w-auto
+            sm:hidden
+            dark:block
+            sm:dark:hidden
+          "
+          >
+            <AnimatedLogo variant="dark" iconOnly class="h-full w-auto" />
+          </div>
+          {/* Full logo for larger screens */}
+          <div class="
+            hidden h-9 w-auto
+            sm:block
+            dark:hidden
+          "
+          >
+            <AnimatedLogo variant="light" class="h-full w-auto" />
+          </div>
+          <div class="
+            hidden h-9 w-auto
+            dark:sm:block
+          "
+          >
+            <AnimatedLogo variant="dark" class="h-full w-auto" />
+          </div>
+          <!-- <span class="
+            sr-only min-w-0 flex-col
+            sm:not-sr-only sm:flex
+          "
+          >
+            <span class="section-label">Santiago Molina</span>
+            <span class="truncate text-xs text-ink-soft">Leadership · Automation · DX</span>
+          </span> -->
+        </a>
+
+        <nav
+          aria-label="Main menu"
+          class="
+            ml-6 hidden items-center gap-1
+            min-[2200px]:ml-10 min-[2200px]:gap-2.5
+            lg:flex
+            xl:gap-1.5
+            2xl:ml-8 2xl:gap-2
+          "
+        >
+          {
+            navigationLinks.map((link: SiteLink) => {
+              const isActive = link.path === '/' ?
+                Astro.url.pathname === '/' :
+                Astro.url.pathname.startsWith(link.path)
+
+              return (
+                <a
+                  aria-current={isActive ? 'page' : undefined}
+                  class:list={[
+                    `
+                      group relative inline-flex min-h-10 items-center gap-1.5
+                      rounded-full px-3.5 text-sm font-medium whitespace-nowrap
+                      transition-[background-color,box-shadow,color]
+                      duration-200
+                      motion-reduce:transition-none
+                      min-[2200px]:px-5
+                      xl:px-4 xl:text-[0.9375rem]
+                      2xl:min-h-11 2xl:gap-2 2xl:px-4.5
+                    `,
+                    isActive ?
+                      'text-brand' :
+                      `
+                        text-ink-soft
+                        hover:bg-surface-muted/58 hover:text-ink
+                      `
+                  ]}
+                  href={link.path}
+                >
+                  {link.icon && (
+                    <Icon
+                      class:list={[
+                        `
+                          hidden size-4 shrink-0 transition-colors duration-200
+                          motion-reduce:transition-none
+                          2xl:block
+                        `,
+                        isActive ?
+                          'text-brand' :
+                          `
+                            text-ink-muted
+                            group-hover:text-ink-soft
+                          `
+                      ]}
+                      name={navigationIcons[link.icon] ?? 'circle-dot'}
+                    />
+                  )}
+                  {link.title}
+                  <span
+                    aria-hidden="true"
+                    class:list={[
+                      `
+                        absolute bottom-0.5 left-1/2 h-1 -translate-x-1/2
+                        rounded-full bg-brand
+                        shadow-[0_0_14px_hsl(var(--brand)/0.55)] transition-all
+                        duration-300 ease-out
+                        motion-reduce:transition-none
+                      `,
+                      isActive ?
+                        'w-10 opacity-100' :
+                        `
+                          w-1 opacity-0
+                          group-hover:w-8 group-hover:opacity-70
+                        `
+                    ]}
+                  />
+                </a>
+              )
+            })
+          }
+        </nav>
+
+        <div class="
+          relative z-50 flex min-w-0 shrink-0 items-center justify-end gap-2
+          sm:gap-3
+        "
+        >
+          <SiteSearch />
+          <ThemeToggle />
+          <div class="
+            hidden
+            xl:block
+          "
+          >
+            <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow variant="secondary">
+              Let&apos;s talk
+            </ButtonLink>
+          </div>
+          <div class="
+            relative
+            lg:hidden
+          "
+          >
+            <Button
+              aria-controls="mobile-nav"
+              aria-expanded="false"
+              class="site-mobile-nav-toggle"
+              data-mobile-nav-toggle
+              type="button"
+              variant="ghost"
+            >
+              <span
+                aria-hidden="true"
+                class="relative flex size-5 items-center justify-center"
+              >
+                <span class="absolute inset-0 flex items-center justify-center" data-mobile-nav-menu-icon>
+                  <Icon class="size-5" name="menu" />
+                </span>
+                <span
+                  class="absolute inset-0 items-center justify-center"
+                  data-mobile-nav-close-icon
+                  hidden
+                >
+                  <Icon class="size-5" name="x" />
+                </span>
+              </span>
+              <span
+                class="back-to-top-label"
+                data-mobile-nav-toggle-label
+              >
+                Menu
+              </span>
+              <span class="sr-only">navigation</span>
+            </Button>
+          </div>
+        </div>
+      </div> <!-- close site-header-shell -->
+
+      <div
+        class="
+          fixed inset-0 z-40 bg-canvas/72 backdrop-blur-[2px]
+          supports-backdrop-filter:bg-canvas/58
+        "
+        data-mobile-nav-backdrop
+        hidden
+      />
+
+      <nav
+        id="mobile-nav"
+        aria-hidden="true"
+        aria-label="Main menu"
+        class="
+          fixed inset-x-4 z-50
+          sm:right-6 sm:left-auto sm:w-[24rem]
+          lg:right-8
+        "
+        data-mobile-nav-panel
+        hidden
+      >
+        <div
+          class="
+            overflow-y-auto overscroll-contain rounded-3xl border border-line
+            p-4
+          "
+          data-mobile-nav-surface
+        >
+          <div class="
+            mb-3 flex flex-wrap items-center justify-between gap-2 px-3 py-2
+          "
+          >
+            <p class="
+              text-xs font-semibold tracking-widest text-ink-soft uppercase
+            "
+            >Navigation</p>
+            {isAvailableForBanner && (
+              <span class="
+                inline-flex items-center gap-2 p-1 text-[0.68rem] font-semibold
+                tracking-[0.16em] text-ink-muted uppercase
+              "
+              >
+                <span class="relative flex size-1.5">
+                  <span class="
+                    absolute inline-flex size-full animate-ping rounded-full
+                    bg-green-400 opacity-75
+                    motion-reduce:animate-none
+                  "
+                  >
+                  </span>
+                  <span class="
+                    relative inline-flex size-1.5 rounded-full bg-green-500
+                  "
+                  >
+                  </span>
+                </span>
+                Available
+              </span>
+            )}
+          </div>
+
+          <div class="grid gap-0.5">
+            {
+              navigationLinks.map((link: SiteLink) => {
+                const isActive = link.path === '/' ?
+                  Astro.url.pathname === '/' :
+                  Astro.url.pathname.startsWith(link.path)
+
+                return (
+                  <a
+                    aria-current={isActive ? 'page' : undefined}
+                    class:list={[
+                      `
+                        group flex min-h-13 items-center gap-3 rounded-2xl px-3
+                        py-2 text-base font-medium
+                        transition-[background-color,box-shadow,color,transform]
+                        duration-150
+                        focus-visible:ring-2 focus-visible:ring-brand
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-canvas
+                        focus-visible:outline-none
+                        motion-reduce:transition-none
+                      `,
+                      isActive ?
+                        `
+                          bg-brand-soft/55 font-semibold text-ink
+                          shadow-[inset_0_1px_0_hsl(0_0%_100%/0.16),0_8px_22px_hsl(var(--brand)/0.08)]
+                        ` :
+                        `
+                          text-ink-soft
+                          hover:translate-x-0.5 hover:bg-surface-muted/80
+                          hover:text-ink
+                          motion-reduce:hover:translate-x-0
+                        `
+                    ]}
+                    data-mobile-nav-link
+                    href={link.path}
+                  >
+                    <span
+                      aria-hidden="true"
+                      class:list={[
+                        `
+                          flex size-8 shrink-0 items-center justify-center
+                          rounded-xl transition-colors duration-150
+                          motion-reduce:transition-none
+                        `,
+                        isActive ?
+                          'bg-surface/68 text-ink shadow-inset-soft' :
+                          `
+                            text-ink-muted
+                            group-hover:bg-surface-muted
+                            group-hover:text-ink-soft
+                          `
+                      ]}
+                    >
+                      {link.icon && (
+                        <Icon
+                          class="size-4 shrink-0"
+                          name={navigationIcons[link.icon] ?? 'circle-dot'}
+                        />
+                      )}
+                    </span>
+                    {link.title}
+                    {isActive && (
+                      <span
+                        aria-hidden="true"
+                        class="ml-auto size-1.5 shrink-0 rounded-full bg-brand"
+                      />
+                    )}
+                  </a>
+                )
+              })
+            }
+          </div>
+
+          <div class="mt-4 divider-strong pt-4" data-mobile-nav-actions>
+            <ButtonLink
+              className="justify-center"
+              href={siteConfig.contact.whatsapp}
+              newTab
+              showArrow
+              variant="secondary"
+            >
+              Let&apos;s talk
+            </ButtonLink>
+            <ButtonLink
+              className="justify-center"
+              href={siteConfig.contact.resume}
+              showArrow
+              variant="ghost"
+            >
+              Resume
+            </ButtonLink>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </site-header-mobile-nav>
+</header>
+
+<script>
+const prefersReducedMotion = (): boolean => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+class SiteHeaderMobileNav extends HTMLElement {
+  isOpen = false
+  root: HTMLElement | null = null
+  toggle: HTMLButtonElement | null = null
+  toggleLabel: HTMLElement | null = null
+  menuIcon: HTMLElement | null = null
+  closeIcon: HTMLElement | null = null
+  backdrop: HTMLElement | null = null
+  panel: HTMLElement | null = null
+  closeTimer: number | null = null
+  closeAnimationHandler: (() => void) | null = null
+
+  connectedCallback() {
+    this.root = this.querySelector('[data-mobile-nav]')
+
+    this.toggle = this.querySelector('[data-mobile-nav-toggle]')
+
+    this.toggleLabel = this.querySelector('[data-mobile-nav-toggle-label]')
+
+    this.menuIcon = this.querySelector('[data-mobile-nav-menu-icon]')
+
+    this.closeIcon = this.querySelector('[data-mobile-nav-close-icon]')
+
+    this.backdrop = this.querySelector('[data-mobile-nav-backdrop]')
+
+    this.panel = this.querySelector('[data-mobile-nav-panel]')
+
+    if (
+      !(this.root instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement) ||
+      !(this.panel instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    this.toggle.addEventListener('click', this.handleToggleClick)
+
+    this.backdrop.addEventListener('click', this.handleBackdropClick)
+
+    this.panel.addEventListener('click', this.handlePanelClick)
+
+    window.addEventListener('keydown', this.handleWindowKeydown)
+
+    window.addEventListener('resize', this.handleWindowResize, { passive: true })
+
+    window.addEventListener('pageshow', this.handlePageShow)
+
+    document.addEventListener('astro:before-preparation', this.handleAstroPreparation)
+
+    document.addEventListener('astro:page-load', this.handleAstroPreparation)
+
+    this.sync()
+  }
+
+  disconnectedCallback() {
+    this.cancelPendingClose()
+
+    this.toggle?.removeEventListener('click', this.handleToggleClick)
+
+    this.backdrop?.removeEventListener('click', this.handleBackdropClick)
+
+    this.panel?.removeEventListener('click', this.handlePanelClick)
+
+    window.removeEventListener('keydown', this.handleWindowKeydown)
+
+    window.removeEventListener('resize', this.handleWindowResize)
+
+    window.removeEventListener('pageshow', this.handlePageShow)
+
+    document.removeEventListener('astro:before-preparation', this.handleAstroPreparation)
+
+    document.removeEventListener('astro:page-load', this.handleAstroPreparation)
+
+    this.toggleScrollLock(false)
+  }
+
+  handleToggleClick = () => {
+    if (this.isOpen) {
+      this.closeMenu()
+
+      return
+    }
+
+    this.openMenu()
+  }
+
+  handleBackdropClick = () => {
+    this.closeMenu()
+  }
+
+  handlePanelClick = (event: MouseEvent) => {
+    const target = event.target
+
+    if (!(target instanceof Element)) {
+      return
+    }
+
+    const link = target.closest<HTMLAnchorElement>('a[href]')
+
+    if (!(link instanceof HTMLAnchorElement)) {
+      return
+    }
+
+    const isInternalNavigation =
+      link.origin === window.location.origin &&
+      link.target !== '_blank' &&
+      !link.hasAttribute('download')
+
+    if (isInternalNavigation) {
+      // Let Astro/navigation lifecycle events close the panel after navigation starts.
+      // Closing during the same click can suppress navigation in WebKit under CI.
+      return
+    }
+
+    // External/new-tab actions keep the current page in place, so close the menu
+    // after the click has been handed off to the browser.
+    window.setTimeout(() => {
+      this.closeMenu({ restoreFocus: false })
+    }, 0)
+  }
+
+  handleWindowKeydown = (event: KeyboardEvent) => {
+    // A modal dialog owns keyboard navigation until its top layer closes.
+    const hasOpenDialog = document.querySelector('dialog[open]') !== null
+
+    if (event.key === 'Escape') {
+      if (hasOpenDialog) return
+
+      this.closeMenu()
+
+      return
+    }
+
+    if (event.key === 'Tab' && this.isOpen && !hasOpenDialog) {
+      this.trapFocus(event)
+    }
+  }
+
+  handleWindowResize = () => {
+    this.updatePanelPosition()
+
+    if (window.innerWidth >= 1024) {
+      this.closeMenu({ restoreFocus: false })
+    }
+  }
+
+  handlePageShow = () => {
+    this.closeMenu({ restoreFocus: false })
+  }
+
+  handleAstroPreparation = () => {
+    this.closeMenu({ restoreFocus: false })
+  }
+
+  updatePanelPosition() {
+    const header = this.closest('header')
+
+    if (header && this.panel) {
+      this.panel.style.setProperty('--mobile-nav-top', `${header.getBoundingClientRect().bottom}px`)
+    }
+  }
+
+  openMenu() {
+    this.updatePanelPosition()
+
+    this.cancelPendingClose()
+
+    if (this.isOpen) {
+      return
+    }
+
+    this.isOpen = true
+
+    // Remove any stale closing state before showing
+    this.panel?.removeAttribute('data-nav-closing')
+
+    this.sync()
+
+    window.requestAnimationFrame(() => {
+      const firstLink = this.panel?.querySelector('a[href]')
+
+      if (firstLink instanceof HTMLElement) {
+        firstLink.focus({ preventScroll: true })
+      }
+    })
+  }
+
+  cancelPendingClose() {
+    if (this.closeTimer !== null) {
+      window.clearTimeout(this.closeTimer)
+
+      this.closeTimer = null
+    }
+
+    if (this.closeAnimationHandler) {
+      this.panel?.removeEventListener('animationend', this.closeAnimationHandler)
+
+      this.closeAnimationHandler = null
+    }
+
+    this.panel?.removeAttribute('data-nav-closing')
+  }
+
+  closeMenu({ restoreFocus = true } = {}) {
+    this.cancelPendingClose()
+
+    const wasOpen = this.isOpen
+
+    this.isOpen = false
+
+    if (wasOpen && this.panel instanceof HTMLElement && !this.panel.hidden && !prefersReducedMotion()) {
+      // Animate panel out, then hide after animation
+      this.panel.setAttribute('data-nav-closing', '')
+
+      const finishClose = () => {
+        this.cancelPendingClose()
+
+        if (this.panel instanceof HTMLElement) {
+          this.panel.removeAttribute('data-nav-closing')
+
+          this.panel.hidden = true
+
+          this.panel.setAttribute('aria-hidden', 'true')
+        }
+      }
+
+      this.closeAnimationHandler = finishClose
+
+      this.panel.addEventListener('animationend', finishClose, { once: true })
+
+      this.closeTimer = window.setTimeout(finishClose, 250)
+
+      // Update everything else immediately
+      this.#syncControls(false)
+    } else {
+      this.sync()
+    }
+
+    if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement) {
+      this.toggle.focus({ preventScroll: true })
+    }
+  }
+
+  #syncControls(isOpen: boolean) {
+    if (
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    this.toggle.setAttribute('aria-expanded', String(isOpen))
+
+    this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
+
+    this.menuIcon.hidden = isOpen
+
+    this.closeIcon.hidden = !isOpen
+
+    this.backdrop.hidden = !isOpen
+
+    this.toggleScrollLock(isOpen)
+  }
+
+  sync() {
+    if (
+      !(this.root instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement) ||
+      !(this.panel instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    const isOpen = this.isOpen
+
+    this.toggle.setAttribute('aria-expanded', String(isOpen))
+
+    this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
+
+    this.menuIcon.hidden = isOpen
+
+    this.closeIcon.hidden = !isOpen
+
+    this.backdrop.hidden = !isOpen
+
+    this.panel.hidden = !isOpen
+
+    this.panel.setAttribute('aria-hidden', String(!isOpen))
+
+    this.toggleScrollLock(isOpen)
+  }
+
+  trapFocus(event: KeyboardEvent) {
+    if (!(this.panel instanceof HTMLElement)) {
+      return
+    }
+
+    const focusableElements = [
+      ...this.panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ].filter(el => !el.hasAttribute('hidden') && el.getAttribute('aria-hidden') !== 'true')
+
+    const firstElement = focusableElements.at(0)
+    const lastElement = focusableElements.at(-1)
+
+    if (!(firstElement instanceof HTMLElement) || !(lastElement instanceof HTMLElement)) {
+      return
+    }
+
+    const activeElement = document.activeElement
+
+    if (!(activeElement instanceof HTMLElement) || !this.panel.contains(activeElement)) {
+      event.preventDefault()
+
+      firstElement.focus({ preventScroll: true })
+
+      return
+    }
+
+    if (event.shiftKey && activeElement === firstElement) {
+      event.preventDefault()
+
+      lastElement.focus({ preventScroll: true })
+
+      return
+    }
+
+    if (!event.shiftKey && activeElement === lastElement) {
+      event.preventDefault()
+
+      firstElement.focus({ preventScroll: true })
+    }
+  }
+
+  toggleScrollLock(locked: boolean) {
+    document.documentElement.classList.toggle('mobile-nav-open', locked)
+
+    document.body.classList.toggle('mobile-nav-open', locked)
+  }
+}
+
+if (!customElements.get('site-header-mobile-nav')) {
+  customElements.define('site-header-mobile-nav', SiteHeaderMobileNav)
+}
+
+const updateHeaderScrollState = () => {
+  const shell = document.querySelector<HTMLElement>('[data-header-shell]')
+
+  if (shell) {
+    shell.dataset.scrolled = String(window.scrollY > 10)
+  }
+}
+
+window.addEventListener('scroll', updateHeaderScrollState, { passive: true })
+
+document.addEventListener('astro:page-load', updateHeaderScrollState)
+
+updateHeaderScrollState()
+</script>

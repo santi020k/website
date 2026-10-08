@@ -1,0 +1,44 @@
+{
+  "name": "@santi020k/website-v1",
+  "version": "1.1.5",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:site": "astro build && pagefind --site dist",
+    "dev": "astro dev",
+    "check": "astro check",
+    "lint": "astro sync && SYNCKIT_TIMEOUT=180000 eslint . --max-warnings=0"
+  },
+  "dependencies": {
+    "@santi020k/website-history": "workspace:*",
+    "astro": "catalog:",
+    "hastscript": "catalog:",
+    "mdast-util-directive": "catalog:",
+    "mdast-util-to-markdown": "catalog:",
+    "mdast-util-to-string": "catalog:",
+    "unified": "catalog:",
+    "unist-util-visit": "catalog:",
+    "reading-time": "catalog:",
+    "vfile": "catalog:",
+    "astro-icon": "catalog:",
+    "@tailwindcss/typography": "catalog:",
+    "@pagefind/default-ui": "catalog:"
+  },
+  "devDependencies": {
+    "@astrojs/check": "catalog:",
+    "@iconify-json/tabler": "catalog:",
+    "@santi020k/eslint-config-basic": "catalog:",
+    "@santi020k/eslint-config-astro": "catalog:",
+    "typescript": "catalog:",
+    "@types/mdast": "catalog:",
+    "@types/hast": "catalog:",
+    "@types/unist": "catalog:",
+    "@iconify-json/hugeicons": "catalog:",
+    "@iconify-json/mdi": "catalog:",
+    "@iconify-json/solar": "catalog:",
+    "pagefind": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

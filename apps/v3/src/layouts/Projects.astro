@@ -1,0 +1,170 @@
+---
+import { type CollectionEntry, render } from 'astro:content'
+
+import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
+import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSpotlight.astro'
+import ProjectCaseStudy from '@/components/molecules/ProjectCaseStudy.astro'
+import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import ShareButtons from '@/components/molecules/ShareButtons.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import ProjectHero from '@/components/organisms/ProjectHero.astro'
+import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
+import BaseLayout from '@/layouts/Base.astro'
+
+import { getProjectBrandStyle } from '@/utils/project-brand'
+import {
+  getProjectNotesDescription,
+  getProjectNotesLabel,
+  getProjectRelatedHeading,
+  getProjectStageLabel,
+  getProjectTypeLabel
+} from '@/utils/project-meta'
+
+import { RevealGroup, ScrollProgress } from '@santi020k/lumen-astro'
+
+import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
+
+interface Props {
+  project: CollectionEntry<'project'>
+  relatedProjects?: CollectionEntry<'project'>[]
+}
+
+const { project, relatedProjects = [] } = Astro.props
+const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
+const metaDescription = project.data.seoDescription ?? project.data.description
+const socialImage = new URL(`/og/portfolio/${project.id}-logo.webp`, Astro.site).href
+const { headings } = await render(project)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)
+const hasLiveDemo = Boolean(project.data.liveDemoUrl) && project.data.typesId !== 'community'
+const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const projectStageLabel = getProjectStageLabel(project.data.typesId, project.data.endingDate, project.data.draft)
+const projectNotesLabel = getProjectNotesLabel(project.data.typesId)
+const projectNotesDescription = getProjectNotesDescription(project.data.typesId)
+const projectRelatedHeading = getProjectRelatedHeading(project.data.typesId)
+const caseStudy = project.data.caseStudy
+
+const caseStudyRows = caseStudy ?
+  [
+    { body: caseStudy.problem, label: 'Problem' },
+    { body: caseStudy.approach, label: 'Approach' },
+    { body: caseStudy.outcome, label: 'Outcome' },
+    { body: caseStudy.metrics, label: 'Metrics' }
+  ].filter((row): row is { body: string, label: string } => Boolean(row.body?.trim())) :
+  []
+
+const projectSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': hasLiveDemo ? ['CreativeWork', 'SoftwareApplication'] : 'CreativeWork',
+  name: project.data.title,
+  description: metaDescription,
+  dateCreated: project.data.startingDate.toISOString(),
+  ...(project.data.endingDate ? { dateModified: project.data.endingDate.toISOString() } : {}),
+  keywords: project.data.technologies,
+  url: canonicalURL.href,
+  image: socialImage,
+  ...(sameAs.length > 0 ? { sameAs } : {}),
+  author: createAuthorSchema(Astro.site),
+  isPartOf: createWebsiteSchemaReference(Astro.site)
+}
+
+const parentPage = (() => {
+  if (project.data.typesId === 'community') {
+    return { name: 'Speaking & Community', url: '/speaking/' }
+  }
+
+  if (project.data.typesId === 'personal') {
+    return { name: 'Projects', url: '/projects/' }
+  }
+
+  return { name: 'Work', url: '/work/' }
+})()
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  parentPage,
+  { name: project.data.title, url: Astro.url.pathname }
+]
+
+---
+
+<BaseLayout
+  meta={{
+    breadcrumbs,
+    description: metaDescription,
+    ogImage: socialImage,
+    ogImageAlt: `${metaTitle} — ${projectTypeLabel.toLowerCase()} by Santiago Molina`,
+    structuredData: projectSchema,
+    title: metaTitle
+  }}
+>
+  <ScrollProgress />
+
+  <article
+    class="section-container-wide flex flex-col gap-10"
+    data-project-brand
+    style={getProjectBrandStyle(project.data.brand)}
+  >
+    <ProjectHero parentPage={parentPage} project={project} />
+
+    <section
+      class="
+        section-divider grid grid-cols-1 gap-10
+        lg:grid-cols-[minmax(0,1fr)_18rem]
+      "
+      data-animate
+    >
+      <div class="min-w-0 space-y-8">
+        <div class="space-y-8 border-y border-line/45 py-8">
+          <ContentNotesHeader
+            description={projectNotesDescription}
+            label={projectNotesLabel}
+            pill={projectStageLabel}
+          />
+
+          <ProjectCaseStudy rows={caseStudyRows} />
+
+          <div class="prose-project prose-santi max-w-none">
+            <slot />
+          </div>
+        </div>
+
+        <ShareButtons title={project.data.title} url={canonicalURL.href} />
+
+        <ProjectFooterNav
+          githubUrl={project.data.githubUrl}
+          liveDemoUrl={project.data.liveDemoUrl}
+          parentPage={parentPage}
+        />
+      </div>
+
+      <ProjectSidebar headings={headings} project={project} />
+    </section>
+  </article>
+
+  {!!relatedProjects.length && (
+    <PageSection class="lg:grid-cols-1!">
+      <SectionHeader
+        description="More work from a similar lane — same type, overlapping technologies, adjacent problems."
+        eyebrow="Related work"
+        linkHref={parentPage.url}
+        linkLabel={`Browse all ${parentPage.name.toLowerCase()}`}
+        title={projectRelatedHeading}
+        variant="shelf"
+      />
+      <RevealGroup
+        class:list={[
+          'grid gap-6',
+          relatedProjects.length > 1 && 'lg:grid-cols-2'
+        ]}
+        stagger={70}
+      >
+        {relatedProjects.map(relatedProject => (
+          <PortfolioProjectSpotlight project={relatedProject} />
+        ))}
+      </RevealGroup>
+    </PageSection>
+  )}
+
+</BaseLayout>

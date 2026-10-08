@@ -1,0 +1,174 @@
+---
+import { Image } from 'astro:assets'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+
+import SpeakerPortrait from '@/assets/photos/originals/me-1-square.webp'
+
+import { Card, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  linkedinHref: string
+  whatsappHref: string
+}
+
+const { linkedinHref, whatsappHref } = Astro.props
+
+const sessionTraits = [
+  'Grounded in shipped work',
+  'Tailored to the audience',
+  'Community-led since 2017'
+]
+---
+
+<section
+  class="
+    relative isolate section-container-wide grid items-center gap-12 py-4
+    sm:pt-6
+    lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16 lg:pt-8
+    xl:grid-cols-[minmax(0,1fr)_24rem]
+  "
+>
+  <div
+    aria-hidden="true"
+    class="
+      pointer-events-none absolute -top-16 right-0 -z-10 h-128 w-3xl
+      max-w-[95vw] rounded-full bg-radial from-brand/16 via-brand-soft/8
+      to-transparent blur-3xl
+      motion-safe:animate-glow-pulse
+      motion-reduce:animate-none
+    "
+  />
+
+  <div class="relative z-10">
+    <Eyebrow
+      className="
+        animate-slide-up whitespace-normal
+        motion-reduce:animate-none
+      "
+      label="Speaking & community"
+      tone="brand"
+    />
+
+    <div
+      class="
+        mt-7 animate-slide-up space-y-5 [animation-delay:90ms]
+        motion-reduce:animate-none
+      "
+    >
+      <h1
+        class="
+          max-w-5xl text-4xl/[0.98] font-extrabold tracking-[-0.06em]
+          wrap-break-word
+          sm:text-6xl/[0.95]
+          lg:text-[5rem]/[0.92]
+        "
+      >
+        Technical talks.
+        <span
+          class="
+            block bg-linear-to-r from-brand via-accent to-brand bg-clip-text
+            pb-3 text-transparent
+          "
+        >Practical takeaways.</span>
+      </h1>
+      <p class="
+        max-w-2xl text-base/7 text-ink-soft
+        sm:text-lg/8
+      "
+      >
+        Technical sessions grounded in real delivery constraints, plus community
+        work that helps engineers learn, connect, and share what they know.
+      </p>
+    </div>
+
+    <div
+      class="
+        mt-7 animate-slide-up space-y-6 [animation-delay:180ms]
+        motion-reduce:animate-none
+      "
+    >
+      <div class="section-actions">
+        <ButtonLink href={whatsappHref} newTab showArrow>
+          Invite me to speak
+        </ButtonLink>
+        <ButtonLink href={linkedinHref} newTab showArrow variant="secondary">
+          Connect on LinkedIn
+        </ButtonLink>
+      </div>
+
+      <ul
+        class="
+          flex max-w-3xl flex-wrap gap-x-5 gap-y-2 border-t border-line/45 pt-5
+          text-xs/6 font-semibold tracking-[0.12em] text-ink-muted uppercase
+        "
+      >
+        {sessionTraits.map(trait => (
+          <li class="flex items-center gap-2">
+            <Icon class="text-brand" name="check" size="sm" />
+            <span>{trait}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <aside
+    aria-label="Speaker profile"
+    class="
+      mx-auto w-full max-w-84
+      sm:max-w-92
+      lg:max-w-none
+    "
+  >
+    <Card
+      class="
+        relative overflow-hidden rounded-4xl p-3
+        sm:p-4
+      "
+      glass="strong"
+    >
+      <div
+        aria-hidden="true"
+        class="
+          pointer-events-none absolute inset-x-8 top-4 h-44 rounded-full
+          bg-brand/18 blur-3xl
+        "
+      />
+      <Image
+        alt="Santiago Molina, engineering leader and speaker"
+        class="
+          relative aspect-4/5 w-full rounded-[1.45rem] object-cover
+          object-center contrast-[1.03] saturate-[0.92]
+        "
+        decoding="sync"
+        fetchpriority="high"
+        format="avif"
+        loading="eager"
+        sizes="(min-width: 1280px) 384px, (min-width: 1024px) 352px, (min-width: 640px) 368px, 336px"
+        src={SpeakerPortrait}
+        widths={[336, 384, 672, 768]}
+      />
+      <div class="space-y-4 px-2 pt-5 pb-2">
+        <div>
+          <p class="section-label text-brand">Speaker profile</p>
+          <p class="mt-2 text-lg font-semibold text-ink">Santiago Molina</p>
+          <p class="mt-1 text-sm/6 text-ink-soft">
+            Engineering leader, full-stack architect, and ReactJS Colombia co-organizer.
+          </p>
+        </div>
+        <dl class="grid grid-cols-2 gap-4 divider-soft pt-4">
+          <div>
+            <dt class="text-xs text-ink-muted">Community</dt>
+            <dd class="mt-1 ui-label">Since 2017</dd>
+          </div>
+          <div>
+            <dt class="text-xs text-ink-muted">Based in</dt>
+            <dd class="mt-1 ui-label">Medellín</dd>
+          </div>
+        </dl>
+      </div>
+    </Card>
+  </aside>
+</section>

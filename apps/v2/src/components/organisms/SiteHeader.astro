@@ -1,0 +1,736 @@
+---
+import { Icon } from 'astro-icon/components'
+
+import { Picture } from 'astro:assets'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import ThemeToggle from '@/components/atoms/ThemeToggle.astro'
+import SiteSearch from '@/components/molecules/SiteSearch.astro'
+
+import LogoMarkLight from '@/assets/brand/logos/logo-santi020k.webp'
+import LogoMarkDark from '@/assets/brand/logos/logo-santi020k-dark.webp'
+
+import { menuLinks, siteConfig } from '@/site.config'
+import type { SiteLink } from '@/types'
+
+const isAvailableForBanner =
+  siteConfig.availability.trim().toLowerCase().startsWith('open') &&
+  siteConfig.showAvailabilityBanner !== false
+---
+
+<header class="
+  sticky top-0 z-50 flex flex-col gap-2.5 p-4
+  sm:px-6
+  lg:px-8
+"
+>
+  {isAvailableForBanner && (
+    <div
+      class="
+        mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col gap-3 rounded-2xl
+        border border-line/55 bg-surface-muted/55 px-4 py-3 shadow-sm
+        shadow-ink/5 backdrop-blur-sm
+        sm:max-w-6xl sm:flex-row sm:items-center sm:justify-between sm:px-5
+      "
+      data-availability-strip
+    >
+      <p class="
+        flex min-w-0 items-start gap-2.5 text-sm text-ink
+        sm:items-center
+      "
+      >
+        <span
+class="
+  relative mt-1.5 inline-flex size-2 shrink-0
+  sm:mt-0
+"
+aria-hidden="true"
+        >
+          <span
+            class="
+              absolute inline-flex size-full animate-ping rounded-full
+              bg-green-400/80 opacity-75
+              motion-reduce:animate-none
+            "
+          />
+          <span class="relative inline-flex size-2 rounded-full bg-green-500" />
+        </span>
+        <span class="min-w-0 leading-snug">
+          <span class="sr-only">Availability: </span>
+          <span class="font-medium text-ink">{siteConfig.availability}</span>
+        </span>
+      </p>
+      <div class="
+        flex shrink-0 flex-wrap gap-2
+        sm:justify-end
+      "
+      >
+        <ButtonLink
+          className="
+            min-h-10 px-4 py-2 text-xs
+            sm:text-sm
+          "
+          href={siteConfig.contact.linkedin}
+          newTab
+          showArrow
+          variant="secondary"
+        >
+          Discuss a role
+        </ButtonLink>
+        <ButtonLink
+          className="
+            min-h-10 px-4 py-2 text-xs
+            sm:text-sm
+          "
+          href={siteConfig.contact.whatsapp}
+          newTab
+          showArrow
+          variant="ghost"
+        >
+          WhatsApp
+        </ButtonLink>
+      </div>
+    </div>
+  )}
+  <site-header-mobile-nav class="contents">
+    <div class="contents" data-mobile-nav>
+      <div class="site-header-shell z-50" data-header-shell>
+        <a
+          aria-label="Santiago Molina"
+          class="
+            group relative z-10 inline-flex min-w-0 items-center gap-3
+            transition duration-200
+            motion-reduce:transition-none
+          "
+          href="/"
+        >
+          <Picture
+fallbackFormat="webp"
+            alt="Santi020k"
+            class="
+              aspect-933/147 h-9 w-auto object-contain transition duration-300
+              group-hover:brightness-115
+              motion-reduce:transition-none
+              dark:hidden
+            "
+            densities={[1, 1.5, 2, 3]}
+            fetchpriority="high"
+            formats={['webp']}
+            height={36}
+            loading="eager"
+            src={LogoMarkLight}
+            width={228}
+          />
+          <Picture
+fallbackFormat="webp"
+            alt="Santi020k"
+            class="
+              hidden aspect-933/147 h-9 w-auto object-contain transition
+              duration-300
+              group-hover:brightness-115
+              motion-reduce:transition-none
+              dark:block
+            "
+            densities={[1, 1.5, 2, 3]}
+            fetchpriority="high"
+            formats={['webp']}
+            height={36}
+            loading="eager"
+            src={LogoMarkDark}
+            width={228}
+          />
+          <!-- <span class="
+            sr-only min-w-0 flex-col
+            sm:not-sr-only sm:flex
+          "
+          >
+            <span class="section-label">Santiago Molina</span>
+            <span class="truncate text-xs text-ink-soft">Leadership · Automation · DX</span>
+          </span> -->
+        </a>
+
+        <nav
+          aria-label="Main menu"
+          class="
+            hidden flex-nowrap items-center gap-0
+            lg:flex lg:gap-0.5
+            xl:gap-1
+          "
+        >
+          {
+            menuLinks.map((link: SiteLink) => {
+              const isActive = link.path === '/' ?
+                Astro.url.pathname === '/' :
+                Astro.url.pathname.startsWith(link.path)
+
+              return (
+                <a
+                  aria-current={isActive ? 'page' : undefined}
+                  class:list={[
+                    `
+                      relative inline-flex min-h-11 shrink-0 items-center
+                      gap-1.5 p-2 text-sm font-medium whitespace-nowrap
+                      transition-colors duration-200
+                      after:absolute after:inset-x-2 after:bottom-1.5 after:h-px
+                      after:origin-left after:scale-x-0 after:bg-brand
+                      after:transition-transform after:duration-200
+                      after:ease-out
+                      motion-reduce:transition-none
+                      motion-reduce:after:transition-none
+                      lg:px-2
+                      xl:px-3
+                      xl:after:inset-x-3
+                    `,
+                    isActive ?
+                      `
+                        font-semibold text-brand
+                        after:scale-x-100
+                      ` :
+                      `
+                        text-ink-soft
+                        hover:text-ink
+                        hover:after:scale-x-100
+                      `
+                  ]}
+                  href={link.path}
+                >
+                  {link.title}
+                </a>
+              )
+            })
+          }
+        </nav>
+
+        <div class="
+          relative z-50 flex min-w-0 shrink-0 items-center justify-end gap-2
+          sm:gap-3
+        "
+        >
+          <SiteSearch />
+          <ThemeToggle />
+          <div class="
+            hidden
+            lg:block
+          "
+          >
+            <ButtonLink href={siteConfig.contact.whatsapp} newTab showArrow variant="secondary">
+              WhatsApp
+            </ButtonLink>
+          </div>
+          <div class="
+            relative
+            lg:hidden
+          "
+          >
+            <button
+              aria-controls="mobile-nav"
+              aria-expanded="false"
+              class="
+                relative z-50 inline-flex min-h-11 cursor-pointer items-center
+                gap-2 rounded-full border border-line/70 bg-surface/76 px-4
+                text-ink transition duration-200
+                hover:border-brand/35 hover:bg-surface hover:text-brand
+                motion-reduce:transition-none
+              "
+              data-mobile-nav-toggle
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="relative flex size-5 items-center justify-center"
+              >
+                <span class="absolute inset-0 flex items-center justify-center" data-mobile-nav-menu-icon>
+                  <Icon aria-hidden="true" class="size-5" name="tabler:menu-2" />
+                </span>
+                <span
+                  class="absolute inset-0 items-center justify-center"
+                  data-mobile-nav-close-icon
+                  hidden
+                >
+                  <Icon aria-hidden="true" class="size-5" name="tabler:x" />
+                </span>
+              </span>
+              <span
+                class="text-[0.68rem] font-semibold tracking-[0.18em] uppercase"
+                data-mobile-nav-toggle-label
+              >
+                Menu
+              </span>
+              <span class="sr-only">navigation</span>
+            </button>
+          </div>
+        </div>
+      </div> <!-- close site-header-shell -->
+
+      <div
+        class="
+          fixed inset-0 z-40 bg-canvas/72 backdrop-blur-[2px]
+          supports-backdrop-filter:bg-canvas/58
+        "
+        data-mobile-nav-backdrop
+        hidden
+      />
+
+      <nav
+        id="mobile-nav"
+        aria-hidden="true"
+        aria-label="Main menu"
+        class="
+          absolute top-[calc(100%+0.75rem)] right-4 z-50
+          w-[min(22rem,calc(100vw-2rem))]
+          sm:right-6
+          lg:right-8
+        "
+        data-mobile-nav-panel
+        hidden
+      >
+        <div
+          class="
+            panel-card max-h-[calc(100vh-7rem)] overflow-y-auto p-4
+            shadow-[0_22px_56px_hsl(var(--ink)/0.18)]
+          "
+        >
+          <div class="
+            mb-2 flex items-center justify-between gap-4 border-b border-line/25
+            px-1 pb-4
+          "
+          >
+            <p class="section-label">Navigation</p>
+            <span class="
+              inline-flex items-center gap-2 rounded-full border border-line/60
+              bg-surface-muted/72 px-3 py-1 text-[0.68rem] font-semibold
+              tracking-[0.16em] text-ink-muted uppercase
+            "
+            >
+              <span class="relative flex size-1.5">
+                <span class="
+                  absolute inline-flex size-full animate-ping rounded-full
+                  bg-green-400 opacity-75
+                  motion-reduce:animate-none
+                "
+                >
+                </span>
+                <span class="
+                  relative inline-flex size-1.5 rounded-full bg-green-500
+                "
+                >
+                </span>
+              </span>
+              Available
+            </span>
+          </div>
+
+          <div class="grid gap-2">
+            {
+              menuLinks.map((link: SiteLink) => {
+                const isActive = link.path === '/' ?
+                  Astro.url.pathname === '/' :
+                  Astro.url.pathname.startsWith(link.path)
+
+                return (
+                  <a
+                    aria-current={isActive ? 'page' : undefined}
+                    class:list={[
+                      `
+                        flex min-h-12 items-center justify-between gap-3
+                        rounded-[1.35rem] border px-4 py-3 text-sm font-medium
+                        transition duration-200
+                        motion-reduce:transition-none
+                      `,
+                      isActive ?
+                        `
+                          border-brand/20 bg-brand-soft/80 font-semibold
+                          text-brand shadow-[0_14px_28px_hsl(var(--brand)/0.08)]
+                        ` :
+                        `
+                          border-transparent text-ink-soft
+                          hover:border-line/70 hover:bg-surface-muted/70
+                          hover:text-ink
+                        `
+                    ]}
+                    data-mobile-nav-link
+                    href={link.path}
+                  >
+                    <span>{link.title}</span>
+                    {
+                      isActive && (
+                        <span class="
+                          rounded-full bg-brand/10 px-2.5 py-1 text-[0.68rem]
+                          font-semibold tracking-[0.14em] uppercase
+                        "
+                        >
+                          Current
+                        </span>
+                      )
+                    }
+                  </a>
+                )
+              })
+            }
+          </div>
+
+          <div class="
+            mt-3 grid gap-2 border-t border-line/55 pt-3
+            sm:grid-cols-2
+          "
+          >
+            <ButtonLink
+              className="justify-center"
+              href={siteConfig.contact.whatsapp}
+              newTab
+              showArrow
+              variant="secondary"
+            >
+              WhatsApp
+            </ButtonLink>
+            <ButtonLink
+              className="justify-center"
+              href={siteConfig.contact.resume}
+              newTab
+              showArrow
+              variant="ghost"
+            >
+              Resume
+            </ButtonLink>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </site-header-mobile-nav>
+</header>
+
+<script>
+class SiteHeaderMobileNav extends HTMLElement {
+  isOpen = false
+  root: HTMLElement | null = null
+  toggle: HTMLButtonElement | null = null
+  toggleLabel: HTMLElement | null = null
+  menuIcon: HTMLElement | null = null
+  closeIcon: HTMLElement | null = null
+  backdrop: HTMLElement | null = null
+  panel: HTMLElement | null = null
+
+  connectedCallback() {
+    this.root = this.querySelector('[data-mobile-nav]')
+
+    this.toggle = this.querySelector('[data-mobile-nav-toggle]')
+
+    this.toggleLabel = this.querySelector('[data-mobile-nav-toggle-label]')
+
+    this.menuIcon = this.querySelector('[data-mobile-nav-menu-icon]')
+
+    this.closeIcon = this.querySelector('[data-mobile-nav-close-icon]')
+
+    this.backdrop = this.querySelector('[data-mobile-nav-backdrop]')
+
+    this.panel = this.querySelector('[data-mobile-nav-panel]')
+
+    if (
+      !(this.root instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement) ||
+      !(this.panel instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    this.toggle.addEventListener('click', this.handleToggleClick)
+
+    this.backdrop.addEventListener('click', this.handleBackdropClick)
+
+    this.panel.addEventListener('click', this.handlePanelClick)
+
+    window.addEventListener('keydown', this.handleWindowKeydown)
+
+    window.addEventListener('resize', this.handleWindowResize, { passive: true })
+
+    window.addEventListener('pageshow', this.handlePageShow)
+
+    document.addEventListener('astro:before-preparation', this.handleAstroPreparation)
+
+    document.addEventListener('astro:page-load', this.handleAstroPreparation)
+
+    this.sync()
+  }
+
+  disconnectedCallback() {
+    this.toggle?.removeEventListener('click', this.handleToggleClick)
+
+    this.backdrop?.removeEventListener('click', this.handleBackdropClick)
+
+    this.panel?.removeEventListener('click', this.handlePanelClick)
+
+    window.removeEventListener('keydown', this.handleWindowKeydown)
+
+    window.removeEventListener('resize', this.handleWindowResize)
+
+    window.removeEventListener('pageshow', this.handlePageShow)
+
+    document.removeEventListener('astro:before-preparation', this.handleAstroPreparation)
+
+    document.removeEventListener('astro:page-load', this.handleAstroPreparation)
+
+    this.toggleScrollLock(false)
+  }
+
+  handleToggleClick = () => {
+    if (this.isOpen) {
+      this.closeMenu()
+
+      return
+    }
+
+    this.openMenu()
+  }
+
+  handleBackdropClick = () => {
+    this.closeMenu()
+  }
+
+  handlePanelClick = (event: MouseEvent) => {
+    const target = event.target
+
+    if (!(target instanceof Element)) {
+      return
+    }
+
+    const link = target.closest<HTMLAnchorElement>('a[href]')
+
+    if (!(link instanceof HTMLAnchorElement)) {
+      return
+    }
+
+    const isInternalNavigation =
+      link.origin === window.location.origin &&
+      link.target !== '_blank' &&
+      !link.hasAttribute('download')
+
+    if (isInternalNavigation) {
+      // Let Astro/navigation lifecycle events close the panel after navigation starts.
+      // Closing during the same click can suppress navigation in WebKit under CI.
+      return
+    }
+
+    // External/new-tab actions keep the current page in place, so close the menu
+    // after the click has been handed off to the browser.
+    window.setTimeout(() => {
+      this.closeMenu({ restoreFocus: false })
+    }, 0)
+  }
+
+  handleWindowKeydown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      this.closeMenu()
+
+      return
+    }
+
+    if (event.key === 'Tab' && this.isOpen) {
+      this.trapFocus(event)
+    }
+  }
+
+  handleWindowResize = () => {
+    if (window.innerWidth >= 1024) {
+      this.closeMenu({ restoreFocus: false })
+    }
+  }
+
+  handlePageShow = () => {
+    this.closeMenu({ restoreFocus: false })
+  }
+
+  handleAstroPreparation = () => {
+    this.closeMenu({ restoreFocus: false })
+  }
+
+  openMenu() {
+    if (this.isOpen) {
+      return
+    }
+
+    this.isOpen = true
+
+    // Remove any stale closing state before showing
+    this.panel?.removeAttribute('data-nav-closing')
+
+    this.sync()
+
+    window.requestAnimationFrame(() => {
+      const firstLink = this.panel?.querySelector('a[href]')
+
+      if (firstLink instanceof HTMLElement) {
+        firstLink.focus({ preventScroll: true })
+      }
+    })
+  }
+
+  closeMenu({ restoreFocus = true } = {}) {
+    const wasOpen = this.isOpen
+
+    this.isOpen = false
+
+    if (wasOpen && this.panel instanceof HTMLElement && !this.panel.hidden) {
+      // Animate panel out, then hide after animation
+      this.panel.setAttribute('data-nav-closing', '')
+
+      const finishClose = () => {
+        if (this.panel instanceof HTMLElement) {
+          this.panel.removeAttribute('data-nav-closing')
+
+          this.panel.hidden = true
+
+          this.panel.setAttribute('aria-hidden', 'true')
+        }
+      }
+
+      this.panel.addEventListener('animationend', finishClose, { once: true })
+
+      setTimeout(finishClose, 250)
+
+      // Update everything else immediately
+      this.#syncControls(false)
+    } else {
+      this.sync()
+    }
+
+    if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement) {
+      this.toggle.focus({ preventScroll: true })
+    }
+  }
+
+  #syncControls(isOpen: boolean) {
+    if (
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    this.toggle.setAttribute('aria-expanded', String(isOpen))
+
+    this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
+
+    this.menuIcon.hidden = isOpen
+
+    this.closeIcon.hidden = !isOpen
+
+    this.backdrop.hidden = !isOpen
+
+    this.toggleScrollLock(isOpen)
+  }
+
+  sync() {
+    if (
+      !(this.root instanceof HTMLElement) ||
+      !(this.toggle instanceof HTMLButtonElement) ||
+      !(this.toggleLabel instanceof HTMLElement) ||
+      !(this.menuIcon instanceof HTMLElement) ||
+      !(this.closeIcon instanceof HTMLElement) ||
+      !(this.backdrop instanceof HTMLElement) ||
+      !(this.panel instanceof HTMLElement)
+    ) {
+      return
+    }
+
+    const isOpen = this.isOpen
+
+    this.toggle.setAttribute('aria-expanded', String(isOpen))
+
+    this.toggleLabel.textContent = isOpen ? 'Close' : 'Menu'
+
+    this.menuIcon.hidden = isOpen
+
+    this.closeIcon.hidden = !isOpen
+
+    this.backdrop.hidden = !isOpen
+
+    this.panel.hidden = !isOpen
+
+    this.panel.setAttribute('aria-hidden', String(!isOpen))
+
+    this.toggleScrollLock(isOpen)
+  }
+
+  trapFocus(event: KeyboardEvent) {
+    if (!(this.panel instanceof HTMLElement)) {
+      return
+    }
+
+    const focusableElements = [
+      ...this.panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ].filter(el => !el.hasAttribute('hidden') && el.getAttribute('aria-hidden') !== 'true')
+
+    const firstElement = focusableElements.at(0)
+    const lastElement = focusableElements.at(-1)
+
+    if (!(firstElement instanceof HTMLElement) || !(lastElement instanceof HTMLElement)) {
+      return
+    }
+
+    const activeElement = document.activeElement
+
+    if (!(activeElement instanceof HTMLElement) || !this.panel.contains(activeElement)) {
+      event.preventDefault()
+
+      firstElement.focus({ preventScroll: true })
+
+      return
+    }
+
+    if (event.shiftKey && activeElement === firstElement) {
+      event.preventDefault()
+
+      lastElement.focus({ preventScroll: true })
+
+      return
+    }
+
+    if (!event.shiftKey && activeElement === lastElement) {
+      event.preventDefault()
+
+      firstElement.focus({ preventScroll: true })
+    }
+  }
+
+  toggleScrollLock(locked: boolean) {
+    document.documentElement.classList.toggle('mobile-nav-open', locked)
+
+    document.body.classList.toggle('mobile-nav-open', locked)
+  }
+}
+
+if (!customElements.get('site-header-mobile-nav')) {
+  customElements.define('site-header-mobile-nav', SiteHeaderMobileNav)
+}
+
+const shell = document.querySelector<HTMLElement>('[data-header-shell]')
+
+if (shell) {
+  const update = () => {
+    shell.dataset.scrolled = String(window.scrollY > 10)
+  }
+
+  window.addEventListener('scroll', update, { passive: true })
+
+  document.addEventListener('astro:page-load', update)
+
+  update()
+}
+</script>
+
+<style is:global>
+[data-mobile-nav-toggle][aria-expanded='true'] {
+  background-color: hsl(var(--surface));
+  border-color: hsl(var(--brand) / 0.35);
+  color: hsl(var(--brand));
+}
+</style>

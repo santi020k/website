@@ -1,0 +1,1459 @@
+---
+import { Button, Icon } from '@santi020k/lumen-astro'
+
+import SearchDialog from './SearchDialog.astro'
+---
+
+<div class="relative flex shrink-0 items-center" data-site-search>
+  <Button
+    aria-controls="site-search-dialog"
+    aria-expanded="false"
+    aria-haspopup="dialog"
+    aria-label="Open site search"
+    class="
+      relative flex size-11 cursor-pointer items-center justify-center
+      rounded-full border border-line/50 bg-surface/68 text-ink-soft
+      shadow-inset-soft backdrop-blur-sm
+      motion-reduce:transition-none
+    "
+    data-site-search-trigger
+    size="icon"
+    type="button"
+    variant="ghost"
+  >
+    <Icon class="size-5 shrink-0" name="search" />
+  </Button>
+
+  <SearchDialog />
+</div>
+
+<style>
+  [data-site-search-trigger] {
+    transition:
+      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.2s ease;
+  }
+
+  [data-site-search-trigger]:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px hsl(var(--canvas)),
+      0 0 0 4px hsl(var(--brand));
+  }
+
+  [data-site-search-trigger]::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--border-angle),
+      hsl(var(--line) / 0.15) 0%,
+      hsl(var(--line) / 0.15) 60%,
+      hsl(var(--brand) / 0.6) 75%,
+      hsl(var(--glow) / 0.7) 83%,
+      hsl(var(--brand) / 0.6) 91%,
+      hsl(var(--line) / 0.15) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-site-search-trigger]:hover {
+      transform: translateY(-3px);
+      border-color: transparent;
+      background-color: hsl(var(--brand-soft) / 0.35);
+      color: hsl(var(--brand));
+      box-shadow:
+        0 8px 24px hsl(230 30% 8% / 0.08),
+        0 0 16px color-mix(in srgb, hsl(var(--brand)) 14%, transparent),
+        inset 0 1px 0 hsl(0 0% 100% / 0.1);
+    }
+
+    [data-site-search-trigger]:hover::before {
+      opacity: 1;
+      animation: var(--animate-border-spin);
+    }
+
+    [data-site-search-trigger]:active {
+      transform: scale(0.93);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-site-search-trigger]:hover {
+      border-color: hsl(var(--brand) / 0.35);
+      color: hsl(var(--brand));
+    }
+  }
+</style>
+
+<style is:global>
+  /* This site search is a full-screen dialog shell, not Lumen's centered panel layout. */
+  #site-search-dialog {
+    transform: none;
+  }
+
+  /* Tailwind `flex` beats UA `dialog:not([open])`; without this, the panel stays in the header row. */
+  #site-search-dialog:not([open]) {
+    display: none;
+  }
+
+  /* Dimmed layer is animated inside the dialog (`[data-site-search-scrim]`). */
+  #site-search-dialog::backdrop {
+    background-color: transparent;
+  }
+
+  #site-search-dialog [data-site-search-scrim] {
+    background-color: hsl(var(--theme-bg) / 0.85);
+    backdrop-filter: blur(12px) saturate(120%);
+  }
+
+  @keyframes site-search-scrim-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes site-search-scrim-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes site-search-panel-in {
+    0% {
+      opacity: 0;
+      filter: blur(8px) saturate(80%);
+      transform: translateY(2rem) scale(0.88);
+    }
+    60% {
+      opacity: 1;
+      filter: blur(0) saturate(150%);
+      transform: translateY(-0.4rem) scale(1.02);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0) saturate(150%);
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes site-search-panel-out {
+    from {
+      opacity: 1;
+      filter: blur(0) saturate(150%);
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      filter: blur(6px) saturate(80%);
+      transform: translateY(0.75rem) scale(0.94);
+    }
+  }
+
+  @keyframes site-search-hint-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-scrim] {
+    animation: site-search-scrim-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-panel] {
+    animation: site-search-panel-in 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-glow] {
+    animation: site-search-glow-in 0.6s ease-out 0.25s both;
+  }
+
+  #site-search-dialog[data-site-search-anim="closing"] [data-site-search-scrim] {
+    animation: site-search-scrim-out 0.25s ease-in both;
+  }
+
+  #site-search-dialog[data-site-search-anim="closing"] [data-site-search-panel] {
+    animation: site-search-panel-out 0.3s ease-in both;
+  }
+
+  @keyframes site-search-glow-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-scrim],
+    #site-search-dialog[open]:not([data-site-search-anim="closing"]) [data-site-search-panel],
+    #site-search-dialog[data-site-search-anim="closing"] [data-site-search-scrim],
+    #site-search-dialog[data-site-search-anim="closing"] [data-site-search-panel] {
+      animation: none;
+    }
+
+    #site-search-dialog[open] [data-site-search-scrim] {
+      opacity: 1;
+    }
+
+    #site-search-dialog[open] [data-site-search-panel] {
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+  }
+
+  #site-search-results a[data-site-search-active="true"] {
+    border-color: hsl(var(--brand) / 0.45);
+    background-color: hsl(var(--surface) / 0.85);
+    box-shadow: 0 2px 8px hsl(var(--ink) / 0.06);
+  }
+
+  #site-search-results a[data-site-search-active="true"] [data-site-search-indicator] {
+    opacity: 1;
+    transform: translateY(-50%) scaleY(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results a[data-site-search-active="true"] [data-site-search-indicator] {
+      transition: none;
+    }
+  }
+
+  #site-search-results > li.site-search-hint {
+    animation: site-search-hint-in 0.32s ease-out both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results > li.site-search-hint {
+      animation: none;
+    }
+  }
+
+  /*
+    Thumbnails from inline JS: fixed square frame; image uses object-fit contain inside
+    so aspect ratio is preserved (letterboxed), matching the pre-stretch layout.
+  */
+  #site-search-results [data-site-search-thumb-frame] {
+    position: relative;
+    flex-shrink: 0;
+    align-self: center;
+    width: 4.75rem;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background-color: hsl(var(--surface-muted));
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
+  #site-search-results a:hover [data-site-search-thumb-frame] {
+    transform: scale(1.03);
+    box-shadow: 0 2px 8px hsl(var(--ink) / 0.08);
+  }
+
+  @media (min-width: 640px) {
+    #site-search-results [data-site-search-thumb-frame] {
+      width: 5.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results [data-site-search-thumb-frame] {
+      transition: none;
+    }
+    #site-search-results a:hover [data-site-search-thumb-frame] {
+      transform: none;
+    }
+  }
+
+  #site-search-results [data-site-search-thumb] {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 160ms ease-out;
+    /* Full row height slot, but never crop or squash the bitmap — letterbox if needed. */
+    object-fit: contain;
+    object-position: center;
+  }
+
+  #site-search-results [data-site-search-thumb-state="loaded"] {
+    opacity: 1;
+  }
+
+  #site-search-results [data-site-search-thumb-state="error"] {
+    display: none;
+  }
+
+  #site-search-results [data-site-search-thumb-placeholder] {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      linear-gradient(
+        110deg,
+        hsl(var(--surface-muted)) 8%,
+        hsl(var(--surface) / 0.96) 18%,
+        hsl(var(--surface-muted)) 33%
+      );
+    background-size: 220% 100%;
+    animation: site-search-thumb-shimmer 1.05s linear infinite;
+  }
+
+  #site-search-results [data-site-search-thumb-frame][data-site-search-thumb-loaded="true"]
+    [data-site-search-thumb-placeholder] {
+    opacity: 0;
+    transition: opacity 160ms ease-out;
+  }
+
+  @keyframes site-search-thumb-shimmer {
+    to {
+      background-position-x: -220%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-search-results [data-site-search-thumb] {
+      transition: none;
+    }
+
+    #site-search-results [data-site-search-thumb-placeholder] {
+      animation: none;
+    }
+
+    #site-search-results [data-site-search-thumb-frame][data-site-search-thumb-loaded="true"]
+      [data-site-search-thumb-placeholder] {
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    /**
+     * @type {Array<{
+     *   title: string
+     *   description: string
+     *   path: string
+     *   tags: string[]
+     *   type: 'community' | 'post' | 'project'
+     *   coverUrl?: string
+     *   coverAvifUrl?: string
+     *   coverAlt?: string
+     *   coverWidth?: number
+     *   coverHeight?: number
+     * }>}
+     */
+    let entries = []
+    let selectedResultIndex = -1
+    let closeAnimTimer = 0
+    let closeAnimPanel = /** @type {HTMLElement | null} */ (null)
+    let closeAnimHandler = /** @type {((event: AnimationEvent) => void) | null} */ (null)
+    let indexLoadState = /** @type {'idle' | 'loading' | 'ready' | 'error'} */ ('idle')
+    let indexLoadPromise = /** @type {Promise<boolean> | null} */ (null)
+    let popularTopics = /** @type {string[]} */ ([])
+    const RECENT_SEARCHES_KEY = 'website-v3-search-recent'
+    const RECENT_SEARCHES_LIMIT = 5
+
+    /** @returns {string[]} */
+    const getRecentSearches = () => {
+      try {
+        const raw = window.localStorage?.getItem(RECENT_SEARCHES_KEY)
+
+        if (!raw) return []
+
+        const parsed = JSON.parse(raw)
+
+        return Array.isArray(parsed) ? parsed.filter(v => typeof v === 'string') : []
+      } catch {
+        return []
+      }
+    }
+
+    /** @param {string} query */
+    const rememberRecentSearch = query => {
+      const trimmed = query.trim()
+
+      if (trimmed.length < 2) return
+
+      try {
+        const list = getRecentSearches().filter(v => v.toLowerCase() !== trimmed.toLowerCase())
+
+        list.unshift(trimmed)
+
+        const next = list.slice(0, RECENT_SEARCHES_LIMIT)
+
+        window.localStorage?.setItem(RECENT_SEARCHES_KEY, JSON.stringify(next))
+      } catch {
+        /* localStorage may be unavailable (private mode); fail silently. */
+      }
+    }
+
+    const computePopularTopics = () => {
+      // Blog tags ("typescript") and project technologies ("TypeScript") name the
+      // same topic with different casing; merge them by lowercase key so the list
+      // doesn't show visible near-duplicates, keeping whichever casing reads best.
+      /** @type {Map<string, { count: number, label: string, upperCount: number }>} */
+      const counts = new Map()
+
+      for (const entry of entries) {
+        for (const tag of entry.tags) {
+          const key = tag.toLowerCase()
+          const upperCount = (tag.match(/[A-Z]/g) ?? []).length
+          const existing = counts.get(key)
+
+          if (existing) {
+            existing.count += 1
+
+            if (upperCount > existing.upperCount) {
+              existing.label = tag
+
+              existing.upperCount = upperCount
+            }
+          } else {
+            counts.set(key, { count: 1, label: tag, upperCount })
+          }
+        }
+      }
+
+      popularTopics = [...counts.values()]
+        .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+        .slice(0, 8)
+        .map(entry => entry.label)
+    }
+
+    const getDialog = () => document.querySelector('#site-search-dialog')
+    const getInput = () => document.querySelector('#site-search-input')
+    const getResults = () => document.querySelector('#site-search-results')
+    const getStatus = () => document.querySelector('#site-search-status')
+    const getTrigger = () => document.querySelector('[data-site-search-trigger]')
+    const getPanel = () => document.querySelector('[data-site-search-panel]')
+
+    const setScrollLock = locked => {
+      document.documentElement.classList.toggle('site-search-open', locked)
+
+      document.body.classList.toggle('site-search-open', locked)
+    }
+
+    const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true
+
+    const setTriggerExpanded = open => {
+      const trigger = getTrigger()
+
+      if (trigger instanceof HTMLButtonElement) {
+        trigger.setAttribute('aria-expanded', String(open))
+      }
+    }
+
+    const syncResultSelection = () => {
+      const results = getResults()
+
+      if (!results) return
+
+      const anchors = results.querySelectorAll('a[href]')
+
+      anchors.forEach((a, i) => {
+        if (i === selectedResultIndex) {
+          a.setAttribute('data-site-search-active', 'true')
+
+          a.scrollIntoView({
+            block: 'nearest',
+            behavior: prefersReducedMotion() ? 'auto' : 'smooth'
+          })
+        } else {
+          a.removeAttribute('data-site-search-active')
+        }
+      })
+    }
+
+    /**
+     * @param {string} message
+     */
+    const setStatusMessage = message => {
+      const status = getStatus()
+
+      if (!(status instanceof HTMLElement)) return
+
+      if (status.textContent === message) return
+
+      status.textContent = message
+    }
+
+    /**
+     * Announces the highlighted result while keyboard focus remains in the input.
+     * @param {number} index
+     * @param {number} total
+     * @returns {string}
+     */
+    const describeResultAt = (index, total) => {
+      const results = getResults()
+
+      if (!results) return ''
+
+      const anchors = [...results.querySelectorAll('a[href]')]
+      const title = anchors[index]?.querySelector('[data-site-search-result-title]')?.textContent?.trim()
+
+      if (!title) return ''
+
+      return `${title}, ${index + 1} of ${total}`
+    }
+
+    /**
+     * Renders the empty state shown before the user starts typing. Prefers a
+     * "Recent searches" list when localStorage has prior queries, otherwise
+     * falls back to "Popular topics" derived from the loaded index.
+     * @param {HTMLElement} results
+     */
+    const renderEmptyState = results => {
+      const recentSearches = getRecentSearches()
+      const hasRecentSearches = recentSearches.length > 0
+      const items = hasRecentSearches ? recentSearches : popularTopics
+
+      if (items.length === 0) {
+        results.innerHTML = `
+          <li class="
+            site-search-hint flex flex-col items-center justify-center gap-3
+            border-y border-dashed border-line/50 px-4 py-10 text-center
+          ">
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+                <path d="M11 8v6" />
+                <path d="M8 11h6" />
+              </svg>
+            </span>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-ink">Start typing to search</p>
+              <p class="text-xs text-ink-soft">Enter at least 2 characters to find posts, projects, and community work.</p>
+            </div>
+          </li>
+        `
+
+        setStatusMessage('Type at least two characters to search.')
+
+        return
+      }
+
+      const heading = hasRecentSearches ? 'Recent searches' : 'Popular topics'
+
+      const iconSvg = hasRecentSearches ?
+        `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           >
+             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+             <path d="M3 3v5h5" />
+           </svg>` :
+        `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           >
+             <path d="M16 6 4 20" />
+             <path d="M18 15l-5.5 5.5" />
+             <path d="M21 9 16 4" />
+             <path d="M14 2 4 20" />
+           </svg>`
+
+      const li = document.createElement('li')
+
+      li.className = `
+        site-search-hint rounded-xl border border-line/40 bg-surface/40
+        px-4 py-4 text-sm text-ink-soft
+      `.trim().replace(/\s+/g, ' ')
+
+      const label = document.createElement('div')
+
+      label.className = 'mb-3 flex items-center gap-2 text-xs font-semibold tracking-[0.12em] text-ink-muted uppercase'
+
+      label.innerHTML = `${iconSvg}<span>${heading}</span>`
+
+      li.appendChild(label)
+
+      const chips = document.createElement('div')
+
+      chips.className = 'flex flex-wrap gap-2'
+
+      for (const item of items) {
+        const chip = document.createElement('button')
+
+        chip.type = 'button'
+
+        chip.dataset.siteSearchSuggestion = item
+
+        chip.className = `
+          inline-flex items-center rounded-full border border-line/40
+          bg-surface/50 px-3 py-1.5 text-xs font-medium text-ink-soft
+          transition-all duration-200 ease-out
+          hover:border-brand/40 hover:bg-brand-soft/30 hover:text-brand hover:shadow-sm
+          active:scale-95
+          motion-reduce:transition-none
+          motion-reduce:active:scale-100
+        `.trim().replace(/\s+/g, ' ')
+
+        chip.textContent = item
+
+        chips.appendChild(chip)
+      }
+
+      li.appendChild(chips)
+
+      results.innerHTML = ''
+
+      results.appendChild(li)
+
+      setStatusMessage(`${items.length} ${heading.toLowerCase()} available.`)
+    }
+
+    /**
+     * @param {typeof entries[number]} entry
+     * @param {string} normalizedQuery
+     */
+    const rankEntry = (entry, normalizedQuery) => {
+      const normalizedTitle = entry.title.toLowerCase()
+      const normalizedDescription = entry.description.toLowerCase()
+      const normalizedTags = entry.tags.map(tag => tag.toLowerCase())
+      const terms = normalizedQuery.split(/\s+/).filter(Boolean)
+      let score = 0
+
+      if (normalizedTitle === normalizedQuery) score += 120
+
+      if (normalizedTitle.startsWith(normalizedQuery)) score += 90
+      else if (normalizedTitle.includes(normalizedQuery)) score += 55
+
+      if (normalizedTags.some(tag => tag === normalizedQuery)) score += 48
+      else if (normalizedTags.some(tag => tag.startsWith(normalizedQuery))) score += 36
+
+      if (normalizedDescription.includes(normalizedQuery)) score += 16
+
+      for (const term of terms) {
+        let termMatched = false
+
+        if (normalizedTitle.startsWith(term)) {
+          score += 22
+
+          termMatched = true
+        } else if (normalizedTitle.includes(term)) {
+          score += 14
+
+          termMatched = true
+        }
+
+        if (normalizedTags.some(tag => tag === term)) {
+          score += 16
+
+          termMatched = true
+        } else if (normalizedTags.some(tag => tag.startsWith(term))) {
+          score += 11
+
+          termMatched = true
+        } else if (normalizedTags.some(tag => tag.includes(term))) {
+          score += 7
+
+          termMatched = true
+        }
+
+        if (normalizedDescription.includes(term)) {
+          score += 6
+
+          termMatched = true
+        }
+
+        if (!termMatched) return 0
+      }
+
+      return score
+    }
+
+    const render = query => {
+      const results = getResults()
+
+      if (!results) return
+
+      results.innerHTML = ''
+
+      const trimmed = query.trim()
+
+      if (indexLoadState === 'loading') {
+        selectedResultIndex = -1
+
+        results.innerHTML = `
+          <li class="
+            site-search-hint flex flex-col items-center justify-center gap-3
+            border-y border-dashed border-line/50 px-4 py-8 text-center
+          ">
+            <span class="relative flex h-8 w-8">
+              <span class="absolute inset-0 rounded-full border-2 border-line/30"></span>
+              <span
+                class="absolute inset-0 animate-spin rounded-full border-2 border-brand/60 border-t-transparent"
+              ></span>
+            </span>
+            <span class="text-sm text-ink-soft">Loading search index…</span>
+          </li>
+        `
+
+        setStatusMessage('Loading search index.')
+
+        return
+      }
+
+      if (indexLoadState === 'error') {
+        selectedResultIndex = -1
+
+        results.innerHTML = `
+          <li
+            class="
+              site-search-hint flex flex-col items-center justify-center gap-4
+              border-y border-dashed border-line/50 px-4 py-8 text-center
+            "
+          >
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-danger/10 text-danger">
+              <svg
+                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" x2="12" y1="8" y2="12" />
+                <line x1="12" x2="12.01" y1="16" y2="16" />
+              </svg>
+            </span>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-ink">Search unavailable</p>
+              <p class="text-xs text-ink-soft">We couldn't load the search index.</p>
+            </div>
+            <button
+              class="
+                inline-flex min-h-10 items-center gap-2 rounded-full border border-line/60
+                bg-surface/50 px-4 py-2 text-xs font-medium text-ink-soft
+                transition-all duration-200 ease-out
+                hover:border-brand/40 hover:bg-brand-soft/20 hover:text-brand hover:shadow-sm
+                active:scale-95
+                motion-reduce:transition-none
+                motion-reduce:active:scale-100
+              "
+              data-site-search-retry
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                <path d="M8 16H3v5" />
+              </svg>
+              Try again
+            </button>
+          </li>
+        `
+
+        setStatusMessage('Search is temporarily unavailable.')
+
+        return
+      }
+
+      if (trimmed.length < 2) {
+        selectedResultIndex = -1
+
+        renderEmptyState(results)
+
+        return
+      }
+
+      const normalized = trimmed.toLowerCase()
+
+      const matches = entries
+        .map(entry => {
+          const score = rankEntry(entry, normalized)
+
+          return { entry, score }
+        })
+        .filter(item => item.score > 0)
+        .sort((a, b) => {
+          if (b.score !== a.score) return b.score - a.score
+
+          const typeOrder = { community: 0, project: 1, post: 2 }
+          const typeDiff = (typeOrder[a.entry.type] ?? 2) - (typeOrder[b.entry.type] ?? 2)
+
+          if (typeDiff !== 0) return typeDiff
+
+          return a.entry.title.localeCompare(b.entry.title)
+        })
+        .slice(0, 8)
+
+      if (matches.length === 0) {
+        selectedResultIndex = -1
+
+        results.innerHTML = `
+          <li class="
+            site-search-hint flex flex-col items-center justify-center gap-3
+            border-y border-dashed border-line/50 px-4 py-10 text-center
+          ">
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+                <path d="m8 8 6 6" />
+                <path d="m14 8-6 6" />
+              </svg>
+            </span>
+            <div class="space-y-1">
+              <p class="text-sm font-medium text-ink">No results found</p>
+              <p class="text-xs text-ink-soft">Try different keywords or check your spelling.</p>
+            </div>
+            <button
+              type="button"
+              data-site-search-clear
+              class="
+                mt-1 inline-flex items-center gap-1.5 rounded-full border border-line/50
+                bg-surface/50 px-3 py-1.5 text-xs font-medium text-ink-soft
+                transition-all duration-200 ease-out
+                hover:border-brand/40 hover:bg-brand-soft/20 hover:text-brand
+                active:scale-95
+                motion-reduce:transition-none
+                motion-reduce:active:scale-100
+              "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              >
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+              </svg>
+              Clear search
+            </button>
+          </li>
+        `
+
+        setStatusMessage(`No matching results for ${trimmed}. Try different keywords.`)
+
+        return
+      }
+
+      selectedResultIndex = Math.min(Math.max(selectedResultIndex, 0), matches.length - 1)
+
+      for (const match of matches) {
+        const e = match.entry
+        const li = document.createElement('li')
+        const a = document.createElement('a')
+
+        a.href = e.path
+
+        a.className = `
+          group relative flex gap-3 rounded-xl border border-transparent p-2.5
+          transition-all duration-250 ease-out
+          hover:border-line/50 hover:bg-surface/60 hover:shadow-sm
+          motion-reduce:transition-none
+          sm:gap-3.5 sm:p-3
+        `.trim().replace(/\s+/g, ' ')
+
+        // Active selection indicator (left border accent)
+        const indicator = document.createElement('span')
+
+        indicator.setAttribute('data-site-search-indicator', '')
+
+        indicator.className = `
+          pointer-events-none absolute -left-0.5 top-1/2 h-6 w-1 -translate-y-1/2
+          rounded-r-full bg-brand opacity-0
+          transition-all duration-200
+          group-hover:opacity-40 group-hover:scale-y-75
+          motion-reduce:transition-none
+        `.trim().replace(/\s+/g, ' ')
+
+        a.appendChild(indicator)
+
+        const thumbHost = document.createElement('span')
+
+        thumbHost.setAttribute('data-site-search-thumb-frame', '')
+
+        if (e.coverUrl) {
+          const placeholder = document.createElement('span')
+
+          placeholder.setAttribute('aria-hidden', 'true')
+
+          placeholder.setAttribute('data-site-search-thumb-placeholder', '')
+
+          const picture = document.createElement('picture')
+
+          if (e.coverAvifUrl) {
+            const avifSource = document.createElement('source')
+
+            avifSource.type = 'image/avif'
+
+            avifSource.srcset = e.coverAvifUrl
+
+            picture.appendChild(avifSource)
+          }
+
+          const img = document.createElement('img')
+
+          img.src = e.coverUrl
+
+          img.alt = e.coverAlt || e.title
+
+          img.decoding = 'async'
+
+          img.loading = 'eager'
+
+          img.setAttribute('data-site-search-thumb', '')
+
+          img.setAttribute('data-site-search-thumb-state', 'loading')
+
+          img.addEventListener('load', () => {
+            img.setAttribute('data-site-search-thumb-state', 'loaded')
+
+            thumbHost.setAttribute('data-site-search-thumb-loaded', 'true')
+          })
+
+          img.addEventListener('error', () => {
+            img.setAttribute('data-site-search-thumb-state', 'error')
+
+            thumbHost.removeAttribute('data-site-search-thumb-loaded')
+
+            img.alt = ''
+          })
+
+          picture.appendChild(img)
+
+          thumbHost.append(placeholder, picture)
+        } else {
+          const ph = document.createElement('span')
+
+          ph.className = 'block size-full grid-fade'
+
+          ph.setAttribute('aria-hidden', 'true')
+
+          thumbHost.appendChild(ph)
+        }
+
+        const body = document.createElement('span')
+
+        body.className = 'flex min-w-0 flex-1 flex-col justify-center gap-0.5'
+
+        const typeEl = document.createElement('span')
+
+        typeEl.className = `
+          section-label transition-colors duration-200
+          group-hover:text-brand/80
+        `.trim()
+
+        let resultTypeLabel = 'Project'
+
+        if (e.type === 'post') {
+          resultTypeLabel = 'Post'
+        } else if (e.type === 'community') {
+          resultTypeLabel = 'Community'
+        }
+
+        typeEl.textContent = resultTypeLabel
+
+        const titleEl = document.createElement('span')
+
+        titleEl.className = `
+          text-sm font-semibold text-ink transition-colors duration-200
+          group-hover:text-brand
+        `.trim()
+
+        titleEl.setAttribute('data-site-search-result-title', '')
+
+        titleEl.textContent = e.title
+
+        const descEl = document.createElement('span')
+
+        descEl.className = `
+          line-clamp-2 text-xs/5 text-ink-soft transition-colors duration-200
+          group-hover:text-ink-soft/90
+          sm:text-sm/6
+        `.trim()
+
+        descEl.textContent = e.description
+
+        body.append(typeEl, titleEl, descEl)
+
+        a.append(thumbHost, body)
+
+        li.appendChild(a)
+
+        results.appendChild(li)
+      }
+
+      syncResultSelection()
+
+      setStatusMessage(
+        `${matches.length} ${matches.length === 1 ? 'result' : 'results'} available. Use arrow keys to navigate.`
+      )
+    }
+
+    // Keep only one close cycle alive so a stale callback cannot close a reopened dialog.
+    const cancelPendingClose = () => {
+      window.clearTimeout(closeAnimTimer)
+
+      closeAnimTimer = 0
+
+      if (closeAnimHandler) {
+        closeAnimPanel?.removeEventListener('animationend', closeAnimHandler)
+
+        closeAnimHandler = null
+      }
+
+      closeAnimPanel = null
+    }
+
+    const openSearch = () => {
+      const dialog = getDialog()
+      const input = getInput()
+
+      if (!(dialog instanceof HTMLDialogElement) || !(input instanceof HTMLInputElement)) return
+
+      cancelPendingClose()
+
+      dialog.removeAttribute('data-site-search-anim')
+
+      if (!dialog.open) {
+        dialog.showModal()
+      }
+
+      setScrollLock(true)
+
+      setTriggerExpanded(true)
+
+      window.requestAnimationFrame(() => {
+        input.focus()
+
+        input.select()
+
+        render(input.value)
+      })
+    }
+
+    /**
+     * @param {{ focusTrigger?: boolean }} [options]
+     */
+    const closeSearch = (options = {}) => {
+      const { focusTrigger = false } = options
+      const dialog = getDialog()
+
+      if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
+
+      cancelPendingClose()
+
+      const finish = () => {
+        cancelPendingClose()
+
+        if (dialog.open) {
+          dialog.close()
+        }
+
+        setScrollLock(false)
+
+        /* Remove after `close()` so `[open]` never pairs with "not closing" (intro CSS). */
+        dialog.removeAttribute('data-site-search-anim')
+
+        if (focusTrigger) {
+          const t = getTrigger()
+
+          if (t instanceof HTMLElement) {
+            t.focus()
+          }
+        }
+      }
+
+      if (prefersReducedMotion()) {
+        finish()
+
+        return
+      }
+
+      const panel = getPanel()
+
+      if (!(panel instanceof HTMLElement)) {
+        finish()
+
+        return
+      }
+
+      dialog.setAttribute('data-site-search-anim', 'closing')
+
+      const onAnimEnd = e => {
+        if (e.animationName !== 'site-search-panel-out') return
+
+        finish()
+      }
+
+      closeAnimPanel = panel
+
+      closeAnimHandler = onAnimEnd
+
+      panel.addEventListener('animationend', onAnimEnd)
+
+      closeAnimTimer = window.setTimeout(finish, 420)
+    }
+
+    const isEditableTarget = target => {
+      if (!(target instanceof HTMLElement)) return false
+
+      if (target.isContentEditable) return true
+
+      const tag = target.tagName
+
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true
+
+      return false
+    }
+
+    /**
+     * @param {{ force?: boolean }} [options]
+     */
+    const loadIndex = async (options = {}) => {
+      const { force = false } = options
+
+      if (!force && indexLoadState === 'ready' && entries.length > 0) return true
+
+      if (!force && indexLoadPromise) return indexLoadPromise
+
+      indexLoadState = 'loading'
+
+      render(getInput()?.value ?? '')
+
+      indexLoadPromise = fetch('/search-index.json')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed search index response')
+          }
+
+          return response.json()
+        })
+        .then(json => {
+          entries = Array.isArray(json) ? json : []
+
+          computePopularTopics()
+
+          indexLoadState = 'ready'
+
+          return true
+        })
+        .catch(() => {
+          entries = []
+
+          indexLoadState = 'error'
+
+          return false
+        })
+        .finally(() => {
+          indexLoadPromise = null
+
+          render(getInput()?.value ?? '')
+        })
+
+      return indexLoadPromise
+    }
+
+    const bindUi = () => {
+      const root = document.querySelector('[data-site-search]')
+
+      if (!root || root.getAttribute('data-site-search-bound') === 'true') return
+
+      const trigger = root.querySelector('[data-site-search-trigger]')
+      const closeBtn = root.querySelector('[data-site-search-close]')
+      const inputClearBtn = root.querySelector('[data-site-search-input-clear]')
+      const input = getInput()
+      const results = getResults()
+      const dialog = getDialog()
+      const scrim = dialog.querySelector('[data-site-search-scrim]')
+
+      if (!(trigger instanceof HTMLButtonElement) || !(closeBtn instanceof HTMLButtonElement) ||
+        !(input instanceof HTMLInputElement) || !(results instanceof HTMLElement) ||
+        !(dialog instanceof HTMLDialogElement)) {
+        return
+      }
+
+      root.setAttribute('data-site-search-bound', 'true')
+
+      trigger.addEventListener('click', () => {
+        if (dialog.open) {
+          closeSearch({ focusTrigger: true })
+
+          return
+        }
+
+        openSearch()
+
+        loadIndex()
+      })
+
+      closeBtn.addEventListener('click', () => {
+        closeSearch({ focusTrigger: true })
+      })
+
+      if (inputClearBtn instanceof HTMLButtonElement) {
+        inputClearBtn.addEventListener('click', () => {
+          input.value = ''
+
+          input.dispatchEvent(new Event('input', { bubbles: true }))
+
+          input.focus()
+        })
+      }
+
+      if (scrim instanceof HTMLElement) {
+        scrim.addEventListener('click', () => {
+          closeSearch({ focusTrigger: true })
+        })
+      }
+
+      dialog.addEventListener('close', () => {
+        // Native close events may arrive after a rapid reopen or a page swap.
+        if (dialog.open || !dialog.isConnected) return
+
+        cancelPendingClose()
+
+        setScrollLock(false)
+
+        setTriggerExpanded(false)
+
+        const url = new URL(window.location.href)
+
+        if (url.searchParams.has('q')) {
+          url.searchParams.delete('q')
+
+          window.history.replaceState({}, '', url)
+        }
+      })
+
+      dialog.addEventListener('cancel', e => {
+        e.preventDefault()
+
+        closeSearch({ focusTrigger: true })
+      })
+
+      dialog.addEventListener('keydown', e => {
+        if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
+
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
+
+        const links = [...results.querySelectorAll('a[href]')]
+
+        if (links.length === 0) return
+
+        e.preventDefault()
+
+        if (e.key === 'ArrowDown') {
+          if (selectedResultIndex < 0) {
+            selectedResultIndex = 0
+          } else {
+            selectedResultIndex = (selectedResultIndex + 1) % links.length
+          }
+        } else if (selectedResultIndex < 0) {
+          selectedResultIndex = links.length - 1
+        } else {
+          selectedResultIndex = (selectedResultIndex - 1 + links.length) % links.length
+        }
+
+        syncResultSelection()
+
+        const description = describeResultAt(selectedResultIndex, links.length)
+
+        if (description) setStatusMessage(description)
+      })
+
+      input.addEventListener('keydown', e => {
+        if (e.key !== 'Enter') return
+
+        const links = [...results.querySelectorAll('a[href]')]
+
+        if (selectedResultIndex < 0 || selectedResultIndex >= links.length) return
+
+        e.preventDefault()
+
+        rememberRecentSearch(input.value)
+
+        links[selectedResultIndex].click()
+      })
+
+      input.addEventListener('input', () => {
+        const value = input.value
+
+        render(value)
+
+        const next = new URL(window.location.href)
+        const trimmed = value.trim()
+
+        if (trimmed.length >= 2) {
+          next.searchParams.set('q', trimmed)
+        } else {
+          next.searchParams.delete('q')
+        }
+
+        window.history.replaceState({}, '', next)
+      })
+
+      results.addEventListener('click', event => {
+        const retryButton =
+          event.target instanceof Element ? event.target.closest('[data-site-search-retry]') : null
+
+        if (retryButton instanceof HTMLButtonElement) {
+          event.preventDefault()
+
+          loadIndex({ force: true })
+
+          return
+        }
+
+        const suggestion =
+          event.target instanceof Element ?
+            event.target.closest('[data-site-search-suggestion]') :
+            null
+
+        if (suggestion instanceof HTMLButtonElement) {
+          event.preventDefault()
+
+          const term = suggestion.dataset.siteSearchSuggestion ?? ''
+
+          if (term) {
+            input.value = term
+
+            input.dispatchEvent(new Event('input', { bubbles: true }))
+
+            input.focus()
+          }
+
+          return
+        }
+
+        const clearButton =
+          event.target instanceof Element ?
+            event.target.closest('[data-site-search-clear]') :
+            null
+
+        if (clearButton instanceof HTMLButtonElement) {
+          event.preventDefault()
+
+          input.value = ''
+
+          input.dispatchEvent(new Event('input', { bubbles: true }))
+
+          input.focus()
+
+          return
+        }
+
+        const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
+
+        if (!anchor) return
+
+        rememberRecentSearch(input.value)
+
+        closeSearch()
+      })
+
+      results.addEventListener('mousemove', event => {
+        const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
+
+        if (!anchor) return
+
+        const links = [...results.querySelectorAll('a[href]')]
+        const next = links.indexOf(anchor)
+
+        if (next < 0 || next === selectedResultIndex) return
+
+        selectedResultIndex = next
+
+        syncResultSelection()
+      })
+
+      // Defer the search-index fetch until the user actually opens the modal
+      // (trigger click, Cmd/Ctrl+K, or '/'), or arrives with a `?q=` deep-link.
+      // This avoids a network + parse cost on every page navigation.
+      const params = new URLSearchParams(window.location.search)
+      const queryFromURL = params.get('q')
+
+      if (queryFromURL && queryFromURL.trim().length >= 2) {
+        openSearch()
+
+        input.value = queryFromURL
+
+        loadIndex()
+          .then(() => render(queryFromURL))
+          .catch(() => undefined)
+      }
+    }
+
+    const onGlobalKeydown = event => {
+      const dialog = getDialog()
+      const isOpen = dialog instanceof HTMLDialogElement && dialog.open
+
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        if (!isOpen && isEditableTarget(event.target)) return
+
+        event.preventDefault()
+
+        if (!isOpen) {
+          openSearch()
+        }
+
+        loadIndex()
+
+        return
+      }
+
+      if (event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
+        if (isOpen) return
+
+        if (isEditableTarget(event.target)) return
+
+        event.preventDefault()
+
+        openSearch()
+
+        loadIndex()
+      }
+    }
+
+    if (!window.__siteSearchGlobalKeys) {
+      window.__siteSearchGlobalKeys = true
+
+      document.addEventListener('keydown', onGlobalKeydown)
+    }
+
+    bindUi()
+
+    document.addEventListener('astro:before-swap', () => {
+      cancelPendingClose()
+
+      setScrollLock(false)
+    })
+
+    document.addEventListener('astro:after-swap', bindUi)
+  })()
+</script>

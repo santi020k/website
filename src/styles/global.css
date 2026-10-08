@@ -1,5 +1,5 @@
 @import "@santi020k/lumen-astro/layers.css";
-@import "tailwindcss";
+@import "tailwindcss" source("../");
 @import "@santi020k/lumen-astro/styles.css";
 @import "@santi020k/lumen/styles/motion.css";
 @import "@santi020k/theme/tokens.css";
@@ -20,3 +20,5 @@
 @plugin "@tailwindcss/typography";
 
 @import "./partials/remaining-pages.css";
+
+@import "./partials/history.css";

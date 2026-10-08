@@ -1,6 +1,23 @@
 {
   "generatorVersion": "1.2.0",
   "routes": {
+    "/history/": {
+      "alt": "Website History — Santiago Molina",
+      "description": "A living history of santi020k.com, with real desktop and mobile captures and usable preserved design eras.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/history.webp",
+          "primary": true,
+          "url": "/og/pages/history.webp?v=c7c2f054f029",
+          "version": "c7c2f054f029",
+          "width": 1200
+        }
+      ],
+      "pathname": "/history/",
+      "title": "Website History"
+    },
     "/travel/": {
       "alt": "Travel & Life Abroad — Santiago Molina",
       "description": "Explore the places I have visited across the Americas, Europe, and Asia, from my roots in Colombia to life abroad as a resident of Paraguay.",
@@ -10,8 +27,8 @@
           "height": 630,
           "output": "pages/travel.webp",
           "primary": true,
-          "url": "/og/pages/travel.webp?v=668b64292db5",
-          "version": "668b64292db5",
+          "url": "/og/pages/travel.webp?v=c8e82fef3ec7",
+          "version": "c8e82fef3ec7",
           "width": 1200
         }
       ],
@@ -27,8 +44,8 @@
           "height": 630,
           "output": "pages/index.webp",
           "primary": true,
-          "url": "/og/pages/index.webp?v=5e8bd9e3fee1",
-          "version": "5e8bd9e3fee1",
+          "url": "/og/pages/index.webp?v=f3eeb1085684",
+          "version": "f3eeb1085684",
           "width": 1200
         }
       ],
@@ -44,8 +61,8 @@
           "height": 630,
           "output": "pages/about.webp",
           "primary": true,
-          "url": "/og/pages/about.webp?v=f62c04e54531",
-          "version": "f62c04e54531",
+          "url": "/og/pages/about.webp?v=86b9f6016399",
+          "version": "86b9f6016399",
           "width": 1200
         }
       ],
@@ -61,8 +78,8 @@
           "height": 630,
           "output": "pages/blog.webp",
           "primary": true,
-          "url": "/og/pages/blog.webp?v=122823f2c9de",
-          "version": "122823f2c9de",
+          "url": "/og/pages/blog.webp?v=1f8c22d4a323",
+          "version": "1f8c22d4a323",
           "width": 1200
         }
       ],
@@ -78,8 +95,8 @@
           "height": 630,
           "output": "pages/developer-experience.webp",
           "primary": true,
-          "url": "/og/pages/developer-experience.webp?v=d2923e412baa",
-          "version": "d2923e412baa",
+          "url": "/og/pages/developer-experience.webp?v=b66364f669f5",
+          "version": "b66364f669f5",
           "width": 1200
         }
       ],
@@ -95,8 +112,8 @@
           "height": 630,
           "output": "pages/blog--series.webp",
           "primary": true,
-          "url": "/og/pages/blog--series.webp?v=c8bc04e59a80",
-          "version": "c8bc04e59a80",
+          "url": "/og/pages/blog--series.webp?v=e9d8c20e8a73",
+          "version": "e9d8c20e8a73",
           "width": 1200
         }
       ],
@@ -112,8 +129,8 @@
           "height": 630,
           "output": "pages/blog--tags.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags.webp?v=a344de1ffc40",
-          "version": "a344de1ffc40",
+          "url": "/og/pages/blog--tags.webp?v=99869ff5cca0",
+          "version": "99869ff5cca0",
           "width": 1200
         }
       ],
@@ -129,8 +146,8 @@
           "height": 630,
           "output": "pages/portfolio.webp",
           "primary": true,
-          "url": "/og/pages/portfolio.webp?v=a5ca5bdf882b",
-          "version": "a5ca5bdf882b",
+          "url": "/og/pages/portfolio.webp?v=0887a0f1d880",
+          "version": "0887a0f1d880",
           "width": 1200
         }
       ],
@@ -146,8 +163,8 @@
           "height": 630,
           "output": "pages/work.webp",
           "primary": true,
-          "url": "/og/pages/work.webp?v=fc551a0a5122",
-          "version": "fc551a0a5122",
+          "url": "/og/pages/work.webp?v=b5e07b86791f",
+          "version": "b5e07b86791f",
           "width": 1200
         }
       ],
@@ -163,8 +180,8 @@
           "height": 630,
           "output": "pages/projects.webp",
           "primary": true,
-          "url": "/og/pages/projects.webp?v=06288d2113ff",
-          "version": "06288d2113ff",
+          "url": "/og/pages/projects.webp?v=a581629b11be",
+          "version": "a581629b11be",
           "width": 1200
         }
       ],
@@ -180,8 +197,8 @@
           "height": 630,
           "output": "pages/resume.webp",
           "primary": true,
-          "url": "/og/pages/resume.webp?v=2b0a4ce0a8a3",
-          "version": "2b0a4ce0a8a3",
+          "url": "/og/pages/resume.webp?v=6ea743de8fbe",
+          "version": "6ea743de8fbe",
           "width": 1200
         }
       ],
@@ -197,8 +214,8 @@
           "height": 630,
           "output": "pages/speaking.webp",
           "primary": true,
-          "url": "/og/pages/speaking.webp?v=717f2fefd686",
-          "version": "717f2fefd686",
+          "url": "/og/pages/speaking.webp?v=94daf5145cf2",
+          "version": "94daf5145cf2",
           "width": 1200
         }
       ],
@@ -214,8 +231,8 @@
           "height": 630,
           "output": "pages/technologies.webp",
           "primary": true,
-          "url": "/og/pages/technologies.webp?v=bb9dda01c709",
-          "version": "bb9dda01c709",
+          "url": "/og/pages/technologies.webp?v=4e01f1a2ee07",
+          "version": "4e01f1a2ee07",
           "width": 1200
         }
       ],
@@ -231,8 +248,8 @@
           "height": 630,
           "output": "pages/accessibility.webp",
           "primary": true,
-          "url": "/og/pages/accessibility.webp?v=2ca3e3fc614b",
-          "version": "2ca3e3fc614b",
+          "url": "/og/pages/accessibility.webp?v=85368310d5c7",
+          "version": "85368310d5c7",
           "width": 1200
         }
       ],
@@ -248,8 +265,8 @@
           "height": 630,
           "output": "pages/privacy.webp",
           "primary": true,
-          "url": "/og/pages/privacy.webp?v=f3cc66647f69",
-          "version": "f3cc66647f69",
+          "url": "/og/pages/privacy.webp?v=604b449db8dc",
+          "version": "604b449db8dc",
           "width": 1200
         }
       ],
@@ -265,8 +282,8 @@
           "height": 630,
           "output": "pages/terms.webp",
           "primary": true,
-          "url": "/og/pages/terms.webp?v=0f18fdbe02f6",
-          "version": "0f18fdbe02f6",
+          "url": "/og/pages/terms.webp?v=2e9621e2f7ae",
+          "version": "2e9621e2f7ae",
           "width": 1200
         }
       ],
@@ -282,8 +299,8 @@
           "height": 630,
           "output": "blog/atomic-module-component-structure-for-react.webp",
           "primary": true,
-          "url": "/og/blog/atomic-module-component-structure-for-react.webp?v=b086c7cda94b",
-          "version": "b086c7cda94b",
+          "url": "/og/blog/atomic-module-component-structure-for-react.webp?v=5079221621ee",
+          "version": "5079221621ee",
           "width": 1200
         }
       ],
@@ -299,8 +316,8 @@
           "height": 630,
           "output": "blog/authentication-and-authorization-in-next-js-applications-with-supabase.webp",
           "primary": true,
-          "url": "/og/blog/authentication-and-authorization-in-next-js-applications-with-supabase.webp?v=e4ca756eb5bf",
-          "version": "e4ca756eb5bf",
+          "url": "/og/blog/authentication-and-authorization-in-next-js-applications-with-supabase.webp?v=a46dd5ab93d9",
+          "version": "a46dd5ab93d9",
           "width": 1200
         }
       ],
@@ -316,8 +333,8 @@
           "height": 630,
           "output": "blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp",
           "primary": true,
-          "url": "/og/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp?v=2eb8d951c67f",
-          "version": "2eb8d951c67f",
+          "url": "/og/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp?v=1b0d85a4228b",
+          "version": "1b0d85a4228b",
           "width": 1200
         }
       ],
@@ -333,8 +350,8 @@
           "height": 630,
           "output": "blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration.webp",
           "primary": true,
-          "url": "/og/blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration.webp?v=48b3f957a331",
-          "version": "48b3f957a331",
+          "url": "/og/blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration.webp?v=0db23078cb9d",
+          "version": "0db23078cb9d",
           "width": 1200
         }
       ],
@@ -350,8 +367,8 @@
           "height": 630,
           "output": "blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp",
           "primary": true,
-          "url": "/og/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp?v=5e9771896359",
-          "version": "5e9771896359",
+          "url": "/og/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp?v=aa2171d9b048",
+          "version": "aa2171d9b048",
           "width": 1200
         }
       ],
@@ -367,8 +384,8 @@
           "height": 630,
           "output": "blog/continuous-integration-and-deployment-for-next-js-projects.webp",
           "primary": true,
-          "url": "/og/blog/continuous-integration-and-deployment-for-next-js-projects.webp?v=46854b06bb6b",
-          "version": "46854b06bb6b",
+          "url": "/og/blog/continuous-integration-and-deployment-for-next-js-projects.webp?v=a030d98435c4",
+          "version": "a030d98435c4",
           "width": 1200
         }
       ],
@@ -384,8 +401,8 @@
           "height": 630,
           "output": "blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp",
           "primary": true,
-          "url": "/og/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp?v=b205cb063d78",
-          "version": "b205cb063d78",
+          "url": "/og/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp?v=78a0f0e3d538",
+          "version": "78a0f0e3d538",
           "width": 1200
         }
       ],
@@ -401,8 +418,8 @@
           "height": 630,
           "output": "blog/migrate-eslint-8-or-less-to-eslint-9.webp",
           "primary": true,
-          "url": "/og/blog/migrate-eslint-8-or-less-to-eslint-9.webp?v=9dc1f37d0043",
-          "version": "9dc1f37d0043",
+          "url": "/og/blog/migrate-eslint-8-or-less-to-eslint-9.webp?v=88279c7b24e5",
+          "version": "88279c7b24e5",
           "width": 1200
         }
       ],
@@ -418,8 +435,8 @@
           "height": 630,
           "output": "blog/skin-in-the-game-for-software-teams.webp",
           "primary": true,
-          "url": "/og/blog/skin-in-the-game-for-software-teams.webp?v=240782791b0d",
-          "version": "240782791b0d",
+          "url": "/og/blog/skin-in-the-game-for-software-teams.webp?v=fd12b2ab2388",
+          "version": "fd12b2ab2388",
           "width": 1200
         }
       ],
@@ -435,8 +452,8 @@
           "height": 630,
           "output": "blog/storybook-in-action-with-next-js-tailwind-and-typescript.webp",
           "primary": true,
-          "url": "/og/blog/storybook-in-action-with-next-js-tailwind-and-typescript.webp?v=6059f30cc6c5",
-          "version": "6059f30cc6c5",
+          "url": "/og/blog/storybook-in-action-with-next-js-tailwind-and-typescript.webp?v=2908f93230e9",
+          "version": "2908f93230e9",
           "width": 1200
         }
       ],
@@ -452,8 +469,8 @@
           "height": 630,
           "output": "blog/testing-react-components-with-vitest-and-react-testing-library.webp",
           "primary": true,
-          "url": "/og/blog/testing-react-components-with-vitest-and-react-testing-library.webp?v=1f3a203a5e5c",
-          "version": "1f3a203a5e5c",
+          "url": "/og/blog/testing-react-components-with-vitest-and-react-testing-library.webp?v=541d63787d95",
+          "version": "541d63787d95",
           "width": 1200
         }
       ],
@@ -469,8 +486,8 @@
           "height": 630,
           "output": "blog/a-release-process-that-reduces-drama.webp",
           "primary": true,
-          "url": "/og/blog/a-release-process-that-reduces-drama.webp?v=0a93d33a741d",
-          "version": "0a93d33a741d",
+          "url": "/og/blog/a-release-process-that-reduces-drama.webp?v=39dbb6ebcd4f",
+          "version": "39dbb6ebcd4f",
           "width": 1200
         }
       ],
@@ -486,8 +503,8 @@
           "height": 630,
           "output": "blog/avoid-inverted-conditionals-when-clarity-matters.webp",
           "primary": true,
-          "url": "/og/blog/avoid-inverted-conditionals-when-clarity-matters.webp?v=f70dabeca637",
-          "version": "f70dabeca637",
+          "url": "/og/blog/avoid-inverted-conditionals-when-clarity-matters.webp?v=927b42667009",
+          "version": "927b42667009",
           "width": 1200
         }
       ],
@@ -503,8 +520,8 @@
           "height": 630,
           "output": "blog/avoid-magic-strings-in-typescript-and-javascript.webp",
           "primary": true,
-          "url": "/og/blog/avoid-magic-strings-in-typescript-and-javascript.webp?v=d4c9b394d98d",
-          "version": "d4c9b394d98d",
+          "url": "/og/blog/avoid-magic-strings-in-typescript-and-javascript.webp?v=5599080c0073",
+          "version": "5599080c0073",
           "width": 1200
         }
       ],
@@ -520,8 +537,8 @@
           "height": 630,
           "output": "blog/code-standards-that-scale-with-a-team.webp",
           "primary": true,
-          "url": "/og/blog/code-standards-that-scale-with-a-team.webp?v=069daf85b198",
-          "version": "069daf85b198",
+          "url": "/og/blog/code-standards-that-scale-with-a-team.webp?v=b1cd459e1203",
+          "version": "b1cd459e1203",
           "width": 1200
         }
       ],
@@ -537,8 +554,8 @@
           "height": 630,
           "output": "blog/common-code-pitfalls-that-signal-maintenance-risk.webp",
           "primary": true,
-          "url": "/og/blog/common-code-pitfalls-that-signal-maintenance-risk.webp?v=8e57383e8d76",
-          "version": "8e57383e8d76",
+          "url": "/og/blog/common-code-pitfalls-that-signal-maintenance-risk.webp?v=4a324ebceb94",
+          "version": "4a324ebceb94",
           "width": 1200
         }
       ],
@@ -554,8 +571,8 @@
           "height": 630,
           "output": "blog/git-best-practices-for-calm-collaboration.webp",
           "primary": true,
-          "url": "/og/blog/git-best-practices-for-calm-collaboration.webp?v=8e59ae59eb61",
-          "version": "8e59ae59eb61",
+          "url": "/og/blog/git-best-practices-for-calm-collaboration.webp?v=7adcaa2f5697",
+          "version": "7adcaa2f5697",
           "width": 1200
         }
       ],
@@ -571,8 +588,8 @@
           "height": 630,
           "output": "blog/responsive-design-standards-that-scale-across-components.webp",
           "primary": true,
-          "url": "/og/blog/responsive-design-standards-that-scale-across-components.webp?v=15251660c1ba",
-          "version": "15251660c1ba",
+          "url": "/og/blog/responsive-design-standards-that-scale-across-components.webp?v=df2277f87dac",
+          "version": "df2277f87dac",
           "width": 1200
         }
       ],
@@ -588,8 +605,8 @@
           "height": 630,
           "output": "blog/write-better-review-feedback-with-conventional-comments.webp",
           "primary": true,
-          "url": "/og/blog/write-better-review-feedback-with-conventional-comments.webp?v=ded40a3130d2",
-          "version": "ded40a3130d2",
+          "url": "/og/blog/write-better-review-feedback-with-conventional-comments.webp?v=caad65ceffbe",
+          "version": "caad65ceffbe",
           "width": 1200
         }
       ],
@@ -605,8 +622,8 @@
           "height": 630,
           "output": "blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be.webp",
           "primary": true,
-          "url": "/og/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be.webp?v=5c7514c28335",
-          "version": "5c7514c28335",
+          "url": "/og/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be.webp?v=4862b228fb2a",
+          "version": "4862b228fb2a",
           "width": 1200
         }
       ],
@@ -622,8 +639,8 @@
           "height": 630,
           "output": "blog/astro-and-alpine-patterns-for-fast-content-heavy-sites.webp",
           "primary": true,
-          "url": "/og/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites.webp?v=06c25daf6e0e",
-          "version": "06c25daf6e0e",
+          "url": "/og/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites.webp?v=6693c51ea967",
+          "version": "6693c51ea967",
           "width": 1200
         }
       ],
@@ -639,8 +656,8 @@
           "height": 630,
           "output": "blog/astro-doctor-announcement.webp",
           "primary": true,
-          "url": "/og/blog/astro-doctor-announcement.webp?v=21f7a444d87b",
-          "version": "21f7a444d87b",
+          "url": "/og/blog/astro-doctor-announcement.webp?v=9c6d251d040c",
+          "version": "9c6d251d040c",
           "width": 1200
         }
       ],
@@ -656,8 +673,8 @@
           "height": 630,
           "output": "blog/between-contractions-sync-critical-path.webp",
           "primary": true,
-          "url": "/og/blog/between-contractions-sync-critical-path.webp?v=7c5d8ec8a51f",
-          "version": "7c5d8ec8a51f",
+          "url": "/og/blog/between-contractions-sync-critical-path.webp?v=ffe628b954cc",
+          "version": "ffe628b954cc",
           "width": 1200
         }
       ],
@@ -673,8 +690,8 @@
           "height": 630,
           "output": "blog/building-aaronmgz-as-a-family-platform.webp",
           "primary": true,
-          "url": "/og/blog/building-aaronmgz-as-a-family-platform.webp?v=a13a397579c2",
-          "version": "a13a397579c2",
+          "url": "/og/blog/building-aaronmgz-as-a-family-platform.webp?v=23e157139122",
+          "version": "23e157139122",
           "width": 1200
         }
       ],
@@ -690,8 +707,8 @@
           "height": 630,
           "output": "blog/building-roadscore-offline-road-trip-game.webp",
           "primary": true,
-          "url": "/og/blog/building-roadscore-offline-road-trip-game.webp?v=168d843aeed8",
-          "version": "168d843aeed8",
+          "url": "/og/blog/building-roadscore-offline-road-trip-game.webp?v=93c6484677b1",
+          "version": "93c6484677b1",
           "width": 1200
         }
       ],
@@ -707,8 +724,8 @@
           "height": 630,
           "output": "blog/building-santi020k-developer-tool-ecosystem.webp",
           "primary": true,
-          "url": "/og/blog/building-santi020k-developer-tool-ecosystem.webp?v=11b7dda2d8dd",
-          "version": "11b7dda2d8dd",
+          "url": "/og/blog/building-santi020k-developer-tool-ecosystem.webp?v=f8c436d8a2f0",
+          "version": "f8c436d8a2f0",
           "width": 1200
         }
       ],
@@ -724,8 +741,8 @@
           "height": 630,
           "output": "blog/coolstead-safety-first-mac-cooling.webp",
           "primary": true,
-          "url": "/og/blog/coolstead-safety-first-mac-cooling.webp?v=dc257153bb9b",
-          "version": "dc257153bb9b",
+          "url": "/og/blog/coolstead-safety-first-mac-cooling.webp?v=cb1ffb79e126",
+          "version": "cb1ffb79e126",
           "width": 1200
         }
       ],
@@ -741,8 +758,8 @@
           "height": 630,
           "output": "blog/dep-beacon-vscode-extension.webp",
           "primary": true,
-          "url": "/og/blog/dep-beacon-vscode-extension.webp?v=0257f8e513eb",
-          "version": "0257f8e513eb",
+          "url": "/og/blog/dep-beacon-vscode-extension.webp?v=97a3b9e25759",
+          "version": "97a3b9e25759",
           "width": 1200
         }
       ],
@@ -758,8 +775,8 @@
           "height": 630,
           "output": "blog/designing-eslint-packages-teams-actually-adopt.webp",
           "primary": true,
-          "url": "/og/blog/designing-eslint-packages-teams-actually-adopt.webp?v=754f8ba61ea2",
-          "version": "754f8ba61ea2",
+          "url": "/og/blog/designing-eslint-packages-teams-actually-adopt.webp?v=63685fd54685",
+          "version": "63685fd54685",
           "width": 1200
         }
       ],
@@ -775,8 +792,8 @@
           "height": 630,
           "output": "blog/deterministic-open-graph-images-without-design-lock-in.webp",
           "primary": true,
-          "url": "/og/blog/deterministic-open-graph-images-without-design-lock-in.webp?v=83c08f4a33f3",
-          "version": "83c08f4a33f3",
+          "url": "/og/blog/deterministic-open-graph-images-without-design-lock-in.webp?v=025f03e349e1",
+          "version": "025f03e349e1",
           "width": 1200
         }
       ],
@@ -792,8 +809,8 @@
           "height": 630,
           "output": "blog/eslint-config-basic-version-2.webp",
           "primary": true,
-          "url": "/og/blog/eslint-config-basic-version-2.webp?v=adea6112c22f",
-          "version": "adea6112c22f",
+          "url": "/og/blog/eslint-config-basic-version-2.webp?v=64d622bc27ed",
+          "version": "64d622bc27ed",
           "width": 1200
         }
       ],
@@ -809,8 +826,8 @@
           "height": 630,
           "output": "blog/expanding-santi020k-theme-to-the-terminal.webp",
           "primary": true,
-          "url": "/og/blog/expanding-santi020k-theme-to-the-terminal.webp?v=b76fc67f6979",
-          "version": "b76fc67f6979",
+          "url": "/og/blog/expanding-santi020k-theme-to-the-terminal.webp?v=4a8c10f26279",
+          "version": "4a8c10f26279",
           "width": 1200
         }
       ],
@@ -826,8 +843,8 @@
           "height": 630,
           "output": "blog/flash-xteink-x4-international-firmware.webp",
           "primary": true,
-          "url": "/og/blog/flash-xteink-x4-international-firmware.webp?v=5b3c5daebfcb",
-          "version": "5b3c5daebfcb",
+          "url": "/og/blog/flash-xteink-x4-international-firmware.webp?v=caa99e7e4d6b",
+          "version": "caa99e7e4d6b",
           "width": 1200
         }
       ],
@@ -843,8 +860,8 @@
           "height": 630,
           "output": "blog/lumen-ui-one-system-three-frameworks.webp",
           "primary": true,
-          "url": "/og/blog/lumen-ui-one-system-three-frameworks.webp?v=89b060c9eb72",
-          "version": "89b060c9eb72",
+          "url": "/og/blog/lumen-ui-one-system-three-frameworks.webp?v=3bc40305aa07",
+          "version": "3bc40305aa07",
           "width": 1200
         }
       ],
@@ -860,8 +877,8 @@
           "height": 630,
           "output": "blog/muted-commands-make-ai-automation-faster-and-cheaper.webp",
           "primary": true,
-          "url": "/og/blog/muted-commands-make-ai-automation-faster-and-cheaper.webp?v=88a9ade2b53b",
-          "version": "88a9ade2b53b",
+          "url": "/og/blog/muted-commands-make-ai-automation-faster-and-cheaper.webp?v=dd5f99683581",
+          "version": "dd5f99683581",
           "width": 1200
         }
       ],
@@ -877,8 +894,8 @@
           "height": 630,
           "output": "blog/one-quality-command-across-polyglot-repositories.webp",
           "primary": true,
-          "url": "/og/blog/one-quality-command-across-polyglot-repositories.webp?v=680625ac520a",
-          "version": "680625ac520a",
+          "url": "/og/blog/one-quality-command-across-polyglot-repositories.webp?v=bab22f9450b3",
+          "version": "bab22f9450b3",
           "width": 1200
         }
       ],
@@ -894,8 +911,8 @@
           "height": 630,
           "output": "blog/open-sourcing-santi020k-auth-cloudflare.webp",
           "primary": true,
-          "url": "/og/blog/open-sourcing-santi020k-auth-cloudflare.webp?v=21d957c54098",
-          "version": "21d957c54098",
+          "url": "/og/blog/open-sourcing-santi020k-auth-cloudflare.webp?v=eed4be33f9f7",
+          "version": "eed4be33f9f7",
           "width": 1200
         }
       ],
@@ -911,8 +928,8 @@
           "height": 630,
           "output": "blog/playwright-accessibility-checks-that-teams-keep-running.webp",
           "primary": true,
-          "url": "/og/blog/playwright-accessibility-checks-that-teams-keep-running.webp?v=0474854a7408",
-          "version": "0474854a7408",
+          "url": "/og/blog/playwright-accessibility-checks-that-teams-keep-running.webp?v=403036a9f1fa",
+          "version": "403036a9f1fa",
           "width": 1200
         }
       ],
@@ -928,8 +945,8 @@
           "height": 630,
           "output": "blog/postlens-private-on-device-content-studio.webp",
           "primary": true,
-          "url": "/og/blog/postlens-private-on-device-content-studio.webp?v=dcacda6d400c",
-          "version": "dcacda6d400c",
+          "url": "/og/blog/postlens-private-on-device-content-studio.webp?v=ad72e879ac6b",
+          "version": "ad72e879ac6b",
           "width": 1200
         }
       ],
@@ -945,8 +962,8 @@
           "height": 630,
           "output": "blog/run-repo-on-mac-with-silo-dxmt.webp",
           "primary": true,
-          "url": "/og/blog/run-repo-on-mac-with-silo-dxmt.webp?v=355fbeac54b8",
-          "version": "355fbeac54b8",
+          "url": "/og/blog/run-repo-on-mac-with-silo-dxmt.webp?v=4dc0b64d442f",
+          "version": "4dc0b64d442f",
           "width": 1200
         }
       ],
@@ -962,8 +979,8 @@
           "height": 630,
           "output": "blog/shipping-macos-tools-with-a-homebrew-tap.webp",
           "primary": true,
-          "url": "/og/blog/shipping-macos-tools-with-a-homebrew-tap.webp?v=7384aa65af4f",
-          "version": "7384aa65af4f",
+          "url": "/og/blog/shipping-macos-tools-with-a-homebrew-tap.webp?v=91b3e5496c64",
+          "version": "91b3e5496c64",
           "width": 1200
         }
       ],
@@ -979,8 +996,8 @@
           "height": 630,
           "output": "blog/what-changed-when-i-started-writing-architecture-notes-every-month.webp",
           "primary": true,
-          "url": "/og/blog/what-changed-when-i-started-writing-architecture-notes-every-month.webp?v=a8e0cd851701",
-          "version": "a8e0cd851701",
+          "url": "/og/blog/what-changed-when-i-started-writing-architecture-notes-every-month.webp?v=4380a9261da7",
+          "version": "4380a9261da7",
           "width": 1200
         }
       ],
@@ -996,8 +1013,8 @@
           "height": 630,
           "output": "blog/why-developer-experience-work-should-be-measured-like-product-work.webp",
           "primary": true,
-          "url": "/og/blog/why-developer-experience-work-should-be-measured-like-product-work.webp?v=28e3c53541fa",
-          "version": "28e3c53541fa",
+          "url": "/og/blog/why-developer-experience-work-should-be-measured-like-product-work.webp?v=9bd63a1ea21b",
+          "version": "9bd63a1ea21b",
           "width": 1200
         }
       ],
@@ -1013,8 +1030,8 @@
           "height": 630,
           "output": "blog/why-i-built-between-contractions.webp",
           "primary": true,
-          "url": "/og/blog/why-i-built-between-contractions.webp?v=a6cb763c83d0",
-          "version": "a6cb763c83d0",
+          "url": "/og/blog/why-i-built-between-contractions.webp?v=bc65513d210b",
+          "version": "bc65513d210b",
           "width": 1200
         }
       ],
@@ -1030,8 +1047,8 @@
           "height": 630,
           "output": "blog/why-i-moved-my-eslint-library-to-eslint-config-basic.webp",
           "primary": true,
-          "url": "/og/blog/why-i-moved-my-eslint-library-to-eslint-config-basic.webp?v=ad5033c533bf",
-          "version": "ad5033c533bf",
+          "url": "/og/blog/why-i-moved-my-eslint-library-to-eslint-config-basic.webp?v=043a11850262",
+          "version": "043a11850262",
           "width": 1200
         }
       ],
@@ -1047,8 +1064,8 @@
           "height": 630,
           "output": "blog/why-i-moved-to-zed.webp",
           "primary": true,
-          "url": "/og/blog/why-i-moved-to-zed.webp?v=9a46618cf772",
-          "version": "9a46618cf772",
+          "url": "/og/blog/why-i-moved-to-zed.webp?v=eb9ba464b4a4",
+          "version": "eb9ba464b4a4",
           "width": 1200
         }
       ],
@@ -1064,8 +1081,8 @@
           "height": 630,
           "output": "pages/blog--2.webp",
           "primary": true,
-          "url": "/og/pages/blog--2.webp?v=dcab16bf65cd",
-          "version": "dcab16bf65cd",
+          "url": "/og/pages/blog--2.webp?v=c08109cb792a",
+          "version": "c08109cb792a",
           "width": 1200
         }
       ],
@@ -1081,8 +1098,8 @@
           "height": 630,
           "output": "pages/blog--3.webp",
           "primary": true,
-          "url": "/og/pages/blog--3.webp?v=88c54ed63ef0",
-          "version": "88c54ed63ef0",
+          "url": "/og/pages/blog--3.webp?v=bef7ef9e901b",
+          "version": "bef7ef9e901b",
           "width": 1200
         }
       ],
@@ -1098,8 +1115,8 @@
           "height": 630,
           "output": "pages/blog--4.webp",
           "primary": true,
-          "url": "/og/pages/blog--4.webp?v=0b92b0e46953",
-          "version": "0b92b0e46953",
+          "url": "/og/pages/blog--4.webp?v=719a5f1c4a0b",
+          "version": "719a5f1c4a0b",
           "width": 1200
         }
       ],
@@ -1115,8 +1132,8 @@
           "height": 630,
           "output": "pages/blog--tags--development.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--development.webp?v=d8fc257cad0b",
-          "version": "d8fc257cad0b",
+          "url": "/og/pages/blog--tags--development.webp?v=9040e52c22af",
+          "version": "9040e52c22af",
           "width": 1200
         }
       ],
@@ -1132,8 +1149,8 @@
           "height": 630,
           "output": "pages/blog--tags--react.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--react.webp?v=ba02607fcf63",
-          "version": "ba02607fcf63",
+          "url": "/og/pages/blog--tags--react.webp?v=ea3085d2bd5a",
+          "version": "ea3085d2bd5a",
           "width": 1200
         }
       ],
@@ -1149,8 +1166,8 @@
           "height": 630,
           "output": "pages/blog--tags--nextjs.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--nextjs.webp?v=9c8299d16ea6",
-          "version": "9c8299d16ea6",
+          "url": "/og/pages/blog--tags--nextjs.webp?v=ec2f1e3186cf",
+          "version": "ec2f1e3186cf",
           "width": 1200
         }
       ],
@@ -1166,8 +1183,8 @@
           "height": 630,
           "output": "pages/blog--tags--typescript.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--typescript.webp?v=28401f2c00f2",
-          "version": "28401f2c00f2",
+          "url": "/og/pages/blog--tags--typescript.webp?v=3efda0123175",
+          "version": "3efda0123175",
           "width": 1200
         }
       ],
@@ -1183,8 +1200,8 @@
           "height": 630,
           "output": "pages/blog--tags--typescript--2.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--typescript--2.webp?v=831582497444",
-          "version": "831582497444",
+          "url": "/og/pages/blog--tags--typescript--2.webp?v=46ea1c338893",
+          "version": "46ea1c338893",
           "width": 1200
         }
       ],
@@ -1200,8 +1217,8 @@
           "height": 630,
           "output": "pages/blog--tags--supabase.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--supabase.webp?v=79c7f1c11e6e",
-          "version": "79c7f1c11e6e",
+          "url": "/og/pages/blog--tags--supabase.webp?v=a8d765537d54",
+          "version": "a8d765537d54",
           "width": 1200
         }
       ],
@@ -1217,8 +1234,8 @@
           "height": 630,
           "output": "pages/blog--tags--authentication.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--authentication.webp?v=65fed8a5a649",
-          "version": "65fed8a5a649",
+          "url": "/og/pages/blog--tags--authentication.webp?v=c8db0afe29ff",
+          "version": "c8db0afe29ff",
           "width": 1200
         }
       ],
@@ -1234,8 +1251,8 @@
           "height": 630,
           "output": "pages/blog--tags--authorization.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--authorization.webp?v=48fd6045d995",
-          "version": "48fd6045d995",
+          "url": "/og/pages/blog--tags--authorization.webp?v=1ade1cb2c857",
+          "version": "1ade1cb2c857",
           "width": 1200
         }
       ],
@@ -1251,8 +1268,8 @@
           "height": 630,
           "output": "pages/blog--tags--react-native.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--react-native.webp?v=dc418b9d0f4e",
-          "version": "dc418b9d0f4e",
+          "url": "/og/pages/blog--tags--react-native.webp?v=2512d63a4afa",
+          "version": "2512d63a4afa",
           "width": 1200
         }
       ],
@@ -1268,8 +1285,8 @@
           "height": 630,
           "output": "pages/blog--tags--eslint.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--eslint.webp?v=4da08e3ccf1b",
-          "version": "4da08e3ccf1b",
+          "url": "/og/pages/blog--tags--eslint.webp?v=d0185988770e",
+          "version": "d0185988770e",
           "width": 1200
         }
       ],
@@ -1285,8 +1302,8 @@
           "height": 630,
           "output": "pages/blog--tags--eslint-config.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--eslint-config.webp?v=951630f34a67",
-          "version": "951630f34a67",
+          "url": "/og/pages/blog--tags--eslint-config.webp?v=496e6b77b8a1",
+          "version": "496e6b77b8a1",
           "width": 1200
         }
       ],
@@ -1302,8 +1319,8 @@
           "height": 630,
           "output": "pages/blog--tags--vitest.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--vitest.webp?v=342dde75ed45",
-          "version": "342dde75ed45",
+          "url": "/og/pages/blog--tags--vitest.webp?v=fc774774637a",
+          "version": "fc774774637a",
           "width": 1200
         }
       ],
@@ -1319,8 +1336,8 @@
           "height": 630,
           "output": "pages/blog--tags--standards.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--standards.webp?v=871f5f74a255",
-          "version": "871f5f74a255",
+          "url": "/og/pages/blog--tags--standards.webp?v=4068c69d2f9d",
+          "version": "4068c69d2f9d",
           "width": 1200
         }
       ],
@@ -1336,8 +1353,8 @@
           "height": 630,
           "output": "pages/blog--tags--mongo.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--mongo.webp?v=03fff3e0c83b",
-          "version": "03fff3e0c83b",
+          "url": "/og/pages/blog--tags--mongo.webp?v=ab7db48ad2fd",
+          "version": "ab7db48ad2fd",
           "width": 1200
         }
       ],
@@ -1353,8 +1370,8 @@
           "height": 630,
           "output": "pages/blog--tags--configuration.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--configuration.webp?v=5aa75615f917",
-          "version": "5aa75615f917",
+          "url": "/og/pages/blog--tags--configuration.webp?v=541d920b0228",
+          "version": "541d920b0228",
           "width": 1200
         }
       ],
@@ -1370,8 +1387,8 @@
           "height": 630,
           "output": "pages/blog--tags--homebrew.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--homebrew.webp?v=db0f03a9446c",
-          "version": "db0f03a9446c",
+          "url": "/og/pages/blog--tags--homebrew.webp?v=c058b39c2e60",
+          "version": "c058b39c2e60",
           "width": 1200
         }
       ],
@@ -1387,8 +1404,8 @@
           "height": 630,
           "output": "pages/blog--tags--mac.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--mac.webp?v=0d3f74606694",
-          "version": "0d3f74606694",
+          "url": "/og/pages/blog--tags--mac.webp?v=554df127d053",
+          "version": "554df127d053",
           "width": 1200
         }
       ],
@@ -1404,8 +1421,8 @@
           "height": 630,
           "output": "pages/blog--tags--ci-cd.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--ci-cd.webp?v=90b43afb1c7b",
-          "version": "90b43afb1c7b",
+          "url": "/og/pages/blog--tags--ci-cd.webp?v=242f93fe3104",
+          "version": "242f93fe3104",
           "width": 1200
         }
       ],
@@ -1421,8 +1438,8 @@
           "height": 630,
           "output": "pages/blog--tags--github-actions.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--github-actions.webp?v=71db256791f5",
-          "version": "71db256791f5",
+          "url": "/og/pages/blog--tags--github-actions.webp?v=24c40652ae2f",
+          "version": "24c40652ae2f",
           "width": 1200
         }
       ],
@@ -1438,8 +1455,8 @@
           "height": 630,
           "output": "pages/blog--tags--deployment.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--deployment.webp?v=2c15d95c188e",
-          "version": "2c15d95c188e",
+          "url": "/og/pages/blog--tags--deployment.webp?v=cca989c783dc",
+          "version": "cca989c783dc",
           "width": 1200
         }
       ],
@@ -1455,8 +1472,8 @@
           "height": 630,
           "output": "pages/blog--tags--pre-commit.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--pre-commit.webp?v=0921b5fc73a4",
-          "version": "0921b5fc73a4",
+          "url": "/og/pages/blog--tags--pre-commit.webp?v=1db14cc17d4a",
+          "version": "1db14cc17d4a",
           "width": 1200
         }
       ],
@@ -1472,8 +1489,8 @@
           "height": 630,
           "output": "pages/blog--tags--husky.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--husky.webp?v=68cb7e440416",
-          "version": "68cb7e440416",
+          "url": "/og/pages/blog--tags--husky.webp?v=dde8339e843e",
+          "version": "dde8339e843e",
           "width": 1200
         }
       ],
@@ -1489,8 +1506,8 @@
           "height": 630,
           "output": "pages/blog--tags--migration.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--migration.webp?v=ff1d1a229eda",
-          "version": "ff1d1a229eda",
+          "url": "/og/pages/blog--tags--migration.webp?v=01eddf5394da",
+          "version": "01eddf5394da",
           "width": 1200
         }
       ],
@@ -1506,8 +1523,8 @@
           "height": 630,
           "output": "pages/blog--tags--engineering-culture.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--engineering-culture.webp?v=a535822217df",
-          "version": "a535822217df",
+          "url": "/og/pages/blog--tags--engineering-culture.webp?v=a23456b40201",
+          "version": "a23456b40201",
           "width": 1200
         }
       ],
@@ -1523,8 +1540,8 @@
           "height": 630,
           "output": "pages/blog--tags--leadership.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--leadership.webp?v=a46f641532cd",
-          "version": "a46f641532cd",
+          "url": "/og/pages/blog--tags--leadership.webp?v=1c156833150e",
+          "version": "1c156833150e",
           "width": 1200
         }
       ],
@@ -1540,8 +1557,8 @@
           "height": 630,
           "output": "pages/blog--tags--product-thinking.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--product-thinking.webp?v=692446f5efc2",
-          "version": "692446f5efc2",
+          "url": "/og/pages/blog--tags--product-thinking.webp?v=6fbdfd378aed",
+          "version": "6fbdfd378aed",
           "width": 1200
         }
       ],
@@ -1557,8 +1574,8 @@
           "height": 630,
           "output": "pages/blog--tags--software-teams.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--software-teams.webp?v=85f5ef491d3e",
-          "version": "85f5ef491d3e",
+          "url": "/og/pages/blog--tags--software-teams.webp?v=639e788cdf75",
+          "version": "639e788cdf75",
           "width": 1200
         }
       ],
@@ -1574,8 +1591,8 @@
           "height": 630,
           "output": "pages/blog--tags--tailwind.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--tailwind.webp?v=8814d7409f84",
-          "version": "8814d7409f84",
+          "url": "/og/pages/blog--tags--tailwind.webp?v=547a3c2dbb1e",
+          "version": "547a3c2dbb1e",
           "width": 1200
         }
       ],
@@ -1591,8 +1608,8 @@
           "height": 630,
           "output": "pages/blog--tags--storybook.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--storybook.webp?v=0432b8b4b326",
-          "version": "0432b8b4b326",
+          "url": "/og/pages/blog--tags--storybook.webp?v=041cd1fcd3db",
+          "version": "041cd1fcd3db",
           "width": 1200
         }
       ],
@@ -1608,8 +1625,8 @@
           "height": 630,
           "output": "pages/blog--tags--testing-library.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--testing-library.webp?v=22269dffaaea",
-          "version": "22269dffaaea",
+          "url": "/og/pages/blog--tags--testing-library.webp?v=bdaa75d84237",
+          "version": "bdaa75d84237",
           "width": 1200
         }
       ],
@@ -1625,8 +1642,8 @@
           "height": 630,
           "output": "pages/blog--tags--release-management.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--release-management.webp?v=b7f81a21b0b2",
-          "version": "b7f81a21b0b2",
+          "url": "/og/pages/blog--tags--release-management.webp?v=ff4a2ac18923",
+          "version": "ff4a2ac18923",
           "width": 1200
         }
       ],
@@ -1642,8 +1659,8 @@
           "height": 630,
           "output": "pages/blog--tags--git.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--git.webp?v=b606268cadd3",
-          "version": "b606268cadd3",
+          "url": "/og/pages/blog--tags--git.webp?v=e37adf4ea0d4",
+          "version": "e37adf4ea0d4",
           "width": 1200
         }
       ],
@@ -1659,8 +1676,8 @@
           "height": 630,
           "output": "pages/blog--tags--qa.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--qa.webp?v=4f5f84d74354",
-          "version": "4f5f84d74354",
+          "url": "/og/pages/blog--tags--qa.webp?v=975183cfdb61",
+          "version": "975183cfdb61",
           "width": 1200
         }
       ],
@@ -1676,8 +1693,8 @@
           "height": 630,
           "output": "pages/blog--tags--delivery.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--delivery.webp?v=528150b47ba9",
-          "version": "528150b47ba9",
+          "url": "/og/pages/blog--tags--delivery.webp?v=5b6b4b7b9d55",
+          "version": "5b6b4b7b9d55",
           "width": 1200
         }
       ],
@@ -1693,8 +1710,8 @@
           "height": 630,
           "output": "pages/blog--tags--readability.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--readability.webp?v=ecae0d40a208",
-          "version": "ecae0d40a208",
+          "url": "/og/pages/blog--tags--readability.webp?v=ae62ff708c48",
+          "version": "ae62ff708c48",
           "width": 1200
         }
       ],
@@ -1710,8 +1727,8 @@
           "height": 630,
           "output": "pages/blog--tags--javascript.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--javascript.webp?v=13dca1c2f663",
-          "version": "13dca1c2f663",
+          "url": "/og/pages/blog--tags--javascript.webp?v=375780540963",
+          "version": "375780540963",
           "width": 1200
         }
       ],
@@ -1727,8 +1744,8 @@
           "height": 630,
           "output": "pages/blog--tags--frontend.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--frontend.webp?v=a3e47aa15880",
-          "version": "a3e47aa15880",
+          "url": "/og/pages/blog--tags--frontend.webp?v=d91f222465ff",
+          "version": "d91f222465ff",
           "width": 1200
         }
       ],
@@ -1744,8 +1761,8 @@
           "height": 630,
           "output": "pages/blog--tags--clean-code.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--clean-code.webp?v=217dcff3f5bc",
-          "version": "217dcff3f5bc",
+          "url": "/og/pages/blog--tags--clean-code.webp?v=3dcec23f1525",
+          "version": "3dcec23f1525",
           "width": 1200
         }
       ],
@@ -1761,8 +1778,8 @@
           "height": 630,
           "output": "pages/blog--tags--code-quality.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--code-quality.webp?v=c1d33ba36f57",
-          "version": "c1d33ba36f57",
+          "url": "/og/pages/blog--tags--code-quality.webp?v=a9a6d6c3bdeb",
+          "version": "a9a6d6c3bdeb",
           "width": 1200
         }
       ],
@@ -1778,8 +1795,8 @@
           "height": 630,
           "output": "pages/blog--tags--refactoring.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--refactoring.webp?v=2546b219ee2b",
-          "version": "2546b219ee2b",
+          "url": "/og/pages/blog--tags--refactoring.webp?v=5cecd53c8ab0",
+          "version": "5cecd53c8ab0",
           "width": 1200
         }
       ],
@@ -1795,8 +1812,8 @@
           "height": 630,
           "output": "pages/blog--tags--engineering-standards.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--engineering-standards.webp?v=ad7e3adc30cd",
-          "version": "ad7e3adc30cd",
+          "url": "/og/pages/blog--tags--engineering-standards.webp?v=f3ccba555c95",
+          "version": "f3ccba555c95",
           "width": 1200
         }
       ],
@@ -1812,8 +1829,8 @@
           "height": 630,
           "output": "pages/blog--tags--team-process.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--team-process.webp?v=9cde06018d9e",
-          "version": "9cde06018d9e",
+          "url": "/og/pages/blog--tags--team-process.webp?v=727e753918a8",
+          "version": "727e753918a8",
           "width": 1200
         }
       ],
@@ -1829,8 +1846,8 @@
           "height": 630,
           "output": "pages/blog--tags--maintainability.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--maintainability.webp?v=9111cc515e02",
-          "version": "9111cc515e02",
+          "url": "/og/pages/blog--tags--maintainability.webp?v=1f95228df68b",
+          "version": "1f95228df68b",
           "width": 1200
         }
       ],
@@ -1846,8 +1863,8 @@
           "height": 630,
           "output": "pages/blog--tags--software-design.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--software-design.webp?v=6b73bf45920f",
-          "version": "6b73bf45920f",
+          "url": "/og/pages/blog--tags--software-design.webp?v=f325410c0c53",
+          "version": "f325410c0c53",
           "width": 1200
         }
       ],
@@ -1863,8 +1880,8 @@
           "height": 630,
           "output": "pages/blog--tags--pull-requests.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--pull-requests.webp?v=b8fb7e7068a8",
-          "version": "b8fb7e7068a8",
+          "url": "/og/pages/blog--tags--pull-requests.webp?v=b89066f1e76e",
+          "version": "b89066f1e76e",
           "width": 1200
         }
       ],
@@ -1880,8 +1897,8 @@
           "height": 630,
           "output": "pages/blog--tags--collaboration.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--collaboration.webp?v=496f4ac565ff",
-          "version": "496f4ac565ff",
+          "url": "/og/pages/blog--tags--collaboration.webp?v=1b70b07cf4c5",
+          "version": "1b70b07cf4c5",
           "width": 1200
         }
       ],
@@ -1897,8 +1914,8 @@
           "height": 630,
           "output": "pages/blog--tags--developer-experience.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--developer-experience.webp?v=d096a622f190",
-          "version": "d096a622f190",
+          "url": "/og/pages/blog--tags--developer-experience.webp?v=2a728ade6c41",
+          "version": "2a728ade6c41",
           "width": 1200
         }
       ],
@@ -1914,8 +1931,8 @@
           "height": 630,
           "output": "pages/blog--tags--developer-experience--2.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--developer-experience--2.webp?v=5e117358b2b9",
-          "version": "5e117358b2b9",
+          "url": "/og/pages/blog--tags--developer-experience--2.webp?v=65f602d6aa8e",
+          "version": "65f602d6aa8e",
           "width": 1200
         }
       ],
@@ -1931,8 +1948,8 @@
           "height": 630,
           "output": "pages/blog--tags--responsive-design.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--responsive-design.webp?v=f4c0759bbb71",
-          "version": "f4c0759bbb71",
+          "url": "/og/pages/blog--tags--responsive-design.webp?v=2afbd2a2053c",
+          "version": "2afbd2a2053c",
           "width": 1200
         }
       ],
@@ -1948,8 +1965,8 @@
           "height": 630,
           "output": "pages/blog--tags--design-systems.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--design-systems.webp?v=767fc8e0c008",
-          "version": "767fc8e0c008",
+          "url": "/og/pages/blog--tags--design-systems.webp?v=a28f56c54449",
+          "version": "a28f56c54449",
           "width": 1200
         }
       ],
@@ -1965,8 +1982,8 @@
           "height": 630,
           "output": "pages/blog--tags--ui-engineering.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--ui-engineering.webp?v=eab55130429d",
-          "version": "eab55130429d",
+          "url": "/og/pages/blog--tags--ui-engineering.webp?v=054c61f3bc90",
+          "version": "054c61f3bc90",
           "width": 1200
         }
       ],
@@ -1982,8 +1999,8 @@
           "height": 630,
           "output": "pages/blog--tags--code-review.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--code-review.webp?v=ad18846418b9",
-          "version": "ad18846418b9",
+          "url": "/og/pages/blog--tags--code-review.webp?v=850486899d20",
+          "version": "850486899d20",
           "width": 1200
         }
       ],
@@ -1999,8 +2016,8 @@
           "height": 630,
           "output": "pages/blog--tags--communication.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--communication.webp?v=e5212d451250",
-          "version": "e5212d451250",
+          "url": "/og/pages/blog--tags--communication.webp?v=1f7b70f275e3",
+          "version": "1f7b70f275e3",
           "width": 1200
         }
       ],
@@ -2016,8 +2033,8 @@
           "height": 630,
           "output": "pages/blog--tags--ai.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--ai.webp?v=480183e9c967",
-          "version": "480183e9c967",
+          "url": "/og/pages/blog--tags--ai.webp?v=3c99e3fd3f29",
+          "version": "3c99e3fd3f29",
           "width": 1200
         }
       ],
@@ -2033,8 +2050,8 @@
           "height": 630,
           "output": "pages/blog--tags--testing.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--testing.webp?v=1279d62a202e",
-          "version": "1279d62a202e",
+          "url": "/og/pages/blog--tags--testing.webp?v=b93640f5eaea",
+          "version": "b93640f5eaea",
           "width": 1200
         }
       ],
@@ -2050,8 +2067,8 @@
           "height": 630,
           "output": "pages/blog--tags--e2e.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--e2e.webp?v=ff615e67be06",
-          "version": "ff615e67be06",
+          "url": "/og/pages/blog--tags--e2e.webp?v=4847b6914a8d",
+          "version": "4847b6914a8d",
           "width": 1200
         }
       ],
@@ -2067,8 +2084,8 @@
           "height": 630,
           "output": "pages/blog--tags--astro.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--astro.webp?v=5ba0363cb57a",
-          "version": "5ba0363cb57a",
+          "url": "/og/pages/blog--tags--astro.webp?v=305cdc0f80ad",
+          "version": "305cdc0f80ad",
           "width": 1200
         }
       ],
@@ -2084,8 +2101,8 @@
           "height": 630,
           "output": "pages/blog--tags--alpine.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--alpine.webp?v=a21607ae1ca9",
-          "version": "a21607ae1ca9",
+          "url": "/og/pages/blog--tags--alpine.webp?v=1026801aadb8",
+          "version": "1026801aadb8",
           "width": 1200
         }
       ],
@@ -2101,8 +2118,8 @@
           "height": 630,
           "output": "pages/blog--tags--performance.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--performance.webp?v=81fda5ee3153",
-          "version": "81fda5ee3153",
+          "url": "/og/pages/blog--tags--performance.webp?v=a01b801cc2c7",
+          "version": "a01b801cc2c7",
           "width": 1200
         }
       ],
@@ -2118,8 +2135,8 @@
           "height": 630,
           "output": "pages/blog--tags--accessibility.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--accessibility.webp?v=020840ee3c9d",
-          "version": "020840ee3c9d",
+          "url": "/og/pages/blog--tags--accessibility.webp?v=9b77cb11fa90",
+          "version": "9b77cb11fa90",
           "width": 1200
         }
       ],
@@ -2135,8 +2152,8 @@
           "height": 630,
           "output": "pages/blog--tags--open-source.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--open-source.webp?v=4968964d6547",
-          "version": "4968964d6547",
+          "url": "/og/pages/blog--tags--open-source.webp?v=bd53f84d358f",
+          "version": "bd53f84d358f",
           "width": 1200
         }
       ],
@@ -2152,8 +2169,8 @@
           "height": 630,
           "output": "pages/blog--tags--distributed-systems.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--distributed-systems.webp?v=f913d722e278",
-          "version": "f913d722e278",
+          "url": "/og/pages/blog--tags--distributed-systems.webp?v=bc8e6b72d29b",
+          "version": "bc8e6b72d29b",
           "width": 1200
         }
       ],
@@ -2169,8 +2186,8 @@
           "height": 630,
           "output": "pages/blog--tags--cloudflare.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--cloudflare.webp?v=a3f1ac40104d",
-          "version": "a3f1ac40104d",
+          "url": "/og/pages/blog--tags--cloudflare.webp?v=2bb201a48199",
+          "version": "2bb201a48199",
           "width": 1200
         }
       ],
@@ -2186,8 +2203,8 @@
           "height": 630,
           "output": "pages/blog--tags--websockets.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--websockets.webp?v=72f3b6534389",
-          "version": "72f3b6534389",
+          "url": "/og/pages/blog--tags--websockets.webp?v=897d716b3c2f",
+          "version": "897d716b3c2f",
           "width": 1200
         }
       ],
@@ -2203,8 +2220,8 @@
           "height": 630,
           "output": "pages/blog--tags--swiftui.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--swiftui.webp?v=9bb03b213440",
-          "version": "9bb03b213440",
+          "url": "/og/pages/blog--tags--swiftui.webp?v=1df08ca6e8db",
+          "version": "1df08ca6e8db",
           "width": 1200
         }
       ],
@@ -2220,8 +2237,8 @@
           "height": 630,
           "output": "pages/blog--tags--android.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--android.webp?v=32eedd0b5aff",
-          "version": "32eedd0b5aff",
+          "url": "/og/pages/blog--tags--android.webp?v=e2e984e2320b",
+          "version": "e2e984e2320b",
           "width": 1200
         }
       ],
@@ -2237,8 +2254,8 @@
           "height": 630,
           "output": "pages/blog--tags--local-first.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--local-first.webp?v=c0064a24827f",
-          "version": "c0064a24827f",
+          "url": "/og/pages/blog--tags--local-first.webp?v=88f0be3e8dcf",
+          "version": "88f0be3e8dcf",
           "width": 1200
         }
       ],
@@ -2254,8 +2271,8 @@
           "height": 630,
           "output": "pages/blog--tags--product-architecture.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--product-architecture.webp?v=d6000814cc65",
-          "version": "d6000814cc65",
+          "url": "/og/pages/blog--tags--product-architecture.webp?v=4a4ec5581159",
+          "version": "4a4ec5581159",
           "width": 1200
         }
       ],
@@ -2271,8 +2288,8 @@
           "height": 630,
           "output": "pages/blog--tags--personal-projects.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--personal-projects.webp?v=47f178015616",
-          "version": "47f178015616",
+          "url": "/og/pages/blog--tags--personal-projects.webp?v=0a3ee11945bd",
+          "version": "0a3ee11945bd",
           "width": 1200
         }
       ],
@@ -2288,8 +2305,8 @@
           "height": 630,
           "output": "pages/blog--tags--roadscore.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--roadscore.webp?v=2190bc0a1443",
-          "version": "2190bc0a1443",
+          "url": "/og/pages/blog--tags--roadscore.webp?v=01ea1adadef1",
+          "version": "01ea1adadef1",
           "width": 1200
         }
       ],
@@ -2305,8 +2322,8 @@
           "height": 630,
           "output": "pages/blog--tags--expo.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--expo.webp?v=61eeb0e45e49",
-          "version": "61eeb0e45e49",
+          "url": "/og/pages/blog--tags--expo.webp?v=433d85e6678e",
+          "version": "433d85e6678e",
           "width": 1200
         }
       ],
@@ -2322,8 +2339,8 @@
           "height": 630,
           "output": "pages/blog--tags--offline-first.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--offline-first.webp?v=148aa884cb83",
-          "version": "148aa884cb83",
+          "url": "/og/pages/blog--tags--offline-first.webp?v=8a4745f4a0d2",
+          "version": "8a4745f4a0d2",
           "width": 1200
         }
       ],
@@ -2339,8 +2356,8 @@
           "height": 630,
           "output": "pages/blog--tags--game-development.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--game-development.webp?v=439970c5932f",
-          "version": "439970c5932f",
+          "url": "/og/pages/blog--tags--game-development.webp?v=41988bda5606",
+          "version": "41988bda5606",
           "width": 1200
         }
       ],
@@ -2356,8 +2373,8 @@
           "height": 630,
           "output": "pages/blog--tags--developer-tools.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--developer-tools.webp?v=b7ee056fd144",
-          "version": "b7ee056fd144",
+          "url": "/og/pages/blog--tags--developer-tools.webp?v=bbfd69b9d8bd",
+          "version": "bbfd69b9d8bd",
           "width": 1200
         }
       ],
@@ -2373,8 +2390,8 @@
           "height": 630,
           "output": "pages/blog--tags--automation.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--automation.webp?v=ed32a8822089",
-          "version": "ed32a8822089",
+          "url": "/og/pages/blog--tags--automation.webp?v=e2cec6f10b0b",
+          "version": "e2cec6f10b0b",
           "width": 1200
         }
       ],
@@ -2390,8 +2407,8 @@
           "height": 630,
           "output": "pages/blog--tags--macos.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--macos.webp?v=c6291cbfe53e",
-          "version": "c6291cbfe53e",
+          "url": "/og/pages/blog--tags--macos.webp?v=fdd4d8c634d2",
+          "version": "fdd4d8c634d2",
           "width": 1200
         }
       ],
@@ -2407,8 +2424,8 @@
           "height": 630,
           "output": "pages/blog--tags--swift.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--swift.webp?v=3293126ccf29",
-          "version": "3293126ccf29",
+          "url": "/og/pages/blog--tags--swift.webp?v=e62652d4badc",
+          "version": "e62652d4badc",
           "width": 1200
         }
       ],
@@ -2424,8 +2441,8 @@
           "height": 630,
           "output": "pages/blog--tags--hardware.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--hardware.webp?v=52fa84ffd2b5",
-          "version": "52fa84ffd2b5",
+          "url": "/og/pages/blog--tags--hardware.webp?v=479640047e16",
+          "version": "479640047e16",
           "width": 1200
         }
       ],
@@ -2441,8 +2458,8 @@
           "height": 630,
           "output": "pages/blog--tags--safety-engineering.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--safety-engineering.webp?v=e929ae0bb1fa",
-          "version": "e929ae0bb1fa",
+          "url": "/og/pages/blog--tags--safety-engineering.webp?v=063b1c861b54",
+          "version": "063b1c861b54",
           "width": 1200
         }
       ],
@@ -2458,8 +2475,8 @@
           "height": 630,
           "output": "pages/blog--tags--native-apps.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--native-apps.webp?v=4b44ff9cd1c4",
-          "version": "4b44ff9cd1c4",
+          "url": "/og/pages/blog--tags--native-apps.webp?v=c9a2cc915202",
+          "version": "c9a2cc915202",
           "width": 1200
         }
       ],
@@ -2475,8 +2492,8 @@
           "height": 630,
           "output": "pages/blog--tags--vscode.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--vscode.webp?v=decf02892746",
-          "version": "decf02892746",
+          "url": "/og/pages/blog--tags--vscode.webp?v=016d66083476",
+          "version": "016d66083476",
           "width": 1200
         }
       ],
@@ -2492,8 +2509,8 @@
           "height": 630,
           "output": "pages/blog--tags--dependencies.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--dependencies.webp?v=89d69064a657",
-          "version": "89d69064a657",
+          "url": "/og/pages/blog--tags--dependencies.webp?v=c982eb303e0b",
+          "version": "c982eb303e0b",
           "width": 1200
         }
       ],
@@ -2509,8 +2526,8 @@
           "height": 630,
           "output": "pages/blog--tags--security.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--security.webp?v=d37f5075f3d7",
-          "version": "d37f5075f3d7",
+          "url": "/og/pages/blog--tags--security.webp?v=9fcb2ab3905a",
+          "version": "9fcb2ab3905a",
           "width": 1200
         }
       ],
@@ -2526,8 +2543,8 @@
           "height": 630,
           "output": "pages/blog--tags--open-graph.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--open-graph.webp?v=36c7651e8b2f",
-          "version": "36c7651e8b2f",
+          "url": "/og/pages/blog--tags--open-graph.webp?v=1d03402d7dba",
+          "version": "1d03402d7dba",
           "width": 1200
         }
       ],
@@ -2543,8 +2560,8 @@
           "height": 630,
           "output": "pages/blog--tags--nodejs.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--nodejs.webp?v=b4e7388b43c8",
-          "version": "b4e7388b43c8",
+          "url": "/og/pages/blog--tags--nodejs.webp?v=07eab7bccda6",
+          "version": "07eab7bccda6",
           "width": 1200
         }
       ],
@@ -2560,8 +2577,8 @@
           "height": 630,
           "output": "pages/blog--tags--build-tools.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--build-tools.webp?v=43bcede2f598",
-          "version": "43bcede2f598",
+          "url": "/og/pages/blog--tags--build-tools.webp?v=eb899fd90c05",
+          "version": "eb899fd90c05",
           "width": 1200
         }
       ],
@@ -2577,8 +2594,8 @@
           "height": 630,
           "output": "pages/blog--tags--terminal.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--terminal.webp?v=ffda9836705b",
-          "version": "ffda9836705b",
+          "url": "/og/pages/blog--tags--terminal.webp?v=fa79e593747f",
+          "version": "fa79e593747f",
           "width": 1200
         }
       ],
@@ -2594,8 +2611,8 @@
           "height": 630,
           "output": "pages/blog--tags--reading.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--reading.webp?v=d538c6b4f97f",
-          "version": "d538c6b4f97f",
+          "url": "/og/pages/blog--tags--reading.webp?v=82b0b641876d",
+          "version": "82b0b641876d",
           "width": 1200
         }
       ],
@@ -2611,8 +2628,8 @@
           "height": 630,
           "output": "pages/blog--tags--xteink.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--xteink.webp?v=b3e7efe770a4",
-          "version": "b3e7efe770a4",
+          "url": "/og/pages/blog--tags--xteink.webp?v=198fbfc1cc9c",
+          "version": "198fbfc1cc9c",
           "width": 1200
         }
       ],
@@ -2628,8 +2645,8 @@
           "height": 630,
           "output": "pages/blog--tags--e-reader.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--e-reader.webp?v=ae6d44697d84",
-          "version": "ae6d44697d84",
+          "url": "/og/pages/blog--tags--e-reader.webp?v=9a93da5efe65",
+          "version": "9a93da5efe65",
           "width": 1200
         }
       ],
@@ -2645,8 +2662,8 @@
           "height": 630,
           "output": "pages/blog--tags--firmware.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--firmware.webp?v=40d9f903ab71",
-          "version": "40d9f903ab71",
+          "url": "/og/pages/blog--tags--firmware.webp?v=0a72aecc679c",
+          "version": "0a72aecc679c",
           "width": 1200
         }
       ],
@@ -2662,8 +2679,8 @@
           "height": 630,
           "output": "pages/blog--tags--troubleshooting.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--troubleshooting.webp?v=6c77a3e9028c",
-          "version": "6c77a3e9028c",
+          "url": "/og/pages/blog--tags--troubleshooting.webp?v=7b13729e4fb6",
+          "version": "7b13729e4fb6",
           "width": 1200
         }
       ],
@@ -2679,8 +2696,8 @@
           "height": 630,
           "output": "pages/blog--tags--web-components.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--web-components.webp?v=0a7302041228",
-          "version": "0a7302041228",
+          "url": "/og/pages/blog--tags--web-components.webp?v=75e402504f11",
+          "version": "75e402504f11",
           "width": 1200
         }
       ],
@@ -2696,8 +2713,8 @@
           "height": 630,
           "output": "pages/blog--tags--rust.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--rust.webp?v=c314bdd933fb",
-          "version": "c314bdd933fb",
+          "url": "/og/pages/blog--tags--rust.webp?v=29a4986753aa",
+          "version": "29a4986753aa",
           "width": 1200
         }
       ],
@@ -2713,8 +2730,8 @@
           "height": 630,
           "output": "pages/blog--tags--tooling.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--tooling.webp?v=f61322168c0e",
-          "version": "f61322168c0e",
+          "url": "/og/pages/blog--tags--tooling.webp?v=b6133e06636a",
+          "version": "b6133e06636a",
           "width": 1200
         }
       ],
@@ -2730,8 +2747,8 @@
           "height": 630,
           "output": "pages/blog--tags--cloudflare-workers.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--cloudflare-workers.webp?v=05110391beeb",
-          "version": "05110391beeb",
+          "url": "/og/pages/blog--tags--cloudflare-workers.webp?v=ba1d0443d428",
+          "version": "ba1d0443d428",
           "width": 1200
         }
       ],
@@ -2747,8 +2764,8 @@
           "height": 630,
           "output": "pages/blog--tags--passkeys.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--passkeys.webp?v=bc4fad4c2881",
-          "version": "bc4fad4c2881",
+          "url": "/og/pages/blog--tags--passkeys.webp?v=abe367df9175",
+          "version": "abe367df9175",
           "width": 1200
         }
       ],
@@ -2764,8 +2781,8 @@
           "height": 630,
           "output": "pages/blog--tags--playwright.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--playwright.webp?v=3c22c18d2662",
-          "version": "3c22c18d2662",
+          "url": "/og/pages/blog--tags--playwright.webp?v=aaf562e5e634",
+          "version": "aaf562e5e634",
           "width": 1200
         }
       ],
@@ -2781,8 +2798,8 @@
           "height": 630,
           "output": "pages/blog--tags--ios.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--ios.webp?v=31f2a74f0661",
-          "version": "31f2a74f0661",
+          "url": "/og/pages/blog--tags--ios.webp?v=d7cb3bb16096",
+          "version": "d7cb3bb16096",
           "width": 1200
         }
       ],
@@ -2798,8 +2815,8 @@
           "height": 630,
           "output": "pages/blog--tags--on-device-ai.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--on-device-ai.webp?v=a4c52970c2d7",
-          "version": "a4c52970c2d7",
+          "url": "/og/pages/blog--tags--on-device-ai.webp?v=c324e11c8e6f",
+          "version": "c324e11c8e6f",
           "width": 1200
         }
       ],
@@ -2815,8 +2832,8 @@
           "height": 630,
           "output": "pages/blog--tags--privacy.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--privacy.webp?v=14972222e0fc",
-          "version": "14972222e0fc",
+          "url": "/og/pages/blog--tags--privacy.webp?v=bb68a7d55252",
+          "version": "bb68a7d55252",
           "width": 1200
         }
       ],
@@ -2832,8 +2849,8 @@
           "height": 630,
           "output": "pages/blog--tags--photography.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--photography.webp?v=aaba81e4f36a",
-          "version": "aaba81e4f36a",
+          "url": "/og/pages/blog--tags--photography.webp?v=8cd06f607457",
+          "version": "8cd06f607457",
           "width": 1200
         }
       ],
@@ -2849,8 +2866,8 @@
           "height": 630,
           "output": "pages/blog--tags--apple-silicon.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--apple-silicon.webp?v=4f96134457a7",
-          "version": "4f96134457a7",
+          "url": "/og/pages/blog--tags--apple-silicon.webp?v=f0e6ed327cbd",
+          "version": "f0e6ed327cbd",
           "width": 1200
         }
       ],
@@ -2866,8 +2883,8 @@
           "height": 630,
           "output": "pages/blog--tags--gaming.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--gaming.webp?v=e53c3bb3b4a6",
-          "version": "e53c3bb3b4a6",
+          "url": "/og/pages/blog--tags--gaming.webp?v=b656b800065d",
+          "version": "b656b800065d",
           "width": 1200
         }
       ],
@@ -2883,8 +2900,8 @@
           "height": 630,
           "output": "pages/blog--tags--wine.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--wine.webp?v=5413e3702d17",
-          "version": "5413e3702d17",
+          "url": "/og/pages/blog--tags--wine.webp?v=c278b92cd71b",
+          "version": "c278b92cd71b",
           "width": 1200
         }
       ],
@@ -2900,8 +2917,8 @@
           "height": 630,
           "output": "pages/blog--tags--dxmt.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--dxmt.webp?v=a1dba67f5822",
-          "version": "a1dba67f5822",
+          "url": "/og/pages/blog--tags--dxmt.webp?v=77c8f8128ce3",
+          "version": "77c8f8128ce3",
           "width": 1200
         }
       ],
@@ -2917,8 +2934,8 @@
           "height": 630,
           "output": "pages/blog--tags--release-engineering.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--release-engineering.webp?v=d68446c25231",
-          "version": "d68446c25231",
+          "url": "/og/pages/blog--tags--release-engineering.webp?v=43949707a5b0",
+          "version": "43949707a5b0",
           "width": 1200
         }
       ],
@@ -2934,8 +2951,8 @@
           "height": 630,
           "output": "pages/blog--tags--architecture.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--architecture.webp?v=77a23f5d0702",
-          "version": "77a23f5d0702",
+          "url": "/og/pages/blog--tags--architecture.webp?v=bbb722d5f95e",
+          "version": "bbb722d5f95e",
           "width": 1200
         }
       ],
@@ -2951,8 +2968,8 @@
           "height": 630,
           "output": "pages/blog--tags--documentation.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--documentation.webp?v=aea0496f2dcd",
-          "version": "aea0496f2dcd",
+          "url": "/og/pages/blog--tags--documentation.webp?v=301b19f0113d",
+          "version": "301b19f0113d",
           "width": 1200
         }
       ],
@@ -2968,8 +2985,8 @@
           "height": 630,
           "output": "pages/blog--tags--metrics.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--metrics.webp?v=14e057333716",
-          "version": "14e057333716",
+          "url": "/og/pages/blog--tags--metrics.webp?v=f67121479744",
+          "version": "f67121479744",
           "width": 1200
         }
       ],
@@ -2985,8 +3002,8 @@
           "height": 630,
           "output": "pages/blog--tags--product-engineering.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--product-engineering.webp?v=70a1957e776a",
-          "version": "70a1957e776a",
+          "url": "/og/pages/blog--tags--product-engineering.webp?v=fb716482995a",
+          "version": "fb716482995a",
           "width": 1200
         }
       ],
@@ -3002,8 +3019,8 @@
           "height": 630,
           "output": "pages/blog--tags--flat-config.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--flat-config.webp?v=0d8535905bd4",
-          "version": "0d8535905bd4",
+          "url": "/og/pages/blog--tags--flat-config.webp?v=fa901206a4e3",
+          "version": "fa901206a4e3",
           "width": 1200
         }
       ],
@@ -3019,8 +3036,8 @@
           "height": 630,
           "output": "pages/blog--tags--zed.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--zed.webp?v=d5a70b18465f",
-          "version": "d5a70b18465f",
+          "url": "/og/pages/blog--tags--zed.webp?v=549824e5c209",
+          "version": "549824e5c209",
           "width": 1200
         }
       ],
@@ -3036,8 +3053,8 @@
           "height": 630,
           "output": "pages/blog--tags--productivity.webp",
           "primary": true,
-          "url": "/og/pages/blog--tags--productivity.webp?v=e63c29e782fb",
-          "version": "e63c29e782fb",
+          "url": "/og/pages/blog--tags--productivity.webp?v=8e51a881c842",
+          "version": "8e51a881c842",
           "width": 1200
         }
       ],
@@ -3053,8 +3070,8 @@
           "height": 630,
           "output": "portfolio/aaronmgz-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/aaronmgz-logo.webp?v=3f77c4aa7afd",
-          "version": "3f77c4aa7afd",
+          "url": "/og/portfolio/aaronmgz-logo.webp?v=dbad360beb77",
+          "version": "dbad360beb77",
           "width": 1200
         },
         {
@@ -3062,8 +3079,8 @@
           "height": 630,
           "output": "portfolio/aaronmgz.webp",
           "primary": false,
-          "url": "/og/portfolio/aaronmgz.webp?v=3f77c4aa7afd",
-          "version": "3f77c4aa7afd",
+          "url": "/og/portfolio/aaronmgz.webp?v=dbad360beb77",
+          "version": "dbad360beb77",
           "width": 1200
         }
       ],
@@ -3079,8 +3096,8 @@
           "height": 630,
           "output": "portfolio/astro-doctor-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/astro-doctor-logo.webp?v=4f4a187be9dd",
-          "version": "4f4a187be9dd",
+          "url": "/og/portfolio/astro-doctor-logo.webp?v=e50d3e94977f",
+          "version": "e50d3e94977f",
           "width": 1200
         },
         {
@@ -3088,8 +3105,8 @@
           "height": 630,
           "output": "portfolio/astro-doctor.webp",
           "primary": false,
-          "url": "/og/portfolio/astro-doctor.webp?v=4f4a187be9dd",
-          "version": "4f4a187be9dd",
+          "url": "/og/portfolio/astro-doctor.webp?v=e50d3e94977f",
+          "version": "e50d3e94977f",
           "width": 1200
         }
       ],
@@ -3105,8 +3122,8 @@
           "height": 630,
           "output": "portfolio/auth-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/auth-logo.webp?v=a55766e636b8",
-          "version": "a55766e636b8",
+          "url": "/og/portfolio/auth-logo.webp?v=2a2398bb8ece",
+          "version": "2a2398bb8ece",
           "width": 1200
         },
         {
@@ -3114,8 +3131,8 @@
           "height": 630,
           "output": "portfolio/auth.webp",
           "primary": false,
-          "url": "/og/portfolio/auth.webp?v=a55766e636b8",
-          "version": "a55766e636b8",
+          "url": "/og/portfolio/auth.webp?v=2a2398bb8ece",
+          "version": "2a2398bb8ece",
           "width": 1200
         }
       ],
@@ -3131,8 +3148,8 @@
           "height": 630,
           "output": "portfolio/between-contractions-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/between-contractions-logo.webp?v=d2e66206a4e7",
-          "version": "d2e66206a4e7",
+          "url": "/og/portfolio/between-contractions-logo.webp?v=1a5b513e2fce",
+          "version": "1a5b513e2fce",
           "width": 1200
         },
         {
@@ -3140,8 +3157,8 @@
           "height": 630,
           "output": "portfolio/between-contractions.webp",
           "primary": false,
-          "url": "/og/portfolio/between-contractions.webp?v=d2e66206a4e7",
-          "version": "d2e66206a4e7",
+          "url": "/og/portfolio/between-contractions.webp?v=1a5b513e2fce",
+          "version": "1a5b513e2fce",
           "width": 1200
         }
       ],
@@ -3157,8 +3174,8 @@
           "height": 630,
           "output": "portfolio/coolstead-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/coolstead-logo.webp?v=96fea4c5d40a",
-          "version": "96fea4c5d40a",
+          "url": "/og/portfolio/coolstead-logo.webp?v=40699a9a5968",
+          "version": "40699a9a5968",
           "width": 1200
         },
         {
@@ -3166,8 +3183,8 @@
           "height": 630,
           "output": "portfolio/coolstead.webp",
           "primary": false,
-          "url": "/og/portfolio/coolstead.webp?v=96fea4c5d40a",
-          "version": "96fea4c5d40a",
+          "url": "/og/portfolio/coolstead.webp?v=40699a9a5968",
+          "version": "40699a9a5968",
           "width": 1200
         }
       ],
@@ -3183,8 +3200,8 @@
           "height": 630,
           "output": "portfolio/datagran-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/datagran-logo.webp?v=f4ab7c00d39a",
-          "version": "f4ab7c00d39a",
+          "url": "/og/portfolio/datagran-logo.webp?v=b130bbdbb06a",
+          "version": "b130bbdbb06a",
           "width": 1200
         },
         {
@@ -3192,8 +3209,8 @@
           "height": 630,
           "output": "portfolio/datagran.webp",
           "primary": false,
-          "url": "/og/portfolio/datagran.webp?v=f4ab7c00d39a",
-          "version": "f4ab7c00d39a",
+          "url": "/og/portfolio/datagran.webp?v=b130bbdbb06a",
+          "version": "b130bbdbb06a",
           "width": 1200
         }
       ],
@@ -3209,8 +3226,8 @@
           "height": 630,
           "output": "portfolio/dep-beacon-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/dep-beacon-logo.webp?v=b436d5c04172",
-          "version": "b436d5c04172",
+          "url": "/og/portfolio/dep-beacon-logo.webp?v=c038aba10b5f",
+          "version": "c038aba10b5f",
           "width": 1200
         },
         {
@@ -3218,8 +3235,8 @@
           "height": 630,
           "output": "portfolio/dep-beacon.webp",
           "primary": false,
-          "url": "/og/portfolio/dep-beacon.webp?v=b436d5c04172",
-          "version": "b436d5c04172",
+          "url": "/og/portfolio/dep-beacon.webp?v=c038aba10b5f",
+          "version": "c038aba10b5f",
           "width": 1200
         }
       ],
@@ -3235,8 +3252,8 @@
           "height": 630,
           "output": "portfolio/eslint-config-basic-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/eslint-config-basic-logo.webp?v=046bb15a3518",
-          "version": "046bb15a3518",
+          "url": "/og/portfolio/eslint-config-basic-logo.webp?v=7325564ecd6f",
+          "version": "7325564ecd6f",
           "width": 1200
         },
         {
@@ -3244,8 +3261,8 @@
           "height": 630,
           "output": "portfolio/eslint-config-basic.webp",
           "primary": false,
-          "url": "/og/portfolio/eslint-config-basic.webp?v=046bb15a3518",
-          "version": "046bb15a3518",
+          "url": "/og/portfolio/eslint-config-basic.webp?v=7325564ecd6f",
+          "version": "7325564ecd6f",
           "width": 1200
         }
       ],
@@ -3261,8 +3278,8 @@
           "height": 630,
           "output": "portfolio/eslint-config-santi020k-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/eslint-config-santi020k-logo.webp?v=7f2d7cb1e131",
-          "version": "7f2d7cb1e131",
+          "url": "/og/portfolio/eslint-config-santi020k-logo.webp?v=c8d86809b337",
+          "version": "c8d86809b337",
           "width": 1200
         },
         {
@@ -3270,8 +3287,8 @@
           "height": 630,
           "output": "portfolio/eslint-config-santi020k.webp",
           "primary": false,
-          "url": "/og/portfolio/eslint-config-santi020k.webp?v=7f2d7cb1e131",
-          "version": "7f2d7cb1e131",
+          "url": "/og/portfolio/eslint-config-santi020k.webp?v=c8d86809b337",
+          "version": "c8d86809b337",
           "width": 1200
         }
       ],
@@ -3287,8 +3304,8 @@
           "height": 630,
           "output": "portfolio/justbit-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/justbit-logo.webp?v=57b0950a7a47",
-          "version": "57b0950a7a47",
+          "url": "/og/portfolio/justbit-logo.webp?v=72cc96498492",
+          "version": "72cc96498492",
           "width": 1200
         },
         {
@@ -3296,8 +3313,8 @@
           "height": 630,
           "output": "portfolio/justbit.webp",
           "primary": false,
-          "url": "/og/portfolio/justbit.webp?v=57b0950a7a47",
-          "version": "57b0950a7a47",
+          "url": "/og/portfolio/justbit.webp?v=72cc96498492",
+          "version": "72cc96498492",
           "width": 1200
         }
       ],
@@ -3313,8 +3330,8 @@
           "height": 630,
           "output": "portfolio/lumen-ui-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/lumen-ui-logo.webp?v=0d83db2caa9f",
-          "version": "0d83db2caa9f",
+          "url": "/og/portfolio/lumen-ui-logo.webp?v=e462ef1d97bc",
+          "version": "e462ef1d97bc",
           "width": 1200
         },
         {
@@ -3322,8 +3339,8 @@
           "height": 630,
           "output": "portfolio/lumen-ui.webp",
           "primary": false,
-          "url": "/og/portfolio/lumen-ui.webp?v=0d83db2caa9f",
-          "version": "0d83db2caa9f",
+          "url": "/og/portfolio/lumen-ui.webp?v=e462ef1d97bc",
+          "version": "e462ef1d97bc",
           "width": 1200
         }
       ],
@@ -3339,8 +3356,8 @@
           "height": 630,
           "output": "portfolio/nebular-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/nebular-logo.webp?v=c5da30b4a830",
-          "version": "c5da30b4a830",
+          "url": "/og/portfolio/nebular-logo.webp?v=8e0ac93e606c",
+          "version": "8e0ac93e606c",
           "width": 1200
         },
         {
@@ -3348,8 +3365,8 @@
           "height": 630,
           "output": "portfolio/nebular.webp",
           "primary": false,
-          "url": "/og/portfolio/nebular.webp?v=c5da30b4a830",
-          "version": "c5da30b4a830",
+          "url": "/og/portfolio/nebular.webp?v=8e0ac93e606c",
+          "version": "8e0ac93e606c",
           "width": 1200
         }
       ],
@@ -3365,8 +3382,8 @@
           "height": 630,
           "output": "portfolio/og-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/og-logo.webp?v=8290e651647b",
-          "version": "8290e651647b",
+          "url": "/og/portfolio/og-logo.webp?v=17f7d55f5aaa",
+          "version": "17f7d55f5aaa",
           "width": 1200
         },
         {
@@ -3374,8 +3391,8 @@
           "height": 630,
           "output": "portfolio/og.webp",
           "primary": false,
-          "url": "/og/portfolio/og.webp?v=8290e651647b",
-          "version": "8290e651647b",
+          "url": "/og/portfolio/og.webp?v=17f7d55f5aaa",
+          "version": "17f7d55f5aaa",
           "width": 1200
         }
       ],
@@ -3391,8 +3408,8 @@
           "height": 630,
           "output": "portfolio/optic-power-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/optic-power-logo.webp?v=758f0ec991c8",
-          "version": "758f0ec991c8",
+          "url": "/og/portfolio/optic-power-logo.webp?v=5c42c0b84f5d",
+          "version": "5c42c0b84f5d",
           "width": 1200
         },
         {
@@ -3400,8 +3417,8 @@
           "height": 630,
           "output": "portfolio/optic-power.webp",
           "primary": false,
-          "url": "/og/portfolio/optic-power.webp?v=758f0ec991c8",
-          "version": "758f0ec991c8",
+          "url": "/og/portfolio/optic-power.webp?v=5c42c0b84f5d",
+          "version": "5c42c0b84f5d",
           "width": 1200
         }
       ],
@@ -3417,8 +3434,8 @@
           "height": 630,
           "output": "portfolio/pads-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/pads-logo.webp?v=1f6539c20295",
-          "version": "1f6539c20295",
+          "url": "/og/portfolio/pads-logo.webp?v=97f13ea5fce8",
+          "version": "97f13ea5fce8",
           "width": 1200
         },
         {
@@ -3426,8 +3443,8 @@
           "height": 630,
           "output": "portfolio/pads.webp",
           "primary": false,
-          "url": "/og/portfolio/pads.webp?v=1f6539c20295",
-          "version": "1f6539c20295",
+          "url": "/og/portfolio/pads.webp?v=97f13ea5fce8",
+          "version": "97f13ea5fce8",
           "width": 1200
         }
       ],
@@ -3443,8 +3460,8 @@
           "height": 630,
           "output": "portfolio/postlens-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/postlens-logo.webp?v=52d13a60db2d",
-          "version": "52d13a60db2d",
+          "url": "/og/portfolio/postlens-logo.webp?v=171d0485803c",
+          "version": "171d0485803c",
           "width": 1200
         },
         {
@@ -3452,8 +3469,8 @@
           "height": 630,
           "output": "portfolio/postlens.webp",
           "primary": false,
-          "url": "/og/portfolio/postlens.webp?v=52d13a60db2d",
-          "version": "52d13a60db2d",
+          "url": "/og/portfolio/postlens.webp?v=171d0485803c",
+          "version": "171d0485803c",
           "width": 1200
         }
       ],
@@ -3469,8 +3486,8 @@
           "height": 630,
           "output": "portfolio/quality-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/quality-logo.webp?v=7f838af83fbb",
-          "version": "7f838af83fbb",
+          "url": "/og/portfolio/quality-logo.webp?v=ac53706bd2ce",
+          "version": "ac53706bd2ce",
           "width": 1200
         },
         {
@@ -3478,8 +3495,8 @@
           "height": 630,
           "output": "portfolio/quality.webp",
           "primary": false,
-          "url": "/og/portfolio/quality.webp?v=7f838af83fbb",
-          "version": "7f838af83fbb",
+          "url": "/og/portfolio/quality.webp?v=ac53706bd2ce",
+          "version": "ac53706bd2ce",
           "width": 1200
         }
       ],
@@ -3495,8 +3512,8 @@
           "height": 630,
           "output": "portfolio/react-js-colombia-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/react-js-colombia-logo.webp?v=589bcb129948",
-          "version": "589bcb129948",
+          "url": "/og/portfolio/react-js-colombia-logo.webp?v=625338abe163",
+          "version": "625338abe163",
           "width": 1200
         },
         {
@@ -3504,8 +3521,8 @@
           "height": 630,
           "output": "portfolio/react-js-colombia.webp",
           "primary": false,
-          "url": "/og/portfolio/react-js-colombia.webp?v=589bcb129948",
-          "version": "589bcb129948",
+          "url": "/og/portfolio/react-js-colombia.webp?v=625338abe163",
+          "version": "625338abe163",
           "width": 1200
         }
       ],
@@ -3521,8 +3538,8 @@
           "height": 630,
           "output": "portfolio/roadscore-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/roadscore-logo.webp?v=d24361cc908c",
-          "version": "d24361cc908c",
+          "url": "/og/portfolio/roadscore-logo.webp?v=d146810e63bb",
+          "version": "d146810e63bb",
           "width": 1200
         },
         {
@@ -3530,8 +3547,8 @@
           "height": 630,
           "output": "portfolio/roadscore.webp",
           "primary": false,
-          "url": "/og/portfolio/roadscore.webp?v=d24361cc908c",
-          "version": "d24361cc908c",
+          "url": "/og/portfolio/roadscore.webp?v=d146810e63bb",
+          "version": "d146810e63bb",
           "width": 1200
         }
       ],
@@ -3547,8 +3564,8 @@
           "height": 630,
           "output": "portfolio/santi020k-theme-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/santi020k-theme-logo.webp?v=004e6a64ab74",
-          "version": "004e6a64ab74",
+          "url": "/og/portfolio/santi020k-theme-logo.webp?v=a581e2337368",
+          "version": "a581e2337368",
           "width": 1200
         },
         {
@@ -3556,8 +3573,8 @@
           "height": 630,
           "output": "portfolio/santi020k-theme.webp",
           "primary": false,
-          "url": "/og/portfolio/santi020k-theme.webp?v=004e6a64ab74",
-          "version": "004e6a64ab74",
+          "url": "/og/portfolio/santi020k-theme.webp?v=a581e2337368",
+          "version": "a581e2337368",
           "width": 1200
         }
       ],
@@ -3573,8 +3590,8 @@
           "height": 630,
           "output": "portfolio/smith-commerce-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/smith-commerce-logo.webp?v=30945d25dcc5",
-          "version": "30945d25dcc5",
+          "url": "/og/portfolio/smith-commerce-logo.webp?v=187b2a3c58d0",
+          "version": "187b2a3c58d0",
           "width": 1200
         },
         {
@@ -3582,8 +3599,8 @@
           "height": 630,
           "output": "portfolio/smith-commerce.webp",
           "primary": false,
-          "url": "/og/portfolio/smith-commerce.webp?v=30945d25dcc5",
-          "version": "30945d25dcc5",
+          "url": "/og/portfolio/smith-commerce.webp?v=187b2a3c58d0",
+          "version": "187b2a3c58d0",
           "width": 1200
         }
       ],
@@ -3599,8 +3616,8 @@
           "height": 630,
           "output": "portfolio/tedx-medellin-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/tedx-medellin-logo.webp?v=d8ea5b9476e8",
-          "version": "d8ea5b9476e8",
+          "url": "/og/portfolio/tedx-medellin-logo.webp?v=ca41b31190f0",
+          "version": "ca41b31190f0",
           "width": 1200
         },
         {
@@ -3608,8 +3625,8 @@
           "height": 630,
           "output": "portfolio/tedx-medellin.webp",
           "primary": false,
-          "url": "/og/portfolio/tedx-medellin.webp?v=d8ea5b9476e8",
-          "version": "d8ea5b9476e8",
+          "url": "/og/portfolio/tedx-medellin.webp?v=ca41b31190f0",
+          "version": "ca41b31190f0",
           "width": 1200
         }
       ],
@@ -3625,8 +3642,8 @@
           "height": 630,
           "output": "portfolio/void-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/void-logo.webp?v=ecac9498a329",
-          "version": "ecac9498a329",
+          "url": "/og/portfolio/void-logo.webp?v=a0a856f703a3",
+          "version": "a0a856f703a3",
           "width": 1200
         },
         {
@@ -3634,8 +3651,8 @@
           "height": 630,
           "output": "portfolio/void.webp",
           "primary": false,
-          "url": "/og/portfolio/void.webp?v=ecac9498a329",
-          "version": "ecac9498a329",
+          "url": "/og/portfolio/void.webp?v=a0a856f703a3",
+          "version": "a0a856f703a3",
           "width": 1200
         }
       ],
@@ -3651,8 +3668,8 @@
           "height": 630,
           "output": "portfolio/xgames-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/xgames-logo.webp?v=f310362c47c0",
-          "version": "f310362c47c0",
+          "url": "/og/portfolio/xgames-logo.webp?v=fa2026f19258",
+          "version": "fa2026f19258",
           "width": 1200
         },
         {
@@ -3660,8 +3677,8 @@
           "height": 630,
           "output": "portfolio/xgames.webp",
           "primary": false,
-          "url": "/og/portfolio/xgames.webp?v=f310362c47c0",
-          "version": "f310362c47c0",
+          "url": "/og/portfolio/xgames.webp?v=fa2026f19258",
+          "version": "fa2026f19258",
           "width": 1200
         }
       ],
@@ -3677,8 +3694,8 @@
           "height": 630,
           "output": "pages/blog--series--building-a-production-nextjs-app.webp",
           "primary": true,
-          "url": "/og/pages/blog--series--building-a-production-nextjs-app.webp?v=52e61428839e",
-          "version": "52e61428839e",
+          "url": "/og/pages/blog--series--building-a-production-nextjs-app.webp?v=21d5dab05108",
+          "version": "21d5dab05108",
           "width": 1200
         }
       ],
@@ -3694,8 +3711,8 @@
           "height": 630,
           "output": "pages/blog--series--eslint-in-practice.webp",
           "primary": true,
-          "url": "/og/pages/blog--series--eslint-in-practice.webp?v=523e8a882f51",
-          "version": "523e8a882f51",
+          "url": "/og/pages/blog--series--eslint-in-practice.webp?v=474c123a4dd3",
+          "version": "474c123a4dd3",
           "width": 1200
         }
       ],
@@ -3711,8 +3728,8 @@
           "height": 630,
           "output": "pages/blog--series--the-santi020k-way.webp",
           "primary": true,
-          "url": "/og/pages/blog--series--the-santi020k-way.webp?v=8f2c4f51da46",
-          "version": "8f2c4f51da46",
+          "url": "/og/pages/blog--series--the-santi020k-way.webp?v=beed9ddaa2bc",
+          "version": "beed9ddaa2bc",
           "width": 1200
         }
       ],
@@ -3728,8 +3745,8 @@
           "height": 630,
           "output": "pages/technologies--Astro.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Astro.webp?v=3aef1e0e96d0",
-          "version": "3aef1e0e96d0",
+          "url": "/og/pages/technologies--Astro.webp?v=13b196f24b26",
+          "version": "13b196f24b26",
           "width": 1200
         }
       ],
@@ -3745,8 +3762,8 @@
           "height": 630,
           "output": "pages/technologies--Next.js.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Next.js.webp?v=0d8250290047",
-          "version": "0d8250290047",
+          "url": "/og/pages/technologies--Next.js.webp?v=6ba1d32ca145",
+          "version": "6ba1d32ca145",
           "width": 1200
         }
       ],
@@ -3762,8 +3779,8 @@
           "height": 630,
           "output": "pages/technologies--React.js.webp",
           "primary": true,
-          "url": "/og/pages/technologies--React.js.webp?v=0ea208ebb551",
-          "version": "0ea208ebb551",
+          "url": "/og/pages/technologies--React.js.webp?v=6b508e9cbde3",
+          "version": "6b508e9cbde3",
           "width": 1200
         }
       ],
@@ -3779,8 +3796,8 @@
           "height": 630,
           "output": "pages/technologies--TypeScript.webp",
           "primary": true,
-          "url": "/og/pages/technologies--TypeScript.webp?v=94c5037cd133",
-          "version": "94c5037cd133",
+          "url": "/og/pages/technologies--TypeScript.webp?v=a6280f56b0bd",
+          "version": "a6280f56b0bd",
           "width": 1200
         }
       ],
@@ -3796,8 +3813,8 @@
           "height": 630,
           "output": "pages/technologies--Tailwind~20CSS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Tailwind~20CSS.webp?v=4536c0773cd6",
-          "version": "4536c0773cd6",
+          "url": "/og/pages/technologies--Tailwind~20CSS.webp?v=5be4fb7fd7a1",
+          "version": "5be4fb7fd7a1",
           "width": 1200
         }
       ],
@@ -3813,8 +3830,8 @@
           "height": 630,
           "output": "pages/technologies--Hono.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Hono.webp?v=1a9f39736158",
-          "version": "1a9f39736158",
+          "url": "/og/pages/technologies--Hono.webp?v=64b274cfdaaa",
+          "version": "64b274cfdaaa",
           "width": 1200
         }
       ],
@@ -3830,8 +3847,8 @@
           "height": 630,
           "output": "pages/technologies--Cloudflare~20Workers.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Cloudflare~20Workers.webp?v=896a200bc27d",
-          "version": "896a200bc27d",
+          "url": "/og/pages/technologies--Cloudflare~20Workers.webp?v=70dcd2ebffaa",
+          "version": "70dcd2ebffaa",
           "width": 1200
         }
       ],
@@ -3847,8 +3864,8 @@
           "height": 630,
           "output": "pages/technologies--Cloudflare~20D1.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Cloudflare~20D1.webp?v=8f45b59c6d4a",
-          "version": "8f45b59c6d4a",
+          "url": "/og/pages/technologies--Cloudflare~20D1.webp?v=dfce0bcaec43",
+          "version": "dfce0bcaec43",
           "width": 1200
         }
       ],
@@ -3864,8 +3881,8 @@
           "height": 630,
           "output": "pages/technologies--Drizzle~20ORM.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Drizzle~20ORM.webp?v=94dec4735904",
-          "version": "94dec4735904",
+          "url": "/og/pages/technologies--Drizzle~20ORM.webp?v=75e65a931cfd",
+          "version": "75e65a931cfd",
           "width": 1200
         }
       ],
@@ -3881,8 +3898,8 @@
           "height": 630,
           "output": "pages/technologies--Zod.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Zod.webp?v=b0a393e7f2a4",
-          "version": "b0a393e7f2a4",
+          "url": "/og/pages/technologies--Zod.webp?v=cf45139f5d34",
+          "version": "cf45139f5d34",
           "width": 1200
         }
       ],
@@ -3898,8 +3915,8 @@
           "height": 630,
           "output": "pages/technologies--Turborepo.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Turborepo.webp?v=b1ad86efb495",
-          "version": "b1ad86efb495",
+          "url": "/og/pages/technologies--Turborepo.webp?v=8fb8e329ea9c",
+          "version": "8fb8e329ea9c",
           "width": 1200
         }
       ],
@@ -3915,8 +3932,8 @@
           "height": 630,
           "output": "pages/technologies--pnpm.webp",
           "primary": true,
-          "url": "/og/pages/technologies--pnpm.webp?v=acf8c66d5fca",
-          "version": "acf8c66d5fca",
+          "url": "/og/pages/technologies--pnpm.webp?v=5722ef255895",
+          "version": "5722ef255895",
           "width": 1200
         }
       ],
@@ -3932,8 +3949,8 @@
           "height": 630,
           "output": "pages/technologies--OpenNext.webp",
           "primary": true,
-          "url": "/og/pages/technologies--OpenNext.webp?v=6315466cd2f9",
-          "version": "6315466cd2f9",
+          "url": "/og/pages/technologies--OpenNext.webp?v=c753badffc19",
+          "version": "c753badffc19",
           "width": 1200
         }
       ],
@@ -3949,8 +3966,8 @@
           "height": 630,
           "output": "pages/technologies--i18next.webp",
           "primary": true,
-          "url": "/og/pages/technologies--i18next.webp?v=3f5cd519a338",
-          "version": "3f5cd519a338",
+          "url": "/og/pages/technologies--i18next.webp?v=422e8e1f7b24",
+          "version": "422e8e1f7b24",
           "width": 1200
         }
       ],
@@ -3966,8 +3983,8 @@
           "height": 630,
           "output": "pages/technologies--Accessibility.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Accessibility.webp?v=819f85b59b92",
-          "version": "819f85b59b92",
+          "url": "/og/pages/technologies--Accessibility.webp?v=ff534a55bcaf",
+          "version": "ff534a55bcaf",
           "width": 1200
         }
       ],
@@ -3983,8 +4000,8 @@
           "height": 630,
           "output": "pages/technologies--Testing.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Testing.webp?v=be35308efa47",
-          "version": "be35308efa47",
+          "url": "/og/pages/technologies--Testing.webp?v=ebb18054c56c",
+          "version": "ebb18054c56c",
           "width": 1200
         }
       ],
@@ -4000,8 +4017,8 @@
           "height": 630,
           "output": "pages/technologies--CI~2FCD.webp",
           "primary": true,
-          "url": "/og/pages/technologies--CI~2FCD.webp?v=e23fe29a450b",
-          "version": "e23fe29a450b",
+          "url": "/og/pages/technologies--CI~2FCD.webp?v=1764520e93de",
+          "version": "1764520e93de",
           "width": 1200
         }
       ],
@@ -4017,8 +4034,8 @@
           "height": 630,
           "output": "pages/technologies--Monorepo.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Monorepo.webp?v=b5be3c52605a",
-          "version": "b5be3c52605a",
+          "url": "/og/pages/technologies--Monorepo.webp?v=82753369c976",
+          "version": "82753369c976",
           "width": 1200
         }
       ],
@@ -4034,8 +4051,8 @@
           "height": 630,
           "output": "pages/technologies--Node.js.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Node.js.webp?v=9ad84dd6e163",
-          "version": "9ad84dd6e163",
+          "url": "/og/pages/technologies--Node.js.webp?v=3819a1d4604f",
+          "version": "3819a1d4604f",
           "width": 1200
         }
       ],
@@ -4051,8 +4068,8 @@
           "height": 630,
           "output": "pages/technologies--ESLint.webp",
           "primary": true,
-          "url": "/og/pages/technologies--ESLint.webp?v=f0cb18fda7bf",
-          "version": "f0cb18fda7bf",
+          "url": "/og/pages/technologies--ESLint.webp?v=58acdf0d4595",
+          "version": "58acdf0d4595",
           "width": 1200
         }
       ],
@@ -4068,8 +4085,8 @@
           "height": 630,
           "output": "pages/technologies--VS~20Code~20Extension.webp",
           "primary": true,
-          "url": "/og/pages/technologies--VS~20Code~20Extension.webp?v=67abf678c47d",
-          "version": "67abf678c47d",
+          "url": "/og/pages/technologies--VS~20Code~20Extension.webp?v=6b849da93f18",
+          "version": "6b849da93f18",
           "width": 1200
         }
       ],
@@ -4085,8 +4102,8 @@
           "height": 630,
           "output": "pages/technologies--GitHub~20Actions.webp",
           "primary": true,
-          "url": "/og/pages/technologies--GitHub~20Actions.webp?v=9465132c69f7",
-          "version": "9465132c69f7",
+          "url": "/og/pages/technologies--GitHub~20Actions.webp?v=bee513866a1d",
+          "version": "bee513866a1d",
           "width": 1200
         }
       ],
@@ -4102,8 +4119,8 @@
           "height": 630,
           "output": "pages/technologies--Code~20Quality.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Code~20Quality.webp?v=5f75e7296da3",
-          "version": "5f75e7296da3",
+          "url": "/og/pages/technologies--Code~20Quality.webp?v=fbdb2af21549",
+          "version": "fbdb2af21549",
           "width": 1200
         }
       ],
@@ -4119,8 +4136,8 @@
           "height": 630,
           "output": "pages/technologies--Developer~20Experience~20(DX).webp",
           "primary": true,
-          "url": "/og/pages/technologies--Developer~20Experience~20(DX).webp?v=921d6518055e",
-          "version": "921d6518055e",
+          "url": "/og/pages/technologies--Developer~20Experience~20(DX).webp?v=f1f64783f6e3",
+          "version": "f1f64783f6e3",
           "width": 1200
         }
       ],
@@ -4136,8 +4153,8 @@
           "height": 630,
           "output": "pages/technologies--Developer~20Documentation.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Developer~20Documentation.webp?v=a3660b4fca35",
-          "version": "a3660b4fca35",
+          "url": "/og/pages/technologies--Developer~20Documentation.webp?v=1b545a265737",
+          "version": "1b545a265737",
           "width": 1200
         }
       ],
@@ -4153,8 +4170,8 @@
           "height": 630,
           "output": "pages/technologies--Open~20Source.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Open~20Source.webp?v=1e6e660af37e",
-          "version": "1e6e660af37e",
+          "url": "/og/pages/technologies--Open~20Source.webp?v=51f2c160ddf9",
+          "version": "51f2c160ddf9",
           "width": 1200
         }
       ],
@@ -4170,8 +4187,8 @@
           "height": 630,
           "output": "pages/technologies--Performance~20Optimization.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Performance~20Optimization.webp?v=89398fdb83a8",
-          "version": "89398fdb83a8",
+          "url": "/og/pages/technologies--Performance~20Optimization.webp?v=c92bfdb41e58",
+          "version": "c92bfdb41e58",
           "width": 1200
         }
       ],
@@ -4187,8 +4204,8 @@
           "height": 630,
           "output": "pages/technologies--Better~20Auth.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Better~20Auth.webp?v=70ea04a07b7b",
-          "version": "70ea04a07b7b",
+          "url": "/og/pages/technologies--Better~20Auth.webp?v=9acb3aa5d6c6",
+          "version": "9acb3aa5d6c6",
           "width": 1200
         }
       ],
@@ -4204,8 +4221,8 @@
           "height": 630,
           "output": "pages/technologies--Passkeys.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Passkeys.webp?v=d2d7562796ff",
-          "version": "d2d7562796ff",
+          "url": "/og/pages/technologies--Passkeys.webp?v=1e27ec44cdb7",
+          "version": "1e27ec44cdb7",
           "width": 1200
         }
       ],
@@ -4221,8 +4238,8 @@
           "height": 630,
           "output": "pages/technologies--WebAuthn.webp",
           "primary": true,
-          "url": "/og/pages/technologies--WebAuthn.webp?v=13d9a8a9f225",
-          "version": "13d9a8a9f225",
+          "url": "/og/pages/technologies--WebAuthn.webp?v=59b812d61b03",
+          "version": "59b812d61b03",
           "width": 1200
         }
       ],
@@ -4238,8 +4255,8 @@
           "height": 630,
           "output": "pages/technologies--Email~20OTP.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Email~20OTP.webp?v=9b9d53ae859d",
-          "version": "9b9d53ae859d",
+          "url": "/og/pages/technologies--Email~20OTP.webp?v=d84b98da47d7",
+          "version": "d84b98da47d7",
           "width": 1200
         }
       ],
@@ -4255,8 +4272,8 @@
           "height": 630,
           "output": "pages/technologies--Lumen~20UI.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Lumen~20UI.webp?v=09dd9e34e66c",
-          "version": "09dd9e34e66c",
+          "url": "/og/pages/technologies--Lumen~20UI.webp?v=74a7dce3cae2",
+          "version": "74a7dce3cae2",
           "width": 1200
         }
       ],
@@ -4272,8 +4289,8 @@
           "height": 630,
           "output": "pages/technologies--Vitest.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Vitest.webp?v=04abbdd59bdd",
-          "version": "04abbdd59bdd",
+          "url": "/og/pages/technologies--Vitest.webp?v=aa5a47fbf119",
+          "version": "aa5a47fbf119",
           "width": 1200
         }
       ],
@@ -4289,8 +4306,8 @@
           "height": 630,
           "output": "pages/technologies--Playwright.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Playwright.webp?v=375ea86f7075",
-          "version": "375ea86f7075",
+          "url": "/og/pages/technologies--Playwright.webp?v=9bb6e5b53725",
+          "version": "9bb6e5b53725",
           "width": 1200
         }
       ],
@@ -4306,8 +4323,8 @@
           "height": 630,
           "output": "pages/technologies--CodeQL.webp",
           "primary": true,
-          "url": "/og/pages/technologies--CodeQL.webp?v=8455416e27d6",
-          "version": "8455416e27d6",
+          "url": "/og/pages/technologies--CodeQL.webp?v=648878109556",
+          "version": "648878109556",
           "width": 1200
         }
       ],
@@ -4323,8 +4340,8 @@
           "height": 630,
           "output": "pages/technologies--Authentication.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Authentication.webp?v=3f1ad232aed5",
-          "version": "3f1ad232aed5",
+          "url": "/og/pages/technologies--Authentication.webp?v=2b68bff74b78",
+          "version": "2b68bff74b78",
           "width": 1200
         }
       ],
@@ -4340,8 +4357,8 @@
           "height": 630,
           "output": "pages/technologies--Security.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Security.webp?v=2378ce57065a",
-          "version": "2378ce57065a",
+          "url": "/og/pages/technologies--Security.webp?v=9842b7b1d21a",
+          "version": "9842b7b1d21a",
           "width": 1200
         }
       ],
@@ -4357,8 +4374,8 @@
           "height": 630,
           "output": "pages/technologies--Swift.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Swift.webp?v=1582e4132057",
-          "version": "1582e4132057",
+          "url": "/og/pages/technologies--Swift.webp?v=a2aa10d59c2a",
+          "version": "a2aa10d59c2a",
           "width": 1200
         }
       ],
@@ -4374,8 +4391,8 @@
           "height": 630,
           "output": "pages/technologies--SwiftUI.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SwiftUI.webp?v=04dece8f1c58",
-          "version": "04dece8f1c58",
+          "url": "/og/pages/technologies--SwiftUI.webp?v=b12f0ddc0755",
+          "version": "b12f0ddc0755",
           "width": 1200
         }
       ],
@@ -4391,8 +4408,8 @@
           "height": 630,
           "output": "pages/technologies--SwiftData.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SwiftData.webp?v=8fec7a5ef2d0",
-          "version": "8fec7a5ef2d0",
+          "url": "/og/pages/technologies--SwiftData.webp?v=62cf4f26e4f4",
+          "version": "62cf4f26e4f4",
           "width": 1200
         }
       ],
@@ -4408,8 +4425,8 @@
           "height": 630,
           "output": "pages/technologies--WidgetKit.webp",
           "primary": true,
-          "url": "/og/pages/technologies--WidgetKit.webp?v=9b51af8c6cfe",
-          "version": "9b51af8c6cfe",
+          "url": "/og/pages/technologies--WidgetKit.webp?v=e22de678ac6d",
+          "version": "e22de678ac6d",
           "width": 1200
         }
       ],
@@ -4425,8 +4442,8 @@
           "height": 630,
           "output": "pages/technologies--WatchConnectivity.webp",
           "primary": true,
-          "url": "/og/pages/technologies--WatchConnectivity.webp?v=92d8258032d8",
-          "version": "92d8258032d8",
+          "url": "/og/pages/technologies--WatchConnectivity.webp?v=057bbd11f8bc",
+          "version": "057bbd11f8bc",
           "width": 1200
         }
       ],
@@ -4442,8 +4459,8 @@
           "height": 630,
           "output": "pages/technologies--Kotlin.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Kotlin.webp?v=0338c809fcfe",
-          "version": "0338c809fcfe",
+          "url": "/og/pages/technologies--Kotlin.webp?v=8f745bbb2d3f",
+          "version": "8f745bbb2d3f",
           "width": 1200
         }
       ],
@@ -4459,8 +4476,8 @@
           "height": 630,
           "output": "pages/technologies--Jetpack~20Compose.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Jetpack~20Compose.webp?v=31abfc5b239f",
-          "version": "31abfc5b239f",
+          "url": "/og/pages/technologies--Jetpack~20Compose.webp?v=adc92f141a53",
+          "version": "adc92f141a53",
           "width": 1200
         }
       ],
@@ -4476,8 +4493,8 @@
           "height": 630,
           "output": "pages/technologies--Room.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Room.webp?v=07fb9a145790",
-          "version": "07fb9a145790",
+          "url": "/og/pages/technologies--Room.webp?v=e33bdf8f13de",
+          "version": "e33bdf8f13de",
           "width": 1200
         }
       ],
@@ -4493,8 +4510,8 @@
           "height": 630,
           "output": "pages/technologies--Glance.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Glance.webp?v=a0bba396a91c",
-          "version": "a0bba396a91c",
+          "url": "/og/pages/technologies--Glance.webp?v=ff890dad8a50",
+          "version": "ff890dad8a50",
           "width": 1200
         }
       ],
@@ -4510,8 +4527,8 @@
           "height": 630,
           "output": "pages/technologies--Wear~20OS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Wear~20OS.webp?v=16d85b72cd0c",
-          "version": "16d85b72cd0c",
+          "url": "/og/pages/technologies--Wear~20OS.webp?v=3f7752ede3c8",
+          "version": "3f7752ede3c8",
           "width": 1200
         }
       ],
@@ -4527,8 +4544,8 @@
           "height": 630,
           "output": "pages/technologies--WebSockets.webp",
           "primary": true,
-          "url": "/og/pages/technologies--WebSockets.webp?v=5e4359d13590",
-          "version": "5e4359d13590",
+          "url": "/og/pages/technologies--WebSockets.webp?v=336d3b35d2d3",
+          "version": "336d3b35d2d3",
           "width": 1200
         }
       ],
@@ -4544,8 +4561,8 @@
           "height": 630,
           "output": "pages/technologies--i18n.webp",
           "primary": true,
-          "url": "/og/pages/technologies--i18n.webp?v=bdd6f80cd6d6",
-          "version": "bdd6f80cd6d6",
+          "url": "/og/pages/technologies--i18n.webp?v=63ca263ef627",
+          "version": "63ca263ef627",
           "width": 1200
         }
       ],
@@ -4561,8 +4578,8 @@
           "height": 630,
           "output": "pages/technologies--macOS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--macOS.webp?v=1b924af26593",
-          "version": "1b924af26593",
+          "url": "/og/pages/technologies--macOS.webp?v=371589cf8baa",
+          "version": "371589cf8baa",
           "width": 1200
         }
       ],
@@ -4578,8 +4595,8 @@
           "height": 630,
           "output": "pages/technologies--AppKit.webp",
           "primary": true,
-          "url": "/og/pages/technologies--AppKit.webp?v=f64f4e7714dc",
-          "version": "f64f4e7714dc",
+          "url": "/og/pages/technologies--AppKit.webp?v=045afdaff747",
+          "version": "045afdaff747",
           "width": 1200
         }
       ],
@@ -4595,8 +4612,8 @@
           "height": 630,
           "output": "pages/technologies--Swift~20Package~20Manager.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Swift~20Package~20Manager.webp?v=d7cce796d93c",
-          "version": "d7cce796d93c",
+          "url": "/og/pages/technologies--Swift~20Package~20Manager.webp?v=bbdce2e3861c",
+          "version": "bbdce2e3861c",
           "width": 1200
         }
       ],
@@ -4612,8 +4629,8 @@
           "height": 630,
           "output": "pages/technologies--SMC.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SMC.webp?v=b81858291e18",
-          "version": "b81858291e18",
+          "url": "/og/pages/technologies--SMC.webp?v=1086c3ebb3fe",
+          "version": "1086c3ebb3fe",
           "width": 1200
         }
       ],
@@ -4629,8 +4646,8 @@
           "height": 630,
           "output": "pages/technologies--Privileged~20Helper.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Privileged~20Helper.webp?v=39c6b0b87d49",
-          "version": "39c6b0b87d49",
+          "url": "/og/pages/technologies--Privileged~20Helper.webp?v=8a5ad3138001",
+          "version": "8a5ad3138001",
           "width": 1200
         }
       ],
@@ -4646,8 +4663,8 @@
           "height": 630,
           "output": "pages/technologies--Hardware~20Monitoring.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Hardware~20Monitoring.webp?v=4e764597757e",
-          "version": "4e764597757e",
+          "url": "/og/pages/technologies--Hardware~20Monitoring.webp?v=79dab11eb8f4",
+          "version": "79dab11eb8f4",
           "width": 1200
         }
       ],
@@ -4663,8 +4680,8 @@
           "height": 630,
           "output": "pages/technologies--Thermal~20Management.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Thermal~20Management.webp?v=4d2a16828528",
-          "version": "4d2a16828528",
+          "url": "/og/pages/technologies--Thermal~20Management.webp?v=69753fc277a0",
+          "version": "69753fc277a0",
           "width": 1200
         }
       ],
@@ -4680,8 +4697,8 @@
           "height": 630,
           "output": "pages/technologies--Safety~20Engineering.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Safety~20Engineering.webp?v=5e4108e66bbb",
-          "version": "5e4108e66bbb",
+          "url": "/og/pages/technologies--Safety~20Engineering.webp?v=6026ed75d940",
+          "version": "6026ed75d940",
           "width": 1200
         }
       ],
@@ -4697,8 +4714,8 @@
           "height": 630,
           "output": "pages/technologies--Redux.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Redux.webp?v=982fcaf1f957",
-          "version": "982fcaf1f957",
+          "url": "/og/pages/technologies--Redux.webp?v=1beda780344c",
+          "version": "1beda780344c",
           "width": 1200
         }
       ],
@@ -4714,8 +4731,8 @@
           "height": 630,
           "output": "pages/technologies--Redux~20Sagas.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Redux~20Sagas.webp?v=00d750ddc708",
-          "version": "00d750ddc708",
+          "url": "/og/pages/technologies--Redux~20Sagas.webp?v=a821d2b78c46",
+          "version": "a821d2b78c46",
           "width": 1200
         }
       ],
@@ -4731,8 +4748,8 @@
           "height": 630,
           "output": "pages/technologies--D3.js.webp",
           "primary": true,
-          "url": "/og/pages/technologies--D3.js.webp?v=d94b02e8fcc2",
-          "version": "d94b02e8fcc2",
+          "url": "/og/pages/technologies--D3.js.webp?v=b3820b6ab933",
+          "version": "b3820b6ab933",
           "width": 1200
         }
       ],
@@ -4748,8 +4765,8 @@
           "height": 630,
           "output": "pages/technologies--Styled~20Components.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Styled~20Components.webp?v=98f4edc76ee9",
-          "version": "98f4edc76ee9",
+          "url": "/og/pages/technologies--Styled~20Components.webp?v=1737d1960565",
+          "version": "1737d1960565",
           "width": 1200
         }
       ],
@@ -4765,8 +4782,8 @@
           "height": 630,
           "output": "pages/technologies--JavaScript.webp",
           "primary": true,
-          "url": "/og/pages/technologies--JavaScript.webp?v=2cffb774c705",
-          "version": "2cffb774c705",
+          "url": "/og/pages/technologies--JavaScript.webp?v=074790f7241d",
+          "version": "074790f7241d",
           "width": 1200
         }
       ],
@@ -4782,8 +4799,8 @@
           "height": 630,
           "output": "pages/technologies--Semantic~20HTML~20~26~20CSS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Semantic~20HTML~20~26~20CSS.webp?v=deba1da28635",
-          "version": "deba1da28635",
+          "url": "/og/pages/technologies--Semantic~20HTML~20~26~20CSS.webp?v=6b49faa5946d",
+          "version": "6b49faa5946d",
           "width": 1200
         }
       ],
@@ -4799,8 +4816,8 @@
           "height": 630,
           "output": "pages/technologies--SASS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SASS.webp?v=17069e0138a8",
-          "version": "17069e0138a8",
+          "url": "/og/pages/technologies--SASS.webp?v=c6d91f301ade",
+          "version": "c6d91f301ade",
           "width": 1200
         }
       ],
@@ -4816,8 +4833,8 @@
           "height": 630,
           "output": "pages/technologies--Git.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Git.webp?v=ce3a4948a268",
-          "version": "ce3a4948a268",
+          "url": "/og/pages/technologies--Git.webp?v=e8ddb980e686",
+          "version": "e8ddb980e686",
           "width": 1200
         }
       ],
@@ -4833,8 +4850,8 @@
           "height": 630,
           "output": "pages/technologies--GitHub.webp",
           "primary": true,
-          "url": "/og/pages/technologies--GitHub.webp?v=34de8e1a0190",
-          "version": "34de8e1a0190",
+          "url": "/og/pages/technologies--GitHub.webp?v=ac2a4e1d09db",
+          "version": "ac2a4e1d09db",
           "width": 1200
         }
       ],
@@ -4850,8 +4867,8 @@
           "height": 630,
           "output": "pages/technologies--Scrum.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Scrum.webp?v=4810d81464b2",
-          "version": "4810d81464b2",
+          "url": "/og/pages/technologies--Scrum.webp?v=787f3bbcac58",
+          "version": "787f3bbcac58",
           "width": 1200
         }
       ],
@@ -4867,8 +4884,8 @@
           "height": 630,
           "output": "pages/technologies--Team~20Leadership.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Team~20Leadership.webp?v=f6ef8bb24982",
-          "version": "f6ef8bb24982",
+          "url": "/og/pages/technologies--Team~20Leadership.webp?v=fef17f017de4",
+          "version": "fef17f017de4",
           "width": 1200
         }
       ],
@@ -4884,8 +4901,8 @@
           "height": 630,
           "output": "pages/technologies--GCP.webp",
           "primary": true,
-          "url": "/og/pages/technologies--GCP.webp?v=1aac2a0218a6",
-          "version": "1aac2a0218a6",
+          "url": "/og/pages/technologies--GCP.webp?v=bccf62f453c7",
+          "version": "bccf62f453c7",
           "width": 1200
         }
       ],
@@ -4901,8 +4918,8 @@
           "height": 630,
           "output": "pages/technologies--jQuery.webp",
           "primary": true,
-          "url": "/og/pages/technologies--jQuery.webp?v=de69b9478d7e",
-          "version": "de69b9478d7e",
+          "url": "/og/pages/technologies--jQuery.webp?v=fa6299b324ba",
+          "version": "fa6299b324ba",
           "width": 1200
         }
       ],
@@ -4918,8 +4935,8 @@
           "height": 630,
           "output": "pages/technologies--React~20Router.webp",
           "primary": true,
-          "url": "/og/pages/technologies--React~20Router.webp?v=758fe9f6ee07",
-          "version": "758fe9f6ee07",
+          "url": "/og/pages/technologies--React~20Router.webp?v=5cb6fdf2419d",
+          "version": "5cb6fdf2419d",
           "width": 1200
         }
       ],
@@ -4935,8 +4952,8 @@
           "height": 630,
           "output": "pages/technologies--Jest.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Jest.webp?v=326c3a33bfed",
-          "version": "326c3a33bfed",
+          "url": "/og/pages/technologies--Jest.webp?v=5c29ac8b7bda",
+          "version": "5c29ac8b7bda",
           "width": 1200
         }
       ],
@@ -4952,8 +4969,8 @@
           "height": 630,
           "output": "pages/technologies--Storybook.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Storybook.webp?v=cf62ad898b81",
-          "version": "cf62ad898b81",
+          "url": "/og/pages/technologies--Storybook.webp?v=cf3fe82789a3",
+          "version": "cf3fe82789a3",
           "width": 1200
         }
       ],
@@ -4969,8 +4986,8 @@
           "height": 630,
           "output": "pages/technologies--Cypress.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Cypress.webp?v=ba1b44728fce",
-          "version": "ba1b44728fce",
+          "url": "/og/pages/technologies--Cypress.webp?v=9f60ec5bd373",
+          "version": "9f60ec5bd373",
           "width": 1200
         }
       ],
@@ -4986,8 +5003,8 @@
           "height": 630,
           "output": "pages/technologies--Yup.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Yup.webp?v=c228a92e83ed",
-          "version": "c228a92e83ed",
+          "url": "/og/pages/technologies--Yup.webp?v=36a7c9e54d01",
+          "version": "36a7c9e54d01",
           "width": 1200
         }
       ],
@@ -5003,8 +5020,8 @@
           "height": 630,
           "output": "pages/technologies--Sentry.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Sentry.webp?v=0f3aef9fd597",
-          "version": "0f3aef9fd597",
+          "url": "/og/pages/technologies--Sentry.webp?v=aaac0f109a4b",
+          "version": "aaac0f109a4b",
           "width": 1200
         }
       ],
@@ -5020,8 +5037,8 @@
           "height": 630,
           "output": "pages/technologies--Highcharts.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Highcharts.webp?v=8e894e90311d",
-          "version": "8e894e90311d",
+          "url": "/og/pages/technologies--Highcharts.webp?v=42ce267dd623",
+          "version": "42ce267dd623",
           "width": 1200
         }
       ],
@@ -5037,8 +5054,8 @@
           "height": 630,
           "output": "pages/technologies--Formik.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Formik.webp?v=c6b18b1fa36f",
-          "version": "c6b18b1fa36f",
+          "url": "/og/pages/technologies--Formik.webp?v=92a6179fb138",
+          "version": "92a6179fb138",
           "width": 1200
         }
       ],
@@ -5054,8 +5071,8 @@
           "height": 630,
           "output": "pages/technologies--Zed~20Extension.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Zed~20Extension.webp?v=8edf48d57851",
-          "version": "8edf48d57851",
+          "url": "/og/pages/technologies--Zed~20Extension.webp?v=5f8c11689511",
+          "version": "5f8c11689511",
           "width": 1200
         }
       ],
@@ -5071,8 +5088,8 @@
           "height": 630,
           "output": "pages/technologies--Language~20Server~20Protocol.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Language~20Server~20Protocol.webp?v=d0e0891504f0",
-          "version": "d0e0891504f0",
+          "url": "/og/pages/technologies--Language~20Server~20Protocol.webp?v=d669a3c98a16",
+          "version": "d669a3c98a16",
           "width": 1200
         }
       ],
@@ -5088,8 +5105,8 @@
           "height": 630,
           "output": "pages/technologies--Rust.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Rust.webp?v=4048ee8d9d37",
-          "version": "4048ee8d9d37",
+          "url": "/og/pages/technologies--Rust.webp?v=ad42be3af569",
+          "version": "ad42be3af569",
           "width": 1200
         }
       ],
@@ -5105,8 +5122,8 @@
           "height": 630,
           "output": "pages/technologies--CodeLens.webp",
           "primary": true,
-          "url": "/og/pages/technologies--CodeLens.webp?v=0559e6b9ba48",
-          "version": "0559e6b9ba48",
+          "url": "/og/pages/technologies--CodeLens.webp?v=34708ff547c8",
+          "version": "34708ff547c8",
           "width": 1200
         }
       ],
@@ -5122,8 +5139,8 @@
           "height": 630,
           "output": "pages/technologies--NPM.webp",
           "primary": true,
-          "url": "/og/pages/technologies--NPM.webp?v=9f997786e7d4",
-          "version": "9f997786e7d4",
+          "url": "/og/pages/technologies--NPM.webp?v=7f03ad4ce98b",
+          "version": "7f03ad4ce98b",
           "width": 1200
         }
       ],
@@ -5139,8 +5156,8 @@
           "height": 630,
           "output": "pages/technologies--OSV.dev.webp",
           "primary": true,
-          "url": "/og/pages/technologies--OSV.dev.webp?v=e4f436d7aa8f",
-          "version": "e4f436d7aa8f",
+          "url": "/og/pages/technologies--OSV.dev.webp?v=1ede55d41ce7",
+          "version": "1ede55d41ce7",
           "width": 1200
         }
       ],
@@ -5156,8 +5173,8 @@
           "height": 630,
           "output": "pages/technologies--Open~20VSX.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Open~20VSX.webp?v=95e44106fbb1",
-          "version": "95e44106fbb1",
+          "url": "/og/pages/technologies--Open~20VSX.webp?v=8880d6359e04",
+          "version": "8880d6359e04",
           "width": 1200
         }
       ],
@@ -5173,8 +5190,8 @@
           "height": 630,
           "output": "pages/technologies--Visual~20Studio~20Marketplace.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Visual~20Studio~20Marketplace.webp?v=1920a8ff6014",
-          "version": "1920a8ff6014",
+          "url": "/og/pages/technologies--Visual~20Studio~20Marketplace.webp?v=aa87d0699a41",
+          "version": "aa87d0699a41",
           "width": 1200
         }
       ],
@@ -5190,8 +5207,8 @@
           "height": 630,
           "output": "pages/technologies--esbuild.webp",
           "primary": true,
-          "url": "/og/pages/technologies--esbuild.webp?v=185dc70f6b98",
-          "version": "185dc70f6b98",
+          "url": "/og/pages/technologies--esbuild.webp?v=157723ce0350",
+          "version": "157723ce0350",
           "width": 1200
         }
       ],
@@ -5207,8 +5224,8 @@
           "height": 630,
           "output": "pages/technologies--Dependency~20Management.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Dependency~20Management.webp?v=6acc192bb11f",
-          "version": "6acc192bb11f",
+          "url": "/og/pages/technologies--Dependency~20Management.webp?v=fb8035922815",
+          "version": "fb8035922815",
           "width": 1200
         }
       ],
@@ -5224,8 +5241,8 @@
           "height": 630,
           "output": "pages/technologies--Expo.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Expo.webp?v=0263913f3a0a",
-          "version": "0263913f3a0a",
+          "url": "/og/pages/technologies--Expo.webp?v=9d1c5537ccc2",
+          "version": "9d1c5537ccc2",
           "width": 1200
         }
       ],
@@ -5241,8 +5258,8 @@
           "height": 630,
           "output": "pages/technologies--DevOps~20Automation.webp",
           "primary": true,
-          "url": "/og/pages/technologies--DevOps~20Automation.webp?v=b9fa3b6e4d9f",
-          "version": "b9fa3b6e4d9f",
+          "url": "/og/pages/technologies--DevOps~20Automation.webp?v=51519edde7e9",
+          "version": "51519edde7e9",
           "width": 1200
         }
       ],
@@ -5258,8 +5275,8 @@
           "height": 630,
           "output": "pages/technologies--WordPress.webp",
           "primary": true,
-          "url": "/og/pages/technologies--WordPress.webp?v=298521bae4bf",
-          "version": "298521bae4bf",
+          "url": "/og/pages/technologies--WordPress.webp?v=c5167fff5f81",
+          "version": "c5167fff5f81",
           "width": 1200
         }
       ],
@@ -5275,8 +5292,8 @@
           "height": 630,
           "output": "pages/technologies--PHP.webp",
           "primary": true,
-          "url": "/og/pages/technologies--PHP.webp?v=88217d71d105",
-          "version": "88217d71d105",
+          "url": "/og/pages/technologies--PHP.webp?v=f0456f2ae5eb",
+          "version": "f0456f2ae5eb",
           "width": 1200
         }
       ],
@@ -5292,8 +5309,8 @@
           "height": 630,
           "output": "pages/technologies--WooCommerce.webp",
           "primary": true,
-          "url": "/og/pages/technologies--WooCommerce.webp?v=ff86586728ee",
-          "version": "ff86586728ee",
+          "url": "/og/pages/technologies--WooCommerce.webp?v=b93b79b556d0",
+          "version": "b93b79b556d0",
           "width": 1200
         }
       ],
@@ -5309,8 +5326,8 @@
           "height": 630,
           "output": "pages/technologies--PostgreSQL.webp",
           "primary": true,
-          "url": "/og/pages/technologies--PostgreSQL.webp?v=15b1850ea2b3",
-          "version": "15b1850ea2b3",
+          "url": "/og/pages/technologies--PostgreSQL.webp?v=8c9a661dfefb",
+          "version": "8c9a661dfefb",
           "width": 1200
         }
       ],
@@ -5326,8 +5343,8 @@
           "height": 630,
           "output": "pages/technologies--MySQL.webp",
           "primary": true,
-          "url": "/og/pages/technologies--MySQL.webp?v=4dd2aecc8a20",
-          "version": "4dd2aecc8a20",
+          "url": "/og/pages/technologies--MySQL.webp?v=110d9c1a81ec",
+          "version": "110d9c1a81ec",
           "width": 1200
         }
       ],
@@ -5343,8 +5360,8 @@
           "height": 630,
           "output": "pages/technologies--Linux.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Linux.webp?v=68681738e009",
-          "version": "68681738e009",
+          "url": "/og/pages/technologies--Linux.webp?v=66f5fe9b367b",
+          "version": "66f5fe9b367b",
           "width": 1200
         }
       ],
@@ -5360,8 +5377,8 @@
           "height": 630,
           "output": "pages/technologies--Google~20Ads.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Google~20Ads.webp?v=3ed39ff4f47d",
-          "version": "3ed39ff4f47d",
+          "url": "/og/pages/technologies--Google~20Ads.webp?v=345313f0d866",
+          "version": "345313f0d866",
           "width": 1200
         }
       ],
@@ -5377,8 +5394,8 @@
           "height": 630,
           "output": "pages/technologies--Facebook~20Ads.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Facebook~20Ads.webp?v=90086c0b5bd5",
-          "version": "90086c0b5bd5",
+          "url": "/og/pages/technologies--Facebook~20Ads.webp?v=942b5373ab7e",
+          "version": "942b5373ab7e",
           "width": 1200
         }
       ],
@@ -5394,8 +5411,8 @@
           "height": 630,
           "output": "pages/technologies--SEO.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SEO.webp?v=2d54af82fe2e",
-          "version": "2d54af82fe2e",
+          "url": "/og/pages/technologies--SEO.webp?v=bdc934e41b43",
+          "version": "bdc934e41b43",
           "width": 1200
         }
       ],
@@ -5411,8 +5428,8 @@
           "height": 630,
           "output": "pages/technologies--GitLab.webp",
           "primary": true,
-          "url": "/og/pages/technologies--GitLab.webp?v=54e5d1740615",
-          "version": "54e5d1740615",
+          "url": "/og/pages/technologies--GitLab.webp?v=7acda8ae3954",
+          "version": "7acda8ae3954",
           "width": 1200
         }
       ],
@@ -5428,8 +5445,8 @@
           "height": 630,
           "output": "pages/technologies--Web~20Components.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Web~20Components.webp?v=e6b7e5207e9a",
-          "version": "e6b7e5207e9a",
+          "url": "/og/pages/technologies--Web~20Components.webp?v=c9be2dfa6171",
+          "version": "c9be2dfa6171",
           "width": 1200
         }
       ],
@@ -5445,8 +5462,8 @@
           "height": 630,
           "output": "pages/technologies--CSS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--CSS.webp?v=0559a3aebf6e",
-          "version": "0559a3aebf6e",
+          "url": "/og/pages/technologies--CSS.webp?v=ac14494d8059",
+          "version": "ac14494d8059",
           "width": 1200
         }
       ],
@@ -5462,8 +5479,8 @@
           "height": 630,
           "output": "pages/technologies--Design~20Systems.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Design~20Systems.webp?v=272f31d5cd62",
-          "version": "272f31d5cd62",
+          "url": "/og/pages/technologies--Design~20Systems.webp?v=ba39e849d427",
+          "version": "ba39e849d427",
           "width": 1200
         }
       ],
@@ -5479,8 +5496,8 @@
           "height": 630,
           "output": "pages/technologies--Figma.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Figma.webp?v=613853a8430c",
-          "version": "613853a8430c",
+          "url": "/og/pages/technologies--Figma.webp?v=603be1aa50fd",
+          "version": "603be1aa50fd",
           "width": 1200
         }
       ],
@@ -5496,8 +5513,8 @@
           "height": 630,
           "output": "pages/technologies--Model~20Context~20Protocol.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Model~20Context~20Protocol.webp?v=4f4dea676278",
-          "version": "4f4dea676278",
+          "url": "/og/pages/technologies--Model~20Context~20Protocol.webp?v=c38c65ab7bdc",
+          "version": "c38c65ab7bdc",
           "width": 1200
         }
       ],
@@ -5513,8 +5530,8 @@
           "height": 630,
           "output": "pages/technologies--AI-assisted~20Development.webp",
           "primary": true,
-          "url": "/og/pages/technologies--AI-assisted~20Development.webp?v=4a6b2c8eb291",
-          "version": "4a6b2c8eb291",
+          "url": "/og/pages/technologies--AI-assisted~20Development.webp?v=5efae1669ae1",
+          "version": "5efae1669ae1",
           "width": 1200
         }
       ],
@@ -5530,8 +5547,8 @@
           "height": 630,
           "output": "pages/technologies--Ruby.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Ruby.webp?v=eae2981a282b",
-          "version": "eae2981a282b",
+          "url": "/og/pages/technologies--Ruby.webp?v=a2198f7b1853",
+          "version": "a2198f7b1853",
           "width": 1200
         }
       ],
@@ -5547,8 +5564,8 @@
           "height": 630,
           "output": "pages/technologies--Ruby~20on~20Rails.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Ruby~20on~20Rails.webp?v=d12c3ad06f9c",
-          "version": "d12c3ad06f9c",
+          "url": "/og/pages/technologies--Ruby~20on~20Rails.webp?v=2cf03e29293e",
+          "version": "2cf03e29293e",
           "width": 1200
         }
       ],
@@ -5564,8 +5581,8 @@
           "height": 630,
           "output": "pages/technologies--RSpec.webp",
           "primary": true,
-          "url": "/og/pages/technologies--RSpec.webp?v=34cdebffd316",
-          "version": "34cdebffd316",
+          "url": "/og/pages/technologies--RSpec.webp?v=61fe2cf526cf",
+          "version": "61fe2cf526cf",
           "width": 1200
         }
       ],
@@ -5581,8 +5598,8 @@
           "height": 630,
           "output": "pages/technologies--AngularJS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--AngularJS.webp?v=573eae6e9182",
-          "version": "573eae6e9182",
+          "url": "/og/pages/technologies--AngularJS.webp?v=2c4b4bd80d55",
+          "version": "2c4b4bd80d55",
           "width": 1200
         }
       ],
@@ -5598,8 +5615,8 @@
           "height": 630,
           "output": "pages/technologies--Java.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Java.webp?v=d19d80577906",
-          "version": "d19d80577906",
+          "url": "/og/pages/technologies--Java.webp?v=36cc1009f1e8",
+          "version": "36cc1009f1e8",
           "width": 1200
         }
       ],
@@ -5615,8 +5632,8 @@
           "height": 630,
           "output": "pages/technologies--Cordova.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Cordova.webp?v=87be1929fabb",
-          "version": "87be1929fabb",
+          "url": "/og/pages/technologies--Cordova.webp?v=d86e94fa128b",
+          "version": "d86e94fa128b",
           "width": 1200
         }
       ],
@@ -5632,8 +5649,8 @@
           "height": 630,
           "output": "pages/technologies--Heroku.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Heroku.webp?v=6c98a4f0ec90",
-          "version": "6c98a4f0ec90",
+          "url": "/og/pages/technologies--Heroku.webp?v=3b4c477fd725",
+          "version": "3b4c477fd725",
           "width": 1200
         }
       ],
@@ -5649,8 +5666,8 @@
           "height": 630,
           "output": "pages/technologies--Bitbucket.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Bitbucket.webp?v=53b2ce10117e",
-          "version": "53b2ce10117e",
+          "url": "/og/pages/technologies--Bitbucket.webp?v=6d7afa2ddfb2",
+          "version": "6d7afa2ddfb2",
           "width": 1200
         }
       ],
@@ -5666,8 +5683,8 @@
           "height": 630,
           "output": "pages/technologies--Android.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Android.webp?v=00d887d775c4",
-          "version": "00d887d775c4",
+          "url": "/og/pages/technologies--Android.webp?v=7ad775998038",
+          "version": "7ad775998038",
           "width": 1200
         }
       ],
@@ -5683,8 +5700,8 @@
           "height": 630,
           "output": "pages/technologies--Open~20Graph.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Open~20Graph.webp?v=587ecb7ce328",
-          "version": "587ecb7ce328",
+          "url": "/og/pages/technologies--Open~20Graph.webp?v=3e890acd2931",
+          "version": "3e890acd2931",
           "width": 1200
         }
       ],
@@ -5700,8 +5717,8 @@
           "height": 630,
           "output": "pages/technologies--Satori.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Satori.webp?v=3302c6123a46",
-          "version": "3302c6123a46",
+          "url": "/og/pages/technologies--Satori.webp?v=661c14889ca5",
+          "version": "661c14889ca5",
           "width": 1200
         }
       ],
@@ -5717,8 +5734,8 @@
           "height": 630,
           "output": "pages/technologies--Sharp.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Sharp.webp?v=13e86c52a3a6",
-          "version": "13e86c52a3a6",
+          "url": "/og/pages/technologies--Sharp.webp?v=ee194a4195d3",
+          "version": "ee194a4195d3",
           "width": 1200
         }
       ],
@@ -5734,8 +5751,8 @@
           "height": 630,
           "output": "pages/technologies--SVG.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SVG.webp?v=178716827a27",
-          "version": "178716827a27",
+          "url": "/og/pages/technologies--SVG.webp?v=5329748fdcef",
+          "version": "5329748fdcef",
           "width": 1200
         }
       ],
@@ -5751,8 +5768,8 @@
           "height": 630,
           "output": "pages/technologies--WebP.webp",
           "primary": true,
-          "url": "/og/pages/technologies--WebP.webp?v=803ab0bbcc81",
-          "version": "803ab0bbcc81",
+          "url": "/og/pages/technologies--WebP.webp?v=d3738eb692c8",
+          "version": "d3738eb692c8",
           "width": 1200
         }
       ],
@@ -5768,8 +5785,8 @@
           "height": 630,
           "output": "pages/technologies--AVIF.webp",
           "primary": true,
-          "url": "/og/pages/technologies--AVIF.webp?v=db04884af3fa",
-          "version": "db04884af3fa",
+          "url": "/og/pages/technologies--AVIF.webp?v=a0021053ead0",
+          "version": "a0021053ead0",
           "width": 1200
         }
       ],
@@ -5785,8 +5802,8 @@
           "height": 630,
           "output": "pages/technologies--Worker~20Threads.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Worker~20Threads.webp?v=6074f616da3f",
-          "version": "6074f616da3f",
+          "url": "/og/pages/technologies--Worker~20Threads.webp?v=7427c4e54153",
+          "version": "7427c4e54153",
           "width": 1200
         }
       ],
@@ -5802,8 +5819,8 @@
           "height": 630,
           "output": "pages/technologies--Developer~20Tooling.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Developer~20Tooling.webp?v=d120a12d9868",
-          "version": "d120a12d9868",
+          "url": "/og/pages/technologies--Developer~20Tooling.webp?v=20357f278730",
+          "version": "20357f278730",
           "width": 1200
         }
       ],
@@ -5819,8 +5836,8 @@
           "height": 630,
           "output": "pages/technologies--Redux~20Toolkit.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Redux~20Toolkit.webp?v=07c2038673ba",
-          "version": "07c2038673ba",
+          "url": "/og/pages/technologies--Redux~20Toolkit.webp?v=a9da5bf11629",
+          "version": "a9da5bf11629",
           "width": 1200
         }
       ],
@@ -5836,8 +5853,8 @@
           "height": 630,
           "output": "pages/technologies--MongoDB.webp",
           "primary": true,
-          "url": "/og/pages/technologies--MongoDB.webp?v=50b20ef804da",
-          "version": "50b20ef804da",
+          "url": "/og/pages/technologies--MongoDB.webp?v=5b51854ccc3a",
+          "version": "5b51854ccc3a",
           "width": 1200
         }
       ],
@@ -5853,8 +5870,8 @@
           "height": 630,
           "output": "pages/technologies--GraphQL.webp",
           "primary": true,
-          "url": "/og/pages/technologies--GraphQL.webp?v=b1500a14362f",
-          "version": "b1500a14362f",
+          "url": "/og/pages/technologies--GraphQL.webp?v=17fb68023b8d",
+          "version": "17fb68023b8d",
           "width": 1200
         }
       ],
@@ -5870,8 +5887,8 @@
           "height": 630,
           "output": "pages/technologies--AWS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--AWS.webp?v=a7fea6e4cef3",
-          "version": "a7fea6e4cef3",
+          "url": "/og/pages/technologies--AWS.webp?v=f83a3eac73b4",
+          "version": "f83a3eac73b4",
           "width": 1200
         }
       ],
@@ -5887,8 +5904,8 @@
           "height": 630,
           "output": "pages/technologies--Socket.io.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Socket.io.webp?v=1fd215a98052",
-          "version": "1fd215a98052",
+          "url": "/og/pages/technologies--Socket.io.webp?v=e5def8b4934d",
+          "version": "e5def8b4934d",
           "width": 1200
         }
       ],
@@ -5904,8 +5921,8 @@
           "height": 630,
           "output": "pages/technologies--Elixir.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Elixir.webp?v=c2a7eeac69e8",
-          "version": "c2a7eeac69e8",
+          "url": "/og/pages/technologies--Elixir.webp?v=e0a5255fc2fa",
+          "version": "e0a5255fc2fa",
           "width": 1200
         }
       ],
@@ -5921,8 +5938,8 @@
           "height": 630,
           "output": "pages/technologies--Phoenix.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Phoenix.webp?v=6ef003cdb19e",
-          "version": "6ef003cdb19e",
+          "url": "/og/pages/technologies--Phoenix.webp?v=8307986d05e9",
+          "version": "8307986d05e9",
           "width": 1200
         }
       ],
@@ -5938,8 +5955,8 @@
           "height": 630,
           "output": "pages/technologies--Docker.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Docker.webp?v=1e95345123c6",
-          "version": "1e95345123c6",
+          "url": "/og/pages/technologies--Docker.webp?v=50d5652e9a59",
+          "version": "50d5652e9a59",
           "width": 1200
         }
       ],
@@ -5955,8 +5972,8 @@
           "height": 630,
           "output": "pages/technologies--Angular.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Angular.webp?v=927eaf2b4945",
-          "version": "927eaf2b4945",
+          "url": "/og/pages/technologies--Angular.webp?v=54d5821421b0",
+          "version": "54d5821421b0",
           "width": 1200
         }
       ],
@@ -5972,8 +5989,8 @@
           "height": 630,
           "output": "pages/technologies--Express.js.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Express.js.webp?v=e81313478d09",
-          "version": "e81313478d09",
+          "url": "/og/pages/technologies--Express.js.webp?v=7c82fcbbf9c8",
+          "version": "7c82fcbbf9c8",
           "width": 1200
         }
       ],
@@ -5989,8 +6006,8 @@
           "height": 630,
           "output": "pages/technologies--YouTube~20API.webp",
           "primary": true,
-          "url": "/og/pages/technologies--YouTube~20API.webp?v=fc8aae44ab9f",
-          "version": "fc8aae44ab9f",
+          "url": "/og/pages/technologies--YouTube~20API.webp?v=2588167caa0d",
+          "version": "2588167caa0d",
           "width": 1200
         }
       ],
@@ -6006,8 +6023,8 @@
           "height": 630,
           "output": "pages/technologies--Twitch~20API.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Twitch~20API.webp?v=509945070d4f",
-          "version": "509945070d4f",
+          "url": "/og/pages/technologies--Twitch~20API.webp?v=032ba80bb8ad",
+          "version": "032ba80bb8ad",
           "width": 1200
         }
       ],
@@ -6023,8 +6040,8 @@
           "height": 630,
           "output": "pages/technologies--OAuth.webp",
           "primary": true,
-          "url": "/og/pages/technologies--OAuth.webp?v=8c37b75c142f",
-          "version": "8c37b75c142f",
+          "url": "/og/pages/technologies--OAuth.webp?v=cf5cffb5949f",
+          "version": "cf5cffb5949f",
           "width": 1200
         }
       ],
@@ -6040,8 +6057,8 @@
           "height": 630,
           "output": "pages/technologies--C-Sharp.webp",
           "primary": true,
-          "url": "/og/pages/technologies--C-Sharp.webp?v=aea9c3d39ec6",
-          "version": "aea9c3d39ec6",
+          "url": "/og/pages/technologies--C-Sharp.webp?v=26951da4fe8c",
+          "version": "26951da4fe8c",
           "width": 1200
         }
       ],
@@ -6057,8 +6074,8 @@
           "height": 630,
           "output": "pages/technologies--Unity.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Unity.webp?v=890e521eb4c2",
-          "version": "890e521eb4c2",
+          "url": "/og/pages/technologies--Unity.webp?v=a70ff4f168fe",
+          "version": "a70ff4f168fe",
           "width": 1200
         }
       ],
@@ -6074,8 +6091,8 @@
           "height": 630,
           "output": "pages/technologies--iOS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--iOS.webp?v=057ec9e631d8",
-          "version": "057ec9e631d8",
+          "url": "/og/pages/technologies--iOS.webp?v=275d9c19ff29",
+          "version": "275d9c19ff29",
           "width": 1200
         }
       ],
@@ -6091,8 +6108,8 @@
           "height": 630,
           "output": "pages/technologies--React~20Native.webp",
           "primary": true,
-          "url": "/og/pages/technologies--React~20Native.webp?v=274e804be2c4",
-          "version": "274e804be2c4",
+          "url": "/og/pages/technologies--React~20Native.webp?v=17f565ffe6c8",
+          "version": "17f565ffe6c8",
           "width": 1200
         }
       ],
@@ -6108,8 +6125,8 @@
           "height": 630,
           "output": "pages/technologies--Lighthouse.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Lighthouse.webp?v=b1a263d0953c",
-          "version": "b1a263d0953c",
+          "url": "/og/pages/technologies--Lighthouse.webp?v=a63e4cac8901",
+          "version": "a63e4cac8901",
           "width": 1200
         }
       ],
@@ -6125,8 +6142,8 @@
           "height": 630,
           "output": "pages/technologies--Web~20Vitals.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Web~20Vitals.webp?v=5607ded3a262",
-          "version": "5607ded3a262",
+          "url": "/og/pages/technologies--Web~20Vitals.webp?v=82bf93d51b6e",
+          "version": "82bf93d51b6e",
           "width": 1200
         }
       ],
@@ -6142,8 +6159,8 @@
           "height": 630,
           "output": "pages/technologies--TanStack~20Query.webp",
           "primary": true,
-          "url": "/og/pages/technologies--TanStack~20Query.webp?v=4847391ae2e0",
-          "version": "4847391ae2e0",
+          "url": "/og/pages/technologies--TanStack~20Query.webp?v=24797b369428",
+          "version": "24797b369428",
           "width": 1200
         }
       ],
@@ -6159,8 +6176,8 @@
           "height": 630,
           "output": "pages/technologies--3rd~20Party~20APIs.webp",
           "primary": true,
-          "url": "/og/pages/technologies--3rd~20Party~20APIs.webp?v=d8c06cbf8e42",
-          "version": "d8c06cbf8e42",
+          "url": "/og/pages/technologies--3rd~20Party~20APIs.webp?v=909eee99d87c",
+          "version": "909eee99d87c",
           "width": 1200
         }
       ],
@@ -6176,8 +6193,8 @@
           "height": 630,
           "output": "pages/technologies--React~20Hook~20Form.webp",
           "primary": true,
-          "url": "/og/pages/technologies--React~20Hook~20Form.webp?v=a30a29018357",
-          "version": "a30a29018357",
+          "url": "/og/pages/technologies--React~20Hook~20Form.webp?v=2f13af3dac55",
+          "version": "2f13af3dac55",
           "width": 1200
         }
       ],
@@ -6193,8 +6210,8 @@
           "height": 630,
           "output": "pages/technologies--Google~20Maps~20API.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Google~20Maps~20API.webp?v=bba09e48b938",
-          "version": "bba09e48b938",
+          "url": "/og/pages/technologies--Google~20Maps~20API.webp?v=52860353fafd",
+          "version": "52860353fafd",
           "width": 1200
         }
       ],
@@ -6210,8 +6227,8 @@
           "height": 630,
           "output": "pages/technologies--Mapbox.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Mapbox.webp?v=1167e3967650",
-          "version": "1167e3967650",
+          "url": "/og/pages/technologies--Mapbox.webp?v=242a6a4e3156",
+          "version": "242a6a4e3156",
           "width": 1200
         }
       ],
@@ -6227,8 +6244,8 @@
           "height": 630,
           "output": "pages/technologies--React~20Navigation.webp",
           "primary": true,
-          "url": "/og/pages/technologies--React~20Navigation.webp?v=9d7492ea3881",
-          "version": "9d7492ea3881",
+          "url": "/og/pages/technologies--React~20Navigation.webp?v=7f4c1c28f568",
+          "version": "7f4c1c28f568",
           "width": 1200
         }
       ],
@@ -6244,8 +6261,8 @@
           "height": 630,
           "output": "pages/technologies--PhotoKit.webp",
           "primary": true,
-          "url": "/og/pages/technologies--PhotoKit.webp?v=1a632ffaafb0",
-          "version": "1a632ffaafb0",
+          "url": "/og/pages/technologies--PhotoKit.webp?v=1248d14a1849",
+          "version": "1248d14a1849",
           "width": 1200
         }
       ],
@@ -6261,8 +6278,8 @@
           "height": 630,
           "output": "pages/technologies--PhotosPicker.webp",
           "primary": true,
-          "url": "/og/pages/technologies--PhotosPicker.webp?v=eca685878bf6",
-          "version": "eca685878bf6",
+          "url": "/og/pages/technologies--PhotosPicker.webp?v=b74cf77dc94f",
+          "version": "b74cf77dc94f",
           "width": 1200
         }
       ],
@@ -6278,8 +6295,8 @@
           "height": 630,
           "output": "pages/technologies--Vision.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Vision.webp?v=dd9aa9c78f08",
-          "version": "dd9aa9c78f08",
+          "url": "/og/pages/technologies--Vision.webp?v=9cdf5e6838a9",
+          "version": "9cdf5e6838a9",
           "width": 1200
         }
       ],
@@ -6295,8 +6312,8 @@
           "height": 630,
           "output": "pages/technologies--Core~20Image.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Core~20Image.webp?v=bdd5e09cd452",
-          "version": "bdd5e09cd452",
+          "url": "/og/pages/technologies--Core~20Image.webp?v=b7bd6865dc4c",
+          "version": "b7bd6865dc4c",
           "width": 1200
         }
       ],
@@ -6312,8 +6329,8 @@
           "height": 630,
           "output": "pages/technologies--Foundation~20Models.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Foundation~20Models.webp?v=3d3209b93116",
-          "version": "3d3209b93116",
+          "url": "/og/pages/technologies--Foundation~20Models.webp?v=b95376d1eeb4",
+          "version": "b95376d1eeb4",
           "width": 1200
         }
       ],
@@ -6329,8 +6346,8 @@
           "height": 630,
           "output": "pages/technologies--Image~20Playground.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Image~20Playground.webp?v=1c99ab0d7d9c",
-          "version": "1c99ab0d7d9c",
+          "url": "/og/pages/technologies--Image~20Playground.webp?v=674a32625ecb",
+          "version": "674a32625ecb",
           "width": 1200
         }
       ],
@@ -6346,8 +6363,8 @@
           "height": 630,
           "output": "pages/technologies--StoreKit.webp",
           "primary": true,
-          "url": "/og/pages/technologies--StoreKit.webp?v=247849685cdf",
-          "version": "247849685cdf",
+          "url": "/og/pages/technologies--StoreKit.webp?v=8d7d499bde2c",
+          "version": "8d7d499bde2c",
           "width": 1200
         }
       ],
@@ -6363,8 +6380,8 @@
           "height": 630,
           "output": "pages/technologies--Privacy~20Engineering.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Privacy~20Engineering.webp?v=23ad55eeb601",
-          "version": "23ad55eeb601",
+          "url": "/og/pages/technologies--Privacy~20Engineering.webp?v=e9a3131cd446",
+          "version": "e9a3131cd446",
           "width": 1200
         }
       ],
@@ -6380,8 +6397,8 @@
           "height": 630,
           "output": "pages/technologies--On-device~20AI.webp",
           "primary": true,
-          "url": "/og/pages/technologies--On-device~20AI.webp?v=bf5e475caa96",
-          "version": "bf5e475caa96",
+          "url": "/og/pages/technologies--On-device~20AI.webp?v=decf19f1f275",
+          "version": "decf19f1f275",
           "width": 1200
         }
       ],
@@ -6397,8 +6414,8 @@
           "height": 630,
           "output": "pages/technologies--Image~20Processing.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Image~20Processing.webp?v=cd2fe8e825e1",
-          "version": "cd2fe8e825e1",
+          "url": "/og/pages/technologies--Image~20Processing.webp?v=992de0f1470a",
+          "version": "992de0f1470a",
           "width": 1200
         }
       ],
@@ -6414,8 +6431,8 @@
           "height": 630,
           "output": "pages/technologies--Localization.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Localization.webp?v=b5e69697a58a",
-          "version": "b5e69697a58a",
+          "url": "/og/pages/technologies--Localization.webp?v=89c0122ab731",
+          "version": "89c0122ab731",
           "width": 1200
         }
       ],
@@ -6431,8 +6448,8 @@
           "height": 630,
           "output": "pages/technologies--SARIF.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SARIF.webp?v=ee70ac832303",
-          "version": "ee70ac832303",
+          "url": "/og/pages/technologies--SARIF.webp?v=e3795d355f7f",
+          "version": "e3795d355f7f",
           "width": 1200
         }
       ],
@@ -6448,8 +6465,8 @@
           "height": 630,
           "output": "pages/technologies--Prettier.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Prettier.webp?v=775a1a7ee222",
-          "version": "775a1a7ee222",
+          "url": "/og/pages/technologies--Prettier.webp?v=4b9f3f6702d5",
+          "version": "4b9f3f6702d5",
           "width": 1200
         }
       ],
@@ -6465,8 +6482,8 @@
           "height": 630,
           "output": "pages/technologies--Clippy.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Clippy.webp?v=2c28b71e7f08",
-          "version": "2c28b71e7f08",
+          "url": "/og/pages/technologies--Clippy.webp?v=5f93b1ff539e",
+          "version": "5f93b1ff539e",
           "width": 1200
         }
       ],
@@ -6482,8 +6499,8 @@
           "height": 630,
           "output": "pages/technologies--SwiftLint.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SwiftLint.webp?v=9dc54d75e339",
-          "version": "9dc54d75e339",
+          "url": "/og/pages/technologies--SwiftLint.webp?v=10651b2082b0",
+          "version": "10651b2082b0",
           "width": 1200
         }
       ],
@@ -6499,8 +6516,8 @@
           "height": 630,
           "output": "pages/technologies--SwiftFormat.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SwiftFormat.webp?v=e4d4f21805b8",
-          "version": "e4d4f21805b8",
+          "url": "/og/pages/technologies--SwiftFormat.webp?v=773bd6a2c061",
+          "version": "773bd6a2c061",
           "width": 1200
         }
       ],
@@ -6516,8 +6533,8 @@
           "height": 630,
           "output": "pages/technologies--Android~20Lint.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Android~20Lint.webp?v=07851f46f63b",
-          "version": "07851f46f63b",
+          "url": "/og/pages/technologies--Android~20Lint.webp?v=4f1991d307f0",
+          "version": "4f1991d307f0",
           "width": 1200
         }
       ],
@@ -6533,8 +6550,8 @@
           "height": 630,
           "output": "pages/technologies--detekt.webp",
           "primary": true,
-          "url": "/og/pages/technologies--detekt.webp?v=e59c64318209",
-          "version": "e59c64318209",
+          "url": "/og/pages/technologies--detekt.webp?v=f17cb0810cb8",
+          "version": "f17cb0810cb8",
           "width": 1200
         }
       ],
@@ -6550,8 +6567,8 @@
           "height": 630,
           "output": "pages/technologies--ktlint.webp",
           "primary": true,
-          "url": "/og/pages/technologies--ktlint.webp?v=2840375989fe",
-          "version": "2840375989fe",
+          "url": "/og/pages/technologies--ktlint.webp?v=71fbb6df79c3",
+          "version": "71fbb6df79c3",
           "width": 1200
         }
       ],
@@ -6567,8 +6584,8 @@
           "height": 630,
           "output": "pages/technologies--CSpell.webp",
           "primary": true,
-          "url": "/og/pages/technologies--CSpell.webp?v=dc8c732386a2",
-          "version": "dc8c732386a2",
+          "url": "/og/pages/technologies--CSpell.webp?v=85629b2095ae",
+          "version": "85629b2095ae",
           "width": 1200
         }
       ],
@@ -6584,8 +6601,8 @@
           "height": 630,
           "output": "pages/technologies--Knip.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Knip.webp?v=236619b1a059",
-          "version": "236619b1a059",
+          "url": "/og/pages/technologies--Knip.webp?v=877c5eebe5d8",
+          "version": "877c5eebe5d8",
           "width": 1200
         }
       ],
@@ -6601,8 +6618,8 @@
           "height": 630,
           "output": "pages/technologies--Actionlint.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Actionlint.webp?v=ec5e0ccb4b28",
-          "version": "ec5e0ccb4b28",
+          "url": "/og/pages/technologies--Actionlint.webp?v=f24baf7ac527",
+          "version": "f24baf7ac527",
           "width": 1200
         }
       ],
@@ -6618,8 +6635,8 @@
           "height": 630,
           "output": "pages/technologies--Community~20Building.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Community~20Building.webp?v=33fd342ec03d",
-          "version": "33fd342ec03d",
+          "url": "/og/pages/technologies--Community~20Building.webp?v=1458ebbe462c",
+          "version": "1458ebbe462c",
           "width": 1200
         }
       ],
@@ -6635,8 +6652,8 @@
           "height": 630,
           "output": "pages/technologies--Public~20Speaking.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Public~20Speaking.webp?v=cd33cf8cee68",
-          "version": "cd33cf8cee68",
+          "url": "/og/pages/technologies--Public~20Speaking.webp?v=4dbb6b5f4d90",
+          "version": "4dbb6b5f4d90",
           "width": 1200
         }
       ],
@@ -6652,8 +6669,8 @@
           "height": 630,
           "output": "pages/technologies--Workshops.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Workshops.webp?v=7e974ec7a5d2",
-          "version": "7e974ec7a5d2",
+          "url": "/og/pages/technologies--Workshops.webp?v=0dad070c3cf8",
+          "version": "0dad070c3cf8",
           "width": 1200
         }
       ],
@@ -6669,8 +6686,8 @@
           "height": 630,
           "output": "pages/technologies--Mentorship.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Mentorship.webp?v=25d05e9cedea",
-          "version": "25d05e9cedea",
+          "url": "/og/pages/technologies--Mentorship.webp?v=c4b10c634f9a",
+          "version": "c4b10c634f9a",
           "width": 1200
         }
       ],
@@ -6686,8 +6703,8 @@
           "height": 630,
           "output": "pages/technologies--Event~20Organization.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Event~20Organization.webp?v=2a1203c6781e",
-          "version": "2a1203c6781e",
+          "url": "/og/pages/technologies--Event~20Organization.webp?v=e50e9bcac99e",
+          "version": "e50e9bcac99e",
           "width": 1200
         }
       ],
@@ -6703,8 +6720,8 @@
           "height": 630,
           "output": "pages/technologies--Expo~20Router.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Expo~20Router.webp?v=812556c2f9d9",
-          "version": "812556c2f9d9",
+          "url": "/og/pages/technologies--Expo~20Router.webp?v=26cd02e54d90",
+          "version": "26cd02e54d90",
           "width": 1200
         }
       ],
@@ -6720,8 +6737,8 @@
           "height": 630,
           "output": "pages/technologies--Zustand.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Zustand.webp?v=2ad19b44aa86",
-          "version": "2ad19b44aa86",
+          "url": "/og/pages/technologies--Zustand.webp?v=2240e24b3527",
+          "version": "2240e24b3527",
           "width": 1200
         }
       ],
@@ -6737,8 +6754,8 @@
           "height": 630,
           "output": "pages/technologies--Web.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Web.webp?v=30ac9861d0d6",
-          "version": "30ac9861d0d6",
+          "url": "/og/pages/technologies--Web.webp?v=781ff6221711",
+          "version": "781ff6221711",
           "width": 1200
         }
       ],
@@ -6754,8 +6771,8 @@
           "height": 630,
           "output": "pages/technologies--Google~20Play~20Billing.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Google~20Play~20Billing.webp?v=518f26621ea7",
-          "version": "518f26621ea7",
+          "url": "/og/pages/technologies--Google~20Play~20Billing.webp?v=8bde482239d3",
+          "version": "8bde482239d3",
           "width": 1200
         }
       ],
@@ -6771,8 +6788,8 @@
           "height": 630,
           "output": "pages/technologies--Zed.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Zed.webp?v=5f168e5b129e",
-          "version": "5f168e5b129e",
+          "url": "/og/pages/technologies--Zed.webp?v=0cb6fc1418d3",
+          "version": "0cb6fc1418d3",
           "width": 1200
         }
       ],
@@ -6788,8 +6805,8 @@
           "height": 630,
           "output": "pages/technologies--Codex.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Codex.webp?v=e6949038fe02",
-          "version": "e6949038fe02",
+          "url": "/og/pages/technologies--Codex.webp?v=c6dd0e91e719",
+          "version": "c6dd0e91e719",
           "width": 1200
         }
       ],
@@ -6805,8 +6822,8 @@
           "height": 630,
           "output": "pages/technologies--Raycast.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Raycast.webp?v=42b34d743927",
-          "version": "42b34d743927",
+          "url": "/og/pages/technologies--Raycast.webp?v=fc72142a9799",
+          "version": "fc72142a9799",
           "width": 1200
         }
       ],
@@ -6822,8 +6839,8 @@
           "height": 630,
           "output": "pages/technologies--Slack.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Slack.webp?v=729d308504fc",
-          "version": "729d308504fc",
+          "url": "/og/pages/technologies--Slack.webp?v=26683222a5bf",
+          "version": "26683222a5bf",
           "width": 1200
         }
       ],
@@ -6839,8 +6856,8 @@
           "height": 630,
           "output": "pages/technologies--JetBrains.webp",
           "primary": true,
-          "url": "/og/pages/technologies--JetBrains.webp?v=5ed550a69364",
-          "version": "5ed550a69364",
+          "url": "/og/pages/technologies--JetBrains.webp?v=75742a58bb8a",
+          "version": "75742a58bb8a",
           "width": 1200
         }
       ],
@@ -6856,8 +6873,8 @@
           "height": 630,
           "output": "pages/technologies--Android~20Studio.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Android~20Studio.webp?v=4396a56542da",
-          "version": "4396a56542da",
+          "url": "/og/pages/technologies--Android~20Studio.webp?v=0561cca8c023",
+          "version": "0561cca8c023",
           "width": 1200
         }
       ],
@@ -6873,8 +6890,8 @@
           "height": 630,
           "output": "pages/technologies--Xcode.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Xcode.webp?v=17caff22dcaa",
-          "version": "17caff22dcaa",
+          "url": "/og/pages/technologies--Xcode.webp?v=b453a5520d1f",
+          "version": "b453a5520d1f",
           "width": 1200
         }
       ],
@@ -6890,8 +6907,8 @@
           "height": 630,
           "output": "pages/technologies--Visual~20Studio~20Code.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Visual~20Studio~20Code.webp?v=aa0b8e20754d",
-          "version": "aa0b8e20754d",
+          "url": "/og/pages/technologies--Visual~20Studio~20Code.webp?v=c1c407839df6",
+          "version": "c1c407839df6",
           "width": 1200
         }
       ],
@@ -6907,8 +6924,8 @@
           "height": 630,
           "output": "pages/technologies--Cursor.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Cursor.webp?v=63d267ea6114",
-          "version": "63d267ea6114",
+          "url": "/og/pages/technologies--Cursor.webp?v=d656cb5c14f0",
+          "version": "d656cb5c14f0",
           "width": 1200
         }
       ],
@@ -6924,8 +6941,8 @@
           "height": 630,
           "output": "pages/technologies--Windsurf.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Windsurf.webp?v=d88493820d1c",
-          "version": "d88493820d1c",
+          "url": "/og/pages/technologies--Windsurf.webp?v=351dea9a3d09",
+          "version": "351dea9a3d09",
           "width": 1200
         }
       ],
@@ -6941,8 +6958,8 @@
           "height": 630,
           "output": "pages/technologies--VSCodium.webp",
           "primary": true,
-          "url": "/og/pages/technologies--VSCodium.webp?v=e29f72c14d39",
-          "version": "e29f72c14d39",
+          "url": "/og/pages/technologies--VSCodium.webp?v=c88d77761072",
+          "version": "c88d77761072",
           "width": 1200
         }
       ],
@@ -6958,8 +6975,8 @@
           "height": 630,
           "output": "pages/technologies--Chrome~20Extension.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Chrome~20Extension.webp?v=950654c44151",
-          "version": "950654c44151",
+          "url": "/og/pages/technologies--Chrome~20Extension.webp?v=434ad64fc058",
+          "version": "434ad64fc058",
           "width": 1200
         }
       ],
@@ -6975,8 +6992,8 @@
           "height": 630,
           "output": "pages/technologies--Chrome~20Web~20Store.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Chrome~20Web~20Store.webp?v=dc2b641fea53",
-          "version": "dc2b641fea53",
+          "url": "/og/pages/technologies--Chrome~20Web~20Store.webp?v=f514377d1ee2",
+          "version": "f514377d1ee2",
           "width": 1200
         }
       ],
@@ -6992,8 +7009,8 @@
           "height": 630,
           "output": "pages/technologies--Shiki.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Shiki.webp?v=b91b12dbe20c",
-          "version": "b91b12dbe20c",
+          "url": "/og/pages/technologies--Shiki.webp?v=2cb9da1cbc0b",
+          "version": "2cb9da1cbc0b",
           "width": 1200
         }
       ],
@@ -7009,8 +7026,8 @@
           "height": 630,
           "output": "pages/technologies--iTerm2.webp",
           "primary": true,
-          "url": "/og/pages/technologies--iTerm2.webp?v=4addde21c972",
-          "version": "4addde21c972",
+          "url": "/og/pages/technologies--iTerm2.webp?v=8a274f9fd34f",
+          "version": "8a274f9fd34f",
           "width": 1200
         }
       ],
@@ -7026,8 +7043,8 @@
           "height": 630,
           "output": "pages/technologies--Ghostty.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Ghostty.webp?v=fa6293ba3551",
-          "version": "fa6293ba3551",
+          "url": "/og/pages/technologies--Ghostty.webp?v=e4da96305802",
+          "version": "e4da96305802",
           "width": 1200
         }
       ],
@@ -7043,8 +7060,8 @@
           "height": 630,
           "output": "pages/technologies--Kitty.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Kitty.webp?v=bf2e95b774ee",
-          "version": "bf2e95b774ee",
+          "url": "/og/pages/technologies--Kitty.webp?v=53b66fa6c127",
+          "version": "53b66fa6c127",
           "width": 1200
         }
       ],
@@ -7060,8 +7077,8 @@
           "height": 630,
           "output": "pages/technologies--WezTerm.webp",
           "primary": true,
-          "url": "/og/pages/technologies--WezTerm.webp?v=16522e291b3e",
-          "version": "16522e291b3e",
+          "url": "/og/pages/technologies--WezTerm.webp?v=73ef354a8371",
+          "version": "73ef354a8371",
           "width": 1200
         }
       ],
@@ -7077,8 +7094,8 @@
           "height": 630,
           "output": "pages/technologies--Windows~20Terminal.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Windows~20Terminal.webp?v=14e43a42763a",
-          "version": "14e43a42763a",
+          "url": "/og/pages/technologies--Windows~20Terminal.webp?v=20bc186eca13",
+          "version": "20bc186eca13",
           "width": 1200
         }
       ],
@@ -7094,8 +7111,8 @@
           "height": 630,
           "output": "pages/technologies--Alacritty.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Alacritty.webp?v=c918860a8c82",
-          "version": "c918860a8c82",
+          "url": "/og/pages/technologies--Alacritty.webp?v=485f162111c9",
+          "version": "485f162111c9",
           "width": 1200
         }
       ],
@@ -7111,8 +7128,8 @@
           "height": 630,
           "output": "pages/technologies--Starship.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Starship.webp?v=36921ceed617",
-          "version": "36921ceed617",
+          "url": "/og/pages/technologies--Starship.webp?v=2132935831b5",
+          "version": "2132935831b5",
           "width": 1200
         }
       ],
@@ -7128,8 +7145,8 @@
           "height": 630,
           "output": "pages/technologies--Zsh.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Zsh.webp?v=8a6af15b8bfd",
-          "version": "8a6af15b8bfd",
+          "url": "/og/pages/technologies--Zsh.webp?v=5ba4766e55a1",
+          "version": "5ba4766e55a1",
           "width": 1200
         }
       ],
@@ -7145,8 +7162,8 @@
           "height": 630,
           "output": "pages/technologies--Bash.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Bash.webp?v=4dd70dd34705",
-          "version": "4dd70dd34705",
+          "url": "/og/pages/technologies--Bash.webp?v=2056dd8d8756",
+          "version": "2056dd8d8756",
           "width": 1200
         }
       ],
@@ -7162,8 +7179,8 @@
           "height": 630,
           "output": "pages/technologies--Fish.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Fish.webp?v=759ffeec9228",
-          "version": "759ffeec9228",
+          "url": "/og/pages/technologies--Fish.webp?v=2e96f7d08d19",
+          "version": "2e96f7d08d19",
           "width": 1200
         }
       ],
@@ -7179,8 +7196,8 @@
           "height": 630,
           "output": "pages/technologies--Radix~20UI.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Radix~20UI.webp?v=e1b601f64192",
-          "version": "e1b601f64192",
+          "url": "/og/pages/technologies--Radix~20UI.webp?v=2e21621f4965",
+          "version": "2e21621f4965",
           "width": 1200
         }
       ],
@@ -7196,8 +7213,8 @@
           "height": 630,
           "output": "pages/technologies--Lucide~20React.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Lucide~20React.webp?v=817088120b0f",
-          "version": "817088120b0f",
+          "url": "/og/pages/technologies--Lucide~20React.webp?v=6c04a718c898",
+          "version": "6c04a718c898",
           "width": 1200
         }
       ],
@@ -7213,8 +7230,8 @@
           "height": 630,
           "output": "pages/technologies--tailwindcss-animate.webp",
           "primary": true,
-          "url": "/og/pages/technologies--tailwindcss-animate.webp?v=9c7622f93d8e",
-          "version": "9c7622f93d8e",
+          "url": "/og/pages/technologies--tailwindcss-animate.webp?v=3dfcf73ddd75",
+          "version": "3dfcf73ddd75",
           "width": 1200
         }
       ],
@@ -7230,8 +7247,8 @@
           "height": 630,
           "output": "pages/technologies--Apollo~20Client.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Apollo~20Client.webp?v=9ae888a14cba",
-          "version": "9ae888a14cba",
+          "url": "/og/pages/technologies--Apollo~20Client.webp?v=c9c57ebf2aaf",
+          "version": "c9c57ebf2aaf",
           "width": 1200
         }
       ],
@@ -7247,8 +7264,8 @@
           "height": 630,
           "output": "pages/technologies--OpenAPI.webp",
           "primary": true,
-          "url": "/og/pages/technologies--OpenAPI.webp?v=52fc94daf1d3",
-          "version": "52fc94daf1d3",
+          "url": "/og/pages/technologies--OpenAPI.webp?v=e270040d49c9",
+          "version": "e270040d49c9",
           "width": 1200
         }
       ],
@@ -7264,8 +7281,8 @@
           "height": 630,
           "output": "pages/technologies--Husky.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Husky.webp?v=5b9c6fd1455b",
-          "version": "5b9c6fd1455b",
+          "url": "/og/pages/technologies--Husky.webp?v=4d5105eb60ae",
+          "version": "4d5105eb60ae",
           "width": 1200
         }
       ],
@@ -7281,8 +7298,8 @@
           "height": 630,
           "output": "pages/technologies--Auth0.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Auth0.webp?v=11ad17ccda89",
-          "version": "11ad17ccda89",
+          "url": "/og/pages/technologies--Auth0.webp?v=e4448dab120d",
+          "version": "e4448dab120d",
           "width": 1200
         }
       ],
@@ -7298,8 +7315,8 @@
           "height": 630,
           "output": "pages/technologies--Builder.io.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Builder.io.webp?v=017d4ff6a3eb",
-          "version": "017d4ff6a3eb",
+          "url": "/og/pages/technologies--Builder.io.webp?v=6b833615d08f",
+          "version": "6b833615d08f",
           "width": 1200
         }
       ],
@@ -7315,8 +7332,8 @@
           "height": 630,
           "output": "pages/technologies--Headless~20Commerce.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Headless~20Commerce.webp?v=2e4f2f1c1629",
-          "version": "2e4f2f1c1629",
+          "url": "/og/pages/technologies--Headless~20Commerce.webp?v=836365122645",
+          "version": "836365122645",
           "width": 1200
         }
       ],
@@ -7332,8 +7349,8 @@
           "height": 630,
           "output": "pages/technologies--UI~20Design.webp",
           "primary": true,
-          "url": "/og/pages/technologies--UI~20Design.webp?v=89024f6915eb",
-          "version": "89024f6915eb",
+          "url": "/og/pages/technologies--UI~20Design.webp?v=ca46397c2db0",
+          "version": "ca46397c2db0",
           "width": 1200
         }
       ],
@@ -7349,8 +7366,8 @@
           "height": 630,
           "output": "pages/technologies--Brand~20Design.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Brand~20Design.webp?v=1f401a9d5bcb",
-          "version": "1f401a9d5bcb",
+          "url": "/og/pages/technologies--Brand~20Design.webp?v=6da5ed4f93d8",
+          "version": "6da5ed4f93d8",
           "width": 1200
         }
       ],
@@ -7366,8 +7383,8 @@
           "height": 630,
           "output": "pages/technologies--Marketing~20Collaboration.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Marketing~20Collaboration.webp?v=ea1f992e6f29",
-          "version": "ea1f992e6f29",
+          "url": "/og/pages/technologies--Marketing~20Collaboration.webp?v=13143db85bf1",
+          "version": "13143db85bf1",
           "width": 1200
         }
       ],
@@ -7383,8 +7400,8 @@
           "height": 630,
           "output": "pages/technologies--Content~20Strategy.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Content~20Strategy.webp?v=bdf34cbbe179",
-          "version": "bdf34cbbe179",
+          "url": "/og/pages/technologies--Content~20Strategy.webp?v=e1fd294acb51",
+          "version": "e1fd294acb51",
           "width": 1200
         }
       ],
@@ -7400,8 +7417,8 @@
           "height": 630,
           "output": "pages/technologies--Event~20Operations.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Event~20Operations.webp?v=140f01c3323c",
-          "version": "140f01c3323c",
+          "url": "/og/pages/technologies--Event~20Operations.webp?v=da7e7eef56a0",
+          "version": "da7e7eef56a0",
           "width": 1200
         }
       ],
@@ -7417,8 +7434,8 @@
           "height": 630,
           "output": "pages/technologies--NestJS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--NestJS.webp?v=30ef5d8efed9",
-          "version": "30ef5d8efed9",
+          "url": "/og/pages/technologies--NestJS.webp?v=4dbe40eceb17",
+          "version": "4dbe40eceb17",
           "width": 1200
         }
       ],
@@ -7434,8 +7451,8 @@
           "height": 630,
           "output": "pages/technologies--Software~20Architecture.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Software~20Architecture.webp?v=be80ed839364",
-          "version": "be80ed839364",
+          "url": "/og/pages/technologies--Software~20Architecture.webp?v=cb1be3524aa2",
+          "version": "cb1be3524aa2",
           "width": 1200
         }
       ],
@@ -7451,8 +7468,8 @@
           "height": 630,
           "output": "pages/technologies--System~20Design.webp",
           "primary": true,
-          "url": "/og/pages/technologies--System~20Design.webp?v=7c63d6f34b3a",
-          "version": "7c63d6f34b3a",
+          "url": "/og/pages/technologies--System~20Design.webp?v=a20aa58d109e",
+          "version": "a20aa58d109e",
           "width": 1200
         }
       ],
@@ -7468,8 +7485,8 @@
           "height": 630,
           "output": "pages/technologies--Microservices.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Microservices.webp?v=591595174f75",
-          "version": "591595174f75",
+          "url": "/og/pages/technologies--Microservices.webp?v=fe7bbc4bd070",
+          "version": "fe7bbc4bd070",
           "width": 1200
         }
       ],
@@ -7485,8 +7502,8 @@
           "height": 630,
           "output": "pages/technologies--CSS~20Modules.webp",
           "primary": true,
-          "url": "/og/pages/technologies--CSS~20Modules.webp?v=1a154e8d9409",
-          "version": "1a154e8d9409",
+          "url": "/og/pages/technologies--CSS~20Modules.webp?v=ffda78cdd6f8",
+          "version": "ffda78cdd6f8",
           "width": 1200
         }
       ],
@@ -7502,8 +7519,8 @@
           "height": 630,
           "output": "pages/technologies--Docker~20Compose.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Docker~20Compose.webp?v=1df59f82731d",
-          "version": "1df59f82731d",
+          "url": "/og/pages/technologies--Docker~20Compose.webp?v=8ef9ab8fe151",
+          "version": "8ef9ab8fe151",
           "width": 1200
         }
       ],
@@ -7519,8 +7536,8 @@
           "height": 630,
           "output": "pages/technologies--Vercel.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Vercel.webp?v=f028da05468c",
-          "version": "f028da05468c",
+          "url": "/og/pages/technologies--Vercel.webp?v=38676d47aaf1",
+          "version": "38676d47aaf1",
           "width": 1200
         }
       ],
@@ -7536,8 +7553,8 @@
           "height": 630,
           "output": "pages/technologies--NX.webp",
           "primary": true,
-          "url": "/og/pages/technologies--NX.webp?v=e09b8d8be157",
-          "version": "e09b8d8be157",
+          "url": "/og/pages/technologies--NX.webp?v=e997c4ab77a2",
+          "version": "e997c4ab77a2",
           "width": 1200
         }
       ],
@@ -7553,8 +7570,8 @@
           "height": 630,
           "output": "pages/technologies--Micro~20Frontend.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Micro~20Frontend.webp?v=38b1f5ffcb19",
-          "version": "38b1f5ffcb19",
+          "url": "/og/pages/technologies--Micro~20Frontend.webp?v=1bfbe8ee0997",
+          "version": "1bfbe8ee0997",
           "width": 1200
         }
       ],
@@ -7570,8 +7587,8 @@
           "height": 630,
           "output": "pages/technologies--Mantine~20UI.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Mantine~20UI.webp?v=a930378ce061",
-          "version": "a930378ce061",
+          "url": "/og/pages/technologies--Mantine~20UI.webp?v=d9ecd76d3cb7",
+          "version": "d9ecd76d3cb7",
           "width": 1200
         }
       ],
@@ -7587,8 +7604,8 @@
           "height": 630,
           "output": "pages/technologies--PWA.webp",
           "primary": true,
-          "url": "/og/pages/technologies--PWA.webp?v=aa2611287080",
-          "version": "aa2611287080",
+          "url": "/og/pages/technologies--PWA.webp?v=2d62b75dde4c",
+          "version": "2d62b75dde4c",
           "width": 1200
         }
       ],
@@ -7604,8 +7621,8 @@
           "height": 630,
           "output": "pages/technologies--SCSS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--SCSS.webp?v=0ab2bfd50b51",
-          "version": "0ab2bfd50b51",
+          "url": "/og/pages/technologies--SCSS.webp?v=99545b14dbb0",
+          "version": "99545b14dbb0",
           "width": 1200
         }
       ],
@@ -7621,8 +7638,8 @@
           "height": 630,
           "output": "pages/technologies--Sanity~20CMS.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Sanity~20CMS.webp?v=80292df98cbd",
-          "version": "80292df98cbd",
+          "url": "/og/pages/technologies--Sanity~20CMS.webp?v=904ff3f0dd4c",
+          "version": "904ff3f0dd4c",
           "width": 1200
         }
       ],
@@ -7638,8 +7655,8 @@
           "height": 630,
           "output": "pages/technologies--Sanity~20Studio.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Sanity~20Studio.webp?v=8ad934395259",
-          "version": "8ad934395259",
+          "url": "/og/pages/technologies--Sanity~20Studio.webp?v=dcc45b4be0e9",
+          "version": "dcc45b4be0e9",
           "width": 1200
         }
       ],
@@ -7655,8 +7672,8 @@
           "height": 630,
           "output": "pages/technologies--Portable~20Text.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Portable~20Text.webp?v=b7009c574319",
-          "version": "b7009c574319",
+          "url": "/og/pages/technologies--Portable~20Text.webp?v=37d05ce1d87e",
+          "version": "37d05ce1d87e",
           "width": 1200
         }
       ],
@@ -7672,8 +7689,8 @@
           "height": 630,
           "output": "pages/technologies--Firebase.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Firebase.webp?v=61abb9ff7794",
-          "version": "61abb9ff7794",
+          "url": "/og/pages/technologies--Firebase.webp?v=bfa236c322da",
+          "version": "bfa236c322da",
           "width": 1200
         }
       ],
@@ -7689,8 +7706,8 @@
           "height": 630,
           "output": "pages/technologies--Google~20Ad~20Manager.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Google~20Ad~20Manager.webp?v=3a42762811b7",
-          "version": "3a42762811b7",
+          "url": "/og/pages/technologies--Google~20Ad~20Manager.webp?v=964435c31f43",
+          "version": "964435c31f43",
           "width": 1200
         }
       ],
@@ -7706,8 +7723,8 @@
           "height": 630,
           "output": "pages/technologies--Google~20Tag~20Manager.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Google~20Tag~20Manager.webp?v=81d1bda9c01a",
-          "version": "81d1bda9c01a",
+          "url": "/og/pages/technologies--Google~20Tag~20Manager.webp?v=9a4b3fc961ac",
+          "version": "9a4b3fc961ac",
           "width": 1200
         }
       ],
@@ -7723,8 +7740,8 @@
           "height": 630,
           "output": "pages/technologies--Embla~20Carousel.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Embla~20Carousel.webp?v=4c359f94029c",
-          "version": "4c359f94029c",
+          "url": "/og/pages/technologies--Embla~20Carousel.webp?v=fb22c9fa5b55",
+          "version": "fb22c9fa5b55",
           "width": 1200
         }
       ],
@@ -7740,8 +7757,8 @@
           "height": 630,
           "output": "pages/technologies--Stylelint.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Stylelint.webp?v=46db6db47f06",
-          "version": "46db6db47f06",
+          "url": "/og/pages/technologies--Stylelint.webp?v=1690d63dd68c",
+          "version": "1690d63dd68c",
           "width": 1200
         }
       ],
@@ -7757,8 +7774,8 @@
           "height": 630,
           "output": "pages/technologies--REST~20APIs.webp",
           "primary": true,
-          "url": "/og/pages/technologies--REST~20APIs.webp?v=c1f596dc2d1c",
-          "version": "c1f596dc2d1c",
+          "url": "/og/pages/technologies--REST~20APIs.webp?v=14f11f3323aa",
+          "version": "14f11f3323aa",
           "width": 1200
         }
       ],
@@ -7774,8 +7791,8 @@
           "height": 630,
           "output": "pages/technologies--Geo-location~20APIs.webp",
           "primary": true,
-          "url": "/og/pages/technologies--Geo-location~20APIs.webp?v=c0f44e9a1558",
-          "version": "c0f44e9a1558",
+          "url": "/og/pages/technologies--Geo-location~20APIs.webp?v=13264da2c5f3",
+          "version": "13264da2c5f3",
           "width": 1200
         }
       ],

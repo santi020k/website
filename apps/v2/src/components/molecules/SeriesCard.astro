@@ -1,0 +1,67 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Pill from '@/components/atoms/Pill.astro'
+
+import { getSeriesPath } from '@/utils/links'
+
+interface Props {
+  postCount: number
+  series: CollectionEntry<'series'>
+}
+
+const { postCount, series } = Astro.props
+const postCountLabel = `${postCount} ${postCount === 1 ? 'post' : 'posts'}`
+const seriesPath = getSeriesPath(series.id)
+const statusLabel = series.data.status === 'planned' ? 'Planned series' : 'Active series'
+---
+
+<article class="
+  panel-card flex h-full flex-col gap-5 p-6
+  sm:p-7
+"
+>
+  <div class="flex flex-wrap items-center gap-2">
+    <Pill label={statusLabel} tone="brand" />
+    <Pill label={postCountLabel} tone="outline" />
+  </div>
+
+  <div class="space-y-3">
+    <h3 class="
+      text-2xl/tight
+      sm:text-[1.9rem]
+    "
+    >
+      <a
+        class="
+          transition-colors
+          hover:text-brand
+        "
+        href={seriesPath}
+      >
+        {series.data.title}
+      </a>
+    </h3>
+    <p class="text-sm/7 text-ink-soft">
+      {series.data.description}
+    </p>
+  </div>
+
+  {!!series.data.focusAreas.length && (
+    <div class="flex flex-wrap gap-2">
+      {series.data.focusAreas.map(area => (
+        <Pill label={area} tone="outline" />
+      ))}
+    </div>
+  )}
+
+  <div class="mt-auto flex flex-wrap items-center justify-between gap-4">
+    <p class="max-w-[26ch] text-sm/6 text-ink-muted">
+      {series.data.cadence}
+    </p>
+    <ButtonLink href={seriesPath} showArrow variant="inline">
+      Browse series
+    </ButtonLink>
+  </div>
+</article>

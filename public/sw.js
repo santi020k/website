@@ -33,6 +33,8 @@ const shouldHandleRequest = (request, url) => request.method === 'GET' &&
   url.origin === self.location.origin &&
   !url.pathname.startsWith('/_vercel/') &&
   !url.pathname.startsWith('/api/') &&
+  // Historical apps own their assets and never participate in the current cache.
+  !/^\/v[1-9]\d*(?:\/|$)/.test(url.pathname) &&
   // Astro dev image pipeline — let the browser hit the dev server directly so
   // optimized images (e.g. search modal thumbnails) are not double-fetched via SW.
   !url.pathname.startsWith('/_image') &&

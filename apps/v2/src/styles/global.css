@@ -1,0 +1,11 @@
+@import "tailwindcss" source("../");
+@import "./partials/tokens.css";
+@import "./partials/base.css";
+@import "./partials/nav.css";
+@import "./partials/animations.css";
+@import "./partials/utilities.css";
+@import "./partials/prose.css";
+
+@plugin "@tailwindcss/typography";
+
+.dt-published { font-variant-numeric: normal; }

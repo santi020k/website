@@ -1,0 +1,186 @@
+---
+import type { GetStaticPaths, Page } from 'astro'
+
+import type { CollectionEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import PageHero from '@/components/molecules/PageHero.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import { getCachedProjects } from '@/utils/content'
+import { collectionDateSortProjects } from '@/utils/date'
+import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
+import { getSocialImagePath } from '@/utils/social-image'
+
+import { createProjectCollectionSchema, getUniqueTechnologies } from '@/data/project'
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const allProjects = await getCachedProjects()
+  const sortedProjects = allProjects.sort(collectionDateSortProjects)
+  const uniqueTechnologies = getUniqueTechnologies(sortedProjects)
+
+  return uniqueTechnologies.flatMap(technology => {
+    const technologySlug = getTechnologySlug(technology)
+
+    const filteredProjects = sortedProjects.filter(project => project.data.technologies.some(
+      projectTechnology => getTechnologySlug(projectTechnology) === technologySlug
+    ))
+
+    return paginate(filteredProjects, {
+      pageSize: 50,
+      params: { technology: technologySlug },
+      props: { technology }
+    })
+  })
+}
+
+interface Props {
+  page: Page<CollectionEntry<'project'>>
+  technology: string
+}
+
+const { page, technology } = Astro.props
+
+const projectMatches = page.data.filter(
+  project => project.data.typesId === 'personal' || project.data.typesId === 'experimental'
+)
+
+const communityMatches = page.data.filter(project => project.data.typesId === 'community')
+const workExperienceMatches = page.data.filter(project => project.data.typesId === 'professional')
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Technologies', url: '/technologies/' },
+  { name: technology, url: getTechnologyPath(technology) }
+]
+
+const technologyListSchema = createProjectCollectionSchema(
+  `${technology} · Technology`, Astro.url.pathname, page.data, Astro.site
+)
+
+const meta = {
+  breadcrumbs,
+  description: `Projects and case studies where ${technology} shaped the architecture, ` +
+    'delivery workflow, or product experience.',
+  ogImage: getSocialImagePath(`/technologies/${encodeURIComponent(technology)}/`),
+  structuredData: technologyListSchema,
+  title: `${technology} · Technology`
+}
+
+---
+
+<PageLayout meta={meta}>
+  <PageHero
+    description={`Projects where ${technology} played a meaningful role in the architecture, delivery workflow,
+      or product experience.`}
+    eyebrow="Technology filter"
+    gradientText="Projects."
+    metaItems={['Portfolio evidence', 'Architecture context', 'Delivery impact']}
+    title={technology}
+  >
+    <ButtonLink href="/technologies/" showArrow variant="secondary">
+      All technologies
+    </ButtonLink>
+    <ButtonLink href="/portfolio/" showArrow variant="secondary">
+      Portfolio
+    </ButtonLink>
+  </PageHero>
+
+  {projectMatches.length > 0 && (
+    <section
+      aria-labelledby="technology-projects-heading"
+      class="section-container-wide space-y-8 pt-10"
+    >
+      <div class="space-y-3 border-b border-line/50 pb-6">
+        <p class="section-label text-brand">Projects</p>
+        <h2
+          class="
+            text-2xl font-semibold tracking-tight text-ink
+            sm:text-3xl
+          "
+          id="technology-projects-heading"
+        >
+          Projects using {technology}
+        </h2>
+        <p class="max-w-2xl text-sm/7 text-ink-soft">
+          Independent builds, open-source tools, and experiments where {technology} shapes the product or engineering system.
+        </p>
+      </div>
+
+      <ProjectsGallery projects={projectMatches} />
+    </section>
+  )}
+
+  {communityMatches.length > 0 && (
+    <section
+      aria-labelledby="technology-community-heading"
+      class="section-container-wide space-y-8 pt-16"
+    >
+      <div class="space-y-3 border-b border-line/50 pb-6">
+        <p class="section-label text-brand">Community</p>
+        <h2
+          class="
+            text-2xl font-semibold tracking-tight text-ink
+            sm:text-3xl
+          "
+          id="technology-community-heading"
+        >
+          Community work using {technology}
+        </h2>
+        <p class="max-w-2xl text-sm/7 text-ink-soft">
+          Meetups, workshops, and mentorship where {technology} helps engineers learn and connect.
+        </p>
+      </div>
+
+      <ProjectsGallery projects={communityMatches} />
+    </section>
+  )}
+
+  {workExperienceMatches.length > 0 && (
+    <section
+      aria-labelledby="technology-work-heading"
+      class="section-container-wide space-y-8 pt-16"
+    >
+      <div class="space-y-3 border-b border-line/50 pb-6">
+        <p class="section-label text-brand">Work experience</p>
+        <h2
+          class="
+            text-2xl font-semibold tracking-tight text-ink
+            sm:text-3xl
+          "
+          id="technology-work-heading"
+        >
+          Work experience using {technology}
+        </h2>
+        <p class="max-w-2xl text-sm/7 text-ink-soft">
+          Client and product work where {technology} supported architecture, delivery, and measurable outcomes.
+        </p>
+      </div>
+
+      <ProjectsGallery projects={workExperienceMatches} />
+    </section>
+  )}
+
+  <StatsGrid>
+    <StatCard
+      description={`Independent and open-source projects where ${technology} shaped the product or engineering system.`}
+      label="Projects"
+      value={String(projectMatches.length)}
+    />
+    {communityMatches.length > 0 && (
+      <StatCard
+        description={`Community work where ${technology} supported practical learning and knowledge sharing.`}
+        label="Community"
+        value={String(communityMatches.length)}
+      />
+    )}
+    <StatCard
+      description={`Professional roles where ${technology} contributed to architecture, delivery, or product outcomes.`}
+      label="Work experience"
+      value={String(workExperienceMatches.length)}
+    />
+  </StatsGrid>
+</PageLayout>

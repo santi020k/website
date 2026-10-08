@@ -245,3 +245,11 @@ are not licensed for reuse in other products.
 [Email](mailto:hi@santi020k.com)
 
 © 2026 [Santiago Molina](https://santi020k.com/). All rights reserved.
+
+## Website history
+
+`/history/` presents four design eras. The current Astro app remains at the root;
+`apps/v1`, `apps/v2`, and `apps/v3` preserve usable historical websites. pnpm
+workspaces share one maintained dependency catalog and lockfile; Turborepo builds
+one combined static deployment. See [website history](docs/website-history.md)
+for snapshots, SEO, storage isolation, and screenshot capture commands.

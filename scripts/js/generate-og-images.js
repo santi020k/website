@@ -109,6 +109,12 @@ const yearsOfExperience = `${new Date().getFullYear() - 2014}+`
 /** Static page definitions (mirrors `src/data/social-pages.ts`). */
 const staticSocialPages = [
   {
+    description: 'A living history of santi020k.com, with real desktop and mobile captures and usable preserved design eras.',
+    pathname: '/history/',
+    title: 'Website History',
+    badge: 'History'
+  },
+  {
     description: 'Explore the places I have visited across the Americas, Europe, and Asia, from my roots in Colombia to life abroad as a resident of Paraguay.',
     pathname: '/travel/',
     title: 'Travel & Life Abroad',

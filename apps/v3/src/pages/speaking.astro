@@ -1,0 +1,343 @@
+---
+import { getImage } from 'astro:assets'
+import { getCollection } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import StatCard from '@/components/molecules/StatCard.astro'
+import TalkCard from '@/components/molecules/TalkCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import StatsGrid from '@/components/organisms/StatsGrid.astro'
+import SpeakingHero from '@/components/pages/speaking/SpeakingHero.astro'
+import SpeakingTimeline from '@/components/pages/speaking/SpeakingTimeline.astro'
+import PageLayout from '@/layouts/Base.astro'
+
+import SpeakerPortrait from '@/assets/photos/originals/me-1-square.webp'
+import { getCachedPosts, getCachedProjects } from '@/utils/content'
+import { getPortfolioPath } from '@/utils/links'
+
+import { Card, Icon, RevealGroup } from '@santi020k/lumen-astro'
+
+import { speakingFormats, speakingHighlights, speakingTopics } from '@/data/profile'
+import {
+  AUTHOR_JOB_TITLE,
+  createAuthorSchema,
+  createWhatsAppHref,
+  sameAsProfiles,
+  siteConfig,
+  whatsappMessages
+} from '@/site.config'
+
+const talks = (await getCollection('talk', ({ data }) => !data.draft))
+  .map(({ data }) => data)
+  .sort((a, b) => {
+    const aSortDate = a.date?.valueOf() ?? Date.UTC(a.year, 11, 31)
+    const bSortDate = b.date?.valueOf() ?? Date.UTC(b.year, 11, 31)
+
+    return (bSortDate - aSortDate) || (a.order - b.order)
+  })
+
+const postCount = (await getCachedPosts()).length
+const highlights = speakingHighlights.map(h => h.label === 'Published writing' ? { ...h, value: `${postCount} posts` } : h)
+const communityWork = (await getCachedProjects()).find(project => project.data.typesId === 'community')
+
+const description =
+  'Talks, workshops, and community work around developer experience, technical leadership, frontend architecture, and practical knowledge sharing.'
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Speaking & Community', url: '/speaking/' }
+]
+
+const speakingWhatsAppHref = createWhatsAppHref(whatsappMessages.speaking)
+
+const speakerPortraitImage = await getImage({
+  format: 'avif',
+  src: SpeakerPortrait,
+  widths: [336, 384, 672, 768]
+})
+
+const bookingNotes = [
+  {
+    label: 'Best fit',
+    value: 'Meetups, internal engineering talks, workshops, and leadership roundtables.'
+  },
+  {
+    label: 'Helpful details',
+    value: 'Audience size, format, date range, and the outcome you want the session to create.'
+  },
+  {
+    label: 'Tailoring',
+    value: 'Every session is shaped around the audience, constraints, and outcome—not pulled from a generic deck.'
+  }
+]
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    description,
+    mainEntity: {
+      ...createAuthorSchema(Astro.site),
+      jobTitle: AUTHOR_JOB_TITLE,
+      knowsAbout: speakingTopics.map(topic => topic.title),
+      sameAs: sameAsProfiles.slice(0, 3)
+    },
+    name: 'Speaking & Community'
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: speakingTopics.map(topic => ({
+      '@type': 'Question',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: topic.description
+      },
+      name: topic.title
+    }))
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    description: 'A chronological record of public, private, and reconstructed speaking sessions',
+    itemListElement: talks.map((talk, index) => ({
+      '@type': 'ListItem',
+      description: talk.description,
+      name: talk.title,
+      position: index + 1
+    })),
+    name: 'Speaking timeline'
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    description: 'Formats available for speaking engagements',
+    itemListElement: speakingFormats.map((format, index) => ({
+      '@type': 'ListItem',
+      description: format.description,
+      name: format.title,
+      position: index + 1
+    })),
+    name: 'Speaking formats'
+  }
+]
+---
+
+<PageLayout
+  meta={{
+    breadcrumbs,
+    description,
+    preloadImage: {
+      href: speakerPortraitImage.src,
+      imagesizes: '(min-width: 1280px) 384px, (min-width: 1024px) 352px, (min-width: 640px) 368px, 336px',
+      imagesrcset: speakerPortraitImage.srcSet.attribute,
+      type: 'image/avif'
+    },
+    structuredData,
+    title: 'Speaking & Community'
+  }}
+>
+  <SpeakingHero
+    linkedinHref={siteConfig.contact.linkedin}
+    whatsappHref={speakingWhatsAppHref}
+  />
+
+  <StatsGrid columns={3}>
+    {highlights.map(highlight => (
+      <StatCard
+        description={highlight.description}
+        label={highlight.label}
+        value={highlight.value}
+      />
+    ))}
+  </StatsGrid>
+
+  {communityWork && (
+    <PageSection>
+      <SectionHeader
+        description="Since 2017, I’ve helped create free events, practical learning opportunities, and a more connected local React ecosystem."
+        eyebrow="Community"
+        title="ReactJS Colombia."
+      />
+
+      <Card
+        as="article"
+        class="
+          rounded-4xl p-6
+          sm:p-8
+        "
+        glass="strong"
+      >
+        <div class="
+          grid gap-8
+          lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:gap-12
+        "
+        >
+          <div class="space-y-5">
+            <div>
+              <p class="section-label text-brand">{communityWork.data.role}</p>
+              <h3 class="
+                mt-3 text-2xl font-semibold tracking-[-0.03em] text-ink
+                sm:text-3xl
+              "
+              >
+                Building a community where engineers can learn and share.
+              </h3>
+            </div>
+            <p class="
+              max-w-2xl text-sm/7 text-ink-soft
+              sm:text-base/7
+            "
+            >
+              ReactJS Colombia brings developers together through meetups, workshops,
+              mentorship, and speaker support. My work spans event planning, talk
+              curation, logistics, and helping first-time speakers feel ready to contribute.
+            </p>
+            <div class="section-actions">
+              {communityWork.data.liveDemoUrl && (
+                <ButtonLink href={communityWork.data.liveDemoUrl} newTab showArrow>
+                  Visit the community
+                </ButtonLink>
+              )}
+              <ButtonLink href={getPortfolioPath(communityWork.id)} showArrow variant="secondary">
+                Read the community story
+              </ButtonLink>
+            </div>
+          </div>
+
+          <div class="
+            divider-soft pt-6
+            lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8
+          "
+          >
+            <p class="section-label text-ink">Community impact</p>
+            <ul class="mt-5 space-y-4">
+              {communityWork.data.impactMetrics.map(metric => (
+                <li class="flex gap-3 text-sm/7 text-ink-soft">
+                  <Icon class="mt-1 shrink-0 text-brand" name="check" size="sm" />
+                  <span>{metric}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Card>
+    </PageSection>
+  )}
+
+  <PageSection>
+    <SectionHeader
+      description="Every session I can recover so far, combining public event records with clearly labeled private and reconstructed talks from earlier in my career."
+      eyebrow="Speaking history"
+      title="The talks, in one timeline."
+    />
+    <SpeakingTimeline talks={talks} />
+  </PageSection>
+
+  <PageSection>
+    <SectionHeader
+      description="Each topic draws on real project experience — architecture choices made under constraint, delivery problems solved in production, and team dynamics at different scales."
+      eyebrow="Topics"
+      title="What I speak about."
+    />
+    <RevealGroup
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+      stagger={70}
+    >
+      {speakingTopics.map((topic, index) => (
+        <TalkCard
+          description={topic.description}
+          index={index}
+          title={topic.title}
+          variant="topic"
+        />
+      ))}
+    </RevealGroup>
+  </PageSection>
+
+  <PageSection>
+    <SectionHeader
+      description="Different formats fit different goals. Pick the one that matches your audience and the outcome you want from the session."
+      eyebrow="Formats"
+      title="Available formats."
+    />
+    <RevealGroup
+      class="
+        grid gap-6
+        sm:grid-cols-2
+      "
+      stagger={70}
+    >
+      {speakingFormats.map((format, index) => (
+        <TalkCard
+          description={format.description}
+          index={index}
+          title={format.title}
+          variant="format"
+        />
+      ))}
+    </RevealGroup>
+  </PageSection>
+
+  <PageSection>
+    <SectionHeader
+      description="Share a little context and I can suggest the right shape for the session. WhatsApp is fastest for a short introduction; LinkedIn works well for a fuller brief."
+      eyebrow="Booking"
+      title="Bring the audience. I’ll shape the session."
+    />
+
+    <Card
+      as="section"
+      class="
+        rounded-4xl p-6
+        sm:p-8
+      "
+      glass="strong"
+    >
+      <RevealGroup
+        class="
+          grid gap-6
+          sm:grid-cols-3
+        "
+        stagger={60}
+      >
+        {bookingNotes.map(note => (
+          <div class="
+            border-line/50
+            first:border-l-0 first:pl-0
+            sm:border-l sm:pl-6
+          "
+          >
+            <div class="flex items-center gap-2">
+              <Icon class="text-brand" name="check" size="sm" />
+              <h3 class="section-label text-ink">{note.label}</h3>
+            </div>
+            <p class="mt-3 text-sm/7 text-ink-soft">{note.value}</p>
+          </div>
+        ))}
+      </RevealGroup>
+
+      <div
+        class="
+          mt-8 flex flex-col gap-5 divider-soft pt-6
+          sm:flex-row sm:items-center sm:justify-between
+        "
+      >
+        <p class="max-w-xl text-sm/7 text-ink-soft">
+          Include the event, audience, date range, preferred format, and the outcome
+          you want attendees to leave with.
+        </p>
+        <div class="section-actions shrink-0">
+          <ButtonLink href={speakingWhatsAppHref} newTab showArrow>
+            Start the conversation
+          </ButtonLink>
+        </div>
+      </div>
+    </Card>
+  </PageSection>
+
+</PageLayout>

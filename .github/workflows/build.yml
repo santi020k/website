@@ -44,7 +44,7 @@ jobs:
             git diff --no-renames --name-only --diff-filter=ACDMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
             while IFS= read -r path; do
               case "$path" in
-                src/*|public/*|scripts/*|tests/*|patches/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|cspell.config.*|eslint.config.*|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|markdownlint.config.json|.npmrc|.gitattributes|.changeset/*|.github/*.yml|.github/*.yaml|.github/workflows/*|.github/ISSUE_TEMPLATE/*)
+                src/*|public/*|apps/*|packages/*|turbo.json|scripts/*|tests/*|patches/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|cspell.config.*|eslint.config.*|eslint.shared.js|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|markdownlint.config.json|.npmrc|.gitattributes|.changeset/*|.github/*.yml|.github/*.yaml|.github/workflows/*|.github/ISSUE_TEMPLATE/*)
                   run_checks=true
                   run_full=true
                   ;;
@@ -100,9 +100,11 @@ jobs:
         if: steps.changes.outputs.full == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          path: node_modules/.astro
+          path: |
+            node_modules/.astro
+            apps/*/node_modules/.astro
           key: >-
-            astro-images-v1-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'astro.config.*', 'src/assets/**') }}
+            astro-images-v1-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'astro.config.*', 'src/assets/**', 'apps/*/astro.config.*', 'apps/*/src/assets/**', 'packages/website-history/**') }}
           restore-keys: |
             astro-images-v1-${{ runner.os }}-
 

@@ -1,0 +1,33 @@
+---
+import { Pill as LumenPill } from '@santi020k/lumen-astro'
+
+interface Props {
+  className?: string
+  count?: number | string
+  href?: string
+  label: string
+  showHash?: boolean
+  tone?: 'brand' | 'neutral' | 'outline'
+}
+
+const {
+  className = '',
+  count,
+  href,
+  label,
+  showHash = false,
+  tone = 'neutral'
+} = Astro.props
+
+---
+
+<LumenPill
+  class:list={['group gap-1.5', className]}
+  {...(count !== undefined ? { count } : {})}
+  {...(href !== undefined ? { href } : {})}
+  variant={tone}
+>
+  {showHash && <span aria-hidden="true" class="text-xs opacity-60">#</span>}
+  <span class="wrap-break-word">{label}</span>
+  <slot />
+</LumenPill>

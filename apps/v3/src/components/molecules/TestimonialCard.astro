@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets'
+
+import { Avatar, Card, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  quote: string
+  authorName: string
+  role: string
+  relationship: string
+  avatarInitials: string
+  avatarUrl?: string | undefined
+}
+
+const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Astro.props
+---
+
+<Card
+  as="article"
+  class="
+    group flex h-full flex-col rounded-[1.75rem] p-6
+    sm:p-7
+  "
+  data-testimonial
+  glass="strong"
+  variant="interactive"
+>
+  {/* Decorative quote mark */}
+  <div
+    aria-hidden="true"
+    class="
+      mb-4 text-brand/15 transition-colors duration-300
+      group-hover:text-brand/30
+    "
+    data-testimonial-quote
+  >
+    <Icon class="size-8" name="quote" size="xl" />
+  </div>
+
+  <blockquote class="flex-1">
+    <p class="
+      text-base/7 font-medium text-ink
+      sm:text-[0.95rem]/[1.75]
+    "
+    >
+      "{quote}"
+    </p>
+  </blockquote>
+
+  <div class="mt-6 flex items-center gap-4 border-t border-line/22 pt-5">
+    {avatarUrl ?
+      (
+        <Avatar
+          class="
+            size-12 shrink-0 rounded-full object-cover ring-2 ring-brand/15
+            transition-all duration-300
+            motion-safe:group-hover:ring-brand/35
+          "
+        >
+          <Image
+            alt={authorName}
+            decoding="async"
+            height={48}
+            loading="lazy"
+            src={avatarUrl}
+            width={48}
+            inferSize={true}
+          />
+        </Avatar>
+      ) :
+      (
+        <Avatar
+          class="
+            size-12 shrink-0 bg-linear-to-br from-brand/15 to-accent/10 text-sm
+            font-semibold text-brand ring-2 ring-brand/15 transition-all
+            duration-300
+            motion-safe:group-hover:ring-brand/35
+          "
+          fallback={avatarInitials}
+        />
+      )}
+    <div class="min-w-0">
+      <p class="truncate ui-label">{authorName}</p>
+      <p class="truncate text-xs text-ink-muted">{role} · {relationship}</p>
+    </div>
+  </div>
+</Card>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    [data-testimonial-quote] {
+      transition:
+        color 0.3s ease,
+        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    [data-testimonial]:hover [data-testimonial-quote] {
+      transform: scale(1.12) rotate(-4deg);
+    }
+  }
+</style>

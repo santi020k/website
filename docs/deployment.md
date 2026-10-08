@@ -174,3 +174,11 @@ so an alias may legitimately return a different canonical `wm-target`.
 
 - Cache policy details are documented in [`docs/cache-strategy.md`](cache-strategy.md).
 - The edge cache and CSP live in [`public/_headers`](../public/_headers); redirects live in [`public/_redirects`](../public/_redirects). Changes there ship with the next deploy.
+
+## Historical versions
+
+The existing `pnpm run build` command now assembles the current website and the
+three archive apps into `dist/`. Keep the output directory at `dist`; archives
+are static subdirectories. Preserve the generated `_headers`: `/v1`, `/v2`,
+and `/v3` and their descendants carry `X-Robots-Tag: noindex, follow`. Do not add
+robots.txt exclusions for these paths. See [website history](website-history.md).

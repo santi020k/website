@@ -1,0 +1,11 @@
+---
+import { GradientDivider } from '@santi020k/lumen-astro'
+
+interface Props {
+  class?: string
+}
+
+const { class: className = '' } = Astro.props
+---
+
+<GradientDivider className={className} />

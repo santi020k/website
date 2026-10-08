@@ -1,0 +1,48 @@
+---
+import { BackToTop, Icon } from '@santi020k/lumen-astro'
+---
+
+<BackToTop
+  id="back-to-top"
+  aria-label="Scroll back to top"
+  className="
+    back-to-top-button
+    max-sm:pr-2.5
+  "
+>
+  <span aria-hidden="true" class="back-to-top-icon">
+    <Icon name="arrow-up" size="sm" />
+  </span>
+  <span class="
+    back-to-top-label
+    max-sm:sr-only
+  "
+  >Top
+  </span>
+</BackToTop>
+
+<script>
+  const setup = function () {
+    const btn = document.getElementById('back-to-top')
+
+    if (!btn) return () => undefined
+
+    const onScroll = () => btn.classList.toggle('is-visible', window.scrollY > 400)
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    onScroll()
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+    }
+  }
+
+  let cleanup = setup()
+
+  document.addEventListener('astro:after-swap', () => {
+    cleanup()
+
+    cleanup = setup()
+  })
+</script>

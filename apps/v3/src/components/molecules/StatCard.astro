@@ -1,0 +1,24 @@
+---
+import { Stat } from '@santi020k/lumen-astro'
+
+type StatVariant = 'accent' | 'default' | 'glass'
+
+interface Props {
+  description?: string
+  label: string
+  value: string
+  variant?: StatVariant
+}
+
+const { description, label, value, variant = 'accent' } = Astro.props
+---
+
+<Stat
+  as="article"
+  class="h-full"
+  label={label}
+  value={value}
+  variant={variant}
+>
+  {description && <p class="mt-2 text-sm/6 text-ink-soft">{description}</p>}
+</Stat>

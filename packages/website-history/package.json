@@ -1,0 +1,29 @@
+{
+  "name": "@santi020k/website-history",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./config": {
+      "types": "./astro-config.d.mts",
+      "default": "./astro-config.mjs"
+    },
+    "./versions": "./versions.json",
+    "./archive": {
+      "types": "./finalize-archive.d.mts",
+      "default": "./finalize-archive.mjs"
+    }
+  },
+  "dependencies": {
+    "astro": "catalog:",
+    "@astrojs/mdx": "catalog:",
+    "@astrojs/markdown-remark": "catalog:",
+    "astro-icon": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "rehype-pretty-code": "catalog:",
+    "rehype-external-links": "catalog:",
+    "rehype-unwrap-images": "catalog:",
+    "unified": "catalog:",
+    "remark-directive": "catalog:"
+  }
+}

@@ -9,8 +9,7 @@
     "prelint": "astro sync",
     "prebuild": "npm-run-all --serial prebuild:clean generate:icons generate:fonts generate:og",
     "prebuild:clean": "node -e \"const fs = require('node:fs'); fs.rmSync('dist', { recursive: true, force: true }); for (const file of ['.astro/data-store.json', 'node_modules/.astro/data-store.json']) fs.rmSync(file, { force: true })\"",
-    "build": "astro build",
-    "postbuild": "npm-run-all --serial postbuild:sitemap postbuild:redirects audit:seo audit:pages",
+    "build": "turbo run build:site --concurrency=1 && node scripts/js/assemble-website-history.mjs && pnpm run audit:history && pnpm run audit:pages",
     "postbuild:sitemap": "node scripts/js/generate-cross-site-sitemap.mjs",
     "postbuild:redirects": "node scripts/js/generate-cloudflare-redirects.mjs",
     "generate:icons": "node scripts/js/generate-favicons.mjs",
@@ -27,9 +26,9 @@
     "audit:seo": "santi-og audit --config og.audit.config.mjs",
     "inspect:og": "santi-og inspect https://santi020k.com --json",
     "preview": "ASTRO_PREVIEW_BACKGROUND=0 astro preview",
-    "lint": "SYNCKIT_TIMEOUT=180000 eslint . --max-warnings=0",
+    "lint": "pnpm run lint:current && pnpm --filter \"@santi020k/website-v*\" --workspace-concurrency=1 run lint",
     "lint:fix": "SYNCKIT_TIMEOUT=180000 eslint . --fix --max-warnings=0",
-    "check": "astro check",
+    "check": "pnpm run check:current && pnpm --filter \"@santi020k/website-v*\" --workspace-concurrency=1 run check",
     "audit": "pnpm audit --audit-level=moderate",
     "test": "vitest run",
     "test:webmentions": "vitest run src/utils/__tests__/webmentions-fetch.test.ts",
@@ -60,11 +59,17 @@
     "ci:verify": "pnpm run verify:full",
     "hooks:install": "node scripts/js/install-quality-hooks.mjs",
     "prepare": "pnpm run hooks:install",
-    "pre-commit": "lint-staged --quiet && astro check",
+    "pre-commit": "lint-staged --concurrent false --max-arg-length=16000 && astro check",
     "pre-push": "pnpm run verify:fast",
     "commit": "commitprompt",
     "preview:lumen:v4": "node scripts/js/preview-lumen-v4.mjs",
-    "audit:pages": "node scripts/js/audit-built-pages.mjs"
+    "audit:pages": "node scripts/js/audit-built-pages.mjs",
+    "build:site": "astro build && pnpm run postbuild:site",
+    "postbuild:site": "npm-run-all --serial postbuild:sitemap postbuild:redirects audit:seo",
+    "check:current": "astro check",
+    "lint:current": "SYNCKIT_TIMEOUT=180000 eslint . --max-warnings=0",
+    "history:screenshots": "node scripts/js/capture-website-history.mjs",
+    "audit:history": "node scripts/js/audit-website-history.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "catalog:",
@@ -91,7 +96,8 @@
     "remark-directive": "catalog:",
     "sharp": "catalog:",
     "unified": "catalog:",
-    "unist-util-visit": "catalog:"
+    "unist-util-visit": "catalog:",
+    "@santi020k/website-history": "workspace:*"
   },
   "devDependencies": {
     "@astrojs/check": "catalog:",
@@ -137,7 +143,9 @@
     "typescript": "catalog:",
     "vfile": "catalog:",
     "vitest": "catalog:",
-    "wawoff2": "catalog:"
+    "wawoff2": "catalog:",
+    "turbo": "catalog:",
+    "@santi020k/eslint-config-extensions": "catalog:"
   },
   "engines": {
     "node": ">=24.0.0"

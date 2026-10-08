@@ -60,6 +60,15 @@ const makeRequest = (path: string, navigation = false) => {
 }
 
 describe('Service worker fetch handling', () => {
+  test.each(['/v1', '/v1/', '/v2/blog/post/', '/v3/_astro/app.js', '/v12/fonts/font.woff2'])(
+    'leaves archive request %s to the network', path => {
+      const worker = setupWorker()
+      expect(worker.dispatch(makeRequest(path)).response).toBeUndefined()
+      expect(worker.open).not.toHaveBeenCalled()
+      expect(worker.fetch).not.toHaveBeenCalled()
+    }
+  )
+
   test('serves a cached asset offline', async () => {
     const worker = setupWorker()
 

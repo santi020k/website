@@ -1,8 +1,17 @@
+packages:
+  - apps/*
+  - packages/*
 allowBuilds:
   esbuild: true
   sharp: true
   unrs-resolver: true
 catalog:
+  "@iconify-json/hugeicons": 1.2.35
+  "@iconify-json/mdi": 1.2.3
+  "@iconify-json/solar": 1.2.13
+  "@pagefind/default-ui": 1.5.2
+  pagefind: 1.5.2
+  turbo: 2.11.7
   "@astrojs/check": ^0.9.10
   "@astrojs/markdown-remark": ^7.3.2
   "@astrojs/mdx": 8.0.3
@@ -20,6 +29,7 @@ catalog:
   "@santi020k/commitprompt": ^1.1.0
   "@santi020k/eslint-config-astro": 3.1.5
   "@santi020k/eslint-config-basic": 3.6.0
+  "@santi020k/eslint-config-extensions": 3.1.5
   "@santi020k/eslint-config-formats": 3.1.4
   "@santi020k/eslint-config-libraries": 3.1.4
   "@santi020k/eslint-config-testing": 3.1.4
@@ -79,7 +89,7 @@ minimumReleaseAgeExclude:
   - "@santi020k/lumen-core@4.0.0"
   - "@santi020k/lumen@4.0.0"
   - "@santi020k/eslint-config-typescript"
-  - "@santi020k/eslint-config-core@3.2.0"
+  - '@santi020k/eslint-config-core@3.2.0 || 3.2.1'
   - "@santi020k/eslint-config-astro@3.1.5"
   - "@santi020k/eslint-config-basic@3.6.0"
   - "@santi020k/eslint-config-formats@3.1.4"
@@ -88,6 +98,7 @@ minimumReleaseAgeExclude:
   - "@santi020k/eslint-config-tools@3.1.4"
   - astro@7.3.6
   - satori@0.36.0
+  - '@santi020k/eslint-config-extensions@3.1.5'
 overrides:
   # Keep legacy build and release tooling on patched transitive versions until
   # their direct dependencies adopt these releases.
