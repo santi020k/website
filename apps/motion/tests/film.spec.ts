@@ -1,5 +1,3 @@
-import { createHash } from 'node:crypto'
-
 import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from '../../../tests/helpers/accessibility'
@@ -63,7 +61,16 @@ for (const format of formats) {
       window.__timelines?.['website-history']?.pause().seek(8.5)
     })
 
-    const first = createHash('sha256').update(await page.screenshot({ path: `renders/stills/${format}-seek-first.png` })).digest('hex')
+    const state = () => page.locator('[data-era="v1"]').evaluate(element => (
+      [element, ...element.querySelectorAll('*')].map(item => {
+        const style = getComputedStyle(item)
+
+        return [style.transform, style.opacity, style.visibility, style.clipPath]
+      })
+    ))
+
+    const firstState = await state()
+    const first = await page.screenshot({ path: `renders/stills/${format}-seek-first.png` })
 
     for (const [name, time] of [['opening', openingStill], ['ending', endingStill]] as const) {
       await page.evaluate(time => {
@@ -95,7 +102,43 @@ for (const format of formats) {
       window.__timelines?.['website-history']?.pause().seek(8.5)
     })
 
-    expect(createHash('sha256').update(await page.screenshot({ path: `renders/stills/${format}-seek-last.png` })).digest('hex')).toBe(first)
+    expect(await state()).toEqual(firstState)
+
+    const last = await page.screenshot({ path: `renders/stills/${format}-seek-last.png` })
+
+    const largestDifference = await page.evaluate(async ({ first, last }) => {
+      const decode = async (source: string) => {
+        const image = new Image()
+
+        image.src = `data:image/png;base64,${source}`
+
+        await image.decode()
+
+        const canvas = document.createElement('canvas')
+
+        canvas.width = image.naturalWidth
+
+        canvas.height = image.naturalHeight
+
+        const context = canvas.getContext('2d')
+
+        if (!context) throw new Error('Screenshot comparison needs a 2D canvas')
+
+        context.drawImage(image, 0, 0)
+
+        return context.getImageData(0, 0, canvas.width, canvas.height).data
+      }
+
+      const [before, after] = await Promise.all([decode(first), decode(last)])
+
+      if (before.length !== after.length) throw new Error('Screenshot dimensions changed')
+
+      return before.reduce((maximum, value, index) => Math.max(maximum, Math.abs(value - (after[index] ?? -255))), 0)
+    }, { first: first.toString('base64'), last: last.toString('base64') })
+
+    // Hardware antialiasing varies by up to two 8-bit channel levels after repaint.
+    // Require identical animation properties and less than 1% channel variation.
+    expect(largestDifference).toBeLessThanOrEqual(2)
 
     expect(errors).toEqual([])
 
