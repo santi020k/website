@@ -42,15 +42,48 @@ const meta = {
 <PageLayout meta={meta} mainClass="remaining-pages" headerVariant="signature">
   <div class="history-shell">
     <header class="signature-frame history-intro">
-      <p class="editorial-eyebrow">The site behind the work · 2026 onward</p>
-      <h1 class="editorial-page-title">A website,<span class="
-        editorial-page-emphasis
-      "
-                                                 >over time.</span></h1>
-      <div class="history-intro-bottom">
-        <p class="editorial-page-description">A small record of changing ideas, growing craft, and the versions that made this one possible. Look around. You can still open the old doors.</p>
-        <a class="history-jump" href="#versions">Explore the versions<Icon name="arrow-down" /></a>
+      <div class="history-hero-stage">
+        <div class="history-hero-copy">
+          <p class="editorial-eyebrow">A digital time capsule · Est. 2026</p>
+          <h1 class="editorial-page-title">A website,<span class="
+            editorial-page-emphasis
+          "
+                                                     >over time.</span></h1>
+          <p class="editorial-page-description">Same maker. Different chapters. A collection of changing ideas, growing craft, and the websites that made this one possible.</p>
+          <div class="maker-hero-actions">
+            <ButtonLink class="maker-hero-primary" href="#versions" variant="unstyled">
+              Explore the versions
+              <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-down" /></span>
+            </ButtonLink>
+          </div>
+          <p class="history-hero-note">Nothing lost. Every old door still opens.</p>
+        </div>
+        <figure class="history-hero-exhibit">
+          <div class="history-hero-stack">
+            {[
+              { id: 'v1', position: 'history-hero-print-1' },
+              { id: 'v2', position: 'history-hero-print-2' },
+              { id: 'v4', position: 'history-hero-print-3' }
+            ].map(({ id, position }) => (
+              <div class:list={['history-hero-print', position]}>
+                <div class="history-hero-print-label"><span>{id.toUpperCase()}</span><span>{id === 'v4' ? 'Today' : 'From the archive'}</span></div>
+                <Image src={imageFor(id, 'desktop')} alt="" widths={[320, 640, 960]} sizes="(min-width: 960px) 420px, (min-width: 640px) 60vw, 75vw" loading="eager" />
+              </div>
+            ))}
+          </div>
+          <figcaption><span>Actual pages. Real evolution.</span><span>2026 — now <Icon name="arrow-up-right" /></span></figcaption>
+        </figure>
       </div>
+      <nav class="history-hero-chapters" aria-label="Jump to a design era">
+        <p>Four chapters.<br />Still being written.</p>
+        {[...eras].reverse().map((era, index) => (
+          <a href={`#${era.id}`}>
+            <span class="history-hero-chapter-number">0{index + 1}</span>
+            <span>{formatDate(era.date)}<span class="history-hero-chapter-state">{era.current ? 'The current canvas' : 'An earlier idea'}</span></span>
+            <Icon name="arrow-down-right" />
+          </a>
+        ))}
+      </nav>
     </header>
 
     <ol class="history-timeline" id="versions" aria-label="Website design eras, newest first">

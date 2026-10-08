@@ -13,8 +13,22 @@ for (const theme of ['light', 'dark']) {
     await expect(page.locator('meta[name="robots"]')).not.toHaveAttribute('content', /noindex/)
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://santi020k.com/history/')
     await expect(page.locator('.history-era')).toHaveCount(4)
-    for (const width of [390, 1440]) {
+    await expect(page.locator('.history-hero-print img')).toHaveCount(3)
+    await page.locator('.history-hero-print img').evaluateAll(async images => {
+      await Promise.all(images.map(image => image instanceof HTMLImageElement ? image.decode() : Promise.reject(new Error('Expected an image'))))
+    })
+    const chapters = page.getByRole('navigation', { name: 'Jump to a design era' })
+    await expect(chapters.getByRole('link')).toHaveCount(4)
+    for (const id of ['v1', 'v2', 'v3', 'v4']) {
+      await expect(chapters.locator(`a[href="#${id}"]`)).toHaveCount(1)
+    }
+    for (const width of [320, 375, 390, 639, 768, 1440]) {
       await page.setViewportSize({ width, height: 900 })
+      await page.evaluate(async () => {
+        await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => {
+          resolve()
+        })))
+      })
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
       const navbar = await page.locator('[data-header-frame]').evaluate(element => {
         const { x, y, width, height } = element.getBoundingClientRect()
@@ -33,6 +47,11 @@ for (const theme of ['light', 'dark']) {
 
       await expectNoUnexpectedAccessibilityViolations(page)
     }
+    const secondChapter = chapters.locator('a[href="#v2"]')
+    await secondChapter.focus()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/history\/#v2$/)
+    await expect(page.locator('#v2')).toBeInViewport()
     const openArchive = page.getByRole('link', { name: 'Open V1', exact: true })
     await openArchive.focus()
     await expect(openArchive).toBeFocused()

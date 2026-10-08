@@ -1,10 +1,50 @@
 @utility history-era-body { min-width: 0; }
 @utility history-era-heading { min-width: 0; }
 @utility history-shell { width: 100%; max-width: 72rem; margin-inline: auto; }
-@utility history-intro { padding-bottom: 3rem; }
-@utility history-intro-bottom { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
-.history-intro-bottom .editorial-page-description { max-width: 36rem; }
-@utility history-jump { display: inline-flex; align-items: center; gap: .75rem; min-height: 44px; font-size: .8125rem; white-space: nowrap; color: hsl(var(--ink)); }
+@utility history-intro { padding-bottom: 1.25rem; }
+@utility history-hero-stage { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 2rem; padding-block: 2rem 3.5rem; }
+@utility history-hero-copy { min-width: 0; }
+.history-hero-copy .editorial-page-title { font-size: clamp(3rem, 6.1vw, 5.25rem); }
+.history-hero-copy .editorial-page-description { max-width: 29rem; }
+.history-hero-copy .maker-hero-primary { border-radius: 1rem; }
+@utility history-hero-note { margin-top: 1.25rem; font-size: .6875rem; color: hsl(var(--ink-soft)); }
+@utility history-hero-exhibit { min-width: 0; margin: 0; }
+@utility history-hero-stack { position: relative; height: 28rem; isolation: isolate; }
+@utility history-hero-print { position: absolute; width: 82%; overflow: hidden; border: 1px solid hsl(var(--line)); border-radius: .625rem; background: hsl(var(--surface)); box-shadow: var(--shadow-nav-scrolled); }
+.history-hero-print img { width: 100%; height: auto; aspect-ratio: 1.6; object-fit: cover; object-position: top; }
+@utility history-hero-print-1 { top: .75rem; left: 0; transform: rotate(-8deg); }
+@utility history-hero-print-2 { top: 3.25rem; right: 0; transform: rotate(6deg); }
+@utility history-hero-print-3 { top: 7.5rem; left: 6%; transform: rotate(-3deg); }
+@utility history-hero-print-label { display: flex; justify-content: space-between; align-items: center; padding: .625rem .875rem; font-size: .625rem; color: hsl(var(--ink-soft)); border-bottom: 1px solid hsl(var(--line)); }
+.history-hero-print-label > span:first-child { font-weight: 600; color: hsl(var(--ink)); }
+.history-hero-exhibit figcaption { display: flex; justify-content: space-between; gap: .75rem; margin-top: 1rem; font-size: .625rem; color: hsl(var(--ink-soft)); }
+.history-hero-exhibit figcaption > span:last-child { display: inline-flex; align-items: center; gap: .5rem; }
+.history-hero-exhibit figcaption svg { width: .875rem; height: .875rem; }
+@utility history-hero-chapters { display: grid; grid-template-columns: 1fr repeat(4, 1.35fr); align-items: center; gap: 1rem; border-top: 1px solid hsl(var(--line) / .65); padding-top: 1.25rem; }
+.history-hero-chapters > p { font-size: .6875rem; line-height: 1.7; color: hsl(var(--ink-soft)); }
+.history-hero-chapters > a { display: flex; min-height: 44px; align-items: center; gap: .875rem; color: hsl(var(--ink)); text-decoration: none; border-radius: .25rem; }
+@utility history-hero-chapter-number { font-size: 1.75rem; font-weight: 500; letter-spacing: -.075em; color: hsl(var(--ink-soft)); }
+.history-hero-chapters > a > span:nth-child(2) { font-size: .6875rem; }
+@utility history-hero-chapter-state { display: block; margin-top: .25rem; font-size: .5625rem; color: hsl(var(--ink-soft)); }
+.history-hero-chapters > a > svg { width: 1rem; height: 1rem; margin-left: auto; }
+.history-hero-chapters > a:hover .history-hero-chapter-number { color: hsl(var(--brand)); }
+[data-theme='dark'] .history-hero-chapters > a:hover .history-hero-chapter-number { color: hsl(var(--accent)); }
+@media (max-width: 959px) {
+  .history-hero-stage { grid-template-columns: 1fr; gap: 2.5rem; padding-block: 1rem 2.5rem; }
+  .history-hero-exhibit { width: min(100%, 32rem); margin-inline: auto; }
+  .history-hero-chapters { grid-template-columns: repeat(4, 1fr); }
+  .history-hero-chapters > p { grid-column: 1 / -1; }
+  .history-hero-chapters > p br { display: none; }
+  .history-hero-chapters > a { flex-wrap: wrap; gap: .5rem; }
+  .history-hero-chapters > a > svg { display: none; }
+}
+@media (max-width: 639px) {
+  .history-hero-stack { height: auto; min-height: 21rem; aspect-ratio: 1.15; }
+  .history-hero-print { width: 86%; }
+  .history-hero-print-3 { top: 6.5rem; }
+  .history-hero-chapters { grid-template-columns: repeat(2, 1fr); gap: 1rem 1.5rem; }
+  .history-hero-stage { padding-top: .5rem; }
+}
 @utility history-timeline { list-style: none; margin: 7rem 0 0; padding: 0; }
 @utility history-era { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 3rem; padding-block: 3rem 4.5rem; border-top: 1px solid hsl(var(--line) / .65); scroll-margin-top: 7rem; }
 @utility history-era-marker { display: flex; flex-direction: column; align-items: start; gap: .75rem; }
@@ -28,6 +68,5 @@
 @utility history-footnote { max-width: 48rem; padding: 3rem 0 1rem; border-top: 1px solid hsl(var(--line) / .65); }
 .history-footnote h2 { font-size: 2rem; line-height: 1.2; letter-spacing: -.05em; font-weight: 500; }
 .history-footnote > p:not(:first-child) { margin-top: 1rem; font-size: .875rem; line-height: 1.9; color: hsl(var(--ink-soft)); }
-.history-jump:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 5px; border-radius: .25rem; }
-@media (max-width: 959px) { .history-era { grid-template-columns: 6rem minmax(0, 1fr); gap: 1.5rem; } .history-intro-bottom { display: block; } .history-jump { margin-top: 1.5rem; } }
+@media (max-width: 959px) { .history-era { grid-template-columns: 6rem minmax(0, 1fr); gap: 1.5rem; } }
 @media (max-width: 639px) { .history-timeline { margin-top: 4.5rem; } .history-era { display: block; padding-block: 2rem 3rem; } .history-era-marker { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; } .history-version { font-size: 2.75rem; } .history-status { border: 0; padding: 0; } .history-mobile { width: 100px; border-radius: .75rem; } .history-captures { padding-right: 1.5rem; padding-bottom: 2.5rem; } .history-browser-bar { padding: .5rem; } .history-era-actions { margin-top: 1rem; } }
