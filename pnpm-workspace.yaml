@@ -37,9 +37,9 @@ catalog:
   "@santi020k/eslint-config-libraries": 3.1.4
   "@santi020k/eslint-config-testing": 3.1.4
   "@santi020k/eslint-config-tools": 3.1.4
-  "@santi020k/lumen": 4.0.0
-  "@santi020k/lumen-astro": 4.0.0
-  "@santi020k/lumen-core": 4.0.0
+  "@santi020k/lumen": 4.2.0
+  "@santi020k/lumen-astro": 4.1.0
+  "@santi020k/lumen-core": 4.1.0
   "@santi020k/og": 1.2.0
   "@santi020k/theme": ^2.0.1
   "@shikijs/transformers": ^4.5.0
@@ -88,9 +88,9 @@ catalog:
   wawoff2: ^2.0.1
 minimumReleaseAgeExclude:
   - "@santi020k/og"
-  - "@santi020k/lumen-astro@4.0.0"
-  - "@santi020k/lumen-core@4.0.0"
-  - "@santi020k/lumen@4.0.0"
+  - "@santi020k/lumen-astro@4.1.0"
+  - "@santi020k/lumen-core@4.1.0"
+  - "@santi020k/lumen@4.2.0"
   - "@santi020k/eslint-config-typescript"
   - '@santi020k/eslint-config-core@3.2.0 || 3.2.1'
   - "@santi020k/eslint-config-astro@3.1.5"
