@@ -39,7 +39,7 @@ test('the homepage portrait stays within its mobile transfer budget', async ({ p
   const response = await page.request.get(image.url)
 
   expect(response.ok()).toBe(true)
-  expect((await response.body()).byteLength).toBeLessThanOrEqual(image.pixelRatio <= 1 ? 20_000 : 70_000)
+  expect((await response.body()).byteLength).toBeLessThanOrEqual(image.pixelRatio <= 1 ? 12_000 : 70_000)
 })
 
 for (const reducedMotion of ['reduce', 'no-preference'] as const) {
