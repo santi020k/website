@@ -210,11 +210,23 @@ A single variable font is used across the entire brand for consistency and perfo
 | **Source** | Self-hosted — `public/fonts/` |
 | **Weight range** | 100–900 (continuous variable axis) |
 | **Styles** | Normal + Italic (separate variable font files) |
-| **Format** | TrueType Variable Font (`.ttf`) |
+| **Format** | WOFF2 for web delivery; TrueType variable sources (`.ttf`) |
 | **Loading strategy** | `font-display: swap` |
 | **Tailwind roles** | `--font-sans`, `--font-serif`, `--font-mono`, `--font-display` |
 
 Montserrat is mapped to all four Tailwind font roles to ensure visual consistency regardless of which utility is used.
+
+The current site preloads a Latin WOFF2 subset and requests italic text separately.
+Both subsets retain weights 100–900, shaping features, and combining accents.
+The complete normal and italic fonts remain available for characters outside the
+subset; historical site versions and generated social cards retain their original
+fonts. `pnpm run generate:fonts` builds all WOFF2 files from the checked-in TTF
+sources using the build-only `subset-font` dependency and the existing WOFF2 compressor. The generator
+reads coverage from the `unicode-range` declarations in
+`src/styles/partials/base.css`. Browser tests verify download selection,
+fallback to other scripts, and glyph metrics against the complete fonts.
+Subsets are generated in `src/assets/fonts/`, where Astro gives them content-hashed
+URLs for immutable caching. The stylesheet and preload import the same asset.
 
 ### Type Scale
 

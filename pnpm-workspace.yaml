@@ -78,6 +78,7 @@ catalog:
   remark-parse: ^11.0.0
   remark-stringify: ^11.0.0
   sharp: ^0.35.5
+  subset-font: 2.9.0
   tailwindcss: ^4.3.3
   # TypeScript 7 does not yet expose the programmatic API required by Astro and MDX tooling.
   typescript: ^6.0.3

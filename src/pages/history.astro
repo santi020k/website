@@ -96,7 +96,15 @@ const meta = {
             </div>
             <div class="history-captures">
               <figure class="history-desktop">
-                <div class="history-browser-bar" aria-hidden="true"><span>● ● ●</span><span>santi020k.com{era.current ? '' : `/${era.id}/`}</span><span>↗</span></div>
+                <div class="history-browser-bar" aria-hidden="true">
+                  <span class="inline-flex items-center gap-1.5">
+                    <Icon name="circle" class="size-2 fill-current" />
+                    <Icon name="circle" class="size-2 fill-current" />
+                    <Icon name="circle" class="size-2 fill-current" />
+                  </span>
+                  <span>santi020k.com{era.current ? '' : `/${era.id}/`}</span>
+                  <span>↗</span>
+                </div>
                 <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} homepage at desktop size`} widths={[480, 800, 1200]} sizes="(min-width: 960px) 850px, 95vw" loading="lazy" />
                 <figcaption>Desktop · 1440 × 1000</figcaption>
               </figure>

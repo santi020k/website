@@ -26,6 +26,8 @@ export const resumeSourcePaths = [
   'scripts/js/generate-fonts.mjs',
   'scripts/js/generate-resume-pdf.mjs',
   'scripts/js/resume-source-fingerprint.mjs',
+  'src/assets/fonts/montserrat-variable-font-wght.latin.woff2',
+  'src/assets/fonts/montserrat-italic-variable-font-wght.latin.woff2',
   // Local render dependencies must participate alongside the page and project content.
   'src/components/atoms/AnimatedLogo.astro',
   'src/components/atoms/BackToTop.astro',
