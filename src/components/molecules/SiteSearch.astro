@@ -282,6 +282,7 @@ import SearchDialog from './SearchDialog.astro'
     /** @type {import('@/types/search').SearchIndexEntry[]} */
     let entries = []
     let selectedResultIndex = -1
+    let searchURL = window.location.href
     let closeAnimTimer = 0
     let closeAnimPanel = /** @type {HTMLElement | null} */ (null)
     let closeAnimHandler = /** @type {((event: AnimationEvent) => void) | null} */ (null)
@@ -407,6 +408,14 @@ import SearchDialog from './SearchDialog.astro'
     }
 
     const prefersReducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true
+  /**
+     * Keep the documented legacy IME sentinel at this compatibility boundary.
+     * Composition can start after, or end before, its keydown event, leaving
+     * isComposing false. Retire this fallback when browsers expose that state.
+     * https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event#keydown_events_with_ime
+     * @param {{ isComposing: boolean, keyCode: number }} event
+     */
+    const isComposingKey = event => event.isComposing || event.keyCode === 229
 
     const setTriggerExpanded = open => {
       const trigger = getTrigger()
@@ -906,11 +915,32 @@ import SearchDialog from './SearchDialog.astro'
       closeAnimPanel = null
     }
 
+    /** @param {string} value */
+    const syncQueryInURL = value => {
+      const url = new URL(window.location.href)
+      const query = value.trim()
+
+      if (query.length >= 2) {
+        url.searchParams.set('q', query)
+      } else {
+        url.searchParams.delete('q')
+      }
+
+      // Astro keeps its navigation index and scroll restoration in this state.
+      if (url.href !== window.location.href) {
+        window.history.replaceState(window.history.state, '', url)
+      }
+
+      searchURL = url.href
+    }
+
     const openSearch = () => {
       const dialog = getDialog()
       const input = getInput()
 
       if (!(dialog instanceof HTMLDialogElement) || !(input instanceof HTMLInputElement)) return
+
+      syncQueryInURL(input.value)
 
       cancelPendingClose()
 
@@ -941,6 +971,10 @@ import SearchDialog from './SearchDialog.astro'
       const dialog = getDialog()
 
       if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
+
+      // A page swap can cancel the close animation before the native close event.
+      // Clear the source history entry now so Back does not reopen the dialog.
+      syncQueryInURL('')
 
       cancelPendingClose()
 
@@ -1113,8 +1147,9 @@ import SearchDialog from './SearchDialog.astro'
       }
 
       dialog.addEventListener('close', () => {
-        // Native close events may arrive after a rapid reopen or a page swap.
-        if (dialog.open || !dialog.isConnected) return
+        // History traversal changes the URL before the old DOM is disconnected.
+        // A delayed close must not clear the destination query or its UI state.
+        if (dialog.open || !dialog.isConnected || window.location.href !== searchURL) return
 
         cancelPendingClose()
 
@@ -1122,13 +1157,7 @@ import SearchDialog from './SearchDialog.astro'
 
         setTriggerExpanded(false)
 
-        const url = new URL(window.location.href)
-
-        if (url.searchParams.has('q')) {
-          url.searchParams.delete('q')
-
-          window.history.replaceState({}, '', url)
-        }
+        syncQueryInURL('')
       })
 
       dialog.addEventListener('cancel', e => {
@@ -1139,6 +1168,8 @@ import SearchDialog from './SearchDialog.astro'
 
       dialog.addEventListener('keydown', e => {
         if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
+
+        if (isComposingKey(e)) return
 
         // The native dialog may tab into browser chrome when the loading state
         // leaves the input last. Keep both ends inside as results come and go.
@@ -1200,7 +1231,7 @@ import SearchDialog from './SearchDialog.astro'
       })
 
       input.addEventListener('keydown', e => {
-        if (e.key !== 'Enter') return
+        if (e.key !== 'Enter' || e.altKey || isComposingKey(e)) return
 
         const links = [...results.querySelectorAll('a[href]')]
 
@@ -1210,24 +1241,28 @@ import SearchDialog from './SearchDialog.astro'
 
         rememberRecentSearch(input.value)
 
-        links[selectedResultIndex].click()
+        const link = links[selectedResultIndex]
+
+        if (!(link instanceof HTMLAnchorElement)) return
+
+        if (e.metaKey || e.ctrlKey || e.shiftKey) {
+          // WebKit does not honor modifier keys on synthetic link clicks.
+          window.open(link.href, '_blank', 'noopener,noreferrer')
+
+          return
+        }
+
+        link.click()
       })
 
       input.addEventListener('input', () => {
         const value = input.value
 
+        selectedResultIndex = 0
+
         render(value)
 
-        const next = new URL(window.location.href)
-        const trimmed = value.trim()
-
-        if (trimmed.length >= 2) {
-          next.searchParams.set('q', trimmed)
-        } else {
-          next.searchParams.delete('q')
-        }
-
-        window.history.replaceState({}, '', next)
+        syncQueryInURL(value)
       })
 
       results.addEventListener('click', event => {
@@ -1286,6 +1321,9 @@ import SearchDialog from './SearchDialog.astro'
 
         if (!anchor) return
 
+        if (event.defaultPrevented || event.button !== 0 ||
+          event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+
         rememberRecentSearch(input.value)
 
         closeSearch()
@@ -1313,9 +1351,11 @@ import SearchDialog from './SearchDialog.astro'
       const queryFromURL = params.get('q')
 
       if (queryFromURL && queryFromURL.trim().length >= 2) {
-        openSearch()
+        selectedResultIndex = 0
 
         input.value = queryFromURL
+
+        openSearch()
 
         loadIndex()
           .then(() => render(queryFromURL))
@@ -1323,16 +1363,20 @@ import SearchDialog from './SearchDialog.astro'
       }
     }
 
+    /** @param {KeyboardEvent} event */
     const onGlobalKeydown = event => {
+      if (isComposingKey(event)) return
+
       const dialog = getDialog()
       const isOpen = dialog instanceof HTMLDialogElement && dialog.open
+      const isClosing = isOpen && dialog.getAttribute('data-site-search-anim') === 'closing'
 
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         if (!isOpen && isEditableTarget(event.target)) return
 
         event.preventDefault()
 
-        if (!isOpen) {
+        if (!isOpen || isClosing) {
           openSearch()
         }
 
@@ -1342,9 +1386,11 @@ import SearchDialog from './SearchDialog.astro'
       }
 
       if (event.key === '/' && !event.metaKey && !event.ctrlKey && !event.altKey) {
-        if (isOpen) return
+        if (isOpen && !isClosing) return
 
-        if (isEditableTarget(event.target)) return
+        const isSearchTarget = event.target instanceof Node && dialog?.contains(event.target)
+
+        if (isEditableTarget(event.target) && !(isClosing && isSearchTarget)) return
 
         event.preventDefault()
 

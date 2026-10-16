@@ -82,6 +82,15 @@ site search. Numbered suggestions and compact result rows share a scrollable are
 hints. The panel uses the available viewport height, with a compact header on short screens.
 `SiteSearch.astro` retains query ranking, recent searches, retry and clear actions, keyboard
 navigation, focus restoration, and reduced-motion-aware opening and closing.
+Editing the query resets keyboard selection to the first result. Query changes preserve
+Astro's history state, other URL parameters, and fragments. Dismissal clears `q` before
+the close animation so Back does not reopen search after following a result; reopening
+restores the retained query and selection. Modified clicks and canceled activations keep
+search open; Ctrl/Cmd/Shift+Enter opens a result in another tab. Search shortcuts can
+interrupt an in-progress dismissal.
+Composition keys stay with the input method editor so choosing or confirming characters
+does not move results, close search, or navigate away. Restoring a query from the URL
+starts at its first result.
 
 ## Blog archive
 
