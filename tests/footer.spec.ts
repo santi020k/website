@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
-test('footer preserves contact destinations, profile identity, and keyboard navigation', async ({ page }) => {
+test('footer preserves contact destinations, profile identity, and keyboard navigation', async ({ page, browserName }) => {
   await page.goto('/')
   const footer = page.locator('[data-site-footer]')
   const contact = footer.locator('.maker-footer-action')
@@ -27,7 +27,8 @@ test('footer preserves contact destinations, profile identity, and keyboard navi
 
   await contact.focus()
   await expect(contact).toBeFocused()
-  await page.keyboard.press('Tab')
+  // Safari on macOS uses Option-Tab to include links in keyboard navigation.
+  await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
   await expect(footer.locator('a[href="mailto:hi@santi020k.com"]')).toBeFocused()
   await footer.locator('a[href="/about/"]').click()
   await expect(page).toHaveURL(/\/about\/$/)

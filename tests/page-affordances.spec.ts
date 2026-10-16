@@ -43,7 +43,7 @@ test('the homepage portrait stays within its mobile transfer budget', async ({ p
 })
 
 for (const reducedMotion of ['reduce', 'no-preference'] as const) {
-  test(`back to top skips hidden controls and restores keyboard focus (${reducedMotion})`, async ({ page }) => {
+  test(`back to top skips hidden controls and restores keyboard focus (${reducedMotion})`, async ({ page, browserName }) => {
     await page.emulateMedia({ reducedMotion })
     await page.goto('/blog/')
 
@@ -66,10 +66,11 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
     await expect(button).toBeHidden()
 
-    await page.keyboard.press('Tab')
+    // Safari on macOS uses Option-Tab to include links in keyboard navigation.
+    await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
     await expect(page.locator('#main a').first()).toBeFocused()
 
-    await page.locator('.site-desktop-nav').getByRole('link', { name: 'About' }).click()
+    await page.locator('[data-site-footer] a[href="/about/"]').click()
     await expect(page).toHaveURL(/\/about\/$/u)
     await expect(page.locator('#nav-progress')).toHaveClass(/is-complete/u)
     await expect(button).toBeHidden()
