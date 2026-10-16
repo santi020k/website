@@ -114,6 +114,21 @@ test.describe('SEO — meta tags', () => {
     await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', headline)
   })
 
+  test('homepage title meets the production OG score limit and preserves social copy', async ({ page }) => {
+    await page.goto('/')
+
+    const title = await page.title()
+
+    expect(title.length).toBeLessThanOrEqual(60)
+    await expect(page).toHaveTitle('Santiago Molina — Full-Stack Engineer | santi020k')
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content', 'Engineering Leader & Full-Stack Architect'
+    )
+    await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute(
+      'content', 'Engineering Leader & Full-Stack Architect'
+    )
+  })
+
   test('uses seoTitle only for the document title', async ({ page }) => {
     const headline = 'Authentication and Authorization in Next.js Applications with Supabase'
 
@@ -128,7 +143,7 @@ test.describe('SEO — meta tags', () => {
     const priorityPages = [
       {
         path: '/',
-        title: 'Santiago Molina — Full-Stack Engineer & Tech Lead | santi020k'
+        title: 'Santiago Molina — Full-Stack Engineer | santi020k'
       },
       {
         path: '/blog/flash-xteink-x4-international-firmware/',
