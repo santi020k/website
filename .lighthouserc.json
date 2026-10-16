@@ -90,6 +90,12 @@
             "minScore": 0.9
           }
         ],
+        "label-content-name-mismatch": [
+          "error",
+          {
+            "minScore": 1
+          }
+        ],
         "dom-size": "off"
       }
     }

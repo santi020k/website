@@ -21,6 +21,7 @@
         "network-dependency-tree-insight": "off",
         "forced-reflow-insight": "off",
         "link-name": ["error", { "minScore": 0.9 }],
+        "label-content-name-mismatch": ["error", { "minScore": 1 }],
         "dom-size": "off"
       }
     }
