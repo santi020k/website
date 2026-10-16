@@ -51,7 +51,11 @@ export const expectNoUnexpectedAccessibilityViolations = async (
     await Promise.all(finiteAnimations.map(a => a.finished.catch(() => undefined)))
   })
 
-  const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
+  // This WCAG 2.5.3 rule is experimental in axe and otherwise misses card
+  // links whose ARIA labels replace their visible text.
+  const accessibilityScanResults = await new AxeBuilder({ page }).options({
+    rules: { 'label-content-name-mismatch': { enabled: true } }
+  }).analyze()
 
   const unexpectedViolations = accessibilityScanResults.violations.flatMap(violation => {
     const unexpectedNodes = violation.nodes.filter(

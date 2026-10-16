@@ -6,6 +6,19 @@ const fixture = `<!doctype html>
 <html lang="en"><head><title>Animation accessibility fixture</title></head>
 <body><main><h1>Animation accessibility</h1><p id="animated">Readable content</p></main></body></html>`
 
+test('accessibility scans reject names that omit visible link labels', async ({ page }) => {
+  await page.setContent(fixture)
+  await page.evaluate(() => {
+    const link = document.createElement('a')
+    link.href = '/'
+    link.textContent = 'Read the case study'
+    link.setAttribute('aria-label', 'More information')
+    document.querySelector('main')?.append(link)
+  })
+
+  await expect(expectNoUnexpectedAccessibilityViolations(page)).rejects.toThrow('label-content-name-mismatch')
+})
+
 test('accessibility scans ignore unfinished animations on unrendered elements', async ({ page }) => {
   await page.setContent(fixture)
   await page.evaluate(() => {
