@@ -9,7 +9,8 @@
 
 Redirects, cache headers, and security headers are versioned in the repo:
 
-- [`public/_redirects`](../public/_redirects) handles canonical domain redirects and retired-route fallbacks.
+- [`public/_redirects`](../public/_redirects) defines retired-route and historical technology aliases.
+  The build combines these with current technology labels in `dist/_redirects`.
 - [`public/_headers`](../public/_headers) handles cache and security headers.
 
 Cloudflare Pages picks both files up at the edge automatically. The header defaults include:
@@ -24,6 +25,34 @@ Cloudflare Pages picks both files up at the edge automatically. The header defau
 - **HTML / `/feed.xml` / `/feed.json` / `/sitemap*.xml`** → `CDN-Cache-Control: s-maxage=3600, stale-while-revalidate=86400` so the edge stays fresh while keeping browser caches conservative.
 
 Editing those defaults: update [`public/_headers`](../public/_headers) and [`public/_redirects`](../public/_redirects) directly. Do not maintain a separate `vercel.json` — the project no longer targets Vercel.
+
+### Redirect validation and canonical hosts
+
+The redirect generator places all exact paths before wildcard and placeholder rules,
+preserving order within each group. Cloudflare treats every rule after the first
+dynamic rule as dynamic, even when its path is exact. The generator fails on more
+than 2,000 static or 100 dynamic rules, overlong lines, duplicate sources, invalid
+rules, or missing local destinations. This prevents a successful build from
+silently losing later redirects at the edge. See the
+[Cloudflare Pages redirect limits](https://developers.cloudflare.com/pages/configuration/redirects/).
+
+Domain and protocol redirects belong in Cloudflare zone rules; Pages `_redirects`
+does not support an absolute source URL. For the `santi020k.com` zone:
+
+- Keep HTTPS enforcement enabled for the apex.
+- Route `www.santi020k.com` through a proxied DNS record and configure a Single
+  Redirect matching `http.host eq "www.santi020k.com"`.
+- Use a dynamic destination `concat("https://santi020k.com", http.request.uri.path)`,
+  status **301**, and **Preserve query string**. Apply it to both HTTP and HTTPS.
+- Verify the apex is excluded from the rule to avoid a redirect loop. Keep the
+  previous DNS record and rule configuration available for rollback.
+
+DNS and zone-rule edits require separate production authorization. After an
+authorized deployment or host change, check the status and `Location` header for
+`https://www.santi020k.com/about/?source=redirect-check`, the HTTP equivalent,
+`/technologies/GCP/`, `/technologies/React.js/`, `/technologies/React/`, and
+`/technologies/CI/CD/`. Each should reach its current HTTPS canonical page without
+a 404 or a loop. Local Astro preview does not execute Cloudflare's redirect file.
 
 ## Release flow
 

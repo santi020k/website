@@ -20,9 +20,14 @@ The combined sitemap preserves source `lastmod` dates when supplied. It never
 substitutes the build time for a content modification date. Nested indexes are
 deduplicated, and URLs outside each source's HTTPS origin or invalid dates fail
 validation. Optional unavailable sources remain non-blocking.
+Draft posts, scheduled posts, draft series, series without published posts, utility
+pages, and posts with an external canonical URL are excluded from the site's
+production sitemap. Draft and empty series remain available in development.
 Projects sharing a hub origin and sitemap path are fetched once, including the
 Theme 2 product pages under `theme.santi020k.com`. Distinct sitemap paths are
 still included, and deduplication never makes a required source optional.
+The combined sitemap also includes the public documentation for OG and Auth and
+the English and Spanish pages from Between Contractions.
 
 ## Content modification dates
 
@@ -39,6 +44,10 @@ so they are not used as sitemap modification dates.
 2. Open the Sitemaps report for that Domain property.
 3. Submit `https://santi020k.com/sitemap.xml`.
 4. Review the Page indexing report after Google processes the submission.
+
+Keep existing child-sitemap submissions while the combined sitemap is processed.
+Only request validation of a redirect fix after the production URLs return the
+intended status and destination; a passing local build is not deployment evidence.
 
 Google accepts URLs from multiple sites in one sitemap only when ownership of
 all included sites is verified. The Domain property satisfies that requirement
@@ -62,3 +71,9 @@ Every child project must still:
 - reference its own sitemap from its `robots.txt`.
 
 Run `pnpm run build` to regenerate and validate the cross-site sitemap locally.
+
+Before adding a deployed source, check that every listed URL returns 200, allows
+indexing, and matches the page's canonical URL. RoadScore is not included yet:
+its sitemap currently lists four feedback/privacy paths without trailing slashes
+while those pages declare canonical URLs with slashes. Correct the child sitemap
+before including it here instead of rewriting its URLs in the aggregator.

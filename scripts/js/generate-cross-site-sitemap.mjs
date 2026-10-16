@@ -35,6 +35,21 @@ const sitemapSources = [
     sitemap: '/sitemap-index.xml'
   },
   {
+    name: 'OG',
+    origin: 'https://og.santi020k.com',
+    sitemap: '/sitemap-index.xml'
+  },
+  {
+    name: 'Auth',
+    origin: 'https://auth.santi020k.com',
+    sitemap: '/sitemap-index.xml'
+  },
+  {
+    name: 'Between Contractions',
+    origin: 'https://between.santi020k.com',
+    sitemap: '/sitemap.xml'
+  },
+  {
     name: 'Theme',
     origin: new URL(themeSiteUrls.hub).origin,
     sitemap: '/sitemap.xml'

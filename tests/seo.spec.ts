@@ -80,6 +80,13 @@ test.describe('SEO — meta tags', () => {
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
       'content', 'https://medium.com/@santi020k/atomic-module-component-structure-for-react-34464b05832c'
     )
+
+    for (const path of ['/sitemap-0.xml', '/sitemap.xml']) {
+      const response = await page.request.get(path)
+
+      expect(response.ok()).toBe(true)
+      expect(await response.text()).not.toContain('https://santi020k.com/blog/atomic-module-component-structure-for-react/')
+    }
   })
 
   test('renders complete authored descriptions without padding short pages', async ({ page }) => {

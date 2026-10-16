@@ -52,13 +52,13 @@ export const getCachedProjects = async (): Promise<CollectionEntry<'project'>[]>
 }
 
 /**
- * Returns all series entries.
+ * Returns non-draft series in production, including drafts during development.
  * The result is cached for the duration of the Astro build process.
  */
 export const getCachedSeries = async (): Promise<CollectionEntry<'series'>[]> => {
   if (import.meta.env.PROD && _series) return _series
 
-  const series = await getCollection('series')
+  const series = await getCollection('series', ({ data }) => import.meta.env.PROD ? !data.draft : true)
 
   if (import.meta.env.PROD) _series = series
 
