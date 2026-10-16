@@ -12,6 +12,12 @@ test('footer preserves contact destinations, profile identity, and keyboard navi
   await expect(footer.locator('a[href="mailto:hi@santi020k.com"]')).toBeVisible()
   await expect(footer.locator('a[href="https://santi020k.com"]')).toHaveAccessibleName('Santiago Molina — santi020k')
   await expect(footer.locator('a[href="https://github.com/santi020k"]')).toHaveAttribute('rel', /\bme\b/)
+  const versionLink = footer.locator('.maker-footer-version')
+  const visibleVersion = (await versionLink.innerText()).trim()
+
+  expect(visibleVersion).toMatch(/^v\d+\.\d+\.\d+/u)
+  await expect(versionLink).toHaveAccessibleName(`${visibleVersion} — Website source`)
+
   const reportIssue = footer.getByRole('link', { name: 'Report an issue', exact: true })
   await expect(reportIssue).toHaveAttribute('href', 'https://github.com/santi020k/website/issues/new/choose')
   await expect(reportIssue).toHaveAttribute('target', '_blank')
