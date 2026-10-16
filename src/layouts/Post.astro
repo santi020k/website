@@ -15,11 +15,13 @@ import PostHero from '@/components/organisms/PostHero.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
 import { getPostSlug } from '@/utils/posts'
+import { getSocialImageURL } from '@/utils/social-image'
 import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 
 import { ScrollProgress } from '@santi020k/lumen-astro'
 import readingTime from 'reading-time'
 
+import { ogManifest } from '@/data/og-manifest'
 import { getSeriesContext } from '@/data/series'
 import {
   createAuthorSchema,
@@ -33,8 +35,14 @@ interface Props {
 
 const { post } = Astro.props
 const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
-// Use Dynamic OG Image generator (/og/blog/[id].webp)
-const ogImage = new URL(`/og/blog/${getPostSlug(post.id)}.webp`, Astro.site).href
+
+const ogImage = getSocialImageURL(
+  Astro.url.pathname,
+  Astro.site,
+  `/og/blog/${getPostSlug(post.id)}.webp`,
+  ogManifest
+)
+
 const stats = readingTime(post.body ?? '')
 const wordCount = Math.round(stats.words)
 const localURL = new URL(Astro.url.pathname, Astro.site)

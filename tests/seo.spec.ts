@@ -128,7 +128,7 @@ test.describe('SEO — meta tags', () => {
     const priorityPages = [
       {
         path: '/',
-        title: 'Santiago Molina — Full-Stack Engineer & Tech Lead | santi020k'
+        title: 'Santiago Molina — Full-Stack Engineer | santi020k'
       },
       {
         path: '/blog/flash-xteink-x4-international-firmware/',
@@ -391,6 +391,17 @@ test.describe('SEO — meta tags', () => {
 })
 
 test.describe('SEO — JSON-LD structured data', () => {
+  test('article structured data shares the fingerprinted social image URL', async ({ page }) => {
+    await page.goto('/blog/ai-coding-is-probabilistic-your-delivery-process-should-not-be/')
+
+    const socialImage = await page.locator('meta[property="og:image"]').getAttribute('content')
+    const article = await findSchema(page, 'BlogPosting')
+
+    expect(socialImage).toMatch(/\?v=[a-f0-9]{12}$/u)
+    expect(article).toMatchObject({ image: socialImage })
+    await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', socialImage ?? '')
+  })
+
   test('speaking topics describe expertise without claiming to be FAQs', async ({ page }) => {
     await page.goto('/speaking/')
 

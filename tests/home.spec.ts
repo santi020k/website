@@ -30,7 +30,7 @@ test('homepage has branded search metadata and main sections', async ({ page }) 
   await page.setViewportSize({ width: 1280, height: 720 })
   await page.goto('/')
 
-  await expect(page).toHaveTitle('Santiago Molina — Full-Stack Engineer & Tech Lead | santi020k')
+  await expect(page).toHaveTitle('Santiago Molina — Full-Stack Engineer | santi020k')
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     'content',
     /Santiago Molina, known online as santi020k/
@@ -64,7 +64,7 @@ test('homepage exposes shared accessibility affordances', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Open site search' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Toggle color theme' })).toBeVisible()
   await expect(
-    page.locator('header').getByRole('link', { name: /Santiago Molina/i }).first()
+    page.locator('header').getByRole('link', { name: 'santi020k — Santiago Molina home' })
   ).toHaveAttribute('href', /^\/$/)
 })
 

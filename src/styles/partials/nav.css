@@ -533,7 +533,8 @@
   @apply fixed right-4 bottom-4 z-40 flex min-h-12 min-w-12 cursor-pointer items-center justify-center gap-2 rounded-xl border border-line/65 bg-surface px-2 py-2 pr-4 text-ink shadow-none sm:right-6 sm:bottom-6;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 180ms ease, background-color 180ms ease;
+  visibility: hidden;
+  transition: opacity 180ms ease, background-color 180ms ease, visibility 180ms;
   &:hover { background: hsl(var(--surface-muted)); }
   &:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 4px; }
   @apply motion-reduce:transition-none;
@@ -550,4 +551,5 @@
 .back-to-top-button.is-visible {
   opacity: 1;
   pointer-events: auto;
+  visibility: visible;
 }

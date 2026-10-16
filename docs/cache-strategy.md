@@ -15,6 +15,10 @@
 - `/manifest.webmanifest`: `s-maxage=86400, stale-while-revalidate=604800`
 - App pages (`/(.*)`): browser `must-revalidate`, CDN `s-maxage=3600, stale-while-revalidate=86400`
 
+Article JSON-LD, Open Graph, and Twitter metadata share the manifest's content-versioned
+image URL. Keep the `?v=` fingerprint when referencing generated artwork: `/og/` is
+immutable, so an unversioned URL can retain an older image after the content changes.
+
 ## Service worker
 
 The service worker uses network-first for document navigations and for every
