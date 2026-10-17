@@ -71,6 +71,7 @@ const shareLinks = [
 
     <Button
       id="copy-link-btn"
+      data-share-url={url}
       type="button"
       className="group"
       variant="secondary"
@@ -176,11 +177,23 @@ const shareLinks = [
     }
 
     const onClick = async () => {
+      // Share the server-rendered permalink, like the social links, never the
+      // live address bar with its fragment or query. Read both values before any
+      // await so a route change during the share sheet cannot swap the page.
+      const shareUrl = btn.dataset.shareUrl ?? ''
+      const shareTitle = document.title
+
+      if (!shareUrl) {
+        showResultState('failed')
+
+        return
+      }
+
       if (supportsWebShare()) {
         try {
           await navigator.share({
-            title: document.title,
-            url: window.location.href
+            title: shareTitle,
+            url: shareUrl
           })
 
           return
@@ -193,7 +206,7 @@ const shareLinks = [
       }
 
       try {
-        await navigator.clipboard.writeText(window.location.href)
+        await navigator.clipboard.writeText(shareUrl)
 
         showResultState('copied')
       } catch {

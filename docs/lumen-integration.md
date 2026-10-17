@@ -91,7 +91,9 @@ Page-specific styles live in `src/styles/partials/work.css`.
   with a built-in reduced-motion path.
 - Article and email copy actions use Lumen `CopyButton`, including accessible success and error
   announcements. The share toolbar retains its site-owned controller because it also offers the
-  platform-native share sheet on supported touch devices.
+  platform-native share sheet on supported touch devices. Its copy and native-share actions use
+  the server-rendered article permalink from `data-share-url`, the same URL as the social links,
+  so address-bar queries, fragments, and preview origins are never shared.
 - Package-manager `CodeTabs` (`src/components/molecules/PackageManagerCodeTabs.astro` and the
   markdown-time equivalent built by `src/plugins/rehype-lumen-code.ts`) share one consumer-owned
   `data-package-manager-code-tabs` attribute plus Lumen's public `data-slot="code-tabs"` hook
@@ -120,7 +122,10 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
 - `src/plugins/rehype-lumen-code.ts` hand-builds Lumen's `Code`/`CodeTabs` public DOM contract
   (`data-ui-code`, `role="tab"`/`"tabpanel"`, `data-value`, `aria-selected`) for markdown-rendered
   code blocks, because that content is produced by a Unified/Rehype pipeline outside the Astro
-  component tree and cannot render the real Astro components directly.
+  component tree and cannot render the real Astro components directly. Its copy button mirrors the
+  installed `Code` attributes (`data-copy-label`, `data-copy-copied-label`,
+  `data-copy-error-label`, `title`, `data-state="idle"`), because the runtime restores the label
+  from them after each copy and otherwise falls back to generic text.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
 
 ## Motion and effects

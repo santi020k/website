@@ -1,17 +1,5 @@
 import { expect, type Page, test } from '@playwright/test'
 
-const getFirstPostPath = async (page: Page): Promise<string> => {
-  const response = await page.request.get('/feed.xml')
-  const body = await response.text()
-  const slugMatch = /<link>(https:\/\/[^<]+\/blog\/[^<]+\/)<\/link>/.exec(body)
-
-  expect(slugMatch).not.toBeNull()
-
-  const postUrl = slugMatch?.[1] ?? ''
-
-  return new URL(postUrl).pathname
-}
-
 test.describe('Newsletter signup', () => {
   test('blog newsletter form points at the configured action and links to privacy', async ({ page }) => {
     await page.goto('/blog/')
@@ -105,8 +93,27 @@ test.describe('Newsletter signup', () => {
   })
 })
 
-const stubShareRejection = async (page: Page, errorName: string): Promise<void> => {
-  await page.addInitScript(name => {
+// The public permalink the server renders for the first feed article. Share
+// controls must emit exactly this URL even when the address bar carries
+// tracking parameters, a fragment, or a local preview origin.
+const getFirstPostPermalink = async (page: Page): Promise<{ path: string, permalink: string }> => {
+  const response = await page.request.get('/feed.xml')
+  const body = await response.text()
+  const slugMatch = /<link>(https:\/\/[^<]+\/blog\/[^<]+\/)<\/link>/.exec(body)
+
+  expect(slugMatch).not.toBeNull()
+
+  const postUrl = new URL(slugMatch?.[1] ?? '')
+
+  return { path: postUrl.pathname, permalink: new URL(postUrl.pathname, postUrl.origin).href }
+}
+
+const withNoise = (path: string): string => `${path}?utm_source=share-test#share-test-fragment`
+
+type NativeShareOutcome = 'AbortError' | 'NotAllowedError' | 'resolve'
+
+const stubNativeShare = async (page: Page, outcome: NativeShareOutcome): Promise<void> => {
+  await page.addInitScript(result => {
     const originalMatchMedia = window.matchMedia.bind(window)
 
     window.matchMedia = (query: string): MediaQueryList => {
@@ -130,10 +137,14 @@ const stubShareRejection = async (page: Page, errorName: string): Promise<void> 
     // because some engines expose it as a getter-only accessor on the prototype.
     Object.defineProperty(navigator, 'share', {
       configurable: true,
-      value: () => {
+      value: (data: ShareData) => {
         window.localStorage.setItem('share-test-native-called', 'true')
 
-        return Promise.reject(new DOMException('stubbed for test', name))
+        window.localStorage.setItem('share-test-native-url', data.url ?? '')
+
+        if (result === 'resolve') return Promise.resolve()
+
+        return Promise.reject(new DOMException('stubbed for test', result))
       }
     })
 
@@ -147,21 +158,22 @@ const stubShareRejection = async (page: Page, errorName: string): Promise<void> 
         }
       }
     })
-  }, errorName)
+  }, outcome)
 }
 
 test.describe('Share buttons — native Web Share API path', () => {
-  test('dismissing the native share sheet does not fall back to copying the link', async ({ page }) => {
-    const path = await getFirstPostPath(page)
+  test('a successful native share sends the clean article permalink without copying', async ({ page }) => {
+    const { path, permalink } = await getFirstPostPermalink(page)
 
-    await stubShareRejection(page, 'AbortError')
-    await page.goto(path)
+    await stubNativeShare(page, 'resolve')
+    await page.goto(withNoise(path))
 
     const copyButton = page.locator('#copy-link-btn')
     await expect(copyButton).toBeVisible()
+    await expect(copyButton).toHaveAttribute('data-share-url', permalink)
     await copyButton.click()
 
-    await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-called'))).toBe('true')
+    await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
 
     await expect(page.locator('#copy-label')).toHaveText('Copy link')
     await expect(copyButton).not.toHaveClass(/copied/)
@@ -170,11 +182,31 @@ test.describe('Share buttons — native Web Share API path', () => {
     expect(clipboardProbe).toBeNull()
   })
 
-  test('a non-cancellation share failure still falls back to copying the link', async ({ page }) => {
-    const path = await getFirstPostPath(page)
+  test('dismissing the native share sheet does not fall back to copying the link', async ({ page }) => {
+    const { path, permalink } = await getFirstPostPermalink(page)
 
-    await stubShareRejection(page, 'NotAllowedError')
-    await page.goto(path)
+    await stubNativeShare(page, 'AbortError')
+    await page.goto(withNoise(path))
+
+    const copyButton = page.locator('#copy-link-btn')
+    await expect(copyButton).toBeVisible()
+    await copyButton.click()
+
+    await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-called'))).toBe('true')
+    expect(await page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
+
+    await expect(page.locator('#copy-label')).toHaveText('Copy link')
+    await expect(copyButton).not.toHaveClass(/copied/)
+
+    const clipboardProbe = await page.evaluate(() => window.localStorage.getItem('share-test-clipboard-write'))
+    expect(clipboardProbe).toBeNull()
+  })
+
+  test('a non-cancellation share failure falls back to copying the clean permalink', async ({ page }) => {
+    const { path, permalink } = await getFirstPostPermalink(page)
+
+    await stubNativeShare(page, 'NotAllowedError')
+    await page.goto(withNoise(path))
 
     const copyButton = page.locator('#copy-link-btn')
     await expect(copyButton).toBeVisible()
@@ -182,8 +214,10 @@ test.describe('Share buttons — native Web Share API path', () => {
 
     await expect(page.locator('#copy-label')).toHaveText(/Link copied!/i, { timeout: 4000 })
 
+    expect(await page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
+
     const clipboardProbe = await page.evaluate(() => window.localStorage.getItem('share-test-clipboard-write'))
-    expect(clipboardProbe).toBe(page.url())
+    expect(clipboardProbe).toBe(permalink)
   })
 })
 
@@ -204,10 +238,10 @@ test.describe('Share buttons', () => {
     })
   })
 
-  test('clicking the copy button writes the canonical URL to the clipboard', async ({ page }) => {
-    const path = await getFirstPostPath(page)
+  test('clicking the copy button writes the exact article permalink, ignoring query and fragment', async ({ page }) => {
+    const { path, permalink } = await getFirstPostPermalink(page)
 
-    await page.goto(path)
+    await page.goto(withNoise(path))
 
     const copyButton = page.locator('#copy-link-btn')
     await expect(copyButton).toBeVisible()
@@ -216,13 +250,17 @@ test.describe('Share buttons', () => {
     await expect(page.locator('#copy-label')).toHaveText(/Link copied!/i, { timeout: 4000 })
 
     const copied = await page.evaluate(() => window.localStorage.getItem('copy-test-value'))
-    expect(copied).toContain(path)
+    expect(copied).toBe(permalink)
+
+    // Matches the server-rendered social destinations exactly.
+    await expect(page.getByRole('link', { name: 'Share on LinkedIn' }))
+      .toHaveAttribute('href', `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(permalink)}`)
   })
 })
 
 test.describe('Share buttons — clipboard failure', () => {
   test('a rejected clipboard write announces the failure instead of doing nothing', async ({ page }) => {
-    const path = await getFirstPostPath(page)
+    const { path } = await getFirstPostPermalink(page)
 
     await page.addInitScript(() => {
       Object.defineProperty(navigator, 'share', { configurable: true, value: undefined })

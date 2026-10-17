@@ -186,6 +186,30 @@ describe('rehypeLumenCode', () => {
     expect(header.properties.className).toEqual(['ui-code__header'])
   })
 
+  test('renders the Lumen Code copy button contract with persistent code-specific labels', () => {
+    const tree: HastRoot = { children: [codeFigure('npm')], type: 'root' }
+    const buttons: Element[] = []
+
+    unified().use(rehypeLumenCode).runSync(tree)
+
+    visit(tree, 'element', node => {
+      if (node.tagName === 'button') buttons.push(node)
+    })
+
+    expect(buttons).toHaveLength(1)
+
+    expect(buttons[0]?.properties).toMatchObject({
+      ariaLabel: 'Copy code to clipboard',
+      dataCopyCopiedLabel: 'Code copied to clipboard',
+      dataCopyErrorLabel: 'Could not copy code. Select and copy it manually.',
+      dataCopyLabel: 'Copy code to clipboard',
+      dataState: 'idle',
+      dataUiCodeCopy: '',
+      title: 'Copy code to clipboard',
+      type: 'button'
+    })
+  })
+
   test('gives repeated code examples unique landmarks and restarts numbering for each article', () => {
     const processor = unified().use(rehypeLumenCode)
 

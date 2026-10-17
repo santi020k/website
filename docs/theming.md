@@ -38,6 +38,17 @@ color preference applies until the visitor chooses a theme.
 
 Dark mode is controlled with `data-theme="dark"` on `<html>`. Do not use `class="dark"` for theme switching; the Tailwind custom variant is defined against the data attribute.
 
+Article comments (`src/components/molecules/CommentsSection.astro`) follow the site theme. A theme
+change before the Giscus client runs updates the pending script's `data-theme`. The initial blank
+lazy frame receives no messages until it loads or reports ready. Theme updates use Giscus's
+documented [configuration messages](https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md#parent-to-giscus-message-events).
+Each iframe load and its first ready message synchronize the latest theme, covering either order
+of loading and widget initialization. A ready message is `{ giscus: { resizeHeight } }` with a
+finite positive height, from `https://giscus.app` and the current comments frame. Later resize
+messages are deduplicated. When Giscus reloads the same iframe on sign-out, the `src` observer
+resets readiness so the old URL's theme cannot win. That observer disconnects before page swaps;
+the controller never reloads the discussion itself.
+
 ## Usage
 
 Use Tailwind token utilities such as `bg-canvas`, `bg-surface`, `border-line`, `text-ink`, `text-ink-soft`, `text-brand`, and `bg-brand/10`. For custom CSS, use semantic variables such as `hsl(var(--surface))` or `hsl(var(--brand) / 0.12)`.

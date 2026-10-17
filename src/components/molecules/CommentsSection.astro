@@ -6,7 +6,10 @@
  *
  * The script element is created client-side so we can pick the initial theme
  * from the live `data-theme` attribute, then keep the embedded iframe in sync
- * when the visitor toggles light/dark mode.
+ * when the visitor toggles light/dark mode. Theme changes made before the
+ * client runs update its pending attribute. Each widget document (lazy first
+ * load, or a Giscus `src` reload such as sign-out) resyncs on its first ready
+ * message. This script never reloads the discussion itself.
  */
 import { siteConfig } from '@/site.config'
 
@@ -60,13 +63,113 @@ const { giscus } = siteConfig
       FALLBACK_THEMES[theme]
   }
 
-  const postThemeToGiscus = () => {
-    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame')
+  const GISCUS_ORIGIN = 'https://giscus.app'
+  const GISCUS_CLIENT = `${GISCUS_ORIGIN}/client.js`
+  const FRAME_SELECTOR = '#comments iframe.giscus-frame'
 
-    iframe?.contentWindow?.postMessage(
-      { giscus: { setConfig: { theme: getGiscusTheme() } } }, 'https://giscus.app'
-    )
+  interface FrameThemeState {
+    // Whether the current widget document has already been force-synced.
+    hasReadyMessage: boolean
+    lastTheme: string
   }
+
+  // Keyed by the iframe's WindowProxy, which survives Giscus reassigning the
+  // frame `src` (for example on sign-out). Weak keys let frames removed by an
+  // Astro swap drop out without explicit cleanup.
+  const frameStates = new WeakMap<Window, FrameThemeState>()
+
+  const getFrameState = (frame: Window): FrameThemeState => {
+    const existing = frameStates.get(frame)
+
+    if (existing) return existing
+
+    const state: FrameThemeState = { hasReadyMessage: false, lastTheme: '' }
+
+    frameStates.set(frame, state)
+
+    return state
+  }
+
+  const getCommentsWindow = (): Window | null => document
+    .querySelector<HTMLIFrameElement>(FRAME_SELECTOR)?.contentWindow ?? null
+
+  // The widget posts `{ giscus: { resizeHeight } }` once it has initialized.
+  const isReadyMessage = (data: unknown): boolean => {
+    if (typeof data !== 'object' || data === null || !('giscus' in data)) return false
+
+    const { giscus } = data
+
+    if (typeof giscus !== 'object' || giscus === null || !('resizeHeight' in giscus)) return false
+
+    const { resizeHeight } = giscus
+
+    return typeof resizeHeight === 'number' && Number.isFinite(resizeHeight) && resizeHeight > 0
+  }
+
+  const postTheme = (frame: Window, state: FrameThemeState, theme: string) => {
+    state.lastTheme = theme
+
+    frame.postMessage({ giscus: { setConfig: { theme } } }, GISCUS_ORIGIN)
+  }
+
+  // A new widget document starts from the theme in its `src`, which may be
+  // stale, so its first ready message must resync even if `lastTheme` matches.
+  const markFrameNavigated = (target: EventTarget | null): Window | null => {
+    if (!(target instanceof HTMLIFrameElement) || !target.matches(FRAME_SELECTOR)) return null
+
+    if (target.contentWindow) getFrameState(target.contentWindow).hasReadyMessage = false
+
+    return target.contentWindow
+  }
+
+  const onThemeChange = () => {
+    const theme = getGiscusTheme()
+
+    // A client script that has not executed yet still reads its own data-theme.
+    document.querySelector(`#comments script[src="${GISCUS_CLIENT}"]`)
+      ?.setAttribute('data-theme', theme)
+
+    const frame = getCommentsWindow()
+
+    if (!frame) return
+
+    const state = frameStates.get(frame)
+
+    // Do not post into an initial lazy frame's blank document. Once it has
+    // loaded or reported ready, its next ready message also covers reload races.
+    if (state && state.lastTheme !== theme) postTheme(frame, state, theme)
+  }
+
+  const onMessage = (event: MessageEvent<unknown>) => {
+    if (event.origin !== GISCUS_ORIGIN || !isReadyMessage(event.data)) return
+
+    const frame = getCommentsWindow()
+
+    if (!frame || event.source !== frame) return
+
+    const state = getFrameState(frame)
+    const theme = getGiscusTheme()
+
+    // Ordinary resize messages after the first one stay deduplicated.
+    if (state.hasReadyMessage && state.lastTheme === theme) return
+
+    state.hasReadyMessage = true
+
+    postTheme(frame, state, theme)
+  }
+
+  // Reapply on load too: a queued message from the old document may have
+  // preceded the new document's ready message. If hydration follows load,
+  // its first ready message still forces another sync.
+  const onFrameLoad = (event: Event) => {
+    const frame = markFrameNavigated(event.target)
+
+    if (frame) postTheme(frame, getFrameState(frame), getGiscusTheme())
+  }
+
+  // Giscus reloads the same iframe by reassigning `src`; reset before the new
+  // document can report ready, even if that happens ahead of its load event.
+  let frameSourceObserver: MutationObserver | undefined
 
   const mountGiscus = () => {
     const section = document.querySelector<HTMLElement>('#comments')
@@ -76,7 +179,7 @@ const { giscus } = siteConfig
 
     const script = document.createElement('script')
 
-    script.src = 'https://giscus.app/client.js'
+    script.src = GISCUS_CLIENT
 
     script.async = true
 
@@ -101,15 +204,34 @@ const { giscus } = siteConfig
       script.setAttribute(name, value)
     }
 
+    frameSourceObserver?.disconnect()
+
+    frameSourceObserver = new MutationObserver(records => {
+      for (const { target } of records) markFrameNavigated(target)
+    })
+
+    frameSourceObserver.observe(mount, { attributeFilter: ['src'], subtree: true })
+
     mount.appendChild(script)
   }
 
   // Keep the iframe theme in sync with the site's theme toggle.
-  const themeObserver = new MutationObserver(postThemeToGiscus)
+  const themeObserver = new MutationObserver(onThemeChange)
 
   themeObserver.observe(document.documentElement, { attributeFilter: ['data-theme'] })
 
+  window.addEventListener('message', onMessage)
+
+  // Iframe load does not bubble, so observe it during capture.
+  document.addEventListener('load', onFrameLoad, true)
+
   mountGiscus()
+
+  document.addEventListener('astro:before-swap', () => {
+    frameSourceObserver?.disconnect()
+
+    frameSourceObserver = undefined
+  })
 
   // Re-mount after View Transitions swaps in a new post body.
   document.addEventListener('astro:after-swap', mountGiscus)

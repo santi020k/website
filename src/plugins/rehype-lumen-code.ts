@@ -111,6 +111,12 @@ const getCodeElement = (figure: Element): Element | undefined => {
   return code?.type === 'element' ? code : undefined
 }
 
+// Mirrors the installed Lumen `Code` copy defaults; the runtime restores these
+// from data attributes after each copy, falling back to generic text otherwise.
+const COPY_LABEL = 'Copy code to clipboard'
+const COPIED_LABEL = 'Code copied to clipboard'
+const COPY_ERROR_LABEL = 'Could not copy code. Select and copy it manually.'
+
 const createHeader = (language: string, label: string): Element => {
   const metadata: ElementContent[] = []
 
@@ -130,9 +136,14 @@ const createHeader = (language: string, label: string): Element => {
     ]),
     element('span', { className: ['ui-code__meta'] }, metadata),
     element('button', {
-      ariaLabel: 'Copy code to clipboard',
+      ariaLabel: COPY_LABEL,
       className: ['ui-code__copy'],
+      dataCopyCopiedLabel: COPIED_LABEL,
+      dataCopyErrorLabel: COPY_ERROR_LABEL,
+      dataCopyLabel: COPY_LABEL,
+      dataState: 'idle',
       dataUiCodeCopy: '',
+      title: COPY_LABEL,
       type: 'button'
     }, [copyIcon(), checkIcon()])
   ])
