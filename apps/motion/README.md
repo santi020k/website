@@ -31,6 +31,13 @@ Tests build on the canonical `pnpm run test:motion` command, start their own pre
 on port 4343, and use installed Chrome. Set `WEBSITE_MOTION_PORT` to a free port if
 needed. Install Chrome before running this workspace's browser tests.
 
+Browser tests launch Chrome with `--disable-audio-output`. Chromium keeps its audio
+output path but [substitutes a fake OS-level stream](https://chromium.googlesource.com/chromium/src/+/f29eb01290cd36a30177ecf8197f906c01088a0d),
+so music tests do not depend on host audio devices, which can leave native media
+time stuck at zero. The tests verify
+element playback and timeline synchronization, not physical speaker output. Preview
+and render commands do not use this flag.
+
 Local rendering needs Chrome, FFmpeg, and FFprobe. All exports use 30 fps:
 
 | Format | Dimensions | Output |
