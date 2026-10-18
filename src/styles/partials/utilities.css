@@ -210,7 +210,10 @@
    keeps focus outlines and the TOC's active marker inside the scroll box. */
 @utility editorial-rail {
   @apply space-y-5 lg:sticky lg:top-28 lg:h-fit;
-  @media (width >= 64rem) {
+}
+
+@media (width >= 64rem) {
+  aside.editorial-rail {
     max-height: calc(100dvh - 8.5rem);
     margin-inline: -0.5rem;
     padding: 0.5rem;
