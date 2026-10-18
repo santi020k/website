@@ -49,7 +49,7 @@
   .history-hero-stage { padding-top: .5rem; }
 }
 @utility history-timeline { list-style: none; margin: 7rem 0 0; padding: 0; }
-@utility history-era { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 3rem; padding-block: 3rem 4.5rem; border-top: 1px solid hsl(var(--line) / .65); scroll-margin-top: 7rem; }
+@utility history-era { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 3rem; padding-block: 3rem 4.5rem; border-top: 1px solid hsl(var(--line) / .65); }
 @utility history-era-marker { display: flex; flex-direction: column; align-items: start; gap: .75rem; }
 @utility history-version { font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 500; line-height: 1; letter-spacing: -.075em; color: hsl(var(--brand)); }
 [data-theme='dark'] .history-version { color: hsl(var(--accent)); }

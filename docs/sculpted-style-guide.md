@@ -176,8 +176,21 @@ stage, portrait, caption, shelf, and actions below 39.5rem, keeping the viewport
 so enlarged headings never split words or run into the portrait. The default desktop and 768px
 tablet compositions are unchanged, and the frame's own padding still follows the viewport.
 These rules apply only inside Home; other `maker-hero` pages are unaffected.
+About's `about-page` container and the `projects-intro` container stack their columns below 40rem
+the same way, and the Projects ledger stacks below 17.5rem. Below 14rem, About tightens its frame
+inset and scales headings to the container so whole words fit. Editorial project cards stay in two
+columns only while each keeps 20rem, and the featured card stacks below 40rem. Below 14rem a card
+hides its decorative title arrow so the full title gets the row. Portfolio cards
+tighten their inset and wrap pills below 14rem. The About carousel grid shows up to three 18rem
+columns. Its script uses the resolved column count as the page size, and it moves focus to the
+opposite control when paging disables the focused one. On Travel, the country panel stays inside
+the map and scrolls. A `travel-atlas` container below 30rem uses the phone overlay positions.
+Below 20rem, the hint, zoom toolbar, and details panel leave the overlay and sit in flow, so none
+covers the map or a focused control. The close control takes its own row above the country name. The scrolling mobile topic filter pads its row so pill focus rings
+stay visible.
 
-Prose headings use the root scroll padding without an additional header-sized scroll margin.
+Prose headings, History eras, and Travel sections and countries use the root scroll padding
+without an additional header-sized scroll margin.
 The TOC marker reaches a heading at its native fragment landing line, including with enlarged
 root text, through a temporary patch of Lumen's `Anchor` runtime. See
 [the Lumen integration notes](lumen-integration.md#anchor-runtime-patch) for its ownership and

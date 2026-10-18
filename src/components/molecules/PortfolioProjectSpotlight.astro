@@ -108,6 +108,7 @@ const previewTargetHeight = previewImage ?
   </a>
 
   <div
+    data-portfolio-project-body
     class:list={[
       'flex min-w-0 flex-col',
       featured ?
@@ -182,7 +183,7 @@ const previewTargetHeight = previewImage ?
               "
               name="circle-check"
             />
-            <span class:list={[!featured && 'line-clamp-2']}>{metric}</span>
+            <span class:list={[!featured && 'line-clamp-2']} data-portfolio-metric>{metric}</span>
           </li>
         ))}
       </ul>
@@ -190,7 +191,7 @@ const previewTargetHeight = previewImage ?
 
     <div class="mt-auto space-y-5">
       {technologies.length > 0 && (
-        <ul class="m-0 flex list-none flex-wrap gap-2 p-0" aria-label="Technologies">
+        <ul class="m-0 flex list-none flex-wrap gap-2 p-0" aria-label="Technologies" data-portfolio-technologies>
           {technologies.map(technology => (
             <li>
               <Badge variant="outline">{technology}</Badge>
@@ -209,6 +210,17 @@ const previewTargetHeight = previewImage ?
 </div>
 
 <style>
+  [data-portfolio-project] { container: portfolio-card / inline-size; }
+  [data-portfolio-metric] { min-width: 0; overflow-wrap: break-word; }
+  [data-portfolio-technologies] > li { min-width: 0; max-width: 100%; }
+
+  /* Very large text on a phone: a tighter inset, and long titles and pills wrap. */
+  @container portfolio-card (width < 14rem) {
+    [data-portfolio-project-body] { padding: 0.75rem; }
+    [data-portfolio-project] h3 { font-size: min(1.5rem, 15cqi); overflow-wrap: break-word; hyphens: auto; }
+    [data-portfolio-technologies] > li > :global(*) { line-height: 1.3; white-space: normal; overflow-wrap: anywhere; }
+  }
+
   [data-portfolio-project]:hover {
     border-color: hsl(var(--project-primary) / 0.34);
     box-shadow:

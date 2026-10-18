@@ -65,7 +65,7 @@ const projectItems = projects.map((project, index) => ({
               <span>{String(index + 1).padStart(2, '0')} / {project.dateRange}</span>
               <Pill label={project.status} tone="outline" />
             </div>
-            <h3>{project.title}<Icon name="arrow-up-right" /></h3>
+            <h3><span>{project.title}</span><Icon data-project-title-arrow name="arrow-up-right" /></h3>
             <p>{project.description}</p>
             <ul aria-label="Technologies">
               {project.technologies.map(technology => <li>{technology}</li>)}

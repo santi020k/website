@@ -43,11 +43,8 @@ const logoSurfaceClass = {
   data-organization-carousel
 >
   <ul
-    class="
-      grid list-none gap-4 p-0
-      sm:grid-cols-2
-      lg:grid-cols-3
-    "
+    class="grid list-none gap-4 p-0"
+    data-carousel-list
     id="organization-carousel-items"
   >
     {organizations.map(({ context, label, project }) => {
@@ -183,6 +180,14 @@ const logoSurfaceClass = {
   </div>
 </section>
 
+<style>
+  /* Up to three columns of at least 18rem, so enlarged text earns wider cards.
+     The script reads the resolved column count as the page size. */
+  [data-carousel-list] {
+    grid-template-columns: repeat(auto-fill, minmax(max(min(100%, 18rem), calc((100% - 2rem) / 3)), 1fr));
+  }
+</style>
+
 <script>
   const initializeOrganizationCarousels = (): void => {
     const carousels = document.querySelectorAll<HTMLElement>('[data-organization-carousel]')
@@ -190,13 +195,14 @@ const logoSurfaceClass = {
     for (const carousel of carousels) {
       if (carousel.dataset.carouselBound === 'true') continue
 
+      const list = carousel.querySelector<HTMLElement>('[data-carousel-list]')
       const items = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-item]')]
       const controls = carousel.querySelector<HTMLElement>('[data-carousel-controls]')
       const previousButton = carousel.querySelector<HTMLButtonElement>('[data-carousel-previous]')
       const nextButton = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]')
       const status = carousel.querySelector<HTMLElement>('[data-carousel-status]')
 
-      if (!controls || !previousButton || !nextButton || !status || items.length === 0) continue
+      if (!list || !controls || !previousButton || !nextButton || !status || items.length === 0) continue
 
       carousel.dataset.carouselBound = 'true'
 
@@ -204,14 +210,9 @@ const logoSurfaceClass = {
       const { signal } = controller
       let startIndex = 0
       let resizeFrame = 0
-
-      const getPageSize = (): number => {
-        if (window.matchMedia('(min-width: 1024px)').matches) return 3
-
-        if (window.matchMedia('(min-width: 640px)').matches) return 2
-
-        return 1
-      }
+    // The grid's resolved columns are the single source of the page size, so
+      // root text scaling and container width both apply.
+      const getPageSize = (): number => Math.max(1, getComputedStyle(list).gridTemplateColumns.split(' ').filter(Boolean).length)
 
       const getPageStarts = (pageSize: number): number[] => {
         const maximumStart = Math.max(0, items.length - pageSize)
@@ -261,11 +262,18 @@ const logoSurfaceClass = {
 
         nextButton.disabled = pageIndex === pageStarts.length - 1
 
+        // Keep keyboard focus on an operable control at either end of the list.
+        if (focusedElement === previousButton && previousButton.disabled && !nextButton.disabled) nextButton.focus()
+
+        if (focusedElement === nextButton && nextButton.disabled && !previousButton.disabled) previousButton.focus()
+
         controls.hidden = items.length <= pageSize
 
-        status.textContent = pageSize === 1 ?
+        const statusText = pageSize === 1 ?
           `Showing ${startIndex + 1} of ${items.length}` :
           `Showing ${startIndex + 1}–${Math.min(startIndex + pageSize, items.length)} of ${items.length}`
+
+        if (status.textContent !== statusText) status.textContent = statusText
 
         // Content above the carousel also reflows. Keep the active link on screen
         // after the new layout settles, without adding scrolling animation.
@@ -303,14 +311,19 @@ const logoSurfaceClass = {
         move(event.key === 'ArrowLeft' ? -1 : 1)
       }, { signal })
 
-      window.addEventListener('resize', () => {
+      // Viewport and root text changes both resize the list, through its width or card heights.
+      const resizeObserver = new ResizeObserver(() => {
         window.cancelAnimationFrame(resizeFrame)
 
         resizeFrame = window.requestAnimationFrame(render)
-      }, { signal })
+      })
+
+      resizeObserver.observe(list)
 
       document.addEventListener('astro:before-swap', () => {
         window.cancelAnimationFrame(resizeFrame)
+
+        resizeObserver.disconnect()
 
         controller.abort()
       }, { once: true })

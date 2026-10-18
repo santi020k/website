@@ -1,10 +1,12 @@
+/* Two columns while each card keeps at least 20rem, so enlarged text stacks them. */
 @utility projects-editorial-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(max(min(100%, 20rem), calc((100% - 2rem) / 2)), 1fr));
   gap: 3rem 2rem;
 }
 
 @utility projects-editorial-card {
+  container: project-card / inline-size;
   min-width: 0;
   padding: 0;
 }
@@ -31,6 +33,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  min-width: 0;
   padding-top: 1.25rem;
 }
 
@@ -53,6 +56,13 @@
   font-size: 1.75rem;
   font-weight: 500;
   letter-spacing: -0.055em;
+}
+
+/* Full titles wrap beside the arrow; a word wider than the card hyphenates. */
+.projects-editorial-copy h3 > span:first-child {
+  min-width: 0;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .projects-editorial-copy h3 svg {
@@ -127,7 +137,7 @@
 
 @media (max-width: 767px) {
   .projects-editorial-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
   }
   .projects-editorial-card:first-child .projects-editorial-link {
@@ -137,6 +147,23 @@
   .projects-editorial-card:first-child .projects-editorial-copy {
     padding-top: 1.25rem;
   }
+}
+
+/* The featured card stacks its image and copy when enlarged text narrows it. */
+@container project-card (width < 40rem) {
+  .projects-editorial-card:first-child .projects-editorial-link {
+    display: flex;
+    gap: 0;
+  }
+  .projects-editorial-card:first-child .projects-editorial-copy {
+    padding-top: 1.25rem;
+  }
+}
+
+@container project-card (width < 14rem) {
+  .projects-editorial-copy h3 { font-size: min(1.75rem, 15cqi); }
+  /* The View project row keeps its arrow; the title gets the full row. */
+  [data-project-title-arrow] { display: none; }
 }
 
 @utility projects-intro {
@@ -197,8 +224,17 @@
   letter-spacing: normal;
 }
 
+/* Viewport breakpoints ignore root text scaling. Enlarged text that narrows the
+   intro to phone width adopts the phone's single-column stage and ledger spacing. */
+@container projects-intro (width < 40rem) {
+  .projects-intro-stage { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; padding-bottom: 2rem; }
+  .projects-intro-ledger { gap: 1rem; }
+  .projects-intro-ledger > div + div { padding-left: 1rem; }
+  .projects-intro-ledger dd { font-size: 1.5rem; gap: 0.25rem; }
+}
+
 /* Stack the ledger when narrow screens or enlarged text squeeze its columns. */
-@container projects-intro (max-width: 16rem) {
+@container projects-intro (width < 17.5rem) {
   .projects-intro-ledger { grid-template-columns: 1fr; gap: 0; padding-block: 0; }
   .projects-intro-ledger > div {
     display: grid;
@@ -218,7 +254,7 @@
 
 @media (max-width: 767px) {
   .projects-intro-stage {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.75rem;
     padding-bottom: 2rem;
   }

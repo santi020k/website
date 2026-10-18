@@ -100,7 +100,7 @@ body:has([data-about-page]) > div > .grid-fade {
 
 .about-availability > span { width: 0.375rem; height: 0.375rem; flex-shrink: 0; border-radius: 50%; background: hsl(var(--success)); }
 
-@utility about-socials { display: flex; gap: 1.75rem; margin-top: 0.75rem; list-style: none; padding: 0; }
+@utility about-socials { display: flex; flex-wrap: wrap; gap: 0 1.75rem; margin-top: 0.75rem; list-style: none; padding: 0; }
 @utility about-portrait { min-width: 0; }
 .about-portrait img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center; border-radius: 1.5rem; }
 .about-portrait figcaption { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1rem; font-size: 0.6875rem; line-height: 1.75; }
@@ -124,7 +124,7 @@ body:has([data-about-page]) > div > .grid-fade {
 @utility about-working-modes { min-width: 0; }
 .about-working-modes h3 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.04em; }
 .about-working-modes ul { margin-top: 1rem; }
-.about-working-modes li { display: grid; grid-template-columns: auto 1fr; gap: 1.25rem; padding-block: 1rem; border-top: 1px solid hsl(var(--line) / 0.65); }
+.about-working-modes li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem; padding-block: 1rem; border-top: 1px solid hsl(var(--line) / 0.65); }
 .about-working-modes li > span { color: var(--about-accent); font-size: 0.625rem; padding-top: 0.25rem; }
 .about-working-modes li > p { color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.85; }
 
@@ -189,6 +189,35 @@ body:has([data-about-page]) > div > .grid-fade {
   .about-lanes, .about-principles, .about-testimonials { grid-template-columns: 1fr; }
   .about-page [data-testimonial] { padding: 1.5rem; }
   .about-next { margin-top: 4rem; padding-top: 2rem; }
+}
+
+/* Viewport breakpoints ignore root text scaling. When enlarged text leaves the
+   page as narrow as a phone, stack its sections like the phone layout while
+   keeping the viewport's type scale. The default 768px tablet keeps its columns. */
+@container about-page (width < 40rem) {
+  .about-stats { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
+  .about-stat + .about-stat { padding-top: 1.75rem; border-top: 1px solid hsl(var(--line) / 0.65); }
+  .about-stat [data-about-stat-description] { max-width: 100%; }
+  .about-section-heading, .about-story { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .about-section-heading { margin-bottom: 2rem; }
+  .about-section-heading > p { justify-self: start; max-width: 100%; }
+  .about-lanes, .about-principles, .about-testimonials { grid-template-columns: minmax(0, 1fr); }
+  .about-page [data-testimonial] { padding: 1.5rem; }
+  .about-next { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}
+
+/* Very large text on a phone: tighten the frame inset and scale headings with the
+   page so whole words fit; long labels wrap rather than overflow. */
+@container about-page (width < 14rem) {
+  .about-hero.signature-frame { padding-inline: 0.5rem; }
+  .about-hero h1 { font-size: min(2.625rem, 22cqi); overflow-wrap: break-word; }
+  .about-section-heading h2, .about-next h2 { font-size: min(2rem, 15cqi); }
+  .about-page :is(h2, h3) { overflow-wrap: break-word; hyphens: auto; }
+  .about-eyebrow, .about-link, .about-portrait figcaption { overflow-wrap: anywhere; }
+  .about-eyebrow { letter-spacing: 0.08em; }
+  .about-portrait figcaption { flex-direction: column; gap: 0.25rem; }
+  .about-portrait figcaption > span + span { text-align: left; }
+  .about-page [data-testimonial] { padding: 1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
