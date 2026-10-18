@@ -453,7 +453,7 @@ for (const theme of ['light', 'dark'] as const) {
       await settleLayout(page)
       await expectWithinScreen(page.locator('[data-resume-shell] > div p, [data-resume-shell] > div a'))
 
-      for (const name of ['Download two-page resume PDF', 'Download full CV PDF']) {
+      for (const name of ['Download 2-page resume PDF', 'Download full CV PDF']) {
         const download = page.getByRole('link', { name })
 
         await download.focus()

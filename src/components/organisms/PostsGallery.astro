@@ -56,10 +56,10 @@ const galleryItems = posts.map(createGalleryItem)
     <div
       class:list={[
         `
-          grid gap-6
-          sm:grid-cols-2
+          grid grid-cols-1 gap-6
+          sm:card-grid-2
         `,
-        columns === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'
+        columns === 3 && 'lg:card-grid-3'
       ]}
       data-post-gallery-grid
     >

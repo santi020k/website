@@ -19,11 +19,11 @@ const { columns = 4, showDivider = true } = Astro.props
 <section
   class:list={[
     `
-      relative section-container-wide grid gap-5
-      sm:grid-cols-2
+      relative section-container-wide grid grid-cols-1 gap-5
+      sm:card-grid-2
     `,
     showDivider ? 'pt-8' : '',
-    columns === 3 ? 'xl:grid-cols-3' : 'xl:grid-cols-4'
+    columns === 3 ? 'xl:card-grid-3' : 'xl:card-grid-4'
   ]}
 >
   <div

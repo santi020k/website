@@ -189,8 +189,38 @@ Below 20rem, the hint, zoom toolbar, and details panel leave the overlay and sit
 covers the map or a focused control. The close control takes its own row above the country name. The scrolling mobile topic filter pads its row so pill focus rings
 stay visible.
 
-Prose headings, History eras, and Travel sections and countries use the root scroll padding
-without an additional header-sized scroll margin.
+Prose headings, History eras, Travel sections and countries, and the Developer Experience
+`#field-guides` target use the root scroll padding without an additional header-sized scroll
+margin. Fragment targets start at their visible heading rather than at a padded section top.
+
+Supporting pages follow the same rule: a viewport breakpoint sets the default composition, and a
+root-relative container width decides whether side-by-side columns still fit, so enlarged text
+stacks content instead of splitting ordinary words. Single-column grids use `minmax(0, 1fr)`
+rather than an implicit `auto` track, so one long word or control cannot widen the page.
+
+- `PageSection` is a `page-section` container. Its editorial header column appears from 1024px
+  only while the section has 50rem; `layout="stacked"` always stacks it.
+- The `card-grid-2`, `card-grid-3`, and `card-grid-4` utilities keep a grid's breakpoint column
+  count while each card has `--card-grid-min` (16rem by default), then drop a column. They back
+  `StatsGrid`, `PostsGallery`, the regular `ProjectsGallery`, series cards, and the Speaking and
+  Developer Experience card grids. The regular gallery's featured project pairs image and copy
+  only while its card has 44rem.
+- Work's intro frame is a `work-intro` container: the hero stacks below 44rem, the statistics
+  use two columns below 38rem and one below 14rem. Its section summaries wrap below their heading.
+  Below 14rem the page also tightens its frame inset and scales the headline to keep short words whole.
+- Career and Speaking timelines move their marker above the row below 16rem, so the copy keeps
+  the full width. Career titles scale within narrow rows and keep compact side insets.
+  Career rows show a 2px accent focus outline inset within the link, so the
+  clipped timeline card cannot hide it.
+- Speaking's hero places the profile beside the headline only while it has 54rem; the community
+  impact list and the three booking notes have their own surface containers.
+- The Technologies index places its filter and group labels in side columns only while the
+  index has 38rem, so the search field stays inside its card.
+- Policy rows keep their three-column ledger while the list has 42rem, stack each heading above
+  its copy below that, and move the number onto its own row below 16rem.
+- On screen, the resume header keeps the name and contacts in one row while the resume has
+  36rem. Print rules and both PDFs are unchanged.
+- Topic sort controls wrap under the label, and the 404 numeral scales down on narrow screens.
 The TOC marker reaches a heading at its native fragment landing line, including with enlarged
 root text, through a temporary patch of Lumen's `Anchor` runtime. See
 [the Lumen integration notes](lumen-integration.md#anchor-runtime-patch) for its ownership and

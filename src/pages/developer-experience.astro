@@ -201,8 +201,8 @@ mainClass="remaining-pages"
 
     <RevealGroup
 class="
-  grid gap-5
-  sm:grid-cols-2
+  grid grid-cols-1 gap-5
+  sm:card-grid-2
 "
 stagger={60}
     >
@@ -215,25 +215,27 @@ stagger={60}
   <section
     aria-label="Developer experience field guides"
     class="
-      section-container-wide scroll-mt-28 pt-20
+      section-container-wide pt-20
       sm:pt-24
       lg:pt-28
     "
-    id="field-guides"
   >
-    <SectionHeader
-      description="Start with measurement and standards, then follow the implementation paths through linting, testing, automation, and AI-assisted delivery."
-      eyebrow="Field guides"
-      linkHref="/blog/tags/developer-experience/"
-      linkLabel="Browse every developer experience post"
-      title="Evidence, decisions, and implementation details."
-    />
-    <div class="
-      mt-10
-      sm:mt-12
-    "
-    >
-      <PostsGallery columns={3} posts={featuredPosts} />
+    {/* The fragment target starts at the visible heading, so the root scroll padding alone clears the header. */}
+    <div id="field-guides">
+      <SectionHeader
+        description="Start with measurement and standards, then follow the implementation paths through linting, testing, automation, and AI-assisted delivery."
+        eyebrow="Field guides"
+        linkHref="/blog/tags/developer-experience/"
+        linkLabel="Browse every developer experience post"
+        title="Evidence, decisions, and implementation details."
+      />
+      <div class="
+        mt-10
+        sm:mt-12
+      "
+      >
+        <PostsGallery columns={3} posts={featuredPosts} />
+      </div>
     </div>
   </section>
 
@@ -246,8 +248,8 @@ stagger={60}
 
     <RevealGroup
 class="
-  grid gap-5
-  lg:grid-cols-3
+  grid grid-cols-1 gap-5 [--card-grid-min:12rem]
+  lg:card-grid-3
 "
 stagger={60}
     >

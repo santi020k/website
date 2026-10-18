@@ -91,11 +91,13 @@ mainClass="remaining-pages"
     "
     data-resume-shell
   >
-    <div class="
-      mb-12 flex flex-col items-start justify-between gap-6
-      sm:flex-row
-      print:mb-6
-    "
+    <div
+      class="
+        mb-12 flex flex-col items-start justify-between gap-6
+        sm:flex-row
+        print:mb-6
+      "
+      data-resume-header
     >
       <div>
         <p class="
@@ -117,10 +119,12 @@ mainClass="remaining-pages"
         <p class="mt-2 text-xl text-brand">{AUTHOR_JOB_TITLE}</p>
         <p class="mt-4 max-w-2xl text-ink-soft">{resumeDescription}</p>
       </div>
-      <div class="
-        max-w-full space-y-2 text-left text-sm wrap-break-word text-ink-soft
-        sm:text-right
-      "
+      <div
+        class="
+          max-w-full space-y-2 text-left text-sm wrap-break-word text-ink-soft
+          sm:text-right
+        "
+        data-resume-contacts
       >
         <p>
           <Link
@@ -166,9 +170,10 @@ mainClass="remaining-pages"
             print:hidden
           "
           data-print-hidden
+          data-resume-downloads
         >
           <ButtonLink
-            ariaLabel="Download two-page resume PDF"
+            ariaLabel="Download 2-page resume PDF"
             class="
               w-full
               sm:w-auto

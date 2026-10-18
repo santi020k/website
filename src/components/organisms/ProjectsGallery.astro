@@ -86,19 +86,12 @@ const projectItems = projects.map((project, index) => ({
       as="article"
       class="group relative rounded-3xl border-line/50 bg-surface p-0"
       data-project-gallery-card
+      data-project-gallery-featured
     >
       <Link className="block font-normal text-inherit no-underline" href={projectItems[0].href}>
-        <div class="
-          grid
-          lg:grid-cols-2
-        "
-        >
+        <div data-project-gallery-featured-grid>
           {/* Image side */}
-          <div class="
-            relative aspect-16/10 overflow-hidden
-            lg:aspect-auto
-          "
-          >
+          <div class="relative overflow-hidden" data-project-gallery-featured-media>
             {projectItems[0].coverImage && projectItems[0].thumbnailImage ?
               (
                 <CoverImage
@@ -184,10 +177,10 @@ const projectItems = projects.map((project, index) => ({
     <div
       class:list={[
         `
-          grid gap-6
-          sm:grid-cols-2
+          grid grid-cols-1 gap-6
+          sm:card-grid-2
         `,
-        projectItems.length > 3 && 'lg:grid-cols-3'
+        projectItems.length > 3 && 'lg:card-grid-3'
       ]}
     >
       {projectItems.slice(1).map(project => (

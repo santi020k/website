@@ -15,9 +15,9 @@ const meta = {
   <section
     aria-labelledby="error-heading"
     class="
-      section-container-wide grid animate-reveal-lcp gap-10
+      section-container-wide grid animate-reveal-lcp grid-cols-1 gap-10
       motion-reduce:animate-none
-      lg:grid-cols-[1fr_0.72fr] lg:items-start
+      lg:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)] lg:items-start
     "
   >
     <div class="space-y-6">
@@ -27,8 +27,8 @@ const meta = {
         <span
           aria-hidden="true"
           class="
-            block text-[6.25rem] leading-none font-medium tracking-[-0.08em]
-            text-brand/85 select-none
+            block text-[min(6.25rem,32vw)] leading-none font-medium
+            tracking-[-0.08em] text-brand/85 select-none
             sm:text-[8rem]
           "
         >

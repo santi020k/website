@@ -77,6 +77,7 @@ const getDateLabel = (talk: Talk) => {
               py-6 pr-5 pl-16
               sm:py-7 sm:pr-7 sm:pl-20
             "
+            data-speaking-row-body
           >
             <div
               class="
@@ -180,6 +181,10 @@ const getDateLabel = (talk: Talk) => {
 </Card>
 
 <style>
+  [data-speaking-timeline] {
+    container: speaking-timeline / inline-size;
+  }
+
   [data-speaking-timeline] :global(.ui-timeline-item) {
     padding-bottom: 0;
   }
@@ -222,6 +227,23 @@ const getDateLabel = (talk: Talk) => {
     [data-speaking-timeline] :global(.ui-timeline-item__tail) {
       top: 3.5rem;
       left: 2.5rem;
+    }
+  }
+
+  /* When enlarged text leaves the timeline under 16rem, the evidence marker sits
+     above its row instead of reserving a left gutter, so the copy keeps the width. */
+  @container speaking-timeline (width < 16rem) {
+    [data-speaking-timeline] [data-speaking-row-body] {
+      padding: 4rem 1.25rem 1.5rem;
+    }
+
+    [data-speaking-timeline] :global(.ui-timeline-item__dot) {
+      top: 1.5rem;
+      left: 1.25rem;
+    }
+
+    [data-speaking-timeline] :global(.ui-timeline-item__tail) {
+      display: none;
     }
   }
 </style>

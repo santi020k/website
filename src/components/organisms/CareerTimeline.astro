@@ -71,8 +71,6 @@ type CareerItem = (typeof careerItems)[number]
           class:list={[
             `
               group block py-6 pr-5 pl-18 transition-colors duration-200
-              focus-visible:ring-2 focus-visible:ring-brand/50
-              focus-visible:outline-none focus-visible:ring-inset
               motion-reduce:transition-none
               sm:py-7 sm:pr-7 sm:pl-20
             `,
@@ -89,10 +87,14 @@ type CareerItem = (typeof careerItems)[number]
             <div
               class="
                 flex flex-col gap-4
-                sm:flex-row sm:items-start sm:justify-between
+                sm:flex-row sm:flex-wrap sm:items-start sm:justify-between
               "
             >
-              <div class="min-w-0">
+              <div class="
+                min-w-0
+                sm:flex-[1_1_16rem]
+              "
+              >
                 <div class="flex flex-wrap items-center gap-2.5">
                   <p
                     class:list={[
@@ -145,7 +147,7 @@ type CareerItem = (typeof careerItems)[number]
             <div
               class="
                 mt-5 flex flex-col gap-4 border-t border-line/35 pt-4
-                sm:flex-row sm:items-center sm:justify-between
+                sm:flex-row sm:flex-wrap sm:items-center sm:justify-between
               "
             >
               {item.technologies.length > 0 && (
@@ -198,6 +200,10 @@ type CareerItem = (typeof careerItems)[number]
 </Card>
 
 <style>
+  [data-career-timeline] {
+    container: career-timeline / inline-size;
+  }
+
   [data-career-timeline] :global(.ui-timeline-item) {
     padding-bottom: 0;
   }
@@ -219,8 +225,11 @@ type CareerItem = (typeof careerItems)[number]
     box-shadow: inset 3px 0 0 hsl(var(--project-primary) / 0.72);
   }
 
-  [data-career-link]:focus-visible {
-    --tw-ring-color: hsl(var(--project-primary) / 0.48);
+  /* The row's hover tint and inset bar also mark focus, but the visible indicator
+     is a 2px outline drawn inside the link so the clipped card edge cannot hide it. */
+  [data-career-timeline] [data-career-link]:focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: -4px;
   }
 
   [data-career-link]:is(:hover, :focus-visible) :is([data-career-title], [data-career-action]) {
@@ -275,6 +284,27 @@ type CareerItem = (typeof careerItems)[number]
     [data-career-timeline] :global(.ui-timeline-item__tail) {
       top: 3.5rem;
       left: 2.5rem;
+    }
+  }
+
+  /* When enlarged text leaves the timeline under 16rem, the role marker sits above
+     its row instead of reserving a left gutter, so company names keep the width. */
+  @container career-timeline (width < 16rem) {
+    [data-career-title] {
+      font-size: min(1.5rem, 16cqi);
+    }
+
+    [data-career-timeline] [data-career-link] {
+      padding: 4.25rem 0.5rem 1.5rem;
+    }
+
+    [data-career-timeline] :global(.ui-timeline-item__dot) {
+      top: 1.5rem;
+      left: 1rem;
+    }
+
+    [data-career-timeline] :global(.ui-timeline-item__tail) {
+      display: none;
     }
   }
 </style>

@@ -47,7 +47,7 @@ mainClass="remaining-pages"
     </ButtonLink>
   </PageHero>
 
-  <PageSection class="lg:grid-cols-1!">
+  <PageSection layout="stacked">
     <SectionHeader
       description="Each topic opens a filtered archive page with the related posts."
       eyebrow="All topics"
@@ -56,7 +56,7 @@ mainClass="remaining-pages"
 
     <div class="space-y-4">
       <div class="
-        grid gap-4
+        grid grid-cols-1 gap-4
         sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end
       "
       >
@@ -73,12 +73,12 @@ mainClass="remaining-pages"
           />
         </div>
         <div class="
-          flex items-center gap-3
+          flex min-w-0 flex-wrap items-center gap-3
           sm:pb-0.5
         "
         >
           <span class="section-label">Sort</span>
-          <div class="flex gap-2">
+          <div class="flex flex-wrap gap-2">
             <Toggle className="pagination-btn pagination-btn--active" controlled data-sort-btn="count" pressed>By count</Toggle>
             <Toggle className="pagination-btn" controlled data-sort-btn="alpha">A → Z</Toggle>
           </div>

@@ -97,7 +97,12 @@
   .remaining-pages h1:not(.editorial-page-title) { font-weight: 500; line-height: 1.12; }
 }
 .remaining-pages .section-copy { font-size: 0.9375rem; line-height: 1.85; }
-.remaining-pages .editorial-policy-list { display: grid; grid-template-columns: 1fr; gap: 0; }
+.remaining-pages .editorial-policy-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  container: policy-list / inline-size;
+}
 .remaining-pages .editorial-policy-row {
   display: grid;
   grid-template-columns: 2rem minmax(10rem, 0.7fr) minmax(0, 1.3fr);
@@ -185,14 +190,33 @@
 .remaining-pages a:focus-visible,
 .remaining-pages button:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 4px; }
 @media screen {
-  .remaining-pages [data-resume-shell] { padding: 0; border: 0; border-radius: 0; background: none; overflow: visible; }
+  .remaining-pages [data-resume-shell] { padding: 0; border: 0; border-radius: 0; background: none; overflow: visible; container: resume / inline-size; }
   .remaining-pages [data-resume-shell] h1 { font-weight: 500; line-height: 1.1; }
+  [data-resume-header] > * { max-width: 100%; min-width: 0; }
+  /* On screen, the name and contact column share a row only while the resume has
+     36rem in root-relative units. Print keeps its own row layout and PDFs. */
+  @container resume (width < 36rem) {
+    [data-resume-header] { flex-direction: column; }
+    [data-resume-contacts] { text-align: start; }
+    [data-resume-downloads] { justify-content: flex-start; }
+  }
 }
 @media (max-width: 47.999rem) {
   .editorial-page-description { font-size: 0.875rem; }
   .remaining-pages .editorial-policy-row { grid-template-columns: 1.5rem minmax(0, 1fr); gap: 0.75rem; }
   .editorial-policy-row p { grid-column: 2; }
   .remaining-pages .editorial-detail-hero { gap: 2rem; }
+}
+/* Policy rows keep the three-column ledger only while the list has 42rem in
+   root-relative units. Enlarged text stacks each heading above its copy, and a
+   very narrow list gives the number its own row so the copy keeps the full width. */
+@container policy-list (width < 42rem) {
+  .remaining-pages .editorial-policy-row { grid-template-columns: 1.5rem minmax(0, 1fr); gap: 0.75rem; }
+  .editorial-policy-row p { grid-column: 2; }
+}
+@container policy-list (width < 16rem) {
+  .remaining-pages .editorial-policy-row { grid-template-columns: minmax(0, 1fr); }
+  .editorial-policy-row p { grid-column: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .remaining-pages a,
@@ -249,3 +273,95 @@
   background: transparent;
 }
 [data-blog-latest] h2 { line-height: 1.4; }
+
+/* Card grids keep their viewport column count only while each card still has
+   --card-grid-min in root-relative units, then drop a column, so enlarged text
+   never squeezes titles into slivers. Empty tracks are kept, so a short list keeps
+   its normal card width. The subtracted allowance must cover the grid's column gap. */
+@utility card-grid-2 {
+  grid-template-columns: repeat(auto-fill, minmax(max(min(100%, var(--card-grid-min, 16rem)), calc((100% - 3rem) / 2)), 1fr));
+}
+@utility card-grid-3 {
+  grid-template-columns: repeat(auto-fill, minmax(max(min(100%, var(--card-grid-min, 16rem)), calc((100% - 6rem) / 3)), 1fr));
+}
+@utility card-grid-4 {
+  grid-template-columns: repeat(auto-fill, minmax(max(min(100%, var(--card-grid-min, 16rem)), calc((100% - 9rem) / 4)), 1fr));
+}
+
+/* PageSection keeps its editorial header column on desktop viewports only while
+   the section has 50rem in root-relative units; enlarged text stacks the header
+   above the content instead of leaving the content a sliver. */
+[data-page-section] { container: page-section / inline-size; }
+[data-page-section-grid] { grid-template-columns: minmax(0, 1fr); }
+@media (width >= 64rem) {
+  @container page-section (width >= 50rem) {
+    [data-page-section='split'] > [data-page-section-grid] {
+      grid-template-columns: minmax(18rem, 0.58fr) minmax(0, 1.42fr);
+      gap: 2rem;
+    }
+  }
+}
+@media (width >= 96rem) {
+  @container page-section (width >= 50rem) {
+    [data-page-section='split'] > [data-page-section-grid] {
+      grid-template-columns: minmax(18rem, 0.36fr) minmax(0, 1.64fr);
+      gap: 2.5rem;
+    }
+  }
+}
+
+/* The featured project in the regular gallery pairs image and copy only while the
+   card has 44rem in root-relative units. */
+[data-project-gallery-featured] { container: project-featured / inline-size; }
+[data-project-gallery-featured-grid] { display: grid; grid-template-columns: minmax(0, 1fr); }
+[data-project-gallery-featured-media] { aspect-ratio: 16 / 10; }
+@media (width >= 64rem) {
+  @container project-featured (width >= 44rem) {
+    [data-project-gallery-featured-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    [data-project-gallery-featured-media] { aspect-ratio: auto; }
+  }
+}
+
+/* Technology index: the filter and group labels take side columns only while the
+   index has 38rem in root-relative units, so the search field never leaves the card. */
+[data-technology-index] { container: technology-index / inline-size; }
+@media (width >= 64rem) {
+  @container technology-index (width >= 38rem) {
+    [data-technology-filter-row] {
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr);
+      align-items: end;
+    }
+    [data-technology-group] {
+      grid-template-columns: minmax(12rem, 0.38fr) minmax(0, 1.62fr);
+      gap: 2rem;
+    }
+  }
+}
+
+/* Speaking: the community impact list and booking notes sit beside their copy only
+   while their surfaces have room in root-relative units. */
+[data-speaking-community] { container: speaking-community / inline-size; }
+@media (width >= 64rem) {
+  @container speaking-community (width >= 34rem) {
+    [data-speaking-community-grid] {
+      grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+      gap: 3rem;
+    }
+    [data-speaking-community-impact] {
+      padding-top: 0;
+      padding-left: 2rem;
+      border-top: 0;
+      border-left: 1px solid hsl(var(--line) / 0.5);
+    }
+  }
+}
+[data-speaking-booking] { container: speaking-booking / inline-size; }
+@media (width >= 40rem) {
+  @container speaking-booking (width >= 32rem) {
+    [data-speaking-booking-notes] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    [data-speaking-booking-note]:not(:first-child) {
+      padding-left: 1.5rem;
+      border-left: 1px solid hsl(var(--line) / 0.5);
+    }
+  }
+}
