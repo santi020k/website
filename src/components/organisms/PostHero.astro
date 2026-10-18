@@ -146,10 +146,7 @@ class="
         <div
           class="
             post-meta-card relative rounded-2xl border border-line/30
-            bg-surface/50 p-6 editorial-detail-meta-item backdrop-blur-sm
-            transition-all duration-300
-            hover:-translate-y-1 hover:border-brand/40 hover:bg-brand-soft/10
-            hover:shadow-lg hover:shadow-brand/5
+            bg-surface/50 p-6 editorial-detail-meta-item
           "
           style={`animation-delay: ${160 + (index * 40)}ms`}
         >
@@ -258,10 +255,12 @@ class="
   {/* ── Cover image: full-width below ────────────────────────── */}
   {post.data.coverImage && (
     <div class="space-y-4">
-      <div class:list={[
-        'relative',
-        !useWideCoverFrame && 'mx-auto w-full max-w-4xl'
-      ]}
+      <div
+        class:list={[
+          'relative',
+          !useWideCoverFrame && 'mx-auto w-full max-w-4xl'
+        ]}
+        data-post-cover
       >
         <HoverableCover
           alt={post.data.coverImage.alt}
@@ -278,10 +277,11 @@ class="
           <div
             aria-hidden="true"
             class="
-              pointer-events-none absolute inset-x-0 bottom-0 z-20 flex
-              flex-wrap items-end justify-between gap-4 p-5
+              pointer-events-none absolute inset-x-0 bottom-0 z-20 flex-wrap
+              items-end justify-between gap-4 p-5
               sm:p-6
             "
+            data-post-cover-caption
           >
             <div>
               <p class="section-label text-white/70">Article cover</p>

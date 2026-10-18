@@ -118,7 +118,7 @@ mainClass="remaining-pages"
         <p class="mt-4 max-w-2xl text-ink-soft">{resumeDescription}</p>
       </div>
       <div class="
-        space-y-2 text-left text-sm text-ink-soft
+        max-w-full space-y-2 text-left text-sm wrap-break-word text-ink-soft
         sm:text-right
       "
       >
@@ -160,8 +160,9 @@ mainClass="remaining-pages"
         <p>{siteConfig.location}</p>
         <div
           class="
-            mt-4 ui-combobox w-full grid-cols-2
-            sm:flex sm:w-auto sm:justify-end
+            mt-4 ui-combobox w-full
+            grid-cols-[repeat(auto-fit,minmax(min(100%,8.5rem),1fr))]
+            sm:flex sm:w-auto sm:flex-wrap sm:justify-end
             print:hidden
           "
           data-print-hidden

@@ -205,8 +205,19 @@
   }
 }
 
+/* Desktop rails stay within the viewport below the sticky header and scroll
+   natively when taller. The inline padding (offset by a matching negative margin)
+   keeps focus outlines and the TOC's active marker inside the scroll box. */
 @utility editorial-rail {
   @apply space-y-5 lg:sticky lg:top-28 lg:h-fit;
+  @media (width >= 64rem) {
+    max-height: calc(100dvh - 8.5rem);
+    margin-inline: -0.5rem;
+    padding: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
 }
 
 @utility post-grid {

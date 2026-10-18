@@ -81,10 +81,14 @@ const getDateLabel = (talk: Talk) => {
             <div
               class="
                 flex flex-col gap-4
-                sm:flex-row sm:items-start sm:justify-between
+                sm:flex-row sm:flex-wrap sm:items-start sm:justify-between
               "
             >
-              <div class="min-w-0">
+              <div class="
+                min-w-0
+                sm:flex-[1_1_20rem]
+              "
+              >
                 <div class="flex flex-wrap items-center gap-2.5">
                   <p class="section-label text-brand">{talk.event}</p>
                   <Pill label={evidence.label} tone={evidence.tone} />
@@ -132,16 +136,22 @@ const getDateLabel = (talk: Talk) => {
             <div
               class="
                 mt-5 flex flex-col gap-4 border-t border-line/35 pt-4
-                sm:flex-row sm:items-center sm:justify-between
+                sm:flex-row sm:flex-wrap sm:items-center sm:justify-between
               "
             >
-              <div class="flex flex-wrap gap-2">
+              <div class="
+                flex min-w-0 flex-wrap gap-2
+                sm:flex-[1_1_16rem]
+              "
+              >
                 {talk.tags.map(tag => <Pill label={tag} tone="outline" />)}
               </div>
 
               {hasLinks && (
                 <div class="
-                  flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2
+                  flex max-w-full shrink-0 flex-wrap items-center gap-x-4
+                  gap-y-2
+                  sm:ml-auto
                 "
                 >
                   {talk.links.event && (

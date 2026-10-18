@@ -212,7 +212,15 @@
   .maker-footer a { transition: none; }
 }
 
+/* Reserve the fixed Back to Top control's corner (about 7.5rem from the viewport
+   edge with its label) at the end of the colophon. Wide screens center the shell
+   far enough from the corner that the reservation resolves to zero. */
+@media (min-width: 40rem) {
+  .maker-footer-version { margin-right: 4.25rem; }
+}
+
 @media (min-width: 64rem) {
+  .maker-footer-version { margin-right: clamp(0px, calc(7.5rem - (100vw - 72rem) / 2), 6rem); }
   .maker-footer {
     margin-top: 3.5rem;
     padding: 0 1.5rem;

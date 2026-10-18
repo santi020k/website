@@ -46,6 +46,8 @@
   border-radius: 1.5rem;
   isolation: isolate;
   transition: box-shadow 220ms ease;
+  /* Container queries below adapt the bar when enlarged text outgrows it. */
+  container: site-header / inline-size;
 }
 
 .site-header-shell::before {
@@ -330,6 +332,7 @@
   top: var(--mobile-nav-top, 6rem);
   left: var(--mobile-nav-left, 1rem);
   width: var(--mobile-nav-width, calc(100% - 2rem));
+  container: site-menu / inline-size;
 }
 
 @utility site-mobile-nav-surface {
@@ -354,11 +357,13 @@
 [data-nav-visible] .site-header-shell[data-header-frame] .site-header-brand::after { opacity: 0; }
 
 [data-mobile-nav-links] {
+  grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid hsl(var(--line) / 0.65);
 }
 
 @utility site-mobile-nav-link {
   display: flex;
+  min-width: 0;
   min-height: 3.625rem;
   align-items: center;
   gap: 0.75rem;
@@ -404,12 +409,21 @@
 
 [data-mobile-nav-actions] {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.375rem;
 }
 
 [data-mobile-nav-actions] .site-nav-contact {
   min-height: 2.875rem;
   font-size: 0.8125rem;
+  white-space: normal;
+}
+
+/* Give enlarged menu labels the row's full width before breaking words. */
+@container site-menu (width < 14rem) {
+  .site-mobile-nav-index,
+  .site-mobile-nav-arrow { display: none; }
+  .site-mobile-nav-link > :nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
 }
 
 [data-mobile-nav-actions] .site-nav-contact-arrow {
@@ -492,12 +506,12 @@
 }
 
 @media (max-width: 639px) {
-  .site-header-shell { gap: 0.125rem; container: mobile-header / inline-size; }
+  .site-header-shell { gap: 0.125rem; }
   .site-header-brand { gap: 0.375rem; padding-inline: 0.75rem 0.25rem; }
   .site-header-wordmark { font-size: 0.9375rem; }
   .site-header-mark { width: 1.75rem; height: 1.75rem; }
   .site-header-actions { gap: 0; padding-right: 0.5rem; }
-  .site-mobile-nav-toggle.ui-button { width: 2.75rem; padding: 0.625rem; }
+  .site-header-actions [data-mobile-nav-toggle] { width: 2.75rem; padding: 0.625rem; }
 }
 
 @media (max-width: 359px) {
@@ -505,9 +519,54 @@
   .site-header-wordmark { font-size: 0.875rem; }
 }
 
+/* Keep the default layout while adapting to the space enlarged text needs. */
+
 /* Keep the full identity until enlarged text makes it collide with utilities. */
-@container mobile-header (max-width: 15rem) {
+@container site-header (max-width: 15rem) {
   .site-header-wordmark { display: none; }
+}
+
+/* The contact action and its divider need about 60rem alongside the full nav. */
+@container site-header (width < 60rem) {
+  .site-header-contact { display: none; }
+  .site-header-actions { padding-left: 0; border-left: 0; }
+}
+
+/* The full desktop nav needs about 50rem; otherwise use the attached menu. */
+@container site-header (width < 50rem) {
+  .site-desktop-nav { display: none; }
+  .site-mobile-nav-toggle { display: inline-flex; }
+}
+
+@media (min-width: 640px) {
+  /* The visible Menu label returns to its accessible-only treatment. */
+  @container site-header (width < 26rem) {
+    .site-menu-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      clip-path: inset(50%);
+    }
+    .site-mobile-nav-toggle { padding-inline: 0.625rem; }
+  }
+
+  @container site-header (width < 22rem) {
+    .site-header-wordmark { display: none; }
+  }
+}
+
+/* The narrowest bars keep icon controls at exactly 44px. */
+@container site-header (width < 12rem) {
+  .site-header-brand { min-width: 44px; padding-inline: 0.5rem 0.25rem; }
+  .site-header-actions { padding-right: 0.25rem; }
+  .site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger]),
+  .site-header-actions [data-mobile-nav-toggle] {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

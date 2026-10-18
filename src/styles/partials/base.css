@@ -59,7 +59,8 @@
     font-family: var(--font-sans);
     letter-spacing: 0.025em;
     text-rendering: optimizeLegibility;
-    scroll-padding-top: 5rem;
+    /* The sticky header bar ends at 6rem; keep fragment targets clear of it with a small gap. */
+    scroll-padding-top: 7rem;
   }
 
   body {

@@ -30,7 +30,13 @@ test('project stack disclosure fits a narrow viewport without JavaScript', async
   await page.goto('/portfolio/lumen-ui/')
 
   const stack = page.locator('section[aria-labelledby="sidebar-stack"]')
-  await stack.locator('summary').click()
+  const trigger = stack.locator('summary')
+
+  // The no-JavaScript page retains CSS smooth scrolling. Let the native scroll
+  // reach the disclosure before Playwright attempts its pointer interaction.
+  await trigger.scrollIntoViewIfNeeded()
+  await expect(trigger).toBeInViewport({ ratio: 1 })
+  await trigger.click()
   await expect(stack.locator('.ui-pill').filter({ hasText: /^AI-assisted Development$/ })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   await context.close()

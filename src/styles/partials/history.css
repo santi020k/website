@@ -39,7 +39,10 @@
   .history-hero-chapters > a > svg { display: none; }
 }
 @media (max-width: 639px) {
-  .history-hero-stack { height: auto; min-height: 21rem; aspect-ratio: 1.15; }
+  /* Derive the stack height from the exhibit's own width so the prints never
+     widen it: the third print's offset, its label, its 1.6 image and tilt room. */
+  .history-hero-exhibit { container-type: inline-size; }
+  .history-hero-stack { width: 100%; height: calc(6.5rem + 2.5rem + 53.75cqi + 1.5rem); }
   .history-hero-print { width: 86%; }
   .history-hero-print-3 { top: 6.5rem; }
   .history-hero-chapters { grid-template-columns: repeat(2, 1fr); gap: 1rem 1.5rem; }
@@ -65,6 +68,9 @@
 .history-mobile figcaption { padding: .5rem .2rem .2rem; text-align: center; color: hsl(var(--ink-soft)); font-size: .5625rem; }
 @utility history-era-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem; }
 .history-era-actions > span { color: hsl(var(--ink-soft)); font-size: .6875rem; }
+/* Long era labels wrap inside the action instead of widening the page with enlarged text. */
+[data-history-era-action] { max-width: 100%; min-width: 0; height: auto; white-space: normal; text-align: start; overflow-wrap: anywhere; }
+[data-history-era-action] > [data-slot='icon'] { flex-shrink: 0; }
 @utility history-footnote { max-width: 48rem; padding: 3rem 0 1rem; border-top: 1px solid hsl(var(--line) / .65); }
 .history-footnote h2 { font-size: 2rem; line-height: 1.2; letter-spacing: -.05em; font-weight: 500; }
 .history-footnote > p:not(:first-child) { margin-top: 1rem; font-size: .875rem; line-height: 1.9; color: hsl(var(--ink-soft)); }

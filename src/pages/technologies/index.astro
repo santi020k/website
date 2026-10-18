@@ -137,7 +137,7 @@ const meta = {
               aria-labelledby={`technology-group-${index}`}
               class:list={[
                 `
-                  grid gap-5 p-5
+                  grid grid-cols-1 gap-5 p-5
                   sm:p-6
                   lg:grid-cols-[minmax(12rem,0.38fr)_minmax(0,1.62fr)] lg:gap-8
                   lg:p-7
@@ -167,9 +167,9 @@ const meta = {
                 <p class="max-w-sm text-sm/6 text-ink-soft">{group.summary}</p>
               </div>
 
-              <MotionGroup class="flex flex-wrap content-start gap-2.5" enterExit={false}>
+              <MotionGroup class="flex min-w-0 flex-wrap content-start gap-2.5" enterExit={false}>
                 {group.items.map(([technology, count]) => (
-                  <span data-label={technology} data-technology-item data-ui-motion-key={technology}>
+                  <span class="max-w-full" data-label={technology} data-technology-item data-ui-motion-key={technology}>
                     <Pill
                       count={count}
                       href={getTechnologyPath(technology)}

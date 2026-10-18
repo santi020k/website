@@ -114,7 +114,7 @@ const meta = {
               </figure>
             </div>
             <div class="history-era-actions">
-              <ButtonLink href={era.current ? '/' : `/${era.id}/`} {...archiveNavigation} variant="secondary">
+              <ButtonLink data-history-era-action href={era.current ? '/' : `/${era.id}/`} {...archiveNavigation} variant="secondary">
                 {era.current ? 'Explore the current website' : `Open ${era.id.toUpperCase()}`}<Icon name="arrow-up-right" />
               </ButtonLink>
               <span>{era.current ? 'Still evolving.' : 'Browseable, with the content of its time.'}</span>

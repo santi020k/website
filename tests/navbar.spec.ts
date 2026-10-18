@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test'
 import { requireValue } from './helpers/assertions'
 
 for (const width of [320, 375, 390, 768, 1024, 1280, 1440]) {
-  for (const fontSize of ['16px', '20px']) {
+  for (const fontSize of ['16px', '20px', '32px']) {
     test(`header controls fit at ${width}px with ${fontSize} text`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
       await page.emulateMedia({ reducedMotion: 'reduce' })

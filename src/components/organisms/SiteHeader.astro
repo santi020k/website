@@ -351,7 +351,9 @@ class SiteHeaderMobileNav extends HTMLElement {
   handleWindowResize = () => {
     this.updatePanelPosition()
 
-    if (window.innerWidth >= 1024) {
+    // CSS decides when the full nav fits, including with enlarged text, so close
+    // only once the menu toggle has actually been hidden by the layout.
+    if (this.isOpen && this.toggle?.getClientRects().length === 0) {
       this.closeMenu({ restoreFocus: false })
     }
   }

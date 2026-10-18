@@ -113,6 +113,12 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   control, and blurred backdrop. Keep its input and results separated by fine rules.
   Long results scroll inside the dialog while the close control and keyboard hints
   remain visible, including on short screens and with enlarged text.
+- Pixel breakpoints set the default navbar. The header bar is also a `site-header`
+  inline-size container: with enlarged text it hides the contact action below 60rem and
+  switches to the attached menu below 50rem. From 640px it visually hides the Menu label
+  below 26rem (keeping its accessible name) and the wordmark below 22rem. Below 12rem,
+  the icon controls compact to exactly 44px. The open menu closes on resize only when the
+  layout hides its toggle.
 
 Opt into this composition with `headerVariant="signature"` on `Base` and the
 `signature-frame` utility on the opening surface. The shared frame owns the
@@ -144,6 +150,22 @@ on small screens while retaining the full title, date, reading time, and link.
 Test at 320, 375, 768, and 1440px in light and dark modes. Verify horizontal overflow, keyboard
 focus, full-card links, navigation after Astro page swaps, and automated accessibility checks.
 Preserve one `h1`, meaningful section headings, and semantic navigation landmarks.
+
+The sticky header ends 6rem below the viewport top, so the root scroll padding is 7rem and
+fragment targets land below it. Desktop article and project rails stay sticky but cap their
+height to the viewport below the header and scroll natively; inline padding keeps the table
+of contents' active marker and focus rings visible. Mobile rails stay in normal flow. Decorative
+cover captions appear only when the cover's container is wide enough in root-relative units,
+so narrow screens and enlarged text omit them rather than overflow the image. Pills, resume
+contacts, history actions, and talk links wrap inside their containers with enlarged text.
+The screen resume has no rounded clipping boundary, so its edge labels and focus rings stay visible.
+The footer colophon reserves the Back to Top corner wherever the two would meet.
+The phone homepage hero also reflows its heading, actions, and project shelf when text grows.
+
+Prose headings use the root scroll padding without an additional header-sized scroll margin.
+Lumen's current numeric `activationOffset` aligns the TOC marker at the default text size;
+with enlarged root text, headings remain visible but the marker can lag because Lumen does not
+accept a font-relative offset. Keep that upstream limitation separate from layout containment.
 
 Keep motion optional. Hover transitions last 180–300ms; reduced-motion mode removes transitions
 and image scaling. The homepage content adds no client JavaScript.

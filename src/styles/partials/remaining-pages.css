@@ -147,6 +147,9 @@
   border-radius: 0;
   background: none;
   box-shadow: none;
+  /* The open rule needs no glass clipping; Lumen's active marker and the focus
+     ring sit just outside the link box. */
+  overflow: visible;
 }
 /* Resume actions use Lumen directly and keep their print contract. */
 .remaining-pages [data-resume-shell] [data-slot='button-link'] {
@@ -161,6 +164,9 @@
   transform: none;
   font-size: 0.75rem;
   font-weight: 500;
+  /* Labels wrap within narrow or enlarged-text layouts instead of overflowing. */
+  max-width: 100%;
+  white-space: normal;
 }
 .remaining-pages [data-resume-shell] [data-slot='button-link']:first-child {
   border-color: hsl(var(--ink));
@@ -170,7 +176,7 @@
 .remaining-pages a:focus-visible,
 .remaining-pages button:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 4px; }
 @media screen {
-  .remaining-pages [data-resume-shell] { padding: 0; border: 0; background: none; }
+  .remaining-pages [data-resume-shell] { padding: 0; border: 0; border-radius: 0; background: none; overflow: visible; }
   .remaining-pages [data-resume-shell] h1 { font-weight: 500; line-height: 1.1; }
 }
 @media (max-width: 47.999rem) {
@@ -210,6 +216,22 @@
 [data-post-gallery-card]::after { display: none; }
 [data-post-gallery-card]:hover { transform: none; box-shadow: none; }
 [data-post-gallery-card] h3 { line-height: 1.4; }
+/* The cover caption repeats the article title and is decorative. It only appears
+   once the cover is wide enough, in root-relative units, to hold it with enlarged text. */
+[data-post-cover] { container-type: inline-size; }
+[data-post-cover-caption] { display: none; }
+@container (min-width: 40rem) {
+  [data-post-cover-caption] { display: flex; }
+}
+/* Project cover metadata sits side by side while each group has about 7rem,
+   stacks when it does not, and is omitted when enlarged text leaves no room on
+   the image. Timeline and type remain in the project details rail. */
+[data-project-cover] { container-type: inline-size; }
+[data-project-cover-caption] { display: none; }
+[data-project-cover-caption] > * { flex: 1 1 7rem; min-width: 0; overflow-wrap: anywhere; }
+@container (min-width: 17rem) {
+  [data-project-cover-caption] { display: flex; }
+}
 /* The featured story belongs to the hero's single surface. */
 [data-blog-hero] .editorial-page-title { font-size: clamp(2rem, 5vw, 4.5rem); }
 [data-blog-hero] [data-blog-latest][data-slot='card'] {
