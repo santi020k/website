@@ -151,21 +151,37 @@ Test at 320, 375, 768, and 1440px in light and dark modes. Verify horizontal ove
 focus, full-card links, navigation after Astro page swaps, and automated accessibility checks.
 Preserve one `h1`, meaningful section headings, and semantic navigation landmarks.
 
-The sticky header ends 6rem below the viewport top, so the root scroll padding is 7rem and
-fragment targets land below it. Desktop article and project rails stay sticky but cap their
-height to the viewport below the header and scroll natively; inline padding keeps the table
-of contents' active marker and focus rings visible. Mobile rails stay in normal flow. Decorative
+The sticky header ends 6rem below the viewport top, so the root scroll padding is `7em` on
+`<html>` (equal to 7rem there) and fragment targets land below it. It uses `em` because WebKit
+can resolve a root `rem` scroll padding against the default font size, which places enlarged-text
+headings under the header. Article and project layouts mark their `<article>` with
+`data-reading-layout`, a named `reading-layout` container. The prose and its sidebar
+(`data-reading-body` and `data-reading-rail`) share a row only on desktop viewports whose reading
+container is at least 56rem in root-relative units, so enlarged text stacks the sidebar below the
+prose instead of squeezing it; the default 1024px layout keeps both columns. Under that same
+condition the semantic sidebar `<aside>` stays sticky, caps its height to the viewport below the
+header, and scrolls natively; inline padding keeps the table of contents' active marker and focus
+rings visible. Otherwise rails stay in normal flow. The generic `editorial-rail` utility, such as
+the 404 suggestions, never becomes a scrolling region. Hero metadata grids use a named
+`editorial-meta` container: articles drop from four to two columns below 32rem, and article and
+project metadata stack to one column below 16rem, so enlarged labels never split mid-word. Decorative
 cover captions appear only when the cover's container is wide enough in root-relative units,
 so narrow screens and enlarged text omit them rather than overflow the image. Pills, resume
 contacts, history actions, and talk links wrap inside their containers with enlarged text.
 The screen resume has no rounded clipping boundary, so its edge labels and focus rings stay visible.
 The footer colophon reserves the Back to Top corner wherever the two would meet.
 The phone homepage hero also reflows its heading, actions, and project shelf when text grows.
+On tablets and desktops, the Home frame's `home-hero` container adopts the phone layout for the
+stage, portrait, caption, shelf, and actions below 39.5rem, keeping the viewport's type scale,
+so enlarged headings never split words or run into the portrait. The default desktop and 768px
+tablet compositions are unchanged, and the frame's own padding still follows the viewport.
+These rules apply only inside Home; other `maker-hero` pages are unaffected.
 
 Prose headings use the root scroll padding without an additional header-sized scroll margin.
-Lumen's current numeric `activationOffset` aligns the TOC marker at the default text size;
-with enlarged root text, headings remain visible but the marker can lag because Lumen does not
-accept a font-relative offset. Keep that upstream limitation separate from layout containment.
+The TOC marker reaches a heading at its native fragment landing line, including with enlarged
+root text, through a temporary patch of Lumen's `Anchor` runtime. See
+[the Lumen integration notes](lumen-integration.md#anchor-runtime-patch) for its ownership and
+removal condition. Never use a negative heading scroll margin to align the marker.
 
 Keep motion optional. Hover transitions last 180–300ms; reduced-motion mode removes transitions
 and image scaling. The homepage content adds no client JavaScript.

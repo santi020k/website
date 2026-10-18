@@ -1,0 +1,66 @@
+diff --git a/README.md b/README.md
+index 21a05befc68ae34601b84b0b5407e38a05ba56de..311117218c836a9298888eb092e92953f2ba796a 100644
+--- a/README.md
++++ b/README.md
+@@ -324,6 +324,11 @@ import { Button, Icon } from '@santi020k/lumen-astro'
+ 
+ `Anchor` accepts heading `depth`, `index`, and `description` metadata plus an `activationOffset`.
+ Its current link stays synchronized on click and scroll, including at the end of the document.
++A heading becomes current once its top reaches the native fragment landing line, the root
++`scroll-padding-top` plus the heading's `scroll-margin-top`, or the numeric `activationOffset` in CSS
++pixels, whichever is lower on screen, within one CSS pixel. The landing line follows text scaling, so
++fragment links keep the marker on their destination with enlarged root text. Percentage scroll padding
++resolves against the scrolling element's height; `auto` and unresolved values count as zero.
+ `ScrollProgress` derives reading progress from the document and pins the indicator to the top or
+ bottom viewport edge. Both use the single root `UIPrimitives` runtime.
+ 
+diff --git a/runtime/controllers/document-navigation.ts b/runtime/controllers/document-navigation.ts
+index 6f616c13e406958847d5bb1485d25208e2db5a67..3b6e14b2dddab28808f5c6402c445ffdbec5e698 100644
+--- a/runtime/controllers/document-navigation.ts
++++ b/runtime/controllers/document-navigation.ts
+@@ -7,6 +7,16 @@ const decodeFragment = (fragment: string): string => {
+   }
+ }
+ 
++// Resolves a computed scroll-padding or scroll-margin value. `auto`, unresolved
++// calc() expressions, and other non-numeric values contribute nothing.
++const readScrollLength = (value: string, percentageBasis: number): number => {
++  const amount = Number.parseFloat(value)
++
++  if (!Number.isFinite(amount)) return 0
++
++  return value.trim().endsWith('%') ? (amount / 100) * percentageBasis : amount
++}
++
+ interface AnchorDispatcher {
+   callbacks: WeakMap<HTMLElement, () => void>
+   frame: number
+@@ -84,13 +94,27 @@ const initAnchors = (scope: ParentNode): void => {
+       const scrollingElement = ownerDocument.scrollingElement ?? ownerDocument.documentElement
+       const maximum = scrollingElement.scrollHeight - scrollingElement.clientHeight
+       const atEnd = maximum > 0 && scrollingElement.scrollTop >= maximum - 1
+-      const offset = Number(root.dataset.uiAnchorOffset) || 0
++      const configuredOffset = Number(root.dataset.uiAnchorOffset)
++      const minimumOffset = Number.isFinite(configuredOffset) ? Math.max(0, configuredOffset) : 0
++      const view = ownerDocument.defaultView
++
++      // Native fragment navigation lands a target at the root scroll padding plus
++      // its own scroll margin. Both follow text scaling, unlike the numeric offset.
++      const scrollPaddingTop = view ?
++        readScrollLength(view.getComputedStyle(scrollingElement).scrollPaddingTop, scrollingElement.clientHeight) :
++        0
++
+       let active = targets[0]?.link
+ 
+       if (atEnd) {
+         active = targets.at(-1)?.link
+       } else {
+         for (const item of targets) {
++          const scrollMarginTop = view ? readScrollLength(view.getComputedStyle(item.target).scrollMarginTop, 0) : 0
++          const landing = scrollPaddingTop + scrollMarginTop
++          // One CSS pixel absorbs sub-pixel rounding at the native landing position.
++          const offset = Math.max(minimumOffset, Number.isFinite(landing) ? landing : 0) + 1
++
+           if (item.target.getBoundingClientRect().top > offset) break
+ 
+           active = item.link

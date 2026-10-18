@@ -139,3 +139,4 @@ overrides:
   yaml-language-server>yaml: 2.9.1
 patchedDependencies:
   '@lhci/utils@0.15.1': patches/@lhci__utils@0.15.1.patch
+  '@santi020k/lumen-astro@4.1.0': patches/@santi020k__lumen-astro@4.1.0.patch

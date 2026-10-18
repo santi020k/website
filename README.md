@@ -89,8 +89,9 @@ through the site. Browser tests cover the interactions; the accessibility statem
 | **Cloudflare Pages** | Production deployment from reviewed `main`, with versioned redirects, caching, and security headers. |
 
 The [Lumen integration guide](docs/lumen-integration.md) maps the components in use, application-owned
-controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile use coordinated
-`@santi020k/lumen`, `lumen-astro`, and `lumen-core` 4.0.0 packages from the npm registry.
+controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile use
+`@santi020k/lumen` 4.2.0 with `lumen-astro` and `lumen-core` 4.1.0 from the npm registry.
+The integration guide records the version-pinned Anchor runtime patch.
 
 ### Content with room for a life outside code
 

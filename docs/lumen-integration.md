@@ -1,7 +1,7 @@
 # Lumen UI integration
 
-The dependency catalog and lockfile use the coordinated `@santi020k/lumen`,
-`@santi020k/lumen-astro`, and `@santi020k/lumen-core` 4.0.0 registry packages.
+The dependency catalog and lockfile use the `@santi020k/lumen` 4.2.0, `@santi020k/lumen-astro`
+4.1.0, and `@santi020k/lumen-core` 4.1.0 registry packages.
 Normal development and validation use those published dependencies. Import Lumen styles
 once from `src/styles/global.css`, mount the default export from
 `@santi020k/lumen-astro/runtime` once in `src/layouts/Base.astro`, use public Lumen components
@@ -73,7 +73,8 @@ Page-specific styles live in `src/styles/partials/work.css`.
 
 - About-page supplementary cards use Lumen `Note` directly.
 - The About hero availability status uses Lumen `Marker`.
-- The article and project table of contents use Lumen `Anchor` and its shared scroll-spy runtime.
+- The article and project table of contents use Lumen `Anchor` and its shared scroll-spy runtime,
+  with the temporary runtime patch described below.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.
 - Series navigation uses Lumen `Progress` with a readable current/max value.
@@ -133,6 +134,31 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   tokens for cells and Lumen's code foreground token for language badges in both themes.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
 
+## Anchor runtime patch
+
+The installed `@santi020k/lumen-astro` 4.1.0 runtime marks an `Anchor` heading current only when
+its top reaches the numeric `activationOffset` in CSS pixels. Native fragment navigation lands the
+heading at the root `scroll-padding-top` (`7em` on `<html>`, equal to 7rem; WebKit can resolve a
+root `rem` value here against the default font size), which grows with root text size. With enlarged
+text the destination therefore landed below the threshold and the marker stayed on the previous
+section. Browser zoom was unaffected because it scales pixels and rems together.
+
+The [version-pinned pnpm patch](../patches/@santi020k__lumen-astro@4.1.0.patch), registered under
+`patchedDependencies`, changes only
+`runtime/controllers/document-navigation.ts` and its README. The runtime treats a heading as
+current once it reaches the greater of `activationOffset` and the native landing line, computed
+from the owning window's root `scroll-padding-top` plus the heading's `scroll-margin-top`, within
+one CSS pixel. Percentage scroll padding resolves against the scrolling element's height; `auto`
+and unresolved values count as zero, and the offset is never negative or non-finite. The public
+`Anchor` API, native fragment links, page-lifecycle initialization, and listeners are unchanged,
+and the site adds no second scroll-spy or client bridge. Lumen still owns the behavior.
+
+Do not compensate with negative heading `scroll-margin-top`: at 200% text it would place headings
+under the sticky header. Remove the patch when a published `lumen-astro` release provides the same
+landing-line activation. If `lumen-astro` changes version first, regenerate the version-specific
+patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
+text-size marker cases in `tests/responsive-reading.spec.ts`.
+
 ## Motion and effects
 
 - Numeric homepage metrics and stack counts compose `AnimatedNumber`, with a stable screen-reader
@@ -188,8 +214,9 @@ the published registry packages; historical candidate checks do not qualify late
 The travel page consumes the public `WorldMap` and `lumen-core/world-map-data` exports
 from the published v4 packages. See the [travel editing guide](editorial/travel.md) for map data.
 
-The registry rollout updates all three catalog entries together and retains exact release-age
-exceptions for those owned 4.0.0 packages under the existing supply-chain policy. The lockfile
+The registry rollout updates the catalog entries together and retains exact release-age
+exceptions for the installed `lumen` 4.2.0, `lumen-astro` 4.1.0, and `lumen-core` 4.1.0 packages
+under the existing supply-chain policy. The lockfile
 contains registry resolutions, and CV downloads are regenerated from the resulting build.
 Run the migration audit, website gates, Playwright interactions, and mobile / desktop visual
 checks after future upgrades. Use the website's Changesets process in `docs/deployment.md`;
@@ -204,7 +231,7 @@ without sharing Lumen's internal Label class. Card spacing and Work metrics use 
 `data-slot` hooks. About descriptions, testimonial authors, homepage icons, project
 section eyebrows, and branded Work pills use consumer-owned attributes.
 
-The installed 4.0.0 contracts do not expose styling parts for TimelineItem's connector,
+The installed `lumen-astro` 4.1.0 contracts do not expose styling parts for TimelineItem's connector,
 dot frame, and content wrapper, or for every WorldMap frame/control part. Those scoped
 internal selectors remain necessary to preserve the approved timeline and travel layouts.
 ThemeToggle's icon-position override also remains until the adapter exposes icon parts.

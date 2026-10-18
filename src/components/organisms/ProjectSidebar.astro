@@ -39,21 +39,15 @@ const glanceItems = [
 ] as const
 ---
 
-<aside
-  aria-label="Project details"
-  class="
-    min-w-0 editorial-rail
-    lg:self-start
-  "
->
+<aside aria-label="Project details" class="min-w-0 space-y-5" data-reading-rail>
   <div
     aria-hidden="true"
     class="
       -mx-4 mb-6 h-px bg-linear-to-r from-transparent via-brand/40
       to-transparent
       sm:mx-0
-      lg:hidden
     "
+    data-reading-rail-divider
   />
 
   {headings.length ?

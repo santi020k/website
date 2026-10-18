@@ -6,14 +6,14 @@ const LONG_TITLE_ARTICLE = '/blog/configuring-mongodb-with-homebrew-on-macos-con
 
 // Apply the user's text-size preference before first layout. Changing rem units
 // mid-render can leave offscreen geometry stale when native focus scrolls it.
-const openWithEnlargedText = async (page: Page, route: string) => {
-  await page.addInitScript(() => {
+const openWithEnlargedText = async (page: Page, route: string, fontSize = '200%') => {
+  await page.addInitScript(size => {
     const applyPreference = () => {
       const root = document.querySelector('html')
 
       if (!root) return false
 
-      root.style.fontSize = '200%'
+      root.style.fontSize = size
 
       return true
     }
@@ -25,9 +25,9 @@ const openWithEnlargedText = async (page: Page, route: string) => {
 
       observer.observe(document, { childList: true })
     }
-  })
+  }, fontSize)
   await page.goto(route)
-  await expect(page.locator('html')).toHaveCSS('font-size', '32px')
+  await expect(page.locator('html')).toHaveCSS('font-size', `${16 * parseFloat(fontSize) / 100}px`)
 }
 
 const settleLayout = async (page: Page) => {
@@ -91,6 +91,119 @@ for (const theme of ['light', 'dark'] as const) {
         await action.focus()
         await expect(action).toBeInViewport({ ratio: 1 })
       }
+    })
+
+    test('the default tablet and desktop hero keeps the portrait beside its copy', async ({ page }) => {
+      await page.goto('/')
+
+      for (const width of [768, 1024, 1440]) {
+        await page.setViewportSize({ width, height: 900 })
+        await settleLayout(page)
+
+        const separateColumns = await page.locator('[data-home-hero-heading]').evaluate(heading => {
+          const title = heading.getBoundingClientRect()
+          const portrait = document.querySelector('.maker-hero-portrait-frame')?.getBoundingClientRect()
+
+          return portrait !== undefined && title.right <= portrait.left &&
+            title.top < portrait.bottom && title.bottom > portrait.top
+        })
+
+        expect(separateColumns).toBe(true)
+      }
+    })
+
+    test('the tablet and desktop hero keeps enlarged words clear of the portrait', async ({ page }) => {
+      await openWithEnlargedText(page, '/')
+
+      for (const width of [768, 1024, 1440]) {
+        await page.setViewportSize({ width, height: 900 })
+        await settleLayout(page)
+
+        const readable = await page.locator('[data-home-hero-heading]').evaluate(heading => {
+          const title = heading.getBoundingClientRect()
+          const portrait = document.querySelector('.maker-hero-portrait-frame')?.getBoundingClientRect()
+          const firstLine = heading.querySelector('span')?.firstChild
+
+          if (!portrait || !firstLine?.textContent) return false
+
+          const start = firstLine.textContent.indexOf('products.')
+
+          if (start < 0) return false
+
+          const range = document.createRange()
+
+          range.setStart(firstLine, start)
+          range.setEnd(firstLine, start + 'products.'.length)
+          const wordFits = range.getClientRects().length === 1
+          const separate = title.right <= portrait.left || title.bottom <= portrait.top
+
+          return wordFits && separate
+        })
+
+        expect(readable).toBe(true)
+        await expectWithinScreen(page.locator('[data-home-hero] h1, [data-home-hero] a, [data-home-hero] img'))
+      }
+    })
+
+    for (const size of ['100%', '125%', '150%', '200%']) {
+      test(`the reading marker follows native scrolling at ${size} text`, async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height: 900 })
+        await openWithEnlargedText(page, LONG_ARTICLE, size)
+        await settleLayout(page)
+
+        for (const fragment of ['troubleshooting-notes', 'what-you-need']) {
+          await page.locator(`#${fragment}`).evaluate(heading => {
+            heading.scrollIntoView({ block: 'start' })
+          })
+          const link = page.locator(`[data-toc-tree] a[href="#${fragment}"]`)
+
+          await expect.poll(() => page.locator(`#${fragment}`).evaluate(heading => {
+            const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)
+
+            return Math.abs(heading.getBoundingClientRect().top - padding)
+          })).toBeLessThanOrEqual(1)
+          await expect(link).toHaveAttribute('aria-current', 'location')
+          await expect(page.locator('[data-toc-tree] [aria-current="location"]')).toHaveCount(1)
+        }
+      })
+    }
+
+    test('the reading marker honors native percentage padding and heading margins', async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 900 })
+      await page.goto(LONG_ARTICLE)
+      await page.addStyleTag({ content: 'html { scroll-padding-top: 25%; } #troubleshooting-notes { scroll-margin-top: 12px; }' })
+      await settleLayout(page)
+      await page.locator('#troubleshooting-notes').evaluate(heading => {
+        heading.scrollIntoView({ block: 'start' })
+      })
+      await expect(page.locator('[data-toc-tree] a[href="#troubleshooting-notes"]')).toHaveAttribute('aria-current', 'location')
+      await expect.poll(() => page.locator('#troubleshooting-notes').evaluate(heading => Math.abs(heading.getBoundingClientRect().top - 237))).toBeLessThanOrEqual(1)
+    })
+
+    test('the reading marker rebinds after client navigation', async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 900 })
+      await page.goto(LONG_ARTICLE)
+      const timeOrigin = await page.evaluate(() => performance.timeOrigin)
+      await page.getByRole('link', { name: 'santi020k — Santiago Molina home' }).click()
+      await expect(page).toHaveURL(/\/$/u)
+      await page.locator('[data-home-hero] a[href="/portfolio/lumen-ui/"]').click()
+      await expect(page).toHaveURL(/\/portfolio\/lumen-ui\/$/u)
+      expect(await page.evaluate(() => performance.timeOrigin)).toBe(timeOrigin)
+      await page.evaluate(() => {
+        document.documentElement.style.fontSize = '200%'
+      })
+      await settleLayout(page)
+      const link = page.locator('[data-toc-tree] a[href="#technical-highlights"]')
+
+      await link.focus()
+      await page.keyboard.press('Enter')
+      await expect.poll(() => page.locator('#technical-highlights').evaluate(heading => {
+        const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)
+
+        return Math.abs(heading.getBoundingClientRect().top - padding)
+      })).toBeLessThanOrEqual(1)
+      await expect(link).toHaveAttribute('aria-current', 'location')
+      await expect(page.locator('[data-toc-tree] [aria-current="location"]')).toHaveCount(1)
     })
 
     test('history previews and long actions fit narrow screens and enlarged text', async ({ page }) => {
@@ -157,29 +270,75 @@ for (const theme of ['light', 'dark'] as const) {
       { route: LONG_ARTICLE, fragment: 'troubleshooting-notes', label: 'article' },
       { route: '/portfolio/lumen-ui/', fragment: 'technical-highlights', label: 'project' }
     ]) {
-      for (const width of [375, 1440]) {
-        test(`${label} fragment navigation clears the header and marks the destination at ${width}px`, async ({ page }) => {
+      test(`${label} reading layout yields space to enlarged text at tablet widths`, async ({ page }) => {
+        await page.setViewportSize({ width: 1024, height: 900 })
+        await openWithEnlargedText(page, route)
+        await settleLayout(page)
+
+        const comfortable = await page.locator('.prose-santi').evaluate(prose => {
+          const bounds = prose.getBoundingClientRect()
+          const article = prose.closest('article')?.getBoundingClientRect()
+          const rail = prose.closest('article')?.querySelector('[data-reading-rail]')?.getBoundingClientRect()
+
+          return article !== undefined && rail !== undefined &&
+            bounds.width >= article.width * 0.8 && rail.top >= bounds.bottom
+        })
+
+        expect(comfortable).toBe(true)
+      })
+
+      test(`${label} metadata labels remain whole with enlarged text`, async ({ page }) => {
+        await openWithEnlargedText(page, route)
+
+        for (const width of [320, 375, 768]) {
           await page.setViewportSize({ width, height: 900 })
-          await page.goto(`${route}#${fragment}`)
           await settleLayout(page)
 
-          const expectHeadingClear = async () => {
-            await expect.poll(() => page.locator(`#${fragment}`).evaluate(element => {
-              const heading = element.getBoundingClientRect()
-              const header = document.querySelector('[data-header-shell]')?.getBoundingClientRect()
+          const lines = await page.locator('.editorial-detail-meta-item dt').evaluateAll(labels => labels.map(label => {
+            const range = document.createRange()
 
-              return header !== undefined && heading.top >= header.bottom && heading.bottom <= innerHeight
-            })).toBe(true)
-          }
+            range.selectNodeContents(label)
 
-          await expectHeadingClear()
-          const link = page.locator(`[data-toc-tree] a[href="#${fragment}"]`)
+            return range.getClientRects().length
+          }))
 
-          await link.focus()
-          await page.keyboard.press('Enter')
-          await expectHeadingClear()
-          await expect(link).toHaveAttribute('aria-current', 'location')
-        })
+          expect(lines.length).toBeGreaterThan(0)
+          expect(lines.every(count => count === 1)).toBe(true)
+        }
+      })
+
+      for (const width of [375, 1440]) {
+        for (const enlarged of [false, true]) {
+          const openPage = enlarged ?
+            openWithEnlargedText :
+            async (page: Page, route: string) => {
+              await page.goto(route)
+            }
+
+          test(`${enlarged ? 'Enlarged' : 'Default'} ${label} fragment navigation clears the header and marks the destination at ${width}px`, async ({ page }) => {
+            await page.setViewportSize({ width, height: 900 })
+            await openPage(page, `${route}#${fragment}`)
+            await settleLayout(page)
+
+            const expectHeadingClear = async () => {
+              await expect.poll(() => page.locator(`#${fragment}`).evaluate(element => {
+                const heading = element.getBoundingClientRect()
+                const header = document.querySelector('[data-header-shell]')?.getBoundingClientRect()
+
+                return header !== undefined && heading.top >= header.bottom && heading.bottom <= innerHeight
+              })).toBe(true)
+            }
+
+            await expectHeadingClear()
+            const link = page.locator(`[data-toc-tree] a[href="#${fragment}"]`)
+
+            await expect(link).toHaveAttribute('aria-current', 'location')
+            await link.focus()
+            await page.keyboard.press('Enter')
+            await expectHeadingClear()
+            await expect(link).toHaveAttribute('aria-current', 'location')
+          })
+        }
       }
     }
 

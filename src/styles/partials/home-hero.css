@@ -357,3 +357,23 @@ body:has([data-home-hero], [data-travel-explorer], [data-projects-page]) > div >
   .maker-hero-project strong + span { max-width: none; font-size: 0.6875rem; }
   .maker-hero-index { display: none; }
 }
+
+/* Viewport breakpoints ignore root text scaling. When enlarged text leaves the
+   Home frame too narrow to share a row with the portrait, adopt the phone
+   composition's layout while keeping the viewport's type scale. The frame's own
+   padding still follows the viewport because a container cannot query itself. */
+@container home-hero (width < 39.5rem) {
+  .maker-hero-stage { grid-template-columns: minmax(0, 1fr); padding-block: 0 1.25rem; }
+  .maker-hero h1 { max-width: 100%; }
+  .maker-hero-actions { gap: 0.75rem 1.25rem; }
+  .maker-hero-visual { width: min(100%, 22rem); margin: 2.25rem auto 1rem; }
+  .maker-hero-caption { flex-direction: row; gap: 1rem; }
+  .maker-hero-location { text-align: right; }
+  .maker-hero-shelf { grid-template-columns: minmax(0, 1fr) auto; gap: 0; padding-block: 0.375rem; }
+  .maker-hero-shelf-label { grid-column: 1 / -1; gap: 0.25rem; padding-block: 1rem 0.5rem; }
+  .maker-hero-shelf-label br { display: none; }
+  .maker-hero-project { grid-column: 1 / -1; padding: 1rem 0; border: 0; }
+  .maker-hero-project + .maker-hero-project { border-top: 1px solid var(--hero-rule); }
+  .maker-hero-project strong + span { max-width: none; }
+  .maker-hero-index { display: none; }
+}

@@ -205,21 +205,42 @@
   }
 }
 
-/* Desktop rails stay within the viewport below the sticky header and scroll
-   natively when taller. The inline padding (offset by a matching negative margin)
-   keeps focus outlines and the TOC's active marker inside the scroll box. */
 @utility editorial-rail {
   @apply space-y-5 lg:sticky lg:top-28 lg:h-fit;
 }
 
+/* Article and project reading layouts. Prose and the sidebar share a row only on
+   desktop viewports whose reading container also has room in root-relative units,
+   so enlarged text stacks the sidebar below the prose instead of squeezing it.
+   The sticky rail stays below the header and scrolls natively when taller; its
+   inline padding (offset by a matching negative margin) keeps focus outlines and
+   the TOC's active marker inside the scroll box. */
+[data-reading-layout] {
+  container: reading-layout / inline-size;
+}
+
 @media (width >= 64rem) {
-  aside.editorial-rail {
-    max-height: calc(100dvh - 8.5rem);
-    margin-inline: -0.5rem;
-    padding: 0.5rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-    scrollbar-width: thin;
+  @container reading-layout (width >= 56rem) {
+    [data-reading-body] {
+      grid-template-columns: minmax(0, 1fr) 18rem;
+    }
+
+    aside[data-reading-rail] {
+      position: sticky;
+      top: 7rem;
+      align-self: start;
+      height: fit-content;
+      max-height: calc(100dvh - 8.5rem);
+      margin-inline: -0.5rem;
+      padding: 0.5rem;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    [data-reading-rail-divider] {
+      display: none;
+    }
   }
 }
 

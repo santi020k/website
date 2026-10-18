@@ -59,8 +59,10 @@
     font-family: var(--font-sans);
     letter-spacing: 0.025em;
     text-rendering: optimizeLegibility;
-    /* The sticky header bar ends at 6rem; keep fragment targets clear of it with a small gap. */
-    scroll-padding-top: 7rem;
+    /* The sticky header bar ends at 6rem; keep fragment targets clear of it with a small gap.
+       On <html>, 7em equals 7rem, but WebKit can resolve rem here against the default font
+       size and ignore an enlarged root font size, so use em. */
+    scroll-padding-top: 7em;
   }
 
   body {

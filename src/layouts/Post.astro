@@ -104,17 +104,15 @@ mainClass="remaining-pages remaining-pages--reading"
 >
   <ScrollProgress />
 
-  <article class="h-entry section-container-wide flex flex-col gap-10">
+  <article class="h-entry section-container-wide flex flex-col gap-10" data-reading-layout>
     <a class="u-url sr-only" href={localURL.href}>Permalink to this article</a>
     <PostHero post={post} />
 
-    <!-- ── Two-column body: prose + sticky TOC sidebar ─────────── -->
+    <!-- ── Body: prose + sticky TOC sidebar when the reading container has room ── -->
     <section
-      class="
-        grid grid-cols-1 gap-10 pt-10
-        lg:grid-cols-[minmax(0,1fr)_18rem]
-      "
+      class="grid grid-cols-1 gap-10 pt-10"
       data-animate
+      data-reading-body
     >
       <!-- Left: article prose, series navigator, share -->
       <div class="min-w-0 space-y-10">
@@ -153,7 +151,7 @@ mainClass="remaining-pages remaining-pages--reading"
 
       <!-- Right: sticky TOC — only rendered when the post has headings -->
       {!!headings.length && (
-        <aside aria-label="Article navigation" class="min-w-0 editorial-rail">
+        <aside aria-label="Article navigation" class="min-w-0 space-y-5" data-reading-rail>
           <TocCard headings={headings} />
         </aside>
       )}
