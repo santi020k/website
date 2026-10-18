@@ -20,9 +20,11 @@ import {
   getProjectStageLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
+import { getSocialImageURL } from '@/utils/social-image'
 
 import { RevealGroup, ScrollProgress } from '@santi020k/lumen-astro'
 
+import { ogManifest } from '@/data/og-manifest'
 import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
 
 interface Props {
@@ -33,7 +35,14 @@ interface Props {
 const { project, relatedProjects = [] } = Astro.props
 const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
 const metaDescription = project.data.seoDescription ?? project.data.description
-const socialImage = new URL(`/og/portfolio/${project.id}-logo.webp`, Astro.site).href
+
+const socialImage = getSocialImageURL(
+  Astro.url.pathname,
+  Astro.site,
+  `/og/portfolio/${project.id}-logo.webp`,
+  ogManifest
+)
+
 const { headings } = await render(project)
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)

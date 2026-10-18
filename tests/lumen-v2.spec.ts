@@ -21,7 +21,7 @@ test.describe('Lumen integration', () => {
 
     await page.goto('/blog/avoid-magic-strings-in-typescript-and-javascript/')
 
-    const copyButton = page.getByRole('button', { name: 'Copy article link' })
+    const copyButton = page.getByRole('button', { name: 'Copy link to article' })
     const copyResult = page.evaluate(() => new Promise<{
       ariaLabel: string | null
       copiedLabelVisible: boolean
@@ -53,7 +53,7 @@ test.describe('Lumen integration', () => {
     await copyButton.click()
 
     await expect(copyResult).resolves.toEqual({
-      ariaLabel: 'Article link copied',
+      ariaLabel: 'Copied! Article link copied',
       copiedLabelVisible: true,
       state: 'copied'
     })

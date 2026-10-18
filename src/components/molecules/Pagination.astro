@@ -14,15 +14,7 @@ const { baseUrl = '/blog/', page } = Astro.props
 const { currentPage, lastPage } = page
 const items = getPaginationItems(currentPage, lastPage)
 const previousUrl = currentPage > 1 ? getArchivePageUrl(baseUrl, currentPage - 1) : undefined
-
 const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage + 1) : undefined
-
-/*
- * No `aria-label` is passed to <Pagination>: Lumen writes `aria-label="Pagination"`
- * before spreading passthrough props, so a consumer label is emitted as a duplicate
- * attribute and the parser keeps the first one. One pagination landmark per page
- * makes the built-in name unambiguous. Tracked in improvements.md.
- */
 ---
 
 {lastPage > 1 && (
@@ -38,9 +30,9 @@ const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage 
       ) :
       (
         <span
-          aria-disabled="true"
-          aria-label="No previous page"
+          aria-hidden="true"
           class="pagination-btn cursor-not-allowed opacity-35"
+          data-pagination-placeholder="previous"
         >←
         </span>
       )}
@@ -81,9 +73,9 @@ const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage 
       ) :
       (
         <span
-          aria-disabled="true"
-          aria-label="No next page"
+          aria-hidden="true"
           class="pagination-btn cursor-not-allowed opacity-35"
+          data-pagination-placeholder="next"
         >→
         </span>
       )}

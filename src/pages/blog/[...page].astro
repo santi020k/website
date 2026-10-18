@@ -45,6 +45,7 @@ const isFirstPage = page.currentPage === 1
 const activeSeries = (await getSeriesSummaries()).filter(s => s.postCount > 0 && s.series.data.status === 'active')
 const topTags = getBlogBrowseTags(allTagsData)
 const latestPost = page.data[0] ?? null
+const archiveDescription = 'Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -75,7 +76,9 @@ const blogListSchema = {
   mainClass="remaining-pages"
   meta={{
     breadcrumbs,
-    description: 'Notes on software, reading, gaming, and everyday discoveries by Santiago Molina.',
+    description: isFirstPage ?
+      archiveDescription :
+      `${archiveDescription} Page ${page.currentPage} of ${page.lastPage}.`,
     structuredData: blogListSchema,
     title: isFirstPage ?
       'Personal Blog — Santiago Molina' :

@@ -1,5 +1,7 @@
 import { expect, type Page, test } from '@playwright/test'
 
+const LONG_POST_PATH = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
+
 // Model the public Giscus client/widget boundary without contacting GitHub or
 // loading real discussions. The widget announces readiness through its resize
 // message and accepts the documented setConfig theme message.
@@ -51,6 +53,81 @@ const firstPostPath = async (page: Page) => {
   return new URL(match[1]).pathname
 }
 
+test('comments wait for the reader, then load once with the current theme', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' })
+
+  let requests = 0
+
+  await page.route('https://giscus.app/client.js', async route => {
+    requests += 1
+
+    await route.fulfill({ contentType: 'application/javascript', body: '' })
+  })
+  await page.goto(LONG_POST_PATH)
+  await expect(page.locator('#comments')).toBeAttached()
+  await expect(page.locator('#comments script')).toHaveCount(0)
+  await page.locator('[data-theme-toggle-btn]').click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('#comments script')).toHaveCount(0)
+  expect(requests).toBe(0)
+
+  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await expect(page.locator('#comments script')).toHaveAttribute('data-theme', 'transparent_dark')
+  await expect.poll(() => requests).toBe(1)
+  await page.locator('#comments a').focus()
+  await expect(page.locator('#comments script')).toHaveCount(1)
+  expect(requests).toBe(1)
+})
+
+test('keyboard focus loads comments even before an intersection callback', async ({ page }) => {
+  // Keep observation pending to isolate the keyboard fallback from scrolling.
+  await page.addInitScript(() => {
+    IntersectionObserver.prototype.observe = () => undefined
+  })
+  await page.route('https://giscus.app/client.js', route => route.fulfill({
+    contentType: 'application/javascript', body: ''
+  }))
+  await page.goto(await firstPostPath(page))
+  await expect(page.locator('#comments script')).toHaveCount(0)
+  await page.locator('#comments a').focus()
+  await expect(page.locator('#comments script')).toHaveCount(1)
+})
+
+test('comments still load when IntersectionObserver is unavailable', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'IntersectionObserver', { configurable: true, value: undefined })
+  })
+  await page.route('https://giscus.app/client.js', route => route.fulfill({
+    contentType: 'application/javascript', body: ''
+  }))
+  await page.goto(await firstPostPath(page))
+  await expect(page.locator('#comments script')).toHaveCount(1)
+})
+
+test('leaving an unread article cancels pending comments and returning can load them', async ({ page }) => {
+  let requests = 0
+
+  await page.route('https://giscus.app/client.js', async route => {
+    requests += 1
+
+    await route.fulfill({ contentType: 'application/javascript', body: '' })
+  })
+
+  const path = LONG_POST_PATH
+
+  await page.goto(path)
+  await expect(page.locator('#comments script')).toHaveCount(0)
+  await page.getByRole('navigation', { name: 'Main menu' }).getByRole('link', { name: 'Blog', exact: true }).click()
+  await expect(page).toHaveURL('/blog/')
+  await expect(page.locator('#comments')).toHaveCount(0)
+  expect(requests).toBe(0)
+  await page.goBack()
+  await expect(page).toHaveURL(path)
+  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await expect(page.locator('#comments script')).toHaveCount(1)
+  await expect.poll(() => requests).toBe(1)
+})
+
 const delayedResources = [
   { delayedResource: 'client', beforeToggle: (_page: Page) => Promise.resolve() },
   { delayedResource: 'widget', beforeToggle: async (page: Page) => expect(page.locator('iframe.giscus-frame')).toHaveCount(1) }
@@ -78,6 +155,7 @@ for (const { delayedResource, beforeToggle } of delayedResources) {
 
     try {
       await page.goto(await firstPostPath(page), { waitUntil: 'domcontentloaded' })
+      await page.locator('#comments').scrollIntoViewIfNeeded()
       await expect(page.locator('#comments script')).toHaveCount(1)
 
       await beforeToggle(page)

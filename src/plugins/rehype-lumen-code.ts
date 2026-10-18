@@ -121,7 +121,7 @@ const createHeader = (language: string, label: string): Element => {
   const metadata: ElementContent[] = []
 
   if (language) {
-    metadata.push(element('span', { className: ['ui-code__language'] }, [text(language)]))
+    metadata.push(element('span', { className: ['ui-code__language'], dataProseCodeLanguage: '' }, [text(language)]))
   }
 
   if (label) {

@@ -47,6 +47,7 @@ const topTags = getBlogBrowseTags(allTags)
 const relatedTags = topTags.filter(([t]) => t !== tag).slice(0, 6)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
+const archiveDescription = `Articles, guides, and personal notes tagged ${tag}.`
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -61,7 +62,9 @@ const breadcrumbs = [
 mainClass="remaining-pages"
   meta={{
     breadcrumbs,
-    description: `Articles, guides, and personal notes tagged ${tag}.`,
+    description: isFirstPage ?
+      archiveDescription :
+      `${archiveDescription} Page ${page.currentPage} of ${page.lastPage}.`,
     title: isFirstPage ?
       `${tag} Posts` :
       `${tag} Posts · Page ${page.currentPage} of ${page.lastPage}`

@@ -126,6 +126,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   installed `Code` attributes (`data-copy-label`, `data-copy-copied-label`,
   `data-copy-error-label`, `title`, `data-state="idle"`), because the runtime restores the label
   from them after each copy and otherwise falls back to generic text.
+- `src/plugins/rehype-readable-tables.ts` wraps Markdown tables in Lumen's `ui-table-wrap`
+  surface (`data-slot="table"`). The native table and its headings remain intact inside a
+  focusable region named from its caption or preceding heading. This lets keyboard users scroll
+  wide tables in Safari as well as Chromium without client JavaScript. Prose styles use site ink
+  tokens for cells and Lumen's code foreground token for language badges in both themes.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
 
 ## Motion and effects

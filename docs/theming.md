@@ -38,7 +38,11 @@ color preference applies until the visitor chooses a theme.
 
 Dark mode is controlled with `data-theme="dark"` on `<html>`. Do not use `class="dark"` for theme switching; the Tailwind custom variant is defined against the data attribute.
 
-Article comments (`src/components/molecules/CommentsSection.astro`) follow the site theme. A theme
+Article comments (`src/components/molecules/CommentsSection.astro`) follow the site theme. The
+Giscus client loads when the comments section is within 400 pixels of the viewport or receives
+keyboard focus, using the current theme at that moment. Browsers without `IntersectionObserver`
+load it immediately; the GitHub Discussions link remains available without JavaScript. Pending
+observation and focus listeners are removed on loading or navigation. A theme
 change before the Giscus client runs updates the pending script's `data-theme`. The initial blank
 lazy frame receives no messages until it loads or reports ready. Theme updates use Giscus's
 documented [configuration messages](https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md#parent-to-giscus-message-events).

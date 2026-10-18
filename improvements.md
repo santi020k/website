@@ -35,12 +35,6 @@ These findings came from integrating `@santi020k/og` 1.0.0 and Quality CLI 0.3.1
 
 ## `@santi020k/lumen-astro`
 
-- Let consumers override the labels that components hardcode before spreading passthrough
-  props. `Pagination.astro` writes `aria-label="Pagination"` ahead of `{...passthrough}`, so a
-  consumer-supplied `aria-label` is emitted as a duplicate attribute on the same `<nav>`. HTML
-  parsing keeps the first occurrence, which means the consumer label is silently dropped and the
-  document carries a validity error. Reading the label out of `rest` (or exposing an explicit
-  `label` prop) would make the intent expressible.
 - Stop forwarding `aria-hidden` into `Icon` from inside Lumen. `Icon` already derives
   `aria-hidden="true"` whenever no `label` is given, but `ButtonLink` (the `showArrow` chevron) and
   `ThemeToggle` (the sun and moon glyphs) still pass `aria-hidden="true"` explicitly, so the

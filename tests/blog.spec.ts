@@ -1,8 +1,66 @@
-import { expect, test } from '@playwright/test'
+import { expect, type Page, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import { requireValue } from './helpers/assertions'
 import { shouldRunVisualSnapshots } from './helpers/visual-regression'
+
+interface ArchivePage {
+  canonical: string | null
+  description: string | null
+  path: string
+}
+
+/** Follows rel="next" from the first archive page so totals are never hard-coded. */
+const collectArchivePages = async (page: Page, firstPath: string) => {
+  const pages: ArchivePage[] = []
+  let path: string | null = firstPath
+
+  while (path) {
+    if (pages.some(archivePage => archivePage.path === path)) throw new Error(`Archive pagination cycle at ${path}`)
+
+    await page.goto(path)
+
+    pages.push({
+      canonical: await page.locator('link[rel="canonical"]').getAttribute('href'),
+      description: await page.locator('meta[name="description"]').getAttribute('content'),
+      path
+    })
+
+    const next = page.getByRole('navigation', { name: 'Pagination' }).locator('a[rel="next"]')
+
+    path = await next.count() ? await next.getAttribute('href') : null
+  }
+
+  return pages
+}
+
+const findPagedTopic = async (page: Page, tagPaths: string[]): Promise<string> => {
+  for (const tagPath of tagPaths) {
+    const response = await page.request.get(tagPath)
+
+    if ((await response.text()).includes('rel="next"')) return tagPath
+  }
+
+  throw new Error('No topic archive spans multiple pages')
+}
+
+const expectPagedDescriptions = (pages: ArchivePage[]) => {
+  const [first, ...rest] = pages
+  const baseDescription = requireValue(first?.description)
+
+  expect(rest.length, 'archive should span more than one page').toBeGreaterThan(0)
+  expect(baseDescription).not.toMatch(/Page \d+ of \d+/u)
+
+  for (const archivePage of pages) {
+    expect(archivePage.canonical).toBe(new URL(archivePage.path, 'https://santi020k.com').href)
+  }
+
+  for (const [index, archivePage] of rest.entries()) {
+    expect(archivePage.description).toBe(`${baseDescription} Page ${index + 2} of ${pages.length}.`)
+  }
+
+  expect(new Set(pages.map(archivePage => archivePage.description)).size).toBe(pages.length)
+}
 
 test.describe('Blog page', () => {
   test('index should have the correct title and list posts', async ({ page }) => {
@@ -129,6 +187,53 @@ test.describe('Blog page', () => {
     // A four-page archive fits without an ellipsis standing in for one number.
     await expect(pagination.getByText('…')).toHaveCount(0)
     await expect(pagination.getByRole('link', { exact: true, name: 'Page 3' })).toBeVisible()
+  })
+
+  test('pagination endpoints keep placeholders decorative and links labelled', async ({ page }) => {
+    const archivePages = await collectArchivePages(page, '/blog/')
+    const lastPath = requireValue(archivePages.at(-1)?.path)
+
+    await page.goto('/blog/')
+
+    let pagination = page.getByRole('navigation', { name: 'Pagination' })
+
+    await expect(pagination.locator('a[rel="prev"]')).toHaveCount(0)
+    await expect(pagination.locator('[data-pagination-placeholder="previous"]')).toHaveAttribute('aria-hidden', 'true')
+    await expect(pagination.locator('[data-pagination-placeholder]:not([aria-hidden="true"])')).toHaveCount(0)
+    await expect(pagination.locator('[data-pagination-placeholder][aria-label]')).toHaveCount(0)
+    await expect(pagination.locator('a[rel="next"]')).toHaveAttribute('aria-label', 'Next page')
+    await expect(pagination.getByRole('link', { exact: true, name: 'Page 1' })).toHaveAttribute('aria-current', 'page')
+
+    await page.goto(lastPath)
+    pagination = page.getByRole('navigation', { name: 'Pagination' })
+
+    await expect(pagination.locator('a[rel="next"]')).toHaveCount(0)
+    await expect(pagination.locator('[data-pagination-placeholder="next"]')).toHaveAttribute('aria-hidden', 'true')
+    await expect(pagination.locator('[data-pagination-placeholder][aria-label]')).toHaveCount(0)
+    await expect(pagination.locator('a[rel="prev"]')).toHaveAttribute('aria-label', 'Previous page')
+    await expect(pagination.getByRole('link', { exact: true, name: `Page ${archivePages.length}` }))
+      .toHaveAttribute('aria-current', 'page')
+  })
+
+  test('later blog archive pages describe their position without changing canonicals', async ({ page }) => {
+    const pages = await collectArchivePages(page, '/blog/')
+
+    expect(pages.length).toBeGreaterThan(1)
+    expectPagedDescriptions(pages)
+  })
+
+  test('later topic archive pages describe their position without changing canonicals', async ({ page }) => {
+    await page.goto('/blog/tags/')
+
+    const tagPaths = await page.locator('main a[href^="/blog/tags/"]').evaluateAll(
+      links => [...new Set(links.map(link => link.getAttribute('href') ?? ''))]
+        .filter(href => /^\/blog\/tags\/[^/]+\/$/u.test(href))
+    )
+
+    const pages = await collectArchivePages(page, await findPagedTopic(page, tagPaths))
+
+    expect(pages.length).toBeGreaterThan(1)
+    expectPagedDescriptions(pages)
   })
 
   test('topic and series archives reuse the visual post gallery', async ({ page }) => {

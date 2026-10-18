@@ -77,6 +77,20 @@ test.describe('RSS feed', () => {
     expect(body).toMatch(/xmlns:dc=/)
     expect(body).toContain('<dc:creator>')
   })
+
+  test('/feed.xml attributes every item through dc:creator, never a name-only <author>', async ({ request }) => {
+    const response = await request.get('/feed.xml')
+    const body = await response.text()
+    const items = body.match(/<item>[\s\S]*?<\/item>/g) ?? []
+
+    expect(items.length).toBeGreaterThan(0)
+    // RSS 2.0 reserves <author> for an email address.
+    expect(body).not.toMatch(/<author>/)
+
+    for (const item of items) {
+      expect(item).toMatch(/<dc:creator>(?:Santiago Molina|<!\[CDATA\[Santiago Molina\]\]>)<\/dc:creator>/u)
+    }
+  })
 })
 
 test.describe('JSON Feed', () => {

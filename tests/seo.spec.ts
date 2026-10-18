@@ -531,10 +531,11 @@ test.describe('SEO — JSON-LD structured data', () => {
     expect(breadcrumbItems.length).toBeGreaterThanOrEqual(3)
   })
 
-  test('project structured data points to the published social image', async ({ page }) => {
+  test('project structured data shares the fingerprinted social image URL', async ({ page }) => {
     for (const projectId of ['og', 'quality']) {
       await page.goto(`/portfolio/${projectId}/`)
 
+      const socialImage = z.string().parse(await page.locator('meta[property="og:image"]').getAttribute('content'))
       const schemaContents = await page.locator('script[type="application/ld+json"]').allTextContents()
       const projectSchema = schemaContents
         .map(content => JSON.parse(content) as unknown)
@@ -543,9 +544,11 @@ test.describe('SEO — JSON-LD structured data', () => {
           (Array.isArray(value['@type']) && value['@type'].includes('CreativeWork'))
         ))
 
-      expect(projectSchema).toMatchObject({
-        image: `https://santi020k.com/og/portfolio/${projectId}-logo.webp`
-      })
+      expect(socialImage).toMatch(
+        new RegExp(`^https://santi020k\\.com/og/portfolio/${projectId}-logo\\.webp\\?v=[a-f0-9]{12}$`, 'u')
+      )
+      expect(projectSchema).toMatchObject({ image: socialImage })
+      await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', socialImage)
     }
   })
 })

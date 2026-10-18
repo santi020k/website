@@ -4,6 +4,7 @@
  * Giscus (GitHub Discussions) comments. Renders nothing until
  * `siteConfig.giscus` is filled in from https://giscus.app.
  *
+ * The client loads when readers approach the comments or focus the section.
  * The script element is created client-side so we can pick the initial theme
  * from the live `data-theme` attribute, then keep the embedded iframe in sync
  * when the visitor toggles light/dark mode. Theme changes made before the
@@ -170,6 +171,13 @@ const { giscus } = siteConfig
   // Giscus reloads the same iframe by reassigning `src`; reset before the new
   // document can report ready, even if that happens ahead of its load event.
   let frameSourceObserver: MutationObserver | undefined
+  let pendingCleanup: (() => void) | undefined
+
+  const stopWaitingForComments = () => {
+    pendingCleanup?.()
+
+    pendingCleanup = undefined
+  }
 
   const mountGiscus = () => {
     const section = document.querySelector<HTMLElement>('#comments')
@@ -215,6 +223,43 @@ const { giscus } = siteConfig
     mount.appendChild(script)
   }
 
+  const prepareGiscus = () => {
+    stopWaitingForComments()
+
+    const section = document.querySelector<HTMLElement>('#comments')
+
+    if (!section) return
+
+    if (typeof IntersectionObserver === 'undefined') {
+      mountGiscus()
+
+      return
+    }
+
+    const load = () => {
+      // An observer callback may already be queued when Astro swaps the body.
+      if (!section.isConnected || document.getElementById('comments') !== section) return
+
+      stopWaitingForComments()
+
+      mountGiscus()
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) load()
+    }, { rootMargin: '400px' })
+
+    pendingCleanup = () => {
+      observer.disconnect()
+
+      section.removeEventListener('focusin', load)
+    }
+
+    section.addEventListener('focusin', load)
+
+    observer.observe(section)
+  }
+
   // Keep the iframe theme in sync with the site's theme toggle.
   const themeObserver = new MutationObserver(onThemeChange)
 
@@ -225,14 +270,16 @@ const { giscus } = siteConfig
   // Iframe load does not bubble, so observe it during capture.
   document.addEventListener('load', onFrameLoad, true)
 
-  mountGiscus()
+  prepareGiscus()
 
   document.addEventListener('astro:before-swap', () => {
+    stopWaitingForComments()
+
     frameSourceObserver?.disconnect()
 
     frameSourceObserver = undefined
   })
 
   // Re-mount after View Transitions swaps in a new post body.
-  document.addEventListener('astro:after-swap', mountGiscus)
+  document.addEventListener('astro:after-swap', prepareGiscus)
 </script>
