@@ -383,19 +383,24 @@ for (const theme of ['light', 'dark'] as const) {
       expect(scan.violations).toEqual([])
     })
 
-    test('project details can be scrolled in a short desktop viewport', async ({ page }) => {
-      await page.setViewportSize({ width: 1024, height: 600 })
-      await page.goto('/portfolio/lumen-ui/')
-      await settleLayout(page)
-      await page.getByRole('heading', { name: 'What Lumen 4 brings together' }).scrollIntoViewIfNeeded()
+    test.describe('Desktop rail scrolling', () => {
+      // This mouse-wheel interaction requires a desktop context, including WebKit.
+      test.use({ isMobile: false })
 
-      const rail = page.getByRole('complementary', { name: 'Project details' })
+      test('project details can be scrolled in a short desktop viewport', async ({ page }) => {
+        await page.setViewportSize({ width: 1024, height: 600 })
+        await page.goto('/portfolio/lumen-ui/')
+        await settleLayout(page)
+        await page.getByRole('heading', { name: 'What Lumen 4 brings together' }).scrollIntoViewIfNeeded()
 
-      await rail.hover()
-      await page.mouse.wheel(0, 2000)
-      await expect.poll(() => rail.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
-      await expect(rail.getByRole('region', { name: 'Outcomes' }).getByRole('listitem').last()).toBeInViewport({ ratio: 1 })
-      await expectWithinScreen(rail)
+        const rail = page.getByRole('complementary', { name: 'Project details' })
+
+        await rail.hover()
+        await page.mouse.wheel(0, 2000)
+        await expect.poll(() => rail.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
+        await expect(rail.getByRole('region', { name: 'Outcomes' }).getByRole('listitem').last()).toBeInViewport({ ratio: 1 })
+        await expectWithinScreen(rail)
+      })
     })
 
     test('the floating Top control leaves the footer source link clickable', async ({ page }) => {
