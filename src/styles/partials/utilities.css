@@ -555,7 +555,7 @@
 
 @utility field-surface {
   @apply w-full rounded-[1.1rem] border border-line/55 bg-surface/72 px-4 py-3.5 text-ink outline-none transition duration-200;
-  @apply placeholder:text-ink-muted/55 focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/10;
+  @apply placeholder:text-ink-muted/55 focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/10 focus-visible:outline-hidden;
   @apply motion-reduce:transition-none;
 }
 

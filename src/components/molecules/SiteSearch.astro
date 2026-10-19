@@ -10,12 +10,6 @@ import SearchDialog from './SearchDialog.astro'
     aria-expanded="false"
     aria-haspopup="dialog"
     aria-label="Open site search"
-    class="
-      relative flex size-11 cursor-pointer items-center justify-center
-      rounded-full border border-line/50 bg-surface/68 text-ink-soft
-      shadow-inset-soft backdrop-blur-sm
-      motion-reduce:transition-none
-    "
     data-site-search-trigger
     size="icon"
     type="button"
@@ -26,77 +20,6 @@ import SearchDialog from './SearchDialog.astro'
 
   <SearchDialog />
 </div>
-
-<style>
-  [data-site-search-trigger] {
-    transition:
-      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      color 0.2s ease;
-  }
-
-  [data-site-search-trigger]:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 2px hsl(var(--canvas)),
-      0 0 0 4px hsl(var(--brand));
-  }
-
-  [data-site-search-trigger]::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    padding: 2px;
-    background: conic-gradient(
-      from var(--border-angle),
-      hsl(var(--line) / 0.15) 0%,
-      hsl(var(--line) / 0.15) 60%,
-      hsl(var(--brand) / 0.6) 75%,
-      hsl(var(--glow) / 0.7) 83%,
-      hsl(var(--brand) / 0.6) 91%,
-      hsl(var(--line) / 0.15) 100%
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    [data-site-search-trigger]:hover {
-      transform: translateY(-3px);
-      border-color: transparent;
-      background-color: hsl(var(--brand-soft) / 0.35);
-      color: hsl(var(--brand));
-      box-shadow:
-        0 8px 24px hsl(230 30% 8% / 0.08),
-        0 0 16px color-mix(in srgb, hsl(var(--brand)) 14%, transparent),
-        inset 0 1px 0 hsl(0 0% 100% / 0.1);
-    }
-
-    [data-site-search-trigger]:hover::before {
-      opacity: 1;
-      animation: var(--animate-border-spin);
-    }
-
-    [data-site-search-trigger]:active {
-      transform: scale(0.93);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    [data-site-search-trigger]:hover {
-      border-color: hsl(var(--brand) / 0.35);
-      color: hsl(var(--brand));
-    }
-  }
-</style>
 
 <style is:global>
   #site-search-dialog { transform: none; }
@@ -258,13 +181,21 @@ import SearchDialog from './SearchDialog.astro'
     opacity: 0;
   }
 
-  @media (max-width: 639px) {
+  /* Queries the dialog container from SearchDialog, so they also follow root text size. */
+  @container site-search (width < 40rem) {
     #site-search-results [data-site-search-topics] { column-gap: 0.75rem; }
     #site-search-results [data-site-search-thumb-frame] { width: 3rem; }
   }
 
-  @media (max-width: 359px) {
+  @container site-search (width < 22.5rem) {
     #site-search-results [data-site-search-topics] { grid-template-columns: 1fr; }
+  }
+
+  /* At enlarged text sizes, give the title the full row instead of a narrow
+     column beside a decorative thumbnail. Keep the title and description. */
+  @container site-search (width < 20rem) {
+    #site-search-results [data-site-search-thumb-frame] { display: none; }
+    #site-search-results [data-site-search-result] { gap: 0; padding: 0.5rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1186,7 +1117,7 @@ import SearchDialog from './SearchDialog.astro'
           if (document.activeElement === boundary && destination instanceof HTMLElement) {
             e.preventDefault()
 
-            destination.focus({ preventScroll: true })
+            destination.focus()
           }
 
           return

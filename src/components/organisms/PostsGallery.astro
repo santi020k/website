@@ -189,8 +189,9 @@ const galleryItems = posts.map(createGalleryItem)
                   class="
                     size-5 shrink-0 text-ink-muted transition-[color,transform]
                     duration-200
-                    group-hover:translate-x-1 group-hover:text-brand
-                    motion-reduce:transform-none motion-reduce:transition-none
+                    group-hover:text-brand
+                    motion-safe:group-hover:translate-x-1
+                    motion-reduce:transition-none
                   "
                   name="arrow-right"
                 />

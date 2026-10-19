@@ -16,8 +16,6 @@ import {
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
 import icon from 'astro-icon'
-import robotsTxt from 'astro-robots-txt'
-import webmanifest from 'astro-webmanifest'
 import { load as loadYaml } from 'js-yaml'
 // Rehype plugins
 import rehypeExternalLinks from 'rehype-external-links'
@@ -30,7 +28,6 @@ import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
 import { rehypeReadableTables } from './src/plugins/rehype-readable-tables'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
 import { remarkReadingTime } from './src/plugins/remark-reading-time'
-import { siteConfig } from './src/site.config'
 import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
@@ -217,60 +214,7 @@ export default defineConfig({
         return contentLastmod ? { ...item, lastmod: contentLastmod } : item
       }
     }),
-    mdx(),
-    robotsTxt({
-      // The search-index.json blob is intended for the in-page site search and
-      // duplicates content already crawlable from posts/projects. Keep it out
-      // of search results so listings stay clean. Search-specific AI crawlers
-      // are allowed explicitly so Cloudflare's separate training opt-out does
-      // not accidentally remove the site from cited answer experiences.
-      policy: [
-        { userAgent: 'OAI-SearchBot', allow: '/', disallow: ['/search-index.json'] },
-        { userAgent: 'PerplexityBot', allow: '/', disallow: ['/search-index.json'] },
-        { userAgent: 'Claude-SearchBot', allow: '/', disallow: ['/search-index.json'] },
-        { userAgent: 'Claude-User', allow: '/', disallow: ['/search-index.json'] },
-        { userAgent: '*', allow: '/', disallow: ['/search-index.json'] }
-      ],
-      sitemap: 'https://santi020k.com/sitemap.xml'
-    }),
-    webmanifest({
-      // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
-      name: siteConfig.title,
-      short_name: 'santi020k',
-      description: siteConfig.description,
-      lang: siteConfig.lang,
-      icon: 'public/favicon-source.webp',
-      icons: [
-        {
-          src: 'apple-touch-icon.webp',
-          sizes: '180x180',
-          type: 'image/webp'
-        },
-        {
-          src: 'icons/icon-192.webp',
-          sizes: '192x192',
-          type: 'image/webp',
-          purpose: 'any maskable'
-        },
-        {
-          src: 'icons/icon-512.webp',
-          sizes: '512x512',
-          type: 'image/webp',
-          purpose: 'any maskable'
-        }
-      ],
-      id: '/',
-      scope: '/',
-      start_url: '/',
-      background_color: '#09040f',
-      theme_color: '#09040f',
-      display: 'standalone',
-      config: {
-        insertFaviconLinks: false,
-        insertThemeColorMeta: false,
-        insertManifestLink: false
-      }
-    })
+    mdx()
   ],
   markdown: {
     syntaxHighlight: false,

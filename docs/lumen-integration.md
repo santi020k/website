@@ -117,9 +117,17 @@ Page-specific styles live in `src/styles/partials/work.css`.
 
 These stay app-owned by design rather than migrating to a Lumen primitive:
 
-- `src/components/atoms/Button.astro` / `ButtonLink.astro` wrap Lumen's `Button`/`ButtonLink` for
-  their public `variant` contract, then layer a site-specific magnetic pointer-follow effect
-  (`data-magnetic`) that has no Lumen equivalent and is skipped for touch input and reduced motion.
+- `src/components/atoms/Button.astro` / `ButtonLink.astro` wrap Lumen's `Button`/`ButtonLink` to
+  keep the site's `primary`/`secondary`/`ghost`/`inline` action vocabulary. `Button` maps it to a
+  Lumen variant plus the `data-site-action` hook; `ButtonLink` uses Lumen's `unstyled` variant with
+  the matching `btn-*` utility from `src/styles/partials/utilities.css`. Neither adds a pointer
+  effect or client script.
+- The header search trigger (Lumen `Button`, `size="icon"`) and `ThemeToggle` keep Lumen's
+  semantics and behavior. `src/styles/partials/nav.css` replaces their default glass, glow, and
+  hover-lift styling with the sculpted header action treatment and the shared header focus
+  outline. The search panel inside Lumen's fullscreen `Dialog` is site-owned: its rem-based
+  container queries compact the chrome for narrow, short, or enlarged-text viewports while the
+  results list stays the only scroll region.
 - `src/plugins/rehype-lumen-code.ts` hand-builds Lumen's `Code`/`CodeTabs` public DOM contract
   (`data-ui-code`, `role="tab"`/`"tabpanel"`, `data-value`, `aria-selected`) for markdown-rendered
   code blocks, because that content is produced by a Unified/Rehype pipeline outside the Astro

@@ -2,8 +2,8 @@
 
 The 2026-10-07 dependency review upgraded 17 direct packages to their latest
 compatible stable registry releases, including Astro 7.3.6, Vitest 5.0.3, and
-Theme 2.0.1. Lumen, Lumen Astro, and Lumen Core remain coordinated npm 4.0.0
-packages. TypeScript stays on 6.0.3: TypeScript 7.0 lacks the programmatic API
+Theme 2.0.1. Lumen, Lumen Astro, and Lumen Core used coordinated npm 4.0.0
+packages in that review; `pnpm-workspace.yaml` records the current versions. TypeScript stays on 6.0.3: TypeScript 7.0 lacks the programmatic API
 required by Astro, MDX, and ESLint consumers. This is a compatibility constraint,
 not an overlooked upgrade.
 
@@ -53,6 +53,31 @@ The installed-package braces tests are removed because that package no longer
 exists in the graph; the Lighthouse YAML security regression remains in place.
 `pnpm why braces` returns no installed dependency and `pnpm run audit` passes.
 
+## Static site metadata
+
+`src/pages/robots.txt.ts` and `src/pages/manifest.webmanifest.ts` now emit the
+site's fixed crawler policy and install manifest using Astro's static routes.
+The manifest reads the existing site configuration; `generate:icons` remains the
+single owner of its image assets. This removes `astro-robots-txt`,
+`astro-webmanifest`, their two exclusive filename-validation dependencies, and
+the obsolete webmanifest Sharp override. No replacement package is introduced.
+The crawler allow/disallow rules, sitemap URL, app identity, launch scope, colors,
+and icon paths and dimensions remain unchanged. The old plugin's second image
+encoding pass is no longer needed.
+
+`tests/site-resources.spec.ts` verifies the built endpoints and decodes all
+manifest icons. Keep Markdown parsers, Lumen, and shared archive dependencies:
+their active consumers justify them, and local replacements would duplicate
+substantial behavior.
+
+The archived V1 search component was never mounted: the only import and render
+were commented out, and no built V1 HTML referenced its UI or index. Its unused
+component, declaration, Pagefind build command, and two packages are removed;
+V2 and V3 search remain available. The current test suite also replaces its four
+`toHaveClass` assertions with native `classList.contains` checks, removing
+the direct `@testing-library/dom` and `@testing-library/jest-dom` dependencies.
+`@testing-library/dom` remains a peer of the existing lint configuration.
+
 ## Validation and recovery
 
 After changing dependencies, run a frozen install, `pnpm run verify:full`, and
@@ -69,8 +94,8 @@ Astro, Libraries, Testing, Formats, and Tools. A fresh lockfile resolution remov
 385 package entries compared with the original release candidate, including unused
 framework adapters. It also refreshes compatible transitive dependencies such as
 TypeScript ESLint 8.71.1 and Vite 8.3.3. Lighthouse is updated to 13.5.0;
-its CLI retains the safe YAML compatibility patch. `pnpm peers check` reports no peer issues;
-no peer warning is suppressed. Effective-rule comparison retains the existing
+its CLI retains the safe YAML compatibility patch. Peer compatibility is checked separately from lint; the current upstream peer
+constraint is recorded below, without suppressing its diagnostic. Effective-rule comparison retains the existing
 coverage and enables the newer unsafe-enum-assignment error rule.
 
 Theme 2 moves product URLs beneath `https://theme.santi020k.com/` and expands the
@@ -86,3 +111,10 @@ validated.
 Restoring markdownlint-cli2 would restore the vulnerable chain. If the native
 runner needs a correction, preserve the engine, configured scope, and rule set,
 and fix the runner with regression coverage before reopening the release gate.
+
+The mobile-interaction cleanup removes six direct dependencies and 21 lockfile
+package entries. `pnpm audit --audit-level=moderate` finds no known vulnerabilities.
+`pnpm peers check` still reports the pre-existing `eslint-plugin-jsx-a11y@6.10.2`
+peer range (`^3` through `^9`) against ESLint 10.12.0. The npm registry still lists
+6.10.2 as latest; the plugin runs successfully in the canonical lint gate. Do not
+hide the peer diagnostic or downgrade the shared lint stack to silence it.

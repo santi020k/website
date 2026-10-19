@@ -111,14 +111,27 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   backdrop and scroll lock through the exit animation; reopening cancels the exit.
 - Search uses the same raised title tab, diagonal step, solid body, accent close
   control, and blurred backdrop. Keep its input and results separated by fine rules.
-  Long results scroll inside the dialog while the close control and keyboard hints
-  remain visible, including on short screens and with enlarged text.
+  Long results scroll inside the dialog while the input and close control remain
+  visible. At short heights, hide decorative copy and the visible shortcut legend
+  before reducing the results scroll area; keep the legend available to assistive
+  technology. Rem-based container queries adapt to enlarged text, with icon-only
+  controls retaining a 44px target. When enlarged text leaves less than 20rem
+  of width, omit decorative result thumbnails so titles keep a readable column.
 - Pixel breakpoints set the default navbar. The header bar is also a `site-header`
   inline-size container: with enlarged text it hides the contact action below 60rem and
   switches to the attached menu below 50rem. From 640px it visually hides the Menu label
   below 26rem (keeping its accessible name) and the wordmark below 22rem. Below 12rem,
   the icon controls compact to exactly 44px. The open menu closes on resize only when the
-  layout hides its toggle.
+  layout hides its toggle. Observe header size changes as well as window resizes;
+  changing text size must keep the open surface attached. Keyboard wrapping must
+  reveal the destination inside the scroll region. A completed new-tab action
+  returns focus to the toggle, and switching to the desktop bar keeps the matching
+  destination focused. Canceled actions leave the menu available. Below 500px of
+  viewport height, compact header spacing and icon controls to leave room for a
+  full navigation row, including with enlarged text.
+- Use real outlines and borders for forced-colors focus, the mobile menu symbol,
+  and the desktop current-page marker. Shared header styles own the search and
+  theme controls; do not restore the retired conic borders or spring effects.
 
 Opt into this composition with `headerVariant="signature"` on `Base` and the
 `signature-frame` utility on the opening surface. The shared frame owns the

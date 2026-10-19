@@ -8,91 +8,10 @@ import { ThemeToggle } from '@santi020k/lumen-astro'
 />
 
 <style is:global>
-  [data-theme-toggle-btn] {
-    position: relative;
-    display: flex;
-    width: 2.75rem;
-    height: 2.75rem;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid hsl(var(--line) / 0.5);
-    border-radius: 9999px;
-    background-color: hsl(var(--surface) / 0.68);
-    color: hsl(var(--ink-soft));
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.12);
-    backdrop-filter: blur(4px);
-    transition:
-      transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      color 0.2s ease;
-  }
-
+  /* Header action styling lives in nav.css. Lumen offsets these icons with fixed
+     negative margins; translate centers them at whatever size they render. */
   [data-theme-toggle-btn] :is(.ui-theme-toggle__sun, .ui-theme-toggle__moon) {
     margin: 0;
     translate: -50% -50%;
-  }
-
-  [data-theme-toggle-btn]:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 2px hsl(var(--theme-bg)),
-      0 0 0 4px hsl(var(--brand));
-  }
-
-  /* Spinning border arc — same technique as btn-secondary and stat-card */
-  [data-theme-toggle-btn]::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    padding: 2px;
-    background: conic-gradient(
-      from var(--border-angle),
-      hsl(var(--line) / 0.15) 0%,
-      hsl(var(--line) / 0.15) 60%,
-      hsl(var(--brand) / 0.6) 75%,
-      hsl(var(--glow) / 0.7) 83%,
-      hsl(var(--brand) / 0.6) 91%,
-      hsl(var(--line) / 0.15) 100%
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    [data-theme-toggle-btn]:hover {
-      transform: translateY(-3px);
-      border-color: transparent;
-      background-color: hsl(var(--brand-soft) / 0.35);
-      color: hsl(var(--brand));
-      box-shadow:
-        0 8px 24px hsl(230 30% 8% / 0.08),
-        0 0 16px color-mix(in srgb, hsl(var(--brand)) 14%, transparent),
-        inset 0 1px 0 hsl(0 0% 100% / 0.1);
-    }
-
-    [data-theme-toggle-btn]:hover::before {
-      opacity: 1;
-      animation: var(--animate-border-spin);
-    }
-
-    [data-theme-toggle-btn]:active {
-      transform: scale(0.93);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    [data-theme-toggle-btn]:hover {
-      border-color: hsl(var(--brand) / 0.35);
-      color: hsl(var(--brand));
-    }
   }
 </style>

@@ -217,6 +217,8 @@ class SiteHeaderMobileNav extends HTMLElement {
   panel: HTMLElement | null = null
   closeTimer: number | null = null
   closeAnimationHandler: ((event: AnimationEvent) => void) | null = null
+  actionCloseTimer: number | null = null
+  headerObserver: ResizeObserver | null = null
 
   connectedCallback() {
     this.root = this.querySelector('[data-mobile-nav]')
@@ -255,6 +257,13 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     window.addEventListener('resize', this.handleWindowResize, { passive: true })
 
+    // Root text-size changes move the header without resizing the window.
+    this.headerObserver = new ResizeObserver(this.handleWindowResize)
+
+    for (const element of [this.querySelector('[data-header-shell]'), this.closest('header')]) {
+      if (element instanceof HTMLElement) this.headerObserver.observe(element)
+    }
+
     window.addEventListener('pageshow', this.handlePageShow)
 
     document.addEventListener('astro:before-preparation', this.handleAstroPreparation)
@@ -266,6 +275,12 @@ class SiteHeaderMobileNav extends HTMLElement {
 
   disconnectedCallback() {
     this.cancelPendingClose()
+
+    this.cancelActionClose()
+
+    this.headerObserver?.disconnect()
+
+    this.headerObserver = null
 
     this.toggle?.removeEventListener('click', this.handleToggleClick)
 
@@ -313,22 +328,52 @@ class SiteHeaderMobileNav extends HTMLElement {
       return
     }
 
-    const isInternalNavigation =
-      link.origin === window.location.origin &&
-      link.target !== '_blank' &&
-      !link.hasAttribute('download')
+    const staysOnPage =
+      link.target === '_blank' ||
+      link.hasAttribute('download') ||
+      (link.protocol !== 'http:' && link.protocol !== 'https:') ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey
 
-    if (isInternalNavigation) {
+    if (!staysOnPage && link.origin === window.location.origin) {
       // Let Astro/navigation lifecycle events close the panel after navigation starts.
       // Closing during the same click can suppress navigation in WebKit under CI.
       return
     }
 
-    // External/new-tab actions keep the current page in place, so close the menu
-    // after the click has been handed off to the browser.
-    window.setTimeout(() => {
-      this.closeMenu({ restoreFocus: false })
+    // Close after the click has been handed off to the browser, so listeners that
+    // run later in the dispatch can still cancel the action.
+    this.cancelActionClose()
+
+    this.actionCloseTimer = window.setTimeout(() => {
+      this.actionCloseTimer = null
+
+      if (event.defaultPrevented || !this.isOpen) return
+
+      // New-tab and download actions leave this page in place, so keep keyboard
+      // users on the toggle; a same-tab external link is leaving the page.
+      this.closeMenu({ restoreFocus: staysOnPage })
     }, 0)
+  }
+
+  cancelActionClose() {
+    if (this.actionCloseTimer !== null) {
+      window.clearTimeout(this.actionCloseTimer)
+
+      this.actionCloseTimer = null
+    }
+  }
+
+  // Never pull focus out of a modal (such as search) or away from an unrelated target.
+  canRestoreFocus(): boolean {
+    if (document.querySelector('dialog[open]') !== null) return false
+
+    const activeElement = document.activeElement
+
+    return activeElement === null ||
+      activeElement === document.body ||
+      (this.root?.contains(activeElement) ?? false)
   }
 
   handleWindowKeydown = (event: KeyboardEvent) => {
@@ -354,7 +399,23 @@ class SiteHeaderMobileNav extends HTMLElement {
     // CSS decides when the full nav fits, including with enlarged text, so close
     // only once the menu toggle has actually been hidden by the layout.
     if (this.isOpen && this.toggle?.getClientRects().length === 0) {
+      const activeElement = document.activeElement
+
+      const shouldRestoreFocus = document.querySelector('dialog[open]') === null &&
+        (activeElement === this.toggle || (this.panel?.contains(activeElement) ?? false))
+
+      const destination = activeElement instanceof HTMLAnchorElement ? activeElement.href : null
+
       this.closeMenu({ restoreFocus: false })
+
+      if (shouldRestoreFocus) {
+        const matchingLink = [...this.querySelectorAll<HTMLAnchorElement>('.site-desktop-nav a[href]')]
+          .find(link => link.href === destination)
+
+        const fallback = this.querySelector<HTMLElement>('.site-header-brand')
+
+        ;(matchingLink ?? fallback)?.focus({ preventScroll: true })
+      }
     }
   }
 
@@ -396,15 +457,13 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.sync()
 
-    window.requestAnimationFrame(() => {
-      if (!this.isOpen || !this.isConnected) return
+    // sync() has made the panel visible. Focus now so a deferred frame cannot
+    // steal focus back after the user moves to another control.
+    const firstLink = this.panel?.querySelector('a[href]')
 
-      const firstLink = this.panel?.querySelector('a[href]')
-
-      if (firstLink instanceof HTMLElement) {
-        firstLink.focus({ preventScroll: true })
-      }
-    })
+    if (firstLink instanceof HTMLElement) {
+      firstLink.focus()
+    }
   }
 
   cancelPendingClose() {
@@ -460,7 +519,7 @@ class SiteHeaderMobileNav extends HTMLElement {
       this.sync()
     }
 
-    if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement) {
+    if (wasOpen && restoreFocus && this.toggle instanceof HTMLElement && this.canRestoreFocus()) {
       this.toggle.focus({ preventScroll: true })
     }
   }
@@ -538,7 +597,7 @@ class SiteHeaderMobileNav extends HTMLElement {
     if (!(activeElement instanceof HTMLElement) || !this.root.contains(activeElement)) {
       event.preventDefault()
 
-      firstElement.focus({ preventScroll: true })
+      firstElement.focus()
 
       return
     }
@@ -546,7 +605,7 @@ class SiteHeaderMobileNav extends HTMLElement {
     if (event.shiftKey && activeElement === firstElement) {
       event.preventDefault()
 
-      lastElement.focus({ preventScroll: true })
+      lastElement.focus()
 
       return
     }
@@ -554,7 +613,7 @@ class SiteHeaderMobileNav extends HTMLElement {
     if (!event.shiftKey && activeElement === lastElement) {
       event.preventDefault()
 
-      firstElement.focus({ preventScroll: true })
+      firstElement.focus()
     }
   }
 

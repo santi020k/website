@@ -172,25 +172,45 @@
   padding-right: 0.75rem;
 }
 
+/* Search and theme share one quiet icon treatment over Lumen's glass defaults;
+   focus uses the header outline above. */
 .site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger]) {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
   width: 2.75rem;
   height: 2.75rem;
-  border-color: transparent;
+  padding: 0;
+  border: 1px solid transparent;
   border-radius: 0.625rem;
   background: transparent;
+  color: hsl(var(--ink-soft));
   box-shadow: none;
   backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  cursor: pointer;
+  transform: none;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 .site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger])::before {
   display: none;
 }
 
-.site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger]):hover {
+.site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger]):is(:hover, :active) {
   transform: none;
   border-color: transparent;
   background: hsl(var(--surface-muted));
+  color: hsl(var(--brand));
   box-shadow: none;
+}
+
+@media (forced-colors: active) {
+  .site-header :is(a, button):focus-visible { outline-color: Highlight; }
+  .site-menu-grid > span { border: 1px solid ButtonText; }
+  .site-desktop-nav-link[aria-current="page"]::after { border-bottom: 2px solid Highlight; }
 }
 
 @utility site-header-contact {
@@ -569,10 +589,26 @@
   }
 }
 
+/* Reserve space for navigation in short windows, including enlarged text. */
+@media (max-height: 500px) {
+  .site-header { padding-block: 8px; }
+  .site-header-shell, .site-header-brand { min-height: 56px; }
+  .site-header-mark { width: 32px; height: 32px; }
+  .site-header-brand::after { height: 44px; }
+  .site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger]) {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+  }
+  .site-header-actions [data-mobile-nav-toggle] { height: 44px; min-height: 44px; padding-block: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-header-shell,
   .site-header-shell::before,
   .site-header-brand::after,
+  .site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger]),
   .site-desktop-nav-link,
   .site-mobile-nav-link,
   .site-mobile-nav-arrow,

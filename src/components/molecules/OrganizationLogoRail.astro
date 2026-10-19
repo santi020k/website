@@ -57,9 +57,9 @@ const logoSurfaceClass = {
         <li class="min-w-0" data-carousel-item>
           <a
             class="
-              group card-interactive h-full min-h-96 p-0
+              group flex h-full min-h-96 flex-col overflow-hidden p-0
               focus-visible:ring-2 focus-visible:ring-brand/50
-              focus-visible:outline-none
+              focus-visible:outline-hidden
             "
             href={getPortfolioPath(project.id)}
           >
@@ -79,8 +79,9 @@ const logoSurfaceClass = {
                   class="
                     absolute inset-0 size-full scale-105 object-cover opacity-58
                     saturate-125 transition duration-500
-                    group-hover:scale-110 group-hover:opacity-72
-                    motion-reduce:transform-none motion-reduce:transition-none
+                    group-hover:opacity-72
+                    motion-safe:group-hover:scale-110
+                    motion-reduce:transition-none
                   "
                   loading="lazy"
                   sizes="320px"
@@ -103,8 +104,7 @@ const logoSurfaceClass = {
                       `
                         relative object-contain drop-shadow-md transition
                         duration-300
-                        group-hover:scale-105
-                        motion-reduce:transform-none
+                        motion-safe:group-hover:scale-105
                         motion-reduce:transition-none
                       `,
                       logoFrameClass[logoAspect]
@@ -132,8 +132,8 @@ const logoSurfaceClass = {
                 <Icon
                   class="
                     size-4 transition-transform duration-200
-                    group-hover:translate-x-1
-                    motion-reduce:transform-none motion-reduce:transition-none
+                    motion-safe:group-hover:translate-x-1
+                    motion-reduce:transition-none
                   "
                   name="arrow-right"
                 />

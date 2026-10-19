@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:site": "astro build && pagefind --site dist",
+    "build:site": "astro build",
     "dev": "astro dev",
     "check": "astro check",
     "lint": "astro sync && SYNCKIT_TIMEOUT=180000 eslint . --max-warnings=0"
@@ -21,8 +21,7 @@
     "reading-time": "catalog:",
     "vfile": "catalog:",
     "astro-icon": "catalog:",
-    "@tailwindcss/typography": "catalog:",
-    "@pagefind/default-ui": "catalog:"
+    "@tailwindcss/typography": "catalog:"
   },
   "devDependencies": {
     "@astrojs/check": "catalog:",
@@ -35,8 +34,7 @@
     "@types/unist": "catalog:",
     "@iconify-json/hugeicons": "catalog:",
     "@iconify-json/mdi": "catalog:",
-    "@iconify-json/solar": "catalog:",
-    "pagefind": "catalog:"
+    "@iconify-json/solar": "catalog:"
   },
   "engines": {
     "node": ">=24"

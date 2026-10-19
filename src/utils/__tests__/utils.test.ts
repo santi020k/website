@@ -109,22 +109,22 @@ describe('toggleClass', () => {
   test('adds a class when the element does not have it', () => {
     const el = document.createElement('div')
     toggleClass(el, 'active')
-    expect(el).toHaveClass('active')
+    expect(el.classList.contains('active')).toBe(true)
   })
 
   test('removes a class when the element already has it', () => {
     const el = document.createElement('div')
     el.classList.add('active')
     toggleClass(el, 'active')
-    expect(el).not.toHaveClass('active')
+    expect(el.classList.contains('active')).toBe(false)
   })
 
   test('toggles independently for different class names', () => {
     const el = document.createElement('div')
     toggleClass(el, 'foo')
     toggleClass(el, 'bar')
-    expect(el).toHaveClass('foo')
-    expect(el).toHaveClass('bar')
+    expect(el.classList.contains('foo')).toBe(true)
+    expect(el.classList.contains('bar')).toBe(true)
   })
 })
 
