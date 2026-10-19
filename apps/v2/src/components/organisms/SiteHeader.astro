@@ -400,6 +400,15 @@ fallbackFormat="webp"
 </header>
 
 <script>
+const prefersReducedMotion = (): boolean => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+const focusableSelector = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+
+const isFocusable = (element: HTMLElement): boolean => element.tabIndex >= 0 &&
+  !element.matches(':disabled') &&
+  !element.closest('[inert], [aria-hidden="true"]') &&
+  element.getClientRects().length > 0 &&
+  getComputedStyle(element).visibility !== 'hidden'
+
 class SiteHeaderMobileNav extends HTMLElement {
   isOpen = false
   root: HTMLElement | null = null
@@ -409,6 +418,8 @@ class SiteHeaderMobileNav extends HTMLElement {
   closeIcon: HTMLElement | null = null
   backdrop: HTMLElement | null = null
   panel: HTMLElement | null = null
+  closeTimer: number | null = null
+  closeAnimationHandler: (() => void) | null = null
 
   connectedCallback() {
     this.root = this.querySelector('[data-mobile-nav]')
@@ -457,6 +468,8 @@ class SiteHeaderMobileNav extends HTMLElement {
   }
 
   disconnectedCallback() {
+    this.cancelPendingClose()
+
     this.toggle?.removeEventListener('click', this.handleToggleClick)
 
     this.backdrop?.removeEventListener('click', this.handleBackdropClick)
@@ -517,26 +530,61 @@ class SiteHeaderMobileNav extends HTMLElement {
     // External/new-tab actions keep the current page in place, so close the menu
     // after the click has been handed off to the browser.
     window.setTimeout(() => {
-      this.closeMenu({ restoreFocus: false })
+      const hadPanelFocus = this.panel?.contains(document.activeElement) ?? false
+
+      this.closeMenu({ restoreFocus: hadPanelFocus })
     }, 0)
   }
 
   handleWindowKeydown = (event: KeyboardEvent) => {
+    // A modal dialog owns keyboard navigation until its top layer closes.
+    const hasOpenDialog = document.querySelector('dialog[open]') !== null
+
     if (event.key === 'Escape') {
+      if (hasOpenDialog) return
+
       this.closeMenu()
 
       return
     }
 
-    if (event.key === 'Tab' && this.isOpen) {
+    if (event.key === 'Tab' && this.isOpen && !hasOpenDialog) {
       this.trapFocus(event)
     }
   }
 
   handleWindowResize = () => {
-    if (window.innerWidth >= 1024) {
+    if (window.matchMedia('(min-width: 64rem)').matches) {
+      const desktopFocusTarget = this.getDesktopFocusTarget()
+
       this.closeMenu({ restoreFocus: false })
+
+      desktopFocusTarget?.focus({ preventScroll: true })
     }
+  }
+
+  // Mobile controls are hidden at the desktop breakpoint, so keep keyboard focus on a visible
+  // counterpart: the matching desktop link, or the brand link as the first header control.
+  getDesktopFocusTarget(): HTMLElement | null {
+    const activeElement = document.activeElement
+
+    if (
+      !(activeElement instanceof HTMLElement) ||
+      (activeElement !== this.toggle && !this.panel?.contains(activeElement))
+    ) {
+      return null
+    }
+
+    const shell = this.querySelector('[data-header-shell]')
+
+    if (!(shell instanceof HTMLElement)) {
+      return null
+    }
+
+    const href = activeElement instanceof HTMLAnchorElement ? activeElement.getAttribute('href') : null
+    const desktopLinks = [...shell.querySelectorAll<HTMLAnchorElement>('a[href]')].filter(isFocusable)
+
+    return desktopLinks.find(link => href !== null && link.getAttribute('href') === href) ?? desktopLinks.at(0) ?? null
   }
 
   handlePageShow = () => {
@@ -548,6 +596,8 @@ class SiteHeaderMobileNav extends HTMLElement {
   }
 
   openMenu() {
+    this.cancelPendingClose()
+
     if (this.isOpen) {
       return
     }
@@ -559,25 +609,48 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.sync()
 
-    window.requestAnimationFrame(() => {
-      const firstLink = this.panel?.querySelector('a[href]')
+    const firstLink = this.panel?.querySelector('a[href]')
 
-      if (firstLink instanceof HTMLElement) {
-        firstLink.focus({ preventScroll: true })
-      }
-    })
+    if (firstLink instanceof HTMLElement) {
+      firstLink.focus({ preventScroll: true })
+    }
+  }
+
+  cancelPendingClose() {
+    if (this.closeTimer !== null) {
+      window.clearTimeout(this.closeTimer)
+
+      this.closeTimer = null
+    }
+
+    if (this.closeAnimationHandler) {
+      this.panel?.removeEventListener('animationend', this.closeAnimationHandler)
+
+      this.closeAnimationHandler = null
+    }
+
+    this.panel?.removeAttribute('data-nav-closing')
   }
 
   closeMenu({ restoreFocus = true } = {}) {
+    this.cancelPendingClose()
+
     const wasOpen = this.isOpen
 
     this.isOpen = false
 
-    if (wasOpen && this.panel instanceof HTMLElement && !this.panel.hidden) {
+    if (wasOpen && this.panel instanceof HTMLElement && !this.panel.hidden && !prefersReducedMotion()) {
       // Animate panel out, then hide after animation
       this.panel.setAttribute('data-nav-closing', '')
 
+      // Remove the exiting panel from the tab order and accessibility tree immediately.
+      this.panel.inert = true
+
+      this.panel.setAttribute('aria-hidden', 'true')
+
       const finishClose = () => {
+        this.cancelPendingClose()
+
         if (this.panel instanceof HTMLElement) {
           this.panel.removeAttribute('data-nav-closing')
 
@@ -587,9 +660,11 @@ class SiteHeaderMobileNav extends HTMLElement {
         }
       }
 
+      this.closeAnimationHandler = finishClose
+
       this.panel.addEventListener('animationend', finishClose, { once: true })
 
-      setTimeout(finishClose, 250)
+      this.closeTimer = window.setTimeout(finishClose, 250)
 
       // Update everything else immediately
       this.#syncControls(false)
@@ -653,52 +728,47 @@ class SiteHeaderMobileNav extends HTMLElement {
 
     this.panel.hidden = !isOpen
 
+    this.panel.inert = !isOpen
+
     this.panel.setAttribute('aria-hidden', String(!isOpen))
 
     this.toggleScrollLock(isOpen)
   }
 
   trapFocus(event: KeyboardEvent) {
-    if (!(this.panel instanceof HTMLElement)) {
+    if (!(this.panel instanceof HTMLElement) || !(this.toggle instanceof HTMLButtonElement)) {
+      return
+    }
+
+    const shell = this.querySelector('[data-header-shell]')
+
+    if (!(shell instanceof HTMLElement)) {
       return
     }
 
     const focusableElements = [
-      ...this.panel.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
-    ].filter(el => !el.hasAttribute('hidden') && el.getAttribute('aria-hidden') !== 'true')
+      ...shell.querySelectorAll<HTMLElement>(focusableSelector),
+      ...this.panel.querySelectorAll<HTMLElement>(focusableSelector)
+    ].filter(isFocusable)
 
     const firstElement = focusableElements.at(0)
     const lastElement = focusableElements.at(-1)
 
-    if (!(firstElement instanceof HTMLElement) || !(lastElement instanceof HTMLElement)) {
+    if (!firstElement || !lastElement) {
       return
     }
 
     const activeElement = document.activeElement
+    const activeIndex = activeElement instanceof HTMLElement ? focusableElements.indexOf(activeElement) : -1
+    let nextIndex = (activeIndex + (event.shiftKey ? -1 : 1) + focusableElements.length) % focusableElements.length
 
-    if (!(activeElement instanceof HTMLElement) || !this.panel.contains(activeElement)) {
-      event.preventDefault()
-
-      firstElement.focus({ preventScroll: true })
-
-      return
+    if (activeIndex < 0) {
+      nextIndex = event.shiftKey ? focusableElements.length - 1 : 0
     }
 
-    if (event.shiftKey && activeElement === firstElement) {
-      event.preventDefault()
+    event.preventDefault()
 
-      lastElement.focus({ preventScroll: true })
-
-      return
-    }
-
-    if (!event.shiftKey && activeElement === lastElement) {
-      event.preventDefault()
-
-      firstElement.focus({ preventScroll: true })
-    }
+    focusableElements.at(nextIndex)?.focus()
   }
 
   toggleScrollLock(locked: boolean) {
@@ -712,19 +782,19 @@ if (!customElements.get('site-header-mobile-nav')) {
   customElements.define('site-header-mobile-nav', SiteHeaderMobileNav)
 }
 
-const shell = document.querySelector<HTMLElement>('[data-header-shell]')
+const updateHeaderScrollState = () => {
+  const shell = document.querySelector<HTMLElement>('[data-header-shell]')
 
-if (shell) {
-  const update = () => {
+  if (shell) {
     shell.dataset.scrolled = String(window.scrollY > 10)
   }
-
-  window.addEventListener('scroll', update, { passive: true })
-
-  document.addEventListener('astro:page-load', update)
-
-  update()
 }
+
+window.addEventListener('scroll', updateHeaderScrollState, { passive: true })
+
+document.addEventListener('astro:page-load', updateHeaderScrollState)
+
+updateHeaderScrollState()
 </script>
 
 <style is:global>

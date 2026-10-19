@@ -82,7 +82,7 @@ for (const id of ['v1', 'v2', 'v3']) {
       }))
     })
     expect(await page.locator('img').evaluateAll(images => images.every(image => image instanceof HTMLImageElement && image.naturalWidth > 0))).toBe(true)
-    await page.locator(`a[href="/${id}/portfolio/"]`).first().click()
+    await page.locator(`a[href="/${id}/portfolio/"]:visible`).first().click()
     await expect(page).toHaveURL(new RegExp(`/${id}/portfolio/$`))
     await expect(page.getByRole('complementary', { name: 'Website archive' })).toBeVisible()
     await page.getByRole('link', { name: 'View current page', exact: true }).click()

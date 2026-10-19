@@ -120,9 +120,9 @@ import { menuLinks, siteConfig } from '@/site.config';
         </div>
       </div>
 
-      <mobile-button
+      <button
+        aria-controls="drawer"
         aria-expanded="false"
-        aria-haspopup="menu"
         aria-label="Open main menu"
         class="
           group relative size-8 cursor-pointer rounded-lg
@@ -130,7 +130,6 @@ import { menuLinks, siteConfig } from '@/site.config';
         "
         id="toggle-nav-menu-mobile"
         type="button"
-        role="button"
       >
         <Icon
           id="open-nav-menu-icon"
@@ -138,6 +137,7 @@ import { menuLinks, siteConfig } from '@/site.config';
           class="
             absolute inset-s-1/2 top-1/2 size-6 -translate-1/2 scale-100
             opacity-100 transition-all
+            motion-reduce:transition-none
           "
           focusable="false"
           name="hugeicons:menu-01"
@@ -148,20 +148,22 @@ import { menuLinks, siteConfig } from '@/site.config';
           class="
             absolute inset-s-1/2 top-1/2 size-6 -translate-1/2 scale-0 opacity-0
             transition-all
+            motion-reduce:transition-none
           "
           focusable="false"
           name="hugeicons:cancel-01"
         />
-      </mobile-button>
+      </button>
     </div>
   </div>
 </header>
 
-<div id="drawer" class="fixed inset-0 z-10 hidden backdrop-blur-xl" aria-hidden="true">
+<div id="drawer" class="fixed inset-0 z-10 hidden backdrop-blur-xl" aria-hidden="true" inert>
   <div
     id="drawer-body"
     class="
       absolute inset-0 -translate-y-full transition-all duration-300 ease-in-out
+      motion-reduce:transition-none
     "
   >
     <nav
@@ -205,58 +207,235 @@ import { menuLinks, siteConfig } from '@/site.config';
 </div>
 
 <script>
+const desktopQuery = window.matchMedia('(min-width: 48rem)')
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+const focusableSelector = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+
+const isFocusable = (element: HTMLElement) => !element.matches(':disabled') &&
+  element.getClientRects().length > 0 &&
+  getComputedStyle(element).visibility !== 'hidden'
+
+let cleanupMenu: (() => void) | undefined
+
 document.addEventListener('astro:page-load', () => {
+  cleanupMenu?.()
+
+  const header = document.getElementById('main-header')
   const toggleNavMenuMobileButton = document.getElementById('toggle-nav-menu-mobile')
   const openMenuIcon = document.getElementById('open-nav-menu-icon')
   const closeMenuIcon = document.getElementById('close-nav-menu-icon')
   const drawer = document.getElementById('drawer')
+  const drawerBody = document.getElementById('drawer-body')
+  const mainNavigation = document.getElementById('main-navigation-menu')
 
-  if (!toggleNavMenuMobileButton || !openMenuIcon || !closeMenuIcon || !drawer) {
+  if (
+    !header ||
+    !(toggleNavMenuMobileButton instanceof HTMLButtonElement) ||
+    !openMenuIcon ||
+    !closeMenuIcon ||
+    !drawer ||
+    !drawerBody ||
+    !mainNavigation
+  ) {
     console.error('One or more required elements are missing in the DOM.')
 
     return
   }
 
-  const drawerBody = document.getElementById('drawer-body')
+  let isOpen = false
+  let hideTimer: number | undefined
 
-  if (!drawerBody) {
-    console.error('Drawer body element is missing in the DOM.')
+  const clearHideTimer = () => {
+    window.clearTimeout(hideTimer)
 
-    return
+    hideTimer = undefined
   }
 
-  toggleNavMenuMobileButton.addEventListener('click', () => {
-    const isOpen = toggleNavMenuMobileButton.getAttribute('aria-expanded') === 'true'
+  const openMenu = () => {
+    clearHideTimer()
 
-    if (isOpen) {
-      drawerBody.classList.add('opacity-0', '-translate-y-full')
+    isOpen = true
 
-      drawerBody.classList.remove('translate-y-0')
+    drawer.classList.remove('hidden')
 
-      setTimeout(() => {
+    drawer.inert = false
+
+    drawer.setAttribute('aria-hidden', 'false')
+
+    drawerBody.classList.add('translate-y-0')
+
+    drawerBody.classList.remove('opacity-0', '-translate-y-full')
+
+    openMenuIcon.classList.add('scale-0', 'opacity-0')
+
+    closeMenuIcon.classList.add('scale-100', 'opacity-100')
+
+    closeMenuIcon.classList.remove('scale-0', 'opacity-0')
+
+    openMenuIcon.classList.remove('scale-100', 'opacity-100')
+
+    toggleNavMenuMobileButton.setAttribute('aria-expanded', 'true')
+
+    toggleNavMenuMobileButton.setAttribute('aria-label', 'Close main menu')
+  }
+
+  const closeMenu = ({ restoreFocus = false, immediate = false } = {}) => {
+    clearHideTimer()
+
+    isOpen = false
+
+    // Hide from assistive technology and the tab order before the exit transition runs.
+    drawer.inert = true
+
+    drawer.setAttribute('aria-hidden', 'true')
+
+    drawerBody.classList.add('opacity-0', '-translate-y-full')
+
+    drawerBody.classList.remove('translate-y-0')
+
+    if (immediate || reducedMotionQuery.matches) {
+      drawer.classList.add('hidden')
+    } else {
+      hideTimer = window.setTimeout(() => {
+        hideTimer = undefined
+
         drawer.classList.add('hidden')
       }, 300)
-
-      openMenuIcon.classList.add('scale-100', 'opacity-100')
-
-      closeMenuIcon.classList.add('scale-0', 'opacity-0')
-
-      closeMenuIcon.classList.remove('scale-100', 'opacity-100')
-    } else {
-      drawer.classList.remove('hidden')
-
-      drawerBody.classList.add('translate-y-0')
-
-      drawerBody.classList.remove('opacity-0', '-translate-y-full')
-
-      openMenuIcon.classList.add('scale-0', 'opacity-0')
-
-      closeMenuIcon.classList.add('scale-100', 'opacity-100')
-
-      openMenuIcon.classList.remove('scale-100', 'opacity-100')
     }
 
-    toggleNavMenuMobileButton.setAttribute('aria-expanded', (!isOpen).toString())
-  })
+    openMenuIcon.classList.add('scale-100', 'opacity-100')
+
+    openMenuIcon.classList.remove('scale-0', 'opacity-0')
+
+    closeMenuIcon.classList.add('scale-0', 'opacity-0')
+
+    closeMenuIcon.classList.remove('scale-100', 'opacity-100')
+
+    toggleNavMenuMobileButton.setAttribute('aria-expanded', 'false')
+
+    toggleNavMenuMobileButton.setAttribute('aria-label', 'Open main menu')
+
+    if (restoreFocus) {
+      toggleNavMenuMobileButton.focus()
+    }
+  }
+
+  const getFocusCycle = () => [
+    ...header.querySelectorAll<HTMLElement>(focusableSelector),
+    ...drawer.querySelectorAll<HTMLElement>(focusableSelector)
+  ].filter(isFocusable)
+
+  const handleToggleClick = () => {
+    if (isOpen) {
+      closeMenu()
+    } else {
+      openMenu()
+    }
+  }
+
+  const handleDrawerClick = (event: MouseEvent) => {
+    if (event.target instanceof Element && event.target.closest('a[href]')) {
+      return
+    }
+
+    closeMenu({ restoreFocus: true })
+  }
+
+  const handleKeydown = (event: KeyboardEvent) => {
+    if (!isOpen) {
+      return
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault()
+
+      closeMenu({ restoreFocus: true })
+
+      return
+    }
+
+    if (event.key !== 'Tab') {
+      return
+    }
+
+    const focusCycle = getFocusCycle()
+    const firstElement = focusCycle.at(0)
+    const lastElement = focusCycle.at(-1)
+
+    if (!firstElement || !lastElement) {
+      return
+    }
+
+    const activeElement = document.activeElement
+    const activeIndex = activeElement instanceof HTMLElement ? focusCycle.indexOf(activeElement) : -1
+    let nextIndex = (activeIndex + (event.shiftKey ? -1 : 1) + focusCycle.length) % focusCycle.length
+
+    if (activeIndex < 0) {
+      nextIndex = event.shiftKey ? focusCycle.length - 1 : 0
+    }
+
+    // Safari can skip buttons in native Tab order; every visible control belongs here.
+    event.preventDefault()
+
+    focusCycle.at(nextIndex)?.focus()
+  }
+
+  const handleBreakpointChange = () => {
+    if (!desktopQuery.matches) {
+      return
+    }
+
+    const activeElement = document.activeElement
+
+    const hasMobileFocus = activeElement === toggleNavMenuMobileButton ||
+      (activeElement instanceof Node && drawer.contains(activeElement))
+
+    if (isOpen) {
+      closeMenu({ immediate: true })
+    }
+
+    if (!hasMobileFocus) {
+      return
+    }
+
+    // The mobile controls are now hidden; move focus to the matching desktop link or the logo.
+    const href = activeElement instanceof HTMLAnchorElement ? activeElement.getAttribute('href') : null
+
+    const desktopTarget = [...mainNavigation.querySelectorAll<HTMLAnchorElement>('a[href]')]
+      .find(link => link.getAttribute('href') === href && isFocusable(link)) ??
+      header.querySelector<HTMLAnchorElement>('a[href]')
+
+    desktopTarget?.focus()
+  }
+
+  const cleanup = () => {
+    clearHideTimer()
+
+    toggleNavMenuMobileButton.removeEventListener('click', handleToggleClick)
+
+    drawer.removeEventListener('click', handleDrawerClick)
+
+    document.removeEventListener('keydown', handleKeydown)
+
+    desktopQuery.removeEventListener('change', handleBreakpointChange)
+
+    document.removeEventListener('astro:before-swap', cleanup)
+
+    cleanupMenu = undefined
+  }
+
+  toggleNavMenuMobileButton.addEventListener('click', handleToggleClick)
+
+  drawer.addEventListener('click', handleDrawerClick)
+
+  document.addEventListener('keydown', handleKeydown)
+
+  desktopQuery.addEventListener('change', handleBreakpointChange)
+
+  document.addEventListener('astro:before-swap', cleanup)
+
+  cleanupMenu = cleanup
+
+  closeMenu({ immediate: true })
 })
 </script>

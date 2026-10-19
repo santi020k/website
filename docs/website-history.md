@@ -25,6 +25,16 @@ was stored for v3, so that page keeps its empty-state behavior instead of showin
 present-day issues. v1's Alpine tabs use native keyboard navigation. All versions
 use distinct theme, search-history, and package-manager storage keys where relevant.
 
+Keyboard maintenance preserves the original appearance of each era. Mobile
+navigation supports Enter and Space activation, Tab and Shift+Tab through the
+visible navigation controls, Escape dismissal, and focus restoration. Closing,
+reopening, resizing to desktop, and client-side navigation must not leave focus
+inside a hidden panel or retain a stale scroll lock. Search owns keyboard focus
+while its dialog is open. V2's scrolled header state follows the current page
+after navigation. V1's unused post and series
+layouts are outside the rendered archive: its routes cover the homepage,
+portfolio, technologies, and error page.
+
 ## Workspace and build
 
 The current Astro app stays at the root to retain existing content, CV, release,
@@ -67,6 +77,8 @@ with fabricated previews.
 
 Changes to archive plumbing require unit coverage of URL, storage, and submission
 boundaries, plus `tests/website-history.spec.ts` against combined production output.
+`tests/archive-keyboard.spec.ts` covers mobile menu activation, focus order,
+interrupted closing animations, desktop resizing, and client navigation.
 Inspect mobile/desktop and light/dark behavior, keyboard controls, search results,
 archive notices, and current-page return links. Run the repository completion gate.
 
