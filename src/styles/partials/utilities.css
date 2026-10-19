@@ -570,7 +570,7 @@
 }
 
 @utility pagination-btn--active {
-  @apply border-brand/35 bg-brand-soft/50 text-brand;
+  @apply border-brand/35 bg-brand-soft/50 text-brand dark:text-accent;
 }
 
 /* ─── Decorative ────────────────────────────────────────────────────────────── */

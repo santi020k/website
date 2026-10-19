@@ -248,6 +248,11 @@
 [data-post-gallery-card]::before,
 [data-post-gallery-card]::after { display: none; }
 [data-post-gallery-card]:hover { transform: none; box-shadow: none; }
+/* The full-card link's outer ring is clipped; paint it on the card instead. */
+[data-post-gallery-card]:has(> [data-slot='link']:focus-visible) {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 4px;
+}
 [data-post-gallery-card] h3 { line-height: 1.4; }
 /* The cover caption repeats the article title and is decorative. It only appears
    once the cover is wide enough, in root-relative units, to hold it with enlarged text. */

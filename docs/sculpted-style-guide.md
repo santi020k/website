@@ -82,7 +82,8 @@ Keep native anchors for links wrapping a complete project or article.
 - Secondary action: plain text with a visible arrow and a generous hit area.
 - Project action: the complete card or row is the link; the arrow is decorative.
 - Icon-only actions need a meaningful accessible name and at least a 44px target.
-- Use a visible 2px focus outline with space around the control.
+- Use a visible 2px focus outline with space around the control. Inside clipped, rounded
+  navigation rows, place the outline inside the padded link so every edge stays visible.
 - Keep hover changes subtle: color, border, or a small image scale. Do not move whole cards.
 - External links opening a new tab include `noopener noreferrer`; retain `rel="me"` where used.
 

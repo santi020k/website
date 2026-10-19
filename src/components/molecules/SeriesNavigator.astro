@@ -69,10 +69,12 @@ const seriesPath = getSeriesPath(series.id)
     </div>
 
     <div class="min-w-0 space-y-5">
-      <ol class="
-        divide-y divide-line/35 overflow-hidden rounded-2xl border
-        border-line/35 bg-surface/24 backdrop-blur-sm
-      "
+      <ol
+        class="
+          divide-y divide-line/35 overflow-hidden rounded-2xl border
+          border-line/35 bg-surface/24 backdrop-blur-sm
+        "
+        data-series-track
       >
         {posts.map((seriesPost, index) => {
           const isCurrentPost = seriesPost.id === currentPostId
@@ -80,6 +82,7 @@ const seriesPath = getSeriesPath(series.id)
           return (
             <li>
               <a
+                data-series-step
                 aria-current={isCurrentPost ? 'step' : undefined}
                 class:list={[
                   `
@@ -111,7 +114,7 @@ const seriesPath = getSeriesPath(series.id)
                 >
                   {index + 1}
                 </span>
-                <span class="min-w-0">
+                <span class="min-w-0" data-series-step-copy>
                   <span class="block section-label text-[0.64rem]">
                     Part {index + 1}
                   </span>
@@ -153,6 +156,7 @@ const seriesPath = getSeriesPath(series.id)
 
       {(previous ?? next) && (
         <div
+          data-series-pagination
           class:list={[
             `
               grid gap-px overflow-hidden rounded-2xl border border-line/30
@@ -207,3 +211,26 @@ const seriesPath = getSeriesPath(series.id)
     </div>
   </div>
 </section>
+
+<style>
+  [data-series-track] {
+    container: series-track / inline-size;
+  }
+
+  /* Keep focus inside the rounded, clipped rows, including the first and last. */
+  [data-series-track] a:focus-visible,
+  [data-series-pagination] a:focus-visible {
+    outline-offset: -4px;
+  }
+
+  @container series-track (width < 20rem) {
+    [data-series-step] {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    [data-series-step-copy] {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+</style>
