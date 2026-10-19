@@ -215,6 +215,12 @@
    The sticky rail stays below the header and scrolls natively when taller; its
    inline padding (offset by a matching negative margin) keeps focus outlines and
    the TOC's active marker inside the scroll box. */
+/* WebKit can retain inherited font metrics after a client swap and root text
+   resizing. Size the reading page explicitly so native fragments use fresh layout. */
+.remaining-pages--reading {
+  font-size: 1rem;
+}
+
 [data-reading-layout] {
   container: reading-layout / inline-size;
 }

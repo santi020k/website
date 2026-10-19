@@ -180,31 +180,38 @@ for (const theme of ['light', 'dark'] as const) {
       await expect.poll(() => page.locator('#troubleshooting-notes').evaluate(heading => Math.abs(heading.getBoundingClientRect().top - 237))).toBeLessThanOrEqual(1)
     })
 
-    test('the reading marker rebinds after client navigation', async ({ page }) => {
-      await page.setViewportSize({ width: 1440, height: 900 })
-      await page.goto(LONG_ARTICLE)
-      const timeOrigin = await page.evaluate(() => performance.timeOrigin)
-      await page.getByRole('link', { name: 'santi020k — Santiago Molina home' }).click()
-      await expect(page).toHaveURL(/\/$/u)
-      await page.locator('[data-home-hero] a[href="/portfolio/lumen-ui/"]').click()
-      await expect(page).toHaveURL(/\/portfolio\/lumen-ui\/$/u)
-      expect(await page.evaluate(() => performance.timeOrigin)).toBe(timeOrigin)
-      await page.evaluate(() => {
-        document.documentElement.style.fontSize = '200%'
-      })
-      await settleLayout(page)
-      const link = page.locator('[data-toc-tree] a[href="#technical-highlights"]')
+    for (const width of [390, 1440]) {
+      for (const fontSize of ['125%', '150%', '200%']) {
+        test(`the reading marker rebinds after client navigation at ${width}px with ${fontSize} text`, async ({ page }) => {
+          await page.setViewportSize({ width, height: 900 })
+          await page.goto(LONG_ARTICLE)
+          const timeOrigin = await page.evaluate(() => performance.timeOrigin)
+          await page.getByRole('link', { name: 'santi020k — Santiago Molina home' }).click()
+          await expect(page).toHaveURL(/\/$/u)
+          await page.locator('[data-home-hero] a[href="/portfolio/lumen-ui/"]').click()
+          await expect(page).toHaveURL(/\/portfolio\/lumen-ui\/$/u)
+          expect(await page.evaluate(() => performance.timeOrigin)).toBe(timeOrigin)
+          await page.evaluate(size => {
+            document.documentElement.style.fontSize = size
+          }, fontSize)
+          await settleLayout(page)
+          await expect(page.locator('[data-reading-layout]')).toHaveCSS('font-size', `${16 * parseFloat(fontSize) / 100}px`)
+          const link = page.locator('[data-toc-tree] a[href="#technical-highlights"]')
+          const initialTargetTop = await page.locator('#technical-highlights').evaluate(heading => heading.getBoundingClientRect().top + scrollY)
 
-      await link.focus()
-      await page.keyboard.press('Enter')
-      await expect.poll(() => page.locator('#technical-highlights').evaluate(heading => {
-        const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)
+          await link.focus()
+          await page.keyboard.press('Enter')
+          await expect.poll(() => page.locator('#technical-highlights').evaluate(heading => {
+            const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)
 
-        return Math.abs(heading.getBoundingClientRect().top - padding)
-      })).toBeLessThanOrEqual(1)
-      await expect(link).toHaveAttribute('aria-current', 'location')
-      await expect(page.locator('[data-toc-tree] [aria-current="location"]')).toHaveCount(1)
-    })
+            return Math.abs(heading.getBoundingClientRect().top - padding)
+          })).toBeLessThanOrEqual(1)
+          await expect.poll(() => page.locator('#technical-highlights').evaluate(heading => heading.getBoundingClientRect().top + scrollY)).toBeCloseTo(initialTargetTop, 0)
+          await expect(link).toHaveAttribute('aria-current', 'location')
+          await expect(page.locator('[data-toc-tree] [aria-current="location"]')).toHaveCount(1)
+        })
+      }
+    }
 
     test('history previews and long actions fit narrow screens and enlarged text', async ({ page }) => {
       await page.goto('/history/')

@@ -74,7 +74,10 @@ Page-specific styles live in `src/styles/partials/work.css`.
 - About-page supplementary cards use Lumen `Note` directly.
 - The About hero availability status uses Lumen `Marker`.
 - The article and project table of contents use Lumen `Anchor` and its shared scroll-spy runtime,
-  with the temporary runtime patch described below.
+  with the temporary runtime patch described below. The site's reading page boundary also sets
+  `font-size: 1rem` explicitly: in WebKit, relying on inheritance left descendant layout stale
+  after root text resizing during client navigation, shifting native fragment targets. This
+  keeps the existing native links and Lumen marker synchronized without another controller.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.
 - Series navigation uses Lumen `Progress` with a readable current/max value.
@@ -136,7 +139,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   `data-copy-error-label`, `title`, `data-state="idle"`), because the runtime restores the label
   from them after each copy and otherwise falls back to generic text. The prose stylesheet
   gives `[data-ui-code-copy]` a minimum 44px touch target without replacing its Lumen runtime
-  or keyboard focus treatment.
+  or keyboard focus treatment. Its code-header `figcaption` resets prose caption margins so
+  Tailwind Typography does not insert a blank strip above the header; ordinary figure
+  captions retain their spacing. Code-copy buttons keep stable geometry during hover and
+  press: Lumen's scale animation could send an enlarged-text edge tap to the header.
+  Color, border, copy-state feedback, and keyboard focus remain available.
 - `ShareButtons` keeps native sharing on supported coarse-pointer devices and clipboard copying
   elsewhere. Its visible label and accessible name say "Share link" for native sharing and
   "Copy link" for clipboard-only use. Cancellation preserves the idle label; fallback feedback

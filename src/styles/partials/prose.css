@@ -32,9 +32,19 @@
     @apply border-l-2 border-transparent transition-colors duration-200;
   }
 
+  /* Code headers are UI chrome, not prose figure captions. */
+  & [data-ui-code] > figcaption {
+    margin-block: 0;
+  }
+
   & [data-ui-code-copy] {
     min-inline-size: 44px;
     min-block-size: 44px;
+  }
+
+  /* A pressed-state scale can retarget edge taps outside the button. */
+  & [data-ui-code-copy]:is(:hover, :active) {
+    transform: none;
   }
 
   /* Keep Tailwind Typography's pre background from obscuring Lumen's code theme. */
