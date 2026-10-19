@@ -170,12 +170,13 @@ test.describe('Share buttons — native Web Share API path', () => {
 
     const copyButton = page.locator('#copy-link-btn')
     await expect(copyButton).toBeVisible()
+    await expect(copyButton).toHaveAccessibleName('Share link')
     await expect(copyButton).toHaveAttribute('data-share-url', permalink)
     await copyButton.click()
 
     await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
 
-    await expect(page.locator('#copy-label')).toHaveText('Copy link')
+    await expect(page.locator('#copy-label')).toHaveText('Share link')
     await expect(copyButton).not.toHaveClass(/copied/)
 
     const clipboardProbe = await page.evaluate(() => window.localStorage.getItem('share-test-clipboard-write'))
@@ -190,12 +191,13 @@ test.describe('Share buttons — native Web Share API path', () => {
 
     const copyButton = page.locator('#copy-link-btn')
     await expect(copyButton).toBeVisible()
+    await expect(copyButton).toHaveAccessibleName('Share link')
     await copyButton.click()
 
     await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-called'))).toBe('true')
     expect(await page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
 
-    await expect(page.locator('#copy-label')).toHaveText('Copy link')
+    await expect(page.locator('#copy-label')).toHaveText('Share link')
     await expect(copyButton).not.toHaveClass(/copied/)
 
     const clipboardProbe = await page.evaluate(() => window.localStorage.getItem('share-test-clipboard-write'))
@@ -210,6 +212,7 @@ test.describe('Share buttons — native Web Share API path', () => {
 
     const copyButton = page.locator('#copy-link-btn')
     await expect(copyButton).toBeVisible()
+    await expect(copyButton).toHaveAccessibleName('Share link')
     await copyButton.click()
 
     await expect(page.locator('#copy-label')).toHaveText(/Link copied!/i, { timeout: 4000 })
@@ -218,6 +221,7 @@ test.describe('Share buttons — native Web Share API path', () => {
 
     const clipboardProbe = await page.evaluate(() => window.localStorage.getItem('share-test-clipboard-write'))
     expect(clipboardProbe).toBe(permalink)
+    await expect(page.locator('#copy-label')).toHaveText('Share link', { timeout: 6000 })
   })
 })
 

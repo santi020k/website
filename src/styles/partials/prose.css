@@ -32,6 +32,11 @@
     @apply border-l-2 border-transparent transition-colors duration-200;
   }
 
+  & [data-ui-code-copy] {
+    min-inline-size: 44px;
+    min-block-size: 44px;
+  }
+
   /* Keep Tailwind Typography's pre background from obscuring Lumen's code theme. */
   & [data-ui-code] > pre {
     background: var(--ui-code-bg);

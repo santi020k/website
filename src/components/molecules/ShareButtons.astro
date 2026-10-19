@@ -139,8 +139,10 @@ const shareLinks = [
       return isCoarsePointer
     }
 
-    const IDLE_LABEL = 'Copy link'
+    const idleLabel = supportsWebShare() ? 'Share link' : 'Copy link'
     const STATE_RESET_MS = 2000
+
+    if (label) label.textContent = idleLabel
 
     const resetState = () => {
       btn.classList.remove('copied', 'copy-failed')
@@ -149,7 +151,7 @@ const shareLinks = [
 
       checkIcon?.classList.add('hidden')
 
-      if (label) label.textContent = IDLE_LABEL
+      if (label) label.textContent = idleLabel
     }
 
     /** Shows a transient result state; `#copy-label` is a live region, so the text is announced. */

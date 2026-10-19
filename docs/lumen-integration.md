@@ -134,7 +134,13 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   component tree and cannot render the real Astro components directly. Its copy button mirrors the
   installed `Code` attributes (`data-copy-label`, `data-copy-copied-label`,
   `data-copy-error-label`, `title`, `data-state="idle"`), because the runtime restores the label
-  from them after each copy and otherwise falls back to generic text.
+  from them after each copy and otherwise falls back to generic text. The prose stylesheet
+  gives `[data-ui-code-copy]` a minimum 44px touch target without replacing its Lumen runtime
+  or keyboard focus treatment.
+- `ShareButtons` keeps native sharing on supported coarse-pointer devices and clipboard copying
+  elsewhere. Its visible label and accessible name say "Share link" for native sharing and
+  "Copy link" for clipboard-only use. Cancellation preserves the idle label; fallback feedback
+  returns to the label for the available action.
 - `src/plugins/rehype-readable-tables.ts` wraps Markdown tables in Lumen's `ui-table-wrap`
   surface (`data-slot="table"`). The native table and its headings remain intact inside a
   focusable region named from its caption or preceding heading. This lets keyboard users scroll
