@@ -185,12 +185,14 @@ for (const theme of ['light', 'dark'] as const) {
         test(`the reading marker rebinds after client navigation at ${width}px with ${fontSize} text`, async ({ page }) => {
           await page.setViewportSize({ width, height: 900 })
           await page.goto(LONG_ARTICLE)
-          const timeOrigin = await page.evaluate(() => performance.timeOrigin)
+          const initialDocument = await page.evaluateHandle(() => document)
           await page.getByRole('link', { name: 'santi020k — Santiago Molina home' }).click()
           await expect(page).toHaveURL(/\/$/u)
           await page.locator('[data-home-hero] a[href="/portfolio/lumen-ui/"]').click()
           await expect(page).toHaveURL(/\/portfolio\/lumen-ui\/$/u)
-          expect(await page.evaluate(() => performance.timeOrigin)).toBe(timeOrigin)
+          // Document identity proves a client swap without timestamp precision differences.
+          expect(await initialDocument.evaluate(node => node === document)).toBe(true)
+          await initialDocument.dispose()
           await page.evaluate(size => {
             document.documentElement.style.fontSize = size
           }, fontSize)
