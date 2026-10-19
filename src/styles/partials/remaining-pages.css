@@ -254,10 +254,16 @@
 [data-post-gallery-card]::before,
 [data-post-gallery-card]::after { display: none; }
 [data-post-gallery-card]:hover { transform: none; box-shadow: none; }
-/* The full-card link's outer ring is clipped; paint it on the card instead. */
-[data-post-gallery-card]:has(> [data-slot='link']:focus-visible) {
+/* Rounded cards own their cover/full-card link's indicator outside the clipped
+   image. Nested title and action links keep their individual outlines. */
+[data-post-gallery-card]:has(> a:focus-visible),
+[data-project-gallery-card]:not(.projects-editorial-card):has(> a:focus-visible),
+[data-portfolio-project]:has(> a:focus-visible) {
   outline: 2px solid hsl(var(--accent));
   outline-offset: 4px;
+}
+:is([data-post-gallery-card], [data-project-gallery-card]:not(.projects-editorial-card), [data-portfolio-project]) > a:focus-visible {
+  outline: none;
 }
 [data-post-gallery-card] h3 { line-height: 1.4; }
 /* The cover caption repeats the article title and is decorative. It only appears

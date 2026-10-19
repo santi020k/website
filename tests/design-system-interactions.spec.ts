@@ -18,9 +18,9 @@ for (const theme of ['light', 'dark']) {
     expect(position).toEqual({ translate: 'none', transform: 'none' })
   })
 
-  for (const [path, selector] of [
+  for (const [path, selector, indicatorSelector = selector] of [
     ['/about/', '[data-carousel-item] a'],
-    ['/portfolio/', '[data-portfolio-project] > a'],
+    ['/portfolio/', '[data-portfolio-project] > a', '[data-portfolio-project]'],
     ['/blog/tags/', '#tags-list a'],
     ['/blog/tags/', '#tag-filter'],
     ['/technologies/', '#technology-filter']
@@ -38,7 +38,8 @@ for (const theme of ['light', 'dark']) {
       await page.keyboard.press('Tab')
       await target.focus()
       await expect(target).toBeFocused()
-      const outline = await target.evaluate(element => {
+      const indicator = page.locator(indicatorSelector).first()
+      const outline = await indicator.evaluate(element => {
         const style = getComputedStyle(element)
 
         return { style: style.outlineStyle, width: Number.parseFloat(style.outlineWidth) }

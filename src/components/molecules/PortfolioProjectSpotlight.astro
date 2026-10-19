@@ -59,11 +59,7 @@ const previewTargetHeight = previewImage ?
   <a
     aria-label={`View ${project.data.title} case study`}
     class:list={[
-      `
-        relative block overflow-hidden bg-surface-muted
-        focus-visible:ring-2 focus-visible:ring-brand/50
-        focus-visible:outline-hidden
-      `,
+      'relative block overflow-hidden bg-surface-muted',
       featured ?
         'aspect-video' :
         'aspect-16/10'

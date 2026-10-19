@@ -84,6 +84,9 @@ Keep native anchors for links wrapping a complete project or article.
 - Icon-only actions need a meaningful accessible name and at least a 44px target.
 - Use a visible 2px focus outline with space around the control. Inside clipped, rounded
   navigation rows, place the outline inside the padded link so every edge stays visible.
+- For a card that clips its cover, paint the cover link's keyboard outline on the rounded
+  card using `:has(> a:focus-visible)`. Remove the clipped link's duplicate ring, retain
+  individual outlines for title and action links, and avoid pointer-only `:focus-within` rings.
 - Keep hover changes subtle: color, border, or a small image scale. Do not move whole cards.
 - External links opening a new tab include `noopener noreferrer`; retain `rel="me"` where used.
 

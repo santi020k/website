@@ -84,7 +84,9 @@ const projectItems = projects.map((project, index) => ({
     <div style={getProjectBrandStyle(projectItems[0].brand)}>
     <Card
       as="article"
-      class="group relative rounded-3xl border-line/50 bg-surface p-0"
+      class="
+        group relative overflow-hidden rounded-3xl border-line/50 bg-surface p-0
+      "
       data-project-gallery-card
       data-project-gallery-featured
     >
@@ -188,7 +190,8 @@ const projectItems = projects.map((project, index) => ({
         <Card
           as="article"
           class="
-            group flex h-full flex-col rounded-2xl border-line/50 bg-surface p-0
+            group flex h-full flex-col overflow-hidden rounded-2xl
+            border-line/50 bg-surface p-0
           "
           data-project-gallery-card
           variant="interactive"
