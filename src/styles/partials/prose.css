@@ -130,6 +130,7 @@
   & ol {
     @apply my-6 grid gap-3 pl-0;
     list-style: none;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   @media (min-width: 768px) {
@@ -149,7 +150,9 @@
   & li::before {
     content: "";
     position: absolute;
-    top: 1.3rem;
+    /* Center on the first line, including when rem-based text is enlarged. */
+    top: calc(1rem + 0.5lh);
+    transform: translateY(-50%);
     left: 1.2rem;
     width: 0.42rem;
     height: 0.42rem;

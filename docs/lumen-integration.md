@@ -144,6 +144,9 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   captions retain their spacing. Code-copy buttons keep stable geometry during hover and
   press: Lumen's scale animation could send an enlarged-text edge tap to the header.
   Color, border, copy-state feedback, and keyboard focus remain available.
+- Project prose cards own their decorative list dots. The dots follow the first line height,
+  and single-column grid tracks can shrink below their content width so enlarged text wraps
+  inside phone viewports. Lumen does not supply these markers.
 - `ShareButtons` keeps native sharing on supported coarse-pointer devices and clipboard copying
   elsewhere. Its visible label and accessible name say "Share link" for native sharing and
   "Copy link" for clipboard-only use. Cancellation preserves the idle label; fallback feedback
