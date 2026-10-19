@@ -75,7 +75,7 @@ const meta = {
           <a href={`#${era.id}`}>
             <span class="history-hero-chapter-number">0{index + 1}</span>
             <span>{formatDate(era.date)}<span class="history-hero-chapter-state">{era.current ? 'The current canvas' : 'An earlier idea'}</span></span>
-            <Icon name="arrow-down-right" />
+            <Icon data-history-chapter-icon name="arrow-down-right" />
           </a>
         ))}
       </nav>

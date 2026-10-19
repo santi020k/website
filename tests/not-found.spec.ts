@@ -37,6 +37,18 @@ test.describe('404 page', () => {
     await expect(blogLink.first()).toBeVisible()
   })
 
+  test('content stays still without a reduced-motion preference', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.reload()
+    const illustration = page.locator('main svg[viewBox="0 0 220 220"]')
+
+    await expect(illustration).toBeVisible()
+    const loops = await page.locator('main').evaluate(element => element.getAnimations({ subtree: true })
+      .filter(animation => animation.effect?.getTiming().iterations === Infinity).length)
+
+    expect(loops).toBe(0)
+  })
+
   test('should pass accessibility audit', async ({ page }) => {
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)

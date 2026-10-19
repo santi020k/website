@@ -7,6 +7,7 @@
 }
 
 @utility editorial-page-hero {
+  container: editorial-hero / inline-size;
   max-width: 72rem;
   padding-block: 1rem 0;
 }
@@ -29,6 +30,7 @@
   letter-spacing: var(--text-editorial-title--letter-spacing);
   overflow-wrap: break-word;
   text-wrap: balance;
+  hyphens: manual;
 }
 @utility editorial-page-emphasis { display: block; color: hsl(var(--brand)); }
 [data-theme='dark'] .editorial-page-emphasis { color: hsl(var(--accent)); }
@@ -52,6 +54,10 @@
   line-height: 1.8;
 }
 [data-editorial-compact] .editorial-page-title { font-size: clamp(2.5rem, 5vw, 4.5rem); }
+/* Match About and Work: narrow enlarged headlines size to their reading column. */
+@container editorial-hero (width < 14rem) {
+  .editorial-page-hero .editorial-page-title { font-size: min(var(--text-editorial-title), 16cqi); }
+}
 .remaining-pages .section-container-wide { max-width: 72rem; }
 [data-site-eyebrow] {
   padding: 0;
@@ -330,6 +336,11 @@
 /* Technology index: the filter and group labels take side columns only while the
    index has 38rem in root-relative units, so the search field never leaves the card. */
 [data-technology-index] { container: technology-index / inline-size; }
+@container technology-index (width < 20rem) {
+  [data-technology-filter-row],
+  [data-technology-group] { padding-inline: 0.5rem; }
+  [data-site-pill] { flex-wrap: wrap; padding-inline: 0.5rem; }
+}
 @media (width >= 64rem) {
   @container technology-index (width >= 38rem) {
     [data-technology-filter-row] {

@@ -1,5 +1,6 @@
 /* The homepage follows the sculpted header and hero; other routes keep their own layout. */
 @utility studio-home {
+  container: home-content / inline-size;
   --studio-rule: hsl(var(--line) / 0.65);
   --studio-emphasis: hsl(var(--brand));
   width: 100%;
@@ -400,6 +401,7 @@
   line-height: 1.4;
   letter-spacing: -0.04em;
   text-wrap: pretty;
+  hyphens: manual;
 }
 
 @utility studio-writing-description {
@@ -619,6 +621,32 @@
     margin-top: 1rem;
   }
 
+}
+
+/* Give enlarged text the same open reading space as the full-size layout. */
+@container home-content (width < 28rem) {
+  .studio-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@container home-content (width < 20rem) {
+  .studio-stats { grid-template-columns: minmax(0, 1fr); }
+  .studio-project-copy,
+  .studio-project-wide .studio-project-copy { padding: 1rem; }
+  .studio-project-title .studio-arrow-box { display: none; }
+  .studio-project-row,
+  .studio-project-list-pair .studio-project-row,
+  .studio-writing-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .studio-project-row .studio-row-title,
+  .studio-project-row .studio-row-summary,
+  .studio-writing-row > div { grid-column: 1 / -1; }
+  .studio-project-row .studio-row-title,
+  .studio-writing-row > div { grid-row: 2; }
+  .studio-project-row .studio-row-summary { grid-row: 3; }
+  .studio-project-row > [data-project-row-icon],
+  .studio-project-list-pair .studio-project-row > [data-project-row-icon] { grid-row: 1; grid-column: 2; }
+  .studio-writing-row .studio-arrow-box { grid-row: 1; grid-column: 2; }
+  .studio-community { padding: 1rem; }
+  .studio-community-link h3 { flex-wrap: wrap; }
 }
 
 @media (prefers-reduced-motion: reduce) {

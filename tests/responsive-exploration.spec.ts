@@ -309,13 +309,14 @@ test('organization paging follows available card width and preserves focused con
 test('About carousel rebinds once after client navigation', async ({ page }) => {
   await page.setViewportSize({ width: 800, height: 900 })
   await openPage(page, '/about/', '100%')
-  const documentStart = await page.evaluate(() => performance.timeOrigin)
+  const initialDocument = await page.evaluateHandle(() => document)
 
   await page.locator('a[href="/"]').first().click()
   await expect(page).toHaveURL('/')
   await page.goBack()
   await expect(page).toHaveURL('/about/')
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(documentStart)
+  expect(await initialDocument.evaluate(node => node === document)).toBe(true)
+  await initialDocument.dispose()
   await page.getByRole('button', { name: 'Show next organizations' }).click()
   await expect(page.locator('[data-carousel-status]')).toHaveText('Showing 3–4 of 9')
   await page.evaluate(() => {

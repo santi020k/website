@@ -190,6 +190,10 @@ stage, portrait, caption, shelf, and actions below 39.5rem, keeping the viewport
 so enlarged headings never split words or run into the portrait. The default desktop and 768px
 tablet compositions are unchanged, and the frame's own padding still follows the viewport.
 These rules apply only inside Home; other `maker-hero` pages are unaffected.
+The `home-content` container adapts the sections below the hero as well: statistics
+use two columns below 28rem and one below 20rem. Below 20rem, project and writing
+rows place their copy beneath the number and arrow, featured project titles omit
+the decorative arrow, and card and community insets tighten to preserve reading space.
 About's `about-page` container and the `projects-intro` container stack their columns below 40rem
 the same way, and the Projects ledger stacks below 17.5rem. Below 14rem, About tightens its frame
 inset and scales headings to the container so whole words fit. Editorial project cards stay in two
@@ -228,13 +232,23 @@ rather than an implicit `auto` track, so one long word or control cannot widen t
   clipped timeline card cannot hide it.
 - Speaking's hero places the profile beside the headline only while it has 54rem; the community
   impact list and the three booking notes have their own surface containers.
+  Profile facts keep two columns only while each has 7rem.
 - The Technologies index places its filter and group labels in side columns only while the
   index has 38rem, so the search field stays inside its card.
+  Below 20rem, its side insets tighten. Pill labels may wrap while counts keep all digits
+  together. Group headings name the category and the filtered tool count.
 - Policy rows keep their three-column ledger while the list has 42rem, stack each heading above
   its copy below that, and move the number onto its own row below 16rem.
 - On screen, the resume header keeps the name and contacts in one row while the resume has
   36rem. Print rules and both PDFs are unchanged.
 - Topic sort controls wrap under the label, and the 404 numeral scales down on narrow screens.
+  The 404 illustration remains still with either motion preference.
+Shared editorial heroes and the Speaking hero size their headlines to the reading column
+below 14rem, following About and Work. History uses the same approach in its own hero copy
+container. Its chapter navigation uses four, two, then one column as the reading space
+narrows, so enlarged dates stay within the frame and each complete link remains available
+to the keyboard. Archive labels and captions wrap; below 18rem, preview address bars omit
+their decorative browser controls to leave room for the address.
 The TOC marker reaches a heading at its native fragment landing line, including with enlarged
 root text, through a temporary patch of Lumen's `Anchor` runtime. See
 [the Lumen integration notes](lumen-integration.md#anchor-runtime-patch) for its ownership and

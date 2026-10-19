@@ -46,11 +46,16 @@ const expectVisibleCopyOnScreen = async (root: Locator) => {
         let ancestor: Element | null = parent
 
         while (ancestor) {
-          if (['hidden', 'clip'].includes(getComputedStyle(ancestor).overflowX)) {
+          const style = getComputedStyle(ancestor)
+
+          if (['hidden', 'clip'].includes(style.overflowX)) {
             const bounds = ancestor.getBoundingClientRect()
             const left = bounds.left + ancestor.clientLeft
+            // Use both rendered edges: clientWidth omits the rotation of
+            // History's archive prints and would falsely report clipped copy.
+            const right = bounds.right - Number.parseFloat(style.borderRightWidth)
 
-            clippingBounds.push({ left, right: left + ancestor.clientWidth })
+            clippingBounds.push({ left, right })
           }
           ancestor = ancestor.parentElement
         }
@@ -78,6 +83,7 @@ const routes = [
   '/technologies/typescript/',
   '/developer-experience/',
   '/resume/',
+  '/history/',
   '/privacy/',
   '/terms/',
   '/accessibility/',

@@ -1,9 +1,9 @@
 @utility history-era-body { min-width: 0; }
 @utility history-era-heading { min-width: 0; }
 @utility history-shell { width: 100%; max-width: 72rem; margin-inline: auto; }
-@utility history-intro { padding-bottom: 1.25rem; }
+@utility history-intro { padding-bottom: 1.25rem; container: history-intro / inline-size; }
 @utility history-hero-stage { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 2rem; padding-block: 2rem 3.5rem; }
-@utility history-hero-copy { min-width: 0; }
+@utility history-hero-copy { min-width: 0; container: history-copy / inline-size; }
 .history-hero-copy .editorial-page-title { font-size: clamp(3rem, 6.1vw, 5.25rem); }
 .history-hero-copy .editorial-page-description { max-width: 29rem; }
 .history-hero-copy .maker-hero-primary { border-radius: 1rem; }
@@ -15,9 +15,9 @@
 @utility history-hero-print-1 { top: .75rem; left: 0; transform: rotate(-8deg); }
 @utility history-hero-print-2 { top: 3.25rem; right: 0; transform: rotate(6deg); }
 @utility history-hero-print-3 { top: 7.5rem; left: 6%; transform: rotate(-3deg); }
-@utility history-hero-print-label { display: flex; justify-content: space-between; align-items: center; padding: .625rem .875rem; font-size: .625rem; color: hsl(var(--ink-soft)); border-bottom: 1px solid hsl(var(--line)); }
+@utility history-hero-print-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .25rem .5rem; padding: .625rem .875rem; font-size: .625rem; color: hsl(var(--ink-soft)); border-bottom: 1px solid hsl(var(--line)); }
 .history-hero-print-label > span:first-child { font-weight: 600; color: hsl(var(--ink)); }
-.history-hero-exhibit figcaption { display: flex; justify-content: space-between; gap: .75rem; margin-top: 1rem; font-size: .625rem; color: hsl(var(--ink-soft)); }
+.history-hero-exhibit figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; margin-top: 1rem; font-size: .625rem; color: hsl(var(--ink-soft)); }
 .history-hero-exhibit figcaption > span:last-child { display: inline-flex; align-items: center; gap: .5rem; }
 .history-hero-exhibit figcaption svg { width: .875rem; height: .875rem; }
 @utility history-hero-chapters { display: grid; grid-template-columns: 1fr repeat(4, 1.35fr); align-items: center; gap: 1rem; border-top: 1px solid hsl(var(--line) / .65); padding-top: 1.25rem; }
@@ -26,7 +26,7 @@
 @utility history-hero-chapter-number { font-size: 1.75rem; font-weight: 500; letter-spacing: -.075em; color: hsl(var(--ink-soft)); }
 .history-hero-chapters > a > span:nth-child(2) { font-size: .6875rem; }
 @utility history-hero-chapter-state { display: block; margin-top: .25rem; font-size: .5625rem; color: hsl(var(--ink-soft)); }
-.history-hero-chapters > a > svg { width: 1rem; height: 1rem; margin-left: auto; }
+.history-hero-chapters > a > [data-history-chapter-icon] { width: 1rem; height: 1rem; margin-left: auto; }
 .history-hero-chapters > a:hover .history-hero-chapter-number { color: hsl(var(--brand)); }
 [data-theme='dark'] .history-hero-chapters > a:hover .history-hero-chapter-number { color: hsl(var(--accent)); }
 @media (max-width: 959px) {
@@ -36,7 +36,7 @@
   .history-hero-chapters > p { grid-column: 1 / -1; }
   .history-hero-chapters > p br { display: none; }
   .history-hero-chapters > a { flex-wrap: wrap; gap: .5rem; }
-  .history-hero-chapters > a > svg { display: none; }
+  .history-hero-chapters > a > [data-history-chapter-icon] { display: none; }
 }
 @media (max-width: 639px) {
   /* Derive the stack height from the exhibit's own width so the prints never
@@ -57,7 +57,7 @@
 @utility history-status { border-top: 1px solid hsl(var(--line) / .65); padding-top: .75rem; font-size: .625rem; letter-spacing: .05em; text-transform: uppercase; color: hsl(var(--ink-soft)); }
 .history-era-heading h2 { font-size: clamp(1.625rem, 3vw, 2.5rem); font-weight: 500; line-height: 1.15; letter-spacing: -.05em; }
 .history-era-heading p { max-width: 44rem; margin-top: 1rem; font-size: .875rem; line-height: 1.85; color: hsl(var(--ink-soft)); }
-@utility history-captures { position: relative; margin-top: 2rem; padding-right: 3rem; padding-bottom: 2rem; }
+@utility history-captures { position: relative; margin-top: 2rem; padding-right: 3rem; padding-bottom: 2rem; container: history-captures / inline-size; }
 @utility history-desktop { overflow: hidden; border: 1px solid hsl(var(--line)); border-radius: .75rem; background: hsl(var(--surface)); box-shadow: var(--shadow-nav); }
 @utility history-browser-bar { display: flex; justify-content: space-between; padding: .625rem 1rem; color: hsl(var(--ink-soft)); font-size: .625rem; border-bottom: 1px solid hsl(var(--line)); }
 .history-browser-bar span:first-child { letter-spacing: .15em; }
@@ -76,3 +76,32 @@
 .history-footnote > p:not(:first-child) { margin-top: 1rem; font-size: .875rem; line-height: 1.9; color: hsl(var(--ink-soft)); }
 @media (max-width: 959px) { .history-era { grid-template-columns: 6rem minmax(0, 1fr); gap: 1.5rem; } }
 @media (max-width: 639px) { .history-timeline { margin-top: 4.5rem; } .history-era { display: block; padding-block: 2rem 3rem; } .history-era-marker { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; } .history-version { font-size: 2.75rem; } .history-status { border: 0; padding: 0; } .history-mobile { width: 100px; border-radius: .75rem; } .history-captures { padding-right: 1.5rem; padding-bottom: 2.5rem; } .history-browser-bar { padding: .5rem; } .history-era-actions { margin-top: 1rem; } }
+
+@container history-copy (width < 14rem) {
+  .history-hero-copy .editorial-page-title { font-size: min(3rem, 22cqi); }
+}
+
+@container history-intro (width < 48rem) {
+  @media (width >= 640px) {
+    .history-hero-chapters { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  .history-hero-chapters > p { grid-column: 1 / -1; }
+  .history-hero-chapters > p br { display: none; }
+  .history-hero-chapters > a { flex-wrap: wrap; }
+  .history-hero-chapters > a > [data-history-chapter-icon] { display: none; }
+}
+
+@container history-intro (width < 26rem) {
+  .history-hero-chapters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@container history-intro (width < 10rem) {
+  .history-hero-chapters { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Keep the address readable when decorative browser chrome crowds the preview. */
+@container history-captures (width < 18rem) {
+  .history-browser-bar > span:first-child,
+  .history-browser-bar > span:last-child { display: none; }
+  .history-browser-bar > span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+}

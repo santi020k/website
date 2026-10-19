@@ -137,7 +137,11 @@ const sessionTraits = [
               Engineering leader, full-stack architect, and ReactJS Colombia co-organizer.
             </p>
           </div>
-          <dl class="grid grid-cols-2 gap-4 divider-soft pt-4">
+          <dl class="
+            grid grid-cols-[repeat(auto-fit,minmax(min(100%,7rem),1fr))] gap-4
+            divider-soft pt-4
+          "
+          >
             <div class="min-w-0">
               <dt class="text-xs text-ink-muted">Community</dt>
               <dd class="mt-1 site-label">Since 2017</dd>
@@ -158,6 +162,10 @@ const sessionTraits = [
      54rem in root-relative units, so enlarged text stacks it below the copy. */
   [data-speaking-hero] {
     container: speaking-hero / inline-size;
+  }
+
+  @container speaking-hero (width < 14rem) {
+    .editorial-page-title { font-size: min(var(--text-editorial-title), 16cqi); }
   }
 
   @media (width >= 64rem) {

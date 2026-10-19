@@ -109,12 +109,14 @@
    enlarged text, long labels wrap inside the pill instead of widening the row. */
 [data-site-pill] {
   min-width: 0;
-  white-space: normal;
+  /* Keep the count intact; only the consumer-owned label may wrap. */
+  white-space: nowrap;
 }
 
 [data-site-pill-label] {
   min-width: 0;
   line-height: 1.25;
+  white-space: normal;
   overflow-wrap: anywhere;
 }
 

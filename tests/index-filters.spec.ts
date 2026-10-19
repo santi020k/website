@@ -22,7 +22,7 @@ test.describe('Index filters', () => {
 
     await expect(page.locator('#technology-filter-status')).toHaveText('1 technology found.')
     await expect(page.locator('[data-technology-item]:visible')).toHaveCount(1)
-    await expect(page.locator('[data-technology-group]:visible [data-technology-group-count]')).toHaveText('1')
+    await expect(page.locator('[data-technology-group]:visible [data-technology-group-count]')).toHaveText('1 tool')
 
     await search.fill('not-a-real-technology')
 
