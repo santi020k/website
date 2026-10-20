@@ -131,6 +131,18 @@ with 1.5rem horizontal padding on larger screens. Remove the repeated count
 below the meter. Preserve the whole-card link, filtering, sorting, and focus outline.
 At enlarged text sizes, reduce the insets and let the badge wrap below long names.
 
+### Speaking topics with clear hierarchy
+
+Topic cards retain their opaque Lumen surface, fine border, 1.5rem corners, and
+purple number. Present the topic and its supporting phrase together in one semantic
+heading: a 1.625rem title at weight 500 with 2.125rem leading, followed by a quiet
+1rem phrase with 1.625rem leading. On phones, use 1.5rem and 0.875rem respectively.
+Keep a 0.25rem gap within the heading and 1.25rem before the complete description.
+Descriptions remain 0.875rem with 1.75rem leading. Preserve the full title in
+structured data and the accessible heading, along with text-driven wrapping and
+narrow-column insets. Cards remain passive, without hover changes. Speaking-format
+cards retain their existing numbered label and description treatment.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

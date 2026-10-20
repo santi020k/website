@@ -14,6 +14,12 @@ export interface ProfileHighlight {
 
 export interface SpeakingTopic {
   description: string
+  subtitle: string
+  title: string
+}
+
+export interface SpeakingFormat {
+  description: string
   title: string
 }
 
@@ -166,31 +172,37 @@ export const speakingHighlights: ProfileHighlight[] = [
 export const speakingTopics: SpeakingTopic[] = [
   {
     description: 'How standards, automation, and delivery systems reduce pressure and help teams make better decisions sooner.',
-    title: 'Engineering leadership for teams that still ship'
+    subtitle: 'for teams that still ship',
+    title: 'Engineering leadership'
   },
   {
     description: 'Practical ways to improve tooling, feedback loops, and everyday developer ergonomics without overengineering the process.',
-    title: 'Developer experience that compounds'
+    subtitle: 'that compounds',
+    title: 'Developer experience'
   },
   {
     description: 'Patterns for growing React and TypeScript codebases without turning them into a maze of exceptions and accidental complexity.',
-    title: 'Frontend architecture for real teams'
+    subtitle: 'for real teams',
+    title: 'Frontend architecture'
   },
   {
     description: 'Testing, linting, and CI/CD systems that teams actually keep because they improve confidence instead of slowing work down.',
-    title: 'Quality systems that fit the workflow'
+    subtitle: 'that fit the workflow',
+    title: 'Quality systems'
   },
   {
     description: 'Choosing the right level of abstraction across frontend, backend, and platform work when products need to move fast.',
-    title: 'Full-stack delivery with technical range'
+    subtitle: 'with technical range',
+    title: 'Full-stack delivery'
   },
   {
     description: 'What community work has taught me about mentoring, accessibility, and helping more people feel ready to share what they know.',
-    title: 'Community building and first-time speakers'
+    subtitle: 'and first-time speakers',
+    title: 'Community building'
   }
 ]
 
-export const speakingFormats: SpeakingTopic[] = [
+export const speakingFormats: SpeakingFormat[] = [
   {
     description: 'Practical sessions for local communities and engineering groups that want useful takeaways, not slideware.',
     title: 'Meetups and community talks'

@@ -47,7 +47,7 @@ const expectWholeWords = async (copy: Locator) => {
 
 const hoverAppearance = (card: Locator) => card.evaluate(element => [
   element,
-  ...element.querySelectorAll('[data-principle-index], [data-principle-title], [data-testimonial-quote], [data-slot="avatar"]')
+  ...element.querySelectorAll('[data-principle-index], [data-principle-title], [data-testimonial-quote], [data-slot="avatar"], [data-talk-title], [data-talk-subtitle]')
 ].map(node => {
   const style = getComputedStyle(node)
 
@@ -102,6 +102,7 @@ for (const width of [390, 1440]) {
             const cards = page.locator(selector)
 
             expect(await cards.count()).toBeGreaterThan(0)
+            await expectWholeWords(cards.locator('[data-talk-title], [data-talk-subtitle]'))
             for (const card of await cards.all()) {
               await card.scrollIntoViewIfNeeded()
               await expect(card).toHaveCSS('opacity', '1')

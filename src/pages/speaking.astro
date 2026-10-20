@@ -80,7 +80,7 @@ const structuredData = [
     mainEntity: {
       ...createAuthorSchema(Astro.site),
       jobTitle: AUTHOR_JOB_TITLE,
-      knowsAbout: speakingTopics.map(topic => topic.title),
+      knowsAbout: speakingTopics.map(topic => `${topic.title} ${topic.subtitle}`),
       sameAs: sameAsProfiles.slice(0, 3)
     },
     name: 'Speaking & Community'
@@ -235,6 +235,7 @@ mainClass="remaining-pages"
         <TalkCard
           description={topic.description}
           index={index}
+          subtitle={topic.subtitle}
           title={topic.title}
           variant="topic"
         />

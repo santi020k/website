@@ -64,12 +64,26 @@ test.describe('Speaking page', () => {
     expect(timelineTag).toBe('OL')
   })
 
-  test('should render topic cards', async ({ page }) => {
+  test('should preserve complete topic headings and matching expertise', async ({ page }) => {
     const topicsSection = page.getByRole('heading', { name: /What I speak about/i })
     await expect(topicsSection).toBeVisible()
-    // At least one topic article should be visible after the heading
     const topicArticles = page.locator('section').filter({ has: topicsSection }).locator('article')
-    await expect(topicArticles.first()).toBeVisible()
+    const titles = [
+      'Engineering leadership for teams that still ship',
+      'Developer experience that compounds',
+      'Frontend architecture for real teams',
+      'Quality systems that fit the workflow',
+      'Full-stack delivery with technical range',
+      'Community building and first-time speakers'
+    ]
+
+    await expect(topicArticles).toHaveCount(titles.length)
+    for (const title of titles) {
+      await expect(topicArticles.getByRole('heading', { level: 3, name: title, exact: true })).toBeVisible()
+    }
+    const schema = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+    for (const title of titles) expect(schema.join('\n')).toContain(JSON.stringify(title))
   })
 
   test('should pass accessibility audit', async ({ page }) => {
