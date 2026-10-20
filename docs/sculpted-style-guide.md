@@ -87,8 +87,14 @@ Keep native anchors for links wrapping a complete project or article.
 - For a card that clips its cover, paint the cover link's keyboard outline on the rounded
   card using `:has(> a:focus-visible)`. Remove the clipped link's duplicate ring, retain
   individual outlines for title and action links, and avoid pointer-only `:focus-within` rings.
+- Shared action links stay within their parent and wrap their label and decorative arrow when
+  enlarged text needs more room. Nested icon labels may shrink with the control.
+- Related-work shelves reduce their insets in narrow sections, scale headings to their reading
+  column, and omit decorative action arrows when space is limited. Keep the complete label.
+- Webmention avatar and standalone source links provide at least 44px targets. Inline author
+  names retain their text-link behavior. Policy email links stay underlined in both themes.
 - Keep hover changes subtle: color, border, or a small image scale. Do not move whole cards.
-- Series title links use one block with a continuous focus outline when the title wraps.
+- Series card and navigator title links use one block with a continuous focus outline when the title wraps.
 - Passive principle, testimonial, topic, and format cards keep their colors, tracking, and
   decoration still on hover; reserve interaction feedback for actual controls.
 - Narrow article cards reduce horizontal padding and put the decorative arrow below their

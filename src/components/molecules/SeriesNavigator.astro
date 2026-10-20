@@ -36,14 +36,16 @@ const seriesPath = getSeriesPath(series.id)
 
       <div class="space-y-3.5">
         <h2 class="
-          text-2xl/tight font-semibold text-ink
+          text-2xl/tight font-medium text-ink
           sm:text-3xl/tight
         "
         >
           <a
+            data-series-navigator-title
             class="
-              transition-colors
+              block rounded-sm transition-colors
               hover:text-brand
+              motion-reduce:transition-none
             "
             href={seriesPath}
           >

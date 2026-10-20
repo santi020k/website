@@ -2,6 +2,13 @@ import { expect, type Page, test } from '@playwright/test'
 
 const LONG_POST_PATH = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
 
+const returnToBlog = async (page: Page) => {
+  const menuToggle = page.locator('[data-mobile-nav-toggle]')
+
+  if (await menuToggle.isVisible()) await menuToggle.click()
+  await page.getByRole('navigation', { name: 'Main menu' }).getByRole('link', { name: 'Blog', exact: true }).click()
+}
+
 // Model the public Giscus client/widget boundary without contacting GitHub or
 // loading real discussions. The widget announces readiness through its resize
 // message and accepts the documented setConfig theme message.
@@ -117,7 +124,7 @@ test('leaving an unread article cancels pending comments and returning can load 
 
   await page.goto(path)
   await expect(page.locator('#comments script')).toHaveCount(0)
-  await page.getByRole('navigation', { name: 'Main menu' }).getByRole('link', { name: 'Blog', exact: true }).click()
+  await returnToBlog(page)
   await expect(page).toHaveURL('/blog/')
   await expect(page.locator('#comments')).toHaveCount(0)
   expect(requests).toBe(0)
@@ -217,7 +224,7 @@ test('comments mount once and retain live theme changes after article navigation
   await expect(widget).toHaveAttribute('data-load', '1')
   await expect(widget).toHaveAttribute('data-theme', 'transparent_dark')
 
-  await page.getByRole('navigation', { name: 'Main menu' }).getByRole('link', { name: 'Blog', exact: true }).click()
+  await returnToBlog(page)
   await expect(page).toHaveURL('/blog/')
   await expect(page.locator('#comments')).toHaveCount(0)
   await page.locator(`a[href="${path}"]`).first().click()

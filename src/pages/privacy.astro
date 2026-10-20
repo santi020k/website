@@ -86,8 +86,10 @@ const sections = [
         Reach out at{' '}
         <a
           class="
-            font-medium text-brand transition-colors
+            font-medium text-brand underline underline-offset-4
+            transition-colors
             hover:text-accent
+            motion-reduce:transition-none
           "
           href={`mailto:${siteConfig.contact.email}`}
         >

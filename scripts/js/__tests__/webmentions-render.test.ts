@@ -47,8 +47,8 @@ test('renders a mention avatar without fetching dimensions from its external hos
     const document = readFileSync(join(root, 'dist/index.html'), 'utf8')
 
     expect(document).toContain(`src="${avatar}"`)
-    expect(document).toContain('width="40"')
-    expect(document).toContain('height="40"')
+    expect(document).toContain('width="44"')
+    expect(document).toContain('height="44"')
     expect(document).toContain('aria-label="Alice"')
   } finally {
     rmSync(root, { recursive: true, force: true })

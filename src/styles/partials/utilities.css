@@ -511,7 +511,8 @@
 /* ─── Buttons ───────────────────────────────────────────────────────────────── */
 
 @utility site-action {
-  @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-3 rounded-xl border px-4 py-2 text-xs font-medium tracking-normal no-underline;
+  @apply inline-flex min-h-11 min-w-0 max-w-full cursor-pointer flex-wrap items-center justify-center gap-3 rounded-xl border px-4 py-2 text-xs font-medium tracking-normal whitespace-normal no-underline;
+  overflow-wrap: anywhere;
   box-shadow: none;
   backdrop-filter: none;
   transform: none;

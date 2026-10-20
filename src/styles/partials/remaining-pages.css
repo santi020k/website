@@ -349,7 +349,7 @@
 [data-page-section-grid] { grid-template-columns: minmax(0, 1fr); }
 /* Preserve reading space when enlarged text makes the card insets too large. */
 @container page-section (width < 20rem) {
-  .remaining-pages :is([data-principle], [data-talk-card], [data-series-card], [data-newsletter], [data-speaking-community], [data-speaking-booking]) { padding: 0.75rem; }
+  .remaining-pages :is([data-principle], [data-talk-card], [data-series-card], [data-newsletter], [data-speaking-community], [data-speaking-booking], [data-section-header-shelf]) { padding: 0.75rem; }
   .remaining-pages [data-topic-card] { padding: 0.5rem; }
 }
 
@@ -450,4 +450,17 @@
 @container speaking-booking (width < 12rem) {
   [data-speaking-booking] .section-actions > a { padding-inline: 0.25rem; }
   [data-speaking-booking] .site-action-arrow { display: none; }
+}
+
+/* Older section shelves retain complete headings and actions as text grows. */
+[data-section-header] { container: section-header / inline-size; }
+@container section-header (width < 14rem) {
+  [data-section-header] :is(h1, h2, h3) { font-size: min(2rem, 16cqi); }
+  [data-section-header] [data-slot='button-link'] { padding-inline: 0.5rem; }
+  [data-section-header] .site-action-arrow { display: none; }
+}
+
+[data-reading-actions] { container: reading-actions / inline-size; }
+@container reading-actions (width < 16rem) {
+  [data-reading-actions] .site-action-arrow { display: none; }
 }

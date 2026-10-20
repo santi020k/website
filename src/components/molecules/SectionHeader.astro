@@ -46,14 +46,17 @@ const titleClasses = isShelf ?
   (
     <Card
       as="section"
+      data-section-header
+      data-section-header-shelf
       class="
-        flex flex-col gap-4 rounded-3xl border border-line/65 bg-surface p-5
+        flex flex-col flex-wrap gap-4 rounded-3xl border border-line/65
+        bg-surface p-5
         sm:p-6
         lg:flex-row lg:items-end lg:justify-between lg:gap-8
       "
       variant="unstyled"
     >
-      <div class="space-y-3">
+      <div class="min-w-0 space-y-3">
         {eyebrow && <Eyebrow label={eyebrow} tone="brand" />}
         <div class="space-y-2.5">
           <HeadingTag class={`
@@ -90,6 +93,7 @@ const titleClasses = isShelf ?
   ) :
   (
     <div
+      data-section-header
       class:list={[
         'flex flex-col gap-5',
         align === 'center' && 'items-center text-center'
