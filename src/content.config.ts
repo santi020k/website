@@ -135,6 +135,7 @@ const post = defineCollection({
   loader: glob({ base: './src/content/post', pattern: ['**/*.{md,mdx}', '!AGENTS.md'] }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
+    cardDescription: z.string().trim().min(1).max(160).optional(),
     publishDate: dateField(),
     updatedDate: optionalDateField(),
     coverImage: z

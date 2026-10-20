@@ -1,6 +1,7 @@
 ---
 title: "Open-sourcing authentication without sharing accounts"
 description: "Why I made @santi020k/auth-cloudflare public, how it reuses email-code and passkey policy across Cloudflare applications, and where the shared boundary deliberately ends."
+cardDescription: "A reusable authentication foundation for Cloudflare apps, with email codes, passkeys, and separate accounts for every product."
 publishDate: "2026-09-25T13:00:00.000Z"
 coverImage:
   alt: "A lock at the center of separate application boundaries connected by a shared policy layer"

@@ -162,6 +162,60 @@ test.describe('Blog page', () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320)
   })
 
+  test('editorial cards keep a single reading link and complete content in every gallery', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+
+    for (const route of ['/blog/', '/blog/tags/typescript/', '/blog/series/the-santi020k-way/', '/developer-experience/', '/blog/atomic-module-component-structure-for-react/']) {
+      await page.goto(route)
+      await page.evaluate(() => {
+        document.documentElement.style.fontSize = '200%'
+      })
+      const cards = page.locator('[data-post-gallery-card]')
+
+      expect(await cards.count()).toBeGreaterThan(0)
+      for (const card of await cards.all()) {
+        const link = card.getByRole('link')
+
+        await expect(link).toHaveCount(1)
+        await expect(card).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+        await expect(link).toHaveAccessibleName(/Read article.*min read/u)
+        await expect(card.locator('[data-post-gallery-meta] time')).toHaveAttribute('datetime', /^\d{4}-/u)
+        await expect(card.locator('[data-post-gallery-footer]')).toContainText('Read article')
+        for (const text of await card.locator('h3, p, li, [data-post-gallery-footer] > span').all()) {
+          await expect(text).toHaveCSS('-webkit-line-clamp', 'none')
+          const overflow = await text.evaluate(element => {
+            const horizontal = element.scrollWidth > element.clientWidth + 1
+            const vertical = element.scrollHeight > element.clientHeight + 1
+
+            return horizontal || vertical
+          })
+
+          expect(overflow).toBe(false)
+        }
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390)
+    }
+  })
+
+  test('editorial artwork stays still on hover and card copy preserves the article description', async ({ page }) => {
+    await page.goto('/blog/')
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    const card = page.locator('[data-post-gallery-card]').first()
+    const image = card.locator('img')
+
+    await card.scrollIntoViewIfNeeded()
+    const originalBounds = await image.boundingBox()
+
+    await card.hover()
+    await expect(image).toHaveCSS('transform', 'none')
+    expect(await image.boundingBox()).toEqual(originalBounds)
+    await expect(card.locator('p')).toHaveText('A reusable authentication foundation for Cloudflare apps, with email codes, passkeys, and separate accounts for every product.')
+    await card.getByRole('link').click()
+    await expect(page).toHaveURL(/\/blog\/open-sourcing-santi020k-auth-cloudflare\/$/u)
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Why I made @santi020k\/auth-cloudflare public/u)
+  })
+
   test('pagination links keep the trailing slash so no host redirect is needed', async ({ page }) => {
     for (const route of ['/blog/', '/blog/2/', '/blog/tags/typescript/']) {
       await page.goto(route)

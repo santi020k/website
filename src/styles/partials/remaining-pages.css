@@ -99,7 +99,7 @@
   line-height: 1.15;
   letter-spacing: -0.055em;
 }
-.remaining-pages h3:not(.prose-santi h3) { font-weight: 500; letter-spacing: -0.035em; }
+.remaining-pages h3:not(.prose-santi h3, [data-post-gallery-card] h3) { font-weight: 500; letter-spacing: -0.035em; }
   .remaining-pages h1:not(.editorial-page-title) { font-weight: 500; line-height: 1.12; }
 }
 .remaining-pages .section-copy { font-size: 0.9375rem; line-height: 1.85; }
@@ -242,12 +242,13 @@
 
 [data-theme='dark'] .remaining-pages .text-brand:not(.section-label) { color: hsl(var(--accent)); }
 
-/* Shared article cards stay readable without a scroll-reveal dependency. */
-[data-post-gallery-card] {
-  container: post-card / inline-size;
-  border: 1px solid hsl(var(--line) / 0.65);
-  border-radius: 1.5rem;
-  background: hsl(var(--surface));
+/* Open editorial article cards share their layout across every reading archive. */
+[data-post-gallery-card][data-slot='card'] {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   box-shadow: none;
   backdrop-filter: none;
   transform: none;
@@ -255,25 +256,91 @@
 [data-post-gallery-card]::before,
 [data-post-gallery-card]::after { display: none; }
 [data-post-gallery-card]:hover { transform: none; box-shadow: none; }
-/* Rounded cards own their cover/full-card link's indicator outside the clipped
-   image. Nested title and action links keep their individual outlines. */
-[data-post-gallery-card]:has(> a:focus-visible),
+[data-post-gallery-card] > a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  font-weight: 400;
+  text-decoration: none;
+}
+[data-post-gallery-card] > a:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 6px;
+  border-radius: 1rem;
+}
+[data-post-gallery-copy] {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding-top: 1.25rem;
+}
+[data-post-gallery-meta] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  color: hsl(var(--ink-soft));
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+[data-post-gallery-card] h3 {
+  margin-top: 0.75rem;
+  color: hsl(var(--ink));
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.045em;
+  overflow-wrap: anywhere;
+}
+[data-post-gallery-copy] > p {
+  margin-top: 0.75rem;
+  color: hsl(var(--ink-soft));
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+[data-post-gallery-copy] > p:not(:has(+ ul)) { margin-bottom: 0.625rem; }
+[data-post-gallery-copy] > ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3125rem 0.875rem;
+  margin-block: 1.125rem 0.625rem;
+  padding: 0;
+  list-style: none;
+  color: hsl(var(--ink-soft));
+  font-size: 0.75rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+[data-post-gallery-footer] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-block: 0.9375rem;
+  border-bottom: 1px solid hsl(var(--line) / 0.65);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+[data-post-gallery-card] > a:is(:hover, :focus-visible) h3 { color: hsl(var(--brand)); }
+[data-theme='dark'] [data-post-gallery-card] > a:is(:hover, :focus-visible) h3 { color: hsl(var(--accent)); }
+@media (prefers-reduced-motion: no-preference) {
+  [data-post-gallery-card] h3 { transition: color 180ms ease; }
+}
+
+/* Rounded project cards own their clipped cover link's keyboard indicator. */
 [data-project-gallery-card]:not(.projects-editorial-card):has(> a:focus-visible),
 [data-portfolio-project]:has(> a:focus-visible) {
   outline: 2px solid hsl(var(--accent));
   outline-offset: 4px;
 }
-:is([data-post-gallery-card], [data-project-gallery-card]:not(.projects-editorial-card), [data-portfolio-project]) > a:focus-visible {
+:is([data-project-gallery-card]:not(.projects-editorial-card), [data-portfolio-project]) > a:focus-visible {
   outline: none;
-}
-[data-post-gallery-card] h3 { line-height: 1.4; }
-
-/* Keep the reading column usable when text grows inside an otherwise narrow card. */
-@container post-card (width < 20rem) {
-  [data-post-gallery-copy] { padding-inline: 0.75rem; }
-  [data-post-gallery-footer] { flex-direction: column; align-items: stretch; gap: 0.75rem; }
-  [data-post-gallery-footer] > .ui-icon { align-self: end; }
-  [data-post-gallery-footer] [data-site-pill] { padding-inline: 0.5rem; }
 }
 
 [data-project-case-study] { container: project-case-study / inline-size; }

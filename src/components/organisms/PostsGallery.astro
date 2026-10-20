@@ -2,8 +2,6 @@
 import { Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
-import Pill from '@/components/atoms/Pill.astro'
-
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
@@ -56,7 +54,7 @@ const galleryItems = posts.map(createGalleryItem)
     <div
       class:list={[
         `
-          grid grid-cols-1 gap-6
+          grid grid-cols-1 gap-x-6 gap-y-12
           sm:card-grid-2
         `,
         columns === 3 && 'lg:card-grid-3'
@@ -64,24 +62,13 @@ const galleryItems = posts.map(createGalleryItem)
       data-post-gallery-grid
     >
       {galleryItems.map((item, index) => (
-        <Card
-          as="article"
-          class="
-            group flex h-full flex-col overflow-hidden rounded-3xl!
-            border-line/55 bg-surface p-0!
-          "
-          data-post-gallery-card
-          variant="unstyled"
-        >
-          <Link
-            className="
-              flex h-full flex-col font-normal text-inherit no-underline
-            "
-            href={item.href}
-            variant="inherit"
-          >
+        <Card as="article" data-post-gallery-card variant="unstyled">
+          <Link href={item.href} variant="inherit">
             <div
-              class="relative aspect-video overflow-hidden bg-surface-muted"
+              class="
+                relative aspect-video overflow-hidden rounded-2xl
+                bg-surface-muted
+              "
               transition:name={`post-cover-${item.slug}`}
             >
               {item.data.coverImage ?
@@ -89,12 +76,7 @@ const galleryItems = posts.map(createGalleryItem)
                   <Picture
                     alt=""
                     aria-hidden="true"
-                    class="
-                      absolute inset-0 size-full object-cover
-                      transition-transform duration-500
-                      motion-safe:group-hover:scale-105
-                      motion-reduce:transition-none
-                    "
+                    class="absolute inset-0 size-full object-cover"
                     formats={['avif', 'webp']}
                     height={item.coverHeight}
                     loading="lazy"
@@ -107,96 +89,35 @@ const galleryItems = posts.map(createGalleryItem)
                 (
                   <div aria-hidden="true" class="absolute inset-0 grid-fade" />
                 )}
-
-              <div
-                aria-hidden="true"
-                class="
-                  absolute inset-0 bg-linear-to-t from-canvas/28 via-transparent
-                  to-transparent opacity-70 transition-opacity duration-300
-                  group-hover:opacity-100
-                  motion-reduce:transition-none
-                "
-              />
-              <div class="
-                absolute inset-x-3 top-3 flex items-start justify-between gap-2
-              "
-              >
-                <Pill
-                  className="border-line/80! bg-surface! font-medium! text-ink!"
-                  label={item.data.postType}
-                  tone="neutral"
-                />
-                {item.data.draft && (
-                  <Pill
-                    className="
-                      border-warning/70! bg-surface! font-medium! text-warning!
-                    "
-                    label="Draft"
-                    tone="neutral"
-                  />
-                )}
-              </div>
             </div>
 
-            <div
-              data-post-gallery-copy
-              class="
-                flex grow flex-col p-5
-                sm:p-6
-              "
-            >
-              <div class="
-                flex flex-wrap items-center gap-2 text-xs text-ink-muted
-              "
-              >
-                {showSequence && (
-                  <>
-                    <span class="font-semibold text-brand">
-                      Part {item.data.seriesOrder ?? index + 1}
-                    </span>
-                    <span aria-hidden="true">·</span>
-                  </>
-                )}
+            <div data-post-gallery-copy>
+              <div data-post-gallery-meta>
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span>{item.data.postType}</span>
+                  {showSequence && <span>Part {item.data.seriesOrder ?? index + 1}</span>}
+                  {item.data.draft && <span class="font-semibold">Draft</span>}
+                </div>
                 <time datetime={item.data.publishDate.toISOString()}>
                   {item.formattedDate}
                 </time>
-                <span aria-hidden="true">·</span>
-                <span class="inline-flex items-center gap-1">
-                  <Icon class="size-3.5" name="clock-3" />
-                  {item.readingTime} min read
-                </span>
               </div>
 
-              <h3 class="
-                mt-3 text-xl/7 font-medium tracking-tight text-ink
-                transition-colors duration-200
-                group-hover:text-brand
-                motion-reduce:transition-none
-              "
-              >
-                {item.data.title}
-              </h3>
+              <h3>{item.data.title}</h3>
+              <p>{item.data.cardDescription ?? item.data.description}</p>
 
-              <p class="mt-3 line-clamp-3 text-sm/6 text-ink-soft">
-                {item.data.description}
-              </p>
+              {!!item.data.tags.length && (
+                <ul aria-label="Topics">
+                  {item.data.tags.slice(0, 2).map(tag => <li>{tag}</li>)}
+                </ul>
+              )}
 
-              <div class="mt-auto flex items-end justify-between gap-4 pt-6" data-post-gallery-footer>
-                <div class="flex min-w-0 flex-wrap gap-1.5">
-                  {item.data.tags.slice(0, 2).map(tag => (
-                    <Pill label={tag} showHash tone="outline" />
-                  ))}
-                </div>
-                <Icon
-                  class="
-                    size-5 shrink-0 text-ink-muted transition-[color,transform]
-                    duration-200
-                    group-hover:text-brand
-                    motion-safe:group-hover:translate-x-1
-                    motion-reduce:transition-none
-                  "
-                  name="arrow-right"
-                />
+              <div data-post-gallery-footer>
+                <span class="inline-flex items-center gap-2">
+                  Read article
+                  <Icon class="size-4 shrink-0" name="arrow-right" />
+                </span>
+                <span class="text-xs font-normal text-ink-soft">{item.readingTime} min read</span>
               </div>
             </div>
           </Link>

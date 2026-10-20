@@ -93,6 +93,21 @@ text-driven column reflow, and reduced-motion support. Hover changes text color 
 moving the card or cropping the artwork. The default technology-archive gallery retains
 its existing presentation.
 
+### Editorial blog cards
+
+All `PostsGallery` consumers use open cards with 16:9 artwork and 1rem image corners.
+Place the post type and date beneath the image, followed by the complete 1.5rem title
+at weight 500 and 1.35 leading. Descriptions use 0.875rem text with 1.75 leading;
+metadata and the first two plain topic labels use 0.75rem. Keep a 1.25rem image-to-copy
+gap, then one “Read article” footer with an arrow, reading time, and a fine bottom rule.
+Align neighboring footers without clamping titles or descriptions.
+
+Post frontmatter may provide `cardDescription`, a nonempty summary of at most 160
+characters, with `description` as the fallback. The full description remains authoritative
+for the article, search, feeds, and metadata. Preserve series sequence and draft labels.
+The complete card is one naturally named link with a visible outline; hover changes
+only the title color. Artwork stays still, and metadata and footers wrap for enlarged text.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.
@@ -117,9 +132,8 @@ Keep native anchors for links wrapping a complete project or article.
 - Series card and navigator title links use one block with a continuous focus outline when the title wraps.
 - Passive principle, testimonial, topic, and format cards keep their colors, tracking, and
   decoration still on hover; reserve interaction feedback for actual controls.
-- Narrow article cards reduce horizontal padding and put the decorative arrow below their
-  topic labels. Numbered case-study summaries put the number above the copy when enlarged
-  text leaves less than 16rem of space. Keep the text size and complete labels.
+- Numbered case-study summaries put the number above the copy when enlarged text leaves
+  less than 16rem of space. Keep the text size and complete labels.
 - Project sidebar disclosures use Lumen's native details/summary behavior and a visible accent
   focus outline. In narrow rails, the chevron follows the label so it does not consume a
   separate text column. Keep the shared stat typography consistent for numbers and words.
