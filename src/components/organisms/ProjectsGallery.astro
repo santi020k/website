@@ -42,7 +42,7 @@ const projectItems = projects.map((project, index) => ({
 {variant === 'editorial' && (
   <div class="projects-editorial-grid">
     {projectItems.map((project, index) => (
-      <Card as="article" class="group projects-editorial-card" variant="unstyled" data-project-gallery-card style={getProjectBrandStyle(project.brand)}>
+      <Card as="article" class="projects-editorial-card" variant="unstyled" data-project-gallery-card style={getProjectBrandStyle(project.brand)}>
         <Link className="projects-editorial-link" href={project.href} variant="inherit">
           <div class="projects-editorial-image">
             {project.editorialImage ?
