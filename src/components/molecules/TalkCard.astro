@@ -1,126 +1,42 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Pill from '@/components/atoms/Pill.astro'
-
 import { Card } from '@santi020k/lumen-astro'
 
-interface SessionVariant {
-  audience: string | undefined
-  description: string
-  event: string
-  links: {
-    slides?: string | undefined
-    video?: string | undefined
-  }
-  tags: string[]
-  title: string
-  variant: 'session'
-  year: number | string
-}
-
-interface TopicVariant {
+interface Props {
   description: string
   index?: number
   title: string
-  variant: 'topic'
+  variant: 'topic' | 'format'
 }
 
-interface FormatVariant {
-  description: string
-  index?: number
-  title: string
-  variant: 'format'
-}
-
-type TalkCardProps = SessionVariant | TopicVariant | FormatVariant
-
-const props = Astro.props as TalkCardProps
+const { description, index, title, variant } = Astro.props
 ---
 
-{
-  props.variant === 'session' && (
-    <Card
-      as="article"
-      class="
-        flex h-full flex-col space-y-4 rounded-[1.75rem] p-6
-        sm:p-7
-      "
-      glass="strong"
-      variant="interactive"
-    >
-      <div>
-        <p class="section-label">{props.event} · {props.year}</p>
-        {props.audience && <p class="mt-1 text-xs text-ink-muted">{props.audience}</p>}
-      </div>
-      <h3 class="text-xl font-semibold text-ink">{props.title}</h3>
-      <p class="grow text-sm/7 text-ink-soft">{props.description}</p>
-      <div class="flex flex-wrap gap-2">
-        {props.tags.map(tag => (
-          <Pill label={tag} tone="outline" />
-        ))}
-      </div>
-      {(props.links.slides ?? props.links.video) && (
-        <div class="section-actions">
-          {props.links.slides && (
-            <ButtonLink href={props.links.slides} newTab showArrow variant="secondary">
-              Slides
-            </ButtonLink>
-          )}
-          {props.links.video && (
-            <ButtonLink href={props.links.video} newTab showArrow variant="secondary">
-              Watch talk
-            </ButtonLink>
-          )}
-        </div>
-      )}
-    </Card>
-  )
-}
-
-{
-  props.variant === 'topic' && (
-    <Card
-      as="article"
-      class="
-        h-full space-y-4 rounded-[1.75rem] p-6
-        sm:p-7
-      "
-      glass="strong"
-      variant="interactive"
-    >
-      {props.index !== undefined && (
-        <p aria-hidden="true" class="text-sm font-semibold text-brand">
-          {String(props.index + 1).padStart(2, '0')}
-        </p>
-      )}
-      <h3 class="
-        text-xl font-semibold text-ink
-        sm:text-2xl
-      "
-      >{props.title}</h3>
-      <p class="text-sm/7 text-ink-soft">{props.description}</p>
-    </Card>
-  )
-}
-
-{
-  props.variant === 'format' && (
-    <Card
-      as="article"
-      class="
-        h-full space-y-4 rounded-[1.75rem] p-6
-        sm:p-7
-      "
-      glass="strong"
-      variant="interactive"
-    >
-      {props.index !== undefined && (
-        <p aria-hidden="true" class="text-sm font-semibold text-brand">
-          {String(props.index + 1).padStart(2, '0')}
-        </p>
-      )}
-      <h3 class="section-label text-ink">{props.title}</h3>
-      <p class="text-base/7 text-ink-soft">{props.description}</p>
-    </Card>
-  )
-}
+<Card
+  as="article"
+  class="
+    h-full space-y-4 p-6
+    sm:p-7
+  "
+  data-talk-card={variant}
+>
+  {index !== undefined && (
+    <p aria-hidden="true" class="text-sm font-semibold text-brand">
+      {String(index + 1).padStart(2, '0')}
+    </p>
+  )}
+  <h3 class:list={[
+    'text-ink',
+    variant === 'topic' && `
+      text-xl font-semibold
+      sm:text-2xl
+    `,
+    variant === 'format' && 'section-label'
+  ]}
+  >{title}</h3>
+  <p class:list={[
+    'text-ink-soft',
+    variant === 'topic' && 'text-sm/7',
+    variant === 'format' && 'text-base/7'
+  ]}
+  >{description}</p>
+</Card>

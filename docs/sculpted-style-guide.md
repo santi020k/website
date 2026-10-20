@@ -88,6 +88,9 @@ Keep native anchors for links wrapping a complete project or article.
   card using `:has(> a:focus-visible)`. Remove the clipped link's duplicate ring, retain
   individual outlines for title and action links, and avoid pointer-only `:focus-within` rings.
 - Keep hover changes subtle: color, border, or a small image scale. Do not move whole cards.
+- Series title links use one block with a continuous focus outline when the title wraps.
+- Passive principle, testimonial, topic, and format cards keep their colors, tracking, and
+  decoration still on hover; reserve interaction feedback for actual controls.
 - External links opening a new tab include `noopener noreferrer`; retain `rel="me"` where used.
 
 ## Shared navbar
@@ -221,6 +224,10 @@ rather than an implicit `auto` track, so one long word or control cannot widen t
 
 - `PageSection` is a `page-section` container. Its editorial header column appears from 1024px
   only while the section has 50rem; `layout="stacked"` always stacks it.
+- Below 20rem of section width, principle, topic, format, series, and newsletter cards
+  reduce their insets to preserve reading space at enlarged text sizes. The newsletter
+  header wraps, and its email field and labeled submit action stack below 16rem of content
+  width; keep the native POST and email validation.
 - The `card-grid-2`, `card-grid-3`, and `card-grid-4` utilities keep a grid's breakpoint column
   count while each card has `--card-grid-min` (16rem by default), then drop a column. They back
   `StatsGrid`, `PostsGallery`, the regular `ProjectsGallery`, series cards, and the Speaking and
@@ -286,7 +293,10 @@ solid Lumen surfaces with no hover lift. Statistics form quiet strips rather tha
 cards. Search, topic sorting, counts, disclosures, and pagination retain their existing
 Lumen and consumer behavior. Topic filtering restores its position after
 the destination page has loaded. Long article grids render visibly without a group reveal
-threshold, and all article titles wrap in full at every viewport width. The shared `Button`, `ButtonLink`, `Eyebrow`, and `SectionHeader` defaults also follow this
+threshold. Remaining Lumen `RevealGroup` consumers use `threshold={0}`: a tall group must
+reveal as soon as it intersects, even when less than 15% can fit in the viewport. Verify
+painted opacity with motion enabled as well as reduced motion, including keyboard jumps to
+the last item. All article titles wrap in full at every viewport width. The shared `Button`, `ButtonLink`, `Eyebrow`, and `SectionHeader` defaults also follow this
 direction outside the page scope. Actions use a dark primary with a light arrow tile where
 present, rounded secondary controls, and plain text links. All controls retain a visible
 focus ring and at least a 44px target. Short motion respects reduced-motion preferences.

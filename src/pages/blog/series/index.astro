@@ -74,6 +74,7 @@ mainClass="remaining-pages"
         lg:card-grid-2
       "
       stagger={70}
+      threshold={0}
     >
       {activeSeries.map(item => (
         <SeriesCard postCount={item.postCount} series={item.series} />

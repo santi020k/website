@@ -18,7 +18,7 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
 <Card
   as="article"
   class="
-    group flex h-full flex-col rounded-[1.75rem] p-6
+    flex h-full flex-col rounded-[1.75rem] p-6
     sm:p-7
   "
   data-testimonial
@@ -28,10 +28,7 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
   {/* Decorative quote mark */}
   <div
     aria-hidden="true"
-    class="
-      mb-4 text-brand/15 transition-colors duration-300
-      group-hover:text-brand/30
-    "
+    class="mb-4 text-brand/15"
     data-testimonial-quote
   >
     <Icon class="size-8" name="quote" size="xl" />
@@ -53,8 +50,6 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
         <Avatar
           class="
             size-12 shrink-0 rounded-full object-cover ring-2 ring-brand/15
-            transition-all duration-300
-            motion-safe:group-hover:ring-brand/35
           "
         >
           <Image
@@ -72,9 +67,7 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
         <Avatar
           class="
             size-12 shrink-0 bg-linear-to-br from-brand/15 to-accent/10 text-sm
-            font-semibold text-brand ring-2 ring-brand/15 transition-all
-            duration-300
-            motion-safe:group-hover:ring-brand/35
+            font-semibold text-brand ring-2 ring-brand/15
           "
           fallback={avatarInitials}
         />
@@ -85,17 +78,3 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
     </div>
   </div>
 </Card>
-
-<style>
-  @media (prefers-reduced-motion: no-preference) {
-    [data-testimonial-quote] {
-      transition:
-        color 0.3s ease,
-        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    [data-testimonial]:hover [data-testimonial-quote] {
-      transform: scale(1.12) rotate(-4deg);
-    }
-  }
-</style>

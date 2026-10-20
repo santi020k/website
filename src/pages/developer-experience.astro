@@ -200,11 +200,12 @@ mainClass="remaining-pages"
     />
 
     <RevealGroup
-class="
-  grid grid-cols-1 gap-5
-  sm:card-grid-2
-"
-stagger={60}
+      class="
+        grid grid-cols-1 gap-5
+        sm:card-grid-2
+      "
+      stagger={60}
+      threshold={0}
     >
       {principles.map((principle, index) => (
         <PrincipleCard body={principle.body} index={index} title={principle.title} />
@@ -247,11 +248,12 @@ stagger={60}
     />
 
     <RevealGroup
-class="
-  grid grid-cols-1 gap-5 [--card-grid-min:12rem]
-  lg:card-grid-3
-"
-stagger={60}
+      class="
+        grid grid-cols-1 gap-5 [--card-grid-min:12rem]
+        lg:card-grid-3
+      "
+      stagger={60}
+      threshold={0}
     >
       <Card
 as="article"

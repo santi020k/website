@@ -229,6 +229,7 @@ mainClass="remaining-pages"
         sm:card-grid-2
       "
       stagger={70}
+      threshold={0}
     >
       {speakingTopics.map((topic, index) => (
         <TalkCard
@@ -253,6 +254,7 @@ mainClass="remaining-pages"
         sm:card-grid-2
       "
       stagger={70}
+      threshold={0}
     >
       {speakingFormats.map((format, index) => (
         <TalkCard
@@ -285,6 +287,7 @@ mainClass="remaining-pages"
         class="grid grid-cols-1 gap-6"
         data-speaking-booking-notes
         stagger={60}
+        threshold={0}
       >
         {bookingNotes.map(note => (
           <div data-speaking-booking-note>

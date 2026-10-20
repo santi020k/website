@@ -168,6 +168,7 @@ mainClass="remaining-pages remaining-pages--reading"
           relatedProjects.length > 1 && 'lg:grid-cols-2'
         ]}
         stagger={70}
+        threshold={0}
       >
         {relatedProjects.map(relatedProject => (
           <PortfolioProjectSpotlight project={relatedProject} />

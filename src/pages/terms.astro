@@ -71,7 +71,11 @@ const sections = [
       title="Terms & Conditions"
     />
 
-    <RevealGroup class="section-container-wide editorial-policy-list" stagger={60}>
+    <RevealGroup
+      class="section-container-wide editorial-policy-list"
+      stagger={60}
+      threshold={0}
+    >
       {sections.map(({ label, body }, index) => (
         <Card as="section" class="editorial-policy-row" variant="unstyled">
         <span class="editorial-policy-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
