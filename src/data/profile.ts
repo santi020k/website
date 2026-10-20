@@ -12,14 +12,9 @@ export interface ProfileHighlight {
   value: string
 }
 
-export interface SpeakingTopic {
+export interface SpeakingCardContent {
   description: string
   subtitle: string
-  title: string
-}
-
-export interface SpeakingFormat {
-  description: string
   title: string
 }
 
@@ -169,7 +164,7 @@ export const speakingHighlights: ProfileHighlight[] = [
   }
 ]
 
-export const speakingTopics: SpeakingTopic[] = [
+export const speakingTopics: SpeakingCardContent[] = [
   {
     description: 'How standards, automation, and delivery systems reduce pressure and help teams make better decisions sooner.',
     subtitle: 'for teams that still ship',
@@ -202,22 +197,26 @@ export const speakingTopics: SpeakingTopic[] = [
   }
 ]
 
-export const speakingFormats: SpeakingFormat[] = [
+export const speakingFormats: SpeakingCardContent[] = [
   {
     description: 'Practical sessions for local communities and engineering groups that want useful takeaways, not slideware.',
-    title: 'Meetups and community talks'
+    subtitle: 'and community talks',
+    title: 'Meetups'
   },
   {
     description: 'Hands-on sessions around React, TypeScript, testing, tooling, and workflow design for teams that want to level up together.',
-    title: 'Workshops and live build sessions'
+    subtitle: 'and live build sessions',
+    title: 'Workshops'
   },
   {
     description: 'Architecture, DX, and delivery talks tailored for product teams, onboarding programs, or internal engineering initiatives.',
-    title: 'Internal engineering enablement'
+    subtitle: 'enablement',
+    title: 'Internal engineering'
   },
   {
     description: 'Good fit for panels, AMAs, and conversations about technical leadership, full-stack execution, and developer culture.',
-    title: 'Panels, Q&A, and leadership conversations'
+    subtitle: 'and leadership conversations',
+    title: 'Panels, Q&A,'
   }
 ]
 

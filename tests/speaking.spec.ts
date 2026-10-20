@@ -86,6 +86,24 @@ test.describe('Speaking page', () => {
     for (const title of titles) expect(schema.join('\n')).toContain(JSON.stringify(title))
   })
 
+  test('should preserve complete format headings and structured data', async ({ page }) => {
+    const cards = page.locator('[data-talk-card="format"]')
+    const titles = [
+      'Meetups and community talks',
+      'Workshops and live build sessions',
+      'Internal engineering enablement',
+      'Panels, Q&A, and leadership conversations'
+    ]
+
+    await expect(cards).toHaveCount(titles.length)
+    for (const title of titles) {
+      await expect(cards.getByRole('heading', { level: 3, name: title, exact: true })).toBeVisible()
+    }
+    const schema = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+    for (const title of titles) expect(schema.join('\n')).toContain(JSON.stringify(title))
+  })
+
   test('should pass accessibility audit', async ({ page }) => {
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)
