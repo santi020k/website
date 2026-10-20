@@ -91,6 +91,12 @@ Keep native anchors for links wrapping a complete project or article.
 - Series title links use one block with a continuous focus outline when the title wraps.
 - Passive principle, testimonial, topic, and format cards keep their colors, tracking, and
   decoration still on hover; reserve interaction feedback for actual controls.
+- Narrow article cards reduce horizontal padding and put the decorative arrow below their
+  topic labels. Numbered case-study summaries put the number above the copy when enlarged
+  text leaves less than 16rem of space. Keep the text size and complete labels.
+- Project sidebar disclosures use Lumen's native details/summary behavior and a visible accent
+  focus outline. In narrow rails, the chevron follows the label so it does not consume a
+  separate text column. Keep the shared stat typography consistent for numbers and words.
 - External links opening a new tab include `noopener noreferrer`; retain `rel="me"` where used.
 
 ## Shared navbar

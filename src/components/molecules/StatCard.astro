@@ -1,18 +1,14 @@
 ---
 import { AnimatedNumber, Stat } from '@santi020k/lumen-astro'
 
-type StatVariant = 'accent' | 'default' | 'glass'
-
 interface Props {
   description?: string
   label: string
-  prefix?: string
   suffix?: string
   value: number | string
-  variant?: StatVariant
 }
 
-const { description, label, prefix = '', suffix = '', value, variant = 'accent' } = Astro.props
+const { description, label, suffix = '', value } = Astro.props
 ---
 
 <Stat
@@ -20,16 +16,15 @@ const { description, label, prefix = '', suffix = '', value, variant = 'accent' 
   class="h-full"
   label={label}
   {...(typeof value === 'string' ? { value } : {})}
-  variant={variant}
+  variant="accent"
 >
   {typeof value === 'number' && (
     <AnimatedNumber
-      class:list={[
-        'block text-[2rem]/[1.1] font-bold tracking-tight',
-        variant === 'accent' ? 'text-brand' : 'text-ink'
-      ]}
+      class="
+        editorial-page-emphasis text-[2rem]/[1.1] font-medium
+        tracking-[-0.055em]
+      "
       locale="en-US"
-      prefix={prefix}
       suffix={suffix}
       value={value}
     />

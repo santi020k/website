@@ -123,9 +123,6 @@ body:has([data-work-page]) > div > .grid-fade {
 [data-career-appearance="editorial"] .ui-timeline-item__tail {
   display: none;
 }
-[data-career-appearance="editorial"] .ui-timeline-item__dot {
-  top: 2rem;
-}
 [data-career-appearance="editorial"] .ui-timeline-item__dot > span {
   width: 2rem;
   height: 2rem;
@@ -185,9 +182,6 @@ body:has([data-work-page]) > div > .grid-fade {
   [data-career-appearance="editorial"] [data-career-link] {
     padding-right: 0.75rem;
     padding-left: 3.5rem;
-  }
-  [data-career-appearance="editorial"] .ui-timeline-item__dot {
-    left: 0.5rem;
   }
 }
 

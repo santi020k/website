@@ -14,7 +14,8 @@ const { icon, id, title } = Astro.props
   as="section"
   aria-labelledby={id}
   class="rounded-2xl p-5"
-  glass="subtle"
+  data-project-sidebar-card
+  variant="default"
 >
   <p class="flex items-center gap-2 section-label" id={id}>
     <Icon class="size-4 text-brand" name={icon} />

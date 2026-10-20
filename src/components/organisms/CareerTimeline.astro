@@ -287,6 +287,18 @@ type CareerItem = (typeof careerItems)[number]
     }
   }
 
+  /* Keep editorial positioning with the scoped marker rules so legacy defaults
+     cannot override the Work page's spacing. */
+  [data-career-appearance='editorial'] [data-career-timeline] :global(.ui-timeline-item__dot) {
+    top: 2rem;
+  }
+
+  @media (width < 40rem) {
+    [data-career-appearance='editorial'] [data-career-timeline] :global(.ui-timeline-item__dot) {
+      left: 0.5rem;
+    }
+  }
+
   /* When enlarged text leaves the timeline under 16rem, the role marker sits above
      its row instead of reserving a left gutter, so company names keep the width. */
   @container career-timeline (width < 16rem) {
@@ -298,7 +310,8 @@ type CareerItem = (typeof careerItems)[number]
       padding: 4.25rem 0.5rem 1.5rem;
     }
 
-    [data-career-timeline] :global(.ui-timeline-item__dot) {
+    [data-career-timeline] :global(.ui-timeline-item__dot),
+    [data-career-appearance='editorial'] [data-career-timeline] :global(.ui-timeline-item__dot) {
       top: 1.5rem;
       left: 1rem;
     }

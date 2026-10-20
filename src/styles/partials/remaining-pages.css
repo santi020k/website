@@ -244,6 +244,7 @@
 
 /* Shared article cards stay readable without a scroll-reveal dependency. */
 [data-post-gallery-card] {
+  container: post-card / inline-size;
   border: 1px solid hsl(var(--line) / 0.65);
   border-radius: 1.5rem;
   background: hsl(var(--surface));
@@ -266,6 +267,42 @@
   outline: none;
 }
 [data-post-gallery-card] h3 { line-height: 1.4; }
+
+/* Keep the reading column usable when text grows inside an otherwise narrow card. */
+@container post-card (width < 20rem) {
+  [data-post-gallery-copy] { padding-inline: 0.75rem; }
+  [data-post-gallery-footer] { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+  [data-post-gallery-footer] > .ui-icon { align-self: end; }
+  [data-post-gallery-footer] [data-site-pill] { padding-inline: 0.5rem; }
+}
+
+[data-project-case-study] { container: project-case-study / inline-size; }
+@container project-case-study (width < 20rem) {
+  [data-project-case-row] { padding-inline: 0.75rem; }
+}
+@container project-case-study (width < 16rem) {
+  [data-project-case-row] { flex-direction: column; gap: 0.75rem; }
+}
+
+[data-project-sidebar] { container: project-sidebar / inline-size; }
+[data-project-sidebar-card] [data-site-pill] { font-weight: 500; }
+[data-project-stack-disclosure] { --ui-disclosure-inset: 0rem; overflow: visible; }
+[data-project-stack-disclosure] > summary:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 4px;
+}
+@container project-sidebar (width < 16rem) {
+  [data-project-sidebar-card] { padding-inline: 0.5rem; }
+  [data-project-sidebar-card] [data-site-pill] { padding-inline: 0.25rem; }
+  /* Let Lumen's chevron follow the label instead of reserving a second column. */
+  [data-project-stack-disclosure] > summary { padding-inline-end: 0; }
+  [data-project-stack-disclosure] > summary::before { display: none; }
+  [data-project-stack-disclosure] > summary::after {
+    position: static;
+    display: inline-block;
+    margin-inline-start: 0.75rem;
+  }
+}
 /* The cover caption repeats the article title and is decorative. It only appears
    once the cover is wide enough, in root-relative units, to hold it with enlarged text. */
 [data-post-cover] { container-type: inline-size; }
