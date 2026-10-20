@@ -25,7 +25,7 @@
 .history-hero-chapters > a { display: flex; min-height: 44px; align-items: center; gap: .875rem; color: hsl(var(--ink)); text-decoration: none; border-radius: .25rem; }
 @utility history-hero-chapter-number { font-size: 1.75rem; font-weight: 500; letter-spacing: -.075em; color: hsl(var(--ink-soft)); }
 .history-hero-chapters > a > span:nth-child(2) { font-size: .6875rem; }
-@utility history-hero-chapter-state { display: block; margin-top: .25rem; font-size: .5625rem; color: hsl(var(--ink-soft)); }
+@utility history-hero-chapter-state { display: block; margin-top: .25rem; font-size: .625rem; color: hsl(var(--ink-soft)); }
 .history-hero-chapters > a > [data-history-chapter-icon] { width: 1rem; height: 1rem; margin-left: auto; }
 .history-hero-chapters > a:hover .history-hero-chapter-number { color: hsl(var(--brand)); }
 [data-theme='dark'] .history-hero-chapters > a:hover .history-hero-chapter-number { color: hsl(var(--accent)); }
@@ -65,7 +65,7 @@
 .history-desktop figcaption { padding: .6rem 1rem; color: hsl(var(--ink-soft)); font-size: .625rem; }
 @utility history-mobile { position: absolute; right: 0; bottom: 0; width: 170px; padding: .3rem; border: 1px solid hsl(var(--line)); border-radius: 1rem; background: hsl(var(--surface)); box-shadow: var(--shadow-nav-scrolled); overflow: hidden; }
 .history-mobile img { width: 100%; height: auto; border-radius: .75rem; }
-.history-mobile figcaption { padding: .5rem .2rem .2rem; text-align: center; color: hsl(var(--ink-soft)); font-size: .5625rem; }
+.history-mobile figcaption { padding: .5rem .2rem .2rem; text-align: center; color: hsl(var(--ink-soft)); font-size: .625rem; }
 @utility history-era-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.25rem; }
 .history-era-actions > span { color: hsl(var(--ink-soft)); font-size: .6875rem; }
 /* Long era labels wrap inside the action instead of widening the page with enlarged text. */

@@ -97,6 +97,14 @@ Keep native anchors for links wrapping a complete project or article.
 - Project sidebar disclosures use Lumen's native details/summary behavior and a visible accent
   focus outline. In narrow rails, the chevron follows the label so it does not consume a
   separate text column. Keep the shared stat typography consistent for numbers and words.
+- Topic cards reduce their column count with enlarged text and let the count badge wrap
+  below long names. Announce the readable post count once; the duplicate badge is decorative.
+  Supporting-page eyebrows stay neutral in both themes.
+- Technology summaries keep a solid surface and medium-weight labels. Their totals stack
+  when the container is narrow; keep every digit and the complete technology names available.
+- Organization logos fit the card's actual width. Carousel status and controls wrap before
+  they reach the viewport edge. Narrow speaking panels reduce their insets and omit decorative
+  action arrows when enlarged text needs that space for complete link labels.
 - External links opening a new tab include `noopener noreferrer`; retain `rel="me"` where used.
 
 ## Shared navbar

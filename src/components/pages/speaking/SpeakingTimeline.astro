@@ -234,16 +234,21 @@ const getDateLabel = (talk: Talk) => {
      above its row instead of reserving a left gutter, so the copy keeps the width. */
   @container speaking-timeline (width < 16rem) {
     [data-speaking-timeline] [data-speaking-row-body] {
-      padding: 4rem 1.25rem 1.5rem;
+      padding: 4rem 0.5rem 1.5rem;
     }
 
     [data-speaking-timeline] :global(.ui-timeline-item__dot) {
       top: 1.5rem;
-      left: 1.25rem;
+      left: 0.5rem;
     }
 
     [data-speaking-timeline] :global(.ui-timeline-item__tail) {
       display: none;
+    }
+
+    [data-speaking-timeline] :global([data-site-pill]) {
+      padding-inline: 0.25rem;
+      font-weight: 500;
     }
   }
 </style>

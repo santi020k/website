@@ -96,12 +96,12 @@ mainClass="remaining-pages"
       <MotionGroup
         class="
           grid gap-4
-          sm:grid-cols-2
-          lg:grid-cols-3
+          sm:card-grid-2
+          lg:card-grid-3
         "
         id="tags-list"
       >
-        {allTags.map(([tag, count], i) => {
+        {allTags.map(([tag, count]) => {
           const pct = allTags[0]?.[1] ? Math.round((count / allTags[0][1]) * 100) : 0
 
           return (
@@ -114,37 +114,26 @@ mainClass="remaining-pages"
                   focus-visible:outline-hidden
                 "
                 href={getTagPath(tag)}
-                style={`animation-delay: ${i * 30}ms`}
               >
                 <Card
-                  as="article"
                   class="
                     relative flex h-full flex-col gap-4 rounded-[1.35rem] p-6
                   "
-                  variant="interactive"
+                  data-topic-card
+                  variant="default"
                 >
-                  <div
-                    aria-hidden="true"
-                    class="
-                      pointer-events-none absolute inset-x-0 top-0 h-1
-                      bg-linear-to-r from-brand/55 via-accent/45 to-transparent
-                      opacity-70
-                    "
-                  />
-
-                  <div class="
-                    relative z-10 flex items-start justify-between gap-2
-                  "
-                  >
+                  <div class="flex flex-wrap items-start justify-between gap-2">
                     <span class="
-                      text-base font-semibold tracking-tight text-ink
-                      transition-colors duration-200
+                      max-w-full min-w-0 text-base font-medium tracking-tight
+                      text-ink transition-colors duration-200
                       group-hover:text-brand
+                      motion-reduce:transition-none
                     "
                     >
                       #{tag}
                     </span>
                     <span
+                      aria-hidden="true"
                       class="
                         shrink-0 rounded-full border border-brand/20
                         bg-brand-soft/60 px-2 py-0.5 text-xs font-semibold
@@ -155,7 +144,7 @@ mainClass="remaining-pages"
                     </span>
                   </div>
 
-                  <div class="relative z-10 mt-auto">
+                  <div class="mt-auto">
                     <div
                       class="h-1 w-full overflow-hidden rounded-full bg-line/35"
                     >

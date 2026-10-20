@@ -137,7 +137,7 @@ body:has([data-about-page]) > div > .grid-fade {
 
 .about-page [data-carousel-item] > a { min-height: 21rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: 1.25rem; background: hsl(var(--surface)); box-shadow: none; backdrop-filter: none; transform: none; }
 .about-page [data-carousel-item] > a::before, .about-page [data-carousel-item] > a::after { display: none; }
-.about-page [data-carousel-item] > a > span:first-child { height: 9rem; }
+.about-page [data-carousel-logo] { height: 9rem; }
 .about-page [data-carousel-controls] button { border-radius: 0.75rem; box-shadow: none; background: hsl(var(--surface)); transform: none; }
 
 @utility about-principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }

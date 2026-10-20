@@ -240,7 +240,7 @@
   border-color: hsl(var(--line) / 0.65);
 }
 
-[data-theme='dark'] .remaining-pages .text-brand { color: hsl(var(--accent)); }
+[data-theme='dark'] .remaining-pages .text-brand:not(.section-label) { color: hsl(var(--accent)); }
 
 /* Shared article cards stay readable without a scroll-reveal dependency. */
 [data-post-gallery-card] {
@@ -349,7 +349,8 @@
 [data-page-section-grid] { grid-template-columns: minmax(0, 1fr); }
 /* Preserve reading space when enlarged text makes the card insets too large. */
 @container page-section (width < 20rem) {
-  .remaining-pages :is([data-principle], [data-talk-card], [data-series-card], [data-newsletter]) { padding: 0.75rem; }
+  .remaining-pages :is([data-principle], [data-talk-card], [data-series-card], [data-newsletter], [data-speaking-community], [data-speaking-booking]) { padding: 0.75rem; }
+  .remaining-pages [data-topic-card] { padding: 0.5rem; }
 }
 
 [data-newsletter] { container: newsletter / inline-size; }
@@ -439,4 +440,14 @@
       border-left: 1px solid hsl(var(--line) / 0.5);
     }
   }
+}
+
+/* Keep complete action labels when text scaling leaves a narrow speaking panel. */
+@container speaking-community (width < 12rem) {
+  [data-speaking-community] .section-actions > a { padding-inline: 0.5rem; }
+  [data-speaking-community] .site-action-arrow { display: none; }
+}
+@container speaking-booking (width < 12rem) {
+  [data-speaking-booking] .section-actions > a { padding-inline: 0.25rem; }
+  [data-speaking-booking] .site-action-arrow { display: none; }
 }
