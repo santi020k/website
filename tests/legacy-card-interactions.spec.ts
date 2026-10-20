@@ -184,7 +184,8 @@ for (const width of [390, 1440]) {
             const children = group.locator(':scope > *')
 
             // Jump to the last item, as a keyboard or in-page navigation can do.
-            // Observing a percentage of the whole group cannot reveal a tall list.
+            // Keep the explicit zero thresholds: enlarged groups can be too tall to
+            // reach Lumen's default ratio. reveal-entry.spec.ts guards that boundary.
             await children.last().scrollIntoViewIfNeeded()
             for (const child of await children.all()) {
               await expect(child, `${route}: card must be painted, not just have a box`).toHaveCSS('opacity', '1')

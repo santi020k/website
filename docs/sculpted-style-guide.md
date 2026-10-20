@@ -347,7 +347,8 @@ solid Lumen surfaces with no hover lift. Statistics form quiet strips rather tha
 cards. Search, topic sorting, counts, disclosures, and pagination retain their existing
 Lumen and consumer behavior. Topic filtering restores its position after
 the destination page has loaded. Long article grids render visibly without a group reveal
-threshold. Remaining Lumen `RevealGroup` consumers use `threshold={0}`: a tall group must
+threshold. Remaining Lumen `RevealGroup` consumers keep the
+[explicit `threshold={0}` settings](lumen-integration.md#tall-reveal-groups): a tall group must
 reveal as soon as it intersects, even when less than 15% can fit in the viewport. Verify
 painted opacity with motion enabled as well as reduced motion, including keyboard jumps to
 the last item. All article titles wrap in full at every viewport width. The shared `Button`, `ButtonLink`, `Eyebrow`, and `SectionHeader` defaults also follow this

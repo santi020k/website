@@ -183,6 +183,26 @@ landing-line activation. If `lumen-astro` changes version first, regenerate the 
 patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
 text-size marker cases in `tests/responsive-reading.spec.ts`.
 
+## Tall reveal groups
+
+Keep the website's 13 `threshold={0}` settings. The installed `lumen-astro` 4.1.0 runtime observes
+the configured threshold alone (`0.15` by default). In native Chromium and WebKit checks, a group
+entering below that ratio did not reliably trigger another observer callback after its initial
+offscreen notification. At 390 × 844 with 200% root text, the selected-projects group on
+`/portfolio/` measured about 7,150px tall. Less than 15% could fit in the viewport, leaving the
+featured card and supporting grid transparent when the zero threshold was removed.
+
+The explicit zero thresholds reveal these groups on viewport entry without changing the shared
+timing for other Lumen consumers. Observing `[0, threshold]` globally also revealed short sections
+with custom thresholds on entry, so that runtime change was rejected. The installed patch remains
+limited to Anchor; there is no motion runtime patch.
+
+Before removing the overrides, verify a compatible upstream solution that preserves custom
+threshold timing. Run `tests/reveal-entry.spec.ts` with native browser observers: it checks a
+group too tall to reach the default ratio, actual painted opacity, keyboard navigation, and a
+desktop entrance below that ratio. The route traversal in `tests/legacy-card-interactions.spec.ts`
+covers the remaining consumers at mobile and desktop widths with 100% and 200% text.
+
 ## Motion and effects
 
 - Numeric homepage metrics and stack counts compose `AnimatedNumber`, with a stable screen-reader
