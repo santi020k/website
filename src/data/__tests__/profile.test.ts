@@ -105,9 +105,10 @@ describe('speakingFormats', () => {
     expect(speakingFormats.length).toBeGreaterThan(0)
   })
 
-  test('every format has title and description', () => {
+  test('every format has title, supporting phrase, and description', () => {
     for (const fmt of speakingFormats) {
       expect(fmt.title).toBeTruthy()
+      expect(fmt.subtitle).toBeTruthy()
       expect(fmt.description).toBeTruthy()
     }
   })

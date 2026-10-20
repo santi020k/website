@@ -104,7 +104,7 @@ const structuredData = [
     itemListElement: speakingFormats.map((format, index) => ({
       '@type': 'ListItem',
       description: format.description,
-      name: format.title,
+      name: `${format.title} ${format.subtitle}`,
       position: index + 1
     })),
     name: 'Speaking formats'
@@ -261,6 +261,7 @@ mainClass="remaining-pages"
         <TalkCard
           description={format.description}
           index={index}
+          subtitle={format.subtitle}
           title={format.title}
           variant="format"
         />
