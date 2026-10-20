@@ -37,6 +37,27 @@
     margin-block: 0;
   }
 
+  /*
+   * Ordinary headers wrap instead of using a fixed three-column grid, where the
+   * non-shrinking language badge overflowed under the copy control at narrow or
+   * enlarged sizes. Metadata stays centered between the dots and the control when
+   * everything fits. Package-manager panels keep their own grid in ui.css.
+   */
+  & [data-ui-code]:not([data-package-manager-code-tabs] *) > figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  & [data-ui-code]:not([data-package-manager-code-tabs] *) > figcaption > span:not([aria-hidden]) {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  & [data-ui-code]:not([data-package-manager-code-tabs] *) > figcaption > [data-ui-code-copy] {
+    margin-inline-start: auto;
+  }
+
   & [data-ui-code-copy] {
     min-inline-size: 44px;
     min-block-size: 44px;

@@ -83,6 +83,8 @@ for (const width of [390, 1440]) {
           const first = groups.first()
           const second = groups.nth(1)
 
+          await expect(first).toHaveAttribute('data-ui-bound', 'true')
+          await expect(second).toHaveAttribute('data-ui-bound', 'true')
           await expectChoicesVisible(first)
           await first.getByRole('tab', { name: 'npm', exact: true }).focus()
           await page.keyboard.press('End')
@@ -188,6 +190,33 @@ for (const width of [390, 1440]) {
               await expect(group).toHaveAttribute('data-ui-bound', 'true')
               await expectChoicesVisible(group)
             }
+            const headers = page.locator('[data-ui-code]:not([data-package-manager-code-tabs] *) > figcaption')
+
+            expect(await headers.count()).toBeGreaterThan(0)
+            // Dots, language, and filename must clear the copy control and stay in the figure.
+            const collisions = await headers.evaluateAll(elements => elements.flatMap(header => {
+              const copy = header.querySelector('[data-ui-code-copy]')
+              const figure = header.closest('[data-ui-code]')
+
+              if (!copy || !figure) throw new Error('Expected a code header copy control')
+              const control = copy.getBoundingClientRect()
+              const frame = figure.getBoundingClientRect()
+              const parts = [copy, ...header.querySelectorAll(':scope > [aria-hidden="true"], :scope > span:not([aria-hidden]) > *')]
+
+              return parts.flatMap(part => {
+                const box = part.getBoundingClientRect()
+
+                if (box.width === 0 || box.height === 0) return []
+                const inside = box.left >= frame.left - 0.5 && box.right <= frame.right + 0.5 &&
+                  box.top >= frame.top - 0.5 && box.bottom <= frame.bottom + 0.5
+                const overlaps = part !== copy && box.left < control.right && control.left < box.right &&
+                  box.top < control.bottom && control.top < box.bottom
+
+                return inside && !overlaps ? [] : [`${part.textContent.trim() || part.tagName}: inside=${inside} overlaps=${overlaps}`]
+              })
+            }))
+
+            expect(collisions).toEqual([])
             expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
             await expectNoUnexpectedAccessibilityViolations(page)
           }

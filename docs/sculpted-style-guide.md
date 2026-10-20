@@ -414,6 +414,11 @@ both downloadable PDF variants remain authoritative.
 - Their code panels place the copy header in its own grid column beside a `minmax(0, 1fr)`
   pre that scrolls horizontally, so the button never covers a long command. Rules target
   `[data-ui-code] > figcaption` and `> pre`; the copy button stays before the pre in the DOM.
+- Ordinary Markdown code headers (outside package-manager tabs) use a wrapping flex row instead
+  of Lumen's fixed three-column grid. When everything fits, metadata stays centered between the
+  dots and the copy control. At narrow widths or with enlarged text, the language badge and
+  optional filename wrap clear of the control instead of running beneath it. Rules target the
+  figcaption's `aria-hidden` dots, its metadata `span`, and `[data-ui-code-copy]`, not Lumen classes.
 - Each panel passes Lumen's public `codeLabel`, derived from the tab set's `ariaLabel`, so
   scrollable code regions are not all named "Code example". Direct MDX `Code` blocks also
   need a descriptive `codeLabel` for their purpose; repeated filenames are not unique labels.
