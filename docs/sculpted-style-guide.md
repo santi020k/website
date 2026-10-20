@@ -122,6 +122,15 @@ Hover changes only the title color. Preserve planned status, zero and singular a
 counts and theme contrast. When enlarged text narrows the section, tighten the insets
 and size the title to its reading column so ordinary words stay intact.
 
+### Compact topic cards
+
+Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.
+Place the name and a single readable post-count badge on the top row, followed
+by a 3px decorative meter. Use 1.25rem padding on phones and 1.375rem vertical
+with 1.5rem horizontal padding on larger screens. Remove the repeated count
+below the meter. Preserve the whole-card link, filtering, sorting, and focus outline.
+At enlarged text sizes, reduce the insets and let the badge wrap below long names.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.
@@ -152,7 +161,7 @@ Keep native anchors for links wrapping a complete project or article.
   focus outline. In narrow rails, the chevron follows the label so it does not consume a
   separate text column. Keep the shared stat typography consistent for numbers and words.
 - Topic cards reduce their column count with enlarged text and let the count badge wrap
-  below long names. Announce the readable post count once; the duplicate badge is decorative.
+  below long names. The badge supplies the post count once; the meter is decorative.
   Supporting-page eyebrows stay neutral in both themes.
 - Technology summaries keep a solid surface and medium-weight labels. Their totals stack
   when the container is narrow; keep every digit and the complete technology names available.
