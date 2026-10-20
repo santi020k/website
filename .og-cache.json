@@ -340,7 +340,7 @@
     "blog/open-sourcing-santi020k-auth-cloudflare.webp": {
       "baseDirectory": "public/og",
       "digest": "d3b8d05f1a08a8eb7ed7e120f34c8c60ef6ac7152970c25d8b654093608716ab",
-      "fingerprint": "cd8d5f09383c3028575feb80fd50e8c14b3c126993825dfea5a7e8dff921863b",
+      "fingerprint": "eab30674de5157eb862496cc7f03bf67c9cd4bde793f355a5e3b33b01c9d6b40",
       "output": "blog/open-sourcing-santi020k-auth-cloudflare.webp"
     },
     "blog/playwright-accessibility-checks-that-teams-keep-running.webp": {
@@ -412,7 +412,7 @@
     "pages/blog--4.webp": {
       "baseDirectory": "public/og",
       "digest": "b6c38cb5369f85b15d03972e4bd643f3f432e40f018172af1cf2f5dca61867cd",
-      "fingerprint": "9969c02487e8c93720117de7f5d3da730f3f8a40bf17505e7c26ef54a3992116",
+      "fingerprint": "575929c74bdcf892d2a13f9327aec0fab6c18fea7e9ce28bbcaa601ed6f56e02",
       "output": "pages/blog--4.webp"
     },
     "pages/blog--tags--development.webp": {
@@ -454,7 +454,7 @@
     "pages/blog--tags--authentication.webp": {
       "baseDirectory": "public/og",
       "digest": "63f44f90767db5c8f7da48358f0e45649f59a3c68140a5d46f5a0d9c4f1ac5be",
-      "fingerprint": "e06805626fca5cf6f1bd960a33d30c4a0f6d15fcb2e47a106262995821d74fe1",
+      "fingerprint": "89f33031bfcbdd62ea61c0fa28a90853370b9f07c58e3633995823e0baba7c1d",
       "output": "pages/blog--tags--authentication.webp"
     },
     "pages/blog--tags--authorization.webp": {
@@ -778,7 +778,7 @@
     "pages/blog--tags--open-source.webp": {
       "baseDirectory": "public/og",
       "digest": "b4af37a5417cca3981a02621a7fe2c205d6153532e71d14cdeebaf6ee69d47c8",
-      "fingerprint": "4af27219dd929d6fb768854b3c46d924aa931fd802aa20d037a0317ed5c52c4d",
+      "fingerprint": "6cf4890d5438183890b2697e47964661ad24dbb0cb135b9828552bb6f49792ba",
       "output": "pages/blog--tags--open-source.webp"
     },
     "pages/blog--tags--distributed-systems.webp": {
@@ -910,7 +910,7 @@
     "pages/blog--tags--security.webp": {
       "baseDirectory": "public/og",
       "digest": "b7a5e5add598a56796e7837a081fce3ec6926a82e5d44d4982117c0a8c1ea848",
-      "fingerprint": "3fc5e36387ab85436afafbc48f197692ba97ca88a8a82093ec6fe16cd37130f1",
+      "fingerprint": "cbbdca5c04097fdc443f8f8ecff75a8437ff87ea2013f55a00afbe4a2da6adf2",
       "output": "pages/blog--tags--security.webp"
     },
     "pages/blog--tags--open-graph.webp": {
@@ -988,13 +988,13 @@
     "pages/blog--tags--cloudflare-workers.webp": {
       "baseDirectory": "public/og",
       "digest": "4f856ecd472c4989644700d8c6544e54db4514dc2f17615e125c4636ff30ee75",
-      "fingerprint": "0546b7ef02d832cbec77ccc42b3ddce1b239b027aaff6ef60eb614eda53f7f3a",
+      "fingerprint": "05081f5e4e757a2b30c21953a9db3c4e9d06f29c7515d62a3b5bac64fbc728de",
       "output": "pages/blog--tags--cloudflare-workers.webp"
     },
     "pages/blog--tags--passkeys.webp": {
       "baseDirectory": "public/og",
       "digest": "379d0e4281c6e49777630377b86a185965b8c88cb4e207d6c7a2cba0837eebb3",
-      "fingerprint": "1d6f28bc50f4ce9dc0b94838b344c122c4a726579efd4d3b8a554a0905860523",
+      "fingerprint": "7a04d63fa9be338e4630991f8b9d80a0b9cfb608145d35edd90776c7d83c2757",
       "output": "pages/blog--tags--passkeys.webp"
     },
     "pages/blog--tags--playwright.webp": {
