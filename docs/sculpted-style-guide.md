@@ -146,6 +146,13 @@ Keep native anchors for links wrapping a complete project or article.
 - Series cards and navigator title links use one block with a continuous focus outline when the title wraps.
 - Passive principle, testimonial, topic, and format cards keep their colors, tracking, and
   decoration still on hover; reserve interaction feedback for actual controls.
+- Article and project hero covers are passive reading images. Keep their static shadow and
+  caption contrast gradient, with no hover glow, wash, zoom, or caption movement.
+- Series step rows give keyboard focus the same color, background, and arrow feedback as hover.
+- Choosing a blog topic keeps the filter's vertical position and focuses the selected topic
+  link. Its horizontal scroll is retained unless the chosen topic needs to be brought into view;
+  the strip's scroll padding leaves room for its focus outline. Only filter-originated
+  navigation does this; ordinary navigation still focuses `#main`.
 - Numbered case-study summaries put the number above the copy when enlarged text leaves
   less than 16rem of space. Keep the text size and complete labels.
 - Project sidebar disclosures use Lumen's native details/summary behavior and a visible accent

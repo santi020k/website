@@ -91,6 +91,7 @@ const seriesPath = getSeriesPath(series.id)
                     group grid grid-cols-[2.25rem_minmax(0,1fr)_1rem]
                     items-center gap-3 p-3 text-left transition-colors
                     hover:bg-brand-soft/18 hover:text-brand
+                    focus-visible:bg-brand-soft/18 focus-visible:text-brand
                     motion-reduce:transition-none
                     sm:px-4
                   `,
@@ -111,6 +112,8 @@ const seriesPath = getSeriesPath(series.id)
                       `
                         border-line/45 bg-surface/35 text-ink-muted
                         group-hover:border-brand/40 group-hover:text-brand
+                        group-focus-visible:border-brand/40
+                        group-focus-visible:text-brand
                       `
                   ]}
                 >
@@ -131,6 +134,7 @@ const seriesPath = getSeriesPath(series.id)
                         `
                           text-ink
                           group-hover:text-brand
+                          group-focus-visible:text-brand
                         `
                     ]}
                   >
@@ -143,8 +147,12 @@ const seriesPath = getSeriesPath(series.id)
                       size-4 text-ink-muted opacity-0 transition-all
                       group-hover:translate-x-0.5 group-hover:text-brand
                       group-hover:opacity-100
+                      group-focus-visible:translate-x-0.5
+                      group-focus-visible:text-brand
+                      group-focus-visible:opacity-100
                       motion-reduce:transition-none
                       motion-reduce:group-hover:translate-x-0
+                      motion-reduce:group-focus-visible:translate-x-0
                     `,
                     isCurrentPost && 'text-brand opacity-100'
                   ]}

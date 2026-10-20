@@ -37,46 +37,28 @@ const nativeTargetHeight = Math.round(nativeTargetWidth * image.height / image.w
 
 <div
   class:list={[
-    'group relative overflow-hidden rounded-3xl shadow-2xl shadow-ink/10',
-    'transition-all duration-500',
-    'hover:shadow-2xl hover:shadow-brand/20',
+    'relative overflow-hidden rounded-3xl shadow-2xl shadow-ink/10',
     className
   ]}
 >
-  {/* Bottom gradient overlay (optional) */}
+  {/* Bottom gradient overlay (optional) keeps caption text readable */}
   {showBottomGradient && (
     <div
       aria-hidden="true"
       class="
         pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 bg-linear-to-t
-        from-black/60 via-black/20 to-transparent transition-opacity
-        duration-500
-        group-hover:from-black/70
+        from-black/60 via-black/20 to-transparent
       "
     />
   )}
 
-  {/* Brand/accent gradient overlay */}
-  <div
-    aria-hidden="true"
-    class="
-      absolute inset-0 bg-linear-to-br from-brand/5 via-transparent to-accent/5
-      opacity-0 transition-opacity duration-500
-      group-hover:opacity-100
-    "
-  />
-
-  {/* Cover image with hover scale */}
+  {/* Passive reading cover: no hover feedback because it is not a control */}
   {preserveAspectRatio ?
     (
       <Picture
         alt={ariaHidden ? '' : alt}
         aria-hidden={ariaHidden ? 'true' : undefined}
-        class="
-          block h-auto w-full transition-transform duration-700
-          motion-safe:group-hover:scale-105
-          motion-reduce:transition-none
-        "
+        class="block h-auto w-full"
         fetchpriority={fetchpriority}
         formats={['avif', 'webp']}
         height={nativeTargetHeight}
@@ -91,11 +73,7 @@ const nativeTargetHeight = Math.round(nativeTargetWidth * image.height / image.w
       <CoverImage
         alt={alt}
         ariaHidden={ariaHidden}
-        className="
-          w-full transition-transform duration-700
-          motion-safe:group-hover:scale-105
-          motion-reduce:transition-none
-        "
+        className="w-full"
         fetchpriority={fetchpriority}
         image={image}
         loading={loading}
