@@ -233,7 +233,20 @@ export default defineConfig({
           rehypePrettyCode,
           {
             theme: {
-              light: santi020kLightShikiTheme,
+              light: {
+                ...santi020kLightShikiTheme,
+                tokenColors: [
+                  ...santi020kLightShikiTheme.tokenColors,
+                  // Keep comments readable on the website's light code surface.
+                  {
+                    scope: ['comment', 'punctuation.definition.comment'],
+                    settings: {
+                      foreground: santi020kLightShikiTheme.colors.descriptionForeground,
+                      fontStyle: 'italic'
+                    }
+                  }
+                ]
+              },
               dark: santi020kDarkShikiTheme
             },
 

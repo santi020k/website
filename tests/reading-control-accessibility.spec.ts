@@ -175,6 +175,23 @@ for (const width of [390, 1440]) {
           await expect(button).toBeFocused()
           await expect(button).not.toHaveClass(/copied/u)
         })
+
+        test('older syntax-highlighted guides retain readable code and package choices', async ({ page }) => {
+          for (const slug of [
+            'building-the-best-next-js-typescript-standard-vitest-eslint-configuration',
+            'testing-react-components-with-vitest-and-react-testing-library',
+            'storybook-in-action-with-next-js-tailwind-and-typescript'
+          ]) {
+            await page.goto(`/blog/${slug}/`)
+            await expect(page.locator('html')).toHaveCSS('font-size', `${textSize * 0.16}px`)
+            for (const group of await page.locator('[data-package-manager-code-tabs]').all()) {
+              await expect(group).toHaveAttribute('data-ui-bound', 'true')
+              await expectChoicesVisible(group)
+            }
+            expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+            await expectNoUnexpectedAccessibilityViolations(page)
+          }
+        })
       })
     }
   }

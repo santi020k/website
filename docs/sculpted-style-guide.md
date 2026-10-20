@@ -420,6 +420,8 @@ both downloadable PDF variants remain authoritative.
 - The `santi020k` code theme overrides only two public variables: the light
   `--ui-code-token-string` mixes 70% `success` with 30% `ink`, and the dark
   `--ui-code-token-keyword` reuses `--ui-code-inline-fg`, which also colors the language badge.
+- Shiki's light comments use the shared theme's `descriptionForeground` color, retaining
+  their italic style. The theme's original comment color is too faint on the reading canvas.
 - The share "Link copied!" state uses a solid `brand-soft` background, with `brand` text in the
   light theme and `ink` text with an `accent` border in the dark theme. Success, failure, reset,
   Web Share, and clipboard behavior are unchanged.
