@@ -1,6 +1,7 @@
 ---
 title: "santi020k auth"
 description: "Built an open-source authentication policy for single-owner and multi-user Hono applications on Cloudflare Workers and D1, with email codes, passkeys, isolated identity state, and explicit production-readiness gates."
+cardDescription: "Authentication foundations for Hono on Cloudflare. Combine email codes, passkeys, and isolated identity data with explicit readiness gates."
 brand:
   primary: "#4d9272"
   secondary: "#dc8b37"

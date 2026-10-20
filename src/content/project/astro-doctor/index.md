@@ -1,6 +1,7 @@
 ---
 title: "Astro Doctor"
 description: "Built a deterministic Astro health-check toolkit with a CLI, ESLint plugin, editor extension, GitHub Action, docs site, and installable agent skills."
+cardDescription: "A health check for Astro projects. Find actionable issues in the terminal, editor, and CI with consistent diagnostics."
 brand:
   primary: "#fc7719"
   secondary: "#ffbe78"

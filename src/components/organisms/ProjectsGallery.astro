@@ -31,9 +31,10 @@ const projectItems = projects.map((project, index) => ({
   thumbnailImage: getProjectCoverForUsage(project.data.coverImage, 'thumbnail'),
   dateRange: getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate),
   description: project.data.description,
+  cardDescription: project.data.cardDescription ?? project.data.description,
   href: getPortfolioPath(project.id),
   status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
-  technologies: sortTechnologiesByInterest(project.data.technologies).slice(0, 3),
+  technologies: (variant === 'editorial' ? project.data.technologies : sortTechnologiesByInterest(project.data.technologies)).slice(0, 3),
   title: project.data.title
 }))
 ---
@@ -42,7 +43,7 @@ const projectItems = projects.map((project, index) => ({
   <div class="projects-editorial-grid">
     {projectItems.map((project, index) => (
       <Card as="article" class="group projects-editorial-card" variant="unstyled" data-project-gallery-card style={getProjectBrandStyle(project.brand)}>
-        <Link className="projects-editorial-link" href={project.href}>
+        <Link className="projects-editorial-link" href={project.href} variant="inherit">
           <div class="projects-editorial-image">
             {project.editorialImage ?
 (
@@ -65,12 +66,17 @@ const projectItems = projects.map((project, index) => ({
               <span>{String(index + 1).padStart(2, '0')} / {project.dateRange}</span>
               <Pill label={project.status} tone="outline" />
             </div>
-            <h3><span>{project.title}</span><Icon data-project-title-arrow name="arrow-up-right" /></h3>
-            <p>{project.description}</p>
-            <ul aria-label="Technologies">
-              {project.technologies.map(technology => <li>{technology}</li>)}
-            </ul>
-            <span class="projects-editorial-action">View project <Icon name="arrow-right" /></span>
+            <h3>{project.title}</h3>
+            <p>{project.cardDescription}</p>
+            {project.technologies.length > 0 && (
+              <ul aria-label="Core technologies">
+                {project.technologies.map(technology => <li>{technology}</li>)}
+              </ul>
+            )}
+            <span class="projects-editorial-action">
+              View project
+              <Icon class="size-4.5 shrink-0" name="arrow-right" />
+            </span>
           </div>
         </Link>
       </Card>

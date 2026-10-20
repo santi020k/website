@@ -1,6 +1,7 @@
 ---
 title: "eslint-config-basic"
 description: "Built a DX-first ESLint toolkit for JavaScript and TypeScript teams that want stronger defaults, less setup friction, and cleaner reviews."
+cardDescription: "Shared ESLint defaults for JavaScript and TypeScript teams. Spend less time configuring rules and more time reviewing useful changes."
 brand:
   primary: "#621bbb"
   secondary: "#a878d8"

@@ -2,6 +2,7 @@
 title: "@santi020k/og"
 seoTitle: "@santi020k/og: Open Graph Image Generation"
 description: "Built a renderer-agnostic Open Graph image pipeline with deterministic caching, safe cleanup, parallel generation, and CI verification while leaving every project's visual system in its own hands."
+cardDescription: "Generate Open Graph images with your own visual system. Keep builds predictable with caching, parallel generation, and CI checks."
 brand:
   primary: "#65f7bc"
   secondary: "#14b8a6"

@@ -1,6 +1,7 @@
 ---
 title: "eslint-config-santi020k"
 description: "Turned internal linting conventions into a reusable package that standardized React and TypeScript projects and paved the way for @santi020k/eslint-config-basic."
+cardDescription: "Reusable linting conventions for React and TypeScript projects, and the foundation for eslint-config-basic."
 brand:
   primary: "#524086"
   secondary: "#c0a8f0"

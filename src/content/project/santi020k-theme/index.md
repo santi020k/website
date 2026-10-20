@@ -1,6 +1,7 @@
 ---
 title: "Santi020k Theme"
 description: "Built a theme family for VS Code, Zed, Codex, Chrome, terminals, Raycast, Slack, JetBrains, and Xcode, with shared tokens and a unified product website."
+cardDescription: "A consistent theme across editors, browsers, terminals, and native tools, built from shared design tokens."
 brand:
   primary: "#8747ff"
   secondary: "#c5a3ff"

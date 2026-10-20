@@ -1,6 +1,7 @@
 ---
 title: "Between Contractions"
 description: "Built a calm, privacy-first contraction timer for the web, iOS, Android, watches, widgets, and optional real-time partner coordination."
+cardDescription: "A calm, private contraction timer. Track each contraction, review your rhythm, and share the moment with your partner."
 brand:
   primary: "#e21c46"
   secondary: "#f490a8"

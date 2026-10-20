@@ -1,6 +1,7 @@
 ---
 title: "Coolstead"
 description: "Built a native macOS menu-bar app that monitors thermal conditions and applies a gradual, safety-bounded fan curve without replacing macOS thermal protection."
+cardDescription: "A macOS menu-bar app for thermal monitoring and gradual fan control, designed to work alongside system thermal protection."
 brand:
   primary: "#00cfe8"
   secondary: "#21c7bd"

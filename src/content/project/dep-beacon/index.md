@@ -1,6 +1,7 @@
 ---
 title: "Dep Beacon"
 description: "Built and published dependency tools for VS Code and Zed that bring npm dependency status, update targets, pnpm workspace catalog context, and OSV security signals into package manifests."
+cardDescription: "Dependency updates and security signals inside VS Code and Zed. Review package status without leaving your manifest."
 brand:
   primary: "#7cd3fc"
   secondary: "#f0c060"

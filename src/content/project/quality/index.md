@@ -2,6 +2,7 @@
 title: "quality"
 seoTitle: "Quality: One CLI for Repository Checks"
 description: "Built a fast, predictable code-quality CLI and GitHub Action that detects and coordinates native analyzers across Rust, Swift, Android, Kotlin, JavaScript, and Astro repositories."
+cardDescription: "One command to coordinate code-quality checks. Run the right native analyzers across web, mobile, and systems projects."
 brand:
   primary: "#1f70ea"
   secondary: "#18a8f0"

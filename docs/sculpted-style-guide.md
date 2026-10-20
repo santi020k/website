@@ -73,6 +73,26 @@ Use open numbered rows for supporting projects and writing. Featured work can pa
 image with its description. Independent projects can use two equal image cards. Keep the same
 reading and keyboard order when columns collapse.
 
+### Editorial project cards
+
+The Projects gallery pairs the existing artwork with open editorial copy. Keep the standard
+16:10 image and 1rem corners; the featured project retains its horizontal 16:9 composition.
+Use the numbered date, an outline status pill, a complete 1.75rem title, and one
+“View project” action with an arrow and a fine bottom rule. Do not add a second title arrow.
+Metadata and technology labels use 0.75rem text; descriptions use 0.9375rem with 1.75 leading.
+The image-to-copy gap is 1.5rem. Keep the action aligned at the bottom of adjacent cards.
+
+Project frontmatter may provide `cardDescription`, a nonempty summary of at most 160
+characters. It is used only by the editorial gallery, with `description` as the fallback.
+Write a concise product purpose rather than truncating copy. Keep the full description for
+case studies, metadata, and other existing consumers. Technology labels follow the first
+three frontmatter entries, matching the project-artwork generator and homepage showcase.
+
+The entire card is one named link. Preserve the visible keyboard outline, full title wrapping,
+text-driven column reflow, and reduced-motion support. Hover changes text color without
+moving the card or cropping the artwork. The default technology-archive gallery retains
+its existing presentation.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

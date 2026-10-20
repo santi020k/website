@@ -2,6 +2,7 @@
 title: "Lumen UI"
 seoTitle: "Lumen UI: Web and Native Component Library"
 description: "Built Lumen UI: shared design foundations for Astro, React, Web Components, and native interfaces, with accessible primitives, product layouts, Figma, and AI tooling."
+cardDescription: "Shared design foundations for web and native apps. Accessible components, product layouts, and tools for consistent interfaces."
 brand:
   primary: "#f49e0e"
   secondary: "#4b5563"

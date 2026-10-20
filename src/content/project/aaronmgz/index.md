@@ -1,6 +1,7 @@
 ---
 title: "Aaronmgz"
 description: "Built a growing family web platform with a nautical personal site, public message board, baby-shower experience, admin tools, and a shared Cloudflare API."
+cardDescription: "A family website with a nautical identity, a public message board, and a baby-shower experience, backed by a shared API."
 brand:
   primary: "#1677a6"
   secondary: "#0d2256"

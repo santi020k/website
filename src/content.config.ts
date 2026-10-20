@@ -37,6 +37,7 @@ const project = defineCollection({
   loader: glob({ base: './src/content/project', pattern: '**/*.{md,mdx}' }),
   schema: ({ image }) => baseSchema.extend({
     description: z.string(),
+    cardDescription: z.string().trim().min(1).max(160).optional(),
     brand: z.object({
       primary: projectBrandColor,
       secondary: projectBrandColor,
