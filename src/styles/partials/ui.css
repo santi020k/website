@@ -29,9 +29,12 @@
   gap: 0;
 }
 
+/* Wrap tabs onto extra rows with enlarged text so every package manager stays visible. */
 [data-package-manager-code-tabs][data-slot="code-tabs"] > [role="tablist"] {
   display: flex;
+  flex-wrap: wrap;
   width: auto;
+  overflow: visible;
   gap: 0.25rem;
   border: 0;
   border-bottom: 1px solid hsl(var(--line));
@@ -71,10 +74,60 @@
   outline-offset: 1px;
 }
 
+/* Brand text on brand-soft falls below 4.5:1 in the dark theme; use ink and accent focus. */
+:root[data-theme="dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"][aria-selected="true"] {
+  color: hsl(var(--ink));
+}
+
+:root[data-theme="dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"]:focus-visible {
+  outline-color: hsl(var(--accent));
+}
+
+/*
+ * The copy header gets its own grid column instead of overlaying the command.
+ * The pre keeps a minmax(0, 1fr) track and scrolls horizontally; the copy
+ * button stays before the pre in DOM and focus order.
+ */
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  background: var(--ui-code-bg);
+}
+
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code] > figcaption {
+  position: static;
+  inset: auto;
+  grid-row: 1;
+  grid-column: 2;
+  /* Leave space for every edge of the copy button's focus outline. */
+  padding: 0.625rem 0.625rem 0.625rem 0;
+}
+
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code] > pre {
+  grid-row: 1;
+  grid-column: 1;
+  min-width: 0;
+  padding: 1rem 0.75rem 1rem 1.25rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"] {
     transition: none;
   }
+}
+
+/*
+ * santi020k code theme contrast, via Lumen's public code variables. Light
+ * strings darken toward ink; the dark keyword reuses the inline-code color,
+ * which also colors the language badge. Other syntax colors are unchanged.
+ */
+:root:not([data-theme="dark"]) [data-ui-code][data-code-theme="santi020k"] {
+  --ui-code-token-string: color-mix(in srgb, hsl(var(--success)) 70%, hsl(var(--ink)) 30%);
+}
+
+:root[data-theme="dark"] [data-ui-code][data-code-theme="santi020k"] {
+  --ui-code-token-keyword: var(--ui-code-inline-fg);
 }
 
 @utility ui-collapsible {

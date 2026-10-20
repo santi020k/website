@@ -394,6 +394,24 @@ keep their existing reading behavior. The table of contents uses an open rule in
 a glass panel. The resume uses the same canvas on screen; its separate print rules and
 both downloadable PDF variants remain authoritative.
 
+### Reading controls
+
+- Package-manager tabs (`data-package-manager-code-tabs`) wrap onto extra rows instead of
+  scrolling, so every manager stays visible with enlarged text. Lumen's keyboard runtime is
+  unchanged. In the dark theme the selected tab uses `ink` text and focus uses `accent`.
+- Their code panels place the copy header in its own grid column beside a `minmax(0, 1fr)`
+  pre that scrolls horizontally, so the button never covers a long command. Rules target
+  `[data-ui-code] > figcaption` and `> pre`; the copy button stays before the pre in the DOM.
+- Each panel passes Lumen's public `codeLabel`, derived from the tab set's `ariaLabel`, so
+  scrollable code regions are not all named "Code example". Direct MDX `Code` blocks also
+  need a descriptive `codeLabel` for their purpose; repeated filenames are not unique labels.
+- The `santi020k` code theme overrides only two public variables: the light
+  `--ui-code-token-string` mixes 70% `success` with 30% `ink`, and the dark
+  `--ui-code-token-keyword` reuses `--ui-code-inline-fg`, which also colors the language badge.
+- The share "Link copied!" state uses a solid `brand-soft` background, with `brand` text in the
+  light theme and `ink` text with an `accent` border in the dark theme. Success, failure, reset,
+  Web Share, and clipboard behavior are unchanged.
+
 Consumer-owned `data-site-eyebrow` and `data-editorial-toc` attributes provide stable
 styling boundaries where the Lumen component does not expose a `data-slot`. Other composed
 surfaces use Lumen's documented Card, Stat, and ButtonLink slots. Do not target private

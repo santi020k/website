@@ -68,6 +68,7 @@ To organize Husky within a `config` folder, modify your `package.json`:
 <Code
   class="not-prose"
   code={packageJson}
+  codeLabel="Husky scripts in package.json"
   copy
   label="package.json"
   language="json"
@@ -84,6 +85,7 @@ The `pre-commit` script executes linting with fixes and runs tests before allowi
 <Code
   class="not-prose"
   code={'"pre-commit": "lint-staged && vitest run"'}
+  codeLabel="Pre-commit script in package.json"
   copy
   label="package.json"
   language="json"
@@ -96,6 +98,7 @@ The `pre-push` script enforces strict linting standards and triggers the build p
 <Code
   class="not-prose"
   code={'"pre-push": "eslint . --fix --max-warnings=0 && npm run build"'}
+  codeLabel="Pre-push script in package.json"
   copy
   label="package.json"
   language="json"
@@ -122,6 +125,7 @@ If you ever need to bypass Husky's verification — for example during a work in
 <Code
   class="not-prose"
   code={"git commit . -m 'quick fix' --no-verify"}
+  codeLabel="Git command to bypass Husky verification"
   copy
   label="terminal"
   language="bash"

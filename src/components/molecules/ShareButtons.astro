@@ -99,10 +99,16 @@ const shareLinks = [
 </div>
 
 <style>
+  /* Background shorthand clears the inherited Lumen gradient so the state is one solid color. */
   #copy-link-btn.copied {
-    background-color: hsl(var(--brand) / 0.1) !important;
+    background: hsl(var(--brand-soft)) !important;
     color: hsl(var(--brand)) !important;
     border-color: hsl(var(--brand)) !important;
+  }
+
+  :global(:root[data-theme="dark"]) #copy-link-btn.copied {
+    color: hsl(var(--ink)) !important;
+    border-color: hsl(var(--accent)) !important;
   }
 
   #copy-link-btn.copy-failed {
