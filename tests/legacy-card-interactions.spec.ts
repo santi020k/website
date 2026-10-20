@@ -125,9 +125,9 @@ for (const width of [390, 1440]) {
           const series = page.locator('[data-series-card]')
 
           expect(await series.count()).toBeGreaterThan(0)
-          await expectWholeWords(series.locator('h3, [data-site-pill-label]'))
+          await expectWholeWords(series.locator('h3, ul'))
           await page.keyboard.press('Tab')
-          for (const title of await series.locator('h3 a').all()) {
+          for (const title of await series.locator(':scope > a').all()) {
             await title.focus()
             await expect(title).toHaveCSS('outline-style', 'solid')
             expect(await title.evaluate(element => element.getClientRects().length),

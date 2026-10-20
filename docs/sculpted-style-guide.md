@@ -108,6 +108,20 @@ for the article, search, feeds, and metadata. Preserve series sequence and draft
 The complete card is one naturally named link with a visible outline; hover changes
 only the title color. Artwork stays still, and metadata and footers wrap for enlarged text.
 
+### Soft editorial series cards
+
+`SeriesCard` uses one opaque surface, a fine border, and 1.25rem corners. Place the
+plain status and article count above a complete 1.75rem title at weight 500 and
+1.3 leading. Descriptions use 0.875rem text with 1.8 leading; focus areas use plain
+0.75rem labels. Keep the cadence on the series detail page. The card ends with one
+“Explore series” action and a decorative arrow above a shared bottom inset, separated
+from the copy by a fine rule. Align neighboring footers without truncating content.
+
+The complete surface is one naturally named link with a continuous keyboard outline.
+Hover changes only the title color. Preserve planned status, zero and singular article
+counts and theme contrast. When enlarged text narrows the section, tighten the insets
+and size the title to its reading column so ordinary words stay intact.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.
@@ -129,7 +143,7 @@ Keep native anchors for links wrapping a complete project or article.
 - Webmention avatar and standalone source links provide at least 44px targets. Inline author
   names retain their text-link behavior. Policy email links stay underlined in both themes.
 - Keep hover changes subtle: color, border, or a small image scale. Do not move whole cards.
-- Series card and navigator title links use one block with a continuous focus outline when the title wraps.
+- Series cards and navigator title links use one block with a continuous focus outline when the title wraps.
 - Passive principle, testimonial, topic, and format cards keep their colors, tracking, and
   decoration still on hover; reserve interaction feedback for actual controls.
 - Numbered case-study summaries put the number above the copy when enlarged text leaves

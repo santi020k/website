@@ -45,3 +45,29 @@ test.describe('Blog series index page', () => {
     })
   }
 })
+
+for (const route of ['/blog/', '/blog/series/']) {
+  test(`series cards open their reading track with one keyboard stop on ${route}`, async ({ page }) => {
+    await page.goto(route)
+    const cards = page.locator('[data-series-card]')
+
+    expect(await cards.count()).toBeGreaterThan(0)
+    for (const card of await cards.all()) {
+      await expect(card.getByRole('link')).toHaveCount(1)
+      await expect(card.getByRole('link')).toHaveAccessibleName(/Explore series/u)
+      await expect(card.getByRole('list', { name: 'Focus areas' })).toBeVisible()
+    }
+    const card = cards.first()
+    const title = await card.getByRole('heading').innerText()
+    const link = card.getByRole('link')
+    const href = await link.getAttribute('href')
+
+    expect(href).toMatch(/^\/blog\/series\/[^/]+\/$/u)
+    await page.keyboard.press('Tab')
+    await link.focus()
+    await expect(link).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(href ?? '')
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(title)
+  })
+}
