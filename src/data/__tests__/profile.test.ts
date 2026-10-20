@@ -91,9 +91,10 @@ describe('speakingTopics', () => {
     expect(speakingTopics.length).toBeGreaterThan(0)
   })
 
-  test('every topic has title and description', () => {
+  test('every topic has title, supporting phrase, and description', () => {
     for (const topic of speakingTopics) {
       expect(topic.title).toBeTruthy()
+      expect(topic.subtitle).toBeTruthy()
       expect(topic.description).toBeTruthy()
     }
   })
