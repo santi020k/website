@@ -52,6 +52,7 @@ const PROJECT_LOGO_SURFACES = {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+const projectAssetPath = filePath => path.relative(ROOT, filePath).split(path.sep).join('/')
 const getSocialImageFileName = pathname => pathnameOutput(pathname)
 
 const getTechnologySlug = technology => technology
@@ -353,7 +354,7 @@ export const collectCards = async () => {
         badge: 'Blog Post',
         ...(coverImagePath ?
           {
-            coverImagePath,
+            coverImagePath: projectAssetPath(coverImagePath),
             image: await prepareOgImage(coverImagePath)
           } :
           {}),
@@ -406,7 +407,7 @@ export const collectCards = async () => {
         badge: entry.frontmatter.typesId === 'community' ? 'Community work' : 'Project',
         ...(logoImagePath ?
           {
-            image: logoImagePath,
+            image: projectAssetPath(logoImagePath),
             imagePresentation: {
               background: PROJECT_LOGO_SURFACES[
                 getFrontmatterValue(entry, 'coverImage.logoSurface')
@@ -414,7 +415,7 @@ export const collectCards = async () => {
               fit: 'contain',
               padding: 50
             },
-            logoImagePath
+            logoImagePath: projectAssetPath(logoImagePath)
           } :
           {}),
         description: entry.frontmatter.seoDescription ?? entry.frontmatter.description ?? '',
@@ -482,8 +483,8 @@ export const collectCards = async () => {
 export const collectSpecs = async () => (await collectCards()).map(card => ({
   outFile: path.join(OUT_DIR, card.output),
   props: {
-    ...(card.data.coverImagePath ? { coverImagePath: card.data.coverImagePath } : {}),
-    ...(card.data.logoImagePath ? { logoImagePath: card.data.logoImagePath } : {}),
+    ...(card.data.coverImagePath ? { coverImagePath: path.resolve(ROOT, card.data.coverImagePath) } : {}),
+    ...(card.data.logoImagePath ? { logoImagePath: path.resolve(ROOT, card.data.logoImagePath) } : {}),
     description: card.data.description,
     pathLabel: card.data.domain,
     title: card.data.title,

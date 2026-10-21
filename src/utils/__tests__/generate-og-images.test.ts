@@ -103,6 +103,31 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     })
   })
 
+  test('keeps card asset references independent of the checkout directory', async () => {
+    const cards = await collectCards()
+    let localAssets = 0
+
+    for (const card of cards) {
+      const { data } = card
+      const sources = [
+        'coverImagePath' in data ? data.coverImagePath : undefined,
+        'logoImagePath' in data ? data.logoImagePath : undefined,
+        'image' in data ? data.image : undefined
+      ]
+
+      for (const source of sources) {
+        if (typeof source !== 'string' || source.startsWith('data:')) continue
+
+        expect(path.isAbsolute(source)).toBe(false)
+        expect(source).toMatch(/^src\/content\//u)
+        expect(source).not.toContain('\\')
+        localAssets++
+      }
+    }
+
+    expect(localAssets).toBeGreaterThan(0)
+  })
+
   test('uses editorial covers for posts and dedicated logos for projects', async () => {
     const cards = await collectCards()
     const postCard = cards.find(card => card.route?.pathname ===

@@ -133,3 +133,4 @@ overrides:
 patchedDependencies:
   '@lhci/utils@0.15.1': patches/@lhci__utils@0.15.1.patch
   '@santi020k/lumen-astro@4.1.0': patches/@santi020k__lumen-astro@4.1.0.patch
+  '@santi020k/og@1.2.0': patches/@santi020k__og@1.2.0.patch
