@@ -31,7 +31,7 @@ coverImage:
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Open Graph card generation interface for the @santi020k/og toolkit"
+  alt: "OG logo on a dark green geometric cover"
   ogImage: "./cover.webp"
 ---
 

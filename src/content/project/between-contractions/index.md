@@ -24,7 +24,7 @@ coverImage:
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Between Contractions project journal cover with Santiago and Alejandra waiting for Aarón alongside their three dogs"
+  alt: "Between Contractions pulse logo on a dark red geometric cover"
   ogImage: "./cover.webp"
 ---
 

@@ -30,7 +30,7 @@ coverImage:
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Dep Beacon editor preview showing dependency update targets, pnpm catalog context, and OSV security signals"
+  alt: "Dep Beacon logo on a dark blue geometric cover"
   ogImage: "./cover.webp"
 ---
 

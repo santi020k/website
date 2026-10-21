@@ -1102,25 +1102,25 @@
     "portfolio/aaronmgz-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "0acf56a35601ae37ced2b14bbab7cbe7a991a6fbbd5542865efe21b5bedf1e1e",
-      "fingerprint": "26c7adc0ad1eb5bb53d5a9fd8bc30a401855ce41bad1ab71d02f18f098567eeb",
+      "fingerprint": "3a2af20f09005407fe819b3ecbe7528d0c6f380de2492bc246313016aa8ab84f",
       "output": "portfolio/aaronmgz-logo.webp"
     },
     "portfolio/aaronmgz.webp": {
       "baseDirectory": "public/og",
       "digest": "0acf56a35601ae37ced2b14bbab7cbe7a991a6fbbd5542865efe21b5bedf1e1e",
-      "fingerprint": "26c7adc0ad1eb5bb53d5a9fd8bc30a401855ce41bad1ab71d02f18f098567eeb",
+      "fingerprint": "3a2af20f09005407fe819b3ecbe7528d0c6f380de2492bc246313016aa8ab84f",
       "output": "portfolio/aaronmgz.webp"
     },
     "portfolio/astro-doctor-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "2624febc202060f11fa78126b4fb2f4232be31cf0eef77b24714d5e43517f019",
-      "fingerprint": "9da1bc2c0a3676682ce1ed56cfa1deae503ba2d4c3bc9a1784ee429b62fc6358",
+      "fingerprint": "9e3109f82adf7c46cc264ebea7f178c10f88bb9eaf7682abd9a5f3164e59d967",
       "output": "portfolio/astro-doctor-logo.webp"
     },
     "portfolio/astro-doctor.webp": {
       "baseDirectory": "public/og",
       "digest": "2624febc202060f11fa78126b4fb2f4232be31cf0eef77b24714d5e43517f019",
-      "fingerprint": "9da1bc2c0a3676682ce1ed56cfa1deae503ba2d4c3bc9a1784ee429b62fc6358",
+      "fingerprint": "9e3109f82adf7c46cc264ebea7f178c10f88bb9eaf7682abd9a5f3164e59d967",
       "output": "portfolio/astro-doctor.webp"
     },
     "portfolio/auth-logo.webp": {
@@ -1138,25 +1138,25 @@
     "portfolio/between-contractions-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "07a46cf7dc0dedc002ec6b175f8e27b581c64e4310d636e4154a24f88e06cb9b",
-      "fingerprint": "4aa59d49e27ecb757d54e1acaefa563cd2bcc7c4e3c6b89b475cdbd8582b35eb",
+      "fingerprint": "929f4ce992047256e2dd191d00d32d3f514d1174b3cab8d0978e67ec37e63164",
       "output": "portfolio/between-contractions-logo.webp"
     },
     "portfolio/between-contractions.webp": {
       "baseDirectory": "public/og",
       "digest": "07a46cf7dc0dedc002ec6b175f8e27b581c64e4310d636e4154a24f88e06cb9b",
-      "fingerprint": "4aa59d49e27ecb757d54e1acaefa563cd2bcc7c4e3c6b89b475cdbd8582b35eb",
+      "fingerprint": "929f4ce992047256e2dd191d00d32d3f514d1174b3cab8d0978e67ec37e63164",
       "output": "portfolio/between-contractions.webp"
     },
     "portfolio/coolstead-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "b9775332137c3f36188614d76cfe90818fc747fda02eebb9727d54880b087535",
-      "fingerprint": "8487ace1d65b70224763fc63394059979f1cd69c47fc22796b82b4b7e65612df",
+      "fingerprint": "c3820973d7dc3bf746d7a656ab39771ed4e4d00b02f7c9c79f3382f28238f656",
       "output": "portfolio/coolstead-logo.webp"
     },
     "portfolio/coolstead.webp": {
       "baseDirectory": "public/og",
       "digest": "b9775332137c3f36188614d76cfe90818fc747fda02eebb9727d54880b087535",
-      "fingerprint": "8487ace1d65b70224763fc63394059979f1cd69c47fc22796b82b4b7e65612df",
+      "fingerprint": "c3820973d7dc3bf746d7a656ab39771ed4e4d00b02f7c9c79f3382f28238f656",
       "output": "portfolio/coolstead.webp"
     },
     "portfolio/datagran-logo.webp": {
@@ -1174,13 +1174,13 @@
     "portfolio/dep-beacon-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "83676449e3b0fd46c5ee8ef1ff755b32e142b587da422c8a120856b9e2958c68",
-      "fingerprint": "0c487122a3c700a5e18775c863b5b065057e5d0295110c13cb0fec7a9dc1bd99",
+      "fingerprint": "032eb93b9af6750303e8bc993cc87e53bd50b99a7d09470c76924b7f470180d3",
       "output": "portfolio/dep-beacon-logo.webp"
     },
     "portfolio/dep-beacon.webp": {
       "baseDirectory": "public/og",
       "digest": "83676449e3b0fd46c5ee8ef1ff755b32e142b587da422c8a120856b9e2958c68",
-      "fingerprint": "0c487122a3c700a5e18775c863b5b065057e5d0295110c13cb0fec7a9dc1bd99",
+      "fingerprint": "032eb93b9af6750303e8bc993cc87e53bd50b99a7d09470c76924b7f470180d3",
       "output": "portfolio/dep-beacon.webp"
     },
     "portfolio/eslint-config-basic-logo.webp": {
@@ -1222,37 +1222,37 @@
     "portfolio/lumen-ui-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "c01860f76486dc13a3ea5851555ccccb21369a9365b7438fb7d483d3bde7abc6",
-      "fingerprint": "766c53c438eeb529278973f540610fa5e0c800f5aadb1e860c14ef97042fc516",
+      "fingerprint": "8bf1f9a953f277eddde27cf235d310dd997fbdf083d9d878e666cb50b119679c",
       "output": "portfolio/lumen-ui-logo.webp"
     },
     "portfolio/lumen-ui.webp": {
       "baseDirectory": "public/og",
       "digest": "c01860f76486dc13a3ea5851555ccccb21369a9365b7438fb7d483d3bde7abc6",
-      "fingerprint": "766c53c438eeb529278973f540610fa5e0c800f5aadb1e860c14ef97042fc516",
+      "fingerprint": "8bf1f9a953f277eddde27cf235d310dd997fbdf083d9d878e666cb50b119679c",
       "output": "portfolio/lumen-ui.webp"
     },
     "portfolio/nebular-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "46b3a9a99b4746bdca308433b6125d16d34dcfe9b385c358eb6708cf0d04283b",
-      "fingerprint": "b91fb193750fc16c7462002cd50e8fbbcf6e3f23d1e2ec9f68709c958d82161b",
+      "fingerprint": "83653ca8bf9b830724082ff75b88c8140ea283bfdd68dce536caf87cd2bf0a82",
       "output": "portfolio/nebular-logo.webp"
     },
     "portfolio/nebular.webp": {
       "baseDirectory": "public/og",
       "digest": "46b3a9a99b4746bdca308433b6125d16d34dcfe9b385c358eb6708cf0d04283b",
-      "fingerprint": "b91fb193750fc16c7462002cd50e8fbbcf6e3f23d1e2ec9f68709c958d82161b",
+      "fingerprint": "83653ca8bf9b830724082ff75b88c8140ea283bfdd68dce536caf87cd2bf0a82",
       "output": "portfolio/nebular.webp"
     },
     "portfolio/og-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "8a78ce74cc80fbccb66b3a9cd294c95c1b78d5885ae7a3570fbf5f5209d89fd4",
-      "fingerprint": "6854b7c94f997adc763b4f5fb16386932034e63476e61f99b6f2c6c73a2f2c8a",
+      "fingerprint": "6d63a4fe409a2326a0f546a85773ad677963351e39b8c66f925e4554b9708ada",
       "output": "portfolio/og-logo.webp"
     },
     "portfolio/og.webp": {
       "baseDirectory": "public/og",
       "digest": "8a78ce74cc80fbccb66b3a9cd294c95c1b78d5885ae7a3570fbf5f5209d89fd4",
-      "fingerprint": "6854b7c94f997adc763b4f5fb16386932034e63476e61f99b6f2c6c73a2f2c8a",
+      "fingerprint": "6d63a4fe409a2326a0f546a85773ad677963351e39b8c66f925e4554b9708ada",
       "output": "portfolio/og.webp"
     },
     "portfolio/optic-power-logo.webp": {
@@ -1282,25 +1282,25 @@
     "portfolio/postlens-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "b038135352037b461b4ee7b4ff665ad199f57ff436f7844c12fd796f935e585b",
-      "fingerprint": "88dfbd198041d09824d48b0661623d3482166ec47deed3c6f2afb989c1a195b3",
+      "fingerprint": "42f79c18a8b75d1491e1e830acdd7f6e4b9754267390ed919e6d3907de94ceb8",
       "output": "portfolio/postlens-logo.webp"
     },
     "portfolio/postlens.webp": {
       "baseDirectory": "public/og",
       "digest": "b038135352037b461b4ee7b4ff665ad199f57ff436f7844c12fd796f935e585b",
-      "fingerprint": "88dfbd198041d09824d48b0661623d3482166ec47deed3c6f2afb989c1a195b3",
+      "fingerprint": "42f79c18a8b75d1491e1e830acdd7f6e4b9754267390ed919e6d3907de94ceb8",
       "output": "portfolio/postlens.webp"
     },
     "portfolio/quality-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "ef785720d18a05bb2cb76ee46c81b0933f37b01b389750e3eeda4aaab833fdf8",
-      "fingerprint": "175728e28f8447a04511f463e48aada9efaeb0ac615aa377d05f424f703b7b37",
+      "fingerprint": "b7bfaefcc23eb423da5b1f2ebab8efa67bc14bb41845b714612276a12e31949b",
       "output": "portfolio/quality-logo.webp"
     },
     "portfolio/quality.webp": {
       "baseDirectory": "public/og",
       "digest": "ef785720d18a05bb2cb76ee46c81b0933f37b01b389750e3eeda4aaab833fdf8",
-      "fingerprint": "175728e28f8447a04511f463e48aada9efaeb0ac615aa377d05f424f703b7b37",
+      "fingerprint": "b7bfaefcc23eb423da5b1f2ebab8efa67bc14bb41845b714612276a12e31949b",
       "output": "portfolio/quality.webp"
     },
     "portfolio/react-js-colombia-logo.webp": {
@@ -1318,25 +1318,25 @@
     "portfolio/roadscore-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "9dd09ba7641e0d0b39d554a5387057f1c34291bf71cf3dc1d88ead64d03fa82b",
-      "fingerprint": "69ed9c2b31db76fb1bdcf6c97b4d5e559d3988d991bd3fd81c79c0e2b51885e2",
+      "fingerprint": "2868944d2852cdca6a6b75daf8d369daf7482886b29441f9e1bdf385b124b193",
       "output": "portfolio/roadscore-logo.webp"
     },
     "portfolio/roadscore.webp": {
       "baseDirectory": "public/og",
       "digest": "9dd09ba7641e0d0b39d554a5387057f1c34291bf71cf3dc1d88ead64d03fa82b",
-      "fingerprint": "69ed9c2b31db76fb1bdcf6c97b4d5e559d3988d991bd3fd81c79c0e2b51885e2",
+      "fingerprint": "2868944d2852cdca6a6b75daf8d369daf7482886b29441f9e1bdf385b124b193",
       "output": "portfolio/roadscore.webp"
     },
     "portfolio/santi020k-theme-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "2f756782e9a3174c6aba6b8140f65f19fdd38c3af8fedf4e0dc94d97daaefc77",
-      "fingerprint": "d1fcbd5a66a0f5eeaed6ebf72ed8693ff81a99ee3e120eb9f2359752eb18e406",
+      "fingerprint": "49b5eacbeddd0f5b763dffe9d611632685131e37ede5d6f01b1d17be5ee7ad3e",
       "output": "portfolio/santi020k-theme-logo.webp"
     },
     "portfolio/santi020k-theme.webp": {
       "baseDirectory": "public/og",
       "digest": "2f756782e9a3174c6aba6b8140f65f19fdd38c3af8fedf4e0dc94d97daaefc77",
-      "fingerprint": "d1fcbd5a66a0f5eeaed6ebf72ed8693ff81a99ee3e120eb9f2359752eb18e406",
+      "fingerprint": "49b5eacbeddd0f5b763dffe9d611632685131e37ede5d6f01b1d17be5ee7ad3e",
       "output": "portfolio/santi020k-theme.webp"
     },
     "portfolio/smith-commerce-logo.webp": {

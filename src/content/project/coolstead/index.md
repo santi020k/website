@@ -21,7 +21,7 @@ coverImage:
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "neutral"
-  alt: "Dark Mac cooling system with a central fan and a gradual curve moving from amber heat to cool cyan"
+  alt: "Coolstead cooling logo on a dark blue geometric cover with cyan accents"
   ogImage: "./cover.webp"
 ---
 

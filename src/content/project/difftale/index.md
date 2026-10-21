@@ -21,7 +21,7 @@ coverImage:
   logo: "./logo.svg"
   logoAspect: "square"
   logoSurface: "light"
-  alt: "Luminous Git branches flowing into commit and pull request panels above layered file revisions"
+  alt: "Difftale branching mark on a light geometric cover with teal accents"
   ogImage: "./cover.webp"
 ---
 

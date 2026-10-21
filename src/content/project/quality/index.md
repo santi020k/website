@@ -31,7 +31,7 @@ coverImage:
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Quality CLI dashboard summarizing checks across a polyglot repository"
+  alt: "Quality logo on a dark geometric cover with blue accents"
   ogImage: "./cover.webp"
 ---
 
