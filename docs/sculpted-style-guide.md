@@ -223,6 +223,16 @@ and computed duration. This is a passive reading surface with no hover feedback.
 Below 16rem of rail width, reduce insets and role typography to preserve enlarged-text
 reading space. Other sidebar cards retain their own composition.
 
+### Margin note focus cards
+
+Project Focus uses one opaque Lumen Card with the dossier's 1.5rem corners and
+0.5rem lower-right corner. Place a sentence-case 0.75rem label opposite the small
+target icon, then the complete focus statement at 1.125rem with 1.8125rem leading.
+A 2px purple margin rule and 1.0625rem text inset give the statement its emphasis.
+Use brand in light mode and accent in dark mode. Preserve the project-type copy,
+semantic heading, and passive appearance. Below 16rem of rail width, tighten the
+card and paragraph insets without shrinking the enlarged text.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

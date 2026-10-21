@@ -4,6 +4,7 @@ import type { MarkdownHeading } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import Pill from '@/components/atoms/Pill.astro'
+import ProjectFocusCard from '@/components/molecules/ProjectFocusCard.astro'
 import ProjectGlanceCard from '@/components/molecules/ProjectGlanceCard.astro'
 import ProjectSidebarCard from '@/components/molecules/ProjectSidebarCard.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
@@ -45,9 +46,7 @@ const extraTechnologies = project.data.technologies.slice(6)
 
   <ProjectGlanceCard project={project} />
 
-  <ProjectSidebarCard icon="target" id="sidebar-focus" title="Focus">
-    <p class="mt-3 text-sm/6 text-ink-soft">{focusLabel}</p>
-  </ProjectSidebarCard>
+  <ProjectFocusCard focus={focusLabel} />
 
   <ProjectSidebarCard icon="layers-3" id="sidebar-stack" title="Core stack">
     <div class="mt-4 flex flex-wrap gap-2">

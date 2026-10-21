@@ -97,7 +97,8 @@ The same component serves featured, supporting, and related projects without cli
 - Series navigation uses Lumen `Progress` with a readable current/max value.
 - Project timeline endpoints use separate native `time` elements, and project
   sidebar card labels are level-two headings. `ProjectGlanceCard` uses an unstyled Lumen
-  `Card` for the Project dossier treatment; the other sidebar cards retain the section-label style.
+  `Card` for the Project dossier treatment. `ProjectFocusCard` uses the same primitive
+  for its Margin note composition; stack and outcomes retain the section-label style.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
 - Project stack cards use Lumen `Collapsible` for technologies beyond the first six. The native

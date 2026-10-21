@@ -1,0 +1,52 @@
+---
+import { Card, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  focus: string
+}
+
+const { focus } = Astro.props
+---
+
+<Card as="section" aria-labelledby="sidebar-focus" data-project-focus variant="unstyled">
+  <h2 id="sidebar-focus">Focus<Icon class="size-4 shrink-0" name="target" /></h2>
+  <p>{focus}</p>
+</Card>
+
+<style>
+  [data-project-focus][data-slot='card'] {
+    padding: 1.5rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    overflow-wrap: break-word;
+  }
+  h2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin: 0;
+    color: hsl(var(--brand));
+    font-size: 0.75rem;
+    line-height: 1.667;
+    font-weight: 500;
+    letter-spacing: normal;
+  }
+  p {
+    margin: 1.5rem 0 0;
+    border-inline-start: 2px solid hsl(var(--brand));
+    padding-inline-start: 1.0625rem;
+    color: hsl(var(--ink));
+    font-size: 1.125rem;
+    line-height: 1.611;
+    letter-spacing: -0.02em;
+  }
+  :global(:root[data-theme='dark']) h2 { color: hsl(var(--accent)); }
+  :global(:root[data-theme='dark']) p { border-inline-start-color: hsl(var(--accent)); }
+  @container project-sidebar (width < 16rem) {
+    [data-project-focus][data-slot='card'] { padding-inline: 0.75rem; }
+    p { padding-inline-start: 0.5rem; }
+  }
+</style>
