@@ -139,6 +139,21 @@ Hover changes only the title color. Preserve planned status, zero and singular a
 counts and theme contrast. When enlarged text narrows the section, tighten the insets
 and size the title to its reading column so ordinary words stay intact.
 
+### Reading index chapter navigation
+
+At the end of series articles, group every chapter in one opaque Lumen Card with
+1.75rem corners and a 0.5rem lower-right corner. Use plain two-digit numbers in a
+2.75rem margin column, 1.625rem row insets, fine dividers, and complete 1.125rem
+titles at weight 500. The active chapter uses a purple wash, a visible “Reading now”
+label, and `aria-current="step"`; other rows use “In this series”.
+
+Keep the series introduction, progress, full-series link, and adjacent-article links
+in their existing section. Chapter links navigate natively without JavaScript.
+Below 20rem of panel width, stack the number above the copy, reduce insets to 1rem,
+and use 1rem titles so enlarged text has the whole column. Retain the inset focus
+outline on clipped first and last rows. Hover and keyboard focus use the same
+background and text emphasis, without moving content.
+
 ### Compact topic cards
 
 Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.
@@ -358,7 +373,7 @@ Keep native anchors for links wrapping a complete project or article.
   decoration still on hover; reserve interaction feedback for actual controls.
 - Article and project hero covers are passive reading images. Keep their static shadow and
   caption contrast gradient, with no hover glow, wash, zoom, or caption movement.
-- Series step rows give keyboard focus the same color, background, and arrow feedback as hover.
+- Series step rows give keyboard focus the same color and background emphasis as hover.
 - Choosing a blog topic keeps the filter's vertical position and focuses the selected topic
   link. Its horizontal scroll is retained unless the chosen topic needs to be brought into view;
   the strip's scroll padding leaves room for its focus outline. Only filter-originated

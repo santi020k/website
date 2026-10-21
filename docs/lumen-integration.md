@@ -107,7 +107,9 @@ The same component serves featured, supporting, and related projects without cli
   a fragment jump. Remove this local override when the shared reset no longer creates them.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.
-- Series navigation uses Lumen `Progress` with a readable current/max value.
+- Series navigation uses Lumen `Progress` with a readable current/max value and one
+  unstyled `Card` for the Reading index. A named native navigation landmark and ordered
+  list retain complete titles, current-step semantics, and navigation without JavaScript.
 - `ProjectCaseStudy` composes Margin chapters from an unstyled Lumen `Card`, `Icon`,
   and an ordered list with semantic chapter headings. Its scoped container queries
   retain complete narratives and optional chapters in narrow or enlarged-text layouts.

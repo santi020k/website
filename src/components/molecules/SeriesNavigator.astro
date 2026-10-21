@@ -6,7 +6,7 @@ import Pill from '@/components/atoms/Pill.astro'
 
 import { getPostPath, getSeriesPath } from '@/utils/links'
 
-import { Icon, Progress } from '@santi020k/lumen-astro'
+import { Card, Progress } from '@santi020k/lumen-astro'
 
 interface Props {
   currentPostId: string
@@ -22,7 +22,7 @@ const { currentPostId, next, position, posts, previous, series, total } = Astro.
 const seriesPath = getSeriesPath(series.id)
 ---
 
-<section class="not-prose mt-16 py-8">
+<section class="not-prose mt-16 py-8" id="series-navigation">
   <div class="
     grid gap-8
     lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]
@@ -71,98 +71,34 @@ const seriesPath = getSeriesPath(series.id)
     </div>
 
     <div class="min-w-0 space-y-5">
-      <ol
-        class="
-          divide-y divide-line/35 overflow-hidden rounded-2xl border
-          border-line/35 bg-surface/24 backdrop-blur-sm
-        "
-        data-series-track
-      >
-        {posts.map((seriesPost, index) => {
-          const isCurrentPost = seriesPost.id === currentPostId
+      <Card data-series-index variant="unstyled">
+        <nav aria-label={`Chapters in ${series.data.title}`}>
+          <ol data-series-track>
+            {posts.map((seriesPost, index) => {
+              const isCurrentPost = seriesPost.id === currentPostId
 
-          return (
-            <li>
-              <a
-                data-series-step
-                aria-current={isCurrentPost ? 'step' : undefined}
-                class:list={[
-                  `
-                    group grid grid-cols-[2.25rem_minmax(0,1fr)_1rem]
-                    items-center gap-3 p-3 text-left transition-colors
-                    hover:bg-brand-soft/18 hover:text-brand
-                    focus-visible:bg-brand-soft/18 focus-visible:text-brand
-                    motion-reduce:transition-none
-                    sm:px-4
-                  `,
-                  isCurrentPost && 'bg-brand-soft/24 text-brand'
-                ]}
-                href={getPostPath(seriesPost.id)}
-              >
-                <span
-                  class:list={[
-                    `
-                      inline-flex size-8 items-center justify-center
-                      rounded-full border text-xs font-semibold
-                      transition-colors
-                      motion-reduce:transition-none
-                    `,
-                    isCurrentPost ?
-                      'border-brand/45 bg-brand/12 text-brand' :
-                      `
-                        border-line/45 bg-surface/35 text-ink-muted
-                        group-hover:border-brand/40 group-hover:text-brand
-                        group-focus-visible:border-brand/40
-                        group-focus-visible:text-brand
-                      `
-                  ]}
-                >
-                  {index + 1}
-                </span>
-                <span class="min-w-0" data-series-step-copy>
-                  <span class="block section-label text-[0.64rem]">
-                    Part {index + 1}
-                  </span>
-                  <span
-                    class:list={[
-                      `
-                        mt-0.5 block text-sm/6 font-semibold transition-colors
-                        motion-reduce:transition-none
-                      `,
-                      isCurrentPost ?
-                        'text-brand' :
-                        `
-                          text-ink
-                          group-hover:text-brand
-                          group-focus-visible:text-brand
-                        `
-                    ]}
+              return (
+                <li>
+                  <a
+                    data-series-step
+                    aria-current={isCurrentPost ? 'step' : undefined}
+                    href={getPostPath(seriesPost.id)}
                   >
-                    {seriesPost.data.title}
-                  </span>
-                </span>
-                <Icon
-                  class:list={[
-                    `
-                      size-4 text-ink-muted opacity-0 transition-all
-                      group-hover:translate-x-0.5 group-hover:text-brand
-                      group-hover:opacity-100
-                      group-focus-visible:translate-x-0.5
-                      group-focus-visible:text-brand
-                      group-focus-visible:opacity-100
-                      motion-reduce:transition-none
-                      motion-reduce:group-hover:translate-x-0
-                      motion-reduce:group-focus-visible:translate-x-0
-                    `,
-                    isCurrentPost && 'text-brand opacity-100'
-                  ]}
-                  name={isCurrentPost ? 'circle-dot' : 'arrow-right'}
-                />
-              </a>
-            </li>
-          )
-        })}
-      </ol>
+                    <span data-series-step-number>
+                      <span class="sr-only">Part {index + 1}</span>
+                      <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                    </span>
+                    <span data-series-step-copy>
+                      <span data-series-step-label>{isCurrentPost ? 'Reading now' : 'In this series'}</span>
+                      <span data-series-step-title>{seriesPost.data.title}</span>
+                    </span>
+                  </a>
+                </li>
+              )
+            })}
+          </ol>
+        </nav>
+      </Card>
 
       {(previous ?? next) && (
         <div
@@ -223,8 +159,67 @@ const seriesPath = getSeriesPath(series.id)
 </section>
 
 <style>
-  [data-series-track] {
+  [data-series-index][data-slot='card'] {
+    --series-emphasis: hsl(var(--brand));
     container: series-track / inline-size;
+    overflow: hidden;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+  }
+
+  :global([data-theme='dark']) [data-series-index] {
+    --series-emphasis: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink)));
+  }
+
+  [data-series-track] > li + li { border-top: 1px solid hsl(var(--line)); }
+
+  [data-series-step] {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 1.625rem;
+    color: hsl(var(--ink));
+    text-decoration: none;
+    overflow-wrap: break-word;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  [data-series-step-number] {
+    color: hsl(var(--ink-soft));
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 400;
+    letter-spacing: -0.05em;
+  }
+
+  [data-series-step-copy] { min-width: 0; }
+
+  [data-series-step-label] {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  [data-series-step-title] {
+    display: block;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    letter-spacing: -0.018em;
+  }
+
+  [data-series-step]:is([aria-current='step'], :hover, :focus-visible) {
+    background: hsl(var(--brand-soft));
+    color: var(--series-emphasis);
+  }
+
+  [data-series-step]:is([aria-current='step'], :hover, :focus-visible) :is([data-series-step-number], [data-series-step-label]) {
+    color: inherit;
   }
 
   /* Keep focus inside the rounded, clipped rows, including the first and last. */
@@ -235,12 +230,20 @@ const seriesPath = getSeriesPath(series.id)
 
   @container series-track (width < 20rem) {
     [data-series-step] {
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.75rem;
+      padding: 1rem;
     }
 
-    [data-series-step-copy] {
-      grid-column: 1 / -1;
-      grid-row: 2;
+    [data-series-step-number] {
+      font-size: 1.5rem;
+      line-height: 1.875rem;
     }
+
+    [data-series-step-title] { font-size: 1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-series-step] { transition: none; }
   }
 </style>

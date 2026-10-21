@@ -1,8 +1,79 @@
 import { expect, test } from '@playwright/test'
 
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import { requireValue } from './helpers/assertions'
 
 const ARTICLE = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
+const ESLINT_ARTICLE = '/blog/designing-eslint-packages-teams-actually-adopt/'
+
+for (const theme of ['light', 'dark']) {
+  test(`reading index preserves long chapter titles and current status in ${theme}`, async ({ page }) => {
+    // Remote comment content has its own lifecycle coverage and must not affect this audit.
+    await page.route('https://giscus.app/**', route => route.abort())
+    await page.addInitScript(value => {
+      localStorage.setItem('theme', value)
+    }, theme)
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto(ESLINT_ARTICLE)
+    const chapters = page.getByRole('navigation', { name: 'Chapters in ESLint in Practice' })
+    const links = chapters.getByRole('link')
+
+    await expect(links).toHaveCount(5)
+    await expect(chapters.locator('[aria-current="step"]')).toHaveCount(1)
+    await expect(links.nth(3)).toContainText('Reading now')
+    await expect(links.nth(3)).toHaveAttribute('aria-current', 'step')
+    for (const width of [320, 768, 1024]) {
+      await page.setViewportSize({ width, height: 900 })
+      for (const textSize of ['100%', '200%']) {
+        await page.evaluate(async value => {
+          document.documentElement.style.fontSize = value
+          await document.fonts.ready
+        }, textSize)
+        await chapters.scrollIntoViewIfNeeded()
+        for (const title of await chapters.locator('[data-series-step-title]').all()) {
+          const layout = await title.evaluate(element => ({
+            width: element.clientWidth,
+            contentWidth: element.scrollWidth,
+            height: element.clientHeight,
+            contentHeight: element.scrollHeight
+          }))
+
+          expect(layout.contentWidth).toBeLessThanOrEqual(layout.width + 1)
+          expect(layout.contentHeight).toBeLessThanOrEqual(layout.height + 1)
+        }
+        const bounds = requireValue(await chapters.boundingBox())
+
+        expect(bounds.x).toBeGreaterThanOrEqual(0)
+        expect(bounds.x + bounds.width).toBeLessThanOrEqual(width)
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+      }
+    }
+    await expectNoUnexpectedAccessibilityViolations(page)
+  })
+}
+
+test.describe('Reading index without JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+
+  test('opens the first and last chapters with the correct current status', async ({ page }) => {
+    await page.goto(ESLINT_ARTICLE)
+    const chapters = page.getByRole('navigation', { name: 'Chapters in ESLint in Practice' })
+    const links = chapters.getByRole('link')
+
+    for (const endpoint of [0, 4]) {
+      const link = links.nth(endpoint)
+      const destination = requireValue(await link.getAttribute('href'))
+
+      await link.focus()
+      await link.press('Enter')
+      await expect(page).toHaveURL(destination)
+      await expect(links.nth(endpoint)).toHaveAttribute('aria-current', 'step')
+      await expect(links.nth(endpoint)).toContainText('Reading now')
+      await expect(chapters.locator('[aria-current="step"]')).toHaveCount(1)
+      await expect(page.locator('[data-series-pagination] a')).toHaveCount(1)
+    }
+  })
+})
 
 for (const width of [390, 1440]) {
   for (const textSize of [100, 150, 200]) {
