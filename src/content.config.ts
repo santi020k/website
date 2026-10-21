@@ -70,6 +70,7 @@ const project = defineCollection({
         ogImage: z.string().optional(),
         logo: image().optional(),
         logoAspect: z.enum(['square', 'wide', 'tall']).optional(),
+        logoScale: z.number().min(0.75).max(1.5).optional(),
         logoSurface: z.enum(['dark', 'light', 'neutral']).optional()
       })
       .optional(),

@@ -28,7 +28,7 @@ coverImage:
   src: "./cover.webp"
   horizontal: "./cover-horizontal.webp"
   vertical: "./cover-vertical.webp"
-  logo: "./logo.png"
+  logo: "./logo.svg"
   logoAspect: "square"
   logoSurface: "dark"
   alt: "Quality logo on a dark geometric cover with blue accents"

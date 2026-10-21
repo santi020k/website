@@ -34,6 +34,7 @@ coverImage:
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
+  logoScale: 1.12
   logoSurface: "dark"
   alt: "Lumen UI logo on a dark geometric cover with amber accents"
   ogImage: "./cover.webp"

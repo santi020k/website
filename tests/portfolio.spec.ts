@@ -98,6 +98,36 @@ const expectReadableProjectTitleGradient = async (page: Page) => {
 }
 
 test.describe('Portfolio page', () => {
+  test('keeps duplicate cover captions clear of enlarged logos on narrow screens', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 844 })
+    await page.goto('/portfolio/roadscore/')
+
+    const caption = page.locator('[data-project-cover-caption]')
+
+    await expect(caption).toBeHidden()
+    await expect(page.locator('[data-editorial-meta-group]')).toBeVisible()
+
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await expect(caption).toBeVisible()
+
+    const clearsLogo = await caption.evaluate(element => {
+      const image = element.parentElement?.querySelector('img')
+
+      if (!image) throw new TypeError('Expected a cover image beside its caption')
+
+      const imageBounds = image.getBoundingClientRect()
+
+      return element.getBoundingClientRect().top >= imageBounds.top + imageBounds.height * 0.75
+    })
+
+    expect(clearsLogo).toBe(true)
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = '200%'
+    })
+    await expect(caption).toBeHidden()
+    await expect(page.locator('[data-editorial-meta-group]')).toBeVisible()
+  })
+
   test('index should have the correct title and list sections', async ({ page }) => {
     await page.goto('/portfolio/')
     await expect(page).toHaveTitle(/Portfolio/)

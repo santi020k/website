@@ -233,6 +233,19 @@ Use brand in light mode and accent in dark mode. Preserve the project-type copy,
 semantic heading, and passive appearance. Below 16rem of rail width, tighten the
 card and paragraph insets and use 1rem statement text to keep ordinary words intact.
 
+### Stack ledger technology cards
+
+Core stack uses one opaque Lumen Card with the dossier's asymmetric corners.
+Place a sentence-case 0.75rem heading opposite the layers icon. Show the first six
+technologies in a two-column semantic list: 0.9375rem names at weight 500, fine
+bottom rules, and 1rem between columns. Keep the original content order.
+
+Additional technologies remain behind Lumen's native disclosure, with a readable
+count and one column of complete 0.8125rem names. Preserve keyboard focus, reduced
+motion, and operation without JavaScript. Only the disclosure has hover feedback.
+Below 17rem of rail width, tighten the insets; below 16rem, stack the main list in
+one column so enlarged names retain enough reading space.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

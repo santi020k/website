@@ -98,7 +98,8 @@ The same component serves featured, supporting, and related projects without cli
 - Project timeline endpoints use separate native `time` elements, and project
   sidebar card labels are level-two headings. `ProjectGlanceCard` uses an unstyled Lumen
   `Card` for the Project dossier treatment. `ProjectFocusCard` uses the same primitive
-  for its Margin note composition; stack and outcomes retain the section-label style.
+  for its Margin note composition. `ProjectStackCard` composes the Stack ledger from
+  `Card`, semantic technology lists, and `Collapsible`; outcomes retain the section-label style.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
 - Project stack cards use Lumen `Collapsible` for technologies beyond the first six. The native
@@ -204,7 +205,7 @@ and unresolved values count as zero, and the offset is never negative or non-fin
 and the site adds no second scroll-spy or client bridge. Lumen still owns the behavior.
 
 Do not compensate with negative heading `scroll-margin-top`: at 200% text it would place headings
-under the sticky header. Remove the patch when a published `lumen-astro` release provides the same
+under the sticky header. Remove the Anchor portion of the patch when a published `lumen-astro` release provides the same
 landing-line activation. If `lumen-astro` changes version first, regenerate the version-specific
 patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
 text-size marker cases in `tests/responsive-reading.spec.ts`.

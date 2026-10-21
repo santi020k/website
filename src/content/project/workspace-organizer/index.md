@@ -21,6 +21,7 @@ coverImage:
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
+  logoScale: 1.35
   logoSurface: "dark"
   alt: "Workspace Organizer logo on an indigo geometric cover with blue accents"
   ogImage: "./cover.webp"

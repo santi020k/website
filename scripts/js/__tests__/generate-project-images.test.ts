@@ -10,6 +10,7 @@ import {
   discoverProjects,
   generateProjectImages,
   getFallbackAccent,
+  getLogoBounds,
   getProjectImageVariants,
   getReadableAccent,
   IMAGE_VARIANTS,
@@ -52,8 +53,14 @@ describe('project image generator', () => {
   test.each([
     { extension: 'md', height: 64, logoAspect: 'square', width: 64 },
     { extension: 'mdx', height: 64, logoAspect: 'wide', width: 320 },
-    { extension: 'md', height: 320, logoAspect: 'tall', width: 64 }
-  ])('renders $extension with a $logoAspect logo that survives square crops', async ({ extension, height, logoAspect, width }) => {
+    { extension: 'md', height: 320, logoAspect: 'tall', width: 64 },
+    { extension: 'md', height: 64, logoAspect: 'square', padding: 160, width: 64 },
+    { extension: 'mdx', height: 64, logoAspect: 'wide', padding: 160, width: 320 },
+    { extension: 'md', height: 320, logoAspect: 'tall', padding: 160, width: 64 },
+    { extension: 'md', height: 64, logoAspect: 'square', logoScale: 1.5, width: 64 },
+    { extension: 'mdx', height: 64, logoAspect: 'wide', logoScale: 1.5, width: 320 },
+    { extension: 'md', height: 320, logoAspect: 'tall', logoScale: 1.5, width: 64 }
+  ])('gives $logoAspect artwork a consistent visual size inside square crops (padding: $padding, scale: $logoScale)', async ({ extension, height, logoAspect, logoScale = 1, padding = 0, width }) => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), 'project-images-'))
     const projectDirectory = path.join(root, 'sample-project')
 
@@ -74,6 +81,7 @@ coverImage:
   background: ./cover-background.webp
   logo: ./logo.png
   logoAspect: ${logoAspect}
+  logoScale: ${logoScale}
   logoSurface: dark
   alt: Sample project cover
 ---
@@ -85,6 +93,12 @@ coverImage:
         height,
         width
       }
+    }).extend({
+      background: { alpha: 0, b: 0, g: 0, r: 0 },
+      bottom: padding,
+      left: padding,
+      right: padding,
+      top: padding
     }).png().toFile(path.join(projectDirectory, 'logo.png'))
 
     const [project] = await discoverProjects(root)
@@ -117,26 +131,86 @@ coverImage:
         top: Math.round((variant.height - size) / 2),
         width: size
       }).raw().toBuffer()
-      const countLogoPixels = (pixels: Buffer) => {
+      const measureLogo = (pixels: Buffer, imageWidth: number) => {
         let count = 0
+        let left = imageWidth
+        let right = -1
+        let top = pixels.length
+        let bottom = -1
 
         for (let offset = 0; offset < pixels.length; offset += 3) {
           const red = pixels[offset] ?? 0
           const green = pixels[offset + 1] ?? 0
           const blue = pixels[offset + 2] ?? 0
 
-          if (red > 90 && green < 90 && blue > 180) count += 1
+          if (red <= 90 || green >= 90 || blue <= 180) continue
+
+          const x = (offset / 3) % imageWidth
+          const y = Math.floor(offset / 3 / imageWidth)
+
+          count += 1
+          left = Math.min(left, x)
+          right = Math.max(right, x)
+          top = Math.min(top, y)
+          bottom = Math.max(bottom, y)
         }
 
-        return count
+        return { count, height: bottom - top + 1, width: right - left + 1 }
       }
 
-      expect(countLogoPixels(full)).toBeGreaterThan(1000)
-      expect(countLogoPixels(crop)).toBe(countLogoPixels(full))
+      const artwork = measureLogo(full, variant.width)
+      const minimumScale = { square: 0.55, tall: 0.63, wide: 0.89 }[logoAspect]
+
+      expect(artwork.count).toBeGreaterThan(1000)
+      expect(measureLogo(crop, size).count).toBe(artwork.count)
+      expect(Math.max(artwork.height, artwork.width) / size).toBeGreaterThan(minimumScale ?? 0)
     }
 
     await fs.rm(root, { force: true, recursive: true })
   }, 15_000)
+
+  test('measures alpha instead of background colors and rejects invisible logos', async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'project-logo-bounds-'))
+    const logoPath = path.join(root, 'logo.png')
+    const visible = await sharp({
+      create: { background: '#000000', channels: 4, height: 5, width: 10 }
+    }).png().toBuffer()
+    const image = sharp({
+      create: { background: { alpha: 0.02, b: 255, g: 255, r: 255 }, channels: 4, height: 20, width: 30 }
+    })
+
+    await image.clone().composite([{ input: visible, left: 7, top: 9 }]).png().toFile(logoPath)
+    await expect(getLogoBounds(logoPath)).resolves.toEqual({ height: 5, left: 7, top: 9, width: 10 })
+    await image.png().toFile(logoPath)
+    await expect(getLogoBounds(logoPath)).rejects.toThrow('Logo has no visible artwork')
+    await fs.rm(root, { force: true, recursive: true })
+  })
+
+  test('renders vector logos at cover resolution before measuring their bounds', async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'project-vector-logo-'))
+    const logoPath = path.join(root, 'logo.svg')
+
+    await fs.writeFile(logoPath, '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#000"/></svg>')
+    await expect(getLogoBounds(logoPath)).resolves.toEqual({ height: 1600, left: 0, top: 0, width: 1600 })
+    await fs.rm(root, { force: true, recursive: true })
+  })
+
+  test.each(['0', '2', 'large', '.nan'])('rejects an invalid optical scale: %s', async scale => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), 'project-logo-scale-'))
+    const directory = path.join(root, 'sample')
+
+    await fs.mkdir(directory)
+    await fs.writeFile(path.join(directory, 'index.md'), `---
+title: Sample
+description: A generated fixture.
+coverImage:
+  logo: ./logo.png
+  logoScale: ${scale}
+---
+`)
+    await expect(discoverProjects(root)).rejects.toThrow('coverImage.logoScale must be between 0.75 and 1.5')
+    await fs.rm(root, { force: true, recursive: true })
+  })
 
   test('keeps metadata in thumbnails and scenery templates text-free', () => {
     const project = {
