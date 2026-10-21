@@ -25,7 +25,9 @@ const replyText = (entry: WebmentionsChildren): string => {
   return raw.trim().slice(0, 2000)
 }
 
-const publishedLabel = (entry: WebmentionsChildren): string | undefined => {
+// Webmention timestamps arrive in loose formats, so `datetime` gets the
+// normalized ISO form rather than the raw string.
+const publishedDate = (entry: WebmentionsChildren): { datetime: string, label: string } | undefined => {
   const raw = entry.published ?? entry['wm-received']
 
   if (!raw) return undefined
@@ -34,7 +36,7 @@ const publishedLabel = (entry: WebmentionsChildren): string | undefined => {
 
   if (Number.isNaN(d.getTime())) return undefined
 
-  return getFormattedDate(d)
+  return { datetime: d.toISOString(), label: getFormattedDate(d) }
 }
 
 const showSection = likes.length > 0 || replies.length > 0
@@ -45,13 +47,13 @@ const showSection = likes.length > 0 || replies.length > 0
     <section aria-label="Webmentions" class="space-y-8 pt-8">
       {likes.length > 0 && (
         <div class="space-y-3">
-          <p class="section-label">
+          <h2 class="section-label">
             <Icon
               class="mr-1 inline size-4 align-text-bottom"
               name="heart"
             />
             {likes.length} {likes.length === 1 ? 'like' : 'likes'} across the IndieWeb
-          </p>
+          </h2>
           <ul class="flex flex-wrap gap-2">
             {likes.map(entry => {
               const photo = authorPhoto(entry)
@@ -95,20 +97,20 @@ const showSection = likes.length > 0 || replies.length > 0
 
       {replies.length > 0 && (
         <div class="space-y-4">
-          <p class="section-label">
+          <h2 class="section-label">
             <Icon
               class="mr-1 inline size-4 align-text-bottom"
               name="message-circle"
             />
             Replies &amp; mentions
-          </p>
+          </h2>
           <ul class="space-y-4">
             {replies.map(entry => {
               const name = entry.author?.name ?? 'Anonymous'
               const authorUrl = entry.author?.url
               const source = entry['wm-source']
               const text = replyText(entry)
-              const date = publishedLabel(entry)
+              const date = publishedDate(entry)
 
               return (
                 <li
@@ -140,7 +142,7 @@ const showSection = likes.length > 0 || replies.length > 0
                           <span>{name}</span>
                         )}
                     </p>
-                    {date && <time class="text-xs text-ink-muted">{date}</time>}
+                    {date && <time class="text-xs text-ink-muted" datetime={date.datetime}>{date.label}</time>}
                   </div>
                   {text && <p class="mt-2 text-sm/6 text-ink-soft">{text}</p>}
                   <p class="mt-3">

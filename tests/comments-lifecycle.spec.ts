@@ -191,6 +191,115 @@ for (const { delayedResource, beforeToggle } of delayedResources) {
   })
 }
 
+const fulfillWidget = (page: Page) => page.route('https://giscus.app/widget?*', route => route.fulfill({
+  contentType: 'text/html', body: `<html><body><script>(${mockWidget.toString()})()</script></body></html>`
+}))
+
+test('a blocked comments client hides the mount and points readers to GitHub', async ({ page }) => {
+  await page.route('https://giscus.app/client.js', route => route.abort())
+  await page.goto(await firstPostPath(page))
+
+  const section = page.getByRole('region', { name: 'Comments' })
+
+  await expect(section.getByRole('heading', { level: 2, name: 'Comments' })).toBeVisible()
+  await section.scrollIntoViewIfNeeded()
+  await expect(section.locator('script')).toHaveCount(1)
+  await expect(section.locator('[data-giscus-mount]')).toBeHidden()
+
+  const status = section.locator('[data-giscus-error]')
+
+  await expect(status).toBeVisible()
+  await expect(status).toHaveText(/could not load.*GitHub/iu)
+  await expect(status).toHaveAttribute('role', 'status')
+  await expect(status).toHaveAttribute('aria-live', 'polite')
+
+  const github = section.getByRole('link', { name: 'reply on GitHub' })
+
+  await expect(github).toHaveAttribute('href', /^https:\/\/github\.com\/[^/]+\/[^/]+\/discussions$/u)
+  await github.focus()
+  await expect(github).toBeFocused()
+})
+
+test('returning to an article after a failed client makes a fresh, successful attempt', async ({ page }) => {
+  let requests = 0
+
+  await page.route('https://giscus.app/client.js', async route => {
+    requests += 1
+
+    if (requests === 1) {
+      await route.abort()
+
+      return
+    }
+
+    await route.fulfill({ contentType: 'application/javascript', body: `(${mockClient.toString()})()` })
+  })
+  await fulfillWidget(page)
+
+  const path = await firstPostPath(page)
+
+  await page.goto(path)
+  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await expect(page.locator('#comments [data-giscus-error]')).not.toBeEmpty()
+
+  await returnToBlog(page)
+  await expect(page).toHaveURL('/blog/')
+  await page.locator(`a[href="${path}"]`).first().click()
+  await expect(page).toHaveURL(path)
+  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await expect(page.locator('iframe.giscus-frame')).toHaveCount(1)
+  await expect.poll(() => requests).toBe(2)
+  await expect(page.locator('#comments [data-giscus-mount]')).toBeVisible()
+  await expect(page.locator('#comments [data-giscus-error]')).toBeEmpty()
+})
+
+test('an error on an abandoned client leaves both article sections unchanged', async ({ page }) => {
+  let requests = 0
+
+  await page.route('https://giscus.app/client.js', async route => {
+    requests += 1
+
+    await route.fulfill({
+      contentType: 'application/javascript',
+      body: requests === 1 ?
+        'document.currentScript.dataset.mockLoaded = "true"' :
+        `(${mockClient.toString()})()`
+    })
+  })
+  await fulfillWidget(page)
+
+  const path = await firstPostPath(page)
+
+  await page.goto(path)
+  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await expect(page.locator('#comments script')).toHaveAttribute('data-mock-loaded', 'true')
+  const abandonedScript = await page.locator('#comments script').elementHandle()
+
+  await returnToBlog(page)
+  await expect(page).toHaveURL('/blog/')
+  await page.locator(`a[href="${path}"]`).first().click()
+  await expect(page).toHaveURL(path)
+  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await expect(page.locator('iframe.giscus-frame')).toHaveCount(1)
+
+  // The browser can coalesce simultaneous script requests, so deliver the stale
+  // event directly after the next client loads. The old mount has no frame.
+  const abandonedState = await abandonedScript.evaluate(script => {
+    const section = script.closest('#comments')
+
+    script.dispatchEvent(new Event('error'))
+    return {
+      connected: script.isConnected,
+      status: section?.querySelector('[data-giscus-error]')?.textContent
+    }
+  })
+
+  expect(abandonedState).toEqual({ connected: false, status: '' })
+  expect(requests).toBe(2)
+  await expect(page.locator('#comments [data-giscus-mount]')).toBeVisible()
+  await expect(page.locator('#comments [data-giscus-error]')).toBeEmpty()
+})
+
 test('comments mount once and retain live theme changes after article navigation', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' })
   await page.route('https://giscus.app/client.js', route => route.fulfill({

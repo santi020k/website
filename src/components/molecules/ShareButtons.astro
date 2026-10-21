@@ -93,6 +93,11 @@ const shareLinks = [
           motion-reduce:animate-none
         "
       />
+      <Icon
+        name="circle-alert"
+        data-failed-icon
+        class="hidden size-5"
+      />
       <span id="copy-label" aria-live="polite">Copy link</span>
     </Button>
   </div>
@@ -111,10 +116,16 @@ const shareLinks = [
     border-color: hsl(var(--accent)) !important;
   }
 
+  /* An opaque surface keeps the label contrast independent of page gradients;
+     the danger border and icon carry the failure alongside the visible words. */
   #copy-link-btn.copy-failed {
-    background-color: hsl(var(--danger) / 0.1) !important;
-    color: hsl(var(--danger)) !important;
+    background: hsl(var(--surface)) !important;
+    color: hsl(var(--ink)) !important;
     border-color: hsl(var(--danger)) !important;
+  }
+
+  #copy-link-btn.copy-failed [data-failed-icon] {
+    color: hsl(var(--danger));
   }
 
   @keyframes spring-up {
@@ -132,6 +143,7 @@ const shareLinks = [
 
     const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
     const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
+    const failedIcon = btn.querySelector<HTMLElement>('[data-failed-icon]')
     const label = document.getElementById('copy-label')
     let timer: ReturnType<typeof setTimeout> | null = null
 
@@ -157,6 +169,8 @@ const shareLinks = [
 
       checkIcon?.classList.add('hidden')
 
+      failedIcon?.classList.add('hidden')
+
       if (label) label.textContent = idleLabel
     }
 
@@ -168,9 +182,11 @@ const shareLinks = [
 
       btn.classList.add(succeeded ? 'copied' : 'copy-failed')
 
-      copyIcon?.classList.toggle('hidden', succeeded)
+      copyIcon?.classList.add('hidden')
 
       checkIcon?.classList.toggle('hidden', !succeeded)
+
+      failedIcon?.classList.toggle('hidden', succeeded)
 
       // Kept short so the control still fits a 320px viewport alongside the share links.
       if (label) label.textContent = succeeded ? 'Link copied!' : 'Copy failed'

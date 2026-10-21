@@ -1,0 +1,153 @@
+import { AxeBuilder } from '@axe-core/playwright'
+import { expect, type Locator, type Page, test } from '@playwright/test'
+
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+
+const article = '/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/'
+
+const setTextSize = async (page: Page, textSize: number) => {
+  await page.addInitScript(size => {
+    const apply = () => {
+      const root = document.querySelector('html')
+
+      if (!root) return false
+      root.style.fontSize = `${size}%`
+      return true
+    }
+
+    if (!apply()) {
+      const observer = new MutationObserver(() => {
+        if (apply()) observer.disconnect()
+      })
+
+      observer.observe(document, { childList: true })
+    }
+    document.addEventListener('astro:before-swap', event => {
+      event.newDocument.documentElement.style.fontSize = `${size}%`
+    })
+  }, textSize)
+}
+
+const expectCopyInside = async (target: Locator) => {
+  const outside = await target.evaluate(element => {
+    const bounds = element.getBoundingClientRect()
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+    const clipped: string[] = []
+    let node = walker.nextNode()
+
+    while (node) {
+      if (node.textContent?.trim() && node.parentElement?.checkVisibility()) {
+        const range = document.createRange()
+
+        range.selectNodeContents(node)
+        if ([...range.getClientRects()].some(rect => rect.width > 0 && (
+          rect.left < Math.max(0, bounds.left) - 1 || rect.right > Math.min(innerWidth, bounds.right) + 1
+        ))) clipped.push(node.textContent.trim())
+      }
+      node = walker.nextNode()
+    }
+    return clipped
+  })
+
+  expect(outside).toEqual([])
+}
+
+for (const width of [390, 1440]) {
+  for (const textSize of [100, 200]) {
+    for (const theme of ['light', 'dark'] as const) {
+      test.describe(`Recovery states ${width}px / ${textSize}% / ${theme}`, () => {
+        test.use({ viewport: { width, height: width === 390 ? 844 : 900 }, colorScheme: theme, reducedMotion: 'reduce' })
+
+        test.beforeEach(async ({ page }) => {
+          await setTextSize(page, textSize)
+          await page.route('https://giscus.app/**', route => route.abort())
+        })
+
+        test('404 suggestions remain identifiable and keyboard usable', async ({ page, browserName }) => {
+          await page.goto('/this-page-does-not-exist/')
+          await page.evaluate(() => document.fonts.ready)
+          const suggestions = page.locator('main .editorial-rail').getByRole('link')
+
+          await expect(suggestions).toHaveCount(3)
+          await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+          for (const link of await suggestions.all()) {
+            await expect(link).toHaveCSS('text-decoration-line', 'underline')
+            await link.focus()
+            await expect(link).toBeFocused()
+            await expect(link).toBeInViewport()
+            await expect(link).toHaveCSS('outline-style', 'solid')
+            await expectCopyInside(link.locator('..'))
+          }
+          await suggestions.last().press('Enter')
+          await expect(page).toHaveURL('/about/')
+          await expect(page.locator('html')).toHaveCSS('font-size', `${textSize * 0.16}px`)
+        })
+
+        test('failed copying stays readable, announces its state and restores focus', async ({ page }) => {
+          await page.addInitScript(() => {
+            Object.defineProperty(navigator, 'share', { configurable: true, value: undefined })
+            Object.defineProperty(navigator, 'clipboard', {
+              configurable: true,
+              value: { writeText: () => Promise.reject(new DOMException('Synthetic denial', 'NotAllowedError')) }
+            })
+          })
+          await page.goto(article)
+          const button = page.locator('#copy-link-btn')
+
+          await button.focus()
+          await page.keyboard.press('Enter')
+          await expect(button).toHaveText('Copy failed')
+          await expect(button).toBeFocused()
+          await expect(button.locator('#copy-label')).toHaveAttribute('aria-live', 'polite')
+          await expectCopyInside(button)
+          const scan = await new AxeBuilder({ page }).include('#copy-link-btn').analyze()
+
+          expect(scan.violations).toEqual([])
+          expect(scan.incomplete.filter(result => result.id === 'color-contrast')).toEqual([])
+          await expect(button).toHaveText('Copy link')
+          await expect(button).toBeFocused()
+          await expect(button).not.toHaveClass(/copy-failed/u)
+        })
+
+        test('blocked comments expose readable recovery guidance without an empty widget', async ({ page }) => {
+          await page.goto(article)
+          const comments = page.getByRole('region', { name: 'Comments', exact: true })
+
+          await comments.scrollIntoViewIfNeeded()
+          await expect(comments.getByRole('heading', { name: 'Comments', level: 2 })).toBeVisible()
+          await expect(comments.locator('p').first()).toContainText('or reply on GitHub')
+          const heading = comments.getByRole('heading', { name: 'Comments', level: 2 })
+
+          await expect(heading).toHaveCSS('letter-spacing', `${1.3 * textSize / 100}px`)
+          await expect(heading).toHaveCSS('line-height', `${18 * textSize / 100}px`)
+          await expect(comments.locator('[data-giscus-mount]')).toBeHidden()
+          const error = comments.locator('[data-giscus-error]')
+
+          await expect(error).toBeVisible()
+          await expectCopyInside(comments)
+          const link = comments.getByRole('link', { name: 'reply on GitHub' })
+
+          await link.focus()
+          await expect(link).toBeFocused()
+          await expect(link).toHaveCSS('outline-style', 'solid')
+          await expectNoUnexpectedAccessibilityViolations(page)
+        })
+      })
+    }
+  }
+}
+
+test.describe('Without JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+
+  test('comments retain their GitHub fallback without an empty reserved area', async ({ page }) => {
+    await page.goto(article)
+    const comments = page.getByRole('region', { name: 'Comments', exact: true })
+
+    await expect(comments.getByRole('heading', { name: 'Comments', level: 2 })).toBeVisible()
+    await expect(comments.getByRole('link', { name: 'reply on GitHub' })).toHaveAttribute('href', /^https:\/\/github\.com\/santi020k\/website\/discussions$/u)
+    await expect(comments.locator('[data-giscus-mount]')).toBeEmpty()
+    await expect(comments.locator('[data-giscus-mount]')).toHaveCSS('min-height', '0px')
+    await expect(comments.locator('[data-giscus-error]')).toBeHidden()
+  })
+})

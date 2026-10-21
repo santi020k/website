@@ -429,7 +429,19 @@ both downloadable PDF variants remain authoritative.
   their italic style. The theme's original comment color is too faint on the reading canvas.
 - The share "Link copied!" state uses a solid `brand-soft` background, with `brand` text in the
   light theme and `ink` text with an `accent` border in the dark theme. Success, failure, reset,
-  Web Share, and clipboard behavior are unchanged.
+  Web Share, and clipboard behavior are unchanged. The failed-copy state uses opaque `surface`
+  with `ink` text and a `danger` border and icon; the visible failure label supplies the meaning
+  without relying on color or translucent backgrounds.
+
+### Recovery and discussion states
+
+- Keep the 404 suggestion links underlined in both themes, including before hover or focus.
+- Comments expose a real section heading and retain the GitHub link during loading, failure,
+  and no-JavaScript visits. Reserve widget height only once the client has been mounted.
+  A failed client request hides the empty widget and announces concise fallback guidance;
+  delayed failures from a departed article cannot change the current page.
+- Webmention likes and replies expose section headings with the existing label typography.
+  Displayed dates retain their readable format and carry a valid ISO `datetime` value.
 
 Consumer-owned `data-site-eyebrow` and `data-editorial-toc` attributes provide stable
 styling boundaries where the Lumen component does not expose a `data-slot`. Other composed

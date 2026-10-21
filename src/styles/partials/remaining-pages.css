@@ -94,7 +94,7 @@
 }
 .remaining-pages [data-slot='stat-value'] { font-weight: 500; letter-spacing: -0.055em; }
 @media screen {
-.remaining-pages h2:not(.prose-santi h2) {
+.remaining-pages h2:not(.prose-santi h2, .section-label) {
   font-weight: 500;
   line-height: 1.15;
   letter-spacing: -0.055em;

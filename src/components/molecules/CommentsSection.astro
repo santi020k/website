@@ -10,7 +10,9 @@
  * when the visitor toggles light/dark mode. Theme changes made before the
  * client runs update its pending attribute. Each widget document (lazy first
  * load, or a Giscus `src` reload such as sign-out) resyncs on its first ready
- * message. This script never reloads the discussion itself.
+ * message. This script never reloads the discussion itself. If the client
+ * fails to load, the mount is hidden and a polite status points readers to
+ * the GitHub link.
  */
 import { siteConfig } from '@/site.config'
 
@@ -19,7 +21,7 @@ const { giscus } = siteConfig
 
 {giscus && (
   <section
-    aria-label="Comments"
+    aria-labelledby="comments-heading"
     class="space-y-4 border-t border-line/45 pt-8"
     data-giscus-category={giscus.category}
     data-giscus-category-id={giscus.categoryId}
@@ -27,9 +29,9 @@ const { giscus } = siteConfig
     data-giscus-repo-id={giscus.repoId}
     id="comments"
   >
-    <p class="section-label">Comments</p>
+    <h2 class="section-label" id="comments-heading">Comments</h2>
     <p class="text-sm/7 text-ink-soft">
-      Powered by GitHub Discussions — sign in with GitHub to join the conversation, or
+      Powered by GitHub Discussions — sign in with GitHub to join the conversation, or{' '}
       <a
         class="
           underline underline-offset-4 transition-colors
@@ -43,9 +45,25 @@ const { giscus } = siteConfig
         reply on GitHub
       </a>.
     </p>
-    <div class="min-h-72" data-giscus-mount></div>
+    <!-- Stays rendered (empty) so screen readers register the live region
+         before a load failure fills it. -->
+    <p aria-live="polite" class="text-sm/7 text-ink-soft" data-giscus-error role="status"></p>
+    <div data-giscus-mount></div>
   </section>
 )}
+
+<style>
+  /* Collapse the empty status so it adds no gap to the section stack. */
+  [data-giscus-error]:empty {
+    margin: 0;
+  }
+
+  /* Reserve space only once the client is mounting, so readers without
+     JavaScript do not get a blank block under the GitHub link. */
+  [data-giscus-mount]:not(:empty) {
+    min-height: 18rem;
+  }
+</style>
 
 <script>
   // Custom brand themes (public/styles/giscus-*.css). giscus only accepts
@@ -181,7 +199,7 @@ const { giscus } = siteConfig
 
   const mountGiscus = () => {
     const section = document.querySelector<HTMLElement>('#comments')
-    const mount = section?.querySelector('[data-giscus-mount]')
+    const mount = section?.querySelector<HTMLElement>('[data-giscus-mount]')
 
     if (!section || !mount || mount.childElementCount > 0) return
 
@@ -211,6 +229,21 @@ const { giscus } = siteConfig
     for (const [name, value] of Object.entries(attributes)) {
       script.setAttribute(name, value)
     }
+
+    // A blocked or offline client leaves only the reserved space behind, so
+    // swap it for guidance toward the GitHub link that is already rendered.
+    script.addEventListener('error', () => {
+      // The failure may land after Astro has swapped in another article.
+      if (!section.isConnected || document.getElementById('comments') !== section) return
+
+      if (mount.querySelector('iframe.giscus-frame')) return
+
+      mount.hidden = true
+
+      const status = section.querySelector('[data-giscus-error]')
+
+      if (status) status.textContent = 'Comments could not load. You can still reply on GitHub using the link above.'
+    }, { once: true })
 
     frameSourceObserver?.disconnect()
 
