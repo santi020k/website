@@ -160,17 +160,6 @@
 }
 .remaining-pages [data-project-meta-glow] { display: none; }
 @utility editorial-project-stack { padding-block: 1.5rem; border-block: 1px solid hsl(var(--line) / 0.65); }
-.remaining-pages [data-editorial-toc] {
-  padding: 1.5rem 0;
-  border: 0;
-  border-top: 1px solid hsl(var(--line) / 0.65);
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  /* The open rule needs no glass clipping; Lumen's active marker and the focus
-     ring sit just outside the link box. */
-  overflow: visible;
-}
 /* Resume actions use Lumen directly and keep their print contract. */
 .remaining-pages [data-resume-shell] [data-slot='button-link'] {
   min-height: 2.75rem;

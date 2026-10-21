@@ -219,12 +219,12 @@ Keep a complete outer focus outline, readable light/dark colors, and reduced-mot
 ### Project dossier sidebar cards
 
 At a glance uses one opaque Lumen Card with 1.5rem corners and a 0.5rem lower-right
-corner. Its tinted cap holds a sentence-case heading and the full role at 1.4375rem.
+corner. Its plain header holds a sentence-case 0.75rem purple heading opposite the
+info icon, matching Focus and Core stack. Show the full role at 1.125rem below its label.
 Keep Type, Timeline, and Duration left-aligned below it, with quiet labels and fine
 rules. Preserve semantic definition lists, individual time elements, the fallback role,
 and computed duration. This is a passive reading surface with no hover feedback.
-Below 16rem of rail width, reduce insets and role typography to preserve enlarged-text
-reading space. Other sidebar cards retain their own composition.
+Below 16rem of rail width, reduce insets to preserve enlarged-text reading space.
 
 ### Margin note focus cards
 
@@ -251,9 +251,10 @@ one column so enlarged names retain enough reading space.
 
 ### Impact rows outcome cards
 
-Project Outcomes use an opaque Lumen Card with asymmetric corners and a tinted cap.
-Place the 1.375rem heading opposite the trophy icon, then separate results with fine
-rules. Explicit metrics use a 1.875rem purple value beside their complete 0.8125rem
+Project Outcomes use an opaque Lumen Card with asymmetric corners and a plain header.
+Place the 0.75rem purple heading opposite the trophy icon, matching Focus and Core stack,
+then separate results with fine rules. Explicit metrics use a 1.875rem purple value
+beside their complete 0.8125rem
 context; before-and-after results retain the previous value above the current one.
 Written achievements use a small check and complete 0.875rem text. Keep weight 500
 for headings and values, weight 400 for context, and no hover feedback.
@@ -263,6 +264,18 @@ counts keep their suffixes and full context; qualified claims stay prose. Preser
 the original statement once for screen readers and omit empty outcome sections.
 Below 16rem of rail width, stack value and context and tighten the insets so enlarged
 text stays readable. The card remains fully rendered without JavaScript.
+
+### Margin rail table of contents
+
+Project and article navigation use Lumen Anchor inside an opaque, asymmetric panel.
+Place the 0.75rem purple On this page label opposite the list icon. A fine vertical
+rule organizes the complete heading list: level-two links use 1rem text, and nested
+headings use 0.8125rem text with a deeper inset. A 3px purple marker sits on the rule
+beside the current heading. Use accent in dark mode and keep visible keyboard focus.
+
+Keep native fragment links, Lumen's scroll spy, 2.75rem minimum targets, and reduced
+motion. Below 16rem of available rail width, tighten panel and link insets. Navigation
+must remain usable in short, independently scrolling desktop rails and with enlarged text.
 
 ## Buttons and links
 
