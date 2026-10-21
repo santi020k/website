@@ -46,17 +46,20 @@ mainClass="remaining-pages"
   <StatsGrid>
     <StatCard
       description="Ongoing reading tracks with at least one published post."
-      label="Active series"
+      icon="library"
+label="Active series"
       value={activeSeries.length}
     />
     <StatCard
       description="Posts that belong to a series rather than standing alone in the archive."
-      label="Posts grouped"
+      icon="files"
+label="Posts grouped"
       value={postsGroupedIntoSeries}
     />
     <StatCard
       description="Published reading tracks, including active and archived series."
-      label="Reading tracks"
+      icon="book-open"
+label="Reading tracks"
       value={seriesSummaries.filter(item => item.postCount > 0).length}
     />
   </StatsGrid>

@@ -247,8 +247,8 @@ mainClass="remaining-pages"
   </PageSection>
 
   <StatsGrid>
-    <StatCard description="Distinct recurring topics across the current writing archive." label="Topics" value={allTags.length} />
-    <StatCard description="Published posts that can be reached through these topic pages." label="Posts" value={posts.length} />
-    <StatCard description="How often the most-used topic currently appears in the archive." label="Top topic" suffix="x" value={topTagCount} />
+    <StatCard description="Distinct recurring topics across the current writing archive." icon="hash" label="Topics" value={allTags.length} />
+    <StatCard description="Published posts that can be reached through these topic pages." icon="file-text" label="Posts" value={posts.length} />
+    <StatCard description="How often the most-used topic currently appears in the archive." icon="trending-up" label="Top topic" suffix="x" value={topTagCount} />
   </StatsGrid>
 </PageLayout>

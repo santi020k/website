@@ -87,7 +87,7 @@ mainClass="remaining-pages"
   </PageHero>
 
   <StatsGrid columns={3}>
-    <StatCard description="Articles collected into this reading track." label="Posts" value={postCount} />
+    <StatCard description="Articles collected into this reading track." icon="file-text" label="Posts" value={postCount} />
     <Card
       as="article"
       class="
@@ -109,7 +109,7 @@ mainClass="remaining-pages"
       </p>
     </Card>
     {!!series.data.focusAreas.length && (
-      <StatCard description="Recurring themes shaping the articles in this track." label="Focus areas" value={series.data.focusAreas.length} />
+      <StatCard description="Recurring themes shaping the articles in this track." icon="focus" label="Focus areas" value={series.data.focusAreas.length} />
     )}
   </StatsGrid>
 

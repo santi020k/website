@@ -167,19 +167,22 @@ const meta = {
   <StatsGrid>
     <StatCard
       description={`Independent and open-source projects where ${technology} shaped the product or engineering system.`}
-      label="Projects"
+      icon="folder-open"
+label="Projects"
       value={projectMatches.length}
     />
     {communityMatches.length > 0 && (
       <StatCard
         description={`Community work where ${technology} supported practical learning and knowledge sharing.`}
-        label="Community"
+        icon="users"
+label="Community"
         value={communityMatches.length}
       />
     )}
     <StatCard
       description={`Professional roles where ${technology} contributed to architecture, delivery, or product outcomes.`}
-      label="Work experience"
+      icon="briefcase-business"
+label="Work experience"
       value={workExperienceMatches.length}
     />
   </StatsGrid>
