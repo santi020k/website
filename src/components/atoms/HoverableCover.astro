@@ -33,6 +33,10 @@ const {
 
 const nativeTargetWidth = Math.min(1600, image.width)
 const nativeTargetHeight = Math.round(nativeTargetWidth * image.height / image.width)
+
+const nativeWidths = [...new Set([400, 800, 1200, nativeTargetWidth])]
+  .filter(width => width <= nativeTargetWidth)
+  .sort((firstWidth, secondWidth) => firstWidth - secondWidth)
 ---
 
 <div
@@ -66,7 +70,7 @@ const nativeTargetHeight = Math.round(nativeTargetWidth * image.height / image.w
         sizes={sizes}
         src={image}
         width={nativeTargetWidth}
-        widths={[400, 800, 1200, 1600]}
+        widths={nativeWidths}
       />
     ) :
     (

@@ -87,7 +87,7 @@ Follow the established content patterns from existing entries (e.g., `void/index
 | `personal` | Personal Projects | Passion-driven initiatives |
 | `experimental` | *(if defined)* | Experimental explorations |
 
-Types are defined in `src/content/types/`. Add a new `.md` there if a new type is needed.
+Project categories are defined by the `typesId` enum in `src/content.config.ts`. Update the schema and its consumers together if a category changes.
 
 ### 6. Verify
 

@@ -5,6 +5,9 @@
  * process lifetime and the result is stored in a module-level cache. In
  * development, each call delegates to Astro so content edits are reflected by
  * HMR instead of leaving the long-running dev server with stale entries.
+ * Each caller receives its own array so route-specific sorting and filtering
+ * cannot change the cached collection seen by other pages. Entry objects remain
+ * shared and must be treated as read-only.
  *
  * Usage:
  *   import { getCachedPosts, getCachedProjects } from '@/utils/content'
@@ -23,18 +26,18 @@ let _series: CollectionEntry<'series'>[] | null = null
  * The result is cached for the duration of the Astro build process.
  */
 export const getCachedPosts = async (): Promise<CollectionEntry<'post'>[]> => {
-  if (import.meta.env.PROD && _posts) return _posts
+  if (import.meta.env.PROD && _posts) return [..._posts]
 
   const now = new Date()
   const all = await getCollection('post', ({ data }) => import.meta.env.PROD ? !data.draft && data.publishDate <= now : true)
 
-  const posts = all.sort(
+  const posts = [...all].sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
   )
 
   if (import.meta.env.PROD) _posts = posts
 
-  return posts
+  return [...posts]
 }
 
 /**
@@ -42,13 +45,13 @@ export const getCachedPosts = async (): Promise<CollectionEntry<'post'>[]> => {
  * The result is cached for the duration of the Astro build process.
  */
 export const getCachedProjects = async (): Promise<CollectionEntry<'project'>[]> => {
-  if (import.meta.env.PROD && _projects) return _projects
+  if (import.meta.env.PROD && _projects) return [..._projects]
 
   const projects = await getCollection('project', ({ data }) => import.meta.env.PROD ? !data.draft : true)
 
   if (import.meta.env.PROD) _projects = projects
 
-  return projects
+  return [...projects]
 }
 
 /**
@@ -56,13 +59,13 @@ export const getCachedProjects = async (): Promise<CollectionEntry<'project'>[]>
  * The result is cached for the duration of the Astro build process.
  */
 export const getCachedSeries = async (): Promise<CollectionEntry<'series'>[]> => {
-  if (import.meta.env.PROD && _series) return _series
+  if (import.meta.env.PROD && _series) return [..._series]
 
   const series = await getCollection('series', ({ data }) => import.meta.env.PROD ? !data.draft : true)
 
   if (import.meta.env.PROD) _series = series
 
-  return series
+  return [...series]
 }
 
 /**
