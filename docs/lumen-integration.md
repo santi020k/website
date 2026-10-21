@@ -68,10 +68,11 @@ semantics remain intact while the site owns its visual composition.
 The Work page follows the solid editorial canvas of the homepage and navbar: generous
 spacing, Montserrat headings, fine dividers, a purple emphasis, and the shared solid resume
 button. Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `Pill`.
-The existing `CareerTimeline` has an opt-in `appearance="editorial"` for Work, keeping the
-portfolio index's default presentation. Work shows complete role descriptions, with the
-same chronological content and keyboard-accessible case-study links in both themes.
-Page-specific styles live in `src/styles/partials/work.css`.
+`CareerTimeline` uses Lumen `Timeline` for its ordered list and one unstyled `Card` per
+linked role. A site-owned date rail and connector frame the Timeline folio layout without
+styling private TimelineItem internals. Each role retains its complete description,
+technologies, chronological dates, and keyboard-accessible case-study link. Its scoped
+styles own the card and responsive date rail; Work page styles own only the page composition.
 
 ## Current primitive migrations
 

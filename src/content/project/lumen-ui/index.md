@@ -9,10 +9,23 @@ brand:
   surface: "#111827"
 role: "Creator"
 startingDate: "3 Jul 2026"
+updatedDate: "20 Oct 2026"
 githubUrl: "https://github.com/santi020k/lumen"
 liveDemoUrl: "https://lumen.santi020k.com/"
 typesId: "personal"
+purpose: "developer-tools"
 relevanceWeight: 100
+previews:
+  description: "Real interfaces built with Lumen: a web workspace and the SwiftUI playground. The screens use illustrative data."
+  images:
+    - src: "./preview-web.webp"
+      alt: "Lumen web workspace with sidebar navigation, a revenue chart, recent activity, and a task form using illustrative data."
+      title: "A workspace from shared parts"
+      caption: "Navigation, charts, metrics, and form controls work together in one composition. Applications supply their own data and decisions."
+    - src: "./preview-apple.webp"
+      alt: "Lumen SwiftUI playground showing a release checklist with a date picker, accessibility checkbox, progress, and review actions."
+      title: "The same foundations on iPhone"
+      caption: "The native playground expresses a release checklist through SwiftUI controls. Shared tokens connect the visual language while the platform owns the interaction."
 impactMetrics: ["Connects web and native interfaces through shared tokens and explicit component contracts", "Combines accessible controls, charts, maps, and operational layouts with platform-native authoring", "Supports design and AI workflows through Figma resources, an agent skill, MCP, and a machine-readable registry"]
 technologies: ["Astro", "React.js", "Web Components", "TypeScript", "CSS", "Tailwind CSS", "Accessibility", "Design Systems", "Figma", "Model Context Protocol", "AI-assisted Development", "Vitest", "Playwright", "Turborepo", "pnpm", "NPM", "Developer Documentation", "Open Source"]
 coverImage:
@@ -81,7 +94,7 @@ make those boundaries visible.
 
 ### Used in this website
 
-This site consumes the published Lumen 4.0.0 Astro, core, and umbrella packages. The travel notebook
+This site consumes the published Lumen 4 Astro, core, and umbrella packages. The travel notebook
 uses `WorldMap`, the homepage presents a product screenshot through `DeviceFrame`, and reading
 layouts compose shared progress, copy actions, and navigation primitives. The website keeps its
 editorial styling, search, content ordering, and travel data.

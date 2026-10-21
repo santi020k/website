@@ -11,6 +11,7 @@ startingDate: "1 Jun 2026"
 githubUrl: "https://github.com/santi020k/dep-beacon"
 liveDemoUrl: "https://beacon.santi020k.com/"
 typesId: "personal"
+purpose: "developer-tools"
 relevanceWeight: 50
 impactMetrics: [
   "Available for VS Code through Visual Studio Marketplace and Open VSX, and for Zed through its extension registry",

@@ -80,7 +80,7 @@ The site uses GitHub Flow and has one production branch:
 
 Protect `main` in the GitHub repository settings. Require a pull request and the
 `Quality gate` status check before merging. Routine changes use feature or fix
-branches; the v4 redesign is being consolidated on `release/v4.0.0`. Merge its
+branches; the next release is being consolidated on `release/v4.1.0`. Merge its
 reviewed pull request once into `main`, using the same production checks.
 
 Website versions and GitHub Releases are managed with Changesets:
@@ -102,19 +102,19 @@ CodeQL scans pull requests and also runs monthly or on demand against the
 protected default branch. The pull-request jobs stay read-only, and the
 dependency audit reuses the quality gate's single dependency installation.
 
-## v4 design candidate
+## Current release integration
 
-`release/v4.0.0` consolidates the new design and replaces the unpublished 3.12.0
-release preparation. Existing source checkouts remain intact until their work is
+`release/v4.1.0` builds on the released v4 design with website history, reading and
+accessibility improvements, and refreshed project discovery. Existing source checkouts remain intact until their work is
 integrated and their owners finish. Public page URLs and content collections are
 retained; no visitor migration is required.
 
-The candidate uses the coordinated Lumen 4.0.0 registry packages. Install the committed
+The candidate uses the published Lumen 4 registry packages pinned in the workspace catalog. Install the committed
 lockfile with the pinned pnpm version, regenerate CV downloads after dependency or design
 changes, and run the release gates. `preview:lumen:v4` remains available for future local
 library evaluation; never commit its temporary overrides or local tarball paths.
 
-Finished task changes must be committed into `release/v4.0.0` and validated on the
+Finished task changes must be committed into `release/v4.1.0` and validated on the
 integrated revision. Inspect worktree status and commit ancestry before carrying
 forward older edits: already-integrated copies and superseded local preview
 overrides must not overwrite the current release. Preserve dirty source checkouts

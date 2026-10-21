@@ -73,7 +73,7 @@ for (const width of [390, 1440]) {
           }))
 
           expect(outside).toEqual([])
-          await expectWholeText(page.locator('.studio-writing-row h3'), /authentication|without|sharing|accounts/u)
+          await expectWholeText(page.locator('.studio-writing-row h4'), /authentication|without|sharing|accounts/u)
           await expectWholeText(page.locator('.studio-row-title strong'), /RoadScore|Between/u)
           const rows = page.locator('.studio-writing-row')
           const first = rows.first()

@@ -23,10 +23,15 @@ The map comes first, directly below the navigation, and extends to both page edg
 The title, introduction, and visit counts follow beneath it, aligned with the navigation.
 Its zoom and reset controls sit inside the map.
 Selecting a country opens a notebook card with its silhouette, visit label, and a list of places.
+Desktop cards use the opposite side of the map from the selected country.
 The silhouette reuses the selected country geometry; no city coordinates or travel details are inferred.
-Visitors can browse the next country, close the card, or press Escape. Closing clears the selection so the same country can be opened again.
-The country selector appears on keyboard focus, while the duplicate highlighted-country list is
-hidden. On phones, the map fills a taller viewport with proportionally larger geography, starts
+Visitors can browse in either direction, with the next country named in the card and both controls
+naming their destination for assistive technology. Closing or pressing Escape clears the selection
+so the same country can be opened again. Closing a phone card returns focus and the page to the
+map while preserving its zoom and horizontal position.
+The native country selector is visible below the map for touch and keyboard use. Its first group
+contains the 15 notebook entries in data order, followed by the other countries. The duplicate
+highlighted-country list is hidden. On phones, the map fills a taller viewport with proportionally larger geography, starts
 around Colombia, and scrolls horizontally to reveal off-screen selections. The card follows the map
 in the page flow, keeping the selected country and zoom controls unobstructed. Pointer selection
 reveals the card; keyboard selection retains focus in the chooser. Enlarged text also moves the

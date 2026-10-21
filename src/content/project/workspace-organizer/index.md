@@ -10,6 +10,7 @@ startingDate: "13 Jul 2026"
 githubUrl: "https://github.com/santi020k/workspace-organizer"
 liveDemoUrl: "https://workspace.santi020k.com/"
 typesId: "personal"
+purpose: "apps"
 draft: true
 relevanceWeight: 60
 impactMetrics: ["Organizes individual windows instead of forcing every window from one application into the same context", "Restores adaptive layouts across changing display arrangements", "Supports menu-bar, keyboard, Shortcuts, URL scheme, and privacy-safe CLI workflows"]

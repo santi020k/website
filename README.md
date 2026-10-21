@@ -99,9 +99,16 @@ The integration guide records the version-pinned Anchor runtime patch.
   Published tags generate topic archives; reading and gaming remain discoverable in the filters.
 - **Travel:** Lumen `WorldMap` connects country visit counts with personal notes. Follow the
   [travel editing guide](docs/editorial/travel.md) for data and title-only drafts.
-- **Projects:** `relevanceWeight` ranks personal projects consistently across the homepage,
-  portfolio, projects gallery, and structured data. Lumen, PostLens, Between Contractions,
-  and RoadScore lead the selection.
+- **Projects:** `relevanceWeight` ranks personal projects across the homepage and portfolio.
+  The Projects page groups entries by `purpose`: `developer-tools`, `apps`, and `experiments`,
+  preserving relevance within each group and matching structured data to the visible order.
+  Category links work without JavaScript; drafts remain unpublished.
+- **Start here:** three published articles introduce the tools, decisions, and motivations behind
+  the work. Edit `startHere.order`, `label`, and `reason` in post frontmatter; drafts and scheduled
+  posts are excluded. Recent writing remains a separate chronological list.
+- **Product previews:** annotated application captures complement project artwork. Follow the
+  [preview provenance guide](docs/editorial/project-previews.md) and
+  [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.
 - **Search:** the header searches posts and projects; open it with `/`, ⌘K, or Ctrl+K.
 
 ### The developer tools behind this repository
@@ -205,7 +212,7 @@ projects index uses an editorial gallery; technology archives retain the default
 `pnpm run generate:cv` builds the site and regenerates résumé downloads after UI or dependency
 changes. Do not edit generated files by hand.
 
-The v4 redesign is consolidated on `release/v4.0.0`. Production publishing follows the reviewed
+The next release is consolidated on `release/v4.1.0`. Production publishing follows the reviewed
 GitHub workflow from `main`; local validation and integration are separate from remote merge,
 Cloudflare deployment, and production smoke checks. See the
 [deployment runbook](docs/deployment.md) for Changesets, protected checks, and rollback.

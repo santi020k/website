@@ -11,9 +11,10 @@ import { ButtonLink, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   posts: CollectionEntry<'post'>[]
+  startHerePosts: CollectionEntry<'post'>[]
 }
 
-const { posts } = Astro.props
+const { posts, startHerePosts } = Astro.props
 ---
 
 {posts.length > 0 && (
@@ -27,14 +28,46 @@ const { posts } = Astro.props
       href="/blog/"
       action="Read all articles"
     />
-    <ol class="studio-writing-list">
+    {startHerePosts.length > 0 && (
+      <section aria-labelledby="start-here-heading" class="mb-12" data-start-here>
+        <h3 class="text-xl font-medium text-ink" id="start-here-heading">Start here</h3>
+        <p class="mt-3 text-sm/7 text-ink-soft">Three ways into my work: the tools, the decisions, and the reasons behind them.</p>
+        <ol class="
+          mt-6 grid gap-8
+          md:grid-cols-3
+        "
+        >
+          {startHerePosts.map(post => (
+            <li class="flex min-w-0 border-t border-line/65 pt-5">
+              <a class="group flex w-full flex-col text-ink no-underline" href={getPostPath(post.id)}>
+                <p class="section-label text-ink-soft">{post.data.startHere?.label}</p>
+                <h4 class="
+                  mt-3 text-lg/7 font-medium
+                  group-hover:text-brand
+                  dark:group-hover:text-accent
+                "
+                >{post.data.title}</h4>
+                <p class="mt-3 text-sm/7 text-ink-soft">{post.data.startHere?.reason}</p>
+                <span class="
+                  mt-auto inline-flex items-center gap-2 pt-4 text-sm
+                  font-medium
+                "
+                >Read the article <Icon name="arrow-up-right" /></span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+    <h3 class="mb-5 text-xl font-medium text-ink" id="latest-writing-heading">Latest writing</h3>
+    <ol aria-labelledby="latest-writing-heading" class="studio-writing-list">
       {posts.map((post, index) => (
         <li>
           <a class="studio-writing-row" href={getPostPath(post.id)}>
             <span class="studio-row-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
             <div>
               <p class="studio-writing-meta"><time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate)}</time><span>{getReadingTime(post.body)} min read</span></p>
-              <h3>{post.data.title}</h3>
+              <h4>{post.data.title}</h4>
               <p class="studio-writing-description">{post.data.description}</p>
             </div>
             <span class="studio-arrow-box" aria-hidden="true"><Icon name="arrow-up-right" /></span>
