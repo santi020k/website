@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components'
 
 <button
   id="back-to-top"
+  inert
   aria-label="Scroll back to top"
   class="back-to-top-button"
   type="button"
@@ -41,17 +42,31 @@ import { Icon } from 'astro-icon/components'
 </style>
 
 <script>
+  const focusMain = () => document.getElementById('main')?.focus({ preventScroll: true })
+
   const setup = () => {
     const btn = document.getElementById('back-to-top')
 
-    if (!btn) return () => undefined
+    if (!(btn instanceof HTMLButtonElement)) return () => undefined
 
-    const onScroll = () => btn.classList.toggle('is-visible', window.scrollY > 400)
+    const onScroll = () => {
+      const isVisible = window.scrollY > 400
+
+      // Never leave keyboard focus on a control that is about to disappear.
+      if (!isVisible && document.activeElement === btn) focusMain()
+
+      btn.inert = !isVisible
+
+      btn.classList.toggle('is-visible', isVisible)
+    }
 
     const onClick = () => {
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const wasFocused = document.activeElement === btn
 
       window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })
+
+      if (wasFocused) focusMain()
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })

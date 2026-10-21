@@ -84,18 +84,24 @@ const contactChannels = [
         </h3>
       </div>
 
-      <div class="space-y-5">
+      <!-- Rows respond to the card's own width, so enlarged text stacks instead of squeezing values. -->
+      <div class="@container space-y-5">
         {contactChannels.map(({ action, description, href, icon, label, newTab = false, value }, index) => (
           <div
+            data-contact-row
             class:list={[
               `
                 flex flex-col gap-4
-                sm:flex-row sm:items-start sm:justify-between
+                @lg:flex-row @lg:items-start @lg:justify-between
               `,
               index > 0 && 'border-t border-line/60 pt-5'
             ]}
           >
-            <div class="flex gap-4">
+            <div class="
+              flex min-w-0 flex-col gap-4
+              @3xs:flex-row
+            "
+            >
               <div class="
                 flex size-12 shrink-0 items-center justify-center rounded-2xl
                 bg-brand-soft text-brand
@@ -103,12 +109,13 @@ const contactChannels = [
               >
                 <Icon aria-hidden="true" class="size-6" name={icon} />
               </div>
-              <div class="space-y-2">
+              <div class="min-w-0 space-y-2" data-copy-scope>
                 <p class="section-label">{label}</p>
-                <div class="flex items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2">
                   <a
                     class="
-                      block text-lg font-semibold text-ink transition-colors
+                      block max-w-full min-w-0 text-lg font-semibold
+                      wrap-break-word text-ink transition-colors
                       hover:text-brand
                     "
                     href={href}
@@ -121,27 +128,46 @@ const contactChannels = [
                     <button
                       aria-label="Copy email address"
                       class="
-                        inline-flex size-7 shrink-0 items-center justify-center
-                        rounded-lg border border-line/50 bg-surface-muted/60
-                        text-ink-muted transition-all duration-200
-                        hover:border-brand/40 hover:bg-brand-soft/30
-                        hover:text-brand
+                        group/copy -my-2 inline-flex size-11 shrink-0
+                        items-center justify-center rounded-lg
                         focus-visible:outline-brand
-                        motion-reduce:transition-none
                       "
                       data-copy-email={value}
                       type="button"
                     >
-                      <Icon aria-hidden="true" class="size-3.5" data-copy-icon name="tabler:copy" />
-                      <Icon aria-hidden="true" class="hidden size-3.5" data-check-icon name="tabler:check" />
+                      <!-- The 44px button keeps the original 28px visual chip. -->
+                      <span class="
+                        inline-flex size-7 items-center justify-center
+                        rounded-lg border border-line/50 bg-surface-muted/60
+                        text-ink-muted transition-all duration-200
+                        group-hover/copy:border-brand/40
+                        group-hover/copy:bg-brand-soft/30
+                        group-hover/copy:text-brand
+                        motion-reduce:transition-none
+                      "
+                      >
+                        <Icon aria-hidden="true" class="size-3.5" data-copy-icon name="tabler:copy" />
+                        <Icon aria-hidden="true" class="hidden size-3.5" data-check-icon name="tabler:check" />
+                      </span>
                     </button>
                   )}
                 </div>
+                {label === 'Email' && (
+                  <p
+                    id="contact-copy-status"
+                    class="
+                      text-sm/6 text-ink-soft
+                      empty:sr-only
+                    "
+                    data-copy-status
+                    role="status"
+                  />
+                )}
                 <p class="max-w-md text-sm/6 text-ink-soft">{description}</p>
               </div>
             </div>
 
-            <ButtonLink className="shrink-0" href={href} newTab={newTab} showArrow variant="secondary">
+            <ButtonLink className="max-w-full shrink-0 text-center" href={href} newTab={newTab} showArrow variant="secondary">
               {action}
             </ButtonLink>
           </div>
@@ -152,42 +178,106 @@ const contactChannels = [
 </section>
 
 <script>
+  const COPIED_MESSAGE = 'Email address copied.'
+  const FAILED_MESSAGE = 'Could not copy. Select the email address to copy it.'
+
   const setupCopyEmail = () => {
+    const controller = new AbortController()
+    const { signal } = controller
+    const timers = new Set<number>()
+
     document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach(btn => {
+      const status = btn.closest('[data-copy-scope]')?.querySelector<HTMLElement>('[data-copy-status]')
+      const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
+      const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
+      let resetTimer: number | undefined
+      let announcementTimer: number | undefined
+
+      // The button name stays "Copy email address"; the status region carries the result.
+      const showResult = (copied: boolean) => {
+        if (resetTimer !== undefined) {
+          window.clearTimeout(resetTimer)
+
+          timers.delete(resetTimer)
+        }
+
+        copyIcon?.classList.toggle('hidden', copied)
+
+        checkIcon?.classList.toggle('hidden', !copied)
+
+        if (announcementTimer !== undefined) {
+          window.clearTimeout(announcementTimer)
+
+          timers.delete(announcementTimer)
+        }
+
+        if (status) {
+          status.textContent = ''
+
+          announcementTimer = window.setTimeout(() => {
+            status.textContent = copied ? COPIED_MESSAGE : FAILED_MESSAGE
+
+            if (announcementTimer !== undefined) timers.delete(announcementTimer)
+          }, 100)
+
+          timers.add(announcementTimer)
+        }
+
+        if (!copied) return
+
+        resetTimer = window.setTimeout(() => {
+          copyIcon?.classList.remove('hidden')
+
+          checkIcon?.classList.add('hidden')
+
+          if (status) status.textContent = ''
+
+          if (resetTimer !== undefined) timers.delete(resetTimer)
+        }, 4000)
+
+        timers.add(resetTimer)
+      }
+
       btn.addEventListener('click', async () => {
         const email = btn.dataset.copyEmail
 
-        if (!email) return
+        if (!email || btn.getAttribute('aria-busy') === 'true') return
+
+        btn.setAttribute('aria-busy', 'true')
+
+        let copied = false
 
         try {
           await navigator.clipboard.writeText(email)
 
-          const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
-          const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
-
-          if (copyIcon && checkIcon) {
-            copyIcon.classList.add('hidden')
-
-            checkIcon.classList.remove('hidden')
-
-            btn.setAttribute('aria-label', 'Copied!')
-
-            setTimeout(() => {
-              copyIcon.classList.remove('hidden')
-
-              checkIcon.classList.add('hidden')
-
-              btn.setAttribute('aria-label', 'Copy email address')
-            }, 2000)
-          }
+          copied = true
         } catch {
-          // clipboard API unavailable — silently ignore
+          // Clipboard access can be unavailable or denied; the status explains the fallback.
         }
-      })
+
+        // Ignore results that settle after the page has been swapped.
+        if (!signal.aborted) {
+          btn.removeAttribute('aria-busy')
+
+          showResult(copied)
+        }
+      }, { signal })
     })
+
+    return () => {
+      controller.abort()
+
+      timers.forEach(timer => window.clearTimeout(timer))
+
+      timers.clear()
+    }
   }
 
-  setupCopyEmail()
+  let cleanupCopyEmail = setupCopyEmail()
 
-  document.addEventListener('astro:after-swap', setupCopyEmail)
+  document.addEventListener('astro:after-swap', () => {
+    cleanupCopyEmail()
+
+    cleanupCopyEmail = setupCopyEmail()
+  })
 </script>

@@ -36,11 +36,25 @@ layouts are outside the rendered archive: its routes cover the homepage,
 portfolio, technologies, and error page.
 
 Accessibility maintenance also preserves readable project content with enlarged
-text. V1 project badges wrap and use valid Tailwind v4 color tokens; v3 project
-pills, action labels, metadata and prose fit their reading column. Header controls
+text. V1 portfolio tabs and project card labels wrap within the available width.
+V1 project badges wrap and use valid Tailwind v4 color tokens; v3 project pills, action labels, metadata and prose fit their reading column. Header controls
 in v2 and v3 reflow when their enlarged contents no longer fit one row. These
 repairs keep each era's content and visual identity rather than applying the
 current website's editorial layout to historical pages.
+
+Utility controls follow the same rule. The archive notice uses relative text and
+wrapping links, and stays in normal flow without JavaScript. On archive pages only,
+`packages/website-history/archive-banner.js`, copied into each archive, measures
+it with `ResizeObserver` and sets
+`data-website-archive-ready` plus `--website-archive-banner-height` on `<html>`;
+that pins the notice (at most 45dvh, scrolling vertically) and reserves its real
+height for body padding, `scroll-padding-bottom` and `#back-to-top`. Astro client
+navigation remeasures the new notice. Keyboard focus scrolling accounts for the
+fixed notice and header after lazy content layout settles. Pointer focus and
+fixed controls retain their own behavior. Hidden v2/v3 back-to-top buttons are `inert`;
+activating one from the keyboard moves focus to `#main`. The v3 footer directory and
+v2 contact rows choose columns from their own container width, and v2's copy-email
+button reports success or failure in a polite status message.
 
 ## Workspace and build
 

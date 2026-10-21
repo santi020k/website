@@ -26,7 +26,7 @@ const groupedByTypeId = groupProjectsByTypesId(data)
 ---
 
 <PageLayout meta={meta}>
-  <div class="flex flex-col gap-y-16">
+  <div class="flex min-w-0 flex-col gap-y-16">
     <section class="flex flex-col gap-y-4">
       <h1 class="
         font-bold tracking-tight text-zinc-900
@@ -52,6 +52,7 @@ const groupedByTypeId = groupProjectsByTypesId(data)
         <a
           href="/pdf/cv.pdf"
           target="_blank"
+          rel="noopener noreferrer"
           class="
             text-sky-700 transition-all duration-200
             hover:text-sky-600 hover:underline
@@ -69,11 +70,14 @@ const groupedByTypeId = groupProjectsByTypesId(data)
       md:flex-row
     "
     >
-      <div aria-label="Projects project list" class="flex flex-col gap-y-16">
+      <div
+aria-label="Projects project list"
+class="flex min-w-0 flex-col gap-y-16"
+      >
         <div data-archive-tabs>
           <nav class="
-            mb-4 inline-flex items-center space-x-1 overflow-x-auto rounded-xl
-            bg-gray-500/5 p-1 text-sm text-gray-700
+            mb-4 inline-flex max-w-full items-center space-x-1 overflow-x-auto
+            rounded-xl bg-gray-500/5 p-1 text-sm text-gray-700
             rtl:space-x-reverse
             dark:bg-gray-500/20 dark:text-gray-200
           "
@@ -81,7 +85,7 @@ const groupedByTypeId = groupProjectsByTypesId(data)
             <div
               role="tablist"
               class="
-                -mb-px flex flex-col items-stretch gap-2 text-slate-500
+                -mb-px flex min-w-0 flex-col items-stretch gap-2 text-slate-500
                 sm:flex-row
               "
             >
@@ -95,8 +99,9 @@ const groupedByTypeId = groupProjectsByTypesId(data)
                     role="tab"
                     aria-controls={panelId}
                     class="
-                      flex h-8 cursor-pointer items-center rounded-lg px-5
-                      font-medium whitespace-nowrap text-gray-700 transition-all
+                      flex min-h-8 min-w-0 cursor-pointer items-center
+                      rounded-lg px-5 py-1 text-left font-medium
+                      whitespace-normal text-gray-700 transition-all
                       duration-300 outline-none
                       hover:text-gray-900
                       focus:text-sky-700 focus:ring-2 focus:ring-white
@@ -166,7 +171,7 @@ const groupedByTypeId = groupProjectsByTypesId(data)
                 {uniqueTechnologies.map(technology => (
                   <li>
                     <a
-                      aria-label={`View all posts with the technology: ${encodeURIComponent(technology.replaceAll('#', '-sharp'))}/`}
+                      aria-label={`View all projects with the technology: ${technology}`}
                       href={`/technologies/${encodeURIComponent(technology.replaceAll('#', '-sharp'))}/`}
                       class="truncate"
                     >

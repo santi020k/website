@@ -13,15 +13,16 @@ interface Props {
   withDesc?: boolean
 }
 
-const { project } = Astro.props;
+const { project } = Astro.props
 ---
 
 <a
   href={`/portfolio/${project.id}/`}
   class="
-    group relative flex flex-col gap-y-4 rounded-xl p-6 transition-all
-    duration-300
+    group relative flex min-w-0 flex-col gap-y-4 rounded-xl p-6 wrap-anywhere
+    transition-all duration-300
     hover:bg-stone-100 hover:shadow-xl
+    motion-reduce:transition-none
     dark:hover:bg-stone-800
   "
 >
@@ -40,6 +41,7 @@ const { project } = Astro.props;
         class="
           aspect-video w-full object-cover transition-transform duration-300
           group-hover:scale-105
+          motion-reduce:transform-none motion-reduce:transition-none
         "
         loading="lazy"
         transition:name={`cover-image-${project.id}`}
@@ -110,15 +112,15 @@ const { project } = Astro.props;
       >
         {
           project.data.technologies.slice(0, 5).map(technology => (
-            <div class="flex items-center gap-x-2">
-              <Badge variant="outline" className="hover:border-zinc-400" showHash={false} title={technology} />
+            <div class="flex max-w-full min-w-0 items-center gap-x-2">
+              <Badge variant="outline" className="hover:border-zinc-400" showHash={false} wrap title={technology} />
             </div>
           ))
         }
 
         {project.data.technologies.length > 5 && (
-          <div class="flex items-center gap-x-2">
-            <Badge variant="outline" className="hover:border-zinc-400" showHash={false} title={`+${project.data.technologies.length - 5} more`} />
+          <div class="flex max-w-full min-w-0 items-center gap-x-2">
+            <Badge variant="outline" className="hover:border-zinc-400" showHash={false} wrap title={`+${project.data.technologies.length - 5} more`} />
           </div>
         )}
       </div>

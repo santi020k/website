@@ -262,168 +262,180 @@ const isLinkActive = (linkPath: string): boolean => {
           </dl>
         </div>
 
-        <div
-          class="
-            grid grid-cols-2 gap-x-4 gap-y-7
-            md:pl-8
-            lg:grid-cols-3 lg:gap-8 lg:pl-12
-          "
+        <!-- Columns follow the directory's own width so enlarged text keeps labels visible. -->
+        <div class="
+          @container
+          md:pl-8
+          lg:pl-12
+        "
         >
-          <nav aria-label="Footer navigation">
-            <p class="mb-4 section-label">Navigate</p>
-            <ul class="grid gap-1.5">
-              {navLinks.map(link => {
-                const active = isLinkActive(link.path)
+          <div
+data-footer-directory
+            class="
+              grid gap-x-4 gap-y-7
+              lg:gap-8
+              @xs:grid-cols-2
+              @lg:grid-cols-3
+            "
+          >
+            <nav aria-label="Footer navigation">
+              <p class="mb-4 section-label">Navigate</p>
+              <ul class="grid gap-1.5">
+                {navLinks.map(link => {
+                  const active = isLinkActive(link.path)
 
-                return (
-                  <li>
-                    <a
-                      aria-current={active ? 'page' : undefined}
-                      class:list={[
-                        `
-                          group flex min-h-11 items-center gap-2 rounded-xl
-                          px-2.5 text-sm/6
-                          transition-[background-color,color,transform]
-                          duration-200
-                          hover:bg-brand/8 hover:text-ink
-                          motion-safe:hover:translate-x-0.5
-                          motion-reduce:transition-none
-                          motion-reduce:hover:translate-x-0
-                        `,
-                        active ?
-                          'bg-brand/10 font-semibold text-brand' :
-                          'text-ink-soft'
-                      ]}
-                      href={link.path}
-                    >
-                      <Icon
+                  return (
+                    <li>
+                      <a
+                        aria-current={active ? 'page' : undefined}
                         class:list={[
                           `
-                            size-4 shrink-0 transition-colors duration-200
+                            group flex min-h-11 items-center gap-2 rounded-xl
+                            px-2.5 text-sm/6
+                            transition-[background-color,color,transform]
+                            duration-200
+                            hover:bg-brand/8 hover:text-ink
+                            motion-safe:hover:translate-x-0.5
                             motion-reduce:transition-none
+                            motion-reduce:hover:translate-x-0
                           `,
                           active ?
-                            'text-brand' :
-                            `
-                              text-ink-muted
-                              group-hover:text-brand
-                            `
+                            'bg-brand/10 font-semibold text-brand' :
+                            'text-ink-soft'
                         ]}
-                        name={link.lumenIcon ?? 'circle-dot'}
-                      />
-                      {link.title}
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-          </nav>
-
-          <div>
-            <p class="mb-4 section-label">Connect</p>
-            <ul class="grid gap-1.5">
-              {connectLinks.map(({ brandIcon, href, label, lumenIcon, rel }) => (
-                <li>
-                  <a
-                    class="
-                      group flex min-h-11 items-center gap-2 rounded-xl px-2.5
-                      text-sm/6 text-ink-soft
-                      transition-[background-color,color,transform] duration-200
-                      hover:bg-brand/8 hover:text-ink
-                      motion-safe:hover:translate-x-0.5
-                      motion-reduce:transition-none
-                      motion-reduce:hover:translate-x-0
-                    "
-                    href={href}
-                    rel={rel}
-                    target={href.startsWith('http') ? '_blank' : undefined}
-                  >
-                    {lumenIcon ?
-                      (
+                        href={link.path}
+                      >
                         <Icon
-                          class="
+                          class:list={[
+                            `
+                              size-4 shrink-0 transition-colors duration-200
+                              motion-reduce:transition-none
+                            `,
+                            active ?
+                              'text-brand' :
+                              `
+                                text-ink-muted
+                                group-hover:text-brand
+                              `
+                          ]}
+                          name={link.lumenIcon ?? 'circle-dot'}
+                        />
+                        <span class="min-w-0 wrap-break-word">{link.title}</span>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
+
+            <div>
+              <p class="mb-4 section-label">Connect</p>
+              <ul class="grid gap-1.5">
+                {connectLinks.map(({ brandIcon, href, label, lumenIcon, rel }) => (
+                  <li>
+                    <a
+                      class="
+                        group flex min-h-11 items-center gap-2 rounded-xl px-2.5
+                        text-sm/6 text-ink-soft
+                        transition-[background-color,color,transform]
+                        duration-200
+                        hover:bg-brand/8 hover:text-ink
+                        motion-safe:hover:translate-x-0.5
+                        motion-reduce:transition-none
+                        motion-reduce:hover:translate-x-0
+                      "
+                      href={href}
+                      rel={rel}
+                      target={href.startsWith('http') ? '_blank' : undefined}
+                    >
+                      {lumenIcon ?
+                        (
+                          <Icon
+                            class="
+                              size-4 shrink-0 text-ink-muted transition-colors
+                              duration-200
+                              group-hover:text-brand
+                              motion-reduce:transition-none
+                            "
+                            name={lumenIcon}
+                          />
+                        ) :
+                        (
+                          <Icon class="
                             size-4 shrink-0 text-ink-muted transition-colors
                             duration-200
                             group-hover:text-brand
                             motion-reduce:transition-none
                           "
-                          name={lumenIcon}
-                        />
-                      ) :
-                      (
-                        <Icon class="
-                          size-4 shrink-0 text-ink-muted transition-colors
-                          duration-200
-                          group-hover:text-brand
-                          motion-reduce:transition-none
-                        "
-                        >
-                          <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={brandIcon} />
-                        </Icon>
-                      )}
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="
-            col-span-2
-            lg:col-span-1
-          "
-          >
-            <p class="mb-4 section-label">Resources</p>
-            <ul class="
-              grid grid-cols-2 gap-1.5
-              lg:grid-cols-1
-            "
-            >
-              {resourceLinks.map(({ lumenIcon, path, title }) => {
-                const active = isLinkActive(path)
-
-                return (
-                  <li>
-                    <a
-                      aria-current={active ? 'page' : undefined}
-                      class:list={[
-                        `
-                          group flex min-h-11 items-center gap-2 rounded-xl
-                          px-2.5 text-sm/6
-                          transition-[background-color,color,transform]
-                          duration-200
-                          hover:bg-brand/8 hover:text-ink
-                          motion-safe:hover:translate-x-0.5
-                          motion-reduce:transition-none
-                          motion-reduce:hover:translate-x-0
-                        `,
-                        active ?
-                          'bg-brand/10 font-semibold text-brand' :
-                          'text-ink-soft'
-                      ]}
-                      href={path}
-                    >
-                      <Icon
-                        class:list={[
-                          `
-                            size-4 shrink-0 transition-colors duration-200
-                            motion-reduce:transition-none
-                          `,
-                          active ?
-                            'text-brand' :
-                            `
-                              text-ink-muted
-                              group-hover:text-brand
-                            `
-                        ]}
-                        name={lumenIcon}
-                      />
-                      {title}
+                          >
+                            <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={brandIcon} />
+                          </Icon>
+                        )}
+                      <span class="min-w-0 wrap-break-word">{label}</span>
                     </a>
                   </li>
-                )
-              })}
-            </ul>
+                ))}
+              </ul>
+            </div>
+
+            <div class="
+              @xs:col-span-2
+              @lg:col-span-1
+            "
+            >
+              <p class="mb-4 section-label">Resources</p>
+              <ul class="
+                grid gap-1.5
+                @xs:grid-cols-2
+                @lg:grid-cols-1
+              "
+              >
+                {resourceLinks.map(({ lumenIcon, path, title }) => {
+                  const active = isLinkActive(path)
+
+                  return (
+                    <li>
+                      <a
+                        aria-current={active ? 'page' : undefined}
+                        class:list={[
+                          `
+                            group flex min-h-11 items-center gap-2 rounded-xl
+                            px-2.5 text-sm/6
+                            transition-[background-color,color,transform]
+                            duration-200
+                            hover:bg-brand/8 hover:text-ink
+                            motion-safe:hover:translate-x-0.5
+                            motion-reduce:transition-none
+                            motion-reduce:hover:translate-x-0
+                          `,
+                          active ?
+                            'bg-brand/10 font-semibold text-brand' :
+                            'text-ink-soft'
+                        ]}
+                        href={path}
+                      >
+                        <Icon
+                          class:list={[
+                            `
+                              size-4 shrink-0 transition-colors duration-200
+                              motion-reduce:transition-none
+                            `,
+                            active ?
+                              'text-brand' :
+                              `
+                                text-ink-muted
+                                group-hover:text-brand
+                              `
+                          ]}
+                          name={lumenIcon}
+                        />
+                        <span class="min-w-0 wrap-break-word">{title}</span>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
