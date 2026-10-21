@@ -79,6 +79,34 @@ const expectReadingWords = async (copy: Locator, width: number) => {
   if (width >= 390) await expectWordsToFit(copy)
 }
 
+const expectVisibleFocusIndicator = async (surface: Locator) => {
+  await expect(surface).toHaveCSS('outline-style', 'solid')
+  const focusVisible = await surface.evaluate(element => {
+    const style = getComputedStyle(element)
+    const width = Number.parseFloat(style.outlineWidth)
+    const extent = width + Number.parseFloat(style.outlineOffset)
+    const bounds = element.getBoundingClientRect()
+    let parent = element.parentElement
+
+    if (width < 2 || style.outlineColor === 'rgba(0, 0, 0, 0)') return false
+    while (parent) {
+      const parentStyle = getComputedStyle(parent)
+      const box = parent.getBoundingClientRect()
+
+      if (['hidden', 'clip', 'auto', 'scroll'].includes(parentStyle.overflowX) && (
+        bounds.left - extent < box.left || bounds.right + extent > box.right
+      )) return false
+      if (['hidden', 'clip', 'auto', 'scroll'].includes(parentStyle.overflowY) && (
+        bounds.top - extent < box.top || bounds.bottom + extent > box.bottom
+      )) return false
+      parent = parent.parentElement
+    }
+    return true
+  })
+
+  expect(focusVisible, 'Every edge of the keyboard indicator must remain visible').toBe(true)
+}
+
 const linkDestination = async (link: Locator) => {
   const href = await link.getAttribute('href')
 
@@ -110,30 +138,7 @@ for (const width of [320, 390, 1440]) {
           await expect(trigger).toBeFocused()
           await expectReadingWords(stack.locator('[data-site-pill-label]'), width)
           await expectContentInside(stack)
-          const focusVisible = await trigger.evaluate(element => {
-            const style = getComputedStyle(element)
-            const width = Number.parseFloat(style.outlineWidth)
-            const extent = width + Number.parseFloat(style.outlineOffset)
-            const bounds = element.getBoundingClientRect()
-            let parent = element.parentElement
-
-            if (style.outlineStyle !== 'solid' || width < 2) return false
-            while (parent) {
-              const parentStyle = getComputedStyle(parent)
-              const box = parent.getBoundingClientRect()
-
-              if (['hidden', 'clip', 'auto', 'scroll'].includes(parentStyle.overflowX) && (
-                bounds.left - extent < box.left || bounds.right + extent > box.right
-              )) return false
-              if (['hidden', 'clip', 'auto', 'scroll'].includes(parentStyle.overflowY) && (
-                bounds.top - extent < box.top || bounds.bottom + extent > box.bottom
-              )) return false
-              parent = parent.parentElement
-            }
-            return true
-          })
-
-          expect(focusVisible, 'Every edge of the keyboard indicator must remain visible').toBe(true)
+          await expectVisibleFocusIndicator(trigger)
           await page.keyboard.press('Space')
           await expect(extra).toBeHidden()
           await expect(trigger).toBeFocused()
@@ -152,10 +157,13 @@ for (const width of [320, 390, 1440]) {
           await expectContentInside(card)
           await expectReadingWords(card.locator('h3, [data-site-pill-label]'), width)
           await page.keyboard.press('Tab')
-          await card.locator('a').focus()
-          await expect(card.locator('a')).toBeFocused()
-          await expect(card).toHaveCSS('outline-style', 'solid')
-          const destination = await linkDestination(card.locator('a'))
+          const link = card.locator(':scope > a')
+
+          await link.focus()
+          await expect(link).toBeFocused()
+          await expectVisibleFocusIndicator(link)
+          await expect(card).toHaveCSS('outline-style', 'none')
+          const destination = await linkDestination(link)
           await page.keyboard.press('Enter')
           await expect(page).toHaveURL(new RegExp(`${destination}$`, 'u'))
           await expect(page.getByRole('heading', { level: 1 })).toContainText('Developer Experience')
