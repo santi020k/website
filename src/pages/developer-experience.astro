@@ -5,6 +5,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import PrincipleCard from '@/components/molecules/PrincipleCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import ShippedSystemCard from '@/components/molecules/ShippedSystemCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
@@ -61,6 +62,33 @@ const getFeaturedPost = (slug: typeof featuredSlugs[number]): CollectionEntry<'p
 }
 
 const featuredPosts = featuredSlugs.map(getFeaturedPost)
+
+const shippedSystems = [
+  {
+    title: 'Astro Doctor',
+    category: 'Diagnostics',
+    icon: 'scan-line',
+    body: 'One rule system expressed through a CLI, ESLint, editor diagnostics, CI feedback, and agent guidance.',
+    href: '/portfolio/astro-doctor/',
+    linkLabel: 'Explore Astro Doctor'
+  },
+  {
+    title: 'ESLint Config Basic',
+    category: 'Standards',
+    icon: 'list-checks',
+    body: 'Composable standards designed to reduce configuration work while keeping framework and monorepo decisions explicit.',
+    href: '/portfolio/eslint-config-basic/',
+    linkLabel: 'Explore the ESLint toolkit'
+  },
+  {
+    title: 'Lumen UI',
+    category: 'Interfaces',
+    icon: 'layers',
+    body: 'Shared accessibility, interaction, and token contracts across Astro, React, and Web Components without runtime lock-in.',
+    href: '/portfolio/lumen-ui/',
+    linkLabel: 'Explore Lumen UI'
+  }
+] as const
 
 const principles = [
   {
@@ -259,42 +287,11 @@ label="Experience"
         grid grid-cols-1 gap-5 [--card-grid-min:12rem]
         lg:card-grid-3
       "
+      id="shipped-systems"
       stagger={60}
       threshold={0}
     >
-      <Card
-as="article"
-class="flex h-full flex-col gap-4 rounded-[1.75rem] p-6"
-variant="muted"
-      >
-        <h3 class="text-xl font-semibold">Astro Doctor</h3>
-        <p class="grow text-sm/7 text-ink-soft">
-          One rule system expressed through a CLI, ESLint, editor diagnostics, CI feedback, and agent guidance.
-        </p>
-        <ButtonLink href="/portfolio/astro-doctor/" showArrow variant="inline">Explore Astro Doctor</ButtonLink>
-      </Card>
-      <Card
-as="article"
-class="flex h-full flex-col gap-4 rounded-[1.75rem] p-6"
-variant="muted"
-      >
-        <h3 class="text-xl font-semibold">ESLint Config Basic</h3>
-        <p class="grow text-sm/7 text-ink-soft">
-          Composable standards designed to reduce configuration work while keeping framework and monorepo decisions explicit.
-        </p>
-        <ButtonLink href="/portfolio/eslint-config-basic/" showArrow variant="inline">Explore the ESLint toolkit</ButtonLink>
-      </Card>
-      <Card
-as="article"
-class="flex h-full flex-col gap-4 rounded-[1.75rem] p-6"
-variant="muted"
-      >
-        <h3 class="text-xl font-semibold">Lumen UI</h3>
-        <p class="grow text-sm/7 text-ink-soft">
-          Shared accessibility, interaction, and token contracts across Astro, React, and Web Components without runtime lock-in.
-        </p>
-        <ButtonLink href="/portfolio/lumen-ui/" showArrow variant="inline">Explore Lumen UI</ButtonLink>
-      </Card>
+      {shippedSystems.map(system => <ShippedSystemCard {...system} />)}
     </RevealGroup>
   </PageSection>
 </PageLayout>

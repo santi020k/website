@@ -76,6 +76,20 @@ Use open numbered rows for supporting projects and writing. Featured work can pa
 image with its description. Independent projects can use two equal image cards. Keep the same
 reading and keyboard order when columns collapse.
 
+### Reading slip Start here cards
+
+The homepage's curated articles use one opaque Lumen Card per link with 1.5rem corners
+and a 0.5rem lower-right corner. Pair the small purple reading label with a decorative
+3rem number, then show the complete 1.4375rem title and 0.875rem recommendation.
+Keep 1.75rem insets and a fine rule above the action. Align the action rows within each
+grid row, allowing longer titles and descriptions to determine the card height.
+
+Use a content-driven grid with 18rem minimum columns. Tighten insets below 19.375rem
+of card width; below 16rem, let the header and action wrap and reduce the title scale.
+The complete card is one native link with a continuous focus outline. Hover and keyboard
+focus emphasize only the title, using brand in light mode and accent in dark mode.
+Keep collection order, complete copy, heading levels, and operation without JavaScript.
+
 ### Editorial project cards
 
 The Projects gallery pairs the existing artwork with open editorial copy. Keep the standard
@@ -124,6 +138,93 @@ The complete surface is one naturally named link with a continuous keyboard outl
 Hover changes only the title color. Preserve planned status, zero and singular article
 counts and theme contrast. When enlarged text narrows the section, tighten the insets
 and size the title to its reading column so ordinary words stay intact.
+
+### Reading index chapter navigation
+
+At the end of series articles, group every chapter in one opaque Lumen Card with
+1.75rem corners and a 0.5rem lower-right corner. Use plain two-digit numbers in a
+2.75rem margin column, 1.625rem row insets, fine dividers, and complete 1.125rem
+titles at weight 500. The active chapter uses a purple wash, a visible “Reading now”
+label, and `aria-current="step"`; other rows use “In this series”.
+
+Keep the series introduction, progress, full-series link, and adjacent-article links
+in their existing section. Chapter links navigate natively without JavaScript.
+Below 20rem of panel width, stack the number above the copy, reduce insets to 1rem,
+and use 1rem titles so enlarged text has the whole column. Retain the inset focus
+outline on clipped first and last rows. Hover and keyboard focus use the same
+background and text emphasis, without moving content.
+
+### Directional folio article navigation
+
+Below the Reading index, present previous and next articles as open columns with
+fine top rules, 1.5rem top insets, and a 1.75rem gap. Pair a 0.75rem direction label
+with a purple Lumen arrow, followed by the complete 1.25rem title at weight 500
+and 1.8125rem leading. Keep the two-digit part number at the bottom of each column.
+
+Use a named navigation landmark and native links. Show only available neighbors
+at the first and last chapters, using the full width for a single link. Below 25rem
+of available column width, stack previous before next. Keep an outward keyboard
+outline on these open links and matching title emphasis on hover and focus. Do
+not crop titles, add a second surface, or move content during interaction.
+
+### Tool ledger technology snapshot
+
+On Projects, keep the technology snapshot in one opaque Lumen Card with 1.75rem
+corners and a 0.5rem lower-right corner. A soft purple header pairs the introduction
+with the highlighted and full-index totals. Use 1.75rem insets and a 1.375rem title
+at weight 500. Keep the existing interest order and the six featured technologies.
+
+Present tools as native links in ruled lists, with names on the left and project
+counts on the right. Featured names use 1.0625rem type; supporting names use
+0.875rem. Use three columns above 32rem of panel width, two below, and one below
+20rem, with smaller insets. Keep complete labels and readable totals at enlarged
+text sizes, singular and plural accessible count labels, and visible focus outlines.
+Place the full-index link beneath the lists. Hover and focus emphasize link text
+without moving content.
+
+### System folio shipped systems
+
+Developer Experience presents its three shipped systems as opaque Lumen Cards with
+1.75rem corners and a 0.5rem lower-right corner. Each soft purple header pairs a
+small category and decorative icon with the complete 1.5rem title at weight 500.
+Keep two lines of title space in wide cards, 0.875rem body copy with 1.625rem leading,
+and aligned action dividers at the bottom of neighboring cards.
+
+Preserve the original descriptions and native case-study links. Use readable purple
+category and action text in both themes, with visible keyboard focus and no card
+movement. Container queries tighten the insets and let action content wrap in narrow
+or enlarged-text layouts. Keep all words intact and all destinations usable without
+JavaScript.
+
+### Evidence rows policy sections
+
+Privacy, Terms, and Accessibility share one opaque Lumen Card with 1.75rem corners
+and a 0.5rem lower-right corner. Separate plain semantic sections with fine rules.
+Each heading has a 2px purple margin rail, a small decorative number, and a complete
+1.375rem title at weight 500. Put 0.875rem copy with 1.75rem leading in the wider
+right-hand column. Use 1.75rem panel insets and row spacing, with a 2rem column gap.
+
+Below 34rem of available panel width, place each heading above its copy. Below 16rem,
+reclaim 0.5rem of each page margin, tighten the panel and heading insets, and use
+1rem titles so enlarged text retains
+complete words. Keep the original policy wording, dates, heading hierarchy, contact
+links, and readable light/dark colors. The rows remain passive reading content.
+
+### Stacked sheets History chapters
+
+Give each chapter introduction an opaque Lumen Card with 1.75rem corners, a
+0.5rem lower-right corner, and a 0.375rem brand-soft sheet shadow. Reserve that
+offset inside the timeline width. Keep the version, date, and chapter status in
+an 8rem left column; put the title and description beside them with a 2rem gap.
+The desktop and mobile captures sit below the introduction at the full chapter
+width, followed by the existing archive action and preservation note.
+
+Below 34rem of available chapter width, stack the metadata above the title and
+copy. Below 16rem, reclaim some page margin and tighten insets and title size so
+enlarged text keeps complete words. Stack the captures at this size so their
+captions stay readable. Keep all four chapter anchors, authentic captures, descriptive image
+alternatives, and full-document archive navigation. The sheet is passive content;
+its shadow stays visible on hover and requires no animation or controller.
 
 ### Compact topic cards
 
@@ -279,6 +380,45 @@ must remain usable in short, independently scrolling desktop rails and with enla
 Reading pages fully disable CSS transitions with reduced motion, including inherited text
 size transitions, so native fragment targets remain stable when text is enlarged.
 
+### Margin chapters case study summaries
+
+Case study summaries use one opaque Lumen Card with asymmetric corners and a small
+purple Case study heading opposite the notebook icon. Each ordered chapter pairs a
+1.75rem purple number with a neutral vertical rule, a 1.1875rem heading, and the
+complete 0.875rem narrative. Keep the numbers decorative and the chapter titles as
+level-three headings beneath the level-two card title. Optional Metrics content
+adds a fourth chapter; projects without summaries render no card.
+
+Use plain rows without hover feedback. Tighten the margins in narrow reading columns;
+below 16rem of card content width, place the number above the copy. Preserve readable
+text, theme contrast, and full content when text is enlarged.
+
+### Ownership ledger project detail lists
+
+Project detail lists use full-width rows separated by fine neutral rules. A purple
+3px margin rule introduces the authored lead at 1.125rem and weight 500; the complete
+explanation sits opposite it at 0.9375rem with relaxed leading. Use a 0.9fr/1.1fr split
+with a 2rem gap. Preserve the author's copy, inline code, links, and emphasis.
+
+Below 32.5rem of list width, stack lead and explanation with aligned text insets.
+Below 18rem, tighten the margin to preserve enlarged-text reading space. Plain entries
+and standalone emphasized claims use the full row, without inventing a missing column.
+Keep nested lists and ordered-list numbering semantic. This passive composition has
+no card fill, shadow, decorative dots, or hover feedback.
+
+### Gallery sheet product previews
+
+Product previews use one opaque Lumen Card with 1.5rem corners and a 0.5rem lower-right
+corner. Place the complete screenshot on a quiet purple wash above its caption, with
+1.25rem image insets. Keep intrinsic proportions, contain fitting, lazy loading, and a
+32rem maximum image height so portrait screens remain balanced alongside web previews.
+
+The caption pairs a decorative 2rem purple number with a 1.25rem title and the complete
+0.875rem description. Use 1.75rem caption insets and a 2.75rem number column. Below
+31.25rem of card width, tighten image and caption insets; below 18rem, stack the number
+above the copy. Preserve descriptive image alternatives and product-preview disclosures.
+This is a passive surface without hover motion or client JavaScript.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.
@@ -305,7 +445,7 @@ Keep native anchors for links wrapping a complete project or article.
   decoration still on hover; reserve interaction feedback for actual controls.
 - Article and project hero covers are passive reading images. Keep their static shadow and
   caption contrast gradient, with no hover glow, wash, zoom, or caption movement.
-- Series step rows give keyboard focus the same color, background, and arrow feedback as hover.
+- Series step rows give keyboard focus the same color and background emphasis as hover.
 - Choosing a blog topic keeps the filter's vertical position and focuses the selected topic
   link. Its horizontal scroll is retained unless the chosen topic needs to be brought into view;
   the strip's scroll padding leaves room for its focus outline. Only filter-originated

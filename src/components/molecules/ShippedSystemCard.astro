@@ -1,0 +1,95 @@
+---
+import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
+import type { LumenIconName } from '@santi020k/lumen-core'
+
+interface Props {
+  body: string
+  category: string
+  href: string
+  icon: LumenIconName
+  linkLabel: string
+  title: string
+}
+
+const { body, category, href, icon, linkLabel, title } = Astro.props
+---
+
+<Card as="article" data-shipped-system variant="unstyled">
+  <header data-system-heading>
+    <p data-system-category><Icon name={icon} size="sm" />{category}</p>
+    <h3>{title}</h3>
+  </header>
+  <p data-system-copy>{body}</p>
+  <div data-system-footer>
+    <ButtonLink data-system-action href={href} variant="unstyled">
+      <span>{linkLabel}</span>
+      <Icon name="arrow-right" size="sm" />
+    </ButtonLink>
+  </div>
+</Card>
+
+<style>
+  [data-shipped-system][data-slot='card'] {
+    --system-emphasis: hsl(var(--brand));
+    container: shipped-system / inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    overflow-wrap: break-word;
+  }
+  :global([data-theme='dark']) [data-shipped-system] { --system-emphasis: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  [data-system-heading] {
+    padding: 1.5rem 1.375rem 1.25rem;
+    border-radius: 1.6875rem 1.6875rem 0 0;
+    background: hsl(var(--brand-soft));
+  }
+  [data-system-category] {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.375rem;
+    color: var(--system-emphasis);
+    font-size: 0.6875rem;
+    line-height: 1.125rem;
+    font-weight: 500;
+  }
+  h3 { min-height: 3.75rem; font-size: 1.5rem; line-height: 1.875rem; font-weight: 500; letter-spacing: -0.04em; }
+  [data-system-copy] { flex: 1; padding: 1.5rem 1.375rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.625rem; }
+  [data-system-footer] { padding-inline: 1.375rem; padding-bottom: 0.5rem; }
+  [data-system-action][data-slot='button-link'] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.875rem;
+    min-height: 4.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid hsl(var(--line));
+    color: var(--system-emphasis);
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    white-space: normal;
+    text-align: start;
+    text-decoration: none;
+  }
+  [data-system-action]:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.25em; }
+  @media (width < 64rem) {
+    h3 { min-height: 0; }
+    [data-system-category] { margin-bottom: 0.875rem; }
+  }
+  @container shipped-system (width < 14rem) {
+    [data-system-heading], [data-system-copy], [data-system-footer] { padding-inline: 1rem; }
+    h3 { min-height: 0; font-size: 1.25rem; line-height: 1.75rem; }
+    [data-system-action] { flex-wrap: wrap; }
+  }
+  @container shipped-system (width < 10rem) {
+    [data-system-heading], [data-system-copy], [data-system-footer] { padding-inline: 0.5rem; }
+    [data-system-category] { flex-wrap: wrap; }
+  }
+</style>

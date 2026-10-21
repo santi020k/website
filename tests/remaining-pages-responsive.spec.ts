@@ -276,11 +276,11 @@ for (const width of [320, 375]) {
 
 for (const width of [768, 1440]) {
   for (const route of ['/privacy/', '/terms/', '/accessibility/']) {
-    test(`${route} retains its normal-size ledger at ${width}px`, async ({ page }) => {
+    test(`${route} retains its normal-size policy columns at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await openWithTextSize(page, route, '100%')
-      const row = page.locator('.editorial-policy-row').first()
+      const row = page.locator('[data-policy-row]').first()
       const positions = await row.evaluate(element => {
         const heading = element.querySelector('h2')?.getBoundingClientRect()
         const copy = element.querySelector('p')?.getBoundingClientRect()

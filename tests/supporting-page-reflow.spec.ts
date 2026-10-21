@@ -110,14 +110,20 @@ for (const width of [320, 390, 1440]) {
         test('technology totals and links remain readable and operable', async ({ page, browserName }) => {
           await openPage(page, '/projects/', textSize)
           const snapshot = page.locator('[data-technology-snapshot]')
+          const tools = snapshot.locator('[data-technology-ledger] a')
 
           await expectWholeWords(snapshot.locator('dt, dd'))
-          await expectInside(snapshot.locator('dl > div, [data-site-pill]'))
-          // At 320px with doubled text, longer technology names may wrap;
-          // keep their full labels and counts visible within each link.
-          await expectReadingWords(snapshot.locator('[data-site-pill]'), width)
+          await expectInside(snapshot.locator('dl > div, a'))
+          await expectReadingWords(tools, width)
+          await expect(tools).toHaveCount(18)
+          await expect(snapshot.getByRole('list', { name: 'Top of mind' }).getByRole('link')).toHaveCount(6)
+          await expect(snapshot.getByRole('list', { name: 'In rotation' }).getByRole('link')).toHaveCount(12)
+          await expect(snapshot.getByRole('link', { name: 'React Native 1 project', exact: true })).toBeVisible()
+          await expect(snapshot.getByRole('link', { name: /^Explore \d+ more$/u }))
+            .toHaveAttribute('href', '/technologies/')
           const react = snapshot.getByRole('link', { name: /^React\.js/ })
 
+          await expect(react).toHaveAccessibleName('React.js 4 projects')
           await tabTo(page, react, browserName)
           await expect(react).toBeFocused()
           await expectOutline(react)

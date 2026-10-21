@@ -63,6 +63,48 @@ for (const theme of ['light', 'dark']) {
   })
 }
 
+test.describe('History chapters without JavaScript', () => {
+  test.use({ javaScriptEnabled: false, viewport: { width: 320, height: 900 } })
+
+  for (const theme of ['light', 'dark'] as const) {
+    test(`complete words and archive links survive enlarged text in ${theme}`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+      await page.goto('/history/')
+      await page.evaluate(() => {
+        document.documentElement.style.fontSize = '200%'
+      })
+      await page.evaluate(() => document.fonts.ready)
+      const broken = await page.locator('.history-era-heading, .history-captures figcaption').evaluateAll(elements => {
+        const failures: string[] = []
+        for (const element of elements) {
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+          let node = walker.nextNode()
+          while (node) {
+            for (const match of (node.textContent ?? '').matchAll(/[A-Za-z0-9]+/gu)) {
+              const range = document.createRange()
+              range.setStart(node, match.index)
+              range.setEnd(node, match.index + match[0].length)
+              const boxes = [...range.getClientRects()].filter(rect => rect.width > 0)
+              const wraps = new Set(boxes.map(rect => Math.round(rect.y))).size > 1
+              const overflows = boxes.some(rect => rect.left < 0 || rect.right > innerWidth)
+              if (wraps || overflows) failures.push(match[0])
+            }
+            node = walker.nextNode()
+          }
+        }
+        return failures
+      })
+      expect(broken, 'Chapter copy and capture captions keep complete words').toEqual([])
+      await expect(page.locator('.history-era').getByRole('heading', { level: 2 })).toHaveCount(4)
+      const archive = page.getByRole('link', { name: 'Open V3', exact: true })
+      await archive.focus()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(/\/v3\/$/)
+      await expect(page.getByRole('complementary', { name: 'Website archive' })).toBeVisible()
+    })
+  }
+})
+
 for (const id of ['v1', 'v2', 'v3']) {
   test(`${id} keeps navigation, assets, storage and robots scoped`, async ({ page }) => {
     await page.addInitScript(() => {

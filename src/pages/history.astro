@@ -5,7 +5,7 @@ import { Image } from 'astro:assets'
 
 import PageLayout from '@/layouts/Base.astro'
 
-import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
 import current from '@santi020k/website-history/current'
 import versions from '@santi020k/website-history/versions'
 
@@ -84,16 +84,18 @@ const meta = {
     <ol class="history-timeline" id="versions" aria-label="Website design eras, newest first">
       {eras.map(era => (
         <li class="history-era" id={era.id}>
-          <div class="history-era-marker">
-            <span class="history-version">{era.id.toUpperCase()}</span>
-            <time datetime={era.date}>{formatDate(era.date)}</time>
-            <span class="history-status">{era.current ? 'Current chapter' : 'Preserved chapter'}</span>
-          </div>
           <article class="history-era-body" aria-labelledby={`${era.id}-title`}>
-            <div class="history-era-heading">
-              <h2 id={`${era.id}-title`}>{era.title}</h2>
-              <p>{era.description}</p>
-            </div>
+            <Card data-history-era-summary variant="unstyled">
+              <div class="history-era-marker">
+                <span class="history-version">{era.id.toUpperCase()}</span>
+                <time datetime={era.date}>{formatDate(era.date)}</time>
+                <span class="history-status">{era.current ? 'Current chapter' : 'Preserved chapter'}</span>
+              </div>
+              <div class="history-era-heading">
+                <h2 id={`${era.id}-title`}>{era.title}</h2>
+                <p>{era.description}</p>
+              </div>
+            </Card>
             <div class="history-captures">
               <figure class="history-desktop">
                 <div class="history-browser-bar" aria-hidden="true">
@@ -105,7 +107,7 @@ const meta = {
                   <span>santi020k.com{era.current ? '' : `/${era.id}/`}</span>
                   <span>↗</span>
                 </div>
-                <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} homepage at desktop size`} widths={[480, 800, 1200]} sizes="(min-width: 960px) 850px, 95vw" loading="lazy" />
+                <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} homepage at desktop size`} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 1104px, (min-width: 640px) calc(100vw - 5.5rem), calc(100vw - 4rem)" loading="lazy" />
                 <figcaption>Desktop · 1440 × 1000</figcaption>
               </figure>
               <figure class="history-mobile">

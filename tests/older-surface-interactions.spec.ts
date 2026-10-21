@@ -227,12 +227,12 @@ for (const width of [390, 1440]) {
           }
         })
 
-        test('series steps expose the same arrow and colors to keyboard and pointer users', async ({ page, browserName }) => {
+        test('series steps expose the same reading emphasis to keyboard and pointer users', async ({ page, browserName }) => {
+          await page.route('https://giscus.app/**', route => route.abort())
           await setTextSize(page, textSize)
           await page.goto(article)
           await page.evaluate(() => document.fonts.ready)
           const step = page.locator('[data-series-step]:not([aria-current])').first()
-          const arrow = step.locator(':scope > :last-child')
           const appearance = () => step.evaluate(element => [element, ...element.children].map(node => {
             const style = getComputedStyle(node)
 
@@ -245,7 +245,6 @@ for (const width of [390, 1440]) {
             element.scrollIntoView({ behavior: 'instant', block: 'center' })
           })
           await finishAnimations(step)
-          await expect(arrow).toHaveCSS('opacity', '1')
           await expect(step).toHaveCSS('outline-style', 'solid')
           await expectInsideViewport(step)
           const focused = await appearance()
@@ -257,7 +256,7 @@ for (const width of [390, 1440]) {
           await finishAnimations(step)
           expect(await appearance()).toEqual(focused)
           await page.emulateMedia({ reducedMotion: 'reduce' })
-          await expect(arrow).toHaveCSS('translate', '0px')
+          await expect(step).toHaveCSS('transition-property', 'none')
           await expectNoUnexpectedAccessibilityViolations(page)
           const destination = await step.getAttribute('href')
 

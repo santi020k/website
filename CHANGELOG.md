@@ -4,6 +4,14 @@
 
 ### Minor Changes
 
+- Apply Directional folio to previous and next article navigation, with open columns, complete titles, chapter numbers, and responsive keyboard-accessible links.
+
+- Apply Evidence rows to Privacy, Terms, and Accessibility with one shared reading
+  panel, purple heading rails, and responsive columns. Preserve all policy content
+  and dates, including readable layouts with enlarged text.
+
+- Apply Gallery sheet to product previews with complete screenshots, numbered captions, and responsive reading space.
+
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public
   availability from current product and store evidence.
@@ -12,7 +20,21 @@
   projects by purpose with keyboard-accessible category links, and clarify the
   contact invitation for engineering roles, product collaboration, and speaking.
 
+- Apply Reading index to series chapter navigation, with numbered rows, an explicit current chapter, and responsive editorial spacing.
+
+- Apply Reading slip to the curated Start here articles, with numbered headers, complete copy, and responsive cards.
+
+- Apply Stacked sheets to the History chapters, pairing a raised introduction card
+  with wider desktop and mobile captures. Preserve all chapter content, anchors,
+  image alternatives, and archive navigation across responsive layouts.
+
+- Apply System folio to the Developer Experience shipped systems cards, with soft
+  category headers, aligned case-study actions, and responsive light and dark layouts.
+  Preserve complete descriptions, keyboard navigation, and destinations without JavaScript.
+
 - Apply the Timeline folio design to career cards, with semantic date rails, complete role descriptions, responsive layouts, and visible keyboard focus.
+
+- Apply Tool ledger to the Projects technology snapshot, with featured and supporting tool rows, aligned project counts, and responsive keyboard-accessible links.
 
 - Add a private motion studio for the website timeline, sharing its real captures
   and era metadata. Preview the film with accessible playback and chapter controls,
@@ -110,6 +132,9 @@
 
 - Improve older-page recovery states: keep 404 suggestions visibly linked, make failed-copy feedback readable in both themes, and replace blocked comment widgets with accessible fallback guidance. Expose comments and webmentions in heading navigation and provide machine-readable mention dates.
 
+- Apply Margin chapters to case study summaries with numbered margins, clear headings,
+  and complete narratives that remain readable with enlarged text.
+
 - Apply the Margin note design to project Focus cards, with complete readable statements,
   theme-aware emphasis, and narrow-rail spacing that preserves enlarged text.
 
@@ -126,6 +151,9 @@
   typography. Remove obsolete glass styling and unused statistic variants.
 
 - Preserve focus and scroll position when filtering blog topics, including partially visible mobile controls at enlarged text sizes. Align series-step keyboard feedback with hover and keep passive article and project covers still.
+
+- Apply Ownership ledger to project detail lists with clear lead and explanation columns,
+  preserving Markdown content, semantic lists, and readable enlarged-text layouts.
 
 - Limit package release-age exceptions to the exact OG and TypeScript lint-config versions already installed, preserving supply-chain checks for future upgrades.
 

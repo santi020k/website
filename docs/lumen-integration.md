@@ -90,6 +90,9 @@ The same component serves featured, supporting, and related projects without cli
 
 ## Current primitive migrations
 
+- `StartHereCard` composes the homepage's Reading slip recommendations with an
+  unstyled Lumen `Card`, decorative `Icon`, and one native link. The site owns the
+  responsive grid, complete editorial copy, numbered header, and focus treatment.
 - About-page supplementary cards use Lumen `Note` directly.
 - The About hero availability status uses Lumen `Marker`.
 - The article and project table of contents use Lumen `Anchor` and its shared scroll-spy runtime,
@@ -108,7 +111,31 @@ The same component serves featured, supporting, and related projects without cli
   shared reset no longer creates these implicit transitions.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.
-- Series navigation uses Lumen `Progress` with a readable current/max value.
+- The Projects technology snapshot composes Tool ledger from an unstyled Lumen `Card`,
+  `AnimatedNumber` totals, native linked lists, and a decorative `Icon`. Scoped container
+  queries reflow the featured and supporting tools without another controller.
+- `PolicySections` composes Evidence rows from one unstyled Lumen `Card` and the
+  existing `RevealGroup`, with semantic sections and level-two headings inside.
+  Local container queries stack heading and copy without changing policy text or
+  adding a controller. Privacy, Terms, and Accessibility share this composition.
+- History chapters compose Stacked sheets from an unstyled Lumen `Card` for the
+  introduction and the existing `ButtonLink` archive action. The authentic Astro
+  images remain outside the card; container queries reflow its metadata and copy.
+- Developer Experience shipped systems compose System folio from unstyled Lumen
+  `Card` and `ButtonLink` components with decorative `Icon` labels and arrows.
+  Local styles own the soft header, aligned action rows, and narrow-container reflow;
+  every case-study destination remains a native link without another controller.
+- Series navigation uses Lumen `Progress` with a readable current/max value and one
+  unstyled `Card` for the Reading index. A named native navigation landmark and ordered
+  list retain complete titles, current-step semantics, and navigation without JavaScript.
+  Directional folio uses a second named native navigation landmark for adjacent
+  article links, with decorative Lumen `Icon` arrows and responsive open columns.
+- `ProjectCaseStudy` composes Margin chapters from an unstyled Lumen `Card`, `Icon`,
+  and an ordered list with semantic chapter headings. Its scoped container queries
+  retain complete narratives and optional chapters in narrow or enlarged-text layouts.
+- `ProjectPreviews` composes Gallery sheet with an unstyled Lumen `Card` around a
+  semantic figure. Lumen `Image` retains Astro optimization and complete screenshot
+  proportions; the caption and decorative number reflow through scoped container queries.
 - Project timeline endpoints use separate native `time` elements, and project
   sidebar card labels are level-two headings. `ProjectGlanceCard` uses an unstyled Lumen
   `Card` for the Project dossier treatment. `ProjectFocusCard` uses the same primitive
@@ -185,9 +212,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   captions retain their spacing. Code-copy buttons keep stable geometry during hover and
   press: Lumen's scale animation could send an enlarged-text edge tap to the header.
   Color, border, copy-state feedback, and keyboard focus remain available.
-- Project prose cards own their decorative list dots. The dots follow the first line height,
-  and single-column grid tracks can shrink below their content width so enlarged text wraps
-  inside phone viewports. Lumen does not supply these markers.
+- Project prose lists use Ownership ledger. `rehype-project-ledger.ts` separates an authored
+  leading `strong` from its explanation at build time, preserving links, code, nested lists,
+  ordered-list metadata, and plain or fully emphasized entries. Only project content receives
+  this composition; native list semantics remain intact without client JavaScript. Root lists
+  use neutral dividers and purple lead rules, with a single column when reading space is narrow.
 - `ShareButtons` keeps native sharing on supported coarse-pointer devices and clipboard copying
   elsewhere. Its visible label and accessible name say "Share link" for native sharing and
   "Copy link" for clipboard-only use. Cancellation preserves the idle label; fallback feedback
