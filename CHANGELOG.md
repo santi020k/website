@@ -182,9 +182,13 @@
   Restore visible focus on article cards, improve dark pagination contrast, reflow enlarged
   project metadata, and respect reduced motion on repository icons.
 
+- Reuse landscape article image transforms across listings and detail pages, fill their existing natural-aspect frames, and reset navigation progress before its next forward animation. Preserve the selected theme before client navigation swaps the document to avoid a first-frame light flash. Keep contained portrait covers and reduced-motion behavior unchanged.
+
 - Restyle series cards with soft editorial surfaces, plain status and topic labels, and one accessible full-card link.
 
 - Give testimonials a split editorial layout with a tinted author column, complete quotations, and responsive stacking for narrow screens and enlarged text.
+
+- Keep reduced-motion reading targets stable after client navigation and text enlargement by applying sticky-header spacing immediately. Preserve strict geometry checks and wait for destination page initialization and ancestor entrance animations in browser tests.
 
 - Apply Stack ledger to project technology cards, preserving complete lists, native
   keyboard disclosures, and readable layouts with enlarged text.

@@ -3,6 +3,48 @@ import { z } from 'astro/zod'
 
 import { siteConfig } from '../src/site.config'
 
+import { requireValue } from './helpers/assertions'
+
+test('a landscape article reuses its listing image transforms', async ({ page }) => {
+  await page.goto('/blog/')
+  const route = requireValue(await page.locator('[data-post-gallery-card]').evaluateAll(cards => {
+    const landscapeCard = cards.find(card => {
+      const image = card.querySelector('img')
+      const width = Number(image?.getAttribute('width'))
+      const height = Number(image?.getAttribute('height'))
+
+      return width >= 1600 && height > 0 && width / height > 1.08
+    })
+
+    return landscapeCard?.querySelector('a')?.getAttribute('href')
+  }))
+
+  const listing = page.locator(`[data-post-gallery-card] a[href="${route}"] picture`).first()
+
+  const listingSources = await listing.locator('source, img').evaluateAll(elements => elements.map(element => element.getAttribute('srcset') ?? ''))
+
+  await page.goto(route)
+  const hero = page.locator('[data-post-cover] picture')
+
+  const transitionName = `post-cover-${requireValue(route.split('/').filter(Boolean).at(-1))}`
+  const namedCovers = await page.locator('[data-post-cover] *').evaluateAll(elements => elements.map(element => getComputedStyle(element).viewTransitionName))
+
+  expect(namedCovers.filter(name => name === transitionName)).toHaveLength(1)
+
+  const heroSources = await hero.locator('source, img').evaluateAll(elements => elements.map(element => element.getAttribute('srcset') ?? ''))
+
+  expect(listingSources).toHaveLength(2)
+  expect(heroSources).toHaveLength(2)
+  for (const [index, sources] of heroSources.entries()) {
+    for (const width of [800, 1600]) {
+      const candidate = sources.split(',').map(value => value.trim()).find(value => value.endsWith(` ${width}w`))
+
+      expect(candidate).toBeDefined()
+      expect(listingSources[index]).toContain(candidate)
+    }
+  }
+})
+
 test('blog pictures keep responsive AVIF sources and compact WebP fallbacks', async ({ page, request }) => {
   await page.goto('/blog/')
   const pictures = page.locator('[data-blog-latest] picture, [data-post-gallery-card] picture')
@@ -28,7 +70,7 @@ test('blog pictures keep responsive AVIF sources and compact WebP fallbacks', as
   }
 })
 
-for (const route of ['/projects/', '/technologies/typescript/', '/blog/avoid-magic-strings-in-typescript-and-javascript/']) {
+for (const route of ['/projects/', '/technologies/typescript/']) {
   test(`Lumen covers use responsive AVIF and WebP on ${route}`, async ({ page, request }) => {
     await page.goto(route)
     const pictures = page.locator('.ui-cover-image picture')
@@ -49,6 +91,34 @@ for (const route of ['/projects/', '/technologies/typescript/', '/blog/avoid-mag
       expect(response.ok()).toBe(true)
       expect(response.headers()['content-type']).toContain('image/webp')
     }
+  })
+}
+
+test('article covers retain responsive AVIF and WebP with natural image dimensions', async ({ page }) => {
+  await page.goto('/blog/run-repo-on-mac-with-silo-dxmt/')
+  const cover = page.locator('[data-post-cover] picture')
+
+  await expect(cover.locator('source')).toHaveAttribute('type', 'image/avif')
+  await expect(cover.locator('img')).toHaveAttribute('src', /\.webp$/u)
+  const dimensions = await cover.locator('img').evaluate(async (image: HTMLImageElement) => {
+    await image.decode()
+
+    return {
+      declaredRatio: Number(image.getAttribute('width')) / Number(image.getAttribute('height')),
+      actualRatio: image.naturalWidth / image.naturalHeight
+    }
+  })
+
+  expect(dimensions.declaredRatio).toBeCloseTo(dimensions.actualRatio, 2)
+})
+
+for (const route of ['/portfolio/smith-commerce/', '/portfolio/lumen-ui/']) {
+  test(`project covers keep unnamed transitions on ${route}`, async ({ page }) => {
+    await page.goto(route)
+    const cover = page.locator('[data-project-cover]')
+
+    await expect(cover).toHaveCount(1)
+    await expect(cover.locator('[data-astro-transition-scope]')).toHaveCount(0)
   })
 }
 

@@ -612,15 +612,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-header-shell,
-  .site-header-shell::before,
-  .site-header-brand::after,
-  .site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger]),
-  .site-desktop-nav-link,
-  .site-mobile-nav-link,
-  .site-mobile-nav-arrow,
-  .site-nav-contact-arrow,
-  .site-nav-contact-arrow > svg { transition: none; }
+  /* Lumen's universal 1ms duration can animate rem-based header padding after
+     text resizing. Apply the new geometry immediately so fragment targets stay
+     aligned with the sticky header, including after a client navigation. */
+  .site-header,
+  .site-header *,
+  .site-header::before,
+  .site-header::after,
+  .site-header *::before,
+  .site-header *::after { transition-property: none !important; }
   .site-mobile-nav-link:hover .site-mobile-nav-arrow,
   .site-nav-contact:is(:hover, :focus-visible) .site-nav-contact-arrow > svg { transform: none; }
   [data-mobile-nav-panel]:not([hidden]),

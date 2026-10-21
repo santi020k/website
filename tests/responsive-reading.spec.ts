@@ -241,6 +241,9 @@ for (const theme of ['light', 'dark'] as const) {
           }, fontSize)
           await settleLayout(page)
           await expect(page.locator('[data-reading-layout]')).toHaveCSS('font-size', `${16 * parseFloat(fontSize) / 100}px`)
+          // Header padding must resize with the text before a fragment target is measured.
+          expect(await page.locator('.site-header').evaluate(header => parseFloat(getComputedStyle(header).paddingTop)))
+            .toBe(24 * parseFloat(fontSize) / 100)
           const link = page.locator('[data-toc-tree] a[href="#technical-highlights"]')
           const initialTargetTop = await page.locator('#technical-highlights').evaluate(heading => heading.getBoundingClientRect().top + scrollY)
 

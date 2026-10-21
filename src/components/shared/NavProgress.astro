@@ -26,7 +26,9 @@
     left: 0;
     z-index: 9999;
     height: 2px;
-    width: 0%;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
     background: linear-gradient(
       to right,
       hsl(var(--brand)),
@@ -35,27 +37,25 @@
     box-shadow: 0 0 8px hsl(var(--brand) / 0.45);
     opacity: 0;
     pointer-events: none;
-    /* default: instant reset (used after completion) */
-    transition:
-      width 0.1s ease,
-      opacity 0.25s ease;
+    /* Reset immediately before the next navigation starts. */
+    transition: none;
   }
 
   /* Loading: slowly crawl to 70% to simulate in-progress */
   #nav-progress.is-loading {
     opacity: 1;
-    width: 70%;
+    transform: scaleX(0.7);
     transition:
-      width 8s cubic-bezier(0.05, 0.3, 0.5, 0.9),
+      transform 8s cubic-bezier(0.05, 0.3, 0.5, 0.9),
       opacity 0.15s ease;
   }
 
   /* Complete: snap to 100%, then fade out */
   #nav-progress.is-complete {
     opacity: 0;
-    width: 100%;
+    transform: scaleX(1);
     transition:
-      width 0.15s ease,
+      transform 0.15s ease,
       opacity 0.35s ease 0.15s;
   }
 
@@ -80,13 +80,17 @@
       resetFrame = 0
     }
 
-    // Reset to 0, then start the crawl on the next frame without forcing layout.
+    // Let the zero state paint before starting the next transform transition.
+    // One frame alone coalesces the reset with loading and animates backward
+    // from the previous completed state instead.
     bar.classList.remove('is-loading', 'is-complete')
 
     resetFrame = requestAnimationFrame(() => {
-      bar.classList.add('is-loading')
+      resetFrame = requestAnimationFrame(() => {
+        bar.classList.add('is-loading')
 
-      resetFrame = 0
+        resetFrame = 0
+      })
     })
   })
 

@@ -24,6 +24,48 @@ const expectStableTop = async (locator: Locator, expected: number) => {
 }
 
 test.describe('View transitions', () => {
+  test('starts each navigation near zero and advances the visible progress bar', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto('/')
+
+    const progress = page.locator('#nav-progress')
+
+    await expect(progress).toHaveCSS('opacity', '0')
+    await page.route('**/about/', async route => {
+      await new Promise(resolve => setTimeout(resolve, 1200))
+      await route.continue()
+    })
+
+    const about = page.getByRole('navigation', { name: 'Main menu' }).first().getByRole('link', { name: 'About' })
+
+    await about.evaluate(link => {
+      link.setAttribute('data-astro-prefetch', 'false')
+    })
+    await about.click()
+    await expect(progress).toHaveClass(/is-loading/)
+
+    const fractions = await progress.evaluate(async bar => {
+      const values: number[] = []
+
+      for (let frame = 0; frame < 12; frame += 1) {
+        await new Promise<void>(resolve => requestAnimationFrame(() => {
+          resolve()
+        }))
+        values.push(bar.getBoundingClientRect().width / window.innerWidth)
+      }
+
+      return values
+    })
+
+    expect(fractions[0]).toBeLessThan(0.3)
+    for (let index = 1; index < fractions.length; index += 1) {
+      expect(fractions[index]).toBeGreaterThanOrEqual(fractions[index - 1] ?? 0)
+    }
+    await expect(page).toHaveURL(/\/about\/$/)
+    await expect(progress).toHaveClass(/is-complete/)
+    await expect(progress).toHaveCSS('opacity', '0')
+  })
+
   test('keeps global transition UI working after a body swap', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/')
