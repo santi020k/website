@@ -46,6 +46,23 @@ the lockfile, artwork, content, renderer scripts, pagination settings, and the
 actual variable font. A changed input produces a new cache entry; the generator
 still verifies fingerprints after a fallback restore.
 
+### Portable OG fingerprints
+
+The pinned `@santi020k/og@1.2.0` dependency uses
+[`patches/@santi020k__og@1.2.0.patch`](../patches/@santi020k__og@1.2.0.patch) to hash source
+identities relative to the configured project root. The generator still reads and hashes every
+source file and verifies output digests. The website also stores image references in card data
+relative to that root; renderer paths and the `collectSpecs` helper still resolve actual local files.
+
+Moving a checkout with its cache and generated images preserves all fingerprints, manifest URLs,
+and cache hits. Inputs outside the project keep their absolute identity. The new fingerprint format
+requires one regeneration of older cache metadata; subsequent moves do not regenerate cards.
+
+The source fix and regression coverage also live in the OG repository. Remove this patch only after
+upgrading to a published release containing that fix and passing `pnpm run test` and
+`pnpm run check:og`. The installed-package regression test copies a cache between temporary roots
+and verifies hits, stable public URLs, changed sources, and corrupted outputs.
+
 ## Why this split
 
 - Static hashed assets should never be re-downloaded unless URLs change. The global

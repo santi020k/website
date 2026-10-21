@@ -207,6 +207,8 @@ workflow runs and do not certify an unpublished release candidate.
 Builds regenerate favicons, fonts, and OG images before Astro renders pages.
 OG 1.2.0 writes content-versioned image URLs to `public/og/manifest.json`; page
 metadata uses those URLs so changed cards invalidate social preview caches.
+A version-pinned [cache portability patch](docs/cache-strategy.md#portable-og-fingerprints)
+keeps those fingerprints stable when the checkout directory changes.
 Explicit custom artwork and unlisted utility-page fallbacks remain supported.
 ESLint Basic 3.6.0 owns browser-test detection through `testingFiles.playwright`,
 with `tests/**/*.spec.ts` declared in the site configuration. After-build scripts
