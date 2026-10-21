@@ -99,11 +99,13 @@ The same component serves featured, supporting, and related projects without cli
   relying on inheritance left descendant layout stale
   after root text resizing during client navigation, shifting native fragment targets. This
   keeps the existing native links and Lumen marker synchronized without another controller.
-  Reading pages and the sticky header disable CSS transitions completely under reduced
-  motion: Lumen's universal 1ms fallback otherwise starts inherited font-size transitions
-  that WebKit can defer until a fragment jump. Chromium can also defer rem-based header
-  padding after text resizing, moving all reading targets by 20–40 pixels. Remove these
-  local overrides when the shared reset no longer creates geometry transitions.
+  The site disables CSS transitions under the operating system's reduced-motion
+  preference, matching Lumen's local motion preference. Its universal 1ms fallback
+  otherwise starts inherited font-size transitions that WebKit can defer until a
+  fragment jump. Chromium can also defer rem-based header and frame spacing after
+  text resizing, shifting reading targets or separating joined frames. A single
+  override in `base.css` keeps their geometry synchronized; remove it when the
+  shared reset no longer creates these implicit transitions.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.
 - Series navigation uses Lumen `Progress` with a readable current/max value.

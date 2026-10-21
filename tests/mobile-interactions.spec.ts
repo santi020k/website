@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, type Locator, type Page, test } from '@playwright/test'
 
+import { waitForVisibleAnimations } from './helpers/accessibility'
+
 const expectWithinViewport = async (page: Page, locator: Locator) => {
   const bounds = await locator.boundingBox()
   const viewport = page.viewportSize()
@@ -144,6 +146,8 @@ for (const theme of ['light', 'dark']) {
     await page.locator('[data-site-search-trigger]').click()
     await page.locator('#site-search-input').fill('Astro')
     await expect(page.locator('[data-site-search-result]').first()).toBeVisible()
+    // Measure final dialog colors after the entrance fade, as other axe scans do.
+    await waitForVisibleAnimations(page)
     const result = await new AxeBuilder({ page }).include('#site-search-dialog')
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
 

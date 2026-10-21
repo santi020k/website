@@ -211,6 +211,19 @@
   }
 }
 
+/* Match Lumen's local reduced-motion preference for OS preferences too. Its
+   universal 1ms duration otherwise gives elements with the default `all` property
+   implicit font-size, padding and gap transitions. Browsers can defer those until
+   focus or scrolling, leaving reading targets and joined frames out of sync. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after,
+  *::backdrop {
+    transition-property: none !important;
+  }
+}
+
 /* Page layouts omit decorations when using a quiet editorial canvas. */
 body[data-backdrop="plain"],
 body[data-backdrop="particles"] { background: hsl(var(--theme-bg)); }

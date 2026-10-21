@@ -127,6 +127,8 @@
 
 - Preserve focus and scroll position when filtering blog topics, including partially visible mobile controls at enlarged text sizes. Align series-step keyboard feedback with hover and keep passive article and project covers still.
 
+- Limit package release-age exceptions to the exact OG and TypeScript lint-config versions already installed, preserving supply-chain checks for future upgrades.
+
 - Keep generated social images and their cache versions stable when a checkout moves to a different directory, while preserving invalidation for changed content and assets.
 
 - Apply the Project dossier treatment to At a glance and balance portfolio artwork proportions across featured, supporting, and related cards.
@@ -188,7 +190,7 @@
 
 - Give testimonials a split editorial layout with a tinted author column, complete quotations, and responsive stacking for narrow screens and enlarged text.
 
-- Keep reduced-motion reading targets stable after client navigation and text enlargement by applying sticky-header spacing immediately. Preserve strict geometry checks and wait for destination page initialization and ancestor entrance animations in browser tests.
+- Keep reduced-motion reading targets and joined landing frames synchronized after client navigation and text enlargement by applying spacing immediately. Preserve strict geometry checks, wait for destination initialization and ancestor entrance animations, and measure search-dialog contrast after its fade completes.
 
 - Apply Stack ledger to project technology cards, preserving complete lists, native
   keyboard disclosures, and readable layouts with enlarged text.

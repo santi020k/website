@@ -82,11 +82,11 @@ catalog:
   vitest: ^5.0.3
   wawoff2: ^2.0.1
 minimumReleaseAgeExclude:
-  - "@santi020k/og"
+  - "@santi020k/og@1.2.0"
   - "@santi020k/lumen-astro@4.1.0"
   - "@santi020k/lumen-core@4.1.0"
   - "@santi020k/lumen@4.2.0"
-  - "@santi020k/eslint-config-typescript"
+  - "@santi020k/eslint-config-typescript@3.1.6"
   - '@santi020k/eslint-config-core@3.2.0 || 3.2.1'
   - "@santi020k/eslint-config-astro@3.1.5"
   - "@santi020k/eslint-config-basic@3.6.0"
