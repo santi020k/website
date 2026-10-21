@@ -231,7 +231,6 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
   [data-travel-explorer] :global([data-travel-close]) { flex-shrink: 0; width: 2.75rem; min-width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; background: hsl(var(--surface-muted)); }
   [data-travel-explorer] :global([data-travel-next]) { position: relative; display: flex; justify-content: space-between; gap: 1rem; width: 100%; max-width: 100%; min-height: 3.5rem; padding: 0.5rem 3rem 0.5rem 0; scroll-margin-block: 1rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; text-align: left; white-space: normal; }
   [data-travel-next-arrow] { position: absolute; top: 50%; right: 0; transform: translateY(-50%); display: grid; flex-shrink: 0; place-items: center; width: 2rem; height: 2rem; border-radius: 0.625rem; color: hsl(var(--brand)); background: hsl(var(--brand-soft)); }
-  [data-travel-explorer] :global([data-travel-next]:hover) { color: hsl(var(--brand)); }
   :global([data-theme="dark"]) [data-travel-code],
   :global([data-theme="dark"]) [data-travel-next-arrow] { color: hsl(var(--accent)); }
   :global([data-theme="dark"]) [data-travel-silhouette] { fill: hsl(var(--accent) / 0.12); stroke: hsl(var(--accent) / 0.65); }

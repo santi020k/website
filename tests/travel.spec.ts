@@ -80,6 +80,9 @@ for (const theme of ['light', 'dark']) {
       await expect(page.locator('[data-ui-world-map-viewport]')).toBeVisible()
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
       await expectNoUnexpectedAccessibilityViolations(page)
+      await page.locator('[data-ui-world-map-select]').selectOption('PY')
+      await page.locator('[data-travel-next]').hover()
+      await expectNoUnexpectedAccessibilityViolations(page)
     })
   }
 }
