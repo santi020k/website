@@ -154,8 +154,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
 - `src/plugins/rehype-readable-tables.ts` wraps Markdown tables in Lumen's `ui-table-wrap`
   surface (`data-slot="table"`). The native table and its headings remain intact inside a
   focusable region named from its caption or preceding heading. This lets keyboard users scroll
-  wide tables in Safari as well as Chromium without client JavaScript. Prose styles use site ink
-  tokens for cells and Lumen's code foreground token for language badges in both themes.
+  wide tables in Safari as well as Chromium without client JavaScript. Body cells wrap with a
+  12-character minimum width, keeping explanatory sentences readable while headers stay together.
+  The four-column measurement table fits the desktop reading column and retains horizontal scrolling
+  on narrow screens. `tests/legacy-article-content.spec.ts` checks normal and enlarged text.
+  Prose styles use site ink tokens for cells and Lumen's code foreground token for language badges in both themes.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
 
 ## Anchor runtime patch

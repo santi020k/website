@@ -143,9 +143,9 @@ Having this configuration library as a foundational tool has allowed me to focus
 
 I’m continuously working to improve this library and would love community contributions. Here’s a look at upcoming features:
 
-- [ ] Support for additional frameworks like Vue, Angular, and an improved Astro configuration
-- [ ] Unit testing and extended documentation for various use cases
-- [ ] Customizable rule sets for more granular control
+- Support for additional frameworks like Vue, Angular, and an improved Astro configuration
+- Unit testing and extended documentation for various use cases
+- Customizable rule sets for more granular control
 
 I encourage you to [check out the GitHub repository](https://github.com/santi020k/eslint-config-santi020k) if you’re interested in contributing or raising issues.
 

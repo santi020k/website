@@ -100,7 +100,7 @@
 
   @apply prose-img:rounded-2xl prose-img:shadow-xl prose-img:mx-auto prose-img:my-12 prose-img:border prose-img:border-line prose-img:max-w-full prose-img:h-auto;
   @apply prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-brand prose-li:my-2;
-  @apply prose-table:whitespace-nowrap prose-th:text-ink prose-td:text-ink-soft;
+  @apply prose-th:whitespace-nowrap prose-th:text-ink prose-td:text-ink-soft;
   & [data-prose-table] {
     margin-block: 2em;
     border: 0;
@@ -110,6 +110,11 @@
 
   & [data-prose-table] table {
     margin: 0;
+  }
+
+  /* Cells wrap, but keep enough width that four-column tables stay readable on mobile. */
+  & [data-prose-table] td {
+    min-inline-size: 12ch;
   }
 
   & [data-prose-table]:focus-visible {
