@@ -124,7 +124,7 @@ for (const width of [320, 390, 1440]) {
           await openPage(page, '/portfolio/lumen-ui/', textSize)
           const stack = page.locator('section[aria-labelledby="sidebar-stack"]')
           const trigger = stack.locator('summary')
-          const extra = stack.locator('[data-site-pill-label]').filter({ hasText: /^Accessibility$/ })
+          const extra = stack.getByRole('listitem').filter({ hasText: /^Accessibility$/ })
 
           await expect(extra).toBeHidden()
           await page.keyboard.press('Tab')
@@ -136,7 +136,7 @@ for (const width of [320, 390, 1440]) {
           await expect(stack.locator('details')).toHaveAttribute('open', '')
           await expect(extra).toBeVisible()
           await expect(trigger).toBeFocused()
-          await expectReadingWords(stack.locator('[data-site-pill-label]'), width)
+          await expectWordsToFit(stack.getByRole('listitem'))
           await expectContentInside(stack)
           await expectVisibleFocusIndicator(trigger)
           await page.keyboard.press('Space')
