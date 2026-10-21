@@ -98,17 +98,20 @@ const expectReadableProjectTitleGradient = async (page: Page) => {
 }
 
 test.describe('Portfolio page', () => {
-  test('keeps duplicate cover captions clear of enlarged logos on narrow screens', async ({ page }) => {
+  test('keeps cover captions and their shading clear of enlarged logos on narrow screens', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 844 })
     await page.goto('/portfolio/roadscore/')
 
     const caption = page.locator('[data-project-cover-caption]')
+    const gradient = page.locator('[data-project-cover] [data-cover-gradient]')
 
     await expect(caption).toBeHidden()
+    await expect(gradient).toBeHidden()
     await expect(page.locator('[data-editorial-meta-group]')).toBeVisible()
 
     await page.setViewportSize({ width: 1440, height: 900 })
     await expect(caption).toBeVisible()
+    await expect(gradient).toBeVisible()
 
     const clearsLogo = await caption.evaluate(element => {
       const image = element.parentElement?.querySelector('img')
@@ -125,6 +128,7 @@ test.describe('Portfolio page', () => {
       document.documentElement.style.fontSize = '200%'
     })
     await expect(caption).toBeHidden()
+    await expect(gradient).toBeHidden()
     await expect(page.locator('[data-editorial-meta-group]')).toBeVisible()
   })
 

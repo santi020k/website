@@ -104,7 +104,8 @@ The same component serves featured, supporting, and related projects without cli
   sidebar card labels are level-two headings. `ProjectGlanceCard` uses an unstyled Lumen
   `Card` for the Project dossier treatment. `ProjectFocusCard` uses the same primitive
   for its Margin note composition. `ProjectStackCard` composes the Stack ledger from
-  `Card`, semantic technology lists, and `Collapsible`; outcomes retain the section-label style.
+  `Card`, semantic technology lists, and `Collapsible`. `ProjectOutcomesCard` composes
+  Impact rows with `Card`, `Icon`, and semantic lists, keeping original claims accessible.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
 - Project stack cards use Lumen `Collapsible` for technologies beyond the first six. The native
