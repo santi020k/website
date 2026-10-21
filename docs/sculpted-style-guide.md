@@ -182,6 +182,20 @@ text sizes, singular and plural accessible count labels, and visible focus outli
 Place the full-index link beneath the lists. Hover and focus emphasize link text
 without moving content.
 
+### System folio shipped systems
+
+Developer Experience presents its three shipped systems as opaque Lumen Cards with
+1.75rem corners and a 0.5rem lower-right corner. Each soft purple header pairs a
+small category and decorative icon with the complete 1.5rem title at weight 500.
+Keep two lines of title space in wide cards, 0.875rem body copy with 1.625rem leading,
+and aligned action dividers at the bottom of neighboring cards.
+
+Preserve the original descriptions and native case-study links. Use readable purple
+category and action text in both themes, with visible keyboard focus and no card
+movement. Container queries tighten the insets and let action content wrap in narrow
+or enlarged-text layouts. Keep all words intact and all destinations usable without
+JavaScript.
+
 ### Compact topic cards
 
 Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.

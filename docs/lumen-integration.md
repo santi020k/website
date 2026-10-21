@@ -110,6 +110,10 @@ The same component serves featured, supporting, and related projects without cli
 - The Projects technology snapshot composes Tool ledger from an unstyled Lumen `Card`,
   `AnimatedNumber` totals, native linked lists, and a decorative `Icon`. Scoped container
   queries reflow the featured and supporting tools without another controller.
+- Developer Experience shipped systems compose System folio from unstyled Lumen
+  `Card` and `ButtonLink` components with decorative `Icon` labels and arrows.
+  Local styles own the soft header, aligned action rows, and narrow-container reflow;
+  every case-study destination remains a native link without another controller.
 - Series navigation uses Lumen `Progress` with a readable current/max value and one
   unstyled `Card` for the Reading index. A named native navigation landmark and ordered
   list retain complete titles, current-step semantics, and navigation without JavaScript.
