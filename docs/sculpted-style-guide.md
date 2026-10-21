@@ -154,6 +154,19 @@ and use 1rem titles so enlarged text has the whole column. Retain the inset focu
 outline on clipped first and last rows. Hover and keyboard focus use the same
 background and text emphasis, without moving content.
 
+### Directional folio article navigation
+
+Below the Reading index, present previous and next articles as open columns with
+fine top rules, 1.5rem top insets, and a 1.75rem gap. Pair a 0.75rem direction label
+with a purple Lumen arrow, followed by the complete 1.25rem title at weight 500
+and 1.8125rem leading. Keep the two-digit part number at the bottom of each column.
+
+Use a named navigation landmark and native links. Show only available neighbors
+at the first and last chapters, using the full width for a single link. Below 25rem
+of available column width, stack previous before next. Keep an outward keyboard
+outline on these open links and matching title emphasis on hover and focus. Do
+not crop titles, add a second surface, or move content during interaction.
+
 ### Compact topic cards
 
 Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.

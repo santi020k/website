@@ -110,6 +110,8 @@ The same component serves featured, supporting, and related projects without cli
 - Series navigation uses Lumen `Progress` with a readable current/max value and one
   unstyled `Card` for the Reading index. A named native navigation landmark and ordered
   list retain complete titles, current-step semantics, and navigation without JavaScript.
+  Directional folio uses a second named native navigation landmark for adjacent
+  article links, with decorative Lumen `Icon` arrows and responsive open columns.
 - `ProjectCaseStudy` composes Margin chapters from an unstyled Lumen `Card`, `Icon`,
   and an ordered list with semantic chapter headings. Its scoped container queries
   retain complete narratives and optional chapters in narrow or enlarged-text layouts.

@@ -6,7 +6,7 @@ import Pill from '@/components/atoms/Pill.astro'
 
 import { getPostPath, getSeriesPath } from '@/utils/links'
 
-import { Card, Progress } from '@santi020k/lumen-astro'
+import { Card, Icon, Progress } from '@santi020k/lumen-astro'
 
 interface Props {
   currentPostId: string
@@ -70,7 +70,7 @@ const seriesPath = getSeriesPath(series.id)
       </div>
     </div>
 
-    <div class="min-w-0 space-y-5">
+    <div class="min-w-0 space-y-5" data-series-content>
       <Card data-series-index variant="unstyled">
         <nav aria-label={`Chapters in ${series.data.title}`}>
           <ol data-series-track>
@@ -101,66 +101,65 @@ const seriesPath = getSeriesPath(series.id)
       </Card>
 
       {(previous ?? next) && (
-        <div
+        <nav
+          aria-label={`Continue reading ${series.data.title}`}
           data-series-pagination
-          class:list={[
-            `
-              grid gap-px overflow-hidden rounded-2xl border border-line/30
-              bg-line/30
-            `,
-            previous && next && 'sm:grid-cols-2'
-          ]}
+          data-single={!(previous && next) || undefined}
         >
           {previous && (
             <a
-              class="
-                group block bg-surface/32 p-4 transition-colors
-                hover:bg-brand-soft/18
-                motion-reduce:transition-none
-              "
+              data-series-adjacent="previous"
               href={getPostPath(previous.id)}
+              rel="prev"
             >
-              <p class="section-label">Previous in series</p>
-              <p class="
-                mt-2 text-sm/6 font-semibold text-ink transition-colors
-                group-hover:text-brand
-                motion-reduce:transition-none
-              "
-              >
-                {previous.data.title}
-              </p>
+              <span data-series-adjacent-direction>
+                <Icon
+class="
+  size-4.5 shrink-0 text-brand
+  dark:text-accent
+"
+name="arrow-left"
+                />
+                <span>Previous in series</span>
+              </span>
+              <h3 data-series-adjacent-title>{previous.data.title}</h3>
+              <span data-series-adjacent-part>Part {String(position - 1).padStart(2, '0')}</span>
             </a>
           )}
 
           {next && (
             <a
-              class="
-                group block bg-surface/32 p-4 transition-colors
-                hover:bg-brand-soft/18
-                motion-reduce:transition-none
-              "
+              data-series-adjacent="next"
               href={getPostPath(next.id)}
+              rel="next"
             >
-              <p class="section-label">Next in series</p>
-              <p class="
-                mt-2 text-sm/6 font-semibold text-ink transition-colors
-                group-hover:text-brand
-                motion-reduce:transition-none
-              "
-              >
-                {next.data.title}
-              </p>
+              <span data-series-adjacent-direction>
+                <span>Next in series</span>
+                <Icon
+class="
+  size-4.5 shrink-0 text-brand
+  dark:text-accent
+"
+name="arrow-right"
+                />
+              </span>
+              <h3 data-series-adjacent-title>{next.data.title}</h3>
+              <span data-series-adjacent-part>Part {String(position + 1).padStart(2, '0')}</span>
             </a>
           )}
-        </div>
+        </nav>
       )}
     </div>
   </div>
 </section>
 
 <style>
-  [data-series-index][data-slot='card'] {
+  [data-series-content] {
     --series-emphasis: hsl(var(--brand));
+    container: series-navigation / inline-size;
+  }
+
+  [data-series-index][data-slot='card'] {
     container: series-track / inline-size;
     overflow: hidden;
     border: 1px solid hsl(var(--line));
@@ -169,7 +168,7 @@ const seriesPath = getSeriesPath(series.id)
     color: hsl(var(--ink));
   }
 
-  :global([data-theme='dark']) [data-series-index] {
+  :global([data-theme='dark']) [data-series-content] {
     --series-emphasis: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink)));
   }
 
@@ -223,9 +222,67 @@ const seriesPath = getSeriesPath(series.id)
   }
 
   /* Keep focus inside the rounded, clipped rows, including the first and last. */
-  [data-series-track] a:focus-visible,
-  [data-series-pagination] a:focus-visible {
+  [data-series-track] a:focus-visible {
     outline-offset: -4px;
+  }
+
+  [data-series-pagination] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+
+  [data-series-pagination][data-single] { grid-template-columns: minmax(0, 1fr); }
+
+  [data-series-adjacent] {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    border-top: 1px solid hsl(var(--line));
+    padding-block: 1.5rem 0.25rem;
+    color: hsl(var(--ink));
+    text-decoration: none;
+    overflow-wrap: break-word;
+  }
+
+  [data-series-adjacent-direction] {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  [data-series-adjacent-title] {
+    margin-block: 1.25rem 0;
+    color: inherit;
+    font-size: 1.25rem;
+    line-height: 1.8125rem;
+    font-weight: 500;
+    letter-spacing: -0.025rem;
+    transition: color 180ms ease;
+  }
+
+  [data-series-adjacent]:is(:hover, :focus-visible) [data-series-adjacent-title] {
+    color: var(--series-emphasis);
+  }
+
+  [data-series-adjacent-part] {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+  }
+
+  @container series-navigation (width < 25rem) {
+    [data-series-pagination] {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+    }
   }
 
   @container series-track (width < 20rem) {
@@ -244,6 +301,6 @@ const seriesPath = getSeriesPath(series.id)
   }
 
   @media (prefers-reduced-motion: reduce) {
-    [data-series-step] { transition: none; }
+    [data-series-step], [data-series-adjacent-title] { transition: none; }
   }
 </style>
