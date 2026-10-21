@@ -166,7 +166,7 @@ test.describe('SEO — meta tags', () => {
       },
       {
         path: '/portfolio/postlens/',
-        title: 'PostLens: Private Photo Editing for iPhone | santi020k'
+        title: 'PostLens: Private Photo Editing for iPhone and iPad | santi020k'
       },
       {
         path: '/portfolio/roadscore/',
