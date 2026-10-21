@@ -1,44 +1,14 @@
 import type { CollectionEntry } from 'astro:content'
 
-import { getCachedProjects } from '@/utils/content'
 import { getPortfolioPath, getTechnologySlug } from '@/utils/links'
 
-export const getAllProjects = async (): Promise<CollectionEntry<'project'>[]> => getCachedProjects()
-
-const groupBy = (
-  projects: CollectionEntry<'project'>[],
-  key: (p: CollectionEntry<'project'>) => string
-): Record<string, CollectionEntry<'project'>[] | undefined> => {
-  const map = new Map<string, CollectionEntry<'project'>[]>()
-
-  for (const project of projects) {
-    const k = key(project)
-    const existing = map.get(k)
-
-    if (existing) existing.push(project)
-    else map.set(k, [project])
-  }
-
-  return Object.fromEntries(map)
-}
-
-/** Groups projects by starting year. */
-export const groupProjectsByYear = (
-  projects: CollectionEntry<'project'>[]
-): Record<string, CollectionEntry<'project'>[] | undefined> => groupBy(projects, p => p.data.startingDate.getFullYear().toString())
-
-/** Groups projects by typesId. */
-export const groupProjectsByTypesId = (
-  projects: CollectionEntry<'project'>[]
-): Record<string, CollectionEntry<'project'>[] | undefined> => groupBy(projects, p => p.data.typesId ?? 'personal')
-
 /** returns all technologies created from projects (inc duplicate technologies)
- *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
+ *  Note: This function doesn't filter draft projects, pass published entries from getCachedProjects.
  *  */
 export const getAllTechnologies = (projects: CollectionEntry<'project'>[]) => projects.flatMap(project => [...project.data.technologies])
 
 /** returns all unique technologies created from projects
- *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
+ *  Note: This function doesn't filter draft projects, pass published entries from getCachedProjects.
  *  */
 const groupTechnologyLabels = (technologies: string[]) => {
   const groups = new Map<string, string[]>()
@@ -63,7 +33,7 @@ export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) =>
   .map(([slug, labels]) => getPreferredTechnologyLabel(labels, slug))
 
 /** Returns an array of strings, ordered by the number of times each technology is used in all the projects
- * Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
+ * Note: This function doesn't filter draft projects, pass published entries from getCachedProjects.
  *  */
 
 export const getTechnologiesByUsage = (projects: CollectionEntry<'project'>[]) => {
@@ -105,7 +75,7 @@ export const createProjectCollectionSchema = (
 })
 
 /** returns a count of each unique Technology - [[TechnologyName, count], ...]
- *  Note: This function doesn't filter draft projects, pass it the result of getAllProjects above to do so.
+ *  Note: This function doesn't filter draft projects, pass published entries from getCachedProjects.
  *  */
 export const getUniqueTechnologiesWithCount = (
   projects: CollectionEntry<'project'>[]

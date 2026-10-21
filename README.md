@@ -93,6 +93,13 @@ controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile 
 `@santi020k/lumen` 4.2.0 with `lumen-astro` and `lumen-core` 4.1.0 from the npm registry.
 The integration guide records the version-pinned Anchor runtime patch.
 
+Collection helpers in `src/utils/content.ts` cache published entries during a build and return
+an independent array to each caller, so page-specific sorting cannot reorder another page.
+The current site uses its own posts and project schemas; historical integrations and styles
+belong to the preserved `apps/v1`, `apps/v2`, and `apps/v3` sites. Keep those archives separate
+when tracing unused code. New styling follows the [sculpted style guide](docs/sculpted-style-guide.md)
+and existing Lumen contracts, rather than restoring retired utility layers.
+
 ### Content with room for a life outside code
 
 - **Blog:** one chronological feed for software, reading, gaming, hobbies, and everyday experiences.

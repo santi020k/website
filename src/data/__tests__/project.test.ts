@@ -1,19 +1,13 @@
 import type { CollectionEntry } from 'astro:content'
 
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import {
   getAllTechnologies,
   getTechnologiesByUsage,
   getUniqueTechnologies,
-  getUniqueTechnologiesWithCount,
-  groupProjectsByTypesId,
-  groupProjectsByYear
+  getUniqueTechnologiesWithCount
 } from '../project'
-
-vi.mock('@/utils/content', () => ({
-  getCachedProjects: vi.fn().mockResolvedValue([])
-}))
 
 const makeProject = (
   overrides: Partial<CollectionEntry<'project'>['data']> & { id?: string } = {}
@@ -22,88 +16,23 @@ const makeProject = (
 
   return {
     id,
+    collection: 'project',
     data: {
+      brand: { primary: '#620ae6', secondary: '#b78cff', surface: '#10091c' },
       description: 'A project',
+      endingDate: undefined,
       draft: false,
       impactMetrics: [],
+      relevanceWeight: 0,
       startingDate: new Date('2022-01-01'),
       technologies: [],
       title: 'Project',
       typesId: 'professional',
+      updatedDate: undefined,
       ...data
     }
-  } as unknown as CollectionEntry<'project'>
+  }
 }
-
-// ─── groupProjectsByYear ──────────────────────────────────────────────────────
-
-describe('groupProjectsByYear', () => {
-  test('groups projects into buckets keyed by starting year', () => {
-    const p2021 = makeProject({ id: 'a', startingDate: new Date('2021-06-01') })
-    const p2022a = makeProject({ id: 'b', startingDate: new Date('2022-03-01') })
-    const p2022b = makeProject({ id: 'c', startingDate: new Date('2022-11-01') })
-
-    const result = groupProjectsByYear([p2021, p2022a, p2022b])
-
-    expect(result['2021']).toHaveLength(1)
-    expect(result['2022']).toHaveLength(2)
-  })
-
-  test('returns an empty object for an empty input', () => {
-    expect(groupProjectsByYear([])).toEqual({})
-  })
-
-  test('does not include keys for years that have no projects', () => {
-    const p = makeProject({ startingDate: new Date('2023-06-01') })
-    const result = groupProjectsByYear([p])
-
-    expect(Object.keys(result)).toEqual(['2023'])
-  })
-
-  test('does not mutate the input array', () => {
-    const p = makeProject({ startingDate: new Date('2020-06-01') })
-    const input = [p]
-    groupProjectsByYear(input)
-    expect(input).toHaveLength(1)
-  })
-})
-
-// ─── groupProjectsByTypesId ───────────────────────────────────────────────────
-
-describe('groupProjectsByTypesId', () => {
-  test('groups projects by their typesId', () => {
-    const professional = makeProject({ id: 'a', typesId: 'professional' })
-    const personal = makeProject({ id: 'b', typesId: 'personal' })
-    const experimental = makeProject({ id: 'c', typesId: 'experimental' })
-    const community = makeProject({ id: 'd', typesId: 'community' })
-
-    const result = groupProjectsByTypesId([professional, personal, experimental, community])
-
-    expect(result.professional).toHaveLength(1)
-    expect(result.personal).toHaveLength(1)
-    expect(result.experimental).toHaveLength(1)
-    expect(result.community).toHaveLength(1)
-  })
-
-  test('defaults to "personal" when typesId is absent', () => {
-    const noType = makeProject({ id: 'x', typesId: undefined })
-    const result = groupProjectsByTypesId([noType])
-
-    expect(result.personal).toHaveLength(1)
-  })
-
-  test('returns an empty object for an empty input', () => {
-    expect(groupProjectsByTypesId([])).toEqual({})
-  })
-
-  test('accumulates multiple projects under the same typesId', () => {
-    const p1 = makeProject({ id: 'a', typesId: 'professional' })
-    const p2 = makeProject({ id: 'b', typesId: 'professional' })
-    const result = groupProjectsByTypesId([p1, p2])
-
-    expect(result.professional).toHaveLength(2)
-  })
-})
 
 // ─── getAllTechnologies ───────────────────────────────────────────────────────
 

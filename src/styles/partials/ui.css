@@ -2,14 +2,6 @@
  * Lumen owns primitive defaults; retain only utilities used by website composition.
  */
 
-@utility ui-focus-ring {
-  @apply focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:outline-none;
-}
-
-@utility ui-button {
-  @apply ui-focus-ring inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200 motion-reduce:transition-none;
-}
-
 /* Website cards compose their own child spacing; avoid adding the v4 default gap. */
 [data-slot="card"] {
   --ui-card-gap: 0;

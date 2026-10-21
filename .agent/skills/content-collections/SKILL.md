@@ -17,7 +17,7 @@ Available collections:
 - `project`: Portfolio projects (`src/content/project/`)
 - `note`: Short-form notes (`src/content/note/`)
 - `series`: Post series categorizations (`src/content/series/`)
-- `types`: Project type categorizations (`src/content/types/`)
+- Project categories use the `project.typesId` enum in `src/content.config.ts`.
 
 ## Modifying a Schema
 

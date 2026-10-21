@@ -117,16 +117,6 @@ const project = defineCollection({
   })
 })
 
-const types = defineCollection({
-  loader: glob({ base: './src/content/types', pattern: '**/*.{md,mdx}' }),
-  schema: z.object({
-    id: z.string(),
-    title: z.string(),
-    description: z.string(),
-    featured: z.boolean().default(false)
-  })
-})
-
 const talk = defineCollection({
   loader: glob({ base: './src/content/talk', pattern: '**/*.{md,mdx}' }),
   schema: baseSchema.extend({
@@ -179,4 +169,4 @@ const post = defineCollection({
   })
 })
 
-export const collections = { post, project, series, talk, types }
+export const collections = { post, project, series, talk }

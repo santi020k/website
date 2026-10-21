@@ -55,7 +55,6 @@ export default defineConfig({
         'src/utils/content.ts',
         'src/data/project.ts',
         'src/data/series.ts',
-        'src/data/types.ts',
         'src/types.ts',
         'src/env.d.ts'
       ],
