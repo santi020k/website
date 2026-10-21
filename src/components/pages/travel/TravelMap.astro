@@ -75,6 +75,7 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
 
 <style>
   [data-travel-explorer] {
+    --travel-navigation-accent: var(--brand);
     position: relative;
     left: 50%;
     width: 100vw;
@@ -241,16 +242,23 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
   [data-travel-note] { margin-top: 0.875rem; }
   [data-travel-selection-footer] { display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid hsl(var(--line) / 0.65); }
   [data-travel-explorer] :global([data-travel-close]) { flex-shrink: 0; width: 2.75rem; min-width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; background: hsl(var(--surface-muted)); }
-  [data-travel-explorer] :global([data-travel-next]) { position: relative; display: flex; justify-content: start; gap: 1rem; min-width: 0; width: 100%; max-width: 100%; min-height: 4.5rem; padding: 0.75rem 3rem 0.75rem 0.5rem; scroll-margin-block: 1rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; text-align: left; white-space: normal; }
+  [data-travel-explorer] :global([data-travel-next]) { position: relative; display: flex; justify-content: start; gap: 1rem; min-width: 0; width: 100%; max-width: 100%; min-height: 4.5rem; padding: 0.75rem 3.25rem 0.75rem 0.5rem; border-radius: 0.875rem; background: transparent; transform: none; scroll-margin-block: 1rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; text-align: left; white-space: normal; }
   [data-travel-explorer] :global([data-travel-previous]) { flex-shrink: 0; width: 2.75rem; height: 2.75rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: 0.875rem; color: hsl(var(--ink)); scroll-margin-block: 1rem; }
   [data-travel-previous-label] { display: none; }
   [data-travel-next-copy] { display: grid; gap: 0.25rem; }
   [data-travel-next-copy] > :first-child { color: hsl(var(--ink-soft)); font-size: 0.625rem; font-weight: 400; }
   [data-travel-next-country] { font-size: 0.875rem; }
-  [data-travel-next-arrow] { position: absolute; top: 50%; right: 0; transform: translateY(-50%); display: grid; flex-shrink: 0; place-items: center; width: 2rem; height: 2rem; border-radius: 0.625rem; color: hsl(var(--brand)); background: hsl(var(--brand-soft)); }
-  :global([data-theme="dark"]) [data-travel-code],
-  :global([data-theme="dark"]) [data-travel-next-arrow] { color: hsl(var(--accent)); }
+  [data-travel-next-arrow] { position: absolute; top: 50%; right: 0.5rem; transform: translateY(-50%); display: grid; flex-shrink: 0; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 0.75rem; color: hsl(var(--travel-navigation-accent)); background: hsl(var(--brand-soft)); transition: background-color 160ms ease, color 160ms ease; }
+  [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) { color: hsl(var(--travel-navigation-accent)); }
+  [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-country] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+  [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-arrow] { color: hsl(var(--on-brand)); background: hsl(var(--brand-solid)); }
+  :global([data-theme="dark"]) [data-travel-explorer] { --travel-navigation-accent: var(--accent); }
+  :global([data-theme="dark"]) [data-travel-code] { color: hsl(var(--accent)); }
   :global([data-theme="dark"]) [data-travel-silhouette] { fill: hsl(var(--accent) / 0.12); stroke: hsl(var(--accent) / 0.65); }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-travel-explorer] :global([data-travel-next]), [data-travel-next-arrow] { transition: none; }
+  }
 
   @media (max-width: 63.999rem) {
     [data-travel-intro] { align-items: start; flex-direction: column; gap: 1.5rem; }
