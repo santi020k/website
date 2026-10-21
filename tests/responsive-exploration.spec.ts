@@ -131,7 +131,7 @@ for (const theme of ['light', 'dark'] as const) {
           const chooser = page.locator('[data-ui-world-map-select]')
           const panel = page.locator('[data-travel-selection]')
           const close = page.getByRole('button', { name: 'Close country details' })
-          const next = page.getByRole('button', { name: 'Explore another country' })
+          const next = page.getByRole('button', { name: /^Next country/u })
 
           await chooser.selectOption('MX')
           await expect(panel).toBeVisible()
@@ -148,7 +148,7 @@ for (const theme of ['light', 'dark'] as const) {
           expect(geometry.scroll).toBeLessThanOrEqual(geometry.client + 1)
           await expectTextOnScreen(page.locator('[data-travel-country], [data-travel-counts], [data-travel-next]'))
 
-          for (const control of [close, next]) {
+          for (const control of [close, page.locator('[data-travel-previous]'), next]) {
             await control.focus()
             await expect(control).toBeInViewport({ ratio: 1 })
             const size = await control.evaluate(element => {
@@ -242,7 +242,7 @@ for (const theme of ['light', 'dark'] as const) {
         await openPage(page, '/travel/')
         await page.locator('[data-ui-world-map-select]').selectOption('MX')
 
-        for (const control of ['[data-travel-close]', '[data-travel-next]']) {
+        for (const control of ['[data-travel-close]', '[data-travel-previous]', '[data-travel-next]']) {
           const button = page.locator(control)
 
           await button.focus()
