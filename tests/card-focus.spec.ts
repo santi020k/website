@@ -56,33 +56,28 @@ for (const width of [390, 1440]) {
         test.use({ viewport: { width, height: width === 390 ? 844 : 900 }, colorScheme: theme, reducedMotion: 'reduce' })
 
         for (const forcedColors of ['none', 'active'] as const) {
-          test(`portfolio cover, title, and action retain distinct complete indicators (${forcedColors})`, async ({ page, browserName }) => {
+          test(`portfolio cards retain one complete keyboard indicator (${forcedColors})`, async ({ page, browserName }) => {
             await page.emulateMedia({ forcedColors })
             await openWithTextSize(page, '/portfolio/', textSize)
             expect(await page.evaluate(() => matchMedia('(forced-colors: active)').matches)).toBe(forcedColors === 'active')
 
             for (const variant of ['featured', 'supporting']) {
               const card = page.locator(`[data-portfolio-project="${variant}"]`).first()
-              const cover = card.locator(':scope > a')
-              const title = card.locator('h3 a')
-              const action = card.getByRole('link', { name: /^Read case study for/u })
+              const link = card.locator(':scope > a')
 
-              await cover.focus()
-              await expect(cover).toBeFocused()
+              await expect(card.locator('a')).toHaveCount(1)
+              await link.focus()
+              await expect(link).toBeFocused()
               await expectCompleteOutline(card)
               const radius = await card.evaluate(element => parseFloat(getComputedStyle(element).borderTopLeftRadius))
 
               expect(radius).toBeGreaterThan(0)
-              await expect(cover).toHaveCSS('outline-style', 'none')
-              await expect(cover).toHaveCSS('box-shadow', 'none')
+              await expect(link).toHaveCSS('outline-style', 'none')
+              await expect(link).toHaveCSS('box-shadow', 'none')
 
               await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
-              await expect(title).toBeFocused()
-              await expectCompleteOutline(title)
+              await expect(link).not.toBeFocused()
               await expect(card).toHaveCSS('outline-style', 'none')
-              await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
-              await expect(action).toBeFocused()
-              await expectCompleteOutline(action)
             }
           })
         }
