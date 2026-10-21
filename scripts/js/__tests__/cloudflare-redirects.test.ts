@@ -8,6 +8,24 @@ import { describe, expect, test } from 'vitest'
 import { prepareCloudflareRedirects, validateRedirectDestinations } from '../cloudflare-redirects.mjs'
 
 describe('Cloudflare Pages redirects', () => {
+  test('retired project and article links reach active indexes without a redirect chain', async () => {
+    const source = await readFile(new URL('../../../public/_redirects', import.meta.url), 'utf8')
+    const { rules } = prepareCloudflareRedirects(source)
+
+    for (const [retired, destination] of [
+      ['/portfolio/difftale', '/projects/'],
+      ['/blog/difftale-explicit-ai-git-workflows', '/blog/']
+    ] as const) {
+      for (const prefix of ['', '/v3']) {
+        for (const suffix of ['', '/']) {
+          expect(rules).toContainEqual({ from: `${prefix}${retired}${suffix}`, to: destination, status: 301 })
+        }
+      }
+
+      expect(rules.some(rule => rule.from === destination)).toBe(false)
+    }
+  })
+
   test('preserves historical technology aliases with and without a trailing slash', async () => {
     const source = await readFile(new URL('../../../public/_redirects', import.meta.url), 'utf8')
     const { rules } = prepareCloudflareRedirects(source)

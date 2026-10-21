@@ -3,6 +3,16 @@
 # Configure HTTP/www canonicalization in Cloudflare zone rules, not this file.
 
 # Retired pages → nearest active destination
+/portfolio/difftale   /projects/  301
+/portfolio/difftale/  /projects/  301
+/v3/portfolio/difftale   /projects/  301
+/v3/portfolio/difftale/  /projects/  301
+
+/blog/difftale-explicit-ai-git-workflows   /blog/  301
+/blog/difftale-explicit-ai-git-workflows/  /blog/  301
+/v3/blog/difftale-explicit-ai-git-workflows   /blog/  301
+/v3/blog/difftale-explicit-ai-git-workflows/  /blog/  301
+
 /blog/content-calendar   /blog/  301
 /blog/content-calendar/  /blog/  301
 
