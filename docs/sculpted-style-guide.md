@@ -186,8 +186,11 @@ holds plain technology labels and the case-study action.
 Below 36.25rem of timeline width, dates move above the card and the connector moves
 to the outer margin. Below 20rem, tighten the insets and scale the title to preserve
 reading space with enlarged text. Keep one whole-row link, a visible inset focus
-outline, semantic dates, and no description clamping. Hover changes only the title
-color, and reduced motion disables that transition.
+outline, semantic dates, and no description clamping. Hover and keyboard focus reveal
+each company's brand color through the connector, card edge, subtle surface tint,
+heading, role, and action. Reuse the project palette's readable light/dark colors,
+mixed toward the text token for contrast on tinted surfaces. Keep the resting folio
+unchanged, avoid movement, and disable the color transitions with reduced motion.
 
 ## Buttons and links
 

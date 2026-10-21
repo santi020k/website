@@ -1,6 +1,61 @@
+import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 for (const theme of ['light', 'dark']) {
+  test(`career cards restore distinct company colors on hover and keyboard focus in ${theme}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.addInitScript(value => {
+      localStorage.setItem('theme', value)
+    }, theme)
+    await page.goto('/work/')
+    await page.evaluate(() => document.fonts.ready)
+    const colors = new Set<string>()
+
+    for (const link of await page.locator('[data-career-link]').all()) {
+      const title = link.locator('[data-career-title]')
+      const folio = link.locator('[data-career-folio]')
+
+      await link.scrollIntoViewIfNeeded()
+      await page.mouse.move(0, 0)
+      await link.evaluate(async element => {
+        await Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished))
+      })
+      const restingColor = await title.evaluate(element => getComputedStyle(element).color)
+      const restingSurface = await folio.evaluate(element => getComputedStyle(element).backgroundColor)
+      const restingBounds = await folio.boundingBox()
+
+      await link.hover()
+      await link.evaluate(async element => {
+        await Promise.all(element.getAnimations({ subtree: true }).map(animation => animation.finished))
+      })
+      const hoverColor = await title.evaluate(element => getComputedStyle(element).color)
+      const hoverSurface = await folio.evaluate(element => getComputedStyle(element).backgroundColor)
+
+      expect(hoverColor).not.toBe(restingColor)
+      expect(hoverSurface).not.toBe(restingSurface)
+      expect(await folio.boundingBox()).toEqual(restingBounds)
+      colors.add(hoverColor)
+      const results = await new AxeBuilder({ page })
+        .include('[data-career-link]:hover')
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+        .analyze()
+
+      expect(results.violations).toEqual([])
+      await page.mouse.move(0, 0)
+      await expect(title).toHaveCSS('color', restingColor)
+      await expect(folio).toHaveCSS('background-color', restingSurface)
+      await page.keyboard.press('Tab')
+      await link.focus()
+      await expect(link).toHaveCSS('outline-style', 'solid')
+      await expect(title).toHaveCSS('color', hoverColor)
+      await expect(folio).toHaveCSS('background-color', hoverSurface)
+      await link.evaluate(element => {
+        element.blur()
+      })
+    }
+    expect(colors.size).toBeGreaterThan(2)
+  })
+
   for (const width of [320, 390, 768, 1440]) {
     for (const textSize of [100, 200]) {
       test(`career folios preserve dates and content at ${width}px, ${textSize}% in ${theme}`, async ({ page }) => {
