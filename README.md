@@ -231,6 +231,8 @@ The next release is consolidated on `release/v4.1.0`. Production publishing foll
 GitHub workflow from `main`; local validation and integration are separate from remote merge,
 Cloudflare deployment, and production smoke checks. See the
 [deployment runbook](docs/deployment.md) for Changesets, protected checks, and rollback.
+The [v4.1.0 readiness record](docs/v4.1-release-readiness.md) tracks the prepared
+version, final local validation, independent review, and remaining publication gates.
 
 </details>
 

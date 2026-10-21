@@ -35,7 +35,14 @@ const finishAnimations = async (target: Locator) => {
     await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => {
       resolve()
     })))
-    await Promise.all(element.getAnimations({ subtree: true })
+    const animations = element.getAnimations({ subtree: true })
+
+    // Bounding boxes also include transforms from the cover's entrance-animation ancestors.
+    for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
+      animations.push(...ancestor.getAnimations())
+    }
+
+    await Promise.all(animations
       .filter(animation => animation.effect?.getTiming().iterations !== Infinity)
       .map(animation => animation.finished.catch(() => undefined)))
   })

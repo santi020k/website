@@ -62,6 +62,23 @@ const settleLayout = async (page: Page) => {
   })
 }
 
+const navigateWithClientRouter = async (page: Page, link: Locator, pathname: string) => {
+  // Astro updates the URL before destination scripts and page-load handlers finish.
+  await Promise.all([
+    page.evaluate(destination => new Promise<void>(resolve => {
+      const onPageLoad = () => {
+        if (location.pathname !== destination) return
+
+        document.removeEventListener('astro:page-load', onPageLoad)
+        resolve()
+      }
+
+      document.addEventListener('astro:page-load', onPageLoad)
+    }), pathname),
+    link.click()
+  ])
+}
+
 const expectWithinScreen = async (locator: Locator) => {
   const outside = await locator.evaluateAll(elements => elements.flatMap(element => {
     const bounds = element.getBoundingClientRect()
@@ -212,9 +229,9 @@ for (const theme of ['light', 'dark'] as const) {
           await page.setViewportSize({ width, height: 900 })
           await page.goto(LONG_ARTICLE)
           const initialDocument = await page.evaluateHandle(() => document)
-          await page.getByRole('link', { name: 'santi020k — Santiago Molina home' }).click()
+          await navigateWithClientRouter(page, page.getByRole('link', { name: 'santi020k — Santiago Molina home' }), '/')
           await expect(page).toHaveURL(/\/$/u)
-          await page.locator('[data-home-hero] a[href="/portfolio/lumen-ui/"]').click()
+          await navigateWithClientRouter(page, page.locator('[data-home-hero] a[href="/portfolio/lumen-ui/"]'), '/portfolio/lumen-ui/')
           await expect(page).toHaveURL(/\/portfolio\/lumen-ui\/$/u)
           // Document identity proves a client swap without timestamp precision differences.
           expect(await initialDocument.evaluate(node => node === document)).toBe(true)

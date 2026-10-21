@@ -1,5 +1,222 @@
 # Changelog
 
+## 4.1.0
+
+### Minor Changes
+
+- Add annotated Lumen and PostLens product previews, with clear development-preview
+  and sample-data disclosures. Refresh featured project capabilities and public
+  availability from current product and store evidence.
+
+  Introduce three curated starting points alongside recent writing, group independent
+  projects by purpose with keyboard-accessible category links, and clarify the
+  contact invitation for engineering roles, product collaboration, and speaking.
+
+- Apply the Timeline folio design to career cards, with semantic date rails, complete role descriptions, responsive layouts, and visible keyboard focus.
+
+- Add a private motion studio for the website timeline, sharing its real captures
+  and era metadata. Preview the film with accessible playback and chapter controls,
+  and render portrait, square, and landscape videos locally with shared branded
+  bookends and a documented CC0 soundtrack.
+
+- Add a website-history timeline with authentic desktop and mobile captures and
+  usable v1, v2, and v3 archives. Maintain all apps with a shared pnpm dependency
+  catalog, exclude archives from search indexing, and isolate their navigation,
+  storage, and offline behavior.
+
+### Patch Changes
+
+- Improve article reading and search metadata: defer comments until readers approach the section,
+  make wide tables keyboard-scrollable with readable text in both themes, improve code badge
+  contrast, and match article copy labels to their visible text. Keep project structured images
+  fingerprinted, use valid RSS author attribution, distinguish paginated archive descriptions, and
+  hide decorative pagination placeholders from assistive technology.
+
+- Restore keyboard access to archived mobile navigation, keep the Close control in
+  the focus cycle, and preserve focus when menus close, reopen, resize, or navigate.
+  Keep archived search controls reachable with Tab in Safari, and update V2's header
+  scroll state after client navigation.
+
+- Keep the archive notice clear of older back-to-top controls by reserving its measured height, let it scale and wrap with enlarged text, hide inactive back-to-top buttons from keyboard focus, wrap v1 portfolio tabs and project cards, reflow the v3 footer directory and v2 contact details with doubled text, and announce v2 email copy results.
+
+- Enlarge project-cover logos using visible artwork bounds, balance smaller symbols optically, and keep vector marks sharp across responsive cover variants.
+
+- Bundle the search controller once, keep results aligned with the latest query during slow loads,
+  and test its validation and ranking rules. Serve responsive WebP fallbacks for site-owned blog
+  pictures, consolidate share feedback motion, and retire unused Python resume tooling and its
+  unreferenced font asset.
+
+  Keep mutable downloads and search data fresh through the service worker, bound its cache while
+  preserving the offline shell, and align static deployment headers with public routes. Share reading
+  metadata across cards and articles, remove unused markup and styles, preserve keyboard focus on
+  older browsers, and keep leading headings and covers visible during entrance motion.
+  Keep third-party mention avatars independent of build-time network availability.
+
+- Keep portfolio cover focus outlines visible around all four rounded card edges instead of
+  clipping them to a line below the image. Preserve separate title and action indicators,
+  including forced colors, and show homepage card outlines only for keyboard focus.
+
+  Align technology project outlines and cover corners with their rounded cards.
+
+- Restore each company's hover and keyboard-focus colors on Timeline folio career cards.
+
+- Hide project cover shading with mobile captions and remove stray pixels around the ReactJS Colombia badge.
+
+- Apply clear hierarchy to boxed engineering-principle cards, sharing speaking-card
+  typography while preserving complete headings and the About page's editorial layout.
+
+- Give speaking-topic cards a clear title hierarchy while preserving complete headings,
+  descriptions, structured data, and responsive reading behavior.
+
+- Apply the approved clear hierarchy to speaking-format cards, sharing the topic-card
+  presentation while preserving complete headings, descriptions, and structured data.
+
+- Simplify project artwork, preserve complete logos in mobile crops, and use text-free covers throughout the Projects gallery. Support MDX project entries in the image generator.
+
+- Isolate cached content arrays so page sorting cannot affect other routes. Remove unused current-site helpers, retired Medium and newsletter feed loaders, the unused project-type collection, and legacy CSS utilities and animations. Preserve historical websites, active newsletter signup, and external article links. Bound responsive reading-cover widths to their source dimensions and align contributor guidance with the current Lumen composition.
+
+- Apply compact topic cards with one readable post-count badge, a slimmer meter, and tighter spacing while preserving filtering, sorting, and keyboard navigation.
+
+- Apply refined editorial blog cards across archives, series, related articles, and developer
+  experience. Keep complete titles and summaries, plain topic labels, a reading footer, and
+  visible keyboard focus without moving artwork on hover.
+
+- Refine the Projects gallery with concise editorial descriptions, readable metadata,
+  technology labels that match the artwork, and one clear project action. Preserve
+  complete titles, responsive reflow, and full-card keyboard focus.
+
+- Keep Travel, About, Projects, and Portfolio readable with enlarged text. The Travel country panel stays inside the map and scrolls, with 44px close controls and wrapping labels. Very narrow layouts move the zoom toolbar and details out of the map overlay. About, the Projects intro, and project cards stack their columns and wrap full headings, links, and pills. The About carousel sizes its pages from the rendered grid and keeps focus on an enabled control. The mobile topic filter shows complete focus rings, and History and Travel anchors land below the header without extra offset.
+
+- Reduce initial font downloads with self-hosted Latin subsets while retaining variable weights, italic text, and full-font fallback for other scripts.
+
+- Restore legacy technology redirects by placing exact paths before Cloudflare's
+  dynamic rules, validate redirect limits and destinations during builds, and cover
+  historical technology names. Keep draft and empty series out of production
+  archives and unpublished series out of article navigation.
+
+  Include the verified OG, Auth, and Between Contractions public sitemaps in the
+  combined domain sitemap.
+
+- Apply Impact rows to project Outcomes cards, preserving complete claims and accessible
+  reading across measured results, written achievements, and enlarged text.
+
+- Apply layered editorial portfolio cards with overlapping content, project-colored hover states, and one accessible case-study link.
+
+- Reduce project cover fallbacks and search payloads, remove unused assets and overridden hero styles, and share concurrent build-time content loads. Fix article copy feedback, project modification metadata, initial header rendering, OG manifest revalidation, and service-worker response delays while retaining offline fallbacks.
+
+- Wrap prose table cells so explanatory text fits the reading column, retain keyboard scrolling on narrow screens, simplify an older roadmap to plain list items, and describe the information in two instructional screenshots.
+
+- Restore valid archive color tokens and readable project technology badges, reflow older project details and header controls with enlarged text, and expose current project timelines and sidebar headings with accurate HTML semantics.
+
+- Improve older-page recovery states: keep 404 suggestions visibly linked, make failed-copy feedback readable in both themes, and replace blocked comment widgets with accessible fallback guidance. Expose comments and webmentions in heading navigation and provide machine-readable mention dates.
+
+- Apply the Margin note design to project Focus cards, with complete readable statements,
+  theme-aware emphasis, and narrow-rail spacing that preserves enlarged text.
+
+- Keep search usable with enlarged text and short viewports, preserve visible keyboard focus through mobile navigation, and align shared controls, cards, and reduced-motion behavior with the sculpted design. Replace the static robots and app-manifest build integrations with native Astro routes, remove V1's unmounted search build, and retire unnecessary direct test dependencies.
+
+- Give article code-copy controls 44px touch targets and label the native mobile
+  share action as "Share link", while retaining "Copy link" for clipboard-only use.
+
+- Keep project technology disclosures, case-study summaries, and article topics readable on
+  narrow screens with enlarged text. Preserve native disclosure controls and visible keyboard
+  focus in both themes.
+
+  Align Work timeline markers with their editorial rows and numeric statistics with the shared
+  typography. Remove obsolete glass styling and unused statistic variants.
+
+- Preserve focus and scroll position when filtering blog topics, including partially visible mobile controls at enlarged text sizes. Align series-step keyboard feedback with hover and keep passive article and project covers still.
+
+- Keep generated social images and their cache versions stable when a checkout moves to a different directory, while preserving invalidation for changed content and assets.
+
+- Apply the Project dossier treatment to At a glance and balance portfolio artwork proportions across featured, supporting, and related cards.
+
+- Align project list markers with the first text line at normal and enlarged text sizes.
+  Keep project list cards within narrow viewports when text is enlarged.
+
+- Reduce homepage portrait transfer size and remove unused inline logo preloads. Keep hidden
+  back-to-top controls out of keyboard navigation, restore focus when returning to the top,
+  and include visible labels in the home and footer version links' accessible names. Use fingerprinted
+  social artwork consistently in article structured data. Preserve visible card text in
+  accessible link names and check label-in-name consistency in browser accessibility audits.
+
+- Reveal tall card groups as soon as they enter the viewport so enlarged text cannot leave
+  speaking, series, portfolio, and policy content invisible with animations enabled.
+
+  Remove obsolete principle and testimonial hover effects and unused talk and newsletter
+  variants. Preserve reading space inside narrow cards, and stack the newsletter field and
+  labeled submit action when enlarged text leaves too little width.
+
+  Keep a continuous keyboard focus outline around wrapped series titles.
+
+- Improve reading-control accessibility: package-manager tabs wrap with enlarged text, the copy button no longer covers long commands or code-header language badges and filenames, code regions get descriptive labels, and the selected tab, code strings, syntax comments, language badges, and copied share state meet contrast targets in both themes.
+
+- Keep reading actions and related-work shelves within narrow layouts at enlarged text sizes. Restore continuous series-title focus outlines, enlarge Webmention controls, and underline policy email links.
+
+- Keep article comments in the current site theme when the theme changes before Giscus loads. Share and copy the clean article permalink instead of the address bar with its query or fragment. Keep code-block copy buttons named for code after each copy, and explain manual recovery when copying fails.
+
+- Preserve browser history and predictable keyboard selection during search, prevent Back navigation from reopening dismissed results, and keep search open when a result opens in another tab. Respect text composition and allow keyboard shortcuts to reopen search during dismissal.
+
+- Reflow homepage statistics and discovery rows, technology pills, history chapters, and speaker
+  facts for enlarged text. Keep supporting-page headlines readable within narrow columns,
+  and prevent archive preview labels and address bars from crowding their frames.
+
+  Include category names in technology group headings, show singular filtered tool counts,
+  and remove the continuous decorative animation from the 404 page.
+
+- Remove a retired developer-tool project and its draft article, artwork, optional sitemap source, and documentation references from the current website and v3 archive sources.
+
+  Preserve old project and article links with permanent redirects to the current project and blog indexes, including trailing-slash variants and v3 archive paths.
+
+- Use WebP portfolio fallbacks and responsive project and organization images, share rendered content headings with layouts, and avoid repeated header and back-to-top DOM updates during scrolling. Reuse hashed offline assets without redundant writes, fetch PDF downloads only after activation, and avoid full-font downloads for common article symbols and unsupported emoji. Let page layouts omit hidden background decorations and consume Lumen's public stylesheet directly.
+
+- Keep linked headings clear of the sticky header and let long article and project rails scroll within the viewport with visible focus and active markers. Fit the homepage hero, history exhibit, cover captions, technology and project pills, resume contacts and corner labels, and talk headings and links to narrow screens and enlarged text. Switch the header to its attached menu and compact controls when enlarged text leaves too little room. Keep the footer version link clear of the Back to Top control and stop article metadata tiles from moving on hover.
+
+- Keep the table of contents marker on the linked section with enlarged text by patching Lumen's Anchor runtime to activate headings at their native fragment landing position. Stack article and project sidebars below the prose, move the homepage portrait below its heading, and stack hero metadata labels when enlarged text leaves too little room, while keeping the default layouts unchanged.
+
+- Apply sculpted statistics cards with icon tiles, shaped corners, prominent values, and responsive layouts across speaking, writing, and technology archives.
+
+- Keep article series titles readable with enlarged text and preserve keyboard focus outlines
+  inside rounded navigation rows.
+
+  Restore visible focus on article cards, improve dark pagination contrast, reflow enlarged
+  project metadata, and respect reduced motion on repository icons.
+
+- Restyle series cards with soft editorial surfaces, plain status and topic labels, and one accessible full-card link.
+
+- Give testimonials a split editorial layout with a tinted author column, complete quotations, and responsive stacking for narrow screens and enlarged text.
+
+- Apply Stack ledger to project technology cards, preserving complete lists, native
+  keyboard disclosures, and readable layouts with enlarged text.
+
+- Keep technology summary totals, organization logos, and carousel controls inside their
+  containers on narrow screens and with enlarged text. Replace the older technology panel's
+  mesh decoration with the shared solid surface and medium-weight labels.
+
+  Give speaking timelines and community panels more room for enlarged copy and complete
+  keyboard link labels. Preserve existing navigation, focus, and native link behavior.
+
+  Reflow topic cards around enlarged text, give links complete accessible names, and remove their
+  obsolete decorative stripe. Keep supporting-page eyebrows neutral in both themes and bring
+  History captions up to the shared metadata size.
+
+- Keep Work, Speaking, Technologies, Developer Experience, Resume, the policy pages, 404, and the topic and series archives readable with enlarged text. Shared sections, statistics, and card grids stack or drop columns when their root-relative width runs out instead of squeezing words, and single-column grids no longer widen past the screen. Timelines move their markers above narrow rows, the Technologies search field stays inside its card, and the resume contacts and downloads reflow on screen without changing print or the PDFs. Work career rows now show a visible inset focus outline, and the Developer Experience field guides link lands at its heading.
+
+  Match the resume download accessible name to its visible label for voice control.
+
+- Remove mismatched rectangular backgrounds from RoadScore and Nebular project artwork while preserving their original logos.
+
+- Make travel destinations easier to explore with a visible grouped country picker, named next-country and previous-country controls, and a mobile close action that returns to the map without resetting its view.
+
+- Improve travel map details with country silhouettes and readable place lists, and give mobile visitors a taller map with details below it.
+
+- Refine the travel card's next-country hover and keyboard focus with a stable, transparent row, an underlined destination, and an inset arrow highlight.
+
+- Keep WebKit reading-layout geometry stable when text is enlarged after client
+  navigation, preserving native TOC fragment alignment and highlighting. Remove
+  prose caption margins from code headers and keep copy-button hit areas stable
+  during hover and press while retaining 44px touch targets.
+
 ## 4.0.0
 
 ### Major Changes
