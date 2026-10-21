@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import { getFormattedDate } from '@/utils/date'
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectBrandStyle } from '@/utils/project-brand'
 import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 import { Card, Icon, Timeline } from '@santi020k/lumen-astro'
@@ -14,6 +15,7 @@ interface Props {
 const { projects } = Astro.props
 
 const careerItems = projects.map(project => ({
+  brand: project.data.brand,
   company: project.data.title,
   description: project.data.description,
   endDate: project.data.endingDate?.toISOString().slice(0, 10),
@@ -33,6 +35,7 @@ const careerItems = projects.map(project => ({
     <li
 data-timeline-row={item.isActive ? 'active' : 'completed'}
 data-career-row
+style={getProjectBrandStyle(item.brand)}
     >
       <a data-career-link href={item.href}>
         <div data-career-date>
@@ -80,7 +83,8 @@ class="size-4"
   :global(:root[data-theme='dark']) [data-career-timeline] { --career-emphasis: var(--accent); }
   :global(:root[data-theme='dark']) [data-career-footer] { background: color-mix(in srgb, hsl(var(--brand-soft)) 55%, hsl(var(--surface))); }
   :global(:root[data-theme='dark']) [data-career-action] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
-  [data-career-row] { border-top: 1px solid hsl(var(--line) / 0.65); }
+  [data-career-row] { --career-project-ink: var(--project-primary-readable); border-top: 1px solid hsl(var(--line) / 0.65); }
+  :global(:root[data-theme='dark']) [data-career-row] { --career-project-ink: var(--project-primary-readable-dark); }
   [data-career-row]:last-child { border-bottom: 1px solid hsl(var(--line) / 0.65); }
   [data-career-link] {
     position: relative;
@@ -151,8 +155,23 @@ class="size-4"
   [data-career-technologies] { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0; padding: 0; list-style: none; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.667; }
   [data-career-technologies] > li { overflow-wrap: anywhere; min-width: 0; }
   [data-career-action] { display: inline-flex; align-items: center; gap: 0.5625rem; color: hsl(var(--career-emphasis)); font-size: 0.75rem; font-weight: 500; line-height: 1.667; }
-  [data-career-link]:is(:hover, :focus-visible) [data-career-title] { color: hsl(var(--career-emphasis)); }
-  @media (prefers-reduced-motion: no-preference) { [data-career-title] { transition: color 160ms ease; } }
+  [data-career-link]:is(:hover, :focus-visible) [data-career-folio] {
+    border-color: hsl(var(--project-primary) / 0.5);
+    background: color-mix(in srgb, hsl(var(--project-primary)) 3%, hsl(var(--surface)));
+    box-shadow: inset 3px 0 0 hsl(var(--project-primary) / 0.72), var(--shadow-nav);
+  }
+  [data-career-link]:is(:hover, :focus-visible) [data-career-footer] { background: color-mix(in srgb, hsl(var(--project-primary)) 7%, hsl(var(--surface))); }
+  [data-career-link]:is(:hover, :focus-visible) :is([data-career-title], [data-career-role], [data-career-year], [data-career-action], [data-career-icon], [data-career-status='current']) {
+    color: color-mix(in srgb, hsl(var(--career-project-ink)) 84%, hsl(var(--ink)));
+  }
+  [data-career-link]:is(:hover, :focus-visible) [data-career-icon] { background: color-mix(in srgb, hsl(var(--project-primary)) 10%, hsl(var(--surface))); }
+  [data-career-link]:is(:hover, :focus-visible)::after { background: hsl(var(--project-primary)); box-shadow: 0 0 0 4px hsl(var(--project-primary) / 0.12); }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-career-folio] { transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease; }
+    [data-career-footer], [data-career-icon] { transition: background-color 160ms ease; }
+    [data-career-title], [data-career-role], [data-career-year], [data-career-action], [data-career-icon], [data-career-status] { transition: color 160ms ease; }
+    [data-career-link]::after { transition: background-color 160ms ease, box-shadow 160ms ease; }
+  }
   @container career-timeline (width < 36.25rem) {
     [data-career-row], [data-career-row]:last-child { border: 0; }
     [data-career-link] { grid-template-columns: minmax(0, 1fr); padding: 0 0 1.5rem 1.25rem; }
@@ -172,7 +191,7 @@ class="size-4"
     [data-career-role], [data-career-description] { overflow-wrap: break-word; }
   }
   @media (forced-colors: active) {
-    [data-career-link]::after, [data-career-status='current']::before { background: CanvasText; }
+    [data-career-link]::after, [data-career-link]:is(:hover, :focus-visible)::after, [data-career-status='current']::before { background: CanvasText; }
     [data-career-link]::before { background: GrayText; }
   }
 </style>
