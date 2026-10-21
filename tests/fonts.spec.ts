@@ -4,10 +4,10 @@ const normalFont = '/fonts/montserrat-variable-font-wght'
 const italicFont = '/fonts/montserrat-italic-variable-font-wght'
 const normalSubset = /\/_astro\/montserrat-variable-font-wght\.latin\.[\w-]+\.woff2$/u
 const italicSubset = /\/_astro\/montserrat-italic-variable-font-wght\.latin\.[\w-]+\.woff2$/u
-const latinSample = 'Santiago — Bogotá, Asunción, São Paulo. Résumé, naïve. ß œ € £ © 2026'
+const latinSample = 'Santiago — Bogotá, Asunción, São Paulo. Résumé, naïve. ß œ € £ © 2026 ≥ 90'
 
 for (const width of [375, 1440]) {
-  for (const route of ['/', '/travel/', '/blog/2/', '/blog/tags/', '/history/']) {
+  for (const route of ['/', '/travel/', '/blog/2/', '/blog/tags/', '/history/', '/blog/astro-and-alpine-patterns-for-fast-content-heavy-sites/', '/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/']) {
     test(`Latin font delivery on ${route} at ${width}px`, async ({ page }, testInfo) => {
       await page.setViewportSize({ width, height: 900 })
       await page.emulateMedia({ reducedMotion: 'reduce' })

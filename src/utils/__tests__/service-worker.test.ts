@@ -172,7 +172,7 @@ describe('Service worker fetch handling', () => {
     expect((await response)?.type).toBe('error')
   })
 
-  test('keeps refreshing a cached asset after returning its cached response', async () => {
+  test('keeps refreshing an asset with a stable filename after returning its cached response', async () => {
     const worker = setupWorker()
     let completeNetwork: (response: Response) => void = () => {
       throw new Error('Network request not initialized')
@@ -184,7 +184,7 @@ describe('Service worker fetch handling', () => {
     worker.cache.match.mockResolvedValue(new Response('cached asset'))
     worker.fetch.mockReturnValue(network)
 
-    const event = worker.dispatch(makeRequest('/_astro/app.js'))
+    const event = worker.dispatch(makeRequest('/favicon.svg'))
 
     expect(event.lifetime).toHaveLength(1)
     expect(await (await event.response)?.text()).toBe('cached asset')
@@ -400,5 +400,46 @@ describe('Service worker fetch handling', () => {
     worker.fetch.mockResolvedValue(new Response('fresh data'))
 
     expect(await (await worker.dispatch(makeRequest('/search-index.json')).response)?.text()).toBe('fresh data')
+  })
+})
+
+describe('Immutable asset caching', () => {
+  test('reuses cached hashed assets without fetching, rewriting, or enumerating the cache', async () => {
+    const worker = setupWorker()
+
+    worker.cache.match.mockResolvedValue(new Response('cached content'))
+    const event = worker.dispatch(makeRequest('/_astro/app.abc123.js'))
+
+    expect(await (await event.response)?.text()).toBe('cached content')
+    await Promise.all(event.lifetime)
+    expect(worker.fetch).not.toHaveBeenCalled()
+    expect(worker.cache.put).not.toHaveBeenCalled()
+    expect(worker.cache.keys).not.toHaveBeenCalled()
+  })
+
+  test('fetches and stores a new content hash independently', async () => {
+    const worker = setupWorker()
+    const request = makeRequest('/_astro/app.def456.js')
+
+    worker.fetch.mockResolvedValue(new Response('new asset'))
+    const event = worker.dispatch(request)
+
+    expect(await (await event.response)?.text()).toBe('new asset')
+    await Promise.all(event.lifetime)
+    expect(worker.fetch).toHaveBeenCalledExactlyOnceWith(request)
+    expect(worker.cache.put).toHaveBeenCalledTimes(1)
+    expect(await worker.cache.put.mock.calls[0]?.[1].text()).toBe('new asset')
+  })
+
+  test.each(['open', 'match'] as const)('serves hashed assets when cache %s fails', async operation => {
+    const worker = setupWorker()
+
+    if (operation === 'open') worker.open.mockRejectedValue(new Error('Storage unavailable'))
+    else worker.cache.match.mockRejectedValue(new Error('Read failed'))
+    worker.fetch.mockResolvedValue(new Response('network asset'))
+    const event = worker.dispatch(makeRequest('/_astro/app.abc123.js'))
+
+    expect(await (await event.response)?.text()).toBe('network asset')
+    await Promise.all(event.lifetime)
   })
 })

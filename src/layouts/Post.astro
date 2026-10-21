@@ -1,5 +1,7 @@
 ---
-import { type CollectionEntry, render } from 'astro:content'
+import type { MarkdownHeading } from 'astro'
+
+import type { CollectionEntry } from 'astro:content'
 import { WEBMENTION_API_KEY } from 'astro:env/server'
 
 import CommentsSection from '@/components/molecules/CommentsSection.astro'
@@ -30,10 +32,11 @@ import {
 } from '@/site.config'
 
 interface Props {
+  headings: MarkdownHeading[]
   post: CollectionEntry<'post'>
 }
 
-const { post } = Astro.props
+const { headings, post } = Astro.props
 const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
 
 const ogImage = getSocialImageURL(
@@ -47,8 +50,6 @@ const { words: wordCount } = getReadingStats(post.body)
 const localURL = new URL(Astro.url.pathname, Astro.site)
 const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : localURL
 const seriesContext = await getSeriesContext(post)
-// Extract headings for the sticky TOC sidebar (same pattern as Projects.astro)
-const { headings } = await render(post)
 const pageTargetUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://santi020k.com').href
 
 const webmentions = WEBMENTION_API_KEY ?

@@ -1,13 +1,3 @@
-/* About shares the sculpted header's quiet canvas, rules, and compact actions. */
-body:has([data-about-page]) {
-  background: hsl(var(--theme-bg));
-}
-
-body:has([data-about-page]) [data-particles-bg],
-body:has([data-about-page]) > div > .grid-fade {
-  display: none;
-}
-
 @utility about-page {
   container: about-page / inline-size;
   --hero-radius: 1rem;

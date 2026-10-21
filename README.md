@@ -91,10 +91,12 @@ through the site. Browser tests cover the interactions; the accessibility statem
 The [Lumen integration guide](docs/lumen-integration.md) maps the components in use, application-owned
 controllers, v4 styling contracts, and upgrade checks. The catalog and lockfile use
 `@santi020k/lumen` 4.2.0 with `lumen-astro` and `lumen-core` 4.1.0 from the npm registry.
-The integration guide records the version-pinned Anchor runtime patch.
+The integration guide records the version-pinned Anchor runtime and CoverImage fallback patches.
 
 Collection helpers in `src/utils/content.ts` cache published entries during a build and return
 an independent array to each caller, so page-specific sorting cannot reorder another page.
+Article and project routes render their collection entry once and pass its typed headings to the
+layout, keeping the reading sidebar aligned with the rendered content.
 The current site uses its own posts and project schemas; historical integrations and styles
 belong to the preserved `apps/v1`, `apps/v2`, and `apps/v3` sites. Keep those archives separate
 when tracing unused code. New styling follows the [sculpted style guide](docs/sculpted-style-guide.md)

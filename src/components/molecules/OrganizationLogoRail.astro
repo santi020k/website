@@ -34,6 +34,12 @@ const logoSurfaceClass = {
   light: 'bg-linear-to-br from-white via-surface to-brand-soft/65 dark:from-white dark:via-white/95 dark:to-brand-soft',
   neutral: 'bg-linear-to-br from-surface-strong via-surface-muted to-brand-soft/65 dark:from-white dark:via-white/92 dark:to-brand-soft'
 } satisfies Record<LogoSurface, string>
+
+const logoFrameWidth = { square: 8, tall: 5, wide: 13 } satisfies Record<LogoAspect, number>
+
+const getLogoWidths = (displayWidth: number, maximumWidth: number) => [...new Set([displayWidth, displayWidth * 2, maximumWidth])]
+  .filter(width => width > 0 && width <= maximumWidth)
+  .sort((left, right) => left - right)
 ---
 
 <section
@@ -52,6 +58,9 @@ const logoSurfaceClass = {
       const cover = getProjectCoverForUsage(project.data.coverImage, 'background')
       const logoAspect: LogoAspect = project.data.coverImage?.logoAspect ?? 'square'
       const logoSurface: LogoSurface = project.data.coverImage?.logoSurface ?? 'neutral'
+      const logoDisplayWidth = logoFrameWidth[logoAspect] * 16
+      const logoWidth = logo ? Math.min(logo.width, logoDisplayWidth * 4) : 0
+      const logoWidths = getLogoWidths(logoDisplayWidth, logoWidth)
 
       return (
         <li class="min-w-0" data-carousel-item>
@@ -111,7 +120,10 @@ const logoSurfaceClass = {
                       logoFrameClass[logoAspect]
                     ]}
                     loading="lazy"
+                    sizes={`${logoFrameWidth[logoAspect]}rem`}
                     src={logo}
+                    width={logoWidth}
+                    widths={logoWidths}
                   />
                 ) :
                 (

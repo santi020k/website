@@ -22,7 +22,7 @@ export const getStaticPaths = (async () => {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>
 
 const { project } = Astro.props
-const { Content } = await render(project)
+const { Content, headings } = await render(project)
 
 const relatedProjects = (await getRelatedProjects({
   currentProjectId: project.id,
@@ -33,7 +33,7 @@ const relatedProjects = (await getRelatedProjects({
   .sort(collectionDateSortProjects)
 ---
 
-<ProjectLayout project={project} relatedProjects={relatedProjects}>
+<ProjectLayout project={project} headings={headings} relatedProjects={relatedProjects}>
   <Prose>
     <Content />
   </Prose>

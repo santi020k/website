@@ -129,3 +129,47 @@ test('install manifest keeps identity, launch scope, and generated icon contract
     expect(dimensions).toBe(icon.sizes)
   }
 })
+
+for (const route of ['/portfolio/', '/portfolio/smith-commerce/']) {
+  test(`portfolio artwork keeps AVIF and WebP without PNG fallbacks on ${route}`, async ({ page, request }) => {
+    await page.goto(route)
+    const pictures = page.locator('[data-portfolio-project] picture')
+
+    expect(await pictures.count()).toBeGreaterThan(0)
+    for (const picture of await pictures.all()) {
+      await expect(picture.locator('source')).toHaveAttribute('type', 'image/avif')
+      const fallback = picture.locator('img')
+
+      await expect(fallback).toHaveAttribute('src', /\.webp$/u)
+      await expect(fallback).toHaveAttribute('srcset', /\.webp \d+w/u)
+      const source = await fallback.getAttribute('src') ?? ''
+
+      expect(source).not.toBe('')
+      const response = await request.get(source)
+
+      expect(response.ok()).toBe(true)
+      expect(response.headers()['content-type']).toContain('image/webp')
+    }
+  })
+}
+
+test('organization logos provide bounded responsive assets', async ({ page, request }) => {
+  await page.goto('/about/')
+  const logos = page.locator('[data-carousel-logo] img:last-child')
+
+  expect(await logos.count()).toBeGreaterThan(0)
+  for (const logo of await logos.all()) {
+    await expect(logo).toHaveAttribute('sizes', /^\d+rem$/u)
+    await expect(logo).toHaveAttribute('srcset', /\.webp \d+w/u)
+    const width = Number(await logo.getAttribute('width'))
+
+    expect(width).toBeLessThanOrEqual(832)
+    const source = await logo.getAttribute('src') ?? ''
+
+    expect(source).not.toBe('')
+    const response = await request.get(source)
+
+    expect(response.ok()).toBe(true)
+    expect(response.headers()['content-type']).toContain('image/webp')
+  }
+})

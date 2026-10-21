@@ -55,7 +55,7 @@ const projectItems = projects.map(project => ({
                 image={project.editorialImage}
                 loading="lazy"
                 mode="card"
-                sizes={index === 0 ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 768px) 50vw, 100vw'}
+                sizes={index === 0 ? 'auto, (min-width: 80rem) 40rem, (min-width: 1024px) 60vw, 100vw' : 'auto, (min-width: 80rem) 35rem, (min-width: 768px) 50vw, 100vw'}
               />
             ) :
 (
@@ -116,7 +116,7 @@ const projectItems = projects.map(project => ({
                   image={projectItems[0].thumbnailImage}
                   loading="eager"
                   mode="card"
-                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  sizes="(min-width: 80rem) 36rem, (min-width: 1024px) 50vw, 100vw"
                 />
               ) :
               (
@@ -222,7 +222,7 @@ const projectItems = projects.map(project => ({
                     image={project.thumbnailImage}
                     loading="lazy"
                     mode="card"
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    sizes="auto, (min-width: 80rem) 23rem, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />
                 ) :
                 (

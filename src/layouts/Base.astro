@@ -19,6 +19,7 @@ import UIPrimitives from '@santi020k/lumen-astro/runtime'
 import { siteConfig } from '@/site.config'
 
 interface Props {
+  backdrop?: 'decorated' | 'particles' | 'plain'
   footerVariant?: 'compact' | 'default'
   headerVariant?: 'dock' | 'signature'
   mainClass?: string | undefined
@@ -27,6 +28,7 @@ interface Props {
 }
 
 const {
+  backdrop = 'decorated',
   footerVariant = 'default',
   headerVariant = 'dock',
   mainClass,
@@ -76,23 +78,24 @@ const isGenerousSpacing = mainSpacing === 'generous'
     <BaseHead {...headMeta} />
     <ClientRouter />
   </head>
-  <body class="min-h-screen">
+  <body class="min-h-screen" data-backdrop={backdrop}>
     <ThemeProvider />
     <SkipLink href="#main">Skip to content</SkipLink>
 
     <div class="relative flex min-h-screen w-full flex-col overflow-x-clip">
-      <Particles
+      {backdrop !== 'plain' && (
+<Particles
         class="
           pointer-events-none absolute inset-0 z-0 min-h-0 overflow-hidden
           rounded-none bg-transparent bg-none
         "
         data-particles-bg
         density="medium"
-      />
-      <div class="
-        pointer-events-none absolute inset-0 -z-10 grid-fade opacity-60
-      "
-      />
+/>
+)}
+      {backdrop === 'decorated' && (
+<div class="pointer-events-none absolute inset-0 -z-10 grid-fade opacity-60"/>
+)}
       <SiteHeader variant={headerVariant} />
 
       <main

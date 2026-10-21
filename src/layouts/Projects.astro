@@ -1,5 +1,7 @@
 ---
-import { type CollectionEntry, render } from 'astro:content'
+import type { MarkdownHeading } from 'astro'
+
+import type { CollectionEntry } from 'astro:content'
 
 import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
 import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSpotlight.astro'
@@ -29,11 +31,12 @@ import { ogManifest } from '@/data/og-manifest'
 import { createAuthorSchema, createWebsiteSchemaReference } from '@/site.config'
 
 interface Props {
+  headings: MarkdownHeading[]
   project: CollectionEntry<'project'>
   relatedProjects?: CollectionEntry<'project'>[]
 }
 
-const { project, relatedProjects = [] } = Astro.props
+const { headings, project, relatedProjects = [] } = Astro.props
 const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
 const metaDescription = project.data.seoDescription ?? project.data.description
 
@@ -43,8 +46,6 @@ const socialImage = getSocialImageURL(
   `/og/portfolio/${project.id}-logo.webp`,
   ogManifest
 )
-
-const { headings } = await render(project)
 
 const projectHeadings = project.data.previews ?
   [{ depth: 2, slug: 'product-previews', text: 'Inside the product' }, ...headings] :

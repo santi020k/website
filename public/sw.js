@@ -149,6 +149,20 @@ const staleWhileRevalidate = request => {
   }
 }
 
+/** @param {Request} request */
+const cacheFirst = request => {
+  const result = openCache().then(async cache => {
+    const cached = await matchCached(cache, request)
+
+    return cached ? { response: cached, revalidate: Promise.resolve() } : networkFirst(request)
+  })
+
+  return {
+    response: result.then(result => result.response),
+    revalidate: result.then(result => result.revalidate)
+  }
+}
+
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url)
 
@@ -160,10 +174,11 @@ self.addEventListener('fetch', event => {
   // Never substitute an HTML offline page for missing JSON, feeds, or PDF bytes.
   const mutableResource = /\.(?:pdf|json|xml|webmanifest)$/.test(url.pathname)
   const pageRequest = event.request.mode === 'navigate' || isPageRequest(url)
+  const assetStrategy = url.pathname.startsWith('/_astro/') ? cacheFirst : staleWhileRevalidate
 
   const { response, revalidate } = mutableResource || pageRequest ?
     networkFirst(event.request, !mutableResource && pageRequest) :
-    staleWhileRevalidate(event.request)
+    assetStrategy(event.request)
 
   event.waitUntil(revalidate)
 

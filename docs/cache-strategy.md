@@ -36,7 +36,9 @@ ClientRouter, which fetches route HTML through a plain `fetch()` (mode
 `"cors"`, not `"navigate"`) to diff and swap the document in place; without
 this, an in-page transition could silently swap in a stale cached page. PDF, JSON, XML, and web manifest requests also use network-first, so a cached
 resume or search index cannot hide an online update. Other eligible same-origin GET requests
-use stale-while-revalidate. Requests with a `Range` header
+use stale-while-revalidate, except content-hashed `/_astro/` assets, which use cache-first.
+An existing hashed response is reused without a fetch, cache rewrite, or eviction scan; a new
+URL is fetched and cached independently. Requests with a `Range` header
 bypass the worker entirely, including partial downloads of the resume PDFs.
 The Cache API cannot store partial responses or produce the requested byte
 range from a cached full file.

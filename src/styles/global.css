@@ -1,6 +1,6 @@
-@import "@santi020k/lumen-astro/layers.css";
+@import "@santi020k/lumen/layers.css";
 @import "tailwindcss" source("../");
-@import "@santi020k/lumen-astro/styles.css";
+@import "@santi020k/lumen/styles.css";
 @import "@santi020k/lumen/styles/motion.css";
 @import "@santi020k/theme/tokens.css";
 @import "./partials/tokens.css";

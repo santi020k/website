@@ -1,13 +1,3 @@
-/* Work uses the solid, editorial canvas established by the homepage and navbar. */
-body:has([data-work-page]) {
-  background: hsl(var(--theme-bg));
-}
-
-body:has([data-work-page]) [data-particles-bg],
-body:has([data-work-page]) > div > .grid-fade {
-  display: none;
-}
-
 @utility work-page {
   --hero-radius: 1rem;
   container: work-page / inline-size;

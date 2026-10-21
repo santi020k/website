@@ -14,15 +14,20 @@ The website follows the same one-adapter setup as Lumen's README. Keep the layer
 shared stylesheet so Tailwind utilities can override component defaults:
 
 ```css
-@import "@santi020k/lumen-astro/layers.css";
+@import "@santi020k/lumen/layers.css";
 @import "tailwindcss";
-@import "@santi020k/lumen-astro/styles.css";
+@import "@santi020k/lumen/styles.css";
 @import "@santi020k/lumen/styles/motion.css";
 ```
 
 `Base.astro` imports that global stylesheet and mounts `UIPrimitives` once. Pages and content
 components import their public primitives from `@santi020k/lumen-astro`; they do not add a
 second adapter or mount a second runtime. The site-owned Theme tokens follow the shared imports.
+
+The current site uses the umbrella package's public stylesheet directly. The Astro 4.1.0
+compatibility entry imports it again and appends device-frame rules already present in Lumen 4.2.0.
+The production CSS optimizer already deduplicates those rules; this keeps the import boundary
+current without claiming a duplicate-payload saving. Historical sites retain their own entries.
 
 | Contract | Website usage |
 | --- | --- |

@@ -630,9 +630,10 @@ if (!customElements.get('site-header-mobile-nav')) {
 
 const updateHeaderScrollState = () => {
   const shell = document.querySelector<HTMLElement>('[data-header-shell]')
+  const scrolled = String(window.scrollY > 10)
 
-  if (shell) {
-    shell.dataset.scrolled = String(window.scrollY > 10)
+  if (shell && shell.dataset.scrolled !== scrolled) {
+    shell.dataset.scrolled = scrolled
   }
 }
 

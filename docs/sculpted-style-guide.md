@@ -58,6 +58,9 @@ animation on content surfaces.
 The site-wide background balls are an approved exception, restored at Santiago’s request.
 Keep the shared Lumen `Particles` in the Base layout, behind content and non-interactive.
 Respect its reduced-motion behavior; do not add competing glow or animation to cards.
+Base's `backdrop` prop owns that composition: Home uses `particles`; About, Work, Projects,
+and Travel use `plain`; other routes retain the default `decorated` background. Omitted
+decorations are not rendered. Keep canvas selection in the layout instead of page-marker CSS.
 
 ## Layout and spacing
 

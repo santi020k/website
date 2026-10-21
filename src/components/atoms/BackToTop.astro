@@ -36,7 +36,7 @@ import { BackToTop, Icon } from '@santi020k/lumen-astro'
       // Never leave keyboard focus on a control that is about to disappear.
       if (!isVisible && document.activeElement === btn) focusMain()
 
-      btn.inert = !isVisible
+      if (btn.inert === isVisible) btn.inert = !isVisible
 
       btn.classList.toggle('is-visible', isVisible)
     }

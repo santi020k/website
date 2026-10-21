@@ -10,16 +10,6 @@
 
 .signature-frame[data-home-hero] { padding-block: 1.5rem 0; container: home-hero / inline-size; }
 
-/* Preserve Home's particles while keeping Travel and Projects on a quiet canvas. */
-body:has([data-home-hero], [data-travel-explorer], [data-projects-page]) {
-  background: hsl(var(--theme-bg));
-}
-
-body:has([data-travel-explorer], [data-projects-page]) [data-particles-bg],
-body:has([data-home-hero], [data-travel-explorer], [data-projects-page]) > div > .grid-fade {
-  display: none;
-}
-
 @utility maker-hero-stage {
   position: relative;
   display: grid;
