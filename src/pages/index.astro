@@ -9,6 +9,7 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedPosts, getCachedProjects } from '@/utils/content'
 import { collectionRelevanceSortProjects } from '@/utils/date'
 import { getPortfolioPath, getPostPath } from '@/utils/links'
+import { getStartHerePosts } from '@/utils/start-here'
 
 import {
   createSchemaEntityId,
@@ -33,6 +34,7 @@ const latestPosts = allPosts
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 4)
 
+const startHerePosts = getStartHerePosts(allPosts)
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 
 const homeDescription =
@@ -103,7 +105,7 @@ const meta = {
     <HomeStats yearsOfExperience={yearsOfExperience} />
     <HomeProjectShowcase kind="work" projects={workProjects} />
     <HomeProjectShowcase kind="projects" projects={personalProjects} />
-    <HomeWriting posts={latestPosts} />
+    <HomeWriting posts={latestPosts} startHerePosts={startHerePosts} />
     <HomeCommunity />
   </div>
 </PageLayout>

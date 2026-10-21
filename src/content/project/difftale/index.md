@@ -9,6 +9,7 @@ role: "Creator"
 startingDate: "24 Jul 2026"
 githubUrl: "https://github.com/santi020k/difftale"
 typesId: "personal"
+purpose: "developer-tools"
 draft: true
 relevanceWeight: 45
 impactMetrics: ["Generates up to five editable commit drafts with a deterministic local fallback", "Follows file history across Git renames without filling the editor with tabs", "Keeps staging, committing, pushing, and pull request creation explicit"]

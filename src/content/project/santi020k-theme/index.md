@@ -13,6 +13,7 @@ startingDate: "28 Apr 2026"
 githubUrl: "https://github.com/santi020k/santi020k-theme"
 liveDemoUrl: "https://theme.santi020k.com/"
 typesId: "personal"
+purpose: "developer-tools"
 relevanceWeight: 65
 impactMetrics: ["Published through the VS Code Marketplace, Open VSX, Zed extension registry, Chrome Web Store, npm, GitHub Releases, and Homebrew", "Expanded the editor theme to 12 dark, light, high-contrast, bold, and italic variants", "Expanded to nine app and workspace theme products with shared packages and one consolidated website"]
 technologies: ["Zed", "Codex", "Raycast", "Slack", "JetBrains", "Android Studio", "Xcode", "Visual Studio Code", "Cursor", "Windsurf", "VSCodium", "VS Code Extension", "Chrome Extension", "Chrome Web Store", "Shiki", "iTerm2", "Ghostty", "Kitty", "WezTerm", "Windows Terminal", "Alacritty", "Starship", "Zsh", "Bash", "Fish", "JavaScript", "Node.js", "Astro", "Lumen UI", "Vitest", "ESLint", "CI-CD", "GitHub Actions", "Open Source", "Developer Experience (DX)", "Developer Documentation", "Accessibility", "Testing", "Design Systems"]

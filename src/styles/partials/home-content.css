@@ -142,7 +142,7 @@
 
 .studio-text-link:hover,
 .studio-project-row:hover strong,
-.studio-writing-row:hover h3,
+.studio-writing-row:hover h4,
 .studio-community-link:hover h3 {
   color: var(--studio-emphasis);
 }
@@ -396,7 +396,7 @@
   line-height: 1.6;
 }
 
-.studio-writing-row h3 {
+.studio-writing-row h4 {
   max-width: 38rem;
   margin-top: 0.625rem;
   font-size: clamp(1.125rem, 2vw, 1.5rem);

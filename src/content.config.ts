@@ -3,6 +3,8 @@ import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
+import { projectPurposeIds } from './data/project-purposes'
+
 const removeDuplicates = (array: string[]) => [...new Set(array)]
 const dateField = () => z.string().or(z.date()).transform(val => new Date(val))
 
@@ -81,6 +83,15 @@ const project = defineCollection({
     githubUrl: z.url().optional(),
     liveDemoUrl: z.url().optional(),
     impactMetrics: z.array(z.string()).default([]),
+    previews: z.object({
+      description: z.string().trim().min(1),
+      images: z.array(z.object({
+        src: image(),
+        alt: z.string().trim().min(1),
+        title: z.string().trim().min(1),
+        caption: z.string().trim().min(1)
+      })).min(1).max(4)
+    }).optional(),
     caseStudy: z
       .object({
         approach: z.string().optional(),
@@ -92,8 +103,17 @@ const project = defineCollection({
     relevanceWeight: z.number().int().min(0).max(100).default(0),
     // type
     typesId: z.enum(['professional', 'personal', 'experimental', 'community']).optional(),
+    purpose: z.enum(projectPurposeIds).optional(),
     orderInTypes: z.number().optional()
     // End
+  }).superRefine((project, context) => {
+    if (project.typesId === 'personal' && !project.purpose) {
+      context.addIssue({
+        code: 'custom',
+        message: 'Personal projects must declare a browsing purpose.',
+        path: ['purpose']
+      })
+    }
   })
 })
 
@@ -149,6 +169,11 @@ const post = defineCollection({
     canonicalUrl: z.url().optional(),
     seoTitle: z.string().optional(),
     postType: z.enum(['Article', 'Tutorial', 'Guide', 'Opinion', 'Case Study', 'Deep Dive']).default('Article'),
+    startHere: z.object({
+      order: z.number().int().positive(),
+      label: z.string().trim().min(1),
+      reason: z.string().trim().min(1)
+    }).optional(),
     seriesId: z.string().optional(),
     seriesOrder: z.number().int().positive().optional()
   })

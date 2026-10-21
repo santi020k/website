@@ -11,6 +11,7 @@ startingDate: "24 Sep 2026"
 githubUrl: "https://github.com/santi020k/auth"
 liveDemoUrl: "https://auth.santi020k.com/"
 typesId: "personal"
+purpose: "experiments"
 relevanceWeight: 20
 impactMetrics: [
   "Published @santi020k/auth-cloudflare as an experimental open-source package for single-owner and multi-user Cloudflare applications",
