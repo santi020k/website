@@ -8,7 +8,10 @@ export interface SocialProofItem {
 
 export interface ProfileHighlight {
   description: string
+  icon: string
   label: string
+  prefix?: string
+  suffix?: string
   value: string
 }
 
@@ -149,18 +152,23 @@ export const collaborationLanes: CollaborationLane[] = [
 export const speakingHighlights: ProfileHighlight[] = [
   {
     description: 'A decade-plus of shipping across product engineering, architecture, and leadership roles.',
+    icon: 'briefcase-business',
     label: 'Experience',
     value: YEARS_OF_EXPERIENCE
   },
   {
     description: 'Helping co-organize meetups, workshops, and speaker-friendly community events.',
+    icon: 'users',
     label: 'Community',
-    value: 'Since 2017'
+    prefix: 'Since',
+    value: '2017'
   },
   {
     description: 'Public articles on DX, tooling, architecture, and workflow topics that overlap with my talks.',
+    icon: 'notebook-pen',
     label: 'Published writing',
-    value: '26 posts'
+    suffix: 'posts',
+    value: '26'
   }
 ]
 

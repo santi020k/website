@@ -158,6 +158,22 @@ On narrower cards, stack the author header above the quote, using 1rem text with
 and stack the avatar above the identity when needed. Preserve all quoted words,
 use readable metadata in both themes, and keep the cards passive on hover.
 
+### Sculpted statistics cards
+
+The shared `StatCard` uses an opaque Lumen Stat surface with a fine border, subtle
+navigation-token shadow, and 1.375rem corners except for the 0.5rem lower-right
+corner. A 2.5rem tinted icon tile and short purple rule lead into a 3.125rem value,
+then a 1rem label and complete 0.8125rem description with 1.4375rem leading.
+Use weight 500, brand emphasis in light mode, and accent emphasis in dark mode.
+Separate word prefixes and units from the value while keeping every qualifier
+available to assistive technology. Preserve the existing AnimatedNumber behavior
+and its static accessible value; text values remain static.
+
+On phones the icon moves beside the value and the rule disappears. Narrow content
+columns restore the stacked icon and scale long values to fit. Cards stay passive,
+without hover effects or new animation. Keep the dedicated Home, About, and Work
+editorial statistics in their existing open layouts.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

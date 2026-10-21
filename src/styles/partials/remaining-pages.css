@@ -68,7 +68,7 @@
 }
 [data-site-eyebrow] > span { animation: none; }
 .remaining-pages [data-slot='card'],
-.remaining-pages [data-slot='stat'],
+.remaining-pages [data-slot='stat']:not([data-sculpted-stat]),
 .remaining-pages .glass-pro,
 .remaining-pages .cta-panel {
   border-color: hsl(var(--line) / 0.65);
@@ -85,7 +85,7 @@
 .remaining-pages .cta-panel::before,
 .remaining-pages .cta-panel::after { display: none; }
 .remaining-pages [data-slot='card']:hover { transform: none; box-shadow: none; }
-.remaining-pages [data-slot='stat'] {
+.remaining-pages [data-slot='stat']:not([data-sculpted-stat]) {
   padding: 1.25rem 0;
   border: 0;
   border-top: 1px solid hsl(var(--line) / 0.65);

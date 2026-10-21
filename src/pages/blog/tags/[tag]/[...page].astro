@@ -149,9 +149,9 @@ mainClass="remaining-pages"
 
   {isFirstPage && (
     <StatsGrid>
-      <StatCard description="Posts connected by this topic in the archive." label="Posts" value={postCount} />
-      <StatCard description="Distinct topics across the full writing archive." label="Total topics" value={totalTopics} />
-      {page.lastPage > 1 && <StatCard description="Pagination for this topic archive." label="Page" value={`${page.currentPage} / ${page.lastPage}`} />}
+      <StatCard description="Posts connected by this topic in the archive." icon="file-text" label="Posts" value={postCount} />
+      <StatCard description="Distinct topics across the full writing archive." icon="hash" label="Total topics" value={totalTopics} />
+      {page.lastPage > 1 && <StatCard description="Pagination for this topic archive." icon="list-ordered" label="Page" value={`${page.currentPage} / ${page.lastPage}`} />}
     </StatsGrid>
   )}
 </PageLayout>

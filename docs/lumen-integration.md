@@ -54,8 +54,12 @@ composition and content reports belong in this repository. Security reports foll
 
 Homepage metrics use Lumen `Stat` directly with `variant="bare"` and `as="article"` to create
 a quiet typographic strip. Other metric cards use `src/components/molecules/StatCard.astro`.
-Prefer `default` for a neutral metric, `accent` for a featured metric, and `glass` only when
-translucency fits the surrounding surface. The homepage project surfaces use `Card` with
+The shared card composes `Stat` with `variant="bare"`, the public label slot, a decorative
+Lumen `Icon`, and the existing `AnimatedNumber` for numeric values. Site-owned styles
+provide the approved sculpted surface, shaped corners, and responsive hierarchy.
+Pass an explicit icon and separate prefixes or word suffixes when needed; preserve full
+text values and the numeric component's server-rendered accessible value.
+The homepage project surfaces use `Card` with
 `variant="unstyled"`, and its actions use `ButtonLink` with `variant="unstyled"` so the shared
 semantics remain intact while the site owns its visual composition.
 
