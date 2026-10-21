@@ -78,7 +78,7 @@ const tocHeadings = headings.filter(heading => heading.depth <= 3)
     inset-inline-start: -2px;
     width: 3px;
     border-radius: 2px;
-    background: currentColor;
+    border-inline-start: 3px solid currentColor;
   }
   :global(:root[data-theme='dark']) [data-toc-title],
   :global(:root[data-theme='dark']) [data-toc-tree] a:is(:hover, [data-active='true'], [aria-current='location']) { color: hsl(var(--accent)); }

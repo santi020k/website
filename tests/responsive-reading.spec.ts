@@ -168,6 +168,32 @@ for (const theme of ['light', 'dark'] as const) {
       })
     }
 
+    test('the reading marker remains visible in forced colors', async ({ page }) => {
+      await page.emulateMedia({ forcedColors: 'active' })
+
+      for (const route of [LONG_ARTICLE, '/portfolio/smith-commerce/']) {
+        await page.goto(route)
+        await settleLayout(page)
+        const navigation = page.getByRole('navigation', { name: 'Table of contents', exact: true })
+        const destination = navigation.getByRole('link').nth(1)
+
+        await destination.focus()
+        await page.keyboard.press('Enter')
+        await expect(destination).toHaveAttribute('aria-current', 'location')
+        await expect.poll(() => destination.evaluate(link => parseFloat(getComputedStyle(link, '::before').borderInlineStartWidth))).toBeGreaterThanOrEqual(2)
+
+        const marker = await destination.evaluate(link => {
+          const style = getComputedStyle(link, '::before')
+
+          return { color: style.borderInlineStartColor, style: style.borderInlineStartStyle }
+        })
+        const background = await navigation.evaluate(element => getComputedStyle(element).backgroundColor)
+
+        expect(marker.style).toBe('solid')
+        expect(marker.color).not.toBe(background)
+      }
+    })
+
     test('the reading marker honors native percentage padding and heading margins', async ({ page }) => {
       await page.setViewportSize({ width: 1440, height: 900 })
       await page.goto(LONG_ARTICLE)
