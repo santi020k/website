@@ -110,6 +110,10 @@ The same component serves featured, supporting, and related projects without cli
 - The Projects technology snapshot composes Tool ledger from an unstyled Lumen `Card`,
   `AnimatedNumber` totals, native linked lists, and a decorative `Icon`. Scoped container
   queries reflow the featured and supporting tools without another controller.
+- `PolicySections` composes Evidence rows from one unstyled Lumen `Card` and the
+  existing `RevealGroup`, with semantic sections and level-two headings inside.
+  Local container queries stack heading and copy without changing policy text or
+  adding a controller. Privacy, Terms, and Accessibility share this composition.
 - Developer Experience shipped systems compose System folio from unstyled Lumen
   `Card` and `ButtonLink` components with decorative `Icon` labels and arrows.
   Local styles own the soft header, aligned action rows, and narrow-container reflow;

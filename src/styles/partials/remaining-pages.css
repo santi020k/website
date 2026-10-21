@@ -103,25 +103,6 @@
   .remaining-pages h1:not(.editorial-page-title) { font-weight: 500; line-height: 1.12; }
 }
 .remaining-pages .section-copy { font-size: 0.9375rem; line-height: 1.85; }
-.remaining-pages .editorial-policy-list {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0;
-  container: policy-list / inline-size;
-}
-.remaining-pages .editorial-policy-row {
-  display: grid;
-  grid-template-columns: 2rem minmax(10rem, 0.7fr) minmax(0, 1.3fr);
-  gap: 1.5rem;
-  padding: 2rem 0;
-  border: 0;
-  border-top: 1px solid hsl(var(--line) / 0.65);
-  border-radius: 0;
-  background: none;
-}
-.editorial-policy-row h2 { font-size: 1.25rem; }
-.editorial-policy-row p { margin: 0; max-width: 65ch; }
-@utility editorial-policy-number { color: hsl(var(--ink-soft)); font-size: 0.625rem; line-height: 2; }
 .remaining-pages .editorial-detail-hero h1 {
   font-size: clamp(2.25rem, 4.8vw, 4.5rem);
   font-weight: 500;
@@ -198,19 +179,6 @@
 }
 @media (max-width: 47.999rem) {
   .editorial-page-description { font-size: 0.875rem; }
-  .remaining-pages .editorial-policy-row { grid-template-columns: 1.5rem minmax(0, 1fr); gap: 0.75rem; }
-  .editorial-policy-row p { grid-column: 2; }
-}
-/* Policy rows keep the three-column ledger only while the list has 42rem in
-   root-relative units. Enlarged text stacks each heading above its copy, and a
-   very narrow list gives the number its own row so the copy keeps the full width. */
-@container policy-list (width < 42rem) {
-  .remaining-pages .editorial-policy-row { grid-template-columns: 1.5rem minmax(0, 1fr); gap: 0.75rem; }
-  .editorial-policy-row p { grid-column: 2; }
-}
-@container policy-list (width < 16rem) {
-  .remaining-pages .editorial-policy-row { grid-template-columns: minmax(0, 1fr); }
-  .editorial-policy-row p { grid-column: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .remaining-pages a,
@@ -219,8 +187,6 @@
 
 @utility editorial-detail-hero { position: relative; }
 @utility editorial-detail-meta-item { padding-block: 1.25rem; }
-@utility editorial-policy-list { display: grid; gap: 0; }
-@utility editorial-policy-row { display: grid; padding-block: 2rem; }
 
 .remaining-pages [data-project-status] {
   color: hsl(var(--ink));

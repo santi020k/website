@@ -196,6 +196,20 @@ movement. Container queries tighten the insets and let action content wrap in na
 or enlarged-text layouts. Keep all words intact and all destinations usable without
 JavaScript.
 
+### Evidence rows policy sections
+
+Privacy, Terms, and Accessibility share one opaque Lumen Card with 1.75rem corners
+and a 0.5rem lower-right corner. Separate plain semantic sections with fine rules.
+Each heading has a 2px purple margin rail, a small decorative number, and a complete
+1.375rem title at weight 500. Put 0.875rem copy with 1.75rem leading in the wider
+right-hand column. Use 1.75rem panel insets and row spacing, with a 2rem column gap.
+
+Below 34rem of available panel width, place each heading above its copy. Below 16rem,
+reclaim 0.5rem of each page margin, tighten the panel and heading insets, and use
+1rem titles so enlarged text retains
+complete words. Keep the original policy wording, dates, heading hierarchy, contact
+links, and readable light/dark colors. The rows remain passive reading content.
+
 ### Compact topic cards
 
 Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.
