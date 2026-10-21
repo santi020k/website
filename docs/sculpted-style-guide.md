@@ -279,6 +279,19 @@ must remain usable in short, independently scrolling desktop rails and with enla
 Reading pages fully disable CSS transitions with reduced motion, including inherited text
 size transitions, so native fragment targets remain stable when text is enlarged.
 
+### Margin chapters case study summaries
+
+Case study summaries use one opaque Lumen Card with asymmetric corners and a small
+purple Case study heading opposite the notebook icon. Each ordered chapter pairs a
+1.75rem purple number with a neutral vertical rule, a 1.1875rem heading, and the
+complete 0.875rem narrative. Keep the numbers decorative and the chapter titles as
+level-three headings beneath the level-two card title. Optional Metrics content
+adds a fourth chapter; projects without summaries render no card.
+
+Use plain rows without hover feedback. Tighten the margins in narrow reading columns;
+below 16rem of card content width, place the number above the copy. Preserve readable
+text, theme contrast, and full content when text is enlarged.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

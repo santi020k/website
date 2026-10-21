@@ -327,15 +327,22 @@ test.describe('Portfolio page', () => {
     })
   }
 
-  test('project with case study frontmatter shows the summary grid', async ({ page }) => {
+  test('project with case study frontmatter shows the summary chapters', async ({ page }) => {
     await page.goto('/portfolio/datagran/')
 
     const summary = page.getByRole('region', { name: 'Case study summary' })
     await expect(summary).toBeVisible()
-    await expect(summary.getByText(/^Problem$/)).toBeVisible()
-    await expect(summary.getByText(/^Approach$/)).toBeVisible()
-    await expect(summary.getByText(/^Outcome$/)).toBeVisible()
-    await expect(summary.getByText(/^Metrics$/)).toBeVisible()
+    await expect(summary.getByRole('heading', { level: 2 })).toHaveText('Case study')
+    await expect(summary.getByRole('heading', { level: 3 })).toHaveText(['Problem', 'Approach', 'Outcome', 'Metrics'])
+    await expect(summary.getByRole('listitem')).toHaveCount(4)
+
+    await page.goto('/portfolio/auth/')
+    const authSummary = page.getByRole('region', { name: 'Case study summary' })
+    await expect(authSummary.getByRole('heading', { level: 3 })).toHaveText(['Problem', 'Approach', 'Outcome'])
+    await expect(authSummary.getByRole('listitem')).toHaveCount(3)
+
+    await page.goto('/portfolio/smith-commerce/')
+    await expect(page.getByRole('region', { name: 'Case study summary' })).toHaveCount(0)
   })
 
   test('single project page should load correctly', async ({ page }) => {

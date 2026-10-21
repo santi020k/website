@@ -105,6 +105,9 @@ The same component serves featured, supporting, and related projects without cli
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.
 - Series navigation uses Lumen `Progress` with a readable current/max value.
+- `ProjectCaseStudy` composes Margin chapters from an unstyled Lumen `Card`, `Icon`,
+  and an ordered list with semantic chapter headings. Its scoped container queries
+  retain complete narratives and optional chapters in narrow or enlarged-text layouts.
 - Project timeline endpoints use separate native `time` elements, and project
   sidebar card labels are level-two headings. `ProjectGlanceCard` uses an unstyled Lumen
   `Card` for the Project dossier treatment. `ProjectFocusCard` uses the same primitive
