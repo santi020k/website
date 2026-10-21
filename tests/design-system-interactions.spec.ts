@@ -84,7 +84,7 @@ test('reduced motion keeps article and project hero covers still on hover', asyn
     const cover = page.locator('[data-post-cover] img, [data-project-cover] img').first()
     const before = await cover.evaluate(element => getComputedStyle(element).scale)
 
-    await page.locator('[data-post-cover] .group, [data-project-cover] .group').first().hover()
+    await page.locator('[data-post-cover], [data-project-cover]').first().hover()
     expect(await cover.evaluate(element => getComputedStyle(element).scale)).toBe(before)
   }
 })
