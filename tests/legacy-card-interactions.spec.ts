@@ -47,7 +47,7 @@ const expectWholeWords = async (copy: Locator) => {
 
 const hoverAppearance = (card: Locator) => card.evaluate(element => [
   element,
-  ...element.querySelectorAll('[data-principle-index], [data-principle-title], [data-testimonial-quote], [data-slot="avatar"], [data-talk-title], [data-talk-subtitle]')
+  ...element.querySelectorAll('[data-principle-index], [data-principle-title], [data-testimonial-quote], [data-slot="avatar"], [data-card-title], [data-card-subtitle]')
 ].map(node => {
   const style = getComputedStyle(node)
 
@@ -83,6 +83,22 @@ const expectNewsletterLayout = async (newsletter: Locator, stacked: boolean, wid
   }
 }
 
+test('engineering principles preserve complete accessible headings', async ({ page }) => {
+  await page.goto('/developer-experience/')
+  const cards = page.locator('[data-principle]')
+  const titles = [
+    'Measure friction before choosing tools',
+    'Turn repeated judgment into clear defaults',
+    'Keep feedback close to the change',
+    'Protect the flow, not just the code'
+  ]
+
+  await expect(cards).toHaveCount(titles.length)
+  for (const title of titles) {
+    await expect(cards.getByRole('heading', { level: 3, name: title, exact: true })).toBeVisible()
+  }
+})
+
 for (const width of [390, 1440]) {
   for (const textSize of [100, 200]) {
     test.describe(`Legacy cards at ${width}px and ${textSize}% text`, () => {
@@ -102,7 +118,7 @@ for (const width of [390, 1440]) {
             const cards = page.locator(selector)
 
             expect(await cards.count()).toBeGreaterThan(0)
-            await expectWholeWords(cards.locator('[data-talk-title], [data-talk-subtitle]'))
+            await expectWholeWords(cards.locator('[data-card-title], [data-card-subtitle]'))
             for (const card of await cards.all()) {
               await card.scrollIntoViewIfNeeded()
               await expect(card).toHaveCSS('opacity', '1')

@@ -64,19 +64,23 @@ const featuredPosts = featuredSlugs.map(getFeaturedPost)
 
 const principles = [
   {
-    title: 'Measure friction before choosing tools',
+    title: 'Measure friction',
+    subtitle: 'before choosing tools',
     body: 'Start with cycle time, failed checks, review delays, repeated questions, and recovery work. A tool is useful only when one of those outcomes improves.'
   },
   {
-    title: 'Turn repeated judgment into clear defaults',
+    title: 'Turn repeated judgment',
+    subtitle: 'into clear defaults',
     body: 'Document the decision once, encode the deterministic part in linting or tests, and leave the genuinely contextual part visible for human review.'
   },
   {
-    title: 'Keep feedback close to the change',
+    title: 'Keep feedback close',
+    subtitle: 'to the change',
     body: 'Fast local checks, focused editor guidance, and one dependable quality command shorten the distance between a mistake and a useful explanation.'
   },
   {
-    title: 'Protect the flow, not just the code',
+    title: 'Protect the flow,',
+    subtitle: 'not just the code',
     body: 'A healthy system covers accessibility, release confidence, documentation, ownership, and recovery—not merely formatting or a passing build.'
   }
 ]
@@ -208,7 +212,7 @@ mainClass="remaining-pages"
       threshold={0}
     >
       {principles.map((principle, index) => (
-        <PrincipleCard body={principle.body} index={index} title={principle.title} />
+        <PrincipleCard body={principle.body} index={index} subtitle={principle.subtitle} title={principle.title} />
       ))}
     </RevealGroup>
   </PageSection>

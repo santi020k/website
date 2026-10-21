@@ -4,11 +4,12 @@ import { Card } from '@santi020k/lumen-astro'
 interface Props {
   appearance?: 'default' | 'editorial'
   index: number
+  subtitle?: string
   title: string
   body: string
 }
 
-const { appearance = 'default', index, title, body } = Astro.props
+const { appearance = 'default', index, subtitle, title, body } = Astro.props
 const formattedIndex = String(index + 1).padStart(2, '0')
 ---
 
@@ -16,15 +17,25 @@ const formattedIndex = String(index + 1).padStart(2, '0')
   as="article"
   class:list={[
     `
-      h-full space-y-3 p-6
+      h-full p-6
       sm:p-7
     `,
-    appearance === 'editorial' && 'about-principle'
+    appearance === 'editorial' ? 'about-principle space-y-3' : 'card-hierarchy'
   ]}
   data-principle
   variant={appearance === 'editorial' ? 'unstyled' : 'default'}
 >
-  <p class="section-label" data-principle-index>{formattedIndex}</p>
-  <h3 class="text-xl font-semibold text-ink" data-principle-title>{title}</h3>
+  <p
+    aria-hidden={appearance === 'default' ? 'true' : undefined}
+    class:list={[
+      appearance === 'editorial' && 'section-label',
+      appearance === 'default' && 'text-sm font-semibold text-brand'
+    ]}
+    data-principle-index
+  >{formattedIndex}</p>
+  <h3 class="text-xl font-semibold text-ink" data-principle-title>
+    <span data-card-title={appearance === 'default' ? '' : undefined}>{title}</span>
+    {subtitle && <> <span data-card-subtitle>{subtitle}</span></>}
+  </h3>
   <p class="text-sm/7 text-ink-soft">{body}</p>
 </Card>
