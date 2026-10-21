@@ -99,6 +99,9 @@ The same component serves featured, supporting, and related projects without cli
   relying on inheritance left descendant layout stale
   after root text resizing during client navigation, shifting native fragment targets. This
   keeps the existing native links and Lumen marker synchronized without another controller.
+  Reading pages disable CSS transitions completely under reduced motion: Lumen's universal
+  1ms fallback otherwise starts inherited font-size transitions that WebKit can defer until
+  a fragment jump. Remove this local override when the shared reset no longer creates them.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.
 - Series navigation uses Lumen `Progress` with a readable current/max value.

@@ -276,6 +276,8 @@ beside the current heading. Use accent in dark mode and keep visible keyboard fo
 Keep native fragment links, Lumen's scroll spy, 2.75rem minimum targets, and reduced
 motion. Below 16rem of available rail width, tighten panel and link insets. Navigation
 must remain usable in short, independently scrolling desktop rails and with enlarged text.
+Reading pages fully disable CSS transitions with reduced motion, including inherited text
+size transitions, so native fragment targets remain stable when text is enlarged.
 
 ## Buttons and links
 

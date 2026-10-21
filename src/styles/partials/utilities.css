@@ -79,6 +79,18 @@
   font-size: 1rem;
 }
 
+/* Lumen's universal 1ms reduced-motion duration also starts transitions on
+   inherited font sizes. WebKit can defer those offscreen until a fragment jump,
+   changing line wraps after the scroll target was measured. */
+@media (prefers-reduced-motion: reduce) {
+  .remaining-pages--reading,
+  .remaining-pages--reading *,
+  .remaining-pages--reading *::before,
+  .remaining-pages--reading *::after {
+    transition-property: none !important;
+  }
+}
+
 [data-reading-layout] {
   container: reading-layout / inline-size;
 }
