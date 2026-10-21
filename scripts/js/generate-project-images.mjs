@@ -267,7 +267,12 @@ export const discoverProjects = async (projectsRoot = PROJECTS_ROOT) => {
 
   return Promise.all(directories.map(async slug => {
     const directory = path.join(projectsRoot, slug)
-    const source = await fs.readFile(path.join(directory, 'index.md'), 'utf8')
+    const files = await fs.readdir(directory)
+    const entry = files.find(file => /^index\.mdx?$/u.test(file))
+
+    if (!entry) throw new Error(`${slug}: index.md or index.mdx is required`)
+
+    const source = await fs.readFile(path.join(directory, entry), 'utf8')
     const frontmatter = parseFrontmatter(source)
     const title = getString(frontmatter, 'title')
     const description = getString(frontmatter, 'description')
@@ -342,10 +347,19 @@ const getTypeLabel = type => {
 const getLogoBox = (project, variant) => {
   let box
 
-  if (variant.kind === 'hero') {
-    box = { height: 720, left: 840, top: 190, width: 720 }
-  } else if (variant.kind === 'portrait') {
-    box = { height: 650, left: 220, top: 130, width: 760 }
+  if (variant.kind === 'hero' || variant.kind === 'portrait') {
+    // Keep the complete mark inside the center crop used by square portfolio cards.
+    const size = Math.min(variant.width, variant.height)
+    const width = Math.round(size * (project.logoAspect === 'wide' ? 0.78 : 0.38))
+    const height = Math.round(size * (project.logoAspect === 'tall' ? 0.48 : 0.38))
+
+    return {
+      height,
+      left: Math.round((variant.width - width) / 2),
+      padding: 0,
+      top: Math.round((variant.height * 0.46) - (height / 2)),
+      width
+    }
   } else {
     box = {
       height: Math.round(variant.height * 0.62),
@@ -378,6 +392,33 @@ const buildTechnologyMarkup = (technologies, x, y, fontSize, accent) => technolo
     `
   })
   .join('')
+
+// A quiet, solid center keeps logos sharp; color and geometry stay at the edges.
+const buildSceneSvg = (project, variant) => {
+  const { height, width } = variant
+  const surface = getLogoSurface(project)
+  const line = project.logoSurface === 'light' ? project.brand.surface : project.brand.secondary
+
+  return `
+    <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="${project.brand.primary}" stop-opacity="0.32" />
+          <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0.08" />
+        </linearGradient>
+        <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="${project.brand.primary}" stop-opacity="0.72" />
+          <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0.16" />
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="${surface}" />
+      <path d="M${width * 0.88} 0H${width}V${height}H${width * 0.92}L${width * 0.78} ${height * 0.5}Z" fill="url(#fold)" />
+      <path d="M${width * 0.94} 0H${width * 0.95}L${width * 0.86} ${height * 0.5}L${width} ${height * 0.82}V${height * 0.9}L${width * 0.84} ${height * 0.5}Z" fill="url(#edge)" />
+      <path d="M0 ${height * 0.7}L${width * 0.22} ${height}H0Z" fill="${project.brand.primary}" fill-opacity="0.09" />
+      <path d="M0 ${height * 0.66}L${width * 0.26} ${height}" fill="none" stroke="${line}" stroke-opacity="0.18" stroke-width="2" />
+    </svg>
+  `
+}
 
 const buildThumbnailSvg = (project, variant, logoBox) => {
   const scale = variant.width / 1600
@@ -412,38 +453,14 @@ const buildThumbnailSvg = (project, variant, logoBox) => {
           .project-label { fill: ${readableAccent}; }
           .footer-label { fill: ${readableFooterAccent}; paint-order: stroke; stroke: ${project.brand.surface}; stroke-opacity: 0.72; stroke-width: 2px; }
         </style>
-        <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
-          <path d="M64 0H0V64" fill="none" stroke="#bca9d9" stroke-opacity="0.065" stroke-width="1" />
-        </pattern>
-        <radialGradient id="accent-glow" cx="72%" cy="28%" r="62%">
-          <stop offset="0" stop-color="${project.brand.primary}" stop-opacity="0.33" />
-          <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0" />
-        </radialGradient>
-        <radialGradient id="brand-glow" cx="12%" cy="88%" r="72%">
-          <stop offset="0" stop-color="${project.brand.secondary}" stop-opacity="0.30" />
-          <stop offset="1" stop-color="${project.brand.secondary}" stop-opacity="0" />
-        </radialGradient>
-        <linearGradient id="beam" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stop-color="${project.brand.secondary}" stop-opacity="0.42" />
-          <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0.06" />
-        </linearGradient>
-        <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
-          <feDropShadow dx="0" dy="24" stdDeviation="32" flood-color="#050208" flood-opacity="0.46" />
-        </filter>
       </defs>
 
-      <rect width="100%" height="100%" fill="${project.brand.surface}" />
-      <rect width="100%" height="100%" fill="url(#grid)" />
-      <rect width="100%" height="100%" fill="url(#accent-glow)" />
-      <rect width="100%" height="100%" fill="url(#brand-glow)" />
-      <path d="M0 ${variant.height * 0.84} C ${variant.width * 0.24} ${variant.height * 0.66}, ${variant.width * 0.54} ${variant.height * 1.02}, ${variant.width} ${variant.height * 0.68} V ${variant.height} H0Z" fill="url(#beam)" />
-      <circle cx="${variant.width * 0.88}" cy="${variant.height * 0.13}" r="${variant.width * 0.18}" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.17" stroke-width="2" />
-      <circle cx="${variant.width * 0.88}" cy="${variant.height * 0.13}" r="${variant.width * 0.12}" fill="none" stroke="#f5efff" stroke-opacity="0.08" stroke-width="2" />
-
-      <g filter="url(#shadow)">
-        <rect x="${logoBox.left}" y="${logoBox.top}" width="${logoBox.width}" height="${logoBox.height}" rx="${Math.round(42 * scale)}" fill="${getLogoSurface(project)}" fill-opacity="0.88" stroke="#ffffff" stroke-opacity="0.15" stroke-width="2" />
-        <rect x="${logoBox.left + 2}" y="${logoBox.top + 2}" width="${logoBox.width - 4}" height="${logoBox.height - 4}" rx="${Math.round(40 * scale)}" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.13" stroke-width="2" />
-      </g>
+      ${buildSceneSvg({ ...project, logoSurface: 'dark' }, variant)}
+      ${project.logoSurface === 'light' ?
+        `
+        <rect x="${logoBox.left}" y="${logoBox.top}" width="${logoBox.width}" height="${logoBox.height}" rx="${Math.round(24 * scale)}" fill="${getLogoSurface(project)}" />
+      ` :
+        ''}
 
       <text x="${titleX}" y="${eyebrowY}" class="eyebrow project-label">${escapeXml(getTypeLabel(project.type).toUpperCase())}</text>
       ${titleMarkup}
@@ -454,114 +471,9 @@ const buildThumbnailSvg = (project, variant, logoBox) => {
   `
 }
 
-const buildSceneDefinitions = project => `
-  <defs>
-    <pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse">
-      <path d="M72 0H0V72" fill="none" stroke="#c9b8e5" stroke-opacity="0.055" stroke-width="1" />
-    </pattern>
-    <radialGradient id="accent-glow" cx="50%" cy="42%" r="62%">
-      <stop offset="0" stop-color="${project.brand.primary}" stop-opacity="0.42" />
-      <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0" />
-    </radialGradient>
-    <radialGradient id="brand-glow" cx="18%" cy="74%" r="78%">
-      <stop offset="0" stop-color="${project.brand.secondary}" stop-opacity="0.34" />
-      <stop offset="1" stop-color="${project.brand.secondary}" stop-opacity="0" />
-    </radialGradient>
-    <linearGradient id="horizon" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="${project.brand.secondary}" stop-opacity="0.34" />
-      <stop offset="1" stop-color="${project.brand.primary}" stop-opacity="0.07" />
-    </linearGradient>
-    <filter id="shadow" x="-35%" y="-35%" width="170%" height="190%">
-      <feDropShadow dx="0" dy="34" stdDeviation="42" flood-color="#030106" flood-opacity="0.56" />
-    </filter>
-    <filter id="soft-glow" x="-100%" y="-100%" width="300%" height="300%">
-      <feGaussianBlur stdDeviation="28" />
-    </filter>
-  </defs>
-`
-
-const buildHeroSvg = (project, variant, logoBox, includeLogo = true) => `
-  <svg width="${variant.width}" height="${variant.height}" viewBox="0 0 ${variant.width} ${variant.height}" xmlns="http://www.w3.org/2000/svg">
-    ${buildSceneDefinitions(project)}
-
-    <rect width="100%" height="100%" fill="${project.brand.surface}" />
-    <rect width="100%" height="100%" fill="url(#grid)" />
-    <rect width="100%" height="100%" fill="url(#accent-glow)" />
-    <rect width="100%" height="100%" fill="url(#brand-glow)" />
-
-    <ellipse cx="1200" cy="515" rx="670" ry="420" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.18" stroke-width="3" />
-    <ellipse cx="1200" cy="515" rx="840" ry="525" fill="none" stroke="#ffffff" stroke-opacity="0.055" stroke-width="2" />
-    <circle cx="1200" cy="515" r="390" fill="${project.brand.primary}" fill-opacity="0.10" filter="url(#soft-glow)" />
-
-    <g opacity="0.72">
-      <rect x="180" y="245" width="390" height="245" rx="34" fill="#ffffff" fill-opacity="0.035" stroke="#ffffff" stroke-opacity="0.10" stroke-width="2" />
-      <circle cx="232" cy="300" r="12" fill="${project.brand.primary}" fill-opacity="0.80" />
-      <path d="M280 300H480M232 360H500M232 410H420" stroke="#ffffff" stroke-opacity="0.13" stroke-width="16" stroke-linecap="round" />
-      <rect x="1850" y="330" width="370" height="210" rx="32" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.09" stroke-width="2" />
-      <path d="M1910 395H2140M1910 455H2070" stroke="#ffffff" stroke-opacity="0.13" stroke-width="16" stroke-linecap="round" />
-      <circle cx="2145" cy="455" r="16" fill="${project.brand.primary}" fill-opacity="0.68" />
-    </g>
-
-    <path d="M0 1005 C430 790 760 1135 1200 930 C1610 740 1920 970 2400 690 V1350H0Z" fill="url(#horizon)" />
-    <path d="M0 1130 C520 935 790 1220 1240 1040 C1710 850 2040 1060 2400 860" fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="3" />
-
-    ${includeLogo ?
-      `
-      <g filter="url(#shadow)">
-        <rect x="${logoBox.left}" y="${logoBox.top}" width="${logoBox.width}" height="${logoBox.height}" rx="72" fill="${getLogoSurface(project)}" fill-opacity="0.90" stroke="#ffffff" stroke-opacity="0.17" stroke-width="3" />
-        <rect x="${logoBox.left + 3}" y="${logoBox.top + 3}" width="${logoBox.width - 6}" height="${logoBox.height - 6}" rx="69" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.18" stroke-width="3" />
-      </g>
-    ` :
-      ''}
-
-    <rect y="1040" width="2400" height="310" fill="#07040d" fill-opacity="0.30" />
-  </svg>
-`
-
-const buildPortraitSvg = (project, variant, logoBox) => `
-  <svg width="${variant.width}" height="${variant.height}" viewBox="0 0 ${variant.width} ${variant.height}" xmlns="http://www.w3.org/2000/svg">
-    ${buildSceneDefinitions(project)}
-
-    <rect width="100%" height="100%" fill="${project.brand.surface}" />
-    <rect width="100%" height="100%" fill="url(#grid)" />
-    <rect width="100%" height="100%" fill="url(#accent-glow)" />
-    <rect width="100%" height="100%" fill="url(#brand-glow)" />
-
-    <circle cx="600" cy="450" r="440" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.14" stroke-width="3" />
-    <circle cx="600" cy="450" r="350" fill="${project.brand.primary}" fill-opacity="0.10" filter="url(#soft-glow)" />
-
-    <g filter="url(#shadow)">
-      <rect x="${logoBox.left}" y="${logoBox.top}" width="${logoBox.width}" height="${logoBox.height}" rx="64" fill="${getLogoSurface(project)}" fill-opacity="0.90" stroke="#ffffff" stroke-opacity="0.17" stroke-width="3" />
-      <rect x="${logoBox.left + 3}" y="${logoBox.top + 3}" width="${logoBox.width - 6}" height="${logoBox.height - 6}" rx="61" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.18" stroke-width="3" />
-    </g>
-
-    <path d="M600 780V930M330 1110H870M330 1110V1210M600 930V1210M870 1110V1210" fill="none" stroke="${project.brand.primary}" stroke-opacity="0.40" stroke-width="7" stroke-linecap="round" />
-    <circle cx="600" cy="930" r="18" fill="${project.brand.primary}" />
-    <circle cx="330" cy="1110" r="14" fill="#fbf8ff" fill-opacity="0.62" />
-    <circle cx="870" cy="1110" r="14" fill="#fbf8ff" fill-opacity="0.62" />
-
-    <g opacity="0.82">
-      <rect x="115" y="1210" width="350" height="230" rx="38" fill="#ffffff" fill-opacity="0.045" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2" />
-      <rect x="425" y="1160" width="350" height="270" rx="38" fill="${project.brand.primary}" fill-opacity="0.075" stroke="${project.brand.primary}" stroke-opacity="0.20" stroke-width="2" />
-      <rect x="735" y="1210" width="350" height="230" rx="38" fill="#ffffff" fill-opacity="0.045" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2" />
-      <path d="M175 1280H390M175 1340H330M485 1240H710M485 1300H665M795 1280H1025M795 1340H960" stroke="#ffffff" stroke-opacity="0.14" stroke-width="15" stroke-linecap="round" />
-    </g>
-
-    <path d="M0 1440 C260 1320 470 1530 690 1430 C900 1335 1030 1410 1200 1325 V1600H0Z" fill="url(#horizon)" />
-  </svg>
-`
-
-export const buildProjectSvg = (project, variant) => {
-  const logoBox = getLogoBox(project, variant)
-
-  if (variant.kind === 'background') return buildHeroSvg(project, variant, logoBox, false)
-
-  if (variant.kind === 'hero') return buildHeroSvg(project, variant, logoBox)
-
-  if (variant.kind === 'portrait') return buildPortraitSvg(project, variant, logoBox)
-
-  return buildThumbnailSvg(project, variant, logoBox)
-}
+export const buildProjectSvg = (project, variant) => variant.kind === 'thumbnail' ?
+  buildThumbnailSvg(project, variant, getLogoBox(project, variant)) :
+  buildSceneSvg(project, variant)
 
 const buildLogoComposite = async (project, logoBox) => {
   const width = logoBox.width - (logoBox.padding * 2)

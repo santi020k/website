@@ -24,8 +24,8 @@ const projectStatusTone = {
   Draft: 'outline'
 } as const
 
-const projectItems = projects.map((project, index) => ({
-  editorialImage: getProjectCoverForUsage(project.data.coverImage, index === 0 ? 'hero' : 'thumbnail'),
+const projectItems = projects.map(project => ({
+  editorialImage: getProjectCoverForUsage(project.data.coverImage, 'hero'),
   brand: project.data.brand,
   coverImage: project.data.coverImage,
   thumbnailImage: getProjectCoverForUsage(project.data.coverImage, 'thumbnail'),

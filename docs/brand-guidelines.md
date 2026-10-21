@@ -193,6 +193,16 @@ verified.
 The image generator treats the declared palette as authoritative and only extracts a logo color
 as a fallback for legacy fixtures.
 
+Generate project artwork with `pnpm run generate:project-images` (optionally followed by project
+slugs). It reads Markdown and MDX entries and preserves each source logo. Horizontal and portrait
+covers use an open logo composition on a solid brand surface, with restrained folds at the edges.
+Light-surface logos retain a light canvas. Wide logos and tall marks have separate sizing;
+keep the whole mark within the central square crop used by portfolio cards. Avoid decorative
+interface panels, padded logo tiles, blur, and baked-in bottom overlays. Thumbnails retain project
+metadata for their standalone and social-image uses, with the same geometric background.
+The editorial Projects gallery uses the text-free horizontal artwork for every card; project
+titles, descriptions, and technologies remain in the accessible HTML below each image.
+
 Project colors must stay scoped to a project surface. Do not recolor global navigation, shared
 buttons, or the Santi020k logo to match the current project.
 

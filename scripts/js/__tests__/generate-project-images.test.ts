@@ -49,12 +49,16 @@ describe('project image generator', () => {
     expect(getFallbackAccent('astro-doctor')).toMatch(/^#[\da-f]{6}$/u)
   })
 
-  test('discovers a project and renders every responsive variant', async () => {
+  test.each([
+    { extension: 'md', height: 64, logoAspect: 'square', width: 64 },
+    { extension: 'mdx', height: 64, logoAspect: 'wide', width: 320 },
+    { extension: 'md', height: 320, logoAspect: 'tall', width: 64 }
+  ])('renders $extension with a $logoAspect logo that survives square crops', async ({ extension, height, logoAspect, width }) => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), 'project-images-'))
     const projectDirectory = path.join(root, 'sample-project')
 
     await fs.mkdir(projectDirectory)
-    await fs.writeFile(path.join(projectDirectory, 'index.md'), `---
+    await fs.writeFile(path.join(projectDirectory, `index.${extension}`), `---
 title: Sample Project
 description: A generated fixture.
 brand:
@@ -69,7 +73,7 @@ coverImage:
   src: ./cover.webp
   background: ./cover-background.webp
   logo: ./logo.png
-  logoAspect: square
+  logoAspect: ${logoAspect}
   logoSurface: dark
   alt: Sample project cover
 ---
@@ -78,8 +82,8 @@ coverImage:
       create: {
         background: '#7c3aed',
         channels: 4,
-        height: 64,
-        width: 64
+        height,
+        width
       }
     }).png().toFile(path.join(projectDirectory, 'logo.png'))
 
@@ -101,6 +105,34 @@ coverImage:
 
       expect(metadata.width).toBe(variant?.width)
       expect(metadata.height).toBe(variant?.height)
+
+      if (variant?.kind !== 'hero' && variant?.kind !== 'portrait') continue
+
+      const size = Math.min(variant.width, variant.height)
+      const image = sharp(output).removeAlpha()
+      const full = await image.clone().raw().toBuffer()
+      const crop = await image.clone().extract({
+        height: size,
+        left: Math.round((variant.width - size) / 2),
+        top: Math.round((variant.height - size) / 2),
+        width: size
+      }).raw().toBuffer()
+      const countLogoPixels = (pixels: Buffer) => {
+        let count = 0
+
+        for (let offset = 0; offset < pixels.length; offset += 3) {
+          const red = pixels[offset] ?? 0
+          const green = pixels[offset + 1] ?? 0
+          const blue = pixels[offset + 2] ?? 0
+
+          if (red > 90 && green < 90 && blue > 180) count += 1
+        }
+
+        return count
+      }
+
+      expect(countLogoPixels(full)).toBeGreaterThan(1000)
+      expect(countLogoPixels(crop)).toBe(countLogoPixels(full))
     }
 
     await fs.rm(root, { force: true, recursive: true })

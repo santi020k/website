@@ -53,6 +53,9 @@ test('editorial project cards keep concise copy and a single named destination',
     'Swift', 'SwiftUI', 'iOS'
   ])
   await expect(postlens.locator('[data-site-pill]')).toHaveText('Active')
+  // Keep titles and technology labels in accessible HTML, outside the artwork.
+  await expect(postlens.locator('img')).toHaveAttribute('src', /cover-horizontal/u)
+  await expect(postlens.locator('img')).toHaveAttribute('alt', '')
 
   // Keep the complete case-study description independent of its short gallery copy.
   await project.click()
