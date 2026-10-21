@@ -49,13 +49,14 @@ for (const width of [390, 1440]) {
           await openWithTextSize(page, '/blog/', textSize)
           const cards = page.locator('[data-post-gallery-card]')
           const firstLink = cards.first().getByRole('link')
+          const secondLink = cards.nth(1).getByRole('link')
 
           await firstLink.focus()
           await expect(firstLink).toBeFocused()
-          await expectVisibleOutline(cards.first())
+          await expectVisibleOutline(firstLink)
           await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
-          await expect(cards.nth(1).getByRole('link')).toBeFocused()
-          await expectVisibleOutline(cards.nth(1))
+          await expect(secondLink).toBeFocused()
+          await expectVisibleOutline(secondLink)
 
           const active = page.getByRole('navigation', { name: 'Pagination', exact: true }).locator('[aria-current="page"]')
           const colors = await active.evaluate(element => {
