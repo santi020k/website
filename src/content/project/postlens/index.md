@@ -1,19 +1,32 @@
 ---
 title: "PostLens"
-seoTitle: "PostLens: Private Photo Editing for iPhone"
-description: "Built an iPhone-first private visual content studio for selecting strong photos, applying transparent on-device enhancements, composing layouts, and exporting social-ready work."
-cardDescription: "A private photo studio for iPhone. Choose your best shots, refine them, and compose layouts ready to share."
+seoTitle: "PostLens: Private Photo Editing for iPhone and iPad"
+description: "Built a private visual content studio for iPhone and iPad: select strong photos, apply transparent on-device enhancements, compose layouts, and prepare work to share."
+cardDescription: "A private photo studio for iPhone and iPad. Choose your best shots, refine them, and compose layouts ready to share."
 brand:
   primary: "#f26044"
   secondary: "#7c2ce8"
   surface: "#05051f"
 role: "Creator"
 startingDate: "14 Jul 2026"
+updatedDate: "20 Oct 2026"
 liveDemoUrl: "https://postlens.santi020k.com/"
 typesId: "personal"
+purpose: "apps"
 draft: false
 relevanceWeight: 99
-impactMetrics: ["Keeps core photo analysis, scoring, editing, and caption preparation on the iPhone", "Supports reusable formats for Instagram, TikTok, Pinterest, LinkedIn, X, and generic exports", "Ships the app, permission language, StoreKit catalog, landing page, and support hub in English and Spanish"]
+previews:
+  description: "PostLens 2.0 development preview, captured in the iPhone simulator. AI-generated sample photos; gallery scores are illustrative. These screens show upcoming work, not the current App Store release."
+  images:
+    - src: "./preview-photos.webp"
+      alt: "PostLens development gallery showing generated sample photos with illustrative scores and photo-selection controls."
+      title: "Find a photo worth working on"
+      caption: "The gallery brings local photo guidance into the selection step, so reviewing a set and opening an image stay in one workflow."
+    - src: "./preview-editor.webp"
+      alt: "PostLens development editor displaying a generated mountain-lake sample, original comparison, format selection, and editing tools."
+      title: "Refine it in one focused editor"
+      caption: "Framing, adjustments, and the original comparison stay close to the photo. The preview includes the text and retouch tools being prepared for version 2.0."
+impactMetrics: ["Keeps core photo analysis, scoring, editing, and caption preparation on the device", "Supports reusable formats for Instagram, Pinterest, LinkedIn, and generic exports", "Provides the app, permission language, StoreKit catalog, landing page, and support hub in English and Spanish"]
 technologies: ["Swift", "SwiftUI", "iOS", "PhotoKit", "PhotosPicker", "Vision", "Core Image", "Foundation Models", "Image Playground", "StoreKit", "Astro", "TypeScript", "Privacy Engineering", "Accessibility", "On-device AI", "Image Processing", "Localization", "Testing"]
 coverImage:
   src: "./cover.webp"
@@ -26,11 +39,11 @@ coverImage:
   ogImage: "./cover.webp"
 ---
 
-## Building a private visual content studio for iPhone
+## Building a private visual content studio for iPhone and iPad
 
 PostLens helps people choose strong photos, improve them with explainable edits, compose social-ready layouts, and export the result. Its workflow is intentionally narrow: **Select → Enhance → Compose → Export**.
 
-Scheduling, connected accounts, analytics, and engagement tracking stay outside the product. That boundary lets the app focus on the creative work while keeping the first version local to the iPhone.
+Optional Supporter tools add private planning with local reminders. Plans stay on the device and do not publish automatically. Instagram account connection and direct publishing remain disabled for a later release; analytics and engagement tracking stay outside the product.
 
 ### Goals
 
@@ -45,6 +58,7 @@ Scheduling, connected accounts, analytics, and engagement tracking stay outside 
 - **An editing workflow** that measures exposure, contrast, saturation, color balance, clipping, and sharpness before applying predictable looks.
 - **A tailored AI look** that searches bounded candidates, validates the result, frames a Vision-guided crop, and drafts an editable grounded caption.
 - **Layouts and carousels** for reusable social formats, publishing sets, profile grids, and still-frame video export.
+- **Private planning** with a local calendar and reminders for preparing work without connecting a social account.
 - **Optional Apple integrations** for Foundation Models coaching and per-use Image Playground handoff on supported devices.
 - **An Astro landing and support site** in English and Spanish.
 
@@ -52,14 +66,18 @@ Scheduling, connected accounts, analytics, and engagement tracking stay outside 
 
 - **Native stack:** `SwiftUI`, `PhotoKit`, `PhotosPicker`, `Vision`, `Core Image`, `StoreKit`, and Apple system sharing.
 - **On-device intelligence:** local scoring, bounded preview re-analysis, subject-aware framing, and caption preparation.
-- **Privacy boundaries:** no PostLens upload server, metadata-free saved copies, and explicit disclosure before optional Apple generative workflows.
+- **Privacy boundaries:** core photo work stays on the device, saved copies omit metadata, and optional Apple generative workflows begin with an explicit disclosure.
 - **Release quality:** privacy manifests, source-size checks, native tests, SEO checks, and a release preflight.
 
 ### Results
 
 - **A complete free single-photo workflow** from library review to format-specific export.
-- **Optional supporter features** that add multi-photo and publishing workflows without gating privacy, accessibility, scoring, or core editing.
+- **Optional Supporter features** that add multi-photo exports and private planning without gating privacy, accessibility, scoring, or core editing.
 - **A clear product boundary** that keeps PostLens a visual studio instead of another social account dashboard.
+
+### Available today and in development
+
+PostLens is available for iPhone and iPad on the [App Store](https://apps.apple.com/app/id6804601300). The development previews show upcoming PostLens 2 editing tools; they do not represent the current store release. Local planning and manual sharing remain separate from the deferred Instagram integration.
 
 ### Why it matters
 

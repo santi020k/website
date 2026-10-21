@@ -1,4 +1,5 @@
 ---
+import Pill from '@/components/atoms/Pill.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
 import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
@@ -11,11 +12,20 @@ import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 import { ButtonLink as LumenButtonLink, Icon } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
+import { projectPurposeIds, projectPurposes } from '@/data/project-purposes'
 import { siteConfig, YEARS_OF_EXPERIENCE } from '@/site.config'
 
 const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const sideProjects = allProjects.filter(p => p.data.typesId === 'personal')
-const showcaseProjects = [...sideProjects].sort(collectionRelevanceSortProjects)
+const rankedProjects = [...sideProjects].sort(collectionRelevanceSortProjects)
+
+const purposeGroups = projectPurposeIds.map(purpose => ({
+  id: purpose,
+  ...projectPurposes[purpose],
+  projects: rankedProjects.filter(project => project.data.purpose === purpose)
+})).filter(group => group.projects.length > 0)
+
+const showcaseProjects = purposeGroups.flatMap(group => group.projects)
 const allTechnologies = getUniqueTechnologiesWithCount(sideProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
@@ -33,7 +43,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
   mainClass="projects-page"
   meta={{
     breadcrumbs,
-    description: 'Open-source tools and self-directed experiments — the projects I build to learn, share, and sharpen how I engineer beyond client work.',
+    description: 'Independent apps, developer tools, and experiments — explore the projects I build beyond client work by what they help people do.',
     structuredData: projectsListSchema,
     title: 'Side Projects — Santiago Molina'
   }}
@@ -66,14 +76,14 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
       </div>
     </div>
     <dl class="projects-intro-ledger">
-      <div><dt>Independent builds</dt><dd>{sideProjects.length}<span>Projects &amp; experiments</span></dd></div>
+      <div><dt>Independent builds</dt><dd>{showcaseProjects.length}<span>Projects &amp; experiments</span></dd></div>
       <div><dt>Tools of the trade</dt><dd>{allTechnologies.length}<span>Technologies explored</span></dd></div>
       <div><dt>Experience behind it</dt><dd>{YEARS_OF_EXPERIENCE}<span>Years in engineering</span></dd></div>
     </dl>
   </section>
 
   <section
-    aria-label={`${sideProjects.length} personal projects`}
+    aria-label={`${showcaseProjects.length} personal projects`}
     class="
       section-container-wide scroll-mt-28 pt-12
       sm:pt-16
@@ -82,18 +92,46 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
     id="projects"
   >
     <SectionHeader
-      description="Every project has a deeper story about the problem, the decisions, and the system behind the finished work."
+      description="Start with what you want to explore: tools for building software, apps for everyday life, or an idea taking shape."
       eyebrow={`${showcaseProjects.length} project stories`}
       title="The work behind the logos."
     />
-    <div class="
-      mt-10
-      sm:mt-12
-    "
+    <nav
+      aria-label="Browse projects by purpose"
+      class="mt-8 flex flex-wrap gap-3"
     >
-      <ProjectsGallery projects={showcaseProjects} variant="editorial" />
-    </div>
+      {purposeGroups.map(group => (
+        <Pill
+          className="min-h-11 px-4 py-2"
+          count={group.projects.length}
+          href={`#${group.id}`}
+          label={group.title}
+          tone="outline"
+        />
+      ))}
+    </nav>
   </section>
+
+  {purposeGroups.map(group => (
+    <section
+      aria-label={group.title}
+      class="
+        section-container-wide mt-12 scroll-mt-28 space-y-8
+        sm:mt-16
+        lg:mt-20
+      "
+      data-project-purpose-group={group.id}
+      id={group.id}
+      tabindex="-1"
+    >
+      <SectionHeader
+        description={group.description}
+        eyebrow={`${group.projects.length} ${group.projects.length === 1 ? 'project story' : 'project stories'}`}
+        title={group.title}
+      />
+      <ProjectsGallery projects={group.projects} variant="editorial" />
+    </section>
+  ))}
 
   <section class="
     section-container-wide space-y-8 pt-20

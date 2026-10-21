@@ -8,9 +8,11 @@ brand:
   surface: "#1f0b13"
 role: "Creator"
 startingDate: "8 Jan 2026"
+updatedDate: "20 Oct 2026"
 githubUrl: "https://github.com/santi020k/betweencontractions"
 liveDemoUrl: "https://between.santi020k.com/"
 typesId: "personal"
+purpose: "apps"
 orderInTypes: 1
 relevanceWeight: 98
 impactMetrics: ["Delivered one bilingual timer across browser, phone, watch, widget, and desktop surfaces", "Kept the core timer free, ad-free, account-free, and local-first", "Separated optional Partner Sync from private on-device contraction history"]
@@ -30,7 +32,7 @@ coverImage:
 
 I built Between Contractions while Alejandra and I were waiting for our son, Aarón. The product begins with one deliberately simple action: tap when a contraction starts and tap again when it ends.
 
-From there, it calculates duration, start-to-start frequency, and recent patterns without turning labor into a dashboard. The browser timer is available now; the native iOS and Android releases are prepared while their store reviews follow their own timelines.
+From there, it calculates duration, start-to-start frequency, and recent patterns without turning labor into a dashboard. The timer is available in the browser, on the [App Store](https://apps.apple.com/app/id6802499436), and on [Google Play](https://play.google.com/store/apps/details?id=com.santi020k.betweencontractions).
 
 ### Goals
 
@@ -42,21 +44,21 @@ From there, it calculates duration, start-to-start frequency, and recent pattern
 ### What I built
 
 - **A bilingual Astro website and browser timer** that works without installation and keeps its history on the current device.
-- **Native Apple experiences** for iPhone and iPad, with SwiftUI, SwiftData, widgets, Live Activities, Apple Watch support, and a companion macOS surface.
+- **Native Apple experiences** for iPhone and iPad, with SwiftUI, SwiftData, widgets, Live Activities, Apple Watch support, private iCloud continuity, and a companion macOS surface.
 - **Native Android experiences** with Kotlin, Jetpack Compose, Room, Glance widgets, and Wear OS support.
 - **Optional Partner Sync** for households that choose to coordinate a live timer across devices and platforms.
 - **A small Hono and Cloudflare backend** for the explicit shared features, separated from the local-first core timer.
 
 ### Technical highlights
 
-- **Web:** `Astro 6`, `TypeScript`, `Lumen UI`, browser storage, bilingual content, and static delivery.
+- **Web:** `Astro`, `TypeScript`, `Lumen UI`, browser storage, bilingual content, and static delivery.
 - **Apple:** `Swift`, `SwiftUI`, `SwiftData`, `WidgetKit`, `WatchConnectivity`, and native system integrations.
 - **Android:** `Kotlin`, `Jetpack Compose`, `Room`, `Glance`, and `Wear OS`.
 - **Shared delivery:** `Turborepo`, `pnpm`, automated checks, release preflights, accessibility coverage, and platform-specific test suites.
 
 ### Privacy is an architecture decision
 
-The timer does not need a backend to perform its main job. Personal history stays local by default, and optional platform backup uses the operating system's own mechanisms. Data crosses devices only when someone deliberately enables a feature that requires it.
+The timer does not need a backend to perform its main job. Browser history stays on the current device. Personal Apple history can use private iCloud continuity across the person's own devices, while optional Partner Sync coordinates a shared timer through a separate service. The local timer remains useful offline.
 
 That separation kept the product promise legible: the free timer is useful on its own, while Partner Sync remains an explicit choice rather than hidden infrastructure.
 

@@ -12,6 +12,7 @@ startingDate: "22 Aug 2026"
 githubUrl: "https://github.com/santi020k/og"
 liveDemoUrl: "https://og.santi020k.com/"
 typesId: "personal"
+purpose: "developer-tools"
 relevanceWeight: 80
 impactMetrics: [
   "Generates SVG, PNG, WebP, JPEG, and AVIF through project-owned renderers",

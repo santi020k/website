@@ -7,10 +7,12 @@ test('homepage keeps project discovery and reading connected to real content', a
   const work = page.locator('[data-home-showcase="work"]')
   const projects = page.locator('[data-home-showcase="projects"]')
   const writing = page.locator('[data-home-writing]')
+  const latestWriting = writing.getByRole('list', { name: 'Latest writing' })
 
   await expect(work.locator('a[href^="/portfolio/"]')).toHaveCount(4)
   await expect(projects.locator('a[href^="/portfolio/"]')).toHaveCount(4)
-  await expect(writing.locator('ol a')).toHaveCount(4)
+  await expect(latestWriting.getByRole('link')).toHaveCount(4)
+  await expect(writing.getByRole('region', { name: 'Start here' }).getByRole('link')).toHaveCount(3)
   await expect(writing.locator('a[href="/feed.xml"]')).toHaveText('Follow via RSS')
 
   const project = work.locator('[data-showcase-feature]')
@@ -21,8 +23,8 @@ test('homepage keeps project discovery and reading connected to real content', a
   await expect(page.locator('main h1')).toContainText(projectTitle)
   await page.goBack()
 
-  const article = writing.locator('ol a').first()
-  const articleTitle = await article.locator('h3').innerText()
+  const article = latestWriting.getByRole('link').first()
+  const articleTitle = await article.getByRole('heading', { level: 4 }).innerText()
   const articlePath = await article.getAttribute('href')
   await article.click()
   await expect(page).toHaveURL(new URL(articlePath ?? '', page.url()).href)

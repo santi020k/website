@@ -7,6 +7,10 @@ coverImage:
   src: "./cover.webp"
 tags: ["developer-experience", "developer-tools", "open-source", "automation", "design-systems"]
 postType: "Deep Dive"
+startHere:
+  order: 1
+  label: "How I build"
+  reason: "The shared tools and boundaries that connect my projects without turning them into one system."
 seriesId: "the-santi020k-way"
 seriesOrder: 14
 ---

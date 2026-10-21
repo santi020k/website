@@ -6,6 +6,9 @@ test('footer preserves contact destinations, profile identity, and keyboard navi
   await page.goto('/')
   const footer = page.locator('[data-site-footer]')
   const contact = footer.locator('.maker-footer-action')
+  await expect(footer.locator('.maker-footer-contact')).toContainText(
+    'Tell me about an engineering role, a product collaboration, or a speaking invitation.'
+  )
   await expect(contact).toHaveAccessibleName('Let’s talk')
   await expect(contact).toHaveAttribute('href', /^https:\/\/api\.whatsapp\.com\/send\?/)
   await expect(contact).toHaveAttribute('rel', /noopener/)

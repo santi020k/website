@@ -5,6 +5,7 @@ import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
 import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSpotlight.astro'
 import ProjectCaseStudy from '@/components/molecules/ProjectCaseStudy.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
+import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
@@ -44,6 +45,11 @@ const socialImage = getSocialImageURL(
 )
 
 const { headings } = await render(project)
+
+const projectHeadings = project.data.previews ?
+  [{ depth: 2, slug: 'product-previews', text: 'Inside the product' }, ...headings] :
+  headings
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)
 const hasLiveDemo = Boolean(project.data.liveDemoUrl) && project.data.typesId !== 'community'
@@ -134,6 +140,8 @@ mainClass="remaining-pages remaining-pages--reading"
 
           <ProjectCaseStudy rows={caseStudyRows} />
 
+          {project.data.previews && <ProjectPreviews previews={project.data.previews} />}
+
           <div class="prose-project prose-santi max-w-none">
             <slot />
           </div>
@@ -148,7 +156,7 @@ mainClass="remaining-pages remaining-pages--reading"
         />
       </div>
 
-      <ProjectSidebar headings={headings} project={project} />
+      <ProjectSidebar headings={projectHeadings} project={project} />
     </section>
   </article>
 

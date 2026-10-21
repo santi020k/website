@@ -47,7 +47,7 @@ test('editorial project cards keep concise copy and a single named destination',
   await expect(project).toHaveCount(1)
   await expect(project).toHaveAttribute('href', '/portfolio/postlens/')
   await expect(postlens.locator('p')).toHaveText(
-    'A private photo studio for iPhone. Choose your best shots, refine them, and compose layouts ready to share.'
+    'A private photo studio for iPhone and iPad. Choose your best shots, refine them, and compose layouts ready to share.'
   )
   await expect(postlens.getByRole('list', { name: 'Core technologies' }).getByRole('listitem')).toHaveText([
     'Swift', 'SwiftUI', 'iOS'
@@ -56,7 +56,7 @@ test('editorial project cards keep concise copy and a single named destination',
 
   // Keep the complete case-study description independent of its short gallery copy.
   await project.click()
-  await expect(screen.locator('meta[name="description"]')).toHaveAttribute('content', /Built an iPhone-first private visual content studio/)
+  await expect(screen.locator('meta[name="description"]')).toHaveAttribute('content', /Built a private visual content studio for iPhone and iPad/)
 })
 
 test('editorial project cards retain their full text and link at enlarged mobile text sizes', async ({ page: screen }) => {
