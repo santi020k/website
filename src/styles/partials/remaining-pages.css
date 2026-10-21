@@ -379,13 +379,12 @@
 @container (min-width: 40rem) {
   [data-post-cover-caption] { display: flex; }
 }
-/* Project cover metadata sits side by side while each group has about 7rem,
-   stacks when it does not, and is omitted when enlarged text leaves no room on
-   the image. Timeline and type remain in the project details rail. */
+/* Reserve enough image height for the enlarged logo above the duplicate caption.
+   Narrow covers and enlarged text yield to the metadata above and in the rail. */
 [data-project-cover] { container-type: inline-size; }
 [data-project-cover-caption] { display: none; }
 [data-project-cover-caption] > * { flex: 1 1 7rem; min-width: 0; overflow-wrap: anywhere; }
-@container (min-width: 17rem) {
+@container (min-width: 44rem) {
   [data-project-cover-caption] { display: flex; }
 }
 /* The featured story belongs to the hero's single surface. */

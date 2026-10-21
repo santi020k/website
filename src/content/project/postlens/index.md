@@ -34,6 +34,7 @@ coverImage:
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
+  logoScale: 1.2
   logoSurface: "dark"
   alt: "PostLens camera logo on a dark geometric cover with coral accents"
   ogImage: "./cover.webp"

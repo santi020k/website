@@ -29,6 +29,7 @@ coverImage:
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
+  logoScale: 1.35
   logoSurface: "dark"
   alt: "Dep Beacon logo on a dark blue geometric cover"
   ogImage: "./cover.webp"

@@ -257,6 +257,51 @@ const resolveLogoPath = (projectDirectory, coverImage) => {
   return path.resolve(projectDirectory, configuredLogo)
 }
 
+/** @param {string} logoPath */
+const openLogo = async logoPath => {
+  const metadata = await sharp(logoPath).metadata()
+  const longestSide = Math.max(metadata.width ?? 1, metadata.height ?? 1)
+  const density = metadata.format === 'svg' ? Math.round(Math.min(2400, 72 * 1600 / longestSide)) : 72
+
+  return sharp(logoPath, { density })
+}
+
+/** @param {string} logoPath */
+export const getLogoBounds = async logoPath => {
+  const logo = await openLogo(logoPath)
+
+  const { data, info } = await logo
+    .ensureAlpha()
+    .extractChannel('alpha')
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+
+  let left = info.width
+  let top = info.height
+  let right = -1
+  let bottom = -1
+
+  for (let index = 0; index < data.length; index += 1) {
+    // Ignore nearly invisible fringe pixels when measuring the artwork.
+    if (data[index] <= 16) continue
+
+    const x = index % info.width
+    const y = Math.floor(index / info.width)
+
+    left = Math.min(left, x)
+
+    top = Math.min(top, y)
+
+    right = Math.max(right, x)
+
+    bottom = Math.max(bottom, y)
+  }
+
+  if (right < left || bottom < top) throw new Error(`Logo has no visible artwork: ${logoPath}`)
+
+  return { height: bottom - top + 1, left, top, width: right - left + 1 }
+}
+
 export const discoverProjects = async (projectsRoot = PROJECTS_ROOT) => {
   const entries = await fs.readdir(projectsRoot, { withFileTypes: true })
 
@@ -283,6 +328,11 @@ export const discoverProjects = async (projectsRoot = PROJECTS_ROOT) => {
     }
 
     const logoPath = resolveLogoPath(directory, coverImage)
+    const logoScale = coverImage.logoScale ?? 1
+
+    if (typeof logoScale !== 'number' || !Number.isFinite(logoScale) || logoScale < 0.75 || logoScale > 1.5) {
+      throw new Error(`${slug}: coverImage.logoScale must be between 0.75 and 1.5`)
+    }
 
     await fs.access(logoPath)
 
@@ -295,7 +345,9 @@ export const discoverProjects = async (projectsRoot = PROJECTS_ROOT) => {
       description,
       directory,
       logoAspect: getString(coverImage, 'logoAspect') ?? 'square',
+      logoBounds: await getLogoBounds(logoPath),
       logoPath,
+      logoScale,
       logoSurface: getString(coverImage, 'logoSurface') ?? 'dark',
       role: getString(frontmatter, 'role') ?? 'Engineering project',
       slug,
@@ -350,8 +402,9 @@ const getLogoBox = (project, variant) => {
   if (variant.kind === 'hero' || variant.kind === 'portrait') {
     // Keep the complete mark inside the center crop used by square portfolio cards.
     const size = Math.min(variant.width, variant.height)
-    const width = Math.round(size * (project.logoAspect === 'wide' ? 0.78 : 0.38))
-    const height = Math.round(size * (project.logoAspect === 'tall' ? 0.48 : 0.38))
+    const scale = project.logoScale ?? 1
+    const width = Math.round(size * Math.min(0.92, (project.logoAspect === 'wide' ? 0.92 : 0.58) * scale))
+    const height = Math.round(size * Math.min(0.84, (project.logoAspect === 'tall' ? 0.66 : 0.58) * scale))
 
     return {
       height,
@@ -369,7 +422,7 @@ const getLogoBox = (project, variant) => {
     }
   }
 
-  const paddingRatio = project.logoAspect === 'wide' ? 0.12 : 0.2
+  const paddingRatio = project.logoAspect === 'wide' ? 0.06 : 0.08
 
   return { ...box, padding: Math.round(Math.min(box.width, box.height) * paddingRatio) }
 }
@@ -478,8 +531,10 @@ export const buildProjectSvg = (project, variant) => variant.kind === 'thumbnail
 const buildLogoComposite = async (project, logoBox) => {
   const width = logoBox.width - (logoBox.padding * 2)
   const height = logoBox.height - (logoBox.padding * 2)
+  const logo = await openLogo(project.logoPath)
 
-  const input = await sharp(project.logoPath)
+  const input = await logo
+    .extract(project.logoBounds)
     .resize(width, height, {
       background: { alpha: 0, b: 0, g: 0, r: 0 },
       fit: 'contain',

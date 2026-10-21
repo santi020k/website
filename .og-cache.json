@@ -1174,13 +1174,13 @@
     "portfolio/dep-beacon-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "83676449e3b0fd46c5ee8ef1ff755b32e142b587da422c8a120856b9e2958c68",
-      "fingerprint": "032eb93b9af6750303e8bc993cc87e53bd50b99a7d09470c76924b7f470180d3",
+      "fingerprint": "39940f00954042acd8d8267dae1c7ab6422764f5878e750cf3b5f180176a0120",
       "output": "portfolio/dep-beacon-logo.webp"
     },
     "portfolio/dep-beacon.webp": {
       "baseDirectory": "public/og",
       "digest": "83676449e3b0fd46c5ee8ef1ff755b32e142b587da422c8a120856b9e2958c68",
-      "fingerprint": "032eb93b9af6750303e8bc993cc87e53bd50b99a7d09470c76924b7f470180d3",
+      "fingerprint": "39940f00954042acd8d8267dae1c7ab6422764f5878e750cf3b5f180176a0120",
       "output": "portfolio/dep-beacon.webp"
     },
     "portfolio/eslint-config-basic-logo.webp": {
@@ -1222,13 +1222,13 @@
     "portfolio/lumen-ui-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "c01860f76486dc13a3ea5851555ccccb21369a9365b7438fb7d483d3bde7abc6",
-      "fingerprint": "8bf1f9a953f277eddde27cf235d310dd997fbdf083d9d878e666cb50b119679c",
+      "fingerprint": "94eb14a6a30eb1ad3f6fd3f4595088ce5223f6a1fe76181d50227c220f1f6394",
       "output": "portfolio/lumen-ui-logo.webp"
     },
     "portfolio/lumen-ui.webp": {
       "baseDirectory": "public/og",
       "digest": "c01860f76486dc13a3ea5851555ccccb21369a9365b7438fb7d483d3bde7abc6",
-      "fingerprint": "8bf1f9a953f277eddde27cf235d310dd997fbdf083d9d878e666cb50b119679c",
+      "fingerprint": "94eb14a6a30eb1ad3f6fd3f4595088ce5223f6a1fe76181d50227c220f1f6394",
       "output": "portfolio/lumen-ui.webp"
     },
     "portfolio/nebular-logo.webp": {
@@ -1282,37 +1282,37 @@
     "portfolio/postlens-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "b038135352037b461b4ee7b4ff665ad199f57ff436f7844c12fd796f935e585b",
-      "fingerprint": "42f79c18a8b75d1491e1e830acdd7f6e4b9754267390ed919e6d3907de94ceb8",
+      "fingerprint": "2ae19baaeb12b4312fde2fd13d9c103acd2628093571ae7c1a17343efd8d4e8b",
       "output": "portfolio/postlens-logo.webp"
     },
     "portfolio/postlens.webp": {
       "baseDirectory": "public/og",
       "digest": "b038135352037b461b4ee7b4ff665ad199f57ff436f7844c12fd796f935e585b",
-      "fingerprint": "42f79c18a8b75d1491e1e830acdd7f6e4b9754267390ed919e6d3907de94ceb8",
+      "fingerprint": "2ae19baaeb12b4312fde2fd13d9c103acd2628093571ae7c1a17343efd8d4e8b",
       "output": "portfolio/postlens.webp"
     },
     "portfolio/quality-logo.webp": {
       "baseDirectory": "public/og",
-      "digest": "ef785720d18a05bb2cb76ee46c81b0933f37b01b389750e3eeda4aaab833fdf8",
-      "fingerprint": "b7bfaefcc23eb423da5b1f2ebab8efa67bc14bb41845b714612276a12e31949b",
+      "digest": "ef602bd87ecc4cb1fb6870aa0c95cd64241915644eec0f1a675a87fbc5e113ba",
+      "fingerprint": "99845e2ac979914f23ba5be79795d4a21390bc364a6fe5117c99a2b047b9424b",
       "output": "portfolio/quality-logo.webp"
     },
     "portfolio/quality.webp": {
       "baseDirectory": "public/og",
-      "digest": "ef785720d18a05bb2cb76ee46c81b0933f37b01b389750e3eeda4aaab833fdf8",
-      "fingerprint": "b7bfaefcc23eb423da5b1f2ebab8efa67bc14bb41845b714612276a12e31949b",
+      "digest": "ef602bd87ecc4cb1fb6870aa0c95cd64241915644eec0f1a675a87fbc5e113ba",
+      "fingerprint": "99845e2ac979914f23ba5be79795d4a21390bc364a6fe5117c99a2b047b9424b",
       "output": "portfolio/quality.webp"
     },
     "portfolio/react-js-colombia-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "a8d1a248128527c624fa0f977730ba3afa4685612f20a84365e0e3b63992e11a",
-      "fingerprint": "4ea8f9e7cef771c8c73b0a870d6d7ddeaad97c238127d0bf873601020738e72e",
+      "fingerprint": "5ed4190195fb8e97ebb75629a83d4c5bd8b9781320d43af4345c962f11d6e8a2",
       "output": "portfolio/react-js-colombia-logo.webp"
     },
     "portfolio/react-js-colombia.webp": {
       "baseDirectory": "public/og",
       "digest": "a8d1a248128527c624fa0f977730ba3afa4685612f20a84365e0e3b63992e11a",
-      "fingerprint": "4ea8f9e7cef771c8c73b0a870d6d7ddeaad97c238127d0bf873601020738e72e",
+      "fingerprint": "5ed4190195fb8e97ebb75629a83d4c5bd8b9781320d43af4345c962f11d6e8a2",
       "output": "portfolio/react-js-colombia.webp"
     },
     "portfolio/roadscore-logo.webp": {

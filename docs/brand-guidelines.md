@@ -196,12 +196,18 @@ as a fallback for legacy fixtures.
 Generate project artwork with `pnpm run generate:project-images` (optionally followed by project
 slugs). It reads Markdown and MDX entries and preserves each source logo. Horizontal and portrait
 covers use an open logo composition on a solid brand surface, with restrained folds at the edges.
-Light-surface logos retain a light canvas. Wide logos and tall marks have separate sizing;
-keep the whole mark within the central square crop used by portfolio cards. Avoid decorative
+Light-surface logos retain a light canvas. Scale the visible artwork, excluding transparent canvas
+padding, and rasterize SVG sources at cover resolution. Square marks occupy 58% of the short edge,
+wide word marks up to 92%, and tall marks up to 66%. For marks with visually small symbols inside
+their icon surfaces, `coverImage.logoScale` can optically adjust horizontal and portrait covers
+from 0.75 to 1.5; the generator caps the final bounds to preserve the central square crop.
+Review the complete set together rather than forcing every shape to the same width. Avoid decorative
 interface panels, padded logo tiles, blur, and baked-in bottom overlays. Thumbnails retain project
 metadata for their standalone and social-image uses, with the same geometric background.
 The editorial Projects gallery uses the text-free horizontal artwork for every card; project
 titles, descriptions, and technologies remain in the accessible HTML below each image.
+On project detail pages, omit the duplicate cover caption below 44rem of available width so
+larger logos stay unobstructed. The timeline and project type remain in the page metadata.
 
 Source logos should have transparent outer canvases so they blend into the declared brand
 surface. Preserve backgrounds that belong to the app icon itself, but avoid opaque or partially
@@ -210,6 +216,9 @@ Android foreground asset from `apps/mobile/assets/images/android-icon-foreground
 RoadScore repository. Nebular retains its original white raster mark and lettering, with the
 gray backdrop removed from the alpha channel. After replacing a source logo, regenerate its
 project covers and OG cards.
+
+Auth retains its original vector lock. Quality uses the original vector from
+`apps/site/public/logo.svg` in the Quality repository so both stay sharp at larger sizes.
 
 Project colors must stay scoped to a project surface. Do not recolor global navigation, shared
 buttons, or the Santi020k logo to match the current project.
