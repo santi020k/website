@@ -147,11 +147,6 @@ body:has([data-about-page]) > div > .grid-fade {
 .about-page .about-principle [data-principle-index] { color: var(--about-accent); letter-spacing: 0.13em; }
 
 @utility about-testimonials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
-.about-page [data-testimonial] { padding: 2rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: 1.25rem; background: hsl(var(--surface)); box-shadow: none; }
-.about-page [data-testimonial-quote] { color: var(--about-accent); }
-.about-page [data-testimonial] blockquote p { font-weight: 400; font-size: 0.9375rem; line-height: 1.85; }
-.about-page [data-testimonial] [data-testimonial-author] { font-weight: 600; }
-.about-page [data-testimonial] .text-ink-muted { line-height: 1.7; color: hsl(var(--ink-soft)); }
 
 @utility about-next { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 3rem; margin-top: 6.5rem; padding-block: 3rem 1rem; border-top: 1px solid hsl(var(--line) / 0.65); }
 .about-next > div > p:last-child { max-width: 29rem; margin-top: 1rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
@@ -184,7 +179,6 @@ body:has([data-about-page]) > div > .grid-fade {
   .about-section-heading { margin-bottom: 2rem; }
   .about-section-heading > p { justify-self: start; max-width: 100%; }
   .about-lanes, .about-principles, .about-testimonials { grid-template-columns: 1fr; }
-  .about-page [data-testimonial] { padding: 1.5rem; }
   .about-next { margin-top: 4rem; padding-top: 2rem; }
 }
 
@@ -199,7 +193,6 @@ body:has([data-about-page]) > div > .grid-fade {
   .about-section-heading { margin-bottom: 2rem; }
   .about-section-heading > p { justify-self: start; max-width: 100%; }
   .about-lanes, .about-principles, .about-testimonials { grid-template-columns: minmax(0, 1fr); }
-  .about-page [data-testimonial] { padding: 1.5rem; }
   .about-next { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
 
@@ -214,7 +207,6 @@ body:has([data-about-page]) > div > .grid-fade {
   .about-eyebrow { letter-spacing: 0.08em; }
   .about-portrait figcaption { flex-direction: column; gap: 0.25rem; }
   .about-portrait figcaption > span + span { text-align: left; }
-  .about-page [data-testimonial] { padding: 1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

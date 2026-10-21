@@ -146,6 +146,18 @@ narrow-column insets. Cards remain passive, without hover changes. Use the same
 phrase boundary without removing words or punctuation. Keep About's open editorial
 principles in their existing presentation.
 
+### Split editorial testimonial cards
+
+Testimonials use one opaque Lumen Card with a fine border and 1.375rem corners.
+At card widths of 32.5rem or more, place the author in a 10.875rem tinted column
+beside the complete quote. Keep the initials or optimized avatar, name, role,
+and relationship together; separate the relationship with a fine rule. The quote
+uses 1.0625rem text with 1.8125rem leading and a small decorative quote mark.
+On narrower cards, stack the author header above the quote, using 1rem text with
+1.75rem leading. Container queries also adapt to enlarged text: tighten the insets
+and stack the avatar above the identity when needed. Preserve all quoted words,
+use readable metadata in both themes, and keep the cards passive on hover.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

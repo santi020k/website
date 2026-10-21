@@ -17,64 +17,115 @@ const { quote, authorName, role, relationship, avatarInitials, avatarUrl } = Ast
 
 <Card
   as="article"
-  class="
-    flex h-full flex-col rounded-[1.75rem] p-6
-    sm:p-7
-  "
   data-testimonial
   glass={false}
   variant="unstyled"
 >
-  {/* Decorative quote mark */}
-  <div
-    aria-hidden="true"
-    class="mb-4 text-brand/15"
-    data-testimonial-quote
-  >
-    <Icon class="size-8" name="quote" size="xl" />
-  </div>
-
-  <blockquote class="flex-1">
-    <p class="
-      text-base/7 font-medium text-ink
-      sm:text-[0.95rem]/[1.75]
-    "
-    >
-      "{quote}"
-    </p>
-  </blockquote>
-
-  <div class="mt-6 flex items-center gap-4 border-t border-line/22 pt-5">
-    {avatarUrl ?
-      (
-        <Avatar
-          class="
-            size-12 shrink-0 rounded-full object-cover ring-2 ring-brand/15
-          "
-        >
-          <Image
-            alt={authorName}
-            decoding="async"
-            height={48}
-            loading="lazy"
-            src={avatarUrl}
-            width={48}
-            inferSize={true}
+  <div data-testimonial-layout>
+    <header data-testimonial-identity>
+      {avatarUrl ?
+        (
+          <Avatar data-testimonial-avatar aria-hidden="true">
+            <Image
+              alt=""
+              decoding="async"
+              height={48}
+              loading="lazy"
+              src={avatarUrl}
+              width={48}
+              inferSize={true}
+            />
+          </Avatar>
+        ) :
+        (
+          <Avatar
+            data-testimonial-avatar
+            aria-hidden="true"
+            fallback={avatarInitials}
           />
-        </Avatar>
-      ) :
-      (
-        <Avatar
-          class="
-            size-12 shrink-0 bg-linear-to-br from-brand/15 to-accent/10 text-sm
-            font-semibold text-brand ring-2 ring-brand/15
-          "
-          fallback={avatarInitials}
-        />
-      )}
-    <div class="min-w-0">
-      <p data-testimonial-author class="site-label">{authorName}</p>
-      <p class="text-xs text-ink-muted">{role} · {relationship}</p>
+        )}
+      <p data-testimonial-author>{authorName}</p>
+      <p data-testimonial-role>{role}</p>
+      <p data-testimonial-relationship>{relationship}</p>
+    </header>
+
+    <div data-testimonial-body>
+      <div aria-hidden="true" data-testimonial-quote>
+        <Icon class="size-6" name="quote" />
+      </div>
+      <blockquote><p>“{quote}”</p></blockquote>
     </div>
   </div>
 </Card>
+
+<style>
+  [data-testimonial][data-slot='card'] {
+    --testimonial-accent: var(--about-accent, hsl(var(--brand)));
+    container: testimonial / inline-size;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid hsl(var(--line) / 0.65);
+    border-radius: 1.375rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    box-shadow: none;
+  }
+  [data-testimonial-layout] { display: grid; height: 100%; }
+  [data-testimonial-identity] {
+    display: grid;
+    grid-template-columns: 2.625rem minmax(0, 1fr);
+    align-content: start;
+    column-gap: 0.875rem;
+    padding: 1.375rem 1.5rem;
+    border-bottom: 1px solid hsl(var(--line) / 0.65);
+    background: color-mix(in srgb, var(--testimonial-accent) 6%, hsl(var(--surface)));
+  }
+  [data-testimonial-avatar] {
+    grid-row: 1 / 3;
+    width: 2.625rem;
+    height: 2.625rem;
+    border-radius: 50%;
+    border: 0;
+    background: color-mix(in srgb, var(--testimonial-accent) 12%, hsl(var(--surface)));
+    color: color-mix(in srgb, var(--testimonial-accent) 80%, hsl(var(--ink)));
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+  [data-testimonial] p { margin: 0; overflow-wrap: anywhere; text-wrap: pretty; }
+  [data-testimonial-author] { color: hsl(var(--ink)); font-size: 0.9375rem; line-height: 1.375rem; font-weight: 600; letter-spacing: -0.03em; }
+  [data-testimonial-identity] [data-testimonial-role] { margin-top: 0.1875rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.25rem; }
+  [data-testimonial-identity] [data-testimonial-relationship] {
+    grid-column: 1 / -1;
+    margin-top: 1.0625rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid hsl(var(--line) / 0.65);
+    color: hsl(var(--ink-soft));
+    font-size: 0.6875rem;
+    line-height: 1.125rem;
+  }
+  [data-testimonial-body] { min-width: 0; padding: 1.5rem; }
+  [data-testimonial-quote] { margin-bottom: 1rem; color: var(--testimonial-accent); }
+  [data-testimonial] blockquote { margin: 0; }
+  [data-testimonial] blockquote p { color: hsl(var(--ink)); font-size: 1rem; line-height: 1.75rem; font-weight: 400; letter-spacing: -0.025em; }
+
+  @container testimonial (width >= 32.5rem) {
+    [data-testimonial-layout] { grid-template-columns: 10.875rem minmax(0, 1fr); }
+    [data-testimonial-identity] { display: block; padding: 1.75rem 1.375rem; border-right: 1px solid hsl(var(--line) / 0.65); border-bottom: 0; }
+    [data-testimonial-avatar] { width: 3rem; height: 3rem; margin-bottom: 1.375rem; }
+    [data-testimonial-author] { font-size: 1rem; line-height: 1.4375rem; }
+    [data-testimonial-identity] [data-testimonial-role] { margin-top: 0.5rem; }
+    [data-testimonial-identity] [data-testimonial-relationship] { margin-top: 1.5625rem; padding-top: 0.9375rem; }
+    [data-testimonial-body] { padding: 1.75rem 1.875rem 1.875rem; }
+    [data-testimonial-quote] { margin-bottom: 1.25rem; }
+    [data-testimonial] blockquote p { font-size: 1.0625rem; line-height: 1.8125rem; }
+  }
+  @container testimonial (width < 18rem) {
+    [data-testimonial-identity], [data-testimonial-body] { padding: 1rem; }
+  }
+  @container testimonial (width < 14rem) {
+    [data-testimonial-identity] { grid-template-columns: minmax(0, 1fr); }
+    [data-testimonial-avatar] { grid-row: auto; margin-bottom: 0.75rem; }
+  }
+</style>
