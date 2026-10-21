@@ -25,6 +25,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
 import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
+import { rehypeProjectLedger } from './src/plugins/rehype-project-ledger'
 import { rehypeReadableTables } from './src/plugins/rehype-readable-tables'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
 import { getPostSlug } from './src/utils/posts'
@@ -252,6 +253,7 @@ export default defineConfig({
         ],
         rehypeLumenCode,
         rehypeReadableTables,
+        rehypeProjectLedger,
         rehypeUnwrapImages
       ],
       remarkPlugins: [remarkDirective, remarkAdmonitions],

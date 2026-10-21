@@ -292,6 +292,19 @@ Use plain rows without hover feedback. Tighten the margins in narrow reading col
 below 16rem of card content width, place the number above the copy. Preserve readable
 text, theme contrast, and full content when text is enlarged.
 
+### Ownership ledger project detail lists
+
+Project detail lists use full-width rows separated by fine neutral rules. A purple
+3px margin rule introduces the authored lead at 1.125rem and weight 500; the complete
+explanation sits opposite it at 0.9375rem with relaxed leading. Use a 0.9fr/1.1fr split
+with a 2rem gap. Preserve the author's copy, inline code, links, and emphasis.
+
+Below 32.5rem of list width, stack lead and explanation with aligned text insets.
+Below 18rem, tighten the margin to preserve enlarged-text reading space. Plain entries
+and standalone emphasized claims use the full row, without inventing a missing column.
+Keep nested lists and ordered-list numbering semantic. This passive composition has
+no card fill, shadow, decorative dots, or hover feedback.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

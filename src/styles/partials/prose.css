@@ -152,39 +152,43 @@
     @apply max-w-3xl text-lg/8 text-ink;
   }
 
-  & ul,
-  & ol {
-    @apply my-6 grid gap-3 pl-0;
-    list-style: none;
-    grid-template-columns: minmax(0, 1fr);
+  & [data-project-ledger] {
+    container: project-ledger / inline-size;
+    margin-block: 1.5rem;
+    padding: 0;
+    border-block: 1px solid hsl(var(--line));
   }
-
-  @media (min-width: 768px) {
-    & ul,
-    & ol {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+  & ul[data-project-ledger] { list-style: none; }
+  & ol[data-project-ledger] { padding-inline-start: 1.5rem; list-style: decimal; }
+  & [data-project-ledger] > li { margin: 0; padding: 1.625rem 0; }
+  & [data-project-ledger] > li + li { border-top: 1px solid hsl(var(--line)); }
+  & [data-project-ledger-row] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.125rem; }
+  & [data-project-ledger-split] { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 2rem; }
+  & [data-project-ledger-lead] {
+    min-width: 0;
+    border-inline-start: 3px solid hsl(var(--brand));
+    padding-inline-start: 1.125rem;
+    color: hsl(var(--ink));
+    font-size: 1.125rem;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: -0.02em;
   }
-
-  & li {
-    @apply relative rounded-[1.35rem] border border-line/55 bg-surface/78 px-5 py-4 text-base/7 text-ink-soft;
-    box-shadow: 0 10px 24px hsl(230 30% 8% / 0.03);
-    list-style: none;
-    padding-left: 2.5rem;
+  & [data-project-ledger-lead] > strong { color: inherit; font-weight: inherit; }
+  & [data-project-ledger] :is(a, code) { @apply dark:text-accent; }
+  @variant dark {
+    & [data-project-ledger-lead] { border-inline-start-color: hsl(var(--accent)); }
   }
-
-  & li::before {
-    content: "";
-    position: absolute;
-    /* Center on the first line, including when rem-based text is enlarged. */
-    top: calc(1rem + 0.5lh);
-    transform: translateY(-50%);
-    left: 1.2rem;
-    width: 0.42rem;
-    height: 0.42rem;
-    border-radius: 9999px;
-    background: hsl(var(--brand));
-    box-shadow: 0 0 0 6px hsl(var(--brand) / 0.12);
+  & [data-project-ledger-detail] { min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.733; }
+  & [data-project-ledger-detail] > p { margin: 0; color: inherit; font-size: inherit; line-height: inherit; }
+  & [data-project-ledger-detail] > p + p { margin-top: 1rem; }
+  @container project-ledger (width < 32.5rem) {
+    & [data-project-ledger-split] { grid-template-columns: minmax(0, 1fr); gap: 1.125rem; }
+    & [data-project-ledger-split] > [data-project-ledger-detail] { padding-inline-start: calc(1.125rem + 3px); }
+  }
+  @container project-ledger (width < 18rem) {
+    & [data-project-ledger-lead] { padding-inline-start: 0.375rem; }
+    & [data-project-ledger-split] > [data-project-ledger-detail] { padding-inline-start: calc(0.375rem + 3px); }
   }
 
   & p + ul,
