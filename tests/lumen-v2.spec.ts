@@ -21,7 +21,10 @@ test.describe('Lumen integration', () => {
 
     await page.goto('/blog/avoid-magic-strings-in-typescript-and-javascript/')
 
-    const copyButton = page.getByRole('button', { name: 'Copy link to article' })
+    const copyButton = page.locator('.editorial-detail-hero [data-ui-copy-button]')
+
+    await expect(copyButton).toHaveAccessibleName('Copy link to article')
+    await page.clock.install()
     const copyResult = page.evaluate(() => new Promise<{
       ariaLabel: string | null
       copiedLabelVisible: boolean
@@ -40,7 +43,7 @@ test.describe('Lumen integration', () => {
 
         resolve({
           ariaLabel: button.getAttribute('aria-label'),
-          copiedLabelVisible: copiedLabel ? getComputedStyle(copiedLabel).display !== 'none' : false,
+          copiedLabelVisible: copiedLabel?.checkVisibility() ?? false,
           state: button.dataset.state
         })
       }, { once: true })
@@ -57,6 +60,8 @@ test.describe('Lumen integration', () => {
       copiedLabelVisible: true,
       state: 'copied'
     })
+    await expect(copyButton.locator('[data-copied-label]')).toBeVisible()
+    await expect(copyButton).toHaveText('Copied!', { useInnerText: true })
     await expectArticleClipboard(page, browserName, '/blog/avoid-magic-strings-in-typescript-and-javascript/')
   })
 })

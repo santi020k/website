@@ -33,7 +33,7 @@ test('bounds accumulated assets without evicting the offline page or unrelated s
     await navigator.serviceWorker.ready
   })
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
-  const result = await page.evaluate(async () => {
+  await page.evaluate(async () => {
     const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
 
     if (!name) throw new Error('Missing current service worker cache')
@@ -46,15 +46,21 @@ test('bounds accumulated assets without evicting the offline page or unrelated s
 
     await (await caches.open('unrelated-cache')).put('/private', new Response('untouched'))
     await fetch('/search-index.json')
+  })
+
+  await expect.poll(() => page.evaluate(async () => {
+    const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+    if (!name) throw new Error('Missing current service worker cache')
+
+    const cache = await caches.open(name)
 
     return {
       count: (await cache.keys()).length,
       offline: Boolean(await cache.match('/offline/')),
       unrelated: await (await (await caches.open('unrelated-cache')).match('/private'))?.text()
     }
-  })
-
-  expect(result).toEqual({ count: 256, offline: true, unrelated: 'untouched' })
+  })).toEqual({ count: 256, offline: true, unrelated: 'untouched' })
 })
 
 test('serves a partial PDF response after caching the complete file', async ({ page }) => {

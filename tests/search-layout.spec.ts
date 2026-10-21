@@ -20,8 +20,7 @@ const invalidIndexes: { name: string, response: unknown }[] = [
   { name: 'a non-string tag', response: [{ ...searchEntries[0], tags: [42] }] },
   { name: 'an external destination', response: [{ ...searchEntries[0], path: '//example.com/' }] },
   { name: 'a backslash destination', response: [{ ...searchEntries[0], path: '/\\example.com/' }] },
-  { name: 'an unsafe cover URL', response: [{ ...searchEntries[0], coverUrl: 'javascript:alert(1)' }] },
-  { name: 'an invalid image dimension', response: [{ ...searchEntries[0], coverWidth: -1 }] }
+  { name: 'an unsafe cover URL', response: [{ ...searchEntries[0], coverUrl: 'javascript:alert(1)' }] }
 ]
 
 for (const { name, response } of invalidIndexes) {

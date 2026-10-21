@@ -87,7 +87,7 @@ const storeResponse = async (cache, request, response) => {
   try {
     if (!cache) return
 
-    await cache.put(request, response.clone())
+    await cache.put(request, response)
 
     // Hashed assets change between deployments. Bound the cache without evicting
     // the small install-time offline shell or touching another app's storage.
@@ -101,45 +101,51 @@ const storeResponse = async (cache, request, response) => {
   }
 }
 
+/** @param {Request} request */
+const fetchAndCache = request => {
+  const cache = openCache()
+  const response = fetch(request)
+
+  // Clone before handing the response to the browser, then persist independently.
+  // waitUntil keeps the worker alive without delaying HTML or download streaming.
+  const revalidate = response.then(response => {
+    if (!response.ok) return
+
+    const copy = response.clone()
+
+    return cache.then(cache => storeResponse(cache, request, copy))
+  }).catch(() => undefined)
+
+  return { cache, response, revalidate }
+}
+
 /**
  * @param {Request} request
  * @param {boolean} [pageFallback]
  */
-const networkFirst = async (request, pageFallback = false) => {
-  const cache = await openCache()
+const networkFirst = (request, pageFallback = false) => {
+  const network = fetchAndCache(request)
 
-  try {
-    const response = await fetch(request)
+  return {
+    response: network.response.catch(async () => {
+      const cache = await network.cache
 
-    if (response.ok) {
-      await storeResponse(cache, request, response)
-    }
-
-    return response
-  } catch {
-    return (await matchCached(cache, request)) ??
-      (pageFallback ? await matchCached(cache, '/offline/') : undefined) ?? Response.error()
+      return (await matchCached(cache, request)) ??
+        (pageFallback ? await matchCached(cache, '/offline/') : undefined) ?? Response.error()
+    }),
+    revalidate: network.revalidate
   }
 }
 
 /** @param {Request} request */
 const staleWhileRevalidate = request => {
-  const cachePromise = openCache()
-  const cachedResponsePromise = cachePromise.then(cache => matchCached(cache, request))
-
-  const networkResponsePromise = fetch(request)
-    .then(async response => {
-      if (response.ok) {
-        await storeResponse(await cachePromise, request, response)
-      }
-
-      return response
-    })
-    .catch(async () => (await cachedResponsePromise) ?? Response.error())
+  const network = fetchAndCache(request)
+  const cachedResponse = network.cache.then(cache => matchCached(cache, request))
+  const freshResponse = network.response.catch(async () => (await cachedResponse) ?? Response.error())
 
   return {
-    response: cachedResponsePromise.then(cachedResponse => cachedResponse ?? networkResponsePromise),
-    revalidate: networkResponsePromise.then(() => undefined)
+    response: cachedResponse.then(cached => cached ?? freshResponse),
+    revalidate: network.revalidate
   }
 }
 
@@ -152,19 +158,12 @@ self.addEventListener('fetch', event => {
 
   // Mutable downloads and data must honor their network revalidation policy.
   // Never substitute an HTML offline page for missing JSON, feeds, or PDF bytes.
-  if (/\.(?:pdf|json|xml|webmanifest)$/.test(url.pathname)) {
-    event.respondWith(networkFirst(event.request))
+  const mutableResource = /\.(?:pdf|json|xml|webmanifest)$/.test(url.pathname)
+  const pageRequest = event.request.mode === 'navigate' || isPageRequest(url)
 
-    return
-  }
-
-  if (event.request.mode === 'navigate' || isPageRequest(url)) {
-    event.respondWith(networkFirst(event.request, true))
-
-    return
-  }
-
-  const { response, revalidate } = staleWhileRevalidate(event.request)
+  const { response, revalidate } = mutableResource || pageRequest ?
+    networkFirst(event.request, !mutableResource && pageRequest) :
+    staleWhileRevalidate(event.request)
 
   event.waitUntil(revalidate)
 

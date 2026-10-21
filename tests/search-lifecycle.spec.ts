@@ -7,8 +7,7 @@ test('search artwork does not repeat the result title in its accessible name', a
     description: 'Practical notes.',
     tags: [],
     type: 'post',
-    coverUrl: '/favicon.webp',
-    coverAlt: 'Decorative artwork for the Astro guide'
+    coverUrl: '/favicon.webp'
   }] }))
   await page.goto('/?q=Astro')
   const result = page.locator('[data-site-search-result]')

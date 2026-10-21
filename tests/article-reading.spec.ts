@@ -76,7 +76,7 @@ test.describe('Article tables without JavaScript', () => {
 
 const clipboardCases = [
   { outcome: 'resolve', label: 'Copied! Article link copied', visible: 'Copied!', value: `https://santi020k.com${CODE_ARTICLE}` },
-  { outcome: 'reject', label: 'Copy link failed. Select and copy the address manually.', visible: 'Copy link', value: null }
+  { outcome: 'reject', label: 'Copy link failed. Select and copy the address manually.', visible: 'Copy failed', value: null }
 ]
 
 for (const { outcome, label, visible, value } of clipboardCases) {
@@ -103,7 +103,8 @@ for (const { outcome, label, visible, value } of clipboardCases) {
     await copy.click()
 
     await expect(copy).toHaveAccessibleName(label)
-    await expect(copy).toContainText(visible)
+    await expect(copy).toHaveText(visible, { useInnerText: true })
+    await expect(copy.getByText(visible, { exact: true })).toBeVisible()
     expect(await page.evaluate(() => sessionStorage.getItem('article-copy-value'))).toBe(value)
 
     await page.clock.fastForward(2000)

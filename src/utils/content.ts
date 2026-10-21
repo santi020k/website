@@ -2,7 +2,8 @@
  * Cached content collection helpers.
  *
  * During production builds, `getCollection` is called once per collection per
- * process lifetime and the result is stored in a module-level cache. In
+ * process lifetime and its pending result is stored in a module-level cache.
+ * Failed loads are cleared so later calls can retry. In
  * development, each call delegates to Astro so content edits are reflected by
  * HMR instead of leaving the long-running dev server with stale entries.
  * Each caller receives its own array so route-specific sorting and filtering
@@ -16,57 +17,38 @@
  */
 import { type CollectionEntry, getCollection } from 'astro:content'
 
-// Module-level caches — populated on first call, reused for the rest of the build.
-let _posts: CollectionEntry<'post'>[] | null = null
-let _projects: CollectionEntry<'project'>[] | null = null
-let _series: CollectionEntry<'series'>[] | null = null
+/** Share pending build loads and retry failures; development always asks Astro for fresh content. */
+const cacheCollection = <Entry>(load: () => Promise<Entry[]>) => {
+  let pending: Promise<Entry[]> | null = null
 
-/**
- * Returns all published (non-draft) blog posts sorted from newest to oldest.
- * The result is cached for the duration of the Astro build process.
- */
-export const getCachedPosts = async (): Promise<CollectionEntry<'post'>[]> => {
-  if (import.meta.env.PROD && _posts) return [..._posts]
+  return async (): Promise<Entry[]> => {
+    if (!import.meta.env.PROD) return [...await load()]
 
+    pending ??= load().catch((error: unknown) => {
+      pending = null
+
+      throw error
+    })
+
+    return [...await pending]
+  }
+}
+
+/** Returns published posts from newest to oldest, with drafts available during development. */
+export const getCachedPosts = cacheCollection(async (): Promise<CollectionEntry<'post'>[]> => {
   const now = new Date()
   const all = await getCollection('post', ({ data }) => import.meta.env.PROD ? !data.draft && data.publishDate <= now : true)
 
-  const posts = [...all].sort(
+  return [...all].sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
   )
+})
 
-  if (import.meta.env.PROD) _posts = posts
+/** Returns published projects, with drafts available during development. */
+export const getCachedProjects = cacheCollection(() => getCollection('project', ({ data }) => import.meta.env.PROD ? !data.draft : true))
 
-  return [...posts]
-}
-
-/**
- * Returns all published (non-draft) projects.
- * The result is cached for the duration of the Astro build process.
- */
-export const getCachedProjects = async (): Promise<CollectionEntry<'project'>[]> => {
-  if (import.meta.env.PROD && _projects) return [..._projects]
-
-  const projects = await getCollection('project', ({ data }) => import.meta.env.PROD ? !data.draft : true)
-
-  if (import.meta.env.PROD) _projects = projects
-
-  return [...projects]
-}
-
-/**
- * Returns non-draft series in production, including drafts during development.
- * The result is cached for the duration of the Astro build process.
- */
-export const getCachedSeries = async (): Promise<CollectionEntry<'series'>[]> => {
-  if (import.meta.env.PROD && _series) return [..._series]
-
-  const series = await getCollection('series', ({ data }) => import.meta.env.PROD ? !data.draft : true)
-
-  if (import.meta.env.PROD) _series = series
-
-  return [...series]
-}
+/** Returns published series, with drafts available during development. */
+export const getCachedSeries = cacheCollection(() => getCollection('series', ({ data }) => import.meta.env.PROD ? !data.draft : true))
 
 /**
  * Returns posts that share at least one tag with the given tag list,

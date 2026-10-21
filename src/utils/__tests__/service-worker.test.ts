@@ -71,6 +71,31 @@ describe('Service worker fetch handling', () => {
     }
   )
 
+  test.each(['/fresh/', '/pdf/cv.pdf', '/_astro/new.js'])(
+    'returns %s before a slow cache write completes', async path => {
+      const worker = setupWorker()
+      let finishWrite: () => void = () => {
+        throw new Error('Write did not start')
+      }
+      const write = new Promise<void>(resolve => {
+        finishWrite = resolve
+      })
+
+      worker.cache.put.mockReturnValue(write)
+      worker.fetch.mockResolvedValue(new Response('fresh response'))
+      const event = worker.dispatch(makeRequest(path))
+
+      expect(await (await event.response)?.text()).toBe('fresh response')
+      expect(worker.cache.put).toHaveBeenCalledTimes(1)
+      expect(worker.cache.keys).not.toHaveBeenCalled()
+      expect(event.lifetime).toHaveLength(1)
+      finishWrite()
+      await Promise.all(event.lifetime)
+      expect(worker.cache.keys).toHaveBeenCalledTimes(1)
+      expect(await worker.cache.put.mock.calls[0]?.[1].text()).toBe('fresh response')
+    }
+  )
+
   test('serves a cached asset offline', async () => {
     const worker = setupWorker()
 

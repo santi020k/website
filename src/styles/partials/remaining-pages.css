@@ -211,7 +211,6 @@
   .editorial-page-description { font-size: 0.875rem; }
   .remaining-pages .editorial-policy-row { grid-template-columns: 1.5rem minmax(0, 1fr); gap: 0.75rem; }
   .editorial-policy-row p { grid-column: 2; }
-  .remaining-pages .editorial-detail-hero { gap: 2rem; }
 }
 /* Policy rows keep the three-column ledger only while the list has 42rem in
    root-relative units. Enlarged text stacks each heading above its copy, and a

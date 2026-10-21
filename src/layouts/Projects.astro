@@ -75,7 +75,7 @@ const projectSchema: Record<string, unknown> = {
   name: project.data.title,
   description: metaDescription,
   dateCreated: project.data.startingDate.toISOString(),
-  ...(project.data.endingDate ? { dateModified: project.data.endingDate.toISOString() } : {}),
+  ...(project.data.updatedDate ? { dateModified: project.data.updatedDate.toISOString() } : {}),
   keywords: project.data.technologies,
   url: canonicalURL.href,
   image: socialImage,

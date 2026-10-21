@@ -913,7 +913,7 @@ Publishing cadence: one quality post per month is better than four rushed ones. 
 - Custom utilities go in `@utility` blocks — never ad hoc inline styles
 - Never hardcode hex, HSL, or OKLCH values in components — use semantic tokens
 - Class order follows the Tailwind Prettier plugin (ESLint enforces this)
-- Dark mode variant: `@custom-variant dark (&:where(.dark,[data-theme='dark'] *))`
+- Dark mode variant: `@custom-variant dark ([data-theme="dark"] &)`
 
 ### Quality Gates
 

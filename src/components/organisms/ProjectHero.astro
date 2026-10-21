@@ -79,21 +79,13 @@ const metaItems = [
       motion-reduce:animate-none
     "
   >
-    <h1 class="
-      max-w-4xl text-4xl/[0.98] font-bold tracking-tighter wrap-break-word
-      sm:text-5xl/[0.96]
-      lg:text-[3.6rem]/[0.94]
-    "
-    >
+    <h1 class="max-w-4xl wrap-break-word">
       {plainWords && <span>{plainWords} </span>}
       <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
     </h1>
     <p
 data-editorial-summary
-class="
-  max-w-3xl text-lg/7 font-medium text-ink-soft
-  sm:text-xl/8
-"
+class="text-ink-soft"
     >
       {project.data.description}
     </p>
@@ -118,18 +110,10 @@ class="
       {metaItems.map(item => (
         <div class="editorial-detail-meta-item" data-project-meta data-editorial-meta>
           <dl class="space-y-2">
-            <dt class="
-              section-label text-xs font-semibold tracking-wider
-              text-ink-muted/80 uppercase
-            "
-            >
+            <dt class="section-label">
               {item.label}
             </dt>
-            <dd class="
-              text-lg/6 font-bold text-ink
-              sm:text-xl/6
-            "
-            >
+            <dd class="leading-6 text-ink">
               {item.value ?? <ProjectTimeline endingDate={project.data.endingDate} startingDate={project.data.startingDate} />}
             </dd>
           </dl>

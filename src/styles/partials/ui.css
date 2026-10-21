@@ -130,10 +130,6 @@
   }
 }
 
-@utility ui-toggle--pressed {
-  @apply border-brand/30 bg-brand-soft/45 text-brand;
-}
-
 @utility ui-tabs {
   @apply grid gap-4;
 

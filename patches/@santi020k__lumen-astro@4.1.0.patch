@@ -1,5 +1,5 @@
 diff --git a/README.md b/README.md
-index 21a05befc68ae34601b84b0b5407e38a05ba56de..311117218c836a9298888eb092e92953f2ba796a 100644
+index 21a05befc68ae34601b84b0b5407e38a05ba56de..4bef3f88bd5aa1fb4c3b1e5f5349ed384bf48a7f 100644
 --- a/README.md
 +++ b/README.md
 @@ -324,6 +324,11 @@ import { Button, Icon } from '@santi020k/lumen-astro'
@@ -14,6 +14,55 @@ index 21a05befc68ae34601b84b0b5407e38a05ba56de..311117218c836a9298888eb092e92953
  `ScrollProgress` derives reading progress from the document and pins the indicator to the top or
  bottom viewport edge. Both use the single root `UIPrimitives` runtime.
  
+@@ -444,6 +449,10 @@ const installCommands = [
+ 
+ ## Optimized images
+ 
++`CoverImage` accepts Astro Picture's optional `fallbackFormat`. Use `fallbackFormat="webp"`
++to emit a WebP fallback and one AVIF source. Omitting the prop preserves the default PNG fallback
++and AVIF/WebP sources. The prop is passed to `Picture`, never to the wrapper element.
++
+ Lumen's Astro `Image` delegates to `astro:assets`, so imported image metadata, responsive layouts,
+ generated `srcset` values, output formats, quality, and remote-size inference stay available. It
+ loads lazily by default. Use `loading="eager"` and `fetchpriority="high"` only for the single image
+diff --git a/components/CoverImage.astro b/components/CoverImage.astro
+index 1e4ff0dcf6250c42c2fd27026eac14a84a342b0f..24828b39b78c1dadc091b72f8c312d71b103fceb 100644
+--- a/components/CoverImage.astro
++++ b/components/CoverImage.astro
+@@ -1,6 +1,6 @@
+ ---
+ import type { ImageMetadata } from 'astro'
+-import type { HTMLAttributes } from 'astro/types'
++import type { ComponentProps, HTMLAttributes } from 'astro/types'
+ 
+ import { Picture } from 'astro:assets'
+ 
+@@ -11,6 +11,7 @@ interface Props extends HTMLAttributes<'div'> {
+   ariaHidden?: boolean
+   class?: string | null
+   className?: string
++  fallbackFormat?: ComponentProps<typeof Picture>['fallbackFormat']
+   featured?: boolean
+   featuredMinHeightClass?: string
+   fetchpriority?: 'auto' | 'high' | 'low'
+@@ -29,6 +30,7 @@ const {
+   ariaHidden = false,
+   class: classProp = '',
+   className = '',
++  fallbackFormat,
+   featured = false,
+   featuredMinHeightClass = 'lg:min-h-88',
+   fetchpriority = 'auto',
+@@ -162,7 +164,8 @@ const { classList, passthrough } = resolveLumenAstroProps(rest, [
+     aria-hidden={ariaHidden ? 'true' : undefined}
+     class:list={imageClasses}
+     fetchpriority={fetchpriority}
+-    formats={['avif', 'webp']}
++    fallbackFormat={fallbackFormat}
++    formats={fallbackFormat === 'webp' ? ['avif'] : ['avif', 'webp']}
+     height={targetHeight}
+     loading={loading}
+     sizes={sizes}
 diff --git a/runtime/controllers/document-navigation.ts b/runtime/controllers/document-navigation.ts
 index 6f616c13e406958847d5bb1485d25208e2db5a67..3b6e14b2dddab28808f5c6402c445ffdbec5e698 100644
 --- a/runtime/controllers/document-navigation.ts

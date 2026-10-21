@@ -61,6 +61,53 @@ describe('content collection caching', () => {
     expect(getCollectionMock).toHaveBeenCalledTimes(1)
   })
 
+  test.each(collections)('shares an in-flight %s load while returning independent arrays', async (_name, getter) => {
+    vi.stubEnv('PROD', true)
+    let finishLoad: (entries: MockEntry[]) => void = () => {
+      throw new Error('Load did not start')
+    }
+
+    getCollectionMock.mockReturnValue(new Promise(resolve => {
+      finishLoad = resolve
+    }))
+    const content = await import('../content')
+    const first = content[getter]()
+    const second = content[getter]()
+
+    expect(getCollectionMock).toHaveBeenCalledTimes(1)
+    finishLoad([{ id: 'entry', data: { publishDate: new Date('2026-01-01') } }])
+    const [firstEntries, secondEntries] = await Promise.all([first, second])
+
+    firstEntries.splice(0)
+    expect(secondEntries.map(entry => entry.id)).toEqual(['entry'])
+    expect((await content[getter]()).map(entry => entry.id)).toEqual(['entry'])
+    expect(getCollectionMock).toHaveBeenCalledTimes(1)
+  })
+
+  test.each(collections)('retries one shared %s failure for later callers', async (_name, getter) => {
+    vi.stubEnv('PROD', true)
+    let failLoad: (error: Error) => void = () => {
+      throw new Error('Load did not start')
+    }
+
+    getCollectionMock.mockReturnValueOnce(new Promise((_resolve, reject) => {
+      failLoad = reject
+    }))
+    const content = await import('../content')
+    const first = content[getter]()
+    const second = content[getter]()
+    const outcomes = Promise.allSettled([first, second])
+
+    failLoad(new Error('Collection unavailable'))
+    expect(await outcomes).toEqual([
+      { status: 'rejected', reason: new Error('Collection unavailable') },
+      { status: 'rejected', reason: new Error('Collection unavailable') }
+    ])
+    await expect(content[getter]()).resolves.toEqual([])
+    await expect(content[getter]()).resolves.toEqual([])
+    expect(getCollectionMock).toHaveBeenCalledTimes(2)
+  })
+
   test('sorts posts without mutating the collection supplied by Astro', async () => {
     const entries = [
       { id: 'older', data: { publishDate: new Date('2026-01-01') } },

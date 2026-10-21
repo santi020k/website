@@ -4,7 +4,6 @@ import { describe, expect, test } from 'vitest'
 
 import {
   getAllTechnologies,
-  getTechnologiesByUsage,
   getUniqueTechnologies,
   getUniqueTechnologiesWithCount
 } from '../project'
@@ -91,31 +90,5 @@ describe('getUniqueTechnologiesWithCount', () => {
 
   test('returns an empty array for empty input', () => {
     expect(getUniqueTechnologiesWithCount([])).toEqual([])
-  })
-})
-
-// ─── getTechnologiesByUsage ───────────────────────────────────────────────────
-
-describe('getTechnologiesByUsage', () => {
-  test('returns technology names sorted by usage count descending', () => {
-    const p1 = makeProject({ technologies: ['React', 'TypeScript'] })
-    const p2 = makeProject({ technologies: ['TypeScript', 'Node.js'] })
-
-    const result = getTechnologiesByUsage([p1, p2])
-
-    expect(result[0]).toBe('TypeScript')
-    expect(result).toContain('React')
-    expect(result).toContain('Node.js')
-  })
-
-  test('returns only technology names (no counts)', () => {
-    const p = makeProject({ technologies: ['React'] })
-    const result = getTechnologiesByUsage([p])
-
-    expect(result).toEqual(['React'])
-  })
-
-  test('returns an empty array for empty input', () => {
-    expect(getTechnologiesByUsage([])).toEqual([])
   })
 })

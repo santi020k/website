@@ -8,10 +8,32 @@ const findSchema = async (page: Page, type: string) => {
   const contents = await page.locator('script[type="application/ld+json"]').allTextContents()
   const schemas = contents.map((content): unknown => JSON.parse(content)).flat()
 
-  return schemas.find((value): value is Record<string, unknown> => typeof value === 'object' && value !== null && '@type' in value && value['@type'] === type)
+  return schemas.find((value): value is Record<string, unknown> => typeof value === 'object' && value !== null && '@type' in value && (value['@type'] === type || (Array.isArray(value['@type']) && value['@type'].includes(type))))
 }
 
 test.describe('SEO — meta tags', () => {
+  test('project modification dates describe page edits rather than employment dates', async ({ page }) => {
+    await page.goto('/portfolio/lumen-ui/')
+    const schema = await findSchema(page, 'CreativeWork')
+    const { dateModified } = z.object({ dateModified: z.string() }).parse(schema)
+    const sitemap = await (await page.request.get('/sitemap-0.xml')).text()
+    const lastModified = await page.evaluate(xml => {
+      const document = new DOMParser().parseFromString(xml, 'application/xml')
+      const location = [...document.querySelectorAll('loc')].find(node => node.textContent === 'https://santi020k.com/portfolio/lumen-ui/')
+
+      return location?.parentElement?.querySelector('lastmod')?.textContent
+    }, sitemap)
+
+    expect(lastModified).toBeTruthy()
+    expect(dateModified).toBe(lastModified)
+
+    await page.goto('/portfolio/xgames/')
+    const endedProject = await findSchema(page, 'CreativeWork')
+
+    expect(endedProject).toBeDefined()
+    expect(endedProject).not.toHaveProperty('dateModified')
+  })
+
   test('AI search crawlers have explicit access without indexing the search payload', async ({ page }) => {
     const robotsResponse = await page.request.get('/robots.txt')
     const robots = await robotsResponse.text()

@@ -32,25 +32,6 @@ const getPreferredTechnologyLabel = (labels: string[], slug?: string) => slug ==
 export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) => [...groupTechnologyLabels(getAllTechnologies(projects))]
   .map(([slug, labels]) => getPreferredTechnologyLabel(labels, slug))
 
-/** Returns an array of strings, ordered by the number of times each technology is used in all the projects
- * Note: This function doesn't filter draft projects, pass published entries from getCachedProjects.
- *  */
-
-export const getTechnologiesByUsage = (projects: CollectionEntry<'project'>[]) => {
-  const technologyGroups = groupTechnologyLabels(getAllTechnologies(projects))
-  const techCount = new Map<string, number>()
-
-  for (const tech of getAllTechnologies(projects)) {
-    const slug = getTechnologySlug(tech)
-
-    techCount.set(slug, (techCount.get(slug) ?? 0) + 1)
-  }
-
-  return [...techCount.entries()]
-    .sort((a, b) => b[1] - a[1]) // sort by usage count, descending
-    .map(([slug]) => getPreferredTechnologyLabel(technologyGroups.get(slug) ?? [], slug))
-}
-
 /** Builds the schema.org CollectionPage + ItemList structured data for a project list page. */
 export const createProjectCollectionSchema = (
   name: string,

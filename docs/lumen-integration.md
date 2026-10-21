@@ -194,8 +194,8 @@ text the destination therefore landed below the threshold and the marker stayed 
 section. Browser zoom was unaffected because it scales pixels and rems together.
 
 The [version-pinned pnpm patch](../patches/@santi020k__lumen-astro@4.1.0.patch), registered under
-`patchedDependencies`, changes only
-`runtime/controllers/document-navigation.ts` and its README. The runtime treats a heading as
+`patchedDependencies`, updates
+`runtime/controllers/document-navigation.ts` and documents the behavior in its README. The runtime treats a heading as
 current once it reaches the greater of `activationOffset` and the native landing line, computed
 from the owning window's root `scroll-padding-top` plus the heading's `scroll-margin-top`, within
 one CSS pixel. Percentage scroll padding resolves against the scrolling element's height; `auto`
@@ -209,6 +209,19 @@ landing-line activation. If `lumen-astro` changes version first, regenerate the 
 patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
 text-size marker cases in `tests/responsive-reading.spec.ts`.
 
+## Cover image fallback patch
+
+The same version-pinned patch exposes Astro Picture's typed `fallbackFormat` option on
+`CoverImage`. Current-site project galleries and detail covers select `fallbackFormat="webp"`,
+keeping AVIF sources while replacing the much larger PNG fallback. The redundant WebP source is
+omitted because the fallback already supplies its responsive WebP `srcset`. The default remains
+unchanged for the historical sites, which share this dependency.
+
+Remove this addition once a published Lumen release supports the same option. Keep the Anchor
+fix until its own upstream replacement is available. The isolated render regression in
+`scripts/js/__tests__/cover-image-render.test.ts` checks both the opt-in and default output;
+`tests/site-resources.spec.ts` checks the current-site image responses.
+
 ## Tall reveal groups
 
 Keep the website's 13 `threshold={0}` settings. The installed `lumen-astro` 4.1.0 runtime observes
@@ -221,7 +234,7 @@ featured card and supporting grid transparent when the zero threshold was remove
 The explicit zero thresholds reveal these groups on viewport entry without changing the shared
 timing for other Lumen consumers. Observing `[0, threshold]` globally also revealed short sections
 with custom thresholds on entry, so that runtime change was rejected. The installed patch remains
-limited to Anchor; there is no motion runtime patch.
+limited to Anchor behavior and the image option below; there is no motion runtime patch.
 
 Before removing the overrides, verify a compatible upstream solution that preserves custom
 threshold timing. Run `tests/reveal-entry.spec.ts` with native browser observers: it checks a

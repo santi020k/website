@@ -14,9 +14,6 @@ const isLocalPath = (value: unknown, origin: string): value is string => {
   }
 }
 
-const isImageDimension = (value: unknown) => value === undefined ||
-  (typeof value === 'number' && Number.isInteger(value) && value > 0)
-
 export const isSearchEntry = (value: unknown, origin: string): value is SearchIndexEntry => {
   if (!isRecord(value)) return false
 
@@ -24,10 +21,8 @@ export const isSearchEntry = (value: unknown, origin: string): value is SearchIn
     typeof value.description === 'string' && isLocalPath(value.path, origin) &&
     Array.isArray(value.tags) && value.tags.every((tag: unknown) => typeof tag === 'string') &&
     typeof value.type === 'string' && ['community', 'post', 'project'].includes(value.type) &&
-    (value.coverAlt === undefined || typeof value.coverAlt === 'string') &&
     (value.coverUrl === undefined || isLocalPath(value.coverUrl, origin)) &&
-    (value.coverAvifUrl === undefined || isLocalPath(value.coverAvifUrl, origin)) &&
-    isImageDimension(value.coverWidth) && isImageDimension(value.coverHeight)
+    (value.coverAvifUrl === undefined || isLocalPath(value.coverAvifUrl, origin))
 }
 
 export const getPopularTopics = (entries: readonly SearchIndexEntry[]): string[] => {

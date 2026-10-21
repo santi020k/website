@@ -43,3 +43,22 @@ for (const theme of ['light', 'dark']) {
     })
   }
 }
+
+test.describe('header before client enhancement', () => {
+  test.use({ javaScriptEnabled: false })
+
+  for (const route of ['/', '/blog/']) {
+    test(`keeps an opaque header while scrolling without JavaScript on ${route}`, async ({ page }) => {
+      await page.goto(route)
+      const shell = page.locator('[data-header-shell][data-header-frame]')
+
+      await expect(shell).toHaveAttribute('data-scrolled', 'false')
+      expect(await shell.evaluate(node => getComputedStyle(node, '::before').opacity)).toBe('1')
+      await page.evaluate(() => {
+        window.scrollTo(0, 600)
+      })
+      expect(await shell.evaluate(node => getComputedStyle(node, '::before').opacity)).toBe('1')
+      expect(await shell.locator('.site-header-brand').evaluate(node => getComputedStyle(node, '::after').opacity)).toBe('0')
+    })
+  }
+})

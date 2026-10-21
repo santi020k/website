@@ -48,6 +48,7 @@ const projectItems = projects.map(project => ({
             {project.editorialImage ?
 (
               <CoverImage
+                fallbackFormat="webp"
                 alt=""
                 ariaHidden={true}
                 className="size-full rounded-none border-0 object-cover"
@@ -103,6 +104,7 @@ const projectItems = projects.map(project => ({
             {projectItems[0].coverImage && projectItems[0].thumbnailImage ?
               (
                 <CoverImage
+                fallbackFormat="webp"
                   alt={projectItems[0].coverImage.alt || projectItems[0].title}
                   ariaHidden={true}
                   className="
@@ -208,6 +210,7 @@ const projectItems = projects.map(project => ({
               {project.coverImage && project.thumbnailImage ?
                 (
                   <CoverImage
+                fallbackFormat="webp"
                     alt={project.coverImage.alt || project.title}
                     ariaHidden={true}
                     className="

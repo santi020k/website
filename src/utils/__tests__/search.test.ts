@@ -18,11 +18,8 @@ describe('search index validation', () => {
     expect(isSearchEntry(entry, origin)).toBe(true)
     expect(isSearchEntry({
       ...entry,
-      coverAlt: 'Article artwork',
       coverAvifUrl: '/_astro/cover.avif',
-      coverUrl: '/_astro/cover.webp',
-      coverWidth: 200,
-      coverHeight: 125
+      coverUrl: '/_astro/cover.webp'
     }, origin)).toBe(true)
   })
 
@@ -33,10 +30,7 @@ describe('search index validation', () => {
     { ...entry, title: ' ' },
     { ...entry, description: null },
     { ...entry, tags: ['Astro', 1] },
-    { ...entry, type: 'unknown' },
-    { ...entry, coverWidth: 0 },
-    { ...entry, coverHeight: 1.5 },
-    { ...entry, coverAlt: false }
+    { ...entry, type: 'unknown' }
   ])('rejects malformed entry %j', value => {
     expect(isSearchEntry(value, origin)).toBe(false)
   })

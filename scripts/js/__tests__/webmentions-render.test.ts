@@ -40,7 +40,7 @@ test('renders mention avatars without contacting their external hosts at build t
       cacheDir: join(root, 'cache'),
       configFile: relative(root, join(projectRoot, 'astro.config.ts')),
       logLevel: 'silent',
-      vite: { resolve: { alias: { '@': join(projectRoot, 'src') } } }
+      vite: { cacheDir: join(root, 'vite-cache'), resolve: { alias: { '@': join(projectRoot, 'src') } } }
     }
     const result = spawnSync(process.execPath, [
       '--input-type=module',

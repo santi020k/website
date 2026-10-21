@@ -28,6 +28,30 @@ test('blog pictures keep responsive AVIF sources and compact WebP fallbacks', as
   }
 })
 
+for (const route of ['/projects/', '/technologies/typescript/', '/blog/avoid-magic-strings-in-typescript-and-javascript/']) {
+  test(`Lumen covers use responsive AVIF and WebP on ${route}`, async ({ page, request }) => {
+    await page.goto(route)
+    const pictures = page.locator('.ui-cover-image picture')
+
+    expect(await pictures.count()).toBeGreaterThan(0)
+
+    for (const picture of await pictures.all()) {
+      await expect(picture.locator('source')).toHaveAttribute('type', 'image/avif')
+      const fallback = picture.locator('img')
+
+      await expect(fallback).toHaveAttribute('src', /\.webp$/u)
+      await expect(fallback).toHaveAttribute('srcset', /\.webp \d+w/u)
+      const src = await fallback.getAttribute('src') ?? ''
+
+      expect(src).not.toBe('')
+      const response = await request.get(src)
+
+      expect(response.ok()).toBe(true)
+      expect(response.headers()['content-type']).toContain('image/webp')
+    }
+  })
+}
+
 const manifestSchema = z.object({
   name: z.string(),
   short_name: z.string(),

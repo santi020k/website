@@ -15,12 +15,13 @@ Redirects, cache headers, and security headers are versioned in the repo:
 
 Cloudflare Pages picks both files up at the edge automatically. The header defaults include:
 
-- **Content-Security-Policy**: locked-down, allows Cloudflare Insights when enabled by Pages.
+- **Content-Security-Policy**: allows the configured Giscus, Webmention, and Buttondown integrations; no analytics are bundled.
 - **Permissions-Policy**: `camera=(), geolocation=(), microphone=(), payment=(), usb=()`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **X-Content-Type-Options**: `nosniff`
-- **`/_astro/*`** and **`/fonts/*`** → 1 year `immutable`.
-- **`/og/*`** → 1 year `immutable`.
+- **`/_astro/*`** → 1 year `immutable`.
+- **`/fonts/*`** and **`/og/manifest.json`** → browser revalidation.
+- **`/og/*.webp`** → 1 year `immutable`.
 - **`/sw.js`** → `Cache-Control: public, max-age=0, must-revalidate` so service worker updates propagate.
 - **HTML / `/feed.xml` / `/feed.json` / `/sitemap*.xml`** → `CDN-Cache-Control: s-maxage=3600, stale-while-revalidate=86400` so the edge stays fresh while keeping browser caches conservative.
 

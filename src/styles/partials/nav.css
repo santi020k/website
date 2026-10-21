@@ -102,6 +102,13 @@
   opacity: 1;
 }
 
+/* Without the scroll controller, retain a solid header over page content. */
+@media (scripting: none) {
+  .site-header-shell[data-header-frame][data-scrolled]::before { opacity: 1; }
+  .site-header-shell[data-header-frame][data-scrolled] .site-header-brand { border-radius: 1.5rem; }
+  .site-header-shell[data-header-frame][data-scrolled] .site-header-brand::after { opacity: 0; }
+}
+
 @utility site-header-mark {
   width: 2rem;
   height: 2rem;

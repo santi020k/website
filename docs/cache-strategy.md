@@ -8,13 +8,13 @@
 
 ## Route Policy
 
-- `/_astro/*` (hashed assets) and `/og/*`: `max-age=31536000, immutable`
+- `/_astro/*` (hashed assets) and `/og/*.webp`: `max-age=31536000, immutable`
 - `/fonts/*` (stable filenames): `max-age=0, must-revalidate`; CORS remains enabled for Giscus
 - `/feed.xml`, `/feed.json`, `/search-index.json`, and `/sitemap*.xml`: browser revalidation,
   CDN `s-maxage=3600, stale-while-revalidate=86400`
 - `/`, trailing-slash pages (`/*/`), and `/*.html`: browser revalidation,
   CDN `s-maxage=3600, stale-while-revalidate=86400`
-- `/pdf/cv.pdf`, `/pdf/cv-full.pdf`, and `/sw.js`: browser revalidation
+- `/pdf/cv.pdf`, `/pdf/cv-full.pdf`, `/og/manifest.json`, and `/sw.js`: browser revalidation
 
 `public/_headers` owns deployment cache policy. Static Astro endpoints cannot carry their runtime
 response headers into emitted files. Explicit root and trailing-slash patterns cover public page
@@ -44,7 +44,8 @@ range from a cached full file.
 If the network fails, a page or navigation request falls back to its own
 cached copy, then to the cached `/offline/` document. A cache miss or write
 failure never blocks the response — cache storage is treated as an optional
-optimization. Non-page resources fall back only to their own cached response; an offline HTML
+optimization. Network responses stream immediately; `waitUntil` keeps background cache writes
+and trimming alive without holding the response. Non-page resources fall back only to their own cached response; an offline HTML
 page is never substituted for JSON, feed, or PDF bytes.
 
 The `v4-cache-v2` cache namespace replaces the old unbounded release cache. Successful writes
