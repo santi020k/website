@@ -19,6 +19,9 @@ package versions remain in the archive manifests for historical footer labels;
 these private apps are excluded from Changesets versioning. Do not restore an old
 lockfile or deprecated framework integrations to preserve appearance.
 
+Owner-requested withdrawals also remove unpublished drafts and their unused assets
+from archive sources.
+
 Archives contain no analytics, service-worker registration, live comments,
 Webmention requests, or working newsletter submissions. No newsletter RSS snapshot
 was stored for v3, so that page keeps its empty-state behavior instead of showing

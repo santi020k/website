@@ -18,6 +18,6 @@ The article intentionally describes the October 6 candidate and does not promise
 
 Website validation: `pnpm run verify:fast` passed with Node 24.21.0 and pnpm 11.25.0,
 including zero-warning lint, zero type diagnostics, Markdown/content checks, 329 tests, and build.
-The sitemap generator skipped two unavailable optional sibling sites (Difftale and Workspace
-Organizer); the SEO audit finished with zero errors and warnings. Local desktop and phone previews
+The sitemap generator skipped two unavailable optional sibling sites;
+the SEO audit finished with zero errors and warnings. Local desktop and phone previews
 were checked. The draft is excluded from the production article routes.
