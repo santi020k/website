@@ -88,8 +88,10 @@ The same component serves featured, supporting, and related projects without cli
 - About-page supplementary cards use Lumen `Note` directly.
 - The About hero availability status uses Lumen `Marker`.
 - The article and project table of contents use Lumen `Anchor` and its shared scroll-spy runtime,
-  with the temporary runtime patch described below. The site's reading page boundary also sets
-  `font-size: 1rem` explicitly: in WebKit, relying on inheritance left descendant layout stale
+  with the temporary runtime patch described below. `TocCard` supplies the Margin rail panel,
+  nested link spacing, and active rule through local styles without another controller.
+  The site's reading page boundary also sets `font-size: 1rem` explicitly: in WebKit,
+  relying on inheritance left descendant layout stale
   after root text resizing during client navigation, shifting native fragment targets. This
   keeps the existing native links and Lumen marker synchronized without another controller.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
@@ -101,6 +103,8 @@ The same component serves featured, supporting, and related projects without cli
   for its Margin note composition. `ProjectStackCard` composes the Stack ledger from
   `Card`, semantic technology lists, and `Collapsible`. `ProjectOutcomesCard` composes
   Impact rows with `Card`, `Icon`, and semantic lists, keeping original claims accessible.
+  All four project sidebar cards share small purple labels, right-aligned icons, and plain
+  surfaces; their content compositions remain distinct.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
 - Project stack cards use Lumen `Collapsible` for technologies beyond the first six. The native
