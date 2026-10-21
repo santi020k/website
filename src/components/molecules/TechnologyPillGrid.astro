@@ -1,9 +1,7 @@
 ---
-import Pill from '@/components/atoms/Pill.astro'
-
 import { getTechnologyPath } from '@/utils/links'
 
-import { AnimatedNumber, Card } from '@santi020k/lumen-astro'
+import { AnimatedNumber, Card, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   hiddenCount?: number
@@ -18,113 +16,150 @@ const totalTechnologyCount = technologies.length + hiddenCount
 ---
 
 <Card
-  class="rounded-3xl p-0"
   data-technology-snapshot
-  variant="default"
+  id="technology-snapshot"
+  variant="unstyled"
 >
-  <div
-    data-technology-snapshot-body
-    class="
-      space-y-6 p-5
-      sm:p-6
-      lg:p-7
-    "
-  >
-    <div class="grid gap-5" data-technology-snapshot-header>
-      <div class="max-w-2xl space-y-2">
-        <p class="
-          section-label text-brand
-          dark:text-accent
-        "
-        >
-          Stack snapshot
-        </p>
-        <p class="text-sm/6 text-ink-soft">{intro}</p>
-      </div>
-
-      <dl data-technology-snapshot-stats>
-        <div>
-          <dt class="text-xs text-ink-muted">Highlighted</dt>
-          <dd class="mt-1 text-xl font-medium tracking-[-0.055em] text-ink"><AnimatedNumber locale="en-US" value={technologies.length} /></dd>
-        </div>
-        <div>
-          <dt class="text-xs text-ink-muted">Full index</dt>
-          <dd class="mt-1 text-xl font-medium tracking-[-0.055em] text-ink"><AnimatedNumber locale="en-US" value={totalTechnologyCount} /></dd>
-        </div>
-      </dl>
+  <div data-technology-snapshot-header>
+    <div class="max-w-2xl space-y-2">
+      <p data-technology-snapshot-title>Stack snapshot</p>
+      <p class="text-sm/6 text-ink-soft">{intro}</p>
     </div>
 
-    <div class="h-px bg-line/65"></div>
+    <dl data-technology-snapshot-stats>
+      <div>
+        <dt class="text-xs text-ink-muted">Highlighted</dt>
+        <dd class="mt-1 text-xl font-medium tracking-[-0.055em] text-ink"><AnimatedNumber locale="en-US" value={technologies.length} /></dd>
+      </div>
+      <div>
+        <dt class="text-xs text-ink-muted">Full index</dt>
+        <dd class="mt-1 text-xl font-medium tracking-[-0.055em] text-ink"><AnimatedNumber locale="en-US" value={totalTechnologyCount} /></dd>
+      </div>
+    </dl>
+  </div>
 
-    <div class="space-y-6">
+  <div data-technology-snapshot-body>
+    <div class="space-y-3">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h3 class="site-label" id="technology-top-of-mind">Top of mind</h3>
+        <p class="text-xs/5 text-ink-muted">The tools I’m most interested in reaching for.</p>
+      </div>
+      <ul aria-labelledby="technology-top-of-mind" data-technology-ledger="featured">
+        {featuredTechnologies.map(([technology, count]) => (
+          <li>
+            <a href={getTechnologyPath(technology)}>
+              <span>{technology}</span>
+              <span data-technology-count>{count}<span class="sr-only"> {count === 1 ? 'project' : 'projects'}</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {supportingTechnologies.length > 0 && (
       <div class="space-y-3">
         <div class="
           flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1
         "
         >
-          <h3 class="site-label">Top of mind</h3>
-          <p class="text-xs/5 text-ink-muted">The tools I’m most interested in reaching for.</p>
+          <h3 class="site-label" id="technology-in-rotation">In rotation</h3>
+          <p class="text-xs/5 text-ink-muted">Supporting tools across delivery, testing, and DX.</p>
         </div>
-        <div class="flex flex-wrap gap-2.5">
-          {featuredTechnologies.map(([technology, count]) => (
-            <Pill
-              count={count}
-              href={getTechnologyPath(technology)}
-              label={technology}
-              tone="brand"
-            />
+        <ul aria-labelledby="technology-in-rotation" data-technology-ledger="supporting">
+          {supportingTechnologies.map(([technology, count]) => (
+            <li>
+              <a href={getTechnologyPath(technology)}>
+                <span>{technology}</span>
+                <span data-technology-count>{count}<span class="sr-only"> {count === 1 ? 'project' : 'projects'}</span></span>
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
-
-      {(supportingTechnologies.length > 0 || hiddenCount > 0) && (
-        <div class="space-y-3">
-          <div class="
-            flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1
-          "
-          >
-            <h3 class="site-label">In rotation</h3>
-            <p class="text-xs/5 text-ink-muted">Supporting tools across delivery, testing, and DX.</p>
-          </div>
-          <div class="flex flex-wrap gap-2.5">
-            {supportingTechnologies.map(([technology, count]) => (
-              <Pill
-                count={count}
-                href={getTechnologyPath(technology)}
-                label={technology}
-                tone="outline"
-              />
-            ))}
-            {hiddenCount > 0 && (
-              <Pill
-                href="/technologies/"
-                label={`Explore ${hiddenCount} more`}
-                tone="neutral"
-              />
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+    )}
+    {hiddenCount > 0 && (
+      <a data-technology-snapshot-more href="/technologies/">
+        <span>Explore {hiddenCount} more</span>
+        <Icon name="arrow-right" size="sm" />
+      </a>
+    )}
   </div>
 </Card>
 
 <style>
-  [data-technology-snapshot] { container: technology-snapshot / inline-size; }
-  [data-technology-snapshot] :global([data-site-pill]) { font-weight: 500; }
+  [data-technology-snapshot][data-slot='card'] {
+    --technology-ledger-accent: var(--brand);
+    container: technology-snapshot / inline-size;
+    scroll-margin-top: 7rem;
+    overflow: hidden;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
+    background: hsl(var(--surface));
+    padding: 0;
+  }
+  :global([data-theme='dark']) [data-technology-snapshot] { --technology-ledger-accent: var(--accent); }
+  [data-technology-snapshot-header] {
+    display: grid;
+    gap: 1.5rem;
+    padding: 1.75rem;
+    background: hsl(var(--brand-soft));
+  }
+  [data-technology-snapshot-title] {
+    color: hsl(var(--technology-ledger-accent));
+    font-size: 1.375rem;
+    line-height: 1.875rem;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+  [data-technology-snapshot-body] { display: grid; gap: 1.75rem; padding: 1.75rem; }
   [data-technology-snapshot-stats] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+  [data-technology-snapshot-stats] dd { font-size: 1.5rem; line-height: 2rem; }
   [data-technology-snapshot-stats] > div + div {
     border-inline-start: 1px solid hsl(var(--line) / 0.65);
     padding-inline-start: 1.5rem;
   }
+  [data-technology-ledger] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 1.5rem; }
+  [data-technology-ledger] li { min-width: 0; border-bottom: 1px solid hsl(var(--line)); }
+  [data-technology-ledger] a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    height: 100%;
+    min-height: 3.25rem;
+    padding-block: 0.875rem;
+    color: hsl(var(--ink));
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  [data-technology-ledger='featured'] a { font-size: 1.0625rem; line-height: 1.625rem; }
+  [data-technology-count] { flex-shrink: 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.25rem; }
+  [data-technology-ledger='featured'] [data-technology-count] { color: hsl(var(--technology-ledger-accent)); }
+  [data-technology-snapshot-more] {
+    display: flex;
+    align-items: center;
+    justify-self: start;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    color: hsl(var(--technology-ledger-accent));
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  [data-technology-ledger] a:is(:hover, :focus-visible) { color: hsl(var(--technology-ledger-accent)); }
+  [data-technology-snapshot-more]:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.25em; }
   @container technology-snapshot (width >= 36rem) {
     [data-technology-snapshot-header] { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
     [data-technology-snapshot-stats] { text-align: end; }
   }
+  @container technology-snapshot (width < 32rem) {
+    [data-technology-ledger] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
   @container technology-snapshot (width < 20rem) {
-    [data-technology-snapshot-body] { padding: 0.75rem; }
-    [data-technology-snapshot] :global([data-site-pill]) { padding-inline: 0.25rem; }
-    [data-technology-snapshot] :global(.ui-pill__count) { margin-inline-start: 0; padding-inline-start: 0.25rem; }
+    [data-technology-snapshot-header], [data-technology-snapshot-body] { padding: 1.25rem; }
+    [data-technology-ledger] { grid-template-columns: minmax(0, 1fr); }
+    [data-technology-ledger='featured'] a { font-size: 1rem; }
   }
   @container technology-snapshot (width < 18rem) {
     [data-technology-snapshot-stats] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }

@@ -107,6 +107,9 @@ The same component serves featured, supporting, and related projects without cli
   a fragment jump. Remove this local override when the shared reset no longer creates them.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.
+- The Projects technology snapshot composes Tool ledger from an unstyled Lumen `Card`,
+  `AnimatedNumber` totals, native linked lists, and a decorative `Icon`. Scoped container
+  queries reflow the featured and supporting tools without another controller.
 - Series navigation uses Lumen `Progress` with a readable current/max value and one
   unstyled `Card` for the Reading index. A named native navigation landmark and ordered
   list retain complete titles, current-step semantics, and navigation without JavaScript.
