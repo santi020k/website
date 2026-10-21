@@ -199,15 +199,39 @@ Card. The artwork has 1.5rem corners; an opaque content sheet overlaps it by 3re
 1.25rem side insets, 1.125rem corners, and a smaller lower-right corner. Keep the status
 on an opaque badge over the artwork, followed by date, complete title, role, description,
 outcomes, plain technology labels, and a ruled case-study action in the sheet.
+Keep the outer Card transparent on both the portfolio index and reading pages so
+the sheet's side insets expose the page canvas, not a second surface.
 
-Use the horizontal project artwork, optimized at 16:10, so square crops retain the central
-brand mark without clipping social-preview text. Below 36.25rem of card width, use a square crop, a 2.375rem
-overlap, and tighter insets. Below 20rem, scale long headings and let outcome columns
-stack. Never clamp descriptions or outcomes. Explicit before/after and percentage-drop
+Use the horizontal project artwork, optimized at 16:10, so crops retain the central
+brand mark without clipping social-preview text. Featured cards use a 2:1 artwork panel
+to keep the portfolio page balanced. Below 36.25rem of card width, use a 4:3 crop, a
+2.375rem overlap, and tighter insets; the same proportions apply in related-work shelves.
+Below 20rem, scale long headings and let outcome columns stack. Never clamp descriptions
+or outcomes. Explicit before/after and percentage-drop
 statements may become value/label pairs; preserve all other statements verbatim and
 retain the original wording for screen readers. Project colors highlight the title,
 role, action, and sheet rules on hover and keyboard focus without moving the artwork.
 Keep a complete outer focus outline, readable light/dark colors, and reduced-motion support.
+
+### Project dossier sidebar cards
+
+At a glance uses one opaque Lumen Card with 1.5rem corners and a 0.5rem lower-right
+corner. Its tinted cap holds a sentence-case heading and the full role at 1.4375rem.
+Keep Type, Timeline, and Duration left-aligned below it, with quiet labels and fine
+rules. Preserve semantic definition lists, individual time elements, the fallback role,
+and computed duration. This is a passive reading surface with no hover feedback.
+Below 16rem of rail width, reduce insets and role typography to preserve enlarged-text
+reading space. Other sidebar cards retain their own composition.
+
+### Margin note focus cards
+
+Project Focus uses one opaque Lumen Card with the dossier's 1.5rem corners and
+0.5rem lower-right corner. Place a sentence-case 0.75rem label opposite the small
+target icon, then the complete focus statement at 1.125rem with 1.8125rem leading.
+A 2px purple margin rule and 1.0625rem text inset give the statement its emphasis.
+Use brand in light mode and accent in dark mode. Preserve the project-type copy,
+semantic heading, and passive appearance. Below 16rem of rail width, tighten the
+card and paragraph insets and use 1rem statement text to keep ordinary words intact.
 
 ## Buttons and links
 

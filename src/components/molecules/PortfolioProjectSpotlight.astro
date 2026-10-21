@@ -94,7 +94,7 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
 </Card>
 
 <style>
-  [data-portfolio-project] {
+  [data-portfolio-project][data-slot='card'] {
     --portfolio-emphasis: var(--brand);
     --portfolio-project-ink: var(--project-primary-readable);
     container: portfolio-card / inline-size;
@@ -111,6 +111,7 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
   :global(:root[data-theme='dark']) [data-portfolio-project] { --portfolio-emphasis: var(--accent); --portfolio-project-ink: var(--project-primary-readable-dark); }
   [data-portfolio-link] { position: absolute; inset: 0; z-index: 1; color: hsl(var(--ink)); text-decoration: none; border-radius: inherit; }
   [data-portfolio-visual] { position: relative; flex-shrink: 0; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1.5rem; background: hsl(var(--surface-muted)); }
+  [data-portfolio-project='featured'] [data-portfolio-visual] { aspect-ratio: 2; }
   [data-portfolio-placeholder] { position: absolute; inset: 0; display: grid; place-items: center; background: hsl(var(--brand-soft)); color: hsl(var(--portfolio-emphasis)); }
   [data-project-status] { position: absolute; top: 1.375rem; left: 1.375rem; display: inline-flex; align-items: center; gap: 0.4375rem; max-width: calc(100% - 2.75rem); padding: 0.375rem 0.75rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: 999px; background: hsl(var(--surface)); color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 400; line-height: 1.667; white-space: normal; }
   [data-project-status]::before { content: ''; width: 0.3125rem; height: 0.3125rem; flex-shrink: 0; border-radius: 50%; background: hsl(var(--portfolio-project-ink)); }
@@ -136,7 +137,7 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
     [data-portfolio-title], [data-portfolio-role], [data-portfolio-action] { transition: color 160ms ease; }
   }
   @container portfolio-card (width < 36.25rem) {
-    [data-portfolio-visual] { aspect-ratio: 1; border-radius: 1.375rem; }
+    [data-portfolio-visual], [data-portfolio-project='featured'] [data-portfolio-visual] { aspect-ratio: 4 / 3; border-radius: 1.375rem; }
     [data-project-status] { top: 1.0625rem; left: 1.0625rem; }
     [data-portfolio-project-body] { margin: -2.375rem 0.625rem 0; padding: 1.4375rem 1.25rem 0; }
     [data-portfolio-title] { font-size: 1.875rem; }
