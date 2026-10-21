@@ -36,6 +36,11 @@ rules, or missing local destinations. This prevents a successful build from
 silently losing later redirects at the edge. See the
 [Cloudflare Pages redirect limits](https://developers.cloudflare.com/pages/configuration/redirects/).
 
+Withdrawn project and article URLs redirect permanently to the current `/projects/`
+and `/blog/` indexes. Their exact aliases include both trailing-slash forms and
+the removed v3 archive paths. Retired identifiers remain only where needed for
+redirect compatibility and validation, without restoring withdrawn content.
+
 Domain and protocol redirects belong in Cloudflare zone rules; Pages `_redirects`
 does not support an absolute source URL. For the `santi020k.com` zone:
 
