@@ -199,6 +199,8 @@ Card. The artwork has 1.5rem corners; an opaque content sheet overlaps it by 3re
 1.25rem side insets, 1.125rem corners, and a smaller lower-right corner. Keep the status
 on an opaque badge over the artwork, followed by date, complete title, role, description,
 outcomes, plain technology labels, and a ruled case-study action in the sheet.
+Keep the outer Card transparent on both the portfolio index and reading pages so
+the sheet's side insets expose the page canvas, not a second surface.
 
 Use the horizontal project artwork, optimized at 16:10, so crops retain the central
 brand mark without clipping social-preview text. Featured cards use a 2:1 artwork panel

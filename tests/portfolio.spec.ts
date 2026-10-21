@@ -222,6 +222,24 @@ test.describe('Portfolio page', () => {
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 
+  for (const theme of ['light', 'dark']) {
+    test(`layered card edges stay transparent across page layouts in ${theme}`, async ({ page }) => {
+      await page.addInitScript(value => {
+        localStorage.setItem('theme', value)
+      }, theme)
+      for (const route of ['/portfolio/', '/portfolio/smith-commerce/', '/portfolio/lumen-ui/']) {
+        await page.goto(route)
+        const cards = page.locator('[data-portfolio-project]')
+
+        expect(await cards.count()).toBeGreaterThan(0)
+        for (const card of await cards.all()) {
+          await expect(card).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+          await expect(card.locator('[data-portfolio-project-body]')).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+        }
+      }
+    })
+  }
+
   test('project images should use the aspect ratio intended for each layout', async ({ page }) => {
     await page.goto('/portfolio/')
 
