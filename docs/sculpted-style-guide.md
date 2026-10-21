@@ -131,9 +131,10 @@ with 1.5rem horizontal padding on larger screens. Remove the repeated count
 below the meter. Preserve the whole-card link, filtering, sorting, and focus outline.
 At enlarged text sizes, reduce the insets and let the badge wrap below long names.
 
-### Speaking topics and formats with clear hierarchy
+### Speaking and engineering-principle cards with clear hierarchy
 
-Topic and format cards share one treatment: an opaque Lumen surface, fine border,
+Speaking topic, format, and boxed engineering-principle cards share one treatment:
+an opaque Lumen surface, fine border,
 1.5rem corners, and purple number. Present the title and supporting phrase in one semantic
 heading: a 1.625rem title at weight 500 with 2.125rem leading, followed by a quiet
 1rem phrase with 1.625rem leading. On phones, use 1.5rem and 0.875rem respectively.
@@ -141,7 +142,9 @@ Keep a 0.25rem gap within the heading and 1.25rem before the complete descriptio
 Descriptions remain 0.875rem with 1.75rem leading. Preserve the full title in
 structured data and the accessible heading, along with text-driven wrapping and
 narrow-column insets. Cards remain passive, without hover changes. Use the same
-`TalkCard` presentation for both families so their typography and reflow stay aligned.
+`card-hierarchy` utility for their typography and reflow. Split the title at a natural
+phrase boundary without removing words or punctuation. Keep About's open editorial
+principles in their existing presentation.
 
 ## Buttons and links
 

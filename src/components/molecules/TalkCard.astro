@@ -15,7 +15,7 @@ const { description, index, subtitle, title, variant } = Astro.props
 <Card
   as="article"
   class="
-    h-full p-6
+    card-hierarchy h-full p-6
     sm:p-7
   "
   data-talk-card={variant}
@@ -26,71 +26,8 @@ const { description, index, subtitle, title, variant } = Astro.props
     </p>
   )}
   <h3 class="text-ink">
-    <span data-talk-title>{title}</span>
-    {subtitle && <> <span data-talk-subtitle>{subtitle}</span></>}
+    <span data-card-title data-talk-title>{title}</span>
+    {subtitle && <> <span data-card-subtitle data-talk-subtitle>{subtitle}</span></>}
   </h3>
   <p class="text-sm/7 text-ink-soft">{description}</p>
 </Card>
-
-<style>
-  [data-talk-card] {
-    container: speaking-card / inline-size;
-  }
-
-  [data-talk-card] > p:first-child {
-    margin-bottom: 1rem;
-  }
-
-  [data-talk-card] > h3 {
-    margin-bottom: 1.25rem;
-    hyphens: manual;
-  }
-
-  [data-talk-title] {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 2rem;
-    letter-spacing: -0.045em;
-  }
-
-  [data-talk-subtitle] {
-    display: block;
-    margin-top: 0.25rem;
-    color: hsl(var(--ink-soft));
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.5rem;
-    letter-spacing: -0.01em;
-  }
-
-  [data-talk-subtitle]::first-letter {
-    text-transform: uppercase;
-  }
-
-  @media (width >= 40rem) {
-    [data-talk-title] {
-      font-size: 1.625rem;
-      line-height: 2.125rem;
-    }
-
-    [data-talk-subtitle] {
-      font-size: 1rem;
-      line-height: 1.625rem;
-    }
-  }
-
-  @container speaking-card (width < 14rem) {
-    [data-talk-title] {
-      font-size: min(1.625rem, 16cqi);
-      line-height: 1.3;
-    }
-  }
-
-  @container speaking-card (width < 8rem) {
-    [data-talk-subtitle] {
-      font-size: min(0.875rem, 13cqi);
-      line-height: 1.5;
-    }
-  }
-</style>
