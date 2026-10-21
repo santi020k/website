@@ -101,7 +101,7 @@ external links, and topic-filter navigation. The reviewed Blog screenshot baseli
 was updated. The first browser run exposed a newsletter Privacy-link contrast issue;
 the link now inherits the readable surrounding text color and stays underlined.
 
-The optional Difftale and Workspace Organizer sitemap sources were unavailable and
+The optional sibling sitemap sources were unavailable and
 skipped during the build; required sources succeeded. Browser verification is Chromium
 only for this follow-up. The work is for local `release/v4.0.0` integration; no remote
 push, pull request, or deployment is part of this task.

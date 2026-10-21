@@ -107,7 +107,7 @@ recorded separately below.
 - The production build generated 449 pages. Its SEO audit reported zero errors
   and zero warnings.
 - The combined sitemap contains 1,306 unique URLs, including 439 website URLs.
-  Optional Difftale and Workspace Organizer sources were unavailable and skipped;
+  Optional sibling sitemap sources were unavailable and skipped;
   required sources succeeded.
 - `pnpm audit --prod --audit-level=low` passed with no known vulnerabilities.
   The full audit fails only on the unpublished braces fix described above.

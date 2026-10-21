@@ -70,12 +70,6 @@ const sitemapSources = [
     sitemap: '/sitemap.xml'
   },
   {
-    name: 'Difftale',
-    origin: 'https://difftale.santi020k.com',
-    required: false,
-    sitemap: '/sitemap-index.xml'
-  },
-  {
     name: 'PostLens',
     origin: 'https://postlens.santi020k.com',
     required: false,
