@@ -206,8 +206,9 @@ interface panels, padded logo tiles, blur, and baked-in bottom overlays. Thumbna
 metadata for their standalone and social-image uses, with the same geometric background.
 The editorial Projects gallery uses the text-free horizontal artwork for every card; project
 titles, descriptions, and technologies remain in the accessible HTML below each image.
-On project detail pages, omit the duplicate cover caption below 44rem of available width so
-larger logos stay unobstructed. The timeline and project type remain in the page metadata.
+On project detail pages, omit the duplicate cover caption and its supporting gradient below
+44rem of available width so larger logos stay unobstructed and retain their original colors.
+The timeline and project type remain in the page metadata.
 
 Source logos should have transparent outer canvases so they blend into the declared brand
 surface. Preserve backgrounds that belong to the app icon itself, but avoid opaque or partially
@@ -216,6 +217,9 @@ Android foreground asset from `apps/mobile/assets/images/android-icon-foreground
 RoadScore repository. Nebular retains its original white raster mark and lettering, with the
 gray backdrop removed from the alpha channel. After replacing a source logo, regenerate its
 project covers and OG cards.
+
+ReactJS Colombia keeps its original circular badge, with stray pixels outside the badge removed
+from the alpha channel. Keep its internal colors and artwork intact when cleaning the source.
 
 Auth retains its original vector lock. Quality uses the original vector from
 `apps/site/public/logo.svg` in the Quality repository so both stay sharp at larger sizes.

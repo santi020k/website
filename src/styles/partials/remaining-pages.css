@@ -381,10 +381,12 @@
 /* Reserve enough image height for the enlarged logo above the duplicate caption.
    Narrow covers and enlarged text yield to the metadata above and in the rail. */
 [data-project-cover] { container-type: inline-size; }
-[data-project-cover-caption] { display: none; }
+[data-project-cover-caption],
+[data-project-cover] [data-cover-gradient] { display: none; }
 [data-project-cover-caption] > * { flex: 1 1 7rem; min-width: 0; overflow-wrap: anywhere; }
 @container (min-width: 44rem) {
   [data-project-cover-caption] { display: flex; }
+  [data-project-cover] [data-cover-gradient] { display: block; }
 }
 /* The featured story belongs to the hero's single surface. */
 [data-blog-hero] .editorial-page-title { font-size: clamp(2rem, 5vw, 4.5rem); }
