@@ -503,6 +503,9 @@ and image scaling. The homepage content adds no client JavaScript.
 Site-owned blog pictures and covers that preserve their native aspect ratio use AVIF sources
 with a responsive WebP fallback. This avoids expanding WebP originals into large PNG fallbacks
 while retaining the existing dimensions, crop, alternative text, and loading priorities.
+Landscape article heroes use that same native-aspect path, so matching widths reuse
+the listing's image URLs instead of generating identical bytes with different dimension options.
+Portrait and square covers retain Lumen's contained frames.
 The installed Lumen `CoverImage` still owns its own format selection; do not pass unsupported
 format props through its wrapper. Keep source artwork and archived-site assets.
 

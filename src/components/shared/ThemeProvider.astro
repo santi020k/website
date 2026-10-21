@@ -59,6 +59,21 @@ const setTheme = newTheme => {
 // initial setup
 setTheme(getUserPref())
 
+// Apply the selected theme before Astro installs the destination root attributes.
+// Restoring it only after the swap can expose light colors for the first frame.
+document.addEventListener('astro:before-swap', event => {
+  if (!('newDocument' in event) || !(event.newDocument instanceof Document)) {
+    return
+  }
+
+  const theme = getUserPref()
+  const nextRoot = event.newDocument.documentElement
+
+  nextRoot.setAttribute('data-theme', theme)
+
+  nextRoot.classList.toggle('dark', theme === 'dark')
+})
+
 // View Transitions hook to restore theme
 document.addEventListener('astro:after-swap', () => setTheme(getUserPref()))
 

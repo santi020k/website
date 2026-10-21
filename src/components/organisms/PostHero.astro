@@ -34,14 +34,12 @@ const coverAspectRatio = post.data.coverImage ?
 const useWideCoverFrame = coverAspectRatio > 1.08
 // Use the first tag as an editorial eyebrow label, fallback to "Article"
 const eyebrowLabel = tags[0] ?? 'Article'
-const publishDateIso = publishDate.toISOString().slice(0, 10)
-const updatedDateIso = updatedDate?.toISOString().slice(0, 10)
 
 const metaItems = [
-  { label: 'Published', value: publishDate, datetime: publishDateIso, type: 'date' as const },
-  { label: 'Read time', value: readingTimeText, datetime: undefined, type: 'text' as const },
-  { label: 'Words', value: wordCount.toLocaleString(), datetime: undefined, type: 'text' as const },
-  ...(updatedDate ? [{ label: 'Updated', value: updatedDate, datetime: updatedDateIso, type: 'date' as const }] : [])
+  { label: 'Published', value: publishDate, type: 'date' as const },
+  { label: 'Read time', value: readingTimeText, type: 'text' as const },
+  { label: 'Words', value: wordCount.toLocaleString(), type: 'text' as const },
+  ...(updatedDate ? [{ label: 'Updated', value: updatedDate, type: 'date' as const }] : [])
 ]
 ---
 
@@ -254,6 +252,7 @@ class="p-summary text-ink-soft"
           fetchpriority="high"
           image={post.data.coverImage.src}
           loading="eager"
+          preserveAspectRatio={useWideCoverFrame}
           showBottomGradient={useWideCoverFrame}
           sizes={useWideCoverFrame ? '(min-width: 1280px) 1152px, 100vw' : '(min-width: 1024px) 896px, 100vw'}
           transitionName={`post-cover-${getPostSlug(post.id)}`}
