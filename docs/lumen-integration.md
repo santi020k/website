@@ -114,6 +114,9 @@ The same component serves featured, supporting, and related projects without cli
   existing `RevealGroup`, with semantic sections and level-two headings inside.
   Local container queries stack heading and copy without changing policy text or
   adding a controller. Privacy, Terms, and Accessibility share this composition.
+- History chapters compose Stacked sheets from an unstyled Lumen `Card` for the
+  introduction and the existing `ButtonLink` archive action. The authentic Astro
+  images remain outside the card; container queries reflow its metadata and copy.
 - Developer Experience shipped systems compose System folio from unstyled Lumen
   `Card` and `ButtonLink` components with decorative `Icon` labels and arrows.
   Local styles own the soft header, aligned action rows, and narrow-container reflow;

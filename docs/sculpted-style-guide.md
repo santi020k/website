@@ -210,6 +210,22 @@ reclaim 0.5rem of each page margin, tighten the panel and heading insets, and us
 complete words. Keep the original policy wording, dates, heading hierarchy, contact
 links, and readable light/dark colors. The rows remain passive reading content.
 
+### Stacked sheets History chapters
+
+Give each chapter introduction an opaque Lumen Card with 1.75rem corners, a
+0.5rem lower-right corner, and a 0.375rem brand-soft sheet shadow. Reserve that
+offset inside the timeline width. Keep the version, date, and chapter status in
+an 8rem left column; put the title and description beside them with a 2rem gap.
+The desktop and mobile captures sit below the introduction at the full chapter
+width, followed by the existing archive action and preservation note.
+
+Below 34rem of available chapter width, stack the metadata above the title and
+copy. Below 16rem, reclaim some page margin and tighten insets and title size so
+enlarged text keeps complete words. Stack the captures at this size so their
+captions stay readable. Keep all four chapter anchors, authentic captures, descriptive image
+alternatives, and full-document archive navigation. The sheet is passive content;
+its shadow stays visible on hover and requires no animation or controller.
+
 ### Compact topic cards
 
 Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.
