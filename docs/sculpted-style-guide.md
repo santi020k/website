@@ -305,6 +305,19 @@ and standalone emphasized claims use the full row, without inventing a missing c
 Keep nested lists and ordered-list numbering semantic. This passive composition has
 no card fill, shadow, decorative dots, or hover feedback.
 
+### Gallery sheet product previews
+
+Product previews use one opaque Lumen Card with 1.5rem corners and a 0.5rem lower-right
+corner. Place the complete screenshot on a quiet purple wash above its caption, with
+1.25rem image insets. Keep intrinsic proportions, contain fitting, lazy loading, and a
+32rem maximum image height so portrait screens remain balanced alongside web previews.
+
+The caption pairs a decorative 2rem purple number with a 1.25rem title and the complete
+0.875rem description. Use 1.75rem caption insets and a 2.75rem number column. Below
+31.25rem of card width, tighten image and caption insets; below 18rem, stack the number
+above the copy. Preserve descriptive image alternatives and product-preview disclosures.
+This is a passive surface without hover motion or client JavaScript.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

@@ -108,6 +108,9 @@ The same component serves featured, supporting, and related projects without cli
 - `ProjectCaseStudy` composes Margin chapters from an unstyled Lumen `Card`, `Icon`,
   and an ordered list with semantic chapter headings. Its scoped container queries
   retain complete narratives and optional chapters in narrow or enlarged-text layouts.
+- `ProjectPreviews` composes Gallery sheet with an unstyled Lumen `Card` around a
+  semantic figure. Lumen `Image` retains Astro optimization and complete screenshot
+  proportions; the caption and decorative number reflow through scoped container queries.
 - Project timeline endpoints use separate native `time` elements, and project
   sidebar card labels are level-two headings. `ProjectGlanceCard` uses an unstyled Lumen
   `Card` for the Project dossier treatment. `ProjectFocusCard` uses the same primitive
