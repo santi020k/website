@@ -178,6 +178,10 @@ If a production regression is detected:
 
 If the site should receive and display [Webmention.io](https://webmention.io/) mentions, set these in the environment used for **`pnpm run build`** (CI or local). Values match `.env.example`.
 
+Mention avatars retain explicit dimensions and load lazily in the browser. Their external hosts
+are deliberately excluded from build-time image optimization so an unavailable avatar cannot
+fail the site build. Editorial images remain local and optimized through Astro.
+
 | Variable | Type | Purpose |
 | --- | --- | --- |
 | `WEBMENTION_API_KEY` | **Secret** | Token from the Webmention.io dashboard. Build fetches `mentions.jf2` for each post. |

@@ -1,67 +1,43 @@
 ---
 name: Automation Scripts
-description: Guidelines for using JavaScript and Python utility scripts for site maintenance and content generation.
+description: Guidelines for the current asset, font, social image, and resume generators.
 ---
 
-# Automation Scripts Skill
+# Automation Scripts
 
-Use this skill when you need to run, modify, or troubleshoot the various utility scripts used for generating assets, fonts, and the personal CV.
+Run the repository's generators from the project root with Node.js 24+ and its pinned pnpm.
+Install dependencies with `pnpm install --frozen-lockfile` first.
 
-## Directory Structure
-
-All scripts are located in the `scripts/` directory, separated by language:
-
-- `scripts/js/`: Node.js based scripts (ESM/JS).
-- `scripts/py/`: Python 3 based scripts.
-
-## JavaScript Scripts (pnpm shortcuts)
-
-Most JS scripts are integrated into the `package.json` workflow.
-
-| Task | Command | Script Path |
+| Task | Command | Source |
 | --- | --- | --- |
-| **Generate Favicons** | `pnpm run generate:icons` | `scripts/js/generate-favicons.mjs` |
-| **Generate Fonts (subset)** | `pnpm run generate:fonts` | `scripts/js/generate-fonts.mjs` |
-| **Generate OG Images** | `pnpm run generate:og` | `scripts/js/generate-og-images.js` (+ `og-render-worker.mjs` pool) |
-| **Force Regenerate OG** | `pnpm run generate:og:force` | `scripts/js/generate-og-images.js` |
-| **Refresh Project Covers** | `pnpm run refresh:covers` | `scripts/js/refresh-project-covers.mjs` |
+| Generate favicons | `pnpm run generate:icons` | `scripts/js/generate-favicons.mjs` |
+| Generate full and Latin-subset fonts | `pnpm run generate:fonts` | `scripts/js/generate-fonts.mjs` |
+| Generate social images | `pnpm run generate:og` | `scripts/js/generate-og-images.js` |
+| Force social image regeneration | `pnpm run generate:og:force` | Same OG configuration |
+| Generate project artwork | `pnpm run generate:project-images` | `scripts/js/generate-project-images.mjs` |
+| Generate both resume PDFs | `pnpm run generate:cv` | `scripts/js/generate-resume-pdf.mjs` |
 
-### Prerequisites
-- Node.js 24+
-- `pnpm install` dependencies
+## Resume PDFs
 
-**OG images:** Renders use a `worker_threads` pool (Satori/Resvg/Sharp per isolate). Set `OG_WORKER_THREADS` to cap parallelism on low-memory CI (default `min(8, os.availableParallelism())`).
+The canonical content is `src/pages/resume.astro` and its referenced project collections.
+`generate:cv` first builds the website, then prints its short and full resume variants through
+Playwright. It writes `public/pdf/cv.pdf`, `cv-full.pdf`, and `cv.source.json` together.
+Run `pnpm run check:cv` to verify the source fingerprint and PDF integrity. Inspect rendered PDFs
+after changing content or print styles. The Markdown files under `scripts/py/` are editorial
+reference drafts, not generator inputs.
 
----
+The retired Python PDF and static-weight font generators are no longer used. The project artwork
+generator still consumes `public/fonts/Montserrat-Bold.ttf`; preserve that font.
 
-## Python Scripts
+## Fonts and images
 
-Python scripts are used for specialized tasks like PDF generation and font weight instantiation.
+The Node font generator reads the committed variable TTF files, writes full WOFF2 files, and derives
+Latin subsets from the actual `unicode-range` declarations in `src/styles/partials/base.css`.
+Keep the full fonts for characters outside those ranges and for social-image rendering.
 
-| Task | Command | Script Path |
-| --- | --- | --- |
-| **Generate CV PDF** | `pnpm run generate:cv` | `scripts/py/generate-cv.py` |
-| **Generate Font Weights** | `pnpm run generate:fonts:py` | `scripts/py/generate-fonts.py` |
+The OG package owns rendering, concurrency, fingerprints, and tracked-output cleanup. See
+`docs/cache-strategy.md` for the portable cache contract and version-pinned package patch.
+Do not hand-edit generated manifests or remove compatibility aliases based on duplicate bytes.
 
-### Prerequisites
-- Python 3.9+
-- Python packages (install as needed):
-  ```bash
-  pip install reportlab fonttools
-  ```
-
-### Usage Details
-
-#### 1. Generating the CV
-The `generate:cv` script reads `scripts/py/cv.md` (metadata) and produces `public/pdf/cv.pdf`. 
-- **Fonts**: It requires `Montserrat-Bold.ttf` and `Montserrat-ExtraBold.ttf` to exist in `public/fonts/`. If they are missing, run the font weight generator first.
-
-#### 2. Generating Font Weights
-The `generate:fonts:py` script uses `fonttools` to extract specific weights from the variable font file `public/fonts/montserrat-variable-font-wght.ttf`.
-- Run this if you need to add new weights to the CV or website that aren't provided by standard exports.
-
-## Troubleshooting
-
-- **Path Errors**: Ensure you run all commands from the **project root**.
-- **Missing Fonts**: If `satori` or `reportlab` fail with font errors, verify that `public/fonts/` contains the required `.ttf` files.
-- **Dependency Issues**: If a script fails to import a module, check that `pnpm install` (for JS) or `pip install` (for Python) was executed.
+Keep source artwork and historical website assets. Measure emitted browser assets separately from
+originals; use the existing Astro image components for optimized delivery.

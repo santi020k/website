@@ -1,5 +1,6 @@
-const CACHE_VERSION = 'v4.0.0'
+const CACHE_VERSION = 'v4-cache-v2'
 const STATIC_CACHE = `santi020k-static-${CACHE_VERSION}`
+const MAX_CACHE_ENTRIES = 256
 
 const CORE_ROUTES = [
   '/',
@@ -12,6 +13,8 @@ const CORE_ROUTES = [
   '/icons/icon-192.webp',
   '/icons/icon-512.webp'
 ]
+
+const coreURLs = new Set(CORE_ROUTES.map(route => new URL(route, self.location.origin).href))
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -82,14 +85,27 @@ const matchCached = async (cache, request) => {
  */
 const storeResponse = async (cache, request, response) => {
   try {
-    await cache?.put(request, response.clone())
+    if (!cache) return
+
+    await cache.put(request, response.clone())
+
+    // Hashed assets change between deployments. Bound the cache without evicting
+    // the small install-time offline shell or touching another app's storage.
+    const keys = await cache.keys()
+    const overflow = Math.max(0, keys.length - MAX_CACHE_ENTRIES)
+
+    await Promise.all(keys.filter(key => !coreURLs.has(key.url)).slice(0, overflow)
+      .map(key => cache.delete(key)))
   } catch {
     // Storage may be unavailable or full; the response is still usable.
   }
 }
 
-/** @param {Request} request */
-const networkFirst = async request => {
+/**
+ * @param {Request} request
+ * @param {boolean} [pageFallback]
+ */
+const networkFirst = async (request, pageFallback = false) => {
   const cache = await openCache()
 
   try {
@@ -102,7 +118,7 @@ const networkFirst = async request => {
     return response
   } catch {
     return (await matchCached(cache, request)) ??
-      (await matchCached(cache, '/offline/')) ?? Response.error()
+      (pageFallback ? await matchCached(cache, '/offline/') : undefined) ?? Response.error()
   }
 }
 
@@ -134,8 +150,16 @@ self.addEventListener('fetch', event => {
     return
   }
 
-  if (event.request.mode === 'navigate' || isPageRequest(url)) {
+  // Mutable downloads and data must honor their network revalidation policy.
+  // Never substitute an HTML offline page for missing JSON, feeds, or PDF bytes.
+  if (/\.(?:pdf|json|xml|webmanifest)$/.test(url.pathname)) {
     event.respondWith(networkFirst(event.request))
+
+    return
+  }
+
+  if (event.request.mode === 'navigate' || isPageRequest(url)) {
+    event.respondWith(networkFirst(event.request, true))
 
     return
   }

@@ -102,7 +102,8 @@ const coverWidths = cover ?
                     motion-reduce:transition-none
                   "
                   fetchpriority="high"
-                  formats={['avif', 'webp']}
+                  fallbackFormat="webp"
+                  formats={['avif']}
                   height={coverHeight}
                   loading="eager"
                   sizes="(min-width: 1280px) 480px, (min-width: 1024px) 40vw, (min-width: 640px) 90vw, 100vw"

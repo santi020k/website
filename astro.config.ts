@@ -27,7 +27,6 @@ import remarkDirective from 'remark-directive'/* handle ::: directives as nodes 
 import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
 import { rehypeReadableTables } from './src/plugins/rehype-readable-tables'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
-import { remarkReadingTime } from './src/plugins/remark-reading-time'
 import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
@@ -192,14 +191,8 @@ const legacyRedirects: Record<string, string> = {
 // https://astro.build/config
 export default defineConfig({
   redirects: legacyRedirects,
-  image: {
-    remotePatterns: [
-      { protocol: 'https', hostname: 'webmention.io' },
-      { protocol: 'https', hostname: 'cdn-images-1.medium.com' },
-      { protocol: 'https', hostname: 'cdn-images-2.medium.com' },
-      { protocol: 'https', hostname: 'miro.medium.com' }
-    ]
-  },
+  // Editorial images are local. Leave third-party mention avatars as browser
+  // requests so an unavailable author image cannot fail the static build.
   integrations: [
     icon(),
     sitemap({
@@ -261,9 +254,9 @@ export default defineConfig({
         rehypeReadableTables,
         rehypeUnwrapImages
       ],
-      remarkPlugins: [remarkReadingTime, remarkDirective, remarkAdmonitions],
+      remarkPlugins: [remarkDirective, remarkAdmonitions],
       remarkRehype: {
-        footnoteBackContent: '⤴',
+        footnoteBackContent: '↩',
         footnoteLabelProperties: {
           className: ['']
         }

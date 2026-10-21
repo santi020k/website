@@ -316,9 +316,9 @@ complete against the pushed revision before recommending release.
 The CV fingerprint now includes the imported date formatter, other local render
 dependencies, and the canonical and served variable fonts with their generator.
 Five fixture mutation cases prove these changes invalidate freshness. Both PDFs
-were regenerated from the current source. The service-worker namespace is
-`santi020k-static-v4.0.0`; activation removes prior site caches and preserves
-unrelated caches.
+were regenerated from the current source. The original v4 namespace was `santi020k-static-v4.0.0`. The current bounded
+cache and mutable-resource policy are documented in [Cache Strategy](cache-strategy.md);
+activation still preserves unrelated caches.
 
 The Codex download finding referred to a local wrapper that the résumé does not
 use. Its direct Lumen import already forwards `download`; browser verification

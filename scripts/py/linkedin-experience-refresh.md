@@ -1,7 +1,7 @@
 # LinkedIn Experience Refresh
 
-Working draft based on `cv.md` — the canonical source of truth for titles, metrics, and wording.
-Keep this file in sync with `cv.md` and `generate-cv.py` whenever experience content changes.
+Historical working draft based on `cv.md`. The current resume source is
+`src/pages/resume.astro` and its project collections; compare these notes with that source before reuse.
 
 ## Standardized titles and metrics (decided)
 

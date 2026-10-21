@@ -53,8 +53,6 @@ const shareLinks = [
         target="_blank"
         rel="noopener noreferrer"
         aria-label={link.label}
-        data-track-event="share"
-        data-track-platform={link.platform}
         class="group btn-secondary"
       >
         <Icon class="
@@ -128,11 +126,6 @@ const shareLinks = [
     color: hsl(var(--danger));
   }
 
-  @keyframes spring-up {
-    0% { transform: translateY(10px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-  }
-  .animate-spring-up { animation: spring-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 </style>
 
 <script>

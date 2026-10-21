@@ -146,10 +146,6 @@
   }
 }
 
-@utility ui-combobox {
-  @apply grid gap-2;
-}
-
 /* Site pills keep one line when there is room. In narrow containers or with
    enlarged text, long labels wrap inside the pill instead of widening the row. */
 [data-site-pill] {

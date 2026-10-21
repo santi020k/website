@@ -1,5 +1,51 @@
 import { expect, test } from '@playwright/test'
 
+test('search artwork does not repeat the result title in its accessible name', async ({ page }) => {
+  await page.route('**/search-index.json', route => route.fulfill({ json: [{
+    title: 'Astro guide',
+    path: '/about/',
+    description: 'Practical notes.',
+    tags: [],
+    type: 'post',
+    coverUrl: '/favicon.webp',
+    coverAlt: 'Decorative artwork for the Astro guide'
+  }] }))
+  await page.goto('/?q=Astro')
+  const result = page.locator('[data-site-search-result]')
+
+  await expect(result).toHaveAccessibleName('Post Astro guide Practical notes.')
+  await expect(result.locator('img')).toHaveAttribute('alt', '')
+})
+
+test('a delayed deep-link index renders the latest query and is reused after navigation', async ({ page }) => {
+  let releaseIndex: (() => void) | undefined
+  const indexReady = new Promise<void>(resolve => {
+    releaseIndex = resolve
+  })
+  let requestCount = 0
+
+  await page.route('**/search-index.json', async route => {
+    requestCount += 1
+    await indexReady
+    await route.fulfill({ json: [
+      { title: 'Astro guide', path: '/about/', description: 'First topic', tags: [], type: 'post' },
+      { title: 'React guide', path: '/work/', description: 'Second topic', tags: [], type: 'post' }
+    ] })
+  })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/?q=Astro')
+  await expect(page.locator('#site-search-status')).toHaveText('Loading search index.')
+  await page.locator('#site-search-input').fill('React')
+  releaseIndex?.()
+  await expect(page.locator('[data-site-search-result-title]')).toHaveText('React guide')
+  await page.locator('#site-search-input').press('Enter')
+  await expect(page).toHaveURL(/\/work\/$/u)
+  await page.keyboard.press('/')
+  await page.locator('#site-search-input').fill('Astro')
+  await expect(page.locator('[data-site-search-result-title]')).toHaveText('Astro guide')
+  expect(requestCount).toBe(1)
+})
+
 test('repeated search close requests cannot close a newly reopened dialog', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.clock.install()

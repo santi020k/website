@@ -3,6 +3,31 @@ import { z } from 'astro/zod'
 
 import { siteConfig } from '../src/site.config'
 
+test('blog pictures keep responsive AVIF sources and compact WebP fallbacks', async ({ page, request }) => {
+  await page.goto('/blog/')
+  const pictures = page.locator('[data-blog-latest] picture, [data-post-gallery-card] picture')
+
+  expect(await pictures.count()).toBeGreaterThan(1)
+
+  for (const picture of await pictures.all()) {
+    await expect(picture.locator('source')).toHaveAttribute('type', 'image/avif')
+    const fallback = picture.locator('img')
+
+    await expect(fallback).toHaveAttribute('src', /\.webp$/u)
+    await expect(fallback).toHaveAttribute('srcset', /\.webp \d+w/u)
+    await expect(fallback).toHaveAttribute('sizes', /\S/u)
+
+    const src = await fallback.getAttribute('src') ?? ''
+
+    expect(src).not.toBe('')
+
+    const response = await request.get(src)
+
+    expect(response.ok()).toBe(true)
+    expect(response.headers()['content-type']).toContain('image/webp')
+  }
+})
+
 const manifestSchema = z.object({
   name: z.string(),
   short_name: z.string(),

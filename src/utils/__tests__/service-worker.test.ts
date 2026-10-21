@@ -10,6 +10,8 @@ const origin = 'https://santi020k.com'
 const setupWorker = () => {
   const handlers = new Map<string, (event: unknown) => void>()
   const cache = {
+    delete: vi.fn<(request: Request) => Promise<boolean>>().mockResolvedValue(true),
+    keys: vi.fn<() => Promise<Request[]>>().mockResolvedValue([]),
     match: vi.fn<(request: Request | string) => Promise<Response | undefined>>().mockResolvedValue(undefined),
     put: vi.fn<(request: Request, response: Response) => Promise<void>>().mockResolvedValue(undefined)
   }
@@ -287,16 +289,91 @@ describe('Service worker fetch handling', () => {
     expect(worker.cache.put.mock.calls[0]?.[0]?.url).toBe(`${origin}/posts/one/?tag=foo`)
   })
 
-  test('treats a non-trailing-slash GET as stale-while-revalidate, not network-first', async () => {
+  test.each(['/search-index.json', '/pdf/cv.pdf', '/pdf/cv-full.pdf', '/feed.xml', '/feed.json', '/manifest.webmanifest'])(
+    'serves the fresh network response for mutable resource %s', async path => {
+      const worker = setupWorker()
+
+      worker.cache.match.mockResolvedValue(new Response('stale json'))
+      worker.fetch.mockResolvedValue(new Response('fresh json'))
+
+      const event = worker.dispatch(makeRequest(path))
+      const response = await event.response
+
+      expect(await response?.text()).toBe('fresh json')
+      await Promise.all(event.lifetime)
+    }
+  )
+
+  test.each(['/search-index.json', '/pdf/cv.pdf', '/feed.xml'])(
+    'uses only the matching resource offline, never HTML, for %s', async path => {
+      const worker = setupWorker()
+
+      worker.fetch.mockRejectedValue(new TypeError('Offline'))
+      worker.cache.match.mockImplementation(request => Promise.resolve(
+        request === '/offline/' ? new Response('Offline page') : undefined
+      ))
+
+      expect((await worker.dispatch(makeRequest(path)).response)?.type).toBe('error')
+      expect(worker.cache.match).not.toHaveBeenCalledWith('/offline/')
+
+      worker.cache.match.mockResolvedValue(new Response('cached resource'))
+
+      expect(await (await worker.dispatch(makeRequest(path)).response)?.text()).toBe('cached resource')
+    }
+  )
+
+  test('refreshes a PDF opened through browser navigation', async () => {
     const worker = setupWorker()
 
-    worker.cache.match.mockResolvedValue(new Response('stale json'))
-    worker.fetch.mockResolvedValue(new Response('fresh json'))
+    worker.cache.match.mockResolvedValue(new Response('stale PDF'))
+    worker.fetch.mockResolvedValue(new Response('fresh PDF', { headers: { 'Content-Type': 'application/pdf' } }))
 
-    const event = worker.dispatch(makeRequest('/search-index.json'))
-    const response = await event.response
+    const response = await worker.dispatch(makeRequest('/pdf/cv.pdf', true)).response
 
-    expect(await response?.text()).toBe('stale json')
+    expect(await response?.text()).toBe('fresh PDF')
+    expect(response?.headers.get('Content-Type')).toBe('application/pdf')
+    expect(worker.cache.match).not.toHaveBeenCalled()
+  })
+
+  test.each([false, true])('never serves offline HTML for PDF navigation (cached PDF: %s)', async cached => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    worker.cache.match.mockImplementation(request => {
+      if (request === '/offline/') return Promise.resolve(new Response('Offline page'))
+
+      return Promise.resolve(cached ? new Response('cached PDF', { headers: { 'Content-Type': 'application/pdf' } }) : undefined)
+    })
+
+    const response = await worker.dispatch(makeRequest('/pdf/cv.pdf', true)).response
+
+    expect(response?.type).toBe(cached ? 'default' : 'error')
+    expect(await response?.text()).toBe(cached ? 'cached PDF' : '')
+    expect(worker.cache.match).not.toHaveBeenCalledWith('/offline/')
+  })
+
+  test('evicts the oldest excess entries while retaining the offline shell', async () => {
+    const worker = setupWorker()
+    const assets = Array.from({ length: 258 }, (_, index) => makeRequest(`/_astro/file-${index}.js`))
+
+    worker.cache.keys.mockResolvedValue([makeRequest('/offline/'), makeRequest('/'), ...assets])
+    worker.fetch.mockResolvedValue(new Response('new asset'))
+
+    const event = worker.dispatch(makeRequest('/_astro/new.js'))
+
+    await event.response
     await Promise.all(event.lifetime)
+    expect(worker.cache.delete.mock.calls.map(([request]) => request.url)).toEqual(
+      assets.slice(0, 4).map(request => request.url)
+    )
+  })
+
+  test('returns fresh data even when cache eviction fails', async () => {
+    const worker = setupWorker()
+
+    worker.cache.keys.mockRejectedValue(new Error('Unavailable storage'))
+    worker.fetch.mockResolvedValue(new Response('fresh data'))
+
+    expect(await (await worker.dispatch(makeRequest('/search-index.json')).response)?.text()).toBe('fresh data')
   })
 })

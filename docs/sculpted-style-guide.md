@@ -430,6 +430,12 @@ and image scaling. The homepage content adds no client JavaScript.
 
 ## Implementation reference
 
+Site-owned blog pictures and covers that preserve their native aspect ratio use AVIF sources
+with a responsive WebP fallback. This avoids expanding WebP originals into large PNG fallbacks
+while retaining the existing dimensions, crop, alternative text, and loading priorities.
+The installed Lumen `CoverImage` still owns its own format selection; do not pass unsupported
+format props through its wrapper. Keep source artwork and archived-site assets.
+
 - `src/components/pages/home/`: homepage compositions.
 - `src/styles/partials/home-hero.css`: hero styling.
 - `src/styles/partials/home-content.css`: homepage content styling.

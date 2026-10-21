@@ -8,7 +8,7 @@
 - **Layouts**: Located in `src/layouts/`. Use for global page structures.
 
 ## Content Collections
-- All content is defined in `src/content/config.ts`.
+- All content is defined in `src/content.config.ts`.
 - Content files are in `src/content/{collection}/`.
 - Always use `getCollection` and `getEntry` from `astro:content` to fetch data.
 - Validate schemas when adding new collections.
@@ -19,5 +19,6 @@
 
 ## Scripting
 - Favor `<script>` tags in `.astro` files for client-side logic.
-- Use `is:inline` only when strictly necessary for 3rd party scripts (like Pagefind).
-- Use `alpinejs` for lightweight interactivity.
+- Use processed `<script>` modules for client behavior; Astro bundles and caches them across routes.
+- Reserve `is:inline` for code that must run before page rendering, such as the theme bootstrap.
+- Use native TypeScript and the installed Lumen runtime for interactivity. Do not add a frontend framework runtime.

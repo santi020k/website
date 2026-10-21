@@ -1,5 +1,62 @@
 import { expect, test } from '@playwright/test'
 
+for (const path of ['/search-index.json', '/pdf/cv.pdf', '/feed.xml']) {
+  test(`revalidates mutable resource ${path} before serving a previously cached copy`, async ({ page, request }) => {
+    const expected = await request.get(path)
+    const freshBytes = [...await expected.body()]
+
+    await page.goto('/robots.txt')
+    await page.evaluate(async resource => {
+      await navigator.serviceWorker.register('/sw.js')
+      await navigator.serviceWorker.ready
+      const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+      if (!name) throw new Error('Missing current service worker cache')
+
+      await (await caches.open(name)).put(resource, new Response('stale resource'))
+    }, path)
+    await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+    const actual = await page.evaluate(async resource => {
+      const response = await fetch(resource)
+
+      return [...new Uint8Array(await response.arrayBuffer())]
+    }, path)
+
+    expect(actual).toEqual(freshBytes)
+  })
+}
+
+test('bounds accumulated assets without evicting the offline page or unrelated storage', async ({ page }) => {
+  await page.goto('/robots.txt')
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.register('/sw.js')
+    await navigator.serviceWorker.ready
+  })
+  await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+  const result = await page.evaluate(async () => {
+    const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+    if (!name) throw new Error('Missing current service worker cache')
+
+    const cache = await caches.open(name)
+
+    for (let index = 0; index < 270; index += 1) {
+      await cache.put(`/_astro/old-${index}.js`, new Response('old build asset'))
+    }
+
+    await (await caches.open('unrelated-cache')).put('/private', new Response('untouched'))
+    await fetch('/search-index.json')
+
+    return {
+      count: (await cache.keys()).length,
+      offline: Boolean(await cache.match('/offline/')),
+      unrelated: await (await (await caches.open('unrelated-cache')).match('/private'))?.text()
+    }
+  })
+
+  expect(result).toEqual({ count: 256, offline: true, unrelated: 'untouched' })
+})
+
 test('serves a partial PDF response after caching the complete file', async ({ page }) => {
   // A static text document avoids the site's intentional localhost worker cleanup.
   await page.goto('/robots.txt')
@@ -79,6 +136,6 @@ test('retires the previous release cache while preserving unrelated caches', asy
   const names = await page.evaluate(() => caches.keys())
 
   expect(names).not.toContain('santi020k-static-2026-04-21')
-  expect(names).toContain('santi020k-static-v4.0.0')
+  expect(names).toContain('santi020k-static-v4-cache-v2')
   expect(names).toContain('unrelated-cache')
 })

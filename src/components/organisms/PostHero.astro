@@ -9,9 +9,9 @@ import Pill from '@/components/atoms/Pill.astro'
 
 import { getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
+import { getReadingStats } from '@/utils/reading-time'
 
 import { Breadcrumb, CopyButton, Icon } from '@santi020k/lumen-astro'
-import readingTime from 'reading-time'
 
 import { getSeriesContext } from '@/data/series'
 import { siteConfig } from '@/site.config'
@@ -22,9 +22,8 @@ interface Props {
 
 const { post } = Astro.props
 const { canonicalUrl, description, publishDate, title, updatedDate, tags } = post.data
-const stats = readingTime(post.body ?? '')
-const readingTimeText = stats.text
-const wordCount = Math.round(stats.words)
+const { minutes, words: wordCount } = getReadingStats(post.body)
+const readingTimeText = `${minutes} min read`
 const seriesContext = await getSeriesContext(post)
 const copyUrl = new URL(Astro.url.pathname, Astro.site).href
 
@@ -87,7 +86,7 @@ const metaItems = [
   {/* ── Title + description ──────────────────────────────────── */}
   <div
     class="
-      animate-slide-up space-y-6 [animation-delay:80ms]
+      animate-reveal-lcp space-y-6
       motion-reduce:animate-none
     "
   >
@@ -145,13 +144,12 @@ class="
       "
       data-editorial-meta-grid="article"
     >
-      {metaItems.map((item, index) => (
+      {metaItems.map(item => (
         <div
           class="
-            post-meta-card relative rounded-2xl border border-line/30
-            bg-surface/50 p-6 editorial-detail-meta-item
+            relative rounded-2xl border border-line/30 bg-surface/50 p-6
+            editorial-detail-meta-item
           "
-          style={`animation-delay: ${160 + (index * 40)}ms`}
         >
           <dl class="space-y-2">
             <dt class="
@@ -274,7 +272,7 @@ class="
           image={post.data.coverImage.src}
           loading="eager"
           showBottomGradient={useWideCoverFrame}
-          sizes="(min-width: 1024px) 1200px, 100vw"
+          sizes={useWideCoverFrame ? '(min-width: 1280px) 1152px, 100vw' : '(min-width: 1024px) 896px, 100vw'}
           transitionName={`post-cover-${getPostSlug(post.id)}`}
         />
         {useWideCoverFrame && (

@@ -339,8 +339,10 @@
   outline: 2px solid hsl(var(--accent));
   outline-offset: 4px;
 }
-:is([data-project-gallery-card]:not(.projects-editorial-card), [data-portfolio-project]) > a:focus-visible {
-  outline: none;
+@supports selector(:has(*)) {
+  :is([data-project-gallery-card]:not(.projects-editorial-card), [data-portfolio-project]) > a:focus-visible {
+    outline: none;
+  }
 }
 
 [data-project-case-study] { container: project-case-study / inline-size; }

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 
-import { getReadingTime } from '../reading-time'
+import { getReadingStats, getReadingTime } from '../reading-time'
 
 describe('getReadingTime', () => {
   test('returns 1 for undefined input', () => {
@@ -38,5 +38,19 @@ describe('getReadingTime', () => {
   test('handles multi-whitespace separators correctly', () => {
     const body = 'one  two\tthree\nfour'
     expect(getReadingTime(body)).toBe(1)
+  })
+
+  test('uses the same word count and duration for cards, article metadata, and structured data', () => {
+    const body = 'word '.repeat(201)
+
+    expect(getReadingStats(body)).toEqual({ minutes: getReadingTime(body), words: 201 })
+    expect(getReadingStats(undefined)).toEqual({ minutes: 1, words: 0 })
+  })
+
+  test('counts CJK text without relying on whitespace boundaries', () => {
+    const body = '中文'.repeat(150)
+
+    expect(getReadingStats(body)).toEqual({ minutes: 2, words: 300 })
+    expect(getReadingTime(body)).toBe(2)
   })
 })

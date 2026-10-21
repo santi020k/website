@@ -242,6 +242,16 @@ test.describe('Share buttons', () => {
     })
   })
 
+  test('copied feedback has no animation when reduced motion is requested', async ({ page }) => {
+    const { path } = await getFirstPostPermalink(page)
+
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto(path)
+    await page.locator('#copy-link-btn').click()
+    await expect(page.locator('#copy-label')).toHaveText('Link copied!')
+    await expect(page.locator('#copy-link-btn [data-check-icon]')).toHaveCSS('animation-name', 'none')
+  })
+
   test('clicking the copy button writes the exact article permalink, ignoring query and fragment', async ({ page }) => {
     const { path, permalink } = await getFirstPostPermalink(page)
 

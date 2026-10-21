@@ -147,6 +147,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   outline. The search panel inside Lumen's fullscreen `Dialog` is site-owned: its rem-based
   container queries compact the chrome for narrow, short, or enlarged-text viewports while the
   results list stays the only scroll region.
+  `SiteSearch.astro` imports its typed controller from `site-search.ts` through a processed Astro
+  script. The bundled module owns one set of lifecycle listeners and one lazy index cache across
+  page swaps; index validation, ranking, and topic suggestions live in `src/utils/search.ts`.
+  Completed requests render the current input, including when a visitor edits a deep-linked query
+  before the index arrives.
 - `src/plugins/rehype-lumen-code.ts` hand-builds Lumen's `Code`/`CodeTabs` public DOM contract
   (`data-ui-code`, `role="tab"`/`"tabpanel"`, `data-value`, `aria-selected`) for markdown-rendered
   code blocks, because that content is produced by a Unified/Rehype pipeline outside the Astro
@@ -287,7 +292,7 @@ reverting the coordinated dependency and consumer changes together is the rollba
 
 ## Consumer styling cleanup
 
-The local `ui.css` layer retains seven source-used utility definitions, including the
+The local `ui.css` layer retains six source-used utility definitions, including the
 shared focus-ring dependency. Ninety-three unused primitive definitions were removed;
 Lumen continues to own primitive defaults. `site-label` names the site's text utility
 without sharing Lumen's internal Label class. Card spacing and Work metrics use public

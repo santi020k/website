@@ -172,7 +172,9 @@
 }
 
 /* The rounded card owns the indicator outside its clipped cover. */
-.studio-home .studio-project-link:focus-visible { outline: none; }
+@supports selector(:has(*)) {
+  .studio-home .studio-project-link:focus-visible { outline: none; }
+}
 
 @utility studio-project-link {
   display: block;

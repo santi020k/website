@@ -49,7 +49,6 @@ export const GET = async (context: APIContext) => {
 
   return new Response(JSON.stringify(feed, null, 2), {
     headers: {
-      'Cache-Control': 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400',
       'Content-Type': 'application/feed+json; charset=utf-8'
     }
   })
