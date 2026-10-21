@@ -76,6 +76,20 @@ Use open numbered rows for supporting projects and writing. Featured work can pa
 image with its description. Independent projects can use two equal image cards. Keep the same
 reading and keyboard order when columns collapse.
 
+### Reading slip Start here cards
+
+The homepage's curated articles use one opaque Lumen Card per link with 1.5rem corners
+and a 0.5rem lower-right corner. Pair the small purple reading label with a decorative
+3rem number, then show the complete 1.4375rem title and 0.875rem recommendation.
+Keep 1.75rem insets and a fine rule above the action. Align the action rows within each
+grid row, allowing longer titles and descriptions to determine the card height.
+
+Use a content-driven grid with 18rem minimum columns. Tighten insets below 19.375rem
+of card width; below 16rem, let the header and action wrap and reduce the title scale.
+The complete card is one native link with a continuous focus outline. Hover and keyboard
+focus emphasize only the title, using brand in light mode and accent in dark mode.
+Keep collection order, complete copy, heading levels, and operation without JavaScript.
+
 ### Editorial project cards
 
 The Projects gallery pairs the existing artwork with open editorial copy. Keep the standard

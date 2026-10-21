@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+
 test('curated reading complements recent writing and opens a real article', async ({ page }) => {
   await page.goto('/')
   const curated = page.getByRole('region', { name: 'Start here', exact: true })
@@ -13,4 +15,68 @@ test('curated reading complements recent writing and opens a real article', asyn
   await page.keyboard.press('Enter')
   await expect(page).toHaveURL(/\/blog\/why-i-built-between-contractions\/$/u)
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Why I Built Between Contractions')
+})
+
+for (const theme of ['light', 'dark']) {
+  test(`reading recommendations keep complete copy and visible focus in ${theme}`, async ({ page }) => {
+    await page.addInitScript(value => {
+      localStorage.setItem('theme', value)
+    }, theme)
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/')
+    const section = page.getByRole('region', { name: 'Start here', exact: true })
+    const cards = section.getByRole('article')
+    await expect(cards).toHaveCount(3)
+
+    for (const width of [320, 390, 768, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 })
+      for (const textSize of ['100%', '200%']) {
+        await page.evaluate(async value => {
+          document.documentElement.style.fontSize = value
+          await document.fonts.ready
+          await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => {
+            resolve()
+          })))
+        }, textSize)
+        for (const card of await cards.all()) {
+          const link = card.getByRole('link')
+          await link.scrollIntoViewIfNeeded()
+          await link.focus()
+          await expect(link).toBeFocused()
+          await expect(link).toBeInViewport()
+          await expect(link).not.toHaveCSS('outline-style', 'none')
+          const bounds = await card.boundingBox()
+          expect(bounds).not.toBeNull()
+          expect(bounds?.x).toBeGreaterThanOrEqual(0)
+          expect((bounds?.x ?? width) + (bounds?.width ?? width)).toBeLessThanOrEqual(width)
+          for (const copy of await card.locator('h4, p, [data-reading-slip-footer] > span').all()) {
+            const layout = await copy.evaluate(element => ({
+              width: element.clientWidth,
+              contentWidth: element.scrollWidth,
+              height: element.clientHeight,
+              contentHeight: element.scrollHeight
+            }))
+            expect(layout.contentWidth).toBeLessThanOrEqual(layout.width + 1)
+            expect(layout.contentHeight).toBeLessThanOrEqual(layout.height + 1)
+          }
+        }
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+      }
+    }
+    await expectNoUnexpectedAccessibilityViolations(page)
+  })
+}
+
+test.describe('Start here without client JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+
+  test('keeps complete recommendations and native article navigation', async ({ page }) => {
+    await page.goto('/')
+    const section = page.getByRole('region', { name: 'Start here', exact: true })
+    await expect(section.getByRole('link')).toHaveCount(3)
+    await expect(section.getByRole('heading', { level: 4 })).toHaveCount(3)
+    await section.getByRole('link').last().click()
+    await expect(page).toHaveURL(/\/blog\/why-i-built-between-contractions\/$/u)
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Why I Built Between Contractions')
+  })
 })
