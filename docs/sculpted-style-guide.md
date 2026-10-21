@@ -192,6 +192,23 @@ heading, role, and action. Reuse the project palette's readable light/dark color
 mixed toward the text token for contrast on tinted surfaces. Keep the resting folio
 unchanged, avoid movement, and disable the color transitions with reduced motion.
 
+### Layered editorial portfolio cards
+
+Portfolio spotlights and related projects share one full-card link and an unstyled Lumen
+Card. The artwork has 1.5rem corners; an opaque content sheet overlaps it by 3rem with
+1.25rem side insets, 1.125rem corners, and a smaller lower-right corner. Keep the status
+on an opaque badge over the artwork, followed by date, complete title, role, description,
+outcomes, plain technology labels, and a ruled case-study action in the sheet.
+
+Use the horizontal project artwork, optimized at 16:10, so square crops retain the central
+brand mark without clipping social-preview text. Below 36.25rem of card width, use a square crop, a 2.375rem
+overlap, and tighter insets. Below 20rem, scale long headings and let outcome columns
+stack. Never clamp descriptions or outcomes. Explicit before/after and percentage-drop
+statements may become value/label pairs; preserve all other statements verbatim and
+retain the original wording for screen readers. Project colors highlight the title,
+role, action, and sheet rules on hover and keyboard focus without moving the artwork.
+Keep a complete outer focus outline, readable light/dark colors, and reduced-motion support.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.
@@ -350,7 +367,7 @@ the same way, and the Projects ledger stacks below 17.5rem. Below 14rem, About t
 inset and scales headings to the container so whole words fit. Editorial project cards stay in two
 columns only while each keeps 20rem, and the featured card stacks below 40rem. Below 14rem a card
 hides its decorative title arrow so the full title gets the row. Portfolio cards
-tighten their inset and wrap pills below 14rem. The About carousel grid shows up to three 18rem
+tighten their inset below 20rem and wrap plain technology labels. The About carousel grid shows up to three 18rem
 columns. Its script uses the resolved column count as the page size, and it moves focus to the
 opposite control when paging disables the focused one. On Travel, the country panel stays inside
 the map and scrolls. A `travel-atlas` container below 30rem uses the phone overlay positions.
