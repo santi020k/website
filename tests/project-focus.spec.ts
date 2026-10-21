@@ -28,6 +28,18 @@ for (const theme of ['light', 'dark']) {
         await expect(card.getByRole('heading', { name: 'Focus', level: 2 })).toBeVisible()
         await expect(card.locator('p')).toHaveText(statement)
         await expect(card.locator('a, button, [tabindex]')).toHaveCount(0)
+        expect(await card.locator('p').evaluate(element => {
+          const text = element.firstChild
+
+          if (!text) throw new Error('Focus statement is missing')
+          const range = document.createRange()
+
+          return [...element.textContent.matchAll(/[a-z]+/gi)].every(match => {
+            range.setStart(text, match.index)
+            range.setEnd(text, match.index + match[0].length)
+            return range.getClientRects().length === 1
+          })
+        })).toBe(true)
         expect(await card.evaluate(element => {
           const bounds = element.getBoundingClientRect()
 

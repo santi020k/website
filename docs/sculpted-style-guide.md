@@ -231,7 +231,7 @@ target icon, then the complete focus statement at 1.125rem with 1.8125rem leadin
 A 2px purple margin rule and 1.0625rem text inset give the statement its emphasis.
 Use brand in light mode and accent in dark mode. Preserve the project-type copy,
 semantic heading, and passive appearance. Below 16rem of rail width, tighten the
-card and paragraph insets without shrinking the enlarged text.
+card and paragraph insets and use 1rem statement text to keep ordinary words intact.
 
 ## Buttons and links
 
