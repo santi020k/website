@@ -2,4 +2,4 @@
 "website": patch
 ---
 
-Remove the mismatched rectangular background from RoadScore project artwork using its original transparent app icon.
+Remove mismatched rectangular backgrounds from RoadScore and Nebular project artwork while preserving their original logos.

@@ -207,7 +207,9 @@ Source logos should have transparent outer canvases so they blend into the decla
 surface. Preserve backgrounds that belong to the app icon itself, but avoid opaque or partially
 transparent rectangular backdrops around the mark. RoadScore uses its original transparent
 Android foreground asset from `apps/mobile/assets/images/android-icon-foreground.png` in the
-RoadScore repository. After replacing a source logo, regenerate its project covers and OG cards.
+RoadScore repository. Nebular retains its original white raster mark and lettering, with the
+gray backdrop removed from the alpha channel. After replacing a source logo, regenerate its
+project covers and OG cards.
 
 Project colors must stay scoped to a project surface. Do not recolor global navigation, shared
 buttons, or the Santi020k logo to match the current project.
