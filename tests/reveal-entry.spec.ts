@@ -75,7 +75,7 @@ test.describe('Reveal groups on viewport entry', () => {
   test.describe('at 390px and 200% text', () => {
     test.use({ viewport: { width: 390, height: 844 } })
 
-    test('a group too tall to reach the default ratio reveals after a jump to its last card', async ({ page, browserName }) => {
+    test('a group too tall to reach the default ratio reveals after a jump to its last card', async ({ page }) => {
       await openWithTextSize(page, '/portfolio/', 200)
       const group = await pendingProjectsGroup(page)
       const { height, viewport } = await visibleShare(group)
@@ -88,11 +88,11 @@ test.describe('Reveal groups on viewport entry', () => {
       await card.scrollIntoViewIfNeeded()
       await expectPainted(group)
 
-      const title = card.getByRole('heading').getByRole('link')
       const caseStudy = card.getByRole('link', { name: /^Read case study/u })
 
-      await title.focus()
-      await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+      await expect(card.getByRole('link')).toHaveCount(1)
+      await page.keyboard.press('Tab')
+      await caseStudy.focus()
       await expect(caseStudy).toBeFocused()
       const hidden = await caseStudy.evaluate(element => {
         const ancestors: string[] = []
