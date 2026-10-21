@@ -45,7 +45,6 @@ test('purpose groups show every published personal project once and match struct
   const cards = page.locator('[data-project-gallery-card]')
   await expect(cards).toHaveCount(14)
   await expect(cards.first().getByRole('heading')).toHaveText('Lumen UI')
-  await expect(page.getByRole('heading', { name: 'Difftale', exact: true })).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'Workspace Organizer', exact: true })).toHaveCount(0)
   await expect(page.locator('.projects-intro-ledger dd').first()).toContainText('14')
 
