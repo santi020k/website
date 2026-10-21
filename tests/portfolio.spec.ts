@@ -23,7 +23,7 @@ const expectImageLoaded = async (image: Locator) => {
 // Intrinsic srcset dimensions and rendered CSS pixels can round independently
 // on high-density devices. Check the image content box, excluding decorative
 // borders and padding, and bound rounding error in pixels.
-const expectImageAspectRatio = async (image: Locator, ratio: number) => {
+const expectImageAspectRatio = async (image: Locator, ratio: number, renderedRatio = ratio) => {
   const dimensions = await image.evaluate(element => {
     if (!(element instanceof HTMLImageElement)) throw new TypeError('Expected a project image')
 
@@ -45,7 +45,7 @@ const expectImageAspectRatio = async (image: Locator, ratio: number) => {
   })
 
   expect(Math.abs(dimensions.naturalHeight - dimensions.naturalWidth / ratio)).toBeLessThanOrEqual(1)
-  expect(Math.abs(dimensions.height - dimensions.width / ratio)).toBeLessThanOrEqual(1)
+  expect(Math.abs(dimensions.height - dimensions.width / renderedRatio)).toBeLessThanOrEqual(1)
 }
 
 const expectReadableProjectTitleGradient = async (page: Page) => {
@@ -231,8 +231,8 @@ test.describe('Portfolio page', () => {
     await expectImageLoaded(featuredImage)
     await expectImageLoaded(supportingImage)
 
-    await expectImageAspectRatio(featuredImage, 16 / 9)
-    await expectImageAspectRatio(supportingImage, 16 / 10)
+    await expectImageAspectRatio(featuredImage, 16 / 10)
+    await expectImageAspectRatio(supportingImage, 16 / 10, 1)
 
     await page.goto('/portfolio/smith-commerce/')
 
@@ -246,7 +246,7 @@ test.describe('Portfolio page', () => {
 
     await expectImageLoaded(relatedImage)
 
-    await expectImageAspectRatio(relatedImage, 16 / 10)
+    await expectImageAspectRatio(relatedImage, 16 / 10, 1)
 
     await page.setViewportSize({ height: 812, width: 375 })
     await expect(relatedImage).toBeVisible()

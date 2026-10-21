@@ -2,9 +2,8 @@
 import { Picture } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-
 import { getPortfolioPath } from '@/utils/links'
+import { getPortfolioMetricDisplay } from '@/utils/portfolio-metric'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectStatusLabel, getProjectTimelineLabel } from '@/utils/project-meta'
@@ -20,211 +19,135 @@ interface Props {
 
 const { featured = false, imagePriority = false, project } = Astro.props
 const projectLink = getPortfolioPath(project.id)
-const coverImage = project.data.coverImage
-const previewImage = getProjectCoverForUsage(coverImage, featured ? 'hero' : 'thumbnail')
+const previewImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
 const timeline = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const projectStatus = getProjectStatusLabel(project.data.draft, project.data.endingDate)
-
-const projectStatusVariant = {
-  Active: 'success',
-  Completed: 'secondary',
-  Draft: 'outline'
-} as const
-
 const technologies = sortTechnologiesByInterest(project.data.technologies).slice(0, featured ? 5 : 4)
-const impactMetrics = project.data.impactMetrics.slice(0, featured ? 2 : 1)
-const previewTargetWidth = previewImage ? Math.min(1600, previewImage.width) : 0
 
-const previewTargetHeight = previewImage ?
-  Math.round(previewTargetWidth * previewImage.height / previewImage.width) :
-  0
+const impactMetrics = project.data.impactMetrics.slice(0, featured ? 2 : 1).map(metric => ({
+  ...getPortfolioMetricDisplay(metric),
+  summary: metric
+}))
+
+const previewTargetWidth = previewImage ? Math.min(1600, previewImage.width) : 0
+const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
 ---
 
-<div class="h-full" style={getProjectBrandStyle(project.data.brand)}>
-<Card
-  as="article"
-  class:list={[
-    `
-      group grid h-full overflow-hidden border-line/55 bg-surface/78 p-0
-      shadow-[0_18px_50px_hsl(var(--brand)/0.045)]
-    `,
-    featured ?
-      'rounded-4xl' :
-      'grid-rows-[auto_1fr] rounded-3xl'
-  ]}
-  data-portfolio-project={featured ? 'featured' : 'supporting'}
-  glass="subtle"
-  variant="interactive"
->
-  <a
-    aria-label={`View ${project.data.title} case study`}
-    class:list={[
-      'relative block overflow-hidden bg-surface-muted',
-      featured ?
-        'aspect-video' :
-        'aspect-16/10'
-    ]}
-    href={projectLink}
-  >
-    {previewImage ?
-      (
+<Card as="article" variant="unstyled" data-portfolio-project={featured ? 'featured' : 'supporting'} style={getProjectBrandStyle(project.data.brand)}>
+    <div data-portfolio-visual>
+      {previewImage ?
+(
         <Picture
           alt=""
-          aria-hidden="true"
           class="absolute inset-0 size-full object-cover"
           fetchpriority={imagePriority ? 'high' : 'auto'}
           formats={['avif', 'webp']}
           height={previewTargetHeight}
           loading={imagePriority ? 'eager' : 'lazy'}
-          sizes={featured ? '(min-width: 1024px) 54vw, 100vw' : '(min-width: 768px) 48vw, 100vw'}
+          sizes={featured ? '(min-width: 1280px) 1152px, calc(100vw - 48px)' : '(min-width: 1280px) 560px, (min-width: 768px) 48vw, calc(100vw - 48px)'}
           src={previewImage}
           width={previewTargetWidth}
           widths={[400, 640, 800, 1200, 1600]}
+          fit="cover"
         />
       ) :
-      (
-        <div
-          aria-hidden="true"
-          class="
-            absolute inset-0 flex items-center justify-center bg-brand-soft
-            grid-fade
-          "
-        >
-          <Icon class="size-12 text-brand/45" name="code-2" />
-        </div>
+(
+        <div data-portfolio-placeholder aria-hidden="true"><Icon class="size-12" name="code-2" /></div>
       )}
-
-    <div
-      aria-hidden="true"
-      class="
-        absolute inset-0 bg-linear-to-t from-canvas/20 via-transparent
-        to-white/5
-      "
-    />
-  </a>
-
-  <div
-    data-portfolio-project-body
-    class:list={[
-      'flex min-w-0 flex-col',
-      featured ?
-        `
-          gap-6 p-6
-          sm:p-8
-          lg:p-9
-        ` :
-        `
-          gap-5 p-5
-          sm:p-6
-        `
-    ]}
-  >
-    <div class="flex flex-wrap items-center justify-between gap-3">
-      <span class="
-        text-xs/5 font-semibold tracking-[0.04em] text-ink-muted uppercase
-      "
-      >
-        {project.data.role ?? 'Engineering'}
-      </span>
-      <Badge data-project-status variant={projectStatusVariant[projectStatus]}>
-        {projectStatus}
-      </Badge>
+      <Badge variant="outline" data-project-status>{projectStatus}</Badge>
     </div>
 
-    <div class="space-y-3">
-      <p class="
-        text-xs/5 font-semibold tracking-[0.06em] text-ink-muted uppercase
-      "
-      >
-        {timeline}
-      </p>
-      <h3
-        class:list={[
-          `
-            leading-tight font-semibold tracking-[-0.035em] text-ink
-            transition-colors duration-200
-            group-hover:text-[hsl(var(--project-primary-readable))]
-            motion-reduce:transition-none
-          `,
-          featured ?
-            `
-              text-3xl
-              sm:text-[2.5rem]
-            ` :
-            `
-              text-2xl
-              sm:text-[1.75rem]
-            `
-        ]}
-      >
-        <a href={projectLink}>{project.data.title}</a>
-      </h3>
-      <p
-        class:list={[
-          'text-ink-soft',
-          featured ? 'text-base/7' : 'line-clamp-3 text-sm/6'
-        ]}
-      >
-        {project.data.description}
-      </p>
-    </div>
+    <div data-portfolio-project-body>
+      <p data-portfolio-date>{timeline}</p>
+      <h3 data-portfolio-title>{project.data.title}</h3>
+      <p data-portfolio-role>{project.data.role ?? 'Engineering'}</p>
+      <p data-portfolio-description>{project.data.description}</p>
 
-    {impactMetrics.length > 0 && (
-      <ul class="m-0 space-y-2 border-t border-line/45 pt-4">
-        {impactMetrics.map(metric => (
-          <li class="flex gap-2.5 text-sm/6 text-ink-soft">
-            <Icon
-              class="
-                mt-1 size-4 shrink-0 text-[hsl(var(--project-primary-readable))]
-              "
-              name="circle-check"
-            />
-            <span class:list={[!featured && 'line-clamp-2']} data-portfolio-metric>{metric}</span>
-          </li>
-        ))}
-      </ul>
-    )}
-
-    <div class="mt-auto space-y-5">
-      {technologies.length > 0 && (
-        <ul class="m-0 flex list-none flex-wrap gap-2 p-0" aria-label="Technologies" data-portfolio-technologies>
-          {technologies.map(technology => (
-            <li>
-              <Badge variant="outline">{technology}</Badge>
+      {impactMetrics.length > 0 && (
+        <ul data-portfolio-outcomes aria-label="Project outcomes">
+          {impactMetrics.map(metric => (
+            <li data-portfolio-metric>
+              {metric.value ?
+(
+                <>
+                  <span class="sr-only">{metric.summary}</span>
+                  <strong data-portfolio-value aria-hidden="true">{metric.value}</strong>
+                  <span data-portfolio-label aria-hidden="true">{metric.label}</span>
+                </>
+              ) :
+<span data-portfolio-label>{metric.label}</span>}
             </li>
           ))}
         </ul>
       )}
 
-      <ButtonLink href={projectLink} showArrow variant="inline">
-        Read case study
-        <span class="sr-only"> for {project.data.title}</span>
-      </ButtonLink>
+      <div data-portfolio-footer>
+        {technologies.length > 0 && (
+          <ul data-portfolio-technologies aria-label="Technologies">
+            {technologies.map(technology => <li>{technology}</li>)}
+          </ul>
+        )}
+        <span data-portfolio-action>Read case study <Icon class="size-4" name="arrow-up-right" /></span>
+      </div>
     </div>
-  </div>
+  <a data-portfolio-link href={projectLink} aria-label={`Read case study: ${project.data.title}`}></a>
 </Card>
-</div>
 
 <style>
-  [data-portfolio-project] { container: portfolio-card / inline-size; }
-  [data-portfolio-metric] { min-width: 0; overflow-wrap: break-word; }
-  [data-portfolio-technologies] > li { min-width: 0; max-width: 100%; }
-
-  /* Very large text on a phone: a tighter inset, and long titles and pills wrap. */
-  @container portfolio-card (width < 14rem) {
-    [data-portfolio-project-body] { padding: 0.75rem; }
-    [data-portfolio-project] h3 { font-size: min(1.5rem, 15cqi); overflow-wrap: break-word; hyphens: auto; }
-    [data-portfolio-technologies] > li > :global(*) { line-height: 1.3; white-space: normal; overflow-wrap: anywhere; }
+  [data-portfolio-project] {
+    --portfolio-emphasis: var(--brand);
+    --portfolio-project-ink: var(--project-primary-readable);
+    container: portfolio-card / inline-size;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 1.5rem;
+    background: transparent;
   }
-
-  [data-portfolio-project]:hover {
-    border-color: hsl(var(--project-primary) / 0.34);
-    box-shadow:
-      0 24px 60px hsl(230 30% 8% / 0.09),
-      0 12px 30px hsl(var(--project-primary) / 0.1);
+  :global(:root[data-theme='dark']) [data-portfolio-project] { --portfolio-emphasis: var(--accent); --portfolio-project-ink: var(--project-primary-readable-dark); }
+  [data-portfolio-link] { position: absolute; inset: 0; z-index: 1; color: hsl(var(--ink)); text-decoration: none; border-radius: inherit; }
+  [data-portfolio-visual] { position: relative; flex-shrink: 0; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1.5rem; background: hsl(var(--surface-muted)); }
+  [data-portfolio-placeholder] { position: absolute; inset: 0; display: grid; place-items: center; background: hsl(var(--brand-soft)); color: hsl(var(--portfolio-emphasis)); }
+  [data-project-status] { position: absolute; top: 1.375rem; left: 1.375rem; display: inline-flex; align-items: center; gap: 0.4375rem; max-width: calc(100% - 2.75rem); padding: 0.375rem 0.75rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: 999px; background: hsl(var(--surface)); color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 400; line-height: 1.667; white-space: normal; }
+  [data-project-status]::before { content: ''; width: 0.3125rem; height: 0.3125rem; flex-shrink: 0; border-radius: 50%; background: hsl(var(--portfolio-project-ink)); }
+  [data-portfolio-project-body] { position: relative; display: flex; flex: 1; flex-direction: column; min-width: 0; margin: -3rem 1.25rem 0; padding: 1.75rem 1.875rem 0; border: 1px solid hsl(var(--line) / 0.65); border-radius: 1.125rem 1.125rem 0.375rem 1.125rem; background: hsl(var(--surface)); box-shadow: var(--shadow-nav); }
+  [data-portfolio-date] { margin: 0 0 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.667; }
+  [data-portfolio-title] { margin: 0; font-size: 2.25rem; font-weight: 500; line-height: 1.2; letter-spacing: -0.05em; text-wrap: wrap; overflow-wrap: break-word; hyphens: manual; }
+  [data-portfolio-role] { margin: 0.5rem 0 0; color: hsl(var(--portfolio-emphasis)); font-size: 0.75rem; line-height: 1.667; }
+  [data-portfolio-description] { margin: 1.25rem 0 0; max-width: 75ch; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; text-wrap: pretty; }
+  [data-portfolio-outcomes] { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 1.5rem; margin: 1.5rem 0; padding: 0; list-style: none; }
+  [data-portfolio-metric] { display: flex; flex-direction: column; gap: 0.3125rem; min-width: 0; padding-top: 0.875rem; border-top: 2px solid hsl(var(--line) / 0.65); overflow-wrap: break-word; }
+  [data-portfolio-value] { color: hsl(var(--ink)); font-size: 1.625rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.04em; }
+  [data-portfolio-label] { color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.75; }
+  [data-portfolio-footer] { margin-top: auto; padding-top: 1.5rem; }
+  [data-portfolio-outcomes] + [data-portfolio-footer] { padding-top: 0; }
+  [data-portfolio-technologies] { display: flex; flex-wrap: wrap; gap: 0.4375rem 0.875rem; margin: 0; padding: 0 0 1.4375rem; list-style: none; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.667; }
+  [data-portfolio-technologies] > li { min-width: 0; overflow-wrap: anywhere; }
+  [data-portfolio-action] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1875rem 0; border-top: 1px solid hsl(var(--line) / 0.65); color: hsl(var(--ink)); font-size: 0.8125rem; font-weight: 500; line-height: 1.7; }
+  [data-portfolio-action] > :global(svg) { flex-shrink: 0; }
+  [data-portfolio-project]:is(:hover, :focus-within) :is([data-portfolio-project-body], [data-portfolio-metric]) { border-color: hsl(var(--portfolio-project-ink)); }
+  [data-portfolio-project]:is(:hover, :focus-within) :is([data-portfolio-title], [data-portfolio-role], [data-portfolio-action]) { color: hsl(var(--portfolio-project-ink)); }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-portfolio-project-body], [data-portfolio-metric] { transition: border-color 160ms ease; }
+    [data-portfolio-title], [data-portfolio-role], [data-portfolio-action] { transition: color 160ms ease; }
   }
-
-  :global(:root[data-theme='dark']) [data-portfolio-project] h3 {
-    --project-primary-readable: var(--project-primary-readable-dark);
+  @container portfolio-card (width < 36.25rem) {
+    [data-portfolio-visual] { aspect-ratio: 1; border-radius: 1.375rem; }
+    [data-project-status] { top: 1.0625rem; left: 1.0625rem; }
+    [data-portfolio-project-body] { margin: -2.375rem 0.625rem 0; padding: 1.4375rem 1.25rem 0; }
+    [data-portfolio-title] { font-size: 1.875rem; }
+    [data-portfolio-outcomes] { gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr)); }
+    [data-portfolio-value] { font-size: 1.5rem; }
   }
+  @container portfolio-card (width < 20rem) {
+    [data-portfolio-project-body] { margin-inline: 0.375rem; padding-inline: 1rem; }
+    [data-portfolio-outcomes] { gap: 0.875rem; }
+    [data-portfolio-title] { font-size: min(1.875rem, 12cqi); }
+    [data-portfolio-role], [data-portfolio-description], [data-portfolio-date] { overflow-wrap: break-word; }
+  }
+  @media (forced-colors: active) { [data-project-status]::before { background: CanvasText; } }
 </style>

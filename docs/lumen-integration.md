@@ -74,6 +74,15 @@ styling private TimelineItem internals. Each role retains its complete descripti
 technologies, chronological dates, and keyboard-accessible case-study link. Its scoped
 styles own the card and responsive date rail; Work page styles own only the page composition.
 
+## Portfolio cards
+
+`PortfolioProjectSpotlight` uses an unstyled Lumen `Card` and one named native link covering
+its artwork and overlapping content sheet. Keep the readable content outside the link so
+screen readers can browse it separately from the concise destination. Lumen `Badge` carries project status and `Icon`
+provides the decorative action arrow. Site-owned styles define the layered editorial
+composition, responsive crop and overlap, and project-colored hover/focus treatment.
+The same component serves featured, supporting, and related projects without client JavaScript.
+
 ## Current primitive migrations
 
 - About-page supplementary cards use Lumen `Note` directly.
