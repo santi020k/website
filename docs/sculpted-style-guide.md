@@ -200,14 +200,26 @@ Card. The artwork has 1.5rem corners; an opaque content sheet overlaps it by 3re
 on an opaque badge over the artwork, followed by date, complete title, role, description,
 outcomes, plain technology labels, and a ruled case-study action in the sheet.
 
-Use the horizontal project artwork, optimized at 16:10, so square crops retain the central
-brand mark without clipping social-preview text. Below 36.25rem of card width, use a square crop, a 2.375rem
-overlap, and tighter insets. Below 20rem, scale long headings and let outcome columns
-stack. Never clamp descriptions or outcomes. Explicit before/after and percentage-drop
+Use the horizontal project artwork, optimized at 16:10, so crops retain the central
+brand mark without clipping social-preview text. Featured cards use a 2:1 artwork panel
+to keep the portfolio page balanced. Below 36.25rem of card width, use a 4:3 crop, a
+2.375rem overlap, and tighter insets; the same proportions apply in related-work shelves.
+Below 20rem, scale long headings and let outcome columns stack. Never clamp descriptions
+or outcomes. Explicit before/after and percentage-drop
 statements may become value/label pairs; preserve all other statements verbatim and
 retain the original wording for screen readers. Project colors highlight the title,
 role, action, and sheet rules on hover and keyboard focus without moving the artwork.
 Keep a complete outer focus outline, readable light/dark colors, and reduced-motion support.
+
+### Project dossier sidebar cards
+
+At a glance uses one opaque Lumen Card with 1.5rem corners and a 0.5rem lower-right
+corner. Its tinted cap holds a sentence-case heading and the full role at 1.4375rem.
+Keep Type, Timeline, and Duration left-aligned below it, with quiet labels and fine
+rules. Preserve semantic definition lists, individual time elements, the fallback role,
+and computed duration. This is a passive reading surface with no hover feedback.
+Below 16rem of rail width, reduce insets and role typography to preserve enlarged-text
+reading space. Other sidebar cards retain their own composition.
 
 ## Buttons and links
 

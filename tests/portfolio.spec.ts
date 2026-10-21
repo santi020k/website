@@ -231,8 +231,8 @@ test.describe('Portfolio page', () => {
     await expectImageLoaded(featuredImage)
     await expectImageLoaded(supportingImage)
 
-    await expectImageAspectRatio(featuredImage, 16 / 10)
-    await expectImageAspectRatio(supportingImage, 16 / 10, 1)
+    await expectImageAspectRatio(featuredImage, 16 / 10, 2)
+    await expectImageAspectRatio(supportingImage, 16 / 10, 4 / 3)
 
     await page.goto('/portfolio/smith-commerce/')
 
@@ -246,7 +246,7 @@ test.describe('Portfolio page', () => {
 
     await expectImageLoaded(relatedImage)
 
-    await expectImageAspectRatio(relatedImage, 16 / 10, 1)
+    await expectImageAspectRatio(relatedImage, 16 / 10, 4 / 3)
 
     await page.setViewportSize({ height: 812, width: 375 })
     await expect(relatedImage).toBeVisible()
