@@ -5,7 +5,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import ProjectFocusCard from '@/components/molecules/ProjectFocusCard.astro'
 import ProjectGlanceCard from '@/components/molecules/ProjectGlanceCard.astro'
-import ProjectSidebarCard from '@/components/molecules/ProjectSidebarCard.astro'
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
 import ProjectStackCard from '@/components/molecules/ProjectStackCard.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
 
@@ -48,30 +48,5 @@ const focusLabel = getProjectFocusLabel(project.data.typesId)
 
   <ProjectStackCard technologies={project.data.technologies} />
 
-  {!!project.data.impactMetrics.length && (
-    <ProjectSidebarCard icon="trophy" id="sidebar-outcomes" title="Outcomes">
-      <ul class="mt-4 list-none space-y-2 p-0">
-        {project.data.impactMetrics.map(metric => (
-          <li
-            class="
-              group flex items-start gap-3 rounded-xl px-3 py-2.5
-              transition-colors
-              hover:bg-brand-soft/20
-            "
-          >
-            <div
-              class="
-                mt-0.5 flex size-5 shrink-0 items-center justify-center
-                rounded-full bg-brand/15 text-brand transition-colors
-                group-hover:bg-brand/25
-              "
-            >
-              <Icon class="size-3.5" name="check" />
-            </div>
-            <span class="text-sm/6 font-medium text-ink">{metric}</span>
-          </li>
-        ))}
-      </ul>
-    </ProjectSidebarCard>
-  )}
+  <ProjectOutcomesCard outcomes={project.data.impactMetrics} />
 </aside>
