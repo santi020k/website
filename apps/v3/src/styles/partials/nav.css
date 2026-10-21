@@ -17,8 +17,13 @@
 
 @utility site-header-shell {
   @apply relative mx-auto flex w-full max-w-[calc(100vw-2rem)] items-center justify-between gap-3 overflow-visible rounded-[1.85rem] px-4 py-3.5 sm:max-w-[80rem] sm:px-5 2xl:max-w-[84rem] 2xl:px-6 min-[2200px]:max-w-[92rem] min-[2200px]:px-7;
+  container: archive-header / inline-size;
   & > * {
     min-width: 0;
+  }
+  & > :last-child {
+    flex-wrap: wrap;
+    max-width: 100%;
   }
 
   /* Keep desktop nav labels from shrinking: inherited overflow wrapping
@@ -372,5 +377,38 @@
   .back-to-top-button,
   .back-to-top-button.is-visible {
     transition: none;
+  }
+}
+
+/* Desktop navigation may move to a new row as text grows, while normal
+   mobile retains the original single-row shell and shrinking brand mark. */
+@media (min-width: 64rem) {
+  .site-header-shell { flex-wrap: wrap; row-gap: 0.5rem; }
+}
+
+/* Keep icon controls reachable without a three-row header when text is enlarged.
+   Body copy retains the reader's size; these 44px controls keep their accessible labels. */
+@container archive-header (width < 14rem) {
+  .site-header-shell > a:first-child { min-width: 44px; min-height: 44px; gap: 0; }
+  .site-header-shell > a:first-child > div { height: 44px; }
+  .site-header-shell > a:first-child > picture > img { width: 96px; height: auto; }
+  .site-header-shell > :last-child { flex-wrap: nowrap; gap: 8px; }
+  .site-header-shell :is([data-site-search-trigger], [data-theme-toggle-btn], theme-toggle button, [data-mobile-nav-toggle]) {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    gap: 0;
+  }
+  .site-header-shell :is([data-site-search-trigger], [data-theme-toggle-btn], theme-toggle button, [data-mobile-nav-toggle]) :is(svg, .ui-icon),
+  .site-header-shell [data-mobile-nav-toggle] > [aria-hidden='true'] { width: 24px; height: 24px; }
+  .site-header-shell [data-mobile-nav-toggle-label] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }

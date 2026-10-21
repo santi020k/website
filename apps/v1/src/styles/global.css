@@ -207,12 +207,12 @@
   /* single-token semantic colours */
   --color-bgColor       : var(--theme-bg-color);
   --color-textColor     : var(--theme-text);
-  --color-accent-base   : hsl(var(--theme-accent-base) / <alpha-value>);
-  --color-accent-one    : hsl(var(--theme-accent-one)  / <alpha-value>);
-  --color-accent-two    : hsl(var(--theme-accent-two)  / <alpha-value>);
-  --color-link          : hsl(var(--theme-link)        / <alpha-value>);
+  --color-accent-base   : hsl(var(--theme-accent-base));
+  --color-accent-one    : hsl(var(--theme-accent-one));
+  --color-accent-two    : hsl(var(--theme-accent-two));
+  --color-link          : hsl(var(--theme-link));
   --color-accent        : var(--theme-accent);
-  --color-quote         : hsl(var(--theme-quote) / <alpha-value>);
+  --color-quote         : var(--theme-quote);
   --color-lightest      : var(--theme-lightest);
   --color-lighter       : var(--theme-lighter);
   --color-light         : var(--theme-light);

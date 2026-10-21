@@ -14,7 +14,7 @@ const { className = '', label, tone = 'neutral' } = Astro.props
   class:list={[
     `
       inline-flex w-fit items-center gap-2 rounded-full border px-4 py-1.5
-      text-[0.68rem] font-semibold tracking-[0.24em] wrap-break-word uppercase
+      text-[0.68rem] font-semibold tracking-[0.24em] uppercase
     `,
     tone === 'brand' ?
       `
@@ -28,6 +28,7 @@ const { className = '', label, tone = 'neutral' } = Astro.props
       `,
     className
   ]}
+  data-site-eyebrow
 >
   {tone === 'brand' && (
     <span

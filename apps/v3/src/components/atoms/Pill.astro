@@ -23,11 +23,12 @@ const {
 
 <LumenPill
   class:list={['group gap-1.5', className]}
+  data-site-pill
   {...(count !== undefined ? { count } : {})}
   {...(href !== undefined ? { href } : {})}
   variant={tone}
 >
   {showHash && <span aria-hidden="true" class="text-xs opacity-60">#</span>}
-  <span class="wrap-break-word">{label}</span>
+  <span data-site-pill-label>{label}</span>
   <slot />
 </LumenPill>

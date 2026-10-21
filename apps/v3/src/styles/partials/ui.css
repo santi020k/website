@@ -227,6 +227,30 @@
   }
 }
 
+/* Lumen's unlayered pill, eyebrow and button rules set `white-space: nowrap`
+   and beat Tailwind utilities. These hooks let long labels wrap in narrow
+   containers or with enlarged text instead of widening their row. */
+[data-site-pill] {
+  max-width: 100%;
+  min-width: 0;
+  /* Keep the count intact; only the consumer-owned label may wrap. */
+  white-space: nowrap;
+}
+
+[data-site-pill-label] {
+  min-width: 0;
+  line-height: 1.25;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+[data-site-eyebrow],
+[data-site-button-link] {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 @utility ui-skeleton {
   @apply animate-shimmer rounded-xl bg-[linear-gradient(90deg,hsl(var(--surface-muted)/0.55),hsl(var(--surface)/0.85),hsl(var(--surface-muted)/0.55))] bg-[length:200%_100%] motion-reduce:animate-none;
 }

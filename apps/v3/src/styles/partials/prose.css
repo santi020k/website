@@ -95,6 +95,8 @@
   & ul,
   & ol {
     @apply my-6 grid gap-3 pl-0;
+    /* An implicit auto track grows to the longest unbreakable token at narrow widths and enlarged text. */
+    grid-template-columns: minmax(0, 1fr);
     list-style: none;
   }
 

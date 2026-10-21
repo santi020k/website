@@ -81,6 +81,8 @@ Page-specific styles live in `src/styles/partials/work.css`.
 - The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
   keeps the site-specific hash-prefix composition.
 - Series navigation uses Lumen `Progress` with a readable current/max value.
+- Project timeline endpoints use separate native `time` elements, and project
+  sidebar card labels are level-two headings with the existing section-label style.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
 - Project stack cards use Lumen `Collapsible` for technologies beyond the first six. The native

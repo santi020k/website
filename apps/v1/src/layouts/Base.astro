@@ -36,7 +36,7 @@ const {
     <ClientRouter />
   </head>
   <body class="
-    relative m-auto min-h-screen w-full max-w-6xl grow
+    relative m-auto min-h-screen w-full max-w-6xl min-w-0 grow
     dark:bg-black
   "
   >
@@ -47,9 +47,9 @@ const {
       <!-- Sidebar -->
       <slot name="sidebar" />
       <!-- Main container for the page content -->
-      <div id="container" class="relative m-auto max-w-4xl grow">
+      <div id="container" class="relative m-auto max-w-4xl min-w-0 grow">
         <div class="
-          m-auto grid min-h-screen px-4
+          m-auto grid min-h-screen grid-cols-1 px-4
           md:grid-rows-[auto_auto_auto] md:px-8 md:pt-4
         "
         >

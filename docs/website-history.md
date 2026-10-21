@@ -35,6 +35,13 @@ after navigation. V1's unused post and series
 layouts are outside the rendered archive: its routes cover the homepage,
 portfolio, technologies, and error page.
 
+Accessibility maintenance also preserves readable project content with enlarged
+text. V1 project badges wrap and use valid Tailwind v4 color tokens; v3 project
+pills, action labels, metadata and prose fit their reading column. Header controls
+in v2 and v3 reflow when their enlarged contents no longer fit one row. These
+repairs keep each era's content and visual identity rather than applying the
+current website's editorial layout to historical pages.
+
 ## Workspace and build
 
 The current Astro app stays at the root to retain existing content, CV, release,
@@ -79,6 +86,8 @@ Changes to archive plumbing require unit coverage of URL, storage, and submissio
 boundaries, plus `tests/website-history.spec.ts` against combined production output.
 `tests/archive-keyboard.spec.ts` covers mobile menu activation, focus order,
 interrupted closing animations, desktop resizing, and client navigation.
+`tests/legacy-project-reflow.spec.ts` covers project readability and header
+controls at normal and doubled text sizes in light and dark themes.
 Inspect mobile/desktop and light/dark behavior, keyboard controls, search results,
 archive notices, and current-page return links. Run the repository completion gate.
 

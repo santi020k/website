@@ -17,9 +17,9 @@ const { icon, id, title } = Astro.props
   data-project-sidebar-card
   variant="default"
 >
-  <p class="flex items-center gap-2 section-label" id={id}>
+  <h2 class="flex items-center gap-2 font-sans section-label" id={id}>
     <Icon class="size-4 text-brand" name={icon} />
     {title}
-  </p>
+  </h2>
   <slot />
 </Card>

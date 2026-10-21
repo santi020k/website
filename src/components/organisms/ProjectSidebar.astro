@@ -4,13 +4,13 @@ import type { MarkdownHeading } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import Pill from '@/components/atoms/Pill.astro'
+import ProjectTimeline from '@/components/atoms/ProjectTimeline.astro'
 import ProjectSidebarCard from '@/components/molecules/ProjectSidebarCard.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
 
 import {
   getProjectDurationLabel,
   getProjectFocusLabel,
-  getProjectTimelineLabel,
   getProjectTypeLabel
 } from '@/utils/project-meta'
 
@@ -24,19 +24,16 @@ interface Props {
 const { headings, project } = Astro.props
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const focusLabel = getProjectFocusLabel(project.data.typesId)
-const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
-const startIso = project.data.startingDate.toISOString().slice(0, 7)
-const endIso = project.data.endingDate?.toISOString().slice(0, 7)
 const stackPreview = project.data.technologies.slice(0, 6)
 const extraTechnologies = project.data.technologies.slice(6)
 
 const glanceItems = [
   { icon: 'briefcase-business', label: 'Type', value: projectTypeLabel },
   { icon: 'user-star', label: 'Role', value: project.data.role ?? 'Hands-on builder' },
-  { icon: 'calendar-clock', label: 'Timeline', value: timelineLabel, datetime: endIso ? `${startIso}/${endIso}` : startIso },
+  { icon: 'calendar-clock', label: 'Timeline' },
   { icon: 'hourglass', label: 'Duration', value: durationLabel }
-] as const
+]
 ---
 
 <aside aria-label="Project details" class="min-w-0 space-y-5" data-project-sidebar data-reading-rail>
@@ -73,9 +70,7 @@ const glanceItems = [
             <span>{item.label}</span>
           </dt>
           <dd class="text-end text-sm font-medium text-ink">
-            {'datetime' in item ?
-              <time datetime={item.datetime}>{item.value}</time> :
-              item.value}
+            {item.value ?? <ProjectTimeline endingDate={project.data.endingDate} startingDate={project.data.startingDate} />}
           </dd>
         </div>
       ))}

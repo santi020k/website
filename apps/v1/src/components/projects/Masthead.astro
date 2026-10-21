@@ -29,7 +29,7 @@ const { content } = Astro.props
 "
 >
   <div class="flex justify-between">
-    <div class="flex flex-col">
+    <div class="flex min-w-0 flex-col">
       <h1
         class="
           line-clamp-none
@@ -54,7 +54,7 @@ const { content } = Astro.props
         </p>
         <div class="flex flex-wrap items-center text-sm">
           (
-          <span class="flex h-7 items-center">
+          <span class="flex min-h-7 max-w-full flex-wrap items-center">
             <!-- <Icon aria-hidden="true" class="me-1 flex size-4 items-center" focusable="false" name="hugeicons:calendar-03" /> -->
             <FormattedDate
               date={content.data.startingDate}
@@ -130,8 +130,12 @@ const { content } = Astro.props
       (
         <>
           {content.data.technologies.map(technology => (
-            <a aria-label={`View all projects with the technology: ${encodeURIComponent(technology.replaceAll('#', '-sharp'))}/`} href={`/technologies/${encodeURIComponent(technology.replaceAll('#', '-sharp'))}/`}>
-              <Badge variant="accent-two" title={technology} />
+            <a
+aria-label={`View all projects with the technology: ${technology}`}
+class="max-w-full"
+href={`/technologies/${encodeURIComponent(technology.replaceAll('#', '-sharp'))}/`}
+            >
+              <Badge variant="accent-two" title={technology} wrap />
             </a>
           ))}
         </>

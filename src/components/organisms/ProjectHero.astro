@@ -5,14 +5,11 @@ import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import ProjectTimeline from '@/components/atoms/ProjectTimeline.astro'
 import ProjectHeroCover from '@/components/molecules/ProjectHeroCover.astro'
 import ProjectHeroStack from '@/components/molecules/ProjectHeroStack.astro'
 
-import {
-  getProjectDurationLabel,
-  getProjectTimelineLabel,
-  getProjectTypeLabel
-} from '@/utils/project-meta'
+import { getProjectDurationLabel, getProjectTypeLabel } from '@/utils/project-meta'
 
 import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
 
@@ -23,18 +20,15 @@ interface Props {
 
 const { parentPage = { name: 'Portfolio', url: '/portfolio/' }, project } = Astro.props
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
-const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
 const titleWords = project.data.title.split(' ')
 const gradientWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : project.data.title
 const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : ''
-const startIso = project.data.startingDate.toISOString().slice(0, 7)
-const endIso = project.data.endingDate?.toISOString().slice(0, 7)
 
 const metaItems = [
-  { label: 'Role', value: project.data.role ?? 'Hands-on builder', datetime: undefined as string | undefined },
-  { label: 'Timeline', value: timelineLabel, datetime: endIso ? `${startIso}/${endIso}` : startIso },
-  { label: 'Duration', value: durationLabel, datetime: undefined as string | undefined }
+  { label: 'Role', value: project.data.role ?? 'Hands-on builder' },
+  { label: 'Timeline' },
+  { label: 'Duration', value: durationLabel }
 ]
 ---
 
@@ -136,9 +130,7 @@ class="
               sm:text-xl/6
             "
             >
-              {item.datetime ?
-                <time datetime={item.datetime}>{item.value}</time> :
-                item.value}
+              {item.value ?? <ProjectTimeline endingDate={project.data.endingDate} startingDate={project.data.startingDate} />}
             </dd>
           </dl>
         </div>
