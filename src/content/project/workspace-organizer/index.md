@@ -22,7 +22,7 @@ coverImage:
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Scattered desktop windows flowing into three orderly, color-coded workspace clusters"
+  alt: "Workspace Organizer logo on an indigo geometric cover with blue accents"
   ogImage: "./cover.webp"
 ---
 

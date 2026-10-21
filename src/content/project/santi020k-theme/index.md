@@ -24,7 +24,7 @@ coverImage:
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Santi020k Theme logo on a deep indigo geometric cover with editor UI artwork"
+  alt: "Santi020k Theme logo on a deep indigo geometric cover"
 ---
 
 ## Building one theme family across the developer workspace

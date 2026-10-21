@@ -26,7 +26,7 @@ coverImage:
   logo: "./logo.png"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "RoadScore logo staged in orange and blue light above a layered road-inspired portfolio background"
+  alt: "RoadScore logo on a charcoal geometric cover with orange accents"
   ogImage: "./cover.webp"
 ---
 

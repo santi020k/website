@@ -30,7 +30,7 @@ coverImage:
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Astro Doctor orange logo on a dark geometric cover with code diagnostics and health-score UI"
+  alt: "Astro Doctor orange logo on a dark geometric cover"
   ogImage: "./cover.webp"
 ---
 

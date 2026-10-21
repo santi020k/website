@@ -22,7 +22,7 @@ coverImage:
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Nautical night scene with a paper boat, lighthouse, and connected web experiences representing Aaronmgz"
+  alt: "Aaronmgz nautical logo on a midnight blue geometric cover"
   ogImage: "./cover.webp"
 ---
 

@@ -26,7 +26,7 @@ coverImage:
   vertical: "./cover-vertical.webp"
   logo: "./logo.webp"
   logoAspect: "square"
-  alt: "Nebular logo on a graphite and silver geometric cover"
+  alt: "Nebular logo on a dark blue geometric cover"
   ogImage: "./cover.webp"
 ---
 

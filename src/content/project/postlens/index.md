@@ -35,7 +35,7 @@ coverImage:
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Photo frames moving through selection, enhancement, composition, and carousel export stages"
+  alt: "PostLens camera logo on a dark geometric cover with coral accents"
   ogImage: "./cover.webp"
 ---
 

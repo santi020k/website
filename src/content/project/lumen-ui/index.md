@@ -35,7 +35,7 @@ coverImage:
   logo: "./logo.webp"
   logoAspect: "square"
   logoSurface: "dark"
-  alt: "Translucent interface primitives connected across three luminous framework lanes"
+  alt: "Lumen UI logo on a dark geometric cover with amber accents"
   ogImage: "./cover.webp"
 ---
 
