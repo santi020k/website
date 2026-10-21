@@ -174,6 +174,21 @@ columns restore the stacked icon and scale long values to fit. Cards stay passiv
 without hover effects or new animation. Keep the dedicated Home, About, and Work
 editorial statistics in their existing open layouts.
 
+### Timeline folio career cards
+
+Work's career list places the start year and month in an 8.125rem date rail beside a
+single opaque Lumen Card. Keep the end month and year, or Present, in the rail too.
+The purple connector leads each role; the card uses 1.125rem corners with a 0.375rem
+lower-right corner and the navigation shadow token. A small status and decorative
+icon precede the complete company heading, role, and description. A tinted footer
+holds plain technology labels and the case-study action.
+
+Below 36.25rem of timeline width, dates move above the card and the connector moves
+to the outer margin. Below 20rem, tighten the insets and scale the title to preserve
+reading space with enlarged text. Keep one whole-row link, a visible inset focus
+outline, semantic dates, and no description clamping. Hover changes only the title
+color, and reduced motion disables that transition.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.
@@ -363,10 +378,9 @@ rather than an implicit `auto` track, so one long word or control cannot widen t
 - Work's intro frame is a `work-intro` container: the hero stacks below 44rem, the statistics
   use two columns below 38rem and one below 14rem. Its section summaries wrap below their heading.
   Below 14rem the page also tightens its frame inset and scales the headline to keep short words whole.
-- Career and Speaking timelines move their marker above the row below 16rem, so the copy keeps
-  the full width. Career titles scale within narrow rows and keep compact side insets.
-  Career rows show a 2px accent focus outline inset within the link, so the
-  clipped timeline card cannot hide it.
+- Speaking timelines move their marker above the row below 16rem. Career dates move above
+  the folio below 36.25rem, with tighter insets below 20rem. Career rows keep their
+  complete 2px accent focus outline inset within the link.
 - Speaking's hero places the profile beside the headline only while it has 54rem; the community
   impact list and the three booking notes have their own surface containers.
   Profile facts keep two columns only while each has 7rem.

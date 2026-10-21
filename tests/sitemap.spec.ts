@@ -31,13 +31,19 @@ test('combined sitemap advertises canonical pages and preserves content dates', 
   expect(combinedByUrl.has('https://santi020k.com/')).toBe(true)
   expect(root.some(entry => entry.url.includes('/blog/') && entry.lastmod !== null)).toBe(true)
 
-  // These case studies have project dates, but no verified page modification date.
-  for (const slug of ['lumen-ui', 'xgames']) {
+  // Refreshed case studies expose their verified editorial date.
+  for (const slug of ['lumen-ui', 'postlens', 'between-contractions', 'roadscore']) {
     expect(combinedByUrl.get(`https://santi020k.com/portfolio/${slug}/`)).toEqual({
       url: `https://santi020k.com/portfolio/${slug}/`,
-      lastmod: null
+      lastmod: expect.stringMatching(/^2026-10-20T/u)
     })
   }
+
+  // Project dates alone must not invent a page modification date.
+  expect(combinedByUrl.get('https://santi020k.com/portfolio/xgames/')).toEqual({
+    url: 'https://santi020k.com/portfolio/xgames/',
+    lastmod: null
+  })
 
   for (const entry of root) expect(combinedByUrl.get(entry.url)).toEqual(entry)
 

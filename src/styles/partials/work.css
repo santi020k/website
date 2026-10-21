@@ -85,51 +85,6 @@ body:has([data-work-page]) > div > .grid-fade {
 .work-section-heading > div { flex: 1 1 16rem; min-width: 0; }
 .work-section-heading > p { flex: 0 1 24rem; min-width: 0; }
 
-[data-career-appearance="editorial"] {
-  margin-bottom: 4rem;
-  border: 0;
-  border-top: 1px solid hsl(var(--line) / 0.65);
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-[data-career-appearance="editorial"] [data-career-link] {
-  padding-block: 2rem;
-  background: transparent;
-}
-
-[data-career-appearance="editorial"] [data-career-title] {
-  font-weight: 600;
-  letter-spacing: -0.04em;
-}
-
-[data-career-appearance="editorial"] [data-career-link] article > p {
-  display: block;
-  overflow: visible;
-  font-size: 0.875rem;
-  line-height: 1.8;
-}
-
-[data-career-appearance="editorial"]
-  [data-career-link]
-  article
-  > div:last-child {
-  border: 0;
-  padding-top: 0;
-}
-
-[data-career-appearance="editorial"] .ui-timeline-item__tail {
-  display: none;
-}
-[data-career-appearance="editorial"] .ui-timeline-item__dot > span {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 0.625rem;
-  box-shadow: none;
-}
-
 [data-work-stack] a {
   min-height: 2.75rem;
   border-radius: 0.625rem;
@@ -179,10 +134,6 @@ body:has([data-work-page]) > div > .grid-fade {
   .work-section-heading {
     gap: 1rem;
   }
-  [data-career-appearance="editorial"] [data-career-link] {
-    padding-right: 0.75rem;
-    padding-left: 3.5rem;
-  }
 }
 
 /* The intro frame reflows on root-relative space as well as the viewport, so
@@ -229,10 +180,4 @@ body:has([data-work-page]) > div > .grid-fade {
 @container work-page (width < 14rem) {
   .work-intro { padding-inline: 0.5rem; }
   .work-heading { font-size: min(2rem, 22cqi); }
-}
-
-/* Small purple labels need a lighter foreground on the solid dark canvas. */
-:root[data-theme="dark"] [data-career-appearance="editorial"] .text-brand,
-:root[data-theme="dark"] [data-career-appearance="editorial"] [data-site-pill]:where([data-variant="brand"]) {
-  color: hsl(var(--accent));
 }

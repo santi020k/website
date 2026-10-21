@@ -172,8 +172,8 @@ for (const width of [320, 390, 1440]) {
         test('Work timeline markers leave clear space around the role labels', async ({ page }) => {
           await openPage(page, '/work/', textSize)
           const separated = await page.locator('[data-timeline-row]').evaluateAll(rows => rows.every(row => {
-            const marker = row.querySelector('.ui-timeline-item__dot')?.getBoundingClientRect()
-            const role = row.querySelector('article > div p')?.getBoundingClientRect()
+            const marker = row.querySelector('[data-career-icon]')?.getBoundingClientRect()
+            const role = row.querySelector('[data-career-role]')?.getBoundingClientRect()
             const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
 
             if (!marker || !role) return false

@@ -181,8 +181,10 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto('/work/')
     const career = page.locator('[data-career-link]').first()
+    await page.keyboard.press('Tab')
     await career.focus()
     await expect(career).toBeFocused()
+    await expect(career).toHaveCSS('outline-offset', '-4px')
     const outline = await career.evaluate(element => {
       const style = getComputedStyle(element)
       return {
