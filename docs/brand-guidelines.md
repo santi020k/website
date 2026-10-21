@@ -203,6 +203,12 @@ metadata for their standalone and social-image uses, with the same geometric bac
 The editorial Projects gallery uses the text-free horizontal artwork for every card; project
 titles, descriptions, and technologies remain in the accessible HTML below each image.
 
+Source logos should have transparent outer canvases so they blend into the declared brand
+surface. Preserve backgrounds that belong to the app icon itself, but avoid opaque or partially
+transparent rectangular backdrops around the mark. RoadScore uses its original transparent
+Android foreground asset from `apps/mobile/assets/images/android-icon-foreground.png` in the
+RoadScore repository. After replacing a source logo, regenerate its project covers and OG cards.
+
 Project colors must stay scoped to a project surface. Do not recolor global navigation, shared
 buttons, or the Santi020k logo to match the current project.
 
