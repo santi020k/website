@@ -246,6 +246,21 @@ motion, and operation without JavaScript. Only the disclosure has hover feedback
 Below 17rem of rail width, tighten the insets; below 16rem, stack the main list in
 one column so enlarged names retain enough reading space.
 
+### Impact rows outcome cards
+
+Project Outcomes use an opaque Lumen Card with asymmetric corners and a tinted cap.
+Place the 1.375rem heading opposite the trophy icon, then separate results with fine
+rules. Explicit metrics use a 1.875rem purple value beside their complete 0.8125rem
+context; before-and-after results retain the previous value above the current one.
+Written achievements use a small check and complete 0.875rem text. Keep weight 500
+for headings and values, weight 400 for context, and no hover feedback.
+
+Reuse the portfolio metric parser for explicit changes. Leading percentages and
+counts keep their suffixes and full context; qualified claims stay prose. Preserve
+the original statement once for screen readers and omit empty outcome sections.
+Below 16rem of rail width, stack value and context and tighten the insets so enlarged
+text stays readable. The card remains fully rendered without JavaScript.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.
