@@ -20,27 +20,36 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
       variant="dotted"
       zoomLabels={{ reset: 'Reset' }}
     />
-    <Card as="section" data-travel-selection aria-labelledby="travel-selected-country" hidden>
-      <div class="flex items-start justify-between gap-4" data-travel-selection-header>
-        <div class="min-w-0">
-          <p
-class="mb-2 text-xs font-semibold tracking-widest text-ink-muted uppercase"
-data-travel-category
-          >A place in my story</p>
-          <h2 class="text-2xl font-semibold" id="travel-selected-country" data-travel-country></h2>
-        </div>
-        <Button aria-label="Close country details" data-travel-close size="icon" variant="ghost"><Icon
-name="x"
-class="size-4"
-                                                                                                 /></Button>
+    <Card as="section" variant="unstyled" data-travel-selection aria-labelledby="travel-selected-country" hidden>
+      <div data-travel-selection-header>
+        <p data-travel-category>A place in my story</p>
+        <Button aria-label="Close country details" data-travel-close size="icon" variant="ghost">
+          <Icon name="x" class="size-4" />
+        </Button>
       </div>
-      <p class="mt-2 text-sm font-medium text-ink" data-travel-visits></p>
-      <p class="mt-4 text-sm/7 text-ink-soft" data-travel-places></p>
-      <p class="mt-3 text-xs/6 text-ink-soft" data-travel-note hidden></p>
-      <Button class="mt-5" data-travel-next size="sm" variant="outline">Explore another country <Icon
-name="arrow-right"
-class="size-4"
-                                                                                                /></Button>
+      <div data-travel-destination>
+        <div>
+          <p data-travel-code aria-hidden="true"></p>
+          <h2 id="travel-selected-country" data-travel-country></h2>
+        </div>
+        <svg data-travel-silhouette aria-hidden="true" focusable="false"><path /></svg>
+      </div>
+      <div data-travel-ledger>
+        <Icon name="map-pin" class="size-4 shrink-0" />
+        <p data-travel-visits></p>
+      </div>
+      <div data-travel-places-section>
+        <h3 data-travel-places-heading>Places in my notebook</h3>
+        <ul data-travel-places></ul>
+        <p data-travel-empty hidden></p>
+        <p data-travel-note hidden></p>
+      </div>
+      <div data-travel-selection-footer>
+        <Button data-travel-next variant="ghost">
+          <span>Explore another country</span>
+          <span data-travel-next-arrow><Icon name="arrow-right" class="size-4" /></span>
+        </Button>
+      </div>
     </Card>
   </div>
   <header data-travel-intro>
@@ -190,21 +199,42 @@ class="size-4"
     z-index: 3;
     right: max(1.5rem, calc((100vw - 72rem) / 2));
     bottom: 5.75rem;
-    width: min(21rem, calc(100% - 3rem));
-    /* Stay inside the map below its top edge; long notes scroll within the panel. */
+    width: min(24rem, calc(100% - 3rem));
     max-height: calc(100% - 7.25rem);
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem 0.5rem;
     border: 1px solid hsl(var(--line) / 0.65);
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     background: hsl(var(--surface));
     box-shadow: var(--shadow-nav);
+    scroll-margin-block: 7rem 1.5rem;
   }
 
-  [data-travel-country] { overflow-wrap: break-word; hyphens: auto; }
-  [data-travel-explorer] :global([data-travel-close]) { flex-shrink: 0; width: 2.75rem; min-width: 2.75rem; height: 2.75rem; }
-  [data-travel-explorer] :global([data-travel-next]) { max-width: 100%; min-height: 2.75rem; white-space: normal; }
+  [data-travel-selection-header] { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+  [data-travel-category] { color: hsl(var(--ink-soft)); font-size: 0.625rem; font-weight: 600; line-height: 1.6; letter-spacing: 0.13em; text-transform: uppercase; }
+  [data-travel-destination] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.5rem 1.25rem; }
+  [data-travel-destination] > div { min-width: 0; }
+  [data-travel-code] { margin-bottom: 0.375rem; color: hsl(var(--brand)); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; }
+  [data-travel-country] { margin: 0; font-size: 2rem; font-weight: 500; line-height: 1.1; letter-spacing: -0.055em; overflow-wrap: break-word; }
+  [data-travel-silhouette] { flex-shrink: 0; width: 4.5rem; height: 4.5rem; fill: hsl(var(--brand) / 0.12); stroke: hsl(var(--brand) / 0.65); stroke-width: 1; }
+  [data-travel-silhouette] path { vector-effect: non-scaling-stroke; }
+  [data-travel-ledger] { display: flex; align-items: center; gap: 0.625rem; padding-block: 0.875rem; border-block: 1px solid hsl(var(--line) / 0.65); color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; line-height: 1.7; }
+  [data-travel-places-section] { padding-block: 1.25rem; }
+  [data-travel-places-heading] { margin-bottom: 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.625rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-travel-places] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1rem; padding: 0; list-style: none; }
+  [data-travel-places] :global(li) { display: flex; align-items: baseline; gap: 0.5rem; color: hsl(var(--ink)); font-size: 0.8125rem; line-height: 1.6; overflow-wrap: break-word; }
+  [data-travel-places] :global(li::before) { content: ''; flex-shrink: 0; width: 0.25rem; height: 0.25rem; border-radius: 50%; background: hsl(var(--brand)); transform: translateY(-0.15rem); }
+  [data-travel-empty], [data-travel-note] { color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
+  [data-travel-note] { margin-top: 0.875rem; }
+  [data-travel-selection-footer] { border-top: 1px solid hsl(var(--line) / 0.65); }
+  [data-travel-explorer] :global([data-travel-close]) { flex-shrink: 0; width: 2.75rem; min-width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; background: hsl(var(--surface-muted)); }
+  [data-travel-explorer] :global([data-travel-next]) { position: relative; display: flex; justify-content: space-between; gap: 1rem; width: 100%; max-width: 100%; min-height: 3.5rem; padding: 0.5rem 3rem 0.5rem 0; scroll-margin-block: 1rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; text-align: left; white-space: normal; }
+  [data-travel-next-arrow] { position: absolute; top: 50%; right: 0; transform: translateY(-50%); display: grid; flex-shrink: 0; place-items: center; width: 2rem; height: 2rem; border-radius: 0.625rem; color: hsl(var(--brand)); background: hsl(var(--brand-soft)); }
+  [data-travel-explorer] :global([data-travel-next]:hover) { color: hsl(var(--brand)); }
+  :global([data-theme="dark"]) [data-travel-code],
+  :global([data-theme="dark"]) [data-travel-next-arrow] { color: hsl(var(--accent)); }
+  :global([data-theme="dark"]) [data-travel-silhouette] { fill: hsl(var(--accent) / 0.12); stroke: hsl(var(--accent) / 0.65); }
 
   @media (max-width: 63.999rem) {
     [data-travel-intro] { align-items: start; flex-direction: column; gap: 1.5rem; }
@@ -218,23 +248,24 @@ class="size-4"
     #travel-heading { font-size: clamp(2.375rem, 9.6vw, 4.5rem); line-height: 1.06; letter-spacing: -0.065em; }
     [data-travel-context] { display: block; font-size: 0.8125rem; }
     [data-travel-counts] { margin-top: 1rem; }
-    [data-travel-explorer] :global(.ui-world-map__viewport) { aspect-ratio: auto; height: 26rem; }
-    [data-travel-hint] { bottom: 5.5rem; left: 0.75rem; }
+    [data-travel-atlas] { --travel-map-height: clamp(32rem, 68svh, 42rem); }
+    [data-travel-explorer] :global(.ui-world-map__viewport) { aspect-ratio: auto; height: var(--travel-map-height); }
+    [data-travel-explorer] :global(.ui-world-map__plot) { width: calc(max(100%, var(--travel-map-height) * 2.5) * var(--ui-world-map-zoom, 1)); }
+    [data-travel-hint] { top: 0.75rem; bottom: auto; left: 0.75rem; }
     [data-travel-explorer] :global(.ui-world-map__zoom-controls) { right: 1.25rem; bottom: 1.25rem; }
-    [data-travel-selection] { right: 1.25rem; left: 1.25rem; bottom: 5.5rem; width: auto; max-height: calc(100% - 6.75rem); padding: 1.25rem; }
+    [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 1.25rem 0; overflow: visible; box-shadow: var(--shadow-sm); }
   }
 
-  /* Viewport breakpoints ignore root text scaling. When enlarged text leaves the
-     atlas as narrow as a phone, use the phone overlay positions. */
+  /* Keep the map visible beside its details, including when text is enlarged. */
   @container travel-atlas (width < 30rem) {
-    [data-travel-hint] { bottom: 5.5rem; left: 0.75rem; }
+    [data-travel-hint] { top: 0.75rem; bottom: auto; left: 0.75rem; }
     [data-travel-explorer] :global(.ui-world-map__zoom-controls) { right: 1.25rem; bottom: 1.25rem; }
-    [data-travel-selection] { right: 1.25rem; left: 1.25rem; bottom: 5.5rem; width: auto; max-height: calc(100% - 6.75rem); padding: 1.25rem; }
+    [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 1.25rem 0; overflow: visible; box-shadow: var(--shadow-sm); }
   }
 
   /* Too narrow for overlays: the hint and zoom toolbar keep their source position
      above the map and the details follow it, so nothing covers the map or the details.
-     The close control takes its own row so the country name gets the full width. */
+     The country name and place list keep the available width. */
   @container travel-atlas (width < 20rem) {
     [data-travel-hint] { position: static; margin: 0 1.25rem 0.75rem; padding: 0; background: none; }
     [data-travel-explorer] :global(.ui-world-map__zoom-controls) {
@@ -246,8 +277,9 @@ class="size-4"
       margin-inline: 1.25rem;
     }
     [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 0.5rem 0; padding: 0.75rem; overflow: visible; box-shadow: none; }
-    [data-travel-selection-header] { flex-direction: column-reverse; align-items: stretch; gap: 0.25rem; }
-    [data-travel-explorer] :global([data-travel-selection-header] > [data-travel-close]) { align-self: end; }
+    [data-travel-destination] { align-items: start; }
+    [data-travel-silhouette] { display: none; }
+    [data-travel-places] { grid-template-columns: minmax(0, 1fr); }
   }
 </style>
 
@@ -265,15 +297,62 @@ class="size-4"
     const visits = explorer.querySelector<HTMLElement>('[data-travel-visits]')
     const places = explorer.querySelector<HTMLElement>('[data-travel-places]')
     const note = explorer.querySelector<HTMLElement>('[data-travel-note]')
+    const empty = explorer.querySelector<HTMLElement>('[data-travel-empty]')
+    const placesHeading = explorer.querySelector<HTMLElement>('[data-travel-places-heading]')
+    const code = explorer.querySelector<HTMLElement>('[data-travel-code]')
+    const silhouette = explorer.querySelector<SVGSVGElement>('[data-travel-silhouette]')
     const announcement = explorer.querySelector<HTMLElement>('[data-travel-announcement]')
     const chooser = explorer.querySelector<HTMLSelectElement>('select')
     const viewport = explorer.querySelector<HTMLElement>('[data-ui-world-map-viewport]')
 
-    if (!panel || !heading || !category || !visits || !places || !note || !announcement || !chooser || !viewport) return
+    if (!panel || !heading || !category || !visits || !places || !note || !empty || !placesHeading) return
+
+    if (!code || !silhouette || !announcement || !chooser || !viewport) return
 
     explorer.dataset.bound = 'true'
 
     let selectedCode = ''
+
+    const revealCountry = (countryId: string, behavior: ScrollBehavior) => {
+      const path = [...explorer.querySelectorAll<SVGPathElement>('[data-ui-world-map-country]')]
+        .find(element => element.dataset.uiWorldMapCountry === countryId)
+
+      if (!path) return
+
+      const bounds = path.getBoundingClientRect()
+      const frame = viewport.getBoundingClientRect()
+
+      if (bounds.width < frame.width && (bounds.left < frame.left || bounds.right > frame.right)) {
+        viewport.scrollTo({
+          left: viewport.scrollLeft + bounds.left - frame.left + bounds.width / 2 - frame.width / 2,
+          behavior
+        })
+      }
+
+      return path
+    }
+
+    // Lumen initializes asynchronously and resets the viewport when it enables
+    // the chooser. Center home after that reset, without selecting a country.
+    const centerHome = () => {
+      if (!selectedCode && window.matchMedia('(max-width: 47.999rem)').matches) revealCountry('CO', 'instant')
+    }
+
+    if (chooser.disabled) {
+      const readiness = new MutationObserver((_changes, observer) => {
+        if (chooser.disabled) return
+
+        centerHome()
+
+        observer.disconnect()
+      })
+
+      readiness.observe(chooser, { attributes: true, attributeFilter: ['disabled'] })
+
+      document.addEventListener('astro:before-swap', () => readiness.disconnect(), { once: true })
+    } else {
+      centerHome()
+    }
 
     const closeDetails = (restoreFocus = panel.contains(document.activeElement)) => {
       panel.hidden = true
@@ -323,7 +402,9 @@ class="size-4"
 
       heading.textContent = country?.name ?? ('label' in detail && typeof detail.label === 'string' ? detail.label : 'More places to discover')
 
-      category.textContent = 'A place in my story'
+      category.textContent = country ? 'A place in my story' : 'Beyond the notebook'
+
+      code.textContent = selectedCode
 
       if (country?.connection === 'home') category.textContent = 'Where my story begins'
 
@@ -331,7 +412,21 @@ class="size-4"
 
       visits.textContent = country ? getTravelVisitLabel(country) : 'No entry in my travel journal'
 
-      places.textContent = country?.connection === 'home' ? 'I’m from Colombia. This is where my story begins.' : country?.places.join(' · ') ?? 'Choose a highlighted country to explore the places I have visited.'
+      places.replaceChildren(...(country?.places ?? []).map(place => {
+        const item = document.createElement('li')
+
+        item.textContent = place
+
+        return item
+      }))
+
+      places.hidden = !country?.places.length
+
+      placesHeading.hidden = places.hidden
+
+      empty.textContent = country?.connection === 'home' ? 'I’m from Colombia. This is where my story begins.' : 'Choose a highlighted country to explore the places I have visited.'
+
+      empty.hidden = !places.hidden
 
       note.textContent = country?.note ?? ''
 
@@ -339,21 +434,26 @@ class="size-4"
 
       panel.hidden = false
 
-      announcement.textContent = `${heading.textContent}. ${visits.textContent}. ${places.textContent}`
+      announcement.textContent = `${heading.textContent}. ${visits.textContent}. ${country?.places.length ? country.places.join(', ') : empty.textContent}`
 
-      const path = [...explorer.querySelectorAll<SVGPathElement>('[data-ui-world-map-country]')]
-        .find(element => element.dataset.uiWorldMapCountry === selectedCode)
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+      const path = revealCountry(selectedCode, behavior)
 
-      if (!path) return
+      silhouette.style.display = path ? '' : 'none'
 
-      const bounds = path.getBoundingClientRect()
-      const frame = viewport.getBoundingClientRect()
+      if (path) {
+        const bounds = path.getBBox()
+        const padding = Math.max(bounds.width, bounds.height) * 0.08
 
-      if (bounds.width < frame.width && (bounds.left < frame.left || bounds.right > frame.right)) {
-        viewport.scrollTo({
-          left: viewport.scrollLeft + bounds.left - frame.left + bounds.width / 2 - frame.width / 2,
-          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
-        })
+        silhouette.setAttribute('viewBox', `${bounds.x - padding} ${bounds.y - padding} ${bounds.width + padding * 2} ${bounds.height + padding * 2}`)
+
+        silhouette.querySelector('path')?.setAttribute('d', path.getAttribute('d') ?? '')
+      }
+
+      // The phone note follows the map instead of covering the selected country.
+      // Keep keyboard selection in place; Tab naturally reaches the note next.
+      if (getComputedStyle(panel).position === 'relative' && document.activeElement !== chooser && !panel.contains(document.activeElement)) {
+        panel.scrollIntoView({ block: 'nearest', behavior })
       }
     })
   }

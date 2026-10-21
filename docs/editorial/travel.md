@@ -22,10 +22,15 @@ typography, signature eyebrow, and thin rules as the home hero and sculpted navi
 The map comes first, directly below the navigation, and extends to both page edges.
 The title, introduction, and visit counts follow beneath it, aligned with the navigation.
 Its zoom and reset controls sit inside the map.
-Selecting a country opens a compact place note; visitors can browse the next country, close the
-note, or press Escape. Closing clears the selection so the same country can be opened again.
+Selecting a country opens a notebook card with its silhouette, visit label, and a list of places.
+The silhouette reuses the selected country geometry; no city coordinates or travel details are inferred.
+Visitors can browse the next country, close the card, or press Escape. Closing clears the selection so the same country can be opened again.
 The country selector appears on keyboard focus, while the duplicate highlighted-country list is
-hidden. On narrow screens, the map scrolls horizontally and reveals off-screen selections.
+hidden. On phones, the map fills a taller viewport with proportionally larger geography, starts
+around Colombia, and scrolls horizontally to reveal off-screen selections. The card follows the map
+in the page flow, keeping the selected country and zoom controls unobstructed. Pointer selection
+reveals the card; keyboard selection retains focus in the chooser. Enlarged text also moves the
+card below the map when space is limited.
 The story, notebook, and forthcoming stories share the hero’s 72rem alignment, thin rules, and
 quiet canvas. Country entries use plain rows with inline visit labels rather than nested cards.
 The full country notebook sits in a native Lumen disclosure and remains usable without JavaScript.
