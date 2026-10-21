@@ -123,7 +123,7 @@ test.describe('Portfolio page', () => {
     await expect(page.getByRole('heading', { level: 1, name: /Capabilities and technologies/i })).toBeVisible()
   })
 
-  test('work timeline should render a compact chronological ledger', async ({ page }) => {
+  test('work timeline should render chronological folios', async ({ page }) => {
     await page.goto('/work/')
 
     const timelineRows = page.locator('[data-career-timeline] [data-timeline-row]')
@@ -155,17 +155,12 @@ test.describe('Portfolio page', () => {
     expect(activeRowGeometry.widthDifference).toBeLessThanOrEqual(2)
 
     const activeLink = timelineRows.first().locator('[data-career-link]')
-    const restingBackground = await activeLink.evaluate(link => getComputedStyle(link).backgroundColor)
+    const title = activeLink.locator('[data-career-title]')
+    const restingColor = await title.evaluate(element => getComputedStyle(element).color)
 
     await activeLink.hover()
-
-    const projectPrimary = await timelineRows.first().evaluate(row => getComputedStyle(row)
-      .getPropertyValue('--project-primary')
-      .trim())
-
-    expect(projectPrimary).not.toBe('')
-    await expect.poll(async () => activeLink.evaluate(link => getComputedStyle(link).backgroundColor))
-      .not.toBe(restingBackground)
+    await expect.poll(async () => title.evaluate(element => getComputedStyle(element).color))
+      .not.toBe(restingColor)
   })
 
   test('work page keeps readable content and case-study navigation on mobile', async ({ page }) => {
