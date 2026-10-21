@@ -33,7 +33,7 @@ coverImage:
 
 ## Shipping across gaming, SaaS, and product engineering work
 
-At [Optic Power](https://www.codepwr.com/), I worked as a senior full stack engineer across several products at once. The throughline was consistent: build dependable software for teams that needed product momentum, technical depth, and steady delivery in a fully remote environment.
+At [Optic Power](https://www.codepwr.com/), I worked within codepwr as a senior full-stack engineer across several products at once. The throughline was consistent: build dependable software for teams that needed product momentum, technical depth, and steady delivery in a fully remote environment.
 
 ### Core challenge
 
