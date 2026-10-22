@@ -149,8 +149,38 @@
 
 @utility about-testimonials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 
-@utility about-next { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 3rem; margin-top: 6.5rem; padding-block: 3rem 1rem; border-top: 1px solid hsl(var(--line) / 0.65); }
-.about-next > div > p:last-child { max-width: 29rem; margin-top: 1rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
+@utility about-next { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); align-items: center; gap: 4rem; margin-top: 6.5rem; padding-block: 1.75rem; }
+.about-next [data-about-explore-copy] { min-width: 0; padding-left: 1.5rem; border-left: 2px solid var(--about-accent); }
+.about-next .about-eyebrow { color: var(--about-accent); }
+.about-next [data-about-explore-copy] > p:last-child { max-width: 29rem; margin-top: 1rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
+.about-next nav { min-width: 0; }
+@utility about-explore-link { min-width: 0; }
+.about-explore-link[data-slot="button-link"] { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; min-height: 2.75rem; padding-block: 1.75rem; border-top: 1px solid hsl(var(--line) / 0.65); border-radius: 0; color: hsl(var(--ink)); text-align: left; text-decoration: none; }
+.about-explore-link:last-child { border-bottom: 1px solid hsl(var(--line) / 0.65); }
+.about-explore-link [data-about-explore-index] { color: var(--about-accent); font-size: 0.625rem; font-weight: 500; letter-spacing: 0.05em; }
+.about-explore-link [data-about-explore-label] { min-width: 0; }
+.about-explore-link small { display: block; color: hsl(var(--ink-soft)); font-size: 0.6875rem; font-weight: 400; line-height: 1.8; }
+.about-explore-link strong { display: block; margin-top: 0.375rem; font-size: 1.625rem; font-weight: 500; line-height: 1.4; letter-spacing: -0.05em; }
+.about-explore-link svg { color: var(--about-accent); }
+.about-explore-link:hover strong, .about-explore-link:focus-visible strong { color: var(--about-accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+.about-next .about-explore-link:focus-visible { outline-color: var(--about-accent); }
+
+@container about-page (width < 53.125rem) {
+  .about-next { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+}
+
+@container about-page (width < 33.75rem) {
+  .about-next { gap: 1.5rem; }
+  .about-next [data-about-explore-copy] { padding-left: 1rem; }
+  .about-explore-link[data-slot="button-link"] { grid-template-columns: 1.25rem minmax(0, 1fr) auto; gap: 0.625rem; padding-block: 1.375rem; }
+  .about-explore-link strong { font-size: 1.375rem; }
+}
+
+@container about-page (width < 17.5rem) {
+  .about-explore-link[data-slot="button-link"] { grid-template-columns: minmax(0, 1fr) auto; }
+  .about-explore-link [data-about-explore-index] { grid-column: 1 / -1; }
+  .about-explore-link strong { font-size: min(1.375rem, 10cqi); }
+}
 
 :root[data-theme="dark"] .about-page { --about-accent: hsl(var(--accent)); }
 .about-page .text-brand { color: var(--about-accent); }
@@ -159,7 +189,6 @@
   .about-hero { gap: 2.5rem; grid-template-columns: minmax(0, 1fr) minmax(0, 20rem); }
   .about-section-heading, .about-story { gap: 2.5rem; }
   .about-principles { gap: 1.5rem; }
-  .about-next { grid-template-columns: 1fr; gap: 0; }
 }
 
 @container about-page (max-width: 48rem) {
@@ -180,7 +209,7 @@
   .about-section-heading { margin-bottom: 2rem; }
   .about-section-heading > p { justify-self: start; max-width: 100%; }
   .about-principles, .about-testimonials { grid-template-columns: 1fr; }
-  .about-next { margin-top: 4rem; padding-top: 2rem; }
+  .about-next { margin-top: 4rem; }
 }
 
 /* Viewport breakpoints ignore root text scaling. When enlarged text leaves the
@@ -194,7 +223,6 @@
   .about-section-heading { margin-bottom: 2rem; }
   .about-section-heading > p { justify-self: start; max-width: 100%; }
   .about-principles, .about-testimonials { grid-template-columns: minmax(0, 1fr); }
-  .about-next { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
 
 /* Very large text on a phone: tighten the frame inset and scale headings with the

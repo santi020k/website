@@ -323,6 +323,18 @@ reduced-motion behavior, and static list fallback. Number all nine organizations
 continuously. Tighten sheet insets below 16rem of card width and title size below
 14rem so enlarged text leaves room for complete names and descriptions.
 
+### Margin index About invitation
+
+Keep About's closing invitation open, with a 2px accent rail beside its introduction
+and two full-row destination links beside it. Each ruled row has a decorative index,
+a small context label, a 1.625rem action, and a stationary arrow. Use unstyled Lumen
+ButtonLinks, native internal navigation, and a visible outer keyboard focus outline.
+
+Stack the introduction and navigation below 53.125rem of About container width.
+Below 33.75rem, tighten the rail inset and row spacing; below 17.5rem, move each
+index above its label so enlarged text still has room. Keep both descriptions and
+destinations intact, with accent colors from the active light or dark theme.
+
 ### Portrait cover speaker profile
 
 The speaking hero uses an opaque Lumen Card with a fine border and asymmetric

@@ -198,15 +198,24 @@ const meta = {
       </div>
     </section>
 
-    <section class="about-next">
-      <div><p class="about-eyebrow">Keep exploring</p><h2>Want the fuller picture?</h2><p>The portfolio has the project evidence; the blog has the thinking behind the decisions.</p></div>
-      <div class="maker-hero-actions">
-        <ButtonLink class="maker-hero-primary" href="/portfolio/" variant="unstyled">View portfolio<span class="
-          maker-hero-arrow
-        "
-                                                                                                   ><Icon name="arrow-up-right" /></span></ButtonLink>
-        <ButtonLink class="maker-hero-secondary" href="/blog/" variant="unstyled">Read the blog<Icon name="arrow-right" /></ButtonLink>
+    <section id="about-explore" class="about-next" aria-labelledby="about-explore-heading">
+      <div data-about-explore-copy>
+        <p class="about-eyebrow">Keep exploring</p>
+        <h2 id="about-explore-heading">Want the fuller picture?</h2>
+        <p>The portfolio has the project evidence; the blog has the thinking behind the decisions.</p>
       </div>
+      <nav aria-label="Continue exploring">
+        <ButtonLink class="about-explore-link" href="/portfolio/" variant="unstyled">
+          <span aria-hidden="true" data-about-explore-index>01</span>
+          <span data-about-explore-label><small>Project evidence</small><strong>View portfolio</strong></span>
+          <Icon name="arrow-up-right" size="lg" />
+        </ButtonLink>
+        <ButtonLink class="about-explore-link" href="/blog/" variant="unstyled">
+          <span aria-hidden="true" data-about-explore-index>02</span>
+          <span data-about-explore-label><small>Thinking behind the decisions</small><strong>Read the blog</strong></span>
+          <Icon name="arrow-right" size="lg" />
+        </ButtonLink>
+      </nav>
     </section>
   </div>
 </PageLayout>
