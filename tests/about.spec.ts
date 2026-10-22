@@ -29,7 +29,7 @@ test.describe('About page', () => {
     await expect(page.locator('#main').getByText('Engineering leader · full-stack architect', { exact: true })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What I believe about engineering/i })).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: /What collaborators say about the work/i })).toBeVisible()
-    await expect(page.locator('.ui-note')).toHaveCount(3)
+    await expect(page.getByRole('region', { name: 'Profile highlights' }).getByRole('article')).toHaveCount(3)
     await expect(page.locator('[data-principle]')).toHaveCount(6)
   })
 

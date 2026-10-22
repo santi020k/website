@@ -28,6 +28,8 @@
 
 - Apply Margin brief to the About page working modes with an accent heading rail, larger margin numbers, and clear topic headings. Preserve every description, native list semantics, and readable light and dark layouts beside the introduction and at enlarged text sizes.
 
+- Apply Margin counters to About profile highlights with prominent figures, smaller units, and complete explanations beside an accent rail. Preserve dynamic experience and authored impact metrics, use named Lumen Stat articles, and reflow the rows for narrow screens and enlarged text.
+
 - Apply Margin index to the About page exploration invitation with an accent rail, contextual destination labels, and two ruled navigation rows. Preserve native portfolio and blog links, visible keyboard focus, light and dark themes, and readable layouts at enlarged text sizes.
 
 - Apply Notebook folio to homepage latest writing with a shared paper frame, numbered margins, and clear article actions. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.

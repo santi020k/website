@@ -298,6 +298,19 @@ narrow-column insets. Cards remain passive, without hover changes. Use the same
 phrase boundary without removing words or punctuation. Keep About's open editorial
 principles in their existing presentation.
 
+### Margin counters About profile highlights
+
+The three profile highlights use bare Lumen Stat articles in full-width, ruled rows.
+Place the figure and its smaller unit in the left margin, with a label and complete
+explanation beside a 2px accent rail. Keep experience derived from the shared site
+configuration and preserve the authored team and delivery metrics. The section has
+an accessible name and each article is named by its level-two heading.
+
+Use About's semantic accent in both themes, 4rem figures, and a 0.65fr / 1fr split.
+Reduce figures to 3.25rem below 53.125rem of container width, then stack the figure
+above its reading column below 31.25rem. At enlarged text on a narrow phone, let the
+figure scale with the container. These passive highlights add no links or animation.
+
 ### Margin brief About working modes
 
 The working modes beside About's introduction use an open numbered list with fine
@@ -416,7 +429,7 @@ and its static accessible value; text values remain static.
 On phones the icon moves beside the value and the rule disappears. Narrow content
 columns restore the stacked icon and scale long values to fit. Cards stay passive,
 without hover effects or new animation. The homepage uses its dedicated Sculpted
-ledger below; About and Work retain their existing open statistics layouts.
+ledger below, About uses Margin counters, and Work retains its open statistics layout.
 
 ### Timeline folio career cards
 
