@@ -1,15 +1,13 @@
 ---
-import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import HomeFeaturedWork from '@/components/pages/home/HomeFeaturedWork.astro'
+import HomeProductCard from '@/components/pages/home/HomeProductCard.astro'
 import HomeSectionHeading from '@/components/pages/home/HomeSectionHeading.astro'
 
 import { getPortfolioPath } from '@/utils/links'
-import { getProjectCoverForUsage } from '@/utils/project-cover'
-import { getProjectTimelineLabel } from '@/utils/project-meta'
 
-import { Card, Icon } from '@santi020k/lumen-astro'
+import { Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   projects: CollectionEntry<'project'>[]
@@ -36,43 +34,7 @@ const supporting = projects.slice(featured.length)
       action={isWork ? 'Explore my experience' : 'View all projects'}
     />
     <div class:list={['studio-feature-grid', { 'studio-feature-grid-pair': !isWork }]}>
-      {featured.map(project => {
-        const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
-
-        return isWork ?
-<HomeFeaturedWork project={project} /> :
-(
-          <Card as="article" class="studio-project" variant="unstyled">
-            <a class="studio-project-link" href={getPortfolioPath(project.id)} data-project-card data-showcase-feature>
-              <div class="studio-project-media" data-showcase-artwork>
-                {cover && (
-                  <Image
-                    src={cover}
-                    alt=""
-                    width={960}
-                    widths={[400, 640, 960, 1280]}
-                    sizes="(min-width: 1200px) 640px, (min-width: 768px) 50vw, 100vw"
-                    format="webp"
-                    loading="lazy"
-                  />
-                )}
-              </div>
-              <div class="studio-project-copy">
-                <p class="studio-project-category">Independent product</p>
-                <div class="studio-project-title">
-                  <h3>{project.data.title}</h3>
-                  <span class="studio-arrow-box" aria-hidden="true"><Icon name="arrow-up-right" /></span>
-                </div>
-                <p class="studio-project-description">{project.data.description}</p>
-                <div class="studio-project-meta">
-                  <span>{project.data.technologies.slice(0, 3).join(' / ')}</span>
-                  <span>{getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)}</span>
-                </div>
-              </div>
-            </a>
-          </Card>
-        )
-      })}
+      {featured.map(project => isWork ? <HomeFeaturedWork project={project} /> : <HomeProductCard project={project} />)}
     </div>
     <ol class:list={['studio-project-list', { 'studio-project-list-pair': !isWork }]}>
       {supporting.map((project, index) => (

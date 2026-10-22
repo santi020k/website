@@ -636,6 +636,18 @@ A `featured-work` container stacks artwork above the sheet below 38.75rem, inclu
 is enlarged. Below 23.75rem, tighten the inset and allow evidence and metadata to wrap.
 Keep independent product cards and supporting project rows in their own layouts.
 
+### Product sleeve independent products
+
+Homepage independent products use paired Lumen cards with inset artwork and an opaque reading
+sheet that overlaps the cover. Keep the title, full description, technologies, timeline, and
+“Explore the project” in a single native link. The sheets stretch to the same bottom edge while
+their metadata and action stay together. Use the same surface tokens and stepped corners as
+Offset spread without applying its wide work layout to the product pair.
+
+Stack the pair below a 44rem `home-content` container or a 768px viewport, including when text
+is enlarged. Below a 23.75rem card container, reduce the inset and remove the sheet's side margins.
+Preserve optimized covers, the outer keyboard focus outline, and stationary cards on hover.
+
 ## Responsive behavior and accessibility
 
 Below 768px, switch editorial sections and independent product cards to one column. Featured work
@@ -674,8 +686,8 @@ tablet compositions are unchanged, and the frame's own padding still follows the
 These rules apply only inside Home; other `maker-hero` pages are unaffected.
 The `home-content` container adapts the sections below the hero as well: statistics
 use two columns below 28rem and one below 20rem. Below 20rem, project and writing
-rows place their copy beneath the number and arrow, featured project titles omit
-the decorative arrow, and card and community insets tighten to preserve reading space.
+rows place their copy beneath the number and arrow, and community insets tighten
+to preserve reading space. Featured cards use their own container rules above.
 About's `about-page` container and the `projects-intro` container stack their columns below 40rem
 the same way, and the Projects ledger stacks below 17.5rem. Below 14rem, About tightens its frame
 inset and scales headings to the container so whole words fit. Editorial project cards stay in two

@@ -1,0 +1,150 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import { getPortfolioPath } from '@/utils/links'
+import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectTimelineLabel } from '@/utils/project-meta'
+
+import { Card, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  project: CollectionEntry<'project'>
+}
+
+const { project } = Astro.props
+const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
+---
+
+<Card as="article" class="studio-project" variant="unstyled" data-home-product>
+  <a class="studio-project-link" href={getPortfolioPath(project.id)} data-project-card data-showcase-feature>
+    <div data-product-artwork data-showcase-artwork>
+      {cover && (
+        <Image
+          src={cover}
+          alt=""
+          width={960}
+          widths={[400, 640, 960, 1280]}
+          sizes="(min-width: 1200px) 560px, (min-width: 768px) 50vw, 100vw"
+          format="webp"
+          loading="lazy"
+        />
+      )}
+    </div>
+    <div data-product-sheet>
+      <p data-product-category>Independent product</p>
+      <h3>{project.data.title}</h3>
+      <p data-product-description>{project.data.description}</p>
+      <div data-product-meta>
+        <span>{project.data.technologies.slice(0, 3).join(' / ')}</span>
+        <span>{getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)}</span>
+      </div>
+      <span data-product-action>Explore the project <Icon class="size-4" name="arrow-up-right" /></span>
+    </div>
+  </a>
+</Card>
+
+<style>
+  [data-home-product][data-slot='card'] {
+    container: home-product / inline-size;
+    min-width: 0;
+    border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+    background: hsl(var(--surface-muted));
+    overflow-wrap: anywhere;
+  }
+
+  .studio-project-link {
+    display: flex;
+    flex-direction: column;
+    padding: 0.875rem;
+  }
+
+  [data-product-artwork] {
+    min-width: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    aspect-ratio: 16 / 11;
+    border-radius: 1rem;
+    background: hsl(var(--surface-muted));
+  }
+
+  [data-product-artwork] img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  [data-product-sheet] {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    gap: 1.125rem;
+    margin: -1.75rem 0.625rem 0;
+    padding: 1.5rem;
+    border: 1px solid var(--studio-rule);
+    border-radius: 1.125rem 1.125rem 0.3125rem 1.125rem;
+    background: hsl(var(--surface));
+  }
+
+  [data-product-category] {
+    color: hsl(var(--ink-soft));
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.7;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.055em;
+  }
+
+  .studio-project-link:hover h3 {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3rem;
+  }
+
+  [data-product-description] {
+    color: hsl(var(--ink-soft));
+    font-size: 0.875rem;
+    line-height: 1.85;
+  }
+
+  [data-product-meta] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-top: auto;
+    padding-top: 1.125rem;
+    border-top: 1px solid var(--studio-rule);
+    color: hsl(var(--ink-soft));
+    font-size: 0.6875rem;
+    line-height: 1.8;
+  }
+
+  [data-product-action] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--studio-emphasis);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.8;
+  }
+
+  [data-product-action] :global(svg) { flex-shrink: 0; }
+
+  @container home-product (max-width: 23.75rem) {
+    .studio-project-link { padding: 0.75rem; }
+    [data-product-sheet] { margin: -1.5rem 0 0; padding: 1.375rem 1.125rem; }
+  }
+</style>

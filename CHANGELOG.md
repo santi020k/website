@@ -20,6 +20,8 @@
 
 - Apply Principle spread to the developer experience working definition with separate system and evidence panels, a shared reading link, and responsive stacking. Preserve the complete definition, keyboard navigation, and readable light and dark appearances at enlarged text sizes.
 
+- Apply Product sleeve to homepage independent products with inset artwork, overlapping reading sheets, and a clear project action. Preserve the complete descriptions, technology and timeline metadata, optimized covers, and native full-card links. Stack the pair for narrow containers and enlarged text.
+
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public
   availability from current product and store evidence.
@@ -247,6 +249,16 @@
 - Apply Stack ledger to project technology cards, preserving complete lists, native
   keyboard disclosures, and readable layouts with enlarged text.
 
+- Keep keyboard search focus aligned with the highlighted result, including Tab,
+  arrow navigation, and native Enter activation. Preserve input navigation and
+  normal keyboard behavior on other dialog controls.
+
+  Precache the current site's scripts, styles, and fonts so offline recovery works
+  after a first visit. Protect the recovery assets from eviction and fingerprint
+  the generated worker when code or recovery documents change.
+
+  Update Vitest, its UI, and V8 coverage together to the stable 5.0.5 security fix.
+
 - Keep technology summary totals, organization logos, and carousel controls inside their
   containers on narrow screens and with enlarged text. Replace the older technology panel's
   mesh decoration with the shared solid surface and medium-weight labels.
@@ -274,16 +286,6 @@
   navigation, preserving native TOC fragment alignment and highlighting. Remove
   prose caption margins from code headers and keep copy-button hit areas stable
   during hover and press while retaining 44px touch targets.
-
-- Keep keyboard search focus aligned with the highlighted result, including Tab,
-  arrow navigation, and native Enter activation. Preserve input navigation and
-  normal keyboard behavior on other dialog controls.
-
-  Precache the current site's scripts, styles, and fonts so offline recovery works
-  after a first visit. Protect the recovery assets from eviction and fingerprint
-  the generated worker when code or recovery documents change.
-
-  Update Vitest, its UI, and V8 coverage together to the stable 5.0.5 security fix.
 
 ## 4.0.0
 
