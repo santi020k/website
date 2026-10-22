@@ -298,6 +298,19 @@ narrow-column insets. Cards remain passive, without hover changes. Use the same
 phrase boundary without removing words or punctuation. Keep About's open editorial
 principles in their existing presentation.
 
+### Margin brief About working modes
+
+The working modes beside About's introduction use an open numbered list with fine
+horizontal rules. A 2px accent rail leads the 1.75rem section heading. Each row pairs
+a 2rem decorative numeral with a short 1.375rem heading and the complete existing
+description, separated from the numeral by a fine vertical rule. Keep the native
+list and heading hierarchy; these rows are passive and require no client script.
+
+Use the working-mode container's width to tighten the number column and type below
+18.75rem. Below 14.6875rem, put the numeral above the copy and remove its vertical
+rule so enlarged text remains readable. Retain the surrounding introduction layout
+and use About's light and dark accent tokens.
+
 ### Collaboration ledger About cards
 
 About's collaboration lanes form three full-width, ruled articles. A purple numeral

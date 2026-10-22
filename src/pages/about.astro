@@ -69,9 +69,18 @@ const storyBeats = [
 ]
 
 const workingModes = [
-  'Architecture and modernization for products that need to keep shipping.',
-  'Developer experience, automation, testing, linting, and CI/CD systems that reduce review noise.',
-  'Technical leadership for teams that need clearer standards and calmer decisions under pressure.'
+  {
+    title: 'Architecture',
+    description: 'Architecture and modernization for products that need to keep shipping.'
+  },
+  {
+    title: 'Delivery systems',
+    description: 'Developer experience, automation, testing, linting, and CI/CD systems that reduce review noise.'
+  },
+  {
+    title: 'Technical leadership',
+    description: 'Technical leadership for teams that need clearer standards and calmer decisions under pressure.'
+  }
 ]
 
 const description =
@@ -145,12 +154,15 @@ const meta = {
       <AboutSectionHeading index="01" eyebrow="The shape of the work" title="Engineering, leadership, and delivery systems." description="A working model of what I care about, where I can help, and why the details matter." />
       <div class="about-story">
         <div class="about-story-copy">{storyBeats.map(beat => <p>{beat}</p>)}</div>
-        <div class="about-working-modes">
-          <h3>Where I usually help.</h3>
-          <ul>{workingModes.map((mode, index) => (
-            <li><span>{String(index + 1).padStart(2, '0')}</span><p>{mode}</p></li>
+        <section id="about-working-modes" class="about-working-modes" aria-labelledby="about-working-modes-heading">
+          <h3 id="about-working-modes-heading">Where I usually help.</h3>
+          <ul>{workingModes.map(({ description: modeDescription, title }, index) => (
+            <li>
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <div><h4>{title}</h4><p>{modeDescription}</p></div>
+            </li>
           ))}</ul>
-        </div>
+        </section>
       </div>
     </section>
 
