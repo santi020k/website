@@ -34,6 +34,21 @@ test.describe('Speaking page', () => {
     await expect(linkedInLink.first()).toHaveAttribute('href', /linkedin/)
   })
 
+  test('should expose the complete speaker identity and loaded portrait', async ({ page }) => {
+    const profile = page.getByRole('complementary', { name: 'Speaker profile' })
+    await expect(profile.getByRole('heading', { level: 2, name: 'Santiago Molina' })).toBeVisible()
+    await expect(profile).toContainText('Engineering leader, full-stack architect, and ReactJS Colombia co-organizer.')
+    await expect(profile.locator('dt')).toHaveText(['Community', 'Based in'])
+    await expect(profile.locator('dd')).toHaveText(['Since 2017', 'Medellín'])
+    const portrait = profile.getByRole('img', { name: 'Santiago Molina, engineering leader and speaker' })
+    await expect(portrait).toBeVisible()
+    await expect.poll(() => portrait.evaluate(image => {
+      if (!(image instanceof HTMLImageElement)) return false
+
+      return image.complete && image.naturalWidth > 0
+    })).toBe(true)
+  })
+
   test('should keep the booking brief and protected contact action accessible', async ({ page }) => {
     const booking = page.getByRole('region', { name: 'Start with a brief.' })
     await expect(booking).toContainText('Include the event, audience, date range, preferred format, and the outcome')

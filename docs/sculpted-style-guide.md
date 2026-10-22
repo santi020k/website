@@ -250,6 +250,18 @@ narrow-column insets. Cards remain passive, without hover changes. Use the same
 phrase boundary without removing words or punctuation. Keep About's open editorial
 principles in their existing presentation.
 
+### Portrait cover speaker profile
+
+The speaking hero uses an opaque Lumen Card with a fine border and asymmetric
+1.75rem corners. Its optimized 4:5 portrait leads into a dark photographic scrim,
+with a small profile label and 2.5rem name in the lower cover. Keep the existing
+description and semantic community/location facts on the ruled surface below.
+Use the dedicated portrait ink and scrim tokens so both themes preserve contrast.
+Below 19.375rem, tighten the insets and name size. Below 14rem, move the caption
+into its own row below the photograph so enlarged text cannot cover the face.
+Retain eager image loading, descriptive alternative text, and the hero's existing
+responsive column layout. This profile stays passive and requires no client script.
+
 ### Community dossier speaking card
 
 The ReactJS Colombia card pairs a tinted role-and-title cover with the complete

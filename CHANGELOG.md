@@ -18,6 +18,8 @@
 
 - Apply Invitation folio to speaking booking cards with a tinted invitation, a clear contact action, and ruled briefing notes. Preserve the complete brief, protected WhatsApp link, keyboard focus, and responsive reflow at enlarged text sizes.
 
+- Apply Portrait cover to the speaker profile with a full-width portrait, readable name over the photographic scrim, and ruled community and location facts. Preserve the optimized image and responsive layout, with a separate caption below the portrait at enlarged text sizes.
+
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public
   availability from current product and store evidence.

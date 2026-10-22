@@ -101,54 +101,35 @@ const sessionTraits = [
       "
       data-speaking-hero-profile
     >
-      <Card
-        class="
-          relative overflow-hidden rounded-4xl p-3
-          sm:p-4
-        "
-        variant="unstyled"
-      >
-        <div
-          aria-hidden="true"
-          class="
-            pointer-events-none absolute inset-x-8 top-4 h-44 rounded-full
-            bg-brand/18 blur-3xl
-          "
-        />
-        <Image
-          alt="Santiago Molina, engineering leader and speaker"
-          class="
-            relative aspect-4/5 w-full rounded-[1.45rem] object-cover
-            object-center contrast-[1.03] saturate-[0.92]
-          "
-          decoding="sync"
-          fetchpriority="high"
-          format="avif"
-          loading="eager"
-          sizes="(min-width: 1280px) 384px, (min-width: 1024px) 352px, (min-width: 640px) 368px, 336px"
-          src={SpeakerPortrait}
-          widths={[336, 384, 672, 768]}
-        />
-        <div class="space-y-4 px-2 pt-5 pb-2">
-          <div>
-            <p class="section-label text-brand">Speaker profile</p>
-            <p class="mt-2 text-lg font-semibold text-ink">Santiago Molina</p>
-            <p class="mt-1 text-sm/6 text-ink-soft">
-              Engineering leader, full-stack architect, and ReactJS Colombia co-organizer.
-            </p>
-          </div>
-          <dl class="
-            grid grid-cols-[repeat(auto-fit,minmax(min(100%,7rem),1fr))] gap-4
-            divider-soft pt-4
-          "
-          >
+      <Card data-speaker-cover variant="unstyled">
+        <div data-speaker-cover-portrait>
+          <Image
+            alt="Santiago Molina, engineering leader and speaker"
+            decoding="sync"
+            fetchpriority="high"
+            format="avif"
+            loading="eager"
+            sizes="(min-width: 1280px) 384px, (min-width: 1024px) 352px, (min-width: 640px) 368px, 336px"
+            src={SpeakerPortrait}
+            widths={[336, 384, 672, 768]}
+          />
+          <header data-speaker-cover-identity>
+            <p>Speaker profile</p>
+            <h2>Santiago Molina</h2>
+          </header>
+        </div>
+        <div data-speaker-cover-copy>
+          <p>
+            Engineering leader, full-stack architect, and ReactJS Colombia co-organizer.
+          </p>
+          <dl>
             <div class="min-w-0">
-              <dt class="text-xs text-ink-muted">Community</dt>
-              <dd class="mt-1 site-label">Since 2017</dd>
+              <dt>Community</dt>
+              <dd>Since 2017</dd>
             </div>
             <div class="min-w-0">
-              <dt class="text-xs text-ink-muted">Based in</dt>
-              <dd class="mt-1 site-label">Medellín</dd>
+              <dt>Based in</dt>
+              <dd>Medellín</dd>
             </div>
           </dl>
         </div>
@@ -162,6 +143,135 @@ const sessionTraits = [
      54rem in root-relative units, so enlarged text stacks it below the copy. */
   [data-speaking-hero] {
     container: speaking-hero / inline-size;
+  }
+
+  [data-speaking-hero-profile] {
+    container: speaker-profile / inline-size;
+  }
+
+  [data-speaker-cover][data-slot='card'] {
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
+    background: hsl(var(--surface));
+  }
+
+  [data-speaker-cover-portrait] {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    background: var(--color-portrait-scrim);
+  }
+
+  [data-speaker-cover-portrait] img {
+    grid-area: 1 / 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 2.5rem;
+    object-fit: cover;
+    object-position: center;
+    filter: contrast(1.03) saturate(0.92);
+  }
+
+  [data-speaker-cover-portrait]::after {
+    position: absolute;
+    inset: 36% 0 0;
+    content: '';
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, var(--color-portrait-scrim));
+  }
+
+  [data-speaker-cover-identity] {
+    z-index: 1;
+    grid-area: 1 / 1;
+    align-self: end;
+    padding: 1.75rem;
+    color: var(--color-portrait-ink);
+  }
+
+  [data-speaker-cover-identity] p {
+    color: inherit;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  [data-speaker-cover-identity] h2 {
+    max-width: 13.75rem;
+    margin-top: 0.75rem;
+    color: inherit;
+    font-size: 2.5rem;
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+  }
+
+  [data-speaker-cover-copy] {
+    padding: 1.5625rem 1.75rem 1.6875rem;
+  }
+
+  [data-speaker-cover-copy] > p {
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.5rem;
+    letter-spacing: normal;
+  }
+
+  [data-speaker-cover-copy] dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
+    gap: 1.25rem;
+    margin-top: 1.375rem;
+    padding-top: 1.1875rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+
+  [data-speaker-cover-copy] dt {
+    color: hsl(var(--ink-soft));
+    font-size: 0.6875rem;
+    line-height: 1.125rem;
+    letter-spacing: 0.01em;
+  }
+
+  [data-speaker-cover-copy] dd {
+    margin-top: 0.25rem;
+    color: hsl(var(--ink));
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.375rem;
+    letter-spacing: -0.02em;
+  }
+
+  @container speaker-profile (width < 19.375rem) {
+    [data-speaker-cover-identity],
+    [data-speaker-cover-copy] {
+      padding-inline: 1.375rem;
+    }
+
+    [data-speaker-cover-identity] h2 { font-size: 2.125rem; }
+  }
+
+  /* Keep enlarged captions in flow below the face instead of covering it. */
+  @container speaker-profile (width < 14rem) {
+    [data-speaker-cover-portrait] img { margin-bottom: 0; }
+
+    [data-speaker-cover-identity] {
+      grid-area: auto;
+      padding: 0.875rem 0.75rem 1.125rem;
+    }
+
+    [data-speaker-cover-identity] h2 { font-size: 1.375rem; }
+    [data-speaker-cover-copy] { padding: 1.125rem 0.75rem; }
+  }
+
+  @media (forced-colors: active) {
+    [data-speaker-cover-portrait]::after { display: none; }
+    [data-speaker-cover-identity] { background: Canvas; color: CanvasText; }
   }
 
   @container speaking-hero (width < 14rem) {
