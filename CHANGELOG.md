@@ -38,6 +38,8 @@
   projects by purpose with keyboard-accessible category links, and clarify the
   contact invitation for engineering roles, product collaboration, and speaking.
 
+- Apply Project bookmarks to the homepage hero product shortcuts with tinted logo rails, complete descriptions, and a visible project index at every width. Preserve native navigation and responsive light and dark layouts, including keyboard access and enlarged text.
+
 - Apply Reading index to series chapter navigation, with numbered rows, an explicit current chapter, and responsive editorial spacing.
 
 - Apply Reading slip to the curated Start here articles, with numbered headers, complete copy, and responsive cards.

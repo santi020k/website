@@ -60,18 +60,18 @@ import PostLensLogo from '@/content/project/postlens/logo.webp'
     </figure>
   </div>
 
-  <div class="maker-hero-shelf">
-    <p class="maker-hero-shelf-label">A few things<br />I’m building <Icon name="arrow-down-right" /></p>
+  <nav class="maker-hero-shelf" aria-label="Featured products" id="hero-products">
+    <p class="maker-hero-shelf-label">A few things I’m building <Icon name="arrow-down-right" /></p>
     <a class="maker-hero-project" href="/portfolio/lumen-ui/">
-      <Image alt="" class="maker-hero-project-logo" src={LumenLogo} width={40} height={40} />
+      <Image alt="" class="maker-hero-project-logo" src={LumenLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
       <span><strong>Lumen UI</strong><span>One system. Many platforms.</span></span>
       <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
     </a>
     <a class="maker-hero-project" href="/portfolio/postlens/">
-      <Image alt="" class="maker-hero-project-logo" src={PostLensLogo} width={40} height={40} />
+      <Image alt="" class="maker-hero-project-logo" src={PostLensLogo} width={44} height={44} widths={[44, 88]} sizes="2.75rem" />
       <span><strong>PostLens</strong><span>A little more from every photo.</span></span>
       <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
     </a>
-    <a class="maker-hero-index" href="/projects/" aria-label="Explore all projects"><Icon name="plus" /></a>
-  </div>
+    <ButtonLink class="maker-hero-index" href="/projects/" aria-label="Explore all projects" variant="unstyled">All projects <Icon name="plus" /></ButtonLink>
+  </nav>
 </section>

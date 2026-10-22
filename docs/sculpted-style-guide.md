@@ -623,6 +623,18 @@ navigation, social, and legal links stay consistent across routes.
 Keep project ordering and article visibility under the existing content utilities. Development
 mode may show drafts and scheduled articles; judge the public content against a production build.
 
+### Project bookmarks hero shortcuts
+
+The homepage hero ends with a named product navigation containing two native project links.
+Each bookmark pairs an optimized logo on a tinted rail with its title and complete short
+summary. Keep Lumen UI and PostLens in their existing order and preserve their case-study
+links. The separate “All projects” action remains visible at every width.
+
+Use the `home-hero` container to stack the pair below 39.5rem. Tighten the rail and insets below
+21.25rem and place the logo above the copy below 16rem for enlarged text. Keep full text,
+visible focus, and stationary cards on hover. The hero headline, portrait, and primary actions
+retain their existing layout.
+
 ### Offset spread featured work
 
 The homepage's featured professional work uses a soft outer Lumen card, an opaque copy sheet
@@ -728,7 +740,7 @@ The screen resume has no rounded clipping boundary, so its edge labels and focus
 The footer colophon reserves the Back to Top corner wherever the two would meet.
 The phone homepage hero also reflows its heading, actions, and project shelf when text grows.
 On tablets and desktops, the Home frame's `home-hero` container adopts the phone layout for the
-stage, portrait, caption, shelf, and actions below 39.5rem, keeping the viewport's type scale,
+stage, portrait, caption, and actions below 39.5rem, keeping the viewport's type scale,
 so enlarged headings never split words or run into the portrait. The default desktop and 768px
 tablet compositions are unchanged, and the frame's own padding still follows the viewport.
 These rules apply only inside Home; other `maker-hero` pages are unaffected.

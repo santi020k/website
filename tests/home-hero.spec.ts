@@ -28,7 +28,70 @@ test('the hero connects products, personal background, and the full portfolio', 
   await expect(page.locator('[data-particles-bg]')).toBeVisible()
 })
 
-for (const theme of ['light', 'dark']) {
+test('hero product bookmarks preserve destinations and keyboard navigation', async ({ page, browserName }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+
+  const products = page.getByRole('navigation', { name: 'Featured products' })
+  const links = products.getByRole('link')
+
+  await expect(links).toHaveCount(3)
+  await expect(links.nth(0)).toHaveAccessibleName('Lumen UI One system. Many platforms.')
+  await expect(links.nth(1)).toHaveAccessibleName('PostLens A little more from every photo.')
+  await expect(links.nth(2)).toHaveAccessibleName('Explore all projects')
+  await expect(links.nth(2)).toBeVisible()
+  await expect(links.nth(2)).toHaveAttribute('href', '/projects/')
+  await links.first().focus()
+  await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+  await expect(links.nth(1)).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/\/portfolio\/postlens\/$/)
+  await page.goBack()
+  await links.nth(2).click()
+  await expect(page).toHaveURL(/\/projects\/$/)
+})
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`hero product bookmarks keep complete text and logos at enlarged sizes in ${theme} mode`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+
+    for (const width of [320, 390, 768, 1440]) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/')
+      await page.evaluate(async () => {
+        document.documentElement.style.fontSize = '200%'
+        await document.fonts.ready
+      })
+
+      const products = page.getByRole('navigation', { name: 'Featured products' })
+
+      for (const link of await products.getByRole('link').all()) {
+        await expect(link).toBeVisible()
+        const clipped = await link.evaluate(element => {
+          const bounds = element.getBoundingClientRect()
+          const range = document.createRange()
+
+          range.selectNodeContents(element)
+          return [...range.getClientRects()].some(rect => rect.width > 0 && (
+            rect.left < bounds.left - 1 || rect.right > bounds.right + 1
+          ))
+        })
+
+        expect(clipped).toBe(false)
+        await link.focus()
+        await expect(link).toHaveCSS('outline-style', 'solid')
+      }
+
+      for (const image of await products.locator('img').all()) {
+        await expect(image).toBeVisible()
+        await expect.poll(() => image.evaluate(
+          element => element instanceof HTMLImageElement && element.complete && element.naturalWidth > 0
+        )).toBe(true)
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+    }
+  })
+
   test(`hero remains usable at mobile, tablet, and desktop widths in ${theme} mode`, async ({ page }) => {
     await page.addInitScript(value => {
       localStorage.setItem('theme', value)
