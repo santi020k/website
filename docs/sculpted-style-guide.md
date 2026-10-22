@@ -298,6 +298,18 @@ narrow-column insets. Cards remain passive, without hover changes. Use the same
 phrase boundary without removing words or punctuation. Keep About's open editorial
 principles in their existing presentation.
 
+### Collaboration ledger About cards
+
+About's collaboration lanes form three full-width, ruled articles. A purple numeral
+leads each row, followed by a 1.5rem title and a separate description column with a
+fine left rule. Keep the complete description and fit note together, with the fit
+note set at 0.6875rem and weight 500. These are passive articles without hover effects.
+
+Use the `about-page` container to move the description below its title at 50rem,
+then stack the numeral above the copy below 33.75rem. Remove the vertical rule in
+the stacked layout. Preserve reading order, all authored copy, and text-driven
+row heights when text is enlarged.
+
 ### Portrait cover speaker profile
 
 The speaking hero uses an opaque Lumen Card with a fine border and asymmetric

@@ -6,6 +6,8 @@
 
 - Apply Chapter ribbons to homepage supporting work and project rows with tinted title panels, complete descriptions, and clear case-study actions. Preserve project order, roles, continuous numbering, and native full-card links. Stack panels for narrow containers and enlarged text with accessible focus and contrast in both themes.
 
+- Apply Collaboration ledger to About page collaboration cards with full-width numbered rows, distinct title and description columns, and quieter fit notes. Preserve all authored copy and stack the rows for narrow containers and enlarged text.
+
 - Apply Community folio to the homepage community panel with a tinted introduction, inset reading sheet, numbered destination rows, and explicit actions. Preserve community and speaking destinations, complete descriptions, native keyboard navigation, and responsive light and dark layouts with enlarged text.
 
 - Apply Correspondence sheet to the shared footer contact invitation with a wide heading, mail marker, and joined WhatsApp and email actions. Preserve configured destinations, native keyboard navigation, compact footers, and accessible responsive layouts in both themes and with enlarged text.

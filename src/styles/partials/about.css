@@ -118,12 +118,26 @@
 .about-working-modes li > span { color: var(--about-accent); font-size: 0.625rem; padding-top: 0.25rem; }
 .about-working-modes li > p { color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.85; }
 
-@utility about-lanes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }
-.about-lanes article { display: flex; flex-direction: column; padding-top: 1.5rem; border-top: 1px solid hsl(var(--line) / 0.65); }
-.about-lanes h3 { margin-top: 1rem; font-size: 1.25rem; font-weight: 600; line-height: 1.4; letter-spacing: -0.045em; text-wrap: balance; }
-.about-lanes h3 + p { margin-top: 1rem; margin-bottom: 1.5rem; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.85; }
-.about-lanes .about-lane-fit { margin-top: auto; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.85; padding-top: 1rem; border-top: 1px solid hsl(var(--line) / 0.65); }
+@utility about-lanes { display: grid; grid-template-columns: minmax(0, 1fr); }
+.about-lanes article { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 1.15fr); column-gap: 2rem; padding-block: 1.75rem; border-top: 1px solid hsl(var(--line) / 0.65); }
+.about-lanes .about-eyebrow { grid-row: span 2; align-self: start; color: var(--about-accent); font-size: 2rem; font-weight: 500; line-height: 1; letter-spacing: -0.05em; }
+.about-lanes h3 { grid-row: span 2; font-size: 1.5rem; font-weight: 500; line-height: 1.4; letter-spacing: -0.045em; text-wrap: balance; }
+.about-lanes h3 + p { padding-left: 1.5rem; border-left: 1px solid hsl(var(--line) / 0.65); color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.85; }
+.about-lanes .about-lane-fit { grid-column: 3; padding-top: 0.875rem; padding-left: 1.5rem; border-left: 1px solid hsl(var(--line) / 0.65); color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.85; }
 @utility about-lane-fit { font-weight: 500; }
+
+@container about-page (width < 50rem) {
+  .about-lanes article { grid-template-columns: 2.5rem minmax(0, 1fr); column-gap: 1.25rem; }
+  .about-lanes .about-eyebrow { grid-row: span 3; }
+  .about-lanes h3 { grid-row: auto; margin-bottom: 0.875rem; }
+  .about-lanes h3 + p, .about-lanes .about-lane-fit { grid-column: 2; padding-left: 0; border-left: 0; }
+}
+
+@container about-page (width < 33.75rem) {
+  .about-lanes article { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .about-lanes .about-eyebrow, .about-lanes h3 { grid-row: auto; margin: 0; }
+  .about-lanes h3 + p, .about-lanes .about-lane-fit { grid-column: 1; padding: 0; }
+}
 
 .about-page [data-carousel-item] > a { min-height: 21rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: 1.25rem; background: hsl(var(--surface)); box-shadow: none; backdrop-filter: none; transform: none; }
 .about-page [data-carousel-item] > a::before, .about-page [data-carousel-item] > a::after { display: none; }
@@ -147,7 +161,7 @@
 @media (max-width: 63.999rem) {
   .about-hero { gap: 2.5rem; grid-template-columns: minmax(0, 1fr) minmax(0, 20rem); }
   .about-section-heading, .about-story { gap: 2.5rem; }
-  .about-lanes, .about-principles { gap: 1.5rem; }
+  .about-principles { gap: 1.5rem; }
   .about-next { grid-template-columns: 1fr; gap: 0; }
 }
 
@@ -168,7 +182,7 @@
   .about-section-heading, .about-story { grid-template-columns: 1fr; gap: 1.5rem; }
   .about-section-heading { margin-bottom: 2rem; }
   .about-section-heading > p { justify-self: start; max-width: 100%; }
-  .about-lanes, .about-principles, .about-testimonials { grid-template-columns: 1fr; }
+  .about-principles, .about-testimonials { grid-template-columns: 1fr; }
   .about-next { margin-top: 4rem; padding-top: 2rem; }
 }
 
@@ -182,7 +196,7 @@
   .about-section-heading, .about-story { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   .about-section-heading { margin-bottom: 2rem; }
   .about-section-heading > p { justify-self: start; max-width: 100%; }
-  .about-lanes, .about-principles, .about-testimonials { grid-template-columns: minmax(0, 1fr); }
+  .about-principles, .about-testimonials { grid-template-columns: minmax(0, 1fr); }
   .about-next { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
 
