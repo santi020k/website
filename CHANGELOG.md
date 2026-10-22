@@ -18,6 +18,8 @@
   panel, purple heading rails, and responsive columns. Preserve all policy content
   and dates, including readable layouts with enlarged text.
 
+- Apply Exhibition sheets to About organization cards with tinted outer frames, overlapping reading sheets, continuous numbering, and separate case-study action rows. Preserve optimized logos, complete descriptions, carousel paging and keyboard focus, and accessible reflow with enlarged text.
+
 - Apply Focus ledger to series focus areas with numbered topic rows, fine dividers, and an accessible list beside each introduction. Preserve every topic and reflow the layout across narrow screens, both themes, and enlarged text.
 
 - Apply Gallery sheet to product previews with complete screenshots, numbered captions, and responsive reading space.

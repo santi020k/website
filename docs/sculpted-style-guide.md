@@ -310,6 +310,19 @@ then stack the numeral above the copy below 33.75rem. Remove the vertical rule i
 the stacked layout. Preserve reading order, all authored copy, and text-driven
 row heights when text is enlarged.
 
+### Exhibition sheets About organizations
+
+The organization carousel uses tinted outer frames with 1.75rem corners and a
+0.5rem lower-right corner. Retain the optimized artwork and individual logos in a
+10.75rem cover. An opaque reading sheet overlaps the cover by 1.5rem and contains
+the organization number, a 1.5rem heading, complete context, and a ruled action row.
+The whole card remains one native case-study link with an outer focus outline.
+
+Keep the carousel's three-, two-, and one-column paging, focus preservation,
+reduced-motion behavior, and static list fallback. Number all nine organizations
+continuously. Tighten sheet insets below 16rem of card width and title size below
+14rem so enlarged text leaves room for complete names and descriptions.
+
 ### Portrait cover speaker profile
 
 The speaking hero uses an opaque Lumen Card with a fine border and asymmetric

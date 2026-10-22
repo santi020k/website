@@ -147,13 +147,35 @@ for (const width of [320, 390, 1440]) {
 
           // Visit every page: logos have different aspect ratios and limits.
           const logos = carousel.locator('[data-carousel-item]:visible [data-carousel-logo] > img:not([aria-hidden])')
+          const copy = carousel.locator('[data-carousel-item]:visible [data-carousel-copy]')
+          const expectReadableSheets = async () => {
+            await expectReadingWords(copy, width)
+            const clipped = await copy.evaluateAll(sheets => sheets.flatMap(sheet => {
+              const bounds = sheet.getBoundingClientRect()
+
+              return [...sheet.children].flatMap(child => {
+                const range = document.createRange()
+
+                range.selectNodeContents(child)
+                return [...range.getClientRects()].some(rect => rect.width > 0 && (
+                  rect.left < bounds.left - 1 || rect.right > bounds.right + 1 || rect.bottom > bounds.bottom + 1
+                )) ?
+                  [child.textContent] :
+                  []
+              })
+            }))
+
+            expect(clipped, 'Organization names, context, and actions must fit their reading sheets').toEqual([])
+          }
 
           await expectLoadedLogos(logos)
           await expectInside(logos)
+          await expectReadableSheets()
           while (await next.isEnabled()) {
             await page.keyboard.press('Enter')
             await expectLoadedLogos(logos)
             await expectInside(logos)
+            await expectReadableSheets()
           }
           await expect(next).toBeDisabled()
           await expect(previous).toBeFocused()
@@ -165,6 +187,13 @@ for (const width of [320, 390, 1440]) {
           }
           await expect(status).toHaveText(firstStatus ?? '')
           await expect(next).toBeFocused()
+
+          const firstCaseStudy = carousel.getByRole('link', { name: /^Void /u })
+
+          await tabTo(page, firstCaseStudy, browserName)
+          await expectOutline(firstCaseStudy)
+          await page.keyboard.press('Enter')
+          await expect(page).toHaveURL('/portfolio/void/')
         })
 
         test('topic cards reflow and announce their count once', async ({ page, browserName }) => {
