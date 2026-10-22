@@ -579,8 +579,10 @@ columns only while each keeps 20rem, and the featured card stacks below 40rem. B
 hides its decorative title arrow so the full title gets the row. Portfolio cards
 tighten their inset below 20rem and wrap plain technology labels. The About carousel grid shows up to three 18rem
 columns. Its script uses the resolved column count as the page size, and it moves focus to the
-opposite control when paging disables the focused one. On Travel, the country panel stays inside
-the map and scrolls. A `travel-atlas` container below 30rem uses the phone overlay positions.
+opposite control when paging disables the focused one. Travel country cards use Passport folio:
+a soft cover, a real country silhouette, a prominent count, and numbered place rows. The desktop
+map reserves 42rem for the card and controls; longer entries can scroll inside the card. Phones
+and a `travel-atlas` container below 30rem put the card below the map.
 Below 20rem, the hint, zoom toolbar, and details panel leave the overlay and sit in flow, so none
 covers the map or a focused control. The close control takes its own row above the country name. The scrolling mobile topic filter pads its row so pill focus rings
 stay visible.

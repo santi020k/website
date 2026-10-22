@@ -22,7 +22,11 @@ typography, signature eyebrow, and thin rules as the home hero and sculpted navi
 The map comes first, directly below the navigation, and extends to both page edges.
 The title, introduction, and visit counts follow beneath it, aligned with the navigation.
 Its zoom and reset controls sit inside the map.
-Selecting a country opens a notebook card with its silhouette, visit label, and a list of places.
+Selecting a country opens a Passport folio card: a soft brand-colored cover pairs the country
+name and code with its real silhouette; the body separates a prominent visit count from numbered,
+ruled place rows. Numbers identify notebook entries, not trip order. Home and unlisted countries
+use descriptive labels without invented counts. Residence context stays in the cover and the
+accessible visit label. Partial-list and region notes remain visible beneath the places.
 Desktop cards use the opposite side of the map from the selected country.
 The silhouette reuses the selected country geometry; no city coordinates or travel details are inferred.
 Visitors can browse in either direction, with the next country named in the card and both controls
@@ -63,7 +67,7 @@ published posts still require a valid cover.
 
 The page uses Lumen 4's public `WorldMap` component and
 `@santi020k/lumen-core/world-map-data` export. The coordinated Astro, core, and umbrella
-catalog entries and registry lockfile pin the published 4.0.0 packages. Normal development
+catalog entries and registry lockfile pin `lumen` 4.2.0 and the Astro/core 4.1.0 packages. Normal development
 and validation use the committed registry dependencies; local tarball paths must never
 enter a deployment or commit. Regenerate the CV PDFs and rerun the website gates whenever
 the coordinated packages change.

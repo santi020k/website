@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import { getTravelVisitLabel, travelCountries } from '../src/data/travel'
+
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import { requireValue } from './helpers/assertions'
 
@@ -33,10 +35,10 @@ test('Lumen country selection updates travel details and clears them for unliste
 
   await chooser.focus()
   await chooser.selectOption('PY')
-  await expect(details.locator('[data-travel-places] li')).toHaveText(['Asunción', 'Encarnación', 'Ciudad del Este'])
+  await expect(details.locator('[data-travel-place-name]')).toHaveText(['Asunción', 'Encarnación', 'Ciudad del Este'])
   await expect(details).toContainText('7 visits · Country of residence')
   await chooser.selectOption('JP')
-  await expect(details.locator('[data-travel-places] li')).toHaveText(['Tokyo', 'Osaka'])
+  await expect(details.locator('[data-travel-place-name]')).toHaveText(['Tokyo', 'Osaka'])
   await expect(details).toContainText('1 visit')
   await chooser.selectOption('CA')
   await expect(details).toContainText('No entry in my travel journal')
@@ -52,7 +54,7 @@ test('map supports pointer selection, keyboard zoom, and return navigation', asy
   await expect(page.locator('[data-ui-world-map-select]')).toBeEnabled()
   await expect(page.locator('[data-travel-explorer]')).toHaveAttribute('data-bound', 'true')
   await page.locator('[data-ui-world-map-country="BR"]').click()
-  await expect(page.locator('[data-travel-places] li')).toHaveText(['Rio de Janeiro', 'São Paulo', 'Iguazu'])
+  await expect(page.locator('[data-travel-place-name]')).toHaveText(['Rio de Janeiro', 'São Paulo', 'Iguazu'])
   const zoomIn = page.locator('button[aria-label="Zoom in"]')
   await zoomIn.focus()
   await page.keyboard.press('Enter')
@@ -166,7 +168,7 @@ test('keyboard exploration reveals off-screen countries on mobile and clears emp
   const chooser = page.locator('[data-travel-explorer] select')
   await chooser.focus()
   await chooser.selectOption('JP')
-  await expect(page.locator('[data-travel-places] li')).toHaveText(['Tokyo', 'Osaka'])
+  await expect(page.locator('[data-travel-place-name]')).toHaveText(['Tokyo', 'Osaka'])
   await expect.poll(() => page.locator('[data-ui-world-map-viewport]').evaluate(element => element.scrollLeft)).toBeGreaterThan(0)
   await chooser.selectOption('')
   await expect(page.locator('[data-travel-selection]')).toBeHidden()
@@ -211,7 +213,7 @@ for (const width of [375, 390]) {
     await page.locator('[data-ui-world-map-country="BR"]').click()
     const details = page.locator('[data-travel-selection]')
     await expect(details).toBeVisible()
-    await expect(details.locator('li')).toHaveText(['Rio de Janeiro', 'São Paulo', 'Iguazu'])
+    await expect(details.locator('[data-travel-place-name]')).toHaveText(['Rio de Janeiro', 'São Paulo', 'Iguazu'])
     const placement = await details.evaluate(element => ({
       top: element.getBoundingClientRect().top,
       mapBottom: document.querySelector('[data-ui-world-map-viewport]')?.getBoundingClientRect().bottom
@@ -231,7 +233,7 @@ test('country notebook preserves partial lists, home copy, and matching silhouet
   await expect(chooser).toBeEnabled()
   await chooser.focus()
   await chooser.selectOption('MX')
-  await expect(details.locator('li')).toHaveText(['Mexico City (DF)', 'Cancún', 'Puebla', 'Querétaro'])
+  await expect(details.locator('[data-travel-place-name]')).toHaveText(['Mexico City (DF)', 'Cancún', 'Puebla', 'Querétaro'])
   await expect(details.locator('[data-travel-note]')).toContainText('there are more to add')
   await expect(details.locator('[data-travel-silhouette] path')).toHaveAttribute('d', requireValue(await page.locator('[data-ui-world-map-country="MX"]').getAttribute('d')))
   await chooser.selectOption('AR')
@@ -335,3 +337,69 @@ test('travel desktop cards leave the selected country visible on either side of 
     expect(card.x + card.width <= country.x || card.x >= country.x + country.width).toBe(true)
   }
 })
+
+test('passport folio preserves all notebook counts and places when changing countries', async ({ page }) => {
+  await page.goto('/travel/')
+  const chooser = page.getByRole('combobox', { name: 'Explore a country', exact: true })
+  const details = page.locator('[data-travel-selection]')
+  for (const country of travelCountries) {
+    await chooser.selectOption(country.code)
+    await expect(details.locator('h2')).toHaveText(country.name)
+    await expect(details.locator('[data-travel-visits]')).toHaveText(getTravelVisitLabel(country))
+    await expect(details.locator('[data-travel-visit-total]')).toHaveText(country.visits?.toString() ?? '')
+    await expect(details.locator('[data-travel-visit-total]')).toBeVisible({ visible: country.visits !== null })
+    await expect(details.locator('[data-travel-place-name]')).toHaveText([...country.places])
+    await expect(details.locator('[data-travel-place-number][aria-hidden="true"]')).toHaveText(country.places.map((_, index) => String(index + 1).padStart(2, '0')))
+  }
+  await chooser.selectOption('CA')
+  await expect(details.locator('[data-travel-visit-total]')).toBeHidden()
+  await expect(details.locator('[data-travel-visit-total]')).toBeEmpty()
+  await expect(details.locator('[data-travel-visits]')).toHaveText('No entry in my travel journal')
+  await expect(details.locator('li')).toHaveCount(0)
+})
+
+for (const theme of ['light', 'dark']) {
+  test(`passport folio reflows at 200% text and remains usable by keyboard in ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 700 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/travel/')
+    const regularHeadingSize = await page.locator('[data-travel-country]').evaluate(element => Number.parseFloat(getComputedStyle(element).fontSize))
+    await page.evaluate(value => {
+      document.documentElement.dataset.theme = value
+      document.documentElement.style.fontSize = '200%'
+    }, theme)
+    const chooser = page.getByRole('combobox', { name: 'Explore a country', exact: true })
+    const details = page.locator('[data-travel-selection]')
+    for (const code of ['GT', 'MX', 'PY', 'CO', 'CA']) {
+      await chooser.selectOption(code)
+      expect(await details.locator('h2').evaluate(element => Number.parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThan(regularHeadingSize)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+      expect(await details.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true)
+      const splitWords = await details.evaluate(element => {
+        const problems: string[] = []
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+        while (walker.nextNode()) {
+          const node = walker.currentNode
+          const parent = node.parentElement
+          if (!parent || parent.closest('[aria-hidden="true"], .sr-only') || !parent.checkVisibility()) continue
+          for (const match of (node.textContent ?? '').matchAll(/[^\s]+/gu)) {
+            const range = document.createRange()
+            range.setStart(node, match.index)
+            range.setEnd(node, match.index + match[0].length)
+            if (range.getClientRects().length > 1) problems.push(match[0])
+          }
+        }
+        return problems
+      })
+      expect(splitWords).toEqual([])
+    }
+    const next = page.locator('[data-travel-next]')
+    await next.focus()
+    await page.keyboard.press('Enter')
+    await expect(details.locator('h2')).toHaveText('Colombia')
+    await expect(next).toBeFocused()
+    await page.keyboard.press('Escape')
+    await expect(details).toBeHidden()
+    await expect(page.locator('[data-ui-world-map-viewport]')).toBeFocused()
+  })
+}

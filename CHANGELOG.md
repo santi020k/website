@@ -12,6 +12,8 @@
 
 - Apply Gallery sheet to product previews with complete screenshots, numbered captions, and responsive reading space.
 
+- Apply Passport folio to travel country cards with a soft cover, prominent visit counts, and numbered place rows. Preserve home and residence context, map navigation, partial-place notes, and accessible reflow at enlarged text sizes.
+
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public
   availability from current product and store evidence.

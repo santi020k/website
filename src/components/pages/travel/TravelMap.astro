@@ -21,37 +21,44 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
       zoomLabels={{ reset: 'Reset' }}
     />
     <Card as="section" variant="unstyled" data-travel-selection aria-labelledby="travel-selected-country" hidden>
-      <div data-travel-selection-header>
-        <p data-travel-category>A place in my story</p>
-        <Button aria-label="Close country details" data-travel-close size="icon" variant="ghost">
-          <Icon name="x" class="size-4" />
-        </Button>
-      </div>
-      <div data-travel-destination>
-        <div>
-          <p data-travel-code aria-hidden="true"></p>
-          <h2 id="travel-selected-country" data-travel-country></h2>
+      <div data-travel-cover>
+        <div data-travel-selection-header>
+          <p data-travel-category>A place in my story</p>
+          <Button aria-label="Close country details" data-travel-close size="icon" variant="ghost">
+            <Icon name="x" class="size-4" />
+          </Button>
         </div>
-        <svg data-travel-silhouette aria-hidden="true" focusable="false"><path /></svg>
+        <div data-travel-destination>
+          <div>
+            <p data-travel-code aria-hidden="true"></p>
+            <h2 id="travel-selected-country" data-travel-country></h2>
+          </div>
+          <svg data-travel-silhouette aria-hidden="true" focusable="false"><path /></svg>
+        </div>
       </div>
-      <div data-travel-ledger>
-        <Icon name="map-pin" class="size-4 shrink-0" />
-        <p data-travel-visits></p>
-      </div>
-      <div data-travel-places-section>
-        <h3 data-travel-places-heading>Places in my notebook</h3>
-        <ul data-travel-places></ul>
-        <p data-travel-empty hidden></p>
-        <p data-travel-note hidden></p>
-      </div>
-      <div data-travel-selection-footer>
-        <Button aria-label="Previous country" data-travel-previous size="icon" variant="ghost">
-          <Icon name="arrow-left" class="size-4" /><span data-travel-previous-label>Previous</span>
-        </Button>
-        <Button data-travel-next variant="ghost">
-          <span data-travel-next-copy><span>Next country</span>{' '}<span data-travel-next-country></span></span>
-          <span data-travel-next-arrow><Icon name="arrow-right" class="size-4" /></span>
-        </Button>
+      <div data-travel-selection-body>
+        <div data-travel-ledger>
+          <p data-travel-visits>
+            <span data-travel-visit-total></span>
+            <span data-travel-visit-label></span>
+            <span class="sr-only" data-travel-visit-context></span>
+          </p>
+        </div>
+        <div data-travel-places-section>
+          <h3 data-travel-places-heading>Places in my notebook</h3>
+          <ul data-travel-places role="list"></ul>
+          <p data-travel-empty hidden></p>
+          <p data-travel-note hidden></p>
+        </div>
+        <div data-travel-selection-footer>
+          <Button aria-label="Previous country" data-travel-previous size="icon" variant="ghost">
+            <Icon name="arrow-left" class="size-4" /><span data-travel-previous-label>Previous</span>
+          </Button>
+          <Button data-travel-next variant="ghost">
+            <span data-travel-next-copy><span>Next country</span>{' '}<span data-travel-next-country></span></span>
+            <span data-travel-next-arrow><Icon name="arrow-right" class="size-4" /></span>
+          </Button>
+        </div>
       </div>
     </Card>
   </div>
@@ -119,7 +126,7 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
   [data-travel-counts] { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.375rem; margin-top: 1.25rem; color: hsl(var(--ink)); }
   [data-travel-counts] strong { font-size: 1.25rem; font-weight: 600; font-variant-numeric: tabular-nums; }
   [data-travel-counts] > [aria-hidden] { margin-inline: 0.25rem; color: hsl(var(--ink-soft)); }
-  [data-travel-atlas] { --travel-map-height: max(24rem, 40vw); position: relative; container: travel-atlas / inline-size; }
+  [data-travel-atlas] { --travel-map-height: max(42rem, 40vw); position: relative; container: travel-atlas / inline-size; }
 
   [data-travel-hint] {
     position: absolute;
@@ -214,9 +221,9 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
     max-height: calc(var(--travel-map-height) - 7.25rem);
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 1.25rem 1.5rem 0.5rem;
+    padding: 0;
     border: 1px solid hsl(var(--line) / 0.65);
-    border-radius: 1.5rem;
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
     background: hsl(var(--surface));
     box-shadow: var(--shadow-nav);
     scroll-margin-block: 7rem 5rem;
@@ -224,24 +231,30 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
 
   [data-travel-selection]:where([data-placement="left"]) { left: max(1.5rem, calc((100vw - 72rem) / 2)); right: auto; }
 
+  [data-travel-cover] { padding: 1.5rem 1.5rem 1.75rem; border-radius: 1.6875rem 1.6875rem 0 0; background: hsl(var(--brand-soft)); }
+  [data-travel-selection-body] { padding: 0 1.5rem 0.5rem; }
   [data-travel-selection-header] { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
-  [data-travel-category] { color: hsl(var(--ink-soft)); font-size: 0.625rem; font-weight: 600; line-height: 1.6; letter-spacing: 0.13em; text-transform: uppercase; }
-  [data-travel-destination] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.5rem 1.25rem; }
+  [data-travel-category] { color: hsl(var(--ink-soft)); font-size: 0.625rem; font-weight: 500; line-height: 1.6; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-travel-destination] { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding-top: 0.75rem; }
   [data-travel-destination] > div { min-width: 0; }
-  [data-travel-code] { margin-bottom: 0.375rem; color: hsl(var(--brand)); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; }
+  [data-travel-code] { display: inline-block; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid hsl(var(--line)); color: hsl(var(--travel-navigation-accent)); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; }
   [data-travel-country] { margin: 0; font-size: 2rem; font-weight: 500; line-height: 1.1; letter-spacing: -0.055em; overflow-wrap: break-word; }
-  [data-travel-silhouette] { flex-shrink: 0; width: 4.5rem; height: 4.5rem; fill: hsl(var(--brand) / 0.12); stroke: hsl(var(--brand) / 0.65); stroke-width: 1; }
+  [data-travel-silhouette] { flex-shrink: 0; width: 5.5rem; height: 5.5rem; fill: hsl(var(--surface)); stroke: hsl(var(--travel-navigation-accent)); stroke-width: 1; }
   [data-travel-silhouette] path { vector-effect: non-scaling-stroke; }
-  [data-travel-ledger] { display: flex; align-items: center; gap: 0.625rem; padding-block: 0.875rem; border-block: 1px solid hsl(var(--line) / 0.65); color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; line-height: 1.7; }
+  [data-travel-ledger] { padding-block: 1.375rem; border-bottom: 1px solid hsl(var(--line)); }
+  [data-travel-visits] { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 1rem; color: hsl(var(--ink)); font-size: 0.8125rem; line-height: 1.7; }
+  [data-travel-visit-total] { color: hsl(var(--travel-navigation-accent)); font-size: 3rem; line-height: 1; font-weight: 500; letter-spacing: -0.04em; }
   [data-travel-places-section] { padding-block: 1.25rem; }
   [data-travel-places-heading] { margin-bottom: 0.75rem; color: hsl(var(--ink-soft)); font-size: 0.625rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
-  [data-travel-places] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1rem; padding: 0; list-style: none; }
-  [data-travel-places] :global(li) { display: flex; align-items: baseline; gap: 0.5rem; color: hsl(var(--ink)); font-size: 0.8125rem; line-height: 1.6; overflow-wrap: break-word; }
-  [data-travel-places] :global(li::before) { content: ''; flex-shrink: 0; width: 0.25rem; height: 0.25rem; border-radius: 50%; background: hsl(var(--brand)); transform: translateY(-0.15rem); }
+  [data-travel-places] { padding: 0; list-style: none; }
+  [data-travel-places] :global(li) { display: flex; align-items: baseline; gap: 1rem; padding-block: 0.625rem; border-bottom: 1px solid hsl(var(--line)); color: hsl(var(--ink)); font-size: 0.875rem; line-height: 1.6; overflow-wrap: break-word; }
+  [data-travel-places] :global(li:last-child) { padding-bottom: 0; border-bottom: 0; }
+  [data-travel-places] :global([data-travel-place-number]) { flex-shrink: 0; color: hsl(var(--travel-navigation-accent)); font-size: 0.625rem; line-height: 1.25rem; }
+  [data-travel-places] :global([data-travel-place-name]) { min-width: 0; }
   [data-travel-empty], [data-travel-note] { color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.8; }
   [data-travel-note] { margin-top: 0.875rem; }
   [data-travel-selection-footer] { display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid hsl(var(--line) / 0.65); }
-  [data-travel-explorer] :global([data-travel-close]) { flex-shrink: 0; width: 2.75rem; min-width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; background: hsl(var(--surface-muted)); }
+  [data-travel-explorer] :global([data-travel-close]) { flex-shrink: 0; width: 2.75rem; min-width: 2.75rem; height: 2.75rem; border-radius: 0.875rem; background: hsl(var(--surface)); }
   [data-travel-explorer] :global([data-travel-next]) { position: relative; display: flex; justify-content: start; gap: 1rem; min-width: 0; width: 100%; max-width: 100%; min-height: 4.5rem; padding: 0.75rem 3.25rem 0.75rem 0.5rem; border-radius: 0.875rem; background: transparent; transform: none; scroll-margin-block: 1rem; color: hsl(var(--ink)); font-size: 0.75rem; font-weight: 500; text-align: left; white-space: normal; }
   [data-travel-explorer] :global([data-travel-previous]) { flex-shrink: 0; width: 2.75rem; height: 2.75rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: 0.875rem; color: hsl(var(--ink)); scroll-margin-block: 1rem; }
   [data-travel-previous-label] { display: none; }
@@ -253,8 +266,7 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
   [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-country] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
   [data-travel-explorer] :global([data-travel-next]:is(:hover, :focus-visible)) [data-travel-next-arrow] { color: hsl(var(--on-brand)); background: hsl(var(--brand-solid)); }
   :global([data-theme="dark"]) [data-travel-explorer] { --travel-navigation-accent: var(--accent); }
-  :global([data-theme="dark"]) [data-travel-code] { color: hsl(var(--accent)); }
-  :global([data-theme="dark"]) [data-travel-silhouette] { fill: hsl(var(--accent) / 0.12); stroke: hsl(var(--accent) / 0.65); }
+  :global([data-theme="dark"]) [data-travel-code] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
 
   @media (prefers-reduced-motion: reduce) {
     [data-travel-explorer] :global([data-travel-next]), [data-travel-next-arrow] { transition: none; }
@@ -306,11 +318,15 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
       max-width: calc(100% - 2.5rem);
       margin-inline: 1.25rem;
     }
-    [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 0.5rem 0; padding: 0.75rem; overflow: visible; box-shadow: none; }
+    [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 0.5rem 0; overflow: visible; box-shadow: none; }
     [data-travel-explorer] :global(.ui-world-map__frame) { grid-area: auto; }
+    [data-travel-cover] { padding: 1rem 0.75rem 1.25rem; }
+    [data-travel-selection-body] { padding-inline: 0.75rem; }
     [data-travel-destination] { align-items: start; }
+    [data-travel-country] { font-size: min(1.625rem, 13cqi); }
+    [data-travel-places] :global(li) { gap: 0.5rem; }
     [data-travel-silhouette] { display: none; }
-    [data-travel-places] { grid-template-columns: minmax(0, 1fr); }
+
     [data-travel-selection-footer] { flex-wrap: wrap; gap: 0; padding-top: 0.75rem; }
     [data-travel-explorer] :global([data-travel-previous]) { width: auto; height: auto; padding: 0.5rem; font-size: 0.75rem; white-space: normal; }
     [data-travel-previous-label] { display: inline; }
@@ -331,6 +347,9 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
     const heading = explorer.querySelector<HTMLElement>('[data-travel-country]')
     const category = explorer.querySelector<HTMLElement>('[data-travel-category]')
     const visits = explorer.querySelector<HTMLElement>('[data-travel-visits]')
+    const visitTotal = explorer.querySelector<HTMLElement>('[data-travel-visit-total]')
+    const visitLabel = explorer.querySelector<HTMLElement>('[data-travel-visit-label]')
+    const visitContext = explorer.querySelector<HTMLElement>('[data-travel-visit-context]')
     const places = explorer.querySelector<HTMLElement>('[data-travel-places]')
     const note = explorer.querySelector<HTMLElement>('[data-travel-note]')
     const empty = explorer.querySelector<HTMLElement>('[data-travel-empty]')
@@ -345,6 +364,8 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
     const nextCountry = explorer.querySelector<HTMLElement>('[data-travel-next-country]')
 
     if (!panel || !heading || !category || !visits || !places || !note || !empty || !placesHeading) return
+
+    if (!visitTotal || !visitLabel || !visitContext) return
 
     if (!code || !silhouette || !announcement || !chooser || !viewport) return
 
@@ -505,12 +526,32 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
 
       if (country?.connection === 'resident') category.textContent = 'Country of residence'
 
-      visits.textContent = country ? getTravelVisitLabel(country) : 'No entry in my travel journal'
+      const visitDescription = country ? getTravelVisitLabel(country) : 'No entry in my travel journal'
 
-      places.replaceChildren(...(country?.places ?? []).map(place => {
+      visitTotal.hidden = typeof country?.visits !== 'number'
+
+      visitTotal.textContent = country?.visits?.toString() ?? ''
+
+      visitLabel.textContent = country && country.visits !== null ? ` ${country.visits === 1 ? 'visit' : 'visits'}` : visitDescription
+
+      visitContext.textContent = country?.connection === 'resident' ? ' · Country of residence' : ''
+
+      places.replaceChildren(...(country?.places ?? []).map((place, index) => {
         const item = document.createElement('li')
+        const number = document.createElement('span')
+        const name = document.createElement('span')
 
-        item.textContent = place
+        number.dataset.travelPlaceNumber = ''
+
+        number.setAttribute('aria-hidden', 'true')
+
+        number.textContent = String(index + 1).padStart(2, '0')
+
+        name.dataset.travelPlaceName = ''
+
+        name.textContent = place
+
+        item.append(number, name)
 
         return item
       }))
@@ -529,7 +570,7 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
 
       panel.hidden = false
 
-      announcement.textContent = `${heading.textContent}. ${visits.textContent}. ${country?.places.length ? country.places.join(', ') : empty.textContent}`
+      announcement.textContent = `${heading.textContent}. ${visitDescription}. ${country?.places.length ? country.places.join(', ') : empty.textContent}`
 
       const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
       const path = revealCountry(selectedCode, behavior)
