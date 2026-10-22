@@ -73,9 +73,10 @@ for (const width of [390, 1440]) {
           }))
 
           expect(outside).toEqual([])
-          await expectWholeText(page.locator('.studio-writing-row h4'), /authentication|without|sharing|accounts/u)
+          await expectWholeText(page.locator('[data-writing-row] h4'), /authentication|without|sharing|accounts/u)
+          await expectWholeText(page.locator('[data-writing-number]'), /0[1-4]/u)
           await expectWholeText(page.locator('[data-home-supporting-project] h3'), /RoadScore|Between/u)
-          const rows = page.locator('.studio-writing-row')
+          const rows = page.locator('[data-writing-row]')
           const first = rows.first()
           const href = requireValue(await first.getAttribute('href'))
 

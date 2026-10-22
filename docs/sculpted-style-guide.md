@@ -660,12 +660,24 @@ Independent projects stay paired until the same 44rem `home-content` threshold a
 products, with a 768px viewport fallback. Below 20rem, reduce horizontal insets to leave room for
 enlarged titles. Keep the full description visible at every size and let the reading panel grow.
 
+### Notebook folio latest writing
+
+The homepage's chronological writing list uses one Lumen card as a soft notebook cover, with
+opaque reading sheets, a numbered margin, and a clear article action. Keep the full title and
+excerpt, publication date, and reading time together in one native link. The entries share quiet
+dividers, retain visible focus outlines inside the cover, and stay stationary on hover.
+
+Use the `home-writing` container to place the arrow beside the action below 38.75rem and move
+numbers above the copy below 21.25rem. At enlarged text sizes, reduce the insets below 16rem and
+use the compact heading scale below 12rem. Keep every excerpt visible on mobile, preserve the
+chronological content utilities, and leave the Start here cards and RSS destination intact.
+
 ## Responsive behavior and accessibility
 
 Below 768px, switch editorial sections and independent product cards to one column. Featured work
 uses its container threshold above. Stats use two columns.
-Supporting project descriptions move below their titles. Writing can omit the secondary excerpt
-on small screens while retaining the full title, date, reading time, and link.
+Supporting project descriptions move below their titles. Writing retains the full title, excerpt,
+date, reading time, and link on small screens.
 
 Test at 320, 375, 768, and 1440px in light and dark modes. Verify horizontal overflow, keyboard
 focus, full-card links, navigation after Astro page swaps, and automated accessibility checks.

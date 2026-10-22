@@ -18,6 +18,8 @@
 
 - Apply Layered feature to the latest Blog article with an overlapping reading sheet, complete description, and a separate metadata footer. Preserve optimized cover images and native keyboard navigation, and reflow the hero and card at narrow widths and enlarged text sizes.
 
+- Apply Notebook folio to homepage latest writing with a shared paper frame, numbered margins, and clear article actions. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
+
 - Apply Offset spread to the homepage featured work with an overlapping copy sheet, uncropped project artwork, and a dedicated outcome and role footer. Preserve authored results, native full-card navigation, and responsive light and dark layouts at enlarged text sizes.
 
 - Apply Principle spread to the developer experience working definition with separate system and evidence panels, a shared reading link, and responsive stacking. Preserve the complete definition, keyboard navigation, and readable light and dark appearances at enlarged text sizes.

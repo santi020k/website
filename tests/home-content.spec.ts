@@ -46,6 +46,13 @@ for (const theme of ['light', 'dark']) {
       await page.goto('/')
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
 
+      const excerpts = page.locator('[data-home-writing] [data-writing-description]')
+
+      await expect(excerpts).toHaveCount(4)
+      for (const excerpt of await excerpts.all()) {
+        await expect(excerpt).toBeVisible()
+      }
+
       for (const link of await page.locator('[data-home-content] a').all()) {
         await link.focus()
         await expect(link).toBeFocused()

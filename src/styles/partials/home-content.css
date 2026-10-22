@@ -123,7 +123,6 @@
 }
 
 .studio-text-link svg,
-.studio-arrow-box svg,
 .studio-community-link h3 svg {
   width: 1.125rem;
   height: 1.125rem;
@@ -140,7 +139,6 @@
 }
 
 .studio-text-link:hover,
-.studio-writing-row:hover h4,
 .studio-community-link:hover h3 {
   color: var(--studio-emphasis);
 }
@@ -180,16 +178,6 @@
   text-decoration: none;
 }
 
-@utility studio-arrow-box {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid var(--studio-rule);
-  border-radius: 0.875rem;
-}
-
 @utility studio-project-list {
   display: grid;
   gap: 1.25rem;
@@ -198,62 +186,8 @@
   list-style: none;
 }
 
-@utility studio-row-number {
-  align-self: start;
-  padding-top: 0.25rem;
-  color: hsl(var(--ink-soft));
-  font-size: 0.625rem;
-  font-variant-numeric: tabular-nums;
-}
-
 @utility studio-project-list-pair {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-@utility studio-writing-list {
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--studio-rule);
-  list-style: none;
-}
-
-@utility studio-writing-row {
-  display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 2rem 0.5rem;
-  border-bottom: 1px solid var(--studio-rule);
-  color: hsl(var(--ink));
-  text-decoration: none;
-}
-
-@utility studio-writing-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  color: hsl(var(--ink-soft));
-  font-size: 0.6875rem;
-  line-height: 1.6;
-}
-
-.studio-writing-row h4 {
-  max-width: 38rem;
-  margin-top: 0.625rem;
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.04em;
-  text-wrap: pretty;
-  hyphens: manual;
-}
-
-@utility studio-writing-description {
-  max-width: 42rem;
-  margin-top: 0.625rem;
-  color: hsl(var(--ink-soft));
-  font-size: 0.875rem;
-  line-height: 1.85;
 }
 
 @utility studio-writing-follow {
@@ -391,23 +325,6 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .studio-writing-row {
-    grid-template-columns: 1.25rem minmax(0, 1fr) auto;
-    align-items: start;
-    gap: 0.75rem;
-    padding-block: 1.5rem;
-  }
-
-  .studio-writing-row .studio-arrow-box {
-    width: 2rem;
-    height: 2rem;
-    border: none;
-  }
-
-  .studio-writing-description {
-    display: none;
-  }
-
   .studio-community {
     margin-top: 4.5rem;
     padding: 1.75rem;
@@ -436,9 +353,6 @@
 
 @container home-content (width < 20rem) {
   .studio-stats { grid-template-columns: minmax(0, 1fr); }
-  .studio-writing-row { grid-template-columns: minmax(0, 1fr) auto; }
-  .studio-writing-row > div { grid-column: 1 / -1; grid-row: 2; }
-  .studio-writing-row .studio-arrow-box { grid-row: 1; grid-column: 2; }
   .studio-community { padding: 1rem; }
   .studio-community-link h3 { flex-wrap: wrap; }
 }
