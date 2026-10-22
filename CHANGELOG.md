@@ -32,6 +32,8 @@
 
 - Apply Reading slip to the curated Start here articles, with numbered headers, complete copy, and responsive cards.
 
+- Apply Session folio to speaking history with a separate date rail, clear event and evidence labels, and a tinted resource footer. Preserve complete talk details, qualified date ranges, protected resource links, and accessible reflow at enlarged text sizes.
+
 - Apply Stacked sheets to the History chapters, pairing a raised introduction card
   with wider desktop and mobile captures. Preserve all chapter content, anchors,
   image alternatives, and archive navigation across responsive layouts.

@@ -262,6 +262,16 @@ into its own row below the photograph so enlarged text cannot cover the face.
 Retain eager image loading, descriptive alternative text, and the hero's existing
 responsive column layout. This profile stays passive and requires no client script.
 
+### Session folio speaking history
+
+Use Lumen Timeline with native list items and individual unstyled Lumen Cards. Keep
+the date rail outside each card, with the event and evidence label above the complete
+talk title. Location, audience, and description remain in the body; a softly tinted
+footer holds the plain topic list and independently focusable resource links.
+Preserve qualified date ranges for private and reconstructed entries, without inventing
+exact dates or resources. Below 32.5rem, move the date above the card. At enlarged text
+sizes, reduce insets before compromising readable titles or evidence labels.
+
 ### Community dossier speaking card
 
 The ReactJS Colombia card pairs a tinted role-and-title cover with the complete
@@ -642,7 +652,7 @@ rather than an implicit `auto` track, so one long word or control cannot widen t
 - Work's intro frame is a `work-intro` container: the hero stacks below 44rem, the statistics
   use two columns below 38rem and one below 14rem. Its section summaries wrap below their heading.
   Below 14rem the page also tightens its frame inset and scales the headline to keep short words whole.
-- Speaking timelines move their marker above the row below 16rem. Career dates move above
+- Speaking timelines move their date rail above the card below 32.5rem. Career dates move above
   the folio below 36.25rem, with tighter insets below 20rem. Career rows keep their
   complete 2px accent focus outline inset within the link.
 - Speaking's hero places the profile beside the headline only while it has 54rem; the community

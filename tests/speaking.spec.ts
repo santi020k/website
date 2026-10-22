@@ -112,6 +112,27 @@ test.describe('Speaking page', () => {
     await expect(page.getByRole('link', { name: /Event record/i }).first())
       .toHaveAttribute('href', /meetup\.com/)
 
+    const first = rows.first()
+    await expect(first.locator('time')).toHaveAttribute('datetime', '2024-06-26')
+    await expect(first.locator('time')).toHaveText('Jun 26 2024')
+    await expect(first.getByRole('list', { name: 'Topics', exact: true }).getByRole('listitem'))
+      .toHaveText(['Frontend', 'Automation', 'DX'])
+    const privateSessions = rows.filter({ hasText: 'Company Talks and Client Workshops' })
+    const reconstructed = rows.filter({ hasText: 'CSS, Sass, and Preprocessors' })
+    await expect(privateSessions).toContainText('2017–2018')
+    await expect(privateSessions).toContainText('Private sessions')
+    await expect(reconstructed).toContainText('c. 2014–2017')
+    await expect(reconstructed).toContainText('Reconstructed')
+    for (const qualified of [privateSessions, reconstructed]) {
+      await expect(qualified.locator('time[datetime]')).toHaveCount(0)
+      await expect(qualified.getByRole('link')).toHaveCount(0)
+    }
+    for (const resource of await timeline.getByRole('link').all()) {
+      await expect(resource).toHaveAttribute('target', '_blank')
+      await expect(resource).toHaveAttribute('rel', /noopener/u)
+      await expect(resource).toHaveAttribute('rel', /noreferrer/u)
+    }
+
     const timelineTag = await timeline.evaluate(element => element.tagName)
     expect(timelineTag).toBe('OL')
   })

@@ -193,10 +193,12 @@ for (const width of [320, 390, 1440]) {
 
           await expectWholeWords(actions)
           await expectInside(actions)
-          await expectReadingWords(page.locator('[data-speaking-row] [data-site-pill]').filter({
-            hasText: /^(?:Public record|Private sessions|Reconstructed)$/u
-          }), width)
-          await expectInside(page.locator('[data-speaking-timeline] [data-site-pill]'))
+          const timeline = page.locator('[data-speaking-timeline]')
+          const evidence = timeline.locator('[data-session-evidence]')
+          await expect(evidence).toHaveCount(8)
+          await expectReadingWords(evidence, width)
+          await expectReadingWords(timeline.locator('[data-session-title], [data-session-tags]'), width)
+          await expectInside(timeline.locator('[data-session-evidence], [data-session-tags] > li, [data-session-links] a'))
           const story = page.getByRole('link', { name: 'Read the community story' })
 
           await tabTo(page, story, browserName)
