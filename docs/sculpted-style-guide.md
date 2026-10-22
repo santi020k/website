@@ -623,9 +623,23 @@ navigation, social, and legal links stay consistent across routes.
 Keep project ordering and article visibility under the existing content utilities. Development
 mode may show drafts and scheduled articles; judge the public content against a production build.
 
+### Offset spread featured work
+
+The homepage's featured professional work uses a soft outer Lumen card, an opaque copy sheet
+that overlaps the artwork, and a separate result-and-role footer. Keep the project title,
+description, and “View case study” together. Read the result through the shared portfolio metric
+helper, preserve its complete screen-reader text, and keep unsupported metrics as prose.
+The cover uses the project brand surface and `object-fit: contain` so the full mark remains visible.
+The whole composition is one native link with an outer focus outline; it never moves on hover.
+
+A `featured-work` container stacks artwork above the sheet below 38.75rem, including when text
+is enlarged. Below 23.75rem, tighten the inset and allow evidence and metadata to wrap.
+Keep independent product cards and supporting project rows in their own layouts.
+
 ## Responsive behavior and accessibility
 
-Below 768px, switch editorial sections and featured cards to one column. Stats use two columns.
+Below 768px, switch editorial sections and independent product cards to one column. Featured work
+uses its container threshold above. Stats use two columns.
 Supporting project descriptions move below their titles. Writing can omit the secondary excerpt
 on small screens while retaining the full title, date, reading time, and link.
 
