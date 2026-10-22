@@ -648,6 +648,18 @@ Stack the pair below a 44rem `home-content` container or a 768px viewport, inclu
 is enlarged. Below a 23.75rem card container, reduce the inset and remove the sheet's side margins.
 Preserve optimized covers, the outer keyboard focus outline, and stationary cards on hover.
 
+### Chapter ribbons supporting projects
+
+Supporting professional work and independent projects use individual Lumen cards with a tinted
+number, title, and role panel beside the full description and “Read case study” action. Preserve
+project order and continuing numbers after the featured cards. The entire ribbon is one native
+link with an outer keyboard focus outline, stepped corners, and a stationary hover underline.
+
+Below a 38.75rem `supporting-project` container, stack the title panel above the reading panel.
+Independent projects stay paired until the same 44rem `home-content` threshold as the featured
+products, with a 768px viewport fallback. Below 20rem, reduce horizontal insets to leave room for
+enlarged titles. Keep the full description visible at every size and let the reading panel grow.
+
 ## Responsive behavior and accessibility
 
 Below 768px, switch editorial sections and independent product cards to one column. Featured work

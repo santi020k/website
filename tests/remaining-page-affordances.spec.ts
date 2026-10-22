@@ -74,7 +74,7 @@ for (const width of [390, 1440]) {
 
           expect(outside).toEqual([])
           await expectWholeText(page.locator('.studio-writing-row h4'), /authentication|without|sharing|accounts/u)
-          await expectWholeText(page.locator('.studio-row-title strong'), /RoadScore|Between/u)
+          await expectWholeText(page.locator('[data-home-supporting-project] h3'), /RoadScore|Between/u)
           const rows = page.locator('.studio-writing-row')
           const first = rows.first()
           const href = requireValue(await first.getAttribute('href'))
@@ -90,11 +90,11 @@ for (const width of [390, 1440]) {
         })
 
         if (width === 390 && textSize > 100) {
-          test('home project copy uses the space beneath its decorative arrow', async ({ page }) => {
+          test('home project copy spans the full card width at enlarged text sizes', async ({ page }) => {
             await openWithTextSize(page, '/', textSize)
-            const cramped = await page.locator('.studio-project-row').evaluateAll(elements => elements.flatMap(element => {
-              const title = element.querySelector('.studio-row-title')?.getBoundingClientRect()
-              const icon = element.querySelector('[data-project-row-icon]')?.getBoundingClientRect()
+            const cramped = await page.locator('[data-home-supporting-project] a').evaluateAll(elements => elements.flatMap(element => {
+              const title = element.querySelector('[data-supporting-heading]')?.getBoundingClientRect()
+              const icon = element.querySelector('[data-supporting-arrow]')?.getBoundingClientRect()
 
               return !title || !icon || title.right < icon.right - 1 ? [element.textContent] : []
             }))

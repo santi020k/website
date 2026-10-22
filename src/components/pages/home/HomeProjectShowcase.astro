@@ -4,10 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 import HomeFeaturedWork from '@/components/pages/home/HomeFeaturedWork.astro'
 import HomeProductCard from '@/components/pages/home/HomeProductCard.astro'
 import HomeSectionHeading from '@/components/pages/home/HomeSectionHeading.astro'
-
-import { getPortfolioPath } from '@/utils/links'
-
-import { Icon } from '@santi020k/lumen-astro'
+import HomeSupportingProject from '@/components/pages/home/HomeSupportingProject.astro'
 
 interface Props {
   projects: CollectionEntry<'project'>[]
@@ -39,12 +36,7 @@ const supporting = projects.slice(featured.length)
     <ol class:list={['studio-project-list', { 'studio-project-list-pair': !isWork }]}>
       {supporting.map((project, index) => (
         <li data-showcase-row>
-          <a class="studio-project-row" href={getPortfolioPath(project.id)} data-showcase-item>
-            <span class="studio-row-number" aria-hidden="true">{String(index + featured.length + 1).padStart(2, '0')}</span>
-            <span class="studio-row-title"><strong>{project.data.title}</strong><span>{project.data.role}</span></span>
-            <span class="studio-row-summary">{project.data.description}</span>
-            <Icon data-project-row-icon name="arrow-up-right" />
-          </a>
+          <HomeSupportingProject project={project} position={index + featured.length + 1} />
         </li>
       ))}
     </ol>
