@@ -139,6 +139,16 @@ Hover changes only the title color. Preserve planned status, zero and singular a
 counts and theme contrast. When enlarged text narrows the section, tighten the insets
 and size the title to its reading column so ordinary words stay intact.
 
+### Reading folio series cadence cards
+
+`SeriesCadenceCard` pairs a tinted Cadence header and decorative book icon with the
+complete series cadence. Use a fine border, 1.375rem corners with a 0.5rem lower-right
+corner, and 1.5625rem copy at weight 500. The inset ruled footer stays at the bottom
+when the adjacent sculpted statistics make the row taller. Let content set the height;
+do not clamp the copy or add a fixed height. Below 20rem, reduce the insets and type;
+below 16rem, preserve reading width with tighter insets. The card remains passive and
+works without JavaScript in both themes.
+
 ### Reading index chapter navigation
 
 At the end of series articles, group every chapter in one opaque Lumen Card with

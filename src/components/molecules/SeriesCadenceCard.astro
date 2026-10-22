@@ -1,0 +1,58 @@
+---
+import { Card, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  cadence: string
+}
+
+const { cadence } = Astro.props
+---
+
+<Card as="article" aria-label="Cadence" data-series-cadence variant="unstyled">
+  <div data-series-cadence-header>
+    <p data-series-cadence-label>Cadence</p>
+    <Icon name="book-open" class="size-4 shrink-0" />
+  </div>
+  <p data-series-cadence-copy>{cadence}</p>
+  <p data-series-cadence-note>Publishing rhythm for this series.</p>
+</Card>
+
+<style>
+  [data-series-cadence][data-slot='card'] {
+    --cadence-accent: var(--brand);
+    container: series-cadence / inline-size;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.375rem 1.375rem 0.5rem 1.375rem;
+    background: hsl(var(--surface));
+  }
+  :global(:root[data-theme='dark']) [data-series-cadence] { --cadence-accent: var(--accent); }
+  [data-series-cadence-header] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.375rem 1.5rem;
+    border-bottom: 1px solid hsl(var(--line));
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--cadence-accent));
+  }
+  [data-series-cadence-label] { color: hsl(var(--cadence-accent)); font-size: 0.6875rem; line-height: 1.64; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-series-cadence-copy] { margin: 0; padding: 1.5rem 1.5rem 1.625rem; color: hsl(var(--ink)); font-size: 1.5625rem; line-height: 1.3; font-weight: 500; letter-spacing: -0.035em; overflow-wrap: break-word; }
+  [data-series-cadence-note] { margin: auto 1.5rem 0; padding: 0.9375rem 0 1.25rem; border-top: 1px solid hsl(var(--line)); color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.77; letter-spacing: 0.01em; }
+  @container series-cadence (width < 20rem) {
+    [data-series-cadence-header] { padding: 1.25rem; }
+    [data-series-cadence-copy] { padding: 1.375rem 1.25rem; font-size: 1.4375rem; }
+    [data-series-cadence-note] { margin-inline: 1.25rem; }
+  }
+  @container series-cadence (width < 16rem) {
+    [data-series-cadence-header], [data-series-cadence-copy] { padding-inline: 0.5rem; }
+    [data-series-cadence-copy] { font-size: 1.125rem; line-height: 1.5; }
+    [data-series-cadence-note] { margin-inline: 0.5rem; }
+  }
+</style>

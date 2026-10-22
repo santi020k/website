@@ -28,6 +28,8 @@
   projects by purpose with keyboard-accessible category links, and clarify the
   contact invitation for engineering roles, product collaboration, and speaking.
 
+- Apply Reading folio to series cadence cards with a tinted header, complete editorial copy, and an inset ruled footer. Keep the cards aligned with adjacent statistics and readable across both themes and enlarged text sizes.
+
 - Apply Reading index to series chapter navigation, with numbered rows, an explicit current chapter, and responsive editorial spacing.
 
 - Apply Reading slip to the curated Start here articles, with numbered headers, complete copy, and responsive cards.

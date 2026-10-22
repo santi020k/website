@@ -6,6 +6,7 @@ import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import Pill from '@/components/atoms/Pill.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
+import SeriesCadenceCard from '@/components/molecules/SeriesCadenceCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
@@ -88,26 +89,7 @@ mainClass="remaining-pages"
 
   <StatsGrid columns={3}>
     <StatCard description="Articles collected into this reading track." icon="file-text" label="Posts" value={postCount} />
-    <Card
-      as="article"
-      class="
-        h-full p-5
-        sm:p-6
-      "
-      variant="muted"
-    >
-      <p class="section-label">Cadence</p>
-      <p class="
-        mt-4 max-w-[26ch] text-lg/7 font-semibold text-ink
-        sm:text-xl/8
-      "
-      >
-        {series.data.cadence}
-      </p>
-      <p class="mt-3 max-w-[24ch] text-sm/6 text-ink-soft">
-        Publishing rhythm for this series.
-      </p>
-    </Card>
+    <SeriesCadenceCard cadence={series.data.cadence} />
     {!!series.data.focusAreas.length && (
       <StatCard description="Recurring themes shaping the articles in this track." icon="focus" label="Focus areas" value={series.data.focusAreas.length} />
     )}
