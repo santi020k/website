@@ -721,6 +721,10 @@ both downloadable PDF variants remain authoritative.
 
 ### Recovery and discussion states
 
+- The offline cache note uses Connection folio: a soft header, readable explanation, and a ruled
+  connection-status row. Keep the polite status announcement and its decorative icon synchronized
+  when connectivity changes. At narrow widths, stack the status icon above its copy so enlarged
+  text retains its reading space. The retry action stays with the page's primary actions.
 - The 404 suggestions use Wayfinding folio: a soft header and three full-row destination links.
   Each row pairs a title and description with a directional arrow; hover and keyboard focus
   underline the title. Keep the visible focus outline and the complete title and description in

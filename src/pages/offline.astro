@@ -4,7 +4,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Card } from '@santi020k/lumen-astro'
+import { Card, Icon } from '@santi020k/lumen-astro'
 
 const meta = {
   description: 'Offline fallback page for the santi020k portfolio and blog.',
@@ -33,21 +33,24 @@ const meta = {
   </PageHero>
 
   <section class="section-container-wide">
-    <Card
-      class="
-        max-w-xl p-5
-        sm:p-6
-      "
-      variant="muted"
-    >
-      <p class="section-label">What's cached</p>
-      <p class="mt-2 text-sm/7 text-ink-soft">
+    <Card as="section" variant="unstyled" data-offline-folio aria-labelledby="offline-cache-heading">
+      <header data-offline-header>
+        <h2 id="offline-cache-heading">What's cached</h2>
+        <Icon name="cloud-download" class="size-5.5 shrink-0" />
+      </header>
+      <p data-offline-copy>
         Pages you've visited before are available offline. The freshest posts, projects, and
         profile updates will appear after the browser reconnects.
       </p>
-      <p class="mt-3 text-sm font-medium text-ink" aria-live="polite" data-connection-status>
-        You appear to be offline.
-      </p>
+      <footer data-offline-footer>
+        <span data-connection-indicator>
+          <span data-connection-offline><Icon name="wifi-off" class="size-4" /></span>
+          <span data-connection-online hidden><Icon name="wifi" class="size-4" /></span>
+        </span>
+        <p aria-live="polite" aria-atomic="true" data-connection-status>
+          You appear to be offline.
+        </p>
+      </footer>
     </Card>
   </section>
 
@@ -61,14 +64,20 @@ const meta = {
 
       const retry = document.querySelector<HTMLButtonElement>('[data-retry-connection]')
       const status = document.querySelector<HTMLElement>('[data-connection-status]')
+      const offlineIcon = document.querySelector<HTMLElement>('[data-connection-offline]')
+      const onlineIcon = document.querySelector<HTMLElement>('[data-connection-online]')
 
-      if (!retry || !status) return
+      if (!retry || !status || !offlineIcon || !onlineIcon) return
 
       offlineControls = new AbortController()
 
       const { signal } = offlineControls
 
       const updateStatus = () => {
+        offlineIcon.hidden = navigator.onLine
+
+        onlineIcon.hidden = !navigator.onLine
+
         status.textContent = navigator.onLine ?
           'Connection restored. Try again to load the latest page.' :
           'You appear to be offline.'
@@ -94,3 +103,82 @@ const meta = {
     })
   </script>
 </PageLayout>
+
+<style>
+  [data-offline-folio][data-slot='card'] {
+    container: offline-folio / inline-size;
+    max-width: 36rem;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
+    background: hsl(var(--surface));
+  }
+
+  [data-offline-header] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1.5rem 1.625rem;
+    border-radius: 1.6875rem 1.6875rem 0 0;
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--brand));
+  }
+
+  [data-offline-folio] h2 {
+    margin: 0;
+    color: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+
+  [data-offline-copy] {
+    margin: 1.5rem 1.625rem;
+    color: hsl(var(--ink));
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    letter-spacing: -0.025em;
+  }
+
+  [data-offline-footer] {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.75rem;
+    margin-inline: 1.625rem;
+    padding-block: 1.25rem 1.5rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+
+  [data-connection-indicator] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--brand));
+  }
+
+  [data-connection-status] {
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    letter-spacing: 0;
+  }
+
+  :global([data-theme='dark']) [data-offline-header] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme='dark']) [data-connection-indicator] { color: hsl(var(--accent)); }
+
+  @container offline-folio (width < 20rem) {
+    [data-offline-header] { padding: 1.375rem; }
+    [data-offline-copy] { margin: 1.375rem; font-size: 1rem; }
+    [data-offline-footer] { margin-inline: 1.375rem; }
+  }
+
+  @container offline-folio (width < 14rem) {
+    [data-offline-header] { gap: 0.5rem; padding: 1rem 0.75rem; }
+    [data-offline-copy] { margin-inline: 0.75rem; }
+    [data-offline-footer] { grid-template-columns: minmax(0, 1fr); margin-inline: 0.75rem; }
+    [data-connection-indicator] { justify-content: start; }
+  }
+</style>
