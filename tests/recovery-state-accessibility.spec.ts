@@ -71,11 +71,17 @@ for (const width of [390, 1440]) {
           await expect(suggestions).toHaveCount(3)
           await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
           for (const link of await suggestions.all()) {
-            await expect(link).toHaveCSS('text-decoration-line', 'underline')
+            const identifiable = await link.evaluate(element => {
+              const arrow = element.querySelector('[data-recovery-direction]')
+              const title = element.querySelector('h3')
+              return arrow?.checkVisibility() === true || Boolean(title && getComputedStyle(title).textDecorationLine.includes('underline'))
+            })
+            expect(identifiable).toBe(true)
             await link.focus()
             await expect(link).toBeFocused()
             await expect(link).toBeInViewport()
             await expect(link).toHaveCSS('outline-style', 'solid')
+            await expect(link.getByRole('heading', { level: 3 })).toHaveCSS('text-decoration-line', 'underline')
             await expectCopyInside(link.locator('..'))
           }
           await suggestions.last().press('Enter')

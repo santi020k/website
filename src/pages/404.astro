@@ -2,7 +2,13 @@
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { Card } from '@santi020k/lumen-astro'
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
+
+const recoveryPages = [
+  { slug: 'portfolio', title: 'Portfolio', description: 'Recent case studies, shipped systems, and product work.' },
+  { slug: 'blog', title: 'Blog', description: 'Architecture, automation, and developer experience writing.' },
+  { slug: 'about', title: 'About', description: 'A quick overview of experience, leadership style, and community work.' }
+]
 
 const meta = {
   description: 'The page you are looking for could not be found.',
@@ -59,55 +65,28 @@ const meta = {
     </div>
 
     <div class="editorial-rail">
-      <Card class="p-5" variant="muted">
-        <p class="section-label">Try these instead</p>
-        <div class="mt-4 space-y-3 text-sm/7 text-ink-soft">
-          <p>
-            <a
-              class="
-                font-medium text-ink underline decoration-current
-                underline-offset-4 transition-colors
-                hover:text-brand
-                motion-reduce:transition-none
-              "
-              href="/portfolio/"
+      <Card as="section" variant="unstyled" data-recovery-card aria-labelledby="recovery-heading">
+        <header data-recovery-header>
+          <h2 id="recovery-heading" data-recovery-heading>Try these instead</h2>
+          <Icon name="signpost" class="size-5.5 shrink-0" />
+        </header>
+        <nav data-recovery-links aria-labelledby="recovery-heading">
+          {recoveryPages.map(({ slug, title, description }) => (
+            <Link
+              href={`/${slug}/`}
+              variant="inherit"
+              data-recovery-link
             >
-              Portfolio
-            </a>
-            {' '}
-            for recent case studies, shipped systems, and product work.
-          </p>
-          <p>
-            <a
-              class="
-                font-medium text-ink underline decoration-current
-                underline-offset-4 transition-colors
-                hover:text-brand
-                motion-reduce:transition-none
-              "
-              href="/blog/"
-            >
-              Blog
-            </a>
-            {' '}
-            for architecture, automation, and developer experience writing.
-          </p>
-          <p>
-            <a
-              class="
-                font-medium text-ink underline decoration-current
-                underline-offset-4 transition-colors
-                hover:text-brand
-                motion-reduce:transition-none
-              "
-              href="/about/"
-            >
-              About
-            </a>
-            {' '}
-            for a quick overview of experience, leadership style, and community work.
-          </p>
-        </div>
+              <div data-recovery-copy>
+                <h3 id={`recovery-${slug}`} data-recovery-title>{title}</h3>
+                <p id={`recovery-${slug}-description`} data-recovery-description>{description}</p>
+              </div>
+              <span data-recovery-direction>
+                <Icon name="arrow-up-right" class="size-4" />
+              </span>
+            </Link>
+          ))}
+        </nav>
       </Card>
 
       <Card class="p-0">
@@ -165,3 +144,89 @@ const meta = {
     </div>
   </section>
 </PageLayout>
+
+<style>
+  [data-recovery-card][data-slot='card'] {
+    container: recovery / inline-size;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
+    background: hsl(var(--surface));
+  }
+
+  [data-recovery-header] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.625rem;
+    border-radius: 1.6875rem 1.6875rem 0 0;
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--brand));
+  }
+
+  [data-recovery-card] [data-recovery-heading] {
+    margin: 0;
+    color: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+
+  [data-recovery-links] { padding: 0 1.625rem 0.5rem; }
+
+  [data-recovery-card] :global([data-recovery-link]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1.875rem;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1.375rem;
+    border-bottom: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+    text-decoration: none;
+  }
+
+  [data-recovery-card] :global([data-recovery-link]:last-child) { border-bottom: 0; }
+  [data-recovery-copy] { min-width: 0; }
+
+  [data-recovery-card] [data-recovery-title] {
+    margin: 0 0 0.5625rem;
+    font-size: 1.4375rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.045em;
+  }
+
+  [data-recovery-description] {
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    letter-spacing: 0;
+  }
+
+  [data-recovery-direction] { display: flex; justify-content: center; color: hsl(var(--brand)); }
+  [data-recovery-card] :global([data-recovery-link]:is(:hover, :focus-visible)) [data-recovery-title] {
+    color: hsl(var(--brand));
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  :global([data-theme='dark']) [data-recovery-header] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme='dark']) [data-recovery-direction],
+  :global([data-theme='dark']) [data-recovery-card] :global([data-recovery-link]:is(:hover, :focus-visible)) [data-recovery-title] { color: hsl(var(--accent)); }
+
+  @container recovery (width < 20rem) {
+    [data-recovery-header] { padding: 1.25rem; }
+    [data-recovery-links] { padding-inline: 1.25rem; }
+  }
+
+  @container recovery (width < 14rem) {
+    [data-recovery-header] { gap: 0.5rem; padding: 1rem 0.75rem; }
+    [data-recovery-links] { padding-inline: 0.75rem; }
+    [data-recovery-card] :global([data-recovery-link]) { grid-template-columns: minmax(0, 1fr); }
+    [data-recovery-direction] { display: none; }
+    [data-recovery-card] [data-recovery-title] { font-size: 1.25rem; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  }
+</style>

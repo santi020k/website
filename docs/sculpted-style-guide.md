@@ -721,7 +721,12 @@ both downloadable PDF variants remain authoritative.
 
 ### Recovery and discussion states
 
-- Keep the 404 suggestion links underlined in both themes, including before hover or focus.
+- The 404 suggestions use Wayfinding folio: a soft header and three full-row destination links.
+  Each row pairs a title and description with a directional arrow; hover and keyboard focus
+  underline the title. Keep the visible focus outline and the complete title and description in
+  each accessible link name. At narrow container widths, omit the decorative arrow and underline
+  titles persistently so enlarged copy can use the full row. The folio stays outside the scrolling
+  sidebar rules.
 - Comments expose a real section heading and retain the GitHub link during loading, failure,
   and no-JavaScript visits. Reserve widget height only once the client has been mounted.
   A failed client request hides the empty widget and announces concise fallback guidance;

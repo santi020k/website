@@ -12,8 +12,6 @@
 
 - Apply Gallery sheet to product previews with complete screenshots, numbered captions, and responsive reading space.
 
-- Apply Passport folio to travel country cards with a soft cover, prominent visit counts, and numbered place rows. Preserve home and residence context, map navigation, partial-place notes, and accessible reflow at enlarged text sizes.
-
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public
   availability from current product and store evidence.
@@ -37,6 +35,10 @@
 - Apply the Timeline folio design to career cards, with semantic date rails, complete role descriptions, responsive layouts, and visible keyboard focus.
 
 - Apply Tool ledger to the Projects technology snapshot, with featured and supporting tool rows, aligned project counts, and responsive keyboard-accessible links.
+
+- Apply Passport folio to travel country cards with a soft cover, prominent visit counts, and numbered place rows. Preserve home and residence context, map navigation, partial-place notes, and accessible reflow at enlarged text sizes.
+
+- Apply Wayfinding folio to 404 recovery suggestions with full-row destination links, clear descriptions, and responsive keyboard-accessible navigation.
 
 - Add a private motion studio for the website timeline, sharing its real captures
   and era metadata. Preview the film with accessible playback and chapter controls,
