@@ -56,7 +56,7 @@ test.describe('Speaking page', () => {
     await expect(contact).toHaveCSS('outline-style', 'solid')
   })
 
-  test('should present ReactJS Colombia as community work', async ({ page }) => {
+  test('should present ReactJS Colombia as community work', async ({ browserName, page }) => {
     const communityHeading = page.getByRole('heading', { name: /ReactJS Colombia/i, level: 2 })
     const communitySection = page.locator('section').filter({ has: communityHeading })
 
@@ -65,6 +65,21 @@ test.describe('Speaking page', () => {
       .toHaveAttribute('href', /meetup\.com/)
     await expect(communitySection.getByRole('link', { name: /Read the community story/i }))
       .toHaveAttribute('href', '/portfolio/react-js-colombia/')
+
+    const evidence = communitySection.getByRole('list', { name: 'Community impact' }).getByRole('listitem')
+    await expect(evidence).toHaveText([
+      /Dozens of events since 2017/,
+      /100\+ participants at peak sessions/,
+      /Community talks, workshops, and mentorship across experience levels/
+    ])
+    const visit = communitySection.getByRole('link', { name: 'Visit the community' })
+    await expect(visit).toHaveAttribute('target', '_blank')
+    await expect(visit).toHaveAttribute('rel', /\bnoopener\b/)
+    await expect(visit).toHaveAttribute('rel', /\bnoreferrer\b/)
+    await visit.focus()
+    await expect(visit).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+    await expect(communitySection.getByRole('link', { name: 'Read the community story' })).toBeFocused()
   })
 
   test('should render the complete speaking history as an evidence-labeled timeline', async ({ page }) => {

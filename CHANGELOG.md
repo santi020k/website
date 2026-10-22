@@ -4,6 +4,8 @@
 
 ### Minor Changes
 
+- Apply Community dossier to the ReactJS Colombia card with a tinted title panel, numbered impact evidence, and a shared action footer. Preserve the complete community contribution, accessible links, and responsive enlarged-text layout.
+
 - Apply Connection folio to the offline cache card with a soft header, a separate live connection-status row, synchronized icons, and readable enlarged text. Preserve retry and page-navigation behavior.
 
 - Apply Directional folio to previous and next article navigation, with open columns, complete titles, chapter numbers, and responsive keyboard-accessible links.
