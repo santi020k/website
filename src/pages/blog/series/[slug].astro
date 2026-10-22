@@ -3,18 +3,16 @@ import { type CollectionEntry, render } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import GradientDivider from '@/components/atoms/GradientDivider.astro'
-import Pill from '@/components/atoms/Pill.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCadenceCard from '@/components/molecules/SeriesCadenceCard.astro'
+import SeriesFocusCard from '@/components/molecules/SeriesFocusCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getPostPath } from '@/utils/links'
-
-import { Card } from '@santi020k/lumen-astro'
 
 import { getSeriesSummaries } from '@/data/series'
 
@@ -108,20 +106,7 @@ mainClass="remaining-pages"
     </div>
 
     {!!series.data.focusAreas.length && (
-      <Card
-        class="
-          h-fit space-y-4 p-5
-          sm:p-6
-        "
-        variant="muted"
-      >
-        <p class="section-label">Focus areas</p>
-        <div class="flex flex-wrap gap-2">
-          {series.data.focusAreas.map(area => (
-            <Pill label={area} tone="outline" />
-          ))}
-        </div>
-      </Card>
+      <SeriesFocusCard areas={series.data.focusAreas} />
     )}
   </section>
 

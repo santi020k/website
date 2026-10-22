@@ -4,21 +4,15 @@
 
 ### Minor Changes
 
-- Apply Community dossier to the ReactJS Colombia card with a tinted title panel, numbered impact evidence, and a shared action footer. Preserve the complete community contribution, accessible links, and responsive enlarged-text layout.
-
-- Apply Connection folio to the offline cache card with a soft header, a separate live connection-status row, synchronized icons, and readable enlarged text. Preserve retry and page-navigation behavior.
-
 - Apply Directional folio to previous and next article navigation, with open columns, complete titles, chapter numbers, and responsive keyboard-accessible links.
 
 - Apply Evidence rows to Privacy, Terms, and Accessibility with one shared reading
   panel, purple heading rails, and responsive columns. Preserve all policy content
   and dates, including readable layouts with enlarged text.
 
+- Apply Focus ledger to series focus areas with numbered topic rows, fine dividers, and an accessible list beside each introduction. Preserve every topic and reflow the layout across narrow screens, both themes, and enlarged text.
+
 - Apply Gallery sheet to product previews with complete screenshots, numbered captions, and responsive reading space.
-
-- Apply Invitation folio to speaking booking cards with a tinted invitation, a clear contact action, and ruled briefing notes. Preserve the complete brief, protected WhatsApp link, keyboard focus, and responsive reflow at enlarged text sizes.
-
-- Apply Portrait cover to the speaker profile with a full-width portrait, readable name over the photographic scrim, and ruled community and location facts. Preserve the optimized image and responsive layout, with a separate caption below the portrait at enlarged text sizes.
 
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public
@@ -28,13 +22,21 @@
   projects by purpose with keyboard-accessible category links, and clarify the
   contact invitation for engineering roles, product collaboration, and speaking.
 
-- Apply Reading folio to series cadence cards with a tinted header, complete editorial copy, and an inset ruled footer. Keep the cards aligned with adjacent statistics and readable across both themes and enlarged text sizes.
-
 - Apply Reading index to series chapter navigation, with numbered rows, an explicit current chapter, and responsive editorial spacing.
 
 - Apply Reading slip to the curated Start here articles, with numbered headers, complete copy, and responsive cards.
 
+- Apply Community dossier to the ReactJS Colombia card with a tinted title panel, numbered impact evidence, and a shared action footer. Preserve the complete community contribution, accessible links, and responsive enlarged-text layout.
+
+- Apply Reading folio to series cadence cards with a tinted header, complete editorial copy, and an inset ruled footer. Keep the cards aligned with adjacent statistics and readable across both themes and enlarged text sizes.
+
 - Apply Session folio to speaking history with a separate date rail, clear event and evidence labels, and a tinted resource footer. Preserve complete talk details, qualified date ranges, protected resource links, and accessible reflow at enlarged text sizes.
+
+- Apply Portrait cover to the speaker profile with a full-width portrait, readable name over the photographic scrim, and ruled community and location facts. Preserve the optimized image and responsive layout, with a separate caption below the portrait at enlarged text sizes.
+
+- Apply Connection folio to the offline cache card with a soft header, a separate live connection-status row, synchronized icons, and readable enlarged text. Preserve retry and page-navigation behavior.
+
+- Apply Invitation folio to speaking booking cards with a tinted invitation, a clear contact action, and ruled briefing notes. Preserve the complete brief, protected WhatsApp link, keyboard focus, and responsive reflow at enlarged text sizes.
 
 - Apply Stacked sheets to the History chapters, pairing a raised introduction card
   with wider desktop and mobile captures. Preserve all chapter content, anchors,

@@ -149,6 +149,16 @@ do not clamp the copy or add a fixed height. Below 20rem, reduce the insets and 
 below 16rem, preserve reading width with tighter insets. The card remains passive and
 works without JavaScript in both themes.
 
+### Focus ledger series topics
+
+`SeriesFocusCard` lists every focus area beside the series introduction. Use an opaque
+Lumen Card with 1.5rem corners and a 0.5rem lower-right corner, a small purple heading
+and focus icon, and numbered rows with fine bottom rules. Keep the complete topic
+labels at 1.125rem and weight 500. The two-column list becomes one column below 22rem
+of available content width; tighten the type and number gap at very narrow widths.
+Keep the original order, hide decorative numbers from assistive technology, and use
+a semantic list without adding links or keyboard stops. Empty lists stay omitted.
+
 ### Reading index chapter navigation
 
 At the end of series articles, group every chapter in one opaque Lumen Card with
