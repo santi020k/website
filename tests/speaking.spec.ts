@@ -34,6 +34,28 @@ test.describe('Speaking page', () => {
     await expect(linkedInLink.first()).toHaveAttribute('href', /linkedin/)
   })
 
+  test('should keep the booking brief and protected contact action accessible', async ({ page }) => {
+    const booking = page.getByRole('region', { name: 'Start with a brief.' })
+    await expect(booking).toContainText('Include the event, audience, date range, preferred format, and the outcome')
+    for (const name of ['Best fit', 'Helpful details', 'Tailoring']) {
+      await expect(booking.getByRole('heading', { name, exact: true })).toBeVisible()
+    }
+
+    const contact = booking.getByRole('link', { name: 'Start the conversation' })
+    const href = await contact.getAttribute('href')
+    expect(href).not.toBeNull()
+    const destination = new URL(href ?? '')
+    expect(destination.origin).toBe('https://api.whatsapp.com')
+    expect(destination.pathname).toBe('/send')
+    expect(destination.searchParams.get('text')).toContain('Event: Audience: Date: Format: Goal:')
+    await expect(contact).toHaveAttribute('target', '_blank')
+    await expect(contact).toHaveAttribute('rel', /\bnoopener\b/)
+    await expect(contact).toHaveAttribute('rel', /\bnoreferrer\b/)
+    await contact.focus()
+    await expect(contact).toBeFocused()
+    await expect(contact).toHaveCSS('outline-style', 'solid')
+  })
+
   test('should present ReactJS Colombia as community work', async ({ page }) => {
     const communityHeading = page.getByRole('heading', { name: /ReactJS Colombia/i, level: 2 })
     const communitySection = page.locator('section').filter({ has: communityHeading })

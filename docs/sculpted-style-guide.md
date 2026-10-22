@@ -250,6 +250,16 @@ narrow-column insets. Cards remain passive, without hover changes. Use the same
 phrase boundary without removing words or punctuation. Keep About's open editorial
 principles in their existing presentation.
 
+### Invitation folio speaking booking card
+
+Keep the booking card as an opaque Lumen surface with a fine border and asymmetric
+1.75rem corners. The tinted invitation holds the heading, complete briefing prompt,
+and existing contact action. Three ruled notes keep their full text and sentence-case
+headings in the adjoining column. At card widths below 32rem, stack the invitation
+above the notes; reduce insets below 20rem and 14rem so enlarged text retains room.
+Preserve the WhatsApp briefing URL, new-tab protection, visible keyboard focus, and
+the existing reduced-motion-aware note reveals. Keep these styles scoped to Speaking.
+
 ### Split editorial testimonial cards
 
 Testimonials use one opaque Lumen Card with a fine border and 1.375rem corners.
@@ -614,7 +624,7 @@ rather than an implicit `auto` track, so one long word or control cannot widen t
   the folio below 36.25rem, with tighter insets below 20rem. Career rows keep their
   complete 2px accent focus outline inset within the link.
 - Speaking's hero places the profile beside the headline only while it has 54rem; the community
-  impact list and the three booking notes have their own surface containers.
+  impact list and the booking invitation have their own surface containers.
   Profile facts keep two columns only while each has 7rem.
 - The Technologies index places its filter and group labels in side columns only while the
   index has 38rem, so the search field stays inside its card.
