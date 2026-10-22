@@ -616,7 +616,7 @@ their container cannot fit readable columns, including with enlarged text.
 2. **Selected work:** one featured project, followed by concise linked experience rows.
 3. **Independent projects:** two featured products and supporting project rows.
 4. **Writing:** chronological article rows with full titles, publication dates, and reading times.
-5. **Community:** one tinted panel for community and speaking links.
+5. **Community:** a tinted folio with community and speaking links on one inset reading sheet.
 The integrated shared footer uses the same direction. Continue using `SiteFooter` so its contact,
 navigation, social, and legal links stay consistent across routes.
 
@@ -671,6 +671,18 @@ Use the `home-writing` container to place the arrow beside the action below 38.7
 numbers above the copy below 21.25rem. At enlarged text sizes, reduce the insets below 16rem and
 use the compact heading scale below 12rem. Keep every excerpt visible on mobile, preserve the
 chronological content utilities, and leave the Start here cards and RSS destination intact.
+
+### Community folio homepage panel
+
+The homepage community panel uses a tinted Lumen card with an introduction beside an opaque
+reading sheet. Numbered destination rows keep their complete descriptions, role labels, and
+explicit actions. Preserve the external community link, internal speaking links, section heading,
+and shared footer action. Each row remains a native link with a fully visible focus outline.
+
+The `home-community` container stacks the sheet below the introduction under 48rem and hides the
+decorative conversation symbol. Tighten insets below 21.25rem, then reduce heading sizes and omit
+decorative arrows below 16rem for enlarged text. Keep the action labels, descriptions, and all
+destinations visible. Hover changes the title color and underline without moving the card.
 
 ## Responsive behavior and accessibility
 
