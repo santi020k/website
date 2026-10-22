@@ -16,6 +16,8 @@
 
 - Apply Layered feature to the latest Blog article with an overlapping reading sheet, complete description, and a separate metadata footer. Preserve optimized cover images and native keyboard navigation, and reflow the hero and card at narrow widths and enlarged text sizes.
 
+- Apply Principle spread to the developer experience working definition with separate system and evidence panels, a shared reading link, and responsive stacking. Preserve the complete definition, keyboard navigation, and readable light and dark appearances at enlarged text sizes.
+
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public
   availability from current product and store evidence.

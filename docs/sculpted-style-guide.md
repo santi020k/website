@@ -216,6 +216,20 @@ text sizes, singular and plural accessible count labels, and visible focus outli
 Place the full-index link beneath the lists. Hover and focus emphasize link text
 without moving content.
 
+### Principle spread working definition
+
+The Developer Experience definition uses one opaque Lumen Card with 1.5rem corners
+and a 0.5rem lower-right corner. Divide the body into equal columns: the system sits
+on a soft purple surface, while the evidence stays on the main surface. Use small
+uppercase labels, 1.4375rem headings at weight 500, and the complete original paragraphs
+in 0.9375rem type with 1.95 leading. Keep a fine border between the columns.
+
+Place the measurement-framework link in a full-width footer separated by a rule.
+Use a decorative Lumen arrow, a visible keyboard outline, and underline emphasis
+without movement. Below 35rem of available width, stack the system before the
+evidence; below 22.5rem, reduce the insets. Preserve readable contrast in both themes,
+complete copy at enlarged text sizes, and native navigation without JavaScript.
+
 ### System folio shipped systems
 
 Developer Experience presents its three shipped systems as opaque Lumen Cards with

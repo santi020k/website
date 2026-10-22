@@ -16,7 +16,7 @@ import { getCachedPosts } from '@/utils/content'
 import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 
-import { Card, RevealGroup } from '@santi020k/lumen-astro'
+import { Card, Icon, Link, RevealGroup } from '@santi020k/lumen-astro'
 
 import {
   createAuthorSchema,
@@ -203,27 +203,36 @@ label="Experience"
 
     <Card
       as="section"
-      class="
-        space-y-5 rounded-[1.75rem] p-6
-        sm:p-7
-      "
-      glass="subtle"
+      aria-label="Working definition"
+      data-working-definition
+      variant="unstyled"
     >
-      <p class="text-base/8 text-ink-soft">
-        Good developer experience makes the correct path easier to discover, the risky path easier to
-        detect, and failures easier to recover from. It combines architecture, documentation, tooling,
-        tests, release processes, and team agreements into one coherent feedback system.
-      </p>
-      <p class="text-base/8 text-ink-soft">
-        That means measuring outcomes instead of counting tools. Faster feedback matters when it reduces
-        waiting. Automation matters when it removes repeated work. Standards matter when they help people
-        make decisions without guessing what “good” means.
-      </p>
-      <div class="section-actions">
-        <ButtonLink href="/blog/why-developer-experience-work-should-be-measured-like-product-work/" showArrow>
-          Read the measurement framework
-        </ButtonLink>
+      <div data-definition-spread>
+        <div data-definition-panel>
+          <p data-definition-label>The system</p>
+          <h3>Make the path clear.</h3>
+          <p data-definition-copy>
+            Good developer experience makes the correct path easier to discover, the risky path easier to
+            detect, and failures easier to recover from. It combines architecture, documentation, tooling,
+            tests, release processes, and team agreements into one coherent feedback system.
+          </p>
+        </div>
+        <div data-definition-panel>
+          <p data-definition-label>The evidence</p>
+          <h3>Measure what changes.</h3>
+          <p data-definition-copy>
+            That means measuring outcomes instead of counting tools. Faster feedback matters when it reduces
+            waiting. Automation matters when it removes repeated work. Standards matter when they help people
+            make decisions without guessing what “good” means.
+          </p>
+        </div>
       </div>
+      <footer data-definition-footer>
+        <Link data-definition-action href="/blog/why-developer-experience-work-should-be-measured-like-product-work/" variant="inherit">
+          <span>Read the measurement framework</span>
+          <Icon class="shrink-0" name="arrow-up-right" size="sm" />
+        </Link>
+      </footer>
     </Card>
   </PageSection>
 
@@ -295,3 +304,36 @@ label="Experience"
     </RevealGroup>
   </PageSection>
 </PageLayout>
+
+<style>
+  [data-working-definition][data-slot='card'] {
+    --definition-accent: hsl(var(--brand));
+    container: working-definition / inline-size;
+    min-width: 0;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    overflow-wrap: anywhere;
+  }
+  :global([data-theme='dark']) [data-working-definition] { --definition-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+  [data-definition-spread] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  [data-definition-panel] { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 1.375rem; min-width: 0; padding: 1.75rem; }
+  [data-definition-panel]:first-child { border-right: 1px solid hsl(var(--line)); border-radius: 1.4375rem 0 0 0; background: hsl(var(--brand-soft)); }
+  [data-definition-label] { margin: 0; color: var(--definition-accent); font-size: 0.6875rem; line-height: 1.8; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-definition-panel] h3 { margin: 0; color: hsl(var(--ink)); font-size: 1.4375rem; line-height: 1.35; font-weight: 500; letter-spacing: -0.04em; hyphens: none; }
+  [data-definition-copy] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.95; }
+  [data-definition-footer] { padding: 1.375rem 1.75rem; border-top: 1px solid hsl(var(--line)); }
+  [data-definition-action][data-slot='link'] { display: flex; align-items: center; justify-content: space-between; gap: 1.125rem; min-height: 2.75rem; color: var(--definition-accent); font-size: 0.875rem; line-height: 1.7; font-weight: 500; text-decoration: none; }
+  [data-definition-action]:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: 0.25em; }
+  [data-definition-action]:focus-visible { outline: 2px solid var(--definition-accent); outline-offset: 4px; }
+  @container working-definition (width < 35rem) {
+    [data-definition-spread] { grid-template-columns: minmax(0, 1fr); }
+    [data-definition-panel]:first-child { border-right: 0; border-bottom: 1px solid hsl(var(--line)); border-radius: 1.4375rem 1.4375rem 0 0; }
+  }
+  @container working-definition (width < 22.5rem) {
+    [data-definition-panel] { padding: 1.375rem min(1.125rem, 18px); }
+    [data-definition-footer] { padding: 1.125rem min(1.125rem, 18px); }
+  }
+</style>
