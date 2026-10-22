@@ -33,15 +33,7 @@ const coverWidths = cover ?
   class="relative signature-frame"
   data-blog-hero
 >
-  <div
-    class:list={[
-      `
-        grid gap-10
-        lg:items-center lg:gap-14
-      `,
-      latestPost && 'lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]'
-    ]}
-  >
+  <div data-blog-layout data-has-latest={Boolean(latestPost)}>
     <div class="space-y-6">
       <Eyebrow label="The personal blog" tone="brand" />
       <h1
@@ -80,27 +72,19 @@ const coverWidths = cover ?
     {latestPost && (
       <Card
         as="article"
-        class="group min-w-0 p-0!"
         data-blog-latest
         variant="unstyled"
       >
         <a
-          class="block h-full text-inherit no-underline"
+          data-latest-link
           href={getPostPath(latestPost.id)}
         >
-          <div class="
-            relative aspect-video overflow-hidden rounded-2xl bg-surface-muted
-          "
-          >
+          <div data-latest-cover>
             {cover ?
               (
                 <Picture
                   alt=""
-                  class="
-                    size-full object-cover transition-transform duration-300
-                    motion-safe:group-hover:scale-105
-                    motion-reduce:transition-none
-                  "
+                  class="size-full object-cover"
                   fetchpriority="high"
                   fallbackFormat="webp"
                   formats={['avif']}
@@ -116,38 +100,22 @@ const coverWidths = cover ?
                 <div aria-hidden="true" class="absolute inset-0 grid-fade" />
               )}
           </div>
-          <div class="space-y-4 pt-5">
-            <p class="section-label text-brand">Latest post</p>
-            <h2 class="
-              text-2xl/8 font-medium tracking-[-0.04em] text-ink
-              transition-colors
-              group-hover:text-brand
-              motion-reduce:transition-none
-            "
-            >
+          <div data-latest-sheet>
+            <p data-latest-label>Latest post</p>
+            <h2>
               {latestPost.data.title}
             </h2>
-            <p class="line-clamp-3 text-sm/7 text-ink-soft">{latestPost.data.description}</p>
-            <div class="
-              flex flex-wrap items-center justify-between gap-3 border-t
-              border-line/40 pt-4
-            "
-            >
-              <p class="
-                flex flex-wrap items-center gap-2 text-xs/6 text-ink-muted
-              "
-              >
+            <p data-latest-description>{latestPost.data.description}</p>
+            <div data-latest-footer>
+              <p data-latest-meta>
                 <time datetime={latestPost.data.publishDate.toISOString()}>
                   {getFormattedDate(latestPost.data.publishDate)}
                 </time>
                 <span aria-hidden="true">·</span>
                 <span>{getReadingTime(latestPost.body)} min read</span>
               </p>
-              <span class="
-                inline-flex items-center gap-2 text-xs font-medium text-brand
-              "
-              >
-                Read post <Icon class="size-4" name="arrow-right" />
+              <span data-latest-action>
+                Read post <Icon class="size-4 shrink-0" name="arrow-up-right" />
               </span>
             </div>
           </div>
@@ -156,3 +124,49 @@ const coverWidths = cover ?
     )}
   </div>
 </section>
+
+<style>
+  [data-blog-hero] { container: blog-hero / inline-size; }
+  [data-blog-layout] { display: grid; gap: 2.5rem; }
+  @container blog-hero (width >= 52rem) {
+    [data-blog-layout][data-has-latest='true'] { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: center; gap: 3.5rem; }
+  }
+  @media (max-width: 47.999rem) {
+    [data-blog-hero] { padding-inline: min(1.125rem, 18px); }
+  }
+  [data-blog-latest][data-slot='card'] {
+    --latest-accent: var(--brand);
+    container: latest-feature / inline-size;
+    min-width: 0;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--ink));
+  }
+  :global(:root[data-theme='dark']) [data-blog-latest] { --latest-accent: var(--accent); }
+  [data-latest-link] { display: block; height: 100%; padding-bottom: 1.125rem; border-radius: inherit; color: inherit; text-decoration: none; }
+  [data-latest-link]:focus-visible { outline: 2px solid hsl(var(--latest-accent)); outline-offset: 4px; }
+  [data-latest-cover] { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1.5rem 1.5rem 0 0; background: hsl(var(--surface-muted)); }
+  [data-latest-cover] :global(picture), [data-latest-cover] :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  [data-latest-sheet] { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; margin: -2.375rem 1.125rem 0; padding: 1.5rem; border: 1px solid hsl(var(--line)); border-radius: 1.125rem 1.125rem 0.375rem 1.125rem; background: hsl(var(--surface)); overflow-wrap: break-word; }
+  [data-latest-label] { margin: 0; color: hsl(var(--latest-accent)); font-size: 0.6875rem; line-height: 1.818; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  [data-latest-sheet] h2 { margin: 0; color: hsl(var(--ink)); font-size: 1.5625rem; line-height: 1.25; font-weight: 500; letter-spacing: -0.045em; hyphens: none; transition: color 160ms ease; }
+  [data-latest-link]:is(:hover, :focus-visible) h2 { color: hsl(var(--latest-accent)); }
+  [data-latest-description] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; }
+  [data-latest-footer] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; padding-top: 1rem; border-top: 1px solid hsl(var(--line)); }
+  [data-latest-meta] { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.375rem; margin: 0; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.833; letter-spacing: normal; }
+  [data-latest-action] { display: inline-flex; align-items: center; gap: 0.625rem; color: hsl(var(--latest-accent)); font-size: 0.8125rem; line-height: 1.846; font-weight: 500; letter-spacing: normal; }
+  @container latest-feature (width < 23.75rem) {
+    [data-latest-link] { padding-bottom: 0.75rem; }
+    [data-latest-sheet] { margin-inline: 0.75rem; padding: 1.25rem 1rem; }
+    [data-latest-sheet] h2 { font-size: 1.4375rem; }
+  }
+  @container latest-feature (width < 17rem) {
+    [data-latest-sheet] { margin-inline: min(0.375rem, 6px); margin-top: -1.125rem; padding-inline: min(0.5rem, 8px); }
+    [data-latest-sheet] h2 { font-size: 1.0625rem; line-height: 1.4; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-latest-sheet] h2 { transition: none; }
+  }
+</style>

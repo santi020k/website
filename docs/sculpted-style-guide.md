@@ -125,6 +125,20 @@ for the article, search, feeds, and metadata. Preserve series sequence and draft
 The complete card is one naturally named link with a visible outline; hover changes
 only the title color. Artwork stays still, and metadata and footers wrap for enlarged text.
 
+### Layered feature latest article
+
+The Blog hero uses an opaque Lumen Card with a soft purple backing and a 16:10 cover.
+Raise the inset reading sheet over the cover's lower edge by 2.375rem. Give the sheet
+1.125rem corners, a 0.375rem lower-right corner, 1.5rem padding, and a fine border.
+Show the complete title and description, then separate date, reading time, and action
+with a rule. Preserve the responsive Astro Picture and eager image loading.
+
+The full card is one native link. Hover and keyboard focus emphasize the title;
+keep the artwork still and the focus outline outside the full card. Reduce insets,
+overlap, and title size as the card narrows or text grows. Stack the hero when its
+columns cannot accommodate enlarged text. Keep both themes and the
+image-free fallback readable without JavaScript; respect reduced motion.
+
 ### Soft editorial series cards
 
 `SeriesCard` uses one opaque surface, a fine border, and 1.25rem corners. Place the

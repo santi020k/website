@@ -335,14 +335,7 @@
   [data-project-cover-caption] { display: flex; }
   [data-project-cover] [data-cover-gradient] { display: block; }
 }
-/* The featured story belongs to the hero's single surface. */
 [data-blog-hero] .editorial-page-title { font-size: clamp(2rem, 5vw, 4.5rem); }
-[data-blog-hero] [data-blog-latest][data-slot='card'] {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-}
-[data-blog-latest] h2 { line-height: 1.4; }
 
 /* Card grids keep their viewport column count only while each card still has
    --card-grid-min in root-relative units, then drop a column, so enlarged text

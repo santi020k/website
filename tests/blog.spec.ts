@@ -77,19 +77,24 @@ test.describe('Blog page', () => {
     await page.goto('/blog/')
 
     const latest = page.locator('[data-blog-latest] a')
+    await expect(latest).toHaveCount(1)
+    const latestDescription = requireValue(await latest.locator('[data-latest-description]').textContent())
+    await expect(latest.locator('[data-latest-description]')).toHaveCSS('-webkit-line-clamp', 'none')
     const firstPost = page.locator('[data-post-gallery-card] a').first()
     await expect(latest).toHaveAttribute('href', /^\/blog\/.+\/$/u)
     const latestHref = requireValue(await latest.getAttribute('href'))
 
     await expect(firstPost).toHaveAttribute('href', latestHref)
-    await page.getByRole('link', { name: 'Explore the writing' }).click()
+    await page.getByRole('link', { name: 'Explore the writing' }).press('Enter')
     await expect(page).toHaveURL(/#posts$/)
     await expect(page.locator('#posts')).toBeInViewport()
 
     await latest.focus()
+    await expect(latest).toHaveCSS('outline-style', 'solid')
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(new RegExp(`${latestHref}$`))
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', latestDescription)
   })
 
   test('personal topics lead to their posts and preserve navigation back to the mixed feed', async ({ page }) => {
@@ -201,7 +206,9 @@ test.describe('Blog page', () => {
   test('editorial artwork stays still on hover and card copy preserves the article description', async ({ page }) => {
     await page.goto('/blog/')
     await page.emulateMedia({ reducedMotion: 'no-preference' })
-    const card = page.locator('[data-post-gallery-card]').first()
+    const card = page.locator('[data-post-gallery-card]').filter({
+      has: page.locator('a[href="/blog/open-sourcing-santi020k-auth-cloudflare/"]')
+    })
     const image = card.locator('img')
 
     await card.scrollIntoViewIfNeeded()
