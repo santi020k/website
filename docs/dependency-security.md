@@ -1,5 +1,20 @@
 # Dependency security follow-up
 
+## Vitest development-server fix
+
+The October 22, 2026 audit found
+[GHSA-p458-7748-mcp3](https://github.com/advisories/GHSA-p458-7748-mcp3)
+in Vitest UI 5.0.3. Vitest's UI, browser, and API servers could serve files that
+Vite normally denies. Plain `vitest run` does not start an HTTP server and is
+unaffected. The website's static production output does not include this tooling.
+
+The shared catalog raises Vitest, its UI, and V8 coverage to 5.0.5 together,
+preserving their exact peer-version alignment. This stable patch restores the
+file-denial rules and supports the repository's Node 24 runtime. Keep these
+packages coordinated when updating them; do not suppress the advisory.
+
+## Previous dependency review
+
 The 2026-10-07 dependency review upgraded 17 direct packages to their latest
 compatible stable registry releases, including Astro 7.3.6, Vitest 5.0.3, and
 Theme 2.0.1. Lumen, Lumen Astro, and Lumen Core used coordinated npm 4.0.0

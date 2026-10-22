@@ -1,5 +1,81 @@
 import { expect, test } from '@playwright/test'
 
+import { createOfflinePreview } from './helpers/offline-preview'
+
+for (const width of [390, 1440]) {
+  test(`first-visit offline recovery retains its assets after eviction at ${width}px`, async ({ browser, baseURL }) => {
+    const server = await createOfflinePreview(baseURL)
+    const context = await browser.newContext({
+      baseURL: server.url, reducedMotion: 'reduce', viewport: { width, height: 900 }
+    })
+
+    try {
+      const page = await context.newPage()
+
+      await page.goto('/')
+      await page.evaluate(async () => {
+        await navigator.serviceWorker.ready
+      })
+      await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+
+      const shellAssets = await page.evaluate(async () => {
+        const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+        if (!name) throw new Error('Missing current worker cache')
+
+        const cache = await caches.open(name)
+        const assets = (await cache.keys()).filter(key => new URL(key.url).pathname.startsWith('/_astro/')).map(key => key.url)
+
+        for (let index = 0; index < 270; index += 1) {
+          await cache.put(`/_astro/old-${index}.js`, new Response('old asset'))
+        }
+
+        await fetch('/search-index.json')
+
+        return assets
+      })
+
+      expect(shellAssets.length).toBeGreaterThan(0)
+      await expect.poll(() => page.evaluate(async assets => {
+        const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+        if (!name) throw new Error('Missing current worker cache')
+
+        const cache = await caches.open(name)
+
+        return {
+          count: (await cache.keys()).length,
+          retained: (await Promise.all(assets.map(asset => cache.match(asset)))).every(Boolean)
+        }
+      }, shellAssets)).toEqual({ count: 256, retained: true })
+
+      // The WebKit driver blocks even an unconditional worker response under
+      // context.setOffline(true). Drop real connections instead; no worker or
+      // Cache API behavior is mocked. Connectivity events have their own suite.
+      server.setOnline(false)
+      await page.goto('/about/')
+      await expect(page).toHaveTitle('Offline | santi020k')
+      await page.evaluate(() => document.fonts.ready)
+      expect(await page.locator('body').evaluate(element => getComputedStyle(element).fontFamily)).toContain('Montserrat')
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+
+      const retry = page.getByRole('button', { name: 'Try again', exact: true })
+
+      await retry.focus()
+      await expect(retry).toBeFocused()
+      server.setOnline(true)
+      await expect(page.locator('[data-connection-status]')).toHaveText('Connection restored. Try again to load the latest page.')
+      await Promise.all([page.waitForEvent('load'), retry.press('Enter')])
+      await expect(page).toHaveURL('/about/')
+      await expect(page).not.toHaveTitle('Offline | santi020k')
+      await expect(page.locator('main h1')).toBeVisible()
+    } finally {
+      await context.close()
+      await server.close()
+    }
+  })
+}
+
 for (const path of ['/search-index.json', '/pdf/cv.pdf', '/feed.xml']) {
   test(`revalidates mutable resource ${path} before serving a previously cached copy`, async ({ page, request }) => {
     const expected = await request.get(path)
@@ -133,6 +209,7 @@ test('retires the previous release cache while preserving unrelated caches', asy
     const previous = await caches.open('santi020k-static-2026-04-21')
 
     await previous.put('/', new Response('Previous release'))
+    await caches.open('santi020k-static-v4-cache-v2')
     await caches.open('unrelated-cache')
     await navigator.serviceWorker.register('/sw.js')
     await navigator.serviceWorker.ready
@@ -142,6 +219,8 @@ test('retires the previous release cache while preserving unrelated caches', asy
   const names = await page.evaluate(() => caches.keys())
 
   expect(names).not.toContain('santi020k-static-2026-04-21')
-  expect(names).toContain('santi020k-static-v4-cache-v2')
+  expect(names.filter(name => name.startsWith('santi020k-static-'))).toEqual([
+    expect.stringMatching(/^santi020k-static-v4-cache-v3-[a-f0-9]{16}$/u)
+  ])
   expect(names).toContain('unrelated-cache')
 })

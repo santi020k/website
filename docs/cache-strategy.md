@@ -50,8 +50,21 @@ optimization. Network responses stream immediately; `waitUntil` keeps background
 and trimming alive without holding the response. Non-page resources fall back only to their own cached response; an offline HTML
 page is never substituted for JSON, feed, or PDF bytes.
 
-The `v4-cache-v2` cache namespace replaces the old unbounded release cache. Successful writes
-trim the oldest entries above 256 responses while retaining the small install-time offline shell.
+The `v4-cache-v3-<fingerprint>` namespace identifies the current recovery shell.
+The [build generator](../scripts/js/generate-offline-worker.mjs) creates `dist/sw.js` from the source worker, adding the
+current site's bundled JavaScript, CSS, and WOFF2 fonts to the install list.
+This includes shared and dynamically imported code without parsing minified
+modules or relying on the browser's HTTP cache. Images, source maps, and historical
+app assets are excluded. The current list is about 1.4 MB before compression;
+installation runs after page load and can reuse HTTP-cached responses.
+
+The fingerprint covers those files, the home and offline documents, and the
+worker template, so a changed build installs a new shell even when the handwritten
+worker is unchanged. An incomplete asset download prevents activation of the new
+worker, preserving the previous worker. The generator fails above 200 code/font
+assets to reserve runtime cache capacity instead of silently losing shell assets.
+Successful writes trim the oldest entries above 256 responses while retaining
+the complete install-time shell, including its scripts, styles, and fonts.
 Activation removes previous site cache namespaces and preserves unrelated application storage.
 
 ## Build cache

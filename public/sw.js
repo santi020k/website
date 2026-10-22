@@ -1,4 +1,9 @@
-const CACHE_VERSION = 'v4-cache-v2'
+// The production build fills these markers with current code/font URLs and a
+// content fingerprint. Local development intentionally unregisters this worker.
+/** @type {string[]} */
+const BUILD_ASSETS = []
+const BUILD_REVISION = 'development'
+const CACHE_VERSION = `v4-cache-v3-${BUILD_REVISION}`
 const STATIC_CACHE = `santi020k-static-${CACHE_VERSION}`
 const MAX_CACHE_ENTRIES = 256
 
@@ -14,11 +19,12 @@ const CORE_ROUTES = [
   '/icons/icon-512.webp'
 ]
 
-const coreURLs = new Set(CORE_ROUTES.map(route => new URL(route, self.location.origin).href))
+const precacheRoutes = [...CORE_ROUTES, ...BUILD_ASSETS]
+const coreURLs = new Set(precacheRoutes.map(route => new URL(route, self.location.origin).href))
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(STATIC_CACHE).then(cache => cache.addAll(CORE_ROUTES)).then(() => self.skipWaiting())
+    caches.open(STATIC_CACHE).then(cache => cache.addAll(precacheRoutes)).then(() => self.skipWaiting())
   )
 })
 

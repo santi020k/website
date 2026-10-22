@@ -785,10 +785,15 @@ const bindUi = () => {
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return
 
     const links = [...results.querySelectorAll('a[href]')]
+    const focusedIndex = e.target instanceof Element ? links.indexOf(e.target) : -1
 
-    if (links.length === 0) return
+    // Other dialog controls keep their native arrow keys.
+    if (links.length === 0 || (e.target !== input && focusedIndex < 0)) return
 
     e.preventDefault()
+
+    // Step from the focused result, even when the pointer moved the highlight.
+    if (focusedIndex >= 0) selectedResultIndex = focusedIndex
 
     if (e.key === 'ArrowDown') {
       if (selectedResultIndex < 0) {
@@ -803,6 +808,16 @@ const bindUi = () => {
     }
 
     syncResultSelection()
+
+    const link = links[selectedResultIndex]
+
+    // Move focus with the highlight so native Enter opens it. Screen readers
+    // announce the newly focused link, so the status is left unchanged.
+    if (focusedIndex >= 0 && link instanceof HTMLElement) {
+      link.focus({ preventScroll: true })
+
+      return
+    }
 
     const description = describeResultAt(selectedResultIndex, links.length)
 
@@ -908,7 +923,7 @@ const bindUi = () => {
     closeSearch()
   })
 
-  results.addEventListener('mousemove', event => {
+  const highlightResult = (event: Event) => {
     const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
 
     if (!anchor) return
@@ -921,7 +936,12 @@ const bindUi = () => {
     selectedResultIndex = next
 
     syncResultSelection()
-  })
+  }
+
+  results.addEventListener('mousemove', highlightResult)
+
+  // Tabbing onto a result highlights it, so the highlight matches native Enter.
+  results.addEventListener('focusin', highlightResult)
 
   // Defer the search-index fetch until the user actually opens the modal
   // (trigger click, Cmd/Ctrl+K, or '/'), or arrives with a `?q=` deep-link.

@@ -1,4 +1,4 @@
-import { expect, type Page, test } from '@playwright/test'
+import { expect, type Locator, type Page, test } from '@playwright/test'
 
 const searchEntries = [
   { title: 'Astro guide Alpha', path: '/about/' },
@@ -11,6 +11,27 @@ const openSearch = async (page: Page) => {
   await page.locator('[data-site-search-trigger]').click()
   await page.locator('#site-search-input').fill('Astro')
   await expect(page.locator('[data-site-search-result]')).toHaveCount(4)
+}
+
+// Safari uses Option-Tab to include links and buttons in keyboard navigation.
+const tabKeys = (browserName: string) => browserName === 'webkit' ?
+  { next: 'Alt+Tab', previous: 'Alt+Shift+Tab' } :
+  { next: 'Tab', previous: 'Shift+Tab' }
+
+// Some engines add the scrollable result list as its own tab stop.
+const tabTo = async (page: Page, target: Locator, key: string) => {
+  for (let step = 0; step < 4; step += 1) {
+    await page.keyboard.press(key)
+
+    if (await target.evaluate(element => element === document.activeElement)) return
+  }
+
+  throw new Error('Search result is not reachable in the tab order')
+}
+
+const expectHighlighted = async (page: Page, index: number) => {
+  await expect(page.locator('[data-site-search-active="true"]')).toHaveCount(1)
+  await expect(page.locator('[data-site-search-result]').nth(index)).toHaveAttribute('data-site-search-active', 'true')
 }
 
 test.beforeEach(async ({ page }) => {
@@ -239,4 +260,89 @@ test('a canceled result activation leaves the search open', async ({ page }) => 
   await page.locator('[data-site-search-result]').first().click()
   await expect(page.locator('#site-search-dialog')).toBeVisible()
   expect(new URL(page.url()).searchParams.get('q')).toBe('Astro')
+})
+
+test('Tab and arrow keys keep the focused result highlighted for native Enter', async ({ page, browserName }) => {
+  await page.goto('/')
+  await openSearch(page)
+
+  const results = page.locator('[data-site-search-result]')
+
+  await page.keyboard.press('ArrowDown')
+  await expectHighlighted(page, 1)
+  await tabTo(page, results.first(), tabKeys(browserName).next)
+  // Focus takes over the highlight the input left on the second result.
+  await expect(results.first()).toBeFocused()
+  await expectHighlighted(page, 0)
+  await page.keyboard.press('ArrowDown')
+  await expect(results.nth(1)).toBeFocused()
+  await expectHighlighted(page, 1)
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/\/work\/$/u)
+  await page.goBack()
+  await expect(page).toHaveURL(/\/$/u)
+  await expect(page.locator('#site-search-dialog')).toBeHidden()
+})
+
+test('arrow keys wrap a focused result at both ends of the list', async ({ page, browserName }) => {
+  await page.goto('/')
+  await openSearch(page)
+
+  const results = page.locator('[data-site-search-result]')
+  const { previous } = tabKeys(browserName)
+
+  await page.keyboard.press(previous)
+  await expect(page.locator('[data-site-search-close]')).toBeFocused()
+  // The focus trap wraps from the first dialog control to the last result.
+  await page.keyboard.press(previous)
+  await expect(results.last()).toBeFocused()
+  await expectHighlighted(page, 3)
+
+  for (const [key, index] of [['ArrowDown', 0], ['ArrowUp', 3], ['ArrowUp', 2], ['ArrowDown', 3]] as const) {
+    await page.keyboard.press(key)
+    await expect(results.nth(index)).toBeFocused()
+    await expectHighlighted(page, index)
+  }
+})
+
+test('arrow keys in the input wrap the highlight while focus stays in the input', async ({ page }) => {
+  await page.goto('/')
+  await openSearch(page)
+
+  const input = page.locator('#site-search-input')
+  const status = page.locator('#site-search-status')
+
+  for (const [key, index, title] of [
+    ['ArrowUp', 3, 'Astro guide Delta'],
+    ['ArrowDown', 0, 'Astro guide Alpha'],
+    ['ArrowDown', 1, 'Astro guide Bravo']
+  ] as const) {
+    await page.keyboard.press(key)
+    await expectHighlighted(page, index)
+    await expect(input).toBeFocused()
+    await expect(status).toHaveText(`${title}, ${index + 1} of 4`)
+  }
+
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/\/work\/$/u)
+})
+
+test('arrow keys on other dialog buttons keep their native behavior', async ({ page }) => {
+  await page.goto('/')
+  await openSearch(page)
+
+  for (const selector of ['[data-site-search-close]', '[data-site-search-input-clear]']) {
+    const button = page.locator(selector)
+
+    await button.focus()
+
+    const canceled = await button.evaluate(element => !element.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
+    ))
+
+    expect(canceled).toBe(false)
+    await page.keyboard.press('ArrowDown')
+    await expect(button).toBeFocused()
+    await expectHighlighted(page, 0)
+  }
 })

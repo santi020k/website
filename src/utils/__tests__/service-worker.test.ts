@@ -7,9 +7,10 @@ import { describe, expect, test, vi } from 'vitest'
 const source = readFileSync(resolvePath(process.cwd(), 'public/sw.js'), 'utf8')
 const origin = 'https://santi020k.com'
 
-const setupWorker = () => {
+const setupWorker = (assets: string[] = []) => {
   const handlers = new Map<string, (event: unknown) => void>()
   const cache = {
+    addAll: vi.fn<(requests: string[]) => Promise<void>>().mockResolvedValue(undefined),
     delete: vi.fn<(request: Request) => Promise<boolean>>().mockResolvedValue(true),
     keys: vi.fn<() => Promise<Request[]>>().mockResolvedValue([]),
     match: vi.fn<(request: Request | string) => Promise<Response | undefined>>().mockResolvedValue(undefined),
@@ -17,15 +18,17 @@ const setupWorker = () => {
   }
   const open = vi.fn(() => Promise.resolve(cache))
   const fetch = vi.fn<typeof globalThis.fetch>()
+  const skipWaiting = vi.fn<() => Promise<void>>().mockResolvedValue(undefined)
 
-  runInNewContext(source, {
+  runInNewContext(source.replace('const BUILD_ASSETS = []', `const BUILD_ASSETS = ${JSON.stringify(assets)}`), {
     Response,
     URL,
     caches: { open },
     fetch,
     self: {
       addEventListener: (type: string, handler: (event: unknown) => void) => handlers.set(type, handler),
-      location: { origin }
+      location: { origin },
+      skipWaiting
     }
   })
 
@@ -50,7 +53,7 @@ const setupWorker = () => {
     return { lifetime, response }
   }
 
-  return { cache, dispatch, fetch, open }
+  return { cache, dispatch, fetch, handlers, open, skipWaiting }
 }
 
 const makeRequest = (path: string, navigation = false) => {
@@ -62,6 +65,51 @@ const makeRequest = (path: string, navigation = false) => {
 }
 
 describe('Service worker fetch handling', () => {
+  test('installs the complete shell before activating', async () => {
+    const worker = setupWorker(['/_astro/shell.js', '/_astro/style.css', '/_astro/font.woff2'])
+    let installation: Promise<unknown> | undefined
+
+    worker.handlers.get('install')?.({ waitUntil: (promise: Promise<unknown>) => {
+      installation = promise
+    } })
+    await installation
+    expect(worker.cache.addAll).toHaveBeenCalledWith(expect.arrayContaining([
+      '/', '/offline/', '/_astro/shell.js', '/_astro/style.css', '/_astro/font.woff2'
+    ]))
+    expect(worker.skipWaiting).toHaveBeenCalledOnce()
+  })
+
+  test('does not activate an incomplete shell', async () => {
+    const worker = setupWorker(['/_astro/shell.js'])
+    let installation: Promise<unknown> | undefined
+
+    worker.cache.addAll.mockRejectedValue(new Error('Asset unavailable'))
+    worker.handlers.get('install')?.({ waitUntil: (promise: Promise<unknown>) => {
+      installation = promise
+    } })
+    await expect(installation).rejects.toThrow('Asset unavailable')
+    expect(worker.skipWaiting).not.toHaveBeenCalled()
+  })
+
+  test('keeps shell code when trimming runtime cache entries', async () => {
+    const worker = setupWorker(['/_astro/shell.js'])
+
+    worker.cache.keys.mockResolvedValue([
+      makeRequest('/offline/'),
+      makeRequest('/_astro/shell.js'),
+      ...Array.from({ length: 257 }, (_, index) => makeRequest(`/_astro/old-${index}.js`))
+    ])
+    worker.fetch.mockResolvedValue(new Response('fresh'))
+
+    const event = worker.dispatch(makeRequest('/search-index.json'))
+
+    await event.response
+    await Promise.all(event.lifetime)
+    expect(worker.cache.delete.mock.calls.map(([request]) => new URL(request.url).pathname)).toEqual([
+      '/_astro/old-0.js', '/_astro/old-1.js', '/_astro/old-2.js'
+    ])
+  })
+
   test.each(['/v1', '/v1/', '/v2/blog/post/', '/v3/_astro/app.js', '/v12/fonts/font.woff2'])(
     'leaves archive request %s to the network', path => {
       const worker = setupWorker()
