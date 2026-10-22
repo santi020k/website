@@ -365,8 +365,8 @@ and its static accessible value; text values remain static.
 
 On phones the icon moves beside the value and the rule disappears. Narrow content
 columns restore the stacked icon and scale long values to fit. Cards stay passive,
-without hover effects or new animation. Keep the dedicated Home, About, and Work
-editorial statistics in their existing open layouts.
+without hover effects or new animation. The homepage uses its dedicated Sculpted
+ledger below; About and Work retain their existing open statistics layouts.
 
 ### Timeline folio career cards
 
@@ -634,6 +634,20 @@ Use the `home-hero` container to stack the pair below 39.5rem. Tighten the rail 
 21.25rem and place the logo above the copy below 16rem for enlarged text. Keep full text,
 visible focus, and stationary cards on hover. The hero headline, portrait, and primary actions
 retain their existing layout.
+
+### Sculpted ledger homepage statistics
+
+The homepage's four experience and impact statistics use Lumen Stat articles with
+tinted number panels, small decorative icons, and separate label and description
+sections. Keep the existing values, suffixes, descriptions, and AnimatedNumber
+behavior, including static accessible text and reduced-motion support.
+
+Use fine borders, opaque surfaces, and 1.75rem corners except for the 0.5rem
+lower-right corner. Values use brand emphasis in light mode and accent emphasis
+in dark mode. Cards stay passive, without hover or navigation affordances.
+The `home-content` container changes four columns to two below 53.125rem and one
+below 21.25rem. Reduce insets and omit decorative icons when enlarged text needs
+the space; keep numbers and units together and show every description in full.
 
 ### Offset spread featured work
 

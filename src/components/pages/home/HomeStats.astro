@@ -1,5 +1,5 @@
 ---
-import { AnimatedNumber, Stat } from '@santi020k/lumen-astro'
+import { AnimatedNumber, Icon, Stat } from '@santi020k/lumen-astro'
 
 interface Props {
   yearsOfExperience: string
@@ -8,17 +8,20 @@ interface Props {
 const { yearsOfExperience } = Astro.props
 
 const stats = [
-  { value: Number.parseInt(yearsOfExperience, 10), suffix: '+', label: 'Years building', description: 'Across web, mobile, and the systems behind them.' },
-  { value: 14, suffix: '', label: 'People, one team', description: 'The largest cross-functional team I’ve led.' },
-  { value: -75, suffix: '%', label: 'Release cycle time', description: 'Through better pipelines and automated quality gates.' },
-  { value: 100, suffix: '+', label: 'People learning together', description: 'Typical attendance at our community events.' }
-]
+  { value: Number.parseInt(yearsOfExperience, 10), suffix: '+', icon: 'layers', label: 'Years building', description: 'Across web, mobile, and the systems behind them.' },
+  { value: 14, suffix: '', icon: 'users', label: 'People, one team', description: 'The largest cross-functional team I’ve led.' },
+  { value: -75, suffix: '%', icon: 'workflow', label: 'Release cycle time', description: 'Through better pipelines and automated quality gates.' },
+  { value: 100, suffix: '+', icon: 'messages-square', label: 'People learning together', description: 'Typical attendance at our community events.' }
+] as const
 ---
 
 <section class="studio-stats" aria-label="Experience and impact" id="home-stats">
   {stats.map(stat => (
     <Stat as="article" class="studio-stat" label={stat.label} variant="bare">
-      <AnimatedNumber class="studio-stat-value" locale="en-US" suffix={stat.suffix} value={stat.value} />
+      <div class="studio-stat-metric">
+        <AnimatedNumber class="studio-stat-value" locale="en-US" suffix={stat.suffix} value={stat.value} />
+        <Icon class="studio-stat-icon" name={stat.icon} />
+      </div>
       <p>{stat.description}</p>
     </Stat>
   ))}
