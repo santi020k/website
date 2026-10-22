@@ -70,3 +70,45 @@ for (const theme of ['light', 'dark']) {
     }
   })
 }
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`footer invitation stays readable with enlarged text in ${theme} mode`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+
+    for (const path of ['/', '/blog/', '/speaking/']) {
+      for (const width of [320, 390, 768, 1440]) {
+        await page.setViewportSize({ width, height: 900 })
+        await page.goto(path)
+        await page.evaluate(async () => {
+          document.documentElement.style.fontSize = '200%'
+          await document.fonts.ready
+        })
+
+        const invitation = page.getByRole('region', { name: 'Let’s build something useful.' })
+
+        await expect(invitation.getByRole('link')).toHaveCount(2)
+        const clipped = await invitation.evaluate(element => {
+          const bounds = element.getBoundingClientRect()
+
+          return [...element.querySelectorAll('p, h2, a')].flatMap(item => {
+            const range = document.createRange()
+
+            range.selectNodeContents(item)
+            return [...range.getClientRects()].some(rect => rect.width > 0 && (
+              rect.left < bounds.left - 1 || rect.right > bounds.right + 1
+            )) ?
+              [item.textContent] :
+              []
+          })
+        })
+
+        expect(clipped).toEqual([])
+        for (const link of await invitation.getByRole('link').all()) {
+          await link.focus()
+          await expect(link).toBeFocused()
+          await expect(link).toHaveCSS('outline-style', 'solid')
+        }
+      }
+    }
+  })
+}

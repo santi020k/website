@@ -8,6 +8,8 @@
 
 - Apply Community folio to the homepage community panel with a tinted introduction, inset reading sheet, numbered destination rows, and explicit actions. Preserve community and speaking destinations, complete descriptions, native keyboard navigation, and responsive light and dark layouts with enlarged text.
 
+- Apply Correspondence sheet to the shared footer contact invitation with a wide heading, mail marker, and joined WhatsApp and email actions. Preserve configured destinations, native keyboard navigation, compact footers, and accessible responsive layouts in both themes and with enlarged text.
+
 - Apply Directional folio to previous and next article navigation, with open columns, complete titles, chapter numbers, and responsive keyboard-accessible links.
 
 - Apply Evidence rows to Privacy, Terms, and Accessibility with one shared reading

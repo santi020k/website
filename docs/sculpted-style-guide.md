@@ -684,6 +684,18 @@ decorative conversation symbol. Tighten insets below 21.25rem, then reduce headi
 decorative arrows below 16rem for enlarged text. Keep the action labels, descriptions, and all
 destinations visible. Hover changes the title color and underline without moving the card.
 
+### Correspondence sheet footer invitation
+
+The default shared footer uses a Lumen card with a wide contact heading, decorative mail marker,
+and joined WhatsApp and email actions. Preserve the complete invitation copy, contact values from
+`siteConfig`, native links, and visible keyboard focus. The compact footer on policy pages keeps
+its directory without the contact invitation.
+
+Use the `footer` container to remove the marker and heading inset under 45rem, stack the contact
+strip under 30rem, and tighten insets under 21.25rem. Below 16rem, reduce the headline and omit
+arrows so enlarged text keeps both destinations readable. The sheet owns its frame on mobile;
+the directory and colophon retain their existing order and links below it.
+
 ## Responsive behavior and accessibility
 
 Below 768px, switch editorial sections and independent product cards to one column. Featured work
