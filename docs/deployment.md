@@ -200,6 +200,18 @@ only absolute HTTP or HTTPS URLs. Private mentions and entries without a usable
 source URL are omitted. Avatars have fixed dimensions, so rendering does not
 need to fetch their dimensions from third-party hosts.
 
+The build reads every page of the feed (`per-page=1000`, pages `0` through
+`total-pages - 1`, newest first) so like and reply counts include the public
+mentions returned across pages. The API defaults to 20 rows per page. Rows repeated across
+pages because a mention arrived mid-walk are dropped by `wm-id`. The whole load
+per post, including response bodies, has a 12-second deadline and is bounded to 10 pages
+(10,000 mentions). If any page fails, times out, reports inconsistent `paging`,
+or the feed exceeds that bound, the post renders no mentions instead of a
+partial list with misleading totals; the next build tries again.
+The diagnostic command checks only the first page and labels its counts accordingly.
+The API does not provide a snapshot across requests: a deletion during pagination
+can shift rows between pages, so subsequent builds refresh the result.
+
 Both the build and diagnostic script send the API token in the supported
 `Authorization` header, keeping it out of request URLs. Target matching follows
 [Webmention.io's canonical URL and redirect aliases](https://webmention.io/api#basics),

@@ -2,8 +2,44 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 
 import { fetchWebmentionsForTarget } from '../webmentions-fetch'
 
+const target = 'https://santi020k.com/blog/hello/'
+
+const like = (id: number, extra: Record<string, unknown> = {}) => ({
+  'wm-id': id,
+  'wm-property': 'like-of',
+  'wm-source': `https://fan${id}.example/note`,
+  ...extra
+})
+
+interface PageFixture {
+  children: unknown[]
+  paging?: unknown
+}
+
+/** One jf2 page with the paging fields consumed by the loader. */
+const page = (index: number, totalPages: number, children: unknown[]): PageFixture => ({
+  children,
+  paging: { page: index, 'per-page': 1000, 'total-pages': totalPages }
+})
+
+const jsonResponse = (body: unknown) => ({ ok: true, json: () => Promise.resolve(body) })
+
+/** Serves `pages[n]` for `?page=n`; a function entry supplies a custom response. */
+const pagedFetch = (pages: (PageFixture | (() => Promise<unknown>))[]) => vi.fn(
+  (input: string, _init?: RequestInit): Promise<unknown> => {
+    const entry = pages[Number(new URL(input).searchParams.get('page'))]
+
+    if (typeof entry === 'function') return entry()
+
+    return Promise.resolve(entry ? jsonResponse(entry) : { ok: false })
+  }
+)
+
+const sources = (mentions: { 'wm-source': string }[]) => mentions.map(entry => entry['wm-source'])
+
 describe('fetchWebmentionsForTarget', () => {
   afterEach(() => {
+    vi.useRealTimers()
     vi.unstubAllGlobals()
     vi.restoreAllMocks()
   })
@@ -40,7 +76,8 @@ describe('fetchWebmentionsForTarget', () => {
 
     const out = await fetchWebmentionsForTarget('https://santi020k.com/blog/hello/', 'test-token')
     expect(fetch).toHaveBeenCalledWith(
-      'https://webmention.io/api/mentions.jf2?target=https%3A%2F%2Fsanti020k.com%2Fblog%2Fhello%2F',
+      'https://webmention.io/api/mentions.jf2?target=https%3A%2F%2Fsanti020k.com%2Fblog%2Fhello%2F' +
+      '&per-page=1000&page=0&sort-by=created&sort-dir=down',
       expect.objectContaining({
         headers: { Accept: 'application/jf2+json, application/json', Authorization: 'Bearer test-token' }
       })
@@ -278,5 +315,199 @@ describe('fetchWebmentionsForTarget', () => {
     const out = await fetchWebmentionsForTarget('https://santi020k.com/blog/hello/', 'test-token')
     expect(out[0]?.content).toBeNull()
     expect(out[0]?.summary).toEqual({ value: 'Great post!' })
+  })
+
+  describe('pagination', () => {
+    test('walks every page and keeps the API newest-first order', async () => {
+      const fetchMock = pagedFetch([
+        page(0, 3, [like(9), like(8)]),
+        page(1, 3, [like(7), like(6)]),
+        page(2, 3, [like(5)])
+      ])
+
+      vi.stubGlobal('fetch', fetchMock)
+
+      const out = await fetchWebmentionsForTarget(target, 'secret-token')
+
+      expect(sources(out)).toEqual([
+        'https://fan9.example/note',
+        'https://fan8.example/note',
+        'https://fan7.example/note',
+        'https://fan6.example/note',
+        'https://fan5.example/note'
+      ])
+      expect(fetchMock).toHaveBeenCalledTimes(3)
+
+      for (const [index, [url, init]] of fetchMock.mock.calls.entries()) {
+        const params = new URL(url).searchParams
+
+        expect(params.get('page')).toBe(String(index))
+        expect(params.get('per-page')).toBe('1000')
+        expect(params.get('sort-by')).toBe('created')
+        expect(params.get('sort-dir')).toBe('down')
+        expect(url).not.toContain('secret-token')
+        expect(init?.headers).toEqual(expect.objectContaining({ Authorization: 'Bearer secret-token' }))
+      }
+    })
+
+    test('follows a total-pages count that grows while the walk is in progress', async () => {
+      vi.stubGlobal('fetch', pagedFetch([
+        page(0, 2, [like(9)]),
+        page(1, 3, [like(8)]),
+        page(2, 3, [like(7)])
+      ]))
+
+      const out = await fetchWebmentionsForTarget(target, 'test-token')
+
+      expect(sources(out)).toEqual([
+        'https://fan9.example/note',
+        'https://fan8.example/note',
+        'https://fan7.example/note'
+      ])
+    })
+
+    test('drops a row repeated on the next page after a new mention shifts the feed', async () => {
+      vi.stubGlobal('fetch', pagedFetch([
+        page(0, 2, [like(9), like(8)]),
+        page(1, 2, [like(8), like(7)])
+      ]))
+
+      const out = await fetchWebmentionsForTarget(target, 'test-token')
+
+      expect(sources(out)).toEqual([
+        'https://fan9.example/note',
+        'https://fan8.example/note',
+        'https://fan7.example/note'
+      ])
+    })
+
+    test.each([
+      ['an error status', () => Promise.resolve({ ok: false })],
+      ['a network error', () => Promise.reject(new Error('network'))],
+      ['an invalid JSON body', () => Promise.resolve({ ok: true, json: () => Promise.reject(new SyntaxError('bad json')) })],
+      ['a body without children', () => Promise.resolve(jsonResponse({ paging: { page: 1, 'total-pages': 2 } }))],
+      ['a body without paging', () => Promise.resolve(jsonResponse({ children: [like(7)] }))]
+    ])('returns nothing rather than a partial list when a later page has %s', async (_label, laterPage) => {
+      vi.stubGlobal('fetch', pagedFetch([page(0, 2, [like(9), like(8)]), laterPage]))
+
+      const out = await fetchWebmentionsForTarget(target, 'test-token')
+
+      expect(out).toEqual([])
+    })
+
+    test.each([
+      ['echoes the wrong page number', page(0, 3, [like(7)])],
+      ['repeats only rows already seen', page(1, 3, [like(9), like(8)])],
+      ['is empty while still in range', page(1, 3, [])],
+      ['shrinks past the requested page', page(1, 1, [like(7)])],
+      ['reports a non-integer page count', { children: [like(7)], paging: { page: 1, 'total-pages': 2.5 } }],
+      ['reports a negative page count', { children: [like(7)], paging: { page: 1, 'total-pages': -1 } }]
+    ])('returns nothing when a later page %s', async (_label, laterPage) => {
+      vi.stubGlobal('fetch', pagedFetch([page(0, 3, [like(9), like(8)]), laterPage, page(2, 3, [like(6)])]))
+
+      const out = await fetchWebmentionsForTarget(target, 'test-token')
+
+      expect(out).toEqual([])
+    })
+
+    test('refuses a feed with more pages than the bound instead of truncating it', async () => {
+      const fetchMock = pagedFetch([page(0, 1_000_000, [like(9)])])
+
+      vi.stubGlobal('fetch', fetchMock)
+
+      const out = await fetchWebmentionsForTarget(target, 'test-token')
+
+      expect(out).toEqual([])
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+    })
+
+    test.each([
+      ['repeated rows', [like(9), like(8)]],
+      ['no rows', []]
+    ])('rejects a claimed final page with %s instead of returning an incomplete count', async (_label, rows) => {
+      vi.stubGlobal('fetch', pagedFetch([page(0, 2, [like(9), like(8)]), page(1, 2, rows)]))
+
+      await expect(fetchWebmentionsForTarget(target, 'test-token')).resolves.toEqual([])
+    })
+
+    test('refuses an unpaginated response that may have been cut at the page size', async () => {
+      const children = Array.from({ length: 1000 }, (_, index) => like(index))
+
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse({ children })))
+
+      const out = await fetchWebmentionsForTarget(target, 'test-token')
+
+      expect(out).toEqual([])
+    })
+
+    test('omits private rows on every page while counting them as progress', async () => {
+      vi.stubGlobal('fetch', pagedFetch([
+        page(0, 3, [like(9), like(8, { 'wm-private': true })]),
+        page(1, 3, [like(7, { 'wm-private': true })]),
+        page(2, 3, [like(6)])
+      ]))
+
+      const out = await fetchWebmentionsForTarget(target, 'test-token')
+
+      expect(sources(out)).toEqual(['https://fan9.example/note', 'https://fan6.example/note'])
+    })
+
+    test('validates URLs on later pages', async () => {
+      vi.stubGlobal('fetch', pagedFetch([
+        page(0, 2, [like(9)]),
+        page(1, 2, [
+          like(8, { 'wm-source': 'javascript:alert(1)' }),
+          like(7, { author: { name: 'Eve', photo: 'data:image/svg+xml,<svg/>', url: 'javascript:alert(2)' } })
+        ])
+      ]))
+
+      const out = await fetchWebmentionsForTarget(target, 'test-token')
+
+      expect(sources(out)).toEqual(['https://fan9.example/note', 'https://fan7.example/note'])
+      expect(out[1]?.author).toEqual({ name: 'Eve', photo: null, url: null })
+    })
+  })
+
+  describe('load deadline', () => {
+    test('gives up on a request that never settles, even if it ignores the abort signal', async () => {
+      vi.useFakeTimers()
+
+      const fetchMock = vi.fn((_input: string, _init?: RequestInit) => new Promise<never>(() => {}))
+
+      vi.stubGlobal('fetch', fetchMock)
+
+      let settled = false
+      const pending = fetchWebmentionsForTarget(target, 'test-token').then(mentions => {
+        settled = true
+
+        return mentions
+      })
+
+      await vi.advanceTimersByTimeAsync(11_999)
+      expect(settled).toBe(false)
+      expect(fetchMock.mock.calls[0]?.[1]?.signal?.aborted).toBe(false)
+      await vi.advanceTimersByTimeAsync(1)
+
+      await expect(pending).resolves.toEqual([])
+      expect(fetchMock.mock.calls[0]?.[1]?.signal?.aborted).toBe(true)
+    })
+
+    test('bounds the whole multi-page load, including a body that never finishes', async () => {
+      vi.useFakeTimers()
+
+      const fetchMock = pagedFetch([
+        page(0, 2, [like(9)]),
+        () => Promise.resolve({ ok: true, json: () => new Promise<never>(() => {}) })
+      ])
+
+      vi.stubGlobal('fetch', fetchMock)
+
+      const pending = fetchWebmentionsForTarget(target, 'test-token')
+
+      await vi.advanceTimersByTimeAsync(12_000)
+
+      await expect(pending).resolves.toEqual([])
+      expect(fetchMock).toHaveBeenCalledTimes(2)
+    })
   })
 })

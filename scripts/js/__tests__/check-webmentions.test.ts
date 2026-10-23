@@ -52,7 +52,7 @@ test.each([
     expect(result.status).toBe(0)
     expect(result.stdout).toContain(failure ?
       'API: fetch failed (network error or request timeout)' :
-      `Total rows: ${total}, public (before build validation): ${publicCount}`)
+      `First-page rows: ${total}, public (before build validation): ${publicCount}`)
     expect(result.stdout).not.toContain('private.example')
     expect(result.stdout).not.toContain('fixture-token')
   } finally {

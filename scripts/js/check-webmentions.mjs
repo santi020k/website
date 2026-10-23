@@ -172,7 +172,7 @@ const checkJf2 = async () => {
 
   console.log(`\nAPI: target ${targetUrl}`)
 
-  console.log(`  Total rows: ${children.length}, public (before build validation): ${publicRows.length}`)
+  console.log(`  First-page rows: ${children.length}, public (before build validation): ${publicRows.length}`)
 
   for (const row of publicRows.slice(0, 8)) {
     const prop = row['wm-property']
