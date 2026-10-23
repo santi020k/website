@@ -283,6 +283,8 @@
 - Apply Stack ledger to project technology cards, preserving complete lists, native
   keyboard disclosures, and readable layouts with enlarged text.
 
+- Recover cached pages, search data, feeds, and resume downloads when response headers stall for eight seconds. Preserve streaming bodies, refresh cached copies when the network recovers, and keep waiting when no usable cache exists. Align the manual browser workflow with read-only token permissions and disable persisted checkout credentials.
+
 - Keep keyboard search focus aligned with the highlighted result, including Tab,
   arrow navigation, and native Enter activation. Preserve input navigation and
   normal keyboard behavior on other dialog controls.

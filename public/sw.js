@@ -6,6 +6,9 @@ const BUILD_REVISION = 'development'
 const CACHE_VERSION = `v4-cache-v3-${BUILD_REVISION}`
 const STATIC_CACHE = `santi020k-static-${CACHE_VERSION}`
 const MAX_CACHE_ENTRIES = 256
+// Bounds only the wait for response headers. A response that has started keeps
+// streaming its body without a deadline.
+const NETWORK_HEADER_DEADLINE_MS = 8_000
 
 const CORE_ROUTES = [
   '/',
@@ -135,15 +138,38 @@ const fetchAndCache = request => {
 const networkFirst = (request, pageFallback = false) => {
   const network = fetchAndCache(request)
 
-  return {
-    response: network.response.catch(async () => {
-      const cache = await network.cache
+  const matchFallback = async () => {
+    const cache = await network.cache
 
-      return (await matchCached(cache, request)) ??
-        // Static pages render the same bytes for every query; `?q=` only selects client-side UI.
-        (pageFallback ? await matchCached(cache, request, { ignoreSearch: true }) : undefined) ??
-        (pageFallback ? await matchCached(cache, '/offline/') : undefined) ?? Response.error()
-    }),
+    return (await matchCached(cache, request)) ??
+      // Static pages render the same bytes for every query; `?q=` only selects client-side UI.
+      (pageFallback ? await matchCached(cache, request, { ignoreSearch: true }) : undefined) ??
+      (pageFallback ? await matchCached(cache, '/offline/') : undefined)
+  }
+
+  // A connection can accept a request and never send headers. After the deadline,
+  // answer from cache when possible; without a usable copy, keep waiting for the
+  // network. The request and its background cache write continue either way.
+  /** @type {Promise<Response>} */
+  const cachedAfterDeadline = new Promise(resolve => {
+    const timer = setTimeout(() => {
+      void matchFallback().then(cached => {
+        if (cached) resolve(cached)
+
+        return undefined
+      })
+    }, NETWORK_HEADER_DEADLINE_MS)
+
+    const clear = () => clearTimeout(timer)
+
+    void network.response.then(clear, clear)
+  })
+
+  return {
+    response: Promise.race([
+      network.response.catch(async () => (await matchFallback()) ?? Response.error()),
+      cachedAfterDeadline
+    ]),
     revalidate: network.revalidate
   }
 }

@@ -312,3 +312,47 @@ test('retires the previous release cache while preserving unrelated caches', asy
   ])
   expect(names).toContain('unrelated-cache')
 })
+
+test('a stalled connection serves a cached deep link and search index after the header deadline', async ({ browser, baseURL }) => {
+  const server = await createOfflinePreview(baseURL)
+  const context = await browser.newContext({ baseURL: server.url, reducedMotion: 'reduce' })
+
+  try {
+    const page = await context.newPage()
+
+    await page.goto('/')
+    const homeTitle = await page.title()
+
+    await page.evaluate(async () => {
+      await navigator.serviceWorker.ready
+    })
+    await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+    await page.evaluate(async () => {
+      await (await fetch('/search-index.json')).text()
+    })
+    await expect.poll(() => page.evaluate(async () => {
+      const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+      if (!name) throw new Error('Missing current worker cache')
+
+      const cache = await caches.open(name)
+
+      return Boolean(await cache.match('/')) && Boolean(await cache.match('/search-index.json'))
+    })).toBe(true)
+
+    server.setStalled(true)
+    const started = Date.now()
+
+    await page.goto('/?q=Astro', { timeout: 18_000, waitUntil: 'domcontentloaded' })
+    expect(Date.now() - started).toBeGreaterThanOrEqual(7_500)
+    await expect(page).toHaveTitle(homeTitle)
+    expect(new URL(page.url()).searchParams.get('q')).toBe('Astro')
+    await expect(page.locator('#site-search-dialog')).toBeVisible()
+    await expect(page.locator('#site-search-input')).toHaveValue('Astro')
+    await expect(page.locator('[data-site-search-result]').first()).toBeVisible({ timeout: 12_000 })
+    expect(server.heldRequestCount()).toBeGreaterThanOrEqual(2)
+  } finally {
+    await context.close()
+    await server.close()
+  }
+})

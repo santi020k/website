@@ -43,11 +43,15 @@ bypass the worker entirely, including partial downloads of the resume PDFs.
 The Cache API cannot store partial responses or produce the requested byte
 range from a cached full file.
 
-If the network fails, a page or navigation request falls back to its own
-cached copy, then to the same path's cached copy without its query string (queries only select
+If the network fails or takes eight seconds to return response headers, a page or navigation
+request falls back to its own cached copy, then to the same path's cached copy without its query string (queries only select
 client-side UI on these static pages), then to the cached `/offline/` document. A cache miss or write
 failure never blocks the response — cache storage is treated as an optional
-optimization. Network responses stream immediately; `waitUntil` keeps background cache writes
+optimization. At the header deadline, a request without a usable cached response keeps waiting
+for the network. The original request continues in the background and refreshes the cache if it
+succeeds after a cached response has been served. The deadline ends when response headers arrive;
+it does not interrupt a streaming body or a large download. Network responses stream immediately;
+`waitUntil` keeps background cache writes
 and trimming alive without holding the response. Non-page resources fall back only to their own cached response; an offline HTML
 page is never substituted for JSON, feed, or PDF bytes. Only successful, non-redirected responses
 are stored: browsers reject a cached followed redirect for a navigation, so caching one would turn

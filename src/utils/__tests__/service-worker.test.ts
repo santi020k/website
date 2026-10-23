@@ -1,8 +1,10 @@
+// @vitest-environment node
+
 import { readFileSync } from 'node:fs'
 import { resolve as resolvePath } from 'node:path'
 import { runInNewContext } from 'node:vm'
 
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 const source = readFileSync(resolvePath(process.cwd(), 'public/sw.js'), 'utf8')
 const origin = 'https://santi020k.com'
@@ -27,7 +29,9 @@ const setupWorker = (assets: string[] = []) => {
     Response,
     URL,
     caches: { open },
+    clearTimeout,
     fetch,
+    setTimeout,
     self: {
       addEventListener: (type: string, handler: (event: unknown) => void) => handlers.set(type, handler),
       location: { origin },
@@ -563,6 +567,199 @@ describe('Immutable asset caching', () => {
     const event = worker.dispatch(makeRequest('/_astro/app.abc123.js'))
 
     expect(await (await event.response)?.text()).toBe('network asset')
+    await Promise.all(event.lifetime)
+  })
+})
+
+const deferredResponse = () => {
+  let resolveResponse: (response: Response) => void = () => {
+    throw new Error('Response promise not initialized')
+  }
+  let rejectResponse: (reason: Error) => void = () => {
+    throw new Error('Response promise not initialized')
+  }
+  const promise = new Promise<Response>((resolve, reject) => {
+    resolveResponse = resolve
+    rejectResponse = reject
+  })
+
+  return { promise, resolve: resolveResponse, reject: rejectResponse }
+}
+
+describe('Service worker response-header deadline', () => {
+  beforeEach(() => vi.useFakeTimers())
+  afterEach(() => {
+    vi.clearAllTimers()
+    vi.useRealTimers()
+  })
+
+  test.each(['/', '/search-index.json', '/feed.xml', '/pdf/cv.pdf'])(
+    'serves cached %s after eight seconds and refreshes it when the network recovers', async path => {
+      const worker = setupWorker()
+      const network = deferredResponse()
+      let settled = false
+
+      worker.fetch.mockReturnValue(network.promise)
+      worker.cache.match.mockResolvedValue(new Response('cached response'))
+      const event = worker.dispatch(makeRequest(path))
+
+      void event.response?.then(() => {
+        settled = true
+
+        return undefined
+      })
+      await vi.advanceTimersByTimeAsync(7_999)
+      expect(settled).toBe(false)
+      await vi.advanceTimersByTimeAsync(1)
+      expect(settled).toBe(true)
+      expect(await (await event.response)?.text()).toBe('cached response')
+      expect(worker.cache.put).not.toHaveBeenCalled()
+
+      network.resolve(new Response('late response'))
+      await Promise.all(event.lifetime)
+      expect(await worker.cache.put.mock.calls[0]?.[1].text()).toBe('late response')
+      expect(vi.getTimerCount()).toBe(0)
+    }
+  )
+
+  test.each(['empty', 'unavailable', 'read failure'])('keeps waiting when cache storage is %s', async state => {
+    const worker = setupWorker()
+    const network = deferredResponse()
+    let settled = false
+
+    if (state === 'unavailable') worker.open.mockRejectedValue(new Error('Unavailable'))
+    if (state === 'read failure') worker.cache.match.mockRejectedValue(new Error('Read failed'))
+    worker.fetch.mockReturnValue(network.promise)
+    const event = worker.dispatch(makeRequest('/fresh/', true))
+
+    void event.response?.then(() => {
+      settled = true
+
+      return undefined
+    })
+    await vi.advanceTimersByTimeAsync(8_000)
+    expect(settled).toBe(false)
+    network.resolve(new Response('late response'))
+    expect(await (await event.response)?.text()).toBe('late response')
+    await Promise.all(event.lifetime)
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
+  test.each([false, true])('reuses a query-free page at the deadline (navigation: %s)', async navigation => {
+    const worker = setupWorker()
+    const network = deferredResponse()
+    let settled = false
+
+    worker.fetch.mockReturnValue(network.promise)
+    worker.cache.match.mockImplementation((_request, options) => Promise.resolve(
+      options?.ignoreSearch ? new Response('cached home') : undefined
+    ))
+    const event = worker.dispatch(makeRequest('/?q=Astro', navigation))
+
+    void event.response?.then(() => {
+      settled = true
+
+      return undefined
+    })
+    await vi.advanceTimersByTimeAsync(8_000)
+    expect(settled).toBe(true)
+    expect(await (await event.response)?.text()).toBe('cached home')
+    expect(worker.cache.match.mock.calls.map(([, options]) => options)).toEqual([undefined, { ignoreSearch: true }])
+    network.reject(new TypeError('Offline'))
+    await Promise.all(event.lifetime)
+  })
+
+  test('serves the offline document when a stalled page has never been cached', async () => {
+    const worker = setupWorker()
+    const network = deferredResponse()
+    let settled = false
+
+    worker.fetch.mockReturnValue(network.promise)
+    worker.cache.match.mockImplementation(request => Promise.resolve(
+      request === '/offline/' ? new Response('Offline page') : undefined
+    ))
+    const event = worker.dispatch(makeRequest('/new/', true))
+
+    void event.response?.then(() => {
+      settled = true
+
+      return undefined
+    })
+    await vi.advanceTimersByTimeAsync(8_000)
+    expect(settled).toBe(true)
+    expect(await (await event.response)?.text()).toBe('Offline page')
+    network.reject(new TypeError('Offline'))
+    await Promise.all(event.lifetime)
+  })
+
+  test.each(['/search-index.json?v=2', '/feed.xml', '/pdf/cv.pdf'])(
+    'never substitutes offline HTML for stalled %s', async path => {
+      const worker = setupWorker()
+      const network = deferredResponse()
+      let settled = false
+
+      worker.fetch.mockReturnValue(network.promise)
+      worker.cache.match.mockImplementation(request => Promise.resolve(
+        request === '/offline/' ? new Response('Offline page') : undefined
+      ))
+      const event = worker.dispatch(makeRequest(path))
+
+      void event.response?.then(() => {
+        settled = true
+
+        return undefined
+      })
+      await vi.advanceTimersByTimeAsync(8_000)
+      expect(settled).toBe(false)
+      expect(worker.cache.match).toHaveBeenCalledExactlyOnceWith(expect.any(Request))
+      network.reject(new TypeError('Offline'))
+      expect((await event.response)?.type).toBe('error')
+      await Promise.all(event.lifetime)
+      expect(worker.cache.match.mock.calls.every(([request, options]) => request !== '/offline/' && !options)).toBe(true)
+    }
+  )
+
+  test('returns fast network responses without reading cached copies', async () => {
+    const worker = setupWorker()
+
+    worker.fetch.mockResolvedValue(new Response('fresh'))
+    const event = worker.dispatch(makeRequest('/'))
+
+    expect(await (await event.response)?.text()).toBe('fresh')
+    await Promise.all(event.lifetime)
+    await vi.advanceTimersByTimeAsync(8_000)
+    expect(worker.cache.match).not.toHaveBeenCalled()
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
+  test('clears the deadline when the network fails immediately', async () => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    worker.cache.match.mockResolvedValue(new Response('cached'))
+    const event = worker.dispatch(makeRequest('/'))
+
+    expect(await (await event.response)?.text()).toBe('cached')
+    await Promise.all(event.lifetime)
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
+  test('does not interrupt a streaming body after response headers arrive', async () => {
+    const worker = setupWorker()
+    const stream = new TransformStream<Uint8Array, Uint8Array>()
+    const writer = stream.writable.getWriter()
+
+    worker.fetch.mockResolvedValue(new Response(stream.readable))
+    const event = worker.dispatch(makeRequest('/pdf/cv.pdf'))
+    const response = await event.response
+    const body = response?.text()
+
+    await vi.advanceTimersByTimeAsync(16_000)
+    expect(vi.getTimerCount()).toBe(0)
+    expect(worker.cache.match).not.toHaveBeenCalled()
+    await writer.write(new TextEncoder().encode('complete download'))
+    await writer.close()
+    expect(await body).toBe('complete download')
     await Promise.all(event.lifetime)
   })
 })

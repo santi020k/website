@@ -1,14 +1,35 @@
 import { Buffer } from 'node:buffer'
-import { createServer } from 'node:http'
+import { createServer, type ServerResponse } from 'node:http'
 
 /** Simulate an unreachable origin without bypassing WebKit's service workers. */
 export const createOfflinePreview = async (baseURL: string | undefined, redirects: Record<string, string> = {}) => {
   if (!baseURL) throw new Error('Missing test preview URL')
 
   let online = true
+  let stalled = false
+  let heldRequests = 0
+  const stalledResponses = new Set<ServerResponse>()
+
+  const releaseStalled = () => {
+    for (const response of stalledResponses) response.destroy()
+
+    stalledResponses.clear()
+  }
+
   const server = createServer((request, response) => {
     if (!online) {
       request.socket.destroy()
+
+      return
+    }
+
+    if (stalled) {
+      // Accept the request but never send headers, like a connection that stops responding.
+      heldRequests += 1
+
+      stalledResponses.add(response)
+
+      response.once('close', () => stalledResponses.delete(response))
 
       return
     }
@@ -56,7 +77,17 @@ export const createOfflinePreview = async (baseURL: string | undefined, redirect
     setOnline: (value: boolean) => {
       online = value
     },
+    // Held requests are dropped when stalling ends or the preview closes.
+    setStalled: (value: boolean) => {
+      stalled = value
+
+      if (!value) releaseStalled()
+    },
+    // Counts every request held while stalled, including ones already released.
+    heldRequestCount: () => heldRequests,
     close: () => new Promise<void>((resolve, reject) => {
+      releaseStalled()
+
       server.closeAllConnections()
 
       server.close(error => {
