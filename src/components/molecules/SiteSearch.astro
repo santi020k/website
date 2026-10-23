@@ -2,6 +2,7 @@
 import { Button, Icon } from '@santi020k/lumen-astro'
 
 import SearchDialog from './SearchDialog.astro'
+import SearchEmptyState from './SearchEmptyState.astro'
 ---
 
 <div class="relative flex shrink-0 items-center" data-site-search>
@@ -19,6 +20,12 @@ import SearchDialog from './SearchDialog.astro'
   </Button>
 
   <SearchDialog />
+  <template data-site-search-empty-template>
+    <SearchEmptyState />
+  </template>
+  <template data-site-search-idle-template>
+    <SearchEmptyState idle />
+  </template>
   <template data-site-search-result-arrow-template>
     <Icon class="size-4.5" name="arrow-up-right" />
   </template>

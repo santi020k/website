@@ -753,6 +753,12 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   and 1.375rem bottom inset; never position it against the hover edge. Smaller layouts
   omit the arrow and reduce the cover tile, then omit artwork when enlarged text needs
   the full reading width. Search ranking, focus, announcements, and native links are unchanged.
+- Search empty states use Recovery folio: an asymmetric soft-tinted sheet with a large,
+  left-aligned heading, a decorative search icon, and a ruled action area. The native
+  Clear search button keeps its 44px target and returns focus to the input. Use the same
+  composition without an action for the no-suggestions fallback. Narrow and enlarged-text
+  layouts stack the icon and copy; short screens compact spacing while preserving scrolling.
+  Keep recent searches, popular topics, and the existing live announcements unchanged.
 - Pixel breakpoints set the default navbar. The header bar is also a `site-header`
   inline-size container: with enlarged text it hides the contact action below 60rem and
   switches to the attached menu below 50rem. From 640px it visually hides the Menu label
