@@ -112,6 +112,8 @@
 
 - Apply Chapter tab to related-work headers with a tinted chapter label, balanced title, and a separate ruled browse action. Preserve project-specific destinations, native keyboard navigation, accessible section headings, and readable layouts with enlarged text.
 
+- Apply Identity spread to the resume profile and download header with an accent margin label, open name and role, and a ruled contact section. Preserve keyboard navigation, responsive and enlarged-text layouts, native PDF downloads, and both existing print documents.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
