@@ -1,5 +1,11 @@
 import { expect, type Page, test } from '@playwright/test'
 
+test.beforeEach(async ({ page }) => {
+  // Comment-widget resizing can move the share toolbar between pointer events.
+  // Its provider lifecycle has separate coverage; these tests isolate local controls.
+  await page.route('https://giscus.app/**', route => route.abort())
+})
+
 test.describe('Newsletter signup', () => {
   test('blog newsletter form points at the configured action and links to privacy', async ({ page }) => {
     await page.goto('/blog/')
@@ -172,6 +178,8 @@ test.describe('Share buttons — native Web Share API path', () => {
     await expect(copyButton).toBeVisible()
     await expect(copyButton).toHaveAccessibleName('Share link')
     await expect(copyButton).toHaveAttribute('data-share-url', permalink)
+    // The idle label swap to "Share link" must not reach the result live region.
+    await expect(page.locator('#copy-status')).toBeEmpty()
     await copyButton.click()
 
     await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
@@ -197,6 +205,9 @@ test.describe('Share buttons — native Web Share API path', () => {
     await expect.poll(() => page.evaluate(() => window.localStorage.getItem('share-test-native-called'))).toBe('true')
     expect(await page.evaluate(() => window.localStorage.getItem('share-test-native-url'))).toBe(permalink)
 
+    // Once the operation settles, a cancelled share has announced nothing.
+    await expect(copyButton).not.toHaveAttribute('aria-busy')
+    await expect(page.locator('#copy-status')).toBeEmpty()
     await expect(page.locator('#copy-label')).toHaveText('Share link')
     await expect(copyButton).not.toHaveClass(/copied/)
 
@@ -270,6 +281,38 @@ test.describe('Share buttons', () => {
     await expect(page.getByRole('link', { name: 'Share on LinkedIn' }))
       .toHaveAttribute('href', `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(permalink)}`)
   })
+
+  test('a separate status region announces only the copy result and clears on reset', async ({ page }) => {
+    const { path } = await getFirstPostPermalink(page)
+
+    await page.clock.install()
+    await page.goto(path)
+    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
+
+    const copyButton = page.locator('#copy-link-btn')
+    const status = page.locator('#copy-status')
+
+    // DOM live-region semantics only; this does not exercise real screen reader speech.
+    await expect(status).toHaveAttribute('role', 'status')
+    await expect(status).toHaveAttribute('aria-live', 'polite')
+    await expect(status).toHaveAttribute('aria-atomic', 'true')
+    await expect(page.locator('#copy-label')).not.toHaveAttribute('aria-live')
+    await expect(status).toBeEmpty()
+
+    await copyButton.focus()
+    await page.keyboard.press('Enter')
+
+    await expect(status).toHaveText('Link copied!')
+    await expect(copyButton).toHaveAccessibleName('Link copied!')
+
+    await page.clock.runFor(1999)
+    await expect(status).toHaveText('Link copied!')
+
+    await page.clock.runFor(1)
+    await expect(status).toBeEmpty()
+    await expect(copyButton).toHaveAccessibleName('Copy link')
+    await expect(copyButton).toBeFocused()
+  })
 })
 
 test.describe('Share buttons — clipboard failure', () => {
@@ -286,23 +329,31 @@ test.describe('Share buttons — clipboard failure', () => {
       })
     })
 
+    await page.clock.install()
     await page.goto(path)
+    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
 
     const copyButton = page.locator('#copy-link-btn')
     const label = page.locator('#copy-label')
+    const status = page.locator('#copy-status')
 
     await expect(copyButton).toBeVisible()
-    await copyButton.click()
+    await expect(status).toBeEmpty()
+    await copyButton.focus()
+    await page.keyboard.press('Enter')
 
-    // The label is the button's accessible name and an aria-live region, so the
-    // failure reaches both sighted and screen-reader visitors.
-    await expect(label).toHaveText(/Copy failed/i, { timeout: 4000 })
-    await expect(label).toHaveAttribute('aria-live', 'polite')
+    // The visible label stays short; the status region adds the recovery step.
+    await expect(label).toHaveText('Copy failed')
+    await expect(copyButton).toHaveAccessibleName('Copy failed')
+    await expect(status).toHaveText('Copy failed. Select and copy the address manually.')
     await expect(copyButton).toHaveClass(/copy-failed/)
     await expect(copyButton).not.toHaveClass(/(^|\s)copied(\s|$)/)
 
-    // State is transient: the control returns to its idle label.
-    await expect(label).toHaveText('Copy link', { timeout: 6000 })
+    // State is transient: the control returns to its idle label without announcing it.
+    await page.clock.runFor(2000)
+    await expect(label).toHaveText('Copy link')
+    await expect(status).toBeEmpty()
     await expect(copyButton).not.toHaveClass(/copy-failed/)
+    await expect(copyButton).toBeFocused()
   })
 })

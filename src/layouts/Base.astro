@@ -77,6 +77,31 @@ const isGenerousSpacing = mainSpacing === 'generous'
   <head>
     <BaseHead {...headMeta} />
     <ClientRouter />
+    <noscript>
+      <style is:inline>
+        /*
+         * Without scripts, CodeTabs cannot switch panels and copy controls cannot
+         * write to the clipboard, so show every command and leave manual selection.
+         * Lumen hides [hidden] with !important inside lumen.base. This layer is
+         * declared before the bundled stylesheets, so its !important rules win.
+         */
+        @layer reading-without-javascript {
+          [data-package-manager-code-tabs] > [role="tablist"],
+          .prose-santi [data-ui-code-copy],
+          #copy-link-btn {
+            display: none !important;
+          }
+
+          [data-package-manager-code-tabs] > [role="tabpanel"] {
+            display: block !important;
+          }
+
+          [data-package-manager-code-tabs] > [role="tabpanel"] + [role="tabpanel"] {
+            border-top: 1px solid hsl(var(--line)) !important;
+          }
+        }
+      </style>
+    </noscript>
   </head>
   <body class="min-h-screen" data-backdrop={backdrop}>
     <ThemeProvider />

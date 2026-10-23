@@ -147,3 +147,29 @@ package entries. `pnpm audit --audit-level=moderate` finds no known vulnerabilit
 peer range (`^3` through `^9`) against ESLint 10.12.0. The npm registry still lists
 6.10.2 as latest; the plugin runs successfully in the canonical lint gate. Do not
 hide the peer diagnostic or downgrade the shared lint stack to silence it.
+
+## October 23 Zod advisory follow-up
+
+The updated [Zod advisory](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5) flags
+versions below 4.6.6. The workspace resolves Zod 4 consumers to the stable 4.6.7
+patch, which includes the collection-bound validation fix. This does not impose
+limits on schemas that intentionally accept unbounded collections.
+
+The old Zod 3 copy came from Puppeteer's Chromium BiDi dependency in Lighthouse
+and the motion tooling. Updating Puppeteer Core within major 25 to its stable
+[25.16.0 release](https://github.com/puppeteer/puppeteer/releases/tag/puppeteer-core-v25.16.0)
+uses the maintained BiDi dependency and removes that copy without forcing Zod 4
+onto a Zod 3 consumer. The overrides pin matching ranges to Zod 4.6.7 and
+Puppeteer Core 25.16.0; dependency ranges starting above the bounds are unaffected.
+Remove the overrides when upstream ranges require patched versions. Manifests
+and the lockfile must change together.
+
+Chromium BiDi now follows Chrome's four-part version through the official release
+pipeline: the final component is represented by a semver suffix, such as
+`157.0.8090-0`. This is the exact dependency of the stable Puppeteer release;
+see the [upstream publishing and versioning policy](https://github.com/GoogleChromeLabs/chromium-bidi#publish-new-npm-release).
+No independent BiDi version override is added.
+
+Validate this update with the frozen install, dependency audit, workspace gate,
+Lighthouse, and motion/browser checks. These are build and local tooling changes;
+the website remains statically deployed.

@@ -96,8 +96,10 @@ const shareLinks = [
         data-failed-icon
         class="hidden size-5"
       />
-      <span id="copy-label" aria-live="polite">Copy link</span>
+      <span id="copy-label">Copy link</span>
     </Button>
+    <!-- Only results are announced here; the button's own name and idle labels stay silent. -->
+    <p aria-atomic="true" aria-live="polite" class="sr-only" id="copy-status" role="status"></p>
   </div>
 </div>
 
@@ -126,6 +128,12 @@ const shareLinks = [
     color: hsl(var(--danger));
   }
 
+  /* `aria-busy` announces an in-flight share or copy. Lumen dims busy buttons and
+     drops their hit area; this control keeps its look and ignores repeats in script. */
+  #copy-link-btn[aria-busy="true"] {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
 </style>
 
 <script>
@@ -138,7 +146,19 @@ const shareLinks = [
     const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
     const failedIcon = btn.querySelector<HTMLElement>('[data-failed-icon]')
     const label = document.getElementById('copy-label')
+    const status = document.getElementById('copy-status')
     let timer: ReturnType<typeof setTimeout> | null = null
+    let pending = false
+    // Cleared before Astro swaps the body, so a share sheet that settles after
+    // the visitor leaves cannot copy the previous article or touch its control.
+    let active = true
+
+    const setPending = (value: boolean) => {
+      pending = value
+
+      if (value) btn.setAttribute('aria-busy', 'true')
+      else btn.removeAttribute('aria-busy')
+    }
 
     const supportsWebShare = (): boolean => {
       if (typeof navigator === 'undefined' || typeof navigator.share !== 'function') {
@@ -165,10 +185,14 @@ const shareLinks = [
       failedIcon?.classList.add('hidden')
 
       if (label) label.textContent = idleLabel
+
+      if (status) status.textContent = ''
     }
 
-    /** Shows a transient result state; `#copy-label` is a live region, so the text is announced. */
+    /** Shows a transient result state and announces it through `#copy-status`. */
     const showResultState = (outcome: 'copied' | 'failed') => {
+      if (!active || !btn.isConnected) return
+
       const succeeded = outcome === 'copied'
 
       btn.classList.remove('copied', 'copy-failed')
@@ -184,6 +208,8 @@ const shareLinks = [
       // Kept short so the control still fits a 320px viewport alongside the share links.
       if (label) label.textContent = succeeded ? 'Link copied!' : 'Copy failed'
 
+      if (status) status.textContent = succeeded ? 'Link copied!' : 'Copy failed. Select and copy the address manually.'
+
       if (timer) clearTimeout(timer)
 
       timer = setTimeout(() => {
@@ -193,19 +219,7 @@ const shareLinks = [
       }, STATE_RESET_MS)
     }
 
-    const onClick = async () => {
-      // Share the server-rendered permalink, like the social links, never the
-      // live address bar with its fragment or query. Read both values before any
-      // await so a route change during the share sheet cannot swap the page.
-      const shareUrl = btn.dataset.shareUrl ?? ''
-      const shareTitle = document.title
-
-      if (!shareUrl) {
-        showResultState('failed')
-
-        return
-      }
-
+    const share = async (shareUrl: string, shareTitle: string) => {
       if (supportsWebShare()) {
         try {
           await navigator.share({
@@ -220,6 +234,8 @@ const shareLinks = [
             return
           }
         }
+
+        if (!active || !btn.isConnected) return
       }
 
       try {
@@ -233,16 +249,61 @@ const shareLinks = [
       }
     }
 
+    const onClick = async () => {
+      // One share sheet or clipboard write at a time: a second `navigator.share`
+      // call rejects while the first is open and would otherwise fall back to copying.
+      if (pending) return
+
+      // Share the server-rendered permalink, like the social links, never the
+      // live address bar with its fragment or query. Read both values before any
+      // await so a route change during the share sheet cannot swap the page.
+      const shareUrl = btn.dataset.shareUrl ?? ''
+      const shareTitle = document.title
+
+      // A previous result must not reset the label in the middle of this operation.
+      if (timer) {
+        clearTimeout(timer)
+
+        timer = null
+
+        resetState()
+      }
+
+      if (!shareUrl) {
+        showResultState('failed')
+
+        return
+      }
+
+      setPending(true)
+
+      try {
+        await share(shareUrl, shareTitle)
+      } finally {
+        if (active && btn.isConnected) setPending(false)
+      }
+    }
+
     btn.addEventListener('click', onClick)
 
     return () => {
+      active = false
+
       btn.removeEventListener('click', onClick)
 
       if (timer) clearTimeout(timer)
+
+      timer = null
     }
   }
 
   let cleanup = setup()
+
+  document.addEventListener('astro:before-swap', () => {
+    cleanup()
+
+    cleanup = () => undefined
+  })
 
   document.addEventListener('astro:after-swap', () => {
     cleanup()

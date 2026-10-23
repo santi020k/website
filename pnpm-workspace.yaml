@@ -111,6 +111,8 @@ overrides:
   "@graphql-tools/utils@<12.0.3": 12.0.3
   katex@<0.18.2: 0.18.2
   postcss-selector-parser@<7.1.6: 7.1.6
+  # Puppeteer's maintained BiDi dependency uses Zod 4 instead of vulnerable Zod 3.
+  puppeteer-core@>=25.0.0 <25.16.0: 25.16.0
   brace-expansion@<1.1.21: 1.1.21
   brace-expansion@>=2.0.0 <2.1.7: 2.1.7
   brace-expansion@>=4.0.0 <5.0.12: 5.0.12
@@ -130,6 +132,7 @@ overrides:
   source-map-js@>=1.0.0 <1.2.2: 1.2.2
   undici@>=7.0.0 <7.29.0: 7.29.0
   yaml-language-server>yaml: 2.9.1
+  zod@>=4.0.0 <4.6.7: 4.6.7
 patchedDependencies:
   '@lhci/utils@0.15.1': patches/@lhci__utils@0.15.1.patch
   '@santi020k/lumen-astro@4.1.0': patches/@santi020k__lumen-astro@4.1.0.patch

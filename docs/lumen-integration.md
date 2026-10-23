@@ -220,7 +220,14 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
 - `ShareButtons` keeps native sharing on supported coarse-pointer devices and clipboard copying
   elsewhere. Its visible label and accessible name say "Share link" for native sharing and
   "Copy link" for clipboard-only use. Cancellation preserves the idle label; fallback feedback
-  returns to the label for the available action.
+  returns to the label for the available action. Only one share or copy may run at a time;
+  keyboard focus remains on the busy control, and leaving the article cancels its pending
+  fallback and feedback. A separate live status announces results and manual-copy recovery
+  without announcing the idle label when the button resets.
+- With JavaScript disabled, the document-head `noscript` stylesheet exposes every package-manager
+  command and hides the unavailable tab, prose-copy, and Copy/Share link controls. Native contents links and social
+  share links remain available. The fallback reuses the existing code panels; scripted visits keep
+  Lumen's normal tabs, saved preference, and copy behavior.
 - `src/plugins/rehype-readable-tables.ts` wraps Markdown tables in Lumen's `ui-table-wrap`
   surface (`data-slot="table"`). The native table and its headings remain intact inside a
   focusable region named from its caption or preceding heading. This lets keyboard users scroll
