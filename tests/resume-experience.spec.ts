@@ -6,15 +6,15 @@ for (const theme of ['light', 'dark'] as const) {
   test(`Resume experience preserves readable roles and impact in ${theme}`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto('/resume/')
-    const entries = page.locator('[data-resume-entry], [data-resume-compact-entry]')
+    const entries = page.locator('[data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]')
 
-    await expect(entries).toHaveCount(8)
+    await expect(entries).toHaveCount(9)
     for (const entry of await entries.all()) {
       await expect(entry.getByRole('heading', { level: 3 })).not.toBeEmpty()
       await expect(entry.locator('[data-resume-date]')).not.toBeEmpty()
       await expect(entry.locator(':scope > p')).not.toBeEmpty()
     }
-    for (const entry of await page.locator('[data-resume-entry]').all()) {
+    for (const entry of await page.locator('[data-resume-entry], [data-resume-community-entry]').all()) {
       await expect(entry.locator('[data-resume-stack] > span').first()).toBeVisible()
       await expect(entry.getByRole('list')).toHaveCount(1)
       await expect(entry.getByRole('listitem').first()).toBeVisible()
@@ -70,6 +70,15 @@ test('Resume print keeps inline roles and a compact impact list', async ({ page 
     await expect(entry).toHaveCSS('break-inside', 'avoid')
   }
   await expect(entries.nth(2)).toHaveCSS('break-before', 'page')
+  const community = page.locator('[data-resume-community-entry]')
+
+  await expect(community).toHaveCount(1)
+  await expect(community).toBeVisible()
+  await expect(community.locator('[data-resume-community-header]')).toHaveCSS('display', 'flex')
+  await expect(community.locator('[data-resume-role-separator]')).toBeVisible()
+  await expect(community.locator('[data-resume-stack]')).toBeHidden()
+  await expect(community.getByRole('list')).toHaveCSS('list-style-type', 'disc')
+  await expect(community).toHaveCSS('break-inside', 'avoid')
   const compact = page.locator('[data-resume-compact-entry]')
 
   await expect(compact).toHaveCount(4)
@@ -77,6 +86,7 @@ test('Resume print keeps inline roles and a compact impact list', async ({ page 
   await page.evaluate(() => {
     document.documentElement.setAttribute('data-resume-variant', 'full')
   })
+  await expect(community).toBeVisible()
   for (const entry of await compact.all()) {
     await expect(entry).toBeVisible()
     await expect(entry.locator('[data-resume-role-separator]')).toBeVisible()

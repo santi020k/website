@@ -434,13 +434,14 @@ ledger below, About uses Margin counters, and Work uses Career ledger.
 
 ### Role folio resume experience
 
-Detailed Experience entries on `/resume/` use Role folio: a date margin beside the
+Detailed Experience and Community entries on `/resume/` use Role folio: a date margin beside the
 company and role, open description text, a slim accent rail for impact, and plain
 wrapping technology labels. Adjacent entries share a single rule. Below 31.25rem
 of resume width, dates move above the company so enlarged text has the full line.
 The existing resume container owns these breakpoints. These rules apply only on
 screen; PDF pagination, print typography, and both download variants stay separate.
-Community retains its current layout. Earlier Experience uses Compact folio below.
+Community shares the screen layout while retaining its existing print header and
+pagination in both PDFs. Earlier Experience uses Compact folio below.
 
 ### Compact folio earlier experience
 

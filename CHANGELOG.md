@@ -100,6 +100,8 @@
   catalog, exclude archives from search indexing, and isolate their navigation,
   storage, and offline behavior.
 
+- Apply Role folio to the resume Community entry, sharing the experience date margin, role heading, impact rail, and plain technology labels. Preserve all community details, responsive reading at enlarged text sizes, and both PDF layouts.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

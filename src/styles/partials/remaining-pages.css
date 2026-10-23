@@ -170,9 +170,9 @@
   .remaining-pages [data-resume-shell] h1 { font-weight: 500; line-height: 1.1; }
   [data-resume-header] > * { max-width: 100%; min-width: 0; }
   /* Role folio and Compact folio share a screen grid; print keeps its own contract. */
-  :is(#resume-experience, #resume-earlier-experience) { scroll-margin-top: 7rem; }
-  :is(#resume-experience, #resume-earlier-experience) > h2 { margin-bottom: 0; }
-  :is([data-resume-entry], [data-resume-compact-entry]) {
+  :is(#resume-experience, #resume-earlier-experience, #resume-community) { scroll-margin-top: 7rem; }
+  :is(#resume-experience, #resume-earlier-experience, #resume-community) > h2 { margin-bottom: 0; }
+  :is([data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]) {
     display: grid;
     grid-template-columns: 10rem minmax(0, 1fr);
     column-gap: 2rem;
@@ -180,8 +180,8 @@
     padding-block: 1.75rem;
     border-bottom: 1px solid hsl(var(--line));
   }
-  :is([data-resume-entry], [data-resume-compact-entry]) > [data-resume-compact-header] { display: contents; }
-  :is([data-resume-entry], [data-resume-compact-entry]) h3 {
+  :is([data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]) > :is([data-resume-compact-header], [data-resume-community-header]) { display: contents; }
+  :is([data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]) h3 {
     grid-column: 2;
     margin: 0;
     font-size: 1.75rem;
@@ -189,7 +189,7 @@
     line-height: 1.25;
     letter-spacing: -0.045em;
   }
-  :is([data-resume-entry], [data-resume-compact-entry]) .resume-role-text {
+  :is([data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]) .resume-role-text {
     display: block;
     margin-top: 0.625rem;
     color: hsl(var(--accent));
@@ -206,7 +206,7 @@
     font-size: 0.75rem;
     line-height: 1.8;
   }
-  :is([data-resume-entry], [data-resume-compact-entry]) > p {
+  :is([data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]) > p {
     grid-column: 2;
     margin: 1.25rem 0 1.5rem;
     font-size: 0.875rem;
@@ -247,12 +247,12 @@
   [data-resume-compact-entry] [data-resume-date] { padding-top: 0.375rem; }
   [data-resume-compact-entry] > p { margin: 0.875rem 0 0; }
   @container resume (width < 47.5rem) {
-    :is([data-resume-entry], [data-resume-compact-entry]) { grid-template-columns: 7.5rem minmax(0, 1fr); column-gap: 1.5rem; }
+    :is([data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]) { grid-template-columns: 7.5rem minmax(0, 1fr); column-gap: 1.5rem; }
   }
   @container resume (width < 31.25rem) {
-    :is([data-resume-entry], [data-resume-compact-entry]) { display: flex; flex-direction: column; }
+    :is([data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]) { display: flex; flex-direction: column; }
     [data-resume-date] { order: -1; padding: 0 0 1.125rem; }
-    [data-resume-entry] h3 { font-size: 1.5625rem; }
+    :is([data-resume-entry], [data-resume-community-entry]) h3 { font-size: 1.5625rem; }
     [data-resume-compact-entry] [data-resume-date] { padding: 0 0 0.875rem; }
     [data-resume-impact] { padding-inline-start: 1rem; }
   }
