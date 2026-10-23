@@ -126,6 +126,8 @@
 
 - Apply Code folio to standalone article code blocks with a soft toolbar, visible copy feedback, monospace text, and a ruled line-number gutter. Preserve syntax highlighting, source text, filenames, keyboard scrolling, and package-manager tabs.
 
+- Apply Tab folio to package-manager commands with underlined choices, a soft toolbar, visible copy feedback, and a decorative shell prompt. Preserve synchronized preferences, keyboard navigation, scrolling, and script-free access to every command.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

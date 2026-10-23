@@ -709,7 +709,20 @@ Keep long snippets horizontally scrollable in their labeled, keyboard-focusable
 code region. Wrap long filenames and toolbar controls; reduce insets at 27rem
 and 18rem of card width for mobile and enlarged text. Retain Shiki highlighting,
 Lumen copy success/error announcements, visible copy states, and a 44px target.
-Package-manager tabs keep their separate treatment and shared runtime.
+Package-manager tabs use the related Tab folio treatment and shared runtime.
+
+### Tab folio package-manager commands
+
+Use the same asymmetric corners and fine outline as Code folio, with an underlined
+active manager in a soft brand toolbar. Put the visible Copy action at the toolbar's
+end, moving it onto a separate row below the choices when the card is narrower than
+28rem. Tabs wrap so all choices remain available with enlarged text.
+
+Keep the monospace command on its own opaque surface. The small shell prompt is
+decorative and must never enter copied or spoken command text. Lumen retains tab
+selection, keyboard navigation, synchronized saved preferences, copy feedback, and
+accessible announcements. Without JavaScript, show every command in document order
+and hide the inert toolbar. Do not overlap the copy control with scrolling code.
 
 ## Buttons and links
 
@@ -1148,10 +1161,11 @@ both downloadable PDF variants remain authoritative.
 
 - Package-manager tabs (`data-package-manager-code-tabs`) wrap onto extra rows instead of
   scrolling, so every manager stays visible with enlarged text. Lumen's keyboard runtime is
-  unchanged. In the dark theme the selected tab uses `ink` text and focus uses `accent`.
-- Their code panels place the copy header in its own grid column beside a `minmax(0, 1fr)`
-  pre that scrolls horizontally, so the button never covers a long command. Rules target
-  `[data-ui-code] > figcaption` and `> pre`; the copy button stays before the pre in the DOM.
+  unchanged. Selection uses an underline and a contrast-adjusted brand accent in dark mode.
+- Their panels use shared grid rows to place the copy header beside the tablist on wide
+  cards and beneath it on narrow cards. Code scrolls in a separate full-width row, so the
+  button never covers a command. Rules target public roles and `[data-ui-code]` hooks;
+  the copy button stays before the pre in the DOM. Script-free visits use block flow.
 - Ordinary Markdown code headers (outside package-manager tabs) use a wrapping flex row instead
   of Lumen's fixed three-column grid. When everything fits, metadata stays centered between the
   dots and the copy control. At narrow widths or with enlarged text, the language badge and
