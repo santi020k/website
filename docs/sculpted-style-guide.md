@@ -726,6 +726,12 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   technology. Rem-based container queries adapt to enlarged text, with icon-only
   controls retaining a 44px target. When enlarged text leaves less than 20rem
   of width, omit decorative result thumbnails so titles keep a readable column.
+- Search results use Cover ledger: a contained cover tile, an accent content-type label,
+  a larger title, and the complete description. Ruled rows use the same soft tint for hover
+  and keyboard selection. A decorative Lumen arrow sits inside the row's 1rem end inset
+  and 1.375rem bottom inset; never position it against the hover edge. Smaller layouts
+  omit the arrow and reduce the cover tile, then omit artwork when enlarged text needs
+  the full reading width. Search ranking, focus, announcements, and native links are unchanged.
 - Pixel breakpoints set the default navbar. The header bar is also a `site-header`
   inline-size container: with enlarged text it hides the contact action below 60rem and
   switches to the attached menu below 50rem. From 640px it visually hides the Menu label

@@ -365,6 +365,8 @@ const render = (query: string) => {
 
   selectedResultIndex = Math.min(Math.max(selectedResultIndex, 0), matches.length - 1)
 
+  const arrowTemplate = document.querySelector('[data-site-search-result-arrow-template]')
+
   for (const match of matches) {
     const e = match.entry
     const li = document.createElement('li')
@@ -441,7 +443,7 @@ const render = (query: string) => {
 
     const body = document.createElement('span')
 
-    body.className = 'flex min-w-0 flex-1 flex-col justify-center gap-0.5'
+    body.setAttribute('data-site-search-result-body', '')
 
     const typeEl = document.createElement('span')
 
@@ -465,13 +467,25 @@ const render = (query: string) => {
 
     const descEl = document.createElement('span')
 
-    descEl.className = 'line-clamp-2 text-xs/5 text-ink-soft'
+    descEl.setAttribute('data-site-search-result-description', '')
 
     descEl.textContent = e.description
 
     body.append(typeEl, titleEl, descEl)
 
     a.append(thumbHost, body)
+
+    if (arrowTemplate instanceof HTMLTemplateElement) {
+      const arrow = document.createElement('span')
+
+      arrow.setAttribute('data-site-search-result-arrow', '')
+
+      arrow.setAttribute('aria-hidden', 'true')
+
+      arrow.append(arrowTemplate.content.cloneNode(true))
+
+      a.append(arrow)
+    }
 
     li.appendChild(a)
 

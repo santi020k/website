@@ -104,8 +104,26 @@ for (const { width, height, fontSize } of viewports) {
 
     await expect(results).toHaveCount(8)
     await expect(page.locator('[data-site-search-input-clear]')).toBeVisible()
+    await page.evaluate(() => document.fonts.ready)
     await results.last().scrollIntoViewIfNeeded()
-    await expect(results.last()).toBeInViewport({ ratio: 1 })
+    await expect(results.last()).toBeInViewport()
+    // WebKit can round the intersection height down by 1/64px even when the
+    // entire row fits. Check its exact bounds against the actual scroll area.
+    const rowBounds = await results.last().evaluate(element => {
+      const { top, bottom, left, right } = element.getBoundingClientRect()
+
+      return { top, bottom, left, right }
+    })
+    const scrollBounds = await page.locator('#site-search-results').evaluate(element => {
+      const { top, bottom, left, right } = element.getBoundingClientRect()
+
+      return { top, bottom, left, right }
+    })
+
+    expect(rowBounds.top).toBeGreaterThanOrEqual(scrollBounds.top)
+    expect(rowBounds.bottom).toBeLessThanOrEqual(scrollBounds.bottom)
+    expect(rowBounds.left).toBeGreaterThanOrEqual(scrollBounds.left)
+    expect(rowBounds.right).toBeLessThanOrEqual(scrollBounds.right)
     await expect(footer).toBeInViewport({ ratio: 1 })
     expect(await panel.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true)
     await page.keyboard.press('Escape')
