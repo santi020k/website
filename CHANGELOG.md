@@ -104,6 +104,8 @@
 
 - Apply Capability ledger to resume Skills and Expertise with aligned category labels, ruled rows, and readable technology descriptions. Preserve all four skill groups, accessible reflow with enlarged text, and the compact two-column layout in both PDF downloads.
 
+- Apply Margin catalog to technology index groups with accent margin introductions, ruled technology links, and aligned project counts. Preserve the full Core, Regular, and Selective groups, live search and empty states, native keyboard navigation, and readable layouts with enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

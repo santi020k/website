@@ -488,7 +488,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.setViewportSize({ width: 375, height: 900 })
       await openWithEnlargedText(page, '/technologies/')
       await settleLayout(page)
-      await expectWithinScreen(page.locator('[data-technology-group], [data-technology-item], [data-site-pill]'))
+      await expectWithinScreen(page.locator('[data-technology-group], [data-technology-item], [data-technology-label], [data-technology-project-count]'))
       await page.getByLabel('Find a technology').fill('Developer Experience')
 
       const result = page.locator('[data-technology-item]:not([hidden]) a')

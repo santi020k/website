@@ -217,6 +217,18 @@ text sizes, singular and plural accessible count labels, and visible focus outli
 Place the full-index link beneath the lists. Hover and focus emphasize link text
 without moving content.
 
+### Margin catalog technology index
+
+The technology index groups Core, Regular, and Selective into open catalogs with
+an accent introduction rail, a prominent group title, and the live tool count.
+An 11rem margin sits beside two columns of ruled Lumen links with aligned project
+counts. The introduction rail stays with its copy, rather than stretching beside
+long lists. Keep all technologies, existing relevance order, and exact archive URLs.
+Below 47.5rem of index width, the introduction moves above the links; below 27.5rem,
+links form one column. The full row is a link with a visible focus ring and a label
+that includes its project count. Preserve live filtering, hidden empty groups,
+result announcements, and Lumen's existing reduced-motion-aware list behavior.
+
 ### Principle spread working definition
 
 The Developer Experience definition uses one opaque Lumen Card with 1.5rem corners

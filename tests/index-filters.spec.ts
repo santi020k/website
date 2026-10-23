@@ -28,5 +28,13 @@ test.describe('Index filters', () => {
 
     await expect(page.locator('#technology-filter-status')).toHaveText('0 technologies found.')
     await expect(page.locator('[data-technologies-empty]')).toBeVisible()
+    await expect(page.locator('[data-technology-group]:visible')).toHaveCount(0)
+    await expect(page.locator('[data-technology-item]:visible')).toHaveCount(0)
+    await search.fill('')
+    await expect(page.locator('[data-technologies-empty]')).toBeHidden()
+    await expect(page.locator('[data-technology-group]:visible')).toHaveCount(3)
+    const items = page.locator('[data-technology-item]:visible')
+
+    await expect(page.locator('#technology-filter-status')).toHaveText(`Showing all ${await items.count()} technologies.`)
   })
 })

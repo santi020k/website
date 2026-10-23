@@ -156,7 +156,7 @@ for (const width of [390, 1440]) {
 
           expect(await items.count()).toBeGreaterThan(100)
           await expectWholeText(items, /^\d+$/u)
-          await expectWholeText(page.locator('[data-site-pill-label]'), /React\.js|TypeScript/u)
+          await expectWholeText(page.locator('[data-technology-label]'), /React\.js|TypeScript/u)
           const search = page.getByRole('searchbox', { name: 'Find a technology' })
 
           await search.fill('typescript')

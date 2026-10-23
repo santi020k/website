@@ -24,12 +24,16 @@ test.describe('Technologies index page', () => {
     await expect(page.getByText('Core', { exact: true })).toBeVisible()
   })
 
-  test('should render technology pill links', async ({ page }) => {
-    const techLinks = page.getByRole('link').filter({ hasText: /.+/ })
-    // Expect more than just the navigation links — technology pills add many more
-    await expect(techLinks).toHaveCount(await techLinks.count())
-    expect(await techLinks.count()).toBeGreaterThan(5)
-    await expect(page.locator('.ui-pill__count').first()).toBeVisible()
+  test('should render grouped technology links with project counts', async ({ page }) => {
+    const groups = page.locator('[data-technology-group]')
+    const links = groups.getByRole('link')
+
+    await expect(groups).toHaveCount(3)
+    expect(await links.count()).toBeGreaterThan(100)
+    await expect(groups.getByRole('list')).toHaveCount(3)
+    await expect(links.first()).toHaveAccessibleName(/^React\.js \d+ projects$/u)
+    await expect(links.first()).toHaveAttribute('href', '/technologies/react-js/')
+    await expect(links.first().locator('[data-technology-project-count]')).toBeVisible()
   })
 
   test('should link back to the portfolio', async ({ page }) => {
@@ -86,4 +90,23 @@ test('technology project labels keep sufficient contrast on dark card surfaces',
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
   await expect(page.locator('[data-project-gallery-readable]').first()).toContainText('View project')
   await expectNoUnexpectedAccessibilityViolations(page)
+})
+
+test('technology catalog remains browseable without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+
+  try {
+    const page = await context.newPage()
+
+    await page.goto('/technologies/')
+    await expect(page.locator('[data-technology-group]')).toHaveCount(3)
+    const firstLink = page.locator('[data-technology-item] a').first()
+
+    await expect(firstLink).toBeVisible()
+    await firstLink.click()
+    await expect(page).toHaveURL(/\/technologies\/react-js\/$/u)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('React.js')
+  } finally {
+    await context.close()
+  }
 })
