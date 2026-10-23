@@ -525,8 +525,10 @@ Keep the outer Card transparent on both the portfolio index and reading pages so
 the sheet's side insets expose the page canvas, not a second surface.
 
 Use the horizontal project artwork, optimized at 16:10, so crops retain the central
-brand mark without clipping social-preview text. Featured cards use a 2:1 artwork panel
-to keep the portfolio page balanced. Below 36.25rem of card width, use a 4:3 crop, a
+brand mark without clipping social-preview text. Featured cards use a horizontal
+overlap above 56rem of card width, with a 4:3 artwork panel that keeps the brand mark
+intact independently of the text height. At intermediate widths, a 2:1 artwork panel
+sits above the sheet. Below 36.25rem of card width, use a 4:3 crop, a
 2.375rem overlap, and tighter insets; the same proportions apply in related-work shelves.
 Below 20rem, scale long headings and let outcome columns stack. Never clamp descriptions
 or outcomes. Explicit before/after and percentage-drop
@@ -595,6 +597,8 @@ beside the current heading. Use accent in dark mode and keep visible keyboard fo
 Keep native fragment links, Lumen's scroll spy, 2.75rem minimum targets, and reduced
 motion. Below 16rem of available rail width, tighten panel and link insets. Navigation
 must remain usable in short, independently scrolling desktop rails and with enlarged text.
+Below 9rem of rail width, tighten the insets and link type further; block text flow
+keeps long headings within their link and preserves native fragment navigation.
 Reading pages fully disable CSS transitions with reduced motion, including inherited text
 size transitions, so native fragment targets remain stable when text is enlarged.
 
@@ -849,6 +853,30 @@ Use the `footer` container to remove the marker and heading inset under 45rem, s
 strip under 30rem, and tighten insets under 21.25rem. Below 16rem, reduce the headline and omit
 arrows so enlarged text keeps both destinations readable. The sheet owns its frame on mobile;
 the directory and colophon retain their existing order and links below it.
+
+### Page composition around the cards
+
+Use a stacked `PageSection` for catalogs that already have their own hierarchy: the
+Blog series shelf, series index, technology index, shipped systems, and speaking
+history. At wide container sizes, place the section title beside its description
+and optional action, then give the cards the full grid below. Narrative sections
+such as the speaking community, formats, and booking invitation keep their split
+introduction. Technology groups keep one category margin and use three link columns
+only when the index has at least 64rem; two and one columns preserve reading space
+as the container narrows. Statistics must declare the actual two, three, or four
+columns, including conditional archive statistics, instead of leaving empty tracks.
+
+Technology archives reuse the approved Refined editorial project gallery from
+Projects, including complete card descriptions, open surfaces, plain technology
+labels, and a continuous keyboard outline. Project-colored hover and focus headings
+use the palette's readable color for the active theme.
+
+Featured portfolio cards combine Layered editorial with the horizontal overlap of
+Home's Offset spread. At 56rem of card width, artwork occupies the left side while
+the content sheet overlaps its right edge. The complete description, metrics, and
+action stay together in the sheet. Smaller containers retain the vertical overlap;
+supporting and related-work cards retain their existing composition. Preserve the
+status badge and full-card focus outline without covering either with the sheet.
 
 ## Responsive behavior and accessibility
 

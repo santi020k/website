@@ -43,7 +43,7 @@ mainClass="remaining-pages"
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid>
+  <StatsGrid columns={3}>
     <StatCard
       description="Ongoing reading tracks with at least one published post."
       icon="library"
@@ -64,7 +64,7 @@ label="Reading tracks"
     />
   </StatsGrid>
 
-  <PageSection>
+  <PageSection layout="stacked">
     <SectionHeader
       description="Each series is a self-contained reading track — start at post one, follow the thread, finish with a complete mental model."
       eyebrow="Series"
@@ -74,7 +74,8 @@ label="Reading tracks"
     <RevealGroup
       class="
         grid grid-cols-1 gap-6
-        lg:card-grid-2
+        sm:card-grid-2
+        lg:card-grid-3
       "
       stagger={70}
       threshold={0}

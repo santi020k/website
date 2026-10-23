@@ -44,11 +44,17 @@ for (const theme of ['light', 'dark']) {
                 child.scrollWidth > child.clientWidth + 1 || style.webkitLineClamp !== 'none'
             })
 
-            return { clipped, overlap: cover.bottom - bounds.top, statusCovered: badge.bottom > bounds.top }
+            return {
+              clipped,
+              overlap: Math.min(cover.right, bounds.right) > Math.max(cover.left, bounds.left) &&
+                Math.min(cover.bottom, bounds.bottom) > Math.max(cover.top, bounds.top),
+              statusCovered: badge.right > bounds.left && badge.left < bounds.right &&
+                badge.bottom > bounds.top && badge.top < bounds.bottom
+            }
           })
 
           expect(geometry.clipped).toBe(false)
-          expect(geometry.overlap).toBeGreaterThan(0)
+          expect(geometry.overlap).toBe(true)
           expect(geometry.statusCovered).toBe(false)
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)

@@ -148,7 +148,7 @@ mainClass="remaining-pages"
   </section>
 
   {isFirstPage && (
-    <StatsGrid>
+    <StatsGrid columns={page.lastPage > 1 ? 3 : 2}>
       <StatCard description="Posts connected by this topic in the archive." icon="file-text" label="Posts" value={postCount} />
       <StatCard description="Distinct topics across the full writing archive." icon="hash" label="Total topics" value={totalTopics} />
       {page.lastPage > 1 && <StatCard description="Pagination for this topic archive." icon="list-ordered" label="Page" value={`${page.currentPage} / ${page.lastPage}`} />}

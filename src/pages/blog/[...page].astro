@@ -134,7 +134,7 @@ const blogListSchema = {
   </section>
 
   {isFirstPage && !!activeSeries.length && (
-    <PageSection>
+    <PageSection layout="stacked">
       <SectionHeader
         description="Go deeper with connected posts on engineering principles, delivery systems, and developer tools."
         eyebrow="Series"
@@ -143,7 +143,15 @@ const blogListSchema = {
         title="Follow related posts in order."
       />
 
-      <RevealGroup class="post-grid" stagger={60} threshold={0}>
+      <RevealGroup
+class="
+  grid grid-cols-1 gap-6
+  sm:card-grid-2
+  lg:card-grid-3
+"
+stagger={60}
+threshold={0}
+      >
         {activeSeries.map(item => (
           <SeriesCard postCount={item.postCount} series={item.series} />
         ))}

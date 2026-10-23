@@ -106,8 +106,16 @@ test('technology project labels keep sufficient contrast on dark card surfaces',
   await page.goto('/technologies/3rd-party-apis/')
 
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
-  await expect(page.locator('[data-project-gallery-readable]').first()).toContainText('View project')
+  await expect(page.locator('.projects-editorial-action').first()).toContainText('View project')
   await expectNoUnexpectedAccessibilityViolations(page)
+  const project = page.locator('.projects-editorial-link').first()
+
+  await project.hover()
+  await expectNoUnexpectedAccessibilityViolations(page)
+  await project.focus()
+  await expect(project).toHaveCSS('outline-style', 'solid')
+  await page.keyboard.press('Enter')
+  await expect(page).toHaveURL(/\/portfolio\/.+\/$/u)
 })
 
 test('technology catalog remains browseable without JavaScript', async ({ browser }) => {

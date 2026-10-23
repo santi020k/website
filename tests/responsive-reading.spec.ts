@@ -261,6 +261,30 @@ for (const theme of ['light', 'dark'] as const) {
       }
     }
 
+    test('narrow enlarged table-of-contents links retain their complete text and native navigation', async ({ page }) => {
+      await page.setViewportSize({ width: 320, height: 1000 })
+      await openWithEnlargedText(page, '/blog/why-developer-experience-work-should-be-measured-like-product-work/')
+      await settleLayout(page)
+      const navigation = page.getByRole('navigation', { name: 'Table of contents', exact: true })
+      const clipped = await navigation.getByRole('link').evaluateAll(links => links.flatMap(link => {
+        const box = link.getBoundingClientRect()
+        const range = document.createRange()
+
+        range.selectNodeContents(link)
+        return [...range.getClientRects()].some(rect => rect.left < box.left - 1 || rect.right > box.right + 1) ?
+          [link.textContent] :
+          []
+      }))
+
+      expect(clipped).toEqual([])
+      const destination = navigation.getByRole('link', { name: 'Measurement does not require a big system', exact: true })
+
+      await destination.focus()
+      await page.keyboard.press('Enter')
+      await expect(destination).toHaveAttribute('aria-current', 'location')
+      await expect(page.getByRole('heading', { name: 'Measurement does not require a big system', exact: true })).toBeInViewport()
+    })
+
     test('history previews and long actions fit narrow screens and enlarged text', async ({ page }) => {
       await page.goto('/history/')
 

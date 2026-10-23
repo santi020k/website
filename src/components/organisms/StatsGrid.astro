@@ -2,7 +2,7 @@
 import GradientDivider from '@/components/atoms/GradientDivider.astro'
 
 interface Props {
-  columns?: 3 | 4
+  columns?: 2 | 3 | 4
   showDivider?: boolean
 }
 
@@ -23,7 +23,8 @@ const { columns = 4, showDivider = true } = Astro.props
       sm:card-grid-2
     `,
     showDivider ? 'pt-8' : '',
-    columns === 3 ? 'xl:card-grid-3' : 'xl:card-grid-4'
+    columns === 3 && 'lg:card-grid-3',
+    columns === 4 && 'xl:card-grid-4'
   ]}
 >
   <div

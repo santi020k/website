@@ -341,6 +341,8 @@
 
 - Match accented and canonically equivalent search text while preserving the entered query and non-Latin marks. Share one query-free offline cache entry per static page, retain exact data and asset queries, disable service workers on IPv6 loopback, and describe unavailable pages without mistaking browser connectivity for a successful server response.
 
+- Align redesigned cards with their page layouts: widen series, technology, speaking history, and shipped-system sections; balance archive statistics; adapt featured portfolio stories to a horizontal spread; reuse Refined editorial cards across technology archives; and keep reading-navigation links contained on narrow screens with enlarged text.
+
 ## 4.0.0
 
 ### Major Changes

@@ -34,6 +34,7 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
 ---
 
 <Card as="article" variant="unstyled" data-portfolio-project={featured ? 'featured' : 'supporting'} style={getProjectBrandStyle(project.data.brand)}>
+  <div data-portfolio-composition>
     <div data-portfolio-visual>
       {previewImage ?
 (
@@ -45,7 +46,7 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
           formats={['avif']}
           height={previewTargetHeight}
           loading={imagePriority ? 'eager' : 'lazy'}
-          sizes={featured ? '(min-width: 1280px) 1152px, calc(100vw - 48px)' : '(min-width: 1280px) 560px, (min-width: 768px) 48vw, calc(100vw - 48px)'}
+          sizes={featured ? '(min-width: 1280px) 672px, (min-width: 1024px) 58vw, calc(100vw - 48px)' : '(min-width: 1280px) 560px, (min-width: 768px) 48vw, calc(100vw - 48px)'}
           src={previewImage}
           width={previewTargetWidth}
           widths={[400, 640, 800, 1200, 1600]}
@@ -91,6 +92,7 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
         <span data-portfolio-action>Read case study <Icon class="size-4" name="arrow-up-right" /></span>
       </div>
     </div>
+  </div>
   <a data-portfolio-link href={projectLink} aria-label={`Read case study: ${project.data.title}`}></a>
 </Card>
 
@@ -110,6 +112,7 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
     background: transparent;
   }
   :global(:root[data-theme='dark']) [data-portfolio-project] { --portfolio-emphasis: var(--accent); --portfolio-project-ink: var(--project-primary-readable-dark); }
+  [data-portfolio-composition] { display: flex; flex: 1; flex-direction: column; min-width: 0; }
   [data-portfolio-link] { position: absolute; inset: 0; z-index: 1; color: hsl(var(--ink)); text-decoration: none; border-radius: inherit; }
   [data-portfolio-visual] { position: relative; flex-shrink: 0; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1.5rem; background: hsl(var(--surface-muted)); }
   [data-portfolio-project='featured'] [data-portfolio-visual] { aspect-ratio: 2; }
@@ -136,6 +139,28 @@ const previewTargetHeight = Math.round(previewTargetWidth * 10 / 16)
   @media (prefers-reduced-motion: no-preference) {
     [data-portfolio-project-body], [data-portfolio-metric] { transition: border-color 160ms ease; }
     [data-portfolio-title], [data-portfolio-role], [data-portfolio-action] { transition: color 160ms ease; }
+  }
+  @container portfolio-card (width >= 56rem) {
+    [data-portfolio-project='featured'] [data-portfolio-composition] {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      align-items: center;
+
+    }
+    [data-portfolio-project='featured'] [data-portfolio-visual] {
+      grid-column: 1;
+      grid-row: 1;
+      align-self: center;
+      aspect-ratio: 4 / 3;
+    }
+    [data-portfolio-project='featured'] [data-portfolio-project-body] {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0 0 0 -2rem;
+      padding: 2rem 2rem 0;
+    }
+    [data-portfolio-project='featured'] [data-portfolio-title] { font-size: 2.5rem; }
+    [data-portfolio-project='featured'] [data-portfolio-outcomes] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @container portfolio-card (width < 36.25rem) {
     [data-portfolio-visual], [data-portfolio-project='featured'] [data-portfolio-visual] { aspect-ratio: 4 / 3; border-radius: 1.375rem; }

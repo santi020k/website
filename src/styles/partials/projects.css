@@ -114,6 +114,10 @@
   color: hsl(var(--project-primary-readable));
 }
 
+[data-theme='dark'] .projects-editorial-link:is(:hover, :focus-visible) h3 {
+  color: hsl(var(--project-primary-readable-dark));
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .projects-editorial-copy h3 {
     transition: color 180ms ease;

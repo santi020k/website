@@ -51,9 +51,8 @@ const tocHeadings = headings.filter(heading => heading.depth <= 3)
   [data-toc-tree] { margin: 1.625rem 0 0; padding: 0; border-inline-start: 1px solid hsl(var(--line)); list-style: none; }
   [data-toc-tree] a {
     position: relative;
-    display: flex;
+    display: block;
     min-height: 2.75rem;
-    align-items: center;
     margin: 0;
     padding: 0.6875rem 0 0.6875rem 1.125rem;
     border: 0;
@@ -87,6 +86,12 @@ const tocHeadings = headings.filter(heading => heading.depth <= 3)
     [data-editorial-toc] { padding-inline: 0.75rem; }
     [data-toc-tree] a { padding-inline-start: 0.5rem; font-size: 0.9375rem; }
     [data-toc-tree] a[data-depth='3'] { padding-inline-start: 1rem; font-size: 0.8125rem; }
+  }
+
+  @container toc-rail (width < 9rem) {
+    [data-editorial-toc] { padding-inline: 0.5rem; }
+    [data-toc-tree] a { padding-inline-start: 0.375rem; font-size: 0.8125rem; }
+    [data-toc-tree] a[data-depth='3'] { padding-inline-start: 0.75rem; font-size: 0.75rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {

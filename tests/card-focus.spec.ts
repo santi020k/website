@@ -85,7 +85,7 @@ for (const width of [390, 1440]) {
         for (const [route, selector] of [
           ['/technologies/react-js/', '[data-project-gallery-card]']
         ] as const) {
-          test(`gallery outlines follow the complete rounded cards on ${route}`, async ({ page, browserName }) => {
+          test(`editorial project outlines follow the complete links on ${route}`, async ({ page, browserName }) => {
             await openWithTextSize(page, route, textSize)
             const cards = page.locator(selector)
 
@@ -94,14 +94,11 @@ for (const width of [390, 1440]) {
               const link = card.locator(':scope > a')
 
               await link.focus()
-              await expectCompleteOutline(card)
-              await expect(link).toHaveCSS('outline-style', 'none')
-              await expect(card).toHaveCSS('overflow', 'hidden')
-              const radius = await card.evaluate(element => parseFloat(getComputedStyle(element).borderTopLeftRadius))
-
-              expect(radius).toBeGreaterThan(0)
-              await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+              await expectCompleteOutline(link)
               await expect(card).toHaveCSS('outline-style', 'none')
+              await expect(card).toHaveCSS('overflow', 'visible')
+              await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+              await expect(link).toHaveCSS('outline-style', 'none')
             }
           })
         }

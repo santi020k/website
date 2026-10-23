@@ -401,6 +401,15 @@
   [data-post-gallery-card] h3 { transition: color 180ms ease; }
 }
 
+/* Technology archives reuse the Projects page's open editorial gallery. */
+.remaining-pages .projects-editorial-card[data-slot='card'] {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+.remaining-pages .projects-editorial-copy h3 { letter-spacing: -0.055em; }
+
 /* Rounded project cards own their clipped cover link's keyboard indicator. */
 [data-project-gallery-card]:not(.projects-editorial-card):has(> a:focus-visible),
 [data-portfolio-project]:has(> a:focus-visible) {
@@ -504,6 +513,26 @@
   }
 }
 
+/* Catalog sections already have their own card or group hierarchy. Their introduction
+   spans the page instead of creating a second narrow editorial rail. */
+@container page-section (width >= 50rem) {
+  [data-page-section='stacked'] > [data-page-section-grid] { row-gap: 2.5rem; }
+  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1rem 2rem;
+  }
+  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > [data-site-eyebrow] { grid-column: 1 / -1; }
+  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: end;
+    gap: 2rem;
+  }
+  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > div > p { margin: 0; }
+}
+
 /* The featured project in the regular gallery pairs image and copy only while the
    card has 44rem in root-relative units. */
 [data-project-gallery-featured] { container: project-featured / inline-size; }
@@ -555,6 +584,9 @@
 [data-technology-label] { min-width: 0; overflow-wrap: anywhere; }
 [data-technology-project-count] { flex: none; color: hsl(var(--accent)); font-size: 0.75rem; line-height: 1.5; }
 [data-technology-item] a:is(:hover, :focus-visible) { color: hsl(var(--accent)); }
+@container technology-index (width >= 64rem) {
+  [data-technology-links] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 @container technology-index (width < 47.5rem) {
   [data-technology-group]:not([hidden]) { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
   [data-technology-heading] { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 0.75rem; }

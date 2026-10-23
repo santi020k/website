@@ -61,3 +61,22 @@ test('statistics retain word qualifiers, text values, and accessible animated nu
   await expect(outcome.locator('[data-ui-animated-number-output]')).toHaveText('-75%')
   await expect(outcome.locator('[data-ui-animated-number] .ui-sr-only')).toHaveText('-75%')
 })
+
+test('archive summaries use the full row for their actual number of statistics', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  for (const route of ['/blog/series/', '/blog/tags/', '/blog/tags/developer-experience/', '/blog/tags/gaming/', '/technologies/react-js/', '/technologies/3rd-party-apis/']) {
+    await page.goto(route)
+    const cards = page.locator('[data-sculpted-stat]')
+    const lastCard = cards.last()
+    const alignment = await lastCard.evaluate(element => {
+      const card = element.getBoundingClientRect()
+      const grid = element.parentElement?.getBoundingClientRect()
+
+      if (!grid) throw new Error('Statistics need a containing grid')
+      return Math.abs(card.right - grid.right)
+    })
+
+    expect(alignment, `${route} must not reserve empty statistic columns`).toBeLessThanOrEqual(1)
+  }
+})
