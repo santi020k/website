@@ -29,10 +29,11 @@ const { areas } = Astro.props
     container: series-focus / inline-size;
     height: fit-content;
     min-width: 0;
-    padding: 1.625rem 1.625rem 1.75rem;
-    border: 1px solid hsl(var(--line));
-    border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
-    background: hsl(var(--surface));
+    padding: 1.5rem 0 0;
+    border: 0;
+    border-top: 1px solid hsl(var(--line));
+    border-radius: 0;
+    background: transparent;
     color: hsl(var(--ink));
     overflow-wrap: break-word;
   }
@@ -46,8 +47,9 @@ const { areas } = Astro.props
     [data-series-focus] ul { grid-template-columns: minmax(0, 1fr); margin-top: 0.875rem; }
     [data-series-focus] li { padding-block: 0.75rem; }
   }
-  @media (width < 40rem) {
-    [data-series-focus][data-slot='card'] { padding: 1.5rem min(1.25rem, 5vw); }
+  @container series-overview (width >= 52rem) {
+    [data-series-focus][data-slot='card'] { padding: 0 0 0 2rem; border-top: 0; border-inline-start: 1px solid hsl(var(--line)); }
+    [data-series-focus] ul { grid-template-columns: minmax(0, 1fr); }
   }
   @container series-focus (width < 13rem) {
     [data-series-focus] h2 { gap: 0.5rem; }

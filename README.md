@@ -223,7 +223,7 @@ assemble the cross-site sitemap, generate Cloudflare redirects, and audit SEO an
 
 `pnpm run generate:project-images` discovers frontmatter and logos, producing thumbnail,
 horizontal, and portrait covers. `src/utils/project-cover.ts` owns fallback selection. The
-projects index uses an editorial gallery; technology archives retain the default gallery.
+projects index and technology archives share the editorial gallery.
 
 `pnpm run generate:cv` builds the site and regenerates résumé downloads after UI or dependency
 changes. Do not edit generated files by hand.

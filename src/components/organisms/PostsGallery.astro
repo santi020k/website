@@ -11,15 +11,18 @@ import { Card, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   columns?: 2 | 3
+  layout?: 'grid' | 'chapters'
   posts: CollectionEntry<'post'>[]
   showSequence?: boolean
 }
 
-const { columns = 3, posts, showSequence = false } = Astro.props
+const { columns = 3, layout = 'grid', posts, showSequence = false } = Astro.props
 
-const imageSizes = columns === 2 ?
+const gridImageSizes = columns === 2 ?
   'auto, (min-width: 1280px) 35.25rem, (min-width: 640px) 50vw, 100vw' :
   'auto, (min-width: 1280px) 23rem, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+
+const imageSizes = layout === 'chapters' ? 'auto, (min-width: 640px) 14rem, 100vw' : gridImageSizes
 
 const createGalleryItem = (post: CollectionEntry<'post'>) => {
   const { data } = post
@@ -59,7 +62,7 @@ const galleryItems = posts.map(createGalleryItem)
         `,
         columns === 3 && 'lg:card-grid-3'
       ]}
-      data-post-gallery-grid
+      data-post-gallery-grid={layout}
     >
       {galleryItems.map((item, index) => (
         <Card as="article" data-post-gallery-card variant="unstyled">
@@ -69,6 +72,7 @@ const galleryItems = posts.map(createGalleryItem)
                 relative aspect-video overflow-hidden rounded-2xl
                 bg-surface-muted
               "
+              data-post-gallery-cover
               transition:name={`post-cover-${item.slug}`}
             >
               {item.data.coverImage ?
@@ -96,7 +100,7 @@ const galleryItems = posts.map(createGalleryItem)
               <div data-post-gallery-meta>
                 <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <span>{item.data.postType}</span>
-                  {showSequence && <span>Part {item.data.seriesOrder ?? index + 1}</span>}
+                  {showSequence && <span data-post-gallery-part>Part {item.data.seriesOrder ?? index + 1}</span>}
                   {item.data.draft && <span class="font-semibold">Draft</span>}
                 </div>
                 <time datetime={item.data.publishDate.toISOString()}>

@@ -449,6 +449,58 @@
   [data-post-gallery-card] h3 { transition: color 180ms ease; }
 }
 
+/* The series owns its section spacing instead of adding the page frame gap twice. */
+.series-detail-page { gap: 0; }
+[data-series-summary] { margin-top: 4rem; }
+
+/* A series introduction shares one ruled spread with its focus ledger. */
+[data-series-overview] { container: series-overview / inline-size; margin-top: 4rem; }
+[data-series-overview-grid] { display: grid; gap: 2rem; padding-top: 2rem; border-top: 1px solid hsl(var(--line)); }
+[data-series-introduction] { min-width: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.85; }
+[data-series-introduction] h2 { max-width: 24ch; margin: 0 0 1.5rem; color: hsl(var(--ink)); font-size: 2.25rem; font-weight: 500; line-height: 1.15; letter-spacing: -0.055em; text-wrap: balance; }
+[data-series-introduction] p + p { margin-top: 1rem; }
+@container series-overview (width >= 52rem) {
+  [data-series-overview-grid]:has([data-series-focus]) { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 3rem; }
+}
+@container series-overview (width < 30rem) {
+  [data-series-introduction] h2 { font-size: 1.75rem; }
+}
+@container series-overview (width < 16rem) {
+  [data-series-introduction] h2 { font-size: 1.375rem; }
+}
+
+/* Shared rows align complete titles, descriptions, topics and actions across a shelf. */
+@supports (grid-template-rows: subgrid) {
+  [data-post-gallery-grid='grid'] { row-gap: 0; margin-bottom: -3rem; }
+  [data-post-gallery-grid='grid'] > [data-post-gallery-card] { display: grid; grid-row: span 6; grid-template-rows: subgrid; row-gap: 0; margin-bottom: 3rem; }
+  [data-post-gallery-grid='grid'] > [data-post-gallery-card] > a { display: grid; grid-row: span 6; grid-template-rows: subgrid; row-gap: 0; }
+  [data-post-gallery-grid='grid'] [data-post-gallery-copy] { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; }
+  [data-post-gallery-grid='grid'] [data-post-gallery-copy] > ul { align-self: start; }
+  [data-post-gallery-grid='grid'] [data-post-gallery-footer] { grid-row: 5; align-self: end; margin-top: 0; }
+}
+
+/* Ordered series use reading-index rows rather than a browse-card grid. */
+[data-post-gallery-grid='chapters'] { container: chapter-gallery / inline-size; display: block; }
+[data-post-gallery-grid='chapters'] [data-post-gallery-card] { padding-block: 2rem; border-bottom: 1px solid hsl(var(--line)); }
+[data-post-gallery-grid='chapters'] [data-post-gallery-card]:first-child { padding-top: 0; }
+[data-post-gallery-grid='chapters'] [data-post-gallery-card] > a { display: grid; grid-template-columns: 14rem minmax(0, 1fr); align-items: start; gap: 2rem; }
+[data-post-gallery-grid='chapters'] [data-post-gallery-cover] { aspect-ratio: 4 / 3; }
+[data-post-gallery-grid='chapters'] [data-post-gallery-copy] { padding: 0; }
+[data-post-gallery-grid='chapters'] [data-post-gallery-part] { order: -1; color: hsl(var(--brand)); font-weight: 500; }
+[data-theme='dark'] [data-post-gallery-grid='chapters'] [data-post-gallery-part] { color: hsl(var(--accent)); }
+[data-post-gallery-grid='chapters'] h3 { max-width: 40ch; font-size: 1.625rem; }
+[data-post-gallery-grid='chapters'] [data-post-gallery-copy] > p { max-width: 68ch; }
+[data-post-gallery-grid='chapters'] [data-post-gallery-copy] > ul { margin-block: 0.75rem 0; }
+[data-post-gallery-grid='chapters'] [data-post-gallery-footer] { margin-top: 1rem; padding-block: 0; border: 0; }
+@container chapter-gallery (width < 46rem) {
+  [data-post-gallery-grid='chapters'] [data-post-gallery-card] > a { grid-template-columns: 10rem minmax(0, 1fr); gap: 1.5rem; }
+  [data-post-gallery-grid='chapters'] h3 { font-size: 1.375rem; }
+}
+@container chapter-gallery (width < 34rem) {
+  [data-post-gallery-grid='chapters'] [data-post-gallery-card] > a { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  [data-post-gallery-grid='chapters'] [data-post-gallery-cover] { aspect-ratio: 16 / 9; }
+}
+
 /* Technology archives reuse the Projects page's open editorial gallery. */
 .remaining-pages .projects-editorial-card[data-slot='card'] {
   border: 0;
@@ -578,7 +630,8 @@
     align-items: end;
     gap: 2rem;
   }
-  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > div > p { margin: 0; }
+  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > div > * { margin: 0; }
+  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > a { align-self: end; }
 }
 
 /* The featured project in the regular gallery pairs image and copy only while the
@@ -730,4 +783,8 @@
 [data-reading-actions] { container: reading-actions / inline-size; }
 @container reading-actions (width < 16rem) {
   [data-reading-actions] .site-action-arrow { display: none; }
+}
+
+@container chapter-gallery (width < 20rem) {
+  [data-post-gallery-grid='chapters'] h3 { font-size: 1.125rem; line-height: 1.4; }
 }

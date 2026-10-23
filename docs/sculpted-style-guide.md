@@ -107,8 +107,8 @@ three frontmatter entries, matching the project-artwork generator and homepage s
 
 The entire card is one named link. Preserve the visible keyboard outline, full title wrapping,
 text-driven column reflow, and reduced-motion support. Hover changes text color without
-moving the card or cropping the artwork. The default technology-archive gallery retains
-its existing presentation.
+moving the card or cropping the artwork. Technology archives reuse this editorial
+presentation.
 
 ### Editorial blog cards
 
@@ -117,7 +117,9 @@ Place the post type and date beneath the image, followed by the complete 1.5rem 
 at weight 500 and 1.35 leading. Descriptions use 0.875rem text with 1.75 leading;
 metadata and the first two plain topic labels use 0.75rem. Keep a 1.25rem image-to-copy
 gap, then one “Read article” footer with an arrow, reading time, and a fine bottom rule.
-Align neighboring footers without clamping titles or descriptions.
+Align neighboring metadata, title, summary, topic, and footer rows without clamping titles
+or descriptions. Shared grid tracks let the longest content in each shelf set its shared rows;
+the normal flex layout remains the fallback. Preserve the 3rem gap between shelves.
 
 Post frontmatter may provide `cardDescription`, a nonempty summary of at most 160
 characters, with `description` as the fallback. The full description remains authoritative
@@ -165,13 +167,32 @@ works without JavaScript in both themes.
 
 ### Focus ledger series topics
 
-`SeriesFocusCard` lists every focus area beside the series introduction. Use an opaque
-Lumen Card with 1.5rem corners and a 0.5rem lower-right corner, a small purple heading
-and focus icon, and numbered rows with fine bottom rules. Keep the complete topic
-labels at 1.125rem and weight 500. The two-column list becomes one column below 22rem
-of available content width; tighten the type and number gap at very narrow widths.
-Keep the original order, hide decorative numbers from assistive technology, and use
-a semantic list without adding links or keyboard stops. Empty lists stay omitted.
+The series introduction and `SeriesFocusCard` form one open, ruled spread. Use the
+page's editorial heading weight and 0.9375rem body text instead of the article-prose
+heading, left accent bar, and larger paragraphs. Keep the heading flush with the top
+of the focus ledger. The series page owns its section spacing: use 4rem before the
+summary and introduction, then the regular PageSection spacing before the chapter list,
+without an additional page-frame gap. Above 52rem of section width, use a wider introduction column
+and a narrower one-column focus list, separated by a fine vertical rule. Below that,
+stack the introduction before the focus list and replace the vertical rule with a top
+rule. The list can use two columns while its own width permits; keep all topic labels,
+numbering, and order. Decorative numbers stay hidden from assistive technology.
+Do not add a second card surface or keyboard stops; empty focus lists stay omitted.
+
+### Series chapter rows
+
+Series detail pages use the approved reading-index rhythm for their ordered article
+list. Reuse `PostsGallery` with its chapter layout: compact artwork at the left, a
+plain part number before the type, the complete title and summary, then topics and
+one reading action. Separate entries with fine rules, without enclosing cards. Keep
+the publication date and reading time aligned at the right edge. Titles use 1.625rem,
+and the same image, metadata, and single native link as the regular editorial grid.
+
+Use a 14rem artwork column, then 10rem below 46rem of gallery width; stack the artwork
+above the copy below 34rem. Narrow enlarged-text rows use 1.125rem titles below 20rem.
+Preserve complete titles, sequence, native navigation, focus outlines, and readable
+fallbacks without JavaScript. The regular Blog, topic archives, DX, and related-writing
+shelves retain their editorial grid.
 
 ### Reading index chapter navigation
 

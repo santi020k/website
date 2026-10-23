@@ -345,6 +345,8 @@
 
 - Align redesigned cards with their page layouts: widen series, technology, speaking history, and shipped-system sections; balance archive statistics; adapt featured portfolio stories to a horizontal spread; reuse Refined editorial cards across technology archives; and keep reading-navigation links contained on narrow screens with enlarged text.
 
+- Integrate series introductions and focus ledgers into a shared editorial spread, present ordered articles as chapter rows, and align complete blog-card copy across archive and related-writing shelves. Refine section-header alignment and preserve responsive layouts, native reading links, and enlarged-text accessibility.
+
 ## 4.0.0
 
 ### Major Changes

@@ -2,12 +2,12 @@
 import { type CollectionEntry, render } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import GradientDivider from '@/components/atoms/GradientDivider.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import SeriesCadenceCard from '@/components/molecules/SeriesCadenceCard.astro'
 import SeriesFocusCard from '@/components/molecules/SeriesFocusCard.astro'
 import StatCard from '@/components/molecules/StatCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
 import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
@@ -62,7 +62,7 @@ const structuredData: Record<string, unknown> = {
 ---
 
 <PageLayout
-mainClass="remaining-pages"
+mainClass="remaining-pages series-detail-page"
   meta={{
     breadcrumbs,
     description: metaDescription,
@@ -85,50 +85,34 @@ mainClass="remaining-pages"
     </ButtonLink>
   </PageHero>
 
-  <StatsGrid columns={3}>
+  <div class="section-container-wide" data-series-summary>
+  <StatsGrid columns={series.data.focusAreas.length > 0 ? 3 : 2} showDivider={false}>
     <StatCard description="Articles collected into this reading track." icon="file-text" label="Posts" value={postCount} />
     <SeriesCadenceCard cadence={series.data.cadence} />
     {!!series.data.focusAreas.length && (
       <StatCard description="Recurring themes shaping the articles in this track." icon="focus" label="Focus areas" value={series.data.focusAreas.length} />
     )}
   </StatsGrid>
+  </div>
 
-  <GradientDivider class="pt-10" />
-
-  <section
-    class="
-      section-container-wide grid grid-cols-1 gap-8 pt-10
-      lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]
-    "
-  >
-    <div class="prose-santi max-w-none">
-      <Content />
+  <section class="section-container-wide" data-series-overview>
+    <div data-series-overview-grid>
+      <div data-series-introduction>
+        <Content />
+      </div>
+      {!!series.data.focusAreas.length && (
+        <SeriesFocusCard areas={series.data.focusAreas} />
+      )}
     </div>
-
-    {!!series.data.focusAreas.length && (
-      <SeriesFocusCard areas={series.data.focusAreas} />
-    )}
   </section>
 
-  <section
-    class="
-      section-container-wide pt-20
-      sm:pt-24
-      lg:pt-28
-    "
-  >
+  <PageSection layout="stacked">
     <SectionHeader
       description="Read these in order if you want the clearest progression from foundations to deeper implementation decisions."
       eyebrow="Posts"
       title="Articles in this series."
     />
 
-    <div class="
-      mt-10
-      sm:mt-12
-    "
-    >
-      <PostsGallery posts={posts} showSequence />
-    </div>
-  </section>
+    <PostsGallery layout="chapters" posts={posts} showSequence />
+  </PageSection>
 </PageLayout>
