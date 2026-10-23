@@ -1003,7 +1003,12 @@ present, rounded secondary controls, and plain text links. All controls retain a
 focus ring and at least a 44px target. Short motion respects reduced-motion preferences.
 
 Legal and accessibility statements use numbered, divided rows with real section headings.
-They keep the complete policy wording and review dates. Article and project headers use
+They keep the complete policy wording and review dates. The shared `PolicyContactCard`
+uses Contact folio: a tinted label strip, a larger invitation, an underlined email link, and
+a separate ruled note for dates and response expectations. Keep the policy-specific email
+subjects and full wording. Its narrow-container rules preserve complete words with enlarged text.
+
+Article and project headers use
 lighter titles and open metadata rows; project titles retain their readable project-brand
 accent. Long-form prose, code controls, reading progress, and sticky table-of-contents links
 keep their existing reading behavior. The table of contents uses an open rule instead of
