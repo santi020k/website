@@ -439,7 +439,16 @@ wrapping technology labels. Adjacent entries share a single rule. Below 31.25rem
 of resume width, dates move above the company so enlarged text has the full line.
 The existing resume container owns these breakpoints. These rules apply only on
 screen; PDF pagination, print typography, and both download variants stay separate.
-Earlier Experience and Community retain their current compact layouts.
+Community retains its current layout. Earlier Experience uses Compact folio below.
+
+### Compact folio earlier experience
+
+Earlier Experience on `/resume/` shares Role folio's date margin and responsive
+column alignment. Smaller company headings, compact role labels, and a single
+paragraph keep these four entries lighter than the detailed experience above.
+Each row has one bottom rule; the section heading supplies the first top rule.
+The full CV keeps its existing compact print layout, and the short PDF continues
+to omit Earlier Experience. Content, chronology, and downloads stay unchanged.
 
 ### Career ledger Work highlights
 

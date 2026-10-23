@@ -291,6 +291,7 @@ class="
     </section>
 
     <section
+      id="resume-earlier-experience"
 class="
   mb-10
   print:hidden
@@ -317,9 +318,9 @@ class="
                 data-resume-compact-header
               >
                 <h3 class="text-base font-bold text-ink">
-                  {project.data.title} <span class="resume-role-text">— {project.data.role}</span>
+                  {project.data.title} <span class="resume-role-text"><span data-resume-role-separator>— </span>{project.data.role}</span>
                 </h3>
-                <span class="text-sm font-medium text-ink-soft">
+                <span class="text-sm font-medium text-ink-soft" data-resume-date>
                   {getFormattedDate(project.data.startingDate, { month: 'short', year: 'numeric', day: undefined })} – {project.data.endingDate ? getFormattedDate(project.data.endingDate, { month: 'short', year: 'numeric', day: undefined }) : 'Present'}
                 </span>
               </div>

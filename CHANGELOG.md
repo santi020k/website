@@ -12,6 +12,8 @@
 
 - Apply Community folio to the homepage community panel with a tinted introduction, inset reading sheet, numbered destination rows, and explicit actions. Preserve community and speaking destinations, complete descriptions, native keyboard navigation, and responsive light and dark layouts with enlarged text.
 
+- Apply Compact folio to earlier resume experience entries, sharing the detailed roles' date margin with smaller company headings and tighter role and description spacing. Preserve all four roles, responsive reading at enlarged text sizes, and the distinct short and full PDF layouts.
+
 - Apply Correspondence sheet to the shared footer contact invitation with a wide heading, mail marker, and joined WhatsApp and email actions. Preserve configured destinations, native keyboard navigation, compact footers, and accessible responsive layouts in both themes and with enlarged text.
 
 - Apply Directional folio to previous and next article navigation, with open columns, complete titles, chapter numbers, and responsive keyboard-accessible links.
