@@ -114,6 +114,8 @@
 
 - Apply Identity spread to the resume profile and download header with an accent margin label, open name and role, and a ruled contact section. Preserve keyboard navigation, responsive and enlarged-text layouts, native PDF downloads, and both existing print documents.
 
+- Apply Cover ledger to site search results with contained artwork, complete descriptions, accent labels, and a decorative arrow inset from hover edges. Preserve native result links and keyboard navigation, and adapt row density and artwork for mobile, enlarged text, and short viewports.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

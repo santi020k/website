@@ -13,6 +13,13 @@ const openSearch = async (page: Page) => {
   await expect(page.locator('[data-site-search-result]')).toHaveCount(4)
 }
 
+const navigateToAbout = async (page: Page) => {
+  const menuToggle = page.locator('[data-mobile-nav-toggle]')
+
+  if (await menuToggle.isVisible()) await menuToggle.click()
+  await page.getByRole('navigation', { name: 'Main menu' }).getByRole('link', { name: /About$/u }).click()
+}
+
 // Safari uses Option-Tab to include links and buttons in keyboard navigation.
 const tabKeys = (browserName: string) => browserName === 'webkit' ?
   { next: 'Alt+Tab', previous: 'Alt+Shift+Tab' } :
@@ -207,7 +214,7 @@ for (const { activation, activate } of newTabActivations) {
 
 test('Back leaves an open search and Forward restores its deep-linked query', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('navigation', { name: 'Main menu' }).getByRole('link', { name: 'About', exact: true }).click()
+  await navigateToAbout(page)
   await expect(page).toHaveURL(/\/about\/$/u)
   await openSearch(page)
   await page.goBack()
