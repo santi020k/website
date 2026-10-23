@@ -160,7 +160,7 @@
     "blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp": {
       "baseDirectory": "public/og",
       "digest": "396dab5201f28e7da012002d19b09cd23fbd83df5b22f67d903cd8807a74ddc3",
-      "fingerprint": "07521720400413b6ef16129adc1ac8db245b5d7f5d9400a32299d1d4c7ca82ea",
+      "fingerprint": "e7f0779223fbaa01ea7d1527c9ffa506a0019ac97f015e696a4d94f1fb38d579",
       "output": "blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp"
     },
     "blog/migrate-eslint-8-or-less-to-eslint-9.webp": {
@@ -424,13 +424,13 @@
     "pages/blog--tags--react.webp": {
       "baseDirectory": "public/og",
       "digest": "89aeadc93f2702b25dff7a52c9a1fb4320f1ec60097f2beab30ab7aefd9ccaf1",
-      "fingerprint": "2f47b94e371759f07a20d1d5d7a4ed27ae43d2bdc390e48ef05653f62c859ccb",
+      "fingerprint": "d437765234e9e4ac25620c532fccbd830432cf6a574f5f344cce9949097e73a8",
       "output": "pages/blog--tags--react.webp"
     },
     "pages/blog--tags--nextjs.webp": {
       "baseDirectory": "public/og",
       "digest": "ca328ae2861ba6c8b5194d0f57e6922e44d7630b560fc70314103286d5090c56",
-      "fingerprint": "1362de10cc93ea9c66925ab30f075b2555ab3de664f6ba1eae51a3e606f9ab70",
+      "fingerprint": "6ec3000041791924645c9a1b24eaad1b0e3f3aaf8707bf86a1655bf61bf5e1ee",
       "output": "pages/blog--tags--nextjs.webp"
     },
     "pages/blog--tags--typescript.webp": {
@@ -484,7 +484,7 @@
     "pages/blog--tags--vitest.webp": {
       "baseDirectory": "public/og",
       "digest": "5a73fb8d81941ad21e6f95d18ba7a348bff17e04e7e7693485d452684d8680b6",
-      "fingerprint": "09e84a0bbc8c22388653880055c5054652df758d3116f61b82e2f5e572a91156",
+      "fingerprint": "0b4c55076cded565c69fc0cedab0ce7bfbe6afc7f336d074a7de074230610fb8",
       "output": "pages/blog--tags--vitest.webp"
     },
     "pages/blog--tags--standards.webp": {
@@ -538,13 +538,13 @@
     "pages/blog--tags--pre-commit.webp": {
       "baseDirectory": "public/og",
       "digest": "cc0a3c0d28581ad03a62a6d0c54f5467ba86fd8ee9965c3960a44ed817844fb4",
-      "fingerprint": "eaec14eab28eaaf7d8f70526c7ade3504de61a8d93560f7a3f1022b14391c2b6",
+      "fingerprint": "39a2c4d5516bace3cebbfe3c0ec12f35bc045e786abbecd9a892d935213eda28",
       "output": "pages/blog--tags--pre-commit.webp"
     },
     "pages/blog--tags--husky.webp": {
       "baseDirectory": "public/og",
       "digest": "4128577566112f30ca7e78cdc91f0be1331e3d571c64283e797555ec5a5615fd",
-      "fingerprint": "2c71df0e5926669d8bc2c608eaf2523b3f392a15fc8fede89f8bb951fc47f2ee",
+      "fingerprint": "3c113640e9c3c4df0d818cd058c84e098b7ae9e6f7fb72071e668fc765e4c67c",
       "output": "pages/blog--tags--husky.webp"
     },
     "pages/blog--tags--migration.webp": {
