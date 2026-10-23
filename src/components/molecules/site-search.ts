@@ -125,6 +125,12 @@ const describeResultAt = (index: number, total: number): string => {
   return `${title}, ${index + 1} of ${total}`
 }
 
+const renderEmptyCard = (results: HTMLElement, kind: 'empty' | 'idle') => {
+  const template = document.querySelector(`[data-site-search-${kind}-template]`)
+
+  if (template instanceof HTMLTemplateElement) results.replaceChildren(template.content.cloneNode(true))
+}
+
 /**
  * Renders the empty state shown before the user starts typing. Prefers a
  * "Recent searches" list when localStorage has prior queries, otherwise
@@ -136,27 +142,7 @@ const renderEmptyState = (results: HTMLElement) => {
   const items = hasRecentSearches ? recentSearches : popularTopics
 
   if (items.length === 0) {
-    results.innerHTML = `
-      <li class="
-        site-search-hint flex flex-col items-center justify-center gap-3
-        px-4 py-10 text-center
-      ">
-        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
-            <path d="M11 8v6" />
-            <path d="M8 11h6" />
-          </svg>
-        </span>
-        <div class="space-y-1">
-          <p class="text-sm font-medium text-ink">Start typing to search</p>
-          <p class="text-xs text-ink-soft">Enter at least 2 characters to find posts, projects, and community work.</p>
-        </div>
-      </li>
-    `
+    renderEmptyCard(results, 'idle')
 
     setStatusMessage('Type at least two characters to search.')
 
@@ -323,40 +309,7 @@ const render = (query: string) => {
   if (matches.length === 0) {
     selectedResultIndex = -1
 
-    results.innerHTML = `
-      <li class="
-        site-search-hint flex flex-col items-center justify-center gap-3
-        px-4 py-10 text-center
-      ">
-        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-muted/80 text-ink-muted">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
-            <path d="m8 8 6 6" />
-            <path d="m14 8-6 6" />
-          </svg>
-        </span>
-        <div class="space-y-1">
-          <p class="text-sm font-medium text-ink">No results found</p>
-          <p class="text-xs text-ink-soft">Try different keywords or check your spelling.</p>
-        </div>
-        <button
-          type="button"
-          data-site-search-clear
-          class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-line bg-surface-muted px-4 py-2 text-xs font-medium text-ink"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          >
-            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-            <path d="M21 3v5h-5" />
-          </svg>
-          Clear search
-        </button>
-      </li>
-    `
+    renderEmptyCard(results, 'empty')
 
     setStatusMessage(`No matching results for ${trimmed}. Try different keywords.`)
 

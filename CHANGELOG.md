@@ -116,6 +116,8 @@
 
 - Apply Cover ledger to site search results with contained artwork, complete descriptions, accent labels, and a decorative arrow inset from hover edges. Preserve native result links and keyboard navigation, and adapt row density and artwork for mobile, enlarged text, and short viewports.
 
+- Apply Recovery folio to search empty states with a soft sculpted sheet, clear editorial heading, and an inset Clear search action. Preserve focus recovery, suggestions, and live announcements, with responsive layouts for narrow screens, enlarged text, and short viewports.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
