@@ -65,6 +65,28 @@ const shouldHandleRequest = (request, url) => request.method === 'GET' &&
 /** @param {URL} url */
 const isPageRequest = url => url.pathname === '/' || url.pathname.endsWith('/')
 
+// Static pages render the same bytes for every query; `?q=` and campaign tags
+// only select client-side UI. Store and read them under the query-free URL so
+// variants share one copy and search terms never become cache keys. The
+// network still receives the original URL. Data, feeds, PDFs, and assets keep
+// their exact query because it can select different bytes.
+/**
+ * @param {Request} request
+ * @param {URL} url
+ * @returns {Request}
+ */
+const canonicalPageKey = (request, url) => {
+  if (!url.search) return request
+
+  const canonical = new URL(url)
+
+  canonical.search = ''
+
+  // Navigation requests cannot seed `new Request(url, request)`; copying only
+  // the headers keeps Vary matching without carrying navigate mode or a body.
+  return new Request(canonical.href, { headers: request.headers })
+}
+
 // Cache storage is an optional optimization: failures must not discard network responses.
 /** @returns {Promise<Cache | undefined>} */
 const openCache = async () => {
@@ -78,11 +100,10 @@ const openCache = async () => {
 /**
  * @param {Cache | undefined} cache
  * @param {Request | string} request
- * @param {CacheQueryOptions} [options]
  */
-const matchCached = async (cache, request, options) => {
+const matchCached = async (cache, request) => {
   try {
-    return await (options ? cache?.match(request, options) : cache?.match(request))
+    return await cache?.match(request)
   } catch {
     return undefined
   }
@@ -111,8 +132,11 @@ const storeResponse = async (cache, request, response) => {
   }
 }
 
-/** @param {Request} request */
-const fetchAndCache = request => {
+/**
+ * @param {Request} request
+ * @param {Request} [cacheKey]
+ */
+const fetchAndCache = (request, cacheKey = request) => {
   const cache = openCache()
   const response = fetch(request)
 
@@ -125,7 +149,7 @@ const fetchAndCache = request => {
 
     const copy = response.clone()
 
-    return cache.then(cache => storeResponse(cache, request, copy))
+    return cache.then(cache => storeResponse(cache, cacheKey, copy))
   }).catch(() => undefined)
 
   return { cache, response, revalidate }
@@ -134,22 +158,22 @@ const fetchAndCache = request => {
 /**
  * @param {Request} request
  * @param {boolean} [pageFallback]
+ * @param {Request} [cacheKey]
  */
-const networkFirst = (request, pageFallback = false) => {
-  const network = fetchAndCache(request)
+const networkFirst = (request, pageFallback = false, cacheKey = request) => {
+  const network = fetchAndCache(request, cacheKey)
 
   const matchFallback = async () => {
     const cache = await network.cache
 
-    return (await matchCached(cache, request)) ??
-      // Static pages render the same bytes for every query; `?q=` only selects client-side UI.
-      (pageFallback ? await matchCached(cache, request, { ignoreSearch: true }) : undefined) ??
+    return (await matchCached(cache, cacheKey)) ??
       (pageFallback ? await matchCached(cache, '/offline/') : undefined)
   }
 
   // A connection can accept a request and never send headers. After the deadline,
-  // answer from cache when possible; without a usable copy, keep waiting for the
-  // network. The request and its background cache write continue either way.
+  // answer with the cached resource, or the cached offline shell for pages. Only
+  // when neither exists does the worker keep waiting for the network. The
+  // request and its background cache write continue either way.
   /** @type {Promise<Response>} */
   const cachedAfterDeadline = new Promise(resolve => {
     const timer = setTimeout(() => {
@@ -211,10 +235,15 @@ self.addEventListener('fetch', event => {
   // Never substitute an HTML offline page for missing JSON, feeds, or PDF bytes.
   const mutableResource = /\.(?:pdf|json|xml|webmanifest)$/.test(url.pathname)
   const pageRequest = event.request.mode === 'navigate' || isPageRequest(url)
+  const staticPage = !mutableResource && (isPageRequest(url) || (pageRequest && url.pathname.endsWith('.html')))
   const assetStrategy = url.pathname.startsWith('/_astro/') ? cacheFirst : staleWhileRevalidate
 
   const { response, revalidate } = mutableResource || pageRequest ?
-    networkFirst(event.request, !mutableResource && pageRequest) :
+    networkFirst(
+      event.request,
+      !mutableResource && pageRequest,
+      staticPage ? canonicalPageKey(event.request, url) : event.request
+    ) :
     assetStrategy(event.request)
 
   event.waitUntil(revalidate)

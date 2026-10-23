@@ -15,11 +15,11 @@ const meta = {
 
 <PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
   <PageHero
-    description="Previously visited pages can still load from the local cache. Refresh when the connection returns to get the newest version."
+    description="Your connection or the site may be unavailable. Try again, or open a previously visited page from the local cache."
     eyebrow="Offline"
-    gradientText="but still within reach."
-    metaItems={['Cached pages', 'Static-first', 'Refresh when online']}
-    title="No connection,"
+    gradientText="but cached pages are within reach."
+    metaItems={['Cached pages', 'Static-first', 'Try again anytime']}
+    title="Page unavailable,"
   >
     <ButtonLink href="/">
       Go home
@@ -39,8 +39,8 @@ const meta = {
         <Icon name="cloud-download" class="size-5.5 shrink-0" />
       </header>
       <p data-offline-copy>
-        Pages you've visited before are available offline. The freshest posts, projects, and
-        profile updates will appear after the browser reconnects.
+        Previously visited pages may still be available offline. The freshest posts, projects, and
+        profile updates will appear once the site responds again.
       </p>
       <footer data-offline-footer>
         <span data-connection-indicator>
@@ -48,7 +48,7 @@ const meta = {
           <span data-connection-online hidden><Icon name="wifi" class="size-4" /></span>
         </span>
         <p aria-live="polite" aria-atomic="true" data-connection-status>
-          You appear to be offline.
+          Try again, or open a previously visited page.
         </p>
       </footer>
     </Card>
@@ -78,9 +78,11 @@ const meta = {
 
         onlineIcon.hidden = !navigator.onLine
 
+        // navigator.onLine only reflects the browser's network link; it cannot
+        // tell whether this site is reachable or merely slow.
         status.textContent = navigator.onLine ?
-          'Connection restored. Try again to load the latest page.' :
-          'You appear to be offline.'
+          'Your browser reports a connection. Try again to load the latest page.' :
+          'Your browser reports no connection.'
       }
 
       retry.addEventListener('click', () => window.location.reload(), { signal })

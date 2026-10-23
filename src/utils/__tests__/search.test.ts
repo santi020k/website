@@ -1,5 +1,6 @@
+// cspell:words cancion canción cuna diseno diseño किताब कताब كَتَبَ كتب
 import type { SearchIndexEntry } from '@/types/search'
-import { getPopularTopics, isSearchEntry, rankSearchEntry } from '@/utils/search'
+import { getPopularTopics, isSearchableQuery, isSearchEntry, rankSearchEntry } from '@/utils/search'
 
 import { describe, expect, test } from 'vitest'
 
@@ -58,6 +59,55 @@ describe('search relevance', () => {
     expect(rankSearchEntry(entry, 'astro interfaces')).toBeGreaterThan(0)
     expect(rankSearchEntry(entry, 'astro missing')).toBe(0)
     expect(rankSearchEntry(entry, 'typescript')).toBeGreaterThan(0)
+  })
+
+  test('folds Latin accents and case across title, tags, and description', () => {
+    const accented: SearchIndexEntry = {
+      ...entry,
+      description: 'How waiting for Aarón became a calm timer.',
+      tags: ['Diseño'],
+      title: 'Canción de cuna'
+    }
+
+    for (const query of ['aaron', 'AARON', 'Aarón', 'aarón'.normalize('NFD')]) {
+      expect(rankSearchEntry(accented, query)).toBeGreaterThan(0)
+    }
+
+    expect(rankSearchEntry(accented, 'cancion')).toBe(rankSearchEntry(accented, 'Canción'))
+    expect(rankSearchEntry(accented, 'diseno')).toBe(rankSearchEntry(accented, 'DISEÑO'.normalize('NFD')))
+    expect(rankSearchEntry({ ...accented, title: 'Canción de cuna'.normalize('NFD') }, 'canción')).toBe(rankSearchEntry(accented, 'canción'))
+  })
+
+  test('keeps ranking and all-word matching with accent-insensitive queries', () => {
+    const accented: SearchIndexEntry = { ...entry, description: 'Waiting for Aarón.', tags: [], title: 'Between Contractions' }
+
+    expect(rankSearchEntry(accented, 'between aaron')).toBeGreaterThan(rankSearchEntry(accented, 'aaron'))
+    expect(rankSearchEntry(accented, 'aaron missing')).toBe(0)
+    expect(rankSearchEntry({ ...accented, title: 'Aarón' }, 'aaron')).toBeGreaterThan(rankSearchEntry(accented, 'aaron'))
+  })
+
+  test('keeps non-Latin combining marks significant', () => {
+    const devanagari: SearchIndexEntry = { ...entry, description: '', tags: [], title: 'किताब' }
+    const arabic: SearchIndexEntry = { ...entry, description: '', tags: [], title: 'كَتَبَ' }
+
+    expect(rankSearchEntry(devanagari, 'किताब')).toBeGreaterThan(0)
+    expect(rankSearchEntry(devanagari, 'कताब')).toBe(0)
+    expect(rankSearchEntry(arabic, 'كَتَبَ')).toBeGreaterThan(0)
+    expect(rankSearchEntry({ ...arabic, title: 'كتب' }, 'كَتَبَ')).toBe(0)
+  })
+
+  test.each(['', '   ', '\u0301', '\u0301\u0303', ' \u0300 '])('does not match everything for empty query %j', query => {
+    expect(rankSearchEntry(entry, query)).toBe(0)
+  })
+
+  test.each(['é', 'é'.normalize('NFD'), 'É'.normalize('NFD'), ' é ', '́', '́̃', 'á́', ''])(
+    'holds one-letter and mark-only query %j below the two-character minimum', query => {
+      expect(isSearchableQuery(query)).toBe(false)
+    }
+  )
+
+  test.each(['éa', 'éa'.normalize('NFD'), 'ab', ' ab ', 'कि'])('accepts two-character query %j', query => {
+    expect(isSearchableQuery(query)).toBe(true)
   })
 
   test('merges topic casing and limits the most frequent suggestions', () => {

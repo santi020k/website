@@ -13,7 +13,7 @@ const description =
   'How santi020k.com stores preferences, recent searches, offline pages, and data sent to third-party services.'
 
 /** Single source of truth for the review date shown in the hero and the footnote. */
-const lastReviewed = 'July 26, 2026'
+const lastReviewed = 'October 23, 2026'
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -33,7 +33,7 @@ const sections = [
   },
   {
     label: 'Browser storage',
-    body: 'Theme preference and recent site-search terms are stored in localStorage on your device. The service worker may also keep previously visited pages and assets in Cache Storage for offline access. Clearing this site’s browser data removes both.'
+    body: 'Theme preference and recent site-search terms are stored in localStorage on your device. The service worker may also keep previously visited pages and assets in Cache Storage for offline access. Saved responses can retain their original URL, including search terms. Clearing this site’s browser data removes both.'
   },
   {
     label: 'Hosting analytics',
@@ -41,7 +41,7 @@ const sections = [
   },
   {
     label: 'Third-party services',
-    body: 'Newsletter subscriptions are processed by Buttondown. Comments are provided by Giscus through GitHub Discussions. Those services receive the information you submit and apply their own privacy terms.'
+    body: 'Newsletter subscriptions are processed by Buttondown. Comments are provided by Giscus through GitHub Discussions. When comments load, Giscus receives the page URL, which can include an open site-search query. These services also receive the information you submit and apply their own privacy terms.'
   },
   {
     label: 'Webmentions',

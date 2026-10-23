@@ -43,12 +43,20 @@ bypass the worker entirely, including partial downloads of the resume PDFs.
 The Cache API cannot store partial responses or produce the requested byte
 range from a cached full file.
 
+Static page routes (`/`, trailing-slash paths, and `.html` document navigations) render the same
+bytes for every query string; `?q=` and campaign tags only select client-side UI. The worker
+fetches the original URL unchanged but stores and reads the response under the query-free URL, so
+`/?q=term` and `/?utm_source=…` share one cached copy and search terms never become cache keys.
+The cached network response can still retain its original URL, including the query; this is cache
+deduplication, not removal of search terms from browser storage. The cache key keeps the request headers for `Vary` matching. JSON, feeds, PDFs, the
+web manifest, and assets keep their exact query in the cache key because it can select different
+bytes.
+
 If the network fails or takes eight seconds to return response headers, a page or navigation
-request falls back to its own cached copy, then to the same path's cached copy without its query string (queries only select
-client-side UI on these static pages), then to the cached `/offline/` document. A cache miss or write
+request falls back to its cached copy, then to the cached `/offline/` document. A cache miss or write
 failure never blocks the response — cache storage is treated as an optional
-optimization. At the header deadline, a request without a usable cached response keeps waiting
-for the network. The original request continues in the background and refreshes the cache if it
+optimization. At the header deadline, the worker keeps waiting for the network only when neither the
+requested resource nor, for pages, the offline document is cached. The original request continues in the background and refreshes the cache if it
 succeeds after a cached response has been served. The deadline ends when response headers arrive;
 it does not interrupt a streaming body or a large download. Network responses stream immediately;
 `waitUntil` keeps background cache writes

@@ -16,6 +16,88 @@ test('search artwork does not repeat the result title in its accessible name', a
   await expect(result.locator('img')).toHaveAttribute('alt', '')
 })
 
+test('accent-insensitive queries find the real indexed entry while keeping the typed spelling', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await page.locator('[data-site-search-trigger]').click()
+
+  const input = page.locator('#site-search-input')
+  const titles = page.locator('[data-site-search-result-title]')
+
+  // The post's description spells the name "Aarón"; the title has no accent.
+  for (const query of ['aaron', 'Aarón', 'Aarón'.normalize('NFD')]) {
+    await input.fill(query)
+    await expect(titles.filter({ hasText: 'Why I Built Between Contractions' })).toHaveCount(1)
+    await expect(input).toHaveValue(query)
+    expect(new URL(page.url()).searchParams.get('q')).toBe(query)
+  }
+})
+
+// Every title contains "e", so a one-letter query that slipped past the
+// minimum would list results instead of the typing hint.
+const minimumLengthIndex = [
+  { title: 'Effective engineering', path: '/about/', description: 'Every edge case.', tags: [], type: 'post' },
+  { title: 'Élan notes', path: '/work/', description: 'Wood and texture.', tags: [], type: 'post' }
+]
+
+const oneLetterQueries = ['é', 'é'.normalize('NFD'), 'É'.normalize('NFD'), '́']
+
+test('one-letter and mark-only queries stay below the minimum in any normalization form', async ({ page }) => {
+  await page.route('**/search-index.json', route => route.fulfill({ json: minimumLengthIndex }))
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await page.locator('[data-site-search-trigger]').click()
+
+  const input = page.locator('#site-search-input')
+  const results = page.locator('[data-site-search-result]')
+
+  for (const query of oneLetterQueries) {
+    await input.fill(query)
+    await expect(page.locator('#site-search-dialog').getByText('Start typing to search')).toBeVisible()
+    await expect(results).toHaveCount(0)
+    await expect(input).toHaveValue(query)
+    expect(new URL(page.url()).searchParams.has('q')).toBe(false)
+  }
+
+  // Two letters, one decomposed, reach the index and keep the typed spelling.
+  const twoLetters = 'éf'.normalize('NFD')
+
+  await input.fill(twoLetters)
+  await expect(results.filter({ hasText: 'Effective engineering' })).toHaveCount(1)
+  await expect(input).toHaveValue(twoLetters)
+  expect(new URL(page.url()).searchParams.get('q')).toBe(twoLetters)
+
+  await input.press('Enter')
+  await expect(page).toHaveURL(/\/about\/$/)
+  expect(await page.evaluate(() => window.localStorage.getItem('site-search-recent'))).toBe(JSON.stringify([twoLetters]))
+})
+
+test('a one-letter deep link does not open search or request the index', async ({ page }) => {
+  let requestCount = 0
+
+  await page.route('**/search-index.json', async route => {
+    requestCount += 1
+    await route.fulfill({ json: minimumLengthIndex })
+  })
+
+  const dialog = page.locator('#site-search-dialog')
+
+  // The module decides during evaluation, before `goto` resolves on load.
+  for (const query of oneLetterQueries) {
+    await page.goto(`/?q=${encodeURIComponent(query)}`)
+    await expect(dialog).not.toHaveAttribute('open')
+    expect(requestCount).toBe(0)
+  }
+
+  const twoLetters = 'éf'.normalize('NFD')
+
+  await page.goto(`/?q=${encodeURIComponent(twoLetters)}`)
+  await expect(dialog).toHaveAttribute('open')
+  await expect(page.locator('#site-search-input')).toHaveValue(twoLetters)
+  await expect(page.locator('[data-site-search-result]').filter({ hasText: 'Effective engineering' })).toHaveCount(1)
+  expect(requestCount).toBe(1)
+})
+
 test('a delayed deep-link index renders the latest query and is reused after navigation', async ({ page }) => {
   let releaseIndex: (() => void) | undefined
   const indexReady = new Promise<void>(resolve => {

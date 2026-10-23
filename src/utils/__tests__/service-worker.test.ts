@@ -26,6 +26,7 @@ const setupWorker = (assets: string[] = []) => {
   const skipWaiting = vi.fn<() => Promise<void>>().mockResolvedValue(undefined)
 
   runInNewContext(source.replace('const BUILD_ASSETS = []', `const BUILD_ASSETS = ${JSON.stringify(assets)}`), {
+    Request,
     Response,
     URL,
     caches: { open },
@@ -217,52 +218,104 @@ describe('Service worker fetch handling', () => {
   })
 
   // Static pages render the same bytes for every query; `?q=` only selects client-side UI.
-  test('falls back to the same cached page without its query before the offline document', async () => {
+  test('reads a query page offline from its query-free cache key before the offline document', async () => {
     const worker = setupWorker()
 
     worker.fetch.mockRejectedValue(new TypeError('Offline'))
-    worker.cache.match.mockImplementation((request, options) => {
+    worker.cache.match.mockImplementation(request => {
       if (request === '/offline/') return Promise.resolve(new Response('Offline page'))
 
-      const isHome = typeof request !== 'string' && new URL(request.url).pathname === '/'
-
-      return Promise.resolve(isHome && options?.ignoreSearch ? new Response('cached home') : undefined)
+      return Promise.resolve(typeof request !== 'string' && request.url === `${origin}/` ? new Response('cached home') : undefined)
     })
 
     const { response } = worker.dispatch(makeRequest('/?q=Astro', true))
 
     expect(await (await response)?.text()).toBe('cached home')
-    expect(worker.cache.match.mock.calls.map(([, options]) => options)).toEqual([undefined, { ignoreSearch: true }])
+    expect(worker.cache.match.mock.calls.map(([request, options]) => [typeof request === 'string' ? request : request.url, options]))
+      .toEqual([[`${origin}/`, undefined]])
   })
 
-  test('prefers an exact cached query variant of a page', async () => {
+  test.each([
+    ['/?q=private-term', '/'],
+    ['/?utm_source=newsletter&utm_medium=email', '/'],
+    ['/blog/?page=2', '/blog/'],
+    ['/posts/one/?tag=foo', '/posts/one/']
+  ])('stores page %s once under its query-free URL while fetching the original', async (path, canonical) => {
+    for (const navigation of [false, true]) {
+      const worker = setupWorker()
+      const request = makeRequest(path, navigation)
+
+      worker.fetch.mockResolvedValue(new Response('page'))
+      const event = worker.dispatch(request)
+
+      expect(await (await event.response)?.text()).toBe('page')
+      await Promise.all(event.lifetime)
+      expect(worker.fetch).toHaveBeenCalledExactlyOnceWith(request)
+
+      const [key] = worker.cache.put.mock.calls[0] ?? []
+
+      expect(key?.url).toBe(`${origin}${canonical}`)
+      expect(key?.method).toBe('GET')
+      expect(key?.mode).not.toBe('navigate')
+    }
+  })
+
+  test('keeps request headers on the query-free page key for Vary matching', async () => {
     const worker = setupWorker()
+    const request = new Request(`${origin}/?q=Astro`, { headers: { Accept: 'text/html', 'Accept-Language': 'es' } })
 
-    worker.fetch.mockRejectedValue(new TypeError('Offline'))
-    worker.cache.match.mockImplementation((_request, options) => Promise.resolve(
-      new Response(options?.ignoreSearch ? 'another variant' : 'exact variant')
-    ))
+    Object.defineProperty(request, 'mode', { value: 'navigate' })
+    worker.fetch.mockResolvedValue(new Response('page'))
+    const event = worker.dispatch(request)
 
-    const { response } = worker.dispatch(makeRequest('/blog/?page=2', true))
+    await event.response
+    await Promise.all(event.lifetime)
 
-    expect(await (await response)?.text()).toBe('exact variant')
-    expect(worker.cache.match).toHaveBeenCalledOnce()
+    const [key] = worker.cache.put.mock.calls[0] ?? []
+
+    expect(key?.headers.get('Accept')).toBe('text/html')
+    expect(key?.headers.get('Accept-Language')).toBe('es')
   })
+
+  test('stores a query-free page under the original request', async () => {
+    const worker = setupWorker()
+    const request = makeRequest('/blog/', true)
+
+    worker.fetch.mockResolvedValue(new Response('page'))
+    const event = worker.dispatch(request)
+
+    await event.response
+    await Promise.all(event.lifetime)
+    expect(worker.cache.put.mock.calls[0]?.[0]).toBe(request)
+  })
+
+  test.each(['/search-index.json?v=2', '/feed.xml?v=2', '/pdf/cv.pdf?v=2', '/favicon.svg?v=2', '/_astro/app.abc123.js?v=2'])(
+    'keeps the exact query key for non-page resource %s', async path => {
+      const worker = setupWorker()
+      const request = makeRequest(path)
+
+      worker.fetch.mockResolvedValue(new Response('resource'))
+      const event = worker.dispatch(request)
+
+      await event.response
+      await Promise.all(event.lifetime)
+      expect(worker.cache.put.mock.calls[0]?.[0]).toBe(request)
+    }
+  )
 
   test.each(['/search-index.json?v=2', '/feed.xml?v=2', '/favicon.svg?v=2', '/_astro/app.abc123.js?v=2'])(
     'keeps exact query matching for non-page resource %s offline', async path => {
       const worker = setupWorker()
+      const request = makeRequest(path)
 
       worker.fetch.mockRejectedValue(new TypeError('Offline'))
-      worker.cache.match.mockImplementation((_request, options) => Promise.resolve(
-        options?.ignoreSearch ? new Response('query-free copy') : undefined
-      ))
 
-      const event = worker.dispatch(makeRequest(path))
+      const event = worker.dispatch(request)
 
       expect((await event.response)?.type).toBe('error')
       await Promise.all(event.lifetime)
-      expect(worker.cache.match.mock.calls.every(([, options]) => options === undefined)).toBe(true)
+      expect(worker.cache.match.mock.calls.every(([key, options]) => key === request && options === undefined))
+        .toBe(true)
     }
   )
 
@@ -406,7 +459,7 @@ describe('Service worker fetch handling', () => {
     expect(worker.cache.put).not.toHaveBeenCalled()
   })
 
-  test('preserves the query string on a network-first page request', async () => {
+  test('sends the query string to the network for a page request', async () => {
     const worker = setupWorker()
 
     worker.fetch.mockResolvedValue(new Response('tagged page'))
@@ -416,7 +469,6 @@ describe('Service worker fetch handling', () => {
     await Promise.all(event.lifetime)
 
     expect(worker.fetch).toHaveBeenCalledWith(expect.objectContaining({ url: `${origin}/posts/one/?tag=foo` }))
-    expect(worker.cache.put.mock.calls[0]?.[0]?.url).toBe(`${origin}/posts/one/?tag=foo`)
   })
 
   test.each(['/search-index.json', '/pdf/cv.pdf', '/pdf/cv-full.pdf', '/feed.xml', '/feed.json', '/manifest.webmanifest'])(
@@ -651,8 +703,8 @@ describe('Service worker response-header deadline', () => {
     let settled = false
 
     worker.fetch.mockReturnValue(network.promise)
-    worker.cache.match.mockImplementation((_request, options) => Promise.resolve(
-      options?.ignoreSearch ? new Response('cached home') : undefined
+    worker.cache.match.mockImplementation(request => Promise.resolve(
+      typeof request !== 'string' && request.url === `${origin}/` ? new Response('cached home') : undefined
     ))
     const event = worker.dispatch(makeRequest('/?q=Astro', navigation))
 
@@ -664,7 +716,7 @@ describe('Service worker response-header deadline', () => {
     await vi.advanceTimersByTimeAsync(8_000)
     expect(settled).toBe(true)
     expect(await (await event.response)?.text()).toBe('cached home')
-    expect(worker.cache.match.mock.calls.map(([, options]) => options)).toEqual([undefined, { ignoreSearch: true }])
+    expect(worker.cache.match).toHaveBeenCalledOnce()
     network.reject(new TypeError('Offline'))
     await Promise.all(event.lifetime)
   })

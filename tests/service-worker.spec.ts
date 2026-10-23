@@ -90,6 +90,63 @@ test('an offline deep link reuses its cached page and keeps the query', async ({
   }
 })
 
+test('page query variants share one query-free cache entry and still work offline', async ({ browser, baseURL }) => {
+  const server = await createOfflinePreview(baseURL, {}, { vary: 'Accept-Encoding, Accept-Language' })
+  const context = await browser.newContext({ baseURL: server.url, reducedMotion: 'reduce' })
+
+  try {
+    const page = await context.newPage()
+
+    await page.goto('/')
+    await page.evaluate(async () => {
+      await navigator.serviceWorker.ready
+    })
+    await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+    await page.evaluate(async () => {
+      await fetch('/search-index.json')
+    })
+    await page.goto('/?q=private-term')
+    await page.goto('/?utm_source=newsletter&utm_medium=email')
+    // The later write gives the earlier background page writes time to settle.
+    await page.goto('/about/?utm_source=newsletter')
+
+    const readKeys = () => page.evaluate(async () => {
+      const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+      if (!name) throw new Error('Missing current worker cache')
+
+      return (await (await caches.open(name)).keys()).map(request => request.url)
+    })
+
+    await expect.poll(async () => (await readKeys()).map(url => new URL(url).pathname)).toContain('/about/')
+
+    const pageKeys = (await readKeys()).map(url => new URL(url)).filter(url => url.pathname.endsWith('/'))
+
+    expect(pageKeys.filter(url => url.search !== '')).toEqual([])
+    expect(pageKeys.filter(url => url.pathname === '/')).toHaveLength(1)
+
+    server.setOnline(false)
+    await page.goto('/?q=aaron')
+    await expect(page).not.toHaveTitle('Offline | santi020k')
+    expect(new URL(page.url()).searchParams.get('q')).toBe('aaron')
+    await expect(page.locator('#site-search-input')).toHaveValue('aaron')
+    await expect(page.locator('[data-site-search-result-title]').filter({ hasText: 'Why I Built Between Contractions' }))
+      .toHaveCount(1)
+
+    // Unlike the homepage, About only entered the cache through the query URL
+    // above. Both query-bearing and plain navigations must match that runtime key.
+    for (const path of ['/about/?q=other', '/about/']) {
+      await page.goto(path)
+      await expect(page).not.toHaveTitle('Offline | santi020k')
+      await expect(page).toHaveURL(path)
+      await expect(page.locator('main h1')).toBeVisible()
+    }
+  } finally {
+    await context.close()
+    await server.close()
+  }
+})
+
 for (const width of [390, 1440]) {
   test(`first-visit offline recovery retains its assets after eviction at ${width}px`, async ({ browser, baseURL }) => {
     const server = await createOfflinePreview(baseURL)
@@ -152,7 +209,7 @@ for (const width of [390, 1440]) {
       await retry.focus()
       await expect(retry).toBeFocused()
       server.setOnline(true)
-      await expect(page.locator('[data-connection-status]')).toHaveText('Connection restored. Try again to load the latest page.')
+      await expect(page.locator('[data-connection-status]')).toHaveText('Your browser reports a connection. Try again to load the latest page.')
       await Promise.all([page.waitForEvent('load'), retry.press('Enter')])
       await expect(page).toHaveURL('/about/')
       await expect(page).not.toHaveTitle('Offline | santi020k')
