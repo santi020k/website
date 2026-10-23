@@ -206,7 +206,8 @@ not crop titles, add a second surface, or move content during interaction.
 On Projects, keep the technology snapshot in one opaque Lumen Card with 1.75rem
 corners and a 0.5rem lower-right corner. A soft purple header pairs the introduction
 with the highlighted and full-index totals. Use 1.75rem insets and a 1.375rem title
-at weight 500. Keep the existing interest order and the six featured technologies.
+at weight 500. Mix its emphasis color with 15% ink to retain readable contrast on
+the tinted header in both themes. Keep the existing interest order and the six featured technologies.
 
 Present tools as native links in ruled lists, with names on the left and project
 counts on the right. Featured names use 1.0625rem type; supporting names use

@@ -126,7 +126,9 @@ for (const width of [390, 1440]) {
           await openWithTextSize(page, '/', textSize)
           const cards = page.locator('.studio-project')
 
-          await expect(cards).toHaveCount(3)
+          await expect(cards.filter({ has: page.locator('[data-showcase-feature]') })).toHaveCount(3)
+          await expect(cards.filter({ has: page.locator('[data-showcase-item]') })).toHaveCount(5)
+          await expect(cards).toHaveCount(8)
           for (const card of await cards.all()) {
             const link = card.locator(':scope > a')
 

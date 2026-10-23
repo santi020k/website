@@ -158,8 +158,13 @@ for (const width of [390, 1440]) {
           await expect(react).toHaveAttribute('aria-current', 'page')
           await expect(react).toBeFocused()
           await expect(page.locator('html')).toHaveCSS('font-size', `${textSize * 0.16}px`)
-          await expect.poll(() => filter.evaluate(element => element.getBoundingClientRect().top))
-            .toBeCloseTo(position.top, 0)
+          // Native scrolling rounds to whole CSS pixels here; an exact half-pixel
+          // difference is the nearest representable position, not a layout shift.
+          await expect.poll(async () => {
+            const top = await filter.evaluate(element => element.getBoundingClientRect().top)
+
+            return Math.abs(top - position.top)
+          }).toBeLessThanOrEqual(0.5)
           await expect.poll(() => filter.evaluate(element => element.scrollLeft)).toBeCloseTo(position.left, 0)
           await expectInsideViewport(react)
           await expect(react).toHaveCSS('outline-style', 'solid')
@@ -182,8 +187,11 @@ for (const width of [390, 1440]) {
           // A partly visible pointer target may move just enough to reveal its full outline.
           expect(await filter.evaluate(element => element.scrollLeft)).toBeGreaterThanOrEqual(nextPosition.left)
           await expectNearestTopic(nextTopic)
-          await expect.poll(() => filter.evaluate(element => element.getBoundingClientRect().top))
-            .toBeCloseTo(nextPosition.top, 0)
+          await expect.poll(async () => {
+            const top = await filter.evaluate(element => element.getBoundingClientRect().top)
+
+            return Math.abs(top - nextPosition.top)
+          }).toBeLessThanOrEqual(0.5)
 
           const allPosts = filter.getByRole('link', { name: 'All posts', exact: true })
 
