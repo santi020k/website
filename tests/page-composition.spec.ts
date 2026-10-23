@@ -55,7 +55,7 @@ for (const theme of ['light', 'dark'] as const) {
   test(`recovery pages preserve clear actions and readable cards in ${theme}`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme })
     for (const route of ['/404/', '/offline/']) {
-      for (const width of [320, 390, 768, 1440]) {
+      for (const width of [320, 390, 768, 1024, 1440]) {
         for (const size of [100, 200]) {
           await page.setViewportSize({ width, height: 1000 })
           await page.goto(route)
@@ -67,6 +67,14 @@ for (const theme of ['light', 'dark'] as const) {
           const card = page.locator('[data-recovery-card], [data-offline-folio]')
 
           await expect(card).toBeVisible()
+          const illustrationFits = await page.locator('[data-recovery-orbit]').evaluateAll(illustrations => illustrations.every(illustration => {
+            const status = illustration.parentElement
+            const bounds = illustration.getBoundingClientRect()
+
+            return status !== null && bounds.right <= status.getBoundingClientRect().right + 0.5
+          }))
+
+          expect(illustrationFits, `${route} at ${width}px and ${size}% text`).toBe(true)
           for (const link of await page.locator('main a, main button').all()) {
             await link.focus()
             const bounds = requireValue(await link.boundingBox())

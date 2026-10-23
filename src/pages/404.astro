@@ -140,9 +140,10 @@ const meta = {
 
 <style>
   [data-recovery-layout] { container: recovery-layout / inline-size; }
+  @container recovery-layout (width < 56rem) { [data-recovery-layout] > div { grid-column: 1 / -1; } }
   @container recovery-layout (width < 18rem) { [data-recovery-orbit] { display: none; } }
   [data-recovery-status] { display: flex; align-items: center; gap: 2rem; }
-  [data-recovery-orbit] { width: 8rem; height: 8rem; flex-shrink: 0; }
+  [data-recovery-orbit] { width: 8rem; min-width: 0; height: 8rem; flex-shrink: 1; }
   @media (width < 40rem) {
     [data-recovery-status] { gap: 1rem; }
     [data-recovery-orbit] { width: min(6rem, 24vw); height: min(6rem, 24vw); }
