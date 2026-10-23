@@ -11,102 +11,173 @@
   @apply text-sm font-semibold text-ink;
 }
 
-/*
- * Package-manager CodeTabs skin. The site-owned data attribute and Lumen's
- * public data-slot hook scope both Astro and Markdown output. Semantic tab
- * roles keep the skin independent of internal component classes.
- */
+/* Tab folio shares Lumen's tab/copy controllers across Astro and Markdown. */
 [data-package-manager-code-tabs][data-slot="code-tabs"] {
-  display: block;
+  --tab-folio-accent: hsl(var(--brand));
+  container: tab-folio / inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto auto;
   gap: 0;
+  border: 1px solid hsl(var(--line));
+  border-radius: 0.375rem 1.625rem 1.625rem 1.625rem;
+  background: hsl(var(--brand-soft));
+  box-shadow: none;
 }
 
-/* Wrap tabs onto extra rows with enlarged text so every package manager stays visible. */
+/* Shared rows keep the active panel's copy control alongside the tablist. */
+[data-package-manager-code-tabs][data-slot="code-tabs"] > [role="tabpanel"],
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code] {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
 [data-package-manager-code-tabs][data-slot="code-tabs"] > [role="tablist"] {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  align-self: center;
+  gap: 0.5rem;
   width: auto;
+  min-width: 0;
   overflow: visible;
-  gap: 0.25rem;
+  margin: 0;
   border: 0;
-  border-bottom: 1px solid hsl(var(--line));
   border-radius: 0;
-  background: hsl(var(--surface));
-  padding: 0.375rem;
+  background: transparent;
+  padding: 0.75rem 0 0.75rem 1.25rem;
 }
 
 [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"] {
-  min-width: 4.25rem;
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  padding: 0.5625rem 0.375rem;
   border: 0;
-  border-radius: var(--ui-radius-sm);
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
   background: transparent;
-  color: hsl(var(--ink-muted));
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  padding: 0.5rem 0.875rem;
-  transition:
-    background-color 150ms ease,
-    color 150ms ease;
+  box-shadow: none;
+  color: hsl(var(--ink-soft));
+  font: 500 0.8125rem/1.5 var(--font-sans);
+  transition: color 150ms ease, border-color 150ms ease;
 }
 
-[data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"]:hover {
-  background: hsl(var(--surface-muted));
-  color: hsl(var(--ink));
+[data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"]:hover,
+[data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"][aria-selected="true"] {
+  background: transparent;
+  box-shadow: none;
+  color: var(--tab-folio-accent);
 }
 
 [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"][aria-selected="true"] {
-  background: hsl(var(--brand-soft));
-  box-shadow: none;
-  color: hsl(var(--brand));
+  border-bottom-color: var(--tab-folio-accent);
 }
 
 [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"]:focus-visible {
-  outline: 2px solid hsl(var(--brand));
+  outline: 2px solid var(--tab-folio-accent);
   outline-offset: 1px;
 }
 
-/* Brand text on brand-soft falls below 4.5:1 in the dark theme; use ink and accent focus. */
-:root[data-theme="dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"][aria-selected="true"] {
-  color: hsl(var(--ink));
-}
-
-:root[data-theme="dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"]:focus-visible {
-  outline-color: hsl(var(--accent));
-}
-
-/*
- * The copy header gets its own grid column instead of overlaying the command.
- * The pre keeps a minmax(0, 1fr) track and scrolls horizontally; the copy
- * button stays before the pre in DOM and focus order.
- */
-[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code] {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-  background: var(--ui-code-bg);
+:root[data-theme="dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] {
+  --tab-folio-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
 }
 
 [data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code] > figcaption {
   position: static;
   inset: auto;
-  grid-row: 1;
   grid-column: 2;
-  /* Leave space for every edge of the copy button's focus outline. */
-  padding: 0.625rem 0.625rem 0.625rem 0;
+  grid-row: 1;
+  align-self: center;
+  display: flex;
+  justify-content: end;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  padding: 0.75rem 1.25rem 0.75rem 0.5rem;
 }
 
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code-copy] {
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  max-inline-size: 100%;
+  gap: 0.5rem;
+  padding-inline: 0.375rem;
+  border-color: transparent;
+  background: transparent;
+  color: hsl(var(--ink-soft));
+  font: 500 0.75rem/1.6 var(--font-sans);
+  white-space: normal;
+}
+
+/* Lumen owns the accessible labels and live announcements for these states. */
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code-copy]::after { content: "Copy" / ""; }
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code-copy][data-state="copied"]::after { content: "Copied" / ""; }
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code-copy][data-state="error"]::after { content: "Copy failed" / ""; }
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code-copy]:hover,
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code-copy][data-state="copied"] {
+  background: hsl(var(--surface) / 0.5);
+  color: var(--tab-folio-accent);
+}
+[data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code-copy][data-state="error"] { color: hsl(var(--danger)); }
+
 [data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code] > pre {
-  grid-row: 1;
-  grid-column: 1;
+  position: relative;
+  grid-row: 3;
+  grid-column: 1 / -1;
   min-width: 0;
-  padding: 1rem 0.75rem 1rem 1.25rem;
+  margin: 0;
+  padding: 1.625rem 1.5rem 1.625rem 3.5rem;
+  background: hsl(var(--surface));
+  font: 400 0.875rem/1.85 var(--font-code);
+}
+
+[data-package-manager-code-tabs][data-slot="code-tabs"] pre > code {
+  font: inherit;
+}
+
+/* A decorative shell prompt stays out of copied and spoken command text. */
+[data-package-manager-code-tabs][data-slot="code-tabs"] pre::before {
+  content: "›" / "";
+  position: absolute;
+  inset-inline-start: 1.5rem;
+  color: var(--tab-folio-accent);
+  font: inherit;
+}
+
+:root[data-theme="dark"] [data-package-manager-code-tabs][data-slot="code-tabs"] pre {
+  background: var(--shiki-dark-bg, var(--ui-code-bg));
+}
+
+@container tab-folio (width < 28rem) {
+  [data-package-manager-code-tabs][data-slot="code-tabs"] > [role="tablist"] {
+    grid-column: 1 / -1;
+    padding: 0.75rem 1rem 0;
+  }
+  [data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code] > figcaption {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    padding: 0 1rem 0.75rem;
+  }
+  [data-package-manager-code-tabs][data-slot="code-tabs"] [data-ui-code] > pre { padding: 1.375rem 1.125rem 1.375rem 2.875rem; }
+  [data-package-manager-code-tabs][data-slot="code-tabs"] pre::before { inset-inline-start: 1.125rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"] {
-    transition: none;
-  }
+  [data-package-manager-code-tabs][data-slot="code-tabs"] [role="tab"] { transition: none; }
 }
 
 /*

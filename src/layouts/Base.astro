@@ -93,8 +93,14 @@ const isGenerousSpacing = mainSpacing === 'generous'
             display: none !important;
           }
 
-          [data-package-manager-code-tabs] > [role="tabpanel"] {
+          [data-package-manager-code-tabs],
+          [data-package-manager-code-tabs] > [role="tabpanel"],
+          [data-package-manager-code-tabs] [data-ui-code] {
             display: block !important;
+          }
+
+          [data-package-manager-code-tabs] figcaption {
+            display: none !important;
           }
 
           [data-package-manager-code-tabs] > [role="tabpanel"] + [role="tabpanel"] {

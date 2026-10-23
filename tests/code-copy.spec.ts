@@ -97,3 +97,60 @@ test.describe('Article code block copy button', () => {
     await expect(button).toHaveAttribute('title', COPY_LABEL)
   })
 })
+
+test.describe('Package-manager Tab folio', () => {
+  for (const outcome of ['resolve', 'reject'] as const) {
+    test(`keeps ${outcome === 'resolve' ? 'success' : 'failure'} feedback usable with enlarged mobile text`, async ({ page }) => {
+      await stubClipboard(page, outcome)
+      await page.setViewportSize({ height: 900, width: 320 })
+      await page.goto('/blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration/')
+      await page.evaluate(() => {
+        document.documentElement.style.fontSize = '200%'
+      })
+      const card = page.locator('[data-package-manager-code-tabs]').first()
+
+      await card.getByRole('tab', { name: 'pnpm', exact: true }).click()
+      const panel = card.getByRole('tabpanel')
+      const button = panel.locator('[data-ui-code-copy]')
+
+      await page.clock.install()
+      await button.focus()
+      await page.keyboard.press('Enter')
+      await expect(button).toHaveAttribute('data-state', outcome === 'resolve' ? 'copied' : 'error')
+      await expect(button).toHaveAccessibleName(outcome === 'resolve' ?
+        'Code copied to clipboard' :
+        'Could not copy code. Select and copy it manually.')
+      expect(await button.evaluate(element => getComputedStyle(element, '::after').content))
+        .toContain(outcome === 'resolve' ? 'Copied' : 'Copy failed')
+      await expect(button).toBeFocused()
+
+      const layout = await button.evaluate(element => {
+        const figure = element.closest('[data-ui-code]')
+        const pre = figure?.querySelector('pre')
+
+        if (!figure || !pre) throw new Error('Expected the active code figure')
+        const control = element.getBoundingClientRect()
+        const frame = figure.getBoundingClientRect()
+
+        return {
+          contained: control.left >= frame.left && control.right <= frame.right,
+          aboveCode: control.bottom <= pre.getBoundingClientRect().top,
+          width: control.width,
+          height: control.height
+        }
+      })
+
+      expect(layout.contained).toBe(true)
+      expect(layout.aboveCode).toBe(true)
+      expect(layout.width).toBeGreaterThanOrEqual(44)
+      expect(layout.height).toBeGreaterThanOrEqual(44)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+      expect(await page.evaluate(() => localStorage.getItem('code-copy-test-value')))
+        .toBe(outcome === 'resolve' ? 'pnpm add --save-dev husky lint-staged' : null)
+
+      await page.clock.fastForward(2000)
+      await expect(button).toHaveAttribute('data-state', 'idle')
+      await expect(button).toHaveAccessibleName(COPY_LABEL)
+    })
+  }
+})

@@ -171,6 +171,11 @@ The same component serves featured, supporting, and related projects without cli
   classes, which `pnpm exec lumen doctor` flags as unstable hooks. The generated markup retains
   Lumen's `ui-tabs` and `ui-code-tabs` base classes for its shared outer surface and compact code
   styling, plus `data-ui-tabs` for runtime behavior. Consumer CSS targets the data hooks and roles.
+  Tab folio uses nested CSS grids to share the tablist and copy toolbar row while keeping
+  panel and figure semantics intact. The visible Copy/Copied/Copy failed labels and shell
+  prompt are decorative CSS content; Lumen supplies the accessible names and announcements.
+  Narrow cards move the copy toolbar below the wrapping tabs. Script-free visits disable
+  this grid and hide its headers so all commands remain readable in document order.
 - Organization carousel controls use Lumen `Button` with `size="icon"` and `variant="secondary"`.
   The site retains its responsive pagination and focused-link visibility controller.
 - Blog topic links delegate `aria-current="page"` through the site `Pill` wrapper to Lumen `Pill`,

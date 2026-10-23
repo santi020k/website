@@ -129,10 +129,10 @@ for (const width of [390, 1440]) {
             await code.focus()
             await expect(code).toBeFocused()
             await expect(code).toHaveCSS('outline-style', 'solid')
-            const codeBounds = await code.evaluate(element => element.getBoundingClientRect().right)
-            const copyBounds = await copy.evaluate(element => element.getBoundingClientRect().left)
+            const codeBounds = await code.evaluate(element => element.getBoundingClientRect().top)
+            const copyBounds = await copy.evaluate(element => element.getBoundingClientRect().bottom)
 
-            expect(codeBounds).toBeLessThanOrEqual(copyBounds)
+            expect(copyBounds).toBeLessThanOrEqual(codeBounds)
             await copy.focus()
             await expect(copy).toHaveCSS('outline-style', 'solid')
             const focus = await copy.evaluate(element => {
