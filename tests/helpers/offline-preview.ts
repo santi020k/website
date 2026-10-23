@@ -2,13 +2,21 @@ import { Buffer } from 'node:buffer'
 import { createServer } from 'node:http'
 
 /** Simulate an unreachable origin without bypassing WebKit's service workers. */
-export const createOfflinePreview = async (baseURL: string | undefined) => {
+export const createOfflinePreview = async (baseURL: string | undefined, redirects: Record<string, string> = {}) => {
   if (!baseURL) throw new Error('Missing test preview URL')
 
   let online = true
   const server = createServer((request, response) => {
     if (!online) {
       request.socket.destroy()
+
+      return
+    }
+
+    const destination = redirects[request.url ?? '/']
+
+    if (destination) {
+      response.writeHead(302, { Location: destination }).end()
 
       return
     }

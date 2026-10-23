@@ -75,10 +75,11 @@ const openCache = async () => {
 /**
  * @param {Cache | undefined} cache
  * @param {Request | string} request
+ * @param {CacheQueryOptions} [options]
  */
-const matchCached = async (cache, request) => {
+const matchCached = async (cache, request, options) => {
   try {
-    return await cache?.match(request)
+    return await (options ? cache?.match(request, options) : cache?.match(request))
   } catch {
     return undefined
   }
@@ -115,7 +116,9 @@ const fetchAndCache = request => {
   // Clone before handing the response to the browser, then persist independently.
   // waitUntil keeps the worker alive without delaying HTML or download streaming.
   const revalidate = response.then(response => {
-    if (!response.ok) return
+    // Browsers reject a cached followed redirect for navigations (redirect mode
+    // "manual"), so storing one would turn an offline visit into a network error.
+    if (!response.ok || response.redirected) return
 
     const copy = response.clone()
 
@@ -137,6 +140,8 @@ const networkFirst = (request, pageFallback = false) => {
       const cache = await network.cache
 
       return (await matchCached(cache, request)) ??
+        // Static pages render the same bytes for every query; `?q=` only selects client-side UI.
+        (pageFallback ? await matchCached(cache, request, { ignoreSearch: true }) : undefined) ??
         (pageFallback ? await matchCached(cache, '/offline/') : undefined) ?? Response.error()
     }),
     revalidate: network.revalidate

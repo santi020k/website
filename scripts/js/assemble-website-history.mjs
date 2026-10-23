@@ -7,10 +7,14 @@ import versions from '../../packages/website-history/versions.json' with { type:
 
 const root = resolve(import.meta.dirname, '../..')
 const currentDirectory = resolve(root, 'dist')
+// Error and offline documents describe a request state, not a page with an archived
+// counterpart, so archived copies link to the current homepage instead.
+const utilityPages = new Set(['404.html', 'offline/index.html'])
 
 const currentPages = new Set((await archiveFiles(currentDirectory))
   .filter(path => path.endsWith('.html') && !versions.some(({ id }) => relative(currentDirectory, path).startsWith(`${id}${sep}`)))
-  .map(path => relative(currentDirectory, path).split(sep).join('/')))
+  .map(path => relative(currentDirectory, path).split(sep).join('/'))
+  .filter(page => !utilityPages.has(page)))
 
 // Rendered independently of each era's styles. The notice stays in normal flow until
 // the archive runtime measures it, then it is pinned and its real height is reserved.

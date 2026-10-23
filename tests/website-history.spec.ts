@@ -181,3 +181,15 @@ for (const id of ['v1', 'v2', 'v3']) {
     await expect(page.getByRole('link', { name: 'Website history', exact: true })).toBeVisible()
   })
 }
+
+// Error and offline documents have no current counterpart; their notice leads home.
+for (const path of ['/v1/404.html', '/v2/404.html', '/v3/404.html', '/v2/offline/', '/v3/offline/']) {
+  test(`${path} archive notice leads to the current homepage`, async ({ page }) => {
+    await page.goto(path)
+    const notice = page.getByRole('complementary', { name: 'Website archive' })
+    const home = notice.getByRole('link', { name: 'Visit current website', exact: true })
+    await expect(home).toHaveAttribute('href', '/')
+    await expect(home).toHaveAttribute('data-astro-reload', '')
+    await expect(notice.getByRole('link', { name: 'View current page', exact: true })).toHaveCount(0)
+  })
+}

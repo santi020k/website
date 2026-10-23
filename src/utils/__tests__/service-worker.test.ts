@@ -13,7 +13,10 @@ const setupWorker = (assets: string[] = []) => {
     addAll: vi.fn<(requests: string[]) => Promise<void>>().mockResolvedValue(undefined),
     delete: vi.fn<(request: Request) => Promise<boolean>>().mockResolvedValue(true),
     keys: vi.fn<() => Promise<Request[]>>().mockResolvedValue([]),
-    match: vi.fn<(request: Request | string) => Promise<Response | undefined>>().mockResolvedValue(undefined),
+    match: vi.fn<(
+      request: Request | string,
+      options?: CacheQueryOptions
+    ) => Promise<Response | undefined>>().mockResolvedValue(undefined),
     put: vi.fn<(request: Request, response: Response) => Promise<void>>().mockResolvedValue(undefined)
   }
   const open = vi.fn(() => Promise.resolve(cache))
@@ -208,6 +211,56 @@ describe('Service worker fetch handling', () => {
 
     expect(await (await response)?.text()).toBe('Offline page')
   })
+
+  // Static pages render the same bytes for every query; `?q=` only selects client-side UI.
+  test('falls back to the same cached page without its query before the offline document', async () => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    worker.cache.match.mockImplementation((request, options) => {
+      if (request === '/offline/') return Promise.resolve(new Response('Offline page'))
+
+      const isHome = typeof request !== 'string' && new URL(request.url).pathname === '/'
+
+      return Promise.resolve(isHome && options?.ignoreSearch ? new Response('cached home') : undefined)
+    })
+
+    const { response } = worker.dispatch(makeRequest('/?q=Astro', true))
+
+    expect(await (await response)?.text()).toBe('cached home')
+    expect(worker.cache.match.mock.calls.map(([, options]) => options)).toEqual([undefined, { ignoreSearch: true }])
+  })
+
+  test('prefers an exact cached query variant of a page', async () => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    worker.cache.match.mockImplementation((_request, options) => Promise.resolve(
+      new Response(options?.ignoreSearch ? 'another variant' : 'exact variant')
+    ))
+
+    const { response } = worker.dispatch(makeRequest('/blog/?page=2', true))
+
+    expect(await (await response)?.text()).toBe('exact variant')
+    expect(worker.cache.match).toHaveBeenCalledOnce()
+  })
+
+  test.each(['/search-index.json?v=2', '/feed.xml?v=2', '/favicon.svg?v=2', '/_astro/app.abc123.js?v=2'])(
+    'keeps exact query matching for non-page resource %s offline', async path => {
+      const worker = setupWorker()
+
+      worker.fetch.mockRejectedValue(new TypeError('Offline'))
+      worker.cache.match.mockImplementation((_request, options) => Promise.resolve(
+        options?.ignoreSearch ? new Response('query-free copy') : undefined
+      ))
+
+      const event = worker.dispatch(makeRequest(path))
+
+      expect((await event.response)?.type).toBe('error')
+      await Promise.all(event.lifetime)
+      expect(worker.cache.match.mock.calls.every(([, options]) => options === undefined)).toBe(true)
+    }
+  )
 
   test('returns a network error when navigation has no usable cache', async () => {
     const worker = setupWorker()
@@ -439,6 +492,28 @@ describe('Service worker fetch handling', () => {
     expect(worker.cache.delete.mock.calls.map(([request]) => request.url)).toEqual(
       assets.slice(0, 4).map(request => request.url)
     )
+  })
+
+  // Navigations use redirect mode "manual", so a cached followed redirect would
+  // be rejected as a network error instead of reaching the offline document.
+  test.each([
+    ['/blog/retired-post/', false],
+    ['/blog/retired-post/', true],
+    ['/search-index.json', false],
+    ['/favicon.svg', false],
+    ['/_astro/app.abc123.js', false]
+  ])('delivers but never caches a redirected response for %s (navigation: %s)', async (path, navigation) => {
+    const worker = setupWorker()
+    const redirected = new Response('destination')
+
+    Object.defineProperty(redirected, 'redirected', { value: true })
+    worker.fetch.mockResolvedValue(redirected)
+
+    const event = worker.dispatch(makeRequest(path, navigation))
+
+    expect(await (await event.response)?.text()).toBe('destination')
+    await Promise.all(event.lifetime)
+    expect(worker.cache.put).not.toHaveBeenCalled()
   })
 
   test('returns fresh data even when cache eviction fails', async () => {

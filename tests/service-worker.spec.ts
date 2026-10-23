@@ -2,6 +2,94 @@ import { expect, test } from '@playwright/test'
 
 import { createOfflinePreview } from './helpers/offline-preview'
 
+test('a prefetched redirect does not break a later offline navigation', async ({ browser, baseURL }) => {
+  const server = await createOfflinePreview(baseURL, { '/retired-page/': '/about/' })
+  const context = await browser.newContext({ baseURL: server.url, reducedMotion: 'reduce' })
+
+  try {
+    const page = await context.newPage()
+
+    await page.goto('/')
+    await page.evaluate(async () => {
+      await navigator.serviceWorker.ready
+    })
+    await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+
+    const destination = await page.evaluate(async () => {
+      const response = await fetch('/retired-page/')
+
+      await response.text()
+
+      return { redirected: response.redirected, path: new URL(response.url).pathname }
+    })
+
+    expect(destination).toEqual({ redirected: true, path: '/about/' })
+
+    // A normal cache write gives the earlier background redirect write time to
+    // settle too; otherwise the old worker could pass by losing that race.
+    await page.evaluate(async () => {
+      await fetch('/search-index.json')
+    })
+    await expect.poll(() => page.evaluate(async () => {
+      const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+      if (!name) throw new Error('Missing current worker cache')
+
+      return Boolean(await (await caches.open(name)).match('/search-index.json'))
+    })).toBe(true)
+
+    server.setOnline(false)
+    await page.goto('/retired-page/')
+    await expect(page).toHaveTitle('Offline | santi020k')
+    await expect(page.getByRole('button', { name: 'Try again', exact: true })).toBeVisible()
+  } finally {
+    await context.close()
+    await server.close()
+  }
+})
+
+test('an offline deep link reuses its cached page and keeps the query', async ({ browser, baseURL }) => {
+  const server = await createOfflinePreview(baseURL)
+  const context = await browser.newContext({ baseURL: server.url, reducedMotion: 'reduce' })
+
+  try {
+    const page = await context.newPage()
+
+    await page.goto('/')
+    await page.evaluate(async () => {
+      await navigator.serviceWorker.ready
+    })
+    await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+    await page.evaluate(async () => {
+      await fetch('/search-index.json')
+    })
+    await expect.poll(() => page.evaluate(async () => {
+      const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+      if (!name) throw new Error('Missing current worker cache')
+
+      const cache = await caches.open(name)
+
+      return Boolean(await cache.match('/')) && Boolean(await cache.match('/search-index.json'))
+    })).toBe(true)
+
+    server.setOnline(false)
+    await page.goto('/?q=Astro')
+    await expect(page).not.toHaveTitle('Offline | santi020k')
+    expect(new URL(page.url()).searchParams.get('q')).toBe('Astro')
+    await expect(page.locator('#site-search-dialog')).toBeVisible()
+    await expect(page.locator('#site-search-input')).toHaveValue('Astro')
+    await expect(page.locator('[data-site-search-result]').first()).toBeVisible()
+
+    // A page that was never cached still reaches the offline document.
+    await page.goto('/about/?q=Astro')
+    await expect(page).toHaveTitle('Offline | santi020k')
+  } finally {
+    await context.close()
+    await server.close()
+  }
+})
+
 for (const width of [390, 1440]) {
   test(`first-visit offline recovery retains its assets after eviction at ${width}px`, async ({ browser, baseURL }) => {
     const server = await createOfflinePreview(baseURL)

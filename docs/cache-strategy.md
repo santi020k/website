@@ -44,11 +44,14 @@ The Cache API cannot store partial responses or produce the requested byte
 range from a cached full file.
 
 If the network fails, a page or navigation request falls back to its own
-cached copy, then to the cached `/offline/` document. A cache miss or write
+cached copy, then to the same path's cached copy without its query string (queries only select
+client-side UI on these static pages), then to the cached `/offline/` document. A cache miss or write
 failure never blocks the response — cache storage is treated as an optional
 optimization. Network responses stream immediately; `waitUntil` keeps background cache writes
 and trimming alive without holding the response. Non-page resources fall back only to their own cached response; an offline HTML
-page is never substituted for JSON, feed, or PDF bytes.
+page is never substituted for JSON, feed, or PDF bytes. Only successful, non-redirected responses
+are stored: browsers reject a cached followed redirect for a navigation, so caching one would turn
+an offline visit to that URL into a network error instead of the offline document.
 
 The `v4-cache-v3-<fingerprint>` namespace identifies the current recovery shell.
 The [build generator](../scripts/js/generate-offline-worker.mjs) creates `dist/sw.js` from the source worker, adding the

@@ -1,5 +1,19 @@
 # Dependency security follow-up
 
+## IPv6 parser denial-of-service fix
+
+The October 22, 2026 audit found
+[GHSA-rxp7-6hxx-x8q5](https://github.com/advisories/GHSA-rxp7-6hxx-x8q5)
+in `ip-address` 10.7.3, reached through Lighthouse and motion tooling's SOCKS
+proxy dependencies. Repeated zone markers followed by a line terminator could
+block the process while validating an IPv6 address. This development dependency
+is absent from the static production site.
+
+The existing override now selects the stable 10.7.4 patch for affected versions.
+It replaces the quadratic zone scan with a linear scan while preserving accepted
+addresses and supports Node 24. Remove the override once every parent dependency
+resolves a patched version without it; keep the dependency audit enabled.
+
 ## Vitest development-server fix
 
 The October 22, 2026 audit found

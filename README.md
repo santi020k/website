@@ -119,6 +119,7 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   [preview provenance guide](docs/editorial/project-previews.md) and
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.
 - **Search:** the header searches posts and projects; open it with `/`, ⌘K, or Ctrl+K.
+  If the index request stalls for 10 seconds, search offers a retry and preserves the current query.
   Its typed controller is bundled once and keeps the fetched index across page transitions.
   Validation and relevance rules live in `src/utils/search.ts`.
 - **Reading metadata:** cards, article headers, and structured data share `src/utils/reading-time.ts`;

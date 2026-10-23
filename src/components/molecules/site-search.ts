@@ -9,7 +9,10 @@ let closeAnimPanel: HTMLElement | null = null
 let closeAnimHandler: ((event: AnimationEvent) => void) | null = null
 let indexLoadState: 'idle' | 'loading' | 'ready' | 'error' = 'idle'
 let indexLoadPromise: Promise<boolean> | null = null
+let indexLoadController: AbortController | null = null
 let popularTopics: string[] = []
+// A stalled request or body must reach the retry state instead of loading forever.
+const INDEX_LOAD_TIMEOUT_MS = 10_000
 const RECENT_SEARCHES_KEY = 'site-search-recent'
 const RECENT_SEARCHES_LIMIT = 5
 
@@ -629,11 +632,32 @@ const loadIndex = async (options: { force?: boolean } = {}): Promise<boolean> =>
 
   if (!force && indexLoadPromise) return indexLoadPromise
 
+  // Only the newest request may update the shared index state.
+  indexLoadController?.abort()
+
+  const controller = new AbortController()
+  const { signal } = controller
+
+  const timeout = window.setTimeout(() => {
+    controller.abort()
+  }, INDEX_LOAD_TIMEOUT_MS)
+
+  const isCurrent = () => indexLoadController === controller
+
+  indexLoadController = controller
+
   indexLoadState = 'loading'
 
   render(getInput()?.value ?? '')
 
-  indexLoadPromise = fetch('/search-index.json')
+  // The deadline also covers reading the body, which a stalled stream can hold open.
+  const aborted = new Promise<never>((_resolve, reject) => {
+    signal.addEventListener('abort', () => {
+      reject(new Error('Search index request aborted'))
+    }, { once: true })
+  })
+
+  const request = fetch('/search-index.json', { signal })
     .then(response => {
       if (!response.ok) {
         throw new Error('Failed search index response')
@@ -641,12 +665,16 @@ const loadIndex = async (options: { force?: boolean } = {}): Promise<boolean> =>
 
       return response.json()
     })
+
+  const load = Promise.race([request, aborted])
     .then((json: unknown) => {
       const isValidEntry = (entry: unknown): entry is SearchIndexEntry => isSearchEntry(entry, window.location.origin)
 
       if (!Array.isArray(json) || !json.every(isValidEntry)) {
         throw new TypeError('Invalid search index response')
       }
+
+      if (!isCurrent()) return false
 
       entries = json
 
@@ -657,19 +685,29 @@ const loadIndex = async (options: { force?: boolean } = {}): Promise<boolean> =>
       return true
     })
     .catch(() => {
-      entries = []
+      if (isCurrent()) {
+        entries = []
 
-      indexLoadState = 'error'
+        indexLoadState = 'error'
+      }
 
       return false
     })
     .finally(() => {
+      window.clearTimeout(timeout)
+
+      if (!isCurrent()) return
+
+      indexLoadController = null
+
       indexLoadPromise = null
 
       render(getInput()?.value ?? '')
     })
 
-  return indexLoadPromise
+  indexLoadPromise = load
+
+  return load
 }
 
 const bindUi = () => {

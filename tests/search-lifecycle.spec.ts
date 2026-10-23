@@ -108,3 +108,91 @@ for (const key of ['k', '/']) {
     expect(new URL(page.url()).searchParams.get('q')).toBe('Astro')
   })
 }
+
+const searchIndex = [
+  { title: 'Astro guide', path: '/about/', description: 'First topic', tags: [], type: 'post' },
+  { title: 'React guide', path: '/work/', description: 'Second topic', tags: [], type: 'post' }
+]
+
+test.describe('search index deadline', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.clock.install()
+  })
+
+  test('a stalled index request reaches the retry state', async ({ page }) => {
+    await page.route('**/search-index.json', () => new Promise<void>(() => undefined))
+    await page.goto('/?q=Astro')
+
+    const status = page.locator('#site-search-status')
+
+    await expect(status).toHaveText('Loading search index.')
+    await page.clock.runFor(9_000)
+    await expect(status).toHaveText('Loading search index.')
+    await page.clock.runFor(1_000)
+    await expect(status).toHaveText('Search is temporarily unavailable.')
+    await expect(page.locator('[data-site-search-retry]')).toHaveCount(1)
+  })
+
+  test('a stalled index body reaches the retry state', async ({ page }) => {
+    await page.addInitScript(() => {
+      const nativeFetch = window.fetch.bind(window)
+
+      window.fetch = (input, init) => {
+        const url = input instanceof Request ? input.url : String(input)
+
+        if (!url.includes('/search-index.json')) return nativeFetch(input, init)
+
+        // The headers arrive, but the body stream never closes.
+        const body = new ReadableStream<Uint8Array>({
+          start: controller => {
+            controller.enqueue(new TextEncoder().encode('['))
+          }
+        })
+
+        return Promise.resolve(new Response(body, { headers: { 'Content-Type': 'application/json' } }))
+      }
+    })
+    await page.goto('/?q=Astro')
+    await expect(page.locator('#site-search-status')).toHaveText('Loading search index.')
+    await page.clock.runFor(10_000)
+    await expect(page.locator('#site-search-status')).toHaveText('Search is temporarily unavailable.')
+    await expect(page.locator('[data-site-search-retry]')).toHaveCount(1)
+  })
+
+  test('retry after a timeout renders the latest query', async ({ page }) => {
+    let requestCount = 0
+
+    await page.route('**/search-index.json', async route => {
+      requestCount += 1
+
+      // The first request never answers; the retry receives the index.
+      if (requestCount === 1) await new Promise<void>(() => undefined)
+
+      await route.fulfill({ json: searchIndex })
+    })
+    await page.goto('/?q=Astro')
+    await page.clock.runFor(10_000)
+    await expect(page.locator('[data-site-search-retry]')).toHaveCount(1)
+    await page.locator('#site-search-input').fill('React')
+    await expect(page.locator('#site-search-status')).toHaveText('Search is temporarily unavailable.')
+    await page.locator('[data-site-search-retry]').click()
+    await expect(page.locator('[data-site-search-result-title]')).toHaveText('React guide')
+    await expect(page.locator('#site-search-input')).toBeFocused()
+    expect(new URL(page.url()).searchParams.get('q')).toBe('React')
+    expect(requestCount).toBe(2)
+  })
+
+  test('a loaded index is not replaced by a later timeout', async ({ page }) => {
+    await page.route('**/search-index.json', route => route.fulfill({ json: searchIndex }))
+    await page.goto('/?q=Astro')
+
+    const title = page.locator('[data-site-search-result-title]')
+
+    await expect(title).toHaveText('Astro guide')
+    await page.clock.runFor(20_000)
+    await expect(title).toHaveText('Astro guide')
+    await expect(page.locator('#site-search-status')).toHaveText('1 result available. Use arrow keys to navigate.')
+    await expect(page.locator('[data-site-search-retry]')).toHaveCount(0)
+  })
+})
