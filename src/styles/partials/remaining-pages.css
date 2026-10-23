@@ -169,6 +169,61 @@
   .remaining-pages [data-resume-shell] { padding: 0; border: 0; border-radius: 0; background: none; overflow: visible; container: resume / inline-size; }
   .remaining-pages [data-resume-shell] h1 { font-weight: 500; line-height: 1.1; }
   [data-resume-header] > * { max-width: 100%; min-width: 0; }
+  /* Identity spread is screen-only; the existing header remains intact in print. */
+  [data-resume-header] { display: block; padding-block: 1.75rem; border-block: 1px solid hsl(var(--line)); }
+  [data-resume-identity] { display: grid; grid-template-columns: 8.125rem minmax(0, 1fr); column-gap: 2.25rem; }
+  [data-resume-identity] .section-label {
+    grid-row: 1 / 4;
+    align-self: start;
+    padding-inline-start: 1rem;
+    border-inline-start: 2px solid hsl(var(--accent));
+    color: hsl(var(--accent));
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.7;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+  .remaining-pages [data-resume-identity] h1 { margin: 0 0 0.875rem; font-size: 3.25rem; letter-spacing: -0.055em; }
+  [data-resume-identity] h1 + p { grid-column: 2; margin: 0; font-size: 1.125rem; font-weight: 500; line-height: 1.6; }
+  [data-resume-identity] > p:last-child { grid-column: 2; max-width: 38.75rem; margin: 1.375rem 0 0; font-size: 0.875rem; line-height: 1.85; }
+  [data-resume-contacts] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 17.5rem;
+    column-gap: 2.5rem;
+    margin: 1.875rem 0 0 10.375rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid hsl(var(--line));
+    text-align: start;
+  }
+  [data-resume-contacts] > * { min-width: 0; margin: 0; }
+  [data-resume-contacts] > p { grid-column: 1; font-size: 0.8125rem; line-height: 1.7; }
+  [data-resume-contacts] > p > a { display: flex; align-items: center; gap: 0.75rem; min-height: 2.75rem; width: fit-content; max-width: 100%; font-weight: 400; }
+  [data-resume-contacts] > p:nth-child(4) { margin-top: 1rem; font-size: 0.75rem; line-height: 1.8; }
+  [data-resume-contacts] [data-resume-downloads] { grid-column: 2; grid-row: 1 / 4; display: flex; flex-direction: column; align-self: start; gap: 0.625rem; width: 100%; }
+  [data-resume-downloads] [data-slot='button-link'] { width: 100%; justify-content: flex-start; }
+  [data-resume-contacts] > p:last-child { grid-column: 2; grid-row: 4; margin-top: 1rem; font-size: 0.75rem; line-height: 1.8; }
+  @container resume (width < 48.75rem) {
+    [data-resume-identity] { grid-template-columns: 6.25rem minmax(0, 1fr); column-gap: 1.5rem; }
+    [data-resume-contacts] { grid-template-columns: minmax(0, 1fr); margin-inline-start: 7.75rem; }
+    [data-resume-contacts] [data-resume-downloads] { grid-column: 1; grid-row: auto; flex-direction: row; flex-wrap: wrap; margin-top: 1.25rem; }
+    [data-resume-downloads] [data-slot='button-link'] { width: auto; }
+    [data-resume-contacts] > p:last-child { grid-column: 1; grid-row: auto; }
+  }
+  @container resume (width < 36rem) {
+    [data-resume-identity] { display: block; }
+    .remaining-pages [data-resume-identity] h1 { margin-top: 1.5rem; }
+    [data-resume-contacts] { margin-inline-start: 0; }
+  }
+  @container resume (width < 27.5rem) {
+    .remaining-pages [data-resume-identity] h1 { font-size: 2.125rem; line-height: 1.15; }
+    [data-resume-identity] h1 + p { font-size: 1rem; }
+  }
+  @container resume (width < 16rem) {
+    .remaining-pages [data-resume-identity] h1 { font-size: 1.75rem; }
+    [data-resume-contacts] > p > a { display: block; overflow-wrap: anywhere; }
+    [data-resume-contact-icon] { display: none; }
+  }
   /* Role folio and Compact folio share a screen grid; print keeps its own contract. */
   :is(#resume-experience, #resume-earlier-experience, #resume-community, #resume-skills) { scroll-margin-top: 7rem; }
   :is(#resume-experience, #resume-earlier-experience, #resume-community, #resume-skills) > h2 { margin-bottom: 0; }
@@ -282,13 +337,6 @@
   @container resume (width < 35rem) {
     [data-resume-skills] > div { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; padding-block: 1.5rem; }
     [data-resume-skills] h3 { padding: 0; }
-  }
-  /* On screen, the name and contact column share a row only while the resume has
-     36rem in root-relative units. Print keeps its own row layout and PDFs. */
-  @container resume (width < 36rem) {
-    [data-resume-header] { flex-direction: column; }
-    [data-resume-contacts] { text-align: start; }
-    [data-resume-downloads] { justify-content: flex-start; }
   }
 }
 @media (max-width: 47.999rem) {

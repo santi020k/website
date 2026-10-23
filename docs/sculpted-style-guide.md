@@ -454,6 +454,14 @@ columns restore the stacked icon and scale long values to fit. Cards stay passiv
 without hover effects or new animation. The homepage uses its dedicated Sculpted
 ledger below, About uses Margin counters, and Work uses Career ledger.
 
+### Identity spread resume profile
+
+The `/resume/` profile uses an open, ruled Identity spread: a small accent margin label,
+a prominent name and role, and a separate contact and download section aligned with the copy.
+Contacts precede both native PDF downloads in reading and keyboard order. The layout stacks
+at narrow or enlarged-text widths; all contact and download targets remain at least 44px tall.
+These screen-only rules preserve the existing print header and the two-page and full CV PDFs.
+
 ### Role folio resume experience
 
 Detailed Experience and Community entries on `/resume/` use Role folio: a date margin beside the

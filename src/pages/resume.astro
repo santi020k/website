@@ -99,7 +99,7 @@ mainClass="remaining-pages"
       "
       data-resume-header
     >
-      <div>
+      <div data-resume-identity>
         <p class="
           section-label text-brand
           dark:text-accent
@@ -134,6 +134,14 @@ mainClass="remaining-pages"
             "
             href={`mailto:${siteConfig.contact.email}`}
           >
+            <Icon
+class="
+  size-4 shrink-0
+  print:hidden
+"
+name="mail"
+data-resume-contact-icon
+            />
             {siteConfig.contact.email}
           </Link>
         </p>
@@ -146,6 +154,14 @@ mainClass="remaining-pages"
             href={siteConfig.contact.linkedin}
             newTab
           >
+            <Icon
+class="
+  size-4 shrink-0
+  print:hidden
+"
+name="arrow-up-right"
+data-resume-contact-icon
+            />
             linkedin.com/in/santi020k
           </Link>
         </p>
@@ -158,6 +174,14 @@ mainClass="remaining-pages"
             href={siteConfig.contact.github}
             newTab
           >
+            <Icon
+class="
+  size-4 shrink-0
+  print:hidden
+"
+name="arrow-up-right"
+data-resume-contact-icon
+            />
             github.com/santi020k
           </Link>
         </p>
