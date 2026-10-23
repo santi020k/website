@@ -42,6 +42,24 @@ test.describe('Technologies index page', () => {
     await expect(backLink).toHaveAttribute('href', /^\/portfolio\/$/)
   })
 
+  test('technology evidence invitation keeps both destinations keyboard accessible', async ({ page, browserName }) => {
+    const invitation = page.getByRole('region', { name: 'Tools are easier to trust when they point to real work.' })
+    const portfolio = invitation.getByRole('link', { name: 'Browse portfolio' })
+    const writing = invitation.getByRole('link', { name: 'Read the writing' })
+
+    await expect(invitation.getByRole('link')).toHaveCount(2)
+    await expect(portfolio).toHaveAttribute('href', '/portfolio/')
+    await expect(writing).toHaveAttribute('href', '/blog/')
+    await portfolio.focus()
+    await expect(portfolio).toBeInViewport()
+    await expect(portfolio).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+    await expect(writing).toBeFocused()
+    await expect(writing).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/blog\/$/u)
+  })
+
   test('technology archives separate projects from work experience', async ({ page }) => {
     await page.goto('/technologies/typescript/')
 

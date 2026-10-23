@@ -184,56 +184,31 @@ data-technology-group-count
     <StatCard description="Frontend, backend, testing, delivery, and developer tooling." icon="layers" label="Scope" value="Full stack" />
   </StatsGrid>
 
-  <section class="
-    section-container-wide pt-20
-    sm:pt-24
-    lg:pt-28
-  "
+  <section
+class="
+  section-container-wide pt-20
+  sm:pt-24
+  lg:pt-28
+"
+aria-labelledby="technology-evidence-heading"
+id="trace-the-evidence"
   >
-    <div class="cta-panel">
-      <div
-        class="
-          grid grid-cols-1 gap-6
-          lg:flex lg:flex-wrap lg:items-end lg:justify-between
-        "
-      >
-        <div class="
-          max-w-2xl space-y-3
-          lg:flex-[1_1_24rem]
-        "
-        >
-          <p class="
-            section-label text-brand
-            dark:text-accent
-          "
-          >Trace the evidence
-          </p>
-          <h2 class="
-            text-2xl font-semibold tracking-tight text-ink
-            sm:text-3xl
-          "
-          >
-            Tools are easier to trust when they point to real work.
-          </h2>
-          <p class="section-copy">
-            Each technology page filters the portfolio to the projects where that tool shaped the
-            architecture, delivery workflow, or product experience.
-          </p>
-        </div>
-        <div class="
-          section-actions
-          lg:justify-end
-        "
-        >
-          <ButtonLink href="/portfolio/" showArrow>
-            Browse portfolio
-          </ButtonLink>
-          <ButtonLink href="/blog/" showArrow variant="secondary">
-            Read the writing
-          </ButtonLink>
+    <Card data-technology-evidence variant="unstyled">
+      <header data-evidence-header>
+        <p data-evidence-label>Trace the evidence</p>
+        <h2 id="technology-evidence-heading">Tools are easier to trust when they point to real work.</h2>
+      </header>
+      <div data-evidence-body>
+        <p data-evidence-copy>
+          Each technology page filters the portfolio to the projects where that tool shaped the
+          architecture, delivery workflow, or product experience.
+        </p>
+        <div data-evidence-actions>
+          <ButtonLink href="/portfolio/" showArrow>Browse portfolio</ButtonLink>
+          <ButtonLink href="/blog/" showArrow variant="inline">Read the writing</ButtonLink>
         </div>
       </div>
-    </div>
+    </Card>
   </section>
 
   <script>

@@ -106,6 +106,8 @@
 
 - Apply Margin catalog to technology index groups with accent margin introductions, ruled technology links, and aligned project counts. Preserve the full Core, Regular, and Selective groups, live search and empty states, native keyboard navigation, and readable layouts with enlarged text.
 
+- Apply Closing folio to the technology evidence invitation with a tinted title area, a separate reading surface, and a ruled action row. Preserve both destinations, keyboard navigation, visible focus, and readable layouts on narrow screens and with enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

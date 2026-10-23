@@ -571,6 +571,36 @@
   }
 }
 
+/* Closing folio gives the technology index a distinct final invitation. */
+.remaining-pages [data-technology-evidence][data-slot='card'] {
+  container: technology-evidence / inline-size;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid hsl(var(--line));
+  border-radius: 1.75rem 1.75rem 0.375rem 1.75rem;
+  background: hsl(var(--surface));
+}
+[data-evidence-header] { padding: 1.5rem 2rem 1.75rem; background: hsl(var(--brand-soft)); }
+[data-evidence-label] { margin: 0 0 1.25rem; color: hsl(var(--brand)); font-size: 0.75rem; line-height: 1.6; font-weight: 500; }
+[data-theme='dark'] [data-evidence-label] { color: hsl(var(--accent)); }
+[data-evidence-header] h2 { margin: 0; color: hsl(var(--ink)); font-size: 2.375rem; line-height: 1.2; font-weight: 500; letter-spacing: -0.045em; overflow-wrap: break-word; }
+[data-evidence-body] { padding: 1.75rem 2rem; }
+[data-evidence-copy] { max-width: 45rem; margin: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.85; }
+[data-evidence-actions] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.75rem; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid hsl(var(--line)); }
+@container technology-evidence (width < 27.5rem) {
+  [data-evidence-header], [data-evidence-body] { padding: 1.5rem 1.25rem; }
+  [data-evidence-header] h2 { font-size: 1.75rem; }
+  [data-evidence-copy] { font-size: 0.875rem; }
+  [data-evidence-actions] { margin-top: 1.25rem; }
+  [data-evidence-actions] a { width: 100%; justify-content: space-between; }
+}
+@container technology-evidence (width < 16rem) {
+  [data-evidence-header], [data-evidence-body] { padding-inline: 0.75rem; }
+  [data-evidence-header] h2 { font-size: 1.5rem; }
+  [data-evidence-actions] a { justify-content: center; padding-inline: 0.5rem; }
+  [data-evidence-actions] .site-action-arrow { display: none; }
+}
+
 /* Speaking: the community impact list and booking notes sit beside their copy only
    while their surfaces have room in root-relative units. */
 [data-speaking-community] { container: speaking-community / inline-size; }

@@ -229,6 +229,16 @@ links form one column. The full row is a link with a visible focus ring and a la
 that includes its project count. Preserve live filtering, hidden empty groups,
 result announcements, and Lumen's existing reduced-motion-aware list behavior.
 
+### Closing folio evidence invitation
+
+The Technologies page closes with a Lumen Card that separates a tinted title
+area from the supporting copy and navigation. Use brand-soft for the title surface,
+an asymmetric 1.75rem corner treatment, and a ruled action row. Keep Browse portfolio
+as the primary action and Read the writing as an inline link. The invitation retains
+its copy and destinations, with a labeled section and native keyboard navigation.
+Below 27.5rem, actions fill separate rows; at enlarged text sizes, reduce horizontal
+padding and remove decorative arrows so labels and focus rings remain visible.
+
 ### Principle spread working definition
 
 The Developer Experience definition uses one opaque Lumen Card with 1.5rem corners
