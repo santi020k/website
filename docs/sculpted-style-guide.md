@@ -683,6 +683,20 @@ insets and omit decoration when enlarged text needs the space. Preserve the nati
 POST, hidden embed field, email validation, new-tab behavior, and existing destinations;
 the signup needs no additional client script.
 
+### Margin reply article mentions
+
+Article replies and mentions use a flat Lumen Card with fine top and bottom rules.
+Place the author and optional date in a narrow margin with a 3px brand rail, and
+give the response the wider column with 1.125rem text and a 1.8 line height.
+The View original link follows the response with a 44px minimum target.
+
+Use a 0.65fr / 1.65fr split and a 1.75rem gap. Below 27rem of card width, stack
+the identity above the response; below 18rem, reduce insets to preserve reading
+space. Long names and unbroken response text must wrap without horizontal overflow.
+Keep normalized timestamps, anonymous-author fallbacks, escaped plain-text replies,
+the 2,000-character limit, and safe external links. Likes retain their existing avatars.
+This passive layout adds no client script or hover motion.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

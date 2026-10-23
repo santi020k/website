@@ -122,6 +122,8 @@
 
 - Apply Letter folio to the Blog newsletter signup with a soft editorial header, visible email label, and a ruled footer for Privacy and RSS. Keep the labeled action readable on narrow screens and with enlarged text while preserving native POST submission and email validation.
 
+- Apply Margin reply to article replies and mentions, with an author rail, a wider reading column, and a clear source link. Stack the layout for narrow screens and enlarged text while preserving reply text, dates, and safe external links.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

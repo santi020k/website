@@ -1,12 +1,13 @@
 import { spawnSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, relative } from 'node:path'
 
 import { expect, test } from 'vitest'
 
 test('renders mention avatars without contacting their external hosts at build time', () => {
-  const root = mkdtempSync(join(tmpdir(), 'website-mention-render-'))
+  // Astro's scoped CSS modules need one canonical root across macOS /var aliases.
+  const root = realpathSync(mkdtempSync(join(tmpdir(), 'website-mention-render-')))
   const projectRoot = process.cwd()
   const avatars = [
     'https://avatars.example.invalid/person.png',
