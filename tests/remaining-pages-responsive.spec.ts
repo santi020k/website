@@ -228,7 +228,7 @@ test('resume downloads expose their visible labels to voice and keyboard navigat
 })
 
 test('Work statistics reflow when text grows after the page loads', async ({ page }) => {
-  await page.setViewportSize({ width: 768, height: 900 })
+  await page.setViewportSize({ width: 1440, height: 900 })
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/work/')
   await page.evaluate(() => document.fonts.ready)
@@ -237,11 +237,11 @@ test('Work statistics reflow when text grows after the page loads', async ({ pag
     elements.map(element => Math.round(element.getBoundingClientRect().top))
   ).size)
   await expect(stats).toHaveCount(4)
-  await expect.poll(rowCount).toBe(1)
+  await expect.poll(rowCount).toBe(2)
   await page.evaluate(() => {
     document.documentElement.style.fontSize = '200%'
   })
-  await expect.poll(rowCount).toBe(2)
+  await expect.poll(rowCount).toBe(4)
   await expectVisibleCopyOnScreen(page.locator('.work-stats'))
 })
 

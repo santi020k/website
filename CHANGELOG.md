@@ -4,11 +4,15 @@
 
 ### Minor Changes
 
+- Apply Career ledger to the Work page career highlights with prominent figures, clear headings, and complete explanations beside accent rails. Preserve collection-derived role and technology counts and authored impact metrics, and reflow the two-column ledger into readable rows for narrow screens and enlarged text.
+
 - Apply Chapter ribbons to homepage supporting work and project rows with tinted title panels, complete descriptions, and clear case-study actions. Preserve project order, roles, continuous numbering, and native full-card links. Stack panels for narrow containers and enlarged text with accessible focus and contrast in both themes.
 
 - Apply Collaboration ledger to About page collaboration cards with full-width numbered rows, distinct title and description columns, and quieter fit notes. Preserve all authored copy and stack the rows for narrow containers and enlarged text.
 
 - Apply Community folio to the homepage community panel with a tinted introduction, inset reading sheet, numbered destination rows, and explicit actions. Preserve community and speaking destinations, complete descriptions, native keyboard navigation, and responsive light and dark layouts with enlarged text.
+
+- Apply Compact folio to earlier resume experience entries, sharing the detailed roles' date margin with smaller company headings and tighter role and description spacing. Preserve all four roles, responsive reading at enlarged text sizes, and the distinct short and full PDF layouts.
 
 - Apply Correspondence sheet to the shared footer contact invitation with a wide heading, mail marker, and joined WhatsApp and email actions. Preserve configured destinations, native keyboard navigation, compact footers, and accessible responsive layouts in both themes and with enlarged text.
 
@@ -65,6 +69,8 @@
 - Apply Connection folio to the offline cache card with a soft header, a separate live connection-status row, synchronized icons, and readable enlarged text. Preserve retry and page-navigation behavior.
 
 - Apply Invitation folio to speaking booking cards with a tinted invitation, a clear contact action, and ruled briefing notes. Preserve the complete brief, protected WhatsApp link, keyboard focus, and responsive reflow at enlarged text sizes.
+
+- Apply Role folio to detailed resume experience entries with a date margin, distinct company and role hierarchy, impact rails, and plain technology labels. Reflow dates above the role on narrow screens and at enlarged text sizes while preserving compact entries and the two PDF layouts.
 
 - Apply Sculpted ledger to the homepage experience and impact statistics with tinted number panels, decorative icons, and separate descriptions. Preserve the existing measures, accessible animated values, and complete content across light and dark themes, narrow layouts, and enlarged text.
 
@@ -170,6 +176,8 @@
 - Apply Impact rows to project Outcomes cards, preserving complete claims and accessible
   reading across measured results, written achievements, and enlarged text.
 
+- Update the existing ip-address override to the patched 10.7.4 release to remove the IPv6 parser denial-of-service advisory from development tooling.
+
 - Apply layered editorial portfolio cards with overlapping content, project-colored hover states, and one accessible case-study link.
 
 - Reduce project cover fallbacks and search payloads, remove unused assets and overridden hero styles, and share concurrent build-time content loads. Fix article copy feedback, project modification metadata, initial header rendering, OG manifest revalidation, and service-worker response delays while retaining offline fallbacks.
@@ -212,6 +220,8 @@
 - Align project list markers with the first text line at normal and enlarged text sizes.
   Keep project list cards within narrow viewports when text is enlarged.
 
+- Improve technology snapshot title contrast using the existing semantic colors. Exercise all eight homepage card focus indicators and account for native half-pixel scroll rounding while preserving strict focus, visibility, and accessibility checks.
+
 - Reduce homepage portrait transfer size and remove unused inline logo preloads. Keep hidden
   back-to-top controls out of keyboard navigation, restore focus when returning to the top,
   and include visible labels in the home and footer version links' accessible names. Use fingerprinted
@@ -245,6 +255,8 @@
 - Remove a retired developer-tool project and its draft article, artwork, optional sitemap source, and documentation references from the current website and v3 archive sources.
 
   Preserve old project and article links with permanent redirects to the current project and blog indexes, including trailing-slash variants and v3 archive paths.
+
+- Recover stalled search index requests and response bodies after ten seconds with a retry that preserves the current query. Keep offline static-page queries usable, avoid caching followed redirects that browsers reject during navigation, and send archive error-page exits to the current homepage.
 
 - Use WebP portfolio fallbacks and responsive project and organization images, share rendered content headings with layouts, and avoid repeated header and back-to-top DOM updates during scrolling. Reuse hashed offline assets without redundant writes, fetch PDF downloads only after activation, and avoid full-font downloads for common article symbols and unsupported emoji. Let page layouts omit hidden background decorations and consume Lumen's public stylesheet directly.
 
@@ -303,6 +315,8 @@
 - Improve travel map details with country silhouettes and readable place lists, and give mobile visitors a taller map with details below it.
 
 - Refine the travel card's next-country hover and keyboard focus with a stable, transparent row, an underlined destination, and an inset arrow highlight.
+
+- Reject invalid content date strings at the schema boundary. Read paginated public webmentions with a shared twelve-second deadline and bounded page count, preserve privacy and URL validation, and reject incomplete feeds. Label diagnostic counts as a first-page sample.
 
 - Keep WebKit reading-layout geometry stable when text is enlarged after client
   navigation, preserving native TOC fragment alignment and highlighting. Remove

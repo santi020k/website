@@ -430,7 +430,39 @@ and its static accessible value; text values remain static.
 On phones the icon moves beside the value and the rule disappears. Narrow content
 columns restore the stacked icon and scale long values to fit. Cards stay passive,
 without hover effects or new animation. The homepage uses its dedicated Sculpted
-ledger below, About uses Margin counters, and Work retains its open statistics layout.
+ledger below, About uses Margin counters, and Work uses Career ledger.
+
+### Role folio resume experience
+
+Detailed Experience entries on `/resume/` use Role folio: a date margin beside the
+company and role, open description text, a slim accent rail for impact, and plain
+wrapping technology labels. Adjacent entries share a single rule. Below 31.25rem
+of resume width, dates move above the company so enlarged text has the full line.
+The existing resume container owns these breakpoints. These rules apply only on
+screen; PDF pagination, print typography, and both download variants stay separate.
+Community retains its current layout. Earlier Experience uses Compact folio below.
+
+### Compact folio earlier experience
+
+Earlier Experience on `/resume/` shares Role folio's date margin and responsive
+column alignment. Smaller company headings, compact role labels, and a single
+paragraph keep these four entries lighter than the detailed experience above.
+Each row has one bottom rule; the section heading supplies the first top rule.
+The full CV keeps its existing compact print layout, and the short PDF continues
+to omit Earlier Experience. Content, chronology, and downloads stay unchanged.
+
+### Career ledger Work highlights
+
+The Work introduction closes with four bare Lumen Stat articles in a two-column
+ledger. Each article pairs a 3rem accent figure with a 1.0625rem heading and its
+complete description beside a 2px accent rail. Fine horizontal rules organize the
+rows without adding nested surfaces. Preserve the collection-derived professional
+role and technology counts, along with the authored team and release metrics.
+
+Use the Work intro container: below 53.125rem, show four full-width rows with a
+0.6fr / 1fr split; below 27.5rem, move each figure above its copy. Scale the figure
+with the container below 14rem for enlarged text. Use semantic light and dark
+accents, level-two headings to name the articles, and no links or animation.
 
 ### Timeline folio career cards
 
@@ -862,7 +894,7 @@ rather than an implicit `auto` track, so one long word or control cannot widen t
   Developer Experience card grids. The regular gallery's featured project pairs image and copy
   only while its card has 44rem.
 - Work's intro frame is a `work-intro` container: the hero stacks below 44rem, the statistics
-  use two columns below 38rem and one below 14rem. Its section summaries wrap below their heading.
+  form one column below 53.125rem, with figures above copy below 27.5rem. Its section summaries wrap below their heading.
   Below 14rem the page also tightens its frame inset and scales the headline to keep short words whole.
 - Speaking timelines move their date rail above the card below 32.5rem. Career dates move above
   the folio below 36.25rem, with tighter insets below 20rem. Career rows keep their
