@@ -125,7 +125,7 @@ const describeResultAt = (index: number, total: number): string => {
   return `${title}, ${index + 1} of ${total}`
 }
 
-const renderEmptyCard = (results: HTMLElement, kind: 'empty' | 'idle') => {
+const renderRecoveryCard = (results: HTMLElement, kind: 'empty' | 'idle' | 'error') => {
   const template = document.querySelector(`[data-site-search-${kind}-template]`)
 
   if (template instanceof HTMLTemplateElement) results.replaceChildren(template.content.cloneNode(true))
@@ -142,7 +142,7 @@ const renderEmptyState = (results: HTMLElement) => {
   const items = hasRecentSearches ? recentSearches : popularTopics
 
   if (items.length === 0) {
-    renderEmptyCard(results, 'idle')
+    renderRecoveryCard(results, 'idle')
 
     setStatusMessage('Type at least two characters to search.')
 
@@ -232,47 +232,7 @@ const render = (query: string) => {
   if (indexLoadState === 'error') {
     selectedResultIndex = -1
 
-    results.innerHTML = `
-      <li
-        class="
-          site-search-hint flex flex-col items-center justify-center gap-4
-          px-4 py-8 text-center
-        "
-      >
-        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-danger/10 text-danger">
-          <svg
-            xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" x2="12" y1="8" y2="12" />
-            <line x1="12" x2="12.01" y1="16" y2="16" />
-          </svg>
-        </span>
-        <div class="space-y-1">
-          <p class="text-sm font-medium text-ink">Search unavailable</p>
-          <p class="text-xs text-ink-soft">We couldn't load the search index.</p>
-        </div>
-        <button
-          class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-line bg-surface-muted px-4 py-2 text-xs font-medium text-ink"
-          data-site-search-retry
-          type="button"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-            <path d="M21 3v5h-5" />
-            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-            <path d="M8 16H3v5" />
-          </svg>
-          Try again
-        </button>
-      </li>
-    `
+    renderRecoveryCard(results, 'error')
 
     setStatusMessage('Search is temporarily unavailable.')
 
@@ -309,7 +269,7 @@ const render = (query: string) => {
   if (matches.length === 0) {
     selectedResultIndex = -1
 
-    renderEmptyCard(results, 'empty')
+    renderRecoveryCard(results, 'empty')
 
     setStatusMessage(`No matching results for ${trimmed}. Try different keywords.`)
 

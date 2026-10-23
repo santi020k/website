@@ -118,6 +118,8 @@
 
 - Apply Recovery folio to search empty states with a soft sculpted sheet, clear editorial heading, and an inset Clear search action. Preserve focus recovery, suggestions, and live announcements, with responsive layouts for narrow screens, enlarged text, and short viewports.
 
+- Unify search unavailable and empty states in the shared Recovery folio component. Give failures the approved editorial hierarchy and inset retry action while preserving query state, keyboard focus, request deadlines, and live announcements.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

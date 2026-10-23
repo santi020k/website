@@ -16,7 +16,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.route('**/search-index.json', route => route.fulfill({ json: idle ? [] : entries }))
       await page.goto('/')
       await page.locator('[data-site-search-trigger]').click()
-      const card = page.locator('[data-site-search-empty]')
+      const card = page.locator('[data-site-search-recovery]')
       const input = page.locator('#site-search-input')
 
       await input.fill(idle ? 'a' : 'nothing-matches')
