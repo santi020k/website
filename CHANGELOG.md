@@ -4,6 +4,8 @@
 
 ### Minor Changes
 
+- Apply Career ledger to the Work page career highlights with prominent figures, clear headings, and complete explanations beside accent rails. Preserve collection-derived role and technology counts and authored impact metrics, and reflow the two-column ledger into readable rows for narrow screens and enlarged text.
+
 - Apply Chapter ribbons to homepage supporting work and project rows with tinted title panels, complete descriptions, and clear case-study actions. Preserve project order, roles, continuous numbering, and native full-card links. Stack panels for narrow containers and enlarged text with accessible focus and contrast in both themes.
 
 - Apply Collaboration ledger to About page collaboration cards with full-width numbered rows, distinct title and description columns, and quieter fit notes. Preserve all authored copy and stack the rows for narrow containers and enlarged text.
