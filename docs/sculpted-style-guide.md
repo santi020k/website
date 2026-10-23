@@ -1008,6 +1008,12 @@ uses Contact folio: a tinted label strip, a larger invitation, an underlined ema
 a separate ruled note for dates and response expectations. Keep the policy-specific email
 subjects and full wording. Its narrow-container rules preserve complete words with enlarged text.
 
+Related-work shelf headers use Chapter tab: a tinted label attached to the top edge,
+a balanced title and description, and a ruled browse action below the copy. The action
+aligns right on desktop and starts at the left on narrow layouts. Keep each project type's
+heading and parent destination, native navigation, and complete words with enlarged text.
+Other `SectionHeader` variants retain their open layout.
+
 Article and project headers use
 lighter titles and open metadata rows; project titles retain their readable project-brand
 accent. Long-form prose, code controls, reading progress, and sticky table-of-contents links

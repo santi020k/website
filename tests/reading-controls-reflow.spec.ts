@@ -110,17 +110,24 @@ for (const route of ['/privacy/', '/terms/']) {
 }
 
 for (const width of [1024, 1152, 1440]) {
-  test(`normal desktop shelf keeps its bottom-aligned action beside the copy at ${width}px`, async ({ page }) => {
+  test(`related-work header keeps its action below the copy at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await openWithTextSize(page, '/portfolio/lumen-ui/', 100)
-    const aligned = await page.locator('[data-section-header-shelf]').evaluate(element => {
-      const copy = element.firstElementChild
-      const action = element.lastElementChild
+    const layout = await page.locator('[data-section-header-shelf]').evaluate(element => {
+      const copy = element.querySelector('[data-chapter-copy]')
+      const footer = element.querySelector('[data-chapter-footer]')
+      const action = footer?.querySelector('a')
 
-      if (!copy || !action) throw new Error('Expected shelf copy and action')
-      return Math.abs(copy.getBoundingClientRect().bottom - action.getBoundingClientRect().bottom) < 1
+      if (!copy || !footer || !action) throw new Error('Expected chapter copy, footer and action')
+      return {
+        copyBottom: copy.getBoundingClientRect().bottom,
+        footerTop: footer.getBoundingClientRect().top,
+        footerRight: footer.getBoundingClientRect().right,
+        actionRight: action.getBoundingClientRect().right
+      }
     })
 
-    expect(aligned).toBe(true)
+    expect(layout.footerTop).toBeGreaterThan(layout.copyBottom)
+    expect(Math.abs(layout.footerRight - layout.actionRight)).toBeLessThan(1)
   })
 }

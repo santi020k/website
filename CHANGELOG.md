@@ -110,6 +110,8 @@
 
 - Apply Contact folio to the Privacy, Accessibility, and Terms contact invitations with a shared tinted label strip, clear invitation, and ruled review note. Preserve policy wording, email subjects, native contact links, keyboard focus, and readable layouts with enlarged text.
 
+- Apply Chapter tab to related-work headers with a tinted chapter label, balanced title, and a separate ruled browse action. Preserve project-specific destinations, native keyboard navigation, accessible section headings, and readable layouts with enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
