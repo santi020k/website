@@ -124,6 +124,8 @@
 
 - Apply Margin reply to article replies and mentions, with an author rail, a wider reading column, and a clear source link. Stack the layout for narrow screens and enlarged text while preserving reply text, dates, and safe external links.
 
+- Apply Code folio to standalone article code blocks with a soft toolbar, visible copy feedback, monospace text, and a ruled line-number gutter. Preserve syntax highlighting, source text, filenames, keyboard scrolling, and package-manager tabs.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

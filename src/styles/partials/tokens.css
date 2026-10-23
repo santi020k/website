@@ -18,6 +18,7 @@
 }
 
 @theme {
+  --font-code: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
   /* Stable contrast over photography, independent of the page theme. */
   --color-portrait-scrim: #17101f;
   --color-portrait-ink: #fff;

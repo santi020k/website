@@ -697,6 +697,20 @@ Keep normalized timestamps, anonymous-author fallbacks, escaped plain-text repli
 the 2,000-character limit, and safe external links. Likes retain their existing avatars.
 This passive layout adds no client script or hover motion.
 
+### Code folio article examples
+
+Standalone article code blocks use a soft brand toolbar, a small Lumen code icon,
+language and optional filename, and a visible Copy action. Keep the asymmetric
+0.375rem / 1.625rem corners, fine outline, opaque surface, and no shadow.
+Use the site `font-code` token at 0.875rem with a 1.85 line height. A quiet ruled
+line-number gutter supports scanning without adding numbers to copied text.
+
+Keep long snippets horizontally scrollable in their labeled, keyboard-focusable
+code region. Wrap long filenames and toolbar controls; reduce insets at 27rem
+and 18rem of card width for mobile and enlarged text. Retain Shiki highlighting,
+Lumen copy success/error announcements, visible copy states, and a 44px target.
+Package-manager tabs keep their separate treatment and shared runtime.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

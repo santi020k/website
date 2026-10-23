@@ -35,26 +35,44 @@ test.describe('Article code block copy button', () => {
     await expect(button).toHaveAttribute('aria-label', COPY_LABEL)
     await expect(button).toHaveAttribute('title', COPY_LABEL)
     await expect(button).toHaveAttribute('data-state', 'idle')
+    await expect(button.getByText('Copy', { exact: true })).toBeVisible()
 
     await button.click()
 
     await expect(button).toHaveAttribute('data-state', 'copied')
     await expect(button).toHaveAttribute('aria-label', 'Code copied to clipboard')
+    await expect(button.getByText('Copied', { exact: true })).toBeVisible()
+    await expect(button.getByText('Copy', { exact: true })).toBeHidden()
 
     const copied = await page.evaluate(() => window.localStorage.getItem('code-copy-test-value'))
     const code = await figure.locator('pre code').innerText()
 
     expect(copied).toBe(code)
+    // Pretty Code inserts a space on empty lines; numbers must never enter the snippet.
+    expect(copied?.split('\n').map(line => line.trim() ? line : '').join('\n')).toBe([
+      'export const ORDER_STATUS = {',
+      '  approved: \'approved\',',
+      '  pendingReview: \'pending_review\',',
+      '  rejected: \'rejected\'',
+      '} as const',
+      '',
+      'export type OrderStatus = typeof ORDER_STATUS[keyof typeof ORDER_STATUS]'
+    ].join('\n'))
 
     await page.clock.fastForward(2000)
     await expect(button).toHaveAttribute('data-state', 'idle')
     await expect(button).toHaveAttribute('aria-label', COPY_LABEL)
     await expect(button).toHaveAttribute('title', COPY_LABEL)
+    await expect(button.getByText('Copy', { exact: true })).toBeVisible()
   })
 
   test('explains manual recovery on failure, then restores its code-specific label', async ({ page }) => {
     await stubClipboard(page, 'reject')
+    await page.setViewportSize({ height: 900, width: 320 })
     await page.goto(ARTICLE_PATH)
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = '200%'
+    })
     await page.clock.install()
 
     const button = page.locator('.prose-santi [data-ui-code-copy]').first()
@@ -65,6 +83,13 @@ test.describe('Article code block copy button', () => {
     await expect(button).toHaveAttribute('data-state', 'error')
     await expect(button).toHaveAttribute('aria-label', errorLabel)
     await expect(button).toHaveAttribute('title', errorLabel)
+    await expect(button.getByText('Copy failed', { exact: true })).toBeVisible()
+
+    const cardEdge = await page.locator('.prose-santi [data-ui-code]').first()
+      .evaluate(element => element.getBoundingClientRect().right)
+    const buttonEdge = await button.evaluate(element => element.getBoundingClientRect().right)
+
+    expect(buttonEdge).toBeLessThanOrEqual(cardEdge)
 
     await page.clock.fastForward(2000)
     await expect(button).toHaveAttribute('data-state', 'idle')
