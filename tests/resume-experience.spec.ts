@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
 for (const theme of ['light', 'dark'] as const) {
-  test(`Resume experience preserves readable roles and impact in ${theme}`, async ({ page }) => {
+  test(`Resume preserves readable experience and skill groups in ${theme}`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto('/resume/')
     const entries = page.locator('[data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]')
@@ -19,6 +19,13 @@ for (const theme of ['light', 'dark'] as const) {
       await expect(entry.getByRole('list')).toHaveCount(1)
       await expect(entry.getByRole('listitem').first()).toBeVisible()
     }
+    const skills = page.locator('[data-resume-skills] > div')
+    const readableRows = entries.or(skills)
+
+    await expect(skills.getByRole('heading', { level: 3 })).toHaveText([
+      'Languages', 'Front-End', 'Back-End', 'DevOps & Architecture'
+    ])
+    for (const skill of await skills.all()) await expect(skill.locator('p')).not.toBeEmpty()
     await expectNoUnexpectedAccessibilityViolations(page)
     for (const width of [320, 390, 768, 1024, 1440]) {
       for (const size of [100, 200]) {
@@ -27,7 +34,7 @@ for (const theme of ['light', 'dark'] as const) {
           document.documentElement.style.fontSize = `${textSize}%`
           await document.fonts.ready
         }, size)
-        const overflow = await entries.evaluateAll(rows => rows.flatMap(row => {
+        const overflow = await readableRows.evaluateAll(rows => rows.flatMap(row => {
           const bounds = row.getBoundingClientRect()
 
           return [...row.querySelectorAll('h3, [data-resume-date], p, h4, li, [data-resume-stack] > span')].filter(copy => {
@@ -42,7 +49,7 @@ for (const theme of ['light', 'dark'] as const) {
           }).map(copy => copy.textContent)
         }))
 
-        expect(overflow, `Experience at ${width}px and ${size}% must fit`).toEqual([])
+        expect(overflow, `Resume copy at ${width}px and ${size}% must fit`).toEqual([])
         const overlap = await entries.evaluateAll(rows => rows.some(row => {
           const date = row.querySelector('[data-resume-date]')?.getBoundingClientRect()
           const heading = row.querySelector('h3')?.getBoundingClientRect()
@@ -61,6 +68,14 @@ for (const theme of ['light', 'dark'] as const) {
 test('Resume print keeps inline roles and a compact impact list', async ({ page }) => {
   await page.goto('/resume/')
   await page.emulateMedia({ media: 'print' })
+  const skills = page.locator('[data-resume-skills]')
+
+  await expect(skills.locator(':scope > div')).toHaveCount(4)
+  expect(await skills.evaluate(grid => getComputedStyle(grid).gridTemplateColumns.split(' ').length)).toBe(2)
+  for (const heading of await skills.getByRole('heading', { level: 3 }).all()) {
+    await expect(heading).toBeVisible()
+    await expect(heading).toHaveCSS('text-transform', 'uppercase')
+  }
   const entries = page.locator('[data-resume-entry]')
 
   for (const entry of await entries.all()) {
@@ -87,6 +102,8 @@ test('Resume print keeps inline roles and a compact impact list', async ({ page 
     document.documentElement.setAttribute('data-resume-variant', 'full')
   })
   await expect(community).toBeVisible()
+  await expect(skills).toBeVisible()
+  expect(await skills.evaluate(grid => getComputedStyle(grid).gridTemplateColumns.split(' ').length)).toBe(2)
   for (const entry of await compact.all()) {
     await expect(entry).toBeVisible()
     await expect(entry.locator('[data-resume-role-separator]')).toBeVisible()

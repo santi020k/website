@@ -170,8 +170,8 @@
   .remaining-pages [data-resume-shell] h1 { font-weight: 500; line-height: 1.1; }
   [data-resume-header] > * { max-width: 100%; min-width: 0; }
   /* Role folio and Compact folio share a screen grid; print keeps its own contract. */
-  :is(#resume-experience, #resume-earlier-experience, #resume-community) { scroll-margin-top: 7rem; }
-  :is(#resume-experience, #resume-earlier-experience, #resume-community) > h2 { margin-bottom: 0; }
+  :is(#resume-experience, #resume-earlier-experience, #resume-community, #resume-skills) { scroll-margin-top: 7rem; }
+  :is(#resume-experience, #resume-earlier-experience, #resume-community, #resume-skills) > h2 { margin-bottom: 0; }
   :is([data-resume-entry], [data-resume-compact-entry], [data-resume-community-entry]) {
     display: grid;
     grid-template-columns: 10rem minmax(0, 1fr);
@@ -255,6 +255,33 @@
     :is([data-resume-entry], [data-resume-community-entry]) h3 { font-size: 1.5625rem; }
     [data-resume-compact-entry] [data-resume-date] { padding: 0 0 0.875rem; }
     [data-resume-impact] { padding-inline-start: 1rem; }
+  }
+  /* Capability ledger shares the role date margin; print keeps its two columns. */
+  [data-resume-skills] { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  [data-resume-skills] > div {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 2rem;
+    padding-block: 1.625rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  [data-resume-skills] h3 {
+    margin: 0;
+    padding-top: 0.1875rem;
+    color: hsl(var(--accent));
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.7;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+  [data-resume-skills] p { margin: 0; font-size: 1rem; line-height: 1.85; letter-spacing: -0.015em; }
+  @container resume (width < 47.5rem) {
+    [data-resume-skills] > div { grid-template-columns: 7.5rem minmax(0, 1fr); gap: 1.5rem; }
+  }
+  @container resume (width < 35rem) {
+    [data-resume-skills] > div { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; padding-block: 1.5rem; }
+    [data-resume-skills] h3 { padding: 0; }
   }
   /* On screen, the name and contact column share a row only while the resume has
      36rem in root-relative units. Print keeps its own row layout and PDFs. */

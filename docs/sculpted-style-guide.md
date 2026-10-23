@@ -452,6 +452,15 @@ Each row has one bottom rule; the section heading supplies the first top rule.
 The full CV keeps its existing compact print layout, and the short PDF continues
 to omit Earlier Experience. Content, chronology, and downloads stay unchanged.
 
+### Capability ledger resume skills
+
+Skills & Expertise on `/resume/` uses four ruled rows with accent category labels
+in the same 10rem margin as the experience dates and complete skill descriptions
+beside them. At narrower resume widths the margin contracts to 7.5rem; below 35rem
+each label moves above its text. Keep the existing four groups and authored copy.
+The screen-only layout leaves both PDFs with their compact two-column skill grid,
+print typography, and existing pagination. These passive rows have no hover effect.
+
 ### Career ledger Work highlights
 
 The Work introduction closes with four bare Lumen Stat articles in a two-column

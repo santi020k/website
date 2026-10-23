@@ -102,6 +102,8 @@
 
 - Apply Role folio to the resume Community entry, sharing the experience date margin, role heading, impact rail, and plain technology labels. Preserve all community details, responsive reading at enlarged text sizes, and both PDF layouts.
 
+- Apply Capability ledger to resume Skills and Expertise with aligned category labels, ruled rows, and readable technology descriptions. Preserve all four skill groups, accessible reflow with enlarged text, and the compact two-column layout in both PDF downloads.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
