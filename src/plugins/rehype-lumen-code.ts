@@ -1,3 +1,4 @@
+import { getLumenIcon, type LumenIconNode } from '@santi020k/lumen-core'
 import type { Element, ElementContent, Root, RootContent, Text } from 'hast'
 import type { Plugin } from 'unified'
 import type { Node } from 'unist'
@@ -117,11 +118,27 @@ const COPY_LABEL = 'Copy code to clipboard'
 const COPIED_LABEL = 'Code copied to clipboard'
 const COPY_ERROR_LABEL = 'Could not copy code. Select and copy it manually.'
 
-const createHeader = (language: string, label: string): Element => {
+const iconNode = ([tagName, attributes, children = []]: LumenIconNode): Element => element(
+  tagName, { ...attributes }, children.map(iconNode)
+)
+
+const codeIcon = (): Element => element('svg', {
+  ariaHidden: 'true',
+  dataCodeFolioIcon: '',
+  fill: 'none',
+  focusable: 'false',
+  stroke: 'currentColor',
+  strokeLinecap: 'round',
+  strokeLinejoin: 'round',
+  strokeWidth: '2',
+  viewBox: '0 0 24 24'
+}, getLumenIcon('code-xml')?.node.map(iconNode) ?? [])
+
+const createHeader = (language: string, label: string, folio: boolean): Element => {
   const metadata: ElementContent[] = []
 
-  if (language) {
-    metadata.push(element('span', { className: ['ui-code__language'], dataProseCodeLanguage: '' }, [text(language)]))
+  if (language || folio) {
+    metadata.push(element('span', { className: ['ui-code__language'], dataProseCodeLanguage: '' }, [text(language || 'Code')]))
   }
 
   if (label) {
@@ -129,11 +146,13 @@ const createHeader = (language: string, label: string): Element => {
   }
 
   return element('figcaption', { className: ['ui-code__header'] }, [
-    element('span', { ariaHidden: 'true', className: ['ui-code__dots'] }, [
-      element('span', { className: ['ui-code__dot', 'ui-code__dot--red'] }),
-      element('span', { className: ['ui-code__dot', 'ui-code__dot--yellow'] }),
-      element('span', { className: ['ui-code__dot', 'ui-code__dot--green'] })
-    ]),
+    folio ?
+      codeIcon() :
+      element('span', { ariaHidden: 'true', className: ['ui-code__dots'] }, [
+        element('span', { className: ['ui-code__dot', 'ui-code__dot--red'] }),
+        element('span', { className: ['ui-code__dot', 'ui-code__dot--yellow'] }),
+        element('span', { className: ['ui-code__dot', 'ui-code__dot--green'] })
+      ]),
     element('span', { className: ['ui-code__meta'] }, metadata),
     element('button', {
       ariaLabel: COPY_LABEL,
@@ -145,11 +164,17 @@ const createHeader = (language: string, label: string): Element => {
       dataUiCodeCopy: '',
       title: COPY_LABEL,
       type: 'button'
-    }, [copyIcon(), checkIcon()])
+    }, [copyIcon(), checkIcon(), ...(folio ?
+      [
+        element('span', { dataSlot: 'copy-idle' }, [text('Copy')]),
+        element('span', { dataSlot: 'copy-copied', hidden: true }, [text('Copied')]),
+        element('span', { dataSlot: 'copy-error', hidden: true }, [text('Copy failed')])
+      ] :
+      [])])
   ])
 }
 
-const convertFigure = (figure: Element, exampleNumber: number): void => {
+const convertFigure = (figure: Element, exampleNumber: number, folio: boolean): void => {
   const { label, language, pre } = getCodeMetadata(figure)
 
   figure.properties.className = [...classNames(figure), 'ui-code', 'ui-code--block']
@@ -160,6 +185,16 @@ const convertFigure = (figure: Element, exampleNumber: number): void => {
 
   figure.properties.dataUiCode = ''
 
+  if (folio) {
+    figure.properties.dataArticleCodeFolio = ''
+
+    const code = getCodeElement(figure)
+
+    if (code && dataProperty(code, 'line-numbers') === undefined) {
+      code.properties.dataLineNumbers = ''
+    }
+  }
+
   if (pre) {
     pre.properties.tabIndex = 0
 
@@ -169,7 +204,7 @@ const convertFigure = (figure: Element, exampleNumber: number): void => {
   }
 
   figure.children = [
-    createHeader(language, label),
+    createHeader(language, label, folio),
     ...figure.children.filter(child => (
       child.type !== 'element' ||
       dataProperty(child, 'rehype-pretty-code-title') === undefined
@@ -325,16 +360,20 @@ const groupPackageManagerAlternatives = (tree: Root): void => {
  * Adapts Rehype Pretty Code output to Lumen's Code and CodeTabs public DOM
  * contracts while retaining Shiki's syntax-highlighted children.
  */
-export const rehypeLumenCode: Plugin<[], Root> = () => tree => {
+export const rehypeLumenCode: Plugin<[], Root> = () => (tree, file) => {
   groupPackageManagerAlternatives(tree)
 
+  const sourcePath = file.history.at(-1)?.replace(/\\/gu, '/') ?? ''
+  const isArticle = /(?:^|\/)src\/content\/post\//u.test(sourcePath)
   let exampleNumber = 0
 
-  visit(tree, 'element', node => {
+  visit(tree, 'element', (node, _index, parent) => {
     if (!isPrettyCodeFigure(node)) return
 
     exampleNumber += 1
 
-    convertFigure(node, exampleNumber)
+    const isTabPanel = parent?.type === 'element' && parent.properties.role === 'tabpanel'
+
+    convertFigure(node, exampleNumber, isArticle && !isTabPanel)
   })
 }

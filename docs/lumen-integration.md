@@ -212,6 +212,12 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   captions retain their spacing. Code-copy buttons keep stable geometry during hover and
   press: Lumen's scale animation could send an enlarged-text edge tap to the header.
   Color, border, copy-state feedback, and keyboard focus remain available.
+  Standalone article examples add the site-owned `data-article-code-folio` hook:
+  a soft toolbar, a Lumen `code-xml` icon from the public icon registry, visible
+  `copy-idle`/`copy-copied`/`copy-error` slots, and decorative line numbers.
+  The original Shiki code children and authored line-number offsets remain intact.
+  The Husky article uses the same fenced-code pipeline for its four standalone
+  examples; package-manager groups retain the real Astro `CodeTabs` component.
 - Project prose lists use Ownership ledger. `rehype-project-ledger.ts` separates an authored
   leading `strong` from its explanation at build time, preserving links, code, nested lists,
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives

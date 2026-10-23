@@ -124,6 +124,8 @@
 
 - Apply Margin reply to article replies and mentions, with an author rail, a wider reading column, and a clear source link. Stack the layout for narrow screens and enlarged text while preserving reply text, dates, and safe external links.
 
+- Apply Code folio to standalone article code blocks with a soft toolbar, visible copy feedback, monospace text, and a ruled line-number gutter. Preserve syntax highlighting, source text, filenames, keyboard scrolling, and package-manager tabs.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
@@ -358,6 +360,10 @@
 - Integrate series introductions and focus ledgers into a shared editorial spread, present ordered articles as chapter rows, and align complete blog-card copy across archive and related-writing shelves. Refine section-header alignment and preserve responsive layouts, native reading links, and enlarged-text accessibility.
 
 - Unify spacing between page sections and their statistics, give developer experience spreads and field guides room for complete copy, and align Work section headings with the editorial system. Integrate the offline status card beside its desktop introduction and simplify the 404 recovery composition while preserving mobile layouts, keyboard access, and enlarged-text readability.
+
+- Keep one article share or copy operation active at a time, prevent clipboard fallbacks after navigation, and announce results through a separate live status. Make every package-manager command readable when JavaScript is disabled and hide unavailable copy controls.
+
+- Resolve the Zod collection-validation advisory with patched Zod 4 and a maintained Puppeteer Core update, removing the old Zod 3 dependency without forcing a new major onto its consumer.
 
 ## 4.0.0
 

@@ -43,13 +43,13 @@
    * enlarged sizes. Metadata stays centered between the dots and the control when
    * everything fits. Package-manager panels keep their own grid in ui.css.
    */
-  & [data-ui-code]:not([data-package-manager-code-tabs] *) > figcaption {
+  & [data-ui-code]:not([data-article-code-folio], [data-package-manager-code-tabs] *) > figcaption {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
   }
 
-  & [data-ui-code]:not([data-package-manager-code-tabs] *) > figcaption > span:not([aria-hidden]) {
+  & [data-ui-code]:not([data-article-code-folio], [data-package-manager-code-tabs] *) > figcaption > span:not([aria-hidden]) {
     flex: 1 1 auto;
     justify-content: center;
   }
@@ -94,6 +94,131 @@
 
   & [data-ui-code] [data-highlighted-chars] {
     @apply rounded px-1 bg-brand/20 border-b-2 border-brand;
+  }
+
+  /* Code folio keeps Lumen's copy controller and Shiki's authored tokens. */
+  & [data-article-code-folio] {
+    --folio-accent: hsl(var(--brand));
+    --ui-code-bg: hsl(var(--surface));
+    --ui-code-header-bg: hsl(var(--brand-soft));
+    --ui-code-border: hsl(var(--line));
+    container: code-folio / inline-size;
+    border-radius: 0.375rem 1.625rem 1.625rem 1.625rem;
+    box-shadow: none;
+  }
+
+  @variant dark {
+    & [data-article-code-folio] { --folio-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+    & [data-article-code-folio] > pre { --ui-code-bg: var(--shiki-dark-bg, hsl(var(--surface))); }
+  }
+
+  & [data-article-code-folio] > figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.625rem;
+    border-bottom: 0;
+    padding: 0.875rem 1.5rem;
+  }
+
+  & [data-article-code-folio] [data-code-folio-icon] {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+    color: var(--folio-accent);
+  }
+
+  & [data-article-code-folio] > figcaption > span:not([aria-hidden]) {
+    flex: 1 1 5rem;
+    flex-wrap: wrap;
+    justify-content: start;
+    gap: 0.25rem 0.75rem;
+    color: hsl(var(--ink-soft));
+    font: 500 0.75rem/1.6 var(--font-sans);
+  }
+
+  & [data-article-code-folio] [data-prose-code-language] {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--folio-accent);
+    font: inherit;
+    letter-spacing: 0.08em;
+    overflow-wrap: anywhere;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  & [data-article-code-folio] .ui-code__label {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  & [data-article-code-folio] [data-ui-code-copy] {
+    max-inline-size: 100%;
+    white-space: normal;
+    gap: 0.5rem;
+    border-color: transparent;
+    background: transparent;
+    padding-inline: 0.375rem;
+    color: hsl(var(--ink-soft));
+    font: 500 0.75rem/1.6 var(--font-sans);
+  }
+
+  & [data-article-code-folio] [data-ui-code-copy]:hover,
+  & [data-article-code-folio] [data-ui-code-copy][data-state="copied"] {
+    color: var(--folio-accent);
+    background: hsl(var(--surface) / 0.5);
+  }
+
+  & [data-article-code-folio] [data-ui-code-copy][data-state="error"] {
+    color: hsl(var(--danger));
+  }
+
+  & [data-article-code-folio] > pre {
+    padding: 1.5rem;
+    font-family: var(--font-code);
+    line-height: 1.85;
+  }
+
+  & [data-article-code-folio] > pre > code {
+    font-family: var(--font-code);
+    font-size: 0.875rem;
+    line-height: 1.85;
+  }
+
+  & [data-article-code-folio] [data-line] {
+    border-left: 0;
+    padding-inline: 0;
+  }
+
+  & [data-article-code-folio] [data-line-numbers] > [data-line]::before {
+    content: counter(line) / "";
+    width: 2ch;
+    margin-inline-end: 1.125rem;
+    padding-inline-end: 0.875rem;
+    border-inline-end: 1px solid hsl(var(--line));
+    color: hsl(var(--ink-soft));
+    font: 400 0.75rem/1.85 var(--font-code);
+    line-height: inherit;
+  }
+
+  & [data-article-code-folio] [data-highlighted-line] {
+    margin-inline: 0;
+    background: hsl(var(--brand-soft));
+  }
+
+  @container code-folio (width < 27rem) {
+    & [data-article-code-folio] > figcaption { padding-inline: 1.375rem; }
+    & [data-article-code-folio] > pre { padding: 1.375rem; }
+    & [data-article-code-folio] [data-line-numbers] > [data-line]::before { margin-inline-end: 0.75rem; }
+  }
+
+  @container code-folio (width < 18rem) {
+    & [data-article-code-folio] > figcaption { padding: 0.625rem 0.75rem; }
+    & [data-article-code-folio] > pre { padding: 1rem 0.75rem; }
+    & [data-article-code-folio] [data-line-numbers] > [data-line]::before { padding-inline-end: 0.5rem; }
   }
 
   /* ─── Typography Modifiers ───────────────────────────────────────────────── */
