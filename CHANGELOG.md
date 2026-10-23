@@ -333,6 +333,10 @@
   prose caption margins from code headers and keep copy-button hit areas stable
   during hover and press while retaining 44px touch targets.
 
+- Pass the configured release token through the supported Changesets action input. Document recovery of an interrupted or replaced release run while preserving the original version-bump commit and tag provenance.
+
+- Match accented and canonically equivalent search text while preserving the entered query and non-Latin marks. Share one query-free offline cache entry per static page, retain exact data and asset queries, disable service workers on IPv6 loopback, and describe unavailable pages without mistaking browser connectivity for a successful server response.
+
 ## 4.0.0
 
 ### Major Changes

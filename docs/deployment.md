@@ -99,6 +99,24 @@ Website versions and GitHub Releases are managed with Changesets:
    `CHANGELOG.md`; the workflow then creates the matching `vX.Y.Z` tag and
    GitHub Release from that exact `main` commit.
 
+The pinned Changesets action takes its authentication token through the `github-token`
+input, including the existing `CHANGESETS_TOKEN` fallback. It supplies that token to the
+version script itself; a separate `GITHUB_TOKEN` environment override can conflict with
+its input. With the default token, GitHub creates release pull-request checks in an
+approval-required state; a repository writer must choose **Approve workflows to run**.
+The existing custom-token path can start these checks without that approval. See
+[GitHub token workflow behavior](https://docs.github.com/en/actions/concepts/security/github_token#when-github_token-triggers-workflow-runs).
+
+The release concurrency group preserves the active run but uses GitHub's default single
+pending slot. A newer push can replace a pending version-bump run. If that happens, or
+if a release run fails, rerun the original **Release** run for the merged version-bump
+commit after resolving the cause.
+That preserves its original before/after version comparison and tag provenance. A fresh
+manual dispatch only processes pending Changesets; it does not recreate the skipped
+push-based version detection. Never move an existing version tag to a later commit.
+See the [Changesets token input](https://github.com/changesets/action/tree/ae32849d5ba541f9ae29e40e22a623bc13562f51#inputs)
+and [GitHub concurrency policy](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency).
+
 Documentation, test, and CI-only pull requests do not need a changeset unless
 they should appear in a release. GitHub Releases remain deployment markers, not
 a second deployment gate, and the workflow never publishes the private website
