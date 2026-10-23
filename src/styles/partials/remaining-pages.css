@@ -581,19 +581,8 @@
 [data-page-section-grid] { grid-template-columns: minmax(0, 1fr); }
 /* Preserve reading space when enlarged text makes the card insets too large. */
 @container page-section (width < 20rem) {
-  .remaining-pages :is([data-principle], [data-talk-card], [data-series-card], [data-newsletter], [data-speaking-community], [data-speaking-booking], [data-section-header-shelf]) { padding: 0.75rem; }
+  .remaining-pages :is([data-principle], [data-talk-card], [data-series-card], [data-speaking-community], [data-speaking-booking], [data-section-header-shelf]) { padding: 0.75rem; }
   .remaining-pages [data-topic-card] { padding: 0.5rem; }
-}
-
-[data-newsletter] { container: newsletter / inline-size; }
-[data-newsletter-submit-label] { display: none; }
-@container newsletter (width >= 32rem) {
-  [data-newsletter-submit-label] { display: inline; }
-}
-@container newsletter (width < 16rem) {
-  [data-newsletter-form] { flex-direction: column; }
-  [data-newsletter-form] button { padding-inline: 0.5rem; white-space: normal; }
-  [data-newsletter-submit-label] { display: inline; }
 }
 
 @media (width >= 64rem) {

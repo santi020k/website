@@ -120,6 +120,8 @@
 
 - Unify search unavailable and empty states in the shared Recovery folio component. Give failures the approved editorial hierarchy and inset retry action while preserving query state, keyboard focus, request deadlines, and live announcements.
 
+- Apply Letter folio to the Blog newsletter signup with a soft editorial header, visible email label, and a ruled footer for Privacy and RSS. Keep the labeled action readable on narrow screens and with enlarged text while preserving native POST submission and email validation.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

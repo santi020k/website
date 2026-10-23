@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright'
 import { expect, type Locator, type Page, test } from '@playwright/test'
 
 const setTextSize = async (page: Page, textSize: number) => {
@@ -54,32 +55,31 @@ const hoverAppearance = (card: Locator) => card.evaluate(element => [
   return { color: style.color, transform: style.transform, spacing: style.letterSpacing, shadow: style.boxShadow }
 }))
 
-const expectNewsletterLayout = async (newsletter: Locator, stacked: boolean, wide = false) => {
+const expectNewsletterLayout = async (newsletter: Locator, stacked: boolean) => {
   const button = newsletter.getByRole('button', { name: 'Get new posts' })
   // Native focus can still be scrolling; read all boxes in the same frame.
-  const { field, action, form } = await newsletter.evaluate(element => {
+  const { field, action, controls } = await newsletter.evaluate(element => {
     const input = element.querySelector('input[type="email"]')
     const submit = element.querySelector('button')
-    const form = element.querySelector('form')
+    const controls = element.querySelector('[data-newsletter-controls]')
     const bounds = (node: Element) => {
       const rect = node.getBoundingClientRect()
 
       return { x: rect.x, y: rect.y, width: rect.width, height: rect.height }
     }
 
-    if (!input || !submit || !form) throw new Error('Newsletter controls need rendered boxes')
-    return { field: bounds(input), action: bounds(submit), form: bounds(form) }
+    if (!input || !submit || !controls) throw new Error('Newsletter controls need rendered boxes')
+    return { field: bounds(input), action: bounds(submit), controls: bounds(controls) }
   })
 
   expect(field.width).toBeGreaterThan(150)
+  await expect(button.locator('[data-newsletter-submit-label]')).toBeVisible()
   if (stacked) {
-    expect(field.width).toBeGreaterThanOrEqual(form.width - 1)
+    expect(field.width).toBeGreaterThanOrEqual(controls.width - 1)
     expect(action.y).toBeGreaterThanOrEqual(field.y + field.height)
-    await expect(button.locator('[data-newsletter-submit-label]')).toBeVisible()
   } else {
     expect(action.x).toBeGreaterThanOrEqual(field.x + field.width)
     expect(Math.abs(action.y - field.y)).toBeLessThan(1)
-    if (wide) await expect(button.locator('[data-newsletter-submit-label]')).toBeVisible()
   }
 }
 
@@ -183,8 +183,14 @@ for (const width of [390, 1440]) {
           await email.fill('synthetic-audit-test@example.invalid')
           await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
           await expect(button).toBeFocused()
-          await expectNewsletterLayout(newsletter, width === 390 && textSize === 200, width === 1440)
+          await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+          await expect(newsletter.getByRole('link', { name: 'Privacy' })).toBeFocused()
+          await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+          await expect(newsletter.getByRole('link', { name: 'RSS' })).toBeFocused()
+          await expectNewsletterLayout(newsletter, width === 390)
           expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+          await page.emulateMedia({ forcedColors: 'none' })
+          expect((await new AxeBuilder({ page }).include('[data-newsletter]').analyze()).violations).toEqual([])
         })
       }
 
@@ -229,6 +235,8 @@ test('newsletter submit label stays inside the button at 320px with enlarged tex
     return [...element.querySelectorAll('span')].every(span => {
       const child = span.getBoundingClientRect()
 
+      // Optional decoration is hidden when the enlarged label needs the space.
+      if (child.width === 0 && child.height === 0) return true
       return child.left >= bounds.left && child.right <= bounds.right &&
         child.top >= bounds.top && child.bottom <= bounds.bottom
     })

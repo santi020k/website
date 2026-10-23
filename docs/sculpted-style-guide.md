@@ -670,6 +670,19 @@ The caption pairs a decorative 2rem purple number with a 1.25rem title and the c
 above the copy. Preserve descriptive image alternatives and product-preview disclosures.
 This is a passive surface without hover motion or client JavaScript.
 
+### Letter folio newsletter signup
+
+The Blog newsletter uses one opaque Lumen Card with a small upper-left corner and
+1.75rem remaining corners. A soft brand header pairs the 1.875rem editorial heading
+with a decorative mail icon. Give the form a visible email label and an always-visible
+Get new posts action. A fine rule separates the consent copy, Privacy link, and RSS link.
+
+Use 1.75rem horizontal insets and keep controls at least 44px tall. Below 25rem of
+card width, stack the field and button and place RSS beneath the consent copy. Tighten
+insets and omit decoration when enlarged text needs the space. Preserve the native
+POST, hidden embed field, email validation, new-tab behavior, and existing destinations;
+the signup needs no additional client script.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.
@@ -1000,10 +1013,9 @@ rather than an implicit `auto` track, so one long word or control cannot widen t
 
 - `PageSection` is a `page-section` container. Its editorial header column appears from 1024px
   only while the section has 50rem; `layout="stacked"` always stacks it.
-- Below 20rem of section width, principle, topic, format, series, and newsletter cards
-  reduce their insets to preserve reading space at enlarged text sizes. The newsletter
-  header wraps, and its email field and labeled submit action stack below 16rem of content
-  width; keep the native POST and email validation.
+- Below 20rem of section width, principle, topic, format, and series cards reduce
+  their insets to preserve reading space at enlarged text sizes. The newsletter owns
+  its Letter folio container rules and stacks its field and labeled action below 25rem.
 - The `card-grid-2`, `card-grid-3`, and `card-grid-4` utilities keep a grid's breakpoint column
   count while each card has `--card-grid-min` (16rem by default), then drop a column. They back
   `StatsGrid`, `PostsGallery`, the regular `ProjectsGallery`, series cards, and the Speaking and
