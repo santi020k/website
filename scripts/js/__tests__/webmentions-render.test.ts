@@ -53,7 +53,16 @@ test('renders mention avatars without contacting their external hosts at build t
 
     const document = readFileSync(join(root, 'dist/index.html'), 'utf8')
 
-    for (const avatar of avatars) expect(document).toContain(`src="${avatar}"`)
+    const images = document.match(/<img\b[^>]*>/g) ?? []
+
+    expect(images).toHaveLength(avatars.length)
+    for (const avatar of avatars) {
+      const image = images.find(tag => tag.includes(`src="${avatar}"`))
+
+      expect(image).toBeDefined()
+      expect(image).toContain('referrerpolicy="no-referrer"')
+      expect(image).toContain('loading="lazy"')
+    }
     expect(document).toContain('width="44"')
     expect(document).toContain('height="44"')
     expect(document).toContain('aria-label="Alice"')

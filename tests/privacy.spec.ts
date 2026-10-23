@@ -18,6 +18,13 @@ test.describe('Privacy page', () => {
     await expect(page.getByText(/aggregate server-side traffic/i)).toBeVisible()
   })
 
+  test('should disclose that reaction avatars load from external hosts', async ({ page }) => {
+    await expect(
+      page.getByText(/profile pictures load directly from Webmention\.io or the author’s site/i)
+    ).toBeVisible()
+    await expect(page.getByText(/receives your IP address/i)).toBeVisible()
+  })
+
   test('should not have unexpected accessibility violations', async ({ page }) => {
     await expect(page.locator('body')).toBeVisible()
     await expectNoUnexpectedAccessibilityViolations(page)

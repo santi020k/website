@@ -365,6 +365,8 @@
 
 - Resolve the Zod collection-validation advisory with patched Zod 4 and a maintained Puppeteer Core update, removing the old Zod 3 dependency without forcing a new major onto its consumer.
 
+- Keep reaction avatars as direct browser requests while omitting referrer information. Explain their external hosts and IP-address exposure in the privacy policy, and verify the generated image attributes and disclosure.
+
 ## 4.0.0
 
 ### Major Changes

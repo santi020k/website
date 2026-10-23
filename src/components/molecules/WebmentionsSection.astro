@@ -78,7 +78,15 @@ const showSection = likes.length > 0 || replies.length > 0
                   >
                     {photo ?
                       (
-                        <Image alt="" class="size-full object-cover" height={44} loading="lazy" src={photo} width={44} />
+                        <Image
+                          alt=""
+                          class="size-full object-cover"
+                          height={44}
+                          loading="lazy"
+                          referrerpolicy="no-referrer"
+                          src={photo}
+                          width={44}
+                        />
                       ) :
                       (
                         <span class="
