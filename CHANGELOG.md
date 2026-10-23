@@ -68,6 +68,8 @@
 
 - Apply Invitation folio to speaking booking cards with a tinted invitation, a clear contact action, and ruled briefing notes. Preserve the complete brief, protected WhatsApp link, keyboard focus, and responsive reflow at enlarged text sizes.
 
+- Apply Role folio to detailed resume experience entries with a date margin, distinct company and role hierarchy, impact rails, and plain technology labels. Reflow dates above the role on narrow screens and at enlarged text sizes while preserving compact entries and the two PDF layouts.
+
 - Apply Sculpted ledger to the homepage experience and impact statistics with tinted number panels, decorative icons, and separate descriptions. Preserve the existing measures, accessible animated values, and complete content across light and dark themes, narrow layouts, and enlarged text.
 
 - Apply Stacked sheets to the History chapters, pairing a raised introduction card

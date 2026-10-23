@@ -431,6 +431,16 @@ columns restore the stacked icon and scale long values to fit. Cards stay passiv
 without hover effects or new animation. The homepage uses its dedicated Sculpted
 ledger below, About uses Margin counters, and Work uses Career ledger.
 
+### Role folio resume experience
+
+Detailed Experience entries on `/resume/` use Role folio: a date margin beside the
+company and role, open description text, a slim accent rail for impact, and plain
+wrapping technology labels. Adjacent entries share a single rule. Below 31.25rem
+of resume width, dates move above the company so enlarged text has the full line.
+The existing resume container owns these breakpoints. These rules apply only on
+screen; PDF pagination, print typography, and both download variants stay separate.
+Earlier Experience and Community retain their current compact layouts.
+
 ### Career ledger Work highlights
 
 The Work introduction closes with four bare Lumen Stat articles in a two-column
