@@ -184,32 +184,26 @@ data-technology-group-count
     <StatCard description="Frontend, backend, testing, delivery, and developer tooling." icon="layers" label="Scope" value="Full stack" />
   </StatsGrid>
 
-  <section
-class="
-  section-container-wide pt-20
-  sm:pt-24
-  lg:pt-28
-"
-aria-labelledby="technology-evidence-heading"
-id="trace-the-evidence"
-  >
-    <Card data-technology-evidence variant="unstyled">
-      <header data-evidence-header>
-        <p data-evidence-label>Trace the evidence</p>
-        <h2 id="technology-evidence-heading">Tools are easier to trust when they point to real work.</h2>
-      </header>
-      <div data-evidence-body>
-        <p data-evidence-copy>
-          Each technology page filters the portfolio to the projects where that tool shaped the
-          architecture, delivery workflow, or product experience.
-        </p>
-        <div data-evidence-actions>
-          <ButtonLink href="/portfolio/" showArrow>Browse portfolio</ButtonLink>
-          <ButtonLink href="/blog/" showArrow variant="inline">Read the writing</ButtonLink>
+  <PageSection layout="stacked">
+    <section aria-labelledby="technology-evidence-heading" id="trace-the-evidence">
+      <Card data-technology-evidence variant="unstyled">
+        <header data-evidence-header>
+          <p data-evidence-label>Trace the evidence</p>
+          <h2 id="technology-evidence-heading">Tools are easier to trust when they point to real work.</h2>
+        </header>
+        <div data-evidence-body>
+          <p data-evidence-copy>
+            Each technology page filters the portfolio to the projects where that tool shaped the
+            architecture, delivery workflow, or product experience.
+          </p>
+          <div data-evidence-actions>
+            <ButtonLink href="/portfolio/" showArrow>Browse portfolio</ButtonLink>
+            <ButtonLink href="/blog/" showArrow variant="inline">Read the writing</ButtonLink>
+          </div>
         </div>
-      </div>
-    </Card>
-  </section>
+      </Card>
+    </section>
+  </PageSection>
 
   <script>
     const setupTechnologyIndex = () => {

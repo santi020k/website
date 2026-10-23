@@ -14,45 +14,47 @@ const meta = {
 ---
 
 <PageLayout mainClass="remaining-pages" footerVariant="compact" meta={meta}>
-  <PageHero
-    description="Your connection or the site may be unavailable. Try again, or open a previously visited page from the local cache."
-    eyebrow="Offline"
-    gradientText="but cached pages are within reach."
-    metaItems={['Cached pages', 'Static-first', 'Try again anytime']}
-    title="Page unavailable,"
-  >
-    <ButtonLink href="/">
-      Go home
-    </ButtonLink>
-    <ButtonLink href="/portfolio/" variant="secondary">
-      Browse projects
-    </ButtonLink>
-    <Button data-retry-connection>
-      Try again
-    </Button>
-  </PageHero>
+  <div class="section-container-wide" data-offline-layout>
+    <PageHero
+      description="Your connection or the site may be unavailable. Try again, or open a previously visited page from the local cache."
+      eyebrow="Offline"
+      gradientText="but cached pages are within reach."
+      metaItems={['Cached pages', 'Static-first', 'Try again anytime']}
+      title="Page unavailable,"
+    >
+      <ButtonLink href="/" variant="secondary">
+        Go home
+      </ButtonLink>
+      <ButtonLink href="/portfolio/" variant="ghost">
+        Browse projects
+      </ButtonLink>
+      <Button data-retry-connection>
+        Try again
+      </Button>
+    </PageHero>
 
-  <section class="section-container-wide">
-    <Card as="section" variant="unstyled" data-offline-folio aria-labelledby="offline-cache-heading">
-      <header data-offline-header>
-        <h2 id="offline-cache-heading">What's cached</h2>
-        <Icon name="cloud-download" class="size-5.5 shrink-0" />
-      </header>
-      <p data-offline-copy>
-        Previously visited pages may still be available offline. The freshest posts, projects, and
-        profile updates will appear once the site responds again.
-      </p>
-      <footer data-offline-footer>
-        <span data-connection-indicator>
-          <span data-connection-offline><Icon name="wifi-off" class="size-4" /></span>
-          <span data-connection-online hidden><Icon name="wifi" class="size-4" /></span>
-        </span>
-        <p aria-live="polite" aria-atomic="true" data-connection-status>
-          Try again, or open a previously visited page.
+    <div data-offline-support>
+      <Card as="section" variant="unstyled" data-offline-folio aria-labelledby="offline-cache-heading">
+        <header data-offline-header>
+          <h2 id="offline-cache-heading">What's cached</h2>
+          <Icon name="cloud-download" class="size-5.5 shrink-0" />
+        </header>
+        <p data-offline-copy>
+          Previously visited pages may still be available offline. The freshest posts, projects, and
+          profile updates will appear once the site responds again.
         </p>
-      </footer>
-    </Card>
-  </section>
+        <footer data-offline-footer>
+          <span data-connection-indicator>
+            <span data-connection-offline><Icon name="wifi-off" class="size-4" /></span>
+            <span data-connection-online hidden><Icon name="wifi" class="size-4" /></span>
+          </span>
+          <p aria-live="polite" aria-atomic="true" data-connection-status>
+            Try again, or open a previously visited page.
+          </p>
+        </footer>
+      </Card>
+    </div>
+  </div>
 
   <script>
     let offlineControls: AbortController | undefined
@@ -107,6 +109,21 @@ const meta = {
 </PageLayout>
 
 <style>
+  [data-offline-layout] { container: offline-layout / inline-size; display: grid; gap: 3rem; }
+  [data-offline-support] { min-width: 0; }
+  @container offline-layout (width >= 56rem) {
+    [data-offline-layout] > :global(.editorial-page-hero) { grid-column: 1; grid-row: 1; padding-top: 0; }
+    [data-offline-support] { grid-column: 2; grid-row: 1; align-self: center; }
+    [data-offline-layout] :global(.editorial-page-title) { font-size: 3.5rem; }
+  }
+  @media (width >= 64rem) {
+    [data-offline-layout] { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+  }
+  /* Text enlargement stacks the columns even on a wide viewport. */
+  @container offline-layout (width < 56rem) {
+    [data-offline-layout] > :global(.editorial-page-hero), [data-offline-support] { grid-column: 1 / -1; }
+  }
+
   [data-offline-folio][data-slot='card'] {
     container: offline-folio / inline-size;
     max-width: 36rem;

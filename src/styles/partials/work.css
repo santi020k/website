@@ -58,6 +58,10 @@
   margin-bottom: 2.5rem;
 }
 
+.work-section-heading h2 { font-size: 3rem; font-weight: 500; line-height: 1.15; letter-spacing: -0.055em; text-wrap: balance; }
+@container work-page (width < 40rem) { .work-section-heading h2 { font-size: 2.25rem; } }
+@container work-page (width < 16rem) { .work-section-heading h2 { font-size: 1.5rem; } }
+
 /* The heading and its summary share a row while both fit in root-relative units;
    enlarged text moves the summary below instead of squeezing the heading. */
 .work-section-heading > div { flex: 1 1 16rem; min-width: 0; }

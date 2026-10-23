@@ -19,11 +19,7 @@ const { class: className, divider = false, layout = 'split' } = Astro.props
 )}
 <section
   class:list={[
-    `
-      section-container-wide pt-20
-      sm:pt-24
-      lg:pt-28
-    `,
+    'section-container-wide',
     className
   ]}
   data-page-section={layout}
@@ -32,3 +28,13 @@ const { class: className, divider = false, layout = 'split' } = Astro.props
     <slot />
   </div>
 </section>
+
+<style>
+  [data-page-section] { --section-space: 4.5rem; padding-top: var(--section-space); }
+  /* The page's flex gap already supplies part of the distance between sections. */
+  :global(.page-flow) > [data-page-section] {
+    padding-top: max(0px, calc(var(--section-space) - var(--page-flow-gap)));
+  }
+  @media (width >= 40rem) { [data-page-section] { --section-space: 6rem; } }
+  @media (width >= 64rem) { [data-page-section] { --section-space: 7rem; } }
+</style>

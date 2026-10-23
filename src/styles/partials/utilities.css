@@ -51,6 +51,22 @@
 
 /* ─── Layout ────────────────────────────────────────────────────────────────── */
 
+/* Page flow exposes its gap so a direct section can complete one spacing interval. */
+@utility page-flow {
+  --page-flow-gap: 3rem;
+  gap: var(--page-flow-gap);
+  &[data-page-spacing='generous'] { --page-flow-gap: 4rem; }
+  @media (width >= 40rem) { --page-flow-gap: 3.5rem; }
+  @media (width >= 64rem) {
+    --page-flow-gap: 4rem;
+    &[data-page-spacing='generous'] { --page-flow-gap: 5rem; }
+  }
+  @media (width >= 96rem) {
+    --page-flow-gap: 4.5rem;
+    &[data-page-spacing='generous'] { --page-flow-gap: 6rem; }
+  }
+}
+
 @utility section-copy {
   @apply text-base/7 text-ink-soft sm:text-lg/8;
 }

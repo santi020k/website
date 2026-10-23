@@ -99,28 +99,27 @@ const isGenerousSpacing = mainSpacing === 'generous'
       <SiteHeader variant={headerVariant} />
 
       <main
+        data-page-spacing={mainSpacing}
         data-page-frame={headerVariant === 'signature' ? '' : undefined}
         id="main"
         class:list={[
           `
-            mx-auto flex w-full max-w-384 flex-1 flex-col justify-center px-5
-            pt-12
+            mx-auto flex w-full max-w-384 flex-1 flex-col justify-center
+            page-flow px-5 pt-12
             sm:px-6
             lg:px-8
             2xl:px-10
           `,
           isGenerousSpacing ?
             `
-              gap-16 pb-20
+              pb-20
               sm:pb-22
-              lg:gap-20 lg:pb-24
-              2xl:gap-24
+              lg:pb-24
             ` :
             `
-              gap-12 pb-16
-              sm:gap-14 sm:pb-18
-              lg:gap-16 lg:pb-20
-              2xl:gap-18
+              pb-16
+              sm:pb-18
+              lg:pb-20
             `,
           mainClass
         ]}

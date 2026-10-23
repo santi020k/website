@@ -891,6 +891,19 @@ the directory and colophon retain their existing order and links below it.
 
 ### Page composition around the cards
 
+The Base layout exposes its responsive flow gap through `--page-flow-gap`. A direct
+`PageSection` counts that existing gap toward its total spacing: 4.5rem on phones,
+6rem on tablets, and 7rem on desktop. Nested sections retain their own spacing.
+Statistics keep their divider and cards in one group so the page does not insert
+another gap between them. Preserve the separate spacing contracts of Home, About,
+Work, Travel, History, and the reading templates.
+
+Stacked section headers keep two generous title and description columns. When a
+browse action is present, place it below the description instead of squeezing the
+copy into a third column. DX uses this arrangement for its working definition and
+field guides; the Principle spread occupies the full width below the introduction.
+Work's section headings use the same 500 weight and responsive editorial scale.
+
 Use a stacked `PageSection` for catalogs that already have their own hierarchy: the
 Blog series shelf, series index, technology index, shipped systems, and speaking
 history. At wide container sizes, place the section title beside its description
@@ -1052,8 +1065,7 @@ and a fine metadata rule. Its `compact` mode serves smaller archive introduction
 The `editorial-title` text token controls responsive title size, leading, and tracking.
 
 Archives, technology indexes, speaking, developer experience, and portfolio summaries use
-solid Lumen surfaces with no hover lift. Statistics form quiet strips rather than nested
-cards. Search, topic sorting, counts, disclosures, and pagination retain their existing
+solid Lumen surfaces with no hover lift. Statistics retain their approved sculpted cards in one shared grid. Search, topic sorting, counts, disclosures, and pagination retain their existing
 Lumen and consumer behavior. Topic filtering restores its position after
 the destination page has loaded. Long article grids render visibly without a group reveal
 threshold. Remaining Lumen `RevealGroup` consumers keep the
@@ -1112,6 +1124,13 @@ both downloadable PDF variants remain authoritative.
   without relying on color or translucent backgrounds.
 
 ### Recovery and discussion states
+
+The 404 orbital illustration sits beside the status number, without a separate card
+competing with the Wayfinding folio. Omit the decorative illustration when enlarged
+text needs the space. Offline recovery places its Connection folio beside the
+introduction at wide container sizes and below it on smaller screens. Keep Retry as
+the single primary action, preserve all native destinations and live connection
+status, and retain the compact footer on both recovery pages.
 
 - The offline cache note uses Connection folio: a soft header, readable explanation, and a ruled
   connection-status row. Keep the polite status announcement and its decorative icon synchronized

@@ -450,7 +450,7 @@
 }
 
 /* The series owns its section spacing instead of adding the page frame gap twice. */
-.series-detail-page { gap: 0; }
+.series-detail-page { --page-flow-gap: 0rem; gap: 0; }
 [data-series-summary] { margin-top: 4rem; }
 
 /* A series introduction shares one ruled spread with its focus ledger. */
@@ -631,7 +631,9 @@
     gap: 2rem;
   }
   [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > div > * { margin: 0; }
-  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > a { align-self: end; }
+  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:has(> a):not([data-section-header-shelf]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:has(> a):not([data-section-header-shelf]) > div { grid-column: 1 / -1; }
+  [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > a { grid-column: 2; align-self: start; }
 }
 
 /* The featured project in the regular gallery pairs image and copy only while the

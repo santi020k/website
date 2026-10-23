@@ -194,7 +194,7 @@ label="Experience"
     />
   </StatsGrid>
 
-  <PageSection>
+  <PageSection layout="stacked">
     <SectionHeader
       description="The useful version of DX connects a recurring team problem to a measurable delivery outcome."
       eyebrow="Working definition"
@@ -257,32 +257,17 @@ label="Experience"
     </RevealGroup>
   </PageSection>
 
-  <section
-    aria-label="Developer experience field guides"
-    class="
-      section-container-wide pt-20
-      sm:pt-24
-      lg:pt-28
-    "
-  >
-    {/* The fragment target starts at the visible heading, so the root scroll padding alone clears the header. */}
-    <div id="field-guides">
-      <SectionHeader
-        description="Start with measurement and standards, then follow the implementation paths through linting, testing, automation, and AI-assisted delivery."
-        eyebrow="Field guides"
-        linkHref="/blog/tags/developer-experience/"
-        linkLabel="Browse every developer experience post"
-        title="Evidence, decisions, and implementation details."
-      />
-      <div class="
-        mt-10
-        sm:mt-12
-      "
-      >
-        <PostsGallery columns={3} posts={featuredPosts} />
-      </div>
-    </div>
-  </section>
+  <PageSection layout="stacked">
+    <SectionHeader
+      id="field-guides"
+      description="Start with measurement and standards, then follow the implementation paths through linting, testing, automation, and AI-assisted delivery."
+      eyebrow="Field guides"
+      linkHref="/blog/tags/developer-experience/"
+      linkLabel="Browse every developer experience post"
+      title="Evidence, decisions, and implementation details."
+    />
+    <PostsGallery columns={3} posts={featuredPosts} />
+  </PageSection>
 
   <PageSection layout="stacked">
     <SectionHeader
