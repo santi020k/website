@@ -1,8 +1,17 @@
 import { Buffer } from 'node:buffer'
 import { createServer, type ServerResponse } from 'node:http'
 
+interface OfflinePreviewOptions {
+  hostname?: 'website.localhost' | 'localhost' | '127.0.0.1' | '[::1]'
+  vary?: string
+}
+
 /** Simulate an unreachable origin without bypassing WebKit's service workers. */
-export const createOfflinePreview = async (baseURL: string | undefined, redirects: Record<string, string> = {}) => {
+export const createOfflinePreview = async (
+  baseURL: string | undefined,
+  redirects: Record<string, string> = {},
+  { hostname = 'website.localhost', vary }: OfflinePreviewOptions = {}
+) => {
   if (!baseURL) throw new Error('Missing test preview URL')
 
   let online = true
@@ -47,7 +56,8 @@ export const createOfflinePreview = async (baseURL: string | undefined, redirect
         const body = Buffer.from(await upstream.arrayBuffer())
 
         response.writeHead(upstream.status, {
-          'Content-Type': upstream.headers.get('content-type') ?? 'application/octet-stream'
+          'Content-Type': upstream.headers.get('content-type') ?? 'application/octet-stream',
+          ...(vary ? { Vary: vary } : {})
         })
 
         return response.end(body)
@@ -60,7 +70,7 @@ export const createOfflinePreview = async (baseURL: string | undefined, redirect
   await new Promise<void>((resolve, reject) => {
     server.once('error', reject)
 
-    server.listen(0, '127.0.0.1', resolve)
+    server.listen(0, hostname === '[::1]' ? '::1' : '127.0.0.1', resolve)
   })
 
   const address = server.address()
@@ -73,7 +83,7 @@ export const createOfflinePreview = async (baseURL: string | undefined, redirect
 
   return {
     // This trustworthy loopback hostname avoids intentional dev-only cleanup.
-    url: `http://website.localhost:${address.port}`,
+    url: `http://${hostname}:${address.port}`,
     setOnline: (value: boolean) => {
       online = value
     },

@@ -57,10 +57,44 @@ export const getPopularTopics = (entries: readonly SearchIndexEntry[]): string[]
     .map(entry => entry.label)
 }
 
-export const rankSearchEntry = (entry: SearchIndexEntry, normalizedQuery: string): number => {
-  const normalizedTitle = entry.title.toLowerCase()
-  const normalizedDescription = entry.description.toLowerCase()
-  const normalizedTags = entry.tags.map(tag => tag.toLowerCase())
+// Combining Diacritical Marks (U+0300–U+036F) are the accents Latin, Greek,
+// and Cyrillic text decomposes into under NFD. Marks from other blocks, such as
+// Devanagari vowel signs or Arabic vowel signs, are left alone so those scripts
+// keep their meaning instead of collapsing to bare consonants.
+const latinDiacritics = /[\u0300-\u036F]/g
+
+/**
+ * Folds case and Latin accents so composed or NFD-decomposed "Aarón" and "AARON" compare
+ * equal. Only used for matching; displayed text and the user's query keep
+ * their original spelling.
+ */
+export const normalizeSearchText = (value: string): string => value
+  .toLowerCase()
+  .normalize('NFD')
+  .replace(latinDiacritics, '')
+  .normalize('NFC')
+  .trim()
+
+const MIN_SEARCH_QUERY_LENGTH = 2
+
+/**
+ * Applies the two-character minimum to the matched form, so a decomposed "é"
+ * (two code units) is held to the same limit as its composed spelling.
+ */
+export const isSearchableQuery = (query: string): boolean => (
+  normalizeSearchText(query).length >= MIN_SEARCH_QUERY_LENGTH
+)
+
+export const rankSearchEntry = (entry: SearchIndexEntry, query: string): number => {
+  const normalizedQuery = normalizeSearchText(query)
+
+  // A query made only of whitespace or combining marks would otherwise prefix
+  // every title and match the whole index.
+  if (!normalizedQuery) return 0
+
+  const normalizedTitle = normalizeSearchText(entry.title)
+  const normalizedDescription = normalizeSearchText(entry.description)
+  const normalizedTags = entry.tags.map(normalizeSearchText)
   const terms = normalizedQuery.split(/\s+/).filter(Boolean)
   let score = 0
 

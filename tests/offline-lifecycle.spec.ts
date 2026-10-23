@@ -14,18 +14,18 @@ for (const theme of ['light', 'dark'] as const) {
       await expect(folio.getByRole('heading', { level: 2 })).toHaveText('What\'s cached')
       await expect(status).toHaveAttribute('aria-live', 'polite')
       await expect(status).toHaveAttribute('aria-atomic', 'true')
-      await expect(status).toHaveText('Connection restored. Try again to load the latest page.')
+      await expect(status).toHaveText('Your browser reports a connection. Try again to load the latest page.')
       await expect(folio.locator('[data-connection-online]')).toBeVisible()
       await expect(folio.locator('[data-connection-offline]')).toBeHidden()
       await expectNoUnexpectedAccessibilityViolations(page)
 
       await context.setOffline(true)
-      await expect(status).toHaveText('You appear to be offline.')
+      await expect(status).toHaveText('Your browser reports no connection.')
       await expect(folio.locator('[data-connection-offline]')).toBeVisible()
       await expect(folio.locator('[data-connection-online]')).toBeHidden()
 
       await context.setOffline(false)
-      await expect(status).toHaveText('Connection restored. Try again to load the latest page.')
+      await expect(status).toHaveText('Your browser reports a connection. Try again to load the latest page.')
       await expect(folio.locator('[data-connection-online]')).toBeVisible()
       const retry = page.getByRole('button', { name: 'Try again', exact: true })
 
@@ -35,7 +35,7 @@ for (const theme of ['light', 'dark'] as const) {
       await expect(page).toHaveURL('/offline/')
       expect(await page.evaluate(() => performance.getEntriesByType('navigation')
         .some(entry => entry instanceof PerformanceNavigationTiming && entry.type === 'reload'))).toBe(true)
-      await expect(status).toHaveText('Connection restored. Try again to load the latest page.')
+      await expect(status).toHaveText('Your browser reports a connection. Try again to load the latest page.')
     })
 
     test('keeps whole words at 320px with enlarged text', async ({ page }) => {
@@ -75,7 +75,7 @@ test('releases connection listeners when leaving the offline page and rebinds on
 
   const status = page.locator('[data-connection-status]')
 
-  await expect(status).toHaveText('Connection restored. Try again to load the latest page.')
+  await expect(status).toHaveText('Your browser reports a connection. Try again to load the latest page.')
 
   await status.evaluate(element => {
     const observer = new MutationObserver(() => {
@@ -111,7 +111,7 @@ test('releases connection listeners when leaving the offline page and rebinds on
   await page.getByRole('link', { name: 'Return to offline page', exact: true }).click()
 
   await expect(page).toHaveURL(/\/offline\/$/)
-  await expect(status).toHaveText('You appear to be offline.')
+  await expect(status).toHaveText('Your browser reports no connection.')
   await expect(page.locator('[data-connection-offline]')).toBeVisible()
   await expect(page.locator('[data-connection-online]')).toBeHidden()
 
@@ -120,7 +120,7 @@ test('releases connection listeners when leaving the offline page and rebinds on
     window.dispatchEvent(new Event('online'))
   })
 
-  await expect(status).toHaveText('Connection restored. Try again to load the latest page.')
+  await expect(status).toHaveText('Your browser reports a connection. Try again to load the latest page.')
   await expect(page.locator('[data-connection-online]')).toBeVisible()
   await expect(page.locator('[data-connection-offline]')).toBeHidden()
 })

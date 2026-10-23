@@ -1,5 +1,5 @@
 import type { SearchIndexEntry } from '@/types/search'
-import { getPopularTopics, isSearchEntry, rankSearchEntry } from '@/utils/search'
+import { getPopularTopics, isSearchableQuery, isSearchEntry, rankSearchEntry } from '@/utils/search'
 
 let entries: SearchIndexEntry[] = []
 let selectedResultIndex = -1
@@ -33,7 +33,7 @@ const getRecentSearches = (): string[] => {
 const rememberRecentSearch = (query: string) => {
   const trimmed = query.trim()
 
-  if (trimmed.length < 2) return
+  if (!isSearchableQuery(trimmed)) return
 
   try {
     const list = getRecentSearches().filter(v => v.toLowerCase() !== trimmed.toLowerCase())
@@ -293,7 +293,7 @@ const render = (query: string) => {
     return
   }
 
-  if (trimmed.length < 2) {
+  if (!isSearchableQuery(trimmed)) {
     selectedResultIndex = -1
 
     renderEmptyState(results)
@@ -301,11 +301,9 @@ const render = (query: string) => {
     return
   }
 
-  const normalized = trimmed.toLowerCase()
-
   const matches = entries
     .map(entry => {
-      const score = rankSearchEntry(entry, normalized)
+      const score = rankSearchEntry(entry, trimmed)
 
       return { entry, score }
     })
@@ -506,7 +504,7 @@ const syncQueryInURL = (value: string) => {
   const url = new URL(window.location.href)
   const query = value.trim()
 
-  if (query.length >= 2) {
+  if (isSearchableQuery(query)) {
     url.searchParams.set('q', query)
   } else {
     url.searchParams.delete('q')
@@ -987,7 +985,7 @@ const bindUi = () => {
   const params = new URLSearchParams(window.location.search)
   const queryFromURL = params.get('q')
 
-  if (queryFromURL && queryFromURL.trim().length >= 2) {
+  if (queryFromURL && isSearchableQuery(queryFromURL)) {
     selectedResultIndex = 0
 
     input.value = queryFromURL
