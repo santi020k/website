@@ -92,6 +92,17 @@ Its keyboard loop includes the visible header controls, yields to the search dia
 focus on dismissal. Route changes and desktop resizing close it. Panel motion is disabled for
 reduced-motion preferences. Navigation shadows are site tokens in `partials/tokens.css`.
 
+`NavProgress.astro` follows Astro's navigation lifecycle, including the preparation event's
+abort signal. Canceling a slow navigation through a same-page anchor clears the loading bar
+and queued animation frames. A replacement navigation owns its own progress; an earlier
+page-load event cannot finish it while its document is still preparing. Older aborted requests
+cannot clear it. Reduced-motion preferences keep the bar hidden.
+
+Topic-filter navigation preserves keyboard focus and the strip's viewport position immediately,
+then checks the vertical offset once at the next render because newly inserted stylesheets can
+change the Blog hero's height. It uses an absolute pixel position to avoid accumulating fractional
+scroll offsets. A newer navigation cancels that correction; a changed URL or focus also skips it.
+
 `SearchDialog.astro` carries the same signature tab, solid surface, and squared controls into
 site search. Numbered suggestions and compact result rows share a scrollable area above keyboard
 hints. The panel uses the available viewport height, with a compact header on short screens.

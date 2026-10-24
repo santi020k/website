@@ -68,21 +68,29 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
 </div>
 
 <script>
-  import type { TransitionBeforePreparationEvent } from 'astro:transitions/client'
+  import { TransitionBeforePreparationEvent } from 'astro:transitions/client'
 
   interface PreservedFilterState {
     pathname: string
     scrollLeft: number
+    sourceFilter: HTMLElement
     top: number
   }
 
   let preservedFilter: PreservedFilterState | undefined
+  let restoreFrame = 0
 
   // Every transition starts clean; only a topic link inside the filter records state.
   document.addEventListener('astro:before-preparation', event => {
+    cancelAnimationFrame(restoreFrame)
+
+    restoreFrame = 0
+
     preservedFilter = undefined
 
-    const { sourceElement } = event as TransitionBeforePreparationEvent
+    if (!(event instanceof TransitionBeforePreparationEvent)) return
+
+    const { sourceElement } = event
     const link = sourceElement?.closest<HTMLAnchorElement>('a[href]')
     const filter = link?.closest<HTMLElement>('[data-blog-tag-filter]')
 
@@ -91,6 +99,7 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
     preservedFilter = {
       pathname: new URL(link.href).pathname,
       scrollLeft: filter.scrollLeft,
+      sourceFilter: filter,
       top: filter.getBoundingClientRect().top
     }
   })
@@ -123,18 +132,21 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
     if (offset !== 0) filter.scrollBy({ behavior: 'instant', left: offset })
   }
 
-  // Measure after the destination page's scripts and styles have settled. This runs
-  // after the layout moves focus to #main, so the selected topic keeps keyboard focus.
+  // Restore after the layout moves focus to #main, so the selected topic keeps
+  // keyboard focus. The render-frame correction handles styles settling later.
   document.addEventListener('astro:page-load', () => {
     const state = preservedFilter
+    const filter = document.querySelector<HTMLElement>('[data-blog-tag-filter]')
+
+    // An older page can finish while the next topic is still preparing. Keep
+    // its saved position until that navigation has installed its own filter.
+    if (state && (window.location.pathname !== state.pathname || filter === state.sourceFilter)) return
 
     preservedFilter = undefined
 
-    const filter = document.querySelector<HTMLElement>('[data-blog-tag-filter]')
-
     if (!filter) return
 
-    if (!state || window.location.pathname !== state.pathname) {
+    if (!state) {
       revealActiveTopic(filter)
 
       return
@@ -152,10 +164,27 @@ const getAriaCurrent = (href: string, isSelected: boolean) => {
       destination.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' })
     }
 
-    // Restore the filter's viewport top after any vertical nudge from scrollIntoView.
-    window.scrollBy({
+    const restoreTop = () => window.scrollTo({
       behavior: 'instant',
-      top: filter.getBoundingClientRect().top - state.top
+      left: window.scrollX,
+      // An absolute pixel target avoids accumulating rounding error when
+      // WebKit applies successive fractional scrollBy offsets.
+      top: Math.round(window.scrollY + filter.getBoundingClientRect().top - state.top)
+    })
+
+    restoreTop()
+
+    // Newly inserted stylesheets can affect WebKit layout after page-load.
+    // Recheck on the next render without delaying the initial focus/scroll.
+    const restoredURL = window.location.href
+
+    restoreFrame = requestAnimationFrame(() => {
+      restoreFrame = 0
+
+      if (!filter.isConnected || window.location.href !== restoredURL ||
+        document.activeElement !== destination) return
+
+      restoreTop()
     })
   })
 </script>
