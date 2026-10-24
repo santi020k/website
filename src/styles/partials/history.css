@@ -38,26 +38,32 @@
   .history-hero-past { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
   [data-history-hero-current] figcaption { grid-template-columns: minmax(0, 1fr) 40%; }
 }
-@utility history-hero-chapters { display: grid; grid-template-columns: 1fr repeat(4, 1.35fr); align-items: center; gap: 1rem; border-top: 1px solid hsl(var(--line) / .65); padding-top: 1.25rem; }
-.history-hero-chapters > p { font-size: .6875rem; line-height: 1.7; color: hsl(var(--ink-soft)); }
-.history-hero-chapters > a { display: flex; min-height: 44px; align-items: center; gap: .875rem; color: hsl(var(--ink)); text-decoration: none; border-radius: .25rem; }
-@utility history-hero-chapter-number { font-size: 1.75rem; font-weight: 500; letter-spacing: -.075em; color: hsl(var(--ink-soft)); }
-.history-hero-chapters > a > span:nth-child(2) { font-size: .6875rem; }
-@utility history-hero-chapter-state { display: block; margin-top: .25rem; font-size: .625rem; color: hsl(var(--ink-soft)); }
-.history-hero-chapters > a > [data-history-chapter-icon] { width: 1rem; height: 1rem; margin-left: auto; }
-.history-hero-chapters > a:hover .history-hero-chapter-number { color: hsl(var(--brand)); }
-[data-theme='dark'] .history-hero-chapters > a:hover .history-hero-chapter-number { color: hsl(var(--accent)); }
+@utility history-hero-chapters { min-width: 0; container: history-chapters / inline-size; }
+@utility history-hero-chapter-intro { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .5rem 1.5rem; margin-bottom: 1.5rem; }
+.history-hero-chapter-intro > span:first-child { font-size: 1.125rem; font-weight: 500; line-height: 1.5; letter-spacing: -.035em; }
+.history-hero-chapter-intro > span:last-child { color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.7; }
+@utility history-hero-chapter-links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 0; padding: 0; }
+.history-hero-chapter-links > li { display: grid; min-width: 0; }
+.history-hero-chapter-links a { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 1rem; column-gap: .75rem; align-content: start; min-width: 0; min-height: 44px; border-top: 1px solid hsl(var(--line)); padding: 1.375rem 1rem 1.125rem 0; color: hsl(var(--ink)); text-decoration: none; }
+.history-hero-chapter-links a::before { position: absolute; top: -4px; left: 0; width: 7px; height: 7px; border-radius: 50%; background: hsl(var(--ink-soft)); content: ''; }
+@utility history-hero-chapter-version { margin-bottom: 1.125rem; font-size: 2.25rem; font-weight: 500; line-height: 1.1; letter-spacing: -.06em; }
+@utility history-hero-chapter-date { display: block; grid-column: 1 / -1; font-size: .75rem; line-height: 1.65; }
+@utility history-hero-chapter-state { display: block; grid-column: 1 / -1; margin-top: .25rem; color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.7; }
+.history-hero-chapter-links [data-history-chapter-icon] { align-self: center; width: 1rem; height: 1rem; margin-bottom: 1.125rem; }
+.history-hero-chapter-links [data-history-chapter-icon] svg { width: 100%; height: 100%; }
+.history-hero-chapter-links [data-history-current-era]::before { background: hsl(var(--brand)); }
+.history-hero-chapter-links [data-history-current-era], .history-hero-chapter-links a:is(:hover, :focus-visible) { border-color: hsl(var(--brand)); }
+.history-hero-chapter-links [data-history-current-era] .history-hero-chapter-version, .history-hero-chapter-links a:is(:hover, :focus-visible) .history-hero-chapter-version { color: hsl(var(--brand)); }
+.history-hero-chapter-links a:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; }
+[data-theme='dark'] .history-hero-chapter-links [data-history-current-era]::before { background: hsl(var(--accent)); }
+[data-theme='dark'] .history-hero-chapter-links [data-history-current-era], [data-theme='dark'] .history-hero-chapter-links a:is(:hover, :focus-visible) { border-color: hsl(var(--accent)); }
+[data-theme='dark'] .history-hero-chapter-links [data-history-current-era] .history-hero-chapter-version, [data-theme='dark'] .history-hero-chapter-links a:is(:hover, :focus-visible) .history-hero-chapter-version { color: hsl(var(--accent)); }
+[data-theme='dark'] .history-hero-chapter-links a:focus-visible { outline-color: hsl(var(--accent)); }
 @media (max-width: 959px) {
   .history-hero-stage { grid-template-columns: 1fr; gap: 2.5rem; padding-block: 1rem 2.5rem; }
   .history-hero-exhibit { width: min(100%, 32rem); margin-inline: auto; }
-  .history-hero-chapters { grid-template-columns: repeat(4, 1fr); }
-  .history-hero-chapters > p { grid-column: 1 / -1; }
-  .history-hero-chapters > p br { display: none; }
-  .history-hero-chapters > a { flex-wrap: wrap; gap: .5rem; }
-  .history-hero-chapters > a > [data-history-chapter-icon] { display: none; }
 }
 @media (max-width: 639px) {
-  .history-hero-chapters { grid-template-columns: repeat(2, 1fr); gap: 1rem 1.5rem; }
   .history-hero-stage { padding-top: .5rem; }
 }
 @utility history-timeline { list-style: none; margin: 7rem 0 0; padding: 0; }
@@ -141,20 +147,11 @@
   .history-hero-copy .editorial-page-title { font-size: min(3rem, 22cqi); }
 }
 
-@container history-intro (width < 48rem) {
-  @media (width >= 640px) {
-    .history-hero-chapters { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  }
-  .history-hero-chapters > p { grid-column: 1 / -1; }
-  .history-hero-chapters > p br { display: none; }
-  .history-hero-chapters > a { flex-wrap: wrap; }
-  .history-hero-chapters > a > [data-history-chapter-icon] { display: none; }
+@container history-chapters (width < 32.5rem) {
+  .history-hero-chapter-links { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.25rem; }
 }
 
-@container history-intro (width < 26rem) {
-  .history-hero-chapters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-@container history-intro (width < 10rem) {
-  .history-hero-chapters { grid-template-columns: minmax(0, 1fr); }
+@container history-chapters (width < 13rem) {
+  .history-hero-chapter-links { grid-template-columns: minmax(0, 1fr); }
+  .history-hero-chapter-links a { padding-inline-end: 0; }
 }

@@ -164,6 +164,8 @@
 
 - Apply Chapter spread to the History hero, placing the current-era capture above two smaller archive previews with clear captions and a shaped Today tab. Keep complete authentic screenshots in normal flow and support narrow layouts and enlarged text without overlap.
 
+- Apply Timeline index to the History chapter shortcuts, using chronological version links, a continuous rule, clear dates and visible directional arrows. Accent the current era and reflow the index for narrow layouts and enlarged text while retaining native keyboard navigation.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

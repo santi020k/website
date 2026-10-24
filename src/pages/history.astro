@@ -76,14 +76,19 @@ const meta = {
         </div>
       </div>
       <nav class="history-hero-chapters" aria-label="Jump to a design era">
-        <p>Four chapters. <br />Still being written.</p>
-        {[...eras].reverse().map((era, index) => (
-          <a href={`#${era.id}`}>
-            <span class="history-hero-chapter-number">0{index + 1}</span>
-            <span>{formatDate(era.date)}<span class="history-hero-chapter-state">{era.current ? 'The current canvas' : 'An earlier idea'}</span></span>
-            <Icon data-history-chapter-icon name="arrow-down-right" />
-          </a>
-        ))}
+        <p class="history-hero-chapter-intro"><span>Four chapters.</span><span>Still being written.</span></p>
+        <ol class="history-hero-chapter-links">
+          {[...eras].reverse().map(era => (
+            <li>
+              <a href={`#${era.id}`} data-history-current-era={era.current ? '' : undefined}>
+                <span class="history-hero-chapter-version">{era.id.toUpperCase()}</span>
+                <Icon data-history-chapter-icon name="arrow-down-right" />
+                <time class="history-hero-chapter-date" datetime={era.date}>{formatDate(era.date)}</time>
+                <span class="history-hero-chapter-state">{era.current ? 'The current canvas' : 'An earlier idea'}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
       </nav>
     </header>
 

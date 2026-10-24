@@ -8,6 +8,11 @@ shaped Today caption, followed by two smaller archive previews. Images remain
 in normal flow with native figure captions and responsive sources. Narrow and
 enlarged-text layouts reflow the previews without cropping or overlapping them.
 
+The Timeline index shortcuts follow the hero in chronological order. Each native
+fragment link pairs its version with a date, chapter description, and directional
+arrow. A shared rule connects the four eras; the current era uses the accent.
+The index reflows into two columns, then one, as its available width decreases.
+
 Each chapter uses the Stacked sheets introduction: version, date, and chapter
 status share a paper-like card with its title and description. The Split exhibit
 below pairs the complete desktop and mobile captures in one sculpted surface,

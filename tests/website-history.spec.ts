@@ -74,7 +74,7 @@ test.describe('History chapters without JavaScript', () => {
         document.documentElement.style.fontSize = '200%'
       })
       await page.evaluate(() => document.fonts.ready)
-      const broken = await page.locator('.history-era-heading, .history-captures figcaption').evaluateAll(elements => {
+      const broken = await page.locator('.history-hero-chapters, .history-era-heading, .history-captures figcaption').evaluateAll(elements => {
         const failures: string[] = []
         for (const element of elements) {
           const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
@@ -94,7 +94,7 @@ test.describe('History chapters without JavaScript', () => {
         }
         return failures
       })
-      expect(broken, 'Chapter copy and capture captions keep complete words').toEqual([])
+      expect(broken, 'Chapter shortcuts, copy and capture captions keep complete words').toEqual([])
       await expect(page.locator('.history-era').getByRole('heading', { level: 2 })).toHaveCount(4)
       const archive = page.getByRole('link', { name: 'Open V3', exact: true })
       await archive.focus()

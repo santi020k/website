@@ -318,6 +318,22 @@ the archive figures and tighten the Today column so enlarged text retains words.
 Use native figures and Astro images, without transforms, overlap, fixed heights,
 new animation, or client JavaScript. Preserve the hero copy and chapter links.
 
+### Timeline index History shortcuts
+
+Below the hero, introduce the four chapter links with a 1.125rem label and a
+smaller preservation line. Place the versions on a continuous fine rule, with
+small circular markers, 2.25rem version labels, and visible directional arrows.
+Dates and chapter descriptions follow in separate rows. Use the shared accent
+for the current era's marker, rule and version, while retaining its explicit
+current-chapter wording. This emphasis identifies the current website version;
+it does not imply a selected scroll position.
+
+Keep the native fragment links in chronological order. Reflow the four-column
+index into two columns below 32.5rem of navigation width, then one below 13rem,
+reclaiming the link's end padding in the single-column layout.
+Retain complete words, visible keyboard focus, generous link targets, and native
+navigation without JavaScript. Preserve the Chapter spread hero above it.
+
 ### Stacked sheets History chapters
 
 Give each chapter introduction an opaque Lumen Card with 1.75rem corners, a
