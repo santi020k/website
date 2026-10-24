@@ -43,11 +43,12 @@ test('renders mention avatars without contacting their external hosts at build t
       logLevel: 'silent',
       vite: { cacheDir: join(root, 'vite-cache'), resolve: { alias: { '@': join(projectRoot, 'src') } } }
     }
+    // Astro keeps prerender output inside outDir only when it sits under process.cwd().
     const result = spawnSync(process.execPath, [
       '--input-type=module',
       '-e',
       `import { build } from 'astro'; globalThis.fetch = () => Promise.reject(new Error('Unexpected build-time fetch')); await build(${JSON.stringify(configuration)});`
-    ], { cwd: projectRoot, encoding: 'utf8', timeout: 30_000 })
+    ], { cwd: root, encoding: 'utf8', timeout: 30_000 })
 
     expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0)
 

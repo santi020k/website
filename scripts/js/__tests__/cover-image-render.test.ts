@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, relative } from 'node:path'
 
@@ -7,7 +7,8 @@ import sharp from 'sharp'
 import { expect, test } from 'vitest'
 
 test('cover images support responsive WebP fallbacks without changing the default output', async () => {
-  const root = mkdtempSync(join(tmpdir(), 'website-cover-render-'))
+  // Astro's cwd prefix check and scoped CSS modules need one canonical root across macOS /var aliases.
+  const root = realpathSync(mkdtempSync(join(tmpdir(), 'website-cover-render-')))
   const projectRoot = process.cwd()
 
   try {
@@ -36,11 +37,12 @@ test('cover images support responsive WebP fallbacks without changing the defaul
       logLevel: 'silent',
       vite: { cacheDir: join(root, 'vite-cache'), resolve: { alias: { '@': join(projectRoot, 'src') } } }
     }
+    // Astro keeps prerender output inside outDir only when it sits under process.cwd().
     const result = spawnSync(process.execPath, [
       '--input-type=module',
       '-e',
       `import { build } from 'astro'; globalThis.fetch = () => Promise.reject(new Error('Unexpected build-time fetch')); await build(${JSON.stringify(configuration)});`
-    ], { cwd: projectRoot, encoding: 'utf8', timeout: 30_000 })
+    ], { cwd: root, encoding: 'utf8', timeout: 30_000 })
 
     expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0)
 
