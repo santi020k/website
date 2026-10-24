@@ -213,7 +213,7 @@ test('a blocked comments client hides the mount and points readers to GitHub', a
   await expect(status).toHaveAttribute('role', 'status')
   await expect(status).toHaveAttribute('aria-live', 'polite')
 
-  const github = section.getByRole('link', { name: 'reply on GitHub' })
+  const github = section.getByRole('link', { name: 'Reply on GitHub', exact: true })
 
   await expect(github).toHaveAttribute('href', /^https:\/\/github\.com\/[^/]+\/[^/]+\/discussions$/u)
   await github.focus()

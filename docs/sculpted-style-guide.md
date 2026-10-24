@@ -753,6 +753,20 @@ for one example. Wide tables scroll inside the named region on narrow screens;
 the page itself must not overflow. Keep a visible focus outline, keyboard access,
 and readable header accents in both themes. This treatment requires no script.
 
+### Conversation folio article discussions
+
+Use `CommentsSection` to invite readers into the article discussion. A Lumen Card
+pairs a soft brand header and decorative conversation icon with a plain reading
+area. Keep the real Comments heading, asymmetric 0.375rem / 1.75rem corners, fine
+outline, and a separate underlined Reply on GitHub row with a 44px minimum target.
+Reduce insets for narrow containers and enlarged text; preserve a visible focus
+outline and readable accents in both themes.
+
+The invitation sits above the provider widget. Keep Giscus lazy loading, theme
+synchronization, and polite failure guidance in the existing controller. The
+GitHub destination must remain available while loading, after failure, and without
+JavaScript. Do not reserve an empty widget area for readers without JavaScript.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

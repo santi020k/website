@@ -132,6 +132,8 @@
 
 - Apply Table folio to article comparison tables with soft column headers, tinted row labels, and sculpted corners. Preserve native table semantics and keyboard scrolling, with compact insets and wrapping headers for narrow screens and enlarged text.
 
+- Apply Conversation folio to article discussion invitations with a soft heading band, a clear invitation, and a separate GitHub reply row. Preserve lazy comments, theme synchronization, accessible load-error guidance, and the no-JavaScript fallback across narrow screens and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
