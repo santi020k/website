@@ -80,7 +80,7 @@ I find atomic design to be an ideal structure because it’s the same structure 
 
 Here’s an example of a button component:
 
-![Folder components/atoms/button containing button.module.css, button.test.tsx, button.tsx, and button.types.ts](./fig-2.webp)
+![Folder components/atoms/button containing button.module.css, button.test.tsx, button.tsx, and button.types.ts](./fig-2.webp "A component, kept together.")
 
 Another common mistake in frontend development is separating a component’s code into multiple folders: one for tests, one for interfaces/types, one for components, etc. This greatly complicates code navigation. Personally, I prefer to have everything related to a component in one place, like the previous example.
 

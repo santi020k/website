@@ -154,6 +154,10 @@
 
 - Apply Cover spread to project openings with a shared article and project layout, native artwork, and uncluttered covers. Preserve project colors, facts, actions, and technology strips while keeping narrow and enlarged-text layouts readable.
 
+- Apply Caption spread to article illustrations with authored captions, per-article figure numbers, and a curved mount below complete artwork. Preserve alt text and Astro image processing, support enlarged text, and render the figures without client scripts.
+
+- Apply Portrait spread to the About profile with a sculpted image edge, prominent name caption, and soft location mount. Preserve the existing photograph, responsive sources, native figure semantics, and hero actions while supporting narrow layouts and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
@@ -398,6 +402,8 @@
 - Patch transitive body-parser, fast-uri, and Undici security advisories within their existing consumer major versions, and protect URI and integrity behavior with regression tests against the installed dependencies.
 
 - Keep policy and section labels readable in dark mode at normal text sizes, and preserve the complete search focus outline in short windows. Verify the current responsive portfolio image layouts.
+
+- Restore reading positions immediately through browser history and reloads, reveal selected mobile topics without moving page focus, and synchronize package-manager tabs without scrolling to another code block. Distinguish selected archive groups from the current pagination page.
 
 ## 4.0.0
 
