@@ -130,6 +130,8 @@
 
 - Apply Update folio to article update notes with a labeled title band, notebook icon, and normal reading text. Preserve complete copy, native link destinations, responsive themes, and script-free access through a shared Lumen Callout composition.
 
+- Apply Table folio to article comparison tables with soft column headers, tinted row labels, and sculpted corners. Preserve native table semantics and keyboard scrolling, with compact insets and wrapping headers for narrow screens and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

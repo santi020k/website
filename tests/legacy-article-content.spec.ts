@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test'
 const TABLE_ARTICLE = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
 const ROADMAP_ARTICLE = '/blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library/'
 
-for (const width of [390, 1440]) {
+for (const width of [320, 390, 1440]) {
   for (const textSize of [100, 200]) {
     for (const theme of ['light', 'dark'] as const) {
       test(`older article content reflows at ${width}px with ${textSize}% text in ${theme}`, async ({ page }) => {
@@ -35,7 +35,7 @@ for (const width of [390, 1440]) {
 
         const geometry = await region.evaluate(node => ({
           width: node.clientWidth,
-          cellWidths: [...node.querySelectorAll('td')].map(cell => cell.getBoundingClientRect().width),
+          cellWidths: [...node.querySelectorAll('th, td')].map(cell => cell.getBoundingClientRect().width),
           outlineStyle: getComputedStyle(node).outlineStyle
         }))
 
