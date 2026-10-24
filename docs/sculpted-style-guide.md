@@ -791,8 +791,9 @@ Keep the existing role fallback, native timeline dates, and computed duration.
 Use 1.5rem vertical insets and gaps, with 1.125rem inside each margin rule.
 
 Below 37rem of available width, put the role above the two supporting facts.
-Below 22.5rem, stack all three fields. Complete values remain visible with enlarged
-text in both themes. This passive composition adds no client JavaScript.
+Below 22.5rem, stack all three fields. Below 12rem, use 1.125rem role type to keep
+long words intact with enlarged text. Complete values remain visible in both
+themes. This passive composition adds no client JavaScript.
 
 ### Margin preface content notes
 

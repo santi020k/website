@@ -215,6 +215,9 @@ class="text-ink-soft"
   @container editorial-meta (width < 22.5rem) {
     [data-project-imprint] { grid-template-columns: minmax(0, 1fr); }
   }
+  @container editorial-meta (width < 12rem) {
+    [data-project-meta='role'] dd { font-size: 1.125rem; }
+  }
   [data-project-title-gradient] {
     background-image: linear-gradient(to right, var(--project-title-primary-readable), var(--project-title-secondary-readable), var(--project-title-primary-readable));
   }
