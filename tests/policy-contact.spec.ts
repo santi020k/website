@@ -1,6 +1,7 @@
+import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
+import { expectNoUnexpectedAccessibilityViolations, waitForVisibleAnimations } from './helpers/accessibility'
 
 const tabKeys = {
   chromium: { next: 'Tab', previous: 'Shift+Tab' },
@@ -60,6 +61,30 @@ for (const theme of ['light', 'dark'] as const) {
       })
     }
   })
+}
+
+// Default text size keeps the 12px label subject to the normal-text 4.5:1 threshold,
+// which the 200% reflow scan above measures as large text.
+for (const theme of ['light', 'dark'] as const) {
+  for (const width of [390, 1440]) {
+    test.describe(`Contact folio contrast in ${theme} at ${width}px`, () => {
+      test.use({ viewport: { width, height: 900 }, colorScheme: theme, reducedMotion: 'reduce' })
+      for (const invitation of invitations) {
+        test(`${invitation.route} keeps normal-size contact text readable`, async ({ page }) => {
+          await page.goto(invitation.route)
+          await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+          await page.evaluate(() => document.fonts.ready)
+          const panel = page.getByRole('region', { name: invitation.title })
+          await expect(panel.locator('[data-policy-contact-label] p')).toHaveCSS('font-size', '12px')
+          await panel.scrollIntoViewIfNeeded()
+          await expect(panel).toBeInViewport()
+          await waitForVisibleAnimations(page)
+          const audit = await new AxeBuilder({ page }).include('[data-policy-contact]').analyze()
+          expect(audit.violations).toEqual([])
+        })
+      }
+    })
+  }
 }
 
 test.describe('Contact folio without JavaScript', () => {

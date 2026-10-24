@@ -34,7 +34,7 @@ const { label, title } = Astro.props
     overflow: hidden;
     overflow-wrap: break-word;
   }
-  :global([data-theme='dark']) [data-policy-contact] { --policy-contact-emphasis: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-policy-contact] { --policy-contact-emphasis: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
   [data-policy-contact-label] {
     display: flex;
     align-items: center;

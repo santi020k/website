@@ -17,6 +17,17 @@ for (const theme of ['light', 'dark'] as const) {
   test.describe(`Chapter tab in ${theme}`, () => {
     test.use({ viewport: { width: 320, height: 844 }, colorScheme: theme, reducedMotion: 'reduce' })
     for (const header of headers) {
+      // At 200% text the 12px tab becomes large text, so only default sizing
+      // exercises the 4.5:1 normal-text contrast threshold.
+      test(`${header.route} keeps normal-size chapter emphasis readable`, async ({ page }) => {
+        await page.goto(header.route)
+        await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
+        const tab = page.getByRole('region', { name: header.title }).locator('[data-chapter-tab]')
+        await expect(tab).toHaveText('Related work')
+        await expect(tab).toHaveCSS('font-size', '12px')
+        await expectNoUnexpectedAccessibilityViolations(page)
+      })
+
       test(`${header.route} preserves readable copy and keyboard navigation at 200% text`, async ({ page, browserName }) => {
         await page.goto(header.route)
         await page.evaluate(() => {

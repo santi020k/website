@@ -138,6 +138,9 @@ import SearchRecoveryState from './SearchRecoveryState.astro'
     background: hsl(var(--brand-soft));
   }
 
+  /* Keep the complete focus outline inside a result when the scroll area is short. */
+  #site-search-results [data-site-search-result]:focus-visible { outline-offset: -2px; }
+
   #site-search-results [data-site-search-result-body] { display: flex; flex: 1; flex-direction: column; gap: 0.5rem; min-width: 0; padding-block: 0.25rem; }
 
   #site-search-results [data-site-search-result-type] {

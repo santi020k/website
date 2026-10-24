@@ -197,8 +197,8 @@ version, so dependency ranges outside the bounds are unaffected.
   scheme spoofing and injection, host confusion, and path equivalence. Every chain
   reaches it through AJV 8: Astro Check's YAML language server, Commitlint and
   Commitprompt config validation, Lighthouse, and ESLint's TSDoc config. All are
-  development dependencies. The existing bound now resolves
-  `fast-uri@>=3.0.0 <3.1.9` to the
+  development dependencies. The existing override's upper bound is raised to
+  `<3.1.9`, resolving `fast-uri@>=3.0.0 <3.1.9` to the
   [3.1.9 release](https://github.com/fastify/fast-uri/releases/tag/v3.1.9),
   keeping AJV's major 3 range.
 - **undici 8.11.2** (two moderate):

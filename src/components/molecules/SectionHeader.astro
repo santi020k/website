@@ -117,7 +117,7 @@ const headingId = id ? `${id}-heading` : undefined
     background: hsl(var(--surface));
     color: hsl(var(--ink));
   }
-  :global([data-theme='dark']) [data-section-header-shelf] { --chapter-emphasis: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-section-header-shelf] { --chapter-emphasis: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
   [data-chapter-tab] {
     display: inline-flex;
     margin: -1px 0 0;

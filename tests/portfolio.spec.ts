@@ -274,18 +274,40 @@ test.describe('Portfolio page', () => {
     })
   }
 
-  test('project images should use the aspect ratio intended for each layout', async ({ page }) => {
-    await page.goto('/portfolio/')
+  // Approved spotlight design (docs/sculpted-style-guide.md): featured cards use
+  // 4:3 artwork beside the sheet from 56rem of card width, 2:1 artwork above it at
+  // intermediate widths, and a 4:3 crop below 36.25rem. Supporting cards keep 16:10
+  // until the same 36.25rem threshold. Include the two-column breakpoint explicitly.
+  const portfolioIndexLayouts = [
+    // Single column, card about 335px wide.
+    { featured: 4 / 3, name: 'narrow', supporting: 4 / 3, width: 375 },
+    // Single column, cards about 652px wide.
+    { featured: 2, name: 'mid single-column', supporting: 16 / 10, width: 700 },
+    // Featured about 720px wide; supporting pairs about 348px wide.
+    { featured: 2, name: 'mid two-column', supporting: 4 / 3, width: 768 },
+    // Featured about 1152px wide; supporting pairs about 564px wide.
+    { featured: 4 / 3, name: 'wide', supporting: 4 / 3, width: 1280 }
+  ] as const
 
-    const featuredImage = page.locator('[data-portfolio-project="featured"] img').first()
-    const supportingImage = page.locator('[data-portfolio-project="supporting"] img').first()
+  for (const layout of portfolioIndexLayouts) {
+    test(`index project images use the intended ${layout.name} aspect ratios`, async ({ page }) => {
+      await page.setViewportSize({ height: 900, width: layout.width })
+      await page.goto('/portfolio/')
 
-    await expectImageLoaded(featuredImage)
-    await expectImageLoaded(supportingImage)
+      const featuredImage = page.locator('[data-portfolio-project="featured"] img').first()
+      const supportingImage = page.locator('[data-portfolio-project="supporting"] img').first()
 
-    await expectImageAspectRatio(featuredImage, 16 / 10, 2)
-    await expectImageAspectRatio(supportingImage, 16 / 10, 4 / 3)
+      await expectImageLoaded(featuredImage)
+      await expectImageLoaded(supportingImage)
 
+      await expectImageAspectRatio(featuredImage, 16 / 10, layout.featured)
+      await expectImageAspectRatio(supportingImage, 16 / 10, layout.supporting)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(layout.width)
+    })
+  }
+
+  test('project page images use the intended aspect ratios without overflow', async ({ page }) => {
+    await page.setViewportSize({ height: 720, width: 1280 })
     await page.goto('/portfolio/smith-commerce/')
 
     const projectHero = page.locator('main article img[src*="cover-commerce-system"]').first()
@@ -302,6 +324,7 @@ test.describe('Portfolio page', () => {
 
     await page.setViewportSize({ height: 812, width: 375 })
     await expect(relatedImage).toBeVisible()
+    await expectImageAspectRatio(relatedImage, 16 / 10, 4 / 3)
 
     const mobileLayout = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
@@ -360,7 +383,6 @@ test.describe('Portfolio page', () => {
     await page.evaluate(() => {
       window.scrollTo(0, document.documentElement.scrollHeight)
     })
-    // eslint-disable-next-line @cspell/spellchecker
     await expect.poll(async () => Number(await readingProgress.getAttribute('aria-valuenow')))
       .toBeGreaterThan(90)
 

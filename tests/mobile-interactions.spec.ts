@@ -234,13 +234,37 @@ test('wrapping backward through search reveals the last result', async ({ page, 
   await page.locator('[data-site-search-close]').focus()
   await page.keyboard.press(browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab')
   await expect(last).toBeFocused()
-  const scroll = await page.locator('#site-search-results').evaluate(element => ({
-    current: element.scrollTop,
-    maximum: element.scrollHeight - element.clientHeight
-  }))
+  await expect(last).toBeInViewport({ ratio: 1 })
+  const scroll = await last.evaluate(element => {
+    const results = element.closest('#site-search-results')
+
+    if (!results) throw new Error('Missing search results container')
+
+    const item = element.getBoundingClientRect()
+    const port = results.getBoundingClientRect()
+    const center = item.left + item.width / 2
+    const style = getComputedStyle(element)
+    const outlineWidth = Number.parseFloat(style.outlineWidth)
+    const ring = Math.max(0, outlineWidth + Number.parseFloat(style.outlineOffset))
+
+    return {
+      current: results.scrollTop,
+      hasOutline: style.outlineStyle !== 'none' && outlineWidth > 0,
+      top: item.top - ring,
+      bottom: item.bottom + ring,
+      portTop: port.top,
+      portBottom: port.bottom,
+      topReachable: element.contains(document.elementFromPoint(center, item.top + 1)),
+      bottomReachable: element.contains(document.elementFromPoint(center, item.bottom - 1))
+    }
+  })
 
   expect(scroll.current).toBeGreaterThan(0)
-  expect(scroll.current).toBeCloseTo(scroll.maximum, 0)
+  expect(scroll.hasOutline).toBe(true)
+  expect(scroll.top).toBeGreaterThanOrEqual(scroll.portTop)
+  expect(scroll.bottom).toBeLessThanOrEqual(scroll.portBottom)
+  expect(scroll.topReachable).toBe(true)
+  expect(scroll.bottomReachable).toBe(true)
   await expectWithinViewport(page, page.locator('[data-site-search-close]'))
 })
 
