@@ -3,8 +3,41 @@ import { expect, test } from '@playwright/test'
 
 const TABLE_ARTICLE = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
 const CODE_ARTICLE = '/blog/avoid-magic-strings-in-typescript-and-javascript/'
+const UPDATE_ARTICLE = '/blog/dep-beacon-vscode-extension/'
 
 for (const theme of ['light', 'dark'] as const) {
+  test(`article updates retain readable text and usable links in ${theme} mode`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 900 })
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+    await page.goto(UPDATE_ARTICLE)
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = '200%'
+    })
+    const note = page.getByRole('complementary', { name: 'September 2026 update' })
+
+    await expect(note).toContainText('This post describes the original VS Code release.')
+    await expect(note.getByRole('link')).toHaveCount(3)
+    const registry = note.getByRole('link', { name: 'Zed extension registry' })
+
+    await expect(registry).toHaveAttribute('href', 'https://zed.dev/extensions/dep-beacon-lsp')
+    await expect(registry).toHaveAttribute('target', '_blank')
+    await expect(registry).toHaveAttribute('rel', /noopener/u)
+    await expect(registry).toHaveAttribute('rel', /noreferrer/u)
+    await registry.focus()
+    await expect(registry).toBeFocused()
+    await expect(registry).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press('Tab')
+    await expect(note.getByRole('link', { name: 'Zed setup guide' })).toBeFocused()
+    await page.keyboard.press('Tab')
+    await expect(note.getByRole('link', { name: 'why I moved to Zed' })).toBeFocused()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    const scan = await new AxeBuilder({ page }).include('[data-article-update-note]').analyze()
+
+    expect(scan.violations).toEqual([])
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/blog\/why-i-moved-to-zed\/$/u)
+  })
+
   test(`article tables support keyboard scrolling with readable ${theme} text`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
@@ -58,7 +91,7 @@ for (const theme of ['light', 'dark'] as const) {
   })
 }
 
-test.describe('Article tables without JavaScript', () => {
+test.describe('Article reading without JavaScript', () => {
   test.use({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
 
   test('preserve native table semantics and keyboard scrolling', async ({ page }) => {
@@ -71,6 +104,16 @@ test.describe('Article tables without JavaScript', () => {
     await expect(region).toBeFocused()
     await page.keyboard.press('ArrowRight', { delay: 100 })
     await expect.poll(() => region.evaluate(node => node.scrollLeft)).toBeGreaterThan(0)
+  })
+
+  test('keeps the update note and its destinations available', async ({ page }) => {
+    await page.goto(UPDATE_ARTICLE)
+    const note = page.getByRole('complementary', { name: 'September 2026 update' })
+
+    await expect(note).toBeVisible()
+    await expect(note.getByRole('link')).toHaveCount(3)
+    await note.getByRole('link', { name: 'why I moved to Zed' }).click()
+    await expect(page).toHaveURL(/\/blog\/why-i-moved-to-zed\/$/u)
   })
 })
 
