@@ -779,6 +779,21 @@ and type row. Keep the same reading order, semantic theme tokens, and complete c
 with enlarged text. The project content wrapper leaves the top rule and insets to
 this header to avoid doubled borders. This passive composition adds no client script.
 
+### Return folio page-end navigation
+
+Article and project detail pages close with a Lumen Card containing a named native
+navigation landmark. Use an opaque surface, fine outline, and alternating 1.75rem /
+0.375rem corners. Pair a circular purple back arrow with a small Back to label and
+larger parent destination; keep Back to top as the quieter action alongside it.
+Optional live-project and repository links occupy a separate ruled footer. Omit
+that footer when neither destination exists, and retain native URLs and safe new tabs.
+
+Below 28.75rem of container width, wrap the top row and stack external destinations.
+Below 18rem, omit the decorative circle and tighten horizontal insets so long parent
+names and enlarged text retain space. Below 12rem, use body-sized destination text,
+smaller insets, and text-only links to keep whole words readable. Keep visible keyboard focus, complete link
+names, and at least 2.75rem targets. This composition needs no client script.
+
 ### Dispatch sleeve sharing controls
 
 Use `ShareButtons` on article and project detail pages. A Lumen Card pairs a quiet

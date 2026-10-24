@@ -1,7 +1,5 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
-
-import { Icon } from '@santi020k/lumen-astro'
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   githubUrl?: string | undefined
@@ -12,62 +10,211 @@ interface Props {
 const { githubUrl, liveDemoUrl, parentPage } = Astro.props
 ---
 
-<footer
-  data-reading-actions
-  class="
-    flex flex-col gap-6 pt-8
-    sm:flex-row sm:items-center sm:justify-between
-  "
->
-  <a
-    href={parentPage.url}
-    class="
-      group inline-flex min-h-11 items-center gap-2 font-medium text-ink
-      transition-colors
-      hover:text-brand
-      motion-reduce:transition-none
-    "
-  >
-    <Icon
-      class="
-        size-5 transition-transform
-        group-hover:-translate-x-1
-        motion-reduce:transition-none
-      "
-      name="arrow-left"
-    />
-    Back to {parentPage.name.toLowerCase()}
-  </a>
-
-  <div class="flex flex-wrap items-center gap-3">
-    {liveDemoUrl && (
-      <ButtonLink href={liveDemoUrl} newTab showArrow>
-        View live project
-      </ButtonLink>
-    )}
-    {githubUrl && (
-      <ButtonLink href={githubUrl} newTab showArrow variant="secondary">
-        Open repository
-      </ButtonLink>
-    )}
-    <a
-      href="#main"
-      class="
-        group inline-flex min-h-11 items-center gap-1.5 text-sm font-medium
-        text-ink-muted transition-colors
-        hover:text-brand
-        motion-reduce:transition-none
-      "
-    >
-      <Icon
-        class="
-          size-4 transition-transform
-          group-hover:-translate-y-0.5
-          motion-reduce:transition-none
-        "
-        name="arrow-up"
-      />
-      Back to top
-    </a>
-  </div>
+<footer data-reading-actions>
+  <Card variant="unstyled" data-return-folio>
+    <nav aria-label="Page-end navigation">
+      <div data-return-row>
+        <Link href={parentPage.url} variant="inherit" data-return-link>
+          <span data-return-mark><Icon name="arrow-left" /></span>
+          <span data-return-copy>
+            <span data-return-kicker>Back to</span>
+            <span data-return-destination>{parentPage.name}</span>
+          </span>
+        </Link>
+        <Link href="#main" variant="inherit" data-return-top>
+          <span>Back to top</span>
+          <Icon name="arrow-up" />
+        </Link>
+      </div>
+      {(liveDemoUrl || githubUrl) && (
+        <div data-return-destinations>
+          {liveDemoUrl && (
+            <Link href={liveDemoUrl} newTab variant="inherit">
+              <span>View live project</span>
+              <Icon name="arrow-up-right" />
+            </Link>
+          )}
+          {githubUrl && (
+            <Link href={githubUrl} newTab variant="inherit">
+              <span>Open repository</span>
+              <Icon name="arrow-up-right" />
+            </Link>
+          )}
+        </div>
+      )}
+    </nav>
+  </Card>
 </footer>
+
+<style>
+  footer {
+    --return-accent: hsl(var(--brand));
+  }
+
+  :global([data-theme="dark"]) footer {
+    --return-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
+  }
+
+  footer :global([data-return-folio]) {
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem 0.375rem 1.75rem 0.375rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+  }
+
+  nav :global(a) {
+    display: flex;
+    min-width: 0;
+    min-height: 2.75rem;
+    max-width: 100%;
+    align-items: center;
+    gap: 0.75rem;
+    color: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.6;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  nav :global(a:hover) {
+    color: var(--return-accent);
+  }
+
+  nav :global(a:focus-visible) {
+    border-radius: 0.25rem;
+    outline: 2px solid var(--return-accent);
+    outline-offset: 4px;
+  }
+
+  nav :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  span {
+    min-width: 0;
+  }
+
+  [data-return-row] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 1.75rem;
+  }
+
+  nav :global([data-return-link]) {
+    gap: 1.125rem;
+  }
+
+  [data-return-mark] {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 50%;
+    background: hsl(var(--brand-soft));
+    color: var(--return-accent);
+  }
+
+  [data-return-copy] {
+    display: grid;
+    gap: 0.1875rem;
+  }
+
+  [data-return-kicker] {
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+  }
+
+  [data-return-destination] {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    letter-spacing: -0.04em;
+  }
+
+  nav :global([data-return-top]) {
+    flex-shrink: 0;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  [data-return-destinations] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.75rem;
+    border-top: 1px solid hsl(var(--line));
+    padding: 0.8125rem 1.75rem;
+  }
+
+  [data-return-destinations] :global(a) {
+    min-width: 11.25rem;
+    flex: 1;
+    justify-content: space-between;
+    gap: 1.25rem;
+  }
+
+  [data-return-destinations] :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    color: var(--return-accent);
+  }
+
+  @container reading-actions (width < 28.75rem) {
+    [data-return-row] {
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      padding: 1.375rem;
+    }
+
+    nav :global([data-return-link]) {
+      gap: 0.875rem;
+    }
+
+    [data-return-destination] {
+      font-size: 1.375rem;
+    }
+
+    [data-return-destinations] {
+      gap: 0.25rem;
+      padding: 0.75rem 1.375rem;
+    }
+
+    [data-return-destinations] :global(a) {
+      min-width: 0;
+      flex-basis: 100%;
+    }
+  }
+
+  @container reading-actions (width < 18rem) {
+    [data-return-mark] {
+      display: none;
+    }
+
+    [data-return-row],
+    [data-return-destinations] {
+      padding-inline: 1rem;
+    }
+  }
+  @container reading-actions (width < 12rem) {
+    [data-return-row],
+    [data-return-destinations] {
+      padding-inline: 0.75rem;
+    }
+
+    [data-return-destination] {
+      font-size: 1rem;
+    }
+
+    [data-return-destinations] :global(a) {
+      gap: 0.5rem;
+    }
+
+    nav :global(svg) {
+      display: none;
+    }
+  }
+</style>
