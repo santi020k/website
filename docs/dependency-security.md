@@ -173,3 +173,50 @@ No independent BiDi version override is added.
 Validate this update with the frozen install, dependency audit, workspace gate,
 Lighthouse, and motion/browser checks. These are build and local tooling changes;
 the website remains statically deployed.
+
+## October 23 transitive advisory follow-up
+
+The October 23, 2026 audit reported seven new advisories in three transitive
+packages. No direct dependency, runtime, or catalog version changes. Each bounded
+override selects the latest stable release within the consumer's existing major
+version, so dependency ranges outside the bounds are unaffected.
+
+- **body-parser 1.20.8** (one high):
+  The [compressed request advisory](https://github.com/advisories/GHSA-27r3-jxmh-p828) is a
+  denial of service from trailing bytes after a compressed request body. The only
+  chain is `@lhci/cli` → `express` 4.22.3 → `body-parser`, a development
+  dependency. Express 4 requires body-parser 1.x, so
+  `body-parser@>=1.0.0 <1.20.9` resolves to the
+  [1.20.9 release](https://github.com/expressjs/body-parser/releases/tag/1.20.9)
+  rather than major 2.
+- **fast-uri 3.1.8** (two moderate, two low):
+  The [encoded scheme](https://github.com/advisories/GHSA-w74x-v6f9-j3xg),
+  [host canonicalization](https://github.com/advisories/GHSA-wjr9-j795-jxcr),
+  [relative path](https://github.com/advisories/GHSA-xhq7-xmqj-769h), and
+  [suffix reference](https://github.com/advisories/GHSA-333x-w4r6-6crp) advisories cover
+  scheme spoofing and injection, host confusion, and path equivalence. Every chain
+  reaches it through AJV 8: Astro Check's YAML language server, Commitlint and
+  Commitprompt config validation, Lighthouse, and ESLint's TSDoc config. All are
+  development dependencies. The existing bound now resolves
+  `fast-uri@>=3.0.0 <3.1.9` to the
+  [3.1.9 release](https://github.com/fastify/fast-uri/releases/tag/v3.1.9),
+  keeping AJV's major 3 range.
+- **undici 8.11.2** (two moderate):
+  The [EventSource advisory](https://github.com/advisories/GHSA-4qv8-2p9j-2685) is
+  unbounded EventSource parser memory, and
+  the [integrity advisory](https://github.com/advisories/GHSA-f72v-6w45-q472) is a
+  response integrity bypass via non-lowercase algorithm tokens. Chains are
+  `astro` → `unifont` → `undici` in every Astro workspace and `jsdom` 30.1.2 →
+  `undici` under Vitest. The audit classifies the Astro chain as a production
+  dependency path; the deployed site remains static output. The
+  [8.12.2 release](https://github.com/nodejs/undici/releases/tag/v8.12.2) contains
+  both fixes, and `undici@>=8.0.0 <8.12.3` resolves to the
+  [8.12.3 release](https://github.com/nodejs/undici/releases/tag/v8.12.3), which
+  adds follow-up fixes and requires Node 22.19.0 or later, satisfied by Node 24.
+  The unused undici 7 override is removed: the installed graph contains only
+  major 8, and the former 7.29.0 pin is also below the advisory's patched floor.
+
+Remove each override once its parent dependency ranges require a patched version.
+The overrides and lockfile must change together. Validate with the frozen install,
+dependency audit, production build, Lighthouse, and the unit and browser suites
+that exercise jsdom.

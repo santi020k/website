@@ -369,6 +369,8 @@
 
 - Keep reaction avatars as direct browser requests while omitting referrer information. Explain their external hosts and IP-address exposure in the privacy policy, and verify the generated image attributes and disclosure.
 
+- Patch transitive body-parser, fast-uri, and Undici security advisories within their existing consumer major versions, and protect URI and integrity behavior with regression tests against the installed dependencies.
+
 ## 4.0.0
 
 ### Major Changes
