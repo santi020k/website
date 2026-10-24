@@ -112,8 +112,11 @@ The timeline and current pages retain ordinary canonical URLs and remain indexab
 After a complete build, start `pnpm run preview --host 127.0.0.1 --port 4321`, then
 run `pnpm run history:screenshots`. Set `HISTORY_PREVIEW_URL` for another local port.
 The script captures actual rendered homepages at 1440 × 1000 and 390 × 844 in light
-mode with reduced motion. It checks loaded images and hides only the preservation
-notice for the exhibit. The resulting WebP files in `src/assets/website-history`
+mode with reduced motion. Before saving each capture, it requires a successful
+page response and the matching version/date archive notice for historical eras.
+The current homepage must not contain an archive notice.
+It also checks loaded images and hides only the preservation notice for the exhibit.
+The resulting WebP files in `src/assets/website-history`
 are intentional product assets. Rebuild after updating them. Do not replace them
 with fabricated previews.
 
