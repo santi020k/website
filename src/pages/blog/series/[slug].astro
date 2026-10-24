@@ -39,6 +39,7 @@ const { postCount, posts, series } = Astro.props
 const { Content } = await render(series)
 const metaTitle = series.data.seoTitle ?? series.data.title
 const metaDescription = series.data.seoDescription ?? series.data.description
+const heroTitle = series.data.title.trimEnd()
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -75,7 +76,7 @@ mainClass="remaining-pages series-detail-page"
     eyebrow="Blog series"
     gradientText="A reading track."
     metaItems={['Start to finish', series.data.cadence, `${postCount} ${postCount === 1 ? 'post' : 'posts'}`]}
-    title={series.data.title.includes('.') ? series.data.title : series.data.title + '.'}
+    title={/[.!?…]$/u.test(heroTitle) ? heroTitle : `${heroTitle}.`}
   >
     <ButtonLink href="/blog/series/" showArrow>
       Browse all series

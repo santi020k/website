@@ -46,6 +46,20 @@ test.describe('Blog series index page', () => {
   }
 })
 
+const seriesHeadings = [
+  { route: '/blog/series/building-a-production-nextjs-app/', heading: 'Building a Production Next.js App. A reading track.' },
+  { route: '/blog/series/eslint-in-practice/', heading: 'ESLint in Practice. A reading track.' },
+  { route: '/blog/series/the-santi020k-way/', heading: 'The santi020k way. A reading track.' }
+]
+
+for (const { route, heading } of seriesHeadings) {
+  test(`series heading ends its title with a full stop before the reading track on ${route}`, async ({ page }) => {
+    await page.goto(route)
+
+    await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName(heading)
+  })
+}
+
 for (const route of ['/blog/', '/blog/series/']) {
   test(`series cards open their reading track with one keyboard stop on ${route}`, async ({ page }) => {
     await page.goto(route)

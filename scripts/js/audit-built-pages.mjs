@@ -135,16 +135,40 @@ export const auditBuiltPages = async directory => {
     dom.window.close()
   }
 
+  const root = path.resolve(directory)
+
+  /**
+   * Find the built file for a local URL pathname. Decoding can turn encoded
+   * separators into traversal segments, so paths outside the build root never
+   * reach stat. HTML documents resolve to their canonical page route so every
+   * alias of a page validates fragments against the same IDs; other files keep
+   * the referenced pathname.
+   * @param {string} pathname
+   * @returns {Promise<string | null>}
+   */
+  const getLocalTarget = async pathname => {
+    const target = path.join(root, decodeURIComponent(pathname))
+    const relative = path.relative(root, target)
+
+    if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) return null
+
+    const info = await getInfo(target)
+    const file = info?.isDirectory() ? path.join(target, 'index.html') : target
+
+    if (!(file === target ? info : await getInfo(file))?.isFile()) return null
+
+    return file.endsWith('.html') ? getRoute(path.relative(root, file)) : pathname
+  }
+
   /** @param {string} pathname @param {Set<string>} visited @returns {Promise<string | null>} */
   const resolveTarget = async (pathname, visited) => {
     if (visited.has(pathname)) return null
 
     visited.add(pathname)
 
-    const target = path.join(directory, decodeURIComponent(pathname))
-    const info = await getInfo(target)
+    const local = await getLocalTarget(pathname)
 
-    if (info?.isFile() || (info?.isDirectory() && await getInfo(path.join(target, 'index.html')))) return pathname
+    if (local !== null) return local
 
     if (pathname === '/404/' && files.includes(path.join(directory, '404.html'))) return pathname
 

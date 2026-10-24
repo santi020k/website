@@ -19,8 +19,22 @@ try {
       ['mobile', { width: 390, height: 844 }]
     ]) {
       const page = await browser.newPage({ viewport, colorScheme: 'light', reducedMotion: 'reduce' })
+      const url = `${baseUrl}${id === 'v4' ? '/' : `/${id}/`}`
+      const response = await page.goto(url, { waitUntil: 'networkidle' })
 
-      await page.goto(`${baseUrl}${id === 'v4' ? '/' : `/${id}/`}`, { waitUntil: 'networkidle' })
+      if (!response?.ok()) throw new Error(`${id}: ${url} returned ${response ? `HTTP ${response.status()}` : 'no response'}`)
+
+      // Archives must carry their own assembled notice, so a stale or wrong build cannot pass as this era.
+      const archive = versions.find(version => version.id === id)
+
+      if (archive) {
+        const notice = page.locator('.website-archive-banner strong')
+        const expected = `${archive.id.toUpperCase()} · ${archive.date}`
+
+        if (await notice.count() !== 1 || await notice.textContent() !== expected) throw new Error(`${id}: ${url} is missing the "${expected}" archive notice`)
+      } else if (await page.locator('.website-archive-banner').count() > 0) {
+        throw new Error(`${id}: ${url} current homepage contains an archive notice`)
+      }
 
       await page.evaluate(async () => {
         await document.fonts.ready
