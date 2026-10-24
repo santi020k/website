@@ -227,19 +227,72 @@
   @apply prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-brand prose-li:my-2;
   @apply prose-th:whitespace-nowrap prose-th:text-ink prose-td:text-ink-soft;
   & [data-prose-table] {
+    --table-folio-accent: hsl(var(--brand));
+    container: table-folio / inline-size;
     margin-block: 2em;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
+    border: 1px solid hsl(var(--line));
+    border-radius: 0.375rem 1.75rem 0.375rem 1.75rem;
+    background: hsl(var(--surface));
+    box-shadow: none;
+    overscroll-behavior-inline: contain;
+  }
+
+  @variant dark {
+    & [data-prose-table] { --table-folio-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
   }
 
   & [data-prose-table] table {
+    width: 100%;
     margin: 0;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    line-height: 1.7143;
+  }
+
+  & [data-prose-table] thead {
+    border-bottom: 0;
+    background: hsl(var(--brand-soft));
+  }
+
+  & [data-prose-table] thead th {
+    padding: 1.0625rem 1.25rem;
+    color: var(--table-folio-accent);
+    font-weight: 500;
+    vertical-align: top;
   }
 
   /* Cells wrap, but keep enough width that four-column tables stay readable on mobile. */
-  & [data-prose-table] td {
+  & [data-prose-table] :is(tbody, tfoot) :is(td, th) {
     min-inline-size: 12ch;
+    padding: 1.25rem;
+    color: hsl(var(--ink-soft));
+    font-weight: 400;
+    vertical-align: top;
+  }
+
+  & [data-prose-table] tbody tr { border-color: hsl(var(--line)); }
+
+  & [data-prose-table] tbody :is(td, th):first-child {
+    background: color-mix(in srgb, hsl(var(--brand-soft)) 28%, hsl(var(--surface)));
+    color: hsl(var(--ink));
+    font-weight: 500;
+  }
+
+  & [data-prose-table] :is(a, code) { color: var(--table-folio-accent); }
+
+  & [data-prose-table] caption {
+    padding: 1.25rem;
+    color: hsl(var(--ink));
+    text-align: start;
+  }
+
+  @container table-folio (width < 24rem) {
+    & [data-prose-table] :is(thead, tbody, tfoot) :is(th, td) { padding-inline: 0.75rem; }
+  }
+
+  @container table-folio (width < 18rem) {
+    & [data-prose-table] :is(thead, tbody, tfoot) :is(th, td) { padding-inline: 0.375rem; }
+    & [data-prose-table] thead th { white-space: normal; }
   }
 
   & [data-prose-table]:focus-visible {

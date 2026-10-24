@@ -737,6 +737,22 @@ section. Preserve ordinary blockquotes for quoted material. Reduce the note inse
 below 30rem and 18rem of container width so enlarged text and link focus remain clear.
 This static treatment requires no client script.
 
+### Table folio article comparisons
+
+Markdown comparison tables use Lumen's existing keyboard-scrollable table surface.
+Keep an opaque paper background, fine outline, alternating 0.375rem / 1.75rem
+corners, and a soft brand column header. Give the first column a subtle tint and
+medium-weight text so row labels remain easy to scan. Separate body rows with
+quiet rules and use 1.25rem cell insets.
+Reduce horizontal insets below 24rem and 18rem of container width, allowing header
+labels to wrap at the narrowest size so each cell fits even with enlarged text.
+
+Preserve native table markup, authored alignment, captions, headings, and complete
+cell content. Let column widths follow the content instead of fixing proportions
+for one example. Wide tables scroll inside the named region on narrow screens;
+the page itself must not overflow. Keep a visible focus outline, keyboard access,
+and readable header accents in both themes. This treatment requires no script.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

@@ -130,6 +130,8 @@
 
 - Apply Update folio to article update notes with a labeled title band, notebook icon, and normal reading text. Preserve complete copy, native link destinations, responsive themes, and script-free access through a shared Lumen Callout composition.
 
+- Apply Table folio to article comparison tables with soft column headers, tinted row labels, and sculpted corners. Preserve native table semantics and keyboard scrolling, with compact insets and wrapping headers for narrow screens and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
@@ -372,6 +374,8 @@
 - Keep reaction avatars as direct browser requests while omitting referrer information. Explain their external hosts and IP-address exposure in the privacy policy, and verify the generated image attributes and disclosure.
 
 - Patch transitive body-parser, fast-uri, and Undici security advisories within their existing consumer major versions, and protect URI and integrity behavior with regression tests against the installed dependencies.
+
+- Keep policy and section labels readable in dark mode at normal text sizes, and preserve the complete search focus outline in short windows. Verify the current responsive portfolio image layouts.
 
 ## 4.0.0
 
