@@ -124,7 +124,7 @@
     "blog/atomic-module-component-structure-for-react.webp": {
       "baseDirectory": "public/og",
       "digest": "ef2e3ed85843be5776834a3b666248d4d92f5deb801c2246552de79817de26d8",
-      "fingerprint": "0a62e6aaf12dc44e45f848c9118570adac8aa290e38b3c5552578fcfe5b9eef7",
+      "fingerprint": "ed114009416628a04f3384e1d57b04c75f6f4293dbc6ea6c3e0427dd68bf101a",
       "output": "blog/atomic-module-component-structure-for-react.webp"
     },
     "blog/authentication-and-authorization-in-next-js-applications-with-supabase.webp": {
@@ -166,7 +166,7 @@
     "blog/migrate-eslint-8-or-less-to-eslint-9.webp": {
       "baseDirectory": "public/og",
       "digest": "1f36a29009dac14fd0a8317edb441ac84e5942731a228244e154df6a367cb58d",
-      "fingerprint": "ef17f9034943e0030a8903e2340a8937d0833abbca5d8941e4c547ebc7b311c0",
+      "fingerprint": "9fdca2f31704185d5ba34d1317e470188d3a512508b9cda264b78772b20292dc",
       "output": "blog/migrate-eslint-8-or-less-to-eslint-9.webp"
     },
     "blog/skin-in-the-game-for-software-teams.webp": {
@@ -178,7 +178,7 @@
     "blog/storybook-in-action-with-next-js-tailwind-and-typescript.webp": {
       "baseDirectory": "public/og",
       "digest": "d249edac684eaa2f6ad4901f795d26ec5d89b3e036371fe27e9e120740caea67",
-      "fingerprint": "46d3d87200f53c697df01cb0b8930d19872d73fc730e10b566cab58b26fd6467",
+      "fingerprint": "b3f34b56407ff7bbc4b77500cc92d37bef8d8757e4d196c9c542fd071dfd5fb8",
       "output": "blog/storybook-in-action-with-next-js-tailwind-and-typescript.webp"
     },
     "blog/testing-react-components-with-vitest-and-react-testing-library.webp": {
@@ -418,25 +418,25 @@
     "pages/blog--tags--development.webp": {
       "baseDirectory": "public/og",
       "digest": "a4890e5038b8c5223a081862b4ca61fae2e257a6221f03d43efecbc6f7a20904",
-      "fingerprint": "be95576afa6b6971c233186025e4c3f7ace0c1bbee65cba205147da43f507752",
+      "fingerprint": "0f3668feb9f5a54fe67b247ca7b03a588d15942f2114071d164b8d9ae54171f7",
       "output": "pages/blog--tags--development.webp"
     },
     "pages/blog--tags--react.webp": {
       "baseDirectory": "public/og",
       "digest": "89aeadc93f2702b25dff7a52c9a1fb4320f1ec60097f2beab30ab7aefd9ccaf1",
-      "fingerprint": "d437765234e9e4ac25620c532fccbd830432cf6a574f5f344cce9949097e73a8",
+      "fingerprint": "1d7e9a7637147003d9f8bf8e85e733e01b0f5c58d0f5d3ae41b2ced8c4d4f4b6",
       "output": "pages/blog--tags--react.webp"
     },
     "pages/blog--tags--nextjs.webp": {
       "baseDirectory": "public/og",
       "digest": "ca328ae2861ba6c8b5194d0f57e6922e44d7630b560fc70314103286d5090c56",
-      "fingerprint": "6ec3000041791924645c9a1b24eaad1b0e3f3aaf8707bf86a1655bf61bf5e1ee",
+      "fingerprint": "e87e11cb210894006243004cfb2afcf59e372373dead0ce67df23ec7d8c53afe",
       "output": "pages/blog--tags--nextjs.webp"
     },
     "pages/blog--tags--typescript.webp": {
       "baseDirectory": "public/og",
       "digest": "1d8d131bfa22df4224f0e0a6456675a12548f08ea4223b0724a6ab4967161619",
-      "fingerprint": "4e0ccac53b103f28077036aac7b7c27e5e16e44de2562a811e6507a61a5d4db2",
+      "fingerprint": "3cb5a1b0af8d908a5ea2f9e67da17c03520bd188337d71211744175e8112d58f",
       "output": "pages/blog--tags--typescript.webp"
     },
     "pages/blog--tags--typescript--2.webp": {
@@ -472,7 +472,7 @@
     "pages/blog--tags--eslint.webp": {
       "baseDirectory": "public/og",
       "digest": "b72808d3b6adefab56131b50567c2a4706b0295401d8576e3cee98c10ff1c16a",
-      "fingerprint": "cf312228a3bb7ef4e4713dcc6f2abb040b543d9bcbf5aa378665dae9f12b73c9",
+      "fingerprint": "3af2739bc82d5ed39d92eae0252b77ea1ea0495a515613004be3eeb20b948970",
       "output": "pages/blog--tags--eslint.webp"
     },
     "pages/blog--tags--eslint-config.webp": {
@@ -550,7 +550,7 @@
     "pages/blog--tags--migration.webp": {
       "baseDirectory": "public/og",
       "digest": "0361923ccc02e753f82c2e5fdca2ddb46f2ed39704a748ccc5afd57e57d0323c",
-      "fingerprint": "ad28d1f9ae53e72e886050d915d6c8ecd30bcaf76978dc6835c798fea5a0626f",
+      "fingerprint": "2ec34b099a7d8043c4ef07ba0d6063457aec7b81f18624aaa21b173bccf6f305",
       "output": "pages/blog--tags--migration.webp"
     },
     "pages/blog--tags--engineering-culture.webp": {
@@ -580,13 +580,13 @@
     "pages/blog--tags--tailwind.webp": {
       "baseDirectory": "public/og",
       "digest": "e5397f82cc576ae711abf2d1d26b8056d92f6b09669446ab2da34dee3ad2ba7a",
-      "fingerprint": "871e5944cd7dfdbef6556373a9a989e6ccfbec58c7fc0c33fc4edecdbe307198",
+      "fingerprint": "3cd202bffccd473956e00f51eb66a373c087180b5b0b79e4edc9802ae3f42159",
       "output": "pages/blog--tags--tailwind.webp"
     },
     "pages/blog--tags--storybook.webp": {
       "baseDirectory": "public/og",
       "digest": "f4db0010f55b428afdf6172093e3055559d1cced0e7207611c83cb96296249ba",
-      "fingerprint": "8c45481be7675f7573ca39461094ff49c65bffb2a6a0f3b3316d9996881cc284",
+      "fingerprint": "6c511614b1c1d739ae1f87c5dcc2789933c8e35e5d333888fb2e55bfc297a142",
       "output": "pages/blog--tags--storybook.webp"
     },
     "pages/blog--tags--testing-library.webp": {
