@@ -239,6 +239,10 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   to its role, timeline, and duration, keeping the existing `ProjectTimeline` native
   dates and duration helper. Its wider role column and project-specific container
   breakpoints preserve long role names.
+- Article Topics use the site-owned Margin topics composition: a named native `nav`,
+  semantic list, public inherit-style `Link`, and decorative `Icon` primitives. Scoped
+  container queries reflow complete topic labels and arrows while retaining their order,
+  canonical archives, keyboard outlines, theme colors, and no-JavaScript navigation.
 - `ProjectHeroStack` composes Sculpted band with public unstyled `Card`, inherit-style
   `Link`, and `Icon` primitives. The site owns the ink margin, wrapping technology list,
   semantic-token colors, responsive insets, and project-colored hover/focus states.

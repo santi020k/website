@@ -5,13 +5,12 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
-import Pill from '@/components/atoms/Pill.astro'
 
 import { getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingStats } from '@/utils/reading-time'
 
-import { Breadcrumb, CopyButton, Icon } from '@santi020k/lumen-astro'
+import { Breadcrumb, CopyButton, Icon, Link } from '@santi020k/lumen-astro'
 
 import { getSeriesContext } from '@/data/series'
 import { siteConfig } from '@/site.config'
@@ -140,29 +139,31 @@ class="p-summary text-ink-soft"
     </dl>
   </div>
 
-  {/* ── Tags / topics ────────────────────────────────────────── */}
+  {/* ── Topics — Margin topics ─────────────────────────────── */}
   {tags.length > 0 && (
     <div
       class="
-        animate-slide-up space-y-4 [animation-delay:200ms]
+        animate-slide-up [animation-delay:200ms]
         motion-reduce:animate-none
       "
+      data-article-topics-container
     >
-      <div class="flex items-center gap-3">
-        <span class="section-label">Topics</span>
-        <span
-          aria-hidden="true"
-          class="
-            h-px flex-1 bg-linear-to-r from-transparent via-line/40
-            to-transparent
-          "
-        />
-      </div>
-      <div class="flex flex-wrap gap-2">
-        {tags.map(tag => (
-          <Pill href={getTagPath(tag)} label={tag} showHash tone="outline" />
-        ))}
-      </div>
+      <nav aria-labelledby="article-topics-heading" data-article-topics>
+        <div data-article-topics-heading>
+          <Icon name="hash" class="size-4.5 shrink-0" />
+          <h2 id="article-topics-heading">Topics</h2>
+        </div>
+        <ul>
+          {tags.map(tag => (
+            <li>
+              <Link href={getTagPath(tag)} variant="inherit" data-topic-link>
+                <span data-topic-label>{tag}</span>
+                <Icon name="arrow-up-right" class="size-3.5 shrink-0" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   )}
 
@@ -276,6 +277,88 @@ class="p-summary text-ink-soft"
 </section>
 
 <style>
+  [data-article-topics-container] { container: article-topics / inline-size; }
+
+  [data-article-topics] {
+    display: grid;
+    grid-template-columns: 6.75rem minmax(0, 1fr);
+    gap: 1.375rem;
+    padding-bottom: 1.375rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+
+  [data-article-topics-heading] {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding-top: 0.625rem;
+    color: hsl(var(--brand));
+  }
+
+  [data-article-topics-heading] h2 {
+    color: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: normal;
+  }
+
+  [data-article-topics] ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.375rem 1.5rem;
+    min-width: 0;
+    margin: 0;
+    padding: 0 0 0 1.375rem;
+    border-left: 2px solid hsl(var(--brand));
+    list-style: none;
+  }
+
+  [data-article-topics] li { max-width: 100%; }
+
+  :global([data-topic-link]) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem 0.875rem;
+    min-height: 2.75rem;
+    padding-block: 0.375rem;
+    border-bottom: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 1.55;
+    letter-spacing: -0.025em;
+    text-decoration: none;
+  }
+
+  [data-topic-label] { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+  [data-article-topics] :global([data-topic-link] > :last-child) { color: hsl(var(--brand)); }
+  :global([data-topic-link]:is(:hover, :focus-visible)) { color: hsl(var(--brand)); }
+  :global([data-topic-link]:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 3px; }
+
+  :global(:root[data-theme='dark']) [data-article-topics-heading],
+  :global(:root[data-theme='dark'] [data-topic-link]:is(:hover, :focus-visible)),
+  :global(:root[data-theme='dark'] [data-topic-link] > :last-child) { color: hsl(var(--accent)); }
+  :global(:root[data-theme='dark']) [data-article-topics] ul { border-color: hsl(var(--accent)); }
+  :global(:root[data-theme='dark'] [data-topic-link]:focus-visible) { outline-color: hsl(var(--accent)); }
+
+  @container article-topics (width < 32.5rem) {
+    [data-article-topics] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    [data-article-topics-heading] { padding-top: 0; }
+  }
+
+  @container article-topics (width < 18.75rem) {
+    [data-article-topics] ul { padding-left: 1rem; }
+    :global([data-topic-link]) { font-size: 1rem; }
+  }
+
+  @container article-topics (width < 14rem) {
+    [data-article-topics] ul { padding-left: 0.5rem; }
+    :global([data-topic-link]) { column-gap: 0.375rem; font-size: 0.875rem; }
+  }
+
   [data-publication-imprint] {
     display: grid;
     grid-template-columns: 1.35fr 1fr 1fr;

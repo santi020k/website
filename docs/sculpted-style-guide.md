@@ -782,6 +782,19 @@ columns and let the update line span the full width. Below 16rem, stack all deta
 and the update label. Preserve whole labels, complete values, and both theme palettes
 with enlarged text. This passive composition adds no client JavaScript.
 
+### Margin topics article links
+
+Article topics use a named navigation landmark with a small Hash icon and Topics
+label in a 6.75rem margin. Put the existing topic links in a wrapping semantic list
+beside a 2px purple rail. Use 1.0625rem medium-weight text, fine link underlines,
+small directional arrows, and 44px minimum targets. A fine bottom rule closes the
+composition. Keep every topic, its order, and its canonical archive destination.
+
+Below 32.5rem of available width, place the label above the list. Tighten the rail
+inset and text at 18.75rem and 14rem; allow decorative arrows to wrap below a long
+label with enlarged text. Preserve complete labels, visible keyboard outlines,
+brand/accent theme colors, and the reduced-motion entrance. This needs no new script.
+
 ### Margin imprint project header facts
 
 Project headers use one semantic description list between fine horizontal rules.

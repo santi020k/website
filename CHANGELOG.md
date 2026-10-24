@@ -148,6 +148,8 @@
 
 - Apply Sculpted band to project technology strips with an ink margin, visible stack count, and wrapping technology links. Preserve canonical destinations, project-colored interactions, keyboard focus, and narrow enlarged-text layouts.
 
+- Apply Margin topics to article topic links with an open label margin, purple rail, and underlined archive links. Preserve topic order, full labels, keyboard navigation, and responsive reading layouts across themes.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
