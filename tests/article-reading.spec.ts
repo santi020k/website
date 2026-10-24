@@ -5,8 +5,15 @@ const TABLE_ARTICLE = '/blog/why-developer-experience-work-should-be-measured-li
 const CODE_ARTICLE = '/blog/avoid-magic-strings-in-typescript-and-javascript/'
 const UPDATE_ARTICLE = '/blog/dep-beacon-vscode-extension/'
 
+// Safari on macOS uses Option-Tab to include links in keyboard navigation.
+const nextLinkKeys = {
+  chromium: 'Tab',
+  firefox: 'Tab',
+  webkit: process.platform === 'darwin' ? 'Alt+Tab' : 'Tab'
+}
+
 for (const theme of ['light', 'dark'] as const) {
-  test(`article updates retain readable text and usable links in ${theme} mode`, async ({ page }) => {
+  test(`article updates retain readable text and usable links in ${theme} mode`, async ({ page, browserName }) => {
     await page.setViewportSize({ width: 320, height: 900 })
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await page.goto(UPDATE_ARTICLE)
@@ -26,9 +33,9 @@ for (const theme of ['light', 'dark'] as const) {
     await registry.focus()
     await expect(registry).toBeFocused()
     await expect(registry).toHaveCSS('outline-style', 'solid')
-    await page.keyboard.press('Tab')
+    await page.keyboard.press(nextLinkKeys[browserName])
     await expect(note.getByRole('link', { name: 'Zed setup guide' })).toBeFocused()
-    await page.keyboard.press('Tab')
+    await page.keyboard.press(nextLinkKeys[browserName])
     await expect(note.getByRole('link', { name: 'why I moved to Zed' })).toBeFocused()
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     const scan = await new AxeBuilder({ page }).include('[data-article-update-note]').analyze()
