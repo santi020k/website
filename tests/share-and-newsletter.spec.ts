@@ -1,9 +1,26 @@
-import { expect, type Page, test } from '@playwright/test'
+import { expect, type Locator, type Page, test } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
-  // Comment-widget resizing can move the share toolbar between pointer events.
-  // Its provider lifecycle has separate coverage; these tests isolate local controls.
-  await page.route('https://giscus.app/**', route => route.abort())
+  // Comments loading, failure, and recovery have separate coverage. Here an
+  // empty client keeps the reserved mount stable, so neither the provider nor
+  // its error lifecycle shifts layout during share clicks. Nothing reaches the
+  // network: the client is fulfilled locally and every other request aborts.
+  await page.route('https://giscus.app/**', async route => {
+    if (new URL(route.request().url()).pathname === '/client.js') {
+      // The client is requested with crossorigin="anonymous", so it needs CORS
+      // approval to load instead of firing the error lifecycle.
+      await route.fulfill({
+        body: '',
+        contentType: 'text/javascript',
+        headers: { 'access-control-allow-origin': '*' },
+        status: 200
+      })
+
+      return
+    }
+
+    await route.abort()
+  })
 })
 
 test.describe('Newsletter signup', () => {
@@ -116,6 +133,18 @@ const getFirstPostPermalink = async (page: Page): Promise<{ path: string, permal
 
 const withNoise = (path: string): string => `${path}?utm_source=share-test#share-test-fragment`
 
+const getReadyShareButton = async (page: Page): Promise<Locator> => {
+  const button = page.locator('#copy-link-btn')
+
+  // Scrolling near the toolbar also mounts the lazy comments client. Wait for
+  // its initial space reservation before testing pointer activation.
+  await button.scrollIntoViewIfNeeded()
+  await expect(page.locator('#comments [data-giscus-mount] script')).toBeAttached()
+  await expect(page.locator('#comments [data-giscus-error]')).toBeEmpty()
+
+  return button
+}
+
 type NativeShareOutcome = 'AbortError' | 'NotAllowedError' | 'resolve'
 
 const stubNativeShare = async (page: Page, outcome: NativeShareOutcome): Promise<void> => {
@@ -174,7 +203,7 @@ test.describe('Share buttons — native Web Share API path', () => {
     await stubNativeShare(page, 'resolve')
     await page.goto(withNoise(path))
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
     await expect(copyButton).toBeVisible()
     await expect(copyButton).toHaveAccessibleName('Share link')
     await expect(copyButton).toHaveAttribute('data-share-url', permalink)
@@ -197,7 +226,7 @@ test.describe('Share buttons — native Web Share API path', () => {
     await stubNativeShare(page, 'AbortError')
     await page.goto(withNoise(path))
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
     await expect(copyButton).toBeVisible()
     await expect(copyButton).toHaveAccessibleName('Share link')
     await copyButton.click()
@@ -221,7 +250,7 @@ test.describe('Share buttons — native Web Share API path', () => {
     await stubNativeShare(page, 'NotAllowedError')
     await page.goto(withNoise(path))
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
     await expect(copyButton).toBeVisible()
     await expect(copyButton).toHaveAccessibleName('Share link')
     await copyButton.click()
@@ -258,7 +287,10 @@ test.describe('Share buttons', () => {
 
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto(path)
-    await page.locator('#copy-link-btn').click()
+
+    const copyButton = await getReadyShareButton(page)
+
+    await copyButton.click()
     await expect(page.locator('#copy-label')).toHaveText('Link copied!')
     await expect(page.locator('#copy-link-btn [data-check-icon]')).toHaveCSS('animation-name', 'none')
   })
@@ -268,7 +300,7 @@ test.describe('Share buttons', () => {
 
     await page.goto(withNoise(path))
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
     await expect(copyButton).toBeVisible()
     await copyButton.click()
 
@@ -287,10 +319,11 @@ test.describe('Share buttons', () => {
 
     await page.clock.install()
     await page.goto(path)
-    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
     const status = page.locator('#copy-status')
+
+    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
 
     // DOM live-region semantics only; this does not exercise real screen reader speech.
     await expect(status).toHaveAttribute('role', 'status')
@@ -331,11 +364,12 @@ test.describe('Share buttons — clipboard failure', () => {
 
     await page.clock.install()
     await page.goto(path)
-    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
 
-    const copyButton = page.locator('#copy-link-btn')
+    const copyButton = await getReadyShareButton(page)
     const label = page.locator('#copy-label')
     const status = page.locator('#copy-status')
+
+    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
 
     await expect(copyButton).toBeVisible()
     await expect(status).toBeEmpty()
