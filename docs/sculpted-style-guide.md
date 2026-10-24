@@ -396,6 +396,20 @@ the content. Keep complete words at enlarged text sizes, readable light/dark
 colors, native keyboard disclosure behavior, and all content without JavaScript.
 The notebook adds no new client controller or animation.
 
+### Story sleeve Travel invitation
+
+Close the Travel page with one opaque Lumen surface and alternating 2rem/.375rem
+corners. A soft brand cover holds the small accent eyebrow, decorative book icon,
+and 2.625rem heading. Beneath it, pair the unchanged forthcoming-stories copy with
+the blog link, separated by a fine vertical rule and a sculpted arrow tab. Keep
+the section aligned to the same 72rem width as the introduction and notebook.
+
+Below 34rem of section width, use 1.5rem insets, a 2.125rem heading, and place the
+link beneath a horizontal rule. Below 18rem, reduce horizontal insets to 1rem and
+the heading to 1.75rem. Preserve readable complete words at enlarged text sizes,
+light/dark contrast, and a visible focus outline inset from the clipped surface.
+The blog destination stays a native link; no new client JavaScript is needed.
+
 ### Compact topic cards
 
 Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.

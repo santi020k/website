@@ -170,6 +170,8 @@
 
 - Apply Journey ledger to the Travel notebook country entries, with country-code margins, clearer names, separate visit labels, and wrapping place lists. Preserve home and residence context, complete notes, native disclosure behavior, and readability at enlarged text sizes.
 
+- Apply Story sleeve to the Travel stories invitation, with a tinted heading cover, separate blog link, and responsive reading layout. Preserve the existing copy and destination, enlarged-text readability, keyboard navigation, and light/dark contrast.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

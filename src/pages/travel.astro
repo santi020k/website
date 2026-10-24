@@ -2,7 +2,7 @@
 import TravelMap from '@/components/pages/travel/TravelMap.astro'
 import PageLayout from '@/layouts/Base.astro'
 
-import { ButtonLink, Collapsible, Icon } from '@santi020k/lumen-astro'
+import { ButtonLink, Card, Collapsible, Icon } from '@santi020k/lumen-astro'
 
 import { getTravelVisitLabel, travelCountries, travelPageDescription } from '@/data/travel'
 import { createAuthorSchema } from '@/site.config'
@@ -69,20 +69,20 @@ const meta = {
     </Collapsible>
   </section>
 
-  <section class="maker-hero" data-travel-section aria-labelledby="travel-stories-heading">
-    <div data-travel-section-heading>
-      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>Stories to come</p>
-      <h2 id="travel-stories-heading">More than places<br />on a map.</h2>
-    </div>
-    <div data-travel-story>
-      <p>I’m collecting the stories behind these journeys. Travel posts will join my blog as I finish writing them.</p>
-      <div class="maker-hero-actions">
-        <ButtonLink class="maker-hero-primary" href="/blog/" variant="unstyled">
-          Read the blog
-          <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-up-right" /></span>
+  <section data-travel-section data-travel-stories aria-labelledby="travel-stories-heading">
+    <Card variant="unstyled" data-travel-story-sleeve>
+      <header data-travel-stories-cover>
+        <p data-travel-stories-eyebrow>Stories to come<Icon data-travel-stories-book name="book-open" /></p>
+        <h2 id="travel-stories-heading">More than places<br />on a map.</h2>
+      </header>
+      <div data-travel-stories-body>
+        <p>I’m collecting the stories behind these journeys. Travel posts will join my blog as I finish writing them.</p>
+        <ButtonLink href="/blog/" variant="unstyled" data-travel-stories-link>
+          <span>Read the blog</span>
+          <span data-travel-stories-arrow><Icon data-travel-stories-arrow-icon name="arrow-up-right" /></span>
         </ButtonLink>
       </div>
-    </div>
+    </Card>
   </section>
 </PageLayout>
 
@@ -163,5 +163,35 @@ const meta = {
   @media (max-width: 47.999rem) {
     [data-travel-section] { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; padding-top: 2rem; }
     [data-travel-section-heading] .maker-hero-eyebrow { margin-bottom: 1rem; }
+  }
+
+  [data-travel-stories] { display: block; padding-top: 0; border-top: 0; container: travel-stories / inline-size; }
+  :global([data-travel-story-sleeve]) { overflow: hidden; border: 1px solid hsl(var(--line)); border-radius: 2rem .375rem 2rem .375rem; background: hsl(var(--surface)); }
+  [data-travel-stories-cover] { padding: 1.75rem 2rem 2rem; background: hsl(var(--brand-soft)); }
+  [data-travel-stories-eyebrow] { display: flex; align-items: center; justify-content: space-between; gap: .625rem; margin-bottom: 1.5rem; color: hsl(var(--brand)); font-size: .6875rem; font-weight: 500; line-height: 1.7; letter-spacing: .025em; }
+  :global([data-travel-stories-book]) { flex-shrink: 0; font-size: 1.5rem; }
+  [data-travel-stories-cover] h2 { font-size: 2.625rem; font-weight: 500; line-height: 1.12; letter-spacing: -.06em; }
+  [data-travel-stories-body] { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2rem; padding: 1.75rem 2rem; }
+  [data-travel-stories-body] > p { min-width: 0; color: hsl(var(--ink-soft)); font-size: .875rem; line-height: 1.9; }
+  :global([data-travel-stories-link]) { display: flex; min-width: 0; min-height: 3rem; align-items: center; gap: 1rem; padding-left: 1.5rem; border-left: 1px solid hsl(var(--line)); color: hsl(var(--ink)); font-size: .75rem; font-weight: 500; line-height: 1.5; text-decoration: none; }
+  :global([data-travel-stories-link]:hover) { color: hsl(var(--brand)); }
+  :global([data-travel-stories-link]:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; }
+  [data-travel-stories-arrow] { display: grid; width: 2.5rem; height: 2.5rem; flex-shrink: 0; place-items: center; border-radius: .75rem .1875rem .75rem .1875rem; background: hsl(var(--brand-soft)); color: hsl(var(--brand)); }
+  :global([data-travel-stories-arrow-icon]) { font-size: 1.25rem; }
+  :global([data-theme='dark']) [data-travel-stories-eyebrow] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
+  :global([data-theme='dark']) [data-travel-stories-arrow],
+  :global([data-theme='dark'] [data-travel-stories-link]:hover) { color: hsl(var(--accent)); }
+  :global([data-theme='dark'] [data-travel-stories-link]:focus-visible) { outline-color: hsl(var(--accent)); }
+
+  @container travel-stories (width < 34rem) {
+    [data-travel-stories-cover] { padding: 1.5rem; }
+    [data-travel-stories-cover] h2 { font-size: 2.125rem; }
+    [data-travel-stories-body] { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; padding: 1.5rem; }
+    :global([data-travel-stories-link]) { justify-content: space-between; padding-top: 1rem; padding-left: 0; border-top: 1px solid hsl(var(--line)); border-left: 0; }
+  }
+
+  @container travel-stories (width < 18rem) {
+    [data-travel-stories-cover], [data-travel-stories-body] { padding: 1.25rem 1rem; }
+    [data-travel-stories-cover] h2 { font-size: 1.75rem; }
   }
 </style>

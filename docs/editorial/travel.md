@@ -40,13 +40,19 @@ around Colombia, and scrolls horizontally to reveal off-screen selections. The c
 in the page flow, keeping the selected country and zoom controls unobstructed. Pointer selection
 reveals the card; keyboard selection retains focus in the chooser. Enlarged text also moves the
 card below the map when space is limited.
-The story, notebook, and forthcoming stories share the hero’s 72rem alignment, thin rules, and
-quiet canvas. Country entries use Journey ledger: a narrow country-code margin, larger names,
-separate visit labels, and fine rules. Places retain their complete names in wrapping lists;
+The story, notebook, and forthcoming stories share the hero’s 72rem alignment.
+The story and notebook retain thin rules and a quiet canvas. Country entries use Journey ledger:
+a narrow country-code margin, larger names, separate visit labels, and fine rules.
+Places retain their complete names in wrapping lists;
 home, residence, partial-list, and region notes remain explicit. The margin tightens as the
 notebook narrows and stacks above the entry for enlarged text or very narrow layouts.
 The full country notebook sits in a native Lumen disclosure and remains usable without JavaScript.
 Browsing order is the data order, not a claimed travel timeline.
+
+The forthcoming stories invitation uses Story sleeve: a tinted heading cover above an opaque
+body, with the existing copy and a separate, ruled blog link. The link moves below the copy
+on narrow layouts and remains keyboard accessible without JavaScript. Keep the promise of
+future stories and the `/blog/` destination; this invitation does not publish the travel drafts.
 
 ## Title-only drafts
 

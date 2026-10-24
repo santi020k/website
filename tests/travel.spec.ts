@@ -90,6 +90,45 @@ for (const theme of ['light', 'dark']) {
 }
 
 for (const theme of ['light', 'dark'] as const) {
+  test(`travel stories invitation stays readable and opens the blog without JavaScript in ${theme}`, async ({ browser }) => {
+    const context = await browser.newContext({
+      javaScriptEnabled: false,
+      colorScheme: theme,
+      reducedMotion: 'reduce',
+      viewport: { width: 320, height: 844 }
+    })
+    const page = await context.newPage()
+    await page.goto('/travel/')
+    await page.evaluate(async () => {
+      document.documentElement.style.fontSize = '200%'
+      await document.fonts.ready
+    })
+    const invitation = page.getByRole('region', { name: 'More than places on a map.' })
+    await expect(invitation).toContainText('Travel posts will join my blog as I finish writing them.')
+    const blogLink = invitation.getByRole('link', { name: 'Read the blog' })
+    await blogLink.focus()
+    await expect(blogLink).toBeFocused()
+    await expect(blogLink).toBeInViewport({ ratio: 1 })
+    const layout = await invitation.evaluate(element => {
+      const bounds = element.getBoundingClientRect()
+      const text = [...element.querySelectorAll('p,h2,a')]
+      return {
+        fits: text.every(node => {
+          const range = document.createRange()
+          range.selectNodeContents(node)
+          return [...range.getClientRects()].every(rect => rect.left >= bounds.left && rect.right <= bounds.right)
+        }),
+        overflows: document.documentElement.scrollWidth > window.innerWidth
+      }
+    })
+    expect(layout).toEqual({ fits: true, overflows: false })
+    const focusStyle = await blogLink.evaluate(element => getComputedStyle(element).outlineStyle)
+    expect(focusStyle).not.toBe('none')
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/blog\/$/u)
+    await context.close()
+  })
+
   test(`country notebook stays readable without JavaScript at 200% text in ${theme}`, async ({ browser }) => {
     const context = await browser.newContext({
       javaScriptEnabled: false,
