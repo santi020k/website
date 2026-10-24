@@ -373,7 +373,7 @@ for (const theme of ['light', 'dark'] as const) {
           await page.setViewportSize({ width, height: 900 })
           await settleLayout(page)
 
-          const lines = await page.locator('.editorial-detail-meta-item dt').evaluateAll(labels => labels.map(label => {
+          const lines = await page.locator('[data-editorial-meta-group] dt').evaluateAll(labels => labels.map(label => {
             const range = document.createRange()
 
             range.selectNodeContents(label)

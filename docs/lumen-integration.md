@@ -231,6 +231,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
   this composition; native list semantics remain intact without client JavaScript. Root lists
   use neutral dividers and purple lead rules, with a single column when reading space is narrow.
+- `PostHero` uses Margin imprint for article publication details: a native description
+  list with a larger publication date, reading statistics, and an optional update row.
+  The existing `FormattedDate` wrapper preserves Lumen's native `time` output. Site-owned
+  attributes and semantic tokens handle the responsive margin rules without a card
+  primitive or client script; project header metadata retains its own composition.
 - `ContentNotesHeader` uses the site-owned Margin preface composition: an open label
   and type margin beside a description rail. Plain metadata replaces the former Pill;
   no interactive primitive or additional card surface is needed. Lumen semantic tokens

@@ -767,6 +767,21 @@ synchronization, and polite failure guidance in the existing controller. The
 GitHub destination must remain available while loading, after failure, and without
 JavaScript. Do not reserve an empty widget area for readers without JavaScript.
 
+### Margin imprint article publication details
+
+Article headers use one semantic description list between fine horizontal rules.
+Give the published date a purple left rule, 1.4375rem type, and a wider first column.
+Read time and word count sit beside it with neutral margin rules, 0.75rem sentence-case
+labels, and 1rem values. An optional update date occupies a quiet row beneath those
+two details; omit that row and its space when no update date exists. Keep native
+Lumen `FormattedDate` output and the existing reading-stat calculations.
+
+Use 1.5rem vertical insets and column gaps, with 1.125rem inside each margin rule.
+Below 32rem of available width, put the published date above two reading-detail
+columns and let the update line span the full width. Below 16rem, stack all details
+and the update label. Preserve whole labels, complete values, and both theme palettes
+with enlarged text. This passive composition adds no client JavaScript.
+
 ### Margin preface content notes
 
 Article and project notes use an open, ruled introduction before the main content.
@@ -1110,7 +1125,7 @@ condition the semantic sidebar `<aside>` stays sticky, caps its height to the vi
 header, and scrolls natively; inline padding keeps the table of contents' active marker and focus
 rings visible. Otherwise rails stay in normal flow. The generic `editorial-rail` utility, such as
 the 404 suggestions, never becomes a scrolling region. Hero metadata grids use a named
-`editorial-meta` container: articles drop from four to two columns below 32rem, and article and
+`editorial-meta` container: article publication dates move above two reading-detail columns below 32rem, and article and
 project metadata stack to one column below 16rem, so enlarged labels never split mid-word. Decorative
 cover captions appear only when the cover's container is wide enough in root-relative units,
 so narrow screens and enlarged text omit them rather than overflow the image. Pills, resume

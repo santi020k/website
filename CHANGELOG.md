@@ -142,6 +142,8 @@
 
 - Apply Split pager to blog and topic archives, pairing circular page links with a prominent Next page action. Preserve native pagination, endpoint states, keyboard focus, and readable mobile layouts with enlarged text.
 
+- Apply Margin imprint to article publication details, emphasizing the published date beside reading statistics and an optional update row. Preserve semantic dates, content-derived values, and complete labels across themes and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

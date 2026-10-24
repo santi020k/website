@@ -130,12 +130,8 @@
 }
 .remaining-pages .editorial-detail-meta-item dd,
 .remaining-pages [data-editorial-meta] dd { font-size: 0.875rem; font-weight: 500; }
-/* Article and project hero metadata keep their viewport columns until enlarged
-   text leaves too little root-relative width, so labels never split mid-word. */
+/* Hero metadata responds to its available reading width, including enlarged text. */
 [data-editorial-meta-group] { container: editorial-meta / inline-size; }
-@container editorial-meta (width < 32rem) {
-  [data-editorial-meta-grid='article'] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 @container editorial-meta (width < 16rem) {
   [data-editorial-meta-grid] { grid-template-columns: minmax(0, 1fr); }
 }
