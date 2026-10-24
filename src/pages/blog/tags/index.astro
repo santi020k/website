@@ -193,7 +193,8 @@ mainClass="remaining-pages"
         const items = [...list.children].filter((item): item is HTMLElement => item instanceof HTMLElement)
 
         const updateFilter = () => {
-          const query = input.value.trim().toLocaleLowerCase()
+          // Visible labels render as #tag, so accept one leading # before matching data-label.
+          const query = input.value.trim().replace(/^#/u, '').trim().toLocaleLowerCase()
           let visibleCount = 0
 
           items.forEach(item => {

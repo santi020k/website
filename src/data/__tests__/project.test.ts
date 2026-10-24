@@ -1,5 +1,7 @@
 import type { CollectionEntry } from 'astro:content'
 
+import { getTechnologySlug } from '@/utils/links'
+
 import { describe, expect, test } from 'vitest'
 
 import {
@@ -32,6 +34,23 @@ const makeProject = (
     }
   }
 }
+
+interface TechnologyInput {
+  name: string
+  technologies: string[][]
+}
+
+// Mirrors scripts/js/generate-og-images.js, which always labels the ci-cd slug as CI/CD.
+const ciCdInputs: TechnologyInput[] = [
+  { name: 'CI-CD before CI/CD', technologies: [['CI-CD'], ['CI/CD']] },
+  { name: 'CI/CD before CI-CD', technologies: [['CI/CD'], ['CI-CD']] },
+  { name: 'only CI-CD', technologies: [['CI-CD'], ['CI-CD']] }
+]
+
+const makeProjects = (technologies: string[][]) => technologies.map((projectTechnologies, index) => makeProject({
+  id: `project-${index + 1}`,
+  technologies: projectTechnologies
+}))
 
 // ─── getAllTechnologies ───────────────────────────────────────────────────────
 
@@ -71,6 +90,20 @@ describe('getUniqueTechnologies', () => {
   test('returns an empty array when all projects have no technologies', () => {
     expect(getUniqueTechnologies([makeProject({ technologies: [] })])).toEqual([])
   })
+
+  test.each(ciCdInputs)('labels the ci-cd slug as CI/CD for $name', ({ technologies }) => {
+    const result = getUniqueTechnologies(makeProjects(technologies))
+
+    expect(result).toEqual(['CI/CD'])
+    expect(result.map(getTechnologySlug)).toEqual(['ci-cd'])
+  })
+
+  test('prefers the NPM label for the npm slug', () => {
+    const result = getUniqueTechnologies(makeProjects([['npm'], ['NPM']]))
+
+    expect(result).toEqual(['NPM'])
+    expect(result.map(getTechnologySlug)).toEqual(['npm'])
+  })
 })
 
 // ─── getUniqueTechnologiesWithCount ──────────────────────────────────────────
@@ -90,5 +123,24 @@ describe('getUniqueTechnologiesWithCount', () => {
 
   test('returns an empty array for empty input', () => {
     expect(getUniqueTechnologiesWithCount([])).toEqual([])
+  })
+
+  test.each(ciCdInputs)('counts every ci-cd mention under CI/CD for $name', ({ technologies }) => {
+    const result = getUniqueTechnologiesWithCount(makeProjects(technologies))
+
+    expect(result).toEqual([['CI/CD', 2]])
+    expect(result.map(([technology]) => getTechnologySlug(technology))).toEqual(['ci-cd'])
+  })
+
+  test('labels the ci-cd group CI/CD alongside other technologies', () => {
+    const result = getUniqueTechnologiesWithCount(makeProjects([['CI-CD', 'TypeScript'], ['CI/CD', 'TypeScript'], ['TypeScript']]))
+
+    expect(result).toEqual([['TypeScript', 3], ['CI/CD', 2]])
+  })
+
+  test('prefers the NPM label for the npm slug', () => {
+    const result = getUniqueTechnologiesWithCount(makeProjects([['npm'], ['NPM']]))
+
+    expect(result).toEqual([['NPM', 2]])
   })
 })

@@ -27,7 +27,12 @@ const groupTechnologyLabels = (technologies: string[]) => {
   return groups
 }
 
-const getPreferredTechnologyLabel = (labels: string[], slug?: string) => slug === 'npm' ? labels.find(label => label === 'NPM') ?? labels[0] ?? '' : labels[0] ?? ''
+// Matches scripts/js/generate-og-images.js, which always labels the ci-cd slug as CI/CD.
+const getPreferredTechnologyLabel = (labels: string[], slug?: string) => {
+  if (slug === 'ci-cd') return 'CI/CD'
+
+  return slug === 'npm' ? labels.find(label => label === 'NPM') ?? labels[0] ?? '' : labels[0] ?? ''
+}
 
 export const getUniqueTechnologies = (projects: CollectionEntry<'project'>[]) => [...groupTechnologyLabels(getAllTechnologies(projects))]
   .map(([slug, labels]) => getPreferredTechnologyLabel(labels, slug))
