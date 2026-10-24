@@ -36,7 +36,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
 
 ---
 
-<section class="editorial-detail-hero space-y-12">
+<section class="editorial-detail-hero space-y-12" data-article-opening>
   {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
   <div
     class="
@@ -74,39 +74,47 @@ const eyebrowLabel = tags[0] ?? 'Article'
     </div>
   </div>
 
-  {/* ── Title + description ──────────────────────────────────── */}
-  <div
-    class="
-      animate-reveal-lcp space-y-6
-      motion-reduce:animate-none
-    "
+  {/* ── Cover spread ────────────────────────────────────────── */}
+  <div class="
+    animate-reveal-lcp
+    motion-reduce:animate-none
+  "
   >
-    <div class="relative">
-      <h1 class="p-name max-w-4xl wrap-break-word">
-        {title}
-      </h1>
-
+    <div data-cover-spread data-has-wide-cover={Boolean(post.data.coverImage && useWideCoverFrame)}>
+      <header data-cover-headline>
+        <h1 class="p-name">{title}</h1>
+      </header>
+      {post.data.coverImage && (
+        <div data-post-cover data-wide-cover={useWideCoverFrame}>
+          <HoverableCover
+            alt={post.data.coverImage.alt}
+            ariaHidden={true}
+            unstyled={useWideCoverFrame}
+            fetchpriority="high"
+            image={post.data.coverImage.src}
+            loading="eager"
+            preserveAspectRatio={useWideCoverFrame}
+            sizes={useWideCoverFrame ? '(min-width: 1280px) 1152px, calc(100vw - 3rem)' : '(min-width: 1024px) 896px, calc(100vw - 3rem)'}
+            transitionName={`post-cover-${getPostSlug(post.id)}`}
+          />
+        </div>
+      )}
     </div>
-    <p
-data-editorial-summary
-class="p-summary text-ink-soft"
-    >
-      {description}
-    </p>
-    <p class="text-sm/6 text-ink-muted">
-      By{' '}
-      <a
-        class="
-          p-name u-url font-semibold text-ink-soft transition-colors
-          hover:text-brand
-          motion-reduce:transition-none
-        "
-        href="/about/"
-        rel="author"
-      >
-        {siteConfig.author}
-      </a>
-    </p>
+    <div data-cover-lead>
+      <p data-editorial-summary class="p-summary text-ink-soft">{description}</p>
+      <p data-cover-byline class="text-sm/6 text-ink-muted">
+        <span>Written by</span>
+        <a
+          class="
+            p-name u-url font-semibold text-ink-soft transition-colors
+            hover:text-brand
+            motion-reduce:transition-none
+          "
+          href="/about/"
+          rel="author"
+        >{siteConfig.author}</a>
+      </p>
+    </div>
   </div>
 
   {/* ── Publication details — Margin imprint ─────────────────── */}
@@ -224,59 +232,138 @@ class="p-summary text-ink-soft"
     </div>
   </div>
 
-  {/* ── Cover image: full-width below ────────────────────────── */}
-  {post.data.coverImage && (
-    <div class="space-y-4">
-      <div
-        class:list={[
-          'relative',
-          !useWideCoverFrame && 'mx-auto w-full max-w-4xl'
-        ]}
-        data-post-cover
-      >
-        <HoverableCover
-          alt={post.data.coverImage.alt}
-          ariaHidden={true}
-          className={useWideCoverFrame ? '' : 'mx-auto w-full max-w-4xl'}
-          fetchpriority="high"
-          image={post.data.coverImage.src}
-          loading="eager"
-          preserveAspectRatio={useWideCoverFrame}
-          showBottomGradient={useWideCoverFrame}
-          sizes={useWideCoverFrame ? '(min-width: 1280px) 1152px, 100vw' : '(min-width: 1024px) 896px, 100vw'}
-          transitionName={`post-cover-${getPostSlug(post.id)}`}
-        />
-        {useWideCoverFrame && (
-          <div
-            aria-hidden="true"
-            class="
-              pointer-events-none absolute inset-x-0 bottom-0 z-20 flex-wrap
-              items-end justify-between gap-4 p-5
-              sm:p-6
-            "
-            data-post-cover-caption
-          >
-            <div>
-              <p class="section-label text-white/70">Article cover</p>
-              <p class="
-                mt-2 text-lg font-semibold tracking-[-0.03em] text-white
-                sm:text-xl
-              "
-              >
-                {title}
-              </p>
-            </div>
-            <p class="max-w-md text-sm/6 text-white/78">
-              {readingTimeText} · {eyebrowLabel}
-            </p>
-          </div>
-        )}
-      </div>
-    </div>
-  )}
 </section>
 
 <style>
+  [data-article-opening] { container: article-opening / inline-size; }
+
+  [data-cover-spread] {
+    --cover-overlap: clamp(2.625rem, 6.5cqi, 4.375rem);
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    --cover-tail: 25%;
+    --cover-corner: 2rem;
+    --cover-corner-offset: 0.5rem;
+    isolation: isolate;
+  }
+
+  [data-cover-headline] {
+    z-index: 1;
+    grid-column: 1 / -1;
+    min-width: 0;
+    padding-bottom: 1.875rem;
+  }
+
+  [data-cover-spread][data-has-wide-cover='true'] [data-cover-headline] {
+    grid-column: 1 / 10;
+    padding-right: 1.75rem;
+    margin-bottom: calc(-1 * var(--cover-overlap));
+    border-bottom-right-radius: 2rem;
+  }
+
+  [data-article-opening] [data-cover-headline] h1 {
+    padding-block: 0.1em;
+    font-size: clamp(2rem, 6.5cqi, 4.25rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.055em;
+    overflow-wrap: anywhere;
+    hyphens: manual;
+    text-wrap: balance;
+  }
+
+  [data-post-cover] {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 0 2rem 2rem 0.25rem;
+  }
+
+  /* The transparent notch follows the page backdrop without an opaque title patch. */
+  [data-post-cover][data-wide-cover='true'] {
+    mask:
+      linear-gradient(#000 0 0) bottom / 100% calc(100% - var(--cover-overlap)) no-repeat,
+      linear-gradient(#000 0 0) right / var(--cover-tail) 100% no-repeat,
+      radial-gradient(circle at top left, transparent calc(var(--cover-corner) - 0.5px), #000 var(--cover-corner))
+        left calc(100% - var(--cover-tail) - var(--cover-corner-offset)) top calc(var(--cover-overlap) - var(--cover-corner)) /
+        var(--cover-corner) var(--cover-corner) no-repeat;
+  }
+
+  [data-post-cover][data-wide-cover='false'] {
+    width: 100%;
+    max-width: 56rem;
+    margin-inline: auto;
+    border-radius: 1.5rem;
+  }
+
+  [data-cover-lead] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 1.375rem 2.25rem;
+    margin-top: 1.75rem;
+  }
+
+  [data-article-opening] [data-editorial-summary] {
+    max-width: 40rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: -0.015em;
+  }
+
+  [data-cover-byline] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.0625rem;
+    padding-top: 0.3125rem;
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  [data-cover-byline] a { display: block; min-height: 2.75rem; padding-top: 0.1875rem; }
+
+  @container article-opening (width < 36.25rem) {
+    [data-cover-spread] {
+      --cover-overlap: 2.125rem;
+      --cover-tail: 16.666667%;
+      --cover-corner: 1.625rem;
+      --cover-corner-offset: 0.270833rem;
+    }
+    [data-cover-spread][data-has-wide-cover='true'] [data-cover-headline] {
+      grid-column: 1 / 11;
+      padding-right: 1.375rem;
+      padding-bottom: 1.5rem;
+      border-bottom-right-radius: 1.625rem;
+    }
+    [data-article-opening] [data-cover-headline] h1 { font-size: clamp(1.875rem, 6.5cqi, 2.375rem); }
+    [data-cover-lead] { grid-template-columns: minmax(0, 1fr); gap: 0.875rem; margin-top: 1.375rem; }
+    [data-cover-byline] { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 0.3125rem; padding: 0; }
+    [data-cover-byline] a { padding: 0; }
+  }
+
+  @container article-opening (width < 23.75rem) {
+    [data-cover-spread][data-has-wide-cover='true'] [data-cover-headline] {
+      grid-column: 1 / -1;
+      padding: 0 0 1.375rem;
+      margin: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+    [data-article-opening] [data-cover-headline] h1 { font-size: 1.875rem; line-height: 1.12; letter-spacing: -0.045em; }
+    [data-post-cover][data-wide-cover='true'] { mask: none; }
+    [data-post-cover] { border-radius: 1.375rem 0.25rem 1.375rem 0.25rem; }
+    [data-article-opening] [data-editorial-summary] { font-size: 0.9375rem; }
+  }
+
+  @container article-opening (width < 16rem) {
+    [data-article-opening] [data-cover-headline] h1 { font-size: 1.125rem; }
+  }
+
+  @container article-opening (width < 8rem) {
+    [data-article-opening] [data-cover-headline] h1 { font-size: 1rem; }
+  }
+
   [data-article-topics-container] { container: article-topics / inline-size; }
 
   [data-article-topics] {

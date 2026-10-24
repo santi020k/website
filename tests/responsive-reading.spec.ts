@@ -312,10 +312,10 @@ for (const theme of ['light', 'dark'] as const) {
       await expectWithinScreen(page.locator('.history-hero-print'))
     })
 
-    test('long cover captions stay inside the image or yield to the page title', async ({ page }) => {
+    test('long article titles and native cover art remain readable', async ({ page }) => {
       await page.goto(LONG_TITLE_ARTICLE)
       await expect(page.getByRole('heading', { level: 1 })).toContainText('Configuring MongoDB')
-      await expect(page.locator('[data-post-cover-caption]')).toHaveCount(1)
+      await expect(page.locator('[data-post-cover-caption]')).toHaveCount(0)
 
       for (const fontSize of ['100%', '200%']) {
         await page.evaluate(size => {
@@ -326,19 +326,15 @@ for (const theme of ['light', 'dark'] as const) {
           await page.setViewportSize({ width, height: 900 })
           await settleLayout(page)
 
-          const caption = page.locator('[data-post-cover-caption]')
-
-          const containedOrHidden = await caption.evaluate(element => {
-            const captionBounds = element.getBoundingClientRect()
-            const imageBounds = element.parentElement?.querySelector('img')?.getBoundingClientRect()
-
-            return getComputedStyle(element).display === 'none' ||
-              (imageBounds !== undefined && captionBounds.top >= imageBounds.top - 1 &&
-                captionBounds.bottom <= imageBounds.bottom + 1 && captionBounds.left >= imageBounds.left - 1 &&
-                captionBounds.right <= imageBounds.right + 1)
+          const cover = page.locator('[data-post-cover] img')
+          await expectWithinScreen(cover)
+          const imageIsIntact = await cover.evaluate(image => {
+            if (!(image instanceof HTMLImageElement)) return false
+            const bounds = image.getBoundingClientRect()
+            return image.complete && image.naturalWidth > 0 &&
+              Math.abs(bounds.width / bounds.height - image.naturalWidth / image.naturalHeight) < 0.01
           })
-
-          expect(containedOrHidden).toBe(true)
+          expect(imageIsIntact).toBe(true)
 
           await expectWithinScreen(page.getByRole('heading', { level: 1 }))
         }

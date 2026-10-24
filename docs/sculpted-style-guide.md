@@ -905,8 +905,9 @@ Keep native anchors for links wrapping a complete project or article.
 - Series cards and navigator title links use one block with a continuous focus outline when the title wraps.
 - Passive principle, testimonial, topic, and format cards keep their colors, tracking, and
   decoration still on hover; reserve interaction feedback for actual controls.
-- Article and project hero covers are passive reading images. Keep their static shadow and
-  caption contrast gradient, with no hover glow, wash, zoom, or caption movement.
+- Article and project hero covers are passive reading images, with no hover glow, wash,
+  zoom, or caption movement. Article openings use Cover spread; project covers retain their
+  static shadow and caption contrast gradient.
 - Series step rows give keyboard focus the same color and background emphasis as hover.
 - Choosing a blog topic keeps the filter's vertical position and focuses the selected topic
   link. Its horizontal scroll is retained unless the chosen topic needs to be brought into view;
@@ -1170,7 +1171,7 @@ rings visible. Otherwise rails stay in normal flow. The generic `editorial-rail`
 the 404 suggestions, never becomes a scrolling region. Hero metadata grids use a named
 `editorial-meta` container: article publication dates move above two reading-detail columns below 32rem
 and stack below 16rem. Project roles span both supporting facts below 37rem, and all project
-facts stack below 22.5rem, so enlarged labels never split mid-word. Decorative
+facts stack below 22.5rem, so enlarged labels never split mid-word. Decorative project
 cover captions appear only when the cover's container is wide enough in root-relative units,
 so narrow screens and enlarged text omit them rather than overflow the image. Pills, resume
 contacts, history actions, and talk links wrap inside their containers with enlarged text.
@@ -1252,6 +1253,21 @@ removal condition. Never use a negative heading scroll margin to align the marke
 
 Keep motion optional. Hover transitions last 180–300ms; reduced-motion mode removes transitions
 and image scaling. The homepage content adds no client JavaScript.
+
+### Cover spread article openings
+
+Place the headline and artwork before the summary, author, Margin imprint publication
+facts, Margin topics links, and existing article actions. Landscape artwork keeps its native
+aspect ratio and optimized image pipeline. The headline occupies nine of twelve columns;
+a transparent notch follows its lower corner, overlapping the artwork by at most 4.375rem. The cover has a
+raised right corner and no shadow, gradient, or repeated caption. Keep the heading once.
+
+Below 36.25rem of available width, widen the title and stack summary and byline. Below
+23.75rem, remove the overlap and give the complete image a small asymmetric corner treatment.
+Root-relative queries also stack enlarged text and moderate title size in very narrow reading
+columns; keep title words whole instead of automatically hyphenating them. Square and portrait images retain the existing
+contained Lumen frame and never overlap the title. Articles without artwork keep their title,
+summary, and metadata in reading order. Covers remain passive; do not add hover effects.
 
 ## Implementation reference
 

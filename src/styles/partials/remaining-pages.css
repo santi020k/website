@@ -517,13 +517,6 @@
     margin-inline-start: 0.75rem;
   }
 }
-/* The cover caption repeats the article title and is decorative. It only appears
-   once the cover is wide enough, in root-relative units, to hold it with enlarged text. */
-[data-post-cover] { container-type: inline-size; }
-[data-post-cover-caption] { display: none; }
-@container (min-width: 40rem) {
-  [data-post-cover-caption] { display: flex; }
-}
 /* Reserve enough image height for the enlarged logo above the duplicate caption.
    Narrow covers and enlarged text yield to the metadata above and in the rail. */
 [data-project-cover] { container-type: inline-size; }

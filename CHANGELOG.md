@@ -150,6 +150,8 @@
 
 - Apply Margin topics to article topic links with an open label margin, purple rail, and underlined archive links. Preserve topic order, full labels, keyboard navigation, and responsive reading layouts across themes.
 
+- Apply Cover spread to article openings: pair the headline with native artwork before the summary and publication details. Remove repeated cover captions, preserve optimized images and article navigation, and stack narrow or enlarged-text layouts safely.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

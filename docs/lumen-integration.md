@@ -316,6 +316,14 @@ landing-line activation. If `lumen-astro` changes version first, regenerate the 
 patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
 text-size marker cases in `tests/responsive-reading.spec.ts`.
 
+## Article cover composition
+
+`PostHero` owns the Cover spread editorial grid. Its landscape artwork opts into the local
+`HoverableCover` wrapper's `unstyled` prop, which removes only the wrapper's rounded frame
+and shadow; Astro still supplies native dimensions, AVIF/WebP sources, loading priority,
+and named view transitions. Square and portrait articles retain Lumen's contained `CoverImage`.
+The default wrapper and project covers remain unchanged. No new client runtime is needed.
+
 ## Cover image fallback patch
 
 The same version-pinned patch exposes Astro Picture's typed `fallbackFormat` option on
