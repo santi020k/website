@@ -316,6 +316,16 @@ landing-line activation. If `lumen-astro` changes version first, regenerate the 
 patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
 text-size marker cases in `tests/responsive-reading.spec.ts`.
 
+## Article illustration captions
+
+`rehype-article-figures.ts` runs after image unwrapping in the current site's Markdown pipeline.
+It converts standalone article images with an authored Markdown title into native Caption spread
+figures, retaining the same image node for Astro's asset transform. The title becomes a plain-text
+caption, not an HTML string or tooltip. Descriptive alt text remains separate. Figure labels are
+numbered per article; the decorative large number is hidden from assistive technology.
+The site owns this editorial composition in `prose.css`; no Lumen image contract or client runtime
+is replaced. Inline images, linked images, existing figures, project content and archives are unchanged.
+
 ## Article and project cover composition
 
 `CoverSpread` owns the shared editorial grid used by `PostHero` and `ProjectHero`.

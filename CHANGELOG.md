@@ -154,6 +154,8 @@
 
 - Apply Cover spread to project openings with a shared article and project layout, native artwork, and uncluttered covers. Preserve project colors, facts, actions, and technology strips while keeping narrow and enlarged-text layouts readable.
 
+- Apply Caption spread to article illustrations with authored captions, per-article figure numbers, and a curved mount below complete artwork. Preserve alt text and Astro image processing, support enlarged text, and render the figures without client scripts.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

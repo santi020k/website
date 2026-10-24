@@ -11,6 +11,14 @@ These instructions apply to every post below this directory. Follow the reposito
 - Title-only drafts (`draft: true` with an empty body) may omit the cover until writing begins.
 - Set `coverImage.src` to `./cover.webp`.
 
+## Inline illustrations
+
+- Keep descriptive alt text and a short, separate visible caption for standalone illustrations.
+- Use standard Markdown image-title syntax: `![Descriptive alt text](./figure.webp "Short caption.")`.
+  The current-site renderer supplies the Caption spread frame and per-article figure number.
+- Do not manually number captions or reuse the full alt description as a caption. Keep the artwork
+  complete and its native proportions; captions belong below it.
+
 ## Cover artwork
 
 Before generating or replacing a cover, read
