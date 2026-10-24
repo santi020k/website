@@ -405,6 +405,8 @@
 
 - Restore reading positions immediately through browser history and reloads, reveal selected mobile topics without moving page focus, and synchronize package-manager tabs without scrolling to another code block. Distinguish selected archive groups from the current pagination page.
 
+- Remove an obsolete draft article preview from public assets and guard draft post and project images independently of the generation cache while preserving published images and aliases.
+
 ## 4.0.0
 
 ### Major Changes

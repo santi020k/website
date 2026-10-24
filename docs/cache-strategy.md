@@ -90,6 +90,17 @@ the lockfile, artwork, content, renderer scripts, pagination settings, and the
 actual variable font. A changed input produces a new cache entry; the generator
 still verifies fingerprints after a fallback restore.
 
+OG cleanup only removes outputs recorded in its previous cache. An obsolete image
+absent from that cache can survive regeneration and still be copied from `public/og`
+into the production build. `src/utils/__tests__/og-draft-assets.test.ts` checks draft
+post and project image paths independently of the cache and manifest, and verifies
+that published project images and their aliases remain available. This guard covers
+those entries' own images, not archive or utility-page outputs.
+
+After previewing drafts with `OG_INCLUDE_DRAFTS=1`, regenerate without that flag.
+Remove an obsolete draft image explicitly if it is absent from `.og-cache.json`;
+do not delete every unlisted image, since custom artwork and utility fallbacks are valid.
+
 ### Portable OG fingerprints
 
 The pinned `@santi020k/og@1.2.0` dependency uses
