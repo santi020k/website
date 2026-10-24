@@ -417,6 +417,12 @@
 
 - Remove an obsolete draft article preview from public assets and guard draft post and project images independently of the generation cache while preserving published images and aliases.
 
+- Validate built-page fragments through encoded paths and page aliases, reject targets outside the build directory, and require directory indexes to be actual HTML files.
+
+- Use a consistent CI/CD technology label, accept hashtag-prefixed topic searches, and preserve sentence punctuation in series headings that contain names such as Next.js.
+
+- Reject unsuccessful or mismatched archive pages before saving history captures, and make the Webmention diagnostic honor explicit target URLs while rejecting invalid arguments before network access.
+
 ## 4.0.0
 
 ### Major Changes
