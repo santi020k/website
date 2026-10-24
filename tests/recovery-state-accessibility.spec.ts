@@ -52,7 +52,7 @@ const expectCopyInside = async (target: Locator) => {
   expect(outside).toEqual([])
 }
 
-for (const width of [390, 1440]) {
+for (const width of [320, 390, 1440]) {
   for (const textSize of [100, 200]) {
     for (const theme of ['light', 'dark'] as const) {
       test.describe(`Recovery states ${width}px / ${textSize}% / ${theme}`, () => {
@@ -128,21 +128,24 @@ for (const width of [390, 1440]) {
 
           await comments.scrollIntoViewIfNeeded()
           await expect(comments.getByRole('heading', { name: 'Comments', level: 2 })).toBeVisible()
-          await expect(comments.locator('p').first()).toContainText('or reply on GitHub')
-          const heading = comments.getByRole('heading', { name: 'Comments', level: 2 })
-
-          await expect(heading).toHaveCSS('letter-spacing', `${1.3 * textSize / 100}px`)
-          await expect(heading).toHaveCSS('line-height', `${18 * textSize / 100}px`)
+          await expect(comments.getByText('Join the conversation.', { exact: true })).toBeVisible()
+          await expect(comments.getByText('Powered by GitHub Discussions. Sign in with GitHub to share your thoughts.')).toBeVisible()
           await expect(comments.locator('[data-giscus-mount]')).toBeHidden()
           const error = comments.locator('[data-giscus-error]')
 
           await expect(error).toBeVisible()
           await expectCopyInside(comments)
-          const link = comments.getByRole('link', { name: 'reply on GitHub' })
+          const link = comments.getByRole('link', { name: 'Reply on GitHub', exact: true })
 
           await link.focus()
           await expect(link).toBeFocused()
           await expect(link).toHaveCSS('outline-style', 'solid')
+          await expectCopyInside(comments.locator('[data-discussion-invitation]'))
+          const target = await link.boundingBox()
+
+          expect(target?.height).toBeGreaterThanOrEqual(44)
+          await expect(link).toHaveAttribute('target', '_blank')
+          await expect(link).toHaveAttribute('rel', 'noopener noreferrer')
           await expectNoUnexpectedAccessibilityViolations(page)
         })
       })
@@ -158,7 +161,7 @@ test.describe('Without JavaScript', () => {
     const comments = page.getByRole('region', { name: 'Comments', exact: true })
 
     await expect(comments.getByRole('heading', { name: 'Comments', level: 2 })).toBeVisible()
-    await expect(comments.getByRole('link', { name: 'reply on GitHub' })).toHaveAttribute('href', /^https:\/\/github\.com\/santi020k\/website\/discussions$/u)
+    await expect(comments.getByRole('link', { name: 'Reply on GitHub', exact: true })).toHaveAttribute('href', /^https:\/\/github\.com\/santi020k\/website\/discussions$/u)
     await expect(comments.locator('[data-giscus-mount]')).toBeEmpty()
     await expect(comments.locator('[data-giscus-mount]')).toHaveCSS('min-height', '0px')
     await expect(comments.locator('[data-giscus-error]')).toBeHidden()

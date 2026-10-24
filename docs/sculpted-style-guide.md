@@ -753,6 +753,34 @@ for one example. Wide tables scroll inside the named region on narrow screens;
 the page itself must not overflow. Keep a visible focus outline, keyboard access,
 and readable header accents in both themes. This treatment requires no script.
 
+### Conversation folio article discussions
+
+Use `CommentsSection` to invite readers into the article discussion. A Lumen Card
+pairs a soft brand header and decorative conversation icon with a plain reading
+area. Keep the real Comments heading, asymmetric 0.375rem / 1.75rem corners, fine
+outline, and a separate underlined Reply on GitHub row with a 44px minimum target.
+Reduce insets for narrow containers and enlarged text; preserve a visible focus
+outline and readable accents in both themes.
+
+The invitation sits above the provider widget. Keep Giscus lazy loading, theme
+synchronization, and polite failure guidance in the existing controller. The
+GitHub destination must remain available while loading, after failure, and without
+JavaScript. Do not reserve an empty widget area for readers without JavaScript.
+
+### Dispatch sleeve sharing controls
+
+Use `ShareButtons` on article and project detail pages. A Lumen Card pairs a quiet
+Share this piece label and Pass it on invitation with a prominent copy or native
+share button. Keep the opaque surface, alternating 1.75rem / 0.375rem corners,
+fine outline, and shallow brand-soft sheet beneath it. Place the three social
+links in a tinted footer, with generous targets and outward arrows.
+
+Stack the header below 28.75rem of container width, allowing social links to wrap
+and reducing insets again below 18rem. Keep the full action names readable with
+enlarged text. Preserve the existing native share, cancellation, clipboard,
+busy-state, route cleanup, and live-result behavior. Script-free visits retain
+all three social destinations and hide the unavailable copy/share button.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.
@@ -1209,7 +1237,7 @@ both downloadable PDF variants remain authoritative.
 - Shiki's light comments use the shared theme's `descriptionForeground` color, retaining
   their italic style. The theme's original comment color is too faint on the reading canvas.
 - The share "Link copied!" state uses a solid `brand-soft` background, with `brand` text in the
-  light theme and `ink` text with an `accent` border in the dark theme. Success, failure, reset,
+  light theme and a contrast-adjusted `accent` for text and border in the dark theme. Success, failure, reset,
   Web Share, and clipboard behavior are unchanged. The failed-copy state uses opaque `surface`
   with `ink` text and a `danger` border and icon; the visible failure label supplies the meaning
   without relying on color or translucent backgrounds.

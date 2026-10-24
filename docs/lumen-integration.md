@@ -231,7 +231,9 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
   this composition; native list semantics remain intact without client JavaScript. Root lists
   use neutral dividers and purple lead rules, with a single column when reading space is narrow.
-- `ShareButtons` keeps native sharing on supported coarse-pointer devices and clipboard copying
+- `ShareButtons` composes Dispatch sleeve with Lumen `Card`, `Button`, and `Icon`:
+  an invitation beside the main action and three native social links in a tinted footer.
+  It keeps native sharing on supported coarse-pointer devices and clipboard copying
   elsewhere. Its visible label and accessible name say "Share link" for native sharing and
   "Copy link" for clipboard-only use. Cancellation preserves the idle label; fallback feedback
   returns to the label for the available action. Only one share or copy may run at a time;
@@ -253,6 +255,10 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   The four-column measurement table fits the desktop reading column and retains horizontal scrolling
   on narrow screens. `tests/legacy-article-content.spec.ts` checks normal and enlarged text.
   Prose styles use site ink tokens for cells and Lumen's code foreground token for language badges in both themes.
+- `CommentsSection` composes Conversation folio with Lumen `Card` and decorative `Icon`
+  components. Its real section heading and native GitHub reply link remain outside the
+  provider mount, preserving keyboard access and the no-JavaScript fallback. The existing
+  Giscus controller still owns lazy loading, theme synchronization, and polite load errors.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
 
 ## Anchor runtime patch
