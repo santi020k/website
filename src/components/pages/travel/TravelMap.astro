@@ -69,11 +69,10 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
     </div>
     <div data-travel-context>
       <p>Colombian roots. A resident of Paraguay.<br />A growing collection of places and stories.</p>
-      <p data-travel-counts aria-label={`${travelSummary.countriesAbroad} countries visited abroad and ${travelSummary.countryVisits} country visits`}>
-        <span><strong>{travelSummary.countriesAbroad}</strong> countries abroad</span>
-        <span aria-hidden="true">/</span>
-        <span><strong>{travelSummary.countryVisits}</strong> visits</span>
-      </p>
+      <dl data-travel-counts aria-label={`${travelSummary.countriesAbroad} countries visited abroad and ${travelSummary.countryVisits} country visits`}>
+        <div><dt>countries abroad</dt><dd>{travelSummary.countriesAbroad}</dd></div>
+        <div><dt>visits</dt><dd>{travelSummary.countryVisits}</dd></div>
+      </dl>
     </div>
   </header>
   <p aria-live="polite" aria-atomic="true" class="sr-only" data-travel-announcement></p>
@@ -123,9 +122,16 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
     letter-spacing: -0.012em;
   }
 
-  [data-travel-counts] { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.375rem; margin-top: 1.25rem; color: hsl(var(--ink)); }
-  [data-travel-counts] strong { font-size: 1.25rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-  [data-travel-counts] > [aria-hidden] { margin-inline: 0.25rem; color: hsl(var(--ink-soft)); }
+  [data-travel-counts] { margin-top: 1.25rem; padding-left: 1.25rem; border-left: 2px solid hsl(var(--brand)); container: travel-totals / inline-size; }
+  [data-travel-counts] > div { display: flex; align-items: baseline; justify-content: space-between; gap: 1.25rem; padding-block: .75rem; }
+  [data-travel-counts] > div:first-child { padding-top: 0; border-bottom: 1px solid hsl(var(--line)); }
+  [data-travel-counts] > div:last-child { padding-bottom: 0; }
+  [data-travel-counts] dt { min-width: 0; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.7; }
+  [data-travel-counts] dd { flex-shrink: 0; margin: 0; color: hsl(var(--ink)); font-size: 2.125rem; font-weight: 500; line-height: 1.15; letter-spacing: -.06em; }
+  :global([data-theme='dark']) [data-travel-counts] { border-color: hsl(var(--accent)); }
+  @container travel-totals (width < 12rem) {
+    [data-travel-counts] > div { gap: .375rem; }
+  }
   [data-travel-atlas] { --travel-map-height: max(42rem, 40vw); position: relative; container: travel-atlas / inline-size; }
 
   [data-travel-hint] {
@@ -275,7 +281,7 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
   @media (max-width: 63.999rem) {
     [data-travel-intro] { align-items: start; flex-direction: column; gap: 1.5rem; }
     [data-travel-context] { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1rem 1.5rem; width: 100%; max-width: none; }
-    [data-travel-counts] { flex-shrink: 0; max-width: 100%; margin-top: 0; }
+    [data-travel-counts] { flex-shrink: 0; width: min(100%, 19rem); margin-top: 0; }
   }
 
   @media (max-width: 47.999rem) {

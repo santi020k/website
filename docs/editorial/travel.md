@@ -22,6 +22,9 @@ typography, signature eyebrow, and thin rules as the home hero and sculpted navi
 The map comes first, directly below the navigation, and extends to both page edges.
 The title, introduction, and visit counts follow beneath it, aligned with the navigation.
 Its zoom and reset controls sit inside the map.
+The hero totals use Margin totals: two ruled definition rows beside an accent margin,
+with labels on the left and larger values on the right. The counts remain derived from
+the notebook data, and the row gap tightens for narrow or enlarged-text layouts.
 Selecting a country opens a Passport folio card: a soft brand-colored cover pairs the country
 name and code with its real silhouette; the body separates a prominent visit count from numbered,
 ruled place rows. Numbers identify notebook entries, not trip order. Home and unlisted countries

@@ -17,6 +17,8 @@ test('travel separates home, residence, countries, and repeat visits', async ({ 
   await page.goto('/travel/')
   await expect(page.locator('h1')).toHaveText(/A life in\s*more than one place\./u)
   await expect(page.locator('[aria-label="14 countries visited abroad and 29 country visits"]')).toBeVisible()
+  await expect(page.locator('[data-travel-counts] dt')).toHaveText(['countries abroad', 'visits'])
+  await expect(page.locator('[data-travel-counts] dd')).toHaveText(['14', '29'])
   await expect(page.locator('[data-ui-world-map]')).toHaveAttribute('data-variant', 'dotted')
   await expect(page.locator('[data-travel-selection]')).toBeHidden()
   await expect(page.locator('#travel-countries article')).toHaveCount(15)
@@ -90,6 +92,42 @@ for (const theme of ['light', 'dark']) {
 }
 
 for (const theme of ['light', 'dark'] as const) {
+  test(`travel totals keep labels and values readable without JavaScript at 200% text in ${theme}`, async ({ browser }) => {
+    const context = await browser.newContext({
+      javaScriptEnabled: false,
+      colorScheme: theme,
+      viewport: { width: 320, height: 844 }
+    })
+    const page = await context.newPage()
+    await page.goto('/travel/')
+    await page.evaluate(async () => {
+      document.documentElement.style.fontSize = '200%'
+      await document.fonts.ready
+    })
+    const totals = page.locator('[data-travel-counts]')
+    await expect(totals.locator('dt')).toHaveText(['countries abroad', 'visits'])
+    await expect(totals.locator('dd')).toHaveText(['14', '29'])
+    const readable = await totals.evaluate(element => {
+      const bounds = element.getBoundingClientRect()
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+      while (walker.nextNode()) {
+        const node = walker.currentNode
+        for (const match of (node.textContent ?? '').matchAll(/[^\s]+/gu)) {
+          const range = document.createRange()
+          range.setStart(node, match.index)
+          range.setEnd(node, match.index + match[0].length)
+          const rects = [...range.getClientRects()]
+          const fits = rects.every(rect => rect.left >= bounds.left && rect.right <= bounds.right)
+          if (rects.length !== 1 || !fits) return false
+        }
+      }
+      return true
+    })
+    expect(readable).toBe(true)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+    await context.close()
+  })
+
   test(`roots and returns story preserves complete words without JavaScript at 200% text in ${theme}`, async ({ browser }) => {
     const context = await browser.newContext({
       javaScriptEnabled: false,

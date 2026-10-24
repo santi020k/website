@@ -174,6 +174,8 @@
 
 - Apply Origin spread to the Travel Roots and returns story, with a full-width heading, a larger opening paragraph, and a separate reading column. Preserve all supplied travel details, reading order, responsive alignment, theme contrast, and complete words at enlarged text sizes.
 
+- Apply Margin totals to the Travel hero, pairing larger values with clear labels in ruled definition rows. Preserve the derived country and visit counts, responsive page alignment, light/dark contrast, and readable labels at enlarged text sizes.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

@@ -380,6 +380,19 @@ than 17rem, then stack it. Preserve complete words with enlarged text, readable
 light/dark colors, and the original archive contract. The note adds no interaction,
 animation, or client JavaScript.
 
+### Margin totals Travel hero
+
+Keep the hero totals unframed beneath the existing introduction. Use a native
+definition list, a 2px accent margin, and 1.25rem left inset. Pair .75rem labels
+with right-aligned 2.125rem values at weight 500, separating the two rows with a
+fine rule and .75rem vertical spacing. Keep the count labels and derived values
+explicit, including the distinction between countries abroad and total visits.
+
+The totals stay within the existing 19rem context width and move with that
+context on smaller screens. Below 12rem of inner width, tighten the label/value
+gap to .375rem so enlarged labels retain complete words. Preserve native reading
+order, light/dark contrast, and all content without JavaScript.
+
 ### Journey ledger Travel notebook
 
 Use native country articles inside the existing Lumen disclosure. Give each entry
