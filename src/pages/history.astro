@@ -54,7 +54,7 @@ const meta = {
           <p class="history-hero-note">Nothing lost. Every old door still opens.</p>
         </div>
         <div class="history-hero-exhibit" role="group" aria-label="Website design previews">
-          <figure class="history-hero-print" data-history-current-print>
+          <figure class="history-hero-print" data-history-hero-current>
             <Image src={imageFor(current.id, 'desktop')} alt={`${current.id.toUpperCase()} homepage capture`} widths={[320, 640, 960]} sizes="(min-width: 1200px) 528px, (min-width: 960px) calc(50vw - 4.5rem), (min-width: 640px) 512px, calc(100vw - 4rem)" loading="eager" />
             <figcaption>
               <span class="history-hero-current-version">{current.id.toUpperCase()}</span>
