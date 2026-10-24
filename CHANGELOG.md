@@ -152,6 +152,8 @@
 
 - Apply Cover spread to article openings: pair the headline with native artwork before the summary and publication details. Remove repeated cover captions, preserve optimized images and article navigation, and stack narrow or enlarged-text layouts safely.
 
+- Apply Cover spread to project openings with a shared article and project layout, native artwork, and uncluttered covers. Preserve project colors, facts, actions, and technology strips while keeping narrow and enlarged-text layouts readable.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

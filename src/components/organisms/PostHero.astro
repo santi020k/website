@@ -5,6 +5,7 @@ import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import FormattedDate from '@/components/atoms/FormattedDate.astro'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
+import CoverSpread from '@/components/molecules/CoverSpread.astro'
 
 import { getTagPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
@@ -80,26 +81,22 @@ const eyebrowLabel = tags[0] ?? 'Article'
     motion-reduce:animate-none
   "
   >
-    <div data-cover-spread data-has-wide-cover={Boolean(post.data.coverImage && useWideCoverFrame)}>
-      <header data-cover-headline>
-        <h1 class="p-name">{title}</h1>
-      </header>
+    <CoverSpread kind="article" hasCover={Boolean(post.data.coverImage)} wide={useWideCoverFrame}>
+      <h1 slot="heading" class="p-name">{title}</h1>
       {post.data.coverImage && (
-        <div data-post-cover data-wide-cover={useWideCoverFrame}>
-          <HoverableCover
-            alt={post.data.coverImage.alt}
-            ariaHidden={true}
-            unstyled={useWideCoverFrame}
-            fetchpriority="high"
-            image={post.data.coverImage.src}
-            loading="eager"
-            preserveAspectRatio={useWideCoverFrame}
-            sizes={useWideCoverFrame ? '(min-width: 1280px) 1152px, calc(100vw - 3rem)' : '(min-width: 1024px) 896px, calc(100vw - 3rem)'}
-            transitionName={`post-cover-${getPostSlug(post.id)}`}
-          />
-        </div>
+        <HoverableCover
+          alt={post.data.coverImage.alt}
+          ariaHidden={true}
+          unstyled={useWideCoverFrame}
+          fetchpriority="high"
+          image={post.data.coverImage.src}
+          loading="eager"
+          preserveAspectRatio={useWideCoverFrame}
+          sizes={useWideCoverFrame ? '(min-width: 1280px) 1152px, calc(100vw - 3rem)' : '(min-width: 1024px) 896px, calc(100vw - 3rem)'}
+          transitionName={`post-cover-${getPostSlug(post.id)}`}
+        />
       )}
-    </div>
+    </CoverSpread>
     <div data-cover-lead>
       <p data-editorial-summary class="p-summary text-ink-soft">{description}</p>
       <p data-cover-byline class="text-sm/6 text-ink-muted">
@@ -237,66 +234,6 @@ const eyebrowLabel = tags[0] ?? 'Article'
 <style>
   [data-article-opening] { container: article-opening / inline-size; }
 
-  [data-cover-spread] {
-    --cover-overlap: clamp(2.625rem, 6.5cqi, 4.375rem);
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    --cover-tail: 25%;
-    --cover-corner: 2rem;
-    --cover-corner-offset: 0.5rem;
-    isolation: isolate;
-  }
-
-  [data-cover-headline] {
-    z-index: 1;
-    grid-column: 1 / -1;
-    min-width: 0;
-    padding-bottom: 1.875rem;
-  }
-
-  [data-cover-spread][data-has-wide-cover='true'] [data-cover-headline] {
-    grid-column: 1 / 10;
-    padding-right: 1.75rem;
-    margin-bottom: calc(-1 * var(--cover-overlap));
-    border-bottom-right-radius: 2rem;
-  }
-
-  [data-article-opening] [data-cover-headline] h1 {
-    padding-block: 0.1em;
-    font-size: clamp(2rem, 6.5cqi, 4.25rem);
-    font-weight: 500;
-    line-height: 1.08;
-    letter-spacing: -0.055em;
-    overflow-wrap: anywhere;
-    hyphens: manual;
-    text-wrap: balance;
-  }
-
-  [data-post-cover] {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    min-width: 0;
-    overflow: hidden;
-    border-radius: 0 2rem 2rem 0.25rem;
-  }
-
-  /* The transparent notch follows the page backdrop without an opaque title patch. */
-  [data-post-cover][data-wide-cover='true'] {
-    mask:
-      linear-gradient(#000 0 0) bottom / 100% calc(100% - var(--cover-overlap)) no-repeat,
-      linear-gradient(#000 0 0) right / var(--cover-tail) 100% no-repeat,
-      radial-gradient(circle at top left, transparent calc(var(--cover-corner) - 0.5px), #000 var(--cover-corner))
-        left calc(100% - var(--cover-tail) - var(--cover-corner-offset)) top calc(var(--cover-overlap) - var(--cover-corner)) /
-        var(--cover-corner) var(--cover-corner) no-repeat;
-  }
-
-  [data-post-cover][data-wide-cover='false'] {
-    width: 100%;
-    max-width: 56rem;
-    margin-inline: auto;
-    border-radius: 1.5rem;
-  }
-
   [data-cover-lead] {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -324,44 +261,13 @@ const eyebrowLabel = tags[0] ?? 'Article'
   [data-cover-byline] a { display: block; min-height: 2.75rem; padding-top: 0.1875rem; }
 
   @container article-opening (width < 36.25rem) {
-    [data-cover-spread] {
-      --cover-overlap: 2.125rem;
-      --cover-tail: 16.666667%;
-      --cover-corner: 1.625rem;
-      --cover-corner-offset: 0.270833rem;
-    }
-    [data-cover-spread][data-has-wide-cover='true'] [data-cover-headline] {
-      grid-column: 1 / 11;
-      padding-right: 1.375rem;
-      padding-bottom: 1.5rem;
-      border-bottom-right-radius: 1.625rem;
-    }
-    [data-article-opening] [data-cover-headline] h1 { font-size: clamp(1.875rem, 6.5cqi, 2.375rem); }
     [data-cover-lead] { grid-template-columns: minmax(0, 1fr); gap: 0.875rem; margin-top: 1.375rem; }
     [data-cover-byline] { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 0.3125rem; padding: 0; }
     [data-cover-byline] a { padding: 0; }
   }
 
   @container article-opening (width < 23.75rem) {
-    [data-cover-spread][data-has-wide-cover='true'] [data-cover-headline] {
-      grid-column: 1 / -1;
-      padding: 0 0 1.375rem;
-      margin: 0;
-      border-radius: 0;
-      background: transparent;
-    }
-    [data-article-opening] [data-cover-headline] h1 { font-size: 1.875rem; line-height: 1.12; letter-spacing: -0.045em; }
-    [data-post-cover][data-wide-cover='true'] { mask: none; }
-    [data-post-cover] { border-radius: 1.375rem 0.25rem 1.375rem 0.25rem; }
     [data-article-opening] [data-editorial-summary] { font-size: 0.9375rem; }
-  }
-
-  @container article-opening (width < 16rem) {
-    [data-article-opening] [data-cover-headline] h1 { font-size: 1.125rem; }
-  }
-
-  @container article-opening (width < 8rem) {
-    [data-article-opening] [data-cover-headline] h1 { font-size: 1rem; }
   }
 
   [data-article-topics-container] { container: article-topics / inline-size; }

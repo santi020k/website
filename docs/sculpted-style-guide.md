@@ -906,8 +906,7 @@ Keep native anchors for links wrapping a complete project or article.
 - Passive principle, testimonial, topic, and format cards keep their colors, tracking, and
   decoration still on hover; reserve interaction feedback for actual controls.
 - Article and project hero covers are passive reading images, with no hover glow, wash,
-  zoom, or caption movement. Article openings use Cover spread; project covers retain their
-  static shadow and caption contrast gradient.
+  zoom, or caption movement. Both openings use the shared Cover spread composition.
 - Series step rows give keyboard focus the same color and background emphasis as hover.
 - Choosing a blog topic keeps the filter's vertical position and focuses the selected topic
   link. Its horizontal scroll is retained unless the chosen topic needs to be brought into view;
@@ -1171,9 +1170,8 @@ rings visible. Otherwise rails stay in normal flow. The generic `editorial-rail`
 the 404 suggestions, never becomes a scrolling region. Hero metadata grids use a named
 `editorial-meta` container: article publication dates move above two reading-detail columns below 32rem
 and stack below 16rem. Project roles span both supporting facts below 37rem, and all project
-facts stack below 22.5rem, so enlarged labels never split mid-word. Decorative project
-cover captions appear only when the cover's container is wide enough in root-relative units,
-so narrow screens and enlarged text omit them rather than overflow the image. Pills, resume
+facts stack below 22.5rem, so enlarged labels never split mid-word. Project covers keep artwork
+clear of duplicate facts and captions at every width. Pills, resume
 contacts, history actions, and talk links wrap inside their containers with enlarged text.
 The screen resume has no rounded clipping boundary, so its edge labels and focus rings stay visible.
 The footer colophon reserves the Back to Top corner wherever the two would meet.
@@ -1254,10 +1252,12 @@ removal condition. Never use a negative heading scroll margin to align the marke
 Keep motion optional. Hover transitions last 180–300ms; reduced-motion mode removes transitions
 and image scaling. The homepage content adds no client JavaScript.
 
-### Cover spread article openings
+### Cover spread article and project openings
 
 Place the headline and artwork before the summary, author, Margin imprint publication
-facts, Margin topics links, and existing article actions. Landscape artwork keeps its native
+facts, Margin topics links, and existing article actions. Project openings use the same shared
+`CoverSpread` layout, retain the project title gradient, and place the description, Margin imprint
+project facts, actions, and Sculpted band technology strip below the artwork. Landscape artwork keeps its native
 aspect ratio and optimized image pipeline. The headline occupies nine of twelve columns;
 a transparent notch follows its lower corner, overlapping the artwork by at most 4.375rem. The cover has a
 raised right corner and no shadow, gradient, or repeated caption. Keep the heading once.
@@ -1265,7 +1265,7 @@ raised right corner and no shadow, gradient, or repeated caption. Keep the headi
 Below 36.25rem of available width, widen the title and stack summary and byline. Below
 23.75rem, remove the overlap and give the complete image a small asymmetric corner treatment.
 Root-relative queries also stack enlarged text and moderate title size in very narrow reading
-columns; keep title words whole instead of automatically hyphenating them. Square and portrait images retain the existing
+columns; keep title words whole instead of automatically hyphenating them. Square and portrait article images retain the existing
 contained Lumen frame and never overlap the title. Articles without artwork keep their title,
 summary, and metadata in reading order. Covers remain passive; do not add hover effects.
 
@@ -1276,7 +1276,7 @@ with a responsive WebP fallback. This avoids expanding WebP originals into large
 while retaining the existing dimensions, crop, alternative text, and loading priorities.
 Landscape article heroes use that same native-aspect path, so matching widths reuse
 the listing's image URLs instead of generating identical bytes with different dimension options.
-Portrait and square covers retain Lumen's contained frames.
+Portrait and square article covers retain Lumen's contained frames; project artwork keeps its native aspect ratio.
 The installed Lumen `CoverImage` still owns its own format selection; do not pass unsupported
 format props through its wrapper. Keep source artwork and archived-site assets.
 

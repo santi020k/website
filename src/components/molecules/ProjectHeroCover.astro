@@ -4,61 +4,24 @@ import type { CollectionEntry } from 'astro:content'
 import HoverableCover from '@/components/atoms/HoverableCover.astro'
 
 import { getProjectCoverForUsage } from '@/utils/project-cover'
-import { getProjectDateRangeLabel, getProjectTypeLabel } from '@/utils/project-meta'
 
 interface Props {
   project: CollectionEntry<'project'>
 }
 
 const { project } = Astro.props
-const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
-const dateRangeLabel = getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate)
 const heroImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
 ---
 
 {project.data.coverImage && heroImage && (
-  <div
-    class="
-      animate-reveal-lcp
-      motion-reduce:animate-none
-    "
-  >
-    <div class="relative" data-project-cover>
-      <HoverableCover
-        alt={project.data.coverImage.alt}
-        ariaHidden={true}
-        fetchpriority="high"
-        image={heroImage}
-        loading="eager"
-        preserveAspectRatio={true}
-        showBottomGradient={true}
-        sizes="(min-width: 1280px) 1200px, 100vw"
-      />
-      <div
-        aria-hidden="true"
-        class="
-          pointer-events-none absolute inset-x-0 bottom-0 z-20 flex-wrap
-          items-end justify-between gap-x-4 gap-y-2 px-8 py-6
-        "
-        data-project-cover-caption
-      >
-        <div class="space-y-1">
-          <p class="text-xs font-bold tracking-[0.18em] text-white/80 uppercase">
-            {dateRangeLabel}
-          </p>
-          <p class="text-xs font-bold tracking-[0.18em] text-white/60 uppercase">
-            Timeline
-          </p>
-        </div>
-        <div class="space-y-1 text-right">
-          <p class="text-xs font-bold tracking-[0.18em] text-white/80 uppercase">
-            {projectTypeLabel}
-          </p>
-          <p class="text-xs font-bold tracking-[0.18em] text-white/60 uppercase">
-            Project Type
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <HoverableCover
+    alt={project.data.coverImage.alt}
+    ariaHidden={true}
+    unstyled={true}
+    fetchpriority="high"
+    image={heroImage}
+    loading="eager"
+    preserveAspectRatio={true}
+    sizes="(min-width: 1280px) 1152px, calc(100vw - 3rem)"
+  />
 )}

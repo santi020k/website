@@ -98,38 +98,49 @@ const expectReadableProjectTitleGradient = async (page: Page) => {
 }
 
 test.describe('Portfolio page', () => {
-  test('keeps cover captions and their shading clear of enlarged logos on narrow screens', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 844 })
+  test('keeps project artwork clear and the opening in reading order at narrow and enlarged sizes', async ({ page }) => {
     await page.goto('/portfolio/roadscore/')
 
-    const caption = page.locator('[data-project-cover-caption]')
-    const gradient = page.locator('[data-project-cover] [data-cover-gradient]')
+    for (const width of [375, 1440]) {
+      await page.setViewportSize({ width, height: 900 })
+      for (const fontSize of ['100%', '200%']) {
+        await page.evaluate(size => {
+          document.documentElement.style.fontSize = size
+        }, fontSize)
 
-    await expect(caption).toBeHidden()
-    await expect(gradient).toBeHidden()
-    await expect(page.locator('[data-editorial-meta-group]')).toBeVisible()
+        const cover = page.locator('[data-project-cover]')
+        await expect(cover).toBeVisible()
+        await expect(page.locator('[data-project-cover-caption]')).toHaveCount(0)
+        await expect(cover.locator('[data-cover-gradient]')).toHaveCount(0)
+        await expect(page.locator('[data-editorial-meta-group]')).toBeVisible()
 
-    await page.setViewportSize({ width: 1440, height: 900 })
-    await expect(caption).toBeVisible()
-    await expect(gradient).toBeVisible()
+        const layout = await page.locator('[data-project-opening]').evaluate(async element => {
+          const title = element.querySelector('h1')
+          const image = element.querySelector('img')
+          const summary = element.querySelector('[data-editorial-summary]')
+          const facts = element.querySelector('[data-editorial-meta-group]')
+          if (!title || !image || !summary || !facts) throw new TypeError('Expected a complete project opening')
+          await image.decode()
+          const art = image.getBoundingClientRect()
+          return {
+            titleClearsArtwork: title.getBoundingClientRect().bottom <= art.top + art.height * 0.23,
+            summaryAfterArtwork: summary.getBoundingClientRect().top >= art.bottom,
+            factsAfterSummary: facts.getBoundingClientRect().top >= summary.getBoundingClientRect().bottom,
+            renderedRatio: art.width / art.height,
+            declaredRatio: Number(image.getAttribute('width')) / Number(image.getAttribute('height')),
+            loaded: image.naturalWidth > 0,
+            overflow: element.scrollWidth > element.clientWidth + 1
+          }
+        })
 
-    const clearsLogo = await caption.evaluate(element => {
-      const image = element.parentElement?.querySelector('img')
-
-      if (!image) throw new TypeError('Expected a cover image beside its caption')
-
-      const imageBounds = image.getBoundingClientRect()
-
-      return element.getBoundingClientRect().top >= imageBounds.top + imageBounds.height * 0.75
-    })
-
-    expect(clearsLogo).toBe(true)
-    await page.evaluate(() => {
-      document.documentElement.style.fontSize = '200%'
-    })
-    await expect(caption).toBeHidden()
-    await expect(gradient).toBeHidden()
-    await expect(page.locator('[data-editorial-meta-group]')).toBeVisible()
+        expect(layout.titleClearsArtwork).toBe(true)
+        expect(layout.summaryAfterArtwork).toBe(true)
+        expect(layout.factsAfterSummary).toBe(true)
+        expect(layout.renderedRatio).toBeCloseTo(layout.declaredRatio, 2)
+        expect(layout.loaded).toBe(true)
+        expect(layout.overflow).toBe(false)
+      }
+    }
   })
 
   test('index should have the correct title and list sections', async ({ page }) => {

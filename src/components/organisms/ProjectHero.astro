@@ -6,9 +6,11 @@ import type { CollectionEntry } from 'astro:content'
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import ProjectTimeline from '@/components/atoms/ProjectTimeline.astro'
+import CoverSpread from '@/components/molecules/CoverSpread.astro'
 import ProjectHeroCover from '@/components/molecules/ProjectHeroCover.astro'
 import ProjectHeroStack from '@/components/molecules/ProjectHeroStack.astro'
 
+import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectDurationLabel, getProjectTypeLabel } from '@/utils/project-meta'
 
 import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
@@ -21,13 +23,15 @@ interface Props {
 const { parentPage = { name: 'Portfolio', url: '/portfolio/' }, project } = Astro.props
 const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
 const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
+const heroImage = getProjectCoverForUsage(project.data.coverImage, 'hero')
+const useWideCoverFrame = Boolean(heroImage && heroImage.width / heroImage.height > 1.08)
 const titleWords = project.data.title.split(' ')
 const gradientWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : project.data.title
 const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : ''
 
 ---
 
-<section class="editorial-detail-hero space-y-12">
+<section class="editorial-detail-hero space-y-12" data-project-opening>
   {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
   <div
     class="
@@ -67,23 +71,21 @@ const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : '
     </div>
   </div>
 
-  {/* ── Title + description ──────────────────────────────────── */}
+  {/* ── Cover spread + description ──────────────────────────────────── */}
   <div
     class="
-      animate-reveal-lcp space-y-6
+      animate-reveal-lcp
       motion-reduce:animate-none
     "
   >
-    <h1 class="max-w-4xl wrap-break-word">
-      {plainWords && <span>{plainWords} </span>}
-      <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
-    </h1>
-    <p
-data-editorial-summary
-class="text-ink-soft"
-    >
-      {project.data.description}
-    </p>
+    <CoverSpread kind="project" hasCover={Boolean(heroImage)} wide={useWideCoverFrame}>
+      <h1 slot="heading">
+        {plainWords && <span>{plainWords} </span>}
+        <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
+      </h1>
+      <ProjectHeroCover project={project} />
+    </CoverSpread>
+    <p data-editorial-summary class="text-ink-soft">{project.data.description}</p>
   </div>
 
   {/* ── Margin imprint ──────────────────────────────────────── */}
@@ -157,14 +159,23 @@ class="text-ink-soft"
     </div>
   </div>
 
-  {/* ── Full-width cover ─────────────────────────────────────── */}
-  <ProjectHeroCover project={project} />
-
   {/* ── Technologies strip ───────────────────────────────────── */}
   <ProjectHeroStack technologies={project.data.technologies} />
 </section>
 
 <style>
+  [data-project-opening] { container: project-opening / inline-size; }
+  [data-project-opening] [data-editorial-summary] {
+    max-width: 45rem;
+    margin-top: 1.75rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: -0.015em;
+  }
+  @container project-opening (width < 23.75rem) {
+    [data-project-opening] [data-editorial-summary] { font-size: 0.9375rem; margin-top: 1.375rem; }
+  }
+
   [data-project-imprint] {
     display: grid;
     grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 0.65fr);
