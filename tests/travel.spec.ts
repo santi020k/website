@@ -90,6 +90,42 @@ for (const theme of ['light', 'dark']) {
 }
 
 for (const theme of ['light', 'dark'] as const) {
+  test(`roots and returns story preserves complete words without JavaScript at 200% text in ${theme}`, async ({ browser }) => {
+    const context = await browser.newContext({
+      javaScriptEnabled: false,
+      colorScheme: theme,
+      reducedMotion: 'reduce',
+      viewport: { width: 320, height: 844 }
+    })
+    const page = await context.newPage()
+    await page.goto('/travel/')
+    await page.evaluate(async () => {
+      document.documentElement.style.fontSize = '200%'
+      await document.fonts.ready
+    })
+    const story = page.getByRole('region', { name: 'Colombia, Paraguay, and the places between.' })
+    await expect(story).toContainText('Colombia is where I’m from.')
+    await expect(story).toContainText('Asunción, Encarnación, and Ciudad del Este.')
+    await expect(story).toContainText('the memories I want to keep.')
+    const splitWords = await story.evaluate(element => {
+      const problems: string[] = []
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+      while (walker.nextNode()) {
+        const node = walker.currentNode
+        for (const match of (node.textContent ?? '').matchAll(/[^\s]+/gu)) {
+          const range = document.createRange()
+          range.setStart(node, match.index)
+          range.setEnd(node, match.index + match[0].length)
+          if (range.getClientRects().length > 1) problems.push(match[0])
+        }
+      }
+      return problems
+    })
+    expect(splitWords).toEqual([])
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+    await context.close()
+  })
+
   test(`travel stories invitation stays readable and opens the blog without JavaScript in ${theme}`, async ({ browser }) => {
     const context = await browser.newContext({
       javaScriptEnabled: false,

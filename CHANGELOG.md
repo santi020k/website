@@ -172,6 +172,8 @@
 
 - Apply Story sleeve to the Travel stories invitation, with a tinted heading cover, separate blog link, and responsive reading layout. Preserve the existing copy and destination, enlarged-text readability, keyboard navigation, and light/dark contrast.
 
+- Apply Origin spread to the Travel Roots and returns story, with a full-width heading, a larger opening paragraph, and a separate reading column. Preserve all supplied travel details, reading order, responsive alignment, theme contrast, and complete words at enlarged text sizes.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

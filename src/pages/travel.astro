@@ -25,16 +25,20 @@ const meta = {
 <PageLayout backdrop="plain" meta={meta}>
   <TravelMap />
 
-  <section data-travel-section aria-labelledby="travel-story-heading">
-    <div data-travel-section-heading>
-      <p class="maker-hero-eyebrow"><span class="maker-hero-signal" aria-hidden="true"></span>Roots &amp; returns</p>
-      <h2 id="travel-story-heading">Colombia, Paraguay,<br />and the places between.</h2>
-    </div>
-    <div data-travel-story>
-      <p>Colombia is where I’m from. Paraguay is part of my story as both a destination and my country of residence: I have been there seven times, with visits to Asunción, Encarnación, and Ciudad del Este.</p>
-      <p>Some countries appear once on this map; others are places I have returned to. I have visited Mexico seven times, and the United States, Brazil, and Argentina twice each.</p>
-      <p>I’m starting this journal with the places. Over time, I’ll add the stories behind them: everyday life while traveling, working from different places, and the memories I want to keep.</p>
-    </div>
+  <section data-travel-section data-travel-roots aria-labelledby="travel-story-heading">
+    <Card variant="unstyled" data-travel-origin-spread>
+      <header>
+        <p data-travel-roots-eyebrow>Roots &amp; returns<Icon data-travel-roots-book name="book-open" /></p>
+        <h2 id="travel-story-heading">Colombia, Paraguay,<br />and the places between.</h2>
+      </header>
+      <div data-travel-roots-body>
+        <p data-travel-roots-lead>Colombia is where I’m from. Paraguay is part of my story as both a destination and my country of residence: I have been there seven times, with visits to Asunción, Encarnación, and Ciudad del Este.</p>
+        <div data-travel-roots-copy>
+          <p>Some countries appear once on this map; others are places I have returned to. I have visited Mexico seven times, and the United States, Brazil, and Argentina twice each.</p>
+          <p>I’m starting this journal with the places. Over time, I’ll add the stories behind them: everyday life while traveling, working from different places, and the memories I want to keep.</p>
+        </div>
+      </div>
+    </Card>
   </section>
 
   <section data-travel-section id="travel-countries" aria-labelledby="country-list-heading">
@@ -110,13 +114,12 @@ const meta = {
     max-width: 22rem;
     margin-top: 1.25rem;
   }
-  [data-travel-story], [data-travel-section-heading] > p:last-child:not(.maker-hero-eyebrow) {
+  [data-travel-section-heading] > p:last-child:not(.maker-hero-eyebrow) {
     color: hsl(var(--ink-soft));
     font-size: 0.9375rem;
     line-height: 1.9;
     letter-spacing: -0.012em;
   }
-  [data-travel-story] > p + p { margin-top: 1.25rem; }
 
   /* Keep the native Lumen disclosure; the notebook shares the hero's ruled canvas. */
   :global(#travel-notebook.ui-collapsible) { --ui-disclosure-inset: 0rem; overflow: visible; border: 0; border-radius: 0; background: transparent; }
@@ -163,6 +166,37 @@ const meta = {
   @media (max-width: 47.999rem) {
     [data-travel-section] { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; padding-top: 2rem; }
     [data-travel-section-heading] .maker-hero-eyebrow { margin-bottom: 1rem; }
+  }
+
+  [data-travel-roots] { display: block; padding-top: 0; border-top: 0; container: travel-roots / inline-size; }
+  :global([data-travel-origin-spread]) { padding: 1.75rem 2rem 2rem; border: 1px solid hsl(var(--line)); border-radius: .375rem 2rem .375rem 2rem; background: hsl(var(--surface)); }
+  [data-travel-roots-eyebrow] { display: flex; align-items: center; justify-content: space-between; gap: .625rem; margin-bottom: 1.5rem; color: hsl(var(--brand)); font-size: .6875rem; font-weight: 500; line-height: 1.7; letter-spacing: .025em; }
+  :global([data-travel-roots-book]) { flex-shrink: 0; font-size: 1.375rem; }
+  #travel-story-heading { max-width: 24ch; font-size: 2.625rem; font-weight: 500; line-height: 1.16; letter-spacing: -.055em; text-wrap: balance; }
+  [data-travel-roots-body] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; margin-top: 1.75rem; padding-top: 1.75rem; border-top: 1px solid hsl(var(--line)); }
+  [data-travel-roots-lead] { min-width: 0; color: hsl(var(--ink)); font-size: 1.1875rem; line-height: 1.65; letter-spacing: -.025em; }
+  [data-travel-roots-copy] { min-width: 0; padding-left: 1.5rem; border-left: 1px solid hsl(var(--brand)); color: hsl(var(--ink-soft)); font-size: .875rem; line-height: 1.9; }
+  [data-travel-roots-copy] p + p { margin-top: 1.25rem; }
+  :global([data-theme='dark']) [data-travel-roots-eyebrow] { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-travel-roots-copy] { border-color: hsl(var(--accent)); }
+
+  @container travel-roots (width < 36rem) {
+    :global([data-travel-origin-spread]) { padding: 1.5rem; }
+    #travel-story-heading { font-size: 2.125rem; }
+    [data-travel-roots-body] { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-top: 1.5rem; padding-top: 1.5rem; }
+    [data-travel-roots-copy] { padding: 1.25rem 0 0; border-top: 1px solid hsl(var(--brand)); border-left: 0; }
+  }
+
+  @container travel-roots (width < 18rem) {
+    :global([data-travel-origin-spread]) { padding: 1.25rem 1rem; }
+    #travel-story-heading { font-size: 1.75rem; }
+    [data-travel-roots-lead] { font-size: 1.0625rem; }
+  }
+
+  @container travel-roots (width < 11rem) {
+    :global([data-travel-origin-spread]) { padding-inline: .5rem; }
+    #travel-story-heading { font-size: 1.25rem; }
+    [data-travel-roots-lead] { font-size: 1rem; }
   }
 
   [data-travel-stories] { display: block; padding-top: 0; border-top: 0; container: travel-stories / inline-size; }

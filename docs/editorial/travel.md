@@ -41,7 +41,11 @@ in the page flow, keeping the selected country and zoom controls unobstructed. P
 reveals the card; keyboard selection retains focus in the chooser. Enlarged text also moves the
 card below the map when space is limited.
 The story, notebook, and forthcoming stories share the hero’s 72rem alignment.
-The story and notebook retain thin rules and a quiet canvas. Country entries use Journey ledger:
+The Roots & returns story uses Origin spread: one opaque surface with a full-width heading,
+a larger opening paragraph, and the remaining copy beside an accent rail. Narrow layouts
+stack the paragraphs and turn the rail into a horizontal rule. Keep all three paragraphs
+in their original reading order, with the supplied country and residence details intact.
+The notebook retains thin rules and a quiet canvas. Country entries use Journey ledger:
 a narrow country-code margin, larger names, separate visit labels, and fine rules.
 Places retain their complete names in wrapping lists;
 home, residence, partial-list, and region notes remain explicit. The margin tightens as the

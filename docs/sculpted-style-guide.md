@@ -396,6 +396,23 @@ the content. Keep complete words at enlarged text sizes, readable light/dark
 colors, native keyboard disclosure behavior, and all content without JavaScript.
 The notebook adds no new client controller or animation.
 
+### Origin spread Travel story
+
+Frame Roots & returns in one opaque Lumen surface with alternating .375rem/2rem
+corners and 1.75rem/2rem insets. Keep the accent eyebrow and decorative book icon
+above the full-width 2.625rem heading. Below a fine rule, use equal columns:
+the opening paragraph leads at 1.1875rem, while the remaining paragraphs use
+.875rem type beside a slim accent rail. Preserve the full copy and reading order.
+
+Below 36rem of section width, stack the story, turn the rail into a top rule,
+use 1.5rem insets, and reduce the heading to 2.125rem. Below 18rem, use 1rem
+horizontal insets, a 1.75rem heading, and a 1.0625rem opening paragraph. Below
+11rem, tighten horizontal insets to .5rem and use a 1.25rem heading and 1rem
+opening paragraph so enlarged country and city names retain complete words.
+Maintain the Travel page's 72rem alignment, readable light/dark colors, and
+complete country names at enlarged text sizes. The story remains static content
+with a labelled native section and adds no client JavaScript.
+
 ### Story sleeve Travel invitation
 
 Close the Travel page with one opaque Lumen surface and alternating 2rem/.375rem
