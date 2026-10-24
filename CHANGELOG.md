@@ -158,6 +158,8 @@
 
 - Apply Portrait spread to the About profile with a sculpted image edge, prominent name caption, and soft location mount. Preserve the existing photograph, responsive sources, native figure semantics, and hero actions while supporting narrow layouts and enlarged text.
 
+- Apply Portrait spread to the homepage portrait with an open name caption and soft location mount. Preserve the existing photograph, crop, responsive sources, eager loading, and hero product bookmarks while supporting narrow layouts and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

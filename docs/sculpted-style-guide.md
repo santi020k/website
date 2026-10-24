@@ -1024,6 +1024,20 @@ navigation, social, and legal links stay consistent across routes.
 Keep project ordering and article visibility under the existing content utilities. Development
 mode may show drafts and scheduled articles; judge the public content against a production build.
 
+### Portrait spread homepage profile
+
+The homepage portrait shares About's curved caption treatment at a quieter scale.
+Keep its existing 4:5 frame, centered 40% crop, responsive image sources, and eager
+loading. Give the frame a 1.875rem upper-left corner, a 0.375rem upper-right corner,
+and a straight lower edge. Below it, place the handle above a 1.4375rem name at
+weight 500. The 7rem location mount uses `brand-soft`, a 1.5rem inverse curve, and
+a 1.875rem lower-right corner. Use the active theme's accent for the handle.
+
+Below 20rem of portrait width, tighten the name and location column. Below
+16.25rem, move the location into a small right-aligned tab beneath the complete
+name. Preserve the native figure, image description, hero actions, and product
+bookmarks; do not add an overlay or animation to the portrait.
+
 ### Project bookmarks hero shortcuts
 
 The homepage hero ends with a named product navigation containing two native project links.
