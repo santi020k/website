@@ -380,6 +380,22 @@ than 17rem, then stack it. Preserve complete words with enlarged text, readable
 light/dark colors, and the original archive contract. The note adds no interaction,
 animation, or client JavaScript.
 
+### Journey ledger Travel notebook
+
+Use native country articles inside the existing Lumen disclosure. Give each entry
+a 3.75rem country-code margin, a 1.5rem gap, and a fine top rule; the disclosure's
+summary supplies the first rule. Larger 1.625rem names lead the content column,
+with visit and residence labels alongside them. Keep city names in wrapping lists
+with small accent markers, and preserve the home, partial-list, and region notes.
+The codes repeat the country identity decoratively; browsing order remains data
+order and does not imply an itinerary.
+
+Below 28rem of notebook width, tighten the code margin to 2.75rem, place the visit
+label beneath the name, and use 1.4375rem titles. Below 14rem, stack the code above
+the content. Keep complete words at enlarged text sizes, readable light/dark
+colors, native keyboard disclosure behavior, and all content without JavaScript.
+The notebook adds no new client controller or animation.
+
 ### Compact topic cards
 
 Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.

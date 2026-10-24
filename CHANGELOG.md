@@ -168,6 +168,8 @@
 
 - Apply Archive colophon to the History preservation note, pairing its heading and sculpted book seal with the unchanged archive contract. Reflow the accent rail and two-column layout for narrow screens and enlarged text, with readable light and dark themes.
 
+- Apply Journey ledger to the Travel notebook country entries, with country-code margins, clearer names, separate visit labels, and wrapping place lists. Preserve home and residence context, complete notes, native disclosure behavior, and readability at enlarged text sizes.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

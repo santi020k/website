@@ -48,19 +48,21 @@ const meta = {
       <div data-travel-country-list>
         {travelCountries.map(country => (
           <article id={`country-${country.code.toLowerCase()}`} aria-labelledby={`country-name-${country.code.toLowerCase()}`}>
-            <div data-travel-country-heading>
-              <Icon class="size-4 shrink-0 text-ink-soft" name={country.connection === 'home' ? 'house' : 'map-pin'} />
-              <h3 id={`country-name-${country.code.toLowerCase()}`}>{country.name}</h3>
-              <span data-travel-visit-label>{getTravelVisitLabel(country)}</span>
-            </div>
-            {country.places.length > 0 ?
+            <span data-travel-notebook-code aria-hidden="true">{country.code}</span>
+            <div data-travel-country-content>
+              <header data-travel-country-heading>
+                <h3 id={`country-name-${country.code.toLowerCase()}`}>{country.name}</h3>
+                <span data-travel-visit-label>{getTravelVisitLabel(country)}</span>
+              </header>
+              {country.places.length > 0 ?
 (
-              <ul data-travel-place-list>
-                {country.places.map(place => <li>{place}</li>)}
-              </ul>
-            ) :
-<p>I’m from Colombia. This is where my story begins.</p>}
-            {country.note && <p data-travel-country-note>{country.note}</p>}
+                <ul data-travel-place-list role="list">
+                  {country.places.map(place => <li>{place}</li>)}
+                </ul>
+              ) :
+<p data-travel-home-copy>I’m from Colombia. This is where my story begins.</p>}
+              {country.note && <p data-travel-country-note>{country.note}</p>}
+            </div>
           </article>
         ))}
       </div>
@@ -128,19 +130,38 @@ const meta = {
     line-height: 1.7;
   }
   :global(#travel-notebook > summary:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; }
-  [data-travel-country-list] { padding: 0; }
-  [data-travel-country-list] article { padding-block: 1.5rem; border-bottom: 1px solid hsl(var(--line) / 0.65); }
-  [data-travel-country-heading] { display: flex; flex-wrap: wrap; align-items: center; gap: 0.625rem; }
-  [data-travel-country-heading] h3 { font-size: 1rem; font-weight: 600; letter-spacing: -0.025em; }
-  [data-travel-visit-label] { margin-left: auto; color: hsl(var(--ink-soft)); font-size: 0.75rem; }
-  [data-travel-place-list] { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin-top: 0.75rem; padding: 0; list-style: none; }
-  [data-travel-place-list] li, [data-travel-country-list] article > p { color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
-  [data-travel-country-list] article > p { margin-top: 0.75rem; }
-  [data-travel-country-list] article > [data-travel-country-note] { font-size: 0.75rem; }
+  [data-travel-country-list] { min-width: 0; padding: 0; container: travel-notebook / inline-size; }
+  [data-travel-country-list] article { display: grid; grid-template-columns: 3.75rem minmax(0, 1fr); gap: 1.5rem; padding-block: 1.625rem; border-top: 1px solid hsl(var(--line)); }
+  [data-travel-country-list] article:first-child { border-top: 0; }
+  [data-travel-country-list] article:last-child { border-bottom: 1px solid hsl(var(--line)); }
+  [data-travel-notebook-code] { min-width: 0; padding-top: .1875rem; color: hsl(var(--brand)); font-size: 1.875rem; font-weight: 500; line-height: 1.15; letter-spacing: -.06em; }
+  [data-travel-country-content] { min-width: 0; }
+  [data-travel-country-heading] { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; margin-bottom: 1rem; }
+  [data-travel-country-heading] h3 { min-width: 0; font-size: 1.625rem; font-weight: 500; line-height: 1.25; letter-spacing: -.045em; }
+  [data-travel-visit-label] { max-width: 13em; color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.65; }
+  [data-travel-place-list] { display: flex; flex-wrap: wrap; gap: .25rem 1.125rem; padding: 0; list-style: none; color: hsl(var(--ink-soft)); font-size: .8125rem; line-height: 1.8; }
+  [data-travel-place-list] li { display: flex; align-items: baseline; gap: .4375rem; min-width: 0; }
+  [data-travel-place-list] li::before { content: ''; width: .1875rem; height: .1875rem; flex-shrink: 0; align-self: center; border-radius: 50%; background: hsl(var(--brand)); }
+  [data-travel-home-copy], [data-travel-country-note] { color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.85; }
+  [data-travel-country-note] { margin-top: .75rem; }
+  :global([data-theme='dark']) [data-travel-notebook-code] { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-travel-place-list] li::before { background: hsl(var(--accent)); }
+
+  @container travel-notebook (width < 28rem) {
+    [data-travel-country-list] article { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 1rem; }
+    [data-travel-notebook-code] { font-size: 1.5rem; }
+    [data-travel-country-heading] { display: block; }
+    [data-travel-country-heading] h3 { font-size: 1.4375rem; }
+    [data-travel-visit-label] { display: block; max-width: none; margin-top: .5rem; }
+  }
+
+  @container travel-notebook (width < 14rem) {
+    [data-travel-country-list] article { grid-template-columns: minmax(0, 1fr); gap: .75rem; padding-block: 1.5rem; }
+    [data-travel-notebook-code] { font-size: 1.0625rem; }
+  }
 
   @media (max-width: 47.999rem) {
     [data-travel-section] { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; padding-top: 2rem; }
     [data-travel-section-heading] .maker-hero-eyebrow { margin-bottom: 1rem; }
-    [data-travel-visit-label] { flex-basis: 100%; margin-left: 1.625rem; }
   }
 </style>

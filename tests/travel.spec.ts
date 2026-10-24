@@ -89,17 +89,55 @@ for (const theme of ['light', 'dark']) {
   }
 }
 
-test('country details remain readable without JavaScript on a phone', async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
-  const page = await context.newPage()
-  await page.goto('/travel/')
-  await expect(page.locator('#travel-countries article')).toHaveCount(15)
-  await page.locator('#travel-notebook summary').click()
-  await expect(page.locator('#country-jp')).toBeVisible()
-  await expect(page.locator('#country-jp')).toContainText('Tokyo')
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
-  await context.close()
-})
+for (const theme of ['light', 'dark'] as const) {
+  test(`country notebook stays readable without JavaScript at 200% text in ${theme}`, async ({ browser }) => {
+    const context = await browser.newContext({
+      javaScriptEnabled: false,
+      colorScheme: theme,
+      viewport: { width: 320, height: 844 }
+    })
+    const page = await context.newPage()
+    await page.goto('/travel/')
+    await page.evaluate(async () => {
+      document.documentElement.style.fontSize = '200%'
+      await document.fonts.ready
+    })
+    const summary = page.locator('#travel-notebook summary')
+    await summary.focus()
+    await page.keyboard.press('Enter')
+    await expect(summary).toBeFocused()
+    for (const country of travelCountries) {
+      const entry = page.locator(`#country-${country.code.toLowerCase()}`)
+      await expect(entry.getByRole('heading', { level: 3 })).toHaveText(country.name)
+      await expect(entry).toContainText(getTravelVisitLabel(country))
+      await expect(entry.getByRole('listitem')).toHaveText([...country.places])
+      await expect(entry.locator('[data-travel-country-note]')).toHaveText(
+        [country.note].filter((note): note is string => typeof note === 'string')
+      )
+    }
+    await expect(page.locator('#country-co')).toContainText('I’m from Colombia. This is where my story begins.')
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+    const splitWords = await page.locator('[data-travel-country-list]').evaluate(element => {
+      const problems: string[] = []
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+      while (walker.nextNode()) {
+        const node = walker.currentNode
+        if (node.parentElement?.closest('[aria-hidden="true"]')) continue
+        for (const match of (node.textContent ?? '').matchAll(/[^\s]+/gu)) {
+          const range = document.createRange()
+          range.setStart(node, match.index)
+          range.setEnd(node, match.index + match[0].length)
+          if (range.getClientRects().length > 1) problems.push(match[0])
+        }
+      }
+      return problems
+    })
+    expect(splitWords).toEqual([])
+    await page.keyboard.press('Space')
+    await expect(page.locator('#country-jp')).toBeHidden()
+    await context.close()
+  })
+}
 
 test('title-only drafts stay out of production routes, feeds, search, and sitemaps', async ({ request }) => {
   for (const path of ['/blog/', '/search-index.json', '/feed.xml', '/feed.json', '/sitemap-0.xml', '/travel/']) {

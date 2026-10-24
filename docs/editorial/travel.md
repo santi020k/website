@@ -41,7 +41,10 @@ in the page flow, keeping the selected country and zoom controls unobstructed. P
 reveals the card; keyboard selection retains focus in the chooser. Enlarged text also moves the
 card below the map when space is limited.
 The story, notebook, and forthcoming stories share the hero’s 72rem alignment, thin rules, and
-quiet canvas. Country entries use plain rows with inline visit labels rather than nested cards.
+quiet canvas. Country entries use Journey ledger: a narrow country-code margin, larger names,
+separate visit labels, and fine rules. Places retain their complete names in wrapping lists;
+home, residence, partial-list, and region notes remain explicit. The margin tightens as the
+notebook narrows and stacks above the entry for enlarged text or very narrow layouts.
 The full country notebook sits in a native Lumen disclosure and remains usable without JavaScript.
 Browsing order is the data order, not a claimed travel timeline.
 
