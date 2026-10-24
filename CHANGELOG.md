@@ -166,6 +166,8 @@
 
 - Apply Timeline index to the History chapter shortcuts, using chronological version links, a continuous rule, clear dates and visible directional arrows. Accent the current era and reflow the index for narrow layouts and enlarged text while retaining native keyboard navigation.
 
+- Apply Archive colophon to the History preservation note, pairing its heading and sculpted book seal with the unchanged archive contract. Reflow the accent rail and two-column layout for narrow screens and enlarged text, with readable light and dark themes.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

@@ -366,6 +366,20 @@ outer insets below 16rem so device labels and dimensions retain complete words.
 Use responsive image sizes matching the paired layout. The exhibit is passive
 content and does not add browser controls, hover effects, or client JavaScript.
 
+### Archive colophon History preservation
+
+Close the History timeline with an unframed, two-column note beneath a fine rule.
+Keep the preservation eyebrow, 2rem title, and sculpted book seal in the smaller
+column. Put the unchanged preservation copy beside a thin accent rail in the
+larger column, using a 1:1.8 ratio and 1.75rem spacing. The note retains its 48rem
+reading width, native aside, and labelled heading.
+
+Below 32rem of note width, move the copy below the heading and turn the accent
+rail into a top rule. Place the seal beside the title until the note is narrower
+than 17rem, then stack it. Preserve complete words with enlarged text, readable
+light/dark colors, and the original archive contract. The note adds no interaction,
+animation, or client JavaScript.
+
 ### Compact topic cards
 
 Topic cards keep the hashtag, opaque surface, 1.5rem corners, and purple meter.

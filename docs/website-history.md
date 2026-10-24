@@ -21,6 +21,11 @@ layouts stack the introduction and captures, keeping the mobile capture aligned
 to the right. The archive action follows the exhibit. The chapter anchors and
 full-document archive links remain usable without JavaScript.
 
+The Archive colophon closes the timeline with the preservation heading and a
+book seal beside the unchanged explanatory copy. A fine accent rail separates
+the two columns, becoming a top rule when the note stacks on narrow screens.
+The original preservation contract remains visible as native aside content.
+
 ## Preservation contract
 
 The archive labels are curated eras, not retroactive release tags:
