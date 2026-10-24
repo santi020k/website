@@ -140,6 +140,8 @@
 
 - Apply Return folio to page-end navigation on article and project pages, with a clear parent destination, quiet back-to-top action, and separate project links. Preserve native navigation, keyboard focus, and readable layouts across themes and enlarged text.
 
+- Apply Split pager to blog and topic archives, pairing circular page links with a prominent Next page action. Preserve native pagination, endpoint states, keyboard focus, and readable mobile layouts with enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

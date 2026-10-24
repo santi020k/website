@@ -794,6 +794,21 @@ names and enlarged text retain space. Below 12rem, use body-sized destination te
 smaller insets, and text-only links to keep whole words readable. Keep visible keyboard focus, complete link
 names, and at least 2.75rem targets. This composition needs no client script.
 
+### Split pager archive navigation
+
+Blog and topic archives use an open top rule with circular page links on the left
+and directional actions on the right. Outline the current page in readable purple;
+pair a quiet circular previous arrow with the stronger ink-filled Next page action.
+Give that action alternating 1rem / 0.25rem corners and an inset arrow compartment.
+Keep native links, previous/next relationships, accessible page names, and decorative
+placeholders at either endpoint. Single-page archives omit the pager entirely.
+
+Below 26.25rem of available width, put page numbers above the directional actions.
+Allow numbers to wrap, preserving ellipses for larger archives and 2.75rem targets.
+Below 16rem, omit the decorative next-arrow compartment and let its label wrap so
+200% text remains readable. Use semantic theme tokens and native keyboard focus;
+the composition adds no client script.
+
 ### Dispatch sleeve sharing controls
 
 Use `ShareButtons` on article and project detail pages. A Lumen Card pairs a quiet

@@ -240,6 +240,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   parent, top, live-project, and repository destinations available without JavaScript.
   Site-owned attributes style the surface and responsive rows; `Link` supplies safe
   external new-tab attributes. Empty destination footers are omitted.
+- Archive `Pagination` composes Split pager with public `Pagination`, inherit-style
+  `Link`, unstyled `ButtonLink`, and decorative `Icon` components. Site-owned data
+  attributes provide the ruled layout, circular numbers, and prominent next action.
+  Native URLs, `aria-current`, previous/next relationships, endpoint placeholders,
+  and the existing page-gap utility remain intact without client JavaScript.
 - `ShareButtons` composes Dispatch sleeve with Lumen `Card`, `Button`, and `Icon`:
   an invitation beside the main action and three native social links in a tinted footer.
   It keeps native sharing on supported coarse-pointer devices and clipboard copying
