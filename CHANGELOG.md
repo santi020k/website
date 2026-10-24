@@ -429,6 +429,8 @@
 
 - Reject unsuccessful or mismatched archive pages before saving history captures, and make the Webmention diagnostic honor explicit target URLs while rejecting invalid arguments before network access.
 
+- Clear navigation progress when a pending page load is canceled, and keep earlier completion events from hiding a newer pending navigation. Preserve topic-filter reading positions after destination styles apply in WebKit without accumulating fractional scroll drift or overriding a newer navigation.
+
 ## 4.0.0
 
 ### Major Changes

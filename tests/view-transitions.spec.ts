@@ -1,4 +1,13 @@
-import { expect, type Locator, test } from '@playwright/test'
+import { expect, type Locator, type Page, test } from '@playwright/test'
+
+const openMainMenu = async (page: Page) => {
+  const toggle = page.locator('[data-mobile-nav-toggle]')
+
+  if (!(await toggle.isVisible())) return
+
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+}
 
 // Observe every paint for the original 500ms stability window, so a delayed
 // focus scroll cannot hide behind an eventual-success assertion.
@@ -31,6 +40,9 @@ test.describe('View transitions', () => {
     const progress = page.locator('#nav-progress')
 
     await expect(progress).toHaveCSS('opacity', '0')
+
+    await openMainMenu(page)
+
     await page.route('**/about/', async route => {
       await new Promise(resolve => setTimeout(resolve, 1200))
       await route.continue()

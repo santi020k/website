@@ -5,7 +5,11 @@
  *
  * Lifecycle:
  *   astro:before-preparation  → bar animates to ~70% (fake progress)
- *   astro:page-load           → bar snaps to 100% then fades out
+ *   astro:before-swap         → marks the tracked navigation as swapped
+ *   astro:page-load           → bar snaps to 100% then fades out, unless a
+ *                               newer navigation has not reached its swap yet
+ *   preparation signal abort  → same as page-load; Astro dispatches no
+ *                               page-load for a navigation it cancels
  *
  * Hidden entirely when prefers-reduced-motion is active.
  */
@@ -67,18 +71,57 @@
 </style>
 
 <script>
-  let resetFrame = 0
+  import { TransitionBeforePreparationEvent, TransitionBeforeSwapEvent } from 'astro:transitions/client'
 
-  document.addEventListener('astro:before-preparation', () => {
+  let resetFrame = 0
+  // Removes the abort listener of the navigation the bar currently tracks.
+  let activeListeners: AbortController | undefined
+  // Signal of the tracked navigation until its own before-swap. Astro reuses
+  // the preparation signal for that navigation's swap event.
+  let awaitingSwapSignal: AbortSignal | undefined
+
+  const retireActiveListeners = () => {
+    activeListeners?.abort()
+
+    activeListeners = undefined
+  }
+
+  const cancelResetFrame = () => {
+    if (!resetFrame) return
+
+    cancelAnimationFrame(resetFrame)
+
+    resetFrame = 0
+  }
+
+  const completeProgress = () => {
+    retireActiveListeners()
+
+    cancelResetFrame()
+
+    awaitingSwapSignal = undefined
+
     const bar = document.getElementById('nav-progress')
 
     if (!bar) return
 
-    if (resetFrame) {
-      cancelAnimationFrame(resetFrame)
+    bar.classList.remove('is-loading')
 
-      resetFrame = 0
-    }
+    bar.classList.add('is-complete')
+  }
+
+  document.addEventListener('astro:before-preparation', event => {
+    if (!(event instanceof TransitionBeforePreparationEvent) || event.signal.aborted) return
+
+    const bar = document.getElementById('nav-progress')
+
+    if (!bar) return
+
+    retireActiveListeners()
+
+    cancelResetFrame()
+
+    awaitingSwapSignal = event.signal
 
     // Let the zero state paint before starting the next transform transition.
     // One frame alone coalesces the reset with loading and animates backward
@@ -92,21 +135,30 @@
         resetFrame = 0
       })
     })
+
+    // Astro aborts this signal when a newer navigation or a same-page anchor
+    // replaces it. Only the navigation still being tracked may settle the bar.
+    const listeners = new AbortController()
+
+    activeListeners = listeners
+
+    event.signal.addEventListener('abort', () => {
+      if (activeListeners === listeners) completeProgress()
+    }, { once: true, signal: listeners.signal })
   })
 
-  document.addEventListener('astro:page-load', () => {
-    const bar = document.getElementById('nav-progress')
-
-    if (!bar) return
-
-    if (resetFrame) {
-      cancelAnimationFrame(resetFrame)
-
-      resetFrame = 0
+  document.addEventListener('astro:before-swap', event => {
+    if (event instanceof TransitionBeforeSwapEvent && event.signal === awaitingSwapSignal) {
+      awaitingSwapSignal = undefined
     }
+  })
 
-    bar.classList.remove('is-loading')
+  // page-load carries no navigation identity. A page-load while the tracked
+  // navigation is still preparing belongs to an older navigation, so it must
+  // not settle the bar.
+  document.addEventListener('astro:page-load', () => {
+    if (awaitingSwapSignal) return
 
-    bar.classList.add('is-complete')
+    completeProgress()
   })
 </script>
