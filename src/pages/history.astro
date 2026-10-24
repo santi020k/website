@@ -96,25 +96,28 @@ const meta = {
                 <p>{era.description}</p>
               </div>
             </Card>
-            <div class="history-captures">
-              <figure class="history-desktop">
-                <div class="history-browser-bar" aria-hidden="true">
-                  <span class="inline-flex items-center gap-1.5">
-                    <Icon name="circle" class="size-2 fill-current" />
-                    <Icon name="circle" class="size-2 fill-current" />
-                    <Icon name="circle" class="size-2 fill-current" />
-                  </span>
-                  <span>santi020k.com{era.current ? '' : `/${era.id}/`}</span>
-                  <span>↗</span>
-                </div>
-                <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} homepage at desktop size`} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 1104px, (min-width: 640px) calc(100vw - 5.5rem), calc(100vw - 4rem)" loading="lazy" />
-                <figcaption>Desktop · 1440 × 1000</figcaption>
-              </figure>
-              <figure class="history-mobile">
-                <Image src={imageFor(era.id, 'mobile')} alt={`${era.id.toUpperCase()} homepage at mobile size`} widths={[195, 390]} sizes="(min-width: 640px) 170px, 100px" loading="lazy" />
-                <figcaption>Mobile · 390 × 844</figcaption>
-              </figure>
-            </div>
+            <Card class="history-captures" data-history-captures variant="unstyled">
+              <div class="history-capture-heading">
+                <span class="history-capture-version">{era.id.toUpperCase()}</span>
+                <span class="history-capture-address">santi020k.com{era.current ? '' : `/${era.id}/`}</span>
+              </div>
+              <div class="history-capture-pair">
+                <figure class="history-desktop">
+                  <Image src={imageFor(era.id, 'desktop')} alt={`${era.id.toUpperCase()} homepage at desktop size`} widths={[480, 800, 1200]} sizes="(min-width: 1200px) 805px, (min-width: 648px) calc(75vw - 6rem), (min-width: 458px) calc(75vw - 5rem), calc(100vw - 5rem)" loading="lazy" />
+                  <figcaption>
+                    <span class="history-capture-device">Desktop</span>
+                    <span class="history-capture-dimensions">1440 × 1000</span>
+                  </figcaption>
+                </figure>
+                <figure class="history-mobile">
+                  <Image src={imageFor(era.id, 'mobile')} alt={`${era.id.toUpperCase()} homepage at mobile size`} widths={[195, 390]} sizes="(min-width: 1200px) 276px, (min-width: 648px) calc(25vw - 1.5rem), (min-width: 458px) calc(25vw - 1.25rem), 130px" loading="lazy" />
+                  <figcaption>
+                    <span class="history-capture-device">Mobile</span>
+                    <span class="history-capture-dimensions">390 × 844</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </Card>
             <div class="history-era-actions">
               <ButtonLink data-history-era-action href={era.current ? '/' : `/${era.id}/`} {...archiveNavigation} variant="secondary">
                 {era.current ? 'Explore the current website' : `Open ${era.id.toUpperCase()}`}<Icon name="arrow-up-right" />

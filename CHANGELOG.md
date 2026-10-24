@@ -160,6 +160,8 @@
 
 - Apply Portrait spread to the homepage portrait with an open name caption and soft location mount. Preserve the existing photograph, crop, responsive sources, eager loading, and hero product bookmarks while supporting narrow layouts and enlarged text.
 
+- Apply Split exhibit to the History screenshot cards, pairing complete desktop and mobile captures in one sculpted surface with clear device captions. Preserve the authentic images, chapter introductions, and archive links while adapting the pair for narrow layouts and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

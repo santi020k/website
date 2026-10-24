@@ -313,10 +313,26 @@ width, followed by the existing archive action and preservation note.
 
 Below 34rem of available chapter width, stack the metadata above the title and
 copy. Below 16rem, reclaim some page margin and tighten insets and title size so
-enlarged text keeps complete words. Stack the captures at this size so their
-captions stay readable. Keep all four chapter anchors, authentic captures, descriptive image
+enlarged text keeps complete words. The captures follow the Split exhibit contract
+below. Keep all four chapter anchors, authentic captures, descriptive image
 alternatives, and full-document archive navigation. The sheet is passive content;
 its shadow stays visible on hover and requires no animation or controller.
+
+### Split exhibit History captures
+
+Pair each chapter's original desktop and mobile screenshots in one unstyled Lumen
+Card with a solid surface, fine border, and alternating 2rem / 0.375rem corners.
+Use a compact version/address header above a bottom-aligned grid: the mobile
+column takes 25% and both images remain complete, without overlapping. Separate
+device names and dimensions with a fine caption rule; accent only the mobile rule
+and version. Keep image alternatives, lazy loading, and archive destinations.
+
+Use 1.5rem insets and a 1.375rem grid gap, tightening to 1.125rem and 1rem below
+37.5rem of chapter width. Below 23.75rem of inner exhibit width, stack the images
+and align the 8.125rem mobile figure to the right. At enlarged text sizes, reduce
+outer insets below 16rem so device labels and dimensions retain complete words.
+Use responsive image sizes matching the paired layout. The exhibit is passive
+content and does not add browser controls, hover effects, or client JavaScript.
 
 ### Compact topic cards
 

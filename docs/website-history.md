@@ -4,9 +4,11 @@ The current website stays at `/`. `/history/` is an indexable timeline of four
 visual eras, with authentic desktop and mobile captures and usable archives.
 
 Each chapter uses the Stacked sheets introduction: version, date, and chapter
-status share a paper-like card with its title and description. The paired captures
-use the full chapter width underneath, followed by the archive link. Narrow and
-enlarged-text layouts stack the introduction content. The chapter anchors and
+status share a paper-like card with its title and description. The Split exhibit
+below pairs the complete desktop and mobile captures in one sculpted surface,
+with a version/address header and separate device captions. Narrow and enlarged-text
+layouts stack the introduction and captures, keeping the mobile capture aligned
+to the right. The archive action follows the exhibit. The chapter anchors and
 full-document archive links remain usable without JavaScript.
 
 ## Preservation contract
