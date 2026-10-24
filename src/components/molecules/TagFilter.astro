@@ -11,6 +11,13 @@ interface Props {
 }
 
 const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.props
+
+// Later archive pages keep their group selected, but only its first page is the current page.
+const getAriaCurrent = (href: string, isSelected: boolean) => {
+  if (!isSelected) return undefined
+
+  return new URL(href, Astro.url).pathname === Astro.url.pathname ? 'page' : 'true'
+}
 ---
 
 {showDivider && (
@@ -41,7 +48,7 @@ const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.p
   role="group"
 >
   <Pill
-    aria-current={!activeTag ? 'page' : undefined}
+    aria-current={getAriaCurrent('/blog/', !activeTag)}
     className={scrollOnMobile ? 'shrink-0' : ''}
     href="/blog/"
     label="All posts"
@@ -49,7 +56,7 @@ const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.p
   />
   {tags.map(([tag, count]) => (
     <Pill
-      aria-current={activeTag === tag ? 'page' : undefined}
+      aria-current={getAriaCurrent(getTagPath(tag), activeTag === tag)}
       className={scrollOnMobile ? 'shrink-0' : ''}
       count={count}
       href={getTagPath(tag)}
@@ -88,6 +95,34 @@ const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.p
     }
   })
 
+  // Computed scroll padding keeps percentages unresolved and reports `auto` as is.
+  const getScrollPadding = (value: string, viewportWidth: number) => {
+    if (value.endsWith('%')) return Number.parseFloat(value) / 100 * viewportWidth
+
+    return value.endsWith('px') ? Number.parseFloat(value) : 0
+  }
+
+  // Without a preserved strip position, a clipped selected topic scrolls just into the
+  // padded strip. Only the strip moves, so the page and focus stay where they are.
+  const revealActiveTopic = (filter: HTMLElement) => {
+    // The wrapping layout has nothing to scroll.
+    if (filter.scrollWidth <= filter.clientWidth) return
+
+    const active = filter.querySelector<HTMLAnchorElement>('a[aria-current]')
+
+    if (!active) return
+
+    const { scrollPaddingLeft, scrollPaddingRight } = getComputedStyle(filter)
+    const { clientLeft, clientWidth } = filter
+    const viewportLeft = filter.getBoundingClientRect().left + clientLeft
+    const start = viewportLeft + getScrollPadding(scrollPaddingLeft, clientWidth)
+    const end = viewportLeft + clientWidth - getScrollPadding(scrollPaddingRight, clientWidth)
+    const { left, right } = active.getBoundingClientRect()
+    const offset = left < start ? left - start : Math.max(0, Math.min(right - end, left - start))
+
+    if (offset !== 0) filter.scrollBy({ behavior: 'instant', left: offset })
+  }
+
   // Measure after the destination page's scripts and styles have settled. This runs
   // after the layout moves focus to #main, so the selected topic keeps keyboard focus.
   document.addEventListener('astro:page-load', () => {
@@ -95,11 +130,15 @@ const { activeTag, scrollOnMobile = false, showDivider = false, tags } = Astro.p
 
     preservedFilter = undefined
 
-    if (!state || window.location.pathname !== state.pathname) return
-
     const filter = document.querySelector<HTMLElement>('[data-blog-tag-filter]')
 
     if (!filter) return
+
+    if (!state || window.location.pathname !== state.pathname) {
+      revealActiveTopic(filter)
+
+      return
+    }
 
     filter.scrollLeft = state.scrollLeft
 

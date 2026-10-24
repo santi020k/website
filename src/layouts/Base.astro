@@ -70,12 +70,29 @@ const isGenerousSpacing = mainSpacing === 'generous'
 <html
   class="
     scroll-smooth
+    data-instant-scroll:scroll-auto
     motion-reduce:scroll-auto
   "
+  data-instant-scroll
   lang={siteConfig.lang}
 >
   <head>
     <BaseHead {...headMeta} />
+    <script is:inline>
+      // Register before ClientRouter's deferred module. Chromium dispatches window
+      // popstate listeners in registration order even when capture is requested.
+      window.addEventListener('popstate', event => {
+        if (event.state === null) return
+
+        document.documentElement.setAttribute('data-instant-scroll', '')
+
+        // Chromium must resolve the new style before the router calls scrollTo.
+        getComputedStyle(document.documentElement).getPropertyValue('scroll-behavior')
+
+        // Keep auto scrolling until the router and other listeners finish.
+        setTimeout(() => document.documentElement.removeAttribute('data-instant-scroll'), 0)
+      }, { capture: true })
+    </script>
     <ClientRouter />
     <noscript>
       <style is:inline>
@@ -105,6 +122,16 @@ const isGenerousSpacing = mainSpacing === 'generous'
 
           [data-package-manager-code-tabs] > [role="tabpanel"] + [role="tabpanel"] {
             border-top: 1px solid hsl(var(--line)) !important;
+          }
+        }
+
+        /*
+         * Scripts drop data-instant-scroll once the router has restored scroll.
+         * Without them it stays, so this unlayered rule keeps same-page links smooth.
+         */
+        @media (prefers-reduced-motion: no-preference) {
+          :root[data-instant-scroll] {
+            scroll-behavior: smooth;
           }
         }
       </style>
@@ -170,15 +197,27 @@ const isGenerousSpacing = mainSpacing === 'generous'
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
 
     <script>
+      // Every rendered document starts with data-instant-scroll, and a swap copies it
+      // onto the live root before Astro restores history or fragment scroll. Dropping
+      // it afterwards keeps same-page links smooth without animating restoration.
+      const allowSmoothScroll = () => {
+        document.documentElement.removeAttribute('data-instant-scroll')
+      }
+
       // Restore SR/keyboard focus after a swap so the virtual cursor follows
       // the page change. Astro retains control of fragment and history scroll.
       document.addEventListener('astro:after-swap', () => {
+        allowSmoothScroll()
+
         const main = document.getElementById('main')
 
         if (main instanceof HTMLElement) {
           main.focus({ preventScroll: true })
         }
       })
+
+      // The first document load restores reload and cross-document history scroll.
+      document.addEventListener('astro:page-load', allowSmoothScroll)
     </script>
 
   </body>

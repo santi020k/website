@@ -326,6 +326,21 @@ and article view transitions. Project covers remain unnamed transition regions a
 their native aspect ratio. Square and portrait articles retain Lumen's contained `CoverImage`.
 The default wrapper remains unchanged. No new client runtime is needed.
 
+## Synchronized code tabs patch
+
+The version-pinned Astro patch also keeps package-manager preferences synchronized without
+scrolling the reader to another code block. Each bound tab group registers a passive activation
+callback in a weak map. Reader input retains normal scrolling, keyboard focus, storage writes,
+and synchronization; passive updates change selection and emit `ui:tabs-change` without scrolling
+or propagating another update. Initial selection stays silent. Native disabled controls remain
+unselected, and blocked storage does not prevent selection or synchronization.
+
+`tests/package-manager-scroll.spec.ts` covers separated groups in both directions, pointer and
+keyboard input, event counts, reload persistence, blocked storage, mobile and desktop layouts,
+and both motion preferences. Remove this hunk once a published Astro adapter includes equivalent
+behavior, then rerun these regressions and the existing Lumen interaction suites. This is a local
+consumer patch; it does not establish an upstream release or issue submission.
+
 ## Cover image fallback patch
 
 The same version-pinned patch exposes Astro Picture's typed `fallbackFormat` option on
@@ -351,7 +366,7 @@ featured card and supporting grid transparent when the zero threshold was remove
 The explicit zero thresholds reveal these groups on viewport entry without changing the shared
 timing for other Lumen consumers. Observing `[0, threshold]` globally also revealed short sections
 with custom thresholds on entry, so that runtime change was rejected. The installed patch remains
-limited to Anchor behavior and the image option below; there is no motion runtime patch.
+limited to Anchor behavior, synchronized code tabs, and the image option; there is no motion runtime patch.
 
 Before removing the overrides, verify a compatible upstream solution that preserves custom
 threshold timing. Run `tests/reveal-entry.spec.ts` with native browser observers: it checks a

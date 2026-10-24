@@ -1,5 +1,5 @@
 diff --git a/README.md b/README.md
-index 21a05befc68ae34601b84b0b5407e38a05ba56de..4bef3f88bd5aa1fb4c3b1e5f5349ed384bf48a7f 100644
+index 21a05befc68ae34601b84b0b5407e38a05ba56de..75dea1fc739fc5fe2859dd9e12a5a5e2b98ee7e3 100644
 --- a/README.md
 +++ b/README.md
 @@ -324,6 +324,11 @@ import { Button, Icon } from '@santi020k/lumen-astro'
@@ -14,7 +14,17 @@ index 21a05befc68ae34601b84b0b5407e38a05ba56de..4bef3f88bd5aa1fb4c3b1e5f5349ed38
  `ScrollProgress` derives reading progress from the document and pins the indicator to the top or
  bottom viewport edge. Both use the single root `UIPrimitives` runtime.
  
-@@ -444,6 +449,10 @@ const installCommands = [
+@@ -424,6 +429,9 @@ icons during development.
+ Use `CodeTabs` for related install commands, language variants, or configuration examples. Each
+ item supplies a stable value, visible label, code string, and optional language. A shared
+ `storageKey` keeps matching instances synchronized and remembers the reader's selection.
++Only the group the reader activates scrolls its trigger into view and keeps focus; synchronized
++groups update selection in place and each emits its own `ui:tabs-change`. Native disabled
++triggers are not selected by synchronization. Selection still works when storage is unavailable.
+ 
+ ```astro
+ ---
+@@ -444,6 +452,10 @@ const installCommands = [
  
  ## Optimized images
  
@@ -63,6 +73,69 @@ index 1e4ff0dcf6250c42c2fd27026eac14a84a342b0f..24828b39b78c1dadc091b72f8c312d71
      height={targetHeight}
      loading={loading}
      sizes={sizes}
+diff --git a/runtime/UIPrimitives.astro b/runtime/UIPrimitives.astro
+index 5c8c088e6a118e8aecae49c36b89f136870185f8..1a49916359dffc699623c65c5f3111a49ba34d18 100644
+--- a/runtime/UIPrimitives.astro
++++ b/runtime/UIPrimitives.astro
+@@ -957,6 +957,9 @@ const initListBoxes = (scope: ParentNode): void => {
+   }
+ }
+ 
++// Passive selection for synchronized groups: no scrolling, storage writes, or further sync.
++const tabSyncActivations = new WeakMap<HTMLElement, (tab: HTMLElement) => void>()
++
+ const initTabs = (scope: ParentNode): void => {
+   for (const root of scope.querySelectorAll<HTMLElement>('[data-ui-tabs]')) {
+     if (root.dataset.uiBound === 'true') continue
+@@ -1003,7 +1006,7 @@ const initTabs = (scope: ParentNode): void => {
+       }
+     }
+ 
+-    const activate = (tab: HTMLElement, emit = true): void => {
++    const activate = (tab: HTMLElement, source: 'initial' | 'reader' | 'sync' = 'reader'): void => {
+       const value = tab.dataset.value ?? ''
+       const wasSelected = tab.getAttribute('aria-selected') === 'true'
+ 
+@@ -1023,13 +1026,14 @@ const initTabs = (scope: ParentNode): void => {
+ 
+       root.dataset.value = value
+ 
+-      if (!emit || wasSelected) return
+-
+-      scrollLumenTabIntoView(tab)
++      if (source === 'initial' || wasSelected) return
+ 
+       const storageKey = root.dataset.storageKey
+ 
+-      if (storageKey) {
++      // Only the reader's own group may scroll; synchronized groups change in place.
++      if (source === 'reader') scrollLumenTabIntoView(tab)
++
++      if (source === 'reader' && storageKey) {
+         try {
+           localStorage.setItem(storageKey, value)
+         } catch {
+@@ -1044,7 +1048,8 @@ const initTabs = (scope: ParentNode): void => {
+           const matchingTab = [...otherRoot.querySelectorAll<HTMLElement>('[role="tab"]')]
+             .find(candidate => candidate.closest('[data-ui-tabs]') === otherRoot && candidate.dataset.value === value)
+ 
+-          matchingTab?.click()
++          // Native disabled triggers ignored the former synthetic click, so they stay unselected.
++          if (matchingTab && !matchingTab.matches(':disabled')) tabSyncActivations.get(otherRoot)?.(matchingTab)
+         }
+       }
+ 
+@@ -1072,7 +1077,9 @@ const initTabs = (scope: ParentNode): void => {
+         undefined
+     ) ?? tabs.find(tab => tab.getAttribute('aria-selected') === 'true') ?? tabs[0]
+ 
+-    if (initiallySelected) activate(initiallySelected, false)
++    if (initiallySelected) activate(initiallySelected, 'initial')
++
++    tabSyncActivations.set(root, tab => activate(tab, 'sync'))
+ 
+     for (const tab of tabs) {
+       tab.addEventListener('click', () => activate(tab))
 diff --git a/runtime/controllers/document-navigation.ts b/runtime/controllers/document-navigation.ts
 index 6f616c13e406958847d5bb1485d25208e2db5a67..3b6e14b2dddab28808f5c6402c445ffdbec5e698 100644
 --- a/runtime/controllers/document-navigation.ts
