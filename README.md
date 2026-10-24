@@ -246,7 +246,7 @@ version, final local validation, independent review, and remaining publication g
 | [Theming](docs/theming.md) / [Brand](docs/brand-guidelines.md) | Theme behavior and visual standards. |
 | [Sitemaps](docs/sitemaps.md) | Canonical routes and cross-site search discovery. |
 | [Deployment](docs/deployment.md) | Release automation, environment setup, smoke checks, and rollback. |
-| [v4 readiness](docs/v4-release-readiness.md) | Current integration, browser coverage, review findings, and release gates. |
+| [v4.1 readiness](docs/v4.1-release-readiness.md) | Current integration, browser coverage, review findings, and release gates. |
 | [Cache strategy](docs/cache-strategy.md) | Browser and edge cache behavior. |
 | [Security](.github/SECURITY.md) / [Incident response](docs/incident-response.md) | Private vulnerability reports and recovery. |
 | [Observability](docs/observability.md) | Existing diagnostic boundaries and operational evidence. |
