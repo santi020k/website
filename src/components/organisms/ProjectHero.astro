@@ -25,11 +25,6 @@ const titleWords = project.data.title.split(' ')
 const gradientWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : project.data.title
 const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : ''
 
-const metaItems = [
-  { label: 'Role', value: project.data.role ?? 'Hands-on builder' },
-  { label: 'Timeline' },
-  { label: 'Duration', value: durationLabel }
-]
 ---
 
 <section class="editorial-detail-hero space-y-12">
@@ -91,7 +86,7 @@ class="text-ink-soft"
     </p>
   </div>
 
-  {/* ── Meta row — enhanced cards ──────────────────────────────── */}
+  {/* ── Margin imprint ──────────────────────────────────────── */}
   <div
     class="
       animate-slide-up [animation-delay:160ms]
@@ -100,26 +95,20 @@ class="text-ink-soft"
     data-editorial-meta-group
   >
 
-    <div
-      class="
-        grid grid-cols-2 gap-4
-        sm:grid-cols-3
-      "
-      data-editorial-meta-grid="project"
-    >
-      {metaItems.map(item => (
-        <div class="editorial-detail-meta-item" data-project-meta data-editorial-meta>
-          <dl class="space-y-2">
-            <dt class="section-label">
-              {item.label}
-            </dt>
-            <dd class="leading-6 text-ink">
-              {item.value ?? <ProjectTimeline endingDate={project.data.endingDate} startingDate={project.data.startingDate} />}
-            </dd>
-          </dl>
-        </div>
-      ))}
-    </div>
+    <dl data-project-imprint>
+      <div data-project-meta="role">
+        <dt>Role</dt>
+        <dd>{project.data.role ?? 'Hands-on builder'}</dd>
+      </div>
+      <div data-project-meta="timeline">
+        <dt>Timeline</dt>
+        <dd><ProjectTimeline endingDate={project.data.endingDate} startingDate={project.data.startingDate} /></dd>
+      </div>
+      <div data-project-meta="duration">
+        <dt>Duration</dt>
+        <dd>{durationLabel}</dd>
+      </div>
+    </dl>
   </div>
 
   {/* ── CTAs ────────────────────────────────────────────────── */}
@@ -176,6 +165,56 @@ class="text-ink-soft"
 </section>
 
 <style>
+  [data-project-imprint] {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 0.65fr);
+    gap: 1.5rem;
+    padding-block: 1.5rem;
+    border-block: 1px solid hsl(var(--line) / 0.65);
+    color: hsl(var(--ink));
+  }
+  [data-project-meta] {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    padding-inline-start: 1.125rem;
+    border-inline-start: 1px solid hsl(var(--line) / 0.65);
+  }
+  [data-project-meta] dt {
+    margin-block-end: 0.4375rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  [data-project-meta] dd {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  [data-project-meta='role'] {
+    border-inline-start: 2px solid hsl(var(--brand));
+  }
+  [data-project-meta='role'] dd {
+    font-size: 1.4375rem;
+    line-height: 1.4;
+    letter-spacing: -0.04em;
+  }
+  :global(:root[data-theme='dark']) [data-project-meta='role'] {
+    border-inline-start-color: hsl(var(--accent));
+  }
+  @container editorial-meta (width < 37rem) {
+    [data-project-imprint] {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 1.25rem;
+    }
+    [data-project-meta='role'] { grid-column: 1 / -1; }
+  }
+  @container editorial-meta (width < 22.5rem) {
+    [data-project-imprint] { grid-template-columns: minmax(0, 1fr); }
+  }
   [data-project-title-gradient] {
     background-image: linear-gradient(to right, var(--project-title-primary-readable), var(--project-title-secondary-readable), var(--project-title-primary-readable));
   }

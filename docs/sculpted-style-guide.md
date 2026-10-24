@@ -782,6 +782,18 @@ columns and let the update line span the full width. Below 16rem, stack all deta
 and the update label. Preserve whole labels, complete values, and both theme palettes
 with enlarged text. This passive composition adds no client JavaScript.
 
+### Margin imprint project header facts
+
+Project headers use one semantic description list between fine horizontal rules.
+Give the role a purple margin rule, 1.4375rem type, and the widest column. Timeline
+and duration use neutral rules, 0.75rem sentence-case labels, and 1rem values.
+Keep the existing role fallback, native timeline dates, and computed duration.
+Use 1.5rem vertical insets and gaps, with 1.125rem inside each margin rule.
+
+Below 37rem of available width, put the role above the two supporting facts.
+Below 22.5rem, stack all three fields. Complete values remain visible with enlarged
+text in both themes. This passive composition adds no client JavaScript.
+
 ### Margin preface content notes
 
 Article and project notes use an open, ruled introduction before the main content.
@@ -1125,8 +1137,9 @@ condition the semantic sidebar `<aside>` stays sticky, caps its height to the vi
 header, and scrolls natively; inline padding keeps the table of contents' active marker and focus
 rings visible. Otherwise rails stay in normal flow. The generic `editorial-rail` utility, such as
 the 404 suggestions, never becomes a scrolling region. Hero metadata grids use a named
-`editorial-meta` container: article publication dates move above two reading-detail columns below 32rem, and article and
-project metadata stack to one column below 16rem, so enlarged labels never split mid-word. Decorative
+`editorial-meta` container: article publication dates move above two reading-detail columns below 32rem
+and stack below 16rem. Project roles span both supporting facts below 37rem, and all project
+facts stack below 22.5rem, so enlarged labels never split mid-word. Decorative
 cover captions appear only when the cover's container is wide enough in root-relative units,
 so narrow screens and enlarged text omit them rather than overflow the image. Pills, resume
 contacts, history actions, and talk links wrap inside their containers with enlarged text.

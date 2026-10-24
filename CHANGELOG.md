@@ -144,6 +144,8 @@
 
 - Apply Margin imprint to article publication details, emphasizing the published date beside reading statistics and an optional update row. Preserve semantic dates, content-derived values, and complete labels across themes and enlarged text.
 
+- Apply Margin imprint to project header facts, emphasizing the role beside timeline and duration. Preserve native dates, computed values, and complete labels across themes and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
