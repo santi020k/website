@@ -136,6 +136,8 @@
 
 - Apply Dispatch sleeve to article and project sharing controls with a prominent copy or native share action and a tinted social-link footer. Preserve clean permalinks, share cancellation, clipboard feedback, accessible busy states, and script-free social links across narrow screens and enlarged text.
 
+- Apply Margin preface to article and project notes headers with a plain metadata margin, purple description rail, and fine horizontal rules. Preserve complete content across narrow screens and enlarged text, and align the project reading layout without doubled separators.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

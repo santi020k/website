@@ -231,6 +231,10 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
   this composition; native list semantics remain intact without client JavaScript. Root lists
   use neutral dividers and purple lead rules, with a single column when reading space is narrow.
+- `ContentNotesHeader` uses the site-owned Margin preface composition: an open label
+  and type margin beside a description rail. Plain metadata replaces the former Pill;
+  no interactive primitive or additional card surface is needed. Lumen semantic tokens
+  keep the rules and text consistent across article and project reading pages.
 - `ShareButtons` composes Dispatch sleeve with Lumen `Card`, `Button`, and `Icon`:
   an invitation beside the main action and three native social links in a tinted footer.
   It keeps native sharing on supported coarse-pointer devices and clipboard copying
