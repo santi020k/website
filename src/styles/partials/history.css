@@ -114,9 +114,30 @@
 /* Long era labels wrap inside the action instead of widening the page with enlarged text. */
 [data-history-era-action] { max-width: 100%; min-width: 0; height: auto; white-space: normal; text-align: start; overflow-wrap: anywhere; }
 [data-history-era-action] > [data-slot='icon'] { flex-shrink: 0; }
-@utility history-footnote { max-width: 48rem; padding: 3rem 0 1rem; border-top: 1px solid hsl(var(--line) / .65); }
-.history-footnote h2 { font-size: 2rem; line-height: 1.2; letter-spacing: -.05em; font-weight: 500; }
-.history-footnote > p:not(:first-child) { margin-top: 1rem; font-size: .875rem; line-height: 1.9; color: hsl(var(--ink-soft)); }
+@utility history-footnote { min-width: 0; max-width: 48rem; padding-bottom: 1rem; container: history-note / inline-size; }
+@utility history-colophon { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); gap: 1.75rem; padding-top: 1.75rem; border-top: 1px solid hsl(var(--line)); }
+.history-colophon > header { min-width: 0; }
+@utility history-colophon-eyebrow { margin-bottom: 1.25rem; color: hsl(var(--brand)); font-size: .6875rem; line-height: 1.7; letter-spacing: .09em; text-transform: uppercase; }
+.history-colophon h2 { max-width: 12ch; font-size: 2rem; line-height: 1.2; letter-spacing: -.05em; font-weight: 500; }
+@utility history-colophon-seal { display: grid; place-items: center; width: 3rem; height: 3rem; margin-top: 1.75rem; border-radius: 1rem .25rem 1rem .25rem; background: hsl(var(--brand-soft)); color: hsl(var(--brand)); }
+.history-colophon-seal .ui-icon { width: 1.375rem; height: 1.375rem; font-size: 1.375rem; }
+@utility history-colophon-copy { min-width: 0; padding-left: 1.75rem; border-left: 1px solid hsl(var(--brand)); color: hsl(var(--ink-soft)); font-size: .875rem; line-height: 1.9; }
+.history-colophon-copy p + p { margin-top: 1rem; }
+[data-theme='dark'] .history-colophon-eyebrow, [data-theme='dark'] .history-colophon-seal { color: hsl(var(--accent)); }
+[data-theme='dark'] .history-colophon-copy { border-color: hsl(var(--accent)); }
+
+@container history-note (width < 32rem) {
+  .history-colophon { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .history-colophon > header { display: grid; grid-template-columns: minmax(0, 1fr) 3rem; column-gap: 1.25rem; align-items: start; }
+  .history-colophon-eyebrow { grid-column: 1 / -1; margin-bottom: 1rem; }
+  .history-colophon-seal { margin-top: 0; align-self: end; }
+  .history-colophon-copy { border-left: 0; border-top: 1px solid hsl(var(--brand)); padding-left: 0; padding-top: 1.25rem; }
+}
+
+@container history-note (width < 17rem) {
+  .history-colophon > header { grid-template-columns: minmax(0, 1fr); }
+  .history-colophon-seal { margin-top: 1.25rem; }
+}
 @media (max-width: 639px) { .history-timeline { margin-top: 4.5rem; } .history-era { padding-bottom: 3rem; } .history-era-actions { margin-top: 1rem; } }
 
 @container history-era (width < 37.5rem) {
