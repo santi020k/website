@@ -231,7 +231,9 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
   this composition; native list semantics remain intact without client JavaScript. Root lists
   use neutral dividers and purple lead rules, with a single column when reading space is narrow.
-- `ShareButtons` keeps native sharing on supported coarse-pointer devices and clipboard copying
+- `ShareButtons` composes Dispatch sleeve with Lumen `Card`, `Button`, and `Icon`:
+  an invitation beside the main action and three native social links in a tinted footer.
+  It keeps native sharing on supported coarse-pointer devices and clipboard copying
   elsewhere. Its visible label and accessible name say "Share link" for native sharing and
   "Copy link" for clipboard-only use. Cancellation preserves the idle label; fallback feedback
   returns to the label for the available action. Only one share or copy may run at a time;
