@@ -118,7 +118,6 @@
 }
 /* Hero metadata responds to its available reading width, including enlarged text. */
 [data-editorial-meta-group] { container: editorial-meta / inline-size; }
-@utility editorial-project-stack { padding-block: 1.5rem; border-block: 1px solid hsl(var(--line) / 0.65); }
 /* Resume actions use Lumen directly and keep their print contract. */
 .remaining-pages [data-resume-shell] [data-slot='button-link'] {
   min-height: 2.75rem;

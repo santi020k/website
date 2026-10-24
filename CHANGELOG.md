@@ -146,6 +146,8 @@
 
 - Apply Margin imprint to project header facts, emphasizing the role beside timeline and duration. Preserve native dates, computed values, and complete labels across themes and enlarged text.
 
+- Apply Sculpted band to project technology strips with an ink margin, visible stack count, and wrapping technology links. Preserve canonical destinations, project-colored interactions, keyboard focus, and narrow enlarged-text layouts.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

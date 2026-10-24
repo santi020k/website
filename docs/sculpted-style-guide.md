@@ -795,6 +795,23 @@ Below 22.5rem, stack all three fields. Below 12rem, use 1.125rem role type to ke
 long words intact with enlarged text. Complete values remain visible in both
 themes. This passive composition adds no client JavaScript.
 
+### Sculpted band project technology strips
+
+The project hero stack uses one opaque Lumen Card with alternating 2rem / 0.375rem
+corners. A 10rem ink-colored margin holds the Layers icon, Stack heading, technology
+count, and label. Invert its foreground with the surface token in both themes and
+finish the margin with a small soft-brand curved corner.
+
+Keep every technology visible in its existing interest order. Use a semantic list of
+Lumen links with 0.875rem text, 44px minimum targets, small asymmetric corners, and a
+purple vertical marker. The links retain canonical technology archives and use the
+project's readable accent on hover and keyboard focus, with a separate visible outline.
+
+Below 35rem of available width, move the margin above the links and put the count
+beside the heading. Tighten insets at 18rem and typography at 14rem to preserve
+complete labels with enlarged text. Retain the technology anchor and reduced-motion
+entrance; this composition requires no additional JavaScript.
+
 ### Margin preface content notes
 
 Article and project notes use an open, ruled introduction before the main content.

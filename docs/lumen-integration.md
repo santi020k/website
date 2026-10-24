@@ -239,6 +239,10 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   to its role, timeline, and duration, keeping the existing `ProjectTimeline` native
   dates and duration helper. Its wider role column and project-specific container
   breakpoints preserve long role names.
+- `ProjectHeroStack` composes Sculpted band with public unstyled `Card`, inherit-style
+  `Link`, and `Icon` primitives. The site owns the ink margin, wrapping technology list,
+  semantic-token colors, responsive insets, and project-colored hover/focus states.
+  All sorted technology links and the existing anchor remain available without JavaScript.
 - `ContentNotesHeader` uses the site-owned Margin preface composition: an open label
   and type margin beside a description rail. Plain metadata replaces the former Pill;
   no interactive primitive or additional card surface is needed. Lumen semantic tokens
