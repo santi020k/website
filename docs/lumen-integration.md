@@ -235,6 +235,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   and type margin beside a description rail. Plain metadata replaces the former Pill;
   no interactive primitive or additional card surface is needed. Lumen semantic tokens
   keep the rules and text consistent across article and project reading pages.
+- `ProjectFooterNav` composes Return folio with public unstyled `Card`, inherit-style
+  `Link`, and decorative `Icon` components. A native named navigation landmark keeps
+  parent, top, live-project, and repository destinations available without JavaScript.
+  Site-owned attributes style the surface and responsive rows; `Link` supplies safe
+  external new-tab attributes. Empty destination footers are omitted.
 - `ShareButtons` composes Dispatch sleeve with Lumen `Card`, `Button`, and `Icon`:
   an invitation beside the main action and three native social links in a tinted footer.
   It keeps native sharing on supported coarse-pointer devices and clipboard copying

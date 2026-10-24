@@ -138,6 +138,8 @@
 
 - Apply Margin preface to article and project notes headers with a plain metadata margin, purple description rail, and fine horizontal rules. Preserve complete content across narrow screens and enlarged text, and align the project reading layout without doubled separators.
 
+- Apply Return folio to page-end navigation on article and project pages, with a clear parent destination, quiet back-to-top action, and separate project links. Preserve native navigation, keyboard focus, and readable layouts across themes and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
