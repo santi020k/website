@@ -156,6 +156,8 @@
 
 - Apply Caption spread to article illustrations with authored captions, per-article figure numbers, and a curved mount below complete artwork. Preserve alt text and Astro image processing, support enlarged text, and render the figures without client scripts.
 
+- Apply Portrait spread to the About profile with a sculpted image edge, prominent name caption, and soft location mount. Preserve the existing photograph, responsive sources, native figure semantics, and hero actions while supporting narrow layouts and enlarged text.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

@@ -405,6 +405,21 @@ Below 33.75rem, tighten the rail inset and row spacing; below 17.5rem, move each
 index above its label so enlarged text still has room. Keep both descriptions and
 destinations intact, with accent colors from the active light or dark theme.
 
+### Portrait spread About profile
+
+Keep the About hero's complete 4:5 photograph above an open name caption and a soft
+location mount. The image has a 2rem upper-left corner and a 0.375rem upper-right
+corner; its lower edge stays straight. A 1.5rem inverse curve joins the location
+mount to that edge, finishing in a 2rem lower-right corner. Use `brand-soft` for
+the mount and About's theme-aware accent for the handle.
+
+Set the name at 1.75rem and weight 500, below the small handle. Keep the location
+and remote availability together in a 7.875rem column. Tighten the columns below
+21.25rem of portrait width; below 16.25rem, move the location beneath the name as
+a compact two-column row. Below 11rem, stack the location facts. Preserve native
+figure semantics, descriptive alt text, responsive image sources, eager loading,
+and the existing hero's introduction and actions. The portrait stays passive.
+
 ### Portrait cover speaker profile
 
 The speaking hero uses an opaque Lumen Card with a fine border and asymmetric
