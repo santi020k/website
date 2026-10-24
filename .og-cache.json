@@ -286,7 +286,7 @@
     "blog/dep-beacon-vscode-extension.webp": {
       "baseDirectory": "public/og",
       "digest": "d4f49f880fad0dae9c49900244e06c77e31df88f9c5cfc4bde459227b912b23f",
-      "fingerprint": "c8aa3c89b2a4546a5f5176f889d130fb10377e419b22876870dd6cf8df9a57d3",
+      "fingerprint": "f7ea6959f25c3226969bca805427fe68a28ee66748468ffdbd714003eb28f110",
       "output": "blog/dep-beacon-vscode-extension.webp"
     },
     "blog/designing-eslint-packages-teams-actually-adopt.webp": {
@@ -406,7 +406,7 @@
     "pages/blog--3.webp": {
       "baseDirectory": "public/og",
       "digest": "6c3691032b2bac3e28e087dbb33599086d51bf8bee3b77e9ef842464d6c8ef36",
-      "fingerprint": "39311ff897d65fa231ee47431d7393c10fbeeb88d0968514df3658e64ad00a03",
+      "fingerprint": "1464a55088472180032f026062d587f299c8d0442d552a96afb9dfe03ba84332",
       "output": "pages/blog--3.webp"
     },
     "pages/blog--4.webp": {
@@ -694,7 +694,7 @@
     "pages/blog--tags--developer-experience.webp": {
       "baseDirectory": "public/og",
       "digest": "64f1cfd2474ebd5eb54a35d1ad2c10920430351f0f78e82c461921af86ade797",
-      "fingerprint": "48501995cc21822338ab0247f1cbffefe294f5a91bc8c0b6c4de4f909a23ecc9",
+      "fingerprint": "85017a186b52d6da69feda0e61e59dc173adf163b8648300e2366c4c977fd5c0",
       "output": "pages/blog--tags--developer-experience.webp"
     },
     "pages/blog--tags--developer-experience--2.webp": {
@@ -778,7 +778,7 @@
     "pages/blog--tags--open-source.webp": {
       "baseDirectory": "public/og",
       "digest": "b4af37a5417cca3981a02621a7fe2c205d6153532e71d14cdeebaf6ee69d47c8",
-      "fingerprint": "6bef347eb4c9ed0db1a565d854b75f0cd54afba28d06a4eb994f62de3770147e",
+      "fingerprint": "b52352d5e4c2f9dcaadbd5510beefb3b962c723ddf74e8b054aec313c1361375",
       "output": "pages/blog--tags--open-source.webp"
     },
     "pages/blog--tags--distributed-systems.webp": {
@@ -898,19 +898,19 @@
     "pages/blog--tags--vscode.webp": {
       "baseDirectory": "public/og",
       "digest": "dcd1ae9ed4021938732d069144196e12070e3ff12b37c22969a3a5ef7d2e2440",
-      "fingerprint": "241a6a48f4d4914f90ff64c17e473cb78448f5fe1a4c39832d997b161bdcae1c",
+      "fingerprint": "befa5e8416f572c4e91a4db3e81e3937fe7881765170c670fa9a774085348877",
       "output": "pages/blog--tags--vscode.webp"
     },
     "pages/blog--tags--dependencies.webp": {
       "baseDirectory": "public/og",
       "digest": "b66a7344d46ebb04a623400d7e27994a146b6a6cb0b821d509666a7d21ff4cdc",
-      "fingerprint": "22cdaacfe7432b60c30df71d177bf5778b33793a302cf8545e79748b5ece2774",
+      "fingerprint": "5e8c97c4f4e1af6a7ef44e983f9527342732b2fed709cedab5800b267b359795",
       "output": "pages/blog--tags--dependencies.webp"
     },
     "pages/blog--tags--security.webp": {
       "baseDirectory": "public/og",
       "digest": "b7a5e5add598a56796e7837a081fce3ec6926a82e5d44d4982117c0a8c1ea848",
-      "fingerprint": "a7f15e91821dfe07750882c8ada4067ad12feb192847fde13275d90a14b4a208",
+      "fingerprint": "970e3a76829a1d8a06ef655fc0508c3fb1dc05d152a33dac32f94d045cb1a3ef",
       "output": "pages/blog--tags--security.webp"
     },
     "pages/blog--tags--open-graph.webp": {
