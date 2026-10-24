@@ -767,6 +767,18 @@ synchronization, and polite failure guidance in the existing controller. The
 GitHub destination must remain available while loading, after failure, and without
 JavaScript. Do not reserve an empty widget area for readers without JavaScript.
 
+### Margin preface content notes
+
+Article and project notes use an open, ruled introduction before the main content.
+Keep the label and plain type or stage in a 9.375rem margin, with the full description
+beside a 2px purple rail. Use a 1.625rem column gap and vertical insets, 0.875rem
+labels, 0.8125rem metadata, and 1.0625rem description text with 1.8 leading.
+
+Below 28.75rem of container width, stack the description beneath the wrapping label
+and type row. Keep the same reading order, semantic theme tokens, and complete copy
+with enlarged text. The project content wrapper leaves the top rule and insets to
+this header to avoid doubled borders. This passive composition adds no client script.
+
 ### Dispatch sleeve sharing controls
 
 Use `ShareButtons` on article and project detail pages. A Lumen Card pairs a quiet

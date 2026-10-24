@@ -1,6 +1,4 @@
 ---
-import Pill from '@/components/atoms/Pill.astro'
-
 interface Props {
   description: string
   label: string
@@ -10,10 +8,86 @@ interface Props {
 const { description, label, pill } = Astro.props
 ---
 
-<div class="flex flex-wrap items-start justify-between gap-4 pb-6">
-  <div class="space-y-2">
-    <p class="section-label">{label}</p>
-    <p class="max-w-2xl text-sm/6 text-ink-soft">{description}</p>
+<div data-content-notes>
+  <div data-notes-spread>
+    <div data-notes-margin>
+      <p data-notes-label>{label}</p>
+      <p data-notes-type>{pill}</p>
+    </div>
+    <p data-notes-description>{description}</p>
   </div>
-  <Pill label={pill} tone="brand" />
 </div>
+
+<style>
+  [data-content-notes] {
+    --notes-accent: hsl(var(--brand));
+    container: content-notes / inline-size;
+    border-block: 1px solid hsl(var(--line));
+    padding-block: 1.625rem;
+    color: hsl(var(--ink));
+  }
+
+  :global([data-theme="dark"]) [data-content-notes] {
+    --notes-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
+  }
+
+  [data-notes-spread] {
+    display: grid;
+    grid-template-columns: 9.375rem minmax(0, 1fr);
+    gap: 1.625rem;
+  }
+
+  [data-notes-margin] {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.875rem;
+  }
+
+  p {
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  [data-notes-label] {
+    color: var(--notes-accent);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  [data-notes-type] {
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  [data-notes-description] {
+    border-inline-start: 2px solid var(--notes-accent);
+    padding-inline-start: 1.625rem;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  @container content-notes (width < 28.75rem) {
+    [data-notes-spread] {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.3125rem;
+    }
+
+    [data-notes-margin] {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.625rem 1.25rem;
+    }
+
+    [data-notes-description] {
+      padding-inline-start: 1.25rem;
+    }
+  }
+</style>
