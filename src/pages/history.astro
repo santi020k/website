@@ -53,21 +53,27 @@ const meta = {
           </div>
           <p class="history-hero-note">Nothing lost. Every old door still opens.</p>
         </div>
-        <figure class="history-hero-exhibit">
-          <div class="history-hero-stack">
-            {[
-              { id: 'v1', position: 'history-hero-print-1' },
-              { id: 'v2', position: 'history-hero-print-2' },
-              { id: 'v4', position: 'history-hero-print-3' }
-            ].map(({ id, position }) => (
-              <div class:list={['history-hero-print', position]}>
-                <div class="history-hero-print-label"><span>{id.toUpperCase()}</span><span>{id === 'v4' ? 'Today' : 'From the archive'}</span></div>
-                <Image src={imageFor(id, 'desktop')} alt="" widths={[320, 640, 960]} sizes="(min-width: 960px) 420px, (min-width: 640px) 60vw, 75vw" loading="eager" />
-              </div>
+        <div class="history-hero-exhibit" role="group" aria-label="Website design previews">
+          <figure class="history-hero-print history-hero-current">
+            <Image src={imageFor(current.id, 'desktop')} alt={`${current.id.toUpperCase()} homepage capture`} widths={[320, 640, 960]} sizes="(min-width: 1200px) 528px, (min-width: 960px) calc(50vw - 4.5rem), (min-width: 640px) 512px, calc(100vw - 4rem)" loading="eager" />
+            <figcaption>
+              <span class="history-hero-current-version">{current.id.toUpperCase()}</span>
+              <span class="history-hero-today">Today</span>
+            </figcaption>
+          </figure>
+          <div class="history-hero-past">
+            {['v1', 'v2'].map(id => (
+              <figure class="history-hero-print">
+                <Image src={imageFor(id, 'desktop')} alt={`${id.toUpperCase()} homepage capture`} widths={[160, 320, 480]} sizes="(min-width: 1200px) 254px, (min-width: 960px) calc(25vw - 2.875rem), (min-width: 640px) 246px, calc(50vw - 2.5rem)" loading="eager" />
+                <figcaption class="history-hero-print-label">
+                  <span>{id.toUpperCase()}</span>
+                  <span>From the archive</span>
+                </figcaption>
+              </figure>
             ))}
           </div>
-          <figcaption><span>Actual pages. Real evolution.</span><span>2026 — now <Icon name="arrow-up-right" /></span></figcaption>
-        </figure>
+          <p class="history-hero-caption"><span>Actual pages. Real evolution.</span><span>2026 — now <Icon name="arrow-up-right" /></span></p>
+        </div>
       </div>
       <nav class="history-hero-chapters" aria-label="Jump to a design era">
         <p>Four chapters. <br />Still being written.</p>

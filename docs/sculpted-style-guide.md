@@ -302,6 +302,22 @@ reclaim 0.5rem of each page margin, tighten the panel and heading insets, and us
 complete words. Keep the original policy wording, dates, heading hierarchy, contact
 links, and readable light/dark colors. The rows remain passive reading content.
 
+### Chapter spread History hero
+
+Lead the hero collage with the current-era capture at full width, preserving its
+natural proportions. Use a 2rem upper-left corner, a 0.375rem upper-right corner,
+and a straight lower edge. Below it, pair a 2rem accent version label with a
+6.875rem brand-soft Today tab and a 1.75rem lower-right corner.
+
+Place the two archive previews beneath the current capture in equal columns,
+with a 1.25rem gap and 1.5rem top spacing. Keep each complete screenshot above a
+fine caption rule, its version, and the existing archive label. The closing
+preservation caption stays in normal flow. Below 24.375rem of exhibit width,
+tighten the gap; below 17.5rem, stack each archive caption; below 13rem, stack
+the archive figures and tighten the Today column so enlarged text retains words.
+Use native figures and Astro images, without transforms, overlap, fixed heights,
+new animation, or client JavaScript. Preserve the hero copy and chapter links.
+
 ### Stacked sheets History chapters
 
 Give each chapter introduction an opaque Lumen Card with 1.75rem corners, a

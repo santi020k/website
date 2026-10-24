@@ -3,6 +3,11 @@
 The current website stays at `/`. `/history/` is an indexable timeline of four
 visual eras, with authentic desktop and mobile captures and usable archives.
 
+The Chapter spread hero leads with the complete current-era capture and its
+shaped Today caption, followed by two smaller archive previews. Images remain
+in normal flow with native figure captions and responsive sources. Narrow and
+enlarged-text layouts reflow the previews without cropping or overlapping them.
+
 Each chapter uses the Stacked sheets introduction: version, date, and chapter
 status share a paper-like card with its title and description. The Split exhibit
 below pairs the complete desktop and mobile captures in one sculpted surface,

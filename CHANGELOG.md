@@ -162,6 +162,8 @@
 
 - Apply Split exhibit to the History screenshot cards, pairing complete desktop and mobile captures in one sculpted surface with clear device captions. Preserve the authentic images, chapter introductions, and archive links while adapting the pair for narrow layouts and enlarged text.
 
+- Apply Chapter spread to the History hero, placing the current-era capture above two smaller archive previews with clear captions and a shaped Today tab. Keep complete authentic screenshots in normal flow and support narrow layouts and enlarged text without overlap.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

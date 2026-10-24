@@ -288,28 +288,38 @@ for (const theme of ['light', 'dark'] as const) {
     test('history previews and long actions fit narrow screens and enlarged text', async ({ page }) => {
       await page.goto('/history/')
 
-      for (const width of [320, 375, 768, 1440]) {
-        await page.setViewportSize({ width, height: 900 })
-        await settleLayout(page)
-        await expectWithinScreen(page.locator('.history-hero-print'))
+      for (const fontSize of ['100%', '200%']) {
+        await page.evaluate(size => {
+          document.documentElement.style.fontSize = size
+        }, fontSize)
 
-        const stackFits = await page.locator('.history-hero-stack').evaluate(element => {
-          const stack = element.getBoundingClientRect()
-          const exhibit = element.parentElement?.getBoundingClientRect()
+        for (const width of [320, 375, 768, 1440]) {
+          await page.setViewportSize({ width, height: 900 })
+          await settleLayout(page)
+          await expectWithinScreen(page.locator('.history-hero-print'))
+          await expectWithinScreen(page.locator('.history-era-actions a'))
 
-          return exhibit !== undefined && stack.width <= exhibit.width + 1
-        })
+          const previewsFit = await page.locator('.history-hero-exhibit').evaluate(async element => {
+            const exhibit = element.getBoundingClientRect()
+            const images = [...element.querySelectorAll('img')]
 
-        expect(stackFits).toBe(true)
+            await Promise.all(images.map(image => image.decode()))
+
+            const captionsFit = [...element.querySelectorAll('figcaption span')].every(caption => caption.scrollWidth <= caption.clientWidth + 1)
+
+            const imagesFit = images.length === 3 && images.every(image => {
+              const bounds = image.getBoundingClientRect()
+
+              return bounds.left >= exhibit.left - 1 && bounds.right <= exhibit.right + 1 &&
+                Math.abs(bounds.width / bounds.height - image.naturalWidth / image.naturalHeight) < 0.01
+            })
+
+            return element.scrollWidth <= element.clientWidth + 1 && captionsFit && imagesFit
+          })
+
+          expect(previewsFit, 'All three complete captures and their captions fit inside the hero exhibit').toBe(true)
+        }
       }
-
-      await page.setViewportSize({ width: 375, height: 900 })
-      await page.evaluate(() => {
-        document.documentElement.style.fontSize = '200%'
-      })
-      await settleLayout(page)
-      await expectWithinScreen(page.locator('.history-era-actions a'))
-      await expectWithinScreen(page.locator('.history-hero-print'))
     })
 
     test('long article titles and native cover art remain readable', async ({ page }) => {

@@ -8,18 +8,37 @@
 .history-hero-copy .editorial-page-description { max-width: 29rem; }
 .history-hero-copy .maker-hero-primary { border-radius: 1rem; }
 @utility history-hero-note { margin-top: 1.25rem; font-size: .6875rem; color: hsl(var(--ink-soft)); }
-@utility history-hero-exhibit { min-width: 0; margin: 0; }
-@utility history-hero-stack { position: relative; height: 28rem; isolation: isolate; }
-@utility history-hero-print { position: absolute; width: 82%; overflow: hidden; border: 1px solid hsl(var(--line)); border-radius: .625rem; background: hsl(var(--surface)); box-shadow: var(--shadow-nav-scrolled); }
-.history-hero-print img { width: 100%; height: auto; aspect-ratio: 1.6; object-fit: cover; object-position: top; }
-@utility history-hero-print-1 { top: .75rem; left: 0; transform: rotate(-8deg); }
-@utility history-hero-print-2 { top: 3.25rem; right: 0; transform: rotate(6deg); }
-@utility history-hero-print-3 { top: 7.5rem; left: 6%; transform: rotate(-3deg); }
-@utility history-hero-print-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .25rem .5rem; padding: .625rem .875rem; font-size: .625rem; color: hsl(var(--ink-soft)); border-bottom: 1px solid hsl(var(--line)); }
-.history-hero-print-label > span:first-child { font-weight: 600; color: hsl(var(--ink)); }
-.history-hero-exhibit figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; margin-top: 1rem; font-size: .625rem; color: hsl(var(--ink-soft)); }
-.history-hero-exhibit figcaption > span:last-child { display: inline-flex; align-items: center; gap: .5rem; }
-.history-hero-exhibit figcaption svg { width: .875rem; height: .875rem; }
+@utility history-hero-exhibit { min-width: 0; margin: 0; container: history-exhibit / inline-size; }
+@utility history-hero-print { min-width: 0; margin: 0; }
+.history-hero-print img { display: block; width: 100%; height: auto; }
+@utility history-hero-current { min-width: 0; }
+.history-hero-current img { border-radius: 2rem .375rem 0 0; }
+.history-hero-current figcaption { display: grid; grid-template-columns: minmax(0, 1fr) 6.875rem; }
+@utility history-hero-current-version { padding-block: 1.125rem; color: hsl(var(--brand)); font-size: 2rem; font-weight: 500; line-height: 1; letter-spacing: -.06em; }
+[data-theme='dark'] .history-hero-current-version { color: hsl(var(--accent)); }
+@utility history-hero-today { display: flex; align-items: center; justify-content: center; border-end-end-radius: 1.75rem; background: hsl(var(--brand-soft)); color: hsl(var(--ink)); font-size: .6875rem; line-height: 1.6; }
+@utility history-hero-past { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+.history-hero-past img { border-radius: .75rem .25rem .25rem .25rem; }
+@utility history-hero-print-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .375rem .75rem; margin-top: .75rem; padding-top: .625rem; border-top: 1px solid hsl(var(--line)); color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.6; }
+.history-hero-print-label > span:first-child { font-weight: 500; color: hsl(var(--ink)); }
+@utility history-hero-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; margin-top: 1.25rem; color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.6; }
+.history-hero-caption > span:last-child { display: inline-flex; align-items: center; gap: .5rem; }
+.history-hero-caption .ui-icon { width: 1rem; height: 1rem; flex-shrink: 0; }
+.history-hero-caption svg { width: 1rem; height: 1rem; }
+
+@container history-exhibit (width < 24.375rem) {
+  .history-hero-past { gap: 1rem; }
+}
+
+@container history-exhibit (width < 17.5rem) {
+  .history-hero-print-label { display: block; }
+  .history-hero-print-label > span:first-child { display: block; margin-bottom: .125rem; }
+}
+
+@container history-exhibit (width < 13rem) {
+  .history-hero-past { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  .history-hero-current figcaption { grid-template-columns: minmax(0, 1fr) 40%; }
+}
 @utility history-hero-chapters { display: grid; grid-template-columns: 1fr repeat(4, 1.35fr); align-items: center; gap: 1rem; border-top: 1px solid hsl(var(--line) / .65); padding-top: 1.25rem; }
 .history-hero-chapters > p { font-size: .6875rem; line-height: 1.7; color: hsl(var(--ink-soft)); }
 .history-hero-chapters > a { display: flex; min-height: 44px; align-items: center; gap: .875rem; color: hsl(var(--ink)); text-decoration: none; border-radius: .25rem; }
@@ -39,12 +58,6 @@
   .history-hero-chapters > a > [data-history-chapter-icon] { display: none; }
 }
 @media (max-width: 639px) {
-  /* Derive the stack height from the exhibit's own width so the prints never
-     widen it: the third print's offset, its label, its 1.6 image and tilt room. */
-  .history-hero-exhibit { container-type: inline-size; }
-  .history-hero-stack { width: 100%; height: calc(6.5rem + 2.5rem + 53.75cqi + 1.5rem); }
-  .history-hero-print { width: 86%; }
-  .history-hero-print-3 { top: 6.5rem; }
   .history-hero-chapters { grid-template-columns: repeat(2, 1fr); gap: 1rem 1.5rem; }
   .history-hero-stage { padding-top: .5rem; }
 }
