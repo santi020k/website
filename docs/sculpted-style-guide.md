@@ -724,6 +724,19 @@ selection, keyboard navigation, synchronized saved preferences, copy feedback, a
 accessible announcements. Without JavaScript, show every command in document order
 and hide the inert toolbar. Do not overlap the copy control with scrolling code.
 
+### Update folio article notes
+
+Use `ArticleUpdateNote` for an authored update to an existing article. Its labeled
+Lumen Callout has a soft brand title band, a decorative notebook icon, and an opaque
+reading area with normal text and underlined links. Keep the asymmetric 0.375rem /
+1.75rem corners, fine outline, complete date label, and all original destinations.
+
+Import the component in an MDX article and pass the visible label as `title`; write
+the body as Markdown inside its slot. The title is a note label, not a new article
+section. Preserve ordinary blockquotes for quoted material. Reduce the note insets
+below 30rem and 18rem of container width so enlarged text and link focus remain clear.
+This static treatment requires no client script.
+
 ## Buttons and links
 
 Use Lumen `ButtonLink` with its public `unstyled` variant for the sculpted treatment.

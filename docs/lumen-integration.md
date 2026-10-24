@@ -153,6 +153,9 @@ The same component serves featured, supporting, and related projects without cli
 - Site-specific interface icons use Lumen `Icon` when Lucide provides the mark. Third-party brand
   logos remain on `astro-icon` because Lucide intentionally excludes brand assets.
 - Reading layouts use Lumen `ScrollProgress` directly.
+- `ArticleUpdateNote.astro` composes Lumen `Callout` and `Icon` for dated article
+  updates. The author supplies its title and Markdown body in MDX. Its labeled aside
+  and native links work without JavaScript; ordinary Markdown blockquotes are unchanged.
 - The site-wide background uses Lumen `Particles` directly, including its reduced-motion behavior.
 - Repeated card and content grids use Lumen `RevealGroup` for selector-loaded, tokenized motion
   with a built-in reduced-motion path.

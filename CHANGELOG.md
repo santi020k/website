@@ -128,6 +128,8 @@
 
 - Apply Tab folio to package-manager commands with underlined choices, a soft toolbar, visible copy feedback, and a decorative shell prompt. Preserve synchronized preferences, keyboard navigation, scrolling, and script-free access to every command.
 
+- Apply Update folio to article update notes with a labeled title band, notebook icon, and normal reading text. Preserve complete copy, native link destinations, responsive themes, and script-free access through a shared Lumen Callout composition.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
