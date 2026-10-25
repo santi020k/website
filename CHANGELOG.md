@@ -204,6 +204,8 @@
 
 - Apply Reader margin to article likes: a derived count beside a wrapping avatar and reader-name list with an accent rail. Preserve native profile and source links, anonymous and missing-photo fallbacks, remote-image privacy, and readable narrow layouts without adding client JavaScript.
 
+- Omit the project sidebar navigation notice when no section headings exist. Begin with At a glance and preserve the remaining project details, normal spacing, and table of contents for projects with headings.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

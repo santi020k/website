@@ -11,8 +11,6 @@ import TocCard from '@/components/molecules/TocCard.astro'
 
 import { getProjectFocusLabel } from '@/utils/project-meta'
 
-import { Icon } from '@santi020k/lumen-astro'
-
 interface Props {
   headings: MarkdownHeading[]
   project: CollectionEntry<'project'>
@@ -33,14 +31,7 @@ const focusLabel = getProjectFocusLabel(project.data.typesId)
     data-reading-rail-divider
   />
 
-  {headings.length ?
-    <TocCard headings={headings} /> :
-    (
-      <div class="glass-pro rounded-2xl px-5 py-4 text-sm/6 text-ink-muted">
-        <Icon class="mb-2 size-4 text-brand/50" name="file-text" />
-        <p>No sections to navigate — this project has a single-page write-up.</p>
-      </div>
-    )}
+  {headings.length > 0 && <TocCard headings={headings} />}
 
   <ProjectGlanceCard project={project} />
 

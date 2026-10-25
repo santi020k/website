@@ -812,6 +812,11 @@ keeps long headings within their link and preserves native fragment navigation.
 Reading pages fully disable CSS transitions with reduced motion, including inherited text
 size transitions, so native fragment targets remain stable when text is enlarged.
 
+When a project has no headings, omit the table of contents without a replacement card
+or empty-state notice. Begin the sidebar with At a glance, followed by the existing
+Focus, Core stack, and optional Outcomes cards. Keep the sidebar's normal spacing;
+do not reserve a gap for absent navigation. Articles likewise omit empty navigation.
+
 ### Margin chapters case study summaries
 
 Case study summaries use one opaque Lumen Card with asymmetric corners and a small
