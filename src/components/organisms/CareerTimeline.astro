@@ -30,7 +30,7 @@ const careerItems = projects.map(project => ({
 }))
 ---
 
-<Timeline data-career-timeline>
+<Timeline data-career-timeline aria-label="Professional experience, newest first">
   {careerItems.map(item => (
     <li
 data-timeline-row={item.isActive ? 'active' : 'completed'}
@@ -83,35 +83,53 @@ class="size-4"
   :global(:root[data-theme='dark']) [data-career-timeline] { --career-emphasis: var(--accent); }
   :global(:root[data-theme='dark']) [data-career-footer] { background: color-mix(in srgb, hsl(var(--brand-soft)) 55%, hsl(var(--surface))); }
   :global(:root[data-theme='dark']) [data-career-action] { color: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink))); }
-  [data-career-row] { --career-project-ink: var(--project-primary-readable); border-top: 1px solid hsl(var(--line) / 0.65); }
+  [data-career-row] {
+    --career-project-ink: var(--project-primary-readable);
+    --career-rail-x: 7.125rem;
+    --career-year-size: 2.1875rem;
+    --career-node-y: calc(var(--career-year-size) * 0.6);
+  }
   :global(:root[data-theme='dark']) [data-career-row] { --career-project-ink: var(--project-primary-readable-dark); }
-  [data-career-row]:last-child { border-bottom: 1px solid hsl(var(--line) / 0.65); }
   [data-career-link] {
     position: relative;
     display: grid;
     grid-template-columns: 8.125rem minmax(0, 1fr);
-    padding: 1.5rem 1rem 1.5rem 0;
+    padding: 0 1rem 2.5rem 0;
     color: hsl(var(--ink));
     text-decoration: none;
   }
   [data-career-link]::before {
     content: '';
     position: absolute;
-    top: 3.3125rem;
-    bottom: 0;
-    left: 7.125rem;
+    top: var(--career-node-y);
+    bottom: calc(-1 * var(--career-node-y));
+    left: var(--career-rail-x);
     width: 1px;
-    background: hsl(var(--line) / 0.65);
+    transform: translateX(-50%);
+    background: color-mix(in srgb, hsl(var(--career-emphasis)) 25%, hsl(var(--line)));
+    pointer-events: none;
   }
+  /* Each segment reaches the next marker, including the space between cards.
+     The last marker is the endpoint, without a tail beneath its card. */
+  [data-career-row]:last-child [data-career-link] { padding-bottom: 0; }
+  [data-career-row]:last-child [data-career-link]::before { display: none; }
   [data-career-link]::after {
     content: '';
     position: absolute;
-    top: 2.75rem;
-    left: 6.9375rem;
-    width: 0.4375rem;
-    height: 0.4375rem;
+    top: var(--career-node-y);
+    left: var(--career-rail-x);
+    width: 0.625rem;
+    height: 0.625rem;
+    border: 2px solid hsl(var(--career-emphasis));
     border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-canvas);
+    box-shadow: 0 0 0 3px var(--color-canvas);
+    pointer-events: none;
+  }
+  [data-timeline-row='active'] [data-career-link]::after {
     background: hsl(var(--career-emphasis));
+    box-shadow: 0 0 0 3px var(--color-canvas), 0 0 0 5px hsl(var(--career-emphasis) / 0.15);
   }
   [data-career-link]:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: -4px; }
   [data-career-date] {
@@ -120,7 +138,7 @@ class="size-4"
     align-items: flex-start;
     gap: 1rem;
     min-width: 0;
-    padding: 0.625rem 1.875rem 1rem 1.125rem;
+    padding: 0 1.875rem 1rem 1.125rem;
     color: hsl(var(--ink-soft));
     font-size: 0.75rem;
     line-height: 1.667;
@@ -129,7 +147,7 @@ class="size-4"
   [data-career-year] {
     order: -1;
     color: hsl(var(--career-emphasis));
-    font-size: 2.1875rem;
+    font-size: var(--career-year-size);
     font-weight: 500;
     line-height: 1.2;
     letter-spacing: -0.06em;
@@ -165,33 +183,33 @@ class="size-4"
     color: color-mix(in srgb, hsl(var(--career-project-ink)) 84%, hsl(var(--ink)));
   }
   [data-career-link]:is(:hover, :focus-visible) [data-career-icon] { background: color-mix(in srgb, hsl(var(--project-primary)) 10%, hsl(var(--surface))); }
-  [data-career-link]:is(:hover, :focus-visible)::after { background: hsl(var(--project-primary)); box-shadow: 0 0 0 4px hsl(var(--project-primary) / 0.12); }
+  [data-career-link]:is(:hover, :focus-visible)::after { border-color: hsl(var(--project-primary)); background: hsl(var(--project-primary)); box-shadow: 0 0 0 3px var(--color-canvas), 0 0 0 5px hsl(var(--project-primary) / 0.12); }
   @media (prefers-reduced-motion: no-preference) {
     [data-career-folio] { transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease; }
     [data-career-footer], [data-career-icon] { transition: background-color 160ms ease; }
     [data-career-title], [data-career-role], [data-career-year], [data-career-action], [data-career-icon], [data-career-status] { transition: color 160ms ease; }
-    [data-career-link]::after { transition: background-color 160ms ease, box-shadow 160ms ease; }
+    [data-career-link]::after { transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease; }
   }
   @container career-timeline (width < 36.25rem) {
-    [data-career-row], [data-career-row]:last-child { border: 0; }
-    [data-career-link] { grid-template-columns: minmax(0, 1fr); padding: 0 0 1.5rem 1.25rem; }
-    [data-career-link]::before { top: 1.625rem; left: 0.1875rem; }
-    [data-career-link]::after { top: 1.125rem; left: 0; }
+    [data-career-row] { --career-rail-x: 0.3125rem; --career-year-size: 2rem; }
+    [data-career-link] { grid-template-columns: minmax(0, 1fr); padding: 0 0 2rem 1.25rem; }
     [data-career-date] { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.5625rem; padding: 0 0 1.25rem; }
     [data-career-start] { flex-direction: row; align-items: center; gap: 0.5625rem; }
-    [data-career-year] { order: 0; font-size: 2rem; }
+    [data-career-year] { order: 0; }
     [data-career-content] { padding: 1.375rem 1.25rem; }
     [data-career-title] { font-size: 1.6875rem; line-height: 1.26; }
     [data-career-footer] { padding: 1rem 1.25rem; }
   }
   @container career-timeline (width < 20rem) {
-    [data-career-link] { padding-left: 0.75rem; }
+    [data-career-link] { padding-left: 1.125rem; }
+    [data-career-date], [data-career-start] { gap: 0.375rem; }
     [data-career-content], [data-career-footer] { padding-inline: 0.75rem; }
     [data-career-title] { font-size: min(1.6875rem, 10cqi); }
     [data-career-role], [data-career-description] { overflow-wrap: break-word; }
   }
   @media (forced-colors: active) {
-    [data-career-link]::after, [data-career-link]:is(:hover, :focus-visible)::after, [data-career-status='current']::before { background: CanvasText; }
+    [data-career-link]::after { border-color: CanvasText; background: Canvas; }
+    [data-timeline-row='active'] [data-career-link]::after, [data-career-link]:is(:hover, :focus-visible)::after, [data-career-status='current']::before { border-color: CanvasText; background: CanvasText; }
     [data-career-link]::before { background: GrayText; }
   }
 </style>

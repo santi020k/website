@@ -718,8 +718,12 @@ accents, level-two headings to name the articles, and no links or animation.
 
 Work's career list places the start year and month in an 8.125rem date rail beside a
 single opaque Lumen Card. Keep the end month and year, or Present, in the rail too.
-The purple connector leads each role; the card uses 1.125rem corners with a 0.375rem
-lower-right corner and the navigation shadow token. A small status and decorative
+One continuous accent-tinted rail connects markers centered on the start years.
+Use a filled marker with a quiet halo for active roles and outlined markers for
+completed roles. Each segment reaches the next marker across the card gap; stop
+at the final marker, without a dangling tail or horizontal rules cutting the rail.
+Keep 2.5rem between desktop cards and 2rem between mobile entries. The card uses
+1.125rem corners with a 0.375rem lower-right corner and the navigation shadow token. A small status and decorative
 icon precede the complete company heading, role, and description. A tinted footer
 holds plain technology labels and the case-study action.
 
