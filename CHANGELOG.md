@@ -212,6 +212,8 @@
 
 - Apply Chapter opener navigation to stacked project pages: place a compact native disclosure before the notes, retain all section and subsection links, and keep the desktop Margin rail. Match the reading layout breakpoint, preserve keyboard and no-JavaScript navigation, and omit navigation when no eligible headings exist.
 
+- Place project previews in a Contextual gallery after the relevant story introduction. Preserve Gallery sheet images, captions, and development disclosures; derive navigation order from authored chapter headings, retain existing gallery fragments, and support keyboard and no-JavaScript reading.
+
 ### Patch Changes
 
 - Refine the homepage with a wide editorial lead story, image-led recent articles, larger reading
@@ -481,6 +483,8 @@
 - Redesign the shared footer as an integrated closing statement with a large editorial headline, a sculpted WhatsApp action, and a quieter email link. Align the contact and directory columns, preserve compact footers, and keep the entire footer readable with enlarged text on narrow screens.
 
 - Keep article dates, project timelines and durations, resumes, feeds, sitemap metadata, and social-card scheduling consistent across build timezones while preserving explicit timestamp offsets.
+
+- Keep the footer source link clear of the fixed Top control at tablet widths.
 
 ## 4.0.0
 

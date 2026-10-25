@@ -860,6 +860,13 @@ no card fill, shadow, decorative dots, or hover feedback.
 
 ### Gallery sheet product previews
 
+Contextual gallery places the existing Gallery sheets inside the relevant story
+chapter, following its introduction and before technical details. Keep the gallery
+fully visible, use a level-three heading and level-four caption titles, and let
+reading navigation follow the authored order. Preserve the original gallery fragment
+and all development-preview disclosures. Isolate the gallery from prose typography
+so its image insets, caption scale, and card shapes stay consistent.
+
 Product previews use one opaque Lumen Card with 1.5rem corners and a 0.5rem lower-right
 corner. Place the complete screenshot on a quiet purple wash above its caption, with
 1.25rem image insets. Keep intrinsic proportions, contain fitting, lazy loading, and a

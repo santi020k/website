@@ -8,7 +8,6 @@ import PortfolioProjectSpotlight from '@/components/molecules/PortfolioProjectSp
 import ProjectCaseStudy from '@/components/molecules/ProjectCaseStudy.astro'
 import ProjectChapterOpener from '@/components/molecules/ProjectChapterOpener.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
-import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
@@ -47,10 +46,6 @@ const socialImage = getSocialImageURL(
   `/og/portfolio/${project.id}-logo.webp`,
   ogManifest
 )
-
-const projectHeadings = project.data.previews ?
-  [{ depth: 2, slug: 'product-previews', text: 'Inside the product' }, ...headings] :
-  headings
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 const sameAs = [project.data.githubUrl, project.data.liveDemoUrl].filter(Boolean)
@@ -132,9 +127,9 @@ mainClass="remaining-pages remaining-pages--reading"
       data-reading-body
     >
       <div class="min-w-0 space-y-8">
-        {projectHeadings.some(heading => heading.depth <= 3) && (
+        {headings.some(heading => heading.depth <= 3) && (
           <div data-project-mobile-toc>
-            <ProjectChapterOpener headings={projectHeadings} />
+            <ProjectChapterOpener headings={headings} />
           </div>
         )}
         <div class="space-y-8 border-b border-line/45 pb-8">
@@ -145,8 +140,6 @@ mainClass="remaining-pages remaining-pages--reading"
           />
 
           <ProjectCaseStudy rows={caseStudyRows} />
-
-          {project.data.previews && <ProjectPreviews previews={project.data.previews} />}
 
           <div class="prose-santi prose-project max-w-none">
             <slot />
@@ -162,7 +155,7 @@ mainClass="remaining-pages remaining-pages--reading"
         />
       </div>
 
-      <ProjectSidebar headings={projectHeadings} project={project} />
+      <ProjectSidebar headings={headings} project={project} />
     </section>
   </article>
 

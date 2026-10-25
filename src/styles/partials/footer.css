@@ -252,7 +252,7 @@
    edge with its label) at the end of the colophon. Wide screens center the shell
    far enough from the corner that the reservation resolves to zero. */
 @media (min-width: 40rem) {
-  .maker-footer-version { margin-right: 4.25rem; }
+  .maker-footer-version { margin-right: 6rem; }
 }
 
 @media (min-width: 64rem) {

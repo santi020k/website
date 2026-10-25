@@ -11,7 +11,7 @@ const resumeProjectFiles = [
   'optic-power/index.md',
   'pads/index.md',
   'react-js-colombia/index.md',
-  'smith-commerce/index.md',
+  'smith-commerce/index.mdx',
   'void/index.mdx',
   'xgames/index.md'
 ]

@@ -202,7 +202,7 @@ as it grows:
 
 ## Evidence and editorial boundaries
 
-- Smith: the [public case study](../../src/content/project/smith-commerce/index.md). The product
+- Smith: the [public case study](../../src/content/project/smith-commerce/index.mdx). The product
   example is illustrative; the article does not reveal client endpoints or private implementation.
 - Astro Doctor: the maintained missing-alt rule and scanner tests, plus the W3C image guidance
   linked in the draft. Diagnostic coverage is not a claim of complete accessibility.
