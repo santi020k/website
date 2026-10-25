@@ -496,6 +496,8 @@
 
 - Recover cached pages during offline navigation without a trailing slash and separate repeated copy-link status updates so assistive technology can detect each result, cancelling pending feedback when leaving an article.
 
+- Preserve complete Unicode characters in webmention initials and bounded reply excerpts, and render valid timezone-free mention dates consistently across build environments while retaining existing loose-date compatibility.
+
 ## 4.0.0
 
 ### Major Changes

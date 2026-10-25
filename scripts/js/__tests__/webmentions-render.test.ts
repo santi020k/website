@@ -5,7 +5,7 @@ import { join, relative } from 'node:path'
 
 import { expect, test } from 'vitest'
 
-test('renders accessible reader links and fallbacks without fetching avatars at build time', () => {
+test.each(['America/Bogota', 'Asia/Tokyo'])('renders safe reader text and dates without fetching avatars in %s', timezone => {
   // Astro's scoped CSS modules need one canonical root across macOS /var aliases.
   const root = realpathSync(mkdtempSync(join(tmpdir(), 'website-mention-render-')))
   const projectRoot = process.cwd()
@@ -13,6 +13,30 @@ test('renders accessible reader links and fallbacks without fetching avatars at 
     'https://avatars.example.invalid/person.png',
     'https://webmention.io/avatar.png',
     'https://miro.medium.com/avatar.png'
+  ]
+  const readerNames = [
+    { name: '𠮷田', initial: '𠮷' },
+    { name: 'e\u0301 Reader', initial: 'E\u0301' },
+    { name: '👩🏽‍💻 Developer', initial: '👩🏽‍💻' },
+    { name: '🇨🇴 Reader', initial: '🇨🇴' }
+  ]
+  const replyCases = [
+    { text: `  ${'a'.repeat(2001)}  `, expected: 'a'.repeat(2000) },
+    { text: `${'a'.repeat(1999)}𠮷tail`, expected: 'a'.repeat(1999) },
+    { text: `${'a'.repeat(1999)}e\u0301tail`, expected: 'a'.repeat(1999) },
+    { text: `${'a'.repeat(1998)}👩🏽‍💻tail`, expected: 'a'.repeat(1998) },
+    { text: `${'a'.repeat(1998)}𠮷tail`, expected: `${'a'.repeat(1998)}𠮷` },
+    { text: '<script>Reader text</script>', expected: '<script>Reader text</script>' },
+    { text: `e${'\u0301'.repeat(2000)}`, expected: '' },
+    { text: '   ', expected: '' }
+  ]
+  const dateCases = [
+    { published: '2024-05-01T20:00:00', received: null, expected: '2024-05-01T20:00:00.000Z' },
+    { published: '4 Sep 2026', received: null, expected: '2026-09-04T00:00:00.000Z' },
+    { published: '2024-05-01T20:00:00-05:00', received: null, expected: '2024-05-02T01:00:00.000Z' },
+    { published: 'Wed, 01 May 2024 20:00:00 GMT', received: null, expected: '2024-05-01T20:00:00.000Z' },
+    { published: null, received: '2024-05-01T20:00:00', expected: '2024-05-01T20:00:00.000Z' },
+    { published: 'not a date', received: null, expected: null }
   ]
 
   try {
@@ -32,12 +56,20 @@ test('renders accessible reader links and fallbacks without fetching avatars at 
       'const escapedName = { ...mentions[0], author: { name: \'<script>Sample name</script>\', photo: null, url: null } }',
       'const likes = [...mentions, missingAuthor, sourceOnly, escapedName]',
       'const reply = { ...missingAuthor, \'wm-property\': \'in-reply-to\', content: { text: \'A reply without likes.\' } }',
+      `const readers = ${JSON.stringify(readerNames)}.map(({ name }) => ({ ...missingAuthor, author: { name, photo: null, url: null } }))`,
+      `const replies = ${JSON.stringify(replyCases)}.map(({ text }) => ({ ...reply, content: { text } }))`,
+      `const summary = { ...reply, content: null, summary: { value: ${JSON.stringify(`${'a'.repeat(1998)}🇨🇴tail`)} } }`,
+      `const dates = ${JSON.stringify(dateCases)}.map(({ published, received }) => ({ ...reply, published, 'wm-received': received }))`,
       '---',
       '<html lang="en"><head><title>Mention fixture</title></head><body>',
       '<div id="multiple"><WebmentionsSection mentions={likes} /></div>',
       '<div id="single"><WebmentionsSection mentions={[missingAuthor]} /></div>',
       '<div id="empty"><WebmentionsSection mentions={[]} /></div>',
       '<div id="replies"><WebmentionsSection mentions={[reply]} /></div>',
+      '<div id="unicode-readers"><WebmentionsSection mentions={readers} /></div>',
+      '<div id="bounded-replies"><WebmentionsSection mentions={replies} /></div>',
+      '<div id="summary"><WebmentionsSection mentions={[summary]} /></div>',
+      '<div id="dates"><WebmentionsSection mentions={dates} /></div>',
       '</body></html>'
     ].join('\n'))
 
@@ -56,7 +88,7 @@ test('renders accessible reader links and fallbacks without fetching avatars at 
       '--input-type=module',
       '-e',
       `import { build } from 'astro'; globalThis.fetch = () => Promise.reject(new Error('Unexpected build-time fetch')); await build(${JSON.stringify(configuration)});`
-    ], { cwd: root, encoding: 'utf8', timeout: 30_000 })
+    ], { cwd: root, encoding: 'utf8', env: { ...process.env, TZ: timezone }, timeout: 30_000 })
 
     expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0)
 
@@ -101,6 +133,21 @@ test('renders accessible reader links and fallbacks without fetching avatars at 
     expect(dom.querySelector('#empty')?.children).toHaveLength(0)
     expect(dom.querySelector('#replies [data-webmention-likes]')).toBeNull()
     expect(dom.querySelector('#replies [data-webmention-copy]')?.textContent).toBe('A reply without likes.')
+    expect([...dom.querySelectorAll('#unicode-readers [data-webmention-reader-name]')].map(name => name.textContent))
+      .toEqual(readerNames.map(reader => reader.name))
+    expect.soft([...dom.querySelectorAll('#unicode-readers [data-webmention-avatar]')].map(avatar => avatar.textContent.trim()))
+      .toEqual(readerNames.map(reader => reader.initial))
+    const replyItems = [...dom.querySelectorAll('#bounded-replies [data-webmention-item]')]
+    const renderedReplies = replyItems.map(reply => reply.querySelector('[data-webmention-copy]')?.textContent ?? '')
+
+    expect.soft(renderedReplies).toEqual(replyCases.map(reply => reply.expected))
+    expect(renderedReplies.every(text => text.length <= 2000)).toBe(true)
+    expect(replyItems).toHaveLength(replyCases.length)
+    for (const item of replyItems) expect(item.querySelector('[data-webmention-source]')?.textContent).toContain('View original')
+    expect.soft(dom.querySelector('#summary [data-webmention-copy]')?.textContent).toBe('a'.repeat(1998))
+    expect(dom.querySelectorAll('#bounded-replies script')).toHaveLength(0)
+    expect.soft([...dom.querySelectorAll('#dates [data-webmention-item]')].map(reply => reply.querySelector('time')?.getAttribute('datetime') ?? null))
+      .toEqual(dateCases.map(date => date.expected))
   } finally {
     rmSync(root, { recursive: true, force: true })
   }
