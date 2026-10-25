@@ -63,6 +63,8 @@ import ProjectContextExhibit from '@/components/molecules/ProjectContextExhibit.
 
 import ProjectClientMasthead from '@/components/molecules/ProjectClientMasthead.astro'
 
+import ProjectSynthesis from '@/components/molecules/ProjectSynthesis.astro'
+
 import contextImage from './cover-commerce-system.webp'
 
 import beforeImage from './before.webp'
@@ -178,6 +180,19 @@ The challenge was to make a complex B2B platform feel straightforward to use. Cu
 
 I approached the storefront as a connected product: the design, customer journey, and underlying services all needed to work together. My focus was on carrying that consistency across the experience while giving the team reusable foundations for future work.
 
+<ProjectSynthesis
+  headingId="why-this-experience-matters"
+  introduction="These two projects broadened my commerce experience in complementary ways."
+  perspectives={[
+    { name: 'Marcone', description: 'Centered on modernizing a storefront and improving performance and accessibility.' },
+    { name: 'F.W. Webb', description: 'Added deeper work on purchasing rules, account permissions, product discovery, and content integration.' }
+  ]}
+  takeaway={{
+    lead: 'Together, they reflect the frontend work I enjoy most:',
+    emphasis: 'making complex systems understandable for customers and maintainable for the teams building them.'
+  }}
+>
+
 ## Why this experience matters
 
-These two projects broadened my commerce experience in complementary ways. Marcone centered on modernizing a storefront and improving performance and accessibility. F.W. Webb added deeper work on purchasing rules, account permissions, product discovery, and content integration. Together, they reflect the frontend work I enjoy most: making complex systems understandable for customers and maintainable for the teams building them.
+</ProjectSynthesis>

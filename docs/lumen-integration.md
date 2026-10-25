@@ -211,6 +211,10 @@ enlarged text sizes. No new client controller is introduced.
   Client masthead separates the client name from its descriptive subtitle without changing
   the full accessible heading or its generated fragment. The sequence label and fine rule
   introduce each client chapter. It uses shared semantic tokens and no client runtime.
+- `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
+  heading slot, and an open list of client perspectives. Container queries stack the
+  perspectives before the shared takeaway. The original heading remains in chapter
+  navigation; internal perspective labels do not add navigation entries or client code.
 - Project timeline endpoints use separate native `time` elements. Hero-led project
   facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled

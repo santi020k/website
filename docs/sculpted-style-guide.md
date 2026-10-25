@@ -1027,6 +1027,19 @@ text to wrap, including at enlarged text sizes. Keep one authored Markdown h2 wi
 for the name and subtitle; retain the colon as screen-reader text. This preserves the full
 heading, chapter index, and existing fragment without duplicate headings or client code.
 
+### Synthesis spread closing reflection
+
+Close a multi-client case study with an open composition: a small What carries forward
+label and fine rule, the original heading at 2rem and weight 500, then its introduction.
+Arrange the client perspectives in two equal columns with 1.75rem gaps. Give each a fine
+top rule, a 1.125rem name, and 0.9375rem explanatory copy. A full-width rule introduces
+the shared takeaway at 1.125rem, with its key phrase at weight 500.
+
+Below 35rem of available width, stack the perspectives, reduce the heading to 1.875rem,
+and use 1rem introduction and takeaway text. Preserve all original claims and the
+closing heading's fragment. Keep this composition free of another card surface or
+client script; perspective labels do not create additional navigation chapters.
+
 ### Destination brief project hero actions
 
 Use one soft brand Lumen Card for the named external destination. Pair a quiet context

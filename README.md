@@ -138,6 +138,9 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   full text and punctuation so chapter navigation and existing fragments stay stable.
   The desktop contents rail uses Captioned chapters for `Name: description` headings,
   deriving its two-line labels and named overview links from that same heading text.
+- **Closing reflection:** `ProjectSynthesis` uses Synthesis spread to pair existing client
+  perspectives with one shared takeaway. Keep the authored Markdown heading in its slot
+  so the original closing fragment remains part of chapter navigation.
 - **Product previews:** annotated application captures complement project artwork. Follow the
   [preview provenance guide](docs/editorial/project-previews.md) and
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.

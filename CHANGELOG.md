@@ -244,6 +244,8 @@
 
 - Apply Captioned chapters to project contents rail labels. Separate client names from their descriptive subtitles and name the chapter overview links while preserving native disclosures, section tracking, and existing destinations.
 
+- Apply Synthesis spread to the Smith Commerce closing reflection. Pair the existing client perspectives with a shared takeaway while preserving the closing heading, original claims, and chapter navigation.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
