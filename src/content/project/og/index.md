@@ -33,6 +33,13 @@ coverImage:
   logoSurface: "dark"
   alt: "OG logo on a dark green geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Image generation"
+    description: "Typed configuration with Sharp and Satori renderers"
+  - label: "Build efficiency"
+    description: "Content-aware caching and bounded parallel work"
+  - label: "Output safety"
+    description: "Tracked cleanup and repeatable CI verification"
 ---
 
 ## Open Graph generation without surrendering the design

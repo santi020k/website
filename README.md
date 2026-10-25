@@ -116,6 +116,9 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   the work. Edit `startHere.order`, `label`, and `reason` in post frontmatter; drafts and scheduled
   posts are excluded. Recent writing shows the four newest remaining posts, so no article appears
   in both homepage sections.
+- **Project focus:** every project supplies two or three `focusAreas` entries with a short
+  `label` and `description`. These form the sidebar's Scope ledger; summarize the actual work
+  in the case study instead of repeating a generic project-type statement or technology list.
 - **Product previews:** annotated application captures complement project artwork. Follow the
   [preview provenance guide](docs/editorial/project-previews.md) and
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.

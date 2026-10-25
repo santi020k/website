@@ -173,7 +173,8 @@ enlarged text sizes. No new client controller is introduced.
 - Project timeline endpoints use separate native `time` elements. Hero-led project
   facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled
-  Lumen `Card` for its Margin note composition. `ProjectOutcomesCard` composes
+  Lumen `Card` and a semantic definition list for its Scope ledger composition.
+  Its labeled work areas come from validated project frontmatter, without client code. `ProjectOutcomesCard` composes
   Impact rows with `Card`, `Icon`, and semantic lists, keeping original claims accessible.
   These project sidebar cards share small purple labels, right-aligned icons, and plain
   surfaces; their content compositions remain distinct.

@@ -36,6 +36,13 @@ caseStudy:
   problem: "Several applications needed the same carefully reviewed authentication policy without sharing accounts, credentials, or operational ownership."
   approach: "Extract the protocol policy into a narrow Better Auth adapter while keeping data, migrations, secrets, origins, cookies, email delivery, authorization, and recovery inside each consumer."
   outcome: "A public experimental package now provides a consistent authentication foundation for single-owner and multi-user applications, with explicit adoption and production-readiness checks."
+focusAreas:
+  - label: "Sign-in policy"
+    description: "Email codes and passkeys for Hono applications"
+  - label: "Identity boundaries"
+    description: "Separate accounts, sessions, and data for each product"
+  - label: "Adoption gates"
+    description: "Tests and recovery checks before production use"
 ---
 
 ## Reusing authentication policy without sharing accounts

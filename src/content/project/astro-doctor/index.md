@@ -32,6 +32,13 @@ coverImage:
   logoSurface: "dark"
   alt: "Astro Doctor orange logo on a dark geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Astro diagnostics"
+    description: "Checks for performance, accessibility, and maintainability"
+  - label: "Workflow support"
+    description: "Consistent findings in the CLI, editor, and CI"
+  - label: "Team adoption"
+    description: "Rule explanations, documentation, and agent skills"
 ---
 
 ## Building a health check for Astro projects

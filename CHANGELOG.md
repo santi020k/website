@@ -216,6 +216,8 @@
 
 - Use Hero-only stack on project detail pages: retain the complete Progressive stack in the hero, remove the repeated Core stack sidebar card, and keep Focus and Outcomes together. Preserve existing stack fragments, technology destinations, and keyboard and no-JavaScript disclosure behavior.
 
+- Use Scope ledger for project Focus cards, with authored work areas for every project, semantic label and description rows, and responsive spacing. Replace repeated type-based summaries while preserving the Focus fragment and passive reading behavior.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

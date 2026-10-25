@@ -4,7 +4,6 @@ import {
   getProjectDateRangeLabel,
   getProjectDurationLabel,
   getProjectFeaturedLabel,
-  getProjectFocusLabel,
   getProjectNotesLabel,
   getProjectRelatedHeading,
   getProjectScopeHighlights,
@@ -148,22 +147,6 @@ describe('getProjectRelatedHeading', () => {
 
   test('returns work heading for undefined', () => {
     expect(getProjectRelatedHeading(undefined)).toBe('More work in a similar lane.')
-  })
-})
-
-// ─── getProjectFocusLabel ─────────────────────────────────────────────────────
-
-describe('getProjectFocusLabel', () => {
-  test('returns the personal focus label', () => {
-    expect(getProjectFocusLabel('personal')).toContain('Open source')
-  })
-
-  test('returns the experimental focus label', () => {
-    expect(getProjectFocusLabel('experimental')).toContain('Experiments')
-  })
-
-  test('returns the professional focus label for undefined', () => {
-    expect(getProjectFocusLabel(undefined)).toContain('Architecture')
   })
 })
 

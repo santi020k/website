@@ -33,6 +33,13 @@ coverImage:
   logoAspect: "wide"
   alt: "Datagran logo on a charcoal and neon green geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Modernization"
+    description: "Gradual migration from jQuery to React"
+  - label: "Product interfaces"
+    description: "Dashboards and marketing workflows"
+  - label: "Quality"
+    description: "Typed components and testing"
 ---
 
 ## Modernizing Datagran's front-end architecture

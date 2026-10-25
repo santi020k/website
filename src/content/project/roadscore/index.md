@@ -28,6 +28,13 @@ coverImage:
   logoSurface: "dark"
   alt: "RoadScore logo on a charcoal geometric cover with orange accents"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Shared play"
+    description: "Bilingual cards and scoring on one passenger-operated phone"
+  - label: "Flexible trips"
+    description: "Cooperative or competitive sessions with configurable goals"
+  - label: "Private library"
+    description: "Offline decks, favorites, and an on-device trip journal"
 ---
 
 ## Turning the miles into a game

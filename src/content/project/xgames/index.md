@@ -29,6 +29,13 @@ coverImage:
   logoSurface: "light"
   alt: "X Games vertical logo on a branded red, charcoal, and ivory geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Live events"
+    description: "CMS-driven stream access and regional routing"
+  - label: "Advertising"
+    description: "Responsive Google Ad Manager slots across route changes"
+  - label: "Editorial tools"
+    description: "Sanity schemas for content and runtime configuration"
 ---
 
 ## Building the official X Games digital platform

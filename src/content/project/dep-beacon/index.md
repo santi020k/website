@@ -33,6 +33,13 @@ coverImage:
   logoSurface: "dark"
   alt: "Dep Beacon logo on a dark blue geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Dependency context"
+    description: "Package versions, update targets, and workspace catalogs"
+  - label: "Editor feedback"
+    description: "Diagnostics and update actions in VS Code and Zed"
+  - label: "Security signals"
+    description: "OSV advisories alongside manifest analysis"
 ---
 
 ## Building dependency signals for VS Code and Zed

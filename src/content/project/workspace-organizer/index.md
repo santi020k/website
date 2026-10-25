@@ -25,6 +25,13 @@ coverImage:
   logoSurface: "dark"
   alt: "Workspace Organizer logo on an indigo geometric cover with blue accents"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Window groups"
+    description: "Focused spaces for individual application windows"
+  - label: "Context recovery"
+    description: "Display-aware layouts and fast workspace switching"
+  - label: "Local control"
+    description: "Private data, explainable suggestions, and automation"
 ---
 
 ## Organizing contexts at the window level

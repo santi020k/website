@@ -24,6 +24,13 @@ coverImage:
   logoSurface: "dark"
   alt: "Aaronmgz nautical logo on a midnight blue geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Family site"
+    description: "A nautical home and public message board"
+  - label: "Event experience"
+    description: "Invitations, RSVPs, and guest tools"
+  - label: "Shared foundation"
+    description: "Typed API, admin tools, and bilingual content"
 ---
 
 ## Building a family platform that can grow
