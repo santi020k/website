@@ -112,6 +112,20 @@
   container: reading-layout / inline-size;
 }
 
+/* One interval separates the opening from the reading content. Avoid adding a
+   flex gap, body padding, and prose padding to the same transition. */
+[data-reading-body] {
+  padding-block-start: 3rem;
+}
+
+@container reading-layout (width >= 40rem) {
+  [data-reading-body] { padding-block-start: 4rem; }
+}
+
+@container reading-layout (width >= 56rem) {
+  [data-reading-body] { padding-block-start: 5rem; }
+}
+
 [data-project-desktop-toc] {
   display: none;
 }

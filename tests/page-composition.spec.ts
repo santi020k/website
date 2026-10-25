@@ -19,6 +19,67 @@ const sectionRoutes = [
   '/blog/series/building-a-production-nextjs-app/'
 ]
 
+for (const theme of ['light', 'dark'] as const) {
+  test(`mobile profile statistics keep the figure beside readable copy in ${theme}`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
+    for (const route of ['/work/', '/about/']) {
+      await page.setViewportSize({ width: 390, height: 1000 })
+      await page.goto(route)
+      await page.evaluate(() => document.fonts.ready)
+      const stats = page.locator('#career-at-a-glance, #about-profile-highlights')
+
+      expect(requireValue(await stats.boundingBox()).height).toBeLessThan(600)
+      for (const stat of await stats.locator('article').all()) {
+        const figure = requireValue(await stat.locator(':scope > p').boundingBox())
+        const copy = requireValue(await stat.locator(':scope > div').boundingBox())
+
+        expect(copy.x).toBeGreaterThan(figure.x + figure.width)
+        expect(copy.y).toBeCloseTo(figure.y, 0)
+      }
+      for (const { width, size } of [{ width: 320, size: 100 }, { width: 390, size: 200 }]) {
+        await page.setViewportSize({ width, height: 1000 })
+        await page.evaluate(async textSize => {
+          document.documentElement.style.fontSize = `${textSize}%`
+          await document.fonts.ready
+        }, size)
+        for (const stat of await stats.locator('article').all()) {
+          const row = requireValue(await stat.boundingBox())
+          const figure = requireValue(await stat.locator(':scope > p').boundingBox())
+          const copy = requireValue(await stat.locator(':scope > div').boundingBox())
+
+          expect(copy.y).toBeGreaterThan(figure.y + figure.height)
+          expect(copy.width).toBeCloseTo(row.width, 0)
+        }
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+      }
+    }
+  })
+}
+
+test('reading introductions use one responsive interval after the hero', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  for (const route of ['/portfolio/smith-commerce/', '/blog/why-developer-experience-work-should-be-measured-like-product-work/']) {
+    await page.goto(route)
+    for (const width of [320, 390, 768, 1440]) {
+      for (const size of [100, 200]) {
+        await page.setViewportSize({ width, height: 1000 })
+        await page.evaluate(async textSize => {
+          document.documentElement.style.fontSize = `${textSize}%`
+          await document.fonts.ready
+        }, size)
+        const opening = requireValue(await page.locator('[data-project-opening], [data-article-opening]').boundingBox())
+        const firstContent = page.locator('[data-project-mobile-toc]:visible, [data-content-notes]').first()
+        const content = requireValue(await firstContent.boundingBox())
+        const interval = (content.y - opening.y - opening.height) / (size / 100 * 16)
+
+        // One 3–5rem interval; parent gaps or extra prose insets must not accumulate.
+        expect(interval, `${route}, ${width}px, ${size}%`).toBeGreaterThanOrEqual(3 - 0.01)
+        expect(interval, `${route}, ${width}px, ${size}%`).toBeLessThanOrEqual(5 + 0.01)
+      }
+    }
+  }
+})
+
 for (const width of [390, 768, 1440]) {
   test(`section introductions keep one spacing interval at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 })

@@ -488,6 +488,8 @@
 
 - Align Projects, Portfolio, Blog, topic archives, and technology archives with the shared responsive section spacing. Remove duplicated topic navigation and unused mobile statistic prefix space and reserve tablet clearance between the footer version link and floating Top control. Preserve the approved card designs and footer composition.
 
+- Refine mobile card integration with compact About and Work statistic rails, one responsive hero-to-content interval on articles and projects, and narrower chapter-navigation margins that give long titles more room. Preserve full copy, enlarged-text reflow, desktop compositions, and the approved footer.
+
 ## 4.0.0
 
 ### Major Changes

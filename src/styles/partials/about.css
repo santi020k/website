@@ -135,8 +135,15 @@
   .about-stat-value { font-size: 3.25rem; }
 }
 @container about-page (width < 31.25rem) {
-  .about-stats .about-stat { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
-  .about-stat [data-about-stat-copy] { padding-left: 1.125rem; }
+  .about-stats .about-stat { grid-template-columns: 6.5rem minmax(0, 1fr); align-items: start; gap: 1rem; padding-block: 1.5rem; }
+  .about-stat-value { font-size: 2.75rem; }
+  .about-stat-value > span { display: block; margin-top: 0.375rem; font-size: 0.875rem; }
+  .about-stat [data-about-stat-copy] { padding-left: 1rem; }
+  .about-stat h2 { font-size: 1.125rem; }
+}
+@container about-page (width < 20rem) {
+  .about-stats .about-stat { grid-template-columns: minmax(0, 1fr); }
+  .about-stat-value > span { display: inline-block; margin-top: 0; }
 }
 @container about-page (width < 14rem) {
   .about-stat-value { font-size: min(3.25rem, 22cqi); }

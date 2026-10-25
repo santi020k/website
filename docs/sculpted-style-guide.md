@@ -206,8 +206,10 @@ label, and `aria-current="step"`; other rows use “In this series”.
 
 Keep the series introduction, progress, full-series link, and adjacent-article links
 in their existing section. Chapter links navigate natively without JavaScript.
-Below 20rem of panel width, stack the number above the copy, reduce insets to 1rem,
-and use 1rem titles so enlarged text has the whole column. Retain the inset focus
+Below 28rem of panel width, use a 2rem number rail, a 1rem gap, and 1.25rem insets
+to give mobile titles more room. Below 20rem, reduce the rail to 1.75rem and the
+insets and titles to 1rem. Keep two-digit numbers together with tabular figures.
+Below 16rem, stack the number above the copy so enlarged text has the whole column. Retain the inset focus
 outline on clipped first and last rows. Hover and keyboard focus use the same
 background and text emphasis, without moving content.
 
@@ -519,8 +521,10 @@ configuration and preserve the authored team and delivery metrics. The section h
 an accessible name and each article is named by its level-two heading.
 
 Use About's semantic accent in both themes, 4rem figures, and a 0.65fr / 1fr split.
-Reduce figures to 3.25rem below 53.125rem of container width, then stack the figure
-above its reading column below 31.25rem. At enlarged text on a narrow phone, let the
+Reduce figures to 3.25rem below 53.125rem of container width. Below 31.25rem, use a
+compact 6.5rem figure column, 2.75rem figures with their units below, 1.125rem labels,
+and 1.5rem row insets. Below 20rem, stack the figure above the copy and put its unit
+back on the same line. At enlarged text on a narrow phone, let the
 figure scale with the container. These passive highlights add no links or animation.
 
 ### Margin brief About working modes
@@ -704,7 +708,9 @@ rows without adding nested surfaces. Preserve the collection-derived professiona
 role and technology counts, along with the authored team and release metrics.
 
 Use the Work intro container: below 53.125rem, show four full-width rows with a
-0.6fr / 1fr split; below 27.5rem, move each figure above its copy. Scale the figure
+0.6fr / 1fr split. Below 27.5rem, use a compact 5.75rem figure column, 2.5rem figures,
+a 1rem gap, and 1.5rem row insets. Below 17.5rem, move each figure above its copy
+to preserve a comfortable reading width. Scale the figure
 with the container below 14rem for enlarged text. Use semantic light and dark
 accents, level-two headings to name the articles, and no links or animation.
 
@@ -1422,6 +1428,11 @@ Statistics keep their divider and cards in one group so the page does not insert
 another gap between them. Preserve the separate spacing contracts of Home, About,
 Work, Travel, History, and the reading templates.
 
+Article and project templates use one hero-to-body interval: 3rem on phones, 4rem
+when the reading container reaches 40rem, and 5rem from 56rem. The body owns this
+padding; do not add a parent flex gap or a second top inset on the article notes.
+Keep the article notes at the start of their column in the desktop reading grid.
+
 Stacked section headers keep two generous title and description columns. When a
 browse action is present, place it below the description instead of squeezing the
 copy into a third column. DX uses this arrangement for its working definition and
@@ -1526,7 +1537,8 @@ rather than an implicit `auto` track, so one long word or control cannot widen t
   Developer Experience card grids. The regular gallery's featured project pairs image and copy
   only while its card has 44rem.
 - Work's intro frame is a `work-intro` container: the hero stacks below 44rem, the statistics
-  form one column below 53.125rem, with figures above copy below 27.5rem. Its section summaries wrap below their heading.
+  form one column below 53.125rem, use a compact figure rail below 27.5rem, and stack
+  figures above copy below 17.5rem. Its section summaries wrap below their heading.
   Below 14rem the page also tightens its frame inset and scales the headline to keep short words whole.
 - Speaking timelines move their date rail above the card below 32.5rem. Career dates move above
   the folio below 36.25rem, with tighter insets below 20rem. Career rows keep their
