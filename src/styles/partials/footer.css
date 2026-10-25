@@ -254,6 +254,10 @@
 @media (min-width: 40rem) {
   .maker-footer-version { margin-right: 4.25rem; }
 }
+/* The open footer has no inner sheet inset; reserve that missing clearance too. */
+@media (40rem <= width < 64rem) {
+  .maker-footer[data-variant="default"] .maker-footer-version { margin-right: 6rem; }
+}
 
 @media (min-width: 64rem) {
   .maker-footer-version { margin-right: clamp(0px, calc(7.5rem - (100vw - 72rem) / 2), 6rem); }

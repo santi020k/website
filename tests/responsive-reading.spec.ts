@@ -501,26 +501,31 @@ for (const theme of ['light', 'dark'] as const) {
     test('the floating Top control leaves the footer source link clickable', async ({ page }) => {
       await page.goto('/blog/')
 
-      for (const width of [375, 768, 1024, 1280, 1440]) {
+      for (const width of [375, 640, 768, 820, 1024, 1280, 1440]) {
         await page.setViewportSize({ width, height: 900 })
-        await settleLayout(page)
-        await page.evaluate(() => {
-          scrollTo(0, document.documentElement.scrollHeight)
-        })
-        await expect(page.locator('#back-to-top')).toHaveClass(/is-visible/u)
+        for (const textSize of [100, 200]) {
+          await page.evaluate(size => {
+            document.documentElement.style.fontSize = `${size}%`
+          }, textSize)
+          await settleLayout(page)
+          await page.evaluate(() => {
+            scrollTo(0, document.documentElement.scrollHeight)
+          })
+          await expect(page.locator('#back-to-top')).toHaveClass(/is-visible/u)
 
-        const source = page.getByRole('link', { name: /Website source/u })
+          const source = page.getByRole('link', { name: /Website source/u })
 
-        await source.click({ trial: true })
-        const clear = await source.evaluate(element => {
-          const link = element.getBoundingClientRect()
-          const top = document.querySelector('#back-to-top')?.getBoundingClientRect()
+          await source.click({ trial: true })
+          const clear = await source.evaluate(element => {
+            const link = element.getBoundingClientRect()
+            const top = document.querySelector('#back-to-top')?.getBoundingClientRect()
 
-          return top !== undefined && (link.right <= top.left || link.left >= top.right ||
-            link.bottom <= top.top || link.top >= top.bottom)
-        })
+            return top !== undefined && (link.right <= top.left || link.left >= top.right ||
+              link.bottom <= top.top || link.top >= top.bottom)
+          })
 
-        expect(clear).toBe(true)
+          expect(clear, `${width}px at ${textSize}% text`).toBe(true)
+        }
       }
     })
 

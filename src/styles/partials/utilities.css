@@ -67,6 +67,19 @@
   }
 }
 
+/* Standard section rhythm, including catalogs that do not need PageSection's grid. */
+@utility page-section-space {
+  --section-space: 4.5rem;
+  padding-top: var(--section-space);
+
+  .page-flow > & {
+    padding-top: max(0px, calc(var(--section-space) - var(--page-flow-gap)));
+  }
+
+  @media (width >= 40rem) { --section-space: 6rem; }
+  @media (width >= 64rem) { --section-space: 7rem; }
+}
+
 @utility section-copy {
   @apply text-base/7 text-ink-soft sm:text-lg/8;
 }

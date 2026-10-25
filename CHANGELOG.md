@@ -482,6 +482,8 @@
 
 - Keep article dates, project timelines and durations, resumes, feeds, sitemap metadata, and social-card scheduling consistent across build timezones while preserving explicit timestamp offsets.
 
+- Align Projects, Portfolio, Blog, topic archives, and technology archives with the shared responsive section spacing. Remove duplicated topic navigation and unused mobile statistic prefix space and reserve tablet clearance between the footer version link and floating Top control. Preserve the approved card designs and footer composition.
+
 ## 4.0.0
 
 ### Major Changes

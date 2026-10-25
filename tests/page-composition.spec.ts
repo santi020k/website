@@ -3,7 +3,21 @@ import { expect, test } from '@playwright/test'
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import { requireValue } from './helpers/assertions'
 
-const sectionRoutes = ['/speaking/', '/developer-experience/', '/technologies/', '/blog/', '/blog/series/', '/blog/series/building-a-production-nextjs-app/']
+const sectionRoutes = [
+  '/projects/',
+  '/portfolio/',
+  '/speaking/',
+  '/developer-experience/',
+  '/technologies/',
+  '/technologies/react-js/',
+  '/technologies/3rd-party-apis/',
+  '/blog/',
+  '/blog/2/',
+  '/blog/tags/developer-experience/',
+  '/blog/tags/developer-experience/2/',
+  '/blog/series/',
+  '/blog/series/building-a-production-nextjs-app/'
+]
 
 for (const width of [390, 768, 1440]) {
   test(`section introductions keep one spacing interval at ${width}px`, async ({ page }) => {
@@ -12,9 +26,9 @@ for (const width of [390, 768, 1440]) {
     for (const route of sectionRoutes) {
       await page.goto(route)
       await page.evaluate(() => document.fonts.ready)
-      const spacing = await page.locator('main > [data-page-section]').evaluateAll(sections => sections.flatMap(section => {
+      const spacing = await page.locator('main > .page-section-space').evaluateAll(sections => sections.flatMap(section => {
         const previous = section.previousElementSibling
-        const content = section.querySelector('[data-page-section-grid]')
+        const content = section.firstElementChild
 
         if (!previous || !content) return []
         const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)

@@ -196,13 +196,36 @@ for (const theme of ['light', 'dark'] as const) {
 
       await pill.focus()
       const clipped = await pill.evaluate(element => {
-        const row = element.parentElement?.getBoundingClientRect()
         const box = element.getBoundingClientRect()
         const style = getComputedStyle(element)
         const extent = parseFloat(style.outlineWidth) + parseFloat(style.outlineOffset)
+        const outline = {
+          left: box.left - extent,
+          right: box.right + extent,
+          top: box.top - extent,
+          bottom: box.bottom + extent
+        }
 
-        return style.outlineStyle === 'none' || parseFloat(style.outlineWidth) < 2 ||
-          !row || box.top - extent < row.top - 1 || box.bottom + extent > row.bottom + 1
+        if (style.outlineStyle === 'none' || parseFloat(style.outlineWidth) < 2 ||
+          outline.left < 0 || outline.right > innerWidth ||
+          outline.top < 0 || outline.bottom > innerHeight) return true
+
+        // Wrapping topic rows allow visible overflow. Only a clipping ancestor
+        // can cut off an outline extending outside the row's content box.
+        let ancestor = element.parentElement
+
+        while (ancestor) {
+          const bounds = ancestor.getBoundingClientRect()
+          const ancestorStyle = getComputedStyle(ancestor)
+          const clips = ['hidden', 'clip', 'auto', 'scroll']
+
+          if (clips.includes(ancestorStyle.overflowX) &&
+            (outline.left < bounds.left - 1 || outline.right > bounds.right + 1)) return true
+          if (clips.includes(ancestorStyle.overflowY) &&
+            (outline.top < bounds.top - 1 || outline.bottom > bounds.bottom + 1)) return true
+          ancestor = ancestor.parentElement
+        }
+        return false
       })
 
       expect(clipped).toBe(false)

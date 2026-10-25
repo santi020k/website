@@ -4,7 +4,6 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import SculptedTag from '@/components/atoms/SculptedTag.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
@@ -44,7 +43,6 @@ const { page, tag, totalTopics } = Astro.props
 const allPosts = await getCachedPosts()
 const allTags = getAllTags(allPosts)
 const topTags = getBlogBrowseTags(allTags)
-const relatedTags = topTags.filter(([t]) => t !== tag).slice(0, 6)
 const postCount = page.total
 const isFirstPage = page.currentPage === 1
 const archiveDescription = `Articles, guides, and personal notes tagged ${tag}.`
@@ -75,7 +73,7 @@ mainClass="remaining-pages"
     description={`Filtered to ${postCount} ${postCount === 1 ? 'post' : 'posts'} connected by the #${tag} topic.`}
     eyebrow="Topic archive"
     gradientText="All posts."
-    metaItems={['Filtered archive', 'Related topics', 'Latest first']}
+    metaItems={['Filtered archive', 'Browse by topic', 'Latest first']}
     title={`#${tag}`}
   >
     <ButtonLink href="/blog/tags/" showArrow variant="secondary">
@@ -86,34 +84,8 @@ mainClass="remaining-pages"
     </ButtonLink>
   </PageHero>
 
-  {relatedTags.length > 0 && (
-    <nav
-      aria-labelledby="related-topics-heading"
-      class="section-container-wide flex flex-wrap items-center gap-3 pt-2"
-      data-related-topics
-    >
-      <p class="shrink-0 section-label" id="related-topics-heading">Related topics</p>
-      <ul class="
-        @container/sculpted-tags flex max-w-full min-w-0 flex-1 basis-full
-        flex-wrap gap-2.5
-        sm:basis-96
-      "
-      >
-        {relatedTags.map(([topic, count]) => (
-          <li class="max-w-full min-w-0">
-            <SculptedTag count={count} href={getTagPath(topic)} label={topic} />
-          </li>
-        ))}
-      </ul>
-    </nav>
-  )}
-
   <section
-    class="
-      section-container-wide pt-20
-      sm:pt-24
-      lg:pt-28
-    "
+    class="section-container-wide page-section-space"
   >
     <SectionHeader
       description={isFirstPage ?

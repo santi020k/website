@@ -1395,13 +1395,18 @@ Use the `footer` container to stack the invitation below 48rem and place the con
 in one column below 32rem. The large desktop action becomes a horizontal contact strip on
 smaller screens. Reduce the heading scale below 21rem and 16rem; omit its decorative arrow
 at the narrowest width. Keep full text visible at 200% text size, and preserve the fixed
-Back to Top control's clearance at the end of the colophon.
+Back to Top control's clearance at the end of the colophon, including tablet widths
+where the open footer has less horizontal inset than the compact sheet.
 
 ### Page composition around the cards
 
 The Base layout exposes its responsive flow gap through `--page-flow-gap`. A direct
-`PageSection` counts that existing gap toward its total spacing: 4.5rem on phones,
-6rem on tablets, and 7rem on desktop. Nested sections retain their own spacing.
+`PageSection` and the manual Projects, Portfolio, Blog, topic, and technology archive
+sections share `page-section-space`. This counts the existing flow gap toward one
+spacing interval: 4.5rem on phones, 6rem on tablets, and 7rem on desktop. Nested
+sections retain the full interval. Do not add another top margin or padding to these
+sections. Topic archives keep one topic filter beside the results rather than
+repeating the same destinations between the hero and article section.
 Statistics keep their divider and cards in one group so the page does not insert
 another gap between them. Preserve the separate spacing contracts of Home, About,
 Work, Travel, History, and the reading templates.
@@ -1421,6 +1426,8 @@ introduction. Technology groups keep one category margin and use three link colu
 only when the index has at least 64rem; two and one columns preserve reading space
 as the container narrows. Statistics must declare the actual two, three, or four
 columns, including conditional archive statistics, instead of leaving empty tracks.
+On phones, statistics omit the empty prefix line so values align with their icons;
+visible qualifiers such as “Since” retain their own line.
 
 Technology archives reuse the approved Refined editorial project gallery from
 Projects, including complete card descriptions, open surfaces, plain technology

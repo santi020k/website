@@ -85,11 +85,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
 
   <section
     aria-label={`${showcaseProjects.length} personal projects`}
-    class="
-      section-container-wide scroll-mt-28 pt-12
-      sm:pt-16
-      lg:pt-20
-    "
+    class="section-container-wide scroll-mt-28 page-section-space"
     id="projects"
   >
     <SectionHeader
@@ -114,11 +110,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
   {purposeGroups.map(group => (
     <section
       aria-label={group.title}
-      class="
-        section-container-wide mt-12 scroll-mt-28 space-y-8
-        sm:mt-16
-        lg:mt-20
-      "
+      class="section-container-wide scroll-mt-28 space-y-8 page-section-space"
       data-project-purpose-group={group.id}
       id={group.id}
       tabindex="-1"
@@ -132,12 +124,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
     </section>
   ))}
 
-  <section class="
-    section-container-wide space-y-8 pt-20
-    sm:pt-24
-    lg:pt-28
-  "
-  >
+  <section class="section-container-wide space-y-8 page-section-space">
     <SectionHeader
       description="Trusted foundations and tools I’m actively exploring across personal projects, open source, developer experience, and testing."
       eyebrow="Technology map"
