@@ -605,7 +605,31 @@
   overflow: visible;
 }
 [data-technology-index] { container: technology-index / inline-size; }
-[data-technology-filter-row] { padding: 0 0 2rem; }
+[data-technology-filter-row] { --technology-search-accent: hsl(var(--brand)); padding-bottom: 2rem; }
+[data-theme='dark'] [data-technology-filter-row] { --technology-search-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink))); }
+[data-technology-search-eyebrow] { margin: 0 0 1rem; color: var(--technology-search-accent); font-size: .6875rem; line-height: 1.65; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; }
+[data-technology-search-dock] { display: grid; grid-template-columns: minmax(0, 1fr) 8.125rem; border: 1px solid hsl(var(--line)); border-radius: .5rem 1.875rem .5rem 1.875rem; background: hsl(var(--surface-muted)); }
+[data-technology-search-field] { display: grid; grid-template-columns: 2.625rem minmax(0, 1fr); align-items: center; gap: .875rem; min-width: 0; padding: 1.125rem 1.375rem; }
+[data-technology-search-field] > div { min-width: 0; }
+[data-technology-search-mark] { display: grid; place-items: center; align-self: stretch; padding-right: .875rem; border-right: 1px solid hsl(var(--line)); color: var(--technology-search-accent); }
+[data-technology-search-field] label { display: block; color: var(--technology-search-accent); font-size: .75rem; font-weight: 500; line-height: 1.6; overflow-wrap: anywhere; }
+[data-technology-search-input] { display: block; width: 100%; min-width: 0; max-width: 100%; height: auto; min-height: 2.75rem; padding: .4375rem 0; border: 0; border-radius: 0; background: hsl(var(--surface-muted)); box-shadow: none; color: hsl(var(--ink)); font: 400 1.3125rem/1.5 var(--font-sans); letter-spacing: -.02em; }
+[data-technology-search-input]::placeholder { color: hsl(var(--ink-soft)); opacity: 1; }
+[data-technology-search-input]:focus-visible { outline: 2px solid var(--technology-search-accent); outline-offset: 4px; box-shadow: none; }
+[data-technology-search-counter] { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; min-width: 0; margin: 0; padding: 1rem .75rem; border-left: 1px solid hsl(var(--line)); border-radius: 0 1.8125rem .4375rem 0; background: hsl(var(--surface)); color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.6; text-align: center; overflow-wrap: anywhere; }
+[data-technology-result-count] { color: hsl(var(--ink)); font-size: 2rem; line-height: 1.1; font-weight: 500; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
+[data-technology-search-note] { max-width: 35.625rem; margin: 1rem 0 0 1.375rem; color: hsl(var(--ink-soft)); font-size: .8125rem; line-height: 1.75; }
+@container technology-index (width < 34rem) {
+  [data-technology-search-dock] { grid-template-columns: minmax(0, 1fr); }
+  [data-technology-search-counter] { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; gap: .5rem; padding: .75rem 1.375rem; border-left: 0; border-top: 1px solid hsl(var(--line)); border-radius: 0 0 .4375rem 1.8125rem; text-align: left; }
+  [data-technology-result-count] { font-size: 1.25rem; }
+  [data-technology-search-note] { margin-left: 0; }
+}
+@container technology-index (width < 22rem) {
+  [data-technology-search-field] { grid-template-columns: minmax(0, 1fr); gap: .625rem; padding: 1.125rem; }
+  [data-technology-search-mark] { display: none; }
+  [data-technology-search-input] { font-size: 1.0625rem; }
+}
 [data-technology-groups] { border-top: 1px solid hsl(var(--line)); }
 [data-technology-group] { padding-block: 1.5rem; border-bottom: 1px solid hsl(var(--line)); }
 [data-technology-group]:not([hidden]) { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 2rem; }
@@ -647,11 +671,6 @@
 }
 @container technology-index (width < 18rem) {
   [data-technology-title] { font-size: 1.5rem; }
-}
-@media (width >= 64rem) {
-  @container technology-index (width >= 38rem) {
-    [data-technology-filter-row] { grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr); align-items: end; }
-  }
 }
 
 /* Closing folio gives the technology index a distinct final invitation. */

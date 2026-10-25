@@ -192,6 +192,8 @@
 
 - Apply Search folio to the Blog topics search and sort panel, with a sculpted frame, prominent search field, and grouped sort controls. Preserve query normalization, sorting, topic links, live result counts, empty-state feedback, and keyboard focus across responsive layouts.
 
+- Apply Search dock to the technology index search panel, with an inset field and a separate live count compartment. Preserve filtering, group counts, empty-state recovery, native technology links, and complete screen-reader announcements across responsive layouts.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

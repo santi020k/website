@@ -96,6 +96,15 @@ and Work technology links share this treatment without changing other Pill consu
 The existing Astro navigation controller keeps topic selection, focus, and page position intact;
 the layout wraps on mobile and desktop and requires no additional client JavaScript.
 
+## Technology index search
+
+The **Search dock** composition keeps the existing Lumen `Input` and technology
+controller inside the catalog's Lumen `Card`. Its native label, decorative `Icon`,
+and live count form one shaped search surface. The count and unit update inside an
+atomic live region, retaining the full existing result sentence for screen readers.
+The count compartment moves below the input on narrow containers. The original
+group filtering, group counts, empty state, and project links remain authoritative.
+
 ## Blog topics search and sort
 
 The **Search folio** panel composes an unstyled Lumen `Card`, a labeled `Input`,

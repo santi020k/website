@@ -73,45 +73,39 @@ const meta = {
 
     <Card class="p-0" data-technology-catalog variant="muted">
       <div data-technology-index>
-        <div
-          class="
-            grid grid-cols-1 gap-5 p-5
-            sm:p-6
-            lg:p-7
-          "
-          data-technology-filter-row
-        >
-          <div class="max-w-xl space-y-2">
-            <p class="
-              section-label text-brand
-              dark:text-accent
-            "
-            >Stack snapshot
-            </p>
-            <p class="text-sm/6 text-ink-soft">
-              Search the full index, then follow any technology to the projects where it appears.
-            </p>
-          </div>
-
-          <div class="space-y-2">
-            <label class="block section-label" for="technology-filter">Find a technology</label>
-            <Input
-              aria-describedby="technology-filter-status"
-              autocomplete="off"
-              class="field-surface"
-              id="technology-filter"
-              placeholder="Search technologies…"
-              spellcheck="false"
-              type="search"
-            />
+        <div data-technology-filter-row>
+          <p data-technology-search-eyebrow>Stack snapshot</p>
+          <div data-technology-search-dock>
+            <div data-technology-search-field>
+              <span data-technology-search-mark><Icon class="size-5.25" name="search" /></span>
+              <div>
+                <label for="technology-filter">Find a technology</label>
+                <Input
+                  aria-describedby="technology-filter-status"
+                  autocomplete="off"
+                  data-technology-search-input
+                  id="technology-filter"
+                  placeholder="Search technologies…"
+                  spellcheck="false"
+                  type="search"
+                />
+              </div>
+            </div>
             <p
-              id="technology-filter-status"
+              aria-atomic="true"
               aria-live="polite"
-              class="text-xs text-ink-muted"
+              data-technology-search-counter
+              id="technology-filter-status"
             >
-              Showing all {technologies.length} technologies.
+              <span class="sr-only" data-technology-result-prefix>Showing all </span><span data-technology-result-count>{technologies.length}</span>{' '}<span data-technology-result-unit>technologies</span><span
+class="sr-only"
+data-technology-result-suffix
+                                                                                                                                                                                                              >.</span>
             </p>
           </div>
+          <p data-technology-search-note>
+            Search the full index, then follow any technology to the projects where it appears.
+          </p>
         </div>
 
         <div data-technology-groups>
@@ -209,14 +203,17 @@ data-technology-group-count
       const groups = document.querySelector<HTMLElement>('[data-technology-groups]')
       const input = document.querySelector<HTMLInputElement>('#technology-filter')
       const status = document.getElementById('technology-filter-status')
+      const statusPrefix = status?.querySelector('[data-technology-result-prefix]')
+      const statusCount = status?.querySelector('[data-technology-result-count]')
+      const statusUnit = status?.querySelector('[data-technology-result-unit]')
+      const statusSuffix = status?.querySelector('[data-technology-result-suffix]')
       const empty = document.querySelector<HTMLElement>('[data-technologies-empty]')
 
-      if (!groups || !input || !status || !empty || groups.dataset.filterReady === 'true') return
+      if (!groups || !input || !statusPrefix || !statusCount || !statusUnit || !statusSuffix || !empty || groups.dataset.filterReady === 'true') return
 
       groups.dataset.filterReady = 'true'
 
       const groupElements = groups.querySelectorAll<HTMLElement>('[data-technology-group]')
-      const items = groups.querySelectorAll<HTMLElement>('[data-technology-item]')
 
       input.addEventListener('input', () => {
         const query = input.value.trim().toLocaleLowerCase()
@@ -244,9 +241,13 @@ data-technology-group-count
 
         empty.hidden = visibleTotal > 0
 
-        status.textContent = query ?
-          `${visibleTotal} ${visibleTotal === 1 ? 'technology' : 'technologies'} found.` :
-          `Showing all ${items.length} technologies.`
+        statusPrefix.textContent = query ? '' : 'Showing all '
+
+        statusCount.textContent = String(visibleTotal)
+
+        statusUnit.textContent = visibleTotal === 1 ? 'technology' : 'technologies'
+
+        statusSuffix.textContent = query ? ' found.' : '.'
       })
     }
 

@@ -1535,6 +1535,17 @@ keep their existing reading behavior. The table of contents uses an open rule in
 a glass panel. The resume uses the same canvas on screen; its separate print rules and
 both downloadable PDF variants remain authoritative.
 
+### Search dock technology index controls
+
+The technology index uses **Search dock** above the Margin catalog groups. Keep the
+Stack snapshot label above a single shaped bar, with a quiet search field and a
+separate surface for the live technology count. Place the explanatory copy below.
+The count moves below the field on narrow containers; remove the decorative search
+icon only when needed to preserve input width. Keep visible focus, complete labels,
+singular and plural counts, and the full result sentence for screen readers.
+Filtering still updates the existing groups and Catalog note empty state. Preserve
+technology order, recurrence counts, native project destinations, and text resizing.
+
 ### Search folio Blog topics controls
 
 The Blog topics search and sort panel uses **Search folio**: one sculpted sheet,
