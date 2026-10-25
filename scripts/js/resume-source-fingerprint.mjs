@@ -46,6 +46,7 @@ export const resumeSourcePaths = [
   'src/data/og-manifest.ts',
   'src/layouts/Base.astro',
   'src/utils/content.ts',
+  'src/utils/content-date.ts',
   'src/utils/date.ts',
   'src/utils/git.ts',
   'src/utils/seo.ts',

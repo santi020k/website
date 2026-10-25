@@ -2,6 +2,8 @@ import type { CollectionEntry } from 'astro:content'
 
 import { siteConfig } from '../site.config'
 
+import { parseContentDate } from './content-date'
+
 /** Format dates with the site's default locale and presentation options. */
 export const getFormattedDate = (
   input: Date | string | number | undefined,
@@ -9,7 +11,7 @@ export const getFormattedDate = (
 ): string => {
   if (input === undefined) return 'Invalid Date'
 
-  const date = input instanceof Date ? input : new Date(input)
+  const date = typeof input === 'number' ? new Date(input) : parseContentDate(input)
 
   if (Number.isNaN(date.getTime())) return 'Invalid Date'
 

@@ -124,6 +124,12 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   Validation and relevance rules live in `src/utils/search.ts`.
 - **Reading metadata:** cards, article headers, and structured data share `src/utils/reading-time.ts`;
   the retired Markdown plugin no longer writes unused frontmatter.
+- **Content dates:** write frontmatter dates as `2026-09-04` or `4 Sep 2026`; both mean that calendar
+  day at UTC midnight in every build timezone. ISO timestamps with `Z` or an offset such as
+  `-05:00` keep their exact instant, and zone-less timestamps are read as UTC. Schemas, the sitemap,
+  social-card scheduling, and formatted labels share `src/utils/content-date.ts`; other formats and
+  nonexistent days such as `2026-02-29` fail validation.
+  CI runs quality checks in Bogotá and builds browser-test pages in Tokyo to cover both sides of UTC.
 
 ### The developer tools behind this repository
 

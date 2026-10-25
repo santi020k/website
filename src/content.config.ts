@@ -4,16 +4,17 @@ import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
 import { projectPurposeIds } from './data/project-purposes'
+import { parseContentDate } from './utils/content-date'
 
 const removeDuplicates = (array: string[]) => [...new Set(array)]
-// `new Date()` turns an invalid date string into Invalid Date instead of failing.
+// Unsupported or nonexistent dates parse to Invalid Date, which the refinement rejects.
 const invalidDateMessage = 'Use a valid date, such as 2026-01-15'
 const isValidDate = (date: Date | undefined) => date === undefined || !Number.isNaN(date.getTime())
 
 const dateField = () => z
   .string()
   .or(z.date())
-  .transform(val => new Date(val))
+  .transform(value => parseContentDate(value))
   .refine(isValidDate, invalidDateMessage)
 
 // Astro's frontmatter parser can provide Date objects for unquoted YAML dates.
@@ -21,7 +22,7 @@ const optionalDateField = () => z
   .string()
   .or(z.date())
   .optional()
-  .transform(value => (value ? new Date(value) : undefined))
+  .transform(value => (value ? parseContentDate(value) : undefined))
   .refine(isValidDate, invalidDateMessage)
 
 const projectBrandColor = z.string().regex(/^#[\da-f]{6}$/iu, 'Use a six-digit hexadecimal brand color')

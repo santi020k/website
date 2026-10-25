@@ -35,7 +35,7 @@ test('combined sitemap advertises canonical pages and preserves content dates', 
   for (const slug of ['lumen-ui', 'postlens', 'between-contractions', 'roadscore']) {
     expect(combinedByUrl.get(`https://santi020k.com/portfolio/${slug}/`)).toEqual({
       url: `https://santi020k.com/portfolio/${slug}/`,
-      lastmod: expect.stringMatching(/^2026-10-20T/u)
+      lastmod: '2026-10-20T00:00:00.000Z'
     })
   }
 

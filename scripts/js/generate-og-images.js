@@ -28,6 +28,7 @@ import {
 import { definePageMetadata } from '@santi020k/og/metadata'
 import { definePresetConfig } from '@santi020k/og/presets'
 
+import { parseContentDate } from '../../src/utils/content-date.ts'
 import { BLOG_ARCHIVE_PAGE_SIZE } from '../../src/utils/pagination.ts'
 
 import { prepareOgImage } from './prepare-og-image.mjs'
@@ -261,10 +262,11 @@ export const isPublishedPost = entry => {
   if (includeDrafts) return true
 
   const value = getFrontmatterValue(entry, 'publishDate')
-  let publishTime = Number.NaN
 
-  if (value instanceof Date) publishTime = value.getTime()
-  else if (typeof value === 'string') publishTime = Date.parse(value)
+  if (!(value instanceof Date) && typeof value !== 'string') return false
+
+  // Shares the schema's parser so calendar dates publish at UTC midnight in every timezone.
+  const publishTime = parseContentDate(value).getTime()
 
   return Number.isFinite(publishTime) && publishTime <= Date.now()
 }

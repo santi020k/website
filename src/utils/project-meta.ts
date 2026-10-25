@@ -4,12 +4,13 @@ type ProjectType = 'community' | 'experimental' | 'personal' | 'professional' | 
 
 export type ProjectStatus = 'Active' | 'Completed' | 'Draft'
 
+// Content dates are UTC calendar dates, so local getters would shift them in negative offsets.
 const getMonthDifference = (startDate: Date, endDate: Date): number => {
-  const years = endDate.getFullYear() - startDate.getFullYear()
-  const months = endDate.getMonth() - startDate.getMonth()
+  const years = endDate.getUTCFullYear() - startDate.getUTCFullYear()
+  const months = endDate.getUTCMonth() - startDate.getUTCMonth()
   const totalMonths = years * 12 + months
 
-  return Math.max(1, totalMonths + (endDate.getDate() >= startDate.getDate() ? 1 : 0))
+  return Math.max(1, totalMonths + (endDate.getUTCDate() >= startDate.getUTCDate() ? 1 : 0))
 }
 
 const key = (type: ProjectType): 'community' | 'experimental' | 'personal' | 'professional' => type ?? 'professional'
@@ -115,8 +116,8 @@ export const getProjectTimelineLabel = (startingDate: Date, endingDate?: Date): 
 }
 
 export const getProjectDateRangeLabel = (startingDate: Date, endingDate?: Date): string => {
-  const startYear = startingDate.getFullYear()
-  const endYear = endingDate?.getFullYear()
+  const startYear = startingDate.getUTCFullYear()
+  const endYear = endingDate?.getUTCFullYear()
 
   if (!endYear || startYear === endYear) return String(startYear)
 

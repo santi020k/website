@@ -30,6 +30,7 @@ import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
 import { rehypeProjectLedger } from './src/plugins/rehype-project-ledger'
 import { rehypeReadableTables } from './src/plugins/rehype-readable-tables'
 import { remarkAdmonitions } from './src/plugins/remark-admonitions'/* add admonitions */
+import { parseContentDate } from './src/utils/content-date'
 import { getPostSlug } from './src/utils/posts'
 
 const enableProductionSourceMaps = process.env.ENABLE_PRODUCTION_SOURCE_MAPS === 'true'
@@ -68,16 +69,13 @@ const buildContentSitemapMetadata = () => {
     return out
   }
 
+  // Matches the content schema so sitemap dates and scheduling agree in every build timezone.
   const toIso = (value: unknown): string | undefined => {
-    if (value instanceof Date) return value.toISOString()
+    if (!(value instanceof Date) && typeof value !== 'string') return undefined
 
-    if (typeof value === 'string') {
-      const date = new Date(value)
+    const date = parseContentDate(value)
 
-      return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
-    }
-
-    return undefined
+    return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
   }
 
   type FrontmatterDateKey = 'date' | 'endingDate' | 'pubDate' | 'publishDate' | 'startingDate' | 'updatedDate'

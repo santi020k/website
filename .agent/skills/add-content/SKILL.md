@@ -32,6 +32,9 @@ tags: ["tag1", "tag2"]
 ---
 ```
 
+Dates use `YYYY-MM-DD` or `D Mon YYYY` (UTC calendar days) or ISO timestamps with `Z` or an offset;
+see `src/utils/content-date.ts` for the full contract.
+
 ### 3. Add Content
 
 - Use standard Markdown or MDX elements.

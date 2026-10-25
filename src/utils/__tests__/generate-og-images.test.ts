@@ -5,7 +5,8 @@ import { describe, expect, test, vi } from 'vitest'
 import {
   collectCards,
   collectSpecs,
-  formatTopicName
+  formatTopicName,
+  isPublishedPost
 } from '../../../scripts/js/generate-og-images.js'
 import { renderOgAtmosphere } from '../../../scripts/js/render-og-atmosphere.mjs'
 import { staticSocialPages } from '../../data/social-pages'
@@ -224,6 +225,37 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     const designSystemsProps = designSystemsSpec?.props as SocialImageProps | undefined
 
     expect(designSystemsProps?.pathLabel).toBe('/technologies/design-systems/')
+  })
+})
+
+describe('isPublishedPost', () => {
+  const postEntry = (publishDate: unknown) => ({
+    body: '',
+    filePath: 'src/content/post/example.md',
+    frontmatter: { publishDate },
+    id: 'example',
+    slug: 'example'
+  })
+
+  test.each([
+    { publishDate: '4 Sep 2026', now: '2026-09-03T23:59:59.999Z', expected: false },
+    { publishDate: '4 Sep 2026', now: '2026-09-04T00:00:00.000Z', expected: true },
+    { publishDate: '2026-09-04', now: '2026-09-03T23:59:59.999Z', expected: false },
+    { publishDate: '2026-09-04', now: '2026-09-04T00:00:00.000Z', expected: true },
+    { publishDate: '2026-09-04T23:30:00-05:00', now: '2026-09-05T04:29:59.999Z', expected: false },
+    { publishDate: '2026-09-04T23:30:00-05:00', now: '2026-09-05T04:30:00.000Z', expected: true },
+    { publishDate: new Date('2026-09-04T00:00:00.000Z'), now: '2026-09-04T00:00:00.000Z', expected: true },
+    { publishDate: '2026-02-30', now: '2027-01-01T00:00:00.000Z', expected: false },
+    { publishDate: undefined, now: '2027-01-01T00:00:00.000Z', expected: false }
+  ])('publishes $publishDate at $now: $expected', ({ publishDate, now, expected }) => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(now))
+
+    try {
+      expect(isPublishedPost(postEntry(publishDate))).toBe(expected)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })
 

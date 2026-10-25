@@ -27,7 +27,7 @@ jobs:
             public/og
             .og-cache.json
           key: >-
-            og-v2-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'src/content/**', 'src/assets/**', 'src/utils/pagination.ts', 'scripts/js/generate-og-images.js', 'scripts/js/prepare-og-image.mjs', 'scripts/js/render-og-atmosphere.mjs', 'public/fonts/montserrat-variable-font-wght.ttf') }}
+            og-v2-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'src/content/**', 'src/assets/**', 'src/utils/content-date.ts', 'src/utils/pagination.ts', 'scripts/js/generate-og-images.js', 'scripts/js/prepare-og-image.mjs', 'scripts/js/render-og-atmosphere.mjs', 'public/fonts/montserrat-variable-font-wght.ttf') }}
           restore-keys: |
             og-v2-${{ runner.os }}-
       - name: Cache Astro image transformations
@@ -42,6 +42,7 @@ jobs:
         run: pnpm run build
         env:
           PUBLIC_IS_CI: true
+          TZ: Asia/Tokyo
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
       - name: Run full E2E matrix

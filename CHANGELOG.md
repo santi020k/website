@@ -476,6 +476,8 @@
 
 - Use the visible recommendation, package name, and action as the accessible name of project replacement links, keeping voice-control labels consistent with the Successor spread design.
 
+- Keep article dates, project timelines and durations, resumes, feeds, sitemap metadata, and social-card scheduling consistent across build timezones while preserving explicit timestamp offsets.
+
 ## 4.0.0
 
 ### Major Changes
