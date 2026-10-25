@@ -995,6 +995,18 @@ image proportions, descriptive alternatives, both visible states, and native
 full-image links without JavaScript. The surrounding authored heading stays in
 reading navigation; the comparison does not introduce extra navigation chapters.
 
+### Context exhibit project illustrations
+
+Keep supporting concept artwork beside the chapter copy in an open two-column layout.
+Use a 15rem figure column, a 1.75rem gap, and a fine margin rule with 1.25rem inset.
+Preserve the complete image at its native aspect ratio, with 1.25rem corners and a
+0.3125rem lower-right corner. A small accent label identifies it as a concept illustration;
+the project name follows in quiet text. This distinction separates artwork from product evidence.
+
+Below 35rem of available width, stack the figure after the text, remove the margin rule,
+and keep the image at most 15rem wide. Retain the authored chapter heading and original
+paragraphs; use optimized lazy-loaded Lumen images without a new card or client script.
+
 ### Destination brief project hero actions
 
 Use one soft brand Lumen Card for the named external destination. Pair a quiet context

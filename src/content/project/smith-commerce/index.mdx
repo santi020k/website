@@ -59,6 +59,10 @@ import ProjectComparison from '@/components/molecules/ProjectComparison.astro'
 
 import ProjectTechnicalHighlights from '@/components/molecules/ProjectTechnicalHighlights.astro'
 
+import ProjectContextExhibit from '@/components/molecules/ProjectContextExhibit.astro'
+
+import contextImage from './cover-commerce-system.webp'
+
 import beforeImage from './before.webp'
 
 import afterImage from './after.webp'
@@ -75,9 +79,11 @@ My first project was the frontend rebuild of [Marcone](https://www.marcone.com/)
 
 ### Core challenge
 
+<ProjectContextExhibit src={contextImage} alt="Smith Commerce concept illustration with storefront and system motifs." caption="Smith Commerce">
+
 This was not a greenfield marketing site. It was a storefront migration with real performance debt, accessibility issues, and delivery pressure on both the frontend and backend sides. The work only mattered if the team could improve user experience immediately while still creating space for parallel delivery and longer-term maintainability.
 
-![Smith Commerce wordmark surrounded by a modern headless commerce interface](cover-commerce-system.webp)
+</ProjectContextExhibit>
 
 ### What I owned
 

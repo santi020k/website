@@ -200,6 +200,10 @@ enlarged text sizes. No new client controller is introduced.
   and decorative `Icon`. The primary site is named, while repository, gallery, and browse links
   remain quiet secondary actions. Existing content URLs are retained; a gallery link requires
   both preview data and the matching rendered heading. Native links need no client controller.
+- `ProjectContextExhibit` pairs authored Markdown with a semantic figure and Lumen `Image`.
+  Context exhibit keeps concept artwork small, labelled, and uncropped beside the reading copy;
+  container queries stack it after the copy on narrow layouts. The image remains optimized and
+  lazy loaded. Keep the original Markdown chapter heading outside the component for navigation.
 - Project timeline endpoints use separate native `time` elements. Hero-led project
   facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled
