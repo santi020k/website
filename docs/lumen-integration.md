@@ -196,6 +196,10 @@ enlarged text sizes. No new client controller is introduced.
   captures. Scoped container queries stack the pair, and shared grid rows align their captions,
   images, and actions. MDX retains the existing comparison heading and source assets;
   no additional controller or comparison-slider runtime is introduced.
+- `ProjectHeroDestinations` composes Destination brief with Lumen `Card`, `ButtonLink`, `Link`,
+  and decorative `Icon`. The primary site is named, while repository, gallery, and browse links
+  remain quiet secondary actions. Existing content URLs are retained; a gallery link requires
+  both preview data and the matching rendered heading. Native links need no client controller.
 - Project timeline endpoints use separate native `time` elements. Hero-led project
   facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled

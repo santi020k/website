@@ -93,12 +93,14 @@ const project = defineCollection({
     seoDescription: z.string().optional(),
     githubUrl: z.url().optional(),
     liveDemoUrl: z.url().optional(),
+    liveDemoName: z.string().trim().min(1).max(100).optional(),
     impactMetrics: z.array(z.string()).default([]),
     focusAreas: z.array(z.object({
       label: z.string().trim().min(1).max(40),
       description: z.string().trim().min(1).max(100)
     })).min(2).max(3),
     previews: z.object({
+      linkLabel: z.string().trim().min(1).max(80).optional(),
       description: z.string().trim().min(1),
       images: z.array(z.object({
         src: image(),

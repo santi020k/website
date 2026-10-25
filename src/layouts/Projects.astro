@@ -120,7 +120,11 @@ mainClass="remaining-pages remaining-pages--reading"
     data-reading-layout
     style={getProjectBrandStyle(project.data.brand)}
   >
-    <ProjectHero parentPage={parentPage} project={project} />
+    <ProjectHero
+      hasProductPreviews={Boolean(project.data.previews) && headings.some(heading => heading.slug === 'inside-the-product')}
+      parentPage={parentPage}
+      project={project}
+    />
 
     <section
       class="grid grid-cols-1 gap-10"

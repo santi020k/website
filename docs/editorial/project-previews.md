@@ -18,6 +18,8 @@ The component reads validated preview data from the project collection and rende
 complete, lazy-loaded images through Lumen's Astro Image component. The authored
 level-three heading puts the gallery in the correct position and depth in the
 reading navigation; caption titles use level four. Include one gallery per project.
+The hero links directly to this chapter when both preview data and its heading are present.
+Optionally set `previews.linkLabel` to identify the client or product in that link.
 The `#inside-the-product` heading is the navigation target; the existing
 `#product-previews` fragment remains available on the gallery region.
 

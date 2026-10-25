@@ -116,6 +116,10 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   the work. Edit `startHere.order`, `label`, and `reason` in post frontmatter; drafts and scheduled
   posts are excluded. Recent writing shows the four newest remaining posts, so no article appears
   in both homepage sections.
+- **Project destinations:** the shared hero uses Destination brief for the website or repository.
+  Set `liveDemoName` when its identity differs from the case-study title. Archived website links
+  are identified explicitly. Gallery links appear only when the rendered chapter exists;
+  `previews.linkLabel` can name a client preview, such as F.W. Webb. Retain existing destination URLs.
 - **Project focus:** every project supplies two or three `focusAreas` entries with a short
   `label` and `description`. These form the sidebar's Scope ledger; summarize the actual work
   in the case study instead of repeating a generic project-type statement or technology list.

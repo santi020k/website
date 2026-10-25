@@ -995,6 +995,20 @@ image proportions, descriptive alternatives, both visible states, and native
 full-image links without JavaScript. The surrounding authored heading stays in
 reading navigation; the comparison does not introduce extra navigation chapters.
 
+### Destination brief project hero actions
+
+Use one soft brand Lumen Card for the named external destination. Pair a quiet context
+label and 1.375rem name with a dark Visit action, keeping the existing site's accessible
+button contract. The panel has 1.5rem corners and a 0.375rem lower-right corner, with
+1.5rem insets and a 1.25rem gap. The action uses 1.125rem corners and a 0.3125rem
+lower-right corner. Let the title and action wrap naturally rather than shrinking text.
+
+Place preview, repository, and browse links below, with 44px minimum targets. Use a
+downward arrow for the chapter preview, an outward arrow for external destinations,
+and a right arrow for the parent archive. Show the archive context for archived sites.
+Below 35rem of container width, reduce panel insets to 1.25rem; below 18rem, use 1rem.
+Projects without an external destination retain the browse link without an empty panel.
+
 ### Connected folio technical highlights
 
 Keep chapter-specific technologies in one opaque Lumen Card, with 1.75rem corners
