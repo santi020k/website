@@ -202,6 +202,8 @@
 
 - Apply Index fold to the Travel notebook opener: a derived country count beside an accent rail and a clear two-line label. Preserve native disclosure behavior, every Journey ledger entry, accessible naming, and readable narrow layouts at enlarged text sizes.
 
+- Apply Reader margin to article likes: a derived count beside a wrapping avatar and reader-name list with an accent rail. Preserve native profile and source links, anonymous and missing-photo fallbacks, remote-image privacy, and readable narrow layouts without adding client JavaScript.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

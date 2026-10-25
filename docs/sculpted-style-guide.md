@@ -875,8 +875,24 @@ Use a 0.65fr / 1.65fr split and a 1.75rem gap. Below 27rem of card width, stack
 the identity above the response; below 18rem, reduce insets to preserve reading
 space. Long names and unbroken response text must wrap without horizontal overflow.
 Keep normalized timestamps, anonymous-author fallbacks, escaped plain-text replies,
-the 2,000-character limit, and safe external links. Likes retain their existing avatars.
+the 2,000-character limit, and safe external links. Likes use the separate Reader margin strip.
 This passive layout adds no client script or hover motion.
+
+### Reader margin article likes
+
+Place the derived like count in an 11.875rem margin beside a wrapping reader list,
+with a 1.75rem gap and fine top and bottom rules. Pair a 2.25rem count with a small
+singular/plural label and “Across the IndieWeb” beneath. An accent rail separates
+the list; each native Lumen link pairs a 44px avatar with the full reader name.
+Reuse Lumen Avatar with an Astro Image slot to preserve lazy loading, the empty
+image alternative, and the no-referrer policy for remote images.
+
+Below 30rem, stack the heading over the list; below 18rem, tighten the inset and
+gap. Long names wrap without truncation and every link keeps a visible focus
+outline and at least a 44px target. Preserve source-link and “Someone” fallbacks,
+initials when no photo exists, and the complete list. With zero likes, omit the
+strip; replies and mentions remain independent. Use accent in dark mode and add
+no client controller, additional data requests, or hover motion.
 
 ### Code folio article examples
 
