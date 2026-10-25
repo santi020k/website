@@ -1071,6 +1071,18 @@ heading and paragraph. Derive the label and stage from the existing project meta
 Retain the original heading fragment, links, and claims; omit the generic preface rather
 than repeating it. Projects without this authored opening keep Margin preface.
 
+### Section cadence narrative headings
+
+Use a 1.5rem, weight-500 h3 with 1.4 line height and a fine trailing rule. Leave 1.5rem
+between the heading and rule, 2.5rem before the subsection, and 1.5rem before its body.
+Allow the original heading to wrap, including inline formatting, without clipping its
+text or the rule. Keep the native h3 and fragment inside `ProjectSectionHeading`.
+
+Adjacent narrative paragraphs use `ink-soft`, 1.125rem type, and 1.8 line height; below
+40rem viewport width they use 1.0625rem. Apply the treatment to plain story subsections.
+Keep the approved gallery, technical folio, client masthead, and reflection compositions
+intact rather than layering another heading treatment over them.
+
 ### Synthesis spread closing reflection
 
 Close a multi-client case study with an open composition: a small What carries forward
