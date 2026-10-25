@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+import { DeviceFrame } from '@santi020k/lumen-astro'
+
+interface Props {
+  previews: NonNullable<CollectionEntry<'project'>['data']['previews']>
+}
+
+const { previews } = Astro.props
+const images = previews.images.slice(0, 2)
+const first = images[0]
+const landscape = first ? first.src.width > first.src.height : false
+---
+
+<div data-product-preview data-preview-layout={landscape ? 'workspace' : 'studio'} data-showcase-artwork>
+  <div data-preview-stage>
+    {images.map((preview, index) => (
+      <div data-preview-device={index === 0 ? 'primary' : 'secondary'}>
+        <DeviceFrame
+          device={preview.src.width > preview.src.height ? 'laptop' : 'iphone'}
+          screenWidth={preview.src.width}
+          screenHeight={preview.src.height}
+          scroll={false}
+          tone="dark"
+        >
+          <Image
+            alt={preview.alt}
+            src={preview.src}
+            widths={preview.src.width > preview.src.height ? [400, 640, 960, 1184] : [240, 400, 640]}
+            sizes={preview.src.width > preview.src.height ? '(min-width: 1200px) 470px, (min-width: 768px) 42vw, 85vw' : '(min-width: 1200px) 180px, (min-width: 768px) 16vw, 32vw'}
+            format="webp"
+            loading="lazy"
+          />
+        </DeviceFrame>
+      </div>
+    ))}
+  </div>
+  <p data-preview-caption>{previews.description}</p>
+</div>
+
+<style>
+  [data-product-preview] {
+    min-width: 0;
+    background: color-mix(in srgb, hsl(var(--project-primary)) 8%, hsl(var(--surface-muted)));
+  }
+
+  [data-preview-stage] { position: relative; isolation: isolate; aspect-ratio: 4 / 3; overflow: hidden; }
+  [data-preview-stage]::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 76%;
+    aspect-ratio: 1;
+    right: -18%;
+    top: -12%;
+    border: 1px solid hsl(var(--project-primary) / 0.18);
+    border-radius: 50%;
+    background: hsl(var(--project-primary) / 0.06);
+  }
+
+  [data-preview-device] { position: absolute; min-width: 0; }
+  [data-preview-device='primary'] { width: 86%; left: 3%; top: 24%; }
+  [data-preview-device='secondary'] { width: 26%; right: 5%; top: 14%; }
+  [data-preview-device] :global([data-ui-device-screen]) { pointer-events: none; }
+  img { display: block; width: 100%; height: auto; }
+
+  [data-preview-layout='studio'] { background: color-mix(in srgb, hsl(var(--project-secondary)) 9%, hsl(var(--surface-muted))); }
+  [data-preview-layout='studio'] [data-preview-stage]::before { right: 30%; top: 25%; border-color: hsl(var(--project-secondary) / 0.18); background: hsl(var(--project-secondary) / 0.06); }
+  [data-preview-layout='studio'] [data-preview-device='primary'] { width: 29%; left: 14%; top: 8%; transform: rotate(-6deg); }
+  [data-preview-layout='studio'] [data-preview-device='secondary'] { width: 29%; right: 14%; top: 13%; transform: rotate(6deg); }
+
+  [data-preview-caption] {
+    padding: 0 1.75rem 1.5rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.6875rem;
+    line-height: 1.75;
+  }
+
+  @container home-product (width < 23.75rem) {
+    [data-preview-caption] { padding: 0 1.25rem 1.25rem; }
+  }
+
+  @container home-product (width < 16rem) {
+    [data-preview-caption] { padding-inline: 0.75rem; }
+  }
+</style>

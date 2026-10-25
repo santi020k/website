@@ -2,7 +2,10 @@
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
+import HomeProductPreview from '@/components/pages/home/HomeProductPreview.astro'
+
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectTimelineLabel } from '@/utils/project-meta'
 
@@ -16,9 +19,12 @@ const { project } = Astro.props
 const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
 ---
 
-<Card as="article" class="studio-project" variant="unstyled" data-home-product>
+<Card as="article" class="studio-project" variant="unstyled" data-home-product style={getProjectBrandStyle(project.data.brand)}>
   <a class="studio-project-link" href={getPortfolioPath(project.id)} data-project-card data-showcase-feature>
-    <div data-product-artwork data-showcase-artwork>
+    {project.data.previews ?
+<HomeProductPreview previews={project.data.previews} /> :
+(
+<div data-product-artwork data-showcase-artwork>
       {cover && (
         <Image
           src={cover}
@@ -31,9 +37,15 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
         />
       )}
     </div>
+)}
     <div data-product-sheet>
-      <p data-product-category>Independent product</p>
-      <h3>{project.data.title}</h3>
+      <div data-product-identity>
+        <div>
+          <p data-product-category>Independent product</p>
+          <h3>{project.data.title}</h3>
+        </div>
+        {project.data.coverImage?.logo && <Image src={project.data.coverImage.logo} alt="" width={48} height={48} widths={[48, 96]} sizes="3rem" loading="lazy" data-product-logo />}
+      </div>
       <p data-product-description>{project.data.description}</p>
       <div data-product-meta>
         <span>{project.data.technologies.slice(0, 3).join(' / ')}</span>
@@ -49,14 +61,14 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
     container: home-product / inline-size;
     min-width: 0;
     border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
-    background: hsl(var(--surface-muted));
+    background: hsl(var(--surface));
     overflow-wrap: anywhere;
   }
 
   .studio-project-link {
     display: flex;
     flex-direction: column;
-    padding: 0.875rem;
+    padding: 0;
   }
 
   [data-product-artwork] {
@@ -64,7 +76,7 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
     flex-shrink: 0;
     overflow: hidden;
     aspect-ratio: 16 / 11;
-    border-radius: 1rem;
+    border-radius: 0;
     background: hsl(var(--surface-muted));
   }
 
@@ -82,10 +94,9 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
     flex-direction: column;
     min-width: 0;
     gap: 1.125rem;
-    margin: -1.75rem 0.625rem 0;
-    padding: 1.5rem;
-    border: 1px solid var(--studio-rule);
-    border-radius: 1.125rem 1.125rem 0.3125rem 1.125rem;
+    margin: 0;
+    padding: 1.875rem;
+    border-top: 1px solid var(--studio-rule);
     background: hsl(var(--surface));
   }
 
@@ -98,7 +109,12 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
     text-transform: uppercase;
   }
 
+  [data-product-identity] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  [data-product-identity] > div { min-width: 0; }
+  [data-product-logo] { flex: none; width: 3rem; height: 3rem; border-radius: 0.75rem; object-fit: contain; }
+
   h3 {
+    margin-top: 0.625rem;
     font-size: 1.75rem;
     font-weight: 500;
     line-height: 1.2;
@@ -144,7 +160,12 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
   [data-product-action] :global(svg) { flex-shrink: 0; }
 
   @container home-product (max-width: 23.75rem) {
-    .studio-project-link { padding: 0.75rem; }
-    [data-product-sheet] { margin: -1.5rem 0 0; padding: 1.375rem 1.125rem; }
+    [data-product-sheet] { padding: 1.5rem 1.25rem; }
+  }
+
+  @container home-product (width < 16rem) {
+    [data-product-sheet] { padding: 1.25rem 0.75rem; }
+    [data-product-logo] { display: none; }
+    h3 { font-size: 1.5rem; }
   }
 </style>

@@ -1266,36 +1266,44 @@ The homepage's featured professional work uses a soft outer Lumen card, an opaqu
 that overlaps the artwork, and a separate result-and-role footer. Keep the project title,
 description, and “View case study” together. Read the result through the shared portfolio metric
 helper, preserve its complete screen-reader text, and keep unsupported metrics as prose.
-The cover uses the project brand surface and `object-fit: contain` so the full mark remains visible.
-The whole composition is one native link with an outer focus outline; it never moves on hover.
+Smith uses its existing commerce-system illustration with `object-fit: cover`; keep the central
+brand visible and give the artwork slightly more than half the spread. The whole composition is
+one native link with an outer focus outline and remains stationary on hover.
 
-A `featured-work` container stacks artwork above the sheet below 38.75rem, including when text
-is enlarged. Below 23.75rem, tighten the inset and allow evidence and metadata to wrap.
-Keep independent product cards and supporting project rows in their own layouts.
+A `featured-work` container stacks a 16:10 artwork panel above the sheet below 38.75rem, including
+when text is enlarged. Below 23.75rem, tighten the inset and allow evidence and metadata to wrap.
+Keep independent product cards and supporting projects in their own layouts.
 
-### Product sleeve independent products
+### Product previews on the homepage
 
-Homepage independent products use paired Lumen cards with inset artwork and an opaque reading
-sheet that overlaps the cover. Keep the title, full description, technologies, timeline, and
-“Explore the project” in a single native link. The sheets stretch to the same bottom edge while
-their metadata and action stay together. Use the same surface tokens and stepped corners as
-Offset spread without applying its wide work layout to the product pair.
+Homepage independent products use paired Lumen cards with existing product captures in Lumen
+DeviceFrame components. A web workspace pairs a laptop with a phone; native apps pair two phones.
+Use quiet project-colored backgrounds and optimize the images with Astro. Keep each capture's
+accessible description and the complete development or illustrative-data disclosure below it.
+These are static previews within one native project link, without interactive device controls.
+
+An opaque reading panel follows the preview with a small project mark, title, full description,
+technologies, timeline, and “Explore the project”. Keep this panel flush with the card edges so the
+image and copy share one frame. Align metadata and actions along the bottom of the pair. Projects
+without preview captures retain their optimized cover fallback.
 
 Stack the pair below a 44rem `home-content` container or a 768px viewport, including when text
-is enlarged. Below a 23.75rem card container, reduce the inset and remove the sheet's side margins.
-Preserve optimized covers, the outer keyboard focus outline, and stationary cards on hover.
+is enlarged. Below a 23.75rem card container, reduce the inset. Below 16rem, omit the decorative
+project mark and tighten padding. Preserve the outer keyboard focus outline and stationary hover.
 
-### Chapter ribbons supporting projects
+### Supporting project cards
 
-Supporting professional work and independent projects use individual Lumen cards with a tinted
-number, title, and role panel beside the full description and “Read case study” action. Preserve
-project order and continuing numbers after the featured cards. The entire ribbon is one native
-link with an outer keyboard focus outline, stepped corners, and a stationary hover underline.
+Supporting professional work and independent projects use individual Lumen cards with a quiet
+brand-colored title panel above the full description and “Read case study” action. A numbered
+masthead pairs the continuing project number with its optimized logo on the required light or
+dark brand surface. Professional work also shows its first authored impact metric. Preserve
+project order, full copy, one native link per card, and the outer keyboard focus outline.
 
-Below a 38.75rem `supporting-project` container, stack the title panel above the reading panel.
-Independent projects stay paired until the same 44rem `home-content` threshold as the featured
-products, with a 768px viewport fallback. Below 20rem, reduce horizontal insets to leave room for
-enlarged titles. Keep the full description visible at every size and let the reading panel grow.
+Professional work forms three columns above a 58rem `home-content` container and stacks below it.
+Independent supporting projects retain two columns until the 44rem threshold, with a 768px
+viewport fallback. Below 20rem of card width, reduce insets; below 16rem, tighten the logo and
+heading scale; below 12rem, omit the decorative logo. Let copy grow at enlarged text sizes and
+keep the action row aligned at the bottom. Hover underlines the heading without moving the card.
 
 ### Notebook folio latest writing
 

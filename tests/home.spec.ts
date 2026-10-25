@@ -233,13 +233,14 @@ test('homepage project imagery has usable sources and readable titles', async ({
 
   for (const card of await cards.all()) {
     await card.scrollIntoViewIfNeeded()
-    const image = card.locator('img')
-
-    await expect(image).toBeVisible()
     await expect(card.locator('h3')).not.toHaveText('')
-    await expect.poll(() => image.evaluate(
-      element => element instanceof HTMLImageElement && element.complete && element.naturalWidth > 0
-    )).toBe(true)
+    expect(await card.locator('img').count()).toBeGreaterThan(0)
+    for (const image of await card.locator('img').all()) {
+      await expect(image).toBeVisible()
+      await expect.poll(() => image.evaluate(
+        element => element instanceof HTMLImageElement && element.complete && element.naturalWidth > 0
+      )).toBe(true)
+    }
   }
 })
 

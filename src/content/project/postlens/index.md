@@ -16,7 +16,7 @@ purpose: "apps"
 draft: false
 relevanceWeight: 99
 previews:
-  description: "PostLens 2.0 development preview, captured in the iPhone simulator. AI-generated sample photos; gallery scores are illustrative. These screens show upcoming work, not the current App Store release."
+  description: "PostLens 2.0 development captures, not the current App Store UI. AI-generated sample photos and illustrative gallery scores."
   images:
     - src: "./preview-photos.webp"
       alt: "PostLens development gallery showing generated sample photos with illustrative scores and photo-selection controls."
