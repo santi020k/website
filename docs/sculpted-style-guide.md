@@ -78,12 +78,16 @@ reading and keyboard order when columns collapse.
 
 ### Reading slip Start here recommendations
 
-The homepage's curated articles follow the latest writing as three open reading slips.
-Each transparent Lumen Card has a fine top rule, a small accent label and decorative number,
-the full 1.25rem title, and the complete recommendation. Keep one native link per entry and
-align the action rows on desktop. Avoid oversized numbers or an extra opaque card surface.
+The homepage's curated articles follow the latest writing as three open illustrated reading slips.
+Each transparent Lumen Card opens with its article's 16:9 cover, followed by a small accent label
+and decorative number, the full 1.25rem title, and the complete recommendation. Use optimized,
+lazy-loaded Astro images with descriptive alternatives and no overlaid copy. Keep one native
+link per entry and align the ruled action rows on desktop. Avoid oversized numbers or an extra
+opaque card surface.
 
-Use three columns above a 56rem `home-writing` container and one column below it. Reduce
+Use the same 1.5rem column gap as latest writing, with three columns above a 56rem `home-writing`
+container and one column below it. At 38rem of card width, place the cover beside the copy;
+otherwise stack it above. Use 2.5rem between stacked recommendations. Reduce
 heading scale below 16rem of slip width, allowing labels and actions to wrap at enlarged text.
 Hover and keyboard focus underline the title using brand in light mode and accent in dark mode.
 Keep the complete focus outline visible and the existing curated article order unchanged.

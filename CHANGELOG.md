@@ -56,7 +56,7 @@
 
 - Apply Reading index to series chapter navigation, with numbered rows, an explicit current chapter, and responsive editorial spacing.
 
-- Apply Reading slip to the curated Start here articles, with quiet numbered headers, complete copy, and open responsive recommendations.
+- Apply Reading slip to the curated Start here articles, with optimized cover images, quiet numbered headers, complete copy, and open responsive recommendations. Align their image columns with latest writing so every homepage article has a consistent visual treatment.
 
 - Apply Community dossier to the ReactJS Colombia card with a tinted title panel, numbered impact evidence, and a shared action footer. Preserve the complete community contribution, accessible links, and responsive enlarged-text layout.
 
