@@ -27,7 +27,11 @@ for (const theme of ['light', 'dark'] as const) {
     const links = toolkit.locator('[data-sculpted-tag]')
 
     await expect(links).toHaveCount(18)
-    await expect(toolkit.getByRole('link', { name: /^Explore \d+ more$/u })).toHaveAttribute('href', '/technologies/')
+    const closing = toolkit.getByRole('navigation', { name: 'Continue exploring work' })
+
+    await expect(closing.getByRole('link')).toHaveCount(2)
+    await expect(closing.getByRole('link', { name: 'Open resume', exact: true })).toHaveAttribute('href', '/resume/')
+    await expect(closing.getByRole('link', { name: 'Explore the full toolkit', exact: true })).toHaveAttribute('href', '/technologies/')
     for (const width of [320, 390, 768, 1440]) {
       for (const size of [100, 200]) {
         await page.setViewportSize({ width, height: 1000 })
@@ -49,7 +53,23 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(links.first()).toHaveCSS('outline-style', 'solid')
     await page.keyboard.press('Tab')
     await expect(links.nth(1)).toBeFocused()
-    const audit = await new AxeBuilder({ page }).include('[data-work-stack]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
+    await closing.getByRole('link').first().focus()
+    await expect(closing.getByRole('link').first()).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press('Tab')
+    await expect(closing.getByRole('link').nth(1)).toBeFocused()
+    const arrowInsets = await closing.locator('[data-work-close-card]').evaluateAll(cards => cards.map(card => {
+      const bounds = card.getBoundingClientRect()
+      const arrow = card.querySelector('[data-work-close-arrow]')?.getBoundingClientRect()
+
+      if (!arrow) throw new Error('Closing destinations must have a visible arrow')
+      return { right: bounds.right - arrow.right, bottom: bounds.bottom - arrow.bottom }
+    }))
+
+    for (const inset of arrowInsets) {
+      expect(inset.right).toBeGreaterThanOrEqual(20)
+      expect(inset.bottom).toBeGreaterThanOrEqual(20)
+    }
+    const audit = await new AxeBuilder({ page }).include('[data-work-stack]').include('[data-work-close]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
 
     expect(audit.violations).toEqual([])
   })
@@ -67,5 +87,24 @@ test('toolkit links reach their technology archive without JavaScript', async ({
   await page.keyboard.press('Enter')
   await expect(page).toHaveURL(/\/technologies\/react-js\/$/u)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('React.js')
+  await context.close()
+})
+
+test('career close reaches the resume and technology index without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const page = await context.newPage()
+
+  for (const destination of [
+    { name: 'Open resume', path: '/resume/', heading: 'Santiago Molina' },
+    { name: 'Explore the full toolkit', path: '/technologies/', heading: 'Capabilities' }
+  ]) {
+    await page.goto('/work/')
+    const link = page.getByRole('navigation', { name: 'Continue exploring work' }).getByRole('link', { name: destination.name, exact: true })
+
+    await link.focus()
+    await page.keyboard.press('Enter')
+    await expect.poll(() => new URL(page.url()).pathname).toBe(destination.path)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(destination.heading)
+  }
   await context.close()
 })

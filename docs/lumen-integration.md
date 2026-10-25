@@ -161,6 +161,11 @@ use Compact timeline with smaller headings, tighter spacing, and no repeated sta
 masthead; active roles stay full. Both densities share the same Lumen components,
 company hover colors, and continuous left rail. Connector endpoints account for the
 next row's year size so the density transition does not interrupt the line.
+Career close ends the toolkit with two named destinations: the resume and the full
+technology index. Each uses a public Lumen `Link` around an unstyled `Card`, with a
+heading-based accessible name and one decorative arrow. Preserve the project-count
+explanation above this navigation; use the named technology destination instead of
+the earlier numeric remainder link. These native links need no client controller.
 
 ## Portfolio cards
 

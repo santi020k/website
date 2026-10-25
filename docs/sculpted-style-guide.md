@@ -2040,6 +2040,21 @@ Use level-three headings below the toolkit heading; keep the numbers decorative.
 36rem Work container, put the heading above its tags with a 1rem gap. Retain the existing
 Sculpted tag appearance, keyboard focus, full-index action, and count explanation.
 
+### Career close Work ending
+
+After Toolkit lanes and its count explanation, present two destination sheets in a
+two-column grid: Open resume and Explore the full toolkit. Keep the selected copy,
+an accent category label, a 1.5rem heading, the complete description, and a decorative
+arrow aligned at the lower right. Use the shared sheet radius, 1.5rem insets, a
+1rem grid gap, and a 14.625rem minimum height. Tint the resume sheet with the semantic
+brand-soft surface and keep the technology sheet on the standard surface.
+
+The entire sheet is one native link named by its heading, with an external focus
+outline and at least 1.25rem between the arrow and the border. Below a 36rem Work
+container, stack the destinations. Narrow containers reduce insets to 1.25rem and
+allow headings to wrap. Hover and focus change the heading and border color without
+moving the sheet. Keep the global contact invitation separate below this page ending.
+
 ### Sculpted tags Projects category shortcuts
 
 The Projects page uses **Sculpted tags** for its Developer tools, Apps, and Experiments
