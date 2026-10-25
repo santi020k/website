@@ -1345,8 +1345,9 @@ lazy loading, and the central subject of each image. Keep the supporting images 
 16:9 ratio. The lead image may crop its quiet edges to fill the split composition. Its latest
 article label, all post types, decorative numbers, and metadata remain outside the image.
 
-Below a 56rem `home-writing` container, stack the lead artwork and copy, then show the remaining
-articles as image-and-copy rows. Below 38rem, stack every article's image and text. Tighten the
+Below a 64rem `home-writing` container, stack the lead artwork and copy to preserve the complete
+cover and a comfortable title width on laptops. Below 56rem, show the remaining articles as
+image-and-copy rows. Below 38rem, stack every article's image and text. Tighten the
 lead's insets and title below 20rem and 16rem for enlarged text. Keep the complete excerpts,
 visible keyboard outlines, and stationary hover behavior. All four recent links, three Start
 here recommendations, and the RSS action remain available without JavaScript.

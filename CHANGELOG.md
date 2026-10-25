@@ -36,7 +36,7 @@
 
 - Apply Margin index to the About page exploration invitation with an accent rail, contextual destination labels, and two ruled navigation rows. Preserve native portfolio and blog links, visible keyboard focus, light and dark themes, and readable layouts at enlarged text sizes.
 
-- Apply Editorial spread to homepage latest writing with a wide illustrated lead story, three image-led articles, and clear reading actions. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
+- Apply Editorial spread to homepage latest writing with a wide illustrated lead story, three image-led articles, and clear reading actions. Stack the lead on laptops to preserve the full cover and give its title room. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
 
 - Apply Offset spread to the homepage featured work with an overlapping copy sheet, richer Smith commerce artwork, and a dedicated outcome and role footer. Preserve authored results, native full-card navigation, and responsive light and dark layouts at enlarged text sizes.
 
