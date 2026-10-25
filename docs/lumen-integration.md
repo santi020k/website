@@ -76,6 +76,10 @@ opening uses the shared solid `ButtonLink` for a native jump to `#experience-hea
 Open resume and LinkedIn remain secondary destinations, grouped so they wrap together
 below the primary action when space is limited. LinkedIn keeps its external-link contract.
 Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `SculptedTag`.
+Evidence captions use unstyled `ButtonLink` below each supported statistic's description.
+The role and technology counts jump to their Work sections; named project captions link
+directly to the relevant case-study chapter. Keep the articles passive and link only
+the caption. Omit a caption when the claim's source has not been confirmed.
 `CareerTimeline` uses Lumen `Timeline` for its ordered list and one unstyled `Card` per
 linked role. A site-owned date rail and connector frame the Timeline folio layout without
 styling private TimelineItem internals. Each role retains its complete description,

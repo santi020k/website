@@ -23,17 +23,20 @@ const careerStats = [
   {
     label: 'Professional roles',
     value: String(workProjects.length),
-    description: 'Across commerce, gaming, agencies, and SaaS.'
+    description: 'Across commerce, gaming, agencies, and SaaS.',
+    source: { href: '#experience-heading', label: 'Explore the timeline' }
   },
   {
     label: 'Largest team led',
     value: '14',
-    description: 'Product, design, frontend, and backend.'
+    description: 'Product, design, frontend, and backend.',
+    source: { href: '/portfolio/void/#what-i-led', label: 'Void.GG · What I led' }
   },
   {
     label: 'Production technologies',
     value: String(allTechnologies.length),
-    description: 'Tools chosen to fit the product.'
+    description: 'Tools chosen to fit the product.',
+    source: { href: '#tools-heading', label: 'Explore the toolkit' }
   },
   {
     label: 'Release cycle time',
@@ -97,12 +100,17 @@ id="career-at-a-glance"
 aria-label="Career at a glance"
 class="work-stats"
       >
-        {careerStats.map(({ description, label, value }, index) => (
+        {careerStats.map(({ description, label, source, value }, index) => (
           <Stat as="article" variant="bare" aria-labelledby={`work-stat-${index}`}>
             <p class="work-stat-value">{value}</p>
             <div data-work-stat-copy>
               <h2 id={`work-stat-${index}`}>{label}</h2>
               <p>{description}</p>
+              {source && (
+                <ButtonLink data-work-stat-source href={source.href} variant="unstyled">
+                  <span>{source.label}</span><Icon name={source.href.startsWith('#') ? 'arrow-down' : 'arrow-right'} />
+                </ButtonLink>
+              )}
             </div>
           </Stat>
         ))}

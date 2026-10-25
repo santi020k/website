@@ -36,7 +36,7 @@ for (const theme of ['light', 'dark'] as const) {
         const overflow = await articles.evaluateAll(rows => rows.flatMap(row => {
           const bounds = row.getBoundingClientRect()
 
-          return [...row.querySelectorAll('h2, p')].filter(copy => {
+          return [...row.querySelectorAll('h2, p, a')].filter(copy => {
             const range = document.createRange()
 
             range.selectNodeContents(copy)
@@ -63,3 +63,24 @@ for (const theme of ['light', 'dark'] as const) {
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 }
+
+test('career evidence captions reach the relevant sections and preserve keyboard focus', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const sources = [
+    { name: 'Explore the timeline', href: '#experience-heading', heading: 'The work, over time.' },
+    { name: 'Explore the toolkit', href: '#tools-heading', heading: 'The tools behind the work.' },
+    { name: 'Void.GG · What I led', href: '/portfolio/void/#what-i-led', heading: 'What I led' }
+  ]
+
+  for (const source of sources) {
+    await page.goto('/work/')
+    const link = page.getByRole('region', { name: 'Career at a glance' }).getByRole('link', { name: source.name, exact: true })
+
+    await expect(link).toHaveAttribute('href', source.href)
+    await link.focus()
+    await expect(link).toHaveCSS('outline-style', 'solid')
+    await page.keyboard.press('Enter')
+    await expect(page.getByRole('heading', { name: source.heading, exact: true })).toBeInViewport()
+    expect(new URL(page.url()).hash).toBe(source.href.slice(source.href.indexOf('#')))
+  }
+})
