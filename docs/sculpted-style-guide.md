@@ -1973,9 +1973,16 @@ These destination shortcuts have no selected state and add no client JavaScript.
 
 The Work toolkit uses **Sculpted tags** for its 18 highlighted technologies. Reuse the
 shared `SculptedTag` shape, separate count compartment, focus outline, and wrapping layout.
-Keep the data-derived order, professional-project counts, technology archive destinations,
+Keep the data-derived order within each group, professional-project counts, technology archive destinations,
 count explanation, and full-index action. These are navigation links with no selected state.
 List items shrink within narrow containers so enlarged labels wrap without widening the page.
+
+The approved **Toolkit lanes** arrange these links in four ruled rows: Web foundations,
+Mobile, Data & state, and UI systems. Each row pairs a 10rem margin heading with the tags,
+using a 1.75rem gap, 1.5rem vertical padding, a small accent number, and a 2px heading rail.
+Use level-three headings below the toolkit heading; keep the numbers decorative. Below a
+36rem Work container, put the heading above its tags with a 1rem gap. Retain the existing
+Sculpted tag appearance, keyboard focus, full-index action, and count explanation.
 
 ### Sculpted tags Projects category shortcuts
 

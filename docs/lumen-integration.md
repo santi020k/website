@@ -141,6 +141,12 @@ opening uses the shared solid `ButtonLink` for a native jump to `#experience-hea
 Open resume and LinkedIn remain secondary destinations, grouped so they wrap together
 below the primary action when space is limited. LinkedIn keeps its external-link contract.
 Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `SculptedTag`.
+Toolkit lanes group the same 18 interest-ranked technologies into Web foundations,
+Mobile, Data & state, and UI systems. Counts and destinations remain collection-derived;
+retain interest order within each lane. Omit empty lanes and show uncategorized highlighted
+technologies under Other tools so changing the ranked selection cannot silently hide links.
+The numbered headings sit beside the tags on wide screens and above them in narrow
+containers. The groups add semantic headings and lists without client JavaScript.
 Evidence captions use unstyled `ButtonLink` below each supported statistic's description.
 The role and technology counts jump to their Work sections; named project captions link
 directly to the relevant case-study chapter. Keep the articles passive and link only
