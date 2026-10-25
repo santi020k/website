@@ -761,7 +761,7 @@ Keep Role, Timeline, and Duration once in the hero's Margin imprint. Preserve it
 semantic definition list, native date elements, fallback role, and computed duration.
 The project type remains in the eyebrow and breadcrumb above the cover. Omit the
 former At a glance sidebar card instead of repeating these facts while reading.
-After navigation, the sidebar continues with Focus, Core stack, and optional Outcomes.
+After navigation, the sidebar continues with Focus and optional Outcomes.
 
 ### Margin note focus cards
 
@@ -773,23 +773,25 @@ Use brand in light mode and accent in dark mode. Preserve the project-type copy,
 semantic heading, and passive appearance. Below 16rem of rail width, tighten the
 card and paragraph insets and use 1rem statement text to keep ordinary words intact.
 
-### Stack ledger technology cards
+### Hero-only project stack
 
-Core stack uses one opaque Lumen Card with the dossier's asymmetric corners.
-Place a sentence-case 0.75rem heading opposite the layers icon. Show the first six
-technologies in a two-column semantic list: 0.9375rem names at weight 500, fine
-bottom rules, and 1rem between columns. Keep the original content order.
+The hero's Sculpted band is the single technology inventory on project detail pages.
+Keep the Progressive stack: the first six authored technologies remain visible and
+all remaining technology links stay behind the native More technologies disclosure.
+Short stacks display completely. Preserve the total count, technology destinations,
+keyboard focus, reduced motion, and operation without JavaScript. Below 14rem of
+stack width, omit the decorative technology marker and tighten link insets so
+ordinary technology names remain whole with enlarged text.
 
-Additional technologies remain behind Lumen's native disclosure, with a readable
-count and one column of complete 0.8125rem names. Preserve keyboard focus, reduced
-motion, and operation without JavaScript. Only the disclosure has hover feedback.
-Below 17rem of rail width, tighten the insets; below 16rem, stack the main list in
-one column so enlarged names retain enough reading space.
+Omit the former Core stack sidebar card and its repeated disclosure. Navigation,
+Focus, and optional Outcomes retain their existing spacing and reading order. Keep
+`#technologies` on the hero's technology content; `#sidebar-stack` remains a legacy
+fragment on the hero section so existing links reach the complete stack.
 
 ### Impact rows outcome cards
 
 Project Outcomes use an opaque Lumen Card with asymmetric corners and a plain header.
-Place the 0.75rem purple heading opposite the trophy icon, matching Focus and Core stack,
+Place the 0.75rem purple heading opposite the trophy icon, matching Focus,
 then separate results with fine rules. Explicit metrics use a 1.875rem purple value
 beside their complete 0.8125rem
 context; before-and-after results retain the previous value above the current one.
@@ -819,8 +821,7 @@ Reading pages fully disable CSS transitions with reduced motion, including inher
 size transitions, so native fragment targets remain stable when text is enlarged.
 
 When a project has no headings, omit the table of contents without a replacement card
-or empty-state notice. Begin the sidebar with Focus, followed by Core stack and
-optional Outcomes. Keep the sidebar's normal spacing;
+or empty-state notice. Begin the sidebar with Focus and optional Outcomes. Keep the sidebar's normal spacing;
 do not reserve a gap for absent navigation. Articles likewise omit empty navigation.
 
 ### Chapter opener project navigation
@@ -1371,6 +1372,10 @@ with three open, image-led articles in one desktop row. Use an unstyled Lumen Ca
 one native link per card, and the collection's chronological order. The lead card has an opaque
 surface and sculpted corners; supporting articles use the page canvas with a fine action rule.
 Avoid a second notebook frame, nested borders, or text laid over the artwork.
+
+Select the three curated Start here recommendations first, then fill latest writing with the
+four newest remaining posts. Each article appears once across the homepage writing section;
+the visible recent list and its structured data use the same selection.
 
 Use Astro Image for all four covers, preserving descriptive alternative text, responsive sources,
 lazy loading, and the central subject of each image. Keep the supporting images at their native

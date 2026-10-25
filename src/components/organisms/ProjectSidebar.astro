@@ -5,7 +5,6 @@ import type { CollectionEntry } from 'astro:content'
 
 import ProjectFocusCard from '@/components/molecules/ProjectFocusCard.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
-import ProjectStackCard from '@/components/molecules/ProjectStackCard.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
 
 import { getProjectFocusLabel } from '@/utils/project-meta'
@@ -37,8 +36,6 @@ const focusLabel = getProjectFocusLabel(project.data.typesId)
   )}
 
   <ProjectFocusCard focus={focusLabel} />
-
-  <ProjectStackCard technologies={project.data.technologies} />
 
   <ProjectOutcomesCard outcomes={project.data.impactMetrics} />
 </aside>
