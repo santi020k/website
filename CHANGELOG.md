@@ -6,7 +6,7 @@
 
 - Apply Career ledger to the Work page career highlights with prominent figures, clear headings, and complete explanations beside accent rails. Preserve collection-derived role and technology counts and authored impact metrics, and reflow the two-column ledger into readable rows for narrow screens and enlarged text.
 
-- Apply Chapter ribbons to homepage supporting work and project rows with tinted title panels, complete descriptions, and clear case-study actions. Preserve project order, roles, continuous numbering, and native full-card links. Stack panels for narrow containers and enlarged text with accessible focus and contrast in both themes.
+- Give homepage supporting work and projects distinct branded cards with optimized logos, complete descriptions, and clear case-study actions. Show authored impact metrics for professional work and place its three supporting cards beneath the Smith feature. Preserve project order, roles, continuous numbering, native links, and accessible responsive layouts.
 
 - Apply Collaboration ledger to About page collaboration cards with full-width numbered rows, distinct title and description columns, and quieter fit notes. Preserve all authored copy and stack the rows for narrow containers and enlarged text.
 
@@ -38,11 +38,11 @@
 
 - Apply Notebook folio to homepage latest writing with a shared paper frame, numbered margins, and clear article actions. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
 
-- Apply Offset spread to the homepage featured work with an overlapping copy sheet, uncropped project artwork, and a dedicated outcome and role footer. Preserve authored results, native full-card navigation, and responsive light and dark layouts at enlarged text sizes.
+- Apply Offset spread to the homepage featured work with an overlapping copy sheet, richer Smith commerce artwork, and a dedicated outcome and role footer. Preserve authored results, native full-card navigation, and responsive light and dark layouts at enlarged text sizes.
 
 - Apply Principle spread to the developer experience working definition with separate system and evidence panels, a shared reading link, and responsive stacking. Preserve the complete definition, keyboard navigation, and readable light and dark appearances at enlarged text sizes.
 
-- Apply Product sleeve to homepage independent products with inset artwork, overlapping reading sheets, and a clear project action. Preserve the complete descriptions, technology and timeline metadata, optimized covers, and native full-card links. Stack the pair for narrow containers and enlarged text.
+- Show Lumen and PostLens interface captures in device frames on the homepage, with accurate preview disclosures, quiet brand-colored backgrounds, and a single reading panel per product. Preserve complete descriptions, technology and timeline metadata, native links, and the cover fallback. Stack the pair for narrow containers and enlarged text.
 
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public

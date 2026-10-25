@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import { getPortfolioPath } from '@/utils/links'
+import { getProjectBrandStyle } from '@/utils/project-brand'
 
 import { Card, Icon } from '@santi020k/lumen-astro'
 
@@ -11,18 +13,32 @@ interface Props {
 }
 
 const { project, position } = Astro.props
+const logo = project.data.coverImage?.logo
+const evidence = project.data.typesId === 'professional' ? project.data.impactMetrics[0] : undefined
 ---
 
-<Card as="article" class="studio-project" variant="unstyled" data-home-supporting-project>
+<Card as="article" class="studio-project" variant="unstyled" data-home-supporting-project style={getProjectBrandStyle(project.data.brand)}>
   <a class="studio-project-link" href={getPortfolioPath(project.id)} data-showcase-item>
-    <span data-supporting-number aria-hidden="true">{String(position).padStart(2, '0')}</span>
     <div data-supporting-heading>
+      <div data-supporting-masthead>
+        <span data-supporting-number aria-hidden="true">{String(position).padStart(2, '0')}</span>
+        {logo && (
+          <div data-supporting-mark data-logo-surface={project.data.coverImage?.logoSurface} data-logo-aspect={project.data.coverImage?.logoAspect}>
+            <Image src={logo} alt="" width={96} widths={[96, 192]} sizes="4rem" loading="lazy" />
+          </div>
+        )}
+      </div>
       <h3>{project.data.title}</h3>
       <p data-supporting-role>{project.data.role}</p>
     </div>
-    <p data-supporting-description>{project.data.description}</p>
-    <span data-supporting-action>Read case study</span>
-    <span data-supporting-arrow><Icon class="size-4.5" name="arrow-up-right" /></span>
+    <div data-supporting-body>
+      <p data-supporting-description>{project.data.description}</p>
+      {evidence && <p data-supporting-evidence><Icon name="trending-up" />{evidence}</p>}
+      <div data-supporting-footer>
+        <span data-supporting-action>Read case study</span>
+        <span data-supporting-arrow><Icon class="size-4.5" name="arrow-up-right" /></span>
+      </div>
+    </div>
   </a>
 </Card>
 
@@ -32,105 +48,50 @@ const { project, position } = Astro.props
     min-width: 0;
     height: 100%;
     border-radius: 1.375rem 1.375rem 0.375rem 1.375rem;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 
-  .studio-project-link {
-    display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr) auto;
-    grid-template-rows: auto 1fr auto;
-    min-height: 14rem;
-  }
-
-  [data-supporting-number] {
-    grid-column: 1;
-    grid-row: 1;
-    padding: 1.5rem 1.625rem 0.75rem;
-    background: hsl(var(--surface-muted));
-    color: color-mix(in srgb, var(--studio-emphasis) 85%, hsl(var(--ink)));
-    font-size: 0.6875rem;
-    line-height: 1.7;
-    font-variant-numeric: tabular-nums;
-  }
+  .studio-project-link { display: flex; flex-direction: column; }
 
   [data-supporting-heading] {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-column: 1;
-    grid-row: 2 / 4;
-    align-content: start;
     min-width: 0;
-    gap: 1rem;
-    padding: 0 1.625rem 1.625rem;
-    background: hsl(var(--surface-muted));
+    padding: 1.5rem;
+    border-top: 3px solid hsl(var(--project-primary));
+    background: color-mix(in srgb, hsl(var(--project-primary)) 5%, hsl(var(--surface)));
   }
 
-  h3 {
-    font-size: 1.625rem;
-    font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: -0.055em;
-  }
+  [data-supporting-masthead] { display: flex; min-height: 4rem; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.375rem; }
+  [data-supporting-number] { color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; font-variant-numeric: tabular-nums; }
+  [data-supporting-mark] { display: flex; flex: none; align-items: center; justify-content: center; width: 5.25rem; height: 4rem; padding: 0.5rem; border-radius: 0.75rem; background: hsl(var(--surface-muted)); }
+  [data-supporting-mark][data-logo-aspect='square'] { width: 4rem; }
+  [data-supporting-mark][data-logo-surface='dark'] { background: hsl(var(--project-surface)); }
+  [data-supporting-mark][data-logo-surface='light'] { background: var(--color-white); }
+  [data-supporting-mark] img { display: block; min-width: 0; min-height: 0; width: 100%; height: 100%; object-fit: contain; }
 
-  .studio-project-link:hover h3 {
-    color: var(--studio-emphasis);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.3rem;
-  }
-
-  [data-supporting-role] {
-    color: hsl(var(--ink-soft));
-    font-size: 0.6875rem;
-    line-height: 1.7;
-  }
-
-  [data-supporting-description] {
-    grid-column: 2 / 4;
-    grid-row: 1 / 3;
-    min-width: 0;
-    padding: 1.625rem 1.75rem 1.375rem;
-    color: hsl(var(--ink-soft));
-    font-size: 0.875rem;
-    line-height: 1.8;
-  }
-
-  [data-supporting-action] {
-    grid-column: 2;
-    grid-row: 3;
-    padding: 0 0 1.625rem 1.75rem;
-    color: var(--studio-emphasis);
-    font-size: 0.75rem;
-    font-weight: 500;
-    line-height: 1.8;
-  }
-
-  [data-supporting-arrow] {
-    display: grid;
-    grid-column: 3;
-    grid-row: 3;
-    place-items: center;
-    padding: 0 1.75rem 1.625rem 1.25rem;
-    color: var(--studio-emphasis);
-  }
-
-  @container supporting-project (max-width: 38.75rem) {
-    .studio-project-link {
-      grid-template-columns: minmax(0, 1fr) auto;
-      grid-template-rows: auto auto 1fr auto;
-    }
-    [data-supporting-number] { grid-column: 1 / -1; padding: 1.25rem 1.5rem 0.625rem; }
-    [data-supporting-heading] { grid-column: 1 / -1; grid-row: 2; gap: 0.625rem; padding: 0 1.5rem 1.375rem; }
-    [data-supporting-description] { grid-column: 1 / -1; grid-row: 3; padding: 1.5rem; }
-    [data-supporting-action] { grid-column: 1; grid-row: 4; padding: 0 0 1.5rem 1.5rem; }
-    [data-supporting-arrow] { grid-column: 2; grid-row: 4; padding: 0 1.5rem 1.5rem 1rem; }
-  }
+  h3 { font-size: 1.625rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.055em; }
+  .studio-project-link:hover h3 { color: var(--studio-emphasis); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3rem; }
+  [data-supporting-role] { margin-top: 0.625rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.7; }
+  [data-supporting-body] { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 1.5rem; padding: 1.5rem; }
+  [data-supporting-description] { color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; }
+  [data-supporting-evidence] { display: flex; align-items: flex-start; gap: 0.625rem; color: hsl(var(--ink)); font-size: 0.75rem; line-height: 1.7; }
+  [data-supporting-evidence] :global(svg) { flex: none; width: 1rem; height: 1rem; margin-top: 0.125rem; color: var(--studio-emphasis); }
+  [data-supporting-footer] { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--studio-rule); color: var(--studio-emphasis); }
+  [data-supporting-action] { font-size: 0.75rem; font-weight: 500; line-height: 1.8; }
+  [data-supporting-arrow] { display: grid; place-items: center; flex: none; }
 
   @container supporting-project (width < 20rem) {
-    [data-supporting-number],
-    [data-supporting-heading],
-    [data-supporting-description] { padding-inline: 0.75rem; }
-    [data-supporting-action] { padding-left: 0.75rem; }
-    [data-supporting-arrow] { padding-right: 0.75rem; }
+    [data-supporting-heading], [data-supporting-body] { padding: 1.25rem; }
+  }
+
+  @container supporting-project (width < 16rem) {
+    [data-supporting-heading], [data-supporting-body] { padding-inline: 0.75rem; }
+    [data-supporting-mark], [data-supporting-mark][data-logo-aspect='square'] { width: 3.75rem; height: 2.75rem; padding: 0.5rem; }
+    h3 { font-size: 1.5rem; }
+  }
+
+  @container supporting-project (width < 12rem) {
+    [data-supporting-mark] { display: none; }
+    [data-supporting-masthead] { min-height: 0; margin-bottom: 0.875rem; }
+    h3 { font-size: 1.25rem; }
   }
 </style>

@@ -42,3 +42,14 @@ const supporting = projects.slice(featured.length)
     </ol>
   </section>
 )}
+
+<style>
+  [data-home-showcase='work'] .studio-project-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  @container home-content (width < 58rem) {
+    [data-home-showcase='work'] .studio-project-list { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
