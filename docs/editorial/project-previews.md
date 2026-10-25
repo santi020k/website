@@ -21,6 +21,11 @@ Do not crop interfaces, invent product screens, or use private customer content.
   The source workflow uses generated fictional photos, never the user's library.
   Sharp resizes them to 960 pixels wide without cropping and encodes WebP at
   quality 88. Metadata is stripped by default. Astro creates delivery variants.
+- F.W. Webb's `webb-home-desktop.webp` and `webb-home-mobile.webp` show Smith's
+  storefront running locally with development content in a signed-out session.
+  The captures use desktop and mobile layouts, with no customer account data.
+  Sharp encodes the complete captures as WebP at quality 88; Astro creates delivery
+  variants. The visible gallery description identifies the design as work in progress.
 
 PostLens captions deliberately identify version 2.0 as a development preview and
 disclose generated samples and illustrative scores. Recheck the public store

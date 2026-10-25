@@ -77,9 +77,10 @@ test('Smith identifies Webb screenshots as development previews', async ({ page 
 test('PostLens distinguishes development screens and generated samples from the store release', async ({ page }) => {
   await page.goto('/portfolio/postlens/')
   const previews = page.getByRole('region', { name: 'Inside the product' })
-  await expect(previews).toContainText('PostLens 2.0 development preview')
-  await expect(previews).toContainText('AI-generated sample photos; gallery scores are illustrative.')
-  await expect(previews).toContainText('not the current App Store release')
+  await expect(previews).toContainText('PostLens 2.0 development captures')
+  await expect(previews).toContainText('AI-generated sample photos')
+  await expect(previews).toContainText('illustrative gallery scores')
+  await expect(previews).toContainText('not the current App Store UI')
 })
 
 test.describe('Product previews without client JavaScript', () => {
