@@ -240,7 +240,11 @@ for (const width of [390, 1440]) {
           await setTextSize(page, textSize)
           await page.goto(article)
           await page.evaluate(() => document.fonts.ready)
+          await page.locator('[data-series-fold-summary]').focus()
+          await page.keyboard.press('Enter')
           const step = page.locator('[data-series-step]:not([aria-current])').first()
+
+          await expect(step).toBeVisible()
           const appearance = () => step.evaluate(element => [element, ...element.children].map(node => {
             const style = getComputedStyle(node)
 

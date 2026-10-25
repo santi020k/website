@@ -180,10 +180,11 @@ enlarged text sizes. No new client controller is introduced.
   `Card` and `ButtonLink` components with decorative `Icon` labels and arrows.
   Local styles own the soft header, aligned action rows, and narrow-container reflow;
   every case-study destination remains a native link without another controller.
-- Series navigation uses Lumen `Progress` with a readable current/max value and one
-  unstyled `Card` for the Reading index. A named native navigation landmark and ordered
+- Series navigation uses Continuation fold: the Directional folio precedes a closed
+  native Lumen `Collapsible` containing the Reading index. The introduction retains
+  the current/total position as text. A named native navigation landmark and ordered
   list retain complete titles, current-step semantics, and navigation without JavaScript.
-  Directional folio uses a second named native navigation landmark for adjacent
+  Directional folio uses a separate named native navigation landmark for adjacent
   article links, with decorative Lumen `Icon` arrows and responsive open columns.
 - `ProjectCaseStudy` composes Margin chapters from an unstyled Lumen `Card`, `Icon`,
   and an ordered list with semantic chapter headings. Its scoped container queries
