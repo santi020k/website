@@ -346,7 +346,9 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   keep the rules and text consistent across article and project reading pages.
 - `ProjectFooterNav` composes Return folio with public unstyled `Card`, inherit-style
   `Link`, and decorative `Icon` components. A native named navigation landmark keeps
-  parent, top, live-project, and repository destinations available without JavaScript.
+  parent, top, named website, preview chapter, and repository destinations available without JavaScript.
+  Named return shares destination naming with the hero through `getProjectPrimaryDestination`,
+  including archived websites. Both use the same rendered-chapter guard for preview links.
   Site-owned attributes style the surface and responsive rows; `Link` supplies safe
   external new-tab attributes. Empty destination footers are omitted.
 - Archive `Pagination` composes Split pager with public `Pagination`, inherit-style

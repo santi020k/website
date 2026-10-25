@@ -238,6 +238,8 @@
 
 - Apply Context exhibit to the Smith Commerce core challenge: pair the original narrative with a compact, labelled concept illustration. Preserve chapter navigation, responsive image optimization, and the distinction between artwork and product evidence.
 
+- Apply Named return to project closing navigation. Reuse hero website and archive names, add links back to rendered product preview chapters, and preserve repository links, responsive rows, and native keyboard navigation.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

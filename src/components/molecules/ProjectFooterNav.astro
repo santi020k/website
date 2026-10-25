@@ -1,21 +1,27 @@
 ---
+import type { CollectionEntry } from 'astro:content'
+
+import { getProjectPrimaryDestination } from '@/utils/project-destinations'
+
 import { Card, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
-  githubUrl?: string | undefined
-  liveDemoUrl?: string | undefined
+  hasProductPreviews?: boolean
+  project?: CollectionEntry<'project'>
   parentPage: { name: string, url: string }
 }
 
-const { githubUrl, liveDemoUrl, parentPage } = Astro.props
+const { hasProductPreviews = false, project, parentPage } = Astro.props
+const { githubUrl, liveDemoUrl, previews } = project?.data ?? {}
+const destination = project ? getProjectPrimaryDestination(project.data) : undefined
 ---
 
-<footer data-reading-actions>
+<footer data-reading-actions id={project ? 'project-return' : undefined}>
   <Card variant="unstyled" data-return-folio>
     <nav aria-label="Page-end navigation">
       <div data-return-row>
         <Link href={parentPage.url} variant="inherit" data-return-link>
-          <span data-return-mark><Icon name="arrow-left" /></span>
+          <span data-return-mark><Icon data-return-icon name="arrow-left" /></span>
           <span data-return-copy>
             <span data-return-kicker>Back to</span>
             <span data-return-destination>{parentPage.name}</span>
@@ -23,21 +29,27 @@ const { githubUrl, liveDemoUrl, parentPage } = Astro.props
         </Link>
         <Link href="#main" variant="inherit" data-return-top>
           <span>Back to top</span>
-          <Icon name="arrow-up" />
+          <Icon data-return-icon name="arrow-up" />
         </Link>
       </div>
-      {(liveDemoUrl || githubUrl) && (
+      {(liveDemoUrl || githubUrl || hasProductPreviews) && (
         <div data-return-destinations>
-          {liveDemoUrl && (
+          {liveDemoUrl && destination && (
             <Link href={liveDemoUrl} newTab variant="inherit">
-              <span>View live project</span>
-              <Icon name="arrow-up-right" />
+              <span>{destination.action}</span>
+              <Icon data-return-icon name="arrow-up-right" />
+            </Link>
+          )}
+          {hasProductPreviews && (
+            <Link href="#inside-the-product" variant="inherit">
+              <span>{previews?.linkLabel ?? 'View product previews'}</span>
+              <Icon data-return-icon name="arrow-up" />
             </Link>
           )}
           {githubUrl && (
             <Link href={githubUrl} newTab variant="inherit">
               <span>Open repository</span>
-              <Icon name="arrow-up-right" />
+              <Icon data-return-icon name="arrow-up-right" />
             </Link>
           )}
         </div>
@@ -87,11 +99,13 @@ const { githubUrl, liveDemoUrl, parentPage } = Astro.props
     outline-offset: 4px;
   }
 
-  nav :global(svg) {
+  nav [data-return-icon] {
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
   }
+
+  nav [data-return-icon] :global(svg) { width: 100%; height: 100%; }
 
   span {
     min-width: 0;
@@ -157,7 +171,7 @@ const { githubUrl, liveDemoUrl, parentPage } = Astro.props
     gap: 1.25rem;
   }
 
-  [data-return-destinations] :global(svg) {
+  [data-return-destinations] [data-return-icon] {
     width: 1rem;
     height: 1rem;
     color: var(--return-accent);
@@ -213,7 +227,7 @@ const { githubUrl, liveDemoUrl, parentPage } = Astro.props
       gap: 0.5rem;
     }
 
-    nav :global(svg) {
+    nav [data-return-icon] {
       display: none;
     }
   }

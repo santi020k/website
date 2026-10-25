@@ -117,6 +117,7 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   posts are excluded. Recent writing shows the four newest remaining posts, so no article appears
   in both homepage sections.
 - **Project destinations:** the shared hero uses Destination brief for the website or repository.
+  Named return reuses those names in the closing navigation, with a link back to product previews.
   Set `liveDemoName` when its identity differs from the case-study title. Archived website links
   are identified explicitly. Gallery links appear only when the rendered chapter exists;
   `previews.linkLabel` can name a client preview, such as F.W. Webb. Retain existing destination URLs.

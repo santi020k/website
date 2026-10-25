@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 
+import { getProjectPrimaryDestination } from '@/utils/project-destinations'
+
 import { ButtonLink, Card, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
@@ -10,30 +12,19 @@ interface Props {
 }
 
 const { hasProductPreviews, parentPage, project } = Astro.props
-const { githubUrl, liveDemoName, liveDemoUrl, previews, title } = project.data
-const destinationName = liveDemoName ?? title
-const primaryHref = liveDemoUrl ?? githubUrl
-const isRepository = !liveDemoUrl && Boolean(githubUrl)
-const isArchive = Boolean(primaryHref && new URL(primaryHref).hostname === 'web.archive.org')
-
-const { context, action } = (() => {
-  if (isRepository) return { context: 'Explore the source', action: 'Open repository' }
-
-  if (isArchive) return { context: 'Explore the archived website', action: `View ${destinationName} archive` }
-
-  return { context: 'Explore the website', action: `Visit ${destinationName}` }
-})()
+const { githubUrl, liveDemoUrl, previews } = project.data
+const destination = getProjectPrimaryDestination(project.data)
 ---
 
 <nav aria-label="Project destinations" data-project-destinations id="project-destinations">
-  {primaryHref && (
+  {destination && (
     <Card data-destination-brief variant="unstyled">
       <div data-destination-copy>
-        <p data-destination-context>{context}</p>
-        <p data-destination-name>{destinationName}</p>
+        <p data-destination-context>{destination.context}</p>
+        <p data-destination-name>{destination.name}</p>
       </div>
-      <ButtonLink class="btn-primary" data-destination-primary href={primaryHref} newTab variant="unstyled">
-        <span>{action}</span>
+      <ButtonLink class="btn-primary" data-destination-primary href={destination.href} newTab variant="unstyled">
+        <span>{destination.action}</span>
         <Icon name="arrow-up-right" size="sm" />
       </ButtonLink>
     </Card>

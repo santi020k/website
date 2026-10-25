@@ -1261,8 +1261,11 @@ Article and project detail pages close with a Lumen Card containing a named nati
 navigation landmark. Use an opaque surface, fine outline, and alternating 1.75rem /
 0.375rem corners. Pair a circular purple back arrow with a small Back to label and
 larger parent destination; keep Back to top as the quieter action alongside it.
-Optional live-project and repository links occupy a separate ruled footer. Omit
-that footer when neither destination exists, and retain native URLs and safe new tabs.
+Optional website, preview, and repository links occupy a separate ruled footer. The
+Named return project treatment reuses the hero's named website or archive action and
+adds a link back to the existing preview chapter. Use an upward arrow for that internal
+return and outward arrows for external destinations. Omit the row when no destination
+exists, and retain native URLs and safe external new tabs.
 
 Below 28.75rem of container width, wrap the top row and stack external destinations.
 Below 18rem, omit the decorative circle and tighten horizontal insets so long parent

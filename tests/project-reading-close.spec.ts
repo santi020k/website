@@ -105,7 +105,7 @@ test('reading close retains Focus, sharing, and return links without JavaScript'
 
     await expect(back).toBeFocused()
     await expect(back).toHaveAttribute('href', '/work/')
-    await expect(closing.getByRole('link', { name: 'View live project', exact: true })).toHaveAttribute('href', 'https://www.marcone.com/')
+    await expect(closing.getByRole('link', { name: 'Visit Marcone', exact: true })).toHaveAttribute('href', 'https://www.marcone.com/')
     await closing.getByRole('link', { name: 'Back to top', exact: true }).click()
     await expect(page).toHaveURL(/#main$/u)
     await expect(page.getByRole('heading', { level: 1 })).toBeInViewport()
