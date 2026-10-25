@@ -1,0 +1,110 @@
+---
+import { getCachedProjects } from '@/utils/content'
+import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
+
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
+import type { LumenIconName } from '@santi020k/lumen-core'
+
+interface Props {
+  client: string
+  headingId: string
+  groups: {
+    label: string
+    icon: LumenIconName
+    technologies: (string | { label: string, technology: string })[]
+  }[]
+}
+
+const { client, groups, headingId } = Astro.props
+const projects = await getCachedProjects()
+
+const connectedGroups = groups.map(group => ({
+  ...group,
+  technologies: group.technologies.map(entry => {
+    const technology = typeof entry === 'string' ? entry : entry.technology
+    const label = typeof entry === 'string' ? entry : entry.label
+    const slug = getTechnologySlug(technology)
+    // Match the technology route: each project counts once, even with label aliases.
+    const count = projects.filter(project => project.data.technologies.some(value => getTechnologySlug(value) === slug)).length
+
+    if (count === 0) throw new Error(`Technical highlight "${technology}" has no project technology destination.`)
+
+    return { label, count, href: getTechnologyPath(technology) }
+  })
+}))
+---
+
+<Card as="section" aria-labelledby={headingId} class="not-prose" data-technical-highlights={client} variant="unstyled">
+  <header data-technical-header>
+    <p data-technical-client><Icon name="git-branch" size="sm" />{client}</p>
+    <slot />
+    <p data-technical-intro>Explore the projects and case studies connected by these technologies.</p>
+  </header>
+  <div data-technical-body>
+    {connectedGroups.map((group, index) => (
+      <div data-technical-group>
+        <h4 id={`${headingId}-group-${index + 1}`}><Icon name={group.icon} size="sm" /><span>{group.label}</span></h4>
+        <ul aria-labelledby={`${headingId}-group-${index + 1}`}>
+          {group.technologies.map(technology => (
+            <li>
+              <Link data-technical-link href={technology.href} variant="inherit">
+                <span data-technical-name>{technology.label}</span>
+                <span data-technical-count>{technology.count} {technology.count === 1 ? 'project' : 'projects'}</span>
+                <Icon name="arrow-up-right" size="sm" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+  <footer data-technical-footer>
+    <span>Projects using each technology</span>
+    <Link href="/technologies/" variant="inherit">All technologies <Icon name="arrow-right" size="sm" /></Link>
+  </footer>
+</Card>
+
+<style>
+  [data-technical-highlights][data-slot='card'] {
+    --technical-accent: var(--brand);
+    container: technical-highlights / inline-size;
+    margin-block: 2.5rem;
+    overflow: hidden;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
+    background: hsl(var(--surface));
+    padding: 0;
+  }
+  :global([data-theme='dark']) [data-technical-highlights] { --technical-accent: var(--accent); }
+  [data-technical-header] { display: grid; gap: 0.75rem; background: hsl(var(--brand-soft) / 0.5); padding: 1.75rem; }
+  [data-technical-highlights] :is(p, h4, ul, li) { margin: 0; }
+  [data-technical-client] { display: flex; align-items: center; gap: 0.5rem; color: hsl(var(--technical-accent)); font-size: 0.75rem; line-height: 1.5; font-weight: 500; }
+  /* Keep the authored heading in Astro's chapter index and preserve its fragment. */
+  [data-technical-header] :global(h3) { hyphens: none; overflow-wrap: anywhere; scroll-margin-top: 3rem; margin: 0; color: hsl(var(--ink)); font: 500 1.5625rem/1.3 var(--font-sans); letter-spacing: -0.035em; }
+  [data-technical-intro] { color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.8; }
+  [data-technical-body] { padding-inline: 1.75rem; }
+  [data-technical-group] { padding-block: 1.5rem 0.875rem; }
+  [data-technical-group] + [data-technical-group] { border-top: 1px solid hsl(var(--line)); }
+  [data-technical-group] h4 { display: grid; grid-template-columns: auto minmax(0, 1fr); overflow-wrap: anywhere; align-items: center; gap: 0.625rem; margin-bottom: 0.75rem; color: hsl(var(--ink)); font: 500 0.9375rem/1.6 var(--font-sans); }
+  [data-technical-group] h4 :global(.ui-icon) { flex-shrink: 0; color: hsl(var(--technical-accent)); }
+  [data-technical-group] ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.125rem 1.25rem; padding: 0; list-style: none; }
+  [data-technical-group] li { min-width: 0; }
+  [data-technical-link][data-slot='link'] { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.25rem 0.5rem; align-content: start; min-height: 4.375rem; height: 100%; border-top: 1px solid hsl(var(--line)); padding-block: 0.75rem; color: hsl(var(--ink)); text-decoration: none; }
+  [data-technical-name] { grid-column: 1 / -1; overflow-wrap: anywhere; font-size: 0.875rem; line-height: 1.65; font-weight: 500; text-decoration: underline; text-decoration-color: hsl(var(--line)); text-underline-offset: 0.3125rem; }
+  [data-technical-count] { color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.6; }
+  [data-technical-link] :global(.ui-icon) { align-self: center; color: hsl(var(--technical-accent)); }
+  [data-technical-footer] { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 1rem; border-top: 1px solid hsl(var(--line)); padding: 1.125rem 1.75rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.6; }
+  [data-technical-footer] :global(a) { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; color: hsl(var(--technical-accent)); font-size: 0.75rem; font-weight: 500; }
+  [data-technical-link]:is(:hover, :focus-visible) [data-technical-name] { color: hsl(var(--technical-accent)); text-decoration-color: currentColor; }
+  [data-technical-highlights] :global(a:focus-visible) { outline: 2px solid hsl(var(--technical-accent)); outline-offset: 3px; border-radius: 0.125rem; }
+  @container technical-highlights (width < 35rem) {
+    [data-technical-header] { padding: 1.5rem 1.25rem; }
+    [data-technical-body] { padding-inline: 1.25rem; }
+    [data-technical-group] ul { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1rem; }
+    [data-technical-footer] { padding: 1rem 1.25rem; }
+  }
+  @container technical-highlights (width < 15rem) {
+    [data-technical-group] h4 { grid-template-columns: minmax(0, 1fr); }
+    [data-technical-group] ul { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

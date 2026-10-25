@@ -213,6 +213,10 @@ enlarged text sizes. No new client controller is introduced.
   Focus and Outcomes share small purple labels, right-aligned icons, and plain surfaces.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
+- `ProjectTechnicalHighlights` composes Connected folio with unstyled Lumen `Card`, inherit-style
+  `Link`, and decorative `Icon`. Authored Markdown headings preserve chapter navigation; grouped
+  native links resolve canonical technology routes with per-project counts from cached content.
+  Container queries reflow the ruled links without a client controller or extra navigation headings.
 - Hero-only stack keeps `ProjectHeroStack` as the single project technology inventory.
   Its Lumen `Card`, `Link`, and `Collapsible` retain the Sculpted band and Progressive stack.
   The native disclosure supports keyboard input and works without JavaScript; projects with

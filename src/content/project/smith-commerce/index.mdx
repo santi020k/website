@@ -55,6 +55,8 @@ import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
 
 import ProjectComparison from '@/components/molecules/ProjectComparison.astro'
 
+import ProjectTechnicalHighlights from '@/components/molecules/ProjectTechnicalHighlights.astro'
+
 import beforeImage from './before.webp'
 
 import afterImage from './after.webp'
@@ -82,11 +84,19 @@ This was not a greenfield marketing site. It was a storefront migration with rea
 - **UI systems, forms, and state patterns** using `Next.js 15`, `React 19`, `TypeScript`, `Radix UI`, `TanStack Query`, and `Zod`.
 - **Developer experience improvements** through stronger linting, automation, and team standards that made delivery faster and less noisy.
 
+<ProjectTechnicalHighlights
+  client="Marcone"
+  headingId="technical-highlights"
+  groups={[
+    { label: 'Frontend', icon: 'panels-top-left', technologies: ['Next.js', { label: 'React', technology: 'React.js' }, 'TypeScript', 'Tailwind CSS', 'Radix UI', 'Lucide React'] },
+    { label: 'State and data', icon: 'database', technologies: ['TanStack Query', 'Zustand', 'Apollo Client', 'OpenAPI', 'React Hook Form', 'Zod'] },
+    { label: 'Delivery and quality', icon: 'workflow', technologies: ['Turborepo', 'Storybook', 'ESLint', 'Prettier', 'Husky', 'Jest', 'Playwright', 'CI/CD'] }
+  ]}
+>
+
 ### Technical highlights
 
-- **Frontend:** `Next.js`, `React`, `TypeScript`, `Tailwind CSS`, `Radix UI`, `Lucide React`
-- **State and data:** `TanStack Query`, `Zustand`, `Apollo Client`, `OpenAPI`, `React Hook Form`, `Zod`
-- **Delivery and quality:** `Turborepo`, `Storybook`, `ESLint`, `Prettier`, `Husky`, `Jest`, `Playwright`, `CI/CD`
+</ProjectTechnicalHighlights>
 
 ### Before and after
 
@@ -132,11 +142,19 @@ The challenge was to make a complex B2B platform feel straightforward to use. Cu
 - **Giving content teams more flexibility,** creating reusable, CMS-driven experiences that support evolving campaigns and localized content.
 - **Strengthening the foundations for continued delivery,** building shared components and integration patterns that help the storefront grow consistently.
 
+<ProjectTechnicalHighlights
+  client="F.W. Webb"
+  headingId="webb-technical-highlights"
+  groups={[
+    { label: 'Frontend', icon: 'panels-top-left', technologies: ['Next.js', { label: 'React', technology: 'React.js' }, 'TypeScript', 'Tailwind CSS', 'Radix UI'] },
+    { label: 'State, forms, and integration', icon: 'database', technologies: ['TanStack Query', 'Zustand', 'React Hook Form', 'Zod', 'OpenAPI'] },
+    { label: 'Content and development', icon: 'workflow', technologies: ['Contentstack', 'i18next', 'Turborepo', 'Storybook', 'Vitest'] }
+  ]}
+>
+
 ### Webb technical highlights
 
-- **Frontend:** `Next.js`, `React`, `TypeScript`, `Tailwind CSS`, `Radix UI`
-- **State, forms, and integration:** `TanStack Query`, `Zustand`, `React Hook Form`, `Zod`, `OpenAPI`
-- **Content and development:** `Contentstack`, `i18next`, `Turborepo`, `Storybook`, `Vitest`
+</ProjectTechnicalHighlights>
 
 ### My approach
 

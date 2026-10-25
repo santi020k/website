@@ -995,6 +995,23 @@ image proportions, descriptive alternatives, both visible states, and native
 full-image links without JavaScript. The surrounding authored heading stays in
 reading navigation; the comparison does not introduce extra navigation chapters.
 
+### Connected folio technical highlights
+
+Keep chapter-specific technologies in one opaque Lumen Card, with 1.75rem corners
+and a 0.5rem lower-right corner. The soft brand header identifies the client,
+retains the authored chapter heading, and explains the connections to other projects.
+Use three ruled groups with decorative icons and three columns of native links.
+Each link places its name above the project count, with the arrow beside the count
+so long names have the full column width. Counts match the technology archive and
+include the current project. Never invent destinations or copy counts into content.
+
+Use 1.75rem horizontal insets and 70px minimum technology rows. Below 35rem of
+container width, use two columns and 1.25rem insets; below 15rem, use one column.
+The footer explains the counts and links to All technologies. Preserve keyboard
+focus, both themes, and the heading's existing fragment without adding group
+headings to chapter navigation. This contextual subset complements the hero's
+complete inventory and adds no client JavaScript.
+
 ### Letter folio newsletter signup
 
 The Blog newsletter uses one opaque Lumen Card with a small upper-left corner and

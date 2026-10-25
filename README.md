@@ -124,6 +124,10 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   reads the existing claims. Keep contextual galleries before the card and do not add a sidebar copy.
   Consolidate repeated results into `impactMetrics`; pass a removed section's fragment as the
   card's optional `id` to preserve existing links without repeating its heading or list.
+- **Technical highlights:** use `ProjectTechnicalHighlights` for chapter-specific Connected folios.
+  Supply the client, existing Markdown heading and fragment, and grouped canonical technology labels.
+  Use `{ label: 'React', technology: 'React.js' }` when display copy differs from the index label.
+  Links and project counts come from the published collection; missing destinations fail the build.
 - **Product previews:** annotated application captures complement project artwork. Follow the
   [preview provenance guide](docs/editorial/project-previews.md) and
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.

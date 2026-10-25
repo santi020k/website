@@ -61,9 +61,9 @@ for (const theme of ['light', 'dark'] as const) {
       const first = page.locator('[data-project-ledger]').first()
       await expect(first.getByRole('listitem')).toHaveCount(4)
       await expect(first.locator('code')).toHaveText(['Next.js 15', 'React 19', 'TypeScript', 'Radix UI', 'TanStack Query', 'Zod'])
-      const claim = page.locator('[data-project-ledger-row]').filter({ hasText: 'Lighthouse score improved from 35 to 98.' })
-      await expect(claim).toHaveText('Lighthouse score improved from 35 to 98.')
-      await expect(claim.locator('[data-project-ledger-detail]')).toHaveCount(0)
+      const outcomes = page.locator('[data-project-outcomes]')
+      await expect(outcomes.getByText('Marcone: Lighthouse score improved from 35 to 98', { exact: true })).toHaveCount(1)
+      await expect(page.locator('[data-project-ledger-row]').filter({ hasText: 'Lighthouse score improved' })).toHaveCount(0)
       const scan = await new AxeBuilder({ page }).include('[data-project-ledger]').analyze()
       expect(scan.violations).toEqual([])
 

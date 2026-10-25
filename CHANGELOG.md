@@ -232,6 +232,8 @@
 
 - Consolidate Marcone results into Unified evidence: retain Lighthouse, Time to Interactive, accessibility, and First Contentful Paint in one chapter panel. Remove the duplicate outcome list, preserve both outcome fragments, and keep the resume synchronized with the shared claims.
 
+- Connect Marcone and F.W. Webb technical highlights to the technology index with Connected folio. Preserve chapter anchors and technology groups, derive project counts from published content, and keep links accessible across themes, text sizes, and no-JavaScript navigation.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
