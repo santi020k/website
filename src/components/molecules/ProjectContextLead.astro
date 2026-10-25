@@ -76,7 +76,7 @@ const stage = getProjectStageLabel(project.data.typesId, project.data.endingDate
 
   [data-project-context-lead] :global(h2::after) { content: none; }
 
-  [data-project-context-lead] :global(h2 + p) {
+  [data-project-context-lead] :global(h2 ~ p) {
     margin: 1.5rem 0 0;
     color: hsl(var(--ink-soft));
     font-size: 1.125rem;
@@ -89,6 +89,6 @@ const stage = getProjectStageLabel(project.data.typesId, project.data.endingDate
   }
 
   @container project-context (width < 35rem) {
-    [data-project-context-lead] :global(h2 + p) { font-size: 1.0625rem; }
+    [data-project-context-lead] :global(h2 ~ p) { font-size: 1.0625rem; }
   }
 </style>
