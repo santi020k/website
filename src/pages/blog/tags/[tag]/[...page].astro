@@ -4,7 +4,7 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Pill from '@/components/atoms/Pill.astro'
+import SculptedTag from '@/components/atoms/SculptedTag.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import Pagination from '@/components/molecules/Pagination.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
@@ -87,23 +87,25 @@ mainClass="remaining-pages"
   </PageHero>
 
   {relatedTags.length > 0 && (
-    <section class="
-      section-container-wide flex flex-wrap items-center gap-3 pt-2
-    "
+    <nav
+      aria-labelledby="related-topics-heading"
+      class="section-container-wide flex flex-wrap items-center gap-3 pt-2"
+      data-related-topics
     >
-      <p class="shrink-0 section-label">Related topics</p>
-      <div class="flex flex-wrap gap-2">
-        {relatedTags.map(([t, count]) => (
-          <Pill
-            count={count}
-            href={getTagPath(t)}
-            label={t}
-            showHash
-            tone="outline"
-          />
+      <p class="shrink-0 section-label" id="related-topics-heading">Related topics</p>
+      <ul class="
+        @container/sculpted-tags flex max-w-full min-w-0 flex-1 basis-full
+        flex-wrap gap-2.5
+        sm:basis-96
+      "
+      >
+        {relatedTags.map(([topic, count]) => (
+          <li class="max-w-full min-w-0">
+            <SculptedTag count={count} href={getTagPath(topic)} label={topic} />
+          </li>
         ))}
-      </div>
-    </section>
+      </ul>
+    </nav>
   )}
 
   <section

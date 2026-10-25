@@ -1535,6 +1535,14 @@ keep their existing reading behavior. The table of contents uses an open rule in
 a glass panel. The resume uses the same canvas on screen; its separate print rules and
 both downloadable PDF variants remain authoritative.
 
+### Sculpted tags related-topic shortcuts
+
+Topic archives use **Sculpted tags** for the Related topics links below their introduction.
+Keep the existing up-to-six topic selection, exclude the current topic, and preserve counts,
+order, and canonical archive destinations. The named navigation contains a semantic list;
+links wrap at every width and retain the shared count compartments and visible focus outline.
+These destination shortcuts have no selected state and add no client JavaScript.
+
 ### Sculpted tags Work technology links
 
 The Work toolkit uses **Sculpted tags** for its 18 highlighted technologies. Reuse the

@@ -188,6 +188,8 @@
 
 - Apply Sculpted tags to the Work page technology links, reusing the shared shaped links and count compartments. Preserve professional-project counts, technology destinations, ordering, and the full-index action across responsive layouts and keyboard navigation.
 
+- Apply Sculpted tags to related-topic shortcuts on Blog topic archives. Preserve topic selection, counts, ordering, and canonical destinations while adding named list navigation and responsive wrapping with visible keyboard focus.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
