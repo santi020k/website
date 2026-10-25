@@ -699,6 +699,15 @@ each label moves above its text. Keep the existing four groups and authored copy
 The screen-only layout leaves both PDFs with their compact two-column skill grid,
 print typography, and existing pagination. These passive rows have no hover effect.
 
+### Experience first Work opening
+
+The Work hero makes Explore experience its primary action, using the shared solid
+button and a downward arrow to jump to the existing experience heading. Keep Open
+resume and LinkedIn as plain secondary links, with LinkedIn in the softer text tone.
+Group these supporting links so they wrap below the primary action when space is
+limited, then wrap individually for enlarged text. Preserve native fragment navigation,
+focus outlines, and the existing hero copy, Career ledger, and Timeline folio cards.
+
 ### Career ledger Work highlights
 
 The Work introduction closes with four bare Lumen Stat articles in a two-column

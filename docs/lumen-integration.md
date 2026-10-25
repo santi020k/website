@@ -71,8 +71,11 @@ semantics remain intact while the site owns its visual composition.
 ## Work page composition
 
 The Work page follows the solid editorial canvas of the homepage and navbar: generous
-spacing, Montserrat headings, fine dividers, a purple emphasis, and the shared solid resume
-button. Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `SculptedTag`.
+spacing, Montserrat headings, fine dividers, and a purple emphasis. Its Experience first
+opening uses the shared solid `ButtonLink` for a native jump to `#experience-heading`.
+Open resume and LinkedIn remain secondary destinations, grouped so they wrap together
+below the primary action when space is limited. LinkedIn keeps its external-link contract.
+Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `SculptedTag`.
 `CareerTimeline` uses Lumen `Timeline` for its ordered list and one unstyled `Card` per
 linked role. A site-owned date rail and connector frame the Timeline folio layout without
 styling private TimelineItem internals. Each role retains its complete description,
