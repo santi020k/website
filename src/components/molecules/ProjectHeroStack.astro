@@ -20,7 +20,7 @@ const extraTechnologies = sortTechnologiesByInterest(technologies.slice(6))
   "
   data-project-stack-container
 >
-  <Card as="section" variant="unstyled" aria-labelledby="project-stack-heading" data-project-stack>
+  <Card as="section" variant="unstyled" aria-labelledby="project-stack-heading" data-project-stack id="sidebar-stack">
     <header data-project-stack-margin>
       <span data-project-stack-symbol><Icon name="layers" class="size-5" /></span>
       <h2 id="project-stack-heading">Stack</h2>
@@ -123,7 +123,8 @@ const extraTechnologies = sortTechnologiesByInterest(technologies.slice(6))
 
   [data-project-stack-pills] li { max-width: 100%; }
 
-  :global([data-project-stack-more]) { margin-top: 1.25rem; padding: 0; border: 0; border-top: 1px solid hsl(var(--line)); border-radius: 0; background: transparent; box-shadow: none; }
+  /* Keep WebKit from clipping the summary to rounded disclosure bounds. */
+  :global([data-project-stack-more]) { overflow: visible; margin-top: 1.25rem; padding: 0; border: 0; border-top: 1px solid hsl(var(--line)); border-radius: 0; background: transparent; box-shadow: none; }
   [data-project-stack-content] summary { min-height: 2.75rem; margin: 0; padding: 0.875rem 1.5rem 0.875rem 0; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.7; font-weight: 500; overflow-wrap: anywhere; }
   [data-project-stack-content] summary::before { display: none; }
   [data-project-stack-content] summary::after { inset-inline-end: 0.125rem; top: 1.125rem; border-color: currentColor; }
@@ -203,6 +204,7 @@ const extraTechnologies = sortTechnologiesByInterest(technologies.slice(6))
     [data-project-stack-content] { padding: 0.375rem; }
     [data-project-stack-content] summary { padding-inline-end: 0; }
     [data-project-stack-content] summary::after { position: static; margin-inline-start: 0.5rem; }
-    :global([data-project-stack-link]) { gap: 0.25rem; padding: 0.375rem 0.25rem; font-size: 0.75rem; }
+    :global([data-project-stack-link]) { gap: 0; padding: 0.375rem 0.125rem; font-size: 0.75rem; }
+    :global([data-project-stack-link])::before { display: none; }
   }
 </style>

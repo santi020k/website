@@ -104,18 +104,18 @@ mainClass="remaining-pages remaining-pages--reading"
 >
   <ScrollProgress />
 
-  <article class="h-entry section-container-wide flex flex-col gap-10" data-reading-layout>
+  <article class="h-entry section-container-wide flex flex-col" data-reading-layout>
     <a class="u-url sr-only" href={localURL.href}>Permalink to this article</a>
     <PostHero post={post} />
 
     <!-- ── Body: prose + sticky TOC sidebar when the reading container has room ── -->
     <section
-      class="grid grid-cols-1 gap-10 pt-10"
+      class="grid grid-cols-1 gap-10"
       data-reading-body
     >
       <!-- Left: article prose, series navigator, share -->
       <div class="min-w-0 space-y-10">
-        <div class="e-content max-w-none space-y-8 pt-4">
+        <div class="e-content max-w-none space-y-8">
           <ContentNotesHeader
             description="Notes, guides, and personal discoveries from things I build, enjoy, and learn."
             label="Article notes"

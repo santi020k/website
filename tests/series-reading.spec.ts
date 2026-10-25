@@ -88,7 +88,7 @@ for (const theme of ['light', 'dark']) {
     await expect(chapters.locator('[aria-current="step"]')).toHaveCount(1)
     await expect(links.nth(3)).toContainText('Reading now')
     await expect(links.nth(3)).toHaveAttribute('aria-current', 'step')
-    for (const width of [320, 768, 1024]) {
+    for (const width of [320, 375, 390, 768, 1024]) {
       await page.setViewportSize({ width, height: 900 })
       for (const textSize of ['100%', '200%']) {
         await page.evaluate(async value => {
@@ -96,6 +96,14 @@ for (const theme of ['light', 'dark']) {
           await document.fonts.ready
         }, textSize)
         await chapters.scrollIntoViewIfNeeded()
+        const numberLines = await chapters.locator('[data-series-step-number] [aria-hidden]').evaluateAll(numbers => numbers.map(number => {
+          const range = document.createRange()
+
+          range.selectNodeContents(number)
+          return [...range.getClientRects()].filter(rect => rect.width > 0).length
+        }))
+
+        expect(numberLines).toEqual(Array.from({ length: 5 }, () => 1))
         for (const title of await chapters.locator('[data-series-step-title]').all()) {
           const layout = await title.evaluate(element => ({
             width: element.clientWidth,

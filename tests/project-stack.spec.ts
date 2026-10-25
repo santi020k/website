@@ -6,6 +6,9 @@ test('project hero shows the core stack and reveals every remaining technology',
   await page.goto('/portfolio/smith-commerce/')
 
   const stack = page.locator('[data-project-stack]')
+  await expect(stack).toHaveCount(1)
+  await expect(page.getByRole('heading', { name: 'Core stack', exact: true })).toHaveCount(0)
+  await expect(page.locator('[data-project-sidebar] [data-project-focus] + [data-project-outcomes]')).toHaveCount(1)
   const disclosure = stack.locator('details')
   const trigger = stack.locator('summary')
   const extraTechnology = stack.getByRole('link', { name: 'Contentstack', exact: true })
@@ -25,15 +28,18 @@ test('project hero shows the core stack and reveals every remaining technology',
   await expect(stack.getByRole('link')).toHaveText(coreTechnologies)
 })
 
-test('project stack reveals additional technologies with keyboard and pointer', async ({ page }) => {
+test('project hero is the only stack and reveals technologies with keyboard and pointer', async ({ page }) => {
   await page.goto('/portfolio/lumen-ui/')
 
-  const stack = page.locator('section[aria-labelledby="sidebar-stack"]')
+  const stack = page.locator('[data-project-stack]')
+  await expect(stack).toHaveCount(1)
+  await expect(page.getByRole('heading', { name: 'Core stack', exact: true })).toHaveCount(0)
+  await expect(page.locator('[data-project-sidebar] [data-project-focus] + [data-project-outcomes]')).toHaveCount(1)
   const disclosure = stack.locator('details')
   const trigger = stack.locator('summary')
   const extraTechnology = stack.getByRole('listitem').filter({ hasText: /^Accessibility$/ })
 
-  await expect(stack.locator('[data-stack-preview] li')).toHaveText(['Astro', 'React.js', 'Web Components', 'TypeScript', 'CSS', 'Tailwind CSS'])
+  await expect(stack.locator('[data-project-stack-preview] li')).toHaveText(['Astro', 'React.js', 'Web Components', 'TypeScript', 'CSS', 'Tailwind CSS'])
   await expect(stack.locator('li:visible')).toHaveCount(6)
   await expect(trigger).toHaveText('More technologies (12)')
   await expect(extraTechnology).toBeHidden()
@@ -49,12 +55,13 @@ test('project stack reveals additional technologies with keyboard and pointer', 
   await expect(extraTechnology).toBeHidden()
 })
 
-test('project stack disclosure fits a narrow viewport without JavaScript', async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
+test('hero stack retains legacy fragments and its disclosure without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce', viewport: { width: 390, height: 844 } })
   const page = await context.newPage()
-  await page.goto('/portfolio/lumen-ui/')
+  await page.goto('/portfolio/lumen-ui/#sidebar-stack')
 
   const hero = page.locator('[data-project-stack]')
+  await expect(hero.getByRole('heading', { name: 'Stack', exact: true })).toBeInViewport()
   const heroTrigger = hero.locator('summary')
   await expect(hero.getByRole('link')).toHaveCount(6)
   await heroTrigger.scrollIntoViewIfNeeded()
@@ -63,15 +70,8 @@ test('project stack disclosure fits a narrow viewport without JavaScript', async
   await expect(hero.getByRole('link', { name: 'Accessibility', exact: true })).toBeVisible()
   await expect(hero.getByRole('link')).toHaveCount(18)
 
-  const stack = page.locator('section[aria-labelledby="sidebar-stack"]')
-  const trigger = stack.locator('summary')
-
-  // The no-JavaScript page retains CSS smooth scrolling. Let the native scroll
-  // reach the disclosure before Playwright attempts its pointer interaction.
-  await trigger.scrollIntoViewIfNeeded()
-  await expect(trigger).toBeInViewport({ ratio: 1 })
-  await trigger.click()
-  await expect(stack.getByRole('listitem').filter({ hasText: /^AI-assisted Development$/ })).toBeVisible()
+  await expect(hero.getByRole('link', { name: 'AI-assisted Development', exact: true })).toBeVisible()
+  await expect(page.locator('[data-project-sidebar] [data-project-stack]')).toHaveCount(0)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   await context.close()
 })

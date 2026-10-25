@@ -30,11 +30,14 @@ const personalProjects = allProjects
   .sort(collectionRelevanceSortProjects)
   .slice(0, 4)
 
+const startHerePosts = getStartHerePosts(allPosts)
+const startHerePostIds = new Set(startHerePosts.map(post => post.id))
+
 const latestPosts = allPosts
+  .filter(post => !startHerePostIds.has(post.id))
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
   .slice(0, 4)
 
-const startHerePosts = getStartHerePosts(allPosts)
 const yearsOfExperience = YEARS_OF_EXPERIENCE
 
 const homeDescription =

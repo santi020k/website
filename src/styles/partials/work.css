@@ -42,7 +42,12 @@
   .work-stats [data-slot="stat"]:nth-last-child(2) { border-bottom: 0; }
 }
 @container work-intro (width < 27.5rem) {
-  .work-stats [data-slot="stat"] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .work-stats [data-slot="stat"] { grid-template-columns: 5.75rem minmax(0, 1fr); align-items: start; gap: 1rem; padding-block: 1.5rem; }
+  .work-stat-value { font-size: 2.5rem; }
+  .work-stats [data-work-stat-copy] { padding-left: 0.875rem; }
+}
+@container work-intro (width < 17.5rem) {
+  .work-stats [data-slot="stat"] { grid-template-columns: minmax(0, 1fr); }
 }
 @container work-intro (width < 14rem) {
   .work-stat-value { font-size: min(3rem, 22cqi); }

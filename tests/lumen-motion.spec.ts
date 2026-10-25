@@ -68,7 +68,7 @@ test('metrics and disclosures retain final content with reduced motion', async (
   await page.locator('[data-sort-btn="alpha"]').click()
   expect(await page.locator('#tags-list').getAttribute('data-observed-motion-count')).toBeNull()
   await page.goto('/portfolio/lumen-ui/')
-  const disclosure = page.locator('section[aria-labelledby="sidebar-stack"] details')
+  const disclosure = page.locator('[data-project-stack] details')
   await disclosure.locator('summary').click()
   await expect(disclosure).toHaveAttribute('open', '')
   expect(await disclosure.evaluate(element => getComputedStyle(element, '::details-content').transitionDuration)).toMatch(/^0s(?:, 0s)*$/)

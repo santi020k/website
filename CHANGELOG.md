@@ -214,7 +214,11 @@
 
 - Place project previews in a Contextual gallery after the relevant story introduction. Preserve Gallery sheet images, captions, and development disclosures; derive navigation order from authored chapter headings, retain existing gallery fragments, and support keyboard and no-JavaScript reading.
 
+- Use Hero-only stack on project detail pages: retain the complete Progressive stack in the hero, remove the repeated Core stack sidebar card, and keep Focus and Outcomes together. Preserve existing stack fragments, technology destinations, and keyboard and no-JavaScript disclosure behavior.
+
 ### Patch Changes
+
+- Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
 
 - Refine the homepage with a wide editorial lead story, image-led recent articles, larger reading
   titles, and quieter Start here recommendations. Replace the authentication cover with text-free
@@ -487,6 +491,8 @@
 - Keep the footer source link clear of the fixed Top control at tablet widths.
 
 - Align Projects, Portfolio, Blog, topic archives, and technology archives with the shared responsive section spacing. Remove duplicated topic navigation and unused mobile statistic prefix space and reserve tablet clearance between the footer version link and floating Top control. Preserve the approved card designs and footer composition.
+
+- Refine mobile card integration with compact About and Work statistic rails, one responsive hero-to-content interval on articles and projects, and narrower chapter-navigation margins that give long titles more room. Preserve full copy, enlarged-text reflow, desktop compositions, and the approved footer.
 
 - Recover cached pages during offline navigation without a trailing slash and separate repeated copy-link status updates so assistive technology can detect each result, cancelling pending feedback when leaving an article.
 

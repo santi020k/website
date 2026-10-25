@@ -122,7 +122,7 @@ for (const width of [320, 390, 1440]) {
 
         test('project stack disclosure keeps its label and focus readable', async ({ page }) => {
           await openPage(page, '/portfolio/lumen-ui/', textSize)
-          const stack = page.locator('section[aria-labelledby="sidebar-stack"]')
+          const stack = page.locator('[data-project-stack]')
           const trigger = stack.locator('summary')
           const extra = stack.getByRole('listitem').filter({ hasText: /^Accessibility$/ })
 
@@ -192,11 +192,11 @@ for (const theme of ['light', 'dark'] as const) {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
     await openPage(page, '/portfolio/lumen-ui/', 200)
-    const trigger = page.locator('section[aria-labelledby="sidebar-stack"] summary')
+    const trigger = page.locator('[data-project-stack] summary')
 
     await trigger.focus()
     await page.keyboard.press('Enter')
-    await expect(page.locator('section[aria-labelledby="sidebar-stack"] details')).toHaveAttribute('open', '')
+    await expect(page.locator('[data-project-stack] details')).toHaveAttribute('open', '')
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 }

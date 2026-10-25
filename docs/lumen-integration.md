@@ -173,16 +173,17 @@ enlarged text sizes. No new client controller is introduced.
 - Project timeline endpoints use separate native `time` elements. Hero-led project
   facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled
-  Lumen `Card` for its Margin note composition. `ProjectStackCard` composes the Stack ledger from
-  `Card`, semantic technology lists, and `Collapsible`. `ProjectOutcomesCard` composes
+  Lumen `Card` for its Margin note composition. `ProjectOutcomesCard` composes
   Impact rows with `Card`, `Icon`, and semantic lists, keeping original claims accessible.
   These project sidebar cards share small purple labels, right-aligned icons, and plain
   surfaces; their content compositions remain distinct.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
-- Project stack cards use Lumen `Collapsible` for technologies beyond the first six. The native
-  disclosure supports keyboard input and works without JavaScript; projects with shorter stacks
-  show their complete list directly.
+- Hero-only stack keeps `ProjectHeroStack` as the single project technology inventory.
+  Its Lumen `Card`, `Link`, and `Collapsible` retain the Sculpted band and Progressive stack.
+  The native disclosure supports keyboard input and works without JavaScript; projects with
+  shorter stacks show their complete list directly. The former sidebar stack is omitted;
+  its `#sidebar-stack` fragment now targets the hero, alongside the existing `#technologies`.
 - Testimonial identities use Lumen `Avatar`; optimized Astro images remain slotted inside it.
 - Site-specific interface icons use Lumen `Icon` when Lucide provides the mark. Third-party brand
   logos remain on `astro-icon` because Lucide intentionally excludes brand assets.

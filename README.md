@@ -114,7 +114,8 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   Category links work without JavaScript; drafts remain unpublished.
 - **Start here:** three published articles introduce the tools, decisions, and motivations behind
   the work. Edit `startHere.order`, `label`, and `reason` in post frontmatter; drafts and scheduled
-  posts are excluded. Recent writing remains a separate chronological list.
+  posts are excluded. Recent writing shows the four newest remaining posts, so no article appears
+  in both homepage sections.
 - **Product previews:** annotated application captures complement project artwork. Follow the
   [preview provenance guide](docs/editorial/project-previews.md) and
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.
