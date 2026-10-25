@@ -15,6 +15,54 @@
   @apply prose-blockquote:border-l-4 prose-blockquote:border-brand/40 prose-blockquote:bg-surface-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:sm:px-6 prose-blockquote:rounded-r-xl prose-blockquote:italic prose-blockquote:text-ink-soft;
   @apply prose-code:before:content-none prose-code:after:content-none;
 
+  /* Margin lead uses the original paragraph and its inline markup at build time. */
+  & [data-article-margin-lead] {
+    container: article-lead / inline-size;
+    margin-block: 0 1.75rem;
+    scroll-margin-top: 9rem;
+  }
+  & [data-article-lead-layout] {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+  & [data-article-format] {
+    min-width: 0;
+    margin: 0;
+    padding-top: .375rem;
+    color: hsl(var(--brand));
+    font-size: .8125rem;
+    font-weight: 500;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+  & [data-article-lead] {
+    min-width: 0;
+    margin: 0;
+    border-inline-start: 2px solid hsl(var(--brand));
+    padding-inline-start: 1.5rem;
+    color: hsl(var(--ink));
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.85;
+    letter-spacing: -.018em;
+  }
+  @variant dark {
+    & [data-article-format] { color: hsl(var(--accent)); }
+    & [data-article-lead] { border-inline-start-color: hsl(var(--accent)); }
+  }
+  @container article-lead (width < 32rem) {
+    & [data-article-lead-layout] { grid-template-columns: minmax(0, 1fr); gap: .875rem; }
+    & [data-article-format] { padding-top: 0; }
+    & [data-article-lead] { padding-inline-start: 1.125rem; }
+  }
+  @container article-lead (width < 20rem) {
+    & [data-article-lead] { padding-inline-start: .75rem; font-size: 1.125rem; }
+  }
+  @container article-lead (width < 14rem) {
+    & [data-article-lead] { font-size: 1rem; }
+  }
+
   /* Margin quotation keeps the native quote and its authored paragraphs intact. */
   & blockquote[data-article-quote] {
     container: article-quote / inline-size;

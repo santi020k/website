@@ -370,7 +370,12 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
 - `ContentNotesHeader` uses the site-owned Margin preface composition: an open label
   and type margin beside a description rail. Plain metadata replaces the former Pill;
   no interactive primitive or additional card surface is needed. Lumen semantic tokens
-  keep the rules and text consistent across article and project reading pages.
+  keep the rules and text consistent on project reading pages without Context lead.
+- Article openings use the site-owned Margin lead composition with a plain format
+  label beside the authored first paragraph. A build-time Markdown transform preserves
+  inline markup and preceding update notes; scoped container queries stack the margin
+  on narrow screens. Semantic tokens provide the rail and text colors. This passive
+  composition needs no interactive primitive, card surface, or client controller.
 - `ProjectFooterNav` composes Return folio with public unstyled `Card`, inherit-style
   `Link`, and decorative `Icon` components. A native named navigation landmark keeps
   parent, top, named website, preview chapter, and repository destinations available without JavaScript.

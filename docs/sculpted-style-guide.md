@@ -919,7 +919,7 @@ do not reserve a gap for absent navigation. Articles likewise omit empty navigat
 ### Chapter opener reading navigation
 
 In stacked project and article reading layouts, place navigation immediately before
-Work notes or Article notes. Use a closed native Lumen Collapsible with
+Work notes or the article opening. Use a closed native Lumen Collapsible with
 the On this page label, a count of top-level sections, and a downward chevron. Its
 opaque panel shares the Margin rail corners, border, and 0.75rem label; the summary
 has a 4.25rem minimum height. Opening it reveals the complete heading list, including
@@ -1334,7 +1334,7 @@ entrance; this composition requires no additional JavaScript.
 
 ### Margin preface content notes
 
-Article and project notes use an open, ruled introduction before the main content.
+Project notes without Context lead use an open, ruled introduction before the main content.
 Keep the label and plain type or stage in a 9.375rem margin, with the full description
 beside a 2px purple rail. Use a 1.625rem column gap and vertical insets, 0.875rem
 labels, 0.8125rem metadata, and 1.0625rem description text with 1.8 leading.
@@ -1343,6 +1343,24 @@ Below 28.75rem of container width, stack the description beneath the wrapping la
 and type row. Keep the same reading order, semantic theme tokens, and complete copy
 with enlarged text. The project content wrapper leaves the top rule and insets to
 this header to avoid doubled borders. This passive composition adds no client script.
+
+### Margin lead article opening
+
+Blog articles pair their format with the original opening paragraph, replacing the
+generic Article notes preface. Use a 6rem margin, a 1.5rem column gap, a 0.8125rem
+format label, and a 2px purple rail with a 1.5rem inset. The lead uses ink-colored
+1.25rem text with 1.85 leading and retains authored links, emphasis, and inline code.
+The following paragraph resumes the full reading width and normal prose styling.
+
+Below 32rem of available width, place the format above the lead and reduce its rail
+inset to 1.125rem. Below 20rem, use a 0.75rem inset and 1.125rem text; below 14rem,
+use 1rem text to preserve readable words at enlarged text sizes. Keep brand/accent
+tokens in their corresponding themes. No client script is required.
+
+The article-only Markdown transform wraps the first top-level paragraph before a
+section heading. Existing update notes stay before the opening. Do not extract
+text, duplicate the introduction, or promote a paragraph from inside a callout,
+quote, list, or section. Projects and historical sites retain their own treatments.
 
 ### Return folio page-end navigation
 

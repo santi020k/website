@@ -19,7 +19,7 @@ const expectNavigationPlacement = async (page: Page, browserName: string) => {
     await expect(opener.locator('summary')).toHaveText('On this page 7 sections')
     await expect(page.getByRole('navigation', { name: 'Table of contents', exact: true })).toHaveCount(0)
     expect(await opener.evaluate(element => {
-      const notes = document.querySelector('[data-content-notes]')
+      const notes = document.querySelector('[data-article-margin-lead]')
 
       return notes !== null && element.getBoundingClientRect().bottom <= notes.getBoundingClientRect().top &&
         Boolean(element.compareDocumentPosition(notes) & Node.DOCUMENT_POSITION_FOLLOWING)

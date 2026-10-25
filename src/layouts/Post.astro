@@ -5,7 +5,6 @@ import type { CollectionEntry } from 'astro:content'
 import { WEBMENTION_API_KEY } from 'astro:env/server'
 
 import CommentsSection from '@/components/molecules/CommentsSection.astro'
-import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
 import ChapterOpener from '@/components/molecules/ProjectChapterOpener.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
 import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
@@ -122,13 +121,7 @@ mainClass="remaining-pages remaining-pages--reading"
             <ChapterOpener headings={headings} />
           </div>
         )}
-        <div class="e-content max-w-none space-y-8">
-          <ContentNotesHeader
-            description="Notes, guides, and personal discoveries from things I build, enjoy, and learn."
-            label="Article notes"
-            pill={post.data.postType}
-          />
-
+        <div class="e-content max-w-none">
           <div class="prose-santi max-w-none">
             <slot />
           </div>
