@@ -279,7 +279,26 @@ describe('fetchWebmentionsForTarget', () => {
     expect(out[0]?.author).toBeNull()
   })
 
-  test.each([42, '', ' \t\n '])('ignores an unusable author name %p', async name => {
+  test.each([
+    { label: 'non-string', name: 42 },
+    { label: 'empty', name: '' },
+    { label: 'whitespace', name: ' \t\n ' },
+    { label: 'zero-width space', name: '\u200b' },
+    { label: 'joiners', name: '\u200c\u200d' },
+    { label: 'direction marks and embedding', name: '\u200e\u200f\u202a\u202c' },
+    { label: 'word joiner', name: '\u2060' },
+    { label: 'soft hyphen', name: '\u00ad' },
+    { label: 'combining grapheme joiner', name: '\u034f' },
+    { label: 'Arabic direction mark', name: '\u061c' },
+    { label: 'variation selector', name: '\ufe0f' },
+    { label: 'supplementary variation selector', name: '\u{E0100}' },
+    { label: 'Hangul fillers', name: '\u115f\u1160' },
+    { label: 'compatibility Hangul fillers', name: '\u3164\uffa0' },
+    { label: 'tag characters', name: '\u{E0061}\u{E007F}' },
+    { label: 'NUL and C0/C1 controls', name: '\u0000\u0001\u007f\u0085\u009f' },
+    { label: 'next-line control and line separator', name: '\u0085\u2028' },
+    { label: 'invisible text mixed with whitespace', name: ' \u200b\t\u00ad\n ' }
+  ])('ignores an unusable author name: $label', async ({ name }) => {
     vi.stubGlobal(
       'fetch', vi.fn().mockResolvedValue({
         ok: true,
@@ -287,14 +306,55 @@ describe('fetchWebmentionsForTarget', () => {
           children: [{
             'wm-property': 'like-of',
             'wm-source': 'https://alice.example/note',
-            author: { name }
+            author: { name, photo: 'https://alice.example/a.jpg', url: 'https://alice.example/' }
           }]
         })
       })
     )
 
     const out = await fetchWebmentionsForTarget('https://santi020k.com/blog/hello/', 'test-token')
-    expect(out[0]?.author?.name).toBeNull()
+    expect(out).toHaveLength(1)
+    expect(out[0]?.['wm-source']).toBe('https://alice.example/note')
+    expect(out[0]?.author).toEqual({
+      name: null,
+      photo: 'https://alice.example/a.jpg',
+      url: 'https://alice.example/'
+    })
+  })
+
+  test.each([
+    'Alice',
+    '𠮷田',
+    'E\u0301',
+    'می\u200cنا',
+    '👩🏽‍💻',
+    '❤️',
+    '🇨🇴',
+    '\u200eAlice\u200f',
+    '\u061c\u0633\u0627\u0631\u0629',
+    '\u1100\u1160',
+    '\u0301',
+    '\u0903',
+    '—',
+    '123',
+    'A\u00a0B',
+    'A\u0001B',
+    '\u06dd',
+    '\u0600',
+    '\u200bAlice',
+    '\u0915\u094d\u200d\u0937',
+    '\u2067\u05e9\u05dc\u05d5\u05dd\u2069',
+    '\u2800',
+    '🏴\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}'
+  ])('preserves meaningful Unicode author names after trimming %p', async name => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse({
+      children: [like(1, { author: { name: ` \t${name}\n ` } })]
+    })))
+
+    const out = await fetchWebmentionsForTarget(target, 'test-token')
+
+    expect(out).toHaveLength(1)
+    expect(out[0]?.author?.name).toBe(name)
   })
 
   test.each(['', ' \t\n '])('falls back to the summary when content text is %p', async text => {

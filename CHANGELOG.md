@@ -506,6 +506,8 @@
 
 - Preserve complete Unicode characters in webmention initials and bounded reply excerpts, and render valid timezone-free mention dates consistently across build environments while retaining existing loose-date compatibility.
 
+- Treat webmention author names made only of whitespace, controls, or default-ignorable characters as missing, restoring readable anonymous labels while preserving meaningful Unicode names and mention links.
+
 ## 4.0.0
 
 ### Major Changes
