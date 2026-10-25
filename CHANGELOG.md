@@ -476,6 +476,8 @@
 
 - Use the visible recommendation, package name, and action as the accessible name of project replacement links, keeping voice-control labels consistent with the Successor spread design.
 
+- Redesign the shared footer as an integrated closing statement with a large editorial headline, a sculpted WhatsApp action, and a quieter email link. Align the contact and directory columns, preserve compact footers, and keep the entire footer readable with enlarged text on narrow screens.
+
 ## 4.0.0
 
 ### Major Changes
