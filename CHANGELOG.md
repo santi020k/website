@@ -206,6 +206,10 @@
 
 ### Patch Changes
 
+- Refine the homepage reading hierarchy with an illustrated latest article, three recent entries,
+  and quieter Start here recommendations. Rebalance mobile statistics into horizontal number
+  rails while preserving every value, description, article, and accessible link in both themes.
+
 - Improve article reading and search metadata: defer comments until readers approach the section,
   make wide tables keyboard-scrollable with readable text in both themes, improve code badge
   contrast, and match article copy labels to their visible text. Keep project structured images

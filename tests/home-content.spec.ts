@@ -12,6 +12,19 @@ test('homepage keeps project discovery and reading connected to real content', a
   await expect(work.locator('a[href^="/portfolio/"]')).toHaveCount(4)
   await expect(projects.locator('a[href^="/portfolio/"]')).toHaveCount(4)
   await expect(latestWriting.getByRole('link')).toHaveCount(4)
+  const cover = latestWriting.getByRole('img')
+
+  await cover.scrollIntoViewIfNeeded()
+  await expect(cover).toHaveCount(1)
+  await expect(cover).toHaveAttribute('alt', /\S/u)
+  await expect.poll(() => cover.evaluate(element => {
+    if (!(element instanceof HTMLImageElement)) return false
+
+    return element.complete && element.naturalWidth > 0
+  })).toBe(true)
+  const dates = await latestWriting.locator('time').evaluateAll(elements => elements.map(element => Date.parse(element.getAttribute('datetime') ?? '')))
+
+  expect(dates).toEqual([...dates].sort((a, b) => b - a))
   await expect(writing.getByRole('region', { name: 'Start here' }).getByRole('link')).toHaveCount(3)
   await expect(writing.locator('a[href="/feed.xml"]')).toHaveText('Follow via RSS')
 
@@ -51,6 +64,47 @@ test('homepage keeps project discovery and reading connected to real content', a
 })
 
 for (const theme of ['light', 'dark'] as const) {
+  test(`homepage writing preserves complete readable articles with enlarged text in ${theme}`, async ({ page }) => {
+    await page.addInitScript(value => {
+      localStorage.setItem('theme', value)
+    }, theme)
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    for (const width of [320, 375, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 })
+      await page.goto('/')
+      await page.evaluate(async () => {
+        document.documentElement.style.fontSize = '200%'
+        await document.fonts.ready
+      })
+      const articles = page.getByRole('list', { name: 'Latest writing' }).getByRole('link')
+
+      await expect(articles).toHaveCount(4)
+      for (const article of await articles.all()) {
+        await article.focus()
+        await expect(article).toBeFocused()
+        await expect(article).toBeInViewport()
+        await expect(article).toHaveCSS('outline-style', 'solid')
+        const clipped = await article.evaluate(element => {
+          const bounds = element.getBoundingClientRect()
+
+          return [...element.querySelectorAll('h4, p, [data-writing-action]')].flatMap(item => {
+            const range = document.createRange()
+
+            range.selectNodeContents(item)
+            return [...range.getClientRects()].some(rect => rect.width > 0 && (
+              rect.left < bounds.left - 1 || rect.right > bounds.right + 1 || rect.bottom > bounds.bottom + 1
+            )) ?
+              [item.textContent] :
+              []
+          })
+        })
+
+        expect(clipped, `Article text must fit at ${width}px and 200%`).toEqual([])
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+    }
+  })
+
   test(`homepage community remains readable with enlarged text in ${theme} mode`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme })
 

@@ -76,19 +76,17 @@ Use open numbered rows for supporting projects and writing. Featured work can pa
 image with its description. Independent projects can use two equal image cards. Keep the same
 reading and keyboard order when columns collapse.
 
-### Reading slip Start here cards
+### Reading slip Start here recommendations
 
-The homepage's curated articles use one opaque Lumen Card per link with 1.5rem corners
-and a 0.5rem lower-right corner. Pair the small purple reading label with a decorative
-3rem number, then show the complete 1.4375rem title and 0.875rem recommendation.
-Keep 1.75rem insets and a fine rule above the action. Align the action rows within each
-grid row, allowing longer titles and descriptions to determine the card height.
+The homepage's curated articles follow the latest writing as three open reading slips.
+Each transparent Lumen Card has a fine top rule, a small accent label and decorative number,
+the full 1.25rem title, and the complete recommendation. Keep one native link per entry and
+align the action rows on desktop. Avoid oversized numbers or an extra opaque card surface.
 
-Use a content-driven grid with 18rem minimum columns. Tighten insets below 19.375rem
-of card width; below 16rem, let the header and action wrap and reduce the title scale.
-The complete card is one native link with a continuous focus outline. Hover and keyboard
-focus emphasize only the title, using brand in light mode and accent in dark mode.
-Keep collection order, complete copy, heading levels, and operation without JavaScript.
+Use three columns above a 52rem `home-writing` container and one column below it. Reduce
+heading scale below 16rem of slip width, allowing labels and actions to wrap at enlarged text.
+Hover and keyboard focus underline the title using brand in light mode and accent in dark mode.
+Keep the complete focus outline visible and the existing curated article order unchanged.
 
 ### Editorial project cards
 
@@ -1272,9 +1270,11 @@ behavior, including static accessible text and reduced-motion support.
 Use fine borders, opaque surfaces, and 1.75rem corners except for the 0.5rem
 lower-right corner. Values use brand emphasis in light mode and accent emphasis
 in dark mode. Cards stay passive, without hover or navigation affordances.
-The `home-content` container changes four columns to two below 53.125rem and one
-below 21.25rem. Reduce insets and omit decorative icons when enlarged text needs
-the space; keep numbers and units together and show every description in full.
+The `home-content` container changes four columns to two below 53.125rem. Below 33.75rem,
+use four horizontal rows with a 6.5rem tinted number rail beside each label and description.
+Omit the decorative icons, reduce the number scale to 2rem, and keep every description in full.
+Below 18rem of available width, stack the number panel above the copy so enlarged text stays
+readable. Keep numbers and units together.
 
 ### Offset spread featured work
 
@@ -1324,15 +1324,18 @@ keep the action row aligned at the bottom. Hover underlines the heading without 
 
 ### Notebook folio latest writing
 
-The homepage's chronological writing list uses one Lumen card as a soft notebook cover, with
-opaque reading sheets, a numbered margin, and a clear article action. Keep the full title and
-excerpt, publication date, and reading time together in one native link. The entries share quiet
-dividers, retain visible focus outlines inside the cover, and stay stationary on hover.
+The homepage leads with the latest article's existing cover artwork and a larger title beside
+three recent entries, in chronological reading and keyboard order. One unstyled Lumen Card
+provides the soft notebook cover; fine rules divide the opaque reading sheets. Keep the full
+title and excerpt, date, reading time, and article action in one native link. The artwork uses
+Astro Image with responsive sources, descriptive alternative text, lazy loading, and no overlay.
+An article without cover artwork retains its complete text and link.
 
-Use the `home-writing` container to place the arrow beside the action below 38.75rem and move
-numbers above the copy below 21.25rem. At enlarged text sizes, reduce the insets below 16rem and
-use the compact heading scale below 12rem. Keep every excerpt visible on mobile, preserve the
-chronological content utilities, and leave the Start here cards and RSS destination intact.
+Below a 52rem `home-writing` container, stack the featured article and recent entries. Reduce
+insets and heading scale below 24rem and again below 16rem for enlarged text. Keep every
+excerpt visible, all four recent links, three Start here recommendations, and the RSS action.
+Reading recommendations follow the chronological notebook and use the quieter open slips
+specified above. All links retain visible focus outlines and remain stationary on hover.
 
 ### Community folio homepage panel
 

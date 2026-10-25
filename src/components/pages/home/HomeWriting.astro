@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
 
 import StartHereCard from '@/components/molecules/StartHereCard.astro'
@@ -29,13 +30,49 @@ const { posts, startHerePosts } = Astro.props
       href="/blog/"
       action="Read all articles"
     />
+    <h3 data-writing-heading id="latest-writing-heading">Latest writing</h3>
+    <Card variant="unstyled" data-home-notebook>
+      <ol aria-labelledby="latest-writing-heading" data-writing-list>
+        {posts.map((post, index) => (
+          <li>
+            <a data-writing-row data-writing-featured={index === 0 ? '' : undefined} href={getPostPath(post.id)}>
+              {index === 0 && post.data.coverImage && (
+                <Image
+                  alt={post.data.coverImage.alt}
+                  data-writing-cover
+                  decoding="async"
+                  height={360}
+                  loading="lazy"
+                  sizes="(min-width: 1280px) 600px, (min-width: 960px) 46vw, (min-width: 768px) 88vw, 90vw"
+                  src={post.data.coverImage.src}
+                  width={640}
+                  widths={[320, 480, 640, 960, 1280]}
+                />
+              )}
+              <div data-writing-body>
+                {index === 0 && <p data-writing-kicker>Latest article</p>}
+                <p data-writing-meta><time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate)}</time><span>{getReadingTime(post.body)} min read</span></p>
+                <h4>{post.data.title}</h4>
+                <p data-writing-description>{post.data.description}</p>
+                <span data-writing-action>Read article <Icon
+class="size-4.5 shrink-0"
+name="arrow-up-right"
+                                                       /></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </Card>
     {startHerePosts.length > 0 && (
-      <section aria-labelledby="start-here-heading" class="mb-12" data-start-here>
-        <h3 class="text-xl font-medium text-ink" id="start-here-heading">Start here</h3>
-        <p class="mt-3 text-sm/7 text-ink-soft">Three ways into my work: the tools, the decisions, and the reasons behind them.</p>
-        <ol class="mt-6 grid gap-6" data-start-here-grid>
+      <section aria-labelledby="start-here-heading" data-start-here>
+        <div data-start-here-intro>
+          <h3 data-writing-heading id="start-here-heading">Start here</h3>
+          <p>Three ways into my work: the tools, the decisions, and the reasons behind them.</p>
+        </div>
+        <ol data-start-here-grid>
           {startHerePosts.map((post, index) => post.data.startHere && (
-            <li class="flex min-w-0">
+            <li>
               <StartHereCard
                 href={getPostPath(post.id)}
                 label={post.data.startHere.label}
@@ -48,25 +85,6 @@ const { posts, startHerePosts } = Astro.props
         </ol>
       </section>
     )}
-    <h3 class="mb-5 text-xl font-medium text-ink" id="latest-writing-heading">Latest writing</h3>
-    <Card variant="unstyled" data-home-notebook>
-      <ol aria-labelledby="latest-writing-heading" data-writing-list>
-        {posts.map((post, index) => (
-          <li>
-            <a data-writing-row href={getPostPath(post.id)}>
-              <span data-writing-number aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-              <div data-writing-body>
-                <p data-writing-meta><time datetime={post.data.publishDate.toISOString()}>{getFormattedDate(post.data.publishDate)}</time><span>{getReadingTime(post.body)} min read</span></p>
-                <h4>{post.data.title}</h4>
-                <p data-writing-description>{post.data.description}</p>
-              </div>
-              <span data-writing-action>Read article</span>
-              <span data-writing-arrow><Icon class="size-4.5" name="arrow-up-right" /></span>
-            </a>
-          </li>
-        ))}
-      </ol>
-    </Card>
     <div class="studio-writing-follow">
       <p>Prefer a quieter way to keep up?</p>
       <ButtonLink class="studio-text-link" href="/feed.xml" variant="unstyled">Follow via RSS <Icon name="rss" /></ButtonLink>
@@ -76,125 +94,55 @@ const { posts, startHerePosts } = Astro.props
 
 <style>
   [data-home-writing] { container: home-writing / inline-size; }
-  [data-start-here-grid] { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
-
+  [data-writing-heading] { margin-bottom: 1.25rem; color: hsl(var(--ink)); font-size: 1.25rem; font-weight: 500; line-height: 1.5; }
   [data-home-notebook][data-slot='card'] {
     min-width: 0;
-    padding: 0.875rem;
+    padding: 0.75rem;
     border: 1px solid var(--studio-rule);
     border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
     background: hsl(var(--surface-muted));
     box-shadow: none;
   }
+  [data-writing-list] { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); margin: 0; padding: 0; border-radius: 0.875rem 0.875rem 0.3125rem 0.875rem; background: hsl(var(--surface)); list-style: none; }
+  [data-writing-list] li { min-width: 0; border-bottom: 1px solid var(--studio-rule); }
+  [data-writing-list] li:first-child { grid-row: 1 / 4; border-right: 1px solid var(--studio-rule); border-bottom: 0; }
+  [data-writing-list] li:last-child { border-bottom: 0; }
+  [data-writing-row] { display: flex; flex-direction: column; height: 100%; min-width: 0; color: hsl(var(--ink)); text-decoration: none; overflow-wrap: anywhere; }
+  [data-writing-body] { display: flex; flex: 1; flex-direction: column; min-width: 0; padding: 1.75rem; }
+  [data-writing-cover] { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 0.875rem 0 0 0; object-fit: cover; }
+  [data-writing-kicker] { margin-bottom: 1rem; color: var(--studio-emphasis); font-size: 0.625rem; font-weight: 600; line-height: 1.6; letter-spacing: 0.12em; text-transform: uppercase; }
+  [data-writing-meta] { display: flex; flex-wrap: wrap; gap: 0.375rem 1rem; color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.6; }
+  h4 { margin-top: 0.75rem; font-size: 1.375rem; font-weight: 500; line-height: 1.35; letter-spacing: -0.045em; text-wrap: pretty; hyphens: manual; }
+  [data-writing-featured] h4 { max-width: 18em; font-size: 2rem; line-height: 1.2; }
+  [data-writing-row]:is(:hover, :focus-visible) h4 { color: var(--studio-emphasis); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3rem; }
+  [data-writing-description] { margin-block: 0.875rem 1.25rem; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.85; }
+  [data-writing-featured] [data-writing-description] { font-size: 0.875rem; }
+  [data-writing-action] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%; margin-top: auto; color: var(--studio-emphasis); font-size: 0.75rem; font-weight: 500; line-height: 1.8; }
+  [data-start-here] { margin-top: 3rem; }
+  [data-start-here-intro] { display: grid; grid-template-columns: 1fr 2fr; align-items: baseline; gap: 1rem 2rem; margin-bottom: 1.5rem; }
+  [data-start-here-intro] [data-writing-heading] { margin: 0; }
+  [data-start-here-intro] p { max-width: 38rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
+  [data-start-here-grid] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; margin: 0; padding: 0; list-style: none; }
+  [data-start-here-grid] li { display: flex; min-width: 0; }
 
-  [data-writing-list] { margin: 0; padding: 0; list-style: none; }
-  [data-writing-list] li { background: hsl(var(--surface)); }
-  [data-writing-list] li:first-child { border-start-start-radius: 0.875rem; border-start-end-radius: 0.875rem; }
-  [data-writing-list] li:last-child { border-end-start-radius: 0.875rem; border-end-end-radius: 0.3125rem; }
-  [data-writing-list] li:last-child [data-writing-row] { border-bottom: none; }
-
-  [data-writing-row] {
-    display: grid;
-    grid-template-columns: 2rem minmax(0, 1fr) auto;
-    gap: 0 1.5rem;
-    padding: 1.875rem 1.625rem;
-    border-bottom: 1px solid var(--studio-rule);
-    color: hsl(var(--ink));
-    text-decoration: none;
-    overflow-wrap: anywhere;
+  @container home-writing (width < 52rem) {
+    [data-writing-list] { grid-template-columns: minmax(0, 1fr); }
+    [data-writing-list] li:first-child { grid-row: auto; border-right: 0; border-bottom: 1px solid var(--studio-rule); }
+    [data-writing-cover] { border-start-end-radius: 0.875rem; }
+    [data-writing-featured] h4 { max-width: 24em; }
+    [data-start-here-intro] { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
+    [data-start-here-grid] { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
   }
-
-  [data-writing-number] {
-    grid-column: 1;
-    grid-row: 1 / 3;
-    padding: 0.25rem 0.5rem 0 0;
-    border-right: 1px solid var(--studio-rule);
-    color: var(--studio-emphasis);
-    font-size: 0.6875rem;
-    line-height: 1.7;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
+  @container home-writing (width < 24rem) {
+    [data-home-notebook][data-slot='card'] { padding: 0.5rem; }
+    [data-writing-body] { padding: 1.5rem 1.25rem; }
+    [data-writing-featured] h4 { font-size: 1.625rem; }
+    [data-start-here] { margin-top: 2.5rem; }
   }
-
-  [data-writing-body] { grid-column: 2; grid-row: 1; min-width: 0; }
-
-  [data-writing-meta] {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1rem;
-    color: hsl(var(--ink-soft));
-    font-size: 0.6875rem;
-    line-height: 1.6;
-  }
-
-  h4 {
-    max-width: 45rem;
-    margin-top: 0.875rem;
-    font-size: 1.625rem;
-    font-weight: 500;
-    line-height: 1.3;
-    letter-spacing: -0.05em;
-    text-wrap: pretty;
-    hyphens: manual;
-  }
-
-  [data-writing-row]:hover h4 {
-    color: var(--studio-emphasis);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.3rem;
-  }
-
-  [data-writing-description] {
-    max-width: 42rem;
-    margin-top: 1rem;
-    color: hsl(var(--ink-soft));
-    font-size: 0.875rem;
-    line-height: 1.85;
-  }
-
-  [data-writing-action] {
-    grid-column: 2;
-    grid-row: 2;
-    margin-top: 1.375rem;
-    color: var(--studio-emphasis);
-    font-size: 0.75rem;
-    font-weight: 500;
-    line-height: 1.8;
-  }
-
-  [data-writing-arrow] {
-    display: grid;
-    grid-column: 3;
-    grid-row: 1 / 3;
-    align-self: end;
-    place-items: center;
-    padding-bottom: 0.125rem;
-    color: var(--studio-emphasis);
-  }
-
-  @container home-writing (max-width: 38.75rem) {
-    [data-writing-row] { grid-template-columns: 1.5rem minmax(0, 1fr) auto; gap: 0 1.125rem; padding: 1.625rem 1.25rem; }
-    [data-writing-body] { grid-column: 2 / -1; }
-    [data-writing-arrow] { grid-row: 2; }
-    h4 { font-size: 1.5rem; }
-  }
-
-  @container home-writing (max-width: 21.25rem) {
-    [data-home-notebook][data-slot='card'] { padding: 0.625rem; }
-    [data-writing-row] { grid-template-columns: minmax(0, 1fr) auto; gap: 0 0.75rem; padding: 1.375rem 1.125rem; }
-    [data-writing-number] { grid-column: 1 / -1; grid-row: 1; border: 0; padding: 0 0 0.75rem; }
-    [data-writing-body] { grid-column: 1 / -1; grid-row: 2; }
-    [data-writing-action] { grid-column: 1; grid-row: 3; }
-    [data-writing-arrow] { grid-column: 2; grid-row: 3; }
-  }
-
   @container home-writing (width < 16rem) {
     [data-home-notebook][data-slot='card'] { padding: 0.25rem; }
-    [data-writing-row] { padding-inline: 0.375rem; }
-  }
-
-  @container home-writing (width < 12rem) {
-    h4 { font-size: 1.125rem; }
+    [data-writing-body] { padding: 1.25rem 0.625rem; }
+    h4, [data-writing-featured] h4 { font-size: 1.25rem; }
+    [data-writing-action] { flex-wrap: wrap; }
   }
 </style>
