@@ -96,6 +96,16 @@ and Work technology links share this treatment without changing other Pill consu
 The existing Astro navigation controller keeps topic selection, focus, and page position intact;
 the layout wraps on mobile and desktop and requires no additional client JavaScript.
 
+## Blog topics search and sort
+
+The **Search folio** panel composes an unstyled Lumen `Card`, a labeled `Input`,
+decorative `Icon`, and controlled `Toggle` buttons in a named sort group. Site-owned
+styles provide the sculpted frame, full-width search field, and quiet footer.
+The existing topic controller owns filtering, sorting, focus retention, and result
+announcements; `aria-pressed` is the single source for the selected sort treatment.
+The options wrap into separate shaped buttons when space is limited, including at
+enlarged text sizes. No new client controller is introduced.
+
 ## Current primitive migrations
 
 - `StartHereCard` composes the homepage's Reading slip recommendations with an

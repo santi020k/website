@@ -55,43 +55,30 @@ mainClass="remaining-pages"
     />
 
     <div class="space-y-4" data-topic-index>
-      <div class="
-        grid grid-cols-1 gap-4
-        sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end
-      "
-      >
-        <div class="space-y-2">
-          <label class="block section-label" for="tag-filter">Find a topic</label>
+      <Card data-topic-search-folio variant="unstyled">
+        <div data-topic-search-field>
+          <label for="tag-filter"><Icon class="size-4.5 shrink-0" name="search" /><span>Find a topic</span></label>
           <Input
             aria-describedby="tag-filter-status"
             autocomplete="off"
-            class="field-surface"
+            data-topic-search-input
             id="tag-filter"
             placeholder="Search topics…"
             spellcheck="false"
             type="search"
           />
         </div>
-        <div class="
-          flex min-w-0 flex-wrap items-center gap-3
-          sm:pb-0.5
-        "
-        >
-          <span class="section-label">Sort</span>
-          <div class="flex flex-wrap gap-2">
-            <Toggle className="pagination-btn pagination-btn--active" controlled data-sort-btn="count" pressed>By count</Toggle>
-            <Toggle className="pagination-btn" controlled data-sort-btn="alpha">A → Z</Toggle>
+        <div data-topic-search-footer>
+          <div data-topic-search-sort>
+            <span class="section-label">Sort</span>
+            <div aria-label="Sort topics" data-topic-search-options role="group">
+              <Toggle controlled data-sort-btn="count" pressed>By count</Toggle>
+              <Toggle controlled data-sort-btn="alpha">A → Z</Toggle>
+            </div>
           </div>
+          <p aria-live="polite" id="tag-filter-status">Showing all {allTags.length} topics.</p>
         </div>
-      </div>
-
-      <p
-        id="tag-filter-status"
-        aria-live="polite"
-        class="text-sm text-ink-muted"
-      >
-        Showing all {allTags.length} topics.
-      </p>
+      </Card>
 
       <MotionGroup
         class="
@@ -215,8 +202,6 @@ mainClass="remaining-pages"
             btns.forEach(button => {
               const isActive = button === active
 
-              button.classList.toggle('pagination-btn--active', isActive)
-
               button.setAttribute('aria-pressed', String(isActive))
             })
           })
@@ -252,6 +237,132 @@ mainClass="remaining-pages"
 
 <style>
   [data-topic-index] { container: topic-index / inline-size; }
+  :global(.remaining-pages [data-topic-search-folio][data-slot='card']) {
+    --topic-search-accent: hsl(var(--brand));
+
+    min-width: 0;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: 1.625rem .4375rem 1.625rem .4375rem;
+    background: hsl(var(--surface));
+    box-shadow: .375rem .375rem 0 hsl(var(--surface-muted));
+  }
+  :global(:root[data-theme='dark'] .remaining-pages [data-topic-search-folio]) {
+    --topic-search-accent: color-mix(in srgb, hsl(var(--accent)) 80%, hsl(var(--ink)));
+  }
+  [data-topic-search-field] { min-width: 0; padding: 1.5rem 1.5rem 1.125rem; }
+  [data-topic-search-field] label {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    color: var(--topic-search-accent);
+    font-size: .8125rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+  :global([data-topic-search-input]) {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 3.5rem;
+    margin-top: .625rem;
+    padding: .625rem 0;
+    border: 0;
+    border-bottom: 1px solid hsl(var(--line));
+    border-radius: 0;
+    background: hsl(var(--surface));
+    box-shadow: none;
+    color: hsl(var(--ink));
+    font: 400 1.75rem/1.35 var(--font-sans);
+    letter-spacing: -.035em;
+  }
+  :global([data-topic-search-input]::placeholder) { color: hsl(var(--ink-soft)); opacity: 1; }
+  :global([data-topic-search-input]:focus-visible) {
+    border-bottom-color: var(--topic-search-accent);
+    outline: 2px solid var(--topic-search-accent);
+    outline-offset: 4px;
+    box-shadow: none;
+  }
+  [data-topic-search-footer] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .875rem 1.5rem;
+    border-top: 1px solid hsl(var(--line));
+    border-radius: 0 0 1.5625rem .375rem;
+    background: hsl(var(--surface-muted));
+  }
+  [data-topic-search-sort] {
+    display: flex;
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .75rem;
+  }
+  [data-topic-search-options] {
+    display: flex;
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: wrap;
+    border: 1px solid hsl(var(--line));
+    border-radius: .375rem .875rem .375rem .875rem;
+    background: hsl(var(--surface));
+  }
+  :global([data-topic-search-options] [data-sort-btn]) {
+    min-width: 0;
+    max-width: 100%;
+    min-height: 2.75rem;
+    padding: .5625rem .875rem;
+    border: 0;
+    border-radius: .3125rem 0 0 .8125rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink-soft));
+    font: 500 .875rem/1.45 var(--font-sans);
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  :global([data-topic-search-options] [data-sort-btn] + [data-sort-btn]) {
+    border-left: 1px solid hsl(var(--line));
+    border-radius: 0 .8125rem .3125rem 0;
+  }
+  :global([data-topic-search-options] [data-sort-btn]:hover) {
+    background: hsl(var(--surface-muted));
+    color: var(--topic-search-accent);
+  }
+  :global([data-topic-search-options] [data-sort-btn][aria-pressed='true']) {
+    background: hsl(var(--ink));
+    color: hsl(var(--surface));
+  }
+  :global([data-topic-search-options] [data-sort-btn]:focus-visible) {
+    position: relative;
+    outline: 2px solid var(--topic-search-accent);
+    outline-offset: 3px;
+  }
+  #tag-filter-status {
+    min-width: 0;
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: .75rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+  @container topic-index (width < 26rem) {
+    [data-topic-search-field] { padding: 1.25rem 1rem 1rem; }
+    [data-topic-search-footer] { padding: .75rem 1rem; }
+    :global([data-topic-search-input]) { font-size: 1.4375rem; }
+  }
+  @container topic-index (width < 17rem) {
+    [data-topic-search-options] { gap: .375rem; border: 0; background: transparent; }
+    :global([data-topic-search-options] [data-sort-btn]),
+    :global([data-topic-search-options] [data-sort-btn] + [data-sort-btn]) {
+      border: 1px solid hsl(var(--line));
+      border-radius: .3125rem .75rem .3125rem .75rem;
+    }
+    [data-topic-search-sort] { gap: .5rem; }
+  }
   [data-tags-empty] {
     padding-block: 1.75rem;
     border-block: 1px solid hsl(var(--line));

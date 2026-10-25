@@ -190,6 +190,8 @@
 
 - Apply Sculpted tags to related-topic shortcuts on Blog topic archives. Preserve topic selection, counts, ordering, and canonical destinations while adding named list navigation and responsive wrapping with visible keyboard focus.
 
+- Apply Search folio to the Blog topics search and sort panel, with a sculpted frame, prominent search field, and grouped sort controls. Preserve query normalization, sorting, topic links, live result counts, empty-state feedback, and keyboard focus across responsive layouts.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

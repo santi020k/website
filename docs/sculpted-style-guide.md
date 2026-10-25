@@ -1535,6 +1535,18 @@ keep their existing reading behavior. The table of contents uses an open rule in
 a glass panel. The resume uses the same canvas on screen; its separate print rules and
 both downloadable PDF variants remain authoritative.
 
+### Search folio Blog topics controls
+
+The Blog topics search and sort panel uses **Search folio**: one sculpted sheet,
+a small search icon and visible field label, a large underlined search field, and
+a muted footer joining the sort options with the live result count. Use `ink` and
+`surface` for the selected sort segment, with visible focus around each control.
+At narrow widths, let the footer wrap and separate the joined options when needed;
+keep all controls and text within the panel at enlarged text sizes.
+Preserve query normalization, both sort orders, topic links, the Catalog note empty
+state, and the existing motion and navigation lifecycle. This treatment belongs to
+the search controls; the approved Compact topic cards remain independent below it.
+
 ### Sculpted tags related-topic shortcuts
 
 Topic archives use **Sculpted tags** for the Related topics links below their introduction.
