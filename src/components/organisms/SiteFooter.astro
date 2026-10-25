@@ -1,5 +1,5 @@
 ---
-import { ButtonLink, Card, Icon } from '@santi020k/lumen-astro'
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
 
 import { menuLinks, siteConfig } from '@/site.config'
 
@@ -33,22 +33,22 @@ const activePath = [...navLinks, ...resourceLinks]
 <footer class="maker-footer" data-site-footer data-variant={variant} id="site-footer">
   <div class="maker-footer-shell">
     {variant !== 'compact' && (
-      <Card as="section" class="maker-footer-invitation" aria-labelledby="footer-heading" variant="unstyled">
+      <section class="maker-footer-invitation" aria-labelledby="footer-heading">
         <div class="maker-footer-intro">
-          <span class="maker-footer-mark" aria-hidden="true"><Icon name="mail" /></span>
           <p class="maker-footer-label"><span class="maker-hero-signal" aria-hidden="true"></span><span>Good things start with a conversation</span></p>
           <h2 id="footer-heading">Let’s build <span>something useful.</span></h2>
+          <p class="maker-footer-description">Tell me about an engineering role, a product collaboration, or a speaking invitation.</p>
         </div>
         <div class="maker-footer-contact">
-          <p>Tell me about an engineering role, a product collaboration, or a speaking invitation.</p>
           <ButtonLink class="maker-footer-action" href={siteConfig.contact.whatsapp} newTab variant="unstyled">
-            <span>Let’s talk</span><Icon name="arrow-up-right" />
+            <Icon name="arrow-up-right" class="maker-footer-action-arrow" />
+            <span class="maker-footer-action-copy"><span>Let’s talk</span><span>Start a conversation on WhatsApp</span></span>
           </ButtonLink>
           <a class="maker-footer-email" href={`mailto:${siteConfig.contact.email}`}>
-            <span>{siteConfig.contact.email}</span><Icon name="arrow-up-right" />
+            <span><span>Prefer email?</span><span>{siteConfig.contact.email}</span></span><Icon name="arrow-up-right" />
           </a>
         </div>
-      </Card>
+      </section>
     )}
 
     <div class="maker-footer-directory">

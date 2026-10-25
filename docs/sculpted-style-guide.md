@@ -1363,17 +1363,23 @@ decorative conversation symbol. Tighten insets below 21.25rem, then reduce headi
 decorative arrows below 16rem for enlarged text. Keep the action labels, descriptions, and all
 destinations visible. Hover changes the title color and underline without moving the card.
 
-### Correspondence sheet footer invitation
+### Closing statement footer invitation
 
-The default shared footer uses a Lumen card with a wide contact heading, decorative mail marker,
-and joined WhatsApp and email actions. Preserve the complete invitation copy, contact values from
-`siteConfig`, native links, and visible keyboard focus. The compact footer on policy pages keeps
-its directory without the contact invitation.
+The default footer is one continuous surface for the invitation, directory, and colophon.
+An oversized two-line heading leads the composition, with a sculpted Lumen `ButtonLink`
+for WhatsApp on the right. The quiet email link sits directly below that action. The desktop
+contact column aligns with the social directory; fine rules separate the invitation and legal
+information without introducing another enclosing card.
 
-Use the `footer` container to remove the marker and heading inset under 45rem, stack the contact
-strip under 30rem, and tighten insets under 21.25rem. Below 16rem, reduce the headline and omit
-arrows so enlarged text keeps both destinations readable. The sheet owns its frame on mobile;
-the directory and colophon retain their existing order and links below it.
+Preserve the complete invitation copy, contact values from `siteConfig`, native links, and
+visible keyboard focus. Identify WhatsApp in the action so visitors know where it leads.
+The compact footer on policy and recovery pages retains its directory without a contact pitch.
+
+Use the `footer` container to stack the invitation below 48rem and place the contact options
+in one column below 32rem. The large desktop action becomes a horizontal contact strip on
+smaller screens. Reduce the heading scale below 21rem and 16rem; omit its decorative arrow
+at the narrowest width. Keep full text visible at 200% text size, and preserve the fixed
+Back to Top control's clearance at the end of the colophon.
 
 ### Page composition around the cards
 
