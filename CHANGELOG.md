@@ -224,6 +224,8 @@
 
 - Apply Continuation shelf to related projects on project detail pages: show compact horizontal artwork, title, role, the complete summary, and a ruled case-study link. Preserve project-colored hover and keyboard focus, related-project ordering, and the portfolio index design.
 
+- Apply Chapter groups to desktop project navigation: group sections under native expandable chapters, keep overview destinations, and reveal the current chapter from the existing Lumen marker. Preserve manual choices, keyboard focus, native fragments, and the mobile Chapter opener.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

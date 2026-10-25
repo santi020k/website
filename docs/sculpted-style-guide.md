@@ -860,7 +860,7 @@ container follows the story width on desktop and mobile, without client relocati
 
 ### Margin rail table of contents
 
-Project and article navigation use Lumen Anchor inside an opaque, asymmetric panel.
+Article navigation and the mobile project list use Lumen Anchor inside an opaque, asymmetric panel.
 Place the 0.75rem purple On this page label opposite the list icon. A fine vertical
 rule organizes the complete heading list: level-two links use 1rem text, and nested
 headings use 0.8125rem text with a deeper inset. A 3px purple marker sits on the rule
@@ -887,11 +887,30 @@ opaque panel shares the Margin rail corners, border, and 0.75rem label; the summ
 has a 4.25rem minimum height. Opening it reveals the complete heading list, including
 subsections, with the existing Margin rail spacing and active marker.
 
-Switch to the sidebar's expanded Margin rail only when the reading layout has both
+Switch to the sidebar's Chapter groups only when the reading layout has both
 a 64rem viewport and a 56rem container. Hide the other copy with CSS so only one
 navigation is available to keyboard and assistive technology. Reuse the same heading
-data and Lumen Anchor behavior, without a new controller. Preserve fragment links
+data and Lumen Anchor behavior. Preserve fragment links
 without JavaScript, enlarged-text reflow, and omission when no eligible headings exist.
+
+### Chapter groups desktop project navigation
+
+Group each level-two project heading with its following level-three sections inside
+native Lumen Collapsible components. Chapters without subsections remain direct links. Keep
+leading level-three headings as direct links rather than inventing a parent.
+The opaque panel uses the Margin rail corners, 0.75rem purple label, and fine rules
+between chapters. Use 0.875rem chapter summaries, 0.8125rem section links, and 2.75rem
+minimum targets. Each expanded chapter begins with a named Chapter overview link
+to its original heading. Keep the current section's 3px margin marker.
+
+Single-chapter projects begin expanded. Lumen Anchor still owns current-section
+tracking; a small custom element follows its public `aria-current` marker to open
+the owning chapter. Previously automatic chapters close as reading moves on, unless
+the reader has toggled them or focus remains inside. Manual closing is respected
+until the active section changes. Direct hashes open their chapter, and native
+disclosures and fragment links continue working without JavaScript. Disconnect the
+observer and fragment listener when Astro removes the component. The mobile Chapter
+opener and article lists retain their complete Margin rail layout.
 
 ### Margin chapters case study summaries
 

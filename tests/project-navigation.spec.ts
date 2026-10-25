@@ -4,6 +4,12 @@ import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibili
 
 const route = '/portfolio/smith-commerce/'
 
+const openTechnicalChapter = async (page: Page) => {
+  const chapter = page.locator('[data-project-desktop-toc] details').filter({ has: page.locator('a[href="#technical-highlights"]') })
+
+  if (await chapter.isVisible() && await chapter.getAttribute('open') === null) await chapter.locator('summary').click()
+}
+
 const expectNavigationPlacement = async (page: Page, browserName: string) => {
   const opener = page.locator('[data-project-mobile-toc]')
   const desktop = page.locator('[data-project-desktop-toc]')
@@ -60,12 +66,13 @@ for (const width of [320, 390, 1024, 1440]) {
       const navigation = page.getByRole('navigation', { name: 'Table of contents' })
 
       await expect(navigation).toHaveCount(1)
-      await expect(navigation.getByRole('link')).toHaveCount(14)
-      expect(await navigation.getByRole('link').evaluateAll(links => links.every(link => {
+      await expect(navigation.locator('a[href^="#"]')).toHaveCount(14)
+      expect(await navigation.locator('a[href^="#"]').evaluateAll(links => links.every(link => {
         const fragment = link.getAttribute('href')?.slice(1)
 
         return fragment && document.getElementById(fragment)
       }))).toBe(true)
+      await openTechnicalChapter(page)
       const destination = navigation.getByRole('link', { name: 'Technical highlights', exact: true })
 
       await destination.focus()

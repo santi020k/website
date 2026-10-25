@@ -136,6 +136,13 @@ enlarged text sizes. No new client controller is introduced.
   a native Lumen `Collapsible` before the notes header. CSS follows the reading-layout breakpoint
   to expose either this disclosure or the desktop rail, never both at once. Both
   copies reuse the heading data and Lumen's per-Anchor scroll-spy scope.
+  The desktop `ProjectChapterGroups` composes native Lumen `Collapsible` chapters
+  around those same fragment links. Its custom element observes Anchor's public
+  `aria-current` attribute to reveal the current chapter, without calculating scroll
+  positions or adding a second scroll-spy. It preserves manual choices and focused
+  chapters, opens incoming hashes, and cleans up on disconnection. A single chapter
+  starts expanded; headings without children stay direct links. Articles and the
+  mobile Chapter opener keep `TocCard`.
   The site's reading page boundary also sets `font-size: 1rem` explicitly: in WebKit,
   relying on inheritance left descendant layout stale
   after root text resizing during client navigation, shifting native fragment targets. This
