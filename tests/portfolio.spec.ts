@@ -274,18 +274,25 @@ test.describe('Portfolio page', () => {
   })
 
   for (const theme of ['light', 'dark']) {
-    test(`layered card edges stay transparent across page layouts in ${theme}`, async ({ page }) => {
+    test(`portfolio and continuation surfaces preserve their approved treatment in ${theme}`, async ({ page }) => {
       await page.addInitScript(value => {
         localStorage.setItem('theme', value)
       }, theme)
-      for (const route of ['/portfolio/', '/portfolio/smith-commerce/', '/portfolio/lumen-ui/']) {
-        await page.goto(route)
-        const cards = page.locator('[data-portfolio-project]')
+      await page.goto('/portfolio/')
+      const spotlights = page.locator('[data-portfolio-project]')
 
-        expect(await cards.count()).toBeGreaterThan(0)
+      expect(await spotlights.count()).toBeGreaterThan(0)
+      for (const card of await spotlights.all()) {
+        await expect(card).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+        await expect(card.locator('[data-portfolio-project-body]')).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+      }
+      for (const route of ['/portfolio/smith-commerce/', '/portfolio/lumen-ui/']) {
+        await page.goto(route)
+        const cards = page.locator('[data-related-project]')
+
+        await expect(cards).toHaveCount(2)
         for (const card of await cards.all()) {
-          await expect(card).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
-          await expect(card.locator('[data-portfolio-project-body]')).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+          await expect(card).not.toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
         }
       }
     })
@@ -333,15 +340,15 @@ test.describe('Portfolio page', () => {
 
     await expectImageAspectRatio(projectHero, 16 / 9)
 
-    const relatedImage = page.locator('[data-portfolio-project="supporting"] img').first()
+    const relatedImage = page.locator('[data-related-project] img').first()
 
     await expectImageLoaded(relatedImage)
 
-    await expectImageAspectRatio(relatedImage, 16 / 10, 4 / 3)
+    await expectImageAspectRatio(relatedImage, 16 / 10)
 
     await page.setViewportSize({ height: 812, width: 375 })
     await expect(relatedImage).toBeVisible()
-    await expectImageAspectRatio(relatedImage, 16 / 10, 4 / 3)
+    await expectImageAspectRatio(relatedImage, 16 / 10)
 
     const mobileLayout = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
