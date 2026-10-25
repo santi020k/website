@@ -8,6 +8,17 @@ test('curated reading complements recent writing and opens a real article', asyn
   const links = curated.getByRole('link')
   await expect(links).toHaveCount(3)
   await expect(links).toContainText(['How I build', 'How I think', 'Why I make things'])
+  const covers = curated.getByRole('img')
+  await expect(covers).toHaveCount(3)
+  for (const cover of await covers.all()) {
+    await cover.scrollIntoViewIfNeeded()
+    await expect(cover).toHaveAttribute('alt', /\S/u)
+    await expect.poll(() => cover.evaluate(element => {
+      if (!(element instanceof HTMLImageElement)) return false
+
+      return element.complete && element.naturalWidth > 0
+    })).toBe(true)
+  }
   await expect(page.getByRole('list', { name: 'Latest writing' }).getByRole('link')).toHaveCount(4)
   await expect(page.getByRole('link', { name: 'Follow via RSS' })).toHaveAttribute('href', '/feed.xml')
   await links.last().focus()
@@ -75,6 +86,7 @@ test.describe('Start here without client JavaScript', () => {
     const section = page.getByRole('region', { name: 'Start here', exact: true })
     await expect(section.getByRole('link')).toHaveCount(3)
     await expect(section.getByRole('heading', { level: 4 })).toHaveCount(3)
+    await expect(section.getByRole('img')).toHaveCount(3)
     await section.getByRole('link').last().click()
     await expect(page).toHaveURL(/\/blog\/why-i-built-between-contractions\/$/u)
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Why I Built Between Contractions')

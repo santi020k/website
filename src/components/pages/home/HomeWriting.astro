@@ -82,6 +82,7 @@ const { posts, startHerePosts } = Astro.props
           {startHerePosts.map((post, index) => post.data.startHere && (
             <li>
               <StartHereCard
+                coverImage={post.data.coverImage}
                 href={getPostPath(post.id)}
                 label={post.data.startHere.label}
                 position={index + 1}
@@ -128,7 +129,7 @@ const { posts, startHerePosts } = Astro.props
   [data-start-here-intro] { display: grid; grid-template-columns: 1fr 2fr; align-items: baseline; gap: 1rem 2rem; margin-bottom: 1.5rem; }
   [data-start-here-intro] [data-writing-heading] { margin: 0; }
   [data-start-here-intro] p { max-width: 38rem; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
-  [data-start-here-grid] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; margin: 0; padding: 0; list-style: none; }
+  [data-start-here-grid] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem 1.5rem; margin: 0; padding: 0; list-style: none; }
   [data-start-here-grid] li { display: flex; min-width: 0; }
 
   @container home-writing (width < 56rem) {
@@ -136,7 +137,7 @@ const { posts, startHerePosts } = Astro.props
     [data-writing-row] { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 1.5rem; align-items: start; }
     [data-writing-body] { height: 100%; padding: 0; }
     [data-start-here-intro] { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
-    [data-start-here-grid] { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
+    [data-start-here-grid] { grid-template-columns: minmax(0, 1fr); }
   }
   @container home-writing (width < 64rem) {
     [data-writing-featured] { grid-template-columns: minmax(0, 1fr); gap: 0; }

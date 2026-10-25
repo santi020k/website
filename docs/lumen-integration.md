@@ -119,7 +119,7 @@ enlarged text sizes. No new client controller is introduced.
 
 - `StartHereCard` composes the homepage's Reading slip recommendations with an
   unstyled Lumen `Card`, decorative `Icon`, and one native link. The site owns the
-  responsive grid, complete editorial copy, numbered header, and focus treatment.
+  responsive grid, optimized Astro cover images, complete editorial copy, numbered header, and focus treatment.
 - About-page supplementary cards use Lumen `Note` directly.
 - The About hero availability status uses Lumen `Marker`.
 - The article and project table of contents use Lumen `Anchor` and its shared scroll-spy runtime,
