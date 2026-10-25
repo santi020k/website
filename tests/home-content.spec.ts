@@ -12,16 +12,18 @@ test('homepage keeps project discovery and reading connected to real content', a
   await expect(work.locator('a[href^="/portfolio/"]')).toHaveCount(4)
   await expect(projects.locator('a[href^="/portfolio/"]')).toHaveCount(4)
   await expect(latestWriting.getByRole('link')).toHaveCount(4)
-  const cover = latestWriting.getByRole('img')
+  const covers = latestWriting.getByRole('img')
 
-  await cover.scrollIntoViewIfNeeded()
-  await expect(cover).toHaveCount(1)
-  await expect(cover).toHaveAttribute('alt', /\S/u)
-  await expect.poll(() => cover.evaluate(element => {
-    if (!(element instanceof HTMLImageElement)) return false
+  await expect(covers).toHaveCount(4)
+  for (const cover of await covers.all()) {
+    await cover.scrollIntoViewIfNeeded()
+    await expect(cover).toHaveAttribute('alt', /\S/u)
+    await expect.poll(() => cover.evaluate(element => {
+      if (!(element instanceof HTMLImageElement)) return false
 
-    return element.complete && element.naturalWidth > 0
-  })).toBe(true)
+      return element.complete && element.naturalWidth > 0
+    })).toBe(true)
+  }
   const dates = await latestWriting.locator('time').evaluateAll(elements => elements.map(element => Date.parse(element.getAttribute('datetime') ?? '')))
 
   expect(dates).toEqual([...dates].sort((a, b) => b - a))
