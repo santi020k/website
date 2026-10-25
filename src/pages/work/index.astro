@@ -8,7 +8,7 @@ import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
-import { ButtonLink, Icon, Stat } from '@santi020k/lumen-astro'
+import { ButtonLink, Card, Icon, Link, Stat } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologiesWithCount } from '@/data/project'
 import { siteConfig } from '@/site.config'
@@ -17,7 +17,6 @@ const allProjects = (await getCachedProjects()).sort(collectionDateSortProjects)
 const workProjects = allProjects.filter(p => p.data.typesId === 'professional')
 const allTechnologies = getUniqueTechnologiesWithCount(workProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
-const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
 
 const toolkitLanes = [
   { id: 'web', title: 'Web foundations', names: ['React.js', 'Next.js', 'TypeScript'] },
@@ -62,6 +61,11 @@ const careerStats = [
     description: 'Through CI/CD and improved release workflows.',
     source: { href: '/portfolio/void/#key-outcomes', label: 'Void.GG · Key outcomes' }
   }
+]
+
+const careerDestinations = [
+  { id: 'resume', category: 'Experience', title: 'Open resume', description: 'Roles, projects, and skills in one readable view.', href: siteConfig.contact.resume },
+  { id: 'technologies', category: 'Technology index', title: 'Explore the full toolkit', description: 'Browse the tools used across all projects.', href: '/technologies/' }
 ]
 
 const breadcrumbs = [
@@ -190,24 +194,19 @@ class="@container/sculpted-tags flex flex-wrap gap-2.5"
           </section>
         ))}
       </div>
-      <div class="
-        mt-7 flex flex-wrap items-center justify-between gap-4 text-xs/6
-        text-ink-soft
-      "
-      >
-        <p>Numbers indicate the professional projects using each technology.</p>
-        <ButtonLink
-class="
-  inline-flex min-h-11 items-center gap-2 maker-hero-secondary font-semibold
-  text-ink
-"
-href="/technologies/"
-variant="unstyled"
-        >Explore {hiddenTechnologyCount} more <Icon
-class="size-4"
-name="arrow-right"
-                                              /></ButtonLink>
-      </div>
+      <p class="mt-7 text-xs/6 text-ink-soft">Numbers indicate the professional projects using each technology.</p>
+      <nav id="work-next-steps" class="work-close" aria-label="Continue exploring work" data-work-close>
+        {careerDestinations.map(destination => (
+          <Link class="work-close-link" href={destination.href} aria-labelledby={`work-close-${destination.id}`} variant="inherit">
+            <Card as="article" variant="unstyled" data-work-close-card={destination.id}>
+              <p data-work-close-category>{destination.category}</p>
+              <h3 id={`work-close-${destination.id}`}>{destination.title}</h3>
+              <p data-work-close-description>{destination.description}</p>
+              <span data-work-close-arrow><Icon name="arrow-right" /></span>
+            </Card>
+          </Link>
+        ))}
+      </nav>
     </section>
   </div>
 </PageLayout>
