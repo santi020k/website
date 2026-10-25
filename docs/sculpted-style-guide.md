@@ -767,6 +767,21 @@ heading, role, and action. Reuse the project palette's readable light/dark color
 mixed toward the text token for contrast on tinted surfaces. Keep the resting folio
 unchanged, avoid movement, and disable the color transitions with reduced motion.
 
+### Compact timeline earlier career entries
+
+Keep the three newest Work roles in Timeline folio. Completed roles after those three
+use Compact timeline; an active role always retains its full status treatment. Preserve
+one continuous left rail and its markers through both densities. Each connector ends at
+the next row's year center, including where the 2.1875rem year changes to 1.5rem.
+The same connection holds when dates move above the cards on narrow screens.
+
+Earlier entries omit the repeated Completed masthead and icon, use 1.375rem company
+headings, 1.125rem by 1.25rem content insets, a 0.75rem description gap, and 1.5rem
+between rows. Their footer uses the card surface with a fine top rule and 0.75rem
+vertical padding. Keep every description, date, role, technology label, and case-study
+link visible. Company hover colors, keyboard focus, reduced motion, and the final
+marker endpoint remain shared with the full entries.
+
 ### Layered editorial portfolio cards
 
 Portfolio spotlights use one full-card link and an unstyled Lumen

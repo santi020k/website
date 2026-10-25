@@ -74,6 +74,13 @@ for (const theme of ['light', 'dark']) {
         const rows = page.locator('[data-timeline-row]')
 
         expect(await rows.count()).toBeGreaterThan(1)
+        await expect(rows.locator('[data-career-masthead]')).toHaveCount(3)
+        await expect(rows.filter({ has: page.locator('[data-career-masthead]') }).locator('[data-career-title]')).toHaveText(['Smith Commerce', 'X Games', 'Void.GG'])
+        const earlier = page.locator('[data-career-density="compact"]')
+
+        await expect(earlier).toHaveCount(6)
+        await expect(earlier.first().locator('[data-career-title]')).toHaveText('Optic Power')
+        await expect(earlier.locator('[data-career-masthead]')).toHaveCount(0)
         await expect(page.getByRole('list', { name: 'Professional experience, newest first' })).toBeVisible()
         await expect(rows.first().locator('[data-career-date]')).toHaveText('May 2025 - Present')
         await expect(rows.first().locator('time')).toHaveAttribute('datetime', '2025-05-01')
@@ -147,15 +154,15 @@ test('career cards retain keyboard navigation, focus, and reduced motion', async
   await page.goto('/work/')
   const links = page.locator('[data-career-link]')
 
-  await links.first().focus()
-  await expect(links.first()).toHaveCSS('outline-style', 'solid')
-  await expect(links.first()).toHaveCSS('outline-width', '2px')
-  const duration = await links.first().locator('[data-career-title]').evaluate(element => Number.parseFloat(getComputedStyle(element).transitionDuration))
+  await links.nth(2).focus()
+  await expect(links.nth(2)).toHaveCSS('outline-style', 'solid')
+  await expect(links.nth(2)).toHaveCSS('outline-width', '2px')
+  const duration = await links.nth(3).locator('[data-career-title]').evaluate(element => Number.parseFloat(getComputedStyle(element).transitionDuration))
 
   expect(duration).toBeLessThanOrEqual(0.001)
   await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
-  await expect(links.nth(1)).toBeFocused()
-  const destination = await links.nth(1).getAttribute('href')
+  await expect(links.nth(3)).toBeFocused()
+  const destination = await links.nth(3).getAttribute('href')
 
   await page.keyboard.press('Enter')
   await expect.poll(() => new URL(page.url()).pathname).toBe(destination)
