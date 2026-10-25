@@ -55,3 +55,15 @@ export const getProjectOutcomeDisplay = (metric: string): ProjectOutcomeDisplay 
 
   return { label: metric }
 }
+
+// The caption owns this client's attribution; the complete claim remains the
+// accessible summary. Match whole names so another client's context stays intact.
+export const getProjectOutcomeLabel = (label: string, client?: string): string => {
+  if (!client) return label
+
+  const prefix = `${client}: `
+
+  return (label.startsWith(prefix) ? label.slice(prefix.length) : label)
+    .replace(` ${client}'s `, ' the ')
+    .replace(` ${client}’s `, ' the ')
+}

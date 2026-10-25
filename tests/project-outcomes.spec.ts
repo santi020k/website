@@ -27,6 +27,14 @@ for (const javaScriptEnabled of [true, false]) {
 
         await expect(card.getByRole('heading')).toBeInViewport()
         await expect(card.locator('[data-outcome-value]')).toHaveText(['35 →98', '75%', '100%', '60%'])
+        await expect(card.locator('[data-outcome-attribution] strong')).toHaveText('Marcone')
+        await expect(card.locator('[data-outcome-attribution] span')).toHaveText('Storefront rebuild')
+        await expect(card.locator('li p')).toHaveText([
+          'Lighthouse score improved',
+          'Time to Interactive dropped',
+          'Accessibility score on the rebuilt storefront',
+          'First Contentful Paint improved'
+        ])
         await expect(page.getByRole('heading', { name: 'Key outcomes', exact: true })).toHaveCount(0)
         await expect(page.locator('[data-project-chapters] a[href="#key-outcomes"]')).toHaveCount(0)
         const story = await page.locator('.prose-project').ariaSnapshot()
@@ -62,6 +70,7 @@ for (const theme of ['light', 'dark']) {
           await expect(card.getByRole('heading', { level: 3 })).toHaveText('Outcomes')
           await expect(card.getByRole('list')).toHaveCount(1)
           await expect(card.getByRole('listitem')).toHaveCount(summaries.length)
+          await expect(card.locator('[data-outcome-attribution]')).toHaveCount(project === 'smith-commerce' ? 1 : 0)
           const accessibleText = await card.ariaSnapshot()
 
           for (const summary of summaries) {

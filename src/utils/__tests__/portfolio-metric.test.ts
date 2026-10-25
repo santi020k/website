@@ -1,4 +1,4 @@
-import { getPortfolioMetricDisplay, getProjectOutcomeDisplay } from '@/utils/portfolio-metric'
+import { getPortfolioMetricDisplay, getProjectOutcomeDisplay, getProjectOutcomeLabel } from '@/utils/portfolio-metric'
 
 import { describe, expect, test } from 'vitest'
 
@@ -24,6 +24,16 @@ describe('portfolio metric display', () => {
 })
 
 describe('project outcome display', () => {
+  test('moves only the captioned client attribution out of measured labels', () => {
+    expect(getProjectOutcomeLabel('Marcone: Lighthouse score improved', 'Marcone')).toBe('Lighthouse score improved')
+    expect(getProjectOutcomeLabel('Accessibility score on Marcone\'s rebuilt storefront', 'Marcone')).toBe('Accessibility score on the rebuilt storefront')
+    expect(getProjectOutcomeLabel('Accessibility score on Marcone’s rebuilt storefront', 'Marcone')).toBe('Accessibility score on the rebuilt storefront')
+    expect(getProjectOutcomeLabel('Webb: Lighthouse score improved', 'Marcone')).toBe('Webb: Lighthouse score improved')
+    expect(getProjectOutcomeLabel('Score on OtherMarcone\'s storefront', 'Marcone')).toBe('Score on OtherMarcone\'s storefront')
+    expect(getProjectOutcomeLabel('Marcone: Lighthouse score improved')).toBe('Marcone: Lighthouse score improved')
+    expect(getProjectOutcomeLabel('Lighthouse score improved', '')).toBe('Lighthouse score improved')
+  })
+
   test('keeps the direction and both values of explicit changes', () => {
     expect(getProjectOutcomeDisplay('Lighthouse score improved from 35 to 98')).toEqual({ label: 'Lighthouse score improved', previous: '35', value: '98' })
     expect(getProjectOutcomeDisplay('Coverage improved from 70.5% to 99%')).toEqual({ label: 'Coverage improved', previous: '70.5%', value: '99%' })
