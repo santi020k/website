@@ -463,6 +463,8 @@
 
 - Clear navigation progress when a pending page load is canceled, and keep earlier completion events from hiding a newer pending navigation. Preserve topic-filter reading positions after destination styles apply in WebKit without accumulating fractional scroll drift or overriding a newer navigation.
 
+- Use the visible recommendation, package name, and action as the accessible name of project replacement links, keeping voice-control labels consistent with the Successor spread design.
+
 ## 4.0.0
 
 ### Major Changes

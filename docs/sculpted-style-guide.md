@@ -962,6 +962,7 @@ the explanation sits beneath the spread. Preserve the recommendation for new
 projects and the internal replacement URL.
 
 The labeled Lumen Callout composes an inherit-style Link and decorative Icon.
+Let the link's visible recommendation, package name, and action supply its accessible name.
 Its labels do not add article sections or table-of-contents entries. Keep ordinary
 blockquotes unchanged. Stack the spread below 35rem of container width, reduce
 destination insets below 26rem and 18rem, and allow long package names and enlarged
