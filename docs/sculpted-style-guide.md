@@ -399,6 +399,16 @@ than 17rem, then stack it. Preserve complete words with enlarged text, readable
 light/dark colors, and the original archive contract. The note adds no interaction,
 animation, or client JavaScript.
 
+### Map folio Travel controls
+
+Travel map controls use **Map folio**: a compact opaque sheet beneath the geography,
+aligned with the page content. Put the visible country label and decorative globe above
+a large underlined native select. A soft brand footer holds zoom out, the live zoom level,
+zoom in, and Reset with a decorative return icon. Keep the alternating .375rem / 2rem
+corners, fine outline, and 44px targets. Below 18rem of sheet width, tighten the insets
+and give Reset its own ruled row. Keep keyboard order aligned with the visual order,
+visible focus outlines, all countries, and Lumen's selection and zoom behavior.
+
 ### Margin totals Travel hero
 
 Keep the hero totals unframed beneath the existing introduction. Use a native
@@ -411,6 +421,21 @@ The totals stay within the existing 19rem context width and move with that
 context on smaller screens. Below 12rem of inner width, tighten the label/value
 gap to .375rem so enlarged labels retain complete words. Preserve native reading
 order, light/dark contrast, and all content without JavaScript.
+
+### Index fold Travel notebook opener
+
+Keep the native Lumen disclosure on the ruled canvas. Its summary pairs a compact
+“All” label and a 2.6875rem derived country count with a 2px accent rail, a larger
+“countries” label, and the supporting line beneath. Use 1.5rem vertical spacing,
+fine top and bottom rules, and one decorative chevron that turns when expanded.
+The summary's accessible name preserves the full sentence and live country count.
+
+Below 29rem of notebook width, tighten the count column and rail inset and use a
+2.1875rem count with a 1.25rem title. Below 18rem, tighten the gap again; below
+14rem, move the title and supporting line beneath the count to preserve whole
+words at enlarged text sizes. Keep a visible focus outline, native Enter/Space
+toggling, and all Journey ledger entries usable without JavaScript. Add no client
+controller or motion; use the accent color in dark mode.
 
 ### Journey ledger Travel notebook
 
@@ -850,8 +875,24 @@ Use a 0.65fr / 1.65fr split and a 1.75rem gap. Below 27rem of card width, stack
 the identity above the response; below 18rem, reduce insets to preserve reading
 space. Long names and unbroken response text must wrap without horizontal overflow.
 Keep normalized timestamps, anonymous-author fallbacks, escaped plain-text replies,
-the 2,000-character limit, and safe external links. Likes retain their existing avatars.
+the 2,000-character limit, and safe external links. Likes use the separate Reader margin strip.
 This passive layout adds no client script or hover motion.
+
+### Reader margin article likes
+
+Place the derived like count in an 11.875rem margin beside a wrapping reader list,
+with a 1.75rem gap and fine top and bottom rules. Pair a 2.25rem count with a small
+singular/plural label and “Across the IndieWeb” beneath. An accent rail separates
+the list; each native Lumen link pairs a 44px avatar with the full reader name.
+Reuse Lumen Avatar with an Astro Image slot to preserve lazy loading, the empty
+image alternative, and the no-referrer policy for remote images.
+
+Below 30rem, stack the heading over the list; below 18rem, tighten the inset and
+gap. Long names wrap without truncation and every link keeps a visible focus
+outline and at least a 44px target. Preserve source-link and “Someone” fallbacks,
+initials when no photo exists, and the complete list. With zero likes, omit the
+strip; replies and mentions remain independent. Use accent in dark mode and add
+no client controller, additional data requests, or hover motion.
 
 ### Code folio article examples
 
@@ -1241,36 +1282,45 @@ The homepage's featured professional work uses a soft outer Lumen card, an opaqu
 that overlaps the artwork, and a separate result-and-role footer. Keep the project title,
 description, and “View case study” together. Read the result through the shared portfolio metric
 helper, preserve its complete screen-reader text, and keep unsupported metrics as prose.
-The cover uses the project brand surface and `object-fit: contain` so the full mark remains visible.
-The whole composition is one native link with an outer focus outline; it never moves on hover.
+Smith uses its existing commerce-system illustration with `object-fit: cover`; keep the central
+brand visible and give the artwork slightly more than half the spread. The whole composition is
+one native link with an outer focus outline and remains stationary on hover.
 
-A `featured-work` container stacks artwork above the sheet below 38.75rem, including when text
-is enlarged. Below 23.75rem, tighten the inset and allow evidence and metadata to wrap.
-Keep independent product cards and supporting project rows in their own layouts.
+A `featured-work` container stacks a 16:10 artwork panel above the sheet below 38.75rem, including
+when text is enlarged. Below 23.75rem, tighten the inset and allow evidence and metadata to wrap.
+Keep independent product cards and supporting projects in their own layouts.
 
-### Product sleeve independent products
+### Product previews on the homepage
 
-Homepage independent products use paired Lumen cards with inset artwork and an opaque reading
-sheet that overlaps the cover. Keep the title, full description, technologies, timeline, and
-“Explore the project” in a single native link. The sheets stretch to the same bottom edge while
-their metadata and action stay together. Use the same surface tokens and stepped corners as
-Offset spread without applying its wide work layout to the product pair.
+Homepage independent products use paired Lumen cards with existing product captures in Lumen
+DeviceFrame components. A web workspace pairs a laptop with a phone; native apps pair two phones.
+Use quiet project-colored backgrounds and optimize the images with Astro. Keep each capture's
+accessible description. Keep the homepage image area free of captions, with a quiet lower inset;
+development and illustrative-data disclosures remain in the linked case study. These are static
+previews within one native project link, without interactive device controls.
+
+An opaque reading panel follows the preview with a small project mark, title, full description,
+technologies, timeline, and “Explore the project”. Keep this panel flush with the card edges so the
+image and copy share one frame. Align metadata and actions along the bottom of the pair. Projects
+without preview captures retain their optimized cover fallback.
 
 Stack the pair below a 44rem `home-content` container or a 768px viewport, including when text
-is enlarged. Below a 23.75rem card container, reduce the inset and remove the sheet's side margins.
-Preserve optimized covers, the outer keyboard focus outline, and stationary cards on hover.
+is enlarged. Below a 23.75rem card container, reduce the inset. Below 16rem, omit the decorative
+project mark and tighten padding. Preserve the outer keyboard focus outline and stationary hover.
 
-### Chapter ribbons supporting projects
+### Supporting project cards
 
-Supporting professional work and independent projects use individual Lumen cards with a tinted
-number, title, and role panel beside the full description and “Read case study” action. Preserve
-project order and continuing numbers after the featured cards. The entire ribbon is one native
-link with an outer keyboard focus outline, stepped corners, and a stationary hover underline.
+Supporting professional work and independent projects use individual Lumen cards with a quiet
+brand-colored title panel above the full description and “Read case study” action. A numbered
+masthead pairs the continuing project number with its optimized logo on the required light or
+dark brand surface. Professional work also shows its first authored impact metric. Preserve
+project order, full copy, one native link per card, and the outer keyboard focus outline.
 
-Below a 38.75rem `supporting-project` container, stack the title panel above the reading panel.
-Independent projects stay paired until the same 44rem `home-content` threshold as the featured
-products, with a 768px viewport fallback. Below 20rem, reduce horizontal insets to leave room for
-enlarged titles. Keep the full description visible at every size and let the reading panel grow.
+Professional work forms three columns above a 58rem `home-content` container and stacks below it.
+Independent supporting projects retain two columns until the 44rem threshold, with a 768px
+viewport fallback. Below 20rem of card width, reduce insets; below 16rem, tighten the logo and
+heading scale; below 12rem, omit the decorative logo. Let copy grow at enlarged text sizes and
+keep the action row aligned at the bottom. Hover underlines the heading without moving the card.
 
 ### Notebook folio latest writing
 

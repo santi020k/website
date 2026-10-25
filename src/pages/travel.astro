@@ -48,7 +48,14 @@ const meta = {
       <p>The countries, cities, and regions I have visited, with room for more memories as I write.</p>
     </div>
     <Collapsible id="travel-notebook">
-      <summary>All {travelCountries.length} countries &amp; the places within them</summary>
+      <summary>
+        <span data-travel-index-count>All <span data-travel-index-total>{travelCountries.length}</span></span>
+        <span data-travel-index-copy>
+          <span data-travel-index-title>countries</span>
+          <span data-travel-index-subtitle>&amp; the places within them</span>
+        </span>
+        <Icon data-travel-index-chevron name="chevron-down" />
+      </summary>
       <div data-travel-country-list>
         {travelCountries.map(country => (
           <article id={`country-${country.code.toLowerCase()}`} aria-labelledby={`country-name-${country.code.toLowerCase()}`}>
@@ -121,18 +128,61 @@ const meta = {
     letter-spacing: -0.012em;
   }
 
-  /* Keep the native Lumen disclosure; the notebook shares the hero's ruled canvas. */
-  :global(#travel-notebook.ui-collapsible) { --ui-disclosure-inset: 0rem; overflow: visible; border: 0; border-radius: 0; background: transparent; }
-  :global(#travel-notebook > summary) {
-    min-height: 3.5rem;
-    padding: 0.75rem 2.5rem 0.75rem 0;
-    border-bottom: 1px solid hsl(var(--line) / 0.65);
+  /* Index fold opens the native Lumen disclosure into the Journey ledger. */
+  :global(#travel-notebook.ui-collapsible) {
+    --ui-disclosure-inset: 0rem;
+    align-self: start;
+    overflow: visible;
+    padding-block-end: 0;
+    border: 0;
+    border-radius: 0;
     background: transparent;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    line-height: 1.7;
+    container: travel-index / inline-size;
   }
+  :global(#travel-notebook > summary) {
+    display: grid;
+    grid-template-columns: 3.625rem minmax(0, 1fr) 1.875rem;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: 3.5rem;
+    margin-block-end: 0;
+    padding: 1.5rem 0;
+    border-block: 1px solid hsl(var(--line) / 0.65);
+    border-radius: 0;
+    background: transparent;
+    font-weight: 500;
+  }
+  :global(#travel-notebook > summary::before),
+  :global(#travel-notebook > summary::after) { display: none; }
   :global(#travel-notebook > summary:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; }
+  [data-travel-index-count] { display: grid; gap: .3125rem; color: hsl(var(--brand)); font-size: .75rem; line-height: 1.4; }
+  [data-travel-index-total] { font-size: 2.6875rem; line-height: 1; letter-spacing: -.06em; }
+  [data-travel-index-copy] { min-width: 0; padding-inline-start: 1.375rem; border-inline-start: 2px solid hsl(var(--brand)); }
+  [data-travel-index-title] { display: block; font-size: 1.4375rem; line-height: 1.4; letter-spacing: -.03em; }
+  [data-travel-index-subtitle] { display: block; margin-top: .25rem; color: hsl(var(--ink-soft)); font-size: .8125rem; line-height: 1.7; }
+  :global([data-travel-index-chevron]) { justify-self: center; color: hsl(var(--brand)); font-size: 1.125rem; }
+  :global(#travel-notebook[open] [data-travel-index-chevron]) { transform: rotate(180deg); }
+  :global(#travel-notebook > summary:hover) [data-travel-index-title] { text-decoration: underline; text-underline-offset: .2em; }
+  :global([data-theme='dark']) [data-travel-index-count],
+  :global([data-theme='dark'] [data-travel-index-chevron]) { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-travel-index-copy] { border-color: hsl(var(--accent)); }
+  :global([data-theme='dark'] #travel-notebook > summary:focus-visible) { outline-color: hsl(var(--accent)); }
+
+  @container travel-index (width < 29rem) {
+    :global(#travel-notebook > summary) { grid-template-columns: 2.875rem minmax(0, 1fr) 1.875rem; gap: 1rem; }
+    [data-travel-index-total] { font-size: 2.1875rem; }
+    [data-travel-index-copy] { padding-inline-start: 1rem; }
+    [data-travel-index-title] { font-size: 1.25rem; }
+  }
+  @container travel-index (width < 18rem) {
+    :global(#travel-notebook > summary) { grid-template-columns: 2.875rem minmax(0, 1fr) 1.25rem; gap: .625rem; }
+    [data-travel-index-copy] { padding-inline-start: .625rem; }
+  }
+  @container travel-index (width < 14rem) {
+    :global(#travel-notebook > summary) { grid-template-columns: minmax(0, 1fr) 1.25rem; gap: 1rem; }
+    [data-travel-index-copy] { grid-column: 1 / -1; grid-row: 2; }
+    :global([data-travel-index-chevron]) { grid-column: 2; grid-row: 1; }
+  }
   [data-travel-country-list] { min-width: 0; padding: 0; container: travel-notebook / inline-size; }
   [data-travel-country-list] article { display: grid; grid-template-columns: 3.75rem minmax(0, 1fr); gap: 1.5rem; padding-block: 1.625rem; border-top: 1px solid hsl(var(--line)); }
   [data-travel-country-list] article:first-child { border-top: 0; }

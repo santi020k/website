@@ -10,12 +10,14 @@ import { getProjectTimelineLabel } from '@/utils/project-meta'
 
 import { Card, Icon } from '@santi020k/lumen-astro'
 
+import SmithArtwork from '@/content/project/smith-commerce/cover-commerce-system.webp'
+
 interface Props {
   project: CollectionEntry<'project'>
 }
 
 const { project } = Astro.props
-const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
+const cover = project.id === 'smith-commerce' ? SmithArtwork : getProjectCoverForUsage(project.data.coverImage, 'hero')
 const summary = project.data.impactMetrics[0]
 const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined
 ---
@@ -36,7 +38,7 @@ const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined
             alt=""
             width={960}
             widths={[400, 640, 960, 1280]}
-            sizes="(min-width: 1200px) 560px, (min-width: 768px) 50vw, 100vw"
+            sizes="(min-width: 1200px) 680px, (min-width: 768px) 60vw, 100vw"
             format="webp"
             loading="lazy"
           />
@@ -81,7 +83,7 @@ const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined
 
   [data-work-spread] {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   }
 
   [data-work-story] {
@@ -144,7 +146,7 @@ const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined
   [data-work-artwork] {
     position: relative;
     min-width: 0;
-    min-height: 22.5rem;
+    min-height: 27rem;
     overflow: hidden;
     border-radius: 1.125rem;
     background: hsl(var(--project-surface));
@@ -154,7 +156,7 @@ const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   [data-work-footer] {
@@ -211,7 +213,7 @@ const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined
 
   @container featured-work (max-width: 38.75rem) {
     [data-work-spread] { display: flex; flex-direction: column; }
-    [data-work-artwork] { order: -1; min-height: 0; height: 14.375rem; }
+    [data-work-artwork] { order: -1; min-height: 0; height: auto; aspect-ratio: 16 / 10; }
     [data-work-story] { align-self: stretch; margin: -2.25rem 0.75rem 0; padding: 1.5rem; }
     h3 { font-size: 1.875rem; }
     [data-work-footer] { flex-direction: column; align-items: stretch; gap: 1.125rem; padding: 1.25rem 0.75rem 0.5rem; }
@@ -223,7 +225,7 @@ const outcome = summary ? getProjectOutcomeDisplay(summary) : undefined
     .studio-project-link { padding: 0.75rem; }
     [data-work-story] { margin: -1.75rem 0 0; padding: 1.375rem 1.125rem; }
     h3 { font-size: 1.75rem; }
-    [data-work-artwork] { height: 13.125rem; }
+    [data-work-artwork] { height: auto; }
     [data-work-footer] { padding: 1.125rem 0.375rem 0.375rem; }
     [data-work-outcome] { flex-wrap: wrap; gap: 0.75rem; }
     [data-work-score] { flex-wrap: wrap; flex-shrink: 1; font-size: 2.625rem; }

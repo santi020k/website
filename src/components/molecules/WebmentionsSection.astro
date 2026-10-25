@@ -4,6 +4,7 @@ import { Image } from 'astro:assets'
 import type { WebmentionsChildren } from '@/types/webmentions'
 import { getFormattedDate } from '@/utils/date'
 
+import Avatar from '@santi020k/lumen-astro/components/Avatar'
 import Card from '@santi020k/lumen-astro/components/Card'
 import Icon from '@santi020k/lumen-astro/components/Icon'
 import Link from '@santi020k/lumen-astro/components/Link'
@@ -48,60 +49,45 @@ const showSection = likes.length > 0 || replies.length > 0
   showSection && (
     <section aria-label="Webmentions" class="space-y-8 pt-8">
       {likes.length > 0 && (
-        <div class="space-y-3">
-          <h2 class="section-label">
-            <Icon
-              class="mr-1 size-4 align-text-bottom"
-              name="heart"
-            />
-            {likes.length} {likes.length === 1 ? 'like' : 'likes'} across the IndieWeb
-          </h2>
-          <ul class="flex flex-wrap gap-2">
-            {likes.map(entry => {
-              const photo = authorPhoto(entry)
-              const name = entry.author?.name ?? 'Someone'
-              const href = entry.author?.url ?? entry['wm-source']
+        <div data-webmention-likes-region>
+          <div data-webmention-likes>
+            <h2 data-webmention-likes-heading>
+              <span data-webmention-likes-count>
+                <span data-webmention-likes-total>{likes.length}</span>
+                <span>{likes.length === 1 ? 'like' : 'likes'}</span>
+              </span>
+              <span data-webmention-likes-context>Across the IndieWeb</span>
+            </h2>
+            <ul data-webmention-readers role="list">
+              {likes.map(entry => {
+                const photo = authorPhoto(entry)
+                const name = entry.author?.name ?? 'Someone'
+                const href = entry.author?.url ?? entry['wm-source']
 
-              return (
-                <li>
-                  <a
-                    aria-label={name}
-                    class="
-                      inline-flex size-11 overflow-hidden rounded-full border
-                      border-line/60 bg-surface-muted transition
-                      hover:border-brand/40 hover:ring-2 hover:ring-brand/15
-                      motion-reduce:transition-none
-                    "
-                    href={href}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {photo ?
-                      (
-                        <Image
-                          alt=""
-                          class="size-full object-cover"
-                          height={44}
-                          loading="lazy"
-                          referrerpolicy="no-referrer"
-                          src={photo}
-                          width={44}
-                        />
-                      ) :
-                      (
-                        <span class="
-                          flex size-full items-center justify-center text-xs
-                          font-semibold text-ink-muted
-                        "
-                        >
-                          {name.slice(0, 1).toUpperCase()}
-                        </span>
-                      )}
-                  </a>
-                </li>
-              )
-            })}
-          </ul>
+                return (
+                  <li>
+                    <Link data-webmention-reader href={href} newTab variant="inherit">
+                      <Avatar data-webmention-avatar aria-hidden="true">
+                        {photo ?
+                          (
+                            <Image
+                              alt=""
+                              height={44}
+                              loading="lazy"
+                              referrerpolicy="no-referrer"
+                              src={photo}
+                              width={44}
+                            />
+                          ) :
+                          <span>{name.slice(0, 1).toUpperCase()}</span>}
+                      </Avatar>
+                      <span data-webmention-reader-name>{name}</span>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         </div>
       )}
 
@@ -168,6 +154,40 @@ const showSection = likes.length > 0 || replies.length > 0
 }
 
 <style>
+  [data-webmention-likes-region] { container: reader-margin / inline-size; min-width: 0; }
+  [data-webmention-likes] {
+    --likes-accent: var(--brand);
+    display: grid;
+    grid-template-columns: 11.875rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1.75rem;
+    padding-block: 1.5rem;
+    border-block: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+  }
+  :global([data-theme='dark']) [data-webmention-likes] { --likes-accent: var(--accent); }
+  [data-webmention-likes-heading] { min-width: 0; margin: 0; font-size: .75rem; line-height: 1.7; font-weight: 400; }
+  [data-webmention-likes-count] { display: flex; flex-wrap: wrap; align-items: baseline; gap: .625rem; color: hsl(var(--likes-accent)); }
+  [data-webmention-likes-total] { font-size: 2.25rem; line-height: 1; font-weight: 500; letter-spacing: -.06em; }
+  [data-webmention-likes-context] { display: block; margin-top: .625rem; color: hsl(var(--ink-soft)); }
+  [data-webmention-readers] { display: flex; flex-wrap: wrap; gap: .75rem; min-width: 0; margin: 0; padding: 0 0 0 1.5rem; border-left: 2px solid hsl(var(--likes-accent)); list-style: none; }
+  [data-webmention-readers] li { min-width: 0; max-width: min(10rem, 100%); }
+  [data-webmention-reader] { display: grid; justify-items: center; gap: .375rem; min-width: 3.25rem; max-width: 100%; color: hsl(var(--ink)); font-size: .75rem; font-weight: 400; line-height: 1.7; text-align: center; }
+  [data-webmention-avatar] { width: 2.75rem; height: 2.75rem; border: 1px solid hsl(var(--line)); border-radius: 50%; background: hsl(var(--brand-soft)); color: hsl(var(--ink-soft)); font-size: .75rem; font-weight: 500; }
+  [data-webmention-reader-name] { max-width: 100%; overflow-wrap: anywhere; }
+  [data-webmention-reader]:hover [data-webmention-reader-name] { text-decoration: underline; text-underline-offset: .25rem; }
+  [data-webmention-reader]:focus-visible { outline: 2px solid hsl(var(--likes-accent)); outline-offset: 4px; }
+  @container reader-margin (width < 30rem) {
+    [data-webmention-likes] { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+    [data-webmention-likes-heading] { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1rem; }
+    [data-webmention-likes-context] { margin-top: 0; }
+    [data-webmention-readers] { padding-left: 1.125rem; gap: 1rem; }
+  }
+  @container reader-margin (width < 18rem) {
+    [data-webmention-likes] { padding-block: 1.25rem; }
+    [data-webmention-readers] { padding-left: .75rem; gap: .75rem; }
+  }
+
   [data-webmention-item] { container: webmention / inline-size; min-width: 0; }
   [data-webmention-reply] {
     --reply-accent: var(--brand);

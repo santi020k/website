@@ -6,7 +6,7 @@
 
 - Apply Career ledger to the Work page career highlights with prominent figures, clear headings, and complete explanations beside accent rails. Preserve collection-derived role and technology counts and authored impact metrics, and reflow the two-column ledger into readable rows for narrow screens and enlarged text.
 
-- Apply Chapter ribbons to homepage supporting work and project rows with tinted title panels, complete descriptions, and clear case-study actions. Preserve project order, roles, continuous numbering, and native full-card links. Stack panels for narrow containers and enlarged text with accessible focus and contrast in both themes.
+- Give homepage supporting work and projects distinct branded cards with optimized logos, complete descriptions, and clear case-study actions. Show authored impact metrics for professional work and place its three supporting cards beneath the Smith feature. Preserve project order, roles, continuous numbering, native links, and accessible responsive layouts.
 
 - Apply Collaboration ledger to About page collaboration cards with full-width numbered rows, distinct title and description columns, and quieter fit notes. Preserve all authored copy and stack the rows for narrow containers and enlarged text.
 
@@ -38,11 +38,11 @@
 
 - Apply Notebook folio to homepage latest writing with a shared paper frame, numbered margins, and clear article actions. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
 
-- Apply Offset spread to the homepage featured work with an overlapping copy sheet, uncropped project artwork, and a dedicated outcome and role footer. Preserve authored results, native full-card navigation, and responsive light and dark layouts at enlarged text sizes.
+- Apply Offset spread to the homepage featured work with an overlapping copy sheet, richer Smith commerce artwork, and a dedicated outcome and role footer. Preserve authored results, native full-card navigation, and responsive light and dark layouts at enlarged text sizes.
 
 - Apply Principle spread to the developer experience working definition with separate system and evidence panels, a shared reading link, and responsive stacking. Preserve the complete definition, keyboard navigation, and readable light and dark appearances at enlarged text sizes.
 
-- Apply Product sleeve to homepage independent products with inset artwork, overlapping reading sheets, and a clear project action. Preserve the complete descriptions, technology and timeline metadata, optimized covers, and native full-card links. Stack the pair for narrow containers and enlarged text.
+- Show Lumen and PostLens interface captures in device frames on the homepage, with caption-free imagery, quiet brand-colored backgrounds, and a single reading panel per product. Keep development and sample-data context in the linked case studies. Preserve complete descriptions, technology and timeline metadata, native links, and the cover fallback. Stack the pair for narrow containers and enlarged text.
 
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public
@@ -197,6 +197,12 @@
 - Apply Search cover to the site-search header and input, with a tinted heading and inset search field. Preserve the existing search results and recovery states, keyboard focus, live announcements, and a single scrolling results area across narrow, short, and enlarged-text layouts.
 
 - Apply Margin quotation to article blockquotes with an open ruled surface, a decorative Lumen quote mark, and an accent rail. Preserve native quote semantics, citations, authored formatting, and nested quotations, with responsive spacing in both themes and no client script.
+
+- Apply Map folio to the Travel country picker and zoom controls: one compact sheet below the map with an underlined native selector and a soft control row. Preserve Lumen selection and zoom behavior, country data, keyboard order, live announcements, and narrow-screen readability.
+
+- Apply Index fold to the Travel notebook opener: a derived country count beside an accent rail and a clear two-line label. Preserve native disclosure behavior, every Journey ledger entry, accessible naming, and readable narrow layouts at enlarged text sizes.
+
+- Apply Reader margin to article likes: a derived count beside a wrapping avatar and reader-name list with an accent rail. Preserve native profile and source links, anonymous and missing-photo fallbacks, remote-image privacy, and readable narrow layouts without adding client JavaScript.
 
 ### Patch Changes
 

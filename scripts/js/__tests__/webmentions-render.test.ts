@@ -5,7 +5,7 @@ import { join, relative } from 'node:path'
 
 import { expect, test } from 'vitest'
 
-test('renders mention avatars without contacting their external hosts at build time', () => {
+test('renders accessible reader links and fallbacks without fetching avatars at build time', () => {
   // Astro's scoped CSS modules need one canonical root across macOS /var aliases.
   const root = realpathSync(mkdtempSync(join(tmpdir(), 'website-mention-render-')))
   const projectRoot = process.cwd()
@@ -27,9 +27,17 @@ test('renders mention avatars without contacting their external hosts at build t
       '  content: null, published: null, summary: null,',
       '  \'wm-property\': \'like-of\', \'wm-received\': null, \'wm-source\': \'https://alice.example/note\'',
       '}))',
+      'const missingAuthor = { ...mentions[0], author: null }',
+      'const sourceOnly = { ...mentions[0], author: { name: \'Reader without a profile\', photo: null, url: null } }',
+      'const escapedName = { ...mentions[0], author: { name: \'<script>Sample name</script>\', photo: null, url: null } }',
+      'const likes = [...mentions, missingAuthor, sourceOnly, escapedName]',
+      'const reply = { ...missingAuthor, \'wm-property\': \'in-reply-to\', content: { text: \'A reply without likes.\' } }',
       '---',
       '<html lang="en"><head><title>Mention fixture</title></head><body>',
-      '<WebmentionsSection mentions={mentions} />',
+      '<div id="multiple"><WebmentionsSection mentions={likes} /></div>',
+      '<div id="single"><WebmentionsSection mentions={[missingAuthor]} /></div>',
+      '<div id="empty"><WebmentionsSection mentions={[]} /></div>',
+      '<div id="replies"><WebmentionsSection mentions={[reply]} /></div>',
       '</body></html>'
     ].join('\n'))
 
@@ -66,7 +74,33 @@ test('renders mention avatars without contacting their external hosts at build t
     }
     expect(document).toContain('width="44"')
     expect(document).toContain('height="44"')
-    expect(document).toContain('aria-label="Alice"')
+    const dom = new DOMParser().parseFromString(document, 'text/html')
+    const strip = dom.querySelector('#multiple [data-webmention-likes]')
+    const readers = [...dom.querySelectorAll('#multiple [data-webmention-reader]')]
+
+    expect(strip?.querySelector('[data-webmention-likes-total]')?.textContent).toBe('6')
+    expect(strip?.querySelector('[data-webmention-likes-count]')?.textContent).toMatch(/likes/u)
+    expect(readers.map(link => link.querySelector('[data-webmention-reader-name]')?.textContent)).toEqual([
+      'Alice', 'Alice', 'Alice', 'Someone', 'Reader without a profile', '<script>Sample name</script>'
+    ])
+    expect(readers.map(link => link.getAttribute('href'))).toEqual([
+      ...avatars.map(() => 'https://alice.example/'),
+      'https://alice.example/note',
+      'https://alice.example/note',
+      'https://alice.example/note'
+    ])
+    for (const reader of readers) {
+      expect(reader.getAttribute('target')).toBe('_blank')
+      expect(reader.getAttribute('rel')?.split(' ')).toEqual(expect.arrayContaining(['noopener', 'noreferrer']))
+      expect(reader.querySelector('[data-webmention-avatar]')?.getAttribute('aria-hidden')).toBe('true')
+    }
+    expect(strip?.querySelectorAll('script')).toHaveLength(0)
+    expect(readers[3]?.querySelector('[data-webmention-avatar]')?.textContent.trim()).toBe('S')
+    expect(dom.querySelector('#single [data-webmention-likes-total]')?.textContent).toBe('1')
+    expect(dom.querySelector('#single [data-webmention-likes-count]')?.textContent).toMatch(/like$/u)
+    expect(dom.querySelector('#empty')?.children).toHaveLength(0)
+    expect(dom.querySelector('#replies [data-webmention-likes]')).toBeNull()
+    expect(dom.querySelector('#replies [data-webmention-copy]')?.textContent).toBe('A reply without likes.')
   } finally {
     rmSync(root, { recursive: true, force: true })
   }

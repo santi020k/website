@@ -438,8 +438,10 @@ covers the remaining consumers at mobile and desktop widths with 100% and 200% t
   browsers. Unsupported browsers keep the native immediate toggle.
 - Stack cards use a static mesh effect. The sculpted homepage hero uses its site-owned artwork
   without continuous animation or a pause-control requirement.
-- The existing Void homepage screenshot is rendered with `DeviceFrame` and Astro's optimized image.
-  Other project artwork remains unframed; it does not represent actual product screens.
+- Homepage Lumen and PostLens captures use `DeviceFrame` with Astro's optimized images and static
+  screens without visible captions. Development and illustrative-data disclosures stay in the case studies.
+  The existing Void screenshot retains its device frame in the case study. Illustrations such as Smith's commerce artwork
+  remain unframed because they do not represent actual product screens.
 - The travel notebook uses Lumen `WorldMap` with site-owned visit data. Charts and AI interfaces
   are absent because current content does not require them.
 
@@ -482,6 +484,10 @@ the published registry packages; historical candidate checks do not qualify late
 
 The travel page consumes the public `WorldMap` and `lumen-core/world-map-data` exports
 from the published v4 packages. See the [travel editing guide](editorial/travel.md) for map data.
+Its Map folio groups the original native picker and zoom controls inside the same map root,
+using a Lumen Card shell and decorative Icons. The website controls layout and DOM order;
+Lumen retains the existing nodes, event handlers, live zoom status, and selection behavior.
+The application initializer groups them once per page, preserving View Transition cleanup.
 
 The registry rollout updates the catalog entries together and retains exact release-age
 exceptions for the installed `lumen` 4.2.0, `lumen-astro` 4.1.0, and `lumen-core` 4.1.0 packages
