@@ -484,6 +484,10 @@ the published registry packages; historical candidate checks do not qualify late
 
 The travel page consumes the public `WorldMap` and `lumen-core/world-map-data` exports
 from the published v4 packages. See the [travel editing guide](editorial/travel.md) for map data.
+Its Map folio groups the original native picker and zoom controls inside the same map root,
+using a Lumen Card shell and decorative Icons. The website controls layout and DOM order;
+Lumen retains the existing nodes, event handlers, live zoom status, and selection behavior.
+The application initializer groups them once per page, preserving View Transition cleanup.
 
 The registry rollout updates the catalog entries together and retains exact release-age
 exceptions for the installed `lumen` 4.2.0, `lumen-astro` 4.1.0, and `lumen-core` 4.1.0 packages

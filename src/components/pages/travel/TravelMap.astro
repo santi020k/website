@@ -20,6 +20,12 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
       variant="dotted"
       zoomLabels={{ reset: 'Reset' }}
     />
+    <template data-travel-controls-template>
+      <Card variant="unstyled" data-travel-controls>
+        <Icon name="globe-2" data-travel-controls-globe />
+        <Icon name="rotate-ccw" data-travel-controls-reset />
+      </Card>
+    </template>
     <Card as="section" variant="unstyled" data-travel-selection aria-labelledby="travel-selected-country" hidden>
       <div data-travel-cover>
         <div data-travel-selection-header>
@@ -172,50 +178,103 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
   [data-travel-explorer] :global(.ui-world-map__highlights),
   [data-travel-explorer] :global([data-ui-world-map-zoom="fit"]) { display: none; }
 
-  [data-travel-explorer] :global(.ui-world-map__zoom-controls) {
-    position: relative;
-    z-index: 2;
-    grid-area: 1 / 1;
-    align-self: end;
-    justify-self: end;
-    width: fit-content;
-    margin: 1.5rem max(1.5rem, calc((100vw - 72rem) / 2));
-    flex-wrap: nowrap;
-    gap: 0.25rem;
-    padding: 0.375rem;
-    border: 1px solid hsl(var(--line) / 0.65);
-    border-radius: 1rem;
-    background: hsl(var(--surface));
-    box-shadow: var(--shadow-sm);
-  }
-
-  [data-travel-explorer] :global(.ui-world-map__zoom-controls button) { border-color: transparent; border-radius: 0.625rem; background: transparent; }
   [data-travel-explorer] :global(.ui-world-map__inspection) { inset: 0.5rem 1.5rem auto auto; }
 
-  /* The existing Lumen selector is also a visible touch-friendly route into the map. */
+  /* Group the existing Lumen controls in one sheet, in their keyboard order. */
+  [data-travel-controls] {
+    container: travel-controls / inline-size;
+    justify-self: end;
+    width: min(calc(100% - 3rem), 42rem);
+    min-width: 0;
+    margin: 1.5rem max(1.5rem, calc((100vw - 72rem) / 2)) 0;
+    padding: 0;
+    border: 1px solid hsl(var(--line));
+    border-radius: .375rem 2rem .375rem 2rem;
+    background: hsl(var(--surface));
+    box-shadow: none;
+  }
+
   [data-travel-explorer] :global(.ui-world-map__select-label) {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem 2rem;
-    width: min(calc(100% - 3rem), 72rem);
+    flex-direction: column;
+    align-items: stretch;
+    gap: .625rem;
+    width: 100%;
     max-width: none;
-    margin: 1rem auto 0;
-    color: hsl(var(--ink-soft));
-    font-size: 0.75rem;
+    margin: 0;
+    padding: 1.5rem 1.625rem 1.375rem;
+    color: hsl(var(--travel-navigation-accent));
+    font-size: .75rem;
     font-weight: 500;
   }
 
+  [data-travel-explorer] :global(.ui-world-map__select-label > span) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+  }
+
+  [data-travel-controls-globe] { flex-shrink: 0; width: 1.25rem; height: 1.25rem; }
+  [data-travel-controls-reset] { flex-shrink: 0; width: 1.125rem; height: 1.125rem; }
+
   [data-travel-explorer] :global(.ui-world-map__select) {
-    width: min(100%, 24rem);
+    width: 100%;
     min-width: 0;
     min-height: 3rem;
-    border-color: hsl(var(--line) / 0.65);
-    border-radius: 0.875rem;
+    padding: .375rem 1.625rem .75rem 0;
+    border: 0;
+    border-bottom: 1px solid hsl(var(--line));
+    border-radius: 0;
     background-color: hsl(var(--surface));
     color: hsl(var(--ink));
-    font-size: 1rem;
+    font-size: 1.5625rem;
+    font-weight: 500;
+    letter-spacing: -.04em;
     scroll-margin-block: 7rem 1rem;
+  }
+
+  [data-travel-explorer] :global(.ui-world-map__zoom-controls) {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: 0;
+    padding: .625rem 1.25rem;
+    border: 0;
+    border-top: 1px solid hsl(var(--line));
+    border-radius: 0 0 .3125rem 1.9375rem;
+    background: hsl(var(--brand-soft));
+  }
+
+  [data-travel-explorer] :global(.ui-world-map__zoom-controls button) {
+    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    border-color: hsl(var(--line));
+    border-radius: .4375rem .875rem .4375rem .875rem;
+    background: hsl(var(--surface));
+    color: hsl(var(--ink));
+    font-size: .8125rem;
+    font-weight: 500;
+    transform: none;
+  }
+  [data-travel-explorer] :global([data-ui-world-map-zoom-status]) { color: hsl(var(--ink)); font-size: .75rem; font-weight: 500; }
+  [data-travel-explorer] :global([data-ui-world-map-zoom="in"]),
+  [data-travel-explorer] :global([data-ui-world-map-zoom="out"]) { width: 44px; height: 44px; }
+  [data-travel-explorer] :global(.ui-world-map__zoom-controls [data-ui-world-map-zoom="reset"]) { gap: .5rem; margin-left: auto; border-color: transparent; background: transparent; white-space: normal; }
+  [data-travel-explorer] :global(.ui-world-map__zoom-controls [data-ui-world-map-zoom="reset"]:hover:not(:disabled)) { background: hsl(var(--surface)); }
+
+  @container travel-atlas (width >= 64rem) {
+    [data-travel-hint] { top: calc(var(--travel-map-height) + 3rem); }
+  }
+
+  @container travel-controls (width < 18rem) {
+    [data-travel-explorer] :global(.ui-world-map__select-label) { padding: 1.125rem 1rem; }
+    [data-travel-explorer] :global(.ui-world-map__select) { font-size: 1.375rem; }
+    [data-travel-explorer] :global(.ui-world-map__zoom-controls) { gap: .25rem; padding: .625rem .75rem; }
+    [data-travel-explorer] :global(.ui-world-map__zoom-controls [data-ui-world-map-zoom="reset"]) { width: 100%; margin: .25rem 0 0; padding-top: .75rem; border-top-color: hsl(var(--line)); border-radius: 0; }
   }
 
   [data-travel-selection] {
@@ -294,36 +353,22 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
     [data-travel-explorer] :global(.ui-world-map__viewport) { aspect-ratio: auto; height: var(--travel-map-height); }
     [data-travel-explorer] :global(.ui-world-map__plot) { width: calc(max(100%, var(--travel-map-height) * 2.5) * var(--ui-world-map-zoom, 1)); }
     [data-travel-hint] { top: 0.75rem; bottom: auto; left: 0.75rem; }
-    [data-travel-explorer] :global(.ui-world-map__zoom-controls) { margin: 1.25rem; }
+    [data-travel-controls] { width: calc(100% - 2.5rem); margin: 1rem 1.25rem 0; }
     [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 1.25rem 0; overflow: visible; box-shadow: var(--shadow-sm); }
-    [data-travel-explorer] :global(.ui-world-map__select-label) { flex-direction: column; align-items: start; width: calc(100% - 2.5rem); gap: 0.5rem; }
-    [data-travel-explorer] :global(.ui-world-map__select) { width: 100%; }
   }
 
   /* Keep the map visible beside its details, including when text is enlarged. */
   @container travel-atlas (width < 30rem) {
     [data-travel-hint] { top: 0.75rem; bottom: auto; left: 0.75rem; }
-    [data-travel-explorer] :global(.ui-world-map__zoom-controls) { margin: 1.25rem; }
+    [data-travel-controls] { width: calc(100% - 2.5rem); margin: 1rem 1.25rem 0; }
     [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 1.25rem 0; overflow: visible; box-shadow: var(--shadow-sm); }
-    [data-travel-explorer] :global(.ui-world-map__select-label) { flex-direction: column; align-items: start; width: calc(100% - 2.5rem); gap: 0.5rem; }
-    [data-travel-explorer] :global(.ui-world-map__select) { width: 100%; }
   }
 
-  /* Too narrow for overlays: the hint and zoom toolbar keep their source position
-     above the map and the details follow it, so nothing covers the map or the details.
-     The country name and place list keep the available width. */
+  /* At enlarged text sizes the hint precedes the map, while the controls and
+     details stay in flow beneath it. Preserve room for names and place lists. */
   @container travel-atlas (width < 20rem) {
     [data-travel-hint] { position: static; margin: 0 1.25rem 0.75rem; padding: 0; background: none; }
-    [data-travel-explorer] :global(.ui-world-map__zoom-controls) {
-      position: relative;
-      grid-area: auto;
-      justify-self: start;
-      flex-wrap: wrap;
-      justify-content: start;
-      width: fit-content;
-      max-width: calc(100% - 2.5rem);
-      margin-inline: 1.25rem;
-    }
+    [data-travel-controls] { width: calc(100% - 1rem); margin-inline: .5rem; }
     [data-travel-selection] { position: relative; inset: auto; width: auto; max-height: none; margin: 1rem 0.5rem 0; overflow: visible; box-shadow: none; }
     [data-travel-explorer] :global(.ui-world-map__frame) { grid-area: auto; }
     [data-travel-cover] { padding: 1rem 0.75rem 1.25rem; }
@@ -376,6 +421,31 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
     if (!code || !silhouette || !announcement || !chooser || !viewport) return
 
     if (!previousButton || !nextButton || !nextCountry) return
+
+    // Move the original controls together inside their Lumen root. Their native
+    // state, listeners and announcements survive; no second controller is added.
+    const map = explorer.querySelector<HTMLElement>('[data-ui-world-map]')
+    const controlsTemplate = explorer.querySelector<HTMLTemplateElement>('[data-travel-controls-template]')
+    const picker = chooser.closest('label')
+    const zoomControls = explorer.querySelector<HTMLElement>('.ui-world-map__zoom-controls')
+    const controls = controlsTemplate?.content.firstElementChild?.cloneNode(true)
+
+    if (map && picker && zoomControls && controls instanceof HTMLElement) {
+      const globe = controls.querySelector('[data-travel-controls-globe]')
+      const resetIcon = controls.querySelector('[data-travel-controls-reset]')
+
+      if (globe) picker.querySelector('span')?.append(globe)
+
+      if (resetIcon) zoomControls.querySelector('[data-ui-world-map-zoom="reset"]')?.prepend(resetIcon)
+
+      controls.append(picker, zoomControls)
+
+      map.append(controls)
+
+      const placeholder = chooser.querySelector('option[value=""]')
+
+      if (placeholder) placeholder.textContent = 'Choose…'
+    }
 
     // Keep Lumen's native selector and events, prioritizing the actual notebook.
     const notebook = document.createElement('optgroup')
@@ -598,7 +668,7 @@ const labels = Object.fromEntries(travelCountries.map(country => [country.code, 
       }
 
       // Touch choices reveal the in-flow note. Keyboard choices retain their
-      // position in the selector; Tab naturally reaches the note next.
+      // position in the selector; the zoom controls and note follow in order.
       if (getComputedStyle(panel).position === 'relative' &&
         (document.activeElement !== chooser || pickerPointerSelection) && !panel.contains(document.activeElement)) {
         panel.scrollIntoView({ block: 'nearest', behavior })

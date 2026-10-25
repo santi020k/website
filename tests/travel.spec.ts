@@ -287,11 +287,13 @@ test('country details close, reopen the same country, and cycle through places',
 })
 
 for (const width of [320, 390, 768, 1440, 1920]) {
-  test(`map controls stay inside the map at ${width}px and selected details remain accessible`, async ({ page }) => {
+  test(`map controls follow the geography at ${width}px and selected details remain accessible`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto('/travel/')
+    await expect(page.locator('[data-travel-controls]')).toBeVisible()
     const viewport = requireValue(await page.locator('[data-ui-world-map-viewport]').boundingBox())
     const controls = requireValue(await page.locator('.ui-world-map__zoom-controls').boundingBox())
+    const picker = requireValue(await page.locator('[data-ui-world-map-select]').boundingBox())
     const hero = requireValue(await page.locator('[data-travel-explorer]').boundingBox())
     const introduction = requireValue(await page.locator('[data-travel-intro]').boundingBox())
     expect(viewport.y + viewport.height).toBeLessThanOrEqual(introduction.y)
@@ -301,9 +303,10 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     await expect(page.locator('[data-particles-bg]')).toBeHidden()
     await expect(page.locator('header a[href="/travel/"][aria-current="page"]').first()).toHaveCount(1)
     expect(controls.x).toBeGreaterThanOrEqual(viewport.x)
-    expect(controls.y).toBeGreaterThanOrEqual(viewport.y)
+    expect(picker.y).toBeGreaterThanOrEqual(viewport.y + viewport.height)
+    expect(controls.y).toBeGreaterThanOrEqual(picker.y + picker.height)
     expect(controls.x + controls.width).toBeLessThanOrEqual(viewport.x + viewport.width)
-    expect(controls.y + controls.height).toBeLessThanOrEqual(viewport.y + viewport.height)
+    expect(controls.y + controls.height).toBeLessThanOrEqual(introduction.y)
     await expect(page.locator('[data-ui-world-map-select]')).toBeEnabled()
     await expect(page.locator('[data-travel-explorer]')).toHaveAttribute('data-bound', 'true')
     await page.locator('[data-ui-world-map-country="BR"]').click()
@@ -311,6 +314,40 @@ for (const width of [320, 390, 768, 1440, 1920]) {
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 }
+
+test('map folio keeps selection, zoom, reset and keyboard order after return navigation', async ({ page, browserName }) => {
+  await page.goto('/travel/')
+  const chooser = page.getByRole('combobox', { name: 'Explore a country', exact: true })
+  const zoomIn = page.getByRole('button', { name: 'Zoom in', exact: true })
+  const zoomOut = page.getByRole('button', { name: 'Zoom out', exact: true })
+  const reset = page.getByRole('button', { name: 'Reset', exact: true })
+  const tab = { chromium: 'Tab', firefox: 'Tab', webkit: 'Alt+Tab' }[browserName]
+  await expect(chooser).toBeEnabled()
+  await chooser.focus()
+  await chooser.selectOption('PY')
+  await expect(chooser).toBeFocused()
+  await page.keyboard.press(tab)
+  await expect(zoomIn).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('[data-ui-world-map-zoom-status]')).toHaveText('150%')
+  await chooser.focus()
+  await page.keyboard.press(tab)
+  await expect(zoomOut).toBeFocused()
+  await page.keyboard.press(tab)
+  await expect(zoomIn).toBeFocused()
+  await page.keyboard.press(tab)
+  await expect(reset).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('[data-ui-world-map-zoom-status]')).toHaveText('100%')
+  await expect(page.locator('[data-travel-country]')).toHaveText('Paraguay')
+  await page.getByRole('link', { name: 'Read the blog', exact: true }).click()
+  await page.getByRole('link', { name: 'Travel', exact: true }).last().click()
+  await expect(page.locator('[data-travel-controls]')).toHaveCount(1)
+  await chooser.selectOption('MX')
+  await zoomIn.click()
+  await expect(page.locator('[data-ui-world-map-zoom-status]')).toHaveText('150%')
+  await expect(page.locator('[data-travel-country]')).toHaveText('Mexico')
+})
 
 test('keyboard exploration reveals off-screen countries on mobile and clears empty selections', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 })
@@ -510,6 +547,35 @@ test('passport folio preserves all notebook counts and places when changing coun
 })
 
 for (const theme of ['light', 'dark']) {
+  test(`map folio keeps controls usable at 200% text in ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 900 })
+    await page.goto('/travel/')
+    const folio = page.locator('[data-travel-controls]')
+    await expect(folio).toBeVisible()
+    await page.evaluate(value => {
+      document.documentElement.dataset.theme = value
+      document.documentElement.style.fontSize = '200%'
+    }, theme)
+    const chooser = folio.getByRole('combobox', { name: 'Explore a country', exact: true })
+    await chooser.selectOption('GT')
+    await folio.getByRole('button', { name: 'Zoom in', exact: true }).click()
+    await expect(folio.getByLabel('Zoom level', { exact: true })).toHaveText('150%')
+    expect(await folio.evaluate(element => {
+      const box = element.getBoundingClientRect()
+      const controls = [...element.querySelectorAll<HTMLButtonElement | HTMLSelectElement>('button:not([data-ui-world-map-zoom="fit"]), select')]
+      return element.scrollWidth <= element.clientWidth && controls.every(control => {
+        const rect = control.getBoundingClientRect()
+        return rect.width >= 44 && rect.height >= 44 &&
+          rect.left >= box.left && rect.right <= box.right &&
+          rect.top >= box.top && rect.bottom <= box.bottom
+      })
+    })).toBe(true)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await folio.getByRole('button', { name: 'Reset', exact: true }).click()
+    await expect(folio.getByLabel('Zoom level', { exact: true })).toHaveText('100%')
+    await expect(page.locator('[data-travel-country]')).toHaveText('Guatemala')
+  })
+
   test(`passport folio reflows at 200% text and remains usable by keyboard in ${theme}`, async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 700 })
     await page.emulateMedia({ reducedMotion: 'reduce' })

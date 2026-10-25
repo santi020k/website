@@ -21,7 +21,10 @@ The dotted Lumen map spans the full viewport width as the page hero, with the sa
 typography, signature eyebrow, and thin rules as the home hero and sculpted navigation.
 The map comes first, directly below the navigation, and extends to both page edges.
 The title, introduction, and visit counts follow beneath it, aligned with the navigation.
-Its zoom and reset controls sit inside the map.
+Its country picker, zoom level, and zoom/reset controls share a Map folio below the map:
+an opaque sheet with a large underlined native selector and a softly tinted control row.
+The sheet aligns with the page content, stays compact on desktop, and fills the available
+width on phones. The reset action moves to a separate ruled row when space is limited.
 The hero totals use Margin totals: two ruled definition rows beside an accent margin,
 with labels on the left and larger values on the right. The counts remain derived from
 the notebook data, and the row gap tightens for narrow or enlarged-text layouts.
@@ -36,7 +39,9 @@ Visitors can browse in either direction, with the next country named in the card
 naming their destination for assistive technology. Closing or pressing Escape clears the selection
 so the same country can be opened again. Closing a phone card returns focus and the page to the
 map while preserving its zoom and horizontal position.
-The native country selector is visible below the map for touch and keyboard use. Its first group
+The native country selector comes before the zoom buttons in reading and keyboard order.
+The existing Lumen nodes are grouped inside their original map root; selection, zoom state,
+announcements, and navigation cleanup remain owned by Lumen. Its first group
 contains the 15 notebook entries in data order, followed by the other countries. The duplicate
 highlighted-country list is hidden. On phones, the map fills a taller viewport with proportionally larger geography, starts
 around Colombia, and scrolls horizontally to reveal off-screen selections. The card follows the map
