@@ -36,7 +36,7 @@
 
 - Apply Margin index to the About page exploration invitation with an accent rail, contextual destination labels, and two ruled navigation rows. Preserve native portfolio and blog links, visible keyboard focus, light and dark themes, and readable layouts at enlarged text sizes.
 
-- Apply Editorial spread to homepage latest writing with a wide illustrated lead story, three image-led articles, and clear reading actions. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
+- Apply Editorial spread to homepage latest writing with a wide illustrated lead story, three image-led articles, and clear reading actions. Stack the lead on laptops to preserve the full cover and give its title room. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
 
 - Apply Offset spread to the homepage featured work with an overlapping copy sheet, richer Smith commerce artwork, and a dedicated outcome and role footer. Preserve authored results, native full-card navigation, and responsive light and dark layouts at enlarged text sizes.
 
@@ -209,6 +209,8 @@
 - Apply Progressive stack to project detail openings: show six core technologies, retain the total count, and reveal the remaining technology links with a native keyboard-accessible disclosure. Preserve the Sculpted band treatment and no-JavaScript access.
 
 - Apply Hero-led project facts: keep Role, Timeline, and Duration in the hero, preserve the project type above the cover, and remove the repeated At a glance sidebar card. Retain navigation, Focus, Core stack, and Outcomes with their existing treatments.
+
+- Apply Chapter opener navigation to stacked project pages: place a compact native disclosure before the notes, retain all section and subsection links, and keep the desktop Margin rail. Match the reading layout breakpoint, preserve keyboard and no-JavaScript navigation, and omit navigation when no eligible headings exist.
 
 ### Patch Changes
 
@@ -475,6 +477,8 @@
 - Clear navigation progress when a pending page load is canceled, and keep earlier completion events from hiding a newer pending navigation. Preserve topic-filter reading positions after destination styles apply in WebKit without accumulating fractional scroll drift or overriding a newer navigation.
 
 - Use the visible recommendation, package name, and action as the accessible name of project replacement links, keeping voice-control labels consistent with the Successor spread design.
+
+- Redesign the shared footer as an integrated closing statement with a large editorial headline, a sculpted WhatsApp action, and a quieter email link. Align the contact and directory columns, preserve compact footers, and keep the entire footer readable with enlarged text on narrow screens.
 
 - Keep article dates, project timelines and durations, resumes, feeds, sitemap metadata, and social-card scheduling consistent across build timezones while preserving explicit timestamp offsets.
 

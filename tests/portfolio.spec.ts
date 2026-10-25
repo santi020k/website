@@ -10,6 +10,12 @@ import {
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 import { shouldRunVisualSnapshots } from './helpers/visual-regression'
 
+const openProjectContents = async (page: Page) => {
+  const opener = page.locator('[data-project-mobile-toc] summary')
+
+  if (await opener.isVisible()) await opener.click()
+}
+
 const expectImageLoaded = async (image: Locator) => {
   await image.scrollIntoViewIfNeeded()
   await expect(image).toBeVisible()
@@ -386,6 +392,7 @@ test.describe('Portfolio page', () => {
 
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await expect(page.locator('main article').first()).toBeVisible()
+    await openProjectContents(page)
     await expect(page.getByRole('navigation', { name: 'Table of contents' })).toBeVisible()
 
     const readingProgress = page.getByRole('progressbar', { name: 'Reading progress' })

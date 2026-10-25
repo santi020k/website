@@ -5,38 +5,43 @@ import { Anchor, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   headings: MarkdownHeading[]
+  embedded?: boolean
 }
 
-const { headings } = Astro.props
+const { headings, embedded = false } = Astro.props
 const tocHeadings = headings.filter(heading => heading.depth <= 3)
 ---
 
-<div data-toc-shell>
-  <Anchor
-    activationOffset={120}
-    data-editorial-toc
-    aria-label="Table of contents"
-  >
-    <p data-toc-title>
-      On this page
-      <Icon class="size-4 shrink-0" name="list" />
-    </p>
+{tocHeadings.length > 0 && (
+  <div data-toc-shell data-toc-embedded={embedded || undefined}>
+    <Anchor
+      activationOffset={120}
+      data-editorial-toc
+      aria-label="Table of contents"
+    >
+      {!embedded && (
+        <p data-toc-title>
+          On this page
+          <Icon class="size-4 shrink-0" name="list" />
+        </p>
+      )}
 
-    <ol role="list" data-toc-tree>
-      {tocHeadings.map((heading, index) => (
-        <li>
-          <a
-            data-active={index === 0 ? 'true' : 'false'}
-            data-depth={heading.depth}
-            href={`#${heading.slug}`}
-          >
-            {heading.text}
-          </a>
-        </li>
-      ))}
-    </ol>
-  </Anchor>
-</div>
+      <ol role="list" data-toc-tree>
+        {tocHeadings.map((heading, index) => (
+          <li>
+            <a
+              data-active={index === 0 ? 'true' : 'false'}
+              data-depth={heading.depth}
+              href={`#${heading.slug}`}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </Anchor>
+  </div>
+)}
 
 <style>
   [data-toc-shell] { container: toc-rail / inline-size; }
@@ -79,6 +84,8 @@ const tocHeadings = headings.filter(heading => heading.depth <= 3)
     border-radius: 2px;
     border-inline-start: 3px solid currentColor;
   }
+  [data-toc-embedded] [data-editorial-toc] { padding-top: 0; border: 0; border-radius: 0 0 0.5rem 1.5rem; }
+  [data-toc-embedded] [data-toc-tree] { margin-top: 0; }
   :global(:root[data-theme='dark']) [data-toc-title],
   :global(:root[data-theme='dark']) [data-toc-tree] a:is(:hover, [data-active='true'], [aria-current='location']) { color: hsl(var(--accent)); }
 

@@ -813,6 +813,21 @@ or empty-state notice. Begin the sidebar with Focus, followed by Core stack and
 optional Outcomes. Keep the sidebar's normal spacing;
 do not reserve a gap for absent navigation. Articles likewise omit empty navigation.
 
+### Chapter opener project navigation
+
+In the stacked project reading layout, place navigation immediately before Work notes
+(or the project's equivalent notes header). Use a closed native Lumen Collapsible with
+the On this page label, a count of top-level sections, and a downward chevron. Its
+opaque panel shares the Margin rail corners, border, and 0.75rem label; the summary
+has a 4.25rem minimum height. Opening it reveals the complete heading list, including
+subsections, with the existing Margin rail spacing and active marker.
+
+Switch to the sidebar's expanded Margin rail only when the reading layout has both
+a 64rem viewport and a 56rem container. Hide the other copy with CSS so only one
+navigation is available to keyboard and assistive technology. Reuse the same heading
+data and Lumen Anchor behavior, without a new controller. Preserve fragment links
+without JavaScript, enlarged-text reflow, and omission when no eligible headings exist.
+
 ### Margin chapters case study summaries
 
 Case study summaries use one opaque Lumen Card with asymmetric corners and a small
@@ -1345,8 +1360,9 @@ lazy loading, and the central subject of each image. Keep the supporting images 
 16:9 ratio. The lead image may crop its quiet edges to fill the split composition. Its latest
 article label, all post types, decorative numbers, and metadata remain outside the image.
 
-Below a 56rem `home-writing` container, stack the lead artwork and copy, then show the remaining
-articles as image-and-copy rows. Below 38rem, stack every article's image and text. Tighten the
+Below a 64rem `home-writing` container, stack the lead artwork and copy to preserve the complete
+cover and a comfortable title width on laptops. Below 56rem, show the remaining articles as
+image-and-copy rows. Below 38rem, stack every article's image and text. Tighten the
 lead's insets and title below 20rem and 16rem for enlarged text. Keep the complete excerpts,
 visible keyboard outlines, and stationary hover behavior. All four recent links, three Start
 here recommendations, and the RSS action remain available without JavaScript.
@@ -1363,17 +1379,23 @@ decorative conversation symbol. Tighten insets below 21.25rem, then reduce headi
 decorative arrows below 16rem for enlarged text. Keep the action labels, descriptions, and all
 destinations visible. Hover changes the title color and underline without moving the card.
 
-### Correspondence sheet footer invitation
+### Closing statement footer invitation
 
-The default shared footer uses a Lumen card with a wide contact heading, decorative mail marker,
-and joined WhatsApp and email actions. Preserve the complete invitation copy, contact values from
-`siteConfig`, native links, and visible keyboard focus. The compact footer on policy pages keeps
-its directory without the contact invitation.
+The default footer is one continuous surface for the invitation, directory, and colophon.
+An oversized two-line heading leads the composition, with a sculpted Lumen `ButtonLink`
+for WhatsApp on the right. The quiet email link sits directly below that action. The desktop
+contact column aligns with the social directory; fine rules separate the invitation and legal
+information without introducing another enclosing card.
 
-Use the `footer` container to remove the marker and heading inset under 45rem, stack the contact
-strip under 30rem, and tighten insets under 21.25rem. Below 16rem, reduce the headline and omit
-arrows so enlarged text keeps both destinations readable. The sheet owns its frame on mobile;
-the directory and colophon retain their existing order and links below it.
+Preserve the complete invitation copy, contact values from `siteConfig`, native links, and
+visible keyboard focus. Identify WhatsApp in the action so visitors know where it leads.
+The compact footer on policy and recovery pages retains its directory without a contact pitch.
+
+Use the `footer` container to stack the invitation below 48rem and place the contact options
+in one column below 32rem. The large desktop action becomes a horizontal contact strip on
+smaller screens. Reduce the heading scale below 21rem and 16rem; omit its decorative arrow
+at the narrowest width. Keep full text visible at 200% text size, and preserve the fixed
+Back to Top control's clearance at the end of the colophon.
 
 ### Page composition around the cards
 

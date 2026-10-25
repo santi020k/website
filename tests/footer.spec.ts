@@ -6,10 +6,10 @@ test('footer preserves contact destinations, profile identity, and keyboard navi
   await page.goto('/')
   const footer = page.locator('[data-site-footer]')
   const contact = footer.locator('.maker-footer-action')
-  await expect(footer.locator('.maker-footer-contact')).toContainText(
+  await expect(footer.locator('.maker-footer-invitation')).toContainText(
     'Tell me about an engineering role, a product collaboration, or a speaking invitation.'
   )
-  await expect(contact).toHaveAccessibleName('Let’s talk')
+  await expect(contact).toHaveAccessibleName('Let’s talk Start a conversation on WhatsApp')
   await expect(contact).toHaveAttribute('href', /^https:\/\/api\.whatsapp\.com\/send\?/)
   await expect(contact).toHaveAttribute('rel', /noopener/)
   await expect(footer.locator('a[href="mailto:hi@santi020k.com"]')).toBeVisible()
@@ -72,10 +72,13 @@ for (const theme of ['light', 'dark']) {
 }
 
 for (const theme of ['light', 'dark'] as const) {
-  test(`footer invitation stays readable with enlarged text in ${theme} mode`, async ({ page }) => {
+  test(`footer stays readable with enlarged text in ${theme} mode`, async ({ page }) => {
+    await page.addInitScript(value => {
+      localStorage.setItem('theme', value)
+    }, theme)
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' })
 
-    for (const path of ['/', '/blog/', '/speaking/']) {
+    for (const path of ['/', '/blog/', '/speaking/', '/privacy/']) {
       for (const width of [320, 390, 768, 1440]) {
         await page.setViewportSize({ width, height: 900 })
         await page.goto(path)
@@ -86,8 +89,8 @@ for (const theme of ['light', 'dark'] as const) {
 
         const invitation = page.getByRole('region', { name: 'Let’s build something useful.' })
 
-        await expect(invitation.getByRole('link')).toHaveCount(2)
-        const clipped = await invitation.evaluate(element => {
+        await expect(invitation.getByRole('link')).toHaveCount(path === '/privacy/' ? 0 : 2)
+        const clipped = await page.locator('[data-site-footer]').evaluate(element => {
           const bounds = element.getBoundingClientRect()
 
           return [...element.querySelectorAll('p, h2, a')].flatMap(item => {
@@ -102,7 +105,7 @@ for (const theme of ['light', 'dark'] as const) {
           })
         })
 
-        expect(clipped).toEqual([])
+        expect(clipped, `${path} at ${width}px with enlarged text`).toEqual([])
         for (const link of await invitation.getByRole('link').all()) {
           await link.focus()
           await expect(link).toBeFocused()

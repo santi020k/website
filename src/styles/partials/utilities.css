@@ -99,10 +99,22 @@
   container: reading-layout / inline-size;
 }
 
+[data-project-desktop-toc] {
+  display: none;
+}
+
 @media (width >= 64rem) {
   @container reading-layout (width >= 56rem) {
     [data-reading-body] {
       grid-template-columns: minmax(0, 1fr) 18rem;
+    }
+
+    [data-project-mobile-toc] {
+      display: none;
+    }
+
+    [data-project-desktop-toc] {
+      display: block;
     }
 
     aside[data-reading-rail] {
