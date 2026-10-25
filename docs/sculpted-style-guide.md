@@ -250,6 +250,19 @@ links form one column. The full row is a link with a visible focus ring and a la
 that includes its project count. Preserve live filtering, hidden empty groups,
 result announcements, and Lumen's existing reduced-motion-aware list behavior.
 
+### Catalog note technology empty state
+
+Keep the technology index's no-results message open between the existing catalog's
+top rule and a matching bottom rule. Pair a decorative Search X icon in a small
+sculpted brand-soft mark with a 1.5rem heading and .875rem recovery guidance.
+Use 1.75rem vertical space and a 1.5rem icon-to-copy gap. Below 32rem of index
+width, reduce the heading to 1.375rem and the gap to 1rem; below 18rem, stack the
+icon above the text. Below 12rem, use a 1.125rem heading. Disable automatic
+heading hyphenation to keep complete words with enlarged text. Preserve both
+sentences, search focus, live result counts,
+and restoration of the catalog when the query is cleared. Hidden remains the
+initial state, including without JavaScript.
+
 ### Closing folio evidence invitation
 
 The Technologies page closes with a Lumen Card that separates a tinted title

@@ -176,6 +176,8 @@
 
 - Apply Margin totals to the Travel hero, pairing larger values with clear labels in ruled definition rows. Preserve the derived country and visit counts, responsive page alignment, light/dark contrast, and readable labels at enlarged text sizes.
 
+- Apply Catalog note to the technology index empty state, with an open ruled message, sculpted search icon, and clear heading. Preserve the complete recovery guidance, live result counts, search focus, and catalog restoration when the query is cleared.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

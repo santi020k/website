@@ -11,7 +11,7 @@ import { getCachedProjects } from '@/utils/content'
 import { getTechnologyPath } from '@/utils/links'
 import { sortTechnologyCountsByInterest } from '@/utils/technologies'
 
-import { Card, Input, Link, MotionGroup } from '@santi020k/lumen-astro'
+import { Card, Icon, Input, Link, MotionGroup } from '@santi020k/lumen-astro'
 
 import { getUniqueTechnologiesWithCount } from '@/data/project'
 
@@ -161,18 +161,17 @@ data-technology-group-count
           ))}
         </div>
 
-        <p
-          class="
-            m-5 rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm
-            text-ink-soft
-            sm:m-6
-            lg:m-7
-          "
+        <section
+          aria-labelledby="technology-empty-heading"
           data-technologies-empty
           hidden
         >
-          No technologies match that search. Try a broader term or clear the search field.
-        </p>
+          <span data-technology-empty-icon><Icon class="size-5.5" name="search-x" /></span>
+          <div>
+            <h3 id="technology-empty-heading">No technologies match that search.</h3>
+            <p>Try a broader term or clear the search field.</p>
+          </div>
+        </section>
       </div>
     </Card>
   </PageSection>
@@ -254,3 +253,52 @@ data-technology-group-count
     document.addEventListener('astro:page-load', setupTechnologyIndex)
   </script>
 </PageLayout>
+
+<style>
+  [data-technologies-empty] {
+    padding-block: 1.75rem;
+    border-bottom: 1px solid hsl(var(--line));
+  }
+  [data-technologies-empty]:not([hidden]) {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    align-items: start;
+    gap: 1.5rem;
+  }
+  [data-technology-empty-icon] {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: .75rem .1875rem .75rem .1875rem;
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--brand));
+  }
+  :global([data-theme='dark']) [data-technology-empty-icon] { color: hsl(var(--accent)); }
+  [data-technologies-empty] h3 {
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -.035em;
+    hyphens: none;
+  }
+  [data-technologies-empty] p {
+    margin-top: .75rem;
+    color: hsl(var(--ink-soft));
+    font-size: .875rem;
+    line-height: 1.8;
+  }
+  @container technology-index (width < 32rem) {
+    [data-technologies-empty] { padding-block: 1.5rem; }
+    [data-technologies-empty]:not([hidden]) { gap: 1rem; }
+    [data-technologies-empty] h3 { font-size: 1.375rem; }
+  }
+  @container technology-index (width < 18rem) {
+    [data-technologies-empty]:not([hidden]) { grid-template-columns: minmax(0, 1fr); }
+  }
+  @container technology-index (width < 12rem) {
+    [data-technologies-empty] h3 { font-size: 1.125rem; }
+  }
+</style>

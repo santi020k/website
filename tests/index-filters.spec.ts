@@ -32,6 +32,9 @@ test.describe('Index filters', () => {
 
     await expect(page.locator('#technology-filter-status')).toHaveText('0 technologies found.')
     await expect(page.locator('[data-technologies-empty]')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'No technologies match that search.' })).toBeVisible()
+    await expect(page.locator('[data-technologies-empty] p')).toHaveText('Try a broader term or clear the search field.')
+    await expect(search).toBeFocused()
     await expect(page.locator('[data-technology-group]:visible')).toHaveCount(0)
     await expect(page.locator('[data-technology-item]:visible')).toHaveCount(0)
     await search.fill('')
