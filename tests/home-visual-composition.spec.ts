@@ -6,7 +6,7 @@ for (const theme of ['light', 'dark'] as const) {
   test.describe(`Homepage product compositions in ${theme}`, () => {
     test.use({ colorScheme: theme, reducedMotion: 'reduce' })
 
-    test('product captures retain their context and one native destination', async ({ page }) => {
+    test('product images stay caption-free with accessible native destinations', async ({ page }) => {
       await page.goto('/')
       const products = page.locator('[data-home-product]')
 
@@ -17,7 +17,7 @@ for (const theme of ['light', 'dark'] as const) {
         const preview = product.locator('[data-product-preview]')
 
         await expect(preview.locator('img')).toHaveCount(2)
-        await expect(preview.locator('[data-preview-caption]')).toContainText(/illustrative|development preview/u)
+        await expect(preview).toHaveText('')
         await preview.scrollIntoViewIfNeeded()
         for (const image of await preview.locator('img').all()) {
           await expect(image).toHaveAttribute('alt', /\S/u)
@@ -32,6 +32,7 @@ for (const theme of ['light', 'dark'] as const) {
         await link.focus()
         await page.keyboard.press('Enter')
         await expect(page).toHaveURL(href ?? '')
+        await expect(page.locator('[data-product-previews]')).toContainText(/illustrative|development/u)
         await page.goBack()
       }
     })

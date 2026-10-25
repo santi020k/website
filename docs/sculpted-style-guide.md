@@ -1279,8 +1279,9 @@ Keep independent product cards and supporting projects in their own layouts.
 Homepage independent products use paired Lumen cards with existing product captures in Lumen
 DeviceFrame components. A web workspace pairs a laptop with a phone; native apps pair two phones.
 Use quiet project-colored backgrounds and optimize the images with Astro. Keep each capture's
-accessible description and the complete development or illustrative-data disclosure below it.
-These are static previews within one native project link, without interactive device controls.
+accessible description. Keep the homepage image area free of captions, with a quiet lower inset;
+development and illustrative-data disclosures remain in the linked case study. These are static
+previews within one native project link, without interactive device controls.
 
 An opaque reading panel follows the preview with a small project mark, title, full description,
 technologies, timeline, and “Explore the project”. Keep this panel flush with the card edges so the
