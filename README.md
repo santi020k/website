@@ -138,6 +138,9 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   full text and punctuation so chapter navigation and existing fragments stay stable.
   The desktop contents rail uses Captioned chapters for `Name: description` headings,
   deriving its two-line labels and named overview links from that same heading text.
+- **Opening context:** set `notesLayout: context-lead` and wrap the authored opening heading
+  and introduction in `ProjectContextLead`. Its `projectId` supplies the notes label and
+  current stage; `headingId` retains the original fragment. This replaces the generic preface.
 - **Closing reflection:** `ProjectSynthesis` uses Synthesis spread to pair existing client
   perspectives with one shared takeaway. Keep the authored Markdown heading in its slot
   so the original closing fragment remains part of chapter navigation.

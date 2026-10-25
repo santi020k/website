@@ -1027,6 +1027,19 @@ text to wrap, including at enlarged text sizes. Keep one authored Markdown h2 wi
 for the name and subtitle; retain the colon as screen-reader text. This preserves the full
 heading, chapter index, and existing fragment without duplicate headings or client code.
 
+### Context lead opening
+
+Combine the project notes label and live stage with the authored opening heading and
+introduction. Use a fine top rule, 1.5rem top padding, and a wrapping metadata row with
+the accent label at 0.875rem and quiet stage at 0.8125rem. Leave 1.875rem before the
+heading, set at 2rem, weight 500, and tight tracking. The original introduction follows
+after 1.5rem at 1.125rem with 1.8 line height; below 35rem it uses 1.0625rem.
+
+Opt in with `notesLayout: context-lead` and `ProjectContextLead` around the Markdown
+heading and paragraph. Derive the label and stage from the existing project metadata.
+Retain the original heading fragment, links, and claims; omit the generic preface rather
+than repeating it. Projects without this authored opening keep Margin preface.
+
 ### Synthesis spread closing reflection
 
 Close a multi-client case study with an open composition: a small What carries forward

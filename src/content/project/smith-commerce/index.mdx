@@ -10,6 +10,7 @@ startingDate: "1 May 2025"
 liveDemoUrl: "https://www.marcone.com/"
 liveDemoName: "Marcone"
 typesId: "professional"
+notesLayout: "context-lead"
 relevanceWeight: 100
 previews:
   linkLabel: "View F.W. Webb previews"
@@ -65,15 +66,21 @@ import ProjectClientMasthead from '@/components/molecules/ProjectClientMasthead.
 
 import ProjectSynthesis from '@/components/molecules/ProjectSynthesis.astro'
 
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+
 import contextImage from './cover-commerce-system.webp'
 
 import beforeImage from './before.webp'
 
 import afterImage from './after.webp'
 
+<ProjectContextLead projectId="smith-commerce" headingId="two-commerce-projects-at-smith">
+
 ## Two commerce projects at Smith
 
 At [Smith Commerce](https://smithcommerce.com), my work as a Senior Front End Developer has spanned two client projects: **Marcone** and **F.W. Webb**. Across both, I have worked on the frontend systems that connect product discovery, purchasing, and account workflows with commerce APIs.
+
+</ProjectContextLead>
 
 <ProjectClientMasthead sequence="01">
 
