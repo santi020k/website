@@ -19,6 +19,24 @@ const allTechnologies = getUniqueTechnologiesWithCount(workProjects)
 const technologies = sortTechnologyCountsByInterest(allTechnologies).slice(0, 18)
 const hiddenTechnologyCount = Math.max(0, allTechnologies.length - technologies.length)
 
+const toolkitLanes = [
+  { id: 'web', title: 'Web foundations', names: ['React.js', 'Next.js', 'TypeScript'] },
+  { id: 'mobile', title: 'Mobile', names: ['React Native', 'Expo'] },
+  { id: 'data', title: 'Data & state', names: ['Node.js', 'GraphQL', 'Apollo Client', 'TanStack Query', 'OpenAPI', 'Zustand', 'Redux Toolkit', 'Redux Sagas', 'Redux'] },
+  { id: 'ui', title: 'UI systems', names: ['Storybook', 'Tailwind CSS', 'Radix UI', 'Mantine UI'] }
+]
+
+const groupedTechnologyNames = new Set(toolkitLanes.flatMap(lane => lane.names))
+
+const toolkitGroups = [
+  ...toolkitLanes.map(lane => ({
+    id: lane.id,
+    title: lane.title,
+    items: technologies.filter(([name]) => lane.names.includes(name))
+  })),
+  { id: 'other', title: 'Other tools', items: technologies.filter(([name]) => !groupedTechnologyNames.has(name)) }
+].filter(group => group.items.length > 0)
+
 const careerStats = [
   {
     label: 'Professional roles',
@@ -156,13 +174,22 @@ class="
                                                                 >The tools behind the work.</h2></div>
         <p class="max-w-sm text-sm/7 text-ink-soft">React and TypeScript at the center. Backend, mobile, testing, and delivery tools to fit the problem.</p>
       </div>
-      <ul
-aria-label="Technologies used in professional work"
+      <div data-work-stack>
+        {toolkitGroups.map((group, index) => (
+          <section class="work-toolkit-lane" aria-labelledby={`work-toolkit-${group.id}`}>
+            <div class="work-toolkit-heading">
+              <span class="work-toolkit-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <h3 id={`work-toolkit-${group.id}`}>{group.title}</h3>
+            </div>
+            <ul
+aria-label={`${group.title} technologies`}
 class="@container/sculpted-tags flex flex-wrap gap-2.5"
-data-work-stack
-      >
-        {technologies.map(([name, count]) => <li class="max-w-full min-w-0"><SculptedTag count={count} href={getTechnologyPath(name)} label={name} /></li>)}
-      </ul>
+            >
+              {group.items.map(([name, count]) => <li class="max-w-full min-w-0"><SculptedTag count={count} href={getTechnologyPath(name)} label={name} /></li>)}
+            </ul>
+          </section>
+        ))}
+      </div>
       <div class="
         mt-7 flex flex-wrap items-center justify-between gap-4 text-xs/6
         text-ink-soft
