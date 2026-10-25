@@ -1100,7 +1100,10 @@ heading, set at 2rem, weight 500, and tight tracking. The original introduction 
 after 1.5rem at 1.125rem with 1.8 line height; below 35rem it uses 1.0625rem.
 
 Opt in with `notesLayout: context-lead` and `ProjectContextLead` around the Markdown
-heading and paragraph. Derive the label and stage from the existing project metadata.
+heading and opening paragraphs. Give each paragraph the same reading scale and 1.5rem
+separation. Smith and Lumen use this treatment; Lumen retains both its product-language
+introduction and the following explanation of framework responsibilities.
+Derive the label and stage from the existing project metadata.
 Retain the original heading fragment, links, and claims; omit the generic preface rather
 than repeating it. Projects without this authored opening keep Margin preface.
 

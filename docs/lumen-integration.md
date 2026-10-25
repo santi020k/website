@@ -299,6 +299,8 @@ enlarged text sizes. No new client controller is introduced.
   introduction in a semantic section. It reads the existing project metadata and requires
   `notesLayout: context-lead`, which removes the generic layout preface. Markdown retains
   the heading and inline link; shared tokens provide the open composition without client code.
+  Smith and Lumen opt in. Lumen keeps both authored opening paragraphs within the
+  section, using the same readable spacing without a second generic preface.
 - `ProjectSectionHeading` wraps an authored Markdown h3 with Section cadence typography
   and a decorative trailing rule. Inline heading content stays in normal text flow; long
   labels wrap without changing their names or fragments. Adjacent narrative paragraphs

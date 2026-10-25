@@ -254,6 +254,8 @@
 
 - Connect the Smith Commerce outcomes to Marcone chapter context with Context trail. Add native links to Before and after and Technical highlights, with responsive touch targets, visible keyboard focus, and preserved metric attribution.
 
+- Introduce Lumen with Context lead, preserving its authored heading, both opening paragraphs, and chapter links. Reuse the project metadata and reading typography while removing the duplicate generic preface.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
