@@ -120,7 +120,7 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
         eyebrow={`${group.projects.length} ${group.projects.length === 1 ? 'project story' : 'project stories'}`}
         title={group.title}
       />
-      <ProjectsGallery projects={group.projects} variant="editorial" />
+      <ProjectsGallery projects={group.projects} />
     </section>
   ))}
 

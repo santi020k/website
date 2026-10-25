@@ -1802,9 +1802,9 @@ rather than an implicit `auto` track, so one long word or control cannot widen t
   its Letter folio container rules and stacks its field and labeled action below 25rem.
 - The `card-grid-2`, `card-grid-3`, and `card-grid-4` utilities keep a grid's breakpoint column
   count while each card has `--card-grid-min` (16rem by default), then drop a column. They back
-  `StatsGrid`, `PostsGallery`, the regular `ProjectsGallery`, series cards, and the Speaking and
-  Developer Experience card grids. The regular gallery's featured project pairs image and copy
-  only while its card has 44rem.
+  `StatsGrid`, `PostsGallery`, series cards, and the Speaking and Developer Experience card grids.
+  `ProjectsGallery` has one editorial presentation, shared with technology archives; its own
+  container rules control the leading project's image and copy.
 - Work's intro frame is a `work-intro` container: the hero stacks below 44rem, the statistics
   form one column below 53.125rem, use a compact figure rail below 27.5rem, and stack
   figures above copy below 17.5rem. Its section summaries wrap below their heading.

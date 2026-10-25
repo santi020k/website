@@ -81,9 +81,11 @@ for (const { slug, chapter, nextSection, introParagraphs } of [
         sibling = sibling.previousElementSibling
       }
 
+      const chapterHeading = sibling?.matches('h2') ? sibling : sibling?.querySelector('h2')
+
       return {
-        chapter: sibling?.textContent,
-        chapterTag: sibling?.tagName,
+        chapter: chapterHeading?.textContent,
+        chapterTag: chapterHeading?.tagName,
         paragraphs,
         next: element.nextElementSibling?.matches('[data-project-evidence]') ?
           element.nextElementSibling.querySelector('h3')?.textContent :
@@ -99,7 +101,8 @@ for (const { slug, chapter, nextSection, introParagraphs } of [
     await expect(chapterGroup).toHaveAttribute('open', '')
     const labels = await chapterGroup.getByRole('link').allTextContents()
 
-    expect(labels.indexOf('Chapter overview')).toBe(labels.indexOf('Inside the product') - 1)
+    expect(labels.indexOf(slug === 'smith-commerce' ? 'F.W. Webb overview' : 'Chapter overview'))
+      .toBe(labels.indexOf('Inside the product') - 1)
     expect(labels.indexOf(nextSection)).toBe(labels.indexOf('Inside the product') + 1)
     await galleryLink.click()
     await expect(page.locator('#inside-the-product')).toBeInViewport()

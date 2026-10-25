@@ -121,9 +121,9 @@ test('the comparison stays in the Marcone chapter without extra navigation headi
   expect(await page.locator('#marcone-comparison').evaluate(element => {
     let sibling = element.previousElementSibling
 
-    while (sibling && sibling.tagName !== 'H3') sibling = sibling.previousElementSibling
+    while (sibling && !sibling.matches('h3, [data-project-section-heading]')) sibling = sibling.previousElementSibling
 
-    return sibling?.id
+    return sibling?.matches('h3') ? sibling.id : sibling?.querySelector('h3')?.id
   })).toBe('before-and-after')
 })
 

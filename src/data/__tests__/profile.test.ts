@@ -6,9 +6,7 @@ import {
   speakingFormats,
   speakingHighlights,
   speakingTopics,
-  testimonials,
-  usesHighlights,
-  usesSections
+  testimonials
 } from '../profile'
 
 describe('testimonials', () => {
@@ -110,43 +108,6 @@ describe('speakingFormats', () => {
       expect(fmt.title).toBeTruthy()
       expect(fmt.subtitle).toBeTruthy()
       expect(fmt.description).toBeTruthy()
-    }
-  })
-})
-
-describe('usesHighlights', () => {
-  test('is a non-empty array', () => {
-    expect(usesHighlights.length).toBeGreaterThan(0)
-  })
-
-  test('every item has label and value', () => {
-    for (const item of usesHighlights) {
-      expect(item.label).toBeTruthy()
-      expect(item.value).toBeTruthy()
-    }
-  })
-})
-
-describe('usesSections', () => {
-  test('is a non-empty array', () => {
-    expect(usesSections.length).toBeGreaterThan(0)
-  })
-
-  test('every section has title, description, and items', () => {
-    for (const section of usesSections) {
-      expect(section.title).toBeTruthy()
-      expect(section.description).toBeTruthy()
-      expect(Array.isArray(section.items)).toBe(true)
-      expect(section.items.length).toBeGreaterThan(0)
-    }
-  })
-
-  test('every section item has label and value', () => {
-    for (const section of usesSections) {
-      for (const item of section.items) {
-        expect(item.label).toBeTruthy()
-        expect(item.value).toBeTruthy()
-      }
     }
   })
 })

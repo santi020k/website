@@ -41,17 +41,6 @@ export interface EngineeringPrinciple {
   title: string
 }
 
-export interface UsesSectionItem {
-  label: string
-  value: string
-}
-
-export interface UsesSection {
-  description: string
-  items: UsesSectionItem[]
-  title: string
-}
-
 export const testimonials: Testimonial[] = [
   {
     avatarInitials: 'RD',
@@ -252,77 +241,5 @@ export const engineeringPrinciples: EngineeringPrinciple[] = [
   {
     title: 'Consistency beats perfection',
     body: 'A consistent codebase with some imperfections beats an inconsistent one with pockets of brilliance. Conventions compound. Exceptions cost.'
-  }
-]
-
-export const usesHighlights: UsesSectionItem[] = [
-  {
-    label: 'Bias',
-    value: 'Boring reliability over shiny setup churn'
-  },
-  {
-    label: 'Default stack',
-    value: 'TypeScript, React, Astro, Node.js, Tailwind, Vitest, Playwright'
-  },
-  {
-    label: 'What I optimize for',
-    value: 'Fast feedback loops, clear standards, and fewer context switches'
-  }
-]
-
-export const usesSections: UsesSection[] = [
-  {
-    description: 'I keep the physical setup intentionally simple. The goal is long stretches of focused work, good pairing sessions, and less energy spent on gear decisions.',
-    items: [
-      {
-        label: 'Workspace',
-        value: 'Laptop-first, with extra screen space whenever I am working from a fixed desk'
-      },
-      {
-        label: 'Calls and collaboration',
-        value: 'Reliable audio, a clean video-call setup, and tools that make remote leadership feel less fragmented'
-      },
-      {
-        label: 'Comfort',
-        value: 'A keyboard, pointer, and desk setup that can survive long implementation sessions without becoming the problem'
-      }
-    ],
-    title: 'Desk setup'
-  },
-  {
-    description: 'Most of my work still starts with the same core stack: TypeScript, React-adjacent frameworks, and tooling that keeps quality visible from the beginning.',
-    items: [
-      {
-        label: 'Frontend',
-        value: 'React, Next.js, Astro, Tailwind CSS, Storybook, and design-system thinking when a product needs stronger UI structure'
-      },
-      {
-        label: 'Backend',
-        value: 'Node.js services, APIs, pragmatic data modeling, and whatever automation removes the most toil for the team'
-      },
-      {
-        label: 'Testing',
-        value: 'Vitest, Playwright, ESLint, and CI pipelines that catch issues early instead of making release day louder'
-      }
-    ],
-    title: 'Build stack'
-  },
-  {
-    description: 'The tools matter, but the workflow matters more. I am always looking for ways to make software delivery feel calmer, clearer, and easier to trust.',
-    items: [
-      {
-        label: 'Writing',
-        value: 'I use writing to clarify architecture, document decisions, and turn useful lessons into posts, docs, or internal standards'
-      },
-      {
-        label: 'Delivery',
-        value: 'Small feedback loops, measurable quality gates, and automation that supports judgment instead of replacing it'
-      },
-      {
-        label: 'Leadership',
-        value: 'Close enough to the code to stay credible, structured enough to help the team avoid unnecessary ambiguity'
-      }
-    ],
-    title: 'Workflow principles'
   }
 ]

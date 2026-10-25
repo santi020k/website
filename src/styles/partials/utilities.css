@@ -173,14 +173,6 @@
   }
 }
 
-@utility post-grid {
-  @apply grid items-start gap-5;
-}
-
-@utility cta-panel {
-  @apply glass-pro rounded-[2rem] p-6 sm:p-8 lg:p-10;
-}
-
 @utility topic-meter-fill {
   @apply h-full rounded-full bg-linear-to-r from-brand/55 to-accent/75 transition-all duration-500 motion-reduce:transition-none;
 }
@@ -240,22 +232,6 @@
 [data-site-action='ghost'] { @apply btn-ghost; }
 [data-site-action='inline'] { @apply btn-inline; }
 
-/* ─── Forms & Interactive ───────────────────────────────────────────────────── */
-
-@utility field-surface {
-  @apply w-full rounded-[1.1rem] border border-line/55 bg-surface/72 px-4 py-3.5 text-ink outline-none transition duration-200;
-  @apply placeholder:text-ink-muted/55 focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/10 focus-visible:outline-hidden;
-  @apply motion-reduce:transition-none;
-}
-
-@utility pagination-btn {
-  @apply inline-flex min-h-11 min-w-11 items-center justify-center rounded-2xl border border-line/60 bg-surface/80 px-3 text-sm font-medium text-ink-soft transition-colors duration-200 hover:border-brand/40 hover:bg-brand-soft/35 hover:text-brand motion-reduce:transition-none;
-}
-
-@utility pagination-btn--active {
-  @apply border-brand/35 bg-brand-soft/50 text-brand dark:text-accent;
-}
-
 /* ─── Decorative ────────────────────────────────────────────────────────────── */
 
 @utility grid-fade {
@@ -271,20 +247,6 @@
     black 82%,
     transparent
   );
-}
-
-/* ─── Dividers ─────────────────────────────────────────────────────────────── */
-
-@utility divider-soft {
-  @apply border-t border-line/50;
-}
-
-@utility divider-medium {
-  @apply border-t border-line/70;
-}
-
-@utility section-divider {
-  @apply divider-medium pt-10 mt-10;
 }
 
 @utility card-hierarchy {

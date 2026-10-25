@@ -81,7 +81,7 @@ Light theme neutrals are hue-shifted purple (`~268°`) — not neutral gray. Dar
 
 ### Badges / Pills
 
-Use the `Pill.astro` component with named variants. Variant `accent-one` = brand purple. Never recreate badge styles inline.
+Use `Pill.astro` for project status labels with its semantic `tone` prop. Use `SculptedTag.astro` for linked topics and technology counts. Never recreate badge styles inline.
 
 ### Cards
 

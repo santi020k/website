@@ -42,6 +42,71 @@ accessible interaction; the website retains its content rules, routing, logging,
 policy. Use the [Lumen error-handling guide](https://github.com/santi020k/lumen/blob/main/docs/error-handling.md)
 when adding a failure state, rather than inventing another alert or toast system.
 
+## Reusing the 4.1 editorial components
+
+The 4.1 review recommends keeping the current compositions in the website and adding an
+editorial recipe family to Lumen when a second application needs them. A separate
+`lumen-cards` or `lumen-santi020k` package is not needed for this release. Lumen already owns
+the accessible primitives; these designs also include headers, reading navigation, notices,
+and page composition, so a cards-only package would misrepresent the reusable work.
+
+The local Lumen repository's `packages/templates/README.md` and `package.json` identify
+`@santi020k/lumen-templates` as a private workspace package for its gallery and metadata,
+not an npm dependency for applications. Its documented distribution path is the public
+adapter CLI's `lumen add <recipe> --target astro`. An editorial family can follow that
+existing path without a second runtime, another adapter, or a new package release train.
+That family is a recommendation; this website change does not add or publish it.
+
+| Layer | Examples from this release | Reuse boundary |
+| --- | --- | --- |
+| Lumen primitives | `Card`, `Link`, `Icon`, `Collapsible`, `Anchor`, `DeviceFrame` | Keep using the installed public contracts and one root runtime. |
+| Editorial recipes | `CoverSpread`, `ContentNotesHeader`, `ProjectReplacementNotice`, `ShippedSystemCard` | Candidates for an Astro recipe with explicit content props or slots and scoped semantic styles. |
+| Website adapters | `ProjectsGallery`, `PostsGallery`, `PortfolioProjectSpotlight`, project focus and outcomes | Keep collection selection, URLs, status, ranking, claims, image policy, and project branding here. |
+| Shared foundations | Theme colors, typography, focus, reduced motion | Reuse Lumen and Theme; avoid exporting a copy of the website's global CSS. |
+
+`CoverSpread` already shares the article/project composition. `ContentNotesHeader` already
+shares the reading introduction, and `PolicyContactCard` shares policy invitations. Reuse
+those implementations before introducing another wrapper. Different approved card designs
+retain their own compositions: shared words such as “folio” or similar corners are not a
+stable component contract. In particular, do not collapse their typography, media rules,
+heading hierarchy, or narrow-container behavior into a large set of boolean props.
+
+Before extracting a recipe, exercise it in a second concrete application. Replace the
+website's collection imports, `@/` utilities, fixed IDs, routes, personal copy, and global
+page selectors with a small explicit input contract. Prove two instances can coexist and
+check light/dark themes, narrow containers, enlarged text, keyboard focus, and reduced
+motion. Keep Astro image handling in the adapter and avoid making React or Elements depend
+on `astro:content`. Add other framework targets only when their consumers are identified.
+
+The website has a source-available license; Lumen uses MIT. Moving selected original code
+into public recipes requires an explicit licensing decision. Personal writing, photographs,
+resume data, client logos, and screenshots are not recipe assets. A separately versioned
+package becomes useful only if real consumers need synchronized fixes and have a stable
+shared API; if that need emerges, a patterns-oriented boundary fits this work better than
+`lumen-cards` or a second brand token package.
+
+## Current cleanup boundaries
+
+`ProjectsGallery` now has one editorial presentation, shared by the Projects page and
+technology archives. Its retired default branch and related styles are removed, along with
+the unused `ProjectSidebarCard`, generic scope/featured metadata, top-tag shortcut, old
+Uses data, unused style utilities, and unused project surface-foreground calculation.
+The remaining metadata and contrast helpers still support live routes and regression tests.
+The unused optional cover gradient and the old Pill link/count/hash props are also removed.
+
+The `--radius-sheet` and `--radius-folio` tokens centralize two repeated four-corner shapes
+within an initial set of nine project, system, and policy components. Other components retain
+their existing literals, even where values match; this is a scoped adoption, not a site-wide
+shape migration. Their selectors, cascade position, padding,
+media queries, and container queries remain local. Reading-rail and Work compositions under
+active development retain their current rules.
+
+`src/utils/responsive-image.ts` shares aspect-ratio calculation, width limits, candidate
+deduplication, and sorting across `HoverableCover`, `PostsGallery`, and `BlogHero`.
+Consumers retain their own image candidates, loading priority, formats, descriptions,
+and `sizes` values. `TechnologyPillGrid` uses one ledger renderer for its two groups,
+preserving the always-present featured group and optional supporting group.
+
 ## Documentation and feedback
 
 The repository README uses the site's generated OG hero and project artwork, with accessible
@@ -164,8 +229,8 @@ enlarged text sizes. No new client controller is introduced.
   text resizing, shifting reading targets or separating joined frames. A single
   override in `base.css` keeps their geometry synchronized; remove it when the
   shared reset no longer creates these implicit transitions.
-- The local `Pill` wrapper delegates links, variants, labels, and counts to Lumen `Pill`; it only
-  keeps the site-specific hash-prefix composition.
+- The local `Pill` wrapper supplies project status labels to Lumen `Pill`. Linked topics
+  and technology counts use `SculptedTag`; the retired hash-prefix and link props are removed.
 - The Projects technology snapshot composes Tool ledger from an unstyled Lumen `Card`,
   `AnimatedNumber` totals, native linked lists, and a decorative `Icon`. Scoped container
   queries reflow the featured and supporting tools without another controller.
@@ -294,7 +359,7 @@ enlarged text sizes. No new client controller is introduced.
   this grid and hide its headers so all commands remain readable in document order.
 - Organization carousel controls use Lumen `Button` with `size="icon"` and `variant="secondary"`.
   The site retains its responsive pagination and focused-link visibility controller.
-- Blog topic links delegate `aria-current="page"` through the site `Pill` wrapper to Lumen `Pill`,
+- Blog topic links delegate `aria-current="page"` through `SculptedTag` to Lumen `Link`,
   so the selected topic and All posts link expose their current-page state.
 - The resume print stylesheet hides Lumen's `SkipLink` through its documented `data-slot`
   attribute (`[data-slot="skip-link"]`) rather than the private `.ui-skip-link` class Lumen

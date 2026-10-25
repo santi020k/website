@@ -43,11 +43,12 @@ or oversized gradient headings from historical versions of the site.
 - Use `ProjectsGallery` and `PostsGallery` for collection layouts.
 - Use Lumen `Card` when a distinct content surface is needed, with site-owned composition.
 - Use the local `Button` and `ButtonLink` wrappers for the existing sculpted action styles.
-- Use `Pill` for site topic/technology labels and `TocCard` for reading navigation.
+- Use `Pill` for project status labels, `SculptedTag` for linked topics and technology counts,
+  and `TocCard` for reading navigation.
 - Retain `glass-pro` only where the current reading surfaces use it; it is not the default card.
 
 The retained layout utilities include `section-container-wide`, `section-copy`, `section-actions`,
-`section-label`, `editorial-rail`, and `post-grid`. Check their source before composing a new layout.
+`section-label` and `editorial-rail`. Check their source before composing a new layout.
 `site-action` underpins `btn-primary`, `btn-secondary`, `btn-ghost`, and `btn-inline`; retain
 transitive `@apply` dependencies even if no template names them directly.
 

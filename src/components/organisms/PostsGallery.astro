@@ -6,6 +6,7 @@ import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 import { getPostSlug } from '@/utils/posts'
 import { getReadingTime } from '@/utils/reading-time'
+import { getResponsiveImageDimensions } from '@/utils/responsive-image'
 
 import { Card, Icon, Link } from '@santi020k/lumen-astro'
 
@@ -26,21 +27,11 @@ const imageSizes = layout === 'chapters' ? 'auto, (min-width: 640px) 14rem, 100v
 
 const createGalleryItem = (post: CollectionEntry<'post'>) => {
   const { data } = post
-  const coverSourceWidth = data.coverImage?.src.width ?? 1600
-  const coverWidth = Math.min(1600, coverSourceWidth)
-
-  const coverHeight = data.coverImage ?
-    Math.round(coverWidth * data.coverImage.src.height / data.coverImage.src.width) :
-    900
-
-  const coverWidths = [...new Set([320, 480, 640, 800, 960, 1280, 1600, coverWidth])]
-    .filter(width => width <= coverSourceWidth)
-    .sort((firstWidth, secondWidth) => firstWidth - secondWidth)
 
   return {
-    coverHeight,
-    coverWidth,
-    coverWidths,
+    coverDimensions: data.coverImage ?
+      getResponsiveImageDimensions(data.coverImage.src, 1600, [320, 480, 640, 800, 960, 1280, 1600]) :
+      undefined,
     data,
     formattedDate: getFormattedDate(data.publishDate),
     href: getPostPath(post.id),
@@ -78,17 +69,15 @@ const galleryItems = posts.map(createGalleryItem)
               {item.data.coverImage ?
                 (
                   <Picture
+                    {...item.coverDimensions}
                     alt=""
                     aria-hidden="true"
                     class="absolute inset-0 size-full object-cover"
                     fallbackFormat="webp"
                     formats={['avif']}
-                    height={item.coverHeight}
                     loading="lazy"
                     sizes={imageSizes}
                     src={item.data.coverImage.src}
-                    width={item.coverWidth}
-                    widths={item.coverWidths}
                   />
                 ) :
                 (

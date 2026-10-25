@@ -69,8 +69,7 @@
 [data-site-eyebrow] > span { animation: none; }
 .remaining-pages [data-slot='card'],
 .remaining-pages [data-slot='stat']:not([data-sculpted-stat]),
-.remaining-pages .glass-pro,
-.remaining-pages .cta-panel {
+.remaining-pages .glass-pro {
   border-color: hsl(var(--line) / 0.65);
   border-radius: 1.5rem;
   background: hsl(var(--surface));
@@ -81,9 +80,7 @@
 .remaining-pages [data-slot='card']::before,
 .remaining-pages [data-slot='card']::after,
 .remaining-pages .glass-pro::before,
-.remaining-pages .glass-pro::after,
-.remaining-pages .cta-panel::before,
-.remaining-pages .cta-panel::after { display: none; }
+.remaining-pages .glass-pro::after { display: none; }
 .remaining-pages [data-slot='card']:hover { transform: none; box-shadow: none; }
 .remaining-pages [data-slot='stat']:not([data-sculpted-stat]) {
   padding: 1.25rem 0;
@@ -487,36 +484,17 @@
 .remaining-pages .projects-editorial-copy h3 { letter-spacing: -0.055em; }
 
 /* Rounded project cards own their clipped cover link's keyboard indicator. */
-[data-project-gallery-card]:not(.projects-editorial-card):has(> a:focus-visible),
 [data-portfolio-project]:has(> a:focus-visible) {
   outline: 2px solid hsl(var(--accent));
   outline-offset: 4px;
 }
 @supports selector(:has(*)) {
-  :is([data-project-gallery-card]:not(.projects-editorial-card), [data-portfolio-project]) > a:focus-visible {
+  [data-portfolio-project] > a:focus-visible {
     outline: none;
   }
 }
 
 [data-project-sidebar] { container: project-sidebar / inline-size; }
-[data-project-sidebar-card] [data-site-pill] { font-weight: 500; }
-[data-project-stack-disclosure] { --ui-disclosure-inset: 0rem; overflow: visible; }
-[data-project-stack-disclosure] > summary:focus-visible {
-  outline: 2px solid hsl(var(--accent));
-  outline-offset: 4px;
-}
-@container project-sidebar (width < 16rem) {
-  [data-project-sidebar-card] { padding-inline: 0.5rem; }
-  [data-project-sidebar-card] [data-site-pill] { padding-inline: 0.25rem; }
-  /* Let Lumen's chevron follow the label instead of reserving a second column. */
-  [data-project-stack-disclosure] > summary { padding-inline-end: 0; }
-  [data-project-stack-disclosure] > summary::before { display: none; }
-  [data-project-stack-disclosure] > summary::after {
-    position: static;
-    display: inline-block;
-    margin-inline-start: 0.75rem;
-  }
-}
 [data-blog-hero] .editorial-page-title { font-size: clamp(2rem, 5vw, 4.5rem); }
 
 /* Card grids keep their viewport column count only while each card still has
@@ -582,18 +560,6 @@
   [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:has(> a):not([data-section-header-shelf]) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:has(> a):not([data-section-header-shelf]) > div { grid-column: 1 / -1; }
   [data-page-section='stacked'] > [data-page-section-grid] > [data-section-header]:not([data-section-header-shelf]) > a { grid-column: 2; align-self: start; }
-}
-
-/* The featured project in the regular gallery pairs image and copy only while the
-   card has 44rem in root-relative units. */
-[data-project-gallery-featured] { container: project-featured / inline-size; }
-[data-project-gallery-featured-grid] { display: grid; grid-template-columns: minmax(0, 1fr); }
-[data-project-gallery-featured-media] { aspect-ratio: 16 / 10; }
-@media (width >= 64rem) {
-  @container project-featured (width >= 44rem) {
-    [data-project-gallery-featured-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    [data-project-gallery-featured-media] { aspect-ratio: auto; }
-  }
 }
 
 /* Margin catalog keeps the search and all three recurrence groups on one open index. */

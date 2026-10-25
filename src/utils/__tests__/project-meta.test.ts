@@ -3,10 +3,8 @@ import { describe, expect, test } from 'vitest'
 import {
   getProjectDateRangeLabel,
   getProjectDurationLabel,
-  getProjectFeaturedLabel,
   getProjectNotesLabel,
   getProjectRelatedHeading,
-  getProjectScopeHighlights,
   getProjectStageLabel,
   getProjectStatusLabel,
   getProjectTimelineLabel,
@@ -90,26 +88,6 @@ describe('getProjectStatusLabel', () => {
   })
 })
 
-// ─── getProjectFeaturedLabel ──────────────────────────────────────────────────
-
-describe('getProjectFeaturedLabel', () => {
-  test('returns "Personal project" for personal', () => {
-    expect(getProjectFeaturedLabel('personal')).toBe('Personal project')
-  })
-
-  test('returns "Featured experiment" for experimental', () => {
-    expect(getProjectFeaturedLabel('experimental')).toBe('Featured experiment')
-  })
-
-  test('returns "Featured work" for professional', () => {
-    expect(getProjectFeaturedLabel('professional')).toBe('Featured work')
-  })
-
-  test('returns "Featured work" for undefined', () => {
-    expect(getProjectFeaturedLabel(undefined)).toBe('Featured work')
-  })
-})
-
 // ─── getProjectNotesLabel ─────────────────────────────────────────────────────
 
 describe('getProjectNotesLabel', () => {
@@ -147,31 +125,6 @@ describe('getProjectRelatedHeading', () => {
 
   test('returns work heading for undefined', () => {
     expect(getProjectRelatedHeading(undefined)).toBe('More work in a similar lane.')
-  })
-})
-
-// ─── getProjectScopeHighlights ────────────────────────────────────────────────
-
-describe('getProjectScopeHighlights', () => {
-  test('returns an array of 3 strings for personal', () => {
-    const result = getProjectScopeHighlights('personal')
-    expect(result).toHaveLength(3)
-    expect(result.every(s => typeof s === 'string')).toBe(true)
-  })
-
-  test('returns an array of 3 strings for experimental', () => {
-    const result = getProjectScopeHighlights('experimental')
-    expect(result).toHaveLength(3)
-  })
-
-  test('returns an array of 3 strings for professional (undefined)', () => {
-    const result = getProjectScopeHighlights(undefined)
-    expect(result).toHaveLength(3)
-  })
-
-  test('personal highlights mention knowledge sharing', () => {
-    const highlights = getProjectScopeHighlights('personal')
-    expect(highlights.join(' ').toLowerCase()).toContain('knowledge')
   })
 })
 

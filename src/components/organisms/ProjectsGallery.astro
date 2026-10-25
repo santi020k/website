@@ -7,291 +7,67 @@ import { getPortfolioPath } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectDateRangeLabel, getProjectStatusLabel } from '@/utils/project-meta'
-import { sortTechnologiesByInterest } from '@/utils/technologies'
 
 import { Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   projects: CollectionEntry<'project'>[]
-  variant?: 'default' | 'editorial'
 }
 
-const { projects, variant = 'default' } = Astro.props
-
-const projectStatusTone = {
-  Active: 'brand',
-  Completed: 'neutral',
-  Draft: 'outline'
-} as const
+const { projects } = Astro.props
 
 const projectItems = projects.map(project => ({
   editorialImage: getProjectCoverForUsage(project.data.coverImage, 'hero'),
   brand: project.data.brand,
-  coverImage: project.data.coverImage,
-  thumbnailImage: getProjectCoverForUsage(project.data.coverImage, 'thumbnail'),
   dateRange: getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate),
-  description: project.data.description,
   cardDescription: project.data.cardDescription ?? project.data.description,
   href: getPortfolioPath(project.id),
   status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
-  technologies: (variant === 'editorial' ? project.data.technologies : sortTechnologiesByInterest(project.data.technologies)).slice(0, 3),
+  technologies: project.data.technologies.slice(0, 3),
   title: project.data.title
 }))
 ---
 
-{variant === 'editorial' && (
-  <div class="projects-editorial-grid">
-    {projectItems.map((project, index) => (
-      <Card as="article" class="projects-editorial-card" variant="unstyled" data-project-gallery-card style={getProjectBrandStyle(project.brand)}>
-        <Link className="projects-editorial-link" href={project.href} variant="inherit">
-          <div class="projects-editorial-image">
-            {project.editorialImage ?
+<div class="projects-editorial-grid">
+  {projectItems.map((project, index) => (
+    <Card as="article" class="projects-editorial-card" variant="unstyled" data-project-gallery-card style={getProjectBrandStyle(project.brand)}>
+      <Link className="projects-editorial-link" href={project.href} variant="inherit">
+        <div class="projects-editorial-image">
+          {project.editorialImage ?
 (
-              <CoverImage
-                fallbackFormat="webp"
-                alt=""
-                ariaHidden={true}
-                className="size-full rounded-none border-0 object-cover"
-                image={project.editorialImage}
-                loading="lazy"
-                mode="card"
-                sizes={index === 0 ? 'auto, (min-width: 80rem) 40rem, (min-width: 1024px) 60vw, 100vw' : 'auto, (min-width: 80rem) 35rem, (min-width: 768px) 50vw, 100vw'}
-              />
-            ) :
+            <CoverImage
+              fallbackFormat="webp"
+              alt=""
+              ariaHidden={true}
+              className="size-full rounded-none border-0 object-cover"
+              image={project.editorialImage}
+              loading="lazy"
+              mode="card"
+              sizes={index === 0 ? 'auto, (min-width: 80rem) 40rem, (min-width: 1024px) 60vw, 100vw' : 'auto, (min-width: 80rem) 35rem, (min-width: 768px) 50vw, 100vw'}
+            />
+          ) :
 (
-              <Icon class="size-16 text-ink-muted" name="code-2" />
-            )}
+            <Icon class="size-16 text-ink-muted" name="code-2" />
+          )}
+        </div>
+        <div class="projects-editorial-copy">
+          <div class="projects-editorial-meta">
+            <span>{String(index + 1).padStart(2, '0')} / {project.dateRange}</span>
+            <Pill label={project.status} tone="outline" />
           </div>
-          <div class="projects-editorial-copy">
-            <div class="projects-editorial-meta">
-              <span>{String(index + 1).padStart(2, '0')} / {project.dateRange}</span>
-              <Pill label={project.status} tone="outline" />
-            </div>
-            <h3>{project.title}</h3>
-            <p>{project.cardDescription}</p>
-            {project.technologies.length > 0 && (
-              <ul aria-label="Core technologies">
-                {project.technologies.map(technology => <li>{technology}</li>)}
-              </ul>
-            )}
-            <span class="projects-editorial-action">
-              View project
-              <Icon class="size-4.5 shrink-0" name="arrow-right" />
-            </span>
-          </div>
-        </Link>
-      </Card>
-    ))}
-  </div>
-)}
-{variant === 'default' && (
-<div class="space-y-6">
-  {/* Featured project - large */}
-  {projectItems[0] && (
-    <div style={getProjectBrandStyle(projectItems[0].brand)}>
-    <Card
-      as="article"
-      class="
-        group relative overflow-hidden rounded-3xl border-line/50 bg-surface p-0
-      "
-      data-project-gallery-card
-      data-project-gallery-featured
-    >
-      <Link className="block font-normal text-inherit no-underline" href={projectItems[0].href}>
-        <div data-project-gallery-featured-grid>
-          {/* Image side */}
-          <div class="relative overflow-hidden" data-project-gallery-featured-media>
-            {projectItems[0].coverImage && projectItems[0].thumbnailImage ?
-              (
-                <CoverImage
-                fallbackFormat="webp"
-                  alt={projectItems[0].coverImage.alt || projectItems[0].title}
-                  ariaHidden={true}
-                  className="
-                    size-full rounded-none border-0 object-cover
-                    transition-transform duration-500
-                    group-hover:scale-105
-                    motion-reduce:transition-none
-                  "
-                  image={projectItems[0].thumbnailImage}
-                  loading="eager"
-                  mode="card"
-                  sizes="(min-width: 80rem) 36rem, (min-width: 1024px) 50vw, 100vw"
-                />
-              ) :
-              (
-                <div class="
-                  flex size-full items-center justify-center bg-surface-muted
-                  grid-fade
-                "
-                >
-                  <Icon class="size-16 text-line" name="code-2" />
-                </div>
-              )}
-            {/* Status badge */}
-            <div class="absolute top-4 left-4">
-              <Pill
-                label={projectItems[0].status}
-                tone={projectStatusTone[projectItems[0].status]}
-              />
-            </div>
-          </div>
-
-          {/* Content side */}
-          <div class="
-            flex flex-col justify-center p-6
-            sm:p-8
-            lg:p-10
-          "
-          >
-            <span class="text-sm font-medium text-ink-muted">{projectItems[0].dateRange}</span>
-            <h3 class="
-              mt-2 text-2xl font-semibold text-ink transition-colors
-              group-hover:text-[hsl(var(--project-primary-readable))]
-              motion-reduce:transition-none
-              sm:text-3xl
-            "
-            >
-              {projectItems[0].title}
-            </h3>
-            <p class="mt-4 line-clamp-3 text-base/7 text-ink-soft">
-              {projectItems[0].description}
-            </p>
-            {projectItems[0].technologies.length > 0 && (
-              <div class="mt-6 flex flex-wrap gap-2">
-                {projectItems[0].technologies.map(tech => (
-                  <Pill label={tech} tone="outline" />
-                ))}
-              </div>
-            )}
-            <div class="mt-8 flex items-center gap-2 font-medium" data-project-gallery-readable>
-              <span>View project</span>
-              <Icon
-                class="
-                  size-5 transition-transform
-                  group-hover:translate-x-1
-                  motion-reduce:transition-none
-                "
-                name="arrow-right"
-              />
-            </div>
-          </div>
+          <h3>{project.title}</h3>
+          <p>{project.cardDescription}</p>
+          {project.technologies.length > 0 && (
+            <ul aria-label="Core technologies">
+              {project.technologies.map(technology => <li>{technology}</li>)}
+            </ul>
+          )}
+          <span class="projects-editorial-action">
+            View project
+            <Icon class="size-4.5 shrink-0" name="arrow-right" />
+          </span>
         </div>
       </Link>
     </Card>
-    </div>
-  )}
-
-  {/* Grid for remaining projects */}
-  {projectItems.length > 1 && (
-    <div
-      class:list={[
-        `
-          grid grid-cols-1 gap-6
-          sm:card-grid-2
-        `,
-        projectItems.length > 3 && 'lg:card-grid-3'
-      ]}
-    >
-      {projectItems.slice(1).map(project => (
-        <div class="h-full" style={getProjectBrandStyle(project.brand)}>
-        <Card
-          as="article"
-          class="
-            group flex h-full flex-col overflow-hidden rounded-2xl
-            border-line/50 bg-surface p-0
-          "
-          data-project-gallery-card
-          variant="interactive"
-        >
-          <Link className="block font-normal text-inherit no-underline" href={project.href}>
-            {/* Thumbnail */}
-            <div class="relative aspect-16/10 overflow-hidden">
-              {project.coverImage && project.thumbnailImage ?
-                (
-                  <CoverImage
-                fallbackFormat="webp"
-                    alt={project.coverImage.alt || project.title}
-                    ariaHidden={true}
-                    className="
-                      size-full rounded-none border-0 object-cover
-                      transition-transform duration-500
-                      group-hover:scale-105
-                      motion-reduce:transition-none
-                    "
-                    image={project.thumbnailImage}
-                    loading="lazy"
-                    mode="card"
-                    sizes="auto, (min-width: 80rem) 23rem, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  />
-                ) :
-                (
-                  <div class="
-                    flex size-full items-center justify-center bg-surface-muted
-                    grid-fade
-                  "
-                  >
-                    <Icon class="size-12 text-line" name="code-2" />
-                  </div>
-                )}
-              {/* Status badge */}
-              <div class="absolute top-3 left-3">
-                <Pill
-                  label={project.status}
-                  tone={projectStatusTone[project.status]}
-                />
-              </div>
-            </div>
-
-            {/* Content */}
-            <div class="flex flex-1 flex-col p-5">
-              <span class="text-xs font-medium text-ink-muted">{project.dateRange}</span>
-              <h3 class="
-                mt-2 text-lg font-semibold text-ink transition-colors
-                group-hover:text-[hsl(var(--project-primary-readable))]
-                motion-reduce:transition-none
-              "
-              >
-                {project.title}
-              </h3>
-              <p class="mt-2 line-clamp-2 text-sm/6 text-ink-soft">
-                {project.description}
-              </p>
-              {project.technologies.length > 0 && (
-                <div class="mt-4 flex flex-wrap gap-1.5">
-                  {project.technologies.map(tech => (
-                    <span class="
-                      rounded-md bg-surface-muted px-2 py-1 text-xs
-                      text-ink-soft
-                    "
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </Link>
-        </Card>
-        </div>
-      ))}
-    </div>
-  )}
+  ))}
 </div>
-
-)}
-
-<style>
-  [data-project-gallery-card]:not(.projects-editorial-card):hover {
-    border-color: hsl(var(--project-primary) / 0.34);
-    box-shadow: 0 16px 36px hsl(var(--project-primary) / 0.1);
-  }
-
-  [data-project-gallery-readable] {
-    color: hsl(var(--project-primary-readable));
-  }
-
-  :global(:root[data-theme='dark']) [data-project-gallery-card] {
-    --project-primary-readable: var(--project-primary-readable-dark);
-  }
-</style>

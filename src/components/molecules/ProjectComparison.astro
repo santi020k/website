@@ -48,7 +48,7 @@ const entries = [
 </Card>
 
 <style>
-  [data-project-comparison] { container: project-comparison / inline-size; margin-block: 1.75rem 2.5rem; overflow: hidden; border: 1px solid hsl(var(--line)); border-radius: 1.5rem 1.5rem 0.5rem 1.5rem; background: hsl(var(--surface)); }
+  [data-project-comparison] { container: project-comparison / inline-size; margin-block: 1.75rem 2.5rem; overflow: hidden; border: 1px solid hsl(var(--line)); border-radius: var(--radius-sheet); background: hsl(var(--surface)); }
   [data-comparison-topline] { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1rem; padding: 1rem 1.5rem; border-bottom: 1px solid hsl(var(--line)); color: hsl(var(--ink-soft)); font: 400 0.75rem/1.75 var(--font-sans); }
   [data-comparison-topline] span:first-child, [data-comparison-state] { color: hsl(var(--brand)); }
   :global(:root[data-theme='dark']) [data-comparison-topline] span:first-child,

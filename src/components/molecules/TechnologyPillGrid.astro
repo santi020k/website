@@ -9,10 +9,35 @@ interface Props {
   technologies: [string, number][]
 }
 
+interface TechnologyLedgerGroup {
+  copy: string
+  headingId: string
+  label: string
+  ledger: 'featured' | 'supporting'
+  technologies: [string, number][]
+}
+
 const { hiddenCount = 0, intro, technologies } = Astro.props
 const featuredTechnologies = technologies.slice(0, 6)
 const supportingTechnologies = technologies.slice(6)
 const totalTechnologyCount = technologies.length + hiddenCount
+
+const ledgerGroups: TechnologyLedgerGroup[] = [
+  {
+    copy: 'The tools I’m most interested in reaching for.',
+    headingId: 'technology-top-of-mind',
+    label: 'Top of mind',
+    ledger: 'featured',
+    technologies: featuredTechnologies
+  },
+  {
+    copy: 'Supporting tools across delivery, testing, and DX.',
+    headingId: 'technology-in-rotation',
+    label: 'In rotation',
+    ledger: 'supporting',
+    technologies: supportingTechnologies
+  }
+]
 ---
 
 <Card
@@ -39,34 +64,17 @@ const totalTechnologyCount = technologies.length + hiddenCount
   </div>
 
   <div data-technology-snapshot-body>
-    <div class="space-y-3">
-      <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <h3 class="site-label" id="technology-top-of-mind">Top of mind</h3>
-        <p class="text-xs/5 text-ink-muted">The tools I’m most interested in reaching for.</p>
-      </div>
-      <ul aria-labelledby="technology-top-of-mind" data-technology-ledger="featured">
-        {featuredTechnologies.map(([technology, count]) => (
-          <li>
-            <a href={getTechnologyPath(technology)}>
-              <span>{technology}</span>
-              <span data-technology-count>{count}<span class="sr-only"> {count === 1 ? 'project' : 'projects'}</span></span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    {supportingTechnologies.length > 0 && (
+    {ledgerGroups.filter(group => group.ledger === 'featured' || group.technologies.length > 0).map(group => (
       <div class="space-y-3">
         <div class="
           flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1
         "
         >
-          <h3 class="site-label" id="technology-in-rotation">In rotation</h3>
-          <p class="text-xs/5 text-ink-muted">Supporting tools across delivery, testing, and DX.</p>
+          <h3 class="site-label" id={group.headingId}>{group.label}</h3>
+          <p class="text-xs/5 text-ink-muted">{group.copy}</p>
         </div>
-        <ul aria-labelledby="technology-in-rotation" data-technology-ledger="supporting">
-          {supportingTechnologies.map(([technology, count]) => (
+        <ul aria-labelledby={group.headingId} data-technology-ledger={group.ledger}>
+          {group.technologies.map(([technology, count]) => (
             <li>
               <a href={getTechnologyPath(technology)}>
                 <span>{technology}</span>
@@ -76,7 +84,7 @@ const totalTechnologyCount = technologies.length + hiddenCount
           ))}
         </ul>
       </div>
-    )}
+    ))}
     {hiddenCount > 0 && (
       <a data-technology-snapshot-more href="/technologies/">
         <span>Explore {hiddenCount} more</span>

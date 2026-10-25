@@ -18,59 +18,35 @@ const key = (type: ProjectType): 'community' | 'experimental' | 'personal' | 'pr
 const PROJECT_TYPE_META = {
   community: {
     typeLabel: 'Community work',
-    featuredLabel: 'Community work',
     notesLabel: 'Community story',
     notesDescription: 'A closer look at the events, mentorship, and organizing work behind this developer community.',
     relatedHeading: 'More community work.',
     stageActive: 'Active community',
-    stageCompleted: 'Past community work',
-    scopeHighlights: [
-      'Free meetups and practical workshops',
-      'Mentorship for developers and first-time speakers',
-      'A more connected regional engineering community'
-    ]
+    stageCompleted: 'Past community work'
   },
   personal: {
     typeLabel: 'Personal project',
-    featuredLabel: 'Personal project',
     notesLabel: 'Project notes',
     notesDescription: 'A closer look at the design decisions, technical choices, and problems this project was built to solve.',
     relatedHeading: 'More projects in a similar lane.',
     stageActive: 'Active project',
-    stageCompleted: 'Completed project',
-    scopeHighlights: [
-      'Knowledge sharing and public problem-solving',
-      'Developer tooling, experimentation, and reusability',
-      'Low-friction adoption for real teams'
-    ]
+    stageCompleted: 'Completed project'
   },
   experimental: {
     typeLabel: 'Experimental work',
-    featuredLabel: 'Featured experiment',
     notesLabel: 'Experiment notes',
     notesDescription: 'A closer look at the hypothesis, the approach taken, and what the experiment revealed.',
     relatedHeading: 'More experiments in a similar lane.',
     stageActive: 'Active experiment',
-    stageCompleted: 'Completed experiment',
-    scopeHighlights: [
-      'New ideas tested quickly and clearly',
-      'Prototypes shaped by learning, not polish theater',
-      'Useful signals for what to double down on next'
-    ]
+    stageCompleted: 'Completed experiment'
   },
   professional: {
     typeLabel: 'Professional work',
-    featuredLabel: 'Featured work',
     notesLabel: 'Work notes',
     notesDescription: 'A closer look at the delivery decisions, technical tradeoffs, and product constraints behind this work.',
     relatedHeading: 'More work in a similar lane.',
     stageActive: 'Active work',
-    stageCompleted: 'Completed work',
-    scopeHighlights: [
-      'Architecture that survives real delivery pressure',
-      'Cross-functional work across product, design, and engineering',
-      'Performance, quality, and developer experience improvements'
-    ]
+    stageCompleted: 'Completed work'
   }
 } as const
 
@@ -90,17 +66,11 @@ export const getProjectStageLabel = (type: ProjectType, endingDate?: Date, draft
   return endingDate ? meta.stageCompleted : meta.stageActive
 }
 
-export const getProjectFeaturedLabel = (type: ProjectType): string => PROJECT_TYPE_META[key(type)].featuredLabel
-
 export const getProjectNotesLabel = (type: ProjectType): string => PROJECT_TYPE_META[key(type)].notesLabel
 
 export const getProjectNotesDescription = (type: ProjectType): string => PROJECT_TYPE_META[key(type)].notesDescription
 
 export const getProjectRelatedHeading = (type: ProjectType): string => PROJECT_TYPE_META[key(type)].relatedHeading
-
-export const getProjectScopeHighlights = (type: ProjectType): string[] => [
-  ...PROJECT_TYPE_META[key(type)].scopeHighlights
-]
 
 export const getProjectTimelineLabel = (startingDate: Date, endingDate?: Date): string => {
   const startLabel = getFormattedDate(startingDate, { day: undefined, month: 'short', year: 'numeric' })

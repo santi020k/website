@@ -3,11 +3,12 @@ import type { ImageMetadata, ImageOutputFormat } from 'astro'
 
 import { type LocalImageProps, Picture } from 'astro:assets'
 
+import { getResponsiveImageDimensions } from '@/utils/responsive-image'
+
 import { CoverImage } from '@santi020k/lumen-astro'
 
 interface Props {
   alt: string
-  className?: string
   unstyled?: boolean
   fetchpriority?: 'auto' | 'high' | 'low'
   image: ImageMetadata
@@ -16,12 +17,10 @@ interface Props {
   sizes: string
   transitionName?: string
   ariaHidden?: boolean
-  showBottomGradient?: boolean
 }
 
 const {
   alt,
-  className = '',
   unstyled = false,
   fetchpriority = 'auto',
   image,
@@ -29,52 +28,29 @@ const {
   preserveAspectRatio = false,
   sizes,
   transitionName,
-  ariaHidden = false,
-  showBottomGradient = false
+  ariaHidden = false
 } = Astro.props
 
-const nativeTargetWidth = Math.min(1600, image.width)
-const nativeTargetHeight = Math.round(nativeTargetWidth * image.height / image.width)
-
-const nativeWidths = [...new Set([400, 800, 1200, nativeTargetWidth])]
-  .filter(width => width <= nativeTargetWidth)
-  .sort((firstWidth, secondWidth) => firstWidth - secondWidth)
-
 const nativeImageProps = {
+  ...getResponsiveImageDimensions(image, 1600, [400, 800, 1200]),
   alt: ariaHidden ? '' : alt,
   'aria-hidden': ariaHidden ? 'true' : undefined,
   class: 'block h-auto w-full',
   fetchpriority,
   fallbackFormat: 'webp',
   formats: ['avif'],
-  height: nativeTargetHeight,
   loading,
   sizes,
-  src: image,
-  width: nativeTargetWidth,
-  widths: nativeWidths
+  src: image
 } satisfies LocalImageProps & { formats: ImageOutputFormat[], fallbackFormat: ImageOutputFormat }
 ---
 
 <div
   class:list={[
     'relative overflow-hidden',
-    !unstyled && 'rounded-3xl shadow-2xl shadow-ink/10',
-    className
+    !unstyled && 'rounded-3xl shadow-2xl shadow-ink/10'
   ]}
 >
-  {/* Bottom gradient overlay (optional) keeps caption text readable */}
-  {showBottomGradient && (
-    <div
-      aria-hidden="true"
-      data-cover-gradient
-      class="
-        pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 bg-linear-to-t
-        from-black/60 via-black/20 to-transparent
-      "
-    />
-  )}
-
   {/* Passive reading cover: no hover feedback because it is not a control */}
   {preserveAspectRatio && transitionName && (
     <div class:list={['overflow-hidden', !unstyled && 'rounded-3xl']} transition:name={transitionName}>
