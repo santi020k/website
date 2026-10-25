@@ -6,7 +6,7 @@ const highlights = [
   { label: 'Professional roles', value: /^\d+$/u, description: 'Across commerce, gaming, agencies, and SaaS.' },
   { label: 'Largest team led', value: '14', description: 'Product, design, frontend, and backend.' },
   { label: 'Production technologies', value: /^\d+$/u, description: 'Tools chosen to fit the product.' },
-  { label: 'Release cycle time', value: '−75%', description: 'Through CI/CD and automated quality gates.' }
+  { label: 'Faster deployments', value: '60%', description: 'Through CI/CD and improved release workflows.' }
 ]
 
 for (const theme of ['light', 'dark'] as const) {
@@ -69,7 +69,8 @@ test('career evidence captions reach the relevant sections and preserve keyboard
   const sources = [
     { name: 'Explore the timeline', href: '#experience-heading', heading: 'The work, over time.' },
     { name: 'Explore the toolkit', href: '#tools-heading', heading: 'The tools behind the work.' },
-    { name: 'Void.GG · What I led', href: '/portfolio/void/#what-i-led', heading: 'What I led' }
+    { name: 'Void.GG · What I led', href: '/portfolio/void/#what-i-led', heading: 'What I led' },
+    { name: 'Void.GG · Key outcomes', href: '/portfolio/void/#key-outcomes', heading: 'Key outcomes' }
   ]
 
   for (const source of sources) {
