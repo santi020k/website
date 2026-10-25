@@ -77,12 +77,17 @@ backdrop="plain"
         <div>
           <p class="text-lg/7 font-medium tracking-tight text-ink">Good software takes more than code.</p>
           <p class="mt-4 text-sm/7 text-ink-soft">I help teams turn complex problems into products that hold up. Architecture decisions, delivery systems, and hands-on technical leadership, from startup pressure to scale-up complexity.</p>
-          <div class="maker-hero-actions">
-            <ButtonLink class="maker-hero-primary" href={siteConfig.contact.resume} variant="unstyled">Open resume <span
-  aria-hidden="true"
-  class="maker-hero-arrow"
-                                                                                                                   ><Icon name="arrow-up-right" /></span></ButtonLink>
-            <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <Icon name="arrow-up-right" /></ButtonLink>
+          <div class="maker-hero-actions" data-work-hero-actions>
+            <ButtonLink class="maker-hero-primary" href="#experience-heading" variant="unstyled">
+              Explore experience <span
+aria-hidden="true"
+class="maker-hero-arrow"
+                                 ><Icon name="arrow-down" /></span>
+            </ButtonLink>
+            <div class="work-hero-secondary-links">
+              <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.resume} variant="unstyled">Open resume <Icon name="arrow-right" /></ButtonLink>
+              <ButtonLink class="maker-hero-secondary" data-work-hero-external href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <Icon name="arrow-up-right" /></ButtonLink>
+            </div>
           </div>
         </div>
       </section>
