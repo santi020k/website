@@ -3,9 +3,11 @@ import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSyn
 import { tmpdir } from 'node:os'
 import { join, relative } from 'node:path'
 
-import { expect, test } from 'vitest'
+import { fetchWebmentionsForTarget } from '@/utils/webmentions-fetch'
 
-test.each(['America/Bogota', 'Asia/Tokyo'])('renders safe reader text and dates without fetching avatars in %s', timezone => {
+import { expect, test, vi } from 'vitest'
+
+test.each(['America/Bogota', 'Asia/Tokyo'])('normalizes reader names and renders safe text and dates without fetching avatars in %s', async timezone => {
   // Astro's scoped CSS modules need one canonical root across macOS /var aliases.
   const root = realpathSync(mkdtempSync(join(tmpdir(), 'website-mention-render-')))
   const projectRoot = process.cwd()
@@ -42,6 +44,23 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('renders safe reader text and dates 
   ]
 
   try {
+    const rawNames = ['\u200b', '\u00ad', '\u200e\u200f', '👩🏽‍💻', 'می\u200cنا']
+    const normalizedMentions = await (async () => {
+      const mockedFetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({
+        children: rawNames.flatMap((name, index) => ['like-of', 'in-reply-to'].map(property => ({
+          author: { name, url: index % 2 === 0 ? 'https://reader.example/' : null },
+          'wm-property': property,
+          'wm-source': `https://reader.example/${index}/${property}`
+        })))
+      })))
+
+      try {
+        return await fetchWebmentionsForTarget('https://example.invalid/', 'fixture-token')
+      } finally {
+        mockedFetch.mockRestore()
+      }
+    })()
+
     symlinkSync(join(projectRoot, 'node_modules'), join(root, 'node_modules'), 'dir')
     mkdirSync(join(root, 'src/pages'), { recursive: true })
     copyFileSync(join(projectRoot, 'src/components/molecules/WebmentionsSection.astro'), join(root, 'src/WebmentionsSection.astro'))
@@ -62,6 +81,7 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('renders safe reader text and dates 
       `const replies = ${JSON.stringify(replyCases)}.map(({ text }) => ({ ...reply, content: { text } }))`,
       `const summary = { ...reply, content: null, summary: { value: ${JSON.stringify(`${'a'.repeat(1998)}🇨🇴tail`)} } }`,
       `const dates = ${JSON.stringify(dateCases)}.map(({ published, received }) => ({ ...reply, published, 'wm-received': received }))`,
+      `const normalizedMentions = ${JSON.stringify(normalizedMentions)}`,
       '---',
       '<html lang="en"><head><title>Mention fixture</title></head><body>',
       '<div id="multiple"><WebmentionsSection mentions={likes} /></div>',
@@ -72,6 +92,7 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('renders safe reader text and dates 
       '<div id="bounded-replies"><WebmentionsSection mentions={replies} /></div>',
       '<div id="summary"><WebmentionsSection mentions={[summary]} /></div>',
       '<div id="dates"><WebmentionsSection mentions={dates} /></div>',
+      '<div id="normalized-names"><WebmentionsSection mentions={normalizedMentions} /></div>',
       '</body></html>'
     ].join('\n'))
 
@@ -152,6 +173,16 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('renders safe reader text and dates 
       .toEqual(dateCases.map(date => date.expected))
     expect.soft([...dom.querySelectorAll('#dates [data-webmention-item]')].map(reply => reply.querySelector('time')?.textContent ?? null))
       .toEqual(dateCases.map(date => date.label))
+    expect([...dom.querySelectorAll('#normalized-names [data-webmention-reader-name]')].map(name => name.textContent))
+      .toEqual(['Someone', 'Someone', 'Someone', '👩🏽‍💻', 'می\u200cنا'])
+    expect([...dom.querySelectorAll('#normalized-names [data-webmention-avatar]')].map(avatar => avatar.textContent.trim()))
+      .toEqual(['S', 'S', 'S', '👩🏽‍💻', 'م'])
+    expect([...dom.querySelectorAll('#normalized-names [data-webmention-author]')].map(name => name.textContent))
+      .toEqual(['Anonymous', 'Anonymous', 'Anonymous', '👩🏽‍💻', 'می\u200cنا'])
+    expect([...dom.querySelectorAll('#normalized-names [data-webmention-profile]')].map(link => link.textContent))
+      .toEqual(['Anonymous', 'Anonymous', 'می\u200cنا'])
+    expect(dom.querySelector('#normalized-names [data-webmention-likes-total]')?.textContent).toBe('5')
+    expect(dom.querySelectorAll('#normalized-names [data-webmention-source]')).toHaveLength(5)
   } finally {
     rmSync(root, { recursive: true, force: true })
   }

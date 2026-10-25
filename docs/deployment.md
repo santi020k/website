@@ -218,6 +218,14 @@ only absolute HTTP or HTTPS URLs. Private mentions and entries without a usable
 source URL are omitted. Avatars have fixed dimensions, so rendering does not
 need to fetch their dimensions from third-party hosts.
 
+An author name made only of whitespace, C0/C1 control characters, and Unicode
+default-ignorable code points (such as zero-width spaces, soft hyphens, directional
+marks, or variation selectors) is treated as missing, so the mention falls back
+to an anonymous author instead of a blank, unnamed link. Any other character
+keeps the trimmed name exactly as sent, including invisible characters inside
+it. This is a code-point check, not a rendering check: a name that uses
+characters the reader's fonts draw as blank can still render empty.
+
 Initials and reply cutoffs respect complete user-perceived characters. Placeholder avatar initials
 take the first full grapheme of the name, and reply text is trimmed and capped
 at 2,000 UTF-16 code units, cut back to the nearest complete grapheme without

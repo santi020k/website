@@ -30,6 +30,10 @@ export interface WebmentionsChildren {
 
 /** Author of a Webmention, normalized from the sender's microformats2 h-card. */
 export interface WebmentionAuthor {
+  /**
+   * Trimmed name, or `null` when missing, not a string, or made only of
+   * whitespace, C0/C1 controls, or default-ignorable code points.
+   */
   name: string | null
   photo: string | null
   url: string | null

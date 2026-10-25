@@ -6,6 +6,21 @@ const asNonEmptyString = (value: unknown): string | null => (
   typeof value === 'string' ? value.trim() || null : null
 )
 
+/** Any character other than whitespace, a control (Cc), or a default-ignorable code point. */
+const USABLE_NAME_CHARACTER = /[^\s\p{Cc}\p{Default_Ignorable_Code_Point}]/u
+
+/**
+ * Like `asNonEmptyString`, but also rejects names made only of controls and
+ * default-ignorable code points (zero-width spaces, soft hyphens, bidi marks,
+ * variation selectors, tags), which would render as a blank, unnamed link.
+ * A name with any usable character is kept exactly as trimmed.
+ */
+const asDisplayName = (value: unknown): string | null => {
+  const name = asNonEmptyString(value)
+
+  return name && USABLE_NAME_CHARACTER.test(name) ? name : null
+}
+
 /** Accepts only absolute `http(s)` URLs — rejects `javascript:`, `data:`, and other unsafe schemes. */
 const asSafeUrl = (value: unknown): string | null => {
   if (typeof value !== 'string') return null
@@ -25,7 +40,7 @@ const normalizeAuthor = (value: unknown): WebmentionAuthor | null => {
   const photo: unknown = Array.isArray(value.photo) ? value.photo[0] : value.photo
 
   return {
-    name: asNonEmptyString(value.name),
+    name: asDisplayName(value.name),
     photo: asSafeUrl(photo),
     url: asSafeUrl(value.url)
   }
