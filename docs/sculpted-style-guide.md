@@ -422,6 +422,21 @@ context on smaller screens. Below 12rem of inner width, tighten the label/value
 gap to .375rem so enlarged labels retain complete words. Preserve native reading
 order, light/dark contrast, and all content without JavaScript.
 
+### Index fold Travel notebook opener
+
+Keep the native Lumen disclosure on the ruled canvas. Its summary pairs a compact
+“All” label and a 2.6875rem derived country count with a 2px accent rail, a larger
+“countries” label, and the supporting line beneath. Use 1.5rem vertical spacing,
+fine top and bottom rules, and one decorative chevron that turns when expanded.
+The summary's accessible name preserves the full sentence and live country count.
+
+Below 29rem of notebook width, tighten the count column and rail inset and use a
+2.1875rem count with a 1.25rem title. Below 18rem, tighten the gap again; below
+14rem, move the title and supporting line beneath the count to preserve whole
+words at enlarged text sizes. Keep a visible focus outline, native Enter/Space
+toggling, and all Journey ledger entries usable without JavaScript. Add no client
+controller or motion; use the accent color in dark mode.
+
 ### Journey ledger Travel notebook
 
 Use native country articles inside the existing Lumen disclosure. Give each entry

@@ -200,6 +200,8 @@
 
 - Apply Map folio to the Travel country picker and zoom controls: one compact sheet below the map with an underlined native selector and a soft control row. Preserve Lumen selection and zoom behavior, country data, keyboard order, live announcements, and narrow-screen readability.
 
+- Apply Index fold to the Travel notebook opener: a derived country count beside an accent rail and a clear two-line label. Preserve native disclosure behavior, every Journey ledger entry, accessible naming, and readable narrow layouts at enlarged text sizes.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

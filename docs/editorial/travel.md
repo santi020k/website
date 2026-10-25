@@ -59,6 +59,9 @@ Places retain their complete names in wrapping lists;
 home, residence, partial-list, and region notes remain explicit. The margin tightens as the
 notebook narrows and stacks above the entry for enlarged text or very narrow layouts.
 The full country notebook sits in a native Lumen disclosure and remains usable without JavaScript.
+Its Index fold opener pairs the derived country count with an accent rail, a larger “countries”
+label, and the supporting line. The full sentence remains the accessible name. At narrow or
+enlarged-text widths, the copy stacks beneath the count; Enter and Space toggle the complete notebook.
 Browsing order is the data order, not a claimed travel timeline.
 
 The forthcoming stories invitation uses Story sleeve: a tinted heading cover above an opaque

@@ -216,6 +216,7 @@ for (const theme of ['light', 'dark'] as const) {
       await document.fonts.ready
     })
     const summary = page.locator('#travel-notebook summary')
+    await expect(summary).toHaveAccessibleName(`All ${travelCountries.length} countries & the places within them`)
     await summary.focus()
     await page.keyboard.press('Enter')
     await expect(summary).toBeFocused()
@@ -230,7 +231,7 @@ for (const theme of ['light', 'dark'] as const) {
     }
     await expect(page.locator('#country-co')).toContainText('I’m from Colombia. This is where my story begins.')
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
-    const splitWords = await page.locator('[data-travel-country-list]').evaluate(element => {
+    const splitWords = await page.locator('#travel-notebook').evaluate(element => {
       const problems: string[] = []
       const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
       while (walker.nextNode()) {
@@ -373,6 +374,7 @@ for (const width of [375, 1440]) {
       expect(bounds.width).toBeCloseTo(introduction.width, 0)
     }
     const summary = page.locator('#travel-notebook summary')
+    await expect(summary).toHaveAccessibleName(`All ${travelCountries.length} countries & the places within them`)
     await expect(page.locator('#country-jp')).toBeHidden()
     await summary.focus()
     await page.keyboard.press('Enter')
