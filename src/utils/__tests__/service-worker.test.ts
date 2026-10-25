@@ -72,6 +72,28 @@ const makeRequest = (path: string, navigation = false) => {
   return request
 }
 
+type TestWorker = ReturnType<typeof setupWorker>
+
+const cacheKeyOf = (request: Request | string) => typeof request === 'string' ? request : request.url
+
+// Serves the given bodies by cache key; `failingKey` rejects like a broken read.
+const serveFromCache = (worker: TestWorker, entries: Record<string, string>, failingKey?: string) => {
+  const bodies = new Map(Object.entries(entries))
+
+  worker.cache.match.mockImplementation(request => {
+    const key = cacheKeyOf(request)
+
+    if (key === failingKey) return Promise.reject(new Error('Cache read failed'))
+
+    const body = bodies.get(key)
+
+    return Promise.resolve(body === undefined ? undefined : new Response(body))
+  })
+}
+
+const matchedKeys = (worker: TestWorker) => worker.cache.match.mock.calls
+  .map(([request, options]) => [cacheKeyOf(request), options])
+
 describe('Service worker fetch handling', () => {
   test('installs the complete shell before activating', async () => {
     const worker = setupWorker(['/_astro/shell.js', '/_astro/style.css', '/_astro/font.woff2'])
@@ -555,6 +577,7 @@ describe('Service worker fetch handling', () => {
   test.each([
     ['/blog/retired-post/', false],
     ['/blog/retired-post/', true],
+    ['/about', true],
     ['/search-index.json', false],
     ['/favicon.svg', false],
     ['/_astro/app.abc123.js', false]
@@ -579,6 +602,177 @@ describe('Service worker fetch handling', () => {
     worker.fetch.mockResolvedValue(new Response('fresh data'))
 
     expect(await (await worker.dispatch(makeRequest('/search-index.json')).response)?.text()).toBe('fresh data')
+  })
+})
+
+// Internal links end in `/`, but a typed or shared `/about` still navigates to the bare path.
+describe('Offline trailing-slash page alias', () => {
+  const about = `${origin}/about/`
+
+  test.each([
+    ['/about', '/about/'],
+    ['/about?ref=newsletter', '/about/'],
+    ['/blog/some-post?utm_source=feed&q=astro', '/blog/some-post/']
+  ])('serves the cached slash page for offline navigation to %s', async (path, alias) => {
+    const worker = setupWorker()
+    const request = makeRequest(path, true)
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page', [`${origin}${alias}`]: 'cached page' })
+
+    const event = worker.dispatch(request)
+
+    expect(await (await event.response)?.text()).toBe('cached page')
+    await Promise.all(event.lifetime)
+    expect(worker.fetch).toHaveBeenCalledExactlyOnceWith(request)
+    expect(worker.cache.match.mock.calls[0]?.[0]).toBe(request)
+    expect(matchedKeys(worker)).toEqual([[`${origin}${path}`, undefined], [`${origin}${alias}`, undefined]])
+    expect(worker.cache.put).not.toHaveBeenCalled()
+  })
+
+  test('looks up the slash page with the original request headers for Vary matching', async () => {
+    const worker = setupWorker()
+    const request = new Request(`${origin}/about?ref=newsletter`, {
+      headers: { Accept: 'text/html', 'Accept-Language': 'es' }
+    })
+
+    Object.defineProperty(request, 'mode', { value: 'navigate' })
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+
+    const event = worker.dispatch(request)
+
+    await event.response
+    await Promise.all(event.lifetime)
+
+    const alias = worker.cache.match.mock.calls[1]?.[0]
+
+    if (!(alias instanceof Request)) throw new Error('Missing slash-page lookup')
+
+    expect(alias.url).toBe(about)
+    expect(alias.method).toBe('GET')
+    expect(alias.mode).not.toBe('navigate')
+    expect(alias.headers.get('Accept')).toBe('text/html')
+    expect(alias.headers.get('Accept-Language')).toBe('es')
+  })
+
+  test('prefers an exact cached response over the slash page', async () => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page', [`${origin}/about`]: 'exact page', [about]: 'slash page' })
+
+    const event = worker.dispatch(makeRequest('/about', true))
+
+    expect(await (await event.response)?.text()).toBe('exact page')
+    await Promise.all(event.lifetime)
+    expect(matchedKeys(worker)).toEqual([[`${origin}/about`, undefined]])
+  })
+
+  test('falls back to the offline document when the slash page is not cached', async () => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page' })
+
+    const event = worker.dispatch(makeRequest('/about', true))
+
+    expect(await (await event.response)?.text()).toBe('Offline page')
+    await Promise.all(event.lifetime)
+    expect(matchedKeys(worker)).toEqual([
+      [`${origin}/about`, undefined], [about, undefined], ['/offline/', undefined]
+    ])
+  })
+
+  test.each([
+    [`${origin}/about`, 'slash page'],
+    [about, 'Offline page']
+  ])('continues past a failed cache read of %s', async (failingKey, expected) => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page', [about]: 'slash page' }, failingKey)
+
+    const event = worker.dispatch(makeRequest('/about', true))
+
+    expect(await (await event.response)?.text()).toBe(expected)
+    await Promise.all(event.lifetime)
+  })
+
+  test('returns a network error when cache storage is unavailable', async () => {
+    const worker = setupWorker()
+
+    worker.open.mockRejectedValue(new Error('Storage unavailable'))
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+
+    const event = worker.dispatch(makeRequest('/about', true))
+
+    expect((await event.response)?.type).toBe('error')
+    await Promise.all(event.lifetime)
+    expect(worker.cache.match).not.toHaveBeenCalled()
+  })
+
+  test('sends an online navigation to the network unchanged without reading the cache', async () => {
+    const worker = setupWorker()
+    const request = makeRequest('/about?ref=newsletter', true)
+
+    serveFromCache(worker, { [about]: 'slash page' })
+    worker.fetch.mockResolvedValue(new Response('network page'))
+
+    const event = worker.dispatch(request)
+
+    expect(await (await event.response)?.text()).toBe('network page')
+    await Promise.all(event.lifetime)
+    expect(worker.fetch).toHaveBeenCalledExactlyOnceWith(request)
+    expect(worker.cache.match).not.toHaveBeenCalled()
+    expect(worker.cache.put.mock.calls[0]?.[0]).toBe(request)
+  })
+
+  test('keeps an ordinary GET for a path without a file extension on its exact key', async () => {
+    const worker = setupWorker()
+    const request = makeRequest('/about')
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page', [about]: 'slash page' })
+
+    const event = worker.dispatch(request)
+
+    expect((await event.response)?.type).toBe('error')
+    await Promise.all(event.lifetime)
+    expect(worker.cache.match).toHaveBeenCalledExactlyOnceWith(request)
+  })
+
+  test.each(['/pdf/cv.pdf', '/search-index.json', '/feed.xml', '/favicon.svg', '/_astro/app.abc123.js', '/notes.html'])(
+    'never reads a slash page for navigation to file path %s', async path => {
+      const worker = setupWorker()
+
+      worker.fetch.mockRejectedValue(new TypeError('Offline'))
+      serveFromCache(worker, { [`${origin}${path}/`]: 'slash page' })
+
+      const event = worker.dispatch(makeRequest(path, true))
+
+      expect(await (await event.response)?.text()).not.toBe('slash page')
+      await Promise.all(event.lifetime)
+      expect(matchedKeys(worker).map(([key]) => key)).not.toContain(`${origin}${path}/`)
+    }
+  )
+
+  test.each<[string, Record<string, string>]>([
+    ['/v2', {}],
+    ['/v3/about', {}],
+    ['/api/data', {}],
+    ['/about', { Range: 'bytes=0-1023' }]
+  ])('leaves navigation to %s with headers %j to the browser', (path, headers) => {
+    const worker = setupWorker()
+    const request = new Request(new URL(path, origin), { headers })
+
+    Object.defineProperty(request, 'mode', { value: 'navigate' })
+
+    const event = worker.dispatch(request)
+
+    expect(event.response).toBeUndefined()
+    expect(event.lifetime).toEqual([])
+    expect(worker.open).not.toHaveBeenCalled()
+    expect(worker.fetch).not.toHaveBeenCalled()
   })
 })
 
@@ -742,6 +936,35 @@ describe('Service worker response-header deadline', () => {
     expect(await (await event.response)?.text()).toBe('Offline page')
     network.reject(new TypeError('Offline'))
     await Promise.all(event.lifetime)
+  })
+
+  test('serves the cached slash page when navigation without a trailing slash stalls', async () => {
+    const worker = setupWorker()
+    const network = deferredResponse()
+    let settled = false
+
+    worker.fetch.mockReturnValue(network.promise)
+    serveFromCache(worker, { '/offline/': 'Offline page', [`${origin}/about/`]: 'cached About' })
+    const event = worker.dispatch(makeRequest('/about?ref=newsletter', true))
+
+    void event.response?.then(() => {
+      settled = true
+
+      return undefined
+    })
+    await vi.advanceTimersByTimeAsync(7_999)
+    expect(settled).toBe(false)
+    expect(worker.cache.match).not.toHaveBeenCalled()
+    await vi.advanceTimersByTimeAsync(1)
+    expect(settled).toBe(true)
+    expect(await (await event.response)?.text()).toBe('cached About')
+    expect(matchedKeys(worker)).toEqual([
+      [`${origin}/about?ref=newsletter`, undefined], [`${origin}/about/`, undefined]
+    ])
+    network.reject(new TypeError('Offline'))
+    await Promise.all(event.lifetime)
+    expect(worker.cache.put).not.toHaveBeenCalled()
+    expect(vi.getTimerCount()).toBe(0)
   })
 
   test.each(['/search-index.json?v=2', '/feed.xml', '/pdf/cv.pdf'])(

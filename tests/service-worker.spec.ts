@@ -90,6 +90,40 @@ test('an offline deep link reuses its cached page and keeps the query', async ({
   }
 })
 
+test('an offline navigation without a trailing slash reuses its cached page', async ({ browser, baseURL }) => {
+  const server = await createOfflinePreview(baseURL)
+  const context = await browser.newContext({ baseURL: server.url, reducedMotion: 'reduce' })
+
+  try {
+    const page = await context.newPage()
+
+    await page.goto('/')
+    await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined))
+    await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+    await page.goto('/about/')
+    const aboutTitle = await page.title()
+
+    await expect.poll(() => page.evaluate(async () => {
+      const name = (await caches.keys()).find(key => key.startsWith('santi020k-static-'))
+
+      if (!name) throw new Error('Missing current worker cache')
+
+      return Boolean(await (await caches.open(name)).match('/about/'))
+    })).toBe(true)
+
+    server.setOnline(false)
+    for (const path of ['/about', '/about?utm_source=bookmark']) {
+      await page.goto(path)
+      await expect(page).toHaveTitle(aboutTitle)
+      await expect(page).toHaveURL(path)
+      await expect(page.locator('main h1')).toBeVisible()
+    }
+  } finally {
+    await context.close()
+    await server.close()
+  }
+})
+
 test('page query variants share one query-free cache entry and still work offline', async ({ browser, baseURL }) => {
   const server = await createOfflinePreview(baseURL, {}, { vary: 'Accept-Encoding, Accept-Language' })
   const context = await browser.newContext({ baseURL: server.url, reducedMotion: 'reduce' })

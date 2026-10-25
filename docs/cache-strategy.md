@@ -65,6 +65,17 @@ page is never substituted for JSON, feed, or PDF bytes. Only successful, non-red
 are stored: browsers reject a cached followed redirect for a navigation, so caching one would turn
 an offline visit to that URL into a network error instead of the offline document.
 
+Internal links end in `/`, but a typed or externally shared `/about` still arrives as a document
+navigation to the bare path. Only on that offline fallback (network failure or the header
+deadline), a navigation to a path with no file extension or trailing slash first reads its exact
+cache key, then the query-free `/about/` page with the original request headers for `Vary`
+matching, and only then `/offline/`. The cached document is returned directly, so the address bar
+keeps the original path and query; the worker does not synthesize a redirect, which on a slow
+connection would wait on another network request. Online behavior is unchanged: the original
+request goes to the network as before, and a redirected response is still never stored. Ordinary
+`fetch()` requests, paths with a file extension (including `.html`, PDFs, data, and assets),
+`Range` requests, historical apps, and APIs never use this alias.
+
 The `v4-cache-v3-<fingerprint>` namespace identifies the current recovery shell.
 The [build generator](../scripts/js/generate-offline-worker.mjs) creates `dist/sw.js` from the source worker, adding the
 current site's bundled JavaScript, CSS, and WOFF2 fonts to the install list.

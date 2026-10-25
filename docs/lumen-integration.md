@@ -310,7 +310,9 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   returns to the label for the available action. Only one share or copy may run at a time;
   keyboard focus remains on the busy control, and leaving the article cancels its pending
   fallback and feedback. A separate live status announces results and manual-copy recovery
-  without announcing the idle label when the button resets.
+  without announcing the idle label when the button resets. The visible label and icons change
+  at once, while the status is emptied and receives the result 100 ms later in a separate task,
+  so a repeated identical result is never restored in the same task that cleared it.
 - With JavaScript disabled, the document-head `noscript` stylesheet exposes every package-manager
   command and hides the unavailable tab, prose-copy, and Copy/Share link controls. Native contents links and social
   share links remain available. The fallback reuses the existing code panels; scripted visits keep

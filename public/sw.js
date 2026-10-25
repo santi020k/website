@@ -87,6 +87,31 @@ const canonicalPageKey = (request, url) => {
   return new Request(canonical.href, { headers: request.headers })
 }
 
+// A typed or externally shared `/about` still reaches the worker as a document
+// navigation, while the site caches its trailing-slash route. On network failure
+// or the header deadline, a path without a file extension may read the query-free
+// `/about/` copy after its exact key misses. The address bar keeps
+// the original URL; a synthesized redirect would wait on the network again.
+/**
+ * @param {Request} request
+ * @param {URL} url
+ * @returns {Request | undefined}
+ */
+const slashPageAlias = (request, url) => {
+  if (request.mode !== 'navigate' || url.pathname.endsWith('/')) return undefined
+
+  // Files, data, PDFs, and assets never resolve to a page alias.
+  if (url.pathname.slice(url.pathname.lastIndexOf('/') + 1).includes('.')) return undefined
+
+  const alias = new URL(url)
+
+  alias.pathname = `${url.pathname}/`
+
+  alias.search = ''
+
+  return new Request(alias.href, { headers: request.headers })
+}
+
 // Cache storage is an optional optimization: failures must not discard network responses.
 /** @returns {Promise<Cache | undefined>} */
 const openCache = async () => {
@@ -165,8 +190,11 @@ const networkFirst = (request, pageFallback = false, cacheKey = request) => {
 
   const matchFallback = async () => {
     const cache = await network.cache
+    // Read only after the exact key misses, and never stored.
+    const aliasKey = pageFallback ? slashPageAlias(request, new URL(request.url)) : undefined
 
     return (await matchCached(cache, cacheKey)) ??
+      (aliasKey ? await matchCached(cache, aliasKey) : undefined) ??
       (pageFallback ? await matchCached(cache, '/offline/') : undefined)
   }
 

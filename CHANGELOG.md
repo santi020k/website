@@ -488,6 +488,8 @@
 
 - Align Projects, Portfolio, Blog, topic archives, and technology archives with the shared responsive section spacing. Remove duplicated topic navigation and unused mobile statistic prefix space and reserve tablet clearance between the footer version link and floating Top control. Preserve the approved card designs and footer composition.
 
+- Recover cached pages during offline navigation without a trailing slash and separate repeated copy-link status updates so assistive technology can detect each result, cancelling pending feedback when leaving an article.
+
 ## 4.0.0
 
 ### Major Changes

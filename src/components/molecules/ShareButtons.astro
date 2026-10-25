@@ -223,6 +223,7 @@ const shareLinks = [
     const label = document.getElementById('copy-label')
     const status = document.getElementById('copy-status')
     let timer: ReturnType<typeof setTimeout> | null = null
+    let announcementTimer: ReturnType<typeof setTimeout> | null = null
     let pending = false
     // Cleared before Astro swaps the body, so a share sheet that settles after
     // the visitor leaves cannot copy the previous article or touch its control.
@@ -247,10 +248,19 @@ const shareLinks = [
 
     const idleLabel = supportsWebShare() ? 'Share link' : 'Copy link'
     const STATE_RESET_MS = 2000
+    const ANNOUNCEMENT_DELAY_MS = 100
 
     if (label) label.textContent = idleLabel
 
+    const clearAnnouncement = () => {
+      if (announcementTimer) clearTimeout(announcementTimer)
+
+      announcementTimer = null
+    }
+
     const resetState = () => {
+      clearAnnouncement()
+
       btn.classList.remove('copied', 'copy-failed')
 
       copyIcon?.classList.remove('hidden')
@@ -283,7 +293,21 @@ const shareLinks = [
       // Kept short so the control still fits a 320px viewport with enlarged text.
       if (label) label.textContent = succeeded ? 'Link copied!' : 'Copy failed'
 
-      if (status) status.textContent = succeeded ? 'Link copied!' : 'Copy failed. Select and copy the address manually.'
+      clearAnnouncement()
+
+      // Empty the region, then write the result in a later task: restoring the
+      // same text within the task that cleared it leaves no distinct change.
+      if (status) {
+        const message = succeeded ? 'Link copied!' : 'Copy failed. Select and copy the address manually.'
+
+        status.textContent = ''
+
+        announcementTimer = setTimeout(() => {
+          announcementTimer = null
+
+          if (active && status.isConnected) status.textContent = message
+        }, ANNOUNCEMENT_DELAY_MS)
+      }
 
       if (timer) clearTimeout(timer)
 
@@ -369,6 +393,8 @@ const shareLinks = [
       if (timer) clearTimeout(timer)
 
       timer = null
+
+      clearAnnouncement()
     }
   }
 
