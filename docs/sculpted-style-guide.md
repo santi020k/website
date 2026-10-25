@@ -1535,6 +1535,14 @@ keep their existing reading behavior. The table of contents uses an open rule in
 a glass panel. The resume uses the same canvas on screen; its separate print rules and
 both downloadable PDF variants remain authoritative.
 
+### Sculpted tags Work technology links
+
+The Work toolkit uses **Sculpted tags** for its 18 highlighted technologies. Reuse the
+shared `SculptedTag` shape, separate count compartment, focus outline, and wrapping layout.
+Keep the data-derived order, professional-project counts, technology archive destinations,
+count explanation, and full-index action. These are navigation links with no selected state.
+List items shrink within narrow containers so enlarged labels wrap without widening the page.
+
 ### Sculpted tags Projects category shortcuts
 
 The Projects page uses **Sculpted tags** for its Developer tools, Apps, and Experiments

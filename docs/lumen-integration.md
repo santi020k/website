@@ -72,7 +72,7 @@ semantics remain intact while the site owns its visual composition.
 
 The Work page follows the solid editorial canvas of the homepage and navbar: generous
 spacing, Montserrat headings, fine dividers, a purple emphasis, and the shared solid resume
-button. Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `Pill`.
+button. Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `SculptedTag`.
 `CareerTimeline` uses Lumen `Timeline` for its ordered list and one unstyled `Card` per
 linked role. A site-owned date rail and connector frame the Timeline folio layout without
 styling private TimelineItem internals. Each role retains its complete description,
@@ -91,8 +91,8 @@ The same component serves featured, supporting, and related projects without cli
 ## Sculpted tags navigation
 
 `SculptedTag` composes public Lumen `Link` with `variant="inherit"` and site-owned label
-and count spans. The Blog filters and Projects category shortcuts share this treatment
-without changing other Pill consumers. The count slot supports the Blog All posts icon.
+and count spans. The Blog filters, Projects category shortcuts, and Work technology links
+share this treatment without changing other Pill consumers. The count slot supports the Blog All posts icon.
 The existing Astro navigation controller keeps topic selection, focus, and page position intact;
 the layout wraps on mobile and desktop and requires no additional client JavaScript.
 

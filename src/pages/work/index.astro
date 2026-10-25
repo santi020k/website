@@ -1,5 +1,5 @@
 ---
-import Pill from '@/components/atoms/Pill.astro'
+import SculptedTag from '@/components/atoms/SculptedTag.astro'
 import CareerTimeline from '@/components/organisms/CareerTimeline.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -144,10 +144,10 @@ class="
       </div>
       <ul
 aria-label="Technologies used in professional work"
-class="flex flex-wrap gap-3"
+class="@container/sculpted-tags flex flex-wrap gap-2.5"
 data-work-stack
       >
-        {technologies.map(([name, count]) => <li><Pill count={count} href={getTechnologyPath(name)} label={name} tone="outline" /></li>)}
+        {technologies.map(([name, count]) => <li class="max-w-full min-w-0"><SculptedTag count={count} href={getTechnologyPath(name)} label={name} /></li>)}
       </ul>
       <div class="
         mt-7 flex flex-wrap items-center justify-between gap-4 text-xs/6

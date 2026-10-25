@@ -186,6 +186,8 @@
 
 - Apply Sculpted tags to the Projects category shortcuts, sharing the approved Blog treatment while preserving project counts, native section links, and keyboard focus. Keep the wrapping layout readable across themes and enlarged text sizes.
 
+- Apply Sculpted tags to the Work page technology links, reusing the shared shaped links and count compartments. Preserve professional-project counts, technology destinations, ordering, and the full-index action across responsive layouts and keyboard navigation.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

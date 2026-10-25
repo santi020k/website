@@ -67,13 +67,6 @@
 .work-section-heading > div { flex: 1 1 16rem; min-width: 0; }
 .work-section-heading > p { flex: 0 1 24rem; min-width: 0; }
 
-[data-work-stack] a {
-  min-height: 2.75rem;
-  border-radius: 0.625rem;
-  padding-inline: 1rem;
-  background: hsl(var(--surface));
-}
-
 :root[data-theme="dark"] [data-work-page] .maker-hero-emphasis {
   color: hsl(var(--accent));
 }
