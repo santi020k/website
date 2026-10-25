@@ -36,7 +36,7 @@
 
 - Apply Margin index to the About page exploration invitation with an accent rail, contextual destination labels, and two ruled navigation rows. Preserve native portfolio and blog links, visible keyboard focus, light and dark themes, and readable layouts at enlarged text sizes.
 
-- Apply Notebook folio to homepage latest writing with a shared paper frame, numbered margins, and clear article actions. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
+- Apply Editorial spread to homepage latest writing with a wide illustrated lead story, three image-led articles, and clear reading actions. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
 
 - Apply Offset spread to the homepage featured work with an overlapping copy sheet, richer Smith commerce artwork, and a dedicated outcome and role footer. Preserve authored results, native full-card navigation, and responsive light and dark layouts at enlarged text sizes.
 
@@ -56,7 +56,7 @@
 
 - Apply Reading index to series chapter navigation, with numbered rows, an explicit current chapter, and responsive editorial spacing.
 
-- Apply Reading slip to the curated Start here articles, with numbered headers, complete copy, and responsive cards.
+- Apply Reading slip to the curated Start here articles, with quiet numbered headers, complete copy, and open responsive recommendations.
 
 - Apply Community dossier to the ReactJS Colombia card with a tinted title panel, numbered impact evidence, and a shared action footer. Preserve the complete community contribution, accessible links, and responsive enlarged-text layout.
 
@@ -212,9 +212,10 @@
 
 ### Patch Changes
 
-- Refine the homepage reading hierarchy with an illustrated latest article, three recent entries,
-  and quieter Start here recommendations. Rebalance mobile statistics into horizontal number
-  rails while preserving every value, description, article, and accessible link in both themes.
+- Refine the homepage with a wide editorial lead story, image-led recent articles, larger reading
+  titles, and quieter Start here recommendations. Replace the authentication cover with text-free
+  sculptural gateway artwork. Rebalance mobile statistics into horizontal number rails while
+  preserving every value, excerpt, and accessible link in both themes.
 
 - Expand the Smith Commerce experience with F.W. Webb as a second client project, with a broader contribution summary and desktop and mobile development screenshots. Attribute the existing performance metrics to Marcone and refresh the resume downloads.
 

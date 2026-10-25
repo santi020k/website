@@ -83,7 +83,7 @@ Each transparent Lumen Card has a fine top rule, a small accent label and decora
 the full 1.25rem title, and the complete recommendation. Keep one native link per entry and
 align the action rows on desktop. Avoid oversized numbers or an extra opaque card surface.
 
-Use three columns above a 52rem `home-writing` container and one column below it. Reduce
+Use three columns above a 56rem `home-writing` container and one column below it. Reduce
 heading scale below 16rem of slip width, allowing labels and actions to wrap at enlarged text.
 Hover and keyboard focus underline the title using brand in light mode and accent in dark mode.
 Keep the complete focus outline visible and the existing curated article order unchanged.
@@ -1331,20 +1331,25 @@ viewport fallback. Below 20rem of card width, reduce insets; below 16rem, tighte
 heading scale; below 12rem, omit the decorative logo. Let copy grow at enlarged text sizes and
 keep the action row aligned at the bottom. Hover underlines the heading without moving the card.
 
-### Notebook folio latest writing
+### Editorial spread latest writing
 
-The homepage leads with the latest article's existing cover artwork and a larger title beside
-three recent entries, in chronological reading and keyboard order. One unstyled Lumen Card
-provides the soft notebook cover; fine rules divide the opaque reading sheets. Keep the full
-title and excerpt, date, reading time, and article action in one native link. The artwork uses
-Astro Image with responsive sources, descriptive alternative text, lazy loading, and no overlay.
-An article without cover artwork retains its complete text and link.
+The homepage writing section opens with one wide featured article: dimensional cover artwork
+beside its title, complete excerpt, date, reading time, and a solid reading action. Follow it
+with three open, image-led articles in one desktop row. Use an unstyled Lumen Card per article,
+one native link per card, and the collection's chronological order. The lead card has an opaque
+surface and sculpted corners; supporting articles use the page canvas with a fine action rule.
+Avoid a second notebook frame, nested borders, or text laid over the artwork.
 
-Below a 52rem `home-writing` container, stack the featured article and recent entries. Reduce
-insets and heading scale below 24rem and again below 16rem for enlarged text. Keep every
-excerpt visible, all four recent links, three Start here recommendations, and the RSS action.
-Reading recommendations follow the chronological notebook and use the quieter open slips
-specified above. All links retain visible focus outlines and remain stationary on hover.
+Use Astro Image for all four covers, preserving descriptive alternative text, responsive sources,
+lazy loading, and the central subject of each image. Keep the supporting images at their native
+16:9 ratio. The lead image may crop its quiet edges to fill the split composition. Its latest
+article label, all post types, decorative numbers, and metadata remain outside the image.
+
+Below a 56rem `home-writing` container, stack the lead artwork and copy, then show the remaining
+articles as image-and-copy rows. Below 38rem, stack every article's image and text. Tighten the
+lead's insets and title below 20rem and 16rem for enlarged text. Keep the complete excerpts,
+visible keyboard outlines, and stationary hover behavior. All four recent links, three Start
+here recommendations, and the RSS action remain available without JavaScript.
 
 ### Community folio homepage panel
 
