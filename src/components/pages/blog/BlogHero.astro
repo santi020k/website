@@ -8,6 +8,7 @@ import Eyebrow from '@/components/atoms/Eyebrow.astro'
 import { getFormattedDate } from '@/utils/date'
 import { getPostPath } from '@/utils/links'
 import { getReadingTime } from '@/utils/reading-time'
+import { getResponsiveImageDimensions } from '@/utils/responsive-image'
 
 import { Card, Icon } from '@santi020k/lumen-astro'
 
@@ -19,14 +20,7 @@ interface Props {
 
 const { latestPost, postCount, topicCount } = Astro.props
 const cover = latestPost?.data.coverImage?.src
-const coverWidth = cover ? Math.min(960, cover.width) : 960
-const coverHeight = cover ? Math.round(coverWidth * cover.height / cover.width) : 540
-
-const coverWidths = cover ?
-  [...new Set([320, 480, 640, 800, coverWidth])]
-    .filter(width => width <= cover.width)
-    .sort((a, b) => a - b) :
-  []
+const coverDimensions = cover ? getResponsiveImageDimensions(cover, 960, [320, 480, 640, 800]) : undefined
 ---
 
 <section
@@ -88,12 +82,10 @@ const coverWidths = cover ?
                   fetchpriority="high"
                   fallbackFormat="webp"
                   formats={['avif']}
-                  height={coverHeight}
+                  {...coverDimensions}
                   loading="eager"
                   sizes="(min-width: 1280px) 480px, (min-width: 1024px) 40vw, (min-width: 640px) 90vw, 100vw"
                   src={cover}
-                  width={coverWidth}
-                  widths={coverWidths}
                 />
               ) :
               (

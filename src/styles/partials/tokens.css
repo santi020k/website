@@ -18,6 +18,9 @@
 }
 
 @theme {
+  /* Shared editorial shapes; keep sizing and responsive rules in each composition. */
+  --radius-sheet: 1.5rem 1.5rem 0.5rem 1.5rem;
+  --radius-folio: 1.75rem 1.75rem 0.5rem 1.75rem;
   --font-code: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
   /* Stable contrast over photography, independent of the page theme. */
   --color-portrait-scrim: #17101f;

@@ -194,7 +194,9 @@ test('chapter evidence keeps its owning chapter, gallery order, and legacy fragm
       const heading = page.getByRole('heading', { name: 'Outcomes', exact: true })
 
       await expect(heading).toBeInViewport()
-      const headings = await page.locator('.prose-project h2, .prose-project h3').allTextContents()
+      const headings = await page.locator('.prose-project h2, .prose-project h3').evaluateAll(elements => elements
+        .filter(element => !element.closest('dialog'))
+        .map(element => element.textContent))
       const outcomeIndex = headings.indexOf('Outcomes')
 
       expect(headings[outcomeIndex - 1]).toBe(before)

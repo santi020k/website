@@ -188,12 +188,6 @@ export const getProjectBrandStyle = (brand?: ProjectBrandPalette) => {
   const primary = normalizeHex(palette.primary)
   const secondary = normalizeHex(palette.secondary)
   const surface = normalizeHex(palette.surface)
-
-  const onSurface = getProjectColorContrast('#ffffff', surface) >=
-    MINIMUM_PROJECT_TEXT_CONTRAST ?
-    '#ffffff' :
-    '#000000'
-
   const primaryOnLight = getReadableProjectColor(primary, PROJECT_LIGHT_CANVAS)
   // Gallery labels sit on the elevated surface, which needs more contrast than the canvas.
   const primaryOnDark = getReadableProjectColor(primary, PROJECT_DARK_SURFACE)
@@ -214,7 +208,6 @@ export const getProjectBrandStyle = (brand?: ProjectBrandPalette) => {
     `--project-primary: ${toHslChannels(primary)}`,
     `--project-secondary: ${toHslChannels(secondary)}`,
     `--project-surface: ${toHslChannels(surface)}`,
-    `--project-on-surface: ${toHslChannels(onSurface)}`,
     `--project-primary-readable: ${toHslChannels(primaryOnLight)}`,
     `--project-primary-readable-dark: ${toHslChannels(primaryOnDark)}`,
     `--project-title-primary-readable: ${titlePrimaryOnLight}`,

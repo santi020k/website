@@ -465,25 +465,10 @@ Always add `aria-hidden="true"` on decorative icons. For standalone icon buttons
 
 ### Badges
 
-`Badge.astro` (or `Pill.astro`) is the standard tag/label component. Use the named variant — never recreate badge styles inline.
-
-| Variant | Use case |
-| :------------ | :------- |
-| `default` | General tags, neutral state |
-| `accent` | Highlighted tag using the current accent |
-| `accent-base` | Uses the lower-contrast base accent tone |
-| `accent-one` | Primary brand accent |
-| `accent-two` | Secondary brand accent (theme-adaptive) |
-| `muted` | Low-emphasis, subtle background |
-| `outline` | Bordered, no fill — secondary or filter contexts |
-| `subtle` | Neutral zinc surface, universal background compatibility |
-| `ghost` | No background, minimal — toggles and filters |
-| `warning` | Caution state (yellow palette) |
-| `danger` | Error or destructive state (red palette) |
-
-Props: `title` (required), `variant` (default: `"default"`), `showHash` (default: `true`), `className`.
-
-Badges truncate at `200px` on mobile, full width on `sm` and above.
+`Pill.astro` wraps Lumen `Pill` for project status and series labels. Its props are
+`label` (required) and `tone` (`brand`, `neutral`, or `outline`, defaulting to `neutral`).
+It does not truncate text or render links. Use `SculptedTag` for linked topics and
+technology counts; it preserves the current-page state through Lumen `Link`.
 
 ### Cards
 

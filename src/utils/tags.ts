@@ -1,5 +1,5 @@
 /**
- * Counts tag occurrences across a list of posts and returns the top N tags
+ * Counts tag occurrences across a list of posts and returns all tags
  * sorted by frequency (descending). Posts must expose a `data.tags` string array.
  */
 export const getAllTags = (
@@ -8,11 +8,6 @@ export const getAllTags = (
   .flatMap(post => post.data.tags)
   .reduce((acc, tag) => acc.set(tag, (acc.get(tag) ?? 0) + 1), new Map<string, number>())]
   .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-
-export const getTopTags = (
-  posts: { data: { tags: string[] } }[],
-  limit = 8
-): [string, number][] => getAllTags(posts).slice(0, limit)
 
 /** Keep personal interests discoverable alongside the most frequent software topics. */
 export const getBlogBrowseTags = (tags: [string, number][]): [string, number][] => {

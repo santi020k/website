@@ -79,7 +79,7 @@ if (!previews) throw new Error(`Project ${projectId} must declare previews befor
   [data-product-preview][data-slot='card'] {
     container: product-preview / inline-size;
     border: 1px solid hsl(var(--line));
-    border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+    border-radius: var(--radius-sheet);
   }
 
   @container product-preview (width < 31.25rem) {
