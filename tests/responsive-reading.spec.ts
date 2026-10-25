@@ -4,6 +4,14 @@ import { expect, type Locator, type Page, test } from '@playwright/test'
 const LONG_ARTICLE = '/blog/run-repo-on-mac-with-silo-dxmt/'
 const LONG_TITLE_ARTICLE = '/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/'
 
+const openContents = async (page: Page) => {
+  const opener = page.locator('[data-project-mobile-toc] summary')
+
+  if (await opener.isVisible()) await opener.click()
+
+  return page.getByRole('navigation', { name: 'Table of contents', exact: true })
+}
+
 // Apply the user's text-size preference before first layout. Changing rem units
 // mid-render can leave offscreen geometry stale when native focus scrolls it.
 const openWithEnlargedText = async (page: Page, route: string, fontSize = '200%') => {
@@ -191,7 +199,7 @@ for (const theme of ['light', 'dark'] as const) {
       for (const route of [LONG_ARTICLE, '/portfolio/smith-commerce/']) {
         await page.goto(route)
         await settleLayout(page)
-        const navigation = page.getByRole('navigation', { name: 'Table of contents', exact: true })
+        const navigation = await openContents(page)
         const destination = navigation.getByRole('link').nth(1)
 
         await destination.focus()
@@ -244,7 +252,8 @@ for (const theme of ['light', 'dark'] as const) {
           // Header padding must resize with the text before a fragment target is measured.
           expect(await page.locator('.site-header').evaluate(header => parseFloat(getComputedStyle(header).paddingTop)))
             .toBe(24 * parseFloat(fontSize) / 100)
-          const link = page.locator('[data-toc-tree] a[href="#technical-highlights"]')
+          const navigation = await openContents(page)
+          const link = navigation.locator('a[href="#technical-highlights"]')
           const initialTargetTop = await page.locator('#technical-highlights').evaluate(heading => heading.getBoundingClientRect().top + scrollY)
 
           await link.focus()
@@ -256,7 +265,7 @@ for (const theme of ['light', 'dark'] as const) {
           })).toBeLessThanOrEqual(1)
           await expect.poll(() => page.locator('#technical-highlights').evaluate(heading => heading.getBoundingClientRect().top + scrollY)).toBeCloseTo(initialTargetTop, 0)
           await expect(link).toHaveAttribute('aria-current', 'location')
-          await expect(page.locator('[data-toc-tree] [aria-current="location"]')).toHaveCount(1)
+          await expect(navigation.locator('[aria-current="location"]')).toHaveCount(1)
         })
       }
     }
@@ -415,9 +424,10 @@ for (const theme of ['light', 'dark'] as const) {
             }
 
             await expectHeadingClear()
-            const link = page.locator(`[data-toc-tree] a[href="#${fragment}"]`)
+            await expect(page.locator(`[data-toc-tree] a[href="#${fragment}"]`).first()).toHaveAttribute('aria-current', 'location')
+            const navigation = await openContents(page)
+            const link = navigation.locator(`a[href="#${fragment}"]`)
 
-            await expect(link).toHaveAttribute('aria-current', 'location')
             await link.focus()
             await page.keyboard.press('Enter')
             await expectHeadingClear()

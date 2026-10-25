@@ -30,7 +30,11 @@ const focusLabel = getProjectFocusLabel(project.data.typesId)
     data-reading-rail-divider
   />
 
-  {headings.length > 0 && <TocCard headings={headings} />}
+  {headings.some(heading => heading.depth <= 3) && (
+    <div data-project-desktop-toc>
+      <TocCard headings={headings} />
+    </div>
+  )}
 
   <ProjectFocusCard focus={focusLabel} />
 

@@ -813,6 +813,21 @@ or empty-state notice. Begin the sidebar with Focus, followed by Core stack and
 optional Outcomes. Keep the sidebar's normal spacing;
 do not reserve a gap for absent navigation. Articles likewise omit empty navigation.
 
+### Chapter opener project navigation
+
+In the stacked project reading layout, place navigation immediately before Work notes
+(or the project's equivalent notes header). Use a closed native Lumen Collapsible with
+the On this page label, a count of top-level sections, and a downward chevron. Its
+opaque panel shares the Margin rail corners, border, and 0.75rem label; the summary
+has a 4.25rem minimum height. Opening it reveals the complete heading list, including
+subsections, with the existing Margin rail spacing and active marker.
+
+Switch to the sidebar's expanded Margin rail only when the reading layout has both
+a 64rem viewport and a 56rem container. Hide the other copy with CSS so only one
+navigation is available to keyboard and assistive technology. Reuse the same heading
+data and Lumen Anchor behavior, without a new controller. Preserve fragment links
+without JavaScript, enlarged-text reflow, and omission when no eligible headings exist.
+
 ### Margin chapters case study summaries
 
 Case study summaries use one opaque Lumen Card with asymmetric corners and a small

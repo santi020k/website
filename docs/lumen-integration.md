@@ -125,6 +125,10 @@ enlarged text sizes. No new client controller is introduced.
 - The article and project table of contents use Lumen `Anchor` and its shared scroll-spy runtime,
   with the temporary runtime patch described below. `TocCard` supplies the Margin rail panel,
   nested link spacing, and active rule through local styles without another controller.
+  Stacked project pages use `ProjectChapterOpener` to compose the same list inside
+  a native Lumen `Collapsible` before the notes header. CSS follows the reading-layout breakpoint
+  to expose either this disclosure or the desktop rail, never both at once. Both
+  copies reuse the heading data and Lumen's per-Anchor scroll-spy scope.
   The site's reading page boundary also sets `font-size: 1rem` explicitly: in WebKit,
   relying on inheritance left descendant layout stale
   after root text resizing during client navigation, shifting native fragment targets. This

@@ -210,6 +210,8 @@
 
 - Apply Hero-led project facts: keep Role, Timeline, and Duration in the hero, preserve the project type above the cover, and remove the repeated At a glance sidebar card. Retain navigation, Focus, Core stack, and Outcomes with their existing treatments.
 
+- Apply Chapter opener navigation to stacked project pages: place a compact native disclosure before the notes, retain all section and subsection links, and keep the desktop Margin rail. Match the reading layout breakpoint, preserve keyboard and no-JavaScript navigation, and omit navigation when no eligible headings exist.
+
 ### Patch Changes
 
 - Refine the homepage with a wide editorial lead story, image-led recent articles, larger reading
