@@ -10,7 +10,14 @@ interface Props {
 }
 
 const { headings } = Astro.props
-const chapters = getProjectChapters(headings)
+
+const chapters = getProjectChapters(headings).map(chapter => {
+  const separator = chapter.heading.text.indexOf(': ')
+  const name = chapter.heading.text.slice(0, separator).trim()
+  const caption = separator > 0 ? chapter.heading.text.slice(separator + 2).trim() : ''
+
+  return { ...chapter, label: name && caption ? { name, caption } : undefined }
+})
 ---
 
 {chapters.length > 0 && (
@@ -18,16 +25,24 @@ const chapters = getProjectChapters(headings)
     <Anchor activationOffset={120} aria-label="Table of contents" data-project-chapters>
       <p data-chapters-title>On this page<Icon class="size-4 shrink-0" name="list" /></p>
       <ol data-chapter-list role="list">
-        {chapters.map(({ heading, sections }) => (
+        {chapters.map(({ heading, sections, label }) => (
           <li>
             {sections.length > 0 ?
 (
               <Collapsible data-chapter-group open={chapters.length === 1}>
                 <summary data-chapter-summary>
-                  <span>{heading.text}</span><Icon class="size-4 shrink-0" name="chevron-down" />
+                  {label ?
+(
+                    <span data-chapter-captioned>
+                      <span data-chapter-name>{label.name}<span class="sr-only">:</span></span>{' '}
+                      <span data-chapter-caption>{label.caption}</span>
+                    </span>
+                  ) :
+<span>{heading.text}</span>}
+                  <Icon class="size-4 shrink-0" data-chapter-toggle-icon name="chevron-down" />
                 </summary>
                 <ol data-chapter-sections role="list">
-                  <li><a href={`#${heading.slug}`} aria-label={`Chapter overview: ${heading.text}`}>Chapter overview</a></li>
+                  <li><a href={`#${heading.slug}`} aria-label={label ? undefined : `Chapter overview: ${heading.text}`}>{label ? `${label.name} overview` : 'Chapter overview'}</a></li>
                   {sections.map(section => <li><a href={`#${section.slug}`}>{section.text}</a></li>)}
                 </ol>
               </Collapsible>
@@ -55,12 +70,16 @@ const chapters = getProjectChapters(headings)
   [data-chapter-group] { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
   [data-chapter-summary], [data-chapter-standalone] { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; min-height: 2.75rem; margin: 0; padding: 0.875rem 0; color: hsl(var(--ink)); font-size: 0.875rem; line-height: 1.65; font-weight: 500; letter-spacing: normal; text-decoration: none; background: transparent; }
   [data-chapter-summary] { cursor: pointer; list-style: none; border-radius: 0.25rem; }
+  [data-chapter-captioned] { flex: 1; min-width: 0; }
+  [data-chapter-name] { display: block; font-size: 1rem; line-height: 1.5; }
+  [data-chapter-caption] { display: block; padding-top: 0.1875rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; font-weight: 400; line-height: 1.65; }
+  [data-chapter-caption]::first-letter { text-transform: uppercase; }
   [data-chapter-standalone] { position: relative; }
   [data-project-chapters] [data-chapter-standalone] { font-weight: 500; }
   [data-chapter-summary]::-webkit-details-marker { display: none; }
   [data-chapter-summary]::before, [data-chapter-summary]::after { display: none; }
   [data-chapter-group][open] > [data-chapter-summary] { margin-bottom: 0; }
-  [data-chapter-group][open] > [data-chapter-summary] :global(.ui-icon) { transform: rotate(180deg); }
+  [data-chapter-group][open] > [data-chapter-summary] :global([data-chapter-toggle-icon]) { transform: rotate(180deg); }
   [data-chapter-sections] { margin: 0 0 0.875rem; border-inline-start: 1px solid hsl(var(--line)); }
   [data-chapter-sections] a { position: relative; display: block; min-height: 2.75rem; padding: 0.6875rem 0 0.6875rem 0.875rem; color: hsl(var(--ink-soft)); font-size: 0.8125rem; line-height: 1.7; font-weight: 400; letter-spacing: normal; text-decoration: none; }
   [data-chapter-sections] a[aria-current='location']::before { content: ''; position: absolute; inset-inline-start: -1px; inset-block: 0.625rem; width: 3px; border-inline-start: 3px solid currentColor; border-radius: 2px; }

@@ -242,6 +242,8 @@
 
 - Apply Client masthead to the Smith Commerce client chapters. Lead with the client name and a quieter descriptive subtitle, while preserving complete headings, existing anchors, and chapter navigation.
 
+- Apply Captioned chapters to project contents rail labels. Separate client names from their descriptive subtitles and name the chapter overview links while preserving native disclosures, section tracking, and existing destinations.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

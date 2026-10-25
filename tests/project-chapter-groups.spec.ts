@@ -27,6 +27,12 @@ for (const theme of ['light', 'dark']) {
     const webb = rail.locator('details').nth(1)
 
     await expect(rail.locator('a')).toHaveCount(13)
+    await expect(marcone.locator('summary')).toHaveText('Marcone: rebuilding for a headless future')
+    await expect(marcone.locator('[data-chapter-name]')).toHaveText('Marcone:')
+    await expect(marcone.locator('[data-chapter-caption]')).toHaveText('rebuilding for a headless future')
+    await expect(webb.locator('[data-chapter-name]')).toHaveText('F.W. Webb:')
+    await expect(webb.locator('[data-chapter-caption]')).toHaveText('building the purchasing experience')
+    await expect(marcone.getByRole('link', { name: 'Marcone overview', exact: true })).toHaveAttribute('href', '#marcone-rebuilding-for-a-headless-future')
     await expect(marcone).toHaveAttribute('open', '')
     await expect(webb).not.toHaveAttribute('open')
     await page.locator('#inside-the-product').evaluate(element => {
@@ -34,6 +40,7 @@ for (const theme of ['light', 'dark']) {
     })
     await expect(rail.locator('a[href="#inside-the-product"]')).toHaveAttribute('aria-current', 'location')
     await expect(webb).toHaveAttribute('open', '')
+    await expect(webb.getByRole('link', { name: 'F.W. Webb overview', exact: true })).toHaveAttribute('href', '#fw-webb-building-the-purchasing-experience')
     await expect(marcone).not.toHaveAttribute('open')
 
     await webb.locator('summary').focus()
@@ -136,6 +143,10 @@ test('desktop chapters and their section destinations work without JavaScript', 
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(/#technical-highlights$/u)
     await expect(page.locator('#technical-highlights')).toBeInViewport()
+    await chapter.getByRole('link', { name: 'Marcone overview', exact: true }).focus()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/#marcone-rebuilding-for-a-headless-future$/u)
+    await expect(page.locator('#marcone-rebuilding-for-a-headless-future')).toBeInViewport()
   } finally {
     await context.close()
   }

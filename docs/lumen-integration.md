@@ -143,6 +143,9 @@ enlarged text sizes. No new client controller is introduced.
   chapters, opens incoming hashes, and cleans up on disconnection. A single chapter
   starts expanded; headings without children stay direct links. Articles and the
   mobile Chapter opener keep `TocCard`.
+  Captioned chapters derives the name and subtitle from colon-separated chapter
+  headings, with named overview links. It preserves the full summary's accessible
+  text, existing fragments, and the same Collapsible and Anchor runtime contracts.
   The site's reading page boundary also sets `font-size: 1rem` explicitly: in WebKit,
   relying on inheritance left descendant layout stale
   after root text resizing during client navigation, shifting native fragment targets. This

@@ -910,6 +910,13 @@ between chapters. Use 0.875rem chapter summaries, 0.8125rem section links, and 2
 minimum targets. Each expanded chapter begins with a named Chapter overview link
 to its original heading. Keep the current section's 3px margin marker.
 
+Captioned chapters separates a `Name: description` chapter summary into a 1rem
+client name at weight 500 and a 0.75rem description in `ink-soft`. Keep the full
+heading text and punctuation accessible, with the caption displayed in sentence
+case. Name its overview link after the client, such as F.W. Webb overview. Derive
+both lines from the authored heading; ordinary chapter headings retain their single
+label. Preserve complete text, the existing fragment, and the original group behavior.
+
 Single-chapter projects begin expanded. Lumen Anchor still owns current-section
 tracking; a small custom element follows its public `aria-current` marker to open
 the owning chapter. Previously automatic chapters close as reading moves on, unless

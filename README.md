@@ -136,6 +136,8 @@ and existing Lumen contracts, rather than restoring retired utility layers.
 - **Client chapters:** wrap authored Markdown headings in `ProjectClientMasthead` for Client masthead.
   Separate the client name and subtitle with the component's data attributes; retain the heading's
   full text and punctuation so chapter navigation and existing fragments stay stable.
+  The desktop contents rail uses Captioned chapters for `Name: description` headings,
+  deriving its two-line labels and named overview links from that same heading text.
 - **Product previews:** annotated application captures complement project artwork. Follow the
   [preview provenance guide](docs/editorial/project-previews.md) and
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.
