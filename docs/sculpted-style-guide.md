@@ -1263,19 +1263,27 @@ for one example. Wide tables scroll inside the named region on narrow screens;
 the page itself must not overflow. Keep a visible focus outline, keyboard access,
 and readable header accents in both themes. This treatment requires no script.
 
-### Conversation folio article discussions
+### Reader colophon article closing
 
-Use `CommentsSection` to invite readers into the article discussion. A Lumen Card
-pairs a soft brand header and decorative conversation icon with a plain reading
-area. Keep the real Comments heading, asymmetric 0.375rem / 1.75rem corners, fine
-outline, and a separate underlined Reply on GitHub row with a 44px minimum target.
-Reduce insets for narrow containers and enlarged text; preserve a visible focus
-outline and readable accents in both themes.
+Articles close with an open sequence of comments, existing webmentions, sharing,
+and return navigation. Align Comments and Share in a 5.375rem margin with a 1.5rem
+column gap. The discussion invitation uses a 2px purple rail, a 1.5rem text inset,
+and a 1.4375rem lead. Use a quiet underlined Reply on GitHub link with a 44px target.
+Sharing pairs Pass it on with the existing copy or native share action, followed
+by its three social destinations. Fine bottom rules separate the sections.
+
+The final row uses inline Back to Blog and Back to top links. It has no additional
+card surface. Stack the margin above the content below 32rem of available width,
+reduce the discussion inset below 18rem, and let actions wrap at enlarged text
+sizes. Keep complete labels, visible focus, and theme-aware semantic colors.
 
 The invitation sits above the provider widget. Keep Giscus lazy loading, theme
 synchronization, and polite failure guidance in the existing controller. The
 GitHub destination must remain available while loading, after failure, and without
-JavaScript. Do not reserve an empty widget area for readers without JavaScript.
+JavaScript. Align the widget beneath the discussion column on wide layouts and
+use the full width on narrow layouts. Do not reserve an empty widget area for readers
+without JavaScript. Project pages retain Dispatch sleeve and Return folio through
+the shared components' default variants.
 
 ### Margin imprint article publication details
 

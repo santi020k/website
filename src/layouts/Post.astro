@@ -139,13 +139,15 @@ mainClass="remaining-pages remaining-pages--reading"
           />
         )}
 
-        <ShareButtons title={title} url={localURL.href} />
+        <div data-article-closing id="article-close">
+          <CommentsSection />
 
-        <WebmentionsSection mentions={webmentions} />
+          <WebmentionsSection mentions={webmentions} />
 
-        <CommentsSection />
+          <ShareButtons title={title} url={localURL.href} variant="colophon" />
 
-        <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} />
+          <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} variant="colophon" />
+        </div>
       </div>
 
       <!-- Right: sticky TOC — only rendered when the post has headings -->

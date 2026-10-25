@@ -9,14 +9,15 @@ interface Props {
   hasProductPreviews?: boolean
   project?: CollectionEntry<'project'>
   parentPage: { name: string, url: string }
+  variant?: 'folio' | 'colophon'
 }
 
-const { hasProductPreviews = false, project, parentPage } = Astro.props
+const { hasProductPreviews = false, project, parentPage, variant = 'folio' } = Astro.props
 const { githubUrl, liveDemoUrl, previews } = project?.data ?? {}
 const destination = project ? getProjectPrimaryDestination(project.data) : undefined
 ---
 
-<footer data-reading-actions id={project ? 'project-return' : undefined}>
+<footer data-reading-actions data-return-variant={variant} id={project ? 'project-return' : undefined}>
   <Card variant="unstyled" data-return-folio>
     <nav aria-label="Page-end navigation">
       <div data-return-row>
@@ -231,4 +232,33 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
       display: none;
     }
   }
+  footer[data-return-variant='colophon'] :global([data-return-folio]) {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+  [data-return-variant='colophon'] [data-return-row] {
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.25rem 0 0;
+  }
+  [data-return-variant='colophon'] :global([data-return-link]) { gap: 0.875rem; }
+  [data-return-variant='colophon'] [data-return-mark] {
+    display: flex;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+  }
+  [data-return-variant='colophon'] [data-return-icon] { width: 1rem; height: 1rem; }
+  [data-return-variant='colophon'] [data-return-copy] { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+  [data-return-variant='colophon'] [data-return-kicker],
+  [data-return-variant='colophon'] [data-return-destination] {
+    color: inherit;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    letter-spacing: normal;
+  }
+  [data-return-variant='colophon'] :global([data-return-top]) { color: hsl(var(--ink-soft)); flex-shrink: 1; }
 </style>

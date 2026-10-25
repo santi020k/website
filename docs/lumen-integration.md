@@ -492,10 +492,15 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   The four-column measurement table fits the desktop reading column and retains horizontal scrolling
   on narrow screens. `tests/legacy-article-content.spec.ts` checks normal and enlarged text.
   Prose styles use site ink tokens for cells and Lumen's code foreground token for language badges in both themes.
-- `CommentsSection` composes Conversation folio with Lumen `Card` and decorative `Icon`
-  components. Its real section heading and native GitHub reply link remain outside the
-  provider mount, preserving keyboard access and the no-JavaScript fallback. The existing
-  Giscus controller still owns lazy loading, theme synchronization, and polite load errors.
+- Article endings use Reader colophon. `CommentsSection` owns a semantic heading and
+  open margin layout with a decorative Lumen `Icon` on its native GitHub reply link.
+  The existing Giscus controller still owns lazy loading, theme synchronization, and
+  polite load errors; its mount aligns with the discussion column. Webmentions keep
+  their existing conditional rendering between comments and sharing. The `colophon`
+  variants of `ShareButtons` and `ProjectFooterNav` reuse their Lumen primitives,
+  controllers, and destinations with open rules and inline actions. Project pages
+  retain the default Dispatch sleeve and Return folio variants. No additional client
+  behavior or external service is introduced.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
 
 ## Anchor runtime patch
