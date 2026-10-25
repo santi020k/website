@@ -34,11 +34,15 @@ focusAreas:
     description: "Private data, explainable suggestions, and automation"
 ---
 
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
 ## Organizing contexts at the window level
 
 Workspace Organizer is a native macOS app for grouping individual application windows into focused spaces inside named workspaces. A workspace can represent Personal, Work, or a specific project, while spaces such as Browser, Code, and AI keep the right windows together.
 
 The window-level distinction is the core idea. A Safari window for personal browsing should not have to travel with a Safari window used for client work simply because both belong to the same application.
+
+<ProjectOutcomesCard projectId="workspace-organizer" />
 
 ### Goals
 

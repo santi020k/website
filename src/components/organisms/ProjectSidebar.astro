@@ -4,7 +4,6 @@ import type { MarkdownHeading } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import ProjectFocusCard from '@/components/molecules/ProjectFocusCard.astro'
-import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
 import TocCard from '@/components/molecules/TocCard.astro'
 
 interface Props {
@@ -33,6 +32,4 @@ const { headings, project } = Astro.props
   )}
 
   <ProjectFocusCard focusAreas={project.data.focusAreas} />
-
-  <ProjectOutcomesCard outcomes={project.data.impactMetrics} />
 </aside>

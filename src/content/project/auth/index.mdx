@@ -45,11 +45,15 @@ focusAreas:
     description: "Tests and recovery checks before production use"
 ---
 
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
 ## Reusing authentication policy without sharing accounts
 
 I built `santi020k auth` for a recurring problem across my Cloudflare applications: the security-sensitive protocol work was similar, but the identity state and product responsibilities needed to stay separate.
 
 The first public adapter, [`@santi020k/auth-cloudflare`](https://www.npmjs.com/package/@santi020k/auth-cloudflare), provides email-code and passkey authentication for single-owner and multi-user Hono applications running on Cloudflare Workers and D1. The [source repository](https://github.com/santi020k/auth) is open under the MIT license, and the package is available as an experimental `0.x` release.
+
+<ProjectOutcomesCard projectId="auth" />
 
 ### Goals
 

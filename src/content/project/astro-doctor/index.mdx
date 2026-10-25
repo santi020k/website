@@ -41,11 +41,15 @@ focusAreas:
     description: "Rule explanations, documentation, and agent skills"
 ---
 
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
 ## Building a health check for Astro projects
 
 I built Astro Doctor to make Astro-specific code quality visible before it reaches production. The project started from a simple problem: Astro can compile a page that still works against the reasons you chose Astro in the first place.
 
 The tool scans `.astro` files and project configuration for patterns that affect performance, accessibility, security, and maintainability. It then reports actionable diagnostics, a project health score, and workflow-specific output for local development, editors, pull requests, and automation.
+
+<ProjectOutcomesCard projectId="astro-doctor" />
 
 ### Goals
 

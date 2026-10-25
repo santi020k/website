@@ -765,7 +765,7 @@ Keep Role, Timeline, and Duration once in the hero's Margin imprint. Preserve it
 semantic definition list, native date elements, fallback role, and computed duration.
 The project type remains in the eyebrow and breadcrumb above the cover. Omit the
 former At a glance sidebar card instead of repeating these facts while reading.
-After navigation, the sidebar continues with Focus and optional Outcomes.
+After navigation, the sidebar continues with Focus. Outcomes belong in the project story.
 
 ### Scope ledger focus cards
 
@@ -795,8 +795,8 @@ keyboard focus, reduced motion, and operation without JavaScript. Below 14rem of
 stack width, omit the decorative technology marker and tighten link insets so
 ordinary technology names remain whole with enlarged text.
 
-Omit the former Core stack sidebar card and its repeated disclosure. Navigation,
-Focus, and optional Outcomes retain their existing spacing and reading order. Keep
+Omit the former Core stack sidebar card and its repeated disclosure. Navigation and
+Focus retain their existing spacing and reading order. Keep
 `#technologies` on the hero's technology content; `#sidebar-stack` remains a legacy
 fragment on the hero section so existing links reach the complete stack.
 
@@ -813,8 +813,21 @@ for headings and values, weight 400 for context, and no hover feedback.
 Reuse the portfolio metric parser for explicit changes. Leading percentages and
 counts keep their suffixes and full context; qualified claims stay prose. Preserve
 the original statement once for screen readers and omit empty outcome sections.
-Below 16rem of rail width, stack value and context and tighten the insets so enlarged
+Below 16rem of card width, stack value and context and tighten the insets so enlarged
 text stays readable. The card remains fully rendered without JavaScript.
+
+### Chapter evidence placement
+
+Author one `ProjectOutcomesCard` in each project's MDX narrative with its collection
+ID as `projectId`. Place it after the relevant chapter introduction, before its
+technical subsections. When that introduction has a Contextual gallery, keep the
+gallery first. Smith's claims belong in the Marcone chapter, before F.W. Webb.
+
+Read the existing `impactMetrics` from the collection; do not copy claims into MDX
+or repeat the card in the sidebar. Keep the Impact rows composition, original
+qualifiers, and legacy `#sidebar-outcomes` fragment. Use a level-three heading
+inside the chapter and isolate the card from prose typography. Its responsive
+container follows the story width on desktop and mobile, without client relocation.
 
 ### Margin rail table of contents
 
@@ -833,7 +846,7 @@ Reading pages fully disable CSS transitions with reduced motion, including inher
 size transitions, so native fragment targets remain stable when text is enlarged.
 
 When a project has no headings, omit the table of contents without a replacement card
-or empty-state notice. Begin the sidebar with Focus and optional Outcomes. Keep the sidebar's normal spacing;
+or empty-state notice. Begin the sidebar with Focus. Keep the sidebar's normal spacing;
 do not reserve a gap for absent navigation. Articles likewise omit empty navigation.
 
 ### Chapter opener project navigation

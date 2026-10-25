@@ -5,15 +5,15 @@ import { join, relative, resolve as resolvePath } from 'node:path'
 const projectRoot = resolvePath(import.meta.dirname, '../..')
 
 const resumeProjectFiles = [
-  'datagran/index.md',
-  'justbit/index.md',
-  'nebular/index.md',
-  'optic-power/index.md',
-  'pads/index.md',
-  'react-js-colombia/index.md',
+  'datagran/index.mdx',
+  'justbit/index.mdx',
+  'nebular/index.mdx',
+  'optic-power/index.mdx',
+  'pads/index.mdx',
+  'react-js-colombia/index.mdx',
   'smith-commerce/index.mdx',
   'void/index.mdx',
-  'xgames/index.md'
+  'xgames/index.mdx'
 ]
 
 export const resumeSourcePaths = [

@@ -218,6 +218,8 @@
 
 - Use Scope ledger for project Focus cards, with authored work areas for every project, semantic label and description rows, and responsive spacing. Replace repeated type-based summaries while preserving the Focus fragment and passive reading behavior.
 
+- Use Chapter evidence to place each project Outcomes card in its owning story chapter. Preserve the Impact rows design, original claims, gallery order, and legacy fragment while removing the repeated sidebar placement.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

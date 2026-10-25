@@ -174,10 +174,12 @@ enlarged text sizes. No new client controller is introduced.
   facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled
   Lumen `Card` and a semantic definition list for its Scope ledger composition.
-  Its labeled work areas come from validated project frontmatter, without client code. `ProjectOutcomesCard` composes
-  Impact rows with `Card`, `Icon`, and semantic lists, keeping original claims accessible.
-  These project sidebar cards share small purple labels, right-aligned icons, and plain
-  surfaces; their content compositions remain distinct.
+  Its labeled work areas come from validated project frontmatter, without client code.
+- `ProjectOutcomesCard` composes Impact rows with `Card`, `Icon`, and semantic lists,
+  keeping original claims accessible. Chapter evidence places it once in the authored
+  MDX chapter with a level-three heading and the legacy Outcomes fragment. It reads
+  validated `impactMetrics` using `projectId`, with no sidebar copy or client relocation.
+  Focus and Outcomes share small purple labels, right-aligned icons, and plain surfaces.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
 - Hero-only stack keeps `ProjectHeroStack` as the single project technology inventory.

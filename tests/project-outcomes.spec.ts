@@ -33,7 +33,7 @@ for (const theme of ['light', 'dark']) {
           await page.evaluate(() => document.fonts.ready)
           const card = page.getByRole('region', { name: 'Outcomes', exact: true })
 
-          await expect(card.getByRole('heading', { level: 2 })).toHaveText('Outcomes')
+          await expect(card.getByRole('heading', { level: 3 })).toHaveText('Outcomes')
           await expect(card.getByRole('list')).toHaveCount(1)
           await expect(card.getByRole('listitem')).toHaveCount(3)
           const accessibleText = await card.ariaSnapshot()
@@ -113,4 +113,69 @@ test('project outcomes retain qualifiers, count suffixes, and mixed written clai
     expect(await card.locator('[data-outcome-value]').evaluateAll(elements => elements.every(element => element.scrollWidth <= element.clientWidth + 1))).toBe(true)
   }
   await context.close()
+})
+
+test('published projects place one Outcomes card in the story instead of the sidebar', async ({ page }) => {
+  for (const project of [
+    'aaronmgz',
+    'astro-doctor',
+    'auth',
+    'between-contractions',
+    'coolstead',
+    'datagran',
+    'dep-beacon',
+    'eslint-config-basic',
+    'eslint-config-santi020k',
+    'justbit',
+    'lumen-ui',
+    'nebular',
+    'og',
+    'optic-power',
+    'pads',
+    'postlens',
+    'quality',
+    'react-js-colombia',
+    'roadscore',
+    'santi020k-theme',
+    'smith-commerce',
+    'tedx-medellin',
+    'void',
+    'xgames'
+  ]) {
+    await page.goto(`/portfolio/${project}/`)
+    const card = page.getByRole('region', { name: 'Outcomes', exact: true })
+
+    await expect(card).toHaveCount(1)
+    await expect(page.locator('.prose-project [data-project-outcomes]')).toHaveCount(1)
+    await expect(page.locator('[data-project-sidebar] [data-project-outcomes]')).toHaveCount(0)
+    await expect(card.getByRole('listitem')).toHaveCount(3)
+    await expect(card.getByRole('heading', { level: 3 })).toHaveText('Outcomes')
+    await expect(card.locator('[data-project-ledger]')).toHaveCount(0)
+  }
+})
+
+test('chapter evidence keeps its owning chapter, gallery order, and legacy fragment without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
+  const page = await context.newPage()
+
+  try {
+    for (const { project, before, after } of [
+      { project: 'smith-commerce', before: 'Marcone: rebuilding for a headless future', after: 'Core challenge' },
+      { project: 'lumen-ui', before: 'Inside the product', after: 'Goals' },
+      { project: 'postlens', before: 'Inside the product', after: 'Goals' }
+    ]) {
+      await page.goto(`/portfolio/${project}/#sidebar-outcomes`)
+      const heading = page.getByRole('heading', { name: 'Outcomes', exact: true })
+
+      await expect(heading).toBeInViewport()
+      const headings = await page.locator('.prose-project h2, .prose-project h3').allTextContents()
+      const outcomeIndex = headings.indexOf('Outcomes')
+
+      expect(headings[outcomeIndex - 1]).toBe(before)
+      expect(headings[outcomeIndex + 1]).toBe(after)
+      await expect(page.locator('[data-project-outcomes] a, [data-project-outcomes] button')).toHaveCount(0)
+    }
+  } finally {
+    await context.close()
+  }
 })

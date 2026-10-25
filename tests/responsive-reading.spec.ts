@@ -493,7 +493,7 @@ for (const theme of ['light', 'dark'] as const) {
         await rail.hover()
         await page.mouse.wheel(0, 2000)
         await expect.poll(() => rail.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
-        await expect(rail.getByRole('region', { name: 'Outcomes' }).getByRole('listitem').last()).toBeInViewport({ ratio: 1 })
+        await expect(rail.getByRole('region', { name: 'Focus', exact: true }).locator('dd').last()).toBeInViewport({ ratio: 1 })
         await expectWithinScreen(rail)
       })
     })

@@ -42,11 +42,15 @@ focusAreas:
     description: "Tracked cleanup and repeatable CI verification"
 ---
 
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
 ## Open Graph generation without surrendering the design
 
 I built `@santi020k/og` to separate two concerns that are often bundled together: the mechanics of generating social images and the visual decisions that make those images belong to a product.
 
 The package handles paths, output formats, caching, concurrency, cleanup, and verification. The consuming project supplies its content, assets, fonts, card composition, and renderer. That boundary makes the pipeline reusable without turning every brand into a preset.
+
+<ProjectOutcomesCard projectId="og" />
 
 ### Goals
 

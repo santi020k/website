@@ -42,6 +42,8 @@ focusAreas:
     description: "OSV advisories alongside manifest analysis"
 ---
 
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
 ## Building dependency signals for VS Code and Zed
 
 Dep Beacon is a dependency intelligence engine for npm projects with extensions for VS Code and Zed. It brings version status, safe update targets, pnpm workspace catalog awareness, and OSV vulnerability warnings directly into the manifests developers already edit.
@@ -51,6 +53,8 @@ The project includes a shared analysis core, a VS Code extension, a language ser
 The [Dep Beacon Zed extension](https://zed.dev/extensions/dep-beacon-lsp) is now available in the Zed extension registry. It brings dependency diagnostics, hovers, npm links, and individual or bulk update actions into Zed through the Language Server Protocol. See the [Zed installation guide](https://beacon.santi020k.com/docs/zed-extension) for setup and usage.
 
 ![Dep Beacon showing package.json and pnpm workspace dependency signals](usage-preview.webp)
+
+<ProjectOutcomesCard projectId="dep-beacon" />
 
 ### Goals
 

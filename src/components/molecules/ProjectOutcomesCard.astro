@@ -1,20 +1,28 @@
 ---
+import { getEntry } from 'astro:content'
+
 import { getProjectOutcomeDisplay } from '@/utils/portfolio-metric'
 
 import { Card, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
-  outcomes: string[]
+  projectId: string
 }
 
-const { outcomes } = Astro.props
+const { projectId } = Astro.props
+const project = await getEntry('project', projectId)
+
+if (!project) throw new Error(`Project ${projectId} must exist before rendering its outcomes.`)
+
+const outcomes = project.data.impactMetrics
 const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), summary }))
 ---
 
 {rows.length > 0 && (
+  <div class="not-prose" data-project-evidence>
   <Card as="section" aria-labelledby="sidebar-outcomes" data-project-outcomes variant="unstyled">
     <header>
-      <h2 id="sidebar-outcomes">Outcomes<Icon class="size-4 shrink-0" name="trophy" /></h2>
+      <h3 id="sidebar-outcomes">Outcomes<Icon class="size-4 shrink-0" name="trophy" /></h3>
     </header>
     <ul role="list">
       {rows.map(row => (
@@ -40,9 +48,11 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
       ))}
     </ul>
   </Card>
+  </div>
 )}
 
 <style>
+  [data-project-evidence] { container: project-evidence / inline-size; margin-block: 2.5rem; }
   [data-project-outcomes][data-slot='card'] {
     padding: 0;
     overflow: hidden;
@@ -53,7 +63,7 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
     overflow-wrap: break-word;
   }
   [data-project-outcomes] header { padding: 1.5rem 1.5rem 0; }
-  [data-project-outcomes] h2 { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin: 0; color: hsl(var(--brand)); font-size: 0.75rem; line-height: 1.667; font-weight: 500; letter-spacing: normal; }
+  [data-project-outcomes] h3 { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin: 0; color: hsl(var(--brand)); font-size: 0.75rem; line-height: 1.667; font-weight: 500; letter-spacing: normal; }
   [data-project-outcomes] :global(svg), [data-outcome-value] { color: hsl(var(--brand)); }
   [data-project-outcomes] ul { margin: 0; padding: 0 1.5rem; list-style: none; }
   [data-project-outcomes] li { display: grid; grid-template-columns: minmax(5.25rem, max-content) minmax(0, 1fr); align-items: center; gap: 1rem; margin: 0; padding: 1.375rem 0; }
@@ -64,13 +74,13 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
   [data-project-outcomes] [data-outcome-kind='written'] { grid-template-columns: 1.25rem minmax(0, 1fr); align-items: start; gap: 0.75rem; }
   [data-project-outcomes] [data-outcome-kind='written'] p { color: hsl(var(--ink)); font-size: 0.875rem; line-height: 1.714; }
   :global(:root[data-theme='dark']) [data-project-outcomes] [data-outcome-value],
-  :global(:root[data-theme='dark']) [data-project-outcomes] h2,
+  :global(:root[data-theme='dark']) [data-project-outcomes] h3,
   :global(:root[data-theme='dark']) [data-project-outcomes] :global(svg) { color: hsl(var(--accent)); }
-  @container project-sidebar (width < 17rem) {
+  @container project-evidence (width < 17rem) {
     [data-project-outcomes] :is(header, ul) { padding-inline: 1.25rem; }
     [data-project-outcomes] li { gap: 0.75rem; }
   }
-  @container project-sidebar (width < 16rem) {
+  @container project-evidence (width < 16rem) {
     [data-project-outcomes] :is(header, ul) { padding-inline: 0.75rem; }
     [data-project-outcomes] li, [data-project-outcomes] [data-outcome-kind='written'] { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
     [data-project-outcomes] [data-outcome-kind='written'] :global(svg) { display: none; }

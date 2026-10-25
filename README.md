@@ -119,6 +119,9 @@ and existing Lumen contracts, rather than restoring retired utility layers.
 - **Project focus:** every project supplies two or three `focusAreas` entries with a short
   `label` and `description`. These form the sidebar's Scope ledger; summarize the actual work
   in the case study instead of repeating a generic project-type statement or technology list.
+- **Project outcomes:** place one `ProjectOutcomesCard` in the MDX chapter that owns the
+  `impactMetrics`, after its introduction. Pass the collection ID as `projectId`; the component
+  reads the existing claims. Keep contextual galleries before the card and do not add a sidebar copy.
 - **Product previews:** annotated application captures complement project artwork. Follow the
   [preview provenance guide](docs/editorial/project-previews.md) and
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.

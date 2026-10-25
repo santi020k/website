@@ -42,7 +42,9 @@ focusAreas:
     description: "Baselines, CI annotations, and actionable reports"
 ---
 
-<!-- cspell:words Clippy detekt ktlint SARIF -->
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
+{/* cspell:words Clippy detekt ktlint SARIF */}
 
 ## One quality workflow for polyglot repositories
 
@@ -51,6 +53,8 @@ I built `quality` for repositories where “run the checks” stops being a simp
 A modern product may contain Rust services, a Swift application, Android modules, TypeScript packages, and an Astro site. Each ecosystem already has good analyzers. The missing layer is a predictable way to detect them, run them together, normalize the results, and explain what a repository expects.
 
 `quality` is that layer. It coordinates native tools rather than replacing them.
+
+<ProjectOutcomesCard projectId="quality" />
 
 ### Goals
 

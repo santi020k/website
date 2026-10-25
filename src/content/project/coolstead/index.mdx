@@ -32,11 +32,15 @@ focusAreas:
     description: "Return to automatic control when readings are unreliable"
 ---
 
+import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+
 ## Designing steadier cooling for a Mac
 
 Coolstead is a native macOS menu-bar experiment that begins cooling earlier than the default fan policy without treating maximum fan speed as the answer. It reads thermal state and sensor data, applies a gradual fan curve, and gives control back to macOS whenever active cooling is disabled.
 
 The product is deliberately conservative. Fan control touches hardware behavior, so every feature is designed around limits, invalid-data handling, and a reliable return to automatic mode.
+
+<ProjectOutcomesCard projectId="coolstead" />
 
 ### Goals
 

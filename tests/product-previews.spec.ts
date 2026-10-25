@@ -83,9 +83,11 @@ for (const { slug, chapter, nextSection, introParagraphs } of [
         chapter: sibling?.textContent,
         chapterTag: sibling?.tagName,
         paragraphs,
-        next: element.nextElementSibling?.textContent
+        next: element.nextElementSibling?.matches('[data-project-evidence]') ?
+          element.nextElementSibling.querySelector('h3')?.textContent :
+          element.nextElementSibling?.textContent
       }
-    })).toEqual({ chapter, chapterTag: 'H2', paragraphs: introParagraphs, next: nextSection })
+    })).toEqual({ chapter, chapterTag: 'H2', paragraphs: introParagraphs, next: slug === 'smith-commerce' ? nextSection : 'Outcomes' })
 
     const navigation = page.getByRole('navigation', { name: 'Table of contents' })
     const galleryLink = navigation.getByRole('link', { name: 'Inside the product', exact: true })
