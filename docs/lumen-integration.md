@@ -183,7 +183,14 @@ enlarged text sizes. No new client controller is introduced.
   proportions; the caption and decorative number reflow through scoped container queries.
   Contextual gallery is authored inside the project's MDX chapter with a Markdown h3
   slot so Astro collects its actual navigation position. The component reads validated
-  collection preview data, preserves the legacy gallery fragment, and adds no client code.
+  collection preview data and preserves the legacy gallery fragment.
+  `ProjectPreviewViewer` adds Gallery viewer through Lumen `Dialog`, `DialogTitle`,
+  `DialogClose`, `Button`, and `ButtonLink`. Lumen owns native modal controls and focus
+  return. The site custom element inserts an optimized full-size `Image` from an inert
+  template, handles load/error states and keyboard detail panning, and aborts listeners
+  on disconnection. The original-image link stays available until the public trigger
+  binding is ready, preserving a useful no-JavaScript path. Modal shortcuts stay inside
+  the viewer rather than opening site search above it.
 - Project timeline endpoints use separate native `time` elements. Hero-led project
   facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled

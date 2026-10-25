@@ -226,6 +226,8 @@
 
 - Apply Chapter groups to desktop project navigation: group sections under native expandable chapters, keep overview destinations, and reveal the current chapter from the existing Lumen marker. Preserve manual choices, keyboard focus, native fragments, and the mobile Chapter opener.
 
+- Add Gallery viewer to project preview sheets with on-demand full-resolution images, fit and detail views, keyboard panning, accessible dialog controls, and an original-image fallback for loading failures or disabled JavaScript.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

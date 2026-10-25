@@ -26,6 +26,13 @@ it after their two opening paragraphs, before Goals. Projects without previews d
 not gain a gallery or navigation entry. Keep annotations as visible text.
 Do not crop interfaces, invent product screens, or use private customer content.
 
+Each Gallery sheet offers View larger. The Gallery viewer opens the complete optimized
+image and can show its full pixel dimensions for detailed inspection, including keyboard
+panning. The title, alternative text, and caption come from the same preview entry.
+Full-size images load only when requested; the control opens the image directly when
+JavaScript is unavailable. Keep source resolution sufficient for inspection, and retain
+the existing disclosure when refreshing images.
+
 ## Current sources
 
 - Lumen's `preview-web.webp` and `preview-apple.webp` are unchanged copies of

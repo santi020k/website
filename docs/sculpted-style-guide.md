@@ -956,7 +956,22 @@ The caption pairs a decorative 2rem purple number with a 1.25rem title and the c
 0.875rem description. Use 1.75rem caption insets and a 2.75rem number column. Below
 31.25rem of card width, tighten image and caption insets; below 18rem, stack the number
 above the copy. Preserve descriptive image alternatives and product-preview disclosures.
-This is a passive surface without hover motion or client JavaScript.
+Keep the sheet itself passive, without hover motion. Gallery viewer adds a small
+View larger control below the screenshot, aligned to the right. Its outlined surface
+uses 0.75rem corners with a 0.25rem lower-right corner and a 2.75rem minimum target.
+
+The native Lumen Dialog retains the screenshot title, complete caption, and a visible
+Close control. Fit the whole image initially; Inspect detail shows its full pixel width
+inside a scrollable canvas. Keep the canvas keyboard reachable, support arrow-key panning,
+and announce loading, complete-image, detail, and error states. Escape and backdrop
+activation close the viewer and return focus. Keep the close row visible when enlarged
+text or a short viewport requires scrolling. Both themes use opaque semantic surfaces.
+
+Full-resolution images live in inert templates until requested. View larger remains a
+direct image link without JavaScript; replace it with the dialog trigger only after
+Lumen binds the trigger. Failed images offer an original-image link. Native Lumen
+controls own modal opening, closing, and focus return; a small custom element manages
+image insertion, detail inspection, and listener cleanup on page transitions.
 
 ### Letter folio newsletter signup
 

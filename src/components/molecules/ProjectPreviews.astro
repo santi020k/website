@@ -1,6 +1,8 @@
 ---
 import { getEntry } from 'astro:content'
 
+import ProjectPreviewViewer from '@/components/molecules/ProjectPreviewViewer.astro'
+
 import { Card, Image } from '@santi020k/lumen-astro'
 
 interface Props {
@@ -34,6 +36,7 @@ if (!previews) throw new Error(`Project ${projectId} must declare previews befor
             src={preview.src}
             widths={[320, 480, 640, 960, 1280, 1600]}
           />
+          <ProjectPreviewViewer preview={preview} id={`project-preview-${projectId}-${index + 1}`} />
         </div>
         <figcaption class="grid grid-cols-[2.75rem_minmax(0,1fr)] gap-4.5 p-7">
           <span

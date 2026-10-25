@@ -12,7 +12,7 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
       await page.goto(`/portfolio/${slug}/`)
       const previews = page.getByRole('region', { name: 'Inside the product' })
       await expect(previews.locator('figure')).toHaveCount(2)
-      await expect(page.getByRole('link', { name: 'Inside the product', exact: true })).toHaveAttribute('href', '#inside-the-product')
+      await expect(page.getByRole('navigation', { name: 'Table of contents' }).locator('a[href="#inside-the-product"]')).toHaveCount(1)
 
       for (const width of [320, 390, 1440]) {
         await page.setViewportSize({ width, height: 900 })
@@ -40,7 +40,7 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
             expect(imageBounds).not.toBeNull()
             expect(captionBounds).not.toBeNull()
             expect(captionBounds?.y).toBeGreaterThanOrEqual((imageBounds?.y ?? 0) + (imageBounds?.height ?? 0))
-            for (const copy of await figure.locator('h4, p').all()) {
+            for (const copy of await figure.locator('figcaption h4, figcaption p').all()) {
               const content = await copy.evaluate(element => ({
                 width: element.clientWidth,
                 contentWidth: element.scrollWidth,
@@ -66,7 +66,9 @@ for (const { slug, chapter, nextSection, introParagraphs } of [
   { slug: 'lumen-ui', chapter: 'A shared language for web and native interfaces', nextSection: 'Goals', introParagraphs: 2 }
 ]) {
   test(`${slug} introduces its gallery within the relevant chapter`, async ({ page }) => {
-    await page.goto(`/portfolio/${slug}/`)
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto(`/portfolio/${slug}/#inside-the-product`)
     const gallery = page.getByRole('region', { name: 'Inside the product' })
 
     await expect(gallery.getByRole('heading', { name: 'Inside the product', level: 3 })).toHaveCount(1)
@@ -90,12 +92,14 @@ for (const { slug, chapter, nextSection, introParagraphs } of [
     })).toEqual({ chapter, chapterTag: 'H2', paragraphs: introParagraphs, next: slug === 'smith-commerce' ? nextSection : 'Outcomes' })
 
     const navigation = page.getByRole('navigation', { name: 'Table of contents' })
-    const galleryLink = navigation.getByRole('link', { name: 'Inside the product', exact: true })
+    const chapterGroup = navigation.locator('details').filter({ has: page.locator('a[href="#inside-the-product"]') })
+    const galleryLink = chapterGroup.locator('a[href="#inside-the-product"]')
 
-    await expect(galleryLink).toHaveAttribute('data-depth', '3')
-    const labels = await navigation.getByRole('link').allTextContents()
+    await expect(chapterGroup.locator('summary')).toHaveText(chapter)
+    await expect(chapterGroup).toHaveAttribute('open', '')
+    const labels = await chapterGroup.getByRole('link').allTextContents()
 
-    expect(labels.indexOf(chapter)).toBe(labels.indexOf('Inside the product') - 1)
+    expect(labels.indexOf('Chapter overview')).toBe(labels.indexOf('Inside the product') - 1)
     expect(labels.indexOf(nextSection)).toBe(labels.indexOf('Inside the product') + 1)
     await galleryLink.click()
     await expect(page.locator('#inside-the-product')).toBeInViewport()
