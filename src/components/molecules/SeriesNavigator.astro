@@ -2,11 +2,10 @@
 import type { CollectionEntry } from 'astro:content'
 
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
-import Pill from '@/components/atoms/Pill.astro'
 
 import { getPostPath, getSeriesPath } from '@/utils/links'
 
-import { Card, Icon, Progress } from '@santi020k/lumen-astro'
+import { Collapsible, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
   currentPostId: string
@@ -22,134 +21,103 @@ const { currentPostId, next, position, posts, previous, series, total } = Astro.
 const seriesPath = getSeriesPath(series.id)
 ---
 
-<section class="not-prose mt-16 py-8" id="series-navigation">
-  <div class="
-    grid gap-8
-    lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]
-  "
-  >
-    <div class="space-y-5">
-      <div class="flex flex-wrap items-center gap-2">
-        <Pill label="Series" tone="brand" />
-        <Pill label={`Post ${position} of ${total}`} tone="outline" />
-      </div>
-
-      <div class="space-y-3.5">
-        <h2 class="
-          text-2xl/tight font-medium text-ink
-          sm:text-3xl/tight
-        "
-        >
-          <a
-            data-series-navigator-title
-            class="
-              block rounded-sm transition-colors
-              hover:text-brand
-              motion-reduce:transition-none
-            "
-            href={seriesPath}
-          >
-            {series.data.title}
-          </a>
-        </h2>
-        <p class="max-w-xl text-sm/7 text-ink-soft">
-          {series.data.description}
-        </p>
-      </div>
-
-      <div class="space-y-3">
-        <Progress
-          aria-label={`Series progress: post ${position} of ${total}`}
-          class="h-1.5 bg-surface-strong/35"
-          max={total}
-          value={position}
-        />
-        <ButtonLink href={seriesPath} showArrow variant="secondary">
-          View full series
-        </ButtonLink>
-      </div>
+<section class="not-prose mt-16 py-8" data-series-content id="series-navigation">
+  <header data-series-intro>
+    <div data-series-context>
+      <span>Continue the series</span>
+      <span data-series-position>Post {position} of {total}</span>
     </div>
+    <h2 data-series-heading>
+      <a data-series-navigator-title href={seriesPath}>{series.data.title}</a>
+    </h2>
+    <p data-series-description>{series.data.description}</p>
+  </header>
 
-    <div class="min-w-0 space-y-5" data-series-content>
-      <Card data-series-index variant="unstyled">
-        <nav aria-label={`Chapters in ${series.data.title}`}>
-          <ol data-series-track>
-            {posts.map((seriesPost, index) => {
-              const isCurrentPost = seriesPost.id === currentPostId
-
-              return (
-                <li>
-                  <a
-                    data-series-step
-                    aria-current={isCurrentPost ? 'step' : undefined}
-                    href={getPostPath(seriesPost.id)}
-                  >
-                    <span data-series-step-number>
-                      <span class="sr-only">Part {index + 1}</span>
-                      <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                    </span>
-                    <span data-series-step-copy>
-                      <span data-series-step-label>{isCurrentPost ? 'Reading now' : 'In this series'}</span>
-                      <span data-series-step-title>{seriesPost.data.title}</span>
-                    </span>
-                  </a>
-                </li>
-              )
-            })}
-          </ol>
-        </nav>
-      </Card>
-
-      {(previous ?? next) && (
-        <nav
-          aria-label={`Continue reading ${series.data.title}`}
-          data-series-pagination
-          data-single={!(previous && next) || undefined}
+  {(previous ?? next) && (
+    <nav
+      aria-label={`Continue reading ${series.data.title}`}
+      data-series-pagination
+      data-single={!(previous && next) || undefined}
+    >
+      {previous && (
+        <a
+          data-series-adjacent="previous"
+          href={getPostPath(previous.id)}
+          rel="prev"
         >
-          {previous && (
-            <a
-              data-series-adjacent="previous"
-              href={getPostPath(previous.id)}
-              rel="prev"
-            >
-              <span data-series-adjacent-direction>
-                <Icon
+          <span data-series-adjacent-direction>
+            <Icon
 class="
   size-4.5 shrink-0 text-brand
   dark:text-accent
 "
 name="arrow-left"
-                />
-                <span>Previous in series</span>
-              </span>
-              <h3 data-series-adjacent-title>{previous.data.title}</h3>
-              <span data-series-adjacent-part>Part {String(position - 1).padStart(2, '0')}</span>
-            </a>
-          )}
+            />
+            <span>Previous in series</span>
+          </span>
+          <h3 data-series-adjacent-title>{previous.data.title}</h3>
+          <span data-series-adjacent-part>Part {String(position - 1).padStart(2, '0')}</span>
+        </a>
+      )}
 
-          {next && (
-            <a
-              data-series-adjacent="next"
-              href={getPostPath(next.id)}
-              rel="next"
-            >
-              <span data-series-adjacent-direction>
-                <span>Next in series</span>
-                <Icon
+      {next && (
+        <a
+          data-series-adjacent="next"
+          href={getPostPath(next.id)}
+          rel="next"
+        >
+          <span data-series-adjacent-direction>
+            <span>Next in series</span>
+            <Icon
 class="
   size-4.5 shrink-0 text-brand
   dark:text-accent
 "
 name="arrow-right"
-                />
-              </span>
-              <h3 data-series-adjacent-title>{next.data.title}</h3>
-              <span data-series-adjacent-part>Part {String(position + 1).padStart(2, '0')}</span>
-            </a>
-          )}
-        </nav>
+            />
+          </span>
+          <h3 data-series-adjacent-title>{next.data.title}</h3>
+          <span data-series-adjacent-part>Part {String(position + 1).padStart(2, '0')}</span>
+        </a>
       )}
-    </div>
+    </nav>
+  )}
+
+  <Collapsible data-series-fold>
+    <summary data-series-fold-summary>
+      <span>All {total} {total === 1 ? 'chapter' : 'chapters'}</span>
+      <Icon class="size-4 shrink-0" name="chevron-down" />
+    </summary>
+    <nav aria-label={`Chapters in ${series.data.title}`} data-series-index>
+      <ol data-series-track>
+        {posts.map((seriesPost, index) => {
+          const isCurrentPost = seriesPost.id === currentPostId
+
+          return (
+            <li>
+              <a
+                data-series-step
+                aria-current={isCurrentPost ? 'step' : undefined}
+                href={getPostPath(seriesPost.id)}
+              >
+                <span data-series-step-number>
+                  <span class="sr-only">Part {index + 1}</span>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                </span>
+                <span data-series-step-copy>
+                  <span data-series-step-label>{isCurrentPost ? 'Reading now' : 'In this series'}</span>
+                  <span data-series-step-title>{seriesPost.data.title}</span>
+                </span>
+              </a>
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
+  </Collapsible>
+
+  <div data-series-footer>
+    <ButtonLink href={seriesPath} showArrow variant="inline">Explore the series</ButtonLink>
   </div>
 </section>
 
@@ -159,12 +127,64 @@ name="arrow-right"
     container: series-navigation / inline-size;
   }
 
-  [data-series-index][data-slot='card'] {
+  [data-series-context] {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    color: var(--series-emphasis);
+    font-size: 0.75rem;
+    line-height: 1.667;
+    font-weight: 500;
+  }
+  [data-series-position] { color: hsl(var(--ink-soft)); }
+  [data-series-heading] {
+    margin: 1rem 0;
+    font-size: 1.875rem;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    overflow-wrap: break-word;
+  }
+  [data-series-navigator-title] { display: block; border-radius: 0.125rem; }
+  [data-series-navigator-title]:is(:hover, :focus-visible) { color: var(--series-emphasis); }
+  [data-series-description] { max-width: 44rem; margin: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; }
+  [data-series-fold] {
+    margin-block-start: 2rem;
+    padding: 0;
+    border: 0;
+    border-block: 1px solid hsl(var(--line));
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  [data-series-fold-summary] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4.25rem;
+    margin: 0;
+    padding-block: 1.25rem;
+    padding-inline: 0;
+    border-radius: 0;
+    color: var(--series-emphasis);
+    background: transparent;
+    font-size: 0.75rem;
+    line-height: 1.667;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+  }
+  [data-series-fold-summary]::-webkit-details-marker { display: none; }
+  [data-series-fold-summary]::before, [data-series-fold-summary]::after { display: none; }
+  [data-series-fold][open] > [data-series-fold-summary] { margin: 0; }
+  [data-series-fold][open] [data-series-fold-summary] :global(.ui-icon) { transform: rotate(180deg); }
+  [data-series-footer] { padding-top: 1rem; }
+
+  [data-series-index] {
     container: series-track / inline-size;
-    overflow: hidden;
-    border: 1px solid hsl(var(--line));
-    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
-    background: hsl(var(--surface));
+    padding-block-end: 1rem;
     color: hsl(var(--ink));
   }
 
@@ -172,6 +192,7 @@ name="arrow-right"
     --series-emphasis: color-mix(in srgb, hsl(var(--accent)) 85%, hsl(var(--ink)));
   }
 
+  [data-series-track] { margin: 0; padding: 0; list-style: none; }
   [data-series-track] > li + li { border-top: 1px solid hsl(var(--line)); }
 
   [data-series-step] {
@@ -223,7 +244,7 @@ name="arrow-right"
     color: inherit;
   }
 
-  /* Keep focus inside the rounded, clipped rows, including the first and last. */
+  /* Keep the Reading index focus treatment on every chapter row. */
   [data-series-track] a:focus-visible {
     outline-offset: -4px;
   }
@@ -232,6 +253,7 @@ name="arrow-right"
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.75rem;
+    margin-block-start: 2rem;
   }
 
   [data-series-pagination][data-single] { grid-template-columns: minmax(0, 1fr); }
@@ -281,6 +303,7 @@ name="arrow-right"
   }
 
   @container series-navigation (width < 25rem) {
+    [data-series-heading] { font-size: 1.5rem; }
     [data-series-pagination] {
       grid-template-columns: minmax(0, 1fr);
       gap: 1.5rem;

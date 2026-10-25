@@ -139,11 +139,13 @@ mainClass="remaining-pages remaining-pages--reading"
           </div>
         )}
         <div class="space-y-8 border-b border-line/45 pb-8">
-          <ContentNotesHeader
-            description={projectNotesDescription}
-            label={projectNotesLabel}
-            pill={projectStageLabel}
-          />
+          {project.data.notesLayout !== 'context-lead' && (
+            <ContentNotesHeader
+              description={projectNotesDescription}
+              label={projectNotesLabel}
+              pill={projectStageLabel}
+            />
+          )}
 
           <ProjectCaseStudy rows={caseStudyRows} />
 

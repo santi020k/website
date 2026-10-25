@@ -43,7 +43,7 @@ or oversized gradient headings from historical versions of the site.
 - Use `ProjectsGallery` and `PostsGallery` for collection layouts.
 - Use Lumen `Card` when a distinct content surface is needed, with site-owned composition.
 - Use the local `Button` and `ButtonLink` wrappers for the existing sculpted action styles.
-- Use `Pill` for status and series labels, `SculptedTag` for linked topics and technology counts,
+- Use `Pill` for project status labels, `SculptedTag` for linked topics and technology counts,
   and `TocCard` for reading navigation.
 - Retain `glass-pro` only where the current reading surfaces use it; it is not the default card.
 

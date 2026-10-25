@@ -23,22 +23,26 @@ const careerStats = [
   {
     label: 'Professional roles',
     value: String(workProjects.length),
-    description: 'Across commerce, gaming, agencies, and SaaS.'
+    description: 'Across commerce, gaming, agencies, and SaaS.',
+    source: { href: '#experience-heading', label: 'Explore the timeline' }
   },
   {
     label: 'Largest team led',
     value: '14',
-    description: 'Product, design, frontend, and backend.'
+    description: 'Product, design, frontend, and backend.',
+    source: { href: '/portfolio/void/#what-i-led', label: 'Void.GG · What I led' }
   },
   {
     label: 'Production technologies',
     value: String(allTechnologies.length),
-    description: 'Tools chosen to fit the product.'
+    description: 'Tools chosen to fit the product.',
+    source: { href: '#tools-heading', label: 'Explore the toolkit' }
   },
   {
-    label: 'Release cycle time',
-    value: '−75%',
-    description: 'Through CI/CD and automated quality gates.'
+    label: 'Faster deployments',
+    value: '60%',
+    description: 'Through CI/CD and improved release workflows.',
+    source: { href: '/portfolio/void/#key-outcomes', label: 'Void.GG · Key outcomes' }
   }
 ]
 
@@ -77,12 +81,17 @@ backdrop="plain"
         <div>
           <p class="text-lg/7 font-medium tracking-tight text-ink">Good software takes more than code.</p>
           <p class="mt-4 text-sm/7 text-ink-soft">I help teams turn complex problems into products that hold up. Architecture decisions, delivery systems, and hands-on technical leadership, from startup pressure to scale-up complexity.</p>
-          <div class="maker-hero-actions">
-            <ButtonLink class="maker-hero-primary" href={siteConfig.contact.resume} variant="unstyled">Open resume <span
-  aria-hidden="true"
-  class="maker-hero-arrow"
-                                                                                                                   ><Icon name="arrow-up-right" /></span></ButtonLink>
-            <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <Icon name="arrow-up-right" /></ButtonLink>
+          <div class="maker-hero-actions" data-work-hero-actions>
+            <ButtonLink class="maker-hero-primary" href="#experience-heading" variant="unstyled">
+              Explore experience <span
+aria-hidden="true"
+class="maker-hero-arrow"
+                                 ><Icon name="arrow-down" /></span>
+            </ButtonLink>
+            <div class="work-hero-secondary-links">
+              <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.resume} variant="unstyled">Open resume <Icon name="arrow-right" /></ButtonLink>
+              <ButtonLink class="maker-hero-secondary" data-work-hero-external href={siteConfig.contact.linkedin} newTab variant="unstyled">LinkedIn <Icon name="arrow-up-right" /></ButtonLink>
+            </div>
           </div>
         </div>
       </section>
@@ -92,12 +101,17 @@ id="career-at-a-glance"
 aria-label="Career at a glance"
 class="work-stats"
       >
-        {careerStats.map(({ description, label, value }, index) => (
+        {careerStats.map(({ description, label, source, value }, index) => (
           <Stat as="article" variant="bare" aria-labelledby={`work-stat-${index}`}>
             <p class="work-stat-value">{value}</p>
             <div data-work-stat-copy>
               <h2 id={`work-stat-${index}`}>{label}</h2>
               <p>{description}</p>
+              {source && (
+                <ButtonLink data-work-stat-source href={source.href} variant="unstyled">
+                  <span>{source.label}</span><Icon name={source.href.startsWith('#') ? 'arrow-down' : 'arrow-right'} />
+                </ButtonLink>
+              )}
             </div>
           </Stat>
         ))}

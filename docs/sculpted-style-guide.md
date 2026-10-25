@@ -198,24 +198,37 @@ shelves retain their editorial grid.
 
 ### Reading index chapter navigation
 
-At the end of series articles, group every chapter in one opaque Lumen Card with
-1.75rem corners and a 0.5rem lower-right corner. Use plain two-digit numbers in a
+Inside the series Continuation fold, group every chapter in one ruled index.
+Use plain two-digit numbers in a
 2.75rem margin column, 1.625rem row insets, fine dividers, and complete 1.125rem
 titles at weight 500. The active chapter uses a purple wash, a visible “Reading now”
 label, and `aria-current="step"`; other rows use “In this series”.
 
-Keep the series introduction, progress, full-series link, and adjacent-article links
-in their existing section. Chapter links navigate natively without JavaScript.
+Keep complete chapter titles and native navigation without JavaScript.
 Below 28rem of panel width, use a 2rem number rail, a 1rem gap, and 1.25rem insets
 to give mobile titles more room. Below 20rem, reduce the rail to 1.75rem and the
 insets and titles to 1rem. Keep two-digit numbers together with tabular figures.
 Below 16rem, stack the number above the copy so enlarged text has the whole column. Retain the inset focus
-outline on clipped first and last rows. Hover and keyboard focus use the same
+outline on first and last rows. Hover and keyboard focus use the same
 background and text emphasis, without moving content.
+
+### Continuation fold series navigation
+
+At the end of a series article, use one full-width composition: the series title
+and description, the Directional folio, a closed native Lumen Collapsible containing
+the Reading index, and an inline Explore the series link. The introduction pairs
+Continue the series with Post N of M in plain 0.75rem labels. The position replaces
+the previous progress bar and pills; it does not imply chapters have been read.
+
+The disclosure uses fine top and bottom rules, an All N chapters label, a decorative
+chevron, and a 4.25rem minimum summary height. Opening it reveals the complete
+ordered index with its existing current-step label and focus treatment. Keep the
+index in the same page, available with keyboard and without JavaScript. Do not add
+another card frame inside the disclosure. Singular chapter counts use All 1 chapter.
 
 ### Directional folio article navigation
 
-Below the Reading index, present previous and next articles as open columns with
+Before the Reading index disclosure, present previous and next articles as open columns with
 fine top rules, 1.5rem top insets, and a 1.75rem gap. Pair a 0.75rem direction label
 with a purple Lumen arrow, followed by the complete 1.25rem title at weight 500
 and 1.8125rem leading. Keep the two-digit part number at the bottom of each column.
@@ -699,6 +712,15 @@ each label moves above its text. Keep the existing four groups and authored copy
 The screen-only layout leaves both PDFs with their compact two-column skill grid,
 print typography, and existing pagination. These passive rows have no hover effect.
 
+### Experience first Work opening
+
+The Work hero makes Explore experience its primary action, using the shared solid
+button and a downward arrow to jump to the existing experience heading. Keep Open
+resume and LinkedIn as plain secondary links, with LinkedIn in the softer text tone.
+Group these supporting links so they wrap below the primary action when space is
+limited, then wrap individually for enlarged text. Preserve native fragment navigation,
+focus outlines, and the existing hero copy, Career ledger, and Timeline folio cards.
+
 ### Career ledger Work highlights
 
 The Work introduction closes with four bare Lumen Stat articles in a two-column
@@ -712,7 +734,16 @@ Use the Work intro container: below 53.125rem, show four full-width rows with a
 a 1rem gap, and 1.5rem row insets. Below 17.5rem, move each figure above its copy
 to preserve a comfortable reading width. Scale the figure
 with the container below 14rem for enlarged text. Use semantic light and dark
-accents, level-two headings to name the articles, and no links or animation.
+accents and level-two headings to name the articles. Keep each article passive,
+without a card hover effect or new animation.
+
+Keep the figures aligned with the top of their copy when captions extend a row.
+The approved Evidence captions sit below each supported description in 0.75rem
+accent text, with a 44px minimum target and a visible focus outline. Use a downward
+arrow for the timeline and toolkit section jumps; named case-study sources use a
+rightward arrow. Link only the caption, preserve the figures and their attribution,
+and allow the complete source label to wrap on narrow screens. Do not invent a
+source link for an unverified claim.
 
 ### Timeline folio career cards
 
@@ -1026,6 +1057,19 @@ Below 35rem of available width, use a 2.25rem name and 1.1875rem subtitle. Allow
 text to wrap, including at enlarged text sizes. Keep one authored Markdown h2 with spans
 for the name and subtitle; retain the colon as screen-reader text. This preserves the full
 heading, chapter index, and existing fragment without duplicate headings or client code.
+
+### Context lead opening
+
+Combine the project notes label and live stage with the authored opening heading and
+introduction. Use a fine top rule, 1.5rem top padding, and a wrapping metadata row with
+the accent label at 0.875rem and quiet stage at 0.8125rem. Leave 1.875rem before the
+heading, set at 2rem, weight 500, and tight tracking. The original introduction follows
+after 1.5rem at 1.125rem with 1.8 line height; below 35rem it uses 1.0625rem.
+
+Opt in with `notesLayout: context-lead` and `ProjectContextLead` around the Markdown
+heading and paragraph. Derive the label and stage from the existing project metadata.
+Retain the original heading fragment, links, and claims; omit the generic preface rather
+than repeating it. Projects without this authored opening keep Margin preface.
 
 ### Synthesis spread closing reflection
 

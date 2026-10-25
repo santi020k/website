@@ -1,0 +1,94 @@
+---
+import { getEntry } from 'astro:content'
+
+import { getProjectNotesLabel, getProjectStageLabel } from '@/utils/project-meta'
+
+interface Props {
+  headingId: string
+  projectId: string
+}
+
+const { headingId, projectId } = Astro.props
+const project = await getEntry('project', projectId)
+
+if (project?.data.notesLayout !== 'context-lead') {
+  throw new Error(`Project ${projectId} must declare notesLayout: context-lead before rendering its authored opening.`)
+}
+
+const label = getProjectNotesLabel(project.data.typesId)
+const stage = getProjectStageLabel(project.data.typesId, project.data.endingDate, project.data.draft)
+---
+
+<section aria-labelledby={headingId} class="not-prose" data-project-context-lead>
+  <div data-context-meta>
+    <p data-context-label>{label}</p>
+    <p>{stage}</p>
+  </div>
+  <slot />
+</section>
+
+<style>
+  [data-project-context-lead] {
+    container: project-context / inline-size;
+    border-top: 1px solid hsl(var(--line));
+    padding-top: 1.5rem;
+    color: hsl(var(--ink));
+  }
+
+  [data-context-meta] {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1.875rem;
+  }
+
+  [data-context-meta] p {
+    min-width: 0;
+    margin: 0;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  [data-context-meta] [data-context-label] {
+    color: hsl(var(--brand));
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  :global([data-theme='dark']) [data-context-meta] [data-context-label] {
+    color: hsl(var(--accent));
+  }
+
+  [data-project-context-lead] :global(h2) {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: hsl(var(--ink));
+    font: 500 2rem/1.25 var(--font-sans);
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+    scroll-margin-top: 9rem;
+  }
+
+  [data-project-context-lead] :global(h2::after) { content: none; }
+
+  [data-project-context-lead] :global(h2 + p) {
+    margin: 1.5rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: 1.125rem;
+    line-height: 1.8;
+  }
+
+  [data-project-context-lead] :global(strong) {
+    color: hsl(var(--ink));
+    font-weight: 500;
+  }
+
+  @container project-context (width < 35rem) {
+    [data-project-context-lead] :global(h2 + p) { font-size: 1.0625rem; }
+  }
+</style>

@@ -81,6 +81,7 @@ for (const theme of ['light', 'dark']) {
     }, theme)
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto(ESLINT_ARTICLE)
+    await page.locator('[data-series-fold-summary]').click()
     const chapters = page.getByRole('navigation', { name: 'Chapters in ESLint in Practice' })
     const links = chapters.getByRole('link')
 
@@ -131,6 +132,7 @@ test.describe('Reading index without JavaScript', () => {
 
   test('opens the first and last chapters with the correct current status', async ({ page }) => {
     await page.goto(ESLINT_ARTICLE)
+    await page.locator('[data-series-fold-summary]').click()
     const chapters = page.getByRole('navigation', { name: 'Chapters in ESLint in Practice' })
     const links = chapters.getByRole('link')
 
@@ -141,6 +143,7 @@ test.describe('Reading index without JavaScript', () => {
       await link.focus()
       await link.press('Enter')
       await expect(page).toHaveURL(destination)
+      await page.locator('[data-series-fold-summary]').click()
       await expect(links.nth(endpoint)).toHaveAttribute('aria-current', 'step')
       await expect(links.nth(endpoint)).toContainText('Reading now')
       await expect(chapters.locator('[aria-current="step"]')).toHaveCount(1)
@@ -185,6 +188,8 @@ for (const width of [390, 1440]) {
             await document.fonts.ready
           })
           await expect(page.locator('html')).toHaveCSS('font-size', `${16 * textSize / 100}px`)
+          await page.locator('[data-series-fold-summary]').focus()
+          await page.keyboard.press('Enter')
 
           // aria-current identifies the article's series, excluding breadcrumbs and TOC.
           const track = page.locator('ol').filter({ has: page.locator('a[aria-current="step"]') })
@@ -287,4 +292,34 @@ test.describe('Series endpoints with enlarged text', () => {
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     })
   }
+})
+
+test('continuation fold prioritizes adjacent articles and reveals every chapter with the keyboard', async ({ page, browserName }) => {
+  await page.setViewportSize({ width: 390, height: 900 })
+  await page.goto('/blog/responsive-design-standards-that-scale-across-components/')
+  const fold = page.locator('[data-series-fold]')
+  const summary = page.locator('[data-series-fold-summary]')
+  const chapters = page.getByRole('navigation', { name: 'Chapters in The santi020k way' })
+
+  await expect(summary).toHaveText('All 14 chapters')
+  await expect(fold).not.toHaveAttribute('open', '')
+  await expect(chapters).toHaveCount(0)
+  expect(await fold.evaluate(element => {
+    const pagination = document.querySelector('[data-series-pagination]')
+
+    return pagination !== null &&
+      Boolean(pagination.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING)
+  })).toBe(true)
+  await summary.focus()
+  await page.keyboard.press('Enter')
+  await expect(fold).toHaveAttribute('open', '')
+  await expect(chapters.getByRole('link')).toHaveCount(14)
+  await expect(chapters.locator('[aria-current="step"]')).toHaveCount(1)
+  await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+  await expect(chapters.getByRole('link').first()).toBeFocused()
+  await summary.focus()
+  await page.keyboard.press('Space')
+  await expect(chapters).toHaveCount(0)
+  await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+  await expect(page.locator('[data-series-footer] a')).toBeFocused()
 })

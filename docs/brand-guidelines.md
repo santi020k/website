@@ -465,7 +465,7 @@ Always add `aria-hidden="true"` on decorative icons. For standalone icon buttons
 
 ### Badges
 
-`Pill.astro` wraps Lumen `Pill` for project status and series labels. Its props are
+`Pill.astro` wraps Lumen `Pill` for project status labels. Its props are
 `label` (required) and `tone` (`brand`, `neutral`, or `outline`, defaulting to `neutral`).
 It does not truncate text or render links. Use `SculptedTag` for linked topics and
 technology counts; it preserves the current-page state through Lumen `Link`.

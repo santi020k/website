@@ -136,8 +136,15 @@ semantics remain intact while the site owns its visual composition.
 ## Work page composition
 
 The Work page follows the solid editorial canvas of the homepage and navbar: generous
-spacing, Montserrat headings, fine dividers, a purple emphasis, and the shared solid resume
-button. Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `SculptedTag`.
+spacing, Montserrat headings, fine dividers, and a purple emphasis. Its Experience first
+opening uses the shared solid `ButtonLink` for a native jump to `#experience-heading`.
+Open resume and LinkedIn remain secondary destinations, grouped so they wrap together
+below the primary action when space is limited. LinkedIn keeps its external-link contract.
+Its results row uses Lumen `Stat` with `variant="bare"`; technology links use `SculptedTag`.
+Evidence captions use unstyled `ButtonLink` below each supported statistic's description.
+The role and technology counts jump to their Work sections; named project captions link
+directly to the relevant case-study chapter. Keep the articles passive and link only
+the caption. Omit a caption when the claim's source has not been confirmed.
 `CareerTimeline` uses Lumen `Timeline` for its ordered list and one unstyled `Card` per
 linked role. A site-owned date rail and connector frame the Timeline folio layout without
 styling private TimelineItem internals. Each role retains its complete description,
@@ -238,10 +245,11 @@ enlarged text sizes. No new client controller is introduced.
   `Card` and `ButtonLink` components with decorative `Icon` labels and arrows.
   Local styles own the soft header, aligned action rows, and narrow-container reflow;
   every case-study destination remains a native link without another controller.
-- Series navigation uses Lumen `Progress` with a readable current/max value and one
-  unstyled `Card` for the Reading index. A named native navigation landmark and ordered
+- Series navigation uses Continuation fold: the Directional folio precedes a closed
+  native Lumen `Collapsible` containing the Reading index. The introduction retains
+  the current/total position as text. A named native navigation landmark and ordered
   list retain complete titles, current-step semantics, and navigation without JavaScript.
-  Directional folio uses a second named native navigation landmark for adjacent
+  Directional folio uses a separate named native navigation landmark for adjacent
   article links, with decorative Lumen `Icon` arrows and responsive open columns.
 - `ProjectCaseStudy` composes Margin chapters from an unstyled Lumen `Card`, `Icon`,
   and an ordered list with semantic chapter headings. Its scoped container queries
@@ -276,6 +284,10 @@ enlarged text sizes. No new client controller is introduced.
   Client masthead separates the client name from its descriptive subtitle without changing
   the full accessible heading or its generated fragment. The sequence label and fine rule
   introduce each client chapter. It uses shared semantic tokens and no client runtime.
+- `ProjectContextLead` groups the notes label, current project stage, authored heading, and
+  introduction in a semantic section. It reads the existing project metadata and requires
+  `notesLayout: context-lead`, which removes the generic layout preface. Markdown retains
+  the heading and inline link; shared tokens provide the open composition without client code.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter

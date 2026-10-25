@@ -94,6 +94,7 @@ const project = defineCollection({
     githubUrl: z.url().optional(),
     liveDemoUrl: z.url().optional(),
     liveDemoName: z.string().trim().min(1).max(100).optional(),
+    notesLayout: z.enum(['preface', 'context-lead']).optional(),
     impactMetrics: z.array(z.string()).default([]),
     focusAreas: z.array(z.object({
       label: z.string().trim().min(1).max(40),
