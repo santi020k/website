@@ -136,15 +136,12 @@ for (const project of [
   test(`current ${project.slug} timeline exposes individual dates and sidebar headings`, async ({ page }) => {
     await page.goto(`/portfolio/${project.slug}/`)
     const hero = page.locator('[data-project-meta]').filter({ has: page.getByText('Timeline', { exact: true }) }).locator('dd')
-    const sidebar = page.locator('[aria-labelledby="sidebar-glance"] dl > div').filter({ has: page.getByText('Timeline', { exact: true }) }).locator('dd')
-
-    for (const timeline of [hero, sidebar]) {
-      await expect(timeline).toHaveText(project.label)
-      expect(await timeline.locator('time').evaluateAll(elements => elements.map(element => element.getAttribute('datetime')))).toEqual(project.dates)
-    }
+    await expect(hero).toHaveText(project.label)
+    expect(await hero.locator('time').evaluateAll(elements => elements.map(element => element.getAttribute('datetime')))).toEqual(project.dates)
+    await expect(page.getByRole('region', { name: 'At a glance', exact: true })).toHaveCount(0)
     const details = page.getByRole('complementary', { name: 'Project details' })
 
-    for (const name of ['At a glance', 'Focus', 'Core stack']) {
+    for (const name of ['Focus', 'Core stack']) {
       await expect(details.getByRole('heading', { level: 2, name, exact: true })).toBeVisible()
     }
   })

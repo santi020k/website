@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test'
 for (const theme of ['light', 'dark']) {
   for (const width of [320, 390, 1024, 1440]) {
     for (const textSize of [100, 200]) {
-      test(`project dossier keeps complete facts at ${width}px, ${textSize}% in ${theme}`, async ({ page }) => {
+      test(`project hero keeps complete facts once at ${width}px, ${textSize}% in ${theme}`, async ({ page }) => {
         await page.setViewportSize({ width, height: 900 })
         await page.emulateMedia({ reducedMotion: 'reduce' })
         await page.addInitScript(value => {
@@ -16,11 +16,14 @@ for (const theme of ['light', 'dark']) {
             document.documentElement.style.fontSize = `${size}%`
           }, textSize)
           await page.evaluate(() => document.fonts.ready)
-          const card = page.getByRole('region', { name: 'At a glance', exact: true })
+          const card = page.locator('[data-project-imprint]')
 
-          await expect(card.getByRole('heading', { name: 'At a glance', level: 2 })).toBeVisible()
-          await expect(card.locator('dt')).toHaveText(['Role', 'Type', 'Timeline', 'Duration'])
+          await expect(card).toBeVisible()
+          await expect(page.getByRole('region', { name: 'At a glance', exact: true })).toHaveCount(0)
+          await expect(page.locator('[data-project-sidebar] dt')).toHaveCount(0)
+          await expect(card.locator('dt')).toHaveText(['Role', 'Timeline', 'Duration'])
           await expect(card.locator('dd').first()).toHaveText(slug === 'smith-commerce' ? 'Senior Front End Developer' : 'Creator')
+          await expect(page.locator('[data-project-opening] [data-site-eyebrow]')).toHaveText(slug === 'smith-commerce' ? 'Professional work' : 'Personal project')
           await expect(card.locator('a, button, [tabindex]')).toHaveCount(0)
           const overflow = await card.evaluate(element => {
             const bounds = element.getBoundingClientRect()
@@ -46,13 +49,13 @@ for (const theme of ['light', 'dark']) {
     }
   }
 
-  test(`project dossier is passive and accessible in ${theme}`, async ({ page }) => {
+  test(`project hero facts are passive and accessible in ${theme}`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.addInitScript(value => {
       localStorage.setItem('theme', value)
     }, theme)
     await page.goto('/portfolio/smith-commerce/')
-    const card = page.getByRole('region', { name: 'At a glance', exact: true })
+    const card = page.locator('[data-project-imprint]')
 
     await card.scrollIntoViewIfNeeded()
     const appearance = () => card.evaluate(element => [element, ...element.querySelectorAll('*')].map(child => {
@@ -64,7 +67,7 @@ for (const theme of ['light', 'dark']) {
 
     await card.hover()
     expect(await appearance()).toEqual(before)
-    const audit = await new AxeBuilder({ page }).include('[data-project-glance]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
+    const audit = await new AxeBuilder({ page }).include('[data-project-imprint]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
 
     expect(audit.violations).toEqual([])
   })

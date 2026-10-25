@@ -208,6 +208,8 @@
 
 - Apply Progressive stack to project detail openings: show six core technologies, retain the total count, and reveal the remaining technology links with a native keyboard-accessible disclosure. Preserve the Sculpted band treatment and no-JavaScript access.
 
+- Apply Hero-led project facts: keep Role, Timeline, and Duration in the hero, preserve the project type above the cover, and remove the repeated At a glance sidebar card. Retain navigation, Focus, Core stack, and Outcomes with their existing treatments.
+
 ### Patch Changes
 
 - Refine the homepage reading hierarchy with an illustrated latest article, three recent entries,

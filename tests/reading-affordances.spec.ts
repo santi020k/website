@@ -86,10 +86,10 @@ for (const width of [390, 1440]) {
 
         test('project details keep words intact and repository icons respect reduced motion', async ({ page }) => {
           await openWithTextSize(page, '/portfolio/lumen-ui/', textSize)
-          const glance = page.getByRole('region', { name: 'At a glance', exact: true })
-          const terms = glance.locator('dt, dd')
+          const facts = page.locator('[data-project-imprint]')
+          const terms = facts.locator('dt, dd')
 
-          await expect(terms).toHaveCount(8)
+          await expect(terms).toHaveCount(6)
           const brokenWords = await terms.evaluateAll(elements => elements.flatMap(element => {
             const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
             const broken: string[] = []

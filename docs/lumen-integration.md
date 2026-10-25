@@ -163,13 +163,13 @@ enlarged text sizes. No new client controller is introduced.
 - `ProjectPreviews` composes Gallery sheet with an unstyled Lumen `Card` around a
   semantic figure. Lumen `Image` retains Astro optimization and complete screenshot
   proportions; the caption and decorative number reflow through scoped container queries.
-- Project timeline endpoints use separate native `time` elements, and project
-  sidebar card labels are level-two headings. `ProjectGlanceCard` uses an unstyled Lumen
-  `Card` for the Project dossier treatment. `ProjectFocusCard` uses the same primitive
-  for its Margin note composition. `ProjectStackCard` composes the Stack ledger from
+- Project timeline endpoints use separate native `time` elements. Hero-led project
+  facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
+  Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled
+  Lumen `Card` for its Margin note composition. `ProjectStackCard` composes the Stack ledger from
   `Card`, semantic technology lists, and `Collapsible`. `ProjectOutcomesCard` composes
   Impact rows with `Card`, `Icon`, and semantic lists, keeping original claims accessible.
-  All four project sidebar cards share small purple labels, right-aligned icons, and plain
+  These project sidebar cards share small purple labels, right-aligned icons, and plain
   surfaces; their content compositions remain distinct.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.

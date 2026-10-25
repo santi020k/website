@@ -745,15 +745,13 @@ retain the original wording for screen readers. Project colors highlight the tit
 role, action, and sheet rules on hover and keyboard focus without moving the artwork.
 Keep a complete outer focus outline, readable light/dark colors, and reduced-motion support.
 
-### Project dossier sidebar cards
+### Hero-led project facts
 
-At a glance uses one opaque Lumen Card with 1.5rem corners and a 0.5rem lower-right
-corner. Its plain header holds a sentence-case 0.75rem purple heading opposite the
-info icon, matching Focus and Core stack. Show the full role at 1.125rem below its label.
-Keep Type, Timeline, and Duration left-aligned below it, with quiet labels and fine
-rules. Preserve semantic definition lists, individual time elements, the fallback role,
-and computed duration. This is a passive reading surface with no hover feedback.
-Below 16rem of rail width, reduce insets to preserve enlarged-text reading space.
+Keep Role, Timeline, and Duration once in the hero's Margin imprint. Preserve its
+semantic definition list, native date elements, fallback role, and computed duration.
+The project type remains in the eyebrow and breadcrumb above the cover. Omit the
+former At a glance sidebar card instead of repeating these facts while reading.
+After navigation, the sidebar continues with Focus, Core stack, and optional Outcomes.
 
 ### Margin note focus cards
 
@@ -811,8 +809,8 @@ Reading pages fully disable CSS transitions with reduced motion, including inher
 size transitions, so native fragment targets remain stable when text is enlarged.
 
 When a project has no headings, omit the table of contents without a replacement card
-or empty-state notice. Begin the sidebar with At a glance, followed by the existing
-Focus, Core stack, and optional Outcomes cards. Keep the sidebar's normal spacing;
+or empty-state notice. Begin the sidebar with Focus, followed by Core stack and
+optional Outcomes. Keep the sidebar's normal spacing;
 do not reserve a gap for absent navigation. Articles likewise omit empty navigation.
 
 ### Margin chapters case study summaries
