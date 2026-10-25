@@ -288,6 +288,10 @@ enlarged text sizes. No new client controller is introduced.
   introduction in a semantic section. It reads the existing project metadata and requires
   `notesLayout: context-lead`, which removes the generic layout preface. Markdown retains
   the heading and inline link; shared tokens provide the open composition without client code.
+- `ProjectSectionHeading` wraps an authored Markdown h3 with Section cadence typography
+  and a decorative trailing rule. Inline heading content stays in normal text flow; long
+  labels wrap without changing their names or fragments. Adjacent narrative paragraphs
+  use the reading scale, while composed gallery and evidence headings keep their own styles.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter

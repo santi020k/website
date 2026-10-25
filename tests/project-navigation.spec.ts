@@ -24,7 +24,7 @@ const expectNavigationPlacement = async (page: Page, browserName: string) => {
     await expect(summary).toHaveText('On this page 4 sections')
     await expect(page.getByRole('navigation', { name: 'Table of contents' })).toHaveCount(0)
     expect(await opener.evaluate(element => {
-      const notes = document.querySelector('[data-content-notes]')
+      const notes = document.querySelector('[data-project-context-lead], [data-content-notes]')
 
       return notes !== null && Boolean(element.compareDocumentPosition(notes) & Node.DOCUMENT_POSITION_FOLLOWING)
     })).toBe(true)

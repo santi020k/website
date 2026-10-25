@@ -141,6 +141,9 @@ and existing Lumen contracts, rather than restoring retired utility layers.
 - **Opening context:** set `notesLayout: context-lead` and wrap the authored opening heading
   and introduction in `ProjectContextLead`. Its `projectId` supplies the notes label and
   current stage; `headingId` retains the original fragment. This replaces the generic preface.
+- **Narrative subsections:** wrap plain Markdown h3 headings in `ProjectSectionHeading`
+  for Section cadence. The original heading and fragment remain the navigation source;
+  galleries, technical folios, and other composed sections retain their own headings.
 - **Closing reflection:** `ProjectSynthesis` uses Synthesis spread to pair existing client
   perspectives with one shared takeaway. Keep the authored Markdown heading in its slot
   so the original closing fragment remains part of chapter navigation.

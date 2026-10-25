@@ -248,6 +248,8 @@
 
 - Apply Context lead to the Smith Commerce opening. Combine the existing notes label and project status with its authored introduction, preserving the original heading and links while removing the repeated generic preface.
 
+- Apply Section cadence to the Smith Commerce narrative subsections. Pair medium-weight headings with fine trailing rules and a consistent reading rhythm while preserving the original chapter outline, fragments, and composed evidence sections.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
