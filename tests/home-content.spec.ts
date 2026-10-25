@@ -71,7 +71,7 @@ for (const theme of ['light', 'dark'] as const) {
       localStorage.setItem('theme', value)
     }, theme)
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    for (const width of [320, 375, 768, 1440]) {
+    for (const width of [320, 375, 768, 1024, 1440]) {
       await page.setViewportSize({ width, height: 1000 })
       await page.goto('/')
       await page.evaluate(async () => {
@@ -152,7 +152,7 @@ for (const theme of ['light', 'dark'] as const) {
     }, theme)
     await page.emulateMedia({ reducedMotion: 'reduce' })
 
-    for (const width of [320, 375, 768, 1440]) {
+    for (const width of [320, 375, 768, 1024, 1440]) {
       await page.setViewportSize({ width, height: 900 })
       await page.goto('/')
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)

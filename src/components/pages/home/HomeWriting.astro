@@ -44,7 +44,7 @@ const { posts, startHerePosts } = Astro.props
                     decoding="async"
                     height={360}
                     loading="lazy"
-                    sizes={index === 0 ? '(min-width: 1280px) 640px, (min-width: 1024px) 52vw, 90vw' : '(min-width: 1280px) 370px, (min-width: 1024px) 30vw, (min-width: 768px) 36vw, 90vw'}
+                    sizes={index === 0 ? '(min-width: 1280px) 640px, (min-width: 1088px) 52vw, 94vw' : '(min-width: 1280px) 370px, (min-width: 1024px) 30vw, (min-width: 768px) 36vw, 90vw'}
                     src={post.data.coverImage.src}
                     width={640}
                     widths={[320, 480, 640, 960, 1280]}
@@ -135,10 +135,12 @@ const { posts, startHerePosts } = Astro.props
     [data-writing-list] { grid-template-columns: minmax(0, 1fr); }
     [data-writing-row] { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 1.5rem; align-items: start; }
     [data-writing-body] { height: 100%; padding: 0; }
-    [data-writing-featured] { grid-template-columns: minmax(0, 1fr); gap: 0; }
-    [data-writing-featured] [data-writing-artwork] { height: auto; min-height: 0; aspect-ratio: 16 / 9; border-radius: 1.4375rem 1.4375rem 0 0; }
     [data-start-here-intro] { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
     [data-start-here-grid] { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
+  }
+  @container home-writing (width < 64rem) {
+    [data-writing-featured] { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    [data-writing-featured] [data-writing-artwork] { height: auto; min-height: 0; aspect-ratio: 16 / 9; border-radius: 1.4375rem 1.4375rem 0 0; }
   }
   @container home-writing (width < 38rem) {
     [data-writing-list] { row-gap: 2.5rem; }

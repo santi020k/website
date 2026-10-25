@@ -36,7 +36,7 @@
 
 - Apply Margin index to the About page exploration invitation with an accent rail, contextual destination labels, and two ruled navigation rows. Preserve native portfolio and blog links, visible keyboard focus, light and dark themes, and readable layouts at enlarged text sizes.
 
-- Apply Editorial spread to homepage latest writing with a wide illustrated lead story, three image-led articles, and clear reading actions. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
+- Apply Editorial spread to homepage latest writing with a wide illustrated lead story, three image-led articles, and clear reading actions. Stack the lead on laptops to preserve the full cover and give its title room. Preserve chronological ordering, complete titles and excerpts, publication dates, reading times, RSS, and native keyboard navigation across responsive light and dark layouts.
 
 - Apply Offset spread to the homepage featured work with an overlapping copy sheet, richer Smith commerce artwork, and a dedicated outcome and role footer. Preserve authored results, native full-card navigation, and responsive light and dark layouts at enlarged text sizes.
 
@@ -477,6 +477,8 @@
 - Clear navigation progress when a pending page load is canceled, and keep earlier completion events from hiding a newer pending navigation. Preserve topic-filter reading positions after destination styles apply in WebKit without accumulating fractional scroll drift or overriding a newer navigation.
 
 - Use the visible recommendation, package name, and action as the accessible name of project replacement links, keeping voice-control labels consistent with the Successor spread design.
+
+- Redesign the shared footer as an integrated closing statement with a large editorial headline, a sculpted WhatsApp action, and a quieter email link. Align the contact and directory columns, preserve compact footers, and keep the entire footer readable with enlarged text on narrow screens.
 
 ## 4.0.0
 

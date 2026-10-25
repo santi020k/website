@@ -15,45 +15,18 @@
   background: hsl(var(--surface));
 }
 
-/* Correspondence sheet keeps the two native contact destinations together. */
+/* The closing statement and contact action share the footer's open grid. */
 @utility maker-footer-invitation {
-  &[data-slot='card'] {
-    display: block;
-    padding: 2.25rem 2.25rem 0;
-    border: 1px solid hsl(var(--line) / 0.65);
-    border-radius: 1.75rem 1.75rem 0.5rem 1.75rem;
-    background: hsl(var(--surface));
-    box-shadow: none;
-    overflow-wrap: anywhere;
-  }
-}
-
-@utility maker-footer-intro {
-  position: relative;
-  padding-left: 4.5rem;
-}
-
-@utility maker-footer-mark {
-  position: absolute;
-  top: 0;
-  left: 0;
   display: grid;
-  place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 50%;
-  background: hsl(var(--brand-soft));
-  color: hsl(var(--brand));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(15rem, 0.8fr);
+  align-items: center;
+  gap: 3rem;
+  padding-block: 1.25rem 3.75rem;
+  border-bottom: 1px solid hsl(var(--line) / 0.65);
+  overflow-wrap: anywhere;
 }
 
-.maker-footer-invitation .maker-footer-label {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  font-size: 0.6875rem;
-  font-weight: 500;
-}
-
-.maker-footer-invitation .maker-hero-signal { flex-shrink: 0; }
+@utility maker-footer-intro { grid-column: span 2; min-width: 0; }
 
 @utility maker-footer-label {
   display: flex;
@@ -67,80 +40,105 @@
   text-transform: uppercase;
 }
 
-.maker-footer-invitation h2 {
-  max-width: 53.75rem;
-  margin-top: 1.5rem;
-  font-size: 3.5rem;
+.maker-footer-invitation .maker-footer-label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  font-size: 0.6875rem;
   font-weight: 500;
-  line-height: 1.08;
+}
+
+.maker-footer-invitation .maker-hero-signal { flex-shrink: 0; }
+
+.maker-footer-invitation h2 {
+  margin-top: 1.75rem;
+  font-size: 5rem;
+  font-weight: 500;
+  line-height: 1.04;
   letter-spacing: -0.07em;
   hyphens: manual;
 }
 
-.maker-footer-invitation h2 span,
+.maker-footer-invitation h2 span { display: block; color: hsl(var(--brand)); }
 .maker-footer-wordmark span { color: hsl(var(--brand)); }
+
+@utility maker-footer-description {
+  max-width: 30rem;
+  margin-top: 1.75rem;
+  color: hsl(var(--ink-soft));
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
 
 @utility maker-footer-contact {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0;
-  margin-top: 1.75rem;
-  & p {
-    grid-column: 1 / -1;
-    max-width: 43.75rem;
-    padding: 0 0 2rem 4.5rem;
-    color: hsl(var(--ink-soft));
-    font-size: 0.875rem;
-    line-height: 1.8;
-  }
+  gap: 1.25rem;
+  min-width: 0;
+  padding: 0.75rem 0.625rem 0 0;
+  isolation: isolate;
 }
 
 @utility maker-footer-action {
+  position: relative;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   justify-content: space-between;
   min-width: 0;
-  min-height: 5rem;
-  gap: 1rem;
-  padding: 1.25rem 1.5rem;
-  border: 0;
-  border-radius: 1.125rem 0 0 0;
+  min-height: 15rem;
+  gap: 2.25rem;
+  padding: 1.75rem;
+  border: 1px solid hsl(var(--ink));
+  border-radius: 2rem 2rem 0.5rem 2rem;
   background: hsl(var(--ink));
   color: hsl(var(--surface));
-  font-size: 1.25rem;
-  font-weight: 500;
-  line-height: 1.6;
+  white-space: normal;
 }
 
-.maker-footer .maker-footer-action:hover {
-  color: hsl(var(--surface));
-  background: hsl(var(--ink-soft));
+.maker-footer-action::before {
+  position: absolute;
+  z-index: -1;
+  inset: -0.625rem -0.625rem 0.625rem 0.625rem;
+  border-radius: inherit;
+  background: hsl(var(--brand-soft));
+  content: '';
 }
+
+@utility maker-footer-action-copy {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+  & > span:first-child { font-size: 1.75rem; font-weight: 500; line-height: 1.15; letter-spacing: -0.05em; }
+  & > span:last-child { font-size: 0.6875rem; font-weight: 400; line-height: 1.6; letter-spacing: 0; }
+}
+
+.maker-footer svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+@utility maker-footer-action-arrow { align-self: flex-end; flex-shrink: 0; }
+.maker-footer-action-arrow svg { width: 4rem; height: 4rem; stroke-width: 1.25; }
+
+.maker-footer .maker-footer-action:hover { color: hsl(var(--surface)); background: hsl(var(--ink-soft)); }
+.maker-footer-action:hover .maker-footer-action-copy > span:first-child { text-decoration: underline; text-underline-offset: 0.2em; }
 
 @utility maker-footer-email {
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-width: 0;
-  min-height: 5rem;
-  gap: 1rem;
-  padding: 1.25rem 1.5rem;
-  border-top: 1px solid hsl(var(--line) / 0.65);
-  border-radius: 0 1.125rem 0 0;
-  background: hsl(var(--brand-soft));
+  min-height: 3.5rem;
+  gap: 0.75rem;
   color: hsl(var(--ink));
-  font-size: 1.25rem;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  & > span { display: grid; gap: 0.25rem; min-width: 0; }
+  & > span > span:first-child { color: hsl(var(--ink-soft)); font-size: 0.6875rem; }
 }
 
-.maker-footer-contact a > span { min-width: 0; }
-.maker-footer-contact a:hover { text-decoration: underline; text-underline-offset: 0.25em; }
-
-.maker-footer svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+.maker-footer-email:hover > span > span:last-child { text-decoration: underline; text-underline-offset: 0.25em; }
 
 @utility maker-footer-directory {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 0.6fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(15rem, 0.8fr);
   gap: 3rem;
   padding-block: 2.5rem;
 }
@@ -211,7 +209,7 @@
 .maker-footer a:hover,
 .maker-footer a[aria-current="page"] { color: hsl(var(--brand)); }
 .maker-footer a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.4em; }
-.maker-footer a:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 5px; border-radius: 0.25rem; }
+.maker-footer a:focus-visible { outline: 2px solid hsl(var(--brand)); outline-offset: 5px; }
 
 @utility maker-footer-colophon {
   display: flex;
@@ -240,7 +238,6 @@
 }
 .maker-footer[data-variant="compact"] .maker-footer-shell { padding-top: 0; }
 
-:root[data-theme="dark"] .maker-footer-mark,
 :root[data-theme="dark"] .maker-footer-invitation h2 span,
 :root[data-theme="dark"] .maker-footer-wordmark span,
 :root[data-theme="dark"] .maker-footer a:not(.maker-footer-action):hover,
@@ -293,46 +290,63 @@
   .maker-footer-version { margin-right: 2.75rem; }
 }
 
-/* The contact sheet owns its frame; the directory keeps the existing page spacing. */
-.maker-footer[data-variant="default"] .maker-footer-shell { padding: 0 0 0.75rem; border: 0; border-radius: 0; background: transparent; }
-
-@media (min-width: 64rem) {
-  .maker-footer[data-variant="default"] .maker-footer-shell { padding-top: 4rem; }
+/* One surface carries the invitation, directory, and colophon at every width. */
+.maker-footer[data-variant="default"] {
+  margin-top: 3.5rem;
+  padding: 3.75rem 1.5rem 0.75rem;
+  border-top: 1px solid hsl(var(--line) / 0.65);
+  background: hsl(var(--surface));
 }
 
-@media (max-width: 63.999rem) {
-  .maker-footer[data-variant="default"] .maker-footer-directory,
-  .maker-footer[data-variant="default"] .maker-footer-colophon { margin-inline: 1.25rem; }
+.maker-footer[data-variant="default"] .maker-footer-shell {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
-@container footer (width < 45rem) {
-  .maker-footer-invitation[data-slot='card'] { padding: 1.75rem 1.75rem 0; }
-  .maker-footer-intro { padding-left: 0; }
-  .maker-footer-mark { display: none; }
+@container footer (width < 62rem) {
+  .maker-footer-invitation { grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.45fr); gap: 2.5rem; }
+  .maker-footer-intro { grid-column: auto; }
+  .maker-footer-invitation h2 { font-size: 4rem; }
+}
+
+@container footer (width < 48rem) {
+  .maker-footer-directory { grid-template-columns: 1.4fr 1fr; gap: 2rem 1.5rem; }
+  .maker-footer-identity { grid-column: 1 / -1; }
+  .maker-footer-navigation ul { grid-template-columns: 1fr; }
+  .maker-footer-invitation { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; padding-block: 0.5rem 2.5rem; }
+  .maker-footer-invitation h2 { max-width: 40rem; }
+  .maker-footer-contact { grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); align-items: center; gap: 2rem; padding: 0.625rem 0.625rem 0 0; }
+  .maker-footer-action { flex-direction: row-reverse; align-items: center; min-height: 7rem; gap: 1.25rem; padding: 1.25rem 1.5rem; border-radius: 1.5rem 1.5rem 0.375rem 1.5rem; }
+  .maker-footer-action-arrow { align-self: auto; }
+  .maker-footer-action-arrow svg { width: 2.5rem; height: 2.5rem; }
+  .maker-footer-action-copy > span:first-child { font-size: 1.5rem; }
+}
+
+@container footer (width < 32rem) {
+  .maker-footer-invitation { gap: 2rem; }
+  .maker-footer-invitation h2 { font-size: 3.25rem; }
+  .maker-footer-contact { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  .maker-footer-email { padding-inline: 0.25rem; }
+  .maker-footer-description { font-size: 0.875rem; }
+}
+
+@container footer (width < 21rem) {
   .maker-footer-invitation h2 { font-size: 2.75rem; }
-  .maker-footer-contact p { padding-left: 0; }
-  .maker-footer-action, .maker-footer-email { padding: 1.25rem; font-size: 1rem; }
-}
-
-@container footer (width < 30rem) {
-  .maker-footer-contact { grid-template-columns: minmax(0, 1fr); }
-  .maker-footer-invitation h2 { font-size: 2.25rem; }
-  .maker-footer-action { border-radius: 1rem 1rem 0 0; }
-  .maker-footer-email { min-height: 4.5rem; border-radius: 0; }
-}
-
-@container footer (width < 21.25rem) {
-  .maker-footer-invitation[data-slot='card'] { padding: 1.5rem 1.125rem 0; }
-  .maker-footer-invitation h2 { font-size: 2rem; }
-  .maker-footer-action, .maker-footer-email { padding: 1.125rem 0.875rem; }
+  .maker-footer-invitation .maker-footer-label { font-size: 0.625rem; letter-spacing: 0.075em; }
+  .maker-footer-action { padding: 1.25rem; }
 }
 
 @container footer (width < 16rem) {
-  .maker-footer-invitation[data-slot='card'] { padding: 1.25rem 0.75rem 0; }
-  .maker-footer-invitation h2 { font-size: 1.75rem; }
-  .maker-footer-invitation .maker-footer-label { letter-spacing: 0.06em; }
-  .maker-footer-contact { margin-top: 1.25rem; }
-  .maker-footer-contact p { padding-bottom: 1.5rem; }
-  .maker-footer-action, .maker-footer-email { padding-inline: 0.625rem; }
-  .maker-footer-contact a svg { display: none; }
+  .maker-footer-invitation h2 { font-size: 2.125rem; }
+  .maker-footer-action { padding: 1rem; }
+  .maker-footer-action-arrow { display: none; }
+  .maker-footer-directory { grid-template-columns: minmax(0, 1fr); }
+  .maker-footer-directory nav a { max-width: 100%; overflow-wrap: anywhere; }
+  .maker-footer-wordmark { font-size: 1.5rem; }
+}
+
+@media (max-width: 39.999rem) {
+  .maker-footer[data-variant="default"] { margin-top: 2.5rem; padding: 2.5rem 1.25rem 0.75rem; }
 }
