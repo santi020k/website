@@ -133,6 +133,9 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   Supply the client, existing Markdown heading and fragment, and grouped canonical technology labels.
   Use `{ label: 'React', technology: 'React.js' }` when display copy differs from the index label.
   Links and project counts come from the published collection; missing destinations fail the build.
+- **Client chapters:** wrap authored Markdown headings in `ProjectClientMasthead` for Client masthead.
+  Separate the client name and subtitle with the component's data attributes; retain the heading's
+  full text and punctuation so chapter navigation and existing fragments stay stable.
 - **Product previews:** annotated application captures complement project artwork. Follow the
   [preview provenance guide](docs/editorial/project-previews.md) and
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.

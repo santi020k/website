@@ -1007,6 +1007,19 @@ Below 35rem of available width, stack the figure after the text, remove the marg
 and keep the image at most 15rem wide. Retain the authored chapter heading and original
 paragraphs; use optimized lazy-loaded Lumen images without a new card or client script.
 
+### Client masthead chapter headings
+
+Introduce each client chapter with a small accent Client project label and sequence number,
+followed by a fine horizontal rule. Set the client name at 2.375rem and weight 500, with
+tight tracking; place the original descriptive subtitle beneath at 1.25rem in `ink-soft`.
+Use open space rather than another card, and replace the standard heading underline with
+the label's rule. Leave 1.75rem before the chapter introduction.
+
+Below 35rem of available width, use a 2.25rem name and 1.1875rem subtitle. Allow complete
+text to wrap, including at enlarged text sizes. Keep one authored Markdown h2 with spans
+for the name and subtitle; retain the colon as screen-reader text. This preserves the full
+heading, chapter index, and existing fragment without duplicate headings or client code.
+
 ### Destination brief project hero actions
 
 Use one soft brand Lumen Card for the named external destination. Pair a quiet context
