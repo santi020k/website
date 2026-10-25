@@ -310,6 +310,10 @@ enlarged text sizes. No new client controller is introduced.
   and a decorative trailing rule. Inline heading content stays in normal text flow; long
   labels wrap without changing their names or fragments. Adjacent narrative paragraphs
   use the reading scale, while composed gallery and evidence headings keep their own styles.
+- `rehypeArticleHeadings` applies Section cadence to current article body h2 elements at
+  build time. Native headings, generated fragments, and inline links remain intact;
+  a span keeps formatted titles together beside a CSS rule. The article prose container
+  adapts the typography and rule spacing without client code or a second Lumen runtime.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter

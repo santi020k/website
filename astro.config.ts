@@ -25,6 +25,7 @@ import rehypeUnwrapImages from 'rehype-unwrap-images'
 import remarkDirective from 'remark-directive'/* handle ::: directives as nodes */
 
 import { rehypeArticleFigures } from './src/plugins/rehype-article-figures'
+import { rehypeArticleHeadings } from './src/plugins/rehype-article-headings'
 import { rehypeArticleOpening } from './src/plugins/rehype-article-opening'
 import { rehypeArticleQuotes } from './src/plugins/rehype-article-quotes'
 import { rehypeLumenCode } from './src/plugins/rehype-lumen-code'
@@ -258,7 +259,8 @@ export default defineConfig({
         rehypeProjectLedger,
         rehypeUnwrapImages,
         rehypeArticleFigures,
-        rehypeArticleOpening
+        rehypeArticleOpening,
+        rehypeArticleHeadings
       ],
       remarkPlugins: [remarkDirective, remarkAdmonitions],
       remarkRehype: {

@@ -15,6 +15,36 @@
   @apply prose-blockquote:border-l-4 prose-blockquote:border-brand/40 prose-blockquote:bg-surface-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:sm:px-6 prose-blockquote:rounded-r-xl prose-blockquote:italic prose-blockquote:text-ink-soft;
   @apply prose-code:before:content-none prose-code:after:content-none;
 
+  /* Section cadence preserves native headings, fragments, and inline formatting. */
+  &[data-article-prose] { container: article-prose / inline-size; }
+  & h2[data-article-section-heading] {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-block: 2.5rem 1.5rem;
+    border: 0;
+    padding: 0;
+    font-size: 1.6875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -.035em;
+  }
+  & h2[data-article-section-heading]::after {
+    content: '';
+    flex: 1 0 2.5rem;
+    height: 1px;
+    background: hsl(var(--line));
+  }
+  & [data-article-heading-text] { min-width: 0; overflow-wrap: anywhere; }
+  @container article-prose (width < 32rem) {
+    & h2[data-article-section-heading] { gap: 1rem; font-size: 1.5rem; }
+    & h2[data-article-section-heading]::after { flex-basis: 1.5rem; }
+  }
+  @container article-prose (width < 14rem) {
+    & h2[data-article-section-heading] { gap: .75rem; }
+    & h2[data-article-section-heading]::after { flex-basis: .75rem; }
+  }
+
   /* Margin lead uses the original paragraph and its inline markup at build time. */
   & [data-article-margin-lead] {
     container: article-lead / inline-size;

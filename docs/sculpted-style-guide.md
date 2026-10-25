@@ -1109,6 +1109,18 @@ than repeating it. Projects without this authored opening keep Margin preface.
 
 ### Section cadence narrative headings
 
+Article body sections use the same fine trailing rule with a 1.6875rem, weight-500 h2,
+1.4 line height, and −0.035em tracking. Leave 1.5rem between title and rule, 2.5rem
+before the section, and 1.5rem before its body. Below 32rem of prose width, use a
+1.5rem title, 1rem gap, and a 1.5rem minimum rule; below 14rem, reduce only the gap
+and rule to 0.75rem so enlarged text retains room to wrap.
+
+Keep each native h2 and its fragment. `rehypeArticleHeadings` places the existing
+inline content in a span at build time so code, emphasis, and links remain in normal
+text flow. It applies only to top-level h2 elements in current article content.
+Nested component headings, lower heading levels, project prose, and archives retain
+their existing treatments. The rule is decorative and adds no navigation label.
+
 Use a 1.5rem, weight-500 h3 with 1.4 line height and a fine trailing rule. Leave 1.5rem
 between the heading and rule, 2.5rem before the subsection, and 1.5rem before its body.
 Allow the original heading to wrap, including inline formatting, without clipping its
