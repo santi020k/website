@@ -3583,15 +3583,15 @@
     },
     "/portfolio/smith-commerce/": {
       "alt": "Smith Commerce — Santiago Molina",
-      "description": "Rebuilt Marcone's storefront into a faster, more accessible headless experience while giving teams room to ship independently.",
+      "description": "Built commerce experiences for two Smith clients: Marcone's headless storefront and F.W. Webb's purchasing, account, and product discovery workflows.",
       "images": [
         {
           "format": "webp",
           "height": 630,
           "output": "portfolio/smith-commerce-logo.webp",
           "primary": true,
-          "url": "/og/portfolio/smith-commerce-logo.webp?v=bed8598a4de2",
-          "version": "bed8598a4de2",
+          "url": "/og/portfolio/smith-commerce-logo.webp?v=edcc10c854e3",
+          "version": "edcc10c854e3",
           "width": 1200
         },
         {
@@ -3599,8 +3599,8 @@
           "height": 630,
           "output": "portfolio/smith-commerce.webp",
           "primary": false,
-          "url": "/og/portfolio/smith-commerce.webp?v=bed8598a4de2",
-          "version": "bed8598a4de2",
+          "url": "/og/portfolio/smith-commerce.webp?v=edcc10c854e3",
+          "version": "edcc10c854e3",
           "width": 1200
         }
       ],
@@ -7322,6 +7322,23 @@
       ],
       "pathname": "/technologies/builder-io/",
       "title": "Builder.io · Technology"
+    },
+    "/technologies/contentstack/": {
+      "alt": "Contentstack · Technology — Santiago Molina",
+      "description": "Projects and case studies where Contentstack shaped the architecture, delivery workflow, or product experience.",
+      "images": [
+        {
+          "format": "webp",
+          "height": 630,
+          "output": "pages/technologies--Contentstack.webp",
+          "primary": true,
+          "url": "/og/pages/technologies--Contentstack.webp?v=f6776f7271d2",
+          "version": "f6776f7271d2",
+          "width": 1200
+        }
+      ],
+      "pathname": "/technologies/contentstack/",
+      "title": "Contentstack · Technology"
     },
     "/technologies/headless-commerce/": {
       "alt": "Headless Commerce · Technology — Santiago Molina",
