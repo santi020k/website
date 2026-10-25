@@ -14,6 +14,64 @@
   @apply prose-a:text-brand prose-a:no-underline prose-a:border-b prose-a:border-brand/30 hover:prose-a:border-brand transition-colors duration-200;
   @apply prose-blockquote:border-l-4 prose-blockquote:border-brand/40 prose-blockquote:bg-surface-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:sm:px-6 prose-blockquote:rounded-r-xl prose-blockquote:italic prose-blockquote:text-ink-soft;
   @apply prose-code:before:content-none prose-code:after:content-none;
+
+  /* Margin quotation keeps the native quote and its authored paragraphs intact. */
+  & blockquote[data-article-quote] {
+    container: article-quote / inline-size;
+    margin-block: 2rem;
+    padding: 0;
+    border: 0;
+    border-block: 1px solid hsl(var(--line));
+    border-radius: 0;
+    background: transparent;
+    color: hsl(var(--ink));
+    font-style: normal;
+    font-weight: 400;
+    quotes: none;
+  }
+  & [data-quote-layout] {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-block: 1.5rem;
+  }
+  & [data-quote-mark] {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: .3125rem;
+    color: hsl(var(--brand));
+  }
+  & [data-quote-body] {
+    min-width: 0;
+    padding-inline-start: 1.5rem;
+    border-inline-start: 2px solid hsl(var(--brand));
+    font-size: 1.1875rem;
+    line-height: 1.8;
+    letter-spacing: -.015em;
+    overflow-wrap: anywhere;
+  }
+  & [data-quote-body] p {
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  & [data-quote-body] > :first-child { margin-block-start: 0; }
+  & [data-quote-body] > :last-child { margin-block-end: 0; }
+  & [data-quote-body] p::before,
+  & [data-quote-body] p::after { content: none; }
+  @variant dark {
+    & [data-quote-mark] { color: hsl(var(--accent)); }
+    & [data-quote-body] { border-inline-start-color: hsl(var(--accent)); }
+  }
+  @container article-quote (width < 29rem) {
+    & [data-quote-layout] { grid-template-columns: minmax(0, 1fr); gap: .875rem; padding-block: 1.25rem; }
+    & [data-quote-mark] { margin-top: 0; }
+    & [data-quote-body] { padding-inline-start: 1.125rem; font-size: 1rem; }
+  }
+  @container article-quote (width < 18rem) {
+    & [data-quote-body] { padding-inline-start: .75rem; }
+  }
+
   & :not(pre) > code {
     @apply text-brand bg-brand/10 px-1.5 py-0.5 rounded-md font-medium;
   }

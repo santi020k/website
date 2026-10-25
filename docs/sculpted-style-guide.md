@@ -893,6 +893,19 @@ section. Preserve ordinary blockquotes for quoted material. Reduce the note inse
 below 30rem and 18rem of container width so enlarged text and link focus remain clear.
 This static treatment requires no client script.
 
+### Margin quotation article blockquotes
+
+Ordinary article quotations use an open surface with fine top and bottom rules,
+a decorative Lumen quote icon in the margin, and a slim accent rail beside the
+text. Keep the native blockquote, citation attributes, authored paragraphs, inline
+formatting, links, lists, and nested quotations. Use upright, regular-weight text
+with a generous line height; do not add automatic quotation punctuation.
+
+Below 29rem of quote width, move the icon above the passage and reduce the text
+and inset. Tighten the rail inset again below 18rem for enlarged text. Use the
+theme's readable accent in dark mode. This build-time treatment adds no client
+script and does not change project prose or convert update notes into quotations.
+
 ### Successor spread project replacement notices
 
 Use `ProjectReplacementNotice` in MDX when a project has an authored replacement.

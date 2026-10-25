@@ -350,6 +350,16 @@ landing-line activation. If `lumen-astro` changes version first, regenerate the 
 patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
 text-size marker cases in `tests/responsive-reading.spec.ts`.
 
+## Article quotations
+
+Article blockquotes use Margin quotation through `rehype-article-quotes.ts`.
+The build-time plugin retains the native blockquote and all authored children,
+adds a decorative icon through Lumen core's public `getLumenIcon` API, and exposes
+site-owned layout hooks for the margin and text rail. It only transforms current
+article content, including nested quotes; project and archived prose keep their
+existing treatment. It is idempotent and adds no client runtime. The site owns
+the scoped responsive composition, while Lumen supplies the quote artwork.
+
 ## Article illustration captions
 
 `rehype-article-figures.ts` runs after image unwrapping in the current site's Markdown pipeline.

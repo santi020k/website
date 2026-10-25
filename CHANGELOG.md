@@ -196,6 +196,8 @@
 
 - Apply Search cover to the site-search header and input, with a tinted heading and inset search field. Preserve the existing search results and recovery states, keyboard focus, live announcements, and a single scrolling results area across narrow, short, and enlarged-text layouts.
 
+- Apply Margin quotation to article blockquotes with an open ruled surface, a decorative Lumen quote mark, and an accent rail. Preserve native quote semantics, citations, authored formatting, and nested quotations, with responsive spacing in both themes and no client script.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
