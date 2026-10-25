@@ -204,6 +204,8 @@
 
 - Apply Reader margin to article likes: a derived count beside a wrapping avatar and reader-name list with an accent rail. Preserve native profile and source links, anonymous and missing-photo fallbacks, remote-image privacy, and readable narrow layouts without adding client JavaScript.
 
+- Omit the project sidebar navigation notice when no section headings exist. Begin with At a glance and preserve the remaining project details, normal spacing, and table of contents for projects with headings.
+
 ### Patch Changes
 
 - Expand the Smith Commerce experience with F.W. Webb as a second client project, with a broader contribution summary and desktop and mobile development screenshots. Attribute the existing performance metrics to Marcone and refresh the resume downloads.
@@ -462,6 +464,8 @@
 - Reject unsuccessful or mismatched archive pages before saving history captures, and make the Webmention diagnostic honor explicit target URLs while rejecting invalid arguments before network access.
 
 - Clear navigation progress when a pending page load is canceled, and keep earlier completion events from hiding a newer pending navigation. Preserve topic-filter reading positions after destination styles apply in WebKit without accumulating fractional scroll drift or overriding a newer navigation.
+
+- Use the visible recommendation, package name, and action as the accessible name of project replacement links, keeping voice-control labels consistent with the Successor spread design.
 
 ## 4.0.0
 

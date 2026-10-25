@@ -812,6 +812,11 @@ keeps long headings within their link and preserves native fragment navigation.
 Reading pages fully disable CSS transitions with reduced motion, including inherited text
 size transitions, so native fragment targets remain stable when text is enlarged.
 
+When a project has no headings, omit the table of contents without a replacement card
+or empty-state notice. Begin the sidebar with At a glance, followed by the existing
+Focus, Core stack, and optional Outcomes cards. Keep the sidebar's normal spacing;
+do not reserve a gap for absent navigation. Articles likewise omit empty navigation.
+
 ### Margin chapters case study summaries
 
 Case study summaries use one opaque Lumen Card with asymmetric corners and a small
@@ -957,6 +962,7 @@ the explanation sits beneath the spread. Preserve the recommendation for new
 projects and the internal replacement URL.
 
 The labeled Lumen Callout composes an inherit-style Link and decorative Icon.
+Let the link's visible recommendation, package name, and action supply its accessible name.
 Its labels do not add article sections or table-of-contents entries. Keep ordinary
 blockquotes unchanged. Stack the spread below 35rem of container width, reduce
 destination insets below 26rem and 18rem, and allow long package names and enlarged
