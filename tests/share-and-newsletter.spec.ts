@@ -335,10 +335,15 @@ test.describe('Share buttons', () => {
     await copyButton.focus()
     await page.keyboard.press('Enter')
 
-    await expect(status).toHaveText('Link copied!')
+    // The visible label updates at once; the announcement lands in a later task.
+    await expect(page.locator('#copy-label')).toHaveText('Link copied!')
     await expect(copyButton).toHaveAccessibleName('Link copied!')
+    await expect(status).toBeEmpty()
 
-    await page.clock.runFor(1999)
+    await page.clock.runFor(100)
+    await expect(status).toHaveText('Link copied!')
+
+    await page.clock.runFor(1899)
     await expect(status).toHaveText('Link copied!')
 
     await page.clock.runFor(1)
@@ -379,12 +384,15 @@ test.describe('Share buttons — clipboard failure', () => {
     // The visible label stays short; the status region adds the recovery step.
     await expect(label).toHaveText('Copy failed')
     await expect(copyButton).toHaveAccessibleName('Copy failed')
-    await expect(status).toHaveText('Copy failed. Select and copy the address manually.')
+    await expect(status).toBeEmpty()
     await expect(copyButton).toHaveClass(/copy-failed/)
     await expect(copyButton).not.toHaveClass(/(^|\s)copied(\s|$)/)
 
+    await page.clock.runFor(100)
+    await expect(status).toHaveText('Copy failed. Select and copy the address manually.')
+
     // State is transient: the control returns to its idle label without announcing it.
-    await page.clock.runFor(2000)
+    await page.clock.runFor(1900)
     await expect(label).toHaveText('Copy link')
     await expect(status).toBeEmpty()
     await expect(copyButton).not.toHaveClass(/copy-failed/)
