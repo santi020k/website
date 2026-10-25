@@ -42,7 +42,7 @@
 
 - Apply Principle spread to the developer experience working definition with separate system and evidence panels, a shared reading link, and responsive stacking. Preserve the complete definition, keyboard navigation, and readable light and dark appearances at enlarged text sizes.
 
-- Show Lumen and PostLens interface captures in device frames on the homepage, with accurate preview disclosures, quiet brand-colored backgrounds, and a single reading panel per product. Preserve complete descriptions, technology and timeline metadata, native links, and the cover fallback. Stack the pair for narrow containers and enlarged text.
+- Show Lumen and PostLens interface captures in device frames on the homepage, with caption-free imagery, quiet brand-colored backgrounds, and a single reading panel per product. Keep development and sample-data context in the linked case studies. Preserve complete descriptions, technology and timeline metadata, native links, and the cover fallback. Stack the pair for narrow containers and enlarged text.
 
 - Add annotated Lumen and PostLens product previews, with clear development-preview
   and sample-data disclosures. Refresh featured project capabilities and public
