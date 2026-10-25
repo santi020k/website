@@ -153,6 +153,11 @@ The same component serves featured, supporting, and related projects without cli
 - Site-specific interface icons use Lumen `Icon` when Lucide provides the mark. Third-party brand
   logos remain on `astro-icon` because Lucide intentionally excludes brand assets.
 - Reading layouts use Lumen `ScrollProgress` directly.
+- `ProjectReplacementNotice.astro` composes Lumen `Callout`, inherit-style `Link`,
+  and decorative `Icon` for the Successor spread notice in project MDX. The site
+  owns its open context column, soft destination surface, responsive rules, and
+  typography. The named aside preserves replacement guidance without adding
+  article headings or client JavaScript.
 - `ArticleUpdateNote.astro` composes Lumen `Callout` and `Icon` for dated article
   updates. The author supplies its title and Markdown body in MDX. Its labeled aside
   and native links work without JavaScript; ordinary Markdown blockquotes are unchanged.

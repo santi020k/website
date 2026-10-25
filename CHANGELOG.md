@@ -180,6 +180,8 @@
 
 - Apply Catalog note to the Blog topics empty state, pairing the existing message with a sculpted search icon and fine rules. Preserve live filtering, sorting, result announcements, search focus, and restoration of all topics when the search is cleared.
 
+- Apply Successor spread to the project replacement notice, giving the maintained ESLint package a clear destination beside the original package context. Preserve the recommendation, internal navigation, article outline, and no-JavaScript reading flow.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

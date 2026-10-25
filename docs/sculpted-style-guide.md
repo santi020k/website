@@ -893,6 +893,21 @@ section. Preserve ordinary blockquotes for quoted material. Reduce the note inse
 below 30rem and 18rem of container width so enlarged text and link focus remain clear.
 This static treatment requires no client script.
 
+### Successor spread project replacement notices
+
+Use `ProjectReplacementNotice` in MDX when a project has an authored replacement.
+Keep the superseded statement and original package in an open context column,
+beside one soft brand destination with the successor's namespace, larger package
+name, and an inset circular arrow. Fine top and bottom rules frame the notice;
+the explanation sits beneath the spread. Preserve the recommendation for new
+projects and the internal replacement URL.
+
+The labeled Lumen Callout composes an inherit-style Link and decorative Icon.
+Its labels do not add article sections or table-of-contents entries. Keep ordinary
+blockquotes unchanged. Stack the spread below 35rem of container width, reduce
+destination insets below 26rem and 18rem, and allow long package names and enlarged
+text to wrap. The whole destination is keyboard accessible without client script.
+
 ### Table folio article comparisons
 
 Markdown comparison tables use Lumen's existing keyboard-scrollable table surface.
