@@ -399,6 +399,16 @@ than 17rem, then stack it. Preserve complete words with enlarged text, readable
 light/dark colors, and the original archive contract. The note adds no interaction,
 animation, or client JavaScript.
 
+### Map folio Travel controls
+
+Travel map controls use **Map folio**: a compact opaque sheet beneath the geography,
+aligned with the page content. Put the visible country label and decorative globe above
+a large underlined native select. A soft brand footer holds zoom out, the live zoom level,
+zoom in, and Reset with a decorative return icon. Keep the alternating .375rem / 2rem
+corners, fine outline, and 44px targets. Below 18rem of sheet width, tighten the insets
+and give Reset its own ruled row. Keep keyboard order aligned with the visual order,
+visible focus outlines, all countries, and Lumen's selection and zoom behavior.
+
 ### Margin totals Travel hero
 
 Keep the hero totals unframed beneath the existing introduction. Use a native

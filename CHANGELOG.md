@@ -198,6 +198,8 @@
 
 - Apply Margin quotation to article blockquotes with an open ruled surface, a decorative Lumen quote mark, and an accent rail. Preserve native quote semantics, citations, authored formatting, and nested quotations, with responsive spacing in both themes and no client script.
 
+- Apply Map folio to the Travel country picker and zoom controls: one compact sheet below the map with an underlined native selector and a soft control row. Preserve Lumen selection and zoom behavior, country data, keyboard order, live announcements, and narrow-screen readability.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,
