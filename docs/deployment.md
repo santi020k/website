@@ -218,6 +218,15 @@ only absolute HTTP or HTTPS URLs. Private mentions and entries without a usable
 source URL are omitted. Avatars have fixed dimensions, so rendering does not
 need to fetch their dimensions from third-party hosts.
 
+Initials and reply cutoffs respect complete user-perceived characters. Placeholder avatar initials
+take the first full grapheme of the name, and reply text is trimmed and capped
+at 2,000 UTF-16 code units, cut back to the nearest complete grapheme without
+an ellipsis. Valid mention dates accepted by the content-date parser
+(ISO calendar dates, `D Mon YYYY`, and ISO timestamps) resolve to the same
+instant in every build timezone: timestamps without a zone are read as UTC, and
+explicit offsets keep their instant. Values it does not accept retain the runtime
+`Date` fallback, including loose formats such as RFC 2822, as before.
+
 The build reads every page of the feed (`per-page=1000`, pages `0` through
 `total-pages - 1`, newest first) so like and reply counts include the public
 mentions returned across pages. The API defaults to 20 rows per page. Rows repeated across

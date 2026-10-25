@@ -502,6 +502,8 @@
 
 - Connect the Work career timeline with one continuous rail aligned to each start year, distinguish active and completed milestones, and end the line at the final role. Remove crossing row dividers while preserving the approved cards, company hover colors, semantic dates, and responsive keyboard access.
 
+- Preserve complete Unicode characters in webmention initials and bounded reply excerpts, and render valid timezone-free mention dates consistently across build environments while retaining existing loose-date compatibility.
+
 ## 4.0.0
 
 ### Major Changes
