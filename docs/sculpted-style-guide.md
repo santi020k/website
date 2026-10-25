@@ -1366,6 +1366,10 @@ one native link per card, and the collection's chronological order. The lead car
 surface and sculpted corners; supporting articles use the page canvas with a fine action rule.
 Avoid a second notebook frame, nested borders, or text laid over the artwork.
 
+Select the three curated Start here recommendations first, then fill latest writing with the
+four newest remaining posts. Each article appears once across the homepage writing section;
+the visible recent list and its structured data use the same selection.
+
 Use Astro Image for all four covers, preserving descriptive alternative text, responsive sources,
 lazy loading, and the central subject of each image. Keep the supporting images at their native
 16:9 ratio. The lead image may crop its quiet edges to fill the split composition. Its latest

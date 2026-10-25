@@ -28,6 +28,10 @@ test('homepage keeps project discovery and reading connected to real content', a
 
   expect(dates).toEqual([...dates].sort((a, b) => b - a))
   await expect(writing.getByRole('region', { name: 'Start here' }).getByRole('link')).toHaveCount(3)
+  const articlePaths = await writing.locator('article a').evaluateAll(links => links.map(link => link.getAttribute('href')))
+
+  expect(articlePaths).toHaveLength(7)
+  expect(new Set(articlePaths).size, 'Latest writing and Start here must show seven distinct articles').toBe(7)
   await expect(writing.locator('a[href="/feed.xml"]')).toHaveText('Follow via RSS')
 
   const community = page.getByRole('region', { name: 'Better when shared.' })
