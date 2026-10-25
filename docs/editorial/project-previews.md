@@ -1,9 +1,29 @@
 # Product previews
 
 Project entries can add `previews.description` and up to four `previews.images`, each
-with a relative `src`, descriptive `alt`, `title`, and `caption`. The shared project
-layout renders complete, lazy-loaded images through Lumen's Astro Image component
-and adds the section to the reading navigation. Keep annotations as visible text.
+with a relative `src`, descriptive `alt`, `title`, and `caption`. Use MDX to place
+the gallery after the relevant chapter introduction and before its technical
+subsections. Import `ProjectPreviews` from
+`@/components/molecules/ProjectPreviews.astro` and render it with the collection ID:
+
+```mdx
+<ProjectPreviews projectId="smith-commerce">
+
+### Inside the product
+
+</ProjectPreviews>
+```
+
+The component reads validated preview data from the project collection and renders
+complete, lazy-loaded images through Lumen's Astro Image component. The authored
+level-three heading puts the gallery in the correct position and depth in the
+reading navigation; caption titles use level four. Include one gallery per project.
+The `#inside-the-product` heading is the navigation target; the existing
+`#product-previews` fragment remains available on the gallery region.
+
+Smith places its gallery after the F.W. Webb introduction. PostLens and Lumen place
+it after their two opening paragraphs, before Goals. Projects without previews do
+not gain a gallery or navigation entry. Keep annotations as visible text.
 Do not crop interfaces, invent product screens, or use private customer content.
 
 ## Current sources

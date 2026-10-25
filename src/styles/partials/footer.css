@@ -252,11 +252,7 @@
    edge with its label) at the end of the colophon. Wide screens center the shell
    far enough from the corner that the reservation resolves to zero. */
 @media (min-width: 40rem) {
-  .maker-footer-version { margin-right: 4.25rem; }
-}
-/* The open footer has no inner sheet inset; reserve that missing clearance too. */
-@media (40rem <= width < 64rem) {
-  .maker-footer[data-variant="default"] .maker-footer-version { margin-right: 6rem; }
+  .maker-footer-version { margin-right: 6rem; }
 }
 
 @media (min-width: 64rem) {

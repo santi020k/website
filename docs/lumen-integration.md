@@ -167,6 +167,9 @@ enlarged text sizes. No new client controller is introduced.
 - `ProjectPreviews` composes Gallery sheet with an unstyled Lumen `Card` around a
   semantic figure. Lumen `Image` retains Astro optimization and complete screenshot
   proportions; the caption and decorative number reflow through scoped container queries.
+  Contextual gallery is authored inside the project's MDX chapter with a Markdown h3
+  slot so Astro collects its actual navigation position. The component reads validated
+  collection preview data, preserves the legacy gallery fragment, and adds no client code.
 - Project timeline endpoints use separate native `time` elements. Hero-led project
   facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled

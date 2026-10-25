@@ -12,7 +12,7 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
       await page.goto(`/portfolio/${slug}/`)
       const previews = page.getByRole('region', { name: 'Inside the product' })
       await expect(previews.locator('figure')).toHaveCount(2)
-      await expect(page.getByRole('link', { name: 'Inside the product', exact: true })).toHaveAttribute('href', '#product-previews')
+      await expect(page.getByRole('link', { name: 'Inside the product', exact: true })).toHaveAttribute('href', '#inside-the-product')
 
       for (const width of [320, 390, 1440]) {
         await page.setViewportSize({ width, height: 900 })
@@ -40,7 +40,7 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
             expect(imageBounds).not.toBeNull()
             expect(captionBounds).not.toBeNull()
             expect(captionBounds?.y).toBeGreaterThanOrEqual((imageBounds?.y ?? 0) + (imageBounds?.height ?? 0))
-            for (const copy of await figure.locator('h3, p').all()) {
+            for (const copy of await figure.locator('h4, p').all()) {
               const content = await copy.evaluate(element => ({
                 width: element.clientWidth,
                 contentWidth: element.scrollWidth,
@@ -58,6 +58,47 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
       await expectNoUnexpectedAccessibilityViolations(page)
     })
   }
+}
+
+for (const { slug, chapter, nextSection, introParagraphs } of [
+  { slug: 'smith-commerce', chapter: 'F.W. Webb: building the purchasing experience', nextSection: 'The purchasing challenge', introParagraphs: 1 },
+  { slug: 'postlens', chapter: 'Building a private visual content studio for iPhone and iPad', nextSection: 'Goals', introParagraphs: 2 },
+  { slug: 'lumen-ui', chapter: 'A shared language for web and native interfaces', nextSection: 'Goals', introParagraphs: 2 }
+]) {
+  test(`${slug} introduces its gallery within the relevant chapter`, async ({ page }) => {
+    await page.goto(`/portfolio/${slug}/`)
+    const gallery = page.getByRole('region', { name: 'Inside the product' })
+
+    await expect(gallery.getByRole('heading', { name: 'Inside the product', level: 3 })).toHaveCount(1)
+    expect(await gallery.evaluate(element => {
+      let sibling = element.previousElementSibling
+      let paragraphs = 0
+
+      while (sibling?.tagName === 'P') {
+        paragraphs += 1
+        sibling = sibling.previousElementSibling
+      }
+
+      return {
+        chapter: sibling?.textContent,
+        chapterTag: sibling?.tagName,
+        paragraphs,
+        next: element.nextElementSibling?.textContent
+      }
+    })).toEqual({ chapter, chapterTag: 'H2', paragraphs: introParagraphs, next: nextSection })
+
+    const navigation = page.getByRole('navigation', { name: 'Table of contents' })
+    const galleryLink = navigation.getByRole('link', { name: 'Inside the product', exact: true })
+
+    await expect(galleryLink).toHaveAttribute('data-depth', '3')
+    const labels = await navigation.getByRole('link').allTextContents()
+
+    expect(labels.indexOf(chapter)).toBe(labels.indexOf('Inside the product') - 1)
+    expect(labels.indexOf(nextSection)).toBe(labels.indexOf('Inside the product') + 1)
+    await galleryLink.click()
+    await expect(page.locator('#inside-the-product')).toBeInViewport()
+    await expect(galleryLink).toHaveAttribute('aria-current', 'location')
+  })
 }
 
 test('projects without previews keep their existing reading navigation', async ({ page }) => {
@@ -84,17 +125,18 @@ test('PostLens distinguishes development screens and generated samples from the 
 })
 
 test.describe('Product previews without client JavaScript', () => {
-  test.use({ javaScriptEnabled: false })
+  test.use({ javaScriptEnabled: false, reducedMotion: 'reduce' })
 
   for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
     test(`${slug} retains its screenshots and captions`, async ({ page }) => {
-      await page.goto(`/portfolio/${slug}/`)
+      await page.goto(`/portfolio/${slug}/#product-previews`)
       const previews = page.getByRole('region', { name: 'Inside the product' })
+      await expect(previews.getByRole('heading', { level: 3 })).toBeInViewport()
       await expect(previews.locator('figure')).toHaveCount(2)
       for (const figure of await previews.locator('figure').all()) {
         await figure.scrollIntoViewIfNeeded()
         await expect(figure.getByRole('img')).toBeVisible()
-        await expect(figure.getByRole('heading', { level: 3 })).toBeVisible()
+        await expect(figure.getByRole('heading', { level: 4 })).toBeVisible()
         await expect(figure.locator('figcaption p')).toBeVisible()
       }
     })

@@ -15,7 +15,7 @@ const expectNavigationPlacement = async (page: Page, browserName: string) => {
   if (stacked) {
     await expect(opener).toBeVisible()
     await expect(desktop).toBeHidden()
-    await expect(summary).toHaveText('On this page 5 sections')
+    await expect(summary).toHaveText('On this page 4 sections')
     await expect(page.getByRole('navigation', { name: 'Table of contents' })).toHaveCount(0)
     expect(await opener.evaluate(element => {
       const notes = document.querySelector('[data-content-notes]')
