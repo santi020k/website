@@ -68,7 +68,7 @@ test('reading introductions use one responsive interval after the hero', async (
           await document.fonts.ready
         }, size)
         const opening = requireValue(await page.locator('[data-project-opening], [data-article-opening]').boundingBox())
-        const firstContent = page.locator('[data-project-mobile-toc]:visible, [data-content-notes]').first()
+        const firstContent = page.locator('[data-project-mobile-toc]:visible, [data-post-mobile-toc]:visible, [data-content-notes]').first()
         const content = requireValue(await firstContent.boundingBox())
         const interval = (content.y - opening.y - opening.height) / (size / 100 * 16)
 

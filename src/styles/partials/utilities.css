@@ -129,7 +129,8 @@
   [data-reading-body] { padding-block-start: 5rem; }
 }
 
-[data-project-desktop-toc] {
+[data-project-desktop-toc],
+[data-post-desktop-toc] {
   display: none;
 }
 
@@ -143,11 +144,13 @@
     [data-project-reading] > [data-project-sidebar] { grid-column: 2; grid-row: 1 / span 2; }
     [data-project-closing] { grid-column: 1; grid-row: 2; }
 
-    [data-project-mobile-toc] {
+    [data-project-mobile-toc],
+    [data-post-mobile-toc] {
       display: none;
     }
 
-    [data-project-desktop-toc] {
+    [data-project-desktop-toc],
+    [data-post-desktop-toc] {
       display: block;
     }
 

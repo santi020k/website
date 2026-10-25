@@ -885,16 +885,16 @@ When a project has no headings, omit the table of contents without a replacement
 or empty-state notice. Begin the sidebar with Focus. Keep the sidebar's normal spacing;
 do not reserve a gap for absent navigation. Articles likewise omit empty navigation.
 
-### Chapter opener project navigation
+### Chapter opener reading navigation
 
-In the stacked project reading layout, place navigation immediately before Work notes
-(or the project's equivalent notes header). Use a closed native Lumen Collapsible with
+In stacked project and article reading layouts, place navigation immediately before
+Work notes or Article notes. Use a closed native Lumen Collapsible with
 the On this page label, a count of top-level sections, and a downward chevron. Its
 opaque panel shares the Margin rail corners, border, and 0.75rem label; the summary
 has a 4.25rem minimum height. Opening it reveals the complete heading list, including
 subsections, with the existing Margin rail spacing and active marker.
 
-Switch to the sidebar's Chapter groups only when the reading layout has both
+Switch to the project's Chapter groups or the article's Margin rail only when the reading layout has both
 a 64rem viewport and a 56rem container. Hide the other copy with CSS so only one
 navigation is available to keyboard and assistive technology. Reuse the same heading
 data and Lumen Anchor behavior. Preserve fragment links
@@ -1674,8 +1674,9 @@ can resolve a root `rem` scroll padding against the default font size, which pla
 headings under the header. Article and project layouts mark their `<article>` with
 `data-reading-layout`, a named `reading-layout` container. The prose and its sidebar
 (`data-reading-body` and `data-reading-rail`) share a row only on desktop viewports whose reading
-container is at least 56rem in root-relative units, so enlarged text stacks the sidebar below the
-prose instead of squeezing it; the default 1024px layout keeps both columns. Under that same
+container is at least 56rem in root-relative units. Enlarged text moves reading navigation
+to the Chapter opener and stacks project context below the prose instead of squeezing it;
+the default 1024px layout keeps both columns. Under that same
 condition the semantic sidebar `<aside>` stays sticky, caps its height to the viewport below the
 header, and scrolls natively; inline padding keeps the table of contents' active marker and focus
 rings visible. Otherwise rails stay in normal flow. The generic `editorial-rail` utility, such as

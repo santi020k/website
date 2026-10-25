@@ -5,7 +5,7 @@ const LONG_ARTICLE = '/blog/run-repo-on-mac-with-silo-dxmt/'
 const LONG_TITLE_ARTICLE = '/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/'
 
 const openContents = async (page: Page) => {
-  const opener = page.locator('[data-project-mobile-toc] summary')
+  const opener = page.locator('[data-project-mobile-toc] summary, [data-post-mobile-toc] summary')
 
   if (await opener.isVisible()) await opener.click()
 
@@ -175,12 +175,13 @@ for (const theme of ['light', 'dark'] as const) {
         await page.setViewportSize({ width: 1440, height: 900 })
         await openWithEnlargedText(page, LONG_ARTICLE, size)
         await settleLayout(page)
+        const navigation = await openContents(page)
 
         for (const fragment of ['troubleshooting-notes', 'what-you-need']) {
           await page.locator(`#${fragment}`).evaluate(heading => {
             heading.scrollIntoView({ block: 'start' })
           })
-          const link = page.locator(`[data-toc-tree] a[href="#${fragment}"]`)
+          const link = navigation.locator(`a[href="#${fragment}"]`)
 
           await expect.poll(() => page.locator(`#${fragment}`).evaluate(heading => {
             const padding = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)
@@ -188,7 +189,7 @@ for (const theme of ['light', 'dark'] as const) {
             return Math.abs(heading.getBoundingClientRect().top - padding)
           })).toBeLessThanOrEqual(1)
           await expect(link).toHaveAttribute('aria-current', 'location')
-          await expect(page.locator('[data-toc-tree] [aria-current="location"]')).toHaveCount(1)
+          await expect(navigation.locator('[aria-current="location"]')).toHaveCount(1)
         }
       })
     }
@@ -227,7 +228,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.locator('#troubleshooting-notes').evaluate(heading => {
         heading.scrollIntoView({ block: 'start' })
       })
-      await expect(page.locator('[data-toc-tree] a[href="#troubleshooting-notes"]')).toHaveAttribute('aria-current', 'location')
+      await expect(page.getByRole('navigation', { name: 'Table of contents', exact: true }).locator('a[href="#troubleshooting-notes"]')).toHaveAttribute('aria-current', 'location')
       await expect.poll(() => page.locator('#troubleshooting-notes').evaluate(heading => Math.abs(heading.getBoundingClientRect().top - 237))).toBeLessThanOrEqual(1)
     })
 
@@ -274,7 +275,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.setViewportSize({ width: 320, height: 1000 })
       await openWithEnlargedText(page, '/blog/why-developer-experience-work-should-be-measured-like-product-work/')
       await settleLayout(page)
-      const navigation = page.getByRole('navigation', { name: 'Table of contents', exact: true })
+      const navigation = await openContents(page)
       const clipped = await navigation.getByRole('link').evaluateAll(links => links.flatMap(link => {
         const box = link.getBoundingClientRect()
         const range = document.createRange()
@@ -373,9 +374,12 @@ for (const theme of ['light', 'dark'] as const) {
           const bounds = prose.getBoundingClientRect()
           const article = prose.closest('article')?.getBoundingClientRect()
           const rail = prose.closest('article')?.querySelector('[data-reading-rail]')?.getBoundingClientRect()
+          const opener = prose.closest('article')?.querySelector('[data-post-mobile-toc]')?.getBoundingClientRect()
 
           return article !== undefined && rail !== undefined &&
-            bounds.width >= article.width * 0.8 && rail.top >= bounds.bottom
+            bounds.width >= article.width * 0.8 && (opener ?
+            opener.height > 0 && opener.bottom <= bounds.top && rail.width === 0 :
+            rail.top >= bounds.bottom)
         })
 
         expect(comfortable).toBe(true)
@@ -424,7 +428,6 @@ for (const theme of ['light', 'dark'] as const) {
             }
 
             await expectHeadingClear()
-            await expect(page.locator(`[data-toc-tree] a[href="#${fragment}"]`).first()).toHaveAttribute('aria-current', 'location')
             const navigation = await openContents(page)
             const link = navigation.locator(`a[href="#${fragment}"]`)
 
