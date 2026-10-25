@@ -141,8 +141,8 @@ for (const project of [
     await expect(page.getByRole('region', { name: 'At a glance', exact: true })).toHaveCount(0)
     const details = page.getByRole('complementary', { name: 'Project details' })
 
-    for (const name of ['Focus', 'Core stack']) {
-      await expect(details.getByRole('heading', { level: 2, name, exact: true })).toBeVisible()
-    }
+    await expect(details.getByRole('heading', { level: 2, name: 'Focus', exact: true })).toBeVisible()
+    await expect(details.getByRole('heading', { name: 'Core stack', exact: true })).toHaveCount(0)
+    await expect(page.getByRole('region', { name: 'Stack', exact: true })).toHaveCount(1)
   })
 }

@@ -214,6 +214,8 @@
 
 - Place project previews in a Contextual gallery after the relevant story introduction. Preserve Gallery sheet images, captions, and development disclosures; derive navigation order from authored chapter headings, retain existing gallery fragments, and support keyboard and no-JavaScript reading.
 
+- Use Hero-only stack on project detail pages: retain the complete Progressive stack in the hero, remove the repeated Core stack sidebar card, and keep Focus and Outcomes together. Preserve existing stack fragments, technology destinations, and keyboard and no-JavaScript disclosure behavior.
+
 ### Patch Changes
 
 - Refine the homepage with a wide editorial lead story, image-led recent articles, larger reading
