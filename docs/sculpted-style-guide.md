@@ -1121,8 +1121,10 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   keyboard behavior, and reduced-motion support. Opening fills the header into one
   continuous surface, with a short row reveal and 7px blur behind it. Keep the
   backdrop and scroll lock through the exit animation; reopening cancels the exit.
-- Search uses the same raised title tab, diagonal step, solid body, accent close
-  control, and blurred backdrop. Keep its input and results separated by fine rules.
+- Search uses **Search cover**: an asymmetric solid sheet, a tinted title area,
+  and a bordered search field overlapping the lower edge of that title area. Keep
+  the close control on its own surface, the blurred backdrop, and the existing
+  Cover ledger results and Recovery folio states below the field.
   Long results scroll inside the dialog while the input and close control remain
   visible. At short heights, hide decorative copy and the visible shortcut legend
   before reducing the results scroll area; keep the legend available to assistive

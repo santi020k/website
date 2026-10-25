@@ -194,6 +194,8 @@
 
 - Apply Search dock to the technology index search panel, with an inset field and a separate live count compartment. Preserve filtering, group counts, empty-state recovery, native technology links, and complete screen-reader announcements across responsive layouts.
 
+- Apply Search cover to the site-search header and input, with a tinted heading and inset search field. Preserve the existing search results and recovery states, keyboard focus, live announcements, and a single scrolling results area across narrow, short, and enlarged-text layouts.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

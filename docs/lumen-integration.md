@@ -231,9 +231,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
 - The header search trigger (Lumen `Button`, `size="icon"`) and `ThemeToggle` keep Lumen's
   semantics and behavior. `src/styles/partials/nav.css` replaces their default glass, glow, and
   hover-lift styling with the sculpted header action treatment and the shared header focus
-  outline. The search panel inside Lumen's fullscreen `Dialog` is site-owned: its rem-based
-  container queries compact the chrome for narrow, short, or enlarged-text viewports while the
-  results list stays the only scroll region.
+  outline. The **Search cover** panel inside Lumen's fullscreen `Dialog` is site-owned:
+  a tinted heading and inset field compose the existing `SearchField`, `Button`, and `Icon`
+  primitives without changing the search controller. Its rem-based container queries compact
+  the chrome for narrow, short, or enlarged-text viewports while the results list stays the
+  only scroll region.
   `SiteSearch.astro` imports its typed controller from `site-search.ts` through a processed Astro
   script. The bundled module owns one set of lifecycle listeners and one lazy index cache across
   page swaps; index validation, ranking, and topic suggestions live in `src/utils/search.ts`.
