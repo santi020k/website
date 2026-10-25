@@ -5,7 +5,7 @@
  * Domain-specific files can also be imported directly for smaller bundles:
  *   import type { SiteMeta } from '@/types/site'
  */
-export type { AdmonitionType } from './content'
+export type { AdmonitionType, ProjectPreviewImage } from './content'
 export type {
   PaginationLink,
   PreloadAsset,

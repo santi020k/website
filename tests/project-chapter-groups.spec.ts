@@ -121,11 +121,12 @@ test('a single chapter begins expanded and its overview remains a native destina
 })
 
 test('desktop chapters and their section destinations work without JavaScript', async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } })
+  const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } })
   const page = await context.newPage()
 
   try {
     await page.goto(route)
+    await page.evaluate(() => document.fonts.ready)
     const chapter = page.locator('[data-project-chapters] details').first()
 
     await chapter.locator('summary').focus()

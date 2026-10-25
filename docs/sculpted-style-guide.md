@@ -973,6 +973,21 @@ Lumen binds the trigger. Failed images offer an original-image link. Native Lume
 controls own modal opening, closing, and focus return; a small custom element manages
 image insertion, detail inspection, and listener cleanup on page transitions.
 
+### Comparison spread project screenshots
+
+Before and after screenshots share one opaque Lumen Card with the Gallery sheet's
+1.5rem corners and 0.5rem lower-right corner. A fine ruled header pairs the client
+name with the comparison context. Keep each state label above its level-four title,
+followed by the complete screenshot and the shared Gallery viewer control.
+
+Use equal columns with 1.25rem insets and aligned caption, image, and action rows.
+The After column uses the soft brand surface; a fine vertical rule separates it
+from Before. Below 32.5rem of container width, stack Before above After and move
+the dividing rule to the top. Below 18rem, reduce insets to 1rem. Preserve intrinsic
+image proportions, descriptive alternatives, both visible states, and native
+full-image links without JavaScript. The surrounding authored heading stays in
+reading navigation; the comparison does not introduce extra navigation chapters.
+
 ### Letter folio newsletter signup
 
 The Blog newsletter uses one opaque Lumen Card with a small upper-left corner and

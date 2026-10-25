@@ -33,6 +33,19 @@ Full-size images load only when requested; the control opens the image directly 
 JavaScript is unavailable. Keep source resolution sufficient for inspection, and retain
 the existing disclosure when refreshing images.
 
+## Before and after comparisons
+
+Use `ProjectComparison` for a pair of existing screenshots inside their owning chapter.
+Pass a stable `id`, client `label`, short `context`, and `before`/`after` entries with
+the same image, alternative text, title, and caption contract as Gallery viewer.
+Import local images in MDX so Astro optimizes them. Keep the section's Markdown
+heading outside the component to preserve its fragment and place in reading navigation.
+
+Smith's Marcone section uses the existing `before.webp` and `after.webp` captures.
+Comparison spread keeps both visible, stacks them in chronological order on narrow
+screens, and reuses Gallery viewer for inspection. Preserve original captions and
+metric attribution; these captures do not establish the current production state.
+
 ## Current sources
 
 - Lumen's `preview-web.webp` and `preview-apple.webp` are unchanged copies of

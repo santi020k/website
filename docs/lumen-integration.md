@@ -191,6 +191,11 @@ enlarged text sizes. No new client controller is introduced.
   on disconnection. The original-image link stays available until the public trigger
   binding is ready, preserving a useful no-JavaScript path. Modal shortcuts stay inside
   the viewer rather than opening site search above it.
+  `ProjectComparison` reuses that viewer and its typed preview contract for Comparison
+  spread. An unstyled Lumen `Card` groups two semantic figures with optimized `Image`
+  captures. Scoped container queries stack the pair, and shared grid rows align their captions,
+  images, and actions. MDX retains the existing comparison heading and source assets;
+  no additional controller or comparison-slider runtime is introduced.
 - Project timeline endpoints use separate native `time` elements. Hero-led project
   facts keep Role, Timeline, and Duration in the hero without a repeated sidebar dossier.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled

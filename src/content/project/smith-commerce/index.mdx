@@ -52,6 +52,12 @@ import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astr
 
 import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
 
+import ProjectComparison from '@/components/molecules/ProjectComparison.astro'
+
+import beforeImage from './before.webp'
+
+import afterImage from './after.webp'
+
 ## Two commerce projects at Smith
 
 At [Smith Commerce](https://smithcommerce.com), my work as a Senior Front End Developer has spanned two client projects: **Marcone** and **F.W. Webb**. Across both, I have worked on the frontend systems that connect product discovery, purchasing, and account workflows with commerce APIs.
@@ -91,15 +97,23 @@ This was not a greenfield marketing site. It was a storefront migration with rea
 
 The difference was visible in both performance and experience:
 
-![Before — Legacy Monolith](before.webp)
-<div class="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
-  Before — Legacy Monolith
-</div>
-
-![After — Headless Storefront](after.webp)
-<div class="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
-  After — Headless Storefront
-</div>
+<ProjectComparison
+  id="marcone-comparison"
+  label="Marcone"
+  context="Storefront evolution"
+  before={{
+    src: beforeImage,
+    alt: 'Marcone legacy storefront with its category sidebar and product catalog.',
+    title: 'Legacy monolith',
+    caption: 'Before — Legacy Monolith'
+  }}
+  after={{
+    src: afterImage,
+    alt: 'Marcone headless storefront with its updated navigation and account dashboard.',
+    title: 'Headless storefront',
+    caption: 'After — Headless Storefront'
+  }}
+/>
 
 ## F.W. Webb: building the purchasing experience
 

@@ -24,7 +24,7 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
           localStorage.setItem('theme', value)
         }, theme)
         await page.goto(`/portfolio/${slug}/#inside-the-product`)
-        const viewer = page.locator('project-preview-viewer').first()
+        const viewer = page.locator('[data-product-previews] project-preview-viewer').first()
         const opener = viewer.getByRole('button', { name: /^View larger:/u })
         const dialog = viewer.getByRole('dialog')
 
@@ -97,7 +97,7 @@ for (const width of [390, 1440]) {
     await page.evaluate(() => {
       document.documentElement.style.fontSize = '200%'
     })
-    const viewer = page.locator('project-preview-viewer').first()
+    const viewer = page.locator('[data-product-previews] project-preview-viewer').first()
 
     await viewer.getByRole('button', { name: /^View larger:/u }).click()
     const dialog = viewer.getByRole('dialog')
@@ -117,7 +117,7 @@ test('full-size images load on demand and each viewer keeps its own image and ca
 
   page.on('request', request => requested.add(new URL(request.url()).pathname))
   await page.goto(route)
-  const viewers = page.locator('project-preview-viewer')
+  const viewers = page.locator('[data-product-previews] project-preview-viewer')
   const fullImages = await viewers.locator('[data-gallery-fallback]').evaluateAll(links => links.map(link => link.getAttribute('href')))
 
   expect(fullImages.every(src => src !== null && !requested.has(src))).toBe(true)
@@ -133,7 +133,7 @@ test('full-size images load on demand and each viewer keeps its own image and ca
 
 test('failed images keep a recovery link and can be retried by reopening', async ({ page }) => {
   await page.goto(route)
-  const viewer = page.locator('project-preview-viewer').first()
+  const viewer = page.locator('[data-product-previews] project-preview-viewer').first()
   const fullImage = await viewer.locator('[data-gallery-fallback]').getAttribute('href')
 
   expect(fullImage).not.toBeNull()
@@ -154,12 +154,12 @@ test('failed images keep a recovery link and can be retried by reopening', async
 test('viewer controls reconnect after client navigation and Back', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto(route)
-  const viewer = page.locator('project-preview-viewer').first()
+  const viewer = page.locator('[data-product-previews] project-preview-viewer').first()
 
   await viewer.getByRole('button', { name: /^View larger:/u }).click()
   await viewer.getByRole('button', { name: 'Close', exact: true }).click()
   await Promise.all([waitForPageLoad(page, '/portfolio/void/'), page.getByRole('link', { name: 'Read case study: Void.GG', exact: true }).click()])
-  await expect(page.locator('project-preview-viewer')).toHaveCount(0)
+  await expect(page.locator('[data-product-previews] project-preview-viewer')).toHaveCount(0)
   await Promise.all([waitForPageLoad(page, route), page.goBack()])
   await viewer.getByRole('button', { name: /^View larger:/u }).click()
   await expect(viewer.locator('[data-gallery-status]')).toHaveText('Complete image')
@@ -173,7 +173,7 @@ test('without JavaScript, View larger opens the full-size image directly', async
 
   try {
     await page.goto(route)
-    const viewer = page.locator('project-preview-viewer').first()
+    const viewer = page.locator('[data-product-previews] project-preview-viewer').first()
     const link = viewer.getByRole('link', { name: /^View larger:/u })
 
     await expect(viewer.getByRole('button', { name: /^View larger:/u })).toHaveCount(0)

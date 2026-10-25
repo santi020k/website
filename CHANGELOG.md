@@ -228,6 +228,8 @@
 
 - Add Gallery viewer to project preview sheets with on-demand full-resolution images, fit and detail views, keyboard panning, accessible dialog controls, and an original-image fallback for loading failures or disabled JavaScript.
 
+- Apply Comparison spread to the Marcone before-and-after screenshots: pair the original captures in one editorial surface, stack them at narrow widths, and reuse Gallery viewer for full-resolution inspection. Preserve the chapter anchor, existing captions, image alternatives, and no-JavaScript links.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

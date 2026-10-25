@@ -1,14 +1,13 @@
 ---
 import { getImage } from 'astro:assets'
-import type { CollectionEntry } from 'astro:content'
 
 import { Button, ButtonLink, Dialog, DialogClose, DialogTitle, Icon, Image } from '@santi020k/lumen-astro'
 
-type Preview = NonNullable<CollectionEntry<'project'>['data']['previews']>['images'][number]
+import type { ProjectPreviewImage } from '@/types'
 
 interface Props {
   id: string
-  preview: Preview
+  preview: ProjectPreviewImage
 }
 
 const { id, preview } = Astro.props
