@@ -721,7 +721,16 @@ Use the Work intro container: below 53.125rem, show four full-width rows with a
 a 1rem gap, and 1.5rem row insets. Below 17.5rem, move each figure above its copy
 to preserve a comfortable reading width. Scale the figure
 with the container below 14rem for enlarged text. Use semantic light and dark
-accents, level-two headings to name the articles, and no links or animation.
+accents and level-two headings to name the articles. Keep each article passive,
+without a card hover effect or new animation.
+
+Keep the figures aligned with the top of their copy when captions extend a row.
+The approved Evidence captions sit below each supported description in 0.75rem
+accent text, with a 44px minimum target and a visible focus outline. Use a downward
+arrow for the timeline and toolkit section jumps; named case-study sources use a
+rightward arrow. Link only the caption, preserve the figures and their attribution,
+and allow the complete source label to wrap on narrow screens. Do not invent a
+source link for an unverified claim.
 
 ### Timeline folio career cards
 
