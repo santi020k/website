@@ -28,6 +28,13 @@ coverImage:
   logoAspect: "square"
   alt: "Nebular logo on a dark blue geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Web delivery"
+    description: "Rails applications and client-facing interfaces"
+  - label: "Mobile products"
+    description: "Hybrid apps and native Android development"
+  - label: "Client commerce"
+    description: "WordPress and WooCommerce solutions"
 ---
 
 ## Exploring full-stack and cross-platform development in a high-growth studio

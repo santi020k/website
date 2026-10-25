@@ -216,6 +216,8 @@
 
 - Use Hero-only stack on project detail pages: retain the complete Progressive stack in the hero, remove the repeated Core stack sidebar card, and keep Focus and Outcomes together. Preserve existing stack fragments, technology destinations, and keyboard and no-JavaScript disclosure behavior.
 
+- Use Scope ledger for project Focus cards, with authored work areas for every project, semantic label and description rows, and responsive spacing. Replace repeated type-based summaries while preserving the Focus fragment and passive reading behavior.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
@@ -495,6 +497,8 @@
 - Refine mobile card integration with compact About and Work statistic rails, one responsive hero-to-content interval on articles and projects, and narrower chapter-navigation margins that give long titles more room. Preserve full copy, enlarged-text reflow, desktop compositions, and the approved footer.
 
 - Recover cached pages during offline navigation without a trailing slash and separate repeated copy-link status updates so assistive technology can detect each result, cancelling pending feedback when leaving an article.
+
+- Connect the Work career timeline with one continuous rail aligned to each start year, distinguish active and completed milestones, and end the line at the final role. Remove crossing row dividers while preserving the approved cards, company hover colors, semantic dates, and responsive keyboard access.
 
 - Preserve complete Unicode characters in webmention initials and bounded reply excerpts, and render valid timezone-free mention dates consistently across build environments while retaining existing loose-date compatibility.
 

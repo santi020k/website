@@ -29,6 +29,13 @@ coverImage:
   logoAspect: "square"
   alt: "TEDx Medellin wordmark on a red and charcoal geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Event website"
+    description: "WordPress implementation and content setup"
+  - label: "Launch support"
+    description: "Technology coordination with the marketing team"
+  - label: "Visual direction"
+    description: "UI and brand execution through Justbit"
 ---
 
 ## Launching the digital front door for TEDx Medellin 2019

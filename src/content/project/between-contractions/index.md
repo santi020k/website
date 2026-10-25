@@ -26,6 +26,13 @@ coverImage:
   logoSurface: "dark"
   alt: "Between Contractions pulse logo on a dark red geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Calm timing"
+    description: "One clear action with private, local history"
+  - label: "Native access"
+    description: "Web, Apple, and Android interfaces with watch companions"
+  - label: "Partner Sync"
+    description: "Optional coordination alongside the offline core"
 ---
 
 ## A calm timer for a moment that already asks enough

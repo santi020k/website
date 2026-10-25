@@ -33,6 +33,13 @@ coverImage:
   logoSurface: "dark"
   alt: "Quality logo on a dark geometric cover with blue accents"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Tool coordination"
+    description: "Native analyzers behind one predictable CLI"
+  - label: "Repository context"
+    description: "Canonical scripts and focused changed-file checks"
+  - label: "Review feedback"
+    description: "Baselines, CI annotations, and actionable reports"
 ---
 
 <!-- cspell:words Clippy detekt ktlint SARIF -->

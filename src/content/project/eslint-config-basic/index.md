@@ -30,6 +30,13 @@ coverImage:
   logoSurface: "dark"
   alt: "@santi020k/eslint-config-basic badge on an indigo and lilac geometric cover"
   ogImage: "./cover-eslint-config.webp"
+focusAreas:
+  - label: "Shared standards"
+    description: "Composable JavaScript and TypeScript defaults"
+  - label: "Framework support"
+    description: "Optional packages for the tools already in a project"
+  - label: "Team workflows"
+    description: "Strict CI checks, examples, and practical documentation"
 ---
 
 ## Building a DX-first ESLint toolkit

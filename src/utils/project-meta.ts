@@ -22,7 +22,6 @@ const PROJECT_TYPE_META = {
     notesLabel: 'Community story',
     notesDescription: 'A closer look at the events, mentorship, and organizing work behind this developer community.',
     relatedHeading: 'More community work.',
-    focusLabel: 'Meetups, workshops, mentorship, and accessible knowledge sharing.',
     stageActive: 'Active community',
     stageCompleted: 'Past community work',
     scopeHighlights: [
@@ -37,7 +36,6 @@ const PROJECT_TYPE_META = {
     notesLabel: 'Project notes',
     notesDescription: 'A closer look at the design decisions, technical choices, and problems this project was built to solve.',
     relatedHeading: 'More projects in a similar lane.',
-    focusLabel: 'Open source, self-directed tools, and practical developer experience.',
     stageActive: 'Active project',
     stageCompleted: 'Completed project',
     scopeHighlights: [
@@ -52,7 +50,6 @@ const PROJECT_TYPE_META = {
     notesLabel: 'Experiment notes',
     notesDescription: 'A closer look at the hypothesis, the approach taken, and what the experiment revealed.',
     relatedHeading: 'More experiments in a similar lane.',
-    focusLabel: 'Experiments in product direction, tooling, and interaction design.',
     stageActive: 'Active experiment',
     stageCompleted: 'Completed experiment',
     scopeHighlights: [
@@ -67,7 +64,6 @@ const PROJECT_TYPE_META = {
     notesLabel: 'Work notes',
     notesDescription: 'A closer look at the delivery decisions, technical tradeoffs, and product constraints behind this work.',
     relatedHeading: 'More work in a similar lane.',
-    focusLabel: 'Architecture, delivery leadership, and product quality under real constraints.',
     stageActive: 'Active work',
     stageCompleted: 'Completed work',
     scopeHighlights: [
@@ -101,8 +97,6 @@ export const getProjectNotesLabel = (type: ProjectType): string => PROJECT_TYPE_
 export const getProjectNotesDescription = (type: ProjectType): string => PROJECT_TYPE_META[key(type)].notesDescription
 
 export const getProjectRelatedHeading = (type: ProjectType): string => PROJECT_TYPE_META[key(type)].relatedHeading
-
-export const getProjectFocusLabel = (type: ProjectType): string => PROJECT_TYPE_META[key(type)].focusLabel
 
 export const getProjectScopeHighlights = (type: ProjectType): string[] => [
   ...PROJECT_TYPE_META[key(type)].scopeHighlights

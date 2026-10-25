@@ -29,6 +29,13 @@ coverImage:
   logoSurface: "light"
   alt: "Codepwr logo on a navy, cyan, and ivory geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Client delivery"
+    description: "Parallel work across gaming, SaaS, and martech products"
+  - label: "Full-stack systems"
+    description: "Web, mobile, and backend implementation"
+  - label: "Performance"
+    description: "API tuning, query improvements, and modular interfaces"
 ---
 
 ## Shipping across gaming, SaaS, and product engineering work

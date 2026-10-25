@@ -218,7 +218,7 @@ only absolute HTTP or HTTPS URLs. Private mentions and entries without a usable
 source URL are omitted. Avatars have fixed dimensions, so rendering does not
 need to fetch their dimensions from third-party hosts.
 
-Rendering keeps user-perceived characters intact. Placeholder avatar initials
+Initials and reply cutoffs respect complete user-perceived characters. Placeholder avatar initials
 take the first full grapheme of the name, and reply text is trimmed and capped
 at 2,000 UTF-16 code units, cut back to the nearest complete grapheme without
 an ellipsis. Valid mention dates accepted by the content-date parser

@@ -27,6 +27,13 @@ coverImage:
   logoAspect: "square"
   alt: "ReactJS Colombia logo on a midnight blue geometric cover with yellow and blue accents"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Practical learning"
+    description: "Free React meetups and hands-on workshops"
+  - label: "Community care"
+    description: "Mentorship for developers and first-time speakers"
+  - label: "Event delivery"
+    description: "Topic curation, speaker support, and local logistics"
 ---
 
 ## Building one of Colombia's most active React communities

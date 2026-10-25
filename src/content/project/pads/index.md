@@ -28,6 +28,13 @@ coverImage:
   logoAspect: "wide"
   alt: "PADS wordmark on a magenta and charcoal geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Property discovery"
+    description: "Search, maps, and location-aware listings"
+  - label: "Broker tools"
+    description: "Connected back-office and mobile workflows"
+  - label: "Platform access"
+    description: "Authentication and multilingual product flows"
 ---
 
 ## Leading real estate innovation with PADS

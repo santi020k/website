@@ -28,6 +28,13 @@ coverImage:
   logoAspect: "square"
   alt: "Justbit logo on a teal and charcoal geometric cover"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Technical direction"
+    description: "Architecture and stack choices for client products"
+  - label: "Studio delivery"
+    description: "Scoping, implementation, launch, and iteration"
+  - label: "Growth support"
+    description: "SEO, conversion, and cross-functional client work"
 ---
 
 ## Building tailored web solutions from the ground up

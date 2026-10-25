@@ -23,6 +23,13 @@ coverImage:
   logoSurface: "neutral"
   alt: "Coolstead cooling logo on a dark blue geometric cover with cyan accents"
   ogImage: "./cover.webp"
+focusAreas:
+  - label: "Thermal visibility"
+    description: "Native menu-bar monitoring for Mac hardware"
+  - label: "Gradual cooling"
+    description: "Bounded fan curves with smooth target changes"
+  - label: "Safe recovery"
+    description: "Return to automatic control when readings are unreliable"
 ---
 
 ## Designing steadier cooling for a Mac

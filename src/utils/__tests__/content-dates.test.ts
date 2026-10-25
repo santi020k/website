@@ -80,6 +80,10 @@ const project = (startingDate: unknown, endingDate?: unknown, updatedDate?: unkn
   title: 'Example project',
   description: 'A content date fixture.',
   brand: { primary: '#112233', secondary: '#445566', surface: '#778899' },
+  focusAreas: [
+    { label: 'Architecture', description: 'Shared platform foundations' },
+    { label: 'Delivery', description: 'Product implementation and release work' }
+  ],
   startingDate,
   ...(endingDate === undefined ? {} : { endingDate }),
   ...(updatedDate === undefined ? {} : { updatedDate })

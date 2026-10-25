@@ -718,8 +718,12 @@ accents, level-two headings to name the articles, and no links or animation.
 
 Work's career list places the start year and month in an 8.125rem date rail beside a
 single opaque Lumen Card. Keep the end month and year, or Present, in the rail too.
-The purple connector leads each role; the card uses 1.125rem corners with a 0.375rem
-lower-right corner and the navigation shadow token. A small status and decorative
+One continuous accent-tinted rail connects markers centered on the start years.
+Use a filled marker with a quiet halo for active roles and outlined markers for
+completed roles. Each segment reaches the next marker across the card gap; stop
+at the final marker, without a dangling tail or horizontal rules cutting the rail.
+Keep 2.5rem between desktop cards and 2rem between mobile entries. The card uses
+1.125rem corners with a 0.375rem lower-right corner and the navigation shadow token. A small status and decorative
 icon precede the complete company heading, role, and description. A tinted footer
 holds plain technology labels and the case-study action.
 
@@ -763,15 +767,23 @@ The project type remains in the eyebrow and breadcrumb above the cover. Omit the
 former At a glance sidebar card instead of repeating these facts while reading.
 After navigation, the sidebar continues with Focus and optional Outcomes.
 
-### Margin note focus cards
+### Scope ledger focus cards
 
-Project Focus uses one opaque Lumen Card with the dossier's 1.5rem corners and
-0.5rem lower-right corner. Place a sentence-case 0.75rem label opposite the small
-target icon, then the complete focus statement at 1.125rem with 1.8125rem leading.
-A 2px purple margin rule and 1.0625rem text inset give the statement its emphasis.
-Use brand in light mode and accent in dark mode. Preserve the project-type copy,
-semantic heading, and passive appearance. Below 16rem of rail width, tighten the
-card and paragraph insets and use 1rem statement text to keep ordinary words intact.
+Project Focus uses one opaque Lumen Card with 1.5rem corners and a 0.5rem
+lower-right corner. Keep the sentence-case 0.75rem label opposite the target icon.
+Replace the generic project-type statement with two or three authored `focusAreas`
+from the project frontmatter. Each entry has a short `label` and a specific
+`description` supported by the case study; do not turn technologies or outcome
+metrics into a second inventory here.
+
+Use a semantic definition list. Set labels at 1rem with a 2px purple margin rule;
+place their 0.8125rem descriptions below, aligned to the label text. Separate rows
+with fine rules and 1.125rem vertical space, without nested cards or hover feedback.
+Use brand in light mode and accent in dark mode. Preserve the Focus heading and
+`#sidebar-focus` fragment. Below 16rem of rail width, tighten horizontal insets and
+use 0.875rem labels with 0.75rem descriptions so complete words remain readable
+with enlarged text. Keep description tracking neutral rather than inheriting the
+page's wider letter spacing.
 
 ### Hero-only project stack
 

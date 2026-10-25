@@ -25,6 +25,13 @@ coverImage:
   logoAspect: "square"
   logoSurface: "dark"
   alt: "Santi020k Theme logo on a deep indigo geometric cover"
+focusAreas:
+  - label: "Shared palette"
+    description: "Semantic tokens across editors, terminals, and tools"
+  - label: "Platform themes"
+    description: "Native formats with light, dark, and contrast options"
+  - label: "Product guidance"
+    description: "A unified website with installation and preview tools"
 ---
 
 ## Building one theme family across the developer workspace

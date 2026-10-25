@@ -23,6 +23,10 @@ const makeProject = (
       description: 'A project',
       endingDate: undefined,
       draft: false,
+      focusAreas: [
+        { label: 'Architecture', description: 'Shared platform foundations' },
+        { label: 'Delivery', description: 'Product implementation and release work' }
+      ],
       impactMetrics: [],
       relevanceWeight: 0,
       startingDate: new Date('2022-01-01'),

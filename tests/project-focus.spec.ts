@@ -14,10 +14,33 @@ for (const theme of ['light', 'dark']) {
       await page.addInitScript(value => {
         localStorage.setItem('theme', value)
       }, theme)
-      for (const [slug, statement] of [
-        ['smith-commerce', 'Architecture, delivery leadership, and product quality under real constraints.'],
-        ['lumen-ui', 'Open source, self-directed tools, and practical developer experience.']
-      ] as const) {
+      for (const { slug, labels, descriptions } of [
+        {
+          slug: 'smith-commerce',
+          labels: ['Marcone', 'F.W. Webb', 'Shared foundations'],
+          descriptions: ['Headless storefront modernization', 'Purchasing and account workflows', 'Components, APIs, and delivery']
+        },
+        {
+          slug: 'datagran',
+          labels: ['Modernization', 'Product interfaces', 'Quality'],
+          descriptions: ['Gradual migration from jQuery to React', 'Dashboards and marketing workflows', 'Typed components and testing']
+        },
+        {
+          slug: 'lumen-ui',
+          labels: ['Shared foundations', 'Platform adapters', 'Design workflow'],
+          descriptions: ['Semantic tokens and explicit component contracts', 'Accessible interfaces across web and native stacks', 'Product layouts, Figma, and AI tooling']
+        },
+        {
+          slug: 'justbit',
+          labels: ['Technical direction', 'Studio delivery', 'Growth support'],
+          descriptions: ['Architecture and stack choices for client products', 'Scoping, implementation, launch, and iteration', 'SEO, conversion, and cross-functional client work']
+        },
+        {
+          slug: 'react-js-colombia',
+          labels: ['Practical learning', 'Community care', 'Event delivery'],
+          descriptions: ['Free React meetups and hands-on workshops', 'Mentorship for developers and first-time speakers', 'Topic curation, speaker support, and local logistics']
+        }
+      ]) {
         await page.goto(`/portfolio/${slug}/`)
         await page.evaluate(size => {
           document.documentElement.style.fontSize = `${size}%`
@@ -26,12 +49,13 @@ for (const theme of ['light', 'dark']) {
         const card = page.getByRole('region', { name: 'Focus', exact: true })
 
         await expect(card.getByRole('heading', { name: 'Focus', level: 2 })).toBeVisible()
-        await expect(card.locator('p')).toHaveText(statement)
+        await expect(card.getByRole('term')).toHaveText(labels)
+        await expect(card.getByRole('definition')).toHaveText(descriptions)
         await expect(card.locator('a, button, [tabindex]')).toHaveCount(0)
-        expect(await card.locator('p').evaluate(element => {
+        expect(await card.locator('dt, dd').evaluateAll(elements => elements.every(element => {
           const text = element.firstChild
 
-          if (!text) throw new Error('Focus statement is missing')
+          if (!text) throw new Error('Scope text is missing')
           const range = document.createRange()
 
           return [...element.textContent.matchAll(/[a-z]+/gi)].every(match => {
@@ -39,11 +63,11 @@ for (const theme of ['light', 'dark']) {
             range.setEnd(text, match.index + match[0].length)
             return range.getClientRects().length === 1
           })
-        })).toBe(true)
+        }))).toBe(true)
         expect(await card.evaluate(element => {
           const bounds = element.getBoundingClientRect()
 
-          return [...element.querySelectorAll('h2, p')].every(child => {
+          return [...element.querySelectorAll('h2, dt, dd')].every(child => {
             const range = document.createRange()
 
             range.selectNodeContents(child)
@@ -81,3 +105,20 @@ for (const theme of ['light', 'dark']) {
     expect(audit.violations).toEqual([])
   })
 }
+
+test('scope ledger preserves the Focus fragment and complete content without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
+  const page = await context.newPage()
+
+  try {
+    await page.goto('/portfolio/smith-commerce/#sidebar-focus')
+    const card = page.getByRole('region', { name: 'Focus', exact: true })
+
+    await expect(card.getByRole('heading', { name: 'Focus' })).toBeInViewport()
+    await expect(card.getByRole('term')).toHaveText(['Marcone', 'F.W. Webb', 'Shared foundations'])
+    await expect(card.getByRole('definition')).toHaveCount(3)
+    await expect(card.locator('a, button, [tabindex]')).toHaveCount(0)
+  } finally {
+    await context.close()
+  }
+})

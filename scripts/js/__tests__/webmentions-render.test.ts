@@ -26,17 +26,19 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('renders safe reader text and dates 
     { text: `${'a'.repeat(1999)}e\u0301tail`, expected: 'a'.repeat(1999) },
     { text: `${'a'.repeat(1998)}👩🏽‍💻tail`, expected: 'a'.repeat(1998) },
     { text: `${'a'.repeat(1998)}𠮷tail`, expected: `${'a'.repeat(1998)}𠮷` },
+    { text: `${'a'.repeat(1998)}𠮷`, expected: `${'a'.repeat(1998)}𠮷` },
+    { text: `${'a'.repeat(1999)}\r\nx`, expected: 'a'.repeat(1999) },
     { text: '<script>Reader text</script>', expected: '<script>Reader text</script>' },
     { text: `e${'\u0301'.repeat(2000)}`, expected: '' },
     { text: '   ', expected: '' }
   ]
   const dateCases = [
-    { published: '2024-05-01T20:00:00', received: null, expected: '2024-05-01T20:00:00.000Z' },
-    { published: '4 Sep 2026', received: null, expected: '2026-09-04T00:00:00.000Z' },
-    { published: '2024-05-01T20:00:00-05:00', received: null, expected: '2024-05-02T01:00:00.000Z' },
-    { published: 'Wed, 01 May 2024 20:00:00 GMT', received: null, expected: '2024-05-01T20:00:00.000Z' },
-    { published: null, received: '2024-05-01T20:00:00', expected: '2024-05-01T20:00:00.000Z' },
-    { published: 'not a date', received: null, expected: null }
+    { published: '2024-05-01T20:00:00', received: null, expected: '2024-05-01T20:00:00.000Z', label: 'May 1, 2024' },
+    { published: '4 Sep 2026', received: null, expected: '2026-09-04T00:00:00.000Z', label: 'Sep 4, 2026' },
+    { published: '2024-05-01T20:00:00-05:00', received: null, expected: '2024-05-02T01:00:00.000Z', label: 'May 2, 2024' },
+    { published: 'Wed, 01 May 2024 20:00:00 GMT', received: null, expected: '2024-05-01T20:00:00.000Z', label: 'May 1, 2024' },
+    { published: null, received: '2024-05-01T20:00:00', expected: '2024-05-01T20:00:00.000Z', label: 'May 1, 2024' },
+    { published: 'not a date', received: null, expected: null, label: null }
   ]
 
   try {
@@ -148,6 +150,8 @@ test.each(['America/Bogota', 'Asia/Tokyo'])('renders safe reader text and dates 
     expect(dom.querySelectorAll('#bounded-replies script')).toHaveLength(0)
     expect.soft([...dom.querySelectorAll('#dates [data-webmention-item]')].map(reply => reply.querySelector('time')?.getAttribute('datetime') ?? null))
       .toEqual(dateCases.map(date => date.expected))
+    expect.soft([...dom.querySelectorAll('#dates [data-webmention-item]')].map(reply => reply.querySelector('time')?.textContent ?? null))
+      .toEqual(dateCases.map(date => date.label))
   } finally {
     rmSync(root, { recursive: true, force: true })
   }

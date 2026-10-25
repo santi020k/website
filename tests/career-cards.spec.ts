@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
+import { requireValue } from './helpers/assertions'
+
 for (const theme of ['light', 'dark']) {
   test(`career cards restore distinct company colors on hover and keyboard focus in ${theme}`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -72,9 +74,48 @@ for (const theme of ['light', 'dark']) {
         const rows = page.locator('[data-timeline-row]')
 
         expect(await rows.count()).toBeGreaterThan(1)
+        await expect(page.getByRole('list', { name: 'Professional experience, newest first' })).toBeVisible()
         await expect(rows.first().locator('[data-career-date]')).toHaveText('May 2025 - Present')
         await expect(rows.first().locator('time')).toHaveAttribute('datetime', '2025-05-01')
         await expect(rows.filter({ hasText: 'Completed' }).first().locator('time')).toHaveCount(2)
+        const rail = await rows.evaluateAll(items => items.map(row => {
+          const link = row.querySelector('[data-career-link]')
+          const year = row.querySelector('[data-career-year]')
+
+          if (!link || !year) throw new Error('A career milestone must have a link and a year')
+          const bounds = link.getBoundingClientRect()
+          const yearBounds = year.getBoundingClientRect()
+          const marker = getComputedStyle(link, '::after')
+          const connector = getComputedStyle(link, '::before')
+          const markerTransform = new DOMMatrixReadOnly(marker.transform === 'none' ? undefined : marker.transform)
+          const connectorTransform = new DOMMatrixReadOnly(connector.transform === 'none' ? undefined : connector.transform)
+          const markerLeft = bounds.left + Number.parseFloat(marker.left) + markerTransform.e
+          const markerTop = bounds.top + Number.parseFloat(marker.top) + markerTransform.f
+          const connectorLeft = bounds.left + Number.parseFloat(connector.left) + connectorTransform.e
+          const connectorTop = bounds.top + Number.parseFloat(connector.top)
+
+          return {
+            markerX: markerLeft + Number.parseFloat(marker.width) / 2,
+            markerY: markerTop + Number.parseFloat(marker.height) / 2,
+            yearCenter: yearBounds.top + yearBounds.height / 2,
+            connectorX: connectorLeft + Number.parseFloat(connector.width) / 2,
+            connectorTop,
+            connectorBottom: connectorTop + Number.parseFloat(connector.height),
+            connectorVisible: connector.display !== 'none'
+          }
+        }))
+
+        for (const point of rail) expect(point.markerY).toBeCloseTo(point.yearCenter, 0)
+        for (const [index, segment] of rail.slice(0, -1).entries()) {
+          const next = requireValue(rail[index + 1])
+
+          expect(segment.connectorVisible).toBe(true)
+          expect(segment.connectorX).toBeCloseTo(segment.markerX, 0)
+          expect(segment.connectorX).toBeCloseTo(next.markerX, 0)
+          expect(segment.connectorTop).toBeCloseTo(segment.markerY, 0)
+          expect(segment.connectorBottom).toBeCloseTo(next.markerY, 0)
+        }
+        expect(rail.at(-1)?.connectorVisible, 'The rail ends at the final milestone').toBe(false)
         for (const row of await rows.all()) {
           const link = row.locator('[data-career-link]')
 
