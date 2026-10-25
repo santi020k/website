@@ -3,15 +3,16 @@ import { getEntry } from 'astro:content'
 
 import { getProjectOutcomeDisplay, getProjectOutcomeLabel } from '@/utils/portfolio-metric'
 
-import { Card, Icon } from '@santi020k/lumen-astro'
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   attribution?: { client: string, context: string }
+  contextLinks?: { label: string, href: `#${string}` }[]
   id?: string
   projectId: string
 }
 
-const { attribution, id, projectId } = Astro.props
+const { attribution, contextLinks = [], id, projectId } = Astro.props
 const project = await getEntry('project', projectId)
 
 if (!project) throw new Error(`Project ${projectId} must exist before rendering its outcomes.`)
@@ -52,6 +53,16 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
         </li>
       ))}
     </ul>
+    {contextLinks.length > 0 && (
+      <nav data-outcome-trail aria-label={`Explore ${attribution?.client ?? project.data.title}`}>
+        <span>Explore {attribution?.client ?? project.data.title}</span>
+        {contextLinks.map(link => (
+          <Link data-outcome-link href={link.href} variant="inherit">
+            <span>{link.label}</span><Icon data-outcome-arrow name="arrow-down-right" size="sm" />
+          </Link>
+        ))}
+      </nav>
+    )}
   </Card>
   </div>
 )}
@@ -80,15 +91,30 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
   [data-outcome-previous] { display: block; margin-bottom: 0.125rem; color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.667; font-weight: 400; letter-spacing: normal; }
   [data-project-outcomes] [data-outcome-kind='written'] { grid-template-columns: 1.25rem minmax(0, 1fr); align-items: start; gap: 0.75rem; }
   [data-project-outcomes] [data-outcome-kind='written'] p { color: hsl(var(--ink)); font-size: 0.875rem; line-height: 1.714; }
+  [data-outcome-trail] { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; margin-inline: 1.5rem; padding-block: 1rem; border-top: 1px solid hsl(var(--line)); letter-spacing: normal; }
+  [data-outcome-trail] > span { color: hsl(var(--ink-soft)); font-size: 0.75rem; line-height: 1.7; }
+  [data-outcome-link][data-slot='link'] { display: inline-flex; align-items: center; gap: 0.625rem; min-height: 2.75rem; min-width: 0; color: hsl(var(--brand)); font-size: 0.8125rem; line-height: 1.7; font-weight: 500; text-decoration: none; }
+  [data-outcome-link] span { min-width: 0; }
+  [data-outcome-link] :global([data-outcome-arrow]) { flex-shrink: 0; }
+  [data-outcome-link]:hover { text-decoration: underline; text-underline-offset: 0.25rem; }
+  [data-outcome-link]:focus-visible { outline: 2px solid currentColor; outline-offset: 0.25rem; border-radius: 0.25rem; }
   :global(:root[data-theme='dark']) [data-project-outcomes] [data-outcome-value],
+  :global(:root[data-theme='dark']) [data-project-outcomes] [data-outcome-link],
   :global(:root[data-theme='dark']) [data-project-outcomes] h3,
   :global(:root[data-theme='dark']) [data-project-outcomes] :global(svg) { color: hsl(var(--accent)); }
+  @container project-evidence (width < 35rem) {
+    [data-outcome-trail] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+    [data-outcome-link][data-slot='link'] { justify-content: space-between; }
+  }
   @container project-evidence (width < 17rem) {
     [data-project-outcomes] :is(header, ul) { padding-inline: 1.25rem; }
+    [data-outcome-trail] { margin-inline: 1.25rem; }
     [data-project-outcomes] li { gap: 0.75rem; }
   }
   @container project-evidence (width < 16rem) {
     [data-project-outcomes] :is(header, ul) { padding-inline: 0.75rem; }
+    [data-outcome-trail] { margin-inline: 0.75rem; }
+    [data-outcome-link] :global([data-outcome-arrow]) { display: none; }
     [data-project-outcomes] li, [data-project-outcomes] [data-outcome-kind='written'] { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
     [data-project-outcomes] [data-outcome-kind='written'] :global(svg) { display: none; }
   }

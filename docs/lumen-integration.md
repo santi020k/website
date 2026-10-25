@@ -316,6 +316,9 @@ enlarged text sizes. No new client controller is introduced.
   validated `impactMetrics` using `projectId`, with no sidebar copy or client relocation.
   Unified evidence keeps repeated claims in that single source; the optional `id`
   preserves a removed prose section's fragment alongside `#sidebar-outcomes`.
+  Client caption keeps client attribution above the measured rows. Context trail
+  uses inherit-style Lumen `Link` and decorative `Icon` inside a labeled native
+  navigation region, with optional authored chapter fragments and no client script.
   Focus and Outcomes share small purple labels, right-aligned icons, and plain surfaces.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.

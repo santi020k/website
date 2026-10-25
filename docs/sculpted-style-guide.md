@@ -884,6 +884,16 @@ rebuild. Remove only that client's repeated name from measured display labels;
 keep the original full claims in `impactMetrics` and the accessible summaries.
 Unattributed cards, written claims, values, and existing fragments stay unchanged.
 
+Context trail adds optional same-page `contextLinks` after the outcome rows. Keep a
+fine top rule, 1rem vertical padding, and the card's existing horizontal insets.
+Pair the muted 0.75rem Explore label with 0.8125rem medium-weight links and decorative
+down-right arrows. Links retain a 2.75rem minimum target and visible focus. Below
+35rem of available width, stack the label and full-width links with right-aligned
+arrows. Below 16rem, omit the decorative arrows so enlarged labels keep whole words.
+Smith links to Marcone's Before and after and Technical highlights sections;
+these provide chapter context, not benchmark citations. Omit the trail when no
+links are authored and preserve native navigation without JavaScript.
+
 ### Chapter evidence placement
 
 Author one `ProjectOutcomesCard` in each project's MDX narrative with its collection

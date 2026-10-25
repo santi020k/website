@@ -71,6 +71,7 @@ for (const theme of ['light', 'dark']) {
           await expect(card.getByRole('list')).toHaveCount(1)
           await expect(card.getByRole('listitem')).toHaveCount(summaries.length)
           await expect(card.locator('[data-outcome-attribution]')).toHaveCount(project === 'smith-commerce' ? 1 : 0)
+          await expect(card.getByRole('navigation')).toHaveCount(project === 'smith-commerce' ? 1 : 0)
           const accessibleText = await card.ariaSnapshot()
 
           for (const summary of summaries) {
@@ -210,7 +211,8 @@ test('chapter evidence keeps its owning chapter, gallery order, and legacy fragm
 
       expect(headings[outcomeIndex - 1]).toBe(before)
       expect(headings[outcomeIndex + 1]).toBe(after)
-      await expect(page.locator('[data-project-outcomes] a, [data-project-outcomes] button')).toHaveCount(0)
+      await expect(page.locator('[data-project-outcomes] a')).toHaveCount(project === 'smith-commerce' ? 2 : 0)
+      await expect(page.locator('[data-project-outcomes] button')).toHaveCount(0)
     }
   } finally {
     await context.close()
