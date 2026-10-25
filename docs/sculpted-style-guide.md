@@ -1344,6 +1344,21 @@ and type row. Keep the same reading order, semantic theme tokens, and complete c
 with enlarged text. The project content wrapper leaves the top rule and insets to
 this header to avoid doubled borders. This passive composition adds no client script.
 
+### Series byline hero actions
+
+After Topics, use an open row with the series position above its linked title and
+a quiet Copy link action alongside it. The metadata reads From the series followed
+by the current post number and series total. Use 0.75rem muted metadata, a 1.3125rem
+medium-weight title, a purple directional arrow, and a fine bottom rule with 1.5rem
+of breathing room. Copy link uses a transparent 0.8125rem label and a subtle underline,
+retaining its success and error feedback and at least a 2.75rem target.
+
+Below 32rem of available width, stack the utility beneath the series and use a
+1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
+themes. Standalone articles keep only the utility, and syndicated articles retain
+Read on Medium in that position. The Blog breadcrumb replaces the redundant
+Browse blog button. No additional client behavior is needed.
+
 ### Margin lead article opening
 
 Blog articles pair their format with the original opening paragraph, replacing the

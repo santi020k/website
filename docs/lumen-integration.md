@@ -434,6 +434,13 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   semantic list, public inherit-style `Link`, and decorative `Icon` primitives. Scoped
   container queries reflow complete topic labels and arrows while retaining their order,
   canonical archives, keyboard outlines, theme colors, and no-JavaScript navigation.
+- Article hero actions use Series byline: the existing series context supplies its
+  position and linked title, paired with a quiet public `CopyButton` in link style.
+  Standalone articles keep only the copy action; syndicated articles retain their
+  original Medium destination through an inherit-style `Link` with `newTab`.
+  Site-owned rules provide the open row, responsive stack, and keyboard outlines.
+  Lumen still owns clipboard feedback and the existing no-script rule hides inert
+  copy controls. The Blog breadcrumb provides the archive destination.
 - `ProjectHeroStack` composes Sculpted band with public unstyled `Card`, inherit-style
   `Link`, and `Icon` primitives. The site owns the ink margin, wrapping technology list,
   semantic-token colors, responsive insets, and project-colored hover/focus states.
