@@ -28,6 +28,7 @@ describe('project outcome display', () => {
     expect(getProjectOutcomeDisplay('Lighthouse score improved from 35 to 98')).toEqual({ label: 'Lighthouse score improved', previous: '35', value: '98' })
     expect(getProjectOutcomeDisplay('Coverage improved from 70.5% to 99%')).toEqual({ label: 'Coverage improved', previous: '70.5%', value: '99%' })
     expect(getProjectOutcomeDisplay('Time to Interactive dropped by 75%')).toEqual({ label: 'Time to Interactive dropped', value: '75%' })
+    expect(getProjectOutcomeDisplay('Marcone: First Contentful Paint improved by 60%')).toEqual({ label: 'Marcone: First Contentful Paint improved', value: '60%' })
   })
 
   test.each([
@@ -45,6 +46,8 @@ describe('project outcome display', () => {
     'Caps requested speed at 75% of each fan\'s reported range',
     'Lighthouse score improved from 35 to 98 in one benchmark',
     'Time to Interactive dropped by 75% on selected pages',
+    'First Contentful Paint improved by 60% on selected pages',
+    'First Contentful Paint improved by up to 60%',
     '2019 event sold out',
     'Combines accessible controls and platform-native authoring'
   ])('does not turn qualified claims, dates, or prose into unqualified metrics: %s', summary => {

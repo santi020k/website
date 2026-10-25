@@ -5,13 +5,39 @@ import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibili
 const smithOutcomes = [
   'Marcone: Lighthouse score improved from 35 to 98',
   'Marcone: Time to Interactive dropped by 75%',
-  '100% accessibility score on Marcone\'s rebuilt storefront'
+  '100% accessibility score on Marcone\'s rebuilt storefront',
+  'Marcone: First Contentful Paint improved by 60%'
 ]
 const lumenOutcomes = [
   'Connects web and native interfaces through shared tokens and explicit component contracts',
   'Combines accessible controls, charts, maps, and operational layouts with platform-native authoring',
   'Supports design and AI workflows through Figma resources, an agent skill, MCP, and a machine-readable registry'
 ]
+
+for (const javaScriptEnabled of [true, false]) {
+  test(`unified evidence preserves both outcome fragments and each claim once with JavaScript ${javaScriptEnabled}`, async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled, reducedMotion: 'reduce', viewport: { width: 390, height: 900 } })
+    const page = await context.newPage()
+
+    try {
+      for (const fragment of ['key-outcomes', 'sidebar-outcomes']) {
+        await page.goto(`/portfolio/smith-commerce/#${fragment}`)
+        await page.evaluate(() => document.fonts.ready)
+        const card = page.getByRole('region', { name: 'Outcomes', exact: true })
+
+        await expect(card.getByRole('heading')).toBeInViewport()
+        await expect(card.locator('[data-outcome-value]')).toHaveText(['35 →98', '75%', '100%', '60%'])
+        await expect(page.getByRole('heading', { name: 'Key outcomes', exact: true })).toHaveCount(0)
+        await expect(page.locator('[data-project-chapters] a[href="#key-outcomes"]')).toHaveCount(0)
+        const story = await page.locator('.prose-project').ariaSnapshot()
+
+        for (const summary of smithOutcomes) expect(story.split(summary)).toHaveLength(2)
+      }
+    } finally {
+      await context.close()
+    }
+  })
+}
 
 for (const theme of ['light', 'dark']) {
   for (const width of [320, 390, 1440]) {
@@ -35,7 +61,7 @@ for (const theme of ['light', 'dark']) {
 
           await expect(card.getByRole('heading', { level: 3 })).toHaveText('Outcomes')
           await expect(card.getByRole('list')).toHaveCount(1)
-          await expect(card.getByRole('listitem')).toHaveCount(3)
+          await expect(card.getByRole('listitem')).toHaveCount(summaries.length)
           const accessibleText = await card.ariaSnapshot()
 
           for (const summary of summaries) {
@@ -148,7 +174,7 @@ test('published projects place one Outcomes card in the story instead of the sid
     await expect(card).toHaveCount(1)
     await expect(page.locator('.prose-project [data-project-outcomes]')).toHaveCount(1)
     await expect(page.locator('[data-project-sidebar] [data-project-outcomes]')).toHaveCount(0)
-    await expect(card.getByRole('listitem')).toHaveCount(3)
+    await expect(card.getByRole('listitem')).toHaveCount(project === 'smith-commerce' ? 4 : 3)
     await expect(card.getByRole('heading', { level: 3 })).toHaveText('Outcomes')
     await expect(card.locator('[data-project-ledger]')).toHaveCount(0)
   }

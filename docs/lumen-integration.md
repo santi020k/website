@@ -208,6 +208,8 @@ enlarged text sizes. No new client controller is introduced.
   keeping original claims accessible. Chapter evidence places it once in the authored
   MDX chapter with a level-three heading and the legacy Outcomes fragment. It reads
   validated `impactMetrics` using `projectId`, with no sidebar copy or client relocation.
+  Unified evidence keeps repeated claims in that single source; the optional `id`
+  preserves a removed prose section's fragment alongside `#sidebar-outcomes`.
   Focus and Outcomes share small purple labels, right-aligned icons, and plain surfaces.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.

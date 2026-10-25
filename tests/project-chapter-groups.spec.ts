@@ -26,7 +26,7 @@ for (const theme of ['light', 'dark']) {
     const marcone = rail.locator('details').nth(0)
     const webb = rail.locator('details').nth(1)
 
-    await expect(rail.locator('a')).toHaveCount(14)
+    await expect(rail.locator('a')).toHaveCount(13)
     await expect(marcone).toHaveAttribute('open', '')
     await expect(webb).not.toHaveAttribute('open')
     await page.locator('#inside-the-product').evaluate(element => {

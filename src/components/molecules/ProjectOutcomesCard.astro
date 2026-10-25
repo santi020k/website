@@ -6,10 +6,11 @@ import { getProjectOutcomeDisplay } from '@/utils/portfolio-metric'
 import { Card, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
+  id?: string
   projectId: string
 }
 
-const { projectId } = Astro.props
+const { id, projectId } = Astro.props
 const project = await getEntry('project', projectId)
 
 if (!project) throw new Error(`Project ${projectId} must exist before rendering its outcomes.`)
@@ -19,7 +20,7 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
 ---
 
 {rows.length > 0 && (
-  <div class="not-prose" data-project-evidence>
+  <div class="not-prose" data-project-evidence id={id}>
   <Card as="section" aria-labelledby="sidebar-outcomes" data-project-outcomes variant="unstyled">
     <header>
       <h3 id="sidebar-outcomes">Outcomes<Icon class="size-4 shrink-0" name="trophy" /></h3>

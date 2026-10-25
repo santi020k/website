@@ -43,6 +43,10 @@ export const getProjectOutcomeDisplay = (metric: string): ProjectOutcomeDisplay 
 
   if (change?.kind === 'reduction') return { label: `${change.label} dropped`, value: change.value }
 
+  const [, improvedLabel, amount] = /^(.+) improved by (\d+(?:\.\d+)?%)$/u.exec(metric) ?? []
+
+  if (improvedLabel && amount) return { label: `${improvedLabel} improved`, value: amount }
+
   // Only emphasize an unqualified leading percentage or count. Keep qualifiers,
   // units, and trailing context intact; dates and embedded numbers stay prose.
   const [, value, label] = /^(\d+(?:\.\d+)?(?:%\+?|\+)) (.+)$/u.exec(metric) ?? []

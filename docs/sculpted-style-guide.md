@@ -858,6 +858,13 @@ qualifiers, and legacy `#sidebar-outcomes` fragment. Use a level-three heading
 inside the chapter and isolate the card from prose typography. Its responsive
 container follows the story width on desktop and mobile, without client relocation.
 
+Unified evidence consolidates repeated numeric results into that one panel. Keep
+all existing claims and client attribution in `impactMetrics`; remove the repeated
+prose list rather than displaying the same results twice. Smith's Marcone panel
+includes Lighthouse, Time to Interactive, accessibility, and First Contentful Paint.
+Pass the old section fragment as the card's optional `id` when removing a heading,
+so existing links still reach the consolidated evidence. Preserve `#sidebar-outcomes`.
+
 ### Margin rail table of contents
 
 Article navigation and the mobile project list use Lumen Anchor inside an opaque, asymmetric panel.
