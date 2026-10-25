@@ -498,6 +498,8 @@
 
 - Recover cached pages during offline navigation without a trailing slash and separate repeated copy-link status updates so assistive technology can detect each result, cancelling pending feedback when leaving an article.
 
+- Connect the Work career timeline with one continuous rail aligned to each start year, distinguish active and completed milestones, and end the line at the final role. Remove crossing row dividers while preserving the approved cards, company hover colors, semantic dates, and responsive keyboard access.
+
 ## 4.0.0
 
 ### Major Changes
