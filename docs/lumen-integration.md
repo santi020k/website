@@ -156,6 +156,11 @@ linked role. A site-owned date rail and connector frame the Timeline folio layou
 styling private TimelineItem internals. Each role retains its complete description,
 technologies, chronological dates, and keyboard-accessible case-study link. Its scoped
 styles own the card and responsive date rail; Work page styles own only the page composition.
+The three newest roles keep their full Timeline folio treatment. Later completed roles
+use Compact timeline with smaller headings, tighter spacing, and no repeated status
+masthead; active roles stay full. Both densities share the same Lumen components,
+company hover colors, and continuous left rail. Connector endpoints account for the
+next row's year size so the density transition does not interrupt the line.
 
 ## Portfolio cards
 
