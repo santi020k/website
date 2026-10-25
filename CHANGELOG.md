@@ -218,6 +218,8 @@
 
 ### Patch Changes
 
+- Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
+
 - Refine the homepage with a wide editorial lead story, image-led recent articles, larger reading
   titles, and quieter Start here recommendations. Replace the authentication cover with text-free
   sculptural gateway artwork. Rebalance mobile statistics into horizontal number rails while
