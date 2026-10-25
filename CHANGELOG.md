@@ -220,6 +220,8 @@
 
 - Use Chapter evidence to place each project Outcomes card in its owning story chapter. Preserve the Impact rows design, original claims, gallery order, and legacy fragment while removing the repeated sidebar placement.
 
+- Use Reading close on project detail pages: place Focus after the story and before sharing and return navigation in stacked layouts. Preserve one Focus card, native fragments, and the sticky desktop reading rail with a shared source order.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

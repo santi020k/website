@@ -785,6 +785,18 @@ use 0.875rem labels with 0.75rem descriptions so complete words remain readable
 with enlarged text. Keep description tracking neutral rather than inheriting the
 page's wider letter spacing.
 
+### Reading close project sequence
+
+When the reading layout stacks, follow the story with the existing Focus card,
+then Dispatch sleeve sharing and Return folio navigation. Keep one copy of each
+surface, in that DOM order, with 2rem between the reading groups. The story's
+closing rule supplies the transition; omit the former decorative sidebar divider.
+
+At the existing desktop reading breakpoint, place the sidebar beside the story
+and closing actions, spanning both grid rows. Preserve its sticky position and
+native scrolling in short viewports. Focus remains in the sidebar on desktop;
+the single `#sidebar-focus` fragment and all closing links work without JavaScript.
+
 ### Hero-only project stack
 
 The hero's Sculpted band is the single technology inventory on project detail pages.
