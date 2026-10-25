@@ -1382,8 +1382,7 @@ a soft cover, a real country silhouette, a prominent count, and numbered place r
 map reserves 42rem for the card and controls; longer entries can scroll inside the card. Phones
 and a `travel-atlas` container below 30rem put the card below the map.
 Below 20rem, the hint, zoom toolbar, and details panel leave the overlay and sit in flow, so none
-covers the map or a focused control. The close control takes its own row above the country name. The scrolling mobile topic filter pads its row so pill focus rings
-stay visible.
+covers the map or a focused control. The close control takes its own row above the country name. The Blog topic filters wrap on mobile, with space between tags for visible focus outlines.
 
 Prose headings, History eras, Travel sections and countries, and the Developer Experience
 `#field-guides` target use the root scroll padding without an additional header-sized scroll
@@ -1535,6 +1534,16 @@ accent. Long-form prose, code controls, reading progress, and sticky table-of-co
 keep their existing reading behavior. The table of contents uses an open rule instead of
 a glass panel. The resume uses the same canvas on screen; its separate print rules and
 both downloadable PDF variants remain authoritative.
+
+### Sculpted tags Blog topic filters
+
+The Blog index and topic archives use **Sculpted tags**: shaped topic links with a separate,
+quiet count compartment. The selected link reverses the ink and surface colors, while
+“All posts” carries a decorative layers icon. Keep the real topic counts and destinations.
+The group wraps at every width; all topics remain available without horizontal scrolling.
+Long labels wrap within their tag at enlarged text sizes, and focus outlines remain visible.
+Selected links retain `aria-current="page"` on their own archive and `aria-current="true"`
+on later pages. Topic changes preserve keyboard focus and the filter's vertical position.
 
 ### Reading controls
 

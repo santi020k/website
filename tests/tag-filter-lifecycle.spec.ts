@@ -202,19 +202,13 @@ test('an earlier page-load of the same topic leaves a repeated topic restoration
 
         filter.scrollIntoView({ behavior: 'instant', block: 'center' })
 
-        // Swipe only the strip so the selected pill sits centered away from both ends.
-        const strip = filter.getBoundingClientRect()
-        const pill = current.getBoundingClientRect()
-
-        filter.scrollLeft += pill.left + pill.width / 2 - (strip.left + strip.width / 2)
-
         const { bottom, left, right, top } = filter.getBoundingClientRect()
         const exposed = current.getBoundingClientRect()
         const { scrollLeft } = filter
 
-        if (top <= 0 || bottom >= window.innerHeight || scrollLeft <= 0 ||
+        if (top <= 0 || bottom >= window.innerHeight || scrollLeft !== 0 ||
           exposed.left < Math.max(left, 0) || exposed.right > Math.min(right, window.innerWidth)) {
-          reject(new Error('Selected React topic is not exposed in a scrolled, visible strip'))
+          reject(new Error('Selected React topic is not contained in the visible wrapping filter'))
 
           return
         }
@@ -288,7 +282,7 @@ test('an earlier page-load of the same topic leaves a repeated topic restoration
       }
     })
 
-    expect(settled.overflows).toBe(true)
+    expect(settled.overflows).toBe(false)
     expect(settled.clippedLeft).toBeLessThanOrEqual(0)
     expect(settled.clippedRight).toBeLessThanOrEqual(0)
     expect(settled.scrollLeft).toBeCloseTo(captured.scrollLeft, 0)

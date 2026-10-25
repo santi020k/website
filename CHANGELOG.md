@@ -182,6 +182,8 @@
 
 - Apply Successor spread to the project replacement notice, giving the maintained ESLint package a clear destination beside the original package context. Preserve the recommendation, internal navigation, article outline, and no-JavaScript reading flow.
 
+- Apply Sculpted tags to the Blog topic filters with shaped links, separate count compartments, and wrapping mobile rows. Preserve archive links, selected-page semantics, keyboard focus, and navigation position.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

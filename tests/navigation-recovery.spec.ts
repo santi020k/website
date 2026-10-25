@@ -54,23 +54,14 @@ const settleNavigation = async (page: Page, swapY: number) => {
   await expect(root).toHaveAttribute('data-recovery-loaded', '')
 }
 
-// Resolve a shipped topic whose pill starts outside the strip's visible width.
-const resolveClippedTopic = async (page: Page) => {
+// Use a later topic so the selected state is exercised beyond the first mobile row.
+const resolveLaterTopic = async (page: Page) => {
   await page.goto('/blog/')
 
-  const href = await page.locator(filterSelector).evaluate(strip => {
-    const bounds = strip.getBoundingClientRect()
-    const clipped = Array.from(strip.querySelectorAll<HTMLAnchorElement>('a[href]'))
-      .filter(link => link.getBoundingClientRect().right > bounds.left + strip.clientWidth)
-
-    return clipped.at(-1)?.getAttribute('href') ?? null
-  })
-
-  return requireValue(href)
+  return requireValue(await page.locator(filterSelector).locator('a[href]').last().getAttribute('href'))
 }
 
-// The selected topic must sit wholly inside the scrolling strip and the viewport,
-// reached by horizontal strip scrolling alone.
+// The selected topic stays within the wrapping filter without moving the page.
 const expectSelectedTopicVisible = async (page: Page, href: string, scrollY: number) => {
   const selected = page.locator(filterSelector).locator(`a[href="${href}"]`)
 
@@ -90,7 +81,7 @@ const expectSelectedTopicVisible = async (page: Page, href: string, scrollY: num
     }
   })
 
-  expect(fit.overflows).toBe(true)
+  expect(fit.overflows).toBe(false)
   expect(fit.clippedLeft).toBeLessThanOrEqual(0)
   expect(fit.clippedRight).toBeLessThanOrEqual(0)
   expect(fit.scrollY).toBe(scrollY)
@@ -213,11 +204,11 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
   })
 }
 
-test.describe('mobile topic strip', () => {
+test.describe('mobile topic filters', () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
-  test('a direct topic archive reveals its selected pill without moving the page', async ({ page }) => {
-    const topicHref = await resolveClippedTopic(page)
+  test('a direct topic archive contains its selected tag without moving the page', async ({ page }) => {
+    const topicHref = await resolveLaterTopic(page)
 
     await page.goto(topicHref)
     await expect(progress(page)).toHaveClass(/is-complete/u)
@@ -225,8 +216,8 @@ test.describe('mobile topic strip', () => {
     expect(await page.evaluate(() => document.activeElement === document.body)).toBe(true)
   })
 
-  test('arriving from an article topic and returning through history keep the pill visible', async ({ page }) => {
-    const topicHref = await resolveClippedTopic(page)
+  test('arriving from an article topic and returning through history keep the tag contained', async ({ page }) => {
+    const topicHref = await resolveLaterTopic(page)
 
     await page.goto(topicHref)
 

@@ -62,7 +62,6 @@ test.describe('Blog topic filter aria-current semantics', () => {
 
     await expect(allPosts).toHaveAttribute('aria-current', 'page')
     await expect(allPosts).toHaveAttribute('href', '/blog/')
-    await expect(allPosts).toHaveAttribute('data-variant', 'brand')
 
     const tagLinks = filter.getByRole('link').filter({ hasNotText: 'All posts' })
     const tagCount = await tagLinks.count()
@@ -81,11 +80,9 @@ test.describe('Blog topic filter aria-current semantics', () => {
 
     await expect(activeTag).toHaveAttribute('aria-current', 'page')
     await expect(activeTag).toHaveAttribute('href', '/blog/tags/react/')
-    await expect(activeTag).toHaveAttribute('data-variant', 'brand')
 
     await expect(allPosts).not.toHaveAttribute('aria-current')
     await expect(allPosts).toHaveAttribute('href', '/blog/')
-    await expect(allPosts).toHaveAttribute('data-variant', 'outline')
   })
 })
 

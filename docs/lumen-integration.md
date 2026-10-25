@@ -88,6 +88,13 @@ provides the decorative action arrow. Site-owned styles define the layered edito
 composition, responsive crop and overlap, and project-colored hover/focus treatment.
 The same component serves featured, supporting, and related projects without client JavaScript.
 
+## Blog topic filters
+
+`TagFilter` composes public Lumen `Link` with `variant="inherit"` and a decorative `Icon`.
+Site-owned label and count spans provide Sculpted tags without changing shared Pill styling.
+The existing Astro navigation controller keeps topic selection, focus, and page position intact;
+the layout wraps on mobile and desktop and requires no additional client JavaScript.
+
 ## Current primitive migrations
 
 - `StartHereCard` composes the homepage's Reading slip recommendations with an
