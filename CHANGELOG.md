@@ -184,6 +184,8 @@
 
 - Apply Sculpted tags to the Blog topic filters with shaped links, separate count compartments, and wrapping mobile rows. Preserve archive links, selected-page semantics, keyboard focus, and navigation position.
 
+- Apply Sculpted tags to the Projects category shortcuts, sharing the approved Blog treatment while preserving project counts, native section links, and keyboard focus. Keep the wrapping layout readable across themes and enlarged text sizes.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

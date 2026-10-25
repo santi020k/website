@@ -88,10 +88,11 @@ provides the decorative action arrow. Site-owned styles define the layered edito
 composition, responsive crop and overlap, and project-colored hover/focus treatment.
 The same component serves featured, supporting, and related projects without client JavaScript.
 
-## Blog topic filters
+## Sculpted tags navigation
 
-`TagFilter` composes public Lumen `Link` with `variant="inherit"` and a decorative `Icon`.
-Site-owned label and count spans provide Sculpted tags without changing shared Pill styling.
+`SculptedTag` composes public Lumen `Link` with `variant="inherit"` and site-owned label
+and count spans. The Blog filters and Projects category shortcuts share this treatment
+without changing other Pill consumers. The count slot supports the Blog All posts icon.
 The existing Astro navigation controller keeps topic selection, focus, and page position intact;
 the layout wraps on mobile and desktop and requires no additional client JavaScript.
 

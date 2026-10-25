@@ -1,5 +1,5 @@
 ---
-import Pill from '@/components/atoms/Pill.astro'
+import SculptedTag from '@/components/atoms/SculptedTag.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import TechnologyPillGrid from '@/components/molecules/TechnologyPillGrid.astro'
 import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
@@ -99,15 +99,13 @@ const projectsListSchema = createProjectCollectionSchema('Side Projects — Sant
     />
     <nav
       aria-label="Browse projects by purpose"
-      class="mt-8 flex flex-wrap gap-3"
+      class="@container/sculpted-tags mt-8 flex flex-wrap gap-2.5"
     >
       {purposeGroups.map(group => (
-        <Pill
-          className="min-h-11 px-4 py-2"
+        <SculptedTag
           count={group.projects.length}
           href={`#${group.id}`}
           label={group.title}
-          tone="outline"
         />
       ))}
     </nav>

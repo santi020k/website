@@ -1535,6 +1535,15 @@ keep their existing reading behavior. The table of contents uses an open rule in
 a glass panel. The resume uses the same canvas on screen; its separate print rules and
 both downloadable PDF variants remain authoritative.
 
+### Sculpted tags Projects category shortcuts
+
+The Projects page uses **Sculpted tags** for its Developer tools, Apps, and Experiments
+section links. Each link has a shaped outline and a separate quiet compartment for the
+collection-derived project count. Reuse `SculptedTag` with the Blog filters so the visual
+rules stay aligned. Category links keep their native fragment destinations and do not
+claim a selected filter state. The group wraps at every width, preserves visible keyboard
+focus, and tightens its insets when enlarged text leaves little space.
+
 ### Sculpted tags Blog topic filters
 
 The Blog index and topic archives use **Sculpted tags**: shaped topic links with a separate,
