@@ -206,6 +206,8 @@
 
 - Omit the project sidebar navigation notice when no section headings exist. Begin with At a glance and preserve the remaining project details, normal spacing, and table of contents for projects with headings.
 
+- Apply Progressive stack to project detail openings: show six core technologies, retain the total count, and reveal the remaining technology links with a native keyboard-accessible disclosure. Preserve the Sculpted band treatment and no-JavaScript access.
+
 ### Patch Changes
 
 - Refine the homepage with a wide editorial lead story, image-led recent articles, larger reading

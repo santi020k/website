@@ -1044,8 +1044,13 @@ corners. A 10rem ink-colored margin holds the Layers icon, Stack heading, techno
 count, and label. Invert its foreground with the surface token in both themes and
 finish the margin with a small soft-brand curved corner.
 
-Keep every technology visible in its existing interest order. Use a semantic list of
-Lumen links with 0.875rem text, 44px minimum targets, small asymmetric corners, and a
+Use the **Progressive stack** opening: show the first six technologies in authored
+order, matching the sidebar's core selection. Keep the complete count in the margin.
+Place the remaining technologies in interest order inside a native Lumen Collapsible
+with a ruled `More technologies (N)` summary. Omit the disclosure when six or fewer
+technologies exist. Preserve every technology link and support keyboard and pointer
+expansion without JavaScript. Use semantic lists of Lumen links with 0.875rem text,
+44px minimum targets, small asymmetric corners, and a
 purple vertical marker. The links retain canonical technology archives and use the
 project's readable accent on hover and keyboard focus, with a separate visible outline.
 
