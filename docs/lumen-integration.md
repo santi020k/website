@@ -214,6 +214,10 @@ enlarged text sizes. No new client controller is introduced.
   Client masthead separates the client name from its descriptive subtitle without changing
   the full accessible heading or its generated fragment. The sequence label and fine rule
   introduce each client chapter. It uses shared semantic tokens and no client runtime.
+- `ProjectContextLead` groups the notes label, current project stage, authored heading, and
+  introduction in a semantic section. It reads the existing project metadata and requires
+  `notesLayout: context-lead`, which removes the generic layout preface. Markdown retains
+  the heading and inline link; shared tokens provide the open composition without client code.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter

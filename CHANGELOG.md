@@ -246,6 +246,8 @@
 
 - Apply Synthesis spread to the Smith Commerce closing reflection. Pair the existing client perspectives with a shared takeaway while preserving the closing heading, original claims, and chapter navigation.
 
+- Apply Context lead to the Smith Commerce opening. Combine the existing notes label and project status with its authored introduction, preserving the original heading and links while removing the repeated generic preface.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
