@@ -3,9 +3,9 @@ import { expect, test } from '@playwright/test'
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
 const smithOutcomes = [
-  'Lighthouse score improved from 35 to 98',
-  'Time to Interactive dropped by 75%',
-  '100% accessibility score on the rebuilt storefront'
+  'Marcone: Lighthouse score improved from 35 to 98',
+  'Marcone: Time to Interactive dropped by 75%',
+  '100% accessibility score on Marcone\'s rebuilt storefront'
 ]
 const lumenOutcomes = [
   'Connects web and native interfaces through shared tokens and explicit component contracts',

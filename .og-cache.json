@@ -1198,13 +1198,13 @@
     "portfolio/eslint-config-santi020k-logo.webp": {
       "baseDirectory": "public/og",
       "digest": "6f1c4d7d29ae7a7cd5404c758618feb1b3fd049f51aa6d32cb37a9ac966c4a06",
-      "fingerprint": "04c06a8d61098080e40249fd20bf735b245c5f400387e5233fe7c9b3ea0937f1",
+      "fingerprint": "541e0161aefb1b7552bd4c5a92751e210dd988cf6dd0409a2c969fa72a7476a4",
       "output": "portfolio/eslint-config-santi020k-logo.webp"
     },
     "portfolio/eslint-config-santi020k.webp": {
       "baseDirectory": "public/og",
       "digest": "6f1c4d7d29ae7a7cd5404c758618feb1b3fd049f51aa6d32cb37a9ac966c4a06",
-      "fingerprint": "04c06a8d61098080e40249fd20bf735b245c5f400387e5233fe7c9b3ea0937f1",
+      "fingerprint": "541e0161aefb1b7552bd4c5a92751e210dd988cf6dd0409a2c969fa72a7476a4",
       "output": "portfolio/eslint-config-santi020k.webp"
     },
     "portfolio/justbit-logo.webp": {
@@ -1341,14 +1341,14 @@
     },
     "portfolio/smith-commerce-logo.webp": {
       "baseDirectory": "public/og",
-      "digest": "7f66612809f943b40745b5c9d27452018694053e706191ec46a3e59a5ddc73de",
-      "fingerprint": "bed8598a4de20be3716a1820099ead225d06e09a76d4a1f6705aeb8a694fc268",
+      "digest": "0b401144e775787c854bdb56cbf9f136675ed947e3bf13d848fb3c1efe64d2df",
+      "fingerprint": "edcc10c854e35af6cb71ac84c28c377555d58a2401017937687e2c1e0e8fc903",
       "output": "portfolio/smith-commerce-logo.webp"
     },
     "portfolio/smith-commerce.webp": {
       "baseDirectory": "public/og",
-      "digest": "7f66612809f943b40745b5c9d27452018694053e706191ec46a3e59a5ddc73de",
-      "fingerprint": "bed8598a4de20be3716a1820099ead225d06e09a76d4a1f6705aeb8a694fc268",
+      "digest": "0b401144e775787c854bdb56cbf9f136675ed947e3bf13d848fb3c1efe64d2df",
+      "fingerprint": "edcc10c854e35af6cb71ac84c28c377555d58a2401017937687e2c1e0e8fc903",
       "output": "portfolio/smith-commerce.webp"
     },
     "portfolio/tedx-medellin-logo.webp": {
@@ -2670,6 +2670,12 @@
       "digest": "a24a8d5cdf7f9f727015b1e08ce5a99996a442740e08c9632f74c39ac9abb383",
       "fingerprint": "51a56cb9c9ffa10dc40116decf65a48cfaeaa35583ab6c9a820cd713c3511920",
       "output": "pages/technologies--Builder.io.webp"
+    },
+    "pages/technologies--Contentstack.webp": {
+      "baseDirectory": "public/og",
+      "digest": "72750578ab42583bf9f46b9562f10b66895a2cbcf2c7905ad951c4d672579557",
+      "fingerprint": "f6776f7271d213a27d6b181226b8bad79cdc688fb6aeefd0c1fdfea1e3abb91c",
+      "output": "pages/technologies--Contentstack.webp"
     },
     "pages/technologies--Headless~20Commerce.webp": {
       "baseDirectory": "public/og",

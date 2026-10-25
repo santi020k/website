@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
-for (const slug of ['lumen-ui', 'postlens']) {
+for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
   for (const theme of ['light', 'dark']) {
     test(`${slug} previews keep complete images and captions readable in ${theme}`, async ({ page }) => {
       await page.addInitScript(value => {
@@ -61,9 +61,17 @@ for (const slug of ['lumen-ui', 'postlens']) {
 }
 
 test('projects without previews keep their existing reading navigation', async ({ page }) => {
-  await page.goto('/portfolio/smith-commerce/')
+  await page.goto('/portfolio/datagran/')
   await expect(page.locator('[data-product-previews]')).toHaveCount(0)
   await expect(page.getByRole('link', { name: 'Inside the product', exact: true })).toHaveCount(0)
+})
+
+test('Smith identifies Webb screenshots as development previews', async ({ page }) => {
+  await page.goto('/portfolio/smith-commerce/')
+  const previews = page.getByRole('region', { name: 'Inside the product' })
+  await expect(previews).toContainText('F.W. Webb development preview')
+  await expect(previews).toContainText('signed-out session')
+  await expect(previews).toContainText('The design and content are still evolving.')
 })
 
 test('PostLens distinguishes development screens and generated samples from the store release', async ({ page }) => {
@@ -77,7 +85,7 @@ test('PostLens distinguishes development screens and generated samples from the 
 test.describe('Product previews without client JavaScript', () => {
   test.use({ javaScriptEnabled: false })
 
-  for (const slug of ['lumen-ui', 'postlens']) {
+  for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
     test(`${slug} retains its screenshots and captions`, async ({ page }) => {
       await page.goto(`/portfolio/${slug}/`)
       const previews = page.getByRole('region', { name: 'Inside the product' })

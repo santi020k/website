@@ -1,6 +1,6 @@
 ---
 title: "Smith Commerce"
-description: "Rebuilt Marcone's storefront into a faster, more accessible headless experience while giving teams room to ship independently."
+description: "Built commerce experiences for two Smith clients: Marcone's headless storefront and F.W. Webb's purchasing, account, and product discovery workflows."
 brand:
   primary: "#ff5c00"
   secondary: "#f8f7f3"
@@ -10,13 +10,24 @@ startingDate: "1 May 2025"
 liveDemoUrl: "https://www.marcone.com/"
 typesId: "professional"
 relevanceWeight: 100
+previews:
+  description: "F.W. Webb development preview, captured from the storefront running locally in a signed-out session. The design and content are still evolving."
+  images:
+    - src: "./webb-home-desktop.webp"
+      alt: "F.W. Webb desktop storefront with product search, seasonal promotions, and cards for the industries it serves."
+      title: "A new storefront, built for discovery"
+      caption: "The desktop experience brings search, campaigns, and industry navigation together in a shared visual language."
+    - src: "./webb-home-mobile.webp"
+      alt: "F.W. Webb mobile storefront with compact navigation, product search, and stacked seasonal promotions."
+      title: "The same experience on mobile"
+      caption: "Navigation, search, and promotional content adapt to a smaller screen while keeping the storefront's identity consistent."
 impactMetrics: [
-  "Lighthouse score improved from 35 to 98",
-  "Time to Interactive dropped by 75%",
-  "100% accessibility score on the rebuilt storefront"
+  "Marcone: Lighthouse score improved from 35 to 98",
+  "Marcone: Time to Interactive dropped by 75%",
+  "100% accessibility score on Marcone's rebuilt storefront"
   ]
 technologies: [
-  "Next.js", "React.js", "TypeScript", "Turborepo", "Tailwind CSS", "Radix UI", "Lucide React", "Storybook", "tailwindcss-animate", "TanStack Query", "Zustand", "Apollo Client", "OpenAPI", "React Hook Form", "Zod", "ESLint", "Prettier", "Husky", "Auth0", "i18next", "Docker", "AWS", "Builder.io", "Jest", "Playwright", "Performance Optimization", "Lighthouse", "Accessibility", "Developer Experience (DX)", "Code Quality", "CI-CD", "Headless Commerce", "Monorepo"
+  "Next.js", "React.js", "TypeScript", "Turborepo", "Tailwind CSS", "Radix UI", "Lucide React", "Storybook", "tailwindcss-animate", "TanStack Query", "Zustand", "Apollo Client", "OpenAPI", "React Hook Form", "Zod", "ESLint", "Prettier", "Husky", "Auth0", "i18next", "Docker", "AWS", "Builder.io", "Contentstack", "Jest", "Vitest", "Playwright", "Performance Optimization", "Lighthouse", "Accessibility", "Developer Experience (DX)", "Code Quality", "CI-CD", "Headless Commerce", "Monorepo"
   ]
 coverImage:
   src: "./cover.webp"
@@ -30,9 +41,13 @@ coverImage:
   ogImage: './cover.webp'
 ---
 
-## Rebuilding Marcone for a headless future
+## Two commerce projects at Smith
 
-At [Smith Commerce](https://smithcommerce.com), I worked on the frontend rebuild of [Marcone](https://www.marcone.com/), a large commerce experience being moved away from a legacy monolith. The old storefront was slow, inaccessible, and hard to evolve. The goal was to replace it with a modern headless frontend that could move faster without waiting on backend readiness.
+At [Smith Commerce](https://smithcommerce.com), my work as a Senior Front End Developer has spanned two client projects: **Marcone** and **F.W. Webb**. Across both, I have worked on the frontend systems that connect product discovery, purchasing, and account workflows with commerce APIs.
+
+## Marcone: rebuilding for a headless future
+
+My first project was the frontend rebuild of [Marcone](https://www.marcone.com/), a large commerce experience being moved away from a legacy monolith. The old storefront was slow, inaccessible, and hard to evolve. The goal was to replace it with a modern headless frontend that could move faster without waiting on backend readiness.
 
 ### Core challenge
 
@@ -73,6 +88,32 @@ The difference was visible in both performance and experience:
   After — Headless Storefront
 </div>
 
-## Why it mattered
+## F.W. Webb: building the purchasing experience
 
-This project brought together the parts of frontend work I enjoy most: architecture, performance, accessibility, and the delivery practices that help a team ship under pressure. It is also a good example of how much leverage comes from treating DX as part of product work, not as a side concern.
+My second project at Smith was **F.W. Webb**, where I helped bring a new commerce experience to life. My work connected a modern storefront design with the complex purchasing needs of business customers, spanning product discovery, checkout, and account services.
+
+### The purchasing challenge
+
+The challenge was to make a complex B2B platform feel straightforward to use. Customers needed a consistent experience from exploring the catalog to completing a purchase, while the business needed room to evolve its content, services, and workflows.
+
+### What I contributed
+
+- **Bringing the new storefront to life,** translating the design into responsive experiences across product discovery, purchasing, and account management.
+- **Making complex commerce easier to navigate,** building customer journeys that connect a broad product catalog with the needs of business buyers.
+- **Connecting design with business operations,** turning purchasing rules and account services into clear, practical interfaces.
+- **Giving content teams more flexibility,** creating reusable, CMS-driven experiences that support evolving campaigns and localized content.
+- **Strengthening the foundations for continued delivery,** building shared components and integration patterns that help the storefront grow consistently.
+
+### Webb technical highlights
+
+- **Frontend:** `Next.js`, `React`, `TypeScript`, `Tailwind CSS`, `Radix UI`
+- **State, forms, and integration:** `TanStack Query`, `Zustand`, `React Hook Form`, `Zod`, `OpenAPI`
+- **Content and development:** `Contentstack`, `i18next`, `Turborepo`, `Storybook`, `Vitest`
+
+### My approach
+
+I approached the storefront as a connected product: the design, customer journey, and underlying services all needed to work together. My focus was on carrying that consistency across the experience while giving the team reusable foundations for future work.
+
+## Why this experience matters
+
+These two projects broadened my commerce experience in complementary ways. Marcone centered on modernizing a storefront and improving performance and accessibility. F.W. Webb added deeper work on purchasing rules, account permissions, product discovery, and content integration. Together, they reflect the frontend work I enjoy most: making complex systems understandable for customers and maintainable for the teams building them.

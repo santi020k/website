@@ -200,6 +200,8 @@
 
 ### Patch Changes
 
+- Expand the Smith Commerce experience with F.W. Webb as a second client project, with a broader contribution summary and desktop and mobile development screenshots. Attribute the existing performance metrics to Marcone and refresh the resume downloads.
+
 - Improve article reading and search metadata: defer comments until readers approach the section,
   make wide tables keyboard-scrollable with readable text in both themes, improve code badge
   contrast, and match article copy labels to their visible text. Keep project structured images
