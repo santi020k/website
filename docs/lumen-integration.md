@@ -175,6 +175,9 @@ enlarged text sizes. No new client controller is introduced.
   Project sidebar card labels are level-two headings. `ProjectFocusCard` uses an unstyled
   Lumen `Card` and a semantic definition list for its Scope ledger composition.
   Its labeled work areas come from validated project frontmatter, without client code.
+  Reading close places the single sidebar between the story and closing actions
+  in source order. CSS Grid retains the desktop rail while stacked layouts read
+  through Focus, Dispatch sleeve sharing, and Return folio navigation in sequence.
 - `ProjectOutcomesCard` composes Impact rows with `Card`, `Icon`, and semantic lists,
   keeping original claims accessible. Chapter evidence places it once in the authored
   MDX chapter with a level-three heading and the legacy Outcomes fragment. It reads

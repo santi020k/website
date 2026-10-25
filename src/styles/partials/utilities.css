@@ -118,6 +118,9 @@
   padding-block-start: 3rem;
 }
 
+/* Keep the source order useful when the project reading rail stacks. */
+[data-project-reading] { row-gap: 2rem; }
+
 @container reading-layout (width >= 40rem) {
   [data-reading-body] { padding-block-start: 4rem; }
 }
@@ -135,6 +138,10 @@
     [data-reading-body] {
       grid-template-columns: minmax(0, 1fr) 18rem;
     }
+
+    [data-project-story] { grid-column: 1; grid-row: 1; }
+    [data-project-reading] > [data-project-sidebar] { grid-column: 2; grid-row: 1 / span 2; }
+    [data-project-closing] { grid-column: 1; grid-row: 2; }
 
     [data-project-mobile-toc] {
       display: none;
