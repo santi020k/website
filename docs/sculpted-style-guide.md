@@ -738,26 +738,43 @@ unchanged, avoid movement, and disable the color transitions with reduced motion
 
 ### Layered editorial portfolio cards
 
-Portfolio spotlights and related projects share one full-card link and an unstyled Lumen
+Portfolio spotlights use one full-card link and an unstyled Lumen
 Card. The artwork has 1.5rem corners; an opaque content sheet overlaps it by 3rem with
 1.25rem side insets, 1.125rem corners, and a smaller lower-right corner. Keep the status
 on an opaque badge over the artwork, followed by date, complete title, role, description,
 outcomes, plain technology labels, and a ruled case-study action in the sheet.
-Keep the outer Card transparent on both the portfolio index and reading pages so
-the sheet's side insets expose the page canvas, not a second surface.
+Keep the outer Card transparent so the sheet's side insets expose the page canvas,
+not a second surface.
 
 Use the horizontal project artwork, optimized at 16:10, so crops retain the central
 brand mark without clipping social-preview text. Featured cards use a horizontal
 overlap above 56rem of card width, with a 4:3 artwork panel that keeps the brand mark
 intact independently of the text height. At intermediate widths, a 2:1 artwork panel
 sits above the sheet. Below 36.25rem of card width, use a 4:3 crop, a
-2.375rem overlap, and tighter insets; the same proportions apply in related-work shelves.
+2.375rem overlap, and tighter insets.
 Below 20rem, scale long headings and let outcome columns stack. Never clamp descriptions
 or outcomes. Explicit before/after and percentage-drop
 statements may become value/label pairs; preserve all other statements verbatim and
 retain the original wording for screen readers. Project colors highlight the title,
 role, action, and sheet rules on hover and keyboard focus without moving the artwork.
 Keep a complete outer focus outline, readable light/dark colors, and reduced-motion support.
+
+### Continuation shelf related projects
+
+Project detail pages end with compact related-project cards beneath the existing
+Chapter tab shelf header. Use an opaque unstyled Lumen Card, 1.5rem corners, and a
+0.375rem lower-right corner. A small 16:10 horizontal artwork sits beside the complete
+title and role; the full description and ruled Read case study action span the card.
+Omit the portfolio card's dates, status, outcomes, and technology inventory here.
+Keep the existing related-project selection, order, and destinations.
+
+Use 1.5rem insets and a 7rem thumbnail at wider card sizes; below 26rem, tighten the
+insets and use a 4.75rem thumbnail. Below 18rem, reduce the thumbnail and title;
+below 14rem, stack the identity to accommodate enlarged text. Never clamp content.
+Align the actions across a desktop row using flexible card bodies. One named native
+link covers each card; preserve the full focus outline and project-colored hover
+and keyboard emphasis without movement. Use reduced-motion-safe color transitions.
+The portfolio index retains its Layered editorial cards.
 
 ### Hero-led project facts
 

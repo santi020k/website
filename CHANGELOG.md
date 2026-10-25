@@ -222,6 +222,8 @@
 
 - Use Reading close on project detail pages: place Focus after the story and before sharing and return navigation in stacked layouts. Preserve one Focus card, native fragments, and the sticky desktop reading rail with a shared source order.
 
+- Apply Continuation shelf to related projects on project detail pages: show compact horizontal artwork, title, role, the complete summary, and a ruled case-study link. Preserve project-colored hover and keyboard focus, related-project ordering, and the portfolio index design.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

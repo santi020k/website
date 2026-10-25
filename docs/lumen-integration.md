@@ -86,7 +86,14 @@ its artwork and overlapping content sheet. Keep the readable content outside the
 screen readers can browse it separately from the concise destination. Lumen `Badge` carries project status and `Icon`
 provides the decorative action arrow. Site-owned styles define the layered editorial
 composition, responsive crop and overlap, and project-colored hover/focus treatment.
-The same component serves featured, supporting, and related projects without client JavaScript.
+The same component serves featured and supporting portfolio projects without client JavaScript.
+
+`RelatedProjectCard` composes a separate Continuation shelf for project detail pages:
+an unstyled Lumen `Card`, optimized Astro `Picture`, and decorative Lumen `Icon`.
+Its small artwork, title, role, complete description, and ruled action use one named
+native link and the existing project-color helpers. Scoped container queries handle
+narrow cards and enlarged text; it adds no client JavaScript. Related-project ranking,
+ordering, destination URLs, and the Chapter tab shelf header remain in the page layout.
 
 ## Sculpted tags navigation
 
