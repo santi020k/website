@@ -178,6 +178,8 @@
 
 - Apply Catalog note to the technology index empty state, with an open ruled message, sculpted search icon, and clear heading. Preserve the complete recovery guidance, live result counts, search focus, and catalog restoration when the query is cleared.
 
+- Apply Catalog note to the Blog topics empty state, pairing the existing message with a sculpted search icon and fine rules. Preserve live filtering, sorting, result announcements, search focus, and restoration of all topics when the search is cleared.
+
 ### Patch Changes
 
 - Improve article reading and search metadata: defer comments until readers approach the section,

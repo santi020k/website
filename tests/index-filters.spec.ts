@@ -15,6 +15,18 @@ test.describe('Index filters', () => {
     await expect(page.locator('#tags-list > [data-label]:visible')).toHaveAttribute(
       'data-label', 'accessibility'
     )
+
+    const search = page.getByRole('searchbox', { name: 'Find a topic' })
+    await search.fill('not-a-real-topic')
+    await expect(page.locator('#tag-filter-status')).toHaveText('0 topics found.')
+    await expect(page.locator('[data-tags-empty]')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'No topics match that search.' })).toBeVisible()
+    await expect(page.locator('#tags-list > [data-label]:visible')).toHaveCount(0)
+    await expect(search).toBeFocused()
+    await search.fill('')
+    await expect(page.locator('[data-tags-empty]')).toBeHidden()
+    const topics = page.locator('#tags-list > [data-label]')
+    await expect(page.locator('#tags-list > [data-label]:visible')).toHaveCount(await topics.count())
   })
 
   test('filters technologies, updates group counts, and exposes an empty state', async ({ page }) => {

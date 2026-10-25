@@ -11,7 +11,7 @@ import { getCachedPosts } from '@/utils/content'
 import { getTagPath } from '@/utils/links'
 import { getAllTags } from '@/utils/tags'
 
-import { Card, Input, Link, MotionGroup, Toggle } from '@santi020k/lumen-astro'
+import { Card, Icon, Input, Link, MotionGroup, Toggle } from '@santi020k/lumen-astro'
 
 const posts = await getCachedPosts()
 const allTags = getAllTags(posts)
@@ -54,7 +54,7 @@ mainClass="remaining-pages"
       title="Recurring themes across the archive."
     />
 
-    <div class="space-y-4">
+    <div class="space-y-4" data-topic-index>
       <div class="
         grid grid-cols-1 gap-4
         sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end
@@ -166,16 +166,14 @@ mainClass="remaining-pages"
           )
         })}
       </MotionGroup>
-      <p
-        class="
-          rounded-2xl border border-line/55 bg-surface/72 p-5 text-sm
-          text-ink-soft
-        "
+      <section
+        aria-labelledby="topic-empty-heading"
         data-tags-empty
         hidden
       >
-        No topics match that search.
-      </p>
+        <span data-topic-empty-icon><Icon class="size-5.5" name="search-x" /></span>
+        <h3 id="topic-empty-heading">No topics match that search.</h3>
+      </section>
     </div>
 
     <script>
@@ -251,3 +249,44 @@ mainClass="remaining-pages"
     <StatCard description="How often the most-used topic currently appears in the archive." icon="trending-up" label="Top topic" suffix="x" value={topTagCount} />
   </StatsGrid>
 </PageLayout>
+
+<style>
+  [data-topic-index] { container: topic-index / inline-size; }
+  [data-tags-empty] {
+    padding-block: 1.75rem;
+    border-block: 1px solid hsl(var(--line));
+  }
+  [data-tags-empty]:not([hidden]) {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1.5rem;
+  }
+  [data-topic-empty-icon] {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: .75rem .1875rem .75rem .1875rem;
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--brand));
+  }
+  :global([data-theme='dark']) [data-topic-empty-icon] { color: hsl(var(--accent)); }
+  [data-tags-empty] h3 {
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -.035em;
+    hyphens: none;
+  }
+  @container topic-index (width < 32rem) {
+    [data-tags-empty] { padding-block: 1.5rem; }
+    [data-tags-empty]:not([hidden]) { gap: 1rem; }
+    [data-tags-empty] h3 { font-size: 1.375rem; }
+  }
+  @container topic-index (width < 18rem) {
+    [data-tags-empty]:not([hidden]) { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

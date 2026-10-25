@@ -263,6 +263,12 @@ sentences, search focus, live result counts,
 and restoration of the catalog when the query is cleared. Hidden remains the
 initial state, including without JavaScript.
 
+The Blog topics empty state uses the same Catalog note direction, retaining its
+single sentence as a heading centered beside the icon. Give it both rules and the
+same responsive spacing, stacking below 18rem of topic-index width. Preserve the
+search and sort controls, zero-result announcement, search focus, and restoration
+of all topic links when the query is cleared. Keep automatic hyphenation disabled.
+
 ### Closing folio evidence invitation
 
 The Technologies page closes with a Lumen Card that separates a tinted title
