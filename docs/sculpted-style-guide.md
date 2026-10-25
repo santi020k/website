@@ -876,6 +876,14 @@ the original statement once for screen readers and omit empty outcome sections.
 Below 16rem of card width, stack value and context and tighten the insets so enlarged
 text stays readable. The card remains fully rendered without JavaScript.
 
+Client caption adds explicit client context when a case study spans several clients.
+Pass `attribution` to `ProjectOutcomesCard` with the client and short project context.
+Below the Outcomes label, use a wrapping 0.8125rem caption with a medium-weight
+client name, muted context, and a 0.75rem top gap. Smith uses Marcone and Storefront
+rebuild. Remove only that client's repeated name from measured display labels;
+keep the original full claims in `impactMetrics` and the accessible summaries.
+Unattributed cards, written claims, values, and existing fragments stay unchanged.
+
 ### Chapter evidence placement
 
 Author one `ProjectOutcomesCard` in each project's MDX narrative with its collection

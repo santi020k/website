@@ -250,6 +250,8 @@
 
 - Apply Section cadence to the Smith Commerce narrative subsections. Pair medium-weight headings with fine trailing rules and a consistent reading rhythm while preserving the original chapter outline, fragments, and composed evidence sections.
 
+- Apply Client caption to the Smith Commerce outcomes. Identify the Marcone storefront rebuild once above the impact rows while preserving every original metric, client attribution for screen readers, and both outcome fragments.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
