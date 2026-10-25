@@ -249,9 +249,14 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   only scroll region.
   `SiteSearch.astro` imports its typed controller from `site-search.ts` through a processed Astro
   script. The bundled module owns one set of lifecycle listeners and one lazy index cache across
-  page swaps; index validation, ranking, and topic suggestions live in `src/utils/search.ts`.
+  page swaps. A successful response, including an empty index, is reused until a full document
+  load; failures refetch on the next open or through Retry. Index validation, ranking, topic
+  suggestions, and recent-search normalization (five searchable, case-insensitively unique
+  queries) live in `src/utils/search.ts`.
   Completed requests render the current input, including when a visitor edits a deep-linked query
-  before the index arrives.
+  before the index arrives. Back or Forward that changes only the fragment and the controller's own
+  `q` closes an open dialog and restores trigger focus unless the destination carries a searchable
+  `q`; other query or path changes stay with Astro. Clearing an absent `q` leaves the URL untouched.
 - `src/plugins/rehype-lumen-code.ts` hand-builds Lumen's `Code`/`CodeTabs` public DOM contract
   (`data-ui-code`, `role="tab"`/`"tabpanel"`, `data-value`, `aria-selected`) for markdown-rendered
   code blocks, because that content is produced by a Unified/Rehype pipeline outside the Astro

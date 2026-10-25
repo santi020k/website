@@ -1,6 +1,6 @@
 // cspell:words cancion canción cuna diseno diseño किताब कताब كَتَبَ كتب
 import type { SearchIndexEntry } from '@/types/search'
-import { getPopularTopics, isSearchableQuery, isSearchEntry, rankSearchEntry } from '@/utils/search'
+import { getPopularTopics, isSearchableQuery, isSearchEntry, normalizeRecentSearches, rankSearchEntry } from '@/utils/search'
 
 import { describe, expect, test } from 'vitest'
 
@@ -13,6 +13,54 @@ const entry: SearchIndexEntry = {
   title: 'Astro guide',
   type: 'post'
 }
+
+describe('recent search normalization', () => {
+  test.each([null, undefined, {}, 'Astro', 42, true])('rejects a non-array history %j', value => {
+    expect(normalizeRecentSearches(value)).toEqual([])
+  })
+
+  test('skips non-string entries, empty values, and queries below the existing minimum', () => {
+    expect(normalizeRecentSearches([null, 42, {}, '', ' \t ', 'x', 'é', 'e\u0301', '\u0301\u0303', ' Astro ']))
+      .toEqual(['Astro'])
+    expect(normalizeRecentSearches([])).toEqual([])
+  })
+
+  test('keeps the first trimmed spelling while removing case-insensitive duplicates', () => {
+    expect(normalizeRecentSearches([' Astro ', 'astro', 'ASTRO', 'React', ' REACT ', 'Node']))
+      .toEqual(['Astro', 'React', 'Node'])
+  })
+
+  test('counts only valid unique queries toward the five-query limit', () => {
+    expect(normalizeRecentSearches(['', 'a', 'Astro', 'astro', 'React', null, 'Node', 'CSS', 'HTML', 'Rust']))
+      .toEqual(['Astro', 'React', 'Node', 'CSS', 'HTML'])
+  })
+
+  test('does not mutate or return the saved array', () => {
+    const saved = Object.freeze([' Astro ', 'astro', 'React'])
+    const normalized = normalizeRecentSearches(saved)
+
+    expect(normalized).toEqual(['Astro', 'React'])
+    expect(normalized).not.toBe(saved)
+    expect(saved).toEqual([' Astro ', 'astro', 'React'])
+  })
+
+  test('preserves accent and normalization forms rather than changing duplicate policy', () => {
+    expect(normalizeRecentSearches([' Aarón ', 'AARÓN', 'aaron', 'Aarón'.normalize('NFD')]))
+      .toEqual(['Aarón', 'aaron', 'Aarón'.normalize('NFD')])
+  })
+
+  test('preserves searchable multilingual and emoji queries', () => {
+    expect(normalizeRecentSearches([' 東京 ', 'किताब', '👩🏽‍💻', 'C++']))
+      .toEqual(['東京', 'किताब', '👩🏽‍💻', 'C++'])
+  })
+
+  test('moves a newly used spelling to the front and evicts the oldest query', () => {
+    const previous = ['Astro', 'React', 'Node', 'CSS', 'HTML']
+
+    expect(normalizeRecentSearches([' react ', ...previous])).toEqual(['react', 'Astro', 'Node', 'CSS', 'HTML'])
+    expect(normalizeRecentSearches(['Rust', ...previous])).toEqual(['Rust', 'Astro', 'React', 'Node', 'CSS'])
+  })
+})
 
 describe('search index validation', () => {
   test('accepts a local entry with optional responsive artwork', () => {

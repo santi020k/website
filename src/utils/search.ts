@@ -85,6 +85,35 @@ export const isSearchableQuery = (query: string): boolean => (
   normalizeSearchText(query).length >= MIN_SEARCH_QUERY_LENGTH
 )
 
+const RECENT_SEARCHES_LIMIT = 5
+
+/**
+ * Validates saved search history on read and write: keeps the first five
+ * trimmed, searchable, case-insensitively unique strings in stored order,
+ * with the first spelling seen. The input is never mutated.
+ */
+export const normalizeRecentSearches = (value: unknown): string[] => {
+  if (!Array.isArray(value)) return []
+
+  const queries: string[] = []
+  const seen = new Set<string>()
+
+  for (const item of value.filter((entry: unknown): entry is string => typeof entry === 'string')) {
+    if (queries.length >= RECENT_SEARCHES_LIMIT) break
+
+    const query = item.trim()
+    const key = query.toLowerCase()
+
+    if (isSearchableQuery(query) && !seen.has(key)) {
+      seen.add(key)
+
+      queries.push(query)
+    }
+  }
+
+  return queries
+}
+
 export const rankSearchEntry = (entry: SearchIndexEntry, query: string): number => {
   const normalizedQuery = normalizeSearchText(query)
 

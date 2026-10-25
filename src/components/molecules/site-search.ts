@@ -1,5 +1,11 @@
 import type { SearchIndexEntry } from '@/types/search'
-import { getPopularTopics, isSearchableQuery, isSearchEntry, rankSearchEntry } from '@/utils/search'
+import {
+  getPopularTopics,
+  isSearchableQuery,
+  isSearchEntry,
+  normalizeRecentSearches,
+  rankSearchEntry
+} from '@/utils/search'
 
 let entries: SearchIndexEntry[] = []
 let selectedResultIndex = -1
@@ -14,8 +20,8 @@ let popularTopics: string[] = []
 // A stalled request or body must reach the retry state instead of loading forever.
 const INDEX_LOAD_TIMEOUT_MS = 10_000
 const RECENT_SEARCHES_KEY = 'site-search-recent'
-const RECENT_SEARCHES_LIMIT = 5
 
+// Reads validate in memory only; storage is rewritten when a search is remembered.
 const getRecentSearches = (): string[] => {
   try {
     const raw = window.localStorage.getItem(RECENT_SEARCHES_KEY)
@@ -24,7 +30,7 @@ const getRecentSearches = (): string[] => {
 
     const parsed: unknown = JSON.parse(raw)
 
-    return Array.isArray(parsed) ? parsed.filter((value: unknown): value is string => typeof value === 'string') : []
+    return normalizeRecentSearches(parsed)
   } catch {
     return []
   }
@@ -36,11 +42,7 @@ const rememberRecentSearch = (query: string) => {
   if (!isSearchableQuery(trimmed)) return
 
   try {
-    const list = getRecentSearches().filter(v => v.toLowerCase() !== trimmed.toLowerCase())
-
-    list.unshift(trimmed)
-
-    const next = list.slice(0, RECENT_SEARCHES_LIMIT)
+    const next = normalizeRecentSearches([trimmed, ...getRecentSearches()])
 
     window.localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(next))
   } catch {
@@ -433,7 +435,8 @@ const syncQueryInURL = (value: string) => {
 
   if (isSearchableQuery(query)) {
     url.searchParams.set('q', query)
-  } else {
+  } else if (url.searchParams.has('q')) {
+    // Any searchParams write re-encodes the whole query, so skip it when `q` is absent.
     url.searchParams.delete('q')
   }
 
@@ -495,6 +498,10 @@ const closeSearch = (options: { focusTrigger?: boolean } = {}) => {
 
     setScrollLock(false)
 
+    // History traversal during the animation can make the native close handler
+    // skip cleanup. Swaps cancel this callback, so it only runs on this document.
+    if (dialog.isConnected) setTriggerExpanded(false)
+
     /* Remove after `close()` so `[open]` never pairs with "not closing" (intro CSS). */
     dialog.removeAttribute('data-site-search-anim')
 
@@ -553,7 +560,8 @@ const isEditableTarget = (target: EventTarget | null) => {
 const loadIndex = async (options: { force?: boolean } = {}): Promise<boolean> => {
   const { force = false } = options
 
-  if (!force && indexLoadState === 'ready' && entries.length > 0) return true
+  // A valid empty index is still a successful load; reuse it until a full reload.
+  if (!force && indexLoadState === 'ready') return true
 
   if (!force && indexLoadPromise) return indexLoadPromise
 
@@ -960,8 +968,45 @@ const onGlobalKeydown = (event: KeyboardEvent) => {
   }
 }
 
+/**
+ * Same-document traversal, such as Back from a skip-link fragment, never
+ * reaches Astro's swap lifecycle, so an open dialog must follow the URL here.
+ * Path and other query changes stay with Astro and the close guard.
+ */
+const onPopState = () => {
+  const dialog = getDialog()
+
+  if (!(dialog instanceof HTMLDialogElement) || !dialog.open) return
+
+  // An in-flight close already owns cleanup.
+  if (dialog.getAttribute('data-site-search-anim') === 'closing') return
+
+  const source = new URL(searchURL)
+  const destination = new URL(window.location.href)
+  const sourceParams = new URLSearchParams(source.search)
+  const destinationParams = new URLSearchParams(destination.search)
+
+  // Astro never sees the `q` this controller writes with replaceState, and
+  // writing it may have re-encoded the other parameters, so compare without it.
+  sourceParams.delete('q')
+
+  destinationParams.delete('q')
+
+  const onlyFragmentChanged = destination.origin === source.origin &&
+    destination.pathname === source.pathname &&
+    destinationParams.toString() === sourceParams.toString() &&
+    destination.hash !== source.hash
+
+  // Closing clears `q`, so a searchable deep link keeps the dialog open.
+  if (!onlyFragmentChanged || isSearchableQuery(destination.searchParams.get('q') ?? '')) return
+
+  closeSearch({ focusTrigger: true })
+}
+
 // Astro bundles this module once; the controller and index survive page swaps.
 document.addEventListener('keydown', onGlobalKeydown)
+
+window.addEventListener('popstate', onPopState)
 
 bindUi()
 

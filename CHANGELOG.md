@@ -506,6 +506,8 @@
 
 - Treat webmention author names made only of whitespace, controls, or default-ignorable characters as missing, restoring readable anonymous labels while preserving meaningful Unicode names and mention links.
 
+- Reuse valid empty search indexes, validate saved recent queries before rendering accessible suggestions, and close search safely during same-page fragment history navigation while preserving searchable deep links.
+
 ## 4.0.0
 
 ### Major Changes

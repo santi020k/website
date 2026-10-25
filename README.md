@@ -127,8 +127,11 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   [product accuracy record](docs/editorial/product-accuracy.md) when refreshing claims or images.
 - **Search:** the header searches posts and projects; open it with `/`, ⌘K, or Ctrl+K.
   If the index request stalls for 10 seconds, search offers a retry and preserves the current query.
-  Its typed controller is bundled once and keeps the fetched index across page transitions.
-  Validation and relevance rules live in `src/utils/search.ts`.
+  Its typed controller is bundled once and keeps a successfully fetched index, even an empty one,
+  across page transitions until a full reload; a failed request retries on the next open.
+  Recent searches keep up to five searchable queries, deduplicated case-insensitively, and saved
+  history is validated on read and write. Validation, relevance, and history rules live in
+  `src/utils/search.ts`.
 - **Reading metadata:** cards, article headers, and structured data share `src/utils/reading-time.ts`;
   the retired Markdown plugin no longer writes unused frontmatter.
 - **Content dates:** write frontmatter dates as `2026-09-04` or `4 Sep 2026`; both mean that calendar
