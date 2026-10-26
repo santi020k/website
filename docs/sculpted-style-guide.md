@@ -1795,7 +1795,10 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   continuous surface, with a short row reveal and 7px blur behind it. Keep the
   backdrop and scroll lock through the exit animation; reopening cancels the exit.
 - Use Lumen's menu icon and show Menu/Close labels on phones when the header has
-  at least 21rem of width. Keep icon controls at 44px when text or width needs more room.
+  at least 21rem of width. Separate phone utility controls with a 0.5rem gap so
+  hover and pressed backgrounds never touch. Below 21rem of header width, keep
+  icon controls at 44px to preserve that space with enlarged text. Below 12rem,
+  compact the gap to 0.25rem along with the existing outer inset.
   The current mobile destination retains its underline and gains a quiet Current label,
   omitted below 18rem of menu width. Internal destinations use right arrows.
   At 34rem of menu width, arrange links and footer actions in two columns, keeping
@@ -1812,6 +1815,8 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   technology. Rem-based container queries adapt to enlarged text, with icon-only
   controls retaining a 44px target. When enlarged text leaves less than 20rem
   of width, omit decorative result thumbnails so titles keep a readable column.
+  Below 12rem, reduce the input field's horizontal padding so typed text keeps
+  enough room beside the clear button.
 - Search results use Cover ledger: a contained cover tile, an accent content-type label,
   a larger title, and the complete description. Ruled rows use the same soft tint for hover
   and keyboard selection. A decorative Lumen arrow sits inside the row's 1rem end inset

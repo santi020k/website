@@ -296,6 +296,10 @@ import { Button, Dialog, Icon, Kbd, SearchField } from '@santi020k/lumen-astro'
     #site-search-dialog [data-site-search-field] { gap: 0.5rem; }
   }
 
+  @container site-search (width < 12rem) {
+    #site-search-dialog [data-site-search-field] { padding-inline: 0.25rem; }
+  }
+
   @container site-search (height <= 31.25rem) {
     #site-search-dialog [data-site-search-shell] { padding-block: 0.75rem 0.5rem; }
     #site-search-dialog [data-site-search-heading] { align-items: center; padding-block: 0.625rem 1.5rem; }
