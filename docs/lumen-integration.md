@@ -372,6 +372,10 @@ enlarged text sizes. No new client controller is introduced.
   the heading and inline link; shared tokens provide the open composition without client code.
   All project entries use this opening, retaining every authored introduction paragraph
   without a second generic preface. See [project detail patterns](editorial/project-detail-patterns.md).
+  The project layout inserts a native definition list below the original heading,
+  using the shared reading-time helper and rendered chapter outline. Context lead owns its
+  Reading brief typography and semantic colors; this passive composition needs no new
+  Lumen control, client script, or manually maintained per-project counts.
 - `ProjectSectionHeading` wraps an authored Markdown h3 with Section cadence typography
   and a decorative trailing rule. Inline heading content stays in normal text flow; long
   labels wrap without changing their names or fragments. Adjacent narrative paragraphs

@@ -124,6 +124,39 @@ test('an offline navigation without a trailing slash reuses its cached page', as
   }
 })
 
+test('offline file navigations fail while dotted technology aliases retain page recovery', async ({ browser, baseURL }) => {
+  const server = await createOfflinePreview(baseURL)
+  const context = await browser.newContext({ baseURL: server.url, reducedMotion: 'reduce' })
+
+  try {
+    const page = await context.newPage()
+
+    await page.goto('/')
+    await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined))
+    await page.waitForFunction(() => navigator.serviceWorker.controller !== null)
+
+    server.setOnline(false)
+    for (const path of ['/robots.txt', '/favicon.svg?uncached=1', '/_astro/uncached-preview.webp']) {
+      const filePage = await context.newPage()
+
+      try {
+        await expect(filePage.goto(path)).rejects.toThrow()
+      } finally {
+        // A failed navigation can commit a browser error page after goto rejects.
+        // Keep that navigation isolated from the page-recovery assertion below.
+        await filePage.close()
+      }
+    }
+
+    await page.goto('/technologies/Nest.js')
+    await expect(page).toHaveTitle('Offline | santi020k')
+    await expect(page.getByRole('button', { name: 'Try again', exact: true })).toBeVisible()
+  } finally {
+    await context.close()
+    await server.close()
+  }
+})
+
 test('page query variants share one query-free cache entry and still work offline', async ({ browser, baseURL }) => {
   const server = await createOfflinePreview(baseURL, {}, { vary: 'Accept-Encoding, Accept-Language' })
   const context = await browser.newContext({ baseURL: server.url, reducedMotion: 'reduce' })

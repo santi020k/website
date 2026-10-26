@@ -283,14 +283,18 @@ test('forced colors preserve the menu symbol and current desktop page marker', a
   await page.setViewportSize({ width: 390, height: 844 })
   await page.emulateMedia({ forcedColors: 'active' })
   await page.goto('/')
-  const symbol = await page.locator('.site-menu-grid > span').first().evaluate(element => {
+  const menuIcon = page.locator('[data-mobile-nav-menu-icon] svg')
+
+  await expect(menuIcon).toBeVisible()
+  const symbol = await menuIcon.evaluate(element => {
     const style = getComputedStyle(element)
 
-    return { style: style.borderTopStyle, width: Number.parseFloat(style.borderTopWidth) }
+    return { stroke: style.stroke, color: style.color, width: Number.parseFloat(style.strokeWidth) }
   })
 
-  expect(symbol.style).toBe('solid')
+  expect(symbol.stroke).toBe(symbol.color)
   expect(symbol.width).toBeGreaterThanOrEqual(1)
+  await expect(page.locator('[data-mobile-nav-toggle]')).toHaveCSS('color', symbol.color)
   await page.setViewportSize({ width: 1440, height: 900 })
   const marker = await page.locator('.site-desktop-nav a[aria-current="page"]').evaluate(element => {
     const style = getComputedStyle(element, '::after')

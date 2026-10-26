@@ -5,16 +5,14 @@ class ProjectPreviewViewerElement extends HTMLElement {
 
   #setZoom = (zoomed: boolean) => {
     const canvas = this.querySelector<HTMLElement>('[data-gallery-canvas]')
-    const button = this.querySelector<HTMLButtonElement>('[data-gallery-zoom]')
     const label = this.querySelector('[data-gallery-zoom-label]')
     const status = this.querySelector('[data-gallery-status]')
 
-    if (!canvas || !button || !label || !status) return
+    if (!canvas || !label || !status) return
 
     canvas.dataset.zoomed = String(zoomed)
 
-    button.setAttribute('aria-pressed', String(zoomed))
-
+    // The label names the next action, so it is not also a pressed toggle.
     label.textContent = zoomed ? 'Fit image' : 'Inspect detail'
 
     status.textContent = zoomed ? 'Full detail · scroll or use arrow keys' : 'Complete image'
@@ -70,8 +68,9 @@ class ProjectPreviewViewerElement extends HTMLElement {
     const fallback = this.querySelector<HTMLElement>('[data-gallery-fallback]')
     const dialog = this.querySelector('dialog')
     const zoom = this.querySelector<HTMLButtonElement>('[data-gallery-zoom]')
+    const canvas = this.querySelector<HTMLElement>('[data-gallery-canvas]')
 
-    if (!opener || !fallback || !dialog || !zoom) return
+    if (!opener || !fallback || !dialog || !zoom || !canvas) return
 
     this.#events = new AbortController()
 
@@ -97,7 +96,7 @@ class ProjectPreviewViewerElement extends HTMLElement {
     opener.addEventListener('click', this.#prepareImage, { capture: true, signal })
 
     zoom.addEventListener('click', () => {
-      this.#setZoom(zoom.getAttribute('aria-pressed') !== 'true')
+      this.#setZoom(canvas.dataset.zoomed !== 'true')
     }, { signal })
 
     this.addEventListener('load', event => {
@@ -116,7 +115,7 @@ class ProjectPreviewViewerElement extends HTMLElement {
         event.stopPropagation()
       }
 
-      if (event.altKey || event.metaKey || event.ctrlKey || zoom.getAttribute('aria-pressed') !== 'true') return
+      if (event.altKey || event.metaKey || event.ctrlKey || canvas.dataset.zoomed !== 'true') return
 
       const directions: Record<string, [number, number]> = {
         ArrowLeft: [-100, 0],
@@ -131,7 +130,7 @@ class ProjectPreviewViewerElement extends HTMLElement {
 
       event.preventDefault()
 
-      this.querySelector('[data-gallery-canvas]')?.scrollBy({ left: direction[0], top: direction[1], behavior: 'instant' })
+      canvas.scrollBy({ left: direction[0], top: direction[1], behavior: 'instant' })
     }, { signal })
 
     dialog.addEventListener('close', () => {

@@ -26,8 +26,14 @@ test('all curated projects link to their selected published writing without empt
     await expect(links).toHaveCount(references.length)
     for (const [index, reference] of references.entries()) {
       const destination = getPostPath(reference)
+      const link = links.nth(index)
+      const story = writing.locator('[data-writing-story]').nth(index)
+      // Label in Name: the computed name starts with the visible action, then the story title.
+      const action = (await link.innerText()).trim()
+      const title = (await story.getByRole('heading', { level: 3 }).innerText()).trim()
 
-      await expect(links.nth(index)).toHaveAttribute('href', destination)
+      await expect(link).toHaveAttribute('href', destination)
+      await expect(link).toHaveAccessibleName(`${action}: ${title}`)
       expect((await request.get(destination)).ok()).toBe(true)
     }
   }

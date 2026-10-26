@@ -52,7 +52,7 @@ deduplication, not removal of search terms from browser storage. The cache key k
 web manifest, and assets keep their exact query in the cache key because it can select different
 bytes.
 
-If the network fails or takes eight seconds to return response headers, a page or navigation
+If the network fails or takes eight seconds to return response headers, a page
 request falls back to its cached copy, then to the cached `/offline/` document. A cache miss or write
 failure never blocks the response — cache storage is treated as an optional
 optimization. At the header deadline, the worker keeps waiting for the network only when neither the
@@ -61,7 +61,14 @@ succeeds after a cached response has been served. The deadline ends when respons
 it does not interrupt a streaming body or a large download. Network responses stream immediately;
 `waitUntil` keeps background cache writes
 and trimming alive without holding the response. Non-page resources fall back only to their own cached response; an offline HTML
-page is never substituted for JSON, feed, or PDF bytes. Only successful, non-redirected responses
+page is never substituted for JSON, feed, or PDF bytes. Every navigation is network-first, but only
+page-like paths (a trailing slash, a last segment without a file extension, `.html`, or a
+`/technologies/` alias such as `/technologies/Nest.js`, except JSON, feed, PDF, or manifest files)
+use `/offline/`. Dotted technology aliases read only their exact cached copy before `/offline/`,
+never a slash alias. A file opened in a tab, such as `/robots.txt`, `/favicon.svg`, or an `/_astro/`
+image, falls back only to its exact cached response, then a network error; at the header deadline it
+keeps waiting when uncached.
+Only successful, non-redirected responses
 are stored: browsers reject a cached followed redirect for a navigation, so caching one would turn
 an offline visit to that URL into a network error instead of the offline document.
 
@@ -95,11 +102,12 @@ Activation removes previous site cache namespaces and preserves unrelated applic
 
 ## Build cache
 
-GitHub Actions restores generated OG images together with `.og-cache.json`,
-which lets the generator validate each cached output. The cache key includes
-the lockfile, artwork, content, renderer scripts, pagination settings, and the
-actual variable font. A changed input produces a new cache entry; the generator
-still verifies fingerprints after a fallback restore.
+Generated OG images in `public/og` and their `.og-cache.json` manifest are tracked,
+so CI builds use the checked-out copies and the generator validates each output
+against that manifest. GitHub Actions does not cache them: restoring a cache,
+including a fallback match, would overwrite a pull request's committed images or
+manifest with older ones. Actions still caches Astro image transformations and
+the Playwright browser.
 
 OG cleanup only removes outputs recorded in its previous cache. An obsolete image
 absent from that cache can survive regeneration and still be copied from `public/og`

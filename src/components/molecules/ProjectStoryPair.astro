@@ -24,7 +24,7 @@ const { stories } = Astro.props
           <p data-writing-label>{label}</p>
           <h3>{post.data.title}</h3>
           <p data-writing-description>{post.data.cardDescription ?? post.data.description}</p>
-          <Link href={getPostPath(post.id)} variant="inherit" aria-label={`Read ${post.data.title}`} data-writing-link>
+          <Link href={getPostPath(post.id)} variant="inherit" aria-label={`Read ${label.toLowerCase()}: ${post.data.title}`} data-writing-link>
             <span>Read {label.toLowerCase()}</span>
             <Icon name="arrow-right" size="sm" />
           </Link>

@@ -1165,7 +1165,9 @@ uses 0.75rem corners with a 0.25rem lower-right corner and a 2.75rem minimum tar
 
 The native Lumen Dialog retains the screenshot title, complete caption, and a visible
 Close control. Fit the whole image initially; Inspect detail shows its full pixel width
-inside a scrollable canvas. Keep the canvas keyboard reachable, support arrow-key panning,
+inside a scrollable canvas. The zoom button's name switches between Inspect detail and Fit image,
+so it names the next action and carries no `aria-pressed`; the canvas `data-zoomed` state gates
+arrow-key panning and resets on close. Keep the canvas keyboard reachable, support arrow-key panning,
 and announce loading, complete-image, detail, and error states. Escape and backdrop
 activation close the viewer and return focus. Keep the close row visible when enlarged
 text or a short viewport requires scrolling. Both themes use opaque semantic surfaces.
@@ -1830,7 +1832,10 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   continuous surface, with a short row reveal and 7px blur behind it. Keep the
   backdrop and scroll lock through the exit animation; reopening cancels the exit.
 - Use Lumen's menu icon and show Menu/Close labels on phones when the header has
-  at least 21rem of width. Keep icon controls at 44px when text or width needs more room.
+  at least 21rem of width. Separate phone utility controls with a 0.5rem gap so
+  hover and pressed backgrounds never touch. Below 21rem of header width, keep
+  icon controls at 44px to preserve that space with enlarged text. Below 12rem,
+  compact the gap to 0.25rem along with the existing outer inset.
   The current mobile destination retains its underline and gains a quiet Current label,
   omitted below 18rem of menu width. Internal destinations use right arrows.
   At 34rem of menu width, arrange links and footer actions in two columns, keeping
@@ -1847,6 +1852,8 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   technology. Rem-based container queries adapt to enlarged text, with icon-only
   controls retaining a 44px target. When enlarged text leaves less than 20rem
   of width, omit decorative result thumbnails so titles keep a readable column.
+  Below 12rem, reduce the input field's horizontal padding so typed text keeps
+  enough room beside the clear button.
 - Search results use Cover ledger: a contained cover tile, an accent content-type label,
   a larger title, and the complete description. Ruled rows use the same soft tint for hover
   and keyboard selection. A decorative Lumen arrow sits inside the row's 1rem end inset

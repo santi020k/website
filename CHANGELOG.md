@@ -278,6 +278,15 @@
 
 ### Patch Changes
 
+- Make the built-page audit follow Cloudflare redirect precedence over existing files, so missing
+  destinations, redirect loops, and broken destination fragments cannot hide behind stale assets.
+  Validate a status-200 proxy against its immediate target without following another rule.
+
+- Stop the service worker from answering an offline navigation to a file, such as `robots.txt`, an
+  icon, or a build image, with the offline HTML page; files use only their own cached copy. Name the
+  project preview zoom button by its next action without also announcing it as a pressed toggle.
+  Start each project story link's accessible name with its visible action, followed by the post title.
+
 - Refine article copy and share controls with rounded outlines, tinted icon compartments, consistent result states, and tighter spacing beneath Topics. Preserve keyboard access, clipboard feedback, and native sharing.
 
 - Center logos vertically in generated horizontal and portrait project covers, including the square crops used by compact project cards.
@@ -571,6 +580,8 @@
 - Treat webmention author names made only of whitespace, controls, or default-ignorable characters as missing, restoring readable anonymous labels while preserving meaningful Unicode names and mention links.
 
 - Reuse valid empty search indexes, validate saved recent queries before rendering accessible suggestions, and close search safely during same-page fragment history navigation while preserving searchable deep links.
+
+- Run the full pull-request quality gate when only the SEO audit configuration or the committed social-image cache manifest changes, and classify changed paths containing non-ASCII characters or newlines instead of skipping them. Build the committed social images and manifest from the checkout instead of restoring an Actions cache that could overwrite them with older copies. Regression tests execute the workflow's own change classifier against temporary Git histories and manual dispatch, without inheriting a Git hook's repository variables.
 
 ## 4.0.0
 

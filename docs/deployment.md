@@ -163,9 +163,18 @@ Two tiers, picked by intent:
   severity without a vulnerability allowlist. Any exception must document its
   exact dependency path, exposure boundary, and removal condition.
 
+CI builds the tracked OG images and `.og-cache.json` from the checkout. Its build caches retain Astro
+image transformations and the Playwright browser (see [build cache](cache-strategy.md#build-cache)).
+
 See [dependency security follow-up](dependency-security.md) for unresolved
 upstream findings and their required compatibility checks. Documenting a finding
 does not waive the audit gate.
+
+The built-page audit resolves local references using the first matching redirect before any
+built file, matching [Cloudflare Pages redirect precedence](https://developers.cloudflare.com/pages/configuration/redirects/).
+It checks redirect destinations and their fragments even when an old file still exists at the
+source URL. Status-200 proxy rules check only their immediate local target, without following
+another redirect rule.
 
 The full Lighthouse audit covers Home, About, Work, Projects, Portfolio, Travel,
 Blog, and Accessibility. `pnpm run lighthouse` is the faster homepage smoke audit;

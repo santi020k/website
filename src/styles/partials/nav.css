@@ -572,7 +572,7 @@
   .site-header-brand { gap: 0.375rem; padding-inline: 0.75rem 0.25rem; }
   .site-header-wordmark { font-size: 0.9375rem; }
   .site-header-mark { width: 1.75rem; height: 1.75rem; }
-  .site-header-actions { gap: 0; padding-right: 0.5rem; }
+  .site-header-actions { gap: 0.5rem; padding-right: 0.5rem; }
   .site-header-actions [data-mobile-nav-toggle] { width: 2.75rem; padding: 0.625rem; }
 }
 
@@ -631,10 +631,8 @@
   }
 }
 
-/* The narrowest bars keep icon controls at exactly 44px. */
-@container site-header (width < 12rem) {
-  .site-header-brand { min-width: 44px; padding-inline: 0.5rem 0.25rem; }
-  .site-header-actions { padding-right: 0.25rem; }
+/* Reserve spacing before enlarged icon controls crowd the phone header. */
+@container site-header (width < 21rem) {
   .site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger]),
   .site-header-actions [data-mobile-nav-toggle] {
     width: 44px;
@@ -643,6 +641,12 @@
     min-height: 44px;
     padding: 0;
   }
+}
+
+/* The narrowest bars also compact the identity and outer inset. */
+@container site-header (width < 12rem) {
+  .site-header-brand { min-width: 44px; padding-inline: 0.5rem 0.25rem; }
+  .site-header-actions { gap: 0.25rem; padding-right: 0.25rem; }
 }
 
 /* Reserve space for navigation in short windows, including enlarged text. */

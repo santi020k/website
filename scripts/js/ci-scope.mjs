@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url'
 export const gitEnvironment = (environment = process.env) => Object.fromEntries(Object.entries(environment).filter(([key]) => !key.startsWith('GIT_')))
 
 export const classifyPaths = paths => {
-  if (paths.length > 0 && paths.every(path => path === 'README.md' || /^docs\/.*\.md$/u.test(path))) return { mode: 'docs', checks: true, full: false }
+  if (paths.length > 0 && paths.every(path => path === 'README.md' || /^docs\/.*\.md$/su.test(path))) return { mode: 'docs', checks: true, full: false }
 
   return { mode: paths.length > 0 && paths.every(path => /^src\//u.test(path)) ? 'current' : 'full', checks: true, full: true }
 }
