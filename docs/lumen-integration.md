@@ -627,6 +627,13 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   by Lumen when the assembled page is enhanced. No new dependency or client script
   is added. Use this composition for standalone imported article examples; the real
   `Code` primitive remains available outside that site-owned editorial context.
+  Long standalone article examples use Example fold: the shared adapter emits
+  Lumen's native `data-ui-collapsible` disclosure contract with a 12-line preview
+  above the 24-line threshold. Full source stays in the disclosure and Copy uses
+  its explicit public `data-copy-value`, even when collapsed. Each complete/preview
+  region uses its own `data-ui-scroll-cue` root, so Lumen observes the visible region
+  after native expansion without a site controller. Preview clones omit IDs to
+  avoid duplicate authored fragment targets. Short snippets and tabs are unchanged.
   Scroll cue uses Lumen's shared `data-ui-scroll-cue` contract inside each standalone
   article figure. The runtime observes the existing code region and content, showing a
   footer and accessible description only on horizontal overflow. It cleans up on Astro

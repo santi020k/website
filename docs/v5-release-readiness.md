@@ -564,6 +564,32 @@ Affected lint passed with zero warnings, the current production build and
 Published changelog entries remain unchanged. This follow-up uses scoped checks;
 the full workspace gate remains `16b66665`.
 
+## Article Example fold follow-up
+
+Approved source `285a94b2`, based on `351fbce2`, folds standalone article code
+longer than 24 lines into a 12-line preview and native disclosure. Trailing blank
+lines do not affect the threshold. Copy always retains the complete source;
+expanded and preview regions have separate Lumen scroll cues. Preview clones
+remove IDs and descriptions to preserve unique fragment targets. Short snippets,
+package-manager tabs, and project code retain their existing behavior. No client
+controller or dependency was added. The patch note is folded into 5.0.0.
+
+All 13 affected unit tests and all 42 Chromium/WebKit disclosure, imported-code,
+copy-feedback, scroll-cue, and guide-content cases passed with retries disabled.
+Eight rendered checks covered collapsed and expanded states at mobile and desktop
+widths in both themes, with no accessibility violations, page overflow, or runtime
+errors. Matched before-and-after captures were reviewed. Independent print checks
+confirmed that all 27 lines of the closed Markdown example were painted in both
+browsers, while the summary and duplicate preview remained hidden. WebKit's native
+visibility check and the rendered image agree, unlike Playwright's closed-details
+visibility heuristic.
+
+Affected lint passed with zero warnings. The current production build started with
+content-cache cleanup and passed the 452-page OG audit. Both resume PDFs were
+regenerated for the shared prose stylesheet change and passed freshness checks.
+Published changelog entries remain unchanged. This iteration received scoped
+checks; the complete workspace gate remains recorded at `16b66665`.
+
 ## Related article Reading rows follow-up
 
 The approved `44106dd9` reuses `PostsGallery` with its existing chapter layout

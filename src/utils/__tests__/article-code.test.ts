@@ -11,6 +11,32 @@ const render = async (code: string, language = 'typescript', label = 'examples/s
 }
 
 describe('imported article code', () => {
+  test('keeps a 24-line example fully expanded, excluding its trailing newline', async () => {
+    const source = `${Array.from({ length: 24 }, (_, index) => `const line${index + 1} = ${index + 1}`).join('\n')}\n`
+    const result = await render(source)
+
+    expect(result.querySelector('details')).toBeNull()
+    expect(result.querySelectorAll('pre')).toHaveLength(1)
+    expect(result.querySelector('pre')?.textContent).toBe(source)
+  })
+
+  test('folds 25 lines with a complete source and an independent 12-line preview', async () => {
+    const source = `${Array.from({ length: 25 }, (_, index) => `const line${index + 1} = ${index + 1}`).join('\n')}\n`
+    const result = await render(source)
+    const details = result.querySelector('details')
+    const preview = result.querySelector('[data-code-preview]')
+
+    expect(details?.open).toBe(false)
+    expect(details?.querySelector('summary')?.textContent).toContain('25 lines')
+    expect(details?.querySelector('pre')?.textContent).toBe(source)
+    expect(preview?.querySelectorAll('[data-line]')).toHaveLength(12)
+    expect(preview?.querySelector('pre')?.textContent).toBe(source.split('\n').slice(0, 12).join('\n'))
+    expect(preview?.querySelector('pre')?.getAttribute('aria-label')).toContain('Preview, first 12 lines')
+    expect(result.querySelectorAll('[data-ui-scroll-cue]')).toHaveLength(2)
+    expect(result.querySelectorAll('[data-scroll-cue-message]')).toHaveLength(2)
+    expect(result.querySelector('[data-copy-value]')?.getAttribute('data-copy-value')).toBe(source.trim())
+  })
+
   test('preserves literal markup, fences, whitespace, and notation comments as code', async () => {
     const source = 'const html = "<script>alert(1)</script> & quoted"\n\n  // [!code --]\nconst fence = "```"'
     const result = await render(source)

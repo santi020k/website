@@ -28,7 +28,7 @@ for (const width of [390, 1440]) {
       const block = prose.locator('figure').filter({ has: page.locator('figcaption', {
         hasText: `tests/accessibility-guide/${example}.spec.ts`
       }) })
-      await expect(block.locator('pre code')).toHaveText(source)
+      await expect(block.locator('[data-code-complete] code')).toHaveText(source)
       const copy = block.getByRole('button')
       await expect(copy).toHaveAccessibleName('Copy code to clipboard')
       await expect(copy).toHaveAttribute('data-ui-copy-button-bound', 'true')
