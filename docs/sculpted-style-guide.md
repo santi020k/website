@@ -864,7 +864,11 @@ with 0.75rem corners, and the role, complete 1.75rem title, full description, an
 Keep a 2.5rem column gap and 2rem vertical padding. The project color accents the
 index, uppercase role, and plain forward reading action.
 
-The list owns the `related-list` container. Below 56rem, tighten the columns.
+The list owns the `related-list` container. Between 42rem and 72rem, use two columns:
+a square image that scales from 12rem to 16rem, then a wider text column with a
+1.5rem title. Center the artwork vertically, keep 2rem between columns and 1.75rem
+vertical padding, and place the index at the end of the role line. Descriptions use
+1.75 leading and retain their 58ch measure; reading actions put the arrow at the far edge.
 Below 42rem, pair a 5.5rem square thumbnail with the role and 1.375rem title.
 Place the decorative index at the end of the role line, reserving space so long
 roles cannot overlap it. Give the full description its own full-width row with
