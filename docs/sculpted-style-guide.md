@@ -228,6 +228,13 @@ ordered index with its existing current-step label and focus treatment. Keep the
 index in the same page, available with keyboard and without JavaScript. Do not add
 another card frame inside the disclosure. Singular chapter counts use All 1 chapter.
 
+Use **Single continuation** for older series posts: remove an authored closing
+Next Post link when it repeats the next chapter already supplied by this composition.
+Verify the destination against the local article and its canonical URL, including
+the same Medium article ID under an author or publication path. Preserve references
+to different articles or series. The existing navigation remains the source of
+chapter order; this cleanup needs no extra component, hidden link, or client script.
+
 ### Directional folio article navigation
 
 Before the Reading index disclosure, present previous and next articles as open columns with
@@ -1772,10 +1779,26 @@ inset to 1.125rem. Below 20rem, use a 0.75rem inset and 1.125rem text; below 14r
 use 1rem text to preserve readable words at enlarged text sizes. Keep brand/accent
 tokens in their corresponding themes. No client script is required.
 
-The article-only Markdown transform wraps the first top-level paragraph before a
-section heading. Existing update notes stay before the opening. Do not extract
+The article-only Markdown transform wraps the first top-level narrative paragraph before a
+section heading, skipping standalone link paragraphs. Existing update notes stay before the opening. Do not extract
 text, duplicate the introduction, or promote a paragraph from inside a callout,
 quote, list, or section. Projects and historical sites retain their own treatments.
+
+### Reference ledger article opening links
+
+Keep Margin lead on the introduction. Place explicitly labeled opening references
+beneath the opening prose and before the first chapter, under a quiet With this guide
+label, a fine rule, and a decorative waypoints icon. Use open rows with bottom rules,
+ordered as Related guide, Repository, and Earlier article. Keep the complete link title
+and destination. Repository rows identify their owner below the repository name; retain
+the complete path when the link targets a specific example or pull request.
+
+Use a 6.25rem label column, flexible title, and 1.5rem arrow column, with 1.125rem gaps
+and 1rem vertical insets. Titles use 1rem medium type, labels and source details use
+0.75rem, and each whole row is a link with at least a 2.75rem target. Below 32rem of
+available width, move the label above its title and keep the arrow beside both. Respect
+semantic brand/accent colors and visible focus. This is static article content: keep
+it readable without JavaScript and preserve inline, nested, and chapter references.
 
 ### Return folio page-end navigation
 

@@ -281,5 +281,3 @@ You stop inheriting configuration by accident and start composing it on purpose.
 That is also the same reason I keep investing in `@santi020k/eslint-config-basic`: I want fewer magic defaults and more standards declared clearly in code.
 
 If you are still on ESLint 8 or lower, this is a very good moment to clean up the foundation instead of just upgrading the version number.
-
-[Next Post: Boosting Code Quality and Efficiency with My ESLint Configuration Library](https://towardsdev.com/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library-3a4cbc1993a7)

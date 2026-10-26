@@ -6,6 +6,42 @@ import { requireValue } from './helpers/assertions'
 const ARTICLE = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
 const ESLINT_ARTICLE = '/blog/designing-eslint-packages-teams-actually-adopt/'
 
+test.describe('single continuation', () => {
+  test.use({ javaScriptEnabled: false })
+
+  test('older articles continue through their existing series navigation without duplicate closing links', async ({ page }) => {
+    const chapters = [
+      ['atomic-module-component-structure-for-react', 'building-the-best-next-js-typescript-standard-vitest-eslint-configuration'],
+      ['building-the-best-next-js-typescript-standard-vitest-eslint-configuration', 'development-workflow-with-husky-for-next-js-eslint-and-vitest-integration'],
+      ['development-workflow-with-husky-for-next-js-eslint-and-vitest-integration', 'storybook-in-action-with-next-js-tailwind-and-typescript'],
+      ['testing-react-components-with-vitest-and-react-testing-library', 'continuous-integration-and-deployment-for-next-js-projects'],
+      ['continuous-integration-and-deployment-for-next-js-projects', 'authentication-and-authorization-in-next-js-applications-with-supabase'],
+      ['migrate-eslint-8-or-less-to-eslint-9', 'boosting-code-quality-and-efficiency-with-my-eslint-configuration-library']
+    ] as const
+
+    for (const [current, next] of chapters) {
+      await page.goto(`/blog/${current}/`)
+      await expect(page.locator('[data-article-prose]').getByRole('link', { name: /^Next Post:/iu })).toHaveCount(0)
+      const destination = page.locator('[data-series-pagination]').getByRole('link', { name: /Next in series/u })
+
+      await expect(destination).toHaveAttribute('href', `/blog/${next}/`)
+      await destination.click()
+      await expect(page).toHaveURL(`/blog/${next}/`)
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    }
+  })
+
+  test('a closing reference to a different series retains its destination', async ({ page }) => {
+    await page.goto('/blog/authentication-and-authorization-in-next-js-applications-with-supabase/')
+    await expect(page.locator('[data-article-prose]').getByRole('link', { name: /^Next Post:/iu })).toHaveAttribute(
+      'href', '/blog/migrate-eslint-8-or-less-to-eslint-9/'
+    )
+    await expect(page.locator('[data-series-pagination]').getByRole('link', { name: /Next in series/u })).toHaveAttribute(
+      'href', '/blog/playwright-accessibility-checks-that-teams-keep-running/'
+    )
+  })
+})
+
 for (const theme of ['light', 'dark']) {
   test(`directional folio keeps adjacent articles readable and navigable in ${theme}`, async ({ page, browserName }) => {
     await page.route('https://giscus.app/**', route => route.abort())

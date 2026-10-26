@@ -644,6 +644,16 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   inline markup and preceding update notes; scoped container queries stack the margin
   on narrow screens. Semantic tokens provide the rail and text colors. This passive
   composition needs no interactive primitive, card surface, or client controller.
+- Article opening references use **Reference ledger**. Before Margin lead runs,
+  `rehype-article-references.ts` groups explicitly labeled, standalone Related post,
+  GitHub Repository, and Previous post links before the first chapter. It retains
+  the original anchors, destinations, and external-link attributes. Repository
+  names come from their existing GitHub URLs; no URL is invented or redirected.
+  Lumen's public icon data supplies decorative waypoints and direction arrows.
+  The article layout owns the responsive rows and semantic colors, with no client
+  script or additional card surface. Inline links, annotated or formatted links,
+  chapter references, and closing links stay in their authored positions. Margin
+  lead skips standalone link paragraphs so the actual introduction receives emphasis.
 - `ProjectFooterNav` composes Return folio with public unstyled `Card`, inherit-style
   `Link`, and decorative `Icon` components. A native named navigation landmark keeps
   parent, top, named website, preview chapter, and repository destinations available without JavaScript.
