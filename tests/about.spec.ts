@@ -44,6 +44,26 @@ test.describe('About page', () => {
     await expect(blogLink).toHaveAttribute('href', /^\/blog\/$/)
   })
 
+  test('chapter guide reaches each section using the keyboard', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+
+    const guide = page.getByRole('navigation', { name: 'Explore this profile' })
+    await expect(guide.getByRole('link')).toHaveCount(4)
+
+    for (const name of ['Collaboration', 'Context', 'Principles', 'Recommendations']) {
+      const link = guide.getByRole('link', { name, exact: true })
+      await expect(link).not.toHaveAttribute('target', '_blank')
+      const destination = await link.evaluate((anchor: HTMLAnchorElement) => anchor.hash)
+      expect(destination).toMatch(/^#about-/)
+
+      await link.focus()
+      await expect(link).toBeFocused()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(`/about/${destination}`)
+      await expect(page.locator(destination).getByRole('heading', { level: 2 })).toBeInViewport()
+    }
+  })
+
   test('principle captions lead to published writing', async ({ page, request }) => {
     const links = page.locator('#about-principles [data-principle-source]').getByRole('link')
 

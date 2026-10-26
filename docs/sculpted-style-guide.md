@@ -633,6 +633,16 @@ and 1.5rem row insets. Below 20rem, stack the figure above the copy and put its 
 back on the same line. At enlarged text on a narrow phone, let the
 figure scale with the container. This composition adds no client JavaScript or animation.
 
+### Chapter guide About navigation
+
+Place the open chapter guide below profile highlights and before the introduction.
+Keep its four numbered destinations aligned with sections 02–05: Collaboration,
+Context, Principles, and Recommendations. Use native fragment links through Lumen
+Link, a visible “Explore this profile” label, fine horizontal rules, and the About
+accent for decorative indices and focus. The first chapter follows directly below.
+Four desktop columns become full-width, 3rem-high rows at 30rem of container width.
+Preserve the existing section IDs and native keyboard and no-JavaScript navigation.
+
 ### Margin brief About working modes
 
 The working modes beside About's introduction use an open numbered list with fine
