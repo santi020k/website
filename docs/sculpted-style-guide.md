@@ -626,7 +626,15 @@ the card surface and hierarchy, then bottom-align a quiet footer with a fine rul
 an uppercase “Read the approach” label, and one descriptive reading link. Use Lumen
 Link and a decorative accent arrow, a 44px minimum target, and visible keyboard
 focus. Match each topic to a published article or relevant case study; internal
-links stay in the same tab. Format cards retain the passive presentation.
+links stay in the same tab.
+
+Speaking formats use **Outcome captions** in the same quiet footer treatment.
+Below the rule, add an uppercase “Good fit” label, one short statement of the
+session's purpose, and a named planning link. Keep the complete title, subtitle,
+description, and opaque Clear hierarchy surface. All four native links jump to
+the existing booking brief in the same tab, with a decorative downward arrow;
+they do not open a contact service or preselect a format. Preserve the 44px link
+target and visible focus, and bottom-align captions across each card row.
 
 ### Linked counters About profile highlights
 
