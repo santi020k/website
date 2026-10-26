@@ -36,7 +36,7 @@ test('purpose groups show every published personal project once and match struct
     await expect(link).toContainText(String(group.projects.length))
     await expect(section.getByRole('heading', { name: group.title, level: 2 })).toBeVisible()
     await expect(section.getByRole('heading', { level: 3 })).toHaveCount(group.projects.length)
-    const destinations = await section.locator('[data-project-gallery-card] > a').evaluateAll(links => (
+    const destinations = await section.locator('[data-project-gallery-card] a[data-project-case-study]').evaluateAll(links => (
       links.map(item => item.getAttribute('href')).sort()
     ))
     expect(destinations).toEqual(group.projects.map(id => `/portfolio/${id}/`).sort())
@@ -48,7 +48,7 @@ test('purpose groups show every published personal project once and match struct
   await expect(page.getByRole('heading', { name: 'Workspace Organizer', exact: true })).toHaveCount(0)
   await expect(page.locator('[data-projects-page] .maker-hero-eyebrow')).toContainText('14 projects')
 
-  const visibleDestinations = await cards.locator(':scope > a').evaluateAll(links => links.map(link => (
+  const visibleDestinations = await cards.locator('[data-project-case-study]').evaluateAll(links => links.map(link => (
     link instanceof HTMLAnchorElement ? link.pathname : ''
   )))
   expect(new Set(visibleDestinations).size).toBe(14)
@@ -92,7 +92,7 @@ test.describe('without JavaScript', () => {
     const experiment = page.getByRole('region', { name: 'Experiments', exact: true })
     await expect(experiment.getByRole('heading', { name: 'santi020k auth', level: 3 })).toBeVisible()
     await expect(page.locator('[data-project-gallery-card]')).toHaveCount(14)
-    await experiment.getByRole('link', { name: /santi020k auth.*View project/u }).click()
+    await experiment.getByRole('link', { name: 'Read the case study: santi020k auth', exact: true }).click()
     await expect(page).toHaveURL(/\/portfolio\/auth\/$/u)
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('santi020k auth')
   })

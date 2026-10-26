@@ -1,0 +1,17 @@
+---
+import { Link } from '@santi020k/lumen-astro'
+
+interface Props {
+  href: string | undefined
+}
+
+const { href } = Astro.props
+---
+
+{href ?
+(
+  <Link class="projects-editorial-link" href={href} variant="inherit"><slot /></Link>
+) :
+(
+  <div class="projects-editorial-link" data-product-first><slot /></div>
+)}
