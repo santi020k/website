@@ -514,6 +514,10 @@ enlarged text sizes. No new client controller is introduced.
   shorter stacks show their complete list directly. The former sidebar stack is omitted;
   its `#sidebar-stack` fragment now targets the hero, alongside the existing `#technologies`.
 - Testimonial identities use Lumen `Avatar`; optimized Astro images remain slotted inside it.
+- About recommendations use **Quote sleeve** within the single-column Reading rows.
+  The existing unstyled Lumen `Card` contains the full quote followed by a native
+  author footer, with Lumen `Icon` and `Avatar`. Site radius/shadow tokens and
+  container queries provide the sculpted shape and responsive composition.
 - Site-specific interface icons use Lumen `Icon` when Lucide provides the mark. Third-party brand
   logos remain on `astro-icon` because Lucide intentionally excludes brand assets.
 - Reading layouts use Lumen `ScrollProgress` directly. Articles pass `targetId="article-content"`

@@ -776,25 +776,28 @@ above the notes; reduce insets below 20rem and 14rem so enlarged text retains ro
 Preserve the WhatsApp briefing URL, new-tab protection, visible keyboard focus, and
 the existing reduced-motion-aware note reveals. Keep these styles scoped to Speaking.
 
-### Split editorial testimonial cards
+### Quote sleeve About recommendation cards
 
-Testimonials use one opaque Lumen Card with a fine border and 1.375rem corners.
-At card widths of 32.5rem or more, place the author in a 10.875rem tinted column
-beside the complete quote. Keep the initials or optimized avatar, name, role,
-and relationship together; separate the relationship with a fine rule. The quote
-uses 1.0625rem text with 1.8125rem leading and a small decorative quote mark.
-On narrower cards, stack the author header above the quote, using 1rem text with
-1.75rem leading. Container queries also adapt to enlarged text: tighten the insets
-and stack the avatar above the identity when needed. Preserve all quoted words,
-use readable metadata in both themes, and keep the cards passive on hover.
+Use one opaque Lumen Card with a fine accent-tinted border, 2.5rem corners except
+for the 0.75rem lower-right corner, and a subtle solid layer beneath the card.
+The shared radius and shadow tokens live in `partials/tokens.css`. Keep the
+complete quote first, with a decorative quote mark in a 2.875rem margin and
+1.375rem text at 1.65 leading. Use 2.125rem insets and a 1.375rem column gap.
+
+A ruled author footer follows the quote. Place the 3rem initials or optimized
+avatar beside the author's name and role, with the relationship aligned at the
+right. At card widths below 32.5rem, move the quote mark above the text, reduce
+the quote to 1.1875rem at 1.7 leading, use 1.5rem insets, and place the relationship
+below the author. Tighten insets and stack the avatar at smaller content widths
+so enlarged text remains readable. Preserve every quoted word and attribution;
+the cards stay passive with no hover treatment or client script.
 
 ### Reading rows About recommendations
 
 Arrange the four About recommendations in one full-width column with 1.25rem
-between rows. Preserve their authored order and the shared Split editorial card:
-author beside the quote when the card is wide enough, author above it on narrow
-screens and with enlarged text. Retain every quote, role, and relationship, and
-keep the shared LinkedIn destination after the list. This layout is specific to
+between rows. Preserve their authored order and the shared Quote sleeve card,
+with the complete quote followed by its author footer. Retain every role and
+relationship, and keep the shared LinkedIn destination after the list. This layout is specific to
 the About page; other testimonial placements retain their existing composition.
 
 ### Sculpted statistics cards
