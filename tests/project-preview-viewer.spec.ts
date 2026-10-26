@@ -81,8 +81,15 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
         await expect(image).toHaveCSS('object-fit', 'contain')
         await expectNoUnexpectedAccessibilityViolations(page)
 
-        await dialog.getByRole('button', { name: 'Inspect detail', exact: true }).click()
-        await expect(dialog.getByRole('button', { name: 'Fit image', exact: true })).toHaveAttribute('aria-pressed', 'true')
+        // The name states the next action, so the control is not a pressed toggle.
+        const inspect = dialog.getByRole('button', { name: 'Inspect detail', exact: true })
+        const fit = dialog.getByRole('button', { name: 'Fit image', exact: true })
+
+        await expect(inspect).not.toHaveAttribute('aria-pressed')
+        await inspect.click()
+        await expect(canvas).toHaveAttribute('data-zoomed', 'true')
+        await expect(fit).not.toHaveAttribute('aria-pressed')
+        await expect(inspect).toHaveCount(0)
         expect(await image.evaluate(element => (
           element instanceof HTMLImageElement && Math.abs(element.clientWidth - element.naturalWidth) < 1
         ))).toBe(true)
@@ -106,11 +113,19 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
         await page.keyboard.press('/')
         await page.keyboard.press('Control+k')
         await expect(page.locator('dialog[open]')).toHaveCount(1)
-        await dialog.getByRole('button', { name: 'Fit image', exact: true }).click()
+        await fit.click()
         await expect(canvas).toHaveAttribute('data-zoomed', 'false')
+        await expect(inspect).not.toHaveAttribute('aria-pressed')
         expect(await canvas.evaluate(element => element.scrollTop + element.scrollLeft)).toBe(0)
+        // A fitted image may have no scroll range, so check that panning keys stay unhandled.
+        expect(await inspect.evaluate(button => ['ArrowDown', 'ArrowRight'].map(key => button.dispatchEvent(
+          new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true })
+        )))).toEqual([true, true])
+        await inspect.click()
+        await expect(fit).toBeVisible()
         const scrollPosition = await page.evaluate(() => scrollY)
 
+        // Closing while zoomed resets the next opening to the fitted image.
         await page.keyboard.press('Escape')
         await expect(dialog).toBeHidden()
         await expect(opener).toBeFocused()
@@ -118,6 +133,9 @@ for (const slug of ['smith-commerce', 'lumen-ui', 'postlens']) {
         await opener.click()
         await expect(dialog.locator('[data-gallery-status]')).toHaveText('Complete image')
         await expect(canvas).toHaveAttribute('data-zoomed', 'false')
+        await expect(inspect).not.toHaveAttribute('aria-pressed')
+        await expect(fit).toHaveCount(0)
+        expect(await canvas.evaluate(element => element.scrollTop + element.scrollLeft)).toBe(0)
         await dialog.getByRole('button', { name: 'Close', exact: true }).click()
         await expect(opener).toBeFocused()
         expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)

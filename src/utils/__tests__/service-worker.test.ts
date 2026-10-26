@@ -776,6 +776,119 @@ describe('Offline trailing-slash page alias', () => {
   })
 })
 
+// Opening a file in a tab is still a navigation, but its fallback is the file, never HTML.
+describe('Offline file navigation', () => {
+  const files = ['/robots.txt', '/favicon.svg', '/favicon.svg?v=2', '/_astro/preview.webp']
+
+  test.each(files)('returns a network error instead of the offline document for uncached %s', async path => {
+    const worker = setupWorker()
+    const request = makeRequest(path, true)
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page' })
+
+    const event = worker.dispatch(request)
+
+    expect((await event.response)?.type).toBe('error')
+    await Promise.all(event.lifetime)
+    expect(worker.fetch).toHaveBeenCalledExactlyOnceWith(request)
+    expect(worker.cache.match).toHaveBeenCalledExactlyOnceWith(request)
+  })
+
+  test.each(files)('serves the exact cached response for offline navigation to %s', async path => {
+    const worker = setupWorker()
+    const request = makeRequest(path, true)
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page', [`${origin}${path}`]: 'cached file' })
+
+    const event = worker.dispatch(request)
+
+    expect(await (await event.response)?.text()).toBe('cached file')
+    await Promise.all(event.lifetime)
+    expect(worker.cache.match).toHaveBeenCalledExactlyOnceWith(request)
+  })
+
+  test.each(['/robots.txt', '/_astro/preview.webp'])('fetches navigation to %s before a cached copy', async path => {
+    const worker = setupWorker()
+    const request = makeRequest(path, true)
+
+    serveFromCache(worker, { [`${origin}${path}`]: 'cached file' })
+    worker.fetch.mockResolvedValue(new Response('fresh file'))
+
+    const event = worker.dispatch(request)
+
+    expect(await (await event.response)?.text()).toBe('fresh file')
+    await Promise.all(event.lifetime)
+    expect(worker.cache.match).not.toHaveBeenCalled()
+    expect(worker.cache.put.mock.calls[0]?.[0]).toBe(request)
+  })
+
+  test.each([
+    ['/never-visited/', ['/offline/']],
+    ['/never-visited/?q=astro', ['/offline/']],
+    ['/about', [`${origin}/about/`, '/offline/']],
+    ['/notes.html', ['/offline/']]
+  ])('keeps the offline document for uncached page navigation to %s', async (path, fallbacks) => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page' })
+
+    const event = worker.dispatch(makeRequest(path, true))
+
+    expect(await (await event.response)?.text()).toBe('Offline page')
+    await Promise.all(event.lifetime)
+    expect(matchedKeys(worker).slice(1).map(([key]) => key)).toEqual(fallbacks)
+  })
+
+  // Legacy technology labels such as Nest.js contain a dot but are page aliases.
+  const technologyAliases = ['/technologies/Nest.js', '/technologies/Node.js', '/technologies/Vue.js?ref=search']
+
+  test.each(technologyAliases)('keeps the offline document for uncached technology alias %s', async path => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page' })
+
+    const event = worker.dispatch(makeRequest(path, true))
+
+    expect(await (await event.response)?.text()).toBe('Offline page')
+    await Promise.all(event.lifetime)
+    // The exact key keeps its query, and a dotted alias never reads a slash alias.
+    expect(matchedKeys(worker).map(([key]) => key)).toEqual([`${origin}${path}`, '/offline/'])
+  })
+
+  test.each(technologyAliases)('serves the exact cached technology alias %s offline', async path => {
+    const worker = setupWorker()
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page', [`${origin}${path}`]: 'cached alias' })
+
+    const event = worker.dispatch(makeRequest(path, true))
+
+    expect(await (await event.response)?.text()).toBe('cached alias')
+    await Promise.all(event.lifetime)
+    expect(worker.fetch).toHaveBeenCalledOnce()
+  })
+
+  test.each([
+    '/technologies/data.json', '/technologies/cv.pdf', '/technologies/feed.xml', '/technologies/manifest.webmanifest'
+  ])('never substitutes HTML for uncached navigation to %s', async path => {
+    const worker = setupWorker()
+    const request = makeRequest(path, true)
+
+    worker.fetch.mockRejectedValue(new TypeError('Offline'))
+    serveFromCache(worker, { '/offline/': 'Offline page' })
+
+    const event = worker.dispatch(request)
+
+    expect((await event.response)?.type).toBe('error')
+    await Promise.all(event.lifetime)
+    expect(worker.cache.match).toHaveBeenCalledExactlyOnceWith(request)
+  })
+})
+
 describe('Immutable asset caching', () => {
   test('reuses cached hashed assets without fetching, rewriting, or enumerating the cache', async () => {
     const worker = setupWorker()
@@ -915,7 +1028,9 @@ describe('Service worker response-header deadline', () => {
     await Promise.all(event.lifetime)
   })
 
-  test('serves the offline document when a stalled page has never been cached', async () => {
+  test.each([
+    '/new/', '/about', '/notes.html', '/technologies/Nest.js', '/technologies/Node.js', '/technologies/Vue.js?ref=search'
+  ])('serves the offline document when stalled page %s has never been cached', async path => {
     const worker = setupWorker()
     const network = deferredResponse()
     let settled = false
@@ -924,7 +1039,7 @@ describe('Service worker response-header deadline', () => {
     worker.cache.match.mockImplementation(request => Promise.resolve(
       request === '/offline/' ? new Response('Offline page') : undefined
     ))
-    const event = worker.dispatch(makeRequest('/new/', true))
+    const event = worker.dispatch(makeRequest(path, true))
 
     void event.response?.then(() => {
       settled = true
@@ -934,6 +1049,48 @@ describe('Service worker response-header deadline', () => {
     await vi.advanceTimersByTimeAsync(8_000)
     expect(settled).toBe(true)
     expect(await (await event.response)?.text()).toBe('Offline page')
+    network.reject(new TypeError('Offline'))
+    await Promise.all(event.lifetime)
+  })
+
+  test.each(['/robots.txt', '/favicon.svg', '/_astro/preview.webp', '/technologies/data.json', '/technologies/feed.xml'])(
+    'keeps stalled uncached navigation to %s pending until the network settles', async path => {
+      const worker = setupWorker()
+      const network = deferredResponse()
+      const request = makeRequest(path, true)
+      let settled = false
+
+      worker.fetch.mockReturnValue(network.promise)
+      serveFromCache(worker, { '/offline/': 'Offline page' })
+      const event = worker.dispatch(request)
+
+      void event.response?.then(() => {
+        settled = true
+
+        return undefined
+      })
+      await vi.advanceTimersByTimeAsync(8_000)
+      expect(settled).toBe(false)
+      expect(worker.cache.match).toHaveBeenCalledExactlyOnceWith(request)
+      network.resolve(new Response('late file'))
+      expect(await (await event.response)?.text()).toBe('late file')
+      await Promise.all(event.lifetime)
+      expect(vi.getTimerCount()).toBe(0)
+    }
+  )
+
+  test('serves a cached file when its navigation stalls', async () => {
+    const worker = setupWorker()
+    const network = deferredResponse()
+    const request = makeRequest('/_astro/preview.webp', true)
+
+    worker.fetch.mockReturnValue(network.promise)
+    serveFromCache(worker, { '/offline/': 'Offline page', [`${origin}/_astro/preview.webp`]: 'cached image' })
+    const event = worker.dispatch(request)
+
+    await vi.advanceTimersByTimeAsync(8_000)
+    expect(await (await event.response)?.text()).toBe('cached image')
+    expect(worker.cache.match).toHaveBeenCalledExactlyOnceWith(request)
     network.reject(new TypeError('Offline'))
     await Promise.all(event.lifetime)
   })

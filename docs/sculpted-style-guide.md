@@ -313,6 +313,21 @@ statistics and generic Explore projects action are replaced by these direct path
 there is only one category navigation. Preserve the catalog's projects fragment,
 purpose sections, project ranking, and structured data.
 
+### Product first Projects cards
+
+The Projects page keeps its Refined editorial covers, metadata, descriptions, and
+technology labels. Put the named product destination first in a brand-soft action
+with a 0.875rem radius and 0.25rem lower-right corner. Place the quieter Read the case
+study link below it. Use the existing primary-destination helper for website,
+archive, and repository labels; do not invent missing URLs. External links open a
+new tab with noopener and noreferrer. Case studies stay in the current tab.
+
+Use sibling links inside a neutral card body so interactive elements are never
+nested. Keep project-colored hover and keyboard emphasis, visible individual focus
+outlines, and wrapping labels at enlarged text sizes. When no destination exists,
+show only the case-study link. Enable this treatment only on Projects; technology
+archives retain their single-link Matched stack cards.
+
 ### Evidence paths technology ending
 
 The technology index closes with an open editorial section: Beyond the toolkit,
@@ -1150,7 +1165,9 @@ uses 0.75rem corners with a 0.25rem lower-right corner and a 2.75rem minimum tar
 
 The native Lumen Dialog retains the screenshot title, complete caption, and a visible
 Close control. Fit the whole image initially; Inspect detail shows its full pixel width
-inside a scrollable canvas. Keep the canvas keyboard reachable, support arrow-key panning,
+inside a scrollable canvas. The zoom button's name switches between Inspect detail and Fit image,
+so it names the next action and carries no `aria-pressed`; the canvas `data-zoomed` state gates
+arrow-key panning and resets on close. Keep the canvas keyboard reachable, support arrow-key panning,
 and announce loading, complete-image, detail, and error states. Escape and backdrop
 activation close the viewer and return focus. Keep the close row visible when enlarged
 text or a short viewport requires scrolling. Both themes use opaque semantic surfaces.
@@ -1815,7 +1832,10 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   continuous surface, with a short row reveal and 7px blur behind it. Keep the
   backdrop and scroll lock through the exit animation; reopening cancels the exit.
 - Use Lumen's menu icon and show Menu/Close labels on phones when the header has
-  at least 21rem of width. Keep icon controls at 44px when text or width needs more room.
+  at least 21rem of width. Separate phone utility controls with a 0.5rem gap so
+  hover and pressed backgrounds never touch. Below 21rem of header width, keep
+  icon controls at 44px to preserve that space with enlarged text. Below 12rem,
+  compact the gap to 0.25rem along with the existing outer inset.
   The current mobile destination retains its underline and gains a quiet Current label,
   omitted below 18rem of menu width. Internal destinations use right arrows.
   At 34rem of menu width, arrange links and footer actions in two columns, keeping
@@ -1832,6 +1852,8 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
   technology. Rem-based container queries adapt to enlarged text, with icon-only
   controls retaining a 44px target. When enlarged text leaves less than 20rem
   of width, omit decorative result thumbnails so titles keep a readable column.
+  Below 12rem, reduce the input field's horizontal padding so typed text keeps
+  enough room beside the clear button.
 - Search results use Cover ledger: a contained cover tile, an accent content-type label,
   a larger title, and the complete description. Ruled rows use the same soft tint for hover
   and keyboard selection. A decorative Lumen arrow sits inside the row's 1rem end inset
@@ -1885,7 +1907,7 @@ mode may show drafts and scheduled articles; judge the public content against a 
 
 ### Refined maker homepage hero
 
-Keep the personal greeting and three-line headline, with purple emphasis on “tools”.
+Keep the three-line headline, with purple emphasis on “tools”, and the desktop greeting.
 The introduction names engineering leadership, Lumen UI, commerce platforms, native apps,
 and developer tools. “See selected work” opens the portfolio; “About me” opens About.
 Preserve the shared header, its controls, and the joined Signature frame.
@@ -1893,15 +1915,21 @@ Preserve the shared header, its controls, and the joined Signature frame.
 On desktop, use an open two-column layout with a 22rem-wide, 4:5 portrait, centered
 40% crop, 1.5rem corners, and a plain name and location caption. The headline reaches
 5rem; primary and secondary actions use 0.875rem labels and retain generous hit areas.
-On phones below 768px and below 41rem of Home container width with enlarged text, move the portrait
-into a compact identity row with a 4.5rem image. Below 18rem, put the complete caption
-beneath that image. Keep the optimized responsive image sources and eager loading.
+On phones below 768px, lead with a compact identity row and a 3.5rem portrait, then
+the stronger headline, concise introduction, and actions. The name and location replace
+the separate greeting. Below 14rem of available width, put the complete caption beneath
+the image so enlarged text remains readable. Below 18rem, make the primary action full
+width and put the secondary action beneath it. Tablet and desktop containers below 41rem
+retain the compact 4.5rem portrait after the copy, with the caption below it under 18rem.
+Keep optimized responsive image sources and eager loading.
 
 End the hero with an open, ruled “Selected products” strip containing Lumen UI and
 PostLens in that order, with descriptive summaries in 0.75rem type. Retain the named
 product navigation, existing case-study links, `hero-products` fragment, and visible
-“All projects” action. At narrow widths, stack the complete product links with fine
-rules; enlarged text can move logos above their copy. Preserve visible keyboard focus,
+“All projects” action. Phones with at least 15rem of available width show two open
+product columns, with smaller logos beside titles and complete descriptions beneath.
+A fine rule separates the columns. Narrower containers stack the complete product links;
+enlarged text can move logos above their copy. Preserve visible keyboard focus,
 reduced motion, and both themes. Do not add decorative cards or client JavaScript.
 
 ### Sculpted ledger homepage statistics

@@ -160,28 +160,35 @@ export const auditBuiltPages = async directory => {
     return file.endsWith('.html') ? getRoute(path.relative(root, file)) : pathname
   }
 
-  /** @param {string} pathname @param {Set<string>} visited @returns {Promise<string | null>} */
+  /**
+   * Cloudflare Pages applies the first matching redirect even when a built
+   * asset exists at its source. A status 200 proxy serves its destination
+   * without applying further rules, so only that local target is checked.
+   * @param {string} pathname @param {Set<string>} visited @returns {Promise<string | null>}
+   */
   const resolveTarget = async (pathname, visited) => {
     if (visited.has(pathname)) return null
 
     visited.add(pathname)
 
-    const local = await getLocalTarget(pathname)
-
-    if (local !== null) return local
-
-    if (pathname === '/404/' && files.includes(path.join(directory, '404.html'))) return pathname
-
     const redirect = redirects.find(([from]) => from === pathname ||
       (from.includes('*') && pathname.startsWith(from.split('*')[0])))
 
-    if (!redirect) return null
+    if (!redirect) {
+      const local = await getLocalTarget(pathname)
 
-    const [from, destination] = redirect
+      if (local !== null) return local
+
+      return pathname === '/404/' && files.includes(path.join(directory, '404.html')) ? pathname : null
+    }
+
+    const [from, destination, status] = redirect
     const prefix = from.split('*')[0]
     const url = new URL(destination.replace(':splat', pathname.slice(prefix.length)), origin)
 
     if (url.origin !== origin) return /^https?:$/u.test(url.protocol) ? url.href : null
+
+    if (status === '200') return getLocalTarget(url.pathname)
 
     return resolveTarget(url.pathname, visited)
   }

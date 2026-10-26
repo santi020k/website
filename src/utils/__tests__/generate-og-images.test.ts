@@ -19,6 +19,7 @@ interface SocialImageProps {
 }
 
 describe('collectSpecs', { timeout: 15_000 }, () => {
+  // The first collection normalizes artwork for every post and project before caching it.
   test('includes generated images for the current static page routes', async () => {
     const specs = await collectSpecs()
     const outFiles = new Set(specs.map(spec => spec.outFile))
@@ -36,7 +37,7 @@ describe('collectSpecs', { timeout: 15_000 }, () => {
     ]) {
       expect(outFiles.has(path.join(process.cwd(), 'public', 'og', 'pages', fileName))).toBe(true)
     }
-  })
+  }, 60_000)
 
   test('includes generated images for blog topic archive routes', async () => {
     const specs = await collectSpecs()

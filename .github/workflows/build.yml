@@ -41,10 +41,11 @@ jobs:
             run_checks=true
             run_full=true
           else
-            git diff --no-renames --name-only --diff-filter=ACDMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
-            while IFS= read -r path; do
+            # NUL-delimited names stay unquoted, so non-ASCII and newline paths still match.
+            git diff --no-renames --name-only -z --diff-filter=ACDMRT "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
+            while IFS= read -r -d '' path; do
               case "$path" in
-                src/*|public/*|apps/*|packages/*|turbo.json|scripts/*|tests/*|patches/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|cspell.config.*|eslint.config.*|eslint.shared.js|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|markdownlint.config.json|.npmrc|.gitattributes|.changeset/*|.github/*.yml|.github/*.yaml|.github/workflows/*|.github/ISSUE_TEMPLATE/*)
+                src/*|public/*|apps/*|packages/*|turbo.json|scripts/*|tests/*|patches/*|package.json|pnpm-lock.yaml|pnpm-workspace.yaml|astro.config.*|og.audit.config.*|cspell.config.*|eslint.config.*|eslint.shared.js|playwright.config.*|vitest.config.*|tsconfig.json|.lighthouserc*.json|.og-cache.json|markdownlint.config.json|.npmrc|.gitattributes|.changeset/*|.github/*.yml|.github/*.yaml|.github/workflows/*|.github/ISSUE_TEMPLATE/*)
                   run_checks=true
                   run_full=true
                   ;;
@@ -87,18 +88,8 @@ jobs:
         if: steps.changes.outputs.full == 'true'
         run: pnpm run audit
 
-      - name: Cache pre-rendered OG images
-        if: steps.changes.outputs.full == 'true'
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: |
-            public/og
-            .og-cache.json
-          key: >-
-            og-v2-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'src/content/**', 'src/assets/**', 'src/utils/content-date.ts', 'src/utils/pagination.ts', 'scripts/js/generate-og-images.js', 'scripts/js/prepare-og-image.mjs', 'scripts/js/render-og-atmosphere.mjs', 'public/fonts/montserrat-variable-font-wght.ttf') }}
-          restore-keys: |
-            og-v2-${{ runner.os }}-
-
+      # OG images and .og-cache.json are tracked, so builds use the checked-out
+      # copies. Restoring an Actions cache would overwrite the pull request's files.
       - name: Cache Astro image transformations
         if: steps.changes.outputs.full == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6

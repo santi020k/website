@@ -20,16 +20,7 @@ jobs:
         uses: santi020k/quality/actions/setup-pnpm@ffa37774f75b2b8e761fe3d71e7046cdb6694a69 # v1.3.0
         with:
           node-version: "24.x"
-      - name: Cache pre-rendered OG images
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: |
-            public/og
-            .og-cache.json
-          key: >-
-            og-v2-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'src/content/**', 'src/assets/**', 'src/utils/content-date.ts', 'src/utils/pagination.ts', 'scripts/js/generate-og-images.js', 'scripts/js/prepare-og-image.mjs', 'scripts/js/render-og-atmosphere.mjs', 'public/fonts/montserrat-variable-font-wght.ttf') }}
-          restore-keys: |
-            og-v2-${{ runner.os }}-
+      # Tracked OG images and .og-cache.json come from the checkout, never a cache.
       - name: Cache Astro image transformations
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:

@@ -197,6 +197,13 @@ The site owns the brand-soft opening treatment and responsive footer; the existi
 Lumen `ButtonLink` retains GitHub's external-link contract. No new controller is
 needed. The catalog's project selection, ranking, fragments, and schema are unchanged.
 
+The optional `ProjectsGallery.productFirst` applies **Product first** on Projects.
+Its neutral body reuses the existing gallery layout. Lumen `ButtonLink` with
+`newTab` renders the named external destination, and `Link` renders the quieter
+case-study action. `getProjectPrimaryDestination` supplies the existing URL and
+website, archive, or repository label. Missing destinations omit the external action.
+Technology archives keep the default single-link card and Matched stack behavior.
+
 ## Technology index search
 
 `TechnologyEvidenceLedger` replaces the index's four statistics with **Evidence ledger**
@@ -365,6 +372,10 @@ enlarged text sizes. No new client controller is introduced.
   the heading and inline link; shared tokens provide the open composition without client code.
   All project entries use this opening, retaining every authored introduction paragraph
   without a second generic preface. See [project detail patterns](editorial/project-detail-patterns.md).
+  The project layout inserts a native definition list below the original heading,
+  using the shared reading-time helper and rendered chapter outline. Context lead owns its
+  Reading brief typography and semantic colors; this passive composition needs no new
+  Lumen control, client script, or manually maintained per-project counts.
 - `ProjectSectionHeading` wraps an authored Markdown h3 with Section cadence typography
   and a decorative trailing rule. Inline heading content stays in normal text flow; long
   labels wrap without changing their names or fragments. Adjacent narrative paragraphs
@@ -643,6 +654,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   The opt-in Astro `Code`/`Table` API and runtime are tracked upstream for Lumen 4.4.0;
   the version-pinned 4.1.0 patch carries this additive change until publication. The cue
   stays hidden without JavaScript, leaving native table semantics and keyboard scrolling.
+  Anchored comparison keeps the article table's first column at the inline start during
+  horizontal scrolling, using opaque cells and the existing first-column tint. Separate
+  cell borders travel with the pinned labels. Below 12rem of table space (including enlarged
+  text), labels scroll with the values so the pinned column cannot crowd out the viewport.
+  This is article styling; project tables and the shared Lumen component stay unchanged.
   `tests/article-table-scroll-cue.spec.ts` covers resize, themes, text zoom, and navigation.
   `tests/legacy-article-content.spec.ts` checks normal and enlarged text.
   Prose styles use site ink tokens for cells and Lumen's code foreground token for language badges in both themes.

@@ -569,6 +569,26 @@
     font-weight: 500;
   }
 
+  /* Anchored comparison keeps row labels beside the values during native scrolling. */
+  & [data-article-table-folio] table { border-collapse: separate; border-spacing: 0; }
+  & [data-article-table-folio] thead th,
+  & [data-article-table-folio] tbody tr:not(:last-child) > :is(td, th) {
+    border-block-end: 1px solid hsl(var(--line));
+  }
+  & [data-article-table-folio] tr > :is(td, th):first-child {
+    position: sticky;
+    inset-inline-start: 0;
+    z-index: 1;
+    border-inline-end: 1px solid hsl(var(--line));
+  }
+  & [data-article-table-folio] thead th:first-child { background: hsl(var(--brand-soft)); }
+  & [data-article-table-folio] tfoot :is(td, th):first-child { background: hsl(var(--surface)); }
+
+  /* At enlarged text sizes, leave the full viewport available to each column. */
+  @container table-folio (width < 12rem) {
+    & [data-article-table-folio] tr > :is(td, th):first-child { position: static; }
+  }
+
   & [data-prose-table] :is(a, code) { color: var(--table-folio-accent); }
 
   & [data-prose-table] caption {

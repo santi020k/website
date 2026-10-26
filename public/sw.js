@@ -87,6 +87,16 @@ const canonicalPageKey = (request, url) => {
   return new Request(canonical.href, { headers: request.headers })
 }
 
+// Files, data, PDFs, and assets name an extension in their last path segment.
+/** @param {URL} url */
+const isFilePath = url => url.pathname.slice(url.pathname.lastIndexOf('/') + 1).includes('.')
+
+// Legacy technology aliases such as `/technologies/Nest.js` are pages whose
+// label contains a dot, so that route namespace keeps the offline document.
+/** @param {URL} url */
+const isPagePath = url => !isFilePath(url) || url.pathname.endsWith('.html') ||
+  url.pathname.startsWith('/technologies/')
+
 // A typed or externally shared `/about` still reaches the worker as a document
 // navigation, while the site caches its trailing-slash route. On network failure
 // or the header deadline, a path without a file extension may read the query-free
@@ -101,7 +111,7 @@ const slashPageAlias = (request, url) => {
   if (request.mode !== 'navigate' || url.pathname.endsWith('/')) return undefined
 
   // Files, data, PDFs, and assets never resolve to a page alias.
-  if (url.pathname.slice(url.pathname.lastIndexOf('/') + 1).includes('.')) return undefined
+  if (isFilePath(url)) return undefined
 
   const alias = new URL(url)
 
@@ -266,10 +276,12 @@ self.addEventListener('fetch', event => {
   const staticPage = !mutableResource && (isPageRequest(url) || (pageRequest && url.pathname.endsWith('.html')))
   const assetStrategy = url.pathname.startsWith('/_astro/') ? cacheFirst : staleWhileRevalidate
 
+  // Every navigation stays network-first, but a file opened in a tab (robots.txt,
+  // an image, an icon) falls back only to its own cached bytes, never to HTML.
   const { response, revalidate } = mutableResource || pageRequest ?
     networkFirst(
       event.request,
-      !mutableResource && pageRequest,
+      pageRequest && !mutableResource && isPagePath(url),
       staticPage ? canonicalPageKey(event.request, url) : event.request
     ) :
     assetStrategy(event.request)
