@@ -1,4 +1,5 @@
 ---
+import PageSection from '@/components/organisms/PageSection.astro'
 import PostsGallery from '@/components/organisms/PostsGallery.astro'
 
 import { getRelatedPosts } from '@/utils/content'
@@ -35,7 +36,7 @@ const relatedPosts = await getRelatedPosts({
 ---
 
 {relatedPosts.length > 0 && (
-  <>
+  <PageSection layout="stacked">
     <SectionHeader
       description="More writing from a similar lane — overlapping topics, tooling choices, and the tradeoffs behind the article you just read."
       eyebrow="Related writing"
@@ -47,5 +48,5 @@ const relatedPosts = await getRelatedPosts({
     />
 
     <PostsGallery columns={2} posts={relatedPosts} />
-  </>
+  </PageSection>
 )}

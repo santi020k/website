@@ -20,7 +20,11 @@ for (const width of [320, 1440]) {
         const closing = page.locator('[data-article-closing]')
         const reply = closing.getByRole('link', { name: 'Reply on GitHub' })
         const copy = closing.getByRole('button', { name: 'Copy link', exact: true })
-        const navigation = closing.getByRole('navigation', { name: 'Page-end navigation' })
+        const finalReturn = page.locator('[data-post-final-return]')
+        const navigation = page.getByRole('navigation', { name: 'Page-end navigation', exact: true })
+
+        await expect(navigation).toHaveCount(1)
+        await expect(finalReturn.getByRole('link', { name: 'Back to Blog' })).toHaveCount(1)
 
         await closing.scrollIntoViewIfNeeded()
         await expect(closing.getByRole('heading', { name: 'Comments', exact: true })).toBeVisible()
@@ -39,12 +43,15 @@ for (const width of [320, 1440]) {
         expect(await closing.evaluate(element => {
           const comments = element.querySelector('#comments')?.getBoundingClientRect()
           const sharing = element.querySelector('[data-share-card]')?.getBoundingClientRect()
-          const navigation = element.querySelector('[data-reading-actions]')?.getBoundingClientRect()
+          const finalReturn = document.querySelector('[data-post-final-return]')
+          const navigation = finalReturn?.getBoundingClientRect()
+          const related = document.querySelector('#related-writing')?.closest('[data-page-section]')?.getBoundingClientRect()
 
-          if (!comments || !sharing || !navigation) throw new Error('Expected all closing sections')
+          if (!comments || !sharing || !navigation || !finalReturn) throw new Error('Expected all closing sections')
           return comments.bottom <= sharing.top && sharing.bottom <= navigation.top &&
+            (!related || (sharing.bottom <= related.top && related.bottom <= navigation.top)) &&
             document.documentElement.scrollWidth <= innerWidth &&
-            [...element.querySelectorAll('a, button')].every(control => {
+            [...element.querySelectorAll('a, button'), ...finalReturn.querySelectorAll('a')].every(control => {
               const bounds = control.getBoundingClientRect()
 
               return bounds.left >= 0 && bounds.right <= innerWidth && bounds.height >= 44 &&
@@ -57,7 +64,11 @@ for (const width of [320, 1440]) {
         await page.keyboard.press('Tab')
         await expect(copy).toBeFocused()
         await expect(copy).toHaveCSS('outline-style', 'solid')
-        const scan = await new AxeBuilder({ page }).include('[data-article-closing]').analyze()
+        await navigation.getByRole('link', { name: 'Back to Blog' }).focus()
+        await expect(navigation.getByRole('link', { name: 'Back to Blog' })).toHaveCSS('outline-style', 'solid')
+        await page.keyboard.press('Tab')
+        await expect(navigation.getByRole('link', { name: 'Back to top' })).toBeFocused()
+        const scan = await new AxeBuilder({ page }).include('[data-article-closing]').include('[data-post-final-return]').analyze()
 
         expect(scan.violations).toEqual([])
         await navigation.getByRole('link', { name: 'Back to Blog' }).click()
@@ -75,13 +86,33 @@ test('the colophon keeps native destinations and no empty widget space without J
   const closing = page.locator('[data-article-closing]')
 
   await expect(closing.getByRole('button', { name: 'Copy link', exact: true })).toHaveCount(0)
-  await expect(closing.getByRole('link')).toHaveCount(6)
+  await expect(closing.getByRole('link')).toHaveCount(4)
   expect(await closing.locator('[data-giscus-mount]').evaluate(element => element.getBoundingClientRect().height)).toBe(0)
-  await closing.getByRole('link', { name: 'Back to top' }).click()
+  await page.getByRole('navigation', { name: 'Page-end navigation' }).getByRole('link', { name: 'Back to top' }).click()
   await expect(page).toHaveURL(/#main$/u)
   await expect(page.getByRole('heading', { level: 1 })).toBeInViewport()
   await context.close()
 })
+
+for (const example of [
+  { route: '/blog/run-repo-on-mac-with-silo-dxmt/', hasRecommendations: true },
+  { route: '/blog/write-better-review-feedback-with-conventional-comments/', hasRecommendations: false }
+]) {
+  test(`Final return closes the page with${example.hasRecommendations ? '' : 'out'} recommendations`, async ({ page }) => {
+    await page.goto(example.route)
+    await expect(page.locator('#related-writing')).toHaveCount(example.hasRecommendations ? 1 : 0)
+    const finalReturn = page.locator('[data-post-final-return]')
+
+    expect(await finalReturn.evaluate((element, hasRecommendations) => {
+      const previous = element.previousElementSibling
+      return hasRecommendations ? Boolean(previous?.querySelector('#related-writing')) : previous?.matches('article')
+    }, example.hasRecommendations)).toBe(true)
+    await expect(page.getByRole('navigation', { name: 'Page-end navigation' })).toHaveCount(1)
+    await finalReturn.getByRole('link', { name: 'Back to top' }).press('Enter')
+    await expect(page).toHaveURL(/#main$/u)
+    await expect(page.getByRole('heading', { level: 1 })).toBeInViewport()
+  })
+}
 
 test('project closing sections retain Dispatch sleeve and Return folio', async ({ page }) => {
   await page.goto('/portfolio/lumen-ui/')

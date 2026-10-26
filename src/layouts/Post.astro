@@ -12,7 +12,6 @@ import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
 import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
 import WebmentionsSection from '@/components/molecules/WebmentionsSection.astro'
-import PageSection from '@/components/organisms/PageSection.astro'
 import PostHero from '@/components/organisms/PostHero.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
@@ -145,8 +144,6 @@ mainClass="remaining-pages remaining-pages--reading"
           <WebmentionsSection mentions={webmentions} />
 
           <ShareButtons title={title} url={localURL.href} variant="colophon" />
-
-          <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} variant="colophon" />
         </div>
       </div>
 
@@ -159,8 +156,10 @@ mainClass="remaining-pages remaining-pages--reading"
     </section>
   </article>
 
-  <PageSection layout="stacked">
-    <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
-  </PageSection>
+  <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
+
+  <div class="section-container-wide" data-post-final-return>
+    <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} variant="colophon" />
+  </div>
 
 </BaseLayout>

@@ -1383,15 +1383,14 @@ and readable header accents in both themes. This treatment requires no script.
 
 ### Reader colophon article closing
 
-Articles close with an open sequence of comments, existing webmentions, sharing,
-and return navigation. Align Comments and Share in a 5.375rem margin with a 1.5rem
+Articles close with an open sequence of comments, existing webmentions, and sharing.
+Align Comments and Share in a 5.375rem margin with a 1.5rem
 column gap. The discussion invitation uses a 2px purple rail, a 1.5rem text inset,
 and a 1.4375rem lead. Use a quiet underlined Reply on GitHub link with a 44px target.
 Sharing pairs Pass it on with the existing copy or native share action, followed
 by its three social destinations. Fine bottom rules separate the sections.
 
-The final row uses inline Back to Blog and Back to top links. It has no additional
-card surface. Stack the margin above the content below 32rem of available width,
+Stack the margin above the content below 32rem of available width,
 reduce the discussion inset below 18rem, and let actions wrap at enlarged text
 sizes. Keep complete labels, visible focus, and theme-aware semantic colors.
 
@@ -1402,6 +1401,16 @@ JavaScript. Align the widget beneath the discussion column on wide layouts and
 use the full width on narrow layouts. Do not reserve an empty widget area for readers
 without JavaScript. Project pages retain Dispatch sleeve and Return folio through
 the shared components' default variants.
+
+### Final return article closing links
+
+Place the existing Reader colophon Back to Blog and Back to top links after the
+optional related-writing section. The final row spans the page's content container
+and uses the shared `ProjectFooterNav` colophon variant, with no additional card
+surface or client behavior. Keep exactly one page-end navigation landmark.
+`RelatedPosts` owns its conditional section wrapper, so an article without
+recommendations proceeds directly from sharing to the return row without an empty
+section. Preserve the native `/blog/` and `#main` destinations and wrapping controls.
 
 ### Margin imprint article publication details
 

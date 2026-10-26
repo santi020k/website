@@ -566,13 +566,16 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   their existing conditional rendering between comments and sharing. The `colophon`
   variants of `ShareButtons` and `ProjectFooterNav` reuse their Lumen primitives,
   controllers, and destinations with open rules and inline actions. Project pages
-  retain the default Dispatch sleeve and Return folio variants. No additional client
+  retain the default Dispatch sleeve and Return folio variants. The article layout
+  places `ProjectFooterNav` after optional related writing as Final return, preserving
+  one native page-end navigation landmark. No additional client
   behavior or external service is introduced.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
 - Related writing uses `SectionHeader`'s `margin` variant (Margin continuation) inside
   a stacked `PageSection`. Native heading and paragraph markup provide the margin label
   and ruled copy; the existing Lumen-backed `ButtonLink` supplies the browse action.
-  `RelatedPosts` retains its recommendation logic, series exclusions, two-card gallery,
+  `RelatedPosts` owns the conditional section wrapper so empty recommendations leave
+  no section spacing. It retains its recommendation logic, series exclusions, two-card gallery,
   and contextual destination. Project headers retain the separate approved `shelf` variant.
 
 ## Anchor runtime patch
