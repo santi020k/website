@@ -46,6 +46,11 @@ focusAreas:
   - label: "Publishing prep"
     description: "Carousels, captions, and private planning"
 notesLayout: "context-lead"
+relatedWriting:
+  - post: "2026/postlens-2-is-live"
+    label: "Launch note"
+  - post: "2026/postlens-private-on-device-content-studio"
+    label: "Deep dive"
 ---
 
 import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
@@ -56,7 +61,7 @@ import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
 import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
 import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
-import ProjectReleaseSplit from '@/components/molecules/ProjectReleaseSplit.astro'
+import ProjectReleaseNote from '@/components/molecules/ProjectReleaseNote.astro'
 import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
 
 
@@ -241,7 +246,7 @@ privacy manifests, source-size checks, native tests, SEO checks, and a release p
 
 <span id="available-today-and-in-development" aria-hidden="true" />
 
-<ProjectReleaseSplit
+<ProjectReleaseNote
   labelledBy="release-status"
   states={[
     {
@@ -261,7 +266,7 @@ privacy manifests, source-size checks, native tests, SEO checks, and a release p
 
 Export and manual sharing are available now. Meta approval and a separately verified release are still required before direct Instagram publishing can become available.
 
-</ProjectReleaseSplit>
+</ProjectReleaseNote>
 
 <ProjectSectionHeading>
 

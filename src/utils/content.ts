@@ -50,6 +50,25 @@ export const getCachedProjects = cacheCollection(() => getCollection('project', 
 /** Returns published series, with drafts available during development. */
 export const getCachedSeries = cacheCollection(() => getCollection('series', ({ data }) => import.meta.env.PROD ? !data.draft : true))
 
+/** Curated project reading, always excluding drafts and scheduled posts, including in dev. */
+export const getProjectWriting = async (selections: CollectionEntry<'project'>['data']['relatedWriting'] = []) => {
+  if (!selections.length) return []
+
+  const posts = new Map((await getCachedPosts()).map(post => [post.id, post]))
+  const now = new Date()
+  const seen = new Set<string>()
+
+  return selections.flatMap(selection => {
+    const post = posts.get(selection.post.id)
+
+    if (!post || post.data.draft || post.data.publishDate > now || seen.has(post.id)) return []
+
+    seen.add(post.id)
+
+    return [{ label: selection.label, post }]
+  })
+}
+
 /**
  * Returns posts that share at least one tag with the given tag list,
  * scored and sorted by number of shared tags then by publish date.

@@ -191,6 +191,12 @@ and Work technology links share this treatment without changing other Pill consu
 The existing Astro navigation controller keeps topic selection, focus, and page position intact;
 the layout wraps on mobile and desktop and requires no additional client JavaScript.
 
+The Projects opening uses **Purpose first**: its existing `SculptedTag` navigation
+moves into the signature hero, with live purpose counts and native fragment links.
+The site owns the brand-soft opening treatment and responsive footer; the existing
+Lumen `ButtonLink` retains GitHub's external-link contract. No new controller is
+needed. The catalog's project selection, ranking, fragments, and schema are unchanged.
+
 ## Technology index search
 
 `TechnologyEvidenceLedger` replaces the index's four statistics with **Evidence ledger**
@@ -400,6 +406,14 @@ enlarged text sizes. No new client controller is introduced.
   Section cadence heading retains its fragment; no new controller or Lumen primitive
   is needed for this passive editorial composition. Other projects reuse the existing
   first sentence as their lead with authored prose in the slot, without inventing audience groups.
+- `ProjectStoryPair` composes curated related writing with native article headings and Lumen
+  `Link` and `Icon`. Equal insets and shared CSS grid rows align both entries; container queries
+  stack them at narrow widths. A single eligible post fills the row, and no eligible posts
+  produce no section. Explicit collection references preserve editorial intent, while the
+  shared resolver excludes drafts and scheduled posts even in development.
+- `ProjectReleaseNote` uses a prominent current-release lead and a sculpted pending-state
+  note, with native Lumen links. Both states retain their authored availability qualifications;
+  platform preparation and provider approval never become active publishing controls.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter
