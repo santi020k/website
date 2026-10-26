@@ -576,12 +576,13 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives
   this composition; native list semantics remain intact without client JavaScript. Root lists
   use neutral dividers and purple lead rules, with a single column when reading space is narrow.
-- `PostHero` uses Margin imprint for article publication details: a native description
-  list with a larger publication date, reading statistics, and an optional update row.
+- `PostHero` uses Reading imprint for article publication details: two native description
+  lists group the published and optional updated dates beside reading time and word count.
   The existing `FormattedDate` wrapper preserves Lumen's native `time` output. Site-owned
   attributes and semantic tokens handle the responsive margin rules without a card
-  primitive or client script. `ProjectHero` applies the same Margin imprint language
-  to its role, timeline, and duration, keeping the existing `ProjectTimeline` native
+  primitive or client script. The groups stay side by side on phones and stack below
+  16rem of available width for enlarged text. `ProjectHero` retains Margin imprint
+  for its role, timeline, and duration, keeping the existing `ProjectTimeline` native
   dates and duration helper. Its wider role column and project-specific container
   breakpoints preserve long role names.
 - Article Topics use the site-owned Margin topics composition: a named native `nav`,

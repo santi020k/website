@@ -113,7 +113,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
     </div>
   </div>
 
-  {/* ── Publication details — Margin imprint ─────────────────── */}
+  {/* ── Publication details — Reading imprint ────────────────── */}
   <div
     class="
       animate-slide-up [animation-delay:160ms]
@@ -121,26 +121,30 @@ const eyebrowLabel = tags[0] ?? 'Article'
     "
     data-editorial-meta-group
   >
-    <dl data-publication-imprint data-has-update={Boolean(updatedDate)}>
-      <div data-publication-field="published">
-        <dt>Published</dt>
-        <dd><FormattedDate date={publishDate} /></dd>
-      </div>
-      <div data-publication-field="reading">
-        <dt>Read time</dt>
-        <dd>{readingTimeText}</dd>
-      </div>
-      <div data-publication-field="words">
-        <dt>Words</dt>
-        <dd>{wordCount.toLocaleString()}</dd>
-      </div>
-      {updatedDate && (
-        <div data-publication-field="updated">
-          <dt>Updated</dt>
-          <dd><FormattedDate date={updatedDate} /></dd>
+    <div data-publication-imprint>
+      <dl data-publication-dates>
+        <div data-publication-field="published">
+          <dt>Published</dt>
+          <dd><FormattedDate date={publishDate} /></dd>
         </div>
-      )}
-    </dl>
+        {updatedDate && (
+          <div data-publication-field="updated">
+            <dt>Updated</dt>
+            <dd><FormattedDate date={updatedDate} /></dd>
+          </div>
+        )}
+      </dl>
+      <dl data-publication-reading>
+        <div data-publication-field="reading">
+          <dt>Reading</dt>
+          <dd>{readingTimeText}</dd>
+        </div>
+        <div data-publication-field="words">
+          <dt class="sr-only">Word count</dt>
+          <dd>{wordCount.toLocaleString()} words</dd>
+        </div>
+      </dl>
+    </div>
   </div>
 
   {/* ── Topics — Margin topics ─────────────────────────────── */}
@@ -430,7 +434,7 @@ const eyebrowLabel = tags[0] ?? 'Article'
 
   [data-publication-imprint] {
     display: grid;
-    grid-template-columns: 1.35fr 1fr 1fr;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     gap: 1.5rem;
     margin: 0;
     border-block: 1px solid hsl(var(--line));
@@ -438,8 +442,9 @@ const eyebrowLabel = tags[0] ?? 'Article'
     color: hsl(var(--ink));
   }
 
-  [data-publication-field] {
+  [data-publication-imprint] dl {
     min-width: 0;
+    margin: 0;
     border-inline-start: 1px solid hsl(var(--line));
     padding-inline-start: 1.125rem;
   }
@@ -454,30 +459,18 @@ const eyebrowLabel = tags[0] ?? 'Article'
 
   [data-publication-imprint] dd {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.375rem;
     font-weight: 500;
-    line-height: 1.6;
+    line-height: 1.4;
+    letter-spacing: -0.04em;
   }
 
-  [data-publication-field='published'] {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  [data-publication-imprint] [data-publication-dates] {
     border-inline-start: 2px solid hsl(var(--brand));
   }
 
-  :global([data-theme='dark']) [data-publication-field='published'] {
+  :global([data-theme='dark']) [data-publication-imprint] [data-publication-dates] {
     border-color: hsl(var(--accent));
-  }
-
-  [data-has-update='true'] [data-publication-field='published'] {
-    grid-row: 1 / 3;
-  }
-
-  [data-publication-field='published'] dd {
-    font-size: 1.4375rem;
-    line-height: 1.4;
-    letter-spacing: -0.04em;
   }
 
   [data-publication-imprint] :global(time) { color: inherit; }
@@ -485,33 +478,36 @@ const eyebrowLabel = tags[0] ?? 'Article'
   [data-publication-field='updated'] {
     display: flex;
     flex-wrap: wrap;
-    grid-column: 2 / -1;
     align-items: baseline;
-    gap: 0.25rem 0.75rem;
+    gap: 0.125rem 0.5rem;
   }
 
+  [data-publication-field='updated'],
+  [data-publication-field='words'] { margin-top: 0.75rem; }
   [data-publication-field='updated'] dt { margin: 0; }
-  [data-publication-field='updated'] dd {
+  [data-publication-field='updated'] dd,
+  [data-publication-field='words'] dd {
     color: hsl(var(--ink-soft));
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: normal;
   }
 
   @container editorial-meta (width < 32rem) {
-    [data-publication-imprint] {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.25rem;
-    }
+    [data-publication-imprint] { gap: 1rem; }
+    [data-publication-imprint] dl { padding-inline-start: 0.875rem; }
+    [data-publication-field='published'] dd,
+    [data-publication-field='reading'] dd { font-size: 1.25rem; }
+  }
 
-    [data-publication-imprint] [data-publication-field='published'],
-    [data-publication-field='updated'] {
-      grid-column: 1 / -1;
-      grid-row: auto;
-    }
+  @container editorial-meta (width < 20rem) {
+    [data-publication-imprint] { gap: 0.75rem; }
+    [data-publication-field='published'] dd,
+    [data-publication-field='reading'] dd { font-size: 1.125rem; }
   }
 
   @container editorial-meta (width < 16rem) {
-    [data-publication-imprint] { grid-template-columns: minmax(0, 1fr); }
-    [data-publication-field='updated'] { display: block; }
-    [data-publication-field='updated'] dt { margin-bottom: 0.4375rem; }
+    [data-publication-imprint] { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
   }
 </style>
