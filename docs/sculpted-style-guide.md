@@ -298,6 +298,21 @@ same responsive spacing, stacking below 18rem of topic-index width. Preserve the
 search and sort controls, zero-result announcement, search focus, and restoration
 of all topic links when the query is cleared. Keep automatic hyphenation disabled.
 
+### Purpose first Projects opening
+
+Keep the signature frame and Built for the love of it headline. The eyebrow gives
+its live project total; the shorter introduction leads directly to the existing
+SculptedTag category shortcuts. Derive each count and fragment from the same
+published purpose groups as the catalog. Use a brand-soft tag surface and quiet
+count compartments inside this opening only. A ruled footer pairs the short maker
+statement with the native external GitHub link.
+
+Below 34rem, give each category a full row and stack the footer. Below 14rem, place
+the count below its label and let enlarged text wrap within the available width. The hero
+statistics and generic Explore projects action are replaced by these direct paths;
+there is only one category navigation. Preserve the catalog's projects fragment,
+purpose sections, project ranking, and structured data.
+
 ### Evidence paths technology ending
 
 The technology index closes with an open editorial section: Beyond the toolkit,
@@ -2140,7 +2155,7 @@ use two columns below 28rem and one below 20rem. Below 20rem, project and writin
 rows place their copy beneath the number and arrow, and community insets tighten
 to preserve reading space. Featured cards use their own container rules above.
 About's `about-page` container and the `projects-intro` container stack their columns below 40rem
-the same way, and the Projects ledger stacks below 17.5rem. Below 14rem, About tightens its frame
+the same way. Projects purpose shortcuts fill separate rows below 34rem. Below 14rem, About tightens its frame
 inset and scales headings to the container so whole words fit. Editorial project cards stay in two
 columns only while each keeps 20rem, and the featured card stacks below 40rem. Below 14rem a card
 hides its decorative title arrow so the full title gets the row. Portfolio cards

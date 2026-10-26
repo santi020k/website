@@ -39,6 +39,9 @@ notesLayout: "context-lead"
 closingLinks:
   - label: "Play RoadScore in the browser"
     href: "https://roadscore.santi020k.com/app/"
+relatedWriting:
+  - post: "2026/building-roadscore-offline-road-trip-game"
+    label: "Product story"
 ---
 
 import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
@@ -47,7 +50,7 @@ import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpr
 import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
 import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
-import ProjectReleaseSplit from '@/components/molecules/ProjectReleaseSplit.astro'
+import ProjectReleaseNote from '@/components/molecules/ProjectReleaseNote.astro'
 import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
 
 <ProjectContextLead projectId="roadscore" headingId="turning-the-miles-into-a-game">
@@ -216,7 +219,7 @@ The game also states its most important rule plainly: RoadScore is for a passeng
 
 </ProjectSectionHeading>
 
-<ProjectReleaseSplit
+<ProjectReleaseNote
   labelledBy="current-launch-state"
   states={[
     {
