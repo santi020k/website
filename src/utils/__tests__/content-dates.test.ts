@@ -4,7 +4,11 @@ import { expect, test, vi } from 'vitest'
 import { collections } from '../../content.config'
 
 vi.mock('astro:content', () => ({
-  defineCollection: <T>(collection: T): T => collection
+  defineCollection: <T>(collection: T): T => collection,
+  reference: (collection: string) => z.union([
+    z.string(),
+    z.object({ collection: z.literal(collection), id: z.string() })
+  ]).transform(value => typeof value === 'string' ? { collection, id: value } : value)
 }))
 
 // Mirrors the shape of Astro's `image()` helper; these fixtures omit artwork.
