@@ -9,10 +9,11 @@ import SectionHeader from './SectionHeader.astro'
 interface Props {
   currentPostId: string
   excludeSeriesId?: string | undefined
+  excludeUrls?: string[]
   tags: string[]
 }
 
-const { currentPostId, excludeSeriesId, tags } = Astro.props
+const { currentPostId, excludeSeriesId, excludeUrls = [], tags } = Astro.props
 
 const developerExperienceTags = new Set([
   'ai',
@@ -30,6 +31,7 @@ const belongsToDeveloperExperienceHub = tags.some(tag => developerExperienceTags
 const relatedPosts = await getRelatedPosts({
   currentPostId,
   ...(excludeSeriesId ? { excludeSeriesId } : {}),
+  excludeUrls,
   limit: 2,
   tags
 })

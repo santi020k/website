@@ -36,9 +36,10 @@ interface Props {
   figureCaptions: string[]
   headings: MarkdownHeading[]
   post: CollectionEntry<'post'>
+  recommendationUrls: string[]
 }
 
-const { figureCaptions, headings, post } = Astro.props
+const { figureCaptions, headings, post, recommendationUrls } = Astro.props
 const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
 
 const ogImage = getSocialImageURL(
@@ -162,7 +163,7 @@ mainClass="remaining-pages remaining-pages--reading"
     </section>
   </article>
 
-  <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
+  <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} excludeUrls={recommendationUrls} tags={post.data.tags} />
 
   <div class="section-container-wide" data-post-final-return>
     <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} variant="colophon" />

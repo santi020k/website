@@ -25,8 +25,9 @@ interface Props {
 const { post } = Astro.props
 const { Content, headings, remarkPluginFrontmatter } = await render(post)
 const figureCaptions = z.array(z.string()).parse(remarkPluginFrontmatter.articleFigureCaptions ?? [])
+const recommendationUrls = z.array(z.string()).parse(remarkPluginFrontmatter.articleRecommendationUrls ?? [])
 ---
 
-<PostLayout post={post} headings={headings} figureCaptions={figureCaptions}>
+<PostLayout post={post} headings={headings} figureCaptions={figureCaptions} recommendationUrls={recommendationUrls}>
   <Content />
 </PostLayout>
