@@ -215,5 +215,3 @@ When those rules are encoded clearly in automation, the project becomes easier t
 - A simple GitHub Actions workflow is often enough to create strong delivery habits.
 - The build step is especially valuable in Next.js because it catches issues that unit tests may miss.
 - Pipelines should reflect real standards, not vague intentions.
-
-[Next Post: Authentication and Authorization in Next.js Applications with Supabase](/blog/authentication-and-authorization-in-next-js-applications-with-supabase/)

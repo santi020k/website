@@ -228,6 +228,13 @@ ordered index with its existing current-step label and focus treatment. Keep the
 index in the same page, available with keyboard and without JavaScript. Do not add
 another card frame inside the disclosure. Singular chapter counts use All 1 chapter.
 
+Use **Single continuation** for older series posts: remove an authored closing
+Next Post link when it repeats the next chapter already supplied by this composition.
+Verify the destination against the local article and its canonical URL, including
+the same Medium article ID under an author or publication path. Preserve references
+to different articles or series. The existing navigation remains the source of
+chapter order; this cleanup needs no extra component, hidden link, or client script.
+
 ### Directional folio article navigation
 
 Before the Reading index disclosure, present previous and next articles as open columns with
