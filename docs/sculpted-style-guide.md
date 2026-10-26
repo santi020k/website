@@ -1757,7 +1757,9 @@ through the site's existing Montserrat, semantic tokens, and editorial grid.
 - Match the main content gutters: 1.25rem on phones, 1.5rem from 640px, 2rem from
   1024px, and 2.5rem from 1536px, with the same 72rem maximum width.
 - Use a Montserrat 600 wordmark and 500 navigation labels. The raised identity tab
-  ends in a quiet diagonal step; do not add a second signature label above it.
+  ends in a quiet diagonal step, with one continuous masked shoulder instead of
+  overlapping rounded and diagonal pieces. Keep that silhouette at short viewport
+  heights too; do not add a second signature label above it.
 - Mark the current desktop route with a fine accent underline and `aria-current`,
   leaving its surface open. Hover adds a quiet neutral fill.
 - Center the desktop links in the space between identity and utilities, with
@@ -2190,6 +2192,10 @@ stretch or shift the outgoing content. Content exits in 90ms, then enters over
 replay initial-load hero and logo animations underneath the route transition.
 Article covers retain their shared names and use Lumen's emphasized easing with
 a 240ms geometry transition. Keep the header above those image snapshots.
+Name the header snapshot only while Astro's `data-astro-transition` marker is
+present. A permanent name creates a backdrop root that prevents the menu from
+blurring page content. Keep the attached menu below the header in paint order so
+its shadow cannot create a horizontal band across their shared surface.
 
 Astro owns navigation, history, fragment scrolling, focus, and announcements.
 Browsers without native View Transitions use an immediate client swap; reduced
