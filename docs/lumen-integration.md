@@ -227,8 +227,16 @@ by canonical slug, and excludes the selected technology. The site owns the open
 heading, ruled grid, responsive wrapping, and closing navigation. Links work without
 JavaScript; archives with no connections omit the section.
 
+The index opening uses **Catalog first**: a compact `PageHero`, the existing Search
+dock immediately after its introduction, and native Lumen `Link` shortcuts to Core,
+Regular, and Selective. Group counts and recurrence thresholds use the same data as
+the catalog below. Quiet Work and Portfolio links follow the shortcuts. Filtering
+hides the shortcuts while a query is active, preventing links to hidden groups;
+clearing it restores them. Group headings retain their fragment IDs and accept
+native fragment focus. No additional runtime is introduced.
+
 The **Search dock** composition keeps the existing Lumen `Input` and technology
-controller inside the catalog's Lumen `Card`. Its native label, decorative `Icon`,
+controller in the compact `PageHero` after-description slot. Its native label, decorative `Icon`,
 and live count form one shaped search surface. The count and unit update inside an
 atomic live region, retaining the full existing result sentence for screen readers.
 The count compartment moves below the input on narrow containers. The original

@@ -1,7 +1,6 @@
 ---
 import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import TechnologyEvidenceLedger from '@/components/molecules/TechnologyEvidenceLedger.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
 import PageLayout from '@/layouts/Base.astro'
@@ -23,16 +22,19 @@ const selectiveTechnologies = sortTechnologyCountsByInterest(technologies.filter
 const technologyGroups = [
   {
     items: coreTechnologies,
+    recurrence: '4+ entries each',
     summary: 'Repeated foundations across product architecture, delivery workflows, and the portfolio surface.',
     title: 'Core'
   },
   {
     items: regularTechnologies,
+    recurrence: '2–3 entries each',
     summary: 'Reliable companion tools that help teams ship, test, document, and maintain production systems.',
     title: 'Regular'
   },
   {
     items: selectiveTechnologies,
+    recurrence: '1 entry each',
     summary: 'Context-specific platforms, APIs, and product capabilities used when the problem calls for them.',
     title: 'Selective'
   }
@@ -46,32 +48,16 @@ const meta = {
 ---
 
 <PageLayout mainClass="remaining-pages" meta={meta}>
-  <PageHero
-    description="The recurring capabilities and technologies across the portfolio: frontend and backend architecture, testing, delivery automation, developer experience, and the platforms around them."
-    eyebrow="Capabilities index"
-    gradientText="Full-stack range."
-    metaItems={['Frontend architecture', 'Testing', 'Delivery tooling']}
-    title="Capabilities and technologies."
-  >
-    <ButtonLink href="/work/" showArrow>
-      Browse work
-    </ButtonLink>
-    <ButtonLink href="/portfolio/" showArrow variant="secondary">
-      Back to portfolio
-    </ButtonLink>
-  </PageHero>
-
-  <PageSection layout="stacked">
-    <SectionHeader
-      description="Grouped by how often each tool appears in shipped work, with the most product-shaping technologies kept easiest to scan."
-      eyebrow="Technology groups"
-      title="The stack by recurrence."
-    />
-
-    <Card class="p-0" data-technology-catalog variant="muted">
-      <div data-technology-index>
+  <div data-technology-opening>
+    <PageHero
+      compact
+      description={`Explore ${technologies.length} technologies and capabilities through the projects where they appear.`}
+      eyebrow="Capabilities index"
+      gradientText="real work."
+      title="Tools, connected to"
+    >
+      <div data-technology-index data-technology-opening-controls slot="after-description">
         <div data-technology-filter-row>
-          <p data-technology-search-eyebrow>Stack snapshot</p>
           <div data-technology-search-dock>
             <div data-technology-search-field>
               <span data-technology-search-mark><Icon class="size-5.25" name="search" /></span>
@@ -82,7 +68,7 @@ const meta = {
                   autocomplete="off"
                   data-technology-search-input
                   id="technology-filter"
-                  placeholder="Search technologies…"
+                  placeholder="Search…"
                   spellcheck="false"
                   type="search"
                 />
@@ -100,11 +86,33 @@ data-technology-result-suffix
                                                                                                                                                                                                               >.</span>
             </p>
           </div>
-          <p data-technology-search-note>
-            Search the full index, then follow any technology to the projects where it appears.
-          </p>
         </div>
+        <nav aria-label="Browse technology groups" data-technology-group-navigation>
+          {technologyGroups.map((group, index) => (
+            <Link href={`#technology-group-${index}`} variant="inherit">
+              <span data-technology-shortcut-title>{group.title}</span>
+              <Icon class="size-4" name="arrow-down" />
+              <span data-technology-shortcut-meta>
+                {group.items.length} {group.items.length === 1 ? 'technology' : 'technologies'}<br />
+                {group.recurrence}
+              </span>
+            </Link>
+          ))}
+        </nav>
+        <div data-technology-opening-actions>
+          <Link href="/work/" variant="inherit">Browse work <Icon class="size-4" name="arrow-right" /></Link>
+          <Link href="/portfolio/" variant="inherit">Portfolio <Icon
+class="size-4"
+name="arrow-right"
+                                                               /></Link>
+        </div>
+      </div>
+    </PageHero>
+  </div>
 
+  <PageSection layout="stacked">
+    <Card class="p-0" data-technology-catalog variant="muted">
+      <div data-technology-index>
         <div data-technology-groups>
           {technologyGroups.map((group, index) => (
             <section
@@ -112,7 +120,7 @@ data-technology-result-suffix
               data-technology-group
             >
               <div data-technology-intro>
-                <h3 id={`technology-group-${index}`}>
+                <h2 id={`technology-group-${index}`} tabindex="-1">
                   <span data-technology-heading>
                     <span
 aria-hidden="true"
@@ -128,7 +136,7 @@ data-technology-group-count
                   >
                     {group.items.length} {group.items.length === 1 ? 'tool' : 'tools'}
                   </span>
-                </h3>
+                </h2>
                 <p class="max-w-sm text-sm/6 text-ink-soft">{group.summary}</p>
               </div>
 
@@ -159,7 +167,7 @@ data-technology-group-count
         >
           <span data-technology-empty-icon><Icon class="size-5.5" name="search-x" /></span>
           <div>
-            <h3 id="technology-empty-heading">No technologies match that search.</h3>
+            <h2 id="technology-empty-heading">No technologies match that search.</h2>
             <p>Try a broader term or clear the search field.</p>
           </div>
         </section>
@@ -200,6 +208,7 @@ data-technology-group-count
       const statusUnit = status?.querySelector('[data-technology-result-unit]')
       const statusSuffix = status?.querySelector('[data-technology-result-suffix]')
       const empty = document.querySelector<HTMLElement>('[data-technologies-empty]')
+      const shortcuts = document.querySelector<HTMLElement>('[data-technology-group-navigation]')
 
       if (!groups || !input || !statusPrefix || !statusCount || !statusUnit || !statusSuffix || !empty || groups.dataset.filterReady === 'true') return
 
@@ -210,6 +219,8 @@ data-technology-group-count
       input.addEventListener('input', () => {
         const query = input.value.trim().toLocaleLowerCase()
         let visibleTotal = 0
+
+        if (shortcuts) shortcuts.hidden = query.length > 0
 
         groupElements.forEach(group => {
           const groupItems = group.querySelectorAll<HTMLElement>('[data-technology-item]')
@@ -248,6 +259,27 @@ data-technology-group-count
 </PageLayout>
 
 <style>
+  [data-technology-intro] h2 { margin: 0; }
+  [data-technology-opening-controls] { margin-top: 2rem; }
+  [data-technology-opening-controls] [data-technology-filter-row] { padding-bottom: 0; }
+  [data-technology-group-navigation] { margin-top: 2.25rem; border-block: 1px solid hsl(var(--line)); }
+  [data-technology-group-navigation]:not([hidden]) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+  [data-technology-group-navigation] :global(a) { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: start; align-items: center; gap: .5rem .75rem; min-width: 0; padding-block: 1.25rem; color: hsl(var(--ink)); text-decoration: none; }
+  [data-technology-shortcut-title] { font-size: 1.0625rem; font-weight: 500; line-height: 1.5; overflow-wrap: anywhere; }
+  [data-technology-shortcut-meta] { grid-column: 1 / -1; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.8; overflow-wrap: anywhere; }
+  [data-technology-group-navigation] :global(svg) { color: hsl(var(--brand)); }
+  [data-technology-opening-actions] { display: flex; flex-wrap: wrap; gap: .75rem 1.75rem; margin-top: 1.5rem; }
+  [data-technology-opening-actions] :global(a) { display: inline-flex; align-items: center; gap: .75rem; min-height: 2.75rem; color: hsl(var(--ink-soft)); font-size: .8125rem; line-height: 1.8; text-decoration: none; }
+  [data-technology-opening-controls] :global(a:hover) { color: hsl(var(--brand)); }
+  [data-technology-opening-controls] :global(a:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; border-radius: .125rem; }
+  :global([data-theme='dark']) [data-technology-opening-controls] :global(a:hover),
+  :global([data-theme='dark']) [data-technology-group-navigation] :global(svg) { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-technology-opening-controls] :global(a:focus-visible) { outline-color: hsl(var(--accent)); }
+  @container technology-index (width < 34rem) {
+    [data-technology-group-navigation]:not([hidden]) { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    [data-technology-group-navigation] :global(a + a) { border-top: 1px solid hsl(var(--line)); }
+  }
+
   [data-technologies-empty] {
     padding-block: 1.75rem;
     border-bottom: 1px solid hsl(var(--line));
@@ -268,7 +300,7 @@ data-technology-group-count
     color: hsl(var(--brand));
   }
   :global([data-theme='dark']) [data-technology-empty-icon] { color: hsl(var(--accent)); }
-  [data-technologies-empty] h3 {
+  [data-technologies-empty] h2 {
     margin: 0;
     color: hsl(var(--ink));
     font-size: 1.5rem;
@@ -286,12 +318,12 @@ data-technology-group-count
   @container technology-index (width < 32rem) {
     [data-technologies-empty] { padding-block: 1.5rem; }
     [data-technologies-empty]:not([hidden]) { gap: 1rem; }
-    [data-technologies-empty] h3 { font-size: 1.375rem; }
+    [data-technologies-empty] h2 { font-size: 1.375rem; }
   }
   @container technology-index (width < 18rem) {
     [data-technologies-empty]:not([hidden]) { grid-template-columns: minmax(0, 1fr); }
   }
   @container technology-index (width < 12rem) {
-    [data-technologies-empty] h3 { font-size: 1.125rem; }
+    [data-technologies-empty] h2 { font-size: 1.125rem; }
   }
 </style>
