@@ -26,16 +26,6 @@ const getMetricChange = (metric: string): MetricChange | undefined => {
   return undefined
 }
 
-export const getPortfolioMetricDisplay = (metric: string): PortfolioMetricDisplay => {
-  const change = getMetricChange(metric)
-
-  if (change?.kind === 'improvement') return { label: change.label, value: `${change.previous} → ${change.value}` }
-
-  if (change?.kind === 'reduction') return { label: change.label, value: `${change.value} less` }
-
-  return { label: metric }
-}
-
 export const getProjectOutcomeDisplay = (metric: string): ProjectOutcomeDisplay => {
   const change = getMetricChange(metric)
 
@@ -54,6 +44,16 @@ export const getProjectOutcomeDisplay = (metric: string): ProjectOutcomeDisplay 
   if (value && label) return { label: label.charAt(0).toUpperCase() + label.slice(1), value }
 
   return { label: metric }
+}
+
+export const getPortfolioMetricDisplay = (metric: string): PortfolioMetricDisplay => {
+  const change = getMetricChange(metric)
+
+  if (change?.kind === 'improvement') return { label: change.label, value: `${change.previous} → ${change.value}` }
+
+  if (change?.kind === 'reduction') return { label: change.label, value: `${change.value} less` }
+
+  return getProjectOutcomeDisplay(metric)
 }
 
 // The caption owns this client's attribution; the complete claim remains the
