@@ -169,6 +169,13 @@ the earlier numeric remainder link. These native links need no client controller
 
 ## Portfolio cards
 
+The Portfolio opening uses **Case study paths** in `PageHero`'s existing
+`after-description` slot. Lumen `Link` and decorative `Icon` arrows provide native
+fragment navigation to the two focusable collection sections. The page owns the
+ruled two-column layout, responsive stacking, collection-derived counts, and quiet
+work-history footer. Both collections remain visible; no filtering controller or
+shared hero variant is added.
+
 `PortfolioProjectSpotlight` uses an unstyled Lumen `Card` and one named native link covering
 its artwork and overlapping content sheet. Keep the readable content outside the link so
 screen readers can browse it separately from the concise destination. Lumen `Badge` carries project status and `Icon`
