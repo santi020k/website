@@ -168,3 +168,20 @@ their keyboard, resize, client-navigation, logo and enlarged-text coverage;
 all 34 affected cases passed. After simplifying a test's keyboard traversal to
 reuse its existing helper, its 24 responsive cases passed again with retries
 disabled. The original whole-release gate remains recorded above at `0711988b`.
+
+## Connected History caption follow-up
+
+The approved `fix/history-today-caption` commit `51f02860` is contained through
+local merge `7a60da68`. The current preview and caption share one bordered frame;
+a compact V5 label aligns with the existing branded Today pill. The full image,
+native figure semantics and responsive wrapping remain, without new JavaScript.
+Its Changeset is folded into 5.0.0 and leaves published notes unchanged.
+
+Scoped integration validation passed: zero-warning affected lint, a current-site
+type check with no diagnostics, the current-site production build, the 452-page
+OG audit and PDF freshness. Twenty production Chromium/WebKit cases passed with
+retries disabled, covering History, first-paint styles, 320px to 1440px layouts,
+both themes, enlarged text, keyboard access, accessibility and script-free links.
+Matching before/after captures at 390px and 1440px in both themes confirmed the
+joined frame and no horizontal overflow. The unchanged archive builds were
+reassembled into the local preview. No external release action was taken.
