@@ -75,7 +75,6 @@
   padding-inline: 1.25rem;
   border-radius: 1.5rem;
   color: hsl(var(--ink));
-  background: hsl(var(--surface));
   isolation: isolate;
 }
 
@@ -86,12 +85,14 @@
 .site-header-brand::after {
   position: absolute;
   z-index: -1;
-  right: -1.75rem;
-  bottom: 0;
-  width: 2.25rem;
-  height: 3.25rem;
+  inset: 0 auto 0 0;
+  width: calc(100% + 1.75rem);
+  border-radius: 1.5rem 0 0 0;
   background: hsl(var(--surface));
-  clip-path: polygon(0 0, 30% 0, 100% 100%, 0 100%);
+  /* One continuous shoulder avoids the notch between a rounded tab and wedge. */
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 72' preserveAspectRatio='none'%3E%3Cpath d='M0 0H174C190 0 196 5 206 20L240 72H0Z'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
   content: "";
   opacity: 0;
   pointer-events: none;
@@ -366,7 +367,8 @@
 
 @utility site-mobile-nav {
   position: fixed;
-  z-index: 50;
+  /* Keep the panel's top shadow behind the opaque header it joins. */
+  z-index: 49;
   top: var(--mobile-nav-top, 6rem);
   left: var(--mobile-nav-left, 1rem);
   width: var(--mobile-nav-width, calc(100% - 2rem));
@@ -648,7 +650,6 @@
   .site-header { padding-block: 8px; }
   .site-header-shell, .site-header-brand { min-height: 56px; }
   .site-header-mark { width: 32px; height: 32px; }
-  .site-header-brand::after { height: 44px; }
   .site-header-actions :is([data-theme-toggle-btn], [data-site-search-trigger]) {
     width: 44px;
     min-width: 44px;

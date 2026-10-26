@@ -8,7 +8,12 @@ for (const theme of ['light', 'dark']) {
     { width: 390, textSize: 100, layout: 'compact' },
     { width: 390, textSize: 200, layout: 'textOnly' },
     { width: 430, textSize: 100, layout: 'compact' },
-    { width: 768, textSize: 100, layout: 'sideBySide' },
+    { width: 768, textSize: 100, layout: 'tablet' },
+    { width: 768, textSize: 200, layout: 'compact' },
+    { width: 820, textSize: 100, layout: 'tablet' },
+    { width: 1024, textSize: 100, layout: 'tablet' },
+    { width: 1024, textSize: 200, layout: 'compact' },
+    { width: 1180, textSize: 100, layout: 'tablet' },
     { width: 1440, textSize: 100, layout: 'sideBySide' },
     { width: 1440, textSize: 200, layout: 'compact' }
   ] as const) {
@@ -41,9 +46,10 @@ for (const theme of ['light', 'dark']) {
             const heading = element.querySelector('h3')?.getBoundingClientRect()
             const description = element.querySelector('[data-related-description]')?.getBoundingClientRect()
             const action = element.querySelector('[data-related-action]')?.getBoundingClientRect()
+            const number = element.querySelector('[data-related-number]')?.getBoundingClientRect()
             const bounds = element.getBoundingClientRect()
 
-            if (!artwork || !heading || !description || !action) return null
+            if (!artwork || !heading || !description || !action || !number) return null
             const fullWidthDescription = Math.abs(description.left - bounds.left) < 1 &&
               Math.abs(description.width - bounds.width) < 1
 
@@ -51,6 +57,10 @@ for (const theme of ['light', 'dark']) {
               compact: artwork.width > 0 && heading.left >= artwork.right &&
                 description.top >= artwork.bottom && fullWidthDescription && action.height >= 44,
               sideBySide: heading.left >= artwork.right && description.left >= artwork.right,
+              tablet: Math.abs(artwork.width - artwork.height) < 1 &&
+                Math.abs(artwork.left - bounds.left) < 1 && heading.left >= artwork.right &&
+                description.left >= artwork.right && number.left >= heading.left &&
+                Math.abs(action.right - bounds.right) < 1 && action.height >= 44,
               textOnly: artwork.width === 0 && Math.abs(heading.left - bounds.left) < 1 &&
                 fullWidthDescription && action.height >= 44
             }
@@ -85,7 +95,7 @@ for (const theme of ['light', 'dark']) {
     })
   }
 
-  for (const width of [390, 1440]) {
+  for (const width of [390, 820, 1440]) {
     test(`related project hover and keyboard emphasis stay accessible at ${width}px in ${theme}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 1000 })
       await page.emulateMedia({ reducedMotion: 'reduce' })

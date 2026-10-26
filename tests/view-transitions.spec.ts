@@ -26,6 +26,9 @@ const observeTransition = async (page: Page) => {
         root.dataset.transitionContentAnimated = String(targets.includes('::view-transition-new(root)'))
         root.dataset.transitionContentResized = String(targets.includes('::view-transition-group(root)'))
         root.dataset.transitionAnimationCount = String(animations.length)
+        const header = document.querySelector('.site-header')
+
+        root.dataset.transitionHeaderName = header ? getComputedStyle(header).viewTransitionName : ''
         root.dataset.transitionReady = 'true'
 
         return undefined
@@ -90,10 +93,12 @@ test.describe('View transitions', () => {
         await expect(root).toHaveAttribute('data-transition-shell-animated', 'false')
         await expect(root).toHaveAttribute('data-transition-content-animated', 'true')
         await expect(root).toHaveAttribute('data-transition-content-resized', 'false')
+        await expect(root).toHaveAttribute('data-transition-header-name', 'site-header')
         await expect(root).toHaveAttribute('data-theme', theme)
         await expect(page.locator('#main')).toBeFocused()
         await expect(page.locator('.site-desktop-nav [aria-current="page"]')).toHaveText('About')
         await expect(root).not.toHaveAttribute('data-astro-transition')
+        await expect(page.locator('.site-header')).toHaveCSS('view-transition-name', 'none')
         await expect(page.locator('body')).toHaveAttribute('data-client-navigation', '')
 
         const entranceAnimations = await page.locator('#main .animate-slide-up, #main .animate-reveal-lcp, .site-header [data-ui-logo-draw]').evaluateAll(elements => elements.map(element => getComputedStyle(element).animationName))
