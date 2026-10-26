@@ -30,8 +30,8 @@ for (const theme of ['light', 'dark'] as const) {
     const closing = toolkit.getByRole('navigation', { name: 'Continue exploring work' })
 
     await expect(closing.getByRole('link')).toHaveCount(2)
-    await expect(closing.getByRole('link', { name: 'Open resume', exact: true })).toHaveAttribute('href', '/resume/')
-    await expect(closing.getByRole('link', { name: 'Explore the full toolkit', exact: true })).toHaveAttribute('href', '/technologies/')
+    await expect(closing.getByRole('link', { name: 'Experience Open resume Roles, projects, and skills in one readable view.', exact: true })).toHaveAttribute('href', '/resume/')
+    await expect(closing.getByRole('link', { name: 'Technology index Explore the full toolkit Browse the tools used across all projects.', exact: true })).toHaveAttribute('href', '/technologies/')
     for (const width of [320, 390, 768, 1440]) {
       for (const size of [100, 200]) {
         await page.setViewportSize({ width, height: 1000 })
@@ -69,7 +69,7 @@ for (const theme of ['light', 'dark'] as const) {
       expect(inset.right).toBeGreaterThanOrEqual(20)
       expect(inset.bottom).toBeGreaterThanOrEqual(20)
     }
-    const audit = await new AxeBuilder({ page }).include('[data-work-stack]').include('[data-work-close]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
+    const audit = await new AxeBuilder({ page }).include('[data-work-stack]').include('[data-work-close]').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze()
 
     expect(audit.violations).toEqual([])
   })
@@ -95,8 +95,8 @@ test('career close reaches the resume and technology index without JavaScript', 
   const page = await context.newPage()
 
   for (const destination of [
-    { name: 'Open resume', path: '/resume/', heading: 'Santiago Molina' },
-    { name: 'Explore the full toolkit', path: '/technologies/', heading: 'Capabilities' }
+    { name: 'Experience Open resume Roles, projects, and skills in one readable view.', path: '/resume/', heading: 'Santiago Molina' },
+    { name: 'Technology index Explore the full toolkit Browse the tools used across all projects.', path: '/technologies/', heading: 'Tools, connected to real work.' }
   ]) {
     await page.goto('/work/')
     const link = page.getByRole('navigation', { name: 'Continue exploring work' }).getByRole('link', { name: destination.name, exact: true })
