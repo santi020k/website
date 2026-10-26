@@ -13,6 +13,7 @@ introducing another project-specific review of the same section.
 | Goals | Intent brief | Use `ProjectIntentBrief labelledBy="goals"` with native `li` children containing complete Markdown statements. The data-array form remains available for plain text. |
 | Product capabilities | Capability spread | Use `ProjectCapabilitySpread` with numbered `ProjectCapabilityEntry` children. Keep the descriptions, code and links. Professional responsibilities and results retain Ownership ledger. |
 | Technical explanation | Architecture brief | Place authored `dt`/`dd` rows in `ProjectArchitectureBrief`. Its lead and adapter list are optional; do not invent adapters to fill the layout. |
+| Release status | Release split | Use `ProjectReleaseSplit` with two evidenced states and an authored Section cadence h3. Links lead to a real download, product status, or launch note. Use only when availability differs by feature or platform; do not invent a pending release for completed projects. |
 | Closing reflection | Principle close | Use an existing opening sentence as `lead` and preserve the explanation in the Markdown slot. Add audience perspectives only when the content supports them. Multi-client reflections can retain Synthesis spread. |
 | Closing resources | Unified return | Use the existing website/repository metadata and `closingLinks` for additional external resources. Remove only redundant standalone destination sentences. Keep contextual and narrative references. |
 
@@ -30,3 +31,8 @@ Preserve draft status, published-versus-development qualifications, claims, medi
 and destinations. A layout migration is not evidence of a product release or a
 reason to add metrics. The project editorial browser checks discover all published
 entries and check their openings, outcome chapters and native destinations.
+
+Release split currently fits PostLens (live v2 versus Instagram production approval) and
+RoadScore (browser/Android versus the Apple release). Other projects retain their existing
+status or security qualifications. PostLens preview captures retain their development origin
+and illustrative-image disclosure; launching v2 does not make those captures store screenshots.

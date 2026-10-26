@@ -47,6 +47,7 @@ import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpr
 import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
 import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectReleaseSplit from '@/components/molecules/ProjectReleaseSplit.astro'
 import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
 
 <ProjectContextLead projectId="roadscore" headingId="turning-the-miles-into-a-game">
@@ -215,4 +216,20 @@ The game also states its most important rule plainly: RoadScore is for a passeng
 
 </ProjectSectionHeading>
 
-The production website, catalog service, and web game are deployed, and the Android app has a public Google Play listing. The iPhone and iPad release follows its own testing and App Store review process; the product site keeps that platform marked as coming soon.
+<ProjectReleaseSplit
+  labelledBy="current-launch-state"
+  states={[
+    {
+      label: "Available now",
+      title: "Browser and Android",
+      description: "The production website, catalog service, and web game are deployed. The Android app has a public Google Play listing.",
+      link: { label: "Play RoadScore in the browser", href: "https://roadscore.santi020k.com/app/" }
+    },
+    {
+      label: "In preparation",
+      title: "iPhone and iPad",
+      description: "The Apple release follows its own testing and App Store review process. The product site keeps this platform marked as coming soon.",
+      link: { label: "Check RoadScore platform availability", href: "https://roadscore.santi020k.com/" }
+    }
+  ]}
+/>
