@@ -184,7 +184,7 @@
     "blog/testing-react-components-with-vitest-and-react-testing-library.webp": {
       "baseDirectory": "public/og",
       "digest": "9a456e895d4620f7a4a5504595b6c99563b0f3b7b719aa583e9feaf69c019715",
-      "fingerprint": "37374a3c213919ea9ec5f236f8bf522df85a01857858728376429b71e706c92a",
+      "fingerprint": "9b535c3bdc1a1333c76083bf2ddbea99aff889ca156004e3c86fac38c5fa4aa5",
       "output": "blog/testing-react-components-with-vitest-and-react-testing-library.webp"
     },
     "blog/a-release-process-that-reduces-drama.webp": {
@@ -250,7 +250,7 @@
     "blog/astro-doctor-announcement.webp": {
       "baseDirectory": "public/og",
       "digest": "dd84acdbd72f2130a3ad8ee0d114af94037632c5fbb8de93ac2c69a5479270bd",
-      "fingerprint": "684e2c1bd30cac626e3b33ae41289adae09a8b40c15c0552f01a4e1ac57bf606",
+      "fingerprint": "88bb36688525988b1af02748b5fefd49c674c91fcc78815300f519e1fe6f38ff",
       "output": "blog/astro-doctor-announcement.webp"
     },
     "blog/between-contractions-sync-critical-path.webp": {
@@ -322,7 +322,7 @@
     "blog/lumen-ui-one-system-three-frameworks.webp": {
       "baseDirectory": "public/og",
       "digest": "382dfe3aedcf078d6da45822ea9cbe125c465efde8660e5c1827117ca4605010",
-      "fingerprint": "a501c303e1304f385348ad6a7ebfc705faa807473d0600a4b55feee0ddc251de",
+      "fingerprint": "02f1d6911d176a672a28a70ee86caf9ef776a26c6d8b77e0b04eb7b7fc009a24",
       "output": "blog/lumen-ui-one-system-three-frameworks.webp"
     },
     "blog/muted-commands-make-ai-automation-faster-and-cheaper.webp": {
@@ -345,8 +345,8 @@
     },
     "blog/playwright-accessibility-checks-that-teams-keep-running.webp": {
       "baseDirectory": "public/og",
-      "digest": "222410b2527da0ec16196b239ca4ba4e12940901014b382b366da89e34c0948f",
-      "fingerprint": "ed50bc96ed656e6b943c7d401231cc8cc54be9f881b83f0d5c3ad7a297d576f8",
+      "digest": "f1b20c1cdfcd7c949d6c4e26ccf0f88188c3edd6e696e1e13e89dcb163293347",
+      "fingerprint": "66de66571720ee9eac1f44d595fb0258b75fdeca702ea96e0d51aabce1810d1c",
       "output": "blog/playwright-accessibility-checks-that-teams-keep-running.webp"
     },
     "blog/postlens-private-on-device-content-studio.webp": {
@@ -400,19 +400,19 @@
     "pages/blog--2.webp": {
       "baseDirectory": "public/og",
       "digest": "aeacc99d5ac2f56fef756cd15948b5fabf46fafbda58849687cd5c263edec67b",
-      "fingerprint": "1dd371bb658c53d99ffbe670a06f65c73c7c2485227e934fd6aed08b8c4d258e",
+      "fingerprint": "7006942d683a5826d02264579bbc5894baba88e757c3041a9581c9f43fbb4041",
       "output": "pages/blog--2.webp"
     },
     "pages/blog--3.webp": {
       "baseDirectory": "public/og",
       "digest": "6c3691032b2bac3e28e087dbb33599086d51bf8bee3b77e9ef842464d6c8ef36",
-      "fingerprint": "69c1cc970d78c18f23fe0067b310683179f23cf3b3258e0117771ad5e269b38f",
+      "fingerprint": "3f2110507da9003092d1a8979cab816d94cd4337c294e4dae0e86c1b34bfb37a",
       "output": "pages/blog--3.webp"
     },
     "pages/blog--4.webp": {
       "baseDirectory": "public/og",
       "digest": "b6c38cb5369f85b15d03972e4bd643f3f432e40f018172af1cf2f5dca61867cd",
-      "fingerprint": "116855df7a3466070fc105f945e99f0ca7f79465a34149906995843353bc1bdb",
+      "fingerprint": "666d8805e925f2ed6c54d0a6dad22567c66b773874fe2b7389d0e4264f9554f3",
       "output": "pages/blog--4.webp"
     },
     "pages/blog--tags--development.webp": {
@@ -424,19 +424,19 @@
     "pages/blog--tags--react.webp": {
       "baseDirectory": "public/og",
       "digest": "89aeadc93f2702b25dff7a52c9a1fb4320f1ec60097f2beab30ab7aefd9ccaf1",
-      "fingerprint": "372363d6b0e6b88fafedb1bae8e24e66f9bedc2b67aec8f167d847ae11795e70",
+      "fingerprint": "d10cfcfea6c37bed9fcbb55a25dc36f4ed0224e613a87484881ebf09b1d22078",
       "output": "pages/blog--tags--react.webp"
     },
     "pages/blog--tags--nextjs.webp": {
       "baseDirectory": "public/og",
       "digest": "ca328ae2861ba6c8b5194d0f57e6922e44d7630b560fc70314103286d5090c56",
-      "fingerprint": "e896b45d27f18b51be70b452f5f7e14d988d55031ae53ed60d7d8379a69defeb",
+      "fingerprint": "d6c76450edbe0b190fafd6afdaf5d5d41977b41abf5d7301ca3b288ba0c6f010",
       "output": "pages/blog--tags--nextjs.webp"
     },
     "pages/blog--tags--typescript.webp": {
       "baseDirectory": "public/og",
       "digest": "1d8d131bfa22df4224f0e0a6456675a12548f08ea4223b0724a6ab4967161619",
-      "fingerprint": "1f8c1dc6570b6618ff867a873fec84e4c911bcb4e3662905f82e502c671809df",
+      "fingerprint": "238082a3c42d261c62ed6eb3c91c15bbe7adc6e5f4a309deb62334a35f66b355",
       "output": "pages/blog--tags--typescript.webp"
     },
     "pages/blog--tags--typescript--2.webp": {
@@ -484,7 +484,7 @@
     "pages/blog--tags--vitest.webp": {
       "baseDirectory": "public/og",
       "digest": "5a73fb8d81941ad21e6f95d18ba7a348bff17e04e7e7693485d452684d8680b6",
-      "fingerprint": "04075a7ba0eff60edd164b7ce56853f7e0974bc29ee983d82bb6d6933321486a",
+      "fingerprint": "3f5707f1ea29c23f439a707c968208f195703ac205c00255858e5044c74f11a5",
       "output": "pages/blog--tags--vitest.webp"
     },
     "pages/blog--tags--standards.webp": {
@@ -592,7 +592,7 @@
     "pages/blog--tags--testing-library.webp": {
       "baseDirectory": "public/og",
       "digest": "44aa8c452610d12a3c0f06a29e4e76ff5673c695837e17e00b17ecc9ddc44959",
-      "fingerprint": "a2b15cdbcf6fc3b0a77bc6003078da53b9c96010083c895b83205797eb3768bf",
+      "fingerprint": "47a8476730e24d896f79c5cfa204bf2f25602e54657ff665d3541436baae33a9",
       "output": "pages/blog--tags--testing-library.webp"
     },
     "pages/blog--tags--release-management.webp": {
@@ -694,7 +694,7 @@
     "pages/blog--tags--developer-experience.webp": {
       "baseDirectory": "public/og",
       "digest": "64f1cfd2474ebd5eb54a35d1ad2c10920430351f0f78e82c461921af86ade797",
-      "fingerprint": "c5981b0aea79f5eb7d821a1ab235eba29777d90c00723f481f09739c3a2a8cfe",
+      "fingerprint": "268fcf73d537efa2671dae762af59eeecd7b687a9634827ce4951ef98a5b52f4",
       "output": "pages/blog--tags--developer-experience.webp"
     },
     "pages/blog--tags--developer-experience--2.webp": {
@@ -712,7 +712,7 @@
     "pages/blog--tags--design-systems.webp": {
       "baseDirectory": "public/og",
       "digest": "7b8a8789bdb8c86ef944eb58d97354948ac10e1d991e8932626b5a3d66191007",
-      "fingerprint": "536508b3a564bbfd38f5682c1e0d8ace4e26430173555db0963049b622a00621",
+      "fingerprint": "bd38e8cdb6d498134893770557dabefc2dd42b8f8b106c5523843c6f7731a3e2",
       "output": "pages/blog--tags--design-systems.webp"
     },
     "pages/blog--tags--ui-engineering.webp": {
@@ -742,19 +742,19 @@
     "pages/blog--tags--testing.webp": {
       "baseDirectory": "public/og",
       "digest": "3eb380951423afaee17e1c834c7ba24950b18b9426efbf1aba53cc6b8dfa47b1",
-      "fingerprint": "6090b58edfe8d9b866dc60deb1c99d594e69a739bec668dab2602dd159eb68a9",
+      "fingerprint": "29777f92da66d086d17e187b02f529544279b7edf58bd122af516260f9aaf1bc",
       "output": "pages/blog--tags--testing.webp"
     },
     "pages/blog--tags--e2e.webp": {
       "baseDirectory": "public/og",
       "digest": "ac3b4750d1947206c2466bcfdab60469d71e106dd7de401ac6392bb730e293c9",
-      "fingerprint": "265f4b21cdb968f1dcea77857eddbb514bece47cba9bf698fb137ec9163d4dd6",
+      "fingerprint": "47c5f7107e19f096124314bf603c519b6e6c7a6484d9e1afc3de1ee5f76bab41",
       "output": "pages/blog--tags--e2e.webp"
     },
     "pages/blog--tags--astro.webp": {
       "baseDirectory": "public/og",
       "digest": "2301ba515e578c724b87b91e341254670d3cb8dbe9c26b2b08a5084db7134aaf",
-      "fingerprint": "ac6fc5e9248604d5ad1bf996eb408ca25aa0c9e9163bf0161a09180483f53d76",
+      "fingerprint": "0de47e9eca9666484ca36b1beb21a3fe9289fc1176ee2acfbfe5179674acb42c",
       "output": "pages/blog--tags--astro.webp"
     },
     "pages/blog--tags--alpine.webp": {
@@ -766,19 +766,19 @@
     "pages/blog--tags--performance.webp": {
       "baseDirectory": "public/og",
       "digest": "acef82bce51ebe38b87218c390e7d50557df9fa3077eadfe19fd13ab8f0c6759",
-      "fingerprint": "9bc98acfd2aef03ceb071554bb4473c77eb46912c9cb9b838423736a7c6d6998",
+      "fingerprint": "1d6d200f3043ff15f131e749066c21402b4d19b62e18f19655d45193ac35d802",
       "output": "pages/blog--tags--performance.webp"
     },
     "pages/blog--tags--accessibility.webp": {
       "baseDirectory": "public/og",
       "digest": "1e60a6bf8baf009532523f2e31897910a6cf66bf55d490636c70e15e3680fb6b",
-      "fingerprint": "a08c9c905687cb6c03789ee48fe77ca6b0af6003f14ea91103500a160808cf33",
+      "fingerprint": "75e0cedeb2c080b5d5e8ab1b44c0457342c886a2c5142baf8bd6d10bba978b87",
       "output": "pages/blog--tags--accessibility.webp"
     },
     "pages/blog--tags--open-source.webp": {
       "baseDirectory": "public/og",
       "digest": "b4af37a5417cca3981a02621a7fe2c205d6153532e71d14cdeebaf6ee69d47c8",
-      "fingerprint": "60028ebb9510057a82212ce44257e1b67dbc54c30395d26e1fd1422929beafef",
+      "fingerprint": "4dc979d79d9ca36f08f48fe9adbb29407894fa593c1215fa37b805eab44eb89a",
       "output": "pages/blog--tags--open-source.webp"
     },
     "pages/blog--tags--distributed-systems.webp": {
@@ -970,7 +970,7 @@
     "pages/blog--tags--web-components.webp": {
       "baseDirectory": "public/og",
       "digest": "d94c3f495e1c500a544af541e976c555c2d27cb0fe17fc52420259481e13e615",
-      "fingerprint": "08b25ff7dd1cbdcc44aa8f8b370817cb2f3a3f53d0cf0f530f91154b0fec73dd",
+      "fingerprint": "e59d743a30716c228f032f2708af2618dc01d3ec5ea09e1bdbbb5172667f85a1",
       "output": "pages/blog--tags--web-components.webp"
     },
     "pages/blog--tags--rust.webp": {
@@ -1000,7 +1000,7 @@
     "pages/blog--tags--playwright.webp": {
       "baseDirectory": "public/og",
       "digest": "1641e7aec5d2c50248072cc51c4f756503cc763b0506d77c5c175c8693088d2d",
-      "fingerprint": "eda8e41169a0ab777f7219a5be16de4b39705adde5360fd25cbdecd38828fd0b",
+      "fingerprint": "095e7c789c96602920dc09650c932b1bb695ad9072c4e98e84d60cbd9334dd8b",
       "output": "pages/blog--tags--playwright.webp"
     },
     "pages/blog--tags--ios.webp": {
