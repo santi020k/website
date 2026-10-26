@@ -8,19 +8,16 @@ test('release states stay distinct, readable and linked at mobile and desktop wi
     await page.setViewportSize({ width, height: 1000 })
     for (const project of ['postlens', 'roadscore']) {
       await page.goto(`/portfolio/${project}/`)
-      const release = page.locator('[data-project-release-split]')
+      const release = page.locator('[data-project-release-note]')
 
       await expect(release).toHaveCount(1)
       await release.scrollIntoViewIfNeeded()
-      await expect(release.locator('h4')).toHaveCount(2)
-      const geometry = await release.locator('[data-release-state]').evaluateAll(states => states.map(state => {
-        const { x, y } = state.getBoundingClientRect()
+      await expect(release.locator('[data-release-lead]')).toBeVisible()
+      await expect(release.locator('[data-release-pending] h4')).toBeVisible()
+      const lead = await release.locator('[data-release-lead]').boundingBox()
+      const pending = await release.locator('[data-release-pending]').boundingBox()
 
-        return { x, y }
-      }))
-
-      expect(geometry).toHaveLength(2)
-      expect(width < 600 ? geometry[0]?.x === geometry[1]?.x : geometry[0]?.y === geometry[1]?.y).toBe(true)
+      expect(pending?.y).toBeGreaterThan((lead?.y ?? 0) + (lead?.height ?? 0))
       const external = release.locator('a[target="_blank"]').first()
 
       await expect(external).toHaveAttribute('rel', /noopener/u)
@@ -32,7 +29,7 @@ test('release states stay distinct, readable and linked at mobile and desktop wi
         await page.evaluate(value => {
           document.documentElement.dataset.theme = value
         }, theme)
-        const accessibility = await new AxeBuilder({ page }).include('[data-project-release-split]').analyze()
+        const accessibility = await new AxeBuilder({ page }).include('[data-project-release-note]').analyze()
 
         expect(accessibility.violations).toEqual([])
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
@@ -44,9 +41,9 @@ test('release states stay distinct, readable and linked at mobile and desktop wi
 test('the launched PostLens state connects to the new article and preserves the earlier article', async ({ page, request }) => {
   await page.goto('/portfolio/postlens/#available-today-and-in-development')
   await expect(page.locator('#available-today-and-in-development')).toHaveCount(1)
-  const release = page.locator('[data-project-release-split]')
+  const release = page.locator('[data-project-release-note]')
 
-  await expect(release).toContainText('Available now')
+  await expect(release).toContainText(/available now/iu)
   await expect(release).toContainText('Awaiting Meta approval')
   await expect(page.locator('main')).not.toContainText('upcoming PostLens 2')
   await release.getByRole('link', { name: 'Read the PostLens 2 launch note' }).click()
