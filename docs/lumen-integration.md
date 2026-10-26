@@ -199,6 +199,11 @@ Counts link to the existing rendered section headings; empty categories are omit
 The site owns the ruled responsive layout and quiet escape links. Native fragment
 navigation works without JavaScript, and the old closing statistics are removed.
 
+`TechnologyArchiveChapter` supplies the site-owned **Evidence chapters** composition
+for each gallery introduction. Semantic headings retain their fragment IDs; count
+labels come from the rendered groups. Its scoped responsive styles use the shared
+semantic tokens, while `ProjectsGallery` keeps the existing Lumen card composition.
+
 The **Search dock** composition keeps the existing Lumen `Input` and technology
 controller inside the catalog's Lumen `Card`. Its native label, decorative `Icon`,
 and live count form one shaped search surface. The count and unit update inside an
