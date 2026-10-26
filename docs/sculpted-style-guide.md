@@ -1852,6 +1852,16 @@ Projects, including complete card descriptions, open surfaces, plain technology
 labels, and a continuous keyboard outline. Project-colored hover and focus headings
 use the palette's readable color for the active theme.
 
+The archive opening uses **Evidence index**: keep the shared editorial hero, use
+“Technology evidence” and “In practice.”, and derive its entry count and category
+description from the rendered collection. A ruled index presents Work experience,
+Projects, and Community counts as native links to their existing section headings.
+Omit empty groups and adapt singular copy; do not repeat statistics at the page end.
+Retain the existing gallery order. All technologies and Portfolio sit below as
+quiet text links. At less than 32rem of hero width, stack the index into count,
+label, and arrow rows. Keep visible focus, enlarged-text reflow, and heading
+clearance below the fixed navigation; no client script is needed.
+
 Featured portfolio cards combine Layered editorial with the horizontal overlap of
 Home's Offset spread. At 56rem of card width, artwork occupies the left side while
 the content sheet overlaps its right edge. The complete description, metrics, and

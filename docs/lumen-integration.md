@@ -193,6 +193,12 @@ the layout wraps on mobile and desktop and requires no additional client JavaScr
 
 ## Technology index search
 
+Technology archive openings use **Evidence index**, composed from the shared
+`PageHero` after-description slot and public Lumen `Link` and `Icon` primitives.
+Counts link to the existing rendered section headings; empty categories are omitted.
+The site owns the ruled responsive layout and quiet escape links. Native fragment
+navigation works without JavaScript, and the old closing statistics are removed.
+
 The **Search dock** composition keeps the existing Lumen `Input` and technology
 controller inside the catalog's Lumen `Card`. Its native label, decorative `Icon`,
 and live count form one shaped search surface. The count and unit update inside an

@@ -20,6 +20,7 @@ const hasMetaItems = metaItems.length > 0
     <span class="editorial-page-emphasis">{gradientText}</span>
   </h1>
   <p class="editorial-page-description">{description}</p>
+  <slot name="after-description" />
   {hasActions && <div class="editorial-page-actions section-actions"><slot /></div>}
   {hasMetaItems && (
     <ul class="editorial-page-meta">
