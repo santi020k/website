@@ -20,6 +20,8 @@ current `Props` interface before using it.
 | Homepage writing rows | `pages/home/HomeWriting.astro` |
 | Homepage community links | `pages/home/HomeCommunity.astro` |
 | Shared section introduction | `molecules/SectionHeader.astro` |
+| Article and project contents | `molecules/ReadingContents.astro` |
+| Mobile reading contents wrapper | `molecules/ReadingChapterOpener.astro` |
 | Supporting page introduction | `molecules/PageHero.astro` |
 | Article listings | `organisms/PostsGallery.astro` |
 | Project listings | `organisms/ProjectsGallery.astro` |

@@ -39,12 +39,15 @@ or oversized gradient headings from historical versions of the site.
 
 ## Components and composition
 
+- Check approved treatments and their shared components before proposing a new design.
+  Reuse the existing component when it serves the same purpose on another page.
 - Prefer `PageSection`, `SectionHeader`, and the existing page-specific section headings.
 - Use `ProjectsGallery` and `PostsGallery` for collection layouts.
 - Use Lumen `Card` when a distinct content surface is needed, with site-owned composition.
 - Use the local `Button` and `ButtonLink` wrappers for the existing sculpted action styles.
 - Use `Pill` for project status labels, `SculptedTag` for linked topics and technology counts,
-  and `TocCard` for reading navigation.
+  and `ReadingContents` for shared article and project navigation, embedded in
+  `ReadingChapterOpener` on stacked layouts.
 - Retain `glass-pro` only where the current reading surfaces use it; it is not the default card.
 
 The retained layout utilities include `section-container-wide`, `section-copy`, `section-actions`,

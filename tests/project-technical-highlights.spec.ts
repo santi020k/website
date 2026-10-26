@@ -73,10 +73,10 @@ test('technology connections match real destination counts and preserve chapter 
   }
   for (const chapter of chapters) {
     await page.goto(`${route}#${chapter.id}`)
-    await expect(page.locator(`[data-project-chapters] a[href="#${chapter.id}"]`)).toHaveAttribute('aria-current', 'location')
+    await expect(page.locator(`[data-project-desktop-toc] [data-reading-contents] a[href="#${chapter.id}"]`)).toHaveAttribute('aria-current', 'location')
     await expect(page.locator(`#${chapter.id}`)).toBeInViewport()
   }
-  await expect(page.locator('[data-project-chapters] a[href*="-group-"]')).toHaveCount(0)
+  await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a[href*="-group-"]')).toHaveCount(0)
 })
 
 test('technology connections work without JavaScript', async ({ browser }) => {

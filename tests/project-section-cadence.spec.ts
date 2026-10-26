@@ -32,9 +32,9 @@ for (const theme of ['light', 'dark']) {
 
       await expect(heading).toHaveCount(1)
       await expect(heading).toHaveAttribute('id', section.id)
-      await expect(page.locator(`[data-project-chapters] a[href="#${section.id}"]`)).toHaveCount(1)
+      await expect(page.locator(`[data-project-desktop-toc] [data-reading-contents] a[href="#${section.id}"]`)).toHaveCount(1)
     }
-    await expect(page.locator('[data-project-chapters] a')).toHaveCount(13)
+    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(13)
     await expect(page.getByRole('heading', { name: 'Technical highlights', exact: true })).toBeAttached()
     await expect(page.getByRole('heading', { name: 'Inside the product', exact: true })).toBeAttached()
 
@@ -76,9 +76,9 @@ for (const theme of ['light', 'dark']) {
 
       await expect(heading).toHaveCount(1)
       await expect(heading).toHaveAttribute('id', section.id)
-      await expect(page.locator(`[data-project-chapters] a[href="#${section.id}"]`)).toHaveCount(1)
+      await expect(page.locator(`[data-project-desktop-toc] [data-reading-contents] a[href="#${section.id}"]`)).toHaveCount(1)
     }
-    await expect(page.locator('[data-project-chapters] a')).toHaveCount(7)
+    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(7)
     await expect(page.getByRole('heading', { name: 'Inside the product', exact: true })).toHaveCount(1)
     await expect(page.getByRole('heading', { name: 'Outcomes', exact: true })).toHaveCount(1)
 
@@ -125,7 +125,7 @@ test('Lumen subsection destinations remain usable without JavaScript', async ({ 
     await page.goto('/portfolio/lumen-ui/')
     const navigation = page.locator('[data-project-mobile-toc]')
 
-    await navigation.locator('summary').click()
+    await navigation.locator('[data-toc-summary]').click()
     await navigation.getByRole('link', { name: section.title, exact: true }).click()
     await expect(page).toHaveURL(new RegExp(`#${section.id}$`, 'u'))
     await expect(page.getByRole('heading', { level: 3, name: section.title, exact: true })).toBeInViewport()

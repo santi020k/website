@@ -959,66 +959,58 @@ includes Lighthouse, Time to Interactive, accessibility, and First Contentful Pa
 Pass the old section fragment as the card's optional `id` when removing a heading,
 so existing links still reach the consolidated evidence. Preserve `#sidebar-outcomes`.
 
-### Margin rail table of contents
+### Shared reading contents
 
-Article navigation and the mobile project list use Lumen Anchor inside an opaque, asymmetric panel.
-Place the 0.75rem purple On this page label opposite the list icon. A fine vertical
-rule organizes the complete heading list: level-two links use 1rem text, and nested
-headings use 0.8125rem text with a deeper inset. A 3px purple marker sits on the rule
-beside the current heading. Use accent in dark mode and keep visible keyboard focus.
+Articles and projects use `ReadingContents`, based on Smith's approved Chapter groups
+and Captioned chapters. Keep one component, grouping utility, and controller for both
+page families. Retire the older flat Margin rail implementation rather than maintaining
+another navigation design. Reuse an approved composition before proposing a new one
+when its content and interaction contract already fit.
 
-Keep native fragment links, Lumen's scroll spy, 2.75rem minimum targets, and reduced
-motion. Below 16rem of available rail width, tighten panel and link insets. Navigation
-must remain usable in short, independently scrolling desktop rails and with enlarged text.
-Below 9rem of rail width, tighten the insets and link type further; block text flow
-keeps long headings within their link and preserves native fragment navigation.
-Reading pages fully disable CSS transitions with reduced motion, including inherited text
-size transitions, so native fragment targets remain stable when text is enlarged.
+Group each level-two heading with its following level-three sections inside native
+Lumen Collapsible components. Headings without subsections remain direct links; keep
+leading level-three headings reachable without inventing a parent. The opaque panel
+uses the approved asymmetric corners, 0.75rem purple label, and fine rules between
+chapters. Use 0.875rem chapter summaries, 0.8125rem section links, and 2.75rem minimum
+interactive targets. Each expanded chapter starts with a named overview link to its
+original heading. Keep the current section's 3px margin marker and accent in dark mode.
 
-When a project has no headings, omit the table of contents without a replacement card
-or empty-state notice. Begin the sidebar with Focus. Keep the sidebar's normal spacing;
-do not reserve a gap for absent navigation. Articles likewise omit empty navigation.
+Captioned chapters separates a `Name: description` chapter summary into a 1rem name
+at weight 500 and a 0.75rem description in `ink-soft`. Preserve the full heading text,
+accessible punctuation, and existing fragment. Display its caption in sentence case;
+name the overview link after the chapter, such as F.W. Webb overview. Ordinary chapter
+headings retain a single label. Derive every label from the authored heading.
+
+Single-chapter outlines start expanded. Lumen Anchor owns current-section tracking;
+the shared custom element follows its public `aria-current` marker to open the owning
+chapter. Previously automatic chapters close as reading moves on, unless the reader
+has toggled them, selected a chapter link, or focus remains inside. Manual closing is respected until the active
+section changes. Direct hashes open the inner chapter. Disconnect the observer and
+fragment listener when Astro removes the component. Keep native disclosures and links
+usable without JavaScript.
+
+Below 16rem of rail width, tighten panel and link insets. Below 9rem, tighten them
+again so enlarged text can wrap. Preserve visible keyboard focus in short, independently
+scrolling desktop rails. Reading pages disable transitions under reduced motion so
+native fragment targets remain stable when text is enlarged. Omit empty navigation
+without a replacement card or reserved gap; project sidebars then begin with Focus.
 
 ### Chapter opener reading navigation
 
-In stacked project and article reading layouts, place navigation immediately before
-Work notes or the article opening. Use a closed native Lumen Collapsible with
-the On this page label, a count of top-level sections, and a downward chevron. Its
-opaque panel shares the Margin rail corners, border, and 0.75rem label; the summary
-has a 4.25rem minimum height. Opening it reveals the complete heading list, including
-subsections, with the existing Margin rail spacing and active marker.
+In stacked article and project layouts, `ReadingChapterOpener` places navigation before
+the article opening or Work notes. Its closed native Lumen Collapsible shows On this
+page, the top-level section count, and a downward chevron. Retain the opaque panel,
+asymmetric corners, 0.75rem label, and 4.25rem minimum summary height.
 
-Switch to the project's Chapter groups or the article's Margin rail only when the reading layout has both
-a 64rem viewport and a 56rem container. Hide the other copy with CSS so only one
-navigation is available to keyboard and assistive technology. Reuse the same heading
-data and Lumen Anchor behavior. Preserve fragment links
-without JavaScript, enlarged-text reflow, and omission when no eligible headings exist.
+Opening it reveals the same `ReadingContents` used on desktop, including collapsible
+chapters where subsections exist. Embedded contents omit their own panel and title.
+The outer opener remains under reader control even when a hash or scroll-spy change
+opens an inner chapter. Scope the two disclosure levels separately.
 
-### Chapter groups desktop project navigation
-
-Group each level-two project heading with its following level-three sections inside
-native Lumen Collapsible components. Chapters without subsections remain direct links. Keep
-leading level-three headings as direct links rather than inventing a parent.
-The opaque panel uses the Margin rail corners, 0.75rem purple label, and fine rules
-between chapters. Use 0.875rem chapter summaries, 0.8125rem section links, and 2.75rem
-minimum targets. Each expanded chapter begins with a named Chapter overview link
-to its original heading. Keep the current section's 3px margin marker.
-
-Captioned chapters separates a `Name: description` chapter summary into a 1rem
-client name at weight 500 and a 0.75rem description in `ink-soft`. Keep the full
-heading text and punctuation accessible, with the caption displayed in sentence
-case. Name its overview link after the client, such as F.W. Webb overview. Derive
-both lines from the authored heading; ordinary chapter headings retain their single
-label. Preserve complete text, the existing fragment, and the original group behavior.
-
-Single-chapter projects begin expanded. Lumen Anchor still owns current-section
-tracking; a small custom element follows its public `aria-current` marker to open
-the owning chapter. Previously automatic chapters close as reading moves on, unless
-the reader has toggled them or focus remains inside. Manual closing is respected
-until the active section changes. Direct hashes open their chapter, and native
-disclosures and fragment links continue working without JavaScript. Disconnect the
-observer and fragment listener when Astro removes the component. The mobile Chapter
-opener and article lists retain their complete Margin rail layout.
+Show the desktop rail only when the reading layout has both a 64rem viewport and a
+56rem container. Hide the other copy with CSS so only one navigation is available to
+keyboard and assistive technology. Preserve no-JavaScript navigation, enlarged-text
+reflow, and omission when no eligible headings exist.
 
 ### Margin chapters case study summaries
 
@@ -2193,7 +2185,7 @@ status, and retain the compact footer on both recovery pages.
 - Webmention likes and replies expose section headings with the existing label typography.
   Displayed dates retain their readable format and carry a valid ISO `datetime` value.
 
-Consumer-owned `data-site-eyebrow` and `data-editorial-toc` attributes provide stable
+Consumer-owned `data-site-eyebrow` and `data-reading-contents` attributes provide stable
 styling boundaries where the Lumen component does not expose a `data-slot`. Other composed
 surfaces use Lumen's documented Card, Stat, and ButtonLink slots. Do not target private
 library implementation classes to extend this appearance.

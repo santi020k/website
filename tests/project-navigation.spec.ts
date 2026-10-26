@@ -5,7 +5,7 @@ import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibili
 const route = '/portfolio/smith-commerce/'
 
 const openTechnicalChapter = async (page: Page) => {
-  const chapter = page.locator('[data-project-desktop-toc] details').filter({ has: page.locator('a[href="#technical-highlights"]') })
+  const chapter = page.getByRole('navigation', { name: 'Table of contents' }).locator('[data-chapter-group]').filter({ has: page.locator('a[href="#technical-highlights"]') })
 
   if (await chapter.isVisible() && await chapter.getAttribute('open') === null) await chapter.locator('summary').click()
 }
@@ -13,7 +13,7 @@ const openTechnicalChapter = async (page: Page) => {
 const expectNavigationPlacement = async (page: Page, browserName: string) => {
   const opener = page.locator('[data-project-mobile-toc]')
   const desktop = page.locator('[data-project-desktop-toc]')
-  const summary = opener.locator('summary')
+  const summary = opener.locator('[data-toc-summary]')
   const stacked = await page.locator('[data-reading-body]').evaluate(element => (
     getComputedStyle(element).gridTemplateColumns.split(' ').length === 1
   ))
@@ -30,7 +30,7 @@ const expectNavigationPlacement = async (page: Page, browserName: string) => {
     })).toBe(true)
     await summary.focus()
     await page.keyboard.press('Enter')
-    await expect(opener.locator('details')).toHaveAttribute('open', '')
+    await expect(opener.locator('[data-toc-opener]')).toHaveAttribute('open', '')
     await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
     await expect(opener.getByRole('link').first()).toBeFocused()
   } else {
@@ -44,9 +44,9 @@ const closeOpener = async (page: Page) => {
 
   if (!await opener.isVisible()) return
 
-  await opener.locator('summary').focus()
+  await opener.locator('[data-toc-summary]').focus()
   await page.keyboard.press('Space')
-  await expect(opener.locator('details')).not.toHaveAttribute('open', '')
+  await expect(opener.locator('[data-toc-opener]')).not.toHaveAttribute('open', '')
   await expect(page.getByRole('navigation', { name: 'Table of contents' })).toHaveCount(0)
 }
 
@@ -113,7 +113,7 @@ test('project chapter opener and fragment links work without JavaScript', async 
   await page.keyboard.press('Enter')
   const navigation = page.getByRole('navigation', { name: 'Table of contents' })
 
-  await expect(navigation.getByRole('link')).toHaveCount(13)
+  await expect(navigation.locator('a')).toHaveCount(13)
   await navigation.getByRole('link', { name: 'Why this experience matters', exact: true }).click()
   await expect(page).toHaveURL(/#why-this-experience-matters$/u)
   await expect(page.locator('#why-this-experience-matters')).toBeInViewport()

@@ -3,8 +3,8 @@ import type { MarkdownHeading } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
-import ProjectChapterGroups from '@/components/molecules/ProjectChapterGroups.astro'
 import ProjectFocusCard from '@/components/molecules/ProjectFocusCard.astro'
+import ReadingContents from '@/components/molecules/ReadingContents.astro'
 
 interface Props {
   headings: MarkdownHeading[]
@@ -17,7 +17,7 @@ const { headings, project } = Astro.props
 <aside aria-label="Project details" class="min-w-0 space-y-5" data-project-sidebar data-reading-rail>
   {headings.some(heading => heading.depth <= 3) && (
     <div data-project-desktop-toc>
-      <ProjectChapterGroups headings={headings} />
+      <ReadingContents headings={headings} />
     </div>
   )}
 

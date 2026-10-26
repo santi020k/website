@@ -1,12 +1,12 @@
 import type { MarkdownHeading } from 'astro'
 
-interface ProjectChapter {
+interface ReadingChapter {
   heading: MarkdownHeading
   sections: MarkdownHeading[]
 }
 
-export const getProjectChapters = (headings: MarkdownHeading[]): ProjectChapter[] => {
-  const chapters: ProjectChapter[] = []
+export const getReadingChapters = (headings: MarkdownHeading[]): ReadingChapter[] => {
+  const chapters: ReadingChapter[] = []
 
   for (const heading of headings.filter(item => item.depth <= 3)) {
     const previous = chapters.at(-1)

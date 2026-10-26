@@ -22,7 +22,7 @@ for (const theme of ['light', 'dark']) {
       localStorage.setItem('theme', value)
     }, theme)
     await page.goto(`${route}#core-challenge`)
-    const rail = page.locator('[data-project-chapters]')
+    const rail = page.locator('[data-project-desktop-toc] [data-reading-contents]')
     const marcone = rail.locator('details').nth(0)
     const webb = rail.locator('details').nth(1)
 
@@ -91,7 +91,7 @@ for (const theme of ['light', 'dark']) {
       }, textSize)
       await page.goto(`${route}#inside-the-product`)
       await page.evaluate(() => document.fonts.ready)
-      const navigation = page.locator('[data-project-chapters]')
+      const navigation = page.locator('[data-project-desktop-toc] [data-reading-contents]')
 
       await expect(navigation).toBeVisible()
       const summary = navigation.locator('summary').first()
@@ -118,7 +118,7 @@ for (const theme of ['light', 'dark']) {
 test('a single chapter begins expanded and its overview remains a native destination', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/portfolio/lumen-ui/')
-  const chapter = page.locator('[data-project-chapters] details')
+  const chapter = page.locator('[data-project-desktop-toc] [data-reading-contents] details')
 
   await expect(chapter).toHaveCount(1)
   await expect(chapter).toHaveAttribute('open', '')
@@ -134,7 +134,7 @@ test('desktop chapters and their section destinations work without JavaScript', 
   try {
     await page.goto(route)
     await page.evaluate(() => document.fonts.ready)
-    const chapter = page.locator('[data-project-chapters] details').first()
+    const chapter = page.locator('[data-project-desktop-toc] [data-reading-contents] details').first()
 
     await chapter.locator('summary').focus()
     await page.keyboard.press('Enter')
@@ -171,11 +171,11 @@ test('chapter groups reinitialize after client navigation and fragment history',
 
     return typeof value === 'string' ? value : null
   })).toBe(lifecycleToken)
-  const group = page.locator('[data-project-chapters] details').nth(1)
+  const group = page.locator('[data-project-desktop-toc] [data-reading-contents] details').nth(1)
 
   // Back restores the position where the related card was opened. Follow native
   // links on the restored page so Astro records each entry's scroll position.
-  await expect(page.locator('[data-project-chapters] a[href="#why-this-experience-matters"]'))
+  await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a[href="#why-this-experience-matters"]'))
     .toHaveAttribute('aria-current', 'location')
   await page.locator('#inside-the-product').evaluate(element => {
     element.scrollIntoView()

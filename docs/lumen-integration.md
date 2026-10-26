@@ -217,23 +217,19 @@ enlarged text sizes. No new client controller is introduced.
   responsive grid, optimized Astro cover images, complete editorial copy, numbered header, and focus treatment.
 - About-page supplementary cards use Lumen `Note` directly.
 - The About hero availability status uses Lumen `Marker`.
-- The article and project table of contents use Lumen `Anchor` and its shared scroll-spy runtime,
-  with the temporary runtime patch described below. `TocCard` supplies the Margin rail panel,
-  nested link spacing, and active rule through local styles without another controller.
-  Stacked project and article pages use `ProjectChapterOpener` to compose the same list inside
-  a native Lumen `Collapsible` before the notes header. CSS follows the reading-layout breakpoint
-  to expose either this disclosure or the desktop rail, never both at once. Both
-  copies reuse the heading data and Lumen's per-Anchor scroll-spy scope.
-  The desktop `ProjectChapterGroups` composes native Lumen `Collapsible` chapters
-  around those same fragment links. Its custom element observes Anchor's public
-  `aria-current` attribute to reveal the current chapter, without calculating scroll
-  positions or adding a second scroll-spy. It preserves manual choices and focused
-  chapters, opens incoming hashes, and cleans up on disconnection. A single chapter
-  starts expanded; headings without children stay direct links. Articles and the
-  mobile Chapter opener keep `TocCard`.
-  Captioned chapters derives the name and subtitle from colon-separated chapter
-  headings, with named overview links. It preserves the full summary's accessible
-  text, existing fragments, and the same Collapsible and Anchor runtime contracts.
+- Articles and projects share `ReadingContents`, derived from Smith's approved Chapter
+  groups and Captioned chapters. It composes Lumen `Anchor` and native `Collapsible`
+  chapters from `getReadingChapters`; sections without children remain direct links.
+  Colon-separated chapter names retain their captions and named overview links.
+  `ReadingChapterOpener` embeds the same component without a second panel or title
+  in its closed mobile disclosure. Both layouts use the same heading data and runtime;
+  CSS exposes one navigation at a time. The former `TocCard` implementation is removed.
+  The custom element follows Anchor's public `aria-current` marker to reveal the
+  current chapter without computing another scroll position. It preserves manual
+  choices and focus, opens incoming hashes, and cleans up on disconnection. Only
+  inner chapter disclosures follow reading position; the outer mobile opener stays
+  reader-controlled. A single chapter starts expanded, and native links and details
+  remain usable without JavaScript. The version-pinned Anchor patch is documented below.
   The site's reading page boundary also sets `font-size: 1rem` explicitly: in WebKit,
   relying on inheritance left descendant layout stale
   after root text resizing during client navigation, shifting native fragment targets. This

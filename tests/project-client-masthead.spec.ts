@@ -30,7 +30,7 @@ for (const theme of ['light', 'dark']) {
           await expect(heading).toHaveText(chapter.title)
           await expect(heading).toHaveRole('heading')
           await expect(masthead.getByText(`Client project ${chapter.sequence}`, { exact: true })).toBeVisible()
-          await expect(page.locator(`[data-project-chapters] a[href="#${chapter.id}"]`)).toHaveCount(1)
+          await expect(page.locator(`[data-project-desktop-toc] [data-reading-contents] a[href="#${chapter.id}"]`)).toHaveCount(1)
           expect(await masthead.locator('h2, p, [data-client-name], [data-client-subtitle]').evaluateAll(elements => elements.every(element => element.scrollWidth <= element.clientWidth + 1))).toBe(true)
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
@@ -50,7 +50,7 @@ for (const javaScriptEnabled of [true, false]) {
     try {
       await page.goto(route)
       for (const chapter of chapters) {
-        const group = page.locator('[data-project-chapters] details').filter({ has: page.locator(`a[href="#${chapter.id}"]`) })
+        const group = page.locator('[data-project-desktop-toc] [data-reading-contents] details').filter({ has: page.locator(`a[href="#${chapter.id}"]`) })
         const summary = group.locator('summary')
 
         await summary.focus()
