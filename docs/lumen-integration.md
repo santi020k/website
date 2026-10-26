@@ -212,6 +212,13 @@ prefix adds context without replacing the link's visible name or adding a nested
 Keep the archive list unnamed so its technology labels remain in the wrapping link's
 accessible name; an `aria-label` on that list would replace them during name computation.
 
+`TechnologyStackConnections` supplies the **Stack connections** archive ending using
+native Lumen `Link` and decorative `Icon` primitives. `getTechnologyConnections`
+derives shared-entry counts from the visible published entries, deduplicates aliases
+by canonical slug, and excludes the selected technology. The site owns the open
+heading, ruled grid, responsive wrapping, and closing navigation. Links work without
+JavaScript; archives with no connections omit the section.
+
 The **Search dock** composition keeps the existing Lumen `Input` and technology
 controller inside the catalog's Lumen `Card`. Its native label, decorative `Icon`,
 and live count form one shaped search surface. The count and unit update inside an

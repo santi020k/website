@@ -1925,6 +1925,15 @@ Use a fine closing rule, 1.75rem lower inset, and a 2rem column gap; below 40rem
 chapter width, stack the heading above the description with a 1.25rem gap. Retain
 the shared gallery and its spacing below the introduction.
 
+Archive endings use **Stack connections**: an open “Used alongside” heading followed
+by up to six related technology links in a ruled two-column ledger. Derive counts
+from the visible archive entries, counting each canonical technology once per entry;
+exclude the selected technology and sort by shared count, then canonical slug.
+Use singular entry copy and identify page-local counts on paginated archives.
+Keep All technologies and Browse portfolio as quiet closing links. Below 36rem,
+use one column; keep full names, counts, native links, and visible keyboard focus.
+Omit the section when no connected technologies exist. No client script is needed.
+
 Featured portfolio cards combine Layered editorial with the horizontal overlap of
 Home's Offset spread. At 56rem of card width, artwork occupies the left side while
 the content sheet overlaps its right edge. The complete description, metrics, and

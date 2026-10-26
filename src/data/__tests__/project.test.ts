@@ -6,6 +6,7 @@ import { describe, expect, test } from 'vitest'
 
 import {
   getAllTechnologies,
+  getTechnologyConnections,
   getUniqueTechnologies,
   getUniqueTechnologiesWithCount
 } from '../project'
@@ -55,6 +56,39 @@ const makeProjects = (technologies: string[][]) => technologies.map((projectTech
   id: `project-${index + 1}`,
   technologies: projectTechnologies
 }))
+
+describe('getTechnologyConnections', () => {
+  test('counts shared entries, deduplicates aliases, excludes the archive itself and sorts ties by slug', () => {
+    const projects = makeProjects([
+      ['React.js', 'CI-CD', 'CI/CD', 'TypeScript', 'TypeScript'],
+      ['React.js', 'TypeScript', 'ESLint'],
+      ['React.js', 'Next.js'],
+      ['Swift', 'Metal']
+    ])
+    const original = structuredClone(projects)
+
+    expect(getTechnologyConnections(projects, 'react-js')).toEqual([
+      ['TypeScript', 2], ['CI/CD', 1], ['ESLint', 1], ['Next.js', 1]
+    ])
+    expect(projects).toEqual(original)
+    expect(getTechnologyConnections(projects, 'CI/CD')).toEqual([['React.js', 1], ['TypeScript', 1]])
+  })
+
+  test('does not include drafts or technologies outside the supplied entries', () => {
+    const projects = [
+      makeProject({ technologies: ['React.js', 'TypeScript'] }),
+      makeProject({ id: 'draft', draft: true, technologies: ['React.js', 'SecretTool'] })
+    ]
+
+    expect(getTechnologyConnections(projects, 'React.js')).toEqual([['TypeScript', 1]])
+  })
+
+  test('returns no connections for empty, unknown or isolated technology archives', () => {
+    expect(getTechnologyConnections([], 'React.js')).toEqual([])
+    expect(getTechnologyConnections(makeProjects([['React.js']]), 'React.js')).toEqual([])
+    expect(getTechnologyConnections(makeProjects([['React.js', 'TypeScript']]), 'Unknown')).toEqual([])
+  })
+})
 
 // ─── getAllTechnologies ───────────────────────────────────────────────────────
 

@@ -1,0 +1,135 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import { getTechnologyPath } from '@/utils/links'
+
+import { Icon, Link } from '@santi020k/lumen-astro'
+
+import { getTechnologyConnections } from '@/data/project'
+
+interface Props {
+  projects: CollectionEntry<'project'>[]
+  technology: string
+  paginated?: boolean
+}
+
+const { projects, technology, paginated = false } = Astro.props
+const connections = getTechnologyConnections(projects, technology).slice(0, 6)
+const entryContext = projects.length === 1 ? 'this entry' : `these ${projects.length} entries`
+---
+
+{connections.length > 0 && (
+  <section
+    aria-labelledby="stack-connections-heading"
+    class="section-container-wide page-section-space"
+    data-stack-connections
+  >
+    <div data-stack-connections-content>
+      <p data-stack-connections-eyebrow>Connected technologies</p>
+      <h2 id="stack-connections-heading">Used alongside {technology}</h2>
+      <p data-stack-connections-description>
+        Other technologies listed in {entryContext}{paginated ? ' on this page' : ''}.
+      </p>
+      <ul aria-label={`Technologies shared with ${technology}`} data-stack-connections-list>
+        {connections.map(([label, count]) => (
+          <li>
+            <Link href={getTechnologyPath(label)} variant="inherit">
+              <span data-stack-connection-label>{label}</span>
+              <Icon name="arrow-right" />
+              <span data-stack-connection-count>{count} shared {count === 1 ? 'entry' : 'entries'}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <nav aria-label="Explore more work" data-stack-connections-return>
+        <Link href="/technologies/" variant="inherit">All technologies<Icon name="arrow-right" /></Link>
+        <Link href="/portfolio/" variant="inherit">Browse portfolio<Icon name="arrow-right" /></Link>
+      </nav>
+    </div>
+  </section>
+)}
+
+<style>
+  [data-stack-connections] { container: stack-connections / inline-size; }
+  [data-stack-connections-content] { max-width: 56rem; }
+  [data-stack-connections-eyebrow] {
+    margin-bottom: 1.5rem;
+    color: hsl(var(--accent));
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.8;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+  h2 {
+    max-width: 24ch;
+    scroll-margin-top: 7rem;
+    color: hsl(var(--ink));
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.055em;
+    overflow-wrap: anywhere;
+  }
+  [data-stack-connections-description] {
+    margin-block: 1.25rem 2rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.9375rem;
+    line-height: 1.85;
+  }
+  [data-stack-connections-list] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 2rem;
+  }
+  [data-stack-connections-list] :global(a) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    height: 100%;
+    padding-block: 1.25rem;
+    border-top: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+    text-decoration: none;
+  }
+  [data-stack-connection-label] { font-size: 1.125rem; line-height: 1.5; overflow-wrap: anywhere; }
+  [data-stack-connection-count] {
+    grid-column: 1;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+  }
+  [data-stack-connections-list] :global(svg) { color: hsl(var(--accent)); }
+  [data-stack-connections-return] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    margin-top: 1.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid hsl(var(--line));
+  }
+  [data-stack-connections-return] :global(a) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    text-decoration: none;
+  }
+  [data-stack-connections] :global(a:is(:hover, :focus-visible)) { color: hsl(var(--accent)); }
+  [data-stack-connections-list] :global(a:is(:hover, :focus-visible)) [data-stack-connection-label],
+  [data-stack-connections-return] :global(a:is(:hover, :focus-visible)) {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+  [data-stack-connections] :global(a:focus-visible) {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 4px;
+  }
+  @container stack-connections (width < 36rem) {
+    [data-stack-connections-list] { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

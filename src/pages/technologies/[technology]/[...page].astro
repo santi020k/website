@@ -5,6 +5,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import PageHero from '@/components/molecules/PageHero.astro'
 import TechnologyArchiveChapter from '@/components/molecules/TechnologyArchiveChapter.astro'
+import TechnologyStackConnections from '@/components/molecules/TechnologyStackConnections.astro'
 import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -157,6 +158,7 @@ const meta = {
     </section>
   )}
 
+  <TechnologyStackConnections paginated={page.lastPage > 1} projects={page.data} technology={technology} />
 </PageLayout>
 
 <style>
