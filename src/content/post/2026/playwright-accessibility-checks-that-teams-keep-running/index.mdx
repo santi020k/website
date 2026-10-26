@@ -1,0 +1,102 @@
+---
+title: "Playwright Accessibility Checks That Teams Keep Running"
+seoTitle: "Playwright Accessibility Testing: axe and Keyboard Checks"
+description: "Run tested Playwright and axe examples for page scans, dialog focus, and skip links, then use a keyboard checklist to review what automation cannot prove."
+publishDate: "2026-05-15T15:00:00.000Z"
+updatedDate: "2026-10-25"
+coverImage:
+  alt: "A browser workflow passing keyboard, structure, contrast, and audit checkpoints"
+  src: "./cover.webp"
+tags: ["accessibility", "playwright", "testing", "e2e", "developer-experience"]
+postType: "Guide"
+seriesId: "building-a-production-nextjs-app"
+seriesOrder: 8
+---
+
+import { Code } from '@santi020k/lumen-astro'
+import scanExample from '../../../../../tests/accessibility-guide/scan.spec.ts?raw'
+import dialogExample from '../../../../../tests/accessibility-guide/dialog.spec.ts?raw'
+import skipLinkExample from '../../../../../tests/accessibility-guide/skip-link.spec.ts?raw'
+
+A page can pass an automated accessibility scan while its dialog loses keyboard focus. A skip link can look correct while leaving focus in the header. I want tests that tell me whether a person can complete the next step.
+
+This guide combines axe scans with explicit keyboard assertions against this website. The code blocks below render the same test files that run in its Playwright suite. You can reproduce them locally, then adapt the routes, accessible names, and expected focus order to your own application.
+
+## Run the examples locally
+
+Use Node.js 24 or later and the repository's pinned pnpm 11.25.0. Clone the [website repository](https://github.com/santi020k/website), or use an existing checkout containing this guide:
+
+```bash title="terminal"
+git clone https://github.com/santi020k/website.git
+cd website
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm run build
+SKIP_BUILD=1 pnpm run test:e2e tests/accessibility-guide --project=chromium --workers=1 --retries=0
+```
+
+In an existing checkout, skip the clone and directory-change commands. The repository already includes Playwright and `@axe-core/playwright`. Its configuration starts the production preview and supplies `baseURL`; the tests use local routes, not the public website. The search tests intercept only the search-index response to make empty and failure states repeatable.
+
+For an existing Playwright project, install `@axe-core/playwright` as a development dependency with your package manager. Copy an example into your test directory and adapt its application contract. These selectors describe this site's search UI; they are not universal dialog selectors.
+
+## Scan a stable page in both themes
+
+This example waits for a visible page heading and loaded fonts, then checks the article in light and dark themes. It requests axe's WCAG 2.0, 2.1, and 2.2 A/AA rule tags. A passing assertion means those enabled rules found no violations in the scanned state; it does not establish WCAG conformance.
+
+<Code className="not-prose" theme="santi020k" code={scanExample} language="typescript" label="tests/accessibility-guide/scan.spec.ts" codeLabel="Page accessibility scan example" variant="block" copy />
+
+Keep the `incomplete` results for human review: they are checks axe could not decide automatically. The attachment also preserves violation details for diagnosis. Use synthetic accounts and data in authenticated tests, because reports and traces can contain page content.
+
+Reduced motion makes this particular scan deterministic. Test the ordinary motion path separately, especially when transitions affect focus or expose controls. Wait for meaningful UI states instead of adding a fixed sleep. A loading state that people can interact with also deserves its own checks.
+
+The [Playwright accessibility guide](https://playwright.dev/docs/accessibility-testing) explains axe integration and scan scope. Static diagnostics such as [Astro Doctor's source checks](/blog/astro-doctor-announcement/) complement this browser coverage by catching some omissions earlier.
+
+## Test the whole dialog focus cycle
+
+The first test below uses an empty search index, leaving two tabbable controls: Close and the search field. It checks both boundary wraps, movement within the dialog, Escape, focus return, and keyboard activation of the Close button after reopening.
+
+Calling `focus()` deliberately isolates this component test. It does not prove that a visitor can reach the opener from the page's first Tab stop. The skip-link example in the next section starts from a fresh page without that shortcut.
+
+<Code className="not-prose" theme="santi020k" code={dialogExample} language="typescript" label="tests/accessibility-guide/dialog.spec.ts" codeLabel="Dialog focus and failure-state examples" variant="block" copy />
+
+The second test scans the visible failure state, including the retry control. Its `include()` limits the audit to the dialog; keep the full-page scan as well. Checking that the retry action exists does not prove retry recovery or its announcement: those need their own interaction and assistive-technology checks.
+
+WebKit on macOS uses Option-Tab in this suite to include links and buttons. Match keyboard-navigation settings to the browser and operating system you support, and record them during manual testing.
+
+Initial focus is a product decision. A search dialog can start in its input; a long informational dialog may need focus on its heading, and a destructive confirmation may start on its safest action. The [WAI-ARIA dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/) describes those choices and the expected keyboard cycle.
+
+This is the interaction contract behind [Lumen's shared accessibility foundations](/blog/lumen-ui-one-system-three-frameworks/#accessibility-belongs-in-the-primitive). A component library helps establish the behavior; each application still needs to verify its composition, content, and focus return destination.
+
+## Prove the skip link moves focus
+
+This example uses only keyboard input after navigation. It checks the first stop, activates the skip link, verifies focus on the main landmark, then continues to the first link in that landmark. A changed URL fragment alone would not prove this behavior.
+
+<Code className="not-prose" theme="santi020k" code={skipLinkExample} language="typescript" label="tests/accessibility-guide/skip-link.spec.ts" codeLabel="Keyboard-only skip link example" variant="block" copy />
+
+The final link expectation is specific to this homepage. In another application, name the first meaningful control after the skip destination. For a purchase, sign-in, or publishing journey, extend the sequence through completion and recovery without using `click()`, `focus()`, or `fill()` to bypass keyboard access.
+
+## Keyboard-testing checklist
+
+Run this on the important routes and states in your supported desktop browsers. Start with a fresh page and put the pointer aside. Record the browser, operating system, keyboard settings, theme, zoom level, and any failure's reproduction steps.
+
+1. **Entry:** The first Tab reveals a usable skip link. Enter moves focus to the intended content, and the next Tab continues there.
+1. **Order:** Tab and Shift+Tab follow a logical sequence. Hidden or inert controls do not receive focus, and ordinary page content does not trap it.
+1. **Visibility:** Focus stays clearly visible, including beneath sticky headers, inside scroll regions, and at enlarged text or zoom. Check both themes.
+1. **Activation:** Enter activates links. Enter and Space activate buttons. Use arrow keys for composite widgets where their documented pattern requires them.
+1. **Dialogs:** Opening moves focus to a useful destination. Both boundary wraps stay inside the modal. Escape and the visible close action work, and closing returns focus to the opener or a logical successor if it no longer exists.
+1. **Forms:** Complete the flow using the keyboard. Trigger validation errors, reach the invalid fields, correct them, and submit again without losing progress or focus.
+1. **Dynamic states:** Exercise loading, no results, network failure, and retry. Focus remains useful as controls appear, disappear, or become disabled.
+1. **Navigation:** After a route change, the focus destination and page title help orient the visitor. Browser Back leaves the page operable.
+1. **Content access:** Scroll long code examples and other overflow regions from the keyboard, then leave them normally. Inspect the page at 200% zoom and a narrow viewport for clipped controls.
+
+This is a focused review aid, not a complete conformance checklist. Pair it with manual screen-reader checks for names, roles, reading order, errors, and live announcements, plus testing with disabled users where possible. DOM assertions and screenshots cannot prove what an assistive-technology user hears. [W3C's preliminary accessibility checks](https://www.w3.org/WAI/test-evaluate/preliminary/) provide another starting point for manual assessment.
+
+## Keep the checks useful in CI
+
+Run these tests with the existing browser suite and retain actionable reports when they fail. For a supported critical flow, an unexpected violation or broken keyboard step should fail the check. Do not filter failures by severity just to obtain a green build.
+
+Start with a small set of complete journeys, fix their findings, and expand coverage. If a legacy issue needs an exception, record its exact rule and affected element, owner, and removal condition. Avoid excluding a whole page or disabling a rule across the application.
+
+Keep evidence precise: this suite exercises browser behavior and automated rules. Manual screen-reader verification and a full WCAG audit remain separate work.
+
+For component-level behavior, continue with [Vitest and React Testing Library](/blog/testing-react-components-with-vitest-and-react-testing-library/). For the release gate around these checks, see [a release process that reduces drama](/blog/a-release-process-that-reduces-drama/).
