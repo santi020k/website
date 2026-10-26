@@ -130,7 +130,8 @@
 }
 
 [data-project-desktop-toc],
-[data-post-desktop-toc] {
+[data-post-desktop-toc],
+[data-post-rail-boundary] {
   display: none;
 }
 
@@ -143,6 +144,10 @@
     [data-project-story] { grid-column: 1; grid-row: 1; }
     [data-project-reading] > [data-project-sidebar] { grid-column: 2; grid-row: 1 / span 2; }
     [data-project-closing] { grid-column: 1; grid-row: 2; }
+
+    [data-post-story] { grid-column: 1; grid-row: 1; }
+    [data-post-continuation] { grid-column: 1; grid-row: 2; }
+    [data-post-rail-boundary] { display: block; grid-column: 2; grid-row: 1; }
 
     [data-project-mobile-toc],
     [data-post-mobile-toc] {
