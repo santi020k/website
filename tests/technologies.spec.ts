@@ -36,7 +36,7 @@ test.describe('Technologies index page', () => {
     await expect(groups).toHaveCount(3)
     expect(await links.count()).toBeGreaterThan(100)
     await expect(groups.getByRole('list')).toHaveCount(3)
-    await expect(links.first()).toHaveAccessibleName(/^React\.js \d+ projects$/u)
+    await expect(links.first()).toHaveAccessibleName(/^React\.js \d+ entries$/u)
     await expect(links.first()).toHaveAttribute('href', '/technologies/react-js/')
     await expect(links.first().locator('[data-technology-project-count]')).toBeVisible()
   })

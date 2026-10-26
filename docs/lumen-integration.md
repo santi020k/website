@@ -240,7 +240,16 @@ controller in the compact `PageHero` after-description slot. Its native label, d
 and live count form one shaped search surface. The count and unit update inside an
 atomic live region, retaining the full existing result sentence for screen readers.
 The count compartment moves below the input on narrow containers. The original
-group filtering, group counts, empty state, and project links remain authoritative.
+empty state and technology destinations remain authoritative.
+
+Active technology searches use **Match ledger**: a named list under a query heading,
+with technology, recurrence group, portfolio-entry count, and a decorative arrow.
+The existing controller moves matching Lumen `Link` rows into the result list;
+it does not clone links or introduce a second dataset. Clearing the query restores
+every row to its original Margin catalog group and order. Counts retain their
+per-entry meaning, including work and community. Query headings use `textContent`,
+and the live count and input focus remain stable. Without JavaScript, the complete
+server-rendered grouped catalog remains available.
 
 ## Blog topics search and sort
 

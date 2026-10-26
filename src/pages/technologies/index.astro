@@ -113,6 +113,13 @@ name="arrow-right"
   <PageSection layout="stacked">
     <Card class="p-0" data-technology-catalog variant="muted">
       <div data-technology-index>
+        <section aria-labelledby="technology-matches-heading" data-technology-matches hidden>
+          <header data-technology-matches-header>
+            <h2 id="technology-matches-heading">Matches for “<span data-technology-match-query></span>”</h2>
+            <p>Counts reflect portfolio entries</p>
+          </header>
+          <div aria-label="Matching technologies" data-technology-matches-list role="list"></div>
+        </section>
         <div data-technology-groups>
           {technologyGroups.map((group, index) => (
             <section
@@ -148,10 +155,12 @@ data-technology-group-count
                       variant="inherit"
                     >
                       <span data-technology-label>{technology}</span>{' '}
-                      <span data-technology-project-count>{count}<span class="
-                        sr-only
-                      "
-                                                                 > {count === 1 ? 'project' : 'projects'}</span></span>
+                      <span data-technology-match-group>{group.title}</span>{' '}
+                      <span data-technology-project-count>{count}<span
+class="sr-only"
+data-technology-entry-unit
+                                                                 > {count === 1 ? 'entry' : 'entries'}</span></span>
+                      <span data-technology-match-arrow><Icon class="size-4" name="arrow-up-right" /></span>
                     </Link>
                   </span>
                 ))}
@@ -209,49 +218,66 @@ data-technology-group-count
       const statusSuffix = status?.querySelector('[data-technology-result-suffix]')
       const empty = document.querySelector<HTMLElement>('[data-technologies-empty]')
       const shortcuts = document.querySelector<HTMLElement>('[data-technology-group-navigation]')
+      const matches = document.querySelector<HTMLElement>('[data-technology-matches]')
+      const matchesList = matches?.querySelector<HTMLElement>('[data-technology-matches-list]')
+      const matchesQuery = matches?.querySelector<HTMLElement>('[data-technology-match-query]')
 
-      if (!groups || !input || !statusPrefix || !statusCount || !statusUnit || !statusSuffix || !empty || groups.dataset.filterReady === 'true') return
+      if (!groups || !input || !statusPrefix || !statusCount || !statusUnit || !statusSuffix || !empty || !matches || !matchesList || !matchesQuery || groups.dataset.filterReady === 'true') return
 
       groups.dataset.filterReady = 'true'
 
-      const groupElements = groups.querySelectorAll<HTMLElement>('[data-technology-group]')
+      const catalogGroups = [...groups.querySelectorAll<HTMLElement>('[data-technology-group]')].flatMap(group => {
+        const list = group.querySelector<HTMLElement>('[data-technology-links]')
 
-      input.addEventListener('input', () => {
-        const query = input.value.trim().toLocaleLowerCase()
+        return list ? [{ list, items: [...list.querySelectorAll<HTMLElement>('[data-technology-item]')] }] : []
+      })
+
+      const updateResults = () => {
+        const queryText = input.value.trim()
+        const query = queryText.toLocaleLowerCase()
+        const searching = query.length > 0
+        const resultItems = document.createDocumentFragment()
         let visibleTotal = 0
 
-        if (shortcuts) shortcuts.hidden = query.length > 0
+        for (const { list, items } of catalogGroups) {
+          for (const item of items) {
+            const isMatch = !searching || (item.dataset.label ?? '').toLocaleLowerCase().includes(query)
 
-        groupElements.forEach(group => {
-          const groupItems = group.querySelectorAll<HTMLElement>('[data-technology-item]')
+            item.hidden = !isMatch
 
-          const count = [...groupItems].reduce((total, item) => {
-            const matches = !query || (item.dataset.label ?? '').toLocaleLowerCase().includes(query)
+            item.querySelector('[data-technology-entry-unit]')?.classList.toggle('sr-only', !searching)
 
-            item.hidden = !matches
+            if (searching && isMatch) resultItems.append(item)
+            else list.append(item)
 
-            return total + (matches ? 1 : 0)
-          }, 0)
+            if (isMatch) visibleTotal += 1
+          }
+        }
 
-          const countLabel = group.querySelector<HTMLElement>('[data-technology-group-count]')
+        matchesList.replaceChildren(resultItems)
 
-          group.hidden = count === 0
+        matchesQuery.textContent = queryText
 
-          if (countLabel) countLabel.textContent = `${count} ${count === 1 ? 'tool' : 'tools'}`
+        matches.hidden = !searching || visibleTotal === 0
 
-          visibleTotal += count
-        })
+        groups.hidden = searching
+
+        if (shortcuts) shortcuts.hidden = searching
 
         empty.hidden = visibleTotal > 0
 
-        statusPrefix.textContent = query ? '' : 'Showing all '
+        statusPrefix.textContent = searching ? '' : 'Showing all '
 
         statusCount.textContent = String(visibleTotal)
 
         statusUnit.textContent = visibleTotal === 1 ? 'technology' : 'technologies'
 
-        statusSuffix.textContent = query ? ' found.' : '.'
-      })
+        statusSuffix.textContent = searching ? ' found.' : '.'
+      }
+
+      input.addEventListener('input', updateResults)
+
+      updateResults()
     }
 
     document.addEventListener('astro:page-load', setupTechnologyIndex)
@@ -259,6 +285,30 @@ data-technology-group-count
 </PageLayout>
 
 <style>
+  [data-technology-match-group], [data-technology-match-arrow] { display: none; }
+  [data-technology-matches-header] { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem 2rem; padding-bottom: 1rem; }
+  [data-technology-matches-header] h2 { min-width: 0; margin: 0; color: hsl(var(--ink)); font-size: 1.125rem; font-weight: 500; line-height: 1.5; letter-spacing: -.03em; overflow-wrap: anywhere; }
+  [data-technology-matches-header] p { flex-shrink: 0; margin: 0; color: hsl(var(--ink-soft)); font-size: .75rem; line-height: 1.8; }
+  [data-technology-matches-list] { border-top: 1px solid hsl(var(--line)); }
+  [data-technology-matches-list] [data-technology-item] { display: block; }
+  [data-technology-matches-list] :global(a) { display: grid; grid-template-columns: minmax(0, 1fr) 6rem 6rem 1rem; align-items: center; gap: 1rem; min-height: 4.75rem; padding-block: 1.125rem; font-size: 1.125rem; font-weight: 500; line-height: 1.5; letter-spacing: -.025em; }
+  [data-technology-matches-list] [data-technology-match-group] { display: block; color: hsl(var(--ink-soft)); font-size: .75rem; font-weight: 400; line-height: 1.8; letter-spacing: normal; }
+  [data-technology-matches-list] [data-technology-project-count] { color: hsl(var(--ink)); font-size: .8125rem; line-height: 1.8; letter-spacing: normal; text-align: end; }
+  [data-technology-matches-list] [data-technology-entry-unit] { color: hsl(var(--ink-soft)); font-size: .75rem; font-weight: 400; }
+  [data-technology-matches-list] [data-technology-match-arrow] { display: block; color: hsl(var(--brand)); }
+  [data-technology-matches-list] :global(a:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 4px; border-radius: .125rem; }
+  :global([data-theme='dark']) [data-technology-matches-list] [data-technology-match-arrow] { color: hsl(var(--accent)); }
+  :global([data-theme='dark']) [data-technology-matches-list] :global(a:focus-visible) { outline-color: hsl(var(--accent)); }
+  @container technology-index (width < 34rem) {
+    [data-technology-matches-header] { flex-direction: column; gap: .375rem; }
+    [data-technology-matches-header] p { flex-shrink: 1; }
+    [data-technology-matches-list] :global(a) { grid-template-columns: minmax(0, 1fr) auto; gap: .625rem; }
+    [data-technology-matches-list] [data-technology-label] { grid-column: 1; grid-row: 1; }
+    [data-technology-matches-list] [data-technology-match-group] { grid-column: 1; grid-row: 2; }
+    [data-technology-matches-list] [data-technology-project-count] { grid-column: 2; grid-row: 2; }
+    [data-technology-matches-list] [data-technology-match-arrow] { grid-column: 2; grid-row: 1; justify-self: end; }
+  }
+
   [data-technology-intro] h2 { margin: 0; }
   [data-technology-opening-controls] { margin-top: 2rem; }
   [data-technology-opening-controls] [data-technology-filter-row] { padding-bottom: 0; }

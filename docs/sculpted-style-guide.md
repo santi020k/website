@@ -2313,8 +2313,20 @@ Preserve native fragment destinations and visible keyboard focus.
 The count moves below the field on narrow containers; remove the decorative search
 icon only when needed to preserve input width. Keep visible focus, complete labels,
 singular and plural counts, and the full result sentence for screen readers.
-Filtering still updates the existing groups and Catalog note empty state. Preserve
-technology order, recurrence counts, native project destinations, and text resizing.
+Filtering uses the Match ledger below and retains the Catalog note empty state.
+Preserve technology order, recurrence counts, native technology destinations, and
+text resizing.
+
+### Match ledger technology results
+
+When the technology search has a query, replace the large group introductions with
+one open ledger. Use a small Matches for heading and a quiet explanation that
+counts represent portfolio entries. Each ruled native link aligns its technology,
+Core/Regular/Selective group, entry count, and decorative forward arrow. Keep the
+existing catalog order and destinations, without duplicate links or added cards.
+At narrow widths, place the group and count on a second line beneath the name and
+arrow. Keep whole names, visible focus, light/dark contrast, and text enlargement.
+Clearing restores the complete grouped catalog; zero matches use Catalog note.
 
 ### Search folio Blog topics controls
 
