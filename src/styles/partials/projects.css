@@ -156,7 +156,11 @@
   }
   .projects-editorial-card:first-child .projects-editorial-link {
     display: flex;
+    align-items: stretch;
     gap: 0;
+  }
+  .projects-editorial-card:first-child .projects-editorial-image {
+    aspect-ratio: 16 / 10;
   }
   .projects-editorial-card:first-child .projects-editorial-copy {
     padding-top: 1.5rem;
@@ -167,7 +171,11 @@
 @container project-card (width < 40rem) {
   .projects-editorial-card:first-child .projects-editorial-link {
     display: flex;
+    align-items: stretch;
     gap: 0;
+  }
+  .projects-editorial-card:first-child .projects-editorial-image {
+    aspect-ratio: 16 / 10;
   }
   .projects-editorial-card:first-child .projects-editorial-copy {
     padding-top: 1.5rem;

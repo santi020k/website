@@ -95,7 +95,9 @@ Keep the complete focus outline visible and the existing curated article order u
 ### Editorial project cards
 
 The Projects gallery pairs the existing artwork with open editorial copy. Keep the standard
-16:10 image and 1rem corners; the featured project retains its horizontal 16:9 composition.
+16:10 image and 1rem corners; the featured project retains its horizontal 16:9 composition
+only while its image and copy sit side by side. When stacked on mobile or with enlarged
+text, its image and copy fill the card width and use the same 16:10 artwork as the other cards.
 Use the numbered date, an outline status pill, a complete 1.75rem title, and one
 “View project” action with an arrow and a fine bottom rule. Do not add a second title arrow.
 Metadata and technology labels use 0.75rem text; descriptions use 0.9375rem with 1.75 leading.
