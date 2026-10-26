@@ -854,19 +854,23 @@ cards. The header pairs its small uppercase label, full title, and short descrip
 with the browse action on wide containers; below 44rem, the action follows the copy.
 Keep the original project-type heading, fragment, and parent destination.
 
-Use a transparent unstyled Lumen Card with the project's horizontal artwork at 16:9.
-An opaque reading sheet overlaps the artwork by 2rem with 1rem side insets and the
-shared sheet radius. Present the role above the complete 1.75rem title, then the full
-description. Below 26rem, reduce the overlap, insets, and title size; below 18rem,
-tighten the sheet padding. Below 14rem, remove the overlap and side insets and omit
-the decorative arrow so enlarged text keeps its reading width.
+Use one column of open, numbered editorial rows, separated by fine rules. Each
+transparent unstyled Lumen Card pairs a decorative two-digit index, 16:10 artwork
+with 0.75rem corners, and the role, complete 1.75rem title, full description, and action.
+Keep a 2.5rem column gap and 2rem vertical padding. The project color accents the
+index, uppercase role, and plain forward reading action.
+
+The list owns the `related-list` container. Below 56rem, tighten the columns;
+below 42rem, put the copy beneath the numbered artwork and use a 16:9 image.
+Below 22rem, use a 1.5rem title. Below 16rem, omit the decorative index and reduce
+the title to 1.25rem; below 14rem, omit the decorative arrow.
 Never clamp content. Keep the existing selection, order, descriptions, and destinations
 without adding dates or technology inventories.
 
-Align the ruled Read case study actions across a desktop row. The decorative forward
-arrow sits in a quiet sculpted compartment. Each card retains one named native link,
-a complete outer focus outline, and project-colored hover and keyboard emphasis
-without movement. Color transitions respect reduced motion. The portfolio index
+Keep the Read case study action at the bottom of each text column. Each row retains
+one named native link and a complete outer focus outline. Hover and keyboard focus
+underline the title in the project color without movement. Color transitions respect
+reduced motion. The portfolio index
 retains its Layered editorial cards.
 
 ### Hero-led project facts
