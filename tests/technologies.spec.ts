@@ -13,10 +13,15 @@ test.describe('Technologies index page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
 
-  test('should display the technologies count and most-used stat', async ({ page }) => {
-    const main = page.locator('#main')
-    await expect(main.getByText('Technologies', { exact: true })).toBeVisible()
-    await expect(main.getByText('Most used', { exact: true })).toBeVisible()
+  test('should connect the index total and most recurring technology to portfolio evidence', async ({ page }) => {
+    const summary = page.getByRole('region', { name: 'Range, with a trail.' })
+    const total = await page.locator('[data-technology-item]').count()
+
+    await expect(summary.locator('[data-technology-summary-number]')).toHaveText(String(total))
+    await expect(summary.getByRole('link')).toHaveAccessibleName('Most recurring TypeScript Listed in 20 entries Explore the evidence')
+    await summary.getByRole('link').click()
+    await expect(page).toHaveURL(/\/technologies\/typescript\/$/u)
+    await expect(page.locator('[data-project-gallery-card]')).toHaveCount(20)
   })
 
   test('should render technology group labels', async ({ page }) => {

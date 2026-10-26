@@ -7,6 +7,7 @@ import { describe, expect, test } from 'vitest'
 import {
   getAllTechnologies,
   getTechnologyConnections,
+  getTechnologyEntryCounts,
   getUniqueTechnologies,
   getUniqueTechnologiesWithCount
 } from '../project'
@@ -87,6 +88,25 @@ describe('getTechnologyConnections', () => {
     expect(getTechnologyConnections([], 'React.js')).toEqual([])
     expect(getTechnologyConnections(makeProjects([['React.js']]), 'React.js')).toEqual([])
     expect(getTechnologyConnections(makeProjects([['React.js', 'TypeScript']]), 'Unknown')).toEqual([])
+  })
+})
+
+describe('getTechnologyEntryCounts', () => {
+  test('counts each canonical technology once per entry and sorts ties deterministically', () => {
+    const projects = makeProjects([
+      ['CI-CD', 'CI/CD', 'TypeScript', 'TypeScript'],
+      ['TypeScript', 'Astro'],
+      ['Astro']
+    ])
+    const original = structuredClone(projects)
+
+    expect(getTechnologyEntryCounts(projects)).toEqual([['Astro', 2], ['TypeScript', 2], ['CI/CD', 1]])
+    expect(projects).toEqual(original)
+  })
+
+  test('handles an empty portfolio and a single technology', () => {
+    expect(getTechnologyEntryCounts([])).toEqual([])
+    expect(getTechnologyEntryCounts(makeProjects([['CI-CD', 'CI/CD']]))).toEqual([['CI/CD', 1]])
   })
 })
 

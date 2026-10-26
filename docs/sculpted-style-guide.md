@@ -259,6 +259,16 @@ without moving content.
 
 ### Margin catalog technology index
 
+The index statistics use **Evidence ledger with sculpted character**: replace the
+four equal cards with one joined sheet under “Range, with a trail.” Keep a soft
+brand wash behind the total and a ruled link to the most recurring technology, with
+its entry count and “Explore the evidence” action. Reuse the 1.375rem sculpted
+corners, shortened 0.5rem lower-right corner, fine border, and subtle navigation
+shadow. Use two columns in a 1:1.25 ratio, stacking below 38rem of container width.
+Retain an inset focus outline and wrap all text at enlarged sizes. Count canonical
+technologies once per entry; keep the total explicitly scoped to the published
+portfolio even while filtering the catalog. Remove Signals and Scope from this summary.
+
 The technology index groups Core, Regular, and Selective into open catalogs with
 an accent introduction rail, a prominent group title, and the live tool count.
 An 11rem margin sits beside two columns of ruled Lumen links with aligned project

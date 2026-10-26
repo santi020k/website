@@ -85,6 +85,20 @@ export const getUniqueTechnologiesWithCount = (
     .sort((a, b) => b[1] - a[1])
 }
 
+/** Counts canonical technologies once per entry; pass published entries from getCachedProjects. */
+export const getTechnologyEntryCounts = (projects: CollectionEntry<'project'>[]): [string, number][] => {
+  const uniqueEntries = projects.map(project => ({
+    ...project,
+    data: { ...project.data, technologies: getUniqueTechnologies([project]) }
+  }))
+
+  return getUniqueTechnologiesWithCount(uniqueEntries).sort(([leftLabel, leftCount], [rightLabel, rightCount]) => {
+    const countDifference = rightCount - leftCount
+
+    return countDifference || getTechnologySlug(leftLabel).localeCompare(getTechnologySlug(rightLabel), 'en')
+  })
+}
+
 /** Related technologies in the supplied published archive entries, counted once per entry. */
 export const getTechnologyConnections = (
   projects: CollectionEntry<'project'>[],
@@ -96,12 +110,7 @@ export const getTechnologyConnections = (
     .filter(project => !project.data.draft && project.data.technologies.some(
       label => getTechnologySlug(label) === selectedSlug
     ))
-    .map(project => ({
-      ...project,
-      data: { ...project.data, technologies: getUniqueTechnologies([project]) }
-    }))
 
-  return getUniqueTechnologiesWithCount(matchingProjects)
+  return getTechnologyEntryCounts(matchingProjects)
     .filter(([label]) => getTechnologySlug(label) !== selectedSlug)
-    .sort(([leftLabel, leftCount], [rightLabel, rightCount]) => rightCount - leftCount || getTechnologySlug(leftLabel).localeCompare(getTechnologySlug(rightLabel), 'en'))
 }

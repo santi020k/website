@@ -193,6 +193,14 @@ the layout wraps on mobile and desktop and requires no additional client JavaScr
 
 ## Technology index search
 
+`TechnologyEvidenceLedger` replaces the index's four statistics with **Evidence ledger**
+and the existing sculpted character: one unstyled Lumen `Card` with a brand-soft total
+and a native `Link` to the most recurring technology. The site owns the joined layout,
+shaped corners, wrapping type, and inset keyboard outline. Counts use
+`getTechnologyEntryCounts`, which counts each canonical technology once per entry
+and breaks equal counts by slug. The summary retains full-portfolio scope while the
+catalog is filtered. No extra animation or client behavior is added.
+
 Technology archive openings use **Evidence index**, composed from the shared
 `PageHero` after-description slot and public Lumen `Link` and `Icon` primitives.
 Counts link to the existing rendered section headings; empty categories are omitted.
