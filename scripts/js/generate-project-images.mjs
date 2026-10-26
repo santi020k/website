@@ -410,7 +410,7 @@ const getLogoBox = (project, variant) => {
       height,
       left: Math.round((variant.width - width) / 2),
       padding: 0,
-      top: Math.round((variant.height * 0.46) - (height / 2)),
+      top: Math.round((variant.height - height) / 2),
       width
     }
   } else {

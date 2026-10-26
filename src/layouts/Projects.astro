@@ -6,6 +6,7 @@ import type { CollectionEntry } from 'astro:content'
 import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
 import ProjectCaseStudy from '@/components/molecules/ProjectCaseStudy.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
+import ProjectStoryPair from '@/components/molecules/ProjectStoryPair.astro'
 import ReadingChapterOpener from '@/components/molecules/ReadingChapterOpener.astro'
 import RelatedProjectCard from '@/components/molecules/RelatedProjectCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
@@ -15,6 +16,7 @@ import ProjectHero from '@/components/organisms/ProjectHero.astro'
 import ProjectSidebar from '@/components/organisms/ProjectSidebar.astro'
 import BaseLayout from '@/layouts/Base.astro'
 
+import { getProjectWriting } from '@/utils/content'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import {
   getProjectNotesDescription,
@@ -37,6 +39,7 @@ interface Props {
 }
 
 const { headings, project, relatedProjects = [] } = Astro.props
+const relatedWriting = await getProjectWriting(project.data.relatedWriting)
 const metaTitle = project.data.seoTitle ?? `${project.data.title} · ${project.data.role ?? 'Project'}`
 const metaDescription = project.data.seoDescription ?? project.data.description
 
@@ -158,6 +161,7 @@ mainClass="remaining-pages remaining-pages--reading"
       <ProjectSidebar headings={headings} project={project} />
 
       <div class="min-w-0 space-y-8" data-project-closing>
+        <ProjectStoryPair stories={relatedWriting} />
         <ShareButtons title={project.data.title} url={canonicalURL.href} />
 
         <ProjectFooterNav
