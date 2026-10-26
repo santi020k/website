@@ -4,7 +4,7 @@
  * Giscus (GitHub Discussions) comments. Renders nothing until
  * `siteConfig.giscus` is filled in from https://giscus.app.
  *
- * The client loads when readers approach the comments or focus the section.
+ * The client loads when readers open Discussion fold or follow #comments.
  * The script element is created client-side so we can pick the initial theme
  * from the live `data-theme` attribute, then keep the embedded iframe in sync
  * when the visitor toggles light/dark mode. Theme changes made before the
@@ -14,7 +14,7 @@
  * fails to load, the mount is hidden and a polite status points readers to
  * the GitHub link.
  */
-import { Icon } from '@santi020k/lumen-astro'
+import { Collapsible, Icon } from '@santi020k/lumen-astro'
 
 import { siteConfig } from '@/site.config'
 
@@ -36,23 +36,33 @@ const { giscus } = siteConfig
       </header>
       <div data-discussion-body>
         <p data-discussion-lead>Join the conversation.</p>
-        <p>Powered by GitHub Discussions. Sign in with GitHub to share your thoughts.</p>
+        <p>Read replies, ask a question, or share another perspective.</p>
+        <Collapsible data-discussion-fold>
+          <summary data-discussion-summary>
+            <span data-discussion-open-label>Open discussion</span>
+            <span data-discussion-close-label>Hide discussion</span>
+            <Icon name="chevron-down" class="size-4 shrink-0" />
+          </summary>
+          <noscript>
+            <p data-discussion-noscript>Browse GitHub discussions below to read replies or add a comment.</p>
+          </noscript>
+          <p data-giscus-loading role="status" hidden>Loading discussion…</p>
+          <!-- Render the empty live region before a load failure fills it. -->
+          <p aria-live="polite" data-giscus-error role="status"></p>
+          <div data-giscus-mount></div>
+        </Collapsible>
         <footer>
           <a
             href={`https://github.com/${giscus.repo}/discussions`}
             rel="noopener noreferrer"
             target="_blank"
           >
-            <span>Reply on GitHub</span>
+            <span>Browse GitHub discussions</span>
             <Icon name="arrow-up-right" class="size-4 shrink-0" />
           </a>
         </footer>
       </div>
     </div>
-    <!-- Stays rendered (empty) so screen readers register the live region
-         before a load failure fills it. -->
-    <p aria-live="polite" class="text-sm/7 text-ink-soft" data-giscus-error role="status"></p>
-    <div data-giscus-mount></div>
   </section>
 )}
 
@@ -117,7 +127,7 @@ const { giscus } = siteConfig
   }
 
   [data-discussion-body] footer {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
   }
 
   [data-discussion-body] a {
@@ -127,30 +137,54 @@ const { giscus } = siteConfig
     gap: 0.875rem;
     max-width: 100%;
     min-height: 2.75rem;
-    border-bottom: 1px solid hsl(var(--line));
     color: var(--discussion-accent);
     font: 500 0.8125rem/1.7 var(--font-sans);
     text-decoration: none;
   }
 
-  [data-discussion-body] a:hover { border-color: currentColor; }
+  [data-discussion-body] a:hover { text-decoration: underline; text-underline-offset: 0.25em; }
   [data-discussion-body] a:focus-visible {
     outline: 2px solid var(--discussion-accent);
     outline-offset: 4px;
   }
 
-  [data-giscus-error]:not(:empty),
-  [data-giscus-mount]:not(:empty) {
-    margin-top: 1rem;
-    margin-inline-start: 6.875rem;
+  [data-discussion-fold] {
+    margin-top: 1.125rem;
+    padding: 0;
+    border: 0;
+    border-block: 1px solid hsl(var(--line));
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
+  [data-discussion-summary] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    min-height: 3.75rem;
+    margin: 0;
+    padding: 0.75rem 0;
+    border-radius: 0;
+    color: var(--discussion-accent);
+    background: transparent;
+    font: 500 0.8125rem/1.7 var(--font-sans);
+    list-style: none;
+    cursor: pointer;
+  }
+  [data-discussion-summary]::-webkit-details-marker { display: none; }
+  [data-discussion-summary]::before, [data-discussion-summary]::after { display: none; }
+  [data-discussion-fold][open] > [data-discussion-summary] { margin: 0; }
+  [data-discussion-fold]:not([open]) [data-discussion-close-label],
+  [data-discussion-fold][open] [data-discussion-open-label] { display: none; }
+  [data-discussion-fold][open] [data-discussion-summary] :global(.ui-icon) { transform: rotate(180deg); }
+  [data-giscus-error]:not(:empty), [data-giscus-loading]:not([hidden]), [data-discussion-noscript] { padding-block: 0.75rem 1rem; }
+  [data-giscus-mount]:not(:empty):not([hidden]) { margin-block: 1rem; }
 
   @container article-comments (width < 32rem) {
     [data-discussion-invitation] { grid-template-columns: minmax(0, 1fr); gap: 0.875rem; }
     [data-discussion-header] { padding-top: 0; }
     [data-discussion-body] { padding-inline-start: 1.125rem; }
-    [data-giscus-error]:not(:empty),
-    [data-giscus-mount]:not(:empty) { margin-inline-start: 0; }
   }
 
   @container article-comments (width < 18rem) {
@@ -217,6 +251,12 @@ const { giscus } = siteConfig
   const getCommentsWindow = (): Window | null => document
     .querySelector<HTMLIFrameElement>(FRAME_SELECTOR)?.contentWindow ?? null
 
+  const finishLoading = () => {
+    const loading = document.querySelector<HTMLElement>('#comments [data-giscus-loading]')
+
+    if (loading) loading.hidden = true
+  }
+
   // The widget posts `{ giscus: { resizeHeight } }` once it has initialized.
   const isReadyMessage = (data: unknown): boolean => {
     if (typeof data !== 'object' || data === null || !('giscus' in data)) return false
@@ -271,6 +311,8 @@ const { giscus } = siteConfig
 
     if (!frame || event.source !== frame) return
 
+    finishLoading()
+
     const state = getFrameState(frame)
     const theme = getGiscusTheme()
 
@@ -305,8 +347,13 @@ const { giscus } = siteConfig
   const mountGiscus = () => {
     const section = document.querySelector<HTMLElement>('#comments')
     const mount = section?.querySelector<HTMLElement>('[data-giscus-mount]')
+    const fold = section?.querySelector<HTMLDetailsElement>('[data-discussion-fold]')
 
-    if (!section || !mount || mount.childElementCount > 0) return
+    if (!section || !mount || !fold?.open || mount.childElementCount > 0) return
+
+    const loading = section.querySelector<HTMLElement>('[data-giscus-loading]')
+
+    if (loading) loading.hidden = false
 
     const script = document.createElement('script')
 
@@ -345,9 +392,11 @@ const { giscus } = siteConfig
 
       mount.hidden = true
 
+      finishLoading()
+
       const status = section.querySelector('[data-giscus-error]')
 
-      if (status) status.textContent = 'Comments could not load. You can still reply on GitHub using the link above.'
+      if (status) status.textContent = 'Comments could not load. You can still browse discussions on GitHub using the link below.'
     }, { once: true })
 
     frameSourceObserver?.disconnect()
@@ -361,41 +410,59 @@ const { giscus } = siteConfig
     mount.appendChild(script)
   }
 
+  const openDiscussion = () => {
+    const fold = document.querySelector<HTMLDetailsElement>('#comments [data-discussion-fold]')
+
+    if (!fold) return
+
+    fold.open = true
+
+    mountGiscus()
+  }
+
+  const revealLinkedDiscussion = () => {
+    if (window.location.hash === '#comments') openDiscussion()
+  }
+
+  const onCommentsLink = (event: MouseEvent) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+
+    const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null
+
+    if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return
+
+    // Astro handles same-page fragments with pushState, without hashchange or
+    // a page-load event. Reveal before its native fragment scroll takes place.
+    if (
+      link.origin === window.location.origin && link.pathname === window.location.pathname &&
+      link.search === window.location.search && link.hash === '#comments'
+    ) openDiscussion()
+  }
+
   const prepareGiscus = () => {
     stopWaitingForComments()
 
     const section = document.querySelector<HTMLElement>('#comments')
+    const fold = section?.querySelector<HTMLDetailsElement>('[data-discussion-fold]')
 
-    if (!section) return
-
-    if (typeof IntersectionObserver === 'undefined') {
-      mountGiscus()
-
-      return
-    }
+    if (!section || !fold) return
 
     const load = () => {
-      // An observer callback may already be queued when Astro swaps the body.
-      if (!section.isConnected || document.getElementById('comments') !== section) return
-
-      stopWaitingForComments()
+      // A toggle event may already be queued when Astro swaps the body.
+      if (!section.isConnected || document.getElementById('comments') !== section || !fold.open) return
 
       mountGiscus()
     }
 
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) load()
-    }, { rootMargin: '400px' })
-
     pendingCleanup = () => {
-      observer.disconnect()
-
-      section.removeEventListener('focusin', load)
+      fold.removeEventListener('toggle', load)
     }
 
-    section.addEventListener('focusin', load)
+    fold.addEventListener('toggle', load)
 
-    observer.observe(section)
+    revealLinkedDiscussion()
+
+    load()
   }
 
   // Keep the iframe theme in sync with the site's theme toggle.
@@ -404,6 +471,12 @@ const { giscus } = siteConfig
   themeObserver.observe(document.documentElement, { attributeFilter: ['data-theme'] })
 
   window.addEventListener('message', onMessage)
+
+  window.addEventListener('hashchange', revealLinkedDiscussion)
+
+  document.addEventListener('click', onCommentsLink, true)
+
+  document.addEventListener('astro:page-load', revealLinkedDiscussion)
 
   // Iframe load does not bubble, so observe it during capture.
   document.addEventListener('load', onFrameLoad, true)

@@ -100,10 +100,9 @@ const openArticle = async (page: Page, clipboard: ClipboardStub) => {
 
   const button = page.locator('#copy-link-btn')
 
-  // Scrolling near the toolbar mounts the lazy comments client; let it reserve
-  // its space before freezing time so nothing else is waiting on the clock.
+  // Passing the closed discussion must not start a third-party request.
   await button.scrollIntoViewIfNeeded()
-  await expect(page.locator('#comments [data-giscus-mount] script')).toBeAttached()
+  await expect(page.locator('#comments [data-giscus-mount] script')).toHaveCount(0)
   await expect(page.locator('#comments [data-giscus-error]')).toBeEmpty()
   await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
 

@@ -2,6 +2,13 @@ import { expect, type Page, test } from '@playwright/test'
 
 const LONG_POST_PATH = '/blog/why-developer-experience-work-should-be-measured-like-product-work/'
 
+const openComments = async (page: Page) => {
+  const fold = page.locator('[data-discussion-fold]')
+
+  if (await fold.getAttribute('open') === null) await fold.locator('summary').click()
+  await expect(fold).toHaveAttribute('open')
+}
+
 const returnToBlog = async (page: Page) => {
   const menuToggle = page.locator('[data-mobile-nav-toggle]')
 
@@ -60,7 +67,7 @@ const firstPostPath = async (page: Page) => {
   return new URL(match[1]).pathname
 }
 
-test('comments wait for the reader, then load once with the current theme', async ({ page }) => {
+test('comments wait for disclosure activation, then load once with the current theme', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' })
 
   let requests = 0
@@ -79,6 +86,10 @@ test('comments wait for the reader, then load once with the current theme', asyn
   expect(requests).toBe(0)
 
   await page.locator('#comments').scrollIntoViewIfNeeded()
+  await page.locator('[data-discussion-summary]').focus()
+  await expect(page.locator('#comments script')).toHaveCount(0)
+  expect(requests).toBe(0)
+  await openComments(page)
   await expect(page.locator('#comments script')).toHaveAttribute('data-theme', 'transparent_dark')
   await expect.poll(() => requests).toBe(1)
   await page.locator('#comments a').focus()
@@ -86,21 +97,35 @@ test('comments wait for the reader, then load once with the current theme', asyn
   expect(requests).toBe(1)
 })
 
-test('keyboard focus loads comments even before an intersection callback', async ({ page }) => {
-  // Keep observation pending to isolate the keyboard fallback from scrolling.
-  await page.addInitScript(() => {
-    IntersectionObserver.prototype.observe = () => undefined
+test('keyboard activation opens and closes the same discussion without a second request', async ({ page }) => {
+  let requests = 0
+
+  await page.route('https://giscus.app/client.js', async route => {
+    requests += 1
+    await route.fulfill({ contentType: 'application/javascript', body: `(${mockClient.toString()})()` })
   })
-  await page.route('https://giscus.app/client.js', route => route.fulfill({
-    contentType: 'application/javascript', body: ''
-  }))
-  await page.goto(await firstPostPath(page))
+  await fulfillWidget(page)
+  await page.goto(LONG_POST_PATH)
+  const summary = page.locator('[data-discussion-summary]')
+
+  await summary.focus()
+  await expect(summary).toHaveCSS('outline-style', 'solid')
   await expect(page.locator('#comments script')).toHaveCount(0)
-  await page.locator('#comments a').focus()
-  await expect(page.locator('#comments script')).toHaveCount(1)
+  await summary.press('Enter')
+  await expect(page.frameLocator('iframe.giscus-frame').locator('body')).toHaveAttribute('data-theme')
+  const frame = await page.locator('iframe.giscus-frame').elementHandle()
+
+  await summary.press('Space')
+  await expect(page.locator('[data-discussion-fold]')).not.toHaveAttribute('open')
+  await expect(page.locator('iframe.giscus-frame')).toBeHidden()
+  await expect(summary).toBeFocused()
+  await summary.press('Enter')
+  await expect(page.locator('iframe.giscus-frame')).toBeVisible()
+  expect(await frame.evaluate(element => element.isConnected)).toBe(true)
+  expect(requests).toBe(1)
 })
 
-test('comments still load when IntersectionObserver is unavailable', async ({ page }) => {
+test('comments activation does not depend on IntersectionObserver', async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(window, 'IntersectionObserver', { configurable: true, value: undefined })
   })
@@ -108,6 +133,8 @@ test('comments still load when IntersectionObserver is unavailable', async ({ pa
     contentType: 'application/javascript', body: ''
   }))
   await page.goto(await firstPostPath(page))
+  await expect(page.locator('#comments script')).toHaveCount(0)
+  await openComments(page)
   await expect(page.locator('#comments script')).toHaveCount(1)
 })
 
@@ -130,9 +157,59 @@ test('leaving an unread article cancels pending comments and returning can load 
   expect(requests).toBe(0)
   await page.goBack()
   await expect(page).toHaveURL(path)
-  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await openComments(page)
   await expect(page.locator('#comments script')).toHaveCount(1)
   await expect.poll(() => requests).toBe(1)
+})
+
+test('direct comments fragments and client navigation open the disclosure', async ({ page }) => {
+  let requests = 0
+
+  await page.route('https://giscus.app/client.js', async route => {
+    requests += 1
+    await route.fulfill({ contentType: 'application/javascript', body: `(${mockClient.toString()})()` })
+  })
+  await fulfillWidget(page)
+  await page.goto(`${LONG_POST_PATH}#comments`)
+  await expect(page.locator('[data-discussion-fold]')).toHaveAttribute('open')
+  await expect(page.locator('iframe.giscus-frame')).toBeVisible()
+  await expect(page.locator('[data-giscus-loading]')).toBeHidden()
+
+  await returnToBlog(page)
+  await expect(page).toHaveURL('/blog/')
+  const path = await firstPostPath(page)
+  // A native authored link exercises Astro's client-navigation boundary without
+  // changing an already-initialized Lumen link's cached destination.
+  await page.evaluate(href => {
+    const link = document.createElement('a')
+
+    link.href = href
+    link.textContent = 'Open article comments'
+    document.querySelector('main')?.appendChild(link)
+  }, `${path}#comments`)
+  await page.getByRole('link', { name: 'Open article comments', exact: true }).click()
+  await expect(page).toHaveURL(`${path}#comments`)
+  await expect(page.locator('[data-discussion-fold]')).toHaveAttribute('open')
+  await expect(page.locator('iframe.giscus-frame')).toBeVisible()
+  await expect.poll(() => requests).toBe(2)
+})
+
+test('a comments fragment on the current article opens the fold', async ({ page }) => {
+  await page.route('https://giscus.app/client.js', route => route.fulfill({
+    contentType: 'application/javascript', body: `(${mockClient.toString()})()`
+  }))
+  await fulfillWidget(page)
+  await page.goto(LONG_POST_PATH)
+  await page.evaluate(() => {
+    const link = document.createElement('a')
+
+    link.href = '#comments'
+    link.textContent = 'Read article comments'
+    document.querySelector('main')?.appendChild(link)
+  })
+  await page.getByRole('link', { name: 'Read article comments', exact: true }).click()
+  await expect(page.locator('[data-discussion-fold]')).toHaveAttribute('open')
+  await expect(page.locator('iframe.giscus-frame')).toBeVisible()
 })
 
 const delayedResources = [
@@ -162,7 +239,7 @@ for (const { delayedResource, beforeToggle } of delayedResources) {
 
     try {
       await page.goto(await firstPostPath(page), { waitUntil: 'domcontentloaded' })
-      await page.locator('#comments').scrollIntoViewIfNeeded()
+      await openComments(page)
       await expect(page.locator('#comments script')).toHaveCount(1)
 
       await beforeToggle(page)
@@ -178,7 +255,7 @@ for (const { delayedResource, beforeToggle } of delayedResources) {
       })
 
       release()
-      await page.locator('#comments').scrollIntoViewIfNeeded()
+      await openComments(page)
 
       const widget = page.frameLocator('iframe.giscus-frame').locator('body')
 
@@ -202,7 +279,7 @@ test('a blocked comments client hides the mount and points readers to GitHub', a
   const section = page.getByRole('region', { name: 'Comments' })
 
   await expect(section.getByRole('heading', { level: 2, name: 'Comments' })).toBeVisible()
-  await section.scrollIntoViewIfNeeded()
+  await openComments(page)
   await expect(section.locator('script')).toHaveCount(1)
   await expect(section.locator('[data-giscus-mount]')).toBeHidden()
 
@@ -213,7 +290,7 @@ test('a blocked comments client hides the mount and points readers to GitHub', a
   await expect(status).toHaveAttribute('role', 'status')
   await expect(status).toHaveAttribute('aria-live', 'polite')
 
-  const github = section.getByRole('link', { name: 'Reply on GitHub', exact: true })
+  const github = section.getByRole('link', { name: 'Browse GitHub discussions', exact: true })
 
   await expect(github).toHaveAttribute('href', /^https:\/\/github\.com\/[^/]+\/[^/]+\/discussions$/u)
   await github.focus()
@@ -239,14 +316,14 @@ test('returning to an article after a failed client makes a fresh, successful at
   const path = await firstPostPath(page)
 
   await page.goto(path)
-  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await openComments(page)
   await expect(page.locator('#comments [data-giscus-error]')).not.toBeEmpty()
 
   await returnToBlog(page)
   await expect(page).toHaveURL('/blog/')
   await page.locator(`a[href="${path}"]`).first().click()
   await expect(page).toHaveURL(path)
-  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await openComments(page)
   await expect(page.locator('iframe.giscus-frame')).toHaveCount(1)
   await expect.poll(() => requests).toBe(2)
   await expect(page.locator('#comments [data-giscus-mount]')).toBeVisible()
@@ -271,7 +348,7 @@ test('an error on an abandoned client leaves both article sections unchanged', a
   const path = await firstPostPath(page)
 
   await page.goto(path)
-  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await openComments(page)
   await expect(page.locator('#comments script')).toHaveAttribute('data-mock-loaded', 'true')
   const abandonedScript = await page.locator('#comments script').elementHandle()
 
@@ -279,7 +356,7 @@ test('an error on an abandoned client leaves both article sections unchanged', a
   await expect(page).toHaveURL('/blog/')
   await page.locator(`a[href="${path}"]`).first().click()
   await expect(page).toHaveURL(path)
-  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await openComments(page)
   await expect(page.locator('iframe.giscus-frame')).toHaveCount(1)
 
   // The browser can coalesce simultaneous script requests, so deliver the stale
@@ -312,7 +389,7 @@ test('comments mount once and retain live theme changes after article navigation
   const path = await firstPostPath(page)
 
   await page.goto(path)
-  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await openComments(page)
 
   const widget = page.frameLocator('iframe.giscus-frame').locator('body')
 
@@ -338,7 +415,7 @@ test('comments mount once and retain live theme changes after article navigation
   await expect(page.locator('#comments')).toHaveCount(0)
   await page.locator(`a[href="${path}"]`).first().click()
   await expect(page).toHaveURL(path)
-  await page.locator('#comments').scrollIntoViewIfNeeded()
+  await openComments(page)
   await expect(page.locator('#comments script')).toHaveCount(1)
   await expect(page.locator('iframe.giscus-frame')).toHaveCount(1)
   await expect(widget).toHaveAttribute('data-theme', 'transparent_dark')

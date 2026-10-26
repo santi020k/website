@@ -136,10 +136,9 @@ const withNoise = (path: string): string => `${path}?utm_source=share-test#share
 const getReadyShareButton = async (page: Page): Promise<Locator> => {
   const button = page.locator('#copy-link-btn')
 
-  // Scrolling near the toolbar also mounts the lazy comments client. Wait for
-  // its initial space reservation before testing pointer activation.
+  // The closed discussion leaves sharing stable and does not load its client.
   await button.scrollIntoViewIfNeeded()
-  await expect(page.locator('#comments [data-giscus-mount] script')).toBeAttached()
+  await expect(page.locator('#comments [data-giscus-mount] script')).toHaveCount(0)
   await expect(page.locator('#comments [data-giscus-error]')).toBeEmpty()
 
   return button

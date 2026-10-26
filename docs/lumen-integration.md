@@ -731,8 +731,13 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   Prose styles use site ink tokens for cells and Lumen's code foreground token for language badges in both themes.
 - Article endings use Reader colophon. `CommentsSection` owns a semantic heading and
   open margin layout with a decorative Lumen `Icon` on its native GitHub reply link.
-  The existing Giscus controller still owns lazy loading, theme synchronization, and
-  polite load errors; its mount aligns with the discussion column. Webmentions keep
+  Discussion fold reuses Lumen `Collapsible` inside the invitation: opening it loads
+  Giscus, while scrolling past or focusing the summary does not. Closing preserves
+  the widget and its draft; reopening does not load a second client. Direct `#comments`
+  entry and client navigation open the fold. The existing controller retains theme
+  synchronization and polite load errors, with a loading status until the widget
+  signals readiness. The native GitHub link and no-script guidance remain available.
+  Its mount aligns with the discussion column. Webmentions keep
   their existing conditional rendering between comments and sharing. The `colophon`
   variants of `ShareButtons` and `ProjectFooterNav` reuse their Lumen primitives,
   controllers, and destinations with open rules and inline actions. Project pages
