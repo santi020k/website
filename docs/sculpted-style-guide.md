@@ -1195,8 +1195,16 @@ and rule to 0.75rem so enlarged text retains room to wrap.
 Keep each native h2 and its fragment. `rehypeArticleHeadings` places the existing
 inline content in a span at build time so code, emphasis, and links remain in normal
 text flow. It applies only to top-level h2 elements in current article content.
-Nested component headings, lower heading levels, project prose, and archives retain
-their existing treatments. The rule is decorative and adds no navigation label.
+Nested component headings, project prose, and archives retain their existing
+treatments. The rule is decorative and adds no navigation label.
+
+Article body h3 elements use Subsection cadence: 1.3125rem type at weight 500,
+1.4 line height, and -0.025em tracking. Leave 2.25rem before a subsection and
+0.75rem before its content. Below 32rem of prose width, use 1.1875rem type.
+Keep these headings unadorned beneath the ruled h2 sections. Style only direct
+article prose children, preserving native heading levels, fragments, inline markup,
+and the shared contents navigation. Component headings and deeper levels retain
+their own treatment; no wrapper or runtime is needed.
 
 Use a 1.5rem, weight-500 h3 with 1.4 line height and a fine trailing rule. Leave 1.5rem
 between the heading and rule, 2.5rem before the subsection, and 1.5rem before its body.

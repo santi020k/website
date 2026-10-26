@@ -648,6 +648,11 @@ text-size marker cases in `tests/responsive-reading.spec.ts`.
 
 ## Article prose typography
 
+Direct article h3 elements use Subsection cadence through the prose stylesheet:
+smaller, medium-weight headings with spacing that keeps them attached to their
+content. The existing article container controls the narrow layout. Native
+fragments and the shared reading navigation remain intact without a transform.
+
 Article inline code uses Code accent: the site's existing `font-code` token with
 the established purple treatment. This article-scoped prose rule leaves Lumen's
 fenced code and package-manager tab components unchanged.

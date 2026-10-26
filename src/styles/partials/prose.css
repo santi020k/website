@@ -38,9 +38,17 @@
     background: hsl(var(--line));
   }
   & [data-article-heading-text] { min-width: 0; overflow-wrap: anywhere; }
+  &[data-article-prose] > h3 {
+    margin-block: 2.25rem .75rem;
+    font-size: 1.3125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -.025em;
+  }
   @container article-prose (width < 32rem) {
     & h2[data-article-section-heading] { gap: 1rem; font-size: 1.5rem; }
     & h2[data-article-section-heading]::after { flex-basis: 1.5rem; }
+    &[data-article-prose] > h3 { font-size: 1.1875rem; }
   }
   @container article-prose (width < 14rem) {
     & h2[data-article-section-heading] { gap: .75rem; }
