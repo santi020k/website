@@ -834,6 +834,16 @@ columns restore the stacked icon and scale long values to fit. Cards stay passiv
 without hover effects or new animation. The homepage uses its dedicated Sculpted
 ledger below, About uses Linked counters, and Work uses Career ledger.
 
+Speaking adds **Evidence captions** beneath the existing statistics descriptions.
+Keep the sculpted card, icon, value, and label unchanged. A fine rule introduces a
+0.75rem source link with a decorative arrow and 2.75rem minimum target height.
+Align these footers at the bottom of equal-height cards and wrap long labels at
+narrow widths. Link Experience to the Work career timeline, Community to the
+ReactJS Colombia case study, and Published writing to the Blog. Preserve the
+computed experience and current post count. Internal links stay in the same tab
+and use the theme-aware accent for hover and visible keyboard focus. The shared
+StatCard source is optional; statistics without a source retain their composition.
+
 ### Identity spread resume profile
 
 The `/resume/` profile uses an open, ruled Identity spread: a small accent margin label,
