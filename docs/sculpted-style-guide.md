@@ -298,15 +298,19 @@ same responsive spacing, stacking below 18rem of topic-index width. Preserve the
 search and sort controls, zero-result announcement, search focus, and restoration
 of all topic links when the query is cleared. Keep automatic hyphenation disabled.
 
-### Closing folio evidence invitation
+### Evidence paths technology ending
 
-The Technologies page closes with a Lumen Card that separates a tinted title
-area from the supporting copy and navigation. Use brand-soft for the title surface,
-an asymmetric 1.75rem corner treatment, and a ruled action row. Keep Browse portfolio
-as the primary action and Read the writing as an inline link. The invitation retains
-its copy and destinations, with a labeled section and native keyboard navigation.
-Below 27.5rem, actions fill separate rows; at enlarged text sizes, reduce horizontal
-padding and remove decorative arrows so labels and focus rings remain visible.
+The technology index closes with an open editorial section: Beyond the toolkit,
+Follow it into the work, and a short introduction beside the heading. Three ruled
+Lumen links lead to Work experience, Independent projects, and Writing, each with a
+decorative number, a supporting sentence, and a forward arrow. Use semantic ink,
+line, and brand tokens; the arrow and number use accent in dark mode. Retain the
+`trace-the-evidence` fragment and `technology-evidence-heading` ID.
+
+At narrow widths the introduction stacks below the title. Below 20rem, place the
+number and arrow above the full-width link copy so enlarged text keeps its room.
+Preserve full-row native links, visible focus, and all three destinations without
+JavaScript. This supersedes the Closing folio card and its general portfolio CTA.
 
 ### Principle spread working definition
 
