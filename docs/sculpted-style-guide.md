@@ -854,19 +854,23 @@ cards. The header pairs its small uppercase label, full title, and short descrip
 with the browse action on wide containers; below 44rem, the action follows the copy.
 Keep the original project-type heading, fragment, and parent destination.
 
-Use a transparent unstyled Lumen Card with the project's horizontal artwork at 16:9.
-An opaque reading sheet overlaps the artwork by 2rem with 1rem side insets and the
-shared sheet radius. Present the role above the complete 1.75rem title, then the full
-description. Below 26rem, reduce the overlap, insets, and title size; below 18rem,
-tighten the sheet padding. Below 14rem, remove the overlap and side insets and omit
-the decorative arrow so enlarged text keeps its reading width.
+Use one column of open, numbered editorial rows, separated by fine rules. Each
+transparent unstyled Lumen Card pairs a decorative two-digit index, 16:10 artwork
+with 0.75rem corners, and the role, complete 1.75rem title, full description, and action.
+Keep a 2.5rem column gap and 2rem vertical padding. The project color accents the
+index, uppercase role, and plain forward reading action.
+
+The list owns the `related-list` container. Below 56rem, tighten the columns;
+below 42rem, put the copy beneath the numbered artwork and use a 16:9 image.
+Below 22rem, use a 1.5rem title. Below 16rem, omit the decorative index and reduce
+the title to 1.25rem; below 14rem, omit the decorative arrow.
 Never clamp content. Keep the existing selection, order, descriptions, and destinations
 without adding dates or technology inventories.
 
-Align the ruled Read case study actions across a desktop row. The decorative forward
-arrow sits in a quiet sculpted compartment. Each card retains one named native link,
-a complete outer focus outline, and project-colored hover and keyboard emphasis
-without movement. Color transitions respect reduced motion. The portfolio index
+Keep the Read case study action at the bottom of each text column. Each row retains
+one named native link and a complete outer focus outline. Hover and keyboard focus
+underline the title in the project color without movement. Color transitions respect
+reduced motion. The portfolio index
 retains its Layered editorial cards.
 
 ### Hero-led project facts
@@ -952,9 +956,11 @@ Pair the muted 0.75rem Explore label with 0.8125rem medium-weight links and deco
 down-right arrows. Links retain a 2.75rem minimum target and visible focus. Below
 35rem of available width, stack the label and full-width links with right-aligned
 arrows. Below 16rem, omit the decorative arrows so enlarged labels keep whole words.
-Smith links to Marcone's Before and after and Technical highlights sections;
-these provide chapter context, not benchmark citations. Omit the trail when no
-links are authored and preserve native navigation without JavaScript.
+Smith links to Marcone's Before and after and Technical highlights sections.
+Lumen uses the same treatment for Capabilities, Technical highlights, and Used in
+this website, pointing to its existing narrative fragments. These provide chapter
+context, not benchmark citations. Omit the trail when no links are authored and
+preserve native navigation without JavaScript.
 
 ### Chapter evidence placement
 
@@ -1348,6 +1354,14 @@ initials when no photo exists, and the complete list. With zero likes, omit the
 strip; replies and mentions remain independent. Use accent in dark mode and add
 no client controller, additional data requests, or hover motion.
 
+### Code accent inline code
+
+Article inline code uses the existing `font-code` monospace token, matching fenced
+examples while keeping the purple text, soft brand background, rounded corners,
+padding, weight, and relative size of the current treatment. Preserve native `code`
+semantics and wrapping in paragraphs, lists, headings, quotations, and tables.
+Scope this font change to article prose; retain Code folio and Tab folio layouts.
+
 ### Code folio article examples
 
 Standalone article code blocks use a soft brand toolbar, a small Lumen code icon,
@@ -1473,6 +1487,17 @@ Scrolling back into the prose reduces progress again. Keep the accessible percen
 sync with the visible bar, including resized viewports and enlarged text. Do not add a
 visible percentage badge, second indicator, or new card. Project pages keep their existing
 document progress.
+
+### Reading measure
+
+Keep ordinary article paragraphs and top-level lists aligned to the left reading edge,
+with a maximum inline size of 40rem (640px at the default text size). Let the available
+column width constrain them naturally on narrow screens; the rem-based measure expands
+with enlarged root text. Preserve the approved Margin lead opening, Section cadence
+headings, quotations, code, tables, and illustrations at their existing widths. Keep the
+contents rail, series continuation, and closing sections in their established positions.
+Scope the measure to authored prose inside `data-article-prose`, leaving project pages
+and embedded component layouts independent. No wrapper or client behavior is added.
 
 ### Margin imprint article publication details
 
@@ -2238,9 +2263,14 @@ both downloadable PDF variants remain authoritative.
 
 ### Search dock technology index controls
 
-The technology index uses **Search dock** above the Margin catalog groups. Keep the
-Stack snapshot label above a single shaped bar, with a quiet search field and a
-separate surface for the live technology count. Place the explanatory copy below.
+The technology index uses **Search dock** within the **Catalog first** opening,
+immediately after the compact headline and description. Keep the shaped bar,
+quiet search field, and separate live-count surface. The introduction supplies the
+search context; omit the former Stack snapshot eyebrow and repeated explanation.
+Follow the dock with three ruled group shortcuts, each showing its live catalog
+size and recurrence threshold. Stack those shortcuts into rows on narrow screens,
+and hide them during a search. Quiet Work and Portfolio links close the opening.
+Preserve native fragment destinations and visible keyboard focus.
 The count moves below the field on narrow containers; remove the decorative search
 icon only when needed to preserve input width. Keep visible focus, complete labels,
 singular and plural counts, and the full result sentence for screen readers.

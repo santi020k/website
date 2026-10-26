@@ -181,18 +181,20 @@ mainClass="remaining-pages remaining-pages--reading"
         variant="shelf"
       />
       <RevealGroup
-        class:list={[
-          'grid gap-6',
-          relatedProjects.length > 1 && 'lg:grid-cols-2'
-        ]}
+        class="grid grid-cols-1 gap-0"
+        data-related-project-list
         stagger={70}
         threshold={0}
       >
-        {relatedProjects.map(relatedProject => (
-          <RelatedProjectCard project={relatedProject} />
+        {relatedProjects.map((relatedProject, index) => (
+          <RelatedProjectCard index={index} project={relatedProject} />
         ))}
       </RevealGroup>
     </PageSection>
   )}
 
 </BaseLayout>
+
+<style>
+  [data-related-project-list] { container: related-list / inline-size; }
+</style>

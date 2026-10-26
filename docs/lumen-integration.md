@@ -227,8 +227,16 @@ by canonical slug, and excludes the selected technology. The site owns the open
 heading, ruled grid, responsive wrapping, and closing navigation. Links work without
 JavaScript; archives with no connections omit the section.
 
+The index opening uses **Catalog first**: a compact `PageHero`, the existing Search
+dock immediately after its introduction, and native Lumen `Link` shortcuts to Core,
+Regular, and Selective. Group counts and recurrence thresholds use the same data as
+the catalog below. Quiet Work and Portfolio links follow the shortcuts. Filtering
+hides the shortcuts while a query is active, preventing links to hidden groups;
+clearing it restores them. Group headings retain their fragment IDs and accept
+native fragment focus. No additional runtime is introduced.
+
 The **Search dock** composition keeps the existing Lumen `Input` and technology
-controller inside the catalog's Lumen `Card`. Its native label, decorative `Icon`,
+controller in the compact `PageHero` after-description slot. Its native label, decorative `Icon`,
 and live count form one shaped search surface. The count and unit update inside an
 atomic live region, retaining the full existing result sentence for screen readers.
 The count compartment moves below the input on narrow containers. The original
@@ -395,6 +403,8 @@ enlarged text sizes. No new client controller is introduced.
   Client caption keeps client attribution above the measured rows. Context trail
   uses inherit-style Lumen `Link` and decorative `Icon` inside a labeled native
   navigation region, with optional authored chapter fragments and no client script.
+  Lumen reuses this trail for capabilities, technical highlights, and website examples,
+  with its three existing fragments authored in MDX and native same-page navigation.
   Focus and Outcomes share small purple labels, right-aligned icons, and plain surfaces.
 - Speaking, principle, testimonial, section-header, and project-sidebar surfaces use Lumen `Card`
   while retaining their site-specific composition and spacing.
@@ -631,6 +641,17 @@ under the sticky header. Remove the Anchor portion of the patch when a published
 landing-line activation. If `lumen-astro` changes version first, regenerate the version-specific
 patch with `pnpm patch` and update its registration before validating the upgrade. Verify with the enlarged fragment-navigation and
 text-size marker cases in `tests/responsive-reading.spec.ts`.
+
+## Article prose typography
+
+Article inline code uses Code accent: the site's existing `font-code` token with
+the established purple treatment. This article-scoped prose rule leaves Lumen's
+fenced code and package-manager tab components unchanged.
+
+Article composition also applies Reading measure through the site's prose styles:
+top-level paragraphs and lists have a 40rem maximum inline size. Lumen code and table
+surfaces, approved editorial treatments, and the reading layout retain their existing
+space. This is a scoped typography rule, without a new component or runtime behavior.
 
 ## Article progress runtime patch
 

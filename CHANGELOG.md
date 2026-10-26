@@ -272,6 +272,8 @@
 
 - Present Lumen Goals as Intent brief, keeping each authored goal in continuous reading flow with an accent opening phrase, open rules and responsive typography.
 
+- Connect Lumen Outcomes to its capabilities, technical highlights and website examples through the shared Context trail, preserving native same-page navigation and the existing outcome claims.
+
 ### Patch Changes
 
 - Keep featured project images and copy full width when galleries stack on mobile or with enlarged text, matching the other cards' image proportions while preserving the desktop composition. Keep archive-match badges readable in dark mode.
