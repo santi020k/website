@@ -52,10 +52,11 @@ test('opening fragment remains reachable without JavaScript', async ({ browser }
     await page.goto(`/portfolio/${project}/`)
     const opener = page.locator('[data-project-mobile-toc]')
 
-    await opener.locator('summary').click()
-    await opener.getByRole('link', { name: heading, exact: true }).click()
+    await opener.locator('[data-toc-summary]').click()
+    await opener.locator(`a[href="#${fragment}"]`).click()
     await expect(page).toHaveURL(new RegExp(`#${fragment}$`, 'u'))
     await expect(page.locator(`#${fragment}`)).toBeInViewport()
+    await expect(page.getByRole('heading', { name: heading, exact: true })).toBeInViewport()
     await expect(page.locator('[data-content-notes]')).toHaveCount(0)
   }
   await context.close()

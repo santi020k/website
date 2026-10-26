@@ -29,7 +29,7 @@ test.describe('Index filters', () => {
     await expect(page.locator('#tags-list > [data-label]:visible')).toHaveCount(await topics.count())
   })
 
-  test('filters technologies, updates group counts, and exposes an empty state', async ({ page }) => {
+  test('filters technologies into an evidence ledger and exposes an empty state', async ({ page }) => {
     await page.goto('/technologies/')
 
     const search = page.getByRole('searchbox', { name: 'Find a technology' })
@@ -38,7 +38,8 @@ test.describe('Index filters', () => {
 
     await expect(page.locator('#technology-filter-status')).toHaveText('1 technology found.')
     await expect(page.locator('[data-technology-item]:visible')).toHaveCount(1)
-    await expect(page.locator('[data-technology-group]:visible [data-technology-group-count]')).toHaveText('1 tool')
+    await expect(page.locator('[data-technology-matches-list] a')).toHaveAccessibleName('TypeScript Core 20 entries')
+    await expect(page.locator('[data-technology-groups]')).toBeHidden()
 
     await search.fill('not-a-real-technology')
 
@@ -104,7 +105,7 @@ test.describe('Index filters', () => {
 
     await expect(page).toHaveURL('/technologies/ci-cd/')
     await expect(page).toHaveTitle('CI/CD · Technology | santi020k')
-    await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName('CI/CD Projects.')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveAccessibleName('CI/CD In practice.')
 
     const response = await page.request.get('/og/manifest.json')
 

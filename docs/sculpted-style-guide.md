@@ -860,10 +860,15 @@ with 0.75rem corners, and the role, complete 1.75rem title, full description, an
 Keep a 2.5rem column gap and 2rem vertical padding. The project color accents the
 index, uppercase role, and plain forward reading action.
 
-The list owns the `related-list` container. Below 56rem, tighten the columns;
-below 42rem, put the copy beneath the numbered artwork and use a 16:9 image.
-Below 22rem, use a 1.5rem title. Below 16rem, omit the decorative index and reduce
-the title to 1.25rem; below 14rem, omit the decorative arrow.
+The list owns the `related-list` container. Below 56rem, tighten the columns.
+Below 42rem, pair a 5.5rem square thumbnail with the role and 1.375rem title.
+Place the decorative index at the end of the role line, reserving space so long
+roles cannot overlap it. Give the full description its own full-width row with
+1.75 leading, followed by a 44px-minimum action with the arrow at the far edge.
+Use 1rem gaps, 1.5rem top padding, and 1rem bottom padding for a compact reading rhythm.
+Below 20rem, use a 4.5rem thumbnail and 1.25rem title. Below 16rem, omit the
+decorative artwork and index so enlarged text has the full width;
+below 14rem, omit the decorative arrow.
 Never clamp content. Keep the existing selection, order, descriptions, and destinations
 without adding dates or technology inventories.
 
@@ -1018,6 +1023,11 @@ has toggled them, selected a chapter link, or focus remains inside. Manual closi
 section changes. Direct hashes open the inner chapter. Disconnect the observer and
 fragment listener when Astro removes the component. Keep native disclosures and links
 usable without JavaScript.
+
+When an expanded mobile index is above the viewport, preserve the reading position as its
+automatic chapters change height. Preview fallback links and enhanced buttons share their
+width, wrapping, and minimum height so activating the viewer cannot shift a section below it.
+Allow their labels to wrap within the available width when text is enlarged.
 
 Below 16rem of rail width, tighten panel and link insets. Below 9rem, tighten them
 again so enlarged text can wrap. Preserve visible keyboard focus in short, independently
@@ -1513,6 +1523,15 @@ headings, quotations, code, tables, and illustrations at their existing widths. 
 contents rail, series continuation, and closing sections in their established positions.
 Scope the measure to authored prose inside `data-article-prose`, leaving project pages
 and embedded component layouts independent. No wrapper or client behavior is added.
+
+### List rhythm
+
+Article lists follow the paragraph reading scale: 1rem below the shared `sm`
+breakpoint and 1.125rem above it, with a 1.625 line height. Apply this to direct
+unordered and ordered lists in article prose; nested list items inherit the scale.
+Keep Reading measure, native markers, numbering, authored links and emphasis,
+and the existing list spacing and indentation rules. Preserve list markup and
+embedded component layouts without a transform or client script.
 
 ### Margin imprint article publication details
 
@@ -2069,7 +2088,11 @@ Preserve one `h1`, meaningful section headings, and semantic navigation landmark
 The sticky header ends 6rem below the viewport top, so the root scroll padding is `7em` on
 `<html>` (equal to 7rem there) and fragment targets land below it. It uses `em` because WebKit
 can resolve a root `rem` scroll padding against the default font size, which places enlarged-text
-headings under the header. Article and project layouts mark their `<article>` with
+headings under the header. Project headings and evidence briefs rely on this single clearance;
+do not add another header-sized scroll margin. Project subsection headings use manual hyphenation
+to preserve whole words. Below 20rem of reading width, omit their decorative line so enlarged
+words can use the whole column.
+Article and project layouts mark their `<article>` with
 `data-reading-layout`, a named `reading-layout` container. The prose and its sidebar
 (`data-reading-body` and `data-reading-rail`) share a row only on desktop viewports whose reading
 container is at least 56rem in root-relative units. Enlarged text moves reading navigation
@@ -2304,8 +2327,20 @@ Preserve native fragment destinations and visible keyboard focus.
 The count moves below the field on narrow containers; remove the decorative search
 icon only when needed to preserve input width. Keep visible focus, complete labels,
 singular and plural counts, and the full result sentence for screen readers.
-Filtering still updates the existing groups and Catalog note empty state. Preserve
-technology order, recurrence counts, native project destinations, and text resizing.
+Filtering uses the Match ledger below and retains the Catalog note empty state.
+Preserve technology order, recurrence counts, native technology destinations, and
+text resizing.
+
+### Match ledger technology results
+
+When the technology search has a query, replace the large group introductions with
+one open ledger. Use a small Matches for heading and a quiet explanation that
+counts represent portfolio entries. Each ruled native link aligns its technology,
+Core/Regular/Selective group, entry count, and decorative forward arrow. Keep the
+existing catalog order and destinations, without duplicate links or added cards.
+At narrow widths, place the group and count on a second line beneath the name and
+arrow. Keep whole names, visible focus, light/dark contrast, and text enlargement.
+Clearing restores the complete grouped catalog; zero matches use Catalog note.
 
 ### Search folio Blog topics controls
 
