@@ -65,6 +65,8 @@ import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpr
 
 import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
 
+import ProjectConsumerTrail from '@/components/molecules/ProjectConsumerTrail.astro'
+
 <ProjectContextLead projectId="lumen-ui" headingId="a-shared-language-for-web-and-native-interfaces">
 
 ## A shared language for web and native interfaces
@@ -184,15 +186,21 @@ A local build, a published package, a store build, and physical-device accessibi
 
 </ProjectSectionHeading>
 
-This site consumes the published Lumen 4 Astro, core, and umbrella packages. The travel notebook
-uses `WorldMap`, the homepage presents a product screenshot through `DeviceFrame`, and reading
-layouts compose shared progress, copy actions, and navigation primitives. The website keeps its
-editorial styling, search, content ordering, and travel data.
+<ProjectConsumerTrail
+  introduction="This site consumes the published Lumen 4 Astro, core, and umbrella packages."
+  responsibility="Reading layouts compose shared progress, copy actions, and navigation primitives. The website keeps its editorial styling, search, content ordering, and travel data."
+  examples={[
+    { label: 'Travel notebook', href: '/travel/', description: 'The travel notebook uses', component: 'WorldMap' },
+    { label: 'Homepage product preview', href: '/#projects-heading', description: 'A product screenshot presented through', component: 'DeviceFrame' }
+  ]}
+>
 
 This consumer work helps identify library improvements from real interfaces: clear defaults,
 public styling hooks, accessible clipboard feedback, and predictable motion. The
 [v3 to v4 migration guide](https://github.com/santi020k/lumen/blob/main/docs/migrating-v3-to-v4.md)
 records the upgrade contract for other consumers.
+
+</ProjectConsumerTrail>
 
 <ProjectSectionHeading>
 

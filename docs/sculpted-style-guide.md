@@ -1192,6 +1192,23 @@ The note is a named section; its label adds no entry to the chapter navigation.
 When it follows an Ownership ledger, reuse that list's closing rule and bottom spacing
 instead of adding a second divider.
 
+### Consumer trail website examples
+
+Lumen's Used in this website section keeps its Section cadence heading and fragment.
+Follow a 1.125rem introduction with two open example links in equal columns, using
+1.5rem gaps, fine top and bottom rules, and 1.5rem vertical insets. Link the travel
+notebook to `/travel/` and homepage product previews to `/#projects-heading`.
+Each link has a 1.125rem, weight-500 title, a 0.875rem description with inline code,
+and a decorative outward arrow. Keep the complete link target at least 2.75rem tall.
+
+Use a 1rem paragraph for the site's responsibilities, then the existing feedback
+and migration-guide paragraph at 0.9375rem with 1.5rem separation. Below 35rem,
+stack the links with one shared divider and reduce only the introduction to 1.0625rem.
+Below 16rem, omit decorative arrows to preserve enlarged-text reading space.
+Internal examples use native same-tab navigation; the migration guide opens safely
+in a new tab. Keep all visible example text in each accessible link name and preserve visible keyboard focus,
+and the existing chapter navigation. No card fill or client controller is needed.
+
 ### Synthesis spread closing reflection
 
 Close a multi-client case study with an open composition: a small What carries forward
