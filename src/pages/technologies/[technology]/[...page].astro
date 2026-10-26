@@ -3,17 +3,16 @@ import type { GetStaticPaths, Page } from 'astro'
 
 import type { CollectionEntry } from 'astro:content'
 
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
-import StatCard from '@/components/molecules/StatCard.astro'
 import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
-import StatsGrid from '@/components/organisms/StatsGrid.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects } from '@/utils/date'
 import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
 import { getSocialImagePath } from '@/utils/social-image'
+
+import { Icon, Link } from '@santi020k/lumen-astro'
 
 import { createProjectCollectionSchema, getUniqueTechnologies } from '@/data/project'
 
@@ -51,6 +50,18 @@ const projectMatches = page.data.filter(
 const communityMatches = page.data.filter(project => project.data.typesId === 'community')
 const workExperienceMatches = page.data.filter(project => project.data.typesId === 'professional')
 
+const evidenceGroups = [
+  { count: workExperienceMatches.length, label: 'Work experience', context: 'professional work', href: '#technology-work-heading' },
+  { count: projectMatches.length, label: 'Projects', context: 'independent projects', href: '#technology-projects-heading' },
+  { count: communityMatches.length, label: 'Community', context: 'community', href: '#technology-community-heading' }
+].filter(group => group.count > 0)
+
+const evidenceContext = new Intl.ListFormat('en', { type: 'conjunction' }).format(evidenceGroups.map(group => group.context))
+
+const openingDescription = `${page.data.length} ${page.data.length === 1 ? 'entry' : 'entries'}` +
+  `${page.lastPage > 1 ? ' on this page' : ''} ${evidenceGroups.length > 1 ? 'across' : 'in'} ${evidenceContext}. ` +
+  `Explore where ${technology} shaped the work.`
+
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Technologies', url: '/technologies/' },
@@ -74,19 +85,24 @@ const meta = {
 
 <PageLayout mainClass="remaining-pages" meta={meta}>
   <PageHero
-    description={`Projects where ${technology} played a meaningful role in the architecture, delivery workflow,
-      or product experience.`}
-    eyebrow="Technology filter"
-    gradientText="Projects."
-    metaItems={['Portfolio evidence', 'Architecture context', 'Delivery impact']}
+    description={openingDescription}
+    eyebrow="Technology evidence"
+    gradientText="In practice."
     title={technology}
   >
-    <ButtonLink href="/technologies/" showArrow variant="secondary">
-      All technologies
-    </ButtonLink>
-    <ButtonLink href="/portfolio/" showArrow variant="secondary">
-      Portfolio
-    </ButtonLink>
+    <nav aria-label="Technology evidence" data-technology-evidence-index slot="after-description">
+      {evidenceGroups.map(group => (
+        <Link data-technology-evidence-link href={group.href} variant="inherit">
+          <span data-technology-evidence-count>{group.count}</span>{' '}
+          <span data-technology-evidence-label>{group.label}</span>
+          <Icon data-technology-evidence-arrow name="arrow-down" />
+        </Link>
+      ))}
+    </nav>
+    <div data-technology-archive-escape>
+      <Link href="/technologies/" variant="inherit">All technologies<Icon name="arrow-right" /></Link>
+      <Link href="/portfolio/" variant="inherit">Portfolio<Icon name="arrow-right" /></Link>
+    </div>
   </PageHero>
 
   {projectMatches.length > 0 && (
@@ -164,26 +180,68 @@ const meta = {
     </section>
   )}
 
-  <StatsGrid columns={communityMatches.length > 0 ? 3 : 2}>
-    <StatCard
-      description={`Independent and open-source projects where ${technology} shaped the product or engineering system.`}
-      icon="folder-open"
-label="Projects"
-      value={projectMatches.length}
-    />
-    {communityMatches.length > 0 && (
-      <StatCard
-        description={`Community work where ${technology} supported practical learning and knowledge sharing.`}
-        icon="users"
-label="Community"
-        value={communityMatches.length}
-      />
-    )}
-    <StatCard
-      description={`Professional roles where ${technology} contributed to architecture, delivery, or product outcomes.`}
-      icon="briefcase-business"
-label="Work experience"
-      value={workExperienceMatches.length}
-    />
-  </StatsGrid>
 </PageLayout>
+
+<style>
+  [data-technology-evidence-index] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 1.75rem;
+    margin-top: 2.5rem;
+    border-block: 1px solid hsl(var(--line));
+  }
+  [data-technology-evidence-index] :global([data-technology-evidence-link]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem 0.75rem;
+    min-width: 0;
+    padding-block: 1.75rem;
+    color: hsl(var(--ink));
+    text-decoration: none;
+  }
+  [data-technology-evidence-count] {
+    grid-column: 1 / -1;
+    font-size: 2.75rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  [data-technology-evidence-label] { font-size: 0.9375rem; line-height: 1.8; }
+  [data-technology-evidence-index] :global([data-technology-evidence-arrow]) { color: hsl(var(--accent)); }
+  [data-technology-evidence-index] :global(a:is(:hover, :focus-visible)) { color: hsl(var(--accent)); }
+  [data-technology-evidence-index] :global(a:is(:hover, :focus-visible)) [data-technology-evidence-label] {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+  [data-technology-archive-escape] { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; }
+  [data-technology-archive-escape] :global(a) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    color: hsl(var(--ink-soft));
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    text-decoration: none;
+  }
+  [data-technology-archive-escape] :global(a:is(:hover, :focus-visible)) {
+    color: hsl(var(--accent));
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+  :is([data-technology-evidence-index], [data-technology-archive-escape]) :global(a:focus-visible) {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 4px;
+  }
+  #technology-projects-heading, #technology-community-heading, #technology-work-heading { scroll-margin-top: 7rem; }
+  @container editorial-hero (width < 32rem) {
+    [data-technology-evidence-index] { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    [data-technology-evidence-index] :global([data-technology-evidence-link]) {
+      grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+      padding-block: 1.25rem;
+    }
+    [data-technology-evidence-index] :global(a + a) { border-top: 1px solid hsl(var(--line)); }
+    [data-technology-evidence-count] { grid-column: auto; font-size: 2rem; }
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+interface Props {
+  labelledBy: string
+}
+
+const { labelledBy } = Astro.props
+---
+
+<div class="not-prose" data-project-capabilities>
+  <ul aria-labelledby={labelledBy} role="list"><slot /></ul>
+</div>
+
+<style>
+  [data-project-capabilities] {
+    container: project-capabilities / inline-size;
+    margin-block: 1.5rem;
+  }
+  [data-project-capabilities] ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @container project-capabilities (width < 35rem) {
+    [data-project-capabilities] ul { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

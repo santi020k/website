@@ -1042,6 +1042,19 @@ and standalone emphasized claims use the full row, without inventing a missing c
 Keep nested lists and ordered-list numbering semantic. This passive composition has
 no card fill, shadow, decorative dots, or hover feedback.
 
+### Capability spread project entries
+
+Lumen's six capability entries use an open two-column spread with 1.75rem gaps.
+Each entry starts with a fine neutral rule, 1.5rem top inset, and a decorative
+0.75rem accent number. Use a 1.25rem, weight-500 h4 with 1.4 line height, then
+the complete description at 0.9375rem with 1.733 leading. Leave 0.75rem between
+number, title, and copy. Preserve inline code and the authored entry order.
+
+Below 35rem of available width, stack the entries in one column. Keep native
+list semantics and associate the list with its existing Section cadence heading.
+Entry headings do not add chapter navigation destinations. Use no card fill,
+hover behavior, or client script; other project lists retain Ownership ledger.
+
 ### Gallery sheet product previews
 
 Contextual gallery places the existing Gallery sheets inside the relevant story
@@ -1856,6 +1869,16 @@ Projects, including complete card descriptions, open surfaces, plain technology
 labels, and a continuous keyboard outline. Project-colored hover and focus headings
 use the palette's readable color for the active theme.
 
+The archive opening uses **Evidence index**: keep the shared editorial hero, use
+“Technology evidence” and “In practice.”, and derive its entry count and category
+description from the rendered collection. A ruled index presents Work experience,
+Projects, and Community counts as native links to their existing section headings.
+Omit empty groups and adapt singular copy; do not repeat statistics at the page end.
+Retain the existing gallery order. All technologies and Portfolio sit below as
+quiet text links. At less than 32rem of hero width, stack the index into count,
+label, and arrow rows. Keep visible focus, enlarged-text reflow, and heading
+clearance below the fixed navigation; no client script is needed.
+
 Featured portfolio cards combine Layered editorial with the horizontal overlap of
 Home's Offset spread. At 56rem of card width, artwork occupies the left side while
 the content sheet overlaps its right edge. The complete description, metrics, and
@@ -2060,6 +2083,22 @@ subjects and full wording. Its narrow-container rules preserve complete words wi
 Related-work shelf headers use the open, ruled composition described under Related
 projects. Keep the full project-type heading, parent destination, and native navigation
 at enlarged text sizes. Other `SectionHeader` variants retain their existing layout.
+
+### Margin continuation related-writing headers
+
+Article recommendations use the shared `SectionHeader` with `variant="margin"`, above
+the existing two-column `PostsGallery` in a stacked `PageSection`. Keep Related writing
+in a 6rem margin column, with a 1.625rem gap before the copy. A fine neutral vertical
+rule and a 2px, 3.375rem accent segment mark the copy's edge; inset it by 1.75rem.
+Use a 2.25rem, weight-500 title with balanced lines, a 0.875rem description, and the
+existing inline browse action. Keep the header open, without another card surface.
+
+Below 35rem of available width, place the label above the copy and reduce the title
+to 1.875rem and the inset to 1.25rem. Below 18rem, use a 1.5rem title and a 0.625rem
+inset so enlarged text and long action labels remain whole. Use accent in dark mode,
+retain visible keyboard focus, and preserve the blog or developer-experience destination.
+Recommendation selection, series exclusion, article cards, and project shelf headers stay
+with their existing components and contracts. No client script is required.
 
 Article and project headers use
 lighter titles and open metadata rows; project titles retain their readable project-brand

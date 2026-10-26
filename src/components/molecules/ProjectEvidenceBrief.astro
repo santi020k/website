@@ -14,15 +14,15 @@ const { id, label, references } = Astro.props
   <p id={`${id}-label`} data-evidence-label>{label}</p>
   <div data-evidence-copy><slot /></div>
   <nav aria-label={`${label} sources`} data-evidence-links>
-    {references.map((reference, index) => (
+    {references.map(reference => (
       <Link
         href={reference.href}
         newTab
         variant="inherit"
         data-evidence-link
       >
-        <strong id={`${id}-reference-${index}`}>{reference.label}</strong>{' '}
-        <span id={`${id}-description-${index}`} data-evidence-description>{reference.description}</span>
+        <strong>{reference.label}</strong>
+        <span data-evidence-description>{reference.description}</span>
         <span data-evidence-arrow><Icon name="arrow-up-right" size="sm" /></span>
       </Link>
     ))}

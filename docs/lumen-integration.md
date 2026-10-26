@@ -193,6 +193,12 @@ the layout wraps on mobile and desktop and requires no additional client JavaScr
 
 ## Technology index search
 
+Technology archive openings use **Evidence index**, composed from the shared
+`PageHero` after-description slot and public Lumen `Link` and `Icon` primitives.
+Counts link to the existing rendered section headings; empty categories are omitted.
+The site owns the ruled responsive layout and quiet escape links. Native fragment
+navigation works without JavaScript, and the old closing statistics are removed.
+
 The **Search dock** composition keeps the existing Lumen `Input` and technology
 controller inside the catalog's Lumen `Card`. Its native label, decorative `Icon`,
 and live count form one shaped search surface. The count and unit update inside an
@@ -312,10 +318,16 @@ enlarged text sizes. No new client controller is introduced.
   build time. Native headings, generated fragments, and inline links remain intact;
   a span keeps formatted titles together beside a CSS rule. The article prose container
   adapts the typography and rule spacing without client code or a second Lumen runtime.
+- `ProjectCapabilitySpread` and `ProjectCapabilityEntry` compose Lumen's six capabilities
+  as a named native list with open ruled entries, decorative numbers, and h4 labels.
+  They preserve authored MDX descriptions and inline code, use semantic tokens, and stack
+  below 35rem of available width. No Lumen control or client controller is needed for this
+  passive editorial composition; other project lists retain Ownership ledger.
 - `ProjectEvidenceBrief` groups authored qualifications with named external references in
   an open semantic section. Lumen `Link` supplies safe new-tab behavior and `Icon` supplies
   decorative arrows. Keep the reference URLs and qualifications in the project content;
-  descriptions supplement accessible link names, with no controller or new chapter heading.
+  each native link name includes its visible title and description without redundant ARIA
+  overrides. No controller or new chapter heading is added.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter
@@ -539,6 +551,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   retain the default Dispatch sleeve and Return folio variants. No additional client
   behavior or external service is introduced.
 - The share toolbar (see above) keeps its own controller for the native share-sheet fallback.
+- Related writing uses `SectionHeader`'s `margin` variant (Margin continuation) inside
+  a stacked `PageSection`. Native heading and paragraph markup provide the margin label
+  and ruled copy; the existing Lumen-backed `ButtonLink` supplies the browse action.
+  `RelatedPosts` retains its recommendation logic, series exclusions, two-card gallery,
+  and contextual destination. Project headers retain the separate approved `shelf` variant.
 
 ## Anchor runtime patch
 
