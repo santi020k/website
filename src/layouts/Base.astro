@@ -93,7 +93,7 @@ const isGenerousSpacing = mainSpacing === 'generous'
         setTimeout(() => document.documentElement.removeAttribute('data-instant-scroll'), 0)
       }, { capture: true })
     </script>
-    <ClientRouter />
+    <ClientRouter fallback="swap" />
     <noscript>
       <style is:inline>
         /*
@@ -183,7 +183,6 @@ const isGenerousSpacing = mainSpacing === 'generous'
           mainClass
         ]}
         tabindex="-1"
-        transition:animate="fade"
       >
         <slot />
       </main>
@@ -197,6 +196,16 @@ const isGenerousSpacing = mainSpacing === 'generous'
     {import.meta.env.PROD && <ServiceWorkerRegistration />}
 
     <script>
+      import { TransitionBeforeSwapEvent } from 'astro:transitions/client'
+
+      // The route transition owns the entrance after navigation. Replaying each
+      // hero's initial-load animation underneath it causes a second jump/fade.
+      document.addEventListener('astro:before-swap', event => {
+        if (event instanceof TransitionBeforeSwapEvent) {
+          event.newDocument.body.dataset.clientNavigation = ''
+        }
+      })
+
       // Every rendered document starts with data-instant-scroll, and a swap copies it
       // onto the live root before Astro restores history or fragment scroll. Dropping
       // it afterwards keeps same-page links smooth without animating restoration.

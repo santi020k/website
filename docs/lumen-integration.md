@@ -680,6 +680,14 @@ and article view transitions. Project covers remain unnamed transition regions a
 their native aspect ratio. Square and portrait articles retain Lumen's contained `CoverImage`.
 The default wrapper remains unchanged. No new client runtime is needed.
 
+Route snapshot styling lives in `view-transitions.css`. Astro keeps its existing
+navigation lifecycle and named article covers; the site uses Lumen's public
+`--ui-ease-emphasized` token for snapshot movement. Destination documents receive
+`data-client-navigation` before the swap to suppress duplicate hero entrances and
+the header logo's public draw/pop/reveal hooks. First-load animations remain intact.
+The header DOM still updates on every route, keeping active links, responsive
+menus, and search controllers current. It is not a persisted component.
+
 ## Synchronized code tabs patch
 
 The version-pinned Astro patch also keeps package-manager preferences synchronized without

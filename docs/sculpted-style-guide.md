@@ -2112,6 +2112,21 @@ removal condition. Never use a negative heading scroll margin to align the marke
 Keep motion optional. Hover transitions last 180–300ms; reduced-motion mode removes transitions
 and image scaling. The homepage content adds no client JavaScript.
 
+### Page transitions
+
+Keep the header and navigation progress visually steady during route changes.
+Use viewport snapshots so different page lengths and scroll positions cannot
+stretch or shift the outgoing content. Content exits in 90ms, then enters over
+180ms with a 60ms start delay and a restrained 6px rise. Do not interpolate page heights or
+replay initial-load hero and logo animations underneath the route transition.
+Article covers retain their shared names and use Lumen's emphasized easing with
+a 240ms geometry transition. Keep the header above those image snapshots.
+
+Astro owns navigation, history, fragment scrolling, focus, and announcements.
+Browsers without native View Transitions use an immediate client swap; reduced
+motion removes snapshot animations. Verify both themes at 375px and 1440px,
+including article entry and Back, topic filters, and cross-page fragments.
+
 ### Caption spread article illustrations
 
 Standalone article illustrations use their full native aspect ratio above a short caption and
