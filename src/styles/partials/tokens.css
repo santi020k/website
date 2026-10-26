@@ -21,6 +21,7 @@
   /* Shared editorial shapes; keep sizing and responsive rules in each composition. */
   --radius-sheet: 1.5rem 1.5rem 0.5rem 1.5rem;
   --radius-folio: 1.75rem 1.75rem 0.5rem 1.75rem;
+  --radius-quote-sleeve: 2.5rem 2.5rem 0.75rem 2.5rem;
   --font-code: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
   /* Stable contrast over photography, independent of the page theme. */
   --color-portrait-scrim: #17101f;
@@ -30,6 +31,7 @@
   --shadow-nav: 0 4px 16px hsl(var(--ink) / 0.04);
   --shadow-nav-scrolled: 0 8px 24px hsl(var(--ink) / 0.08);
   --shadow-history-sheet: 0.375rem 0.375rem 0 hsl(var(--brand-soft));
+  --shadow-quote-sleeve: 0 0.5rem 0 -0.1875rem color-mix(in srgb, hsl(var(--brand)) 11%, hsl(var(--canvas)));
   --color-success: hsl(var(--success));
   --color-warning: hsl(var(--warning));
   --color-danger: hsl(var(--danger));
