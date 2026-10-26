@@ -11,7 +11,7 @@ import PageLayout from '@/layouts/Base.astro'
 import AboutMeImage from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
 import { getCachedProjects } from '@/utils/content'
 
-import { ButtonLink, Icon, Stat } from '@santi020k/lumen-astro'
+import { ButtonLink, Icon, Link, Stat } from '@santi020k/lumen-astro'
 
 import { collaborationLanes, engineeringPrinciples, selectedOrganizations, testimonials } from '@/data/profile'
 import {
@@ -48,19 +48,22 @@ const profileStats = [
   {
     description: 'Building web, mobile, backend, automation, and developer experience systems.',
     label: 'Experience',
+    source: { href: '/work/#experience-heading', label: 'Career timeline' },
     value: yearsOfExperience,
     unit: 'years'
   },
   {
     description: 'Largest cross-functional team led across product, design, frontend, and backend.',
     label: 'Team leadership',
+    source: { href: '/portfolio/void/#what-i-led', label: 'Void.GG · What I led' },
     value: '14',
     unit: 'people'
   },
   {
-    description: 'Release lead-time reduction through CI/CD and quality-gate automation.',
-    label: 'Delivery systems',
-    value: '-75%',
+    description: 'Through CI/CD and improved release workflows.',
+    label: 'Faster deployments',
+    source: { href: '/portfolio/void/#key-outcomes', label: 'Void.GG · Key outcomes' },
+    value: '60%',
     unit: ''
   }
 ]
@@ -145,12 +148,15 @@ const meta = {
     <AboutHero />
 
     <section id="about-profile-highlights" class="about-stats" aria-label="Profile highlights">
-      {profileStats.map(({ description: statDescription, label, unit, value }, index) => (
+      {profileStats.map(({ description: statDescription, label, source, unit, value }, index) => (
         <Stat as="article" class="about-stat" variant="bare" aria-labelledby={`about-stat-${index}`}>
           <p class="about-stat-value">{value}{unit && <> <span>{unit}</span></>}</p>
           <div data-about-stat-copy>
             <h2 id={`about-stat-${index}`}>{label}</h2>
             <p data-about-stat-description>{statDescription}</p>
+            <Link data-about-stat-source href={source.href} variant="inherit">
+              <span>{source.label}</span><Icon name="arrow-up-right" size="sm" />
+            </Link>
           </div>
         </Stat>
       ))}

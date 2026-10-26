@@ -7,18 +7,21 @@ import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibili
 const highlights = [
   {
     label: 'Experience',
+    source: { href: '/work/#experience-heading', label: 'Career timeline' },
     value: `${YEARS_OF_EXPERIENCE} years`,
     description: 'Building web, mobile, backend, automation, and developer experience systems.'
   },
   {
     label: 'Team leadership',
+    source: { href: '/portfolio/void/#what-i-led', label: 'Void.GG · What I led' },
     value: '14 people',
     description: 'Largest cross-functional team led across product, design, frontend, and backend.'
   },
   {
-    label: 'Delivery systems',
-    value: '-75%',
-    description: 'Release lead-time reduction through CI/CD and quality-gate automation.'
+    label: 'Faster deployments',
+    source: { href: '/portfolio/void/#key-outcomes', label: 'Void.GG · Key outcomes' },
+    value: '60%',
+    description: 'Through CI/CD and improved release workflows.'
   }
 ]
 
@@ -36,6 +39,10 @@ for (const theme of ['light', 'dark'] as const) {
       await expect(article.getByRole('heading', { level: 2 })).toHaveText(highlight.label)
       await expect(article.locator('.about-stat-value')).toHaveText(highlight.value)
       await expect(article.locator('[data-about-stat-description]')).toHaveText(highlight.description)
+      const source = article.getByRole('link', { name: highlight.source.label, exact: true })
+
+      await expect(source).toHaveAttribute('href', highlight.source.href)
+      await expect(source).not.toHaveAttribute('target', '_blank')
     }
     for (const width of [320, 390, 768, 1024, 1440]) {
       for (const size of [100, 200]) {
@@ -47,7 +54,7 @@ for (const theme of ['light', 'dark'] as const) {
         const overflow = await articles.evaluateAll(rows => rows.flatMap(row => {
           const bounds = row.getBoundingClientRect()
 
-          return [...row.querySelectorAll('h2, p')].filter(copy => {
+          return [...row.querySelectorAll('h2, p, a')].filter(copy => {
             const range = document.createRange()
 
             range.selectNodeContents(copy)
@@ -68,9 +75,33 @@ for (const theme of ['light', 'dark'] as const) {
         }))
 
         expect(overlaps, 'Figures must not overlap their explanations').toBe(false)
+        for (const source of await section.getByRole('link').all()) {
+          await source.focus()
+          await expect(source).toHaveCSS('outline-style', 'solid')
+          const height = await source.evaluate(element => element.getBoundingClientRect().height)
+
+          expect(height).toBeGreaterThanOrEqual(44)
+        }
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
       }
     }
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 }
+
+test.describe('About profile evidence without JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+
+  test('opens each supporting section with native keyboard navigation', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 900 })
+    for (const { source } of highlights) {
+      await page.goto('/about/')
+      const section = page.getByRole('region', { name: 'Profile highlights' })
+
+      await section.getByRole('link', { name: source.label, exact: true }).focus()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(url => `${url.pathname}${url.hash}` === source.href)
+      await expect(page.locator(new URL(source.href, page.url()).hash)).toBeVisible()
+    }
+  })
+})

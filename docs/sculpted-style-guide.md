@@ -588,20 +588,26 @@ narrow-column insets. Cards remain passive, without hover changes. Use the same
 phrase boundary without removing words or punctuation. Keep About's open editorial
 principles in their existing presentation.
 
-### Margin counters About profile highlights
+### Linked counters About profile highlights
 
 The three profile highlights use bare Lumen Stat articles in full-width, ruled rows.
 Place the figure and its smaller unit in the left margin, with a label and complete
 explanation beside a 2px accent rail. Keep experience derived from the shared site
-configuration and preserve the authored team and delivery metrics. The section has
-an accessible name and each article is named by its level-two heading.
+configuration, retain the 14-person team metric, and use the documented Void.GG
+60% faster-deployments result in place of the former release lead-time claim.
+The section has an accessible name and each article is named by its level-two heading.
+
+Top-align each figure with its description and add a quiet Lumen source link below
+the copy: Career timeline, Void.GG · What I led, or Void.GG · Key outcomes. Links
+stay in the current tab and target the matching section; they have 2.75rem minimum
+height, 0.75rem type, and visible keyboard focus. Keep the margin rail and open rows.
 
 Use About's semantic accent in both themes, 4rem figures, and a 0.65fr / 1fr split.
 Reduce figures to 3.25rem below 53.125rem of container width. Below 31.25rem, use a
 compact 6.5rem figure column, 2.75rem figures with their units below, 1.125rem labels,
 and 1.5rem row insets. Below 20rem, stack the figure above the copy and put its unit
 back on the same line. At enlarged text on a narrow phone, let the
-figure scale with the container. These passive highlights add no links or animation.
+figure scale with the container. This composition adds no client JavaScript or animation.
 
 ### Margin brief About working modes
 
@@ -736,7 +742,7 @@ and its static accessible value; text values remain static.
 On phones the icon moves beside the value and the rule disappears. Narrow content
 columns restore the stacked icon and scale long values to fit. Cards stay passive,
 without hover effects or new animation. The homepage uses its dedicated Sculpted
-ledger below, About uses Margin counters, and Work uses Career ledger.
+ledger below, About uses Linked counters, and Work uses Career ledger.
 
 ### Identity spread resume profile
 
@@ -924,11 +930,23 @@ intact independently of the text height. At intermediate widths, a 2:1 artwork p
 sits above the sheet. Below 36.25rem of card width, use a 4:3 crop, a
 2.375rem overlap, and tighter insets.
 Below 20rem, scale long headings and let outcome columns stack. Never clamp descriptions
-or outcomes. Explicit before/after and percentage-drop
-statements may become value/label pairs; preserve all other statements verbatim and
-retain the original wording for screen readers. Project colors highlight the title,
+or outcomes. Project colors highlight the title,
 role, action, and sheet rules on hover and keyboard focus without moving the artwork.
 Keep a complete outer focus outline, readable light/dark colors, and reduced-motion support.
+
+### Evidence ledger Portfolio card outcomes
+
+Within the approved Layered editorial sheet, use a 2px brand-colored left rule,
+1.125rem inset, and a quiet Selected outcome label. Explicit numeric results use
+2.5rem medium-weight values with 0.875rem explanations; qualitative outcomes use
+1.0625rem prose in the primary text color. Preserve the existing one- or two-outcome
+selection, responsive stacking, technology list, and single case-study link.
+
+Reuse the project outcome formatter for unqualified leading percentages and counts,
+while preserving the Portfolio's complete before/after pairs and percentage-drop
+wording. Keep qualifiers, client attribution, and prose intact; the original claim
+remains available to screen readers. The margin rule follows the project's hover
+and focus color. Add no invented metrics, separate cards, or extra links.
 
 ### Related projects
 

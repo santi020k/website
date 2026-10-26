@@ -188,6 +188,10 @@ screen readers can browse it separately from the concise destination. Lumen `Bad
 provides the decorative action arrow. Site-owned styles define the layered editorial
 composition, responsive crop and overlap, and project-colored hover/focus treatment.
 The same component serves featured and supporting portfolio projects without client JavaScript.
+Its **Evidence ledger** outcomes remain a semantic list within the existing sheet:
+an accent margin rule, a quiet label, and either an emphasized numeric result or
+readable qualitative prose. Shared metric formatting preserves attribution and
+qualifiers; no new Lumen primitive, nested card, or additional link is introduced.
 
 `RelatedProjectCard` composes a separate Continuation shelf for project detail pages:
 an unstyled Lumen `Card`, optimized Astro `Picture`, and decorative Lumen `Icon`.
@@ -306,6 +310,10 @@ enlarged text sizes. No new client controller is introduced.
   responsive grid, optimized Astro cover images, complete editorial copy, numbered header, and focus treatment.
 - About-page supplementary cards use Lumen `Note` directly.
 - The About hero availability status uses Lumen `Marker`.
+- About's **Linked counters** compose bare Lumen `Stat` articles with `Link` and
+  decorative `Icon` source captions. The site retains its margin rails and responsive
+  figures; links navigate natively to the Work timeline and matching Void.GG sections.
+  The deployment figure uses the same documented 60% faster-deployments result as Work.
 - Articles and projects share `ReadingContents`, derived from Smith's approved Chapter
   groups and Captioned chapters. It composes Lumen `Anchor` and native `Collapsible`
   chapters from `getReadingChapters`; sections without children remain direct links.
