@@ -21,6 +21,11 @@ export const rehypeArticleOpening: Plugin<[], Root> = () => (tree, file) => {
 
     if (node.children.some(child => child.type === 'element' && ['img', 'picture', 'video', 'iframe'].includes(child.tagName))) return
 
+    // Reference-only paragraphs are navigation, not the article's authored introduction.
+    const content = node.children.filter(child => child.type !== 'text' || child.value.trim())
+
+    if (content.length === 1 && content[0]?.type === 'element' && content[0].tagName === 'a') continue
+
     const postType: unknown = file.data.astro?.frontmatter?.postType
     const format = typeof postType === 'string' && postType.trim() ? postType.trim() : 'Article'
 
