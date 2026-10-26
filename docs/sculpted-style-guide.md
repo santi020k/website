@@ -1606,6 +1606,12 @@ beside a 2px purple rail. Use 1.0625rem medium-weight text, fine link underlines
 small directional arrows, and 44px minimum targets. A fine bottom rule closes the
 composition. Keep every topic, its order, and its canonical archive destination.
 
+On standalone articles, place the article link action at the right of this same
+composition instead of giving it a separate bordered row. Below 48rem, pair it
+with the Topics heading above the links. Allow that header to wrap with enlarged
+text, and keep the action outside the named topic navigation. If an article has
+no topics, label the remaining utility group Share.
+
 Below 32.5rem of available width, place the label above the list. Tighten the rail
 inset and text at 18.75rem and 14rem; allow decorative arrows to wrap below a long
 label with enlarged text. Preserve complete labels, visible keyboard outlines,
@@ -1673,9 +1679,10 @@ preserve both clipboard controllers, their accessible feedback, and native shari
 
 Below 32rem of available width, stack the utility beneath the series and use a
 1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
-themes. Standalone articles keep only the utility, and syndicated articles retain
-Read on Medium in that position. The Blog breadcrumb replaces the redundant
-Browse blog button. No additional client behavior is needed.
+themes. Standalone articles place their utility in the Topics group instead;
+syndicated articles retain Read on Medium in the applicable utility position.
+The Blog breadcrumb replaces the redundant Browse blog button. No additional
+client behavior is needed.
 
 ### Margin lead article opening
 

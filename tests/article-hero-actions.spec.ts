@@ -4,13 +4,18 @@ import { expect, test } from '@playwright/test'
 const seriesArticle = '/blog/responsive-design-standards-that-scale-across-components/'
 const standaloneArticle = '/blog/building-roadscore-offline-road-trip-game/'
 const mediumArticle = '/blog/atomic-module-component-structure-for-react/'
+const tabKey = {
+  chromium: 'Tab',
+  firefox: 'Tab',
+  webkit: process.platform === 'darwin' ? 'Alt+Tab' : 'Tab'
+}
 
 test.use({ reducedMotion: 'reduce' })
 
 for (const width of [320, 1440]) {
   for (const textSize of [100, 200]) {
     for (const theme of ['light', 'dark'] as const) {
-      test(`series byline remains readable and keyboard usable at ${width}px, ${textSize}% text, ${theme}`, async ({ page }) => {
+      test(`series byline remains readable and keyboard usable at ${width}px, ${textSize}% text, ${theme}`, async ({ page, browserName }) => {
         await page.setViewportSize({ width, height: 1000 })
         await page.emulateMedia({ colorScheme: theme })
         await page.goto(seriesArticle)
@@ -39,11 +44,11 @@ for (const width of [320, 1440]) {
         })
 
         expect(fits).toBe(true)
-        await page.keyboard.press('Tab')
+        await page.keyboard.press(tabKey[browserName])
         await series.focus()
         await expect(series).toHaveCSS('outline-style', 'solid')
         expect(await series.evaluate(element => element.getClientRects().length)).toBe(1)
-        await page.keyboard.press('Tab')
+        await page.keyboard.press(tabKey[browserName])
         await expect(copy).toBeFocused()
         await expect(copy).toHaveCSS('outline-style', 'solid')
         const scan = await new AxeBuilder({ page }).include('[data-series-byline]').analyze()
@@ -52,17 +57,78 @@ for (const width of [320, 1440]) {
         await series.press('Enter')
         await expect(page).toHaveURL('/blog/series/the-santi020k-way/')
       })
+
+      test(`standalone sharing stays with topics at ${width}px, ${textSize}% text, ${theme}`, async ({ page, browserName }) => {
+        await page.addInitScript(() => {
+          Object.defineProperty(navigator, 'clipboard', {
+            configurable: true,
+            value: {
+              writeText: (value: string) => {
+                sessionStorage.setItem('article-copy-value', value)
+
+                return Promise.resolve()
+              }
+            }
+          })
+        })
+        await page.setViewportSize({ width, height: 1000 })
+        await page.emulateMedia({ colorScheme: theme })
+        await page.goto(standaloneArticle)
+        await page.evaluate(async size => {
+          document.documentElement.style.fontSize = `${size}%`
+          await document.fonts.ready
+        }, textSize)
+        const topics = page.locator('[data-article-topics-container]')
+        const copy = topics.locator('[data-ui-copy-button]')
+
+        await expect(copy).toBeVisible()
+        await expect(copy).toHaveAccessibleName('Copy link to article')
+        await expect(topics.getByRole('navigation', { name: 'Topics' })).toBeVisible()
+        await expect(page.locator('[data-series-byline]')).toHaveCount(0)
+        const layout = await topics.evaluate(element => {
+          const button = element.querySelector('button')
+          const heading = element.querySelector('h2')
+
+          if (!button || !heading) throw new Error('Missing article sharing controls')
+
+          const bounds = element.getBoundingClientRect()
+          const control = button.getBoundingClientRect()
+          const label = heading.getBoundingClientRect()
+
+          return {
+            fits: document.documentElement.scrollWidth <= innerWidth &&
+              control.left >= bounds.left && control.right <= bounds.right + 1 &&
+              control.top >= bounds.top && control.bottom <= bounds.bottom + 1 &&
+              control.height >= 44 && button.scrollWidth <= button.clientWidth + 1,
+            sameRow: control.top <= label.bottom && control.bottom >= label.top
+          }
+        })
+
+        expect(layout.fits).toBe(true)
+        expect(layout.sameRow).toBe(width === 1440 || textSize === 100)
+        await copy.focus()
+        await expect(copy).toHaveCSS('outline-style', 'solid')
+        await copy.press('Enter')
+        await expect(copy).toHaveAccessibleName('Copied! Article link copied')
+        await expect(copy).toHaveText('Copied!', { useInnerText: true })
+        expect(await page.evaluate(() => sessionStorage.getItem('article-copy-value'))).toBe(`https://santi020k.com${standaloneArticle}`)
+        await page.keyboard.press(tabKey[browserName])
+        await expect(topics.getByRole('navigation', { name: 'Topics' }).getByRole('link').first()).toBeFocused()
+        const scan = await new AxeBuilder({ page }).include('[data-article-topics-container]').analyze()
+
+        expect(scan.violations).toEqual([])
+      })
     }
   }
 }
 
-test('standalone articles keep the quiet copy action without series metadata', async ({ page }) => {
+test('standalone articles keep sharing inside the topics group without a separate action row', async ({ page }) => {
   await page.goto(standaloneArticle)
-  const actions = page.locator('[data-series-byline]')
+  const actions = page.locator('[data-article-topics-container]')
 
   await expect(actions.getByRole('button', { name: 'Copy link to article' })).toBeVisible()
   await expect(actions.locator('[data-hero-series]')).toHaveCount(0)
-  await expect(actions.getByRole('link')).toHaveCount(0)
+  await expect(page.locator('[data-article-opening] > [data-reading-actions]')).toHaveCount(0)
   await expect(page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: 'Blog' })).toBeVisible()
 })
 
