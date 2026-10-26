@@ -32,9 +32,18 @@ focusAreas:
     description: "Native formats with light, dark, and contrast options"
   - label: "Product guidance"
     description: "A unified website with installation and preview tools"
+notesLayout: "context-lead"
 ---
 
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="santi020k-theme" headingId="building-one-theme-family-across-the-developer-workspace">
 
 ## Building one theme family across the developer workspace
 
@@ -42,29 +51,137 @@ I started Santi020k Theme as a focused pair of editor themes for the tools I use
 
 The family shares one calm violet color language while respecting the capabilities of each surface. VS Code and compatible editors receive semantic highlighting and high-contrast variants. Chrome receives declarative, permission-free dark and light mappings. Shiki consumers receive importable syntax themes. Terminals receive generated palette formats and prompts that can follow the system appearance.
 
-<ProjectOutcomesCard projectId="santi020k-theme" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Results", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="santi020k-theme"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Goals
 
-- **Create a calm workspace** with coordinated dark, light, and high-contrast profiles for long technical sessions.
-- **Keep every surface token-driven** so editors, browser chrome, code previews, terminals, prompts, and websites evolve from the same source.
-- **Support typography preferences** through base, bold, and italic VS Code variants instead of one fixed syntax treatment.
-- **Ship each surface like a product** with focused documentation, previews, validation, packaging, and release automation.
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Create a calm workspace** with coordinated dark, light, and high-contrast profiles for long technical sessions.
+
+</li>
+
+<li>
+
+**Keep every surface token-driven** so editors, browser chrome, code previews, terminals, prompts, and websites evolve from the same source.
+
+</li>
+
+<li>
+
+**Support typography preferences** through base, bold, and italic VS Code variants instead of one fixed syntax treatment.
+
+</li>
+
+<li>
+
+**Ship each surface like a product** with focused documentation, previews, validation, packaging, and release automation.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
 
 ### What I built
 
-- **Twelve VS Code variants** across dark, light, high-contrast dark, and high-contrast light profiles, each with base, bold, and italic syntax options.
-- **A published Zed theme extension** with dark and light variants generated from the shared palette, available in the [Zed extension registry](https://zed.dev/extensions/santi020k-theme).
-- **Codex custom theme presets** available through the [Codex theme page](https://theme.santi020k.com/codex/), with copy-ready appearance settings.
-- **Raycast Pro and Slack themes** with Raycast import URLs and Slack custom color strings and semantic maps.
-- **JetBrains and Android Studio support** through an installable dark/light plugin covering both the IDE interface and editor syntax.
-- **Native Xcode themes** for editor syntax and debug-console colors in dark and light modes.
-- **Dark and light Chrome themes** that map browser surfaces back to named editor tokens and ship without permissions, collected data, or remote code.
-- **A terminal product** with dark and light palettes for iTerm2, Ghostty, Kitty, WezTerm, Windows Terminal, and Alacritty.
-- **Rich, portable, and minimal Starship presets** plus managed Zsh, Bash, and Fish integration with automatic appearance selection.
-- **Shared `@santi020k/theme` and `@santi020k/theme-core` packages** for tokens, assets, metadata, Chrome mappings, Tailwind values, product-site behavior, and importable Shiki themes.
-- **One consolidated Astro website** for all nine products, with shared navigation, previews, installation guidance, and terminal documentation.
-- **Validation and release pipelines** for marketplace metadata, contrast, generated theme files, terminal presets, packaging, and registry publishing.
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"Twelve VS Code variants"}>
+
+across dark, light, high-contrast dark, and high-contrast light profiles, each with base, bold, and italic syntax options.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"A published Zed theme extension"}>
+
+with dark and light variants generated from the shared palette, available in the [Zed extension registry](https://zed.dev/extensions/santi020k-theme).
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Codex custom theme presets"}>
+
+available through the [Codex theme page](https://theme.santi020k.com/codex/), with copy-ready appearance settings.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Raycast Pro and Slack themes"}>
+
+with Raycast import URLs and Slack custom color strings and semantic maps.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"JetBrains and Android Studio support"}>
+
+through an installable dark/light plugin covering both the IDE interface and editor syntax.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Native Xcode themes"}>
+
+for editor syntax and debug-console colors in dark and light modes.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={7} title={"Dark and light Chrome themes"}>
+
+that map browser surfaces back to named editor tokens and ship without permissions, collected data, or remote code.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={8} title={"A terminal product"}>
+
+with dark and light palettes for iTerm2, Ghostty, Kitty, WezTerm, Windows Terminal, and Alacritty.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={9} title={"Rich, portable, and minimal Starship presets"}>
+
+plus managed Zsh, Bash, and Fish integration with automatic appearance selection.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={10} title={"Shared @santi020k/theme and @santi020k/theme-core packages"}>
+
+for tokens, assets, metadata, Chrome mappings, Tailwind values, product-site behavior, and importable Shiki themes.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={11} title={"One consolidated Astro website"}>
+
+for all nine products, with shared navigation, previews, installation guidance, and terminal documentation.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={12} title={"Validation and release pipelines"}>
+
+for marketplace metadata, contrast, generated theme files, terminal presets, packaging, and registry publishing.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
 
 ![Santi020k Theme dark Chrome Web Store preview](chrome-store-preview.webp)
 
@@ -78,7 +195,11 @@ The terminal edition applies the same system to a surface with different constra
 
 The `santi020k-terminal` CLI keeps installation and shell changes reviewable. It manages Zsh, Bash, and Fish integration, follows the macOS appearance when requested, preserves explicit overrides, installs terminal colors, backs up changed files, and provides status, repair, migration, import, export, preview, and custom prompt commands. Versioned archives and Homebrew distribution keep the product installable without separating its source of truth from the theme family.
 
+<ProjectSectionHeading>
+
 ### Results
+
+</ProjectSectionHeading>
 
 - **One recognizable workspace language** across editors, AI coding tools, browsers, terminals, launchers, collaboration tools, and documentation.
 - **Public distribution** through the Visual Studio Marketplace, Open VSX, Zed extension registry, Chrome Web Store, npm, GitHub releases, and Homebrew, alongside app-specific presets and installable packages.
@@ -87,9 +208,17 @@ The `santi020k-terminal` CLI keeps installation and shell changes reviewable. It
 
 The editor variants work in VS Code, Cursor, Windsurf, VSCodium, GitHub Codespaces, and other compatible extension hosts. The shared package also exposes dark, light, and high-contrast themes for Shiki, Astro code blocks, and other consumers of VS Code theme JSON.
 
+<ProjectSectionHeading>
+
 ### Why it matters
 
-Themes look simple from the outside, but a coherent workspace touches hierarchy, contrast, affordance, syntax, prompt density, operating-system appearance, packaging, and long-session comfort. Santi020k Theme treats those decisions as a design system instead of a collection of unrelated color files.
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Themes look simple from the outside, but a coherent workspace touches hierarchy, contrast, affordance, syntax, prompt density, operating-system appearance, packaging, and long-session comfort."}>
+
+Santi020k Theme treats those decisions as a design system instead of a collection of unrelated color files.
+
+</ProjectPrincipleClose>
 
 ![Santi020k Theme light preview](preview-light.webp)
 

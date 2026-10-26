@@ -1,5 +1,4 @@
 ---
-import ButtonLink from '@/components/atoms/ButtonLink.astro'
 import PageHero from '@/components/molecules/PageHero.astro'
 import TechnologyEvidenceLedger from '@/components/molecules/TechnologyEvidenceLedger.astro'
 import PageSection from '@/components/organisms/PageSection.astro'
@@ -39,6 +38,12 @@ const technologyGroups = [
     title: 'Selective'
   }
 ].filter(group => group.items.length > 0)
+
+const evidencePaths = [
+  { href: '/work/', title: 'Work experience', description: 'Roles, teams, and systems shipped.' },
+  { href: '/projects/', title: 'Independent projects', description: 'Apps, tools, and ideas I build.' },
+  { href: '/blog/', title: 'Writing', description: 'Decisions, experiments, and lessons.' }
+]
 
 const meta = {
   description: 'Browse Santiago Molina’s capabilities and technologies across frontend architecture, product systems, testing, and delivery.',
@@ -187,23 +192,24 @@ data-technology-entry-unit
   <TechnologyEvidenceLedger mostRecurring={technologies[0]} total={technologies.length} />
 
   <PageSection layout="stacked">
-    <section aria-labelledby="technology-evidence-heading" id="trace-the-evidence">
-      <Card data-technology-evidence variant="unstyled">
-        <header data-evidence-header>
-          <p data-evidence-label>Trace the evidence</p>
-          <h2 id="technology-evidence-heading">Tools are easier to trust when they point to real work.</h2>
-        </header>
-        <div data-evidence-body>
-          <p data-evidence-copy>
-            Each technology page filters the portfolio to the projects where that tool shaped the
-            architecture, delivery workflow, or product experience.
-          </p>
-          <div data-evidence-actions>
-            <ButtonLink href="/portfolio/" showArrow>Browse portfolio</ButtonLink>
-            <ButtonLink href="/blog/" showArrow variant="inline">Read the writing</ButtonLink>
-          </div>
-        </div>
-      </Card>
+    <section aria-labelledby="technology-evidence-heading" data-technology-evidence-paths id="trace-the-evidence">
+      <header data-evidence-paths-header>
+        <p data-evidence-paths-label>Beyond the toolkit</p>
+        <h2 id="technology-evidence-heading">Follow it into the work.</h2>
+        <p data-evidence-paths-copy>See the roles, products, and decisions behind these tools.</p>
+      </header>
+      <nav aria-label="Explore beyond the toolkit" data-evidence-paths-navigation>
+        {evidencePaths.map((path, index) => (
+          <Link data-evidence-path href={path.href} variant="inherit">
+            <span aria-hidden="true" data-evidence-path-number>{String(index + 1).padStart(2, '0')}</span>
+            <span data-evidence-path-body>
+              <span data-evidence-path-title>{path.title}</span>{' '}
+              <span data-evidence-path-description>{path.description}</span>
+            </span>
+            <Icon data-evidence-path-arrow name="arrow-up-right" />
+          </Link>
+        ))}
+      </nav>
     </section>
   </PageSection>
 

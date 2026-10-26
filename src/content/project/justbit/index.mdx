@@ -35,45 +35,122 @@ focusAreas:
     description: "Scoping, implementation, launch, and iteration"
   - label: "Growth support"
     description: "SEO, conversion, and cross-functional client work"
+notesLayout: "context-lead"
 ---
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="justbit" headingId="building-tailored-web-solutions-from-the-ground-up">
 
 ## Building tailored web solutions from the ground up
 
 At [Justbit.site](https://justbit.site), I learned what it means to own both the product and the business side of delivery. As CTO and co-founder, I worked directly with clients, scoped projects, led implementation, and helped turn ideas into launched products.
 
-<ProjectOutcomesCard projectId="justbit" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "My contribution", href: "#what-i-led" },
+    { label: "Outcome details", href: "#key-outcomes" },
+    { label: "Tech stack", href: "#tech-stack" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="justbit"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Core challenge
 
+</ProjectSectionHeading>
+
 The hard part was not choosing frameworks. It was building a delivery system that could adapt to very different client needs without turning every project into a one-off reinvention. We needed to move fast, keep quality high, and make technical decisions that supported search visibility, conversion, and maintainability at the same time.
 
+<ProjectSectionHeading>
+
 ### What I led
+
+</ProjectSectionHeading>
 
 - **The studio's technical direction,** choosing stacks, shaping architecture, and keeping projects maintainable even when budgets and timelines were tight.
 - **Full-cycle delivery** from sales conversations and scoping through implementation, launch, and post-release iteration.
 - **Growth-aware product work** where technical decisions had to support SEO, analytics, and conversion goals, not just visual polish.
 - **A cross-functional delivery process** that balanced engineering, design, and client communication without hiding behind process theater.
 
+<ProjectSectionHeading>
+
 ### Key outcomes
+
+</ProjectSectionHeading>
 
 - **10+ client launches in the first year,** spanning marketing sites, e-commerce builds, and custom digital products.
 - **Up to 70% organic traffic growth** for some clients after improving technical SEO, site structure, and performance foundations.
 - **Stronger in-house delivery capacity** by building custom React and Node.js products alongside WordPress and WooCommerce work.
 
+<ProjectSectionHeading>
+
 ### Project highlights
+
+</ProjectSectionHeading>
 
 - **Custom real estate and business platforms** with dynamic content, CRM integrations, and SEO-friendly information architecture.
 - **WooCommerce builds with analytics and ad integrations** that supported both organic growth and paid-acquisition workflows.
 - **Publishing and multisite setups** for teams that needed operational flexibility without losing maintainability.
 
+<ProjectSectionHeading>
+
 ### Tech stack
 
-- **Product delivery:** `React.js`, `TypeScript`, `Node.js`, `JavaScript`, `PostgreSQL`, `MySQL`
-- **CMS and commerce:** `WordPress`, `WooCommerce`, `PHP`
-- **Growth and operations:** `SEO`, `Google Ads`, `Facebook Ads`, `Jest`, `Gitlab`, `Linux`
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Product delivery</dt>
+  <dd>
+
+`React.js`, `TypeScript`, `Node.js`, `JavaScript`, `PostgreSQL`, `MySQL`
+
+  </dd>
+</div>
+
+<div>
+  <dt>CMS and commerce</dt>
+  <dd>
+
+`WordPress`, `WooCommerce`, `PHP`
+
+  </dd>
+</div>
+
+<div>
+  <dt>Growth and operations</dt>
+  <dd>
+
+`SEO`, `Google Ads`, `Facebook Ads`, `Jest`, `Gitlab`, `Linux`
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
 
 ### Why it mattered
 
-Justbit was a crash course in entrepreneurship, communication, and technical ownership. It taught me how to connect user needs, business goals, and engineering decisions without hiding behind process, and it is still one of the clearest reasons I value practicality over theater.
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Justbit was a crash course in entrepreneurship, communication, and technical ownership."}>
+
+It taught me how to connect user needs, business goals, and engineering decisions without hiding behind process, and it is still one of the clearest reasons I value practicality over theater.
+
+</ProjectPrincipleClose>

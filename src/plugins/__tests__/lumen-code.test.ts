@@ -49,6 +49,13 @@ describe('article Code folio', () => {
     expect(icon).toMatchObject({ tagName: 'svg', properties: { ariaHidden: 'true' } })
     if (icon?.type !== 'element') throw new Error('Missing icon')
     expect(icon.children.length).toBeGreaterThan(0)
+    const cue = block.children.at(-1)
+    expect(cue).toMatchObject({ tagName: 'article-code-scroll-cue',
+      properties: {
+        hidden: true, id: 'article-code-scroll-cue-1'
+      } })
+    expect(serialized).toContain('Scroll horizontally to read more')
+    expect(pre.properties.ariaDescribedBy).toBeUndefined()
   })
 
   test('provides a useful label for plain text without altering its content', () => {
@@ -72,6 +79,7 @@ describe('article Code folio', () => {
     transform([block], '/repo/src/content/project/example/index.md')
     expect(block.properties.dataArticleCodeFolio).toBeUndefined()
     expect(JSON.stringify(block)).toContain('ui-code__dots')
+    expect(JSON.stringify(block)).not.toContain('article-code-scroll-cue')
   })
 
   test('retains package-manager alternatives and their copy controls without applying the standalone treatment', () => {
@@ -84,6 +92,7 @@ describe('article Code folio', () => {
       expect(block.properties.dataArticleCodeFolio).toBeUndefined()
       expect(JSON.stringify(block)).toContain('ui-code__dots')
       expect(JSON.stringify(block)).toContain('dataUiCodeCopy')
+      expect(JSON.stringify(block)).not.toContain('article-code-scroll-cue')
     }
   })
 })

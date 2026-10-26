@@ -298,15 +298,19 @@ same responsive spacing, stacking below 18rem of topic-index width. Preserve the
 search and sort controls, zero-result announcement, search focus, and restoration
 of all topic links when the query is cleared. Keep automatic hyphenation disabled.
 
-### Closing folio evidence invitation
+### Evidence paths technology ending
 
-The Technologies page closes with a Lumen Card that separates a tinted title
-area from the supporting copy and navigation. Use brand-soft for the title surface,
-an asymmetric 1.75rem corner treatment, and a ruled action row. Keep Browse portfolio
-as the primary action and Read the writing as an inline link. The invitation retains
-its copy and destinations, with a labeled section and native keyboard navigation.
-Below 27.5rem, actions fill separate rows; at enlarged text sizes, reduce horizontal
-padding and remove decorative arrows so labels and focus rings remain visible.
+The technology index closes with an open editorial section: Beyond the toolkit,
+Follow it into the work, and a short introduction beside the heading. Three ruled
+Lumen links lead to Work experience, Independent projects, and Writing, each with a
+decorative number, a supporting sentence, and a forward arrow. Use semantic ink,
+line, and brand tokens; the arrow and number use accent in dark mode. Retain the
+`trace-the-evidence` fragment and `technology-evidence-heading` ID.
+
+At narrow widths the introduction stacks below the title. Below 20rem, place the
+number and arrow above the full-width link copy so enlarged text keeps its room.
+Preserve full-row native links, visible focus, and all three destinations without
+JavaScript. This supersedes the Closing folio card and its general portfolio CTA.
 
 ### Principle spread working definition
 
@@ -860,10 +864,15 @@ with 0.75rem corners, and the role, complete 1.75rem title, full description, an
 Keep a 2.5rem column gap and 2rem vertical padding. The project color accents the
 index, uppercase role, and plain forward reading action.
 
-The list owns the `related-list` container. Below 56rem, tighten the columns;
-below 42rem, put the copy beneath the numbered artwork and use a 16:9 image.
-Below 22rem, use a 1.5rem title. Below 16rem, omit the decorative index and reduce
-the title to 1.25rem; below 14rem, omit the decorative arrow.
+The list owns the `related-list` container. Below 56rem, tighten the columns.
+Below 42rem, pair a 5.5rem square thumbnail with the role and 1.375rem title.
+Place the decorative index at the end of the role line, reserving space so long
+roles cannot overlap it. Give the full description its own full-width row with
+1.75 leading, followed by a 44px-minimum action with the arrow at the far edge.
+Use 1rem gaps, 1.5rem top padding, and 1rem bottom padding for a compact reading rhythm.
+Below 20rem, use a 4.5rem thumbnail and 1.25rem title. Below 16rem, omit the
+decorative artwork and index so enlarged text has the full width;
+below 14rem, omit the decorative arrow.
 Never clamp content. Keep the existing selection, order, descriptions, and destinations
 without adding dates or technology inventories.
 
@@ -1075,19 +1084,19 @@ no card fill, shadow, decorative dots, or hover feedback.
 
 ### Intent brief project goals
 
-Lumen's Goals retain their Section cadence heading and fragment. Present each complete
+Project goals retain their Section cadence heading and fragment. Present each complete
 goal as one continuous statement in a named native list, with its opening phrase at
 weight 500 in the semantic accent color. Use 1.1875rem text, 1.75 line height,
 -0.01em tracking, and a 37em measure; the remaining text uses `ink-soft`.
 
 Frame the list with fine neutral top and bottom rules, separate statements with the
 same rule, and use 1.5rem vertical insets. Keep the composition open and preserve all
-four authored goals. Below 35rem of available width, reduce text to 1.0625rem while
+authored goals. Below 35rem of available width, reduce text to 1.0625rem while
 keeping each sentence in normal flow. No extra headings, icons, or controls are added.
 
 ### Capability spread project entries
 
-Lumen's six capability entries use an open two-column spread with 1.75rem gaps.
+Product capability entries use an open two-column spread with 1.75rem gaps.
 Each entry starts with a fine neutral rule, 1.5rem top inset, and a decorative
 0.75rem accent number. Use a 1.25rem, weight-500 h4 with 1.4 line height, then
 the complete description at 0.9375rem with 1.733 leading. Leave 0.75rem between
@@ -1096,7 +1105,7 @@ number, title, and copy. Preserve inline code and the authored entry order.
 Below 35rem of available width, stack the entries in one column. Keep native
 list semantics and associate the list with its existing Section cadence heading.
 Entry headings do not add chapter navigation destinations. Use no card fill,
-hover behavior, or client script; other project lists retain Ownership ledger.
+hover behavior, or client script; responsibilities and results retain Ownership ledger.
 
 ### Gallery sheet product previews
 
@@ -1183,11 +1192,11 @@ after 1.5rem at 1.125rem with 1.8 line height; below 35rem it uses 1.0625rem.
 
 Opt in with `notesLayout: context-lead` and `ProjectContextLead` around the Markdown
 heading and opening paragraphs. Give each paragraph the same reading scale and 1.5rem
-separation. Smith and Lumen use this treatment; Lumen retains both its product-language
-introduction and the following explanation of framework responsibilities.
+separation. All project entries use this treatment and retain their complete introductions.
+Follow the [shared authoring patterns](editorial/project-detail-patterns.md) for new entries.
 Derive the label and stage from the existing project metadata.
 Retain the original heading fragment, links, and claims; omit the generic preface rather
-than repeating it. Projects without this authored opening keep Margin preface.
+than repeating it. Margin preface remains available to other notes layouts.
 
 ### Section cadence narrative headings
 
@@ -1395,6 +1404,15 @@ code region. Wrap long filenames and toolbar controls; reduce insets at 27rem
 and 18rem of card width for mobile and enlarged text. Retain Shiki highlighting,
 Lumen copy success/error announcements, visible copy states, and a 44px target.
 Package-manager tabs use the related Tab folio treatment and shared runtime.
+
+Scroll cue adds a quiet ruled footer inside a standalone article Code folio only
+when its code region overflows horizontally. Use the Lumen `move-horizontal` icon
+and “Scroll horizontally to read more” at 0.75rem with a 1.6 line height. Match
+the code insets as the card narrows. Keep the cue stable while scrolling and hide
+it when the example fits. Associate visible guidance with the code region through
+`aria-describedby`; preserve native scrolling, keyboard focus, and Lumen copy.
+Recalculate after resizing and font loading, and disconnect observation when the
+figure leaves the page. Without JavaScript, leave the cue hidden and code readable.
 
 ### Tab folio package-manager commands
 

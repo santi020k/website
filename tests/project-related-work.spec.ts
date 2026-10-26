@@ -3,11 +3,14 @@ import { expect, test } from '@playwright/test'
 
 for (const theme of ['light', 'dark']) {
   for (const { width, textSize, layout } of [
-    { width: 320, textSize: 200, layout: 'stacked' },
-    { width: 390, textSize: 100, layout: 'stacked' },
+    { width: 320, textSize: 100, layout: 'compact' },
+    { width: 320, textSize: 200, layout: 'textOnly' },
+    { width: 390, textSize: 100, layout: 'compact' },
+    { width: 390, textSize: 200, layout: 'textOnly' },
+    { width: 430, textSize: 100, layout: 'compact' },
     { width: 768, textSize: 100, layout: 'sideBySide' },
     { width: 1440, textSize: 100, layout: 'sideBySide' },
-    { width: 1440, textSize: 200, layout: 'stacked' }
+    { width: 1440, textSize: 200, layout: 'compact' }
   ] as const) {
     test(`related project summaries fit at ${width}px and ${textSize}% in ${theme}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 1000 })
@@ -36,9 +39,21 @@ for (const theme of ['light', 'dark']) {
           const arrangement = await card.evaluate(element => {
             const artwork = element.querySelector('[data-related-artwork]')?.getBoundingClientRect()
             const heading = element.querySelector('h3')?.getBoundingClientRect()
+            const description = element.querySelector('[data-related-description]')?.getBoundingClientRect()
+            const action = element.querySelector('[data-related-action]')?.getBoundingClientRect()
+            const bounds = element.getBoundingClientRect()
 
-            if (!artwork || !heading) return null
-            return { stacked: heading.top >= artwork.bottom, sideBySide: heading.left >= artwork.right }
+            if (!artwork || !heading || !description || !action) return null
+            const fullWidthDescription = Math.abs(description.left - bounds.left) < 1 &&
+              Math.abs(description.width - bounds.width) < 1
+
+            return {
+              compact: artwork.width > 0 && heading.left >= artwork.right &&
+                description.top >= artwork.bottom && fullWidthDescription && action.height >= 44,
+              sideBySide: heading.left >= artwork.right && description.left >= artwork.right,
+              textOnly: artwork.width === 0 && Math.abs(heading.left - bounds.left) < 1 &&
+                fullWidthDescription && action.height >= 44
+            }
           })
 
           expect(arrangement?.[layout]).toBe(true)
@@ -70,39 +85,42 @@ for (const theme of ['light', 'dark']) {
     })
   }
 
-  test(`related project hover and keyboard emphasis stay accessible in ${theme}`, async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' })
-    await page.addInitScript(value => {
-      localStorage.setItem('theme', value)
-    }, theme)
-    await page.goto('/portfolio/smith-commerce/')
-    await expect(page.locator('[data-related-project] h3')).toHaveText(['Void.GG', 'Optic Power'])
-    for (const card of await page.locator('[data-related-project]').all()) {
-      await card.scrollIntoViewIfNeeded()
-      await page.mouse.move(0, 0)
-      const bounds = await card.boundingBox()
-      const title = card.getByRole('heading')
-      const restingColor = await title.evaluate(element => getComputedStyle(element).color)
-      const link = card.getByRole('link')
+  for (const width of [390, 1440]) {
+    test(`related project hover and keyboard emphasis stay accessible at ${width}px in ${theme}`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 1000 })
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.addInitScript(value => {
+        localStorage.setItem('theme', value)
+      }, theme)
+      await page.goto('/portfolio/smith-commerce/')
+      await expect(page.locator('[data-related-project] h3')).toHaveText(['Void.GG', 'Optic Power'])
+      for (const card of await page.locator('[data-related-project]').all()) {
+        await card.scrollIntoViewIfNeeded()
+        await page.mouse.move(0, 0)
+        const bounds = await card.boundingBox()
+        const title = card.getByRole('heading')
+        const restingColor = await title.evaluate(element => getComputedStyle(element).color)
+        const link = card.getByRole('link')
 
-      await link.hover()
-      expect(await card.boundingBox()).toEqual(bounds)
-      await expect(title).not.toHaveCSS('color', restingColor)
-      const hoverColor = await title.evaluate(element => getComputedStyle(element).color)
+        await link.hover()
+        expect(await card.boundingBox()).toEqual(bounds)
+        await expect(title).not.toHaveCSS('color', restingColor)
+        const hoverColor = await title.evaluate(element => getComputedStyle(element).color)
 
-      await page.mouse.move(0, 0)
-      await page.keyboard.press('Tab')
-      await link.focus()
-      await expect(title).toHaveCSS('color', hoverColor)
-      await expect(link).not.toHaveCSS('outline-style', 'none')
-      const audit = await new AxeBuilder({ page }).include('[data-related-project]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
+        await page.mouse.move(0, 0)
+        await page.keyboard.press('Tab')
+        await link.focus()
+        await expect(title).toHaveCSS('color', hoverColor)
+        await expect(link).not.toHaveCSS('outline-style', 'none')
+        const audit = await new AxeBuilder({ page }).include('[data-related-project]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
 
-      expect(audit.violations).toEqual([])
-      await link.evaluate(element => {
-        element.blur()
-      })
-    }
-  })
+        expect(audit.violations).toEqual([])
+        await link.evaluate(element => {
+          element.blur()
+        })
+      }
+    })
+  }
 }
 
 test('continuation shelf links navigate by pointer and keyboard without JavaScript', async ({ browser }) => {

@@ -10,10 +10,11 @@ interface Props {
   contextLinks?: { label: string, href: `#${string}` }[]
   headingId?: string
   id?: string
+  legacyId?: string
   projectId: string
 }
 
-const { attribution, contextLinks = [], headingId = 'sidebar-outcomes', id, projectId } = Astro.props
+const { attribution, contextLinks = [], headingId = 'sidebar-outcomes', id, legacyId, projectId } = Astro.props
 const project = await getEntry('project', projectId)
 
 if (!project) throw new Error(`Project ${projectId} must exist before rendering its outcomes.`)
@@ -24,6 +25,7 @@ const rows = outcomes.map(summary => ({ ...getProjectOutcomeDisplay(summary), su
 
 {rows.length > 0 && (
   <div class="not-prose" data-project-evidence id={id}>
+  {legacyId && <span aria-hidden="true" id={legacyId} />}
   <Card as="section" aria-labelledby={headingId} data-project-outcomes variant="unstyled">
     <header>
       <div data-outcome-heading>

@@ -43,9 +43,21 @@ focusAreas:
     description: "Separate accounts, sessions, and data for each product"
   - label: "Adoption gates"
     description: "Tests and recovery checks before production use"
+notesLayout: "context-lead"
+closingLinks:
+  - label: "install the package from npm"
+    href: "https://www.npmjs.com/package/@santi020k/auth-cloudflare"
 ---
 
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="auth" headingId="reusing-authentication-policy-without-sharing-accounts">
 
 ## Reusing authentication policy without sharing accounts
 
@@ -53,31 +65,117 @@ I built `santi020k auth` for a recurring problem across my Cloudflare applicatio
 
 The first public adapter, [`@santi020k/auth-cloudflare`](https://www.npmjs.com/package/@santi020k/auth-cloudflare), provides email-code and passkey authentication for single-owner and multi-user Hono applications running on Cloudflare Workers and D1. The [source repository](https://github.com/santi020k/auth) is open under the MIT license, and the package is available as an experimental `0.x` release.
 
-<ProjectOutcomesCard projectId="auth" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Security and release discipline", href: "#security-and-release-discipline" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="auth"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Goals
 
-- **Reuse reviewed authentication policy** without creating a shared account system across products.
-- **Keep every browser boundary explicit** through exact application origins, cookie prefixes, and WebAuthn relying-party IDs.
-- **Make secure behavior reviewable** with D1 integration tests, package-contract checks, browser tests, and documented adoption gates.
-- **Support gradual migration** while each product preserves its existing login and recovery path until the new flow is proven on its real origin.
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Reuse reviewed authentication policy** without creating a shared account system across products.
+
+</li>
+
+<li>
+
+**Keep every browser boundary explicit** through exact application origins, cookie prefixes, and WebAuthn relying-party IDs.
+
+</li>
+
+<li>
+
+**Make secure behavior reviewable** with D1 integration tests, package-contract checks, browser tests, and documented adoption gates.
+
+</li>
+
+<li>
+
+**Support gradual migration** while each product preserves its existing login and recovery path until the new flow is proven on its real origin.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
 
 ### What I built
 
-- **A typed Better Auth policy layer** with single-owner and application-owned multi-user membership policies for Hono applications on Cloudflare Workers.
-- **Email-code authentication** with hashed codes, ten-minute expiry, limited verification attempts, and success-shaped responses that do not reveal whether an address is authorized.
-- **Passkey support** that requires discoverable credentials and user verification for the exact application hostname.
-- **Durable rate limiting in D1** instead of isolate memory that disappears when a Worker is recycled.
-- **Server, browser client, Hono middleware, and schema exports** so consumers can integrate the package without reaching into private modules.
-- **A local playground and documentation website** for reviewing the complete flow, security boundary, migration steps, and release status.
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A typed Better Auth policy layer"}>
+
+with single-owner and application-owned multi-user membership policies for Hono applications on Cloudflare Workers.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Email-code authentication"}>
+
+with hashed codes, ten-minute expiry, limited verification attempts, and success-shaped responses that do not reveal whether an address is authorized.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Passkey support"}>
+
+that requires discoverable credentials and user verification for the exact application hostname.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Durable rate limiting in D1"}>
+
+instead of isolate memory that disappears when a Worker is recycled.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Server, browser client, Hono middleware, and schema exports"}>
+
+so consumers can integrate the package without reaching into private modules.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"A local playground and documentation website"}>
+
+for reviewing the complete flow, security boundary, migration steps, and release status.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
 
 ### The isolation contract
+
+</ProjectSectionHeading>
 
 The package owns protocol policy and reusable integration code. It does not own a product's users.
 
 Every consuming application keeps its own D1 database, additive migrations, authentication secret, cookie namespace, hostname, passkeys, email delivery, authorization rules, recovery process, and deployment. Sessions never cross application boundaries, and adopting the package never turns separate products into one identity platform.
 
+<ProjectSectionHeading>
+
 ### Security and release discipline
+
+</ProjectSectionHeading>
 
 - **Exact-origin requests:** credentialed browser requests are accepted only from the configured application origin.
 - **Current membership:** only the configured owner or an email approved by the consumer's live membership policy may create or update a user; multi-user sessions and authenticated passkey operations recheck access so removal does not wait for session expiry.
@@ -85,10 +183,16 @@ Every consuming application keeps its own D1 database, additive migrations, auth
 - **Private vulnerability reporting:** security reports follow the repository's documented private channel rather than public issues.
 - **Evidence before stability:** repository checks can prove package behavior, but real email delivery, recovery, migrations, and passkeys must still be verified on each consumer's production origin.
 
+<ProjectSectionHeading>
+
 ### Why it matters
 
-Authentication reuse becomes dangerous when sharing code quietly turns into sharing identity state. The stronger boundary is narrower: standardize the protocol decisions that should be reviewed once, then make every product remain responsible for its own data and operational recovery.
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"Authentication reuse becomes dangerous when sharing code quietly turns into sharing identity state."}>
+
+The stronger boundary is narrower: standardize the protocol decisions that should be reviewed once, then make every product remain responsible for its own data and operational recovery.
+
+</ProjectPrincipleClose>
 
 That is what `santi020k auth` provides. It is public so the policy and implementation can be inspected, tested, and improved in the open. It remains explicitly experimental while real consumers produce the evidence needed for a stable contract.
-
-[Read the documentation](https://auth.santi020k.com/), [install the package from npm](https://www.npmjs.com/package/@santi020k/auth-cloudflare), or [explore the source on GitHub](https://github.com/santi020k/auth).

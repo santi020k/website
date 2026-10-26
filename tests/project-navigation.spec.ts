@@ -66,7 +66,7 @@ for (const width of [320, 390, 1024, 1440]) {
       const navigation = page.getByRole('navigation', { name: 'Table of contents' })
 
       await expect(navigation).toHaveCount(1)
-      await expect(navigation.locator('a[href^="#"]')).toHaveCount(13)
+      await expect(navigation.locator('a[href^="#"]')).toHaveCount(14)
       expect(await navigation.locator('a[href^="#"]').evaluateAll(links => links.every(link => {
         const fragment = link.getAttribute('href')?.slice(1)
 
@@ -113,7 +113,7 @@ test('project chapter opener and fragment links work without JavaScript', async 
   await page.keyboard.press('Enter')
   const navigation = page.getByRole('navigation', { name: 'Table of contents' })
 
-  await expect(navigation.locator('a')).toHaveCount(13)
+  await expect(navigation.locator('a')).toHaveCount(14)
   await navigation.getByRole('link', { name: 'Why this experience matters', exact: true }).click()
   await expect(page).toHaveURL(/#why-this-experience-matters$/u)
   await expect(page.locator('#why-this-experience-matters')).toBeInViewport()
