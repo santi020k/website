@@ -37,7 +37,8 @@ their current approved changes before the coordinator merges their commits.
 Unapproved design comparisons are proposals, not release implementation.
 Generated caches and dependency directories are not source changes.
 
-The October 26 inventory covers 60 named local branches and 23 checkouts. Every
+The initial October 26 consolidation at `0711988b` inventoried 60 named local
+branches and 23 checkouts. Every
 named branch tip is contained in v5 except the deliberately preserved reveal
 experiment below. The two active source checkouts are clean after their handoffs.
 The old Lumen checkout retains only its untracked dependency symlink. Three older
@@ -61,7 +62,7 @@ pass includes these integrations in 5.0.0 while preserving the published 4.0.0
 and earlier changelog byte for byte. OG fingerprints and both resume PDFs were
 regenerated with the repository generators.
 
-Validation on the combined source:
+Baseline validation for `0711988b`:
 
 - `pnpm run verify:fast` passed: CI-scope tests, spelling, zero-warning lint for
   the current site, all four archives and motion studio, type checks with no
@@ -119,3 +120,29 @@ the established v3 archive behavior. Its 404 canonical URL points to the generat
 `404.html`.
 The previously withdrawn branching-strategy draft and preview remain withdrawn
 in the new archive too.
+
+## Fresh recommendations follow-up
+
+The approved `fix/article-fresh-recommendations` commit `aebdb771` is contained
+through local merge `26a13bed`. Related writing excludes article destinations
+already rendered by Reference ledger or Series connection before applying the
+existing shared-tag/date ranking and two-card limit. It matches local paths and
+declared canonical URLs while ignoring query strings and fragments. Drafts,
+scheduled posts and unrelated fallback remain excluded. The approved card design
+is unchanged, with no new dependency or client script.
+
+Its patch Changeset is folded into the still-unpublished 5.0.0 notes; package
+version remains 5.0.0 and the published changelog remains unchanged. Resume PDFs
+were regenerated because the shared content helper participates in their source
+fingerprint, then their freshness check passed.
+
+Scoped integration validation passed: 37 focused unit tests, zero-warning ESLint
+for affected files, and `check:current` with no errors, warnings or hints. The
+current-site production build and OG audit passed for 452 pages. An initial
+incremental build retained the prior article compiler metadata; the repository's
+normal cache cleanup before the current-site build refreshed it without a source
+change.
+The article-reference and fresh-recommendation suites then passed 20 cases across
+Chromium and WebKit with retries disabled, including native keyboard navigation
+and HTML without JavaScript. The existing archives were reassembled from their
+unchanged builds. Full release gates remain reserved for final publication.
