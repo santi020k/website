@@ -1885,7 +1885,7 @@ mode may show drafts and scheduled articles; judge the public content against a 
 
 ### Refined maker homepage hero
 
-Keep the personal greeting and three-line headline, with purple emphasis on “tools”.
+Keep the three-line headline, with purple emphasis on “tools”, and the desktop greeting.
 The introduction names engineering leadership, Lumen UI, commerce platforms, native apps,
 and developer tools. “See selected work” opens the portfolio; “About me” opens About.
 Preserve the shared header, its controls, and the joined Signature frame.
@@ -1893,15 +1893,21 @@ Preserve the shared header, its controls, and the joined Signature frame.
 On desktop, use an open two-column layout with a 22rem-wide, 4:5 portrait, centered
 40% crop, 1.5rem corners, and a plain name and location caption. The headline reaches
 5rem; primary and secondary actions use 0.875rem labels and retain generous hit areas.
-On phones below 768px and below 41rem of Home container width with enlarged text, move the portrait
-into a compact identity row with a 4.5rem image. Below 18rem, put the complete caption
-beneath that image. Keep the optimized responsive image sources and eager loading.
+On phones below 768px, lead with a compact identity row and a 3.5rem portrait, then
+the stronger headline, concise introduction, and actions. The name and location replace
+the separate greeting. Below 14rem of available width, put the complete caption beneath
+the image so enlarged text remains readable. Below 18rem, make the primary action full
+width and put the secondary action beneath it. Tablet and desktop containers below 41rem
+retain the compact 4.5rem portrait after the copy, with the caption below it under 18rem.
+Keep optimized responsive image sources and eager loading.
 
 End the hero with an open, ruled “Selected products” strip containing Lumen UI and
 PostLens in that order, with descriptive summaries in 0.75rem type. Retain the named
 product navigation, existing case-study links, `hero-products` fragment, and visible
-“All projects” action. At narrow widths, stack the complete product links with fine
-rules; enlarged text can move logos above their copy. Preserve visible keyboard focus,
+“All projects” action. Phones with at least 15rem of available width show two open
+product columns, with smaller logos beside titles and complete descriptions beneath.
+A fine rule separates the columns. Narrower containers stack the complete product links;
+enlarged text can move logos above their copy. Preserve visible keyboard focus,
 reduced motion, and both themes. Do not add decorative cards or client JavaScript.
 
 ### Sculpted ledger homepage statistics
