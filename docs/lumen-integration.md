@@ -338,6 +338,10 @@ enlarged text sizes. No new client controller is introduced.
   build time. Native headings, generated fragments, and inline links remain intact;
   a span keeps formatted titles together beside a CSS rule. The article prose container
   adapts the typography and rule spacing without client code or a second Lumen runtime.
+- `ProjectIntentBrief` presents Lumen's four goals as a named native list with continuous
+  statements and accent opening phrases. The site owns the open rules and responsive
+  reading scale; the authored Section cadence heading remains the source of its name
+  and fragment. No replacement Lumen control or client controller is added.
 - `ProjectCapabilitySpread` and `ProjectCapabilityEntry` compose Lumen's six capabilities
   as a named native list with open ruled entries, decorative numbers, and h4 labels.
   They preserve authored MDX descriptions and inline code, use semantic tokens, and stack

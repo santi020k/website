@@ -270,6 +270,8 @@
 
 - Present the Lumen Why it matters section as Principle close, with an emphasized application-policy takeaway and open, responsive perspectives for developers, designers and coding agents.
 
+- Present Lumen Goals as Intent brief, keeping each authored goal in continuous reading flow with an accent opening phrase, open rules and responsive typography.
+
 ### Patch Changes
 
 - Keep featured project images and copy full width when galleries stack on mobile or with enlarged text, matching the other cards' image proportions while preserving the desktop composition. Keep archive-match badges readable in dark mode.
