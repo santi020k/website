@@ -1496,7 +1496,8 @@ Align Comments and Share in a 5.375rem margin with a 1.5rem
 column gap. The discussion invitation uses a 2px purple rail, a 1.5rem text inset,
 and a 1.4375rem lead. Use a quiet underlined Reply on GitHub link with a 44px target.
 Sharing pairs Pass it on with the existing copy or native share action, followed
-by its three social destinations. Fine bottom rules separate the sections.
+by its three social destinations. The copy action uses the shared outlined article
+button, with a tinted icon compartment and stable width across result states. Fine bottom rules separate the sections.
 
 Stack the margin above the content below 32rem of available width,
 reduce the discussion inset below 18rem, and let actions wrap at enlarged text
@@ -1631,8 +1632,12 @@ After Topics, use an open row with the series position above its linked title an
 a quiet Copy link action alongside it. The metadata reads From the series followed
 by the current post number and series total. Use 0.75rem muted metadata, a 1.3125rem
 medium-weight title, a purple directional arrow, and a fine bottom rule with 1.5rem
-of breathing room. Copy link uses a transparent 0.8125rem label and a subtle underline,
-retaining its success and error feedback and at least a 2.75rem target.
+of breathing room. Separate the action row from Topics by 1.5rem. Copy link uses
+the shared `article-copy-action` treatment: an opaque surface, a fine outline,
+0.875rem corners, a 0.8125rem label, and a tinted link icon compartment. Keep its
+10.5rem width within the available space across idle, copied, and failed states,
+with at least a 2.75rem target. Use the same treatment for closing share actions;
+preserve both clipboard controllers, their accessible feedback, and native sharing.
 
 Below 32rem of available width, stack the utility beneath the series and use a
 1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
