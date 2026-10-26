@@ -94,6 +94,7 @@ test('engineering principles preserve complete accessible headings', async ({ pa
   ]
 
   await expect(cards).toHaveCount(titles.length)
+  await expect(cards.locator('[data-principle-source]')).toHaveCount(0)
   for (const title of titles) {
     await expect(cards.getByRole('heading', { level: 3, name: title, exact: true })).toBeVisible()
   }

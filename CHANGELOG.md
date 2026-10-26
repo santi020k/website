@@ -296,6 +296,8 @@
 
 ### Patch Changes
 
+- Connect each About engineering principle to related published writing through a practice caption, preserving the default Developer Experience cards.
+
 - Give About organization cards static contour backgrounds in their existing project colors, with clear logo surfaces and the named organization index preserved.
 
 - Give the latest published series chapter a clear closing heading, compact previous chapter link, and the existing expandable chapter index.

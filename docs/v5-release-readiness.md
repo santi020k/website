@@ -233,3 +233,22 @@ three repetitions of that case, with retries disabled. Animation behavior was
 preserved. Affected lint, the production build, OG freshness and PDF freshness
 passed. Source-branch full-gate evidence remains attached to its own recorded
 revision and is not represented as a new whole-release run.
+
+## Practice captions follow-up
+
+The approved `feature/about-practice-captions` commit `6f4894bb` is contained
+through local merge `e200faf5`. All six About engineering principles link to
+related published writing through native Lumen links. The optional caption renders
+only for the editorial appearance; the shared default DX-page cards retain their
+existing presentation. A regression assertion verifies that DX cards have no
+practice captions. The new release note is folded into 5.0.0 while preserving
+the published changelog.
+
+Scoped merged validation passed: zero-warning affected lint, a current-site type
+check across 478 files with no errors, warnings or hints, and 62 Chromium/WebKit
+cases with retries disabled. Coverage includes all six published destinations,
+keyboard navigation, the default DX headings and absent captions, passive-card
+behavior, both themes and enlarged-text layouts. The current-site production
+build and 452-page OG audit passed; unchanged archives were reassembled.
+Resume PDFs were regenerated for the profile and stylesheet fingerprint and
+passed their freshness check. Matched mobile and desktop captures were reviewed.
