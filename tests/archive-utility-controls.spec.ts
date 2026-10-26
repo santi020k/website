@@ -198,10 +198,10 @@ test('archive notice remeasures after resize and client navigation', async ({ pa
   await readingPreferences(page, 200)
   await page.setViewportSize({ width: 390, height: 844 })
   await openArchive(page, '/v2/offline/')
-  const documentStart = await page.evaluate(() => performance.timeOrigin)
+  const originalDocument = await page.evaluateHandle(() => document)
   await page.locator('main').getByRole('link', { name: 'Browse projects', exact: true }).click()
   await expect(page).toHaveURL('/v2/portfolio/')
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(documentStart)
+  expect(await originalDocument.evaluate(initial => initial === document)).toBe(true)
   await expect(page.locator('html')).toHaveCSS('font-size', '32px')
   for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 320 }]) {
     await page.setViewportSize(viewport)
@@ -269,7 +269,7 @@ test('v2 email copying has one handler after repeated client navigation', async 
     })
   })
   await openArchive(page, '/v2/offline/')
-  const documentStart = await page.evaluate(() => performance.timeOrigin)
+  const originalDocument = await page.evaluateHandle(() => document)
 
   let copies = 0
 
@@ -281,7 +281,7 @@ test('v2 email copying has one handler after repeated client navigation', async 
 
     await page.getByRole('navigation', { name: 'Footer navigation' }).getByRole('link', { name: destination, exact: true }).click()
     await expect(page).toHaveURL(destination === 'About' ? '/v2/about/' : '/v2/')
-    expect(await page.evaluate(() => performance.timeOrigin)).toBe(documentStart)
+    expect(await originalDocument.evaluate(initial => initial === document)).toBe(true)
     await expect(page.locator('#contact').getByRole('status')).toBeEmpty()
   }
 })

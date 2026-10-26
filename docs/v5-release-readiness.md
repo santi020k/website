@@ -37,8 +37,56 @@ their current approved changes before the coordinator merges their commits.
 Unapproved design comparisons are proposals, not release implementation.
 Generated caches and dependency directories are not source changes.
 
-Final integration commits, validation results, and the reveal experiment decision
-are recorded here after the combined candidate is checked.
+The October 26 inventory covers 60 named local branches and 23 checkouts. Every
+named branch tip is contained in v5 except the deliberately preserved reveal
+experiment below. The two active source checkouts are clean after their handoffs.
+The old Lumen checkout retains only its untracked dependency symlink. Three older
+detached snapshots and eight historical stashes retain the published-v4
+reconciliation recorded in [the v4 audit](v4-release-readiness.md#release-completeness-audit).
+Their obsolete layouts and dependency snapshots are preserved, not reapplied.
+
+The combined candidate includes:
+
+- The complete v4.1 preparation at `ac7e77f2` and logo/content-date fixes merged at
+  `2981827a`.
+- V4 preservation, v5 metadata, History and motion updates in `43dd7ecc`.
+- Portfolio evidence `5a595279`, About profile links `d2538da8`, and About practice
+  links `ffc34480`.
+- Article references `8cddc493`, single series continuation `a71a2a84`, and the
+  closing series connection `a365642f`.
+
+Both source chats were told to base further approved work on `release/v5.0.0`.
+Unapproved comparison mockups remain outside the release. The final Changesets
+pass includes these integrations in 5.0.0 while preserving the published 4.0.0
+and earlier changelog byte for byte. OG fingerprints and both resume PDFs were
+regenerated with the repository generators.
+
+Validation on the combined source:
+
+- `pnpm run verify:fast` passed: CI-scope tests, spelling, zero-warning lint for
+  the current site, all four archives and motion studio, type checks with no
+  errors/warnings/hints, Markdown and content lint, PDF freshness, 900 unit tests,
+  seven motion browser tests, and the complete production build.
+- The assembled audit passed for 1,740 documents and 8,156 local targets. Archive
+  SEO, navigation, and assets passed across 1,288 archived pages. Current-site OG
+  validation passed for 452 pages with no errors or warnings.
+- The Chromium/WebKit integration matrix covered History, all archives, About,
+  portfolio evidence, article references, series navigation, reveal behavior,
+  and view transitions: 413 of 414 cases passed initially. One WebKit case exposed
+  a one-millisecond `performance.timeOrigin` comparison difference. The two
+  same-document navigation assertions now compare the original Document directly;
+  both cases then passed five repetitions in each browser (20 passes), retaining
+  the reload and duplicate-handler regression checks.
+- `pnpm run lighthouse` passed the configured homepage performance, accessibility,
+  best-practices, SEO, and interaction/layout assertions.
+- History and v4 were inspected at 390px and 1440px in both themes, with no
+  horizontal overflow. Captures include the existing History before the change
+  and the finished five-era timeline. Browser cases also cover enlarged text,
+  keyboard navigation, script-free navigation, and accessibility checks.
+
+The existing v3 large-chunk build advisory remains unchanged. The optional
+Workspace Organizer sitemap source was unavailable and omitted by the established
+fallback; the complete local page audit still passed.
 
 ## Publication and recovery
 
@@ -66,7 +114,8 @@ best option without adverse behavior changes. V5 therefore retains the explicit
 zero thresholds for tall groups and the existing regression coverage; the
 experimental global runtime change stays excluded and preserved for reference.
 
-The v4 archive's desktop-resize focus repair reuses the established v3 archive
-implementation, and its 404 canonical URL points to the generated `404.html`.
+The v4 archive's menu, search, desktop-resize and back-to-top focus repairs reuse
+the established v3 archive behavior. Its 404 canonical URL points to the generated
+`404.html`.
 The previously withdrawn branching-strategy draft and preview remain withdrawn
 in the new archive too.

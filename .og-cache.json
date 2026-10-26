@@ -124,13 +124,13 @@
     "blog/atomic-module-component-structure-for-react.webp": {
       "baseDirectory": "public/og",
       "digest": "ef2e3ed85843be5776834a3b666248d4d92f5deb801c2246552de79817de26d8",
-      "fingerprint": "5c48f57e3ce8d71e7d9a2cabb6866f744f27293e89409c1c710ba6d4bea0a395",
+      "fingerprint": "12c2c8b8c957041bf74c04986a96a0c418cda98ed5e61db7878d68ebc1e667ab",
       "output": "blog/atomic-module-component-structure-for-react.webp"
     },
     "blog/authentication-and-authorization-in-next-js-applications-with-supabase.webp": {
       "baseDirectory": "public/og",
       "digest": "8775001d77bfaf740ea4b7c99d226401d0c1ccfa9be70675939d67610282b675",
-      "fingerprint": "d3d224300928190887c314ae73a2d73cdf0ee03c7c9cbb17b19f2242e1c2a6fb",
+      "fingerprint": "59e7e72441243cca1358913d56b36e197412be57f01b45b729628bcfe2fd2a42",
       "output": "blog/authentication-and-authorization-in-next-js-applications-with-supabase.webp"
     },
     "blog/boosting-code-quality-and-efficiency-with-my-eslint-configuration-library.webp": {
@@ -142,7 +142,7 @@
     "blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration.webp": {
       "baseDirectory": "public/og",
       "digest": "36f3027d983c797c1220da641f7b71d60207b245f516b55e3e82c3590dc244ee",
-      "fingerprint": "40754ecc946782eb8af1adda37a2da6401b1e1d84444ba7a11a0813841571b05",
+      "fingerprint": "c46e2c0aea28b706f8f52e93d3f96e479bbc1dc06251d26238c45ea1a1dcec46",
       "output": "blog/building-the-best-next-js-typescript-standard-vitest-eslint-configuration.webp"
     },
     "blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set.webp": {
@@ -154,19 +154,19 @@
     "blog/continuous-integration-and-deployment-for-next-js-projects.webp": {
       "baseDirectory": "public/og",
       "digest": "c3d0a9cd8e12027da255a541402c28d5dce3fa338f9a49ef9bda495a7eff26b4",
-      "fingerprint": "6215e69de83212ce42ca78145bb0f7687285849a960d516e3ec98a58ff569975",
+      "fingerprint": "29ab50da121d631242de44d914f6cb41437a059ee0aa643dfc927dd4d3b88c21",
       "output": "blog/continuous-integration-and-deployment-for-next-js-projects.webp"
     },
     "blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp": {
       "baseDirectory": "public/og",
       "digest": "396dab5201f28e7da012002d19b09cd23fbd83df5b22f67d903cd8807a74ddc3",
-      "fingerprint": "306cf3013d27368051bbd733d4599e468cd1eaa808ed058c84e8260a35693268",
+      "fingerprint": "c559ab50077f7993eca948d179468475fa00b08f0aff1d7a511f42c4a223186a",
       "output": "blog/development-workflow-with-husky-for-next-js-eslint-and-vitest-integration.webp"
     },
     "blog/migrate-eslint-8-or-less-to-eslint-9.webp": {
       "baseDirectory": "public/og",
       "digest": "1f36a29009dac14fd0a8317edb441ac84e5942731a228244e154df6a367cb58d",
-      "fingerprint": "d9381753de0349b50b34954be6378ab3e1ac87aa3a05e8846d4d96c98e117ed6",
+      "fingerprint": "51d3e70febc10ae526458a70101f1cf54a78ce39bc7a0712fd79f0d35118c2a5",
       "output": "blog/migrate-eslint-8-or-less-to-eslint-9.webp"
     },
     "blog/skin-in-the-game-for-software-teams.webp": {
@@ -184,7 +184,7 @@
     "blog/testing-react-components-with-vitest-and-react-testing-library.webp": {
       "baseDirectory": "public/og",
       "digest": "9a456e895d4620f7a4a5504595b6c99563b0f3b7b719aa583e9feaf69c019715",
-      "fingerprint": "9b535c3bdc1a1333c76083bf2ddbea99aff889ca156004e3c86fac38c5fa4aa5",
+      "fingerprint": "eda12879fd37dfa8ee7bb9c17ae1f9ccfffab3ba2fa7015dac88c16f2869c2e5",
       "output": "blog/testing-react-components-with-vitest-and-react-testing-library.webp"
     },
     "blog/a-release-process-that-reduces-drama.webp": {
@@ -424,25 +424,25 @@
     "pages/blog--tags--development.webp": {
       "baseDirectory": "public/og",
       "digest": "a4890e5038b8c5223a081862b4ca61fae2e257a6221f03d43efecbc6f7a20904",
-      "fingerprint": "b97920d398f1ae84130412fa2f1dd7fc4c05602e68ccd275ecbf78a0e10ea95e",
+      "fingerprint": "a3e6ac3a43c38739d023f776e618a8d3ff23d464bfb9e969fe3c7038791a9194",
       "output": "pages/blog--tags--development.webp"
     },
     "pages/blog--tags--react.webp": {
       "baseDirectory": "public/og",
       "digest": "89aeadc93f2702b25dff7a52c9a1fb4320f1ec60097f2beab30ab7aefd9ccaf1",
-      "fingerprint": "d10cfcfea6c37bed9fcbb55a25dc36f4ed0224e613a87484881ebf09b1d22078",
+      "fingerprint": "b48ec231079599bfc850aa9738f7b140a88a35260f571dd825969ddfa1799ab5",
       "output": "pages/blog--tags--react.webp"
     },
     "pages/blog--tags--nextjs.webp": {
       "baseDirectory": "public/og",
       "digest": "ca328ae2861ba6c8b5194d0f57e6922e44d7630b560fc70314103286d5090c56",
-      "fingerprint": "d6c76450edbe0b190fafd6afdaf5d5d41977b41abf5d7301ca3b288ba0c6f010",
+      "fingerprint": "d97f30572911f8d1321de243734faf3c2e0f8355426dbecd8e7628e3e30ec739",
       "output": "pages/blog--tags--nextjs.webp"
     },
     "pages/blog--tags--typescript.webp": {
       "baseDirectory": "public/og",
       "digest": "1d8d131bfa22df4224f0e0a6456675a12548f08ea4223b0724a6ab4967161619",
-      "fingerprint": "238082a3c42d261c62ed6eb3c91c15bbe7adc6e5f4a309deb62334a35f66b355",
+      "fingerprint": "2bb62e4f247f8d31af474125064f91fbd81fc5ea951120fef56147a53c1b9d15",
       "output": "pages/blog--tags--typescript.webp"
     },
     "pages/blog--tags--typescript--2.webp": {
@@ -454,19 +454,19 @@
     "pages/blog--tags--supabase.webp": {
       "baseDirectory": "public/og",
       "digest": "dabf9ef2ba0dc927baa050d8f0002a8497fd1aaa3db7493b762166ca73d1300b",
-      "fingerprint": "3aef1f0ee86b200d8a57419e04854fa2507cdc15ef5882858d1f018c966c14af",
+      "fingerprint": "61f43a4ed0108485e89eda18784dc4b7124831829ca95dce7f4500eb82160eba",
       "output": "pages/blog--tags--supabase.webp"
     },
     "pages/blog--tags--authentication.webp": {
       "baseDirectory": "public/og",
       "digest": "63f44f90767db5c8f7da48358f0e45649f59a3c68140a5d46f5a0d9c4f1ac5be",
-      "fingerprint": "0b737588a73d72b02e59dda61796446c9d4f7efa03b5d9e1c3601c30b2c5735e",
+      "fingerprint": "fb1b75e5a62e578e8af46c1eafe56b3262f76172c77c66809459003c436e44f4",
       "output": "pages/blog--tags--authentication.webp"
     },
     "pages/blog--tags--authorization.webp": {
       "baseDirectory": "public/og",
       "digest": "792aee854c48b8e924c844b1f4c5b345b6e43ee419d13cc1a6b24c45798a4898",
-      "fingerprint": "7c53e7d9c2bd176ef80a953de8b06da334f6cdeab505c1b97d456501058fbb0b",
+      "fingerprint": "084f6bcad2d2de16c343885ec3c13069788cc4a4034226199e57a8e3d8af9675",
       "output": "pages/blog--tags--authorization.webp"
     },
     "pages/blog--tags--react-native.webp": {
@@ -478,7 +478,7 @@
     "pages/blog--tags--eslint.webp": {
       "baseDirectory": "public/og",
       "digest": "b72808d3b6adefab56131b50567c2a4706b0295401d8576e3cee98c10ff1c16a",
-      "fingerprint": "01542f2b483472ff8fc17bdd8bf7752741a7c842d3537265e2170520eb16d104",
+      "fingerprint": "dee88683410124675b76ba308fc7aa4fcb52237ae0cf6ce2b34c2bb8231db5a4",
       "output": "pages/blog--tags--eslint.webp"
     },
     "pages/blog--tags--eslint-config.webp": {
@@ -490,13 +490,13 @@
     "pages/blog--tags--vitest.webp": {
       "baseDirectory": "public/og",
       "digest": "5a73fb8d81941ad21e6f95d18ba7a348bff17e04e7e7693485d452684d8680b6",
-      "fingerprint": "3f5707f1ea29c23f439a707c968208f195703ac205c00255858e5044c74f11a5",
+      "fingerprint": "047af02c4d374514372465e40f682241e0e9324fa8ba651680de2b1015a0078c",
       "output": "pages/blog--tags--vitest.webp"
     },
     "pages/blog--tags--standards.webp": {
       "baseDirectory": "public/og",
       "digest": "7a4207c81790a9c6808dc1f8b0a9fca7e9ef7da00be3fadb599b0742cbee1299",
-      "fingerprint": "7bf071b4a0ebf46f84f81fb701af7f2f87e15c3494c35dd0c728f4b168cce01a",
+      "fingerprint": "e44fd721e8657713138d4df90b129bd1a50023b9e0684c8fa09d476a1bdd9547",
       "output": "pages/blog--tags--standards.webp"
     },
     "pages/blog--tags--mongo.webp": {
@@ -526,37 +526,37 @@
     "pages/blog--tags--ci-cd.webp": {
       "baseDirectory": "public/og",
       "digest": "e9c03adee0ce74e3ae566ef013acefec5578b30731f8955ef5bc3fbe127a9799",
-      "fingerprint": "6c84058c5c0b6a22ce0b2524a31fff4bf83d691ac5591446e0400cca9e466ebb",
+      "fingerprint": "e62a6450fa7cf404b94f9555b45955525a751f2a23973bb305d5fac976522a60",
       "output": "pages/blog--tags--ci-cd.webp"
     },
     "pages/blog--tags--github-actions.webp": {
       "baseDirectory": "public/og",
       "digest": "02a5b523bd7499861026bc6c681c6b164a21f6b65a5f16ee02bd7e57801ae5f5",
-      "fingerprint": "4b3f1680c522000fb3366faa5a61e87eeec16a425f8ab6d9705ffc10d9c8a967",
+      "fingerprint": "233391f1fd8c3577d635181edfead26f5894bc51d2bc85a7328afabda4984ae5",
       "output": "pages/blog--tags--github-actions.webp"
     },
     "pages/blog--tags--deployment.webp": {
       "baseDirectory": "public/og",
       "digest": "0fffb2a626e94afda9edfeccc7d74a281c36a9e61b0b5e660e5e3290c88b273d",
-      "fingerprint": "debf5635e1f0112b2e4e6747525348e4cb9b8124496bcf826cac2d6ba435f39e",
+      "fingerprint": "d3e945d6a281c611262288c0581c3568c4e64e95b65f03401930b4c4f3a7645a",
       "output": "pages/blog--tags--deployment.webp"
     },
     "pages/blog--tags--pre-commit.webp": {
       "baseDirectory": "public/og",
       "digest": "cc0a3c0d28581ad03a62a6d0c54f5467ba86fd8ee9965c3960a44ed817844fb4",
-      "fingerprint": "0ec650b36ef6c2b1536174881694c0fd961cae9f38951b41a0f2887d0dd657bf",
+      "fingerprint": "5514e9b61a3fcbcdefbede5e897e6e552e7cf3992282b93d1a3b3c8abf3d558c",
       "output": "pages/blog--tags--pre-commit.webp"
     },
     "pages/blog--tags--husky.webp": {
       "baseDirectory": "public/og",
       "digest": "4128577566112f30ca7e78cdc91f0be1331e3d571c64283e797555ec5a5615fd",
-      "fingerprint": "2ebb7462c8dd5e0f776e51a6735268bd7169010889784b389c7c47f4e89a3628",
+      "fingerprint": "343ce15e50da168f0c9b7ac5e7e996fe5fb588edf077487a7ec844b4629d8d77",
       "output": "pages/blog--tags--husky.webp"
     },
     "pages/blog--tags--migration.webp": {
       "baseDirectory": "public/og",
       "digest": "0361923ccc02e753f82c2e5fdca2ddb46f2ed39704a748ccc5afd57e57d0323c",
-      "fingerprint": "7e3e705970f723122aea71477917e0aadfc0e6281082d946c015ab3f22a8df6f",
+      "fingerprint": "e985fdd52490cd0bb7d9f06f7c6a9de9245ffc1724e2de37cbd8bfe440f568ef",
       "output": "pages/blog--tags--migration.webp"
     },
     "pages/blog--tags--engineering-culture.webp": {
@@ -598,7 +598,7 @@
     "pages/blog--tags--testing-library.webp": {
       "baseDirectory": "public/og",
       "digest": "44aa8c452610d12a3c0f06a29e4e76ff5673c695837e17e00b17ecc9ddc44959",
-      "fingerprint": "47a8476730e24d896f79c5cfa204bf2f25602e54657ff665d3541436baae33a9",
+      "fingerprint": "d2a54f6ff5c1b774f2c96dc8632796205b955fc357c40528c038c6429054e311",
       "output": "pages/blog--tags--testing-library.webp"
     },
     "pages/blog--tags--release-management.webp": {

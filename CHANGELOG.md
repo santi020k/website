@@ -286,6 +286,12 @@
 
 - Include Lumen Outcomes in the desktop contents rail and mobile chapter opener through its authored heading, preserving the legacy fragment and native keyboard navigation.
 
+- Connect About profile counters and collaboration practices to their supporting career and case-study sections. Show the verified 60% faster-deployment result on About, retain homepage metrics, and preserve native links, keyboard access, both themes, and enlarged-text reflow.
+
+- Present portfolio outcomes as evidence rows, emphasizing explicitly authored leading results without losing their qualifying context. Keep qualitative outcomes readable and cover empty, ambiguous, and non-leading-number cases.
+
+- Organize article opening references into a shared Reference ledger and connect the Supabase article to its related ESLint series with the same accessible treatment. Preserve authored destinations and reuse the existing series navigation for a single onward chapter action.
+
 ### Patch Changes
 
 - Select current-site static checks for ordinary source-only pull requests while retaining every unit and motion test.
