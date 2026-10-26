@@ -44,6 +44,28 @@ test.describe('About page', () => {
     await expect(blogLink).toHaveAttribute('href', /^\/blog\/$/)
   })
 
+  test('principle captions lead to published writing', async ({ page, request }) => {
+    const links = page.locator('#about-principles [data-principle-source]').getByRole('link')
+
+    await expect(links).toHaveCount(6)
+    for (const link of await links.all()) {
+      await expect(link).toHaveAttribute('href', /^\/blog\/.+\/$/)
+
+      const href = await link.evaluate((anchor: HTMLAnchorElement) => anchor.pathname)
+
+      expect((await request.get(href)).status()).toBe(200)
+      await expect(link).not.toHaveAttribute('target', '_blank')
+    }
+    const firstLink = links.first()
+    const destination = await firstLink.evaluate((anchor: HTMLAnchorElement) => anchor.pathname)
+
+    await firstLink.focus()
+    await expect(firstLink).toBeFocused()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(destination)
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  })
+
   test('should select organizations by name without hiding focused links', async ({ page }) => {
     await page.setViewportSize({ height: 900, width: 800 })
 

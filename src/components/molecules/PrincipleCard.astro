@@ -1,15 +1,18 @@
 ---
-import { Card } from '@santi020k/lumen-astro'
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
+
+import type { EngineeringPrinciple } from '@/data/profile'
 
 interface Props {
   appearance?: 'default' | 'editorial'
   index: number
+  source?: EngineeringPrinciple['source']
   subtitle?: string
   title: string
   body: string
 }
 
-const { appearance = 'default', index, subtitle, title, body } = Astro.props
+const { appearance = 'default', index, source, subtitle, title, body } = Astro.props
 const formattedIndex = String(index + 1).padStart(2, '0')
 ---
 
@@ -37,5 +40,13 @@ const formattedIndex = String(index + 1).padStart(2, '0')
     <span data-card-title={appearance === 'default' ? '' : undefined}>{title}</span>
     {subtitle && <> <span data-card-subtitle>{subtitle}</span></>}
   </h3>
-  <p class="text-sm/7 text-ink-soft">{body}</p>
+  <p class="text-sm/7 text-ink-soft" data-principle-body>{body}</p>
+  {appearance === 'editorial' && source && (
+    <div data-principle-source>
+      <p>Read the approach</p>
+      <Link href={source.href} variant="inherit">
+        <span>{source.label}</span><Icon name="arrow-up-right" size="sm" />
+      </Link>
+    </div>
+  )}
 </Card>

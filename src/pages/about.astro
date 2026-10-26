@@ -207,11 +207,11 @@ const meta = {
       </div>
     </section>
 
-    <section class="about-section">
+    <section id="about-principles" class="about-section">
       <AboutSectionHeading index="04" eyebrow="Principles" title="What I believe about engineering." description="The principles I come back to when a product is moving fast and the team needs decisions that hold." />
       <div class="about-principles">
-        {engineeringPrinciples.map(({ body, title }, index) => (
-          <PrincipleCard appearance="editorial" body={body} index={index} title={title} />
+        {engineeringPrinciples.map(({ body, source, title }, index) => (
+          <PrincipleCard appearance="editorial" body={body} index={index} source={source} title={title} />
         ))}
       </div>
     </section>
