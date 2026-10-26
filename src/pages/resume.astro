@@ -1,4 +1,5 @@
 ---
+import ResumeEvidenceNote from '@/components/molecules/ResumeEvidenceNote.astro'
 import PageLayout from '@/layouts/Base.astro'
 
 import { getCachedProjects } from '@/utils/content'
@@ -307,8 +308,10 @@ class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft"
                       <li>{metric}</li>
                     ))}
                   </ul>
+                  <ResumeEvidenceNote project={project} />
                 </div>
               )}
+              {project.data.impactMetrics.length === 0 && <ResumeEvidenceNote compact project={project} />}
 
               <div
 class="
@@ -371,6 +374,7 @@ class="
                 </span>
               </div>
               <p class="text-sm text-ink-soft">{project.data.description}</p>
+              <ResumeEvidenceNote compact project={project} />
             </div>
           ))
         }
@@ -429,8 +433,10 @@ class="ml-5 list-outside list-disc space-y-1 text-sm text-ink-soft"
                       <li>{metric}</li>
                     ))}
                   </ul>
+                  <ResumeEvidenceNote project={project} />
                 </div>
               )}
+              {project.data.impactMetrics.length === 0 && <ResumeEvidenceNote compact project={project} />}
 
               <div
 class="

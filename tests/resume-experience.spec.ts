@@ -13,6 +13,21 @@ for (const theme of ['light', 'dark'] as const) {
       await expect(entry.getByRole('heading', { level: 3 })).not.toBeEmpty()
       await expect(entry.locator('[data-resume-date]')).not.toBeEmpty()
       await expect(entry.locator(':scope > p')).not.toBeEmpty()
+      const evidenceLink = entry.locator('[data-resume-evidence-note]').getByRole('link')
+
+      await expect(evidenceLink).toHaveCount(1)
+      await expect(evidenceLink).toHaveAttribute('href', /^\/portfolio\/[^/]+\/$/u)
+      await expect(evidenceLink).toHaveAccessibleName(/^Read the .+ case study$/u)
+      await evidenceLink.focus()
+      await expect(evidenceLink).toHaveCSS('outline-style', 'solid')
+      const arrowInset = await evidenceLink.evaluate(link => {
+        const arrow = link.querySelector('[data-resume-evidence-arrow]')
+
+        if (!arrow) throw new Error('Evidence links must include their directional cue')
+        return link.getBoundingClientRect().right - arrow.getBoundingClientRect().right
+      })
+
+      expect(arrowInset).toBeLessThanOrEqual(2)
     }
     for (const entry of await page.locator('[data-resume-entry], [data-resume-community-entry]').all()) {
       await expect(entry.locator('[data-resume-stack] > span').first()).toBeVisible()
@@ -37,7 +52,7 @@ for (const theme of ['light', 'dark'] as const) {
         const overflow = await readableRows.evaluateAll(rows => rows.flatMap(row => {
           const bounds = row.getBoundingClientRect()
 
-          return [...row.querySelectorAll('h3, [data-resume-date], p, h4, li, [data-resume-stack] > span')].filter(copy => {
+          return [...row.querySelectorAll('h3, [data-resume-date], p, h4, li, [data-resume-stack] > span, a')].filter(copy => {
             const range = document.createRange()
 
             range.selectNodeContents(copy)
@@ -58,6 +73,9 @@ for (const theme of ['light', 'dark'] as const) {
         }))
 
         expect(overlap, 'Dates must not overlap their role headings').toBe(false)
+        for (const link of await entries.locator('[data-resume-evidence-note] a').all()) {
+          expect(await link.evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44)
+        }
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
       }
     }
@@ -109,4 +127,32 @@ test('Resume print keeps inline roles and a compact impact list', async ({ page 
     await expect(entry.locator('[data-resume-role-separator]')).toBeVisible()
     await expect(entry).toHaveCSS('break-inside', 'avoid')
   }
+  await expect(page.locator('[data-resume-evidence-note]')).toHaveCount(9)
+  for (const note of await page.locator('[data-resume-evidence-note]').all()) await expect(note).toBeHidden()
+})
+
+test('Resume evidence links open the matching case studies without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce' })
+  const page = await context.newPage()
+
+  for (const project of [
+    { title: 'Smith Commerce', slug: 'smith-commerce' },
+    { title: 'X Games', slug: 'xgames' },
+    { title: 'Void.GG', slug: 'void' },
+    { title: 'Optic Power', slug: 'optic-power' },
+    { title: 'PADS', slug: 'pads' },
+    { title: 'Datagran', slug: 'datagran' },
+    { title: 'Justbit.site', slug: 'justbit' },
+    { title: 'Nebular Technologies', slug: 'nebular' },
+    { title: 'ReactJS Colombia', slug: 'react-js-colombia' }
+  ]) {
+    await page.goto('/resume/')
+    const link = page.getByRole('link', { name: `Read the ${project.title} case study`, exact: true })
+
+    await link.focus()
+    await page.keyboard.press('Enter')
+    await expect.poll(() => new URL(page.url()).pathname).toBe(`/portfolio/${project.slug}/`)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(project.title)
+  }
+  await context.close()
 })

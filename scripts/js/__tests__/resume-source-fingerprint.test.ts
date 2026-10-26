@@ -18,7 +18,7 @@ describe('resume source freshness', () => {
     vi.useRealTimers()
   })
 
-  test.each(['src/utils/date.ts', 'src/utils/content-date.ts', 'src/utils/content.ts', 'src/components/shared/BaseHead.astro', 'public/fonts/montserrat-variable-font-wght.ttf', 'public/fonts/montserrat-variable-font-wght.woff2', 'src/assets/fonts/montserrat-variable-font-wght.latin.woff2', 'src/assets/fonts/montserrat-italic-variable-font-wght.latin.woff2'])('detects changes to local render dependency %s', async sourcePath => {
+  test.each(['src/utils/date.ts', 'src/utils/content-date.ts', 'src/utils/content.ts', 'src/utils/links.ts', 'src/components/molecules/ResumeEvidenceNote.astro', 'src/components/shared/BaseHead.astro', 'public/fonts/montserrat-variable-font-wght.ttf', 'public/fonts/montserrat-variable-font-wght.woff2', 'src/assets/fonts/montserrat-variable-font-wght.latin.woff2', 'src/assets/fonts/montserrat-italic-variable-font-wght.latin.woff2'])('detects changes to local render dependency %s', async sourcePath => {
     const root = await mkdtemp(join(tmpdir(), 'resume-sources-'))
 
     try {

@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+import { getPortfolioPath } from '@/utils/links'
+
+import { Icon, Link } from '@santi020k/lumen-astro'
+
+interface Props {
+  compact?: boolean
+  project: CollectionEntry<'project'>
+}
+
+const { compact = false, project } = Astro.props
+---
+
+<div class="print:hidden" data-resume-evidence-note data-compact={compact || undefined} data-print-hidden>
+  {!compact && <p>The decisions behind these results</p>}
+  <Link href={getPortfolioPath(project.id)} variant="inherit">
+    <span data-resume-evidence-label>Read the {project.data.title} case study</span>
+    <span data-resume-evidence-arrow><Icon name="arrow-right" /></span>
+  </Link>
+</div>

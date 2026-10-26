@@ -705,6 +705,17 @@ screen; PDF pagination, print typography, and both download variants stay separa
 Community shares the screen layout while retaining its existing print header and
 pagination in both PDFs. Earlier Experience uses Compact folio below.
 
+### Evidence note resume case-study links
+
+Finish each detailed role's impact rail with The decisions behind these results
+and a named Read the [project] case study link. Use the existing accent, a single
+top rule, 0.8125rem link text, and a decorative arrow at the opposite edge. Keep the
+technology labels below the rail. Earlier roles and roles without listed metrics
+use the same named link without the helper text or extra rule, retaining Compact folio.
+Derive destinations from the collection entry and canonical portfolio-path helper.
+Keep links native, at least 2.75rem tall, keyboard-visible, and screen-only; neither
+PDF variant includes the note. Preserve the company headings and existing claims.
+
 ### Compact folio earlier experience
 
 Earlier Experience on `/resume/` shares Role folio's date margin and responsive
