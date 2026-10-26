@@ -329,3 +329,17 @@ for snapshots, SEO, storage isolation, and screenshot capture commands.
 The private [motion studio](apps/motion/README.md) uses the real website-history
 captures for a short film in portrait, square, and landscape formats. Run
 `pnpm --filter @santi020k/website-motion dev` to preview it locally.
+
+## Affected static checks
+
+Ordinary pull requests limited to current `src/` files run current-site lint and
+types, every unit and motion test, spelling, Markdown/content/CV checks and scope
+regressions. Historical application lint/type checks stay in the full lane.
+Production builds still include every historical site, assembly and audits;
+browser and Lighthouse validation remain unchanged. Shared packages, assets,
+configuration and unknown files select all checks. Release branches, pushes,
+manual runs and missing Git history select full validation.
+
+`CI_BASE_SHA=<base> pnpm ci:check` compares the merge base and local changes;
+`pnpm ci:check --full` runs `verify:quality`. `pnpm verify:full` retains complete
+release coverage. Revert the selector or use these full commands for recovery.
