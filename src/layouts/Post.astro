@@ -105,7 +105,8 @@ mainClass="remaining-pages remaining-pages--reading"
   <ScrollProgress targetId="article-content" />
 
   <article class="h-entry section-container-wide flex flex-col" data-reading-layout>
-    <a class="u-url sr-only" href={localURL.href}>Permalink to this article</a>
+    <!-- The h-entry permalink is metadata only, so it adds no focus stop or announcement. -->
+    <data class="u-url" hidden value={localURL.href}></data>
     <PostHero post={post} />
 
     <!-- ── Body: prose + sticky TOC sidebar when the reading container has room ── -->

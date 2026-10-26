@@ -53,6 +53,17 @@ const hasNoDocumentOverflow = (page: Page): Promise<boolean> => page.evaluate(()
   document.documentElement.scrollWidth <= document.documentElement.clientWidth
 ))
 
+const openContents = async (page: Page) => {
+  const opener = page.locator('[data-post-mobile-toc] [data-toc-opener]')
+
+  if (await opener.isVisible()) {
+    await expect(opener).not.toHaveAttribute('open')
+    await opener.locator('[data-toc-summary]').focus()
+    await page.keyboard.press('Enter')
+    await expect(opener).toHaveAttribute('open', '')
+  }
+}
+
 for (const viewport of viewports) {
   test.describe(`Article reading without JavaScript on ${viewport.name}`, () => {
     test.use({
@@ -101,6 +112,8 @@ for (const viewport of viewports) {
         await expect(share).toHaveAttribute('target', '_blank')
         await expect(share).toHaveAttribute('rel', 'noopener noreferrer')
       }
+
+      await openContents(page)
 
       await page
         .getByRole('navigation', { name: 'Table of contents' })

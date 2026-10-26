@@ -19,6 +19,43 @@ const withSite = async (run: (directory: string) => Promise<void>) => {
   }
 }
 
+test('continues reporting missing targets and fragments after malformed percent sequences', async () => {
+  await withSite(async directory => {
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/bad%zz/">Bad path</a><a href="#missing%">Bad fragment</a><a href="/also-missing/">Other missing page</a>'))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/bad%zz/' },
+      { route: '/', kind: 'missing-fragment', target: '/#missing%' },
+      { route: '/', kind: 'missing-target', target: '/also-missing/' }
+    ])
+  })
+})
+
+test('matches literal and partially encoded fragment IDs using browser decoding', async () => {
+  await withSite(async directory => {
+    await writeFile(path.join(directory, 'index.html'), document([
+      '<a href="#50%">Literal percent</a><p id="50%">Half</p>',
+      '<a href="#caf%C3%A9%">Encoded text and literal percent</a><p id="café%">Coffee</p>',
+      '<a href="#bad%FF">Invalid UTF-8</a><p id="bad�">Replacement</p>',
+      '<a href="#literal%20id">Literal encoded-looking ID</a><p id="literal%20id">Literal</p>',
+      '<a href="#a+b">Literal plus</a><p id="a+b">Plus</p>'
+    ].join('')))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([])
+  })
+})
+
+test('malformed encoded paths cannot bypass the build-root boundary', async () => {
+  await withSite(async directory => {
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/%2e%2e%2f/missing%zz/">Traversal</a><a href="/bad%00/">Null byte</a>'))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/%2e%2e%2f/missing%zz/' },
+      { route: '/', kind: 'missing-target', target: '/bad%00/' }
+    ])
+  })
+})
+
 test('checks existing pages, assets, encoded fragments, recovery pages, and configured redirects', async () => {
   await withSite(async directory => {
     await mkdir(path.join(directory, 'article'))

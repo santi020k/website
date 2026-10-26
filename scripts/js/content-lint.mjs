@@ -37,13 +37,11 @@ const walkFiles = async directory => {
 }
 
 const parseFrontmatter = raw => {
-  if (!raw.startsWith('---\n')) return null
+  const match = /^---\r?\n([\s\S]*?)\r?\n---[\t ]*(?:\r?\n|$)/u.exec(raw)
 
-  const end = raw.indexOf('\n---\n', 4)
+  if (!match) return null
 
-  if (end === -1) return null
-
-  return loadYaml(raw.slice(4, end))
+  return { frontmatter: loadYaml(match[1]), body: raw.slice(match[0].length).trim() }
 }
 
 const validatePostCover = async (filePath, coverImage) => {
@@ -89,7 +87,8 @@ const validateFile = async filePath => {
   if (!isContentFile(filePath)) return { errors: [] }
 
   const raw = await fs.readFile(filePath, 'utf8')
-  const frontmatter = parseFrontmatter(raw)
+  const parsed = parseFrontmatter(raw)
+  const frontmatter = parsed?.frontmatter
 
   if (!frontmatter || typeof frontmatter !== 'object') {
     return { errors: [`${filePath}: missing or invalid frontmatter`] }
@@ -121,7 +120,7 @@ const validateFile = async filePath => {
     }
   }
 
-  const body = raw.slice(raw.indexOf('\n---\n', 4) + 5).trim()
+  const body = parsed.body
   const titleOnlyDraft = frontmatter.draft === true && body.length === 0 && coverImage === undefined
 
   if (!titleOnlyDraft) errors.push(...await validatePostCover(filePath, coverImage))

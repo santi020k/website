@@ -99,6 +99,8 @@ Project frontmatter can curate up to two `relatedWriting` post references; the s
 section omits drafts, scheduled posts, and missing entries in every environment.
 Article and project routes render their collection entry once and pass its typed headings to the
 layout, keeping the reading sidebar aligned with the rendered content.
+Article microformats keep the local permalink as hidden, non-interactive metadata and scope the
+visible author link as its own `h-card`, so author properties do not become article properties.
 The current site uses its own posts and project schemas; historical integrations and styles
 belong to the preserved `apps/v1`, `apps/v2`, and `apps/v3` sites. Keep those archives separate
 when tracing unused code. New styling follows the [sculpted style guide](docs/sculpted-style-guide.md)
@@ -170,6 +172,8 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   social-card scheduling, and formatted labels share `src/utils/content-date.ts`; other formats and
   nonexistent days such as `2026-02-29` fail validation.
   CI runs quality checks in Bogotá and builds browser-test pages in Tokyo to cover both sides of UTC.
+  Content lint accepts LF or CRLF frontmatter and a closing fence at end of file; body text still
+  participates in the distinction between title-only drafts and drafts that require artwork.
 
 ### The developer tools behind this repository
 

@@ -19,6 +19,50 @@ afterEach(() => {
 
 describe('title-only draft content validation', () => {
   test.each([
+    { name: 'LF fence at EOF', newline: '\n', ending: '---', body: '', passes: true },
+    { name: 'CRLF fence at EOF', newline: '\r\n', ending: '---', body: '', passes: true },
+    { name: 'CRLF empty body', newline: '\r\n', ending: '---\r\n', body: '', passes: true },
+    { name: 'closing fence whitespace', newline: '\n', ending: '--- \t\n', body: '', passes: true },
+    { name: 'CRLF written draft', newline: '\r\n', ending: '---\r\n', body: 'A first paragraph.', passes: false },
+    { name: 'written draft after fence whitespace', newline: '\n', ending: '--- \t\n', body: 'A first paragraph.', passes: false }
+  ])('handles $name without losing authored body text', ({ newline, ending, body, passes }) => {
+    writeFileSync(join(root, 'src/content/post/2026/example/index.md'), [
+      '---',
+      'title: How I became a digital nomad',
+      'description: How I became a digital nomad',
+      'draft: true',
+      `${ending}${body}`
+    ].join(newline))
+
+    const result = spawnSync(process.execPath, [join(process.cwd(), 'scripts/js/content-lint.mjs')], {
+      cwd: root,
+      encoding: 'utf8'
+    })
+
+    expect(result.status).toBe(passes ? 0 : 1)
+    expect(result.stderr).not.toContain('missing or invalid frontmatter')
+    expect(result.stderr.includes('posts must provide coverImage')).toBe(!passes)
+  })
+
+  test.each(['----', '---not-a-fence', '--', ''])('rejects a malformed closing fence %j', closingFence => {
+    writeFileSync(join(root, 'src/content/post/2026/example/index.md'), [
+      '---',
+      'title: How I became a digital nomad',
+      'description: How I became a digital nomad',
+      'draft: true',
+      closingFence
+    ].join('\n'))
+
+    const result = spawnSync(process.execPath, [join(process.cwd(), 'scripts/js/content-lint.mjs')], {
+      cwd: root,
+      encoding: 'utf8'
+    })
+
+    expect(result.status).toBe(1)
+    expect(result.stderr).toContain('missing or invalid frontmatter')
+  })
+
+  test.each([
     { name: 'unwritten draft without artwork', draft: true, body: '', cover: '', passes: true },
     { name: 'published post without artwork', draft: false, body: '', cover: '', passes: false },
     { name: 'written draft without artwork', draft: true, body: 'A first paragraph.', cover: '', passes: false },
