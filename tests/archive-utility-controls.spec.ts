@@ -80,7 +80,7 @@ for (const width of [390, 1440]) {
 
         test.beforeEach(async ({ page }) => readingPreferences(page, scale))
 
-        for (const era of ['v1', 'v2', 'v3']) {
+        for (const era of ['v1', 'v2', 'v3', 'v4']) {
           test(`${era} notice grows with text and leaves its links reachable`, async ({ page }) => {
             await openArchive(page, `/${era}/${era === 'v1' ? 'portfolio/optic-power' : 'offline'}/`)
             const notice = page.getByRole('complementary', { name: 'Website archive' })
@@ -109,7 +109,7 @@ for (const width of [390, 1440]) {
           })
         }
 
-        for (const era of ['v2', 'v3']) {
+        for (const era of ['v2', 'v3', 'v4']) {
           test(`${era} back-to-top clears the notice and returns keyboard focus`, async ({ page }) => {
             await openArchive(page, `/${era}/offline/`)
             const button = page.locator('#back-to-top')
@@ -180,7 +180,7 @@ for (const width of [390, 1440]) {
 
 test.describe('Without JavaScript', () => {
   test.use({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
-  for (const era of ['v1', 'v2', 'v3']) {
+  for (const era of ['v1', 'v2', 'v3', 'v4']) {
     test(`${era} notice remains usable without JavaScript`, async ({ page }) => {
       await page.goto(`/${era}/`)
       const notice = page.getByRole('complementary', { name: 'Website archive' })
@@ -298,7 +298,7 @@ test('normal desktop archive layouts retain their columns and contact rows', asy
   }
 })
 
-for (const era of ['v2', 'v3']) {
+for (const era of ['v2', 'v3', 'v4']) {
   test(`${era} scrolling hides the back-to-top control without losing focus`, async ({ page }) => {
     await openArchive(page, `/${era}/offline/`)
     const button = page.locator('#back-to-top')
@@ -364,7 +364,7 @@ test('pointer activation near the fixed header keeps the link reachable', async 
   await expect(page).toHaveURL('/v3/about/')
 })
 
-for (const era of ['v1', 'v2', 'v3']) {
+for (const era of ['v1', 'v2', 'v3', 'v4']) {
   test(`${era} focusing the fixed skip link does not scroll the document`, async ({ page }) => {
     await openArchive(page, `/${era}/`)
     await page.keyboard.press('Tab')

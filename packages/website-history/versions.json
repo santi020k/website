@@ -4,20 +4,31 @@
     "title": "The original portfolio",
     "date": "2026-04-01",
     "commit": "9ec27f26c9cc3445d2ae8c0334d086073aa07ab5",
-    "description": "A compact portfolio built around a personal introduction, selected work, and a technology collection."
+    "description": "A compact portfolio built around a personal introduction, selected work, and a technology collection.",
+    "release": null
   },
   {
     "id": "v2",
     "title": "Calm systems. Clear delivery.",
     "date": "2026-05-01",
     "commit": "088440c28dfcafaf50042421f5ecbd4ffcb75021",
-    "description": "A broader editorial site with a bold purple identity, writing, and dedicated spaces for work and personal projects."
+    "description": "A broader editorial site with a bold purple identity, writing, and dedicated spaces for work and personal projects.",
+    "release": null
   },
   {
     "id": "v3",
     "title": "A shared foundation",
     "date": "2026-09-25",
     "commit": "8dd64f95a18878638bfc08d39196718d3e5f1d46",
-    "description": "The final v3.11.0 site: a mature portfolio and blog built on Lumen, with a growing family of personal products."
+    "description": "The final v3.11.0 site: a mature portfolio and blog built on Lumen, with a growing family of personal products.",
+    "release": "3.11.0"
+  },
+  {
+    "id": "v4",
+    "title": "A more personal canvas.",
+    "date": "2026-10-08",
+    "commit": "2e8171e9e4c8bd7b3229aae9fdf94833a33a86a4",
+    "release": "4.0.0",
+    "description": "The released v4.0.0 design: warmer portraits, sculpted typography, and a personal studio for products, writing, and the stories behind the work."
   }
 ]

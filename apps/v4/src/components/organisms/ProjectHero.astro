@@ -1,0 +1,204 @@
+---
+import { Icon as AstroIcon } from 'astro-icon/components'
+
+import type { CollectionEntry } from 'astro:content'
+
+import ButtonLink from '@/components/atoms/ButtonLink.astro'
+import Eyebrow from '@/components/atoms/Eyebrow.astro'
+import ProjectHeroCover from '@/components/molecules/ProjectHeroCover.astro'
+import ProjectHeroStack from '@/components/molecules/ProjectHeroStack.astro'
+
+import {
+  getProjectDurationLabel,
+  getProjectTimelineLabel,
+  getProjectTypeLabel
+} from '@/utils/project-meta'
+
+import { Breadcrumb, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  parentPage?: { name: string, url: string }
+  project: CollectionEntry<'project'>
+}
+
+const { parentPage = { name: 'Portfolio', url: '/portfolio/' }, project } = Astro.props
+const projectTypeLabel = getProjectTypeLabel(project.data.typesId)
+const timelineLabel = getProjectTimelineLabel(project.data.startingDate, project.data.endingDate)
+const durationLabel = getProjectDurationLabel(project.data.startingDate, project.data.endingDate)
+const titleWords = project.data.title.split(' ')
+const gradientWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : project.data.title
+const plainWords = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : ''
+const startIso = project.data.startingDate.toISOString().slice(0, 7)
+const endIso = project.data.endingDate?.toISOString().slice(0, 7)
+
+const metaItems = [
+  { label: 'Role', value: project.data.role ?? 'Hands-on builder', datetime: undefined as string | undefined },
+  { label: 'Timeline', value: timelineLabel, datetime: endIso ? `${startIso}/${endIso}` : startIso },
+  { label: 'Duration', value: durationLabel, datetime: undefined as string | undefined }
+]
+---
+
+<section class="editorial-detail-hero space-y-12">
+  {/* ── Eyebrow + breadcrumb ─────────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up space-y-4
+      motion-reduce:animate-none
+    "
+  >
+    <div class="
+      flex min-w-0 flex-col items-start gap-3
+      sm:flex-row sm:items-center sm:justify-between
+    "
+    >
+      <Eyebrow label={projectTypeLabel} tone="brand" />
+      <Breadcrumb
+        class="
+          flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 text-sm
+          font-medium text-ink-muted
+        "
+      >
+        <ol>
+          <li>
+            <a
+              href={parentPage.url}
+              class="
+                whitespace-nowrap transition-colors
+                hover:text-brand
+                motion-reduce:transition-none
+              "
+            >{parentPage.name}
+            </a>
+          </li>
+          <li>
+            <span aria-current="page" class="min-w-0 text-ink-soft">{projectTypeLabel}</span>
+          </li>
+        </ol>
+      </Breadcrumb>
+    </div>
+  </div>
+
+  {/* ── Title + description ──────────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up space-y-6 [animation-delay:80ms]
+      motion-reduce:animate-none
+    "
+  >
+    <h1 class="
+      max-w-4xl text-4xl/[0.98] font-bold tracking-tighter wrap-break-word
+      sm:text-5xl/[0.96]
+      lg:text-[3.6rem]/[0.94]
+    "
+    >
+      {plainWords && <span>{plainWords} </span>}
+      <span class="bg-clip-text text-transparent" data-project-title-gradient>{gradientWord}</span>
+    </h1>
+    <p
+data-editorial-summary
+class="
+  max-w-3xl text-lg/7 font-medium text-ink-soft
+  sm:text-xl/8
+"
+    >
+      {project.data.description}
+    </p>
+  </div>
+
+  {/* ── Meta row — enhanced cards ──────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up [animation-delay:160ms]
+      motion-reduce:animate-none
+    "
+  >
+
+    <div class="
+      grid grid-cols-2 gap-4
+      sm:grid-cols-3
+    "
+    >
+      {metaItems.map(item => (
+        <div class="editorial-detail-meta-item" data-project-meta data-editorial-meta>
+          <dl class="space-y-2">
+            <dt class="
+              section-label text-xs font-semibold tracking-wider
+              text-ink-muted/80 uppercase
+            "
+            >
+              {item.label}
+            </dt>
+            <dd class="
+              text-lg/6 font-bold text-ink
+              sm:text-xl/6
+            "
+            >
+              {item.datetime ?
+                <time datetime={item.datetime}>{item.value}</time> :
+                item.value}
+            </dd>
+          </dl>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* ── CTAs ────────────────────────────────────────────────── */}
+  <div
+    class="
+      animate-slide-up [animation-delay:240ms]
+      motion-reduce:animate-none
+    "
+  >
+    <div class="section-actions">
+      {project.data.liveDemoUrl && (
+        <ButtonLink href={project.data.liveDemoUrl} newTab showArrow>
+          View live project
+        </ButtonLink>
+      )}
+      {project.data.githubUrl && (
+        <ButtonLink
+          href={project.data.githubUrl}
+          newTab
+          showArrow
+          variant="secondary"
+          className="group"
+        >
+          <span class="flex items-center gap-2">
+            <Icon class="
+              size-4 transition-transform
+              group-hover:translate-x-1
+            "
+            >
+              <AstroIcon aria-hidden="true" class="size-full" focusable="false" name="tabler:brand-github" />
+            </Icon>
+            Open repository
+          </span>
+        </ButtonLink>
+      )}
+      <ButtonLink
+        href={parentPage.url}
+        showArrow
+        variant="secondary"
+        className="text-ink-soft"
+      >
+        Browse {parentPage.name.toLowerCase()}
+      </ButtonLink>
+    </div>
+  </div>
+
+  {/* ── Full-width cover ─────────────────────────────────────── */}
+  <ProjectHeroCover project={project} />
+
+  {/* ── Technologies strip ───────────────────────────────────── */}
+  <ProjectHeroStack technologies={project.data.technologies} />
+</section>
+
+<style>
+  [data-project-title-gradient] {
+    background-image: linear-gradient(to right, var(--project-title-primary-readable), var(--project-title-secondary-readable), var(--project-title-primary-readable));
+  }
+  :global(:root[data-theme='dark']) [data-project-title-gradient] {
+    background-image: linear-gradient(to right, var(--project-title-primary-readable-dark), var(--project-title-secondary-readable-dark), var(--project-title-primary-readable-dark));
+  }
+</style>

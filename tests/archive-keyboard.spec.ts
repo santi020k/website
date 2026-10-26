@@ -1,13 +1,13 @@
 import { expect, type Page, test } from '@playwright/test'
 
-const eras = ['v1', 'v2', 'v3'] as const
+const eras = ['v1', 'v2', 'v3', 'v4'] as const
 
 type Era = typeof eras[number]
 
 const controls = (page: Page, era: Era) => ({
   toggle: page.locator(era === 'v1' ? '#toggle-nav-menu-mobile' : '[data-mobile-nav-toggle]'),
   panel: page.locator(era === 'v1' ? '#drawer' : '[data-mobile-nav-panel]'),
-  theme: page.locator(era === 'v3' ? 'header [data-theme-toggle-btn]' : 'header theme-toggle button')
+  theme: page.locator((era === 'v3' || era === 'v4') ? 'header [data-theme-toggle-btn]' : 'header theme-toggle button')
 })
 
 const expectVisibleFocus = async (page: Page) => {
@@ -160,7 +160,7 @@ for (const era of eras) {
   })
 }
 
-for (const era of ['v2', 'v3'] as const) {
+for (const era of ['v2', 'v3', 'v4'] as const) {
   test(`${era} search retains keyboard ownership above mobile navigation`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.emulateMedia({ reducedMotion: 'reduce' })

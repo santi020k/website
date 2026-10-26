@@ -3,6 +3,10 @@ import { expect, test } from '@playwright/test'
 import { expectNoUnexpectedAccessibilityViolations } from '../../../tests/helpers/accessibility'
 import { chapters, duration, endingStill, formats, openingStill } from '../src/composition'
 
+const firstChapter = chapters.at(0)
+
+if (!firstChapter) throw new Error('The history film requires a chapter')
+
 for (const format of formats) {
   test(`${format} has loaded assets, readable chapters and deterministic seeking`, async ({ page }) => {
     const errors: string[] = []
@@ -57,9 +61,9 @@ for (const format of formats) {
       await page.screenshot({ path: `renders/stills/${format}-${chapter.id}.png` })
     }
 
-    await page.evaluate(() => {
-      window.__timelines?.['website-history']?.pause().seek(8.5)
-    })
+    await page.evaluate(time => {
+      window.__timelines?.['website-history']?.pause().seek(time)
+    }, firstChapter.still)
 
     const state = () => page.locator('[data-era="v1"]').evaluate(element => (
       [element, ...element.querySelectorAll('*')].map(item => {
@@ -98,9 +102,9 @@ for (const format of formats) {
 
     await expect(page.locator('.ending')).toBeVisible()
 
-    await page.evaluate(() => {
-      window.__timelines?.['website-history']?.pause().seek(8.5)
-    })
+    await page.evaluate(time => {
+      window.__timelines?.['website-history']?.pause().seek(time)
+    }, firstChapter.still)
 
     expect(await state()).toEqual(firstState)
 

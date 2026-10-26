@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets'
+
+import HeroPortrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
+
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+
+import LumenLogo from '@/content/project/lumen-ui/logo.webp'
+import PostLensLogo from '@/content/project/postlens/logo.webp'
+---
+
+<section class="signature-frame maker-hero" aria-labelledby="home-heading" data-home-hero>
+  <div class="maker-hero-stage" data-home-hero-grid>
+    <div class="maker-hero-copy">
+      <p class="maker-hero-eyebrow">
+        <span aria-hidden="true" class="maker-hero-signal"></span>
+        Hey, I’m Santiago
+      </p>
+      <h1 id="home-heading" data-home-hero-heading>
+        <span>I build products.</span>
+        <span>And the tools</span>
+        <span class="maker-hero-emphasis">behind them.</span>
+      </h1>
+      <p class="maker-hero-description">
+        Engineer, maker, and technical lead.
+        I turn complex problems into useful software,
+        with care for every detail.
+      </p>
+      <div class="maker-hero-actions">
+        <ButtonLink class="maker-hero-primary" href="/portfolio/" variant="unstyled">
+          Explore my work
+          <span class="maker-hero-arrow" aria-hidden="true"><Icon name="arrow-up-right" /></span>
+        </ButtonLink>
+        <ButtonLink class="maker-hero-secondary" href="/about/" variant="unstyled">
+          A little about me <Icon name="arrow-right" />
+        </ButtonLink>
+      </div>
+    </div>
+
+    <figure class="maker-hero-visual">
+      <div class="maker-hero-portrait-frame">
+        <Image
+          alt="Portrait of Santiago Molina, smiling"
+          class="maker-hero-portrait"
+          src={HeroPortrait}
+          widths={[320, 480, 640, 800]}
+          sizes="(min-width: 1024px) 384px, (min-width: 768px) 36vw, (min-width: 420px) 352px, calc(100vw - 48px)"
+          width={800}
+          height={1200}
+          format="webp"
+          quality={85}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <figcaption class="maker-hero-caption">
+        <span>Santiago Molina <span class="maker-hero-handle">@santi020k</span></span>
+        <span class="maker-hero-location">Medellín, Colombia</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="maker-hero-shelf">
+    <p class="maker-hero-shelf-label">A few things<br />I’m building <Icon name="arrow-down-right" /></p>
+    <a class="maker-hero-project" href="/portfolio/lumen-ui/">
+      <Image alt="" class="maker-hero-project-logo" src={LumenLogo} width={40} height={40} />
+      <span><strong>Lumen UI</strong><span>One system. Many platforms.</span></span>
+      <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
+    </a>
+    <a class="maker-hero-project" href="/portfolio/postlens/">
+      <Image alt="" class="maker-hero-project-logo" src={PostLensLogo} width={40} height={40} />
+      <span><strong>PostLens</strong><span>A little more from every photo.</span></span>
+      <Icon class="maker-hero-project-arrow" name="arrow-up-right" />
+    </a>
+    <a class="maker-hero-index" href="/projects/" aria-label="Explore all projects"><Icon name="plus" /></a>
+  </div>
+</section>

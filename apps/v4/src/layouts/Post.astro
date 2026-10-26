@@ -1,0 +1,146 @@
+---
+import { type CollectionEntry, render } from 'astro:content'
+
+import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
+import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
+import RelatedPosts from '@/components/molecules/RelatedPosts.astro'
+import SeriesNavigator from '@/components/molecules/SeriesNavigator.astro'
+import ShareButtons from '@/components/molecules/ShareButtons.astro'
+import TocCard from '@/components/molecules/TocCard.astro'
+import PageSection from '@/components/organisms/PageSection.astro'
+import PostHero from '@/components/organisms/PostHero.astro'
+import BaseLayout from '@/layouts/Base.astro'
+
+import { getPostSlug } from '@/utils/posts'
+
+import { ScrollProgress } from '@santi020k/lumen-astro'
+import readingTime from 'reading-time'
+
+import { getSeriesContext } from '@/data/series'
+import {
+  createAuthorSchema,
+  createPublisherSchema,
+  createWebsiteSchemaReference
+} from '@/site.config'
+
+interface Props {
+  post: CollectionEntry<'post'>
+}
+
+const { post } = Astro.props
+const { canonicalUrl, description, publishDate, seoTitle, title, updatedDate } = post.data
+// Use Dynamic OG Image generator (/og/blog/[id].webp)
+const ogImage = new URL(`/og/blog/${getPostSlug(post.id)}.webp`, Astro.site).href
+const stats = readingTime(post.body ?? '')
+const wordCount = Math.round(stats.words)
+const localURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : localURL
+const seriesContext = await getSeriesContext(post)
+// Extract headings for the sticky TOC sidebar (same pattern as Projects.astro)
+const { headings } = await render(post)
+
+const blogPostingSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: publishDate.toISOString(),
+  dateModified: (updatedDate ?? publishDate).toISOString(),
+  inLanguage: 'en-US',
+  wordCount,
+  keywords: post.data.tags,
+  image: ogImage,
+  url: canonicalURL.href,
+  author: createAuthorSchema(Astro.site),
+  publisher: createPublisherSchema(Astro.site),
+  isPartOf: createWebsiteSchemaReference(Astro.site),
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalURL.href
+  }
+}
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: title, url: Astro.url.pathname }
+]
+
+---
+
+<BaseLayout
+mainClass="remaining-pages remaining-pages--reading"
+  meta={{
+    articleDate: publishDate.toISOString(),
+    articleUpdated: updatedDate?.toISOString(),
+    breadcrumbs,
+    canonicalUrl: canonicalURL.href,
+    description,
+    ogImage,
+    ogImageAlt: post.data.coverImage?.alt ?
+      `${post.data.coverImage.alt} — article on ${title}` :
+      `Social preview card for the article "${title}"`,
+    seoTitle,
+    structuredData: blogPostingSchema,
+    title
+  }}
+>
+  <ScrollProgress />
+
+  <article class="h-entry section-container-wide flex flex-col gap-10">
+    <a class="u-url sr-only" href={localURL.href}>Permalink to this article</a>
+    <PostHero post={post} />
+
+    <!-- ── Two-column body: prose + sticky TOC sidebar ─────────── -->
+    <section
+      class="
+        grid grid-cols-1 gap-10 pt-10
+        lg:grid-cols-[minmax(0,1fr)_18rem]
+      "
+      data-animate
+    >
+      <!-- Left: article prose, series navigator, share -->
+      <div class="min-w-0 space-y-10">
+        <div class="e-content max-w-none space-y-8 pt-4">
+          <ContentNotesHeader
+            description="Notes, guides, and personal discoveries from things I build, enjoy, and learn."
+            label="Article notes"
+            pill={post.data.postType}
+          />
+
+          <div class="prose-santi max-w-none">
+            <slot />
+          </div>
+        </div>
+
+        {seriesContext && (
+          <SeriesNavigator
+            currentPostId={post.id}
+            next={seriesContext.next}
+            position={seriesContext.position}
+            posts={seriesContext.posts}
+            previous={seriesContext.previous}
+            series={seriesContext.series}
+            total={seriesContext.total}
+          />
+        )}
+
+        <ShareButtons title={title} url={localURL.href} />
+
+        <ProjectFooterNav parentPage={{ name: 'Blog', url: '/blog/' }} />
+      </div>
+
+      <!-- Right: sticky TOC — only rendered when the post has headings -->
+      {!!headings.length && (
+        <aside aria-label="Article navigation" class="min-w-0 editorial-rail">
+          <TocCard headings={headings} />
+        </aside>
+      )}
+    </section>
+  </article>
+
+  <PageSection>
+    <RelatedPosts currentPostId={post.id} excludeSeriesId={post.data.seriesId} tags={post.data.tags} />
+  </PageSection>
+
+</BaseLayout>

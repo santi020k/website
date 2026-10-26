@@ -29,7 +29,7 @@ const archiveNavigation = { 'data-astro-reload': '' }
 
 const meta = {
   title: 'Website history',
-  description: 'A living history of santi020k.com. Explore four design eras, see real desktop and mobile screenshots, and browse preserved versions of the website.',
+  description: 'A living history of santi020k.com. Explore five design eras, see real desktop and mobile screenshots, and browse preserved versions of the website.',
   breadcrumbs: [{ name: 'Home', url: '/' }, { name: 'Website history', url: '/history/' }]
 }
 ---
@@ -76,7 +76,7 @@ const meta = {
         </div>
       </div>
       <nav class="history-hero-chapters" aria-label="Jump to a design era">
-        <p class="history-hero-chapter-intro"><span>Four chapters.</span><span>Still being written.</span></p>
+        <p class="history-hero-chapter-intro"><span>Five chapters.</span><span>Still being written.</span></p>
         <ol class="history-hero-chapter-links">
           {[...eras].reverse().map(era => (
             <li>
@@ -100,6 +100,7 @@ const meta = {
               <div class="history-era-marker">
                 <span class="history-version">{era.id.toUpperCase()}</span>
                 <time datetime={era.date}>{formatDate(era.date)}</time>
+                {era.release && <span class="history-release">Release {era.release}</span>}
                 <span class="history-status">{era.current ? 'Current chapter' : 'Preserved chapter'}</span>
               </div>
               <div class="history-era-heading">
@@ -148,7 +149,7 @@ const meta = {
           <span class="history-colophon-seal"><Icon name="book-open" /></span>
         </header>
         <div class="history-colophon-copy">
-          <p>V1 and V2 are curated design eras, chosen from stable snapshots before a larger visual change. They are labels for this collection, rather than formal release numbers. V3 preserves the final chapter before the current design.</p>
+          <p>V1 and V2 are curated design eras, chosen from stable snapshots before a larger visual change. They are labels for this collection, rather than formal release numbers. V3 preserves release 3.11.0, and V4 preserves release 4.0.0 before the V5 editorial redesign.</p>
           <p>The archived designs and content stay frozen. Their software stays maintained. Forms and comments are disabled, and every archive has a way back to today’s website.</p>
         </div>
       </div>

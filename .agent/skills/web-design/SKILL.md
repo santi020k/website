@@ -77,7 +77,7 @@ Use Astro's `Image` or `Picture` and the existing site media wrappers. Supply me
 text, intrinsic dimensions, accurate `sizes`, and bounded responsive widths. Keep originals
 when they are source material; measure generated browser assets before claiming size savings.
 
-Do not delete historical `apps/v1`, `apps/v2`, or `apps/v3` assets as unused current-site code.
+Do not delete historical `apps/v1`, `apps/v2`, `apps/v3`, or `apps/v4` assets as unused current-site code.
 They are intentionally published under versioned routes. Generated OG aliases also have
 compatibility consumers: inspect the generator and manifest before removing a duplicate.
 

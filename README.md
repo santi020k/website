@@ -102,7 +102,7 @@ layout, keeping the reading sidebar aligned with the rendered content.
 Article microformats keep the local permalink as hidden, non-interactive metadata and scope the
 visible author link as its own `h-card`, so author properties do not become article properties.
 The current site uses its own posts and project schemas; historical integrations and styles
-belong to the preserved `apps/v1`, `apps/v2`, and `apps/v3` sites. Keep those archives separate
+belong to the preserved `apps/v1`, `apps/v2`, `apps/v3`, and `apps/v4` sites. Keep those archives separate
 when tracing unused code. New styling follows the [sculpted style guide](docs/sculpted-style-guide.md)
 and existing Lumen contracts, rather than restoring retired utility layers.
 
@@ -278,11 +278,11 @@ projects index and technology archives share the editorial gallery.
 `pnpm run generate:cv` builds the site and regenerates résumé downloads after UI or dependency
 changes. Do not edit generated files by hand.
 
-The next release is consolidated on `release/v4.1.0`. Production publishing follows the reviewed
+The next release is consolidated on `release/v5.0.0`. Production publishing follows the reviewed
 GitHub workflow from `main`; local validation and integration are separate from remote merge,
 Cloudflare deployment, and production smoke checks. See the
 [deployment runbook](docs/deployment.md) for Changesets, protected checks, and rollback.
-The [v4.1.0 readiness record](docs/v4.1-release-readiness.md) tracks the prepared
+The [v5.0.0 readiness record](docs/v5-release-readiness.md) tracks the prepared
 version, final local validation, independent review, and remaining publication gates.
 
 </details>
@@ -296,7 +296,7 @@ version, final local validation, independent review, and remaining publication g
 | [Theming](docs/theming.md) / [Brand](docs/brand-guidelines.md) | Theme behavior and visual standards. |
 | [Sitemaps](docs/sitemaps.md) | Canonical routes and cross-site search discovery. |
 | [Deployment](docs/deployment.md) | Release automation, environment setup, smoke checks, and rollback. |
-| [v4.1 readiness](docs/v4.1-release-readiness.md) | Current integration, browser coverage, review findings, and release gates. |
+| [v5 readiness](docs/v5-release-readiness.md) | Current integration, browser coverage, review findings, and release gates. |
 | [Cache strategy](docs/cache-strategy.md) | Browser and edge cache behavior. |
 | [Security](.github/SECURITY.md) / [Incident response](docs/incident-response.md) | Private vulnerability reports and recovery. |
 | [Observability](docs/observability.md) | Existing diagnostic boundaries and operational evidence. |
@@ -324,8 +324,8 @@ are not licensed for reuse in other products.
 
 ## Website history
 
-`/history/` presents four design eras. The current Astro app remains at the root;
-`apps/v1`, `apps/v2`, and `apps/v3` preserve usable historical websites. pnpm
+`/history/` presents five design eras. The current Astro app remains at the root;
+`apps/v1`, `apps/v2`, `apps/v3`, and `apps/v4` preserve usable historical websites. pnpm
 workspaces share one maintained dependency catalog and lockfile; Turborepo builds
 one combined static deployment. See [website history](docs/website-history.md)
 for snapshots, SEO, storage isolation, and screenshot capture commands.

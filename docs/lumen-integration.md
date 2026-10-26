@@ -42,9 +42,9 @@ accessible interaction; the website retains its content rules, routing, logging,
 policy. Use the [Lumen error-handling guide](https://github.com/santi020k/lumen/blob/main/docs/error-handling.md)
 when adding a failure state, rather than inventing another alert or toast system.
 
-## Reusing the 4.1 editorial components
+## Reusing the v5 editorial components
 
-The 4.1 review recommends keeping the current compositions in the website and adding an
+The editorial review recommends keeping the current compositions in the website and adding an
 editorial recipe family to Lumen when a second application needs them. A separate
 `lumen-cards` or `lumen-santi020k` package is not needed for this release. Lumen already owns
 the accessible primitives; these designs also include headers, reading navigation, notices,

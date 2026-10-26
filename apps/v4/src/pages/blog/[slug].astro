@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { render } from 'astro:content'
+
+import PostLayout from '@/layouts/Post.astro'
+
+import { getCachedPosts } from '@/utils/content'
+import { getPostSlug } from '@/utils/posts'
+
+export const getStaticPaths = async () => {
+  const posts = await getCachedPosts()
+
+  return posts.map(post => ({
+    params: { slug: getPostSlug(post.id) },
+    props: { post }
+  }))
+}
+
+interface Props {
+  post: CollectionEntry<'post'>
+}
+
+const { post } = Astro.props
+const { Content } = await render(post)
+---
+
+<PostLayout post={post}>
+  <Content />
+</PostLayout>

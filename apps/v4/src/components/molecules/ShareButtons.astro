@@ -1,0 +1,222 @@
+---
+import { Icon as AstroIcon } from 'astro-icon/components'
+
+import Button from '@/components/atoms/Button.astro'
+
+import { Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  title: string
+  url: string
+}
+
+const { title, url } = Astro.props
+const encodedTitle = encodeURIComponent(title)
+const encodedUrl = encodeURIComponent(url)
+
+const shareLinks = [
+  {
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+    icon: 'tabler:brand-linkedin',
+    label: 'Share on LinkedIn',
+    platform: 'LinkedIn'
+  },
+  {
+    href: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+    icon: 'tabler:brand-x',
+    label: 'Share on X',
+    platform: 'X'
+  },
+  {
+    href: `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`,
+    icon: 'tabler:brand-whatsapp',
+    label: 'Share on WhatsApp',
+    platform: 'WhatsApp'
+  }
+]
+---
+
+<div class="flex flex-col gap-6 py-10">
+  <div class="flex items-center gap-4">
+    <span class="text-xs font-bold tracking-[0.2em] text-ink-muted uppercase">Share this piece</span>
+    <div class="
+      h-px flex-1 bg-linear-to-r from-transparent via-line/40 to-transparent
+    "
+    >
+    </div>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-4">
+    {shareLinks.map(link => (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={link.label}
+        data-track-event="share"
+        data-track-platform={link.platform}
+        class="group btn-secondary"
+      >
+        <Icon class="
+          size-5 transition-transform
+          motion-safe:group-hover:scale-110
+          motion-reduce:transition-none
+        "
+        >
+          <AstroIcon aria-hidden="true" class="size-full" focusable="false" name={link.icon} />
+        </Icon>
+        <span>{link.platform}</span>
+      </a>
+    ))}
+
+    <Button
+      id="copy-link-btn"
+      type="button"
+      className="group"
+      variant="secondary"
+    >
+      <Icon
+        name="link"
+        data-copy-icon
+        class="
+          size-5 transition-transform
+          motion-safe:group-hover:rotate-45
+          motion-reduce:transition-none
+        "
+      />
+      <Icon
+        name="check"
+        data-check-icon
+        class="
+          hidden size-5 animate-spring-up
+          motion-reduce:animate-none
+        "
+      />
+      <span id="copy-label" aria-live="polite">Copy link</span>
+    </Button>
+  </div>
+</div>
+
+<style>
+  #copy-link-btn.copied {
+    background-color: hsl(var(--brand) / 0.1) !important;
+    color: hsl(var(--brand)) !important;
+    border-color: hsl(var(--brand)) !important;
+  }
+
+  #copy-link-btn.copy-failed {
+    background-color: hsl(var(--danger) / 0.1) !important;
+    color: hsl(var(--danger)) !important;
+    border-color: hsl(var(--danger)) !important;
+  }
+
+  @keyframes spring-up {
+    0% { transform: translateY(10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  .animate-spring-up { animation: spring-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+</style>
+
+<script>
+  const setup = function () {
+    const btn = document.getElementById('copy-link-btn')
+
+    if (!btn) return () => undefined
+
+    const copyIcon = btn.querySelector<HTMLElement>('[data-copy-icon]')
+    const checkIcon = btn.querySelector<HTMLElement>('[data-check-icon]')
+    const label = document.getElementById('copy-label')
+    let timer: ReturnType<typeof setTimeout> | null = null
+
+    const supportsWebShare = (): boolean => {
+      if (typeof navigator === 'undefined' || typeof navigator.share !== 'function') {
+        return false
+      }
+
+      const isCoarsePointer = window.matchMedia?.('(pointer: coarse)').matches === true
+
+      return isCoarsePointer
+    }
+
+    const IDLE_LABEL = 'Copy link'
+    const STATE_RESET_MS = 2000
+
+    const resetState = () => {
+      btn.classList.remove('copied', 'copy-failed')
+
+      copyIcon?.classList.remove('hidden')
+
+      checkIcon?.classList.add('hidden')
+
+      if (label) label.textContent = IDLE_LABEL
+    }
+
+    /** Shows a transient result state; `#copy-label` is a live region, so the text is announced. */
+    const showResultState = (outcome: 'copied' | 'failed') => {
+      const succeeded = outcome === 'copied'
+
+      btn.classList.remove('copied', 'copy-failed')
+
+      btn.classList.add(succeeded ? 'copied' : 'copy-failed')
+
+      copyIcon?.classList.toggle('hidden', succeeded)
+
+      checkIcon?.classList.toggle('hidden', !succeeded)
+
+      // Kept short so the control still fits a 320px viewport alongside the share links.
+      if (label) label.textContent = succeeded ? 'Link copied!' : 'Copy failed'
+
+      if (timer) clearTimeout(timer)
+
+      timer = setTimeout(() => {
+        resetState()
+
+        timer = null
+      }, STATE_RESET_MS)
+    }
+
+    const onClick = async () => {
+      if (supportsWebShare()) {
+        try {
+          await navigator.share({
+            title: document.title,
+            url: window.location.href
+          })
+
+          return
+        } catch (error) {
+          // Cancellation leaves the clipboard unchanged; other errors use the fallback.
+          if (error instanceof DOMException && error.name === 'AbortError') {
+            return
+          }
+        }
+      }
+
+      try {
+        await navigator.clipboard.writeText(window.location.href)
+
+        showResultState('copied')
+      } catch {
+        // Insecure contexts and denied permissions both land here. Telling the
+        // visitor beats a button that appears to do nothing at all.
+        showResultState('failed')
+      }
+    }
+
+    btn.addEventListener('click', onClick)
+
+    return () => {
+      btn.removeEventListener('click', onClick)
+
+      if (timer) clearTimeout(timer)
+    }
+  }
+
+  let cleanup = setup()
+
+  document.addEventListener('astro:after-swap', () => {
+    cleanup()
+
+    cleanup = setup()
+  })
+</script>

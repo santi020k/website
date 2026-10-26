@@ -1,6 +1,6 @@
 # Website history
 
-The current website stays at `/`. `/history/` is an indexable timeline of four
+The current website stays at `/`. `/history/` is an indexable timeline of five
 visual eras, with authentic desktop and mobile captures and usable archives.
 
 The Chapter spread hero leads with the complete current-era capture and its
@@ -10,7 +10,7 @@ enlarged-text layouts reflow the previews without cropping or overlapping them.
 
 The Timeline index shortcuts follow the hero in chronological order. Each native
 fragment link pairs its version with a date, chapter description, and directional
-arrow. A shared rule connects the four eras; the current era uses the accent.
+arrow. A shared rule connects the five eras; the current era uses the accent.
 The index reflows into two columns, then one, as its available width decreases.
 
 Each chapter uses the Stacked sheets introduction: version, date, and chapter
@@ -35,6 +35,11 @@ The archive labels are curated eras, not retroactive release tags:
 | `apps/v1` | 2026-04-01 | `9ec27f26c9cc3445d2ae8c0334d086073aa07ab5` | Mature original portfolio before the April home redesign |
 | `apps/v2` | 2026-05-01 | `088440c28dfcafaf50042421f5ecbd4ffcb75021` | Final stable main snapshot before the v3 visual expansion |
 | `apps/v3` | 2026-09-25 | `8dd64f95a18878638bfc08d39196718d3e5f1d46` | Final v3.11.0 snapshot before v4 |
+| `apps/v4` | 2026-10-08 | `2e8171e9e4c8bd7b3229aae9fdf94833a33a86a4` | Published v4.0.0 before the v5 editorial redesign |
+
+V5 is the current chapter. V3, V4, and V5 show their release versions; V1 and V2
+remain curated era labels. The current metadata date records the design chapter,
+not proof of a production deployment.
 
 Design, local content, assets, and stored Medium feed entries are frozen. Software
 is maintained: every app uses the same current pnpm catalog and lockfile. Original
@@ -89,7 +94,7 @@ and deployment paths. Archive apps live in `apps/`; their shared Astro setup,
 metadata, and output transformations live in `packages/website-history`.
 
 - `pnpm install`: install the entire workspace with Node 24 and pnpm 11.
-- `pnpm run build`: generate current assets, build all four apps with Turborepo,
+- `pnpm run build`: generate current assets, build all five apps with Turborepo,
   then assemble one static `dist/` deployment.
 - `pnpm run dev`: develop the current app and timeline.
 - `pnpm --filter @santi020k/website-v2 dev`: develop an individual archive.

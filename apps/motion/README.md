@@ -2,7 +2,7 @@
 # Website motion studio
 
 A private Astro workspace for **A website, over time**: a 30-second film about the
-four design eras of santi020k.com. It follows the Lumen motion studio strategy:
+five design eras of santi020k.com. It follows the Lumen motion studio strategy:
 local assets, one paused GSAP timeline, an interactive preview, and local
 [HyperFrames](https://hyperframes.app/docs/1-startup/2-quickstart) MP4 exports.
 
@@ -58,10 +58,11 @@ local; rendering does not publish or deploy them.
 | Time | Chapter |
 | --- | --- |
 | 0–4 s | Purple brand reveal: A website, over time |
-| 4–9 s | V1: personal introduction and selected work |
-| 9–14 s | V2: purple identity, writing, and projects |
-| 14–19 s | V3: shared design system and product family |
-| 19–24 s | V4: warmer portrait and sculpted editorial canvas |
+| 4–8 s | V1: personal introduction and selected work |
+| 8–12 s | V2: purple identity, writing, and projects |
+| 12–16 s | V3: shared design system and product family |
+| 16–20 s | V4: warmer portrait and sculpted editorial canvas |
+| 20–24 s | V5: editorial spreads, case-study evidence, and reading paths |
 | 24–30 s | Closing signature: Always a work in progress |
 
 The metadata comes from `packages/website-history/versions.json` and `current.json`.
@@ -79,7 +80,7 @@ The preview uses Lumen buttons, badges, and links.
 
 `src/components/BrandBookend.astro` shares the opening and ending structure across
 all three formats. The official Theme mark, animated signature, and four nested
-frames connect the identity to the four eras. Square and portrait layouts have
+frames connect the identity to the five eras. Square and portrait layouts have
 their own type sizes, spacing, and safe margins; they are not cropped exports.
 The decorative frame group intentionally continues beyond the canvas edge; only
 that group declares HyperFrames' `data-layout-allow-overflow` contract. Text and

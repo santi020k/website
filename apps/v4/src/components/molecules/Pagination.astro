@@ -1,0 +1,91 @@
+---
+import type { Page } from 'astro'
+
+import { getArchivePageUrl, getPaginationItems, PAGINATION_GAP } from '@/utils/pagination'
+
+import { Link, Pagination } from '@santi020k/lumen-astro'
+
+interface Props {
+  baseUrl?: string
+  page: Page<unknown>
+}
+
+const { baseUrl = '/blog/', page } = Astro.props
+const { currentPage, lastPage } = page
+const items = getPaginationItems(currentPage, lastPage)
+const previousUrl = currentPage > 1 ? getArchivePageUrl(baseUrl, currentPage - 1) : undefined
+
+const nextUrl = currentPage < lastPage ? getArchivePageUrl(baseUrl, currentPage + 1) : undefined
+
+/*
+ * No `aria-label` is passed to <Pagination>: Lumen writes `aria-label="Pagination"`
+ * before spreading passthrough props, so a consumer label is emitted as a duplicate
+ * attribute and the parser keeps the first one. One pagination landmark per page
+ * makes the built-in name unambiguous. Tracked in improvements.md.
+ */
+---
+
+{lastPage > 1 && (
+  <Pagination className="flex items-center justify-center gap-1.5 pt-2">
+    {previousUrl ?
+      (
+        <Link
+          aria-label="Previous page"
+          className="pagination-btn no-underline"
+          href={previousUrl}
+          rel="prev"
+        >←</Link>
+      ) :
+      (
+        <span
+          aria-disabled="true"
+          aria-label="No previous page"
+          class="pagination-btn cursor-not-allowed opacity-35"
+        >←
+        </span>
+      )}
+
+    {items.map(item => (
+      item === PAGINATION_GAP ?
+        (
+          <span
+            aria-hidden="true"
+            class="
+              flex size-11 items-center justify-center text-sm text-ink-muted
+            "
+          >…
+          </span>
+        ) :
+        (
+          <Link
+            aria-current={item === currentPage ? 'page' : undefined}
+            aria-label={`Page ${item}`}
+            class:list={['pagination-btn no-underline', item === currentPage && `
+              pagination-btn--active
+            `]}
+            href={getArchivePageUrl(baseUrl, item)}
+          >
+            {item}
+          </Link>
+        )
+    ))}
+
+    {nextUrl ?
+      (
+        <Link
+          aria-label="Next page"
+          className="pagination-btn no-underline"
+          href={nextUrl}
+          rel="next"
+        >→</Link>
+      ) :
+      (
+        <span
+          aria-disabled="true"
+          aria-label="No next page"
+          class="pagination-btn cursor-not-allowed opacity-35"
+        >→
+        </span>
+      )}
+  </Pagination>
+)}

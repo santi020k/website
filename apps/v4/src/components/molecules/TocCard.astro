@@ -1,0 +1,65 @@
+---
+import { Anchor, Icon } from '@santi020k/lumen-astro'
+
+interface HeadingLink {
+  depth: number
+  slug: string
+  text: string
+}
+
+interface Props {
+  headings: HeadingLink[]
+}
+
+const { headings } = Astro.props
+const tocHeadings = headings.filter(heading => heading.depth <= 3)
+---
+
+<Anchor
+  data-editorial-toc
+  aria-label="Table of contents"
+  class="glass-pro rounded-2xl border-l-0 p-5"
+>
+  <p class="flex items-center gap-2 section-label">
+    <Icon class="size-4 text-brand" name="list" />
+    On this page
+  </p>
+
+  <ol class="mt-4 space-y-0.5" data-toc-tree>
+    {tocHeadings.map((heading, index) => (
+      <li>
+        <a
+          data-active={index === 0 ? 'true' : 'false'}
+          data-depth={heading.depth}
+          href={`#${heading.slug}`}
+        >
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ol>
+</Anchor>
+
+<style>
+  /* Lumen 0.4.0 owns heading-depth indentation; this keeps 0.3.0 aligned. */
+  [data-toc-tree] a {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    line-height: 1.25rem;
+    transition:
+      border-color 200ms ease,
+      color 200ms ease;
+  }
+
+  [data-toc-tree] a[data-depth="3"] {
+    padding-inline-start: 1.5rem;
+    font-size: 0.8125rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-toc-tree] a {
+      transition: none;
+    }
+  }
+</style>

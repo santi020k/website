@@ -86,7 +86,7 @@ The site uses GitHub Flow and has one production branch:
 
 Protect `main` in the GitHub repository settings. Require a pull request and the
 `Quality gate` status check before merging. Routine changes use feature or fix
-branches; the next release is being consolidated on `release/v4.1.0`. Merge its
+branches; the next release is being consolidated on `release/v5.0.0`. Merge its
 reviewed pull request once into `main`, using the same production checks.
 
 Website versions and GitHub Releases are managed with Changesets:
@@ -128,12 +128,13 @@ dependency audit reuses the quality gate's single dependency installation.
 
 ## Current release integration
 
-`release/v4.1.0` builds on the released v4 design with website history, reading and
-accessibility improvements, and refreshed project discovery. Existing source checkouts remain intact until their work is
+`release/v5.0.0` consolidates the unpublished v4.1 work as a new editorial design
+generation. The published v4.0.0 site is preserved at `/v4/`, alongside the earlier
+archives. Existing source checkouts remain intact until their work is
 integrated and their owners finish. Public page URLs and content collections are
 retained; no visitor migration is required.
 
-The [v4.1.0 readiness record](v4.1-release-readiness.md) tracks local version
+The [v5.0.0 readiness record](v5-release-readiness.md) tracks local version
 preparation, validation, independent review, and the remaining publication gates.
 
 The candidate uses the published Lumen 4 registry packages pinned in the workspace catalog. Install the committed
@@ -141,14 +142,14 @@ lockfile with the pinned pnpm version, regenerate CV downloads after dependency 
 changes, and run the release gates. `preview:lumen:v4` remains available for future local
 library evaluation; never commit its temporary overrides or local tarball paths.
 
-Finished task changes must be committed into `release/v4.1.0` and validated on the
+Finished task changes must be committed into `release/v5.0.0` and validated on the
 integrated revision. Inspect worktree status and commit ancestry before carrying
 forward older edits: already-integrated copies and superseded local preview
 overrides must not overwrite the current release. Preserve dirty source checkouts
 until their owners finish. Delete a remote source branch only after its intended
 work is proven contained in the release and its open pull request is accounted for.
 
-Before the first push or pull request, independently review the complete v4 diff
+Before the first push or pull request, independently review the complete v5 diff
 against `main` and address findings. Publishing remains the existing GitHub
 Actions and Cloudflare Pages workflow from the reviewed, merged `main` commit.
 Use the rollback procedure below if production smoke checks fail.

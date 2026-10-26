@@ -2,6 +2,7 @@ import { resolve } from 'node:path'
 
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
+import current from '../../../packages/website-history/current.json' with { type: 'json' }
 import versions from '../../../packages/website-history/versions.json' with { type: 'json' }
 
 interface Navigation {
@@ -24,8 +25,8 @@ if (!firstArchive || !secondArchive) throw new Error('Website history needs at l
 const baseUrl = 'http://127.0.0.1:4999'
 const output = resolve(import.meta.dirname, '../../../src/assets/website-history')
 const devices = ['desktop', 'mobile']
-const ids = [...versions.map(({ id }) => id), 'v4']
-const urlFor = (id: string) => `${baseUrl}${id === 'v4' ? '/' : `/${id}/`}`
+const ids = [...versions.map(({ id }) => id), current.id]
+const urlFor = (id: string) => `${baseUrl}${id === current.id ? '/' : `/${id}/`}`
 
 const currentDocument = '<head><title>Santiago Molina</title></head><body><main><h1>Current website</h1></main></body>'
 
@@ -38,7 +39,7 @@ const createCapture = (overrides: [string, Navigation][] = []): Capture => ({
     ...versions.map((version): [string, Navigation] => [
       urlFor(version.id), { html: archiveDocument(version), status: 200 }
     ]),
-    [urlFor('v4'), { html: currentDocument, status: 200 }],
+    [urlFor(current.id), { html: currentDocument, status: 200 }],
     ...overrides
   ]),
   screenshots: [],
@@ -158,11 +159,11 @@ describe('website history capture', () => {
 
   test.each([
     { name: 'an HTTP 404 archive response', id: firstArchive.id, navigation: { html: archiveDocument(firstArchive), status: 404 }, error: 'HTTP 404' },
-    { name: 'an HTTP 404 current homepage', id: 'v4', navigation: { html: currentDocument, status: 404 }, error: 'HTTP 404' },
+    { name: 'an HTTP 404 current homepage', id: current.id, navigation: { html: currentDocument, status: 404 }, error: 'HTTP 404' },
     { name: 'a navigation without a response', id: firstArchive.id, navigation: { html: archiveDocument(firstArchive), status: null }, error: 'no response' },
     { name: 'a 200 page without the archive notice', id: firstArchive.id, navigation: { html: currentDocument, status: 200 }, error: `missing the "${firstArchive.id.toUpperCase()} · ${firstArchive.date}" archive notice` },
     { name: 'a 200 archive of another version', id: firstArchive.id, navigation: { html: archiveDocument(secondArchive), status: 200 }, error: `missing the "${firstArchive.id.toUpperCase()} · ${firstArchive.date}" archive notice` },
-    { name: 'an archive mounted as the current homepage', id: 'v4', navigation: { html: archiveDocument(firstArchive), status: 200 }, error: 'current homepage contains an archive notice' }
+    { name: 'an archive mounted as the current homepage', id: current.id, navigation: { html: archiveDocument(firstArchive), status: 200 }, error: 'current homepage contains an archive notice' }
   ])('rejects $name before capturing it', async ({ id, navigation, error }) => {
     const url = urlFor(id)
     const capture = createCapture([[url, navigation]])

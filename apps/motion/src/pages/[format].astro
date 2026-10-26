@@ -3,6 +3,8 @@ import '../styles/theme.css'
 import '../styles/composition.css'
 import '../styles/brand-bookend.css'
 
+import current from '@santi020k/website-history/current'
+
 import BrandBookend from '../components/BrandBookend.astro'
 import { chapters, duration, formats, outroStart } from '../composition'
 
@@ -33,10 +35,10 @@ const height = format === 'portrait' ? 1920 : 1080
             <p class="chapter-change">{era.change}</p>
           </div>
           <div class="film-artwork">
-            <figure class="desktop-capture"><figcaption><span>● ● ●</span><span>santi020k.com{era.id === 'v4' ? '' : `/${era.id}/`}</span></figcaption><img src={`/assets/${era.id}-desktop.webp`} alt={`${era.id.toUpperCase()} desktop homepage`} width="1440" height="1000" loading="eager" /></figure>
+            <figure class="desktop-capture"><figcaption><span>● ● ●</span><span>santi020k.com{era.id === current.id ? '' : `/${era.id}/`}</span></figcaption><img src={`/assets/${era.id}-desktop.webp`} alt={`${era.id.toUpperCase()} desktop homepage`} width="1440" height="1000" loading="eager" /></figure>
             <figure class="mobile-capture"><img src={`/assets/${era.id}-mobile.webp`} alt={`${era.id.toUpperCase()} mobile homepage`} width="390" height="844" loading="eager" /></figure>
           </div>
-          <footer class="film-footer"><span>{era.id.toUpperCase()} · {era.id === 'v4' ? 'Current chapter' : 'Preserved design era'}</span><span>Real pages. Real evolution.</span></footer>
+          <footer class="film-footer"><span>{era.id.toUpperCase()} · {era.id === current.id ? 'Current chapter' : 'Preserved design era'}</span><span>Real pages. Real evolution.</span></footer>
           <div class="era-rail" aria-hidden="true">{chapters.map(item => <span class:list={{ active: item.id === era.id }}>{item.id.toUpperCase()}</span>)}</div>
         </section>
       ))}

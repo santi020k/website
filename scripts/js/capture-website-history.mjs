@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { chromium } from '@playwright/test'
 import sharp from 'sharp'
 
+import current from '../../packages/website-history/current.json' with { type: 'json' }
 import versions from '../../packages/website-history/versions.json' with { type: 'json' }
 
 const baseUrl = process.env.HISTORY_PREVIEW_URL ?? 'http://127.0.0.1:4321'
@@ -13,13 +14,13 @@ const browser = await chromium.launch()
 try {
   await mkdir(output, { recursive: true })
 
-  for (const id of [...versions.map(version => version.id), 'v4']) {
+  for (const id of [...versions.map(version => version.id), current.id]) {
     for (const [device, viewport] of [
       ['desktop', { width: 1440, height: 1000 }],
       ['mobile', { width: 390, height: 844 }]
     ]) {
       const page = await browser.newPage({ viewport, colorScheme: 'light', reducedMotion: 'reduce' })
-      const url = `${baseUrl}${id === 'v4' ? '/' : `/${id}/`}`
+      const url = `${baseUrl}${id === current.id ? '/' : `/${id}/`}`
       const response = await page.goto(url, { waitUntil: 'networkidle' })
 
       if (!response?.ok()) throw new Error(`${id}: ${url} returned ${response ? `HTTP ${response.status()}` : 'no response'}`)

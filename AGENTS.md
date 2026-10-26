@@ -2,6 +2,14 @@
 
 Personal portfolio and blog for Santiago Molina (@santi020k).
 
+## Active release
+
+The current integration target is `release/v5.0.0`. Santiago selected v5 on
+October 26, 2026 and superseded the unpublished v4.1 release. Base new approved
+work on v5 and coordinate merges in its clean, idle integration worktree. Preserve
+the published v4.0.0 design in `apps/v4`; current-site design changes belong at
+the repository root. See `docs/v5-release-readiness.md` for scope and gates.
+
 ## Tech Stack
 
 - **Framework**: Astro 7 (file-based routing, content collections, View Transitions)

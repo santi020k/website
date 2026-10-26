@@ -1,0 +1,630 @@
+/* ─── Utility Classes ─────────────────────────────────────────────────────────
+ * Reusable @utility blocks for surfaces, layout, forms, and decorative effects.
+ * Navigation utilities live in nav.css. Prose utilities live in prose.css.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/* stylelint-disable at-rule-no-unknown */
+
+/* ─── Surface & Card ────────────────────────────────────────────────────────── */
+
+@utility privacy-inline-link {
+  @apply underline underline-offset-2 hover:text-ink;
+}
+
+@utility resume-role-text {
+  @apply text-base font-normal text-ink-muted;
+}
+
+@utility panel-surface {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--surface) / 0.72),
+    hsl(var(--surface-muted) / 0.48)
+  );
+  border: 1px solid hsl(var(--line) / 0.38);
+  box-shadow:
+    0 18px 50px hsl(230 30% 8% / 0.06),
+    inset 0 1px 0 hsl(0 0% 100% / 0.16);
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+}
+
+@utility section-shell {
+  @apply relative rounded-[2.25rem] px-4 py-8 sm:px-8 sm:py-10;
+  & > * {
+    min-width: 0;
+  }
+  background: linear-gradient(
+    180deg,
+    hsl(var(--surface) / 0.66),
+    hsl(var(--surface-muted) / 0.42)
+  );
+  border: 1px solid hsl(var(--line) / 0.34);
+  box-shadow:
+    0 18px 54px hsl(230 30% 8% / 0.06),
+    inset 0 1px 0 hsl(0 0% 100% / 0.14);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+@utility section-shell-subtle {
+  @apply relative rounded-[2rem] px-4 py-8 sm:px-8 sm:py-10;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--surface) / 0.44),
+    hsl(var(--surface-muted) / 0.28)
+  );
+  border: 1px solid hsl(var(--line) / 0.28);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+}
+
+@utility panel-card {
+  @apply relative overflow-hidden rounded-[1.75rem] border border-line/35;
+  isolation: isolate;
+  background:
+    linear-gradient(
+      145deg,
+      hsl(var(--surface) / 0.66) 0%,
+      hsl(var(--surface) / 0.42) 42%,
+      hsl(var(--surface-muted) / 0.34) 100%
+    ),
+    radial-gradient(
+      ellipse 80% 55% at 12% 0%,
+      hsl(var(--brand) / 0.13),
+      transparent 62%
+    ),
+    radial-gradient(
+      ellipse 70% 48% at 92% 100%,
+      hsl(var(--accent) / 0.10),
+      transparent 64%
+    );
+  backdrop-filter: blur(24px) saturate(165%);
+  -webkit-backdrop-filter: blur(24px) saturate(165%);
+  box-shadow:
+    0 22px 58px hsl(230 30% 8% / 0.07),
+    0 8px 24px hsl(var(--brand) / 0.035),
+    inset 0 1px 0 hsl(0 0% 100% / 0.22),
+    inset 1px 0 0 hsl(0 0% 100% / 0.10),
+    inset 0 -1px 0 hsl(var(--line) / 0.12);
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease,
+    border-color 0.3s ease;
+  @apply motion-reduce:transition-none;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  &::before {
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        transparent 8%,
+        hsl(0 0% 100% / 0.30) 35%,
+        hsl(0 0% 100% / 0.46) 50%,
+        hsl(0 0% 100% / 0.30) 65%,
+        transparent 92%
+      )
+      top / 100% 1px no-repeat;
+    opacity: 0.9;
+  }
+
+  &::after {
+    inset: auto -18% -34% 34%;
+    height: 48%;
+    background: radial-gradient(
+      ellipse at center,
+      hsl(var(--brand) / 0.11),
+      transparent 68%
+    );
+    filter: blur(18px);
+    opacity: 0.8;
+  }
+}
+
+@utility card-interactive {
+  @apply panel-card flex flex-col;
+  @apply hover:-translate-y-1 hover:border-brand/30;
+  @apply motion-reduce:hover:translate-y-0;
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+
+  &:hover {
+    box-shadow:
+      0 24px 60px hsl(230 30% 8% / 0.08),
+      0 10px 20px hsl(230 30% 8% / 0.04),
+      inset 0 1px 0 hsl(0 0% 100% / 0.05);
+  }
+}
+
+@utility glass-pro {
+  isolation: isolate;
+  background:
+    linear-gradient(
+      135deg,
+      hsl(var(--surface) / 0.58),
+      hsl(var(--surface-muted) / 0.30)
+    ),
+    radial-gradient(
+      ellipse 72% 56% at 20% 0%,
+      hsl(var(--brand) / 0.12),
+      transparent 62%
+    );
+  border: 1px solid hsl(var(--line) / 0.32);
+  box-shadow:
+    0 20px 60px hsl(230 30% 8% / 0.07),
+    inset 0 1px 0 hsl(0 0% 100% / 0.24),
+    inset 0 -1px 0 hsl(var(--line) / 0.12);
+  backdrop-filter: blur(24px) saturate(170%);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    z-index: -1;
+    opacity: 0.045;
+    pointer-events: none;
+  }
+}
+
+@utility subtle-outline {
+  box-shadow: inset 0 0 0 1px hsl(var(--line) / 0.5);
+}
+
+/* ─── Layout ────────────────────────────────────────────────────────────────── */
+
+@utility section-copy {
+  @apply text-base/7 text-ink-soft sm:text-lg/8;
+}
+
+@utility section-actions {
+  @apply flex flex-col gap-3 sm:flex-row sm:flex-wrap;
+}
+
+@utility section-label {
+  @apply text-xs font-semibold tracking-[0.22em] text-ink-muted uppercase;
+}
+
+@utility editorial-section {
+  @apply grid gap-8 border-t border-line/70 pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-10;
+  & > * {
+    min-width: 0;
+  }
+}
+
+@utility editorial-rail {
+  @apply space-y-5 lg:sticky lg:top-28 lg:h-fit;
+}
+
+@utility post-grid {
+  @apply grid items-start gap-5;
+}
+
+@utility page-card-grid {
+  @apply section-container-wide grid gap-4 sm:grid-cols-2 lg:gap-5;
+}
+
+@utility cta-panel {
+  @apply glass-pro rounded-[2rem] p-6 sm:p-8 lg:p-10;
+}
+
+@utility topic-meter-fill {
+  @apply h-full rounded-full bg-linear-to-r from-brand/55 to-accent/75 transition-all duration-500 motion-reduce:transition-none;
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@utility stat-card {
+  @apply rounded-2xl relative;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--surface) / 0.62),
+    hsl(var(--surface-muted) / 0.40)
+  );
+  border: 1px solid hsl(var(--line) / 0.34);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    0 12px 34px hsl(230 30% 8% / 0.045),
+    inset 0 1px 0 hsl(0 0% 100% / 0.18),
+    inset 0 -1px 0 hsl(var(--line) / 0.12);
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  @apply motion-reduce:transition-none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--border-angle),
+      hsl(var(--line) / 0.2) 0%,
+      hsl(var(--line) / 0.2) 65%,
+      hsl(var(--brand) / 0.55) 78%,
+      hsl(var(--accent) / 0.65) 85%,
+      hsl(var(--brand) / 0.55) 92%,
+      hsl(var(--line) / 0.2) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    @apply motion-reduce:transition-none motion-reduce:hidden;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 12px 32px hsl(230 30% 8% / 0.08),
+      0 4px 16px hsl(var(--brand) / 0.12),
+      inset 0 1px 0 hsl(0 0% 100% / 0.05);
+    border-color: transparent;
+    @apply motion-reduce:transform-none;
+
+    &::before {
+      opacity: 1;
+      animation: var(--animate-border-spin);
+    }
+  }
+}
+
+@utility talk-card {
+  @apply relative rounded-[1.75rem];
+  background: linear-gradient(
+    145deg,
+    hsl(var(--surface) / 0.74) 0%,
+    hsl(var(--surface-muted) / 0.52) 100%
+  );
+  border: 1px solid hsl(var(--line) / 0.38);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    0 1px 0 hsl(0 0% 100% / 0.09) inset,
+    0 10px 28px hsl(230 30% 8% / 0.04),
+    0 4px 10px hsl(230 30% 8% / 0.025);
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+  @apply motion-reduce:transition-none;
+
+  /* Specular top-edge highlight */
+  &::before {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    inset-inline: 12%;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(0 0% 100% / 0.38) 30%,
+      hsl(0 0% 100% / 0.52) 50%,
+      hsl(0 0% 100% / 0.38) 70%,
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  /* Brand accent glow blob — bottom-right */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      ellipse 65% 50% at 88% 92%,
+      hsl(var(--brand) / 0.07),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    @apply motion-reduce:hidden;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: hsl(var(--brand) / 0.28);
+    box-shadow:
+      0 1px 0 hsl(0 0% 100% / 0.13) inset,
+      0 22px 52px hsl(230 30% 8% / 0.09),
+      0 8px 20px hsl(var(--brand) / 0.1);
+    @apply motion-reduce:transform-none;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+@utility mini-note {
+  @apply rounded-2xl border border-line/38 p-5 h-max relative;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--surface) / 0.62),
+    hsl(var(--surface-muted) / 0.40)
+  );
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  min-width: 0;
+  box-shadow:
+    0 12px 34px hsl(230 30% 8% / 0.045),
+    inset 0 1px 0 hsl(0 0% 100% / 0.18),
+    inset 0 -1px 0 hsl(var(--line) / 0.12);
+  & > * {
+    min-width: 0;
+  }
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+  @apply motion-reduce:transition-none;
+
+  /* Left accent bar */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      hsl(var(--brand) / 0.7) 30%,
+      hsl(var(--accent) / 0.8) 60%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.3s ease;
+    @apply motion-reduce:transition-none;
+  }
+
+  /* Brand wash overlay */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      ellipse at top left,
+      hsl(var(--brand) / 0.06) 0%,
+      transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    @apply motion-reduce:transition-none;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: hsl(var(--brand) / 0.25);
+    box-shadow:
+      0 12px 32px hsl(230 30% 8% / 0.07),
+      0 4px 16px hsl(var(--brand) / 0.08),
+      inset 0 1px 0 hsl(0 0% 100% / 0.05);
+    @apply motion-reduce:transform-none;
+
+    &::before {
+      opacity: 1;
+      width: 4px;
+    }
+
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+/**
+ * Shared max-width cap for primary content columns.
+ * Use this instead of sprinkling max-w-3xl everywhere.
+ */
+@utility max-w-content {
+  max-width: 48rem; /* 768px — equivalent to max-w-3xl */
+}
+
+/**
+ * Shared max-width for wide content areas (blog article, project hero, etc.)
+ */
+@utility max-w-content-wide {
+  max-width: 72rem; /* 1152px — between max-w-5xl and max-w-6xl */
+}
+
+/**
+ * Shared width for wide site sections.
+ */
+@utility section-container-wide {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+}
+
+/* ─── Buttons ───────────────────────────────────────────────────────────────── */
+
+@utility site-action {
+  @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-3 rounded-xl border px-4 py-2 text-xs font-medium tracking-normal no-underline;
+  box-shadow: none;
+  backdrop-filter: none;
+  transform: none;
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  &:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 4px; }
+  @apply motion-reduce:transition-none;
+}
+
+@utility btn-primary {
+  @apply site-action border-ink bg-ink text-surface;
+  &:hover { background: hsl(var(--ink-soft)); }
+}
+
+@utility btn-secondary {
+  @apply site-action border-line/65 bg-surface text-ink;
+  &:hover { background: hsl(var(--surface-muted)); }
+}
+
+@utility btn-ghost {
+  @apply site-action border-transparent bg-transparent text-ink;
+  &:hover { background: hsl(var(--surface-muted)); }
+}
+
+@utility btn-inline {
+  @apply site-action rounded-none border-transparent bg-transparent px-0 text-ink;
+  &:hover { color: hsl(var(--brand)); }
+}
+
+@utility site-action-arrow {
+  @apply inline-grid size-8 shrink-0 place-items-center rounded-lg;
+}
+.btn-primary .site-action-arrow {
+  color: hsl(var(--ink));
+  background: hsl(var(--surface));
+}
+
+[data-site-action='primary'] { @apply btn-primary; }
+[data-site-action='secondary'] { @apply btn-secondary; }
+[data-site-action='ghost'] { @apply btn-ghost; }
+[data-site-action='inline'] { @apply btn-inline; }
+
+/* ─── Forms & Interactive ───────────────────────────────────────────────────── */
+
+@utility focus-pill {
+  @apply inline-flex min-h-14 flex-wrap items-center gap-3 rounded-full border border-line/70 bg-surface/78 px-4 py-3 shadow-[0_10px_26px_hsl(var(--ink)/0.04)];
+}
+
+@utility field-surface {
+  @apply w-full rounded-[1.1rem] border border-line/55 bg-surface/72 px-4 py-3.5 text-ink outline-none transition duration-200;
+  @apply placeholder:text-ink-muted/55 focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/10;
+  @apply motion-reduce:transition-none;
+}
+
+@utility pagination-btn {
+  @apply inline-flex min-h-11 min-w-11 items-center justify-center rounded-2xl border border-line/60 bg-surface/80 px-3 text-sm font-medium text-ink-soft transition-colors duration-200 hover:border-brand/40 hover:bg-brand-soft/35 hover:text-brand motion-reduce:transition-none;
+}
+
+@utility pagination-btn--active {
+  @apply border-brand/35 bg-brand-soft/50 text-brand;
+}
+
+/* ─── Decorative ────────────────────────────────────────────────────────────── */
+
+@utility brand-radial-glow {
+  @apply pointer-events-none absolute inset-x-8 top-0 h-40 rounded-full blur-3xl;
+  background: radial-gradient(
+    circle at center,
+    hsl(var(--brand) / 0.16),
+    transparent 72%
+  );
+}
+
+@utility bg-mesh-brand {
+  background-color: hsl(var(--brand));
+  background-image:
+    radial-gradient(at 0% 0%, hsl(var(--glow) / 0.4) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsl(var(--accent) / 0.4) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsl(var(--brand) / 0.6) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsl(var(--glow) / 0.4) 0px, transparent 50%);
+}
+
+@utility grid-fade {
+  background-image:
+    linear-gradient(hsl(var(--line) / 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--line) / 0.12) 1px, transparent 1px);
+  background-position: center;
+  background-size: 2rem 2rem;
+  mask-image: linear-gradient(
+    180deg,
+    transparent,
+    black 18%,
+    black 82%,
+    transparent
+  );
+}
+
+/* ─── Dividers ─────────────────────────────────────────────────────────────── */
+
+@utility divider-subtle {
+  @apply border-t border-line/30;
+}
+
+@utility divider-soft {
+  @apply border-t border-line/50;
+}
+
+@utility divider-medium {
+  @apply border-t border-line/70;
+}
+
+@utility divider-strong {
+  @apply border-t border-line;
+}
+
+@utility divider-gradient {
+  @apply border-0 bg-linear-to-r from-transparent via-brand/40 to-transparent h-px;
+}
+
+@utility divider-gradient-soft {
+  @apply border-0 bg-linear-to-r from-transparent via-line/40 to-transparent h-px;
+}
+
+@utility divider-gradient-strong {
+  @apply border-0 bg-linear-to-r from-transparent via-brand/60 to-transparent h-px;
+}
+
+@utility section-divider {
+  @apply divider-medium pt-10 mt-10;
+}
+
+@utility section-divider-compact {
+  @apply divider-soft pt-8 mt-8;
+}
+
+@utility section-divider-spacious {
+  @apply divider-strong pt-12 mt-12;
+}
+
+@utility card-divider {
+  @apply border-b border-line/40 pb-4 mb-4;
+}
+
+@utility card-divider-subtle {
+  @apply border-b border-line/25 pb-3 mb-3;
+}
+
+@utility list-divider {
+  @apply border-b border-line/20 last:border-b-0;
+}
+
+@utility list-divider-medium {
+  @apply border-b border-line/35 last:border-b-0;
+}
+
+@utility list-divider-strong {
+  @apply border-b border-line/50 last:border-b-0;
+}

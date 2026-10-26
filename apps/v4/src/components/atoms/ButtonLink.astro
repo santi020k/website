@@ -1,0 +1,43 @@
+---
+import { ButtonLink as LumenButtonLink, Icon } from '@santi020k/lumen-astro'
+
+interface Props {
+  ariaLabel?: string
+  className?: string
+  href: string
+  newTab?: boolean
+  showArrow?: boolean
+  variant?: 'ghost' | 'inline' | 'primary' | 'secondary'
+}
+
+const {
+  ariaLabel,
+  className = '',
+  href,
+  newTab = false,
+  showArrow = false,
+  variant = 'primary'
+} = Astro.props
+
+---
+
+<LumenButtonLink
+  aria-label={ariaLabel}
+  class:list={[
+    variant === 'primary' && 'btn-primary',
+    variant === 'secondary' && 'btn-secondary',
+    variant === 'ghost' && 'btn-ghost',
+    variant === 'inline' && 'btn-inline',
+    className
+  ]}
+  href={href}
+  newTab={newTab}
+  variant="unstyled"
+>
+  <slot />
+  {showArrow && (
+    <span aria-hidden="true" class="site-action-arrow">
+      <Icon name={newTab ? 'arrow-up-right' : 'arrow-right'} size="sm" />
+    </span>
+  )}
+</LumenButtonLink>

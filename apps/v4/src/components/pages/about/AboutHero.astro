@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets'
+
+import Portrait from '@/assets/photos/portraits/santiago-plum-soft-smile.png'
+
+import { ButtonLink, Icon } from '@santi020k/lumen-astro'
+
+import { siteConfig } from '@/site.config'
+---
+
+<section class="signature-frame about-hero" data-about-hero>
+  <div class="about-hero-copy">
+    <p class="about-eyebrow">Engineering leader · full-stack architect</p>
+    <h1 data-about-hero-heading>Calm systems.{' '}<span>Clear delivery.</span></h1>
+    <p class="about-hero-intro">
+      I’m Santiago Molina, known online as santi020k—an engineering leader
+      and full-stack architect helping teams modernize systems, automate
+      delivery, and improve developer experience.
+    </p>
+    <div class="maker-hero-actions">
+      <ButtonLink class="maker-hero-primary" href="/portfolio/" variant="unstyled">
+        See selected work
+        <span class="maker-hero-arrow"><Icon name="arrow-up-right" /></span>
+      </ButtonLink>
+      <ButtonLink class="maker-hero-secondary" href={siteConfig.contact.resume} variant="unstyled">
+        View resume <Icon name="arrow-right" />
+      </ButtonLink>
+    </div>
+    <p class="about-availability"><span aria-hidden="true"></span>{siteConfig.availability}</p>
+    <ul class="about-socials" aria-label="Connect with Santiago">
+      {siteConfig.socialLinks.filter(({ label }) => label === 'LinkedIn' || label === 'GitHub').map(({ href, label }) => (
+        <li><ButtonLink class="about-link" href={href} newTab variant="unstyled">{label}<Icon name="arrow-up-right" /></ButtonLink></li>
+      ))}
+    </ul>
+  </div>
+  <figure class="about-portrait" data-about-hero-portrait>
+    <Image
+      alt="Portrait of Santiago Molina (@santi020k)"
+      decoding="sync"
+      fetchpriority="high"
+      format="avif"
+      height={500}
+      loading="eager"
+      src={Portrait}
+      width={400}
+      widths={[320, 400, 640, 800]}
+      sizes="(min-width: 768px) 400px, calc(100vw - 48px)"
+    />
+    <figcaption><span>Santiago Molina</span><span>Medellín, Colombia<br />Remote worldwide</span></figcaption>
+  </figure>
+</section>

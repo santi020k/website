@@ -12,14 +12,18 @@ for (const theme of ['light', 'dark']) {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('A website,over time.')
     await expect(page.locator('meta[name="robots"]')).not.toHaveAttribute('content', /noindex/)
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://santi020k.com/history/')
-    await expect(page.locator('.history-era')).toHaveCount(4)
+    await expect(page.locator('.history-era')).toHaveCount(5)
+    await expect(page.locator('#v4')).toContainText('Release 4.0.0')
+    await expect(page.locator('#v5')).toContainText('Release 5.0.0')
+    await expect(page.locator('#v5')).toContainText('Current chapter')
+    await expect(page.locator('#v4')).toContainText('Preserved chapter')
     await expect(page.locator('.history-hero-print img')).toHaveCount(3)
     await page.locator('.history-hero-print img').evaluateAll(async images => {
       await Promise.all(images.map(image => image instanceof HTMLImageElement ? image.decode() : Promise.reject(new Error('Expected an image'))))
     })
     const chapters = page.getByRole('navigation', { name: 'Jump to a design era' })
-    await expect(chapters.getByRole('link')).toHaveCount(4)
-    for (const id of ['v1', 'v2', 'v3', 'v4']) {
+    await expect(chapters.getByRole('link')).toHaveCount(5)
+    for (const id of ['v1', 'v2', 'v3', 'v4', 'v5']) {
       await expect(chapters.locator(`a[href="#${id}"]`)).toHaveCount(1)
     }
     for (const width of [320, 375, 390, 639, 768, 1440]) {
@@ -100,7 +104,7 @@ test.describe('History chapters without JavaScript', () => {
         return failures
       })
       expect(broken, 'Chapter shortcuts, copy and capture captions keep complete words').toEqual([])
-      await expect(page.locator('.history-era').getByRole('heading', { level: 2 })).toHaveCount(4)
+      await expect(page.locator('.history-era').getByRole('heading', { level: 2 })).toHaveCount(5)
       const archive = page.getByRole('link', { name: 'Open V3', exact: true })
       await archive.focus()
       await page.keyboard.press('Enter')
@@ -110,7 +114,7 @@ test.describe('History chapters without JavaScript', () => {
   }
 })
 
-for (const id of ['v1', 'v2', 'v3']) {
+for (const id of ['v1', 'v2', 'v3', 'v4']) {
   test(`${id} keeps navigation, assets, storage and robots scoped`, async ({ page }) => {
     await page.addInitScript(() => {
       localStorage.setItem('theme', 'dark')
@@ -146,7 +150,7 @@ test('archive newsletter cannot submit', async ({ page }) => {
   }
 })
 
-for (const id of ['v2', 'v3']) {
+for (const id of ['v2', 'v3', 'v4']) {
   test(`${id} search results open within the archive`, async ({ page }) => {
     await page.goto(`/${id}/`)
     await page.locator('[data-site-search-trigger]').click()
@@ -171,7 +175,7 @@ test('v1 portfolio tabs support keyboard selection', async ({ page }) => {
   await expect(tabs.first()).toHaveAttribute('aria-selected', 'true')
 })
 
-for (const id of ['v1', 'v2', 'v3']) {
+for (const id of ['v1', 'v2', 'v3', 'v4']) {
   test(`${id} supports mobile dark navigation`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.emulateMedia({ colorScheme: 'dark', reducedMotion: 'reduce' })
@@ -188,7 +192,7 @@ for (const id of ['v1', 'v2', 'v3']) {
 }
 
 // Error and offline documents have no current counterpart; their notice leads home.
-for (const path of ['/v1/404.html', '/v2/404.html', '/v3/404.html', '/v2/offline/', '/v3/offline/']) {
+for (const path of ['/v1/404.html', '/v2/404.html', '/v3/404.html', '/v4/404.html', '/v2/offline/', '/v3/offline/', '/v4/offline/']) {
   test(`${path} archive notice leads to the current homepage`, async ({ page }) => {
     await page.goto(path)
     const notice = page.getByRole('complementary', { name: 'Website archive' })

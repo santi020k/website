@@ -1,8 +1,18 @@
 # Changelog
 
-## 4.1.0
+## 5.0.0
+
+### Major Changes
+
+- Introduce the v5 editorial design generation across the website. Preserve released v4.0.0 as a maintained archive at `/v4/`, add it to the five-chapter History timeline, and show the release labels for v3, v4, and v5. Existing public routes remain compatible; visitors need no migration. All prepared v4.1 work is included in v5.0.0 instead of publishing a separate v4.1 release.
 
 ### Minor Changes
+
+- Add Reading brief to project openings with automatically calculated narrative reading estimates and section counts.
+
+- Clarify project availability, update PostLens 2 launch status, and publish its launch article with an original editorial cover.
+
+- Connect project pages to curated published writing with aligned Story pair entries, and use Release note for platform and feature availability.
 
 - Apply Career ledger to the Work page career highlights with prominent figures, clear headings, and complete explanations beside accent rails. Preserve collection-derived role and technology counts and authored impact metrics, and reflow the two-column ledger into readable rows for narrow screens and enlarged text.
 
@@ -277,6 +287,50 @@
 - Include Lumen Outcomes in the desktop contents rail and mobile chapter opener through its authored heading, preserving the legacy fragment and native keyboard navigation.
 
 ### Patch Changes
+
+- Select current-site static checks for ordinary source-only pull requests while retaining every unit and motion test.
+  Keep full static validation for releases, shared changes, and unavailable Git history, with all production builds, browser tests, and Lighthouse checks unchanged.
+
+- Place standalone article copy controls alongside Topics instead of in an isolated action row.
+  Keep sharing beside the topic heading on mobile, with wrapping for enlarged text.
+
+- Remove an invisible article permalink from keyboard navigation while preserving its metadata, and
+  scope author microformats separately from article titles and URLs. Keep mobile contents navigation
+  covered without JavaScript. Accept valid frontmatter line endings and EOF fences, and report broken
+  encoded links without aborting the rest of the built-page audit. Resolve technology archive social
+  images by canonical route so label casing and pagination preserve the generated artwork URL.
+
+- Separate mobile navbar button backgrounds while preserving comfortable tap targets and enlarged-text layouts.
+  Keep the search field readable on narrow phones with doubled text.
+
+- Refine the shared navbar with centered desktop links, a labeled search shortcut, clearer mobile menu controls and current-page cues, and a compact two-column tablet menu. Keep contact actions inside narrow menus with enlarged text.
+
+- Smooth the navbar's raised logo tab, remove the shadow band at the open menu join,
+  and preserve the menu backdrop blur after page transitions on mobile and desktop.
+
+- Derive Work destination link names from their complete visible content and improve the closing card's small-label contrast in dark mode.
+  Validate the labels at normal text size as well as enlarged layouts.
+
+- Refine the homepage maker hero with concrete engineering copy, clearer actions, and an open product strip. On phones, lead with a compact portrait and identity, strengthen the headline, and fit both featured products into a compact pair of columns. Preserve product destinations, accessible keyboard navigation, both themes, and enlarged-text reflow.
+
+- Refine related-work headings and project cards with a compact open layout, square artwork, responsive reading hierarchy, and visible keyboard focus. Include all visible reference-link text in accessible names on the Lumen case study.
+
+- Present related work as numbered editorial rows with artwork beside the copy, fine dividers, and responsive layouts.
+
+- Refine related work on mobile with compact project thumbnails, full-width descriptions, and clearer reading actions.
+
+- Give related project cards full-width artwork and overlapping reading sheets, with clearer titles and responsive spacing.
+
+- Balance related work on tablets with square artwork, wider text columns, and clearer reading actions while retaining the approved phone layout.
+
+- Apply the approved Context lead and shared editorial treatments across project
+  detail pages. Unify narrative headings, outcome navigation, goals, capabilities,
+  technical explanations and closing reflections while preserving project content,
+  release qualifications and existing fragments.
+
+- Keep navigation steady during page transitions, avoid stretching snapshots or
+  overlapping headlines, and coordinate article covers with the page entrance.
+  Preserve reduced-motion, history, fragment, and immediate fallback navigation.
 
 - Make the built-page audit follow Cloudflare redirect precedence over existing files, so missing
   destinations, redirect loops, and broken destination fragments cannot hide behind stale assets.

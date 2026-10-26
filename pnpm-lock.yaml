@@ -737,6 +737,97 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
+  apps/v4:
+    dependencies:
+      '@astrojs/rss':
+        specifier: 'catalog:'
+        version: 4.0.19
+      '@santi020k/lumen':
+        specifier: 'catalog:'
+        version: 4.2.0
+      '@santi020k/lumen-astro':
+        specifier: 'catalog:'
+        version: 4.1.0(patch_hash=195b479f82e779f1f52cc89c844fd406c4d20de823f226b2681d17112e205c36)(astro@7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1))
+      '@santi020k/lumen-core':
+        specifier: 'catalog:'
+        version: 4.1.0
+      '@santi020k/og':
+        specifier: 'catalog:'
+        version: 1.2.0(patch_hash=adefa3153db9a28e5bf35d4abdcb3387bd87b4a984e6f488f798fda46c7bf004)(@types/node@26.6.4)
+      '@santi020k/theme':
+        specifier: 'catalog:'
+        version: 2.0.1
+      '@santi020k/website-history':
+        specifier: workspace:*
+        version: link:../../packages/website-history
+      '@shikijs/transformers':
+        specifier: 'catalog:'
+        version: 4.5.0
+      '@tailwindcss/typography':
+        specifier: 'catalog:'
+        version: 0.5.20(tailwindcss@4.3.3)
+      astro:
+        specifier: 'catalog:'
+        version: 7.3.6(@astrojs/markdown-remark@7.3.2(supports-color@9.4.0))(@types/node@26.6.4)(jiti@2.7.0)(yaml@2.9.1)
+      astro-icon:
+        specifier: 'catalog:'
+        version: 1.2.0
+      fast-xml-parser:
+        specifier: 'catalog:'
+        version: 5.11.2
+      fast-xml-validator:
+        specifier: 'catalog:'
+        version: 1.4.2
+      hastscript:
+        specifier: 'catalog:'
+        version: 9.0.1
+      mdast-util-directive:
+        specifier: 'catalog:'
+        version: 3.1.1(supports-color@9.4.0)
+      mdast-util-to-markdown:
+        specifier: 'catalog:'
+        version: 2.2.0
+      mdast-util-to-string:
+        specifier: 'catalog:'
+        version: 4.0.0
+      reading-time:
+        specifier: 'catalog:'
+        version: 1.5.0
+      unified:
+        specifier: 'catalog:'
+        version: 11.0.5
+      unist-util-visit:
+        specifier: 'catalog:'
+        version: 5.1.0
+      vfile:
+        specifier: 'catalog:'
+        version: 6.0.3
+    devDependencies:
+      '@astrojs/check':
+        specifier: 'catalog:'
+        version: 0.9.10(@emnapi/runtime@1.11.3)(prettier@3.9.9)(typescript@6.0.3)
+      '@iconify-json/tabler':
+        specifier: 'catalog:'
+        version: 1.2.41
+      '@santi020k/eslint-config-astro':
+        specifier: 'catalog:'
+        version: 3.1.5(@typescript-eslint/eslint-plugin@8.71.1(@typescript-eslint/parser@8.71.1(eslint@10.12.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3))(eslint@10.12.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3))(eslint@10.12.0(jiti@2.7.0)(supports-color@9.4.0))(supports-color@9.4.0)(typescript@6.0.3)
+      '@santi020k/eslint-config-basic':
+        specifier: 'catalog:'
+        version: 3.6.0(57471ee6bd9007393050d861b4562633)
+      '@types/hast':
+        specifier: 'catalog:'
+        version: 3.0.5
+      '@types/mdast':
+        specifier: 'catalog:'
+        version: 4.0.4
+      '@types/unist':
+        specifier: 'catalog:'
+        version: 3.0.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+
   packages/website-history:
     dependencies:
       '@astrojs/markdown-remark':

@@ -1,0 +1,185 @@
+/* ─── Base Element Styles ─────────────────────────────────────────────────────
+ * Font-face declarations, HTML/body resets, heading/text defaults, and
+ * focus/selection styles. Everything in @layer base so Tailwind can override.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  @font-face {
+    font-family: "Montserrat";
+    src: url("/fonts/montserrat-variable-font-wght.woff2") format("woff2"),
+      url("/fonts/montserrat-variable-font-wght.ttf") format("truetype-variations");
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Montserrat";
+    src: url("/fonts/montserrat-italic-variable-font-wght.woff2") format("woff2"),
+      url("/fonts/montserrat-italic-variable-font-wght.ttf") format("truetype-variations");
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  /* Note: overflow-x: clip on html/body makes the root a non-scroll-container,
+     which would deactivate CSS scroll-driven animation timelines (view()/scroll()).
+     Fine today — the site doesn't use them — but remove this if they return. */
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    overflow-wrap: break-word;
+  }
+
+  html {
+    background-color: hsl(var(--theme-bg));
+    color: hsl(var(--ink));
+    font-family: var(--font-sans);
+    letter-spacing: 0.025em;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(
+        circle at 8% -4%,
+        hsl(var(--glow) / 0.13),
+        transparent 24rem
+      ),
+      radial-gradient(
+        circle at 86% 0%,
+        hsl(var(--accent) / 0.10),
+        transparent 24rem
+      ),
+      radial-gradient(
+        circle at 48% 110%,
+        hsl(var(--brand) / 0.08),
+        transparent 34rem
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--surface-muted) / 0.5),
+        transparent 22rem
+      ),
+      hsl(var(--theme-bg));
+    color: hsl(var(--ink));
+  }
+
+  :root[data-theme="dark"] body {
+    background:
+      radial-gradient(
+        circle at 10% 0%,
+        hsl(var(--glow) / 0.15),
+        transparent 28rem
+      ),
+      radial-gradient(
+        circle at 90% -10%,
+        hsl(var(--brand) / 0.15),
+        transparent 32rem
+      ),
+      radial-gradient(
+        circle at 50% 120%,
+        hsl(var(--accent) / 0.15),
+        transparent 40rem
+      ),
+      linear-gradient(
+        180deg,
+        hsl(var(--theme-bg) / 0.88),
+        hsl(var(--theme-bg) / 0.95)
+      ),
+      url("@santi020k/theme/assets/wallpapers/wallpaper-3-desktop.webp") center center / cover,
+      hsl(var(--theme-bg));
+    /* Avoid `background-attachment: fixed` on small screens and when reduced motion is requested:
+       on mobile/low-end GPUs it causes scroll-time compositing cost. Restrict to wide,
+       precise-pointer environments where the parallax effect is desired. */
+  }
+
+  @media (min-width: 64rem) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :root[data-theme="dark"] body {
+      background-attachment: scroll, scroll, scroll, scroll, fixed, scroll;
+    }
+  }
+
+  html.mobile-nav-open,
+  body.mobile-nav-open,
+  html.site-search-open,
+  body.site-search-open {
+    overflow: clip;
+  }
+
+  html.mobile-nav-open,
+  html.site-search-open {
+    overscroll-behavior: contain;
+  }
+
+  main {
+    isolation: isolate;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: hsl(var(--ink));
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: clamp(2rem, 9vw, 2.5rem);
+      line-height: 1.15;
+      overflow-wrap: break-word;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      overflow-wrap: break-word;
+      word-break: normal;
+      hyphens: auto;
+    }
+  }
+
+  p,
+  li {
+    color: hsl(var(--ink-soft));
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  img {
+    display: block;
+  }
+
+  ::selection {
+    background-color: hsl(var(--brand) / 0.2);
+    color: hsl(var(--ink));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--brand));
+    outline-offset: 4px;
+  }
+
+  @media (prefers-contrast: more) {
+    :focus-visible {
+      outline-width: 3px;
+      outline-offset: 5px;
+    }
+  }
+}
