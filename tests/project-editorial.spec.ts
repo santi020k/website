@@ -125,8 +125,8 @@ for (const theme of ['light', 'dark']) {
 
 test('shared compositions retain inline code, resource links and product qualifications', async ({ page }) => {
   await page.goto('/portfolio/postlens/')
-  await expect(page.locator('[data-project-context-lead]')).toContainText('Instagram account connection and direct publishing remain disabled for a later release')
-  await expect(page.locator('.prose-project')).toContainText('they do not represent the current store release')
+  await expect(page.locator('[data-project-context-lead]')).toContainText('Instagram account connection and direct publishing remain unavailable while we await Meta approval for production')
+  await expect(page.locator('.prose-project')).toContainText('Instagram connection and direct publishing are not available in the production app')
   await expect(page.locator('[data-project-capabilities] li')).toHaveCount(7)
   await expect(page.locator('[data-project-intent] li')).toHaveCount(4)
   await expect(page.locator('[data-architecture-notes] code')).toHaveText(['SwiftUI', 'PhotoKit', 'PhotosPicker', 'Vision', 'Core Image', 'StoreKit'])

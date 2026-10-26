@@ -7,6 +7,7 @@ import test from 'node:test'
 
 import { classifyPaths, gitEnvironment, planScope, validationSteps } from './ci-scope.mjs'
 
+// The explicit test:ci command owns this Node suite; Vitest handles *.test files.
 test('only proven isolated paths select fewer checks', () => {
   assert.equal(classifyPaths(['src/pages/index.astro']).mode, 'current')
 

@@ -32,10 +32,15 @@ test('combined sitemap advertises canonical pages and preserves content dates', 
   expect(root.some(entry => entry.url.includes('/blog/') && entry.lastmod !== null)).toBe(true)
 
   // Refreshed case studies expose their verified editorial date.
-  for (const slug of ['lumen-ui', 'postlens', 'between-contractions', 'roadscore']) {
+  for (const [slug, lastmod] of [
+    ['lumen-ui', '2026-10-20T00:00:00.000Z'],
+    ['postlens', '2026-10-25T00:00:00.000Z'],
+    ['between-contractions', '2026-10-20T00:00:00.000Z'],
+    ['roadscore', '2026-10-20T00:00:00.000Z']
+  ] as const) {
     expect(combinedByUrl.get(`https://santi020k.com/portfolio/${slug}/`)).toEqual({
       url: `https://santi020k.com/portfolio/${slug}/`,
-      lastmod: '2026-10-20T00:00:00.000Z'
+      lastmod
     })
   }
 

@@ -66,7 +66,7 @@ test('PostLens uses the shared opening and retains its release qualifications', 
   await page.goto('/portfolio/postlens/')
   await expect(page.locator('[data-content-notes]')).toHaveCount(0)
   await expect(page.locator('[data-project-context-lead]')).toHaveCount(1)
-  await expect(page.locator('[data-project-context-lead]')).toContainText('Instagram account connection and direct publishing remain disabled for a later release')
+  await expect(page.locator('[data-project-context-lead]')).toContainText('Instagram account connection and direct publishing remain unavailable while we await Meta approval for production')
 })
 
 for (const theme of ['light', 'dark']) {

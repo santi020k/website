@@ -71,7 +71,7 @@
     "history:screenshots": "node scripts/js/capture-website-history.mjs",
     "audit:history": "node scripts/js/audit-website-history.mjs",
     "test:motion": "pnpm --filter @santi020k/website-motion build && pnpm --filter @santi020k/website-motion test",
-    "test:ci": "node --test scripts/js/ci-scope.test.mjs",
+    "test:ci": "node --test scripts/js/ci-scope.node-test.mjs",
     "ci:check": "node scripts/js/check-ci.mjs"
   },
   "dependencies": {

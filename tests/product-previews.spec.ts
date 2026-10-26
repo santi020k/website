@@ -62,8 +62,8 @@ for (const slug of ['lumen-ui', 'postlens', 'smith-commerce']) {
 
 for (const { slug, chapter, nextSection, introParagraphs } of [
   { slug: 'smith-commerce', chapter: 'F.W. Webb: building the purchasing experience', nextSection: 'The purchasing challenge', introParagraphs: 1 },
-  { slug: 'postlens', chapter: 'Building a private visual content studio for iPhone and iPad', nextSection: 'Goals', introParagraphs: 2 },
-  { slug: 'lumen-ui', chapter: 'A shared language for web and native interfaces', nextSection: 'Goals', introParagraphs: 2 }
+  { slug: 'postlens', chapter: 'Building a private visual content studio for iPhone and iPad', nextSection: 'Outcomes', introParagraphs: 2 },
+  { slug: 'lumen-ui', chapter: 'A shared language for web and native interfaces', nextSection: 'Outcomes', introParagraphs: 2 }
 ]) {
   test(`${slug} introduces its gallery within the relevant chapter`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
@@ -80,6 +80,7 @@ for (const { slug, chapter, nextSection, introParagraphs } of [
         paragraphs += 1
         sibling = sibling.previousElementSibling
       }
+      if (sibling?.matches('[data-project-context-lead]')) paragraphs += sibling.querySelectorAll(':scope > p').length
 
       const chapterHeading = sibling?.matches('h2') ? sibling : sibling?.querySelector('h2')
 
@@ -91,7 +92,7 @@ for (const { slug, chapter, nextSection, introParagraphs } of [
           element.nextElementSibling.querySelector('h3')?.textContent :
           element.nextElementSibling?.textContent
       }
-    })).toEqual({ chapter, chapterTag: 'H2', paragraphs: introParagraphs, next: slug === 'smith-commerce' ? nextSection : 'Outcomes' })
+    })).toEqual({ chapter, chapterTag: 'H2', paragraphs: introParagraphs, next: nextSection })
 
     const navigation = page.getByRole('navigation', { name: 'Table of contents' })
     const chapterGroup = navigation.locator('details').filter({ has: page.locator('a[href="#inside-the-product"]') })
@@ -127,10 +128,10 @@ test('Smith identifies Webb screenshots as development previews', async ({ page 
 test('PostLens distinguishes development screens and generated samples from the store release', async ({ page }) => {
   await page.goto('/portfolio/postlens/')
   const previews = page.getByRole('region', { name: 'Inside the product' })
-  await expect(previews).toContainText('PostLens 2.0 development captures')
-  await expect(previews).toContainText('AI-generated sample photos')
-  await expect(previews).toContainText('illustrative gallery scores')
-  await expect(previews).toContainText('not the current App Store UI')
+  await expect(previews).toContainText('PostLens 2 workflow previews captured during development')
+  await expect(previews).toContainText('Sample photos are AI-generated')
+  await expect(previews).toContainText('gallery scores are illustrative')
+  await expect(previews).toContainText('appearance may vary from the released app')
 })
 
 test.describe('Product previews without client JavaScript', () => {
