@@ -64,6 +64,66 @@ test('closing website names and URLs match the hero, with appropriate gallery an
   await expect(nav.getByRole('link')).toHaveCount(2)
 })
 
+test('Lumen collects its closing resources once after sharing', async ({ page }) => {
+  await page.goto('/portfolio/lumen-ui/')
+  const closing = page.locator('[data-project-closing]')
+  const nav = closing.getByRole('navigation', { name: 'Page-end navigation', exact: true })
+  const resources = nav.locator('[data-return-destinations] a')
+
+  await expect(resources).toHaveText(['Visit Lumen UI', 'Try the playgrounds', 'View product previews', 'Open repository'])
+  await expect(nav.getByRole('link')).toHaveCount(6)
+  await expect(nav.getByRole('link', { name: 'Try the playgrounds', exact: true })).toHaveAttribute('href', 'https://lumen.santi020k.com/#playgrounds')
+  await expect(nav.getByRole('link', { name: 'Try the playgrounds', exact: true })).toHaveAttribute('target', '_blank')
+  await expect(nav.getByRole('link', { name: 'Try the playgrounds', exact: true })).toHaveAttribute('rel', /noopener noreferrer/u)
+  await expect(page.locator('.prose-project p').last()).toContainText('instead of inventing an API')
+  await expect(page.locator('.prose-project a[href="https://lumen.santi020k.com/"]')).toHaveCount(0)
+  await expect(page.locator('.prose-project a[href="https://lumen.santi020k.com/#playgrounds"]')).toHaveCount(0)
+  await expect(page.locator('.prose-project a[href="https://github.com/santi020k/lumen"]')).toHaveCount(0)
+  await expect(closing.getByRole('button', { name: 'Copy link', exact: true })).toHaveCount(1)
+  await expect(page.locator('[data-return-unified]')).toHaveCount(1)
+  await page.goto('/portfolio/smith-commerce/')
+  await expect(page.locator('[data-return-unified]')).toHaveCount(0)
+})
+
+for (const javaScriptEnabled of [true, false]) {
+  test(`Lumen unified return supports native navigation with JavaScript ${javaScriptEnabled}`, async ({ browser, browserName }) => {
+    const context = await browser.newContext({ javaScriptEnabled, reducedMotion: 'reduce', viewport: { width: 390, height: 900 } })
+
+    await context.route('https://lumen.santi020k.com/**', route => route.fulfill({ contentType: 'text/plain', body: 'Lumen destination' }))
+    const page = await context.newPage()
+
+    try {
+      await page.goto('/portfolio/lumen-ui/#project-return')
+      await page.evaluate(() => document.fonts.ready)
+      const nav = page.getByRole('navigation', { name: 'Page-end navigation', exact: true })
+      const site = nav.getByRole('link', { name: 'Visit Lumen UI', exact: true })
+      const playground = nav.getByRole('link', { name: 'Try the playgrounds', exact: true })
+      const gallery = nav.getByRole('link', { name: 'View product previews', exact: true })
+
+      await site.focus()
+      await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
+      await expect(playground).toBeFocused()
+      await expect(playground).toHaveCSS('outline-style', 'solid')
+      const destination = page.waitForEvent('popup')
+
+      await page.keyboard.press('Enter')
+      const popup = await destination
+
+      await expect(popup).toHaveURL('https://lumen.santi020k.com/#playgrounds')
+      await popup.close()
+      await gallery.focus()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(/#inside-the-product$/u)
+      await expect(page.locator('#inside-the-product')).toBeInViewport()
+      await nav.getByRole('link', { name: 'Back to Projects', exact: true }).focus()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(/\/projects\/$/u)
+    } finally {
+      await context.close()
+    }
+  })
+}
+
 for (const javaScriptEnabled of [true, false]) {
   test(`closing preview link returns to Webb with JavaScript ${javaScriptEnabled}`, async ({ browser, browserName }) => {
     const context = await browser.newContext({ javaScriptEnabled, reducedMotion: 'reduce', viewport: { width: 390, height: 900 } })
