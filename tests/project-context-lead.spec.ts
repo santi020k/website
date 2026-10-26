@@ -87,7 +87,10 @@ for (const theme of ['light', 'dark']) {
     await expect(paragraphs).toHaveCount(2)
     await expect(paragraphs.first()).toContainText('React Native, SwiftUI, and Jetpack Compose extend the foundations into native interfaces.')
     await expect(paragraphs.last()).toContainText('Applications keep their business rules, data, routing, and recovery policy.')
-    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(7)
+    const chapterLinks = page.locator('[data-project-desktop-toc] [data-reading-contents] a')
+
+    await expect(chapterLinks).toHaveCount(8)
+    await expect(chapterLinks.filter({ hasText: /^Outcomes$/u })).toHaveAttribute('href', '#outcomes')
 
     for (const width of [320, 390, 1440]) {
       await page.setViewportSize({ width, height: 1000 })
