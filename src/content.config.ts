@@ -1,4 +1,4 @@
-import { defineCollection } from 'astro:content'
+import { defineCollection, reference } from 'astro:content'
 
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
@@ -99,6 +99,10 @@ const project = defineCollection({
       href: z.url()
     })).min(1).max(4).optional(),
     notesLayout: z.enum(['preface', 'context-lead']).optional(),
+    relatedWriting: z.array(z.object({
+      post: reference('post'),
+      label: z.string().trim().min(1).max(40)
+    })).min(1).max(2).optional(),
     impactMetrics: z.array(z.string()).default([]),
     focusAreas: z.array(z.object({
       label: z.string().trim().min(1).max(40),
