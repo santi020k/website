@@ -56,6 +56,8 @@ import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
 
 import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
 
+import ProjectEvidenceBrief from '@/components/molecules/ProjectEvidenceBrief.astro'
+
 <ProjectContextLead projectId="lumen-ui" headingId="a-shared-language-for-web-and-native-interfaces">
 
 ## A shared language for web and native interfaces
@@ -126,12 +128,21 @@ Applications keep their business rules, data, routing, and recovery policy.
 - **Verification:** interaction, accessibility, visual, package, and contract checks, with native
   compatibility and device evidence tracked separately.
 
+<ProjectEvidenceBrief
+  id="compatibility-validation"
+  label="Compatibility & validation"
+  references={[
+    { label: 'Native compatibility matrix', description: 'Adapter coverage and supported toolchains', href: 'https://github.com/santi020k/lumen/blob/main/docs/native-compatibility.md' },
+    { label: 'Device validation record', description: 'Device checks and their status', href: 'https://github.com/santi020k/lumen/blob/main/docs/native-device-validation.md' }
+  ]}
+>
+
 The platform families share foundations, but their component coverage and supported toolchains
-are qualified per adapter. A local build, a published package, a store build, and physical-device
-accessibility are separate evidence. The
-[native compatibility matrix](https://github.com/santi020k/lumen/blob/main/docs/native-compatibility.md)
-and [device validation record](https://github.com/santi020k/lumen/blob/main/docs/native-device-validation.md)
-make those boundaries visible.
+are qualified per adapter.
+
+A local build, a published package, a store build, and physical-device accessibility are separate evidence.
+
+</ProjectEvidenceBrief>
 
 <ProjectSectionHeading>
 

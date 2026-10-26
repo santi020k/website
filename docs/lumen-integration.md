@@ -316,6 +316,10 @@ enlarged text sizes. No new client controller is introduced.
   build time. Native headings, generated fragments, and inline links remain intact;
   a span keeps formatted titles together beside a CSS rule. The article prose container
   adapts the typography and rule spacing without client code or a second Lumen runtime.
+- `ProjectEvidenceBrief` groups authored qualifications with named external references in
+  an open semantic section. Lumen `Link` supplies safe new-tab behavior and `Icon` supplies
+  decorative arrows. Keep the reference URLs and qualifications in the project content;
+  descriptions supplement accessible link names, with no controller or new chapter heading.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter
