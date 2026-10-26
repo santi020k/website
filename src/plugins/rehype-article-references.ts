@@ -138,6 +138,17 @@ export const rehypeArticleReferences: Plugin<[], Root> = () => (tree, file) => {
     return reference && reference.kind !== 'Another series' ? [reference] : []
   })
 
+  const recommendations = [...references, ...(closing?.kind === 'Another series' ? [closing] : [])]
+  const recommendationUrls = recommendations.flatMap(({ kind, link }) => kind !== 'Repository' && typeof link.properties.href === 'string' ? [link.properties.href] : [])
+
+  if (recommendationUrls.length > 0) {
+    file.data.astro ??= { frontmatter: {} }
+
+    file.data.astro.frontmatter ??= {}
+
+    file.data.astro.frontmatter.articleRecommendationUrls = [...new Set(recommendationUrls)]
+  }
+
   if (references.length === 0) return
 
   const order: Record<Reference['kind'], number> = { 'Related guide': 0, Repository: 1, 'Earlier article': 2, 'Another series': 3 }
