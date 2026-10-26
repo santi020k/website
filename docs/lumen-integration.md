@@ -314,6 +314,10 @@ enlarged text sizes. No new client controller is introduced.
   decorative `Icon` source captions. The site retains its margin rails and responsive
   figures; links navigate natively to the Work timeline and matching Void.GG sections.
   The deployment figure uses the same documented 60% faster-deployments result as Work.
+- About's **Practice links** retain the collaboration ledger and add Lumen `Link`
+  and decorative `Icon` captions to each authored lane. The typed profile data owns
+  the chapter destinations; native links work without JavaScript and keep the
+  surrounding article passive.
 - Articles and projects share `ReadingContents`, derived from Smith's approved Chapter
   groups and Captioned chapters. It composes Lumen `Anchor` and native `Collapsible`
   chapters from `getReadingChapters`; sections without children remain direct links.

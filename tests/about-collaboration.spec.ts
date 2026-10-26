@@ -20,16 +20,23 @@ for (const theme of ['light', 'dark'] as const) {
         const articles = page.locator('#about-collaboration').getByRole('article')
 
         await expect(articles).toHaveCount(collaborationLanes.length)
-        for (const [index, { title, description, fit }] of collaborationLanes.entries()) {
+        for (const [index, { title, description, fit, source }] of collaborationLanes.entries()) {
           const article = articles.nth(index)
 
           await expect(article.getByRole('heading', { level: 3 })).toHaveText(title)
           await expect(article.locator('h3 + p')).toHaveText(description)
           await expect(article.locator('.about-lane-fit')).toHaveText(fit)
+          const link = article.getByRole('link', { name: source.label, exact: true })
+
+          await expect(link).toHaveAttribute('href', source.href)
+          await expect(link).not.toHaveAttribute('target', '_blank')
+          await link.focus()
+          await expect(link).toHaveCSS('outline-style', 'solid')
+          expect(await link.evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44)
           const clipped = await article.evaluate(element => {
             const bounds = element.getBoundingClientRect()
 
-            return [...element.querySelectorAll('p, h3')].some(child => {
+            return [...element.querySelectorAll('p, h3, [data-about-lane-source]')].some(child => {
               const range = document.createRange()
 
               range.selectNodeContents(child)
@@ -47,3 +54,20 @@ for (const theme of ['light', 'dark'] as const) {
     await expectNoUnexpectedAccessibilityViolations(page)
   })
 }
+
+test.describe('Collaboration evidence without JavaScript', () => {
+  test.use({ javaScriptEnabled: false })
+
+  test('each practice link opens its case-study chapter with the keyboard', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 900 })
+    for (const { source } of collaborationLanes) {
+      await page.goto('/about/')
+      const link = page.locator('#about-collaboration').getByRole('link', { name: source.label, exact: true })
+
+      await link.focus()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(url => `${url.pathname}${url.hash}` === source.href)
+      await expect(page.locator(new URL(source.href, page.url()).hash)).toBeVisible()
+    }
+  })
+})

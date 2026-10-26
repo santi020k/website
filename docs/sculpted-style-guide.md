@@ -629,12 +629,19 @@ Use the working-mode container's width to tighten the number column and type bel
 rule so enlarged text remains readable. Retain the surrounding introduction layout
 and use About's light and dark accent tokens.
 
-### Collaboration ledger About cards
+### Practice links About collaboration ledger
 
 About's collaboration lanes form three full-width, ruled articles. A purple numeral
 leads each row, followed by a 1.5rem title and a separate description column with a
 fine left rule. Keep the complete description and fit note together, with the fit
-note set at 0.6875rem and weight 500. These are passive articles without hover effects.
+note set at 0.6875rem and weight 500. Below it, a quiet “See it in practice” caption
+introduces one native Lumen link to the matching case-study chapter: Void.GG leadership,
+Smith Commerce's Marcone rebuild, or Lumen UI's technical highlights. Keep the article
+itself passive; only the named source link is interactive.
+
+Use a 0.75rem link label with a stationary decorative arrow, a 2.75rem minimum target
+height, and the About accent and focus tokens. Internal links stay in the same tab.
+Retain the ruled columns without adding a filled inset or client JavaScript.
 
 Use the `about-page` container to move the description below its title at 50rem,
 then stack the numeral above the copy below 33.75rem. Remove the vertical rule in
