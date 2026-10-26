@@ -256,6 +256,8 @@
 
 - Introduce Lumen with Context lead, preserving its authored heading, both opening paragraphs, and chapter links. Reuse the project metadata and reading typography while removing the duplicate generic preface.
 
+- Apply Section cadence to the five Lumen narrative subsections. Reuse the approved heading treatment and reading scale while preserving authored content, chapter fragments, and the gallery and Outcomes compositions.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

@@ -310,6 +310,8 @@ enlarged text sizes. No new client controller is introduced.
   and a decorative trailing rule. Inline heading content stays in normal text flow; long
   labels wrap without changing their names or fragments. Adjacent narrative paragraphs
   use the reading scale, while composed gallery and evidence headings keep their own styles.
+  Lumen uses the same component for its five plain narrative subsections; the existing
+  Markdown headings remain the source for chapter links and native fragment navigation.
 - `rehypeArticleHeadings` applies Section cadence to current article body h2 elements at
   build time. Native headings, generated fragments, and inline links remain intact;
   a span keeps formatted titles together beside a CSS rule. The article prose container

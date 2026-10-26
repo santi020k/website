@@ -1131,6 +1131,10 @@ Adjacent narrative paragraphs use `ink-soft`, 1.125rem type, and 1.8 line height
 Keep the approved gallery, technical folio, client masthead, and reflection compositions
 intact rather than layering another heading treatment over them.
 
+Lumen uses Section cadence for Goals, What Lumen 4 brings together, Technical highlights,
+Used in this website, and Why it matters. Preserve their authored content and fragments;
+the product gallery and Outcomes keep their existing composed headings.
+
 ### Synthesis spread closing reflection
 
 Close a multi-client case study with an open composition: a small What carries forward
