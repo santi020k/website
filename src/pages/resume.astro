@@ -5,9 +5,11 @@ import PageLayout from '@/layouts/Base.astro'
 import { getCachedProjects } from '@/utils/content'
 import { collectionDateSortProjects, getFormattedDate } from '@/utils/date'
 import { getGitLastModified } from '@/utils/git'
+import { getTechnologyPath, getTechnologySlug } from '@/utils/links'
 
 import { ButtonLink, Icon, Link } from '@santi020k/lumen-astro'
 
+import { getUniqueTechnologies } from '@/data/project'
 import {
   AUTHOR_JOB_TITLE,
   CAREER_START_YEAR,
@@ -48,6 +50,21 @@ const resumeSections = [
   { id: 'resume-community', label: 'Community' },
   { id: 'resume-skills', label: 'Skills & expertise' }
 ]
+
+const technologySlugs = new Set(getUniqueTechnologies(allProjects).map(getTechnologySlug))
+
+const resumeSkillGroups = [
+  { title: 'Front-End', skills: ['React.js', 'Next.js', 'React Native', 'Astro', 'TypeScript', 'Tailwind CSS', 'Redux', 'TanStack Query', 'Radix UI'] },
+  { title: 'Back-End', skills: ['Node.js', 'Express.js', 'NestJS', 'REST', 'GraphQL', 'PostgreSQL', 'MongoDB', 'PHP', 'Ruby on Rails'] },
+  { title: 'DevOps & Architecture', skills: ['AWS', 'Docker', 'CI/CD', 'GitHub Actions', 'System Design', 'Microservices', 'Turborepo'] }
+].map(group => ({
+  title: group.title,
+  skills: group.skills.map(label => {
+    const technology = label === 'REST' ? 'REST APIs' : label
+
+    return { label, href: technologySlugs.has(getTechnologySlug(technology)) ? getTechnologyPath(technology) : undefined }
+  })
+}))
 
 const resumeTechnologyLimit = 8
 // Keep one crawlable PDF URL across deployments. The response revalidates at
@@ -486,30 +503,26 @@ class="
           </h3>
           <p class="text-sm text-ink-soft">Spanish (native), English (C1).</p>
         </div>
-        <div>
-          <h3 class="
-            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
-          "
-          >Front-End
-          </h3>
-          <p class="text-sm text-ink-soft">React.js, Next.js, React Native, Astro, TypeScript, Tailwind CSS, Redux, TanStack Query, Radix UI.</p>
-        </div>
-        <div>
-          <h3 class="
-            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
-          "
-          >Back-End
-          </h3>
-          <p class="text-sm text-ink-soft">Node.js, Express.js, NestJS, REST, GraphQL, PostgreSQL, MongoDB, PHP, Ruby on Rails.</p>
-        </div>
-        <div>
-          <h3 class="
-            mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
-          "
-          >DevOps & Architecture
-          </h3>
-          <p class="text-sm text-ink-soft">AWS, Docker, CI/CD, GitHub Actions, System Design, Microservices, Turborepo.</p>
-        </div>
+        {resumeSkillGroups.map(group => (
+          <div>
+            <h3 class="
+              mb-2 text-xs font-semibold tracking-wider text-ink-muted uppercase
+            "
+            >{group.title}</h3>
+            <ul class="print:hidden" role="list" aria-label={`${group.title} skills`} data-resume-skill-links data-print-hidden>
+              {group.skills.map(skill => (
+                <li>{skill.href ? <Link href={skill.href} variant="inherit">{skill.label}</Link> : <span>{skill.label}</span>}</li>
+              ))}
+            </ul>
+            <p
+class="
+  hidden text-sm text-ink-soft
+  print:block
+"
+data-resume-skills-print
+            >{group.skills.map(skill => skill.label).join(', ')}.</p>
+          </div>
+        ))}
       </div>
     </section>
   </div>

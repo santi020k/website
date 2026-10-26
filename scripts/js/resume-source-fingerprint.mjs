@@ -45,6 +45,7 @@ export const resumeSourcePaths = [
   'src/components/shared/ThemeProvider.astro',
   'src/content.config.ts',
   'src/data/og-manifest.ts',
+  'src/data/project.ts',
   'src/layouts/Base.astro',
   'src/utils/content.ts',
   'src/utils/content-date.ts',
