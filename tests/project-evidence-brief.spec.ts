@@ -22,13 +22,13 @@ for (const theme of ['light', 'dark']) {
     await expect(links).toHaveCount(2)
     await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(7)
     for (const reference of references) {
-      const link = brief.getByRole('link', { name: reference.name, exact: true })
+      const link = brief.getByRole('link', { name: new RegExp(`^${reference.name}`, 'u') })
 
       await expect(link).toHaveAttribute('href', reference.href)
       await expect(link).toHaveAttribute('target', '_blank')
       await expect(link).toHaveAttribute('rel', /noopener/u)
       await expect(link).toHaveAttribute('rel', /noreferrer/u)
-      await expect(link).toHaveAccessibleDescription(/.+/u)
+      await expect(link).toHaveAccessibleName((await link.innerText()).replace(/\s+/gu, ' ').trim())
     }
     for (const width of [320, 390, 1440]) {
       await page.setViewportSize({ width, height: 1000 })
@@ -60,7 +60,7 @@ for (const theme of ['light', 'dark']) {
     await page.keyboard.press(browserName === 'webkit' && process.platform === 'darwin' ? 'Alt+Tab' : 'Tab')
     await expect(links.last()).toBeFocused()
     await expect(links.last()).toHaveCSS('outline-style', 'solid')
-    const audit = await new AxeBuilder({ page }).include('[data-project-evidence-brief]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze()
+    const audit = await new AxeBuilder({ page }).include('[data-project-evidence-brief]').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).options({ rules: { 'label-content-name-mismatch': { enabled: true } } }).analyze()
 
     expect(audit.violations).toEqual([])
   })
@@ -81,7 +81,7 @@ test('Lumen evidence destinations open without JavaScript', async ({ browser }) 
   for (const reference of references) {
     const destination = page.waitForEvent('popup')
 
-    await brief.getByRole('link', { name: reference.name, exact: true }).focus()
+    await brief.getByRole('link', { name: new RegExp(`^${reference.name}`, 'u') }).focus()
     await page.keyboard.press('Enter')
     const popup = await destination
 

@@ -65,19 +65,21 @@ test.describe('Technologies index page', () => {
 
     const projectsHeading = page.getByRole('heading', {
       level: 2,
-      name: 'Projects using TypeScript'
+      name: 'Projects',
+      exact: true
     })
 
     const workHeading = page.getByRole('heading', {
       level: 2,
-      name: 'Work experience using TypeScript'
+      name: 'Work experience',
+      exact: true
     })
 
     await expect(projectsHeading).toBeVisible()
     await expect(workHeading).toBeVisible()
 
-    const projectsSection = page.getByRole('region', { name: 'Projects using TypeScript' })
-    const workSection = page.getByRole('region', { name: 'Work experience using TypeScript' })
+    const projectsSection = page.getByRole('region', { name: 'Projects', exact: true })
+    const workSection = page.getByRole('region', { name: 'Work experience', exact: true })
 
     expect(await projectsSection.locator('[data-project-gallery-card]').count()).toBeGreaterThan(0)
     expect(await workSection.locator('[data-project-gallery-card]').count()).toBeGreaterThan(0)

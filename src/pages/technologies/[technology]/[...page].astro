@@ -4,6 +4,7 @@ import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 
 import PageHero from '@/components/molecules/PageHero.astro'
+import TechnologyArchiveChapter from '@/components/molecules/TechnologyArchiveChapter.astro'
 import ProjectsGallery from '@/components/organisms/ProjectsGallery.astro'
 import PageLayout from '@/layouts/Base.astro'
 
@@ -110,21 +111,13 @@ const meta = {
       aria-labelledby="technology-projects-heading"
       class="section-container-wide space-y-8 page-section-space"
     >
-      <div class="space-y-3 border-b border-line/50 pb-6">
-        <p class="section-label text-brand">Projects</p>
-        <h2
-          class="
-            text-2xl font-semibold tracking-tight text-ink
-            sm:text-3xl
-          "
-          id="technology-projects-heading"
-        >
-          Projects using {technology}
-        </h2>
-        <p class="max-w-2xl text-sm/7 text-ink-soft">
-          Independent builds, open-source tools, and experiments where {technology} shapes the product or engineering system.
-        </p>
-      </div>
+      <TechnologyArchiveChapter
+        countLabel={`${projectMatches.length} independent ${projectMatches.length === 1 ? 'project' : 'projects'}`}
+        description="Independent builds, open-source tools, and experiments that shape the product or engineering system."
+        headingId="technology-projects-heading"
+        technology={technology}
+        title="Projects"
+      />
 
       <ProjectsGallery projects={projectMatches} />
     </section>
@@ -135,21 +128,13 @@ const meta = {
       aria-labelledby="technology-community-heading"
       class="section-container-wide space-y-8 page-section-space"
     >
-      <div class="space-y-3 border-b border-line/50 pb-6">
-        <p class="section-label text-brand">Community</p>
-        <h2
-          class="
-            text-2xl font-semibold tracking-tight text-ink
-            sm:text-3xl
-          "
-          id="technology-community-heading"
-        >
-          Community work using {technology}
-        </h2>
-        <p class="max-w-2xl text-sm/7 text-ink-soft">
-          Meetups, workshops, and mentorship where {technology} helps engineers learn and connect.
-        </p>
-      </div>
+      <TechnologyArchiveChapter
+        countLabel={`${communityMatches.length} community ${communityMatches.length === 1 ? 'initiative' : 'initiatives'}`}
+        description="Meetups, workshops, and mentorship that help engineers learn and connect."
+        headingId="technology-community-heading"
+        technology={technology}
+        title="Community"
+      />
 
       <ProjectsGallery projects={communityMatches} />
     </section>
@@ -160,21 +145,13 @@ const meta = {
       aria-labelledby="technology-work-heading"
       class="section-container-wide space-y-8 page-section-space"
     >
-      <div class="space-y-3 border-b border-line/50 pb-6">
-        <p class="section-label text-brand">Work experience</p>
-        <h2
-          class="
-            text-2xl font-semibold tracking-tight text-ink
-            sm:text-3xl
-          "
-          id="technology-work-heading"
-        >
-          Work experience using {technology}
-        </h2>
-        <p class="max-w-2xl text-sm/7 text-ink-soft">
-          Client and product work where {technology} supported architecture, delivery, and measurable outcomes.
-        </p>
-      </div>
+      <TechnologyArchiveChapter
+        countLabel={`${workExperienceMatches.length} professional ${workExperienceMatches.length === 1 ? 'role' : 'roles'}`}
+        description="Client and product work across architecture, delivery, and measurable outcomes."
+        headingId="technology-work-heading"
+        technology={technology}
+        title="Work experience"
+      />
 
       <ProjectsGallery projects={workExperienceMatches} />
     </section>
@@ -234,7 +211,6 @@ const meta = {
     outline: 2px solid hsl(var(--accent));
     outline-offset: 4px;
   }
-  #technology-projects-heading, #technology-community-heading, #technology-work-heading { scroll-margin-top: 7rem; }
   @container editorial-hero (width < 32rem) {
     [data-technology-evidence-index] { grid-template-columns: minmax(0, 1fr); gap: 0; }
     [data-technology-evidence-index] :global([data-technology-evidence-link]) {

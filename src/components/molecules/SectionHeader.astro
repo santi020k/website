@@ -13,7 +13,7 @@ interface Props {
   linkHref?: string | undefined
   linkLabel?: string | undefined
   title: string
-  variant?: 'default' | 'shelf'
+  variant?: 'default' | 'margin' | 'shelf'
 }
 
 const {
@@ -40,7 +40,24 @@ const titleClasses = {
 const headingId = id ? `${id}-heading` : undefined
 ---
 
-{isShelf ?
+{variant === 'margin' &&
+  (
+    <div data-margin-header-container>
+      <header id={id} data-section-header data-section-header-margin>
+        {eyebrow && <p data-margin-header-label>{eyebrow}</p>}
+        <div data-margin-header-copy>
+          <HeadingTag id={headingId}>{title}</HeadingTag>
+          {description && <p data-margin-header-description>{description}</p>}
+          {linkHref && linkLabel && (
+            <ButtonLink href={linkHref} showArrow variant="inline">
+              {linkLabel}
+            </ButtonLink>
+          )}
+        </div>
+      </header>
+    </div>
+  )}
+{isShelf &&
   (
     <div data-chapter-header-container>
       <Card
@@ -65,7 +82,8 @@ const headingId = id ? `${id}-heading` : undefined
         )}
       </Card>
     </div>
-  ) :
+  )}
+{variant === 'default' &&
   (
     <div
       id={id}
@@ -108,6 +126,79 @@ const headingId = id ? `${id}-heading` : undefined
   )}
 
 <style>
+  [data-margin-header-container] { container: margin-header / inline-size; }
+  [data-section-header-margin] {
+    --margin-emphasis: hsl(var(--brand));
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 1.625rem;
+    align-items: start;
+  }
+  [data-section-header-margin]:not(:has(> [data-margin-header-label])) { grid-template-columns: minmax(0, 1fr); }
+  :global([data-theme='dark']) [data-section-header-margin] { --margin-emphasis: hsl(var(--accent)); }
+  [data-margin-header-label] {
+    max-width: 4.375rem;
+    margin: 0;
+    padding-top: 0.4375rem;
+    color: var(--margin-emphasis);
+    font-size: 0.75rem;
+    line-height: 1.7;
+    font-weight: 500;
+  }
+  [data-margin-header-copy] {
+    position: relative;
+    min-width: 0;
+    padding-inline-start: 1.75rem;
+    border-inline-start: 1px solid hsl(var(--line));
+  }
+  [data-margin-header-copy]::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: -1px;
+    top: 0;
+    width: 2px;
+    height: 3.375rem;
+    background: var(--margin-emphasis);
+  }
+  [data-margin-header-copy] :is(h1, h2, h3) {
+    max-width: 20ch;
+    margin: 0;
+    color: hsl(var(--ink));
+    font-size: 2.25rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+  [data-margin-header-description] {
+    max-width: 46ch;
+    margin: 1.25rem 0 0;
+    color: hsl(var(--ink-soft));
+    font-size: 0.875rem;
+    line-height: 1.9;
+  }
+  [data-margin-header-copy] :global([data-slot='button-link']) {
+    max-width: 100%;
+    min-height: 2.75rem;
+    margin-top: 1.5rem;
+    gap: 1.75rem;
+    padding: 0;
+    color: var(--margin-emphasis);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
+  [data-margin-header-copy] :global([data-slot='button-link']:hover) { color: hsl(var(--ink)); }
+  @container margin-header (width < 35rem) {
+    [data-section-header-margin] { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    [data-margin-header-label] { max-width: none; padding-top: 0; }
+    [data-margin-header-copy] { padding-inline-start: 1.25rem; }
+    [data-margin-header-copy] :is(h1, h2, h3) { font-size: 1.875rem; }
+  }
+  @container margin-header (width < 18rem) {
+    [data-margin-header-copy] { padding-inline-start: 0.625rem; }
+    [data-margin-header-copy] :is(h1, h2, h3) { font-size: 1.5rem; }
+    [data-margin-header-copy] :global([data-slot='button-link']) { gap: 0.75rem; }
+  }
   [data-chapter-header-container] { container: chapter-header / inline-size; }
   [data-section-header-shelf][data-slot='card'] {
     --chapter-emphasis: hsl(var(--brand));

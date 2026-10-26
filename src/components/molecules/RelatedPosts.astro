@@ -39,9 +39,11 @@ const relatedPosts = await getRelatedPosts({
     <SectionHeader
       description="More writing from a similar lane — overlapping topics, tooling choices, and the tradeoffs behind the article you just read."
       eyebrow="Related writing"
+      id="related-writing"
       linkHref={belongsToDeveloperExperienceHub ? '/developer-experience/' : '/blog/'}
       linkLabel={belongsToDeveloperExperienceHub ? 'Explore the developer experience guide' : 'Browse all posts'}
       title="Keep reading in the same thread."
+      variant="margin"
     />
 
     <PostsGallery columns={2} posts={relatedPosts} />
