@@ -3,6 +3,7 @@ import { YEARS_OF_EXPERIENCE } from '@/site.config'
 export interface SocialProofItem {
   context: string
   label: string
+  logoSurface?: 'dark' | 'light'
   projectId: 'datagran' | 'justbit' | 'nebular' | 'optic-power' | 'pads' | 'react-js-colombia' | 'smith-commerce' | 'void' | 'xgames'
 }
 
@@ -117,6 +118,7 @@ export const selectedOrganizations: SocialProofItem[] = [
   {
     context: 'Community talks, workshops, and mentorship through one of Medellin’s most active React groups.',
     label: 'ReactJS Colombia',
+    logoSurface: 'light',
     projectId: 'react-js-colombia'
   }
 ]

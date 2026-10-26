@@ -653,8 +653,16 @@ row heights when text is enlarged.
 ### Exhibition sheets About organizations
 
 The organization carousel uses tinted outer frames with 1.75rem corners and a
-0.5rem lower-right corner. Retain the optimized artwork and individual logos in a
-10.75rem cover. An opaque reading sheet overlaps the cover by 1.5rem and contains
+0.5rem lower-right corner. The **Contour backdrop** retains each optimized logo
+over an 11rem field built from the project's existing primary and surface colors.
+Use a quiet radial tint, rounded contour bands at the lower right, and a smaller
+outline at the upper left. Keep these shapes static, clipped to the cover, and
+behind the mark; no background artwork image or decorative animation is needed.
+Use the authored logo surface where available and the project's dark surface as
+the default for light logos. About's full-color ReactJS Colombia mark opts
+into the stable light logo-paper token, as do logos authored for a light surface.
+Keep wide, square, and tall marks bounded separately without changing their aspect
+ratios. An opaque reading sheet overlaps the cover by 1.5rem and contains
 the organization number, a 1.5rem heading, complete context, and a ruled action row.
 The whole card remains one native case-study link with an outer focus outline.
 

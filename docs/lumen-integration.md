@@ -313,6 +313,9 @@ enlarged text sizes. No new client controller is introduced.
 - About's organization **Named index** uses Lumen `Button` with the public `ghost`
   variant. The site owns the ruled index and responsive card selection; native
   button activation, pressed state, focus preservation, and script-free cards remain intact.
+- Organization **Contour backdrops** are site-owned CSS decoration around optimized
+  Astro logos. They consume `getProjectBrandStyle` and the fixed logo-paper token;
+  Lumen continues to own the existing selection controls and icons.
 - About's **Linked counters** compose bare Lumen `Stat` articles with `Link` and
   decorative `Icon` source captions. The site retains its margin rails and responsive
   figures; links navigate natively to the Work timeline and matching Void.GG sections.
