@@ -466,3 +466,20 @@ Affected lint passed with zero warnings, the current production build and
 452-page OG audit passed, and resume freshness passed without regeneration.
 The complete workspace gate remains recorded at `16b66665`; this focused
 iteration received scoped integration validation.
+
+## Related article Reading rows follow-up
+
+The approved `44106dd9` reuses `PostsGallery` with its existing chapter layout
+for article recommendations, without sequence labels. Topic context, article
+selection, complete card text, metadata, and native destinations remain intact.
+The change adds no shared CSS or component. Its patch note is folded into 5.0.0.
+
+All 22 scoped Chromium/WebKit fresh-recommendation and related-writing-header
+cases passed with retries disabled. Sixteen additional rendered cases covered
+320, 390, 768, and 1440px in both themes at normal and 200% text. Exact article
+text and URLs matched the previous layout, with no sequence labels, clipping,
+horizontal overflow, or runtime errors. Matched desktop/mobile captures were
+reviewed. Affected lint passed with zero warnings, the current production build
+and 452-page OG audit passed, and PDF freshness passed without regeneration.
+The complete workspace gate remains recorded at `16b66665`; this visual
+iteration received scoped integration validation.

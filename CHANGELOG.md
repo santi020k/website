@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Reuse the approved chapter gallery layout for related articles, pairing compact covers with complete titles and summaries while retaining shared-topic links and mobile stacking.
+
 - Connect Speaking statistics to supporting career, community, and writing pages with accessible source captions while preserving dynamic values and statistics without sources.
 
 - Explain related writing with links to topics actually shared by the displayed recommendations, preserving the approved editorial header and article selection.
