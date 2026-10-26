@@ -962,6 +962,13 @@ this website, pointing to its existing narrative fragments. These provide chapte
 context, not benchmark citations. Omit the trail when no links are authored and
 preserve native navigation without JavaScript.
 
+Outcome chapter includes Lumen's Outcomes between Inside the product and Goals in
+the existing contents rail and mobile Chapter opener. Author its level-three
+Markdown heading in the card's slot so Astro collects the same label and position
+as the story. Keep one visible heading and the Impact rows header treatment; retain
+`#sidebar-outcomes` on the wrapper as an alias for the new `#outcomes` heading.
+Reuse the rail's active marker, disclosure, keyboard behavior, and native links.
+
 ### Chapter evidence placement
 
 Author one `ProjectOutcomesCard` in each project's MDX narrative with its collection

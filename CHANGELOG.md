@@ -274,6 +274,8 @@
 
 - Connect Lumen Outcomes to its capabilities, technical highlights and website examples through the shared Context trail, preserving native same-page navigation and the existing outcome claims.
 
+- Include Lumen Outcomes in the desktop contents rail and mobile chapter opener through its authored heading, preserving the legacy fragment and native keyboard navigation.
+
 ### Patch Changes
 
 - Keep featured project images and copy full width when galleries stack on mobile or with enlarged text, matching the other cards' image proportions while preserving the desktop composition. Keep archive-match badges readable in dark mode.

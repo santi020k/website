@@ -195,10 +195,10 @@ test('chapter evidence keeps its owning chapter, gallery order, and legacy fragm
   const page = await context.newPage()
 
   try {
-    for (const { project, before, after } of [
-      { project: 'smith-commerce', before: 'Marcone: rebuilding for a headless future', after: 'Core challenge' },
-      { project: 'lumen-ui', before: 'Inside the product', after: 'Goals' },
-      { project: 'postlens', before: 'Inside the product', after: 'Goals' }
+    for (const { project, before, after, contextLinks } of [
+      { project: 'smith-commerce', before: 'Marcone: rebuilding for a headless future', after: 'Core challenge', contextLinks: 2 },
+      { project: 'lumen-ui', before: 'Inside the product', after: 'Goals', contextLinks: 3 },
+      { project: 'postlens', before: 'Inside the product', after: 'Goals', contextLinks: 0 }
     ]) {
       await page.goto(`/portfolio/${project}/#sidebar-outcomes`)
       const heading = page.getByRole('heading', { name: 'Outcomes', exact: true })
@@ -211,7 +211,7 @@ test('chapter evidence keeps its owning chapter, gallery order, and legacy fragm
 
       expect(headings[outcomeIndex - 1]).toBe(before)
       expect(headings[outcomeIndex + 1]).toBe(after)
-      await expect(page.locator('[data-project-outcomes] a')).toHaveCount(project === 'smith-commerce' ? 2 : 0)
+      await expect(page.locator('[data-project-outcomes] a')).toHaveCount(contextLinks)
       await expect(page.locator('[data-project-outcomes] button')).toHaveCount(0)
     }
   } finally {
