@@ -942,9 +942,11 @@ Pair the muted 0.75rem Explore label with 0.8125rem medium-weight links and deco
 down-right arrows. Links retain a 2.75rem minimum target and visible focus. Below
 35rem of available width, stack the label and full-width links with right-aligned
 arrows. Below 16rem, omit the decorative arrows so enlarged labels keep whole words.
-Smith links to Marcone's Before and after and Technical highlights sections;
-these provide chapter context, not benchmark citations. Omit the trail when no
-links are authored and preserve native navigation without JavaScript.
+Smith links to Marcone's Before and after and Technical highlights sections.
+Lumen uses the same treatment for Capabilities, Technical highlights, and Used in
+this website, pointing to its existing narrative fragments. These provide chapter
+context, not benchmark citations. Omit the trail when no links are authored and
+preserve native navigation without JavaScript.
 
 ### Chapter evidence placement
 
