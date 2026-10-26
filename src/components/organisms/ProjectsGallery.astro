@@ -2,20 +2,23 @@
 import type { CollectionEntry } from 'astro:content'
 
 import Pill from '@/components/atoms/Pill.astro'
+import ProjectGalleryBody from '@/components/molecules/ProjectGalleryBody.astro'
 
 import { getPortfolioPath, getTechnologySlug } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
+import { getProjectPrimaryDestination } from '@/utils/project-destinations'
 import { getProjectDateRangeLabel, getProjectStatusLabel } from '@/utils/project-meta'
 
-import { Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
+import { ButtonLink, Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
   matchedTechnology?: string
+  productFirst?: boolean
   projects: CollectionEntry<'project'>[]
 }
 
-const { matchedTechnology, projects } = Astro.props
+const { matchedTechnology, productFirst = false, projects } = Astro.props
 const matchedSlug = matchedTechnology ? getTechnologySlug(matchedTechnology) : undefined
 
 const projectItems = projects.map(project => {
@@ -30,6 +33,7 @@ const projectItems = projects.map(project => {
     brand: project.data.brand,
     dateRange: getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate),
     cardDescription: project.data.cardDescription ?? project.data.description,
+    destination: productFirst ? getProjectPrimaryDestination(project.data) : undefined,
     hasMatch,
     href: getPortfolioPath(project.id),
     status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
@@ -42,7 +46,7 @@ const projectItems = projects.map(project => {
 <div class="projects-editorial-grid">
   {projectItems.map((project, index) => (
     <Card as="article" class="projects-editorial-card" variant="unstyled" data-project-gallery-card style={getProjectBrandStyle(project.brand)}>
-      <Link className="projects-editorial-link" href={project.href} variant="inherit">
+      <ProjectGalleryBody href={productFirst ? undefined : project.href}>
         <div class="projects-editorial-image">
           {project.editorialImage ?
 (
@@ -80,17 +84,90 @@ const projectItems = projects.map(project => {
               ))}
             </ul>
           )}
-          <span class="projects-editorial-action">
-            View project
-            <Icon class="size-4.5 shrink-0" name="arrow-right" />
-          </span>
+          {productFirst ?
+(
+            <div data-project-destinations>
+              {project.destination && (
+                <ButtonLink data-project-visit href={project.destination.href} newTab variant="unstyled">
+                  <span>{project.destination.action}</span>
+                  <Icon name="arrow-up-right" />
+                </ButtonLink>
+              )}
+              <Link
+                aria-label={`Read the case study: ${project.title}`}
+                data-project-case-study
+                href={project.href}
+                variant="inherit"
+              >
+                <span>Read the case study</span>
+                <Icon name="arrow-right" />
+              </Link>
+            </div>
+          ) :
+(
+            <span class="projects-editorial-action">
+              View project
+              <Icon class="size-4.5 shrink-0" name="arrow-right" />
+            </span>
+          )}
         </div>
-      </Link>
+      </ProjectGalleryBody>
     </Card>
   ))}
 </div>
 
 <style>
+  [data-project-destinations] { display: grid; gap: 0.75rem; margin-top: auto; }
+  [data-project-destinations] :global(a) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-width: 0;
+    min-height: 2.75rem;
+    color: hsl(var(--ink-soft));
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+  [data-project-destinations] :global([data-project-visit]) {
+    min-height: 3.375rem;
+    padding: 1rem 1.125rem;
+    border: 1px solid hsl(var(--line));
+    border-radius: 0.875rem 0.875rem 0.25rem 0.875rem;
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--ink));
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  [data-project-destinations] :global(a > span) { min-width: 0; overflow-wrap: anywhere; }
+  [data-project-destinations] :global([data-slot='icon']) { width: 1.125rem; height: 1.125rem; flex-shrink: 0; }
+  [data-project-destinations] :global(a:is(:hover, :focus-visible)) {
+    color: color-mix(in srgb, hsl(var(--project-primary-readable)) 80%, hsl(var(--ink)));
+  }
+  :global([data-product-first]):focus-within h3 { color: hsl(var(--project-primary-readable)); }
+  :global([data-theme='dark']) [data-project-destinations] :global(a:is(:hover, :focus-visible)) {
+    color: color-mix(in srgb, hsl(var(--project-primary-readable-dark)) 80%, hsl(var(--ink)));
+  }
+  :global([data-theme='dark'] [data-product-first]):focus-within h3 { color: hsl(var(--project-primary-readable-dark)); }
+  [data-project-destinations] :global(a:focus-visible) {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 4px;
+    border-radius: 0.875rem;
+  }
+  [data-project-destinations]:not(:has([data-project-visit])) :global([data-project-case-study]) {
+    min-height: 3.375rem;
+    border-bottom: 1px solid hsl(var(--line));
+    color: hsl(var(--ink));
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  @container project-card (width < 14rem) {
+    [data-project-destinations] :global([data-project-visit]) { padding-inline: 0.75rem; gap: 0.5rem; }
+  }
+
   [data-matched-stack] { align-items: center; }
   [data-technology-match] {
     display: inline-flex;
