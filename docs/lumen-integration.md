@@ -191,6 +191,12 @@ and Work technology links share this treatment without changing other Pill consu
 The existing Astro navigation controller keeps topic selection, focus, and page position intact;
 the layout wraps on mobile and desktop and requires no additional client JavaScript.
 
+The Projects opening uses **Purpose first**: its existing `SculptedTag` navigation
+moves into the signature hero, with live purpose counts and native fragment links.
+The site owns the brand-soft opening treatment and responsive footer; the existing
+Lumen `ButtonLink` retains GitHub's external-link contract. No new controller is
+needed. The catalog's project selection, ranking, fragments, and schema are unchanged.
+
 ## Technology index search
 
 `TechnologyEvidenceLedger` replaces the index's four statistics with **Evidence ledger**
