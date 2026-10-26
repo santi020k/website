@@ -732,7 +732,15 @@ in the same 10rem margin as the experience dates and complete skill descriptions
 beside them. At narrower resume widths the margin contracts to 7.5rem; below 35rem
 each label moves above its text. Keep the existing four groups and authored copy.
 The screen-only layout leaves both PDFs with their compact two-column skill grid,
-print typography, and existing pagination. These passive rows have no hover effect.
+print typography, and existing pagination.
+
+Linked skills keeps the Capability ledger's category margin and ruled rows. Technical
+skills become wrapping native links with quiet underlines, a 1.25rem horizontal gap,
+and a 2.75rem minimum target. Hover and keyboard focus use the existing accent. Keep
+Languages as plain copy; link only skills with a published technology archive, using
+REST APIs as the destination for the displayed REST label. One authored list supplies
+both the screen links and the original comma-separated print paragraph. Preserve its
+wording and order in both PDFs; the interactive list is screen-only.
 
 ### Experience first Work opening
 

@@ -403,6 +403,10 @@ enlarged text sizes. No new client controller is introduced.
   canonical portfolio destination. Detailed roles place it inside their impact rail;
   earlier roles use its compact presentation below their description. Native links
   need no controller, and the entire note stays hidden in both print variants.
+- Resume Linked skills uses Lumen `Link` for published technology archives, preserving
+  the Capability ledger and the authored labels. Unmatched skills remain plain text.
+  Screen links and comma-separated print paragraphs derive from the same skill lists;
+  Languages stays passive. REST resolves to the existing REST APIs archive.
 
 ## Intentional site-owned controllers
 
