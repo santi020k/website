@@ -1493,6 +1493,21 @@ names and enlarged text retain space. Below 12rem, use body-sized destination te
 smaller insets, and text-only links to keep whole words readable. Keep visible keyboard focus, complete link
 names, and at least 2.75rem targets. This composition needs no client script.
 
+### Unified return project destinations
+
+Lumen consolidates its closing resources in the existing Return folio after sharing.
+Remove the repeated inline destination sentence from the narrative; keep its final
+takeaway intact. The footer retains the primary website, product previews, and repository,
+with the existing playground URL supplied by optional `closingLinks` metadata.
+
+Use a compact Back to / Projects label with a 1rem plain arrow, a 0.9375rem destination,
+and the existing Back to top action. Give the top row 1.25rem vertical and 1.5rem horizontal
+insets. Put the four resources in two columns below an inset rule, using 0.8125rem accent
+links with outward arrows for external destinations and an upward arrow for previews.
+Preserve complete link labels, 2.75rem minimum targets, visible focus, and safe new tabs.
+Below 35rem of navigation width, stack resources and use 1.125rem horizontal insets.
+Projects without supplementary closing links retain Named return; article colophons remain separate.
+
 ### Split pager archive navigation
 
 Blog and topic archives use an open top rule with circular page links on the left

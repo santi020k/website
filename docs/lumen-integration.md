@@ -494,6 +494,10 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   including archived websites. Both use the same rendered-chapter guard for preview links.
   Site-owned attributes style the surface and responsive rows; `Link` supplies safe
   external new-tab attributes. Empty destination footers are omitted.
+  Optional project `closingLinks` add external resources after the primary destination and
+  select Unified return's compact header and responsive link grid. Lumen moves its existing
+  playground link here and removes the repeated narrative CTA; standard project and article
+  variants retain their existing output. No controller is added.
 - Archive `Pagination` composes Split pager with public `Pagination`, inherit-style
   `Link`, unstyled `ButtonLink`, and decorative `Icon` components. Site-owned data
   attributes provide the ruled layout, circular numbers, and prominent next action.

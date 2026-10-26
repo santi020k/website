@@ -121,6 +121,9 @@ and existing Lumen contracts, rather than restoring retired utility layers.
   Set `liveDemoName` when its identity differs from the case-study title. Archived website links
   are identified explicitly. Gallery links appear only when the rendered chapter exists;
   `previews.linkLabel` can name a client preview, such as F.W. Webb. Retain existing destination URLs.
+  Optional `closingLinks` add named external resources to Unified return, as Lumen does for its
+  playgrounds. Add only supplementary destinations; the website, previews, and repository still
+  come from their existing metadata. Keep the closing paragraph focused on the project takeaway.
 - **Project focus:** every project supplies two or three `focusAreas` entries with a short
   `label` and `description`. These form the sidebar's Scope ledger; summarize the actual work
   in the case study instead of repeating a generic project-type statement or technology list.

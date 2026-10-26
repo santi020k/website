@@ -13,11 +13,11 @@ interface Props {
 }
 
 const { hasProductPreviews = false, project, parentPage, variant = 'folio' } = Astro.props
-const { githubUrl, liveDemoUrl, previews } = project?.data ?? {}
+const { closingLinks = [], githubUrl, liveDemoUrl, previews } = project?.data ?? {}
 const destination = project ? getProjectPrimaryDestination(project.data) : undefined
 ---
 
-<footer data-reading-actions data-return-variant={variant} id={project ? 'project-return' : undefined}>
+<footer data-reading-actions data-return-variant={variant} data-return-unified={closingLinks.length > 0 || undefined} id={project ? 'project-return' : undefined}>
   <Card variant="unstyled" data-return-folio>
     <nav aria-label="Page-end navigation">
       <div data-return-row>
@@ -33,7 +33,7 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
           <Icon data-return-icon name="arrow-up" />
         </Link>
       </div>
-      {(liveDemoUrl || githubUrl || hasProductPreviews) && (
+      {(liveDemoUrl || githubUrl || hasProductPreviews || closingLinks.length > 0) && (
         <div data-return-destinations>
           {liveDemoUrl && destination && (
             <Link href={liveDemoUrl} newTab variant="inherit">
@@ -41,6 +41,12 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
               <Icon data-return-icon name="arrow-up-right" />
             </Link>
           )}
+          {closingLinks.map(link => (
+            <Link href={link.href} newTab variant="inherit">
+              <span>{link.label}</span>
+              <Icon data-return-icon name="arrow-up-right" />
+            </Link>
+          ))}
           {hasProductPreviews && (
             <Link href="#inside-the-product" variant="inherit">
               <span>{previews?.linkLabel ?? 'View product previews'}</span>
@@ -261,4 +267,25 @@ const destination = project ? getProjectPrimaryDestination(project.data) : undef
     letter-spacing: normal;
   }
   [data-return-variant='colophon'] :global([data-return-top]) { color: hsl(var(--ink-soft)); flex-shrink: 1; }
+
+  [data-return-unified] [data-return-row] { gap: 1.25rem; padding: 1.25rem 1.5rem; }
+  [data-return-unified] :global([data-return-link]) { gap: 0.75rem; }
+  [data-return-unified] [data-return-mark] { width: 1rem; height: 1rem; border-radius: 0; background: transparent; color: hsl(var(--ink-soft)); }
+  [data-return-unified] [data-return-mark] [data-return-icon] { width: 1rem; height: 1rem; }
+  [data-return-unified] [data-return-kicker] { font-size: 0.6875rem; }
+  [data-return-unified] [data-return-destination] { font-size: 0.9375rem; line-height: 1.7; letter-spacing: normal; }
+  [data-return-unified] [data-return-destinations] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1.5rem;
+    margin: 0 1.5rem 1.25rem;
+    padding: 0.75rem 0 0;
+  }
+  [data-return-unified] [data-return-destinations] :global(a) { min-width: 0; padding-block: 0.5rem; color: var(--return-accent); font-size: 0.8125rem; font-weight: 400; }
+  [data-return-unified] [data-return-destinations] :global(a:hover) { text-decoration: underline; text-underline-offset: 0.25rem; }
+
+  @container reading-actions (width < 35rem) {
+    [data-return-unified] [data-return-row] { padding-inline: 1.125rem; gap: 0.75rem; }
+    [data-return-unified] [data-return-destinations] { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; margin-inline: 1.125rem; }
+  }
 </style>

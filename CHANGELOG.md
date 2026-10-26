@@ -260,6 +260,8 @@
 
 - Present Lumen compatibility and validation references as Evidence brief. Preserve the platform qualifications and existing destinations, with named links, supporting descriptions, responsive rows, and visible keyboard focus.
 
+- Consolidate Lumen closing destinations with Unified return. Move the existing playground link into the page-end navigation, preserve the website, previews and repository links, and remove the duplicate narrative invitation while retaining the closing takeaway.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.
