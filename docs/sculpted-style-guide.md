@@ -1192,6 +1192,21 @@ The note is a named section; its label adds no entry to the chapter navigation.
 When it follows an Ownership ledger, reuse that list's closing rule and bottom spacing
 instead of adding a second divider.
 
+### Architecture brief technical highlights
+
+Lumen's Technical highlights keep the Section cadence heading and existing fragment.
+Open with a fine accent rule, a 0.8125rem Web adapters label, and a 1.3125rem introduction.
+Show Astro, React, and Web Components in three equal columns with 0.75rem gaps, fine
+neutral rules, 1rem labels, and complete 0.75rem package names. These are readable
+package identifiers, not controls. Preserve every authored technical claim.
+
+Follow with an open definition list: one-third label and two-thirds description,
+1.5rem gaps and vertical insets, and neutral rules between rows. Use 1.0625rem,
+weight-500 labels and 0.9375rem descriptions. Inline code uses semantic accent text
+over a 45% brand-soft tint to preserve dark-mode contrast. Below 35rem of available
+width, stack adapters and definition rows; package names become 0.8125rem and wrap
+without clipping. The following Evidence brief remains a separate qualification.
+
 ### Consumer trail website examples
 
 Lumen's Used in this website section keeps its Section cadence heading and fragment.

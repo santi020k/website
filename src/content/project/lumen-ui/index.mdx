@@ -67,6 +67,8 @@ import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntr
 
 import ProjectConsumerTrail from '@/components/molecules/ProjectConsumerTrail.astro'
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+
 <ProjectContextLead projectId="lumen-ui" headingId="a-shared-language-for-web-and-native-interfaces">
 
 ## A shared language for web and native interfaces
@@ -154,15 +156,34 @@ a Figma library, portable agent skill, MCP catalog, CLI recipes, `llms.txt`, and
 
 </ProjectSectionHeading>
 
-- **Web adapters:** `@santi020k/lumen-astro`, `@santi020k/lumen-react`, and
-  `@santi020k/lumen-elements`; choose the adapter for the existing application.
-- **Shared foundations:** canonical design tokens, metadata, and behavior expectations; the
-  umbrella `@santi020k/lumen` exposes the CLI and registry.
-- **Public styling contracts:** semantic tokens, component props, documented variables, and stable
-  part hooks instead of depending on private implementation classes.
-- **CSS architecture:** standalone styles and explicit cascade layers for optional Tailwind use.
-- **Verification:** interaction, accessibility, visual, package, and contract checks, with native
-  compatibility and device evidence tracked separately.
+<ProjectArchitectureBrief
+  label="Web adapters"
+  introduction="Choose the adapter for the existing application."
+  adapters={[
+    { label: 'Astro', packageName: '@santi020k/lumen-astro' },
+    { label: 'React', packageName: '@santi020k/lumen-react' },
+    { label: 'Web Components', packageName: '@santi020k/lumen-elements' }
+  ]}
+>
+
+<div>
+  <dt>Shared foundations</dt>
+  <dd>Canonical design tokens, metadata, and behavior expectations; the umbrella <code>@santi020k/lumen</code> exposes the CLI and registry.</dd>
+</div>
+<div>
+  <dt>Public styling contracts</dt>
+  <dd>Semantic tokens, component props, documented variables, and stable part hooks instead of depending on private implementation classes.</dd>
+</div>
+<div>
+  <dt>CSS architecture</dt>
+  <dd>Standalone styles and explicit cascade layers for optional Tailwind use.</dd>
+</div>
+<div>
+  <dt>Verification</dt>
+  <dd>Interaction, accessibility, visual, package, and contract checks, with native compatibility and device evidence tracked separately.</dd>
+</div>
+
+</ProjectArchitectureBrief>
 
 <ProjectEvidenceBrief
   id="compatibility-validation"

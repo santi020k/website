@@ -336,6 +336,10 @@ enlarged text sizes. No new client controller is introduced.
   They preserve authored MDX descriptions and inline code, use semantic tokens, and stack
   below 35rem of available width. No Lumen control or client controller is needed for this
   passive editorial composition; other project lists retain Ownership ledger.
+- `ProjectArchitectureBrief` composes a named native adapter list and authored definition
+  rows for Lumen's technical highlights. Site-owned container queries stack the package
+  names and notes below 35rem. It retains Section cadence and the existing chapter fragment;
+  this passive composition adds no client controller or replacement Lumen primitive.
 - `ProjectEvidenceBrief` groups authored qualifications with named external references in
   an open semantic section. Lumen `Link` supplies safe new-tab behavior and `Icon` supplies
   decorative arrows. Keep the reference URLs and qualifications in the project content;

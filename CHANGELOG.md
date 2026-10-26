@@ -266,6 +266,8 @@
 
 - Connect Lumen website examples with Consumer trail. Link directly to the travel notebook and homepage product previews, preserve the site ownership explanation and migration guide, and retain native keyboard navigation and responsive layouts.
 
+- Present Lumen technical highlights as Architecture brief. Give Astro, React and Web Components a clear adapter entry point, then retain the shared foundation, styling, CSS and verification claims in responsive definition rows.
+
 ### Patch Changes
 
 - Keep featured project images and copy full width when galleries stack on mobile or with enlarged text, matching the other cards' image proportions while preserving the desktop composition.
