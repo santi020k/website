@@ -656,9 +656,17 @@ The organization carousel uses tinted outer frames with 1.75rem corners and a
 the organization number, a 1.5rem heading, complete context, and a ruled action row.
 The whole card remains one native case-study link with an outer focus outline.
 
-Keep the carousel's three-, two-, and one-column paging, focus preservation,
-reduced-motion behavior, and static list fallback. Number all nine organizations
-continuously. Tighten sheet insets below 16rem of card width and title size below
+Keep the carousel's three-, two-, and one-column layouts, focus preservation,
+reduced-motion behavior, and static list fallback. The **Named index** replaces
+previous/next arrows with nine visible organization names below the current range.
+Use native Lumen buttons with numbered names, one pressed selection, a fine
+top rule, and an accent rule for the selected organization. Selecting a name reveals
+that card; at the end of the list, preceding cards fill the remaining columns.
+Retain focus on the selector and keep focused case-study links visible on resize.
+The index uses three columns, two below 33.75rem, and one below 16rem. Targets remain
+at least 2.75rem tall; text wraps naturally. Without JavaScript, hide the index and
+show every case-study card. Number all nine organizations continuously.
+Tighten sheet insets below 16rem of card width and title size below
 14rem so enlarged text leaves room for complete names and descriptions.
 
 ### Margin index About invitation

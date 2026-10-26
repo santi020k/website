@@ -44,23 +44,20 @@ test.describe('About page', () => {
     await expect(blogLink).toHaveAttribute('href', /^\/blog\/$/)
   })
 
-  test('should page the organization carousel reversibly without hiding focused links', async ({ page }) => {
+  test('should select organizations by name without hiding focused links', async ({ page }) => {
     await page.setViewportSize({ height: 900, width: 800 })
 
     const carousel = page.locator('[data-organization-carousel]')
     const items = carousel.locator('[data-carousel-item]')
-    const previousButton = carousel.getByRole('button', { name: 'Show previous organizations' })
-    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
-
     await expect(items).toHaveCount(9)
-
-    for (let pageIndex = 0; pageIndex < 4; pageIndex += 1) await nextButton.click()
+    await items.first().getByRole('link').focus()
+    await carousel.getByRole('button', { name: '09 ReactJS Colombia', exact: true }).click()
 
     await expect(items.nth(6)).toBeHidden()
     await expect(items.nth(7)).toBeVisible()
     await expect(items.nth(8)).toBeVisible()
 
-    await previousButton.click()
+    await carousel.getByRole('button', { name: '07 Justbit', exact: true }).click()
 
     await expect(items.nth(6)).toBeVisible()
     await expect(items.nth(7)).toBeVisible()
@@ -80,9 +77,7 @@ test.describe('About page', () => {
     await page.setViewportSize({ height: 900, width: 800 })
 
     const carousel = page.locator('[data-organization-carousel]')
-    const nextButton = carousel.getByRole('button', { name: 'Show next organizations' })
-
-    for (let pageIndex = 0; pageIndex < 3; pageIndex += 1) await nextButton.click()
+    await carousel.getByRole('button', { name: '08 Nebular Technologies', exact: true }).click()
 
     const focusedLink = carousel.locator('[data-carousel-item]').nth(7).locator('a')
 
@@ -91,7 +86,7 @@ test.describe('About page', () => {
     for (const { width, status } of [
       { width: 390, status: 'Showing 8 of 9' },
       { width: 1440, status: 'Showing 7–9 of 9' },
-      { width: 800, status: 'Showing 7–8 of 9' }
+      { width: 800, status: 'Showing 8–9 of 9' }
     ]) {
       await page.setViewportSize({ height: 900, width })
       await expect(carousel.locator('[data-carousel-status]')).toHaveText(status)

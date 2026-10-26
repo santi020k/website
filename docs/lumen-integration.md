@@ -310,6 +310,9 @@ enlarged text sizes. No new client controller is introduced.
   responsive grid, optimized Astro cover images, complete editorial copy, numbered header, and focus treatment.
 - About-page supplementary cards use Lumen `Note` directly.
 - The About hero availability status uses Lumen `Marker`.
+- About's organization **Named index** uses Lumen `Button` with the public `ghost`
+  variant. The site owns the ruled index and responsive card selection; native
+  button activation, pressed state, focus preservation, and script-free cards remain intact.
 - About's **Linked counters** compose bare Lumen `Stat` articles with `Link` and
   decorative `Icon` source captions. The site retains its margin rails and responsive
   figures; links navigate natively to the Work timeline and matching Void.GG sections.

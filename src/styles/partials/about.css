@@ -208,8 +208,6 @@
   .about-lanes h3 + p, .about-lanes .about-lane-fit, .about-lanes [data-about-lane-source] { grid-column: 1; padding: 0; }
 }
 
-.about-page [data-carousel-controls] button { border-radius: 0.75rem; box-shadow: none; background: hsl(var(--surface)); transform: none; }
-
 @utility about-principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }
 .about-page .about-principle { padding: 1.5rem 0 0; border: 0; border-top: 1px solid hsl(var(--line) / 0.65); border-radius: 0; background: transparent; box-shadow: none; }
 .about-page .about-principle h3 { font-size: 1.125rem; line-height: 1.4; letter-spacing: -0.035em; font-weight: 600; }
