@@ -127,15 +127,16 @@ for (const width of [320, 390, 1440]) {
           const comments = page.getByRole('region', { name: 'Comments', exact: true })
 
           await comments.scrollIntoViewIfNeeded()
+          await comments.locator('[data-discussion-summary]').press('Enter')
           await expect(comments.getByRole('heading', { name: 'Comments', level: 2 })).toBeVisible()
           await expect(comments.getByText('Join the conversation.', { exact: true })).toBeVisible()
-          await expect(comments.getByText('Powered by GitHub Discussions. Sign in with GitHub to share your thoughts.')).toBeVisible()
+          await expect(comments.getByText('Read replies, ask a question, or share another perspective.')).toBeVisible()
           await expect(comments.locator('[data-giscus-mount]')).toBeHidden()
           const error = comments.locator('[data-giscus-error]')
 
           await expect(error).toBeVisible()
           await expectCopyInside(comments)
-          const link = comments.getByRole('link', { name: 'Reply on GitHub', exact: true })
+          const link = comments.getByRole('link', { name: 'Browse GitHub discussions', exact: true })
 
           await link.focus()
           await expect(link).toBeFocused()
@@ -161,7 +162,7 @@ test.describe('Without JavaScript', () => {
     const comments = page.getByRole('region', { name: 'Comments', exact: true })
 
     await expect(comments.getByRole('heading', { name: 'Comments', level: 2 })).toBeVisible()
-    await expect(comments.getByRole('link', { name: 'Reply on GitHub', exact: true })).toHaveAttribute('href', /^https:\/\/github\.com\/santi020k\/website\/discussions$/u)
+    await expect(comments.getByRole('link', { name: 'Browse GitHub discussions', exact: true })).toHaveAttribute('href', /^https:\/\/github\.com\/santi020k\/website\/discussions$/u)
     await expect(comments.locator('[data-giscus-mount]')).toBeEmpty()
     await expect(comments.locator('[data-giscus-mount]')).toHaveCSS('min-height', '0px')
     await expect(comments.locator('[data-giscus-error]')).toBeHidden()

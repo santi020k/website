@@ -18,7 +18,7 @@ for (const width of [320, 1440]) {
           await document.fonts.ready
         }, textSize)
         const closing = page.locator('[data-article-closing]')
-        const reply = closing.getByRole('link', { name: 'Reply on GitHub' })
+        const reply = closing.getByRole('link', { name: 'Browse GitHub discussions' })
         const copy = closing.getByRole('button', { name: 'Copy link', exact: true })
         const finalReturn = page.locator('[data-post-final-return]')
         const navigation = page.getByRole('navigation', { name: 'Page-end navigation', exact: true })
@@ -27,11 +27,12 @@ for (const width of [320, 1440]) {
         await expect(finalReturn.getByRole('link', { name: 'Back to Blog' })).toHaveCount(1)
 
         await closing.scrollIntoViewIfNeeded()
+        await closing.locator('[data-discussion-summary]').click()
         await expect(closing.getByRole('heading', { name: 'Comments', exact: true })).toBeVisible()
         await expect(closing.getByRole('heading', { name: 'Share', exact: true })).toBeVisible()
         await expect(reply).toHaveAttribute('href', 'https://github.com/santi020k/website/discussions')
         await expect(closing.locator('[data-giscus-mount]')).toBeHidden()
-        await expect(closing.locator('[data-giscus-error]')).toContainText('You can still reply on GitHub')
+        await expect(closing.locator('[data-giscus-error]')).toContainText('You can still browse discussions on GitHub')
         await expect(navigation.getByRole('link', { name: 'Back to Blog' })).toHaveAttribute('href', '/blog/')
         await expect(navigation.getByRole('link', { name: 'Back to top' })).toHaveAttribute('href', '#main')
         for (const platform of ['LinkedIn', 'X', 'WhatsApp']) {
@@ -51,7 +52,7 @@ for (const width of [320, 1440]) {
           return comments.bottom <= sharing.top && sharing.bottom <= navigation.top &&
             (!related || (sharing.bottom <= related.top && related.bottom <= navigation.top)) &&
             document.documentElement.scrollWidth <= innerWidth &&
-            [...element.querySelectorAll('a, button'), ...finalReturn.querySelectorAll('a')].every(control => {
+            [...element.querySelectorAll('a, button, summary'), ...finalReturn.querySelectorAll('a')].every(control => {
               const bounds = control.getBoundingClientRect()
 
               return bounds.left >= 0 && bounds.right <= innerWidth && bounds.height >= 44 &&
@@ -88,6 +89,13 @@ test('the colophon keeps native destinations and no empty widget space without J
   await expect(closing.getByRole('button', { name: 'Copy link', exact: true })).toHaveCount(0)
   await expect(closing.getByRole('link')).toHaveCount(4)
   expect(await closing.locator('[data-giscus-mount]').evaluate(element => element.getBoundingClientRect().height)).toBe(0)
+  const summary = closing.locator('[data-discussion-summary]')
+
+  await summary.press('Enter')
+  await expect(closing.locator('[data-discussion-noscript]')).toBeVisible()
+  await expect(closing.getByRole('link', { name: 'Browse GitHub discussions' })).toBeVisible()
+  await summary.press('Enter')
+  await expect(closing.locator('[data-discussion-noscript]')).toBeHidden()
   await page.getByRole('navigation', { name: 'Page-end navigation' }).getByRole('link', { name: 'Back to top' }).click()
   await expect(page).toHaveURL(/#main$/u)
   await expect(page.getByRole('heading', { level: 1 })).toBeInViewport()
