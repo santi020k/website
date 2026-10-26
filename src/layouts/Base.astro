@@ -200,6 +200,13 @@ const isGenerousSpacing = mainSpacing === 'generous'
 
       let anchoringFrame = 0
 
+      // Keyboard focus can still be scrolling the outgoing page. Stop that
+      // animation before loading the next document so queued compositor updates
+      // cannot displace its restored history or fragment position.
+      document.addEventListener('astro:before-preparation', () => {
+        window.scrollTo({ behavior: 'instant', left: window.scrollX, top: window.scrollY })
+      })
+
       // The route transition owns the entrance after navigation. Replaying each
       // hero's initial-load animation underneath it causes a second jump/fade.
       document.addEventListener('astro:before-swap', event => {

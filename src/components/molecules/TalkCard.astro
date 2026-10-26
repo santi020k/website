@@ -1,24 +1,32 @@
 ---
-import { Card } from '@santi020k/lumen-astro'
+import { Card, Icon, Link } from '@santi020k/lumen-astro'
+
+import type { SpeakingTopic } from '@/data/profile'
 
 interface Props {
   description: string
   index?: number
+  source?: SpeakingTopic['source']
   subtitle?: string
   title: string
   variant: 'topic' | 'format'
 }
 
-const { description, index, subtitle, title, variant } = Astro.props
+const { description, index, source, subtitle, title, variant } = Astro.props
+const readingSource = variant === 'topic' ? source : undefined
 ---
 
 <Card
   as="article"
-  class="
-    card-hierarchy h-full p-6
-    sm:p-7
-  "
+  class:list={[
+    `
+      card-hierarchy h-full p-6
+      sm:p-7
+    `,
+    readingSource && 'flex flex-col'
+  ]}
   data-talk-card={variant}
+  data-talk-practice={readingSource ? '' : undefined}
 >
   {index !== undefined && (
     <p aria-hidden="true" class="text-sm font-semibold text-brand">
@@ -30,4 +38,23 @@ const { description, index, subtitle, title, variant } = Astro.props
     {subtitle && <> <span data-card-subtitle data-talk-subtitle>{subtitle}</span></>}
   </h3>
   <p class="text-sm/7 text-ink-soft">{description}</p>
+  {readingSource && (
+    <footer data-talk-source>
+      <p>Read the approach</p>
+      <Link href={readingSource.href} variant="inherit">
+        <span>{readingSource.label}</span><Icon data-talk-source-icon name="arrow-up-right" size="sm" />
+      </Link>
+    </footer>
+  )}
 </Card>
+
+<style>
+  [data-talk-practice] { padding-bottom: 1.5rem; }
+  [data-talk-source] { margin-top: auto; padding-top: 1.75rem; }
+  [data-talk-source] > p { margin-bottom: 0.5rem; padding-top: 1.25rem; border-top: 1px solid hsl(var(--line)); color: hsl(var(--ink-soft)); font-size: 0.6875rem; line-height: 1.8; letter-spacing: 0.08em; text-transform: uppercase; }
+  [data-talk-source] :global(a) { display: flex; min-height: 2.75rem; align-items: center; justify-content: space-between; gap: 1rem; color: hsl(var(--ink)); font-size: 0.8125rem; line-height: 1.8; text-decoration: none; }
+  [data-talk-source] span { min-width: 0; overflow-wrap: anywhere; }
+  [data-talk-source] :global([data-talk-source-icon]) { flex-shrink: 0; color: hsl(var(--brand)); }
+  [data-talk-source] :global(a:hover) span { color: hsl(var(--brand)); text-decoration: underline; text-underline-offset: 0.25rem; }
+  [data-talk-source] :global(a:focus-visible) { outline: 2px solid hsl(var(--brand)); outline-offset: 0.25rem; }
+</style>

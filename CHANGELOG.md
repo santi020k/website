@@ -298,6 +298,10 @@
 
 ### Patch Changes
 
+- Stop unfinished outgoing smooth scrolling when navigation begins so keyboard-activated links preserve the next page's fragment and history positions.
+
+- Connect each Speaking topic to a relevant article or case study through an accessible Practice caption, preserving complete descriptions and passive format cards.
+
 - Reuse the approved chapter gallery layout for related articles, pairing compact covers with complete titles and summaries while retaining shared-topic links and mobile stacking.
 
 - Connect Speaking statistics to supporting career, community, and writing pages with accessible source captions while preserving dynamic values and statistics without sources.

@@ -467,6 +467,34 @@ Affected lint passed with zero warnings, the current production build and
 The complete workspace gate remains recorded at `16b66665`; this focused
 iteration received scoped integration validation.
 
+## Speaking Practice captions and outgoing scroll follow-up
+
+Approved source `902d2484` connects all six Speaking topics to relevant native
+article or case-study links through Practice captions. Complete topic copy and
+format-card markup are preserved. The new keyboard test uses Alt+Tab only for
+WebKit on macOS. Both release notes are folded into 5.0.0.
+
+The initial 52-case browser run exposed a failure in the existing Career timeline
+link: an unfinished outgoing smooth scroll could move the Work fragment after
+Astro restored it. A traced repeat reproduced the failure, and a new exact-position
+regression failed before the fix. Navigation now stops the outgoing scroll at
+`astro:before-preparation`. Ten diagnostic runs kept the target at the exact
+restored position. The regression covers both motion preferences, mobile and
+desktop widths, and native and fallback transitions.
+
+All 134 merged Chromium/WebKit Speaking, navigation-recovery, search-navigation,
+and view-transition cases passed with one worker and retries disabled. The
+initial run also passed all 24 passive-card and tall-reveal cases. Six additional
+layout checks covered 320, 768, and 1440px at normal and 200% text, and native
+reading navigation passed without JavaScript. Matched desktop/mobile captures
+preserved all topic text and exact format markup.
+
+Affected zero-warning lint, the current production build, and the 452-page OG
+audit passed. Both resume PDFs were regenerated because Base participates in
+their fingerprint, then passed freshness checks. Published changelog entries
+remain unchanged. The complete workspace gate remains recorded at `16b66665`;
+this follow-up received the scoped integration checks above.
+
 ## Related article Reading rows follow-up
 
 The approved `44106dd9` reuses `PostsGallery` with its existing chapter layout

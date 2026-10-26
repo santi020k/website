@@ -174,6 +174,36 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
           expect(await page.evaluate(() => window.scrollY)).toBe(articleY)
           await expectSettledPosition(page, articleY)
         })
+
+        test(`keyboard fragment navigation cancels outgoing scrolling at ${width}px with ${fallback ? 'fallback' : 'native'} transitions`, async ({ page }) => {
+          await page.setViewportSize({ width, height: 720 })
+          await page.addInitScript(disableNativeTransitions => {
+            if (disableNativeTransitions) {
+              Object.defineProperty(document, 'startViewTransition', { value: undefined, configurable: true })
+            }
+          }, fallback)
+          await page.goto('/speaking/')
+          await expect(progress(page)).toHaveClass(/is-complete/u)
+          await expect(page.locator('html')).toHaveCSS('scroll-behavior', scrollBehavior)
+          await armNavigation(page)
+
+          // Focus starts a smooth scroll toward the offscreen caption. Activate
+          // immediately so the outgoing scroll is still running during navigation.
+          const career = page.getByRole('link', { name: 'Career timeline', exact: true })
+
+          await career.focus()
+          await page.keyboard.press('Enter')
+          await expect(page).toHaveURL('/work/#experience-heading')
+          await expect(page.locator('html')).toHaveAttribute('data-recovery-loaded', '')
+
+          const swapY = Number(requireValue(await page.locator('html').getAttribute('data-recovery-swap-y')))
+
+          expect(swapY).toBeGreaterThan(0)
+          await expectSettledPosition(page, swapY)
+          await expect(page.locator('#experience-heading')).toBeInViewport({ ratio: 1 })
+          await expect(page.locator('#main')).toBeFocused()
+          await expect(page.locator('html')).toHaveCSS('scroll-behavior', scrollBehavior)
+        })
       }
     }
 
