@@ -310,6 +310,8 @@ enlarged text sizes. No new client controller is introduced.
   and a decorative trailing rule. Inline heading content stays in normal text flow; long
   labels wrap without changing their names or fragments. Adjacent narrative paragraphs
   use the reading scale, while composed gallery and evidence headings keep their own styles.
+  Lumen uses the same component for its five plain narrative subsections; the existing
+  Markdown headings remain the source for chapter links and native fragment navigation.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter
