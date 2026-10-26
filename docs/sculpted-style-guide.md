@@ -1865,6 +1865,15 @@ Projects, including complete card descriptions, open surfaces, plain technology
 labels, and a continuous keyboard outline. Project-colored hover and focus headings
 use the palette's readable color for the active theme.
 
+Within technology archives, use **Matched stack** in each card: put the selected
+archive technology first, followed by up to two authored supporting technologies.
+Compare canonical slugs so aliases such as CI/CD and CI-CD match once. Use the
+archive's preferred label, a decorative check, and a small brand-soft background;
+include an accessible “Archive match” prefix. Keep the whole card as one link.
+Only mark a match when the project actually lists that technology. Other gallery
+consumers retain their authored first three technologies and plain labels. Let
+long matched names wrap without clipping the check or the full-card focus outline.
+
 The archive opening uses **Evidence index**: keep the shared editorial hero, use
 “Technology evidence” and “In practice.”, and derive its entry count and category
 description from the rendered collection. A ruled index presents Work experience,

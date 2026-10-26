@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import Pill from '@/components/atoms/Pill.astro'
 
-import { getPortfolioPath } from '@/utils/links'
+import { getPortfolioPath, getTechnologySlug } from '@/utils/links'
 import { getProjectBrandStyle } from '@/utils/project-brand'
 import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { getProjectDateRangeLabel, getProjectStatusLabel } from '@/utils/project-meta'
@@ -11,21 +11,32 @@ import { getProjectDateRangeLabel, getProjectStatusLabel } from '@/utils/project
 import { Card, CoverImage, Icon, Link } from '@santi020k/lumen-astro'
 
 interface Props {
+  matchedTechnology?: string
   projects: CollectionEntry<'project'>[]
 }
 
-const { projects } = Astro.props
+const { matchedTechnology, projects } = Astro.props
+const matchedSlug = matchedTechnology ? getTechnologySlug(matchedTechnology) : undefined
 
-const projectItems = projects.map(project => ({
-  editorialImage: getProjectCoverForUsage(project.data.coverImage, 'hero'),
-  brand: project.data.brand,
-  dateRange: getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate),
-  cardDescription: project.data.cardDescription ?? project.data.description,
-  href: getPortfolioPath(project.id),
-  status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
-  technologies: project.data.technologies.slice(0, 3),
-  title: project.data.title
-}))
+const projectItems = projects.map(project => {
+  const hasMatch = Boolean(matchedTechnology && project.data.technologies.some(technology => getTechnologySlug(technology) === matchedSlug))
+
+  const technologies = hasMatch && matchedTechnology ?
+    [matchedTechnology, ...project.data.technologies.filter(technology => getTechnologySlug(technology) !== matchedSlug)].slice(0, 3) :
+    project.data.technologies.slice(0, 3)
+
+  return {
+    editorialImage: getProjectCoverForUsage(project.data.coverImage, 'hero'),
+    brand: project.data.brand,
+    dateRange: getProjectDateRangeLabel(project.data.startingDate, project.data.endingDate),
+    cardDescription: project.data.cardDescription ?? project.data.description,
+    hasMatch,
+    href: getPortfolioPath(project.id),
+    status: getProjectStatusLabel(project.data.draft, project.data.endingDate),
+    technologies,
+    title: project.data.title
+  }
+})
 ---
 
 <div class="projects-editorial-grid">
@@ -58,8 +69,15 @@ const projectItems = projects.map(project => ({
           <h3>{project.title}</h3>
           <p>{project.cardDescription}</p>
           {project.technologies.length > 0 && (
-            <ul aria-label="Core technologies">
-              {project.technologies.map(technology => <li>{technology}</li>)}
+            <ul aria-label={project.hasMatch ? undefined : 'Core technologies'} data-matched-stack={project.hasMatch ? '' : undefined}>
+              {project.technologies.map((technology, technologyIndex) => (
+                <li data-technology-match={project.hasMatch && technologyIndex === 0 ? '' : undefined}>
+                  {project.hasMatch && technologyIndex === 0 && (
+<><Icon name="check" size="sm" /><span class="sr-only">Archive match: </span></>
+)}
+                  <span>{technology}</span>
+                </li>
+              ))}
             </ul>
           )}
           <span class="projects-editorial-action">
@@ -71,3 +89,20 @@ const projectItems = projects.map(project => ({
     </Card>
   ))}
 </div>
+
+<style>
+  [data-matched-stack] { align-items: center; }
+  [data-technology-match] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    max-width: 100%;
+    padding: 0.1875rem 0.5rem;
+    border-radius: 0.375rem;
+    background: hsl(var(--brand-soft));
+    color: hsl(var(--accent));
+    font-weight: 500;
+  }
+  [data-technology-match] :global([data-slot='icon']) { flex-shrink: 0; }
+  [data-technology-match] > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+</style>

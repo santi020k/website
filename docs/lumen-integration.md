@@ -204,6 +204,14 @@ for each gallery introduction. Semantic headings retain their fragment IDs; coun
 labels come from the rendered groups. Its scoped responsive styles use the shared
 semantic tokens, while `ProjectsGallery` keeps the existing Lumen card composition.
 
+The optional `ProjectsGallery.matchedTechnology` enables **Matched stack** only in
+technology archives. Canonical slug matching moves the selected technology first,
+deduplicates its aliases, and keeps at most three labels. A public Lumen check `Icon`
+and semantic colors identify the match within the existing card link. Its accessible
+prefix adds context without replacing the link's visible name or adding a nested link.
+Keep the archive list unnamed so its technology labels remain in the wrapping link's
+accessible name; an `aria-label` on that list would replace them during name computation.
+
 The **Search dock** composition keeps the existing Lumen `Input` and technology
 controller inside the catalog's Lumen `Card`. Its native label, decorative `Icon`,
 and live count form one shaped search surface. The count and unit update inside an
