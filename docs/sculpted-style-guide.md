@@ -1901,7 +1901,8 @@ Within technology archives, use **Matched stack** in each card: put the selected
 archive technology first, followed by up to two authored supporting technologies.
 Compare canonical slugs so aliases such as CI/CD and CI-CD match once. Use the
 archive's preferred label, a decorative check, and a small brand-soft background;
-include an accessible “Archive match” prefix. Keep the whole card as one link.
+include an accessible “Archive match” prefix. Use ink text in dark mode to keep
+the tinted badge readable. Keep the whole card as one link.
 Only mark a match when the project actually lists that technology. Other gallery
 consumers retain their authored first three technologies and plain labels. Let
 long matched names wrap without clipping the check or the full-card focus outline.
