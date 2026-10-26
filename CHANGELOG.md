@@ -264,6 +264,8 @@
 
 - Present Lumen capabilities as Capability spread. Keep all six descriptions and inline code in an open two-column list with numbered entries, clear headings and a single-column layout on narrow screens.
 
+- Connect Lumen website examples with Consumer trail. Link directly to the travel notebook and homepage product previews, preserve the site ownership explanation and migration guide, and retain native keyboard navigation and responsive layouts.
+
 ### Patch Changes
 
 - Keep homepage article recommendations distinct: reserve curated Start here posts, then fill latest writing with the four newest remaining articles. Preserve cover images, chronological order, and matching structured data.

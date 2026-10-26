@@ -327,6 +327,11 @@ enlarged text sizes. No new client controller is introduced.
   an open semantic section. Lumen `Link` supplies safe new-tab behavior and `Icon` supplies
   decorative arrows. Keep the reference URLs and qualifications in the project content;
   descriptions supplement accessible link names, with no controller or new chapter heading.
+- `ProjectConsumerTrail` composes the website-use examples with public Lumen `Link` and
+  decorative `Icon` components. Authored example names and descriptions point to real
+  internal destinations through native same-tab links. Site-owned styles provide open
+  ruled columns, responsive stacking, and visible focus. The original migration guide
+  remains authored Markdown with safe external-link attributes; no controller is added.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter
