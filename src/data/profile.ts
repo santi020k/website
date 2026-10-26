@@ -24,6 +24,7 @@ export interface SpeakingCardContent {
 export interface CollaborationLane {
   description: string
   fit: string
+  source: { href: string, label: string }
   title: string
 }
 
@@ -124,16 +125,19 @@ export const collaborationLanes: CollaborationLane[] = [
   {
     description: 'Best fit when a team is shipping, but needs clearer standards, calmer releases, and stronger technical decision-making across the stack.',
     fit: 'Useful for product teams that need leadership without losing hands-on depth.',
+    source: { href: '/portfolio/void/#what-i-led', label: 'Void.GG · What I led' },
     title: 'Technical leadership for teams in motion'
   },
   {
     description: 'Useful when a platform needs to get faster, more accessible, and easier to evolve without freezing delivery for months.',
     fit: 'Strong match for rebuilds, migrations, architecture cleanup, and performance-heavy work.',
+    source: { href: '/portfolio/smith-commerce/#marcone-rebuilding-for-a-headless-future', label: 'Smith Commerce · Marcone rebuild' },
     title: 'Modernization work that still respects delivery pressure'
   },
   {
     description: 'I improve linting, testing, CI/CD, and documentation so teams spend less time on repeated fixes and release friction.',
     fit: 'Best when the team already feels the friction every week and wants a calmer default.',
+    source: { href: '/portfolio/lumen-ui/#technical-highlights', label: 'Lumen UI · Technical highlights' },
     title: 'Developer experience and quality systems that compound'
   }
 ]

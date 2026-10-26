@@ -181,12 +181,18 @@ const meta = {
     <section id="about-collaboration" class="about-section">
       <AboutSectionHeading index="02" eyebrow="Collaboration" title="Range, with a clear purpose." description="The places where hands-on engineering and technical leadership can make the biggest difference." />
       <div class="about-lanes">
-        {collaborationLanes.map(({ description: laneDescription, fit, title }, index) => (
+        {collaborationLanes.map(({ description: laneDescription, fit, source, title }, index) => (
           <article>
             <p class="about-eyebrow">{String(index + 1).padStart(2, '0')}</p>
             <h3>{title}</h3>
             <p>{laneDescription}</p>
             <p class="about-lane-fit">{fit}</p>
+            <div data-about-lane-source>
+              <span>See it in practice</span>
+              <Link href={source.href} variant="inherit">
+                <span>{source.label}</span><Icon name="arrow-up-right" size="sm" />
+              </Link>
+            </div>
           </article>
         ))}
       </div>
