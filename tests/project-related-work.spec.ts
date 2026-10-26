@@ -2,13 +2,13 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 for (const theme of ['light', 'dark']) {
-  for (const { width, textSize } of [
-    { width: 320, textSize: 200 },
-    { width: 390, textSize: 100 },
-    { width: 768, textSize: 100 },
-    { width: 1440, textSize: 100 },
-    { width: 1440, textSize: 200 }
-  ]) {
+  for (const { width, textSize, layout } of [
+    { width: 320, textSize: 200, layout: 'stacked' },
+    { width: 390, textSize: 100, layout: 'stacked' },
+    { width: 768, textSize: 100, layout: 'sideBySide' },
+    { width: 1440, textSize: 100, layout: 'sideBySide' },
+    { width: 1440, textSize: 200, layout: 'stacked' }
+  ] as const) {
     test(`related project summaries fit at ${width}px and ${textSize}% in ${theme}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 1000 })
       await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -25,12 +25,23 @@ for (const theme of ['light', 'dark']) {
         const cards = page.locator('[data-related-project]')
 
         await expect(cards).toHaveCount(2)
+        await expect(cards.locator('[data-related-number]')).toHaveText(['01', '02'])
         for (const card of await cards.all()) {
           const title = await card.getByRole('heading', { level: 3 }).innerText()
           const link = card.getByRole('link', { name: `Read case study: ${title}`, exact: true })
 
           await expect(card.getByRole('link')).toHaveCount(1)
           await expect(link).toHaveAttribute('href', /^\/portfolio\/.+\/$/u)
+          await expect(card.locator('[data-related-number]')).toHaveAttribute('aria-hidden', 'true')
+          const arrangement = await card.evaluate(element => {
+            const artwork = element.querySelector('[data-related-artwork]')?.getBoundingClientRect()
+            const heading = element.querySelector('h3')?.getBoundingClientRect()
+
+            if (!artwork || !heading) return null
+            return { stacked: heading.top >= artwork.bottom, sideBySide: heading.left >= artwork.right }
+          })
+
+          expect(arrangement?.[layout]).toBe(true)
           const clipped = await card.evaluate(element => {
             const bounds = element.getBoundingClientRect()
 
@@ -45,16 +56,16 @@ for (const theme of ['light', 'dark']) {
           expect(clipped).toBe(false)
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-        const aligned = await cards.evaluateAll(elements => {
+        const followsReadingOrder = await cards.evaluateAll(elements => {
           const first = elements[0]?.getBoundingClientRect()
           const second = elements[1]?.getBoundingClientRect()
-          const actions = elements.map(element => element.querySelector('[data-related-action]')?.getBoundingClientRect().bottom)
 
-          if (!first || !second || actions[0] === undefined || actions[1] === undefined) return false
-          return Math.abs(first.top - second.top) > 1 || Math.abs(actions[0] - actions[1]) < 1
+          if (!first || !second) return false
+          return Math.abs(first.left - second.left) < 1 &&
+            Math.abs(first.width - second.width) < 1 && second.top >= first.bottom - 1
         })
 
-        expect(aligned).toBe(true)
+        expect(followsReadingOrder).toBe(true)
       }
     })
   }

@@ -221,3 +221,107 @@ test('the menu follows the dock after scrolling and closes on desktop resize', a
   await expect(page.locator('.site-desktop-nav')).toBeVisible()
   await expect(page.locator('html')).not.toHaveClass(/mobile-nav-open/)
 })
+
+test('the labeled desktop search works by pointer and its advertised shortcut', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/about/')
+
+  const search = page.getByRole('button', { name: 'Open site search' })
+
+  await expect(search.locator('.site-header-search-label')).toBeVisible()
+  await expect(search.locator('kbd')).toHaveText('/')
+  await search.click()
+  await expect(page.locator('#site-search-input')).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(search).toBeFocused()
+  await page.keyboard.press('/')
+  await expect(page.locator('#site-search-input')).toBeFocused()
+})
+
+for (const theme of ['light', 'dark']) {
+  test(`the phone menu labels its toggle and current destination in ${theme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.addInitScript(selectedTheme => {
+      localStorage.setItem('theme', selectedTheme)
+    }, theme)
+    await page.goto('/about/')
+
+    const toggle = page.getByRole('button', { name: /^(Menu|Close) navigation$/ })
+    const label = toggle.locator('[data-mobile-nav-toggle-label]')
+
+    expect(requireValue(await label.boundingBox()).width).toBeGreaterThan(20)
+    await toggle.press('Enter')
+    await expect(toggle).toHaveAccessibleName('Close navigation')
+
+    const current = page.locator('#mobile-nav [aria-current="page"]')
+
+    await expect(current).toHaveCount(1)
+    await expect(current).toHaveAccessibleName('About')
+    await expect(current.locator('.site-mobile-nav-current')).toBeVisible()
+
+    const results = await new AxeBuilder({ page }).include('header').analyze()
+
+    expect(results.violations).toEqual([])
+    await page.keyboard.press('Escape')
+    await expect(toggle).toBeFocused()
+    await expect(toggle).toHaveAccessibleName('Menu navigation')
+  })
+}
+
+test('the tablet menu preserves reading order and reflows when text is enlarged', async ({ page, browserName }) => {
+  await page.setViewportSize({ width: 768, height: 900 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/about/')
+  await page.locator('[data-mobile-nav-toggle]').click()
+
+  const links = page.locator('[data-mobile-nav-link]')
+  const first = requireValue(await links.nth(0).boundingBox())
+  const second = requireValue(await links.nth(1).boundingBox())
+  const third = requireValue(await links.nth(2).boundingBox())
+
+  expect(second.y).toBe(first.y)
+  expect(second.x).toBeGreaterThan(first.x + first.width)
+  expect(third.y).toBeGreaterThan(first.y)
+  expect(third.x).toBe(first.x)
+
+  for (const link of await links.all()) {
+    await expect(link).toBeFocused()
+    await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
+  }
+
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = '32px'
+  })
+  await expect.poll(async () => {
+    const firstEnlarged = requireValue(await links.nth(0).boundingBox())
+    const secondEnlarged = requireValue(await links.nth(1).boundingBox())
+
+    return secondEnlarged.y > firstEnlarged.y && secondEnlarged.x === firstEnlarged.x
+  }).toBe(true)
+  await links.last().focus()
+  await expect(links.last()).toBeInViewport()
+  await page.keyboard.press('Escape')
+  await expect(page.locator('#mobile-nav')).toBeHidden()
+})
+
+test('the contact action stays inside a narrow menu with doubled text', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = '32px'
+  })
+  await page.locator('[data-mobile-nav-toggle]').click()
+
+  const contact = page.locator('[data-mobile-nav-actions] .site-nav-contact')
+
+  await contact.focus()
+  await expect(contact).toBeInViewport()
+  const bounds = requireValue(await contact.boundingBox())
+  const label = requireValue(await contact.locator('.site-nav-contact-label').boundingBox())
+
+  expect(label.x).toBeGreaterThanOrEqual(bounds.x)
+  expect(label.x + label.width).toBeLessThanOrEqual(bounds.x + bounds.width)
+  expect(await contact.evaluate(element => element.scrollWidth - element.clientWidth)).toBeLessThanOrEqual(1)
+})

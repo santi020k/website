@@ -9,14 +9,16 @@ import { getProjectCoverForUsage } from '@/utils/project-cover'
 import { Card, Icon } from '@santi020k/lumen-astro'
 
 interface Props {
+  index: number
   project: CollectionEntry<'project'>
 }
 
-const { project } = Astro.props
+const { index, project } = Astro.props
 const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
 ---
 
 <Card as="article" variant="unstyled" data-related-project style={getProjectBrandStyle(project.data.brand)}>
+  <span data-related-number aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
   <div data-related-artwork>
     {cover ?
 (
@@ -27,7 +29,7 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
         formats={['avif']}
         height={450}
         loading="lazy"
-        sizes="auto, (min-width: 1280px) 564px, (min-width: 768px) 50vw, 100vw"
+        sizes="auto, (min-width: 1280px) 396px, (min-width: 768px) 35vw, 100vw"
         src={cover}
         width={800}
         widths={[400, 600, 800, 1200]}
@@ -56,45 +58,53 @@ const cover = getProjectCoverForUsage(project.data.coverImage, 'hero')
   [data-related-project][data-slot='card'] {
     --related-emphasis: var(--brand);
     --related-project-ink: var(--project-primary-readable);
-    container: related-card / inline-size;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 0.9fr) minmax(0, 1.45fr);
+    align-items: stretch;
+    gap: 2.5rem;
     min-width: 0;
-    padding: 0;
+    padding: 2rem 0;
     border: 0;
-    border-radius: 1.5rem;
+    border-top: 1px solid hsl(var(--line) / 0.65);
+    border-radius: 0;
     background: transparent;
   }
   :global(:root[data-theme='dark']) [data-related-project] { --related-emphasis: var(--accent); --related-project-ink: var(--project-primary-readable-dark); }
-  [data-related-artwork] { position: relative; display: grid; flex-shrink: 0; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 1.5rem; background: hsl(var(--brand-soft)); color: hsl(var(--related-emphasis)); }
-  [data-related-body] { position: relative; display: grid; flex: 1; grid-template-rows: auto 1fr auto; gap: 1rem; min-width: 0; margin: -2rem 1rem 0; padding: 1.5rem; border: 1px solid hsl(var(--line) / 0.65); border-radius: var(--radius-sheet); background: hsl(var(--surface)); }
+  [data-related-project][data-slot='card']:last-child { border-bottom: 1px solid hsl(var(--line) / 0.65); }
+  [data-related-number] { padding-top: 0.25rem; color: hsl(var(--related-project-ink)); font-family: var(--font-code); font-size: 0.875rem; font-weight: 500; line-height: 1.5; font-variant-numeric: tabular-nums; }
+  [data-related-artwork] { position: relative; display: grid; align-self: start; place-items: center; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 0.75rem; background: hsl(var(--brand-soft)); color: hsl(var(--related-emphasis)); }
+  [data-related-body] { position: relative; display: grid; grid-template-rows: auto 1fr auto; align-content: start; gap: 0.875rem; min-width: 0; }
   [data-related-heading] { min-width: 0; }
   [data-related-heading] h3 { margin: 0; color: hsl(var(--ink)); font-size: 1.75rem; font-weight: 500; line-height: 1.25; letter-spacing: -0.055em; overflow-wrap: anywhere; }
-  [data-related-role] { margin: 0 0 0.5rem; color: hsl(var(--related-project-ink)); font-size: 0.6875rem; font-weight: 500; line-height: 1.7; overflow-wrap: break-word; }
-  [data-related-description] { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.8; text-wrap: pretty; overflow-wrap: break-word; }
-  [data-related-footer] { margin-top: 0.5rem; }
-  [data-related-action] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; padding-top: 1rem; border-top: 1px solid hsl(var(--line) / 0.65); color: hsl(var(--ink)); font-size: 0.8125rem; font-weight: 500; line-height: 1.7; }
-  [data-related-arrow] { display: grid; flex-shrink: 0; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 0.75rem 0.75rem 0.375rem 0.75rem; background: hsl(var(--surface-muted)); color: hsl(var(--related-project-ink)); }
-  [data-related-link] { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+  [data-related-role] { margin: 0 0 0.625rem; color: hsl(var(--related-project-ink)); font-size: 0.625rem; font-weight: 600; line-height: 1.7; letter-spacing: 0.12em; text-transform: uppercase; overflow-wrap: break-word; }
+  [data-related-description] { max-width: 58ch; margin: 0; color: hsl(var(--ink-soft)); font-size: 0.875rem; line-height: 1.85; text-wrap: pretty; overflow-wrap: break-word; }
+  [data-related-footer] { margin-top: 0.25rem; }
+  [data-related-action] { display: flex; align-items: center; gap: 0.875rem; min-height: 2.75rem; color: hsl(var(--related-project-ink)); font-size: 0.75rem; font-weight: 500; line-height: 1.7; }
+  [data-related-arrow] { display: grid; flex-shrink: 0; place-items: center; }
+  [data-related-link] { position: absolute; inset: 0; z-index: 1; border-radius: 0.75rem; }
   [data-related-link]:focus-visible { outline: 2px solid hsl(var(--related-project-ink)); outline-offset: 4px; }
-  [data-related-project]:is(:hover, :focus-within) [data-related-body] { border-color: hsl(var(--related-project-ink)); }
-  [data-related-project]:is(:hover, :focus-within) :is(h3, [data-related-role], [data-related-action]) { color: hsl(var(--related-project-ink)); }
+  [data-related-project]:is(:hover, :focus-within) h3 { color: hsl(var(--related-project-ink)); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
   @media (prefers-reduced-motion: no-preference) {
-    [data-related-body] { transition: border-color 160ms ease; }
-    [data-related-heading] h3, [data-related-role], [data-related-action] { transition: color 160ms ease; }
+    [data-related-heading] h3 { transition: color 160ms ease; }
   }
-  @container related-card (width < 26rem) {
-    [data-related-body] { margin: -1.5rem 0.75rem 0; padding: 1.25rem; }
+  @container related-list (width < 56rem) {
+    [data-related-project][data-slot='card'] { grid-template-columns: 1.5rem minmax(0, 0.85fr) minmax(0, 1.3fr); gap: 1.5rem; }
+  }
+  @container related-list (width < 42rem) {
+    [data-related-project][data-slot='card'] { grid-template-columns: 1.5rem minmax(0, 1fr); gap: 1.25rem; padding: 1.5rem 0; }
+    [data-related-artwork] { aspect-ratio: 16 / 9; }
+    [data-related-body] { grid-column: 1 / -1; gap: 0.75rem; }
+  }
+  @container related-list (width < 22rem) {
     [data-related-heading] h3 { font-size: 1.5rem; }
   }
-  @container related-card (width < 18rem) {
-    [data-related-body] { margin-inline: 0.375rem; padding: 1rem; }
+  @container related-list (width < 16rem) {
+    [data-related-project][data-slot='card'] { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    [data-related-number] { display: none; }
     [data-related-heading] h3 { font-size: 1.25rem; }
   }
-  @container related-card (width < 14rem) {
-    [data-related-body] { margin: 0.75rem 0 0; padding: 0.875rem; }
+  @container related-list (width < 14rem) {
     [data-related-arrow] { display: none; }
   }
 </style>

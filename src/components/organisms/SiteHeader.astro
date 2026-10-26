@@ -150,9 +150,7 @@ href="/"
             variant="ghost"
           >
             <span class="site-menu-symbol" aria-hidden="true">
-              <span class="site-menu-grid" data-mobile-nav-menu-icon>
-                <span /><span /><span /><span />
-              </span>
+              <span data-mobile-nav-menu-icon><Icon class="size-5" name="menu" /></span>
               <span data-mobile-nav-close-icon hidden><Icon class="size-5" name="x" /></span>
             </span>
             <span class="site-menu-label" data-mobile-nav-toggle-label>Menu</span>
@@ -183,7 +181,13 @@ href="/"
               >
                 <span class="site-mobile-nav-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 <span>{link.title}</span>
-                <Icon class="site-mobile-nav-arrow" name="arrow-up-right" />
+                {isCurrentPage(link.path) ?
+(
+                  <span class="site-mobile-nav-current" aria-hidden="true">Current</span>
+                ) :
+(
+                  <Icon class="site-mobile-nav-arrow" name="arrow-right" />
+                )}
               </a>
             ))}
           </div>

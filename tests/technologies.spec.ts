@@ -26,7 +26,7 @@ test.describe('Technologies index page', () => {
 
   test('should render technology group labels', async ({ page }) => {
     // At least the Core group should always be present given the real data
-    await expect(page.getByText('Core', { exact: true })).toBeVisible()
+    await expect(page.locator('[data-technology-group]').getByText('Core', { exact: true })).toBeVisible()
   })
 
   test('should render grouped technology links with project counts', async ({ page }) => {
@@ -42,7 +42,7 @@ test.describe('Technologies index page', () => {
   })
 
   test('should link back to the portfolio', async ({ page }) => {
-    const backLink = page.getByRole('link', { name: /Back to portfolio/i })
+    const backLink = page.locator('[data-technology-opening-actions]').getByRole('link', { name: 'Portfolio', exact: true })
     await expect(backLink).toBeVisible()
     await expect(backLink).toHaveAttribute('href', /^\/portfolio\/$/)
   })
