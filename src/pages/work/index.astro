@@ -197,11 +197,11 @@ class="@container/sculpted-tags flex flex-wrap gap-2.5"
       <p class="mt-7 text-xs/6 text-ink-soft">Numbers indicate the professional projects using each technology.</p>
       <nav id="work-next-steps" class="work-close" aria-label="Continue exploring work" data-work-close>
         {careerDestinations.map(destination => (
-          <Link class="work-close-link" href={destination.href} aria-labelledby={`work-close-category-${destination.id} work-close-${destination.id} work-close-description-${destination.id}`} variant="inherit">
-            <Card as="article" variant="unstyled" data-work-close-card={destination.id}>
-              <p id={`work-close-category-${destination.id}`} data-work-close-category>{destination.category}</p>
+          <Link class="work-close-link" href={destination.href} variant="inherit">
+            <Card as="div" variant="unstyled" data-work-close-card={destination.id}>
+              <p data-work-close-category>{destination.category}</p>
               <h3 id={`work-close-${destination.id}`}>{destination.title}</h3>
-              <p id={`work-close-description-${destination.id}`} data-work-close-description>{destination.description}</p>
+              <p data-work-close-description>{destination.description}</p>
               <span data-work-close-arrow><Icon name="arrow-right" /></span>
             </Card>
           </Link>

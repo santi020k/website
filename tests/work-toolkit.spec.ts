@@ -69,7 +69,7 @@ for (const theme of ['light', 'dark'] as const) {
       expect(inset.right).toBeGreaterThanOrEqual(20)
       expect(inset.bottom).toBeGreaterThanOrEqual(20)
     }
-    const audit = await new AxeBuilder({ page }).include('[data-work-stack]').include('[data-work-close]').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze()
+    const audit = await new AxeBuilder({ page }).include('[data-work-stack]').include('[data-work-close]').options({ rules: { 'label-content-name-mismatch': { enabled: true } } }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze()
 
     expect(audit.violations).toEqual([])
   })
