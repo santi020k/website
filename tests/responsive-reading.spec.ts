@@ -5,11 +5,28 @@ const LONG_ARTICLE = '/blog/run-repo-on-mac-with-silo-dxmt/'
 const LONG_TITLE_ARTICLE = '/blog/configuring-mongodb-with-homebrew-on-macos-converting-a-standalone-instance-to-a-replica-set/'
 
 const openContents = async (page: Page) => {
-  const opener = page.locator('[data-project-mobile-toc] summary, [data-post-mobile-toc] summary')
+  const opener = page.locator('[data-project-mobile-toc] [data-toc-summary], [data-post-mobile-toc] [data-toc-summary]')
 
   if (await opener.isVisible()) await opener.click()
 
   return page.getByRole('navigation', { name: 'Table of contents', exact: true })
+}
+
+const revealContentsLink = async (page: Page, navigation: Locator, fragment: string) => {
+  const link = navigation.locator(`a[href="#${fragment}"]`)
+  const chapter = navigation.locator(`[data-chapter-group]:has(a[href="#${fragment}"])`)
+
+  if (await chapter.count()) {
+    // Focus the chapter before checking its state: scrolling back to the
+    // navigation can update the automatically revealed chapter.
+    await chapter.locator('summary').focus()
+    await settleLayout(page)
+    if (await chapter.getAttribute('open') === null) await page.keyboard.press('Enter')
+  }
+
+  await expect(link).toBeVisible()
+
+  return link
 }
 
 // Apply the user's text-size preference before first layout. Changing rem units
@@ -429,7 +446,7 @@ for (const theme of ['light', 'dark'] as const) {
 
             await expectHeadingClear()
             const navigation = await openContents(page)
-            const link = navigation.locator(`a[href="#${fragment}"]`)
+            const link = await revealContentsLink(page, navigation, fragment)
 
             await link.focus()
             await page.keyboard.press('Enter')
@@ -450,8 +467,8 @@ for (const theme of ['light', 'dark'] as const) {
       })
 
       const rail = page.getByRole('complementary', { name: 'Article navigation' })
-      const first = rail.locator('[data-toc-tree] a').first()
-      const last = rail.locator('[data-toc-tree] a').last()
+      const first = rail.locator('[data-chapter-list] a').first()
+      const last = rail.locator('[data-chapter-list] a').last()
 
       await first.focus()
       await page.keyboard.press('Tab')

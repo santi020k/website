@@ -113,11 +113,11 @@ test('the comparison stays in the Marcone chapter without extra navigation headi
   await page.setViewportSize({ width: 1440, height: 900 })
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto(route)
-  const chapter = page.locator('[data-project-chapters] details').filter({ has: page.locator('a[href="#before-and-after"]') })
+  const chapter = page.locator('[data-project-desktop-toc] [data-reading-contents] details').filter({ has: page.locator('a[href="#before-and-after"]') })
 
   await expect(chapter.locator('summary')).toHaveText('Marcone: rebuilding for a headless future')
   await expect(chapter.locator('a[href="#before-and-after"]')).toHaveAttribute('aria-current', 'location')
-  await expect(page.locator('[data-project-chapters]').getByRole('link', { name: /Legacy monolith|Headless storefront/u })).toHaveCount(0)
+  await expect(page.locator('[data-project-desktop-toc] [data-reading-contents]').getByRole('link', { name: /Legacy monolith|Headless storefront/u })).toHaveCount(0)
   expect(await page.locator('#marcone-comparison').evaluate(element => {
     let sibling = element.previousElementSibling
 

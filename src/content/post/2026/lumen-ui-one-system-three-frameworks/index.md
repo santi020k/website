@@ -86,6 +86,8 @@ Applications will still need to use components responsibly. A library cannot cho
 
 The repository validates this through interaction tests, accessibility checks, visual coverage, and framework contract checks.
 
+For a concrete application-level example, follow the [Playwright dialog focus tests and keyboard checklist](/blog/playwright-accessibility-checks-that-teams-keep-running/#test-the-whole-dialog-focus-cycle). They exercise focus entry, both tab boundaries, dismissal, and focus return against this website.
+
 Accessibility is not a badge applied to the library as a whole. It is a set of decisions repeated across 123 primitives.
 
 ## The design system needs machine-readable context

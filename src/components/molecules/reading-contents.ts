@@ -1,18 +1,23 @@
-class ProjectChapterGroupsElement extends HTMLElement {
+class ReadingContentsElement extends HTMLElement {
   #observer: MutationObserver | undefined
   #activeLink: HTMLAnchorElement | null = null
   #automaticChapter: HTMLDetailsElement | null = null
   #manualChapters = new WeakSet<HTMLDetailsElement>()
 
   #rememberChoice = (event: Event) => {
-    const summary = event.target instanceof Element ? event.target.closest('[data-chapter-summary]') : null
-    const chapter = summary?.parentElement
+    const control = event.target instanceof Element ? event.target.closest('[data-chapter-summary], a[href^="#"]') : null
+    const chapter = control?.closest('[data-chapter-group]')
 
+    // Choosing a chapter link is also a manual choice. Keep it open while the
+    // native fragment jump moves focus and the scroll marker catches up.
     if (chapter instanceof HTMLDetailsElement) this.#manualChapters.add(chapter)
   }
 
   #showChapter = (link: HTMLAnchorElement) => {
-    const chapter = link.closest('details')
+    // Embedded navigation lives inside another disclosure. Only chapter details
+    // follow the active section; the outer mobile opener stays reader-controlled.
+    const parent = link.closest('[data-chapter-group]')
+    const chapter = parent instanceof HTMLDetailsElement ? parent : null
     const previous = this.#automaticChapter
 
     if (
@@ -85,6 +90,6 @@ class ProjectChapterGroupsElement extends HTMLElement {
   }
 }
 
-if (!customElements.get('project-chapter-groups')) {
-  customElements.define('project-chapter-groups', ProjectChapterGroupsElement)
+if (!customElements.get('reading-contents')) {
+  customElements.define('reading-contents', ReadingContentsElement)
 }

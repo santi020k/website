@@ -5,8 +5,8 @@ import type { CollectionEntry } from 'astro:content'
 
 import ContentNotesHeader from '@/components/molecules/ContentNotesHeader.astro'
 import ProjectCaseStudy from '@/components/molecules/ProjectCaseStudy.astro'
-import ProjectChapterOpener from '@/components/molecules/ProjectChapterOpener.astro'
 import ProjectFooterNav from '@/components/molecules/ProjectFooterNav.astro'
+import ReadingChapterOpener from '@/components/molecules/ReadingChapterOpener.astro'
 import RelatedProjectCard from '@/components/molecules/RelatedProjectCard.astro'
 import SectionHeader from '@/components/molecules/SectionHeader.astro'
 import ShareButtons from '@/components/molecules/ShareButtons.astro'
@@ -135,7 +135,7 @@ mainClass="remaining-pages remaining-pages--reading"
       <div class="min-w-0 space-y-8" data-project-story>
         {headings.some(heading => heading.depth <= 3) && (
           <div data-project-mobile-toc>
-            <ProjectChapterOpener headings={headings} />
+            <ReadingChapterOpener headings={headings} />
           </div>
         )}
         <div class="space-y-8 border-b border-line/45 pb-8">

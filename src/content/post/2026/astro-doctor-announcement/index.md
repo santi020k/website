@@ -44,6 +44,8 @@ Performance checks look for patterns like overusing `client:load`, skipping Astr
 
 Accessibility checks catch missing `alt` attributes, missing `lang` attributes, and client-only islands that do not provide fallback content.
 
+Source checks cover only part of the experience. My [Playwright accessibility guide](/blog/playwright-accessibility-checks-that-teams-keep-running/) adds rendered axe scans, dialog focus assertions, and a keyboard-testing checklist for behavior that needs a browser.
+
 Security checks warn on unsafe-looking `set:html` usage and `PUBLIC_` environment variable names that appear to expose secrets.
 
 Best-practice checks keep Astro code idiomatic: `class:list` instead of string-built class names, `import.meta.env` instead of `process.env`, and Content Collections instead of untyped glob-based content loading.

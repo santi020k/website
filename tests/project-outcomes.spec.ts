@@ -36,7 +36,7 @@ for (const javaScriptEnabled of [true, false]) {
           'First Contentful Paint improved'
         ])
         await expect(page.getByRole('heading', { name: 'Key outcomes', exact: true })).toHaveCount(0)
-        await expect(page.locator('[data-project-chapters] a[href="#key-outcomes"]')).toHaveCount(0)
+        await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a[href="#key-outcomes"]')).toHaveCount(0)
         const story = await page.locator('.prose-project').ariaSnapshot()
 
         for (const summary of smithOutcomes) expect(story.split(summary)).toHaveLength(2)
