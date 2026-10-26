@@ -1782,6 +1782,16 @@ available width, move the label above its title and keep the arrow beside both. 
 semantic brand/accent colors and visible focus. This is static article content: keep
 it readable without JavaScript and preserve inline, nested, and chapter references.
 
+Use **Series connection** when a closing reference leads to another series. Reuse
+the same renderer and styles, with Related reading as the heading, Another series
+as the row label, and the destination series below the article title. Author it as
+the final standalone paragraph using `[Related series: Article title](/blog/article/ "Series title")`.
+The link title supplies the visible series context. Keep the original destination
+and native link behavior; the normal Continuation fold still owns the next chapter.
+Remove the closing ledger's bottom margin and use a 1.25rem gap before the existing
+2rem top inset of Continuation fold, so the two sections have one clear separation.
+Unmarked links, incomplete labels, and references within chapters stay in place.
+
 ### Return folio page-end navigation
 
 Article and project detail pages close with a Lumen Card containing a named native

@@ -182,6 +182,11 @@ mainClass="remaining-pages remaining-pages--reading"
   :global([data-theme='dark']) [data-article-prose] :global([data-article-references]) {
     --reference-accent: hsl(var(--accent));
   }
+  [data-article-prose] :global([data-series-connection]) { margin-block-end: 0; }
+  [data-reading-body] :global(.e-content:has([data-series-connection])) { margin-block-end: 0; }
+  [data-reading-body] :global(.e-content:has([data-series-connection]) + [data-series-content]) {
+    margin-block-start: 1.25rem;
+  }
   [data-article-prose] :global([data-reference-header]) {
     display: flex;
     align-items: center;

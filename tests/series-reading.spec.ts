@@ -33,12 +33,19 @@ test.describe('single continuation', () => {
 
   test('a closing reference to a different series retains its destination', async ({ page }) => {
     await page.goto('/blog/authentication-and-authorization-in-next-js-applications-with-supabase/')
-    await expect(page.locator('[data-article-prose]').getByRole('link', { name: /^Next Post:/iu })).toHaveAttribute(
+    const connection = page.getByRole('navigation', { name: 'Related reading', exact: true })
+
+    await expect(connection.getByRole('link')).toHaveAttribute(
       'href', '/blog/migrate-eslint-8-or-less-to-eslint-9/'
     )
+    await expect(connection).toContainText('Another series')
+    await expect(connection).toContainText('ESLint in Practice')
+    await expect(page.locator('[data-article-prose]').getByRole('link', { name: /^Next Post:/iu })).toHaveCount(0)
     await expect(page.locator('[data-series-pagination]').getByRole('link', { name: /Next in series/u })).toHaveAttribute(
       'href', '/blog/playwright-accessibility-checks-that-teams-keep-running/'
     )
+    await connection.getByRole('link').click()
+    await expect(page).toHaveURL('/blog/migrate-eslint-8-or-less-to-eslint-9/')
   })
 })
 

@@ -21,6 +21,56 @@ const contents = (node: Root | RootContent): string => {
 }
 
 describe('article Reference ledger', () => {
+  test('shares the opening ledger renderer with a distinct closing series connection', () => {
+    const connection = element('p', [element('a', [text('Related series: Migration guide')], {
+      href: '/blog/migration-guide/', title: 'ESLint in Practice'
+    })])
+    const closing = paragraph('The final takeaway.')
+    const tree: Root = { type: 'root',
+      children: [
+        paragraph('Introduction.'), reference('Related post: Context'), element('h2', [text('Conclusions')]), closing, connection, text('\n')
+      ] }
+
+    transform(tree)
+    const ledgers = tree.children.filter(node => node.type === 'element' && node.properties.dataArticleReferences !== undefined)
+
+    expect(ledgers).toHaveLength(2)
+    expect(ledgers[0]).toMatchObject({ tagName: 'nav', properties: { ariaLabel: 'References for this article' } })
+    expect(ledgers[1]).toMatchObject({ tagName: 'nav', properties: { ariaLabel: 'Related reading' } })
+    expect(ledgers.map(contents)).toEqual([
+      ['With this guide', 'Related guide', 'Context'].join(''),
+      ['Related reading', 'Another series', 'Migration guide', 'ESLint in Practice'].join('')
+    ])
+    expect(tree.children.at(-3)).toBe(closing)
+    expect(connection.children[0]).toMatchObject({ properties: {
+      href: '/blog/migration-guide/', title: 'ESLint in Practice', dataReferenceLink: ''
+    } })
+    const firstPass = structuredClone(tree)
+
+    transform(tree)
+    expect(tree).toEqual(firstPass)
+  })
+
+  test('requires explicit series context in the final standalone paragraph', () => {
+    const connection = () => element('p', [element('a', [text('Related series: Migration guide')], {
+      href: '/blog/migration-guide/', title: 'ESLint in Practice'
+    })])
+
+    for (const children of [
+      [connection(), element('h2'), paragraph('Chapter text.')],
+      [element('h2'), connection(), paragraph('The article continues.')],
+      [element('blockquote', [connection()])],
+      [reference('Related series: No series name')],
+      [element('p', [element('a', [text('Related series: Empty name')], { href: '/blog/guide/', title: ' ' })])]
+    ]) {
+      const tree: Root = { type: 'root', children }
+      const before = structuredClone(tree)
+
+      unified().use(rehypeArticleReferences).runSync(tree, { path })
+      expect(tree).toEqual(before)
+    }
+  })
+
   test('the actual introduction leads; references retain destinations and move before the first chapter', () => {
     const earlier = reference('Read the Previous Post: Earlier article')
     const repository = reference('GitHub Repository', 'https://github.com/santi020k/eslint-config-basic')
