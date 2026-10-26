@@ -76,6 +76,21 @@ Use open numbered rows for supporting projects and writing. Featured work can pa
 image with its description. Independent projects can use two equal image cards. Keep the same
 reading and keyboard order when columns collapse.
 
+### Homepage section integration
+
+Home owns the spacing between its assembled sections. The hero-to-statistics gap is
+7rem on wide layouts and 4.5rem below 48rem of content width; subtract the Base
+layout's existing flow gap before adding the statistics inset. Use the same section
+spacing for Work, Projects, Writing, and Community. The closing community panel adds
+no bottom margin: Home supplies a single 7rem closing gap (4.5rem on phones), and
+suppresses the shared footer's extra top margin only on this route.
+
+Section introductions stack below 48rem of content width, including enlarged text,
+and retain the same left edge as their cards. Below 20rem, 16rem, and 12rem, reduce
+the shared heading scale to 2rem, 1.625rem, and 1.375rem respectively. Preserve whole
+words and allow the numbered eyebrow to wrap on the narrowest reading columns.
+The approved card compositions, content order, and native destinations stay intact.
+
 ### Reading slip Start here recommendations
 
 The homepage's curated articles follow the latest writing as three open illustrated reading slips.

@@ -294,6 +294,10 @@
 
 ### Patch Changes
 
+- Align homepage section spacing from the hero through the footer, removing accumulated layout gaps.
+  Stack shared section introductions by available reading width and preserve whole heading words
+  with enlarged text, while retaining the approved cards and their destinations.
+
 - Select current-site static checks for ordinary source-only pull requests while retaining every unit and motion test.
   Keep full static validation for releases, shared changes, and unavailable Git history, with all production builds, browser tests, and Lighthouse checks unchanged.
 
