@@ -11,11 +11,10 @@
 @utility history-hero-exhibit { min-width: 0; margin: 0; container: history-exhibit / inline-size; }
 @utility history-hero-print { min-width: 0; margin: 0; }
 .history-hero-print img { display: block; width: 100%; height: auto; }
-[data-history-hero-current] img { border-radius: 2rem .375rem 0 0; }
-[data-history-hero-current] figcaption { display: grid; grid-template-columns: minmax(0, 1fr) 6.875rem; }
-@utility history-hero-current-version { padding-block: 1.125rem; color: hsl(var(--brand)); font-size: 2rem; font-weight: 500; line-height: 1; letter-spacing: -.06em; }
+[data-history-hero-current] { overflow: hidden; border: 1px solid hsl(var(--line) / .65); border-radius: 1.25rem 1.25rem .5rem 1.25rem; background: hsl(var(--surface)); }
+[data-history-hero-current] figcaption { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; border-top: 1px solid hsl(var(--line) / .65); padding: .875rem 1rem; }
+@utility history-hero-current-version { color: hsl(var(--brand)); font-size: 1.125rem; font-weight: 500; line-height: 1.5; letter-spacing: -.035em; }
 [data-theme='dark'] .history-hero-current-version { color: hsl(var(--accent)); }
-@utility history-hero-today { display: flex; align-items: center; justify-content: center; border-end-end-radius: 1.75rem; background: hsl(var(--brand-soft)); color: hsl(var(--ink)); font-size: .6875rem; line-height: 1.6; }
 @utility history-hero-past { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
 .history-hero-past img { border-radius: .75rem .25rem .25rem .25rem; }
 @utility history-hero-print-label { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .375rem .75rem; margin-top: .75rem; padding-top: .625rem; border-top: 1px solid hsl(var(--line)); color: hsl(var(--ink-soft)); font-size: .6875rem; line-height: 1.6; }
@@ -36,7 +35,6 @@
 
 @container history-exhibit (width < 13rem) {
   .history-hero-past { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
-  [data-history-hero-current] figcaption { grid-template-columns: minmax(0, 1fr) 40%; }
 }
 @utility history-hero-chapters { min-width: 0; container: history-chapters / inline-size; }
 @utility history-hero-chapter-intro { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .5rem 1.5rem; margin-bottom: 1.5rem; }

@@ -3,10 +3,12 @@
 The current website stays at `/`. `/history/` is an indexable timeline of five
 visual eras, with authentic desktop and mobile captures and usable archives.
 
-The Chapter spread hero leads with the complete current-era capture and its
-shaped Today caption, followed by two smaller archive previews. Images remain
-in normal flow with native figure captions and responsive sources. Narrow and
-enlarged-text layouts reflow the previews without cropping or overlapping them.
+The Chapter spread hero leads with the complete current-era capture and a joined
+caption, followed by two smaller archive previews. One fine border and sculpted
+frame contain the capture and its ruled footer. The compact version label and
+the shared branded Today pill align on a baseline and wrap when space is limited.
+Images remain in normal flow with native figure captions and responsive sources.
+Narrow and enlarged-text layouts reflow the previews without cropping or overlapping them.
 
 The Timeline index shortcuts follow the hero in chronological order. Each native
 fragment link pairs its version with a date, chapter description, and directional

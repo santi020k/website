@@ -411,16 +411,18 @@ links, and readable light/dark colors. The rows remain passive reading content.
 ### Chapter spread History hero
 
 Lead the hero collage with the current-era capture at full width, preserving its
-natural proportions. Use a 2rem upper-left corner, a 0.375rem upper-right corner,
-and a straight lower edge. Below it, pair a 2rem accent version label with a
-6.875rem brand-soft Today tab and a 1.75rem lower-right corner.
+natural proportions. Join the image and caption in one opaque surface with a fine
+line border, 1.25rem corners, and a shortened 0.5rem lower-right corner. Separate
+the caption with a fine rule and use 0.875rem vertical and 1rem horizontal insets.
+Pair a 1.125rem accent version label with the shared branded Today Pill, aligned
+on their text baseline. Let the caption wrap naturally when text needs more room.
 
 Place the two archive previews beneath the current capture in equal columns,
 with a 1.25rem gap and 1.5rem top spacing. Keep each complete screenshot above a
 fine caption rule, its version, and the existing archive label. The closing
 preservation caption stays in normal flow. Below 24.375rem of exhibit width,
 tighten the gap; below 17.5rem, stack each archive caption; below 13rem, stack
-the archive figures and tighten the Today column so enlarged text retains words.
+the archive figures so enlarged text retains words.
 Use native figures and Astro images, without transforms, overlap, fixed heights,
 new animation, or client JavaScript. Preserve the hero copy and chapter links.
 
