@@ -278,6 +278,14 @@
 
 ### Patch Changes
 
+- Make the built-page audit follow Cloudflare redirect precedence over existing files, so missing
+  destinations, redirect loops, and broken destination fragments cannot hide behind stale assets.
+  Validate a status-200 proxy against its immediate target without following another rule.
+
+- Stop the service worker from answering an offline navigation to a file, such as `robots.txt`, an
+  icon, or a build image, with the offline HTML page; files use only their own cached copy. Name the
+  project preview zoom button by its next action without also announcing it as a pressed toggle.
+
 - Keep project subsection headings readable in narrow layouts and with enlarged text by giving them the decorative rule's space. Remove duplicate fragment offsets from project headings and evidence briefs so section navigation uses one shared header clearance. Preserve reading position when mobile chapter groups resize, and keep preview links and enhanced controls the same size so loading interactions cannot move the page.
 
 - Keep featured project images and copy full width when galleries stack on mobile or with enlarged text, matching the other cards' image proportions while preserving the desktop composition. Keep archive-match badges readable in dark mode.
@@ -567,6 +575,8 @@
 - Treat webmention author names made only of whitespace, controls, or default-ignorable characters as missing, restoring readable anonymous labels while preserving meaningful Unicode names and mention links.
 
 - Reuse valid empty search indexes, validate saved recent queries before rendering accessible suggestions, and close search safely during same-page fragment history navigation while preserving searchable deep links.
+
+- Run the full pull-request quality gate when only the SEO audit configuration or the committed social-image cache manifest changes, and classify changed paths containing non-ASCII characters or newlines instead of skipping them. Build the committed social images and manifest from the checkout instead of restoring an Actions cache that could overwrite them with older copies. Regression tests execute the workflow's own change classifier against temporary Git histories and manual dispatch, without inheriting a Git hook's repository variables.
 
 ## 4.0.0
 

@@ -51,7 +51,7 @@ const fullImage = await getImage({ src: preview.src, fit: 'contain', format: 'we
     ></div>
     <div data-gallery-tools>
       <p aria-live="polite" data-gallery-status>Loading image…</p>
-      <Button aria-controls={`${id}-canvas`} aria-pressed="false" data-gallery-control data-gallery-zoom variant="outline">
+      <Button aria-controls={`${id}-canvas`} data-gallery-control data-gallery-zoom variant="outline">
         <Icon name="zoom-in" class="size-4" /><span data-gallery-zoom-label>Inspect detail</span>
       </Button>
       <ButtonLink data-gallery-error-link data-gallery-control hidden href={fullImage.src} newTab variant="unstyled">

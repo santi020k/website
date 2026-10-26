@@ -92,6 +92,105 @@ test('resolves wildcard redirects and validates fragments on the destination pag
   })
 })
 
+// Cloudflare Pages follows a matching redirect even when a built asset exists at its source.
+test('follows a redirect instead of the built file it shadows and rejects its missing destination', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'article'))
+    await writeFile(path.join(directory, 'article/index.html'), document('Article'))
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/article/">Article</a>'))
+    await writeFile(path.join(directory, '_redirects'), '/article/ /missing/ 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/article/' }
+    ])
+  })
+})
+
+test('rejects a redirect cycle even when its sources are built pages', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'cycle'))
+    await mkdir(path.join(directory, 'loop'))
+    await writeFile(path.join(directory, 'cycle/index.html'), document('Cycle'))
+    await writeFile(path.join(directory, 'loop/index.html'), document('Loop'))
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/cycle/">Cycle</a>'))
+    await writeFile(path.join(directory, '_redirects'), '/cycle/ /loop/ 301\n/loop/ /cycle/ 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/cycle/' }
+    ])
+  })
+})
+
+test('validates fragments on the final destination of a redirect that shadows a built page', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'old'))
+    await mkdir(path.join(directory, 'article'))
+    await writeFile(path.join(directory, 'old/index.html'), document('<p id="stale">Old</p>'))
+    await writeFile(path.join(directory, 'article/index.html'), document('<p id="present">Article</p>'))
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/old/#present">Present</a><a href="/old/#stale">Stale</a>'))
+    await writeFile(path.join(directory, '_redirects'), '/old/ /article/ 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-fragment', target: '/old/#stale' }
+    ])
+  })
+})
+
+test('applies wildcard redirects before built assets under their prefix', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'old'))
+    await writeFile(path.join(directory, 'old/image.webp'), 'fixture')
+    await writeFile(path.join(directory, 'index.html'), document('<img src="/old/image.webp" alt="Fixture">'))
+    await writeFile(path.join(directory, '_redirects'), '/old/* /:splat 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/old/image.webp' }
+    ])
+  })
+})
+
+test('uses the first matching redirect rule', async () => {
+  await withSite(async directory => {
+    await mkdir(path.join(directory, 'docs/intro'), { recursive: true })
+    await mkdir(path.join(directory, 'article'))
+    await writeFile(path.join(directory, 'docs/intro/index.html'), document('Intro'))
+    await writeFile(path.join(directory, 'article/index.html'), document('Article'))
+    await writeFile(path.join(directory, 'index.html'), document('<a href="/docs/intro/">Intro</a>'))
+    await writeFile(path.join(directory, '_redirects'), '/docs/* /missing/ 301\n/docs/intro/ /article/ 301\n')
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-target', target: '/docs/intro/' }
+    ])
+  })
+})
+
+test('serves only the immediate local target of a status 200 proxy over a built page', async () => {
+  await withSite(async directory => {
+    for (const page of ['proxied', 'middle', 'unchained', 'article']) await mkdir(path.join(directory, page))
+
+    await writeFile(path.join(directory, 'proxied/index.html'), document('<p id="source">Source</p>'))
+    await writeFile(path.join(directory, 'middle/index.html'), document('<p id="present">Middle</p>'))
+    await writeFile(path.join(directory, 'unchained/index.html'), document('Unchained'))
+    await writeFile(path.join(directory, 'article/index.html'), document('Article'))
+    await writeFile(path.join(directory, 'index.html'), document(`
+      <a href="/proxied/#present">Proxied</a>
+      <a href="/proxied/#source">Shadowed source</a>
+      <a href="/unchained/">Unchained</a>
+    `))
+    await writeFile(path.join(directory, '_redirects'), [
+      '/proxied/ /middle/ 200',
+      '/middle/ /missing/ 301',
+      '/unchained/ /gone/ 200',
+      '/gone/ /article/ 301'
+    ].join('\n'))
+
+    expect((await auditBuiltPages(directory)).issues).toEqual([
+      { route: '/', kind: 'missing-fragment', target: '/proxied/#source' },
+      { route: '/', kind: 'missing-target', target: '/unchained/' }
+    ])
+  })
+})
+
 test('checks picture sources and every width or density candidate in responsive images', async () => {
   await withSite(async directory => {
     await writeFile(path.join(directory, 'index.html'), document(`

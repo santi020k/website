@@ -2,11 +2,13 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 interface MockEntry {
   id: string
-  data: { publishDate: Date }
+  data: { draft?: boolean, publishDate: Date }
 }
 
+type MockFilter = (entry: MockEntry) => boolean
+
 const { getCollectionMock } = vi.hoisted(() => ({
-  getCollectionMock: vi.fn<() => Promise<MockEntry[]>>()
+  getCollectionMock: vi.fn<(collection: string, filter?: MockFilter) => Promise<MockEntry[]>>()
 }))
 
 vi.mock('astro:content', () => ({
@@ -129,5 +131,62 @@ describe('content collection caching', () => {
     await expect(content[getter]()).resolves.toEqual([])
     await expect(content[getter]()).resolves.toEqual([])
     expect(getCollectionMock).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('published post filtering', () => {
+  const now = new Date('2030-06-15T12:00:00.000Z')
+  const hour = 3_600_000
+  const day = 24 * hour
+
+  const post = (id: string, offset: number, draft = false): MockEntry => ({
+    id,
+    data: { draft, publishDate: new Date(now.getTime() + offset) }
+  })
+
+  const posts = [
+    post('next-millisecond', 1),
+    post('yesterday', -day),
+    post('past-draft', -hour, true),
+    post('exactly-now', 0),
+    post('scheduled-draft', day, true),
+    post('last-month', -30 * day)
+  ]
+
+  beforeEach(() => {
+    vi.resetModules()
+    vi.useFakeTimers({ now, toFake: ['Date'] })
+    // Apply the filter content.ts supplies, as Astro's getCollection does.
+    getCollectionMock.mockReset().mockImplementation((collection, filter) => {
+      const entries = collection === 'post' ? posts : []
+
+      return Promise.resolve(filter ? entries.filter(filter) : [...entries])
+    })
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.unstubAllEnvs()
+  })
+
+  test('publishes past and current posts newest first, excluding drafts and future posts', async () => {
+    vi.stubEnv('PROD', true)
+    const { getCachedPosts } = await import('../content')
+
+    expect((await getCachedPosts()).map(entry => entry.id)).toEqual(['exactly-now', 'yesterday', 'last-month'])
+  })
+
+  test('shows drafts and scheduled posts newest first during development', async () => {
+    vi.stubEnv('PROD', false)
+    const { getCachedPosts } = await import('../content')
+
+    expect((await getCachedPosts()).map(entry => entry.id)).toEqual([
+      'scheduled-draft',
+      'next-millisecond',
+      'exactly-now',
+      'past-draft',
+      'yesterday',
+      'last-month'
+    ])
   })
 })

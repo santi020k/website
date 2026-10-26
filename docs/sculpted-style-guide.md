@@ -1135,7 +1135,9 @@ uses 0.75rem corners with a 0.25rem lower-right corner and a 2.75rem minimum tar
 
 The native Lumen Dialog retains the screenshot title, complete caption, and a visible
 Close control. Fit the whole image initially; Inspect detail shows its full pixel width
-inside a scrollable canvas. Keep the canvas keyboard reachable, support arrow-key panning,
+inside a scrollable canvas. The zoom button's name switches between Inspect detail and Fit image,
+so it names the next action and carries no `aria-pressed`; the canvas `data-zoomed` state gates
+arrow-key panning and resets on close. Keep the canvas keyboard reachable, support arrow-key panning,
 and announce loading, complete-image, detail, and error states. Escape and backdrop
 activation close the viewer and return focus. Keep the close row visible when enlarged
 text or a short viewport requires scrolling. Both themes use opaque semantic surfaces.
