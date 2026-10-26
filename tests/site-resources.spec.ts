@@ -203,7 +203,7 @@ test('install manifest keeps identity, launch scope, and generated icon contract
 for (const route of ['/portfolio/', '/portfolio/smith-commerce/']) {
   test(`portfolio artwork keeps AVIF and WebP without PNG fallbacks on ${route}`, async ({ page, request }) => {
     await page.goto(route)
-    const pictures = page.locator('[data-portfolio-project] picture')
+    const pictures = page.locator('[data-portfolio-project] picture, [data-project-cover] picture')
 
     expect(await pictures.count()).toBeGreaterThan(0)
     for (const picture of await pictures.all()) {

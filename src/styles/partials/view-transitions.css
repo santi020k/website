@@ -1,0 +1,85 @@
+/* Transition the viewport instead of a full-height main snapshot, which would
+   stretch or jump when routes differ in length or scroll position. The header
+   stays separate, and Astro owns navigation, history, focus, and announcements. */
+.site-header {
+  view-transition-name: site-header;
+}
+
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(*) {
+  animation-duration: 240ms;
+  animation-timing-function: var(--ui-ease-emphasized);
+}
+
+::view-transition-group(root),
+::view-transition-group(site-header),
+::view-transition-group(site-progress) {
+  animation: none;
+}
+
+::view-transition-old(site-header),
+::view-transition-old(site-progress) {
+  display: none;
+}
+
+::view-transition-new(site-header),
+::view-transition-new(site-progress) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-group(site-header) {
+  z-index: 2;
+}
+
+::view-transition-group(site-progress) {
+  z-index: 3;
+}
+
+/* The root snapshots keep their viewport size and their original scroll crop.
+   Clear the old headline quickly before bringing in the destination. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation: page-content-out 90ms ease-out both;
+}
+
+::view-transition-new(root) {
+  animation: page-content-in 180ms var(--ui-ease-emphasized) 60ms both;
+}
+
+@keyframes page-content-out {
+  to { opacity: 0; }
+}
+
+@keyframes page-content-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Leave first-load entrances intact. This marker lasts for the destination
+   document, so finishing a transition cannot restart its entrance animations. */
+[data-client-navigation] :is(.animate-slide-up, .animate-spring-up, .animate-reveal-lcp) {
+  animation: none;
+}
+
+[data-client-navigation] .site-header :is([data-ui-logo-pop], [data-ui-logo-draw], [data-ui-logo-reveal]) {
+  animation: none;
+  transform: none;
+  opacity: 1;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
+}

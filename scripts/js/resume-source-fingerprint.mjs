@@ -71,6 +71,7 @@ export const resumeSourcePaths = [
   'src/styles/partials/tokens.css',
   'src/styles/partials/ui.css',
   'src/styles/partials/utilities.css',
+  'src/styles/partials/view-transitions.css',
   'src/styles/partials/work.css',
   ...resumeProjectFiles.map(file => `src/content/project/${file}`)
 ].sort()
