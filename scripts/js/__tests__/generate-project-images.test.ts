@@ -155,14 +155,25 @@ coverImage:
           bottom = Math.max(bottom, y)
         }
 
-        return { count, height: bottom - top + 1, width: right - left + 1 }
+        return {
+          centerX: (left + right + 1) / 2,
+          centerY: (top + bottom + 1) / 2,
+          count,
+          height: bottom - top + 1,
+          width: right - left + 1
+        }
       }
 
       const artwork = measureLogo(full, variant.width)
+      const croppedArtwork = measureLogo(crop, size)
       const minimumScale = { square: 0.55, tall: 0.63, wide: 0.89 }[logoAspect]
 
       expect(artwork.count).toBeGreaterThan(1000)
-      expect(measureLogo(crop, size).count).toBe(artwork.count)
+      expect(croppedArtwork.count).toBe(artwork.count)
+      expect(Math.abs(artwork.centerX - variant.width / 2)).toBeLessThanOrEqual(1)
+      expect(Math.abs(artwork.centerY - variant.height / 2)).toBeLessThanOrEqual(1)
+      expect(Math.abs(croppedArtwork.centerX - size / 2)).toBeLessThanOrEqual(1)
+      expect(Math.abs(croppedArtwork.centerY - size / 2)).toBeLessThanOrEqual(1)
       expect(Math.max(artwork.height, artwork.width) / size).toBeGreaterThan(minimumScale ?? 0)
     }
 
