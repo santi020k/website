@@ -54,6 +54,32 @@ const settleNavigation = async (page: Page, swapY: number) => {
   await expect(root).toHaveAttribute('data-recovery-loaded', '')
 }
 
+// Check beyond the swap event: a queued browser scroll-anchor adjustment runs
+// at rendering time and can otherwise overwrite a correctly restored position.
+const expectSettledPosition = async (page: Page, top: number) => {
+  await expect(page.locator('html')).not.toHaveAttribute('data-astro-transition')
+
+  const positions = await page.evaluate(async () => {
+    const samples: number[] = []
+
+    for (let frame = 0; frame < 3; frame++) {
+      await new Promise<void>(resolve => requestAnimationFrame(() => {
+        resolve()
+      }))
+
+      samples.push(window.scrollY)
+    }
+
+    return samples
+  })
+
+  expect(positions).toEqual([top, top, top])
+
+  if (await page.evaluate(() => CSS.supports('overflow-anchor', 'auto'))) {
+    await expect(page.locator('html')).toHaveCSS('overflow-anchor', 'auto')
+  }
+}
+
 // Use a later topic so the selected state is exercised beyond the first mobile row.
 const resolveLaterTopic = async (page: Page) => {
   await page.goto('/blog/')
@@ -94,50 +120,62 @@ for (const reducedMotion of ['no-preference', 'reduce'] as const) {
   test.describe(`history scroll recovery (${reducedMotion} motion)`, () => {
     test.use({ reducedMotion, viewport: { width: 1500, height: 900 } })
 
-    test('Back and Forward restore saved positions inside astro:after-swap', async ({ page }) => {
-      await page.goto('/blog/')
-      await expect(progress(page)).toHaveClass(/is-complete/u)
-      await expect(page.locator('html')).toHaveCSS('scroll-behavior', scrollBehavior)
+    for (const width of [390, 1500]) {
+      for (const fallback of [false, true]) {
+        test(`Back and Forward restore saved positions at ${width}px with ${fallback ? 'fallback' : 'native'} transitions`, async ({ page }) => {
+          await page.setViewportSize({ width, height: 900 })
+          await page.addInitScript(disableNativeTransitions => {
+            if (disableNativeTransitions) {
+              Object.defineProperty(document, 'startViewTransition', { value: undefined, configurable: true })
+            }
+          }, fallback)
+          await page.goto('/blog/')
+          await expect(progress(page)).toHaveClass(/is-complete/u)
+          await expect(page.locator('html')).toHaveCSS('scroll-behavior', scrollBehavior)
 
-      const card = page.locator('[data-post-gallery-card]').nth(3)
-      const link = card.getByRole('link')
-      const cardTop = await card.evaluate(element => element.getBoundingClientRect().top + window.scrollY)
-      const archiveY = await scrollToY(page, Math.round(cardTop - 160))
-      const articlePath = requireValue(await link.getAttribute('href'))
+          const card = page.locator('[data-post-gallery-card]').nth(3)
+          const link = card.getByRole('link')
+          const cardTop = await card.evaluate(element => element.getBoundingClientRect().top + window.scrollY)
+          const archiveY = await scrollToY(page, Math.round(cardTop - 160))
+          const articlePath = requireValue(await link.getAttribute('href'))
 
-      expect(archiveY).toBeGreaterThan(0)
-      // A fully visible link needs no actionability scroll, so Astro saves archiveY on click.
-      await expect(link).toBeInViewport({ ratio: 1 })
-      await armNavigation(page)
-      await link.click()
-      await settleNavigation(page, 0)
-      expect(currentPath(page)).toBe(articlePath)
-      await expect(page.locator('html')).toHaveCSS('scroll-behavior', scrollBehavior)
+          expect(archiveY).toBeGreaterThan(0)
+          // A fully visible link needs no actionability scroll, so Astro saves archiveY on click.
+          await expect(link).toBeInViewport({ ratio: 1 })
+          await armNavigation(page)
+          await link.click()
+          await settleNavigation(page, 0)
+          expect(currentPath(page)).toBe(articlePath)
+          await expect(page.locator('html')).toHaveCSS('scroll-behavior', scrollBehavior)
 
-      const articleY = await page.evaluate(() => {
-        window.scrollTo({
-          behavior: 'instant',
-          top: Math.min(1200, document.documentElement.scrollHeight - window.innerHeight - 1)
+          const articleY = await page.evaluate(() => {
+            window.scrollTo({
+              behavior: 'instant',
+              top: Math.min(1200, document.documentElement.scrollHeight - window.innerHeight - 1)
+            })
+
+            return window.scrollY
+          })
+
+          expect(articleY).toBeGreaterThan(0)
+          await expect.poll(() => savedHistoryY(page)).toBe(articleY)
+
+          await armNavigation(page)
+          await page.goBack()
+          await settleNavigation(page, archiveY)
+          expect(currentPath(page)).toBe('/blog/')
+          expect(await page.evaluate(() => window.scrollY)).toBe(archiveY)
+          await expectSettledPosition(page, archiveY)
+
+          await armNavigation(page)
+          await page.goForward()
+          await settleNavigation(page, articleY)
+          expect(currentPath(page)).toBe(articlePath)
+          expect(await page.evaluate(() => window.scrollY)).toBe(articleY)
+          await expectSettledPosition(page, articleY)
         })
-
-        return window.scrollY
-      })
-
-      expect(articleY).toBeGreaterThan(0)
-      await expect.poll(() => savedHistoryY(page)).toBe(articleY)
-
-      await armNavigation(page)
-      await page.goBack()
-      await settleNavigation(page, archiveY)
-      expect(currentPath(page)).toBe('/blog/')
-      expect(await page.evaluate(() => window.scrollY)).toBe(archiveY)
-
-      await armNavigation(page)
-      await page.goForward()
-      await settleNavigation(page, articleY)
-      expect(currentPath(page)).toBe(articlePath)
-      expect(await page.evaluate(() => window.scrollY)).toBe(articleY)
-    })
+      }
+    }
 
     test('same-page fragment Back and Forward restore before later popstate listeners', async ({ page }) => {
       await page.goto('/blog/')

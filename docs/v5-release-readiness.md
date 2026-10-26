@@ -294,3 +294,30 @@ passed with zero warnings. The current-site type check reported no diagnostics
 across 478 files, and the final production build and 452-page OG audit passed.
 The existing resume artifacts passed freshness checks; no regeneration was needed.
 Matched desktop and mobile captures were reviewed.
+
+## Navigation review fixes
+
+The v5 review reproduced a browser scroll-anchor adjustment after Astro had
+restored an article's saved history position. The fix suspends anchoring across
+the document swap and its first paint, then restores normal browser anchoring.
+A new swap cancels the preceding cleanup frame. Native transitions, immediate
+fallback swaps, reduced motion, fragment navigation and focus recovery retain
+their existing behavior.
+
+The regression now checks mobile and desktop Back/Forward navigation with native
+and fallback transitions in both motion modes. It verifies the exact position
+inside `astro:after-swap` and across subsequent rendered frames, and confirms that
+normal anchoring resumes. All 90 production Chromium/WebKit navigation, search
+and transition cases passed with one worker and retries disabled.
+
+The deployment runbook now lists all four archives, including `/v4/`, in the
+existing `X-Robots-Tag` policy. The complete production build passed: archive
+checks covered 1,288 pages and the assembled-page audit covered 1,740 documents
+and 8,129 local targets with no errors. Both resume PDFs were regenerated for
+the changed layout and stylesheet fingerprint. Changesets folded the fix into
+the unpublished 5.0.0 notes without changing published release history.
+
+The source branch's full `pnpm run verify:quality` gate passed: zero-warning lint
+and type checks for every app, spelling and content checks, PDF freshness, 907
+unit tests and seven motion-browser tests. Integration checks are recorded
+separately from this source-branch result.

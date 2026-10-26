@@ -1,6 +1,10 @@
 /* Transition the viewport instead of a full-height main snapshot, which would
    stretch or jump when routes differ in length or scroll position. The header
    stays separate, and Astro owns navigation, history, focus, and announcements. */
+html[data-navigation-scroll] {
+  overflow-anchor: none;
+}
+
 /* A permanent named snapshot makes the header a backdrop root, preventing its
    menu overlay from blurring page content. Astro sets this before both captures. */
 html[data-astro-transition] .site-header {

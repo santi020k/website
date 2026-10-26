@@ -664,6 +664,8 @@
 
 - Run the full pull-request quality gate when only the SEO audit configuration or the committed social-image cache manifest changes, and classify changed paths containing non-ASCII characters or newlines instead of skipping them. Build the committed social images and manifest from the checkout instead of restoring an Actions cache that could overwrite them with older copies. Regression tests execute the workflow's own change classifier against temporary Git histories and manual dispatch, without inheriting a Git hook's repository variables.
 
+- Keep restored reading positions steady through browser Back and Forward navigation, including immediate page swaps, while preserving normal scroll anchoring after navigation.
+
 ## 4.0.0
 
 ### Major Changes
