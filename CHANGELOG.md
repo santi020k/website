@@ -298,6 +298,10 @@
 
 ### Patch Changes
 
+- Explain related writing with links to topics actually shared by the displayed recommendations, preserving the approved editorial header and article selection.
+
+- Present speaking topics and session formats before the complete talk history, community work, and booking actions while preserving all content and destinations.
+
 - Add a numbered About chapter guide with direct links to Collaboration, Context, Principles, and Recommendations, preserving native keyboard navigation and responsive layouts.
 
 - Bound article contents rails to the prose so series navigation, comments, and sharing close the page without a pinned chapter list.

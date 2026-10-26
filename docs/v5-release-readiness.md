@@ -416,3 +416,32 @@ All 90 merged Chromium/WebKit navigation-recovery, search-navigation, and view-
 transition cases passed with one worker and retries disabled. The coverage
 includes mobile and desktop, both motion preferences, native and fallback swaps,
 exact restored positions across rendered frames, and restored scroll anchoring.
+
+## Session first and Topic context follow-up
+
+The approved Speaking page flow from `b4832786` is contained through `ea33a72f`.
+Existing sections now follow Topics, Formats, History, Community, and Booking
+after the hero and highlights. The complete cards, text, destinations, and
+structured data are preserved; no CSS reordering is used.
+
+The approved related-writing context from `d4c96d62` derives at most two topics
+actually shared by the displayed recommendations. It represents both articles,
+deduplicates topics in source order, and uses canonical native archive links.
+The shared section header accepts a description slot while retaining existing
+description props as its fallback. Article ranking, cards, and browse actions
+remain unchanged. Both patch notes are folded into 5.0.0.
+
+Scoped integration validation passed with zero-warning affected lint, all 910
+unit tests, the current production build, and the 452-page OG audit. All 66
+Chromium/WebKit cases passed for Speaking, related-writing headers, fresh
+recommendations, and reading boundaries, plus four no-JavaScript shared-header
+cases. Every browser run used retries disabled. Matched desktop/mobile captures
+in both themes were reviewed; all Speaking card text and link attributes matched
+the source baseline. Both resume PDFs were regenerated because the shared content
+helper participates in their fingerprint, then passed freshness checks.
+
+The assembled-page audit passed across 1,740 documents and 8,129 local targets
+with no errors. Published changelog entries remain unchanged.
+
+The complete workspace gate remains recorded at `16b66665`; these later visual
+iterations received scoped integration checks rather than repeating that gate.

@@ -131,6 +131,28 @@ export const getRelatedPosts = async ({
     .map(item => item.post)
 }
 
+/** Explain the displayed recommendations with at most two real shared topics. */
+export const getRelatedTopics = (
+  tags: readonly string[],
+  posts: readonly { data: { tags: readonly string[] } }[]
+): string[] => {
+  const uniqueTags = [...new Set(tags)]
+  const selected = new Set<string>()
+
+  // Give each displayed article a connection before filling a spare topic slot.
+  for (const post of posts) {
+    const topic = uniqueTags.find(tag => post.data.tags.includes(tag))
+
+    if (topic !== undefined && selected.size < 2) selected.add(topic)
+  }
+
+  for (const tag of uniqueTags) {
+    if (selected.size < 2 && posts.some(post => post.data.tags.includes(tag))) selected.add(tag)
+  }
+
+  return uniqueTags.filter(tag => selected.has(tag))
+}
+
 /**
  * Returns projects related by type and shared technologies.
  * Falls back to same-type projects even when no technology overlaps.

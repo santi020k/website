@@ -2588,6 +2588,17 @@ retain visible keyboard focus, and preserve the blog or developer-experience des
 Recommendation selection, series exclusion, article cards, and project shelf headers stay
 with their existing components and contracts. No client script is required.
 
+**Topic context** replaces the generic related-writing description with “Connected through”
+and up to two native topic links. Derive these from the final displayed recommendations:
+give each article a shared topic first, then fill a spare slot with another shared topic.
+Deduplicate and preserve the current article's topic order. Never imply a connection to a
+topic absent from the displayed recommendations. Use the canonical tag archive helper.
+The shared header's description slot contains the context; existing description props remain
+the fallback for other headers. Keep the approved margin rule, title, gallery and browse action.
+Use a 0.8125rem label, 0.9375rem underlined Lumen links with 2.75rem minimum targets, a quiet
+dot separator, and wrapping at narrow widths. One topic needs no separator; an empty
+recommendation set still omits the whole section. No client script is needed.
+
 Article and project headers use
 lighter titles and open metadata rows; project titles retain their readable project-brand
 accent. Long-form prose, code controls, reading progress, and sticky table-of-contents links
