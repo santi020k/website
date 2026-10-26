@@ -198,11 +198,21 @@ const isGenerousSpacing = mainSpacing === 'generous'
     <script>
       import { TransitionBeforeSwapEvent } from 'astro:transitions/client'
 
+      let anchoringFrame = 0
+
       // The route transition owns the entrance after navigation. Replaying each
       // hero's initial-load animation underneath it causes a second jump/fade.
       document.addEventListener('astro:before-swap', event => {
         if (event instanceof TransitionBeforeSwapEvent) {
           event.newDocument.body.dataset.clientNavigation = ''
+
+          // A queued adjustment from the outgoing document must not move Astro's
+          // restored position. Keep anchoring off across the root-attribute swap.
+          cancelAnimationFrame(anchoringFrame)
+
+          document.documentElement.setAttribute('data-navigation-scroll', '')
+
+          event.newDocument.documentElement.setAttribute('data-navigation-scroll', '')
         }
       })
 
@@ -217,6 +227,16 @@ const isGenerousSpacing = mainSpacing === 'generous'
       // the page change. Astro retains control of fragment and history scroll.
       document.addEventListener('astro:after-swap', () => {
         allowSmoothScroll()
+
+        // Allow the restored document to paint before selecting a new scroll
+        // anchor. Two frames also cover the immediate, non-native swap fallback.
+        anchoringFrame = requestAnimationFrame(() => {
+          anchoringFrame = requestAnimationFrame(() => {
+            document.documentElement.removeAttribute('data-navigation-scroll')
+
+            anchoringFrame = 0
+          })
+        })
 
         const main = document.getElementById('main')
 

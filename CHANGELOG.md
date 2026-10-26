@@ -298,6 +298,8 @@
 
 ### Patch Changes
 
+- Add a numbered About chapter guide with direct links to Collaboration, Context, Principles, and Recommendations, preserving native keyboard navigation and responsive layouts.
+
 - Bound article contents rails to the prose so series navigation, comments, and sharing close the page without a pinned chapter list.
 
 - Refine About recommendations with Quote sleeve cards, placing each complete quote before a ruled author footer while preserving Reading rows, all attribution details, and responsive accessibility.
@@ -669,6 +671,8 @@
 - Reuse valid empty search indexes, validate saved recent queries before rendering accessible suggestions, and close search safely during same-page fragment history navigation while preserving searchable deep links.
 
 - Run the full pull-request quality gate when only the SEO audit configuration or the committed social-image cache manifest changes, and classify changed paths containing non-ASCII characters or newlines instead of skipping them. Build the committed social images and manifest from the checkout instead of restoring an Actions cache that could overwrite them with older copies. Regression tests execute the workflow's own change classifier against temporary Git histories and manual dispatch, without inheriting a Git hook's repository variables.
+
+- Keep restored reading positions steady through browser Back and Forward navigation, including immediate page swaps, while preserving normal scroll anchoring after navigation.
 
 ## 4.0.0
 

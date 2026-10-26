@@ -354,3 +354,65 @@ lint passed with zero warnings; the current production build and 452-page OG
 audit passed. Resume PDFs were regenerated for the shared-style fingerprint and
 passed freshness checks. The patch note is folded into 5.0.0 with published
 changelog entries unchanged.
+
+## Navigation review fixes
+
+The v5 review reproduced a browser scroll-anchor adjustment after Astro had
+restored an article's saved history position. The fix suspends anchoring across
+the document swap and its first paint, then restores normal browser anchoring.
+A new swap cancels the preceding cleanup frame. Native transitions, immediate
+fallback swaps, reduced motion, fragment navigation and focus recovery retain
+their existing behavior.
+
+The regression now checks mobile and desktop Back/Forward navigation with native
+and fallback transitions in both motion modes. It verifies the exact position
+inside `astro:after-swap` and across subsequent rendered frames, and confirms that
+normal anchoring resumes. All 90 production Chromium/WebKit navigation, search
+and transition cases passed with one worker and retries disabled.
+
+The deployment runbook now lists all four archives, including `/v4/`, in the
+existing `X-Robots-Tag` policy. The complete production build passed: archive
+checks covered 1,288 pages and the assembled-page audit covered 1,740 documents
+and 8,129 local targets with no errors. Both resume PDFs were regenerated for
+the changed layout and stylesheet fingerprint. Changesets folded the fix into
+the unpublished 5.0.0 notes without changing published release history.
+
+The source branch's full `pnpm run verify:quality` gate passed: zero-warning lint
+and type checks for every app, spelling and content checks, PDF freshness, 907
+unit tests and seven motion-browser tests. Integration checks are recorded
+separately from this source-branch result.
+
+## Chapter guide follow-up
+
+The approved About Chapter guide from `a27f1a72` is contained through `fc8796b3`.
+Four native Lumen links below the profile highlights reach the existing numbered
+Collaboration, Context, Principles, and Recommendations sections. Four desktop
+columns become full-width rows on narrow containers, without new client code.
+The patch note is folded into the unpublished 5.0.0 changelog.
+
+All 12 scoped Chromium/WebKit cases passed with retries disabled, covering the
+four keyboard destinations, responsive layouts, and accessibility. An additional
+20 checks covered five viewport widths at normal and 200% text, with JavaScript
+enabled and disabled. All links retained usable targets and no horizontal
+overflow. The temporary no-JavaScript harness needed direct style assignment
+instead of waiting on an injected stylesheet event; no application change was
+needed. Matched desktop/mobile captures in both themes were reviewed.
+
+## Combined navigation integration gate
+
+The combined Chapter guide and navigation-fix candidate passed the complete
+`pnpm run verify:fast` gate: CI-scope tests, spelling, zero-warning lint and type
+checks across all apps, Markdown and content checks, PDF freshness, 907 unit
+tests, seven motion-browser tests, and all five production builds. The archive
+audit passed across 1,288 pages; the assembled-page audit covered 1,740 documents
+and 8,129 local targets with no errors. The current-site OG audit covered 452
+pages with no errors or warnings.
+
+The generated PDF merge conflicts were resolved by rendering both resumes from
+the combined source. Both branches' release-readiness histories are preserved,
+and the published 4.0.0 changelog remains byte-identical to the released base.
+
+All 90 merged Chromium/WebKit navigation-recovery, search-navigation, and view-
+transition cases passed with one worker and retries disabled. The coverage
+includes mobile and desktop, both motion preferences, native and fallback swaps,
+exact restored positions across rendered frames, and restored scroll anchoring.

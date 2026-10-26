@@ -283,7 +283,7 @@ so an alias may legitimately return a different canonical `wm-target`.
 ## Historical versions
 
 The existing `pnpm run build` command now assembles the current website and the
-three archive apps into `dist/`. Keep the output directory at `dist`; archives
+four archive apps into `dist/`. Keep the output directory at `dist`; archives
 are static subdirectories. Preserve the generated `_headers`: `/v1`, `/v2`,
-and `/v3` and their descendants carry `X-Robots-Tag: noindex, follow`. Do not add
+`/v3`, and `/v4` and their descendants carry `X-Robots-Tag: noindex, follow`. Do not add
 robots.txt exclusions for these paths. See [website history](website-history.md).
