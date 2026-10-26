@@ -251,6 +251,12 @@ per-entry meaning, including work and community. Query headings use `textContent
 and the live count and input focus remain stable. Without JavaScript, the complete
 server-rendered grouped catalog remains available.
 
+The technology index ending uses **Evidence paths**: three Lumen `Link` rows with
+native Work, Projects, and Blog destinations, plus decorative Lumen `Icon` arrows.
+The site owns the editorial header, rules, responsive number/copy placement, and
+focus treatment. The existing section fragment stays stable; no client controller
+or additional card primitive is needed.
+
 ## Blog topics search and sort
 
 The **Search folio** panel composes an unstyled Lumen `Card`, a labeled `Input`,
