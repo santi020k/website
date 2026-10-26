@@ -14,7 +14,7 @@ for (const width of [320, 390, 1440]) {
             })
           }, textSize)
 
-          for (const route of ['/portfolio/smith-commerce/', '/portfolio/lumen-ui/', '/portfolio/void/']) {
+          for (const route of ['/portfolio/smith-commerce/', '/portfolio/datagran/', '/portfolio/void/']) {
             await page.goto(route)
             await page.evaluate(() => document.fonts.ready)
             const list = page.locator('[data-project-ledger]').first()

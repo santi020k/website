@@ -78,10 +78,14 @@ words:
   - Customising
   - daher
   - Datagran
+  # Existing heading fragments omit possessive apostrophes.
+  - datagrans
+  - colombias
   - Dateien
   - Datenschutz
   - dbaeumer
   - deepseek
+  - describedby
   - Deepseek
   - defaultdict
   - Dialogo

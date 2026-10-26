@@ -45,11 +45,21 @@ focusAreas:
     description: "Measured enhancements, tailored looks, and layouts"
   - label: "Publishing prep"
     description: "Carousels, captions, and private planning"
+notesLayout: "context-lead"
 ---
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
-
 import ProjectPreviews from '@/components/molecules/ProjectPreviews.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+
+<ProjectContextLead projectId="postlens" headingId="building-a-private-visual-content-studio-for-iphone-and-ipad">
 
 ## Building a private visual content studio for iPhone and iPad
 
@@ -57,50 +67,187 @@ PostLens helps people choose strong photos, improve them with explainable edits,
 
 Optional Supporter tools add private planning with local reminders. Plans stay on the device and do not publish automatically. Instagram account connection and direct publishing remain disabled for a later release; analytics and engagement tracking stay outside the product.
 
+</ProjectContextLead>
+
 <ProjectPreviews projectId="postlens">
 
 ### Inside the product
 
 </ProjectPreviews>
 
-<ProjectOutcomesCard projectId="postlens" />
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Technical highlights", href: "#technical-highlights" },
+    { label: "Results", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="postlens"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Goals
 
-- **Make photo selection easier** with useful scoring that does not upload a library to a private server.
-- **Keep edits understandable** through measured signals and bounded adjustment recipes.
-- **Support real publishing formats** without locking a photo into one destination or crop.
-- **Treat privacy, accessibility, and localization as product features** rather than release notes.
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Make photo selection easier** with useful scoring that does not upload a library to a private server.
+
+</li>
+
+<li>
+
+**Keep edits understandable** through measured signals and bounded adjustment recipes.
+
+</li>
+
+<li>
+
+**Support real publishing formats** without locking a photo into one destination or crop.
+
+</li>
+
+<li>
+
+**Treat privacy, accessibility, and localization as product features** rather than release notes.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
 
 ### What I built
 
-- **A progressive scored gallery** that prioritizes visible photos, analyzes local assets in battery-aware batches, and reuses a private on-device index.
-- **An editing workflow** that measures exposure, contrast, saturation, color balance, clipping, and sharpness before applying predictable looks.
-- **A tailored AI look** that searches bounded candidates, validates the result, frames a Vision-guided crop, and drafts an editable grounded caption.
-- **Layouts and carousels** for reusable social formats, publishing sets, profile grids, and still-frame video export.
-- **Private planning** with a local calendar and reminders for preparing work without connecting a social account.
-- **Optional Apple integrations** for Foundation Models coaching and per-use Image Playground handoff on supported devices.
-- **An Astro landing and support site** in English and Spanish.
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A progressive scored gallery"}>
+
+that prioritizes visible photos, analyzes local assets in battery-aware batches, and reuses a private on-device index.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"An editing workflow"}>
+
+that measures exposure, contrast, saturation, color balance, clipping, and sharpness before applying predictable looks.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"A tailored AI look"}>
+
+that searches bounded candidates, validates the result, frames a Vision-guided crop, and drafts an editable grounded caption.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Layouts and carousels"}>
+
+for reusable social formats, publishing sets, profile grids, and still-frame video export.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Private planning"}>
+
+with a local calendar and reminders for preparing work without connecting a social account.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Optional Apple integrations"}>
+
+for Foundation Models coaching and per-use Image Playground handoff on supported devices.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={7} title={"An Astro landing and support site"}>
+
+in English and Spanish.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
 
 ### Technical highlights
 
-- **Native stack:** `SwiftUI`, `PhotoKit`, `PhotosPicker`, `Vision`, `Core Image`, `StoreKit`, and Apple system sharing.
-- **On-device intelligence:** local scoring, bounded preview re-analysis, subject-aware framing, and caption preparation.
-- **Privacy boundaries:** core photo work stays on the device, saved copies omit metadata, and optional Apple generative workflows begin with an explicit disclosure.
-- **Release quality:** privacy manifests, source-size checks, native tests, SEO checks, and a release preflight.
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Native stack</dt>
+  <dd>
+
+`SwiftUI`, `PhotoKit`, `PhotosPicker`, `Vision`, `Core Image`, `StoreKit`, and Apple system sharing.
+
+  </dd>
+</div>
+
+<div>
+  <dt>On-device intelligence</dt>
+  <dd>
+
+local scoring, bounded preview re-analysis, subject-aware framing, and caption preparation.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Privacy boundaries</dt>
+  <dd>
+
+core photo work stays on the device, saved copies omit metadata, and optional Apple generative workflows begin with an explicit disclosure.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Release quality</dt>
+  <dd>
+
+privacy manifests, source-size checks, native tests, SEO checks, and a release preflight.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
 
 ### Results
+
+</ProjectSectionHeading>
 
 - **A complete free single-photo workflow** from library review to format-specific export.
 - **Optional Supporter features** that add multi-photo exports and private planning without gating privacy, accessibility, scoring, or core editing.
 - **A clear product boundary** that keeps PostLens a visual studio instead of another social account dashboard.
 
+<ProjectSectionHeading>
+
 ### Available today and in development
+
+</ProjectSectionHeading>
 
 PostLens is available for iPhone and iPad on the [App Store](https://apps.apple.com/app/id6804601300). The development previews show upcoming PostLens 2 editing tools; they do not represent the current store release. Local planning and manual sharing remain separate from the deferred Instagram integration.
 
+<ProjectSectionHeading>
+
 ### Why it matters
 
-Creative tools can be helpful without becoming opaque. PostLens combines on-device measurement, predictable adjustments, and optional system intelligence while keeping the user in control of the final image and caption.
+</ProjectSectionHeading>
 
-[Visit PostLens](https://postlens.santi020k.com/).
+<ProjectPrincipleClose lead={"Creative tools can be helpful without becoming opaque."}>
+
+PostLens combines on-device measurement, predictable adjustments, and optional system intelligence while keeping the user in control of the final image and caption.
+
+</ProjectPrincipleClose>

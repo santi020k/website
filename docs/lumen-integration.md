@@ -357,29 +357,31 @@ enlarged text sizes. No new client controller is introduced.
   introduction in a semantic section. It reads the existing project metadata and requires
   `notesLayout: context-lead`, which removes the generic layout preface. Markdown retains
   the heading and inline link; shared tokens provide the open composition without client code.
-  Smith and Lumen opt in. Lumen keeps both authored opening paragraphs within the
-  section, using the same readable spacing without a second generic preface.
+  All project entries use this opening, retaining every authored introduction paragraph
+  without a second generic preface. See [project detail patterns](editorial/project-detail-patterns.md).
 - `ProjectSectionHeading` wraps an authored Markdown h3 with Section cadence typography
   and a decorative trailing rule. Inline heading content stays in normal text flow; long
   labels wrap without changing their names or fragments. Adjacent narrative paragraphs
   use the reading scale, while composed gallery and evidence headings keep their own styles.
-  Lumen uses the same component for its five plain narrative subsections; the existing
-  Markdown headings remain the source for chapter links and native fragment navigation.
+  All projects use this component for ordinary narrative subsections; Markdown headings
+  remain the source for chapter links and native fragment navigation.
 - `rehypeArticleHeadings` applies Section cadence to current article body h2 elements at
   build time. Native headings, generated fragments, and inline links remain intact;
   a span keeps formatted titles together beside a CSS rule. The article prose container
   adapts the typography and rule spacing without client code or a second Lumen runtime.
-- `ProjectIntentBrief` presents Lumen's four goals as a named native list with continuous
+- `ProjectIntentBrief` presents project goals as a named native list with continuous
   statements and accent opening phrases. The site owns the open rules and responsive
   reading scale; the authored Section cadence heading remains the source of its name
-  and fragment. No replacement Lumen control or client controller is added.
-- `ProjectCapabilitySpread` and `ProjectCapabilityEntry` compose Lumen's six capabilities
+  and fragment. Native Markdown list-item slots preserve inline code and links; the plain-text data
+  form remains supported. No replacement Lumen control or client controller is added.
+- `ProjectCapabilitySpread` and `ProjectCapabilityEntry` compose product capabilities
   as a named native list with open ruled entries, decorative numbers, and h4 labels.
   They preserve authored MDX descriptions and inline code, use semantic tokens, and stack
   below 35rem of available width. No Lumen control or client controller is needed for this
-  passive editorial composition; other project lists retain Ownership ledger.
+  passive editorial composition; professional responsibilities and results retain Ownership ledger.
 - `ProjectArchitectureBrief` composes a named native adapter list and authored definition
-  rows for Lumen's technical highlights. Site-owned container queries stack the package
+  rows for project technical highlights. The adapter lead is optional; projects without
+  adapters render only their authored definitions. Site-owned container queries stack the package
   names and notes below 35rem. It retains Section cadence and the existing chapter fragment;
   this passive composition adds no client controller or replacement Lumen primitive.
 - `ProjectEvidenceBrief` groups authored qualifications with named external references in
@@ -396,7 +398,8 @@ enlarged text sizes. No new client controller is introduced.
   as an open native list with h4 labels. Semantic accent tokens distinguish the policy
   sentence, and container queries stack the perspectives below 35rem. The authored
   Section cadence heading retains its fragment; no new controller or Lumen primitive
-  is needed for this passive editorial composition.
+  is needed for this passive editorial composition. Other projects reuse the existing
+  first sentence as their lead with authored prose in the slot, without inventing audience groups.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter
@@ -538,6 +541,11 @@ These stay app-owned by design rather than migrating to a Lumen primitive:
   The original Shiki code children and authored line-number offsets remain intact.
   The Husky article uses the same fenced-code pipeline for its four standalone
   examples; package-manager groups retain the real Astro `CodeTabs` component.
+  Scroll cue uses a site-owned custom element inside each standalone article
+  figure. It observes the existing code region and content, showing a footer and
+  accessible description only on horizontal overflow. Its observer disconnects
+  with the element during Astro navigation. Lumen still owns copy and code tabs;
+  no replacement scrolling or copy controller is introduced.
 - Project prose lists use Ownership ledger. `rehype-project-ledger.ts` separates an authored
   leading `strong` from its explanation at build time, preserving links, code, nested lists,
   ordered-list metadata, and plain or fully emphasized entries. Only project content receives

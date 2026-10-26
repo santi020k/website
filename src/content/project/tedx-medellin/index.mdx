@@ -36,9 +36,16 @@ focusAreas:
     description: "Technology coordination with the marketing team"
   - label: "Visual direction"
     description: "UI and brand execution through Justbit"
+notesLayout: "context-lead"
 ---
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="tedx-medellin" headingId="launching-the-digital-front-door-for-tedx-medellin-2019">
 
 ## Launching the digital front door for TEDx Medellin 2019
 
@@ -46,33 +53,91 @@ In early 2019, I volunteered as the Technology Coordinator for [TEDx Medellin](h
 
 We used WordPress so the team could move quickly with speaker announcements, event logistics, and ticket communication without turning every update into a development bottleneck. At the same time, my brand at the time, [Justbit.site](https://justbit.site), helped shape the UI and visual direction used across the launch, and the work ended up being featured alongside the participating brands.
 
-<ProjectOutcomesCard projectId="tedx-medellin" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "My contribution", href: "#what-i-owned" },
+    { label: "Launch outcomes", href: "#outcomes" },
+    { label: "Tech stack", href: "#tech-stack" }
+  ]}
+  headingId="outcome-summary"
+  id="sidebar-outcomes"
+  projectId="tedx-medellin"
+>
+
+### Outcome summary
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Core challenge
 
+</ProjectSectionHeading>
+
 The project had the usual nonprofit-event tension: high visibility, real deadline pressure, and a volunteer-driven team that still needed a polished, trustworthy web presence. The site had to feel credible enough for a TEDx audience while staying easy for the team to update as speakers, schedules, and campaign details evolved.
 
+<ProjectSectionHeading>
+
 ### What I owned
+
+</ProjectSectionHeading>
 
 - **Technology coordination for the launch,** making sure the web work stayed aligned with the event timeline and the needs of the marketing team.
 - **WordPress implementation and content setup,** so event information could be published and revised quickly as the edition took shape.
 - **Close collaboration with marketing,** translating campaign needs into updates that supported promotion, clarity, and ticket conversion.
 - **UI and visual execution through Justbit,** helping deliver the design assets and branded presentation the event used that year.
 
+<ProjectSectionHeading>
+
 ### Outcomes
+
+</ProjectSectionHeading>
 
 - **A sold-out event rollout,** with the website helping support promotion and give the edition a clear digital home.
 - **A cleaner launch workflow,** where non-technical collaborators could keep important event details current without waiting on custom code for every change.
 - **Brand visibility for Justbit,** which appeared among the participating brands after contributing the UI and visual work for the launch.
 - **A stronger bridge between product and community work,** combining software delivery, event operations, and storytelling in one project.
 
+<ProjectSectionHeading>
+
 ### Tech stack
 
-- **Platform and delivery:** `WordPress`, `PHP`, `JavaScript`, `Semantic HTML & CSS`
-- **Launch and collaboration:** `UI Design`, `Brand Design`, `Marketing Collaboration`, `Content Strategy`, `Event Operations`
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Platform and delivery</dt>
+  <dd>
+
+`WordPress`, `PHP`, `JavaScript`, `Semantic HTML & CSS`
+
+  </dd>
+</div>
+
+<div>
+  <dt>Launch and collaboration</dt>
+  <dd>
+
+`UI Design`, `Brand Design`, `Marketing Collaboration`, `Content Strategy`, `Event Operations`
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
 
 ### Why it mattered
 
-TEDx Medellin was one of those projects where technology felt very human. It was not only about shipping a website. It was about helping ideas reach an audience, supporting a community event with real cultural weight, and doing the work in a volunteer context where trust and collaboration mattered as much as the code.
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"TEDx Medellin was one of those projects where technology felt very human."}>
+
+It was not only about shipping a website. It was about helping ideas reach an audience, supporting a community event with real cultural weight, and doing the work in a volunteer context where trust and collaboration mattered as much as the code.
+
+</ProjectPrincipleClose>
 
 If you want to see the original launch context, the official TED event page is still online and the [archived event website](https://web.archive.org/web/20181227002803/https://www.tedxmedellinoficial.com/) still captures part of how the experience was presented at the time.

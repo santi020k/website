@@ -35,9 +35,21 @@ focusAreas:
     description: "Cooperative or competitive sessions with configurable goals"
   - label: "Private library"
     description: "Offline decks, favorites, and an on-device trip journal"
+notesLayout: "context-lead"
+closingLinks:
+  - label: "Play RoadScore in the browser"
+    href: "https://roadscore.santi020k.com/app/"
 ---
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="roadscore" headingId="turning-the-miles-into-a-game">
 
 ## Turning the miles into a game
 
@@ -45,39 +57,162 @@ RoadScore is a road-trip card game designed for one shared phone. A passenger ru
 
 I built the mobile game, its deck-catalog service, and a bilingual marketing site as one pnpm monorepo. RoadScore is playable in the browser and available on Android through [Google Play](https://play.google.com/store/apps/details?id=com.santi020k.roadscore). The iPhone and iPad release remains in preparation.
 
-<ProjectOutcomesCard projectId="roadscore" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Technical highlights", href: "#technical-highlights" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="roadscore"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Goals
 
-- **Make road time social** without requiring every passenger to install an app or create an account.
-- **Work offline by default** so a lost signal never ends the trip.
-- **Protect the driver’s attention** by assigning control to a co-pilot or another fixed passenger.
-- **Support different groups** with bilingual content, custom decks, flexible session recipes, and consent-gated adult content.
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Make road time social** without requiring every passenger to install an app or create an account.
+
+</li>
+
+<li>
+
+**Work offline by default** so a lost signal never ends the trip.
+
+</li>
+
+<li>
+
+**Protect the driver’s attention** by assigning control to a co-pilot or another fixed passenger.
+
+</li>
+
+<li>
+
+**Support different groups** with bilingual content, custom decks, flexible session recipes, and consent-gated adult content.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
 
 ### What I built
 
-- **A complete free Road Trip Mix** with hundreds of English and Spanish cards spanning trivia, spotting, conversations, challenges, and activities.
-- **Flexible trip sessions** with balanced, quick, scenic, conversation, and chaos recipes; competitive or cooperative play; and optional card, point, or time finish lines.
-- **Fast shared-phone scoring** with a rotating Card Reader, saved challenges, score correction, live standings, and accessible alternatives to gestures.
-- **Private personalization** for favorites, hidden cards, custom deck import and export, and a 20-trip on-device journal with rematches.
-- **Optional premium decks** with platform purchase restoration and a separate consent boundary for Adults Only content.
-- **A versioned catalog pipeline** that publishes validated immutable deck snapshots while devices keep their last known-good catalog offline.
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A complete free Road Trip Mix"}>
+
+with hundreds of English and Spanish cards spanning trivia, spotting, conversations, challenges, and activities.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Flexible trip sessions"}>
+
+with balanced, quick, scenic, conversation, and chaos recipes; competitive or cooperative play; and optional card, point, or time finish lines.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Fast shared-phone scoring"}>
+
+with a rotating Card Reader, saved challenges, score correction, live standings, and accessible alternatives to gestures.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Private personalization"}>
+
+for favorites, hidden cards, custom deck import and export, and a 20-trip on-device journal with rematches.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Optional premium decks"}>
+
+with platform purchase restoration and a separate consent boundary for Adults Only content.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"A versioned catalog pipeline"}>
+
+that publishes validated immutable deck snapshots while devices keep their last known-good catalog offline.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
 
 ### Technical highlights
 
-- **Mobile:** `Expo`, `React Native`, `Expo Router`, `TypeScript`, `Zustand`, and Lumen’s React Native components.
-- **Web:** `Astro`, bilingual static content, an install-free browser build, and Lumen’s web components.
-- **Services:** `Hono`, `Cloudflare Workers`, `D1`, signed owner access, and shared Zod contracts.
-- **Delivery:** `Turborepo`, `pnpm`, EAS, GitHub Actions, deterministic catalog generation, and a broad release preflight.
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Mobile</dt>
+  <dd>
+
+`Expo`, `React Native`, `Expo Router`, `TypeScript`, `Zustand`, and Lumen’s React Native components.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Web</dt>
+  <dd>
+
+`Astro`, bilingual static content, an install-free browser build, and Lumen’s web components.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Services</dt>
+  <dd>
+
+`Hono`, `Cloudflare Workers`, `D1`, signed owner access, and shared Zod contracts.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Delivery</dt>
+  <dd>
+
+`Turborepo`, `pnpm`, EAS, GitHub Actions, deterministic catalog generation, and a broad release preflight.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
 
 ### Privacy and safety boundaries
+
+</ProjectSectionHeading>
 
 RoadScore does not need an account or analytics service. Passengers, scores, trip history, custom decks, and purchase state stay on the device. The catalog service receives no game data or device identifier; it only returns the same published card catalog to every player.
 
 The game also states its most important rule plainly: RoadScore is for a passenger to operate. The driver should never handle the phone while the vehicle is moving.
 
+<ProjectSectionHeading>
+
 ### Current launch state
 
-The production website, catalog service, and web game are deployed, and the Android app has a public Google Play listing. The iPhone and iPad release follows its own testing and App Store review process; the product site keeps that platform marked as coming soon.
+</ProjectSectionHeading>
 
-[Play RoadScore in the browser](https://roadscore.santi020k.com/app/).
+The production website, catalog service, and web game are deployed, and the Android app has a public Google Play listing. The iPhone and iPad release follows its own testing and App Store review process; the product site keeps that platform marked as coming soon.

@@ -32,9 +32,19 @@ focusAreas:
     description: "Display-aware layouts and fast workspace switching"
   - label: "Local control"
     description: "Private data, explainable suggestions, and automation"
+notesLayout: "context-lead"
 ---
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectCapabilityEntry from '@/components/molecules/ProjectCapabilityEntry.astro'
+import ProjectCapabilitySpread from '@/components/molecules/ProjectCapabilitySpread.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
+import ProjectIntentBrief from '@/components/molecules/ProjectIntentBrief.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="workspace-organizer" headingId="organizing-contexts-at-the-window-level">
 
 ## Organizing contexts at the window level
 
@@ -42,39 +52,167 @@ Workspace Organizer is a native macOS app for grouping individual application wi
 
 The window-level distinction is the core idea. A Safari window for personal browsing should not have to travel with a Safari window used for client work simply because both belong to the same application.
 
-<ProjectOutcomesCard projectId="workspace-organizer" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "Capabilities", href: "#what-i-built" },
+    { label: "Technical highlights", href: "#technical-highlights" },
+    { label: "Results", href: "#results" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="workspace-organizer"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### Goals
 
-- **Organize individual windows** without relying on private macOS Spaces APIs.
-- **Restore the scene, not only the app list** with display-aware positions and sizes.
-- **Make switching fast** from the app, menu bar, keyboard, trackpad, Shortcuts, URLs, or a CLI.
-- **Keep sensitive context local** by avoiding window titles and URLs in diagnostics and sync.
+</ProjectSectionHeading>
+
+<ProjectIntentBrief labelledBy="goals">
+
+<li>
+
+**Organize individual windows** without relying on private macOS Spaces APIs.
+
+</li>
+
+<li>
+
+**Restore the scene, not only the app list** with display-aware positions and sizes.
+
+</li>
+
+<li>
+
+**Make switching fast** from the app, menu bar, keyboard, trackpad, Shortcuts, URLs, or a CLI.
+
+</li>
+
+<li>
+
+**Keep sensitive context local** by avoiding window titles and URLs in diagnostics and sync.
+
+</li>
+
+</ProjectIntentBrief>
+
+<ProjectSectionHeading>
 
 ### What I built
 
-- **A native SwiftUI and AppKit application** that discovers standard windows through the public macOS Accessibility API.
-- **Nested workspaces and spaces** with assignments, saved layouts, launch items, reordering, duplication, and configurable shortcuts.
-- **Smart Assist** for explainable local assignment suggestions, editable organize plans, learning from accepted choices, and undo.
-- **Adaptive layout restoration** across display changes, with safeguards for overlapping fallback layouts.
-- **Automation surfaces** through App Intents, Apple Shortcuts, a validated URL scheme, schedules, display events, and a privacy-safe CLI.
-- **Commercial delivery** with a trial, licensing, signed and notarized releases, Sparkle updates, Homebrew installation, and an Astro product site.
+</ProjectSectionHeading>
+
+<ProjectCapabilitySpread labelledBy="what-i-built">
+
+<ProjectCapabilityEntry number={1} title={"A native SwiftUI and AppKit application"}>
+
+that discovers standard windows through the public macOS Accessibility API.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={2} title={"Nested workspaces and spaces"}>
+
+with assignments, saved layouts, launch items, reordering, duplication, and configurable shortcuts.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={3} title={"Smart Assist"}>
+
+for explainable local assignment suggestions, editable organize plans, learning from accepted choices, and undo.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={4} title={"Adaptive layout restoration"}>
+
+across display changes, with safeguards for overlapping fallback layouts.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={5} title={"Automation surfaces"}>
+
+through App Intents, Apple Shortcuts, a validated URL scheme, schedules, display events, and a privacy-safe CLI.
+
+</ProjectCapabilityEntry>
+
+<ProjectCapabilityEntry number={6} title={"Commercial delivery"}>
+
+with a trial, licensing, signed and notarized releases, Sparkle updates, Homebrew installation, and an Astro product site.
+
+</ProjectCapabilityEntry>
+
+</ProjectCapabilitySpread>
+
+<ProjectSectionHeading>
 
 ### Technical highlights
 
-- **Supported platform APIs:** Accessibility, AppKit, SwiftUI, App Intents, iCloud Drive, and public browser automation where available.
-- **Context switching:** application hiding, window raising, layout restoration, display scoping, and per-context navigation.
-- **Privacy:** local-first workspace data, filtered export and sync, privacy-safe diagnostics, and no stored full window titles or URLs.
-- **Distribution:** signed app bundles, Sparkle appcasts, Homebrew casks, Lemon Squeezy licensing, and Cloudflare-hosted marketing.
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Supported platform APIs</dt>
+  <dd>
+
+Accessibility, AppKit, SwiftUI, App Intents, iCloud Drive, and public browser automation where available.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Context switching</dt>
+  <dd>
+
+application hiding, window raising, layout restoration, display scoping, and per-context navigation.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Privacy</dt>
+  <dd>
+
+local-first workspace data, filtered export and sync, privacy-safe diagnostics, and no stored full window titles or URLs.
+
+  </dd>
+</div>
+
+<div>
+  <dt>Distribution</dt>
+  <dd>
+
+signed app bundles, Sparkle appcasts, Homebrew casks, Lemon Squeezy licensing, and Cloudflare-hosted marketing.
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
 
 ### Results
+
+</ProjectSectionHeading>
 
 - **A window-level alternative** to app-level task switching.
 - **Multiple ways to resume context** without making one interaction model mandatory.
 - **A complete independent product pipeline** from native app and tests through licensing, updates, documentation, and distribution.
 
+<ProjectSectionHeading>
+
 ### Why it matters
 
-Modern work happens across many windows from the same few applications. Workspace Organizer treats context as the unit that matters, then rebuilds that context without using private system APIs or uploading the details of what you are working on.
+</ProjectSectionHeading>
 
-[Visit Workspace Organizer](https://workspace.santi020k.com/).
+<ProjectPrincipleClose lead={"Modern work happens across many windows from the same few applications."}>
+
+Workspace Organizer treats context as the unit that matters, then rebuilds that context without using private system APIs or uploading the details of what you are working on.
+
+</ProjectPrincipleClose>

@@ -20,7 +20,7 @@ for (const theme of ['light', 'dark']) {
     await expect(brief).toContainText('their component coverage and supported toolchains are qualified per adapter')
     await expect(brief).toContainText('A local build, a published package, a store build, and physical-device accessibility are separate evidence.')
     await expect(links).toHaveCount(2)
-    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(7)
+    await expect(page.locator('[data-project-desktop-toc] [data-reading-contents] a')).toHaveCount(8)
     for (const reference of references) {
       const link = brief.getByRole('link', { name: new RegExp(`^${reference.name}`, 'u') })
 

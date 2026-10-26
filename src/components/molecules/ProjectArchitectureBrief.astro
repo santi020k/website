@@ -1,20 +1,22 @@
 ---
 interface Props {
-  label: string
-  introduction: string
-  adapters: {
+  label?: string
+  introduction?: string
+  adapters?: {
     label: string
     packageName: string
   }[]
 }
 
-const { label, introduction, adapters } = Astro.props
+const { label, introduction, adapters = [] } = Astro.props
 ---
 
 <div class="not-prose" data-project-architecture>
-  <div data-architecture-lead>
-    <p data-architecture-label>{label}</p>
-    <p data-architecture-introduction>{introduction}</p>
+  {(label || introduction || adapters.length > 0) && (
+<div data-architecture-lead>
+    {label && <p data-architecture-label>{label}</p>}
+    {introduction && <p data-architecture-introduction>{introduction}</p>}
+    {adapters.length > 0 && (
     <ul aria-label={label} role="list" data-architecture-adapters>
       {adapters.map(adapter => (
         <li>
@@ -23,7 +25,9 @@ const { label, introduction, adapters } = Astro.props
         </li>
       ))}
     </ul>
+)}
   </div>
+)}
   <dl data-architecture-notes><slot /></dl>
 </div>
 
@@ -43,9 +47,12 @@ const { label, introduction, adapters } = Astro.props
   [data-architecture-adapters] span { display: block; margin-bottom: 0.5rem; color: hsl(var(--ink)); font-size: 1rem; font-weight: 500; line-height: 1.5; overflow-wrap: anywhere; }
   [data-architecture-adapters] code { display: block; border-radius: 0; background: none; padding: 0; color: hsl(var(--architecture-accent)); font-size: 0.75rem; line-height: 1.7; overflow-wrap: anywhere; }
   [data-architecture-notes] { margin: 0; }
+  [data-architecture-notes]:first-child { border-top: 1px solid hsl(var(--architecture-accent)); }
+  [data-architecture-notes]:first-child > :global(div:first-child) { border-top: 0; }
   [data-architecture-notes] > :global(div) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 1.5rem; border-top: 1px solid hsl(var(--line)); padding-block: 1.5rem; }
   [data-architecture-notes] :global(dt) { min-width: 0; color: hsl(var(--ink)); font-size: 1.0625rem; font-weight: 500; line-height: 1.5; letter-spacing: -0.02em; overflow-wrap: anywhere; }
   [data-architecture-notes] :global(dd) { min-width: 0; margin: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.75; overflow-wrap: anywhere; }
+  [data-architecture-notes] :global(dd > p) { margin: 0; }
   [data-architecture-notes] :global(code) { border-radius: 0.25rem; background: hsl(var(--brand-soft) / 0.45); padding: 0.125rem 0.25rem; color: hsl(var(--architecture-accent)); font-size: 0.85em; }
 
   @container architecture-brief (width < 35rem) {

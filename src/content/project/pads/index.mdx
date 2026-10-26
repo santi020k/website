@@ -35,36 +35,113 @@ focusAreas:
     description: "Connected back-office and mobile workflows"
   - label: "Platform access"
     description: "Authentication and multilingual product flows"
+notesLayout: "context-lead"
 ---
 
+import ProjectArchitectureBrief from '@/components/molecules/ProjectArchitectureBrief.astro'
+import ProjectContextLead from '@/components/molecules/ProjectContextLead.astro'
 import ProjectOutcomesCard from '@/components/molecules/ProjectOutcomesCard.astro'
+import ProjectPrincipleClose from '@/components/molecules/ProjectPrincipleClose.astro'
+import ProjectSectionHeading from '@/components/molecules/ProjectSectionHeading.astro'
+
+<ProjectContextLead projectId="pads" headingId="leading-real-estate-innovation-with-pads">
 
 ## Leading real estate innovation with PADS
 
 At [PADS](https://pads.com.co), I led the technical work behind the public website, broker tools, and mobile app for a luxury real estate business. The challenge was not just building listings pages. It was designing a connected system that helped brokers work better and made property search feel fast, useful, and trustworthy.
 
-<ProjectOutcomesCard projectId="pads" />
+</ProjectContextLead>
+
+<ProjectOutcomesCard
+  contextLinks={[
+    { label: "My contribution", href: "#what-i-led" },
+    { label: "Outcome details", href: "#key-outcomes" },
+    { label: "Technical highlights", href: "#technical-highlights" }
+  ]}
+  headingId="outcomes"
+  id="sidebar-outcomes"
+  projectId="pads"
+>
+
+### Outcomes
+
+</ProjectOutcomesCard>
+
+<ProjectSectionHeading>
 
 ### What I led
+
+</ProjectSectionHeading>
 
 - **A modular platform** spanning the public website, internal back-office, and mobile tools used by brokers in the field.
 - **Search, maps, and geolocation workflows** that helped users explore listings more effectively and helped brokers operate with better location context.
 - **Authentication and internationalization,** supporting secure access and multilingual product flows for a broader set of users.
 - **Cross-functional delivery across web and mobile,** keeping architecture and product decisions aligned as the platform evolved.
 
+<ProjectSectionHeading>
+
 ### Key outcomes
+
+</ProjectSectionHeading>
 
 - **50% growth in monthly active users** through a faster and more useful property-search experience.
 - **Stronger broker workflows** by combining customer-facing discovery with operational tooling in one connected system.
 - **More trustworthy product delivery** through better technical foundations, scalable architecture, and clearer team execution.
 
+<ProjectSectionHeading>
+
 ### Technical highlights
 
-- **Frontend:** `React.js`, `Next.js`, `TypeScript`, `Redux`, `Styled Components`, `SASS`
-- **Mobile:** `React Native`, `Expo`, `React Navigation`
-- **Platform services:** `Socket.io`, `OAuth`, `Google Maps API`, `Mapbox`
-- **Delivery:** `Docker`, `AWS`, `CI/CD`, `Jest`, `Storybook`, `Sentry`
+</ProjectSectionHeading>
+
+<ProjectArchitectureBrief>
+
+<div>
+  <dt>Frontend</dt>
+  <dd>
+
+`React.js`, `Next.js`, `TypeScript`, `Redux`, `Styled Components`, `SASS`
+
+  </dd>
+</div>
+
+<div>
+  <dt>Mobile</dt>
+  <dd>
+
+`React Native`, `Expo`, `React Navigation`
+
+  </dd>
+</div>
+
+<div>
+  <dt>Platform services</dt>
+  <dd>
+
+`Socket.io`, `OAuth`, `Google Maps API`, `Mapbox`
+
+  </dd>
+</div>
+
+<div>
+  <dt>Delivery</dt>
+  <dd>
+
+`Docker`, `AWS`, `CI/CD`, `Jest`, `Storybook`, `Sentry`
+
+  </dd>
+</div>
+
+</ProjectArchitectureBrief>
+
+<ProjectSectionHeading>
 
 ### Why it mattered
 
-PADS was a strong example of product thinking meeting technical leadership. It combined search, maps, mobile workflows, and internal tooling in one system, and it made me better at building software around how people actually work.
+</ProjectSectionHeading>
+
+<ProjectPrincipleClose lead={"PADS was a strong example of product thinking meeting technical leadership."}>
+
+It combined search, maps, mobile workflows, and internal tooling in one system, and it made me better at building software around how people actually work.
+
+</ProjectPrincipleClose>
