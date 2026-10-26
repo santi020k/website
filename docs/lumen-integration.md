@@ -350,6 +350,11 @@ enlarged text sizes. No new client controller is introduced.
   internal destinations through native same-tab links. Site-owned styles provide open
   ruled columns, responsive stacking, and visible focus. The original migration guide
   remains authored Markdown with safe external-link attributes; no controller is added.
+- `ProjectPrincipleClose` composes Lumen's closing principle and three audience benefits
+  as an open native list with h4 labels. Semantic accent tokens distinguish the policy
+  sentence, and container queries stack the perspectives below 35rem. The authored
+  Section cadence heading retains its fragment; no new controller or Lumen primitive
+  is needed for this passive editorial composition.
 - `ProjectSynthesis` composes Synthesis spread with a named semantic section, a Markdown
   heading slot, and an open list of client perspectives. Container queries stack the
   perspectives before the shared takeaway. The original heading remains in chapter

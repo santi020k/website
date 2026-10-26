@@ -1,0 +1,45 @@
+---
+interface Props {
+  lead: string
+  emphasis: string
+  perspectives: {
+    label: string
+    description: string
+  }[]
+}
+
+const { lead, emphasis, perspectives } = Astro.props
+---
+
+<div class="not-prose" data-project-principle-close>
+  <p data-principle-lead>{lead} <strong>{emphasis}</strong></p>
+  <ul role="list" data-principle-perspectives>
+    {perspectives.map(perspective => (
+      <li>
+        <h4>{perspective.label}</h4>
+        <p>{perspective.description}</p>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  [data-project-principle-close] {
+    --principle-accent: var(--brand);
+    container: principle-close / inline-size;
+    margin-block: 1.5rem;
+    color: hsl(var(--ink));
+  }
+  :global([data-theme='dark']) [data-project-principle-close] { --principle-accent: var(--accent); }
+  [data-principle-lead] { max-width: 23em; margin: 0; font-size: 1.6875rem; line-height: 1.5; letter-spacing: -0.025em; overflow-wrap: anywhere; }
+  [data-principle-lead] strong { color: hsl(var(--principle-accent)); font-weight: 500; }
+  [data-principle-perspectives] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin: 2rem 0 0; padding: 0; list-style: none; }
+  [data-principle-perspectives] li { min-width: 0; border-top: 1px solid hsl(var(--line)); padding-top: 1.25rem; }
+  [data-principle-perspectives] h4 { margin: 0 0 0.625rem; color: hsl(var(--ink)); font-size: 1rem; font-weight: 500; line-height: 1.5; overflow-wrap: anywhere; }
+  [data-principle-perspectives] p { margin: 0; color: hsl(var(--ink-soft)); font-size: 0.9375rem; line-height: 1.8; overflow-wrap: anywhere; }
+
+  @container principle-close (width < 35rem) {
+    [data-principle-lead] { font-size: 1.4375rem; }
+    [data-principle-perspectives] { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
