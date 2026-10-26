@@ -128,7 +128,7 @@ for (const theme of ['light', 'dark'] as const) {
         await settleLayout(page)
         await expectWithinScreen(page.locator('[data-home-hero] h1, [data-home-hero] p, [data-home-hero] a, [data-home-hero] img'))
         await expect(page.getByRole('heading', { level: 1 })).toHaveText(/I build products\.\s*And the tools\s*behind them\./u)
-        const action = page.getByRole('link', { name: 'Explore my work', exact: true })
+        const action = page.getByRole('link', { name: 'See selected work', exact: true })
 
         await action.focus()
         await expect(action).toBeInViewport({ ratio: 1 })
