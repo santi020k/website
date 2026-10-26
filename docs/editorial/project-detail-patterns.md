@@ -8,6 +8,7 @@ introducing another project-specific review of the same section.
 | Content | Treatment | Authoring contract |
 | --- | --- | --- |
 | Opening | Context lead | Set `notesLayout: context-lead`; wrap the original h2 and all introduction paragraphs in `ProjectContextLead`. Preserve the heading fragment. |
+| Reading orientation | Reading brief | The shared layout inserts a narrative reading estimate and the number of h2/h3 sections below the opening heading. Counts are calculated, never entered per project. |
 | Narrative subsection | Section cadence | Wrap the original Markdown h3 in `ProjectSectionHeading`. Gallery, evidence and client mastheads retain their own heading treatment. |
 | Outcome summary | Outcome chapter + Context trail | Give `ProjectOutcomesCard` an authored h3 and matching `headingId`. Keep `id="sidebar-outcomes"` for existing links; use `legacyId` only when another wrapper fragment already exists. Link to two or three relevant authored sections. |
 | Goals | Intent brief | Use `ProjectIntentBrief labelledBy="goals"` with native `li` children containing complete Markdown statements. The data-array form remains available for plain text. |
@@ -22,6 +23,13 @@ Headings remain authored Markdown so desktop and mobile contents share the same
 outline and native fragment links. TEDx uses “Outcome summary” for the card because
 its original “Outcomes” chapter already owns `#outcomes`. Smith retains both
 `#key-outcomes` and `#sidebar-outcomes` while its indexed heading is `#outcomes`.
+
+Reading brief estimates the rendered narrative with the existing 200-words-per-minute
+helper, including text supplied by project components. The layout renders its content slot
+once and preserves that HTML, adding only the brief. Code blocks, controls, hidden dialogs,
+templates, scripts, styles, and page chrome are excluded. The opening heading and deeper capability headings do not
+count as sections. An introduction without further sections keeps only the time estimate.
+The brief works without JavaScript; article and archived-site openings are unaffected.
 
 Shared layouts already provide Hero-led facts, Hero-only stack, Scope ledger,
 Chapter opener, Caption chapter contents, Reading close, Named return and related
