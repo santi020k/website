@@ -176,6 +176,12 @@ ruled two-column layout, responsive stacking, collection-derived counts, and qui
 work-history footer. Both collections remain visible; no filtering controller or
 shared hero variant is added.
 
+`PortfolioCollectionHeading` composes **Editorial bridge** from a semantic header,
+collection-derived count, two-line accented headline, description, and Lumen `Link`
+with a decorative `Icon`. The shared site component owns the open ruled layout and
+container-responsive stacking. Both collection destinations remain native links;
+the treatment adds no client JavaScript or shared Lumen variant.
+
 `PortfolioProjectSpotlight` uses an unstyled Lumen `Card` and one named native link covering
 its artwork and overlapping content sheet. Keep the readable content outside the link so
 screen readers can browse it separately from the concise destination. Lumen `Badge` carries project status and `Icon`

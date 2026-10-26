@@ -157,8 +157,8 @@ test.describe('Portfolio page', () => {
     // Ensure the two sections (Work and Projects) are listed
     const sections = page.locator('[data-portfolio-section]')
     await expect(sections).toHaveCount(2)
-    await expect(sections.first().getByRole('link', { name: /Browse work/i })).toBeVisible()
-    await expect(sections.last().getByRole('link', { name: /Browse projects/i })).toBeVisible()
+    await expect(sections.first().getByRole('link', { name: /Full work history/i })).toBeVisible()
+    await expect(sections.last().getByRole('link', { name: /All independent projects/i })).toBeVisible()
   })
 
   test('technology index link should open the full toolkit', async ({ page }) => {

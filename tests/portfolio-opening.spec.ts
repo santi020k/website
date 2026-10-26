@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 import { expectNoUnexpectedAccessibilityViolations } from './helpers/accessibility'
 
-for (const width of [390, 1440]) {
+for (const width of [320, 390, 768, 1440]) {
   for (const theme of ['light', 'dark'] as const) {
     test(`case study paths remain readable and accessible at ${width}px in ${theme}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 1000 })
@@ -36,6 +36,25 @@ for (const width of [390, 1440]) {
           await expect(page).toHaveURL(new RegExp(`/portfolio/#${id}$`, 'u'))
           await expect(section).toBeFocused()
           await expect(cards).toHaveCount(cardCount)
+          const header = section.locator('[data-portfolio-collection-heading]')
+          await expect(header.locator('[data-collection-count]')).toHaveText(`${count} selected case studies`)
+          await expect(header.getByRole('heading', { level: 2 })).toHaveText(id === 'selected-work' ?
+            'Systems built under real pressure.' :
+            'Ideas turned into useful tools.')
+          const collectionLink = header.getByRole('link', {
+            name: id === 'selected-work' ? 'Full work history' : 'All independent projects', exact: true
+          })
+          await expect(collectionLink).toHaveAttribute('href', id === 'selected-work' ? '/work/' : '/projects/')
+          await expect(collectionLink).not.toHaveAttribute('target', '_blank')
+          const targetHeight = await collectionLink.evaluate(element => element.getBoundingClientRect().height)
+          expect(targetHeight).toBeGreaterThanOrEqual(44)
+          await collectionLink.focus()
+          await expect(collectionLink).toHaveCSS('outline-style', 'solid')
+          const contentFits = await header.evaluate(element => {
+            const content = [...element.querySelectorAll('h2, p, a')]
+            return content.every(child => child.scrollWidth <= child.clientWidth)
+          })
+          expect(contentFits).toBe(true)
         }
         expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
       }
@@ -63,5 +82,8 @@ test.describe('Portfolio paths without JavaScript', () => {
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320)
     await expect(page.locator('[data-portfolio-project]')).toHaveCount(7)
+    await page.getByRole('link', { name: 'Full work history', exact: true }).focus()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/work\/$/u)
   })
 })
