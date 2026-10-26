@@ -153,8 +153,8 @@ The approved `feature/about-organization-index` commit `bc8f20bc` is contained
 through local merge `3a53e415`. Nine named Lumen buttons replace the previous/next
 arrows, expose the selected organization, and keep the corresponding case study
 visible across layout changes. Native Tab, Enter and Space remain usable;
-without JavaScript all organization cards remain visible. Imagery comparisons
-remain proposals and do not change the release candidate's images.
+without JavaScript all organization cards remain visible. This step kept the
+existing images; the later approved Contour backdrop is recorded below.
 
 The new note is folded into 5.0.0 while preserving the published changelog.
 Resume PDFs were regenerated because the shared About stylesheet participates
@@ -185,3 +185,27 @@ both themes, enlarged text, keyboard access, accessibility and script-free links
 Matching before/after captures at 390px and 1440px in both themes confirmed the
 joined frame and no horizontal overflow. The unchanged archive builds were
 reassembled into the local preview. No external release action was taken.
+
+## Series close and Contour backdrop follow-up
+
+The approved latest-chapter treatment `435e0949` is contained through merge
+`cf721046`. It uses the existing series component for a closing heading, linked
+series title and compact previous-chapter row. First and middle chapters retain
+their continuation layout. A single-chapter series has no invitation to an earlier
+chapter. The expandable chapter index and overview remain native and accessible.
+Eleven series unit tests and 52 Chromium/WebKit series cases passed on the merged
+branch, with zero-warning affected lint and a clean current-site production build.
+
+The approved About Contour backdrop `8bf2b48b` is contained through merge
+`cdbb42e1`. Static CSS contours use each project's existing colors behind its
+optimized logo. The ReactJS Colombia mark has an explicit light surface. Named
+index behavior and case-study destinations remain intact; no client script was
+added. The About/index and organization reflow suites passed 56 Chromium/WebKit
+cases, including all nine logos, keyboard focus, responsive resizing, both themes,
+enlarged text and script-free access. Mobile and desktop captures were reviewed.
+
+Both notes are folded into 5.0.0. The combined current-site type check had no
+errors, warnings or hints; affected lint, production build and the 452-page OG
+audit passed. Resume PDFs were regenerated for the updated profile/token source
+fingerprint and their freshness check passed. Full release gates remain reserved
+for final publication, with the original baseline qualification recorded above.

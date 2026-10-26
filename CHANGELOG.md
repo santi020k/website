@@ -296,6 +296,10 @@
 
 ### Patch Changes
 
+- Give About organization cards static contour backgrounds in their existing project colors, with clear logo surfaces and the named organization index preserved.
+
+- Give the latest published series chapter a clear closing heading, compact previous chapter link, and the existing expandable chapter index.
+
 - Connect the History page's current preview and Today caption with a shared frame,
   aligned version label, and compact status pill that reflows with enlarged text.
 
