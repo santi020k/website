@@ -395,6 +395,10 @@ enlarged text sizes. No new client controller is introduced.
   navigation landmark and ordered list. Decorative numbers stay out of accessible names;
   native fragment links reach the four existing sections without a controller. The index
   is screen-only and is excluded from both PDF variants.
+- `ResumeEvidenceNote` composes Lumen `Link` and a decorative `Icon` for each role's
+  canonical portfolio destination. Detailed roles place it inside their impact rail;
+  earlier roles use its compact presentation below their description. Native links
+  need no controller, and the entire note stays hidden in both print variants.
 
 ## Intentional site-owned controllers
 
