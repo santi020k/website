@@ -195,7 +195,8 @@ as a fallback for legacy fixtures.
 
 Generate project artwork with `pnpm run generate:project-images` (optionally followed by project
 slugs). It reads Markdown and MDX entries and preserves each source logo. Horizontal and portrait
-covers use an open logo composition on a solid brand surface, with restrained folds at the edges.
+covers center the visible logo horizontally and vertically on a solid brand surface, with restrained
+folds at the edges. Keep that alignment in the central square crop used by compact project cards.
 Light-surface logos retain a light canvas. Scale the visible artwork, excluding transparent canvas
 padding, and rasterize SVG sources at cover resolution. Square marks occupy 58% of the short edge,
 wide word marks up to 92%, and tall marks up to 66%. For marks with visually small symbols inside

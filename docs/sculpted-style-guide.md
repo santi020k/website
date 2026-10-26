@@ -1526,7 +1526,8 @@ Align Comments and Share in a 5.375rem margin with a 1.5rem
 column gap. The discussion invitation uses a 2px purple rail, a 1.5rem text inset,
 and a 1.4375rem lead. Use a quiet underlined Reply on GitHub link with a 44px target.
 Sharing pairs Pass it on with the existing copy or native share action, followed
-by its three social destinations. Fine bottom rules separate the sections.
+by its three social destinations. The copy action uses the shared outlined article
+button, with a tinted icon compartment and stable width across result states. Fine bottom rules separate the sections.
 
 Stack the margin above the content below 32rem of available width,
 reduce the discussion inset below 18rem, and let actions wrap at enlarged text
@@ -1661,8 +1662,12 @@ After Topics, use an open row with the series position above its linked title an
 a quiet Copy link action alongside it. The metadata reads From the series followed
 by the current post number and series total. Use 0.75rem muted metadata, a 1.3125rem
 medium-weight title, a purple directional arrow, and a fine bottom rule with 1.5rem
-of breathing room. Copy link uses a transparent 0.8125rem label and a subtle underline,
-retaining its success and error feedback and at least a 2.75rem target.
+of breathing room. Separate the action row from Topics by 1.5rem. Copy link uses
+the shared `article-copy-action` treatment: an opaque surface, a fine outline,
+0.875rem corners, a 0.8125rem label, and a tinted link icon compartment. Keep its
+10.5rem width within the available space across idle, copied, and failed states,
+with at least a 2.75rem target. Use the same treatment for closing share actions;
+preserve both clipboard controllers, their accessible feedback, and native sharing.
 
 Below 32rem of available width, stack the utility beneath the series and use a
 1.25rem title. Preserve full labels, visible focus, and brand/accent colors in both
@@ -1895,7 +1900,7 @@ mode may show drafts and scheduled articles; judge the public content against a 
 
 ### Refined maker homepage hero
 
-Keep the personal greeting and three-line headline, with purple emphasis on “tools”.
+Keep the three-line headline, with purple emphasis on “tools”, and the desktop greeting.
 The introduction names engineering leadership, Lumen UI, commerce platforms, native apps,
 and developer tools. “See selected work” opens the portfolio; “About me” opens About.
 Preserve the shared header, its controls, and the joined Signature frame.
@@ -1903,15 +1908,21 @@ Preserve the shared header, its controls, and the joined Signature frame.
 On desktop, use an open two-column layout with a 22rem-wide, 4:5 portrait, centered
 40% crop, 1.5rem corners, and a plain name and location caption. The headline reaches
 5rem; primary and secondary actions use 0.875rem labels and retain generous hit areas.
-On phones below 768px and below 41rem of Home container width with enlarged text, move the portrait
-into a compact identity row with a 4.5rem image. Below 18rem, put the complete caption
-beneath that image. Keep the optimized responsive image sources and eager loading.
+On phones below 768px, lead with a compact identity row and a 3.5rem portrait, then
+the stronger headline, concise introduction, and actions. The name and location replace
+the separate greeting. Below 14rem of available width, put the complete caption beneath
+the image so enlarged text remains readable. Below 18rem, make the primary action full
+width and put the secondary action beneath it. Tablet and desktop containers below 41rem
+retain the compact 4.5rem portrait after the copy, with the caption below it under 18rem.
+Keep optimized responsive image sources and eager loading.
 
 End the hero with an open, ruled “Selected products” strip containing Lumen UI and
 PostLens in that order, with descriptive summaries in 0.75rem type. Retain the named
 product navigation, existing case-study links, `hero-products` fragment, and visible
-“All projects” action. At narrow widths, stack the complete product links with fine
-rules; enlarged text can move logos above their copy. Preserve visible keyboard focus,
+“All projects” action. Phones with at least 15rem of available width show two open
+product columns, with smaller logos beside titles and complete descriptions beneath.
+A fine rule separates the columns. Narrower containers stack the complete product links;
+enlarged text can move logos above their copy. Preserve visible keyboard focus,
 reduced motion, and both themes. Do not add decorative cards or client JavaScript.
 
 ### Sculpted ledger homepage statistics

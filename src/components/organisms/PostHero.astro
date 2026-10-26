@@ -203,20 +203,26 @@ const eyebrowLabel = tags[0] ?? 'Article'
       )}
       {!canonicalUrl && (
         <CopyButton
-          variant="link"
-          data-article-utility
+          variant="outline"
+          class="article-copy-action"
+          data-article-copy
           copiedLabel="Copied! Article link copied"
           errorLabel="Copy link failed. Select and copy the address manually."
           label="Copy link to article"
           value={copyUrl}
         >
-          <span data-copy-label>Copy link</span>
-          <Icon class="size-4 shrink-0" data-copy-icon name="link" />
-          <span slot="copied" class="inline-flex items-center gap-2">
-            <span data-copied-label>Copied!</span>
-            <Icon class="size-4 shrink-0" name="check" />
+          <span data-copy-action-content>
+            <span data-copy-label>Copy link</span>
+            <span data-copy-action-icon><Icon class="size-4" data-copy-icon name="link" /></span>
           </span>
-          <span slot="error">Copy failed</span>
+          <span slot="copied" data-copy-action-content>
+            <span data-copied-label>Copied!</span>
+            <span data-copy-action-icon><Icon class="size-4" name="check" /></span>
+          </span>
+          <span slot="error" data-copy-action-content>
+            <span>Copy failed</span>
+            <span data-copy-action-icon><Icon class="size-4" name="circle-alert" /></span>
+          </span>
         </CopyButton>
       )}
     </div>
@@ -226,6 +232,8 @@ const eyebrowLabel = tags[0] ?? 'Article'
 
 <style>
   [data-article-opening] { container: article-opening / inline-size; }
+
+  [data-article-opening] > :has(+ [data-reading-actions]) { margin-block-end: 1.5rem; }
 
   [data-series-byline] {
     display: flex;

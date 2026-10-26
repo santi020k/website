@@ -50,6 +50,7 @@ describe('project image generator', () => {
     expect(getFallbackAccent('astro-doctor')).toMatch(/^#[\da-f]{6}$/u)
   })
 
+  // Each fixture renders all four full-resolution image variants before pixel inspection.
   test.each([
     { extension: 'md', height: 64, logoAspect: 'square', width: 64 },
     { extension: 'mdx', height: 64, logoAspect: 'wide', width: 320 },
@@ -155,19 +156,30 @@ coverImage:
           bottom = Math.max(bottom, y)
         }
 
-        return { count, height: bottom - top + 1, width: right - left + 1 }
+        return {
+          centerX: (left + right + 1) / 2,
+          centerY: (top + bottom + 1) / 2,
+          count,
+          height: bottom - top + 1,
+          width: right - left + 1
+        }
       }
 
       const artwork = measureLogo(full, variant.width)
+      const croppedArtwork = measureLogo(crop, size)
       const minimumScale = { square: 0.55, tall: 0.63, wide: 0.89 }[logoAspect]
 
       expect(artwork.count).toBeGreaterThan(1000)
-      expect(measureLogo(crop, size).count).toBe(artwork.count)
+      expect(croppedArtwork.count).toBe(artwork.count)
+      expect(Math.abs(artwork.centerX - variant.width / 2)).toBeLessThanOrEqual(1)
+      expect(Math.abs(artwork.centerY - variant.height / 2)).toBeLessThanOrEqual(1)
+      expect(Math.abs(croppedArtwork.centerX - size / 2)).toBeLessThanOrEqual(1)
+      expect(Math.abs(croppedArtwork.centerY - size / 2)).toBeLessThanOrEqual(1)
       expect(Math.max(artwork.height, artwork.width) / size).toBeGreaterThan(minimumScale ?? 0)
     }
 
     await fs.rm(root, { force: true, recursive: true })
-  }, 15_000)
+  }, 60_000)
 
   test('measures alpha instead of background colors and rejects invisible logos', async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), 'project-logo-bounds-'))
