@@ -112,15 +112,23 @@ for (const width of [320, 390, 1440]) {
           const snapshot = page.locator('[data-technology-snapshot]')
           const tools = snapshot.locator('[data-technology-ledger] a')
 
-          await expectWholeWords(snapshot.locator('dt, dd'))
+          await expect(snapshot.getByRole('heading', { name: 'Follow the stack.', level: 2 })).toBeVisible()
+          await expect(snapshot.locator('[data-technology-snapshot-scope]')).toHaveText(
+            '18 selected technologies from 14 personal projects. Each count shows how many of those projects use the tool.'
+          )
+          await expect(snapshot.locator('dt')).toHaveText('technologies used')
+          await expect(snapshot.locator('[data-ui-animated-number-output]')).toHaveText('137')
+          await expectWholeWords(snapshot.locator('h2, dt, dd'))
           await expectInside(snapshot.locator('dl > div, a'))
           await expectReadingWords(tools, width)
           await expect(tools).toHaveCount(18)
           await expect(snapshot.getByRole('list', { name: 'Top of mind' }).getByRole('link')).toHaveCount(6)
           await expect(snapshot.getByRole('list', { name: 'In rotation' }).getByRole('link')).toHaveCount(12)
           await expect(snapshot.getByRole('link', { name: 'React Native 1 project', exact: true })).toBeVisible()
-          await expect(snapshot.getByRole('link', { name: /^Explore \d+ more$/u }))
+          await expect(snapshot.getByRole('link', { name: 'Explore the full technology index', exact: true }))
             .toHaveAttribute('href', '/technologies/')
+          await expect(snapshot.locator('a[href="/technologies/"]')).toHaveCount(1)
+          expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
           const react = snapshot.getByRole('link', { name: /^React\.js/ })
 
           await expect(react).toHaveAccessibleName('React.js 4 projects')
